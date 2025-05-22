@@ -1,160 +1,84 @@
-Return-Path: <linux-renesas-soc+bounces-17411-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17412-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF6DFAC16A1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 00:25:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92192AC16C6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 00:27:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 691A65063CC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 22:25:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3AD893BD266
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 22:26:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F10CB270556;
-	Thu, 22 May 2025 22:25:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FF45272E62;
+	Thu, 22 May 2025 22:26:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="b4Kymxef"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O5Tu+3lb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26530270549
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 22 May 2025 22:25:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D87FB270ED8;
+	Thu, 22 May 2025 22:26:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747952702; cv=none; b=ZCEkTl6+zEoFhrC8EFvu7gRL5TjD7Yjxf1DZwv/q8LfOddpOZpmQk6sh51hYT8xzArLjfMGFjpspGGJpmD5jOF/W1ZgL+lBnlEtYpHR3PeZlCMmyuMbUQ7U7XPPW09RW0uLdEVFoSfSwyLFcXnf/1T1qV4IvNj8RkMhyRYfVTuk=
+	t=1747952807; cv=none; b=LKXi7gYco/8kUulaVVXfim/ATggF0qElKpj4/rEtlZddNOF2/RQM8Zg+piSITMqzUBUeJL5b73/7C7vPGaJ9TUm6c7oQZ0waxVo70UO3tlgJArWNwEQr0KH7SSeL+GbuvSGvcQRjJtAW/ybaQUt5QmIwxqcDVkFnGOEtAcZURFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747952702; c=relaxed/simple;
-	bh=D4gXf7k9CUNciIPNoD2d5KCpK3nE9hEh+TOs0VegVxg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OTqTYaCtOD3UD2s9Sr16hALrhQmGrb0UQQ0KjK9YCbnY9ASJ+twXb/aIMcV9eV5A19uSDarLfs/fhokTj00echYbRZ8SRZYQJCwU8x60YdKAj2Y8tyL3jNKGaBiiEMk5NBxAqEF1XBci9cBaJnkInFu/o/jLYnlW3N8lo2rigME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=b4Kymxef; arc=none smtp.client-ip=209.85.219.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e75668006b9so8847604276.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 May 2025 15:25:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747952700; x=1748557500; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NxvStOnrhhdHpMl3yQwpKdFC4CaZgST0YwPJdz+2jlk=;
-        b=b4Kymxefn57MH8NGpFP18ojN00ommkF1eBK+DW+GsA55syu3B7RL0ms+Mn0qy9S/JK
-         Xt8FFPO+f0yNhAKj/93ETc2fcUkhKX3G3Gi9CRHxKYBGbfe4rZ29t7R18H6ErwdosM0a
-         ZuSah0+5s8b4D7yexmp2KerldTwUYIhEXBAAGSs+cOrNUA1IevUUJMK0Q8aSwr7j8CwF
-         E2590UPX34cvDGL/eUDlK8WFJO1Dc1LbI5RaUbn9hDeZS7xEt90DSAhnl1Bl5zrmWr8N
-         PQEuHWsiBEhBLxUmo0/NvttidBCuG0sm5lIhSWbmQLqikPgKvk+qr86XRyj7oni/3NFe
-         a+rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747952700; x=1748557500;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NxvStOnrhhdHpMl3yQwpKdFC4CaZgST0YwPJdz+2jlk=;
-        b=iTFgfbLP8/ziaRjUdUSaCLhGHiM1z66M0O3d1Qy+WTcqX1us0PlwIYITWW/46W+i5H
-         9Z0r/GrLfhhMkyIU78HTM1Vur/YtB3BvZ4pBKTbswPOP84XZJYItp6oNxogkjYCpnUnD
-         ft7SZyJ5lsN/v+ETjsWztg5DKJ4Q1j19EBjH/ePbbMyPLx+z17duHMlKcdzQoNKuw9hz
-         yDEnhHjg3sVCnWCXhqfgwg4i3SP8P6KdiXuUkGJYkM1wldflW77gIhMfPvy2ROYhgxLJ
-         TVPSxoAgdVr0GMTmkoB8T7cGzyQ6f6VR2M057Sn4YXbzZfi0IIW4I7kyJTWE04xTlJDn
-         wfow==
-X-Forwarded-Encrypted: i=1; AJvYcCUBrX2EMJdtOBUg+zUkfr093+m3Mv0x40Ly26YCPj3UixgZ9dqFklN/cJ0KA/7/U1xsIyLVHTitPn3oh2KLJxsw7Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyykun9eqRKhqqDkMFkCVHh2nMDNp5rlTcYogymtdJIf+rd2/3u
-	0A/10UaP0cYEMvdIbxythj6OSlB5t8s41OyblYDMacyNj26Dcxl14+hOfMxzbZHK4Cx1rd0HJif
-	oP5dFz4jF6vNvqHzHdmZ/iFczpmTbiCGaQlAWGi1bCQ==
-X-Gm-Gg: ASbGncuUkU+Om7vUB8883J1WvtzgoNsg23yry5Ft4FKAHesZlimAfurc2ghO2juSZne
-	u7GE/9KoBJLpOv0tPZKW1ZcIH8F5NnnDWIfVpWQ7L1bFL+2cjbgavgw17NGHra+ungcdy203gbQ
-	i6BjTej1UNLCjpv03uO6NJ8bzU5FPLAmPg+Q==
-X-Google-Smtp-Source: AGHT+IEo+69w2SsM6WMoVy+VU1iqNjeWOLIwlyMXV18izZtek9qzw2edQkf8SeO0U8a6gS+XaVviMhz0QFnpEijXRvY=
-X-Received: by 2002:a05:6902:1247:b0:e7d:702d:9342 with SMTP id
- 3f1490d57ef6-e7d7e0a37acmr1367189276.8.1747952700109; Thu, 22 May 2025
- 15:25:00 -0700 (PDT)
+	s=arc-20240116; t=1747952807; c=relaxed/simple;
+	bh=HwjwT6l9nbjaToCFzsKj/WM3jn4D+rpjIUp6KVBTims=;
+	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
+	 Subject:From:Cc:To:Date; b=rqEy9EWdS8JchMNRSdVLR/pPBVBBQ0l02jiny0UwizEF0ad/V/JeQ2OP00m1Avs98DHndfuEMJgESR28XWtfZrjCQHHkJqZ/Z06Dw9uwNvLm/gvf83bBmndebtLxPlslfmy4PxhPbpsnkzhQ7FyI+++PcDzZWB53hCtK/l2dbbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O5Tu+3lb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53FBBC4CEEB;
+	Thu, 22 May 2025 22:26:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747952806;
+	bh=HwjwT6l9nbjaToCFzsKj/WM3jn4D+rpjIUp6KVBTims=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=O5Tu+3lbkDVFXcaHJIlC3O/AlIpU/K2Py4Jku6gBjhUBTYjG9YGZqNQNrcNpZ7RJc
+	 dW1Mhx/YJUhpD72TuerIWGX9lpqmuKdm81y4GnCEf8S8mDcO5/gwoZOkXxKps1K/5B
+	 2In1SS/57agY4m0SxLvL3zJLw1qy82NazArO324KalA0u1/poeei+2PvlxXtZI3Loj
+	 twaphxMWIseaIH5cgi6XrBJaVLFFiGL4iuN+n0iFrqLFBJrQ8NRVo9MUgOqks5HIuT
+	 BrnNh+Lnx8ImfjCGfFKUrFiFy0FLTYKxh7KQF9eieaYRX85Q64phl8noH4/aaIBzWE
+	 4qSCEHJVBcaGA==
+Message-ID: <327dc99f25e277b02e9c344b449cefcb@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250330163129.02f24afb@jic23-huawei> <5bca6dfd-fe03-4c44-acf4-a51673124338@tuxon.dev>
- <95f5923f-7a8f-4947-b588-419525930bcb@tuxon.dev> <CAPDyKFoMqmCFBoO8FwQe2wHh2kqQi4jUZNFyiNckK7QhGVgmvg@mail.gmail.com>
- <c3a2950a-17ff-444a-bee7-af5e7e10e2bf@tuxon.dev> <CAPDyKFozR4qDq4mzcZBK-LcoPf=fGyuJTXwdt=Ey+_DcQOAp0g@mail.gmail.com>
- <4o3wo76st7w6qwyye3rrayuo2qx773i6jfzcnbkhdj76ouh7ds@3e2mblehkgwf>
- <CAPDyKFqMB7XutXba73YHx1X4rm6uc3Fz6yMZ8yM=wgduEmgUDg@mail.gmail.com>
- <a20fc6ee-c6c3-4013-b175-4918b9a44380@tuxon.dev> <CAPDyKFpbeLJUiB_xQbqDib+-8Q3AcJNVg+DuEcqmVGMbFdNxwA@mail.gmail.com>
- <fgl4w5uhxci7rrbdigtni72vveb2gqemh6iccz4qruqkek5rja@rzwkcjg6hkid>
- <3b1963ba-f93f-48f2-8fb0-a485dd80ffcb@tuxon.dev> <CAPDyKFqrAS4iV59S-zJ9H7_3VuGr9JdZABhfUGBwTzQNDCasaw@mail.gmail.com>
- <CAMuHMdWxeKWJ8hDG=GHngJzGxs_pDe3oGeok38S_PhxQy194RA@mail.gmail.com>
-In-Reply-To: <CAMuHMdWxeKWJ8hDG=GHngJzGxs_pDe3oGeok38S_PhxQy194RA@mail.gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Fri, 23 May 2025 00:24:23 +0200
-X-Gm-Features: AX0GCFuXinMJhLA931XICspXqJ6iaQgPA7OkwAdTsyiI_m91Si1IspTyACa7VnU
-Message-ID: <CAPDyKFq1iFCan+jB8oSh7z9CRogYWTZPj8x_jbFAu-U93QEMiQ@mail.gmail.com>
-Subject: Re: [PATCH] driver core: platform: Use devres group to free driver
- probe resources
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Jonathan Cameron <jic23@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, dakr@kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-iio@vger.kernel.org, bhelgaas@google.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <cover.1746798912.git.geert+renesas@glider.be>
+References: <cover.1746798912.git.geert+renesas@glider.be>
+Subject: Re: [GIT PULL] clk: renesas: Updates for v6.16 (take two)
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>
+Date: Thu, 22 May 2025 15:26:44 -0700
+User-Agent: alot/0.12.dev8+g17a99a841c4b
 
-On Thu, 22 May 2025 at 16:56, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Ulf,
->
-> On Thu, 22 May 2025 at 13:54, Ulf Hansson <ulf.hansson@linaro.org> wrote:
-> > On Thu, 22 May 2025 at 11:48, Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
-> > > I may have missed considering things when describing the case 2 (which is
-> > > what is proposed by this patch) as I don't have the full picture behind the
-> > > dev_pm_domain_detach() call in platform bus remove. If so, please correct me.
-> >
-> > The dev_pm_domain_attach|detach() calls in bus level code
-> > (probe/remove) were added there a long time ago, way before devres was
-> > being used like today.
-> >
-> > Currently we also have devm_pm_domain_attach_list(), which is used
-> > when devices have multiple PM domains to attach too. This is *not*
-> > called by bus-level code, but by the driver themselves. For these
-> > cases, we would not encounter the problems you have been facing with
-> > clocks/IRQ-handler, I think - because the devres order is maintained
-> > for PM domains too.
-> >
-> > That said, I think adding a devm_pm_domain_attach() interface would
-> > make perfect sense. Then we can try to replace
-> > dev_pm_domain_attach|detach() in bus level code, with just a call to
-> > devm_pm_domain_attach(). In this way, we should preserve the
-> > expectation for drivers around devres for PM domains. Even if it would
-> > change the behaviour for some drivers, it still sounds like the
-> > correct thing to do in my opinion.
->
-> IMO that sounds like going in the wrong direction.  Why would a driver
-> need to care if the device it manages is not located in a PM domain,
-> located in a single PM domain, or located in multiple PM domains?
+Quoting Geert Uytterhoeven (2025-05-09 07:22:59)
+>         Hi Mike, Stephen,
+>=20
+> The following changes since commit 93f2878136262e6efcc6320bc31ada62fb0afd=
+20:
+>=20
+>   clk: renesas: r9a09g057: Add clock and reset entries for USB2 (2025-04-=
+22 11:38:28 +0200)
+>=20
+> are available in the Git repository at:
+>=20
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
+ tags/renesas-clk-for-v6.16-tag2
+>=20
+> for you to fetch changes up to 28548f3f7994dd214ad4f4ba5763cd06333404a0:
+>=20
+>   clk: renesas: r9a09g047: Add XSPI clock/reset (2025-05-08 20:17:55 +020=
+0)
+>=20
+> ----------------------------------------------------------------
 
-Before we added support for multiple PM domains for a device, it was
-more or less transparent for drivers. It still is, as long as there
-are not multiple PM domains to consider for the device in question.
-
-The problem with making this transparent/common for the multiple PM
-domain case too, was in principle that it could not be done flexible
-enough from bus level code. It was discussed at conferences and at
-LKML, sorry but I don't have the references to those chats at hand.
-Anyway, that was the conclusion back when we introduced this around
-2018. See the below commits:
-
-82e12d9e0bd5 PM / Domains: Add dev_pm_domain_attach_by_id() to manage
-multi PM domains
-3c095f32a92b PM / Domains: Add support for multi PM domains per device to genpd
-
-> All of this depends on SoC integration, not on the device that's
-> being driven. The nice thing about doing all this in the bus level
-> code is that it is abstracted away for the device driver (modulo using
-> pm_runtime_*() calls).
-
-Right, I would have been nice, but we couldn't make it work back then.
-
-[...]
-
-Kind regards
-Uffe
+Thanks. Pulled into clk-next
 
