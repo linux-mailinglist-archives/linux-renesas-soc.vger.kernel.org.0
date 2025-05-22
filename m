@@ -1,222 +1,211 @@
-Return-Path: <linux-renesas-soc+bounces-17369-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17370-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44EC1AC0BB2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 14:38:02 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FB9BAC0BDA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 14:46:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6A69C1BC4EEE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 12:38:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0DEEA3A6572
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 12:46:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A605328A705;
-	Thu, 22 May 2025 12:37:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="puIi8/YX"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92C492356CF;
+	Thu, 22 May 2025 12:46:34 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F08C628B40E
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 22 May 2025 12:37:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D45E87485;
+	Thu, 22 May 2025 12:46:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747917467; cv=none; b=hLLb+OzF1ACXnaioaqGSpv9INmNVwXl6UfDRz4hQGOm0sDlQjQxIpb2ZJmDnna7YjE8IpHRj0ue2lKKTZei0VTc95TecI3CPB8D2HC8GXTbX2tKQt4/w4m+pyDD/AsPo5e89lmoYUZxfS+QbO3BZDDNpD/Yxs6FumHdoXI3+aXs=
+	t=1747917994; cv=none; b=IWz6YujM81VrbPzYOZCFDg5butY/R+lK3TW52IDXvQmG08yNktqwGspWRBWpQlTh3dtVTKM9IagX7YcDCa1eFO/MvhTHFlEgP8COeUnkyRrB4aX3DLp45pknAJ5ZviFheAhve0MrHLx31fCIvcbZvtMX9vhWHKemtj6YvikLz7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747917467; c=relaxed/simple;
-	bh=W6OEXgXNX8Gqe89LMCjSeM73v/HbqEgC8SQtD8y6JEc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RMhZXYiv0ltftLWNYat41Dq5vEaKaZPKYl6yhzRftl7c5N4tML/sw2YIcCYty5s4xNtFNmsSgE2cPO6BWA8xsqc0XOxeJxupSaH4jpqqejm6Y716ggNbgWVxhAYHrDKvdwTp/XWg+6G4kWdzVO0O/M0fMS8n675g6oINtRwSvaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=puIi8/YX; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54M8GesK000847
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 22 May 2025 12:37:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=RgX9Aci2OKy/LHgxiHnopths
-	wLGl49EW6vrJhQF5Sd4=; b=puIi8/YXySjnaRhqdPF6arFGXrN64CFKlgec9+hh
-	yazluQo/TWc0lbpIj5odU7MUowdsNeEbFfK5csRrlO3C0EEFxId7eNo2CawsvJnZ
-	PTIOa8jzHsTkAenPYyRBUnBPsa7pvvNLyvf7T6hWxZCFzVqh/eKEEgepS0VGDcna
-	G8U2mZR0m3OYEZFrFk78u0L+N7rS1Jpb6elMICfZ1AdRzNVMlKr5tA9RT+E4VNtX
-	Srz+XlZbxjppxFXyMzBSpx029AEjLf5t/3+r1XP/SXtTmp2gjk84m6fTsazCuRMt
-	Y5npPMV2il3EgMdInXJaV/+Yz9ulQ52+xwmoyVDXNrZcEQ==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46rwf6x80d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 22 May 2025 12:37:44 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7c5f3b8b1a1so1301667585a.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 May 2025 05:37:44 -0700 (PDT)
+	s=arc-20240116; t=1747917994; c=relaxed/simple;
+	bh=EysInhQSl27VwcL14mClTEtrEtXOOmZ9eLkBhpkarHo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Fd54HEAU8hUADaYv8APUvYsGFB7QLmDHZYHXupLJa2mw0YEpxg0X0cCkCz3dEJNVfqa8Dlrgvq2t/xEzMtheYrrZxGd+DaUlGRo/jD/5xXZtVkTGthVaS2SYbmJas3wQ6J5uueTZ3H0dJj4Wl8K+PqVrmYjvt56mEzkUutoQ2gw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-528ce9731dbso1864145e0c.0;
+        Thu, 22 May 2025 05:46:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747917464; x=1748522264;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RgX9Aci2OKy/LHgxiHnopthswLGl49EW6vrJhQF5Sd4=;
-        b=aaB6TRJTR+tiaLpPnukH5PCKZLkP+oFPUGht2C0ro8J968XVi6u/DrIcxFq887m2+K
-         PujUwgjPTi01Jr10U7lMfKQPz1zyKhTA7aIpTfQdBVoECDfgRIYgw7llzuTymLfIrPSb
-         kpyevWdLPwopQajECClvxKYEUbTFM9Nqu/y7hpymFetMTys0OI/KzyaCiM6p8dKNiXAt
-         wgFR+5JrpL0acwedDquTvpVxKHqpEjHlRszUxRd1+qT5/bddARoacRS5swDDvo16CqH2
-         pxnrpjrlwNwyYfeDGtQ0xhdP3qYYbA/mZXReFDsty7nsNSJwnUIhbv08JP87rU2NXKW5
-         LCiA==
-X-Forwarded-Encrypted: i=1; AJvYcCX1VJ36qp4CPP6IUxBN/8jaQjSo7dJccXR2qvG3B3/LDuTwGIgxwzJOff8oW0XIXqzmcQ17MNrbb9G40Qli+TyW+A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5O8QRb++Q7WaI7PF1ZXjS7rrXH76oi8/1c9ZVK9SOABorc00M
-	f56aZWJFwwTm+EMOtFQ8CjJvSu3csIwfQSysAh0iMOIWsTZwGr/h89XCpYMGUYLeGHdRzEphPcH
-	bjnszc7tR0UMRlajnv18ebYHkfwB6serzfWReIhbdb+g7xLqHTyHSQZ8SbG2xx//TmL3KE1/ePQ
-	==
-X-Gm-Gg: ASbGnctseim9SVjPX5ljTPNdktbAQN18r1A9uNDS/sokJskZMFd3fuzB+bB1hBSwd2Z
-	OzuW4Q8sCqQPktn5/S0cszYz2kS9V5T6zG/qaHnkez1Xv9cGvE1lMRmzAkSysVWksubrvuNu/fg
-	gUsFqOHM65pPBbkp24/mY94b4RRx4KuAU8JCURpXk6anbUAssACauJj2gyQjFROwQIlUY1uQwvN
-	rztnswJiCJxilDnZ6hna9nLywTZsP2JWNBTIEd8K5PWAPRAyC4pWihsCkMJYwv0YeJ72JOHihdk
-	HsGhuhDsALsVdF6bBT7aPhRSy/Xuv2Xj+SU14+QlgiVMWodFDcPXl4YfVMmZidEDeBWggT2yrQ4
-	=
-X-Received: by 2002:a05:620a:4013:b0:7ca:f447:c676 with SMTP id af79cd13be357-7cd467a017dmr3460592185a.43.1747917463781;
-        Thu, 22 May 2025 05:37:43 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEuK9ZYaNS9i+Q5elNYnjF85wlG4E7W2PQcAkgZfLcHHNu2rPiTZal61BKORpuvgC6jlMqV/w==
-X-Received: by 2002:a05:620a:4013:b0:7ca:f447:c676 with SMTP id af79cd13be357-7cd467a017dmr3460586985a.43.1747917463368;
-        Thu, 22 May 2025 05:37:43 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-550e702a289sm3392445e87.163.2025.05.22.05.37.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 May 2025 05:37:42 -0700 (PDT)
-Date: Thu, 22 May 2025 15:37:40 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Ai Chao <aichao@kylinos.cn>
-Cc: perex@perex.cz, tiwai@suse.com, johannes@sipsolutions.net,
-        kuninori.morimoto.gx@renesas.com, lgirdwood@gmail.com,
-        broonie@kernel.org, jbrunet@baylibre.com, neil.armstrong@linaro.org,
-        khilman@baylibre.com, martin.blumenstingl@googlemail.com,
-        shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
-        nicoleotsuka@gmail.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        srinivas.kandagatla@linaro.org, linux-sound@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, imx@lists.linux.dev,
-        kernel@pengutronix.de, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v2 6/6] ASoC: qcom: Use helper function
- for_each_child_of_node_scoped()
-Message-ID: <jp6lxxm3httbz7ygu7bj3xju4l7jnnhvbpaicb36ju4hyxpb2o@4lhl7xzif6qo>
-References: <20250522050300.519244-1-aichao@kylinos.cn>
- <20250522050300.519244-7-aichao@kylinos.cn>
+        d=1e100.net; s=20230601; t=1747917990; x=1748522790;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SJiKM9rofxYKhAilzOdaWle5ny4V76IGW8ct0sAqOb4=;
+        b=nlsdcZNHzgtmV3fuGYrkbtAnLCwo8wAuPRACRHN1203nvim6qUX2ua8KyvXB/QzJPl
+         rT/4XNcH85APSZdzICnv5sC4fvIFC1yCV5/ToSTKUsB8A+DeZaPZ9cO5aA3AmV6AKBpp
+         ugfJ21jnYlCn+FyuF/0FD4d3Y5oEtzCPoLBF/VHC5HrwULhj5oYEqj6tSnmmEf6v7W4B
+         UHCBgKCYoHEdXwNRziFHvM192WZ6HraXQNwaWcBMJyuiaWQwu1KIbYv+oWzP0gMCa8xC
+         HrQMIRNSwh6gDRRCIU+Qss8Vy0jW0SwGX8ydBwKqHgSk0EBcG9n92SjP68d1p5Oj2ozg
+         w2jg==
+X-Forwarded-Encrypted: i=1; AJvYcCUaPeb2ZY74sweQ5qPOCEl0IgLYXmEcXafiwo3LS9mt+o41+Fk2Ud57wiFb97R5mFS7VI6IGyFRFtMmb/Ip@vger.kernel.org, AJvYcCWcD8YbWPjGPXtQ75PX2Hre4kGjhlKeA2TZpj7N7r9NkSGQZVcXFAa4QhGOrAoPey8HNwPCV0msexM7O/daKyVBf/4=@vger.kernel.org, AJvYcCXho+7KZopWkZ049W+HLRPrrYRJW2isHuXWsFEP/RKuJuIR3hkVtSQFIo7luYrmkBRuLHfQZrvEh8Qn@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmZ9t9BtL2Xfjcyjs/yARpvLJgcMNP295uEikO/rXjiSHMSMQb
+	IIMkmo69B/qSqDgD8mxDbs3EXwZzB1acvqQz3ko/K6jJwKeGfoBcF2oFXHy2E4mJ
+X-Gm-Gg: ASbGncs+L446hDUtR2uVcNjh2hkz1JCL7LUMCTdZNBWtkDujy0Jp/Bd3uovjD0lAQXv
+	v3ilix166Aux4iOKUcxfDbiiRM09zyhjdjIJyu4PSpNfJ4Zc776zWr2WFd09+P9x0acCiwlPHk6
+	sch0CPfe4a+DfZCXx8rHfJH+pfg9dT7z9F6gSzWI31r1u8pyHMG82po/za6NfZOMISNxbzjV4fv
+	6AZuDFU74KRSGNpSdw1tcwoa+ge+qD11e8TRNqtdslJHQqIGZCoAt05G9/yZyhWNaNsHuN3+F9J
+	ufKxqf7yumD7gEh/FLehtCD0etKAII8SuM+iNtoV+qygcpimfuRViEOPDXK0PaAvBgVRyQK60hl
+	3MHvnEqwpj97BLQ==
+X-Google-Smtp-Source: AGHT+IEjaORb6kf2KWS6O7l74Wr2504cGpBzsN2eAskoRV5Sib9jZDEe0ryWJ3B/XyQBFLrBVR2GYA==
+X-Received: by 2002:a05:6122:16a7:b0:52c:7abb:efee with SMTP id 71dfb90a1353d-52dba94ea76mr23069170e0c.9.1747917990139;
+        Thu, 22 May 2025 05:46:30 -0700 (PDT)
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com. [209.85.217.41])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-52dbab4e9a7sm11642397e0c.35.2025.05.22.05.46.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 May 2025 05:46:29 -0700 (PDT)
+Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-4c4fa0bfca2so2607640137.0;
+        Thu, 22 May 2025 05:46:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUxFlej8NFQjWno7R8CApYYBlvfy6jOPKfEPbjux3aho0fRdLmkY7ilTofCsRV17eepa6Uw1N6SACmrtQKWIkJSeNM=@vger.kernel.org, AJvYcCVBFny4vmMcUDvENiHm97ulPkXHRM68/keBqORTEWg6Vr22QS6N+j+5yVANReH4XpuRsC8ciWmI+1OYEtMW@vger.kernel.org, AJvYcCXcQqiN1w3jz83kQj2G0kHKR/SNacATBOlbRypfb/6IcucSX7arV3pnHgAEcka2hwFKq3pj9L6FZwCZ@vger.kernel.org
+X-Received: by 2002:a05:6102:26c2:b0:4e2:ac09:fba2 with SMTP id
+ ada2fe7eead31-4e2ac09fd1amr10115538137.24.1747917989636; Thu, 22 May 2025
+ 05:46:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250522050300.519244-7-aichao@kylinos.cn>
-X-Proofpoint-GUID: VjIHK8cJN8uRwTWXXA-Js10rIOp-rvQo
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIyMDEyNyBTYWx0ZWRfXwy74YbrIMAa4
- kvjWyq0jxqLdQR6zPcubq3JlP4wIY+7YUzDz7wuUx139qHd+G59JcgokTWGEksoO0ckPDNFIujC
- XVRrE7dIIhi6c1B7OguSwYXYvqheR3PoEYTKlNRyWFBXry4hC4LN8VsIDdxh3ITzPmw0cSmnckH
- fM7IwUyqmDjrhY3nU45YsEFvddncryAYWvrHK6j7g2vRk464SCBy5hWOamL27COMpvfd17io7EZ
- OqYItCPjtibP4TvYWzTvX4+tF+sYTKpjwh9D1GdzDdb7z5/cVCJS/z3BNu7ORXWzJwzhKHjmldw
- iZ+K+ycQkKrkpvOjJikcrnn8jYjpRHBj14tsvPpn5GO+xNhTlfFAIUN0JfJv3h60bnECi1Ecj4h
- suck7qdSrk/qYOGihtnYSUGfIvyjqeTfPAzedJ8/arOmpqwD5cBIjUZPTFyIxkuJWa9Do5to
-X-Authority-Analysis: v=2.4 cv=fZOty1QF c=1 sm=1 tr=0 ts=682f1a98 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=dt9VzEwgFbYA:10 a=rlxKSa1xbkCyiMC8iTsA:9 a=CjuIK1q_8ugA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-ORIG-GUID: VjIHK8cJN8uRwTWXXA-Js10rIOp-rvQo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-22_06,2025-05-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxscore=0 adultscore=0 spamscore=0 bulkscore=0 suspectscore=0
- malwarescore=0 priorityscore=1501 impostorscore=0 mlxlogscore=911
- lowpriorityscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505160000 definitions=main-2505220127
+References: <20250514162422.910114-1-tommaso.merciai.xr@bp.renesas.com> <20250514162422.910114-2-tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <20250514162422.910114-2-tommaso.merciai.xr@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 22 May 2025 14:46:17 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWJQm7bhfFAWvsU2SweCrPGDCSHd_rw5+oTXWWdV9mZQw@mail.gmail.com>
+X-Gm-Features: AX0GCFvFZmJWoQFNTktApWkdu4Hy0K7UFQ4QW-qQEpvKXIbg7IrEW7CM1rMfM34
+Message-ID: <CAMuHMdWJQm7bhfFAWvsU2SweCrPGDCSHd_rw5+oTXWWdV9mZQw@mail.gmail.com>
+Subject: Re: [PATCH 1/4] arm64: dts: renesas: r9a09g047: Add CRU, CSI2 nodes
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
+	biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com, 
+	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, May 22, 2025 at 01:02:59PM +0800, Ai Chao wrote:
-> The for_each_child_of_node_scoped() helper provides a scope-based
-> clean-up functionality to put the device_node automatically, and
-> as such, there is no need to call of_node_put() directly.
+Hi Tommaso,
 
-There are no calls to of_node_put() in the commit. So the commit message
-is incorrect / not-applicable.
+On Wed, 14 May 2025 at 18:25, Tommaso Merciai
+<tommaso.merciai.xr@bp.renesas.com> wrote:
+> Add CRU, CSI2 nodes to RZ/RZG3E SoC DTSI.
+>
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 
-> 
-> Thus, use this helper to simplify the code.
-> 
-> Signed-off-by: Ai Chao <aichao@kylinos.cn>
-> ---
->  sound/soc/qcom/lpass-cpu.c       | 3 +--
->  sound/soc/qcom/qdsp6/q6afe-dai.c | 3 +--
->  sound/soc/qcom/qdsp6/q6asm-dai.c | 4 +---
->  3 files changed, 3 insertions(+), 7 deletions(-)
-> 
-> diff --git a/sound/soc/qcom/lpass-cpu.c b/sound/soc/qcom/lpass-cpu.c
-> index 242bc16da36d..62f49fe46273 100644
-> --- a/sound/soc/qcom/lpass-cpu.c
-> +++ b/sound/soc/qcom/lpass-cpu.c
-> @@ -1046,7 +1046,6 @@ static unsigned int of_lpass_cpu_parse_sd_lines(struct device *dev,
->  static void of_lpass_cpu_parse_dai_data(struct device *dev,
->  					struct lpass_data *data)
->  {
-> -	struct device_node *node;
->  	int ret, i, id;
->  
->  	/* Allow all channels by default for backwards compatibility */
-> @@ -1056,7 +1055,7 @@ static void of_lpass_cpu_parse_dai_data(struct device *dev,
->  		data->mi2s_capture_sd_mode[id] = LPAIF_I2SCTL_MODE_8CH;
->  	}
->  
-> -	for_each_child_of_node(dev->of_node, node) {
-> +	for_each_child_of_node_scoped(dev->of_node, node) {
->  		ret = of_property_read_u32(node, "reg", &id);
->  		if (ret || id < 0) {
->  			dev_err(dev, "valid dai id not found: %d\n", ret);
-> diff --git a/sound/soc/qcom/qdsp6/q6afe-dai.c b/sound/soc/qcom/qdsp6/q6afe-dai.c
-> index 7d9628cda875..64735f2adf8f 100644
-> --- a/sound/soc/qcom/qdsp6/q6afe-dai.c
-> +++ b/sound/soc/qcom/qdsp6/q6afe-dai.c
-> @@ -962,10 +962,9 @@ static const struct snd_soc_component_driver q6afe_dai_component = {
->  static void of_q6afe_parse_dai_data(struct device *dev,
->  				    struct q6afe_dai_data *data)
->  {
-> -	struct device_node *node;
->  	int ret;
->  
-> -	for_each_child_of_node(dev->of_node, node) {
-> +	for_each_child_of_node_scoped(dev->of_node, node) {
->  		unsigned int lines[Q6AFE_MAX_MI2S_LINES];
->  		struct q6afe_dai_priv_data *priv;
->  		int id, i, num_lines;
-> diff --git a/sound/soc/qcom/qdsp6/q6asm-dai.c b/sound/soc/qcom/qdsp6/q6asm-dai.c
-> index a400c9a31fea..d7680dd3a3bb 100644
-> --- a/sound/soc/qcom/qdsp6/q6asm-dai.c
-> +++ b/sound/soc/qcom/qdsp6/q6asm-dai.c
-> @@ -1236,10 +1236,8 @@ static int of_q6asm_parse_dai_data(struct device *dev,
->  {
->  	struct snd_soc_dai_driver *dai_drv;
->  	struct snd_soc_pcm_stream empty_stream;
-> -	struct device_node *node;
->  	int ret, id, dir, idx = 0;
->  
-> -
->  	pdata->num_dais = of_get_child_count(dev->of_node);
->  	if (!pdata->num_dais) {
->  		dev_err(dev, "No dais found in DT\n");
-> @@ -1253,7 +1251,7 @@ static int of_q6asm_parse_dai_data(struct device *dev,
->  
->  	memset(&empty_stream, 0, sizeof(empty_stream));
->  
-> -	for_each_child_of_node(dev->of_node, node) {
-> +	for_each_child_of_node_scoped(dev->of_node, node) {
->  		ret = of_property_read_u32(node, "reg", &id);
->  		if (ret || id >= MAX_SESSIONS || id < 0) {
->  			dev_err(dev, "valid dai id not found:%d\n", ret);
-> -- 
-> 2.47.1
-> 
+Thanks for your patch!
+
+> --- a/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
+> @@ -669,6 +669,75 @@ sdhi2_vqmmc: vqmmc-regulator {
+>                                 status = "disabled";
+>                         };
+>                 };
+> +
+> +               cru: video@16000000 {
+> +                       compatible = "renesas,r9a09g047-cru";
+> +                       reg = <0 0x16000000 0 0x400>;
+> +                       clocks = <&cpg CPG_MOD 0xd3>,
+> +                                <&cpg CPG_MOD 0xd4>,
+> +                                <&cpg CPG_MOD 0xd2>;
+> +                       clock-names = "video", "apb", "axi";
+> +                       interrupts = <GIC_SPI 838 IRQ_TYPE_LEVEL_HIGH>,
+> +                                    <GIC_SPI 839 IRQ_TYPE_LEVEL_HIGH>,
+> +                                    <GIC_SPI 840 IRQ_TYPE_EDGE_RISING>,
+> +                                    <GIC_SPI 841 IRQ_TYPE_EDGE_RISING>,
+> +                                    <GIC_SPI 842 IRQ_TYPE_LEVEL_HIGH>;
+> +                       interrupt-names = "image_conv", "axi_mst_err",
+> +                                         "vd_addr_wend", "sd_addr_wend",
+> +                                         "vsd_addr_wend";
+> +                       resets = <&cpg 0xc5>, <&cpg 0xc6>;
+> +                       reset-names = "presetn", "aresetn";
+> +                       power-domains = <&cpg>;
+> +                       status = "disabled";
+> +
+> +                       ports {
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +
+> +                               port@1 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+
+I think the plan was to get rid of #{address,size}-cells...
+
+> +
+> +                                       reg = <1>;
+> +                                       crucsi2: endpoint@0 {
+> +                                               reg = <0>;
+
+... and of the unit address and reg property here...
+
+> +                                               remote-endpoint = <&csi2cru>;
+> +                                       };
+> +                               };
+> +                       };
+> +               };
+> +
+> +               csi2: csi2@16000400 {
+> +                       compatible = "renesas,r9a09g047-csi2", "renesas,r9a09g057-csi2";
+> +                       reg = <0 0x16000400 0 0xc00>;
+> +                       interrupts = <GIC_SPI 837 IRQ_TYPE_LEVEL_HIGH>;
+> +                       clocks = <&cpg CPG_MOD 0xd3>, <&cpg CPG_MOD 0xd4>;
+> +                       clock-names = "video", "apb";
+> +                       resets = <&cpg 0xc5>, <&cpg 0xc7>;
+> +                       reset-names = "presetn", "cmn-rstb";
+> +                       power-domains = <&cpg>;
+> +                       status = "disabled";
+> +
+> +                       ports {
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +
+> +                               port@0 {
+> +                                       reg = <0>;
+> +                               };
+> +
+> +                               port@1 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+
+... and here...
+
+> +                                       reg = <1>;
+> +
+> +                                       csi2cru: endpoint@0 {
+> +                                               reg = <0>;
+
+... and here[1].
+As that still hasn't happened, and the example in the bindings wasn't
+updated either, I will keep it like this.
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.17.
+
+> +                                               remote-endpoint = <&crucsi2>;
+> +                                       };
+> +                               };
+> +                       };
+> +               };
+>         };
+>
+>         timer {
+
+[1] "[PATCH] arm64: dts: renesas: r9a07g0{43,44,54}: Drop
+#address-cells/#size-cells from single child node 'endpoint@0'"
+    https://lore.kernel.org/all/20240609095049.17193-1-biju.das.jz@bp.renesas.com/
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-With best wishes
-Dmitry
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
