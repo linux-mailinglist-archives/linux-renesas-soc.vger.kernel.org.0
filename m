@@ -1,48 +1,79 @@
-Return-Path: <linux-renesas-soc+bounces-17378-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17379-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76F99AC0DAC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 16:09:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33A13AC0DBA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 16:11:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4E9B51C00308
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 14:08:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3C938A260CE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 14:09:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05DF328DB59;
-	Thu, 22 May 2025 14:07:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BD7428C5A1;
+	Thu, 22 May 2025 14:08:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="K1dDjXeE"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="SqIMqXp8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52DEA28D8F3
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 22 May 2025 14:07:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 793FA28C034
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 22 May 2025 14:08:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747922824; cv=none; b=cFYbG4LvY/XbQAA/KUZbUeDymFsBCRD1e/cqxVvPeBWn6nABsBboGf/XKPCs5ZkrSSvBctlhJqVCO2Qmll6tybH2NJhK/SSfxRH0Zy4WiXKDjg6m5jluDBQvx3d4kyg4J2yH51kLabuTKY2peQSYB8Nl2Bh58peF8knrqxdeik0=
+	t=1747922909; cv=none; b=SZf7K88/yMdNLEc8yxKS6xnqcXhiBRhm+yLEqLRsaCgAUhTcO6xuLLDZDo71JAYu49eLn8MVfmHr2f/IEgikSkCd/mZcSXYBHtUf9wxNFyBqmN4dtg+ZIB1wciOHu1bbIVcQ8hDX/ZBwsAPxlf+OUmmjr0Cr+ECfSjliCxQt4WI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747922824; c=relaxed/simple;
-	bh=Pp+0WI4KVMPMC1aLKziFoXuVm2ds8cB+cqIQ4CFIyMc=;
+	s=arc-20240116; t=1747922909; c=relaxed/simple;
+	bh=sKRWtQLFM3BikSvuSI0I19AZjAJ0USpkd0DsiZKT94U=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U2Rc+Qi/5jSP/S8kvmfVw/frBOeCromOGh9QN8ybCUK+yNTvSXExm7Y4U/qyKAjRPwwe/Ep0uuta9V/SM7OEZc/DBp907Q5SFNo7ZQir1UtfFl02CXJhhUH/QddvTW2DjaKQWf5tH3iRUPODXhakFkXE3iRZH2Km5mx/h5I4TYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=K1dDjXeE; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1C5A6605;
-	Thu, 22 May 2025 16:06:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1747922793;
-	bh=Pp+0WI4KVMPMC1aLKziFoXuVm2ds8cB+cqIQ4CFIyMc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=K1dDjXeEsU5I7iqBo5TqZyTpd4Y+AP7c+TEDSaP1oGmRaG/2fhPYRQp/vTa7oIRcA
-	 sVGb4O/3bjnuROtXV9pbE4nveQJjKbFCzzZIIN3GXgHjztTF8dFmhL9azh1c3iJt9h
-	 VR6SpmC3xQNMXU70VUeG0ueLO2/5OIsSkvQFrnxM=
-Message-ID: <cdb5ad54-c02a-420d-acf6-c11f39c6c58a@ideasonboard.com>
-Date: Thu, 22 May 2025 17:06:52 +0300
+	 In-Reply-To:Content-Type; b=UbRriHyVFI5x1VJdz4/EfQvlfR1/ScTS+e/pR/AfBw5gqBhds+1u3RFxLlCFsUJao+cDrQWjLT2hvmGiWGdonDNZpFzKTjd/y5KnC2eSzDW5zz8U/S71XHMs23F1v/63+cec7JqOP0mHhKvB3YASPb7mSL6kCo2P3UNAY723kMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=SqIMqXp8; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ad5566ac13cso753548566b.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 May 2025 07:08:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1747922905; x=1748527705; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7JnH/UvNq6EudFKnyGLwmWgVhkOUt6Qi43wiQBrg6GA=;
+        b=SqIMqXp8kcAF/NL86NhVrDxBbqFmslLjxoDXTcEY0739VQDpNh2Eq5tW0hoqg20N6L
+         Udm3AHQKchknm09I49NFqQ+2U6qMbHQAH68gh0QrZs5dQ1wE2I5RW8AiLBG+g9p0groO
+         eB+fJ8B1DY4bxHgzn3BJ5ixePDPBL2VgQ86tVpReLWiJf38ei98NAI6gyHhqOWG8+x0H
+         WEeH93U2HIH6LLnjB7TQtwhsxJ8RBW1Ah5AZbK0HJS5JYEZvSOHfcv0AZk3VlvtZzOSt
+         Q2OlxGNzgz5jVBatwPd3BzKktAOHZtxUEekWyB3Z0ipQOV5B0/LLurbgecBhCOFUVclu
+         T1ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747922906; x=1748527706;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7JnH/UvNq6EudFKnyGLwmWgVhkOUt6Qi43wiQBrg6GA=;
+        b=lDn6S6Fa2+CycgWlyb9E+P0A2nq3EDntCULIKRD77YuVMksfA6gc52IhbL7JQchh6E
+         66BWHNKsEpwYndJLS99+gUHY1Q+WZIMITuXzF0s8tv/O01V5AYSYXWJeNYJx8wQXIxi9
+         QeM9rKhYaV3GHbh0VQJfnUfOYlgsZ8O2AqOguPFiP8O8jACWIXc2Jk9MXg2sY1xFJgr7
+         dKKXYvJANZameNupl3fZzJghXsmRmr23S/B1ensN9bcD3+hsvIQwnLtzsqC5PvZODSLx
+         VBNcwGN2jAvJK2DVICNGEG5JrsPxFfPWxmlGhdrV1X/11G1CGFMWAbCxT1XTy/c714vy
+         fAaw==
+X-Forwarded-Encrypted: i=1; AJvYcCWb+aem98zKoTGDSRVHrg/y3CJiRaV5qRrOMdVDIZhCNMOg3G2SklkxeTFpG2pCb2HeJQ5JwOkD48XgfA/HT4oU1g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzP+ScK8AhDhS3ndJJxz5mdcuHtzTBrMoDhTPk523/fprWIOI7M
+	1Rhpc0MJZkyJL4GknDvo2XkiAbZ2UYnxX8KmBBkYz1bWfVX6hqegFMyjhnmhyKlDmzs=
+X-Gm-Gg: ASbGncv5E+UK6Cgpte1eUla9wkNCsDeHDlfBfJtIeq9QjMWRS9pLQm+sKl9AczOZ+7w
+	PrVtniCdXyy4EuY2zzXt17Q3SyXbJySp1QDptoOg8YkOtvPMnXJLMowT54130DiKsNlOeicAdi3
+	aDychqxEGRHGRPK+3e6OLNl2Q3yWX1Sq9IN/TXNB4tWoyAxteh4BxFTbgZi8VXZNCoh96hIa5ms
+	Loc6zCqdD1zRBi9+Hi/aD0jlF0Rjbs1E9O3OyuqesBL2MQztpLk/V3ckz3c5fZojAmONxuMpbAm
+	yOveas0G2PZH+xl7sUSEb+h9e9LqwVne4gT+J+KVd3b2bcq30WuQiLn9px3h3ubQ6fbTKw==
+X-Google-Smtp-Source: AGHT+IHCMBXqdKSREDToijHF0Dd4OGxrQuItebItFBlt1XKnbPAI9VNU5D+hMOLVkNTSvt/yX3GJyQ==
+X-Received: by 2002:a17:907:940f:b0:acf:c:22ca with SMTP id a640c23a62f3a-ad536b5a48dmr2356806666b.1.1747922905316;
+        Thu, 22 May 2025 07:08:25 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.58])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad52d278290sm1075395866b.78.2025.05.22.07.08.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 May 2025 07:08:24 -0700 (PDT)
+Message-ID: <482b55c9-a210-4b2d-8405-e9f30d48a8fd@tuxon.dev>
+Date: Thu, 22 May 2025 17:08:23 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,51 +81,242 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND] drm: renesas: rcar-du: use proper naming for R-Car
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- linux-renesas-soc@vger.kernel.org
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20250522103530.51972-2-wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH] driver core: platform: Use devres group to free driver
+ probe resources
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Jonathan Cameron <jic23@kernel.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>,
+ dakr@kernel.org, linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, geert@linux-m68k.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-iio@vger.kernel.org,
+ bhelgaas@google.com
+References: <20250330163129.02f24afb@jic23-huawei>
+ <5bca6dfd-fe03-4c44-acf4-a51673124338@tuxon.dev>
+ <95f5923f-7a8f-4947-b588-419525930bcb@tuxon.dev>
+ <CAPDyKFoMqmCFBoO8FwQe2wHh2kqQi4jUZNFyiNckK7QhGVgmvg@mail.gmail.com>
+ <c3a2950a-17ff-444a-bee7-af5e7e10e2bf@tuxon.dev>
+ <CAPDyKFozR4qDq4mzcZBK-LcoPf=fGyuJTXwdt=Ey+_DcQOAp0g@mail.gmail.com>
+ <4o3wo76st7w6qwyye3rrayuo2qx773i6jfzcnbkhdj76ouh7ds@3e2mblehkgwf>
+ <CAPDyKFqMB7XutXba73YHx1X4rm6uc3Fz6yMZ8yM=wgduEmgUDg@mail.gmail.com>
+ <a20fc6ee-c6c3-4013-b175-4918b9a44380@tuxon.dev>
+ <CAPDyKFpbeLJUiB_xQbqDib+-8Q3AcJNVg+DuEcqmVGMbFdNxwA@mail.gmail.com>
+ <fgl4w5uhxci7rrbdigtni72vveb2gqemh6iccz4qruqkek5rja@rzwkcjg6hkid>
+ <3b1963ba-f93f-48f2-8fb0-a485dd80ffcb@tuxon.dev>
+ <CAPDyKFqrAS4iV59S-zJ9H7_3VuGr9JdZABhfUGBwTzQNDCasaw@mail.gmail.com>
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
 Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <20250522103530.51972-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <CAPDyKFqrAS4iV59S-zJ9H7_3VuGr9JdZABhfUGBwTzQNDCasaw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi,
+Hi, Ulf,
 
-On 22/05/2025 13:34, Wolfram Sang wrote:
-> Not RCAR, but R-Car.
+On 22.05.2025 14:53, Ulf Hansson wrote:
+> On Thu, 22 May 2025 at 11:48, Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
+>>
+>> Hi, Ulf,
+>>
+>> On 21.05.2025 17:57, Dmitry Torokhov wrote:
+>>> On Wed, May 21, 2025 at 02:37:08PM +0200, Ulf Hansson wrote:
+>>>> On Wed, 21 May 2025 at 07:41, Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
+>>>>>
+>>>>> Hi, Ulf,
+>>>>>
+>>>>> On 20.05.2025 15:09, Ulf Hansson wrote:
+>>>>>> For example, even if the order is made correctly, suppose a driver's
+>>>>>> ->remove() callback completes by turning off the resources for its
+>>>>>> device and leaves runtime PM enabled, as it relies on devres to do it
+>>>>>> some point later. Beyond this point, nothing would prevent userspace
+>>>>>> for runtime resuming/suspending the device via sysfs.
+>>>>>
+>>>>> If I'm not wrong, that can't happen? The driver_sysfs_remove() is called
+>>>>> before device_remove() (which calls the driver remove) is called, this
+>>>>> being the call path:
+>>>>>
+>>>>> device_driver_detach() ->
+>>>>>   device_release_driver_internal() ->
+>>>>>     __device_release_driver() ->
+>>>>>       driver_sysfs_remove()
+>>>>>       // ...
+>>>>>       device_remove()
+>>>>>
+>>>>> And the driver_sysfs_remove() calls in the end __kernfs_remove() which
+>>>>> looks to me like the place that actually drops the entries from sysfs, this
+>>>>> being a call path for it:
+>>>>>
+>>>>> driver_sysfs_remove() ->
+>>>>>   sysfs_remove_link() ->
+>>>>>     kernfs_remove_by_name() ->
+>>>>>       kernfs_remove_by_name_ns() ->
+>>>>>         __kernfs_remove() ->
+>>>>>
+>>>>> activating the following line in __kernfs_remove():
+>>>>>
+>>>>> pr_debug("kernfs %s: removing\n", kernfs_rcu_name(kn));
+>>>>>
+>>>>> leads to the following prints when unbinding the watchdog device from its
+>>>>> watchdog driver (attached to platform bus) on my board:
+>>>>> https://p.fr33tux.org/935252
+>>>>
+>>>> Indeed this is a very good point you make! I completely overlooked
+>>>> this fact, thanks a lot for clarifying this!
+>>>>
+>>>> However, my main point still stands.
+>>>>
+>>>> In the end, there is nothing preventing rpm_suspend|resume|idle() in
+>>>> drivers/base/power/runtime.c from running (don't forget runtime PM is
+>>>> asynchronous too) for the device in question. This could lead to that
+>>>> a ->runtime_suspend|resume|idle() callback becomes executed at any
+>>>> point in time, as long as we haven't called pm_runtime_disable() for
+>>>> the device.
+>>>
+>>> So exactly the same may happen if you enter driver->remove() and
+>>> something calls runtime API before pm_runtime_disable() is called.
+>>> The driver has (as they should be doing currently) be prepared for this.
+>>
+>> I took the time and tried to do a comparison of the current solutions
+>> (describing the bad and good things I see), trying to understand your
+>> concerns with regards to RPM suspend|resume|idle while unbinding a device
+>> from its driver.
+>>
+>> I see the following cases:
+>>
+>> Case 1/ the current approach when devm_pm_runtime_enable() is used in
+>> driver's ->probe() with the current code base:
+>>
+>> - right after driver ->remove() finish its execution clocks are detached
+>>   from the PM domain, through dev_pm_domain_detach() call in
+>>   platform_remove()
+>>
+>> - any subsequent RPM resume|suspend|idle will lead to failure if the driver
+>>   specific RPM APIs access directly registers and counts on PM domain to
+>>   enable/disable the clocks
+>>
+>> - at this point, if the IRQs are shared (but not only) and devm requested
+>>   the driver's IRQ handler can still be called asynchronously; driver
+>>   should be prepared for such events and should be written to work for such
+>>   scenarios; but as the clocks are not in the PM domain anymore and RPM is
+>>   still enabled at this point, if the driver don't run runtime suspend on
+>>   probe (and runtime resume/suspend on runtime), I think (because I haven't
+>>   investigated this yet) it can't rely on pm_runtime_active()/
+>>   pm_runtime_suspended() checks in interrupt handlers
+>>   and can't decide if it can interrogate registers or not; interrogating
+>>   should lead to failure at this stage as the clocks are disabled; drivers
+>>   should work in such scenario and the CONFIG_DEBUG_SHIRQ is a way to check
+>>   they can; I previously debugged a similar issue on drivers/net/ethernet/
+>>   renesas/ravb driver where using devm_pm_runtime_enable() in probe and
+>>   pm_runtime_suspended() checks in IRQ handlers was the way to make this
+>>   scenario happy; at that time I wasn't able to find that
+>>   dev_pm_domain_detach() have the impact discussed in this thread
+>>
+>> Case 2/ What is proposed in this patch: devm_pm_runtime_enable() used +
+>> open devres group after dev_pm_domain_attach() (in probe) and close the
+>> devres group before dev_pm_domain_attach() (in remove):
+>>
+>> - right after the driver ->remove() is executed only the driver allocated
+>>   devres resources are freed; this happens before dev_pm_domain_deattach()
+>>   is called, though the proposed devres_release_group() call in this patch
+>>
+>> - while doing this, driver can still get async RPM suspend|resume|idle
+>>   requests; is like the execution is in the driver ->remove()
+>>   but the pm_runtime_disable() hasn't been called yet
+>>
+>> - as the runtime PM is enabled in driver's ->probe() mostly after the HW is
+>>   prepared to take requests and all the other devm resources are allocated,
+>>   the RPM disable is going to be among the first things to be called by the
+>>   devres_release_group()
+>>
+>> - then, after RPM disable, all the devres resources allocated only in the
+>>   driver's ->probe() are cleaned up in reverse order, just like
+>>   device_unbind_cleanup() -> devres_release_all() call in
+>>   __device_release_driver() is doing, but limited only to the resources
+>>   allocated by the driver itself; I personally see this like manually
+>>   allocating and freeing resources in the driver itself w/o relying on
+>>   devres
+>>
+>> - then it comes the turn of dev_pm_domain_detach() call in
+>>   platform_remove(): at the time dev_pm_domain_detach() is executed the
+>>   runtime PM is disabled and all the devres resources allocated by driver
+>>   are freed as well
+>>
+>> - after the dev_pm_domain_detach() is executed all the driver resources
+>>   are cleaned up, the driver can't get IRQs as it's handler was already
+>>   unregistered, no other user can execute rpm suspend|resume|idle
+>>   as the RPM is disabled at this time
+>>
+>> Case 3/ devm_pm_runtime_enabled() dropped and replaced by manual cleanup:
+>> - the driver code is going be complicated, difficult to maintain and error
+>>   prone
 > 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Yes, the driver's code would become slightly more complicated, but
+> more importantly it would be correct.
 > 
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h
-> index f9893d7d6dfc..e9e59c5e70d5 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h
-> @@ -16,7 +16,7 @@ struct rcar_du_format_info;
->  struct rcar_du_group;
->  
->  /*
-> - * The RCAR DU has 8 hardware planes, shared between primary and overlay planes.
-> + * The R-Car DU has 8 hardware planes, shared between primary and overlay planes.
->   * As using overlay planes requires at least one of the CRTCs being enabled, no
->   * more than 7 overlay planes can be available. We thus create 1 primary plane
->   * per CRTC and 7 overlay planes, for a total of up to 9 KMS planes.
+> To me it sounds like the driver's ->remove() callback could do this:
+> 
+> pm_runtime_get_sync()
+> pm_runtime_disable()
+> pm_runtime_put_noidle()
 
-Thanks, pushed to drm-misc-next.
+In my case it was just pm_runtime_disable() at the end of driver ->remove()
+and pm_runtime_active() checks in IRQ handlers which didn't worked after
+driver ->remove() finished execution due to disable_depth being incremented
+in pm_runtime_disable(). The IRQs were devm requested.
 
- Tomi
+The solution found at the that time was to use devm_pm_runtime_enable() in
+probe and pm_runtime_suspended() calls in IRQ handlers.
 
+> 
+> In this way, the driver will runtime resume its device, allowing
+> devres to drop/turn-off resources in the order we want.
+> Except for the
+> clocks, as those would be turned off via dev_pm_domain_detach() before
+> the IRQ handler is freed (via devres), right?
+> 
+> To avoid getting the IRQ handler to be called when it can't access
+> registers, we could do one of the below:
+> *) Look for a condition in the IRQ handler and bail-out when we know
+> we should not manage IRQs. Is using pm_runtime_enabled() sufficient,
+> you think? Otherwise we need a driver specific flag, which should be
+> set in ->remove().
+> *) Don't use devm* when registering the IRQ handler.
+
+That's true.
+
+> 
+> Yes, both options further contribute to making the driver code
+> slightly more complicated, but if you want to solve the problem sooner
+> than later, I think this is what you need to do. Yet, I think there is
+> another option too, see below.
+> 
+>>
+>> I may have missed considering things when describing the case 2 (which is
+>> what is proposed by this patch) as I don't have the full picture behind the
+>> dev_pm_domain_detach() call in platform bus remove. If so, please correct me.
+> 
+> The dev_pm_domain_attach|detach() calls in bus level code
+> (probe/remove) were added there a long time ago, way before devres was
+> being used like today.
+> 
+> Currently we also have devm_pm_domain_attach_list(), which is used
+> when devices have multiple PM domains to attach too. This is *not*
+> called by bus-level code, but by the driver themselves. For these
+> cases, we would not encounter the problems you have been facing with
+> clocks/IRQ-handler, I think - because the devres order is maintained
+> for PM domains too.
+> 
+> That said, I think adding a devm_pm_domain_attach() interface would
+> make perfect sense. Then we can try to replace
+> dev_pm_domain_attach|detach() in bus level code, with just a call to
+> devm_pm_domain_attach(). In this way, we should preserve the
+> expectation for drivers around devres for PM domains. Even if it would
+> change the behaviour for some drivers, it still sounds like the
+> correct thing to do in my opinion.
+
+This looks good to me, as well. I did prototype it on my side and tested on
+all my failure cases and it works.
+
+Thank you,
+Claudiu
 
