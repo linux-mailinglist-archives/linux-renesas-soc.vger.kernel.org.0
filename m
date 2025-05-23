@@ -1,51 +1,52 @@
-Return-Path: <linux-renesas-soc+bounces-17450-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17451-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35F5DAC24FB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 16:26:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 401AEAC24FF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 16:26:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 41CE57BC15B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 14:24:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4AE164E8F66
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 14:26:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC8D1296158;
-	Fri, 23 May 2025 14:25:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5909429614D;
+	Fri, 23 May 2025 14:25:06 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE24C29710D;
-	Fri, 23 May 2025 14:24:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97D2A29710D;
+	Fri, 23 May 2025 14:25:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748010301; cv=none; b=Ax/lNHDHRoJP1mkI0gz3spAu84rZ0CVfUMPNd+OQ2oBYEGIBZmE+0LDU+al2mKR0V/LTlP0dLLtriHF12WOK5RxYe+tnrJwaGKrdUbyeUpH4Ojvd58fh5XygRkzNa2PhwNTP9BsbWXFWw9dwwU2oIeDwKk/Y8rYyaF/IMgDYrRM=
+	t=1748010306; cv=none; b=VBkgns3Da5hImgKuSR6r1VYy3WXbaqUwWY5hxVwjjFLeacN1IlLm0xZc1LGsqmsIc9Ja8m8ap1WFDRZu7jjk1W5kKNU3uUDRAlPcsU/Qyh5+WbuiOIvMHW3fkeoyYlVyl8Lo15NSjXiYBhd27OFdFRFQxaOqHGdjnSK5l1z5rKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748010301; c=relaxed/simple;
-	bh=kJ/CEHb/RhtCJPC/9m3Wojmog0pI6ujfflzp3KiYSGE=;
+	s=arc-20240116; t=1748010306; c=relaxed/simple;
+	bh=tyd5GLluMH+nvSB7OG5v8DkygWWeSAC1XqHkIjyU/p4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=emUlSabdk/67fvvz8OhrCAzdMMQ5soXE/9FY7i8ptDyxkoED8qjn2E/X8+tuh9jXcfApAPOiKIK3kigqU8iVkpPhCTcLbEobmCAC7nE40tdX419LvcKk+rbdMy6uk2UfkMwLvPSQuqeBaZYOXbQDzmwyXNJew+rZMpXTP/ISc6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+	 MIME-Version; b=aXY3a+p550dj3pM9tmsdH0ZYD5jNcT1KqSqkmkBfjp6/AU+m5h3Noc1o/ijnTG6Mqy6UgLoP8q6t7M0s/2qqVv4Pd6KPSYP0AuvRsSnBN15Om4JZbCLdPAQmZnXLDD+ViMODu/xhX5Tv+fIXa4aXOaUzq0mSSoX8V7WpsBcQyO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: cKoDPZjcRN2IibPgH5VnKQ==
-X-CSE-MsgGUID: H/Zf5+71RNO//qnMdrFf9A==
+X-CSE-ConnectionGUID: 4EnbSzcFS9aXmf58ADsxAw==
+X-CSE-MsgGUID: lgNzlK4EQBSsyae3MVbW8w==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 23 May 2025 23:24:59 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 23 May 2025 23:25:03 +0900
 Received: from superbuilder.administration.lan (unknown [10.226.92.97])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 7024A4017D95;
-	Fri, 23 May 2025 23:24:56 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 53C644017D95;
+	Fri, 23 May 2025 23:25:00 +0900 (JST)
 From: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
 To: thierry.bultel@linatsea.fr
 Cc: linux-renesas-soc@vger.kernel.org,
 	geert@linux-m68k.org,
 	paul.barker.ct@bp.renesas.com,
 	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v10 09/10] arm64: dts: renesas: Add initial support for renesas RZ/T2H eval board
-Date: Fri, 23 May 2025 16:24:13 +0200
-Message-ID: <20250523142417.2840797-10-thierry.bultel.yh@bp.renesas.com>
+Subject: [PATCH v10 10/10] arm64: defconfig: Enable Renesas RZ/T2H serial SCI
+Date: Fri, 23 May 2025 16:24:14 +0200
+Message-ID: <20250523142417.2840797-11-thierry.bultel.yh@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250523142417.2840797-1-thierry.bultel.yh@bp.renesas.com>
 References: <20250523142417.2840797-1-thierry.bultel.yh@bp.renesas.com>
@@ -57,77 +58,38 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the initial device tree for the RZ/T2H evaluation board.
+Selects RZ/T2H (aka r9a09g077) SCI (serial) specific code.
 
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
 ---
 Changes v9->v10: none
-Changes v8->v9:
-  - Makefile: keep the alphabetical order
-Changes v7->v8:
-  - removed loco clock
-  - fixed checkpatch warning
-Changes v6->v7:
-  - lands in arm64 directory instead of arm
-Changes v5->v6: rebased on next-20250331
-Changes v4->v5: none
-Changes v3->v4: none
+Changes v8->v9: none
+Changes v7->v8: none
+Changes v6->v7: none
+Changes v5->v6:
+   - Renamed CONFIG_SERIAL_RZ_SCI_T2 to CONFIG_SERIAL_RSCI
+Changes v4->v5:
+   - Renamed CONFIG_SERIAL_RZ_SCI to CONFIG_SERIAL_RZ_SCI_T2
+Changes v3->v4:
+   - Remove CONFIG_ARCH_R9A09G077=y
 ---
- arch/arm64/boot/dts/renesas/Makefile          |  1 +
- .../dts/renesas/r9a09g077m44-rzt2h-evk.dts    | 31 +++++++++++++++++++
- 2 files changed, 33 insertions(+)
- create mode 100644 arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
+ arch/arm64/configs/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-index b24dddee3827..c6b4a868f387 100644
---- a/arch/arm64/boot/dts/renesas/Makefile
-+++ b/arch/arm64/boot/dts/renesas/Makefile
-@@ -161,5 +161,7 @@ dtb-$(CONFIG_ARCH_R9A09G056) += r9a09g056n48-rzv2n-evk.dtb
- dtb-$(CONFIG_ARCH_R9A09G057) += r9a09g057h44-rzv2h-evk.dtb
- dtb-$(CONFIG_ARCH_R9A09G057) += r9a09g057h48-kakip.dtb
- 
-+dtb-$(CONFIG_ARCH_R9A09G077) += r9a09g077m44-rzt2h-evk.dtb
-+
- dtb-$(CONFIG_ARCH_RCAR_GEN3) += draak-ebisu-panel-aa104xd12.dtbo
- dtb-$(CONFIG_ARCH_RCAR_GEN3) += salvator-panel-aa104xd12.dtbo
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts b/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
-new file mode 100644
-index 000000000000..bbacdca1959e
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
-@@ -0,0 +1,31 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+/*
-+ * Device Tree Source for the RZ/T2H Development EVK board
-+ *
-+ * Copyright (C) 2025 Renesas Electronics Corp.
-+ */
-+
-+/dts-v1/;
-+
-+#include "r9a09g077m44.dtsi"
-+
-+/ {
-+	model = "Renesas Development EVK based on r9a09g077m44";
-+	compatible = "renesas,rzt2h-evk", "renesas,r9a09g077m44", "renesas,r9a09g077";
-+
-+	aliases {
-+		serial0 = &sci0;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+};
-+
-+&extal_clk {
-+	clock-frequency = <25000000>;
-+};
-+
-+&sci0 {
-+	status = "okay";
-+};
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index 04619fe7e22a..bd2aeb7c13a7 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -495,6 +495,7 @@ CONFIG_SERIAL_TEGRA_TCU=y
+ CONFIG_SERIAL_IMX=y
+ CONFIG_SERIAL_IMX_CONSOLE=y
+ CONFIG_SERIAL_SH_SCI=y
++CONFIG_SERIAL_RSCI=y
+ CONFIG_SERIAL_MSM=y
+ CONFIG_SERIAL_MSM_CONSOLE=y
+ CONFIG_SERIAL_QCOM_GENI=y
 -- 
 2.43.0
 
