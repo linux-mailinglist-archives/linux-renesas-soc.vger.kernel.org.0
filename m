@@ -1,238 +1,179 @@
-Return-Path: <linux-renesas-soc+bounces-17419-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17420-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B112DAC1EFB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 10:55:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08011AC1F49
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 11:06:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 813217B7430
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 08:54:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8D59D16B75B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 09:06:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 020711B0435;
-	Fri, 23 May 2025 08:55:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15FE4224B10;
+	Fri, 23 May 2025 09:06:10 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.35])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03EA9130A73;
-	Fri, 23 May 2025 08:55:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.216.63.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F550224893;
+	Fri, 23 May 2025 09:06:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747990516; cv=none; b=awEq8hrE3c9EU2ET0PQmLXWV/8YquGgZM+bnvYUw3kRqrfgdQcqcfnVDK0rzkvVygcVpxBKYo7Igjweb4tPaGqKNtZx+t5xppl2sdmplHtNQzJ6rIiPow2rU6f6AEbDGHSkEaUcw5DrHA5gzDyy9TN5IhXlZ08Ik5kDsecnH7RQ=
+	t=1747991170; cv=none; b=G99EZBsyvz5z/g6OWY7DXi2fbgO3WXwcZ/t2wstUHanB1IjmLFjhALP4PEuP4G1AfXo8KX2oVqgxqtWUMzKLxspNK34ZrbtmAQ4Cov4mOhiKRVPSk3HH6TyodU2j3dHE84VlK51+2pOahfgjmZ7JT7JLQH598S9gMhOFETWnGc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747990516; c=relaxed/simple;
-	bh=WuYWKSM/26vX+BnazJK6j8NxJkKFj+uIw8YHL5OYIWE=;
-	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=rL41l8eeBkxQ9KRGLYKOimWzKA7OPiLuBprpON6ye59ISEfcdRV/VKLl2NI5LIiQJdQAq29/FaBiTED+Xe81kIm3x4lBejVITAiq5XA9QJv8uvNwpMJsiun5bWWE22nTjvRiFXjNXlU/XdzL2mwJt+WpafW/5TXoCBPA9u8CpJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=63.216.63.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4b3f9y56Llz5B1J6;
-	Fri, 23 May 2025 16:55:02 +0800 (CST)
-Received: from njb2app05.zte.com.cn ([10.55.22.121])
-	by mse-fl1.zte.com.cn with SMTP id 54N8sg6h069796;
-	Fri, 23 May 2025 16:54:42 +0800 (+08)
-	(envelope-from long.yunjian@zte.com.cn)
-Received: from mapi (njy2app04[null])
-	by mapi (Zmail) with MAPI id mid201;
-	Fri, 23 May 2025 16:54:45 +0800 (CST)
-Date: Fri, 23 May 2025 16:54:45 +0800 (CST)
-X-Zmail-TransId: 2afc683037d5ffffffffaf2-ab6b4
-X-Mailer: Zmail v1.0
-Message-ID: <20250523165445002hUV3RCqhv6Xng7_bbUxlJ@zte.com.cn>
+	s=arc-20240116; t=1747991170; c=relaxed/simple;
+	bh=VVV/D4f6NRKqaHsfA+cSsIhG+59Ior9lOaMvD3tFpUc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rHflXErFFhMEVBmwskwkJV4ynqh7/OSIUqkZgxqBd3FfiUoRoCgxMsV23wMUr/FpZA65M0VkbMtHgeTxEtDEG5217aNRM5uqEHATr0fzyPsBIvRNTUmz05C7DixxDsSi9mHC8IH/NOjJxsZmlG+wppiqXQ/e/+oYloAhRQJ8tJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-4dfa2aeec86so3171783137.1;
+        Fri, 23 May 2025 02:06:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747991167; x=1748595967;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ty9aWGouOiVBFoMQuvlOoEw/l23pocI0K5ZcrDsahFo=;
+        b=oWehFUmYVL8CFulB6qWY9mboA+yLEc1dYs8DS3o81XPZg5A6CPo7Yn0tG5zGmVexaR
+         RusrOlpyYgi9io8iE/h8wZ3Tziy3X2IawaNrWJnqp4brJvm0u3tHZiFWkVSdgRQp/y7L
+         J94UVWAmRRoYuRlzXx9nmnvh0+gon06VzKDtegtso2b0qPa3M0PL1YSsJT4feoPwcdqo
+         RLuFQj4n6f1R8pf2eGFav0FIfp927FcahJ0JzHb8puhJtQLiwVrFkYnWA2WXqh0Y/Bp/
+         RhJiwK6PZt0PTxy7z9pTRrwPM3wldKjQe6qcWxaRn69Borve5SmVzDEu2QZRI3m/hhEb
+         6N2w==
+X-Forwarded-Encrypted: i=1; AJvYcCVug8xzgQYQ3mOXr1Ls4sNyzvBh7dWu4VnKakJqEXzwalhW5Lvkmp+JFtqN5H9g0iGRGZrWBcIg8R/5hfALBlndQSs=@vger.kernel.org, AJvYcCWT7M4bfeOJUocNmVUHNw6Dmv6ZBZBup+3ob0suIHVHBar230uotDYRhKy9y7v73AD6FdCEX89Wvg6EgNL/@vger.kernel.org, AJvYcCWX1PNNnZ5zgqqqignq9fBA67E567nNb4KP54jcnCVgSyiLVcd5ixGgP5A8XkSLl1WOjIbsdm6XhqSA@vger.kernel.org, AJvYcCWxflHJOxwxp/9ZV7qyR0JgXNeztusKDLgwKYtpRG4Q+VeYlkwqA4imD8sktYOACsqorCqAT5PoK2gvdJ9A@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRXVt/f651JkUXs7D0Zojc9lAueMBYAoG1gHVVlMV81mVCxScj
+	NyO1p5D6h60fOSKVWLMtHNNGAy53xNVNJS7ddAXHSPd4LM+dcN7s9o56J3XqG/wD
+X-Gm-Gg: ASbGncsvqADgLLTp6uTtqPGfPdiKV9sN28JgMzvXhTAOlTbWjaQe+MJHVSuFTQHtGUQ
+	4mm3JGFZF2IR0rHhIcr1sJZvuq6ah3OpubcYzmcpTG5XGjV9IZjmgljiMziO+4Du9Hiy7v646PP
+	leRe5bez336/sJIPwknL3iTuuTYk6uiAJblrUF3DlYx4ExEYxGJzQ/3Up8beYONIvWeMVIfSHbe
+	cOh4Ku5OO8vonBuy18eUzUJSBoy2O6m+zgnoXEmuLUMMDg+eYHx96wJOFU5Gjoh2LQRjXry07om
+	+EqNOwJKGdCeNgUzPuKUJqvsE/qrZ8tUl6TltLkDercFvxk6QJcfUs5WGdwCVc13cvykCkfYgLa
+	w7OA2h/0arpmPxw==
+X-Google-Smtp-Source: AGHT+IEi5BaX9kDRRLrkEDsb/qmZ3NOBZam37Z3ceczD2nDMLmWi/Nkbg2h3SAeG8eYnOzUWtDZlHg==
+X-Received: by 2002:a05:6102:358c:b0:4dc:9486:b055 with SMTP id ada2fe7eead31-4e2f16bdbfamr1738468137.0.1747991166862;
+        Fri, 23 May 2025 02:06:06 -0700 (PDT)
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-87bec1eb690sm11473312241.27.2025.05.23.02.06.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 May 2025 02:06:06 -0700 (PDT)
+Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-86fbb48fc7fso1923075241.2;
+        Fri, 23 May 2025 02:06:06 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUOtK1kVGB94bXY6dRbERalIireB57GANn1EkjUZyhxaMnkj1qIfYBmdZjZ9L3MTebyfNTcbnZ51+4/@vger.kernel.org, AJvYcCVCggFViKWkY3ofHbmGKwN7K7u3OfXjsk6wB81mrVUOFxH0JwTM7RR2sUk7rJDSlKlqE1cqVACe2DGZHufTur/5r7o=@vger.kernel.org, AJvYcCVl5ghW0z/M9p4gQ07Xxroxn2EzHDbYiEC5aJE4e24F5KB9qPdlC7rVb2atS9sgk4l+dXMYa3N3aschqjLw@vger.kernel.org, AJvYcCXGhRX4/jyezq3PUuoFcYtZEDckCfKNkFLwwSrRG00RgZR9MgpUyJwJUF8wk0EA2WSNkD3IZ/+sFP3FBYV4@vger.kernel.org
+X-Received: by 2002:a05:6102:26d5:b0:4c2:ffc8:93d9 with SMTP id
+ ada2fe7eead31-4e2f1981884mr1418602137.9.1747991166469; Fri, 23 May 2025
+ 02:06:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <long.yunjian@zte.com.cn>
-To: <andi.shyti@kernel.org>
-Cc: <codrin.ciubotariu@microchip.com>, <nicolas.ferre@microchip.com>,
-        <alexandre.belloni@bootlin.com>, <claudiu.beznea@tuxon.dev>,
-        <wsa+renesas@sang-engineering.com>, <till@harbaum.org>,
-        <linux-i2c@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-renesas-soc@vger.kernel.org>, <mou.yi@zte.com.cn>,
-        <xu.lifeng1@zte.com.cn>, <fang.yumeng@zte.com.cn>,
-        <ouyang.maochun@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIIHYyXSBpMmM6IFVzZSBzdHJfcmVhZF93cml0ZSgpIGhlbHBlcg==?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 54N8sg6h069796
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 683037E6.003/4b3f9y56Llz5B1J6
+MIME-Version: 1.0
+References: <20250515141828.43444-1-thierry.bultel.yh@bp.renesas.com> <20250515141828.43444-2-thierry.bultel.yh@bp.renesas.com>
+In-Reply-To: <20250515141828.43444-2-thierry.bultel.yh@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 23 May 2025 11:05:54 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW9A1hoeF4nZ-n1z-SkHhW0Hgrzcqtm9ekF+q0AAuFX+A@mail.gmail.com>
+X-Gm-Features: AX0GCFt59dS0qerio6QStqso0o33GqhHlvdCYgG5LoSdgUB0re1hlqC2JQWJaFw
+Message-ID: <CAMuHMdW9A1hoeF4nZ-n1z-SkHhW0Hgrzcqtm9ekF+q0AAuFX+A@mail.gmail.com>
+Subject: Re: [PATCH v9 01/10] dt-bindings: serial: Added secondary clock for
+ RZ/T2H RSCI
+To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+Cc: thierry.bultel@linatsea.fr, linux-renesas-soc@vger.kernel.org, 
+	paul.barker.ct@bp.renesas.com, linux-kernel@vger.kernel.org, 
+	linux-serial@vger.kernel.org, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: Yumeng Fang <fang.yumeng@zte.com.cn>
+Hi Thierry,
 
-Remove hard-coded strings by using the str_read_write() helper.
+On Thu, 15 May 2025 at 16:18, Thierry Bultel
+<thierry.bultel.yh@bp.renesas.com> wrote:
+> At boot, the default clock is the PCLKM core clock (synchronous
+> clock, which is enabled by the bootloader).
+> For different baudrates, the asynchronous clock input must be used.
+> Clock selection is made by an internal register of RCSI.
+>
+> Also remove the unneeded serial0 alias from the dts example.
+>
+> Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+> ---
+> Changes v8->v9:
+>  - typo in description
+>  - named clocks 'operational' and 'bus', and added optional 'sck' clock
+>  - uses value of 2nd core clock in example to break the dependency on cpg patch
 
-Signed-off-by: Yumeng Fang <fang.yumeng@zte.com.cn>
-Signed-off-by: Yunjian Long <long.yunjian@zte.com.cn>
----
-v1 -> v2
-Fix this in the whole i2c subsystem.
+Thanks for the update!
 
- drivers/i2c/algos/i2c-algo-pcf.c     | 3 ++-
- drivers/i2c/busses/i2c-at91-master.c | 3 ++-
- drivers/i2c/busses/i2c-sh_mobile.c   | 3 ++-
- drivers/i2c/busses/i2c-tiny-usb.c    | 3 ++-
- drivers/i2c/busses/i2c-viperboard.c  | 3 ++-
- drivers/i2c/i2c-core-base.c          | 3 ++-
- drivers/i2c/i2c-core-smbus.c         | 3 ++-
- 7 files changed, 14 insertions(+), 7 deletions(-)
+> --- a/Documentation/devicetree/bindings/serial/renesas,rsci.yaml
+> +++ b/Documentation/devicetree/bindings/serial/renesas,rsci.yaml
+> @@ -35,10 +35,17 @@ properties:
+>        - const: tei
+>
+>    clocks:
+> -    maxItems: 1
+> +    minItems: 2
+> +    maxItems: 3
+>
+>    clock-names:
+> -    const: fck # UART functional clock
+> +    minItems: 2
+> +    maxItems: 3
 
-diff --git a/drivers/i2c/algos/i2c-algo-pcf.c b/drivers/i2c/algos/i2c-algo-pcf.c
-index 7a01f2687b4c..740066ceaea3 100644
---- a/drivers/i2c/algos/i2c-algo-pcf.c
-+++ b/drivers/i2c/algos/i2c-algo-pcf.c
-@@ -19,6 +19,7 @@
- #include <linux/errno.h>
- #include <linux/i2c.h>
- #include <linux/i2c-algo-pcf.h>
-+#include <linux/string_choices.h>
- #include "i2c-algo-pcf.h"
+I think you can drop the maxItems.
 
+> +    items:
+> +      enum:
+> +        - operation
+> +        - bus
+> +        - sck # optional external clock input
 
-@@ -316,7 +317,7 @@ static int pcf_xfer(struct i2c_adapter *i2c_adap,
- 		pmsg = &msgs[i];
+The addition of this (third) clock is not mentioned in the patch
+description.
 
- 		DEB2(printk(KERN_DEBUG "i2c-algo-pcf.o: Doing %s %d bytes to 0x%02x - %d of %d messages\n",
--		     pmsg->flags & I2C_M_RD ? "read" : "write",
-+		     str_read_write(pmsg->flags & I2C_M_RD),
- 		     pmsg->len, pmsg->addr, i + 1, num);)
+>
+>    power-domains:
+>      maxItems: 1
+> @@ -58,11 +65,7 @@ unevaluatedProperties: false
+>  examples:
+>    - |
+>      #include <dt-bindings/interrupt-controller/arm-gic.h>
+> -    #include <dt-bindings/clock/renesas-cpg-mssr.h>
+> -
+> -    aliases {
+> -        serial0 = &sci0;
+> -    };
+> +    #include <dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h>
 
- 		ret = pcf_doAddress(adap, pmsg);
-diff --git a/drivers/i2c/busses/i2c-at91-master.c b/drivers/i2c/busses/i2c-at91-master.c
-index ee3b469ddfb9..374fc50bb205 100644
---- a/drivers/i2c/busses/i2c-at91-master.c
-+++ b/drivers/i2c/busses/i2c-at91-master.c
-@@ -26,6 +26,7 @@
- #include <linux/pinctrl/consumer.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-+#include <linux/string_choices.h>
+Now you no longer use any definitions from this header file, please
+keep on using <dt-bindings/clock/renesas-cpg-mssr.h> instead, to relax
+the dependency on [PATCH v9 02/10].
 
- #include "i2c-at91.h"
+>
+>      sci0: serial@80005000 {
+>          compatible = "renesas,r9a09g077-rsci";
+> @@ -72,7 +75,7 @@ examples:
+>                       <GIC_SPI 592 IRQ_TYPE_EDGE_RISING>,
+>                       <GIC_SPI 593 IRQ_TYPE_LEVEL_HIGH>;
+>          interrupt-names = "eri", "rxi", "txi", "tei";
+> -        clocks = <&cpg CPG_MOD 108>;
+> -        clock-names = "fck";
+> +        clocks = <&cpg CPG_MOD 8>, <&cpg CPG_CORE 13>;
+> +        clock-names = "operation", "bus";
+>          power-domains = <&cpg>;
+>      };
 
-@@ -523,7 +524,7 @@ static int at91_do_twi_transfer(struct at91_twi_dev *dev)
- 	 */
+The rest LGTM.
 
- 	dev_dbg(dev->dev, "transfer: %s %zu bytes.\n",
--		(dev->msg->flags & I2C_M_RD) ? "read" : "write", dev->buf_len);
-+		str_read_write(dev->msg->flags & I2C_M_RD), dev->buf_len);
+Gr{oetje,eeting}s,
 
- 	reinit_completion(&dev->cmd_complete);
- 	dev->transfer_status = 0;
-diff --git a/drivers/i2c/busses/i2c-sh_mobile.c b/drivers/i2c/busses/i2c-sh_mobile.c
-index efe29621b8d7..adfcee6c9fdc 100644
---- a/drivers/i2c/busses/i2c-sh_mobile.c
-+++ b/drivers/i2c/busses/i2c-sh_mobile.c
-@@ -24,6 +24,7 @@
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/slab.h>
-+#include <linux/string_choices.h>
+                        Geert
 
- /* Transmit operation:                                                      */
- /*                                                                          */
-@@ -409,7 +410,7 @@ static irqreturn_t sh_mobile_i2c_isr(int irq, void *dev_id)
- 	pd->sr |= sr; /* remember state */
-
- 	dev_dbg(pd->dev, "i2c_isr 0x%02x 0x%02x %s %d %d!\n", sr, pd->sr,
--	       (pd->msg->flags & I2C_M_RD) ? "read" : "write",
-+	       str_read_write(pd->msg->flags & I2C_M_RD),
- 	       pd->pos, pd->msg->len);
-
- 	/* Kick off TxDMA after preface was done */
-diff --git a/drivers/i2c/busses/i2c-tiny-usb.c b/drivers/i2c/busses/i2c-tiny-usb.c
-index 0f2ed181b266..a18eab0992a1 100644
---- a/drivers/i2c/busses/i2c-tiny-usb.c
-+++ b/drivers/i2c/busses/i2c-tiny-usb.c
-@@ -10,6 +10,7 @@
- #include <linux/errno.h>
- #include <linux/module.h>
- #include <linux/slab.h>
-+#include <linux/string_choices.h>
- #include <linux/types.h>
-
- /* include interfaces to usb layer */
-@@ -71,7 +72,7 @@ static int usb_xfer(struct i2c_adapter *adapter, struct i2c_msg *msgs, int num)
-
- 		dev_dbg(&adapter->dev,
- 			"  %d: %s (flags %d) %d bytes to 0x%02x\n",
--			i, pmsg->flags & I2C_M_RD ? "read" : "write",
-+			i, str_read_write(pmsg->flags & I2C_M_RD),
- 			pmsg->flags, pmsg->len, pmsg->addr);
-
- 		/* and directly send the message */
-diff --git a/drivers/i2c/busses/i2c-viperboard.c b/drivers/i2c/busses/i2c-viperboard.c
-index 7523e7c02271..1bd602852e35 100644
---- a/drivers/i2c/busses/i2c-viperboard.c
-+++ b/drivers/i2c/busses/i2c-viperboard.c
-@@ -11,6 +11,7 @@
- #include <linux/errno.h>
- #include <linux/module.h>
- #include <linux/slab.h>
-+#include <linux/string_choices.h>
- #include <linux/types.h>
- #include <linux/mutex.h>
- #include <linux/platform_device.h>
-@@ -278,7 +279,7 @@ static int vprbrd_i2c_xfer(struct i2c_adapter *i2c, struct i2c_msg *msgs,
-
- 		dev_dbg(&i2c->dev,
- 			"  %d: %s (flags %d) %d bytes to 0x%02x\n",
--			i, pmsg->flags & I2C_M_RD ? "read" : "write",
-+			i, str_read_write(pmsg->flags & I2C_M_RD),
- 			pmsg->flags, pmsg->len, pmsg->addr);
-
- 		mutex_lock(&vb->lock);
-diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-index 5f6ff35a2707..2ad2b1838f0f 100644
---- a/drivers/i2c/i2c-core-base.c
-+++ b/drivers/i2c/i2c-core-base.c
-@@ -41,6 +41,7 @@
- #include <linux/property.h>
- #include <linux/rwsem.h>
- #include <linux/slab.h>
-+#include <linux/string_choices.h>
-
- #include "i2c-core.h"
-
-@@ -2144,7 +2145,7 @@ static int i2c_quirk_error(struct i2c_adapter *adap, struct i2c_msg *msg, char *
- {
- 	dev_err_ratelimited(&adap->dev, "adapter quirk: %s (addr 0x%04x, size %u, %s)\n",
- 			    err_msg, msg->addr, msg->len,
--			    msg->flags & I2C_M_RD ? "read" : "write");
-+			    str_read_write(msg->flags & I2C_M_RD));
- 	return -EOPNOTSUPP;
- }
-
-diff --git a/drivers/i2c/i2c-core-smbus.c b/drivers/i2c/i2c-core-smbus.c
-index e73afbefe222..71eb1ef56f0c 100644
---- a/drivers/i2c/i2c-core-smbus.c
-+++ b/drivers/i2c/i2c-core-smbus.c
-@@ -16,6 +16,7 @@
- #include <linux/i2c-smbus.h>
- #include <linux/property.h>
- #include <linux/slab.h>
-+#include <linux/string_choices.h>
-
- #include "i2c-core.h"
-
-@@ -433,7 +434,7 @@ static s32 i2c_smbus_xfer_emulated(struct i2c_adapter *adapter, u16 addr,
- 	case I2C_SMBUS_I2C_BLOCK_DATA:
- 		if (data->block[0] > I2C_SMBUS_BLOCK_MAX) {
- 			dev_err(&adapter->dev, "Invalid block %s size %d\n",
--				read_write == I2C_SMBUS_READ ? "read" : "write",
-+				str_read_write(read_write == I2C_SMBUS_READ),
- 				data->block[0]);
- 			return -EINVAL;
- 		}
 -- 
-2.25.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
