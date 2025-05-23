@@ -1,261 +1,369 @@
-Return-Path: <linux-renesas-soc+bounces-17440-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17441-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4DB4AC247D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 15:49:59 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A9F2AC24E4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 16:24:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EC12E3A4868
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 13:49:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 88EE47A6325
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 14:23:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03CFF2949E4;
-	Fri, 23 May 2025 13:49:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qWNSdYIQ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 277EF2951BC;
+	Fri, 23 May 2025 14:24:34 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3024629346E
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 23 May 2025 13:49:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF93C14286
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 23 May 2025 14:24:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748008176; cv=none; b=EquXEUKzAA5vWHSiuQvigADG25jxQ4M5wfgEN4JD1VFDi0JHqCYxoXmHI6sBA5pF4VkRvfo0ImVRDr4LaYJ5qBoPzPVeT5iJGqZWEqxIvEgQkH/+Vhlk9Og3XGW+K06rO81BtWvQ2alAJ2npsZ65bFo3MFY6r1igk5o5DXJXiMw=
+	t=1748010274; cv=none; b=dDKoR/YUh+qgnSUoB7aGETUq4MXS2i77JnJ6dpFRNQIc4uvi4axMvCM6GU09+/WjWVwRY8Kn8aOGQR+SwP0IfUA+BFovfAEbnde6X8hKVKu1t0EYYaVW8tFTPHEhEB3hJLRNkN3T3u+NwaGzD5YfsIzBmm6NO+5BJETBLWzvCAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748008176; c=relaxed/simple;
-	bh=hQH4sl4pAH2WPO33R/7uyvvZOOHNtsDFvCDO5Xyji5E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Vat5uSEGZ37bcb8Q6IrXBqTsqxqZhtAhY6zHFhODmxnd4Yi/jsmrwsYPv9QJoaIZk3L5fao+n6nBbJ4//md5I+FZwSPYsy1sIzjYHul6vs/3nVPaUURPvZVH1llY6cK74iYXdMEmryHbVoMPTWTkhCTSedXKUtXLRZQsOY/d0YA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qWNSdYIQ; arc=none smtp.client-ip=209.85.219.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e7d750304c3so1473247276.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 23 May 2025 06:49:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748008173; x=1748612973; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jm7LJvTGmSbZFlkn4UoigKXMnhFDdijfvdo8t5yXxjg=;
-        b=qWNSdYIQeErMMhjJVz2qT79n9g/JRctNfv0E3/6C/7edhOW/tnfd8s3Ta1CFIkat+j
-         x/G4z3bGJNqh0Bx2DJZWgs+uDSsDYYe90vGyvWptbWdTTSikEYg9l+Uqmm27a4LqFHAH
-         wj7KcXqFg6sqswGOKutosag3IdtktE0KOItFMCkSR7de/4YfFpzsX6agA+cl5S5tLhpq
-         xX4pHvfLG7VgGL2MQK5enTL1O2qWUOR/bYDd6qzq9xxxwmkq9qQ1QE7PNQmk9PU4Zo92
-         bxLDe5B8Uw6drmb7ZPWLZjey+PA9WO/ix6V7ii01bteB/f2thtIrZjX7izq8UsMd1Ix9
-         ZWlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748008173; x=1748612973;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jm7LJvTGmSbZFlkn4UoigKXMnhFDdijfvdo8t5yXxjg=;
-        b=lzWfSCYCUeRT/HSQB1+xCf8hVon4m23FrsFb3e8OCpH4hLc9FeTYJ5f4bXK6lbLyVl
-         isJArezO3+9ZhAYYINB8cWG4rXaeapScU9qADVArf/fhvrxIKHlwKqdLdG/ni5XWvEJQ
-         ae/Ki2H26+D7CkM0fVpPInbHJrlwFLZ1nFxv2C+9wgePoBLa1q6RzfpcvM2lDOI4C5Ci
-         pwsNQqxhUP3BZ2q8wNLjY3nQoGnFXbVfPSRU3k+qdTi/AxQxjuMF3XZ3IoErclV6ol6S
-         /tm6MZ1Wln6sjIKAI0zHrs1G+ubYdxAHxTSAUoCeZutmD/ZNJR/1yrRtBksAn2/78j1m
-         WRzw==
-X-Forwarded-Encrypted: i=1; AJvYcCV8fjHB07sLWEOoM/Lx84MQcAKu3i4Zox7lm8CYfyIHCmrUmAvIAZUHP8Ku73qJaSbLW5eWNDVGlOT2xlgvW/C6Kw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzUv6zKYb2hL5PnZuxJ0yASr3c6F19aLK2+cCvc73Qq3OcGbd5K
-	coh9ADFptkNo2RDCc4KY83UVLD+TV6ZDVkwoa1kj4IEtXQxR8sc3Qt/k8aAXlDIPYi6RoGUFqQE
-	zQ4wJrZuGXo0ZONUfY6mxrrk6ywPgMJ78ad0tRV8tfA==
-X-Gm-Gg: ASbGncubPio8cHMPZXN8xuYqoOic0/NFWR2K3SChNgGk73rncA0MeVk4xYiLBlTd9qW
-	VjYTMbhbcJOVcvFQTSwhHKMVEF0o2SZlVzXPNJ8eJbK54eEltBIRZO8acFhE5TcH5/4f/JlBVPG
-	15EpRDViYNj6M3SGjHz2r4K7E8zgxuo7D9fA==
-X-Google-Smtp-Source: AGHT+IGNqYy2yI4RNlUni96VpZTudvYTqV4SwGwfXprccTDokjVwD65TwJIsh8Rz9fSY0wLyanwf8XtnOdcJPBjSIrQ=
-X-Received: by 2002:a05:6902:1025:b0:e7d:702d:934b with SMTP id
- 3f1490d57ef6-e7d702d950cmr6373613276.32.1748008173039; Fri, 23 May 2025
- 06:49:33 -0700 (PDT)
+	s=arc-20240116; t=1748010274; c=relaxed/simple;
+	bh=NKVz2Pbs6vh+No239FC14+CpNes3KFBwG1EBCTFN1cE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WjnczTunzUHcuJ5j0iRUkVZBUCI58gDpOvchgwAwbFnUCyjUqEc/bncWvyfXmqnW07r3zLqOqsqzQ+pf7qIRm6PiMjocbFG7+khEc/pDIA/tJe4uhUTjAaSHKl3Nm4l0KESO9ENVEZrUG81gRIvnmspKUWmmlnJeJbA56Ypgfdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-CSE-ConnectionGUID: YY69yEWATjaVJ+jYVoP4zA==
+X-CSE-MsgGUID: LCD0t5QkQ0+rpTqN/e1cLw==
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 23 May 2025 23:24:23 +0900
+Received: from superbuilder.administration.lan (unknown [10.226.92.97])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 448D34017D95;
+	Fri, 23 May 2025 23:24:20 +0900 (JST)
+From: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+To: thierry.bultel@linatsea.fr
+Cc: linux-renesas-soc@vger.kernel.org,
+	geert@linux-m68k.org,
+	paul.barker.ct@bp.renesas.com,
+	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+Subject: [PATCH v10 00/10] Add initial support for Renesas RZ/T2H SoC
+Date: Fri, 23 May 2025 16:24:04 +0200
+Message-ID: <20250523142417.2840797-1-thierry.bultel.yh@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAPDyKFqMB7XutXba73YHx1X4rm6uc3Fz6yMZ8yM=wgduEmgUDg@mail.gmail.com>
- <a20fc6ee-c6c3-4013-b175-4918b9a44380@tuxon.dev> <CAPDyKFpbeLJUiB_xQbqDib+-8Q3AcJNVg+DuEcqmVGMbFdNxwA@mail.gmail.com>
- <fgl4w5uhxci7rrbdigtni72vveb2gqemh6iccz4qruqkek5rja@rzwkcjg6hkid>
- <3b1963ba-f93f-48f2-8fb0-a485dd80ffcb@tuxon.dev> <CAPDyKFqrAS4iV59S-zJ9H7_3VuGr9JdZABhfUGBwTzQNDCasaw@mail.gmail.com>
- <482b55c9-a210-4b2d-8405-e9f30d48a8fd@tuxon.dev> <CAPDyKFpLF2P438GGWSgbXzpT7JNdUjtZ2ZxYf1_4=fNUX3s-KQ@mail.gmail.com>
- <4fzotopz57igmiyssgkogfbup6uu7qgza3t53t5qsouegmj7ii@wfiz4g3eiffs>
- <CAPDyKFoxs6wDCLp5EGHVqkqSstBLNmngps2KfanRezV_EN8tuA@mail.gmail.com>
- <hd3hobuaunmn2uqzl72yv7nz2ms25fczc264wmt6o7twrxdhsy@mm22ujnawutc>
- <CAPDyKFpRUhTK=UfcEdRdT0f5EVoGN5okLosd9_tYjdGKr0qvkA@mail.gmail.com> <47853bb8-db03-42b1-bcc2-3338fc208abb@tuxon.dev>
-In-Reply-To: <47853bb8-db03-42b1-bcc2-3338fc208abb@tuxon.dev>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Fri, 23 May 2025 15:48:56 +0200
-X-Gm-Features: AX0GCFsSac-ldUQm8kyY0pi3eboltE5eDrGVCa-jAdlSEMVJc5esYEhG-rZoc2Y
-Message-ID: <CAPDyKFofyCNCbGfwo9D0-fwH9Bf+7hpcQUE1jUGwSrSKvEBm4A@mail.gmail.com>
-Subject: Re: [PATCH] driver core: platform: Use devres group to free driver
- probe resources
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>, "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Cameron <jic23@kernel.org>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, dakr@kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	geert@linux-m68k.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-iio@vger.kernel.org, bhelgaas@google.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, 23 May 2025 at 12:52, Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
->
-> Hi, Ulf,
->
-> On 23.05.2025 12:47, Ulf Hansson wrote:
-> > On Fri, 23 May 2025 at 01:06, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
-> >>
-> >> On Fri, May 23, 2025 at 12:09:08AM +0200, Ulf Hansson wrote:
-> >>> On Thu, 22 May 2025 at 20:47, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
-> >>>>
-> >>>> On Thu, May 22, 2025 at 06:28:44PM +0200, Ulf Hansson wrote:
-> >>>>> On Thu, 22 May 2025 at 16:08, Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
-> >>>>>>
-> >>>>>> Hi, Ulf,
-> >>>>>>
-> >>>>>> On 22.05.2025 14:53, Ulf Hansson wrote:
-> >>>>>>>
-> >>>>>>> That said, I think adding a devm_pm_domain_attach() interface would
-> >>>>>>> make perfect sense. Then we can try to replace
-> >>>>>>> dev_pm_domain_attach|detach() in bus level code, with just a call to
-> >>>>>>> devm_pm_domain_attach(). In this way, we should preserve the
-> >>>>>>> expectation for drivers around devres for PM domains. Even if it would
-> >>>>>>> change the behaviour for some drivers, it still sounds like the
-> >>>>>>> correct thing to do in my opinion.
-> >>>>>>
-> >>>>>> This looks good to me, as well. I did prototype it on my side and tested on
-> >>>>>> all my failure cases and it works.
-> >>>>>
-> >>>>> That's great! I am happy to help review, if/when you decide to post it.
-> >>>>
-> >>>> So you are saying you'd be OK with essentially the following (with
-> >>>> devm_pm_domain_attach() actually being elsewhere in a real patch and not
-> >>>> necessarily mimicked by devm_add_action_or_reset()):
-> >>>
-> >>> Correct!
-> >>>
-> >>>>
-> >>>> diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-> >>>> index cfccf3ff36e7..1e017bfa5caf 100644
-> >>>> --- a/drivers/base/platform.c
-> >>>> +++ b/drivers/base/platform.c
-> >>>> @@ -1376,6 +1376,27 @@ static int platform_uevent(const struct device *dev, struct kobj_uevent_env *env
-> >>>>         return 0;
-> >>>>  }
-> >>>>
-> >>>> +
-> >>>> +static void platform_pm_domain_detach(void *d)
-> >>>> +{
-> >>>> +       dev_pm_domain_detach(d, true);
-> >>>> +}
-> >>>
-> >>> Well, I would not limit this to the platform bus, even if that is the
-> >>> most widely used.
-> >>>
-> >>> Let's add the new generic interface along with
-> >>> dev_pm_domain_attach|detach* and friends instead.
-> >>>
-> >>> Then we can convert bus level code (and others), such as the platform
-> >>> bus to use it, in a step-by-step approach.
-> >>
-> >> Right, this was only a draft:
-> >>
-> >> "... with devm_pm_domain_attach() actually being elsewhere in a real
-> >> patch and not necessarily mimicked by devm_add_action_or_reset() ..."
-> >>
-> >>>
-> >>>> +
-> >>>> +static int devm_pm_domain_attach(struct device *dev)
-> >>>> +{
-> >>>> +       int error;
-> >>>> +
-> >>>> +       error = dev_pm_domain_attach(dev, true);
-> >>>> +       if (error)
-> >>>> +               return error;
-> >>>> +
-> >>>> +       error = devm_add_action_or_reset(dev, platform_pm_domain_detach, dev);
-> >>>> +       if (error)
-> >>>> +               return error;
-> >>>> +
-> >>>> +       return 0;
-> >>>> +}
-> >>>> +
-> >>>>  static int platform_probe(struct device *_dev)
-> >>>>  {
-> >>>>         struct platform_driver *drv = to_platform_driver(_dev->driver);
-> >>>> @@ -1396,15 +1417,12 @@ static int platform_probe(struct device *_dev)
-> >>>>         if (ret < 0)
-> >>>>                 return ret;
-> >>>>
-> >>>> -       ret = dev_pm_domain_attach(_dev, true);
-> >>>> +       ret = devm_pm_domain_attach(_dev);
-> >>>>         if (ret)
-> >>>>                 goto out;
-> >>>>
-> >>>> -       if (drv->probe) {
-> >>>> +       if (drv->probe)
-> >>>>                 ret = drv->probe(dev);
-> >>>> -               if (ret)
-> >>>> -                       dev_pm_domain_detach(_dev, true);
-> >>>> -       }
-> >>>>
-> >>>>  out:
-> >>>>         if (drv->prevent_deferred_probe && ret == -EPROBE_DEFER) {
-> >>>> @@ -1422,7 +1440,6 @@ static void platform_remove(struct device *_dev)
-> >>>>
-> >>>>         if (drv->remove)
-> >>>>                 drv->remove(dev);
-> >>>> -       dev_pm_domain_detach(_dev, true);
-> >>>>  }
-> >>>>
-> >>>>  static void platform_shutdown(struct device *_dev)
-> >>>>
-> >>>>
-> >>>> If so, then OK, it will work for me as well. This achieves the
-> >>>> same behavior as with using devres group. The only difference is that if
-> >>>> we ever need to extend the platform bus to acquire/release more
-> >>>> resources they will also have to use devm API and not the regular one.
-> >>>
-> >>> Sounds reasonable to me! Thanks for a nice discussion!
-> >>>
-> >>> When it comes to the devm_pm_runtime_enable() API, I think we
-> >>> seriously should consider removing it. Let me have a closer look at
-> >>> that.
-> >>
-> >> I think once we sort out the power domain detach being out of order with
-> >> regard to other devm-managed resources in bus code you need to analyze
-> >> this again and you will find out that much as with IRQs, devm API for
-> >> runtime PM is useful for majority of cases. Of course there will be
-> >> exceptions, but by and large it will cut down on boilerplate code.
-> >
-> > Well, the problem is that the interface is just too difficult to
-> > understand how to use correctly.
-> >
-> > A quick look for deployments in drivers confirms my worries.
->
-> Maybe we can add something like:
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 96e64f3d7b47..568a8307863b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10100,6 +10100,7 @@ F:
-> Documentation/devicetree/bindings/power/power?domain*
->  T:     git git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git
->  F:     drivers/pmdomain/
->  F:     include/linux/pm_domain.h
-> +K:      \bpm_runtime_\w+\b
->
-> in MAINTAINERS file so that any new patch using the RPM will also be sent
-> to PM maintainers and checked accordingly?
+This patchset brings basic support for Renesas RZ/T2H SoC and
+its evaluation board. The 4 CPUs are enabled, only the serial 
+console is available and the board must boot on a ramdisk. 
+earlycon is supported, though.
 
-Well, I like the idea, but I am worried that it may be too much for me
-to review. :-)
+The RZ/T2H serial controller (SCI) is quite different from the 
+other RZ SoCs, one of the big differences (but not the only) being
+the 32 bits registers. In order to not modify the existing sh-sci 
+driver too much, a new set of 'ops' function pointer is introduced,
+allowing to code the specifics of RZ/T2H in a separate file.
+Termios setting is not supported yet, the default 115200 baudrate
+being kept by default.
 
-Although, perhaps I should help Rafael, more officially, to helpt
-review code under "POWER MANAGEMENT CORE". Runtime PM is part of it.
+Clock support for RZ/T2H is added to the existing renesas-cpg-mssr
+driver, with some little modifications so that more parameters are
+passed to the device-specific registration callback. 
+At this stage, the assumption is made that most of the initialization 
+is done earlier by the bootloader.
 
-Rafael, what do you think?
+This patch series applies to next-20250514 and later
 
-Kind regards
-Uffe
+Changes v9->v10
+* [PATCH 1/10]:
+  - mention sck in description
+  - no maxItems on clock-names
+  - fixed the #include dependency in dts example
+* [PATCH 2/10]:
+  - Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+* [PATCH 5/10]:
+  - Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+* [PATCH 6/10]:
+  - Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+  - Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+* [PATCH 7/10]:
+  - removed unneed #ifdef in rsci.h
+  - use same error message in sci_init_clocks
+
+Changes v8->v9
+Rebase v8 patches on linux-next, and:
+
+* [PATCH 1/10]:
+  - typo in description
+  - Named clocks 'operational' and 'bus', and added optional 'sck' clock
+  - Uses value of 2nd core clock in example to break the dependency on 
+    cpg patch
+* [PATCH 2/10] (was 3/11):
+  - Keep clock names in generic section because T2H is a subset
+  - Removed R9A09G077_CLK_BSC, to only keep R9A09G077_CLK_CKIO
+  - Removed R9A09G077_MSTP* macros and module clocks definitions
+* [PATCH 3/10] (was 4/11): none
+* [PATCH 4/10] (was 5/11): rebase on linux-next
+* [PATCH 5/10] (was 6/11):
+  - Renamed r9a09g077-cpg-mssr.c to r9a09g077-cpg.c
+  - Makefile: keep alphabetical order
+  - Fixed DIVSCI0ASYNC
+  - Removed unused CLK_MAIN
+  - Simplified the clock tree, removing CLK_SEL_PLL0, CLK_SEL_PLL1 &
+    CLK_SEL_PLL4
+  - Renamed loco to .loco
+  - Fixed the register bits in dtable_24_25_30_32, re-ordered the table
+  - DEF_DIV & DEF_MUX: set flag to zero always (might change in a future
+    commit)
+  - Do not set CLK_DIVIDER_HIWORD_MASK
+  - Uses '8' as value of removed R9A09G077_PCLK_SCI0 definition
+  - Fixed addr calculation with RZT2H_REG_OFFSET in
+    r9a09g077_cpg_clk_register
+  - struct cpg_core_clk: moved union in specific section
+  - Renamed cpg_read_rzt2h_mstp to cpg_rzt2h_mstp_read
+  - Renamed cpg_write_rzt2h_mstp to cpg_rzt2h_mstp_write
+* [PATCH 6/10] (was 7/11):
+  - Shrunk length od type & regtype
+  - Uses BIT(7) in id value
+  - Set sci_ports[0].type & sci_ports[0].regtype in
+    scix_early_console_setup
+* [PATCH 7/10] (was 8/11):
+  - Fixed some code formatting
+  - Renamed rzt2_sci_uart_ops to rsci_uart_ops
+  - Renamed of_sci_r9a09g077_data to of_sci_rsci_data
+  - Added EXPORT_SYMBOL for public functions
+  - Added MODULE_LICENSE & MODULE_DESCRIPTION
+  - Fixed RSCI clock names
+  - Fixed SCI_PORT_RSCI using BIT(7)
+* [PATCH 8/10] (was 9/11):
+  - Fixed RCSI clock names
+  - No longer uses removed R9A09G077_PCLK_SCI0 definition
+* [PATCH 9/10] (was 10/11):
+  - Makefile: keep the alphabetical order
+* [PATCH 10/10] (was 11/11): none
+
+
+Changes v7->v8
+
+Rebased v7 patches on tty-next, and:
+
+* [PATCH 1/11] (new patch)
+  - Add secondary clock for RCSI
+* [PATCH 3/11] (was 2/13)
+  - extra parenthesis
+  - added loco
+  - renesas-cpg-mssr.h: removed unused clocks, added a macro for mstp
+* [PATCH 5/11]:
+ - moved struct cpg_mssr_pub pub to the beginning of struct cpg_mssr_priv
+ - make *core & *info fit on the same line
+ - order of doc tags
+* [PATCH 6/11]
+ - Makefile: keep ordered list
+ - r9a09g077-cpg-mssr.c: use high bit instead of sel_base,
+   same macro for DIV and MUX
+ - removed unused clocks
+ - CLK_LOCO is internal with a DEF_RATE definition
+ - added CLK_PLL4D1 & CLK_SCI0ASYNC
+ - added per-CA55 clocks
+ - added missing error check in r9a09g077_cpg_mux_clk_register
+ - fixed num_hw_mod_clks to 14
+ - added missing 2 holes in mstpcr_for_rzt2h
+ - renamed cpg_read_rzt2h_mstp_from_offset to cpg_read_rzt2h_mstp,
+   directly reads at calculated address
+ - added cpg_write_rzt2h_mstp and call in cpg_mstp_clock_endisable
+ - do not register reset controller in case of CLK_REG_LAYOUT_RZ_T2H
+ - moved CLK_DIV & CLK_MUX definitions to RZT2H specifics
+* [PATCH 7/11] (new patch)
+ - Do not declare PORT_RCSI in userland header
+* [PATCH 8/11] (was 10/13)
+  - s/rzsci/rsci/g
+  - declared SCI_PORT_RSCI as private port ID
+  - look for secondary clock
+  - report error when rsci clocks are not found
+* [PATCH 9/11] (was 11/13)
+  - removed loco clock
+  - added sci0 secondary clock
+* [PATCH 10/11] (was 12/13)
+  - removed loco clock
+  - fixed checkpatch warning
+
+Changes v6->v7
+* [PATCH 2/13]
+  - Add description for reg property
+* [PATCH 3/13]
+  - Moved all rsci in a separate file
+  - Added example
+* [PATCH 10/13]
+  - Renamed compatible string to r9a09g077-rsci
+* [PATCH 11/13]
+  - Renamed compatible string to r9a09g077-rsci
+* [PATCH 12/13]
+  - lands in arm64 directory instead of arm
+
+Changes v5->v6
+* [PATCH 1/13]
+  - Rebased on top of next-20250331
+* [PATCH 2/13]
+  - Set clock minItem constraint
+  - Moved additionalProperties after 'allOf' section
+* [PATCH 10/13]
+  - Rename SERIAL_RZ_SCI_T2 to CONFIG_SERIAL_RSCI
+  - Rename rz-sci-t2.{c,h} to rsci.{c,h}
+  - Rename port type to PORT_RSCI
+  - Rename sci_r9a09g077_data to of_sci_r9a09g077_data for consistency
+* [PATCH 12/13]
+  - Rebased on top of next-20250331
+* [PATCH 13/13]
+  - Renamed CONFIG_SERIAL_RZ_SCI_T2 to CONFIG_SERIAL_RSCI
+
+Changes v4->v5
+* [PATCH 2/13]:
+  - Set reg minItems and maxItems defaults at top level
+* [PATCH 8/13]:
+   - sci_shutdown is no longer static (systemd needs it)
+* [PATCH 10/13]:
+  - Rename SERIAL_RZ_SCI to SERIAL_RZ_SCI_T2
+  - Rename rzsci.{c,h} to rz-sci-t2.{c,h}
+  - Rename port type to PORT_RZ_SCI_T2
+  - Set sci_shutdown ops pointer (needed by systemd for having a console)
+* [PATCH 13/13]:
+   - Renamed CONFIG_SERIAL_RZ_SCI to CONFIG_SERIAL_RZ_SCI_T2
+
+Changes v3->v4
+* Remove all unwanted 'Reviewed by:' tags coming from internal patchwork.
+* [PATCH 2/13]: 
+  - Handle maxItems and clocks names properly in schema.
+* [PATCH 3/13]: 
+  - Add more details in commit description about why renesas,sci 
+    does not apply.
+  - Remove uart-has-rtscts for !rzsci.
+* [PATCH 4/13] & [PATCH 13/13] 
+  - Sets ARCH_R9A09G077 to Y by default.
+* [PATCH 6/13] 
+   - Add missing #include <bitfield.h> (reported by bot)
+   - Add missing __iomem address space in cpg_rzt2h_addr_from_offset and
+     return type (reported by bot)
+   - fixed clocks: inverted 'mult' and 'div' parameters when using 
+     the DEF_FIXED macro
+* [PATCH 8/13]
+   - Add missing #include <bitfield.h>
+   - Remove sci_poll_get_char sci_poll_put_char from sh-sci-common.h (both 
+     function are not used by rzsci yet).
+   - Add missing #ifdef around .poll_put_char pointer initialization.
+* [PATCH 9/13] 
+  - Fix the bot compilation error on superh in sci_probe_earlyprink()
+* [PATCH 10/13]
+  - Add missing #include <bitfield.h>
+  - Fix christmas tree code style in rzsci_transmit_chars.
+* [PATCH 13/13]
+  - Change the commit title.
+  - Remove CONFIG_ARCH_R9A09G077=y.
+
+Changes v2->v3
+* Amend [PATCH v2 05/13] with Signed-off-by, added comment about
+  moved parameters of priv data.
+* bindings:
+  - sci: own section for RZ/T2H sci, resets no required at this stage
+  - sci: 'uart-has-rtscts' is conditional to RZ/T2H.
+  - renesas: 'renesas,r9a09g077' is the fallback.
+  - cpg: renamed 'r9a09g077-cpg-mssr.h to 'renesas,r9a09g077-cpg-mssr.h'.
+  - cpg: update renesas,cpg-mssr.yaml (added loco clock,
+    maxItems for registers is 2),
+  - update commit description
+* rz/sci: 
+  - rebase the patchset on v6.14-rc3.
+  - removed unused register bits definitions in rzsci.c
+  - rzsci: replace the busy loop in rzsci_poll_put_char by 
+    readl_relaxed_poll_timeout_atomic
+  - change 'struct sci_suspend_regs' to opaque pointer in sci_port, 
+    kzalloc it with size returned from the added 'suspend_regs_size()' 
+    to specific ops.
+  - renamed 'sh-sci_common.h' to 'sh-sci-common.h'
+  - add Geert's fixes for SH crash
+  - do not use SCI_OF_DATA macro to avoid code duplication by compiler
+  - revert some global functions to static
+* clk:
+  - fixed Kconfig for selecting CLK_RENESAS_CPG_MSSR.
+  - code style.
+  - use macros for MSTPCR block selection.
+  - fixed erroneous offset in mstpcr_for_rzt2h array.
+  - fixed the forgotten rcar-gen2-cpg.c in [PATCH v2 05/13]
+ * defconfig;
+  - added commit description and SoB
+  - update cover letter about SoC options
+
+Changes v1->v2
+* CPG based on renesas-cpg-mssr (no more new CPG driver), 
+  updated cover letter for that.
+* bindings: 
+  - passed dt_binding_check and added missing compatible strings, 
+  - document SoC + evaluation board in a single commit
+  - rzsci added to sci documentation
+  - fixed dependencies
+  - renamed the evaluation board to r9a9g077m44-rzt2h-evk
+  - removed clock module numbers & resets from binding header
+  - compatibles: renamed r9a09g077-rzt2h-evk to rzt2h-evk
+* rz/sci:
+  - added Renesas copyright
+  - fixed rzsci_receive_chars following Geert's advice, and comment
+    that 9-bits data is not supported
+  - fixed the regression (ops init) on non-DT legacy boards,
+    sci_probe_regmap called moved in the non-DT case.
+  - moved struct sci_of_data introduction in the appropriate commit
+* dts
+  - applied conventions (nodes alphabetical order & node names)
+  - added missing compatibles to r9a09g077m44.dtsi and
+    r9a09g077m44-rzt2h-evk.dts
+
+
+Thierry Bultel (10):
+  dt-bindings: serial: Added secondary clock for RZ/T2H RSCI
+  dt-bindings: clock: Add cpg for the Renesas RZ/T2H SoC
+  soc: renesas: Add RZ/T2H (R9A09G077) config option
+  clk: renesas: Pass sub struct of cpg_mssr_priv to cpg_clk_register
+  clk: renesas: Add support for R9A09G077 SoC
+  serial: sh-sci: Use private port ID
+  serial: sh-sci: Add support for RZ/T2H SCI
+  arm64: dts: renesas: Add initial support for renesas RZ/T2H SoC
+  arm64: dts: renesas: Add initial support for renesas RZ/T2H eval board
+  arm64: defconfig: Enable Renesas RZ/T2H serial SCI
+
+ .../bindings/clock/renesas,cpg-mssr.yaml      |  46 +-
+ .../bindings/serial/renesas,rsci.yaml         |  17 +-
+ arch/arm64/boot/dts/renesas/Makefile          |   2 +
+ arch/arm64/boot/dts/renesas/r9a09g077.dtsi    | 122 +++++
+ .../dts/renesas/r9a09g077m44-rzt2h-evk.dts    |  31 ++
+ arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi |  13 +
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/clk/renesas/Kconfig                   |   5 +
+ drivers/clk/renesas/Makefile                  |   1 +
+ drivers/clk/renesas/r7s9210-cpg-mssr.c        |   7 +-
+ drivers/clk/renesas/r8a77970-cpg-mssr.c       |   8 +-
+ drivers/clk/renesas/r9a09g077-cpg.c           | 243 +++++++++
+ drivers/clk/renesas/rcar-gen2-cpg.c           |   5 +-
+ drivers/clk/renesas/rcar-gen2-cpg.h           |   3 +-
+ drivers/clk/renesas/rcar-gen3-cpg.c           |   6 +-
+ drivers/clk/renesas/rcar-gen3-cpg.h           |   3 +-
+ drivers/clk/renesas/rcar-gen4-cpg.c           |   6 +-
+ drivers/clk/renesas/rcar-gen4-cpg.h           |   3 +-
+ drivers/clk/renesas/renesas-cpg-mssr.c        | 187 +++++--
+ drivers/clk/renesas/renesas-cpg-mssr.h        |  32 +-
+ drivers/soc/renesas/Kconfig                   |   6 +
+ drivers/tty/serial/Kconfig                    |   7 +
+ drivers/tty/serial/Makefile                   |   1 +
+ drivers/tty/serial/rsci.c                     | 468 ++++++++++++++++++
+ drivers/tty/serial/rsci.h                     |  10 +
+ drivers/tty/serial/sh-sci-common.h            |   8 +
+ drivers/tty/serial/sh-sci.c                   | 206 +++++---
+ .../clock/renesas,r9a09g077-cpg-mssr.h        |  27 +
+ 28 files changed, 1305 insertions(+), 169 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g077.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi
+ create mode 100644 drivers/clk/renesas/r9a09g077-cpg.c
+ create mode 100644 drivers/tty/serial/rsci.c
+ create mode 100644 drivers/tty/serial/rsci.h
+ create mode 100644 include/dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h
+
+-- 
+2.43.0
+
 
