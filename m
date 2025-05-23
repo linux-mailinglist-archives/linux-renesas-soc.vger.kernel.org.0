@@ -1,196 +1,244 @@
-Return-Path: <linux-renesas-soc+bounces-17424-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17425-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB717AC206C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 12:02:44 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15C40AC208D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 12:05:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6DC4F188BFA2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 10:02:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BA28D7BE533
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 10:01:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2152227EB9;
-	Fri, 23 May 2025 09:57:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 922AF225A20;
+	Fri, 23 May 2025 10:00:55 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88B16226D09;
-	Fri, 23 May 2025 09:57:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01BA223DD0;
+	Fri, 23 May 2025 10:00:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747994275; cv=none; b=ILiGfk1q44+8ecbro3zuh6yz+N7wjJHZCHoXeyjNDHCo++FeExm2MV+6dNbxs8Di3oJ5rW25SgP5M31ji0/UFTf2Nbo+DNbHYRTxlY3b0FUC2kamptYbZQ22qq05RYMWMe8fSHCMqL2VfxiaLv1FiRr2XlHGVFGGKl6CVQDQ1fw=
+	t=1747994455; cv=none; b=fadjZRZntYO2Q/asAZw9rEvYfaNnscB1J1ABOSS9t12h+Qeaj/g4KNPqRXuyz7FLN5YYkhUFA9h/p1Tg6HPhTS1Gdj73opKsI2g8+Iehftr0cbFk9P7l7nciuPYX5dMpsdsVofsPJ5/guJHbhjdiNPXo6XwGRFi75GhlFnHitsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747994275; c=relaxed/simple;
-	bh=o3+U2pTjpoLy4VBlboNFSpKjjYw/1Y9CbZlyI6v5MxI=;
+	s=arc-20240116; t=1747994455; c=relaxed/simple;
+	bh=QWN9QTWpsuziH+HrVRdGgN3yI6W2etIemOWYs57/rNU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Itsjk/RzHJ0Nu593JPB3bwovKMvo2MeZSu9DY448wmEaFHRzuIXnj+1UMRVqfaw+u+cag4hI8wD/vzaANFe6xT3APUfbzJUIs1URCUPZaa2/qXw3DhKB+8zIHLftnslPuQGIk+bvffjzPaS9fyQ9NfMeiW/gfChEtc+Xfxtixxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.50
+	 To:Cc:Content-Type; b=H66aaEtKTpDXaLwKsIdJEyAOW9aRRDaVdJDhtM/4yJarDLlL/jckzCNWlH2ISPCU1Yfb8I3x8dM93zrbd1uY3IAk+btTqNDITwu2dL0Z7SABEqPP9beELs+TLsyVGOjA01aVxUqeWXlZqIA2jD25aQ6wHAByUZR42OK0Zt8u/ig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-4e2b5ffb932so1067454137.0;
-        Fri, 23 May 2025 02:57:53 -0700 (PDT)
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5242f137a1eso2784052e0c.1;
+        Fri, 23 May 2025 03:00:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747994271; x=1748599071;
+        d=1e100.net; s=20230601; t=1747994452; x=1748599252;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dOpTsqxLWECKPkArKUXl99v0o7bZ+EJjw6Rtwx3j45U=;
-        b=lue3UFOrrSSSSC+zEej3jV+eWKVg0Qin64rbFFMuswF4F8Jtwhs5MB0mQZCmkBXG16
-         aB1BaFB0699+jYBf5iwXosUtH2u4CoyMAJyoFMCjAMp/KjONn8VeSy5FZ6JSaO2X1Jdx
-         a4flWTqxxR7toM4uKAi+abE+vmh3OW5pwt2MyA13FbPXlJk1JlPm94X5PqjMjPIJ4fWQ
-         +tJiKihWE2bf2BJcS/Jmgh3LISolzVaWIyV4B9ejgAOjdepDXf1Cp/4SIhOAtf6xF9Bk
-         mpSPMfWnVx8zNWqgk0PYmuWxk/PDyzbTO05XVT2Iq9jYea3PsC8ZSmIcKR7zArWeyNb5
-         826Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVZBolRXZHmP3fvDLKprd8uk3dM/7tj+z97ni6nn6YIYjjR+XlZ2XfG/J1NQFQm1WiolLRlwb60AeCjsew=@vger.kernel.org, AJvYcCWpPD1W2Dej+UULo+3gUVWHeo7OUA3sGp5UpsrlCEtUt0kNMr+aKIyQnemBKneY17dfZmk/dvuCAYFmaMh7Kqdzkrg=@vger.kernel.org, AJvYcCXDVsyzfxa8K89LZpeHnLsKWPlVh/GnzuSGvv8mk2LS3V6kV4Ov6uL34V/0rGj2E5xDmd/LZFMT6+hddhpQ@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2MHV3gNbOdfZq+3ZfjiU8lBAXqmfDVnasfnPbyfrZUkqcNoz6
-	FC0ymlmjikLV60jtW/rOUinN/AYY/xSAtODCH7ivzLPywnifoc4g9VwBHmDq4GBH
-X-Gm-Gg: ASbGncv7YLNiEFH+qn/M8Eu0ubsnvbVTrWEDt64OIW6G26IyBA9AsNnhuKj7BgZeSs8
-	uKDnnn8f5rvkqcb90ujyp03HEdj3qAmFgqUqKCaGuIZW+qUW2pU4adq/Xfzk/SPRTJ3iLQPakTS
-	p6r/gvJJBEhyNX0vjrOSv0I9nV5F0eZbm2FSxvTfeA7VSZHEIkyJOrT8BsOk2Ploh8KXfW71nEV
-	BFc9NUhaXaH5AE3RKfNOXpOKU94nICtpXeUoUaYlRRDPH1mO0v+y3fxPd1yfa8NtmiTQ1hbW7yU
-	dbXNCxbqUdQ0eiOGFjCro16d/vG/Du31Y4+BENIDKUnlh81m0kLlEYqEcGXaG4DgS8I/UbyouO4
-	WckenA4KU7M+CwerWXQ==
-X-Google-Smtp-Source: AGHT+IErEm1p66emtG23zmtX6IYikVXCh98rO9xeqwquTjV91rWvkBqKHgVLffSQ8t4REJVocOMIyQ==
-X-Received: by 2002:a05:6102:50a4:b0:4bb:e5bf:9c7d with SMTP id ada2fe7eead31-4dfa6c31c98mr25458123137.17.1747994270671;
-        Fri, 23 May 2025 02:57:50 -0700 (PDT)
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com. [209.85.221.170])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4dfa66e2910sm12328267137.13.2025.05.23.02.57.50
+        bh=be71ceagNF+QtjuGSl+mrmGNCahExrQ6GiVnfl6YdcM=;
+        b=hKcR/IAEPokudH9gsc5NzOn31PPe8Ezk6OiSfsorm5yaHAqfbYN/aiv2W5oYJaFUUB
+         K8SEgCd4KWa6eLDs28vrjtEDy1KN63TG/9GCloL4C/KNdKq784WD6pnic/e3X1xTMIAs
+         klfKBQmLkpAaqA5GdV02sC9C/N1oCd5FePt73TG0pwhsyiZZV25cOvxpKA+duapvefEQ
+         yJ5cuQ7tWzEWD3ZLDNpxsj/7sZUgbDW0jwa+iCExPAzHjw3gsHatTzdpu+aV4Rgcjbmg
+         A37HNLeydK1C4rz4NPx72tcmdVaYayZ7f31juZC9wL8ICXFJGNmJ4ohXkmc2r+YgtQjj
+         dONA==
+X-Forwarded-Encrypted: i=1; AJvYcCU7nXGRV+6JgX3wXomjpBbdijYWn0qnpI8u2HM7UInEnHLW+JtfAeMJkyQ0Vm1vvVJjpslbAGFAhyI5@vger.kernel.org, AJvYcCUWi7WwpwdMMaMP1vhfY8qevIuK9YDBBtKTng3eMK7RCsIRc5ToMkIgmV4uZJWRqB+kPpqoY5xeoaI+wLT3Htu/kjU=@vger.kernel.org, AJvYcCVYl3VBxzIO2Fl4sL0MwcVvBgFyZsnaG9K3y79iBW8uiQ2bSxAGRtzJl3Uc9E+hhyGNOy5uG5gFXfmFTDvZ@vger.kernel.org, AJvYcCVolEqYEf9Rn/38HtX8HHmEMUfbWls6RRKxq+5XBLx8eeKSpvSp86h4Wu3dZLKTiPuuOmLvnMHAP13W@vger.kernel.org
+X-Gm-Message-State: AOJu0YxtMVW9M9l7N6CsOOzuxN6o+AFqBlrDw8YSYYg9ti5KjcREGHmz
+	LOFy+8ATOD566OVBY/U+M6j+uDQKUr67uov0Y7337TWhh6HPXoYWGUxeRSVgBVlH
+X-Gm-Gg: ASbGncv3VtdQhxv4E9pghV+iueXsKupvgyQIlu4gAhXktzaLL462gV1Zqyv5nMdPx7/
+	vHrtBglWgGAql8u9AkofjD7gU+ZeUQrMo7s/AtVYyij8JYx82gqVXR9QH+lOdDLI06huDV28vnv
+	KuPlbFwacHl9PYTknqEtDXgWV562ieF6LQsEP/6p89PUy7CxVbF56DRrJarcBNoSLp11taXDthx
+	Kt+/4Oxv94KlNsid/g7/vH9G77HMpbnNnvtZIo2iXyZElhifbIOjhSCyFVgKFlHm3bisGz+932b
+	0I+qveo/jUiV5HhgvVlBVGwLDMr2qzf34KViPDEQit9/6amU2uQqUgLX9jvWlLgUdgV0PVaWBwr
+	PuHOb7sg7RJqXbg==
+X-Google-Smtp-Source: AGHT+IGNN+NmOzeuLoaDTrcL4ZlBnopmw0Efjgusr9ZwAW3Z57vueE1Uj6+pUsMau5ggdIXh2nxrGg==
+X-Received: by 2002:a05:6122:6170:b0:516:18cd:c1fc with SMTP id 71dfb90a1353d-52dbcddbca1mr20823983e0c.8.1747994452165;
+        Fri, 23 May 2025 03:00:52 -0700 (PDT)
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com. [209.85.217.50])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-52dbab4e7b9sm13065021e0c.37.2025.05.23.03.00.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 May 2025 02:57:50 -0700 (PDT)
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-52dc826204eso2317494e0c.1;
-        Fri, 23 May 2025 02:57:50 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU/p6oGcOuCpHsZBJJG32iwhLE+bSwW9GxAjzu5vRHX8Ne+pCFQ2X8MqoaLyhQKmq+BNhqsuHlWJ6IYzkV4@vger.kernel.org, AJvYcCW9+/q/DUjN3QVREvJDt3ai1pI9h1b+WERkVO9LmxLPdiPJIUalLlQdcaS8Q6fFVSaLJKaxqwux4MRgH+A=@vger.kernel.org, AJvYcCXrHI8T841FT6tN7YEolXpYuoxS9puwcgIebpOtOQX/wPc6rIkVbu5+nYs/jyUL5ScYblF6uzttZc8scYfM2LuaYm4=@vger.kernel.org
-X-Received: by 2002:a05:6122:2529:b0:52a:791f:7e20 with SMTP id
- 71dfb90a1353d-52dba80d3e3mr25830440e0c.4.1747994269866; Fri, 23 May 2025
- 02:57:49 -0700 (PDT)
+        Fri, 23 May 2025 03:00:51 -0700 (PDT)
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-4dfa0f6127dso3013161137.1;
+        Fri, 23 May 2025 03:00:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUUlpXQS38Q2x5TQg4aWx9+8rminT6eqMzQH8/3GapYGzInCWv62eS+6hSpUS0MvnVnvRqc0YGNh3SGm26+@vger.kernel.org, AJvYcCXaJU6x6IBQ5iguuRnl4OwmbyyEBtJSv1iB/jQhYIuZcogmbb2wetTf07X8Q3vLDqMLN+uY50PhiohvfhqEp9A7Hm4=@vger.kernel.org, AJvYcCXcqoERp83fCzhT8vhvtYEaHjiZ0nJPieEVqjJWDl6ouw4b435UaqxfPJVpi251Dy3xu45XRHXEjns+@vger.kernel.org, AJvYcCXnbfVh3jGjtUg5Ex9fmgnDA90MjY38+cLjWbvMLLlKD69xbW+T59f3N5TTaaoZZZjbF3IFzC1VyoI+@vger.kernel.org
+X-Received: by 2002:a05:6102:b06:b0:4e2:aafe:1bb7 with SMTP id
+ ada2fe7eead31-4e2aafe1e8dmr11622236137.15.1747994450845; Fri, 23 May 2025
+ 03:00:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250515141828.43444-1-thierry.bultel.yh@bp.renesas.com> <20250515141828.43444-8-thierry.bultel.yh@bp.renesas.com>
-In-Reply-To: <20250515141828.43444-8-thierry.bultel.yh@bp.renesas.com>
+References: <20250515141828.43444-1-thierry.bultel.yh@bp.renesas.com> <20250515141828.43444-3-thierry.bultel.yh@bp.renesas.com>
+In-Reply-To: <20250515141828.43444-3-thierry.bultel.yh@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 23 May 2025 11:57:37 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWhq+o18hgBO7Kg_Rsq47WsEwV7-DWYcyJCM0h1wsMshg@mail.gmail.com>
-X-Gm-Features: AX0GCFutLZp2NjdVwF0AAwLhMEAFa6NnDGxnoo0-7WDTAMJFZVVCBRJ3x6pp41o
-Message-ID: <CAMuHMdWhq+o18hgBO7Kg_Rsq47WsEwV7-DWYcyJCM0h1wsMshg@mail.gmail.com>
-Subject: Re: [PATCH v9 07/10] serial: sh-sci: Add support for RZ/T2H SCI
+Date: Fri, 23 May 2025 12:00:37 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXv_1nXmRkTfB9i95wjSXaN2XjQG2f55ZNV6axeNUmpzg@mail.gmail.com>
+X-Gm-Features: AX0GCFvE2RVBXQ4rbV6YxeljOJyWA7MZNsF1UH9gKR8AoFSUJYEsR3Rcr8PYcws
+Message-ID: <CAMuHMdXv_1nXmRkTfB9i95wjSXaN2XjQG2f55ZNV6axeNUmpzg@mail.gmail.com>
+Subject: Re: [PATCH v9 02/10] dt-bindings: clock: Add cpg for the Renesas
+ RZ/T2H SoC
 To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
 Cc: thierry.bultel@linatsea.fr, linux-renesas-soc@vger.kernel.org, 
-	paul.barker.ct@bp.renesas.com, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-kernel@vger.kernel.org, 
-	linux-serial@vger.kernel.org
+	paul.barker.ct@bp.renesas.com, Rob Herring <robh@kernel.org>, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Thierry,
-
-On Thu, 15 May 2025 at 16:19, Thierry Bultel
+On Thu, 15 May 2025 at 16:18, Thierry Bultel
 <thierry.bultel.yh@bp.renesas.com> wrote:
-> Define a new RSCI port type, and the RSCI 32 bits registers set.
-> The RZ/T2H SCI has a a fifo, and a quite different set of registers
-> from the original SH SCI ones.
-> DMA is not supported yet.
+> Document RZ/T2H (a.k.a r9a09g077) cpg-mssr (Clock Pulse Generator) binding.
 >
-> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 > Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
 > ---
 > Changes v8->v9:
->   - Fixed some code formatting
->   - Renamed rzt2_sci_uart_ops to rsci_uart_ops
->   - Renamed of_sci_r9a09g077_data to of_sci_rsci_data
->   - Added EXPORT_SYMBOL for public functions
->   - Added MODULE_LICENSE & MODULE_DESCRIPTION
->   - Fixed RSCI clock names
->   - Fixed SCI_PORT_RSCI using BIT(7)
+>   - keep clock names in generic section because T2H is a subset
+>   - removed R9A09G077_CLK_BSC, to only keep R9A09G077_CLK_CKIO
+>   - removed R9A09G077_MSTP* macros and module clocks definitions
 
-Thanks for the update!
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in a branch shared by renesas-clk for v6.17 and
+renesas-devel for v6.17.
 
+
+> Changes v7->v8:
+>   - extra parenthesis
+>   - added loco
+>   - renesas-cpg-mssr.h: removed unused clocks, added a macro for mstp
+> Changes v6->v7:
+>   - Add description for reg property
+> Changes v5->v6:
+>   - Set clock minItem constraint
+>   - Moved additionalProperties after 'allOf' section
+> Changes v4->v5:
+>   - Set reg minItems and maxItems defaults at top level
+> Changes v3->v4:
+>   - Handle maxItems and clocks names properly in schema.
+> ---
+>  .../bindings/clock/renesas,cpg-mssr.yaml      | 46 ++++++++++++++-----
+>  .../clock/renesas,r9a09g077-cpg-mssr.h        | 28 +++++++++++
+>  2 files changed, 63 insertions(+), 11 deletions(-)
+>  create mode 100644 include/dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h
+>
+> diff --git a/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml b/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
+> index 77ce3615c65a..708ab6bd7d44 100644
+> --- a/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
+> +++ b/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
+> @@ -52,9 +52,15 @@ properties:
+>        - renesas,r8a779f0-cpg-mssr # R-Car S4-8
+>        - renesas,r8a779g0-cpg-mssr # R-Car V4H
+>        - renesas,r8a779h0-cpg-mssr # R-Car V4M
+> +      - renesas,r9a09g077-cpg-mssr # RZ/T2H
+>
+>    reg:
+> -    maxItems: 1
+> +    minItems: 1
+> +    items:
+> +      - description: base address of register block 0
+> +      - description: base address of register block 1
+> +    description: base addresses of clock controller. Some controllers
+> +      (like r9a09g077) use two blocks instead of a single one.
+>
+>    clocks:
+>      minItems: 1
+> @@ -92,16 +98,6 @@ properties:
+>        the datasheet.
+>      const: 1
+>
+> -if:
+> -  not:
+> -    properties:
+> -      compatible:
+> -        items:
+> -          enum:
+> -            - renesas,r7s9210-cpg-mssr
+> -then:
+> -  required:
+> -    - '#reset-cells'
+>
+>  required:
+>    - compatible
+> @@ -111,6 +107,34 @@ required:
+>    - '#clock-cells'
+>    - '#power-domain-cells'
+>
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,r9a09g077-cpg-mssr
+> +    then:
+> +      properties:
+> +        reg:
+> +          minItems: 2
+> +        clock-names:
+> +          items:
+> +            - const: extal
+> +    else:
+> +      properties:
+> +        reg:
+> +          maxItems: 1
+> +  - if:
+> +      not:
+> +        properties:
+> +          compatible:
+> +            items:
+> +              enum:
+> +                - renesas,r7s9210-cpg-mssr
+> +    then:
+> +      required:
+> +        - '#reset-cells'
+> +
+>  additionalProperties: false
+>
+>  examples:
+> diff --git a/include/dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h b/include/dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h
+> new file mode 100644
+> index 000000000000..29155fb0401e
 > --- /dev/null
-> +++ b/drivers/tty/serial/rsci.h
-> @@ -0,0 +1,12 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
+> +++ b/include/dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h
+> @@ -0,0 +1,27 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> + *
+> + * Copyright (C) 2025 Renesas Electronics Corp.
+> + */
 > +
-> +#ifndef __RSCI_H__
-> +#define __RSCI_H__
+> +#ifndef __DT_BINDINGS_CLOCK_RENESAS_R9A09G077_CPG_H__
+> +#define __DT_BINDINGS_CLOCK_RENESAS_R9A09G077_CPG_H__
 > +
-> +#include "sh-sci-common.h"
+> +#include <dt-bindings/clock/renesas-cpg-mssr.h>
 > +
-> +#ifdef CONFIG_SERIAL_RSCI
-> +extern struct sci_of_data of_sci_rsci_data;
-> +#endif
-
-The #ifdef isn't really needed.
-
+> +/* R9A09G077 CPG Core Clocks */
+> +#define R9A09G077_CLK_CA55C0           0
+> +#define R9A09G077_CLK_CA55C1           1
+> +#define R9A09G077_CLK_CA55C2           2
+> +#define R9A09G077_CLK_CA55C3           3
+> +#define R9A09G077_CLK_CA55S            4
+> +#define R9A09G077_CLK_CR52_CPU0                5
+> +#define R9A09G077_CLK_CR52_CPU1                6
+> +#define R9A09G077_CLK_CKIO             7
+> +#define R9A09G077_CLK_PCLKAH           8
+> +#define R9A09G077_CLK_PCLKAM           9
+> +#define R9A09G077_CLK_PCLKAL           10
+> +#define R9A09G077_CLK_PCLKGPTL         11
+> +#define R9A09G077_CLK_PCLKH            12
+> +#define R9A09G077_CLK_PCLKM            13
 > +
-> +#endif /* __RSCI_H__ */
-
-> --- a/drivers/tty/serial/sh-sci.c
-> +++ b/drivers/tty/serial/sh-sci.c
-
-> @@ -2977,14 +2987,27 @@ static int sci_init_clocks(struct sci_port *sci_port, struct device *dev)
->         struct clk *clk;
->         unsigned int i;
+> +#endif /* __DT_BINDINGS_CLOCK_RENESAS_R9A09G077_CPG_H__ */
+> --
+> 2.43.0
 >
-> -       if (sci_port->type == PORT_HSCIF)
-> +       if (sci_port->type == PORT_HSCIF) {
->                 clk_names[SCI_SCK] = "hsck";
-> +       } else if (sci_port->type == SCI_PORT_RSCI) {
-> +               clk_names[SCI_FCK] = "operation";
-> +               clk_names[SCI_BRG_INT] = "bus";
-> +       }
->
->         for (i = 0; i < SCI_NUM_CLKS; i++) {
-> -               clk = devm_clk_get_optional(dev, clk_names[i]);
-> +               const char *name = clk_names[i];
-> +
-> +               clk = devm_clk_get_optional(dev, name);
->                 if (IS_ERR(clk))
->                         return PTR_ERR(clk);
->
-> +               if (!clk && sci_port->type == SCI_PORT_RSCI &&
-> +                   (i == SCI_FCK || i == SCI_BRG_INT)) {
-> +                       return dev_err_probe(dev, -ENODEV,
-> +                                            "failed to get '%s' clock\n",
 
-I would make the error message identical to the other cases below,
-so the format string can be shared by the compiler.
 
-> +                                            name);
-> +               }
-> +
->                 if (!clk && i == SCI_FCK) {
->                         /*
->                          * Not all SH platforms declare a clock lookup entry
-> @@ -2995,13 +3018,13 @@ static int sci_init_clocks(struct sci_port *sci_port, struct device *dev)
->                         if (IS_ERR(clk))
->                                 return dev_err_probe(dev, PTR_ERR(clk),
->                                                      "failed to get %s\n",
-> -                                                    clk_names[i]);
-> +                                                    name);
->                 }
->
->                 if (!clk)
-> -                       dev_dbg(dev, "failed to get %s\n", clk_names[i]);
-> +                       dev_dbg(dev, "failed to get %s\n", name);
->                 else
-> -                       dev_dbg(dev, "clk %s is %pC rate %lu\n", clk_names[i],
-> +                       dev_dbg(dev, "clk %s is %pC rate %lu\n", name,
->                                 clk, clk_get_rate(clk));
->                 sci_port->clks[i] = clk;
->         }
-
-The rest of the (generic; I didn't look at the RSCI low-level details)
-changes LGTM.
-
+--
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
