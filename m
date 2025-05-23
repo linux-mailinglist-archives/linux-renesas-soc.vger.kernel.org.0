@@ -1,231 +1,199 @@
-Return-Path: <linux-renesas-soc+bounces-17423-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17424-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C11EFAC2024
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 11:48:27 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB717AC206C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 12:02:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1787A18861C4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 09:48:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6DC4F188BFA2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 10:02:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE2462F3E;
-	Fri, 23 May 2025 09:48:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="z8BI0vbP"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2152227EB9;
+	Fri, 23 May 2025 09:57:55 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F21F57083A
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 23 May 2025 09:48:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88B16226D09;
+	Fri, 23 May 2025 09:57:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747993702; cv=none; b=T6wWNXNZgjGt1byVLNW3H3Z5WgtyWYRsK5IR1BkZQWeVgh2fi5JlkPIAjMHsuVK5/NERGBwD75Oc7oZKda+U4YcA51w7qS6Ll3uX9ScHA5qHubDTLViXiPb/MiSV01FGSgyBD9lOr/21dTieK2q+FK44C2lRaWUVO5icFNnfKk8=
+	t=1747994275; cv=none; b=ILiGfk1q44+8ecbro3zuh6yz+N7wjJHZCHoXeyjNDHCo++FeExm2MV+6dNbxs8Di3oJ5rW25SgP5M31ji0/UFTf2Nbo+DNbHYRTxlY3b0FUC2kamptYbZQ22qq05RYMWMe8fSHCMqL2VfxiaLv1FiRr2XlHGVFGGKl6CVQDQ1fw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747993702; c=relaxed/simple;
-	bh=kqRooQP7wyYERc3tIK6PxMGYiVJobVpNr0VGK+/z1y8=;
+	s=arc-20240116; t=1747994275; c=relaxed/simple;
+	bh=o3+U2pTjpoLy4VBlboNFSpKjjYw/1Y9CbZlyI6v5MxI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=E0gFh5/CD6kfmkJOUBy74j+7joNBFvi73FEv2YjsMVGk4paovOqyCGV9tI+Bbqc4DIXIf1u2/i4wuKDIePWo4KvIHDiZf4Ud48UpVz6ARTF+rrUfVbyRONeLxprIYs+iaVUvlcSw4lvqQLsWLDSqYRidAT4sa67qbpRHU1Y6vUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=z8BI0vbP; arc=none smtp.client-ip=209.85.219.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e7b99f387e8so4898230276.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 23 May 2025 02:48:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747993699; x=1748598499; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=gf1oFgGMAo5ySKKkyFUQlYC/gWonudK8iq+CfquDz4o=;
-        b=z8BI0vbPDDai/hy03iPXnDHPAzjNcisXJDpB01NQc7KyB7heZSFDEe89GEGlRlheib
-         SK6oaUaV18MAS8eNyG4NOum06gcr47ANwQwt8A9JYjnmHwy2ZU9cvQDeMu7e9bfDTf55
-         tNZJ74oVJAlvD6WQASNEfb+z/ZQvKmclOAu6Ld/46dJdlys5U9LkyyIbh3oldCNjbmNy
-         l4/6nqKuUZO9XKuye057HVT7o4X80Hnx+uao/MEvcIY9yjn9DydLJoNSfOVb6MsjZsRv
-         /dYmumvyMEsl9tritVAVtm3NfZsvPQpkHzuNVhtFsFEzGebBFJBTNspRQWoauffjD0J0
-         qJOg==
+	 To:Cc:Content-Type; b=Itsjk/RzHJ0Nu593JPB3bwovKMvo2MeZSu9DY448wmEaFHRzuIXnj+1UMRVqfaw+u+cag4hI8wD/vzaANFe6xT3APUfbzJUIs1URCUPZaa2/qXw3DhKB+8zIHLftnslPuQGIk+bvffjzPaS9fyQ9NfMeiW/gfChEtc+Xfxtixxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-4e2b5ffb932so1067454137.0;
+        Fri, 23 May 2025 02:57:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747993699; x=1748598499;
+        d=1e100.net; s=20230601; t=1747994271; x=1748599071;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gf1oFgGMAo5ySKKkyFUQlYC/gWonudK8iq+CfquDz4o=;
-        b=JM+AMIsbeWMZNHb+M36h6fDecUqtwQpiHAd9lGtiFB2bR9eHdoU4jEwl0qNTqBNoN2
-         nfY3Yk1RMeg2YixV446T0x78H1WYBFgatNmJGq8a3ok8vy926p/OpnRQ9PloYdj3ln6F
-         MjanIR+gsW/NndFldjR+oOKVWpwmIP9KrU1zItITgYjcW3YkbfwCBj4+ZJ1e1OAbzuLb
-         UYf9oOVPFxzAKD72JGPSGse/UdwNprjcMC+K94zTbcwgL1sdmlG7nW9TIgve3Qap5SuA
-         /5LeBurvWxCAcU5MRT+iKvNHEYm559SUg25sXJuyNHI0RCBwB1Hzy1iy2NYNQngY3jTW
-         iesw==
-X-Forwarded-Encrypted: i=1; AJvYcCWjT9ULE8X2dD6c+zFaoM1pAqb3JVhc8TsPpCIID5GJdLb/ka6kH/+PkbzNkOL+H5tm5ebFUYQXOhTHNS9V9zwjIQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy8h61uQLmeVRRrut3NbjZ7MXeMEDuN1W/OITnz87+cOl2UEPHP
-	D3k5acrTY4/nempwbEkLbU8uh8F0XQomQimOKWJ1S8ppNJYMgCe0XLGxzRC4bebS+b05KUloeO9
-	MOn+TlGwLzyDvzcWLfV7RB8oq21Tc2ZJExYvDlzK9ZA==
-X-Gm-Gg: ASbGnctb1T10wkamk0pIdqSgK9LPwRxNaB30HHjK9j+sL6o3n9gD8wwisWuOoRN40I8
-	hr2kZNPp7AzKVt1hhbb/FqLNxwCk/KCSXMwEX+zkMjfhNMkH6Bm/se4syJCOrUMxm0k+fjrDSfy
-	H6a2jymmBU/XO9P0Q80eNmStlHGWvPxN1e4Q==
-X-Google-Smtp-Source: AGHT+IE71jpU4o2Dz9Rsf58M10k5dof+C/Tn+eb+QnYtG+Sft5AFiAJxRVWm2trar5794+mzV8ymBCssa7ptpstNHoI=
-X-Received: by 2002:a05:6902:1147:b0:e7b:52a4:4dc4 with SMTP id
- 3f1490d57ef6-e7d7e198ae0mr2587521276.32.1747993698932; Fri, 23 May 2025
- 02:48:18 -0700 (PDT)
+        bh=dOpTsqxLWECKPkArKUXl99v0o7bZ+EJjw6Rtwx3j45U=;
+        b=lue3UFOrrSSSSC+zEej3jV+eWKVg0Qin64rbFFMuswF4F8Jtwhs5MB0mQZCmkBXG16
+         aB1BaFB0699+jYBf5iwXosUtH2u4CoyMAJyoFMCjAMp/KjONn8VeSy5FZ6JSaO2X1Jdx
+         a4flWTqxxR7toM4uKAi+abE+vmh3OW5pwt2MyA13FbPXlJk1JlPm94X5PqjMjPIJ4fWQ
+         +tJiKihWE2bf2BJcS/Jmgh3LISolzVaWIyV4B9ejgAOjdepDXf1Cp/4SIhOAtf6xF9Bk
+         mpSPMfWnVx8zNWqgk0PYmuWxk/PDyzbTO05XVT2Iq9jYea3PsC8ZSmIcKR7zArWeyNb5
+         826Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVZBolRXZHmP3fvDLKprd8uk3dM/7tj+z97ni6nn6YIYjjR+XlZ2XfG/J1NQFQm1WiolLRlwb60AeCjsew=@vger.kernel.org, AJvYcCWpPD1W2Dej+UULo+3gUVWHeo7OUA3sGp5UpsrlCEtUt0kNMr+aKIyQnemBKneY17dfZmk/dvuCAYFmaMh7Kqdzkrg=@vger.kernel.org, AJvYcCXDVsyzfxa8K89LZpeHnLsKWPlVh/GnzuSGvv8mk2LS3V6kV4Ov6uL34V/0rGj2E5xDmd/LZFMT6+hddhpQ@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2MHV3gNbOdfZq+3ZfjiU8lBAXqmfDVnasfnPbyfrZUkqcNoz6
+	FC0ymlmjikLV60jtW/rOUinN/AYY/xSAtODCH7ivzLPywnifoc4g9VwBHmDq4GBH
+X-Gm-Gg: ASbGncv7YLNiEFH+qn/M8Eu0ubsnvbVTrWEDt64OIW6G26IyBA9AsNnhuKj7BgZeSs8
+	uKDnnn8f5rvkqcb90ujyp03HEdj3qAmFgqUqKCaGuIZW+qUW2pU4adq/Xfzk/SPRTJ3iLQPakTS
+	p6r/gvJJBEhyNX0vjrOSv0I9nV5F0eZbm2FSxvTfeA7VSZHEIkyJOrT8BsOk2Ploh8KXfW71nEV
+	BFc9NUhaXaH5AE3RKfNOXpOKU94nICtpXeUoUaYlRRDPH1mO0v+y3fxPd1yfa8NtmiTQ1hbW7yU
+	dbXNCxbqUdQ0eiOGFjCro16d/vG/Du31Y4+BENIDKUnlh81m0kLlEYqEcGXaG4DgS8I/UbyouO4
+	WckenA4KU7M+CwerWXQ==
+X-Google-Smtp-Source: AGHT+IErEm1p66emtG23zmtX6IYikVXCh98rO9xeqwquTjV91rWvkBqKHgVLffSQ8t4REJVocOMIyQ==
+X-Received: by 2002:a05:6102:50a4:b0:4bb:e5bf:9c7d with SMTP id ada2fe7eead31-4dfa6c31c98mr25458123137.17.1747994270671;
+        Fri, 23 May 2025 02:57:50 -0700 (PDT)
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com. [209.85.221.170])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4dfa66e2910sm12328267137.13.2025.05.23.02.57.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 May 2025 02:57:50 -0700 (PDT)
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-52dc826204eso2317494e0c.1;
+        Fri, 23 May 2025 02:57:50 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU/p6oGcOuCpHsZBJJG32iwhLE+bSwW9GxAjzu5vRHX8Ne+pCFQ2X8MqoaLyhQKmq+BNhqsuHlWJ6IYzkV4@vger.kernel.org, AJvYcCW9+/q/DUjN3QVREvJDt3ai1pI9h1b+WERkVO9LmxLPdiPJIUalLlQdcaS8Q6fFVSaLJKaxqwux4MRgH+A=@vger.kernel.org, AJvYcCXrHI8T841FT6tN7YEolXpYuoxS9puwcgIebpOtOQX/wPc6rIkVbu5+nYs/jyUL5ScYblF6uzttZc8scYfM2LuaYm4=@vger.kernel.org
+X-Received: by 2002:a05:6122:2529:b0:52a:791f:7e20 with SMTP id
+ 71dfb90a1353d-52dba80d3e3mr25830440e0c.4.1747994269866; Fri, 23 May 2025
+ 02:57:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAPDyKFqMB7XutXba73YHx1X4rm6uc3Fz6yMZ8yM=wgduEmgUDg@mail.gmail.com>
- <a20fc6ee-c6c3-4013-b175-4918b9a44380@tuxon.dev> <CAPDyKFpbeLJUiB_xQbqDib+-8Q3AcJNVg+DuEcqmVGMbFdNxwA@mail.gmail.com>
- <fgl4w5uhxci7rrbdigtni72vveb2gqemh6iccz4qruqkek5rja@rzwkcjg6hkid>
- <3b1963ba-f93f-48f2-8fb0-a485dd80ffcb@tuxon.dev> <CAPDyKFqrAS4iV59S-zJ9H7_3VuGr9JdZABhfUGBwTzQNDCasaw@mail.gmail.com>
- <482b55c9-a210-4b2d-8405-e9f30d48a8fd@tuxon.dev> <CAPDyKFpLF2P438GGWSgbXzpT7JNdUjtZ2ZxYf1_4=fNUX3s-KQ@mail.gmail.com>
- <4fzotopz57igmiyssgkogfbup6uu7qgza3t53t5qsouegmj7ii@wfiz4g3eiffs>
- <CAPDyKFoxs6wDCLp5EGHVqkqSstBLNmngps2KfanRezV_EN8tuA@mail.gmail.com> <hd3hobuaunmn2uqzl72yv7nz2ms25fczc264wmt6o7twrxdhsy@mm22ujnawutc>
-In-Reply-To: <hd3hobuaunmn2uqzl72yv7nz2ms25fczc264wmt6o7twrxdhsy@mm22ujnawutc>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Fri, 23 May 2025 11:47:42 +0200
-X-Gm-Features: AX0GCFsMgsS0EfFQI1GE9DAIaDPwkKUd09ZHiYkzy1SkKNdFa0nVSmZcT9xiJ-8
-Message-ID: <CAPDyKFpRUhTK=UfcEdRdT0f5EVoGN5okLosd9_tYjdGKr0qvkA@mail.gmail.com>
-Subject: Re: [PATCH] driver core: platform: Use devres group to free driver
- probe resources
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>, Jonathan Cameron <jic23@kernel.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, dakr@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, geert@linux-m68k.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-iio@vger.kernel.org, bhelgaas@google.com
+References: <20250515141828.43444-1-thierry.bultel.yh@bp.renesas.com> <20250515141828.43444-8-thierry.bultel.yh@bp.renesas.com>
+In-Reply-To: <20250515141828.43444-8-thierry.bultel.yh@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 23 May 2025 11:57:37 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWhq+o18hgBO7Kg_Rsq47WsEwV7-DWYcyJCM0h1wsMshg@mail.gmail.com>
+X-Gm-Features: AX0GCFutLZp2NjdVwF0AAwLhMEAFa6NnDGxnoo0-7WDTAMJFZVVCBRJ3x6pp41o
+Message-ID: <CAMuHMdWhq+o18hgBO7Kg_Rsq47WsEwV7-DWYcyJCM0h1wsMshg@mail.gmail.com>
+Subject: Re: [PATCH v9 07/10] serial: sh-sci: Add support for RZ/T2H SCI
+To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+Cc: thierry.bultel@linatsea.fr, linux-renesas-soc@vger.kernel.org, 
+	paul.barker.ct@bp.renesas.com, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-kernel@vger.kernel.org, 
+	linux-serial@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 23 May 2025 at 01:06, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
->
-> On Fri, May 23, 2025 at 12:09:08AM +0200, Ulf Hansson wrote:
-> > On Thu, 22 May 2025 at 20:47, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
-> > >
-> > > On Thu, May 22, 2025 at 06:28:44PM +0200, Ulf Hansson wrote:
-> > > > On Thu, 22 May 2025 at 16:08, Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
-> > > > >
-> > > > > Hi, Ulf,
-> > > > >
-> > > > > On 22.05.2025 14:53, Ulf Hansson wrote:
-> > > > > >
-> > > > > > That said, I think adding a devm_pm_domain_attach() interface would
-> > > > > > make perfect sense. Then we can try to replace
-> > > > > > dev_pm_domain_attach|detach() in bus level code, with just a call to
-> > > > > > devm_pm_domain_attach(). In this way, we should preserve the
-> > > > > > expectation for drivers around devres for PM domains. Even if it would
-> > > > > > change the behaviour for some drivers, it still sounds like the
-> > > > > > correct thing to do in my opinion.
-> > > > >
-> > > > > This looks good to me, as well. I did prototype it on my side and tested on
-> > > > > all my failure cases and it works.
-> > > >
-> > > > That's great! I am happy to help review, if/when you decide to post it.
-> > >
-> > > So you are saying you'd be OK with essentially the following (with
-> > > devm_pm_domain_attach() actually being elsewhere in a real patch and not
-> > > necessarily mimicked by devm_add_action_or_reset()):
-> >
-> > Correct!
-> >
-> > >
-> > > diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-> > > index cfccf3ff36e7..1e017bfa5caf 100644
-> > > --- a/drivers/base/platform.c
-> > > +++ b/drivers/base/platform.c
-> > > @@ -1376,6 +1376,27 @@ static int platform_uevent(const struct device *dev, struct kobj_uevent_env *env
-> > >         return 0;
-> > >  }
-> > >
-> > > +
-> > > +static void platform_pm_domain_detach(void *d)
-> > > +{
-> > > +       dev_pm_domain_detach(d, true);
-> > > +}
-> >
-> > Well, I would not limit this to the platform bus, even if that is the
-> > most widely used.
-> >
-> > Let's add the new generic interface along with
-> > dev_pm_domain_attach|detach* and friends instead.
-> >
-> > Then we can convert bus level code (and others), such as the platform
-> > bus to use it, in a step-by-step approach.
->
-> Right, this was only a draft:
->
-> "... with devm_pm_domain_attach() actually being elsewhere in a real
-> patch and not necessarily mimicked by devm_add_action_or_reset() ..."
->
-> >
-> > > +
-> > > +static int devm_pm_domain_attach(struct device *dev)
-> > > +{
-> > > +       int error;
-> > > +
-> > > +       error = dev_pm_domain_attach(dev, true);
-> > > +       if (error)
-> > > +               return error;
-> > > +
-> > > +       error = devm_add_action_or_reset(dev, platform_pm_domain_detach, dev);
-> > > +       if (error)
-> > > +               return error;
-> > > +
-> > > +       return 0;
-> > > +}
-> > > +
-> > >  static int platform_probe(struct device *_dev)
-> > >  {
-> > >         struct platform_driver *drv = to_platform_driver(_dev->driver);
-> > > @@ -1396,15 +1417,12 @@ static int platform_probe(struct device *_dev)
-> > >         if (ret < 0)
-> > >                 return ret;
-> > >
-> > > -       ret = dev_pm_domain_attach(_dev, true);
-> > > +       ret = devm_pm_domain_attach(_dev);
-> > >         if (ret)
-> > >                 goto out;
-> > >
-> > > -       if (drv->probe) {
-> > > +       if (drv->probe)
-> > >                 ret = drv->probe(dev);
-> > > -               if (ret)
-> > > -                       dev_pm_domain_detach(_dev, true);
-> > > -       }
-> > >
-> > >  out:
-> > >         if (drv->prevent_deferred_probe && ret == -EPROBE_DEFER) {
-> > > @@ -1422,7 +1440,6 @@ static void platform_remove(struct device *_dev)
-> > >
-> > >         if (drv->remove)
-> > >                 drv->remove(dev);
-> > > -       dev_pm_domain_detach(_dev, true);
-> > >  }
-> > >
-> > >  static void platform_shutdown(struct device *_dev)
-> > >
-> > >
-> > > If so, then OK, it will work for me as well. This achieves the
-> > > same behavior as with using devres group. The only difference is that if
-> > > we ever need to extend the platform bus to acquire/release more
-> > > resources they will also have to use devm API and not the regular one.
-> >
-> > Sounds reasonable to me! Thanks for a nice discussion!
-> >
-> > When it comes to the devm_pm_runtime_enable() API, I think we
-> > seriously should consider removing it. Let me have a closer look at
-> > that.
->
-> I think once we sort out the power domain detach being out of order with
-> regard to other devm-managed resources in bus code you need to analyze
-> this again and you will find out that much as with IRQs, devm API for
-> runtime PM is useful for majority of cases. Of course there will be
-> exceptions, but by and large it will cut down on boilerplate code.
+Hi Thierry,
 
-Well, the problem is that the interface is just too difficult to
-understand how to use correctly.
+On Thu, 15 May 2025 at 16:19, Thierry Bultel
+<thierry.bultel.yh@bp.renesas.com> wrote:
+> Define a new RSCI port type, and the RSCI 32 bits registers set.
+> The RZ/T2H SCI has a a fifo, and a quite different set of registers
+> from the original SH SCI ones.
+> DMA is not supported yet.
+>
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+> ---
+> Changes v8->v9:
+>   - Fixed some code formatting
+>   - Renamed rzt2_sci_uart_ops to rsci_uart_ops
+>   - Renamed of_sci_r9a09g077_data to of_sci_rsci_data
+>   - Added EXPORT_SYMBOL for public functions
+>   - Added MODULE_LICENSE & MODULE_DESCRIPTION
+>   - Fixed RSCI clock names
+>   - Fixed SCI_PORT_RSCI using BIT(7)
 
-A quick look for deployments in drivers confirms my worries.
+Thanks for the update!
 
-Kind regards
-Uffe
+> --- /dev/null
+> +++ b/drivers/tty/serial/rsci.h
+> @@ -0,0 +1,12 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +#ifndef __RSCI_H__
+> +#define __RSCI_H__
+> +
+> +#include "sh-sci-common.h"
+> +
+> +#ifdef CONFIG_SERIAL_RSCI
+> +extern struct sci_of_data of_sci_rsci_data;
+> +#endif
+
+The #ifdef isn't really needed.
+
+> +
+> +#endif /* __RSCI_H__ */
+
+> --- a/drivers/tty/serial/sh-sci.c
+> +++ b/drivers/tty/serial/sh-sci.c
+
+> @@ -2977,14 +2987,27 @@ static int sci_init_clocks(struct sci_port *sci_port, struct device *dev)
+>         struct clk *clk;
+>         unsigned int i;
+>
+> -       if (sci_port->type == PORT_HSCIF)
+> +       if (sci_port->type == PORT_HSCIF) {
+>                 clk_names[SCI_SCK] = "hsck";
+> +       } else if (sci_port->type == SCI_PORT_RSCI) {
+> +               clk_names[SCI_FCK] = "operation";
+> +               clk_names[SCI_BRG_INT] = "bus";
+> +       }
+>
+>         for (i = 0; i < SCI_NUM_CLKS; i++) {
+> -               clk = devm_clk_get_optional(dev, clk_names[i]);
+> +               const char *name = clk_names[i];
+> +
+> +               clk = devm_clk_get_optional(dev, name);
+>                 if (IS_ERR(clk))
+>                         return PTR_ERR(clk);
+>
+> +               if (!clk && sci_port->type == SCI_PORT_RSCI &&
+> +                   (i == SCI_FCK || i == SCI_BRG_INT)) {
+> +                       return dev_err_probe(dev, -ENODEV,
+> +                                            "failed to get '%s' clock\n",
+
+I would make the error message identical to the other cases below,
+so the format string can be shared by the compiler.
+
+> +                                            name);
+> +               }
+> +
+>                 if (!clk && i == SCI_FCK) {
+>                         /*
+>                          * Not all SH platforms declare a clock lookup entry
+> @@ -2995,13 +3018,13 @@ static int sci_init_clocks(struct sci_port *sci_port, struct device *dev)
+>                         if (IS_ERR(clk))
+>                                 return dev_err_probe(dev, PTR_ERR(clk),
+>                                                      "failed to get %s\n",
+> -                                                    clk_names[i]);
+> +                                                    name);
+>                 }
+>
+>                 if (!clk)
+> -                       dev_dbg(dev, "failed to get %s\n", clk_names[i]);
+> +                       dev_dbg(dev, "failed to get %s\n", name);
+>                 else
+> -                       dev_dbg(dev, "clk %s is %pC rate %lu\n", clk_names[i],
+> +                       dev_dbg(dev, "clk %s is %pC rate %lu\n", name,
+>                                 clk, clk_get_rate(clk));
+>                 sci_port->clks[i] = clk;
+>         }
+
+The rest of the (generic; I didn't look at the RSCI low-level details)
+changes LGTM.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
