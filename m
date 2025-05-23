@@ -1,84 +1,85 @@
-Return-Path: <linux-renesas-soc+bounces-17452-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17453-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37F13AC254D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 16:45:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73ABCAC2551
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 16:46:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4D1837A7DF4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 14:44:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 263415440EE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 14:46:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9A6C294A1B;
-	Fri, 23 May 2025 14:45:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AC102957A8;
+	Fri, 23 May 2025 14:46:47 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A1D25760;
-	Fri, 23 May 2025 14:45:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C385C25760;
+	Fri, 23 May 2025 14:46:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748011537; cv=none; b=sg+KcYDIAEi0SAymmIQ0WXwTnHfZ4ojXn2XyAt9ygH/K/ZW1Plh2ouC+vVeHj0EPlsc55YTmHIF5wGwXW0/E2Ksxzwmclt5CxK7mCIYnMLgDZQO+90+BuAY45wrGHHs6f9AQmdRQnZOWbuhPRCwq1KmVIxLOm0YT9C7neg4F13g=
+	t=1748011607; cv=none; b=NJhUt2Ld1Ma9B73GkxwywKrjCxfrUxxAXMFYt8GWvjqivTJzyUzCmH0DZgh/S+DnRYoIhMbcXUkidDuAB/R3orTCYD0iywkUWjR/xOyCTXO+MFVrpzyFLrQXAa/D7z5P+e7bw6Rn5UITAVMOwHx7g5Dn7ZIA7Fua4TzChfgN5co=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748011537; c=relaxed/simple;
-	bh=Lz2RKDzTbu1gCOxurvGRRIxFGt//Q2t5IeR7Ykyhiog=;
+	s=arc-20240116; t=1748011607; c=relaxed/simple;
+	bh=HiFOdJZe5roxIuT5bKk20cXktATgE23oiaWu7kfhOqg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kybmiZ/x50euY9EYv3RKmktw3zlSrx5fVjUHhqOxpmQtLfk0nDX5XmIQt7clMgHcaBGuFUeAMGnwo4efAwZuwa6HjllbllhANWb4Tw1SSbERsvWesoRGI0wln9WfVBxr4hIWmssh63QwG0em5C5mD5nQX/YgNGU2TkVcqbb9gyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.47
+	 To:Cc:Content-Type; b=VirTnywLWNzQRBRPNGTx9cR0F3/b2LMHygaTRMj45Qb+EBFegvGMzbLXPZCuLLILabwg74oiJmwGkMy9etFJpYKbq5NCfSExtmd31gCg7vEhHMAZOr+wPP2COjQwbcPmW4+IBA0YyP1ShbyiTT07G+e1QZB278wtaTGgI9CZHog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-60119cd50b6so4523a12.0;
-        Fri, 23 May 2025 07:45:33 -0700 (PDT)
+Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-3dc6b2a8647so20296935ab.2;
+        Fri, 23 May 2025 07:46:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748011527; x=1748616327;
+        d=1e100.net; s=20230601; t=1748011604; x=1748616404;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=s7NaEY0NZOLUpgJiSQNcYfkRMwiosdL/jRVixVhXKM0=;
-        b=Lc5Dg0AJKWcz+zIEjRvCdAls1yWgFxf1s1+ZLnfN3CFx+mqvqnUnyoH0UeUrk57Eew
-         HowBjUlLXAaN9qUAg36wXGI3ce8QPRwEI3h1SxwCJMo+nU2wzXlrFWMX4KF2EvCQkEsz
-         TC/yEyaayoP0SW/pwmAPZ99E/kiISfBTsoUdcq1mqaCvfOPP828FsL7+L+CTa3p8XzW+
-         Ss1xYAuFunQ96sF2Gl8bUoSoDfQIM0ep7Tqy+74aIprA6VTVoKhRve8GrHv/NhmAcCw0
-         ykwdI1MT7O9goZGbAaLgwCJM7QmDl9H7Xv57P+iOa4imOi77AWs+h1x8avzWxTTfIK9u
-         oRXg==
-X-Forwarded-Encrypted: i=1; AJvYcCUCZWlO9opQciNfKozcqwB0t1hDT1Wb9zz2ZB0Xqfy8b5gU/2lZk+Aoo1VdnOsxz4KPKU9J+K75P6b9@vger.kernel.org, AJvYcCUb+ijV6bcsP+EzTxljcCQ+iesprVGnX8ZUcQay91keiSHpNZ+I06Dt8ESQemmLN37wwzrl9WzY6f8pyxWFRlO5rQ8=@vger.kernel.org, AJvYcCVEEd9JOraOCAEPrhjXqfpilZwfs6VoqIbrW9QGCS1+larVpdIV81nMH0EJx6lWWFFMRrwUUoUlhgecIzC3@vger.kernel.org, AJvYcCXqwgY+hE4x2rcM8xRCoAVJM1uMGz0I5vRHKpRhM1Ft2quUgAZS9JdPZ1S4SE4c/3Wf/ojyFBG8iYNh@vger.kernel.org
-X-Gm-Message-State: AOJu0YytYa1m+PTAcWhPYuajuT8jRipGOaE5cnyb0siHlqhcEgJFaH9Z
-	KGPnDt7U4lJRMaRITpsXbu8qi0oLJfwSnGe1XerTIronNBQiJh8Pk4dEU1GBtQP55gE=
-X-Gm-Gg: ASbGncteS+tmbqUvayoA1vpIxvqt4u5p+z5d53NxeldDtLQAdO1uBIP1GKwBD2XgJtC
-	ZWUvE5GxETwYnVWx2dLw2dGqB893kq02Sb1rVGuvfTsyvnlQlfWzs3Y5FlkqY9772kfBZuuwz2i
-	fVgUX8uFxnRXKfiB4ZDtBusPTd4ywI8xJs6s3/AxN3qherxd3unmk1R80Lk+wFZe7pS+pWI8s7W
-	Tcsopm8zhp8x5lZfDjS5jLQSPNtm5PnzhkFaKLT6sPBIGL+5r+vT6IjC0YPReDdDklSdycCKgHa
-	HBOnuaVdu7rqPCcMiHJL7GLXYfvEvqg4rhtS4wijp0Jw7zgLRQhn5KvIW0GmA2Gtliqxkym+YKQ
-	vNnrBKT5jkhLe9WkX12a++jLq
-X-Google-Smtp-Source: AGHT+IGGMhn62fyovxwzBeGRizk65bfJEscCpvJ37job3VY9RrbaBl87lpAIUyrnYsQ4HLqtyMSNrw==
-X-Received: by 2002:a05:6402:350d:b0:601:31e6:6987 with SMTP id 4fb4d7f45d1cf-60131e66c10mr25280054a12.22.1748011527303;
-        Fri, 23 May 2025 07:45:27 -0700 (PDT)
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com. [209.85.218.53])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6004d4f2f06sm12017431a12.9.2025.05.23.07.45.24
+        bh=ghdI2uqqe2O4Wmd68hFPGrigGpfsBMc5eDJtKxJn5bI=;
+        b=vjicjp/4xsP3G9Mb6Usvuy2/pjI1ndDdm7tNUQnNwYwAzvb1FQNsSPxQOYJB7TpPuB
+         SoyHZzXmxX0KlbXmPAkUaSysZt4qJlHZqSRA0E3PLqHlHyB8bwBDrBYFKJBnDnL57bqD
+         2Y6KbTUE71dePonAJ8muZR9wQKhhE89IMRDGp60duMC3k3iaO8YzjiLNA8FjBLsh40VA
+         TJBUp2C2GBaX9z7wrcNdYeONp5zSFv/JeoUk1hrfKwa0rm8AVGOTCfCpm+HOjWlRWwVT
+         dFYYXIlrVaygZBMEu2H8DZ0T3jy462E2Yz/VVvOryVIftqC4qpoQ34dKVOULxGWySrM4
+         qnAA==
+X-Forwarded-Encrypted: i=1; AJvYcCUQSpJAixz/vT4woPCEfFbx/Ba3yhb7xgj1yQNLQyBddS4sPDOXe04e5kJsAPvpqBEMuZf6hZlrLFpvy1V+AaeEcPY=@vger.kernel.org, AJvYcCVO4qDFCXAzP3ATkdHmQ0bAZE97vUKNM247I7F0gkeZHVz90qGU3uGarq3+S8tp41hfrUuJcrqj7wIf6NZ1@vger.kernel.org, AJvYcCWMKROFmFqb2kVLO0WrAMMy8LTuCfGY4AW8Jqc0dPnct2vJIZayQK/XTUsEx70PNLA1HAvTqHkx03PX@vger.kernel.org, AJvYcCWVMpiiqOFO1d+tN8rOZEzm6Fm275yn6u2FHnDAHiaR8QWjSh1b6DjnSIXHLmPKsJkQox611fTEKhQk@vger.kernel.org
+X-Gm-Message-State: AOJu0YzF5aM7ffPokY5bGorvkFppxlVS2JSaXSWKEx3NVNlIRdxNKiVc
+	wxKU86/SWAUXdtXTuLxJ/WOfQMXCwTDLrUOCR6WFS68FZPL0OxZiEBbHU0hzrJ8+I4s=
+X-Gm-Gg: ASbGncvK5+FBz+pS/0q0bVS7Vy+ZFBIJyJbyaxKC7hwd78Wn9g4nOZGIp78E5TF9KzT
+	EuoPzAbo0POGXHO8utSmCLM3DiShuT+8LYJuli+u56fWqbz248mn+f3gtHhFTPrOZFSKYA/3qz0
+	EGp5CXZEZ2HPUxeH37aJarYz8HK16aKN9mTnPoEUXvaIHT/lg6wkbKNeDMm2Fv1J9zHJ5nxj4zR
+	hA4cLedfzH/3IqWgKeu9mK57nV+DzF8C7gOY/oVCkP//Iv35L2YzVFxzzXPYA/zCs74bKuTUfUJ
+	klQu5IO0K6WstV3IoZYE2OKWiwYECMtDL9Nh6nUChwT2pPXqv/0IZLvvXz1yc5CmbY4Q+tQe26j
+	+blA0Nml2NjhRvA==
+X-Google-Smtp-Source: AGHT+IFPGqGxfZsnaUJRDPmSNVeNAm5Cj5OwuuwCMO1g/YtfSHJ4hU/SmlYKGWm45TdD6B+AQmKajQ==
+X-Received: by 2002:a05:6870:2a4c:b0:29f:97af:a1a0 with SMTP id 586e51a60fabf-2e3c84d532amr16045579fac.24.1748011593386;
+        Fri, 23 May 2025 07:46:33 -0700 (PDT)
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com. [209.85.210.52])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2e3c075bdfdsm3562700fac.25.2025.05.23.07.46.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 May 2025 07:45:26 -0700 (PDT)
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-acb39c45b4eso1291211766b.1;
-        Fri, 23 May 2025 07:45:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVVEOINwZh9c0Y+qG+amePwvxefbJNyRiphmZqkABwZNG3oX0X/mcSdtbKh7yrD9ZfCgd5jUQ7ChMAJ@vger.kernel.org, AJvYcCVY9EbuqQqdhutBvezOZdJ2Jdma/G1Lu7CwJ0vIA+crDQjcuppIYnUSq6KsLG0GaEsvgJ8CsTkccZ1WHt+zZ+rtndY=@vger.kernel.org, AJvYcCWq/+WeYv/tegdNkvN4OuWd99+MfrddAoX+DYo6tuPZ+SYFsZzD6Py+9UXvvqpvDRkG89z/3n8KZJZ6@vger.kernel.org, AJvYcCX6jT4MWO4h9THnWLFMGO5NIiKWTFH/RZUuZpgDej577vqPYGPGDBWR8bUeRZwZiNFbNMjcVmGIpIXfwyT2@vger.kernel.org
-X-Received: by 2002:a17:907:7616:b0:ad5:3743:3fa1 with SMTP id
- a640c23a62f3a-ad5374340b4mr1918375866b.50.1748011524663; Fri, 23 May 2025
- 07:45:24 -0700 (PDT)
+        Fri, 23 May 2025 07:46:32 -0700 (PDT)
+Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-72bd5f25ea6so2513064a34.1;
+        Fri, 23 May 2025 07:46:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVT92M5qpwDwODEn9CZlYffbjxWG9Tm6n1ubLIrwcOjf4tlzhpr81BmH4AlLVEZX3SVz2gj60IlWK5i@vger.kernel.org, AJvYcCVfF5b/XJlhcZZt2NZcOfk4kJzgG8n40ttpY9Lnak25TTKmzu2mSa7luP75XsePLraIT6EXVPV7QSZ6@vger.kernel.org, AJvYcCW31504SGf2BaDj1T2FXWNFMFLv2noXgQCJhHD6aYla/byGrYHR/XL+c+NFYtCpKS2iBAQmLjoflCJF42yY@vger.kernel.org, AJvYcCXJTN7/2NpuY6gf2eczdDx2kIodoTScUlpKod33SCH2/LS5jDYDOanqlc1MNFEHm2rkThz4uXASG+1W4TBcCxvtV+Q=@vger.kernel.org
+X-Received: by 2002:a05:6830:6887:b0:72b:a3f3:deb6 with SMTP id
+ 46e09a7af769-734f984a750mr15833524a34.4.1748011592230; Fri, 23 May 2025
+ 07:46:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250512184302.241417-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250512184302.241417-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250512184302.241417-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250512184302.241417-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250512184302.241417-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250512184302.241417-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 23 May 2025 16:45:10 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU=iuVFo=VJjV7UM-fLTeZk9TwyOJwojOVOSJiniRneHA@mail.gmail.com>
-X-Gm-Features: AX0GCFvwamvYpsMtpBtvtgSH2uA4aQNl0Kcj7dnLwfU9z0V0YTsH6E-TkSjjegU
-Message-ID: <CAMuHMdU=iuVFo=VJjV7UM-fLTeZk9TwyOJwojOVOSJiniRneHA@mail.gmail.com>
-Subject: Re: [PATCH v5 1/4] clk: renesas: rzv2h-cpg: Add support for DSI clocks
+Date: Fri, 23 May 2025 16:46:20 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV9NM3SPeZAxDnh=ez0uBvt9077_64oJe9A727p1r9QOg@mail.gmail.com>
+X-Gm-Features: AX0GCFv_GjXouNvqk1PpQnSfRmAzXOHXMmh8i0A88wx3URx0tlvPZOD5l0uuRfQ
+Message-ID: <CAMuHMdV9NM3SPeZAxDnh=ez0uBvt9077_64oJe9A727p1r9QOg@mail.gmail.com>
+Subject: Re: [PATCH v5 2/4] clk: renesas: r9a09g057: Add clock and reset
+ entries for DSI and LCDC
 To: Prabhakar <prabhakar.csengg@gmail.com>, 
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -101,18 +102,7 @@ Hi Prabhakar, Fabrizio,
 On Mon, 12 May 2025 at 20:43, Prabhakar <prabhakar.csengg@gmail.com> wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Add support for PLLDSI and PLLDSI divider clocks.
->
-> Introduce the `renesas-rzv2h-dsi.h` header to centralize and share
-> PLLDSI-related data structures, limits, and algorithms between the RZ/V2H
-> CPG and DSI drivers.
->
-> The DSI PLL is functionally similar to the CPG's PLLDSI, but has slightly
-> different parameter limits and omits the programmable divider present in
-> CPG. To ensure precise frequency calculations-especially for milliHz-level
-> accuracy needed by the DSI driver-the shared algorithm allows both drivers
-> to compute PLL parameters consistently using the same logic and input
-> clock.
+> Add clock and reset entries for the DSI and LCDC peripherals.
 >
 > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
@@ -120,480 +110,48 @@ On Mon, 12 May 2025 at 20:43, Prabhakar <prabhakar.csengg@gmail.com> wrote:
 
 Thanks for your patch!
 
-> --- a/drivers/clk/renesas/rzv2h-cpg.c
-> +++ b/drivers/clk/renesas/rzv2h-cpg.c
-> @@ -48,6 +53,7 @@
->  #define CPG_PLL_STBY(x)                ((x))
->  #define CPG_PLL_STBY_RESETB    BIT(0)
->  #define CPG_PLL_STBY_RESETB_WEN        BIT(16)
-> +#define CPG_PLL_STBY_SSCGEN_WEN BIT(18)
+> --- a/drivers/clk/renesas/r9a09g057-cpg.c
+> +++ b/drivers/clk/renesas/r9a09g057-cpg.c
 
-CPG_PLL_STBY_SSC_EN_WEN?
+> @@ -58,6 +60,9 @@ enum clk_ids {
+>         CLK_SMUX2_GBE0_RXCLK,
+>         CLK_SMUX2_GBE1_TXCLK,
+>         CLK_SMUX2_GBE1_RXCLK,
+> +       CLK_DIV_PLLETH_LPCLK,
 
->  #define CPG_PLL_CLK1(x)                ((x) + 0x004)
->  #define CPG_PLL_CLK1_KDIV(x)   ((s16)FIELD_GET(GENMASK(31, 16), (x)))
+CLK_CDIV4_PLLETH_LPCLK?
 
-You are already using FIELD_GET() for extracting the K, M, P, and
-S fields, but are still still open-coding shifts for writing in
-rzv2h_cpg_pll_set_rate().
+> +       CLK_CSDIV_PLLETH_LPCLK,
 
-What about replacing CPG_PLL_CLK1_KDIV() by:
+CLK_PLLETH_LPCLK_GEAR?
 
-    #define CPG_PLL_CLK1_DIV_K    GENMASK(31,16)
+> +       CLK_PLLDSI_SDIV2,
 
-Then the code can use:
+CLK_PLLDSI_GEAR?
 
-    (s16)FIELD_GET(CPG_PLL_CLK1_DIV_K, clk1)
-
-for reading and:
-
-    FIELD_PREP(CPG_PLL_CLK1_DIV_K, (u16)k) | ...
-
-for writing?
-
-Same for the M, P, and S fields (but without the s16/u16 casts, as
-they are unsigned, unlike K).
-
->  #define CPG_PLL_CLK1_MDIV(x)   FIELD_GET(GENMASK(15, 6), (x))
-
-> @@ -198,6 +227,188 @@ static int rzv2h_cpg_pll_clk_enable(struct clk_hw *hw)
->         return ret;
->  }
+>         CLK_PLLGPU_GEAR,
 >
-> +static unsigned long rzv2h_cpg_plldsi_div_recalc_rate(struct clk_hw *hw,
-> +                                                     unsigned long parent_rate)
-> +{
-> +       struct rzv2h_plldsi_div_clk *dsi_div = to_plldsi_div_clk(hw);
-> +       struct rzv2h_cpg_priv *priv = dsi_div->priv;
-> +       struct ddiv ddiv = dsi_div->ddiv;
-> +       u32 div;
-> +
-> +       div = readl(priv->base + ddiv.offset);
-> +       div >>= ddiv.shift;
-> +       div &= clk_div_mask(ddiv.width);
-> +       div = dsi_div->dtable[div].div;
-> +
-> +       return DIV_ROUND_CLOSEST_ULL(parent_rate, div);
-> +}
-> +
-> +static int rzv2h_cpg_plldsi_div_determine_rate(struct clk_hw *hw,
-> +                                              struct clk_rate_request *req)
-> +{
-> +       struct rzv2h_plldsi_div_clk *dsi_div = to_plldsi_div_clk(hw);
-> +       struct rzv2h_cpg_priv *priv = dsi_div->priv;
-> +       struct rzv2h_plldsi_parameters *dsi_dividers = &priv->plldsi_div_parameters;
-> +       u64 rate_millihz;
-> +
-> +       /*
-> +        * Adjust the requested clock rate (`req->rate`) to ensure it falls within
-> +        * the supported range of 5.44 MHz to 187.5 MHz.
-> +        */
-> +       req->rate = clamp(req->rate, 5440000UL, 187500000UL);
-> +
-> +       rate_millihz = mul_u32_u32(req->rate, MILLI);
-> +       if (rate_millihz == dsi_dividers->error_millihz + dsi_dividers->freq_millihz)
-> +               goto exit_determine_rate;
-> +
-> +       if (!rzv2h_dsi_get_pll_parameters_values(priv->dsi_limits,
-> +                                                dsi_dividers, rate_millihz)) {
-> +               dev_err(priv->dev,
-> +                       "failed to determine rate for req->rate: %lu\n",
-> +                       req->rate);
-> +               return -EINVAL;
-> +       }
-> +
-> +exit_determine_rate:
-> +       req->best_parent_rate = req->rate * dsi_dividers->csdiv;
+>         /* Module Clocks */
 
-Shouldn't this also update req->rate with the actual rate?
-
-    req->rate = DIV_ROUND_CLOSEST_ULL(dsi_dividers->freq_millihz, MILLI);
-
-Would it help the DSI driver if this clock would provide a
-.recalc_accuracy() callback that takes into account the difference
-between req->rate and dsi_dividers->freq_millihz?
-Or would that be considered abuse of the accuracy concept?
-
+> @@ -148,6 +182,12 @@ static const struct cpg_core_clk r9a09g057_core_clks[] __initconst = {
+>         DEF_SMUX(".smux2_gbe0_rxclk", CLK_SMUX2_GBE0_RXCLK, SSEL0_SELCTL3, smux2_gbe0_rxclk),
+>         DEF_SMUX(".smux2_gbe1_txclk", CLK_SMUX2_GBE1_TXCLK, SSEL1_SELCTL0, smux2_gbe1_txclk),
+>         DEF_SMUX(".smux2_gbe1_rxclk", CLK_SMUX2_GBE1_RXCLK, SSEL1_SELCTL1, smux2_gbe1_rxclk),
+> +       DEF_FIXED(".cdiv4_plleth_lpclk", CLK_DIV_PLLETH_LPCLK, CLK_PLLETH, 1, 4),
+> +       DEF_CSDIV(".plleth_lpclk_gear", CLK_CSDIV_PLLETH_LPCLK, CLK_DIV_PLLETH_LPCLK,
+> +                 CSDIV0_DIVCTL2, dtable_16_128),
 > +
-> +       return 0;
-> +};
-> +
-> +static int rzv2h_cpg_plldsi_div_set_rate(struct clk_hw *hw,
-> +                                        unsigned long rate,
-> +                                        unsigned long parent_rate)
-> +{
-> +       struct rzv2h_plldsi_div_clk *dsi_div = to_plldsi_div_clk(hw);
-> +       struct rzv2h_cpg_priv *priv = dsi_div->priv;
-> +       struct rzv2h_plldsi_parameters *dsi_dividers = &priv->plldsi_div_parameters;
-> +       struct ddiv ddiv = dsi_div->ddiv;
-> +       const struct clk_div_table *clkt;
-> +       bool div_found = false;
-> +       u32 val, shift, div;
-> +
-> +       div = dsi_dividers->csdiv;
-> +       for (clkt = dsi_div->dtable; clkt->div; clkt++) {
-> +               if (clkt->div == div) {
-> +                       div_found = true;
-> +                       break;
-> +               }
-> +       }
-> +
-> +       if (!div_found)
-> +               return -EINVAL;
-> +
-> +       shift = ddiv.shift;
-> +       val = readl(priv->base + ddiv.offset) | DDIV_DIVCTL_WEN(shift);
-> +       val &= ~(clk_div_mask(ddiv.width) << shift);
-> +       val |= (u32)clkt->val << shift;
+> +       DEF_PLLDSI_DIV(".plldsi_sdiv2", CLK_PLLDSI_SDIV2, CLK_PLLDSI,
 
-No need for the cast.
+".plldsi_gear", CLK_PLLDSI_GEAR ...
 
-> +       writel(val, priv->base + ddiv.offset);
-> +
-> +       return 0;
-> +};
-> +
-> +static const struct clk_ops rzv2h_cpg_plldsi_div_ops = {
-> +       .recalc_rate = rzv2h_cpg_plldsi_div_recalc_rate,
-> +       .determine_rate = rzv2h_cpg_plldsi_div_determine_rate,
-> +       .set_rate = rzv2h_cpg_plldsi_div_set_rate,
-> +};
 
-> +static long rzv2h_cpg_plldsi_round_rate(struct clk_hw *hw,
-> +                                       unsigned long rate,
-> +                                       unsigned long *parent_rate)
-> +{
-> +       return clamp(rate, 25000000UL, 375000000UL);
-
-This only brings the desired rate into the supported range, but does
-not round it to the nearest rate that is actually supported.
-
-> +}
-> +
-> +static int rzv2h_cpg_pll_set_rate(struct clk_hw *hw,
-> +                                 unsigned long rate,
-> +                                 unsigned long parent_rate)
-> +{
-> +       struct pll_clk *pll_clk = to_pll(hw);
-> +       struct rzv2h_cpg_priv *priv = pll_clk->priv;
-> +       struct rzv2h_plldsi_parameters *dsi_dividers;
-> +       struct pll pll = pll_clk->pll;
-> +       u16 offset = pll.offset;
-> +       u32 val;
-> +       int ret;
-> +
-> +       /* Put PLL into standby mode */
-> +       writel(CPG_PLL_STBY_RESETB_WEN, priv->base + CPG_PLL_STBY(offset));
-> +       ret = readl_poll_timeout_atomic(priv->base + CPG_PLL_MON(offset),
-> +                                       val, !(val & CPG_PLL_MON_LOCK),
-> +                                       100, 2000);
-> +       if (ret) {
-> +               dev_err(priv->dev, "Failed to put PLLDSI into standby mode");
-> +               return ret;
-> +       }
-> +
-> +       dsi_dividers = &priv->plldsi_div_parameters;
-> +       /* Output clock setting 1 */
-> +       writel((dsi_dividers->k << 16) | (dsi_dividers->m << 6) | (dsi_dividers->p),
-
-This is where you want to use FIELD_PREP().
-
-> +              priv->base + CPG_PLL_CLK1(offset));
-> +
-> +       /* Output clock setting 2 */
-> +       val = readl(priv->base + CPG_PLL_CLK2(offset));
-> +       writel((val & ~GENMASK(2, 0)) | dsi_dividers->s,
-
-(val & ~CPG_PLL_CLK2_DIV_S) | FIELD_PREP(...)
-
-> +              priv->base + CPG_PLL_CLK2(offset));
-> +
-> +       /* Put PLL to normal mode */
-> +       writel(CPG_PLL_STBY_RESETB_WEN | CPG_PLL_STBY_RESETB,
-> +              priv->base + CPG_PLL_STBY(offset));
-> +
-> +       /* PLL normal mode transition, output clock stability check */
-> +       ret = readl_poll_timeout_atomic(priv->base + CPG_PLL_MON(offset),
-> +                                       val, (val & CPG_PLL_MON_LOCK),
-> +                                       100, 2000);
-> +       if (ret) {
-> +               dev_err(priv->dev, "Failed to put PLLDSI into normal mode");
-> +               return ret;
-> +       }
-> +
-> +       return 0;
-> +};
-> +
->  static unsigned long rzv2h_cpg_pll_clk_recalc_rate(struct clk_hw *hw,
->                                                    unsigned long parent_rate)
->  {
-
-> --- a/drivers/clk/renesas/rzv2h-cpg.h
-> +++ b/drivers/clk/renesas/rzv2h-cpg.h
-> @@ -100,6 +100,7 @@ struct smuxed {
->  #define CPG_CDDIV3             (0x40C)
->  #define CPG_CDDIV4             (0x410)
->  #define CPG_CSDIV0             (0x500)
-> +#define CPG_CSDIV1             (0x504)
-
-Unused until [PATCH v5 2/4], so please move it there.
-
+> +                      CSDIV1_DIVCTL2, dtable_2_32),
 >
->  #define CDDIV0_DIVCTL1 DDIV_PACK(CPG_CDDIV0, 4, 3, 1)
->  #define CDDIV0_DIVCTL2 DDIV_PACK(CPG_CDDIV0, 8, 3, 2)
+>         DEF_DDIV(".pllgpu_gear", CLK_PLLGPU_GEAR, CLK_PLLGPU, CDDIV3_DIVCTL1, dtable_2_64),
+>
 
-> --- /dev/null
-> +++ b/include/linux/clk/renesas-rzv2h-dsi.h
-> @@ -0,0 +1,211 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Renesas RZ/V2H(P) DSI CPG helper
-> + *
-> + * Copyright (C) 2025 Renesas Electronics Corp.
-> + */
-> +#ifndef __RENESAS_RZV2H_DSI_H__
-> +#define __RENESAS_RZV2H_DSI_H__
-> +
-> +#include <linux/limits.h>
-> +#include <linux/math.h>
-> +#include <linux/math64.h>
-> +#include <linux/units.h>
-> +
-> +#define OSC_CLK_IN_MEGA                (24 * MEGA)
-> +
-> +struct rzv2h_pll_div_limits {
-> +       struct {
-> +               u32 min;
-> +               u32 max;
-> +       } fvco;
-> +
-> +       struct {
-> +               u16 min;
-> +               u16 max;
-> +       } m;
-> +
-> +       struct {
-> +               u8 min;
-> +               u8 max;
-> +       } p;
-> +
-> +       struct {
-> +               u8 min;
-> +               u8 max;
-> +       } s;
-> +
-> +       struct {
-> +               s16 min;
-> +               s16 max;
-> +       } k;
-> +
-> +       struct {
-> +               u8 min;
-> +               u8 max;
-> +       } csdiv;
-> +};
-> +
-> +struct rzv2h_plldsi_parameters {
-> +       u64 freq_millihz;
-> +       s64 error_millihz;
-> +       u16 m;
-> +       s16 k;
-> +       u8 csdiv;
-> +       u8 p;
-> +       u8 s;
-> +};
-> +
-> +#define RZV2H_CPG_PLL_DSI_LIMITS(name)                                 \
-> +       static const struct rzv2h_pll_div_limits (name) = {             \
-> +               .fvco = { .min = 1600 * MEGA, .max = 3200 * MEGA },     \
-> +               .m = { .min = 64, .max = 533 },                         \
-> +               .p = { .min = 1, .max = 4 },                            \
-> +               .s = { .min = 0, .max = 6 },                            \
-> +               .k = { .min = -32768, .max = 32767 },                   \
-> +               .csdiv = { .min = 2, .max = 32 },                       \
-> +       }                                                               \
-> +
-> +/**
-> + * rzv2h_dsi_get_pll_parameters_values - Finds the best combination of PLL parameters
-> + * and divider value for a given frequency.
-> + *
-> + * @limits: Pointer to the structure containing the limits for the PLL parameters and
-> + * divider values
-> + * @pars: Pointer to the structure where the best calculated PLL parameters and divider
-> + * values will be stored
-> + * @freq_millihz: Target output frequency in millihertz
-> + *
-> + * This function calculates the best set of PLL parameters (M, K, P, S) and divider
-> + * value (CSDIV) to achieve the desired frequency.
-> + * There is no direct formula to calculate the PLL parameters and the divider value,
-> + * as it's an open system of equations, therefore this function uses an iterative
-> + * approach to determine the best solution. The best solution is one that minimizes
-> + * the error (desired frequency - actual frequency).
-> + *
-> + * Return: true if a valid set of divider values is found, false otherwise.
-> + */
-> +static __maybe_unused bool
-> +rzv2h_dsi_get_pll_parameters_values(const struct rzv2h_pll_div_limits *limits,
-> +                                   struct rzv2h_plldsi_parameters *pars,
-> +                                   u64 freq_millihz)
-> +{
-> +       struct rzv2h_plldsi_parameters p, best;
-> +
-> +       /* Initialize best error to maximum possible value */
-> +       best.error_millihz = S64_MAX;
-> +
-> +       for (p.csdiv = limits->csdiv.min; p.csdiv <= limits->csdiv.max; p.csdiv += 2) {
-> +               for (p.p = limits->p.min; p.p <= limits->p.max; p.p++) {
-> +                       u32 fref = OSC_CLK_IN_MEGA / p.p;
-> +
-> +                       for (p.s = limits->s.min; p.s <= limits->s.max; p.s++) {
-> +                               u16 two_pow_s = 1 << p.s;
-> +                               u16 divider = two_pow_s * p.csdiv;
-
-No need for two_pow_s.  You can initialize divider = p.csdiv << s.min
-at the start of the loop, and multiply by two after each iteration.
-
-> +
-> +                               for (p.m = limits->m.min; p.m <= limits->m.max; p.m++) {
-> +                                       u64 output_m, output_k_range;
-> +                                       s64 pll_k, output_k;
-> +                                       u64 fvco, output;
-> +
-> +                                       /*
-> +                                        * The frequency generated by the combination of the
-> +                                        * PLL + divider is calculated as follows:
-> +                                        *
-> +                                        * Freq = Ffout / csdiv
-> +                                        *
-> +                                        * With:
-> +                                        * Ffout = Ffvco / 2^(pll_s)
-> +                                        * Ffvco = (pll_m + (pll_k / 65536)) * Ffref
-> +                                        * Ffref = 24MHz / pll_p
-> +                                        *
-> +                                        * Freq can also be rewritten as:
-> +                                        * Freq = Ffvco / (2^(pll_s) * csdiv))
-> +                                        *      = Ffvco / divider
-> +                                        *      = (pll_m * Ffref) / divider + ((pll_k / 65536) * Ffref) / divider
-> +                                        *      = output_m + output_k
-> +                                        *
-> +                                        * Every parameter has been determined at this point, but pll_k.
-> +                                        * Considering that:
-> +                                        * -32768 <= pll_k <= 32767
-> +                                        * Then:
-> +                                        * -0.5 <= (pll_k / 65536) < 0.5
-> +                                        * Therefore:
-> +                                        * -Ffref / (2 * divider) <= output_k < Ffref / (2 * divider)
-> +                                        */
-> +
-> +                                       /* Compute output M component (in mHz) */
-> +                                       output_m = DIV_ROUND_CLOSEST_ULL(p.m * fref * 1000ULL,
-
-"p.m * fref" may overflow => mul_u32_u32(p.m, fref) * MILLI;
-
-> +                                                                        divider);
-> +                                       /* Compute range for output K (in mHz) */
-> +                                       output_k_range = DIV_ROUND_CLOSEST_ULL(fref * 1000ULL,
-
-mul_u32_u32(fref, MILLI)
-
-> +                                                                              divider * 2);
-> +                                       /*
-> +                                        * No point in continuing if we can't achieve the
-> +                                        * desired frequency
-> +                                        */
-> +                                       if (freq_millihz <  (output_m - output_k_range) ||
-> +                                           freq_millihz >= (output_m + output_k_range))
-> +                                               continue;
-> +
-> +                                       /*
-> +                                        * Compute the K component
-> +                                        *
-> +                                        * Since:
-> +                                        * Freq = output_m + output_k
-> +                                        * Then:
-> +                                        * output_k = Freq - output_m
-> +                                        *          = ((pll_k / 65536) * Ffref) / divider
-> +                                        * Therefore:
-> +                                        * pll_k = (output_k * 65536 * divider) / Ffref
-> +                                        */
-> +                                       output_k = freq_millihz - output_m;
-> +                                       pll_k = div64_s64(output_k * 65536ULL * divider, fref);
-
-div_s64(), as fref is 32-bit.
-
-> +                                       pll_k = DIV_S64_ROUND_CLOSEST(pll_k, 1000);
-
-MILLI
-
-> +
-> +                                       /* Validate K value within allowed limits */
-> +                                       if (pll_k < limits->k.min || pll_k > limits->k.max)
-> +                                               continue;
-> +
-> +                                       p.k = pll_k;
-> +
-> +                                       /* Compute (Ffvco * 65536) */
-> +                                       fvco = ((p.m * 65536ULL) + p.k) * fref;
-
-mul_u32(p.m * 65536 + p.k, fref)
-
-I guess the compiler is sufficiently smart to turn that into a shift.
-The alternative would be to use a cast (I try to avoid them) and a shift:
-
-mul_u32((u64)p.m << 16 + p.k, fref)
-
-> +                                       if ((fvco < (limits->fvco.min * 65536ULL)) ||
-> +                                           (fvco > (limits->fvco.max * 65536ULL)))
-
-mul_u32_u32(..., 65536) for both
-
-> +                                               continue;
-> +
-> +                                       /* PLL_M component of (output * 65536 * PLL_P) */
-> +                                       output = p.m * 65536ULL * OSC_CLK_IN_MEGA;
-
-mul_u32(p.m * 65536, OSC_CLK_IN_MEGA)
-
-> +                                       /* PLL_K component of (output * 65536 * PLL_P) */
-> +                                       output += p.k * OSC_CLK_IN_MEGA;
-> +                                       /* Make it in mHz */
-> +                                       output *= 1000ULL;
-
-No need for the ULL => MILLI
-
-> +                                       output /= 65536ULL * p.p * divider;
-
-mul_u32()
-
-No rounding for the division?
-
-> +
-> +                                       p.error_millihz = freq_millihz - output;
-> +                                       p.freq_millihz = output;
-> +
-> +                                       /* If an exact match is found, return immediately */
-> +                                       if (p.error_millihz == 0) {
-> +                                               *pars = p;
-> +                                               return true;
-> +                                       }
-> +
-> +                                       /* Update best match if error is smaller */
-> +                                       if (abs(best.error_millihz) > abs(p.error_millihz))
-> +                                               best = p;
-> +                               }
-> +                       }
-> +               }
-> +       }
-> +
-> +       /* If no valid parameters were found, return false */
-> +       if (best.error_millihz == S64_MAX)
-> +               return false;
-> +
-> +       *pars = best;
-> +       return true;
-> +}
-> +
-> +#endif /* __RENESAS_RZV2H_DSI_H__ */
+The rest LGTM.
 
 Gr{oetje,eeting}s,
 
