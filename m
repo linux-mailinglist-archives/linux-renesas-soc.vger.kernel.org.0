@@ -1,148 +1,238 @@
-Return-Path: <linux-renesas-soc+bounces-17418-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17419-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1905AC1E93
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 10:23:34 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B112DAC1EFB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 10:55:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 32131188D35F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 08:23:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 813217B7430
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 May 2025 08:54:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 343B728750F;
-	Fri, 23 May 2025 08:23:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 020711B0435;
+	Fri, 23 May 2025 08:55:17 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.35])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9644528750C;
-	Fri, 23 May 2025 08:23:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03EA9130A73;
+	Fri, 23 May 2025 08:55:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.216.63.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747988611; cv=none; b=OhOtjqZLqNBji7zzVxnMlNX96JuiOJJ6Mh6o9RGCD0bMk/CDoippB1NdKzzYDtsvp6pbQYpfOm1G0l2NW6fDFnlo4CrdJ8sAMtukFO/b4oKslowidM9p0Ew3Ovh0qBHwZu/sTQ4pqEQoVg7mHoQHRRGbGxyRRvc5TGibZVFYSzU=
+	t=1747990516; cv=none; b=awEq8hrE3c9EU2ET0PQmLXWV/8YquGgZM+bnvYUw3kRqrfgdQcqcfnVDK0rzkvVygcVpxBKYo7Igjweb4tPaGqKNtZx+t5xppl2sdmplHtNQzJ6rIiPow2rU6f6AEbDGHSkEaUcw5DrHA5gzDyy9TN5IhXlZ08Ik5kDsecnH7RQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747988611; c=relaxed/simple;
-	bh=/n7IuSaBmXXb5qi6uBnpAH5RZvgbQZh7xBIBVxR1ME4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DexUGT/kUVsOdGH64FtRxiZLLnWLctuq14lavpsGN7ytHB0bkjlftaT8h+lFjB2I1/MJ/YZcgEgVFuDhsj1L9nV/EijCI4MI+TZSdxb+Uj6QaoBiCcY0t5osMtmxxfAuRrhTNz29JX2raRYWRfbYXrK+a1SWXs9aUMJZsdBC/g4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-52e0d047d31so3735715e0c.2;
-        Fri, 23 May 2025 01:23:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747988608; x=1748593408;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=16h2I7GAa27h9TCDuiVKU8pT4EsEtcrnSdTfaMvWiaU=;
-        b=VQbl8U/AGFN/PGVRCcy9vhMrdvFvGjJM8KUgfyyMjf4eAWKHVIBw+yeqrmCVFRiptX
-         829HJ2J4uGhwHkAyR4E3PO9iLomnkvUTa2nLvPxHNml+6H0WucS1gd/Wm+Hz/ef6xQuO
-         Uchin53UBhbO6faK45zlDT+L49p0+9zKn7NqP4aJC33rKfqYvLlR7G3Tu2zRYe9jVHpr
-         b1gUAPAEmaqpyb1W+Nm70/+qO6uRnXfx0wlqi59bLJCO4vZgqA9nSzCBN6Nvl7scvMWU
-         zRVFHHwEUgB7B0v7KsbZMOIl4si/oaBZVoHvs8mzNBimrZDJgcw7NY3p6Q0ekQyEr3I2
-         zqzw==
-X-Forwarded-Encrypted: i=1; AJvYcCVWA/NIEZG80YdeaEjdpyVP5NB0xod86Rkb2a45gm8SF2ib+sGhhtRPzIybDZAcy8mivac92l+SQZI=@vger.kernel.org, AJvYcCW3gaSnGPIX2VuM+omnTUcIwUqXgo6KRrYTUei0HWSidp67TBm4+NjP16nf8ubPA/jI+GXtlNVEMPSzRdz83I89UGM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxuj4THOaex4ez91K330Vqfbnzh9vHGBpZq7NvSH0KZ1Zm5uHTJ
-	XYG3q2UASG/ik5pjol3VY8YqvNsBJbQxxSmgnEkxt0Bn0l3EHVMOhcAbSZWUfAOx
-X-Gm-Gg: ASbGnctW3d2fyiovOjBfdINvLt9yaAmKNzs2FlRDP8Kf0OQtTE5+JxUoaJofrs67bzX
-	SJ1PogaviOrsQSHHYPGtEdXmeei3WQb5WgEryWhWoA39JYWoUIg5WokeBe453cxOL6BHWFawyHx
-	iiJl7eiPA0rgT7VUnlVoV6cIOwp/5CzE1EmybTKSxps6273EBEEIUCFHpA8R5s7ykI4AFtM2rt4
-	Wpe6TKWCmEhbRIwOA2QAd0BcujbSvReV9JGYF5iP1c2HtUtSRlzGIOeb3eiAYYWHuVnhjaZQ3s8
-	SoHAD/Yo0/bV4JiSzjetMn530y4ZwHZbthNgTmOKGI3lXKtEOvr6YddkefErzO68JaiSmEaCydy
-	OjPeRACs7YDS10w==
-X-Google-Smtp-Source: AGHT+IEj4nyBa1yQQrQ6mQGV8RERDj/kYa4WKo/Sbq8dWQqJk9HSK5YKym4fZ8encPGt7C7QpxwuuA==
-X-Received: by 2002:a05:6122:1acc:b0:520:4996:7cf2 with SMTP id 71dfb90a1353d-52f1fed85e1mr1254594e0c.10.1747988608119;
-        Fri, 23 May 2025 01:23:28 -0700 (PDT)
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com. [209.85.217.52])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-52dba910901sm13062641e0c.2.2025.05.23.01.23.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 May 2025 01:23:27 -0700 (PDT)
-Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-4e150f1ba9aso4744381137.2;
-        Fri, 23 May 2025 01:23:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVRK/Jup13V8XLAut6GM7ddYbsq4LpUPlLP40sulD/y+7VL8FkF0t53yc59YMiJXrg6cy7fNYhSjWY=@vger.kernel.org, AJvYcCXUriCKi7eHbRwMC97rzn8XCwHw6XfV9rXdchVirZwM1adDwfHkflUpSCgDRSDBWVDeI7gQo+gDHnqeapHY3/+rUig=@vger.kernel.org
-X-Received: by 2002:a05:6102:e06:b0:4df:9e8b:8cad with SMTP id
- ada2fe7eead31-4e2f1a6a477mr1512818137.22.1747988607768; Fri, 23 May 2025
- 01:23:27 -0700 (PDT)
+	s=arc-20240116; t=1747990516; c=relaxed/simple;
+	bh=WuYWKSM/26vX+BnazJK6j8NxJkKFj+uIw8YHL5OYIWE=;
+	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=rL41l8eeBkxQ9KRGLYKOimWzKA7OPiLuBprpON6ye59ISEfcdRV/VKLl2NI5LIiQJdQAq29/FaBiTED+Xe81kIm3x4lBejVITAiq5XA9QJv8uvNwpMJsiun5bWWE22nTjvRiFXjNXlU/XdzL2mwJt+WpafW/5TXoCBPA9u8CpJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=63.216.63.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4b3f9y56Llz5B1J6;
+	Fri, 23 May 2025 16:55:02 +0800 (CST)
+Received: from njb2app05.zte.com.cn ([10.55.22.121])
+	by mse-fl1.zte.com.cn with SMTP id 54N8sg6h069796;
+	Fri, 23 May 2025 16:54:42 +0800 (+08)
+	(envelope-from long.yunjian@zte.com.cn)
+Received: from mapi (njy2app04[null])
+	by mapi (Zmail) with MAPI id mid201;
+	Fri, 23 May 2025 16:54:45 +0800 (CST)
+Date: Fri, 23 May 2025 16:54:45 +0800 (CST)
+X-Zmail-TransId: 2afc683037d5ffffffffaf2-ab6b4
+X-Mailer: Zmail v1.0
+Message-ID: <20250523165445002hUV3RCqhv6Xng7_bbUxlJ@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <cb0d43138aa443578dcfdaab146bf9215cde9408.1747927483.git.geert+renesas@glider.be>
- <3e8f1df2-5da3-4db1-9fca-2cc9b4d0c0f9@tuxon.dev>
-In-Reply-To: <3e8f1df2-5da3-4db1-9fca-2cc9b4d0c0f9@tuxon.dev>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 23 May 2025 10:23:15 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV6Xi_bbu7XvFRjA2QXKm+QYbhmC4Y10=aiXUHpuL7vbA@mail.gmail.com>
-X-Gm-Features: AX0GCFsq1o8Nt7e6cNSh-xYPQCpEN3_KUZIfR8BXGfWezat2htGEGj8C2QLJMtI
-Message-ID: <CAMuHMdV6Xi_bbu7XvFRjA2QXKm+QYbhmC4Y10=aiXUHpuL7vbA@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: rzg2l: Rename to_mod_clock() to to_mstp_clock()
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+From: <long.yunjian@zte.com.cn>
+To: <andi.shyti@kernel.org>
+Cc: <codrin.ciubotariu@microchip.com>, <nicolas.ferre@microchip.com>,
+        <alexandre.belloni@bootlin.com>, <claudiu.beznea@tuxon.dev>,
+        <wsa+renesas@sang-engineering.com>, <till@harbaum.org>,
+        <linux-i2c@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-renesas-soc@vger.kernel.org>, <mou.yi@zte.com.cn>,
+        <xu.lifeng1@zte.com.cn>, <fang.yumeng@zte.com.cn>,
+        <ouyang.maochun@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIHYyXSBpMmM6IFVzZSBzdHJfcmVhZF93cml0ZSgpIGhlbHBlcg==?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 54N8sg6h069796
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 683037E6.003/4b3f9y56Llz5B1J6
 
-Hi Claudiu,
+From: Yumeng Fang <fang.yumeng@zte.com.cn>
 
-On Fri, 23 May 2025 at 10:00, Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
-> On 22.05.2025 18:26, Geert Uytterhoeven wrote:
-> > Rename the to_mod_clock() helper macro to to_mstp_clock(), to match the
-> > type of the returned structure.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> > This depends on "[PATCH v2 3/8] clk: renesas: rzg2l-cpg: Add macro to
-> > loop through module clocks"
-> > https://lore.kernel.org/20250514090415.4098534-4-claudiu.beznea.uj@bp.renesas.co,
-> >
-> > To be queued in renesas-clk for v6.17.
-> > ---
-> >  drivers/clk/renesas/rzg2l-cpg.c | 12 ++++++------
-> >  1 file changed, 6 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
-> > index dc92f09d5616223b..9449a5a5714302f8 100644
-> > --- a/drivers/clk/renesas/rzg2l-cpg.c
-> > +++ b/drivers/clk/renesas/rzg2l-cpg.c
-> > @@ -1200,18 +1200,18 @@ struct mstp_clock {
-> >       bool enabled;
-> >  };
-> >
-> > -#define to_mod_clock(_hw) container_of(_hw, struct mstp_clock, hw)
-> > +#define to_mstp_clock(_hw) container_of(_hw, struct mstp_clock, hw)
->
-> I don't know the history behind this, but, I think it should be the other
-> way around for this driver, I mean change "mstp" strings with "mod"/"module".
+Remove hard-coded strings by using the str_read_write() helper.
 
-I considered that, too, until I saw:
+Signed-off-by: Yumeng Fang <fang.yumeng@zte.com.cn>
+Signed-off-by: Yunjian Long <long.yunjian@zte.com.cn>
+---
+v1 -> v2
+Fix this in the whole i2c subsystem.
 
-    /**
-     * struct mstp_clock - MSTP gating clock
-     *
+ drivers/i2c/algos/i2c-algo-pcf.c     | 3 ++-
+ drivers/i2c/busses/i2c-at91-master.c | 3 ++-
+ drivers/i2c/busses/i2c-sh_mobile.c   | 3 ++-
+ drivers/i2c/busses/i2c-tiny-usb.c    | 3 ++-
+ drivers/i2c/busses/i2c-viperboard.c  | 3 ++-
+ drivers/i2c/i2c-core-base.c          | 3 ++-
+ drivers/i2c/i2c-core-smbus.c         | 3 ++-
+ 7 files changed, 14 insertions(+), 7 deletions(-)
 
-> The RZ/G3S, RZ/G2L HW manuals mention "MSTP" string only as an abbreviation
-> for "Module stop state". You can find "Module stop state (MSTP)" string on
-> sections describing the MSTOP bits for individual modules.
->
-> Instead, those manual refers to the clocks of individual IPs as "module
-> clocks".
+diff --git a/drivers/i2c/algos/i2c-algo-pcf.c b/drivers/i2c/algos/i2c-algo-pcf.c
+index 7a01f2687b4c..740066ceaea3 100644
+--- a/drivers/i2c/algos/i2c-algo-pcf.c
++++ b/drivers/i2c/algos/i2c-algo-pcf.c
+@@ -19,6 +19,7 @@
+ #include <linux/errno.h>
+ #include <linux/i2c.h>
+ #include <linux/i2c-algo-pcf.h>
++#include <linux/string_choices.h>
+ #include "i2c-algo-pcf.h"
 
-OK, to avoid confusion with the mstop registers, I better change it
-the other way around, and rename the comment to
-"struct mod_clock - Module clock".
 
-Gr{oetje,eeting}s,
+@@ -316,7 +317,7 @@ static int pcf_xfer(struct i2c_adapter *i2c_adap,
+ 		pmsg = &msgs[i];
 
-                        Geert
+ 		DEB2(printk(KERN_DEBUG "i2c-algo-pcf.o: Doing %s %d bytes to 0x%02x - %d of %d messages\n",
+-		     pmsg->flags & I2C_M_RD ? "read" : "write",
++		     str_read_write(pmsg->flags & I2C_M_RD),
+ 		     pmsg->len, pmsg->addr, i + 1, num);)
 
+ 		ret = pcf_doAddress(adap, pmsg);
+diff --git a/drivers/i2c/busses/i2c-at91-master.c b/drivers/i2c/busses/i2c-at91-master.c
+index ee3b469ddfb9..374fc50bb205 100644
+--- a/drivers/i2c/busses/i2c-at91-master.c
++++ b/drivers/i2c/busses/i2c-at91-master.c
+@@ -26,6 +26,7 @@
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
++#include <linux/string_choices.h>
+
+ #include "i2c-at91.h"
+
+@@ -523,7 +524,7 @@ static int at91_do_twi_transfer(struct at91_twi_dev *dev)
+ 	 */
+
+ 	dev_dbg(dev->dev, "transfer: %s %zu bytes.\n",
+-		(dev->msg->flags & I2C_M_RD) ? "read" : "write", dev->buf_len);
++		str_read_write(dev->msg->flags & I2C_M_RD), dev->buf_len);
+
+ 	reinit_completion(&dev->cmd_complete);
+ 	dev->transfer_status = 0;
+diff --git a/drivers/i2c/busses/i2c-sh_mobile.c b/drivers/i2c/busses/i2c-sh_mobile.c
+index efe29621b8d7..adfcee6c9fdc 100644
+--- a/drivers/i2c/busses/i2c-sh_mobile.c
++++ b/drivers/i2c/busses/i2c-sh_mobile.c
+@@ -24,6 +24,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/slab.h>
++#include <linux/string_choices.h>
+
+ /* Transmit operation:                                                      */
+ /*                                                                          */
+@@ -409,7 +410,7 @@ static irqreturn_t sh_mobile_i2c_isr(int irq, void *dev_id)
+ 	pd->sr |= sr; /* remember state */
+
+ 	dev_dbg(pd->dev, "i2c_isr 0x%02x 0x%02x %s %d %d!\n", sr, pd->sr,
+-	       (pd->msg->flags & I2C_M_RD) ? "read" : "write",
++	       str_read_write(pd->msg->flags & I2C_M_RD),
+ 	       pd->pos, pd->msg->len);
+
+ 	/* Kick off TxDMA after preface was done */
+diff --git a/drivers/i2c/busses/i2c-tiny-usb.c b/drivers/i2c/busses/i2c-tiny-usb.c
+index 0f2ed181b266..a18eab0992a1 100644
+--- a/drivers/i2c/busses/i2c-tiny-usb.c
++++ b/drivers/i2c/busses/i2c-tiny-usb.c
+@@ -10,6 +10,7 @@
+ #include <linux/errno.h>
+ #include <linux/module.h>
+ #include <linux/slab.h>
++#include <linux/string_choices.h>
+ #include <linux/types.h>
+
+ /* include interfaces to usb layer */
+@@ -71,7 +72,7 @@ static int usb_xfer(struct i2c_adapter *adapter, struct i2c_msg *msgs, int num)
+
+ 		dev_dbg(&adapter->dev,
+ 			"  %d: %s (flags %d) %d bytes to 0x%02x\n",
+-			i, pmsg->flags & I2C_M_RD ? "read" : "write",
++			i, str_read_write(pmsg->flags & I2C_M_RD),
+ 			pmsg->flags, pmsg->len, pmsg->addr);
+
+ 		/* and directly send the message */
+diff --git a/drivers/i2c/busses/i2c-viperboard.c b/drivers/i2c/busses/i2c-viperboard.c
+index 7523e7c02271..1bd602852e35 100644
+--- a/drivers/i2c/busses/i2c-viperboard.c
++++ b/drivers/i2c/busses/i2c-viperboard.c
+@@ -11,6 +11,7 @@
+ #include <linux/errno.h>
+ #include <linux/module.h>
+ #include <linux/slab.h>
++#include <linux/string_choices.h>
+ #include <linux/types.h>
+ #include <linux/mutex.h>
+ #include <linux/platform_device.h>
+@@ -278,7 +279,7 @@ static int vprbrd_i2c_xfer(struct i2c_adapter *i2c, struct i2c_msg *msgs,
+
+ 		dev_dbg(&i2c->dev,
+ 			"  %d: %s (flags %d) %d bytes to 0x%02x\n",
+-			i, pmsg->flags & I2C_M_RD ? "read" : "write",
++			i, str_read_write(pmsg->flags & I2C_M_RD),
+ 			pmsg->flags, pmsg->len, pmsg->addr);
+
+ 		mutex_lock(&vb->lock);
+diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
+index 5f6ff35a2707..2ad2b1838f0f 100644
+--- a/drivers/i2c/i2c-core-base.c
++++ b/drivers/i2c/i2c-core-base.c
+@@ -41,6 +41,7 @@
+ #include <linux/property.h>
+ #include <linux/rwsem.h>
+ #include <linux/slab.h>
++#include <linux/string_choices.h>
+
+ #include "i2c-core.h"
+
+@@ -2144,7 +2145,7 @@ static int i2c_quirk_error(struct i2c_adapter *adap, struct i2c_msg *msg, char *
+ {
+ 	dev_err_ratelimited(&adap->dev, "adapter quirk: %s (addr 0x%04x, size %u, %s)\n",
+ 			    err_msg, msg->addr, msg->len,
+-			    msg->flags & I2C_M_RD ? "read" : "write");
++			    str_read_write(msg->flags & I2C_M_RD));
+ 	return -EOPNOTSUPP;
+ }
+
+diff --git a/drivers/i2c/i2c-core-smbus.c b/drivers/i2c/i2c-core-smbus.c
+index e73afbefe222..71eb1ef56f0c 100644
+--- a/drivers/i2c/i2c-core-smbus.c
++++ b/drivers/i2c/i2c-core-smbus.c
+@@ -16,6 +16,7 @@
+ #include <linux/i2c-smbus.h>
+ #include <linux/property.h>
+ #include <linux/slab.h>
++#include <linux/string_choices.h>
+
+ #include "i2c-core.h"
+
+@@ -433,7 +434,7 @@ static s32 i2c_smbus_xfer_emulated(struct i2c_adapter *adapter, u16 addr,
+ 	case I2C_SMBUS_I2C_BLOCK_DATA:
+ 		if (data->block[0] > I2C_SMBUS_BLOCK_MAX) {
+ 			dev_err(&adapter->dev, "Invalid block %s size %d\n",
+-				read_write == I2C_SMBUS_READ ? "read" : "write",
++				str_read_write(read_write == I2C_SMBUS_READ),
+ 				data->block[0]);
+ 			return -EINVAL;
+ 		}
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+2.25.1
 
