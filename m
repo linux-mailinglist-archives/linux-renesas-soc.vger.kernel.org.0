@@ -1,367 +1,317 @@
-Return-Path: <linux-renesas-soc+bounces-17511-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17512-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E801AC4083
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 May 2025 15:34:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17FF4AC40E9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 May 2025 16:03:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D8AC11899858
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 May 2025 13:34:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 80841166928
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 May 2025 14:03:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B883220B813;
-	Mon, 26 May 2025 13:34:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BB50202998;
+	Mon, 26 May 2025 14:02:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="n2e5icdc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010026.outbound.protection.outlook.com [52.101.228.26])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 863521C3BFC;
-	Mon, 26 May 2025 13:34:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748266449; cv=none; b=SjYostWmPXM/PnqIsz/9DZgDizo8//RyTVR7zfhnXKz4vHUGfbubAmgqCFBN6LUm6lnUymFz1QZs+tN0ihWcAVDeomdA8MYj6QfaIlqIku21CRb4tVksYNI/LydbpzExwUFpX2KAos1KMpms70UncHKPcWksh34tJrZ4J5OWSro=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748266449; c=relaxed/simple;
-	bh=6hmKd3YbqDndGofig6i8NJQVyX8FYJ1rQnx3zzciYic=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SRxyrjz8rBytmrZtA8Ibp+3GPRu7k/bsRuDgLjzyOCulwY5WZ2Zxtghnv2oebvKU+qEo+ldHZaMMWUGPRmDP7xqTvCpzfUKIQGqkX5V7DfaRLqrzrAQsI4B0yzMrhqlPkosQTmRh0fEnxVKHMIAEE4jtEmSKMMvoBeMWBbcXBzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-310e1f4627aso2094314a91.2;
-        Mon, 26 May 2025 06:34:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748266446; x=1748871246;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6jwh1Zy+MsJCh19j+SWz20DYAgvM75B+gk2n149YvaA=;
-        b=lbvF49jdSSsJ6LEe21dLFKc+YPvDtZYmdhwDsr2wVMVxQkftmQ1jAtCzeHanpjUfKY
-         kWhNNv/FuiEi4HVR0nC+fWizX8j3g0qNBkA3MjX6CTCKalwI/qVsnY5XSYzLGWlaqh5R
-         XfSf0v4hdspdT5/cALg0IIefMdS9RlgHyeMgyi6Rf3b+1LxUTdNEOxfhUXeFaFGycTG4
-         ReKWLN7+DpATzrpUsamW3zXhtMK/ZLSvVbMhLUYO7Tw+Qw4dqH4js1UvPFha6RJu0r8n
-         qIgsvVhofZHUn3KuMGejVEZa1ReKq5UrSCgngG/QVi1cGUXIqA9ba1lK6OE58CKqUC1S
-         YYXg==
-X-Forwarded-Encrypted: i=1; AJvYcCULMmwSUOG1+2tV3DPneraKRqK/StXptpn0HKE1iyGBWX8byFeRYnwOOufuseoefXU9UbJ74P5i46AZ@vger.kernel.org, AJvYcCUOgl01gDxj6eoGbY5AsiFP4k5uou9R0zmGRhLkvpT5ax1pymxR03h16m8x9NF3TXVUJlhGuNZceUgP@vger.kernel.org, AJvYcCVMWO76GXr1E77q+g4tSeZpKw7rQoxUD1UqONZVr5gVT+QsDWSgdWz30tRgYAQIpka2D58vzDTsw7U5hTkHLEEWdkY=@vger.kernel.org, AJvYcCWv1MJPTAcl1yqT1I+e3r24imXVqyeAxmrW8BBVpA/nbAyWDOHP5UnQUjxvuGGMOoVcDhZo/+yUVZzNG7cu@vger.kernel.org
-X-Gm-Message-State: AOJu0YywuGToC7on0B1B3ypi1lalnPtOgOd74OuxVfanZrUcmPImFmeP
-	hiIM4hA0aUM7oK7ah90RoHokRRR7gtO3eW985c5RH3y9OgjE08C0ufuuVsZ57rED
-X-Gm-Gg: ASbGncuSb/VnPtW5OBL4EHZSp0FTqOxkg6LDhmtJkTyyI3+CwmNn2bl2xIgHCXXVytR
-	A2tXzoOO+6fOP8RANvzTjVMobJO7RU3xngLDP9OstGg50GAt5weQajIlLfZV/YlPKMFqBL2CcA+
-	zwph+O+bhaPu5yY9tdiTjQMeNy+hbGPYL4ulCxvQaUUKW/kYq+4/F9aCtk2isM0EB/mQJm36tmx
-	Oq4C3tw/yrg23r8uwWG1aIBsqFnb7Hjv71vSw4ZEBYZsnE0+KY5Ow+jFapVyJoXlUdl/1vtXIfW
-	E5BYdSDbcrQ7ITCJXsfJbtFi09OpcdN6t9zqqsOlmEL4I344WuQQjA2KhoJS+XeW+L69EN0as+H
-	P5+6PafJKLfsY9HqKYQuBYJijJTu5
-X-Google-Smtp-Source: AGHT+IHboUGgCOBGmHEG/M2D0uVP154ouxkzRhc5Fsd6KYvOzXHRxkZb58NUu50vX7Bvo7VFJqRsIQ==
-X-Received: by 2002:a05:620a:838b:b0:7cd:4c58:758f with SMTP id af79cd13be357-7ceecbbea52mr1310519785a.1.1748266436060;
-        Mon, 26 May 2025 06:33:56 -0700 (PDT)
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com. [209.85.222.179])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7cd467eced4sm1564612185a.57.2025.05.26.06.33.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 May 2025 06:33:55 -0700 (PDT)
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7c5ba363f1aso301756785a.0;
-        Mon, 26 May 2025 06:33:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU6kiu5tDYJG88+UaqeSdlOXJtQOa55cGdiTQSb4WGsQhejPnn7x0XOeWC3fc/LsAKJbmfqGLvCyQbQ@vger.kernel.org, AJvYcCUUoZ6IUcjBSmYfvWm+35gy3+AKuOau9kKZSJa3ns9JEmduGI/6FBSE6sUSI6GxIRVA9jLZmSuvfsIF@vger.kernel.org, AJvYcCVfyoxV987iO5mlRjL32wvVO0YX+lfG12CG39We2PTyQrvyvfWl77+GpeDgxs2XU/6tuw2IX/rPHRAcICe1Urdjrck=@vger.kernel.org, AJvYcCVkeFj/vbSKk7IsHnlDrTzAZNgfSKcmDtyDfCfBguQZB4W3W7085vjHVOLohT57lCDfSFGvg2LFvWmCXoKV@vger.kernel.org
-X-Received: by 2002:a05:6102:5126:b0:4e4:5e11:6848 with SMTP id
- ada2fe7eead31-4e45e116d65mr1068839137.23.1748266425380; Mon, 26 May 2025
- 06:33:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7741113C82E;
+	Mon, 26 May 2025 14:02:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.26
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748268179; cv=fail; b=o2XZ1gwXuNWdkQLY5S4ahbeMwY/JZ6DousukUlDd0/6k8/Wlz/BwiPUPOxKbLVjK6zmW1xHLjvJV++PON+ZTQsNfq6Zf0pv+NkuOE0o5s2rWO/APo4V+iNgEejFDaCX3hvZ0M9So+PmSo9i7FrrYYJNUVHgvlfcikpkriI8nPLw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748268179; c=relaxed/simple;
+	bh=n2FT/thI66abWlHV9GzL49+wOw10ZBuqj4s3QsOjlFw=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=RXI++vfda4N6eUJ/HvBCeicvHMur1lJSArKGSqWN6oCsQW1Nd9K8zhQL/K6fNs2QU5NDeCq/pUPl5UWTDaye3OGJ8HG74G1yk0uO279GB2PUzbojXM2vx+Nh28ZXeGY9Nminw0Z4S6Ym033wcvMr3G71FwSbLFRl/CDyCuQHriQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=n2e5icdc; arc=fail smtp.client-ip=52.101.228.26
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hfdiMzO9hTREy0sL2fuYVsdI+FHqDR0zCcoeJe6fKLTmhyypu4dlpyV+/yYvYbrbs6ius3xgWGx3JYwyT3xn3jt06XuPj186DsjmlUok+d+wDLej6DGOuhlbh7F2/tJY8KwFajyb/XfSLvHHjGkkA0j1VrH17EJoQsMwLmuC3EB6gQrHGQ7mN2RXBC58pcaZRRQwCmRZNpMVOYMkybsMc6U/6IgUhnR9fI621Nme/FF36uWyggdqzuIU/lnfOGIP1W23GyDkz9OYc0lFUjmP9otZTPSQ4vhVznhYWlOMtq+su9jzXMGwxGwWPT46Lu4Ibl3XQCbVXk/3ThJgRSsULw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=M+EFYPnvcELQBuWEfDa7tMQ+3vMUP9ble/x9h4ZqEM8=;
+ b=q9pS7SeTkIWgSAcmvW/8A/Dq4WGEgJ2JxIWGWRY3+86LyAZTK+zYJ+yasFghA2Dg4aClh8//rmOxeePld50RItvt0auXYw99sAN6HCthwkIfqzpJU2LkR8PyQE/X8BpH+E58FJwbA7HJmxxFrqCLLxlRTWxaUD836YuK1gYBsLs1u9Ls3kC1/+7C/rDEZ9I7tjiRSYfxPjhnP9drAPDEw2p6zswfeCv7z35V1+CTKWFStdAG8Ptje29FWZOVTu/3Xk3XvCIENhDAUGnoSEHAq1zXJBZrUm7Qio1Sj0imnU3Dvqk4eZxsJ6WNjGBMUchM0XnqU8uiIZuj9v7wc/vuUA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=M+EFYPnvcELQBuWEfDa7tMQ+3vMUP9ble/x9h4ZqEM8=;
+ b=n2e5icdcIijk6w6FUId8GyEjWyz/ziTiOJjVUEkmKS5V4jfWySFiX6CkBTU2WQjBeonjhaAWnZLgTzDP1m3ZV2NXGop2IdnabUTZs45EM6seHnVbK5pbO/cIUX+zZDeWcSDNvTHiHq3TDcfbhC0kpvfhVw6P1VLC65uRQ5dPadE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+Received: from TYRPR01MB13941.jpnprd01.prod.outlook.com
+ (2603:1096:405:21c::10) by OS9PR01MB16074.jpnprd01.prod.outlook.com
+ (2603:1096:604:3d9::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.27; Mon, 26 May
+ 2025 14:02:50 +0000
+Received: from TYRPR01MB13941.jpnprd01.prod.outlook.com
+ ([fe80::1512:cd0c:8675:4688]) by TYRPR01MB13941.jpnprd01.prod.outlook.com
+ ([fe80::1512:cd0c:8675:4688%4]) with mapi id 15.20.8769.022; Mon, 26 May 2025
+ 14:02:50 +0000
+Message-ID: <aec5d09f-248b-4dcc-8536-89b4b9d47e9c@bp.renesas.com>
+Date: Mon, 26 May 2025 16:02:39 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/bridge: adv7511: Do not merge adv7511_mode_set() with
+ atomic_enable()
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
+ biju.das.jz@bp.renesas.com, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Douglas Anderson <dianders@chromium.org>,
+ Adam Ford <aford173@gmail.com>, Jesse Van Gavere <jesseevg@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250526085455.33371-1-tommaso.merciai.xr@bp.renesas.com>
+ <20250526-cryptic-blue-mussel-ac57fe@houat>
+ <91d8a288-1f2d-469c-a596-6265893584ae@bp.renesas.com>
+ <20250526104902.GB17743@pendragon.ideasonboard.com>
+ <209ddc02-01d2-4375-afcf-2c9a55fe8fc1@bp.renesas.com>
+ <20250526-cherubic-ambitious-cobra-3c6a1e@houat>
+ <7603c3b1-edff-4c02-a4a5-1d5f72720cad@oss.qualcomm.com>
+Content-Language: en-US
+From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <7603c3b1-edff-4c02-a4a5-1d5f72720cad@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0407.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:d0::16) To TYRPR01MB13941.jpnprd01.prod.outlook.com
+ (2603:1096:405:21c::10)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250514090415.4098534-1-claudiu.beznea.uj@bp.renesas.com>
- <20250514090415.4098534-5-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdWNrU=XOZr3dKKXQikzCzJ1oUPGQofWFdRX9x6rhYn3XA@mail.gmail.com> <b0d15a62-e164-4a8a-b4c7-77d9c3b2e7b2@tuxon.dev>
-In-Reply-To: <b0d15a62-e164-4a8a-b4c7-77d9c3b2e7b2@tuxon.dev>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 26 May 2025 15:33:33 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUT57QfwfeoFfp-rL0yX_32QQNU3-c3MnPgdbSWi182Hw@mail.gmail.com>
-X-Gm-Features: AX0GCFt1bgXc0iItuWPGJZfTOPLZj3fZ_xqUi9PCfefdoA1Cook8qNKaBvfop3s
-Message-ID: <CAMuHMdUT57QfwfeoFfp-rL0yX_32QQNU3-c3MnPgdbSWi182Hw@mail.gmail.com>
-Subject: Re: [PATCH v2 4/8] clk: renesas: rzg2l-cpg: Add support for MSTOP in
- clock enable/disable API
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, magnus.damm@gmail.com, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYRPR01MB13941:EE_|OS9PR01MB16074:EE_
+X-MS-Office365-Filtering-Correlation-Id: c28a96b1-6902-45f1-2879-08dd9c5e0043
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+ =?utf-8?B?OVlIUlhoZFFuM0FZanZFSFRaYy8zTzRLTlJ4TU90WTRZZUVmV1FDQU1iWTgx?=
+ =?utf-8?B?NEFrZ1RBdkJEV1ozOStST3pIbFNGNC9XQWt1K0o2eDAxenVadDZWSW1Md1Qz?=
+ =?utf-8?B?NEU1dFNJcFJoU2kycVV1SW5ydHNOcG52eUplODZPVWxVaTRTT1BRK1c2N1ky?=
+ =?utf-8?B?TTlkRWY5SXlDUXB5b01pbHRJUml5amQ0cXlwdGlDVWRNb2xpUGdIemtRR1RP?=
+ =?utf-8?B?WmZ0UTRNTU9aTmNLakF4em53aEJlR3B3dEtTbERXN05Vd0pJVGJRdXQ3RHlX?=
+ =?utf-8?B?dTBEV25iQzBuWU84MGhTSUhkQ2FESngxL2RBRG04VXhabVYrWWkzTWVNMkRS?=
+ =?utf-8?B?aGFaRUl5SW9QMkYySlFITmgzdERuNVdQTUxvRUl4MmEzY05pMHlhYkwvWUZG?=
+ =?utf-8?B?SWU0dXpVQUN3aFREMVoxbWlsUFJzanZaZGlUT3R6cHBTVEZWU1F0eHNYc3FQ?=
+ =?utf-8?B?c0thOE5rUTcwZXovV21qSHFyQlBteGl4SVVJTUczUjFyM3NjUmR1MVRpaXQ1?=
+ =?utf-8?B?NUVlN1BLU3k0QXdwVHdlQk1ubmhlOWp1Rjc5dkFxU3FkSVN4NUh5TjloTTZX?=
+ =?utf-8?B?SU9iazQ0ZmZJRHJFVWV4WThqSHlGUW56TGxyZjdrZEFYV0ZuYlNzN0RuZzNU?=
+ =?utf-8?B?NDkwYWJ1SFlJbE15VGpPVmxsWlYyUzNwemhaa3pYU1RhcnRXbWRUdW50cFJX?=
+ =?utf-8?B?dkNSWnpLaW9ldFU0c0FqbXFyS2xQYjFkVjN0RnUwUkFGWk9TUVlwVkxRYmpp?=
+ =?utf-8?B?Vi9TdnRVSEJUMkdVUDMzWFdid3lMRFphZEs0dGY5eXZvWnFVa0pVRVViNzJF?=
+ =?utf-8?B?YkpnRTEwRzFRRklmTGFxYjJvQi9HNjEvOWhDRFpQdUU0cFhWMVhFYVlKVlVL?=
+ =?utf-8?B?Ri8vdDVvMmROaGh0RldBTVVqU0NTZG1HcXBnanlTRmwzREFiY1RWQnR3WEJn?=
+ =?utf-8?B?ZCt2R2xSaGVjT3M0V0tCbnA5bHRsVmJzcDczV3ovTmFwQUp2T3djc1Z0N0pp?=
+ =?utf-8?B?a2thbStDeVJmODZrREg1T0ZCM0dLazFwVzdQamR5QlhWZ1dGZjdUYmRmM3hR?=
+ =?utf-8?B?U3RtUjZidVZ5aE1QTnV3RE5jemFqeHk1NWVIRmRlWEswRDZmeWg0eE1UeG5j?=
+ =?utf-8?B?QndkUmxUVmxkd240cHgydVh6MGRCR1F2czhFYzZCemliYmFlSXc4QUtQMmxS?=
+ =?utf-8?B?ZC9heSs2cXBTNmZLL2MyVmpQZ3FUNk1zdnJhYzE1K2VZS3lsb1MyRUY5T0Fa?=
+ =?utf-8?B?WDY2enZuNXRhQ0NZZVh2VmZ0ZTJLV1hpNUVYOU1tbUZ6dnp5ZE82RVN1OFNX?=
+ =?utf-8?B?aEl4N21MUW5kRFJRRVI3T1lUZ2tMRDd4S04wMjBNbDN2eTlYMUNUbFIwSFdQ?=
+ =?utf-8?B?Q2gvU0hnQlFrR3NlVnh2MGtLakxFN01PeURUMzNjbmdmYVBOQXA2eWluVHRu?=
+ =?utf-8?B?Vkp4VmNDMGRLSWZ6a3pLWFdWcHczTW5nUk93M04waURTb0tWc2VoR0Z3WFF4?=
+ =?utf-8?B?Ymk2QWV1OHh3OGY1ZGlVZkh5T2FSbEhCblB2cklicEI0RlM1MVZmcjZYVHRC?=
+ =?utf-8?B?Rml5aHBRTEZyTUVMN2FyZUsrL2tUZnBsMmtyS1dMUDJwS2lSU1I0cUJOR1hK?=
+ =?utf-8?B?Y01ZUkZMS2t1MUtFU25JaWo3ZTM2czJuN1JHS3NuMWpnQnFHd2pYMys1ZWpj?=
+ =?utf-8?B?MU5wK0tkQSt1bWFlQXdTbEs0c2E0RElOOEZCd25Ib3h0cnNqQUFRYndQem9i?=
+ =?utf-8?B?d2xCLy9sZWg4M2VRdWJrSDVzWlhoSmxiQjI1NXprRThMMjVVSlhlcmVFUmVp?=
+ =?utf-8?B?Z1B1bkUwdEU1YmowWUEzTVhjbVJJeExmNzBSczN2QTZwelNYN095d2ZhclQy?=
+ =?utf-8?B?WnhadHNQYStxVisvNEovZldYS0wxRGQ1STBrVmhnZURxdjhpQVRrWS92STU2?=
+ =?utf-8?Q?1sNCjzijd/U=3D?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYRPR01MB13941.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?Q1Y5aEQ2TllBQkNoZFdtMHhQM1FiSS81QTZBbFV6VXdHVUV0Rk9lcEJMMnlX?=
+ =?utf-8?B?RDRtS1NLVG1xR25VbE9DZmorS3ZMWUkyeHhNR1EzY2JCYzBZdm8rNCtnR1hD?=
+ =?utf-8?B?TkJBNXREVElES29KSGdBUnNOT3VOT21FOGY0M0lvRTNjVzZQVDBJb3pxNHI2?=
+ =?utf-8?B?S1BzSzJnSUJSRGY2UnFyN0FjRVc3ZUNHdXYySEIyMnlWSW83TzVEMmdKUUEr?=
+ =?utf-8?B?cU1iVEg5YWpta0xKSWRMNStEaEpicHRKVFM2NXNEMlpaTGFWNUt6eHl1a1Bt?=
+ =?utf-8?B?b3Zva1BEdEdFSDIrZEc0L3pGS21mNUQvUDVmZndnMCs0YjhTK0ZKanVMU3FS?=
+ =?utf-8?B?NFAxOHpieDhyWjNaSTYyaWRGdExkemlXVXYrQ24vSDFOcHY3UFRqdlpmaDg0?=
+ =?utf-8?B?a0pvaFJGUDVPVE9zTXN2cGpCY1JpNEcwMXVNd0RtWmFaQjZNeFp0c1FMUFVM?=
+ =?utf-8?B?MHdjRGNEOVEvVVBISXVWNUt2MFlLdjNGNVZ5WEhxZ295SnhoOWJ0Ui9pRWtR?=
+ =?utf-8?B?SFhtMTBiSXhOOG5EVHcwa2l6SG1DTVVLbFpWNjExVXVORElENDlCSzd4eWow?=
+ =?utf-8?B?WmlITFJtQ0p1M1BJMXZpZ3hpTWtjRnpUYnJyODh0ZVdCNHZXNElJdGVVaXBt?=
+ =?utf-8?B?bzZtbWNnZ1FyVXFGbHdLeEZ5a0cyNFZxMFh0R01WdU5RdGRUOFg0SWViSkUw?=
+ =?utf-8?B?eFFYeGFSNFVNc3FReDg0TFcxcFlFcEJRWnZHZlRQSjhLdWFtMnpJb1oremNZ?=
+ =?utf-8?B?elY0dHlJSUt4dzd5dFQ1Qk1acWFNQmQyNkxsQ3BuWDErWXJXZTZnR3UweDRH?=
+ =?utf-8?B?K3lhZ1FYU1p3TnBKWi9ubTNmaGN1ZjUwQmk1aUREcmpXSEFUZWliUzJyTGd1?=
+ =?utf-8?B?NHZBREw2QlF5WUFlSzh3MDc0dGRoejcvSHlpMk1zLys3STR0c09oQ2QvT3Fl?=
+ =?utf-8?B?THZjM2dPaUVQeTIrZmhEdEhpdHdPYXFmR0FKMm9sMGt5bVoxNkZzcjcraTdQ?=
+ =?utf-8?B?UGZPVlhmTzlPQWdETDZJYzM0VGkwbnYxeWF5blBnYW8xMExLaFp6eDE2OTRl?=
+ =?utf-8?B?R3dWQXdJNy8rSmxiclBHYTFvcGxNZFNuMzd3L0xLQTcxb2s3NW52RFZUaUV3?=
+ =?utf-8?B?ajZvYVB6OXRZYU9YdzZLU0RMV0taZW5ZdVNWOURrY0ZtTjRFOFJoSGhvWmFo?=
+ =?utf-8?B?S1F1bDV6S0tKSFZpVGZua0J5dXh0QWQweXJhQnRsNzZZT0IyT3I0N2FodDdj?=
+ =?utf-8?B?amFvay9rbUtZdzdYVnF1cHdRQ2lscHdYMGdJMzdGaE1GLzh3TnBtcGorTzk3?=
+ =?utf-8?B?OWxORHhUbDczTW5BYXN4R0JEdFNVeVZzdG50MTNONWlvUVNKSWcrWDA5dWVW?=
+ =?utf-8?B?TW9FSjloNmpOc1gxcWJvb3ppQU9uS1hNQ1NCdHRHS3F0MmlQNUUvZzZUY3BV?=
+ =?utf-8?B?OFhtQlY2Mkp5TS9HRjhWd0RZK3lqTWJRYzNsMWlhRmZmemlua1EwbjVXdWRU?=
+ =?utf-8?B?SWN5eU1FK05LUitWY1RZSjFhRlp1T0YzN2hTWnpZYWYvcnlsa1c4cUl0MFky?=
+ =?utf-8?B?MzlydjlGdEZnNEdrWElBSTBrdTBnM05TZ0tEVzZRLzduN0NTdHAzcFZuazFt?=
+ =?utf-8?B?WXFrUEUvTlB2cEdqYmw4SlVmY3I3ZVdQZDZBeEFaRDJ3VGVnMW9SM3lHZEhp?=
+ =?utf-8?B?Q2VibjRId1NKTVRpMkViejJRT2llSnZNQW9kZTg4NFM4V0xFTW5DVjJEZG9X?=
+ =?utf-8?B?cElxdU1rdDVmZjMzekplS3JZVE9XN2lZU2h1RVU4bVI2UU5TWmpBYmxTUncz?=
+ =?utf-8?B?Ull3V0c1amxJVy9HL0NEenp2ZytRS25JV2dZSDkwN3MrYzRGa1FiVURqVHRx?=
+ =?utf-8?B?ZXdoVWd2R0IyL0srMHBaVFhBWlBldDNDY2s2RlJtRGNPd0ZjMVQzaXd6czVD?=
+ =?utf-8?B?YzZCRTg2Yzc4TlNIL1BDQnY5TmRHT1BlYnkxT3pwSlVnQnN6SG9hOEpDeUtL?=
+ =?utf-8?B?TXkyWE5kdlRsZDhsNDRTc25VbXhHRzhZZElDWHRBNFV5RUF1Sy9kYkJMZWpI?=
+ =?utf-8?B?bDRmaXZTWDZhQk91UzR1eVg3ZDM0QVE5ekZsT29SNW1uemRqZ1Z0OEZ1aXVq?=
+ =?utf-8?B?NmlweXpnVDlXRUZEZkxSdTlwRklxclNXa0g2N2JybUNVeVFjTFNlVjM2SldO?=
+ =?utf-8?Q?feCHs20lt2OFAceUg5oZaxY=3D?=
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c28a96b1-6902-45f1-2879-08dd9c5e0043
+X-MS-Exchange-CrossTenant-AuthSource: TYRPR01MB13941.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2025 14:02:50.3119
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yBayBC83kkD9r7zb73Ih2P0CEBErbVq3KOKilMc7ND4yoganaMy87lKW/8PikV0OmmQZIMUxP3hhLMRlMtPbOJlhjjiFE5C89AuloyvyNnJc6uaDbuJ8Z555vXutPx/y
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9PR01MB16074
 
-Hi Claudiu,
+Hi All,
+Thanks for your comments.
 
-On Fri, 23 May 2025 at 09:41, Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
-> On 22.05.2025 17:46, Geert Uytterhoeven wrote:
-> > On Wed, 14 May 2025 at 11:04, Claudiu <claudiu.beznea@tuxon.dev> wrote:
-> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>
-> >> The RZ/{G2L, V2L, G3S} CPG versions support a feature called MSTOP. Each
-> >> module has one or more MSTOP bits associated with it, and these bits need
-> >> to be configured along with the module clocks. Setting the MSTOP bits
-> >> switches the module between normal and standby states.
-> >>
-> >> Previously, MSTOP support was abstracted through power domains
-> >> (struct generic_pm_domain::{power_on, power_off} APIs). With this
-> >> abstraction, the order of setting the MSTOP and CLKON bits was as follows:
-> >>
-> >> Previous Order:
-> >> A/ Switching to Normal State (e.g., during probe):
-> >> 1/ Clear module MSTOP bit
-> >> 2/ Set module CLKON bit
-> >>
-> >> B/ Switching to Standby State (e.g., during remove):
-> >> 1/ Clear CLKON bit
-> >> 2/ Set MSTOP bit
-> >>
-> >> However, in some cases (when the clock is disabled through devres), the
-> >> order may have been (due to the issue described in link section):
-> >>
-> >> 1/ Set MSTOP bit
-> >> 2/ Clear CLKON bit
-> >>
-> >> Recently, the hardware team has suggested that the correct order to set
-> >> the MSTOP and CLKON bits is:
-> >>
-> >> Updated Order:
-> >> A/ Switching to Normal State (e.g., during probe):
-> >> 1/ Set CLKON bit
-> >> 2/ Clear MSTOP bit
-> >>
-> >> B/ Switching to Standby State (e.g., during remove):
-> >> 1/ Set MSTOP bit
-> >> 2/ Clear CLKON bit
-> >>
-> >> To prevent future issues due to incorrect ordering, the MSTOP setup has
-> >> now been implemented in rzg2l_mod_clock_endisable(), ensuring compliance
-> >> with the sequence suggested in Figure 41.5: Module Standby Mode Procedure
-> >> from the RZ/G3S HW manual, Rev1.10.
-> >>
-> >> Additionally, since multiple clocks of a single module may be mapped to a
-> >> single MSTOP bit, MSTOP setup is reference-counted.
-> >>
-> >> Furthermore, as all modules start in the normal state after reset, if the
-> >> module clocks are disabled, the module state is switched to standby. This
-> >> prevents keeping the module in an invalid state, as recommended by the
-> >> hardware team.
-> >>
-> >> Link: https://lore.kernel.org/all/20250215130849.227812-1-claudiu.beznea.uj@bp.renesas.com/
-> >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >> ---
-> >>
-> >> Changes in v2:
-> >> - udpated patch description to avoid plural in the configuration
-> >>   sequence description b/w MSTOP and CLK_ON
-> >> - use atomic type to store the usage counter; s/refcnt/usecnt/g
-> >> - moved MSTOP_OFF(), MSTOP_MASK() macros to rzg2l-cpg.c
-> >> - dropped struct mstp_clock::critical and use clk_hw_get_flags()
-> >>   instead to get the clock flags
-> >> - used unsigned int iterators in for loops
-> >> - keep memory allocated for a single list for clocks sharing the
-> >>   same MSTOP by updating the rzg2l_mod_clock_add_shared_mstop_clk();
-> >> - s/rzg2l_cpg_mstop_show/rzg2l_mod_clock_mstop_show/g,
-> >>   s/rzg2l_cpg_mstop/rzg2l_mod_clock_mstop/g,
-> >>   s/rzg2l_cpg_update_shared_mstop_clocks/rzg2l_mod_clock_update_shared_mstop_clks/g
-> >>    to keep the same naming conventions for functions handling mod clock MSTOP
-> >> - use the newly added for_each_mstp_clk() macro all over the code
-> >
-> > Thanks for the update!
-> >
-> >> --- a/drivers/clk/renesas/rzg2l-cpg.c
-> >> +++ b/drivers/clk/renesas/rzg2l-cpg.c
-> >
-> >> @@ -1209,6 +1232,94 @@ struct mstp_clock {
-> >>                 else if (((hw) = __clk_get_hw((priv)->clks[(priv)->num_core_clks + i])) && \
-> >>                          ((mstp_clk) = to_mod_clock(hw)))
-> >>
-> >> +/* Need to be called with a lock held to avoid concurrent access to mstop->usecnt. */
-> >> +static void rzg2l_mod_clock_module_set_state(struct mstp_clock *clock,
-> >> +                                            bool standby)
-> >> +{
-> >> +       struct rzg2l_cpg_priv *priv = clock->priv;
-> >> +       struct mstop *mstop = clock->mstop;
-> >> +       bool update = false;
-> >> +       u32 value;
-> >> +
-> >> +       if (!mstop)
-> >> +               return;
-> >> +
-> >> +       value = MSTOP_MASK(mstop->conf) << 16;
-> >> +
-> >> +       if (standby) {
-> >> +               unsigned int criticals = 0;
-> >> +
-> >> +               for (unsigned int i = 0; i < clock->num_shared_mstop_clks; i++) {
-> >> +                       struct mstp_clock *clk = clock->shared_mstop_clks[i];
-> >> +
-> >> +                       if (clk_hw_get_flags(&clk->hw) & CLK_IS_CRITICAL)
-> >> +                               criticals++;
-> >> +               }
-> >> +
-> >> +               /*
-> >> +                * If this is a shared MSTOP and it is shared with critical clocks,
-> >> +                * and the system boots up with this clock enabled but no driver
-> >> +                * uses it the CCF will disable it (as it is unused). As we don't
-> >> +                * increment reference counter for it at registration (to avoid
-> >> +                * messing with clocks enabled at probe but later used by drivers)
-> >> +                * do not set the MSTOP here too if it is shared with critical
-> >> +                * clocks and ref counted only by those critical clocks.
-> >> +                */
-> >> +               if (criticals && criticals == atomic_read(&mstop->usecnt))
-> >> +                       return;
-> >> +
-> >> +               value |= MSTOP_MASK(mstop->conf);
-> >> +
-> >> +               /* Allow updates on probe when usecnt = 0. */
-> >> +               if (!atomic_read(&mstop->usecnt))
-> >> +                       update = true;
-> >> +               else
-> >> +                       update = atomic_dec_and_test(&mstop->usecnt);
-> >> +       } else {
-> >> +               atomic_inc(&mstop->usecnt);
-> >> +               update = true;
-> >
-> > Shouldn't the update be conditional, i.e.:
-> >
-> >     if (!atomic_read(&mstop->usecnt))
-> >             update = true;
-> >     atomic_inc(&mstop->usecnt);
-> >
-> > ?
->
-> Indeed, it should be conditional as you suggested.
->
-> >
-> >> +       }
-> >> +
-> >> +       if (update)
-> >> +               writel(value, priv->base + MSTOP_OFF(mstop->conf));
-> >> +}
-> >
-> >> +static int rzg2l_mod_clock_update_shared_mstop_clks(struct rzg2l_cpg_priv *priv,
-> >> +                                                   struct mstp_clock *clock)
-> >> +{
-> >> +       struct mstp_clock *clk;
-> >> +       struct clk_hw *hw;
-> >> +
-> >> +       if (!clock->mstop)
-> >> +               return 0;
-> >> +
-> >> +       for_each_mstp_clk(clk, hw, priv) {
-> >> +               struct mstp_clock **new_clks;
-> >> +               int num_shared_mstop_clks;
-> >> +               bool found = false;
-> >> +
-> >> +               if (clk->mstop != clock->mstop)
-> >> +                       continue;
-> >> +
-> >> +               num_shared_mstop_clks = clk->num_shared_mstop_clks;
-> >> +               for (unsigned int i = 0; i < num_shared_mstop_clks; i++) {
-> >> +                       if (clk->shared_mstop_clks[i] == clock) {
-> >> +                               found = true;
-> >> +                               break;
-> >> +                       }
-> >> +               }
-> >> +               if (found)
-> >> +                       continue;
-> >
-> > Can this happen? With your current code, the answer is yes.
-> > But I think this loop and check can be removed...
-> >
-> >> +
-> >> +               if (!num_shared_mstop_clks)
-> >> +                       new_clks = devm_kmalloc_array(priv->dev, 2, sizeof(*new_clks), GFP_KERNEL);
-> >> +               else
-> >> +                       new_clks = devm_krealloc(priv->dev, clk->shared_mstop_clks,
-> >> +                                                (num_shared_mstop_clks + 1) * sizeof(*new_clks),
-> >> +                                                GFP_KERNEL);
-> >> +
-> >> +               if (!new_clks)
-> >> +                       return -ENOMEM;
-> >> +
-> >> +               if (!num_shared_mstop_clks)
-> >> +                       new_clks[num_shared_mstop_clks++] = clk;
-> >> +               if (clk != clock)
-> >
-> > This check is always true
->
-> If I'm not wrong now, when adding the clock to it's own list, and the list
-> is empty (!num_shared_mstop_clks check above is true), if this condition is
-> missing the clock it will be added twice in its own list.
+On 26/05/25 15:18, Dmitry Baryshkov wrote:
+> On 26/05/2025 14:40, Maxime Ripard wrote:
+>> On Mon, May 26, 2025 at 01:19:23PM +0200, Tommaso Merciai wrote:
+>>> Hi Laurent,
+>>> Thanks for your comment.
+>>>
+>>> On 26/05/25 12:49, Laurent Pinchart wrote:
+>>>> On Mon, May 26, 2025 at 11:58:37AM +0200, Tommaso Merciai wrote:
+>>>>> Hi Maxime,
+>>>>> Thanks for your comment.
+>>>>>
+>>>>> On 26/05/25 11:26, Maxime Ripard wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>> On Mon, May 26, 2025 at 10:54:52AM +0200, Tommaso Merciai wrote:
+>>>>>>> After adv7511_mode_set() was merged into .atomic_enable(), only the
+>>>>>>> native resolution is working when using modetest.
+>>>>>>>
+>>>>>>> This is caused by incorrect timings: adv7511_mode_set() must not be
+>>>>>>> merged into .atomic_enable().
+>>>>>>>
+>>>>>>> Move adv7511_mode_set() back to the .mode_set() callback in
+>>>>>>> drm_bridge_funcs to restore correct behavior.
+>>>>>>>
+>>>>>>> Fixes: 0a9e2f0a6466 ("drm/bridge: adv7511: switch to the HDMI 
+>>>>>>> connector helpers")
+>>>>>>> Reported-by: Biju Das <biju.das.jz@bp.renesas.com>
+>>>>>>> Closes: https://lore.kernel.org/all/aDB8bD6cF7qiSpKd@tom-desktop/
+>>>>>>> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+>>>>>>
+>>>>>> Explaining why, both in the commit log and the comments, would be 
+>>>>>> nice.
+>>>>>> Because I can't think of any good reason it just can't work for that
+>>>>>> bridge.
+>>>>>
+>>>>> Sorry, let me clarify and share with you some details:
+>>>>>
+>>>>> adv7511_mode_set:
+>>>>>     - Is setting up timings registers for the DSI2HDMI bridge in 
+>>>>> our case
+>>>>>       we are using ADV7535 bridge.
+>>>>>
+>>>>> rzg2l_mipi_dsi_atomic_enable:
+>>>>>     - Is setting up the vclock for the DSI ip
+>>>>>
+>>>>> Testing new/old implementation a bit we found the following:
+>>>>>
+>>>>> root@smarc-rzg3e:~# modetest -M rzg2l-du -d -s HDMI- 
+>>>>> A-1:800x600-56.25@XR24
+>>>>> setting mode 800x600-56.25Hz on connectors HDMI-A-1, crtc 62
+>>>>> [   49.273134] adv7511_mode_set_old: drm_mode_vrefresh(mode) = 56
+>>>>> [   49.281006] rzg2l_mipi_dsi_atomic_enable: mode->clock: 36000
+>>>>>
+>>>>> root@smarc-rzg3e:~# modetest -M rzg2l-du -d -s HDMI- 
+>>>>> A-1:800x600-56.25@XR24
+>>>>> setting mode 800x600-56.25Hz on connectors HDMI-A-1, crtc 62
+>>>>> [   74.076881] rzg2l_mipi_dsi_atomic_enable: mode->clock: 36000
+>>>>> [   74.092130] adv7511_mode_set: drm_mode_vrefresh(adj_mode) = 56
+>>>>>
+>>>>> Same result but different timing (in function call perspective):
+>>>>>
+>>>>>     - old: adv7511_mode_set() is call before 
+>>>>> rzg2l_mipi_dsi_atomic_enable()
+>>>>>     - new: adv7511_mode_set() is call after 
+>>>>> rzg2l_mipi_dsi_atomic_enable()
+>>>>
+>>>> What is "old" and "new" here ? Is it before and after Dmitry's 
+>>>> patch, or
+>>>> before and after yours ? Please be precise when describing problems.
+>>>
+>>> Sorry, you are completely right:
+>>>
+>>>   - old --> before Dmitry's patch
+>>>   - new --> after Dmitry's patch
+>>>
+>>>>
+>>>>> What do you think? Thanks in advance.
+>>>>
+>>>> You're only explaining above what the "old" and "new" behaviours are,
+>>>> and claiming one of them is causing an issue, but you're not explaining
+>>>> *why* it causes an issue. That's what your commit message is 
+>>>> expected to
+>>>> detail.
+>>>>
+>>>
+>>> Thanks for the clarification! :)
+>>> I will send v2 explaining better this.
+>>
+>> In particular, if the driver needs to have mode_set called before
+>> atomic_enable, you should say why moving the call to mode_set earlier in
+>> the function wouldn't work.
+> 
+> It might be the same thing as we had on PS8640: it had to be brought up 
+> before the host starts the DSI link, so that there is no clock input on 
+> the DSI clock lane.
+> 
 
-Sorry, I missed that this function is called _after_ the clock is
-added to priv->clks[].  So one question and comment here:
-  1. Do you need a one-entry array (actual allocation is two entries)
-     for module clocks with an mstop entry that is not shared?
-     Perhaps for critical clocks? That could be handled in
-     rzg2l_mod_clock_module_set_state(), by explicitly checking
-     the clock's own critical flag if num_shared_mstop_clks is zero.
+Some updates on my side:
 
-  2. If rzg2l_mod_clock_update_shared_mstop_clks() would be called
-     _before_ the clock is added to priv->clks[], the clk != clock
-     check would not be needed.
+I'm not seeing any differences from a regs perspective when using the 
+old driver version (before Dmitry's patch) and the new driver version 
+(after Dmitry's patch).
 
-> >> +                       new_clks[num_shared_mstop_clks++] = clock;
-> >> +
-> >> +               for (unsigned int i = 0; i < num_shared_mstop_clks; i++) {
-> >> +                       new_clks[i]->shared_mstop_clks = new_clks;
-> >> +                       new_clks[i]->num_shared_mstop_clks = num_shared_mstop_clks;
-> >> +               }
-> >
-> > ... by adding a "break" here.  The loop above has already updated the
-> > shared_mstop_clks[] arrays for all clocks sharing the same mstop value.
->
-> It may happen that the entries in the module clock array provided by the
-> SoC specific drivers to not be sorted by module clock ID. That's the case
-> with RZ/G2L IA55 clocks (from r9a07g044-cpg.c):
->
-> static const struct {
->         struct rzg2l_mod_clk common[79];
-> #ifdef CONFIG_CLK_R9A07G054
->         struct rzg2l_mod_clk drp[5];
-> #endif
-> } mod_clks = {
->   .common = {
->     // ...
->
->     DEF_MOD("ia55_pclk", R9A07G044_IA55_PCLK, R9A07G044_CLK_P2,
->                          0x518, 0, MSTOP(BUS_PERI_CPU, BIT(13))),
->     DEF_MOD("ia55_clk", R9A07G044_IA55_CLK, R9A07G044_CLK_P1,
->                          0x518, 1, MSTOP(BUS_PERI_CPU, BIT(13))),
->
->     // ...
-> };
->
-> Where IDs are defined as:
->
-> #define R9A07G044_IA55_CLK     8
-> #define R9A07G044_IA55_PCLK    9
->
-> These clocks share the same MSTOP bit.
->
-> Because the ia55_pclk is the 1st clock registered (index 9) it will be
-> added to priv->clks[base + 9].
->
-> Next registered clock will be for ia55_clk, with index 8, it will be added
-> to priv->clks[base + 8].
->
-> for_each_mstp_clk() loops on clocks from priv->clks[] array. If a break
-> will be done at the end of the for_each_mstp_clk() loop, at the end of the
-> registration each of these clocks will have on it's shared_mstop_clks[]
-> only references to itself.
+In particular, i2cdump -f -y 7 0x4c shows me the same result.
 
-If rzg2l_mod_clock_update_shared_mstop_clks() would be called _before_
-the clock is added to priv->clks[], this issue could not happen, right?
+Unfortunately, since I don't have the ADV7535 datasheet, I believe this 
+issue may be related to the functions call sequence.
 
-Gr{oetje,eeting}s,
+I agree with Dmitry's theory.
 
-                        Geert
+Let me gently know if you need some more test on my side. Thanks in advance.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Regards,
+Tommaso
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
+
+
+
+
+
+
 
