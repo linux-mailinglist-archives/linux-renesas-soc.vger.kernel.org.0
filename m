@@ -1,117 +1,104 @@
-Return-Path: <linux-renesas-soc+bounces-17495-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17499-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42527AC3CA9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 May 2025 11:26:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87771AC3D7A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 May 2025 11:58:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E14CB189712C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 May 2025 09:26:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 50BD11717AB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 May 2025 09:58:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8686E1E7C05;
-	Mon, 26 May 2025 09:26:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EB111DF27F;
+	Mon, 26 May 2025 09:58:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qCwpUXV3"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="MtyMRMuu"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3941A2622;
-	Mon, 26 May 2025 09:26:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87AED1F3FED
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 26 May 2025 09:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748251591; cv=none; b=IBw4gqfreJIrNdUvFQZQLbMIzRWqgZLv2uCMBHFTocv8mFoSLvsJtlTAgYCFWLKdYgT44uwvmiP34z4CLdiIBIuOQIYBcNUyIwespmAKVFEGaJVEnBuEn3DWcN2f7IWnjTJTMsJyqAS3yUS+nbawRyg2RtqZUdzqzpIxZYRejq0=
+	t=1748253505; cv=none; b=oN4/8cgD5nBF7xl8O0R3nl3/dMFS25KOgqvyW+DM38VQ0dMGcLn/QoclCsrL165BAUvsuSOUMeoskgx1xL6OjkM0OY63VB3XqR+FtXKNyTz9JFArGzvW2Ub88QJsI5Ltg1WJoRVSj4UTt6YFH8qK98av0uZ15wp0MJbqHYvDzn0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748251591; c=relaxed/simple;
-	bh=ojrBevA7GejYEBIQfE9GKMWuRZ7nBmq+XTqKOKUHr8M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ibqbc/M/qicq8+r6us9geJDIhoR5jbccjeB6woj9rLnrjNV2H97cplhsDLm6AD27j2JK+RWbLvnROjNSpH8GDnJZOFhy/kSvpfCqWzpAqn2oUi/HEKCQ8TX4GmZjzeY1EtLzvJ4iho8Z5TmdAuS4EgsGnFzW/Kg8Had+KAJrVec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qCwpUXV3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61C27C4CEE7;
-	Mon, 26 May 2025 09:26:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748251590;
-	bh=ojrBevA7GejYEBIQfE9GKMWuRZ7nBmq+XTqKOKUHr8M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qCwpUXV3vD0bOazwR+gril9gdcxCS0No/u9txn6Va+RmH8/bJtOjj2QlW7ZvdcJeP
-	 mPwdwKEiqGainFy1jviInZ1XLqpRRlPJ428FSQ7VqGyT9JEUjtOOgmcaB37kznQ/ei
-	 mj5Gdbz0cxkwO4hVZt+j9ugXdhV8MaeMahlED0cT/fuUU1W6iKMZcJWTSCBPw66CZA
-	 DEmB8etctkUQGqUFh0Ow4dRen5r3JKVSYNjosYniAxPALzv5cXs7G3n5ydRyH5ZHPH
-	 EW4pmqqewsesT884KhOLqaa9y1tagWVNbCC++fQ55qeR+231v0CHLJEIVO/BZn+QPD
-	 WaRLduPwIG7Rw==
-Date: Mon, 26 May 2025 11:26:27 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
-	biju.das.jz@bp.renesas.com, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
-	Douglas Anderson <dianders@chromium.org>, Adam Ford <aford173@gmail.com>, 
-	Jesse Van Gavere <jesseevg@gmail.com>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/bridge: adv7511: Do not merge adv7511_mode_set()
- with atomic_enable()
-Message-ID: <20250526-cryptic-blue-mussel-ac57fe@houat>
-References: <20250526085455.33371-1-tommaso.merciai.xr@bp.renesas.com>
+	s=arc-20240116; t=1748253505; c=relaxed/simple;
+	bh=w/UcW3ffnJcbXkGUdIlDCTcs2usQzbw7huy5QIj0wAc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c0koPS2AIxYYQK558zodTRW3fncqWWcr3yhuZlagmb6UcsNgXf4Rvy6KgmSc2+5f5syQ/Y071jpUxe6EhwYbIpNXuPb4tfQ08/tqZPXstmy4IHl7P5JoEH34JOmfom7MxsITbox8oi9apEbCmywS1WCAhosffnfbEDFLqeSVjAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=MtyMRMuu; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=nXISK4vFAiaTLe
+	P1I8MCwM1JGpgTWZUIP25+lB5Ykdg=; b=MtyMRMuuTEDeVy5zf6V52uRv5L1q5J
+	KyBZWSyMJ7sAQQUwjjNtqNDuasEvCJBylgD4sdFHwEqfk+DHqy5FSQ5F8QNEKuYk
+	BvkuIPM7UVxBn8WjgJtLuERLDPB4UHwpTIJR3foVGYipEoFBRlEMkJpW4cThT8Pi
+	0IyDOfxjsq3kmwbuqL2GN4s9vE8Y3E46wgeKVFHtfu1YK2WtcP2gz+GgIZAQHUu1
+	6kR82HDUyUg14KOhOFy/xL4sHnHAlm7qBY8mW9fb/iTUSd1Lq5Bh0rjXPMZVHR2N
+	3RowPa+w6XkJeMtS5ejghgzL0aslwLv89lnUeTua4hEWdGFc4xT/v74g==
+Received: (qmail 769142 invoked from network); 26 May 2025 11:58:16 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 26 May 2025 11:58:16 +0200
+X-UD-Smtp-Session: l3s3148p1@kuiX/AY2RkhtKPCv
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-rtc@vger.kernel.org,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Rob Herring <robh@kernel.org>
+Subject: [PATCH v3 0/3] rtc: rzn1: support XTAL clk and SCMP method
+Date: Mon, 26 May 2025 11:58:01 +0200
+Message-ID: <20250526095801.35781-5-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="shmlyimfb2v5wudn"
-Content-Disposition: inline
-In-Reply-To: <20250526085455.33371-1-tommaso.merciai.xr@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
+
+So far, the code and the binding for the RZ/N1D RTC assumed an input
+clock of 32768Hz, so it was not explicitly described. It makes sense to
+do this, though. For one reason, clocks with other frequencies might be
+used. This RTC supports that via the SCMP counting method. The other
+reason is, upcoming SoCs may have only the SCMP method described, so we
+need to use it there later.
+
+This series lets the driver handle the optional "xtal" clock and switch
+to the SCMP method if suitable. It has been tested on a Renesas RZ/N1D
+board with hacked devicetree values.
+
+A branch with updated DTs can be found here:
+
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/n1d/enablement
+
+Looking forward to comments!
+
+Changes since v2:
+* don't modify the rtc_ops struct, but have two distinct ones which can
+  now be const again (Thanks Miquel, I like it better, too)
+* added tag from Miquel (Thanks again)
 
 
---shmlyimfb2v5wudn
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] drm/bridge: adv7511: Do not merge adv7511_mode_set()
- with atomic_enable()
-MIME-Version: 1.0
+Wolfram Sang (3):
+  dt-bindings: rtc: rzn1: add optional second clock
+  rtc: rzn1: Disable controller before initialization
+  rtc: rzn1: support input frequencies other than 32768Hz
 
-Hi,
+ .../bindings/rtc/renesas,rzn1-rtc.yaml        |  8 ++-
+ drivers/rtc/rtc-rzn1.c                        | 66 +++++++++++++++----
+ 2 files changed, 61 insertions(+), 13 deletions(-)
 
-On Mon, May 26, 2025 at 10:54:52AM +0200, Tommaso Merciai wrote:
-> After adv7511_mode_set() was merged into .atomic_enable(), only the
-> native resolution is working when using modetest.
->=20
-> This is caused by incorrect timings: adv7511_mode_set() must not be
-> merged into .atomic_enable().
->=20
-> Move adv7511_mode_set() back to the .mode_set() callback in
-> drm_bridge_funcs to restore correct behavior.
->=20
-> Fixes: 0a9e2f0a6466 ("drm/bridge: adv7511: switch to the HDMI connector h=
-elpers")
-> Reported-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Closes: https://lore.kernel.org/all/aDB8bD6cF7qiSpKd@tom-desktop/
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+-- 
+2.47.2
 
-Explaining why, both in the commit log and the comments, would be nice.
-Because I can't think of any good reason it just can't work for that
-bridge.
-
-Maxime
-
---shmlyimfb2v5wudn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaDQzwwAKCRAnX84Zoj2+
-dvTMAX93ht/JowUzBPWhgbxbNVC9lVUHcqu6M3gZR+4cG5/oEN+y1lytCT5Z92Ck
-ZjSwvKcBgIZew4gQWouo5j6mutuVebRAh86tQMqQxijXhRiHmiLV5io7DTfVVbB6
-QdOZnsKSmQ==
-=cM3B
------END PGP SIGNATURE-----
-
---shmlyimfb2v5wudn--
 
