@@ -1,127 +1,224 @@
-Return-Path: <linux-renesas-soc+bounces-17492-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17493-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69662AC3C74
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 May 2025 11:14:14 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D1D7AC3C8E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 May 2025 11:22:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 32CD93B4786
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 May 2025 09:13:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0EE6A17580E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 May 2025 09:22:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA8D019CD1B;
-	Mon, 26 May 2025 09:14:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC8451EFFBB;
+	Mon, 26 May 2025 09:22:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="AlVj9DIS"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011060.outbound.protection.outlook.com [52.101.125.60])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AB263596A;
-	Mon, 26 May 2025 09:14:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748250850; cv=none; b=iE0OkNDg2cJL2xkMdyeHCABSjNpnMrDezOzDgzOchfSWFKi8HprzDPvF1OXqsoOE+hmEfsotHaE596HN7XhSqXuYKhqvZEh3neV5CCo8qZBVK5QaGbDjzfBnD6DvjGDlMGX6Z+patlW0jE4DyvJRY/0qIs3iMLVUVh2MiSA0Wo0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748250850; c=relaxed/simple;
-	bh=2/SVAaHCAZFysnEgfwG3OLk5mEvVV8sfktksjtDC8ls=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QSjLFNCQLTFg7eLS5O6HkF2Bl7FQ0vtlYWa5LbRsChwKY7CNl0PwuqbzAIPtw8u9RqUvtBpACBSslVXgILS1FdBwuC16H76KjO5oLZ6r/OBbyaIbCUZdPJKUrYVssSSCrFmhNx/KnnzmcVECy9532Nnj/EG7D6DPw3LLwD4+7lM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-5240a432462so1328462e0c.1;
-        Mon, 26 May 2025 02:14:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748250847; x=1748855647;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OHHl3kxB/rKMhdmAcTI6YIxxCctpYm2ZTkKcUrpPxy8=;
-        b=Zt4oWaQDDlVW72TT6C+je0ZEV34H9qrJ3sMygHs7yWOgnRUn4l02b7KgQur0c3nx7z
-         0JhHU5Us4ZnAT4qF1RDih1QsDDYbYzKPBoYY/jiVbEB4XHYTsBS4sfFdvQskeDjuZTxq
-         wMib0LIg5+s8uRBvUCdDCQ79GFj6m7il3rygKhF8p2mNKMPL2OL5qDPxYiQHBCgmyutR
-         cRGGKKTEYaHfwEYX626XfYPcj4ndtrG8aq1ja7ftKS12G14AYJ+jIC09Q1AiO/fS9j+q
-         BIbId/AguW2iKM88lC/RqDHWiUWKcyp7BPdyeARlnGOxnf5l3O14NCAdk0UKbOv9TbRM
-         cJvw==
-X-Forwarded-Encrypted: i=1; AJvYcCUtghdiYf9c2twEKNG4AH85rnzOXDn9wf1XCIwxk/VSkTnEXy1wiYxSrhKuCaRTEarCYgmuqJ1KvNiY9Urt/wY3Kqo=@vger.kernel.org, AJvYcCWg9NO6HncbdY9eVobottXWfWVj2Sd3a81sFcunawrZ7O3f2aGEcKQVVs7HLuj18whu/+q5hNlhGdgO6dA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzlInqaA3XMQ/p2fXv6W563aecBbfvQSOzIGPgWozOW/lvRj106
-	W7aEi62wQHxw52clv+QpIi1qezcq/NLFqpYG00FI9/aBYOZ3MP3lduN7Z0SiUMQd
-X-Gm-Gg: ASbGncu1I/1n/Sid9nOna083pmDLoa9b/XJkcbr0Eu8rkySLt/x+wBnB7OLPHo7fKxS
-	IByDmkHWF1m5PIbpS2A6qPmFadAzSngzstO82dUJz029ECxRueiKdF+I0CIX4IUKPp+cM/S4ANZ
-	/dMGJZKm041HAhPD6nDKaincqVhFoLIiWLDakh/QJSc7A0AcWuMjQnRF2XrFoczTlI1Ih3fSoYu
-	kLrwSsMN7Lk44V+tFG8yfNE2SyxRPx3RgH/2cmTTfZ1w3bSdRfzVDU6mlaSEdDJdcbPvuK4heeG
-	+8OOgzh5EIhVfn6ZT8eqmMReNhh3fWDiXQ3Yju63rfCYTT4MXMI5PN2zeCsUDZ2XCcZPMd1qnXw
-	fctPdLKRVlQmevQ==
-X-Google-Smtp-Source: AGHT+IG6p0ULGqSIY6DiRzvQueeZzisJweOXW/aUNs+Y+HvFyS3mTxYtOQ2uck51XYZ+kPWo90OLgQ==
-X-Received: by 2002:a05:6122:3547:b0:52e:630b:166f with SMTP id 71dfb90a1353d-52f1eec45a4mr9548283e0c.3.1748250846838;
-        Mon, 26 May 2025 02:14:06 -0700 (PDT)
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com. [209.85.222.52])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-87de8b6b864sm3980161241.25.2025.05.26.02.14.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 May 2025 02:14:06 -0700 (PDT)
-Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-86d587dbc15so1279928241.1;
-        Mon, 26 May 2025 02:14:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUrngsCdMal8XIg58Jq4nrFP3Ia7NDrNEl5LJSFUmwSt5Q2goFXyHZu1QLTvBpC4KLda2bLwlt9Cml8dgM=@vger.kernel.org, AJvYcCXuMJPpuXToAlNZ9XAAUM18QhdUx7KChWr8ge2yOdff/LkoqziCbKYMNF3W4wm8BjCepA6bODFDYCnEqyR84DMm6gg=@vger.kernel.org
-X-Received: by 2002:a67:e446:0:b0:4e4:3c3a:f163 with SMTP id
- ada2fe7eead31-4e43c3af25bmr2968298137.7.1748250846395; Mon, 26 May 2025
- 02:14:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BADA61A2622;
+	Mon, 26 May 2025 09:22:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.60
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748251323; cv=fail; b=EQXlVIgrGcUDuGoysHBD0Z1U9/5zkQeL3f+1Fza93N7x0UL9BUsPqDmwslhrUyFQn80A5KSQWVdO2VMR60aV3GhQS5N/WAvIIukGR/JIgnFo7Yrx+MU1S1Oh0HS1WkTOA2XoKQPV9XrSyxtf1/ikr4BZwFgMM9V3I4cVwjOnmP4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748251323; c=relaxed/simple;
+	bh=1dE01Etq/Dj5WJhdY7yS/IVD0FnOu3EB1yJsRQttPy8=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=jtyZepqM6Jq7URVfl2XHVPB+bMrtjdOVMSjF0ECWoGclOU0ecJiJMuScndj6UCRw6OvvhIfX0m63b7GTrQUQb47B+Qn1LooKFuoVIFyL1hdex3US1eGy8mz+kLvuXD3U6Tr9V1qxzbFW/7TV9H3TCDjz7RSYJn9quldptHkHnE0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=AlVj9DIS; arc=fail smtp.client-ip=52.101.125.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fT4h+vN2w2GZm+4aHVFz7k9+izHGhpNQb2uMXZF7JjlZhNJfD2A3Qduqls7qN9L7iDR+O4THDIhzazcgvn0t4Wgq/krs3ykH3n4qKWJ3cKc/KFZKSXJ3WHfgOoaMdOpvwOxCX0XEMY6Xw0i5I2NXIGgJpEM0CS1jJaYwRR4NvaNgdkFIVg/rxcZhrQ/95g1dJ/Dz5hCpuD2DCd2j+Rqhml9RPWbvB7jUPkYiNDn1v1N7C0x88gApcgL8vEUcrUqH1sUMIgJmVtTM15YPMrRxiW47XFqXGFTdznK7yHVnbhfsPNHeESsCfNk79ENQCwob8HtUYSktss/z2tKqfZa9dw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xRV8rC/76RdwCpwx7ofihmIaEHqnfTR59oD/oVIwubA=;
+ b=qYlZ4TzIUndqTWrQ7ctkketKH5uPpYIy+rAprLc6l6NdDr3Uwy8fBlw/+ksu966GT02kL3kZFOGJ7xJjrD6ybIp/1HNahjEApI9qAVtavdWAdIWKZNGUQ4rJmuWO6iUwB3ys6yjg9wgzCsslYCj1fNRqQLYuOvrgHtWyv5Qc+pfvJC91gTDejIHghU6lloFmMinWgDrXfhUzZXhFRQ5cpQs7AsH2q+I9JuuBRMf21Tc9OqFoW3T61eJrelmkOt78637H8chfzYJ5edQmRHrXpPEa7umHN8bTkh1mqzAqOaNJdMHLAjrueAorhArx8qbIYNqQCYUhEdx60nS4NvoQ7g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xRV8rC/76RdwCpwx7ofihmIaEHqnfTR59oD/oVIwubA=;
+ b=AlVj9DISAvA2//Hp/s+s21+79rrqC/Yc2bPFHBQb+p8zZ+BdzPsTSx2QSd+ktWdC+cIhat9TROCKYuXGbJvTB5fY0X/XhpzeEPVfaQmjgwIxcRPtGIlAMOxtF2umwQzL2G9g9+HiiL8Sy8O1v8BusWrdMdrbKkBMGBPsiz5jOV8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com (2603:1096:604:35e::5)
+ by OS7PR01MB11443.jpnprd01.prod.outlook.com (2603:1096:604:241::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.25; Mon, 26 May
+ 2025 09:21:57 +0000
+Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com
+ ([fe80::244d:8815:7064:a9f3]) by OS9PR01MB13950.jpnprd01.prod.outlook.com
+ ([fe80::244d:8815:7064:a9f3%3]) with mapi id 15.20.8769.022; Mon, 26 May 2025
+ 09:21:57 +0000
+Message-ID: <c0aa1d6f-4a2e-455f-b458-1b679beefe0f@bp.renesas.com>
+Date: Mon, 26 May 2025 11:21:44 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/bridge: adv7511: Do not merge adv7511_mode_set() with
+ atomic_enable()
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
+ biju.das.jz@bp.renesas.com, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Douglas Anderson <dianders@chromium.org>, Adam Ford <aford173@gmail.com>,
+ Jesse Van Gavere <jesseevg@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250526085455.33371-1-tommaso.merciai.xr@bp.renesas.com>
+ <CAMuHMdVMDd2abFFzMY_Rbm=7pnX5C2qHBsa68tF_c=bRnp3zkg@mail.gmail.com>
+Content-Language: en-US
+From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <CAMuHMdVMDd2abFFzMY_Rbm=7pnX5C2qHBsa68tF_c=bRnp3zkg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0119.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9d::15) To OS9PR01MB13950.jpnprd01.prod.outlook.com
+ (2603:1096:604:35e::5)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250526085455.33371-1-tommaso.merciai.xr@bp.renesas.com>
-In-Reply-To: <20250526085455.33371-1-tommaso.merciai.xr@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 26 May 2025 11:13:54 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVMDd2abFFzMY_Rbm=7pnX5C2qHBsa68tF_c=bRnp3zkg@mail.gmail.com>
-X-Gm-Features: AX0GCFs0iTAPJyn3o_dQ93Zo1B5zmQvHXVBeKOyo9bKkSBZ5LaEVKWOqRf2Nfi4
-Message-ID: <CAMuHMdVMDd2abFFzMY_Rbm=7pnX5C2qHBsa68tF_c=bRnp3zkg@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: adv7511: Do not merge adv7511_mode_set() with atomic_enable()
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
-	biju.das.jz@bp.renesas.com, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
-	Douglas Anderson <dianders@chromium.org>, Adam Ford <aford173@gmail.com>, 
-	Jesse Van Gavere <jesseevg@gmail.com>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: OS9PR01MB13950:EE_|OS7PR01MB11443:EE_
+X-MS-Office365-Filtering-Correlation-Id: 93cb31be-e1d7-4bc3-ffc9-08dd9c36c2cc
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+ =?utf-8?B?L3diSlA5andhaG5SQWt5ajE3bFVyQnBPU21tRjh4OWhqV1IxMlYvdEx5cHhV?=
+ =?utf-8?B?MHVneTJXWWRRd3NLS2h0ZGNTQ1NxdW5WbEZVZmdlUUZsNU1qK2JHMnE5ck5K?=
+ =?utf-8?B?Ung2WWlVWWNJZGxqWFlLN2FIZnZDTzVRVlhVam1rVFRpRWVqcjlxTkNEUits?=
+ =?utf-8?B?ZUcxSU0xRUVRZmhuOEpaUUlBVU1yUHAxc0UvQjJkak9VdklVNHBGelpVdnJU?=
+ =?utf-8?B?Y1pxd3VhdGRDUjN6YndzNjBhbXhmbzlHWXJ5RVpvekNQMU9WT3EvbzExT0VB?=
+ =?utf-8?B?ZHN6RG9ZaWlmZXBXU0ZWTGU0N3dQTlJ1WjUxY2tsMXNuZ1ZHVXlLUXdEU2pw?=
+ =?utf-8?B?bmQvenBET3J6VU4yTThqWnNHRVhUWXdKbytNaHQ2cnU1QjhLUG02MEdjV0Vi?=
+ =?utf-8?B?ekFXZVZZaXZJQlNJaG5lcnhzdjZNQjZCdXZlYzFPVFgwZ0o2OURkMmZEeUtp?=
+ =?utf-8?B?cDFITnNJNjhyRmtvNVdMRHluQVpVSDlnUmp3eXBFR1V4NCsySDBQWUFGRGRq?=
+ =?utf-8?B?VndpWEIxZnRSR3JlT1ArbXMxZDVRYTBrM1BLUUwzUU5rOUdGdUFCKzBBV3NE?=
+ =?utf-8?B?R2pvdTdCVGdZMVFiQ01ibUpYZm9CZ09pWjd6YmErSFJQQTc1OG91SGNpNVph?=
+ =?utf-8?B?bVZzSXhyY01wR1c0ZXRqNDlpZDZFVWJZK2JMUUx2R1JUTXp5VXR0SnVhcUtB?=
+ =?utf-8?B?QWxqYzZvZFJEOXdncnlzZFZxVGFiS2xBMzVyaE1tNzhJblRaeVFUU1lTOEpN?=
+ =?utf-8?B?RldMMEtJcS9qR0Z0SVdEOGtDbm81aGp2RE5CemxETE56YXJjNFFmeTFNMVY5?=
+ =?utf-8?B?RElaaXdmeVRZWGp5TWh1aEZVTE1UYW1CUGkzM2djeDg0WFlJdFlSMDdqeEJJ?=
+ =?utf-8?B?eHArUVZmeG5IV1o3cnV6Uk15WGhweE9tb3dtUGp3NXJYSzRhaWY5MHRYZVVW?=
+ =?utf-8?B?ZWVqdy83NVl4M3ZtVzFaZXhTZnQ0RmtVRWF4bFMyTzEzVzIwSFFPQkZPQk11?=
+ =?utf-8?B?VDc2U3RpTUpBRUFKK1BSenZTTktidG1LU05rS1NtcUFwcFdKZkVhUmtPVDRK?=
+ =?utf-8?B?OCt6dnROcUFjL1dHSmpsVmNLVE5WdWlxbTJkUEJ3emMwOFBnZmRib1p6WUhl?=
+ =?utf-8?B?ODRIRy96L1BDRDI0bHU1aWU3cWo2UjZzTk10UXdZUmVZMmdZM25POG13LzJv?=
+ =?utf-8?B?TkZMZFE2a1Y4VWRqQk1TVGJWOVdlQ0liRWZ6RW10UFE2RUF4ZC93QkNiZHV4?=
+ =?utf-8?B?QVUzMzJpckl4Y3hMdS9TOWdqbzI1MEFMNVhqbTBDVXNjMlowMVRwNXBpd2VI?=
+ =?utf-8?B?YXBBT0wxekp1UDd4WFFBS3kxQWx3SXNLMlhlYUx5aFJ4a1BPNTJDbUtwdE93?=
+ =?utf-8?B?S1NnSzUyeitld010a0k5L0I5N0xCam1ob0JkcnlUdlBGamZQK1lvajZhZTR0?=
+ =?utf-8?B?b3pmYjFCZEV6SmJSVm45blRoRFZQRERQejFNVnJVOUhZUm1VSGljOWJ4dXky?=
+ =?utf-8?B?SGNyRjNiczB4TWNidTBiVmc5cFV6NlE1M0g2YUJCUVEzMUVERjVwaGhxMUZX?=
+ =?utf-8?B?M2p6cHB4MEdON3oybGRUUHRpQmZqaGs5L3IzTVBEdTZERGRJK2pObGpuWmor?=
+ =?utf-8?B?Ti92WWVaQlFVZXREMW9UN0lpZUM0aU84VnE2VEJVaFhBQmRPUi81MlRXZTBm?=
+ =?utf-8?B?VUNhbXZsZHBnYm41alFUUmxVUWcwblpsb0FWMWhvN3E5ektVMkNUeXFFZG44?=
+ =?utf-8?B?dEx4K1UrWFI5YktUS3UwOUZFVFJwMTZXcGE5cGtPZlRoNm04azFqTWV3amdM?=
+ =?utf-8?Q?ySjNfGZo76Z2SxARoZWtw1IwrZR0UVOp/djO0=3D?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS9PR01MB13950.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?K2d2TTdxQjhNY1pOVzB0MjdQcHk0b1NpVlVQa1J5M3ZZeUsrcFVEMC9SeTBw?=
+ =?utf-8?B?U3MweTZ3ekcyMjZ0ZWZweHJnaUlIT3JHZFhTTXRxL2xmTWNMbWtvM0xjaStR?=
+ =?utf-8?B?ZnNWZ211Y25WYlZPbURjM2MrQmpQb3Y3QU1VbHF6aVY1d3hqUEhUUnJyMGV0?=
+ =?utf-8?B?bUFqRUd5a0tuTHFXSVhKeE8vUzBLTVRUeW9PTXhIekdqT2dQYjR3ckpSeHFL?=
+ =?utf-8?B?SGxMMDhrOGtaU0dlbnFnOUJRKzFRb1o5Z0w3RFJUTjlWclRrajNNeml1TjFy?=
+ =?utf-8?B?eUlndXNTdk5jQktIUVVJckVPenhZK3dieEhZUTBFVnpMQ1hEZVFPWGFqWFhZ?=
+ =?utf-8?B?cmJIT1N1OTlQSjBKY0dDcXZOK3Y1blhrY1BHYW81UW45SGNkR1RwbGNnYjc2?=
+ =?utf-8?B?ZkVGTThqNU5Ed1BiQ0VNSkFYa0pibEtBVE5YVnhiK1hkMk1ZR2dtSzhybFQx?=
+ =?utf-8?B?TUltR09GanpDN3NTQnViVGlPQ3BsN0xiZVg3bStkMkx5YkNlUGE2YTlmSjhB?=
+ =?utf-8?B?dXI4Tjluc2FicEY4TUtGMGx5VElWb2pxcXpJM3QxN0lsaVRHNTNYRjVsZVp3?=
+ =?utf-8?B?YmtYZDJCUHg2bUZyZUF3M0xDb1dGbFRGUjFiZlBzdGZDNlRTZ01vLzRBNEc0?=
+ =?utf-8?B?TzdNM0JzUGhpemJUM2pCSEdVeSt2c0lMUmN1TVNlSjFHWlpyVmJzdVlNQnhs?=
+ =?utf-8?B?UjRMQkM0Q01ndU5YMi9ZeFV1SS9iMU1zWTdXZXRFKzFIYk9kRXVVVmJaWVN1?=
+ =?utf-8?B?SUFTRk9GSlc2TVp5R1lGbndMY1Q4SkQyNFdnODhJN2xEOHhhUXdIWGtRZjNi?=
+ =?utf-8?B?Y0QzMjdRWTdPbEdHNjEvVjVFTTA2ZHVaS0dPZXh5aGtHeS9mdmlpb2x1ZU9D?=
+ =?utf-8?B?Y3BGUk5oeE1UVkJVMk43aWJvRENvR05RVXB5Y3BsLzQvVCtab015eXZNMDlB?=
+ =?utf-8?B?ekRUUVhtV1psMUZ4WjBiNklCVFpQSXhnT2h1Q0g5ZVdLL3M2UnhqeTlQdG51?=
+ =?utf-8?B?Q0NmQUdmV3p3V3pUOXpFd3A3dEUwYmRZaGk2OXFvZ05iQ2Y1SnQxSklkWXZh?=
+ =?utf-8?B?WmVWeXBTYUJLVnpxWStHa1pnZnVZbStXYUdhUFVXLzFPM0hqM1dKNWpEaVZi?=
+ =?utf-8?B?cmprUEE3RVVUbURoT3QvVEgvdzlLc2VVSDk5Qm9kdTJCSlVTYVNjakNoOTJs?=
+ =?utf-8?B?U0QyZ0RLQ2pIcW1ncDVjSlBsdUM0bFFIV1JxV1RRUmZ5WWRYWGtxVk15Mk9K?=
+ =?utf-8?B?OE5CUmtJdzRxbXFSWndCeFhhSEFEWS9GK1ZNeEEveTlMS0h4RlRtek5BZ1FX?=
+ =?utf-8?B?Wi9oeUQyYW9vT0k0WUk0VlFCY2tsVzdrMjlaQ0RHd1B1S0RtaDdoTnJUWlBv?=
+ =?utf-8?B?UmRTR1QrMmt1emdEMDRhaVNrQnJWTXFDS0NhMkxkNzZnM2dIdklOVkZBbGxr?=
+ =?utf-8?B?ZGhnQ0hCWVloUXREb3RoWWRSQ21ua1o2TTI1K3lzV3dCV041MXJmQTN6ZDVi?=
+ =?utf-8?B?dHR2QWJaeVUyWGhEWFVYOVJ5dXdQL2hyYUh5VFdJOGhLKzA1alpBdjRqN243?=
+ =?utf-8?B?SUlDZTNrM1ZSWjFJcThEaHNrZkIrSGdhcW9zbzdOSUtOYisrK3NQdFBDT0FG?=
+ =?utf-8?B?a3Q5QkxHSWdtM1cwNGRySGZFTmcydDRHN1BUeEhvbVJFU1VMdmZjTmhNbGEr?=
+ =?utf-8?B?M2JWeFNhMTV6UWVvOUgyNFRmQVY3cVVnTTBoWU5YbjZnOXRBVHdDeVhwM3JE?=
+ =?utf-8?B?SVplYzJPQUFOQVJ1TkJBVkJ4dGhyaUNEVnBLMVFFUmxKeFc4QUhuejlacFl1?=
+ =?utf-8?B?blFQZXJadFcrOHAvQUwvTHdRSFROTDlpa1p6RDZEMlFTajc1clptc2JZNmYr?=
+ =?utf-8?B?eXFpTWNlZDRUTEtWd1ZFK0JpMjFZWGdYeWtkeUljc1ZhTkhMWHZFQWNmNUd3?=
+ =?utf-8?B?MnN5QWJtaUR1dmQ1NGxjUEhhb1JwS1hSR2hxZkRZOWdYdUU3L3BsMVkzeFZu?=
+ =?utf-8?B?a0ZZbWFXQ1ptaGpYTFluVVJxSlViVXZiQXdCeThwVk1Bd3AwMEFPYXVkQ1Va?=
+ =?utf-8?B?V1UwZURoWDdqbm9GQ2xWdmJBdllMNDhucEpLaFZOQnFucGNSblhtZk5Kb0pL?=
+ =?utf-8?B?bUJEeGMyMDBRakJXOEZrTnNIY2V2ZjJuZ0MwM3AwQnBNZ003NXRmc0tMd2Jj?=
+ =?utf-8?Q?ojTepU4OHQLh7Hgq0vTSgbs=3D?=
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 93cb31be-e1d7-4bc3-ffc9-08dd9c36c2cc
+X-MS-Exchange-CrossTenant-AuthSource: OS9PR01MB13950.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2025 09:21:57.0506
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8I9OKE4j7t74RDiD0yynu4MnaDuLSAPqW7wwFlPuWp2TEwsZIJKGwjvlheLSJUeNPoi7w4tAPnkXcGm8ZcW5+sZhOv1tg6smhd1caqQNIFWZT4E/OhrQNqUEv4GRb/lJ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB11443
 
-Hi Tommaso,
+Hi Geert,
+Thanks for your comment.
 
-On Mon, 26 May 2025 at 10:55, Tommaso Merciai
-<tommaso.merciai.xr@bp.renesas.com> wrote:
-> After adv7511_mode_set() was merged into .atomic_enable(), only the
-> native resolution is working when using modetest.
->
-> This is caused by incorrect timings: adv7511_mode_set() must not be
-> merged into .atomic_enable().
->
-> Move adv7511_mode_set() back to the .mode_set() callback in
-> drm_bridge_funcs to restore correct behavior.
+On 26/05/25 11:13, Geert Uytterhoeven wrote:
+> Hi Tommaso,
+> 
+> On Mon, 26 May 2025 at 10:55, Tommaso Merciai
+> <tommaso.merciai.xr@bp.renesas.com> wrote:
+>> After adv7511_mode_set() was merged into .atomic_enable(), only the
+>> native resolution is working when using modetest.
+>>
+>> This is caused by incorrect timings: adv7511_mode_set() must not be
+>> merged into .atomic_enable().
+>>
+>> Move adv7511_mode_set() back to the .mode_set() callback in
+>> drm_bridge_funcs to restore correct behavior.
+> 
+> Thanks for your patch!
+> 
+>> Fixes: 0a9e2f0a6466 ("drm/bridge: adv7511: switch to the HDMI connector helpers")
+> 
+> I can't find that commit? I guess you mean:
+> Fixes: ae01d3183d2763ed ("drm/bridge: adv7511: switch to the HDMI
+> connector helpers")
 
-Thanks for your patch!
+Yes, sorry.
+You are completely right!
 
-> Fixes: 0a9e2f0a6466 ("drm/bridge: adv7511: switch to the HDMI connector helpers")
+https://cgit.freedesktop.org/drm/drm-misc/commit/drivers/gpu/drm/bridge/adv7511?id=ae01d3183d2763ed27ab71f4ef5402b683d9ad8a
 
-I can't find that commit? I guess you mean:
-Fixes: ae01d3183d2763ed ("drm/bridge: adv7511: switch to the HDMI
-connector helpers")
+> 
+> Gr{oetje,eeting}s,
+> 
+>                          Geert
+> 
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks & Regards,
+Tommaso
 
