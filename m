@@ -1,134 +1,314 @@
-Return-Path: <linux-renesas-soc+bounces-17519-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17520-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2B07AC4479
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 May 2025 22:34:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15D0EAC45FB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 May 2025 03:40:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9F2A37A4B86
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 May 2025 20:33:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CBA47171191
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 May 2025 01:40:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE59323C8A4;
-	Mon, 26 May 2025 20:34:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C5C5143C61;
+	Tue, 27 May 2025 01:40:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lpw4mthy"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="cxpbfoWO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com (mail-dbaeur03on2071.outbound.protection.outlook.com [40.107.104.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4EFE1607AC;
-	Mon, 26 May 2025 20:34:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748291682; cv=none; b=RnGLZERMOXrukBH6cHHOFVGxUOmBBseUr3e8G/LytfQXUXdBIbWovhhBrhTceKLen1A6baVU6bBnf76cjhWlTyOGXSsm2c2A5KqW78QCSNjjIBr8QhaLj7YMs+VLJuwz6YldV076UPvT0Cc86/joko/mtO34gZDWzfi9cfAceSI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748291682; c=relaxed/simple;
-	bh=T40zv2BAbAAN5c8Kb2iLFjCSDe/dOZ4P0aid1xJ+yWk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hPgAHXei+rr3rwaol4cz/LMHdomA0nEgvbzvVRcFih1xqv69ep2r7vDqRTJQcm3k2w4mfUyBtOchcYrbOq9ZXhJbc/yMsNIsr7D0OMFvCwB9dc1pL6nXCo7bFTRBMvOtXAeZ1HU55SaEbVRyxj4x+4ajbs8DK/EXXv5d1tSBhew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lpw4mthy; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748291681; x=1779827681;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=T40zv2BAbAAN5c8Kb2iLFjCSDe/dOZ4P0aid1xJ+yWk=;
-  b=Lpw4mthyXX99j6o6Aa9e3Yrhu31IWXlY4YnO5zz++dd3XyWiaeF+7/6O
-   towjigPg61CYmbQdGxU6uHoXGIdVeeFWxHkEsplpGqKVWlzb0K4H8604B
-   MSynP9HXZdnEdI1acTkInFfvcFJNHph44gtHNhlBU2ZjFDurSWXFC4TMR
-   wWTmeF1huTeth+WqGlE7hBSJD1+GgYzoBejD3LgcgmzhrQjGyKIzp72Wm
-   y6J1sgvrm3MOMufiZ/MUdSQao5e/+w24CoxqnDbpM5FJovrN0abNQDCaj
-   lCbCxQFMoDGSMAj2+PEy3Z0TFWDXxaE2J0a2XDQdfOxjlIBSmjBpLUsCG
-   A==;
-X-CSE-ConnectionGUID: /LTgkgTqQzerOU38DCNQvw==
-X-CSE-MsgGUID: MSYZ78FsR6O5XZAH8RKOnw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11445"; a="54076956"
-X-IronPort-AV: E=Sophos;i="6.15,316,1739865600"; 
-   d="scan'208";a="54076956"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2025 13:34:40 -0700
-X-CSE-ConnectionGUID: thHqHVQNTF6ZChP9KB98xw==
-X-CSE-MsgGUID: S+67gckpT0q9fyK79kpnpw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,316,1739865600"; 
-   d="scan'208";a="147746767"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 26 May 2025 13:34:36 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uJeWn-000ShA-25;
-	Mon, 26 May 2025 20:34:33 +0000
-Date: Tue, 27 May 2025 04:34:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Claudiu <claudiu.beznea@tuxon.dev>, gregkh@linuxfoundation.org,
-	rafael@kernel.org, dakr@kernel.org, len.brown@intel.com,
-	pavel@kernel.org, ulf.hansson@linaro.org, jic23@kernel.org,
-	daniel.lezcano@linaro.org, dmitry.torokhov@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, claudiu.beznea@tuxon.dev,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	bhelgaas@google.com, geert@linux-m68k.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH v2 1/2] PM: domains: Add devres variant for
- dev_pm_domain_attach()
-Message-ID: <202505270434.ft8ekK9H-lkp@intel.com>
-References: <20250526122054.65532-2-claudiu.beznea.uj@bp.renesas.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD91317D7;
+	Tue, 27 May 2025 01:40:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.104.71
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748310049; cv=fail; b=c9wY2klkrdTQmS/Z6SXhh6+U68GxK4s66VPrKZPrq+stZ0MIgsQVWWPlRhhLY1XzYMIkG2RxJ9Jn0mlnZ/cTDTFmRhUKCtREq5A2kS4r2uxBl9otnQQXOx2zyKmQbsa83BTt/rVbzsBY85FLLUK3GdokFExBx1zuMBHE3xh5mgo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748310049; c=relaxed/simple;
+	bh=rviEJn/IpDPtlfGKcVUOZt6bCI5TLTwfVfHgh+oUM5o=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=jUkmxAYKCb+zu1c8fNdMR2uckaq9DMG8hq189fQBf/ZsOPY1+vF5k51SoCds+HN5IDIBUUGcxgj6b6MLgiVWukAuXQpssuTFs7OI8PgdAgKCE7+YYC40iMhjluzWDvSepJOvnft2rKQE3LV4l5avNHkzxljJYPmx7Aw12UY1bQA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=cxpbfoWO; arc=fail smtp.client-ip=40.107.104.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JlwBcM4NPz7dr7UzVE+ioh65Fkab53TTQB1zzWLma+8DGESMUPg7Fgomiul6qSU5GE59/ce0sh0dXHwPCC0p72Xekl0AraeO7ylAiPUQ8Qew9VCqB6ycB5J9+pbzzLh/PBtLka8V8Wa4hxSQpvWp+TecUoM8l3WOdVCI78SBzyCJl+NJPyprvIwA34CfvfLTXUL20pXVMAM5Eix0Us07hqXHmLOuRHczwrdn+Lhg37XKYG4AkP2YZdXy1BvbBcfU8PFoYKFtsPzTAkhG4oCK6tFxw0D/duKJni/zF+4Kdt49Txk3wj1jcynhKN3ycV7dPSTEmTrgp7WUI+pljrpuAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SJNPOBYkA332Gm1n/RNP4l4xJ5l6gwQXPoUdntxwna8=;
+ b=gWmCa25q1AgXlQA22VGrzsw+9khc6fMXQOc+epOYMhu/1GfkIt5ANA0SgL+SuH6BVbUcZldjFkS/Y4zF/P7i46xm5MfeViB3RPhJHC6ItjlPo4h0hElNkL91m0YMBCOkZGjvQjT9FLCYA9pMwf8LUW6X6PxIJ9aB2/71VjIrSIEo39GwATHpLAN4gEa5g2D97rapqJDoIk+cDQKjp0EmbkqOos4HmeQKvC+tlXT/4lqdClM6mV618LuY7cXQ/7GlVb/UOo+FUNPdWEy/kgYXsitJ//6MkIv6VfJtKdQgFY3xmS9rV9txLaV/YnMLDJ3vy6Hb2gahLez7EzByUCv3ZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SJNPOBYkA332Gm1n/RNP4l4xJ5l6gwQXPoUdntxwna8=;
+ b=cxpbfoWOWc1bXO621JZrT3J/AIJl5xvBPCgkeFEqzcU4kzd/79lndwfw+2D3u7JLmVkWKJVXhVPDzcYwl02Ywx8xSeAyxPsyOqIfkiSdFWPL8qfhufh6jIWlmC9AWMnSYnylOkc4XriwBqmo8p5FfwVcbYta1wdNYnDArhsvg1eJ/ar3nRu6K1uaHjk4ryvaZ1VyaAKGgLtjUqnWePHLwt0yNXwGug3Z3A6F/BBdpy5pTxr3J+iOMgXqzBftzRsbK4ccTvOCrco1OsxreCX/0b9CxppdQcYkgXplhB76/rTeW7xjnowmGRlS2x9muEq14Tn+06VhnKkJmjIswJCfwQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by VI2PR04MB11241.eurprd04.prod.outlook.com (2603:10a6:800:29a::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.21; Tue, 27 May
+ 2025 01:40:43 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::d1ce:ea15:6648:6f90%4]) with mapi id 15.20.8769.025; Tue, 27 May 2025
+ 01:40:43 +0000
+Message-ID: <0a88178f-a3f1-4aa1-94e9-6050330ff168@nxp.com>
+Date: Tue, 27 May 2025 09:42:11 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 30/34] drm/bridge: imx8qxp-pixel-combiner: convert to
+ devm_drm_bridge_alloc() API
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Douglas Anderson
+ <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Anusha Srivatsa
+ <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>,
+ Dmitry Baryshkov <lumag@kernel.org>, Hui Pu <Hui.Pu@gehealthcare.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com
+References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
+ <20250424-drm-bridge-convert-to-alloc-api-v2-30-8f91a404d86b@bootlin.com>
+ <553d62ed-976a-4e17-9678-cdc3d40ce4a7@nxp.com>
+ <20250430112944.1b39caab@booty>
+ <f71d18d2-4271-4bb9-b54f-0e5a585778f3@nxp.com>
+ <20250506224720.5cbcf3e1@booty>
+ <67252c36-8b31-4c40-9d89-4f502da4a087@nxp.com>
+ <20250526092024.48cae4ae@booty>
+From: Liu Ying <victor.liu@nxp.com>
+Content-Language: en-US
+In-Reply-To: <20250526092024.48cae4ae@booty>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MA1PR01CA0156.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a00:71::26) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250526122054.65532-2-claudiu.beznea.uj@bp.renesas.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|VI2PR04MB11241:EE_
+X-MS-Office365-Filtering-Correlation-Id: ce86e609-e697-4ec3-b533-08dd9cbf7e8e
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+ =?utf-8?B?U3pjQzhjckUxaHBDbkpIQWIxYlJqRSt2bnVaTjk0OFRoaHRzYjZpMndvY01k?=
+ =?utf-8?B?QWxjaHdHVDcyaTNCamorSWFERE1BdkJSTjUzemUxQ1luMEVKbmMzbW9zQnB3?=
+ =?utf-8?B?ZEc0LzZZcG1xZFBZbUNDMlJndzg3eG9oTU9FNml0eVJDMFg1SXhnUzN1LzBa?=
+ =?utf-8?B?bWhDZnIybnk0ODNQejlaTmlaeXlwa3lLcDByT0IzVjhKT0taajd4ZGpTNlRx?=
+ =?utf-8?B?Ykl4amVNYmNTZUtwcWg0WmNVWU1paFFLVHB5TXlSczhQa0Yva0NWNW5lMTVM?=
+ =?utf-8?B?VVNnQnI4aEVBUjBBSHpjTklLaiszOFBMT0Z3ejNyVXRQSFZERi9xZnF2OTM1?=
+ =?utf-8?B?d1RyblFsZGcwR0dTYjJ5bWlMRVY1dEUyZlJtZi9jUWM0L0lVUlZFdm1OVnFP?=
+ =?utf-8?B?cWdqcThidmNNNFBqditKa2pid3NnWHB3a2g4Qm9mKzFDWlk5V3RydHQ0ZS9w?=
+ =?utf-8?B?OGtpcEZrbUh5T0VnU1ZHYldka1Y3VHdOL084SVViTm5vQ2V5SDVKSFZvL3hm?=
+ =?utf-8?B?KytPQVFSSlJ5MjBhVy9FQ0Fxek5VQTlOZmZlYUQxc0hMNldDb2VlU3FORjZW?=
+ =?utf-8?B?c3JucHZRRlVmRnBRV3g2Z0NHNHp4WEx2ZEg0K1BrblFYR0pVMUdRakF1eFlq?=
+ =?utf-8?B?SmFzWVJSMkdsYWNGblUrWG9oMlFGdlR2SGx6TXdtNkc2UVAxU1VIVC9hRW8z?=
+ =?utf-8?B?a290WExza2l3cUtUTUNDTmNsek5wUytiN1JramVObHRVMG11N1REM0EwTEth?=
+ =?utf-8?B?Z25SZDdHMzFxcm5wd0toUXA1WVpha1pCOHJwM2JWTFErVDNkT2ZaSW83ck4z?=
+ =?utf-8?B?bytwVm16Y3Vjc0t6b0lYN2o0V2xSVjZTc1hVdnZjRndBaWRMVGZOeXpvWkVE?=
+ =?utf-8?B?dnRNdlpQMDBYZGRIRzc5SnYvNVVQc1ZsYXhxcWVYYTlYdVdHRzlVM0hTTCtN?=
+ =?utf-8?B?NW5lcmtQMGFqT3JBbkFUZUg0ZTNFZmpvczdPNk9sNXFoemNQQjU5REZLMWc0?=
+ =?utf-8?B?V2xjSVFsS0pvbnJDRzRCTWZ0b0ZoK2xsclhHYU55OVVUdm1udG9tdE1ZR0h3?=
+ =?utf-8?B?ZTNBVnNJdTdFQ08yZWptNE9sMWVmS21tQ0ZMZzROdHk0QUhCV1hqSVRRbDg1?=
+ =?utf-8?B?NWR0aTR3RHVCL29XaTA4SUY1bDZUNVRvS1FLV1VIeDdUZ1FhRk93dWd2S0hy?=
+ =?utf-8?B?T1RFdysyTkphUmE3VzhoNCtZMDBmejhxUDRoZ1lsZmRPejB5dFhPZ0JIaWx6?=
+ =?utf-8?B?c1U0Q05URmhxQU95RlVlenIxWEs1R0pPOTc4THhhQWxuQkt3eUxkR2ZRdG84?=
+ =?utf-8?B?VngwazZEM0p6Nnc4T2ZlbDBERGxBdXBQektLMWhIdnQ3amNqZ0oyU0gzWEht?=
+ =?utf-8?B?QjdLeVNWdVhSckVTRGxaMWVmWFhvT1NkaHUremJMV2haeWZpQVZqaEJVTkpY?=
+ =?utf-8?B?WjlTaEpIRTJMck8xVlIxdG1UQzdkSC9sOFpuSHhxcTVlSGhibjBKTG1UYjNB?=
+ =?utf-8?B?enB2SDRTNDArVkR1VTZJS2JuNHhXVlFiYWdJblF6eDZRN096Kzl3NzVLM09s?=
+ =?utf-8?B?TlhiUEJmMXhRbHhkVDV6M0FFTTBUVFQ2RDIwQ21sWHdnNHl6bEs4ZEtwcTFn?=
+ =?utf-8?B?dWdKZGZCZGhjd2FjYUVON0Z0dkppSjA0NWI3NG43RE9pMm5BUitEM3l1QWxs?=
+ =?utf-8?B?Q3NBUytqNUdSZzV6bWI4SFpkaVRBb2pHL3hxODRRVFZxUjB3N0ZFTE1WL2dF?=
+ =?utf-8?B?NkZqYmFYOERYcTZZOTg4ODIwN3ZveFR5WEJsMlNOM2cvWVh3RThMRUZJWWRW?=
+ =?utf-8?Q?32VE72z/cAsSvy87VlBcqoS2BcASl9ZarqYQ4=3D?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR04MB7046.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?dkZPWHVneFV6TFdvcUJ2d0N3ck5HZk5WVHU1b0xOYWNQQUw3bkJicTlabytq?=
+ =?utf-8?B?UmREdmFKRjlDdHk0QUcybTREa0dCSDZKdnJVc2dKUFY5citSTnBlT1M0MUJM?=
+ =?utf-8?B?enlzMTVnOXE1UjdQVWR0dlR2cHVEbHBmM2NiS2s5RHFsMks3d3FZZmMzbU1P?=
+ =?utf-8?B?cjQ4ZEw5L215ZmtyRWxQSTIzYlZLd1VKTmZWUVZUQUd1bFJOaDFuWkcrRDZq?=
+ =?utf-8?B?YWs4YnFvY05wdlVRbElVZEFCZEZ0U0hCUkFOWjlBcXhlYXlKckpMRVd3dU9G?=
+ =?utf-8?B?NkJXWGhsRTVwYlpqREY4WnpDRENxTVA0TFlBWjBXQUtTSGtQaU9WQXFtZzEw?=
+ =?utf-8?B?YXh1bzkydmdSbCs0cEhuRUF2ZVZnWGdpY0lJU0dZKzd0NnlndmwrNkxsbEZS?=
+ =?utf-8?B?VEpJNmJyL0lHdTV0WndFaXhLdHRZamI3Y0VkbjVMOUtDallrTk50THA0a294?=
+ =?utf-8?B?K3AwcndPTTNNYzR5TWRKbndEL0JZbVkxelE2STdTZlBoUkpzWFBGc3hUb3pD?=
+ =?utf-8?B?Z3BrTFpEUVowYS9IZnFjb2VPLzZvQTJlaDc4VUNRc3Z3aWhOazNPUTAzSUo3?=
+ =?utf-8?B?aVJmOUoyTktSOEEvSVJub2E3SllWUjlnTEkraWt5MU92SGZMZVR3S1RrYUZp?=
+ =?utf-8?B?YnU3c0RoeEptSE5CNU1pb2FZRmxVcXUrWWdqb1JBMTc0cENnTHVROGNEUkJL?=
+ =?utf-8?B?ZkFSWXMvbEFoWHRyZmFRVzhERCtlMG9JL0RrQWp6Y0hCZGgzTVEwMmVIWWxX?=
+ =?utf-8?B?dDg4Q1VkTFpQeEVaZ0xzZXBCYzJSZis4VWdrUU9CU2l0TTdjMVdRUU9FOGFE?=
+ =?utf-8?B?cTJ4eitaVVIzdHplZFdXU2NVcFNsbmZ5WEo2VmwxaTk1U3F4Yk12NlRSV1dZ?=
+ =?utf-8?B?Z29IbE5tbEtIanRoUTBDbXZQYkpiOUVYWVBLRi9iaDRaMCtCbjRSeC95OGk1?=
+ =?utf-8?B?eUdkVzVPb05TMjYwL0I4SHJOcHJ4V1lqVUlNUVhxWDZ2ejl5bFBYQ3RSMWp0?=
+ =?utf-8?B?aHFYQStxUDFrT093c1ZKcGtBM2gxUFZXS3ArajZOWjZxQWRzNzByRStoK1Ey?=
+ =?utf-8?B?YjVJZ2cwSVFaWVZtM1VSa1R2NzFKM0g2b0xPL0dCM080Rk1FM3pqaU1hZk5x?=
+ =?utf-8?B?V0l2UWZTZmlGV1cxQVhvQjdmVUtRVTVtY3R1U3ZCVjR0UzRPaXNSZ1F5L2lV?=
+ =?utf-8?B?elVYVXJkZ0VTbHV1QytxL0drbU53UlJLRkZqL0JaSEJuY2NXcWU2emR1ZVpC?=
+ =?utf-8?B?clRlVHpvOWhqV2ZMYUpTbUNQcWU2dnZaeEFldUZLME56d0loQ0JESTFxUGlw?=
+ =?utf-8?B?ZGZsbVZGdHAwaGkzdkFGWmlCbFEyZFlZcTV6Vm42cGZYemxRKzhKeDJrQmZs?=
+ =?utf-8?B?Uk5ZK0p3RHd4NDlkdkpwZHROSGVTOVN1cDZESjNqRGUwN0NydzBPbmRhVTZD?=
+ =?utf-8?B?TXRHcXNrSXVSSEJrKzUrRkd2M2NPbzZiSWk1Zmh5eGNmTGsxOGVRSEZTN3ZT?=
+ =?utf-8?B?NjVZejVOZWZXb2prSUQzYURQN1lPckdGMloxRXk4a2xsamdRRjIxNUU5SUdW?=
+ =?utf-8?B?YS9qZCtFZmsxcEFrbFNEV3kwRVl5dWtyVmVSdGxGaWMwRjhJMDBXOStNOGZ3?=
+ =?utf-8?B?S25MZmMxd2pxa3lIMGduV3g2M3o1VncydUtselpJT05RU2dTTkRIbHc1eW1q?=
+ =?utf-8?B?S3V5bm81VEE3M1pFTEZXUlZTQjNGc2RPL2xCbUZBNXFVZG5GR1ljUUpPMkMw?=
+ =?utf-8?B?bXBzQTA0T3lGTVA0aVhRRjROOEh3eE81OHdTUWdyTk82YmNNeHVPUDFzRmtS?=
+ =?utf-8?B?Y1lLUWsycUlRUVBsekNlam5mamRzQjNORHlPbnJhbEJmd1p4TjhjcEZ1aUQz?=
+ =?utf-8?B?ZVNrbFgyOW5Fa091N0JPUjJBeXZnenM2MWthSktMQWUxeHhmM1ZzYlFHSnNw?=
+ =?utf-8?B?VXJFNmg5aysxemYxM0g2UXRnRzJFcEtpcEgwTUpVUnp3SHdaWWlGVUpuOE5r?=
+ =?utf-8?B?SGZuYmE5RmZiVTJlVm1uSjBUYmFGaU85OU1uaUEwT3h1L0p2ZzZJY3BLd2Ry?=
+ =?utf-8?B?Y1ZMckUwdkF6bWVobTk0N0t2N2NJT1dIMXMxb0lPNkNiRDh5ZlVsdnIzaTdC?=
+ =?utf-8?Q?/Qljje3UiZVhQWFhYxAQVfvQ4?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ce86e609-e697-4ec3-b533-08dd9cbf7e8e
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2025 01:40:43.4749
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VsxOlVlJu8fTmopTgTzxSFjqZ+d2D+NcjUsxR+KN7vgpQoqodpNSgM5bjldTfFsDl0h+Pg6fj8XT4tl3yYY+Ng==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI2PR04MB11241
 
-Hi Claudiu,
+On 05/26/2025, Luca Ceresoli wrote:
+> Hello Liu,
 
-kernel test robot noticed the following build warnings:
+Hi Luca,
 
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on rafael-pm/bleeding-edge driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus amd-pstate/linux-next amd-pstate/bleeding-edge linus/master v6.15 next-20250526]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> On Thu, 22 May 2025 11:01:13 +0800
+> Liu Ying <victor.liu@nxp.com> wrote:
+> 
+>> On 05/07/2025, Luca Ceresoli wrote:
+>>
+>> [...]
+>>
+>>>> After looking into this patch and patch 31(though I've already provided my A-b)
+>>>> more closely, I think the imx8qxp_pc and imx8{qm,qxp}_ldb main structures
+>>>> should have the same life time with the embedded DRM bridges, because for
+>>>> example the clk_apb clock in struct imx8qxp_pc would be accessed by the
+>>>> imx8qxp_pc_bridge_mode_set DRM bridge callback.  But, IIUC, your patches extend
+>>>> the life time for the embedded channel/bridge structures only, but not for the
+>>>> main structures.  What do you think ?  
+>>>
+>>> I see you concern, but I'm sure the change I'm introducing is not
+>>> creating the problem you are concerned about.
+>>>
+>>> The key aspect is that my patch is merely changing the lifetime of the
+>>> _allocation_ of the drm_bridge, not its usage. On drm_bridge_remove()
+>>> the bridge is removed from its encoder chain and it is completely not
+>>> reachable, both before and after my patch. With my patch it is not  
+>>
+>> drm_bridge_remove() only removes a bridge from the global bridge_list defined
+>> in drm_bridge.c.  drm_bridge_detach() is the one which removes a bridge from
+>> it's encoder chain.  It looks like you wrongly thought drm_bridge_remove()
+>> is drm_bridge_detach().
+> 
+> Indeed my sentence was inaccurate, sorry about that.
+> 
+>> So, even if drm_bridge_remove() is called, the removed
+>> bridge could still be in it's encoder chain, hence an atomic commit could still
+>> access the allocated bridge(with lifetime extended) and the clock_apb clock
+>> for example in struct imx8qxp_pc could also be accessed.  That's why I think
+>> the main structures should have the same lifetime with the allocated bridge.
+> 
+> As the long-term goal is to allow bridges to be hot-removable,
+> decoupling the lifetime of the various components is a necessary step.
+> Definitely it will open other issues, and especially the removal during
+> atomic updates. This has been discussed already, and there is a
+> proposed plan to handle it.
+> 
+> First, here is the grand plan (mentioned in the v3 cover letter):
+> 
+>  1. ➜ add refcounting to DRM bridges (struct drm_bridge)
+>  2. handle gracefully atomic updates during bridge removal
+>  3. avoid DSI host drivers to have dangling pointers to DSI devices
+>  4. finally, let bridges be removable (depends on 1+2+3)
+> 
+> We are now at step 1. Your concern, as I understand it, will be
+> addressed at step 2. Bridges won't be removable until step 4, so the
+> current changes are not introducing a misbehavior but rather preparing
+> the ground with all the necessary infrastructure changes.
+> 
+> Step 2 was discussed in the past [0], and the idea proposed by Maxime
+> is to introduce a "gone" or "unplugged" flag and drm_bridge_enter() /
+> drm_bridge_exit() functions. The principle is the same as struct
+> drm_device.unplugged and drm_dev_enter/exit().
+> 
+> In a nutshell the idea is:
+> 
+>  - drm_bridge.unplugged is initialized to false
+>  - drm_bridge_enter() returns false if drm_bridge.unplugged == true
+>  - any code holding a pointer to the bridge (including the bridge driver
+>    itself) and operating on the bridge (including removal) needs to do:
+>      if (drm_bridge_enter()) {
+>          do something;
+>          drm_bridge_exit();
+>      }
+>  - when the bridge is removed, the driver removal function sets
+>    dev_bridge.unplugged = true
+> 
+> The "do something" above includes any access to device resources,
+> including clocks (and clk_apb).
+> 
+> In other words, two pieces of code can not access the bridge structure
+> at the same time. This includes bridge removal VS any atomic operations.
+> 
+> Do you think this addresses your concern?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Claudiu/PM-domains-Add-devres-variant-for-dev_pm_domain_attach/20250526-202318
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20250526122054.65532-2-claudiu.beznea.uj%40bp.renesas.com
-patch subject: [PATCH v2 1/2] PM: domains: Add devres variant for dev_pm_domain_attach()
-config: arm-randconfig-002-20250527 (https://download.01.org/0day-ci/archive/20250527/202505270434.ft8ekK9H-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250527/202505270434.ft8ekK9H-lkp@intel.com/reproduce)
+Yes, drm_bridge_{enter,exit} address it.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505270434.ft8ekK9H-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/amba/bus.c:15:0:
->> include/linux/pm_domain.h:534:12: warning: 'devm_pm_domain_attach' defined but not used [-Wunused-function]
-    static int devm_pm_domain_attach(struct device *dev, bool attach_power_on,
-               ^~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/devm_pm_domain_attach +534 include/linux/pm_domain.h
-
-   533	
- > 534	static int devm_pm_domain_attach(struct device *dev, bool attach_power_on,
-   535					 bool detach_power_off)
-   536	{
-   537		return 0;
-   538	}
-   539	
+> 
+> 
+> For you to have a better picture of the path, here's an additional
+> clarification about drm_bridge_attach/detach() and
+> drm_bridge_add/remove(). As part of step 1 of the grand plan, both of
+> them will drm_bridge_get/put() the bridge, so that no bridge is freed
+> if it is either in the global bridge_list or in any encoder chain.
+> 
+> Patches for this are already approved by Maxime [1][2]. They cannot be
+> applied until all bridge drivers have been converted to the new
+> devm_drm_bridge_alloc() API, so they depend on this series to be
+> completely applied. We are getting pretty close: as of now the entire
+> series has been applied except for this and another driver.
+> 
+> [0] https://lore.kernel.org/all/20250129125153.35d0487a@booty/t/#u
+> [1] https://patchwork.freedesktop.org/patch/643095/
+> [2] https://patchwork.freedesktop.org/patch/643096/
+> 
+> Best regards,
+> Luca
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+Liu Ying
 
