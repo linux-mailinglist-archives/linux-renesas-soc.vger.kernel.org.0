@@ -1,162 +1,242 @@
-Return-Path: <linux-renesas-soc+bounces-17542-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17543-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DD8DAC4C29
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 May 2025 12:21:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4C63AC4CB1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 May 2025 13:07:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4F6D41796A3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 May 2025 10:21:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8634F17BCAC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 May 2025 11:07:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12640254844;
-	Tue, 27 May 2025 10:21:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA3CE253F3C;
+	Tue, 27 May 2025 11:07:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="n2jg6VMF"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="I+vhpjOc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A198226D05;
-	Tue, 27 May 2025 10:21:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCF8D24BBFC;
+	Tue, 27 May 2025 11:07:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748341298; cv=none; b=XmfdFBPa0lfF4lnbar6gnx43u3l7Ym8AeQofteP8bojvgJb3uNTdncZCEXmBAfkUB/2RHlMqbSktB2s//ggd/RRfWgXQixkH4KuGv+iExiu66D9Hmysh+nHoQqP70JeWtqxD3E+ksHkut6c+d/d516rGp/q0aeHVEeyZqXRXPDg=
+	t=1748344024; cv=none; b=as8ODzua062PiTWJPOh3EVxcXhtmooiprNwxx9jY7yB8/+Pw9ZyqdoMxKYU2UUFx1UAuTJs5KgPIiBId7xzcPLNYHQKozB34dDDCv94s5Vcs0THaPDnGtG6ieOBsjEkBXSkpl6xZQPu+vzozjbffVB/o9M5Pb9LEWc2XrhYjoUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748341298; c=relaxed/simple;
-	bh=EDRRiU4vTiM1T/jpWctcrhZM0mui/juZ83Kfz6a4kvs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=XBW9JwYtvRR38fOfsWc2H8GcOeP3k2xQXIdsbgp1yvMSVBbXRGm1ZsG76gUgPZSQA7lbknqqGyCE1W7HbVWsBe1urdWZyGdWkXjbnhR/zqEGfF+Z1Xsbp8CXlwMlYq1k9oJiXTcxc9+71PntSMgUGEJtW+GcvL7dI+VqDrk/weA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=n2jg6VMF; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 098A44397B;
-	Tue, 27 May 2025 10:21:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1748341293;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1qHxaZtwrlMsrfQyNNpJZT0YvaiMdkMix0Za1kMxuSc=;
-	b=n2jg6VMFAaZOLH1adDk8AISvMQoA1XxSYX/4BTsyXVWGiEdZ0Onwde8/STdc3dkaj5nX/G
-	LhU27t8OlPilol5tILhUUDlfhVs5JQaS9lakiZbjrbpMAtSJWARzt2LllxRCGOrxsW8Q2O
-	qD/LiFH11SzCCj0trEoye4sZGP/wVuqf3pcg6QjQtEc3qAPZGTlMbLDxSf3lnk6TMPjAtp
-	tvXs5xnUv9FnZbNU1i+P5KdioUp2EKUDMejDyuGKqW2G3o0TkWa0oVUwBwWO8h82FWyXNW
-	GmAzGHyxZPHpy7lk2hcVGNJABETorhbkBjr3gmqycG1aXN4tLJHKvhHS6d5Eeg==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Jagan Teki <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, 
- Douglas Anderson <dianders@chromium.org>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Anusha Srivatsa <asrivats@redhat.com>, 
- Paul Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, 
- Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
- linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
- linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
- Louis Chauvet <louis.chauvet@bootlin.com>, 
- Alim Akhtar <alim.akhtar@samsung.com>, Inki Dae <inki.dae@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Manikandan Muralidharan <manikandan.m@microchip.com>, 
- Adam Ford <aford173@gmail.com>, Adrien Grassein <adrien.grassein@gmail.com>, 
- Aleksandr Mishin <amishin@t-argos.ru>, Andy Yan <andy.yan@rock-chips.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Benson Leung <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
- Christoph Fritz <chf.fritz@googlemail.com>, 
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
- Detlev Casanova <detlev.casanova@collabora.com>, 
- Dharma Balasubiramani <dharma.b@microchip.com>, 
- Guenter Roeck <groeck@chromium.org>, Heiko Stuebner <heiko@sntech.de>, 
- Jani Nikula <jani.nikula@intel.com>, Janne Grunau <j@jannau.net>, 
- Jerome Brunet <jbrunet@baylibre.com>, Jesse Van Gavere <jesseevg@gmail.com>, 
- Kevin Hilman <khilman@baylibre.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Liu Ying <victor.liu@nxp.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Phong LE <ple@baylibre.com>, 
- Sasha Finkelstein <fnkl.kernel@gmail.com>, 
- Sugar Zhang <sugar.zhang@rock-chips.com>, 
- Sui Jingfeng <sui.jingfeng@linux.dev>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Vitalii Mordan <mordan@ispras.ru>, "Rob Herring (Arm)" <robh@kernel.org>, 
- Hsin-Te Yuan <yuanhsinte@chromium.org>, 
- Pin-yen Lin <treapking@chromium.org>, Xin Ji <xji@analogixsemi.com>, 
- Aradhya Bhatia <a-bhatia1@ti.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Ian Ray <ian.ray@gehealthcare.com>, 
- Martyn Welch <martyn.welch@collabora.co.uk>, 
- Peter Senna Tschudin <peter.senna@gmail.com>, Helge Deller <deller@gmx.de>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Philippe Cornu <philippe.cornu@foss.st.com>, 
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
- Yannick Fertre <yannick.fertre@foss.st.com>, 
- Alain Volmat <alain.volmat@foss.st.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Michal Simek <michal.simek@amd.com>, Jonathan Corbet <corbet@lwn.net>, 
- linux-doc@vger.kernel.org
-In-Reply-To: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
-References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
-Subject: Re: (subset) [PATCH v3 00/22] drm: convert all bridges to
- devm_drm_bridge_alloc()
-Message-Id: <174834128290.138143.12049855352148769197.b4-ty@bootlin.com>
-Date: Tue, 27 May 2025 12:21:22 +0200
+	s=arc-20240116; t=1748344024; c=relaxed/simple;
+	bh=C9NP/KgbnBsMa8bqntfTg9lZQiBuN+AEFSsRArGwVtU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eri1L/MICfMthEVzfBho/0KnqOEEZfH0n1FT1b6oAa9UGM1uxUzp1RoV8ta/OxwUkJjLfhZeDjTF+f7sJkO4MVPkTv9DPu9osNkU+UKSCty21GsPVsqZGadgflNOgbDiqTX+4INLBvlPHtf8hMmFY0vY350e33ydMG8B5Dnd5jY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=I+vhpjOc; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (unknown [145.15.244.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3782E2B3;
+	Tue, 27 May 2025 13:06:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1748343989;
+	bh=C9NP/KgbnBsMa8bqntfTg9lZQiBuN+AEFSsRArGwVtU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=I+vhpjOcFrECqdPSLoO/S7hE7pU4O9j7SEEAKNa4DQw4Dgmb9q/sOcMgCvSBau8mU
+	 UTdHEqipsmbT3eQvjz9ya2qUi9I8TOXoNLy7uD/63KEe5ss57NI6ioAMAA8emBZxLm
+	 J3IxDLu5lmtg8XDJ96b4g6yYI8jTXJGfgUg2tu4I=
+Date: Tue, 27 May 2025 13:06:47 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 4/6] media: rcar-vin: Prepare for unifying all
+ v4l-async notifiers
+Message-ID: <20250527110647.GG12492@pendragon.ideasonboard.com>
+References: <20250521132037.1463746-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250521132037.1463746-5-niklas.soderlund+renesas@ragnatech.se>
+ <aDVjW_k_keyFQbPT@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgddvtddufeculddtuddrgeefvddrtddtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvegjfhfukfffgggtgffosehtjeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepieefvdehvedvgeeftedugeetudevuedvffekhedvfeetkeduleelgeevudffieeinecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegludelvddrudeikedrudejkedrjeehngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeeljedprhgtphhtthhopehmrghrthhinhdrsghluhhmvghnshhtihhnghhlsehgohhoghhlvghmrghilhdrtghomhdprhgtphhtthhopegrshgrhhhisehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhumhgrg
- heskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghfohhrugdujeefsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopegrughrihgvnhdrghhrrghsshgvihhnsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghlvgigrghnughrvgdrthhorhhguhgvsehfohhsshdrshhtrdgtohhmpdhrtghpthhtoheprghnghgvlhhoghhiohgrtggthhhinhhordguvghlrhgvghhnohestgholhhlrggsohhrrgdrtghomh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aDVjW_k_keyFQbPT@kekkonen.localdomain>
 
-
-On Fri, 09 May 2025 15:53:26 +0200, Luca Ceresoli wrote:
-> devm_drm_bridge_alloc() [0] is the new API to allocate and initialize a DRM
-> bridge, and the only one supported from now on. It is the first milestone
-> towards removal of bridges from a still existing DRM pipeline without
-> use-after-free.
+On Tue, May 27, 2025 at 07:01:47AM +0000, Sakari Ailus wrote:
+> On Wed, May 21, 2025 at 03:20:35PM +0200, Niklas Söderlund wrote:
+> > The R-Car VIN driver is needless complex and uses more then one
 > 
-> The steps in the grand plan [1] are:
+> s/needless\K/ly/
 > 
-> [...]
+> > v4l-async notifier to attach to all its subdevices. Prepare for unifying
+> > them by moving rvin_parallel_parse_of() to where it needs to be when
+> > they are unified.
+> > 
+> > The function is moved verbatim and there is no change in behavior.
+> > 
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > ---
+> >  .../platform/renesas/rcar-vin/rcar-core.c     | 106 +++++++++---------
+> >  1 file changed, 53 insertions(+), 53 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> > index d9ad56fb2aa9..60ec57d73a12 100644
+> > --- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> > @@ -337,6 +337,59 @@ static void rvin_group_notifier_cleanup(struct rvin_dev *vin)
+> >  	}
+> >  }
+> >  
+> > +static int rvin_parallel_parse_of(struct rvin_dev *vin)
+> > +{
+> > +	struct fwnode_handle *ep, *fwnode;
+> > +	struct v4l2_fwnode_endpoint vep = {
+> > +		.bus_type = V4L2_MBUS_UNKNOWN,
+> > +	};
+> > +	struct v4l2_async_connection *asc;
+> > +	int ret;
+> > +
+> > +	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(vin->dev), 0, 0, 0);
+> > +	if (!ep)
+> > +		return 0;
+> > +
+> > +	fwnode = fwnode_graph_get_remote_endpoint(ep);
+> > +	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
+> > +	fwnode_handle_put(ep);
+> > +	if (ret) {
+> > +		vin_err(vin, "Failed to parse %pOF\n", to_of_node(fwnode));
 
-Applied, thanks!
+I just noticed that this error message isn't correct. The endpoint
+before parsed is ep, not fwnode, so you should write
 
-[18/22] drm/bridge: imx8qxp-pixel-combiner: convert to devm_drm_bridge_alloc() API
-        commit: 99764593528f9e0ee9509f9e4a4eb21db99d0681
+		vin_err(vin, "Failed to parse %pOF\n", to_of_node(ep));
 
-Best regards,
+> > +		ret = -EINVAL;
+> > +		goto out;
+> > +	}
+> > +
+> > +	switch (vep.bus_type) {
+> > +	case V4L2_MBUS_PARALLEL:
+> > +	case V4L2_MBUS_BT656:
+> > +		vin_dbg(vin, "Found %s media bus\n",
+> > +			vep.bus_type == V4L2_MBUS_PARALLEL ?
+> > +			"PARALLEL" : "BT656");
+> > +		vin->parallel.mbus_type = vep.bus_type;
+> > +		vin->parallel.bus = vep.bus.parallel;
+> > +		break;
+> > +	default:
+> > +		vin_err(vin, "Unknown media bus type\n");
+> > +		ret = -EINVAL;
+> > +		goto out;
+> > +	}
+> > +
+> > +	asc = v4l2_async_nf_add_fwnode(&vin->notifier, fwnode,
+> > +				       struct v4l2_async_connection);
+> 
+> If you use v4l2_async_nf_add_fwnode_remote() here, you can omit
+> fwnode_graph_get_remote_endpoint() call above. Also the error handling
+> becomes more simple.
+
+That would contradict the commit message that indicates the function is
+moved without being modified. I'd rather keep the patch as-is, and then
+improve the function in a separate patch.
+
+Regarding improvements, declaring ep and fwnode as
+
+	struct fwnode_handle __free(fwnode_handle) *ep = NULL;
+	struct fwnode_handle __free(fwnode_handle) *fwnode = NULL;
+
+would also simplify error handling.
+
+> > +	if (IS_ERR(asc)) {
+> > +		ret = PTR_ERR(asc);
+> > +		goto out;
+> > +	}
+> > +
+> > +	vin->parallel.asc = asc;
+> > +
+> > +	vin_dbg(vin, "Add parallel OF device %pOF\n", to_of_node(fwnode));
+> > +out:
+> > +	fwnode_handle_put(fwnode);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> >  static int rvin_group_notifier_init(struct rvin_dev *vin, unsigned int port,
+> >  				    unsigned int max_id)
+> >  {
+> > @@ -635,59 +688,6 @@ static const struct v4l2_async_notifier_operations rvin_parallel_notify_ops = {
+> >  	.complete = rvin_parallel_notify_complete,
+> >  };
+> >  
+> > -static int rvin_parallel_parse_of(struct rvin_dev *vin)
+> > -{
+> > -	struct fwnode_handle *ep, *fwnode;
+> > -	struct v4l2_fwnode_endpoint vep = {
+> > -		.bus_type = V4L2_MBUS_UNKNOWN,
+> > -	};
+> > -	struct v4l2_async_connection *asc;
+> > -	int ret;
+> > -
+> > -	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(vin->dev), 0, 0, 0);
+> > -	if (!ep)
+> > -		return 0;
+> > -
+> > -	fwnode = fwnode_graph_get_remote_endpoint(ep);
+> > -	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
+> > -	fwnode_handle_put(ep);
+> > -	if (ret) {
+> > -		vin_err(vin, "Failed to parse %pOF\n", to_of_node(fwnode));
+> > -		ret = -EINVAL;
+> > -		goto out;
+> > -	}
+> > -
+> > -	switch (vep.bus_type) {
+> > -	case V4L2_MBUS_PARALLEL:
+> > -	case V4L2_MBUS_BT656:
+> > -		vin_dbg(vin, "Found %s media bus\n",
+> > -			vep.bus_type == V4L2_MBUS_PARALLEL ?
+> > -			"PARALLEL" : "BT656");
+> > -		vin->parallel.mbus_type = vep.bus_type;
+> > -		vin->parallel.bus = vep.bus.parallel;
+> > -		break;
+> > -	default:
+> > -		vin_err(vin, "Unknown media bus type\n");
+> > -		ret = -EINVAL;
+> > -		goto out;
+> > -	}
+> > -
+> > -	asc = v4l2_async_nf_add_fwnode(&vin->notifier, fwnode,
+> > -				       struct v4l2_async_connection);
+> > -	if (IS_ERR(asc)) {
+> > -		ret = PTR_ERR(asc);
+> > -		goto out;
+> > -	}
+> > -
+> > -	vin->parallel.asc = asc;
+> > -
+> > -	vin_dbg(vin, "Add parallel OF device %pOF\n", to_of_node(fwnode));
+> > -out:
+> > -	fwnode_handle_put(fwnode);
+> > -
+> > -	return ret;
+> > -}
+> > -
+> >  static void rvin_parallel_cleanup(struct rvin_dev *vin)
+> >  {
+> >  	v4l2_async_nf_unregister(&vin->notifier);
+> > -- 
+> > 2.49.0
+> > 
+> 
+> -- 
+> Sakari Ailus
+
 -- 
-Luca Ceresoli <luca.ceresoli@bootlin.com>
+Regards,
 
+Laurent Pinchart
 
