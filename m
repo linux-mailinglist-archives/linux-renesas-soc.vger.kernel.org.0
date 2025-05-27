@@ -1,165 +1,261 @@
-Return-Path: <linux-renesas-soc+bounces-17555-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17556-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50DF8AC4D3B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 May 2025 13:25:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE9F8AC4D6D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 May 2025 13:32:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 51DE8189FC3C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 May 2025 11:25:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B4FB0189FB5F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 May 2025 11:32:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D8D226A0BD;
-	Tue, 27 May 2025 11:24:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5075925D917;
+	Tue, 27 May 2025 11:32:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="Lx/gSGfN"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tYYKtd8Y"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C9A0269826
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 27 May 2025 11:24:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88B3325C71D;
+	Tue, 27 May 2025 11:32:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748345068; cv=none; b=d5M5HXYrOMpVtZdc8k29UIrrpG2EBbmFZDekAxlaEV+f7Tx+PAh0r0Qb1nitOvAJ+2gbUDPl0lrEYu2FHBG6ohblQKT0cdDftxhvGgTbBZgIbdYlPLVaHeYcwT+0LkFMh2fV5YoQhEmqD9DX7gMYgPcQsfgfjjcWrsaPn2gi0XY=
+	t=1748345524; cv=none; b=A4Pg3QjWBFJDG8JMNKLfUWQGs8P7oRTXzm5sL669/mwvWwmj6OHt1Dx3qYo41H0ImTpJaHub8cbMzTkhZawxJ5DYFtiuVRb4nopnT6z2842S8WsR30/dbkHE9s3yTDoosB+P3VEgSwPg7Etxy0CVYFZZzNzt7+6T6kNpcpZuQOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748345068; c=relaxed/simple;
-	bh=JNetTBKeCVzrpVSgQrKDXh0nn73Cmuetb65CN4hLZuo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SHH/IF3r0cVSz0blB6I1ZeaVsQv2yXfWqdR4YWsv+GN8HMQKJHsfEbdEn4kmVD+XH8tRs3V5OwwnOLdP68EQaT3q1MfiGekCtKvRjoFQtJyTugGKGS+2GVocwGIElnFMLJGn5qn7YyupP2VeYDIcnWLKzG/z1bjMRgsuwsI4jhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=Lx/gSGfN; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ad1b94382b8so542762266b.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 May 2025 04:24:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1748345064; x=1748949864; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aELTmlEfKCAByNhR0BeCy3DVdg3Hk/gRSgPmB0KiggE=;
-        b=Lx/gSGfNN/rqyZtjWoBBuXeEtZI0o7NicpioRvjsTfcSWe0OfBgdkhcvvDFGCJ/4a/
-         I6DbIykAeVO6cRBurn5wmpB7lPcPREaSaHIdGI5XeAs4FtPdgTSsSD3E+STLviSLdeDx
-         3jos0EEeq7fjhNUWPZcdztu0JzTgbY/Bn5WIYv45oQ54EuxMhRz0M/Dx3qRuz5qi8z0a
-         B3HBx6hdhtmJVtaTTTBqnGXVEw0Pw3naqkAORvDKv6UrBFPJLMdenT+Jj+KJJIdO46kQ
-         Om2gx7YJTqIty3+68hrTaUoHL/GKwEz+h+m5Cp67lywE7mOofn31rLE9fZqrhio9GynA
-         DSAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748345064; x=1748949864;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aELTmlEfKCAByNhR0BeCy3DVdg3Hk/gRSgPmB0KiggE=;
-        b=ffvpT/x/U4g9hno6HxGFNdXxvo7rxSGRxgphWNbubJRSGuOO1fV2riE9F5qdxss3kg
-         6KpUvYsKabTFrAp4rMlfxtr46eDaCSeubDaNtD5YTA4LqfR+tVYbNCEHnRbcRrXF1DNc
-         muFbk9P8OS358RATcvDEgrrePq8HqbvT+qf+t2faW4ol3XwSAYJj1xXNP004KYKSsajX
-         uMzgNJ6VATbSBvgAbfV/WPsKHwjaVVf3yVEjBSXNICgdOdIYbQ67IyCWjuBVxXm45wx+
-         8yZyEa4PX+AERKxqXARkTqOUgVFXx587wtpGlz1Hs0VIBUbZHe1mQPejRzNAwwoiv/PO
-         UXaw==
-X-Forwarded-Encrypted: i=1; AJvYcCWU2vII4rR/VakwqW25rsILfanZ/j5F+cfjek+yRnVgAMn6JK56WZs065ujWyGcXGAIEYqL2pJXjZ+5SLnuRv5nMA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyI56Ux5SEdUmW6v8RTR/1R14uq6puwLefwLyVsLB7I/REuyxsC
-	lU45NGPe6kLwv6xq+74X7yIPtRA+PGRWLYxONNbt/7NP5AWLzDCnksudwO/rEXnaCmQ=
-X-Gm-Gg: ASbGnctHVVVdoHJsJD7KDmW0uC9mmD783OcfWHYWlHMFC2ySinGqTt7vMKY4+ZSfg6h
-	U5WVsUrSM+ly1OE0Oul0PCMNYFTi/D5Oax54+ICBGFsdGQm692FaBKAm+Lg2UABtFGJa0QPjWMt
-	6l3c6gForz84HD18T5dv+bxLr58nS6stIqkBxkMKCRWWlGvJZ6zv7ZMauXBOFa2ZDUcSQiwIoI6
-	A//fVUVH0aRxUdavE85RKOVdBfwhoPxrVAr+3AS9gszLBUfQe8wfoVv7LsztMae92r8h8naME2A
-	wLhR55gEhdJdVr2yyoV3k9VCpdfy/WiiaD/QF/dtTSepesyGe5/H6lJ7kaWZQcA5z5kimZ+VDwh
-	O0poB
-X-Google-Smtp-Source: AGHT+IH0qBe+DR1WbAi8SJNopWYn7T60qvkLsrw0PuKe+GwRXeTQ2TMf2+Xjj+q5wrNMTSeGjN4KfA==
-X-Received: by 2002:a17:907:72c1:b0:ad5:2260:e018 with SMTP id a640c23a62f3a-ad85b2b5dd5mr1077079566b.44.1748345064416;
-        Tue, 27 May 2025 04:24:24 -0700 (PDT)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.58])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad52d438403sm1807297466b.123.2025.05.27.04.24.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 May 2025 04:24:24 -0700 (PDT)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: geert+renesas@glider.be,
-	mturquette@baylibre.com,
-	sboyd@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	magnus.damm@gmail.com
-Cc: claudiu.beznea@tuxon.dev,
-	linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v3 8/8] Revert "dt-bindings: clock: renesas,rzg2l-cpg: Update #power-domain-cells = <1> for RZ/G3S"
-Date: Tue, 27 May 2025 14:24:03 +0300
-Message-ID: <20250527112403.1254122-9-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250527112403.1254122-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20250527112403.1254122-1-claudiu.beznea.uj@bp.renesas.com>
+	s=arc-20240116; t=1748345524; c=relaxed/simple;
+	bh=h+ZBx7kHRqB6BgXATeKIIHa4MIKRj5KlXFHZxrzR52s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZKN1L5RJ72lSnZ8BW9Qd5dX8JIdSZ+kgtqiLmOxUrfm4kEoXI5a8MOXmOoDmlfgZUFji3YTJc1I3GG70yP/2RQp3jRC5oVt/3/i9S1caSVTp4y7OrxO6P3FNwQjIWnk9xHKoIvZO/JK00ZpyoE8AjfXo83aGnjV6mbwsBwQnLzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=tYYKtd8Y; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (unknown [145.15.244.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 27EDA2B3;
+	Tue, 27 May 2025 13:31:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1748345495;
+	bh=h+ZBx7kHRqB6BgXATeKIIHa4MIKRj5KlXFHZxrzR52s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tYYKtd8Y3U+caaT0isZf3dtO/68nptOXKEjMbcBEatFBoPfQ2auUr6+A3PQADJyA4
+	 brGxoCBkxkf6yNOwrC/xkWRbvUxEf9PNwWBuVg2xLgNkdKtSseYPjT4Z00w4FjGGWv
+	 wGzqF4tK5EQvyJYXdfBRl1oa/5qYlWc61YxcVlDM=
+Date: Tue, 27 May 2025 13:31:44 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 3/6] media: rcar-vin: Generate a VIN group ID for Gen2
+Message-ID: <20250527113144.GJ12492@pendragon.ideasonboard.com>
+References: <20250521132037.1463746-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250521132037.1463746-4-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250521132037.1463746-4-niklas.soderlund+renesas@ragnatech.se>
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Hi Niklas,
 
-This reverts commit f33dca9ed6f41c8acf2c17c402738deddb7d7c28.
-Since the configuration order between the individual MSTOP and CLKON bits
-cannot be preserved with the power domain abstraction, drop the
-Currently, there are no device tree users for #power-domain-cell = <1>.
+Thank you for the patch.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
+On Wed, May 21, 2025 at 03:20:34PM +0200, Niklas Söderlund wrote:
+> Prepare to move Gen2 and earlier models to media controller by
+> generating a unique VIN group id for each VIN instance. On Gen3 and Gen4
+> it is important to have a specific id in the group as media graph routes
+> depend on this. On Gen2 and earlier models all that will matter is to
+> have a unique id in the range.
+> 
+> Break out the id generation to a own function keeping the logic for Gen3
+> and Gen4 while generating a sequential id for Gen2 models.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+> * Changes since v1
+> - Move ID allocation to probe.
+> - Use ida_alloc_range() instead of implementing our own schema by
+>   counting DT nodes.
+> ---
+>  .../platform/renesas/rcar-vin/rcar-core.c     | 78 ++++++++++++++-----
+>  1 file changed, 59 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> index 1be408d6c508..d9ad56fb2aa9 100644
+> --- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> @@ -10,6 +10,7 @@
+>   * Based on the soc-camera rcar_vin driver
+>   */
+>  
+> +#include <linux/idr.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+>  #include <linux/of_graph.h>
+> @@ -55,6 +56,7 @@
+>   * be only one group for all instances.
+>   */
+>  
+> +static DEFINE_IDA(rvin_ida);
+>  static DEFINE_MUTEX(rvin_group_lock);
+>  static struct rvin_group *rvin_group_data;
+>  
+> @@ -119,23 +121,8 @@ static int rvin_group_get(struct rvin_dev *vin,
+>  			  const struct media_device_ops *ops)
+>  {
+>  	struct rvin_group *group;
+> -	u32 id;
+>  	int ret;
+>  
+> -	/* Make sure VIN id is present and sane */
+> -	ret = of_property_read_u32(vin->dev->of_node, "renesas,id", &id);
+> -	if (ret) {
+> -		vin_err(vin, "%pOF: No renesas,id property found\n",
+> -			vin->dev->of_node);
+> -		return -EINVAL;
+> -	}
+> -
+> -	if (id >= RCAR_VIN_NUM) {
+> -		vin_err(vin, "%pOF: Invalid renesas,id '%u'\n",
+> -			vin->dev->of_node, id);
+> -		return -EINVAL;
+> -	}
+> -
+>  	/* Join or create a VIN group */
+>  	mutex_lock(&rvin_group_lock);
+>  	if (rvin_group_data) {
+> @@ -164,16 +151,15 @@ static int rvin_group_get(struct rvin_dev *vin,
+>  	/* Add VIN to group */
+>  	mutex_lock(&group->lock);
+>  
+> -	if (group->vin[id]) {
+> -		vin_err(vin, "Duplicate renesas,id property value %u\n", id);
+> +	if (group->vin[vin->id]) {
+> +		vin_err(vin, "Duplicate renesas,id property value %u\n", vin->id);
+>  		mutex_unlock(&group->lock);
+>  		kref_put(&group->refcount, rvin_group_release);
+>  		return -EINVAL;
+>  	}
+>  
+> -	group->vin[id] = vin;
+> +	group->vin[vin->id] = vin;
+>  
+> -	vin->id = id;
+>  	vin->group = group;
+>  	vin->v4l2_dev.mdev = &group->mdev;
+>  
+> @@ -1375,6 +1361,54 @@ static const struct of_device_id rvin_of_id_table[] = {
+>  };
+>  MODULE_DEVICE_TABLE(of, rvin_of_id_table);
+>  
+> +static int rvin_id_get(struct rvin_dev *vin)
+> +{
+> +	u32 oid;
+> +	int id;
+> +
+> +	switch (vin->info->model) {
+> +	case RCAR_GEN3:
+> +	case RCAR_GEN4:
+> +		if (of_property_read_u32(vin->dev->of_node, "renesas,id", &oid))
 
-Changes in v3:
-- none
+I would keep the original error message here:
 
-Changes in v2:
-- collected tags
+			vin_err(vin, "%pOF: No renesas,id property found\n",
+				vin->dev->of_node);
 
- .../bindings/clock/renesas,rzg2l-cpg.yaml      | 18 +-----------------
- 1 file changed, 1 insertion(+), 17 deletions(-)
+> +			break;
 
-diff --git a/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml b/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml
-index 0440f23da059..8c18616e5c4d 100644
---- a/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml
-+++ b/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml
-@@ -57,8 +57,7 @@ properties:
-       can be power-managed through Module Standby should refer to the CPG device
-       node in their "power-domains" property, as documented by the generic PM
-       Domain bindings in Documentation/devicetree/bindings/power/power-domain.yaml.
--      The power domain specifiers defined in <dt-bindings/clock/r9a0*-cpg.h> could
--      be used to reference individual CPG power domains.
-+    const: 0
- 
-   '#reset-cells':
-     description:
-@@ -77,21 +76,6 @@ required:
- 
- additionalProperties: false
- 
--allOf:
--  - if:
--      properties:
--        compatible:
--          contains:
--            const: renesas,r9a08g045-cpg
--    then:
--      properties:
--        '#power-domain-cells':
--          const: 1
--    else:
--      properties:
--        '#power-domain-cells':
--          const: 0
--
- examples:
-   - |
-     cpg: clock-controller@11010000 {
+And you can return -EINVAL directly.
+
+> +
+> +		if (oid < 0 || oid >= RCAR_VIN_NUM) {
+> +			vin_err(vin, "%pOF: Invalid renesas,id '%u'\n",
+> +				vin->dev->of_node, oid);
+> +			return -EINVAL;
+> +		}
+> +
+> +		vin->id = oid;
+> +
+> +		return 0;
+> +	default:
+> +		id = ida_alloc_range(&rvin_ida, 0, RCAR_VIN_NUM - 1,
+> +				     GFP_KERNEL);
+> +		if (id < 0)
+> +			break;
+
+Same here, I'd add a specific error message and return:
+
+			vin_err(vin, "Can't allocate group ID\n");
+			return -EINVAL;
+
+> +
+> +		vin->id = id;
+> +
+> +		return 0;
+> +	}
+> +
+> +	vin_err(vin, "Can't figure out VIN id\n");
+> +
+> +	return -EINVAL;
+
+And you can drop this.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> +}
+> +
+> +static void rvin_id_put(struct rvin_dev *vin)
+> +{
+> +	switch (vin->info->model) {
+> +	case RCAR_GEN3:
+> +	case RCAR_GEN4:
+> +		break;
+> +	default:
+> +		ida_free(&rvin_ida, vin->id);
+> +		break;
+> +	}
+> +}
+> +
+>  static int rcar_vin_probe(struct platform_device *pdev)
+>  {
+>  	struct rvin_dev *vin;
+> @@ -1402,6 +1436,9 @@ static int rcar_vin_probe(struct platform_device *pdev)
+>  
+>  	platform_set_drvdata(pdev, vin);
+>  
+> +	if (rvin_id_get(vin))
+> +		return -EINVAL;
+> +
+>  	if (vin->info->use_isp) {
+>  		ret = rvin_isp_init(vin);
+>  	} else if (vin->info->use_mc) {
+> @@ -1419,6 +1456,7 @@ static int rcar_vin_probe(struct platform_device *pdev)
+>  
+>  	if (ret) {
+>  		rvin_dma_unregister(vin);
+> +		rvin_id_put(vin);
+>  		return ret;
+>  	}
+>  
+> @@ -1443,6 +1481,8 @@ static void rcar_vin_remove(struct platform_device *pdev)
+>  	else
+>  		rvin_parallel_cleanup(vin);
+>  
+> +	rvin_id_put(vin);
+> +
+>  	rvin_dma_unregister(vin);
+>  }
+>  
+
 -- 
-2.43.0
+Regards,
 
+Laurent Pinchart
 
