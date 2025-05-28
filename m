@@ -1,145 +1,1843 @@
-Return-Path: <linux-renesas-soc+bounces-17621-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17622-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C655AC6A50
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 15:26:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3A15AC6A54
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 15:26:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 02B5816B047
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 13:26:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 070289E3148
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 13:26:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C36A286D58;
-	Wed, 28 May 2025 13:26:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27524286D6F;
+	Wed, 28 May 2025 13:26:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UWjAUUJ5"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vQuWunED"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8123C1FAA;
-	Wed, 28 May 2025 13:26:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE2D1FAA;
+	Wed, 28 May 2025 13:26:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748438769; cv=none; b=e0jiwNzLtazEUOCt8X7Y+AfP6UP9B74tFN0FY/Sl4Q6fOKHHOLGZMyKYIcT9wiu/GG5rqdhZM7Bwtmc+loQbN/KXf6AxIzS8pAJVIpiXeztjauxF5h6Y6PrtxHA8BRJmeV/FV1t/FccmfvrwlaM9eIivJD/QhDOotQPTdHWXDBo=
+	t=1748438780; cv=none; b=hUDlMHED+n1Jd/kwPscPZn4Yrn9P6f9oevJUt/BVmHbA31Eh1bUddehoiWOM0JWYO/9+ZDkqM4EHlyNv6fkHO6MNrRjq4drk2YHA3IE3IwHX007O2r6QXWUdu1eHPH92SHr5dibOBMj8zmeZwTbtm8dhtOCSzoDCiVht7X5DKIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748438769; c=relaxed/simple;
-	bh=rxep3wf4faA2onypK2iZ/bRRCLhtffcSXOxeWi8D5cg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sVnJsbGA92GGtM0MjoS/SqB2T2a4NSmlM1TdJePeOIsH0N5LZo9Fhz52f+ZLcA8Awhc8/5baNWu5Zw5ZAXkn6Eat+GXAJwVAldFc82GThUN+EC6ppRYBSAulS9aVRN3kYH/YU5EFRs3436O5UXVWer0r7AeClbbhbZ+ASuZb29o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UWjAUUJ5; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-604e299b5b6so1766842a12.0;
-        Wed, 28 May 2025 06:26:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748438766; x=1749043566; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ieSLku7E97lhZ4UgdnDAb1QCFNhVxCm/IzChsnoZiEc=;
-        b=UWjAUUJ5665ICvx61xNY6FK/9oHtzZc6a4KQT2vCkLxbY9HmJmQN9PvCE8psN6kP24
-         TrtFqM3+4XuJP7yi29DrkTTqfMSg5HPA3Wwg+zIbR+AI+L2qKi5Nw6s7zdcglWziqidb
-         P06TTV6bOJ+kYFt8+6MwuRa0J6qTQpLl6eChDTqnCDF86MlpHVrwcZrfMg77VKHlVpLZ
-         qyUyjry3C6MEws4M0jnTF86M2kpwaw7jpynQ4fjD6R2kwHFeLZKwWwSPFppPNMk6p9Ik
-         kvBez8B4rfuyY/OaQha+/XaVz+oEduN/04aOg2MPdZDZQMXcXzC296i3UGuKKqAnxzWa
-         l2yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748438766; x=1749043566;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ieSLku7E97lhZ4UgdnDAb1QCFNhVxCm/IzChsnoZiEc=;
-        b=LutXOfge8/OnymtH5ba8fcPsedAmbtgs43SOpWaVvRpbklmp3S4jeNdQnRWHhy4G2n
-         PcaKu9RKzzEdokRo7eEWtDWsNi6wsAxcp4l0AWuUPBlEZAUyk+6jv+EJ89dB5ABRCe/t
-         93GzfTA10S2olPfoTMF5yPVjjyBNOikHgawRzahDYpaBlNfUt1YqbehYMsioK6myA+U3
-         N8xNZFruv11mE0oTF2SFYc1qnxA1kdJdPAWghwtGV1uq5/5e6E4NXyGNaYYErsKSh162
-         cuRh8fBUQqMPTJ8BfdhTugVzgK9l0sQpAKAyoRzhhX1ZY7HmiNQeOTxqLxijML25iq0v
-         6uQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWIJ1P3hnSNpbX921UbzYKdMPx9tkpB231Pca3ZV8L/89UfALRqd8mAys8dzCK9xBzSdsZAThZT6mgV5HD4@vger.kernel.org, AJvYcCXQmg11sfpnl36i9hLkZYtX99HyUS1RLbPjv9F1sNTmlqPtUErbiWctvoW9ia9yCfWudjVW/QpSCCc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTUI0aRYqPYbIkTlXbVF5Do+p0IjP51nm3x73rePt3SyVFveR+
-	dOv5gDfbtaVU96Zu+m6Q/jCJc6rVNbB3GKtvvS7wEOnV5g1jizZn8yOC
-X-Gm-Gg: ASbGncuLkjeTbX7kBpWkfOyluXiyoVrV/5/mnNP1LJgIj828lnyjY58vbiSeTMnKiH3
-	ZB9elTvVaSvztdF02h14E0JmWNlmM3U2IQ8fKXY3Z6gquJyJmcC1uUTrJO2Sf+PWRsYODnzouBW
-	GrEApjTbUIjnSlXT9Va14DuW4zMlSXE+5bNI0RhYckDhumJYENnHeDhf0g8wwAqhzxsk8rYWM38
-	WP6Jw+JQ5RzAsTfl2U4uSGUv2ILtrlUzDy1agj2L8EkW7mp/EIIUgL1ZvIY7NusH9J3sKN1nbP3
-	3b/ESFVdYN+bZrJDHaOLiZ+mzcMjdRoGg4hoNyuUQrU680eXPRFYpxEV5GWTJqU/IGeNrT4obNn
-	F
-X-Google-Smtp-Source: AGHT+IGH6NhjWRQzveyywsEHiNFK4CABJe+WM0+dyFghWFFkW3BP9KOOz7lN2b71Pta0/mTCAqJMrA==
-X-Received: by 2002:a17:907:9717:b0:ad5:6258:996f with SMTP id a640c23a62f3a-ad8989f78acmr418190566b.19.1748438765502;
-        Wed, 28 May 2025 06:26:05 -0700 (PDT)
-Received: from iku.Home ([2a06:5906:61b:2d00:7078:193c:ccdc:e2f5])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad8a19ad462sm107742766b.4.2025.05.28.06.26.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 May 2025 06:26:04 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] clk: renesas: r9a09g056: Add clock and reset entries for USB2.0
-Date: Wed, 28 May 2025 14:25:58 +0100
-Message-ID: <20250528132558.167178-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.49.0
+	s=arc-20240116; t=1748438780; c=relaxed/simple;
+	bh=XMGNhI9fBkrxtwurbJE/6u1mIEa0syiV8NRp/CIqE5E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IiCGebnMoNLg/xQ+HThrMOtxKXv/1XoDC9ctKz1qhRK0J4J7y3z6Tm0+J9Tr7Z/9KBHk31CkSxYWmzErUZ+0ySY/LBJ9nhKMoeAQ3EMS7TNRnPE7UF60Spx8rzcQsTkEGnyjBrxJxRz/NVTKQ4+XFtOc8g7obM2nZZub+xcnnUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vQuWunED; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (mob-5-90-143-118.net.vodafone.it [5.90.143.118])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 86D6CD0;
+	Wed, 28 May 2025 15:25:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1748438748;
+	bh=XMGNhI9fBkrxtwurbJE/6u1mIEa0syiV8NRp/CIqE5E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vQuWunEDpWlHiXroy5o6tMNAPz9yWu8qC59EugsPfp4cG2Qmxlr59I9fZGS2XYXPG
+	 OCDtaZdbEkurp5735/mQvcxcVIScZeUyo0o1pOTGJcYMPLqjhg6SOnbANqQJD3Rn4X
+	 2EzR2ehvqTlQfZ2y5WDfJFzVI93/CeIiilF6e9vU=
+Date: Wed, 28 May 2025 15:26:10 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Daniel Scally <dan.scally@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	p.zabel@pengutronix.de, geert+renesas@glider.be, magnus.damm@gmail.com
+Subject: Re: [PATCH 2/3] media: platform: Add Renesas Input Video Control
+ block driver
+Message-ID: <hz5yboj7ey6vefebsn5lzb4myuybrg2c3tnkkfgdfladc6xym3@uqamdopvwiyo>
+References: <20250519145754.454005-1-dan.scally@ideasonboard.com>
+ <20250519145754.454005-3-dan.scally@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250519145754.454005-3-dan.scally@ideasonboard.com>
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi Dan
 
-Add clock and reset entries for USB2.0.
+On Mon, May 19, 2025 at 03:57:53PM +0100, Daniel Scally wrote:
+> Add a driver for the Input Video Control block in an RZ/V2H SoC which
+> feeds data into the Arm Mali-C55 ISP.
+>
+> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+> ---
+>  drivers/media/platform/renesas/Kconfig        |   2 +
+>  drivers/media/platform/renesas/Makefile       |   1 +
+>  .../media/platform/renesas/rzv2h-ivc/Kconfig  |  11 +
+>  .../media/platform/renesas/rzv2h-ivc/Makefile |   7 +
+>  .../renesas/rzv2h-ivc/rzv2h-ivc-dev.c         | 239 ++++++
+>  .../renesas/rzv2h-ivc/rzv2h-ivc-subdev.c      | 376 ++++++++++
+>  .../renesas/rzv2h-ivc/rzv2h-ivc-video.c       | 703 ++++++++++++++++++
+>  .../platform/renesas/rzv2h-ivc/rzv2h-ivc.h    | 141 ++++
+>  8 files changed, 1480 insertions(+)
+>  create mode 100644 drivers/media/platform/renesas/rzv2h-ivc/Kconfig
+>  create mode 100644 drivers/media/platform/renesas/rzv2h-ivc/Makefile
+>  create mode 100644 drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-dev.c
+>  create mode 100644 drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-subdev.c
+>  create mode 100644 drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
+>  create mode 100644 drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h
+>
+> diff --git a/drivers/media/platform/renesas/Kconfig b/drivers/media/platform/renesas/Kconfig
+> index c7fc718a30a5..b09c026c129e 100644
+> --- a/drivers/media/platform/renesas/Kconfig
+> +++ b/drivers/media/platform/renesas/Kconfig
+> @@ -58,6 +58,8 @@ config VIDEO_SH_VOU
+>
+>  source "drivers/media/platform/renesas/rcar-vin/Kconfig"
+>  source "drivers/media/platform/renesas/rzg2l-cru/Kconfig"
+> +source "drivers/media/platform/renesas/rzv2h-ivc/Kconfig"
+> +
+>
+>  # Mem2mem drivers
+>
+> diff --git a/drivers/media/platform/renesas/Makefile b/drivers/media/platform/renesas/Makefile
+> index 50774a20330c..f29c8ade0e4e 100644
+> --- a/drivers/media/platform/renesas/Makefile
+> +++ b/drivers/media/platform/renesas/Makefile
+> @@ -5,6 +5,7 @@
+>
+>  obj-y += rcar-vin/
+>  obj-y += rzg2l-cru/
+> +obj-y += rzv2h-ivc/
+>  obj-y += vsp1/
+>
+>  obj-$(CONFIG_VIDEO_RCAR_CSI2) += rcar-csi2.o
+> diff --git a/drivers/media/platform/renesas/rzv2h-ivc/Kconfig b/drivers/media/platform/renesas/rzv2h-ivc/Kconfig
+> new file mode 100644
+> index 000000000000..0702f9fbf699
+> --- /dev/null
+> +++ b/drivers/media/platform/renesas/rzv2h-ivc/Kconfig
+> @@ -0,0 +1,11 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +
+> +config VIDEO_RZV2H_IVC
+> +	tristate "Renesas RZ/V2H Input Video Control block driver"
+> +	depends on V4L_PLATFORM_DRIVERS
+> +	depends on VIDEO_DEV
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/clk/renesas/r9a09g056-cpg.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+depends on ARCH_RENESAS || COMPILE_TEST
+depends on OF
 
-diff --git a/drivers/clk/renesas/r9a09g056-cpg.c b/drivers/clk/renesas/r9a09g056-cpg.c
-index 13b5db79aab4..e370ffb8c1e2 100644
---- a/drivers/clk/renesas/r9a09g056-cpg.c
-+++ b/drivers/clk/renesas/r9a09g056-cpg.c
-@@ -134,6 +134,7 @@ static const struct cpg_core_clk r9a09g056_core_clks[] __initconst = {
- 	DEF_DDIV("ca55_0_coreclk3", R9A09G056_CA55_0_CORE_CLK3, CLK_PLLCA55,
- 		 CDDIV1_DIVCTL3, dtable_1_8),
- 	DEF_FIXED("iotop_0_shclk", R9A09G056_IOTOP_0_SHCLK, CLK_PLLCM33_DIV16, 1, 1),
-+	DEF_FIXED("usb2_0_clk_core0", R9A09G056_USB2_0_CLK_CORE0, CLK_QEXTAL, 1, 1),
- 	DEF_FIXED("gbeth_0_clk_ptp_ref_i", R9A09G056_GBETH_0_CLK_PTP_REF_I,
- 		  CLK_PLLETH_DIV_125_FIX, 1, 1),
- 	DEF_FIXED("gbeth_1_clk_ptp_ref_i", R9A09G056_GBETH_1_CLK_PTP_REF_I,
-@@ -219,6 +220,12 @@ static const struct rzv2h_mod_clk r9a09g056_mod_clks[] __initconst = {
- 						BUS_MSTOP(8, BIT(4))),
- 	DEF_MOD("sdhi_2_aclk",			CLK_PLLDTY_ACPU_DIV4, 10, 14, 5, 14,
- 						BUS_MSTOP(8, BIT(4))),
-+	DEF_MOD("usb2_0_u2h0_hclk",		CLK_PLLDTY_DIV8, 11, 3, 5, 19,
-+						BUS_MSTOP(7, BIT(7))),
-+	DEF_MOD("usb2_0_u2p_exr_cpuclk",	CLK_PLLDTY_ACPU_DIV4, 11, 5, 5, 21,
-+						BUS_MSTOP(7, BIT(9))),
-+	DEF_MOD("usb2_0_pclk_usbtst0",		CLK_PLLDTY_ACPU_DIV4, 11, 6, 5, 22,
-+						BUS_MSTOP(7, BIT(10))),
- 	DEF_MOD_MUX_EXTERNAL("gbeth_0_clk_tx_i", CLK_SMUX2_GBE0_TXCLK, 11, 8, 5, 24,
- 						BUS_MSTOP(8, BIT(5)), 1),
- 	DEF_MOD_MUX_EXTERNAL("gbeth_0_clk_rx_i", CLK_SMUX2_GBE0_RXCLK, 11, 9, 5, 25,
-@@ -280,6 +287,9 @@ static const struct rzv2h_reset r9a09g056_resets[] __initconst = {
- 	DEF_RST(10, 7, 4, 24),		/* SDHI_0_IXRST */
- 	DEF_RST(10, 8, 4, 25),		/* SDHI_1_IXRST */
- 	DEF_RST(10, 9, 4, 26),		/* SDHI_2_IXRST */
-+	DEF_RST(10, 12, 4, 29),		/* USB2_0_U2H0_HRESETN */
-+	DEF_RST(10, 14, 4, 31),		/* USB2_0_U2P_EXL_SYSRST */
-+	DEF_RST(10, 15, 5, 0),		/* USB2_0_PRESETN */
- 	DEF_RST(11, 0, 5, 1),		/* GBETH_0_ARESETN_I */
- 	DEF_RST(11, 1, 5, 2),		/* GBETH_1_ARESETN_I */
- 	DEF_RST(13, 13, 6, 14),		/* GPU_0_RESETN */
--- 
-2.49.0
+?
 
+> +	select VIDEOBUF2_DMA_CONTIG
+
+Do you need to
+
+       	select MEDIA_CONTROLLER
+	select VIDEO_V4L2_SUBDEV_API
+
+?
+
+Also the driver uses the common clock framework and reset controller.
+None of the renesas media driver select HAVE_CLK or COMMON_CLK but
+many do select RESET_CONTROLLER so you probably need to do the same.
+
+> +	help
+> +	  Support for the Video Input Block found in the RZ/V2H SoC. Enable this
+> +	  to support the block, and by extension the Arm Mali-C55 ISP to which
+
+Should we actually say
+
+        "Enable this to support the block and by extension the ISP"
+
+given that this Kconfig option doesn't enable the ISP ?
+
+
+> +	  it feeds data.
+> diff --git a/drivers/media/platform/renesas/rzv2h-ivc/Makefile b/drivers/media/platform/renesas/rzv2h-ivc/Makefile
+> new file mode 100644
+> index 000000000000..17dfd3a165bc
+> --- /dev/null
+> +++ b/drivers/media/platform/renesas/rzv2h-ivc/Makefile
+> @@ -0,0 +1,7 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +rzv2h-ivc-y := rzv2h-ivc-dev.o \
+> +	       rzv2h-ivc-subdev.o \
+> +	       rzv2h-ivc-video.o
+> +
+
+Fits on a single line
+
+> +obj-$(CONFIG_VIDEO_RZV2H_IVC) += rzv2h-ivc.o
+> diff --git a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-dev.c b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-dev.c
+> new file mode 100644
+> index 000000000000..a9b0c6b39d14
+> --- /dev/null
+> +++ b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-dev.c
+> @@ -0,0 +1,239 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Renesas RZ/V2H Input Video Control Block driver
+> + *
+> + * Copyright (C) 2024 Ideas on Board Oy
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/device.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/io.h>
+> +#include <linux/mutex.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/reset.h>
+
+some of these headers are already included by the below rzv2h-ivc.h
+
+> +
+> +#include "rzv2h-ivc.h"
+
+I think it's a good practice to include the driver header first to
+make sure it's self-contained ?
+
+> +
+> +inline void rzv2h_ivc_write(struct rzv2h_ivc *ivc, u32 addr, u32 val)
+> +{
+> +	writel(val, ivc->base + addr);
+> +}
+> +
+> +void rzv2h_ivc_update_bits(struct rzv2h_ivc *ivc, unsigned int addr,
+> +			   u32 mask, u32 val)
+> +{
+> +	u32 orig, new;
+> +
+> +	orig = readl(ivc->base + addr);
+> +
+> +	new = orig & ~mask;
+> +	new |= val & mask;
+> +
+> +	if (new != orig)
+> +		writel(new, ivc->base + addr);
+> +}
+> +
+> +static int rzv2h_ivc_get_hardware_resources(struct rzv2h_ivc *ivc,
+> +					    struct platform_device *pdev)
+> +{
+> +	const char * const reset_names[RZV2H_IVC_NUM_RESETS] = {
+> +		"presetn",
+> +		"vin_aresetn",
+> +		"sresetn",
+> +	};
+> +	const char * const clk_names[RZV2H_IVC_NUM_CLOCKS] = {
+> +		"pclk",
+> +		"vin_aclk",
+> +		"sclk",
+> +	};
+> +	struct resource *res;
+> +	int ret;
+> +
+> +	ivc->base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+> +	if (IS_ERR(ivc->base))
+> +		return dev_err_probe(ivc->dev, PTR_ERR(ivc->base),
+> +				     "failed to map IO memory\n");
+> +
+> +	for (unsigned int i; i < ARRAY_SIZE(clk_names); i++)
+
+You should initialize i = 0 ?
+
+> +		ivc->clks[i].id = clk_names[i];
+> +
+> +	ret = devm_clk_bulk_get(ivc->dev, ARRAY_SIZE(clk_names), ivc->clks);
+> +	if (ret)
+> +		return dev_err_probe(ivc->dev, ret, "failed to acquire clks\n");
+> +
+> +	for (unsigned int i = 0; i < ARRAY_SIZE(reset_names); i++)
+> +		ivc->resets[i].id = reset_names[i];
+> +
+> +	ret = devm_reset_control_bulk_get_optional_shared(
+> +		ivc->dev, ARRAY_SIZE(reset_names), ivc->resets);
+> +	if (ret)
+> +		return dev_err_probe(ivc->dev, ret, "failed to acquire resets\n");
+> +
+> +	return 0;
+> +}
+> +
+> +static void rzv2h_ivc_global_config(struct rzv2h_ivc *ivc)
+> +{
+> +	/* Currently we only support single-exposure input */
+> +	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_AXIRX_PLNUM, RZV2H_IVC_ONE_EXPOSURE);
+> +
+> +	/*
+> +	 * Datasheet says we should disable the interrupts before changing mode
+> +	 * to avoid spurious IFP interrupt.
+> +	 */
+> +	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_FM_INT_EN, 0x0);
+> +
+> +	/*
+> +	 * RZ/V2H documentation says software controlled configuration is not
+> +	 * supported, and currently neither is multi-context mode. That being so
+> +	 * we just set single context sw-hw mode.
+> +	 */
+> +	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_FM_CONTEXT,
+> +			RZV2H_IVC_SINGLE_CONTEXT_SW_HW_CFG);
+> +
+> +	/*
+> +	 * We enable the frame end interrupt so that we know when we should send
+> +	 * follow-up frames.
+> +	 */
+> +	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_FM_INT_EN, RZV2H_IVC_VVAL_IFPE);
+> +}
+> +
+> +static irqreturn_t rzv2h_ivc_isr(int irq, void *context)
+> +{
+> +	struct device *dev = context;
+> +	struct rzv2h_ivc *ivc = dev_get_drvdata(dev);
+> +
+> +	guard(spinlock)(&ivc->spinlock);
+> +	--ivc->vvalid_ifp;
+
+You could simply decrement vvalid_ifp until it reaches 0,
+re-initialize it to 2, and then call
+wake_up(). The waiter could wait_even_..(.., true);
+
+I'm not sure that's better though.
+
+> +	wake_up_all(&ivc->buffers.wq);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static int rzv2h_ivc_runtime_resume(struct device *dev)
+> +{
+> +	struct rzv2h_ivc *ivc = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	ret = request_threaded_irq(ivc->irqnum, NULL, rzv2h_ivc_isr,
+> +				   IRQF_ONESHOT, dev_driver_string(dev), dev);
+> +	if (ret) {
+> +		dev_err(dev, "failed to request irq\n");
+> +		return ret;
+> +	}
+
+Why are you requesting/free the interrupt every suspend/resume ?
+
+> +
+> +	ret = clk_bulk_prepare_enable(ARRAY_SIZE(ivc->clks), ivc->clks);
+> +	if (ret) {
+> +		dev_err(ivc->dev, "failed to enable clocks\n");
+> +		goto err_free_irqnum;
+> +	}
+> +
+> +	ret = reset_control_bulk_deassert(ARRAY_SIZE(ivc->resets), ivc->resets);
+> +	if (ret) {
+> +		dev_err(ivc->dev, "failed to deassert resets\n");
+> +		goto err_disable_clks;
+> +	}
+> +
+> +	rzv2h_ivc_global_config(ivc);
+> +
+> +	return 0;
+> +
+> +err_disable_clks:
+> +	clk_bulk_disable_unprepare(ARRAY_SIZE(ivc->clks), ivc->clks);
+> +err_free_irqnum:
+> +	free_irq(ivc->irqnum, dev);
+> +
+> +	return ret;
+> +}
+> +
+> +static int rzv2h_ivc_runtime_suspend(struct device *dev)
+> +{
+> +	struct rzv2h_ivc *ivc = dev_get_drvdata(dev);
+> +
+> +	reset_control_bulk_assert(ARRAY_SIZE(ivc->resets), ivc->resets);
+> +	clk_bulk_disable_unprepare(ARRAY_SIZE(ivc->clks), ivc->clks);
+> +	free_irq(ivc->irqnum, dev);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct dev_pm_ops rzv2h_ivc_pm_ops = {
+> +	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+> +				pm_runtime_force_resume)
+
+You got a warning from the robots about a defined but not used.
+Either use __maybe_unused or use the SYSTEM/RUNTIME_PM_OPS() which are
+not conditional on #ifdef CONFIG_PM (as far as I understand)
+
+> +	SET_RUNTIME_PM_OPS(rzv2h_ivc_runtime_suspend, rzv2h_ivc_runtime_resume,
+> +			   NULL)
+> +};
+> +
+> +static int rzv2h_ivc_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct rzv2h_ivc *ivc;
+> +	int ret;
+> +
+> +	ivc = devm_kzalloc(dev, sizeof(*ivc), GFP_KERNEL);
+> +	if (!ivc)
+> +		return -ENOMEM;
+> +
+> +	ivc->dev = dev;
+> +	platform_set_drvdata(pdev, ivc);
+> +	mutex_init(&ivc->lock);
+
+You should destroy the mutex
+
+> +	spin_lock_init(&ivc->spinlock);
+> +
+> +	ret = rzv2h_ivc_get_hardware_resources(ivc, pdev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = rzv2h_ivc_initialise_subdevice(ivc);
+> +	if (ret)
+> +		return ret;
+
+As soon as you register a subdev userspace might start using it.
+Probably it's better to enable the PM framework before ?
+
+> +
+> +	pm_runtime_set_autosuspend_delay(dev, 2000);
+> +	pm_runtime_use_autosuspend(dev);
+> +	pm_runtime_enable(dev);
+> +
+> +	spin_lock(&ivc->spinlock);
+> +	ivc->vvalid_ifp = 2;
+> +	spin_unlock(&ivc->spinlock);
+
+Do you need to lock if you initialize this to 2 before registering the
+subdev ?
+
+> +
+> +	ivc->irqnum = platform_get_irq(pdev, 0);
+> +	if (ivc->irqnum < 0) {
+> +		dev_err(dev, "failed to get interrupt\n");
+> +		goto err_pm_runtime_disable;
+> +	}
+
+I would also do this before registering the subdev unless I'm missing
+something obvious
+
+> +
+> +	return 0;
+> +
+> +err_pm_runtime_disable:
+> +	pm_runtime_disable(dev);
+> +
+> +	return ret;
+> +}
+> +
+> +static void rzv2h_ivc_remove(struct platform_device *pdev)
+> +{
+
+You need to destroy the mutex
+
+> +}
+> +
+> +static const struct of_device_id rzv2h_ivc_of_match[] = {
+> +	{ .compatible = "renesas,r9a09g057-ivc", },
+> +	{ /* Sentinel */ },
+> +};
+> +MODULE_DEVICE_TABLE(of, rzv2h_ivc_of_match);
+> +
+> +static struct platform_driver rzv2h_ivc_driver = {
+> +	.driver = {
+> +		.name = "rzv2h-ivc",
+> +		.of_match_table = rzv2h_ivc_of_match,
+> +		.pm = &rzv2h_ivc_pm_ops,
+> +	},
+> +	.probe = rzv2h_ivc_probe,
+> +	.remove = rzv2h_ivc_remove,
+> +};
+> +
+> +module_platform_driver(rzv2h_ivc_driver);
+> +
+> +MODULE_AUTHOR("Daniel Scally <dan.scally@ideasonboard.com>");
+> +MODULE_DESCRIPTION("Renesas RZ/V2H Input Video Control Block driver");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-subdev.c b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-subdev.c
+> new file mode 100644
+> index 000000000000..479a71fab7ea
+> --- /dev/null
+> +++ b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-subdev.c
+> @@ -0,0 +1,376 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Renesas RZ/V2H Input Video Control Block driver
+> + *
+> + * Copyright (C) 2024 Ideas on Board Oy
+> + */
+> +
+> +#include <linux/media.h>
+> +#include <linux/media-bus-format.h>
+> +#include <linux/v4l2-mediabus.h>
+> +
+> +#include <media/media-entity.h>
+> +#include <media/v4l2-async.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-dev.h>
+> +#include <media/v4l2-event.h>
+> +#include <media/v4l2-subdev.h>
+> +
+> +#include "rzv2h-ivc.h"
+> +
+> +#define RZV2H_IVC_N_INPUTS_PER_OUTPUT		6
+> +
+> +/*
+> + * We support 8/10/12/14/16/20 bit input in any bayer order, but the output
+> + * format is fixed at 20-bits with the same order as the input.
+> + */
+> +static const struct {
+> +	u32 inputs[RZV2H_IVC_N_INPUTS_PER_OUTPUT];
+> +	u32 output;
+> +} rzv2h_ivc_formats[] = {
+> +	{
+> +		.inputs = {
+> +			MEDIA_BUS_FMT_SBGGR8_1X8,
+> +			MEDIA_BUS_FMT_SBGGR10_1X10,
+> +			MEDIA_BUS_FMT_SBGGR12_1X12,
+> +			MEDIA_BUS_FMT_SBGGR14_1X14,
+> +			MEDIA_BUS_FMT_SBGGR16_1X16,
+> +			MEDIA_BUS_FMT_SBGGR20_1X20,
+> +		},
+> +		.output = MEDIA_BUS_FMT_SBGGR20_1X20
+> +	},
+> +	{
+> +		.inputs = {
+> +			MEDIA_BUS_FMT_SGBRG8_1X8,
+> +			MEDIA_BUS_FMT_SGBRG10_1X10,
+> +			MEDIA_BUS_FMT_SGBRG12_1X12,
+> +			MEDIA_BUS_FMT_SGBRG14_1X14,
+> +			MEDIA_BUS_FMT_SGBRG16_1X16,
+> +			MEDIA_BUS_FMT_SGBRG20_1X20,
+> +		},
+> +		.output = MEDIA_BUS_FMT_SGBRG20_1X20
+> +	},
+> +	{
+> +		.inputs = {
+> +			MEDIA_BUS_FMT_SGRBG8_1X8,
+> +			MEDIA_BUS_FMT_SGRBG10_1X10,
+> +			MEDIA_BUS_FMT_SGRBG12_1X12,
+> +			MEDIA_BUS_FMT_SGRBG14_1X14,
+> +			MEDIA_BUS_FMT_SGRBG16_1X16,
+> +			MEDIA_BUS_FMT_SGRBG20_1X20,
+> +		},
+> +		.output = MEDIA_BUS_FMT_SGRBG20_1X20
+> +	},
+> +	{
+> +		.inputs = {
+> +			MEDIA_BUS_FMT_SRGGB8_1X8,
+> +			MEDIA_BUS_FMT_SRGGB10_1X10,
+> +			MEDIA_BUS_FMT_SRGGB12_1X12,
+> +			MEDIA_BUS_FMT_SRGGB14_1X14,
+> +			MEDIA_BUS_FMT_SRGGB16_1X16,
+> +			MEDIA_BUS_FMT_SRGGB20_1X20,
+> +		},
+> +		.output = MEDIA_BUS_FMT_SRGGB20_1X20
+> +	},
+> +};
+> +
+> +static u32 rzv2h_ivc_get_mbus_output_from_input(u32 mbus_code)
+> +{
+> +	unsigned int i, j;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(rzv2h_ivc_formats); i++) {
+> +		for (j = 0; j < RZV2H_IVC_N_INPUTS_PER_OUTPUT; j++) {
+> +			if (rzv2h_ivc_formats[i].inputs[j] == mbus_code)
+> +				return rzv2h_ivc_formats[i].output;
+> +		}
+> +	}
+
+You could save a few loops by
+
+        switch (mbus_code) {
+        case MEDIA_BUS_FMT_SBGGR8_1X8:
+        case MEDIA_BUS_FMT_SBGGR10_1X10:
+        case MEDIA_BUS_FMT_SBGGR12_1X12:
+        case MEDIA_BUS_FMT_SBGGR14_1X14:
+        case MEDIA_BUS_FMT_SBGGR16_1X16:
+        case MEDIA_BUS_FMT_SBGGR20_1X20:
+                return MEDIA_BUS_FMT_SBGGR20_1X20;
+
+
+etc
+
+up to you, it might not be worth it as you need rzv2h_ivc_formats[]
+anyhow, so doing what I suggested would actually duplicate the same
+information
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int rzv2h_ivc_enum_mbus_code(struct v4l2_subdev *sd,
+> +				    struct v4l2_subdev_state *state,
+> +				    struct v4l2_subdev_mbus_code_enum *code)
+> +{
+> +	const struct v4l2_mbus_framefmt *fmt;
+> +	unsigned int order_index;
+> +	unsigned int index;
+> +
+> +	/*
+> +	 * On the source pad, only the 20-bit format corresponding to the sink
+> +	 * pad format's bayer order is supported.
+> +	 */
+> +	if (code->pad == RZV2H_IVC_SUBDEV_SOURCE_PAD) {
+> +		if (code->index)
+> +			return -EINVAL;
+> +
+> +		fmt = v4l2_subdev_state_get_format(state,
+> +						   RZV2H_IVC_SUBDEV_SINK_PAD);
+> +		code->code = fmt->code;
+
+Or return here and drop the else {}
+
+> +	} else {
+> +		if (code->index >= ARRAY_SIZE(rzv2h_ivc_formats) *
+> +				   RZV2H_IVC_N_INPUTS_PER_OUTPUT)
+> +			return -EINVAL;
+> +
+> +		order_index = code->index / RZV2H_IVC_N_INPUTS_PER_OUTPUT;
+> +		index = code->index % RZV2H_IVC_N_INPUTS_PER_OUTPUT;
+> +
+> +		code->code = rzv2h_ivc_formats[order_index].inputs[index];
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int rzv2h_ivc_enum_frame_size(struct v4l2_subdev *sd,
+> +				     struct v4l2_subdev_state *state,
+> +				     struct v4l2_subdev_frame_size_enum *fse)
+> +{
+> +	const struct v4l2_mbus_framefmt *fmt;
+> +
+> +	if (fse->index > 0)
+> +		return -EINVAL;
+> +
+> +	if (fse->pad == RZV2H_IVC_SUBDEV_SOURCE_PAD) {
+> +		fmt = v4l2_subdev_state_get_format(state,
+> +						   RZV2H_IVC_SUBDEV_SINK_PAD);
+> +
+> +		if (fse->code != fmt->code)
+> +			return -EINVAL;
+> +
+> +		fse->min_width = fmt->width;
+> +		fse->max_width = fmt->width;
+> +		fse->min_height = fmt->height;
+> +		fse->max_height = fmt->height;
+
+Likewise. Up to you
+
+> +	} else {
+> +		if (!rzv2h_ivc_get_mbus_output_from_input(fse->code))
+> +			return -EINVAL;
+> +
+> +		fse->min_width = RZV2H_IVC_MIN_WIDTH;
+> +		fse->max_width = RZV2H_IVC_MAX_WIDTH;
+> +		fse->min_height = RZV2H_IVC_MIN_HEIGHT;
+> +		fse->max_height = RZV2H_IVC_MAX_HEIGHT;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int rzv2h_ivc_set_fmt(struct v4l2_subdev *sd,
+> +			     struct v4l2_subdev_state *state,
+> +			     struct v4l2_subdev_format *format)
+> +{
+> +	struct v4l2_mbus_framefmt *fmt = &format->format;
+> +	struct v4l2_mbus_framefmt *src_fmt, *sink_fmt;
+> +
+> +	if (format->pad == RZV2H_IVC_SUBDEV_SOURCE_PAD)
+> +		return v4l2_subdev_get_fmt(sd, state, format);
+> +
+> +	sink_fmt = v4l2_subdev_state_get_format(state, RZV2H_IVC_SUBDEV_SINK_PAD);
+
+v4l2 is a little picky on 80 cols.. I don't personally mind very much,
+but I think --max-line-length=80  is passed to checkpatch in the CI
+loop
+
+> +
+> +	sink_fmt->code = rzv2h_ivc_get_mbus_output_from_input(fmt->code) ?
+> +			 fmt->code : rzv2h_ivc_formats[0].inputs[0];
+> +
+> +	sink_fmt->width = clamp(fmt->width, RZV2H_IVC_MIN_WIDTH,
+> +				RZV2H_IVC_MAX_WIDTH);
+> +	sink_fmt->height = clamp(fmt->height, RZV2H_IVC_MIN_HEIGHT,
+> +				 RZV2H_IVC_MAX_HEIGHT);
+> +
+> +	*fmt = *sink_fmt;
+> +
+> +	src_fmt = v4l2_subdev_state_get_format(state,
+> +					       RZV2H_IVC_SUBDEV_SOURCE_PAD);
+> +
+> +	src_fmt->code = rzv2h_ivc_get_mbus_output_from_input(sink_fmt->code);
+> +	src_fmt->width = sink_fmt->width;
+> +	src_fmt->height = sink_fmt->height;
+
+What about all other fields of v4l2_mbus_framefmt ?
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int rzv2h_ivc_enable_streams(struct v4l2_subdev *sd,
+> +				    struct v4l2_subdev_state *state, u32 pad,
+> +				    u64 streams_mask)
+> +{
+> +	/*
+> +	 * We have a single source pad, which has a single stream. V4L2 core has
+> +	 * already validated those things. The actual power-on and programming
+> +	 * of registers will be done through the video device's .vidioc_streamon
+> +	 * so there's nothing to actually do here...
+> +	 */
+> +
+> +	return 0;
+> +}
+> +
+> +static int rzv2h_ivc_disable_streams(struct v4l2_subdev *sd,
+> +				     struct v4l2_subdev_state *state, u32 pad,
+> +				     u64 streams_mask)
+> +{
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_subdev_pad_ops rzv2h_ivc_pad_ops = {
+> +	.enum_mbus_code		= rzv2h_ivc_enum_mbus_code,
+> +	.enum_frame_size	= rzv2h_ivc_enum_frame_size,
+> +	.get_fmt		= v4l2_subdev_get_fmt,
+> +	.set_fmt		= rzv2h_ivc_set_fmt,
+> +	.enable_streams		= rzv2h_ivc_enable_streams,
+> +	.disable_streams	= rzv2h_ivc_disable_streams,
+> +};
+> +
+> +static const struct v4l2_subdev_core_ops rzv2h_ivc_core_ops = {
+> +	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
+> +	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
+> +};
+> +
+> +static const struct v4l2_subdev_ops rzv2h_ivc_subdev_ops = {
+> +	.core	= &rzv2h_ivc_core_ops,
+> +	.pad	= &rzv2h_ivc_pad_ops,
+> +};
+> +
+> +static int rzv2h_ivc_init_state(struct v4l2_subdev *sd,
+> +				struct v4l2_subdev_state *state)
+> +{
+> +	struct v4l2_mbus_framefmt *sink_fmt, *src_fmt;
+> +
+> +	sink_fmt = v4l2_subdev_state_get_format(state,
+> +						RZV2H_IVC_SUBDEV_SINK_PAD);
+> +	sink_fmt->width = RZV2H_IVC_DEFAULT_WIDTH;
+> +	sink_fmt->height = RZV2H_IVC_DEFAULT_HEIGHT;
+> +	sink_fmt->field = V4L2_FIELD_NONE;
+> +	sink_fmt->code = MEDIA_BUS_FMT_SRGGB16_1X16;
+> +	sink_fmt->colorspace = V4L2_COLORSPACE_RAW;
+> +	sink_fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(sink_fmt->colorspace);
+> +	sink_fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(sink_fmt->colorspace);
+> +	sink_fmt->quantization = V4L2_MAP_QUANTIZATION_DEFAULT(false,
+> +							  sink_fmt->colorspace,
+> +							  sink_fmt->ycbcr_enc);
+
+Does this give you FULL or LIMITED ?
+
+> +
+> +	src_fmt = v4l2_subdev_state_get_format(state,
+> +					       RZV2H_IVC_SUBDEV_SOURCE_PAD);
+> +
+> +	*src_fmt = *sink_fmt;
+> +	src_fmt->code = MEDIA_BUS_FMT_SRGGB20_1X20;
+> +
+> +	return 0;
+> +}
+> +
+> +static int rzv2h_ivc_registered(struct v4l2_subdev *sd)
+> +{
+> +	struct rzv2h_ivc *ivc = container_of(sd, struct rzv2h_ivc, subdev.sd);
+> +
+> +	return rzv2h_initialise_video_dev_and_queue(ivc, sd->v4l2_dev);
+
+This name can possibily be shortened
+
+> +}
+> +
+> +static const struct v4l2_subdev_internal_ops rzv2h_ivc_subdev_internal_ops = {
+> +	.init_state = rzv2h_ivc_init_state,
+> +	.registered = rzv2h_ivc_registered,
+> +};
+> +
+> +static int rzv2h_ivc_link_validate(struct media_link *link)
+> +{
+> +	struct video_device *vdev =
+> +		media_entity_to_video_device(link->source->entity);
+> +	struct rzv2h_ivc *ivc = video_get_drvdata(vdev);
+> +	struct v4l2_subdev *sd =
+> +		media_entity_to_v4l2_subdev(link->sink->entity);
+> +	const struct rzv2h_ivc_format  *fmt;
+                                      ^ additional empty space
+
+> +	const struct v4l2_pix_format *pix;
+> +	struct v4l2_subdev_state *state;
+> +	struct v4l2_mbus_framefmt *mf;
+> +	unsigned int i;
+> +	int ret = 0;
+> +
+> +	state = v4l2_subdev_lock_and_get_active_state(sd);
+> +	mf = v4l2_subdev_state_get_format(state, link->sink->index);
+> +
+> +	pix = &ivc->format.pix;
+> +	fmt = ivc->format.fmt;
+> +
+> +	if (mf->width != pix->width || mf->height != pix->height) {
+> +		dev_dbg(ivc->dev,
+> +			"link '%s':%u -> '%s':%u not valid: %ux%u != %ux%u\n",
+> +			link->source->entity->name, link->source->index,
+> +			link->sink->entity->name, link->sink->index,
+> +			mf->width, mf->height,
+> +			pix->width, pix->height);
+> +		ret = -EPIPE;
+
+do you need to continue validation or can you return here ?
+Ah maybe this is just to fall on unlock_state()
+
+> +	}
+> +
+> +	for (i = 0; i < ARRAY_SIZE(fmt->mbus_codes); i++)
+> +		if (mf->code == fmt->mbus_codes[i])
+> +			break;
+> +
+> +	if (i == ARRAY_SIZE(fmt->mbus_codes)) {
+> +		dev_dbg(ivc->dev,
+> +			"link '%s':%u -> '%s':%u not valid: pixel format %p4cc cannot produce mbus_code 0x%04x\n",
+> +			link->source->entity->name, link->source->index,
+> +			link->sink->entity->name, link->sink->index,
+> +			&pix->pixelformat, mf->code);
+> +		ret = -EPIPE;
+> +	}
+> +
+> +	v4l2_subdev_unlock_state(state);
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct media_entity_operations rzv2h_ivc_media_ops = {
+> +	.link_validate = rzv2h_ivc_link_validate,
+> +};
+> +
+> +int rzv2h_ivc_initialise_subdevice(struct rzv2h_ivc *ivc)
+> +{
+> +	struct v4l2_subdev *sd;
+> +	int ret;
+> +
+> +	/* Initialise subdevice */
+> +	sd = &ivc->subdev.sd;
+> +	sd->dev = ivc->dev;
+> +	v4l2_subdev_init(sd, &rzv2h_ivc_subdev_ops);
+> +	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
+> +	sd->entity.function = MEDIA_ENT_F_IO_V4L;
+> +	sd->internal_ops = &rzv2h_ivc_subdev_internal_ops;
+> +	sd->entity.ops = &rzv2h_ivc_media_ops;
+> +
+> +	ivc->subdev.pads[RZV2H_IVC_SUBDEV_SINK_PAD].flags = MEDIA_PAD_FL_SINK;
+> +	ivc->subdev.pads[RZV2H_IVC_SUBDEV_SOURCE_PAD].flags = MEDIA_PAD_FL_SOURCE;
+> +
+> +	snprintf(sd->name, sizeof(sd->name), "rzv2h ivc block");
+> +
+> +	ret = media_entity_pads_init(&sd->entity, RZV2H_IVC_NUM_SUBDEV_PADS,
+> +				     ivc->subdev.pads);
+> +	if (ret) {
+> +		dev_err(ivc->dev, "failed to initialise media entity\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = v4l2_async_register_subdev(sd);
+> +	if (ret) {
+> +		dev_err(ivc->dev, "failed to register subdevice\n");
+> +		goto err_cleanup_subdev_entity;
+> +	}
+> +
+> +	ret = v4l2_subdev_init_finalize(sd);
+> +	if (ret) {
+> +		dev_err(ivc->dev, "failed to finalize subdev init\n");
+> +		goto err_unregister_subdev;
+> +	}
+> +
+> +	return 0;
+> +
+> +err_unregister_subdev:
+> +	v4l2_async_unregister_subdev(sd);
+> +err_cleanup_subdev_entity:
+> +	media_entity_cleanup(&sd->entity);
+> +
+> +	return ret;
+> +}
+> +
+> +void rzv2h_ivc_deinit_subdevice(struct rzv2h_ivc *ivc)
+> +{
+> +	struct v4l2_subdev *sd = &ivc->subdev.sd;
+> +
+> +	v4l2_subdev_cleanup(sd);
+> +	media_entity_remove_links(&sd->entity);
+> +	v4l2_async_unregister_subdev(sd);
+> +	media_entity_cleanup(&sd->entity);
+> +}
+> diff --git a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
+> new file mode 100644
+> index 000000000000..da6184823784
+> --- /dev/null
+> +++ b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
+> @@ -0,0 +1,703 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Renesas RZ/V2H Input Video Control Block driver
+> + *
+> + * Copyright (C) 2024 Ideas on Board Oy
+> + */
+> +
+> +#include <linux/cleanup.h>
+> +#include <linux/iopoll.h>
+> +#include <linux/list.h>
+> +#include <linux/media-bus-format.h>
+> +#include <linux/minmax.h>
+> +#include <linux/mutex.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/videodev2.h>
+> +#include <linux/wait.h>
+> +
+> +#include <media/media-jobs.h>
+> +#include <media/mipi-csi2.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-dev.h>
+> +#include <media/v4l2-event.h>
+> +#include <media/v4l2-fh.h>
+> +#include <media/v4l2-ioctl.h>
+> +#include <media/videobuf2-core.h>
+> +#include <media/videobuf2-dma-contig.h>
+> +#include <media/videobuf2-v4l2.h>
+> +
+> +#include "rzv2h-ivc.h"
+> +
+> +#define RZV2H_IVC_FIXED_HBLANK			0x20
+> +#define RZV2H_IVC_MIN_VBLANK			27
+
+Either both 0x or decimal maybe ?
+
+> +
+> +#define to_rzv2h_ivc_buf(vbuf) \
+> +	container_of(vbuf, struct rzv2h_ivc_buf, vb)
+> +
+> +static const struct rzv2h_ivc_format rzv2h_ivc_formats[] = {
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_SBGGR8,
+> +		.mbus_codes = {
+> +			MEDIA_BUS_FMT_SBGGR8_1X8,
+> +		},
+> +		.dtype = MIPI_CSI2_DT_RAW8,
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_SGBRG8,
+> +		.mbus_codes = {
+> +			MEDIA_BUS_FMT_SGBRG8_1X8,
+> +		},
+> +		.dtype = MIPI_CSI2_DT_RAW8,
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_SGRBG8,
+> +		.mbus_codes = {
+> +			MEDIA_BUS_FMT_SGRBG8_1X8,
+> +		},
+> +		.dtype = MIPI_CSI2_DT_RAW8,
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_SRGGB8,
+> +		.mbus_codes = {
+> +			MEDIA_BUS_FMT_SRGGB8_1X8,
+> +		},
+> +		.dtype = MIPI_CSI2_DT_RAW8,
+> +	},
+
+Now I get why we want to get rid of bayer permutations in the media
+bus code :)
+
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_CRU_RAW10,
+> +		.mbus_codes = {
+> +			MEDIA_BUS_FMT_SBGGR10_1X10,
+> +			MEDIA_BUS_FMT_SGBRG10_1X10,
+> +			MEDIA_BUS_FMT_SGRBG10_1X10,
+> +			MEDIA_BUS_FMT_SRGGB10_1X10
+> +		},
+> +		.dtype = MIPI_CSI2_DT_RAW10,
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_CRU_RAW12,
+> +		.mbus_codes = {
+> +			MEDIA_BUS_FMT_SBGGR12_1X12,
+> +			MEDIA_BUS_FMT_SGBRG12_1X12,
+> +			MEDIA_BUS_FMT_SGRBG12_1X12,
+> +			MEDIA_BUS_FMT_SRGGB12_1X12
+> +		},
+> +		.dtype = MIPI_CSI2_DT_RAW12,
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_CRU_RAW14,
+> +		.mbus_codes = {
+> +			MEDIA_BUS_FMT_SBGGR14_1X14,
+> +			MEDIA_BUS_FMT_SGBRG14_1X14,
+> +			MEDIA_BUS_FMT_SGRBG14_1X14,
+> +			MEDIA_BUS_FMT_SRGGB14_1X14
+> +		},
+> +		.dtype = MIPI_CSI2_DT_RAW14,
+> +	},
+
+Interesting, so all formats > 8 and < 16 get compressed to a
+bayer-agnostic CRU formats, while 8 and 16 are not modified...
+
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_SBGGR16,
+> +		.mbus_codes = {
+> +			MEDIA_BUS_FMT_SBGGR16_1X16,
+> +		},
+> +		.dtype = MIPI_CSI2_DT_RAW16,
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_SGBRG16,
+> +		.mbus_codes = {
+> +			MEDIA_BUS_FMT_SGBRG16_1X16,
+> +		},
+> +		.dtype = MIPI_CSI2_DT_RAW16,
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_SGRBG16,
+> +		.mbus_codes = {
+> +			MEDIA_BUS_FMT_SGRBG16_1X16,
+> +		},
+> +		.dtype = MIPI_CSI2_DT_RAW16,
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_SRGGB16,
+> +		.mbus_codes = {
+> +			MEDIA_BUS_FMT_SRGGB16_1X16,
+> +		},
+> +		.dtype = MIPI_CSI2_DT_RAW16,
+> +	},
+> +};
+> +
+> +static int rzv2h_ivc_pipeline_started(struct media_entity *entity)
+> +{
+> +	struct video_device *vdev = media_entity_to_video_device(entity);
+> +	struct rzv2h_ivc *ivc = video_get_drvdata(vdev);
+> +
+> +	/*
+> +	 * With min_queued_buffers set to 1, we know that we must have at least
+> +	 * a single buffer to start feeding, so we can fetch that now and fire
+> +	 * it off to the ISP.
+> +	 */
+> +	ivc->buffers.sequence = 0;
+> +	rzv2h_ivc_send_next_buffer(ivc);
+> +
+
+Uh, why can't we do that at pipeline_start ?
+
+> +	return 0;
+> +}
+> +
+> +static void rzv2h_ivc_pipeline_stopped(struct media_entity *entity)
+> +{
+> +	struct video_device *vdev = media_entity_to_video_device(entity);
+> +	struct rzv2h_ivc *ivc = video_get_drvdata(vdev);
+> +	u32 val = 0;
+> +
+> +	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_FM_STOP, 0x1);
+> +	readl_poll_timeout(ivc->base + RZV2H_IVC_REG_FM_STOP,
+> +			   val, !val, 10 * USEC_PER_MSEC, 250 * USEC_PER_MSEC);
+> +}
+> +
+> +static const struct media_entity_operations rzv2h_ivc_media_ops = {
+> +	.pipeline_started = rzv2h_ivc_pipeline_started,
+> +	.pipeline_stopped = rzv2h_ivc_pipeline_stopped,
+> +};
+> +
+> +static bool rzv2h_ivc_job_check_dep(void *data)
+> +{
+> +	struct rzv2h_ivc *ivc = data;
+> +
+> +	guard(spinlock)(&ivc->buffers.lock);
+> +
+> +	if (list_empty(&ivc->buffers.pending))
+> +		return false;
+> +
+> +	return true;
+> +}
+> +
+> +static void rzv2h_ivc_job_clear_dep(void *data)
+> +{
+> +	struct rzv2h_ivc *ivc = data;
+> +	struct rzv2h_ivc_buf *buf;
+> +
+> +	/*
+> +	 * We need to move an entry from the pending queue to the input queue
+> +	 * here. We know that there is one, or .check_dep() would not have
+> +	 * allowed us to get this far. The entry needs to be removed or the same
+> +	 * check would allow a new job to be queued for the exact same buffer.
+> +	 */
+> +	guard(spinlock)(&ivc->buffers.lock);
+> +	buf = list_first_entry(&ivc->buffers.pending,
+> +			       struct rzv2h_ivc_buf, queue);
+> +	list_move_tail(&buf->queue, &ivc->buffers.queue);
+> +}
+> +
+> +static void rzv2h_ivc_job_reset_dep(void *data)
+> +{
+> +	struct rzv2h_ivc *ivc = data;
+> +	struct rzv2h_ivc_buf *buf;
+> +
+> +	guard(spinlock)(&ivc->buffers.lock);
+> +	buf = list_first_entry(&ivc->buffers.queue,
+> +			       struct rzv2h_ivc_buf, queue);
+> +
+> +	if (buf)
+> +		list_move(&buf->queue, &ivc->buffers.pending);
+> +}
+> +
+> +static void rzv2h_ivc_job_set_next_buffer(void *data)
+> +{
+> +	struct rzv2h_ivc *ivc = data;
+> +
+> +	rzv2h_ivc_set_next_buffer(ivc);
+
+This has a single caller, why do you need a wrapper ?
+Also why define the function after its single caller ?
+
+> +}
+> +
+> +static void rzv2h_ivc_job_send_next_buffer(void *data)
+> +{
+> +	struct rzv2h_ivc *ivc = data;
+> +
+> +	rzv2h_ivc_send_next_buffer(ivc);
+
+This seems to be a "start transfer" or something similar, which would
+remove the two very similar names set_next_buffer() and
+send_next_buffer().
+
+Same question, why define the function after its two callers ?
+
+> +}
+> +
+> +static struct media_job_dep_ops rzv2h_ivc_media_job_dep_ops = {
+> +	.check_dep = rzv2h_ivc_job_check_dep,
+> +	.clear_dep = rzv2h_ivc_job_clear_dep,
+> +	.reset_dep = rzv2h_ivc_job_reset_dep,
+> +};
+> +
+> +static int rzv2h_ivc_queue_setup(struct vb2_queue *q, unsigned int *num_buffers,
+> +				 unsigned int *num_planes, unsigned int sizes[],
+> +				 struct device *alloc_devs[])
+> +{
+> +	struct rzv2h_ivc *ivc = vb2_get_drv_priv(q);
+> +
+> +	if (*num_planes && *num_planes > 1)
+> +		return -EINVAL;
+> +
+> +	if (sizes[0] && sizes[0] < ivc->format.pix.sizeimage)
+> +		return -EINVAL;
+> +
+> +	*num_planes = 1;
+> +
+> +	if (!sizes[0])
+> +		sizes[0] = ivc->format.pix.sizeimage;
+> +
+> +	return 0;
+> +}
+> +
+> +static void rzv2h_ivc_buf_queue(struct vb2_buffer *vb)
+> +{
+> +	struct rzv2h_ivc *ivc = vb2_get_drv_priv(vb->vb2_queue);
+> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> +	struct rzv2h_ivc_buf *buf = to_rzv2h_ivc_buf(vbuf);
+> +
+> +	spin_lock(&ivc->buffers.lock);
+> +	list_add_tail(&buf->queue, &ivc->buffers.pending);
+> +	spin_unlock(&ivc->buffers.lock);
+
+scoped_guards are nice
+
+> +
+> +	media_jobs_try_queue_job(ivc->sched, MEDIA_JOB_TYPE_PIPELINE_PULSE,
+> +				 &rzv2h_ivc_media_job_dep_ops, ivc);
+> +}
+> +
+> +static int rzv2h_ivc_buf_init(struct vb2_buffer *vb)
+> +{
+> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> +	struct rzv2h_ivc_buf *buf = to_rzv2h_ivc_buf(vbuf);
+> +
+> +	buf->addr = vb2_dma_contig_plane_dma_addr(vb, 0);
+
+Do you need an init function instead of just retrieveing the bus
+address before writing it to RZV2H_IVC_REG_AXIRX_SADDL_P0 ?
+
+> +
+> +	return 0;
+> +}
+> +
+> +static void rzv2h_ivc_format_configure(struct rzv2h_ivc *ivc)
+> +{
+> +	const struct rzv2h_ivc_format *fmt = ivc->format.fmt;
+> +	struct v4l2_pix_format *pix = &ivc->format.pix;
+> +	unsigned int min_vblank;
+> +	unsigned int vblank;
+> +	unsigned int hts;
+> +
+> +	/* Currently only CRU packed pixel formats are supported */
+
+Which I presume include the 8 and 16 bits variants ?
+
+> +	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_AXIRX_PXFMT,
+> +			RZV2H_IVC_INPUT_FMT_CRU_PACKED);
+> +
+> +	rzv2h_ivc_update_bits(ivc, RZV2H_IVC_REG_AXIRX_PXFMT,
+> +			      RZV2H_IVC_PXFMT_DTYPE, fmt->dtype);
+> +
+> +	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_AXIRX_HSIZE, pix->width);
+> +	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_AXIRX_VSIZE, pix->height);
+> +	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_AXIRX_STRD, pix->bytesperline);
+> +
+> +	/*
+> +	 * The ISP has minimum vertical blanking requirements that must be
+> +	 * adhered to by the IVC. The minimum is a function of the Iridix blocks
+> +	 * clocking requirements and the width of the image and horizontal
+> +	 * blanking, but if we assume the worst case then it boils down to the
+> +	 * below (plus one to the numerator to ensure the answer is rounded up)
+> +	 */
+> +
+> +	hts = pix->width + RZV2H_IVC_FIXED_HBLANK;
+> +	min_vblank = 15 + (120501 / hts);
+
+This is the actual vblank or the min_vblank ?
+
+> +	vblank = max(min_vblank, RZV2H_IVC_MIN_VBLANK);
+> +
+> +	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_AXIRX_BLANK,
+> +			RZV2H_IVC_VBLANK(vblank));
+> +}
+> +
+> +void rzv2h_ivc_set_next_buffer(struct rzv2h_ivc *ivc)
+> +{
+> +	struct rzv2h_ivc_buf *buf;
+> +
+> +	guard(spinlock)(&ivc->buffers.lock);
+> +
+> +	if (ivc->buffers.curr) {
+> +		ivc->buffers.curr->vb.sequence = ivc->buffers.sequence++;
+> +		vb2_buffer_done(&ivc->buffers.curr->vb.vb2_buf,
+> +				VB2_BUF_STATE_DONE);
+> +		ivc->buffers.curr = NULL;
+> +	}
+> +
+> +	buf = list_first_entry_or_null(&ivc->buffers.queue,
+> +				       struct rzv2h_ivc_buf, queue);
+> +	if (buf)
+> +		list_del(&buf->queue);
+> +	else
+> +		return;
+
+What happens in this case ? Will the HW keep overwriting the same
+memory buffer even if it has been just returned to userspace ? Will it
+discard frames ? Do you need a scratch buffer where to dump frames
+into ?
+
+> +
+> +	ivc->buffers.curr = buf;
+> +	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_AXIRX_SADDL_P0, buf->addr);
+> +}
+> +
+> +void rzv2h_ivc_send_next_buffer(struct rzv2h_ivc *ivc)
+> +{
+> +	wait_event_interruptible_timeout(ivc->buffers.wq, !ivc->vvalid_ifp,
+> +					 msecs_to_jiffies(20));
+> +
+> +	spin_lock(&ivc->spinlock);
+> +	ivc->vvalid_ifp = 2;
+> +	spin_unlock(&ivc->spinlock);
+
+maybe scoped guards, and if you count in the -dev.c file you might
+even save this
+
+> +
+> +	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_FM_FRCON, 0x1);
+> +}
+> +
+> +static void rzv2h_ivc_return_buffers(struct rzv2h_ivc *ivc,
+> +				     enum vb2_buffer_state state)
+> +{
+> +	struct rzv2h_ivc_buf *buf, *tmp;
+> +
+> +	guard(spinlock)(&ivc->buffers.lock);
+> +
+> +	if (ivc->buffers.curr) {
+> +		vb2_buffer_done(&ivc->buffers.curr->vb.vb2_buf, state);
+> +		ivc->buffers.curr = NULL;
+> +	}
+> +
+> +	list_for_each_entry_safe(buf, tmp, &ivc->buffers.pending, queue) {
+> +		list_del(&buf->queue);
+> +		vb2_buffer_done(&buf->vb.vb2_buf, state);
+> +	}
+> +
+> +	list_for_each_entry_safe(buf, tmp, &ivc->buffers.queue, queue) {
+> +		list_del(&buf->queue);
+> +		vb2_buffer_done(&buf->vb.vb2_buf, state);
+> +	}
+> +}
+> +
+> +static bool rzv2h_ivc_pipeline_ready(struct media_pipeline *pipe)
+> +{
+> +	struct media_pipeline_entity_iter iter;
+> +	unsigned int n_video_devices = 0;
+> +	struct media_entity *entity;
+> +	int ret;
+> +
+> +	ret = media_pipeline_entity_iter_init(pipe, &iter);
+> +	if (ret)
+> +		return ret;
+> +
+> +	media_pipeline_for_each_entity(pipe, &iter, entity) {
+> +		if (entity->obj_type == MEDIA_ENTITY_TYPE_VIDEO_DEVICE)
+> +			n_video_devices++;
+> +	}
+> +
+> +	media_pipeline_entity_iter_cleanup(&iter);
+> +
+> +	return n_video_devices == pipe->start_count;
+
+Ah maybe I know get why you need pipeline_started
+
+> +}
+> +
+> +static int rzv2h_ivc_start_streaming(struct vb2_queue *q, unsigned int count)
+> +{
+> +	struct rzv2h_ivc *ivc = vb2_get_drv_priv(q);
+> +	struct media_pipeline *pipe;
+> +	int ret;
+> +
+> +	ret = pm_runtime_resume_and_get(ivc->dev);
+> +	if (ret)
+> +		goto err_return_buffers;
+> +
+> +	ret = video_device_pipeline_alloc_start(&ivc->vdev.dev);
+> +	if (ret) {
+> +		dev_err(ivc->dev, "failed to start media pipeline\n");
+> +		goto err_pm_runtime_put;
+> +	}
+> +
+> +	rzv2h_ivc_format_configure(ivc);
+> +
+> +	ivc->buffers.sequence = 0;
+> +
+> +	spin_lock(&ivc->spinlock);
+> +	ivc->vvalid_ifp = 0;
+> +	spin_unlock(&ivc->spinlock);
+> +
+> +	pipe = video_device_pipeline(&ivc->vdev.dev);
+> +	if (rzv2h_ivc_pipeline_ready(pipe)) {
+> +		ret = media_pipeline_started(pipe);
+> +		if (ret)
+> +			goto err_stop_pipeline;
+> +
+> +		media_jobs_run_jobs(ivc->sched);
+> +	}
+> +
+> +	return 0;
+> +
+> +err_stop_pipeline:
+> +	video_device_pipeline_stop(&ivc->vdev.dev);
+> +err_pm_runtime_put:
+> +	pm_runtime_put(ivc->dev);
+> +err_return_buffers:
+> +	rzv2h_ivc_return_buffers(ivc, VB2_BUF_STATE_QUEUED);
+> +
+> +	return ret;
+> +}
+> +
+> +static void rzv2h_ivc_stop_streaming(struct vb2_queue *q)
+> +{
+> +	struct rzv2h_ivc *ivc = vb2_get_drv_priv(q);
+> +	struct media_pipeline *pipe;
+> +
+> +	pipe = video_device_pipeline(&ivc->vdev.dev);
+> +	if (rzv2h_ivc_pipeline_ready(pipe)) {
+
+How is this possible that this returns true if we have just been
+stopped ?
+
+> +		media_pipeline_stopped(pipe);
+> +		media_jobs_cancel_jobs(ivc->sched);
+> +	}
+> +
+> +	rzv2h_ivc_return_buffers(ivc, VB2_BUF_STATE_ERROR);
+> +	video_device_pipeline_stop(&ivc->vdev.dev);
+> +	pm_runtime_put_autosuspend(ivc->dev);
+> +	pm_runtime_mark_last_busy(ivc->dev);
+
+Maybe first mark then suspend ?
+
+> +}
+> +
+> +static const struct vb2_ops rzv2h_ivc_vb2_ops = {
+> +	.queue_setup		= &rzv2h_ivc_queue_setup,
+> +	.buf_queue		= &rzv2h_ivc_buf_queue,
+> +	.buf_init		= &rzv2h_ivc_buf_init,
+> +	.wait_prepare		= vb2_ops_wait_prepare,
+> +	.wait_finish		= vb2_ops_wait_finish,
+> +	.start_streaming	= &rzv2h_ivc_start_streaming,
+> +	.stop_streaming		= &rzv2h_ivc_stop_streaming,
+> +};
+> +
+> +static const struct rzv2h_ivc_format *
+> +rzv2h_ivc_format_from_pixelformat(u32 fourcc)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(rzv2h_ivc_formats); i++)
+> +		if (fourcc == rzv2h_ivc_formats[i].fourcc)
+> +			return &rzv2h_ivc_formats[i];
+> +
+> +	return &rzv2h_ivc_formats[0];
+> +}
+> +
+> +static int rzv2h_ivc_enum_fmt_vid_out(struct file *file, void *fh,
+> +				      struct v4l2_fmtdesc *f)
+> +{
+> +	if (f->index >= ARRAY_SIZE(rzv2h_ivc_formats))
+> +		return -EINVAL;
+> +
+> +	f->pixelformat = rzv2h_ivc_formats[f->index].fourcc;
+> +	return 0;
+> +}
+> +
+> +static int rzv2h_ivc_g_fmt_vid_out(struct file *file, void *fh,
+> +				   struct v4l2_format *f)
+> +{
+> +	struct rzv2h_ivc *ivc = video_drvdata(file);
+> +
+> +	f->fmt.pix = ivc->format.pix;
+> +
+> +	return 0;
+> +}
+> +
+> +static void rzv2h_ivc_try_fmt(struct v4l2_pix_format *pix)
+> +{
+> +	const struct rzv2h_ivc_format *fmt;
+> +
+> +	fmt = rzv2h_ivc_format_from_pixelformat(pix->pixelformat);
+> +	pix->pixelformat = fmt->fourcc;
+> +
+> +	pix->width = clamp(pix->width, RZV2H_IVC_MIN_WIDTH,
+> +			   RZV2H_IVC_MAX_WIDTH);
+> +	pix->height = clamp(pix->height, RZV2H_IVC_MIN_HEIGHT,
+> +			    RZV2H_IVC_MAX_HEIGHT);
+> +
+> +	pix->field = V4L2_FIELD_NONE;
+> +	pix->colorspace = V4L2_COLORSPACE_RAW;
+> +	pix->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
+
+For the subdev this was 601 if I'm not mistaken
+
+> +	pix->quantization = V4L2_QUANTIZATION_DEFAULT;
+
+And the quantization full range ?
+
+Also set xfer_func to V4L2_XFER_FUNC_NONE
+
+
+> +
+> +	v4l2_fill_pixfmt(pix, pix->pixelformat, pix->width, pix->height);
+> +}
+> +
+> +static void rzv2h_ivc_set_format(struct rzv2h_ivc *ivc,
+> +				 struct v4l2_pix_format *pix)
+> +{
+> +	rzv2h_ivc_try_fmt(pix);
+> +	ivc->format.pix = *pix;
+> +	ivc->format.fmt = rzv2h_ivc_format_from_pixelformat(pix->pixelformat);
+
+try_fmt calls this function, maybe you could pass it as parameter as
+well ?(however you should allocate one in rzv2h_ivc_try_fmt_vid_out()
+
+> +}
+> +
+> +static int rzv2h_ivc_s_fmt_vid_out(struct file *file, void *fh,
+> +				   struct v4l2_format *f)
+> +{
+> +	struct rzv2h_ivc *ivc = video_drvdata(file);
+> +	struct v4l2_pix_format *pix = &f->fmt.pix;
+> +
+> +	if (vb2_is_busy(&ivc->vdev.vb2q))
+> +		return -EBUSY;
+> +
+> +	rzv2h_ivc_set_format(ivc, pix);
+> +
+> +	return 0;
+> +}
+> +
+> +static int rzv2h_ivc_try_fmt_vid_out(struct file *file, void *fh,
+> +				     struct v4l2_format *f)
+> +{
+> +	rzv2h_ivc_try_fmt(&f->fmt.pix);
+> +	return 0;
+> +}
+> +
+> +static int rzv2h_ivc_querycap(struct file *file, void *fh,
+> +			      struct v4l2_capability *cap)
+> +{
+> +	strscpy(cap->driver, "rzv2h-ivc", sizeof(cap->driver));
+> +	strscpy(cap->card, "Renesas Input Video Control", sizeof(cap->card));
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_ioctl_ops rzv2h_ivc_v4l2_ioctl_ops = {
+> +	.vidioc_reqbufs = vb2_ioctl_reqbufs,
+> +	.vidioc_querybuf = vb2_ioctl_querybuf,
+> +	.vidioc_create_bufs = vb2_ioctl_create_bufs,
+> +	.vidioc_qbuf = vb2_ioctl_qbuf,
+> +	.vidioc_expbuf = vb2_ioctl_expbuf,
+> +	.vidioc_dqbuf = vb2_ioctl_dqbuf,
+> +	.vidioc_prepare_buf = vb2_ioctl_prepare_buf,
+> +	.vidioc_streamon = vb2_ioctl_streamon,
+> +	.vidioc_streamoff = vb2_ioctl_streamoff,
+> +	.vidioc_enum_fmt_vid_out = rzv2h_ivc_enum_fmt_vid_out,
+> +	.vidioc_g_fmt_vid_out = rzv2h_ivc_g_fmt_vid_out,
+> +	.vidioc_s_fmt_vid_out = rzv2h_ivc_s_fmt_vid_out,
+> +	.vidioc_try_fmt_vid_out = rzv2h_ivc_try_fmt_vid_out,
+> +	.vidioc_querycap = rzv2h_ivc_querycap,
+> +	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
+> +	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
+> +};
+> +
+> +static const struct v4l2_file_operations rzv2h_ivc_v4l2_fops = {
+> +	.owner = THIS_MODULE,
+> +	.unlocked_ioctl = video_ioctl2,
+> +	.open = v4l2_fh_open,
+> +	.release = vb2_fop_release,
+> +	.poll = vb2_fop_poll,
+> +	.mmap = vb2_fop_mmap,
+> +};
+> +
+> +static int rzv2h_ivc_populate_media_job(struct media_job *job, void *data)
+> +{
+> +	struct rzv2h_ivc *ivc = data;
+> +	int ret;
+> +
+> +	ret = media_jobs_add_job_dep(job, &rzv2h_ivc_media_job_dep_ops, ivc);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = media_jobs_add_job_step(job, rzv2h_ivc_job_set_next_buffer, ivc,
+> +				      MEDIA_JOBS_FL_STEP_ANYWHERE, 0);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/*
+> +	 * This stage will be the second to last one to run - the ISP driver may
+> +	 * have some post-frame processing to do.
+> +	 */
+> +	ret = media_jobs_add_job_step(job, rzv2h_ivc_job_send_next_buffer, ivc,
+> +				      MEDIA_JOBS_FL_STEP_FROM_BACK, 1);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+> +int rzv2h_initialise_video_dev_and_queue(struct rzv2h_ivc *ivc,
+> +					 struct v4l2_device *v4l2_dev)
+> +{
+> +	struct v4l2_pix_format pix;
+> +	struct video_device *vdev;
+> +	struct vb2_queue *vb2q;
+> +	int ret;
+> +
+> +	spin_lock_init(&ivc->buffers.lock);
+> +	INIT_LIST_HEAD(&ivc->buffers.queue);
+> +	INIT_LIST_HEAD(&ivc->buffers.pending);
+> +	init_waitqueue_head(&ivc->buffers.wq);
+> +
+> +	/* Initialise vb2 queue */
+> +	vb2q = &ivc->vdev.vb2q;
+> +	vb2q->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
+> +	vb2q->io_modes = VB2_MMAP | VB2_DMABUF;
+> +	vb2q->drv_priv = ivc;
+> +	vb2q->mem_ops = &vb2_dma_contig_memops;
+> +	vb2q->ops = &rzv2h_ivc_vb2_ops;
+> +	vb2q->buf_struct_size = sizeof(struct rzv2h_ivc_buf);
+> +	vb2q->min_queued_buffers = 1;
+
+Ideally, we want this to be 0. You would need a scratch buffer for
+this
+
+> +	vb2q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> +	vb2q->lock = &ivc->lock;
+> +	vb2q->dev = ivc->dev;
+> +
+> +	ret = vb2_queue_init(vb2q);
+> +	if (ret)
+> +		return dev_err_probe(ivc->dev, ret, "vb2 queue init failed\n");
+> +
+> +	/* Initialise Video Device */
+> +	vdev = &ivc->vdev.dev;
+> +	strscpy(vdev->name, "rzv2h-ivc", sizeof(vdev->name));
+> +	vdev->release = video_device_release_empty;
+> +	vdev->fops = &rzv2h_ivc_v4l2_fops;
+> +	vdev->ioctl_ops = &rzv2h_ivc_v4l2_ioctl_ops;
+> +	vdev->lock = &ivc->lock;
+> +	vdev->v4l2_dev = v4l2_dev;
+> +	vdev->queue = vb2q;
+> +	vdev->device_caps = V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_STREAMING;
+> +	vdev->vfl_dir = VFL_DIR_TX;
+> +	video_set_drvdata(vdev, ivc);
+> +
+> +	memset(&pix, 0, sizeof(pix));
+
+As you declare it here on the stack you can initialize it with = {};
+
+> +	pix.pixelformat = V4L2_PIX_FMT_SRGGB16;
+> +	pix.width = RZV2H_IVC_DEFAULT_WIDTH;
+> +	pix.height = RZV2H_IVC_DEFAULT_HEIGHT;
+> +	rzv2h_ivc_set_format(ivc, &pix);
+> +
+> +	ivc->vdev.pad.flags = MEDIA_PAD_FL_SOURCE;
+> +	ivc->vdev.dev.entity.ops = &rzv2h_ivc_media_ops;
+> +	ret = media_entity_pads_init(&ivc->vdev.dev.entity, 1, &ivc->vdev.pad);
+> +	if (ret)
+> +		goto err_release_vb2q;
+> +
+> +	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
+> +	if (ret) {
+> +		dev_err(ivc->dev, "failed to register params video device\n");
+
+Not params :)
+
+> +		goto err_cleanup_vdev_entity;
+> +	}
+> +
+> +	ret = media_create_pad_link(&vdev->entity, 0, &ivc->subdev.sd.entity,
+> +				    RZV2H_IVC_SUBDEV_SINK_PAD,
+> +				    MEDIA_LNK_FL_ENABLED |
+> +				    MEDIA_LNK_FL_IMMUTABLE);
+> +	if (ret) {
+> +		dev_err(ivc->dev, "failed to create media link\n");
+> +		goto err_unregister_vdev;
+> +	}
+> +
+> +	ivc->sched = media_jobs_get_scheduler(vdev->entity.graph_obj.mdev);
+> +	if (IS_ERR(ivc->sched)) {
+> +		ret = PTR_ERR(ivc->sched);
+> +		goto err_remove_link;
+> +	}
+> +
+> +	ret = media_jobs_add_job_setup_func(ivc->sched,
+> +					    rzv2h_ivc_populate_media_job, ivc,
+> +					    MEDIA_JOB_TYPE_PIPELINE_PULSE);
+> +	if (ret)
+> +		goto err_put_media_job_scheduler;
+> +
+> +	return 0;
+> +
+> +err_put_media_job_scheduler:
+> +	media_jobs_put_scheduler(ivc->sched);
+> +err_remove_link:
+> +	media_entity_remove_links(&vdev->entity);
+> +err_unregister_vdev:
+> +	video_unregister_device(vdev);
+> +err_cleanup_vdev_entity:
+> +	media_entity_cleanup(&vdev->entity);
+> +err_release_vb2q:
+> +	vb2_queue_release(vb2q);
+> +
+> +	return ret;
+> +}
+> +
+> +void rzv2h_deinit_video_dev_and_queue(struct rzv2h_ivc *ivc)
+> +{
+> +	struct video_device *vdev = &ivc->vdev.dev;
+> +	struct vb2_queue *vb2q = &ivc->vdev.vb2q;
+> +
+> +	media_jobs_put_scheduler(ivc->sched);
+> +	vb2_video_unregister_device(vdev);
+> +	media_entity_cleanup(&vdev->entity);
+> +	vb2_queue_release(vb2q);
+> +}
+> diff --git a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h
+> new file mode 100644
+> index 000000000000..6deee1c61a86
+> --- /dev/null
+> +++ b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h
+> @@ -0,0 +1,141 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Renesas RZ/V2H Input Video Control Block driver
+> + *
+> + * Copyright (C) 2024 Ideas on Board Oy
+
+2025... time flies...
+
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/list.h>
+> +#include <linux/mutex.h>
+> +#include <linux/reset.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/types.h>
+> +#include <linux/videodev2.h>
+> +#include <linux/wait.h>
+> +
+> +#include <media/media-entity.h>
+> +#include <media/v4l2-device.h>
+> +#include <media/v4l2-subdev.h>
+> +#include <media/videobuf2-core.h>
+> +#include <media/videobuf2-v4l2.h>
+
+You can remove these from the .c files that include this header and
+include this first
+
+> +
+> +#define RZV2H_IVC_REG_AXIRX_PLNUM			0x0000
+> +#define RZV2H_IVC_ONE_EXPOSURE				0x00
+> +#define RZV2H_IVC_TWO_EXPOSURE				0x01
+> +#define RZV2H_IVC_REG_AXIRX_PXFMT			0x0004
+> +#define RZV2H_IVC_INPUT_FMT_MIPI			(0 << 16)
+> +#define RZV2H_IVC_INPUT_FMT_CRU_PACKED			(1 << 16)
+> +#define RZV2H_IVC_PXFMT_DTYPE				GENMASK(7, 0)
+> +#define RZV2H_IVC_REG_AXIRX_SADDL_P0			0x0010
+> +#define RZV2H_IVC_REG_AXIRX_SADDH_P0			0x0014
+> +#define RZV2H_IVC_REG_AXIRX_SADDL_P1			0x0018
+> +#define RZV2H_IVC_REG_AXIRX_SADDH_P1			0x001c
+> +#define RZV2H_IVC_REG_AXIRX_HSIZE			0x0020
+> +#define RZV2H_IVC_REG_AXIRX_VSIZE			0x0024
+> +#define RZV2H_IVC_REG_AXIRX_BLANK			0x0028
+> +#define RZV2H_IVC_VBLANK(x)				((x) << 16)
+> +#define RZV2H_IVC_REG_AXIRX_STRD			0x0030
+> +#define RZV2H_IVC_REG_AXIRX_ISSU			0x0040
+> +#define RZV2H_IVC_REG_AXIRX_ERACT			0x0048
+> +#define RZV2H_IVC_REG_FM_CONTEXT			0x0100
+> +#define RZV2H_IVC_SOFTWARE_CFG				0x00
+> +#define RZV2H_IVC_SINGLE_CONTEXT_SW_HW_CFG		BIT(0)
+> +#define RZV2H_IVC_MULTI_CONTEXT_SW_HW_CFG		BIT(1)
+> +#define RZV2H_IVC_REG_FM_MCON				0x0104
+> +#define RZV2H_IVC_REG_FM_FRCON				0x0108
+> +#define RZV2H_IVC_REG_FM_STOP				0x010c
+> +#define RZV2H_IVC_REG_FM_INT_EN				0x0120
+> +#define RZV2H_IVC_VVAL_IFPE				BIT(0)
+> +#define RZV2H_IVC_REG_FM_INT_STA			0x0124
+> +#define RZV2H_IVC_REG_AXIRX_FIFOCAP0			0x0208
+> +#define RZV2H_IVC_REG_CORE_CAPCON			0x020c
+> +#define RZV2H_IVC_REG_CORE_FIFOCAP0			0x0228
+> +#define RZV2H_IVC_REG_CORE_FIFOCAP1			0x022c
+> +
+> +#define RZV2H_IVC_MIN_WIDTH				640
+> +#define RZV2H_IVC_MAX_WIDTH				4096
+> +#define RZV2H_IVC_MIN_HEIGHT				480
+> +#define RZV2H_IVC_MAX_HEIGHT				4096
+> +#define RZV2H_IVC_DEFAULT_WIDTH				1920
+> +#define RZV2H_IVC_DEFAULT_HEIGHT			1080
+> +
+> +#define RZV2H_IVC_NUM_CLOCKS				3
+> +#define RZV2H_IVC_NUM_RESETS				3
+> +
+> +struct device;
+> +
+> +enum rzv2h_ivc_subdev_pads {
+> +	RZV2H_IVC_SUBDEV_SINK_PAD,
+> +	RZV2H_IVC_SUBDEV_SOURCE_PAD,
+> +	RZV2H_IVC_NUM_SUBDEV_PADS
+> +};
+> +
+> +struct rzv2h_ivc_buf {
+> +	struct vb2_v4l2_buffer vb;
+> +	struct list_head queue;
+> +	dma_addr_t addr;
+> +};
+
+Only used in video.c ?
+
+> +
+> +struct rzv2h_ivc_format {
+> +	u32 fourcc;
+> +	/*
+> +	 * The CRU packed pixel formats are bayer-order agnostic, so each could
+> +	 * support any one of the 4 possible media bus formats.
+> +	 */
+> +	u32 mbus_codes[4];
+> +	u8 dtype;
+> +};
+> +
+> +struct rzv2h_ivc {
+> +	struct device *dev;
+> +	void __iomem *base;
+> +	struct clk_bulk_data clks[RZV2H_IVC_NUM_CLOCKS];
+> +	struct reset_control_bulk_data resets[RZV2H_IVC_NUM_RESETS];
+> +	int irqnum;
+> +	u8 vvalid_ifp;
+> +
+> +	struct {
+> +		struct video_device dev;
+> +		struct vb2_queue vb2q;
+> +		struct media_pad pad;
+> +	} vdev;
+> +
+> +	struct {
+> +		struct v4l2_subdev sd;
+> +		struct media_pad pads[RZV2H_IVC_NUM_SUBDEV_PADS];
+> +	} subdev;
+> +
+> +	struct {
+> +		/* Spinlock to guard buffer queue */
+> +		spinlock_t lock;
+> +		wait_queue_head_t wq;
+> +		struct list_head queue;
+> +		struct list_head pending;
+> +		struct rzv2h_ivc_buf *curr;
+> +		unsigned int sequence;
+> +	} buffers;
+> +
+> +	struct media_job_scheduler *sched;
+> +
+> +	struct {
+> +		struct v4l2_pix_format pix;
+> +		const struct rzv2h_ivc_format *fmt;
+> +	} format;
+> +
+> +	/* Mutex to provide to vb2 */
+> +	struct mutex lock;
+> +	/* Lock to protect the interrupt counter */
+> +	spinlock_t spinlock;
+> +};
+> +
+> +int rzv2h_initialise_video_dev_and_queue(struct rzv2h_ivc *ivc,
+> +					 struct v4l2_device *v4l2_dev);
+> +void rzv2h_deinit_video_dev_and_queue(struct rzv2h_ivc *ivc);
+> +int rzv2h_ivc_initialise_subdevice(struct rzv2h_ivc *ivc);
+> +void rzv2h_ivc_deinit_subdevice(struct rzv2h_ivc *ivc);
+> +void rzv2h_ivc_write(struct rzv2h_ivc *ivc, u32 addr, u32 val);
+> +void rzv2h_ivc_update_bits(struct rzv2h_ivc *ivc, unsigned int addr,
+> +			   u32 mask, u32 val);
+> +void rzv2h_ivc_send_next_buffer(struct rzv2h_ivc *ivc);
+> +void rzv2h_ivc_set_next_buffer(struct rzv2h_ivc *ivc);
+
+Thanks, very nice and clever way to have this working with a different
+driver in a single pipeline! looking forward to v2 !
+
+> --
+> 2.34.1
+>
+>
 
