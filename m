@@ -1,186 +1,156 @@
-Return-Path: <linux-renesas-soc+bounces-17614-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17615-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0E93AC6951
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 14:32:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70157AC6971
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 14:37:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4161C3AF477
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 12:31:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5C8603B6685
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 12:36:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33841279789;
-	Wed, 28 May 2025 12:32:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B73052857CA;
+	Wed, 28 May 2025 12:36:38 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA671E3DC8;
-	Wed, 28 May 2025 12:31:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C900285411;
+	Wed, 28 May 2025 12:36:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748435521; cv=none; b=GjDg2DGRUsEAvJpVuKa5n4+iv0jW9S4hv23GZ6or01ULqaV1S0ax1gJQn+0MdiuE0JrrR21qTvXQ+3XHcdcq4v94nq14kDxe5qV8A5jzaKC44EDH0zKJRraAaP3SF/Qtvx2sfZO/gppvYVV8r3O+tGaSbGNUqNEqP65FJ+HMkAI=
+	t=1748435798; cv=none; b=Pj7DAMbiJUyQA3VmpN1pt9p8y2BDlRiGAVnpqDsO1tnVO8Hv6vM8r6I7zpQkB9SGL/X+1AMQPFJMVwlbDy9Fn1UsVMqMoWhohU28UdlrddSiEGW+Nzw/U3Su2+Q1JAJru2j39dBeZRO6IJKB5om624U+shKp5X27zfWZIg2bRN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748435521; c=relaxed/simple;
-	bh=zEkV1uU//gbAAl5EyFZskc/S8PcbUkq6USUFR4LIc1U=;
+	s=arc-20240116; t=1748435798; c=relaxed/simple;
+	bh=Tb8JwKiZIuYCl3tOsCNwIpx036fyGp61/t1y80b2mTM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=D9IIfBXmY8+YNkjIFOzAx2nrRdlFr+kp7VnBZs9EXdobWrXP/j7Y4109jTkx8T8hJ/8h2ErcLss9L1AHOjt9os1lVncdRdCrR+dh8hInV1nQImXMWsMJa4K9KMkrPYk9vc5Ilq/eryByB8S2h6ijhN8PxQagacG4RVXMbjUowCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.52
+	 To:Cc:Content-Type; b=NWtc3N3dk/bKFKug90xxuDsMY8AMs8THXFrhR1zkDqpZp2kCn9gtiwNQXg03TfF0k9IZkjNjibX/fTezDgU9sstoxpouPpWgEKAGY/vR06/9vEhimhusMGxFtg6JuaobFzyczoEKT/fsYeCcnOdycLv0tZhqG+F906olnrIwKHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-72ecc30903cso2124824a34.0;
-        Wed, 28 May 2025 05:31:58 -0700 (PDT)
+Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-86d5e3ddb66so1273840241.2;
+        Wed, 28 May 2025 05:36:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748435517; x=1749040317;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KUHS2p4Yrhb6D+Ze5aQXRwHv8Hsjiq07gFX0i1Aa/2E=;
-        b=rFGdKjufzvxvcbZE4e10mZFZzB4ZF6XOZXY4t8tLnw/c4k0u9XirvsjgP/vcyKcjle
-         ihQFFSQr1Qtjh4MxV9b/k81ccQi01tRvJXrW3ePhLf5vfSpdqHgpfWvMOzS+9AgKOzpb
-         PHzEGS5ACjXLrkv2N6Y+PomrY3Ab4DlGZ3TlDbKsz1Vqh2LxqJcDSFkYjuKVBcoHzol5
-         IM7eOvSp1gQ8GMVDHkx2KPSitdROFdTF7o8hAenSjKDTc0uQ1pQj8YuGuApWWa5Y7ppb
-         1BWfLRP7bkkXbZmwxVr5+sQvwzpCkmL/GEnVHuTxCTEoV8UP0Ucl0ypQsrsCtWt2em2Z
-         vYHg==
-X-Forwarded-Encrypted: i=1; AJvYcCUB1sw/QzJ76PwJTSVflAVE9evIFOWOVNRT8laqAUcGhTObibGhZmJLFyalGScdZt4v0CwB/DnxMsIG/B9TqguB3Ns=@vger.kernel.org, AJvYcCW+9ZHIttlnxP69CmSL9jVX1FedZWjtLB42rSXTgUZsraMQMnl6n3FMaf3MX1gdupfr3ixn7t574Dd8LQoy@vger.kernel.org, AJvYcCW6Y5PM2I3ZitEY0+qRkKgUssv9uCIDcNrCqXY4fzDlEiNF1o5kdYLxFarQs9ZdMsonIvZHfsh8ENni@vger.kernel.org, AJvYcCX+bGsC/qS7BMRuFcVVQnQsXG73e1KLjPlus/uGYmxEFumvRVSgEOKh9TCe1mrR7juxfCwA1AydfV5R@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywb8acI3qBIYcyN4jnhoTmA0ymCwKGMHA1m3KEacrgiJcxMReBI
-	DZQDQG70Ba23SeYNMiYwXvFGrn1+SrPLkHl4SWmrk4wgTF6mv7OfBOM1PWwgCP3R
-X-Gm-Gg: ASbGnct4x2pylQZ9rnrnI6zU1l27NZLdRwY6NJatdw0CkWY526qhBrlAFG+puKVnw3J
-	WwoPkmIc78jw7tuNya7k/M4r5VOd9HpgDPhhVrJmI5FzGPlWPz6xWT+r9GJAWwOC8v6XyuwLieb
-	GMDRWR4FVFoXOYKV+M7MZnhFTw9NmfijgV2RSHF+RTg8N7L1f2M7ZyxqeyaVedHoXPj4QTM61AO
-	Lc1Z3PYoKEXxhO6s7BOLnpAKUGxAyiWJBzAiiVI2FlvI3ChSeRVUw6c7XgEWRfmNnXMiBMnuc2O
-	l1rH1zdjd/z+e1+SLKk8WY8bqcX1tCq8PlUxPNUOdxlxyIn5eJ0UVGgs8oW3Z0L4WIGQ6p3dLrk
-	nyK3F4qS7o/fwjHzXiA==
-X-Google-Smtp-Source: AGHT+IEDMZzyfOMPlNzg7lx0D57OR0NCvzKxaCAjNuHqYIaj8NmEH61YJT6F1kojh5TpFIulWeutXA==
-X-Received: by 2002:a05:6830:b8b:b0:72b:9cb4:acf with SMTP id 46e09a7af769-7355d194491mr10828925a34.25.1748435517279;
-        Wed, 28 May 2025 05:31:57 -0700 (PDT)
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com. [209.85.167.178])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-735a1bb5276sm166912a34.30.2025.05.28.05.31.56
+        d=1e100.net; s=20230601; t=1748435794; x=1749040594;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EttMl+UEO23MQ5/zgKZh51X1fkqP6brx9qDrKYFmyoA=;
+        b=Zz8NzvcetK05jErEbx/ZP8QJVx1G1THE7k6BzGtuwnEbL2Qlt7JPbihNQNyZy+irtN
+         rGQ7yMEwBzW0E7ZED5ZGqtWh7NW37aMscQmtkpmsHXqc9XMsrrsoDFuXuNTdzqdE7y78
+         FjurhvWJA3n7ltUBXfXRQ4VFzUmv++koJilWjNF12as13Vk/8ZCzu6MSqt94ard3Qimx
+         jGUEDKZ5CMFWkwCSuyoYDgLnReAseueGT4/haA6zy+bnAkE0NYt1h+jD1CGnfUPFZSTR
+         lqzEDhVXDhcGLkQKATNACqsfNhRRU1Bmfu2CJj1yIey71WaMBiRPWy/46NFRJwkRgaW2
+         bH2g==
+X-Forwarded-Encrypted: i=1; AJvYcCVa0JJeYhTLJ34WgLsKtf4mDSUfm5oirLJbNQ/y5wBvWOsu3olB3WLKOsMk+tPA+2+B1xWh/QuB+uRu2Ro=@vger.kernel.org, AJvYcCWRlyQmU8QDqHotGTZlOMYs8Asmdyini862gJvv11kqpghYsMN07kdDBR4P0FRWnLtLAl9L/PCTXZgU@vger.kernel.org, AJvYcCWUJT+wEWHZaGm0jBVz0QWYpTbEcBqHuiy7SOnk9H7HH4aDK8hEbcxPud7pga510WV4wOpOqt8rssHE@vger.kernel.org, AJvYcCX9UlbJpcH8IqGWQADHeY0dJCieWJSUkNSMjH0vw2lz+c4vyOvv3D6aiJdQyr2v9nYScwmq8H4U63ggqJfS@vger.kernel.org, AJvYcCXZasUqzV8vVyIZwXY2bJcoKtjTxpEPfMPoNP9KKJTdFBcnpIed0byge8siNpUPxAL3D3qAhLcmXHYVyvKfa4Fn8LA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YywLC8EMdRBpVJuq2XMLXCLZCWjlI7JPL8afTt3Q+CEo8eH8mRd
+	UQlLg+O8cnCeBnhjb1GvWmGEVqmq4NBCjrwneizw+LwBS+aXxFYaeEjjW0036KVB
+X-Gm-Gg: ASbGncuEZYv5tV0/4YUZigYV5sBzjO1Rqe6YtjxRg0I8fwgHoxv874GIGzz9jmc+vkm
+	f8+FF+/ncD3WSM/Cs/ZzOnR09DLfvfZsdGjlaBNiL0VEbh1ogivtDBm64PpDWSXsPyce3CsJahp
+	BhsIdB+REanGq9TsKGrF9N+CRGvQNoirMmiIkAHflwl0kqPGYk6bfxyQWUEDMtqRfCKEOXj2HVI
+	uVnnBglR9aNrfkyj6Gz+l3xMT7IbhfSwZInfmOHI1QM8VPdpPidiC7fDUleHahoea/iP6a5z7z8
+	A4uqJARiEMdB/TFXFL07CuEJS1PpP3Ln7gYz1geQL9DFJVykJCpdETWQO51pvQxVXMIaCsR4JO6
+	tYfP1r0PDi5x09A==
+X-Google-Smtp-Source: AGHT+IFqX++8xVp+nCvnBBtE1xW7PBsDc7dPeyBs/u6wrEFcPIIOb+1g2Ka1Xfb5vCu7pD3ebvj7wg==
+X-Received: by 2002:a05:6122:d81:b0:526:720:704 with SMTP id 71dfb90a1353d-52f2c56e83emr12183548e0c.7.1748435793843;
+        Wed, 28 May 2025 05:36:33 -0700 (PDT)
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-53066973c62sm872607e0c.44.2025.05.28.05.36.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 May 2025 05:31:56 -0700 (PDT)
-Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3feb0db95e6so2372958b6e.1;
-        Wed, 28 May 2025 05:31:56 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUKF3MpTmne15d1MUF9wrASTSiKKm4iHjlByCA5sMFeQZuSHxmar6txZWH45nGzPLxpCduPopYxefl6@vger.kernel.org, AJvYcCUL+ccugzcXi963hknQTSqrIq3qFBx3gJEG1Xz5SBAe4f6iPyRigOnXgNi58AVONBeziKHtabgP4bNFIzsq@vger.kernel.org, AJvYcCUo0NRv/4rN7QbyHJMeBZnLMqgE9HjjDF9ahagpfpn8Bdi2G2HCWEU9whXhiWw+nh05EEUQtX8EAfXR@vger.kernel.org, AJvYcCXhK8dbGANfXToZjxrKIoZS9XesY56JbZXOx70E2OolkH6D8CAmstfholayG3gwu5QcA92xu3W29EhGKRyh9iKYWfM=@vger.kernel.org
-X-Received: by 2002:a05:6808:680a:b0:406:692e:d678 with SMTP id
- 5614622812f47-406692ed990mr412088b6e.22.1748435516651; Wed, 28 May 2025
- 05:31:56 -0700 (PDT)
+        Wed, 28 May 2025 05:36:33 -0700 (PDT)
+Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-87dfe8388f8so834813241.0;
+        Wed, 28 May 2025 05:36:33 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUdZMdzQj2tjIztXLodfaEF0vTWGP+GzqSKV9mrRsm7pzPKRREnrw0WMod4EsutEqZrnYWnw4WVTDyZ@vger.kernel.org, AJvYcCV1RP1XBseuqv33llEzkRQYA/Sy4ZB7qtd5jKFVvorlYyQDCz5K1F5TsQvcI+f0d/SnvprpTIbabd0gLJr2tSY/bpY=@vger.kernel.org, AJvYcCVcq3wrLQ6S8UN+kGk9Xm8SfIvKmB3+/nsM20AoorYIR1rPd9bRxne9pg5teFw8KbqJOwBJIbJpEzUG@vger.kernel.org, AJvYcCW3Nug3JCEca+iJygNTK7HuzaGKOk2lY1tYBPVYpBFRJIxDcGylvOwwAsasTW0uvZr8zi9yh2VACqIy0sU=@vger.kernel.org, AJvYcCWoURuO9za1nINwJwZ3CyCghrYlBYTKN3WZv01ZrZZtE7tGUPyrmpVhFR0Vt8UhrfLa7pDYwvRGx3ZIKk+S@vger.kernel.org
+X-Received: by 2002:a05:6102:3e95:b0:4c5:1c2e:79f5 with SMTP id
+ ada2fe7eead31-4e42415db7dmr12024574137.16.1748435792883; Wed, 28 May 2025
+ 05:36:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250512184302.241417-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250512184302.241417-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdX5_P4R43HOPuZc3JSAOQ5O2xOBDVhVVg1SxU1ucPdbPA@mail.gmail.com> <CA+V-a8sde6Zaz3Z2uDt3OGZ52UBJfR3vQMs4-ZUusDu=oNwFhg@mail.gmail.com>
-In-Reply-To: <CA+V-a8sde6Zaz3Z2uDt3OGZ52UBJfR3vQMs4-ZUusDu=oNwFhg@mail.gmail.com>
+References: <20250528-pinctrl-const-desc-v1-0-76fe97899945@linaro.org> <20250528-pinctrl-const-desc-v1-1-76fe97899945@linaro.org>
+In-Reply-To: <20250528-pinctrl-const-desc-v1-1-76fe97899945@linaro.org>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 28 May 2025 14:31:44 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXSbEWVpMbDx7UC3Zn3YteZLCdJ=kOOakE38k1TeTxKqA@mail.gmail.com>
-X-Gm-Features: AX0GCFvVYyRF-qqhinpZ-10VhZ1hJFI-N7-tDZlIlkbT7TO9C3UrFM6heC0l3I0
-Message-ID: <CAMuHMdXSbEWVpMbDx7UC3Zn3YteZLCdJ=kOOakE38k1TeTxKqA@mail.gmail.com>
-Subject: Re: [PATCH v5 4/4] drm: renesas: rz-du: mipi_dsi: Add support for
- RZ/V2H(P) SoC
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, Magnus Damm <magnus.damm@gmail.com>, 
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date: Wed, 28 May 2025 14:36:20 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX7krbAssbYpJ1RA1EkpOP26nUhuhmtSW8X9nJkB5amBQ@mail.gmail.com>
+X-Gm-Features: AX0GCFvOxqSsQb6hAAUjvGh24-ydFSS3wze_W2Lj6wpwfm4mEoNhN1lAYOnpqvg
+Message-ID: <CAMuHMdX7krbAssbYpJ1RA1EkpOP26nUhuhmtSW8X9nJkB5amBQ@mail.gmail.com>
+Subject: Re: [PATCH 01/17] pinctrl: starfive: Allow compile testing on other platforms
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Basavaraj Natikar <Basavaraj.Natikar@amd.com>, 
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+	Joel Stanley <joel@jms.id.au>, Avi Fishman <avifishman70@gmail.com>, 
+	Tomer Maimon <tmaimon77@gmail.com>, Tali Perry <tali.perry1@gmail.com>, 
+	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>, 
+	Benjamin Fair <benjaminfair@google.com>, =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	=?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>, Lorenzo Bianconi <lorenzo@kernel.org>, 
+	Sean Wang <sean.wang@kernel.org>, Jesper Nilsson <jesper.nilsson@axis.com>, 
+	Lars Persson <lars.persson@axis.com>, 
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Damien Le Moal <dlemoal@kernel.org>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Michal Simek <michal.simek@amd.com>, 
+	Emil Renner Berthing <kernel@esmil.dk>, Jianlong Huang <jianlong.huang@starfivetech.com>, 
+	Hal Feng <hal.feng@starfivetech.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org, 
+	openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
+	linux-renesas-soc@vger.kernel.org, linux-sound@vger.kernel.org, 
+	patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org, 
+	linux-arm-kernel@axis.com, linux-riscv@lists.infradead.org, 
+	linux-rtc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Prabhakar,
+Hi Krzysztof,
 
-On Wed, 28 May 2025 at 11:48, Lad, Prabhakar <prabhakar.csengg@gmail.com> w=
-rote:
-> On Fri, May 23, 2025 at 4:19=E2=80=AFPM Geert Uytterhoeven <geert@linux-m=
-68k.org> wrote:
-> > On Mon, 12 May 2025 at 20:43, Prabhakar <prabhakar.csengg@gmail.com> wr=
-ote:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > Add DSI support for Renesas RZ/V2H(P) SoC.
-> > >
-> > > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
+On Wed, 28 May 2025 at 12:41, Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+> Always descent to drivers/pinctrl/starfive/ because limiting it with
+> SOC_STARFIVE is redundant since all of its Kconfig entries are already
+
+... since its Makefile doesn't build anything if no Starfive-specific
+pin control Kconfig options are enabled?
+
+> have "depends on SOC_STARFIVE".  This allows compile testing on other
+> architectures with allyesconfig.
 >
-> >
-> > Thanks for your patch!
-> >
-> > > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  drivers/pinctrl/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/pinctrl/Makefile b/drivers/pinctrl/Makefile
+> index ac27e88677d14f1c697e0d0be9f295c746556f4d..dcede70b25660833a158c298d1269d6ecea9dd8b 100644
+> --- a/drivers/pinctrl/Makefile
+> +++ b/drivers/pinctrl/Makefile
+> @@ -82,7 +82,7 @@ obj-y                         += sophgo/
+>  obj-y                          += spacemit/
+>  obj-$(CONFIG_PINCTRL_SPEAR)    += spear/
+>  obj-y                          += sprd/
+> -obj-$(CONFIG_SOC_STARFIVE)     += starfive/
+> +obj-y                          += starfive/
+>  obj-$(CONFIG_PINCTRL_STM32)    += stm32/
+>  obj-y                          += sunplus/
+>  obj-$(CONFIG_PINCTRL_SUNXI)    += sunxi/
 
-> > > @@ -47,6 +52,11 @@ struct rzg2l_mipi_dsi_hw_info {
-> > >         u8 features;
-> > >  };
-> > >
-> > > +struct rzv2h_dsi_mode_calc {
-> > > +       unsigned long mode_freq;
-> > > +       u64 mode_freq_hz;
-> >
-> > Interesting... I guess mode_freq is not in Hz?
-> >
-> Actually it is int Hz, I will make it unsigned long.
-
-I really meant the first member.
-As rzv2h_dphy_mode_clk_check() does "mode_freq_hz =3D mode_freq * MILLI",
-mode_freq may be in kHz?
-
-> > > +};
-
-> > > @@ -308,6 +479,158 @@ static int rzg2l_dphy_conf_clks(struct rzg2l_mi=
-pi_dsi *dsi, unsigned long mode_f
-> > >         return 0;
-> > >  }
-> > >
-> > > +static unsigned int rzv2h_dphy_mode_clk_check(struct rzg2l_mipi_dsi =
-*dsi,
-> > > +                                             unsigned long mode_freq=
-)
-> > > +{
-> > > +       struct rzv2h_plldsi_parameters *dsi_parameters =3D &dsi->dsi_=
-parameters;
-> > > +       u64 hsfreq_millihz, mode_freq_hz, mode_freq_millihz;
-> > > +       struct rzv2h_plldsi_parameters cpg_dsi_parameters;
-> > > +       unsigned int bpp, i;
-> > > +
-> > > +       bpp =3D mipi_dsi_pixel_format_to_bpp(dsi->format);
-> > > +
-> > > +       for (i =3D 0; i < 10; i +=3D 1) {
-> > > +               unsigned long hsfreq;
-> > > +               bool parameters_found;
-> > > +
-> > > +               mode_freq_hz =3D mode_freq * MILLI + i;
-> >
-> > KILO?
-> >
-> OK, as mode_freq_hz is in Hz I'll make it unsigned long.
-
-I am not sure if "unsigned long" is OK. Is mode_freq in kHz?
-What is its largest value?
+The actual change LGTM, so
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
                                 -- Linus Torvalds
 
