@@ -1,93 +1,141 @@
-Return-Path: <linux-renesas-soc+bounces-17645-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17646-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CFF3AC6D88
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 18:09:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E488AC6E3A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 18:42:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F25244E3068
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 16:09:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 13D613BCCC9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 16:42:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9166F28C867;
-	Wed, 28 May 2025 16:09:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 029D328D8EA;
+	Wed, 28 May 2025 16:42:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ob8KMb7s"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="kfGWocLV";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="IYdfo65I"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001F828C854;
-	Wed, 28 May 2025 16:09:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748448597; cv=none; b=CHusmOkR7EGBZDrS2jfewd61Y9A7KU0FN95Ffv/xGZrqBIkGZZtJilcFNVtS2G/Xlh91B7uSArQth5LFJc5izhNn9k/xCAvIQhrlaMVdIo+vFznj7qQSOvTyQVu1c2Zv+TBrHY/5GnVyR6LlgVr8+pZ3SPwPFN7lZyPzNHaEQwQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748448597; c=relaxed/simple;
-	bh=4pIzHoj8Wd1R86ms192nvXS2WXmNPmnprRiEWCCPGQM=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11A2F28BA8E;
+	Wed, 28 May 2025 16:42:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748450565; cv=fail; b=e4/vPl51kF/8AjtXGy6KhdmDYpaF2h5wRHuGr8lvtwS+M8iknavpWoDA79FfeoUPAQjdM31xaHhKie5QyHiSdA0ojUo4sooF+zB2jj60tF30O/y51/YcMvG5HjX6eDo+qtXyPRKg5lgEMvO/yIINK5rD5/m48eTLhd//zfu8a5g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748450565; c=relaxed/simple;
+	bh=Dz/oZvHwSBS4vgdeafofvgFbYhhkPSkLrNhNjJL1J4Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FDprm9STEEBjtWEACuut1bAQ1IBYDbasLQUtZKyS2szeG1t8To7XKT0O0IYG2AcTjniBjriGgx8+//Z6fu6yScc4mHDywQrg9BMeeVBF42qBRZGX92EifxHTznNnh2TqvkulpIO1l/Z77VxPq4rNn/J/hX60eHmCgUDJFUMIV7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ob8KMb7s; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2349282084bso303095ad.1;
-        Wed, 28 May 2025 09:09:55 -0700 (PDT)
+	 Content-Type:Content-Disposition:In-Reply-To; b=dl0HNL2qyiGBn4J9N3h7Dcg/TbqKkqTyS8ngEDwe89w+XQ2ILSkk0C2QS9CiuPzNRFk8YWaKtrYjCS/lVGBGHy5LybTM/5LEPImIOfWcB0s5NHCSo1XP4SK95ssdFkrWtR7ZYu9j1TbDLsTt3fxMjjBqh+iuhO9vBUalbY8dGjQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=kfGWocLV; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=IYdfo65I; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54SDiAOs031715;
+	Wed, 28 May 2025 11:41:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=u08B+em4gzK6P9FvSl
+	eq/IeRx5REGlJAmj6OjBJhsys=; b=kfGWocLV76iX64DqEWbqEOkt64mWbWldJ+
+	r8EuZh5mGmabK6gtUfv6meM1Fwor7UgqZ8Gcq2EnikyKxLePDgW5WgHfUlPr5YCi
+	DQP2IdC5YcBftBjNUc6K8cdW00XWKzR3FWHMjAnXq/qcf/VdR+67SJnyUR1BtdJa
+	AQ9cJ83s6X0oHDp32yEnEbyR7EwWhrHLjpBvHLFCaxVt6OpjtjVVtVpoGB7pfmq9
+	fC/tvQ3rTizAYP1mPrv77mqpEgT4WIbGptP+IrypkbQbDAOo9KJtrNaNkQn+aY0q
+	R3llRnj2+rEAbXj24HHx/YhgGLmxGlz2Ai0dQkn8EzZ/3t5gH7bw==
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12on2125.outbound.protection.outlook.com [40.107.237.125])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 46x3msra2b-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 28 May 2025 11:41:29 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yaZTHDs5t21c2Fnb6GU+D7mSjgmDKVhAuJAr1XS+fb6lY0o9EgwM73D7jOSHpdxk2MAyHvtgWGvTrTtvAqRccExwm/ReDJvl46MLqKGHsvhHBi/zeJdaHfVmQtFwPRc6I2/JhLnxFv5/guo6XTOHGH8fK2PvC/mIrxWE6suxbzkDb4RbkMBU4HEefHetSnSmpiLBki+2arAKCifDOKAYzu7lfAqciJi1v4vC0wSZ1Xkop48vNTY3PmHhjt4wcJ2qTWe6QVSVaN9c9mexjdfqxSy0IXUZ86GeGLLKzzYPC2hTFVQRb1Zl4P3DCRMK68Z7gOLyovO/gpbgZR44AJoyoA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=u08B+em4gzK6P9FvSleq/IeRx5REGlJAmj6OjBJhsys=;
+ b=WqLIbtEmT1N8KPX2UBD4nUzF2nEt4Dp4FgBNkHbgx0WSDu59zmR6cvJUa4iiqO3Hk4J8ZdSkB0IHaZ2Haf9yAX1q5nytGZ6fEXbvPWszQsvU8ecbJkAFg6LhdM7p3pk+BfwPUYHomjmhQBAYB3jK9ci8d2eH4x76sVFsb8y9fv2EGqkRPyVDL60YRYwu/1MGuPDDaG9dm5bmvTPmYlC+TrLabwr1WZDZKlA5XwznJlvuK2RBklgKWNpCvXays5jUeMySdj3QBGc4TytkRJc/Crgpwjs2VXwLoCCtTEow8QqK26DN6ybXwvlf5yXJJauZTCBenIBZMAJvr3OBrbEP0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 84.19.233.75) smtp.rcpttodomain=amd.com smtp.mailfrom=opensource.cirrus.com;
+ dmarc=fail (p=reject sp=reject pct=100) action=oreject
+ header.from=opensource.cirrus.com; dkim=none (message not signed); arc=none
+ (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748448595; x=1749053395; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0ndd+6L/B1sq36+O8/FHu3Tozs8dSSyaGb710UgM7Sw=;
-        b=Ob8KMb7sXw9qOww1CJ+j2EA3BohfJgH+6+eIzgJygYs8Us/xuZVykTg3l1qoiOk94Z
-         kK69CrKS0dPGY4xLxuXuLNdHfWQ0b854d4qCo+bI6I7hSuvi3GfDwTVUIhq/YtDkvmm5
-         ygGCsMuU4eTR9zOwScX7SbRNEyY0GnRIIcU9kcx3SbBXkCE95cLAaBJKdutNOaRn/v7b
-         POxaohp2SJNd+ipVNGgq12RtBIbfZ0SQNtFuUdprB7a0Wx54o2TdnYfjXnquTlAQdydi
-         m4r3AFGACrS5GPVR+blIvfPKHZyAmjUPI8uJcYOj6MrF1CuAbemtXbmskKrGPMjrZhmh
-         DiDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748448595; x=1749053395;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0ndd+6L/B1sq36+O8/FHu3Tozs8dSSyaGb710UgM7Sw=;
-        b=mCZTFt+KRgzPendUq2S+9dmQlPs8s+LB+Fau71547arXwu8zp0+ZO05yh/1jjoJy7a
-         EQWkpEjhQL8/To/6V5zDRNysJUiJc1mcOCe5wqOVObuEkScWPtCrQfzg4jC87OHa0rws
-         H8cEk3KFi6wX8bMpoRdtenoV2ObTrUNRHKd0sdvT8O7bYAXPUeMQIVWejbjjygKBkPVp
-         49kyJ06LkIHBSRS9pNAf0/6FAJ/ZRb8p/pmx/unw+29yLdF8Lvsl3BcVsqY/QiiiA3Jj
-         dvnx7UpqGKkYiU+R6jraxDDADTfwT9szhJwXKS9q5lfaDYzH6zy2OaKvefLyTs+tanDT
-         TheQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW5YC3IgSQNFTFJa89ACBYMYvD1WBJkYwxTDbQ+is/q1NdrRM5flVaj2t8CZFZeZLY57i+a1rx3VEHDyadm+46lnbo=@vger.kernel.org, AJvYcCWPdzGd5Dkb+5YEx600LeUQra2Ze/Fr6S/8qDrrjfP93b8FurWeE9ow40CxGEvCbTM4Ocfs4vriwOQ=@vger.kernel.org, AJvYcCWfphGpcIlN7PPSZFGEZGMGab9uFGF+OfvbkPEWfkzMK+AOTOpwTt6tmoK7ZK6lJf5CmA4ro54tGbjJjLtp@vger.kernel.org, AJvYcCX/kmw5uCT9wJnRNbk77b/ljR+B/Dlt2mbys26QoD+pWkZgC/+lDXHorSgYACj6vPI0tYYHF2X59xA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLxIbHYRuvqJZedLzUXuWYkZrv2YKhUiqcLsymzh0TS6BUcso2
-	p2LKCWgz7RhQAq5VysvFHlPi8Cs8v/wtMlrccjutWYRVbaHJTeC9sfJ4
-X-Gm-Gg: ASbGncslFdsCJMFGXd6GbrebIqOjKBYs1I8Y2Ou9pN9Tpd+dDHBfzSlTtHf/31NIDDd
-	LdYBAUlD06rR4sGkWiooXQQOjdbYhND1i8rhIG5NFMXurba2TAJCzezIc9VpxsENQb2mugpqz0m
-	dqLjlaU6GqSJ1unW0fRkHQKqaGXghglUyrxtWAXvDKdE0vcK8dsAjz72TJa9ZH0r1eDTnIEKbII
-	3P+jRQ7LGC1JHOcTA1jkpHVtAEd+F2eSNSUUjSg7dfVZRiMdpb4qJLX3SXX+BxBCc0Fk6kWcjqL
-	XgXfmXPjnJys+J7g3DXe4yzTrW+R5QwQVJi10DpwuJ24Z67fa8ef
-X-Google-Smtp-Source: AGHT+IEct1Mu/j97rbbxjLzBpmVysIk9gdkVmOYKtsSlG+RsTHJF3YcX0aRp3FdZFqor4oEVwjdt3g==
-X-Received: by 2002:a17:903:4b0d:b0:234:a139:1208 with SMTP id d9443c01a7336-234a139160dmr96789515ad.16.1748448594950;
-        Wed, 28 May 2025 09:09:54 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:a04a:d85e:c794:147c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-234d35acbdasm13535885ad.197.2025.05.28.09.09.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 May 2025 09:09:54 -0700 (PDT)
-Date: Wed, 28 May 2025 09:09:51 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>, gregkh@linuxfoundation.org, 
-	rafael@kernel.org, dakr@kernel.org, len.brown@intel.com, pavel@kernel.org, 
-	jic23@kernel.org, daniel.lezcano@linaro.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	bhelgaas@google.com, geert@linux-m68k.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH v2 1/2] PM: domains: Add devres variant for
- dev_pm_domain_attach()
-Message-ID: <rmc7me6rvumr6pcekgp5lsrxtuge5houitn474lkljew2hzdcw@z7wh2vtntvs5>
-References: <20250526122054.65532-1-claudiu.beznea.uj@bp.renesas.com>
- <20250526122054.65532-2-claudiu.beznea.uj@bp.renesas.com>
- <hojdkntm3q5a5ywya7n5i4zy24auko4u6zdqm25infhd44nyfx@x2evb6sc2d45>
- <111d2d6c-8ac0-40b9-94c3-02f2f64ef9fe@tuxon.dev>
- <CAPDyKFoQYTNBhtBXY-Ds7E0TohtA6558W1Jf3cLsnXDQC74DSg@mail.gmail.com>
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=u08B+em4gzK6P9FvSleq/IeRx5REGlJAmj6OjBJhsys=;
+ b=IYdfo65IywPdGNiU7yuA3Eye0+K2riFsoZde3T1Tu40iu5ZlvynqHwUGPO3CZmUr/KCvRbAdVd//ps0Ynz+bXCfPc8iHezyH01K1jKruKfgvcx14ojVxq0hkujxPItkaOeb4njj7jbrpvG2H6TeodlzwamiDWkN/FJdsH7nok/g=
+Received: from PH8P220CA0034.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:348::17)
+ by DM4PR19MB6025.namprd19.prod.outlook.com (2603:10b6:8:6c::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.29; Wed, 28 May
+ 2025 16:41:24 +0000
+Received: from CY4PEPF0000EDD0.namprd03.prod.outlook.com
+ (2603:10b6:510:348:cafe::86) by PH8P220CA0034.outlook.office365.com
+ (2603:10b6:510:348::17) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8792.21 via Frontend Transport; Wed,
+ 28 May 2025 16:41:24 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
+ does not designate 84.19.233.75 as permitted sender)
+ receiver=protection.outlook.com; client-ip=84.19.233.75;
+ helo=edirelay1.ad.cirrus.com;
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CY4PEPF0000EDD0.mail.protection.outlook.com (10.167.241.196) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.18
+ via Frontend Transport; Wed, 28 May 2025 16:41:22 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 71C38406545;
+	Wed, 28 May 2025 16:41:21 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 4A81E820249;
+	Wed, 28 May 2025 16:41:21 +0000 (UTC)
+Date: Wed, 28 May 2025 17:41:20 +0100
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+        Andrew Jeffery <andrew@codeconstruct.com.au>,
+        Joel Stanley <joel@jms.id.au>, Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>, Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
+        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+        Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+        Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        David Rhodes <david.rhodes@cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Sean Wang <sean.wang@kernel.org>,
+        Jesper Nilsson <jesper.nilsson@axis.com>,
+        Lars Persson <lars.persson@axis.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Damien Le Moal <dlemoal@kernel.org>, Vladimir Zapolskiy <vz@mleia.com>,
+        Michal Simek <michal.simek@amd.com>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Jianlong Huang <jianlong.huang@starfivetech.com>,
+        Hal Feng <hal.feng@starfivetech.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-sound@vger.kernel.org,
+        patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@axis.com, linux-riscv@lists.infradead.org,
+        linux-rtc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [PATCH 16/17] pinctrl: Constify static 'pinctrl_desc'
+Message-ID: <aDc8sEMh2UpcHzVr@opensource.cirrus.com>
+References: <20250528-pinctrl-const-desc-v1-0-76fe97899945@linaro.org>
+ <20250528-pinctrl-const-desc-v1-16-76fe97899945@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -96,81 +144,75 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAPDyKFoQYTNBhtBXY-Ds7E0TohtA6558W1Jf3cLsnXDQC74DSg@mail.gmail.com>
+In-Reply-To: <20250528-pinctrl-const-desc-v1-16-76fe97899945@linaro.org>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EDD0:EE_|DM4PR19MB6025:EE_
+X-MS-Office365-Filtering-Correlation-Id: 08f9df47-b677-4a4c-3ecf-08dd9e067b1d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|61400799027|36860700013|82310400026|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?VBEBjkAyTr2kN8QdSs5yBj6FRJ96ftcJDl2LthDFL3T/SWMTgRwHtbQN8eEY?=
+ =?us-ascii?Q?OLN0Bibox3b/rgwbsd9da7jE4g7qYBb+8nacteJM85/WDgW+cTLSnWLTd6Uv?=
+ =?us-ascii?Q?KMOl0gZ14B0eR/D0iiH12Vcp25jRSfuulayJW6coo/ndMs6BmuWqnuyBmeDK?=
+ =?us-ascii?Q?XnIcgp77Nx9/1fZnoZMpB4m0Nu0I+KgxXBav0fWMrsIBb5yXUWqwX0nrjIa9?=
+ =?us-ascii?Q?4jQIl4isCnCRZ/CRS+iImfZXEwQ2wh0H97i/8lnjK4bsBnCV0Zle6ACUwcPO?=
+ =?us-ascii?Q?1kIU4b0hcRNiJHoaA9NnlQc/gEJYshqDkakhKX8vwaTL/GeYjAF6HXWOfBt1?=
+ =?us-ascii?Q?+D2RMaRn/upVD2sfqzTevNuyLrsX/ZPFy9NQd54SGXEfMkJILkj5yG4VJbj2?=
+ =?us-ascii?Q?qiZVLfHvfpa+/R0QDxNzKXa/PhU4Cana0zrsAGqY9UJ7LFl1WP0ilUqFFrDo?=
+ =?us-ascii?Q?r5kg1b6X7rhbg+uKFHLED++FagdzPbdeb//JPO7jbfifIe4OeM0xtT+jqyvi?=
+ =?us-ascii?Q?6XKmeGRI+Qw+b1cq4jODBsmxSN4cEk6DRh2RlC28lvjqze+8YleGxlVyzGha?=
+ =?us-ascii?Q?7RAhHXjvaje1oC+QcyLzAt02gWZtq53wipgSz/LPixeeziTK30nSVF9tBe5K?=
+ =?us-ascii?Q?yepUe1179kfWAFGcKSsI/21i3cKqYZfLALMynD9axBYv732BHPc8b8yJCMwi?=
+ =?us-ascii?Q?JyAjmVaecSFYlDqaJMKsIPiDKj7h55aEDrEZcDT1hnCzHfwpOarrA5cphZAs?=
+ =?us-ascii?Q?XtAFrXOKs2uxWGQcZ0lYKL1yci/3feXheOAPU0MMyFtCepw7NRZWyMcHT+qw?=
+ =?us-ascii?Q?qKqF4tPNVsYBNxxbgKspg8psGTi22YqyrwafZVuggNe+Eu4Fno8P6RqAg2Uu?=
+ =?us-ascii?Q?PNim4XuU1KWYE8juLIvuYLKwgOjo77dr/y6mPLKmL/gFmzX+hvC7CXg88LYe?=
+ =?us-ascii?Q?XLhEnzx/l9dJxXaoYcSI89TgGBroQsRd9lxSEKBSc/TKXmiLozCJIpMzTOcb?=
+ =?us-ascii?Q?bwvUoGObEgtPf+uN3NsWAhEYivhSdBcNbQXcN1ruazynRRku2v4aQaKbRdZI?=
+ =?us-ascii?Q?Z1llvbNHfahNb9fr75cdHFjfjhel5ADtf3dmX3e3d2AMfMK3xLwl5GxrK0+n?=
+ =?us-ascii?Q?D1lDZp6GJT6DZwfSw6oixXuxYnCfZsWVHNWAqmpmzOOThfFImrcQijF5QSam?=
+ =?us-ascii?Q?ciwvf/paT1kBGlTrYLv/5i+2Ts0bv6lDn5hml4xe4T/SuLznBCFMMcWNzjfW?=
+ =?us-ascii?Q?d7vq65hH8i1rbJmGk/1nSMzqOS/rUJXCImh+CF62j+8L4umMfm2FOqMqo/yE?=
+ =?us-ascii?Q?qepxP0zXPJeu/UkucazQRq1fiEpQxlcaZLe3WXJ4QvI0IHXSM+HrQPM1HF+L?=
+ =?us-ascii?Q?+h+tgrbBkknjXWlUzeIDXpLf53QwNUe/TQw4lcTTZtV+MBKHuxlA/OLXQYTS?=
+ =?us-ascii?Q?NYd289wkYBlQ4a/RGBgiG8q5NrJkz8gs0vwIyoIWOU/ctfe+qm+O5woiedZc?=
+ =?us-ascii?Q?yFKY5cggqSIdpbGKguROvrCPub6dOqBSr64G?=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(61400799027)(36860700013)(82310400026)(376014)(7416014);DIR:OUT;SFP:1102;
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2025 16:41:22.6358
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 08f9df47-b677-4a4c-3ecf-08dd9e067b1d
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000EDD0.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR19MB6025
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI4MDE0NSBTYWx0ZWRfX/77eowpPrNJV okq6AGhdh+AeiBWGgUus89iUbeeaBfd7Mg7o+Qg5Aq+ap5mU+ABWR9xIGXXrgUETVF51XLqcO0K EBQ4ZEK0J4mPeaewxak2JSy6cuw7J/uOyD/zRuLQrElfr65RzqbAAQyw3u1wu3ni071nJfxLScB
+ EUbUVDKMobW0SZPK4hVoBDkc7HcqKEFzKLSuLpCJaiRGN5Tw4XYLeD6Ku8nxqwMBmRq2u/TLRBR WebC+iuPrSTvxiAbrYr6GXASv4/sn18IlcmbO9op+iJyx4BN320G9Jg+qd97rHk+F8ADbFjH9Qw NFPsgP23DASexd8l/WwclQNdR7loBCgz+tRZUYx7bPtcBqZ6dXVNs8dHu523n9WXOYpYH3keJLQ
+ QFl8eJF43GCDRdEAUvhvm5SeSj4ZmfcvSHlYGnhPTjXNjWXnpzhJy8uic1W0ZmMl33rpfkNp
+X-Authority-Analysis: v=2.4 cv=Qohe3Uyd c=1 sm=1 tr=0 ts=68373cb9 cx=c_pps a=azKGx87FDiaoMypZd7Lp/w==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=kj9zAlcOel0A:10
+ a=dt9VzEwgFbYA:10 a=RWc_ulEos4gA:10 a=KKAkSRfTAAAA:8 a=w1d2syhTAAAA:8 a=pp8jMgpbGpZJBU6_-_QA:9 a=CjuIK1q_8ugA:10 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: FhwEZxe0gSqpkkLY4NWltVICs7azydqM
+X-Proofpoint-ORIG-GUID: FhwEZxe0gSqpkkLY4NWltVICs7azydqM
+X-Proofpoint-Spam-Reason: safe
 
-On Wed, May 28, 2025 at 06:04:45PM +0200, Ulf Hansson wrote:
-> [...]
+On Wed, May 28, 2025 at 12:41:12PM +0200, Krzysztof Kozlowski wrote:
+> The local static 'struct pinctrl_desc' is not modified, so can be made
+> const for code safety.
 > 
-> > >> +/**
-> > >> + * devm_pm_domain_attach - devres-enabled version of dev_pm_domain_attach()
-> > >> + * @dev: Device to attach.
-> > >> + * @attach_power_on: Use to indicate whether we should power on the device
-> > >> + *                   when attaching (true indicates the device is powered on
-> > >> + *                   when attaching).
-> > >> + * @detach_power_off: Used to indicate whether we should power off the device
-> > >> + *                    when detaching (true indicates the device is powered off
-> > >> + *                    when detaching).
-> > >> + *
-> > >> + * NOTE: this will also handle calling dev_pm_domain_detach() for
-> > >> + * you during remove phase.
-> > >> + *
-> > >> + * Returns 0 on successfully attached PM domain, or a negative error code in
-> > >> + * case of a failure.
-> > >> + */
-> > >> +int devm_pm_domain_attach(struct device *dev, bool attach_power_on,
-> > >> +                      bool detach_power_off)
-> > >
-> > > Do we have examples where we power on a device and leave it powered on
-> > > (or do not power on device on attach but power off it on detach)? I
-> >
-> > I haven't found one yet.
-> >
-> > > believe devm release should strictly mirror the acquisition, so separate
-> > > flag is not needed.
-> >
-> > I was in the middle whether I should do it with 2 flags or only to revert
-> > the acquisition.
-> >
-> > >
-> > >
-> > >> +{
-> > >> +    int ret;
-> > >> +
-> > >> +    ret = dev_pm_domain_attach(dev, attach_power_on);
-> > >> +    if (ret)
-> > >> +            return ret;
-> > >> +
-> > >> +    if (detach_power_off)
-> > >> +            return devm_add_action_or_reset(dev, devm_pm_domain_detach_off,
-> > >> +                                            dev);
-> > >> +
-> > >> +    return devm_add_action_or_reset(dev, devm_pm_domain_detach_on, dev);
-> > >
-> > > Instead of 2 separate cleanup methods maybe define dedicated devres:
-> > >
-> > > struct dev_pm_domain_devres {
-> > >       struct device *dev;
-> > >       bool power_off;
-> > > }
-> > >
-> > > ?
-> >
-> > That was the other option I've thought about but I found the one with 2
-> > cleanup methods to be simpler. What would you prefer here?
-> >
-> > Ulf: could you please let me know what would you prefer here?
-> 
-> As it looks like we agreed to use one cleanup method, the struct
-> dev_pm_domain_devres seems superfluous to me.
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
 
-I think we agreed that cleanup should mirror the acquisition, that is
-true. But since attaching to the domain has an option to either turn the
-device on or not we still need 2 cleanup branches. They can either be
-implemented with 2 cleanup callbacks or with 1 callback and dedicated
-devres structure.
+For the cs42l43:
 
-Thanks.
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
--- 
-Dmitry
+Thanks,
+Charles
 
