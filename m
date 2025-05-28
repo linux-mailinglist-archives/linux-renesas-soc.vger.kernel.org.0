@@ -1,206 +1,207 @@
-Return-Path: <linux-renesas-soc+bounces-17574-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17575-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63B2DAC6137
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 07:26:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD368AC6292
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 09:05:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 87B424A70DE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 05:26:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F2B26A201D6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 07:05:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDA1D1FFC5C;
-	Wed, 28 May 2025 05:26:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF2F022ACCE;
+	Wed, 28 May 2025 07:05:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WK0fNyRS"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="cqEW3CXG"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010026.outbound.protection.outlook.com [52.101.228.26])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8FEC1FFC41;
-	Wed, 28 May 2025 05:26:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748409973; cv=none; b=Py4TEKZlhz00SqRuMI/kmryRZxD/Sz0jccwDCYGr3Tzk+Obp1hwIDM+0CdJyav0ny88unehWoLB0QmfR4zrEBILmeOjEkTeF5W1nrHuPXXlpi6KMmsQhfhvAkPzd/L7C9X08LdbJjQndjK6/59xw5JNsqR9g67vfGuEw8wzRe4Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748409973; c=relaxed/simple;
-	bh=ENSPcoDU8pkE9gqV7fe6vQxO9rHxe7aKvomwqpl+fXY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SaZhNIX8/EqsBQtRSOXNJE2kKKznPjDrYJxTkx1xEE2OK6WIn2KDVBjSS44UN1PdZ5X6eZV6MC+Ad5Wdus2xYbLS2CBBk6HuNTdqckSRN+Flryg8WMRpMIX6h/NxH5Z4LPQZl1CrCVmFzJA2In8gNoZFIwSkcQHUpgBqo9Xr7sY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WK0fNyRS; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-acacb8743a7so86558766b.1;
-        Tue, 27 May 2025 22:26:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748409970; x=1749014770; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=eGClTHgroxBcfOqGpSNsGz5pDhgYGNK3UlpzTs482Pc=;
-        b=WK0fNyRSDtYetaujGrwvZJbt2SWLqsztd59Fa0qJjslBEL6xW5EPJ3WI9DsrYUzsci
-         Moqr4Xlbhj7XEh7dh6vIiX84aKVtElBGuk5g4HXG2wb9bTGePqlxUS032Fcccfi6GMtZ
-         tmqqGmaQhuV0VTo7g4UoVtB7GIVaWw985MfZeo0+bv23pCNONp3+0Eik+2r0fD2GDhw3
-         UWIFLyFadoy6Fqxr6eTdlRbKIbshRxcu7ODd+7uyGKUakn/lTw6oZQh9aRvx9sOE0wEl
-         mHwelZmG1w48ffzHYIPEBVC/prfe24hPdOXLO9fncdjl+QFkBxooPFBdNsuEHomIZVJ/
-         bRIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748409970; x=1749014770;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eGClTHgroxBcfOqGpSNsGz5pDhgYGNK3UlpzTs482Pc=;
-        b=uKsU6Tl8JRCZ8T+dtPppjO1fy1zpFUp7mNV7SLvFODexXmQ3ebY6xfX96Tqj1VOwd7
-         u7/Eu7dz4AtHXVQ//nF+CZx2TH/+GxzC5X+RE3n9oXEyE79Dqtp+tov/4IRDMkqimaDz
-         Q9nJ5fOrcL2AEcJG7rlW0EPIuF5W33HcjMYa8P3q0KGk7KbrNmk4YtiCZTky7qFimhWv
-         abtPNRMgWsQqVarP9O9jAdJa9DP2ngp3zDsiBYsLUxcpMg7ygFA8Rw0RHml3T+PjSf81
-         FwVWmJ5SSc91GlyYZ6v5Jyo8MIvcbIaetBfLLkHYgUkGQ9hRLpWL+eifLGuOU+tQ/WN3
-         DAew==
-X-Forwarded-Encrypted: i=1; AJvYcCUTVJlXLipukaLpXdKduQMYAFCxnLPMsNkSXxbjUPV354W+7dt7LCKswJX5964uDnAfjKJ3F4GrXjuq@vger.kernel.org, AJvYcCVABDb/y8rFUU9bNWQ22o3tSYYe8cnBKGFDsEvac1s2HGwuarkz2jpZLJkpaoC52EZW06Hg+GV0toL0@vger.kernel.org, AJvYcCX6zaFI/RPCDTooaqviDnF7xEmW++ziksJrhzxjSacM1BL9Bj5sIk83yLCCElWwNa4ytfp0zEn6XDO6B2g+uPyof2c=@vger.kernel.org, AJvYcCXhINVgAwGK1QKbGfu0WUZJ4N8el8UYVlF7XXYQvrJklrgSw2IZBh62Tj4+rqQh6vIebz0sCvWNydGmGh3M@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNZWetQIrVyl6qdvat5RIbEMk3+K0twLXZDcj27G5y6asJzFaH
-	WKJfxa1DiNSSu3m9mzEOQAe0DSYD8lba0BSHYYB7Oo8mQz2+7WjdS3Pa7M95y+g3qUV8E8Zu52l
-	8Pygij5gHa2Uf3UNzfDGedHweQLWa3BI=
-X-Gm-Gg: ASbGnctdQWVp7XxxfmblQalPhkqiaauIbk4KhIvCg5TOb1dXbiEMX4m0Db5ESzbu3Mi
-	JHsgzJHoSnGbVnzK0i0wqn6HZ87ub48PfOS44tw6BrJkV0S6a18LBQZyHarqKTNFZNqEkAe36cx
-	1FvzZ9/Fd1e7koZ4YfLrEDDhjJJmmG74BFIpCcGvjxWg==
-X-Google-Smtp-Source: AGHT+IGtzXS7r014ksMOyLWyv3PY+eL9kVmReP9BCXuY+JhbQJHaBU9SpOog9pV/WyubUhLYHA04NIb+oVSmRa6PrEA=
-X-Received: by 2002:a17:907:1c2a:b0:ad5:9ff3:c6ce with SMTP id
- a640c23a62f3a-ad89886abebmr283385766b.4.1748409969604; Tue, 27 May 2025
- 22:26:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97220229B0B;
+	Wed, 28 May 2025 07:05:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.26
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748415932; cv=fail; b=iIHJC05JKWpzPULyWVy5UWCi8EfZUHSJKPqC/DuliU3gML8qVUq0TYNhb1gdif5IQ523fL4AfQ61LRZ7St4W144zjfksuwAUnZNlbGhU2HLe7Be46ngHeix7d8OdYWe1juUgFC2BBdHzhQW+YXebAhR7r64xxqWz2Mp66YF4dSY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748415932; c=relaxed/simple;
+	bh=6Dhree7NsuPwNOdjca8NOKZ5T6vU9z4t5TZPcrRPKqM=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=S11XZGR/hbF5WMPpHMchtOiTXnqZPhTqPJ6UBHD1hVekvGStqvmYbvNhMlP+Pwlbss/XtXvP0BsO4NAFrAyLFphiFkhd0uOjJS704d83HKEp/VofIWRSxh0WL/LORSSZZMDLFgOOBi2wi5BZ+qZtur1E4xLHC6xsAjjlvuILyn4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=cqEW3CXG; arc=fail smtp.client-ip=52.101.228.26
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HtyeHUKFzhA27SFo5q+hEE2eJEu7HOfSmaVxFgnH1hfOGcGBjgq4HRqWUT1u+6e/Zs0IHYx1yz9KabYn2U0o+PfxIYewQ/df/t+R/WBnf46Otd1Bpb9BINTNHWaDjGAgeGkBAgL1q1Dzt0/Blw4I94RfX+utIyF1qMLaONLtrrJSqq59bloaDGpyVxJgMx/GMFsFq5TxUvGesbUWePw7feT0bFNm2lr+aYkjQJx8/Oiq00sy44+Os6y3UmyFweBrdibETLXnxoieGn744J+FA8xEwlrWvTK70CJ980uNiXeaj/BCrNSxg0EbLzK05T8uHv/wj0XdpXvQ/oTqUtq7Dg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mJ8O9aEYyFSQrkkRD29n//y1MkAzcxiPthnNEFPfoog=;
+ b=AW5IQhpVj0o4rQBWTxTFdTC9E1ph4X9yiPT3mWUiQ6/EFMaTNrn6m4Sepua5ZOKX/DAscQ+H7tuGibE/aeL0mqz/4wUmP3R0iD8mM7GwpPH08soDiAkLb3ow7NqUjDdgGbvYd7oWKZ9hRurKNu8Ib58x8szlNh41L6hFIHAfvYRK7FKTw+odZUm8Taqn/lVxNRHIOcb1XHEpxQldv0vkXJVXSH0vQ5macZxNtWY+bjGg0kcdIHGXvY6NGNnYiLzmUXdgkg8bvA3Ev7WxSiraoZgX5DKbEkqcZQ43KAN7H3mHOYjOnz0f5p6P9Zvh+MongGyGwHmzPiYtUuwTm6Azyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mJ8O9aEYyFSQrkkRD29n//y1MkAzcxiPthnNEFPfoog=;
+ b=cqEW3CXG28fvGEuG3dzBp12rn+3FEDMogR3vrQE2aBKr860I9r50YpHUXfEa+RoNhC3uvX6GTjbjWtnRj4jCED7edCD+a7Tx5D0WhsU7ZXAo5/TYrha2hooFn62MU0e0Mz/bHT8hG+hLgCgaFeWHJgYn6dzQbo6tNIMQM4pI0tU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com (2603:1096:604:35e::5)
+ by TYYPR01MB14051.jpnprd01.prod.outlook.com (2603:1096:405:210::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.29; Wed, 28 May
+ 2025 07:05:25 +0000
+Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com
+ ([fe80::244d:8815:7064:a9f3]) by OS9PR01MB13950.jpnprd01.prod.outlook.com
+ ([fe80::244d:8815:7064:a9f3%3]) with mapi id 15.20.8769.025; Wed, 28 May 2025
+ 07:05:25 +0000
+From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+To: tomm.merciai@gmail.com
+Cc: linux-renesas-soc@vger.kernel.org,
+	biju.das.jz@bp.renesas.com,
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Adam Ford <aford173@gmail.com>,
+	Douglas Anderson <dianders@chromium.org>,
+	Jesse Van Gavere <jesseevg@gmail.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] Improve adv7511_mode_set()
+Date: Wed, 28 May 2025 09:04:36 +0200
+Message-ID: <20250528070452.901183-1-tommaso.merciai.xr@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: FR4P281CA0134.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b9::8) To OS9PR01MB13950.jpnprd01.prod.outlook.com
+ (2603:1096:604:35e::5)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250525160513.83029-1-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20250525160513.83029-1-marek.vasut+renesas@mailbox.org>
-From: Anand Moon <linux.amoon@gmail.com>
-Date: Wed, 28 May 2025 10:55:52 +0530
-X-Gm-Features: AX0GCFvOx05IZ5_kXJ72iIXw3IbiUdPuTxyEyjCQN5yHvmLpaXyXqe_dfeV4Hz8
-Message-ID: <CANAwSgRXDLGAaXGXHfiS2rA3=+r2is2g557Bozu+SocQoBMySQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] PCI/pwrctrl: Add optional slot clock to pwrctrl
- driver for PCI slots
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Rob Herring <robh@kernel.org>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: OS9PR01MB13950:EE_|TYYPR01MB14051:EE_
+X-MS-Office365-Filtering-Correlation-Id: 83a36339-e9b6-4911-d95f-08dd9db60530
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|366016|1800799024|376014|52116014|7416014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+ =?us-ascii?Q?iHUpWulkPxu3mPN0Hk/cC/FnH0E6BPONR0rlzHXm0CoNZJAAe2ADbLihEDE/?=
+ =?us-ascii?Q?H9m38BXrZGKIyUEWzRarzXjSMjSYOcel+L5Z7MzHTOWkTps39Qr3MWh64pvK?=
+ =?us-ascii?Q?OSEri6uhzyh1Io/MG7HxPHPtdvlZ/v7lo34zzm9wRbDq50hShApxVXSchhI+?=
+ =?us-ascii?Q?7Ey+pClJwJKsikfESH2/nhREylzr4DxWFqFqJqyo/1lOh5tgzEzB1ue71Li3?=
+ =?us-ascii?Q?P4ax+NaYkGNQm0ya0A9EGduFhhd0XQYXm9ce7PcZZL6TZklYwaHej6tEswlC?=
+ =?us-ascii?Q?gIPQi7f6Q95Acawyo+khnKJgCx2cNGKqOrTNUyNKbnOTRx+wHhfEDxR1o0Tc?=
+ =?us-ascii?Q?lEJOIBfFdPHYM2j4WIfcsKNEdEFTHeM7dQVBXM6fpayPcJYCEyKajkWD1Hpr?=
+ =?us-ascii?Q?bOmmGmpK0Fvyp8K/7lrDefipVfFrfrf7LESWQP7cUMKcx5O+VoD6DdTSwfA9?=
+ =?us-ascii?Q?bE/4oQ8uFpVRTLgPgZOGNe07AaTlC4GHTX37Q6Qg1gSe6UhguFpvgq4y+Mp+?=
+ =?us-ascii?Q?6K8yjV9oFma7obHGF3AgMonmMbgAwQED7bw64gvQEg+JpX7LOHELEr+LACv1?=
+ =?us-ascii?Q?kOQld0HG3C1nGdC9BnwepPRzSGIT126CcB1Rb+46Ni59DqxK3MywzDazQarq?=
+ =?us-ascii?Q?iGg1xROuYpAN5R7No+9QSlaoH8MKAkQTPvO72k6ogBVxyKRWaHcYLh3iJyjW?=
+ =?us-ascii?Q?Q5Ui0ayFC+7UWKm3N9EXJ6tF+3NdtUXN5gUe7P5PQ2IBKlfp0cV2xDfcvNNB?=
+ =?us-ascii?Q?jvfbZoWv+o1K2xni9K0+86oqqXc2fi8qdvVgBBiTA+IfEMD1lleThhKr3keP?=
+ =?us-ascii?Q?gCww0fmfLvMQ+zsKDq1zGuT701G0+/eVCgcVoT63L5w0ZJHgLouG0KJ718G5?=
+ =?us-ascii?Q?z8x4tCCJ428sbTbGxJyzoBYcJvEmLMoaso8VFZhp7UunlZGmaUnHOB7BonT0?=
+ =?us-ascii?Q?8bWKfbtgTzwua2G1Qqk7zf3a9MC13c12R4e46vl5OK9c3pswiQ7nk9FJqy1P?=
+ =?us-ascii?Q?h/engUuFs2bJixbkoOTBd6aUAQHv0E+9DUI/t+7CY46QPqvC+1MYfSqRFAnG?=
+ =?us-ascii?Q?nSmeBR1+7U6/B9vrj9RC+6uv4WDfE8ny1qWrQ1xmDDq7S2488jfQalpc1peB?=
+ =?us-ascii?Q?fTlCbF8NWcfWLC5+Q81UIe9v3zvsHRSuzbPNAka5rflEdhEnWTDuRAfGBSpN?=
+ =?us-ascii?Q?D0ajWPlDc3yTjy5244DK72yeCECxSzxy1mEkMB/LkA3xgy1iylVrI7M4sd0J?=
+ =?us-ascii?Q?P/g0+J4lqZzT3/uLXgS2K8p5nOl9/eSxL4hK3jFcrr3/uXsym5+/HagExS43?=
+ =?us-ascii?Q?e06LKUFh9XbPSlTAc9SZoK2Jywn9H+JYV5lnoUj2esXRp2f8eIvS4HvDz6v8?=
+ =?us-ascii?Q?cLur68gPUE/1/G92mXej5iU13pMhfLbrh2VF4P53bUdqJGtX4eba86bdz0MN?=
+ =?us-ascii?Q?+tXSwGUNkjGyUvsmCT5N+kdAYMgANQIXjm2FghDLhMUjb+YfEQHEtw=3D=3D?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS9PR01MB13950.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(7416014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?us-ascii?Q?1tQpuf3EM0fUyytDVvYszpIbJK0KWcvKi63H3kDkOVkjCDwCuvHaa+Q583o1?=
+ =?us-ascii?Q?Gb1GzcCH254QwFUXih6kCwWI6UD7CART1A2gDxt4Ufeaj1HfFpAf+u24nUr/?=
+ =?us-ascii?Q?1scYNpe45gSQA7ZPZapUC/71QVrTErQCXGKPvmX++hPl8DNbAk732Nywwxh6?=
+ =?us-ascii?Q?g123RKEWuqZr5muAxML/JfUu/MyQXwAncQ4gWfP9hF/ofsKjyRybs2Zm9x/o?=
+ =?us-ascii?Q?S2YoiYRs32raxwIJzmS5sMu5qeFcrR6pHl+N6iL6UCpQ7M5fZlw/11G3gtzm?=
+ =?us-ascii?Q?/ZMFY+AC9tHyMB/1wpTuukgygM3VhTDIVyLoQFXEAdXZM+56eQcVdD61RlhE?=
+ =?us-ascii?Q?25W7tskd9IOYxeytcAhY7rJxO4HObmZkx9kkAWx+ikTfLBMOqKehV7sRHAY3?=
+ =?us-ascii?Q?8Y9mPXdIClQBeqzxilIl8AdFLo71OiHZtDnHSc7CVY3EaRnxVOTrDEG6R3kk?=
+ =?us-ascii?Q?3OcsuisklhHmlEmC5mpaQtEjruTb66TVFyd0iyKa2SmNKxtWj/pGIotCnaWg?=
+ =?us-ascii?Q?dU7nuIYzri4ghzlouYYNtuCvuv0Q7TjRHzeqred3cP4liloBPaaR7Y7WuhCQ?=
+ =?us-ascii?Q?jZp93v5NrlS8DKURCSFI+w9TNV7Y3pNI62cRctbNt627Hauul/xYmg0Tz6Hu?=
+ =?us-ascii?Q?9sChFq8/gYbdXJZ8yG2o39cfiA6of+8yNKj3QMBuQ3rWtRzBdZUMrN14sma7?=
+ =?us-ascii?Q?tEW3TsV5cW5htZI8X/o+nP0kYG+CuJfUSUwy7dbIYkk1ddq77Duqn/ez+KLZ?=
+ =?us-ascii?Q?RBdLvs2zyJLfbHIQZw8X+iM47eRBPHFYm44JBlQer4t87yJv/z7MICNImD17?=
+ =?us-ascii?Q?WDm574vqPtyJsHo4gcUoBdOmzU1DQ/ngmVbKHRn8yW9JPOtOAKUXhCKv1iwD?=
+ =?us-ascii?Q?fM8SutzbPCjN5tczOu6SdSRqEysjoT3Hywaa/IU9yy2/RR/K/62Uvw2DoyoJ?=
+ =?us-ascii?Q?v0gHbNPnwrED6GFC989uu9Dst1TzLJuNCoxEOJgATMoxbX9e76tZXL4QVNGg?=
+ =?us-ascii?Q?0X/s6rs09BWImbH/Bx4ZDxTeeToxVcHCp9Yp0542gLtY3ABPrIs35IO51/+n?=
+ =?us-ascii?Q?m8rGxbUqS6B7trJzJRek3hkbUNU9hHjGHIX+oNLn6NnO6F84xK/BjVg9ffAP?=
+ =?us-ascii?Q?aKuOuVo2w1thbWllYYSPMOuflwo7K2444XM1kEh+Q86Ed9HXqEtqA5bgKfUc?=
+ =?us-ascii?Q?kx8/XG4Be3qcVM66K5e1HcHfd948wXI8wUphBo4RaZSuHq1GNd9FoQKyh3iM?=
+ =?us-ascii?Q?i19k3xDv0cOxCdC1Cf/NkwB1Ryattx5J85c+z+qqTb95ZUz6ZHJLcdWpObFf?=
+ =?us-ascii?Q?pYoqLKfr22slczC7ndDQ2SlOKkgpynLdyHwCF9fSu2Wc0Tg5lCCdgrGKDohY?=
+ =?us-ascii?Q?hCzQm8ZyLg/JhnenNLHL0C9gFlEm+Aa5ytv/c58YO+hldctN+Sp9jUfMOUFN?=
+ =?us-ascii?Q?TznyXiOpKdurRuj7Lewro3Epi+u7SxKY4SrBT6G50NfO/BhgYgElkWKGywKa?=
+ =?us-ascii?Q?8mOfDnmhwMhXrVGiYkIAcwnixem9Ct+r/LEMq43XjbrHqEP2pPm/vkRyPgoK?=
+ =?us-ascii?Q?u2c5lzDAI01uChS7nI4Y6CFmDaOcBZe2nWlixN02bjSyAPyrS/ERXCYHHoOZ?=
+ =?us-ascii?Q?+izpAJUSWsrfSCMTBWJUWro=3D?=
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 83a36339-e9b6-4911-d95f-08dd9db60530
+X-MS-Exchange-CrossTenant-AuthSource: OS9PR01MB13950.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2025 07:05:25.7424
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: C0U/NV1PTPzvDZ/cBr3Sks1Z5djW/JzW+t87g15FqU/R81wQIpoOa7h2OxjQFh4EI8a0bCdBjJjh4HEwkDi4R0nwS0tNW3DNq1qy0Nua8zkd3HxcT0GRNW+njE3Pw09f
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB14051
 
-Hi Marek,
+Dear All,
 
-On Sun, 25 May 2025 at 21:35, Marek Vasut
-<marek.vasut+renesas@mailbox.org> wrote:
->
-> Add the ability to enable optional slot clock into the pwrctrl driver.
-> This is used to enable slot clock in split-clock topologies, where the
-> PCIe host/controller supply and PCIe slot supply are not provided by
-> the same clock. The PCIe host/controller clock should be described in
-> the controller node as the controller clock, while the slot clock should
-> be described in controller bridge/slot subnode.
->
-> Example DT snippet:
-> &pcicontroller {
->     clocks = <&clk_dif 0>;             /* PCIe controller clock */
->
->     pci@0,0 {
->         #address-cells = <3>;
->         #size-cells = <2>;
->         reg = <0x0 0x0 0x0 0x0 0x0>;
->         compatible = "pciclass,0604";
->         device_type = "pci";
->         clocks = <&clk_dif 1>;         /* PCIe slot clock */
->         vpcie3v3-supply = <&reg_3p3v>;
->         ranges;
->     };
-> };
->
-> Example clock topology:
->  ____________                    ____________
-> |  PCIe host |                  | PCIe slot  |
-> |            |                  |            |
-> |    PCIe RX<|==================|>PCIe TX    |
-> |    PCIe TX<|==================|>PCIe RX    |
-> |            |                  |            |
-> |   PCIe CLK<|======..  ..======|>PCIe CLK   |
-> '------------'      ||  ||      '------------'
->                     ||  ||
->  ____________       ||  ||
-> |  9FGV0441  |      ||  ||
-> |            |      ||  ||
-> |   CLK DIF0<|======''  ||
-> |   CLK DIF1<|==========''
-> |   CLK DIF2<|
-> |   CLK DIF3<|
-> '------------'
->
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> ---
-> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
-> Cc: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Magnus Damm <magnus.damm@gmail.com>
-> Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-pci@vger.kernel.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
->  drivers/pci/pwrctrl/slot.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
->
-> diff --git a/drivers/pci/pwrctrl/slot.c b/drivers/pci/pwrctrl/slot.c
-> index 18becc144913e..222c14056cfae 100644
-> --- a/drivers/pci/pwrctrl/slot.c
-> +++ b/drivers/pci/pwrctrl/slot.c
-> @@ -4,6 +4,7 @@
->   * Author: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
->   */
->
-> +#include <linux/clk.h>
->  #include <linux/device.h>
->  #include <linux/mod_devicetable.h>
->  #include <linux/module.h>
-> @@ -30,6 +31,7 @@ static int pci_pwrctrl_slot_probe(struct platform_device *pdev)
->  {
->         struct pci_pwrctrl_slot_data *slot;
->         struct device *dev = &pdev->dev;
-> +       struct clk *clk;
->         int ret;
->
->         slot = devm_kzalloc(dev, sizeof(*slot), GFP_KERNEL);
-> @@ -50,6 +52,13 @@ static int pci_pwrctrl_slot_probe(struct platform_device *pdev)
->                 goto err_regulator_free;
->         }
->
-> +       clk = devm_clk_get_optional_enabled(dev, NULL);
-> +       if (IS_ERR(clk)) {
-> +               ret = PTR_ERR(clk);
-> +               dev_err_probe(dev, ret, "Failed to enable slot clock\n");
-you can user the return from ret = dev_err_probe()
-> +               goto err_regulator_disable;
-> +       }
-> +
->         ret = devm_add_action_or_reset(dev, devm_pci_pwrctrl_slot_power_off,
->                                        slot);
->         if (ret)
+Currently adv7511_bridge_atomic_enable() call adv7511_power_on(), then
+adv7511_dsi_config_timing_gen() that is responsible to update h/v porch
+params.
 
-with that change.
-Reviewed-by: Anand Moon <linux.amoon@gmail.com>
+But during the adv7511_mode_set() adv7511->curr_mode change and this is
+not reflected into the h/v ADV porch regs, then h/w porch regs are keeping
+the old values.
 
-Thanks
--Anand
-> --
-> 2.47.2
->
->
+This series fix this issue moving adv711_dsi_config_timing_gen() into
+the adv7511_mode_set().
+
+Thanks & Regards,
+Tommaso
+
+v1->v2:
+ - Added cover letter
+
+Tommaso Merciai (2):
+  drm/bridge: adv7511: Move adv711_dsi_config_timing_gen() into
+    adv7511_mode_set()
+  drm/bridge: adv7511: Rename adv7511_dsi_config_timing_gen() into
+    adv7533_dsi_config_timing_gen()
+
+ drivers/gpu/drm/bridge/adv7511/adv7511.h     | 1 +
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 4 ++++
+ drivers/gpu/drm/bridge/adv7511/adv7533.c     | 5 +----
+ 3 files changed, 6 insertions(+), 4 deletions(-)
+
+-- 
+2.43.0
+
 
