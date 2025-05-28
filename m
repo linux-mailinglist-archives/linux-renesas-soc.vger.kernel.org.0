@@ -1,175 +1,262 @@
-Return-Path: <linux-renesas-soc+bounces-17608-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17609-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA152AC678F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 12:45:40 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 245C7AC67D7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 12:55:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B356AA227F2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 10:45:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DA4AC16DE7A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 10:55:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 928CF27A904;
-	Wed, 28 May 2025 10:42:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 779FF27A444;
+	Wed, 28 May 2025 10:55:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hZF/OfWg"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WLqBDXLa"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC13A284B4A
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 28 May 2025 10:42:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1BD821322F
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 28 May 2025 10:55:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748428949; cv=none; b=QymdGJtr2tbccsDoHt6FulaWh9+9q23QyuZomRbwzxco99MeR0SJaN7JO4GT+QAlBYqUt5IuQjX40p/nhJVrAMq+vSOj3a1JHAF1WXH1U3iLxLJBBenVxe7KFZrKeUJNrtUiFrd6FDS9f30ntN7rm+TTeQP41tjo6eGAMH0BXnU=
+	t=1748429742; cv=none; b=rjWRI329jnURIA3JJ3YNnBBrtzJMbixdMm7lzfpaLgoAhVFxyOJRrw9cszfbYdA3wWZ0YJ9Mcr17IL9yUYdv+tzaObMTOt1q4edwdCPFUEQV+1MSvw6elaFXHm4GxX6reFD4Rh0hcSean24vCGlwwe3zMs9vtDGcMMt8ZpbW+Xs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748428949; c=relaxed/simple;
-	bh=aZiHVtAix4Bs7VFa47r9w+gaIOPFsTrPZZVeoeZFBbI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=uqAWY+ktXddk2KNGphjrdu766+rglMt8HJ37nfj4M9My3GQosqDM069NcPoKgrtSSAG3arCUF0Jgn1zK3uwS2IoF/OnkdjSn9K+xdbevp14P+nnzAejJOfLpIUXuxZ1yU/IxJEz7kRCFlr+wxsv7nqRTZmgpv6I41N/7FOgf32w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hZF/OfWg; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a4e57d018cso212708f8f.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 28 May 2025 03:42:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748428946; x=1749033746; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wvIZrAnHYUbgegc3KzvI7IvlrGTu2jq1NObvCezVWR4=;
-        b=hZF/OfWgiDHsJZEHrud44zYhYtnloSsHnCau96QeFCOvnXEXgLj4a12VyTxSCAm11z
-         N6oQ8koJ3ZnP8Ku5giMNrcY8pPyidl0PJuPILzUVpSbiCEIcHfZXXDVQrxzRsojwpETD
-         +R09V8wtE9uHZXCgLssg8todkWdxNY6vBOmmqenSidkbH7oFrattB1MsjFbYuJS/Fdyy
-         gIVCWCNXneazqGlBLC65swhWSZAwvbQ3I3kvCoYCckFFpi5lVxlTitLJnnuJRS0Ix8nk
-         sOUfo111r1jspmfRO6g5KbZOC9Pk/V1AEhyJkDAFaV1hTtFM1XHieblnho6lyLHB7rv/
-         TCmQ==
+	s=arc-20240116; t=1748429742; c=relaxed/simple;
+	bh=SCxngfYK+IOIKRdHrgEoscUNHocL+yQ57wscCRIrBuI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UUUDsV+Srj0rBeMQjY75NbJ7eX9S9iimq9YNg1ufzKnsLd2QymKbi9leKlLw67Q6gNCnlWg3TE0Q3pzK3oaEjdSDSU6lg55kmzBMzoMtJR5+ethbXS8C/YbUDNmSMI9n7K9rpIilFW+rA3tQUPDknWHfV7akw/pTGYKEDW9Mplk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WLqBDXLa; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54S6Js8O001765
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 28 May 2025 10:55:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	2GBHIa4UJXy3kvJwaMsOIp36AT4ZgsNjCHuBmMnsGGw=; b=WLqBDXLaETrREYPP
+	k3bqTgo4rPOev8L1bg2YP3zUKL3ZKb/ZbYk2aOckQdMkBvCDvDHTPbAK0IhR7Wjv
+	12r5wFXgoAWjAYkw74SbYE+gmbpqy29x+7rpmMgEm8WCZyASVPYsO6vxBdYVsYsg
+	P4+BgsYx9M5+a/I/xK+XplgbelC1Jxf365V3AIK6OTFyZpKSRusIKbJ4S4HmWsTt
+	0gtsHWF3imOnvSr9sHhysmwT4MkLWmAvXSE2jGkGzbBBkuXpKVh9qjJXwo3/r3s7
+	5uLyOjv1bGFclk/VO6rcG/LGayxuaz3O1JC4IIzV+UlafMX9BvVP/6bYQqL4mxuj
+	X3b5uQ==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46wavkur35-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 28 May 2025 10:55:39 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7c53e316734so666675085a.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 28 May 2025 03:55:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748428946; x=1749033746;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wvIZrAnHYUbgegc3KzvI7IvlrGTu2jq1NObvCezVWR4=;
-        b=W3GfdM1zLzvdX5Tbth6svMyN8PSY5NRShT7bMCwQnBDDCiAgi3rzmxQCe1oI2+qgOH
-         2SNXlRPhsZCgFcPkntVBTvzeAQNYfdq7kj02hnePlngqJ4r2ZDBIARnA6Cr205XWsOXq
-         x2WScu8aHHIp+QfenrDQDMPUMFG+nHRU7E+gIZT27d2GFxJCZPsPTxj7OAoOYd5UuGn8
-         dgKVz3P+PYIpg5ssAa2PVxC9V5ZXBoLdBjInwRciQQG1b18/Wr3xrMSOgUKVGUvrYHyS
-         SujLEUwcKu2DKFaWwiaJbBm6HfVRrZyFiIC7JJOdX1DXObpFvvdYn5dGIqm6uLmkADNS
-         yQTg==
-X-Forwarded-Encrypted: i=1; AJvYcCVaDI0Z8BRSi0joPyZAo1wc+2cLBSs39j+qBSEl5VR9QZj7JW2AHdPULO9TWMdnvNr9CLEKF++shpKIsI+l7GP8gg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxAyqwHtmd+xRrXEmqGIOCKftxKrzzbOvhOYPS0i9GFkSlVr/s9
-	hZCl2IpDcgih4q1DhlbpReB9yBa0XgV8OiZCppWGFImz5vqeYnEc+gS7NSHQP6qCgyI=
-X-Gm-Gg: ASbGncvZip+GzMKFkG0rtlSL2jOzMfpgSu5Gzqq663hz+BPu/Dtv0LhOx4dXnXVIwHG
-	+vuL9YzpWUiCkdcGM1iBNt3s6QDj92NuluIB7sxJ27pD9Jd4SnEuGvxHukdhg2vxPTtUOtqwrJt
-	4y2VLZU6CoIswjxbPELTaDRUyzmTRSPM+0vFUAPrNVjP4raI6loxEmS7w2Ly0QJNM2wKzj5MPrh
-	hg0GqpUMJ8JPi4eYm5iT/jiVsZYOhdgegvNGLFVE+Jo0lwd1+EsMGlhjpspx4mE0OPkYHPlAVRK
-	9AzP/GzBsArt6chaoj6MW2FCn3J0pNqYV0x79pm5/VH40ycMLmTcQfXWD92koOeliZZhC9SXI/2
-	V89fJwQ==
-X-Google-Smtp-Source: AGHT+IFNlq9KlCXRCQr1+6Ymqq9Ne7A6NiNU48Hh7WmaFcskniRj1xewpQQJ+ro3UTKAzWuWhYjH7g==
-X-Received: by 2002:a05:6000:2408:b0:3a4:d0dc:184b with SMTP id ffacd0b85a97d-3a4d0dc1c54mr4702445f8f.6.1748428946040;
-        Wed, 28 May 2025 03:42:26 -0700 (PDT)
-Received: from [192.168.1.29] ([178.197.223.125])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-450064add8bsm17331595e9.17.2025.05.28.03.42.23
+        d=1e100.net; s=20230601; t=1748429738; x=1749034538;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2GBHIa4UJXy3kvJwaMsOIp36AT4ZgsNjCHuBmMnsGGw=;
+        b=CDFB+TKofQnVfxUx7IBgBoWSbkhGRp11VcIRrBOCdKBCfvBVBLjiDuHGYuhvt3zrn6
+         kOaOXwusi9lzLQZrxhz2MHc4dK+yPnoKCeJp6KkTisresRWrqe6q/2pG01AKNgfLDadB
+         wcV7wZV0xu7yC5O0P+JVEC/1EYWxY/ziovfywzdgaMtn5m+mgXWuiBO0RFv440RI5m7C
+         vp3v4yJnNdwckNlsUi4pp0sTyut0znkPtMj1Uvu5FT7TPgnc4jeoL94KcIylAb2ihObc
+         9UK+ujH12wjFlJE55ZJUEJc8/4Eg3kHzAb9uRmL7+7OBQ6d6/4lUMOXjselc4dxnA8EC
+         a1VQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUAxFDouXcv2uJ5As9a9hWu9g9zISNow1pfV5yCdnwn2+q4rAOXk2TWn9TinAxcsFSIA79aSyhR40NKWKZ0bc7t2Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxc+6n6rsyWaIP8xTRBltu3cNgrkD8IwhBAC8m0t8YyLF6rIwUR
+	bdNF4yQi1VD1VGPS5YIKCcw1wPwgcdO9OBt8XC3FJp/KXzA4CFfXLqG5fDA4x8CH4cjw5TJJHMZ
+	O4VJFmYR4GOHgu/plnItH86j6xS4T21e9/NodD5sfPq3m53HVG7QhuNOqKOQvtdceLnVtb4ge6g
+	==
+X-Gm-Gg: ASbGncujATqxrur/2LNqeKHtWeYX0U62rlelqPJli7UMX0L1XH149dfnvMN3naw7YU9
+	TzWTbOhVHMZ/4ZSgc6K4WZoiLOVmIFPSnM6rtZ40E+7XRuP1WZ7m9XtXIi/zi2u0PmUrjM+vDyi
+	wmphnGX957ceW4qdjDisar+8qM8aj68LtIlrhHwWM1LF9kCq0svT18vVSvXyRY2Maesx4lgaF4L
+	d/HrrTkXdFr9UxNRX3oI/mmOhaLFoBR2TKwYzCtyF190mdbpyV8Oo3JF3J13IVGt2QKzaaTsozY
+	CRZRcAEDnofF9V3yEdK2cOamPLJOSUisSJMIq4A1zkTCbYeaxm4InJDnCSHWOCzU2TJ5vPEs2RY
+	=
+X-Received: by 2002:a05:6214:f04:b0:6f9:51b5:45b4 with SMTP id 6a1803df08f44-6fa9d01b876mr219767826d6.12.1748429737672;
+        Wed, 28 May 2025 03:55:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHHTeW9Oym5KrU5w2CrN6TuqbEYXZSVkhfiP2M2uzBIJxVS46ac7MVbRXMxqQkY4kvIlFReMQ==
+X-Received: by 2002:a05:6214:f04:b0:6f9:51b5:45b4 with SMTP id 6a1803df08f44-6fa9d01b876mr219767476d6.12.1748429737194;
+        Wed, 28 May 2025 03:55:37 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5532f62b2e8sm233345e87.96.2025.05.28.03.55.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 May 2025 03:42:25 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Wed, 28 May 2025 12:41:13 +0200
-Subject: [PATCH 17/17] rtc: stm32: Constify static 'pinctrl_desc'
+        Wed, 28 May 2025 03:55:36 -0700 (PDT)
+Date: Wed, 28 May 2025 13:55:34 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Douglas Anderson <dianders@chromium.org>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Anusha Srivatsa <asrivats@redhat.com>,
+        Paul Kocialkowski <paulk@sys-base.io>,
+        Hui Pu <Hui.Pu@gehealthcare.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+        imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org,
+        linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [PATCH v4] drm/bridge: tc358767: convert to
+ devm_drm_bridge_alloc() API
+Message-ID: <y262e67gi5f53objugljkpyc3lzdaqtw3b7qr4546btqo7ehu4@qp2orsf6xd7t>
+References: <20250528-drm-bridge-convert-to-alloc-api-v4-1-f04e698c9a77@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250528-pinctrl-const-desc-v1-17-76fe97899945@linaro.org>
-References: <20250528-pinctrl-const-desc-v1-0-76fe97899945@linaro.org>
-In-Reply-To: <20250528-pinctrl-const-desc-v1-0-76fe97899945@linaro.org>
-To: Linus Walleij <linus.walleij@linaro.org>, 
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>, 
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>, 
- Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, 
- Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>, 
- Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>, 
- =?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
- =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Lorenzo Bianconi <lorenzo@kernel.org>, Sean Wang <sean.wang@kernel.org>, 
- Jesper Nilsson <jesper.nilsson@axis.com>, 
- Lars Persson <lars.persson@axis.com>, 
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
- Damien Le Moal <dlemoal@kernel.org>, Vladimir Zapolskiy <vz@mleia.com>, 
- Michal Simek <michal.simek@amd.com>, Emil Renner Berthing <kernel@esmil.dk>, 
- Jianlong Huang <jianlong.huang@starfivetech.com>, 
- Hal Feng <hal.feng@starfivetech.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
- linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
- linux-mediatek@lists.infradead.org, linux-arm-kernel@axis.com, 
- linux-riscv@lists.infradead.org, linux-rtc@vger.kernel.org, 
- linux-stm32@st-md-mailman.stormreply.com, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=923;
- i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=aZiHVtAix4Bs7VFa47r9w+gaIOPFsTrPZZVeoeZFBbI=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoNuhXAXetqzUvjtim1sn5fQnWeOfKvyrbA0k7X
- 0F7r4JYgYKJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaDboVwAKCRDBN2bmhouD
- 1y5gEACCSmP7bayECWKFTkwRKQ26DxhFqjfLlRRjLxFm5/ZteZr52oR68NuAqE5Oteaw0uuTlF0
- AY7psL9i9caogUFyGEHFJLQoNlWHJx87dbPtNhMZbGpsCLwXVf9MNN9NM5+baphXdCKj68+Ffud
- mc+WQUO8p0rqIbRViIvXBJ6gAx6Ilh7Q8yFzuoVIEAV6I9BDpcBgRtB0mqwZfNT1P01nvvfn/HK
- 0/jT3G9Vdnpc9i1iTCLhpNp/FZupziVL6jPzDf47eWUlT3HFPpaJJ0tYcLLFl85Bsb82X73rnKM
- UBkCUre2kyXNDYjCNKOoZChLO04ZipNp38cUsCGyMOFi677HtzDsxz1RSX5Rbcbla1EOnS+6Zi6
- wES2PU+vUxe+LvEjmBnfAnsp4Vv47qY8+rU+v+N/7L2UAOT/N9w0X38a93OxUVi8HaJ071gheJB
- QCoBqlVg7+rjFK0nodd/1cYnU618gnyxlmtSWGKEOE1t7M+ApTiup2lOqvjt5YqTWangb8P6mI4
- 91zeGot+yAXPL2gIH1Z6qaPZGgJ8qD+xTXRdP2qbVHh+EYSYcb3iCINKLCkSmeAA113O5CegW0f
- 2YlveQzrIRHcqQzevdatgXRW8aDA6/KL/GFs07DAXEI2lUdBp+jh/3BAyA2S//my1rkpdfbhzcL
- ONXQAendt+UGD9Q==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250528-drm-bridge-convert-to-alloc-api-v4-1-f04e698c9a77@bootlin.com>
+X-Proofpoint-GUID: XGVaueEMNtjM05psetswip0mjFxP9R8S
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI4MDA5NSBTYWx0ZWRfX14/e8rq7mdUh
+ GqIKs4XYIBKoSLNxCRIjO7JXfFDuGvmKxXhKoqbBi9845LP4E79JpCKSTvGypFlIOYPiQy6oJYE
+ yGO9yp1+VuAHNNTtPy9Y779iDFjmsH2Xg5n+Wr9JVgW3STm0ZN43L/uV0EpwNOZ4XNqd+LEyDyg
+ D6/JyXZq4IoTyKvIslcta+/ctWjr2pwYCoHsdHnIVztDoocgPayQtRuP+32hqVqjbrJhND2lQRX
+ 6sefhk48RtqgZWdS2B5B8zQv+kzojvhagDRmUs2y3hFRD1YER7YDue3WEd+q7tRIFftfbnsV6RL
+ cos5Y2J4C0KlYzR0snq7WAL0hXH1ptBP9tg6msSDXUVrmEEX2ZFGw7/Uq3AVGxzsLjhSFnp0R/g
+ nS1zRuz0anEL2wgqyjWABOVnd41froC1ejfNK8xm8hj+glXIpR5ERABpVTSU7ttz9f2wKoVL
+X-Authority-Analysis: v=2.4 cv=fMk53Yae c=1 sm=1 tr=0 ts=6836ebab cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=dt9VzEwgFbYA:10 a=e5mUnYsNAAAA:8 a=VwQbUJbxAAAA:8 a=P-IC7800AAAA:8
+ a=EUspDBNiAAAA:8 a=Xa5mcPTA7YjQpW6brCsA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22 a=Vxmtnl_E_bksehYqCbjh:22 a=d3PnA9EDa4IxuAV0gXij:22
+X-Proofpoint-ORIG-GUID: XGVaueEMNtjM05psetswip0mjFxP9R8S
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-28_05,2025-05-27_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0 impostorscore=0 phishscore=0 suspectscore=0
+ spamscore=0 priorityscore=1501 lowpriorityscore=0 clxscore=1015 mlxscore=0
+ mlxlogscore=999 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
+ definitions=main-2505280095
 
-The local static 'struct pinctrl_desc' is not modified, so can be made
-const for code safety.
+On Wed, May 28, 2025 at 11:29:36AM +0200, Luca Ceresoli wrote:
+> This is the new API for allocating DRM bridges.
+> 
+> Converting this driver is a bit complex because the drm_bridge funcs
+> pointer differs based on the bridge mode. So the current code does:
+> 
+>  * tc_probe()
+>    * devm_kzalloc() private struct embedding drm_bridge
+>    * call tc_probe_bridge_endpoint() which
+>      * parses DT description into struct fields
+>      * computes the mode
+>      * calls different bridge init functions based on the mode
+>        * each sets a different bridge.funcs pointer
+> 
+> The new API expects the funcs pointer to be known at alloc time, which does
+> not fit in the current code structure.
+> 
+> Solve this by splitting tc_probe_bridge_endpoint() in two functions:
+> 
+>  * tc_probe_get_mode(), computing the mode without needing the private
+>    driver structure
+>  * tc_probe_bridge_endpoint(), only initializing the endpoints
+> 
+> So now the mode is known before allocation and so
+> is the funcs pointer, while all other operations are still happening after
+> allocation, directly into the private struct data, as they used to.
+> 
+> The new code flow is:
+> 
+>  * tc_probe()
+>    * tc_probe_get_mode()
+>      * parses DT description
+>      * computes and returns the mode
+>    * based onf the mode, pick the funcs pointer
+>    * devm_drm_bridfge_alloc(..., funcs)
+>    * call tc_probe_bridge_endpoint() which
+>      * calls different bridge init functions based on the mode
+>        * these don't set the funcs pointer, it was done by _alloc
+> 
+> This solution is chosen to minimize the changes in the driver logical code
+> flow. The drawback is we now iterate twice over the endpoints during probe.
+> 
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> ---
+> devm_drm_bridge_alloc() [0] is the new API to allocate and initialize a DRM
+> bridge, and the only one supported from now on. It is the first milestone
+> towards removal of bridges from a still existing DRM pipeline without
+> use-after-free.
+> 
+> The steps in the grand plan [1] are:
+> 
+>  1. ➜ add refcounting to DRM bridges (struct drm_bridge)
+>  2. handle gracefully atomic updates during bridge removal
+>  3. avoid DSI host drivers to have dangling pointers to DSI devices
+>  4. finish the hotplug bridge work, removing the "always-disconnected"
+>     connector, moving code to the core and potentially removing the
+>     hotplug-bridge itself (this needs to be clarified as points 1-3 are
+>     developed)
+> 
+> This series is part of step 1 of the grand plan.
+> 
+> Current tasks in step 1 of the grand plan:
+> 
+>  A. ✔ add new alloc API and refcounting -> (now in drm-misc-next)
+>  B. ➜ convert all bridge drivers to new API (this series)
+>  C. … documentation, kunit tests (v1 under discussion)
+>  D. after (B), add get/put to drm_bridge_add/remove() + attach/detech()
+>  E. after (B), convert accessors; this is a large work and can be done
+>     in chunks
+>  F. debugfs improvements
+> 
+> More info about this series in the v2 cover [2].
+> 
+> Luca
+> 
+> [0] https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/0cc6aadd7fc1e629b715ea3d1ba537ef2da95eec
+> [1] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/t/#u
+> [2] https://lore.kernel.org/lkml/20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com/
+> ---
+> Changes in v4:
+> - Removed patches already in drm-misc-next -> only 1 left
+> - Improve commit message of patch 1
+> - Link to v3: https://lore.kernel.org/all/20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com/
+> 
+> Changes in v3:
+> - Fixed issues reported for some patches
+> - Added review tags
+> - Removed patches that have been applied
+> - Added revert for the exynos patch, applied by mistake
+> - Update cover with grand plan info and trim some of it
+> - Updated bouncing e-mail address in Cc list
+> - Link to v2: https://lore.kernel.org/lkml/20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com/
+> 
+> Changes in v2:
+> - Improved cover letter with link to commit adding devm_drm_bridge_alloc()
+> - add review tags
+> - fix bugs in zynqmp, vc4 patches
+> - fix patch 1 error code checking
+> - Link to v1: https://lore.kernel.org/r/20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com
+> ---
+> 
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
----
-
-Patch depends on this series - const in pinctrl core. Please ack and
-this should go via pinctrl tree.
----
- drivers/rtc/rtc-stm32.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/rtc/rtc-stm32.c b/drivers/rtc/rtc-stm32.c
-index ef8fb88aab48a0edad19ae5872421815aa04fe46..d4ebf3eb54aa9e91c8e9f8254f571c53794192fd 100644
---- a/drivers/rtc/rtc-stm32.c
-+++ b/drivers/rtc/rtc-stm32.c
-@@ -393,7 +393,7 @@ static const struct pinmux_ops stm32_rtc_pinmux_ops = {
- 	.strict			= true,
- };
- 
--static struct pinctrl_desc stm32_rtc_pdesc = {
-+static const struct pinctrl_desc stm32_rtc_pdesc = {
- 	.name = DRIVER_NAME,
- 	.pins = stm32_rtc_pinctrl_pins,
- 	.npins = ARRAY_SIZE(stm32_rtc_pinctrl_pins),
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
 -- 
-2.45.2
-
+With best wishes
+Dmitry
 
