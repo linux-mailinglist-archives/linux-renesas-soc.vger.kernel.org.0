@@ -1,246 +1,334 @@
-Return-Path: <linux-renesas-soc+bounces-17587-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17588-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B370BAC6609
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 11:31:55 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55A1EAC663D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 11:48:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8545618808BB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 09:32:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0B353165651
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 09:48:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45976211706;
-	Wed, 28 May 2025 09:31:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC7C5275863;
+	Wed, 28 May 2025 09:48:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XU+rZryQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MiceM8ZH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72E7118FDD2
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 28 May 2025 09:31:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0189A1EB193;
+	Wed, 28 May 2025 09:48:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748424704; cv=none; b=CFbuIi76CJNonhJ3tZb4Ot/qsbgOFRAs9Fg6VEr0UOEw8evognjOWYcon/upC84o5bYCIeXMp75bnNr4keiw4b6vdaq7PhPQ42L4pMINnCdYvwlQlLEN/oDicVeuqoS3uvQt4UakxmHGM8/R5PXnONN7j6xJf8DhvkOckKRTxzU=
+	t=1748425729; cv=none; b=q5xy6EUzxpBXUDIrKg+B4l4EXDT8O6qJkxoh15dNlgESZd5YvprA93EpdmwcGPCqe9MuowFIyYYeXcimNN4jzFkVzJ2ch7mF/8irZf+IoWnirgVVJg0Ar1EYao7KkFsQZ3/mLn4Ttdl7fY8Bfr63Fq3p5KDNrbSWwuR9G6owmzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748424704; c=relaxed/simple;
-	bh=WsTVlNGVWMlMr7/1HnY9hFlDZoNZeHk/mPpV96JRdec=;
+	s=arc-20240116; t=1748425729; c=relaxed/simple;
+	bh=Uinns349GxH1UR6aquqSJAn77/2GAuIwH7OpLa221PM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RDaN1OFQbBITKiR3yEvF9ImKs8JU0Td3n8nItB7DpNZOxbRhfAUf9NJZdfYi8FLOMlQpPYW2r2Os7/Tmx9v9F5akV5zOQ3YwMcvgnJjtFAFXhsDaNxNdEBNyKH0qvqooUmEKHRd3hl7vmFxWAOnHwD9L4uze0oeClySe0W0J8/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XU+rZryQ; arc=none smtp.client-ip=209.85.219.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e7dc5f8148bso694695276.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 28 May 2025 02:31:41 -0700 (PDT)
+	 To:Cc:Content-Type; b=rMReJrJCgaTXdQZ4dUMzotEC0m96oe9T04b+iaNgzRId7XIk6Bj45wHIewP+y+VFGuiRoSz/gwwTY9zX4iXKanRlMCNC9931L3Z7o7v/Eys3TTIRXA+PfL2xQl95d4o3uxeRRUF1ASCSCfXpzuFkxJo9rzb9pdHL59g5XiX61to=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MiceM8ZH; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43cf257158fso36648165e9.2;
+        Wed, 28 May 2025 02:48:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748424700; x=1749029500; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qxCNklpcwB9Aux3Ir6fEZ7ZfodLW5xursubADF1vInc=;
-        b=XU+rZryQS5rdYN2wA/8ERj2PCnbtqeZzyNCZx0JNdYtBEYRXhfmQfsyR5N3NHJAi8x
-         BqXDUxD5KSNbirNzLWcNZiIyDNgr7am0Iv2Nj6gXZ1YKATLsJnlOSufs2e54SxfMRypH
-         fhl+tKm/Fmv8RstCQ4Ou3HKlz2LjaEyoOItKT33DvXjNkPD2sd8uZrKfsrxt7jfxukzc
-         UZ/P7qCKYr+uWmsbUOTyfyGoobkyz7vNIGCOya1yVOcLk+fJNYRggd3+djG9XKnpzjU0
-         BGqQzRYyc6d4Y/1wXFYWbGDS0yEcXNaX+DZVYfrRpr4J/O5W0b9aLtJ6OEmKxNPhWLPO
-         a7MA==
+        d=gmail.com; s=20230601; t=1748425726; x=1749030526; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YejcQjvowFFKkqN+UPoZNPAf32M6HyCXABg2+FNPRa0=;
+        b=MiceM8ZHMEqXDc+TTwJgcGHGooDwvxe71qsaljJ24CMv5GBt0i34fgUgzdRLaBCr09
+         rNt8AaCI1KGbbBueXpd/grj186cOqSUcZJrj/gf+h3kzfl5+c4W//GbZTj9s1vrOF44L
+         CrQsSsJK5gdgty1fCaTZZW4x5p3E3rXRWsPF26NmMFlQ3PXBWAcze6SUwkOGn0MZsX3/
+         20hf039WuYIsxRFqchlfOSFF8d7jajZR6KnRnE20+0VcixNZbd1VqsyECoV1R4EMr8fR
+         IqxGMutTl2tX5o9VGzoRqa50P5X7JKy0xyPOqXKJfmWVJaSrBwOA/btEMWxouYYuWoRl
+         0xSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748424700; x=1749029500;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qxCNklpcwB9Aux3Ir6fEZ7ZfodLW5xursubADF1vInc=;
-        b=f6pPYZMQDcOZKdZnrzC8iT/Sa8NOE9Q6Rpyyz6C7sks789XIzPMTeqqm+DTTpBwSNS
-         Gi0Qrm7KGF8IGZF2qXReB20dgRR6D5L43aTvIHI4YlXizYez//FgqilQnVCWgmHPIa85
-         nwFUSD+xpFrR64TV7aMN5w5485e+Rg3drH1OnSOEPbFKvRwMv0UdfCyBzSfM75LpIp9h
-         CLiAEe+u/Nv8gIlTqeFUm5sM3tq95TQbJvt2np/SytUZHv0FfMFl1uGSvzMnjTcbpLkz
-         r9/8lQ6xyspoIs0P3uHIAGvu5tI6eeJP80+F8KSc0MyBLCeh/iPDA6UTwBHczYN40vhM
-         vP+A==
-X-Forwarded-Encrypted: i=1; AJvYcCUwWcvkhxGzgAtliddHjgZ+3jaCh5JWWy0wRAmnbUtISQTjfaLISiuQQp2Vmqvl7iYM9BA+ctm4dFcdN44SnGXBZg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOaTtI3CJijw7TJKlXfIQvbMOzOLaVMJFx8RtL7fH9ZYzjXbxg
-	D4UEca8UUzedEHqdfHJNj0d3BMVn+gpiAsG1d4hGxqqpAvYJHQxNMyg8csSpFnULizvtRLIVfqG
-	D72LAxi2ngiZFZSCbKkeybrAx8Iv9VhH/W0J1Ynj6Rw==
-X-Gm-Gg: ASbGncuAzrskgLUW+aVvE5dsHkuRZ1atAjmeH2m+VkC7+ESEfMfeTxURjKcG47/98D7
-	6P1AP33QBn2ixDeAraH+gq2v7z0ZxFRiO2rrSyXsWPyTZ2g5WQJBmAdwEeuaWPT+XPEw1FEHXGm
-	uJwpSQnKt56ARuPH7ikpB3YhJbn2zZyB8kZw==
-X-Google-Smtp-Source: AGHT+IEyw0lUrmYinEboMHvAdYvFeBCQMFpAFX9P5BvMD2PBk8DgM7GAXBhZytV2fKUiOCBjFWXeZ1b8qL3n9/JSqsY=
-X-Received: by 2002:a05:6902:120a:b0:e7d:cff1:340b with SMTP id
- 3f1490d57ef6-e7dd01eea9bmr4498112276.0.1748424700237; Wed, 28 May 2025
- 02:31:40 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748425726; x=1749030526;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YejcQjvowFFKkqN+UPoZNPAf32M6HyCXABg2+FNPRa0=;
+        b=ojKzZE9BPFjcWvnwPulA4ju+XmkGkMEZO2p+MI1LEMesiBtUeCa7Lba/PiBEFPMrw/
+         Aq+Q7u+UekV+novw13iLUQ9kucx2gxLW1efvaiqlCt5WZRwQ8AWm7f3/UOw26aIcahbu
+         EGBWKr+4B58axbc0e6nIzw8ag5lIxqxuXu8xs5J3HSWup3zE1nbF6mYZR7gT5xHm8mwh
+         zS5TDmx/lDCcVHXhw1FWeTWwpZWkWwQD66753ojnwA9KDP35viYES/v7Wc6MFkriNCUR
+         hYLe0mg5yrbLRJnsM+udbRnbjtiFNJJioRnX2110louPiPW3e88sOonyZYt3nLLL/n2P
+         dT1A==
+X-Forwarded-Encrypted: i=1; AJvYcCUBfe58iYwfe4FOB4B2pY3UcXS6/GeGUGD2Qmb2XrbyaYAb6NqyaDlwm4Ulvdlh7d+j6GUe6BqjI/Lc@vger.kernel.org, AJvYcCUZOpZXfasuio8YfIlAxNmFFxpBboLKMSXgLNUHh+jOqPMIZyCPhd2lI6BTH2NvC0OaSoNEbkPCVcdDOqgU@vger.kernel.org, AJvYcCVBZk/uWxJXMPOiMXtvGagsnN1rJjsb/F4u3Ho08ikePJaI3lvRo96t13S/Pbhf8ZTLzYBVWYxsGdQU@vger.kernel.org, AJvYcCXkaPDHunzIq0SgVp3LRKb3UYHfjACFJb3tCp2sXpr+zwhKruwmR1IWq014eEQmoSjpCnr/CozJgrKtnVP3qeihUeU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxL81YB0OcG5gfhWtTpnkXLVTXtWCUkHcMzb6U4PGHvGVVQKcnX
+	2uRHDtx64AGfAFr+oSNsDplbFWKqxTXf3yviooq2TTjHQ+5VFDao0/zFGvfU6f7l5Vr3lfIOfPE
+	yr3qLj7yDdNHcYvGTFoyx7zDXOqhHFXs=
+X-Gm-Gg: ASbGncs6DcWickGSa1C/ah57oASycCuZYXa0c3wY5m1IcgfGBXp68ZPzbBUg2qE8eVc
+	qzxAmm0dM8v6nQYeHGMK+SKDmdJZNr4IhYEC6pXcu4rAS/keiPjXM7jhVMUde/gh/imzfhHhQN3
+	OQ2Ex4HdOvCFOL+Sx4iOcXulLU77Qd5wAIPJYqvdObDOFPI6v7ltPBE2UGqRj11wwaeA==
+X-Google-Smtp-Source: AGHT+IFOU92ZFS2S3O0R5SwadRfYVFCtrH9pyzPNYTlNPomarpL8i1KADqoaf8Wf35yeCGDtsi5p0K+tgRPxmCxDFK4=
+X-Received: by 2002:a05:600c:6089:b0:444:c28f:e81a with SMTP id
+ 5b1f17b1804b1-44c94c246b9mr146760025e9.27.1748425726021; Wed, 28 May 2025
+ 02:48:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250526122054.65532-1-claudiu.beznea.uj@bp.renesas.com>
- <20250526122054.65532-2-claudiu.beznea.uj@bp.renesas.com> <hojdkntm3q5a5ywya7n5i4zy24auko4u6zdqm25infhd44nyfx@x2evb6sc2d45>
-In-Reply-To: <hojdkntm3q5a5ywya7n5i4zy24auko4u6zdqm25infhd44nyfx@x2evb6sc2d45>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 28 May 2025 11:31:03 +0200
-X-Gm-Features: AX0GCFsFhqUi2AGDMBlqa7RGrDqiU7Kbc5fKh9Fg0pv0gNT5kfMImVz5Whz-roI
-Message-ID: <CAPDyKFptNg5t6RehRNNfnnuCqpfiaQLaHBEdh4aRXfn7X6rYQQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] PM: domains: Add devres variant for dev_pm_domain_attach()
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Claudiu <claudiu.beznea@tuxon.dev>, gregkh@linuxfoundation.org, rafael@kernel.org, 
-	dakr@kernel.org, len.brown@intel.com, pavel@kernel.org, jic23@kernel.org, 
-	daniel.lezcano@linaro.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-iio@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, bhelgaas@google.com, geert@linux-m68k.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20250512184302.241417-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250512184302.241417-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdX5_P4R43HOPuZc3JSAOQ5O2xOBDVhVVg1SxU1ucPdbPA@mail.gmail.com>
+In-Reply-To: <CAMuHMdX5_P4R43HOPuZc3JSAOQ5O2xOBDVhVVg1SxU1ucPdbPA@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Wed, 28 May 2025 10:48:20 +0100
+X-Gm-Features: AX0GCFvgbR9aYLSei5CukQRvloak3Q9KnXFyd1nNDHatfD-viQKLYa05qK7GLSE
+Message-ID: <CA+V-a8sde6Zaz3Z2uDt3OGZ52UBJfR3vQMs4-ZUusDu=oNwFhg@mail.gmail.com>
+Subject: Re: [PATCH v5 4/4] drm: renesas: rz-du: mipi_dsi: Add support for
+ RZ/V2H(P) SoC
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Magnus Damm <magnus.damm@gmail.com>, 
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-clk@vger.kernel.org, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 27 May 2025 at 23:27, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
+Hi Geert,
+
+Thank you for the review.
+
+On Fri, May 23, 2025 at 4:19=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
 >
-> Hi Claudiu,
+> Hi Prabhakar, Fabrizio,
 >
-> On Mon, May 26, 2025 at 03:20:53PM +0300, Claudiu wrote:
-> > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> On Mon, 12 May 2025 at 20:43, Prabhakar <prabhakar.csengg@gmail.com> wrot=
+e:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> > The dev_pm_domain_attach() function is typically used in bus code alongside
-> > dev_pm_domain_detach(), often following patterns like:
+> > Add DSI support for Renesas RZ/V2H(P) SoC.
 > >
-> > static int bus_probe(struct device *_dev)
-> > {
-> >     struct bus_driver *drv = to_bus_driver(dev->driver);
-> >     struct bus_device *dev = to_bus_device(_dev);
-> >     int ret;
-> >
-> >     // ...
-> >
-> >     ret = dev_pm_domain_attach(_dev, true);
-> >     if (ret)
-> >         return ret;
-> >
-> >     if (drv->probe)
-> >         ret = drv->probe(dev);
-> >
-> >     // ...
-> > }
-> >
-> > static void bus_remove(struct device *_dev)
-> > {
-> >     struct bus_driver *drv = to_bus_driver(dev->driver);
-> >     struct bus_device *dev = to_bus_device(_dev);
-> >
-> >     if (drv->remove)
-> >         drv->remove(dev);
-> >     dev_pm_domain_detach(_dev);
-> > }
-> >
-> > When the driver's probe function uses devres-managed resources that depend
-> > on the power domain state, those resources are released later during
-> > device_unbind_cleanup().
-> >
-> > Releasing devres-managed resources that depend on the power domain state
-> > after detaching the device from its PM domain can cause failures.
-> >
-> > For example, if the driver uses devm_pm_runtime_enable() in its probe
-> > function, and the device's clocks are managed by the PM domain, then
-> > during removal the runtime PM is disabled in device_unbind_cleanup() after
-> > the clocks have been removed from the PM domain. It may happen that the
-> > devm_pm_runtime_enable() action causes the device to be runtime-resumed.
-> > If the driver specific runtime PM APIs access registers directly, this
-> > will lead to accessing device registers without clocks being enabled.
-> > Similar issues may occur with other devres actions that access device
-> > registers.
+> > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> I think you are concentrating too much on runtime PM aspect of this. As
-> you mentioned in the last sentence the same issue may happen in the
-> absence of runtime PM if the power domain code will shut down the device
-> while it is not fully cleaned up.
+> Thanks for your patch!
 >
+> > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > @@ -5,6 +5,7 @@
+> >   * Copyright (C) 2022 Renesas Electronics Corporation
+> >   */
+> >  #include <linux/clk.h>
+> > +#include <linux/clk/renesas-rzv2h-dsi.h>
+> >  #include <linux/delay.h>
+> >  #include <linux/io.h>
+> >  #include <linux/iopoll.h>
+> > @@ -30,6 +31,9 @@
 > >
-> > Add devm_pm_domain_attach(). When replacing the dev_pm_domain_attach() and
-> > dev_pm_domain_detach() in bus probe and bus remove, it ensures that the
-> > device is detached from its PM domain in device_unbind_cleanup(), only
-> > after all driver's devres-managed resources have been release.
+> >  #define RZ_MIPI_DSI_FEATURE_16BPP      BIT(0)
 > >
-> > For flexibility, the implemented devm_pm_domain_attach() has 2 state
-> > arguments, one for the domain state on attach, one for the domain state on
-> > detach.
+> > +#define RZV2H_MIPI_DPHY_FOUT_MIN_IN_MEGA       (80 * MEGA)
+> > +#define RZV2H_MIPI_DPHY_FOUT_MAX_IN_MEGA       (1500 * MEGA)
+>
+> RZV2H_MIPI_DPHY_FOUT_M{IN,AX}_IN_MHZ?
+>
+Ok, I'll rename them as above.
+
+> > +
+> >  struct rzg2l_mipi_dsi;
 > >
-> > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> > ---
+> >  struct rzg2l_mipi_dsi_hw_info {
+> > @@ -40,6 +44,7 @@ struct rzg2l_mipi_dsi_hw_info {
+> >                               u64 *hsfreq_millihz);
+> >         unsigned int (*dphy_mode_clk_check)(struct rzg2l_mipi_dsi *dsi,
+> >                                             unsigned long mode_freq);
+> > +       const struct rzv2h_pll_div_limits *cpg_dsi_limits;
+> >         u32 phy_reg_offset;
+> >         u32 link_reg_offset;
+> >         unsigned long max_dclk;
+> > @@ -47,6 +52,11 @@ struct rzg2l_mipi_dsi_hw_info {
+> >         u8 features;
+> >  };
 > >
-> > Changes in v2:
-> > - none; this patch is new
-> >
-> >  drivers/base/power/common.c | 59 +++++++++++++++++++++++++++++++++++++
-> >  include/linux/pm_domain.h   |  8 +++++
-> >  2 files changed, 67 insertions(+)
-> >
-> > diff --git a/drivers/base/power/common.c b/drivers/base/power/common.c
-> > index 781968a128ff..6ef0924efe2e 100644
-> > --- a/drivers/base/power/common.c
-> > +++ b/drivers/base/power/common.c
-> > @@ -115,6 +115,65 @@ int dev_pm_domain_attach(struct device *dev, bool power_on)
+> > +struct rzv2h_dsi_mode_calc {
+> > +       unsigned long mode_freq;
+> > +       u64 mode_freq_hz;
+>
+> Interesting... I guess mode_freq is not in Hz?
+>
+Actually it is int Hz, I will make it unsigned long.
+
+> > +};
+> > +
+> >  struct rzg2l_mipi_dsi {
+> >         struct device *dev;
+> >         void __iomem *mmio;
+>
+> > +static u16 rzv2h_dphy_find_ulpsexit(unsigned long freq)
+> > +{
+> > +       static const unsigned long hsfreq[] =3D {
+> > +               1953125UL,
+> > +               3906250UL,
+> > +               7812500UL,
+> > +               15625000UL,
+> > +       };
+> > +       static const u16 ulpsexit[] =3D {49, 98, 195, 391};
+> > +       unsigned int i;
+> > +
+> > +       for (i =3D 0; i < ARRAY_SIZE(hsfreq); i++) {
+> > +               if (freq <=3D hsfreq[i])
+> > +                       break;
+> > +       }
+> > +
+> > +       if (i =3D=3D ARRAY_SIZE(hsfreq))
+> > +               i -=3D 1;
+>
+> i--
+>
+OK.
+
+> > +
+> > +       return ulpsexit[i];
+> > +}
+> > +
+> > +static u16 rzv2h_dphy_find_timings_val(unsigned long freq, u8 index)
+> > +{
+> > +       const struct rzv2h_mipi_dsi_timings *timings;
+> > +       u16 i;
+> > +
+> > +       timings =3D &rzv2h_dsi_timings_tables[index];
+> > +       for (i =3D 0; i < timings->len; i++) {
+> > +               unsigned long hsfreq =3D timings->hsfreq[i] * 10000000U=
+L;
+>
+> (I wanted to say "MEGA", but then I noticed the 7th zero ;-)
+>
+> 10 * MEGA?
+>
+Agreed, I will update it as above.
+
+> > +
+> > +               if (freq <=3D hsfreq)
+> > +                       break;
+> > +       }
+> > +
+> > +       if (i =3D=3D timings->len)
+> > +               i -=3D 1;
+>
+> i--
+>
+> > +
+> > +       return timings->start_index + i;
+> > +};
+> > +
+> >  static void rzg2l_mipi_dsi_phy_write(struct rzg2l_mipi_dsi *dsi, u32 r=
+eg, u32 data)
+> >  {
+> >         iowrite32(data, dsi->mmio + dsi->info->phy_reg_offset + reg);
+> > @@ -308,6 +479,158 @@ static int rzg2l_dphy_conf_clks(struct rzg2l_mipi=
+_dsi *dsi, unsigned long mode_f
+> >         return 0;
 > >  }
-> >  EXPORT_SYMBOL_GPL(dev_pm_domain_attach);
 > >
-> > +/**
-> > + * devm_pm_domain_detach_off - devres action for devm_pm_domain_attach() to
-> > + * detach a device and power it off.
-> > + * @dev: device to detach.
-> > + *
-> > + * This function reverse the actions from devm_pm_domain_attach().
-> > + * It will be invoked during the remove phase from drivers implicitly.
-> > + */
-> > +static void devm_pm_domain_detach_off(void *dev)
+> > +static unsigned int rzv2h_dphy_mode_clk_check(struct rzg2l_mipi_dsi *d=
+si,
+> > +                                             unsigned long mode_freq)
 > > +{
-> > +     dev_pm_domain_detach(dev, true);
-> > +}
+> > +       struct rzv2h_plldsi_parameters *dsi_parameters =3D &dsi->dsi_pa=
+rameters;
+> > +       u64 hsfreq_millihz, mode_freq_hz, mode_freq_millihz;
+> > +       struct rzv2h_plldsi_parameters cpg_dsi_parameters;
+> > +       unsigned int bpp, i;
 > > +
-> > +/**
-> > + * devm_pm_domain_detach_on - devres action for devm_pm_domain_attach() to
-> > + * detach a device and power it on.
-> > + * @dev: device to detach.
-> > + *
-> > + * This function reverse the actions from devm_pm_domain_attach().
-> > + * It will be invoked during the remove phase from drivers implicitly.
-> > + */
-> > +static void devm_pm_domain_detach_on(void *dev)
-> > +{
-> > +     dev_pm_domain_detach(dev, false);
-> > +}
+> > +       bpp =3D mipi_dsi_pixel_format_to_bpp(dsi->format);
 > > +
-> > +/**
-> > + * devm_pm_domain_attach - devres-enabled version of dev_pm_domain_attach()
-> > + * @dev: Device to attach.
-> > + * @attach_power_on: Use to indicate whether we should power on the device
-> > + *                   when attaching (true indicates the device is powered on
-> > + *                   when attaching).
-> > + * @detach_power_off: Used to indicate whether we should power off the device
-> > + *                    when detaching (true indicates the device is powered off
-> > + *                    when detaching).
-> > + *
-> > + * NOTE: this will also handle calling dev_pm_domain_detach() for
-> > + * you during remove phase.
-> > + *
-> > + * Returns 0 on successfully attached PM domain, or a negative error code in
-> > + * case of a failure.
-> > + */
-> > +int devm_pm_domain_attach(struct device *dev, bool attach_power_on,
-> > +                       bool detach_power_off)
+> > +       for (i =3D 0; i < 10; i +=3D 1) {
+> > +               unsigned long hsfreq;
+> > +               bool parameters_found;
+> > +
+> > +               mode_freq_hz =3D mode_freq * MILLI + i;
 >
-> Do we have examples where we power on a device and leave it powered on
-> (or do not power on device on attach but power off it on detach)? I
-> believe devm release should strictly mirror the acquisition, so separate
-> flag is not needed.
+> KILO?
+>
+OK, as mode_freq_hz is in Hz I'll make it unsigned long.
 
-This sounds reasonable for me too.
+> And I guess you want to use mul_u32_u32(), as mode_freq_hz is u64?
+>
+and use mul_u32_u32() below...
+> > +               mode_freq_millihz =3D mode_freq_hz * MILLI * 1ULL;
+>
+> Why * 1ULL?
+>
+Agreed, not needed, I will use mul_u32_u32() here.
 
-Note that, in most of the *special* cases for where
-dev_pm_domain_attach|detach() is used today, the corresponding PM
-domain is managed by genpd through a DT based configuration. And genpd
-via genpd_dev_pm_attach|detach() doesn't even take this as an
-in-parameter.
+> > +               parameters_found =3D rzv2h_dsi_get_pll_parameters_value=
+s(dsi->info->cpg_dsi_limits,
+> > +                                                                      =
+&cpg_dsi_parameters,
+> > +                                                                      =
+mode_freq_millihz);
+> > +               if (!parameters_found)
+> > +                       continue;
+> > +
+> > +               hsfreq_millihz =3D DIV_ROUND_CLOSEST_ULL(cpg_dsi_parame=
+ters.freq_millihz * bpp,
+> > +                                                      dsi->lanes);
+> > +               parameters_found =3D rzv2h_dsi_get_pll_parameters_value=
+s(&rzv2h_plldsi_div_limits,
+> > +                                                                      =
+dsi_parameters,
+> > +                                                                      =
+hsfreq_millihz);
+> > +               if (!parameters_found)
+> > +                       continue;
+> > +
+> > +               if (abs(dsi_parameters->error_millihz) >=3D 500)
+> > +                       continue;
+> > +
+> > +               hsfreq =3D DIV_ROUND_CLOSEST_ULL(hsfreq_millihz, MILLI)=
+;
+> > +               if (hsfreq >=3D RZV2H_MIPI_DPHY_FOUT_MIN_IN_MEGA &&
+> > +                   hsfreq <=3D RZV2H_MIPI_DPHY_FOUT_MAX_IN_MEGA) {
+> > +                       dsi->mode_calc.mode_freq_hz =3D mode_freq_hz;
+> > +                       dsi->mode_calc.mode_freq =3D mode_freq;
+> > +                       return MODE_OK;
+> > +               }
+> > +       }
+> > +
+> > +       return MODE_CLOCK_RANGE;
+> > +}
+>
+> > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
+> > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
+> > @@ -40,6 +40,39 @@
+> >  #define DSIDPHYTIM3_THS_TRAIL(x)       ((x) << 8)
+> >  #define DSIDPHYTIM3_THS_ZERO(x)                ((x) << 0)
+> >
+> > +/* RZ/V2H DPHY Registers */
+> > +#define PLLENR                         0x000
+> > +#define PLLENR_PLLEN                   BIT(0)
+> > +
+> > +#define PHYRSTR                                0x004
+> > +#define PHYRSTR_PHYMRSTN               BIT(0)
+> > +
+> > +#define PLLCLKSET0R                    0x010
+> > +#define PLLCLKSET0R_PLL_S(x)           ((x) << 0)
+>
+>  #define PLLCLKSET0R_PLL_S GENMASK(2, 0)
+>
+> and after that you can use FIELD_PREP(PLLCLKSET0R_PLL_S, x) in the code.
+> More opportunities for masks below...
+>
+Thanks, I will make use of GENMASK/FIELD_PREP macros.
 
-So this is solely for the behaviour for the acpi PM domain, just to
-make sure that's clear.
-
-[...]
-
-Kind regards
-Uffe
+Cheers,
+Prabhakar
 
