@@ -1,162 +1,145 @@
-Return-Path: <linux-renesas-soc+bounces-17620-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17621-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31F59AC69F3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 15:02:06 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C655AC6A50
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 15:26:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 41F663B00ED
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 13:01:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 02B5816B047
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 13:26:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5463280335;
-	Wed, 28 May 2025 13:01:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C36A286D58;
+	Wed, 28 May 2025 13:26:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UWjAUUJ5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32BCB3595D;
-	Wed, 28 May 2025 13:01:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8123C1FAA;
+	Wed, 28 May 2025 13:26:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748437314; cv=none; b=nySrysMTn2BJWq8Tha4AR3ixTAbENfDp4L2p6A7GXcwULDQXJ1a92EVOvHA+xPIJcDA0K/PdGAMHs7VzFwCiL+mGd5V5X9lu3FHeyiP1cxbdERtb/JM7gjD7B72JKqMGokxhw34fvQyzQ60S+7/FhNJc/EH1iinPtlocJTBkESI=
+	t=1748438769; cv=none; b=e0jiwNzLtazEUOCt8X7Y+AfP6UP9B74tFN0FY/Sl4Q6fOKHHOLGZMyKYIcT9wiu/GG5rqdhZM7Bwtmc+loQbN/KXf6AxIzS8pAJVIpiXeztjauxF5h6Y6PrtxHA8BRJmeV/FV1t/FccmfvrwlaM9eIivJD/QhDOotQPTdHWXDBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748437314; c=relaxed/simple;
-	bh=y9bMKWA1mUCVhYWK+2mE7dMzU1P7hxUNnWy/QdoIJFY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gvMJtkrodsUI3j++zARCTGRMxpM/JSGvrTEQtyWwl19snFuQt+rpaPqW/AZWWQFfVZl2MUhywxzwREak/+FOx7+8r/EkWzI2ivtoht72z+SmAO9EMvAJTiCycq5XiIxL1L7SWo+e8tioCCFDGxNI8zIGqeFGZS1r3Ws8hfEycLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1748438769; c=relaxed/simple;
+	bh=rxep3wf4faA2onypK2iZ/bRRCLhtffcSXOxeWi8D5cg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sVnJsbGA92GGtM0MjoS/SqB2T2a4NSmlM1TdJePeOIsH0N5LZo9Fhz52f+ZLcA8Awhc8/5baNWu5Zw5ZAXkn6Eat+GXAJwVAldFc82GThUN+EC6ppRYBSAulS9aVRN3kYH/YU5EFRs3436O5UXVWer0r7AeClbbhbZ+ASuZb29o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UWjAUUJ5; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-2e8f84653c3so4952fac.0;
-        Wed, 28 May 2025 06:01:52 -0700 (PDT)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-604e299b5b6so1766842a12.0;
+        Wed, 28 May 2025 06:26:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748438766; x=1749043566; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ieSLku7E97lhZ4UgdnDAb1QCFNhVxCm/IzChsnoZiEc=;
+        b=UWjAUUJ5665ICvx61xNY6FK/9oHtzZc6a4KQT2vCkLxbY9HmJmQN9PvCE8psN6kP24
+         TrtFqM3+4XuJP7yi29DrkTTqfMSg5HPA3Wwg+zIbR+AI+L2qKi5Nw6s7zdcglWziqidb
+         P06TTV6bOJ+kYFt8+6MwuRa0J6qTQpLl6eChDTqnCDF86MlpHVrwcZrfMg77VKHlVpLZ
+         qyUyjry3C6MEws4M0jnTF86M2kpwaw7jpynQ4fjD6R2kwHFeLZKwWwSPFppPNMk6p9Ik
+         kvBez8B4rfuyY/OaQha+/XaVz+oEduN/04aOg2MPdZDZQMXcXzC296i3UGuKKqAnxzWa
+         l2yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748437312; x=1749042112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1748438766; x=1749043566;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=IbSvaL2uho5iBNc6UnxSmb8ikoxZVNAuMK5QOEf9/rc=;
-        b=BbTRec1bpCnN4rHckQFYX/xiPcs2SeZiLpQA4hYIzslpPo4VIDm23IprF8ZPrxyp8Z
-         go++DU7QhfzytUMRiVqKemrg1NT2TA0Z0TJLiuAZTx91650yOh4m3eJVKJwgHb2j3qU/
-         68CI5+7rkPvkSa9P1v8nZCm9hkMbEr8UDggsqdRxi+oXcS8yTuX//sLXfd89rUDT6s52
-         ZvmHBplLV3IW+O/bqb7xclTT5Y5HnO1RwCkrNjW5nMdAyh5VPTfSMvwDJO2A+Ac11oVx
-         D+BPKtesekyi7fvHO7L4uq8hg+OkfYg78h94ks2fRxqd1K4aHitLX8Js8G+ZrR+hURxr
-         flcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVZLXfTd7UFlxEjHH8O7C7pVO927/oElFlPnlw7HDaTfkqfixZKd86Elk7wGZmQpN+RxKPRid5uDiNUK/ml@vger.kernel.org, AJvYcCWZwOO3VpxZxygy18Vj8uvOH8X/Grwfr7sIBbRnRMFIbTEH/hP7hwzaB/8FQq956QfAnTMPSBkV4SPu@vger.kernel.org, AJvYcCWgZSGL9zOcq02+QzzLQ1SLhRK1C6+cp0z5ChGv8w+nyhaSY1Stx5A5BhYFL3H38cseGEPmKXlUiotW/fk=@vger.kernel.org, AJvYcCWt3MH2kG4BDq3KtqrgHzbVg8gwBrjNxRYNuKqjvcoOJft3U9+aA/TBM7JPqLwA1ID4czCzzQUO1DjXYTM/H4akrmc=@vger.kernel.org, AJvYcCXSoSr0uSSc0Iq5eRHN8eG9AeLbNvjw6hq09REB+FypHQ6PsZ4ReYLMMN4uueSOIcQXD/uTi2RktF5o@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/OQ6bLrzJlcN/AyaUmMpkOkkRv4XCv0uF+Fh9PPwk0TIBcRLi
-	Ev6p9t9krNrfROARyrIggY+5aOaJ/AdReEy+XnnI4GHbMGYFYDpgpbbmWUtrQWjY
-X-Gm-Gg: ASbGncvGVf36xJt0B8A2czpq+epOKCzoihdsQJF7I46vcr8Lb1iuKSzzPohszC5SBs5
-	VJG4KrL4WwF7OQmH47sQwJ6S1Kf4oJ3G2z/iol+uYDKXEjRWFbQcDWDizwKNlPBGPCpemXHfeyo
-	hIsk8cGSZ1TA0n+ZxggSV6N8JkTnAlefzQwyiX5ZtI0jR5hW02t1EhbFStJYY7n1SeFJyG65xxI
-	RcVsnphOnAktY29ASS3qc6XMpSYpo75UmbnFzUW8hBsNcNP3XZVSo6oT8O/C6InU3zfKDbu6Gec
-	1iGvGREWdCowG5GnjJAUrNqtb75SBqb9ksCgyLEwvxbYRes5JMxBmGEj1ivMkcVQBHuZ7gR3gtk
-	XG7KKcqXyoDKu6izi6yOLsN30kzsd
-X-Google-Smtp-Source: AGHT+IFzcGONDX9eh+40zCjEjeFb827OyifAm7A+OIhWfUZ92FQgovECyH9fx8Gqkz32CO+JnAyf/A==
-X-Received: by 2002:a05:6871:e809:b0:29e:6bdb:e362 with SMTP id 586e51a60fabf-2e861e86388mr8793896fac.17.1748437311165;
-        Wed, 28 May 2025 06:01:51 -0700 (PDT)
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com. [209.85.160.178])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4a3c0a6443asm5766681cf.4.2025.05.28.06.01.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 May 2025 06:01:51 -0700 (PDT)
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4774d68c670so17827391cf.0;
-        Wed, 28 May 2025 06:01:50 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWd/ngvJU7ORBgFZGig8fmQD8V+K9FlzCiIFf4p6nUl5XBhdv3RhLgisfnfy8nD5PfToGe03awvkW/o@vger.kernel.org, AJvYcCXHmFd9VzH/Sti9F6bliEjmWdOvgeIQVtnDmSZrlfm6CiReQt/cdw0WHoY5OWAtiErx61vQWUVOSzhyCbmO@vger.kernel.org, AJvYcCXcAltGmwP5hvB2y5IavOMge3M3Orgi9yRrGvT/mmVjlowIyFXMJd4j+v5WZdT7GWbMNznhs5Zif2RU@vger.kernel.org, AJvYcCXjSqWj6c4ravcAstUXBZn2CNPoquKiP4Yd/pFpcl2rzb/5UKXmrZ6iYMDGqGj/+9DLWGHW7GgNmPJ37l45FkJJla8=@vger.kernel.org, AJvYcCXnQBrVzL9MiiQxR0fSehtVn1NFtO8kV4TUQV/a5ssbmwMwQeCkDCHqu9NJZUpAsaudT3hQQlbcK9WUo4Y=@vger.kernel.org
-X-Received: by 2002:a05:6102:2911:b0:4df:93e0:fb7 with SMTP id
- ada2fe7eead31-4e42419b8c0mr12541235137.25.1748436893682; Wed, 28 May 2025
- 05:54:53 -0700 (PDT)
+        bh=ieSLku7E97lhZ4UgdnDAb1QCFNhVxCm/IzChsnoZiEc=;
+        b=LutXOfge8/OnymtH5ba8fcPsedAmbtgs43SOpWaVvRpbklmp3S4jeNdQnRWHhy4G2n
+         PcaKu9RKzzEdokRo7eEWtDWsNi6wsAxcp4l0AWuUPBlEZAUyk+6jv+EJ89dB5ABRCe/t
+         93GzfTA10S2olPfoTMF5yPVjjyBNOikHgawRzahDYpaBlNfUt1YqbehYMsioK6myA+U3
+         N8xNZFruv11mE0oTF2SFYc1qnxA1kdJdPAWghwtGV1uq5/5e6E4NXyGNaYYErsKSh162
+         cuRh8fBUQqMPTJ8BfdhTugVzgK9l0sQpAKAyoRzhhX1ZY7HmiNQeOTxqLxijML25iq0v
+         6uQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWIJ1P3hnSNpbX921UbzYKdMPx9tkpB231Pca3ZV8L/89UfALRqd8mAys8dzCK9xBzSdsZAThZT6mgV5HD4@vger.kernel.org, AJvYcCXQmg11sfpnl36i9hLkZYtX99HyUS1RLbPjv9F1sNTmlqPtUErbiWctvoW9ia9yCfWudjVW/QpSCCc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwTUI0aRYqPYbIkTlXbVF5Do+p0IjP51nm3x73rePt3SyVFveR+
+	dOv5gDfbtaVU96Zu+m6Q/jCJc6rVNbB3GKtvvS7wEOnV5g1jizZn8yOC
+X-Gm-Gg: ASbGncuLkjeTbX7kBpWkfOyluXiyoVrV/5/mnNP1LJgIj828lnyjY58vbiSeTMnKiH3
+	ZB9elTvVaSvztdF02h14E0JmWNlmM3U2IQ8fKXY3Z6gquJyJmcC1uUTrJO2Sf+PWRsYODnzouBW
+	GrEApjTbUIjnSlXT9Va14DuW4zMlSXE+5bNI0RhYckDhumJYENnHeDhf0g8wwAqhzxsk8rYWM38
+	WP6Jw+JQ5RzAsTfl2U4uSGUv2ILtrlUzDy1agj2L8EkW7mp/EIIUgL1ZvIY7NusH9J3sKN1nbP3
+	3b/ESFVdYN+bZrJDHaOLiZ+mzcMjdRoGg4hoNyuUQrU680eXPRFYpxEV5GWTJqU/IGeNrT4obNn
+	F
+X-Google-Smtp-Source: AGHT+IGH6NhjWRQzveyywsEHiNFK4CABJe+WM0+dyFghWFFkW3BP9KOOz7lN2b71Pta0/mTCAqJMrA==
+X-Received: by 2002:a17:907:9717:b0:ad5:6258:996f with SMTP id a640c23a62f3a-ad8989f78acmr418190566b.19.1748438765502;
+        Wed, 28 May 2025 06:26:05 -0700 (PDT)
+Received: from iku.Home ([2a06:5906:61b:2d00:7078:193c:ccdc:e2f5])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad8a19ad462sm107742766b.4.2025.05.28.06.26.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 May 2025 06:26:04 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] clk: renesas: r9a09g056: Add clock and reset entries for USB2.0
+Date: Wed, 28 May 2025 14:25:58 +0100
+Message-ID: <20250528132558.167178-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250528-pinctrl-const-desc-v1-0-76fe97899945@linaro.org> <20250528-pinctrl-const-desc-v1-14-76fe97899945@linaro.org>
-In-Reply-To: <20250528-pinctrl-const-desc-v1-14-76fe97899945@linaro.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 28 May 2025 14:54:41 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUGDf5n_Fg7pwiPumm95nPUXyH15geAy2ULwY3U+OtZJA@mail.gmail.com>
-X-Gm-Features: AX0GCFu5yojjEPsbiWTwjJJQ5khyE5KBTwGS5B0aqZkGtvZvOhYOGPRkjlMB-4Q
-Message-ID: <CAMuHMdUGDf5n_Fg7pwiPumm95nPUXyH15geAy2ULwY3U+OtZJA@mail.gmail.com>
-Subject: Re: [PATCH 14/17] pinctrl: renesas: Move fixed assignments to
- 'pinctrl_desc' definition
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Basavaraj Natikar <Basavaraj.Natikar@amd.com>, 
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
-	Joel Stanley <joel@jms.id.au>, Avi Fishman <avifishman70@gmail.com>, 
-	Tomer Maimon <tmaimon77@gmail.com>, Tali Perry <tali.perry1@gmail.com>, 
-	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>, 
-	Benjamin Fair <benjaminfair@google.com>, =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
-	=?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, Lorenzo Bianconi <lorenzo@kernel.org>, 
-	Sean Wang <sean.wang@kernel.org>, Jesper Nilsson <jesper.nilsson@axis.com>, 
-	Lars Persson <lars.persson@axis.com>, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Damien Le Moal <dlemoal@kernel.org>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Michal Simek <michal.simek@amd.com>, 
-	Emil Renner Berthing <kernel@esmil.dk>, Jianlong Huang <jianlong.huang@starfivetech.com>, 
-	Hal Feng <hal.feng@starfivetech.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org, 
-	openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org, 
-	linux-arm-kernel@axis.com, linux-riscv@lists.infradead.org, 
-	linux-rtc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Krzysztof,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Wed, 28 May 2025 at 12:42, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> Assign 'struct pinctrl_desc' .pins and .npins members in definition to
-> make clear that number of pins is fixed and have less code in the probe.
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Add clock and reset entries for USB2.0.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ drivers/clk/renesas/r9a09g056-cpg.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-> --- a/drivers/pinctrl/renesas/pinctrl-rzn1.c
-> +++ b/drivers/pinctrl/renesas/pinctrl-rzn1.c
-> @@ -680,6 +680,8 @@ static struct pinctrl_desc rzn1_pinctrl_desc = {
-
-This structure could be made const...
-
->         .pmxops = &rzn1_pmx_ops,
->         .confops = &rzn1_pinconf_ops,
->         .owner = THIS_MODULE,
-> +       .pins = rzn1_pins,
-> +       .npins = ARRAY_SIZE(rzn1_pins),
->  };
->
->  static int rzn1_pinctrl_parse_groups(struct device_node *np,
-> @@ -878,8 +880,6 @@ static int rzn1_pinctrl_probe(struct platform_device *pdev)
->
->         ipctl->dev = &pdev->dev;
->         rzn1_pinctrl_desc.name = dev_name(&pdev->dev);
-
-... if you would replace this assignment by a hardcoded name
-like "pinctrl-rzn1".
-
-> -       rzn1_pinctrl_desc.pins = rzn1_pins;
-> -       rzn1_pinctrl_desc.npins = ARRAY_SIZE(rzn1_pins);
->
->         ret = rzn1_pinctrl_probe_dt(pdev, ipctl);
->         if (ret) {
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/clk/renesas/r9a09g056-cpg.c b/drivers/clk/renesas/r9a09g056-cpg.c
+index 13b5db79aab4..e370ffb8c1e2 100644
+--- a/drivers/clk/renesas/r9a09g056-cpg.c
++++ b/drivers/clk/renesas/r9a09g056-cpg.c
+@@ -134,6 +134,7 @@ static const struct cpg_core_clk r9a09g056_core_clks[] __initconst = {
+ 	DEF_DDIV("ca55_0_coreclk3", R9A09G056_CA55_0_CORE_CLK3, CLK_PLLCA55,
+ 		 CDDIV1_DIVCTL3, dtable_1_8),
+ 	DEF_FIXED("iotop_0_shclk", R9A09G056_IOTOP_0_SHCLK, CLK_PLLCM33_DIV16, 1, 1),
++	DEF_FIXED("usb2_0_clk_core0", R9A09G056_USB2_0_CLK_CORE0, CLK_QEXTAL, 1, 1),
+ 	DEF_FIXED("gbeth_0_clk_ptp_ref_i", R9A09G056_GBETH_0_CLK_PTP_REF_I,
+ 		  CLK_PLLETH_DIV_125_FIX, 1, 1),
+ 	DEF_FIXED("gbeth_1_clk_ptp_ref_i", R9A09G056_GBETH_1_CLK_PTP_REF_I,
+@@ -219,6 +220,12 @@ static const struct rzv2h_mod_clk r9a09g056_mod_clks[] __initconst = {
+ 						BUS_MSTOP(8, BIT(4))),
+ 	DEF_MOD("sdhi_2_aclk",			CLK_PLLDTY_ACPU_DIV4, 10, 14, 5, 14,
+ 						BUS_MSTOP(8, BIT(4))),
++	DEF_MOD("usb2_0_u2h0_hclk",		CLK_PLLDTY_DIV8, 11, 3, 5, 19,
++						BUS_MSTOP(7, BIT(7))),
++	DEF_MOD("usb2_0_u2p_exr_cpuclk",	CLK_PLLDTY_ACPU_DIV4, 11, 5, 5, 21,
++						BUS_MSTOP(7, BIT(9))),
++	DEF_MOD("usb2_0_pclk_usbtst0",		CLK_PLLDTY_ACPU_DIV4, 11, 6, 5, 22,
++						BUS_MSTOP(7, BIT(10))),
+ 	DEF_MOD_MUX_EXTERNAL("gbeth_0_clk_tx_i", CLK_SMUX2_GBE0_TXCLK, 11, 8, 5, 24,
+ 						BUS_MSTOP(8, BIT(5)), 1),
+ 	DEF_MOD_MUX_EXTERNAL("gbeth_0_clk_rx_i", CLK_SMUX2_GBE0_RXCLK, 11, 9, 5, 25,
+@@ -280,6 +287,9 @@ static const struct rzv2h_reset r9a09g056_resets[] __initconst = {
+ 	DEF_RST(10, 7, 4, 24),		/* SDHI_0_IXRST */
+ 	DEF_RST(10, 8, 4, 25),		/* SDHI_1_IXRST */
+ 	DEF_RST(10, 9, 4, 26),		/* SDHI_2_IXRST */
++	DEF_RST(10, 12, 4, 29),		/* USB2_0_U2H0_HRESETN */
++	DEF_RST(10, 14, 4, 31),		/* USB2_0_U2P_EXL_SYSRST */
++	DEF_RST(10, 15, 5, 0),		/* USB2_0_PRESETN */
+ 	DEF_RST(11, 0, 5, 1),		/* GBETH_0_ARESETN_I */
+ 	DEF_RST(11, 1, 5, 2),		/* GBETH_1_ARESETN_I */
+ 	DEF_RST(13, 13, 6, 14),		/* GPU_0_RESETN */
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.49.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
