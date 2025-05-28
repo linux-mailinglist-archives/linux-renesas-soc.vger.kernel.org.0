@@ -1,334 +1,264 @@
-Return-Path: <linux-renesas-soc+bounces-17588-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17589-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55A1EAC663D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 11:48:54 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B86EAC66ED
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 12:27:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0B353165651
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 09:48:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D8D831BA2DFA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 10:27:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC7C5275863;
-	Wed, 28 May 2025 09:48:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EC842749DE;
+	Wed, 28 May 2025 10:27:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MiceM8ZH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YKHDQo4n"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0189A1EB193;
-	Wed, 28 May 2025 09:48:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73A4A3398A;
+	Wed, 28 May 2025 10:27:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748425729; cv=none; b=q5xy6EUzxpBXUDIrKg+B4l4EXDT8O6qJkxoh15dNlgESZd5YvprA93EpdmwcGPCqe9MuowFIyYYeXcimNN4jzFkVzJ2ch7mF/8irZf+IoWnirgVVJg0Ar1EYao7KkFsQZ3/mLn4Ttdl7fY8Bfr63Fq3p5KDNrbSWwuR9G6owmzw=
+	t=1748428042; cv=none; b=GLY1rVnX9TWsraCHKXHPcEWy6WD6FufQwwp2tLtyiKomjmGSpxhntz9p0cPtcSk/FVqSjgB8jn5ym9HZKGDRQRJgw7yHejabOxnUidM0Q6qJJOG1fUh6onBmF73WJ8zYBP5BE+U6OMdc4pd9DeEJauihcF0vYWeZKp7pbPcaMb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748425729; c=relaxed/simple;
-	bh=Uinns349GxH1UR6aquqSJAn77/2GAuIwH7OpLa221PM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rMReJrJCgaTXdQZ4dUMzotEC0m96oe9T04b+iaNgzRId7XIk6Bj45wHIewP+y+VFGuiRoSz/gwwTY9zX4iXKanRlMCNC9931L3Z7o7v/Eys3TTIRXA+PfL2xQl95d4o3uxeRRUF1ASCSCfXpzuFkxJo9rzb9pdHL59g5XiX61to=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MiceM8ZH; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43cf257158fso36648165e9.2;
-        Wed, 28 May 2025 02:48:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748425726; x=1749030526; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YejcQjvowFFKkqN+UPoZNPAf32M6HyCXABg2+FNPRa0=;
-        b=MiceM8ZHMEqXDc+TTwJgcGHGooDwvxe71qsaljJ24CMv5GBt0i34fgUgzdRLaBCr09
-         rNt8AaCI1KGbbBueXpd/grj186cOqSUcZJrj/gf+h3kzfl5+c4W//GbZTj9s1vrOF44L
-         CrQsSsJK5gdgty1fCaTZZW4x5p3E3rXRWsPF26NmMFlQ3PXBWAcze6SUwkOGn0MZsX3/
-         20hf039WuYIsxRFqchlfOSFF8d7jajZR6KnRnE20+0VcixNZbd1VqsyECoV1R4EMr8fR
-         IqxGMutTl2tX5o9VGzoRqa50P5X7JKy0xyPOqXKJfmWVJaSrBwOA/btEMWxouYYuWoRl
-         0xSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748425726; x=1749030526;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YejcQjvowFFKkqN+UPoZNPAf32M6HyCXABg2+FNPRa0=;
-        b=ojKzZE9BPFjcWvnwPulA4ju+XmkGkMEZO2p+MI1LEMesiBtUeCa7Lba/PiBEFPMrw/
-         Aq+Q7u+UekV+novw13iLUQ9kucx2gxLW1efvaiqlCt5WZRwQ8AWm7f3/UOw26aIcahbu
-         EGBWKr+4B58axbc0e6nIzw8ag5lIxqxuXu8xs5J3HSWup3zE1nbF6mYZR7gT5xHm8mwh
-         zS5TDmx/lDCcVHXhw1FWeTWwpZWkWwQD66753ojnwA9KDP35viYES/v7Wc6MFkriNCUR
-         hYLe0mg5yrbLRJnsM+udbRnbjtiFNJJioRnX2110louPiPW3e88sOonyZYt3nLLL/n2P
-         dT1A==
-X-Forwarded-Encrypted: i=1; AJvYcCUBfe58iYwfe4FOB4B2pY3UcXS6/GeGUGD2Qmb2XrbyaYAb6NqyaDlwm4Ulvdlh7d+j6GUe6BqjI/Lc@vger.kernel.org, AJvYcCUZOpZXfasuio8YfIlAxNmFFxpBboLKMSXgLNUHh+jOqPMIZyCPhd2lI6BTH2NvC0OaSoNEbkPCVcdDOqgU@vger.kernel.org, AJvYcCVBZk/uWxJXMPOiMXtvGagsnN1rJjsb/F4u3Ho08ikePJaI3lvRo96t13S/Pbhf8ZTLzYBVWYxsGdQU@vger.kernel.org, AJvYcCXkaPDHunzIq0SgVp3LRKb3UYHfjACFJb3tCp2sXpr+zwhKruwmR1IWq014eEQmoSjpCnr/CozJgrKtnVP3qeihUeU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxL81YB0OcG5gfhWtTpnkXLVTXtWCUkHcMzb6U4PGHvGVVQKcnX
-	2uRHDtx64AGfAFr+oSNsDplbFWKqxTXf3yviooq2TTjHQ+5VFDao0/zFGvfU6f7l5Vr3lfIOfPE
-	yr3qLj7yDdNHcYvGTFoyx7zDXOqhHFXs=
-X-Gm-Gg: ASbGncs6DcWickGSa1C/ah57oASycCuZYXa0c3wY5m1IcgfGBXp68ZPzbBUg2qE8eVc
-	qzxAmm0dM8v6nQYeHGMK+SKDmdJZNr4IhYEC6pXcu4rAS/keiPjXM7jhVMUde/gh/imzfhHhQN3
-	OQ2Ex4HdOvCFOL+Sx4iOcXulLU77Qd5wAIPJYqvdObDOFPI6v7ltPBE2UGqRj11wwaeA==
-X-Google-Smtp-Source: AGHT+IFOU92ZFS2S3O0R5SwadRfYVFCtrH9pyzPNYTlNPomarpL8i1KADqoaf8Wf35yeCGDtsi5p0K+tgRPxmCxDFK4=
-X-Received: by 2002:a05:600c:6089:b0:444:c28f:e81a with SMTP id
- 5b1f17b1804b1-44c94c246b9mr146760025e9.27.1748425726021; Wed, 28 May 2025
- 02:48:46 -0700 (PDT)
+	s=arc-20240116; t=1748428042; c=relaxed/simple;
+	bh=qXX3RBy7FaLfsbPVhYF8K2BxUXDasKCG7xQakUwEPIs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eM27oLyu9mwKPMS5LbimrMARUS6YzUN9suuovKS63mff0jhNGDMm8T4kKCUuPji8AsSzVRXwprWTzYOQhXGd/R+W3yUyNDlRDGU94PZIe4OfuVsak54I74lTQsgBOJCBvZdLXBhGdxJv7Kb07UOq1IkljsbjD7kBnik1+xkqBz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YKHDQo4n; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1748428041; x=1779964041;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=qXX3RBy7FaLfsbPVhYF8K2BxUXDasKCG7xQakUwEPIs=;
+  b=YKHDQo4nT+PQD+pIGOTll6+9ZwtBPRzPi6gIh9RTrwPDwYeTMC/i4dd2
+   4YlTKsscnkSuH8IcoA3o5ebBsbxIDQ0AQNQ9+0HE74+hAIjIpYBRUUQCa
+   cgjK1EUqmKbku15VhivTd6blUob3kI0BX+TNk1l0ABuLiDo/1oK9g97bl
+   /6/h1E+2wNFs0/gWDK2QLwrMqp5lUTU4BtH1YtYN6gCTvGQTkFXN63FbP
+   O1y4Dx//8AaLMAJDt8vi4AetwVBoyHTWyL6Vrj+Kl53Mge+dGCh9dpg1n
+   tei2VOYBFFrJ4UWb3U5f7Auhj9ZKXZHwH4Gcj6kO79fGAKtdJphV8vKL4
+   w==;
+X-CSE-ConnectionGUID: Y/z+Y1d+Tw2UsoFT3QaFLA==
+X-CSE-MsgGUID: KldjUmjZRqOUfECy6ZdfaA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="53073284"
+X-IronPort-AV: E=Sophos;i="6.15,320,1739865600"; 
+   d="scan'208";a="53073284"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2025 03:27:18 -0700
+X-CSE-ConnectionGUID: M7BN0y+pTPCQS0eGzp5CHw==
+X-CSE-MsgGUID: Wu9/qOBSS9C+sbGibUPusA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,320,1739865600"; 
+   d="scan'208";a="144179791"
+Received: from sschumil-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.50])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2025 03:27:16 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id AED5D11F741;
+	Wed, 28 May 2025 13:27:12 +0300 (EEST)
+Date: Wed, 28 May 2025 10:27:12 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 4/6] media: rcar-vin: Prepare for unifying all
+ v4l-async notifiers
+Message-ID: <aDblAEnmaunbaZeg@kekkonen.localdomain>
+References: <20250521132037.1463746-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250521132037.1463746-5-niklas.soderlund+renesas@ragnatech.se>
+ <aDVjW_k_keyFQbPT@kekkonen.localdomain>
+ <20250527110647.GG12492@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250512184302.241417-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250512184302.241417-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdX5_P4R43HOPuZc3JSAOQ5O2xOBDVhVVg1SxU1ucPdbPA@mail.gmail.com>
-In-Reply-To: <CAMuHMdX5_P4R43HOPuZc3JSAOQ5O2xOBDVhVVg1SxU1ucPdbPA@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 28 May 2025 10:48:20 +0100
-X-Gm-Features: AX0GCFvgbR9aYLSei5CukQRvloak3Q9KnXFyd1nNDHatfD-viQKLYa05qK7GLSE
-Message-ID: <CA+V-a8sde6Zaz3Z2uDt3OGZ52UBJfR3vQMs4-ZUusDu=oNwFhg@mail.gmail.com>
-Subject: Re: [PATCH v5 4/4] drm: renesas: rz-du: mipi_dsi: Add support for
- RZ/V2H(P) SoC
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, Magnus Damm <magnus.damm@gmail.com>, 
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250527110647.GG12492@pendragon.ideasonboard.com>
 
-Hi Geert,
+Hi Laurent,
 
-Thank you for the review.
+On Tue, May 27, 2025 at 01:06:47PM +0200, Laurent Pinchart wrote:
+> On Tue, May 27, 2025 at 07:01:47AM +0000, Sakari Ailus wrote:
+> > On Wed, May 21, 2025 at 03:20:35PM +0200, Niklas Söderlund wrote:
+> > > The R-Car VIN driver is needless complex and uses more then one
+> > 
+> > s/needless\K/ly/
+> > 
+> > > v4l-async notifier to attach to all its subdevices. Prepare for unifying
+> > > them by moving rvin_parallel_parse_of() to where it needs to be when
+> > > they are unified.
+> > > 
+> > > The function is moved verbatim and there is no change in behavior.
+> > > 
+> > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > > ---
+> > >  .../platform/renesas/rcar-vin/rcar-core.c     | 106 +++++++++---------
+> > >  1 file changed, 53 insertions(+), 53 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> > > index d9ad56fb2aa9..60ec57d73a12 100644
+> > > --- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> > > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> > > @@ -337,6 +337,59 @@ static void rvin_group_notifier_cleanup(struct rvin_dev *vin)
+> > >  	}
+> > >  }
+> > >  
+> > > +static int rvin_parallel_parse_of(struct rvin_dev *vin)
+> > > +{
+> > > +	struct fwnode_handle *ep, *fwnode;
+> > > +	struct v4l2_fwnode_endpoint vep = {
+> > > +		.bus_type = V4L2_MBUS_UNKNOWN,
+> > > +	};
+> > > +	struct v4l2_async_connection *asc;
+> > > +	int ret;
+> > > +
+> > > +	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(vin->dev), 0, 0, 0);
+> > > +	if (!ep)
+> > > +		return 0;
+> > > +
+> > > +	fwnode = fwnode_graph_get_remote_endpoint(ep);
+> > > +	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
+> > > +	fwnode_handle_put(ep);
+> > > +	if (ret) {
+> > > +		vin_err(vin, "Failed to parse %pOF\n", to_of_node(fwnode));
+> 
+> I just noticed that this error message isn't correct. The endpoint
+> before parsed is ep, not fwnode, so you should write
+> 
+> 		vin_err(vin, "Failed to parse %pOF\n", to_of_node(ep));
+> 
+> > > +		ret = -EINVAL;
+> > > +		goto out;
+> > > +	}
+> > > +
+> > > +	switch (vep.bus_type) {
+> > > +	case V4L2_MBUS_PARALLEL:
+> > > +	case V4L2_MBUS_BT656:
+> > > +		vin_dbg(vin, "Found %s media bus\n",
+> > > +			vep.bus_type == V4L2_MBUS_PARALLEL ?
+> > > +			"PARALLEL" : "BT656");
+> > > +		vin->parallel.mbus_type = vep.bus_type;
+> > > +		vin->parallel.bus = vep.bus.parallel;
+> > > +		break;
+> > > +	default:
+> > > +		vin_err(vin, "Unknown media bus type\n");
+> > > +		ret = -EINVAL;
+> > > +		goto out;
+> > > +	}
+> > > +
+> > > +	asc = v4l2_async_nf_add_fwnode(&vin->notifier, fwnode,
+> > > +				       struct v4l2_async_connection);
+> > 
+> > If you use v4l2_async_nf_add_fwnode_remote() here, you can omit
+> > fwnode_graph_get_remote_endpoint() call above. Also the error handling
+> > becomes more simple.
+> 
+> That would contradict the commit message that indicates the function is
+> moved without being modified. I'd rather keep the patch as-is, and then
+> improve the function in a separate patch.
 
-On Fri, May 23, 2025 at 4:19=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar, Fabrizio,
->
-> On Mon, 12 May 2025 at 20:43, Prabhakar <prabhakar.csengg@gmail.com> wrot=
-e:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Add DSI support for Renesas RZ/V2H(P) SoC.
-> >
-> > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Thanks for your patch!
->
-> > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > @@ -5,6 +5,7 @@
-> >   * Copyright (C) 2022 Renesas Electronics Corporation
-> >   */
-> >  #include <linux/clk.h>
-> > +#include <linux/clk/renesas-rzv2h-dsi.h>
-> >  #include <linux/delay.h>
-> >  #include <linux/io.h>
-> >  #include <linux/iopoll.h>
-> > @@ -30,6 +31,9 @@
-> >
-> >  #define RZ_MIPI_DSI_FEATURE_16BPP      BIT(0)
-> >
-> > +#define RZV2H_MIPI_DPHY_FOUT_MIN_IN_MEGA       (80 * MEGA)
-> > +#define RZV2H_MIPI_DPHY_FOUT_MAX_IN_MEGA       (1500 * MEGA)
->
-> RZV2H_MIPI_DPHY_FOUT_M{IN,AX}_IN_MHZ?
->
-Ok, I'll rename them as above.
+Sounds like a good idea.
 
-> > +
-> >  struct rzg2l_mipi_dsi;
-> >
-> >  struct rzg2l_mipi_dsi_hw_info {
-> > @@ -40,6 +44,7 @@ struct rzg2l_mipi_dsi_hw_info {
-> >                               u64 *hsfreq_millihz);
-> >         unsigned int (*dphy_mode_clk_check)(struct rzg2l_mipi_dsi *dsi,
-> >                                             unsigned long mode_freq);
-> > +       const struct rzv2h_pll_div_limits *cpg_dsi_limits;
-> >         u32 phy_reg_offset;
-> >         u32 link_reg_offset;
-> >         unsigned long max_dclk;
-> > @@ -47,6 +52,11 @@ struct rzg2l_mipi_dsi_hw_info {
-> >         u8 features;
-> >  };
-> >
-> > +struct rzv2h_dsi_mode_calc {
-> > +       unsigned long mode_freq;
-> > +       u64 mode_freq_hz;
->
-> Interesting... I guess mode_freq is not in Hz?
->
-Actually it is int Hz, I will make it unsigned long.
+> 
+> Regarding improvements, declaring ep and fwnode as
+> 
+> 	struct fwnode_handle __free(fwnode_handle) *ep = NULL;
+> 	struct fwnode_handle __free(fwnode_handle) *fwnode = NULL;
+> 
+> would also simplify error handling.
+> 
+> > > +	if (IS_ERR(asc)) {
+> > > +		ret = PTR_ERR(asc);
+> > > +		goto out;
+> > > +	}
+> > > +
+> > > +	vin->parallel.asc = asc;
+> > > +
+> > > +	vin_dbg(vin, "Add parallel OF device %pOF\n", to_of_node(fwnode));
+> > > +out:
+> > > +	fwnode_handle_put(fwnode);
+> > > +
+> > > +	return ret;
+> > > +}
+> > > +
+> > >  static int rvin_group_notifier_init(struct rvin_dev *vin, unsigned int port,
+> > >  				    unsigned int max_id)
+> > >  {
+> > > @@ -635,59 +688,6 @@ static const struct v4l2_async_notifier_operations rvin_parallel_notify_ops = {
+> > >  	.complete = rvin_parallel_notify_complete,
+> > >  };
+> > >  
+> > > -static int rvin_parallel_parse_of(struct rvin_dev *vin)
+> > > -{
+> > > -	struct fwnode_handle *ep, *fwnode;
+> > > -	struct v4l2_fwnode_endpoint vep = {
+> > > -		.bus_type = V4L2_MBUS_UNKNOWN,
+> > > -	};
+> > > -	struct v4l2_async_connection *asc;
+> > > -	int ret;
+> > > -
+> > > -	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(vin->dev), 0, 0, 0);
+> > > -	if (!ep)
+> > > -		return 0;
+> > > -
+> > > -	fwnode = fwnode_graph_get_remote_endpoint(ep);
+> > > -	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
+> > > -	fwnode_handle_put(ep);
+> > > -	if (ret) {
+> > > -		vin_err(vin, "Failed to parse %pOF\n", to_of_node(fwnode));
+> > > -		ret = -EINVAL;
+> > > -		goto out;
+> > > -	}
+> > > -
+> > > -	switch (vep.bus_type) {
+> > > -	case V4L2_MBUS_PARALLEL:
+> > > -	case V4L2_MBUS_BT656:
+> > > -		vin_dbg(vin, "Found %s media bus\n",
+> > > -			vep.bus_type == V4L2_MBUS_PARALLEL ?
+> > > -			"PARALLEL" : "BT656");
+> > > -		vin->parallel.mbus_type = vep.bus_type;
+> > > -		vin->parallel.bus = vep.bus.parallel;
+> > > -		break;
+> > > -	default:
+> > > -		vin_err(vin, "Unknown media bus type\n");
+> > > -		ret = -EINVAL;
+> > > -		goto out;
+> > > -	}
+> > > -
+> > > -	asc = v4l2_async_nf_add_fwnode(&vin->notifier, fwnode,
+> > > -				       struct v4l2_async_connection);
+> > > -	if (IS_ERR(asc)) {
+> > > -		ret = PTR_ERR(asc);
+> > > -		goto out;
+> > > -	}
+> > > -
+> > > -	vin->parallel.asc = asc;
+> > > -
+> > > -	vin_dbg(vin, "Add parallel OF device %pOF\n", to_of_node(fwnode));
+> > > -out:
+> > > -	fwnode_handle_put(fwnode);
+> > > -
+> > > -	return ret;
+> > > -}
+> > > -
+> > >  static void rvin_parallel_cleanup(struct rvin_dev *vin)
+> > >  {
+> > >  	v4l2_async_nf_unregister(&vin->notifier);
 
-> > +};
-> > +
-> >  struct rzg2l_mipi_dsi {
-> >         struct device *dev;
-> >         void __iomem *mmio;
->
-> > +static u16 rzv2h_dphy_find_ulpsexit(unsigned long freq)
-> > +{
-> > +       static const unsigned long hsfreq[] =3D {
-> > +               1953125UL,
-> > +               3906250UL,
-> > +               7812500UL,
-> > +               15625000UL,
-> > +       };
-> > +       static const u16 ulpsexit[] =3D {49, 98, 195, 391};
-> > +       unsigned int i;
-> > +
-> > +       for (i =3D 0; i < ARRAY_SIZE(hsfreq); i++) {
-> > +               if (freq <=3D hsfreq[i])
-> > +                       break;
-> > +       }
-> > +
-> > +       if (i =3D=3D ARRAY_SIZE(hsfreq))
-> > +               i -=3D 1;
->
-> i--
->
-OK.
+-- 
+Regards,
 
-> > +
-> > +       return ulpsexit[i];
-> > +}
-> > +
-> > +static u16 rzv2h_dphy_find_timings_val(unsigned long freq, u8 index)
-> > +{
-> > +       const struct rzv2h_mipi_dsi_timings *timings;
-> > +       u16 i;
-> > +
-> > +       timings =3D &rzv2h_dsi_timings_tables[index];
-> > +       for (i =3D 0; i < timings->len; i++) {
-> > +               unsigned long hsfreq =3D timings->hsfreq[i] * 10000000U=
-L;
->
-> (I wanted to say "MEGA", but then I noticed the 7th zero ;-)
->
-> 10 * MEGA?
->
-Agreed, I will update it as above.
-
-> > +
-> > +               if (freq <=3D hsfreq)
-> > +                       break;
-> > +       }
-> > +
-> > +       if (i =3D=3D timings->len)
-> > +               i -=3D 1;
->
-> i--
->
-> > +
-> > +       return timings->start_index + i;
-> > +};
-> > +
-> >  static void rzg2l_mipi_dsi_phy_write(struct rzg2l_mipi_dsi *dsi, u32 r=
-eg, u32 data)
-> >  {
-> >         iowrite32(data, dsi->mmio + dsi->info->phy_reg_offset + reg);
-> > @@ -308,6 +479,158 @@ static int rzg2l_dphy_conf_clks(struct rzg2l_mipi=
-_dsi *dsi, unsigned long mode_f
-> >         return 0;
-> >  }
-> >
-> > +static unsigned int rzv2h_dphy_mode_clk_check(struct rzg2l_mipi_dsi *d=
-si,
-> > +                                             unsigned long mode_freq)
-> > +{
-> > +       struct rzv2h_plldsi_parameters *dsi_parameters =3D &dsi->dsi_pa=
-rameters;
-> > +       u64 hsfreq_millihz, mode_freq_hz, mode_freq_millihz;
-> > +       struct rzv2h_plldsi_parameters cpg_dsi_parameters;
-> > +       unsigned int bpp, i;
-> > +
-> > +       bpp =3D mipi_dsi_pixel_format_to_bpp(dsi->format);
-> > +
-> > +       for (i =3D 0; i < 10; i +=3D 1) {
-> > +               unsigned long hsfreq;
-> > +               bool parameters_found;
-> > +
-> > +               mode_freq_hz =3D mode_freq * MILLI + i;
->
-> KILO?
->
-OK, as mode_freq_hz is in Hz I'll make it unsigned long.
-
-> And I guess you want to use mul_u32_u32(), as mode_freq_hz is u64?
->
-and use mul_u32_u32() below...
-> > +               mode_freq_millihz =3D mode_freq_hz * MILLI * 1ULL;
->
-> Why * 1ULL?
->
-Agreed, not needed, I will use mul_u32_u32() here.
-
-> > +               parameters_found =3D rzv2h_dsi_get_pll_parameters_value=
-s(dsi->info->cpg_dsi_limits,
-> > +                                                                      =
-&cpg_dsi_parameters,
-> > +                                                                      =
-mode_freq_millihz);
-> > +               if (!parameters_found)
-> > +                       continue;
-> > +
-> > +               hsfreq_millihz =3D DIV_ROUND_CLOSEST_ULL(cpg_dsi_parame=
-ters.freq_millihz * bpp,
-> > +                                                      dsi->lanes);
-> > +               parameters_found =3D rzv2h_dsi_get_pll_parameters_value=
-s(&rzv2h_plldsi_div_limits,
-> > +                                                                      =
-dsi_parameters,
-> > +                                                                      =
-hsfreq_millihz);
-> > +               if (!parameters_found)
-> > +                       continue;
-> > +
-> > +               if (abs(dsi_parameters->error_millihz) >=3D 500)
-> > +                       continue;
-> > +
-> > +               hsfreq =3D DIV_ROUND_CLOSEST_ULL(hsfreq_millihz, MILLI)=
-;
-> > +               if (hsfreq >=3D RZV2H_MIPI_DPHY_FOUT_MIN_IN_MEGA &&
-> > +                   hsfreq <=3D RZV2H_MIPI_DPHY_FOUT_MAX_IN_MEGA) {
-> > +                       dsi->mode_calc.mode_freq_hz =3D mode_freq_hz;
-> > +                       dsi->mode_calc.mode_freq =3D mode_freq;
-> > +                       return MODE_OK;
-> > +               }
-> > +       }
-> > +
-> > +       return MODE_CLOCK_RANGE;
-> > +}
->
-> > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
-> > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
-> > @@ -40,6 +40,39 @@
-> >  #define DSIDPHYTIM3_THS_TRAIL(x)       ((x) << 8)
-> >  #define DSIDPHYTIM3_THS_ZERO(x)                ((x) << 0)
-> >
-> > +/* RZ/V2H DPHY Registers */
-> > +#define PLLENR                         0x000
-> > +#define PLLENR_PLLEN                   BIT(0)
-> > +
-> > +#define PHYRSTR                                0x004
-> > +#define PHYRSTR_PHYMRSTN               BIT(0)
-> > +
-> > +#define PLLCLKSET0R                    0x010
-> > +#define PLLCLKSET0R_PLL_S(x)           ((x) << 0)
->
->  #define PLLCLKSET0R_PLL_S GENMASK(2, 0)
->
-> and after that you can use FIELD_PREP(PLLCLKSET0R_PLL_S, x) in the code.
-> More opportunities for masks below...
->
-Thanks, I will make use of GENMASK/FIELD_PREP macros.
-
-Cheers,
-Prabhakar
+Sakari Ailus
 
