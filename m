@@ -1,192 +1,195 @@
-Return-Path: <linux-renesas-soc+bounces-17633-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17634-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1F82AC6B40
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 16:05:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E520CAC6B79
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 16:13:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7174D1BC4611
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 14:05:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3D1F99E8329
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 May 2025 14:13:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BC6C288C0E;
-	Wed, 28 May 2025 14:05:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73CB42882A6;
+	Wed, 28 May 2025 14:13:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I7pXTYCE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aj3lQrZm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 467052874EF;
-	Wed, 28 May 2025 14:05:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D58B19B3CB;
+	Wed, 28 May 2025 14:13:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748441108; cv=none; b=kyQ8Is6wX0NdWWbZ+fWXhdobLdnct+QmLJtoxn5TaJ2uFIhu6kRy/irMhRXn9KmvX8f1x3XgA9gD4Gzk0XXXxR8MYBeHvD2xHeyypUBMyTfJHDjJtMvqmJ2cwpZqNlELNbLgXeXzXozrTP5kSztn7B9Qx8ICfGFyRjVkFq7il68=
+	t=1748441613; cv=none; b=JX17+Rrqlg2brq4eqfPXk64dnYxn3IuhHy0ebjP4uHBPbEfSVbo0sKTOaY9r+tkJt4DYFOVZlf4ITMVtND9ioAyi6RM+VBLMk2GltAxczEsr11+OA5ySXniT0nx00PGjQ1wGcacFUc7yklLZ/1f2rQEsbeYRztNw7QWOsGpDGwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748441108; c=relaxed/simple;
-	bh=eK8J4rKSp8TMiHRSS+hbmaeMQ60qgYoItb86jAoi6TA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KCxS7TaOS/3zFi6NdJD2ihKT+jHQGY1Oy1eLNjzOE7H/d/QBKAbGz8KUV9iTV3lMFmmZB6WVkSydrTCgmIp5a0hoScimwlrIiiN7IL63dJ815pkmwSzbKtDR1q00txWw1bN91K3Lgd8HxMAnn1Yag16A3TuJ9dpEDfyMKOW4j9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I7pXTYCE; arc=none smtp.client-ip=209.85.128.52
+	s=arc-20240116; t=1748441613; c=relaxed/simple;
+	bh=dpXIbCAlYRmIowUQvMgyFGOg+FO7ISbS1+UG1ZIuELM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eh5UOxZqe27YJCyPegZNUsTwHatFrfvrqtooR0b1vJgKVyJf43Gk5kL9/e3d1SoMErsc4UIumnvssfIAEO0VIj2K2hUAeEYsvqTGad8YeXyuNM93FB1lmu3l+v3HgP+jL+WrIaVZJykRL8tYdnWF9tQLHKWqpd5I8rsxCe1r4e0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aj3lQrZm; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-450cd6b511cso1150115e9.2;
-        Wed, 28 May 2025 07:05:06 -0700 (PDT)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43cfe574976so36299995e9.1;
+        Wed, 28 May 2025 07:13:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748441105; x=1749045905; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1748441610; x=1749046410; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wywLmOGfapMCxW2dgEXjBZVhH7MDXoBTN5ewWnefwOE=;
-        b=I7pXTYCEpdZh8VvDFbCds7XHA8srnqW8SqyRDCJFSLxB3Dk3b1ybunQi9hPcqwEFuk
-         I7Nt45l7xldXFo1B5Q2vc0TWMbIk4ZEb2ioHVwTUQsmAt8OMJq0kN6akg2Dagw8uh9JZ
-         Z1llo0PC8tGwyxyJo+sFszDGqok1HTU7XPmTqd7vRkAtUCMi0UOBKx53IlUIwWyXKv65
-         V2BgLHtFVgtjXr7hpmdMc45iTa2agFMbq79AIBcsgAGik0OTCyXQ9VpHcGQUCHAJvuGp
-         gUWXMt2YjhYowJWyUyiVay20hmEiUZki4sSmVK2EKYgs4kItootKIs7YwOXnSLC4EnMx
-         /x6w==
+        bh=u/NvBcF4s3yGqfgtLGu/F6IheBb4FWCw8Mlh0+qa7IM=;
+        b=aj3lQrZmOCGZLdTm/WMkY5TkY8J5IBvf2ww++U0GuXzFo+Yy5RHQmk1Bu55dSRRMSc
+         cNhLOgofEkW5KqDwlRVZ0lP/jjqaHYxUs6Q/UtguxWHpdIYB0w2Vva3vd4S05AtUuY3M
+         oy7oSOqJkKyD43SYTTYFHyJBtKM4HfZIKLqLxKx6LOrTBrLRRmDUsMMfKpx3g5+spxAb
+         KhtXTapjS8sD+OuZPwEwcaG73Ew2TvO0WP46COqBug88jqdONMC8ct1iI4Kk1zNRceMc
+         WB2IgImBKFCuOpB7Im++v6Itf4Q9ASTRxCNdHdYBgBX96V5ZZGBR5hVpKROxFxPMpWSR
+         ECjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748441105; x=1749045905;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1748441610; x=1749046410;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wywLmOGfapMCxW2dgEXjBZVhH7MDXoBTN5ewWnefwOE=;
-        b=CJXoKCbRKglSQpnQIllCSE5RWAASXPtsgucxRfsXUVjlFPsEurJYVN8vr+qzPPD/AW
-         qNLlJkeyBX7lRX3M/H8p6Lqz1QGTJaLV304LjjkPRUpKvKMHN6+IzIY5oJwTLBihuS/2
-         RigoWvS7GzwZUdLX9XsoRKh5FOqiAYRfGrYazZlWoEF4UUcmwmG5QD/5h2cH6szReX+n
-         HdVrN8LqquijWLOcp3ea3Nic8HpdrAIbsvCpxogl3TmFqLaQhmTr5yjAR2G+aW1swxd8
-         KZZTZj68YT1KLP/9KVzupLYP7bPYZ4dZugmhM86B//pujQra8o0wvMPNXRwTnhoZOOOE
-         EIXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVKp3AsmMB+w4ipK4XSVJmc3GLoH7wfote3wne72xVxZFmVX66kk8lN9GzM/TeZidXbWn+l/DCUf8bl@vger.kernel.org, AJvYcCWP9jWPrUqtmVC3FO0NN1MznvoL11mADTwMciCFmhyiCJv/gF7BnmRgQpl/ansi8usbeagnIqh1mRfhh9LL@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPDQY29J4K4uD+AEVV+R6hoWkcMGjquzW84+Afjyzjo3c+rLkN
-	uJNCID9yY2KsgUJBa0jaRC8CKTeegUnGx4t6LQouFnWF/tPc2jv/3CJbV+lvCqLE
-X-Gm-Gg: ASbGncviTNh+8whtGlJ98Ex3CHbKQYrrGSI3DGgJ3XCwejf1xOnPi8ocOyvxGIRQ8ls
-	D+ckcUR3upoirGiXRG43ZmbmfRgTpKjCQPZ4NnJTw+Mw1LRsYRZiG/+vBtSD34s68tqy2QEY0dV
-	3qvSiXEH2h0eChC4AuQTs2yOqAgVNAqusa+oUVcwefNZjh+huP4zCfL9StfD+2iTxxVkkIFefRN
-	k5eTgK0GeHdRI+VMaYn+asqzEh7+BOTIESE81ypdksC9gifkdvjFpjD0tob2SZuj5VouBwJLezn
-	6qq6HhAu6MOEmmvyvahR1Xr1Kcqkt6qf/q8N04uv+DlMeXpFUVsYQZwoC20HchPf8ZQOiG4ih2n
-	r
-X-Google-Smtp-Source: AGHT+IG3wbpyLM9y8mxjXehCmiOh/DrSRXXFvOxHsVMVuB/IqbCLyu39wh+w7m2yy/yJNfsrBTqa1Q==
-X-Received: by 2002:a05:600c:5118:b0:442:e0f9:394d with SMTP id 5b1f17b1804b1-45077d424fbmr21309815e9.24.1748441104969;
-        Wed, 28 May 2025 07:05:04 -0700 (PDT)
-Received: from iku.Home ([2a06:5906:61b:2d00:7078:193c:ccdc:e2f5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-450787ccbd1sm18846795e9.25.2025.05.28.07.05.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 May 2025 07:05:04 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 2/2] arm64: dts: renesas: r9a09g056n48-rzv2n-evk: Enable USB2.0 support
-Date: Wed, 28 May 2025 15:04:53 +0100
-Message-ID: <20250528140453.181851-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250528140453.181851-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20250528140453.181851-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        bh=u/NvBcF4s3yGqfgtLGu/F6IheBb4FWCw8Mlh0+qa7IM=;
+        b=gEzt297PDL/27IqXsRaA6sz8KoktLxt0Kkwk8ny9g3qdGfGsE9iX7hmWhxaXJssJcC
+         2P7QAjb751pwpQ0PKX4m7uYq3bI4sDc4wYxUw9nKXHdvP4cw495ftDhdaYlmV09R6nND
+         zT4AL0wWmIOG/N/uPxXfZF78UB+IB1ylr4l/chSCskJDfba0iObwBcJ9XxZLgvgbo4HD
+         ndmzo0Uq8lbbH68bXHzxdXLB1yGsBtanuzPfoQI9r3hPBHqwats5wGIzF6RKhdC03rnG
+         180Q7n8WUjy9xIg3o2dskWxqZokkxovnOHapS0oD7cGWSkVXAZ+8KuQTabSHvgOaAAph
+         HEyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU4JThMBpKxFCY4l95uyXad1g0a9t3M68n1LrH83/Ve15FxLX+r+pQ+JgbinDRK9fhPcTaF2m6YRbJb@vger.kernel.org, AJvYcCWaf4Y3qMxt3+KJZ2pGMDLyWKpezByiVoQVb0xUEI+pu9TRPSpMPiIwRU9qmnoH2TEQ8C0/gWF6zOGA+QO1@vger.kernel.org, AJvYcCX/egNEtAVE8lIsvmWEK79WV5q4QQQcl74t+itvqVANEHjuYShvw+O4fr8jZB/qwXsk1uID7Ke5Hi17@vger.kernel.org, AJvYcCXw3LjwQHxzD+fHj0nMHzFUlzPdaWQSWNQWQWpr3DhDVmiFq8NkCGJOWdRIIUgFQIlhqHuBWYM9QPtGlNhyPXG5IRQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyVeRkyYpPfptMKT4uas9rcQNq5tC7/gqoskh0P1sX4exiaRA6f
+	EtVr2WuTX1ibiCqTccG2TfwYNjLVTEo2R9Y2A19j0PXuL2JNe28UcloJhdrmmaSXUtnvSiC9KAo
+	eRQ6kJVNe2h9MWZL77vs6wFqbS9uFxGY=
+X-Gm-Gg: ASbGncvwn8k0Qv+K4gDYbghXiRzJ0WQiqDonp05mHk9c5M8uiL30vuoMh0MCTEuZ5xW
+	LU+9NQO0+W/ItBdAEhwXrrCrsGyN8eBMPAYWa7ft8EOLEA9YSTVtQE/QsH6s/knRQacqObBW7Jd
+	aXy8taws1OisP6f8Vb0MgIcifpPDZ3jYIVtA/HUOh+A2E56bh15tmOBz8gwdy/ljvd+w==
+X-Google-Smtp-Source: AGHT+IHkpT2ySjMUdtYwChJ0/5/1rzDmtMoM740OXZxSdgP34XADiDvdJ0+rhe/twNar59adXV7Gqw4wW8anaLlVuPA=
+X-Received: by 2002:a05:600c:3b17:b0:43c:f1b8:16ad with SMTP id
+ 5b1f17b1804b1-450787c9705mr26585325e9.30.1748441609568; Wed, 28 May 2025
+ 07:13:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250512184302.241417-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250512184302.241417-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdU=iuVFo=VJjV7UM-fLTeZk9TwyOJwojOVOSJiniRneHA@mail.gmail.com>
+ <CA+V-a8sOGEEajx9TQsVBb+NeFRUx2eSo81ZdRQMsLzd0Eiox2w@mail.gmail.com> <CAMuHMdXb5ZCX=U_BR0=AkGtdGkVosty0cGsbKQryTy11Au8H-A@mail.gmail.com>
+In-Reply-To: <CAMuHMdXb5ZCX=U_BR0=AkGtdGkVosty0cGsbKQryTy11Au8H-A@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Wed, 28 May 2025 15:13:02 +0100
+X-Gm-Features: AX0GCFv1m8Xej_HgH71EgZ4Kvyv9BeSbuvPePanFkBHFJSxJNoRIerOZEfcK3ek
+Message-ID: <CA+V-a8sUyZHGPwUzfUan8tmsF19mB2EPN599Tzu2kaoYxSMaHw@mail.gmail.com>
+Subject: Re: [PATCH v5 1/4] clk: renesas: rzv2h-cpg: Add support for DSI clocks
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Magnus Damm <magnus.damm@gmail.com>, 
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-clk@vger.kernel.org, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi Geert,
 
-Enable USB2.0 support on the RZ/V2N EVK board, CN2 connector on the EVK
-supports host/function operation.
+On Wed, May 28, 2025 at 8:09=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Tue, 27 May 2025 at 23:51, Lad, Prabhakar <prabhakar.csengg@gmail.com>=
+ wrote:
+> > On Fri, May 23, 2025 at 3:45=E2=80=AFPM Geert Uytterhoeven <geert@linux=
+-m68k.org> wrote:
+> > > On Mon, 12 May 2025 at 20:43, Prabhakar <prabhakar.csengg@gmail.com> =
+wrote:
+> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > >
+> > > > Add support for PLLDSI and PLLDSI divider clocks.
+> > > >
+> > > > Introduce the `renesas-rzv2h-dsi.h` header to centralize and share
+> > > > PLLDSI-related data structures, limits, and algorithms between the =
+RZ/V2H
+> > > > CPG and DSI drivers.
+> > > >
+> > > > The DSI PLL is functionally similar to the CPG's PLLDSI, but has sl=
+ightly
+> > > > different parameter limits and omits the programmable divider prese=
+nt in
+> > > > CPG. To ensure precise frequency calculations-especially for milliH=
+z-level
+> > > > accuracy needed by the DSI driver-the shared algorithm allows both =
+drivers
+> > > > to compute PLL parameters consistently using the same logic and inp=
+ut
+> > > > clock.
+> > > >
+> > > > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > > > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.c=
+om>
+>
+> > > > +static int rzv2h_cpg_plldsi_div_determine_rate(struct clk_hw *hw,
+> > > > +                                              struct clk_rate_requ=
+est *req)
+> > > > +{
+> > > > +       struct rzv2h_plldsi_div_clk *dsi_div =3D to_plldsi_div_clk(=
+hw);
+> > > > +       struct rzv2h_cpg_priv *priv =3D dsi_div->priv;
+> > > > +       struct rzv2h_plldsi_parameters *dsi_dividers =3D &priv->pll=
+dsi_div_parameters;
+> > > > +       u64 rate_millihz;
+> > > > +
+> > > > +       /*
+> > > > +        * Adjust the requested clock rate (`req->rate`) to ensure =
+it falls within
+> > > > +        * the supported range of 5.44 MHz to 187.5 MHz.
+> > > > +        */
+> > > > +       req->rate =3D clamp(req->rate, 5440000UL, 187500000UL);
+> > > > +
+> > > > +       rate_millihz =3D mul_u32_u32(req->rate, MILLI);
+> > > > +       if (rate_millihz =3D=3D dsi_dividers->error_millihz + dsi_d=
+ividers->freq_millihz)
+> > > > +               goto exit_determine_rate;
+> > > > +
+> > > > +       if (!rzv2h_dsi_get_pll_parameters_values(priv->dsi_limits,
+> > > > +                                                dsi_dividers, rate=
+_millihz)) {
+> > > > +               dev_err(priv->dev,
+> > > > +                       "failed to determine rate for req->rate: %l=
+u\n",
+> > > > +                       req->rate);
+> > > > +               return -EINVAL;
+> > > > +       }
+> > > > +
+> > > > +exit_determine_rate:
+> > > > +       req->best_parent_rate =3D req->rate * dsi_dividers->csdiv;
+> > >
+> > > Shouldn't this also update req->rate with the actual rate?
+> > >
+> > >     req->rate =3D DIV_ROUND_CLOSEST_ULL(dsi_dividers->freq_millihz, M=
+ILLI);
+> > >
+> > Agreed, I will update it.
+>
+> I think not updating req->rate may cause clk_get_rate() to return
+> an incorrect value (can error_millihz > 1000?).  Any chance this fix
+> can simplify the clock handling in the DSI driver?
+>
+Yes, error_millihz can be greater than 1000, as result the DSI driver
+does check this (>=3D 500) and proceeds to try the next one.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- .../dts/renesas/r9a09g056n48-rzv2n-evk.dts    | 36 +++++++++++++++++++
- 1 file changed, 36 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts b/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts
-index 55aa2bdce132..795d9f6b9651 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts
-@@ -82,6 +82,11 @@ &audio_extal_clk {
- 	clock-frequency = <22579200>;
- };
- 
-+&ehci0 {
-+	dr_mode = "otg";
-+	status = "okay";
-+};
-+
- &eth0 {
- 	pinctrl-0 = <&eth0_pins>;
- 	pinctrl-names = "default";
-@@ -103,6 +108,11 @@ &gpu {
- 	mali-supply = <&reg_0p8v>;
- };
- 
-+&hsusb {
-+	dr_mode = "otg";
-+	status = "okay";
-+};
-+
- &i2c0 {
- 	pinctrl-0 = <&i2c0_pins>;
- 	pinctrl-names = "default";
-@@ -190,6 +200,11 @@ phy1: ethernet-phy@1 {
- 	};
- };
- 
-+&ohci0 {
-+	dr_mode = "otg";
-+	status = "okay";
-+};
-+
- &ostm0 {
- 	status = "okay";
- };
-@@ -302,6 +317,16 @@ sd1-dat-cmd {
- 			slew-rate = <0>;
- 		};
- 	};
-+
-+	usb20_pins: usb20 {
-+		ovc {
-+			pinmux =  <RZV2N_PORT_PINMUX(9, 6, 14)>; /* OVC */
-+		};
-+
-+		vbus {
-+			pinmux = <RZV2N_PORT_PINMUX(9, 5, 14)>; /* VBUS */
-+		};
-+	};
- };
- 
- &qextal_clk {
-@@ -330,6 +355,17 @@ &sdhi1 {
- 	status = "okay";
- };
- 
-+&usb20phyrst {
-+	status = "okay";
-+};
-+
-+&usb2_phy0 {
-+	pinctrl-0 = <&usb20_pins>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+};
-+
- &wdt1 {
- 	status = "okay";
- };
--- 
-2.49.0
-
+Cheers,
+Prabhaar
 
