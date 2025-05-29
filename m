@@ -1,202 +1,124 @@
-Return-Path: <linux-renesas-soc+bounces-17660-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17661-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 138DCAC7CE8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 May 2025 13:26:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE687AC80FD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 May 2025 18:37:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 516B9A40644
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 May 2025 11:26:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C5670167AFC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 May 2025 16:37:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF52028E5F4;
-	Thu, 29 May 2025 11:25:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5F9422AE59;
+	Thu, 29 May 2025 16:37:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="luI5Snan"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Aw7h5ZFV"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E0C28E5E5;
-	Thu, 29 May 2025 11:25:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C961362;
+	Thu, 29 May 2025 16:37:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748517908; cv=none; b=bYO6CP5pBhKCkFHFGx658Z40GYxFwEIUIH4nM0y1vVQPk8uaBW1rStjxvcK9TINRP9klQ+BYOXf17KZzYpwxhdA92gE6ZKXASy8c2PUz3hcNQ5AMmqIFyfvQMx3qz1pxNvljMYLZttVO8gcwNytqLuRknpkgMRnrM7CipXrVo8c=
+	t=1748536655; cv=none; b=AcgWjHmUcKGwnz1tcUtktNH2af2/erT28T6r1I2Z35UxEHITA4xovQ6oRzJiDuUw4Xae6l7/UG3BTvHzgs1Jud+sp6gEkraT5+84ne1Z4nQxq9HzS8768MV8fE3WGfaFTsZSCJCZFBJGp2KVAOFiVC9yeDOjkqYADzIofabH/d0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748517908; c=relaxed/simple;
-	bh=rpsm8eRyeXGMHwqH0z4/V4yOz4McjMeLdc1aaKfmJAM=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hv25DDDS0Z42QRqC0JAcoBc0JgDNReNC7vr2AnV14K6hVle7uy+qapNkuKf65vOCiyvv+x5ESOLWNry45exVxNVbg1rIV0lOIYPA8zWkkum/5r1kOolq4ff3O8JUjlRk0LhaA5COz2hd+79PGMdfOhmBy6ufb8VSV+J03TRAcNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=luI5Snan; arc=none smtp.client-ip=198.47.23.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 54TBOPh03504642;
-	Thu, 29 May 2025 06:24:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1748517865;
-	bh=56qRrAtL/a6koU+ClmQ0T5MnkBdpWG/sJANgtbap56g=;
-	h=From:To:CC:Subject:Date;
-	b=luI5Snan38kNQ+vphh1lKji9/YO3x7//X4p4oebHZ8lkEjIF2yvQsciBH8yUkuK9k
-	 AMLL08bddYOX598TBZijLKU8dGX1Ixll7VZVftQHBWHRij2nORFQbFkhkLBTXk31NU
-	 siM9pFG3dXuCOKZx68YdFvsYdlscM/r5n1TufYYc=
-Received: from DFLE107.ent.ti.com (dfle107.ent.ti.com [10.64.6.28])
-	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 54TBOPT2061510
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Thu, 29 May 2025 06:24:25 -0500
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 29
- May 2025 06:24:24 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 29 May 2025 06:24:24 -0500
-Received: from localhost (jayesh-hp-z2-tower-g5-workstation.dhcp.ti.com [172.24.227.14])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 54TBONkn1516428;
-	Thu, 29 May 2025 06:24:24 -0500
-From: Jayesh Choudhary <j-choudhary@ti.com>
-To: <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
-        <neil.armstrong@linaro.org>, <khilman@baylibre.com>,
-        <devicetree@vger.kernel.org>
-CC: <jbrunet@baylibre.com>, <martin.blumenstingl@googlemail.com>,
-        <shawnguo@kernel.org>, <s.hauer@pengutronix.de>,
-        <kernel@pengutronix.de>, <festevam@gmail.com>,
-        <cros-qcom-dts-watchers@chromium.org>, <andersson@kernel.org>,
-        <konradybcio@kernel.org>, <geert+renesas@glider.be>,
-        <magnus.damm@gmail.com>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-amlogic@lists.infradead.org>, <imx@lists.linux.dev>,
-        <linux-arm-msm@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <dianders@chromium.org>, <linux-kernel@vger.kernel.org>,
-        <max.krummenacher@toradex.com>, <j-choudhary@ti.com>,
-        <ernestvanhoecke@gmail.com>
-Subject: [PATCH] arm64: dts: Add no-hpd property for all ti-sn65dsi86 bridge consumers
-Date: Thu, 29 May 2025 16:54:23 +0530
-Message-ID: <20250529112423.484232-1-j-choudhary@ti.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1748536655; c=relaxed/simple;
+	bh=BvOVZq2AHLJJJYptHSBqkzbep1xS/oogtJo1WIvUUGk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=P/pUvQnerdJ0WHJJAxqEBXLn1F4laahngjAeb+A1xGOsiXTvCoiKULfXPEdjv+bxNFXQll1xVzIJ/y+RaphZQOMsKfp24H2aW012KVP7yu6Xbx1+AXDPjTSC/Od/PhugjzrxTzUtmKJ36cFM+lJp6J/v/URuCxb7fU1M4AXc5t0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Aw7h5ZFV; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.1.102] (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 54D257E1;
+	Thu, 29 May 2025 18:36:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1748536618;
+	bh=BvOVZq2AHLJJJYptHSBqkzbep1xS/oogtJo1WIvUUGk=;
+	h=From:Subject:Date:To:Cc:From;
+	b=Aw7h5ZFVP/UzUkRh4uj4s1Z4rgHoQ6FG7NzyEiildgq2ZCoW7PptTncMipe5F+YgM
+	 0dL+ORHJFvCYRqy03MIytMD7RJX25JvpH18CyOo5naLFitfYrOTPuJbWxnr0SVrgK9
+	 6qWCKf3vQ6vXvYpLrGP2MyqsEacGcFWSdfABF5rA=
+From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Subject: [PATCH 0/2] media: vsp1: Detect display list wrong usage patterns
+Date: Thu, 29 May 2025 18:36:29 +0200
+Message-Id: <20250529-vsp1_dl_list_count-v1-0-40c6d0e20592@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAA2NOGgC/x3MQQqAIBBA0avErBN0wKKuEiGVUw2EhVMRhHdPW
+ r7F/y8IRSaBtngh0s3Ce8gwZQHTOoSFFPtsQI1WW2zULYdxfnMby+mm/QqnMrbyWA/o7Wggh0e
+ kmZ9/2vUpfZUveB5kAAAA
+X-Change-ID: 20250529-vsp1_dl_list_count-156d27a2d5b1
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+X-Mailer: b4 0.15-dev-c25d1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1428;
+ i=jacopo.mondi+renesas@ideasonboard.com; h=from:subject:message-id;
+ bh=BvOVZq2AHLJJJYptHSBqkzbep1xS/oogtJo1WIvUUGk=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBoOI1EKmgeToUg5hW8B7Zn13WmVGZVEMED7xHp2
+ T7XRqWrcpKJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaDiNRAAKCRByNAaPFqFW
+ PHflD/oCg7yTtoelmnCUSQibXqBgfdEhF02csJoCsrJjI87mbAhdAZgGQbb7dla13+TstKK8l8c
+ mip08rBI5VqT5wnxXg1R2lBxzq0D1RSQsLmppSz8PKUPHQz0vVf9s5isLy6tE4QZrD8K/xrXAAK
+ zG30Hih79fzFtYpnlLIswafpG/M8HTyDfSWwKWd7Ptgss5RJ6/9G/vkp64udPXxFcCmBPUl0Yfx
+ BDmc1A9dCv9694EuWRl3kIwDa8WILS+fMn4qeuf612a4nJAcIDY1MmNbTKx3WEYry5R3qCKIC65
+ 64eH6nrOEOQQRax9lMX3fXQcoIlcKZFsX7ClyBY4De8Hi/iYYwjP+SPhNK5DDUvXPrFPkJ50Pvi
+ nV65rXrg6pLUDCyOqvH0mkGjm7FdqHlaQxEn9pv0+92/KNNJ3Z4IerD32Yrarz9CVDK10C+Tvzq
+ piqVIElrh4x3dzeYF5sKZbcTw90G561nI4gCDjWM4qTb9Bqq3QNLUXyzqFwu7rswNwzZfYu3Gwy
+ FYZW2shN3d848U2DDhwEp2Hiagb+y5K8DN8/NbWMkdSHYANYnbXJxdrcuqhNxBIe/8B0Q+7OaRz
+ dQbqaTMWY5Ov/XImfl4rhTvEBjDMuf+17SsVO8NhLt8N1JxnxEZFmoXnYkoS2SW+0HPJAzQFZSF
+ 8J+ONvxWDEg0oXw==
+X-Developer-Key: i=jacopo.mondi+renesas@ideasonboard.com; a=openpgp;
+ fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-In the SN65DSI86 DSI-2-eDP bridge, HPD is not supported as of now.
-But DisplayPort connector_type usecases does need hpd to be enabled.
-In order not to break any platform from those driver changes, add
-"no-hpd" property to all the existing sn65dsi86 nodes (that don't
-have it already) as hpd is not being used there anyways.
+The VSP1 library driver offers support for programming the VSP
+using display lists.
 
-Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+Display lists are created in a pool and users can get them and use them
+to program the VSP. Once done the display list shall be returned to
+the display list pool.
+
+The correct management of the display list pool is left to the user
+of the helpers, and it's helpful to add a few checks to detect invalid
+usage patterns, such as a double release or a non-returned display list.
+
+Add two counters to detect double releases of a display list, and a
+counter to the display list to make sure that once it is reset all the
+display lists have been returned.
+
+Tested with vsp-tests
+170 tests: 165 passed, 0 failed, 5 skipped
+
+However I got a (hopefully unrelated) warning:
+
+[  795.547528] [<000000007d841fd6>] vsp1_irq_handler
+[  795.552448] Disabling IRQ #43
+[  795.653324] vsp1 fea20000.vsp: Underrun occurred at WPF1 (total underruns 1)
+
+Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 ---
+Jacopo Mondi (2):
+      media: vsp1: vsp1_dl: Add usage counter
+      media: vsp1: vsp1_dl: Count display lists
 
-Upcoming driver changes that will break platforms if we do not have this
-property in all the existing sn65dsi86 nodes that assumes hpd is disabled:
-<https://lore.kernel.org/all/20250529110418.481756-1-j-choudhary@ti.com/>
+ drivers/media/platform/renesas/vsp1/vsp1_dl.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+---
+base-commit: 5e1ff2314797bf53636468a97719a8222deca9ae
+change-id: 20250529-vsp1_dl_list_count-156d27a2d5b1
 
-(sc7180-trogdor-ti-sn65dsi86.dtsi, sdm850-lenovo-yoga-c630.dts and
-sdm845-cheza.dtsi already have this property.)
-
-NOTE: Grouping the logical changes together in a single patch even though
-we have multiple vendor dts. I hope that is not an issue.
-
- .../boot/dts/amlogic/meson-g12b-bananapi-cm4-mnt-reform2.dts     | 1 +
- arch/arm64/boot/dts/freescale/imx8mq-mnt-reform2.dts             | 1 +
- arch/arm64/boot/dts/qcom/sc7180-acer-aspire1.dts                 | 1 +
- arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi             | 1 +
- arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts            | 1 +
- arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts        | 1 +
- arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi           | 1 +
- 7 files changed, 7 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/amlogic/meson-g12b-bananapi-cm4-mnt-reform2.dts b/arch/arm64/boot/dts/amlogic/meson-g12b-bananapi-cm4-mnt-reform2.dts
-index 0f48c32bec97..6a7d7db3ef8f 100644
---- a/arch/arm64/boot/dts/amlogic/meson-g12b-bananapi-cm4-mnt-reform2.dts
-+++ b/arch/arm64/boot/dts/amlogic/meson-g12b-bananapi-cm4-mnt-reform2.dts
-@@ -292,6 +292,7 @@ edp_bridge: bridge@2c {
- 		vpll-supply = <&reg_main_1v8>;
- 		vcca-supply = <&reg_main_1v2>;
- 		vcc-supply = <&reg_main_1v2>;
-+		no-hpd;
- 
- 		ports {
- 			#address-cells = <1>;
-diff --git a/arch/arm64/boot/dts/freescale/imx8mq-mnt-reform2.dts b/arch/arm64/boot/dts/freescale/imx8mq-mnt-reform2.dts
-index 3ae3824be027..599a53969326 100644
---- a/arch/arm64/boot/dts/freescale/imx8mq-mnt-reform2.dts
-+++ b/arch/arm64/boot/dts/freescale/imx8mq-mnt-reform2.dts
-@@ -147,6 +147,7 @@ edp_bridge: bridge@2c {
- 		vpll-supply = <&reg_main_1v8>;
- 		vcca-supply = <&reg_main_1v2>;
- 		vcc-supply = <&reg_main_1v2>;
-+		no-hpd;
- 
- 		ports {
- 			#address-cells = <1>;
-diff --git a/arch/arm64/boot/dts/qcom/sc7180-acer-aspire1.dts b/arch/arm64/boot/dts/qcom/sc7180-acer-aspire1.dts
-index 672ac4c3afa3..8fa18273684f 100644
---- a/arch/arm64/boot/dts/qcom/sc7180-acer-aspire1.dts
-+++ b/arch/arm64/boot/dts/qcom/sc7180-acer-aspire1.dts
-@@ -384,6 +384,7 @@ sn65dsi86_bridge: bridge@2c {
- 
- 		clocks = <&rpmhcc RPMH_LN_BB_CLK3>;
- 		clock-names = "refclk";
-+		no-hpd;
- 
- 		ports {
- 			#address-cells = <1>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
-index 0916fd57d1f1..a115e3fc4cb9 100644
---- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
-@@ -214,6 +214,7 @@ bridge@2c {
- 		vpll-supply = <&reg_1p8v>;
- 		vcca-supply = <&reg_1p2v>;
- 		vcc-supply = <&reg_1p2v>;
-+		no-hpd;
- 
- 		ports {
- 			#address-cells = <1>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
-index 6955eafd8d6a..fcc2d8edd464 100644
---- a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
-@@ -349,6 +349,7 @@ bridge@2c {
- 				vpll-supply = <&reg_1p8v>;
- 				vcca-supply = <&reg_1p2v>;
- 				vcc-supply = <&reg_1p2v>;
-+				no-hpd;
- 
- 				ports {
- 					#address-cells = <1>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-index 4d890e0617af..8b9592b87366 100644
---- a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-@@ -460,6 +460,7 @@ bridge@2c {
- 		vpll-supply = <&reg_1p8v>;
- 		vcca-supply = <&reg_1p2v>;
- 		vcc-supply = <&reg_1p2v>;
-+		no-hpd;
- 
- 		ports {
- 			#address-cells = <1>;
-diff --git a/arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi b/arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi
-index b4024e85ae5a..686a37a8680f 100644
---- a/arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi
-+++ b/arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi
-@@ -256,6 +256,7 @@ bridge@2c {
- 		vpll-supply = <&reg_1p8v>;
- 		vcca-supply = <&reg_1p2v>;
- 		vcc-supply = <&reg_1p2v>;
-+		no-hpd;
- 
- 		ports {
- 			#address-cells = <1>;
+Best regards,
 -- 
-2.34.1
+Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 
 
