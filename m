@@ -1,80 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-17657-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17658-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0898EAC78A5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 May 2025 08:26:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00FC0AC7927
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 May 2025 08:42:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9916E1C213AF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 May 2025 06:26:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 601CC1889678
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 May 2025 06:42:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 123FB202C3A;
-	Thu, 29 May 2025 06:26:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B134F2550D8;
+	Thu, 29 May 2025 06:41:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WSOkXg5e"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N+4rHpLX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71CEC248191
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 29 May 2025 06:26:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8727224E010;
+	Thu, 29 May 2025 06:41:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748499990; cv=none; b=tHzt1ML7/ZygBf4MvNYI1CkD/ArNex8qAUXUrL6W6bhQ93+d5la3ZvFvPmoenYiO7ak7gQeZUtnuPIXK5oOPG5s3ZWJcYTPjrR/Tz5Je6i977DOU/CFQGdoFLBks1tesE3UJjkGGAYWGyrTeXV8Kw/d2NN1pmvNcxOnwnG7VwkY=
+	t=1748500912; cv=none; b=JBwTpEvZFn0yQvBhGwAlxA7d1Asep/t2KVrKXO9Qk9HuezNNIpTwxDrWhvvbSvSHnpu697pNT2i/3kV4MM6+L+mRKuo2513HaPQt4vv0NZ6l47+EuFuZZCrnaafDvpVBVFyJaf5WKI3DpbfYCRsC4fw+ELPzKfWTQx33JeOW//k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748499990; c=relaxed/simple;
-	bh=JELwsM4iALKvFPVxf/Brir7616QfPWrF93PbUJN3mR8=;
+	s=arc-20240116; t=1748500912; c=relaxed/simple;
+	bh=NUdujDcjJsGqIemjDbrWMMJ9gM3XfgLYI2NbdTBQ96I=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rCAS2tR5Jj5KkaW9+xctx93epYRl44/4oTmXY3ZjTxmRIE8c9a7NJ1lX5VeoCOmbT9VSEsBPl03BXv2WrW9Cu7szm0NxmUGD9ojeyYB3IQJiTSHtIXG2tXFnQNqdq7oxXDnHD8hHXyReqsIQYMC+g/P7xGapDjP93Y/9+Uh7iGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WSOkXg5e; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-ad89dc2d8b4so4750566b.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 28 May 2025 23:26:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748499986; x=1749104786; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=+2SWtTNE3E49MOlHnO8uVeg5xT5IQxhtgIcjK83+ABU=;
-        b=WSOkXg5ewtHwee9YahJlde52FSJMdlGkBH/gyhGvZGj9b0WGxyRzC/tk7pmDf+6WlC
-         VjmxpR+1DM6TssIu1ZHj3MINnOrJfUllSa/snXty8yd7Y/UFZMzZS7JgvBwB98COOCUQ
-         4Gt8E6w9ZOXsTYg3mDCYpQ0gYklVvd2gFeCt/OIYdYQZ9VDhUFhAZOtj54Uee4+BCx/p
-         IZks4ArYScFDVBlK15AkFY8KbByt7aCbK5cGKVcAY77C+naiJ7XawTd4IiDEEl/rZWvY
-         +H2B9dHmwWCXsxSnCIZc/ZK76Ybpeg3kPubkNEq1wJ18Af4rbdHPjGZq9Y/PfmuJ0lE2
-         oX8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748499986; x=1749104786;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+2SWtTNE3E49MOlHnO8uVeg5xT5IQxhtgIcjK83+ABU=;
-        b=Qclc82d4E4lClqMsBYi0RR4Qb4tBVrnpCdhSsnbegtedLKwM6CUX7c+JqFkW2eCDbb
-         /MVRLyZhCzX/JIlyAAVOXo1SwfL0s0EImz7ZODzoDAf2glPeNl48nt1sclTKZ9qhq+zk
-         SejtP7FgxzrTZdMB9x81sZ/cZkO0anZWFPls7UzJ7WJKH96w/QVyWlLcyFAk+YyfkOj0
-         gZW4ehpVNeqnFFsF6dp1j6paWywQNDbhA6y0VqDBVVuHFW5aiqV2mjaRuQbUtEogY+xx
-         sfMylBQuXMjv4IM/hJtHdIrD3y3pmkUkaHrig0kQ9yeTm1YUbt5S7wAUG80hasF25eRL
-         527Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW8l+txgCbmot5Sh9esjV2s8mVEoTI8GfDFY2q2QSD0Y9+cGTsF1mnjx4vaF38D6d9nU0omLrWzJ/tsZiMG83pnUg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDDuf6WYQRveqOAFOGQLJuOx0tywVPIlMo/cJHMzyja3JFhfBi
-	n/8pb2mm6o4eWZ+hT+0FXmBr/aD0tKwQH2tF61pjQuhSmTe1xUsU4hZrIRs5eKIC4rM=
-X-Gm-Gg: ASbGncvY60QjsTeQ8bcSiXhpLM5Sn9iOUL2ewuj+iz733RaI/mxAoJ/hibfTfCeSeYp
-	DiZxkrdo51rRR7+IbAMThzyKy3yZzIqi2KeA9213SRC+xb+H4yWb9n2vMCR6I2wWWFXUepO1NmD
-	P5aFhK8dv6+QPcdEKW+SwfYV7E/vULDwFjXSs+qSPBIF5+oaW/D+zdICQLZ3QsnYT1u/I4Chk9U
-	xFJrfy6UwNbhj8Lr8IFC3vQ+EEINpj+2DGTJY1Tuis2lLe4h23SYpJ8a9i1jgQ9Axa3n8IRVPYe
-	jbfwogSGqqQZLFRsDVx0WQ4EE4RKbgOo9KNo6b8JdZHNLZv/QFAaOBMc7ZacKWhxvgHj+Kk=
-X-Google-Smtp-Source: AGHT+IGlMDzn+QG/07M9P/X4G1UkWeHWA61AWrk71VubiDANJ+WF35EJENPRBZsOw8VSgdWIr7Porg==
-X-Received: by 2002:a17:907:2724:b0:ad8:882e:39a with SMTP id a640c23a62f3a-ad8882e03ddmr319125766b.8.1748499985639;
-        Wed, 28 May 2025 23:26:25 -0700 (PDT)
-Received: from [192.168.1.29] ([178.197.223.125])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ada6ad6aaf5sm79818366b.183.2025.05.28.23.26.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 May 2025 23:26:24 -0700 (PDT)
-Message-ID: <6bb4f8f7-ef95-4f10-ad94-027fa18dada3@linaro.org>
-Date: Thu, 29 May 2025 08:26:21 +0200
+	 In-Reply-To:Content-Type; b=hWUiTOQCascULe9XTnSGTgc1kABrv+xUSW74yBy9mxPdSUUH5yTusZqRjJfXjPCMXA/FaXM2PYAd1wTm+gj4JnstyFG3X6GjcidqEuMT/+Kr27btVmSNQUKChuGN0NqzoU2LKeS6k3AUGH8wwzzq0vsAokDPqKOkoes3RHF72jk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N+4rHpLX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83765C4CEE7;
+	Thu, 29 May 2025 06:41:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748500912;
+	bh=NUdujDcjJsGqIemjDbrWMMJ9gM3XfgLYI2NbdTBQ96I=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=N+4rHpLXUlYejKLvY2KJcJTCfWoldMpzo7XfSMaJBzaP7ItxT6FxJZVLtMkQyXHKR
+	 Ax9Drz3lL4ioVklL3FsMzXm9uf62gyjFm6YYlNP52DPkeYP5gU+p+tr+x+XIJ9UZfy
+	 MDl9RRKwx58KQDkm+DuSxnqPGJ3I1ahuuQtX0y2k6z3lU/vINfL4sf8wOM6cknWihM
+	 zi9kF17/dSE7WjJaav4lnlhDppKUIgsRzD3QywFUgzweDK7jEGfkCrItFGx7O7jbJu
+	 gjMAG6ju4qNEg2CIr4PQOyc9kSxLmTU6wQRzds3iZKtIjxVKdlEPLIk3KLGFhxUUfW
+	 MRIma8o9ck9bw==
+Message-ID: <6eca9bc9-ac12-4aec-85c7-66397f70fca0@kernel.org>
+Date: Thu, 29 May 2025 08:41:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -82,49 +50,17 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/17] pinctrl: Allow compile testing for K210, TB10X and
- ZYNQ
-To: Linus Walleij <linus.walleij@linaro.org>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- Andrew Jeffery <andrew@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>,
- Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>,
- Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>,
- Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>,
- =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
- =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Lorenzo Bianconi <lorenzo@kernel.org>, Sean Wang <sean.wang@kernel.org>,
- Jesper Nilsson <jesper.nilsson@axis.com>,
- Lars Persson <lars.persson@axis.com>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Damien Le Moal <dlemoal@kernel.org>, Vladimir Zapolskiy <vz@mleia.com>,
- Michal Simek <michal.simek@amd.com>, Emil Renner Berthing <kernel@esmil.dk>,
- Jianlong Huang <jianlong.huang@starfivetech.com>,
- Hal Feng <hal.feng@starfivetech.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@axis.com,
- linux-riscv@lists.infradead.org, linux-rtc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com
-References: <20250528-pinctrl-const-desc-v1-0-76fe97899945@linaro.org>
- <20250528-pinctrl-const-desc-v1-2-76fe97899945@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: pmdomain: renesas: rcar: Use str_on_off() helper in
+ rcar_sysc_power() and rcar_gen4_sysc_power()
+To: shao.mingyin@zte.com.cn, ulf.hansson@linaro.org
+Cc: geert+renesas@glider.be, magnus.damm@gmail.com, linux-pm@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ yang.yang29@zte.com.cn, xu.xin16@zte.com.cn, yang.tao172@zte.com.cn,
+ ye.xingchen@zte.com.cn
+References: <20250529101305686S2ehGmiFg5bnKwSa__96W@zte.com.cn>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
  JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
@@ -134,65 +70,59 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  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
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+AhsD
- BQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEEm9B+DgxR+NWWd7dUG5NDfTtBYpsFAmgXUEoF
- CRaWdJoACgkQG5NDfTtBYpudig/+Inb3Kjx1B7w2IpPKmpCT20QQQstx14Wi+rh2FcnV6+/9
- tyHtYwdirraBGGerrNY1c14MX0Tsmzqu9NyZ43heQB2uJuQb35rmI4dn1G+ZH0BD7cwR+M9m
- lSV9YlF7z3Ycz2zHjxL1QXBVvwJRyE0sCIoe+0O9AW9Xj8L/dmvmRfDdtRhYVGyU7fze+lsH
- 1pXaq9fdef8QsAETCg5q0zxD+VS+OoZFx4ZtFqvzmhCs0eFvM7gNqiyczeVGUciVlO3+1ZUn
- eqQnxTXnqfJHptZTtK05uXGBwxjTHJrlSKnDslhZNkzv4JfTQhmERyx8BPHDkzpuPjfZ5Jp3
- INcYsxgttyeDS4prv+XWlT7DUjIzcKih0tFDoW5/k6OZeFPba5PATHO78rcWFcduN8xB23B4
- WFQAt5jpsP7/ngKQR9drMXfQGcEmqBq+aoVHobwOfEJTErdku05zjFmm1VnD55CzFJvG7Ll9
- OsRfZD/1MKbl0k39NiRuf8IYFOxVCKrMSgnqED1eacLgj3AWnmfPlyB3Xka0FimVu5Q7r1H/
- 9CCfHiOjjPsTAjE+Woh+/8Q0IyHzr+2sCe4g9w2tlsMQJhixykXC1KvzqMdUYKuE00CT+wdK
- nXj0hlNnThRfcA9VPYzKlx3W6GLlyB6umd6WBGGKyiOmOcPqUK3GIvnLzfTXR5DOwU0EVUNc
- NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
- hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
- oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
- H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
- yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
- 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
- 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
- +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
- FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
- 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
- DFH41ZZ3t1Qbk0N9O0FimwUCaBdQXwUJFpZbKgAKCRAbk0N9O0Fim07TD/92Vcmzn/jaEBcq
- yT48ODfDIQVvg2nIDW+qbHtJ8DOT0d/qVbBTU7oBuo0xuHo+MTBp0pSTWbThLsSN1AuyP8wF
- KChC0JPcwOZZRS0dl3lFgg+c+rdZUHjsa247r+7fvm2zGG1/u+33lBJgnAIH5lSCjhP4VXiG
- q5ngCxGRuBq+0jNCKyAOC/vq2cS/dgdXwmf2aL8G7QVREX7mSl0x+CjWyrpFc1D/9NV/zIWB
- G1NR1fFb+oeOVhRGubYfiS62htUQjGLK7qbTmrd715kH9Noww1U5HH7WQzePt/SvC0RhQXNj
- XKBB+lwwM+XulFigmMF1KybRm7MNoLBrGDa3yGpAkHMkJ7NM4iSMdSxYAr60RtThnhKc2kLI
- zd8GqyBh0nGPIL+1ZVMBDXw1Eu0/Du0rWt1zAKXQYVAfBLCTmkOnPU0fjR7qVT41xdJ6KqQM
- NGQeV+0o9X91X6VBeK6Na3zt5y4eWkve65DRlk1aoeBmhAteioLZlXkqu0pZv+PKIVf+zFKu
- h0At/TN/618e/QVlZPbMeNSp3S3ieMP9Q6y4gw5CfgiDRJ2K9g99m6Rvlx1qwom6QbU06ltb
- vJE2K9oKd9nPp1NrBfBdEhX8oOwdCLJXEq83vdtOEqE42RxfYta4P3by0BHpcwzYbmi/Et7T
- 2+47PN9NZAOyb771QoVr8A==
-In-Reply-To: <20250528-pinctrl-const-desc-v1-2-76fe97899945@linaro.org>
+ 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 a/A=
+In-Reply-To: <20250529101305686S2ehGmiFg5bnKwSa__96W@zte.com.cn>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 28/05/2025 12:40, Krzysztof Kozlowski wrote:
-> Pinctrl drivers for K210, TB10X and ZYNQ do not reference any machine
-> headers, thus can be compile tested for increased build coverage.
+On 29/05/2025 04:13, shao.mingyin@zte.com.cn wrote:
+> From: Shao Mingyin <shao.mingyin@zte.com.cn>
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Remove hard-coded strings by using the str_on_off() helper function.
+> 
+> Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
 > ---
->  drivers/pinctrl/Kconfig | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/pinctrl/Kconfig b/drivers/pinctrl/Kconfig
-> index 33db9104df178e5a3148b60c3c6bd153113385d3..77a5d13e899f8c5251987c2c74df1d05dbd59128 100644
-> --- a/drivers/pinctrl/Kconfig
-> +++ b/drivers/pinctrl/Kconfig
-> @@ -269,7 +269,7 @@ config PINCTRL_INGENIC
->  
->  config PINCTRL_K210
->  	bool "Pinctrl driver for the Canaan Kendryte K210 SoC"
-> -	depends on RISCV && SOC_CANAAN_K210 && OF
-> +	depends on RISCV && SOC_CANAAN_K210 && OF || COMPILE_TEST
->  	select GENERIC_PINMUX_FUNCTIONS
-LKP reported here issue, so there will be v2 of this.
+>  drivers/pmdomain/renesas/rcar-gen4-sysc.c | 3 ++-
+>  drivers/pmdomain/renesas/rcar-sysc.c      | 3 ++-
+
+Stop sending such trivial patches one driver per patch, but entire
+subsystem in one patch. That's a lot of churn, considering this was
+rejected:
+
+
+https://lore.kernel.org/all/20250114203547.1013010-1-krzysztof.kozlowski@linaro.org/
 
 
 Best regards,
