@@ -1,173 +1,127 @@
-Return-Path: <linux-renesas-soc+bounces-17668-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17669-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 968ACAC8A9A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 May 2025 11:18:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2CA4AC8AE1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 May 2025 11:33:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 871F07B3DFC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 May 2025 09:17:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9A6D07B513C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 May 2025 09:32:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAE3521D5B2;
-	Fri, 30 May 2025 09:18:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JO9V1K8/"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5150422AE7B;
+	Fri, 30 May 2025 09:31:15 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F27B521767D
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 30 May 2025 09:18:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E23221560;
+	Fri, 30 May 2025 09:31:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748596701; cv=none; b=Hq73GUlIohQ7JKhkuLfywKcTrjYuuqQR0UReT85yV0CJWfUF2sauSDAGljmD6/ob15OznuVBhD6ndmks7ErHQQYUVgBGbk1hAyEFjGmp5NrgkJwRCVkVlQNQH9bl7qiLdiEgDm7rlL9vjUx1vS7HqfzXHv8vBVoswBnXW2NYFEE=
+	t=1748597475; cv=none; b=XDQsH0+YHY5XjVaTgW1RXTiRtlDQ/lp88FXy4/cj7GBakfV6qVUY2cKke9J9lZ2jjdpFZv55ByhPv8cTeziefySjasfOZXZKIhjru0aIZ4rpFGehtisopqnpXMlQp9s0H1c1alTedwqiyPewprK8rgH/9aKuIj06/sty1GfygjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748596701; c=relaxed/simple;
-	bh=ebOJBYeeHCkyALDjIWQdDTTwURnubvG/RMOC2ONZm84=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eDJ0kSFzLSEciIm4jDaWE/MGgtnnMmCEBBTzl8PWdb4bIaOxWTagREF4LrWjK/giIUahfRzcXQ2NSk7hozn4LSJZrajNOmBOhNIndxHGaiWybs1jJ6sRdo9ypP/fRZO5R4QUpczb3g3SsP6a4PqqQ09G9w5knx+7gP23P5XyY1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JO9V1K8/; arc=none smtp.client-ip=209.85.219.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e731a56e111so1632480276.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 May 2025 02:18:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748596699; x=1749201499; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9LSJUMPXEV1M8KFzX9qlsWTgwSLRhfElyDaP/rhgR2Q=;
-        b=JO9V1K8/JqVH6STc3aC5hUeFMsyAGvVmnOc6iVsh+JcQAzddXP4NWCcPSxZbqcE9H+
-         pbtJNqQ/kFu6zyfjQ0Ju8XwmisQPpwGLUi90u6fT1PFy40xo0RK63H/92/TLV7WnV7we
-         O0hXGEjC9UEK3YZXz8n8yTmLdej1Oab3M2cdXFFldlKpChgPb5moAEtjTLkzdxKYbSIj
-         BMxFTGg8lngG82+wA7OA9i9AuU3eK1oL4Jl3V2sQGreDu0w0W9NqBxKPZXAxmQ/qBCNL
-         Aq94l5qiD0ncP+b5o3GRjI4V9IJra6qm48SWpqIZKoRCBsLE4UapoLHxkiO2A+VZaqna
-         CMSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748596699; x=1749201499;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9LSJUMPXEV1M8KFzX9qlsWTgwSLRhfElyDaP/rhgR2Q=;
-        b=GTchMlAUb+xDHQmu1jLHoi2q72YRbAnh40jeamckzxPcrmwW8JWv0cmqszr0Pu2JZI
-         rQFtUfPsDa1YF4SEujyf5Ql4Kht+TIInMBzK+eeLKyQVNEyhxL/IxL+T5CL7lBt/TGJy
-         XHR3uo3Sbb/9trxs8cOwCDDEM/UhEkIA1c3JCnST7X1oZrSZGWi0xthksZhI42DrpLTH
-         J0XSoQ0ATi/Vz8YtsO8Ese1sgeMZBiA48ajjf7Bf2FM7qj9718q/pPh5yit8D+IKsF5z
-         rU8n9tgtJKsU1BAFTnYKD70nw2+OrXs5oHVXS5TuNULD5SJFU0IQHfT7YBbIN5rtzaZ9
-         f1wA==
-X-Forwarded-Encrypted: i=1; AJvYcCV54A03tZoMH3KsN2Haj1Fp3fR0c0FxwOfXitz0hHD9k5AfI5mVXjruFkEFFsmcdlagJW2z6yQ00xJCABROdTq+fg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFngbRJ78hRoIHcWz+2a/npgJPMvZzytBt0Q4u0aYyObqE+b76
-	LzdfafmG7f+SUj6AYnA6CpbbykwsKXInu9BbPZwwqe99nUPWPiXlobvCCKpYXRqdghHbmSVOQYl
-	G89emxvQ6jWUrhuWGj7+O18dq7MNBydjcfK0STWweuw==
-X-Gm-Gg: ASbGncvbR2sRc3NKOGlUMrhDIclT8qAhvibDqmm/FO1yuHKOckVb3xwI6hV2up17ud5
-	gVql2Ra8CYcZ+fH19MmZoes5/aK9SgWrHQAgSP6wuylGUEggxJ8WWfx2dceuzi0XDjj5Bz/UAj8
-	abkq3uXAX+4p4XjH6hDWcB8tabp9bIn/lIqA==
-X-Google-Smtp-Source: AGHT+IFfycBwEI3FxueTISbpHh6OJPQeP2Lrq+8rdRXtzuwP9IhvuccKAVwiT0W7cxN5YrLOeQ38HlPh8PvZt5WQSe4=
-X-Received: by 2002:a05:6902:1003:b0:e7d:9bfb:a320 with SMTP id
- 3f1490d57ef6-e7f81f064a1mr3911070276.36.1748596698927; Fri, 30 May 2025
- 02:18:18 -0700 (PDT)
+	s=arc-20240116; t=1748597475; c=relaxed/simple;
+	bh=aggFkJ8dzIspA0Ee5ZCSXr4Q9BtosF9ZAdFKHZ23WJo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Z6FuM1baEJfcQGThZwWYaN+tXugFSQ43L79TFAHQKqmMcJO3zBO4hcsOV1PreEBWZPOoKjgp/ikJgmnHs04zx/bTKn1i1toDcQIVcX36h4aAZVp5otRMe4K6ck3XLd8y/IODVygwXlFdCqId1AnSDQtpXJumA+v4tUm77xuySus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: ce23f0383d3811f0b29709d653e92f7d-20250530
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45,REQID:9901f846-04db-40fa-9f89-284431738858,IP:10,
+	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-9,FILE:0,BULK:30,RULE:Release_Ham,ACTI
+	ON:release,TS:31
+X-CID-INFO: VERSION:1.1.45,REQID:9901f846-04db-40fa-9f89-284431738858,IP:10,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:-9,FILE:0,BULK:30,RULE:Release_Ham,ACTION
+	:release,TS:31
+X-CID-META: VersionHash:6493067,CLOUDID:9a3853ec8758490979c83e53ed79c393,BulkI
+	D:250522180435BN613KC0,BulkQuantity:9,Recheck:0,SF:17|19|24|38|45|64|66|78
+	|80|81|82|83|102|841,TC:nil,Content:0|50,EDM:-3,IP:-2,URL:0,File:nil,RT:ni
+	l,Bulk:40|23,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:
+	0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI,TF_CID_SPAM_SNR
+X-UUID: ce23f0383d3811f0b29709d653e92f7d-20250530
+X-User: aichao@kylinos.cn
+Received: from [172.25.120.86] [(112.64.161.44)] by mailgw.kylinos.cn
+	(envelope-from <aichao@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 1724392610; Fri, 30 May 2025 17:31:03 +0800
+Message-ID: <22dfeb0b-c3ff-4a7a-8471-1bb89dccdc17@kylinos.cn>
+Date: Fri, 30 May 2025 17:30:58 +0800
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250526122054.65532-1-claudiu.beznea.uj@bp.renesas.com>
- <20250526122054.65532-2-claudiu.beznea.uj@bp.renesas.com> <hojdkntm3q5a5ywya7n5i4zy24auko4u6zdqm25infhd44nyfx@x2evb6sc2d45>
- <111d2d6c-8ac0-40b9-94c3-02f2f64ef9fe@tuxon.dev> <CAPDyKFoQYTNBhtBXY-Ds7E0TohtA6558W1Jf3cLsnXDQC74DSg@mail.gmail.com>
- <rmc7me6rvumr6pcekgp5lsrxtuge5houitn474lkljew2hzdcw@z7wh2vtntvs5>
-In-Reply-To: <rmc7me6rvumr6pcekgp5lsrxtuge5houitn474lkljew2hzdcw@z7wh2vtntvs5>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Fri, 30 May 2025 11:17:42 +0200
-X-Gm-Features: AX0GCFvzfTrcuWANsmOBcb2p2VazFw-uQgVJQLGJOuhNKKaI5gJPiizsYJAEId8
-Message-ID: <CAPDyKFpsk-o0KvaJK+dgNDvW30piHKgvtyOxF7URaUEvrPZmZA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] PM: domains: Add devres variant for dev_pm_domain_attach()
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>, gregkh@linuxfoundation.org, rafael@kernel.org, 
-	dakr@kernel.org, len.brown@intel.com, pavel@kernel.org, jic23@kernel.org, 
-	daniel.lezcano@linaro.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-iio@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, bhelgaas@google.com, geert@linux-m68k.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/6] ASoC: aoa: Use helper function
+ for_each_child_of_node_scoped()
+To: Johannes Berg <johannes@sipsolutions.net>, perex <perex@perex.cz>,
+ tiwai <tiwai@suse.com>,
+ "kuninori.morimoto.gx" <kuninori.morimoto.gx@renesas.com>,
+ lgirdwood <lgirdwood@gmail.com>, broonie <broonie@kernel.org>,
+ jbrunet <jbrunet@baylibre.com>, "neil.armstrong"
+ <neil.armstrong@linaro.org>, khilman <khilman@baylibre.com>,
+ "martin.blumenstingl" <martin.blumenstingl@googlemail.com>,
+ "shengjiu.wang" <shengjiu.wang@gmail.com>, "Xiubo.Lee"
+ <Xiubo.Lee@gmail.com>, festevam <festevam@gmail.com>,
+ nicoleotsuka <nicoleotsuka@gmail.com>, shawnguo <shawnguo@kernel.org>,
+ "s.hauer" <s.hauer@pengutronix.de>,
+ "srinivas.kandagatla" <srinivas.kandagatla@linaro.org>
+Cc: linux-sound <linux-sound@vger.kernel.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ linux-renesas-soc <linux-renesas-soc@vger.kernel.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ linux-amlogic <linux-amlogic@lists.infradead.org>, imx
+ <imx@lists.linux.dev>, kernel <kernel@pengutronix.de>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>
+References: <2aq0nyvyf7t-2aq4hsc7kp6@nsmail7.0.0--kylin--1>
+ <7e708dcc98c6f0f615b1b87d190464cfe78be668.camel@sipsolutions.net>
+ <eb1ddeb3-06b6-4ac5-b20a-06b92c7f1363@kylinos.cn>
+ <23aadbd78d3585c900c579c26f360011cf1ca830.camel@sipsolutions.net>
+ <9ec008a8-b569-4ad1-9206-fe241fb1712d@kylinos.cn>
+ <b36908bf35a20f7196bec4fe22e392a015d9b7d1.camel@sipsolutions.net>
+Content-Language: en-US
+From: Ai Chao <aichao@kylinos.cn>
+In-Reply-To: <b36908bf35a20f7196bec4fe22e392a015d9b7d1.camel@sipsolutions.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, 28 May 2025 at 18:09, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
+Hi Johannes:
+     Thanks for your feedback.  I will drop it.
+
+> On Mon, 2025-05-26 at 16:20 +0800, Ai Chao wrote:
+>> Hi Johannes:
+>>>> for_each_child_of_node.
+>>> You still haven't explained why it's even correct.
+>>>
+>>> johannes
+>> The for_each_child_of_node() function is used to iterate over all child
+>> nodes of a device tree node.
+>> During each iteration, it retrieves a pointer to the child node via
+>> of_get_next_child() and automatically increments the node's reference
+>> count (of_node_get()).
+>> Each call to of_get_next_child() increases the reference count
+>> (refcount) of the returned child node, ensuring that the node is not
+>> freed while in use.
+>> for_each_child_of_node() increments the child node's reference count in
+>> each iteration but does not decrement it automatically.
+>> If of_node_put() is not called manually, the reference count will never
+>> reach zero, resulting in a memory leak of the node.
+> Yes, good! Now show that you can apply what you've learned to the
+> specific code (and changes) at hand.
 >
-> On Wed, May 28, 2025 at 06:04:45PM +0200, Ulf Hansson wrote:
-> > [...]
-> >
-> > > >> +/**
-> > > >> + * devm_pm_domain_attach - devres-enabled version of dev_pm_domain_attach()
-> > > >> + * @dev: Device to attach.
-> > > >> + * @attach_power_on: Use to indicate whether we should power on the device
-> > > >> + *                   when attaching (true indicates the device is powered on
-> > > >> + *                   when attaching).
-> > > >> + * @detach_power_off: Used to indicate whether we should power off the device
-> > > >> + *                    when detaching (true indicates the device is powered off
-> > > >> + *                    when detaching).
-> > > >> + *
-> > > >> + * NOTE: this will also handle calling dev_pm_domain_detach() for
-> > > >> + * you during remove phase.
-> > > >> + *
-> > > >> + * Returns 0 on successfully attached PM domain, or a negative error code in
-> > > >> + * case of a failure.
-> > > >> + */
-> > > >> +int devm_pm_domain_attach(struct device *dev, bool attach_power_on,
-> > > >> +                      bool detach_power_off)
-> > > >
-> > > > Do we have examples where we power on a device and leave it powered on
-> > > > (or do not power on device on attach but power off it on detach)? I
-> > >
-> > > I haven't found one yet.
-> > >
-> > > > believe devm release should strictly mirror the acquisition, so separate
-> > > > flag is not needed.
-> > >
-> > > I was in the middle whether I should do it with 2 flags or only to revert
-> > > the acquisition.
-> > >
-> > > >
-> > > >
-> > > >> +{
-> > > >> +    int ret;
-> > > >> +
-> > > >> +    ret = dev_pm_domain_attach(dev, attach_power_on);
-> > > >> +    if (ret)
-> > > >> +            return ret;
-> > > >> +
-> > > >> +    if (detach_power_off)
-> > > >> +            return devm_add_action_or_reset(dev, devm_pm_domain_detach_off,
-> > > >> +                                            dev);
-> > > >> +
-> > > >> +    return devm_add_action_or_reset(dev, devm_pm_domain_detach_on, dev);
-> > > >
-> > > > Instead of 2 separate cleanup methods maybe define dedicated devres:
-> > > >
-> > > > struct dev_pm_domain_devres {
-> > > >       struct device *dev;
-> > > >       bool power_off;
-> > > > }
-> > > >
-> > > > ?
-> > >
-> > > That was the other option I've thought about but I found the one with 2
-> > > cleanup methods to be simpler. What would you prefer here?
-> > >
-> > > Ulf: could you please let me know what would you prefer here?
-> >
-> > As it looks like we agreed to use one cleanup method, the struct
-> > dev_pm_domain_devres seems superfluous to me.
->
-> I think we agreed that cleanup should mirror the acquisition, that is
-> true. But since attaching to the domain has an option to either turn the
-> device on or not we still need 2 cleanup branches. They can either be
-> implemented with 2 cleanup callbacks or with 1 callback and dedicated
-> devres structure.
+> johannes
 
-Yes, you are right. Better with one callback and using struct
-dev_pm_domain_devres to manage the power_off parameter.
+-- 
+Best regards,
+Ai Chao
 
-Kind regards
-Uffe
 
