@@ -1,121 +1,173 @@
-Return-Path: <linux-renesas-soc+bounces-17667-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17668-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63482AC89BA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 May 2025 10:08:15 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 968ACAC8A9A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 May 2025 11:18:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2D6F616E0B6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 May 2025 08:08:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 871F07B3DFC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 May 2025 09:17:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DB7320E32F;
-	Fri, 30 May 2025 08:08:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAE3521D5B2;
+	Fri, 30 May 2025 09:18:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JO9V1K8/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F8E1D9663;
-	Fri, 30 May 2025 08:08:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F27B521767D
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 30 May 2025 09:18:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748592493; cv=none; b=K8uBlXmUttXvzPFXnNkB8iaTaAgIK/QnOkpjMV7Rx5A0X6yqR0CmYsXqaC28IR9adES1mjPnBzATEsX6BMx2JUQgmtgfEICfYADROD8DJS0JCf8YDjVopyO7Xf+fodD3XiXQmPU/z3Vl9Bt4mlJYEeTsjlv16VvRD/DTxUt523c=
+	t=1748596701; cv=none; b=Hq73GUlIohQ7JKhkuLfywKcTrjYuuqQR0UReT85yV0CJWfUF2sauSDAGljmD6/ob15OznuVBhD6ndmks7ErHQQYUVgBGbk1hAyEFjGmp5NrgkJwRCVkVlQNQH9bl7qiLdiEgDm7rlL9vjUx1vS7HqfzXHv8vBVoswBnXW2NYFEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748592493; c=relaxed/simple;
-	bh=6tCwL2u6KuPKr/TaecQfjUqpAzt2QIbqc/AOFOxhOf8=;
+	s=arc-20240116; t=1748596701; c=relaxed/simple;
+	bh=ebOJBYeeHCkyALDjIWQdDTTwURnubvG/RMOC2ONZm84=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dSelu/iwPqziiRgu4GmopUgbVmAOMcU5jyPCNfM+fE3qmZ+33+OW5Hrh2tqSO9UO5unumsAXUZPPbzjzllrtoEZrvKIC4rV+J2f9fptBIsOpXpB7xd8pjrYT81v5m5F6QTsg16wXEqxpy076VByQQWgoQF+jdRudmoXoAl0dmAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-87e37ab3c70so571823241.1;
-        Fri, 30 May 2025 01:08:10 -0700 (PDT)
+	 To:Cc:Content-Type; b=eDJ0kSFzLSEciIm4jDaWE/MGgtnnMmCEBBTzl8PWdb4bIaOxWTagREF4LrWjK/giIUahfRzcXQ2NSk7hozn4LSJZrajNOmBOhNIndxHGaiWybs1jJ6sRdo9ypP/fRZO5R4QUpczb3g3SsP6a4PqqQ09G9w5knx+7gP23P5XyY1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JO9V1K8/; arc=none smtp.client-ip=209.85.219.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e731a56e111so1632480276.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 May 2025 02:18:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1748596699; x=1749201499; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=9LSJUMPXEV1M8KFzX9qlsWTgwSLRhfElyDaP/rhgR2Q=;
+        b=JO9V1K8/JqVH6STc3aC5hUeFMsyAGvVmnOc6iVsh+JcQAzddXP4NWCcPSxZbqcE9H+
+         pbtJNqQ/kFu6zyfjQ0Ju8XwmisQPpwGLUi90u6fT1PFy40xo0RK63H/92/TLV7WnV7we
+         O0hXGEjC9UEK3YZXz8n8yTmLdej1Oab3M2cdXFFldlKpChgPb5moAEtjTLkzdxKYbSIj
+         BMxFTGg8lngG82+wA7OA9i9AuU3eK1oL4Jl3V2sQGreDu0w0W9NqBxKPZXAxmQ/qBCNL
+         Aq94l5qiD0ncP+b5o3GRjI4V9IJra6qm48SWpqIZKoRCBsLE4UapoLHxkiO2A+VZaqna
+         CMSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748592488; x=1749197288;
+        d=1e100.net; s=20230601; t=1748596699; x=1749201499;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GikN2gdrNYhKG8oqhbkwJBiHi9aqCl1oQYrPKglurbU=;
-        b=PmQ9j59ZeBQMrbVHqo5PBc+GFAmKzmbCz/wQAxLqy+9wU2GI254MfeB039TlzwgvyQ
-         2yo2uq08XDgvqlDFdQTirJHyvPKva40jK3HDIFPaLYLZ/ySLwnyEvUvjju16+xv+V4C9
-         l36KJOXH7LOhW1D1S6nlTcvYbtzQhwCuvjmL53MSAgwJ/oHfeEhWskk6LKgaxjWzQDLG
-         S/WS+kBo7h5sU6RBtnjtzgfaU2Y4y7tSGAcSI8kttWAG2+PUZWR4T69XLvSU1KnmIGFz
-         iEipPUmH4cK8XM/0eiKnHfzjkXdMxMW0FNnV+gufmOVixzL1BFHNUbF3oeFAcQqJ25Ub
-         FnWA==
-X-Forwarded-Encrypted: i=1; AJvYcCUxevDwWi6NFrhm7HOFtPqpFQGaaDDwapkdWKqP34lZjBrvztdQZKgkHeNhNK85rTZOcayEX0pJ3QoFZZxSnvM3GV4=@vger.kernel.org, AJvYcCVcU5o0ugbN57+/6uAHK3nQ5LlCm2Dv6LgFhHziyLwB0qn9O6b1CdKio9fdOiq1NWmfDdn21O97W1s=@vger.kernel.org, AJvYcCVcailjDvrV/SWMCUaoNbz+lV045gpumP15ZHdreZgfdiHr+iZ1ymPn7TS/K5SI5uo8wcR6qZ+wTjp42t8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YybLhQwA5oG7IK8hq3fTFR6Qx+m9GeYbYOIqnoGzr00gqiIDRtl
-	011Fw/Fq5tUE3U0aXfSpGrNlO9mRfk6InJ2reEsnoZrTzhVr/VHCvDqpMzbW9HrN
-X-Gm-Gg: ASbGncu0MEaWOVBbLkz+Q0e0bUaTBZ2cBf9o/TXdenoBxuSEmOrbP+JT9v1jLQfu+bc
-	6NwPBz8faGWTFyb6bXpHH537EnAsoU4PeDO4gv+evTpXZQA6Z74UFntrEPR0tcoA5ZAoFbAuOi8
-	dg8EjY+2BesdYxfeKCJpiUW/HW2hYUGCCiJndopcCWBA8sJZKa1lowKXBGxK/YKKbFVXlDV6LLi
-	sXR/AVRqSW+Rk4GiUzaSlHRM56w0YArAW7pF+gngff3MWL7PKAVleKnRLqOr2OmEB8hQHNOSgnS
-	cODgwdQNMO8SDoxXBH1LIfv+cDrDV8oYmabzSUz+vaV8oCBXvjBQRnHfCF+nitgS4xU+7XFQvtE
-	1imu4D39/3nTzrMtheRn0ZDDx
-X-Google-Smtp-Source: AGHT+IEbrOoe4iL9jCNmTlAwrBaFqHWmLJH8lw3I10AhdMH9beDqejxmn3W0q/HunTFNjZPE0vhueQ==
-X-Received: by 2002:a05:6102:3963:b0:4e4:5a1f:1414 with SMTP id ada2fe7eead31-4e5ac1ec663mr5249521137.12.1748592487861;
-        Fri, 30 May 2025 01:08:07 -0700 (PDT)
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com. [209.85.217.48])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4e6444294a6sm2478372137.3.2025.05.30.01.08.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 May 2025 01:08:06 -0700 (PDT)
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-4e5aa697e7eso1118754137.1;
-        Fri, 30 May 2025 01:08:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUn2Dw7G38+w5Nu4WMikY8lWp13Vh+gDyfVJXdWQBwWuiwOL52st8Gy+NWvVptU4jE85HAElDNYzmT+pugf9t9dNJA=@vger.kernel.org, AJvYcCVWLLYoR/1jQIfiQLY4f3pYnfIsRNik6k5YjeHSLH5Kjm3s82a/CW6YtS1MC5hzu6Byoehe6+uQmc4=@vger.kernel.org, AJvYcCW2DRbnB/7k4xbmGwyQOdx5qLUtGjt/PAd0Qi7N5nHNkdx1YmJjVtU1pxzXuU89tatOTAmVBfc0fE1zaLQ=@vger.kernel.org
-X-Received: by 2002:a05:6102:821:b0:4e2:b21b:2cbc with SMTP id
- ada2fe7eead31-4e5ac082e79mr5514782137.3.1748592485899; Fri, 30 May 2025
- 01:08:05 -0700 (PDT)
+        bh=9LSJUMPXEV1M8KFzX9qlsWTgwSLRhfElyDaP/rhgR2Q=;
+        b=GTchMlAUb+xDHQmu1jLHoi2q72YRbAnh40jeamckzxPcrmwW8JWv0cmqszr0Pu2JZI
+         rQFtUfPsDa1YF4SEujyf5Ql4Kht+TIInMBzK+eeLKyQVNEyhxL/IxL+T5CL7lBt/TGJy
+         XHR3uo3Sbb/9trxs8cOwCDDEM/UhEkIA1c3JCnST7X1oZrSZGWi0xthksZhI42DrpLTH
+         J0XSoQ0ATi/Vz8YtsO8Ese1sgeMZBiA48ajjf7Bf2FM7qj9718q/pPh5yit8D+IKsF5z
+         rU8n9tgtJKsU1BAFTnYKD70nw2+OrXs5oHVXS5TuNULD5SJFU0IQHfT7YBbIN5rtzaZ9
+         f1wA==
+X-Forwarded-Encrypted: i=1; AJvYcCV54A03tZoMH3KsN2Haj1Fp3fR0c0FxwOfXitz0hHD9k5AfI5mVXjruFkEFFsmcdlagJW2z6yQ00xJCABROdTq+fg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFngbRJ78hRoIHcWz+2a/npgJPMvZzytBt0Q4u0aYyObqE+b76
+	LzdfafmG7f+SUj6AYnA6CpbbykwsKXInu9BbPZwwqe99nUPWPiXlobvCCKpYXRqdghHbmSVOQYl
+	G89emxvQ6jWUrhuWGj7+O18dq7MNBydjcfK0STWweuw==
+X-Gm-Gg: ASbGncvbR2sRc3NKOGlUMrhDIclT8qAhvibDqmm/FO1yuHKOckVb3xwI6hV2up17ud5
+	gVql2Ra8CYcZ+fH19MmZoes5/aK9SgWrHQAgSP6wuylGUEggxJ8WWfx2dceuzi0XDjj5Bz/UAj8
+	abkq3uXAX+4p4XjH6hDWcB8tabp9bIn/lIqA==
+X-Google-Smtp-Source: AGHT+IFfycBwEI3FxueTISbpHh6OJPQeP2Lrq+8rdRXtzuwP9IhvuccKAVwiT0W7cxN5YrLOeQ38HlPh8PvZt5WQSe4=
+X-Received: by 2002:a05:6902:1003:b0:e7d:9bfb:a320 with SMTP id
+ 3f1490d57ef6-e7f81f064a1mr3911070276.36.1748596698927; Fri, 30 May 2025
+ 02:18:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250529101305686S2ehGmiFg5bnKwSa__96W@zte.com.cn> <6eca9bc9-ac12-4aec-85c7-66397f70fca0@kernel.org>
-In-Reply-To: <6eca9bc9-ac12-4aec-85c7-66397f70fca0@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 30 May 2025 10:07:54 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVojqSZVg9xCQBUaonTsaDZ5ORsh_ttueOrhKgr10omiw@mail.gmail.com>
-X-Gm-Features: AX0GCFuMwjrh6D-uoATe2WLWzQS7eI4m-tnyK-8gdH6v7YKT3QMk4tB_kj_UBT4
-Message-ID: <CAMuHMdVojqSZVg9xCQBUaonTsaDZ5ORsh_ttueOrhKgr10omiw@mail.gmail.com>
-Subject: Re: pmdomain: renesas: rcar: Use str_on_off() helper in
- rcar_sysc_power() and rcar_gen4_sysc_power()
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: shao.mingyin@zte.com.cn, ulf.hansson@linaro.org, magnus.damm@gmail.com, 
-	linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, yang.yang29@zte.com.cn, xu.xin16@zte.com.cn, 
-	yang.tao172@zte.com.cn, ye.xingchen@zte.com.cn
+References: <20250526122054.65532-1-claudiu.beznea.uj@bp.renesas.com>
+ <20250526122054.65532-2-claudiu.beznea.uj@bp.renesas.com> <hojdkntm3q5a5ywya7n5i4zy24auko4u6zdqm25infhd44nyfx@x2evb6sc2d45>
+ <111d2d6c-8ac0-40b9-94c3-02f2f64ef9fe@tuxon.dev> <CAPDyKFoQYTNBhtBXY-Ds7E0TohtA6558W1Jf3cLsnXDQC74DSg@mail.gmail.com>
+ <rmc7me6rvumr6pcekgp5lsrxtuge5houitn474lkljew2hzdcw@z7wh2vtntvs5>
+In-Reply-To: <rmc7me6rvumr6pcekgp5lsrxtuge5houitn474lkljew2hzdcw@z7wh2vtntvs5>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Fri, 30 May 2025 11:17:42 +0200
+X-Gm-Features: AX0GCFvzfTrcuWANsmOBcb2p2VazFw-uQgVJQLGJOuhNKKaI5gJPiizsYJAEId8
+Message-ID: <CAPDyKFpsk-o0KvaJK+dgNDvW30piHKgvtyOxF7URaUEvrPZmZA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] PM: domains: Add devres variant for dev_pm_domain_attach()
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>, gregkh@linuxfoundation.org, rafael@kernel.org, 
+	dakr@kernel.org, len.brown@intel.com, pavel@kernel.org, jic23@kernel.org, 
+	daniel.lezcano@linaro.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-iio@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, bhelgaas@google.com, geert@linux-m68k.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Krzysztof,
-
-On Thu, 29 May 2025 at 08:41, Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> On 29/05/2025 04:13, shao.mingyin@zte.com.cn wrote:
-> > From: Shao Mingyin <shao.mingyin@zte.com.cn>
-> >
-> > Remove hard-coded strings by using the str_on_off() helper function.
-> >
-> > Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
-> > ---
-> >  drivers/pmdomain/renesas/rcar-gen4-sysc.c | 3 ++-
-> >  drivers/pmdomain/renesas/rcar-sysc.c      | 3 ++-
+On Wed, 28 May 2025 at 18:09, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
 >
-> Stop sending such trivial patches one driver per patch, but entire
-> subsystem in one patch. That's a lot of churn, considering this was
-> rejected:
+> On Wed, May 28, 2025 at 06:04:45PM +0200, Ulf Hansson wrote:
+> > [...]
+> >
+> > > >> +/**
+> > > >> + * devm_pm_domain_attach - devres-enabled version of dev_pm_domain_attach()
+> > > >> + * @dev: Device to attach.
+> > > >> + * @attach_power_on: Use to indicate whether we should power on the device
+> > > >> + *                   when attaching (true indicates the device is powered on
+> > > >> + *                   when attaching).
+> > > >> + * @detach_power_off: Used to indicate whether we should power off the device
+> > > >> + *                    when detaching (true indicates the device is powered off
+> > > >> + *                    when detaching).
+> > > >> + *
+> > > >> + * NOTE: this will also handle calling dev_pm_domain_detach() for
+> > > >> + * you during remove phase.
+> > > >> + *
+> > > >> + * Returns 0 on successfully attached PM domain, or a negative error code in
+> > > >> + * case of a failure.
+> > > >> + */
+> > > >> +int devm_pm_domain_attach(struct device *dev, bool attach_power_on,
+> > > >> +                      bool detach_power_off)
+> > > >
+> > > > Do we have examples where we power on a device and leave it powered on
+> > > > (or do not power on device on attach but power off it on detach)? I
+> > >
+> > > I haven't found one yet.
+> > >
+> > > > believe devm release should strictly mirror the acquisition, so separate
+> > > > flag is not needed.
+> > >
+> > > I was in the middle whether I should do it with 2 flags or only to revert
+> > > the acquisition.
+> > >
+> > > >
+> > > >
+> > > >> +{
+> > > >> +    int ret;
+> > > >> +
+> > > >> +    ret = dev_pm_domain_attach(dev, attach_power_on);
+> > > >> +    if (ret)
+> > > >> +            return ret;
+> > > >> +
+> > > >> +    if (detach_power_off)
+> > > >> +            return devm_add_action_or_reset(dev, devm_pm_domain_detach_off,
+> > > >> +                                            dev);
+> > > >> +
+> > > >> +    return devm_add_action_or_reset(dev, devm_pm_domain_detach_on, dev);
+> > > >
+> > > > Instead of 2 separate cleanup methods maybe define dedicated devres:
+> > > >
+> > > > struct dev_pm_domain_devres {
+> > > >       struct device *dev;
+> > > >       bool power_off;
+> > > > }
+> > > >
+> > > > ?
+> > >
+> > > That was the other option I've thought about but I found the one with 2
+> > > cleanup methods to be simpler. What would you prefer here?
+> > >
+> > > Ulf: could you please let me know what would you prefer here?
+> >
+> > As it looks like we agreed to use one cleanup method, the struct
+> > dev_pm_domain_devres seems superfluous to me.
+>
+> I think we agreed that cleanup should mirror the acquisition, that is
+> true. But since attaching to the domain has an option to either turn the
+> device on or not we still need 2 cleanup branches. They can either be
+> implemented with 2 cleanup callbacks or with 1 callback and dedicated
+> devres structure.
 
-Was it? I only see my Rb, and a review comment asking for more...
+Yes, you are right. Better with one callback and using struct
+dev_pm_domain_devres to manage the power_off parameter.
 
-> https://lore.kernel.org/all/20250114203547.1013010-1-krzysztof.kozlowski@linaro.org/
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Kind regards
+Uffe
 
