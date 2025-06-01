@@ -1,46 +1,46 @@
-Return-Path: <linux-renesas-soc+bounces-17759-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17760-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECBA9ACA5FE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 02:42:35 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 016E4ACA696
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 02:55:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D65683A726E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 00:41:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3AC227A82B6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 00:54:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E584E27055D;
-	Sun,  1 Jun 2025 23:39:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECB4227602F;
+	Sun,  1 Jun 2025 23:41:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rg/0dno8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eGUStnIf"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B541D270557;
-	Sun,  1 Jun 2025 23:39:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD98332173D;
+	Sun,  1 Jun 2025 23:41:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748821168; cv=none; b=mGHaKxqvWSqTGgvJD/H/n80y+CFXvtD1O+9Sidi0lIJEXtBk6TtxtjsDDo0wvGv2KwFETwx+SlNIVSZ/o4SrXvGzLRFgm/miCt1NZqW6l6KIcR2KUiLnwW+AlZfl5fOAORMi3TXBoceO5LyXef8uAJXuL1RgQ4j97umWsUD6V/c=
+	t=1748821307; cv=none; b=g40UlP1/mdYTSE34V3+DLxN8cH6HJtOKipf1QgPra9lu0uRGza0WzZTX1vn3vK0o2lOZQ98zaH0RGhaIKKVng9ES5ueghCWGcx9dGILDmwyoWuaMKdUrX7Q1EqrIc2FSUZH8xtxc+RIndJg7gKECtYyVDdLdNxHdo51cbsNIX18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748821168; c=relaxed/simple;
-	bh=YhXOzG+IPXfbUB5ca+bVO4QgTuzw/OkNtHK/cG5iyvQ=;
+	s=arc-20240116; t=1748821307; c=relaxed/simple;
+	bh=OAST+CN1zeGGiOmlD2lOH44qxQ8X+o7afAWPEhH+8ls=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lZupxrgGX21d2dHpFZJwImpeNid5mufh8+5UkyOz9p/d5MVzAbHDQpCu27iIiiktFh5V+mFtCcBhRbpyfO0nUli0Dfgm86BNCfthOzSuoy0O5dRuskptGSTuyibLvAxltlnqBvnS8QYhaC47LXMp1ZejzEnex8I9YEqVzexrmvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rg/0dno8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC8B7C4CEF3;
-	Sun,  1 Jun 2025 23:39:26 +0000 (UTC)
+	 MIME-Version:Content-Type; b=lYTECWJo3UM+2gTW8EvIGQmCvecRZqHekk9Vi4YFQNJK6xGm0mwJXamaorQGcDO28beXwTVxkPBnfzhdcxkr9MpR7gWdD6jU1pUOO/J4D4TLpC6X2kqYFOWcTD6OVBJ0xub4QNNfX2857U45xMPlO9BKjlChCrHzqPJR1kTe9Cg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eGUStnIf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B078C4CEE7;
+	Sun,  1 Jun 2025 23:41:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748821168;
-	bh=YhXOzG+IPXfbUB5ca+bVO4QgTuzw/OkNtHK/cG5iyvQ=;
+	s=k20201202; t=1748821307;
+	bh=OAST+CN1zeGGiOmlD2lOH44qxQ8X+o7afAWPEhH+8ls=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Rg/0dno82G8bebw6HIkdurxb5ClkqTbbhgG1WcWRyK/NmAFEha48m9YXpFj5BwJw7
-	 RI6U2ZNjCb5HqU2hPxGGHilgpKq9VV/uWOioMnnB3jSF4008kKIhKTTUm++Xh+DJRH
-	 HGT+6PncaElvc7j7w/rTjoSpNQ2hlx6k1+GbZfk/bCyhSE+19Gic2AlrxSLRIjtJ1c
-	 S4TDAqgaYEIISptWrVcwbYbjshfgt4zmzhy/EKgv0iuU2vXxotF8+W+kQzW03YPJ6f
-	 eMVsXb01EC8ftMp7zt8yO1JPb0c6cyxu9rWUdpT/63TBKi3xV2eud4/nPUWWVK/n0g
-	 tiwsuWTQpJT3A==
+	b=eGUStnIfkQINrcZSTVJp9LCKN9lagDdCStCP7fbzCGAuwYnEYaJY6Y8y8Acy9w2xH
+	 eAC0fBX1U9bSGdZsxK6w/lyWiLGw46HPNdB+6QapWip07D+KqjU7aKCMN1HKA4GgvC
+	 /uHIucXpgf4/OP3Byj1ZbIom6HAqhRt1Py6hKHs6kUmQmu28HKYtOVOpQ9UMtwUYZu
+	 Ew5myWb8Zo437ayVLFdy6DvLfTdDpfU0dbiXlJKVsxLoqL4OGwf3sJ1aQLz+vdTPSf
+	 zhbedMSoMDDBvoBA8AWXVqT0XgVn6HqdJhBOe9aRGGNl+1QoY9wSRZjmI79aGrqoJo
+	 Uf8J2eaSJ6Lgg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
@@ -56,12 +56,12 @@ Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
 	linux-media@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 43/66] media: rcar-vin: Fix stride setting for RAW8 formats
-Date: Sun,  1 Jun 2025 19:37:20 -0400
-Message-Id: <20250601233744.3514795-43-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 39/58] media: rcar-vin: Fix stride setting for RAW8 formats
+Date: Sun,  1 Jun 2025 19:39:52 -0400
+Message-Id: <20250601234012.3516352-39-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250601233744.3514795-1-sashal@kernel.org>
-References: <20250601233744.3514795-1-sashal@kernel.org>
+In-Reply-To: <20250601234012.3516352-1-sashal@kernel.org>
+References: <20250601234012.3516352-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -71,7 +71,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.92
+X-stable-base: Linux 6.1.140
 Content-Transfer-Encoding: 8bit
 
 From: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
@@ -153,10 +153,10 @@ functionality with minimal risk of introducing regressions.
  1 file changed, 16 deletions(-)
 
 diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-index bb4774e2f335e..587eb5b4cfaef 100644
+index 8bfb020b2f260..b3101fafa771b 100644
 --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
 +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-@@ -677,22 +677,6 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
+@@ -600,22 +600,6 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
  
  	fmt = rvin_format_from_pixel(vin, vin->format.pixelformat);
  	stride = vin->format.bytesperline / fmt->bpp;
