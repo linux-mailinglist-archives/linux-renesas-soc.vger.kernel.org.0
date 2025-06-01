@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-17749-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17750-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41DD2AC9B35
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 May 2025 15:40:06 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FDD1AC9E6F
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  1 Jun 2025 13:11:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 46495189F7B4
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 May 2025 13:40:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4CC9C1893653
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  1 Jun 2025 11:11:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 672D6238D22;
-	Sat, 31 May 2025 13:40:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCBB71B0413;
+	Sun,  1 Jun 2025 11:11:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U+5pLDPm"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="exiX0NUf"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F876ADD;
-	Sat, 31 May 2025 13:39:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2E717BD9;
+	Sun,  1 Jun 2025 11:11:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748698800; cv=none; b=KhitqpzODet0kgvZmxoSdu46Ps7qD/VSE6us6VK5bvJjinGPEcXrqk/5YtSA7jjDcBLNBQLjn3h2Hft09d9gLL6YEs7sytSeJ2g6qrumoQ4TyOrkgH5P7z8ykUFNaRPdzWLPjDZ96h+/Ha2OjguFmAoFBFH0pfQQ6U4vU9jn878=
+	t=1748776284; cv=none; b=XB94iNwHrHBsM0WF/F6/HSsGZpjeU8/9Q0YpuXKJ5nwF8OurKmkEz0yFsvV3dOtq19P+mIN391wLZxuA8ze+S5/gn4eLkvuqgg7SrJTIbfzZq9mT0WIzjY8YR6JoV/xEcIpB0GMFklKd/+L2p9q8fjrkLPr5eBYbH1aCsFYGfL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748698800; c=relaxed/simple;
-	bh=RyP8MxcAjStXqK5TBc4mN3vd2YK/1GreKNWYk8YXfZI=;
+	s=arc-20240116; t=1748776284; c=relaxed/simple;
+	bh=CsKtKjy2VZl4a3WGzF4q9MTCWACsbPMydfnfJN381Jg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=H/lkWVpw7Jw9ga39SeTzrX4y1dvRVO/BJUEC9vhkWh+Vhwvga4QBMd3IoagILEU0q7Ui2QggbTuc1wM2xAyil/pYWtbFNrsP/YqVwfSCeI7yxehkyjbt7IAwhzQ9N639I2rPv603lw1uiXaN9ZWPeUtVyk/a7srTjYgXeRMOX8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U+5pLDPm; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E830EC4CEE3;
-	Sat, 31 May 2025 13:39:56 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=kSrCo9PsbJ1VdXiumf/KH7fiDWH1I1FhfJiKHpafPxoIGtukR4YDDzEKSTyad2oL5l83adb+uGOf8JZgTELHcLK2U0IdBef/R/f5ZGvGpatCQW4tjeSm4/2I5ZIJJsbWJGv+AyhrXRQPbNuVUyHzLaugXIZUOf9kLtU4jSpcnCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=exiX0NUf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44C55C4CEE7;
+	Sun,  1 Jun 2025 11:11:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748698799;
-	bh=RyP8MxcAjStXqK5TBc4mN3vd2YK/1GreKNWYk8YXfZI=;
+	s=k20201202; t=1748776284;
+	bh=CsKtKjy2VZl4a3WGzF4q9MTCWACsbPMydfnfJN381Jg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=U+5pLDPmNlxYoSIeUrF6sFVa6lzw9JaJSmlldotouFY3vAWB6dNvtCmwzng7E/R7V
-	 VXGy3bY5dwX0aEbBqaGEWvxXUbxfs6SqoyDfCrU+tuwT+6nU9CMlHaooiYTbmvJFOI
-	 YazyjkgV34/h6bNighng8JSXSwT+31ATdU13JTbFgL/PuUeo9356AS0pahF2zOLvac
-	 fBG7Aun9yab1mXnPg2s80YEatf/o1Ttvz3Z90VP4tMfQvhWSWyrVl81sAqpjllUUnL
-	 iCG5D/y8ZsUUKJ8avxirH27kC1qfe0tLExfFUAjNtNuJa2CODJcAfyZhGK9WGGCRwu
-	 SazfMtG2/ZEbQ==
-Message-ID: <ead6711d-8e38-43b7-bc50-bcc3f7cddb70@kernel.org>
-Date: Sat, 31 May 2025 15:39:55 +0200
+	b=exiX0NUfbT98F+74O8RgoZot8C82b303RQi9/qaMViBipaZThB/p+D8OWds9ojYaP
+	 oJ7boDG25sXqP9tZBvsS9RVw17hfOg7ExuqgTpJT40BWYpCLFRvpeZTqSZmL7JjJ04
+	 2YoVdguThQ55B+mVCU/j0Ipiab5gaVckai+ipl2HEo68qXcSFoco619nR1M1JUZPtp
+	 pBamJW/TZRjd/10zbbW9D6fGNdkxH8RSVRa2eybhrQ+dbk3CxAvASybXgfo4hBffCr
+	 ODpw0ukfR69VEZD30dHZCej+9a8QOwVwTNCs2FW6qUQs9jtWQMaSvREU7wpMorenIZ
+	 1/TkAPTHaUJoA==
+Message-ID: <f4d38bb8-f17f-464c-b406-b1fb908a975b@kernel.org>
+Date: Sun, 1 Jun 2025 13:11:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,16 +50,21 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: pmdomain: renesas: rcar: Use str_on_off() helper in
- rcar_sysc_power() and rcar_gen4_sysc_power()
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: shao.mingyin@zte.com.cn, ulf.hansson@linaro.org, magnus.damm@gmail.com,
- linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org, yang.yang29@zte.com.cn, xu.xin16@zte.com.cn,
- yang.tao172@zte.com.cn, ye.xingchen@zte.com.cn
-References: <20250529101305686S2ehGmiFg5bnKwSa__96W@zte.com.cn>
- <6eca9bc9-ac12-4aec-85c7-66397f70fca0@kernel.org>
- <CAMuHMdVojqSZVg9xCQBUaonTsaDZ5ORsh_ttueOrhKgr10omiw@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: Add no-hpd property for all ti-sn65dsi86
+ bridge consumers
+To: Jayesh Choudhary <j-choudhary@ti.com>, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, neil.armstrong@linaro.org,
+ khilman@baylibre.com, devicetree@vger.kernel.org
+Cc: jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, cros-qcom-dts-watchers@chromium.org,
+ andersson@kernel.org, konradybcio@kernel.org, geert+renesas@glider.be,
+ magnus.damm@gmail.com, linux-arm-kernel@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, imx@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ dianders@chromium.org, linux-kernel@vger.kernel.org,
+ max.krummenacher@toradex.com, ernestvanhoecke@gmail.com
+References: <20250529112423.484232-1-j-choudhary@ti.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -105,35 +110,25 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <CAMuHMdVojqSZVg9xCQBUaonTsaDZ5ORsh_ttueOrhKgr10omiw@mail.gmail.com>
+In-Reply-To: <20250529112423.484232-1-j-choudhary@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 30/05/2025 10:07, Geert Uytterhoeven wrote:
-> Hi Krzysztof,
+On 29/05/2025 13:24, Jayesh Choudhary wrote:
+> In the SN65DSI86 DSI-2-eDP bridge, HPD is not supported as of now.
+> But DisplayPort connector_type usecases does need hpd to be enabled.
+> In order not to break any platform from those driver changes, add
+> "no-hpd" property to all the existing sn65dsi86 nodes (that don't
+> have it already) as hpd is not being used there anyways.
 > 
-> On Thu, 29 May 2025 at 08:41, Krzysztof Kozlowski <krzk@kernel.org> wrote:
->> On 29/05/2025 04:13, shao.mingyin@zte.com.cn wrote:
->>> From: Shao Mingyin <shao.mingyin@zte.com.cn>
->>>
->>> Remove hard-coded strings by using the str_on_off() helper function.
->>>
->>> Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
->>> ---
->>>  drivers/pmdomain/renesas/rcar-gen4-sysc.c | 3 ++-
->>>  drivers/pmdomain/renesas/rcar-sysc.c      | 3 ++-
->>
->> Stop sending such trivial patches one driver per patch, but entire
->> subsystem in one patch. That's a lot of churn, considering this was
->> rejected:
+> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+> ---
 > 
-> Was it? I only see my Rb, and a review comment asking for more...
-> 
->> https://lore.kernel.org/all/20250114203547.1013010-1-krzysztof.kozlowski@linaro.org/
-Indeed this one was not, but my other patchsets were - several
-subsystems clearly expressed that this is just a churn. So if doing
-this, because you do not consider it a churn, do it all at once to, not
-line by line.
+> Upcoming driver changes that will break platforms if we do not have this
+> property in all the existing sn65dsi86 nodes that assumes hpd is disabled:
+> <https://lore.kernel.org/all/20250529110418.481756-1-j-choudhary@ti.com/>
+
+That's obviously a NAK.
 
 Best regards,
 Krzysztof
