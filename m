@@ -1,62 +1,64 @@
-Return-Path: <linux-renesas-soc+bounces-17753-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17754-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E069ACA2BD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 01:39:48 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D60FACA2C7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 01:40:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4DEBC3B18D7
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  1 Jun 2025 23:38:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C21FA7A5AB6
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  1 Jun 2025 23:39:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EEC025D558;
-	Sun,  1 Jun 2025 23:28:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31A78272E6A;
+	Sun,  1 Jun 2025 23:28:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tectwKJB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jglMpM3K"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB9725D54E;
-	Sun,  1 Jun 2025 23:28:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E56CB272E63;
+	Sun,  1 Jun 2025 23:28:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748820484; cv=none; b=TVhGsbRpEK73ip8iCqTt2ebKYrjdEiGzr+igPPGY28f0vGdHHu+yTmW8NK1jY5GE8lrtxJZ8CAU5vDBZHXN4thTor7cARkkfji/FHEQFfwP17V77VE4wjT7RMNsTeXQkqfHigr3t6BHwjSJ2l+sXYGkJiYWU222GS3Sgvws5uw0=
+	t=1748820499; cv=none; b=skF/hisOdEJJ4Qkaho2wxxAYOcPlNJLDOhUktwCkyVsxC340kfqYOgRu+nSbGMeJV7LzO8ehndwcg4RMu8isGI0zuu+ChEvZQCvQiuUt6IjAEr7narn2XbgSNEhyHiovIIpZayXwzTomrA2v9OzXSze/Z1DXC2G1clpAUUU5oj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748820484; c=relaxed/simple;
-	bh=VPSYI9YJk54tbd8Fu51XhUH+m2Wc5Ks9D9030LdvBII=;
+	s=arc-20240116; t=1748820499; c=relaxed/simple;
+	bh=zu3m5Srkc9jh8dAzxMrFXkdW7FEaom6aY+vqpPWbA4U=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lHimIUhnxy+9EW6OQYzvyOdPDQEf7yhj6OUHt3ciK+fHfdZkUi1/1s5UcWfQC57ReSU77ZJLP9tOmMYV2LhVkNiNFvaT12NljACgaTniOK1saPN9G/WE+iy+d1/QeMlaVrgHcz0+0YyBagvOywjjy3KSeWjFt9uadYU/CYTDFBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tectwKJB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEFE7C4CEEE;
-	Sun,  1 Jun 2025 23:28:02 +0000 (UTC)
+	 MIME-Version:Content-Type; b=TCNLgTL61SCHfnqCJ0SHnNAWjLrF4V/+0+/OWytsQtaznN3FHPJHQ5fmle4Fer8bQ4+y6SHSlG/q9KFR0P2YvWbfwPOMg243btWCqP41yuyV3x8LFyQ4GvPl0nBxUbK/DwEEVDu7qDiiXDmnSsEiN8f+rs7E6l5QL1zC0J1JgWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jglMpM3K; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9367C4CEF1;
+	Sun,  1 Jun 2025 23:28:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748820484;
-	bh=VPSYI9YJk54tbd8Fu51XhUH+m2Wc5Ks9D9030LdvBII=;
+	s=k20201202; t=1748820497;
+	bh=zu3m5Srkc9jh8dAzxMrFXkdW7FEaom6aY+vqpPWbA4U=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tectwKJBJA8eGtjhI/e5aKVmxHGC6QmGSl98qxpCRno7OKvDdYJoR8h7J0TkKN3j6
-	 GBdIGOwZH1A66nKjWmcIDLP2HFc1sl0N1LgS6Oq/dQSWTz8tbvrf5+WpYh2/L4Vwk5
-	 APSseJfTa2gYdn3bqitIsfg0DxPRBt0YcT15QOmtxRU/cPmJc8f16p9EByPxn2bPln
-	 CQSkFShPKnLbbeZNZqwK/KTXv61HhGNYkh4URX6wiQlOvZ9PzWgqPS+tZeePqJ+ZQf
-	 TWoQGnKN3VA9y/WzIkmuvqUCRENhf6cw+MIp7suxSP8VnofZX38nluzkS8PPI+CdCP
-	 MNRpekOdYcw0w==
+	b=jglMpM3KcY063a4dfv120rU77YNlOfbjiE9Sa2dSAD8VN9R3exOVtJL0lu2fJH/M/
+	 YBZ9YztQIsIEJqjXKYqcX/OESLEhZPAHIl7EzyW6E+yby3xK1hnjpI2EOQrCI66BPS
+	 goidiVe8T9QiO+49aepFF1KUDMKhnAUEbnz1j01C9UnYaLB/2ltYn+hDBAe+oDkKgi
+	 KAfZG0no4k+5oK140600Oyg9Afbp96FOwdOtxjfh3itcmR4hHhoQtcjvBsZ2my7IJ+
+	 rAcNrrBsdXVJK44CxpT9JGEogu4bikiqB1PzWN1skS1nbciUlfPEFaz3cVWL20bohL
+	 ZF7PEJK2wdHTA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Hans Verkuil <hverkuil@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
-	kieran.bingham+renesas@ideasonboard.com,
+	niklas.soderlund@ragnatech.se,
 	mchehab@kernel.org,
+	geert+renesas@glider.be,
+	magnus.damm@gmail.com,
 	linux-media@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.15 067/110] media: renesas: vsp1: Fix media bus code setup on RWPF source pad
-Date: Sun,  1 Jun 2025 19:23:49 -0400
-Message-Id: <20250601232435.3507697-67-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.15 074/110] media: rcar-vin: Fix stride setting for RAW8 formats
+Date: Sun,  1 Jun 2025 19:23:56 -0400
+Message-Id: <20250601232435.3507697-74-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250601232435.3507697-1-sashal@kernel.org>
 References: <20250601232435.3507697-1-sashal@kernel.org>
@@ -66,110 +68,117 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.15
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+From: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-[ Upstream commit b6e57605eff6224df4debf188eb7a02dedb7686f ]
+[ Upstream commit e7376745ad5c8548e31d9ea58adfb5a847e017a4 ]
 
-The RWPF source pad media bus code can only be different from the sink
-pad code when enabling color space conversion, which can only convert
-between RGB and YUV. If the sink pad code is HSV, no conversion is
-possible. Fix the pad set format handler to reflect this hardware
-limitation.
+Earlier versions of the datasheet where unclear about the stride setting
+for RAW8 capture formats. Later datasheets clarifies that the stride
+only process in this mode for non-image data. For image data the full
+stride shall be used. Compare section "RAW: 8 Bits and Embedded 8-Bit
+Non-Image Data, User Defined 8-bit Data" vs "RAW: 8 Bits".
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Link: https://lore.kernel.org/r/20250429232904.26413-5-laurent.pinchart+renesas@ideasonboard.com
+Remove the special case from pixel formats that carry image data and
+treat it as any other image format.
+
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Link: https://lore.kernel.org/r/20250402183302.140055-1-niklas.soderlund+renesas@ragnatech.se
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-**YES** This commit should be backported to stable kernel trees. ##
-Detailed Analysis ### **What Bug is Being Fixed** The commit fixes a
-critical bug in the VSP1 (Video Signal Processor) media driver's format
-validation logic. Specifically, the `vsp1_rwpf_set_format()` function
-was incorrectly allowing format conversion from HSV
-(`MEDIA_BUS_FMT_AHSV8888_1X32`) to other formats, which is a **hardware
-limitation violation**. **Before the fix**: The code blindly accepted
-any format conversion request on the source pad: ```c format->code =
-fmt->format.code; // Always accepts requested format ``` **After the
-fix**: The code properly validates hardware capabilities: ```c if
-(sink_format->code != MEDIA_BUS_FMT_AHSV8888_1X32 && fmt->format.code !=
-MEDIA_BUS_FMT_AHSV8888_1X32) format->code = fmt->format.code; // Allow
-RGB↔YUV conversion else format->code = sink_format->code; // Force pass-
-through for HSV ``` ### **Hardware Limitation Context** The VSP1 RWPF
-(Read/Write Pixel Formatter) hardware has specific conversion
-capabilities: - ✅ **RGB ↔ YUV conversion**: Supported - ❌ **HSV
-conversion**: Not supported in RWPF (requires separate HSIT module) ###
-**Impact and Severity** This is a **medium-to-high severity bug** for
-affected users: 1. **Data Corruption**: Applications using HSV formats
-could get incorrect video output 2. **Silent Failures**: Invalid
-configurations were accepted without error 3. **API Contract
-Violation**: V4L2 subdevice format negotiation expects proper validation
-4. **Affected Use Cases**: Computer vision applications, image
-processing pipelines using HSV color space ### **Why This Should Be
-Backported** **Stable Tree Criteria Met:** 1. ✅ **Important Bug Fix**:
-Prevents data corruption and improper hardware usage 2. ✅ **Small &
-Safe**: Only 10 lines changed, adds validation logic 3. ✅ **No
-Regression Risk**: Properly rejects invalid configurations instead of
-silently accepting them 4. ✅ **Long-standing Issue**: Not a recent
-regression, has been present since HSV support was added **Backporting
-Safety:** - **Minimal code change**: Only modifies format validation
-logic - **No ABI changes**: Maintains driver interface compatibility -
-**Conservative approach**: When in doubt, falls back to sink format
-(safe default) - **Hardware-correct behavior**: Aligns driver behavior
-with actual hardware capabilities **Comparison with Similar Commits:**
-Looking at the historical examples provided, this commit has
-characteristics very similar to **Similar Commit #5** which was marked
-as "Backport Status: YES". That commit also: - Fixed format validation
-in a media driver - Addressed hardware limitations in format conversion
-- Was a small, contained fix that prevented incorrect configurations -
-Added proper validation rather than changing core functionality ###
-**Risk Assessment** **Low Risk** for several reasons: 1. The fix makes
-the driver **more restrictive** (rejects invalid configs) rather than
-more permissive 2. Applications using valid RGB/YUV conversions remain
-unaffected 3. Applications using invalid HSV conversions will now get
-proper error handling instead of silent corruption 4. No functional
-changes to working configurations This commit represents exactly the
-type of important, low-risk bug fix that stable kernel trees are
-designed to include.
+**YES** This commit should be backported to stable kernel trees. Here's
+my extensive analysis: ## Nature of the Fix This commit fixes a
+**hardware configuration bug** in the R-Car VIN (Video Input) driver for
+Renesas SoCs. The commit message clearly states that earlier datasheets
+were unclear about stride settings for RAW8 formats, and updated
+datasheets clarified that the special stride/2 handling should only
+apply to "non-image data," not regular image data. ## Code Analysis The
+change removes problematic special-case logic from
+`drivers/media/platform/renesas/rcar-vin/rcar-dma.c:662-696`: **Removed
+Code (Lines 683-696):** ```c /bin /bin.usr-is-merged /boot /dev /etc
+/home /init /lib /lib.usr-is-merged /lib64 /lost+found /media /mnt /opt
+/proc /root /run /sbin /sbin.usr-is-merged /snap /srv /sys /tmp /usr
+/var For RAW8 format bpp is 1, but the hardware process RAW8
+amd_display_timing_generator_analysis.md amdgpu_csb_analysis.md
+cgroup_rstat_analysis.sh cgroup_rstat_analysis_guide.md
+expected_findings_summary.md kernel_analysis_commands.sh
+sta2x11_removal_analysis.md format in 2 pixel unit hence configure
+VNIS_REG as stride / 2. */ switch (vin->format.pixelformat) { case
+V4L2_PIX_FMT_SBGGR8: case V4L2_PIX_FMT_SGBRG8: case V4L2_PIX_FMT_SGRBG8:
+case V4L2_PIX_FMT_SRGGB8: case V4L2_PIX_FMT_GREY: stride /= 2; break;
+default: break; } ``` This removal is **safe and necessary** because: 1.
+**Corrects Hardware Behavior**: The original code was based on incorrect
+understanding of hardware requirements from unclear documentation 2.
+**Minimal Risk**: Only affects the VNIS_REG register setting for
+specific RAW8 pixel formats 3. **Contained Scope**: Limited to R-Car VIN
+driver RAW8 image capture functionality ## Backport Criteria Assessment
+✅ **Fixes Important Bug**: RAW8 format capture was incorrectly
+configured, likely causing image corruption or capture failures ✅
+**Small and Contained**: 16-line removal in a single function, no
+architectural changes ✅ **Clear Documentation**: Well-documented
+reasoning based on updated hardware specifications ✅ **Low Regression
+Risk**: The change aligns stride calculation with other pixel formats
+and corrected hardware documentation ✅ **Affects User-Visible
+Functionality**: Users capturing RAW8 camera data would experience
+incorrect behavior ## Historical Context From the git history, I found
+that the problematic `stride /= 2` logic was introduced in commit
+`8c3e0f67df6c9` ("media: rcar-vin: Extend RAW8 support to all RGB
+layouts") in 2020. The original comment stated "hardware process RAW8
+format in 2 pixel unit hence configure VNIS_REG as stride / 2" - but
+this was based on unclear documentation that has since been clarified.
+## Comparison with Similar Commits The provided historical examples show
+that similar R-Car VIN media driver fixes were **NOT** backported, but
+those were primarily: - Feature additions (extending RAW8 support to
+more layouts) - New format support (RAW10 addition) - Non-critical fixes
+(stride reporting corrections) This commit is fundamentally different as
+it **fixes incorrect hardware configuration** that would cause
+functional problems for existing users. ## Risk Assessment **Very Low
+Risk**: - Only removes incorrect special-case handling - Makes RAW8
+formats behave consistently with other formats - Based on authoritative
+hardware documentation clarification - No new code paths or complex
+logic introduced This fix is precisely the type that stable trees are
+intended for: fixing incorrect behavior that affects existing
+functionality with minimal risk of introducing regressions.
 
- drivers/media/platform/renesas/vsp1/vsp1_rwpf.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ .../media/platform/renesas/rcar-vin/rcar-dma.c   | 16 ----------------
+ 1 file changed, 16 deletions(-)
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-index 9d38203e73d00..1b4bac7b7cfa1 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-@@ -76,11 +76,20 @@ static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
- 	format = v4l2_subdev_state_get_format(state, fmt->pad);
+diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+index 8de8712404409..edb06730bc7c0 100644
+--- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
++++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+@@ -679,22 +679,6 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
  
- 	if (fmt->pad == RWPF_PAD_SOURCE) {
-+		const struct v4l2_mbus_framefmt *sink_format =
-+			v4l2_subdev_state_get_format(state, RWPF_PAD_SINK);
-+
- 		/*
- 		 * The RWPF performs format conversion but can't scale, only the
--		 * format code can be changed on the source pad.
-+		 * format code can be changed on the source pad when converting
-+		 * between RGB and YUV.
- 		 */
--		format->code = fmt->format.code;
-+		if (sink_format->code != MEDIA_BUS_FMT_AHSV8888_1X32 &&
-+		    fmt->format.code != MEDIA_BUS_FMT_AHSV8888_1X32)
-+			format->code = fmt->format.code;
-+		else
-+			format->code = sink_format->code;
-+
- 		fmt->format = *format;
- 		goto done;
- 	}
+ 	fmt = rvin_format_from_pixel(vin, vin->format.pixelformat);
+ 	stride = vin->format.bytesperline / fmt->bpp;
+-
+-	/* For RAW8 format bpp is 1, but the hardware process RAW8
+-	 * format in 2 pixel unit hence configure VNIS_REG as stride / 2.
+-	 */
+-	switch (vin->format.pixelformat) {
+-	case V4L2_PIX_FMT_SBGGR8:
+-	case V4L2_PIX_FMT_SGBRG8:
+-	case V4L2_PIX_FMT_SGRBG8:
+-	case V4L2_PIX_FMT_SRGGB8:
+-	case V4L2_PIX_FMT_GREY:
+-		stride /= 2;
+-		break;
+-	default:
+-		break;
+-	}
+-
+ 	rvin_write(vin, stride, VNIS_REG);
+ }
+ 
 -- 
 2.39.5
 
