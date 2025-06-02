@@ -1,185 +1,135 @@
-Return-Path: <linux-renesas-soc+bounces-17760-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17761-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 016E4ACA696
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 02:55:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1270BACA8CC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 07:11:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3AC227A82B6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 00:54:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2C4C5189AF9B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 05:11:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECB4227602F;
-	Sun,  1 Jun 2025 23:41:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DB40167DB7;
+	Mon,  2 Jun 2025 05:11:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eGUStnIf"
+	dkim=pass (2048-bit key) header.d=inventec.com header.i=@inventec.com header.b="ESo8aTvD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD98332173D;
-	Sun,  1 Jun 2025 23:41:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D406714885B
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Jun 2025 05:11:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748821307; cv=none; b=g40UlP1/mdYTSE34V3+DLxN8cH6HJtOKipf1QgPra9lu0uRGza0WzZTX1vn3vK0o2lOZQ98zaH0RGhaIKKVng9ES5ueghCWGcx9dGILDmwyoWuaMKdUrX7Q1EqrIc2FSUZH8xtxc+RIndJg7gKECtYyVDdLdNxHdo51cbsNIX18=
+	t=1748841097; cv=none; b=s4aI6EHemOCM1Qy+DTSuwLLB6c6Df+HXY5L7RKbvvnvp2pcE6QrRptP1ZaYQouKq7g7KH9soZHEJa8Ey7JNJMZKmESxqMOMpoBf3P6oLOruRGdk5ZUq2SB3Vn06n1th0chHmbDIEUZs/eFzJnrrOzM77BB3R6g6dVBXm0DCx1nM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748821307; c=relaxed/simple;
-	bh=OAST+CN1zeGGiOmlD2lOH44qxQ8X+o7afAWPEhH+8ls=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lYTECWJo3UM+2gTW8EvIGQmCvecRZqHekk9Vi4YFQNJK6xGm0mwJXamaorQGcDO28beXwTVxkPBnfzhdcxkr9MpR7gWdD6jU1pUOO/J4D4TLpC6X2kqYFOWcTD6OVBJ0xub4QNNfX2857U45xMPlO9BKjlChCrHzqPJR1kTe9Cg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eGUStnIf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B078C4CEE7;
-	Sun,  1 Jun 2025 23:41:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748821307;
-	bh=OAST+CN1zeGGiOmlD2lOH44qxQ8X+o7afAWPEhH+8ls=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=eGUStnIfkQINrcZSTVJp9LCKN9lagDdCStCP7fbzCGAuwYnEYaJY6Y8y8Acy9w2xH
-	 eAC0fBX1U9bSGdZsxK6w/lyWiLGw46HPNdB+6QapWip07D+KqjU7aKCMN1HKA4GgvC
-	 /uHIucXpgf4/OP3Byj1ZbIom6HAqhRt1Py6hKHs6kUmQmu28HKYtOVOpQ9UMtwUYZu
-	 Ew5myWb8Zo437ayVLFdy6DvLfTdDpfU0dbiXlJKVsxLoqL4OGwf3sJ1aQLz+vdTPSf
-	 zhbedMSoMDDBvoBA8AWXVqT0XgVn6HqdJhBOe9aRGGNl+1QoY9wSRZjmI79aGrqoJo
-	 Uf8J2eaSJ6Lgg==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Sasha Levin <sashal@kernel.org>,
-	niklas.soderlund@ragnatech.se,
-	mchehab@kernel.org,
+	s=arc-20240116; t=1748841097; c=relaxed/simple;
+	bh=oZuMIrB48TQVZ267SzyqqFKk1A27pKuXp9Tsyg4Y0LA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Uc7okPnqqDDHhSpqzClhda5k729Nyh262Ut2WI3sJlxSXgx30VnQg81wfRzyagXcAmeJ2ualrykaRttN3zO/Z74rgSkXmivUwnTJ9VsWzQro6KPqJUSmQ9jy7AoqZ3wOW4m0T0KnTQevZQoP4zLoVAOWzmkrl2XVa+4vYHdDw3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inventec.com; spf=pass smtp.mailfrom=inventec.com; dkim=pass (2048-bit key) header.d=inventec.com header.i=@inventec.com header.b=ESo8aTvD; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inventec.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inventec.com
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3122368d7cfso2691138a91.1
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 01 Jun 2025 22:11:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=inventec.com; s=google; t=1748841094; x=1749445894; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tUG2mfGbVlQP6aOBxscXOizK60ki2GEc4gRzXvccP38=;
+        b=ESo8aTvDOPTwuZy+ulOvoOopFLjXd/L73VlkR/cgGVw2CAUhN4+OkraTN6IUSK1hIZ
+         SVho4AbUMAjI6UsAXgan47DRKiS8429xLF9apDP0pDCWi9pQyRPDB78Y2RfsMQ940q6+
+         lIhqcIP16kxcur69agg63p3RjdBTglWihGjbXdzwYNCsItVd/dSUVv8pKVUCB/lGWTu1
+         W45B/fkbSsAk8IYdNmKnYaMuNpaz3pW0KofqQE3JuOA5YucA4XbwYajwFSDh5YTGhJkm
+         CSvxJdOpTNgZa4ebwwoA+B82jX89pgBPSnyHRfNIZTGvsdMc+aihc9TpFlq5xSUgEmA+
+         ck1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748841094; x=1749445894;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tUG2mfGbVlQP6aOBxscXOizK60ki2GEc4gRzXvccP38=;
+        b=wfXdfd7Kx2MOp6Y5RIXRJ4AdYIrmzuQ5OA9L+jx4U988c/fdIPbXsFddXMAlbvmvVF
+         rSdJUrQyvWIpPn/Ule1xAlBZBmWOWgifjqyJ4RtU+TOlPCLFPrAUV+mweHNprIZnr+ZP
+         t6Wi8rCSCNltcPVmf0ckyswrQv2asMbpXsbGorNQN9hr4lK8SdsBFkjuDElb73pi0o1K
+         OOrW64OhHVIxWTOcf3TAvEBUh6a5wexZYxoxduZZnjEbmWO7KRQrESjM2CcZa655DzHN
+         9Nq/WFv3XUHip4DATBtYa4z/VYwqfrnJrkN3qkoPihrUn4TKIfebggeZ4lukDs6ZHKwp
+         bg+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUcMjm+doXoPG6Zzzx6XvyGCdgP3TVSe2kO71UCh4lYyuBMxgkmwqcflMOYoBtZUjCeYd/Y443KwBCSgJGavRqsUQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJpbZmIFn57rnDGTNuUfJtLkeJbL3u19TT8tl+1XdM7IxNLp40
+	y4rmAvakbJ5aq/XaYeCHqwnBJbPazLHF904iOVoldVjRQ5TplB/k4N3pjD7tAtNDrJo=
+X-Gm-Gg: ASbGncs+tkQa5g2/Q7alSxgSgGcYYYwSPxjQj6wRSZjf7GYa8NteKIiDgPN/bq4sYP+
+	BFL/Ci8pm9yXoOjGPko1gSCVMynztmA0mHyWVCuFsVGbXH/p5U/z6zsNJ8iNVe7JmYEo1dl3z0h
+	LWBuW82iQj1r8nO/vBDkAelnLU4J3liE3y6gO0BEBu+bGZE1BxqaaaH3OTxAJOp7b2giE4VY6eo
+	MseRAF5XLybnkfV9Ws1lysKfD28ya2nJhtOhiR28IQ/MfLRo6X3NvndHZw8rW/XyiF0dV1cgNf3
+	GYYxNWHz2rj5nqTbzGC8m8KKJCQNCDSQ2GT4PrFqp80o2/4yNcybIqMNJMfEf7rd9Q0bQxIzNUU
+	ZAYTmG0E=
+X-Google-Smtp-Source: AGHT+IH15jahMcfNNWPkxUhg7yjgT+AT6xissa4av5uh34InGjeBLrUD+mSsSG/ZR/48e5BFYwDQwg==
+X-Received: by 2002:a17:90b:3a0e:b0:311:e8cc:425e with SMTP id 98e67ed59e1d1-312504914b4mr15268598a91.31.1748841094114;
+        Sun, 01 Jun 2025 22:11:34 -0700 (PDT)
+Received: from localhost.localdomain ([123.51.235.216])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23506bc85fcsm62709085ad.38.2025.06.01.22.11.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Jun 2025 22:11:33 -0700 (PDT)
+From: Chiang Brian <chiang.brian@inventec.com>
+To: jdelvare@suse.com,
+	linux@roeck-us.net,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
 	geert+renesas@glider.be,
-	magnus.damm@gmail.com,
-	linux-media@vger.kernel.org,
+	grant.peltier.jg@renesas.com
+Cc: linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 39/58] media: rcar-vin: Fix stride setting for RAW8 formats
-Date: Sun,  1 Jun 2025 19:39:52 -0400
-Message-Id: <20250601234012.3516352-39-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250601234012.3516352-1-sashal@kernel.org>
-References: <20250601234012.3516352-1-sashal@kernel.org>
+	Chiang Brian <chiang.brian@inventec.com>
+Subject: [PATCH v4 0/2] Add support for RAA229621
+Date: Mon,  2 Jun 2025 13:04:13 +0800
+Message-Id: <20250602050415.848112-1-chiang.brian@inventec.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.140
 Content-Transfer-Encoding: 8bit
 
-From: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+The RAA229621 is a digital dual output multiphase
+(X+Y <= 8) PWM controller designed to be compliant
+with AMD SVI3 specifications, targeting
+VDDCR_CPU and VDDCR_SOC rails.
 
-[ Upstream commit e7376745ad5c8548e31d9ea58adfb5a847e017a4 ]
+Add support for it to the isl68137 driver.
 
-Earlier versions of the datasheet where unclear about the stride setting
-for RAW8 capture formats. Later datasheets clarifies that the stride
-only process in this mode for non-image data. For image data the full
-stride shall be used. Compare section "RAW: 8 Bits and Embedded 8-Bit
-Non-Image Data, User Defined 8-bit Data" vs "RAW: 8 Bits".
-
-Remove the special case from pixel formats that carry image data and
-treat it as any other image format.
-
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Link: https://lore.kernel.org/r/20250402183302.140055-1-niklas.soderlund+renesas@ragnatech.se
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
+v3 -> v4:
+- Add Changelog
+- Remove unnecessary "From" tag
+- Add the compatible of raa229621 into dt-bindings
+- Link to v3: https://lore.kernel.org/all/20250303083537.3312250-1-chiang.brian@inventec.corp-partner.google.com/
 
-**YES** This commit should be backported to stable kernel trees. Here's
-my extensive analysis: ## Nature of the Fix This commit fixes a
-**hardware configuration bug** in the R-Car VIN (Video Input) driver for
-Renesas SoCs. The commit message clearly states that earlier datasheets
-were unclear about stride settings for RAW8 formats, and updated
-datasheets clarified that the special stride/2 handling should only
-apply to "non-image data," not regular image data. ## Code Analysis The
-change removes problematic special-case logic from
-`drivers/media/platform/renesas/rcar-vin/rcar-dma.c:662-696`: **Removed
-Code (Lines 683-696):** ```c /bin /bin.usr-is-merged /boot /dev /etc
-/home /init /lib /lib.usr-is-merged /lib64 /lost+found /media /mnt /opt
-/proc /root /run /sbin /sbin.usr-is-merged /snap /srv /sys /tmp /usr
-/var For RAW8 format bpp is 1, but the hardware process RAW8
-amd_display_timing_generator_analysis.md amdgpu_csb_analysis.md
-cgroup_rstat_analysis.sh cgroup_rstat_analysis_guide.md
-expected_findings_summary.md kernel_analysis_commands.sh
-sta2x11_removal_analysis.md format in 2 pixel unit hence configure
-VNIS_REG as stride / 2. */ switch (vin->format.pixelformat) { case
-V4L2_PIX_FMT_SBGGR8: case V4L2_PIX_FMT_SGBRG8: case V4L2_PIX_FMT_SGRBG8:
-case V4L2_PIX_FMT_SRGGB8: case V4L2_PIX_FMT_GREY: stride /= 2; break;
-default: break; } ``` This removal is **safe and necessary** because: 1.
-**Corrects Hardware Behavior**: The original code was based on incorrect
-understanding of hardware requirements from unclear documentation 2.
-**Minimal Risk**: Only affects the VNIS_REG register setting for
-specific RAW8 pixel formats 3. **Contained Scope**: Limited to R-Car VIN
-driver RAW8 image capture functionality ## Backport Criteria Assessment
-✅ **Fixes Important Bug**: RAW8 format capture was incorrectly
-configured, likely causing image corruption or capture failures ✅
-**Small and Contained**: 16-line removal in a single function, no
-architectural changes ✅ **Clear Documentation**: Well-documented
-reasoning based on updated hardware specifications ✅ **Low Regression
-Risk**: The change aligns stride calculation with other pixel formats
-and corrected hardware documentation ✅ **Affects User-Visible
-Functionality**: Users capturing RAW8 camera data would experience
-incorrect behavior ## Historical Context From the git history, I found
-that the problematic `stride /= 2` logic was introduced in commit
-`8c3e0f67df6c9` ("media: rcar-vin: Extend RAW8 support to all RGB
-layouts") in 2020. The original comment stated "hardware process RAW8
-format in 2 pixel unit hence configure VNIS_REG as stride / 2" - but
-this was based on unclear documentation that has since been clarified.
-## Comparison with Similar Commits The provided historical examples show
-that similar R-Car VIN media driver fixes were **NOT** backported, but
-those were primarily: - Feature additions (extending RAW8 support to
-more layouts) - New format support (RAW10 addition) - Non-critical fixes
-(stride reporting corrections) This commit is fundamentally different as
-it **fixes incorrect hardware configuration** that would cause
-functional problems for existing users. ## Risk Assessment **Very Low
-Risk**: - Only removes incorrect special-case handling - Makes RAW8
-formats behave consistently with other formats - Based on authoritative
-hardware documentation clarification - No new code paths or complex
-logic introduced This fix is precisely the type that stable trees are
-intended for: fixing incorrect behavior that affects existing
-functionality with minimal risk of introducing regressions.
+v2 -> v3: 
+- Fix the corrupted patch by sending plain text email
+- Link to v2: https://lore.kernel.org/all/CAJCfHmWJ9N1R8x6ikU02_RYq9ieq6yWY7CGdfvc4hRqHnX5szg@mail.gmail.com/
 
- .../media/platform/renesas/rcar-vin/rcar-dma.c   | 16 ----------------
- 1 file changed, 16 deletions(-)
+v1 -> v2: 
+- Modify subject and description to meet requirements and remove the override of
+  isl68137_probe, and add the of_match between raa229621 and  raa_dmpvr2_2rail
+- Link to v1: https://lore.kernel.org/all/CAJCfHmXcrr_si4HLLCrXskuZ4aYmqAh0SFXNSkeL78d2qX2Qcg@mail.gmail.com/
 
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-index 8bfb020b2f260..b3101fafa771b 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-@@ -600,22 +600,6 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
- 
- 	fmt = rvin_format_from_pixel(vin, vin->format.pixelformat);
- 	stride = vin->format.bytesperline / fmt->bpp;
--
--	/* For RAW8 format bpp is 1, but the hardware process RAW8
--	 * format in 2 pixel unit hence configure VNIS_REG as stride / 2.
--	 */
--	switch (vin->format.pixelformat) {
--	case V4L2_PIX_FMT_SBGGR8:
--	case V4L2_PIX_FMT_SGBRG8:
--	case V4L2_PIX_FMT_SGRBG8:
--	case V4L2_PIX_FMT_SRGGB8:
--	case V4L2_PIX_FMT_GREY:
--		stride /= 2;
--		break;
--	default:
--		break;
--	}
--
- 	rvin_write(vin, stride, VNIS_REG);
- }
- 
+---
+Chiang Brian (2):
+  dt-bindings: hwmon: (pmbus/isl68137) Add RAA229621 support
+  hwmon: (pmbus/isl68137) Add support for RAA229621
+
+
+ .../devicetree/bindings/hwmon/pmbus/isil,isl68137.yaml         | 1 +
+ drivers/hwmon/pmbus/isl68137.c                                 | 3 +++
+ 2 files changed, 4 insertions(+)
+
 -- 
-2.39.5
+2.43.0
 
 
