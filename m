@@ -1,123 +1,296 @@
-Return-Path: <linux-renesas-soc+bounces-17804-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17805-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B170ACAEFF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 15:28:52 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07C4CACAF3F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 15:41:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2A25B166CBA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 13:28:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1CD1918918F1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 13:42:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DCFA21CC6D;
-	Mon,  2 Jun 2025 13:28:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08D5116F288;
+	Mon,  2 Jun 2025 13:41:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Ry2ZLToJ"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="Y92FEGfp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from out.smtpout.orange.fr (out-67.smtpout.orange.fr [193.252.22.67])
+	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEB171FF61E;
-	Mon,  2 Jun 2025 13:28:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52CDE220685;
+	Mon,  2 Jun 2025 13:41:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.22.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748870930; cv=none; b=ZB7j09mCDPiLNrESXLRX/nuYnA6KtjW2R4cwSr1Os1Lub6S2A9DaS+RhGFXyx0d0YKwW45pHgu4xd0/Xx1r8yHK19JwsxbjG7N+SDufA0WlVWOOQSoTUBEXp29WWoCOoZMYeI7GgzJxUcqQ1ToNUWGViHtux79EU5C1QmIL9gu0=
+	t=1748871700; cv=none; b=PDczIAJUWkS7uAKVbvHaeLyPnCNh0PWff+MQMXyF08BKxicHpiBQ5b+MbiBZGiHSLXGjDEtt09Iic5vmplOMO3KjJ7PA+Y8/FYJ8ISkJOiJxA4qorXmhXgB2WJchS9chiBTQnXR/NBqlnUEOoYPyhyI3iTlEl+UVzdIHBAJ8Q8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748870930; c=relaxed/simple;
-	bh=GHu/uGah50Q9xqXZQgy2REwYYTTnPThxDJ1YpGowp/s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lxLFJHNy8qPMnvHVBp2jrFcJ7bbmO8KN13RAaaepT6ATQSGqZsDw6Ycfdj3C0eP7EmSunEJ2gcztdvhzQaQB0XyCAjDqvZIcMcnP9kSJl0yKygz/f8XAEsl1OPuj+hrplQwBeFD+nLnbaLo0c9VWYZPEqf0xS4IHYoX+w5guE+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Ry2ZLToJ; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5FBB7C9;
-	Mon,  2 Jun 2025 15:28:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1748870925;
-	bh=GHu/uGah50Q9xqXZQgy2REwYYTTnPThxDJ1YpGowp/s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ry2ZLToJH4Gq7Uy96YHJqT46DUk/ibpH2wUHjJ1DL1ZxqQbyqVPsSMLlxsII0iUdK
-	 Jf6/IuMmtu2J+WC+U5oa2bjT6gKIi2g/iDeEGDF1XTKp5zFNmCuUh4UxcPNAnO4pD5
-	 L33x4Fu3Wt0L04NQT1lk/bpBMKwsektt1AwddIEI=
-Date: Mon, 2 Jun 2025 16:28:38 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Cc: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH v3 12/15] media: rcar-csi2: Add more stream support to
- rcsi2_calc_mbps()
-Message-ID: <20250602132838.GE11750@pendragon.ideasonboard.com>
-References: <20250530-rcar-streams-v3-0-026655df7138@ideasonboard.com>
- <20250530-rcar-streams-v3-12-026655df7138@ideasonboard.com>
+	s=arc-20240116; t=1748871700; c=relaxed/simple;
+	bh=cWfiu1OUPJcMoJNmFL1xjlidXJ7lRtFSGyx1M+3m50U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=G9N1+9G9WM2Lg0zVQUDMke33KqPDTif4s7BxE7STkKqrQzkE+jishRCH05r0LyNMgdxGmxsswl6c23nP1lKT7f4HR8vnM3lfRrHAsHEBFuMVN2979RSyeQ3MaEbVZ60Bqiwhy/M80tEAyxfiCG7QtnAZ27Z2kYJ0OWIwHHGs43o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=Y92FEGfp; arc=none smtp.client-ip=193.252.22.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from [172.16.82.72] ([124.33.176.97])
+	by smtp.orange.fr with ESMTPA
+	id M5PouaRZyZN2yM5Ppu1QQj; Mon, 02 Jun 2025 15:41:30 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1748871690;
+	bh=bMMF5g45Q+ymyDWkhMCc1UIIIe7G4AdjzYvdgWdsS0s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=Y92FEGfplZ44aYZfSSWuyLDHOXK0k9gWjkBm85500jEkdVwAr7Pm2JyFZz/Lf3SK+
+	 AuNJdezJbZODkkmcJpHW4bE3X5fv9dk8FbynOpVVcSDNPKjZXpOSQmz2lO9h31Wmpq
+	 /WD+D1YzuTvbGLyQ0jqBRUZidiMOsdixuKtqNfIwXeoeuh9re28TQELHxWTg7Gvsvy
+	 upSFENhAGmhMMF+aCrTddXQZ168IJa7ICgyHsa05PVJ1a0y72uVr7Bm7BSlKPiJOnx
+	 d1/r516AQyxPKH3mTzx6CT07KGpL5O5SCh4Z81dc7fEGe5P3TUM9xJt/tSfRaDJKgT
+	 zXc56/BminQMA==
+X-ME-Helo: [172.16.82.72]
+X-ME-Auth: bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI=
+X-ME-Date: Mon, 02 Jun 2025 15:41:30 +0200
+X-ME-IP: 124.33.176.97
+Message-ID: <7df51717-ffd1-43c1-8c5a-ab181439f580@wanadoo.fr>
+Date: Mon, 2 Jun 2025 22:41:23 +0900
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250530-rcar-streams-v3-12-026655df7138@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 9/9] can: rcar_canfd: Add support for Transceiver Delay
+ Compensation
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Marc Kleine-Budde <mkl@pengutronix.de>, Biju Das
+ <biju.das.jz@bp.renesas.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Kazuhiro Takagi <kazuhiro.takagi.hh@hitachi-solutions.com>,
+ Duy Nguyen <duy.nguyen.rh@renesas.com>, linux-can@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <cover.1748863848.git.geert+renesas@glider.be>
+ <c830bd8b65d5f96c8831a2967c5b4c0eeb30e0af.1748863848.git.geert+renesas@glider.be>
+Content-Language: en-US
+From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Autocrypt: addr=mailhol.vincent@wanadoo.fr; keydata=
+ xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
+ LFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI+wrIEExYKAFoC
+ GwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQTtj3AFdOZ/IOV06OKrX+uI
+ bbuZwgUCZx41XhgYaGtwczovL2tleXMub3BlbnBncC5vcmcACgkQq1/riG27mcIYiwEAkgKK
+ BJ+ANKwhTAAvL1XeApQ+2NNNEwFWzipVAGvTRigA+wUeyB3UQwZrwb7jsQuBXxhk3lL45HF5
+ 8+y4bQCUCqYGzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrbYZzu0JG5w8gxE6EtQe6LmxKMqP6E
+ yR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDldOjiq1/riG27mcIFAmceMvMCGwwF
+ CQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8VzsZwr/S44HCzcz5+jkxnVVQ5LZ4B
+ ANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
+In-Reply-To: <c830bd8b65d5f96c8831a2967c5b4c0eeb30e0af.1748863848.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Tomi,
-
-Thank you for the patch.
-
-On Fri, May 30, 2025 at 04:50:41PM +0300, Tomi Valkeinen wrote:
-> In the case where link-freq is not available, make sure we fail if there
-> are more than one stream configured, and also use the correct stream
-> number for that single stream.
+On 02/06/2025 at 20:54, Geert Uytterhoeven wrote:
+> The Renesas CAN-FD hardware block supports configuring Transceiver Delay
+> Compensation, and reading back the Transceiver Delay Compensation
+> Result, which is needed to support high transfer rates like 8 Mbps.
+> The Secondary Sample Point is either the measured delay plus the
+> configured offset, or just the configured offset.
 > 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> Fix the existing RCANFD_FDCFG_TDCO() macro for the intended use case
+> (writing instead of reading the field).  Add register definition bits
+> for the Channel n CAN-FD Status Register.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->  drivers/media/platform/renesas/rcar-csi2.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+>  drivers/net/can/rcar/rcar_canfd.c | 80 +++++++++++++++++++++++++++++--
+>  1 file changed, 77 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
-> index 65c7f3040696..b9f83aae725a 100644
-> --- a/drivers/media/platform/renesas/rcar-csi2.c
-> +++ b/drivers/media/platform/renesas/rcar-csi2.c
-> @@ -1018,17 +1018,22 @@ static int rcsi2_calc_mbps(struct rcar_csi2 *priv,
->  	 */
->  	freq = v4l2_get_link_freq(remote_pad, 0, 0);
->  	if (freq < 0) {
-> +		struct v4l2_subdev_route *route = &state->routing.routes[0];
-
-const
-
->  		const struct rcar_csi2_format *format;
->  		struct v4l2_mbus_framefmt *fmt;
->  		unsigned int lanes;
->  		unsigned int bpp;
->  		int ret;
->  
-> +		if (state->routing.num_routes > 1)
-> +			return -EINVAL;
-
-Do we have to guard against the case where there would be no route ?
-
+> diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
+> index 7b6bb67ed6f76f14..a9c5b4ac040bdc0a 100644
+> --- a/drivers/net/can/rcar/rcar_canfd.c
+> +++ b/drivers/net/can/rcar/rcar_canfd.c
+> @@ -191,9 +191,19 @@
+>  /* RSCFDnCFDCmFDCFG */
+>  #define RCANFD_GEN4_FDCFG_CLOE		BIT(30)
+>  #define RCANFD_GEN4_FDCFG_FDOE		BIT(28)
+> +#define RCANFD_FDCFG_TDCO		GENMASK(23, 16)
+>  #define RCANFD_FDCFG_TDCE		BIT(9)
+>  #define RCANFD_FDCFG_TDCOC		BIT(8)
+> -#define RCANFD_FDCFG_TDCO(x)		(((x) & 0x7f) >> 16)
 > +
->  		ret = rcsi2_get_active_lanes(priv, &lanes);
->  		if (ret)
->  			return ret;
->  
-> -		fmt = v4l2_subdev_state_get_format(state, RCAR_CSI2_SINK, 0);
-> +		fmt = v4l2_subdev_state_get_format(state, route->sink_pad,
-> +						   route->sink_stream);
->  		if (!fmt)
->  			return -EINVAL;
->  
+> +/* RSCFDnCFDCmFDSTS */
+> +#define RCANFD_FDSTS_SOC		GENMASK(31, 24)
+> +#define RCANFD_FDSTS_EOC		GENMASK(23, 16)
+> +#define RCANFD_GEN4_FDSTS_PNSTS		GENMASK(13, 12)
+> +#define RCANFD_FDSTS_SOCO		BIT(9)
+> +#define RCANFD_FDSTS_EOCO		BIT(8)
+> +#define RCANFD_FDSTS_TDCR(gpriv, x)	((x) & ((gpriv)->info->tdc_const->tdcv_max - 1))
+> +#define RCANFD_FDSTS_TDCVF(gpriv) \
+> +	((gpriv)->info->tdc_const->tdcv_max > 128 ? BIT(15) : BIT(7))
 
--- 
-Regards,
+See my previous comment: no more function like macro please.
 
-Laurent Pinchart
+>  /* RSCFDnCFDRFCCx */
+>  #define RCANFD_RFCC_RFIM		BIT(12)
+> @@ -527,6 +537,7 @@ struct rcar_canfd_shift_data {
+>  struct rcar_canfd_hw_info {
+>  	const struct can_bittiming_const *nom_bittiming;
+>  	const struct can_bittiming_const *data_bittiming;
+> +	const struct can_tdc_const *tdc_const;
+>  	const struct rcar_canfd_regs *regs;
+>  	const struct rcar_canfd_shift_data *sh;
+>  	u8 rnc_field_width;
+> @@ -634,6 +645,25 @@ static const struct can_bittiming_const rcar_canfd_bittiming_const = {
+>  	.brp_inc = 1,
+>  };
+>  
+> +/* CAN FD Transmission Delay Compensation constants */
+> +static const struct can_tdc_const rcar_canfd_gen3_tdc_const = {
+> +	.tdcv_min = 1,
+
+Interesting. This is the first time I see a driver with the tdcv_min and the
+tdco_min different than 0. At one point in time, I wanted those to be implicit
+values. Guess it was finally a good idea to include those minimums to the framework.
+
+> +	.tdcv_max = 128,
+> +	.tdco_min = 1,
+> +	.tdco_max = 128,
+> +	.tdcf_min = 0,	/* Filter window not supported */
+> +	.tdcf_max = 0,
+> +};
+> +
+> +static const struct can_tdc_const rcar_canfd_gen4_tdc_const = {
+> +	.tdcv_min = 1,
+> +	.tdcv_max = 256,
+> +	.tdco_min = 1,
+> +	.tdco_max = 256,
+> +	.tdcf_min = 0,	/* Filter window not supported */
+> +	.tdcf_max = 0,
+> +};
+> +
+>  static const struct rcar_canfd_regs rcar_gen3_regs = {
+>  	.rfcc = 0x00b8,
+>  	.cfcc = 0x0118,
+> @@ -679,6 +709,7 @@ static const struct rcar_canfd_shift_data rcar_gen4_shift_data = {
+>  static const struct rcar_canfd_hw_info rcar_gen3_hw_info = {
+>  	.nom_bittiming = &rcar_canfd_gen3_nom_bittiming_const,
+>  	.data_bittiming = &rcar_canfd_gen3_data_bittiming_const,
+> +	.tdc_const = &rcar_canfd_gen3_tdc_const,
+>  	.regs = &rcar_gen3_regs,
+>  	.sh = &rcar_gen3_shift_data,
+>  	.rnc_field_width = 8,
+> @@ -695,6 +726,7 @@ static const struct rcar_canfd_hw_info rcar_gen3_hw_info = {
+>  static const struct rcar_canfd_hw_info rcar_gen4_hw_info = {
+>  	.nom_bittiming = &rcar_canfd_gen4_nom_bittiming_const,
+>  	.data_bittiming = &rcar_canfd_gen4_data_bittiming_const,
+> +	.tdc_const = &rcar_canfd_gen4_tdc_const,
+>  	.regs = &rcar_gen4_regs,
+>  	.sh = &rcar_gen4_shift_data,
+>  	.rnc_field_width = 16,
+> @@ -711,6 +743,7 @@ static const struct rcar_canfd_hw_info rcar_gen4_hw_info = {
+>  static const struct rcar_canfd_hw_info rzg2l_hw_info = {
+>  	.nom_bittiming = &rcar_canfd_gen3_nom_bittiming_const,
+>  	.data_bittiming = &rcar_canfd_gen3_data_bittiming_const,
+> +	.tdc_const = &rcar_canfd_gen3_tdc_const,
+>  	.regs = &rcar_gen3_regs,
+>  	.sh = &rcar_gen3_shift_data,
+>  	.rnc_field_width = 8,
+> @@ -727,6 +760,7 @@ static const struct rcar_canfd_hw_info rzg2l_hw_info = {
+>  static const struct rcar_canfd_hw_info r9a09g047_hw_info = {
+>  	.nom_bittiming = &rcar_canfd_gen4_nom_bittiming_const,
+>  	.data_bittiming = &rcar_canfd_gen4_data_bittiming_const,
+> +	.tdc_const = &rcar_canfd_gen4_tdc_const,
+>  	.regs = &rcar_gen4_regs,
+>  	.sh = &rcar_gen4_shift_data,
+>  	.rnc_field_width = 16,
+> @@ -1436,12 +1470,15 @@ static irqreturn_t rcar_canfd_channel_interrupt(int irq, void *dev_id)
+>  
+>  static void rcar_canfd_set_bittiming(struct net_device *ndev)
+>  {
+> +	u32 mask = RCANFD_FDCFG_TDCO | RCANFD_FDCFG_TDCE | RCANFD_FDCFG_TDCOC;
+>  	struct rcar_canfd_channel *priv = netdev_priv(ndev);
+>  	struct rcar_canfd_global *gpriv = priv->gpriv;
+>  	const struct can_bittiming *bt = &priv->can.bittiming;
+>  	const struct can_bittiming *dbt = &priv->can.fd.data_bittiming;
+> +	const struct can_tdc_const *tdc_const = priv->can.fd.tdc_const;
+> +	const struct can_tdc *tdc = &priv->can.fd.tdc;
+> +	u32 cfg, tdcmode = 0, tdco = 0;
+>  	u16 brp, sjw, tseg1, tseg2;
+> -	u32 cfg;
+>  	u32 ch = priv->channel;
+>  
+>  	/* Nominal bit timing settings */
+> @@ -1477,6 +1514,22 @@ static void rcar_canfd_set_bittiming(struct net_device *ndev)
+>  	rcar_canfd_write(priv->base, RCANFD_F_DCFG(gpriv, ch), cfg);
+>  	netdev_dbg(ndev, "drate: brp %u, sjw %u, tseg1 %u, tseg2 %u\n",
+>  		   brp, sjw, tseg1, tseg2);
+> +
+> +	/* Transceiver Delay Compensation */
+> +	if (priv->can.ctrlmode & CAN_CTRLMODE_TDC_AUTO) {
+> +		/* TDC enabled, measured + offset */
+> +		tdcmode = RCANFD_FDCFG_TDCE;
+> +		tdco = tdc->tdco - 1;
+> +		netdev_dbg(ndev, "tdc: auto %u\n", tdco);
+
+Same as previously. Are those debugs really useful? You can get the value
+through the netlink interface (OK, you still have to do the minus one by hand,
+but don't tell me that's the reason).
+
+> +	} else if (priv->can.ctrlmode & CAN_CTRLMODE_TDC_MANUAL) {
+> +		/* TDC enabled, offset only */
+> +		tdcmode = RCANFD_FDCFG_TDCE | RCANFD_FDCFG_TDCOC;
+> +		tdco = min(tdc->tdcv + tdc->tdco, tdc_const->tdco_max) - 1;
+
+That's an edge case I did not think of and that is thus not handled by the
+framework. This min() is a bit hacky, but I do not see a better workaround.
+Also, I guess that this edge case will rarely occur.
+
+> +		netdev_dbg(ndev, "tdc: manual %u\n", tdco);
+> +	}
+> +
+> +	rcar_canfd_update_bit(gpriv->base, RCANFD_F_CFDCFG(gpriv, ch), mask,
+> +			      tdcmode | FIELD_PREP(RCANFD_FDCFG_TDCO, tdco));
+>  }
+>  
+>  static int rcar_canfd_start(struct net_device *ndev)
+> @@ -1787,6 +1840,22 @@ static int rcar_canfd_rx_poll(struct napi_struct *napi, int quota)
+>  	return num_pkts;
+>  }
+>  
+> +static int rcar_canfd_get_auto_tdcv(const struct net_device *ndev, u32 *tdcv)
+> +{
+> +	struct rcar_canfd_channel *priv = netdev_priv(ndev);
+> +	struct rcar_canfd_global *gpriv = priv->gpriv;
+> +	u32 sts = rcar_canfd_read(priv->base, RCANFD_F_CFDSTS(gpriv, priv->channel));
+> +	u32 tdco = priv->can.fd.tdc.tdco;
+> +	u32 tdcr;
+> +
+> +	/* Transceiver Delay Compensation Result */
+> +	tdcr = RCANFD_FDSTS_TDCR(gpriv, sts) + 1;
+> +
+> +	*tdcv = tdcr < tdco ? 0 : tdcr - tdco;
+> +
+> +	return 0;
+> +}
+> +
+>  static int rcar_canfd_do_set_mode(struct net_device *ndev, enum can_mode mode)
+>  {
+>  	int err;
+> @@ -1909,12 +1978,17 @@ static int rcar_canfd_channel_probe(struct rcar_canfd_global *gpriv, u32 ch,
+>  	if (gpriv->fdmode) {
+>  		priv->can.bittiming_const = gpriv->info->nom_bittiming;
+>  		priv->can.fd.data_bittiming_const = gpriv->info->data_bittiming;
+> +		priv->can.fd.tdc_const = gpriv->info->tdc_const;
+>  
+>  		/* Controller starts in CAN FD only mode */
+>  		err = can_set_static_ctrlmode(ndev, CAN_CTRLMODE_FD);
+>  		if (err)
+>  			goto fail;
+> -		priv->can.ctrlmode_supported = CAN_CTRLMODE_BERR_REPORTING;
+> +
+> +		priv->can.ctrlmode_supported = CAN_CTRLMODE_BERR_REPORTING |
+> +					       CAN_CTRLMODE_TDC_AUTO |
+> +					       CAN_CTRLMODE_TDC_MANUAL;
+> +		priv->can.fd.do_get_auto_tdcv = rcar_canfd_get_auto_tdcv;
+>  	} else {
+>  		/* Controller starts in Classical CAN only mode */
+>  		priv->can.bittiming_const = &rcar_canfd_bittiming_const;
+
+Yours sincerely,
+Vincent Mailhol
+
 
