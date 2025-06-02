@@ -1,172 +1,248 @@
-Return-Path: <linux-renesas-soc+bounces-17808-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17809-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87F5AACAFAC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 15:52:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00991ACAFC1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 15:55:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 677D37A1F82
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 13:49:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CCB453BA5DB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 13:55:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54AA1221739;
-	Mon,  2 Jun 2025 13:50:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EDF1222562;
+	Mon,  2 Jun 2025 13:55:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UFM0jlIm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94714221735;
-	Mon,  2 Jun 2025 13:50:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ECC8222561;
+	Mon,  2 Jun 2025 13:55:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748872205; cv=none; b=MPyedlwlCDoz3Fy7KvJKBoHx5daaqGE2UhKsjsOGii5Sy+p6TPOHmBoG+KzaCqzenKA24Bn5rb6nZWK3/GOGqvsyuqL+PKNTf3iiWG9axqfVahitnPmZGlXuutkQ1lFefnDicdt3THQbA6Bc6tD7gSSXS+V4NnxuSAMs6JMGmMc=
+	t=1748872506; cv=none; b=t4N/3hJBK/xLGNypYQ9eipiltUqbsqouqpFmbz0ml1mw5PetrPXDSw1M972duNKvf+Lv97/J+0oXMDWcBb3UhXxWmwduzUPMJHLJZ097sMSznzBoNUCFoPh6DTDmP9bk37b+e3z3A3tmn6whhBG0fE+yNcsCDZnXNFj7KQVulZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748872205; c=relaxed/simple;
-	bh=2hVOScTOPxgGU3obpF+xyUzi1olck3dURBYJmqncss0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hWnH84TQ9WXQ6BvMsh1nvCGNRwXnsjMRSu24MfsIHHJxqZAjmPSF6zKeDhP/aZE08pI0Pz7L6y/1lCI3qIyaFfMaw1oa5LYlJIbbLzZuTKKnvKZ5XDchyqNiSSnD2XFgtB3ZM9zLqqaYq8QQx8L/7fS5mr9FcuaZ23d0iRb6VSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4e2b5ffb932so1581760137.0;
-        Mon, 02 Jun 2025 06:50:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748872201; x=1749477001;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vZ/JEYlQnYQFetWNFfMCevOjGsPnTIRqYp0+Ouq9MHw=;
-        b=vIdsSCShm78fcdOpLm5gYC0EW+er4oL3puW0sUBwF1a2Jv3cTrRe6Ho1ta/xPIETHd
-         RG7F+rla35Smoe1ghOknI9tO6+nxtpVhkX2WGJb8GMHfzlT3vTwpYvrP53WrYycClNdM
-         61jM5M8vv9Ld13mO1TdsKhYxfjqaE+55KFNTNIZ97gkPMny9TvsC0Nygm3RWm7tfBtx+
-         iPCGUrlWyLC1kpp+xTt3G302mLIecfaJrxcM5Fc4HMw+Fbudfkdh29hwUO8LaKutUrfI
-         VY4CVSOk99hjsg/agYD1Ao2qs2xs2ySdCTd5s9O+iIK9qGXw8/j9wUwPfEsYteWevyuD
-         6m4w==
-X-Forwarded-Encrypted: i=1; AJvYcCUFN0bMdBVmm74DvcqOSWkt0wV1itqHQ4mYheJdY54rh7T5/hR15v4z449fwWt8AcEJVKoQ9YEqSOE=@vger.kernel.org, AJvYcCVCgcBK8SxhRr5ifB8dqEAdLTsSnlDVWVU9QgTbi8tzbL5a4OJNnN4FgEj737pzsY1DkMVEV0ykQx9Yi7+YnBL9lxQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzkOtQyKKiRThEfP8tauOy5030NTEyv3tMTNFOoXW47B6/kVMXV
-	PWSEJiqwv6H1q0VsYkR+Lwvxpjnuj3WhjhRBwk/N2kG1P3x4PuzQr5JlnJkokQC0
-X-Gm-Gg: ASbGncsXr0fXorbpI29Ba0wbZ1mYzkZ/31tqD96A/3A+Gv3v5zaqyShpeouLw+QQOOB
-	ItJFf0pHPXq9gOjPOWuBJFxgE4SKnH8sodGjpKu70XlJkX3y9Eeo8olwg19Bvzi562v0VS3ZYLH
-	qwiZ9LxPQeNyWtUefl2urDuXcU4v9DtZg5dKDVP6wlPHKyYyiapydIPZp3EBURM8TsHu0YBpK38
-	oafeuokqGz/EUFnpPlCmRqplV+FFNE0Ks5rWJWo7WlkGa/2xuDUW2DyN1nrSRr3xzBV4EGSOB/W
-	xNt6QdTN/NQszS7H28oDqwMM6emcvfdE9Ts9VJ6EFdj2rJmceTQDtGmq2URcTMo0QJW7gzhI/UH
-	P6opqSrpYs6vwKg==
-X-Google-Smtp-Source: AGHT+IHJuESa8wwy6jjRRrY3Qlsx/N7sIFxDsqQ+Xsy88+cmINR6+Yfn06Wi9cEdEKDE8gt5SkIh9w==
-X-Received: by 2002:a05:6102:6ca:b0:4e4:5ed0:19bb with SMTP id ada2fe7eead31-4e6e41dc00fmr11538433137.22.1748872200650;
-        Mon, 02 Jun 2025 06:50:00 -0700 (PDT)
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com. [209.85.217.50])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4e6444294a6sm7218550137.3.2025.06.02.06.49.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Jun 2025 06:49:59 -0700 (PDT)
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-4e58e0175ceso1146642137.2;
-        Mon, 02 Jun 2025 06:49:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVUmlEHbIgzY/zWve726/0fTC5UF43CxTQ7UFK6TzmCi6xYFVwchs9Vd6Nqj7XFkuWXtWuxDnYMRs8=@vger.kernel.org, AJvYcCWhN4R2H4LRSjqqLBXxgrTKb3ozEblxSTJ/iXCzjFb40iCXsvlNrNvXcgQXDxPfkr3nAR8WS4bBbS5cCao3PQUM518=@vger.kernel.org
-X-Received: by 2002:a05:6102:6ca:b0:4e4:5ed0:19bb with SMTP id
- ada2fe7eead31-4e6e41dc00fmr11538329137.22.1748872199380; Mon, 02 Jun 2025
- 06:49:59 -0700 (PDT)
+	s=arc-20240116; t=1748872506; c=relaxed/simple;
+	bh=mIUipTaRh6NCVM7jbqFGFymMTskoonxgS39J9efjgpE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZwUOjCjlLa3cQQC2zOCN3FbHKkfbZejmEqXdpKYnnvGB9+LQ0qSVljMEDOoGWJNIb5FaT64cfD6ABcIzPPx0oAx/UID6xjO2yhnMWMoWb6wlVAdyNm8ipt40OiqQ0MY7+dIBdgw+j9Tc3FCzYT9x4rRMpiLxWLeaKLG9hzWlaI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UFM0jlIm; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A56EBC9;
+	Mon,  2 Jun 2025 15:55:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1748872500;
+	bh=mIUipTaRh6NCVM7jbqFGFymMTskoonxgS39J9efjgpE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UFM0jlImjGSYOo657etBS6Zhecr4zoJyHsB1UF2ZwpHy7PfbpPwqeieTx1JP/1N95
+	 Mcsials05bjNHB9Rl9CP8tlotTmkQ7dnRG7H/P+lNaZyVaukdEu2demSZ3iLlpswXi
+	 je2rbcE1gQl7wA9VVY8w4Md1qw8eXFP7nNuOoKmk=
+Date: Mon, 2 Jun 2025 16:54:53 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: Re: [PATCH v3 14/15] media: rcar-csi2: Add full streams support
+Message-ID: <20250602135453.GC23515@pendragon.ideasonboard.com>
+References: <20250530-rcar-streams-v3-0-026655df7138@ideasonboard.com>
+ <20250530-rcar-streams-v3-14-026655df7138@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1748863848.git.geert+renesas@glider.be> <f9c114fcf8cc8eaae150a3ce95dd3224cf247f6b.1748863848.git.geert+renesas@glider.be>
- <94755286-47fb-461e-9850-e14830f2536e@wanadoo.fr>
-In-Reply-To: <94755286-47fb-461e-9850-e14830f2536e@wanadoo.fr>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 2 Jun 2025 15:49:47 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXaqDNE6dcSdDO+TersETtu8wrAhH_0DA1v3ngpPkneZA@mail.gmail.com>
-X-Gm-Features: AX0GCFtzEWq0DfXDnzKdlHJGAFBQhGa2AY4lps2DWwki31pKDr6T2k2Wc2R1H9Y
-Message-ID: <CAMuHMdXaqDNE6dcSdDO+TersETtu8wrAhH_0DA1v3ngpPkneZA@mail.gmail.com>
-Subject: Re: [PATCH 6/9] can: rcar_canfd: Repurpose f_dcfg base for other registers
-To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Kazuhiro Takagi <kazuhiro.takagi.hh@hitachi-solutions.com>, 
-	Duy Nguyen <duy.nguyen.rh@renesas.com>, linux-can@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250530-rcar-streams-v3-14-026655df7138@ideasonboard.com>
 
-Hi Vincent,
+Hi Tomi,
 
-On Mon, 2 Jun 2025 at 15:16, Vincent Mailhol <mailhol.vincent@wanadoo.fr> wrote:
-> On 02/06/2025 at 20:54, Geert Uytterhoeven wrote:
-> > Reuse the existing Channel Data Bitrate Configuration Register offset
-> > member in the register configuration as the base offset for all related
-> > channel-specific registers.
-> > Rename the member and update the (incorrect) comment to reflect this.
-> >
-> > This fixes the addresses of all other (currently unused)
-> > channel-specific registers on R-Car Gen4 and RZ/G3E, and allows us to
-> > replace RCANFD_GEN4_FDCFG() by the more generic RCANFD_F_CFDCFG().
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> >  drivers/net/can/rcar/rcar_canfd.c | 22 ++++++++++------------
-> >  1 file changed, 10 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
-> > index 0cad3c198e58e494..7a9a88fa5fb1a521 100644
-> > --- a/drivers/net/can/rcar/rcar_canfd.c
-> > +++ b/drivers/net/can/rcar/rcar_canfd.c
-> > @@ -425,18 +425,16 @@
-> >  #define RCANFD_C_RPGACC(r)           (0x1900 + (0x04 * (r)))
-> >
-> >  /* R-Car Gen4 Classical and CAN FD mode specific register map */
-> > -#define RCANFD_GEN4_FDCFG(m)         (0x1404 + (0x20 * (m)))
-> > -
-> >  #define RCANFD_GEN4_GAFL_OFFSET              (0x1800)
-> >
-> >  /* CAN FD mode specific register map */
-> >
-> >  /* RSCFDnCFDCmXXX -> RCANFD_F_XXX(m) */
-> > -#define RCANFD_F_DCFG(gpriv, m)              ((gpriv)->info->regs->f_dcfg + (0x20 * (m)))
-> > -#define RCANFD_F_CFDCFG(m)           (0x0504 + (0x20 * (m)))
-> > -#define RCANFD_F_CFDCTR(m)           (0x0508 + (0x20 * (m)))
-> > -#define RCANFD_F_CFDSTS(m)           (0x050c + (0x20 * (m)))
-> > -#define RCANFD_F_CFDCRC(m)           (0x0510 + (0x20 * (m)))
-> > +#define RCANFD_F_DCFG(gpriv, m)              ((gpriv)->info->regs->coffset + 0x00 + (0x20 * (m)))
-> > +#define RCANFD_F_CFDCFG(gpriv, m)    ((gpriv)->info->regs->coffset + 0x04 + (0x20 * (m)))
-> > +#define RCANFD_F_CFDCTR(gpriv, m)    ((gpriv)->info->regs->coffset + 0x08 + (0x20 * (m)))
-> > +#define RCANFD_F_CFDSTS(gpriv, m)    ((gpriv)->info->regs->coffset + 0x0c + (0x20 * (m)))
-> > +#define RCANFD_F_CFDCRC(gpriv, m)    ((gpriv)->info->regs->coffset + 0x10 + (0x20 * (m)))
->
-> I really start to dislike all those function like macros in the rcar_canfd
-> driver. The only benefits of a function like macro is either to have type
-> polymorphism or to generate integer constant expression or to work with context
-> specific info (e.g. __func__ or __LINE__).
+Thank you for the patch.
 
-I agree much can be improved in the way this driver accesses registers.
-Unfortunately a large part of it is due to the horrendous naming of the
-registers in the documentation, and the two different register layouts.
+On Fri, May 30, 2025 at 04:50:43PM +0300, Tomi Valkeinen wrote:
+> Add the missing pieces to enable full streams support:
+> 
+> - Add set_routing
+> - Drop the explicit uses of a single stream, and instead use the streams
+>   mask.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> ---
+>  drivers/media/platform/renesas/rcar-csi2.c | 85 ++++++++++++++++++++++--------
+>  1 file changed, 63 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
+> index 8f708196ef49..4a73d223229c 100644
+> --- a/drivers/media/platform/renesas/rcar-csi2.c
+> +++ b/drivers/media/platform/renesas/rcar-csi2.c
+> @@ -694,6 +694,17 @@ static const struct rcar_csi2_format rcar_csi2_formats[] = {
+>  	},
+>  };
+>  
+> +static const struct v4l2_mbus_framefmt rcar_csi2_default_fmt = {
+> +	.width		= 1920,
+> +	.height		= 1080,
+> +	.code		= MEDIA_BUS_FMT_RGB888_1X24,
+> +	.colorspace	= V4L2_COLORSPACE_SRGB,
+> +	.field		= V4L2_FIELD_NONE,
+> +	.ycbcr_enc	= V4L2_YCBCR_ENC_DEFAULT,
+> +	.quantization	= V4L2_QUANTIZATION_DEFAULT,
+> +	.xfer_func	= V4L2_XFER_FUNC_DEFAULT,
+> +};
+> +
+>  static const struct rcar_csi2_format *rcsi2_code_to_fmt(unsigned int code)
+>  {
+>  	unsigned int i;
+> @@ -1641,10 +1652,8 @@ static int rcsi2_enable_streams(struct v4l2_subdev *sd,
+>  				u64 source_streams_mask)
+>  {
+>  	struct rcar_csi2 *priv = sd_to_csi2(sd);
+> -	int ret = 0;
+> -
+> -	if (source_streams_mask != 1)
+> -		return -EINVAL;
+> +	u64 sink_streams;
+> +	int ret;
+>  
+>  	if (!priv->remote)
+>  		return -ENODEV;
+> @@ -1655,8 +1664,13 @@ static int rcsi2_enable_streams(struct v4l2_subdev *sd,
+>  			return ret;
+>  	}
+>  
+> +	sink_streams = v4l2_subdev_state_xlate_streams(state,
+> +						       RCAR_CSI2_SOURCE_VC0,
+> +						       RCAR_CSI2_SINK,
+> +						       &source_streams_mask);
+> +
+>  	ret = v4l2_subdev_enable_streams(priv->remote, priv->remote_pad,
+> -					 BIT_ULL(0));
+> +					 sink_streams);
+>  	if (ret) {
+>  		rcsi2_stop(priv);
+>  		return ret;
+> @@ -1672,10 +1686,7 @@ static int rcsi2_disable_streams(struct v4l2_subdev *sd,
+>  				 u32 source_pad, u64 source_streams_mask)
+>  {
+>  	struct rcar_csi2 *priv = sd_to_csi2(sd);
+> -	int ret = 0;
+> -
+> -	if (source_streams_mask != 1)
+> -		return -EINVAL;
+> +	u64 sink_streams;
+>  
+>  	if (!priv->remote)
+>  		return -ENODEV;
+> @@ -1683,11 +1694,17 @@ static int rcsi2_disable_streams(struct v4l2_subdev *sd,
+>  	if (priv->stream_count == 1)
+>  		rcsi2_stop(priv);
+>  
+> -	v4l2_subdev_disable_streams(priv->remote, priv->remote_pad, BIT_ULL(0));
+> +	sink_streams = v4l2_subdev_state_xlate_streams(state,
+> +						       RCAR_CSI2_SOURCE_VC0,
+> +						       RCAR_CSI2_SINK,
+> +						       &source_streams_mask);
+> +
+> +	v4l2_subdev_disable_streams(priv->remote, priv->remote_pad,
+> +				    sink_streams);
+>  
+>  	priv->stream_count -= 1;
+>  
+> -	return ret;
+> +	return 0;
 
-> Can you just change these five function like macros to static functions?
+This seems to belong to a previous patch.
 
-I assume you want something like was done commit 6b9f8b53a1f3ad8e
-("can: rcar_canfd: Add rcar_canfd_setrnc()")?
+>  }
+>  
+>  static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
+> @@ -1720,6 +1737,40 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
+>  	return 0;
+>  }
+>  
+> +static int rcsi2_set_routing(struct v4l2_subdev *sd,
+> +			     struct v4l2_subdev_state *state,
+> +			     enum v4l2_subdev_format_whence which,
+> +			     struct v4l2_subdev_krouting *routing)
+> +{
+> +	struct rcar_csi2 *priv = sd_to_csi2(sd);
+> +	int ret;
+> +
+> +	if (!priv->info->use_isp)
+> +		return -ENOTTY;
+> +
+> +	if (routing->num_routes > V4L2_FRAME_DESC_ENTRY_MAX)
+> +		return -EINVAL;
 
-These five macro just calculate the offsets for specific registers
-and for the specified channel indices.  Their return values are to
-be passed to one of the five accessors that take register offsets
-(rcar_canfd_{read,write,set_bit,cleat_bit, update}()).  Hence
-converting the macros to accessor functions means there will be more
-than five functions...
+A comment to explain this check would be nice.
 
-> And from now on, each time there is a need to modify one of the rcar_canfd, I
-> would like this to become an opportunity to little by little clean up that macro
-> madness.
+> +
+> +	if (priv->info->use_isp) {
 
-That's exactly what Biju and I are doing, slowly ;-)
+You return an error above when this condition is false.
 
-Gr{oetje,eeting}s,
-
-                        Geert
+> +		ret = v4l2_subdev_routing_validate(sd, routing,
+> +						   V4L2_SUBDEV_ROUTING_ONLY_1_TO_1);
+> +	} else {
+> +		ret = v4l2_subdev_routing_validate(sd, routing,
+> +						   V4L2_SUBDEV_ROUTING_ONLY_1_TO_1 |
+> +						   V4L2_SUBDEV_ROUTING_NO_SOURCE_MULTIPLEXING);
+> +	}
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = v4l2_subdev_set_routing_with_fmt(sd, state, routing,
+> +					       &rcar_csi2_default_fmt);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+>  static int rcsi2_get_frame_desc_fallback(struct v4l2_subdev *sd,
+>  					 unsigned int pad,
+>  					 struct v4l2_mbus_frame_desc *fd)
+> @@ -1781,6 +1832,7 @@ static const struct v4l2_subdev_pad_ops rcar_csi2_pad_ops = {
+>  	.set_fmt = rcsi2_set_pad_format,
+>  	.get_fmt = v4l2_subdev_get_fmt,
+>  
+> +	.set_routing = rcsi2_set_routing,
+>  	.get_frame_desc = rcsi2_get_frame_desc,
+>  };
+>  
+> @@ -1801,17 +1853,6 @@ static int rcsi2_init_state(struct v4l2_subdev *sd,
+>  		},
+>  	};
+>  
+> -	static const struct v4l2_mbus_framefmt rcar_csi2_default_fmt = {
+> -		.width		= 1920,
+> -		.height		= 1080,
+> -		.code		= MEDIA_BUS_FMT_RGB888_1X24,
+> -		.colorspace	= V4L2_COLORSPACE_SRGB,
+> -		.field		= V4L2_FIELD_NONE,
+> -		.ycbcr_enc	= V4L2_YCBCR_ENC_DEFAULT,
+> -		.quantization	= V4L2_QUANTIZATION_DEFAULT,
+> -		.xfer_func	= V4L2_XFER_FUNC_DEFAULT,
+> -	};
+> -
+>  	static const struct v4l2_subdev_krouting routing = {
+>  		.num_routes = ARRAY_SIZE(routes),
+>  		.routes = routes,
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Regards,
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Laurent Pinchart
 
