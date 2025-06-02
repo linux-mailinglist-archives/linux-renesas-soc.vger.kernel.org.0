@@ -1,212 +1,109 @@
-Return-Path: <linux-renesas-soc+bounces-17789-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17790-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 453C4ACAD01
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 13:10:43 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D540EACAD98
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 13:54:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F3EB817B5E7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 11:10:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9D9A7163A3A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 11:54:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF20A2040B6;
-	Mon,  2 Jun 2025 11:10:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VaO4V9TW"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF4C31F4E3B;
+	Mon,  2 Jun 2025 11:54:37 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01131B412A;
-	Mon,  2 Jun 2025 11:10:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA2A614F70;
+	Mon,  2 Jun 2025 11:54:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748862638; cv=none; b=Pyr9yfxszYgc5XhcdshaNCN294slxes3mQe8e6GNm5ZKrfDk0qGaigdnl2CPYOHOiakDsh+QCBJXucdFd0+09WJqez26FH6mUKxwenkHotTxs33S5ECrQQQqd6NNVsUAosBTJk9Q88qpHPYTicmu8GbOpi7+qAmlDMJVNeU5DCE=
+	t=1748865277; cv=none; b=YZF80lWgXXkabI44CqEIL3VA6Hn/g9aJ16G/77sNg8jhq2xiTIE+gGjrm5e+KqoOpqIkc5vdJON8WqZ+MyogtjEy0n6PGfK1QpSj8vvQblpa14J4uL8+vETPTSvh7uTwRIbPm6ZcPL8GC2k328j9QDSX46n5+MBJ1AzM6i0VCYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748862638; c=relaxed/simple;
-	bh=CQKUaOOite+qUWmny4TmnVks+BQOhBBhK//gMqtcIDk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cHbsgxzpkPk5eenIyJUhBpYtw506/PwnN6RpIFyWHmStphExDuOT9la2y1H2XpAKt9gfnknjU/iMVYluh02O+8dMVOb5qNEHe4Xne07YeWWOzCskIL9A3t/H0yoB8WPCox7uCoCQ0Y96KlQ3IlkZkVuqy9U8b9jsNy32Abg6M1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=VaO4V9TW; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6B8641E3;
-	Mon,  2 Jun 2025 13:10:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1748862632;
-	bh=CQKUaOOite+qUWmny4TmnVks+BQOhBBhK//gMqtcIDk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VaO4V9TWTS+wveFBXlkRhngVEbUmsQC6nRYKHHm9kxttA0tUZQJT7PUJTYowY4HQp
-	 BxJUbOcE7brxqC3+sFbtRElIWkUmM7qmdPx1zFOUxfRcAqohfPqBzoHqqftDGiNc4R
-	 Xqi2D+/j9p0t026H+zjnSJ2P2dYHtmbjspxA7HpM=
-Date: Mon, 2 Jun 2025 14:10:25 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v6 05/12] drm: renesas: rz-du: mipi_dsi: Use VCLK for
- HSFREQ calculation
-Message-ID: <20250602111025.GA23515@pendragon.ideasonboard.com>
-References: <20250530165906.411144-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250530165906.411144-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250602094230.GA3645@pendragon.ideasonboard.com>
- <CA+V-a8t__xkMRDrum+DYzg6584y9MmOTuOypC5qzyuW1THigNA@mail.gmail.com>
+	s=arc-20240116; t=1748865277; c=relaxed/simple;
+	bh=3QNhaQ+gkLCMRpCG8iYhlOJFJbwz50UYGDQfXX3c3Jg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cYRZ3+JfwX16cfw+winKblk/l/eMNLo6mf0c05+P6vQIixHAJZPS/Djoy4pkUk5TNne5+NpXJbVJM46tbFBmahaLmrjwtQ9Aj/gufzvAylVxMmLNy0/tnEL/Ga83L4b3wjdeXq5Grb6g3rT6Qm91LNeSTYtGyfiuDrGJyXWfL84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A940C4CEEB;
+	Mon,  2 Jun 2025 11:54:35 +0000 (UTC)
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Marc Kleine-Budde <mkl@pengutronix.de>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Kazuhiro Takagi <kazuhiro.takagi.hh@hitachi-solutions.com>,
+	Duy Nguyen <duy.nguyen.rh@renesas.com>,
+	linux-can@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 0/9] can: rcar_canfd: Add support for Transceiver Delay Compensation
+Date: Mon,  2 Jun 2025 13:54:19 +0200
+Message-ID: <cover.1748863848.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+V-a8t__xkMRDrum+DYzg6584y9MmOTuOypC5qzyuW1THigNA@mail.gmail.com>
 
-On Mon, Jun 02, 2025 at 11:09:51AM +0100, Lad, Prabhakar wrote:
-> On Mon, Jun 2, 2025 at 10:42 AM Laurent Pinchart wrote:
-> > On Fri, May 30, 2025 at 05:58:59PM +0100, Prabhakar wrote:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > Update the RZ/G2L MIPI DSI driver to calculate HSFREQ using the actual
-> > > VCLK rate instead of the mode clock. The relationship between HSCLK and
-> > > VCLK is:
-> > >
-> > >     vclk * bpp <= hsclk * 8 * lanes
-> > >
-> > > Retrieve the VCLK rate using `clk_get_rate(dsi->vclk)`, ensuring that
-> > > HSFREQ accurately reflects the clock rate set in hardware, leading to
-> > > better precision in data transmission.
-> > >
-> > > Additionally, use `DIV_ROUND_CLOSEST_ULL` for a more precise division
-> > > when computing `hsfreq`. Also, update unit conversions to use correct
-> > > scaling factors for better clarity and correctness.
-> > >
-> > > Since `clk_get_rate()` returns the clock rate in Hz, update the HSFREQ
-> > > threshold comparisons to use Hz instead of kHz to ensure correct behavior.
-> > >
-> > > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > > v5->v6:
-> > > - Dropped parentheses around the calculation of `hsfreq_max`.
-> > > - Changed dev_info() to dev_dbg
-> > >
-> > > v4->v5:
-> > > - Added dev_info() to print the VCLK rate if it doesn't match the
-> > >   requested rate.
-> > > - Added Reviewed-by tag from Biju
-> > >
-> > > v3->v4:
-> > > - Used MILLI instead of KILO
-> > >
-> > > v2->v3:
-> > > - No changes
-> > >
-> > > v1->v2:
-> > > - No changes
-> > > ---
-> > >  .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 30 +++++++++++--------
-> > >  1 file changed, 18 insertions(+), 12 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > > index e8ca6a521e0f..4d4521a231cb 100644
-> > > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > > @@ -8,6 +8,7 @@
-> > >  #include <linux/delay.h>
-> > >  #include <linux/io.h>
-> > >  #include <linux/iopoll.h>
-> > > +#include <linux/math.h>
-> > >  #include <linux/module.h>
-> > >  #include <linux/of.h>
-> > >  #include <linux/of_graph.h>
-> > > @@ -15,6 +16,7 @@
-> > >  #include <linux/pm_runtime.h>
-> > >  #include <linux/reset.h>
-> > >  #include <linux/slab.h>
-> > > +#include <linux/units.h>
-> > >
-> > >  #include <drm/drm_atomic.h>
-> > >  #include <drm/drm_atomic_helper.h>
-> > > @@ -199,7 +201,7 @@ static int rzg2l_mipi_dsi_dphy_init(struct rzg2l_mipi_dsi *dsi,
-> > >       /* All DSI global operation timings are set with recommended setting */
-> > >       for (i = 0; i < ARRAY_SIZE(rzg2l_mipi_dsi_global_timings); ++i) {
-> > >               dphy_timings = &rzg2l_mipi_dsi_global_timings[i];
-> > > -             if (hsfreq <= dphy_timings->hsfreq_max)
-> > > +             if (hsfreq <= dphy_timings->hsfreq_max * KILO)
-> >
-> > Why don't you modify hsfreq_max to also store the frequency in Hz ? That
-> > would bring more consistency across the driver.
->
-> Agreed, I will add a separate patch for this.
+	Hi all,
 
-It's small and related, you can do it in the same patch.
+This patch series adds CAN-FD Transceiver Delay Compensation support to
+the R-Car CAN-FD driver, after the customary cleanups and refactorings.
 
-> 
-> > >                       break;
-> > >       }
-> > >
-> > > @@ -258,7 +260,7 @@ static void rzg2l_mipi_dsi_dphy_exit(struct rzg2l_mipi_dsi *dsi)
-> > >  static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
-> > >                                 const struct drm_display_mode *mode)
-> > >  {
-> > > -     unsigned long hsfreq;
-> > > +     unsigned long hsfreq, vclk_rate;
-> > >       unsigned int bpp;
-> > >       u32 txsetr;
-> > >       u32 clstptsetr;
-> > > @@ -269,6 +271,12 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
-> > >       u32 golpbkt;
-> > >       int ret;
-> > >
-> > > +     ret = pm_runtime_resume_and_get(dsi->dev);
-> > > +     if (ret < 0)
-> > > +             return ret;
-> > > +
-> > > +     clk_set_rate(dsi->vclk, mode->clock * KILO);
-> > > +
-> > >       /*
-> > >        * Relationship between hsclk and vclk must follow
-> > >        * vclk * bpp = hsclk * 8 * lanes
-> > > @@ -280,13 +288,11 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
-> > >        * hsclk(bit) = hsclk(byte) * 8 = hsfreq
-> > >        */
-> > >       bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
-> > > -     hsfreq = mode->clock * bpp / dsi->lanes;
-> > > -
-> > > -     ret = pm_runtime_resume_and_get(dsi->dev);
-> > > -     if (ret < 0)
-> > > -             return ret;
-> > > -
-> > > -     clk_set_rate(dsi->vclk, mode->clock * 1000);
-> > > +     vclk_rate = clk_get_rate(dsi->vclk);
-> > > +     if (vclk_rate != mode->clock * KILO)
-> > > +             dev_dbg(dsi->dev, "Requested vclk rate %lu, actual %lu mismatch\n",
-> > > +                     mode->clock * KILO, vclk_rate);
-> >
-> > I would move those 4 lines just below clk_set_rate().
-> 
-> Agreed, I will move them in the next version.
+This has been tested on R-Car V4H (White Hawk), V4M (Gray Hawk Single),
+and E3 (Ebisu-4D[1]), using various data bit rates.  Without proper TDC
+configuration, transmitting at 8 Mbps makes the CAN-FD controller enter
+BUS-OFF state.  The TDCV value as measured by the CAN-FD controller is 4
+on all boards tested (base clock 40 MHz, i.e. 25 ns period), and ca. 90
+ns as measured by a logic analyzer on Gray Hawk Single.
+
+Note that the BSP (predating upstream TDC support), uses a much simpler
+method: for transfer rates >= 5 Mbps on R-Car Gen4, it enables TDC with
+a hardcoded (hardware) TDCO value of 2 (i.e. actual 3), which matches
+the behavior of this series at 8 Mbps.
+
+Thanks for your comments!
+
+[1] r8a77990.dtsi configures the CANFD core clock to 40 MHz, limiting
+    transfer rates to 4 Mbps.  Enable support for 8 Mbps by adding to
+    ebisu.dtsi:
+
+	&canfd {
+		assigned-clock-rates = <80000000>;
+	}
+
+Geert Uytterhoeven (9):
+  can: rcar_canfd: Consistently use ndev for net_device pointers
+  can: rcar_canfd: Use ndev parameter in rcar_canfd_set_bittiming()
+  can: rcar_canfd: Add helper variable ndev to rcar_canfd_rx_pkt()
+  can: rcar_canfd: Add helper variable dev to
+    rcar_canfd_reset_controller()
+  can: rcar_canfd: Simplify data access in rcar_canfd_{ge,pu}t_data()
+  can: rcar_canfd: Repurpose f_dcfg base for other registers
+  can: rcar_canfd: Share config code in rcar_canfd_set_bittiming()
+  can: rcar_canfd: Return early in rcar_canfd_set_bittiming() when not
+    FD
+  can: rcar_canfd: Add support for Transceiver Delay Compensation
+
+ drivers/net/can/rcar/rcar_canfd.c | 193 +++++++++++++++++++-----------
+ 1 file changed, 126 insertions(+), 67 deletions(-)
 
 -- 
-Regards,
+2.43.0
 
-Laurent Pinchart
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
