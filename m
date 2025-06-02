@@ -1,208 +1,187 @@
-Return-Path: <linux-renesas-soc+bounces-17815-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17816-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 620E2ACB200
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 16:26:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49042ACB3D1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 16:45:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 889267AAD95
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 14:25:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 60FBD1941199
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 14:37:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A6E122FF33;
-	Mon,  2 Jun 2025 14:17:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD03A1C5D72;
+	Mon,  2 Jun 2025 14:31:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="q0efLb9c"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="o9Xilq8Q"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from out.smtpout.orange.fr (out-70.smtpout.orange.fr [193.252.22.70])
+	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9301622FE19;
-	Mon,  2 Jun 2025 14:17:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED1441DED64;
+	Mon,  2 Jun 2025 14:31:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.22.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748873872; cv=none; b=sQSG17aAWwYBvuYoL5UlPNtr2iEZ/v6MR5Mw6SsUudH9RV3n6EjiK95F0Kr2WO9iIiOThpnjl/Y7kimhgq1jmETIsB4epJK0MYdxLVcq5JrzpZRfz+5wYEsl3NZXv+9Ehy9PTxihIdMjSQt3zPQM3UpAF9zgw2t5MjgjemXxmcg=
+	t=1748874691; cv=none; b=BvEyW6ll2TPYbxmRl0HHJB3LE8EX6bVz4cargnXoohl/+fm42fYYG+uJPoB1cyeVf9fMtieqJePpABFidqr2UFJTQwsuZm05qSwPxC8GxfgPiC4iYuM/BCegZHJNULZQwoZVzt1AR2yImDkpMci0eTzJ+CuH7Tv5XW8JvRfqSTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748873872; c=relaxed/simple;
-	bh=sxfJ7yRL05XnzpkXaeOvWrTMK/PR8lRTFDF1Q8C5rzc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=noiNKCBjuKb4AYn1kWGYenBC6jbnC3fH7P4efIb5WrEkIRYWEYePAb04nu1Th5fCxHwcujrVzzS7I81X2e2153Wq5E9035oYiUbXtyf9Vm53zsLQdZuc5n50TNi6itHX7mAzrTIi3DLJki0YhpUALVfKkm+07E3q1OrMYREKYCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=q0efLb9c; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E171379;
-	Mon,  2 Jun 2025 16:17:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1748873867;
-	bh=sxfJ7yRL05XnzpkXaeOvWrTMK/PR8lRTFDF1Q8C5rzc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=q0efLb9ctHtZEy4B5IVcHytKG3GcrK5Nd6B3Oz1xQYtAdTGTM7E1rYj7qJuRItNEL
-	 6fiUOPJt+U7NHQXLmVKOSCjnni3wmH+EtsKMab0+Gl/TqeJ3Zm28N2gX7FLlRxjePx
-	 Dc+2AzqHZtkclDjHQwcncNP7bvzpubILnTk9ex/g=
-Date: Mon, 2 Jun 2025 17:17:40 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Cc: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH v3 09/15] media: rcar-isp: Switch to Streams API
-Message-ID: <20250602141740.GG23515@pendragon.ideasonboard.com>
-References: <20250530-rcar-streams-v3-0-026655df7138@ideasonboard.com>
- <20250530-rcar-streams-v3-9-026655df7138@ideasonboard.com>
+	s=arc-20240116; t=1748874691; c=relaxed/simple;
+	bh=dSVlQCm404ApOOuS0eCiGxGQ1DYx37Tx/wvDQZR7JWg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bf5FlEAGSm/oT/WulLyOnsIvoJgt2PspkGkafmXuSmikd9HNXLkzRQPTG6qy8SQZkoysmKnLLZPlv7b/M6XaiJRDBHZT67azhCAhAmD4G28Hl/4rHZDh98tZ8wzKiE8Lc8VGd26rn3izoru6MqynO85jU6XSpJz9FSv+0laVyTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=o9Xilq8Q; arc=none smtp.client-ip=193.252.22.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from [172.16.82.72] ([124.33.176.97])
+	by smtp.orange.fr with ESMTPA
+	id M6C3upBvadABIM6C4u921e; Mon, 02 Jun 2025 16:31:20 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1748874680;
+	bh=G+TBX5u9TUi05fYiN+r99LSYOgeBMN5WCN8pgoA5t3c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=o9Xilq8QNI6YRR5MJzD+7kob8PZA7liwlOGVrPZBPZLR1oyg26pINPuBkkGBycdJ+
+	 1Y2uZmZN46OW8OB6ZPMfIzRXOzSZILm9DNBgFzzBWmOZv5+H2x8rnMyKGkdZyUG9oC
+	 8kb2wTiAUjKAo1g1tkzuy+4Cl1THhi6ViwZVu0o8NUap5CSwvp7/krvQB/FK5gXAv8
+	 EyWC5jJDNTp6JmFIgKvvbx6DCTm02echhA5VaiuyzHo/RinriOxANMUWgYnefZqTrR
+	 /Y3+3YGIFqknUQfBjKOE+yjj0bM/cPb3yB8FSTuYcqRXSW7/6oDftbrxNwfia9s3CA
+	 tYuILxxbd/MaA==
+X-ME-Helo: [172.16.82.72]
+X-ME-Auth: bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI=
+X-ME-Date: Mon, 02 Jun 2025 16:31:20 +0200
+X-ME-IP: 124.33.176.97
+Message-ID: <35fe01ef-6ad0-4d07-8138-85a2c87f6c90@wanadoo.fr>
+Date: Mon, 2 Jun 2025 23:31:14 +0900
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250530-rcar-streams-v3-9-026655df7138@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/9] can: rcar_canfd: Repurpose f_dcfg base for other
+ registers
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Marc Kleine-Budde <mkl@pengutronix.de>,
+ Biju Das <biju.das.jz@bp.renesas.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Kazuhiro Takagi <kazuhiro.takagi.hh@hitachi-solutions.com>,
+ Duy Nguyen <duy.nguyen.rh@renesas.com>, linux-can@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <cover.1748863848.git.geert+renesas@glider.be>
+ <f9c114fcf8cc8eaae150a3ce95dd3224cf247f6b.1748863848.git.geert+renesas@glider.be>
+ <94755286-47fb-461e-9850-e14830f2536e@wanadoo.fr>
+ <CAMuHMdXaqDNE6dcSdDO+TersETtu8wrAhH_0DA1v3ngpPkneZA@mail.gmail.com>
+Content-Language: en-US
+From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Autocrypt: addr=mailhol.vincent@wanadoo.fr; keydata=
+ xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
+ LFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI+wrIEExYKAFoC
+ GwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQTtj3AFdOZ/IOV06OKrX+uI
+ bbuZwgUCZx41XhgYaGtwczovL2tleXMub3BlbnBncC5vcmcACgkQq1/riG27mcIYiwEAkgKK
+ BJ+ANKwhTAAvL1XeApQ+2NNNEwFWzipVAGvTRigA+wUeyB3UQwZrwb7jsQuBXxhk3lL45HF5
+ 8+y4bQCUCqYGzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrbYZzu0JG5w8gxE6EtQe6LmxKMqP6E
+ yR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDldOjiq1/riG27mcIFAmceMvMCGwwF
+ CQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8VzsZwr/S44HCzcz5+jkxnVVQ5LZ4B
+ ANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
+In-Reply-To: <CAMuHMdXaqDNE6dcSdDO+TersETtu8wrAhH_0DA1v3ngpPkneZA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Tomi,
-
-Thank you for the patch.
-
-On Fri, May 30, 2025 at 04:50:38PM +0300, Tomi Valkeinen wrote:
-> Switch to Streams API with a single hardcoded route. This breaks any
-> existing userspace which depended on the custom rcar streams
-> implementation, but a single camera use case should continue to work.
+On 02/06/2025 at 22:49, Geert Uytterhoeven wrote:
+> Hi Vincent,
 > 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> ---
->  drivers/media/platform/renesas/rcar-isp/csisp.c | 62 ++++++++++++++++++++++---
->  1 file changed, 55 insertions(+), 7 deletions(-)
+> On Mon, 2 Jun 2025 at 15:16, Vincent Mailhol <mailhol.vincent@wanadoo.fr> wrote:
+>> On 02/06/2025 at 20:54, Geert Uytterhoeven wrote:
+>>> Reuse the existing Channel Data Bitrate Configuration Register offset
+>>> member in the register configuration as the base offset for all related
+>>> channel-specific registers.
+>>> Rename the member and update the (incorrect) comment to reflect this.
+>>>
+>>> This fixes the addresses of all other (currently unused)
+>>> channel-specific registers on R-Car Gen4 and RZ/G3E, and allows us to
+>>> replace RCANFD_GEN4_FDCFG() by the more generic RCANFD_F_CFDCFG().
+>>>
+>>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>>> ---
+>>>  drivers/net/can/rcar/rcar_canfd.c | 22 ++++++++++------------
+>>>  1 file changed, 10 insertions(+), 12 deletions(-)
+>>>
+>>> diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
+>>> index 0cad3c198e58e494..7a9a88fa5fb1a521 100644
+>>> --- a/drivers/net/can/rcar/rcar_canfd.c
+>>> +++ b/drivers/net/can/rcar/rcar_canfd.c
+>>> @@ -425,18 +425,16 @@
+>>>  #define RCANFD_C_RPGACC(r)           (0x1900 + (0x04 * (r)))
+>>>
+>>>  /* R-Car Gen4 Classical and CAN FD mode specific register map */
+>>> -#define RCANFD_GEN4_FDCFG(m)         (0x1404 + (0x20 * (m)))
+>>> -
+>>>  #define RCANFD_GEN4_GAFL_OFFSET              (0x1800)
+>>>
+>>>  /* CAN FD mode specific register map */
+>>>
+>>>  /* RSCFDnCFDCmXXX -> RCANFD_F_XXX(m) */
+>>> -#define RCANFD_F_DCFG(gpriv, m)              ((gpriv)->info->regs->f_dcfg + (0x20 * (m)))
+>>> -#define RCANFD_F_CFDCFG(m)           (0x0504 + (0x20 * (m)))
+>>> -#define RCANFD_F_CFDCTR(m)           (0x0508 + (0x20 * (m)))
+>>> -#define RCANFD_F_CFDSTS(m)           (0x050c + (0x20 * (m)))
+>>> -#define RCANFD_F_CFDCRC(m)           (0x0510 + (0x20 * (m)))
+>>> +#define RCANFD_F_DCFG(gpriv, m)              ((gpriv)->info->regs->coffset + 0x00 + (0x20 * (m)))
+>>> +#define RCANFD_F_CFDCFG(gpriv, m)    ((gpriv)->info->regs->coffset + 0x04 + (0x20 * (m)))
+>>> +#define RCANFD_F_CFDCTR(gpriv, m)    ((gpriv)->info->regs->coffset + 0x08 + (0x20 * (m)))
+>>> +#define RCANFD_F_CFDSTS(gpriv, m)    ((gpriv)->info->regs->coffset + 0x0c + (0x20 * (m)))
+>>> +#define RCANFD_F_CFDCRC(gpriv, m)    ((gpriv)->info->regs->coffset + 0x10 + (0x20 * (m)))
+>>
+>> I really start to dislike all those function like macros in the rcar_canfd
+>> driver. The only benefits of a function like macro is either to have type
+>> polymorphism or to generate integer constant expression or to work with context
+>> specific info (e.g. __func__ or __LINE__).
 > 
-> diff --git a/drivers/media/platform/renesas/rcar-isp/csisp.c b/drivers/media/platform/renesas/rcar-isp/csisp.c
-> index 2337c5d44c40..a04cbf96b809 100644
-> --- a/drivers/media/platform/renesas/rcar-isp/csisp.c
-> +++ b/drivers/media/platform/renesas/rcar-isp/csisp.c
-> @@ -124,6 +124,17 @@ static const struct rcar_isp_format rcar_isp_formats[] = {
->  	},
->  };
->  
-> +static const struct v4l2_mbus_framefmt risp_default_fmt = {
-> +	.width = 1920,
-> +	.height = 1080,
-> +	.code = MEDIA_BUS_FMT_RGB888_1X24,
-> +	.colorspace = V4L2_COLORSPACE_SRGB,
-> +	.field = V4L2_FIELD_NONE,
-> +	.ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT,
-> +	.quantization = V4L2_QUANTIZATION_DEFAULT,
-> +	.xfer_func = V4L2_XFER_FUNC_DEFAULT,
-> +};
-> +
->  static const struct rcar_isp_format *risp_code_to_fmt(unsigned int code)
->  {
->  	unsigned int i;
-> @@ -222,7 +233,7 @@ static int risp_start(struct rcar_isp *isp, struct v4l2_subdev_state *state)
->  	u32 sel_csi = 0;
->  	int ret;
->  
-> -	fmt = v4l2_subdev_state_get_format(state, RCAR_ISP_SINK);
-> +	fmt = v4l2_subdev_state_get_format(state, RCAR_ISP_SINK, 0);
->  	if (!fmt)
->  		return -EINVAL;
->  
-> @@ -336,7 +347,7 @@ static int risp_set_pad_format(struct v4l2_subdev *sd,
->  			       struct v4l2_subdev_state *state,
->  			       struct v4l2_subdev_format *format)
->  {
-> -	struct v4l2_mbus_framefmt *framefmt;
-> +	struct v4l2_mbus_framefmt *fmt;
->  
->  	if (format->pad > RCAR_ISP_SINK)
->  		return v4l2_subdev_get_fmt(sd, state, format);
-> @@ -344,10 +355,20 @@ static int risp_set_pad_format(struct v4l2_subdev *sd,
->  	if (!risp_code_to_fmt(format->format.code))
->  		format->format.code = rcar_isp_formats[0].code;
->  
-> -	for (unsigned int i = 0; i < RCAR_ISP_NUM_PADS; i++) {
-> -		framefmt = v4l2_subdev_state_get_format(state, i);
-> -		*framefmt = format->format;
-> -	}
-> +	/* Set sink format */
+> I agree much can be improved in the way this driver accesses registers.
+> Unfortunately a large part of it is due to the horrendous naming of the
+> registers in the documentation, and the two different register layouts.
+> 
+>> Can you just change these five function like macros to static functions?
+> 
+> I assume you want something like was done commit 6b9f8b53a1f3ad8e
+> ("can: rcar_canfd: Add rcar_canfd_setrnc()")?
+> 
+> These five macro just calculate the offsets for specific registers
+> and for the specified channel indices.  Their return values are to
+> be passed to one of the five accessors that take register offsets
+> (rcar_canfd_{read,write,set_bit,cleat_bit, update}()).  Hence
+> converting the macros to accessor functions means there will be more
+> than five functions...
 
-s/format/format./
+Not necessarily, you can just have:
 
-> +	fmt = v4l2_subdev_state_get_format(state, format->pad, format->stream);
-> +	if (!fmt)
-> +		return -EINVAL;
-> +
-> +	*fmt = format->format;
-> +
-> +	/* Propagate to source format */
+  rcar_canfd_f_dcfg()
+  rcar_canfd_f_cfdcfg()
+  ...
 
-	/* Propagate the format to the source pad. */
+and so on. Those would be used exactly the same way as the current function like
+macro.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Or you can have:
 
-> +	fmt = v4l2_subdev_state_get_opposite_stream_format(state, format->pad,
-> +							   format->stream);
-> +	if (!fmt)
-> +		return -EINVAL;
-> +
-> +	*fmt = format->format;
->  
->  	return 0;
->  }
-> @@ -364,6 +385,32 @@ static const struct v4l2_subdev_ops rcar_isp_subdev_ops = {
->  	.pad	= &risp_pad_ops,
->  };
->  
-> +static int risp_init_state(struct v4l2_subdev *sd,
-> +			   struct v4l2_subdev_state *state)
-> +{
-> +	static struct v4l2_subdev_route routes[] = {
-> +		{
-> +			.sink_pad = RCAR_ISP_SINK,
-> +			.sink_stream = 0,
-> +			.source_pad = RCAR_ISP_PORT0,
-> +			.source_stream = 0,
-> +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
-> +		},
-> +	};
-> +
-> +	static const struct v4l2_subdev_krouting routing = {
-> +		.num_routes = ARRAY_SIZE(routes),
-> +		.routes = routes,
-> +	};
-> +
-> +	return v4l2_subdev_set_routing_with_fmt(sd, state, &routing,
-> +						&risp_default_fmt);
-> +}
-> +
-> +static const struct v4l2_subdev_internal_ops risp_internal_ops = {
-> +	.init_state = risp_init_state,
-> +};
-> +
->  /* -----------------------------------------------------------------------------
->   * Async handling and registration of subdevices and links
->   */
-> @@ -521,11 +568,12 @@ static int risp_probe(struct platform_device *pdev)
->  
->  	isp->subdev.owner = THIS_MODULE;
->  	isp->subdev.dev = &pdev->dev;
-> +	isp->subdev.internal_ops = &risp_internal_ops;
->  	v4l2_subdev_init(&isp->subdev, &rcar_isp_subdev_ops);
->  	v4l2_set_subdevdata(&isp->subdev, &pdev->dev);
->  	snprintf(isp->subdev.name, sizeof(isp->subdev.name), "%s %s",
->  		 KBUILD_MODNAME, dev_name(&pdev->dev));
-> -	isp->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +	isp->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_STREAMS;
->  
->  	isp->subdev.entity.function = MEDIA_ENT_F_VID_MUX;
->  	isp->subdev.entity.ops = &risp_entity_ops;
+  #define RCANFD_F_DCFG_BASE 0x00
+  #define RCANFD_F_CFDCFS_BASE 0x04
+  ...
 
--- 
-Regards,
+and then a:
 
-Laurent Pinchart
+  rcar_canfd_get_c_reg(coffset, base, m)
+
+
+I am keen on letting you decide what you think is best.
+
+>> And from now on, each time there is a need to modify one of the rcar_canfd, I
+>> would like this to become an opportunity to little by little clean up that macro
+>> madness.
+> 
+> That's exactly what Biju and I are doing, slowly ;-)
+
+
+Yours sincerely,
+Vincent Mailhol
+
 
