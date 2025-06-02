@@ -1,149 +1,136 @@
-Return-Path: <linux-renesas-soc+bounces-17785-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17786-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 879AFACAC54
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 12:17:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C9B6ACACD7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 12:56:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8433B189644D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 10:17:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BDB4319607C6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 10:56:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03E6F1DE8B5;
-	Mon,  2 Jun 2025 10:17:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CE9720C477;
+	Mon,  2 Jun 2025 10:55:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="S0cEX5zt"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="jlIOAseB"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C7919F101
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Jun 2025 10:17:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D552040B6
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Jun 2025 10:55:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748859435; cv=none; b=fPLe6qwdRzWbSBYx4z5eKMmcmY2rWR2ebEbHmO0jXF4JI91GuiVU/BJ7tSpswqapd/5ABNelBDc/qpGpvlMgEFyYLTV7S+fCVnBbMzPb9ufkFzHRXVUNE7YcpUan21z/Djs/3e10eN7Ef1EKd86WJ61q6R/6NA55XuKGuAr1kJ8=
+	t=1748861756; cv=none; b=pUEbpTaeFe9mP1zpiCzG2TTbLPDocQjlkEXm7vPwTX1BeJuxg/Oa1E7j6EJhqw5CSP1g/nQW0H7n7zRdRl6L56cQ4y1hXfuOzo2BoSE6lcA2bcYyMuBNOWxrDPFjMbanMpnl9sodSp0Rxva8ntla8bj7CPzW/QD745c7ucoVb7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748859435; c=relaxed/simple;
-	bh=pEyblw1ZF05CXEYNgROXAcVImF3tve5gvGba+f35nQg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XTMz949XA0W+XPwZIFI6l6c9+VXrxPMwQ1VvGXei+pEiPtpZrKT5rjjVF8+IBi3kgXgvk5J0Aj/3Cksm+NpSyRxE5BmIirl4NOKmtxhzXJnK+BYtBbp+FKHF/b9JQLaNJ1D3AiA44BIAN0GnPevOxTm33RnoBYkqwcOPssMtV9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=S0cEX5zt; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-551fe46934eso4863664e87.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 02 Jun 2025 03:17:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1748859432; x=1749464232; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pGO9sUY+r7vqr6gLOI6qlkiYKXTKtTQAWLD2mIokncE=;
-        b=S0cEX5ztlLK808ycniXZr1H9/H7xNzCtX79FukKmhSGvEttA+EdcE3SDTfdS8Zj0sB
-         5SOfwONgUcs2rN/dw/TXR28w9tQhrHu1cTDJ7HkWV3pmX8YSOgCn8aDoExkeGy+fdysi
-         KpzUEZ7ueCuTdaVapPm52Kddsv1TxUEqc+JzEgHEUwBOls/FdWq54+kXPBJothd236d5
-         s3scgXi0NpyCT+yWPy1esu1uUeZ8h7oo2iYtJCobVBDMZb2ouMDQQw0bSTwn8b26Ttm+
-         NTzfB85nlVtY4bL0kVtRuD++jUbb8W2MVlWJ3djL5caCERGjNBYExhS+rfPH7oB38S7L
-         5hjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748859432; x=1749464232;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pGO9sUY+r7vqr6gLOI6qlkiYKXTKtTQAWLD2mIokncE=;
-        b=cXhEE8k7nsP/JzT1l+8QGRUtoDqDPNuB15ozv516ZX58qLajX6yxvDVd7mIqvXvmt0
-         1VjZLuzIR0ctvK/5z4KEoBQc5eDDnbUH6wCeRV5cTbSQpKLVVpnu89HpthjJvaDrDdQL
-         wJGOaIRQMdFhyfBpzZqRsyOvZzQK9Rz1YTRR8cmo910eBt/bVVlcwc26IWWrxdgnhBI/
-         T8hiUKDnBlPBf/gSMNbj15COE+ymbv71lGdtyvXISuxNCA7RnM4U79TeR7BkHc1+AfLE
-         EGLwjAqslbVytSUpKR/ntgpIOarlr4lJFuZfflgjycrqt9kcGGNMu7KGQe/xgYb5Lmnz
-         navw==
-X-Forwarded-Encrypted: i=1; AJvYcCWnXYtyaS+FYWNw5J5sZHzKk0EPL1fbS/qO0J35e7UmeYyODmWPj5YoQn7OKFCLQeUE8X99sXLSwk1JsfMeRJky0A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxP5yrQbbFCpcdthmIDjIm62/s1U7q9fsKAoJj2Ofd3cLuafuB+
-	1lOWr32TT2imY9uXIXhv+gBYgRv2eXoAF8+/Wg4tzhg2TRKZrWiiUR0JZO0bExBXcItPq4cB+AC
-	bULHhEGzNAsDjk1cx9rBrjLhoYTwxP1zv96th0PLkeA==
-X-Gm-Gg: ASbGncu06rrATGHix3A5IVclhBG+6fh2EKcTO3oly3M4XfzQnE55Nj4DulDCSi7rKOg
-	/2eRPHLPncm4j3EJhG5C4x9hqPm85YSQ2JM8gM8Z13H3ie0EeEJvPH9Rm5tt5E0luoorvG9A8Wz
-	AlYurHV9aD5UJ3kOBX2Eu58GYespYd1+kuf8KkTH0F3nvRRee34ucpqxdshtx2jEvz
-X-Google-Smtp-Source: AGHT+IE2ScFlgSOO/jzGpylrUkqPYvdmuNlMMD0/AntL/Q/1ICr4QgrhpUxX3vIEoEkKGY8aofftc7B/+e+Cne9Hayk=
-X-Received: by 2002:a05:6512:1108:b0:553:2927:9864 with SMTP id
- 2adb3069b0e04-5533ba23ab1mr3564157e87.6.1748859432178; Mon, 02 Jun 2025
- 03:17:12 -0700 (PDT)
+	s=arc-20240116; t=1748861756; c=relaxed/simple;
+	bh=7bGWWs+4p6un8NiBop/oIcpkSO5yAebwvmB4QV/UllA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eZrJqYvQIRTeqNlzaNVwLQPKXr3ajDMcSuUJHTKPZWrdLUC2JU/o/Tmc/kMgMfLuuwGY6py+tx8B6WyLLEyMalV46sHCqF7O+WLURUYmQ7ak98x9NzVlZHS4Rc/oUCW1lZFoRkBAOvsWU7qMdJDlIy7fXLJh8+VSHuOU2V7qLnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=jlIOAseB; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=7bGW
+	Ws+4p6un8NiBop/oIcpkSO5yAebwvmB4QV/UllA=; b=jlIOAseB7DdMStRY8VgH
+	C15JPBolMF0nkwF4a+PiPtPyTeilwvWlVUuyDCZBuUhOUSar2SyAV3ryHgwgA91S
+	Zg8OWU2wuR3Vb20cHUnE3+eCHedI9MdmxTc5GCx2uMsO+CLmmIbTTqt0TJfrWxb7
+	dEau4XWW3cnsVSmiGQP1g++GB94ZPXt+Di0hAy2AGZhPF+WyTe0cACgAgDw9uIlt
+	u4wfNF+r5hBgAuLKB5AQLcOivcjnTeQQc6jPrMRIR1o1JJrnTuUhI+C8ezGzBKlY
+	u7lG3dxiyoAN6C++1/+4XGLm/wwCSjQfJ+tvh5UWL4GHE+WYAyajDQMh658G9UKH
+	SQ==
+Received: (qmail 3354533 invoked from network); 2 Jun 2025 12:55:49 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 2 Jun 2025 12:55:49 +0200
+X-UD-Smtp-Session: l3s3148p1@mepLm5Q24AptKPMO
+Date: Mon, 2 Jun 2025 12:55:48 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Chris Brandt <chris.brandt@renesas.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 4/6] i2c: riic: Pass IRQ desc array as part of OF data
+Message-ID: <aD2DNNhG9_Bj58Yn@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Chris Brandt <chris.brandt@renesas.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250530143135.366417-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250530143135.366417-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250530225504.55042-1-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20250530225504.55042-1-marek.vasut+renesas@mailbox.org>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Mon, 2 Jun 2025 12:17:01 +0200
-X-Gm-Features: AX0GCFsfGl-iahXc2ZEy1lSOQx3uH8u4YrEEg6MXx4A4twZNi28c07s79G74fwQ
-Message-ID: <CAMRc=MckQhB4diiWc+Rtk84PtwaKqr34At3heT0vyAgJ9VA7Hg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] PCI/pwrctrl: Add optional slot clock to pwrctrl
- driver for PCI slots
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org, Anand Moon <linux.amoon@gmail.com>, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="p0TvijFoPYANqdUd"
+Content-Disposition: inline
+In-Reply-To: <20250530143135.366417-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+
+--p0TvijFoPYANqdUd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, May 31, 2025 at 12:55=E2=80=AFAM Marek Vasut
-<marek.vasut+renesas@mailbox.org> wrote:
->
-> Add the ability to enable optional slot clock into the pwrctrl driver.
-> This is used to enable slot clock in split-clock topologies, where the
-> PCIe host/controller supply and PCIe slot supply are not provided by
-> the same clock. The PCIe host/controller clock should be described in
-> the controller node as the controller clock, while the slot clock should
-> be described in controller bridge/slot subnode.
->
-> Example DT snippet:
-> &pcicontroller {
->     clocks =3D <&clk_dif 0>;             /* PCIe controller clock */
->
->     pci@0,0 {
->         #address-cells =3D <3>;
->         #size-cells =3D <2>;
->         reg =3D <0x0 0x0 0x0 0x0 0x0>;
->         compatible =3D "pciclass,0604";
->         device_type =3D "pci";
->         clocks =3D <&clk_dif 1>;         /* PCIe slot clock */
->         vpcie3v3-supply =3D <&reg_3p3v>;
->         ranges;
->     };
-> };
->
-> Example clock topology:
->  ____________                    ____________
-> |  PCIe host |                  | PCIe slot  |
-> |            |                  |            |
-> |    PCIe RX<|=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D|>PCI=
-e TX    |
-> |    PCIe TX<|=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D|>PCI=
-e RX    |
-> |            |                  |            |
-> |   PCIe CLK<|=3D=3D=3D=3D=3D=3D..  ..=3D=3D=3D=3D=3D=3D|>PCIe CLK   |
-> '------------'      ||  ||      '------------'
->                     ||  ||
->  ____________       ||  ||
-> |  9FGV0441  |      ||  ||
-> |            |      ||  ||
-> |   CLK DIF0<|=3D=3D=3D=3D=3D=3D''  ||
-> |   CLK DIF1<|=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D''
-> |   CLK DIF2<|
-> |   CLK DIF3<|
-> '------------'
->
-> Reviewed-by: Anand Moon <linux.amoon@gmail.com>
-> Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> ---
+On Fri, May 30, 2025 at 03:31:33PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>=20
+> In preparation for adding support for Renesas RZ/T2H and RZ/N2H SoCs,
+> which feature a combined error interrupt instead of individual error
+> interrupts per condition, update the driver to support configurable IRQ
+> layouts via OF data.
+>=20
+> Introduce a new `irqs` field and `num_irqs` count in `riic_of_data` to
+> allow future SoCs to provide a custom IRQ layout. This patch is a
+> non-functional change for existing SoCs and maintains compatibility with
+> the current `riic_irqs` array.
+>=20
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com> # on RZ/A1
+
+
+--p0TvijFoPYANqdUd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmg9gzAACgkQFA3kzBSg
+KbbxBg//SKzq7Y2TbgrcFY02e2zmA+f//ngSVsdGATypJihKvqsS/tkgLhZu4uI1
+IgOvpXZTGbExw/0q7uFbNWQ+k7Fm7pIQmJWcqDMFy0hCJu9Hnq38vE7S/5a3il9q
+1GvFIVTK9OfHe9eaa3mqOGk1ZusP8JA6ocpWAE6Y9aldJhj2PSliIiXryBnQttua
+0hdUe2QK8e5Y1/3nwADEkd2WAY1d0CEakeahjy9H+xGAQXC51zYHUC2xUnAkjZj3
+wYrpqde/aHdWm5P+M+uDpw21F5jSZKF/yRTT/DWDEN+fZy11UKG4KHIobyvk7ig8
+utKdcmo4mAXPOQntYhTCK7iiDLO1Cw5cnJhUs9JnygZh5Qb1+ZbRfZSi8OIPVXMM
+QEYWCVlxPKlQzxYCX/7nYbUDkNRdaqpu/AUXFBzalYo8avmEbnxPjsTdkGeSHQMR
+HcIuUhvXdfZu4tmESYb/5C6HaTOcrVy1t3ffO08JMZugRpw4pe3eUmcAWHdyS4Y1
+OqSKQ4NdkPwyLcJwsnkpHM/7HTb5g3gqxKDKq0XKizSInYVjKIFQhHTbVSKH7/gl
+ZVEA0pi/ozXeDIkQSi2rt5rjFChO3Fgp12UQM4dJo7GYmELAsNuZZKHn/p2c7jVj
+1ODtLVOrp5687Yfirx26se489MeUffNYqltp4/CUFyWZSdD4WMc=
+=w+mr
+-----END PGP SIGNATURE-----
+
+--p0TvijFoPYANqdUd--
 
