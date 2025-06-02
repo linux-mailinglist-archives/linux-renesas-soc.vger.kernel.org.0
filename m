@@ -1,121 +1,175 @@
-Return-Path: <linux-renesas-soc+bounces-17811-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17812-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9020ACB008
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 15:59:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9E9FACB0EF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 16:13:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4EF717A5D6D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 13:57:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 400607AFC2C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 14:12:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E7D61F5846;
-	Mon,  2 Jun 2025 13:58:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 175C9223DF1;
+	Mon,  2 Jun 2025 14:03:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fFumch0n"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F16121DE881;
-	Mon,  2 Jun 2025 13:58:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A3E2C324D;
+	Mon,  2 Jun 2025 14:03:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748872708; cv=none; b=UC9DgSBkXDcttjHO3S6JGatCiSTK4MscvFIsaPKjnzsv4oaRdXqLQoIL+DxOfYA1lkyzvljKci+iTArYPCAqnq8bicvr2CqpOp45hxHYpUy9uIeyHSmxzHVQIKAvuk6ffi0C9ETad5lQfEMhSA78eLLpTzwyrxB+w5ZfD9Kmefg=
+	t=1748873026; cv=none; b=Sm8ReNzmddVMAb8g7lXdFdw0L3XzaLlCqTCqaLHhLiaotwGS18Fxi1KyH6GorwVIJV9n3GS6izqjHlR0+9De3k9uq4sUvcRPwWzRQ29JJnS1/cRNGd3//h1dGVtrmAEXGFhpbeAU9h3VjzfDzWLRIEktUUFgnJ3cQrcR1ZS0ZDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748872708; c=relaxed/simple;
-	bh=j1Kyh7bpHR7bM3I2FFBGGZCAUQJdK8qbI1tlLk2CKV4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=b2nNbyZ8NG/vrDcdrKLLrCxkYYst61lS8/D0aF4oCqIENeVis2ip4xdW4IR3Wn/7FRzcdu3wBmky6CegU+eX52MD8E2527BuqP9ivDod9l/cc/bHgKgZ++W/1EJYdwb/B70O7rA4mrbma6oM00BRIpVKJtNuortCpe/91zyqmjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-87df4fd380bso719371241.0;
-        Mon, 02 Jun 2025 06:58:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748872705; x=1749477505;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BGY17wRBClxOrwG+1hR36k2GqK89U2bZ90HIAmNC5mE=;
-        b=bLef9byX4aK9w+MXFiJmjhU3x/HkCVnSK22rDefzWLA//Jv4FDSf9GOD9eGsX7N8o7
-         RumeQDKitbEMzeGTpYRVYTEIQI2M8AglQWTgrOipRHFjj3IVDzOpBH6i8gdTvj2hO0jf
-         T73rYuMReWNibNRzdOqHz2+F1bi+VjcvM+3IkbTFWIlswc+iKX0yiLK02P/SxnywCowm
-         /ohfNQyKqkjl260d31eJspw/tt1kt7HrJJSCVH3zRX57b12RXhMsZS4XtA1L7q6Ek4Wn
-         pGJzZ67mxFowbadFW6ewlabEV1hX3XZ8Z+AzX3MRHdOYHucIgRyNeirHmzpUQ7+npQIL
-         plFg==
-X-Forwarded-Encrypted: i=1; AJvYcCUJ3Ly0j1Ubrm6Hl4XrfDBmzKXNE+PTiy94yD7DcRjdKP8pmKCIRmWPuP2cIaviE89sQbTrpPkebWI=@vger.kernel.org, AJvYcCUilySRb3fjvG7w+yS9E9JHO2+HCnyWTrUEBAMob8P7fRUBHK7vsxduO2fv6kr1vGnclEbZNCoG5GXuKymav9JSs/g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdcTaidpb0ntRNnE9Qer3W5N4NkzLYAMhvIutAiw8FS7lz1Qh4
-	nsVM6IDY2cTt2bHodNwWocx+zny7hfXhysyHryOtEfOBOi3INifHb50niEyIdV+0
-X-Gm-Gg: ASbGncuhd/cQRroLH0AaxKZ6J12qpUN14CxmTK+Re50kqygCmxdpMbwv79/8daT/nlL
-	7cox5gjaIv95JwrAk4VlDG0wv/8S/+EkLo/2NxgvaPmBD10mxibdHf96nLQ1y0DeCz/H3Z8lvJb
-	E6XeoDGY1Fv9JnN7qH7VJnDICw7CAWolBdwQ2BANRWCqTTHVddibJHBBSXOzxhkr6y5kYJ2frNg
-	0JQsbFwU8+DwbGpuxhOC5eg1rrk85EIP3dyXm9WJi/IkQmcQsQuboweCYN8a5zkvCA4UXVsMz43
-	+thDJw+Q/xzWKOi0RhRkO7T7iNH2Sh/IGCIwAgPdK/PF1d6M0PqaLmhwKXJB27JZym074YiTvQV
-	tQtXVEbqzRCoiBw==
-X-Google-Smtp-Source: AGHT+IEwIZ7bDo3Ia8QVscyd5rb48BVu0+oPSKpHkFZ323B+zxS1WRnT3f27sCLFoi7HkphueO+Wvw==
-X-Received: by 2002:a05:6122:459f:b0:520:64ea:c479 with SMTP id 71dfb90a1353d-530937eb5d0mr4469012e0c.10.1748872705349;
-        Mon, 02 Jun 2025 06:58:25 -0700 (PDT)
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-53074c32088sm7466625e0c.42.2025.06.02.06.58.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Jun 2025 06:58:24 -0700 (PDT)
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-86fbb48fc7fso806030241.2;
-        Mon, 02 Jun 2025 06:58:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWukkxXW3Dx9LVC8BdhliJXn0vCdZxAU4v3lluiXDWrrrlFvC1WC0I8rxP8l70SxmNgHIHs9SXYLfM=@vger.kernel.org, AJvYcCXwOJo48LqTHfUaWLZaD/xnA2geEb2DRRlTHXvwFFFZ9TZ/cwmMC4GVBEbG7K0jq77tmESJjxzQewkZTgsdYlZrqe0=@vger.kernel.org
-X-Received: by 2002:a05:6102:41ab:b0:4e6:1a8c:13dd with SMTP id
- ada2fe7eead31-4e701bcd515mr4716073137.7.1748872703185; Mon, 02 Jun 2025
- 06:58:23 -0700 (PDT)
+	s=arc-20240116; t=1748873026; c=relaxed/simple;
+	bh=b9nNn1ev6SAyx3B5wbNrYPZbZwaMytwqSzGjwZ2HvqE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rG+odd3CDAXEtGgIb5lDVhZcYns7KlbvzbzHa8GCGatecNMzkxO5Xr5Cx+9EotP2Y+tt5/VsZb663XVr4TyGAoJdvMLaKHu3KKlVu6zkU2xvPj6KJgEnXfhXlVVoBrq6mLPdtgaRlsC7zOJJWz4pic+8OCr9LcAgicJfIy4PP04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fFumch0n; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 60B32379;
+	Mon,  2 Jun 2025 16:03:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1748873021;
+	bh=b9nNn1ev6SAyx3B5wbNrYPZbZwaMytwqSzGjwZ2HvqE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fFumch0nweuTJnUb+hETViXzaiV1f273dnizHkNDKJyNmfWU4u4V3l8Mb0vPssbBI
+	 ZDCeRHLXjEdkn0BaBQhKb8FH4v9CNFEXzPqnnvhyhLt7xWTekHc3ON6dAVg1PR1+mT
+	 GK0BDR8rCFeLrE8LgcJf8GLkBiCVuoxgWl7PBQn0=
+Date: Mon, 2 Jun 2025 17:03:34 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: Re: [PATCH v3 05/15] media: rcar-csi2: Move rcar2_calc_mbps()
+Message-ID: <20250602140334.GF11750@pendragon.ideasonboard.com>
+References: <20250530-rcar-streams-v3-0-026655df7138@ideasonboard.com>
+ <20250530-rcar-streams-v3-5-026655df7138@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1748863848.git.geert+renesas@glider.be> <002c3ab28323210e83ab3d35462dad40d22128ff.1748863848.git.geert+renesas@glider.be>
- <3dccf669-3d09-4eaf-b4d4-09841d19bd84@wanadoo.fr>
-In-Reply-To: <3dccf669-3d09-4eaf-b4d4-09841d19bd84@wanadoo.fr>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 2 Jun 2025 15:58:11 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWO7-T3GRrB7y+ukv_xEBmVVKi8AjcwDboG3AOunQMs5w@mail.gmail.com>
-X-Gm-Features: AX0GCFvbiHjWNpD-GexzR-lG-Oju1RZmmtIgfTGehYshcr3oU1wVk6XiGDQc4Rk
-Message-ID: <CAMuHMdWO7-T3GRrB7y+ukv_xEBmVVKi8AjcwDboG3AOunQMs5w@mail.gmail.com>
-Subject: Re: [PATCH 2/9] can: rcar_canfd: Use ndev parameter in rcar_canfd_set_bittiming()
-To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Cc: Kazuhiro Takagi <kazuhiro.takagi.hh@hitachi-solutions.com>, 
-	Duy Nguyen <duy.nguyen.rh@renesas.com>, linux-can@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Marc Kleine-Budde <mkl@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250530-rcar-streams-v3-5-026655df7138@ideasonboard.com>
 
-Hi Vincent,
+Hi Tomi,
 
-On Mon, 2 Jun 2025 at 15:01, Vincent Mailhol <mailhol.vincent@wanadoo.fr> wrote:
-> On 02/06/2025 at 20:54, Geert Uytterhoeven wrote:
-> > There is no need to do a back-and-forth "priv = netdev_priv(ndev)" and
-> > "priv->ndev" where the "ndev" parameter is available.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> Are these still useful anyhow? You can get all the bittiming values through the
-> netlink interface.
+Thank you for the patch.
 
-My first thought was "They are useful, when you are stuck with an
-old initrd that only has an old ifconfig", but then I realized you
-need a fairly recent iproute2 package anyway.
+On Fri, May 30, 2025 at 04:50:34PM +0300, Tomi Valkeinen wrote:
+> Move the function so that it can call rcsi2_get_active_lanes() in the
+> following patch.
 
-> Well, if you tell me these are still useful, then I trust you and OK to keep. If
-> not, consider removing.
+I would add "No functional change intended." or something similar.
 
-No, I will remove them.
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Gr{oetje,eeting}s,
-
-                        Geert
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> ---
+>  drivers/media/platform/renesas/rcar-csi2.c | 66 +++++++++++++++---------------
+>  1 file changed, 33 insertions(+), 33 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
+> index 698eb0e60f32..8aca35096408 100644
+> --- a/drivers/media/platform/renesas/rcar-csi2.c
+> +++ b/drivers/media/platform/renesas/rcar-csi2.c
+> @@ -951,39 +951,6 @@ static int rcsi2_set_phypll(struct rcar_csi2 *priv, unsigned int mbps)
+>  	return 0;
+>  }
+>  
+> -static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp,
+> -			   unsigned int lanes)
+> -{
+> -	struct media_pad *remote_pad;
+> -	struct v4l2_subdev *source;
+> -	s64 freq;
+> -	u64 mbps;
+> -
+> -	if (!priv->remote)
+> -		return -ENODEV;
+> -
+> -	source = priv->remote;
+> -	remote_pad = &source->entity.pads[priv->remote_pad];
+> -
+> -	freq = v4l2_get_link_freq(remote_pad, bpp, 2 * lanes);
+> -	if (freq < 0) {
+> -		int ret = (int)freq;
+> -
+> -		dev_err(priv->dev, "failed to get link freq for %s: %d\n",
+> -			source->name, ret);
+> -
+> -		return ret;
+> -	}
+> -
+> -	mbps = div_u64(freq * 2, MEGA);
+> -
+> -	/* Adjust for C-PHY, divide by 2.8. */
+> -	if (priv->cphy)
+> -		mbps = div_u64(mbps * 5, 14);
+> -
+> -	return mbps;
+> -}
+> -
+>  static int rcsi2_get_active_lanes(struct rcar_csi2 *priv,
+>  				  unsigned int *lanes)
+>  {
+> @@ -1031,6 +998,39 @@ static int rcsi2_get_active_lanes(struct rcar_csi2 *priv,
+>  	return 0;
+>  }
+>  
+> +static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp,
+> +			   unsigned int lanes)
+> +{
+> +	struct media_pad *remote_pad;
+> +	struct v4l2_subdev *source;
+> +	s64 freq;
+> +	u64 mbps;
+> +
+> +	if (!priv->remote)
+> +		return -ENODEV;
+> +
+> +	source = priv->remote;
+> +	remote_pad = &source->entity.pads[priv->remote_pad];
+> +
+> +	freq = v4l2_get_link_freq(remote_pad, bpp, 2 * lanes);
+> +	if (freq < 0) {
+> +		int ret = (int)freq;
+> +
+> +		dev_err(priv->dev, "failed to get link freq for %s: %d\n",
+> +			source->name, ret);
+> +
+> +		return ret;
+> +	}
+> +
+> +	mbps = div_u64(freq * 2, MEGA);
+> +
+> +	/* Adjust for C-PHY, divide by 2.8. */
+> +	if (priv->cphy)
+> +		mbps = div_u64(mbps * 5, 14);
+> +
+> +	return mbps;
+> +}
+> +
+>  static int rcsi2_start_receiver_gen3(struct rcar_csi2 *priv,
+>  				     struct v4l2_subdev_state *state)
+>  {
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Regards,
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Laurent Pinchart
 
