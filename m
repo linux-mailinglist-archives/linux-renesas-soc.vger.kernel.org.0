@@ -1,144 +1,85 @@
-Return-Path: <linux-renesas-soc+bounces-17767-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17768-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83C6FACA9FA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 09:38:14 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6462EACAA28
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 09:55:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 647413AE62C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 07:37:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 932C51896E9D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jun 2025 07:55:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 189951AC891;
-	Mon,  2 Jun 2025 07:38:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DE2B1BE86E;
+	Mon,  2 Jun 2025 07:55:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pPNnLfuq"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C43BC2C324C;
-	Mon,  2 Jun 2025 07:38:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F6F22C3255;
+	Mon,  2 Jun 2025 07:55:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748849889; cv=none; b=UHHlr+rIeEtAWUXQKpm+0E8MYtin3m3fhazfOM/vrUM/VBStC33vi2RDNBcmyFfYMRFs8uSHf8OReLcEXTS5DihyfVCXvAzjhyaGsyBuCGwUmPlY8wExGoSj+5xosnLQXekHfSF5GeaH7Z4zQQVlAldUAhMEOsS83DhXwj4J8bc=
+	t=1748850940; cv=none; b=sCd1D9neU2DbEBr4ovyGpB1Osd/cDwDYg7torfvYkLp+r1FRzbuG2YO7umG6+yy+jjwlUR8//njXJ6aED3pbariqPfPGoHn2wGRiOonpHI/7n35soyMNyre+PLzumClAKw0QkmAbwUMIfu9+XROzW7BhHDu+S0R3d0j/HV8Si0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748849889; c=relaxed/simple;
-	bh=z/azy+31HbVsK3NrQuQsrL3BzDrnWedg01lhHJXkgHg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e/K23R84aibVbRFYq4wxkEbJsmhZFF9TnqcQKvSFzz1U/Ssx2RUeoLGZwpmeYeYLrr1QxxL5tqb9u2+w1SMFbGMxspcON48Rx1BAr4AotJ1Hl/dm+Bnhj34bdCIrryrdk2ntGCQtP/a3h8laFAsHwYjrWKv0p4qGZt5X3SU91lo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-4dfa2aeec86so1749303137.1;
-        Mon, 02 Jun 2025 00:38:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748849885; x=1749454685;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KvF+qF++Ju4HjkLFrv9Tlh68BJ2ssPJrJXD0AyUXDac=;
-        b=IsffXbb6pwy10LLWqQPy1CEkPffz4qzZkBFFhj3fKl5AATj5nu03PLtniwBgg541sF
-         PUFzzw29U8NVF+JEawCFyxbTAW10IeF9sQn6/82ZR91DaarJNXPOc5+LDhmkNcE0d/fl
-         5vANJ/cQh5KKWUljmQ61l7BGi9NHzvizf4C9Ju8vPB0P3fyqUmMuOOTQQgL9UcaU2ZO/
-         9o0yYkQq4ljYsPHeGysQNSwx5MNSxA71Z9NKhgm2eT9eWPyi/2Qf+0hHLRFHGpR+NPx3
-         OeLmgpwaj+NfV09ln7aYFZa82RBnsvO1Y4zwfj1e9qLAHMtUx7FDgmA3QoENSusMs9GM
-         hxzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUJ0wlB+LPpfm8Spo3YP5btDzrBapzQC22cj51+Z8pNh50O5Zx2BXj2sCAaDXHRaOnLhDkcj5NkKccRGwPU+/O8b/s=@vger.kernel.org, AJvYcCVMAxuK1nMNfpDo6cu254o+V/FEs1NzsBV/L05/y4KSaxW8NPByhdVcjTPlWCaiuc0qNMCr8F9y/D7C0g==@vger.kernel.org, AJvYcCWQots3uZjZhILCgzAbNaPfdvbiQH91fOMmRD8BuPzquRiEVuWF+dSiTZqUNgobX1B6MW6Ta27IZY2S@vger.kernel.org, AJvYcCWuKuxLR9+mMRwR+d6fvU+VnaxpO9ANDAhUyd1x95KYoNrZ+MYjr7wmXcadWL2mlH2o8eYElnhuEj9ksLwc@vger.kernel.org
-X-Gm-Message-State: AOJu0YystoVgl7DWhJ7DvPCEJjencSgABbgJU56B8+CZQHUJQOyIftkI
-	DmAO6+qpwc4qN/NYsDOGBoq7S6KNTRWEwkSBt6og7s6QOO+IQqJbgxDHKMCRcPb7
-X-Gm-Gg: ASbGncsylB6dv75aaKIhbnVLwL4jkxbin8PwLQmmg15AG/k+IlgVeVUMfc+c8i6cXD9
-	xPsQVqY1rKjOmB56Vz+KuVICb0fGopGeDhsaAOseT/reTLQr9KUGG6Phh9guYaOs8N55mkxltD7
-	XCYqnWQfXW19Q7qIhg7besQL2JMaxsVE1scdt/1XCHFcriBXxRREGjtiDMrcTFjbFNKx9lQOrnl
-	pQZYp381gWfcKEUJYUMm4clM/23Sus1Lfzo7Q5W+Er/nccXA3vCHww3P8Er6kVARE3Lj8rwukEJ
-	PKTvqVCu/3ZAj4uEJbmFbgjrsUJi5t5VWGG5yQDm311HnvhyGybthhn1Q6HB08CENGlqmaHf2c+
-	mebFC2Nw5zT4THw==
-X-Google-Smtp-Source: AGHT+IGoQh49bLD7mAb41upUfLsuK/uirwnIDPQ1+qdF0F3eZUINEucXabOrg90uyU8y94EZ/vRIGw==
-X-Received: by 2002:a05:6102:41ab:b0:4e6:1a8c:13dd with SMTP id ada2fe7eead31-4e701bcd515mr3722156137.7.1748849884947;
-        Mon, 02 Jun 2025 00:38:04 -0700 (PDT)
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com. [209.85.222.42])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4e6444644aesm6956659137.7.2025.06.02.00.38.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Jun 2025 00:38:04 -0700 (PDT)
-Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-86fbb48fc7fso715382241.2;
-        Mon, 02 Jun 2025 00:38:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUF7ruovotgD7iXeZtg8NYtA9SXeLphVWjCpXakW73obNZUSe4fF3uFvoc8/FKkcgNsb5xzet+ar11M@vger.kernel.org, AJvYcCUSC9Q2aCCISgm7/rSznQ9uBIw0jzSM8cbLPqqTOgAEyiYXZ/sKKKrFDmyfi9/CVlB7lB4xIOOYBsf07A==@vger.kernel.org, AJvYcCXKwhI3iyzg/7UGmAAel3isENSMGlCob7BUWwFCPlnXPptq2UDKXuQZa5bHAP06NjWF4dJWt4imMboWkzAq@vger.kernel.org, AJvYcCXSQl16M1gZpSfLTRGMvJEFw12MYNgOQb7O28fSBoEzKYZ+jndPvEUTmI6DW8jrjrKoZY+ZuKb0i/7UjYO48lWxOTM=@vger.kernel.org
-X-Received: by 2002:a05:6102:cd4:b0:4e5:59ce:4717 with SMTP id
- ada2fe7eead31-4e701bd47dfmr4263071137.9.1748849884043; Mon, 02 Jun 2025
- 00:38:04 -0700 (PDT)
+	s=arc-20240116; t=1748850940; c=relaxed/simple;
+	bh=vwKZcs1C6yEncVvS5kE7dcFpNl1BI7JiVnonDdJR4bE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=clRYw+/N+dlfYg3Hi3+VwF4yN4bCtBHLbBEaIphWoeXyXCEDKFkOWmR4tqiF+gHWapBHam8o6S+J+hSsD611t6Jy3O4/71VC0pcQMCQVN3HPcNKspNevuxrRXih2upn+lar4E4JTUIMhieJQylAPJ4dCYDAFHQMtyEnidczMdew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pPNnLfuq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C856C4CEED;
+	Mon,  2 Jun 2025 07:55:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748850939;
+	bh=vwKZcs1C6yEncVvS5kE7dcFpNl1BI7JiVnonDdJR4bE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pPNnLfuq2rQGrFzdg3ii4IMMrY2DePvgtINGiBjyjeBmc1lIwVZAhnWVYzFjzdoLQ
+	 JCEXvjwaoHDxOICRt8He2Qd4a7KEtUYlBCUNVFvnVI/H7P23+nqB6fMVTCxo9NljoL
+	 h/7ygDq4FRwR4tMBeIXW++adPulEbxRoKm/Er7zLMcfmGSEdCZgscXEO8p1aUk6oW7
+	 zQQLY+lHiJmDRjTxdx1tMtDOhwzSNOjxgwjRdbC0d4k6/ZvyRw+uyU+TvfNFYi6y7L
+	 Q7ozZasjExml+/0qBp8DXsqB9M9SCjRhyzwy35Nf2wXeF9Dw1f5nQ9oR0cDcODRgdv
+	 QvXBb8KeawSqQ==
+Date: Mon, 2 Jun 2025 09:55:37 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Chiang Brian <chiang.brian@inventec.com>
+Cc: jdelvare@suse.com, linux@roeck-us.net, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, geert+renesas@glider.be, 
+	grant.peltier.jg@renesas.com, linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 2/2] hwmon: (pmbus/isl68137) Add support for RAA229621
+Message-ID: <20250602-elated-aspiring-squid-d27ee4@kuoka>
+References: <20250602050415.848112-1-chiang.brian@inventec.com>
+ <20250602050415.848112-3-chiang.brian@inventec.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250519215734.577053-1-thierry.bultel.yh@bp.renesas.com>
- <20250519215734.577053-2-thierry.bultel.yh@bp.renesas.com>
- <CAMuHMdWHUuLiwG+-znzGxqWzYHo3Um7e+yrTJeb-Ei=SQ8TjGg@mail.gmail.com> <CA+V-a8vDMon-cHLYr3PknWvgT5EJ_4d9tv-J+iapst1iiPo0Ng@mail.gmail.com>
-In-Reply-To: <CA+V-a8vDMon-cHLYr3PknWvgT5EJ_4d9tv-J+iapst1iiPo0Ng@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 2 Jun 2025 09:37:50 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVebPgJP5wp9J-kBJERBFdvrSObXoSbGJ4tRFGU_4UrXQ@mail.gmail.com>
-X-Gm-Features: AX0GCFsij9B8ceLPh_XqmZWRKnVD9OsdXPDNAmXIT94jCXa0CeV26CPPbpztW_Q
-Message-ID: <CAMuHMdVebPgJP5wp9J-kBJERBFdvrSObXoSbGJ4tRFGU_4UrXQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: pinctrl: add compatible for Renesas RZ/T2H
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>, thierry.bultel@linatsea.fr, 
-	linux-renesas-soc@vger.kernel.org, paul.barker.ct@bp.renesas.com, 
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250602050415.848112-3-chiang.brian@inventec.com>
 
-Hi Prabhakar,
+On Mon, Jun 02, 2025 at 01:04:15PM GMT, Chiang Brian wrote:
+> The RAA229621 is a digital dual output multiphase
+> (X+Y <= 8) PWM controller designed to be compliant
+> with AMD SVI3 specifications, targeting
+> VDDCR_CPU and VDDCR_SOC rails.
+> Add support for it to the isl68137 driver.
 
-On Mon, 2 Jun 2025 at 09:12, Lad, Prabhakar <prabhakar.csengg@gmail.com> wr=
-ote:
-> On Mon, May 26, 2025 at 6:03=E2=80=AFPM Geert Uytterhoeven <geert@linux-m=
-68k.org> wrote:
-> > On Mon, 19 May 2025 at 23:57, Thierry Bultel
-> > <thierry.bultel.yh@bp.renesas.com> wrote:
-> > > Document RZ/T2H (a.k.a r9a09g077) pinctrl
-> > >
-> > > Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
-> >
-> > > --- a/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml
-> > > +++ b/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml
-> > > @@ -194,3 +209,13 @@ examples:
-> > >                      power-source =3D <3300>;
-> > >              };
-> > >      };
-> > > +
-> > > +  - |
-> > > +    pinctrl: pinctrl@812c0000 {
-> >
-> > The unit address does not match the first reg property.
-> >
-> > > +            compatible =3D "renesas,pfc-r9a09g077";
-> > > +            reg =3D <0x802c0000 0x2000>,
-> > > +                  <0x812c0000 0x2000>;
-> > > +            gpio-controller;
-> > > +            #gpio-cells =3D <2>;
-> > > +            gpio-ranges =3D <&pinctrl 0 0 287>;
-> >
-> > GPIOs without interrupts?
-> >
-> I think the intention here was to go without interrupt support for the
-> initial series and when later support for ICU is added we add this
-> property. Hope thats OK?
+Please wrap commit message according to Linux coding style / submission
+process (neither too early nor over the limit):
+https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
 
-Yes, that is fine.
+> 
+> this patch depends on patch:
+> dt-bindings: hwmon: (pmbus/isl68137) Add RAA229621 support
 
-Gr{oetje,eeting}s,
+No, it does not, please drop this sentence.
 
-                        Geert
+Best regards,
+Krzysztof
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
