@@ -1,85 +1,85 @@
-Return-Path: <linux-renesas-soc+bounces-17834-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17835-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B896BACDAAD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Jun 2025 11:14:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 552AEACDAF2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Jun 2025 11:24:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 482A1167634
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Jun 2025 09:14:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E9C3F3A30CD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Jun 2025 09:24:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C5BD28C5DF;
-	Wed,  4 Jun 2025 09:14:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A402328C849;
+	Wed,  4 Jun 2025 09:24:47 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A2B14C5B0;
-	Wed,  4 Jun 2025 09:14:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E53C628A709;
+	Wed,  4 Jun 2025 09:24:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749028453; cv=none; b=AzFnmpyzTEvAYmYgDZUX8Zw+f9s3R2FyiFrXEdA1aEJeCc5cG8mrmuSAz2jlaWIJOmTIVmP1g7i1f45NdVQHQnnp2aaPnNlfJZ9TQKkmnwWlK6L1AHilO+9jDbv0+8hSdVI4Q0FC155VnuOxh/7lUIC4sPo/pFwog4iF8VJChHU=
+	t=1749029087; cv=none; b=Klz8s5CJfSHlTu3INNKsNUdfST2KGMWISgcLD68OMbSDKVODuDIpBVV46PLlXlwPjjDv+DcK6+xS0ZVagunzibNtrIaW8NDJAjtnx9bTa8tN1/z1mYQVZIjmfRqUuPyMxsQ+/SphKzZE09Hfn/DZgVQ9ak01t3lUveROAu0dKp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749028453; c=relaxed/simple;
-	bh=ITTkVy9xtDGrKbNEoXW3eCCS9IfQ6H9SQSDSoAgSLjQ=;
+	s=arc-20240116; t=1749029087; c=relaxed/simple;
+	bh=UMOTjEqzvMvXx72TG2/egrmI/Vb+dCYfjfnRgDycRW8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=M0ivdMVNaYQuyG1rLYVIlnEbknhv7F5yEmxw7FUal2IMzZjNFnvUbx9NAcewO0hncm9fkBlluoocRBZaZjs+4V5I9e3j1+jyO4wDVetceKf3ZoGKe7Ucoq+WyC6lBj27fz8uG7/4c8iWPgOBVXD7H/smVe0NYt9LSnPcp5O6jP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.44
+	 To:Cc:Content-Type; b=i8ZMcNK10V0Sj6ZCFeC2ns4o3cmQzpEyZTityIJnnzYayPt9GgsqZU5Wk61Sy0K/TlJBCFo9SZU4r+n7emyUATgri5ncGxSWheHiYNXzRo3K2fgWXtegcW3UMVlqZ5aR7ew3INUNwtQ7vEVbRie/YkglQHuqDcapBrSH/ytAw/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-4e7374f2dc1so482786137.1;
-        Wed, 04 Jun 2025 02:14:10 -0700 (PDT)
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6fac1c60e19so8207906d6.1;
+        Wed, 04 Jun 2025 02:24:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749028448; x=1749633248;
+        d=1e100.net; s=20230601; t=1749029082; x=1749633882;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SRV0Q86dcfMGK7s8qaqpOjDtaB6acLpurJwiHDkiJCQ=;
-        b=shWsnGCtpfhbPBc4g6RPCurzCuVFBy4VODEmdJ4m2FL8cIDEnpUOPcrCsIV/T3uu/2
-         fFH8p/7mEdDn3/0hzxnuA0sQEfQKkGOoNdg2VTLtE+ufZisWTsBfdV9ZKqM55lEs5d7a
-         zmHbCq0rZ2PYRDbOGPbF+8hMYsq4DM7MltM3uLNqBuvFufUprZMpawYXIa0hKVKOz0rv
-         NakquoPqIp5LuNJwbZ3sg1TmsiS6PqUkBVkTm6gMbias77EMvvADiJFJPnC21nNt88N4
-         wpgHONj71KfA1PkFY6otfOnI8Y1YaLmutqUKuLZ0wVlre0SRE99CIgPpD8hFTgUdPn3M
-         o86Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUo2Bwy6jclCbwvbnqMIeale/N2ZmXJWWLr3Z0lFlzmKmQrU7Jp5aHF9/bxECXVsDp51/xPXv/D9lRlLLvM@vger.kernel.org, AJvYcCWBFQtwA1naeAjeTLDBjWFObxkUrbXWEphHIHNXXZSq7y0IJ2ldLlRwGS2FrQkM55op/7LMFlpgWk3v@vger.kernel.org, AJvYcCX3IJlqf7fbHOzyIya0X0Cc3gKROGMGeYwusIuOtG9ZBuX2aDO+prSBR9AsgQVRthWNQz/l++vxdJ2q@vger.kernel.org, AJvYcCXAdP9PQd45F/AUm43t7cCM5uk5SuvZKm1Ww82kRGYwgDiL3v3iFaWAQfUceYbKsphTEadiBuJRqLJCy+ZI0J54G2o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnArPiGYKZCYl1u9BljfI+tYqunCz5oVWlfr0ssIex1vZP0M5+
-	omgXhdwHeksonRbcrCnP67AQO6lDBwHzfxUHGJd7apNlRy+J8fQgudUeWg4LAqY0
-X-Gm-Gg: ASbGncv+CCIIfMesD0C7xPycIca1drSEBWfMxHqZl0990pb5PKlMFlvLyb48uM/Tugg
-	iZ4rlh3K4zDWhwwwcy/n9ML8sSJit/xbqLNrC2kWmIzu0DgCUZbhxmnVJ4ad8+doRIqpV7RslbW
-	EhR83aHzr1EqB30JyaDgdmIFBelNMR3p8Qc7pvC0BbO/L14DMFk5KK8mlGRJRaRDBVCJaucQ+6f
-	EYi9tNtBsINJa+QCEjCK1GOBg4G48UHHCUOl1S4lEuQQPDi6jZjq8/uwSMaNreFZjZVPvItZLX8
-	zGUuTH3WU6WZXrHh9k5NBXRpKWGj2lp74aiXxtKUNiF2Zk6zSrZHc0AmrXwOI9GR3JkZrBBjMa8
-	7wE4xakbZ9v1AMhIImka+rjkqk6jT
-X-Google-Smtp-Source: AGHT+IECDKK78AUAupFMjnt0SWq8kLYaNTC5uMXie+1C94b0Hed3oFQmTJbJaRACwSaBIl/52ZLl0w==
-X-Received: by 2002:a05:6102:2acf:b0:4e5:9323:d2b9 with SMTP id ada2fe7eead31-4e746ce3628mr1060050137.2.1749028447998;
-        Wed, 04 Jun 2025 02:14:07 -0700 (PDT)
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com. [209.85.221.175])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-87e2a2a2eb2sm8793677241.11.2025.06.04.02.14.07
+        bh=nsYVl2hdQ/guAvtcE43mR4izrkYEpK8YkARVgLSUAJs=;
+        b=DEIkI+24sS0K227ot5XGHU0kdo8CyZIOFsKsSIUb0VHUL3VpCfzAS2xwJzPWBqECr8
+         nxZOqfWVo3f8zq6o/9oJJJZW5j+GWE9DTqbHQ550DB+O1HvFT+9qayRO2/rsU9qUEISs
+         BxlVRWUaAF1BTnSqCWVS/p/t7+7p7LBRsfGZoBj0E5rBO1fRKRpjAGMsXIau++wR/LNb
+         OtFof2peTs8kFaPycN5ryskPT/FQvKhpxKPN5CMBZIE8sOW5kPnes89tGrEjNQXwOMhi
+         Rw3yj96FDgtCATOe86zovQ6doi6U9EhFLioQfcn7mg4CUPsH3dQKaUbZHUVVT7ccMIBP
+         +bWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV6wmeojyo4tn3eDsPuU+pir4ISUzFslxcIhNoXtJfQ+kZ2PssydgDUHz3sS0tnGl2bGXs8GdEPJGWW@vger.kernel.org, AJvYcCVC8x8RtY6UGd4JWw81WlLQCdHcTLP6saJJglqfsCxGvM60pjkaS1cieKgVy7aigJxky4hVkcM1f0Wy@vger.kernel.org, AJvYcCVmYC+LP0/m8xeIyGRL9baoR6a04fSt/oDzWiHDH4ezfegln44ZlxVbe1mUqFJb++X0NsbXrN+2WYL37UQ/CCf4UcA=@vger.kernel.org, AJvYcCX+e+PQFvexGvBatzY87KzJQX4dVIya0G56kcGYzwH236B+rwQL5j3Kp3iMR2nhapc/kB1pQpHdlxTdVukw@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzjyhn4c4dnmIUonTiSiqBM67skCcb1N6XtOqEJDAyArbVubTjN
+	LvZmDk3UVsvKAJWFpC/AfBscN7wa7fsIpMCzc6M+T8Xy34t6Fs7W/Y53OQLNuT42
+X-Gm-Gg: ASbGncv1yY72zDEEay8AH2cNH8tLOFSUizKoAh0uIHfpjx2fWN1h0cFkrWg9bF82YTz
+	UQID1R4dUqAYci6ftwpH1fWqBFSeME7aCzueSyjHroKnZQt9HLCuq7PtmyXjgjhRAET6cWIm9ic
+	4c9mCUxIV+FUnw6BoUFt6OVuMi6IdYvqjK4GwMKyyA7NqeJphAxUmjKEduDbuqe8zman9ArXnkg
+	lLbEjZtrvERf4WAwePMOqZc8vDLrtO+DYPbyAUeu3Fo1j0f0jXuN7Vfl8EybR8WSvzjgRraljyw
+	sGkncjQ0HJ+a6WKBcYdfJjgDltY1z9G0BPqj2k+zhYUyGq/sGZUE05RgX5cduPWECsIwsUhAosG
+	HeptixP62y1iLHNLQSxASVkZ0
+X-Google-Smtp-Source: AGHT+IGT3OP0+rx5WJQBf3W0DGO+OAn7Enf3/ZUlZVtRwieI6nS9s+tdM1/nvwscq+eIsAnMSw0s8g==
+X-Received: by 2002:a05:6214:e4b:b0:6fa:ae40:3023 with SMTP id 6a1803df08f44-6faf6a6c333mr33366836d6.7.1749029082559;
+        Wed, 04 Jun 2025 02:24:42 -0700 (PDT)
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com. [209.85.219.43])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6fadf67f797sm61657096d6.17.2025.06.04.02.24.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Jun 2025 02:14:07 -0700 (PDT)
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-530c7ef7226so191330e0c.3;
-        Wed, 04 Jun 2025 02:14:07 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWuUJAHH16FmZ2q0oe2AYoSbLW9gkQaGMYY2mOpnbmODzzts0/UZvSySi4yR/oVcjVof7S5B6VTu1XGyXci@vger.kernel.org, AJvYcCWwJ9ZaFsduSFjSU1UNcV8jspc9fBRzhiKj2jD7Ll5dbG2woZcycYBjjF0XmRLcQbv0RVvc3/PE4IYR@vger.kernel.org, AJvYcCWwvI9+WpPY38GVFbikKF/SQSfHCVfCZo72Ag8taIwuCSkkmzW5GxGWOhfQ+z5gaw4YCzPRqop8LSan@vger.kernel.org, AJvYcCXEpY3nj25Hi8NKrDcegQ+XKUsijWRoNLYKl+AL7gYSAEi4113A9FigRh1jpHsTeXJmY4vbW/Xb+3sqijALcwG3pmI=@vger.kernel.org
-X-Received: by 2002:a05:6102:4192:b0:4e6:d784:3f7 with SMTP id
- ada2fe7eead31-4e746de3672mr1008327137.15.1749028447356; Wed, 04 Jun 2025
- 02:14:07 -0700 (PDT)
+        Wed, 04 Jun 2025 02:24:42 -0700 (PDT)
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6f8b2682d61so8107596d6.0;
+        Wed, 04 Jun 2025 02:24:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVrP1okLPOIHDZafZHTBWztRzOwpyESJWNmHyteO9VqxXbIWF0FqXiWEQjmrkthoGjRw1KXohIPhnhG@vger.kernel.org, AJvYcCWU0spBZBplT4jDoV8fnY8kj4SglwGKv+mAJ1lq0hiyqGcwEtlleBltKL5KwWdaahK7ptyJ5hKSM5SxOmtr@vger.kernel.org, AJvYcCWquaDkLOLRlyLpxtm/y5ka8O187DMzqDKv+HEEGNLFvs6jL8+JGZ9PD4nc6CLrn99kdem59B3d9Lo8@vger.kernel.org, AJvYcCXOfkwpO3t4Cd5pxrX5BsEo0essd27qC5g36sOgFLMeGsISe9Wn6q+4OP3cYdGXhG1tGSWqF54VGGJkQqpYAm/bti8=@vger.kernel.org
+X-Received: by 2002:a05:6102:b08:b0:4df:9aed:3114 with SMTP id
+ ada2fe7eead31-4e73612362amr4782752137.8.1749029071180; Wed, 04 Jun 2025
+ 02:24:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250530225504.55042-1-marek.vasut+renesas@mailbox.org> <20250530225504.55042-2-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20250530225504.55042-2-marek.vasut+renesas@mailbox.org>
+References: <20250530225504.55042-1-marek.vasut+renesas@mailbox.org> <20250530225504.55042-3-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20250530225504.55042-3-marek.vasut+renesas@mailbox.org>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 4 Jun 2025 11:13:54 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVMnjryv6nfP=7DTmsCtucuw7RAuYxW_zTRhCnwFxR34A@mail.gmail.com>
-X-Gm-Features: AX0GCFv3oImgu85Rwzjgo0touyo51sp9hBFNSI5sTOBJmChOTLWl5fT7ekg_o3E
-Message-ID: <CAMuHMdVMnjryv6nfP=7DTmsCtucuw7RAuYxW_zTRhCnwFxR34A@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] arm64: dts: renesas: r8a779g0: Describe root port
- on R-Car V4H
+Date: Wed, 4 Jun 2025 11:24:17 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUVYzaUyP=OUOST8SK66_BpubOh0WCXcaVWBy=RxBrquA@mail.gmail.com>
+X-Gm-Features: AX0GCFtylgjPOc_MFC3oHf3t5Dztq8GFmxVQy74EOxxbbt3KzH-GIiIRW1TtAWg
+Message-ID: <CAMuHMdUVYzaUyP=OUOST8SK66_BpubOh0WCXcaVWBy=RxBrquA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] arm64: dts: renesas: r8a779g3: Describe split PCIe
+ clock on V4H Sparrow Hawk
 To: Marek Vasut <marek.vasut+renesas@mailbox.org>
 Cc: linux-arm-kernel@lists.infradead.org, Bartosz Golaszewski <brgl@bgdev.pl>, 
 	Bjorn Helgaas <bhelgaas@google.com>, Conor Dooley <conor+dt@kernel.org>, 
@@ -95,19 +95,40 @@ Hi Marek,
 
 On Sat, 31 May 2025 at 00:55, Marek Vasut
 <marek.vasut+renesas@mailbox.org> wrote:
-> Add node which describes the root port into PCIe controller DT node.
-> This can be used together with pwrctrl driver to control clock and
-> power supply to a PCIe slot. For example usage, refer to V4H Sparrow
-> Hawk board.
+> The V4H Sparrow Hawk board supplies PCIe controller input clock and PCIe
+> bus clock from separate outputs of Renesas 9FGV0441 clock generator chip.
+> Describe this split bus configuration in the board DT. The topology looks
+> as follows:
+>
+>  ____________                    _____________
+> | R-Car PCIe |                  | PCIe device |
+> |            |                  |             |
+> |    PCIe RX<|==================|>PCIe TX     |
+> |    PCIe TX<|==================|>PCIe RX     |
+> |            |                  |             |
+> |   PCIe CLK<|======..  ..======|>PCIe CLK    |
+> '------------'      ||  ||      '-------------'
+>                     ||  ||
+>  ____________       ||  ||
+> |  9FGV0441  |      ||  ||
+> |            |      ||  ||
+> |   CLK DIF0<|======''  ||
+> |   CLK DIF1<|==========''
+> |   CLK DIF2<|
+> |   CLK DIF3<|
+> '------------'
 >
 > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
 Thanks for your patch!
 
-LGTM, so
+> V2: Use pciec0_rp/pciec1_rp phandles to refer to root port moved to core r8a779g0.dtsi
+
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-I will wait a bit for more comments (if any) before applying.
+I understand this has a hard dependency on [PATCH v2 1/3] (and on
+enabling CONFIG_PCI_PWRCTRL_SLOT), so I cannot apply this before that
+patch is upstream?
 
 Gr{oetje,eeting}s,
 
