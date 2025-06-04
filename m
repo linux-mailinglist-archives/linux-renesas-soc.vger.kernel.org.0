@@ -1,78 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-17853-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17854-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD1BDACE39E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Jun 2025 19:28:33 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31E83ACE39A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Jun 2025 19:27:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 18170189CAE7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Jun 2025 17:27:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EA6A67A2927
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Jun 2025 17:26:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C2AF1F4608;
-	Wed,  4 Jun 2025 17:26:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCE4C1F5851;
+	Wed,  4 Jun 2025 17:27:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uZzz5DLP"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Qhc2Xxnv"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48AFE1F1534
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Jun 2025 17:26:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B3791ACEDA
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Jun 2025 17:27:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749058013; cv=none; b=a4kr/z4vdCCyEpTHF916zeqM0vSWxQ5bTpaQasaguGvNEJPODaeHXM7biJDxb9YkKqIccG/5e7p4leJEKrSeD6mwTTv+BVmSVN4B+DhXnhrwF082X2KYiwfjYfEfO5C3hXABm7MwhQ6c+lHh85I7oe3CYPw2CM2IBvxff4OpQdY=
+	t=1749058044; cv=none; b=TSXHIVMLkwhU8p7OF3yPMP7kPAK2jdQ1CwyPOxluvpHsUkWW69gN2LLfbI81d3Jw9o3aCNSzxTpTiAgWR2E0mWJq3SfvVzcvlu9/X9dnRd8/7zdmY9TJQ15z5+a93912hq9e/j625myTm8U5fUH/NSRQp6UU+xrI5ynKxxIKmRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749058013; c=relaxed/simple;
-	bh=zfBX5Hd5AHFJx+b+JeKpO3p+lc17VsrFhnNhvgeTwMI=;
+	s=arc-20240116; t=1749058044; c=relaxed/simple;
+	bh=WkrEjRTp7ONtQhwntim4NbZfLp3T6Zg6YR+mnF+dMEA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r5KaVQ1j1Aj5jNW76witqhPvOZK/rSYbkEwsDecPk9DJl9Ki53+1ksOST5LM80XVxrJju7qUbvOUD4exgq7aO8aSRf7mrvBTUJuy/I+wtRWU6jee4aNqq+4Y6dM1+KxWx6biN0pWqJ7imRB5N2E3r0UZ5Kb6jj6sssAdP+QbfCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uZzz5DLP; arc=none smtp.client-ip=209.85.215.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=KUGBJ+BaucPEuwkWnhRPLb8ulil2pltpBk6D86Du6Cr5SpTFRetUxBRcCyILMgewdrKgT6kVZafWEIdFckanwg9vEYQnBb0Cy/E8j+P4cg+q2fRvpxMrW8Dt949JZ++mWo+yfwhcI/75fUea9Z3ZXqyXPK9DEUgcocGpGEigNvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Qhc2Xxnv; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b26f5f47ba1so27878a12.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Jun 2025 10:26:50 -0700 (PDT)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-22c336fcdaaso652195ad.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Jun 2025 10:27:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749058010; x=1749662810; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1749058041; x=1749662841; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=tjOqoffUv6nOmVjkm22wWdvmrQyYX67LoFIA7eUIS4c=;
-        b=uZzz5DLPyX4RtUQ3Kpa8TeH20F3wJmRz6h76ajTJW4JeebutC9ThATN1VT30JpcdW3
-         mWHjgth/0oUKeVrYkcf+leNOjci0D/A30sa81Efb6QiNTy3Kk5YZ++cOIZl6XQ1h++MN
-         TIngVqJELxypCZ3LO2zlojScz21FaaxCB4QI6iosD01qBlNHGKToGY6t0PQXwvFyvcOx
-         PA0GynNXlNQKMmSxgkYZ15Zgk68zEwO1Rvkm70VVegKLASPdMdzr4MlOQ5qCybhW0UE2
-         w4L2JteYZTWnrmyhF4NyXIDq0u3rEIadKV6NTkWgcndDnY/gZxkbC4+T9dx8CZGbM8of
-         rkEA==
+        bh=q7B9otxjjw86LIN97ls2HG35KDJxQJSkzx4ZMv9DYuA=;
+        b=Qhc2XxnvYhc2xbBFlt4/ZtiyFaSJj9HROLP8Lk3fk9k1i31htYcyGGfpKu4jjTRyzc
+         Lu9hvXd+oqAA+psnRWZP5335+oeAG4iO33bAkq7Q/ZRZSblkLPYdNabLeAKAt54G8rYj
+         e9k2eeks3aBOOUurbZ8FRhcPRUHLi3PWvg0036RMbXrUuU/3kErWNg6BvTgzLdUG/Ogn
+         Yjr2R6i7OkUribCXksS4PqPL5TX20SrWt5qkn0pr5Fgw/+2KPGdl5vOtpfP6PJosiV5r
+         8M7f7I72PEUjiMzA5kwogebwlnegqkkPOW8GbHFedk064XZeu6auR+iaSusfm9mOX5bL
+         chMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749058010; x=1749662810;
+        d=1e100.net; s=20230601; t=1749058041; x=1749662841;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tjOqoffUv6nOmVjkm22wWdvmrQyYX67LoFIA7eUIS4c=;
-        b=Wng59gYf3eglZMl4ayqkeoQYRORlc+Ps+3H6RFBoDCizFpOSlNrKr3t7lSwjb7FWGn
-         o64RPoh9gmiDPilZeRp3RgMAcDbmWQbgelboZGDd0rT5vgDtZ1RNBKZqnlf+UdKSyT7b
-         t1CDyMhHHTZdvd+lithNi2mxe1pudmavBUi9SrmBfBye5xcXg3IAoVXSFV8ZlgkAlj5e
-         UILbxp+aL9mGGUu7yF3SzCtumhcM+sYb2/X1qlkYaXdYkZB5XHS4OssKY0mENdtHUe1s
-         DT650AewYGAxYmau1/BtTJjheGp76SV7VcPAiLzayqgcRtMpZD1kExWSk0bgscKnfVZZ
-         seXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUuoObVWUmtLYF/X6DVFRWxtIVjoB5ZP/qHMyGjF8DMQ0H+zPSuZRT4RbxPw6F6blZCRNFJTs5QFnVjZJtbDAHTow==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6K4uorsKhnhqfT9f64A6pzuC9mCtjtJWS0T8hah0ppTg/wrSO
-	GsXKZO44zWyRBOQfd+oyMVRnh1Glr8uZ+S3WPJdEn1mY/aX3kiXNdzvl9rYTXuPYrQ==
-X-Gm-Gg: ASbGncvnQhWfkA68BiQSm+Ka2SUJ8VLjYSJXzymeU0c3mTQKeFu5moPejCA0dzzz5hv
-	FIG9BAK6Nwk8i1oIJ9yzKkSofKM1Fl+d/MRZS9NP242qW+l+kJtwhHiJinFC/kXyXtNpGkWE6gn
-	Ed04NiLdYYt4EOsnW5AxmQFbEozdhGRMXVxJES9ujD37YopmT2DCxkFERge00070KlNBOvnFSFM
-	TJV1haZKiMusEebxzjE2jkT8vORCLLHjZ3AXW6zPZ1Aa3rAvYjJ76y3ItVpeDVPOcPOcpwNVInd
-	VzjO1SRBt8ih6vmQ45Ln540ywOtujaJOH3O854XXQyzIYpbzq7uiGUpq4zQIvA==
-X-Google-Smtp-Source: AGHT+IE7pUgMHsiK6fiB03xw5h0r4hqVnNjoiuF0h4s03T9Q5QTp4kFOwhIfaUC9GczffqkQkUVkZA==
-X-Received: by 2002:a17:90b:4a41:b0:311:ea13:2e62 with SMTP id 98e67ed59e1d1-3130cd5dd59mr5987202a91.24.1749058010346;
-        Wed, 04 Jun 2025 10:26:50 -0700 (PDT)
+        bh=q7B9otxjjw86LIN97ls2HG35KDJxQJSkzx4ZMv9DYuA=;
+        b=jkcYLiMNKjv6PEqR/QUf7+2bJo72eiuvDrRbngLw3FvyGNh0naSa+fD5RXmiPLD3RJ
+         jPL9TREEC8zhhvlm7q1mowN1dAYt4y9qYu9ZfRR5wn1g5ATx+irMTPfo4OUv7ElR3ihH
+         bPDPobnLr5UjLjoRixEnorgTmPpTTvaaSOIRU0MDtWOqbMLU0Nyj1kSR5jKZRmFEysFe
+         sc+aozmKOLv5+eFDNZUCfQf4t50M9pofG7xtrC5UyqO6W8WANhXHUL84n8goUZaduEOb
+         pzm/yrb5Z/EpNVSh/4hqOzlxzSOBRua+ZvbdUNH77nN88rsoFwmkpwJwvzOon04+a2HB
+         z7qA==
+X-Forwarded-Encrypted: i=1; AJvYcCUvNA+EvYXNY1xrx95qGMJnW8vqhQYWzlte41iHCWMKfqrUTNky+OTFK22U1USwTVDgmXPXzhbnlwnp2yePQsliDQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzvaa7bY6B8NbhE+dGDqt9V0Yrt0TgXm65LexyQ484/kYjT3v4x
+	BqyJLZ3R19169vxZQO33eEm9Uk8dyNx9fJw1gnWe/FKmymErXfxVTq/uTvLjVwY5HA==
+X-Gm-Gg: ASbGncuZXmSbT+j7+9MBviItOB8OJGzOAAFOGlH96bLaqmZebRK+kZJj87IyI6U0nAb
+	x1BnsbnKSGB5e2PDFBR+mhXyXyZy75ax+M9UZd9qrOxjlRg0Ch3GhWt/z6M4JM1l5kZ9NY8NoNo
+	5LM9ACHZREWJbJF6nbKTxtDe3h8JY3PfLkHaelxkgM27aDxZAqK3RsbpUALsFw5e5OWLngcS/U7
+	iJmbHAGJ7oQv7guBDHA904TeDM91ffmlTVw6XTOCCajXUaXRRKDbd5P0FgoNUa2rmHnMtFGfwYt
+	b/YIW+nYuItE/1jabGjYyszlBUrY1eH5lcvYn0lDipFrotU5eTRV4BDknoE91Q==
+X-Google-Smtp-Source: AGHT+IH1DWvZbMUTKY0iYBnPsO3u5V0VrOXZgYbT6v4V4ZwUlpiIxHERxxyfrv3KJRUYnHRg6IZfnA==
+X-Received: by 2002:a17:902:dacb:b0:234:d10d:9f9f with SMTP id d9443c01a7336-235e11fc8bfmr52595515ad.40.1749058041460;
+        Wed, 04 Jun 2025 10:27:21 -0700 (PDT)
 Received: from thinkpad ([120.60.60.253])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3124e322315sm9178577a91.43.2025.06.04.10.26.45
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23506bd92f8sm106368255ad.88.2025.06.04.10.27.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jun 2025 10:26:49 -0700 (PDT)
-Date: Wed, 4 Jun 2025 22:56:43 +0530
+        Wed, 04 Jun 2025 10:27:21 -0700 (PDT)
+Date: Wed, 4 Jun 2025 22:57:13 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: Marek Vasut <marek.vasut+renesas@mailbox.org>
 Cc: linux-arm-kernel@lists.infradead.org, 
@@ -82,11 +82,11 @@ Cc: linux-arm-kernel@lists.infradead.org,
 	Rob Herring <robh@kernel.org>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
 	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] arm64: dts: renesas: r8a779g0: Describe root port
- on R-Car V4H
-Message-ID: <mu2zj3ph5px34iyclaeirhry4nknevwqkqhqyyecugio2gpkst@fsaxfqtnc6nn>
+Subject: Re: [PATCH v2 3/3] arm64: dts: renesas: r8a779g3: Describe split
+ PCIe clock on V4H Sparrow Hawk
+Message-ID: <gfr63eotna6javssbrxj6lxifo3o3gypv62t5kg3tzjcyp6zbn@skh6th5vggwb>
 References: <20250530225504.55042-1-marek.vasut+renesas@mailbox.org>
- <20250530225504.55042-2-marek.vasut+renesas@mailbox.org>
+ <20250530225504.55042-3-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -96,13 +96,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250530225504.55042-2-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20250530225504.55042-3-marek.vasut+renesas@mailbox.org>
 
-On Sat, May 31, 2025 at 12:53:20AM +0200, Marek Vasut wrote:
-> Add node which describes the root port into PCIe controller DT node.
-> This can be used together with pwrctrl driver to control clock and
-> power supply to a PCIe slot. For example usage, refer to V4H Sparrow
-> Hawk board.
+On Sat, May 31, 2025 at 12:53:21AM +0200, Marek Vasut wrote:
+> The V4H Sparrow Hawk board supplies PCIe controller input clock and PCIe
+> bus clock from separate outputs of Renesas 9FGV0441 clock generator chip.
+> Describe this split bus configuration in the board DT. The topology looks
+> as follows:
+> 
+>  ____________                    _____________
+> | R-Car PCIe |                  | PCIe device |
+> |            |                  |             |
+> |    PCIe RX<|==================|>PCIe TX     |
+> |    PCIe TX<|==================|>PCIe RX     |
+> |            |                  |             |
+> |   PCIe CLK<|======..  ..======|>PCIe CLK    |
+> '------------'      ||  ||      '-------------'
+>                     ||  ||
+>  ____________       ||  ||
+> |  9FGV0441  |      ||  ||
+> |            |      ||  ||
+> |   CLK DIF0<|======''  ||
+> |   CLK DIF1<|==========''
+> |   CLK DIF2<|
+> |   CLK DIF3<|
+> '------------'
 > 
 > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
@@ -125,49 +143,85 @@ Acked-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 > Cc: linux-pci@vger.kernel.org
 > Cc: linux-renesas-soc@vger.kernel.org
 > ---
-> V2: New patch
+> V2: Use pciec0_rp/pciec1_rp phandles to refer to root port moved to core r8a779g0.dtsi
 > ---
->  arch/arm64/boot/dts/renesas/r8a779g0.dtsi | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
+>  .../dts/renesas/r8a779g3-sparrow-hawk.dts     | 31 +++++++++++++++++--
+>  1 file changed, 29 insertions(+), 2 deletions(-)
 > 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-> index 6dbf05a559357..8d9ca30c299c9 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-> @@ -798,6 +798,16 @@ pciec0: pcie@e65d0000 {
->  					<0 0 0 4 &gic GIC_SPI 449 IRQ_TYPE_LEVEL_HIGH>;
->  			snps,enable-cdm-check;
->  			status = "disabled";
+> diff --git a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
+> index b8698e07add56..9ba23129e65ec 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
+> +++ b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
+> @@ -130,6 +130,13 @@ mini_dp_con_in: endpoint {
+>  		};
+>  	};
+>  
+> +	/* Page 26 / PCIe.0/1 CLK */
+> +	pcie_refclk: clk-x8 {
+> +		compatible = "fixed-clock";
+> +		#clock-cells = <0>;
+> +		clock-frequency = <25000000>;
+> +	};
 > +
-> +			/* PCIe bridge, Root Port */
-> +			pciec0_rp: pci@0,0 {
-> +				#address-cells = <3>;
-> +				#size-cells = <2>;
-> +				reg = <0x0 0x0 0x0 0x0 0x0>;
-> +				compatible = "pciclass,0604";
-> +				device_type = "pci";
-> +				ranges;
+>  	reg_1p2v: regulator-1p2v {
+>  		compatible = "regulator-fixed";
+>  		regulator-name = "fixed-1.2V";
+> @@ -404,6 +411,14 @@ i2c0_mux2: i2c@2 {
+>  			reg = <2>;
+>  			#address-cells = <1>;
+>  			#size-cells = <0>;
+> +
+> +			/* Page 26 / PCIe.0/1 CLK */
+> +			pcie_clk: clk@68 {
+> +				compatible = "renesas,9fgv0441";
+> +				reg = <0x68>;
+> +				clocks = <&pcie_refclk>;
+> +				#clock-cells = <1>;
 > +			};
 >  		};
 >  
->  		pciec1: pcie@e65d8000 {
-> @@ -835,6 +845,16 @@ pciec1: pcie@e65d8000 {
->  					<0 0 0 4 &gic GIC_SPI 456 IRQ_TYPE_LEVEL_HIGH>;
->  			snps,enable-cdm-check;
->  			status = "disabled";
-> +
-> +			/* PCIe bridge, Root Port */
-> +			pciec1_rp: pci@0,0 {
-> +				#address-cells = <3>;
-> +				#size-cells = <2>;
-> +				reg = <0x0 0x0 0x0 0x0 0x0>;
-> +				compatible = "pciclass,0604";
-> +				device_type = "pci";
-> +				ranges;
-> +			};
->  		};
+>  		i2c0_mux3: i2c@3 {
+> @@ -487,26 +502,38 @@ msiof1_snd_endpoint: endpoint {
 >  
->  		pciec0_ep: pcie-ep@e65d0000 {
+>  /* Page 26 / 2230 Key M M.2 */
+>  &pcie0_clkref {
+> -	clock-frequency = <100000000>;
+> +	status = "disabled";
+>  };
+>  
+>  &pciec0 {
+> +	clocks = <&cpg CPG_MOD 624>, <&pcie_clk 0>;
+>  	reset-gpios = <&gpio2 2 GPIO_ACTIVE_LOW>;
+>  	status = "okay";
+>  };
+>  
+> +&pciec0_rp {
+> +	clocks = <&pcie_clk 1>;
+> +	vpcie3v3-supply = <&reg_3p3v>;
+> +};
+> +
+>  /* Page 25 / PCIe to USB */
+>  &pcie1_clkref {
+> -	clock-frequency = <100000000>;
+> +	status = "disabled";
+>  };
+>  
+>  &pciec1 {
+> +	clocks = <&cpg CPG_MOD 625>, <&pcie_clk 2>;
+>  	/* uPD720201 is PCIe Gen2 x1 device */
+>  	num-lanes = <1>;
+>  	reset-gpios = <&gpio2 0 GPIO_ACTIVE_LOW>;
+>  	status = "okay";
+>  };
+>  
+> +&pciec1_rp {
+> +	clocks = <&pcie_clk 3>;
+> +	vpcie3v3-supply = <&reg_3p3v>;
+> +};
+> +
+>  &pfc {
+>  	pinctrl-0 = <&scif_clk_pins>;
+>  	pinctrl-names = "default";
 > -- 
 > 2.47.2
 > 
