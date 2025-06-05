@@ -1,84 +1,108 @@
-Return-Path: <linux-renesas-soc+bounces-17878-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17879-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61665ACF835
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Jun 2025 21:43:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DE45ACF990
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jun 2025 00:13:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 195C27A2F7C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Jun 2025 19:41:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A913D189D07D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Jun 2025 22:13:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 184C927A477;
-	Thu,  5 Jun 2025 19:43:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAD8927FB2B;
+	Thu,  5 Jun 2025 22:13:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VcSc1ZQs"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JBWIQJ9Q"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBCF513D53B;
-	Thu,  5 Jun 2025 19:43:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20F317548;
+	Thu,  5 Jun 2025 22:13:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749152582; cv=none; b=bXLtgMZusDbLe6vGy3kADYEqrt4SLkIeVyju3Q4rGn+dSnvrnUZNsvgThjOVBh7C8TFqHHZodYt+fVeLaDfsKbRMxaE8gMjeVp41uCuL1WeKVx3LDCUkwxmfY3ARQqPUcGHDHGTboNwM+DklpJ5jfLYJ195WIv8wqZa+DmWAArU=
+	t=1749161591; cv=none; b=SGByqheaefbEH+O4Zn/kVbxJcSlI/tvyG/fyAa+9JA921DjvRlspY2ZBYy5F268HM/nnzbh/z9doRTCbBM3+I4c8MeCbtx+6OygcLEMbMvNOAH9DdPeLWOH+eN6zm0tqlLl9GMblmnM/6urToL9CuUeDZb1jSWPce8Pz9KF3F1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749152582; c=relaxed/simple;
-	bh=/s6AKwVp+jfuqmc/thf1fMH97ajTpSTCwvgVwHwdnMY=;
+	s=arc-20240116; t=1749161591; c=relaxed/simple;
+	bh=BLfA4ZAVbtNmh+Wd7A/4kqT3/Wp/5XmJ0077S+Wl6Uw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qstxAqPHztXJ8DFKZOFK/9i6mYTSmVE9JfZB7O71xuyCC1CRK2P9Dqfuo+QWHkOpdCU/YLgnBocMOzeBtt+157kXgDStVi+V6Qxr5Oi56/5JvmpMnBSysyQEVA4LoMEIa0ddq8STK3owNpKqftyggz1JRdzmnWmrxHE2rmMsAaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VcSc1ZQs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31F4DC4CEE7;
-	Thu,  5 Jun 2025 19:43:01 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=siO+jERNixEXVxug5c50BLqkFQhwLOJ4HFPxGlhd0W1sd2np+VW9KVnRAmiZ/pwpxdrCjqv5xErUs2I/BR2ozhT7esBQUQpxNzNAFNgqnLUxCffjgQuKDSsTcWVGG7hSc7Bq7rK5iIIXsoWPrdG1fN9gBHpnHvvnxFZa281iIfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JBWIQJ9Q; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E845EC4CEE7;
+	Thu,  5 Jun 2025 22:13:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749152581;
-	bh=/s6AKwVp+jfuqmc/thf1fMH97ajTpSTCwvgVwHwdnMY=;
+	s=k20201202; t=1749161591;
+	bh=BLfA4ZAVbtNmh+Wd7A/4kqT3/Wp/5XmJ0077S+Wl6Uw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VcSc1ZQsQC9l7VAD5/n8c0yIE8YRElS8UYwsS2mqB1BDRwNQz/L3eJmqo0kT0jvcf
-	 iZgC3BdPZN1IZmASZ4gbqL9tVrbu1ZXvsDTUmDcgbQtCHSUHax/1FnuyT9kSCCQYXJ
-	 RGQi79NzzZMOKwD2L9xXQRK1WOTsxA8vIa2WP3OAq07hctQLFejVW10ahE43CAEcyh
-	 6Tny0zMG2xSNja4ZMaA824PtQApsj5rSmB0yrf3KH5FqM9VdhZetqYgobDnkAkUtNx
-	 TmOsSvs/D0S2Htbvu3DkHOBzhsyQiaBAtzvIuKzw6ekDADDt9EFbRNGMxMhIydBYdE
-	 nZI8Ryvjn2TSA==
-Date: Thu, 5 Jun 2025 14:42:59 -0500
+	b=JBWIQJ9QhBXQmamEEFJUAvjxOnHvxneQRcEYEpoBNI1H553B5myDsXEI4gWfpaNia
+	 /HecHxWS+MrSqUXmngyI4NHxzDJxDzuJkpJrEGlXp0kUtmImsD44mBjhdArwuQZDzS
+	 tp4CxQWsylneH02xA7bhDNe6imKa5AkSbl+waWJaHHqEZ1nLfjMUaEtg/xVRXSq5Q7
+	 L0CUU/4LvfROVZlmQaK44sjOHikKhd7dVOcKe03ZW4lz6ETWFVkWpJlyfEkei5GW3K
+	 E+YOtGwX/Wy/hrzo+aW89OBT9SAW+xQyG+HrVNWJZsMAYHuvFmh7L/cGxh/hZzic/p
+	 Xsm1ojDqrfAyQ==
+Date: Thu, 5 Jun 2025 17:13:08 -0500
 From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-pwm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-iio@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: timer: renesas,rz-mtu3: Use #pwm-cells = <3>
-Message-ID: <174915257650.3119744.13253716639828217509.robh@kernel.org>
-References: <20250527205823.377785-2-u.kleine-koenig@baylibre.com>
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: conor+dt@kernel.org, geert+renesas@glider.be,
+	linux-renesas-soc@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	mturquette@baylibre.com, lpieralisi@kernel.org,
+	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	p.zabel@pengutronix.de, linux-kernel@vger.kernel.org,
+	magnus.damm@gmail.com, john.madieu.xa@bp.renesas.com,
+	linux-pci@vger.kernel.org, kw@linux.com, bhelgaas@google.com,
+	krzk+dt@kernel.org, devicetree@vger.kernel.org,
+	manivannan.sadhasivam@linaro.org, sboyd@kernel.org
+Subject: Re: [PATCH v2 3/8] dt-bindings: PCI: renesas,r9a08g045s33-pcie: Add
+ documentation for the PCIe IP on Renesas RZ/G3S
+Message-ID: <174916158571.3344975.11147858201870776077.robh@kernel.org>
+References: <20250530111917.1495023-1-claudiu.beznea.uj@bp.renesas.com>
+ <20250530111917.1495023-4-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250527205823.377785-2-u.kleine-koenig@baylibre.com>
+In-Reply-To: <20250530111917.1495023-4-claudiu.beznea.uj@bp.renesas.com>
 
 
-On Tue, 27 May 2025 22:58:22 +0200, Uwe Kleine-König wrote:
-> With the goal to unify all PWM bindings to use #pwm-cells = <3> update
-> the renesas,rz-mtu3 binding accordingly. Keep <2> documented as a
-> deprecated value at least until the in-tree device trees are fixed
-> accordingly.
+On Fri, 30 May 2025 14:19:12 +0300, Claudiu wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 > 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+> The PCIe IP available on the Renesas RZ/G3S complies with the PCI Express
+> Base Specification 4.0. It is designed for root complex applications and
+> features a single-lane (x1) implementation. Add documentation for it.
+> 
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 > ---
->  .../devicetree/bindings/timer/renesas,rz-mtu3.yaml         | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> Changes in v2:
+> - update the interrupt names by dropping "int" and "rc" string; due
+>   to this the patch description was adjusted
+> - added "interrupt-controller" and made it mandatory
+> - s/clkl1pm/pm/g
+> - dropped the legacy-interrupt-controller node; with this the gic
+>   interrupt controller node was dropped as well as it is not needed
+>   anymore
+> - updated interrupt-map in example and added interrupt-controller
+> - added clock-names as required property as the pm clock is not
+>   handled though PM domains; this will allow the driver to have
+>   the option to request the pm clock by its name when implementation
+>   will be adjusted to used the pm clock
+> - adjusted the size of dma-ranges to reflect the usage on
+>   SMARC module board
+> - moved "renesas,sysc" at the end of the node in example to align
+>   with dts coding style
+> 
+>  .../pci/renesas,r9a08g045s33-pcie.yaml        | 202 ++++++++++++++++++
+>  1 file changed, 202 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/pci/renesas,r9a08g045s33-pcie.yaml
 > 
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
 
