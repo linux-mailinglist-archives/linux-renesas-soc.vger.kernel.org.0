@@ -1,85 +1,84 @@
-Return-Path: <linux-renesas-soc+bounces-17867-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17868-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F598ACECE1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Jun 2025 11:35:46 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3508EACECE7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Jun 2025 11:36:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A30B23AAED9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Jun 2025 09:35:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EBDB27A9827
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Jun 2025 09:34:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD77E20D4FC;
-	Thu,  5 Jun 2025 09:35:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4BC220E31C;
+	Thu,  5 Jun 2025 09:36:06 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88D91FC0E6;
-	Thu,  5 Jun 2025 09:35:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B00DD20E00B;
+	Thu,  5 Jun 2025 09:36:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749116142; cv=none; b=SvO0gdybyBIS5Xcj6pymN7DFjUqcotsMt/Ek3PQb84JPnjDyM/jezVH/tmrgBJKQPy2a9+JeJ26S3pLOUg40N6wyPskxcL18EjTF5UGBdEZ8JqyjURx4Drw+2Kx1kynnTRI2loA/CbJZzfdIqGtxfGlXBg/NHsIwFbbs5MlD0AE=
+	t=1749116166; cv=none; b=RH+Nr5ptJBlDf89EAqCKKEaZI2sXzjcxH0tCQ+tI6ARQtbWpyTmcSUUSaoYkoYQ/vmMn4Onmf8h7E5Q/qhzdJGNnz8KGhm8uXKAYaVXRtwhmJcHDUcBzI3a2a7FcaEVKIY0pLRoYumTkIBuXj9W1FtT56sBPsPp0BPpnlqEDM04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749116142; c=relaxed/simple;
-	bh=41xdoLYgwjf7/U5NSAunol61s4uEtSMCE6/g3f9z/Io=;
+	s=arc-20240116; t=1749116166; c=relaxed/simple;
+	bh=JrQvz4t1g5IhXKki5JGEGJEsUC+3QbNZwDeswnHQuD0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JmyucefYKfzSVwjsqQfMkA0HTMXvuOQghLFWfLZ8ki8nI4Lzo2Z22E4gtsq4P/EKhwSjk6Qp3xlUJipibixF3iga70Gl0+O0hgjGxc+k75D2ilZWp7hFFyd8XukUHQvmN0NNp5XHCuAoY9XA/ojGSzIpu0aHCskSEQs9G9yFGYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.175
+	 To:Cc:Content-Type; b=ul2ntWq7lyTeYICa6mRsdRD9BovLHfUmLiTGlggIDlF6bjvpSY54h2rwn3gzosPBcJyYSWVYQqMCTqhlzb2E2gTwAdMGUWMTSDw8mUsgj/vtnlpc/0OKiFE+nQU9a3DFvzAcU9JheUiyUOLh2BzOHB2/ElJwfwXpfp7F1RH2hPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4a44e3928a9so8074701cf.2;
-        Thu, 05 Jun 2025 02:35:40 -0700 (PDT)
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-52eec54acf4so258402e0c.0;
+        Thu, 05 Jun 2025 02:36:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749116139; x=1749720939;
+        d=1e100.net; s=20230601; t=1749116163; x=1749720963;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9hvmofBGJWU0fBg7CanLjJTstjAP7Bj1UYUEtu64SZY=;
-        b=X3o/HpuGysmMjX+FylDUDyoua7Og3apQefKPbCUYX1cUUOoMQqa35sTAUit/dCorfv
-         DEUWUaFutxEu8ihThjTRgHYkIqW8QD/kqLBwArvUJLhGKdLClBrN2tlQUlnqyBdts5b2
-         j/mec90blnTNYoxnmH0jj9leAco9jzEjhvZt5PjIS1PeuXmPbWg1+QWHvHdee/ZiG/wE
-         w2PAJMkJ/KAvGXg9qWATxgKxG37XWhwYpAPdCSS7ooywaojmFy15yB6+yqhFhq8F1xKP
-         IHgqvrLJgwVursn1n/mO/h5mnjB+Pu4heKN6iE2SJNgkTjj4peCaviMNkxf62IDbOBAw
-         aoKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU1IuJKnNAKuOdRaH7QVLztK0gQMxAZziyf5YfblCZN7phGLSRUZXkcLjMLEWX2PdDvi8QKrwtAYx+b0n8oYKyZBKo=@vger.kernel.org, AJvYcCUNd8k/X0rezKjTw+llEdoeLEx7P5g3jNbSOg0YLaSKFzCB2zq6PWDuv9HQAm1MW6/UGSM7ApEOFGiY@vger.kernel.org, AJvYcCVi2vSbkz0BSJJdfTaUva4oJz+Z3pCO7686P2TDYkFwt77GXP6i9AMvSBdg/qpQFjXwmhHfhCRx5q5rLOvK@vger.kernel.org, AJvYcCWyw/t3k0K2D8PyB8k9oqw1xLby8wYcp6UDfcP4FV98vPPtcxeBXRdJ2qxcaJOV0VXZUY+UPQJt7asl@vger.kernel.org
-X-Gm-Message-State: AOJu0YyVhvecVRHo3aVRMHmmHiW2HseEG2pQ6YG2hd32axS/hSgALEPy
-	OwxXZDCpUrLW66oBxUgF4NeKex6UBlM/zHCeXEBT3HG0AeXVd5gv9hhLtcHZP0XEbmI=
-X-Gm-Gg: ASbGncvhccnK66V1XU4znuvvQ5AUZoAKJgEuBJDctlBmqXrJZr47cNvh9gaIFxMNZXU
-	Z7BOMV4WY6WiNrV982DFCNjdhdsxJ+wLKIs6R5qqU5oOiCNYH44HWXohs+/gPGkG6kuqs87c0Tk
-	v46/nlTrKZCqWeHRBs32vVrOxR4nHQybvXaaZGjoOlDT0M6hm3yWSx+NvwsBLN+rSdL6WEFqr5g
-	44wLEVAnhZUEQRH5SxWm1qVtaUAjrZGul8aEN89CxOz43brp7CemCfk6+cmzESmPdPLqSTEkqXI
-	eTN4vBzqfUJ5zWXzFb5nZFPr98QmFh94gqguzeQqLWjDue+Ee6Bxn+/UwljDzgEX7g/bdizXDpe
-	vm5udoFvUGMtX4A==
-X-Google-Smtp-Source: AGHT+IHuDWR8tP7ztYGGajIu5TzQ+bKtjrMjZN8fbeA7jIcvIfiebWBS2Y+bpPs3zhN+riNdF6un9Q==
-X-Received: by 2002:a05:6102:424e:b0:4e5:a93b:1d8e with SMTP id ada2fe7eead31-4e746e69b91mr5088549137.21.1749116128305;
-        Thu, 05 Jun 2025 02:35:28 -0700 (PDT)
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com. [209.85.217.41])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4e64e9bf9b9sm11213733137.20.2025.06.05.02.35.27
+        bh=9wuDHQj9OQFNcab/MMko+ZtyjFUuUo9apb1ZE7z2sFI=;
+        b=e9vPvcPvjVpYxybLEJjV7xPFjWfnWXTvhJ5SIaUY8Ai0/kaX6GST2krUk+xRyiQdrc
+         bflegpA3nGOzoj6Thm8dX45tSxWJa6m6Tb6fPtmIzLRUSHsZU2JKdVl646WZZrwm3a3e
+         j0kyV6XYcJLO2yEmYsyy7z+3MW+fSpiYkWPkTaPzXlmNokVZCDhKY0o1jWEAirNfN/F5
+         TJS/JSTzwJSkzvfOibIrAw63iYyk5mFZ7/0q2Hl2cvSi4svfkletHKLuXvKHgnBaDj6Z
+         To6jAZs+/gumr/fEK3mBQa92YC1lq+XFj94EDjf7Yjcnt3x8ZrN4YjX3OLlrAgBqBIs2
+         QLSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVKkDuMIilfYs4jbqsk0ruriNh8DhK/8IiVP7Y71BaxNURo2vYEAa8yNoaDHxtq42qZgh4LAWcHpXcD@vger.kernel.org, AJvYcCWPtZ7eX2ERpw6xl1eNGUx5wUHcf2ZhmRWSb0oYDYW/DbOHvxVa8+2Bdhjo3SdXCc9nK7RUmytpHQlFJi6iA5dKxY4=@vger.kernel.org, AJvYcCXA9Y5zt8Bxhzo9c5dhjFIY9hA1EyTXMXsB5tNVEWVp0hnjLoAATAMSPsUNf9lpGZQN52EeHmWkJo8g@vger.kernel.org, AJvYcCXaLRLEGsc0NBhm8OGAlGnT75rEffZLgC+FWJktQFvDK8AyMtj7Pn82Fcb8HRlWJ4ocYBg3bDckvYZjsKTw@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyw1rQq3eBHcUTWxVnC2UMZ+dMLie9YU78Et/ogmQY3VLaRFREm
+	JVMI5h9KoTJQywqkU3ReLnf9oT/H2tuxdGbgMkEHEF2klpBc5ybaxXoy6eCPxco5Dvc=
+X-Gm-Gg: ASbGncvBTvaNUnv+1AzxaNjtSRA1t8s3IukCOfrcYKMe60Gcl8T9WrJzMkdPadBRFcJ
+	Mu1zgtqUVYwIyrGElfT8DnQxbKCzjPMCaev2E79lujstibZjdc/JdfNw2BW+fDI5MlP350IJRy6
+	EHotUl7RkLO0dHfCnqVQARDvAKay8FcBU5Ut7qPYm9y4LR9oPfW4wIuPE8jX3JLXq+T3MHDkO0h
+	knqKwq9QEWOVAGzE/KKHg13MbWLqDq471GliooLg3a2M8MYr5p7qs8VSOC8stRL+54lQzHimDTx
+	5WQzKJGpJZ0jVga7mO2478KYU+7zg9P++2rW90O50X3/whvWzPOVTzv6qIQEQYNibuoKbvJfKeK
+	yezyBLREw0kZy6vF1PuOcY7yk
+X-Google-Smtp-Source: AGHT+IE4cvmBIOpzVdI8lpa1JTXWWYP8Ti8uDt9zvZSVHKdQ/c61EiiupJ6Od30XWPocs8EuaM0w6A==
+X-Received: by 2002:a05:6122:a12:b0:52f:bef8:deff with SMTP id 71dfb90a1353d-530c7377379mr5461032e0c.8.1749116162710;
+        Thu, 05 Jun 2025 02:36:02 -0700 (PDT)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-53074aaf584sm12234459e0c.7.2025.06.05.02.36.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Jun 2025 02:35:27 -0700 (PDT)
-Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-4e47c2a9cdcso554385137.1;
-        Thu, 05 Jun 2025 02:35:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU7LgbW/USyCBYlRf/66Za4INZqP5sFlvFnkuRL+sEuO6ttryfNSHBxvIABTeDMwQyLoNz5TWkj6D+LYJ1e+NhzvGI=@vger.kernel.org, AJvYcCUnIYZD4XCbG0iqTID1WjN/CuydyuGQ2jm0Pz+7P56GsdxCwartLqHgukcdMxnzf4ucvSC5Plr5LOQKIAkv@vger.kernel.org, AJvYcCW/7wKsfEWBbHtiduMJ8RKAsvporyS/YAmpSNujBjWf+V2aG7bE2v+UL+9py7j20QORjmDykpXgRWt9@vger.kernel.org, AJvYcCW0XZvVBLSxJXVFSG4qKI/xYlQtQh1ox/G+DXBZRD5l/LXR6oeXf8BhSG15Y0lagCzrffBTEBFPKwUk@vger.kernel.org
-X-Received: by 2002:a05:6102:3a0e:b0:4e5:9b5f:a7a2 with SMTP id
- ada2fe7eead31-4e746d55340mr5054075137.9.1749116127631; Thu, 05 Jun 2025
- 02:35:27 -0700 (PDT)
+        Thu, 05 Jun 2025 02:36:02 -0700 (PDT)
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-87df839c6d3so214911241.0;
+        Thu, 05 Jun 2025 02:36:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUdNB9OdfPCWezDUBD5MNFTWpgAiqAEn0Vqd8yNrECceKr/m7cnN0z0Xmg+o1dQ/eQNuX0YTJ0bEUWT@vger.kernel.org, AJvYcCWGvptIkp3I+cQO4svW6oILWRZpRAe1/CsB+FbgH27q8GshN8RJ2eiE8mN92tWykHdt5cYMxYXfysJJ@vger.kernel.org, AJvYcCWRH1oDz+oRzsPvi/vrcHGY6xzhEhyh7uocKEg3cx0G17gf+1c+MHMi70dl8uKApZlVWDQw4S1m0fakaRUs@vger.kernel.org, AJvYcCWwIO7aQSRlP1A+bQs58BNNPXY45rJuQXyyJJms3wBXuudPhZzLEHa5gW4kvuWrVCX5bPORvn8FB+1E/sBUnmG/MFM=@vger.kernel.org
+X-Received: by 2002:a05:6102:6e82:b0:4e7:5e6a:12f1 with SMTP id
+ ada2fe7eead31-4e75e6a1788mr556415137.15.1749116162162; Thu, 05 Jun 2025
+ 02:36:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250527112403.1254122-1-claudiu.beznea.uj@bp.renesas.com> <20250527112403.1254122-5-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20250527112403.1254122-5-claudiu.beznea.uj@bp.renesas.com>
+References: <20250527112403.1254122-1-claudiu.beznea.uj@bp.renesas.com> <20250527112403.1254122-6-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20250527112403.1254122-6-claudiu.beznea.uj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 5 Jun 2025 11:35:16 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXOTiNcuGn4JSEAN3j=X51imvitgKpzSouwzjycJObbog@mail.gmail.com>
-X-Gm-Features: AX0GCFvaO0b_R4fm_SnX43CLSVO9FEU7yvPaIyUxXCUyF3XPdQd4Fuz2Elg1OkA
-Message-ID: <CAMuHMdXOTiNcuGn4JSEAN3j=X51imvitgKpzSouwzjycJObbog@mail.gmail.com>
-Subject: Re: [PATCH v3 4/8] clk: renesas: rzg2l-cpg: Add support for MSTOP in
- clock enable/disable API
+Date: Thu, 5 Jun 2025 11:35:50 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXb-81W6zVE9bJOVzRDBR51eEimXkDZJkFdCVQ_-UTV9w@mail.gmail.com>
+X-Gm-Features: AX0GCFsAqb2H5xlebZWxQtDCqZNp1iUEtQo869CfvKiSg7v1YOyQS87qsvTgXkU
+Message-ID: <CAMuHMdXb-81W6zVE9bJOVzRDBR51eEimXkDZJkFdCVQ_-UTV9w@mail.gmail.com>
+Subject: Re: [PATCH v3 5/8] clk: renesas: r9a08g045: Drop power domain instantiation
 To: Claudiu <claudiu.beznea@tuxon.dev>
 Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org, 
 	krzk+dt@kernel.org, conor+dt@kernel.org, magnus.damm@gmail.com, 
@@ -91,73 +90,16 @@ Content-Type: text/plain; charset="UTF-8"
 On Tue, 27 May 2025 at 13:24, Claudiu <claudiu.beznea@tuxon.dev> wrote:
 > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >
-> The RZ/{G2L, V2L, G3S} CPG versions support a feature called MSTOP. Each
-> module has one or more MSTOP bits associated with it, and these bits need
-> to be configured along with the module clocks. Setting the MSTOP bits
-> switches the module between normal and standby states.
+> Since the configuration order between the individual MSTOP and CLKON bits
+> cannot be preserved with the power domain abstraction, drop the power
+> domain instantiations.
 >
-> Previously, MSTOP support was abstracted through power domains
-> (struct generic_pm_domain::{power_on, power_off} APIs). With this
-> abstraction, the order of setting the MSTOP and CLKON bits was as follows:
->
-> Previous Order:
-> A/ Switching to Normal State (e.g., during probe):
-> 1/ Clear module MSTOP bit
-> 2/ Set module CLKON bit
->
-> B/ Switching to Standby State (e.g., during remove):
-> 1/ Clear CLKON bit
-> 2/ Set MSTOP bit
->
-> However, in some cases (when the clock is disabled through devres), the
-> order may have been (due to the issue described in link section):
->
-> 1/ Set MSTOP bit
-> 2/ Clear CLKON bit
->
-> Recently, the hardware team has suggested that the correct order to set
-> the MSTOP and CLKON bits is:
->
-> Updated Order:
-> A/ Switching to Normal State (e.g., during probe):
-> 1/ Set CLKON bit
-> 2/ Clear MSTOP bit
->
-> B/ Switching to Standby State (e.g., during remove):
-> 1/ Set MSTOP bit
-> 2/ Clear CLKON bit
->
-> To prevent future issues due to incorrect ordering, the MSTOP setup has
-> now been implemented in rzg2l_mod_clock_endisable(), ensuring compliance
-> with the sequence suggested in Figure 41.5: Module Standby Mode Procedure
-> from the RZ/G3S HW manual, Rev1.10.
->
-> Additionally, since multiple clocks of a single module may be mapped to a
-> single MSTOP bit, MSTOP setup is reference-counted.
->
-> Furthermore, as all modules start in the normal state after reset, if the
-> module clocks are disabled, the module state is switched to standby. This
-> prevents keeping the module in an invalid state, as recommended by the
-> hardware team.
->
-> Link: https://lore.kernel.org/all/20250215130849.227812-1-claudiu.beznea.uj@bp.renesas.com/
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 > ---
 >
-> Changes in v3:
-> - s/for_each_mstp_clk/for_each_mod_clock/g
-> - do not add clock to its own shared_mstop_clk[] array if it doesn't share
->   the mstop
-> - update the shared_mstop_clks[] before priv->clks[] array is populated
->   when registering a clock; this simplifies the logic in
->   rzg2l_mod_clock_update_shared_mstop_clks()
-> - in rzg2l_mod_clock_module_set_state():
-> -- in case the requested module state is normal update the register
->    only when the mstop->usecnt is zero
-> -- in case the requested module state is standby and the clock don't share
->    the mstop, check explictily if it is critical and increment local variable
->    "criticals" if so; this is necessary now as the clock is not preset in
->    shared_mstop_clks[] array if it doesn't share the mstop
+> Chances in v3:
+> - collected tags
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-clk for v6.17.
