@@ -1,165 +1,156 @@
-Return-Path: <linux-renesas-soc+bounces-17860-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17861-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 166E6ACE8E7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Jun 2025 06:09:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32845ACEAE1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Jun 2025 09:33:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AC6AA1893C35
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Jun 2025 04:09:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 65D7B1899CEA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Jun 2025 07:33:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB36720298D;
-	Thu,  5 Jun 2025 04:09:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=inventec.com header.i=@inventec.com header.b="ZL3s7Jij"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 773871E4928;
+	Thu,  5 Jun 2025 07:33:26 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D32851FF5EC
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Jun 2025 04:09:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 605811BEF74;
+	Thu,  5 Jun 2025 07:33:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749096544; cv=none; b=Lnu3EBT2HIYepZf4VxaqMnXm1C3HUZJ1Sz+s5x8WZxU5e8apW5bGJ/QdkUFm4h0RQn7V/HBQQgpIRITOUThOXna106FSDxXWGsE7MEAwqi+JavFWIF31shpVvXX7hioK4I1F7FviaVhcKmkq+ABfVacvonDZQxWmWpEsZrEXjEM=
+	t=1749108806; cv=none; b=jiYNgXkx2+/WxHuxitwOisC3GseDmDpAFY6DGViO6WbN882V/XgCNjVQ3WFM63RxCebsUJFCsAmj7CLABE5jcGxC/dnny3qezfJlRrj1biY+ZKHiGhv8GLi8twH1COiuTj65pRkAlQiz+Dpz3oUpzwcwVkC3QsrRNEDHxg7EQzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749096544; c=relaxed/simple;
-	bh=Du3nF+4TgAoVorAuFPh7JS2xEyp8iEm1n0JyZQ91gOw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=LlI8PsqhIlP5qs0QOGw7ivDEe7P10oMqk1WTj81jd9i4V/Q5ScqRZQLpbMd3ZK7jzof8BwHGVe2lbgop5yUbYxMEutnTK1VeaBUYbYwZGyZmGyVE2/C1rM5L51copPAf/JvKUhkzokDKBjFSjbyAnGe6WCmx3hmXqi4Twyw+WDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inventec.com; spf=pass smtp.mailfrom=inventec.com; dkim=pass (2048-bit key) header.d=inventec.com header.i=@inventec.com header.b=ZL3s7Jij; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inventec.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inventec.com
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-742c5eb7d1cso663707b3a.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Jun 2025 21:09:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=inventec.com; s=google; t=1749096542; x=1749701342; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PX//QoBGHGr5lY3j3Fpx+uZHdmH7HbmvrluHo6+r6xo=;
-        b=ZL3s7JijpBHSJjY37LY10NFS3IkO55lREIVNBcpWzhi1E408kmDTHs+bc1wAizsL+m
-         5CBbGJUlLM4KiayAZprriu4IeuYuCtOhro/xIL/sjs6ma0PpGMei/1jcZM9JcJ6teLtg
-         LOLVFEXHhDxOlBUlTp3UN9zojC9ISr9zeMmYE0lUf6z1wf1pdyBO1c0dqo/N10ZStFN3
-         mI1IyWLZEygmacI5ZNeJgk7fBmuR3fECHYACYB6ZWPYHyoKODtBkVH1ywv0GSuvnk6KW
-         FGLB5CEl/Vkl55iARr9DYKbu2PqexsQT8FGVRbwuZYj7bdFOr3YCUZ2yqA9yzg7q05Du
-         q/Fw==
+	s=arc-20240116; t=1749108806; c=relaxed/simple;
+	bh=3HU5Hw5tR0oA02ajckSNgdgzpmuDD96VbblNWpCR6yE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JF+H7Uf66zcTyXZkyja2nRL2pBIf0rFesYeekBMYhNHhhqx4cEM6w8l6KkHAvZHf4g104SQtFsLuajPb87yBcmBRVU6CGE0Ke98jEhmYeRfEVLuwtaiK97mDBAfRkDKquGZbL9Q6lJRtUlLDX/Dx1xcV1/dW0qaK4A9EudWqfmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-52f05bb975bso253513e0c.1;
+        Thu, 05 Jun 2025 00:33:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749096542; x=1749701342;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PX//QoBGHGr5lY3j3Fpx+uZHdmH7HbmvrluHo6+r6xo=;
-        b=Mi2gA3+LZIuqwB23z0Ed1Bx7prZ0jV5afFsPeMEysFVxh3dLeUxvDdQkQilSYENbc+
-         bAfw2g/bo3WF0bBi7U0WGYPt0SIJLgq0dk9pmwW4rqVPjloma/RMDkLkhOzex8Z7tY9b
-         hujoguwfKEnUgtKx23UtLHYvJaJU69nQCbz2hZglS93Na7wsfDXuKO/P9sUzX86rXSv7
-         aRynU2stM9q+KvvFiSW5cVbQM/XrMOhmrWyRrfEGHrZG2l51HBhmFmcKErMIT/YBXo2N
-         jXHT0aX18PLzPzzlhS9KraTuxBeUH8JkaVvV5vquYvaBDGCqPKH5Bti6Y/4HUo96hSMD
-         xk7g==
-X-Forwarded-Encrypted: i=1; AJvYcCWxyTeV3j5t9wqxadcCiEU+S5+dqZ1m32eFI+Oqk8PLOZVSU3tgHxQkNUVWM9mwNrFDySBSnNeySWoU1oFOh9919w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7UevUb80yGOda1Vww7QeePNZKc/sbAGaxz8ixDfBntq5Lf91G
-	8SrCvfp1bLMt+46wMvDVu0c9bORg/y7B4orTJEr+JreAoWpQcYKL0MMdETwMrcVTioo=
-X-Gm-Gg: ASbGncuDfD1xM9a6q6AMFsz8K+pjIbSKwgQEuIpguzACLV05dVuKBPRNigpe5I6EWEk
-	pDseRBQ56diAtRVfPBv4Ahm+auL7eEtqOeFryVPVrIlqb0PKNy4AZOPFUjWL92G9kgDUiQu+9kg
-	i7vZtSS91aZf+SDdn7K9AldcHYSXsMFtXsJ3LwYZZn45zDm+c/2jm8iKcsOUDwPkpIZkQtxCRFi
-	G03zvgcAgUEDbeHZvV0LCIamGbG9WMHbRLwSwq+HjnetTDanWDT8ecWsarjBC8wzJoNTjUHQ82W
-	/A59/p0W5iWCOqQCZqqArXNQfEKQ1g6KrQ0zTlo1fjaHzxjKQMnIY0R6CxXs+dMVWQyJ4f/cOSS
-	7VDpvlT2iohAgTafXbP3FX/4jmQq3FA==
-X-Google-Smtp-Source: AGHT+IGFn4s+BWHMZpFajqhE9M4XL5w1WKIteuwhvPtoIG8N5fx8W5N53z/3lQF0q6Q5jNGNoeQXng==
-X-Received: by 2002:a05:6a20:4325:b0:1f5:8622:5ed5 with SMTP id adf61e73a8af0-21d22b46de9mr8166458637.3.1749096542055;
-        Wed, 04 Jun 2025 21:09:02 -0700 (PDT)
-Received: from localhost.localdomain (60-248-18-139.hinet-ip.hinet.net. [60.248.18.139])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b2eceb029fbsm9480924a12.13.2025.06.04.21.08.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jun 2025 21:09:01 -0700 (PDT)
-From: Chiang Brian <chiang.brian@inventec.com>
-To: chiang.brian@inventec.com
-Cc: conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	geert+renesas@glider.be,
-	grant.peltier.jg@renesas.com,
-	jdelvare@suse.com,
-	krzk+dt@kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux@roeck-us.net,
-	robh@kernel.org
-Subject: [PATCH v5 2/2] hwmon: (pmbus/isl68137) Add support for RAA229621
-Date: Thu,  5 Jun 2025 12:01:34 +0800
-Message-Id: <20250605040134.4012199-3-chiang.brian@inventec.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250605040134.4012199-1-chiang.brian@inventec.com>
-References: <20250605040134.4012199-1-chiang.brian@inventec.com>
+        d=1e100.net; s=20230601; t=1749108802; x=1749713602;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UPXygViugK2qDdRyZqMS+7O5LAWGbwutgev5XJq8gb8=;
+        b=asIflDm20qWZfcpmm5Fot/pQZY7LKJaTDRBjz36WhCC+A6VzKqtenP3lE181XXN1b+
+         1/prCCFptm3yUkj6dW56q5nbFpF9ZuGrL+FejZYG7Ge3ed4ul2FN5XBUhONrjpbHLvPw
+         XjcxoQog1GbWmqT5Xu37vx5UKNiL+qsaaw5W1XwmuzIFCh28bLjepwYIkA9AGsX4tyIJ
+         slethI7gJDK2/Dfcej8LqyNTN07TQeLZCJL/XvPCsORBwm1cVTZ5OZAfcjJZWqeXOtFD
+         QuNEI5p5rCK2YwgvM/4DGu2tyuJdjevLLGO8tgK7gIGI6xB/GvB+owFke9WuqU4v1wUO
+         dXJg==
+X-Forwarded-Encrypted: i=1; AJvYcCWEeGprwU46w9e+SAr0//xEBA1WUpUyoX93x8l8V9Q4KC53I+Ilg0DFX1EWAlX73/TZNwQ3RqaDWMup@vger.kernel.org, AJvYcCWKqGBceZhbcq+VCIM7morK6qrGNsucAJxLFbvIySAPNVg+DmLL5M29Qk4v4WVc7AixNnefxaThr3YR1RQy@vger.kernel.org, AJvYcCWcYJ6OhR2P+grSVZxpjd4mJAsRDQd3AOVoK0GA4paraFnneZ7ltWFYYQnkjVgFofrdriIUqpKRhpcB@vger.kernel.org, AJvYcCXhpozIN5Sg1ZZK6EqGZdSbm0heHOZB979Q0aGk5gGpsrAV/NanTWedtRvne064cf+jNuNKYs2NN1Wu0Ma7V80ZN1E=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/qFkgJDiHLROufE5vbtAjg+y7cyJdsYbeIhMi6qZxfmfVtfFB
+	YK8FjEObNhA6hp9T+fclP+K8LasWQyUln1TWhfcs5xxlXv4ErvR+y2ovj+szovPd
+X-Gm-Gg: ASbGncu2ijzFz8kxEQhk60fKrd8wmiFB5UM2+tqhGc4OREAjBrvui1s0FVogT2PSKq5
+	6E/Jrha/1CHxvAPukfYYhlBWxZqq8jyGb6XHfsTASM3YdCqOCbcUD7o86al+iOWAQV+6iTsjZ4/
+	c4HPtQLi/Ff/c8ifpagLJxHNWkT3psErRpPqtgbklVrkTQSShtFQleUx4pqpFgzs2661xhIlk2R
+	ehBiF3FDunKw//EEntp0JvNU2a+4pITnJgezvN+ldOCcb1ZgB0xgzjwUnmyzVPa87AMhEk8+FnY
+	7R6QnGj4POv7GUh4TeChyKPn4+i56/9H3CO0cx9hfY6uUOChfZoBtwL+EisHTByJvdqdBLOaIGX
+	R5qJurOywvkvl8XhZLGgmBemO
+X-Google-Smtp-Source: AGHT+IGoPdAK7xoPICutFq0mu9VODkcVC0PSvVKCb9eCGVKQbdy9OnN4H9kVkO+cnJOGFBfaIXx8Ew==
+X-Received: by 2002:a05:6122:658e:b0:530:626b:7d43 with SMTP id 71dfb90a1353d-530c73159a7mr5732695e0c.2.1749108801834;
+        Thu, 05 Jun 2025 00:33:21 -0700 (PDT)
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com. [209.85.217.46])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-53074c32036sm12119147e0c.43.2025.06.05.00.33.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Jun 2025 00:33:21 -0700 (PDT)
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-4e5adc977ecso205167137.3;
+        Thu, 05 Jun 2025 00:33:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVp7BhIzJ4kpmBWwkYBD7Sm54Qa6BJfZmvXXileYEAEa/HbEeJvHgZUPsYqlVmcXdiT2yBqvLYjquC3bPpy@vger.kernel.org, AJvYcCWDOA8n8AGNC+XfFitmLEQTQQblMzRRYGE1g8q77/5Liua94NkYU4lMgqFW9f0gbbz9K2q9YnozjviOW5T0a7S8L24=@vger.kernel.org, AJvYcCWX5gykN777tHN0bIN9ptbKL/gALrfS7jhMD/bnRkhx2V2FZCmBgBIN0zc/82MgcJtDgGxYqTHeAU3A@vger.kernel.org, AJvYcCXbnLLNyenimupoyPba/0HE222yJU4nt5pcIZJK37DtQdu0OLZfoAmu5Hlrspi9kC0bpvjQYnkh6GwC@vger.kernel.org
+X-Received: by 2002:a05:6102:1496:b0:4bc:82f:b4e0 with SMTP id
+ ada2fe7eead31-4e746e4976fmr4848002137.22.1749108801250; Thu, 05 Jun 2025
+ 00:33:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250530225504.55042-1-marek.vasut+renesas@mailbox.org>
+ <20250530225504.55042-3-marek.vasut+renesas@mailbox.org> <CAMuHMdUVYzaUyP=OUOST8SK66_BpubOh0WCXcaVWBy=RxBrquA@mail.gmail.com>
+ <egtsvxsfc5c2s4hrwucsqk3s5dv7xsi6ghrnf6jd3mvf3zvskb@z7hvehbd33t5>
+In-Reply-To: <egtsvxsfc5c2s4hrwucsqk3s5dv7xsi6ghrnf6jd3mvf3zvskb@z7hvehbd33t5>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 5 Jun 2025 09:33:08 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWEmGk0iE0vroGRWOwsK3+EFpbqzO-OH3aVDQTud3wVtQ@mail.gmail.com>
+X-Gm-Features: AX0GCFtG6IELptLOfKa-AavRTgQeGCljZvKI3BSZXgMtp-NgzVLc1G-6_2R8iug
+Message-ID: <CAMuHMdWEmGk0iE0vroGRWOwsK3+EFpbqzO-OH3aVDQTud3wVtQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] arm64: dts: renesas: r8a779g3: Describe split PCIe
+ clock on V4H Sparrow Hawk
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>, linux-arm-kernel@lists.infradead.org, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Bjorn Helgaas <bhelgaas@google.com>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-The RAA229621 is a digital dual output multiphase (X+Y <= 8) PWM controller
-designed to be compliant with AMD SVI3 specifications, targeting VDDCR_CPU 
-and VDDCR_SOC rails.
+Hi Mani,
 
-Add support for it to the isl68137 driver.
+On Wed, 4 Jun 2025 at 19:31, Manivannan Sadhasivam
+<manivannan.sadhasivam@linaro.org> wrote:
+> On Wed, Jun 04, 2025 at 11:24:17AM +0200, Geert Uytterhoeven wrote:
+> > On Sat, 31 May 2025 at 00:55, Marek Vasut
+> > <marek.vasut+renesas@mailbox.org> wrote:
+> > > The V4H Sparrow Hawk board supplies PCIe controller input clock and PCIe
+> > > bus clock from separate outputs of Renesas 9FGV0441 clock generator chip.
+> > > Describe this split bus configuration in the board DT. The topology looks
+> > > as follows:
+> > >
+> > >  ____________                    _____________
+> > > | R-Car PCIe |                  | PCIe device |
+> > > |            |                  |             |
+> > > |    PCIe RX<|==================|>PCIe TX     |
+> > > |    PCIe TX<|==================|>PCIe RX     |
+> > > |            |                  |             |
+> > > |   PCIe CLK<|======..  ..======|>PCIe CLK    |
+> > > '------------'      ||  ||      '-------------'
+> > >                     ||  ||
+> > >  ____________       ||  ||
+> > > |  9FGV0441  |      ||  ||
+> > > |            |      ||  ||
+> > > |   CLK DIF0<|======''  ||
+> > > |   CLK DIF1<|==========''
+> > > |   CLK DIF2<|
+> > > |   CLK DIF3<|
+> > > '------------'
+> > >
+> > > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> >
+> > Thanks for your patch!
+> >
+> > > V2: Use pciec0_rp/pciec1_rp phandles to refer to root port moved to core r8a779g0.dtsi
+> >
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> >
+> > I understand this has a hard dependency on [PATCH v2 1/3] (and on
+> > enabling CONFIG_PCI_PWRCTRL_SLOT), so I cannot apply this before that
+> > patch is upstream?
+>
+> TBH, this patch is describing the binding properly. So even though the driver
+> change is necessary to make the device functional, I don't see it as a hard
+> dependency. But since people care about functionality, if both driver and DTS
+> changes go into the same release, it should be fine IMO.
 
-Signed-off-by: Chiang Brian <chiang.brian@inventec.com>
----
-v4 -> v5:
-- Wrap commit message body at 75 columns
-- Remove the incorrect description about dependency of dt-bindings
-- Link to v4: https://lore.kernel.org/all/20250602050415.848112-3-chiang.brian@inventec.com/
+Applying the DTS change without the driver change would introduce a
+regression in my tree.  While the regression would be fixed in linux-next,
+it would still hurt bisectability.
 
-v3 -> v4:
-- Add Changelog
-- Remove unnecessary "From" tag
-- Link to v3: https://lore.kernel.org/all/20250303083537.3312250-1-chiang.brian@inventec.corp-partner.google.com/
+Gr{oetje,eeting}s,
 
-v2 -> v3:
-- Fix the corrupted patch by sending plain text email
-- Link to v2: https://lore.kernel.org/all/CAJCfHmWJ9N1R8x6ikU02_RYq9ieq6yWY7CGdfvc4hRqHnX5szg@mail.gmail.com/
+                        Geert
 
-v1 -> v2:
-- Modify subject and description to meet requirements
-- Remove the override of isl68137_probe
-- Add the of_match between raa229621 and raa_dmpvr2_2rail
-- Link to v1: https://lore.kernel.org/all/CAJCfHmXm-fPD70uN-mNJdJkzf9B526y8p=Jh5E+W5cwJ0NVhEQ@mail.gmail.com/
-
- drivers/hwmon/pmbus/isl68137.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/hwmon/pmbus/isl68137.c b/drivers/hwmon/pmbus/isl68137.c
-index 2af921039309..c52c55d2e7f4 100644
---- a/drivers/hwmon/pmbus/isl68137.c
-+++ b/drivers/hwmon/pmbus/isl68137.c
-@@ -63,6 +63,7 @@ enum chips {
- 	raa228228,
- 	raa229001,
- 	raa229004,
-+	raa229621,
- };
- 
- enum variants {
-@@ -465,6 +466,7 @@ static const struct i2c_device_id raa_dmpvr_id[] = {
- 	{"raa228228", raa_dmpvr2_2rail_nontc},
- 	{"raa229001", raa_dmpvr2_2rail},
- 	{"raa229004", raa_dmpvr2_2rail},
-+	{"raa229621", raa_dmpvr2_2rail},
- 	{}
- };
- 
-@@ -512,6 +514,7 @@ static const struct of_device_id isl68137_of_match[] = {
- 	{ .compatible = "renesas,raa228228", .data = (void *)raa_dmpvr2_2rail_nontc },
- 	{ .compatible = "renesas,raa229001", .data = (void *)raa_dmpvr2_2rail },
- 	{ .compatible = "renesas,raa229004", .data = (void *)raa_dmpvr2_2rail },
-+	{ .compatible = "renesas,raa229621", .data = (void *)raa_dmpvr2_2rail },
- 	{ },
- };
- 
 -- 
-2.25.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
