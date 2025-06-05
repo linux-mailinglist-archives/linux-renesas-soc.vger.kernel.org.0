@@ -1,684 +1,596 @@
-Return-Path: <linux-renesas-soc+bounces-17873-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17874-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 298E9ACEDCF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Jun 2025 12:38:17 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA25EACF0E2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Jun 2025 15:38:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 88D093AB7E5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Jun 2025 10:37:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3FF9116CA43
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Jun 2025 13:38:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 512D4215175;
-	Thu,  5 Jun 2025 10:37:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B1ED25C822;
+	Thu,  5 Jun 2025 13:38:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="guBQAQiw"
+	dkim=pass (1024-bit key) header.d=dimonoff.com header.i=@dimonoff.com header.b="CuOWop+Z"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CAN01-YQB-obe.outbound.protection.outlook.com (mail-yqbcan01on2105.outbound.protection.outlook.com [40.107.116.105])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4798021765B
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Jun 2025 10:37:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749119853; cv=none; b=Nd7KrzvwjS0WbMA29ZQaWXhV3zveodjU+uhcZnOnEV8DmwJsorCfPAypYDM3Vs4Fcb2mff0QEfSpzEMpj3lXzEpBH3PkkN4H3PuzrfwbkVQlYTO5WW7BooXP5fkw0o5LxSqR3tVVCbCfzPYdiBWddC6ZX/Q0UOjFC4CXLmRvm+o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749119853; c=relaxed/simple;
-	bh=5W99aD1HPPU70uFrXi4wd3DyADurA3SSuHBr+b7XjMU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=c/L73Nv/W48ShBArT4y7o/e0VfkNwYC1Si0GclPygsKGz9suGxQDq8N+ahOi5isei7eGLqWJWBuLpsxqodl6G5JS5FhK/WrmwOQWZ5hlAqGygKhRk/cFncnpqcBZxUGmZV0jdAn0Rdl9IQXyUuw45dJFhgv8gBurlLox1Nx5caA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=guBQAQiw; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-ad8826c05f2so154966366b.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 05 Jun 2025 03:37:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1749119848; x=1749724648; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eXn3QIeAiS3fNUutBHTej2gUQDr8syUYYLvUu5jnOQ0=;
-        b=guBQAQiwmdYT4eEHKn+dQvdO04rkq7BfuOwAFr4J+G8COQ31SjnXVO9JKX8AoimP7S
-         fxDIJaEsFTO7XdTxhOORhW+XcjI1L+4/V2V/TaC6GuxTnHy+kN7Pd11choC/Jho9hfwt
-         TX8xsauoJMRmSZXxXXP+iNWQlmJVLT+NDaEV0tH+GjKDSPussK93sWUCSQWiNbeIFO+2
-         EXAi+X7CpnzRAjXvN4OldzCOclARYDEt1xWGGXTfl7FUVmE6eD47oh8DrYr1cm02XyqC
-         z9hQ0mW9QOx2LEpYoneOLKegacvJsaZ+6gWuFTbjiYwzoPCGcwe/Uh0AfI7H/QDj0ZOP
-         Je4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749119848; x=1749724648;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eXn3QIeAiS3fNUutBHTej2gUQDr8syUYYLvUu5jnOQ0=;
-        b=EdY4sVBt0yFmRs5zxgR7XX6EOpGlxYF/nqulVjQCpxsEvQAeRyxYOhDV6T/4Vt4opj
-         YKEikQqr0G2Ge57NiUUDTF41n6/g7TA6gFke+qv0Z3vCdj//Gzy1HUXTc11EQb8C+Gt/
-         kfEUQPJQM3BjuN4bBbU7lTRDVJjUG21TT7fibA9laW68xlt3WF2iM57pQqTvyVNZ85f0
-         X/JUCOWsPjPKoLiVMfpLX7dsY6VUVv5rZJu8gjYD5UqRTZBY2pf0FFOTFh/JVSIny61Y
-         6GQiGMMPbc8fUcwBH+yejKTLlbEQgCARf5V9AIk3nwBwGeEoiF/0CSrB0D3w3BfjADdQ
-         46aQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX0W7we/qCffGk1EWqX4QaMOZae9FBRDOK/fVo71XPW7ox9S4P/rTER98IqC0P2J8Yx/2Unx8M/4X5X9/iIOrgvEw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzhOYwcdUm1AYX8uTEPROSRRCdDdKy7tTZU2yQ+EA5ApcXon9m+
-	XN5p/fobiiTxf1HCAprxWPQZuq3SBFMoELbLDnPVRr+pn+8uBW4/q8RnR0AduUVG3VY=
-X-Gm-Gg: ASbGncvssVpb7/dMgebOWuAagQHu5/UpASRLPL9nli/EmcY7xOb7cK8l+dXxN1pyfIO
-	zaA+Fx06q9UAZDIK5qXdWNK/Afb30IVIUaouNJu4Hj9ayejgYbokO0IP0JwSTdHlcxaQOZBt2l4
-	Eae81c9vHHlIt1U2Bjz2SIjeE4DSuxTLC4v/OOVYSEZWg2vFy6g9Vkt55H9LQcuBCg/xBz0DCms
-	9X98RXCskHxC3X3pWjnan9i9wRBZ6ETD9g9uu+encIE81oqaSOJVwcDhTCyJFtnJuEdwP9Nl6mh
-	ZZy1q+GmDuQYXa/IsR4RPPfD0jewESf2HkOPbXt9UW2uMZfT03FJjVIbQBAT
-X-Google-Smtp-Source: AGHT+IG4imuIKem/lacSZ6kswTIN1P3NtX5m21Xzl748xyEppt8Z7hqNmdhVquPXd1dCij8MnG6lzA==
-X-Received: by 2002:a17:907:980f:b0:ad4:f517:ca3 with SMTP id a640c23a62f3a-addf8d27228mr582111566b.20.1749119848014;
-        Thu, 05 Jun 2025 03:37:28 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.126])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ada5d82e760sm1253095066b.52.2025.06.05.03.37.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Jun 2025 03:37:27 -0700 (PDT)
-Message-ID: <7b8ae87e-f733-45f9-bf45-302d755ebbf6@tuxon.dev>
-Date: Thu, 5 Jun 2025 13:37:25 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD16259CB2;
+	Thu,  5 Jun 2025 13:38:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.116.105
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749130692; cv=fail; b=KEreTJpLSv/klVDxlu8wxEtFxrPT3aWnQiorfuuUWAdno7l6N1MA10A85XJ7IyfxuEXmVVskADxDdVE/mvKZ0TmyUhU2xxanzk22S0A/Fas3MLkXNkJzysu6yxUbieUPkg3zNL9l8Qwcg75yBN7OCz24E4Jnp0dtbDtC0tMNasI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749130692; c=relaxed/simple;
+	bh=KrjDeFKucFQda5oLfJUeA48X+yXhANV+cFMpZBAPWZs=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=LzWNiozeDHqvNxwcTQJaXtHY9aSn3mXR+iZX8t6M4rqT+FrmpDO3uNgGtt0tl6yQYcY+PmejXfZWVbDG6jBDs5bX+0bazGf8lMFu2JUorXI9Ibgbmlnqd7BNcZWaiuWwdXsfEjHQX5WxezRnxoZVteyIojOVwsjNAf8k6d+OxZo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dimonoff.com; spf=pass smtp.mailfrom=dimonoff.com; dkim=pass (1024-bit key) header.d=dimonoff.com header.i=@dimonoff.com header.b=CuOWop+Z; arc=fail smtp.client-ip=40.107.116.105
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dimonoff.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dimonoff.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ktmABRNcAvSHIMko9HchSOXR8lFzElNhT6g7tTk8TQrKRjahFDW89D5U3jZyecso8Xju93rUWplKZPqUfLN69DkEW/2PrYRdecHd7FbPSq81t8vIyk3259ybqU/qlT2WXmJk+5xjWIaGLIE60IOV7cQ1c1aXhd+Bcl+FoAGXocULpYo2gfWL+BSY+/6lDxCJ7Hbut5Kmm61r1Petp+mlDov0bRJKagUgEdUVnlCgyCJfe1Dexeq28lePmgaFt8KV3CYTrAz/n6d3nKTEKkgGEe/GbiBpxTstfmuiOv/Cw0o0p7quTs8V1jDTR4qUAOr09NCPe/mFTlzBhtDjDZXivw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cOPm8rIVRS6TLhBy4Qe0l51IZ6z50lYLB6oljLFAFMY=;
+ b=nZQquvC4IDtdQP2s3eH6pGiA0fkg5h9g/r50T8V7BmHJCFGo5Jr/5d5bIrIEGI3o2tlrxMaz68YtaikiRNwuy7X0Fa4e9c611UBnZ09csvFs4CjiSwEuSKKVb5IJIUpIeAKxiye1s2KS3czJohNZIbsYcHeHQI3iwKvMVoyPnvWLKgaUOC69zPD6CKcl2nqJm9S/15r7b34jaXQczbjmKzLiEnYKnTO5iaTI6kJDKY9FV8I9d5drPdNRyp52Fpl/q4hKL26pmRwVRr0Dw/v2xCM+WuYqEVspSlvlR6MK8MGo0F+EFXdvXfEcK+XyxKn8WqLXDQQI3sDzc5WYwhpnSA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=dimonoff.com; dmarc=pass action=none header.from=dimonoff.com;
+ dkim=pass header.d=dimonoff.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dimonoff.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cOPm8rIVRS6TLhBy4Qe0l51IZ6z50lYLB6oljLFAFMY=;
+ b=CuOWop+ZF+5HG14HXq3OQY5yBCV6bgDr0D0TgDfeMthnDjlyS9XvYT1IjR4Bpzb8XcQ9Hoo3c7bI0phD3dkedSVPx+aPDIvkjlj9NROvw4p9/m8qxoDzLXMyI6Mt4x10kF2hG2hW2sjR2cTkCY6Vlj5B/ElZ3yIqMAPxmP10UKk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=dimonoff.com;
+Received: from YT1PR01MB4266.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:28::5)
+ by YT4PR01MB9877.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:e5::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.34; Thu, 5 Jun
+ 2025 13:38:05 +0000
+Received: from YT1PR01MB4266.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::7c39:4edb:65a:520a]) by YT1PR01MB4266.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::7c39:4edb:65a:520a%4]) with mapi id 15.20.8792.034; Thu, 5 Jun 2025
+ 13:38:05 +0000
+Message-ID: <03072c2b-2459-4d8a-9a84-c450f33f9350@dimonoff.com>
+Date: Thu, 5 Jun 2025 09:38:03 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/1] drm: renesas: rz-du: Implement MIPI DSI host
+ transfers
+Content-Language: en-US
+To: Biju Das <biju.das.jz@bp.renesas.com>, Hugo Villeneuve
+ <hugo@hugovil.com>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch" <simona@ffwll.ch>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Chris Brandt <Chris.Brandt@renesas.com>
+References: <20250604145306.1170676-1-hugo@hugovil.com>
+ <20250604145306.1170676-2-hugo@hugovil.com>
+ <TY3PR01MB11346884D4BBC705AB64801B0866FA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+In-Reply-To: <TY3PR01MB11346884D4BBC705AB64801B0866FA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR0101CA0169.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:f::12) To YT1PR01MB4266.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:28::5)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/8] PCI: rzg3s-host: Add Initial PCIe Host Driver for
- Renesas RZ/G3S SoC
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: bhelgaas@google.com, lpieralisi@kernel.org, kw@linux.com,
- manivannan.sadhasivam@linaro.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com,
- mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de,
- linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- john.madieu.xa@bp.renesas.com,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20250530111917.1495023-1-claudiu.beznea.uj@bp.renesas.com>
- <20250530111917.1495023-5-claudiu.beznea.uj@bp.renesas.com>
- <a58abc2a-6583-d4be-aea2-b2178b2acf60@linux.intel.com>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <a58abc2a-6583-d4be-aea2-b2178b2acf60@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: YT1PR01MB4266:EE_|YT4PR01MB9877:EE_
+X-MS-Office365-Filtering-Correlation-Id: bf5d2145-927b-4d81-a0ca-08dda436334f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|10070799003|1800799024|7416014|376014|366016|7053199007|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?VTM0Y09CbXVHTzVvcXpsZko0bjZpSGRjcWZ1eWZFVXFFU1ZMU1hLVHY0VjVT?=
+ =?utf-8?B?OEcvVDlrMjd6YzNKTVBQRnhMR0ZweklhVkRyeEVmL2dCVXB3L3BaSFBNVEtR?=
+ =?utf-8?B?akpCekFKSyt1TDFCa05IdVdNNkEzY0twZUxqNG5nNWtEaG42ODc3TTZhWC80?=
+ =?utf-8?B?WUZySWpVcmdwWU9CS2F1ZzF5V2h0RFFVdFA0K1A4QThkaHMycXFKc0pkalY4?=
+ =?utf-8?B?MGlNdXB6Vm5nSW9OSjdyNVpNTkZ6bHRJL0VpVnloOE9BRFZjeGNHVzhSTnF3?=
+ =?utf-8?B?TkpPd1JmcEN0UEhjTGt5ZGZjb2R3emVOSStsNHI4VWN1TGR0TUhPdnVldVlL?=
+ =?utf-8?B?L0hHTU5rdnhJUXFIclFnY0tmYkRJamNvdE5sOHJhNzVKczIxeDRRN0Fxa2U1?=
+ =?utf-8?B?RXRFaEhlbkFlRkt3aHMzT2Z5d1ByaXhDRnNjRjYyNis2NCtQMWNpc3MxQ3l2?=
+ =?utf-8?B?dm44NlJRdlV4NU5MeDlJNUJBWjZja2pTTXNpcGlDMmRleUhRUTdSYkN1UGtY?=
+ =?utf-8?B?d0FCL2ZTZ3NvT3BlWkNpRnI2ZTkzZ3J5Zm9jZEpLSEtFa0pwQW9yOFErSUty?=
+ =?utf-8?B?Z3hMWlVjc1ZFUWgxd0hSdEYrZDhqSEdmSlI1U0doNThXQytXUlhkMFl1UkYx?=
+ =?utf-8?B?V2k2b3YwN3I2OHFyZWx4bjB6eHkxUlYwbFVFdGpDWTlnNTc4UDNSeUREMHdJ?=
+ =?utf-8?B?QmVDeVBQZ0pGOGVEL20yOFprU2xFazZiRElTRURGbGJsbkVsRGVBTnUwaVJU?=
+ =?utf-8?B?OXBIQ1NhcXVndnJLcG03d2gwU3JTZlQvVzkzL0l1a2xhSVVEbG5jaGFGY3Jn?=
+ =?utf-8?B?eEFYbE1oNGFBd1VvcDZZcWVZSHQyRTVOc2V2c2JESExKZ2tYYytoL09qaFY0?=
+ =?utf-8?B?cEJGNk9ncXIwY0l4TFNZQ0lzTlFGOVY2ZlVPTUxWYkZXOERpM3JNZlZCdlg4?=
+ =?utf-8?B?d0R2Y3B5a3pEZ0J3OEl0NDNQaVNveFpkYklyWHFTejdmS1pkTm90RllTZytI?=
+ =?utf-8?B?d2NmQnRvVGNCbGhzVEF1b0lPMjFUWWZQTWVTS1pPTWxkb3JpdXgzVXJyVTZZ?=
+ =?utf-8?B?WUQyNVVzcU93THJZRnpyZE94MUI4YjdGK2FmN3g2T3V1VDU2YnFDMDZ2di9k?=
+ =?utf-8?B?UU5XOVJkSlpNRmVnQXJmR0dKT3JROU1wZzlFS3NFNk5qaDlRdVJFK1VzVFE4?=
+ =?utf-8?B?ZlBudm04TE1nWVNBbDRwUlRHc0FZUkRRblhrOHV0Y2xjTjUwTzJtNHNlaURT?=
+ =?utf-8?B?VHYzRytpOHlWUWdxZk02UE5lbC9hd1lNc09uNzFrQ3RTZzhEZGFMSlFLR3hU?=
+ =?utf-8?B?RllJSjBIMkV1bVdaaHpFNWQ2OWZzbkY0eXM3ZlJYNEY4TjIzcHVkSWdvK3pD?=
+ =?utf-8?B?QUR2eEJjd2VnczF0enYwL3hic09sMlNlQ0RXUWpWemZnUG5rYzVZeUc1K1Bp?=
+ =?utf-8?B?c0lBZUpTUmVKQ2xTb0dZVFJNeTNvZklRSFhJTlB6Wm50Z3JkTXV6T3lWSVNx?=
+ =?utf-8?B?WHpMT29mdGZrM2hUdUxVN2QxUURoTVVLOE4yNGVDb2NmVWlYZWt1SzE0L013?=
+ =?utf-8?B?UHE0TVpmb0RkK1VMQm1xWTNsc0NzQ1ZESzlEdjlqVGorUHRCWFJsOWZMMmE5?=
+ =?utf-8?B?dm0zSjdrZTdFeVhCUThOOGtmYktFL09ncExlVDh6L2tUK3ZCcGN6b0tUQ0Zo?=
+ =?utf-8?B?blpkc1dJZ3praytDc1Nmc1V2S2gveHIzQjdiRnRNSnJZdWNreDdTejJCNFR3?=
+ =?utf-8?B?OXROL0FqNFhEVVBkRXNJOC9DdEhuM1lFdGNLeWdQYndiRGswYWhIQmxsTWs4?=
+ =?utf-8?B?R2owd1ZpU1cyWWhWZC94OWhreVRPcFE3Y0Z5KzRRQW9IVGV3eXNLbGlGWnBV?=
+ =?utf-8?B?aFNpSDU4ZkJINzdvbXREQWkxekRwZGRxVEtMaUNXdmRLWTBkS0Z1c2tNZmJl?=
+ =?utf-8?Q?dxPs8ypijvQ=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT1PR01MB4266.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(7416014)(376014)(366016)(7053199007)(13003099007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?MGlmbmFqZnFWSll6cUJUOTZjRWZCY3ZEY0gyV0VKWGZSUUZFalNqSkdXaXFD?=
+ =?utf-8?B?T2gyc2hGSnlHK0JnZHNuakhTMjRzcldNcDF5Ky9JTUdzMVlReEFBYXpZMmY4?=
+ =?utf-8?B?U3p5UzUwWjByNlcyRFdURzB3Z0Y3RGlOdWFLdTNOSUozSm9wUWJVc2Zla2JZ?=
+ =?utf-8?B?SHFMQlpvNGh1b2pUM2lZU1pCVjNqRjhkTjJmaGdxaVh5MTVyU2VPa2kzSDVF?=
+ =?utf-8?B?dXhlQ3YyeFhEYkhnWHNYYVpxTDM2TVczSEV1WlQ0dWR5MkxqallROFQ3VW5K?=
+ =?utf-8?B?SU9FR2xqRjVOSjVpakp1YzBOOXdscjJZMG1XOFBBT0Z4cG5JZTRkTmxCcndq?=
+ =?utf-8?B?ZmhHbjkyaG5SWTNlN1lTaDlJeWRQSU1DeHd2YnRrMTR1WkxOVG5vVDRyRmJ2?=
+ =?utf-8?B?T2FUcmlDU2dwOE11OTAyT2N2bmh1QXJycmN2RHE3clFaWEtTUmp4V1VoM1d1?=
+ =?utf-8?B?Z0x2ZzlMbkRCVEQ3aUJVcFZRTGdyZ2ZxODd3azhXMUNDTlloMU90U2hDd2FX?=
+ =?utf-8?B?akx2UStMOWRNODZRQnhPVEUyTEVETFUzQy9sdGtyT2gwNkFPQk1hZnVWZjZU?=
+ =?utf-8?B?YjNTT0tPclZiV3ZxeUpueVBOREJVNVJ2cjlZaW9oNmlkZDBpYlI0RTZwY1RL?=
+ =?utf-8?B?RjhVV2QzQndsSys5Mml5VnBOVmRzWFZncmNSMEZRMjVqcXNiZUZ2NWtNSmcv?=
+ =?utf-8?B?a09KUzNvNXRJNktNK2pVTnBNQnNHb0JuUVFFSUt4dkdBeUhRa3p4VWlldU5Q?=
+ =?utf-8?B?YUVSOTl1TVMzcEpLS0FONkE1b2NmbHl5dmViRjUzSnhpQ29iT0hGQXB0MzFF?=
+ =?utf-8?B?SldyY09QQTgvVWtwNVZpVmxWbDlIUWh2clNheEJPOXJkbG5UOEh3MzRSdjV1?=
+ =?utf-8?B?UGpwYnlsMzMzQlZhSy9YZ0NZR0RQc3VUY1FyZmtqbEVEOXhwTjEwd3FoRnhi?=
+ =?utf-8?B?OFFzdFhqZnpiNE9QRzNKSTZKQkpPVjJWZmMxUzJxKytPQVJJaFI2WTdTN3Z2?=
+ =?utf-8?B?bkh4UjcxYmJ3NXo2RTQza01MaTlVMnU5WU1iNGEyZ3ovSE11N1R2RXIxVk5n?=
+ =?utf-8?B?Mk5SRk51Sk9OZTlRWUFoYVZDd285Y0l2Z2YwNDUrMFdHSUVMVWdSaVc3S0Yz?=
+ =?utf-8?B?VUtrZFRFbHRkNXl4bTJDTXA0UjhoekhnZnlWeGt6TXZKWHJqMWtNYkZBdjdQ?=
+ =?utf-8?B?TjViMi93UmxRWW5uR3pQMzczZ2plL0JMY3dYV0ozY2ZqdHYzR0cyYXdDRGtz?=
+ =?utf-8?B?VkFUeUJJY0Z1NmRiSEwwVEF3VGJwNGNQYXpUa1ptSjBkVjlhT01ZTVFya2Vl?=
+ =?utf-8?B?Z3h3SFArYU9ZZUt0ZGs2MXZQZTA3dThMOEc4dW5EQjBaSmZ5Sk8ydkR3OVFp?=
+ =?utf-8?B?MFg5UUR3QjliSlluTE13dnhseENKeEdtRkZGSStVMlF6VFh1KzB5WDVpK0Na?=
+ =?utf-8?B?Mkg0Zklsejd0bUwwYzVtVWpOVFdOWnJnN1FUUExEN0hBcGlYR1N6cTBGenJl?=
+ =?utf-8?B?MzUyaFVJRVNaQVVrR3BpQ1VKYTdocHluSExySDFvanV2SUhOWnkxSVNHY2g0?=
+ =?utf-8?B?blpTOE5ZYTM0ZjJSc1VJRWorZjdHR0dzeGZlRStJMS9zUGhYZUtZMjhTeTdJ?=
+ =?utf-8?B?NFhTV01pSWhqVjgwb0NGcGV5WEZRRmhqck5zcFZTaDNvZWF3L0k3UjhKTUlC?=
+ =?utf-8?B?TklJN3FubGl3WWEzWHNZZjlkTG9GeldCZDNCTTNPMWpvVEh4bThxWldTOUpW?=
+ =?utf-8?B?ZVBaYmk5TWxIU0lLenA2c0NrZlo2aklLQWR6MlBybG1sczFxVHBieHU0UWpJ?=
+ =?utf-8?B?YjF1RnR0a21tdEExNGgxT0trVjAzVDcvK1U4clJXNU4xYzJtRk1TMnQ5cEJv?=
+ =?utf-8?B?bnpQWW9uYkVqM0NDVFhSWjFlekxTbkJiZkh4TW5ITis0S1krbG82ZWFlUHYw?=
+ =?utf-8?B?RFRTV1hFcUFIaGdlZnR5VWFJdlNndkJNdDVGT01OQjJoTjJHVzFXcmRtZ0p5?=
+ =?utf-8?B?T2N5OHordkh4K1VlQVlSakx2Q3l5MFdDVlF3Vk9DYkxHb0FWdVVXZVlsbkZ4?=
+ =?utf-8?B?amEyT2dyd1ptZEU5ZnE1NW1XLzRWNkNzakpuRTBUU0pwRncwcE1iekptZWFh?=
+ =?utf-8?B?Tm44SGZSYnoybkdWRFVOeDAzczhqa0xmUEFDVGRqMkFYNmVqMmpjTncyZ0l6?=
+ =?utf-8?B?VXVZcHNjb0RYRnBZdGJwazdxU0FLWXlLSFE1d0FwUUhLZ01BbVZ0VkUxV3NB?=
+ =?utf-8?B?R1lXNzZxRzlheGpvcXUyLy9IK0tBPT0=?=
+X-OriginatorOrg: dimonoff.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf5d2145-927b-4d81-a0ca-08dda436334f
+X-MS-Exchange-CrossTenant-AuthSource: YT1PR01MB4266.CANPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2025 13:38:05.3838
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c4063547-e5e6-4866-a386-58c3965da102
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: l7/Lu6ISxU0ZUyloNUM14gT+IcanscRgt29+Tx8DoCe3xwUKXMvFG3j0nxdDQm+4KJ+yVPqQ/CEG+SpR/lY8fY+dRMl+fih0OKOmI4XhpKA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: YT4PR01MB9877
 
-Hi, Ilpo,
-
-On 02.06.2025 19:18, Ilpo Järvinen wrote:
-> On Fri, 30 May 2025, Claudiu wrote:
+On 6/5/25 04:18, Biju Das wrote:
+> Hi Hugo,
 > 
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> Thanks for the patch.
+> 
+>> -----Original Message-----
+>> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Hugo Villeneuve
+>> Sent: 04 June 2025 15:53
+>> Subject: [PATCH v4 1/1] drm: renesas: rz-du: Implement MIPI DSI host transfers
 >>
->> The Renesas RZ/G3S features a PCIe IP that complies with the PCI Express
->> Base Specification 4.0 and supports speeds of up to 5 GT/s. It functions
->> only as a root complex, with a single-lane (x1) configuration. The
->> controller includes Type 1 configuration registers, as well as IP
->> specific registers (called AXI registers) required for various adjustments.
+>> From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
 >>
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>> Add support for sending MIPI DSI command packets from the host to a peripheral. This is required for
+>> panels that need configuration before they accept video data.
+>>
+>> Also for long reads to work properly, set DCS maximum return packet size to the value of the DMA
+>> buffer size.
+>>
+>> Based on Renesas Linux kernel v5.10 repos [1].
+>>
+>> Link: https://github.com/renesas-rz/rz_linux-cip.git
+>> Cc: Biju Das <biju.das.jz@bp.renesas.com>
+>> Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+> 
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> 
+> FYI, Checkpatch is complaining about duplicate signature.
+> I can fix this while applying,if there are no more comments for this patch.
+> 
+> I am seeing below duplicate tags with your patch now.
+> 
+> Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+> Tested-by: Chris Brandt <Chris.Brandt@renesas.com>
+> Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+> 
+> $ scripts/checkpatch.pl --strict 0001-drm-renesas-rz-du-Implement-MIPI-DSI-host-transfers.patch
+> WARNING: Duplicate signature
+> #19:
+> Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+
+Hi Biju,
+I don't know how this is possible, considering that the patch I sent 
+(https://lore.kernel.org/all/20250604145306.1170676-2-hugo@hugovil.com/) 
+  has only this:
+
+---------------
+Link: https://github.com/renesas-rz/rz_linux-cip.git
+Cc: Biju Das <biju.das.jz@bp.renesas.com>
+Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+---------------
+
+
+> total: 0 errors, 1 warnings, 0 checks, 306 lines checked
+> 
+> NOTE: For some of the reported defects, checkpatch may be able to
+>        mechanically convert to the typical style using --fix or --fix-inplace.
+> 
+> 0001-drm-renesas-rz-du-Implement-MIPI-DSI-host-transfers.patch has style problems, please review.
+> 
+> NOTE: If any of the errors are false positives, please report
+>        them to the maintainer, see CHECKPATCH in MAINTAINERS.
+> 
+> 
 >> ---
+>>   .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 186 ++++++++++++++++++
+>>   .../drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h   |  54 +++++
+>>   2 files changed, 240 insertions(+)
 >>
->> Changes in v2:
->> - dropped the references to other RZ SoCs from patch description
->> - dropped the dot at the end of single line comments that are not a
->>   sentence
->> - as a result of v2 rework removed unused macros and definitions
->>   (e.g. RZG3S_PCI_REQISS_TR_TP1_RD, RZG3S_PCI_REQISS_TR_TP1_WR,
->>   enum rzg3s_pcie_cfg_access_type)
->> - dropped driver specific defines that are for generic PCI
->>   register offsets and used the generic ones
->> - updated the value of RZG3S_PCI_MSI_INT_NR as on RZ/G3S there
->>   are no more than 32 MSIs (v1 value was due to mistake in the
->>   HW manual)
->> - added timeout macros to be used by read_poll_timeout() specific
->>   functions
->> - re-worked the reset handling part by using reset subsystem specific
->>   functions only; with this the struct rzg3s_pcie_soc_data was
->>   added; reference to PHY initialization function was added to this
->>   structure as well
->> - dropped devres_group_id as the issue it tried to address will
->>   now be fixed in platform bus code (v2 posted [2])
->> - use 80 columns alignment
->> - updated function name in the idea of using names similar to
->>   what is used in other drivers
->> - added rzg3s_pcie_root_ops and rzg3s_pcie_child_ops and populate
->>   bridge->ops, bridge->child_ops with it; from probe:
->> +	bridge->ops = &rzg3s_pcie_root_ops;
->> +	bridge->child_ops = &rzg3s_pcie_child_ops;
->> - print a warning for 32 bit accesses (based on the value of
->>   bus->unsafe_warn as done in the common code)
->> - dropped dev_dbg() in read/write functions
->> - added HW manual revision identifier in comments that points to the
->>   statements from manual
->> - reworked the rzg3s_pcie_intx_setup() as the legacy interrupt DT
->>   node is not used anymore
->> - in rzg3s_pcie_config_init() do not hardcode anymore the
->>   primary bus, secondary bus, subordinate bus but get this information
->>   from device tree and update HW registers accordingly
->> - dropped rzg3s_pcie_remove() and added rzg3s_pcie_host_remove_action()
->>   to be used as a devm action or reset function
->> - s/rzg3s_pcie_suspend/rzg3s_pcie_suspend_noirq,
->>   s/rzg3s_pcie_resume/rzg3s_pcie_resume_noirq
->> - dropped DEFINE_NOIRQ_DEV_PM_OPS()
->> - updated driver name (rzg3s-pcie-host) to reflect it is for RZ/G3S 
+>> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-
+>> du/rzg2l_mipi_dsi.c
+>> index 91e1a9adad7d6..50ec109aa6ed3 100644
+>> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+>> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+>> @@ -4,8 +4,11 @@
+>>    *
+>>    * Copyright (C) 2022 Renesas Electronics Corporation
+>>    */
+>> +
+> 
+> Normally, changes like this should reflect in commit message.
+
+This is linked to the new #include, so this is why I didn't add a 
+separate changelog entry...
+
+Hugo.
+
+
+> 
+> Cheers,
+> Biju
+> 
+>> +#include <linux/bitfield.h>
+>>   #include <linux/clk.h>
+>>   #include <linux/delay.h>
+>> +#include <linux/dma-mapping.h>
+>>   #include <linux/io.h>
+>>   #include <linux/iopoll.h>
+>>   #include <linux/module.h>
+>> @@ -23,9 +26,12 @@
+>>   #include <drm/drm_of.h>
+>>   #include <drm/drm_panel.h>
+>>   #include <drm/drm_probe_helper.h>
+>> +#include <video/mipi_display.h>
 >>
->> [2] https://lore.kernel.org/all/20250526122054.65532-2-claudiu.beznea.uj@bp.renesas.com
+>>   #include "rzg2l_mipi_dsi_regs.h"
 >>
->>  MAINTAINERS                              |    8 +
->>  drivers/pci/controller/Kconfig           |    7 +
->>  drivers/pci/controller/Makefile          |    1 +
->>  drivers/pci/controller/pcie-rzg3s-host.c | 1686 ++++++++++++++++++++++
->>  4 files changed, 1702 insertions(+)
->>  create mode 100644 drivers/pci/controller/pcie-rzg3s-host.c
+>> +#define RZG2L_DCS_BUF_SIZE	128 /* Maximum DCS buffer size in external memory. */
+>> +
+>>   struct rzg2l_mipi_dsi {
+>>   	struct device *dev;
+>>   	void __iomem *mmio;
+>> @@ -44,6 +50,10 @@ struct rzg2l_mipi_dsi {
+>>   	unsigned int num_data_lanes;
+>>   	unsigned int lanes;
+>>   	unsigned long mode_flags;
+>> +
+>> +	/* DCS buffer pointers when using external memory. */
+>> +	dma_addr_t dcs_buf_phys;
+>> +	u8 *dcs_buf_virt;
+>>   };
 >>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 0d59a5910e63..3076065955f0 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -19286,6 +19286,14 @@ S:	Maintained
->>  F:	drivers/pci/controller/dwc/pcie-qcom-common.c
->>  F:	drivers/pci/controller/dwc/pcie-qcom.c
->>  
->> +PCIE DRIVER FOR RENESAS RZ/G3S SERIES
->> +M:	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->> +L:	linux-pci@vger.kernel.org
->> +L:	linux-renesas-soc@vger.kernel.org
->> +S:	Supported
->> +F:	Documentation/devicetree/bindings/pci/renesas,r9a08g045s33-pcie.yaml
->> +F:	drivers/pci/controller/pcie-rzg3s-host.c
->> +
->>  PCIE DRIVER FOR ROCKCHIP
->>  M:	Shawn Lin <shawn.lin@rock-chips.com>
->>  L:	linux-pci@vger.kernel.org
->> diff --git a/drivers/pci/controller/Kconfig b/drivers/pci/controller/Kconfig
->> index 886f6f43a895..76fa5f330105 100644
->> --- a/drivers/pci/controller/Kconfig
->> +++ b/drivers/pci/controller/Kconfig
->> @@ -258,6 +258,13 @@ config PCI_RCAR_GEN2
->>  	  There are 3 internal PCI controllers available with a single
->>  	  built-in EHCI/OHCI host controller present on each one.
->>  
->> +config PCIE_RENESAS_RZG3S_HOST
->> +	tristate "Renesas RZ/G3S PCIe host controller"
->> +	depends on ARCH_RENESAS || COMPILE_TEST
->> +	select MFD_SYSCON
->> +	help
->> +	  Say Y here if you want PCIe host controller support on Renesas RZ/G3S SoC.
->> +
->>  config PCIE_ROCKCHIP
->>  	bool
->>  	depends on PCI
->> diff --git a/drivers/pci/controller/Makefile b/drivers/pci/controller/Makefile
->> index 038ccbd9e3ba..229929a945c2 100644
->> --- a/drivers/pci/controller/Makefile
->> +++ b/drivers/pci/controller/Makefile
->> @@ -10,6 +10,7 @@ obj-$(CONFIG_PCI_TEGRA) += pci-tegra.o
->>  obj-$(CONFIG_PCI_RCAR_GEN2) += pci-rcar-gen2.o
->>  obj-$(CONFIG_PCIE_RCAR_HOST) += pcie-rcar.o pcie-rcar-host.o
->>  obj-$(CONFIG_PCIE_RCAR_EP) += pcie-rcar.o pcie-rcar-ep.o
->> +obj-$(CONFIG_PCIE_RENESAS_RZG3S_HOST) += pcie-rzg3s-host.o
->>  obj-$(CONFIG_PCI_HOST_COMMON) += pci-host-common.o
->>  obj-$(CONFIG_PCI_HOST_GENERIC) += pci-host-generic.o
->>  obj-$(CONFIG_PCI_HOST_THUNDER_ECAM) += pci-thunder-ecam.o
->> diff --git a/drivers/pci/controller/pcie-rzg3s-host.c b/drivers/pci/controller/pcie-rzg3s-host.c
->> new file mode 100644
->> index 000000000000..7649674bf72d
->> --- /dev/null
->> +++ b/drivers/pci/controller/pcie-rzg3s-host.c
->> @@ -0,0 +1,1686 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * PCIe driver for Renesas RZ/G3S SoCs
->> + *
->> + * Copyright (C) 2025 Renesas Electronics Corp.
->> + *
->> + * Based on:
->> + *  drivers/pci/controller/pcie-rcar-host.c
->> + *  Copyright (C) 2009 - 2011  Paul Mundt
->> + */
->> +
->> +#include <linux/bitmap.h>
->> +#include <linux/bitops.h>
->> +#include <linux/cleanup.h>
->> +#include <linux/delay.h>
->> +#include <linux/iopoll.h>
->> +#include <linux/interrupt.h>
->> +#include <linux/irq.h>
->> +#include <linux/irqchip/chained_irq.h>
->> +#include <linux/irqdomain.h>
->> +#include <linux/kernel.h>
->> +#include <linux/mfd/syscon.h>
->> +#include <linux/msi.h>
->> +#include <linux/of_irq.h>
->> +#include <linux/pci.h>
->> +#include <linux/platform_device.h>
->> +#include <linux/pm_runtime.h>
->> +#include <linux/regmap.h>
-> 
-> Do you need to select something REGMAP related in Kconfig?
-
-I haven't selected it explicitly as Kconfig selects MFD_SYSCON which
-selects REGMAP_MMIO which selects REGMAP.
-
-> 
->> +#include <linux/reset.h>
->> +#include <linux/slab.h>
->> +
->> +/* AXI registers */
->> +#define RZG3S_PCI_REQDATA(id)			(0x80 + (id) * 0x4)
->> +#define RZG3S_PCI_REQRCVDAT			0x8c
->> +#define RZG3S_PCI_REQADR1			0x90
->> +#define RZG3S_PCI_REQADR1_BUS			GENMASK(31, 24)
->> +#define RZG3S_PCI_REQADR1_DEV			GENMASK(23, 19)
->> +#define RZG3S_PCI_REQADR1_FUNC			GENMASK(18, 16)
->> +#define RZG3S_PCI_REQADR1_REG			GENMASK(11, 0)
-> 
-> Consider adding new lines into this long list of defines. E.g., when there 
-> are reg + it's fields which naturally form a group that could have empty 
-> lines around it.
-
-Ok, I'll consider it but it will lead to some inconsistencies accross
-different defines in this list as there will be new lines after some
-defines only. If I understood correctly your proposal, the result will be
-something like this:
-
-+#define RZG3S_PCI_REQISS			0x9c
-+#define RZG3S_PCI_REQISS_REQ_ISSUE		BIT(0)
-+#define RZG3S_PCI_REQISS_TR_TYPE		GENMASK(11, 8)
-+#define RZG3S_PCI_REQISS_TR_TP0_RD		FIELD_PREP(RZG3S_PCI_REQISS_TR_TYPE, 0x4)
-+#define RZG3S_PCI_REQISS_TR_TP0_WR		FIELD_PREP(RZG3S_PCI_REQISS_TR_TYPE, 0x5)
-+#define RZG3S_PCI_REQISS_MOR_STATUS		GENMASK(18, 16)
-
-+#define RZG3S_PCI_MSIRCVWADRL			0x100
-+#define RZG3S_PCI_MSIRCVWADRL_ENA		BIT(0)
-+#define RZG3S_PCI_MSIRCVWADRL_MSG_DATA_ENA	BIT(1)
-
-+#define RZG3S_PCI_MSIRCVWADRU			0x104
-+#define RZG3S_PCI_MSIRCVWMSKL			0x108
-+#define RZG3S_PCI_MSIRCVWMSKU			0x10c
-+#define RZG3S_PCI_PINTRCVIE			0x110
-+#define RZG3S_PCI_PINTRCVIE_INTX(i)		BIT(i)
-+#define RZG3S_PCI_PINTRCVIE_MSI			BIT(4)
-
-+#define RZG3S_PCI_PINTRCVIS			0x114
-+#define RZG3S_PCI_PINTRCVIS_INTX(i)		BIT(i)
-
-
-> 
->> +#define RZG3S_PCI_REQBE				0x98
->> +#define RZG3S_PCI_REQBE_BYTE_EN			GENMASK(3, 0)
->> +#define RZG3S_PCI_REQISS			0x9c
->> +#define RZG3S_PCI_REQISS_REQ_ISSUE		BIT(0)
->> +#define RZG3S_PCI_REQISS_TR_TYPE		GENMASK(11, 8)
->> +#define RZG3S_PCI_REQISS_TR_TP0_RD		FIELD_PREP(RZG3S_PCI_REQISS_TR_TYPE, 0x4)
->> +#define RZG3S_PCI_REQISS_TR_TP0_WR		FIELD_PREP(RZG3S_PCI_REQISS_TR_TYPE, 0x5)
->> +#define RZG3S_PCI_REQISS_MOR_STATUS		GENMASK(18, 16)
->> +#define RZG3S_PCI_MSIRCVWADRL			0x100
->> +#define RZG3S_PCI_MSIRCVWADRL_ENA		BIT(0)
->> +#define RZG3S_PCI_MSIRCVWADRL_MSG_DATA_ENA	BIT(1)
->> +#define RZG3S_PCI_MSIRCVWADRU			0x104
->> +#define RZG3S_PCI_MSIRCVWMSKL			0x108
->> +#define RZG3S_PCI_MSIRCVWMSKU			0x10c
->> +#define RZG3S_PCI_PINTRCVIE			0x110
->> +#define RZG3S_PCI_PINTRCVIE_INTX(i)		BIT(i)
->> +#define RZG3S_PCI_PINTRCVIE_MSI			BIT(4)
->> +#define RZG3S_PCI_PINTRCVIS			0x114
->> +#define RZG3S_PCI_PINTRCVIS_INTX(i)		BIT(i)
->> +#define RZG3S_PCI_PINTRCVIS_MSI			BIT(4)
->> +#define RZG3S_PCI_MSGRCVIE			0x120
->> +#define RZG3S_PCI_MSGRCVIE_MSG_RCV		BIT(24)
->> +#define RZG3S_PCI_MSGRCVIS			0x124
->> +#define RZG3S_PCI_MSGRCVIS_MRI			BIT(24)
->> +#define RZG3S_PCI_PEIE0				0x200
->> +#define RZG3S_PCI_PEIS0				0x204
->> +#define RZG3S_PCI_PEIS0_DL_UPDOWN		BIT(9)
->> +#define RZG3S_PCI_PEIS0_RX_DLLP_PM_ENTER	BIT(12)
->> +#define RZG3S_PCI_PEIE1				0x208
->> +#define RZG3S_PCI_PEIS1				0x20c
->> +#define RZG3S_PCI_AMEIE				0x210
->> +#define RZG3S_PCI_AMEIS				0x214
->> +#define RZG3S_PCI_ASEIE1			0x220
->> +#define RZG3S_PCI_ASEIS1			0x224
->> +#define RZG3S_PCI_PCSTAT1			0x408
->> +#define RZG3S_PCI_PCSTAT1_DL_DOWN_STS		BIT(0)
->> +#define RZG3S_PCI_PCSTAT1_LTSSM_STATE		GENMASK(14, 10)
->> +#define RZG3S_PCI_PCCTRL2			0x410
->> +#define RZG3S_PCI_PCCTRL2_LS_CHG_REQ		BIT(0)
->> +#define RZG3S_PCI_PCCTRL2_LS_CHG		GENMASK(9, 8)
->> +#define RZG3S_PCI_PCSTAT2			0x414
->> +#define RZG3S_PCI_PCSTAT2_STATE_RX_DETECT	GENMASK(15, 8)
->> +#define RZG3S_PCI_PCSTAT2_SDRIRE		GENMASK(7, 0)
->> +#define RZG3S_PCI_PCSTAT2_LS_CHG_DONE		BIT(28)
->> +#define RZG3S_PCI_PERM				0x300
->> +#define RZG3S_PCI_PERM_PIPE_PHY_REG_EN		BIT(1)
->> +#define RZG3S_PCI_PERM_CFG_HWINIT_EN		BIT(2)
->> +#define RZG3S_PCI_MSIRE(id)			(0x600 + (id) * 0x10)
->> +#define RZG3S_PCI_MSIRE_ENA			BIT(0)
->> +#define RZG3S_PCI_MSIRM(id)			(0x608 + (id) * 0x10)
->> +#define RZG3S_PCI_MSIRS(id)			(0x60c + (id) * 0x10)
->> +#define RZG3S_PCI_AWBASEL(id)			(0x1000 + (id) * 0x20)
->> +#define RZG3S_PCI_AWBASEL_WIN_ENA		BIT(0)
->> +#define RZG3S_PCI_AWBASEU(id)			(0x1004 + (id) * 0x20)
->> +#define RZG3S_PCI_AWMASKL(id)			(0x1008 + (id) * 0x20)
->> +#define RZG3S_PCI_AWMASKU(id)			(0x100c + (id) * 0x20)
->> +#define RZG3S_PCI_ADESTL(id)			(0x1010 + (id) * 0x20)
->> +#define RZG3S_PCI_ADESTU(id)			(0x1014 + (id) * 0x20)
->> +#define RZG3S_PCI_PWBASEL(id)			(0x1100 + (id) * 0x20)
->> +#define RZG3S_PCI_PWBASEL_ENA			BIT(0)
->> +#define RZG3S_PCI_PWBASEU(id)			(0x1104 + (id) * 0x20)
->> +#define RZG3S_PCI_PDESTL(id)			(0x1110 + (id) * 0x20)
->> +#define RZG3S_PCI_PDESTU(id)			(0x1114 + (id) * 0x20)
->> +#define RZG3S_PCI_PWMASKL(id)			(0x1108 + (id) * 0x20)
->> +#define RZG3S_PCI_PWMASKU(id)			(0x110c + (id) * 0x20)
+>>   static inline struct rzg2l_mipi_dsi *
+>> @@ -267,6 +277,7 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+>>   	u32 clkbfht;
+>>   	u32 clkstpt;
+>>   	u32 golpbkt;
+>> +	u32 dsisetr;
+>>   	int ret;
 >>
->> +/* PHY control registers */
->> +#define RZG3S_PCI_PHY_XCFGD(id)			(0x2000 + (id) * 0x10)
->> +#define RZG3S_PCI_PHY_XCFGD_NUM			39
->> +#define RZG3S_PCI_PHY_XCFGA_CMN(id)		(0x2400 + (id) * 0x10)
->> +#define RZG3S_PCI_PHY_XCFGA_CMN_NUM		16
->> +#define RZG3S_PCI_PHY_XCFGA_RX(id)		(0x2500 + (id) * 0x10)
->> +#define RZG3S_PCI_PHY_XCFGA_RX_NUM		13
->> +#define RZG3S_PCI_PHY_XCFGA_TX			0x25d0
->> +#define RZG3S_PCI_PHY_XCFG_CTRL			0x2a20
->> +#define RZG3S_PCI_PHY_XCFG_CTRL_PHYREG_SEL	BIT(0)
+>>   	/*
+>> @@ -328,6 +339,15 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+>>   	lptrnstsetr = LPTRNSTSETR_GOLPBKT(golpbkt);
+>>   	rzg2l_mipi_dsi_link_write(dsi, LPTRNSTSETR, lptrnstsetr);
+>>
+>> +	/*
+>> +	 * Increase MRPSZ as the default value of 1 will result in long read
+>> +	 * commands payload not being saved to memory.
+>> +	 */
+>> +	dsisetr = rzg2l_mipi_dsi_link_read(dsi, DSISETR);
+>> +	dsisetr &= ~DSISETR_MRPSZ;
+>> +	dsisetr |= FIELD_PREP(DSISETR_MRPSZ, RZG2L_DCS_BUF_SIZE);
+>> +	rzg2l_mipi_dsi_link_write(dsi, DSISETR, dsisetr);
 >> +
->> +/* PCIe registers */
->> +#define RZG3S_PCI_CFG_BASE			0x6000
->> +#define RZG3S_PCI_CFG_BARMSK00L			0xa0
->> +#define RZG3S_PCI_CFG_BARMSK00U			0xa4
->> +#define RZG3S_PCI_CFG_LINKCS			0x70
->> +#define RZG3S_PCI_CFG_LINKCS_CUR_LS		GENMASK(19, 16)
->> +#define RZG3S_PCI_CFG_LINCS2			0x90
->> +#define RZG3S_PCI_CFG_LINCS2_TARGET_LS		GENMASK(3, 0)
-> 
-> Are these duplicating offsets / fields in the PCI Express Capability?
-> If yes, you should use include/uapi/linux/pci_regs.h defines and not add 
-> duplicates.
-
-OK, I'll double check include/uapi/linux/pci_regs.h again.
-
-> 
+>>   	return 0;
+>>
+>>   err_phy:
+>> @@ -659,9 +679,168 @@ static int rzg2l_mipi_dsi_host_detach(struct mipi_dsi_host *host,
+>>   	return 0;
+>>   }
+>>
+>> +static ssize_t rzg2l_mipi_dsi_read_response(struct rzg2l_mipi_dsi *dsi,
+>> +					    const struct mipi_dsi_msg *msg) {
+>> +	u8 *msg_rx = msg->rx_buf;
+>> +	u8 datatype;
+>> +	u32 result;
+>> +	u16 size;
 >> +
->> +/* System controller registers */
->> +#define RZG3S_SYS_PCIE_RST_RSM_B		0xd74
->> +#define RZG3S_SYS_PCIE_RST_RSM_B_MASK		BIT(0)
->> +
->> +/* Maximum number of windows */
->> +#define RZG3S_MAX_WINDOWS			8
->> +
->> +/* Number of MSI interrupts per register */
->> +#define RZG3S_PCI_MSI_INT_PER_REG		32
->> +/* The number of MSI interrupts */
->> +#define RZG3S_PCI_MSI_INT_NR			RZG3S_PCI_MSI_INT_PER_REG
->> +
->> +/* Timeouts */
->> +#define RZG3S_REQ_ISSUE_TIMEOUT_US		2500
->> +#define RZG3S_LTSSM_STATE_TIMEOUT_US		1000
->> +#define RZG3S_LS_CHANGE_TIMEOUT_US		1000
->> +#define RZG3S_LINK_UP_TIMEOUT_US		500000
->> +
->> +/**
->> + * enum rzg3s_pcie_link_speed - RZ/G3S PCIe available link speeds
->> + * @RZG3S_PCIE_LINK_SPEED_2_5_GTS: 2.5 GT/s
->> + * @RZG3S_PCIE_LINK_SPEED_5_0_GTS: 5.0 GT/s
->> + */
->> +enum rzg3s_pcie_link_speed {
->> +	RZG3S_PCIE_LINK_SPEED_2_5_GTS = 1,
->> +	RZG3S_PCIE_LINK_SPEED_5_0_GTS
->> +};
-> 
-> Use include/uapi/linux/pci_regs.h defines instead?
-
-Will do it.
-
-[ ... ]
-
->> +static int rzg3s_pcie_msi_enable(struct rzg3s_pcie_host *host)
->> +{
->> +	struct platform_device *pdev = to_platform_device(host->dev);
->> +	struct rzg3s_pcie_msi *msi = &host->msi;
->> +	struct device *dev = host->dev;
->> +	const char *devname;
->> +	int irq, ret;
->> +
->> +	mutex_init(&msi->map_lock);
-> 
-> Use devm_mutex_init() + remember error handling.
-
-OK.
-
-> 
->> +
->> +	irq = platform_get_irq_byname(pdev, "msi");
->> +	if (irq < 0)
->> +		return dev_err_probe(dev, irq ? irq : -EINVAL,
->> +				     "Failed to get MSI IRQ!\n");
->> +
->> +	devname = devm_kasprintf(dev, GFP_KERNEL, "%s-msi", dev_name(dev));
->> +	if (!devname)
->> +		return -ENOMEM;
->> +
->> +	ret = rzg3s_pcie_msi_allocate_domains(msi);
->> +	if (ret)
->> +		return ret;
->> +
->> +	ret = devm_request_irq(dev, irq, rzg3s_pcie_msi_irq, 0, devname, host);
->> +	if (ret) {
->> +		dev_err_probe(dev, ret, "Failed to request IRQ: %d\n", ret);
->> +		goto free_domains;
+>> +	result = rzg2l_mipi_dsi_link_read(dsi, RXRSS0R);
+>> +	if (result & RXRSS0R_RXPKTDFAIL) {
+>> +		dev_err(dsi->dev, "packet rx data did not save correctly\n");
+>> +		return -EPROTO;
 >> +	}
 >> +
->> +	ret = rzg3s_pcie_msi_setup(host);
->> +	if (ret) {
->> +		dev_err_probe(dev, ret, "Failed to setup MSI!\n");
->> +		goto free_domains;
+>> +	if (result & RXRSS0R_RXFAIL) {
+>> +		dev_err(dsi->dev, "packet rx failure\n");
+>> +		return -EPROTO;
 >> +	}
 >> +
->> +	return 0;
+>> +	if (!(result & RXRSS0R_RXSUC))
+>> +		return -EPROTO;
 >> +
->> +free_domains:
->> +	rzg3s_pcie_msi_free_domains(msi);
-> 
-> I'm a bit worried about tear down order here as you seem to be mixing 
-> devm* and non-devm*. All devres based teardown will occur only after the 
-> probe returns error.
-
-I added it here to avoid adding a new devres helper for irq_domain_remove()
-in case this failure happens. I can add a new devres helper for it, as well.
-
-[ ...]
-
->> +static int rzg3s_pcie_resets_prepare(struct rzg3s_pcie_host *host)
->> +{
->> +	const struct rzg3s_pcie_soc_data *data = host->data;
+>> +	datatype = FIELD_GET(RXRSS0R_DT, result);
+>> +
+>> +	switch (datatype) {
+>> +	case 0:
+>> +		dev_dbg(dsi->dev, "ACK\n");
+>> +		return 0;
+>> +	case MIPI_DSI_RX_END_OF_TRANSMISSION:
+>> +		dev_dbg(dsi->dev, "EoTp\n");
+>> +		return 0;
+>> +	case MIPI_DSI_RX_ACKNOWLEDGE_AND_ERROR_REPORT:
+>> +		dev_dbg(dsi->dev, "Acknowledge and error report: $%02x%02x\n",
+>> +			(u8)FIELD_GET(RXRSS0R_DATA1, result),
+>> +			(u8)FIELD_GET(RXRSS0R_DATA0, result));
+>> +		return 0;
+>> +	case MIPI_DSI_RX_DCS_SHORT_READ_RESPONSE_1BYTE:
+>> +	case MIPI_DSI_RX_GENERIC_SHORT_READ_RESPONSE_1BYTE:
+>> +		msg_rx[0] = FIELD_GET(RXRSS0R_DATA0, result);
+>> +		return 1;
+>> +	case MIPI_DSI_RX_DCS_SHORT_READ_RESPONSE_2BYTE:
+>> +	case MIPI_DSI_RX_GENERIC_SHORT_READ_RESPONSE_2BYTE:
+>> +		msg_rx[0] = FIELD_GET(RXRSS0R_DATA0, result);
+>> +		msg_rx[1] = FIELD_GET(RXRSS0R_DATA1, result);
+>> +		return 2;
+>> +	case MIPI_DSI_RX_GENERIC_LONG_READ_RESPONSE:
+>> +	case MIPI_DSI_RX_DCS_LONG_READ_RESPONSE:
+>> +		size = FIELD_GET(RXRSS0R_WC, result);
+>> +
+>> +		if (size > msg->rx_len) {
+>> +			dev_err(dsi->dev, "rx buffer too small");
+>> +			return -ENOSPC;
+>> +		}
+>> +
+>> +		memcpy(msg_rx, dsi->dcs_buf_virt, size);
+>> +		return size;
+>> +	default:
+>> +		dev_err(dsi->dev, "unhandled response type: %02x\n", datatype);
+>> +		return -EPROTO;
+>> +	}
+>> +}
+>> +
+>> +static ssize_t rzg2l_mipi_dsi_host_transfer(struct mipi_dsi_host *host,
+>> +					    const struct mipi_dsi_msg *msg) {
+>> +	struct rzg2l_mipi_dsi *dsi = host_to_rzg2l_mipi_dsi(host);
+>> +	struct mipi_dsi_packet packet;
+>> +	bool need_bta;
+>> +	u32 value;
 >> +	int ret;
 >> +
->> +	host->power_resets = devm_kmalloc_array(host->dev,
->> +						data->num_power_resets,
->> +						sizeof(*host->power_resets),
->> +						GFP_KERNEL);
->> +	if (!host->power_resets)
->> +		return -ENOMEM;
+>> +	ret = mipi_dsi_create_packet(&packet, msg);
+>> +	if (ret < 0)
+>> +		return ret;
 >> +
->> +	for (unsigned int i = 0; i < data->num_power_resets; i++)
->> +		host->power_resets[i].id = data->power_resets[i];
+>> +	/* Terminate operation after this descriptor is finished */
+>> +	value = SQCH0DSC0AR_NXACT_TERM;
 >> +
->> +	host->cfg_resets = devm_kmalloc_array(host->dev,
->> +					      data->num_cfg_resets,
->> +					      sizeof(*host->cfg_resets),
->> +					      GFP_KERNEL);
-> 
-> For these 2 allocs, devm_kcalloc() to init it to zero?
-
-I considered it unnecessary to init it to zero as the the id member is
-initialized below in this function and the rstc member is initialized through:
-
-devm_reset_control_bulk_get_exclusive() ->
-  __devm_reset_control_bulk_get() ->
-    __reset_control_bulk_get()
-
-[ ... ]
-
->> +static int rzg3s_pcie_set_inbound_windows(struct rzg3s_pcie_host *host,
->> +					  struct resource_entry *entry,
->> +					  int *index)
->> +{
->> +	u64 pci_addr = entry->res->start - entry->offset;
->> +	u64 cpu_addr = entry->res->start;
->> +	u64 cpu_end = entry->res->end;
->> +	u64 size_id = 0;
->> +	int id = *index;
->> +	u64 size;
->> +
->> +	while (cpu_addr < cpu_end) {
->> +		if (id >= RZG3S_MAX_WINDOWS)
->> +			return dev_err_probe(host->dev, -EINVAL,
->> +					     "Failed to set inbound windows!\n");
->> +
->> +		size = resource_size(entry->res) - size_id;
->> +
->> +		/*
->> +		 * According to the RZ/G3S HW manual (Rev.1.10,
->> +		 * section 34.3.1.71 AXI Window Mask (Lower) Registers) the min
->> +		 * size is 4K.
->> +		 */
->> +		size = max(size, 4096);
-> 
-> SZ_4K + remember to add the #include for it if not there yet.
-
-OK
-
-> 
->> +
->> +		/*
->> +		 * According the RZ/G3S HW manual (Rev.1.10, sections:
->> +		 * - 34.3.1.69 AXI Window Base (Lower) Registers
->> +		 * - 34.3.1.71 AXI Window Mask (Lower) Registers
->> +		 * - 34.3.1.73 AXI Destination (Lower) Registers)
->> +		 * the CPU addr, PCIe addr, size should be 4K alined and be a
-> 
-> aligned
-
-OK
-
-> 
->> +		 * power of 2.
->> +		 */
->> +		size = ALIGN(size, 4096);
-> 
-> SZ_4K
-
-OK
-
-> 
->> +
->> +		/*
->> +		 * According to the RZ/G3S HW manual (Rev.1.10, section
->> +		 * 34.3.1.71 AXI Window Mask (Lower) Registers) HW expects first
->> +		 * 12 LSB bits to be 0xfff. Extract 1 from size for this.
->> +		 */
->> +		size = roundup_pow_of_two(size) - 1;
->> +
->> +		cpu_addr = ALIGN(cpu_addr, 4096);
->> +		pci_addr = ALIGN(pci_addr, 4096);
-> 
-> Ditto.
-
-OK
-
-> 
->> +
->> +		rzg3s_pcie_set_inbound_window(host, cpu_addr, pci_addr, size,
->> +					      id);
->> +
->> +		pci_addr += size;
->> +		cpu_addr += size;
->> +		size_id = size;
->> +		id++;
->> +	}
->> +	*index = id;
->> +
->> +	return 0;
->> +}
->> +
->> +static int rzg3s_pcie_parse_map_dma_ranges(struct rzg3s_pcie_host *host)
->> +{
->> +	struct pci_host_bridge *bridge = pci_host_bridge_from_priv(host);
->> +	struct resource_entry *entry;
->> +	int i = 0, ret;
->> +
->> +	resource_list_for_each_entry(entry, &bridge->dma_ranges) {
->> +		ret = rzg3s_pcie_set_inbound_windows(host, entry, &i);
->> +		if (ret)
->> +			return ret;
+>> +	if (msg->flags & MIPI_DSI_MSG_REQ_ACK) {
+>> +		need_bta = true; /* Message with explicitly requested ACK */
+>> +		value |= FIELD_PREP(SQCH0DSC0AR_BTA, SQCH0DSC0AR_BTA_NON_READ);
+>> +	} else if (msg->rx_buf && msg->rx_len > 0) {
+>> +		need_bta = true; /* Read request */
+>> +		value |= FIELD_PREP(SQCH0DSC0AR_BTA, SQCH0DSC0AR_BTA_READ);
+>> +	} else {
+>> +		need_bta = false;
+>> +		value |= FIELD_PREP(SQCH0DSC0AR_BTA, SQCH0DSC0AR_BTA_NONE);
 >> +	}
 >> +
->> +	return 0;
->> +}
->> +
->> +static void rzg3s_pcie_set_outbound_window(struct rzg3s_pcie_host *host,
->> +					   struct resource_entry *win,
->> +					   int id)
->> +{
->> +	struct resource *res = win->res;
->> +	resource_size_t size = resource_size(res);
->> +	resource_size_t res_start;
->> +
->> +	if (res->flags & IORESOURCE_IO)
->> +		res_start = pci_pio_to_address(res->start) - win->offset;
+>> +	/* Set transmission speed */
+>> +	if (msg->flags & MIPI_DSI_MSG_USE_LPM)
+>> +		value |= SQCH0DSC0AR_SPD_LOW;
 >> +	else
->> +		res_start = res->start - win->offset;
+>> +		value |= SQCH0DSC0AR_SPD_HIGH;
+>> +
+>> +	/* Write TX packet header */
+>> +	value |= FIELD_PREP(SQCH0DSC0AR_DT, packet.header[0]) |
+>> +		FIELD_PREP(SQCH0DSC0AR_DATA0, packet.header[1]) |
+>> +		FIELD_PREP(SQCH0DSC0AR_DATA1, packet.header[2]);
+>> +
+>> +	if (mipi_dsi_packet_format_is_long(msg->type)) {
+>> +		value |= SQCH0DSC0AR_FMT_LONG;
+>> +
+>> +		if (packet.payload_length > RZG2L_DCS_BUF_SIZE) {
+>> +			dev_err(dsi->dev, "Packet Tx payload size (%d) too large",
+>> +				(unsigned int)packet.payload_length);
+>> +			return -ENOSPC;
+>> +		}
+>> +
+>> +		/* Copy TX packet payload data to memory space */
+>> +		memcpy(dsi->dcs_buf_virt, packet.payload, packet.payload_length);
+>> +	} else {
+>> +		value |= SQCH0DSC0AR_FMT_SHORT;
+>> +	}
+>> +
+>> +	rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0AR, value);
 >> +
 >> +	/*
->> +	 * According to the RZ/G3S HW manual (Rev.1.10, section 34.3.1.75 PCIe
->> +	 * Window Base (Lower) Registers) the window base address need to be 4K
->> +	 * aligned.
+>> +	 * Write: specify payload data source location, only used for
+>> +	 *        long packet.
+>> +	 * Read:  specify payload data storage location of response
+>> +	 *        packet. Note: a read packet is always a short packet.
+>> +	 *        If the response packet is a short packet or a long packet
+>> +	 *        with WC = 0 (no payload), DTSEL is meaningless.
 >> +	 */
->> +	res_start = ALIGN(res_start, 4096);
->> +
->> +	size = ALIGN(size, 4096);
-> 
-> Ditto.
-
-OK
-
-[ ... ]
-
->> +
->> +static int rzg3s_pcie_resume_noirq(struct device *dev)
->> +{
->> +	struct rzg3s_pcie_host *host = dev_get_drvdata(dev);
->> +	const struct rzg3s_pcie_soc_data *data = host->data;
->> +	struct regmap *sysc = host->sysc;
->> +	int ret;
->> +
->> +	ret = regmap_update_bits(sysc, RZG3S_SYS_PCIE_RST_RSM_B,
->> +				 RZG3S_SYS_PCIE_RST_RSM_B_MASK,
->> +				 FIELD_PREP(RZG3S_SYS_PCIE_RST_RSM_B_MASK, 1));
->> +	if (ret)
->> +		return ret;
+>> +	rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0BR,
+>> +SQCH0DSC0BR_DTSEL_MEM_SPACE);
 >> +
 >> +	/*
->> +	 * According to the RZ/G3S HW manual (Rev.1.10, section
->> +	 * 34.5.1.2 De-asserting the Reset) the PCIe IP needs to wait 5ms from
->> +	 * power on to the de-assertion of reset.
+>> +	 * Set SQCHxSR.AACTFIN bit when descriptor actions are finished.
+>> +	 * Read: set Rx result save slot number to 0 (ACTCODE).
 >> +	 */
->> +	usleep_range(5000, 5100);
+>> +	rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0CR, SQCH0DSC0CR_FINACT);
+>> +
+>> +	/* Set rx/tx payload data address, only relevant for long packet. */
+>> +	rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0DR, (u32)dsi->dcs_buf_phys);
+>> +
+>> +	/* Start sequence 0 operation */
+>> +	value = rzg2l_mipi_dsi_link_read(dsi, SQCH0SET0R);
+>> +	value |= SQCH0SET0R_START;
+>> +	rzg2l_mipi_dsi_link_write(dsi, SQCH0SET0R, value);
+>> +
+>> +	/* Wait for operation to finish */
+>> +	ret = read_poll_timeout(rzg2l_mipi_dsi_link_read,
+>> +				value, value & SQCH0SR_ADESFIN,
+>> +				2000, 20000, false, dsi, SQCH0SR);
+>> +	if (ret == 0) {
+>> +		/* Success: clear status bit */
+>> +		rzg2l_mipi_dsi_link_write(dsi, SQCH0SCR, SQCH0SCR_ADESFIN);
+>> +
+>> +		if (need_bta)
+>> +			ret = rzg2l_mipi_dsi_read_response(dsi, msg);
+>> +		else
+>> +			ret = packet.payload_length;
+>> +	}
+>> +
+>> +	return ret;
+>> +}
+>> +
+>>   static const struct mipi_dsi_host_ops rzg2l_mipi_dsi_host_ops = {
+>>   	.attach = rzg2l_mipi_dsi_host_attach,
+>>   	.detach = rzg2l_mipi_dsi_host_detach,
+>> +	.transfer = rzg2l_mipi_dsi_host_transfer,
+>>   };
+>>
+>>   /* -----------------------------------------------------------------------------
+>> @@ -779,6 +958,11 @@ static int rzg2l_mipi_dsi_probe(struct platform_device *pdev)
+>>   	if (ret < 0)
+>>   		goto err_pm_disable;
+>>
+>> +	dsi->dcs_buf_virt = dma_alloc_coherent(dsi->host.dev, RZG2L_DCS_BUF_SIZE,
+>> +					       &dsi->dcs_buf_phys, GFP_KERNEL);
+>> +	if (!dsi->dcs_buf_virt)
+>> +		return -ENOMEM;
+>> +
+>>   	return 0;
+>>
+>>   err_phy:
+>> @@ -793,6 +977,8 @@ static void rzg2l_mipi_dsi_remove(struct platform_device *pdev)  {
+>>   	struct rzg2l_mipi_dsi *dsi = platform_get_drvdata(pdev);
+>>
+>> +	dma_free_coherent(dsi->host.dev, RZG2L_DCS_BUF_SIZE, dsi->dcs_buf_virt,
+>> +			  dsi->dcs_buf_phys);
+>>   	mipi_dsi_host_unregister(&dsi->host);
+>>   	pm_runtime_disable(&pdev->dev);
+>>   }
+>> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rz-
+>> du/rzg2l_mipi_dsi_regs.h
+>> index 1dbc16ec64a4b..26d8a37ee6351 100644
+>> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
+>> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
+>> @@ -81,6 +81,20 @@
+>>   #define RSTSR_SWRSTLP			(1 << 1)
+>>   #define RSTSR_SWRSTHS			(1 << 0)
+>>
+>> +/* DSI Set Register */
+>> +#define DSISETR				0x120
+>> +#define DSISETR_MRPSZ			GENMASK(15, 0)
+>> +
+>> +/* Rx Result Save Slot 0 Register */
+>> +#define RXRSS0R				0x240
+>> +#define RXRSS0R_RXPKTDFAIL		BIT(28)
+>> +#define RXRSS0R_RXFAIL			BIT(27)
+>> +#define RXRSS0R_RXSUC			BIT(25)
+>> +#define RXRSS0R_DT			GENMASK(21, 16)
+>> +#define RXRSS0R_DATA1			GENMASK(15, 8)
+>> +#define RXRSS0R_DATA0			GENMASK(7, 0)
+>> +#define RXRSS0R_WC			GENMASK(15, 0) /* Word count for long packet. */
+>> +
+>>   /* Clock Lane Stop Time Set Register */
+>>   #define CLSTPTSETR			0x314
+>>   #define CLSTPTSETR_CLKKPT(x)		((x) << 24)
+>> @@ -148,4 +162,44 @@
+>>   #define VICH1HPSETR_HFP(x)		(((x) & 0x1fff) << 16)
+>>   #define VICH1HPSETR_HBP(x)		(((x) & 0x1fff) << 0)
+>>
+>> +/* Sequence Channel 0 Set 0 Register */
+>> +#define SQCH0SET0R			0x5c0
+>> +#define SQCH0SET0R_START		BIT(0)
+>> +
+>> +/* Sequence Channel 0 Status Register */
+>> +#define SQCH0SR				0x5d0
+>> +#define SQCH0SR_ADESFIN			BIT(8)
+>> +
+>> +/* Sequence Channel 0 Status Clear Register */
+>> +#define SQCH0SCR			0x5d4
+>> +#define SQCH0SCR_ADESFIN		BIT(8)
+>> +
+>> +/* Sequence Channel 0 Descriptor 0-A Register */
+>> +#define SQCH0DSC0AR			0x780
+>> +#define SQCH0DSC0AR_NXACT_TERM		0	/* Bit 28 */
+>> +#define SQCH0DSC0AR_BTA			GENMASK(27, 26)
+>> +#define SQCH0DSC0AR_BTA_NONE		0
+>> +#define SQCH0DSC0AR_BTA_NON_READ	1
+>> +#define SQCH0DSC0AR_BTA_READ		2
+>> +#define SQCH0DSC0AR_BTA_ONLY		3
+>> +#define SQCH0DSC0AR_SPD_HIGH		0
+>> +#define SQCH0DSC0AR_SPD_LOW		BIT(25)
+>> +#define SQCH0DSC0AR_FMT_SHORT		0
+>> +#define SQCH0DSC0AR_FMT_LONG		BIT(24)
+>> +#define SQCH0DSC0AR_DT			GENMASK(21, 16)
+>> +#define SQCH0DSC0AR_DATA1		GENMASK(15, 8)
+>> +#define SQCH0DSC0AR_DATA0		GENMASK(7, 0)
+>> +
+>> +/* Sequence Channel 0 Descriptor 0-B Register */
+>> +#define SQCH0DSC0BR			0x784
+>> +#define SQCH0DSC0BR_DTSEL_MEM_SPACE	BIT(24)	/* Use external memory */
+>> +
+>> +/* Sequence Channel 0 Descriptor 0-C Register */
+>> +#define SQCH0DSC0CR			0x788
+>> +#define SQCH0DSC0CR_FINACT		BIT(0)
+>> +#define SQCH0DSC0CR_AUXOP		BIT(22)
+>> +
+>> +/* Sequence Channel 0 Descriptor 0-D Register */
+>> +#define SQCH0DSC0DR			0x78c
+>> +
+>>   #endif /* __RZG2L_MIPI_DSI_REGS_H__ */
+>> --
+>> 2.39.5
 > 
-> Please make a define out of this since you're using it in multiple places.
 
-OK
-
-> 
->> +	ret = reset_control_bulk_deassert(data->num_power_resets,
->> +					  host->power_resets);
->> +	if (ret)
->> +		goto assert_rst_rsm_b;
-> 
-> Maybe add a helper for the wait + bulk_deassert().
-
-OK.
-
-Thank you for your review,
-Claudiu
 
