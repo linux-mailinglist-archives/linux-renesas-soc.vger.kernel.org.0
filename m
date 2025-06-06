@@ -1,191 +1,222 @@
-Return-Path: <linux-renesas-soc+bounces-17885-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17886-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20D7CACFEEB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jun 2025 11:12:36 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A4F5ACFEF3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jun 2025 11:13:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6F6473A4E31
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jun 2025 09:12:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9D2C31891FFE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jun 2025 09:14:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D24BA286430;
-	Fri,  6 Jun 2025 09:12:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72B7A28640C;
+	Fri,  6 Jun 2025 09:13:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="TxvA3+vc"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="g4nk5EID";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AQeOZkyu"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD3751DF739
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  6 Jun 2025 09:12:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88013283FFB;
+	Fri,  6 Jun 2025 09:13:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749201147; cv=none; b=EyiDzBIRdLZ7aXxOiudfBCCZ0+5JQdY2axDT0OqlQ2xpnrHWUO66UzmtHlnehcAnUexyce04ljMrqoA+OJ/mMSRkBBl195JhQ/gjEklBWzjZVV04rJz0Vs/QmsPdc8EkTUIwMGLDdgC5qTenA7KbJhL1ntuZjNPz1SJRtXLo67w=
+	t=1749201233; cv=none; b=ixPWXU9h4bamWp7xYZQlzIX0ivg8n4+l8xXwKlGk9J7LSnWHVPrxEaNbgi+wuu7H2UmtFLffkspMwZGu6tnmlbzT+Oy4zVq+WfRcoWWun516ePGrBlbA2j6hhfcIeG6TtmzNqjM23puEFBtshPwdvu1SAyI5Rs/DbgFSRcKSk2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749201147; c=relaxed/simple;
-	bh=HmRNUwvFUl/hdKoO4B1dgc6/Hw5mGyFSqMWv/NJQVWE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uH+gizAI5bNev/gHcJxu1gUHAM5ifFeebMcifX3Me0NHxZbAIVu9oFxcK1vEZppAtx0jkaYVvUhEQDMjnhdjS8wKE1CXxfYt2k+5f8XS5zebxD/Idz22t2fNO3AYsJxwCDjnRsHMpvHPFnSRyHuP2ELtX9WK1m4OLKkeZ0gtKrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=TxvA3+vc; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5efe8d9ebdfso3407372a12.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 06 Jun 2025 02:12:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1749201144; x=1749805944; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Wc+ifX+7O38yry593NEDWvp79xQMU3g4ALAygrP5+5k=;
-        b=TxvA3+vcesJZKqLdzgVo3evL9gOZzhwlcXroGLLBq+G8ahix5MAMLbKqLE35JLUHF2
-         VAvfkrrzKMTNT1Er2AEEtR0GK5Jklbeh4SDj//wLvZ+MXHqpuLHP1y8+Ew37iDNJ/ELB
-         zGhVek5Cu05m1W0oBuGylGglcngGZP80EfUkifMT7AU6RLF4+uduuyt1BPRz3coEAQtq
-         SW9pJJVof/RhUpHQVgMQkGdxLiu/xtLDer20WNPoe3nsqhMdclVAfEwnrx7puRF3IKrA
-         3xZthlRqDnC+BfNnrav3UnkwCkSEWUZ9QA8rf88C/gzcD6VYUSmeu6f9qbBQ1uH4nfQi
-         3eoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749201144; x=1749805944;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wc+ifX+7O38yry593NEDWvp79xQMU3g4ALAygrP5+5k=;
-        b=LsAZMQaFfhhtRA3LJf4eEVojioYBh6nP3YtwJFJobiY8RbxAqbFRm17Y9ht1LWMtVR
-         /pdw32O5PJ30sKd+z1k/Ibuxlj7aTT4nBGHY/NIgwV40Ul8rCmD0dqfU58ccEfaBoLIp
-         lhxZrYb6KXblY7K/EUc0+LlOWNcALHjFisgvVHkonnO07U2eqo2TwfAep9H1ErRALeIF
-         u4/YTT/v5kv/5FRbywn2q4c7eD6WXMoGzhDVjzP/EaJn20ist42NYAxxvf9j3HBS9We5
-         wet2HP9mKa4insQWhGOKyJIEwK6bM0ZztUJFXxuBlsiar0xT9u2kBsDw+ENvSroc3DcH
-         BNgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXZEz/1vZFKE13PrZADXU+dLJIKrz0zrhgHydw9dfj9u//UFB4Zp0jeB2ghkzSg1hSlGlq0fWkWyMC2G7yCfSlvDw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzaH6Wa3HfHbraFJ6KKk4I4nD1/QSpXy2aER8sfLK6K/D8bxxla
-	7PLAsgJpTE1a9De/q6+W/WB4zP+A1aXXN/2kOwzg05+wX5Xjgtc4qZfU/s8MxUCil44=
-X-Gm-Gg: ASbGncugUmxYXxZfd4ot3c5R35jk+RuPbrQcXF75KelQQvS71rtPtF00CLNE1Zknsn2
-	yZ2y5ipOVY53Mn5SlzdkMO+1eaSaZWIZA08uc8xYVROEV8i1cYgEWkQbGJXs+H0r2Pi6HaqVq5b
-	wts2oftuJieNRn3KedntqOYCbrAK8atyEac8Ccy8uES38NJS/nUPp2OZrKQhhDl2qJvrTAITgO+
-	RZnOZoE7h/MRj7x8O6Ne8ye7ASQq2kd/MOdT5y1V0ZJORUxzE/jUXJ9IPGq+qj65c1f5la83BbY
-	w7quVQFSxYPnheWrLmo5/FV8qCgU3eGbpVmOJ5sV4QiBTV3WgK7YO9n59yzq
-X-Google-Smtp-Source: AGHT+IEjDHiLE7sMo+a12s7VFlD8SjfCEiBfxxMF3QVGmJjKfSvQI7x7ZEGc6pDRlowYGNhvaszk6A==
-X-Received: by 2002:a17:907:bb49:b0:adb:428f:f748 with SMTP id a640c23a62f3a-ade1aa06c95mr206620466b.21.1749201143788;
-        Fri, 06 Jun 2025 02:12:23 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.126])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ade1dc7d300sm85900566b.179.2025.06.06.02.12.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Jun 2025 02:12:23 -0700 (PDT)
-Message-ID: <53921bd9-6ac9-49fb-8c9d-2c439ec8cd5b@tuxon.dev>
-Date: Fri, 6 Jun 2025 12:12:21 +0300
+	s=arc-20240116; t=1749201233; c=relaxed/simple;
+	bh=elNmMcEm/GGOUK2tIhv3CbPxIzdJsRFiJtW0NPFKiHg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KC9MAzGmvem29KZMh6keEBOXFJwalNluW+VVKm41PicP2KTEFmDkmmlXZ/9VeZBeZq32kZ3BLWyMw4HnEj7Bw1brov4nDRxSuX3Midv3fxupGdT60BTlCfxNWaR4POkKe5F4STrS1ZzwAFXVYxkfPes/E+Xi0UH/BPc4GPOe1MM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=g4nk5EID; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AQeOZkyu; arc=none smtp.client-ip=202.12.124.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 4A01B25400D8;
+	Fri,  6 Jun 2025 05:13:49 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Fri, 06 Jun 2025 05:13:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1749201229;
+	 x=1749287629; bh=vtUO92tCX2BijpLTXVd3ne6ezZessOK7OBV0E6sLs9M=; b=
+	g4nk5EIDmRl1FqCYFrxe6UaXfclYBwvaaldd6OgUMVhpbBGTdGgsuSvUJ2xKx9J/
+	hcRbVWgyQ6WY0CZiTRyPVIAIJvolB6+PG/bXMvCsQJ4VahaM23faBUV2x8gkfP4S
+	4GQygoMxiXoeLZIEQy7DkviyIxkjXh2F3Mu5PaBbtaIyp4BagppIiCjbvnB8aOGK
+	ZhdsgN07YlKk+DQw86YVzaQ+1aBT0VNVGQN0evgb7mNEWCRBcLoVvQEEsoyULj3W
+	4h3IO0tS336YLwxu5KynWKQL0mF5jsqPlE0t73thG1qKaW+vxvg7jANHMD5P7LkL
+	SNLw+zQ3czg421/OJdmVaQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749201229; x=
+	1749287629; bh=vtUO92tCX2BijpLTXVd3ne6ezZessOK7OBV0E6sLs9M=; b=A
+	QeOZkyu739PvxS0Qltll99Ab3jXhoU9j+/Ve8inBanH4BghprX2mBLdNCGCudwgp
+	NDwAEVomS5loVexW9WePV4bZwU9yr4tYj7glva7CwKDualwmGZbW1N+lSUFIAumd
+	wzSvWMUK3o2cIqmO3Pkb2T1TuC8JAEuwE8vHJs658wbCpklXI265xTjvNnJ+f4Qv
+	kKZch/dojCtL0pfMppUcCI5qGjWsrGvgutW7rBiEBqbdwFrWF5lpuwDsBg4Z1UJm
+	fK/IB3Ha/AJlA5BfhKaIiFNdGIt8Q5DZ0GkHNe0jxNduUUWNL1smKOC40HSkGB6/
+	8ZRWxj8Thzx0/Yzu8NQHg==
+X-ME-Sender: <xms:TLFCaGZcg86-HsU6R1gW_apH4nV0jUZZHBRpvnc1gAsGGwnlcmDBhQ>
+    <xme:TLFCaJYX8Nw0_Ip12EsGXLDCFAi_o9ICp87RxFPtru5rxcHIVXX4-mDpsGEcGurzV
+    RyCJcyYTr0qiPPg5SI>
+X-ME-Received: <xmr:TLFCaA8nE5EvrWvl-dBVpVom_WyJYwGqOB0Vmx0crdQ7zdmLAN6ejvWe_ycbjnkYgN6C7yBVXPZF8ZHpL1jUmqAIammY8NPJVA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdegkeelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
+    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
+    gvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrght
+    thgvrhhnpeefhfellefhffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvd
+    elieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehn
+    ihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrsh
+    gvpdhnsggprhgtphhtthhopeeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhopeht
+    ohhmihdrvhgrlhhkvghinhgvnhdorhgvnhgvshgrshesihguvggrshhonhgsohgrrhgurd
+    gtohhmpdhrtghpthhtohepshgrkhgrrhhirdgrihhluhhssehlihhnuhigrdhinhhtvghl
+    rdgtohhmpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrhhnvghlrdhorhhgpdhrtghpth
+    htoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtgho
+    mhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghr
+    nhgvlhdrohhrgh
+X-ME-Proxy: <xmx:TLFCaIqH9kLhNIbq4czPkaj_CcyUE6RgCeG4k4-JINWihpfaLEzLPQ>
+    <xmx:TLFCaBp2Ody_KXz4g6C667QWwVTDbeGDKjZhH0aCeQn6aUUWRW7b0Q>
+    <xmx:TLFCaGRBcVHCcS-fB7TGIUb9z3jOmfj044npqqBL7FANxPAYRPZHRw>
+    <xmx:TLFCaBpBxuAgQQL0oFctK1eAcMhpOAi5uy2_RRGdwF_Vth0tRG2VoQ>
+    <xmx:TbFCaEES03mtSTQBSoWWf_f5MNeqtGXFcLXH2dFlMqGpMdBjkPwGH3DJ>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 6 Jun 2025 05:13:48 -0400 (EDT)
+Date: Fri, 6 Jun 2025 11:13:38 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] media: rcar-vin: Fix stride setting for RAW8 formats
+Message-ID: <20250606091338.GC3849429@ragnatech.se>
+References: <20250402183302.140055-1-niklas.soderlund+renesas@ragnatech.se>
+ <62b34d44-14d3-4096-ba13-edd53bd3eb7c@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/8] PCI: rzg3s-host: Add Initial PCIe Host Driver for
- Renesas RZ/G3S SoC
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: bhelgaas@google.com, lpieralisi@kernel.org, kw@linux.com,
- manivannan.sadhasivam@linaro.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com,
- mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de,
- linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- john.madieu.xa@bp.renesas.com,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20250605225730.GA625963@bhelgaas>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <20250605225730.GA625963@bhelgaas>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <62b34d44-14d3-4096-ba13-edd53bd3eb7c@ideasonboard.com>
 
-Hi, Bjorn,
+Hi Tomi,
 
-On 06.06.2025 01:57, Bjorn Helgaas wrote:
-> On Fri, May 30, 2025 at 02:19:13PM +0300, Claudiu wrote:
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> The Renesas RZ/G3S features a PCIe IP that complies with the PCI Express
->> Base Specification 4.0 and supports speeds of up to 5 GT/s. It functions
->> only as a root complex, with a single-lane (x1) configuration. The
->> controller includes Type 1 configuration registers, as well as IP
->> specific registers (called AXI registers) required for various adjustments.
+On 2025-05-30 15:08:56 +0300, Tomi Valkeinen wrote:
+> Hi,
 > 
->> +/* Timeouts */
->> +#define RZG3S_REQ_ISSUE_TIMEOUT_US		2500
->> +#define RZG3S_LTSSM_STATE_TIMEOUT_US		1000
->> +#define RZG3S_LS_CHANGE_TIMEOUT_US		1000
->> +#define RZG3S_LINK_UP_TIMEOUT_US		500000
+> On 02/04/2025 21:33, Niklas Söderlund wrote:
+> > Earlier versions of the datasheet where unclear about the stride setting
+> > for RAW8 capture formats. Later datasheets clarifies that the stride
+> > only process in this mode for non-image data. For image data the full
+> > stride shall be used. Compare section "RAW: 8 Bits and Embedded 8-Bit
+> > Non-Image Data, User Defined 8-bit Data" vs "RAW: 8 Bits".
 > 
-> Are any of these timeouts related to values in the PCIe spec?  If so,
-> use #defines from drivers/pci/pci.h, or add a new one if needed.
+> Looking at the V4H manual, I see:
 > 
-> If they come from the RZ/G3S spec, can you include citations?
+> "
+> RAW: 8 Bits and Embedded 8-Bit Non-Image Data, User Defined 8-bit Data
+> 
+> The 8-bit RAW image data format, Embedded 8-bit non image data and User
+> Defined 8-bit data format are shown below. Notes: 1. These data are
+> transferred by 2-Byte unit.
+> "
+> 
+> and
+> 
+> "
+> RAW: 8 Bits (16 Bits/Pixel) Data
+> 
+> The 8-bit RAW (16 bits/pixel) image data format is shown below.
+> Notes: 1. These data are transferred by 2-Byte unit.
+> "
+> 
+> I don't see "RAW: 8 Bits". In both cases above the text says "2-byte unit".
 
-The values here were retrieved by experimenting. They are not present in
-RZ/G3S specification. I'll look though the header you pointed and use any
-defines if they match.
+I agree this is all priorly documented. My understanding and this fix 
+comes from the two diagrams attached to the two different sections you 
+point out.
 
-> 
->> +static int rzg3s_pcie_host_init(struct rzg3s_pcie_host *host, bool probe)
->> +{
->> +	u32 val;
->> +	int ret;
->> +
->> +	/* Initialize the PCIe related registers */
->> +	ret = rzg3s_pcie_config_init(host);
->> +	if (ret)
->> +		return ret;
->> +
->> +	/* Initialize the interrupts */
->> +	rzg3s_pcie_irq_init(host);
->> +
->> +	ret = reset_control_bulk_deassert(host->data->num_cfg_resets,
->> +					  host->cfg_resets);
->> +	if (ret)
->> +		return ret;
->> +
->> +	/* Wait for link up */
->> +	ret = readl_poll_timeout(host->axi + RZG3S_PCI_PCSTAT1, val,
->> +				 !(val & RZG3S_PCI_PCSTAT1_DL_DOWN_STS), 5000,
->> +				 RZG3S_LINK_UP_TIMEOUT_US);
-> 
-> Where do we wait for PCIE_T_RRS_READY_MS before pci_host_probe()
-> starts issuing config requests to enumerate devices?
+In the first case "(12) RAW: 8 Bits and Embedded 8-Bit Non-Image Data, 
+User Defined 8-bit Data" the diagram (for even number of pixels) shows 
+two pixels being transferred in a 16-bit space, concatenated one after 
+the other.
 
-I missed adding it as RZ/G3S manual don't mention this delay.
+In the second case "(21) RAW: 8 Bits (16 Bits/Pixel) Data" the diagram 
+shows one pixel being transferred in a 16-bit space, and the upper 8 
+bits being set to 0.
+
+Without this fix the 8-bit raw frames I can grab from IMX219 and IMX462 
+on V4H are jumbled. I suspect maybe we need to teach the VIN driver to 
+support both modes as this have an effect on your setup. How do your 
+output images look with this fix?
+
+What I can't figure out is what is different at the VIN stage. All RAW 
+8-bit media bus formats sets VnMC.INF to b100 (Embedded 8-bit non Image 
+Data or RAW8 input) which would suggest the first case is always used.  
+The only case where the second case could be used is for the RAW10 
+formats where VnMC.INF is set to b111 (RAW8 (16 bits/pixel) or RAW10 or 
+RAW12 or RAW14 or RAW16 or RGB565).
+
+The only source I can think of is that our sensors somehow transmit 
+8-bit data differently, but I'm not sure how we can check that theory.  
+But if we can then we could use different media bus codes to address 
+both scenarios. What do you think?
 
 > 
->> +	if (ret) {
->> +		reset_control_bulk_assert(host->data->num_cfg_resets,
->> +					  host->cfg_resets);
->> +		return ret;
->> +	}
->> +
->> +	val = readl(host->axi + RZG3S_PCI_PCSTAT2);
->> +	dev_info(host->dev, "PCIe link status [0x%x]\n", val);
->> +
->> +	val = FIELD_GET(RZG3S_PCI_PCSTAT2_STATE_RX_DETECT, val);
->> +	dev_info(host->dev, "PCIe x%d: link up\n", hweight32(val));
->> +
->> +	if (probe) {
->> +		ret = devm_add_action_or_reset(host->dev,
->> +					       rzg3s_pcie_cfg_resets_action,
->> +					       host);
->> +	}
->> +
->> +	return ret;
->> +}
+>  Tomi
 > 
->> +		 * According to the RZ/G3S HW manual (Rev.1.10, section
->> +		 * 34.3.1.71 AXI Window Mask (Lower) Registers) HW expects first
->> +		 * 12 LSB bits to be 0xfff. Extract 1 from size for this.
+> > 
+> > Remove the special case from pixel formats that carry image data and
+> > treat it as any other image format.
+> > 
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > ---
+> >  .../media/platform/renesas/rcar-vin/rcar-dma.c   | 16 ----------------
+> >  1 file changed, 16 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> > index f8394be8a922..fdf0f86c801f 100644
+> > --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> > @@ -680,22 +680,6 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
+> >  
+> >  	fmt = rvin_format_from_pixel(vin, vin->format.pixelformat);
+> >  	stride = vin->format.bytesperline / fmt->bpp;
+> > -
+> > -	/* For RAW8 format bpp is 1, but the hardware process RAW8
+> > -	 * format in 2 pixel unit hence configure VNIS_REG as stride / 2.
+> > -	 */
+> > -	switch (vin->format.pixelformat) {
+> > -	case V4L2_PIX_FMT_SBGGR8:
+> > -	case V4L2_PIX_FMT_SGBRG8:
+> > -	case V4L2_PIX_FMT_SGRBG8:
+> > -	case V4L2_PIX_FMT_SRGGB8:
+> > -	case V4L2_PIX_FMT_GREY:
+> > -		stride /= 2;
+> > -		break;
+> > -	default:
+> > -		break;
+> > -	}
+> > -
+> >  	rvin_write(vin, stride, VNIS_REG);
+> >  }
+> >  
 > 
-> s/Extract/Subtract/
 
-OK.
-
-Thank you for your review,
-Claudiu
+-- 
+Kind Regards,
+Niklas Söderlund
 
