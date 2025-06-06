@@ -1,144 +1,230 @@
-Return-Path: <linux-renesas-soc+bounces-17882-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17883-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A8D9ACF9DF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jun 2025 00:57:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73E2AACFC2F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jun 2025 07:24:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 38FD8169BE0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Jun 2025 22:57:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 664E3188B5FD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jun 2025 05:24:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3040227F72E;
-	Thu,  5 Jun 2025 22:57:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06E741DDC23;
+	Fri,  6 Jun 2025 05:24:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F7J4N7AR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LZiXhYuY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67A628E17;
-	Thu,  5 Jun 2025 22:57:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16BCB1DF26A
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  6 Jun 2025 05:24:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749164253; cv=none; b=N3z6Wp2+daDDtjxx+NtE3nsHUQLB8IhGFpYf47FWkOM1PB+ZnWj63F3+HsM9ZwHZMtI9jkhPVRslEALdPLVw4oQ8mZp1NawqhdwfzhZT5V2t5p44Zd+kCtDd+nmKLorXZG8e2plRCmg05uFpdvxmY10osYYY6boQ57eMU7NVQPM=
+	t=1749187463; cv=none; b=G2Ch7olku1vHtSIhSAQ+cNgPNnFwV2Nke8CrOcwYQKfT7HG1C9NxSu7PuLRBa82tAHp4ePFhp7umF8NRIjXsT0KIHQyeo8ihpZZwwWj3bEmQZkwbh63/CI/SuuulgwNIUDQl8lIFP4H4JDNzXDOnEhAILYa7ZhDPw3ivciYqcQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749164253; c=relaxed/simple;
-	bh=ttq74J8zgl/CqPTmFPHRqNeX1HBQ5yWBTsGcAVjdt5U=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=nqDKZD1dx/NzCe1jsLqRmiVdhKTyPVSwa2LGHxN9I/TqlrLetliPViGU62J6ajYEQsddgEw50XTZJBFGrn3GSY31VmV2JgDKMRfE45UcQyuHT6M+6B5l8jbRj/rXCnUdbrSF45uKe7vffqHrFlTEabyaYMYUlI2HYHARKw8kOS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F7J4N7AR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30293C4CEE7;
-	Thu,  5 Jun 2025 22:57:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749164252;
-	bh=ttq74J8zgl/CqPTmFPHRqNeX1HBQ5yWBTsGcAVjdt5U=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=F7J4N7AROXpSNCIcWVGENA6Qg3/33Ich5ukiqOms+VM42I5Zq1EHSHryln5/6ji+/
-	 bvlS2Ffc/4RS8aVyTKpO7Wc83areCxJzQ3L/Evs3CG9vuC+Tk6fYcvJT8O+90wjHnb
-	 F8cJlAE+J6PzkZjQzSCI+jPvUWCJGbPf1MiGlZNDgD3mxKIxzmFCLvpT3kFBcvpgyI
-	 RXvFQPh6UYp7n7DG0YI6U1PdH7I1oTrkbfVLZYKi9Ajk6rLWDdKavUoB2rf05X4Hwk
-	 hYmDWxDGxGWYve2Iy+Tm6lzEYHj8Y/ZNW7StUx+lCwF4wRcJV1tPYGObRoxY8PiQOD
-	 wW3m6rV4OlNMw==
-Date: Thu, 5 Jun 2025 17:57:30 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: bhelgaas@google.com, lpieralisi@kernel.org, kw@linux.com,
-	manivannan.sadhasivam@linaro.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, geert+renesas@glider.be,
-	magnus.damm@gmail.com, mturquette@baylibre.com, sboyd@kernel.org,
-	p.zabel@pengutronix.de, linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-clk@vger.kernel.org, john.madieu.xa@bp.renesas.com,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH v2 4/8] PCI: rzg3s-host: Add Initial PCIe Host Driver for
- Renesas RZ/G3S SoC
-Message-ID: <20250605225730.GA625963@bhelgaas>
+	s=arc-20240116; t=1749187463; c=relaxed/simple;
+	bh=X3DNDlk7/vblZN5WVr6QQc0LimxjRld/Zr1zHySppsM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QtXo9b8h+Io9beYOtsRwQUU97prsDVcgwJjbSeMQa1k+UTONx+Z+rQkBpBO+Yg3joRQPyPReXoixnyw7Nb1f372Y+sDvY2y9nZwovRLipLlIATBft2noVOIJwJ0cBfLXnrVRgtNqmyaO2OjRbhJWQEKStEWKWb9nJZBDDabqMBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LZiXhYuY; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749187462; x=1780723462;
+  h=date:from:to:cc:subject:message-id;
+  bh=X3DNDlk7/vblZN5WVr6QQc0LimxjRld/Zr1zHySppsM=;
+  b=LZiXhYuYT7hNMygAbb+Jq2GcDkuFoXR3gUPyIf4YBUgKtdu7OAhOuCE+
+   UbfwLUpX076dPXfcvQU5TqGcduABooZMdcasvoiuAX7sHV3nzcUIkGNmL
+   eqw0OYix9p2A6PMMeKyKgcA6ynP0xvfq0NQe3SdlaW6kZngn0AVwO/qEL
+   da6mBtjVLq/OlQCY3pv5OAYJqHgr5DHtC1AktrayhxT37UzbXsNphF9+G
+   0IeElujZTYYTb9Ti4dCQQyEChu65EQ/tMvWR568Tsm4UFFxcydoiXwIWV
+   YVoFGdun4TCfYXUzSlmqTRScqPoi+7HsW0EuxSFHmvCMdDegHES8SlTy9
+   Q==;
+X-CSE-ConnectionGUID: uXE5pIesQ7+k22z069eDdA==
+X-CSE-MsgGUID: IlanlvoPQaqRV+Nn8TviaQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="76727486"
+X-IronPort-AV: E=Sophos;i="6.16,214,1744095600"; 
+   d="scan'208";a="76727486"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2025 22:24:13 -0700
+X-CSE-ConnectionGUID: 8b63X+oPTZ6ikB6dVtfSlA==
+X-CSE-MsgGUID: eOFVlq++SWSGQ00Ymqs5cw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,214,1744095600"; 
+   d="scan'208";a="146084216"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 05 Jun 2025 22:24:11 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uNPYn-0004lD-24;
+	Fri, 06 Jun 2025 05:24:09 +0000
+Date: Fri, 06 Jun 2025 13:23:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:renesas-clk-for-v6.17] BUILD SUCCESS
+ d0eec9367208f86916b0e708906af6ca5dd33879
+Message-ID: <202506061344.ENUFe8u0-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250530111917.1495023-5-claudiu.beznea.uj@bp.renesas.com>
 
-On Fri, May 30, 2025 at 02:19:13PM +0300, Claudiu wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> The Renesas RZ/G3S features a PCIe IP that complies with the PCI Express
-> Base Specification 4.0 and supports speeds of up to 5 GT/s. It functions
-> only as a root complex, with a single-lane (x1) configuration. The
-> controller includes Type 1 configuration registers, as well as IP
-> specific registers (called AXI registers) required for various adjustments.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v6.17
+branch HEAD: d0eec9367208f86916b0e708906af6ca5dd33879  Revert "dt-bindings: clock: renesas,rzg2l-cpg: Update #power-domain-cells = <1> for RZ/G3S"
 
-> +/* Timeouts */
-> +#define RZG3S_REQ_ISSUE_TIMEOUT_US		2500
-> +#define RZG3S_LTSSM_STATE_TIMEOUT_US		1000
-> +#define RZG3S_LS_CHANGE_TIMEOUT_US		1000
-> +#define RZG3S_LINK_UP_TIMEOUT_US		500000
+elapsed time: 1125m
 
-Are any of these timeouts related to values in the PCIe spec?  If so,
-use #defines from drivers/pci/pci.h, or add a new one if needed.
+configs tested: 137
+configs skipped: 8
 
-If they come from the RZ/G3S spec, can you include citations?
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> +static int rzg3s_pcie_host_init(struct rzg3s_pcie_host *host, bool probe)
-> +{
-> +	u32 val;
-> +	int ret;
-> +
-> +	/* Initialize the PCIe related registers */
-> +	ret = rzg3s_pcie_config_init(host);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Initialize the interrupts */
-> +	rzg3s_pcie_irq_init(host);
-> +
-> +	ret = reset_control_bulk_deassert(host->data->num_cfg_resets,
-> +					  host->cfg_resets);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Wait for link up */
-> +	ret = readl_poll_timeout(host->axi + RZG3S_PCI_PCSTAT1, val,
-> +				 !(val & RZG3S_PCI_PCSTAT1_DL_DOWN_STS), 5000,
-> +				 RZG3S_LINK_UP_TIMEOUT_US);
+tested configs:
+alpha                             allnoconfig    gcc-15.1.0
+alpha                            allyesconfig    gcc-15.1.0
+alpha                               defconfig    gcc-15.1.0
+arc                              allmodconfig    gcc-15.1.0
+arc                               allnoconfig    gcc-15.1.0
+arc                              allyesconfig    gcc-15.1.0
+arc                                 defconfig    gcc-15.1.0
+arc                   randconfig-001-20250605    gcc-15.1.0
+arc                   randconfig-002-20250605    gcc-15.1.0
+arc                        vdk_hs38_defconfig    gcc-15.1.0
+arm                               allnoconfig    clang-21
+arm                              allyesconfig    gcc-15.1.0
+arm                       aspeed_g4_defconfig    clang-21
+arm                                 defconfig    clang-21
+arm                        keystone_defconfig    gcc-15.1.0
+arm                   randconfig-001-20250605    clang-21
+arm                   randconfig-002-20250605    clang-17
+arm                   randconfig-003-20250605    clang-21
+arm                   randconfig-004-20250605    clang-21
+arm                         s5pv210_defconfig    gcc-15.1.0
+arm                           sama5_defconfig    gcc-15.1.0
+arm                        spear6xx_defconfig    clang-21
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-15.1.0
+arm64                               defconfig    gcc-15.1.0
+arm64                 randconfig-001-20250605    clang-21
+arm64                 randconfig-002-20250605    clang-21
+arm64                 randconfig-003-20250605    clang-21
+arm64                 randconfig-004-20250605    clang-21
+csky                              allnoconfig    gcc-15.1.0
+csky                                defconfig    gcc-15.1.0
+csky                  randconfig-001-20250605    gcc-10.5.0
+csky                  randconfig-002-20250605    gcc-15.1.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-21
+hexagon                          allyesconfig    clang-21
+hexagon                             defconfig    clang-21
+hexagon               randconfig-001-20250605    clang-21
+hexagon               randconfig-002-20250605    clang-20
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250605    gcc-12
+i386        buildonly-randconfig-002-20250605    clang-20
+i386        buildonly-randconfig-003-20250605    gcc-12
+i386        buildonly-randconfig-004-20250605    clang-20
+i386        buildonly-randconfig-005-20250605    clang-20
+i386        buildonly-randconfig-006-20250605    gcc-11
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    gcc-15.1.0
+loongarch                         allnoconfig    gcc-15.1.0
+loongarch                           defconfig    gcc-15.1.0
+loongarch             randconfig-001-20250605    gcc-12.4.0
+loongarch             randconfig-002-20250605    gcc-15.1.0
+m68k                             allmodconfig    gcc-15.1.0
+m68k                              allnoconfig    gcc-15.1.0
+m68k                             allyesconfig    gcc-15.1.0
+m68k                                defconfig    gcc-15.1.0
+microblaze                       allmodconfig    gcc-15.1.0
+microblaze                        allnoconfig    gcc-15.1.0
+microblaze                       allyesconfig    gcc-15.1.0
+microblaze                          defconfig    gcc-15.1.0
+mips                              allnoconfig    gcc-15.1.0
+mips                        bcm63xx_defconfig    clang-21
+mips                      bmips_stb_defconfig    clang-21
+nios2                             allnoconfig    gcc-14.2.0
+nios2                               defconfig    gcc-14.2.0
+nios2                 randconfig-001-20250605    gcc-14.2.0
+nios2                 randconfig-002-20250605    gcc-11.5.0
+openrisc                         alldefconfig    gcc-15.1.0
+openrisc                          allnoconfig    gcc-15.1.0
+openrisc                         allyesconfig    gcc-15.1.0
+openrisc                            defconfig    gcc-15.1.0
+parisc                           allmodconfig    gcc-15.1.0
+parisc                            allnoconfig    gcc-15.1.0
+parisc                           allyesconfig    gcc-15.1.0
+parisc                              defconfig    gcc-15.1.0
+parisc                randconfig-001-20250605    gcc-9.3.0
+parisc                randconfig-002-20250605    gcc-11.5.0
+parisc64                            defconfig    gcc-15.1.0
+powerpc                           allnoconfig    gcc-15.1.0
+powerpc                          allyesconfig    clang-21
+powerpc                    amigaone_defconfig    gcc-15.1.0
+powerpc                      cm5200_defconfig    clang-21
+powerpc                         ps3_defconfig    gcc-15.1.0
+powerpc               randconfig-001-20250605    clang-21
+powerpc               randconfig-002-20250605    clang-21
+powerpc               randconfig-003-20250605    clang-21
+powerpc64             randconfig-001-20250605    clang-18
+powerpc64             randconfig-002-20250605    clang-21
+powerpc64             randconfig-003-20250605    clang-21
+riscv                            allmodconfig    clang-21
+riscv                             allnoconfig    gcc-15.1.0
+riscv                            allyesconfig    clang-16
+riscv                               defconfig    clang-21
+riscv                 randconfig-001-20250605    clang-21
+riscv                 randconfig-002-20250605    clang-21
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-21
+s390                             allyesconfig    gcc-15.1.0
+s390                                defconfig    clang-21
+s390                  randconfig-001-20250605    clang-21
+s390                  randconfig-002-20250605    clang-21
+sh                               allmodconfig    gcc-15.1.0
+sh                                allnoconfig    gcc-15.1.0
+sh                               allyesconfig    gcc-15.1.0
+sh                                  defconfig    gcc-15.1.0
+sh                    randconfig-001-20250605    gcc-12.4.0
+sh                    randconfig-002-20250605    gcc-12.4.0
+sh                          urquell_defconfig    gcc-15.1.0
+sparc                             allnoconfig    gcc-15.1.0
+sparc                 randconfig-001-20250605    gcc-11.5.0
+sparc                 randconfig-002-20250605    gcc-7.5.0
+sparc64                             defconfig    gcc-15.1.0
+sparc64               randconfig-001-20250605    gcc-12.4.0
+sparc64               randconfig-002-20250605    gcc-15.1.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-21
+um                               allyesconfig    gcc-12
+um                                  defconfig    clang-21
+um                             i386_defconfig    gcc-12
+um                    randconfig-001-20250605    clang-21
+um                    randconfig-002-20250605    clang-21
+um                           x86_64_defconfig    clang-21
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250605    clang-20
+x86_64      buildonly-randconfig-002-20250605    gcc-12
+x86_64      buildonly-randconfig-003-20250605    clang-20
+x86_64      buildonly-randconfig-004-20250605    clang-20
+x86_64      buildonly-randconfig-005-20250605    gcc-12
+x86_64      buildonly-randconfig-006-20250605    clang-20
+x86_64                              defconfig    gcc-11
+x86_64                          rhel-9.4-rust    clang-18
+xtensa                            allnoconfig    gcc-15.1.0
+xtensa                randconfig-001-20250605    gcc-7.5.0
+xtensa                randconfig-002-20250605    gcc-12.4.0
 
-Where do we wait for PCIE_T_RRS_READY_MS before pci_host_probe()
-starts issuing config requests to enumerate devices?
-
-> +	if (ret) {
-> +		reset_control_bulk_assert(host->data->num_cfg_resets,
-> +					  host->cfg_resets);
-> +		return ret;
-> +	}
-> +
-> +	val = readl(host->axi + RZG3S_PCI_PCSTAT2);
-> +	dev_info(host->dev, "PCIe link status [0x%x]\n", val);
-> +
-> +	val = FIELD_GET(RZG3S_PCI_PCSTAT2_STATE_RX_DETECT, val);
-> +	dev_info(host->dev, "PCIe x%d: link up\n", hweight32(val));
-> +
-> +	if (probe) {
-> +		ret = devm_add_action_or_reset(host->dev,
-> +					       rzg3s_pcie_cfg_resets_action,
-> +					       host);
-> +	}
-> +
-> +	return ret;
-> +}
-
-> +		 * According to the RZ/G3S HW manual (Rev.1.10, section
-> +		 * 34.3.1.71 AXI Window Mask (Lower) Registers) HW expects first
-> +		 * 12 LSB bits to be 0xfff. Extract 1 from size for this.
-
-s/Extract/Subtract/
-
-> +		 */
-> +		size = roundup_pow_of_two(size) - 1;
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
