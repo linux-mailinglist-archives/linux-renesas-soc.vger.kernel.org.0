@@ -1,109 +1,257 @@
-Return-Path: <linux-renesas-soc+bounces-17899-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17900-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40471AD01F9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jun 2025 14:12:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80184AD0207
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jun 2025 14:13:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1ACD8172E23
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jun 2025 12:12:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2E1553B1844
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jun 2025 12:11:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6EFE288C15;
-	Fri,  6 Jun 2025 12:09:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F03F288502;
+	Fri,  6 Jun 2025 12:10:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="fXgWHc8+"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Q0ItGubo";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OY3NIpiQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B03289E03
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  6 Jun 2025 12:09:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5A0286D50;
+	Fri,  6 Jun 2025 12:10:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749211799; cv=none; b=iHO/SmHuLrSSWY2KpXR40CBsa4L5oSBWSFBoHDoJzIW0efK1qjaIsGY03TNvq8HQAki8dbHbT4TQX60qPfSISmN3CnZvq8GdxXQYZrD4QYgZJ5kYvB5Wgk/RifU19Z0HM9pt/rQkjjJ0AxfLnp1NdhloJRXpmaE96StrFuKBkdk=
+	t=1749211849; cv=none; b=HgLqrpBI3zlIDln2+hlvRum+oSZf93JArm9DCFEHp/+tsyzOYUTONPWpObY/jGUfzRd3uwtza+/PTFJfc8ZJMb5qPakOGKER4WIQIGLxDKZ47kA+jgDI7qnRensQQnZ2X3KlR1tI29Vr68PaVivNQpfwa1fL72QTwriS7uW0Ux8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749211799; c=relaxed/simple;
-	bh=k+TPf9LxMZ0D5A0zH/EF697ym/GMgEs15jvE9cO/4F4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=syddjIYZNj3Lfi2DBSSJ9gNdoV4OPm08Y5pZ4ZFRQQFsiSHLVUg0o7qBeifBETzKd7MNThYVtJfFGI8q3uCc7UQtsKrIbIRbfqGwMm7d5UHt1WoQvyVaENtBjcbp17aRgAwfwmkQl7jAfe4PZ6j//24tSil0tCbqRqiN6rsb4Ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=fXgWHc8+; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ade33027bcfso17844566b.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 06 Jun 2025 05:09:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1749211795; x=1749816595; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=oseNslf9Y7EQEruK9NPY2cEIOzo1yyAZtDjzotnVGTM=;
-        b=fXgWHc8+1wjmCVEr43bROJp3VVoPkVEEioQt8mDviPwrsFnparjji0o012NKtjnulf
-         /Raxf3BlN74VEXb5wiPxxqxx+gtMXlFxbfAZZrEQ67AsFMBLLHMGZKlQWtDCMRjBV8E4
-         T3dcPEA3qlRuCoDdbY9x68HCzTpqirc0De+dF0Js6Vio8Tqtz6awJpA5mhzjWaoflRO8
-         p9DDJmPumaIx4+jTbpLIph7in8F4dRg1RB4+K4REk8TiP6e4yUbKuPQvWDjqyfrn5ttc
-         +iTufdlnISscSXOUU2vjxZiEf/n3Bj6gVBPWF9rLYuJ0HWNg5y2JLsoNyE46Z2D5Ofo0
-         liVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749211795; x=1749816595;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oseNslf9Y7EQEruK9NPY2cEIOzo1yyAZtDjzotnVGTM=;
-        b=aYDpf8A0livIpSWjxlmaddcVxghBpvKoNfzUQvKu3nsVLX5sVUyK3DXq68WSI4w2Pu
-         gytdoMPNqfx1TZP28yP/VE71VHWKR9xzYCOW/apX5P3ZOZWF1nfm1FIskslWSpWZAbBs
-         mXhmkXZT3flhMf0bWl7KIzZ1AU8A035zGrlDE1SOo7DbmxaXAZAvZZY/UeECrQXh6lqO
-         bTjsj8nd+eq1c2Mj7HWf6jRk8Ud44ZGjtlSGGEwNG6+2WP2nhSP3fcp6bfXKEtBcLT28
-         fr+ycBRxAwR1z+wEp6euAI+7FhM25VkXBp7FWkK0NQTgyfTarzaAsaJu4cvCWL9EJmdm
-         OmNw==
-X-Forwarded-Encrypted: i=1; AJvYcCVbBW636clA6pFMxfpVmOPoMbLTz695p7UIPrDJ6T0IKUAthxbLsWSTdwtNx2sFHLEpxxO/dtmniKwdjWByMt9pJw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxU4g7ibhONz0GXrJPXabTjjlVJYDsL4CCCowM84LRY/075gMbx
-	frNuUJP8MttQHXWJF+cSUSC7jOEO4HbTpfZMVUvhgjxlbEUt1G9GTuuua6QSDEh7Des=
-X-Gm-Gg: ASbGncu6+TdV+moOwOfmAUTo4WQqvHJLRvUvK+fos0b6L1XD/FvQpCVstcuqi3XxGP7
-	0lveuyNQCCwhQXRqkRWFyU0m8U7So/fWsQYo9x6OEAZ3fe/IMVU0DGXWNOQUjlIgpXm9oQbFDDG
-	bnrooHgYjOf78i2pUmL6EWZAwpVhlf40uBcTlemUZgWI9GXoc0twD7P1kwkASs6SOVHo39hNqfT
-	7UZi/oZOuB8PZhmT/8DACYvkFJcljuPk9RUx+DiRwgd2CyPNLEBSFp7Dbl+qgOFKNNjZ3Em0wyy
-	qzDSbV9M7L39nJLGUYisbDp3fCqpoUUvv4Cmhg3amKVmygvh41Qe1UyCyM25
-X-Google-Smtp-Source: AGHT+IH3hNQ3m3x7yWyp9YoT5yQkAmNl6auoawMQKJM7FHzSoZ5r/4GUCilFu5xy1KEAYBRQ/sKeUw==
-X-Received: by 2002:a17:906:4fca:b0:ad8:9a3b:b274 with SMTP id a640c23a62f3a-ade1aaff72bmr278171366b.52.1749211794857;
-        Fri, 06 Jun 2025 05:09:54 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.126])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ade1dc3837asm106811566b.126.2025.06.06.05.09.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Jun 2025 05:09:54 -0700 (PDT)
-Message-ID: <9f4312cd-3d1d-44e8-9915-994dc712183b@tuxon.dev>
-Date: Fri, 6 Jun 2025 15:09:53 +0300
+	s=arc-20240116; t=1749211849; c=relaxed/simple;
+	bh=94KB+HcYMpVi/wawb67zOdido85ReHZmMuc6et4mXYw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DvKv0HGOv9dh9ZWKPdYP6+Lunc8v1qd99IEUaYwmbSFLzqzEnvfa9boWX47ki4SFnAWFKHHdrkKLjFt8CI6qTTrWFjFChxgtoRdudsaf9Dr56lBa7wrejRp/XR73+XD6r5LMebb/yc7fzJIhwPK5F2ZR5dJu+kbdt/4fhCZAzrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Q0ItGubo; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OY3NIpiQ; arc=none smtp.client-ip=103.168.172.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
+	by mailfout.phl.internal (Postfix) with ESMTP id F308C1380364;
+	Fri,  6 Jun 2025 08:10:46 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Fri, 06 Jun 2025 08:10:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1749211846;
+	 x=1749298246; bh=srmFHO4uL8kW5asVRGGF3E5jltaHcp9O7yYYE2vQeo0=; b=
+	Q0ItGubonJBMIcUZmcFsS0agDZJNRA47lQuRNL5EcDCaTvV/b8P/IB2bYkvoWr7Y
+	lM5ArBw3mrOk3At7RK/3ehjLXJJn5vhJClK2KdJr1Jj+kU3J0tXK/pNGDzD1403T
+	y3vOulwpzCggLVDLh9V0oC9c/SEGtC9GuOLJ6I85MBsTHWGqoWj7hgzoX0L6OezJ
+	2sIw6OlQXaSSeAt+meTOaHZV/Z9aaEMS9QtAJwv+2d4w559NsYIzvVSK309EeLta
+	B7F8OHoR6DBYGS8ACoZ4Iv8qzkjtxUKb9aiQu0hKdXGBFpkp4bs6Zd7zOMRYFTjF
+	On1xT6aSfnMKqgrcuPGh4A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749211846; x=
+	1749298246; bh=srmFHO4uL8kW5asVRGGF3E5jltaHcp9O7yYYE2vQeo0=; b=O
+	Y3NIpiQ8LJuVteNrxXwF1OocK10zs6hJtDv+icH+maxBUbCZKQq8t0ZoURor5Lyi
+	UiXfbJznwe2MFSfc33Bl+LLstv2iC+GsOC09E1QaUH6/ONrb2z0Y8DOX6Tm/0/vz
+	6NejvNv8L2Noajjch1rlsGLil+ffRKOKD4vmK8idPow2/6HvQb2WTc4/dBZ78VKP
+	NFFGAPH/cVVBbxku/tTLZy2vMae1p3oY8TxgsRsOB6bKVtnm7V27b3LnRpvsE6mt
+	KMDaqRTfFDeSWaIRQR44Upne9A39lwIk81nWy2xK06njDVNgCAQmJobbHVczhp7m
+	ciVV6qdS1p2uThw+huaQw==
+X-ME-Sender: <xms:xtpCaHGL9PGvmVn42yhgPKlAg13tl4iIqY7YT3mpBQbI3sXIAXi2lQ>
+    <xme:xtpCaEUBiYzBZyiAlPjIG2XlnVs1T4zDQUzpILKzPc7XsGVg_e58XswhysSbB0LFC
+    p2lQc4fYDa01Htiokw>
+X-ME-Received: <xmr:xtpCaJLgdeaXH8lcKR5bC-X_dVfyhJCWoekZ2Qbg_YlWQ5ggY6cpxfOnO7I2qDk1bklspXrs3WxxFEtpZK9vUHBk_XPAMZCjUQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdehtdejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
+    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
+    gvrhhluhhnugesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteeg
+    tddvvdfhtdekgefhfeefheetheekkeegfeejudeiudeuleegtdehkeekteenucevlhhush
+    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshho
+    uggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeelpdhmoh
+    guvgepshhmthhpohhuthdprhgtphhtthhopehtohhmihdrvhgrlhhkvghinhgvnhdorhgv
+    nhgvshgrshesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepmhgthhgvhh
+    grsgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshgrkhgrrhhirdgrihhluhhssehl
+    ihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvh
+    hgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghs
+    qdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkh
+    gvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgthhgvhhgr
+    sgdohhhurgifvghisehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlrghurhgvnhhtrd
+    hpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepjhgr
+    tghophhordhmohhnughisehiuggvrghsohhnsghorghrugdrtghomh
+X-ME-Proxy: <xmx:xtpCaFE2b--U_-bZj1the4yFUFB3ebzaA0E6KeFHdioHa6aEk0LzJQ>
+    <xmx:xtpCaNWqFmqOFcgDjKZnnQnL7cFZOnAP8yq172DLlO56UXBFa5mL6Q>
+    <xmx:xtpCaAO3ZDxj_2KvB1UCb2VwCAwPif_I1SANtwl1zEy0o_j8d2zBzA>
+    <xmx:xtpCaM0vsPZjwx-_7UwJJIlc12llYuQLHr-xlXW5Ev3NfrqxL57oMg>
+    <xmx:xtpCaOsDyyhOtNkW-DvqJeGCtffgl2MuWECCXGgR06KsQwrB3t3UniSo>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 6 Jun 2025 08:10:46 -0400 (EDT)
+Date: Fri, 6 Jun 2025 14:10:45 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: Re: [PATCH v3 09/15] media: rcar-isp: Switch to Streams API
+Message-ID: <20250606121045.GF2770609@ragnatech.se>
+References: <20250530-rcar-streams-v3-0-026655df7138@ideasonboard.com>
+ <20250530-rcar-streams-v3-9-026655df7138@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] clk: renesas: rzg2l: Rename mstp_clock to mod_clock
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
-Cc: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org
-References: <53b3a730a784650762cdb27fdbde7a45b0c20db8.1749119264.git.geert+renesas@glider.be>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <53b3a730a784650762cdb27fdbde7a45b0c20db8.1749119264.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250530-rcar-streams-v3-9-026655df7138@ideasonboard.com>
 
+Hi Tomi,
 
+Thanks for your work.
 
-On 05.06.2025 13:28, Geert Uytterhoeven wrote:
-> The mstp_clock structure really represents a module clock (cfr. the
-> various rzg2l_mod_clock_*() functions and the to_mod_clock() helper),
-> and is not directly related to the "Module stop state".
-> Rename it to "mod_clock", and replace "mstp_clock" by "mod_clock".
-> to avoid confusion with the mstop registers.
+On 2025-05-30 16:50:38 +0300, Tomi Valkeinen wrote:
+> Switch to Streams API with a single hardcoded route. This breaks any
+> existing userspace which depended on the custom rcar streams
+> implementation, but a single camera use case should continue to work.
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
+> ---
+>  drivers/media/platform/renesas/rcar-isp/csisp.c | 62 ++++++++++++++++++++++---
+>  1 file changed, 55 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rcar-isp/csisp.c b/drivers/media/platform/renesas/rcar-isp/csisp.c
+> index 2337c5d44c40..a04cbf96b809 100644
+> --- a/drivers/media/platform/renesas/rcar-isp/csisp.c
+> +++ b/drivers/media/platform/renesas/rcar-isp/csisp.c
+> @@ -124,6 +124,17 @@ static const struct rcar_isp_format rcar_isp_formats[] = {
+>  	},
+>  };
+>  
+> +static const struct v4l2_mbus_framefmt risp_default_fmt = {
+> +	.width = 1920,
+> +	.height = 1080,
+> +	.code = MEDIA_BUS_FMT_RGB888_1X24,
+> +	.colorspace = V4L2_COLORSPACE_SRGB,
+> +	.field = V4L2_FIELD_NONE,
+> +	.ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT,
+> +	.quantization = V4L2_QUANTIZATION_DEFAULT,
+> +	.xfer_func = V4L2_XFER_FUNC_DEFAULT,
+> +};
+> +
+>  static const struct rcar_isp_format *risp_code_to_fmt(unsigned int code)
+>  {
+>  	unsigned int i;
+> @@ -222,7 +233,7 @@ static int risp_start(struct rcar_isp *isp, struct v4l2_subdev_state *state)
+>  	u32 sel_csi = 0;
+>  	int ret;
+>  
+> -	fmt = v4l2_subdev_state_get_format(state, RCAR_ISP_SINK);
+> +	fmt = v4l2_subdev_state_get_format(state, RCAR_ISP_SINK, 0);
+>  	if (!fmt)
+>  		return -EINVAL;
+>  
+> @@ -336,7 +347,7 @@ static int risp_set_pad_format(struct v4l2_subdev *sd,
+>  			       struct v4l2_subdev_state *state,
+>  			       struct v4l2_subdev_format *format)
+>  {
+> -	struct v4l2_mbus_framefmt *framefmt;
+> +	struct v4l2_mbus_framefmt *fmt;
+>  
+>  	if (format->pad > RCAR_ISP_SINK)
+>  		return v4l2_subdev_get_fmt(sd, state, format);
+> @@ -344,10 +355,20 @@ static int risp_set_pad_format(struct v4l2_subdev *sd,
+>  	if (!risp_code_to_fmt(format->format.code))
+>  		format->format.code = rcar_isp_formats[0].code;
+>  
+> -	for (unsigned int i = 0; i < RCAR_ISP_NUM_PADS; i++) {
+> -		framefmt = v4l2_subdev_state_get_format(state, i);
+> -		*framefmt = format->format;
+> -	}
+> +	/* Set sink format */
+> +	fmt = v4l2_subdev_state_get_format(state, format->pad, format->stream);
+> +	if (!fmt)
+> +		return -EINVAL;
+> +
+> +	*fmt = format->format;
+> +
+> +	/* Propagate to source format */
+> +	fmt = v4l2_subdev_state_get_opposite_stream_format(state, format->pad,
+> +							   format->stream);
+> +	if (!fmt)
+> +		return -EINVAL;
+> +
+> +	*fmt = format->format;
+>  
+>  	return 0;
+>  }
+> @@ -364,6 +385,32 @@ static const struct v4l2_subdev_ops rcar_isp_subdev_ops = {
+>  	.pad	= &risp_pad_ops,
+>  };
+>  
+> +static int risp_init_state(struct v4l2_subdev *sd,
+> +			   struct v4l2_subdev_state *state)
+> +{
+> +	static struct v4l2_subdev_route routes[] = {
+> +		{
+> +			.sink_pad = RCAR_ISP_SINK,
+> +			.sink_stream = 0,
+> +			.source_pad = RCAR_ISP_PORT0,
+> +			.source_stream = 0,
+> +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+> +		},
+> +	};
+> +
+> +	static const struct v4l2_subdev_krouting routing = {
+> +		.num_routes = ARRAY_SIZE(routes),
+> +		.routes = routes,
+> +	};
+> +
+> +	return v4l2_subdev_set_routing_with_fmt(sd, state, &routing,
+> +						&risp_default_fmt);
+> +}
+> +
+> +static const struct v4l2_subdev_internal_ops risp_internal_ops = {
+> +	.init_state = risp_init_state,
+> +};
+> +
+>  /* -----------------------------------------------------------------------------
+>   * Async handling and registration of subdevices and links
+>   */
+> @@ -521,11 +568,12 @@ static int risp_probe(struct platform_device *pdev)
+>  
+>  	isp->subdev.owner = THIS_MODULE;
+>  	isp->subdev.dev = &pdev->dev;
+> +	isp->subdev.internal_ops = &risp_internal_ops;
+>  	v4l2_subdev_init(&isp->subdev, &rcar_isp_subdev_ops);
+>  	v4l2_set_subdevdata(&isp->subdev, &pdev->dev);
+>  	snprintf(isp->subdev.name, sizeof(isp->subdev.name), "%s %s",
+>  		 KBUILD_MODNAME, dev_name(&pdev->dev));
+> -	isp->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +	isp->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_STREAMS;
+>  
+>  	isp->subdev.entity.function = MEDIA_ENT_F_VID_MUX;
+>  	isp->subdev.entity.ops = &risp_entity_ops;
+> 
+> -- 
+> 2.43.0
+> 
+
+-- 
+Kind Regards,
+Niklas Söderlund
 
