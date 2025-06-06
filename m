@@ -1,124 +1,251 @@
-Return-Path: <linux-renesas-soc+bounces-17894-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17895-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F595AD018D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jun 2025 13:59:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D67F2AD0197
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jun 2025 14:02:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 524E8178E88
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jun 2025 11:59:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AF152189D0EF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jun 2025 12:02:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B8122882B6;
-	Fri,  6 Jun 2025 11:59:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7369E286D7E;
+	Fri,  6 Jun 2025 12:02:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="eqFQyPfQ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="e+XB/RZV"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0362882A7;
-	Fri,  6 Jun 2025 11:59:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 806BE1E25ED;
+	Fri,  6 Jun 2025 12:02:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749211145; cv=none; b=VOpYlkwC88Nldbd57X0f4FtLP/S+bmmOyVZvCxXmMCtvr0N9bA95Kzqae0HGiEnkh8owEuVUsDbosDFw1Z/ZWtFdV2HliVHl67rA0tiqawqKEp20PJJ2ObIwTCyi6koIX6RE6qk0X6p95nGq81pf8P9nmRzBPVcge4K5dI7kHlk=
+	t=1749211329; cv=none; b=N0dl3ceEzzpDBuwfsMBHLME/8GNT0ZhmDUZKUNRaJ8ZgqCQCbOHlCh3l4UPz6zCmW3WwaUUz5cA2Dbg91qaWdBDw0eQv9wr6b9RLcBJSXrvwYJK9zGWh4qY2XHzSDLeAyDl2hJWDwnQbpFCVocgk1WiT5geoSyDajGbyqoXK+mQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749211145; c=relaxed/simple;
-	bh=VNzFnnjmlBp/RMn3jvFeMwHEGzosLKTGr8Q2T984OKw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Jz8sqLm+IFc7XnOiaIQiTCYgktqtq3/gwY6JxV0nCKSM0cDLyJZ7oJprHtfXRYQqW8SHgfChtuIep8qsMzVzpVEAb1dW0Sj6nD7ZNLx1qHgLpjTbdes/uUhTVCk2DhwRdUyiRvaKbnYudYGWn9kqoTN2Ns/HMlQ5p9S1BJw4TYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-530cd3d0f8bso711464e0c.1;
-        Fri, 06 Jun 2025 04:59:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749211142; x=1749815942;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GkkIyvqOfr9ngi6miRPVbPTmpqHilBK6eOIDZuISEqs=;
-        b=Y5zJfvsGnJ/t51ugHoiqwJstdFq7FXclwXxF3CT76aR/kLIREOlZNLpCbHCTqSkTOe
-         rYH0KCsKcd28voDnG5Q9JARcsehM91VVFSXvQCyf1dMEl5+zhWGjzZA3bZE0hVdu/sdl
-         dSIkGs5fqpF4/I0LuAedIeMrEV6icWB2vkYrer6dHQ9kSIjD7TXpE+Ta9AjizNfOnk1V
-         0mV1pQ1wyQKoyzMZDCMPa7GfAc83UW1QGM2fhU81hbpTBOI6D1lRlvucHt2bDu4oF58V
-         UZZXQBn9GLxlO4GP+JiJL2xqmA0luZpQ/Y8AxV9on1TrBvwrGitM2KEhopdsJF1ZjFLz
-         Zg7A==
-X-Forwarded-Encrypted: i=1; AJvYcCV+y4DGFK6XyWVXupckYa5px+uj3DfsaDRZAVeocKD3/nepWnQY0VZqkmg8cpCGqA4M+ynskD4sTZAsZFMw@vger.kernel.org, AJvYcCWi15lDB6QKRkwUtzvmBobqed0HEKPFU99fmlZpMqfSj6wulvLG7NLNd+IxwBYIpuV1FGlDF2QcWjAj@vger.kernel.org, AJvYcCWvLhvO5cakVrs1212OrGipU1nFK6rZs0mQtHK7Zy9tka2PBp+Bfs3fW/aRfoH1c5/AK8V3vPZ/wzC41T6Qdwk5s/8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywi2oe7yFsRCQCkUzqmp6MmX9mRiyJbvVo2lqLO28GGPIHHTwia
-	rC134+Q8CrkeLMnFOUsQrAFe5Lg8IOb87ZxUt2e+bxMTHo6v6sJ6oxPUZTbWW3uj
-X-Gm-Gg: ASbGncvMt3TDE12eFZ4dbjNq67BPaDNb5b+BTKIANnXzDkrGdDdOSOASVJm2Xc4j7xn
-	37TN97rdlmGBS7qxW+fsyk6M0HUSh+WlLmp0UOcyarPJng/83casaAtFd00ddQ1r57kn6S5kEnY
-	klaJijjqxLDaPT+jPozQ3nOYZSDYuZxSl4ENk+cvOxHQerQnKKcx0cVrnliyHmiiLav2kuxSLpt
-	aXqE8og17AS1AKlITE0zRdf9Q06FtyZaCGCZyM2/BlMqbe8N9rugOs10QQiv/QaRT50VVS7AEIo
-	4vGiWr89vOcZ5GxS7T8F3vEpXgLoQQXM6bGKG8Dy3/Gr5hH/BWwXMBH2wd8Ox3UQfTqydSAYyVv
-	7gQSQH00uMlo7KQ==
-X-Google-Smtp-Source: AGHT+IE1sIhNlyo4aUhjctzlL5t/v6W/0ioCcOUUcZ+0FNgWuKuK1NBY3FRpGW7t3iwEuekCDhyEGg==
-X-Received: by 2002:a05:6122:640c:10b0:526:1ddc:6354 with SMTP id 71dfb90a1353d-530e45c78eamr1858178e0c.0.1749211142224;
-        Fri, 06 Jun 2025 04:59:02 -0700 (PDT)
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com. [209.85.217.51])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-530e62f42b8sm970467e0c.19.2025.06.06.04.59.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Jun 2025 04:59:01 -0700 (PDT)
-Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-4e770bb7b45so274150137.0;
-        Fri, 06 Jun 2025 04:59:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUfh+1ROspvczqPnGryP1qyVAgYvUYFyF4pIZIa2SSGUoiLamiuoalRD30MZ8U+yPze7hrYMqQ8uoyx@vger.kernel.org, AJvYcCV4FTIKcC2IBqdyTUq3mRssQu4h7ejlmqVsMWHDbGM5FHQUQDfftGvCrV3IIE3nSHbszh/MGI7f2OqOhEhNz0rTwC4=@vger.kernel.org, AJvYcCW30TvWqdbkM7dRWx5a8Yidnscts6UY/eV1BR/3EMHA9DR7TkXpGnVDThYqlswTf2IviMYsYmaWhLe4tRro@vger.kernel.org
-X-Received: by 2002:a05:6102:440e:b0:4df:84d5:543e with SMTP id
- ada2fe7eead31-4e772928b20mr2281122137.7.1749211140760; Fri, 06 Jun 2025
- 04:59:00 -0700 (PDT)
+	s=arc-20240116; t=1749211329; c=relaxed/simple;
+	bh=lehcra6IGALpqmalurFJkLUkRed2UEtrzqdw0mPZm84=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DQ9GcF5XGr82SyZxSU3BGw+uAYXrJfE2kAYIbb3n/ZEmTswbcKX2ZtRqGFwc1oqNy20RkL0oXFJbY6khI2UGPpgLggOBDdUAkaMaauYRqtA1siHGtC7SOShciynAuYcREqFAsbI3PrAolNYM5pzQJvCFv4OEeYd+6X+HJYl9sok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=eqFQyPfQ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=e+XB/RZV; arc=none smtp.client-ip=103.168.172.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailfout.phl.internal (Postfix) with ESMTP id 8D983138034B;
+	Fri,  6 Jun 2025 08:02:06 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-10.internal (MEProxy); Fri, 06 Jun 2025 08:02:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1749211326;
+	 x=1749297726; bh=Obfl9LVjZme1N6jc3cwqyAP+xIrat0n5RtphV2HZsYo=; b=
+	eqFQyPfQ/2uz2Hf90IC7OpGPKwzj2va86tcIwI74xuggpcGj0V1DTWPziBGqrOOl
+	jmIVqUh0tHevUARLzv6NGTuQ043gBlNO39iJ9+BGflLkeMqrdinEJF1cAH1JrVFE
+	gG+l8c+yU7lTxvjkh3aWMJMdTN+tesP58yZC+i6nP7zz17IysYaUBdoxiIJs/nMX
+	i6jRolK/n1ZFvXau8ayW+yYFiD7eNeAxirSglx+9LTlCUWxdXNTQkil38kVKWmpG
+	fl90Ciy/+2aEhg9BJNTPTb5xU6EXHlnqJt5uVKpEj9AfkmSOR43ThRZ9HyGbckM5
+	XeSK2t7uLdRe3Jvl7b5X8g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749211326; x=
+	1749297726; bh=Obfl9LVjZme1N6jc3cwqyAP+xIrat0n5RtphV2HZsYo=; b=e
+	+XB/RZVVF5um3WjDqG+JtiNfzuEiG5U7WYHRXrg7LCaAPG8jMy7dt4KdHTjJIuIT
+	W0JO5Zo2dhXHtpBql0BUsIgQWa6WDYsLbjU+M8bkMelzKQB8IVADMdFuYIWFMQxe
+	hjFmXmZWdE5SSI0p7Tbcgu9Hwaet0NWVkZnkdveqW0shywnKqUKxkGADi6XIa69x
+	tCXwdTgWA773qwNhynSBpnA1FRHWy+oUrZ/ooK6KKkOpn/R+sUCSmMXYf3B3Nrk1
+	ijrXxwrNZ8BGc4oKG8ErGYW69/mQeUzhHbsK9WqTxJBV1vBVsyAerq2txzk6hFOS
+	82r4nfCiyFB9R0GhOo0gQ==
+X-ME-Sender: <xms:vthCaG79hNryUfREJyuP0Dwf47hMh9OxsqNNHK0QSXYQHRqirXU6_A>
+    <xme:vthCaP7XrtNJbzZBjAch0FStDLfrd_EMhIXIwraY4zwVa8HrvCl9ElPkfBJ1bU8ys
+    i65wZ2i05H6kRY8pUw>
+X-ME-Received: <xmr:vthCaFeDCJE3rVQTtWvFp9PWls1Eg3VNz_KL7Nx71oWu5a648oq9OXxNJsO66IdG8ZYZz4pwARr6T34ftYex7Do6TfSaLDM-yQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdehtdeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
+    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
+    gvrhhluhhnugesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteeg
+    tddvvdfhtdekgefhfeefheetheekkeegfeejudeiudeuleegtdehkeekteenucevlhhush
+    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshho
+    uggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeelpdhmoh
+    guvgepshhmthhpohhuthdprhgtphhtthhopehtohhmihdrvhgrlhhkvghinhgvnhdorhgv
+    nhgvshgrshesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepmhgthhgvhh
+    grsgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshgrkhgrrhhirdgrihhluhhssehl
+    ihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvh
+    hgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghs
+    qdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkh
+    gvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgthhgvhhgr
+    sgdohhhurgifvghisehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlrghurhgvnhhtrd
+    hpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepjhgr
+    tghophhordhmohhnughisehiuggvrghsohhnsghorghrugdrtghomh
+X-ME-Proxy: <xmx:vthCaDKCtzFjbKXjC3thKaN-8KY038v7xA66A-3tWHnd-ieicRkuWA>
+    <xmx:vthCaKIfd6jP1gRXqGjWMqnFzEby_UHoAcU_yK5jNTtGi9eYfwQ-bg>
+    <xmx:vthCaEygYudWqvWGx_N_kRHEYco4K_pv_Ul4lghc4vBWlWkl7tqD1A>
+    <xmx:vthCaOIZsEHL9CI8J-k_H6K6jLuubDIn2O3lnDmc950b-UwOXwC9ww>
+    <xmx:vthCaIQBknF3LjVfWfs5ad4Z32s5y7Xwblc3kH41SNxCeuyncEJoG6hP>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 6 Jun 2025 08:02:05 -0400 (EDT)
+Date: Fri, 6 Jun 2025 14:02:04 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: Re: [PATCH v3 06/15] media: rcar-csi2: Simplify rcsi2_calc_mbps()
+Message-ID: <20250606120204.GB2770609@ragnatech.se>
+References: <20250530-rcar-streams-v3-0-026655df7138@ideasonboard.com>
+ <20250530-rcar-streams-v3-6-026655df7138@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250528133858.168582-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250528133858.168582-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 6 Jun 2025 13:58:48 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXMEzPYfDvefSzSx9hZGY=4eyRY2MHHnr5JBHV3ujFdrg@mail.gmail.com>
-X-Gm-Features: AX0GCFsl-TsxaSk2EijYe-2lJ04s7VyuySx5VPceo-nG7KhS3hWpW4y_WadxEEM
-Message-ID: <CAMuHMdXMEzPYfDvefSzSx9hZGY=4eyRY2MHHnr5JBHV3ujFdrg@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: phy: renesas,usb2-phy: Document RZ/V2N SoC support
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, linux-phy@lists.infradead.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250530-rcar-streams-v3-6-026655df7138@ideasonboard.com>
 
-Hi Prabhakar,
+Hi Tomi,
 
-On Wed, 28 May 2025 at 15:39, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Document support for the USB2.0 phy found on the Renesas RZ/V2N
-> (R9A09G056) SoC. The USB2.0 phy is functionally identical to that on the
-> RZ/V2H(P) SoC, so no driver changes are needed. The existing
-> `renesas,usb2-phy-r9a09g057` compatible will be used as a fallback
-> for the RZ/V2N SoC.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Thanks for your patch.
 
-Thanks for your patch!
+On 2025-05-30 16:50:35 +0300, Tomi Valkeinen wrote:
+> Instead of taking the bpp and the number of lanes as parameters to
+> rcsi2_calc_mbps(), change the function to get those parameters inside
+> the function. This centralizes the code a bit and makes it easier to add
+> streams support.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-There seems to be some minor differences related to VBSTA interrupt
-handling, but the documentation is far from clear in making clear what
-that actually means, or is used for...
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
+> ---
+>  drivers/media/platform/renesas/rcar-csi2.c | 45 ++++++++++++++++--------------
+>  1 file changed, 24 insertions(+), 21 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
+> index 8aca35096408..90973f3cba38 100644
+> --- a/drivers/media/platform/renesas/rcar-csi2.c
+> +++ b/drivers/media/platform/renesas/rcar-csi2.c
+> @@ -998,13 +998,18 @@ static int rcsi2_get_active_lanes(struct rcar_csi2 *priv,
+>  	return 0;
+>  }
+>  
+> -static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp,
+> -			   unsigned int lanes)
+> +static int rcsi2_calc_mbps(struct rcar_csi2 *priv,
+> +			   struct v4l2_subdev_state *state)
+>  {
+> +	const struct rcar_csi2_format *format;
+> +	struct v4l2_mbus_framefmt *fmt;
+>  	struct media_pad *remote_pad;
+>  	struct v4l2_subdev *source;
+> +	unsigned int lanes;
+> +	unsigned int bpp;
+>  	s64 freq;
+>  	u64 mbps;
+> +	int ret;
+>  
+>  	if (!priv->remote)
+>  		return -ENODEV;
+> @@ -1012,6 +1017,20 @@ static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp,
+>  	source = priv->remote;
+>  	remote_pad = &source->entity.pads[priv->remote_pad];
+>  
+> +	ret = rcsi2_get_active_lanes(priv, &lanes);
+> +	if (ret)
+> +		return ret;
+> +
+> +	fmt = v4l2_subdev_state_get_format(state, RCAR_CSI2_SINK);
+> +	if (!fmt)
+> +		return -EINVAL;
+> +
+> +	format = rcsi2_code_to_fmt(fmt->code);
+> +	if (!format)
+> +		return -EINVAL;
+> +
+> +	bpp = format->bpp;
+> +
+>  	freq = v4l2_get_link_freq(remote_pad, bpp, 2 * lanes);
+>  	if (freq < 0) {
+>  		int ret = (int)freq;
+> @@ -1092,7 +1111,7 @@ static int rcsi2_start_receiver_gen3(struct rcar_csi2 *priv,
+>  	phycnt = PHYCNT_ENABLECLK;
+>  	phycnt |= (1 << lanes) - 1;
+>  
+> -	mbps = rcsi2_calc_mbps(priv, format->bpp, lanes);
+> +	mbps = rcsi2_calc_mbps(priv, state);
+>  	if (mbps < 0)
+>  		return mbps;
+>  
+> @@ -1300,23 +1319,15 @@ static int rcsi2_c_phy_setting_v4h(struct rcar_csi2 *priv, int msps)
+>  static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv,
+>  				    struct v4l2_subdev_state *state)
+>  {
+> -	const struct rcar_csi2_format *format;
+> -	const struct v4l2_mbus_framefmt *fmt;
+>  	unsigned int lanes;
+>  	int msps;
+>  	int ret;
+>  
+> -	/* Use the format on the sink pad to compute the receiver config. */
+> -	fmt = v4l2_subdev_state_get_format(state, RCAR_CSI2_SINK);
+> -	format = rcsi2_code_to_fmt(fmt->code);
+> -	if (!format)
+> -		return -EINVAL;
+> -
+>  	ret = rcsi2_get_active_lanes(priv, &lanes);
+>  	if (ret)
+>  		return ret;
+>  
+> -	msps = rcsi2_calc_mbps(priv, format->bpp, lanes);
+> +	msps = rcsi2_calc_mbps(priv, state);
+>  	if (msps < 0)
+>  		return msps;
+>  
+> @@ -1494,23 +1505,15 @@ static int rcsi2_init_common_v4m(struct rcar_csi2 *priv, unsigned int mbps)
+>  static int rcsi2_start_receiver_v4m(struct rcar_csi2 *priv,
+>  				    struct v4l2_subdev_state *state)
+>  {
+> -	const struct rcar_csi2_format *format;
+> -	const struct v4l2_mbus_framefmt *fmt;
+>  	unsigned int lanes;
+>  	int mbps;
+>  	int ret;
+>  
+> -	/* Calculate parameters */
+> -	fmt = v4l2_subdev_state_get_format(state, RCAR_CSI2_SINK);
+> -	format = rcsi2_code_to_fmt(fmt->code);
+> -	if (!format)
+> -		return -EINVAL;
+> -
+>  	ret = rcsi2_get_active_lanes(priv, &lanes);
+>  	if (ret)
+>  		return ret;
+>  
+> -	mbps = rcsi2_calc_mbps(priv, format->bpp, lanes);
+> +	mbps = rcsi2_calc_mbps(priv, state);
+>  	if (mbps < 0)
+>  		return mbps;
+>  
+> 
+> -- 
+> 2.43.0
+> 
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Kind Regards,
+Niklas Söderlund
 
