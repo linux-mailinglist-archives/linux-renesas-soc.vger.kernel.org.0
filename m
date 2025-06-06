@@ -1,284 +1,112 @@
-Return-Path: <linux-renesas-soc+bounces-17902-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17903-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93FEDAD021D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jun 2025 14:20:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81454AD0222
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jun 2025 14:22:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DF5103AA423
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jun 2025 12:19:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 346F03AEC8D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jun 2025 12:21:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7196E28750B;
-	Fri,  6 Jun 2025 12:20:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Epb6M8li";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="LinPWa1e"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A02DD288C05;
+	Fri,  6 Jun 2025 12:22:06 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18CD2868BD;
-	Fri,  6 Jun 2025 12:20:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D6E28851F;
+	Fri,  6 Jun 2025 12:22:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749212416; cv=none; b=Gf8iKr7lxHW6FmFnHY++c3rd4LIUDXZUiHqT3xdD0D8mJXq4oeaa8vKrmJoAd5DetGqObtUYnAmkwUM+5ScEkaFqXKqxXavfal3NVgdWjCzQuV4PXD0MIMuB6RuxRQz7DDL2/lww6HEeGD8uadbGfnbRlMgxoIPw9qjqLErAN34=
+	t=1749212526; cv=none; b=NMKWqAMB5FyJvIJh83jjPmckXhpuPu8O1ew7QOg/CN/q5ldL1WvgMhndfk03ZSZEXTEwUdTMNDGhOVIOvyViLkCBUUiF4EULPW5qbuTFBE31WJCUiJC2+C9XaxAtOQt/Y8eye0KQN5zWB5JSoKZlyinDME5e8AhXPS2+xVbcZ8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749212416; c=relaxed/simple;
-	bh=NprR1ehoDfTDot6OFdq1lOyMlHXFb+t2rc/rBu2GTRc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nyyVlOh3cZ2YpZsRK6ZbyRFErt2GRrARnwhfC+YrOWD3FlCVRddyXCOZgiRUMB/S8P2723U49wYm5et0jd6/V9z35b08sxrhZyxOZHLCl0OW9Xm7gTAuBCm+SHtpB7LwgPBCnx4NdjiadG3QwLBvmCm8V9p+Lq0I9VGb1kS9X34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Epb6M8li; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=LinPWa1e; arc=none smtp.client-ip=103.168.172.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfout.phl.internal (Postfix) with ESMTP id BE7061380388;
-	Fri,  6 Jun 2025 08:20:13 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-12.internal (MEProxy); Fri, 06 Jun 2025 08:20:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1749212413;
-	 x=1749298813; bh=F5eKTBewbMvoySvWxVy/ldrx72GRUC0xaamMpK6cgZM=; b=
-	Epb6M8lidkBw4TYXg+ox28A0BAv5NMAGmTl2NSSdJI5Zy/6fSvpYFzIeFiOVuNfU
-	A4+kyvKj46s/5ntJ9FD/mPEjgC8g699m9YQBHls5Qm68jMWC6/Re07cpeYzogfu2
-	Hjgt3Y1KHODlEJ6g0NbIBB+EUioz14ZCDI22sE9zqw7j8IHBSSv8bnxPsFTVs6uT
-	/gBuBTwe1C4TAfJpDtHWt6iGgIai1eG8IMLovIKnnOWW0msAOZ8D2p0p4Ynj4/YQ
-	yQ1wmfhIDt2qbV2lQsiFMHviYCBCmOMflTP+Voh50nkrwQh1yamwf5PKjulayW1Z
-	VPaAT92lY/zF21CQq+QU3w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749212413; x=
-	1749298813; bh=F5eKTBewbMvoySvWxVy/ldrx72GRUC0xaamMpK6cgZM=; b=L
-	inPWa1eYPdNbPoQ46r6hYmsN/Fc+6cTO8GfCUab68A3NYdPi/Uu6Q9fbrMiLgWuw
-	4mIrNJU5BBv8Ot8yXBXlIKwXczHI+mgqgS1+XLUqW/11/2+a/Jeai3686ThrAGkN
-	l5bO6BhQUrrT4pUNxx9yn/jSIa33/ijfLHCOv6p7F5Or90OolQMUdfESYyRDh0Ho
-	Dbk3rThv9hQdJa0Ym+nglZHk7oeUgOz1RdfXRmnPjA5rCGRf2ylrezn0Ch69XH0w
-	9r90X9jXsTvRb3VCM3IIsvGqw5VFyUxntlFsmGOhvaN6nr2+hspll9XQPKB52IUl
-	RvLJN9IQiOwnydVO/xbJw==
-X-ME-Sender: <xms:_dxCaKXpJtNpVwaa9UEKcwrv3hwp1vPJLZ0YdRKyY1PSNjeUEnWy-Q>
-    <xme:_dxCaGnVjZ_nOU64m848wWfCQ2V7rRoBgzQqkZ3Fhc5LETj_tjqwMpfJIOKMTc2JL
-    o2ARbKikXVMHAFlMOo>
-X-ME-Received: <xmr:_dxCaOaLTB_ZyxHMtg9_yoiP-GtnA1e55Tgm1av8QxCtnN0ceiFimcWtXzPGXiIpXZTjuEezk1RxDqe_9oduMbYEx66UEevWBA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdehtdekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
-    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
-    gvrhhluhhnugesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeelfefg
-    tddtleeljeeuuddvteefledtfeefjeduheeiffffudetgeejieegffduffenucffohhmrg
-    hinheptghsihdvrdhvtgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgr
-    ihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrsh
-    gvpdhnsggprhgtphhtthhopeelpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopeht
-    ohhmihdrvhgrlhhkvghinhgvnhdorhgvnhgvshgrshesihguvggrshhonhgsohgrrhgurd
-    gtohhmpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrhhnvghlrdhorhhgpdhrtghpthht
-    ohepshgrkhgrrhhirdgrihhluhhssehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpth
-    htoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphht
-    thhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorh
-    hgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdho
-    rhhgpdhrtghpthhtohepmhgthhgvhhgrsgdohhhurgifvghisehkvghrnhgvlhdrohhrgh
-    dprhgtphhtthhopehlrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgr
-    rhgurdgtohhmpdhrtghpthhtohepjhgrtghophhordhmohhnughisehiuggvrghsohhnsg
-    horghrugdrtghomh
-X-ME-Proxy: <xmx:_dxCaBWhM8rsJjvx3-70ez0ilJ4xJNl3yrsiGfieUHJDQPcabPrjIw>
-    <xmx:_dxCaEk4VGwgK_qgqObZYD4-p_oOesSUfY4MiD8Ue-zxEQ3kxc4WGg>
-    <xmx:_dxCaGcpoHw49EvVkFk40OEg51JKSevfkXZLLIha_HOG30y-9fw0KA>
-    <xmx:_dxCaGG89eTEPOQ3KjbWLyzjBtzwByRy4lZdyLK2AtMR89NVVRvWdg>
-    <xmx:_dxCaI_LXh4v8xuHxDH79cIn3CdDxZBAHb2AuvBNnCDnsUo-cKPd5yg3>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 6 Jun 2025 08:20:12 -0400 (EDT)
-Date: Fri, 6 Jun 2025 14:20:11 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH v3 11/15] media: rcar-isp: Call get_frame_desc to find
- out VC & DT
-Message-ID: <20250606122011.GH2770609@ragnatech.se>
-References: <20250530-rcar-streams-v3-0-026655df7138@ideasonboard.com>
- <20250530-rcar-streams-v3-11-026655df7138@ideasonboard.com>
+	s=arc-20240116; t=1749212526; c=relaxed/simple;
+	bh=0U4sLN2bU3FPPQbIwWvuKJBqBIiIXtFnOOChN9lQMko=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ajhAAOHlrhvKEDjqFk9ch12bkHVg2EQ0LOLxLt+oxLNuy0FveafWuTN/8ZcnQnbM4AUWFZEWMZNmgjYogRFZZfLAMsMThwZqFMaGUQkVPh65oHVHX322raZiBiQVYKtfmcDTt5R3HsTg8NMKiYaDDOTwBjHpDz5E0tDlIhFRLTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-6f8a70fe146so38353076d6.0;
+        Fri, 06 Jun 2025 05:22:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749212522; x=1749817322;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6bq7rC4bOsVX2kPJWiHscsX37vABLUWxhZKEGhe4C/Q=;
+        b=eq9KNJjvZHxQKEtIqiNZ1/u5ns241dVWKcqk/+758wOmzJ73efVmvmR5U1LyFJtGAB
+         J+94vehUaN0Ef3O5MGczduglh+cenouvDhv+i+Dq0J0Bclku8+UJZbIEw8lZsHEsr4mx
+         PesG0/DB0TgWmqznsqI0ro8xY6M0eERP93L0ViAdJBvK69nXl4rSbbXmKoKgYl2b5tF9
+         yPYd/1qTYkx7p7/GDweRZQGJQ5ajpDYZm3hDTbAhRjooVnYG8l/c2UEwkFmLjMzjkFwR
+         kwRXOeHa0G3goCrIG6WsuuuoJ0XDOUMfSMZEqa0XpaoUfMz48M+/UC5LWt+1cssHgrXO
+         Hozw==
+X-Forwarded-Encrypted: i=1; AJvYcCUT/KBr8GblQTU/Bo65/hAfN0S7jU1Om3V+Zu2YMVTOP8/CIsjWlfO0vovyvmLbyZNd/W13GV24@vger.kernel.org, AJvYcCWFarctNwtFqVoNiVd2rTLVY68bFx1np2PbF/yV9bRmOyG9hMVRPKKCGqvDL28tCst3taciKmIKW4W6@vger.kernel.org, AJvYcCX82a8eZpf393kI5GGkuvULobMa+sQkc8BdAQjshKB0PYzJ+LTn6UzILGQ22dRQsPxA+zHkLKLi2kEczmcr@vger.kernel.org, AJvYcCXq4imeOZBCel11mccgVb5cpcTHViVFyg0+A4Ahpbk3mVrz4KtmgOonUjnUUBcMIwjif1BeXLbO3KMEfbAGtb474II=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTgQmcoeeXlhReoEWlfHMYDoHPDgYdfx957OipKWQD4h0Bb11s
+	KA9N5j3wiH+gZK8hQYwMlg+B1UfxeGs3i9Yi/dvWnzOa7bnX3EYXP7FloQrcSOLr
+X-Gm-Gg: ASbGncvsh5SJEr83+n4VTeBZX8kPI9/xnemnkIBtQuZulIvGDNKQkJNdUtD2pw8UYki
+	43msTdFrueyxsHBecMOPOXIle+FrJ6pJIEWkQQbbT8IHpZ5WdBA7Cw8P6XsSHiMIi9ZxIzobC2m
+	WbDmNI4fhV0d4m/49w6tR5IyiNDilP7c1AyvcObFRQx2hnIKjviHW5vDiC23LeEvo23oHTyyFhU
+	yGQw9ZHolPhfVEIn9zmiWNIZXWDKviwo2moxALDSkc0toseYU+E+NRpcpW7nTag7BZB4knw1CvY
+	YsHxIIyvRbOTQlvkkQbBRlul5O2AXZQcn4k7DcmoyvQaICjQwpkfJ1+5G/E1BevkC21T9uJVB76
+	91cAVmmS/2Bzdp6aygw==
+X-Google-Smtp-Source: AGHT+IHh27C0wXWCvQjI0URpPMFiNZfzas2u4sgBp0/x1gtLIqRUbD5MFvUNms09tDp94gSqfBfjVg==
+X-Received: by 2002:a05:6214:4106:b0:6fa:cb97:9722 with SMTP id 6a1803df08f44-6fb0903b447mr52363246d6.34.1749212522360;
+        Fri, 06 Jun 2025 05:22:02 -0700 (PDT)
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com. [209.85.160.178])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6fb09b366easm10358756d6.114.2025.06.06.05.22.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Jun 2025 05:22:01 -0700 (PDT)
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4a3db0666f2so43409281cf.1;
+        Fri, 06 Jun 2025 05:22:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW9WCl/Wn+4av92BcnpSxnF9Z+kpk7tuvR03CnfeNQk9goBgjdoN14hcfVAxANhp6iAgEoW8IrthOuAUa+t@vger.kernel.org, AJvYcCWI2nIVUNphSnG3ROHLkjEGkIWamuDNy+ZKO44IJHuNqOZ1WUtEUFHQxDvRNtzjyD+WY/wYMfLj@vger.kernel.org, AJvYcCX2Ivk6gXwPUc0RUB349xilBE3rz650jrsfk4IfLp7I/jKWxuPaltcxTPt4eaKsnu/RX8GBgc5SijMM@vger.kernel.org, AJvYcCXU8PTvR+LcnaHiobQL/saL25kw473NytFmC9zzhEf4PD7/iSnwy3mph15chBRSkYUHKCqX2ADyC/EkiLSWpgJfhIw=@vger.kernel.org
+X-Received: by 2002:a05:620a:1030:b0:7d2:26f3:83de with SMTP id
+ af79cd13be357-7d2298ed2c8mr465034285a.54.1749212521444; Fri, 06 Jun 2025
+ 05:22:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250530-rcar-streams-v3-11-026655df7138@ideasonboard.com>
+References: <20250604065200.163778-1-john.madieu.xa@bp.renesas.com> <20250604065200.163778-3-john.madieu.xa@bp.renesas.com>
+In-Reply-To: <20250604065200.163778-3-john.madieu.xa@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 6 Jun 2025 14:21:49 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVpKOZLzvZAAfzMe=GrStqc1bX9WRy-ROdrRkLzXs4iOw@mail.gmail.com>
+X-Gm-Features: AX0GCFtvoYugcH9OSDokLRpIxzWObSPzAwFWFg1APvof6NKzfaRHx1oY0ZfkojI
+Message-ID: <CAMuHMdVpKOZLzvZAAfzMe=GrStqc1bX9WRy-ROdrRkLzXs4iOw@mail.gmail.com>
+Subject: Re: [PATCH 2/4] dt-bindings: net: renesas-gbeth: Add support for
+ RZ/G3E (R9A09G047) SoC
+To: John Madieu <john.madieu.xa@bp.renesas.com>
+Cc: prabhakar.mahadev-lad.rj@bp.renesas.com, andrew+netdev@lunn.ch, 
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	magnus.damm@gmail.com, biju.das.jz@bp.renesas.com, john.madieu@gmail.com, 
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Tomi,
+On Wed, 4 Jun 2025 at 08:52, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
+> Document support for the GBETH IP found on the Renesas RZ/G3E (R9A09G047) SoC.
+> The GBETH block on RZ/G3E is equivalent in functionality to the GBETH found on
+> RZ/V2H(P) (R9A09G057).
+>
+> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 
-Thanks for your work.
+LGTM (I don't have the User's Manual Additional Document for RZ/V2N)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-On 2025-05-30 16:50:40 +0300, Tomi Valkeinen wrote:
-> Call get_frame_desc to find out VC & DT, instead of hardcoding the VC
-> routing and deducing the DT based on the mbus format.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> ---
->  drivers/media/platform/renesas/rcar-isp/csisp.c | 108 +++++++++++++++++-------
->  1 file changed, 77 insertions(+), 31 deletions(-)
-> 
-> diff --git a/drivers/media/platform/renesas/rcar-isp/csisp.c b/drivers/media/platform/renesas/rcar-isp/csisp.c
-> index a04cbf96b809..887d8eb21a3a 100644
-> --- a/drivers/media/platform/renesas/rcar-isp/csisp.c
-> +++ b/drivers/media/platform/renesas/rcar-isp/csisp.c
-> @@ -225,24 +225,86 @@ static void risp_power_off(struct rcar_isp *isp)
->  	pm_runtime_put(isp->dev);
->  }
->  
-> -static int risp_start(struct rcar_isp *isp, struct v4l2_subdev_state *state)
-> +static int risp_configure_routing(struct rcar_isp *isp,
-> +				  struct v4l2_subdev_state *state)
->  {
-> -	const struct v4l2_mbus_framefmt *fmt;
-> -	const struct rcar_isp_format *format;
-> -	unsigned int vc;
-> -	u32 sel_csi = 0;
-> +	struct v4l2_mbus_frame_desc source_fd;
-> +	struct v4l2_subdev_route *route;
->  	int ret;
->  
-> -	fmt = v4l2_subdev_state_get_format(state, RCAR_ISP_SINK, 0);
-> -	if (!fmt)
-> -		return -EINVAL;
-> +	ret = v4l2_subdev_call(isp->remote, pad, get_frame_desc,
-> +			       isp->remote_pad, &source_fd);
-> +	if (ret)
-> +		return ret;
->  
-> -	format = risp_code_to_fmt(fmt->code);
-> -	if (!format) {
-> -		dev_err(isp->dev, "Unsupported bus format\n");
-> -		return -EINVAL;
-> +	/* Clear the channel registers */
-> +	for (unsigned int ch = 0; ch < 12; ++ch) {
-> +		risp_write_cs(isp, ISPCS_FILTER_ID_CH_REG(ch), 0);
-> +		risp_write_cs(isp, ISPCS_DT_CODE03_CH_REG(ch), 0);
->  	}
->  
-> +	/* Clear the proc mode registers */
-> +	for (unsigned int dt = 0; dt < 64; ++dt)
-> +		risp_write_cs(isp, ISPPROCMODE_DT_REG(dt), 0);
+Gr{oetje,eeting}s,
 
-I agree with Laurent's comments, do we really need to clear these 
-registers?
-
-> +
-> +	for_each_active_route(&state->routing, route) {
-> +		struct v4l2_mbus_frame_desc_entry *source_entry = NULL;
-> +		const struct rcar_isp_format *format;
-> +		const struct v4l2_mbus_framefmt *fmt;
-> +		unsigned int i;
-> +		u8 vc, dt, ch;
-> +		u32 v;
-> +
-> +		for (i = 0; i < source_fd.num_entries; i++) {
-> +			if (source_fd.entry[i].stream == route->sink_stream) {
-> +				source_entry = &source_fd.entry[i];
-> +				break;
-> +			}
-> +		}
-> +
-> +		if (!source_entry) {
-> +			dev_err(isp->dev,
-> +				"Failed to find stream from source frame desc\n");
-> +			return -EPIPE;
-> +		}
-> +
-> +		vc = source_entry->bus.csi2.vc;
-> +		dt = source_entry->bus.csi2.dt;
-> +		/* Channels 4 - 11 go to VIN */
-> +		ch = route->source_pad - 1 + 4;
-> +
-> +		fmt = v4l2_subdev_state_get_format(state, route->sink_pad,
-> +						   route->sink_stream);
-> +		if (!fmt)
-> +			return -EINVAL;
-> +
-> +		format = risp_code_to_fmt(fmt->code);
-> +		if (!format) {
-> +			dev_err(isp->dev, "Unsupported bus format\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		/* VC Filtering */
-> +		risp_write_cs(isp, ISPCS_FILTER_ID_CH_REG(ch), BIT(vc));
-> +
-> +		/* DT Filtering */
-> +		risp_write_cs(isp, ISPCS_DT_CODE03_CH_REG(ch),
-> +			      ISPCS_DT_CODE03_EN0 | ISPCS_DT_CODE03_DT0(dt));
-> +
-> +		/* Proc mode */
-> +		v = risp_read_cs(isp, ISPPROCMODE_DT_REG(dt));
-> +		v |= ISPPROCMODE_DT_PROC_MODE_VCn(vc, format->procmode);
-> +		risp_write_cs(isp, ISPPROCMODE_DT_REG(dt), v);
-
-Also as Laurent suggested I thin it would be nicer to build these 
-registers up in a local variable and do the writes once outside the 
-loop. That way the clearing of the register will take care of itself ;-)
-
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int risp_start(struct rcar_isp *isp, struct v4l2_subdev_state *state)
-> +{
-> +	u32 sel_csi = 0;
-> +	int ret;
-> +
->  	ret = risp_power_on(isp);
->  	if (ret) {
->  		dev_err(isp->dev, "Failed to power on ISP\n");
-> @@ -256,25 +318,9 @@ static int risp_start(struct rcar_isp *isp, struct v4l2_subdev_state *state)
->  	risp_write_cs(isp, ISPINPUTSEL0_REG,
->  		      risp_read_cs(isp, ISPINPUTSEL0_REG) | sel_csi);
->  
-> -	/* Configure Channel Selector. */
-> -	for (vc = 0; vc < 4; vc++) {
-> -		u8 ch = vc + 4;
-> -		u8 dt = format->datatype;
-> -
-> -		risp_write_cs(isp, ISPCS_FILTER_ID_CH_REG(ch), BIT(vc));
-> -		risp_write_cs(isp, ISPCS_DT_CODE03_CH_REG(ch),
-> -			      ISPCS_DT_CODE03_EN3 | ISPCS_DT_CODE03_DT3(dt) |
-> -			      ISPCS_DT_CODE03_EN2 | ISPCS_DT_CODE03_DT2(dt) |
-> -			      ISPCS_DT_CODE03_EN1 | ISPCS_DT_CODE03_DT1(dt) |
-> -			      ISPCS_DT_CODE03_EN0 | ISPCS_DT_CODE03_DT0(dt));
-> -	}
-> -
-> -	/* Setup processing method. */
-> -	risp_write_cs(isp, ISPPROCMODE_DT_REG(format->datatype),
-> -		      ISPPROCMODE_DT_PROC_MODE_VCn(3, format->procmode) |
-> -		      ISPPROCMODE_DT_PROC_MODE_VCn(2, format->procmode) |
-> -		      ISPPROCMODE_DT_PROC_MODE_VCn(1, format->procmode) |
-> -		      ISPPROCMODE_DT_PROC_MODE_VCn(0, format->procmode));
-> +	ret = risp_configure_routing(isp, state);
-> +	if (ret)
-> +		return ret;
->  
->  	/* Start ISP. */
->  	risp_write_cs(isp, ISPSTART_REG, ISPSTART_START);
-> 
-> -- 
-> 2.43.0
-> 
+                        Geert
 
 -- 
-Kind Regards,
-Niklas Söderlund
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
