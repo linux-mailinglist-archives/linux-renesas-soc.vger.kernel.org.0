@@ -1,192 +1,323 @@
-Return-Path: <linux-renesas-soc+bounces-17933-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17934-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC41FAD0D28
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Jun 2025 13:43:47 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 646A1AD0D3F
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Jun 2025 13:59:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6BA4A171FB0
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Jun 2025 11:43:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CECD1188D77B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Jun 2025 11:59:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 742B2220F5B;
-	Sat,  7 Jun 2025 11:43:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D21821E087;
+	Sat,  7 Jun 2025 11:59:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XH9gD9ZH"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="a5a1E/On";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="A5vr9kwW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E15A1F151C;
-	Sat,  7 Jun 2025 11:43:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D05FC1F151C;
+	Sat,  7 Jun 2025 11:59:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749296621; cv=none; b=WClDthUTVk4woPP0JNelHaXEmLgWHecUM3MaEmowdPptFQYUNo6KRsZalb+Q1Ypcu8/0hE5JYczU9r4sHCIiBckFyEVrlwMkuIxkAysTpqOZm/KFbgBo+e+yPW3VU1mYgII4dTW37Gi9RhLXj3CHkMtahVBz1Vgog2bC4ER+62Y=
+	t=1749297550; cv=none; b=sahCIj6kxJotmvQkWc3zJI3EKY6LvINtHovcnNNeq4aDD8AaoP4Ld64olu/H+uVixDVmg0OI0wEDS/6tcQvUoucPmsL8HaBO7Njs62DeX25dOQrRcZdtNT3SsOZ4orMnBA7c4z4yvo0mGi1UbEgp0vFwFzZBfO0EYn8rhAzJe0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749296621; c=relaxed/simple;
-	bh=SX6x8lcMQQu92DOlDbnahesgKUUjd2UjQLVSnWHmy/w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=V8KiKCj9cbsErLkgDUC8bfF+oIuoF8gjIts4noZLoF4PkGvhqirDsKmdoeQm0yskT5U/BO1yk9OYaO6E4gxooDKKJCkbNn5IeZPrVNFw8j4S6Dvje+mwO/6Z1mV1b04Qop/xYov3H920mX2RYstrrJDw0RiC1sP6sPPQzenlnQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XH9gD9ZH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF833C4CEF1;
-	Sat,  7 Jun 2025 11:43:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749296620;
-	bh=SX6x8lcMQQu92DOlDbnahesgKUUjd2UjQLVSnWHmy/w=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=XH9gD9ZH8faoABoPA/CliUC9yAKk4xUdMOP/CGm9HCPAimf7aNV6YyiG5axdHa51I
-	 fB154CDwDFaIAvzfqWuOvIXQ7dMN3mezliivBjbF155oOHwKzErK4OWFVQxkN9k6Kg
-	 O6J+ewRwWaLAIKi43RE5jjK6r5+JoION0uQh8zW38bsDHPUineneXgS7dN6ZgvzNMg
-	 nWNl3OIdcqRzTnvrA9VjFMBGtugJ4xOjUY3has+dW/q4sZLyu/uQkUIXNzJK+QF7S8
-	 kuaXEbO3P7o34FksdTsgUamzIfoUvyA93m3zEan6tAXt0A6VXiZwz0U+HLjHS2LGk2
-	 QNwC8jOD462Lw==
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-4067ac8f6cdso2408469b6e.2;
-        Sat, 07 Jun 2025 04:43:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUsdl2+UZpu18H9Y1Mtd6ChRpxA3iV+qjxMy5twa9OxjEXXipQte/L8QgheiE/Lt5gsrdWBasmAntdi11sekMmK+s0=@vger.kernel.org, AJvYcCVjt8y1siObcXrpBC03q/KaqV62KpBSuNkwjsmzpDbGcGPaCNw7vNAgELstd97tAbEx+2yscY4kR/Q=@vger.kernel.org, AJvYcCVoYszi+NFoJTSTnP9a1oyzSK1qCyOqnLmcz+yH64TJ4uWYCZyvRK4X6AFAmKoAqtjbVgrrb0uxJueU1XYf@vger.kernel.org, AJvYcCWMDoJWOyFWPeemLSFCb81030mDJ1csZJ0vYeS6yocwQZMniuIN43eqEOTMaQIB8XIJ5lJIt+yeXEw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yygd8WsO1VSTfEOBIl2GkONu18qVnxya3LZxcQvXvYPQa5jjaf/
-	+op0YVHp9kewvxZFUVwiTsr/BAfPgMKqhEId7u+2H/0xLnd4BDLS51clkQaOQ0CRbYk+qlBgUwM
-	kW14D3EgVZ1IIEsfvOFCAyeaSwl10jNo=
-X-Google-Smtp-Source: AGHT+IF3MnqzphsP0Aj2aIg2yl7XI8dp/NM9Y6H+A8UL7T966MeN/B7HkHpxRiSvUvZLVuLMG/CCjA7BjOvTOW9l/Jc=
-X-Received: by 2002:a05:6808:3a06:b0:3fe:ab15:5ed6 with SMTP id
- 5614622812f47-409051b20b3mr4396736b6e.12.1749296620023; Sat, 07 Jun 2025
- 04:43:40 -0700 (PDT)
+	s=arc-20240116; t=1749297550; c=relaxed/simple;
+	bh=PqATbicb2SVMXE+y4rIfrFyAv/pVQ/R7Lfa0ePpU0Uk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pKRN7dMlBHEoX0VqL6cbFfDQFdfjWvi2LDT3kCVFDrDcjoaXwi4ZBqOuRO6EDDneuNYqDgecoK2Iy3LwWo/PnWAWwbnubm4ZMhbwx9teio1ZwXSfGeyUm92plTAPsxXUIJLqqG8Uq1XzUdJj+mkVXIFmwXuKtRBExMV7CLaDsuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=a5a1E/On; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=A5vr9kwW; arc=none smtp.client-ip=202.12.124.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
+	by mailfout.stl.internal (Postfix) with ESMTP id A01501140127;
+	Sat,  7 Jun 2025 07:59:06 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Sat, 07 Jun 2025 07:59:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1749297546;
+	 x=1749383946; bh=nbvq2QJv8S2Bw9oGUdFqLSLlZuMe0C9l5sEZ5s71CIA=; b=
+	a5a1E/OnadCrjTh5ZH/roc4SLgU/mcSxVFf8a26yhmhQab9UPinV2TpXbxt+ktUF
+	dE/q7SEV5AY0NcNNvNC1bLq1V6kSrhi8Yw7twjYmkgJHPIvucVk1WaYUgCoRqJ60
+	EHetj2k99df8Wyp5ctk/iScwDXeHjqtmX58EbipBk3mCCHhqDEN+D8fdGFScrJg4
+	hEZp4hC3RMxEvWUfM3jn1NoyH66MEFAYGr7Y5Y5MyaeysIUJyekNXJY44KQLHNH7
+	4hfDuZ8Hlha8BTRIo4kkOTwUp24ySvL1Fq1UCQAtnY3bxUpuUgeeEJondXDIjctK
+	na7zyIWsZ97C1nTCFzjnRg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749297546; x=
+	1749383946; bh=nbvq2QJv8S2Bw9oGUdFqLSLlZuMe0C9l5sEZ5s71CIA=; b=A
+	5vr9kwWHZfknjJ9wKtrpWT8cxSLS5wngX3F+/efdYOB2k2sYtdwp7A5M+3PM8AUw
+	bmhjVJaM/eLXA+i3nfRWIpAAyKQKX4m9cWYrkNXbAzubSS89bXKOat0iB3E4Z91Y
+	/SzZ6ezZDlzhM+jY2uzcIWkS6+zhUEUTpzgIfM5T3vFSE4n68u9679ViXfBpB3Y9
+	A41a+B5I/rYg27jGT9duricCx1ASDbkS7MhmIL/ExVWEVqOBczFH1bE1HFwiy7CC
+	RJn4pvx+QMp1OQa3eORqZ/HoHNq0GQpMSYhLWs1RcdrLxS1eMtXa2GIfRZyWWcNe
+	kSQspODOYmz4L88Rnxgtw==
+X-ME-Sender: <xms:iSlEaCjk9dXijp1TmaAmXZK5X1aHKPuNZ0Domf_dX4wuay_q4fscSw>
+    <xme:iSlEaDAxhFE4K4ysSsMc_n-B0WEJVe_3OPHQFds4c8DIr-EMOuP3lMrWTR9NwzJda
+    RNg0J7RImgUdKKfjIE>
+X-ME-Received: <xmr:iSlEaKFpGmkW8ZQOPB16tgxy9LWdigDyHY0PbwTKNzxKWVoSuU4IGycdAlUhesPQk5Me-SMy9iAjKoubNt68Z7uHwwosnbn3LQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdeihedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
+    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
+    gvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrght
+    thgvrhhnpeefhfellefhffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvd
+    elieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehn
+    ihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrsh
+    gvpdhnsggprhgtphhtthhopeeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehs
+    rghkrghrihdrrghilhhusheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhope
+    hmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtohhmihdrvhgrlhhk
+    vghinhgvnhdorhgvnhgvshgrshesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpth
+    htoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtgho
+    mhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghr
+    nhgvlhdrohhrgh
+X-ME-Proxy: <xmx:iilEaLQLdb4hjrZqr4wLWtSsREYljmrh0ebEI59OtTiFoxnhDTbTdQ>
+    <xmx:iilEaPx3jV5o0M0ftEn4UjmZgrY7imyzIey0xp_cWWWfdRt_leNDuw>
+    <xmx:iilEaJ4aPwECtWgawFT5fPqxqStez84wiNK-5OepDZaGzSVB0mnklQ>
+    <xmx:iilEaMzaDToTa6SNlWI50a1g84vLCst5RJFOGYchsOzrdvezZ5ZyFA>
+    <xmx:iilEaHN9Jx5Q9HvJ4mVOfYoUtrVvjLsKGX0eeHJBjorYDVtLZj6KJrHp>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 7 Jun 2025 07:59:05 -0400 (EDT)
+Date: Sat, 7 Jun 2025 13:59:04 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 4/6] media: rcar-vin: Prepare for unifying all
+ v4l-async notifiers
+Message-ID: <20250607115904.GE2780410@ragnatech.se>
+References: <20250521132037.1463746-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250521132037.1463746-5-niklas.soderlund+renesas@ragnatech.se>
+ <aDVjW_k_keyFQbPT@kekkonen.localdomain>
+ <20250606135000.GA2780410@ragnatech.se>
+ <aEQe89vlZ667jb0T@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250606111749.3142348-1-claudiu.beznea.uj@bp.renesas.com>
- <20250606111749.3142348-2-claudiu.beznea.uj@bp.renesas.com>
- <CAJZ5v0i_Ey+OVpSZHXru=tubMaZi=y-uOh_0M6zmWZ2DqqA7Vg@mail.gmail.com>
- <zhjytvj35lknj7v3jhva3n3nbv6qctvqgykwyi5huj6omet7lz@wchd7f4p4dpv> <CAJZ5v0hsT-Q2hz=qoBo409oungaCmexJwwGheN7KRLFqz=6_Dw@mail.gmail.com>
-In-Reply-To: <CAJZ5v0hsT-Q2hz=qoBo409oungaCmexJwwGheN7KRLFqz=6_Dw@mail.gmail.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Sat, 7 Jun 2025 13:43:28 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0hSqLGF_7xmiEf-=0gvHcNJjAsu-X60v6i3csv6ibc40g@mail.gmail.com>
-X-Gm-Features: AX0GCFv4XobSvj2dlLBGvOdVJ5KhLGQQoql-NVH0ppX4BNmroN0ev4Uw8EHd3Zw
-Message-ID: <CAJZ5v0hSqLGF_7xmiEf-=0gvHcNJjAsu-X60v6i3csv6ibc40g@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] PM: domains: Add devres variant for dev_pm_domain_attach()
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Claudiu <claudiu.beznea@tuxon.dev>
-Cc: gregkh@linuxfoundation.org, dakr@kernel.org, len.brown@intel.com, 
-	pavel@kernel.org, ulf.hansson@linaro.org, jic23@kernel.org, 
-	daniel.lezcano@linaro.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, bhelgaas@google.com, geert@linux-m68k.org, 
-	linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	fabrizio.castro.jz@renesas.com, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aEQe89vlZ667jb0T@kekkonen.localdomain>
 
-On Fri, Jun 6, 2025 at 10:01=E2=80=AFPM Rafael J. Wysocki <rafael@kernel.or=
-g> wrote:
->
-> On Fri, Jun 6, 2025 at 8:55=E2=80=AFPM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
-> >
-> > On Fri, Jun 06, 2025 at 06:00:34PM +0200, Rafael J. Wysocki wrote:
-> > > On Fri, Jun 6, 2025 at 1:18=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.=
-dev> wrote:
-> > > >
-> > > > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> > > >
-> > > > The dev_pm_domain_attach() function is typically used in bus code a=
-longside
-> > > > dev_pm_domain_detach(), often following patterns like:
-> > > >
-> > > > static int bus_probe(struct device *_dev)
-> > > > {
-> > > >     struct bus_driver *drv =3D to_bus_driver(dev->driver);
-> > > >     struct bus_device *dev =3D to_bus_device(_dev);
-> > > >     int ret;
-> > > >
-> > > >     // ...
-> > > >
-> > > >     ret =3D dev_pm_domain_attach(_dev, true);
-> > > >     if (ret)
-> > > >         return ret;
-> > > >
-> > > >     if (drv->probe)
-> > > >         ret =3D drv->probe(dev);
-> > > >
-> > > >     // ...
-> > > > }
-> > > >
-> > > > static void bus_remove(struct device *_dev)
-> > > > {
-> > > >     struct bus_driver *drv =3D to_bus_driver(dev->driver);
-> > > >     struct bus_device *dev =3D to_bus_device(_dev);
-> > > >
-> > > >     if (drv->remove)
-> > > >         drv->remove(dev);
-> > > >     dev_pm_domain_detach(_dev);
-> > > > }
-> > > >
-> > > > When the driver's probe function uses devres-managed resources that=
- depend
-> > > > on the power domain state, those resources are released later durin=
-g
-> > > > device_unbind_cleanup().
-> > > >
-> > > > Releasing devres-managed resources that depend on the power domain =
-state
-> > > > after detaching the device from its PM domain can cause failures.
-> > > >
-> > > > For example, if the driver uses devm_pm_runtime_enable() in its pro=
-be
-> > > > function, and the device's clocks are managed by the PM domain, the=
-n
-> > > > during removal the runtime PM is disabled in device_unbind_cleanup(=
-) after
-> > > > the clocks have been removed from the PM domain. It may happen that=
- the
-> > > > devm_pm_runtime_enable() action causes the device to be runtime-res=
-umed.
-> > >
-> > > Don't use devm_pm_runtime_enable() then.
-> >
-> > What about other devm_ APIs? Are you suggesting that platform drivers
-> > should not be using devm_clk*(), devm_regulator_*(),
-> > devm_request_*_irq() and devm_add_action_or_reset()? Because again,
-> > dev_pm_domain_detach() that is called by platform bus_remove() may shut
-> > off the device too early, before cleanup code has a chance to execute
-> > proper cleanup.
-> >
-> > The issue is not limited to runtime PM.
-> >
-> > >
-> > > > If the driver specific runtime PM APIs access registers directly, t=
-his
-> > > > will lead to accessing device registers without clocks being enable=
-d.
-> > > > Similar issues may occur with other devres actions that access devi=
-ce
-> > > > registers.
-> > > >
-> > > > Add devm_pm_domain_attach(). When replacing the dev_pm_domain_attac=
-h() and
-> > > > dev_pm_domain_detach() in bus probe and bus remove, it ensures that=
- the
-> > > > device is detached from its PM domain in device_unbind_cleanup(), o=
-nly
-> > > > after all driver's devres-managed resources have been release.
-> > > >
-> > > > For flexibility, the implemented devm_pm_domain_attach() has 2 stat=
-e
-> > > > arguments, one for the domain state on attach, one for the domain s=
-tate on
-> > > > detach.
-> > >
-> > > dev_pm_domain_attach() is not part driver API and I'm not convinced a=
-t
-> >
-> > Is the concern that devm_pm_domain_attach() will be [ab]used by drivers=
-?
->
-> Yes, among other things.
+Hej Sakari,
 
-This would be much less objectionable to me if it were not devm_, but
-also the current expectation is that the PM domain will be gone after
-device_remove() has returned.
+On 2025-06-07 11:13:55 +0000, Sakari Ailus wrote:
+> Hejssan!
+> 
+> On Fri, Jun 06, 2025 at 03:50:00PM +0200, Niklas Söderlund wrote:
+> > Hej Sakari,
+> > 
+> > Thanks for your feedback.
+> 
+> Var så god!
+> 
+> > 
+> > On 2025-05-27 07:01:47 +0000, Sakari Ailus wrote:
+> > > Hej Niklas,
+> > > 
+> > > On Wed, May 21, 2025 at 03:20:35PM +0200, Niklas Söderlund wrote:
+> > > > The R-Car VIN driver is needless complex and uses more then one
+> > > 
+> > > s/needless\K/ly/
+> > > 
+> > > > v4l-async notifier to attach to all its subdevices. Prepare for unifying
+> > > > them by moving rvin_parallel_parse_of() to where it needs to be when
+> > > > they are unified.
+> > > > 
+> > > > The function is moved verbatim and there is no change in behavior.
+> > > > 
+> > > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > > > ---
+> > > >  .../platform/renesas/rcar-vin/rcar-core.c     | 106 +++++++++---------
+> > > >  1 file changed, 53 insertions(+), 53 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> > > > index d9ad56fb2aa9..60ec57d73a12 100644
+> > > > --- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> > > > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> > > > @@ -337,6 +337,59 @@ static void rvin_group_notifier_cleanup(struct rvin_dev *vin)
+> > > >  	}
+> > > >  }
+> > > >  
+> > > > +static int rvin_parallel_parse_of(struct rvin_dev *vin)
+> > > > +{
+> > > > +	struct fwnode_handle *ep, *fwnode;
+> > > > +	struct v4l2_fwnode_endpoint vep = {
+> > > > +		.bus_type = V4L2_MBUS_UNKNOWN,
+> > > > +	};
+> > > > +	struct v4l2_async_connection *asc;
+> > > > +	int ret;
+> > > > +
+> > > > +	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(vin->dev), 0, 0, 0);
+> > > > +	if (!ep)
+> > > > +		return 0;
+> > > > +
+> > > > +	fwnode = fwnode_graph_get_remote_endpoint(ep);
+> > > > +	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
+> > > > +	fwnode_handle_put(ep);
+> > > > +	if (ret) {
+> > > > +		vin_err(vin, "Failed to parse %pOF\n", to_of_node(fwnode));
+> > > > +		ret = -EINVAL;
+> > > > +		goto out;
+> > > > +	}
+> > > > +
+> > > > +	switch (vep.bus_type) {
+> > > > +	case V4L2_MBUS_PARALLEL:
+> > > > +	case V4L2_MBUS_BT656:
+> > > > +		vin_dbg(vin, "Found %s media bus\n",
+> > > > +			vep.bus_type == V4L2_MBUS_PARALLEL ?
+> > > > +			"PARALLEL" : "BT656");
+> > > > +		vin->parallel.mbus_type = vep.bus_type;
+> > > > +		vin->parallel.bus = vep.bus.parallel;
+> > > > +		break;
+> > > > +	default:
+> > > > +		vin_err(vin, "Unknown media bus type\n");
+> > > > +		ret = -EINVAL;
+> > > > +		goto out;
+> > > > +	}
+> > > > +
+> > > > +	asc = v4l2_async_nf_add_fwnode(&vin->notifier, fwnode,
+> > > > +				       struct v4l2_async_connection);
+> > > 
+> > > If you use v4l2_async_nf_add_fwnode_remote() here, you can omit
+> > > fwnode_graph_get_remote_endpoint() call above. Also the error handling
+> > > becomes more simple.
+> > 
+> > Indeed it would, but I do use fwnode in the debug print at the end of 
+> > the function. And I do find that print out use-full when debugging, so I 
+> > would like to keep it.
+> 
+> The drivers really shouldn't have a need for this. How about adding that
+> debug print to the V4L2 async framework instead? I think it might be useful
+> for other drivers as well even though the information is available via
+> debugfs (or sysfs?) already.
+
+That is a good idea, I will try to find time and move the debug prints 
+(I have other similar ones in the driver) to the framework in follow up 
+work.
+
+Or if debugfs is enough for my needs I can drop them all together! My 
+primary use-case is to get a grips of what's going on from bug reports 
+sent to me so I can't always poke around on a live system.
+
+> 
+> > 
+> > Laurent's suggestion of using __free(fwnode_handle) can instead be used 
+> > to make error handling easier, and since it would be needed for the ep 
+> > variable anyhow I think I will try that.
+> 
+> Sounds good to me.
+> 
+> > 
+> > > 
+> > > > +	if (IS_ERR(asc)) {
+> > > > +		ret = PTR_ERR(asc);
+> > > > +		goto out;
+> > > > +	}
+> > > > +
+> > > > +	vin->parallel.asc = asc;
+> > > > +
+> > > > +	vin_dbg(vin, "Add parallel OF device %pOF\n", to_of_node(fwnode));
+> 
+> Please use %pfw instead for the fwnode (at least for the possible V4L2
+> async patch).
+
+ack.
+
+> 
+> > > > +out:
+> > > > +	fwnode_handle_put(fwnode);
+> > > > +
+> > > > +	return ret;
+> > > > +}
+> > > > +
+> > > >  static int rvin_group_notifier_init(struct rvin_dev *vin, unsigned int port,
+> > > >  				    unsigned int max_id)
+> > > >  {
+> > > > @@ -635,59 +688,6 @@ static const struct v4l2_async_notifier_operations rvin_parallel_notify_ops = {
+> > > >  	.complete = rvin_parallel_notify_complete,
+> > > >  };
+> > > >  
+> > > > -static int rvin_parallel_parse_of(struct rvin_dev *vin)
+> > > > -{
+> > > > -	struct fwnode_handle *ep, *fwnode;
+> > > > -	struct v4l2_fwnode_endpoint vep = {
+> > > > -		.bus_type = V4L2_MBUS_UNKNOWN,
+> > > > -	};
+> > > > -	struct v4l2_async_connection *asc;
+> > > > -	int ret;
+> > > > -
+> > > > -	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(vin->dev), 0, 0, 0);
+> > > > -	if (!ep)
+> > > > -		return 0;
+> > > > -
+> > > > -	fwnode = fwnode_graph_get_remote_endpoint(ep);
+> > > > -	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
+> > > > -	fwnode_handle_put(ep);
+> > > > -	if (ret) {
+> > > > -		vin_err(vin, "Failed to parse %pOF\n", to_of_node(fwnode));
+> > > > -		ret = -EINVAL;
+> > > > -		goto out;
+> > > > -	}
+> > > > -
+> > > > -	switch (vep.bus_type) {
+> > > > -	case V4L2_MBUS_PARALLEL:
+> > > > -	case V4L2_MBUS_BT656:
+> > > > -		vin_dbg(vin, "Found %s media bus\n",
+> > > > -			vep.bus_type == V4L2_MBUS_PARALLEL ?
+> > > > -			"PARALLEL" : "BT656");
+> > > > -		vin->parallel.mbus_type = vep.bus_type;
+> > > > -		vin->parallel.bus = vep.bus.parallel;
+> > > > -		break;
+> > > > -	default:
+> > > > -		vin_err(vin, "Unknown media bus type\n");
+> > > > -		ret = -EINVAL;
+> > > > -		goto out;
+> > > > -	}
+> > > > -
+> > > > -	asc = v4l2_async_nf_add_fwnode(&vin->notifier, fwnode,
+> > > > -				       struct v4l2_async_connection);
+> > > > -	if (IS_ERR(asc)) {
+> > > > -		ret = PTR_ERR(asc);
+> > > > -		goto out;
+> > > > -	}
+> > > > -
+> > > > -	vin->parallel.asc = asc;
+> > > > -
+> > > > -	vin_dbg(vin, "Add parallel OF device %pOF\n", to_of_node(fwnode));
+> > > > -out:
+> > > > -	fwnode_handle_put(fwnode);
+> > > > -
+> > > > -	return ret;
+> > > > -}
+> > > > -
+> > > >  static void rvin_parallel_cleanup(struct rvin_dev *vin)
+> > > >  {
+> > > >  	v4l2_async_nf_unregister(&vin->notifier);
+> 
+> -- 
+> Med vänliga hälsningar,
+> 
+> Sakari Ailus
+
+-- 
+Kind Regards,
+Niklas Söderlund
 
