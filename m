@@ -1,78 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-17989-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17990-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EADEBAD27B1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 22:37:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFAF0AD27B6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 22:38:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 09A2A3AA1DC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 20:37:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 704243B41B3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 20:37:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B27A022259D;
-	Mon,  9 Jun 2025 20:37:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41595223DF8;
+	Mon,  9 Jun 2025 20:37:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NQwd7Em3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KeCNvEsn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDEF9221F25;
-	Mon,  9 Jun 2025 20:37:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54DBD22256C;
+	Mon,  9 Jun 2025 20:37:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749501425; cv=none; b=oDCt5sup5u2BrKjW4qi1wLFYZlcTvTTil2oyQX6k1UYkjAdHTeYh6J+mJBsEo3Ez1fCLUQJXVD+gl9E9YEFRlIF0CqN9+QuK99zAvYPWr+ppjV345X+1maZMV4wWo1xr6DpcLy5T3Pi8oZwHuhwlKAQAaZcMahOkCCFLTCiuliA=
+	t=1749501427; cv=none; b=bvXZj9GPF0qpB27Y9Q4x27cP6n/vqPN3oE1xwI+FhX06BLwN7EwFfiyCMe8zs0WyKRNkL1I04uY5G3THO/2TyNYeBLb06y8UH1fF6h4mgvEYv01Sb46jwt5/CXg7QYXmQWoMVLKgUMy+uSCvP01gMiO+pkEiaLTGlpR0wqja0ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749501425; c=relaxed/simple;
-	bh=EA42iYzWvqQbQLyQ/tySYiX48uIdK0VG+Qa9gLcPBKc=;
+	s=arc-20240116; t=1749501427; c=relaxed/simple;
+	bh=NpWxEndc9lIoeJ6gh4YfGUMHFTHYVgGjX9z8sDMQDBo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=k5mzshyx4To0Rm2nha20qFXPiTNlQITw9vz8uh+L2JCGWB6+Rgy+fpygGkOAtAk4dKEBZi3Kt+bCEZvqNz57uzIVGXnAL0lFxo5ednKzBRo5Sy3/gc/H07ixeuqLOOt7+jWz8HwByGnLr6oBD0xnRmYepNLgetO9jVHdRQ0AZiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NQwd7Em3; arc=none smtp.client-ip=209.85.128.48
+	 MIME-Version; b=HKg8wFhLyeYP6QNq4l+TK/naC6G+SotI7HPmR6N6FrrWnCNCehTuWXCEvglQgTCb+4Mv4mOsH44Knt/axWegGKCYHfJRXlbNvDS0LkvONCIW4tqI8w9WZ7WgObC+3wj14AM9b6IGg3MBHBng+rxBJCEH+fGc52bvvoXM3cXqlyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KeCNvEsn; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-451d6ade159so39546245e9.1;
-        Mon, 09 Jun 2025 13:37:03 -0700 (PDT)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3a4f72cba73so3939566f8f.1;
+        Mon, 09 Jun 2025 13:37:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749501422; x=1750106222; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1749501423; x=1750106223; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ge6BBwbv/DLVMbN5fPFrnaeRH0FBWp67S7bClwywKw0=;
-        b=NQwd7Em3bDJ3jFjVGKpuRbCs+1W7kUVIBBD4FOUs6a1fzB/ybQeUrIrlbC5k0szR2j
-         0XYz1JQ8IGKf0+l02DfSzN/MewnTapT3gvNxLHSmCUe6RHngqHbvXwL6Tj8GJ5jsisoi
-         6l12JtgkGyCW5gTYP1AVi+Pj5zZBcWMT75jU2RfXlx809AgODebe+GL1itEE3Dr9HT3K
-         gh8k83BrFvVfJAFcaxTaS3eosRV4UcPtCwTCCzBXhNNDB1MD/Az6b/yCgCqbZslpEeEO
-         Oy+eme5fpow3bVxtZaCsfwd4jF2UzlyD1zwTKhEupObaNdiv/BQ6AYVZ2ob0HuibNet1
-         +MSw==
+        bh=/lwApDULB0hv0Ot0unpYCD6vhUFuvXKzE1xHNEnWOkw=;
+        b=KeCNvEsneKBPa24q9MOh/Kny2H6cQxQ3zpz5kkV+iqVLu+68+eT1GO+GQHlpxJuP2U
+         MmKXnFAFfW5whrE0ose3b2rLlRnqagtGatodBM55Jxt1hNYWem8mvMAjBdY7zLR0yew8
+         zCIi2LIAhgZm+0NEGLPekIOz7WrSPLbEQ+Xghr0lJb8I4j2EfG/U+/c9OF/c1q1jE5Jv
+         WtwdLoyOzpf32JeBm6Zt86J/7TUgOI68ADu3nv9H+xCXKI8b2FWL/p3+Y1g89+uJ+tAX
+         upbh4sbGJeiqACLJnvhKfD5HIYWUu++nbcyaPdzmvTFh5nkLkhLCxKkicROtJSnZn9Vi
+         QDUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749501422; x=1750106222;
+        d=1e100.net; s=20230601; t=1749501423; x=1750106223;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ge6BBwbv/DLVMbN5fPFrnaeRH0FBWp67S7bClwywKw0=;
-        b=LizOrxAQY6v6aet9iCg4UEmBZttFBAxAcdVB9duaiyt0DKWXIGw1sXJkABQvYeh10F
-         YcruaM/cxWmBulWkkgSwq1xk8Daf9Eub4I+EAeV5E2qRhu/DiajHNkXKE5H7v0T+KxLI
-         ORTPUFqSXUow3a0CVxJNkdqevSduiFysEi2Gw8JgeWuiv9YPQ1pQ4MVGFlo5d+In2mS/
-         RjSfSVIfL5mJgqLObjDFK32BcoekKYhdfvsvuqba5pMvIFkHCJfowuS6+WJXH9/eNND8
-         s0fcTKKG5Nt/3CeC+WUkuWxZ6QUBbLhYtC17Oy2O1/yAD0uoptMyFAQ4Hv6UaAiXQixK
-         xryw==
-X-Forwarded-Encrypted: i=1; AJvYcCUdWnkKCD/QuSffRmtvF4EwB9dYbG0gMwP9YhkEL1/j6GKptxxBCGHYqm6ZK3pSC2mZsCvLvbqLmBSo4MpY@vger.kernel.org, AJvYcCV+LHD/qiLRtABqUWVEQcyN71Nu735L0NfTvPqmFc2GxoMnrDmGEqe30xVReBJST2i9uGI3pK0PfdKZ@vger.kernel.org, AJvYcCWMA57kz/JZSUbBPvdKEeP0eTXv37Z4A16cVoTgcvFaJ0p1yzOlliUwWdj/M1CLt7cH1ZNjpfqqecCP@vger.kernel.org
-X-Gm-Message-State: AOJu0YwnrefqbpqYeyqoieMxmpqvOLGGa9e8z/51GxBNwjsdd4kTQE4G
-	mceBEh/jvvGrlqLPAvGwb7BPYP59KZ+/ZUzIrVfPg8QXpmnqvc1qklGm
-X-Gm-Gg: ASbGnctRMffKdQCEC1lYch/7/ecu12b5gKEOtzujf3DwNJdFbKFmaqRBIqtOU4wgjh2
-	BvvIrWLj1xe9sQO+vTpOuSCdJxoBbj0v5w8WaR6E/fgqedYMODKWj4GbLoihfk/cmnBHJQSvpT8
-	bFzh9glaFijJE5rERCwKS05u3yUztmGlYR04PKkmRw+cLBQzH3C6A1FoKKZWQC6vBrN2YGblxu9
-	PlskzH46N7oc+N40bbQFSprXiEznREj89/SSmnraQN1wvEkPGuDAknKCC2T/cTgnOGdJQwivVpt
-	sAW+7+GD3noZI9uEsQY0YLcpO99wObbmV7S9oZe75c+u01gMwnanYk8UMpO07J9LzmoG4ctPoG6
-	C/AVc9iBkbChcOy8mIuY=
-X-Google-Smtp-Source: AGHT+IEI6xU1k5RA1xYNtKDWCi1D79OGqGN+5XyedMJ03xErEPDK/RJDwOBMTIoeZgyPo0pysz8ddQ==
-X-Received: by 2002:a5d:64ca:0:b0:3a4:e609:dc63 with SMTP id ffacd0b85a97d-3a531786ab4mr12390525f8f.20.1749501422062;
-        Mon, 09 Jun 2025 13:37:02 -0700 (PDT)
+        bh=/lwApDULB0hv0Ot0unpYCD6vhUFuvXKzE1xHNEnWOkw=;
+        b=EKy74X7eZp//U0Dh92Ch0i8lVpq4woDlagwsqlJ7sFJ0to/nOscGYGonD2TfmxgLeS
+         JMns4ArDfvz6ywjmS6sFzZBwVjaAahrOri7r33sEDV/sqJCbODTIPaQiWViyYAghRFM0
+         WpYWHUOO6sIOZGfrKbzcMNqK5E5tvv2Np0Gt6XYTyGE+Pz4G2w/c9C0ekyhJLHH8wCY1
+         vMmhHi5vYsff3zGV1ginS7VTOK26znt2FAIlH0Oxgq14riJ53vzGMGxEdOJwJkBIg2q/
+         rKxtgRH9rEBdT7RNJRB13kHi3N2z/gSBD4HIl9iW85hD3DEMcFZYzBclOzfJOIOQ+3cO
+         /mig==
+X-Forwarded-Encrypted: i=1; AJvYcCWIHaAE1f8pzG9QvMY0uAp3zp8IzmEK8cdz5Yf/qDkJtaE4MibSpeof/hPMGEX69fFelxe8bVr4PA8IHvYS@vger.kernel.org, AJvYcCWmt5ZHtfWQ5RDxKPmGp2dA4hJDJ4rOFyJaWJTCPm8BJBHCzSzaXIG4/tIzuM3GWIGyBHO1wNe9Hvgk@vger.kernel.org, AJvYcCXJEvYAELeD81iyGxnnyx+EKtI0j2z/sKyJElvgP4/mPuDWUUXzKUQEpFTtcqI2PONuUYy5RRydLgIx@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQ3/t+cdS5Po7k7IgpNJue33VY8tA26CYI8wK0fP/CridefNlT
+	re4xYZVCzW5TsnIX1tuhVWDGQOzTnmJJhHYod6yhnQ4wLqj8MYAne3gV
+X-Gm-Gg: ASbGnctSmQQatBoSewXI1mWXgrsR0Eu/XtUXYK61CsL7nMW9ByneUMNOtKPal/RSfIx
+	NKd6OWe8sPyQk9daSnI4lVrOFWOg7Qm37pJauwV9L8ouIaQeQ6BSGt4jgOIb1tw+tZgFYfPGg5U
+	peeoSRWUqNbT4ekVv0Utv1mOnAUeqwunau2skJiaK2JbAtKEm+v1B1SEw0gUP9q2O/Yb4sn272S
+	LWXAwQFJvA4AonNXtenIFcmmMIV8lq1SphwO0jlFVEGUp31xJgM59Iu9BB1MYFFUErup1oryBmO
+	pECbg3tIUcMGpHSH5b9sruFBWKk6b4mvjk6ekxXIqmdcW7+gLTQnhSVTfirW6bPQY62VFOqSgeR
+	QVXfjYkw3rfAPA8drARc=
+X-Google-Smtp-Source: AGHT+IH5SRVi+XDsuqJSrTHQZn7tntJITQy1dcgcGBHALqbubLeGL9awaeALwEAxSWdxJmJuA7fEfQ==
+X-Received: by 2002:a05:6000:4014:b0:3a5:1388:9a55 with SMTP id ffacd0b85a97d-3a5513de3a4mr649588f8f.5.1749501423502;
+        Mon, 09 Jun 2025 13:37:03 -0700 (PDT)
 Received: from iku.example.org ([2a06:5906:61b:2d00:3c26:913e:81d:9d46])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-452730c73d2sm118240345e9.30.2025.06.09.13.37.01
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-452730c73d2sm118240345e9.30.2025.06.09.13.37.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jun 2025 13:37:01 -0700 (PDT)
+        Mon, 09 Jun 2025 13:37:02 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -90,9 +90,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 4/8] clk: renesas: Add MSSR support to RZ/N2H SoC
-Date: Mon,  9 Jun 2025 21:36:52 +0100
-Message-ID: <20250609203656.333138-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 5/8] arm64: dts: renesas: Add initial SoC DTSI for RZ/N2H SoC
+Date: Mon,  9 Jun 2025 21:36:53 +0100
+Message-ID: <20250609203656.333138-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250609203656.333138-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20250609203656.333138-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -106,82 +106,162 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Add clock driver support for the Renesas RZ/N2H (R9A09G087) SoC by reusing
-the existing RZ/T2H (R9A09G077) CPG/MSSR implementation, as both SoCs
-share the same clock and reset architecture.
+Add initial SoC DTSI for Renesas RZ/N2H ("R9A09G087") SoC, below are
+the list of blocks added:
+- EXT CLKs
+- 4X CA55
+- SCIF
+- CPG
+- GIC
+- ARMv8 Timer
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- drivers/clk/renesas/Kconfig            | 5 +++++
- drivers/clk/renesas/Makefile           | 1 +
- drivers/clk/renesas/r9a09g077-cpg.c    | 1 +
- drivers/clk/renesas/renesas-cpg-mssr.c | 6 ++++++
- 4 files changed, 13 insertions(+)
+ arch/arm64/boot/dts/renesas/r9a09g087.dtsi | 135 +++++++++++++++++++++
+ 1 file changed, 135 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g087.dtsi
 
-diff --git a/drivers/clk/renesas/Kconfig b/drivers/clk/renesas/Kconfig
-index 45f9ae5b6ef1..6a5a04664990 100644
---- a/drivers/clk/renesas/Kconfig
-+++ b/drivers/clk/renesas/Kconfig
-@@ -44,6 +44,7 @@ config CLK_RENESAS
- 	select CLK_R9A09G056 if ARCH_R9A09G056
- 	select CLK_R9A09G057 if ARCH_R9A09G057
- 	select CLK_R9A09G077 if ARCH_R9A09G077
-+	select CLK_R9A09G087 if ARCH_R9A09G087
- 	select CLK_SH73A0 if ARCH_SH73A0
- 
- if CLK_RENESAS
-@@ -213,6 +214,10 @@ config CLK_R9A09G077
- 	bool "RZ/T2H clock support" if COMPILE_TEST
- 	select CLK_RENESAS_CPG_MSSR
- 
-+config CLK_R9A09G087
-+	bool "RZ/N2H clock support" if COMPILE_TEST
-+	select CLK_RENESAS_CPG_MSSR
+diff --git a/arch/arm64/boot/dts/renesas/r9a09g087.dtsi b/arch/arm64/boot/dts/renesas/r9a09g087.dtsi
+new file mode 100644
+index 000000000000..c98753775e93
+--- /dev/null
++++ b/arch/arm64/boot/dts/renesas/r9a09g087.dtsi
+@@ -0,0 +1,135 @@
++// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++/*
++ * Device Tree Source for the RZ/N2H SoC
++ *
++ * Copyright (C) 2025 Renesas Electronics Corp.
++ */
 +
- config CLK_SH73A0
- 	bool "SH-Mobile AG5 clock support" if COMPILE_TEST
- 	select CLK_RENESAS_CPG_MSTP
-diff --git a/drivers/clk/renesas/Makefile b/drivers/clk/renesas/Makefile
-index d8d894a15d24..d28eb276a153 100644
---- a/drivers/clk/renesas/Makefile
-+++ b/drivers/clk/renesas/Makefile
-@@ -41,6 +41,7 @@ obj-$(CONFIG_CLK_R9A09G047)		+= r9a09g047-cpg.o
- obj-$(CONFIG_CLK_R9A09G056)		+= r9a09g056-cpg.o
- obj-$(CONFIG_CLK_R9A09G057)		+= r9a09g057-cpg.o
- obj-$(CONFIG_CLK_R9A09G077)		+= r9a09g077-cpg.o
-+obj-$(CONFIG_CLK_R9A09G087)		+= r9a09g077-cpg.o
- obj-$(CONFIG_CLK_SH73A0)		+= clk-sh73a0.o
- 
- # Family
-diff --git a/drivers/clk/renesas/r9a09g077-cpg.c b/drivers/clk/renesas/r9a09g077-cpg.c
-index 206816a2df23..8002e1672b46 100644
---- a/drivers/clk/renesas/r9a09g077-cpg.c
-+++ b/drivers/clk/renesas/r9a09g077-cpg.c
-@@ -13,6 +13,7 @@
- #include <linux/kernel.h>
- 
- #include <dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h>
++#define RZN2H_PINS_PER_PORT	8
++
++/*
++ * Create the pin index from its bank and position numbers and store in
++ * the upper 16 bits the alternate function identifier
++ */
++#define RZN2H_PORT_PINMUX(b, p, f)	((b) * RZN2H_PINS_PER_PORT + (p) | ((f) << 16))
++
++/* Convert a port and pin label to its global pin index */
++#define RZN2H_GPIO(port, pin)	((port) * RZN2H_PINS_PER_PORT + (pin))
++
 +#include <dt-bindings/clock/renesas,r9a09g087-cpg-mssr.h>
- #include "renesas-cpg-mssr.h"
- 
- #define RZT2H_REG_BLOCK_SHIFT	11
-diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/renesas/renesas-cpg-mssr.c
-index 4a5ac9eef9cc..5ff6ee1f7d4b 100644
---- a/drivers/clk/renesas/renesas-cpg-mssr.c
-+++ b/drivers/clk/renesas/renesas-cpg-mssr.c
-@@ -941,6 +941,12 @@ static const struct of_device_id cpg_mssr_match[] = {
- 		.compatible = "renesas,r9a09g077-cpg-mssr",
- 		.data = &r9a09g077_cpg_mssr_info,
- 	},
-+#endif
-+#ifdef CONFIG_CLK_R9A09G087
-+	{
-+		.compatible = "renesas,r9a09g087-cpg-mssr",
-+		.data = &r9a09g077_cpg_mssr_info,
-+	},
- #endif
- 	{ /* sentinel */ }
- };
++#include <dt-bindings/interrupt-controller/arm-gic.h>
++
++/ {
++	compatible = "renesas,r9a09g087";
++	#address-cells = <2>;
++	#size-cells = <2>;
++
++	cpus {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		l3_ca55: cache-controller-0 {
++			compatible = "cache";
++			cache-unified;
++			cache-size = <0x100000>;
++			cache-level = <3>;
++		};
++
++		cpu0: cpu@0 {
++			compatible = "arm,cortex-a55";
++			reg = <0>;
++			device_type = "cpu";
++			next-level-cache = <&l3_ca55>;
++			enable-method = "psci";
++		};
++
++		cpu1: cpu@100 {
++			compatible = "arm,cortex-a55";
++			reg = <0x100>;
++			device_type = "cpu";
++			next-level-cache = <&l3_ca55>;
++			enable-method = "psci";
++		};
++
++		cpu2: cpu@200 {
++			compatible = "arm,cortex-a55";
++			reg = <0x200>;
++			device_type = "cpu";
++			next-level-cache = <&l3_ca55>;
++			enable-method = "psci";
++		};
++
++		cpu3: cpu@300 {
++			compatible = "arm,cortex-a55";
++			reg = <0x300>;
++			device_type = "cpu";
++			next-level-cache = <&l3_ca55>;
++			enable-method = "psci";
++		};
++	};
++
++	extal_clk: extal {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		/* This value must be overridden by the board */
++		clock-frequency = <0>;
++	};
++
++	psci {
++		compatible = "arm,psci-1.0", "arm,psci-0.2";
++		method = "smc";
++	};
++
++	soc: soc {
++		compatible = "simple-bus";
++		interrupt-parent = <&gic>;
++		#address-cells = <2>;
++		#size-cells = <2>;
++		ranges;
++
++		sci0: serial@80005000 {
++			compatible = "renesas,r9a09g087-rsci", "renesas,r9a09g077-rsci";
++			reg = <0 0x80005000 0 0x400>;
++			interrupts = <GIC_SPI 590 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 591 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 592 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 593 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "eri", "rxi", "txi", "tei";
++			clocks = <&cpg CPG_MOD 8>, <&cpg CPG_CORE R9A09G087_CLK_PCLKM>;
++			clock-names = "operation", "bus";
++			power-domains = <&cpg>;
++			status = "disabled";
++		};
++
++		cpg: clock-controller@80280000 {
++			compatible = "renesas,r9a09g087-cpg-mssr";
++			reg = <0 0x80280000 0 0x1000>,
++			      <0 0x81280000 0 0x9000>;
++			clocks = <&extal_clk>;
++			clock-names = "extal";
++			#clock-cells = <2>;
++			#reset-cells = <1>;
++			#power-domain-cells = <0>;
++		};
++
++		gic: interrupt-controller@83000000 {
++			compatible = "arm,gic-v3";
++			reg = <0x0 0x83000000 0 0x40000>,
++			      <0x0 0x83040000 0 0x160000>;
++			#interrupt-cells = <3>;
++			#address-cells = <0>;
++			interrupt-controller;
++			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_LOW>;
++		};
++	};
++
++	timer {
++		compatible = "arm,armv8-timer";
++		interrupts-extended = <&gic GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>,
++				      <&gic GIC_PPI 14 IRQ_TYPE_LEVEL_LOW>,
++				      <&gic GIC_PPI 11 IRQ_TYPE_LEVEL_LOW>,
++				      <&gic GIC_PPI 10 IRQ_TYPE_LEVEL_LOW>,
++				      <&gic GIC_PPI 12 IRQ_TYPE_LEVEL_LOW>;
++		interrupt-names = "sec-phys", "phys", "virt", "hyp-phys", "hyp-virt";
++	};
++};
 -- 
 2.49.0
 
