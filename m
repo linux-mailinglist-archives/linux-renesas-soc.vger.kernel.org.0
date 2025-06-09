@@ -1,77 +1,97 @@
-Return-Path: <linux-renesas-soc+bounces-17984-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17985-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9341AD271F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 22:03:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFA71AD27A0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 22:37:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 783B4189385E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 20:03:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A11DC3A876D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 20:36:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91134219EA5;
-	Mon,  9 Jun 2025 20:03:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25834221282;
+	Mon,  9 Jun 2025 20:37:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="cyyhig3d";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="pP6nfX3o"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hgtct6qv"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF781F3BB0
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  9 Jun 2025 20:03:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A1E220680;
+	Mon,  9 Jun 2025 20:37:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749499391; cv=none; b=akOxx/aZKSthNsmAQ590BEAf1bF+i0UHJz4U5z4vuw5x8Fk0rD9YOc+iGuh3mZe9r16TvYkM3hHGHQndCBWrRaVeNvPJEARGskiQmKggzS1+W/ait4bxVRBSTKZ/Rp8LnkVsRnykpDu4XtMWikP3nxN+noi5O0+dPSSXhqxG7xU=
+	t=1749501422; cv=none; b=qZJhJVSfiR9WJu4bVFgjGUv2tRYVpBRNZ9RR3MEXki/egYeLBOLQbmRio0gqW3Lt0qEWjTnnQVVVg4hTKPggeixf+Y1q3ND2tCp/Bwl2Dfb57pSE4niB8yHef7Suo9k3pLtEgpP8MYQ2q/JJQi1+m8LLoFWIQmsNu5DjV/CWls0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749499391; c=relaxed/simple;
-	bh=cS5+g8nmAT3LNE359jzJAQDEh1IVeis9yWnQKeTZRJo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S8oJQD1C3lZZ5Qt3lbNgAInd10TFgCQLtLby6keqs9tP5w4up5aQR2+msuHKZi5lPxrrvCVmLmeIyAA2bWlcU0l7tYD5sRvHv1Grnqi7op01/6BgsD6Dsbd14Yf+XJPujWdimEsPm6R2AOKW/kSd/y0g7dvuoYL09R2Nbu66UIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=cyyhig3d; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=pP6nfX3o; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4bGNBs2Zmlz9t5C;
-	Mon,  9 Jun 2025 22:03:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1749499381;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=s7FX6a6j2vVPuJvt3QATUkrzhJNfnfdpsHxwWwNuhKQ=;
-	b=cyyhig3dyGVOMfbrt+Q6J4b9bMu3tfK/YfRAiUcy5biR9xHuMnq73Mj15DRhb/+qJNY5Jz
-	C466H7u+466vT24rL5mlbkL0UadCQGXLL7WbdDhnKDZR1xv1cvTpkyA5xdduTVTwdTwsUr
-	ZXMhmljOl70EhxCfnKz/x4IuKXBmxhyHqZdSgwFRl8OEYefbpocsdL92lbUEf84s7Jrvl1
-	o4KzDpQrQlZ0o9x7h2HTG3yOZXCd2ObiuYS0a95SXLACWZ+/sgBcl+MZlBizpDmsAobiq4
-	Gtlbgkatl24SzdVjxDDCjbm+/Jl8NvvvV5euvOhyGisXqKu/bGG4v0/SEFiIEg==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1749499379;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=s7FX6a6j2vVPuJvt3QATUkrzhJNfnfdpsHxwWwNuhKQ=;
-	b=pP6nfX3oDeL6cz1oxMxJjaXCeAw87ShgOiwp9ZZDEZ/fYjLTPVHlHbdAo7P5+pRtKqfKQl
-	6PrqtU0sMd81G5GvR792jO1clpFHTY/Amjog8nH+7O20j0yiuAyHsvfwLUdyHUBlxBgIlC
-	pjg33Dh1Om2Jw77bc47Syn0rDRP14sMdOCFE1ciHY6MqS1bcb8x6HZHv/waHEBtqVJrtLd
-	/4VG8ks1ZJ7bj6lmdSanvPlCoNAMtZKsug6BO+9Pmq3sbIkY5e7WalwWG5g4QryTfRdmoW
-	Kf8CD70jPMGNsD32mpcU5tNzNcqft2rbw1kpioTUbmeSjvwrXAyPsaEwnrns4g==
-To: linux-arm-kernel@lists.infradead.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	kernel test robot <lkp@intel.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	linux-renesas-soc@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org
-Subject: [PATCH] regulator: rpi-panel-v2: Add missing GPIOLIB dependency
-Date: Mon,  9 Jun 2025 22:02:06 +0200
-Message-ID: <20250609200242.31271-1-marek.vasut+renesas@mailbox.org>
+	s=arc-20240116; t=1749501422; c=relaxed/simple;
+	bh=bMo3wzMhKltZs7QMjn6YEMIpFXpusjz5hmvh1DJhHHw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y6Ds748HH4/3VV/eMesyCjKw7BO/zl3Gin3Z6/Jmg7Mnx9HZy2sygJu1NnagvaPez4XKuwOGlBNDNrT3Ns6HBrNlNatRl0l/skBNBcHSJ7JTMf9B97PNH6aacSqSprMLEL4nLowxfrMb4ORpv/PtErgrCEytbzYehJmMRXHnNgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hgtct6qv; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3a54700a463so995670f8f.1;
+        Mon, 09 Jun 2025 13:36:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749501418; x=1750106218; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PRRMZrP2oXiS+2iiPhUnuzFCLiBggFlP7GuSrH2c3mM=;
+        b=Hgtct6qv2OsPW39Yo8Brm+pd//Ywv4ghcj0Xxr0i2Yt0hAXVd8BzUZAB1VB6zTHzHW
+         C4Rz9mryTV68PsFeMfFt6WJrp+kzSGPsLP/UkzGAlNkVXbAZ4FKxGnTM+FxRhWp3e2ij
+         6f4x4PL/iOalWpYRbAIz98eH8k4uWqm4rj9EH/o4sxGVCp1olGEQcFo9TxmDxO0VcgZV
+         RfGXZ6Gceo6oXlLr4TZgEPe0UTQvb32FlI36e2qgacw6T1uYrFVI+LilPwapohdK1AEp
+         MEieR6rwylxUold/TzrbldaCbhnwUeZ8ZoJR16BeCkD3qfUHCwbtVbK3Zw2wC1/zqpTF
+         ioqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749501418; x=1750106218;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PRRMZrP2oXiS+2iiPhUnuzFCLiBggFlP7GuSrH2c3mM=;
+        b=GO8/OUMKuJ4qPYorJqq3NKMTKGf7yQAYdiYAYiW1OBbw+fbcSIVI8FwGYoQ8qAyjIU
+         rakcbaC8JgEm881/5yNOb4jMN54ONqGYFultyHnecK6ry7CGb+tWIq/PM25hkjleyLVH
+         QLfVDdAaVekdvHavcTdK9pMjtfWHzNlRNt2bFQqZ7Mg2Dm104dBJTfy+8rQJgOiEJYBC
+         9D1kzdQEUJzzHbe6ZEa0WUjRVXDrBVciokeNIpbVnF5E+ySK8R86oEKp7l/TRNwkrc6z
+         3PCfRUhcYrIGuJk5quYwJJtXWmNEe0gjTsk63k/lh1Q1jNl00HHOeVoIxe4/WZchTS7s
+         lnVg==
+X-Forwarded-Encrypted: i=1; AJvYcCUztynf7nEbVYUoIMQgbqg5D+D3t75kVFeLjOU1qgPDBfQIZzhMAMWYciycmmGgv+wud81gouc8U+hR@vger.kernel.org, AJvYcCV+fzV40f1mGrhsvjWZZk00yhjI8t2tuHA7HrPKxyZ4XqsFBIocMj7ag/gO1uc9cqoqMtnQjXAQqcEcRh7v@vger.kernel.org, AJvYcCW3GKMqP+LEihATkmK8u7ryY/6sRwNChN4SMnEddredeKjAqD4Ca0tLnjji3wvcivoWeYYshXy1qJh5@vger.kernel.org
+X-Gm-Message-State: AOJu0YxNU94RpmhwjNunjZmGEcG8QZvIMG23+UN3snrCJ/Uh+YF39ddm
+	YNLOdnRSo+FyyCDmHaPsDkezAjO9CSc3pHXVe1b3vW/6GN116Bp3vgy+
+X-Gm-Gg: ASbGncv5tovsqXnTMvlQNxUztAB5MNQXiA/edMRNF68urU7Drvg1L92N+iygEwfAuZX
+	hHCNrWWIrZIM6qVuDEKibMzRMEDPxC9XE1Hz5kK7wSCXFx6t+8oRHTMboVnLbRknWrSPakWJOgJ
+	jBHtdUBrcOx72Um+RAK8MOES2GiJwYHlyX2WuVK90NrnWK/PJxCQAdBAFXRyG8WgXQJQ9XOrXjU
+	l4mJgi38PIQdwZnyEEpBH7cAdFnaXSlP8nwfCJN5Dkqz0Msnu1w6jcptwLshCDRysTCrjlTa7w3
+	KEE08QiwjiU5vqo9UPfY2b22LajIwYXCYaQUK0tma6btpmXgxyZxBfD5Kg2XyLUbKMN+bCVMQqy
+	r6QwQ8vNoNw5FAIT+WWk=
+X-Google-Smtp-Source: AGHT+IHBEbEPbt855qQ4gJTaWfzJVvRxq98v+liy5baKejXU6miw8aenSf5+UBaR0KaKAp9o8Ref4g==
+X-Received: by 2002:a05:6000:430d:b0:3a4:e238:6496 with SMTP id ffacd0b85a97d-3a5514174b2mr873507f8f.18.1749501417983;
+        Mon, 09 Jun 2025 13:36:57 -0700 (PDT)
+Received: from iku.example.org ([2a06:5906:61b:2d00:3c26:913e:81d:9d46])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-452730c73d2sm118240345e9.30.2025.06.09.13.36.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Jun 2025 13:36:57 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/8] Add support for Renesas RZ/N2H (R9A09G087) SoC and RZ/N2H EVK
+Date: Mon,  9 Jun 2025 21:36:48 +0100
+Message-ID: <20250609203656.333138-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -79,50 +99,98 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: hr4y89zgfs8o5ckt38irad4xdgyf1bzw
-X-MBO-RS-ID: 1575762181f3be4783f
 
-Add missing GPIOLIB dependency reported by the LKP test robot.
-This fixes the following report:
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-"
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for GPIO_REGMAP when selected by REGULATOR_RASPBERRYPI_TOUCHSCREEN_V2
-   WARNING: unmet direct dependencies detected for GPIO_REGMAP
-     Depends on [n]: GPIOLIB [=n]
-     Selected by [y]:
-     - REGULATOR_RASPBERRYPI_TOUCHSCREEN_V2 [=y] && REGULATOR [=y] && I2C [=y]
-"
+Hi All,
 
-Fixes: d49305862fdc ("regulator: rpi-panel-v2: Add regulator for 7" Raspberry Pi 720x1280")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202506092341.enbNKMOR-lkp@intel.com/
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-renesas-soc@vger.kernel.org
-Cc: linux-rpi-kernel@lists.infradead.org
----
- drivers/regulator/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+This patch series adds support for the Renesas RZ/N2H (R9A09G087) SoC and
+the RZ/N2H EVK (R9A09G087M44-RZN2H-EVK) evaluation board. The RZ/N2H SoC
+is very much similar to the RZ/T2H (R9A09G077) SoC. 
 
-diff --git a/drivers/regulator/Kconfig b/drivers/regulator/Kconfig
-index 21ad6d938e4d..9a3dc883ff40 100644
---- a/drivers/regulator/Kconfig
-+++ b/drivers/regulator/Kconfig
-@@ -1155,6 +1155,7 @@ config REGULATOR_RASPBERRYPI_TOUCHSCREEN_ATTINY
- 
- config REGULATOR_RASPBERRYPI_TOUCHSCREEN_V2
- 	tristate "Raspberry Pi 7-inch touchscreen panel V2 regulator"
-+	depends on GPIOLIB
- 	depends on I2C
- 	select GPIO_REGMAP
- 	select REGMAP_I2C
+RZ/N2H is a high-performance MPU that delivers advanced application
+processing and real-time operation for industrial applications. It
+features a quad-core Arm Cortex-A55 and dual-core Arm Cortex-R52
+configuration, with security features, and is designed for real-time
+control and high-speed communication.
+
+RZ/N2H SoC supports below features:
+- Quad-core Arm Cortex-A55 and dual-core Arm Cortex-R52 configuration
+- Security functions (optional)
+- Encoder interfaces
+  * 16 channels
+  * EnDat 2.2, BiSS-C, A-format, and HIPERFACE DSL-compliant interfaces
+  * Frequency-divided output from an encoder
+- Various communications interfaces
+  * Ethernet
+    - EtherCAT slave Controller: 3 ports
+    - Ethernet switch: 3 ports
+    - Ethernet MAC: 1 port x 3 units
+  *  USB 2.0 high-speed host/functions: 1 channel
+  * CAN/CANFD (compliant with ISO11898-1): 2 channels
+  * SCI with 16-byte transmission and reception FIFOs: 6 channels +
+    12 channels (for encoder)
+  * I2C bus interface: 3 channel for transfer at up to 400 kbps
+  * SPI: 4 channels
+  * xSPI: 2 channels
+  * PCI Express Gen3: 2 lane x 1 port or 1 lane x 2 ports
+  * SD card host interface: 2 channels
+- Serial host interface
+- 12 bits x 3 unit (4 channels for unit 0, 1, 15 channels for unit 2
+- LCD Controller
+- General-purpose I/O ports
+- Trigonometric function unit
+- 16-bit x 8 + 32-bit MTU3 (9 channels), 32-bit GPT (56 channels)
+- 6-bit CMT (6 channels), 32-bit CMTW (2 channels)
+
+For more information, please refer to the product page:
+
+https://www.renesas.com/en/products/microcontrollers-microprocessors/rz-mpus/rzn2h-advanced-mpu-delivers-high-performance-application-processing-and-real-time-operation-industrial?srsltid=AfmBOoro9kUrZ77ugeURFIlE5ToiFazSyzIsbjBDdGs83NHZfhlkFHlJ
+
+Note, this patch series applies on top of the patch series
+- "Add initial support for Renesas RZ/T2H SoC" [1].
+- "dt-bindings: serial: renesas,rsci: Document RZ/N2H support" [2].
+
+[1] https://lore.kernel.org/all/20250523142417.2840797-1-thierry.bultel.yh@bp.renesas.com/
+[2] https://lore.kernel.org/all/20250609192344.293317-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (4):
+  soc: renesas: Add config option for RZ/N2H (R9A09G087) SoC
+  dt-bindings: clock: renesas,cpg-mssr: Document RZ/N2H support
+  clk: renesas: Add MSSR support to RZ/N2H SoC
+  arm64: dts: renesas: Add initial SoC DTSI for RZ/N2H SoC
+
+Paul Barker (4):
+  dt-bindings: soc: Add Renesas RZ/N2H (R9A09G087) SoC
+  arm64: dts: renesas: Refactor RZ/T2H EVK device tree
+  arm64: dts: renesas: Add DTSI for R9A09G087M44 variant of RZ/N2H SoC
+  arm64: dts: renesas: Add initial support for RZ/N2H EVK
+
+ .../bindings/clock/renesas,cpg-mssr.yaml      |   5 +-
+ .../bindings/soc/renesas/renesas.yaml         |  10 ++
+ arch/arm64/boot/dts/renesas/Makefile          |   1 +
+ .../dts/renesas/r9a09g077m44-rzt2h-evk.dts    |  17 +--
+ arch/arm64/boot/dts/renesas/r9a09g087.dtsi    | 135 ++++++++++++++++++
+ .../dts/renesas/r9a09g087m44-rzn2h-evk.dts    |  16 +++
+ arch/arm64/boot/dts/renesas/r9a09g087m44.dtsi |  13 ++
+ .../boot/dts/renesas/rzt2h-evk-common.dtsi    |  24 ++++
+ drivers/clk/renesas/Kconfig                   |   5 +
+ drivers/clk/renesas/Makefile                  |   1 +
+ drivers/clk/renesas/r9a09g077-cpg.c           |   1 +
+ drivers/clk/renesas/renesas-cpg-mssr.c        |   6 +
+ drivers/soc/renesas/Kconfig                   |   6 +
+ .../clock/renesas,r9a09g087-cpg-mssr.h        |  28 ++++
+ 14 files changed, 251 insertions(+), 17 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g087.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g087m44.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/rzt2h-evk-common.dtsi
+ create mode 100644 include/dt-bindings/clock/renesas,r9a09g087-cpg-mssr.h
+
 -- 
-2.47.2
+2.49.0
 
 
