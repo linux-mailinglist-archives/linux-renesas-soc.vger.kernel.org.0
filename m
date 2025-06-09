@@ -1,130 +1,136 @@
-Return-Path: <linux-renesas-soc+bounces-17981-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17982-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D982AD2658
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 21:02:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1730DAD26A8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 21:23:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D565C3B06B3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 19:02:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D74E31886505
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 19:24:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DC02220F3A;
-	Mon,  9 Jun 2025 19:02:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70DD721C18C;
+	Mon,  9 Jun 2025 19:23:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="aUfHj1xe"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lRMah0rw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D751021FF55;
-	Mon,  9 Jun 2025 19:02:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6BFF19258E;
+	Mon,  9 Jun 2025 19:23:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749495730; cv=none; b=Zkgq8oTlpOssPnJOSmSuoxoUaOmJmzhc7RHqNqe5IXt3YaClyIJ9o88ep3Sfsm/Fh36Pzy3EMoFAB7r8Drp1O4sTD84FIcjXeV+F9AtEyzd0BstLqX3pucQ1KlCjz11WuRUv/Qr84HJ29fso++Tw+mYHhHQtJBkAIC2/B5TV/no=
+	t=1749497034; cv=none; b=stDXh0LPDDJx4CxKaq2/D0S8ra4eFwCoNw5vQLxyzrVB2nr7AqV6ll4xFPKVcZUw460mKGqIigqjWf4cru2oN5CJC6nDizdwRj68A4r+H8uWav4nLjHs/OIy5k2Li77wwCTap+Na1Gy9U+Opt/I2T+LmuPNiF02h+oj8kMxqrLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749495730; c=relaxed/simple;
-	bh=++BxlHXhGOEFxpcEXo1+jaIVKnUzXa+f4K/H8OJ8/Zo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=D9YC159/zFfHyx/RC/4O6QrhgNKs7n4nsH5NRVg1LLwdeoEZUnninHQsXHN68fsYPLQ4VX0j2ITaIfIxO2hD+/uv+alAhsCAry4piqje83WD01b15MbH1IDKIN+H/g+vEESUnh1PoaUES7gFJFUHPHlNt67eyCTw59p6xm/lKXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=aUfHj1xe; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.1.102] (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3F1FD10D4;
-	Mon,  9 Jun 2025 21:01:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1749495716;
-	bh=++BxlHXhGOEFxpcEXo1+jaIVKnUzXa+f4K/H8OJ8/Zo=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=aUfHj1xe2p2Om5r7FKPmeHkQs5P5QDkcCCLKKpISkIrDOf7D1ZuNyUjMv2LfNsZaW
-	 A4i9b+9OvOw6JnAggu4eMNpDDdg0KGOBt25yC308QbmSG6KUD8xns3XTWOqjHJErYj
-	 /up5UALlVPl91eXmVxa42CrEM5Z6x0S7GgjQMvQI=
-From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Date: Mon, 09 Jun 2025 21:01:44 +0200
-Subject: [PATCH 3/3] media: vsp1: Reset FCP for VSPX
+	s=arc-20240116; t=1749497034; c=relaxed/simple;
+	bh=AbQYkT7CdMUdntdjXLRc8xTX3MDCPW0NlQFSGoYY+WA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GyB52/ermVK5fZ7N+t7/F+QYLiXbzRx7rTxuofyoYoHbz9YYIilp7C8ihuUA++KdF+GS8dQzCu8IvLYFPHRYHQ4zfgKZtIHtdZBC8ZeebuSDpKcEY1OzbHIY4CmkXUeU48Ici9+9p3DERYIxTX2dzVq0/mnlLlMNb2DFy1up93g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lRMah0rw; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-441d437cfaaso29472075e9.1;
+        Mon, 09 Jun 2025 12:23:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749497031; x=1750101831; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8m2SIKgEeh11NXiSgiEtvpyuW0o22vDjLrJzj6QvLlw=;
+        b=lRMah0rwUpBIUQfDSUGZxtFQdLmYjcFnZ7o7PK0z4zVZIeoagCXX89lHZuKMRnHsJc
+         A8LCJXrE1+UyO3dAGNa8F29z63i7C0VZFUkK+GXSsB0aoeDa/mDTUA/TfIgmBw77F/hz
+         M+b2F6zQ7DnyI3IxaJ1vkJs4q/Xs2fepGmHqykqn6MC3NU463g5FFX6M20HvuoJHGVph
+         8Um0CvnikfnG6h9QMwGAJW4wPNEo/UKjlLCQycIPOJ/H/TfPVh97IXMchhm+yb4n7naH
+         euKV3IwSEwK1Y847v330wbw3U52SjglRWC5IXXCe9adrXbAZlwxUotrLdYTLcBQYmfgm
+         my3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749497031; x=1750101831;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8m2SIKgEeh11NXiSgiEtvpyuW0o22vDjLrJzj6QvLlw=;
+        b=DID97WS8jiMZEZdzT7LbDBHTpnHyV4TY74EqC7tRy0oUAld2JsydI0kUVtXhKG5Myf
+         yV8ThBaau2oAeQK0qdQ3ojzZcrbZ1j/RD2mh8wolIszre6I7yfTfn2by69nFZlbkdd/H
+         MQYcUMrEahpnt5SMhoGUnhUc6voy4xMLMZayq0KCPhmdNemIcCKLjWQPtctd6WFyKU3q
+         8mp7kUWOiFYmWLJ2fMA9EADy7Omam0MKUDOJ6igJAlVmjiJyD6Rd1Cm6R2XMPCVoEhtl
+         kCA2zGaRT5SzlEbSdVht58n8L4IRi1sdooEGoexQZFqPYdRXWj8Mj1ZlQrQrcjlCwpI4
+         9WxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUmLSHyT7FMf66DeQzF7pkmgoU0qz7RctdCRT+TTaA5x+c0ga+rgmw4uo/BjTOMUYfVrVjgVvOYtj8XHkjd@vger.kernel.org, AJvYcCVPscCvFi8ikqG/GF6Oj3PgtMBRIdpmhpEXLzJ83XtL2GFi++bYDzL+/X8RAKSdYkN/BV7rQ30R9bYlsTPZuOKUJKE=@vger.kernel.org, AJvYcCXj6KUJCeoHEaBGpVYqT/LTro27r0ARaumMUh5nU6//Gxsnvs2o+xNrpGq7Cg8pxbkWr6pcQzA9t5rF@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEmdLhzXwij1SBpCI5Z8+hHJqWuiRaryjSS/b306LBsEXc7OlH
+	jNTk3jEOCkZCzt4DnGu0K1EO4cbTBMP+mgas6WUXejkFToS4EL9WDm1A
+X-Gm-Gg: ASbGnctoEM19HHy4ALJtSWH/kUP5/L07JgzAWb9eBwaX2/+df3XtWvAvGlRl/V9Belh
+	wo9MNFRhJxY0caAkOLIC2ny8ZEHx1PQsYUM3Q2o27w34aH+U49rWh8CKOBytcBWonsi4ICkBnjI
+	2rIa8C6wyiqH3dC7vcLLv9mvO5kR5bU95PJapg3Q0FlJ6ywucYwBCsnEVIUXlGVZ6/GsJiq7lNi
+	yClFrNmkbaa77ty7/5DJ9KrCZ2axI4dRrHX0LwVCIz0qxa+4mRubM+HSMw2gjhbxl+6UP3R5GpL
+	TsaqZWI7mN9JnVN85jb0IVMHzWvaPM4x3GRU+IW4+232//XpTNu4NaEt7fL4cYRSEPGOaTVeypQ
+	FFLWmJG09
+X-Google-Smtp-Source: AGHT+IH2c2VCeRIAR5Qjq3rtO0ssmIvCuMnonfmD9bjdjUBx45jnBpYNKx/oyk2iVPxBCk+tKfAQ9A==
+X-Received: by 2002:a05:600c:a49:b0:43c:f513:958a with SMTP id 5b1f17b1804b1-452014165a9mr138219205e9.13.1749497030717;
+        Mon, 09 Jun 2025 12:23:50 -0700 (PDT)
+Received: from iku.example.org ([2a06:5906:61b:2d00:3c26:913e:81d:9d46])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4526e158a19sm117639055e9.12.2025.06.09.12.23.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Jun 2025 12:23:50 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] dt-bindings: serial: renesas,rsci: Document RZ/N2H support
+Date: Mon,  9 Jun 2025 20:23:44 +0100
+Message-ID: <20250609192344.293317-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250609-vspx-reset-v1-3-9f17277ff1e2@ideasonboard.com>
-References: <20250609-vspx-reset-v1-0-9f17277ff1e2@ideasonboard.com>
-In-Reply-To: <20250609-vspx-reset-v1-0-9f17277ff1e2@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1784;
- i=jacopo.mondi+renesas@ideasonboard.com; h=from:subject:message-id;
- bh=++BxlHXhGOEFxpcEXo1+jaIVKnUzXa+f4K/H8OJ8/Zo=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBoRy+oZe7ZGnme2/fjNJjZ3R+Vt8Njd5iT1d64j
- PFSBl2wQraJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaEcvqAAKCRByNAaPFqFW
- PN6WEACYKSg2wNAxMuLBXmjMAhfyXN8CPWeuPhlTABtg52NFkvtfWmJ0XPGXKGNPezYEs9uhC4x
- xnP2d49VltCBiBJLgPcPHL7GmdLilslU58BbSekW1iSYbrdfTQ398LWZvw6fTfMPzp6YpDgCCyg
- lvB/GYq58S3El4/8epIbv51TDlvpZFX7CQB+hIxyGrG+V+FqxMgPT7EV17ZdzezDx5JSEamrDtN
- /Jl8CHyVKMRFuqcGPB5wofo7JV3x4pVL6kCnuaCXs+L6tdk8mWBJVlZNvn1WI1f6VpdBmmFTE4G
- nMHNlJYcWc08Q9r0+InyB8oRzsecWH9Clx2izC8XUHLDypuxFjmCBfHpINP7iI3Y2v5xRtQ3Gpi
- cJiIUAdQjqoUUx/EZLhD2WCaKCSMxiExKh0pieZoxfUQ4zn75ucnpCRa5ujTJHEpdc27hprzwEd
- 8qDaOKiR0mo05OPgB+ADC+zrs4zPBrdH7Ig4+9wtmQNhAno5+Zs6/Lpv19k+C67yOVnbfObXWOv
- pw1Pjn0mi85aurYQOC6vPK/w7kHoggA23/znjM9sL8cwGbQ5CHOVWbhAHuuQjdKyAsuqn/ilcYu
- HMDNnvUzWWHjTz56Yhuny2SkKQ+K7EowD5G7piov90Zro1Wl8KF9W4oN/4wLOc/AJVMKfM7vzJq
- /iIqNTjjCoH3wMQ==
-X-Developer-Key: i=jacopo.mondi+renesas@ideasonboard.com; a=openpgp;
- fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
+Content-Transfer-Encoding: 8bit
 
-According section "62.3.7.1 "Operation Control Setting
-IP set VSPX+FCPVX" of the R-Car Gen4 Hardware Manual, FCPX has to
-be reset when stopping the image processing.
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Softawre reset the FCPX after the vsp1 pipe has stopped.
+Add documentation for the serial communication interface (RSCI) found on
+the Renesas RZ/N2H (R9A09G087) SoC. The RSCI IP on this SoC is identical
+to that on the RZ/T2H (R9A09G077) SoC. Therefore, "renesas,r9a09g077-rsci"
+is used as a fallback compatible string for RZ/N2H.
 
-Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- drivers/media/platform/renesas/vsp1/vsp1_pipe.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ .../devicetree/bindings/serial/renesas,rsci.yaml          | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-index a6e5e10f3ef275c1b081c3d957e6cf356332afce..c6f2417aabc479384012ab8ab99556029ede1f44 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-@@ -499,6 +499,7 @@ bool vsp1_pipeline_stopped(struct vsp1_pipeline *pipe)
- int vsp1_pipeline_stop(struct vsp1_pipeline *pipe)
- {
- 	struct vsp1_device *vsp1 = pipe->output->entity.vsp1;
-+	u32 version = vsp1->version & VI6_IP_VERSION_MODEL_MASK;
- 	struct vsp1_entity *entity;
- 	unsigned long flags;
- 	int ret;
-@@ -515,8 +516,7 @@ int vsp1_pipeline_stop(struct vsp1_pipeline *pipe)
- 			spin_unlock_irqrestore(&pipe->irqlock, flags);
- 		}
+diff --git a/Documentation/devicetree/bindings/serial/renesas,rsci.yaml b/Documentation/devicetree/bindings/serial/renesas,rsci.yaml
+index 1bf255407df0..f20de85d5304 100644
+--- a/Documentation/devicetree/bindings/serial/renesas,rsci.yaml
++++ b/Documentation/devicetree/bindings/serial/renesas,rsci.yaml
+@@ -15,7 +15,13 @@ allOf:
  
--		if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) ==
--		    VI6_IP_VERSION_MODEL_VSPD_GEN3)
-+		if (version == VI6_IP_VERSION_MODEL_VSPD_GEN3)
- 			ret |= rcar_fcp_soft_reset(vsp1->fcp);
- 
- 	} else {
-@@ -529,6 +529,9 @@ int vsp1_pipeline_stop(struct vsp1_pipeline *pipe)
- 		ret = wait_event_timeout(pipe->wq, vsp1_pipeline_stopped(pipe),
- 					 msecs_to_jiffies(500));
- 		ret = ret == 0 ? -ETIMEDOUT : 0;
+ properties:
+   compatible:
+-    const: renesas,r9a09g077-rsci      # RZ/T2H
++    oneOf:
++      - items:
++          - const: renesas,r9a09g087-rsci # RZ/N2H
++          - const: renesas,r9a09g077-rsci # RZ/T2H
 +
-+		if (version == VI6_IP_VERSION_MODEL_VSPX_GEN4)
-+			ret |= rcar_fcp_soft_reset(vsp1->fcp);
- 	}
++      - items:
++          - const: renesas,r9a09g077-rsci # RZ/T2H
  
- 	list_for_each_entry(entity, &pipe->entities, list_pipe) {
-
+   reg:
+     maxItems: 1
 -- 
 2.49.0
 
