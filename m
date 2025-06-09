@@ -1,213 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-17983-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17984-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25993AD2716
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 22:00:12 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9341AD271F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 22:03:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D78F716F902
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 20:00:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 783B4189385E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 20:03:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44275220F59;
-	Mon,  9 Jun 2025 20:00:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91134219EA5;
+	Mon,  9 Jun 2025 20:03:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R3N60dkW"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="cyyhig3d";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="pP6nfX3o"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05238220F3A;
-	Mon,  9 Jun 2025 20:00:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF781F3BB0
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  9 Jun 2025 20:03:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749499210; cv=none; b=LecXful2pLVVH6FVG8ogJCVFFYMPB8fhW36fmtRBXn8eRxnB2orn3Qz59BcmMrnxjQaN7bVzjfi+o7PgiYRPkYDit5h2WJIVIKdSC2E3cX9NzZSXMBH75aeeiHO9nqlWPYausrFTYch6mAnOMa1e75b+s6xfdZyzr1t2rRORdUs=
+	t=1749499391; cv=none; b=akOxx/aZKSthNsmAQ590BEAf1bF+i0UHJz4U5z4vuw5x8Fk0rD9YOc+iGuh3mZe9r16TvYkM3hHGHQndCBWrRaVeNvPJEARGskiQmKggzS1+W/ait4bxVRBSTKZ/Rp8LnkVsRnykpDu4XtMWikP3nxN+noi5O0+dPSSXhqxG7xU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749499210; c=relaxed/simple;
-	bh=nW89nwBj3FurmMV7fGL8RXLg7a4KC3YW2fzqgKeUsMQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZaB9unEkYUOvsQVlBFy2nFHlrtzsmmj1HYZhWuaKibW1xaEymyHLgfBleNv9GpCfpII0X/960R6MxQrZ/jAWn+idLjHRkCzG4M2a9s1Zm5/uSqM8DxeoPLXZ7My3265NR9CgZh1t7J0YkQMEMJohrilLMRfVJkln1lYJ0xUcJl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R3N60dkW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7365DC4CEF5;
-	Mon,  9 Jun 2025 20:00:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749499209;
-	bh=nW89nwBj3FurmMV7fGL8RXLg7a4KC3YW2fzqgKeUsMQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=R3N60dkWxuMNxzAv7XfWEk8D08wZJrhH67kbNwo2w9FZqV5CuKedAjJMqiRilKwVt
-	 Ic1QmRcdfczC8ppBz0B7y9bRri5KdiK3D/M/Pw78ksuYAeHEkALq4B+d8hY6cpppFy
-	 qsQe2TF3nw3zQwwBlZiygYZBxilgWizRC8+4MH9vRUVw17YSh1lpHpihPAyEHeqwOr
-	 omtPrOIn2Gp/0Y/JcmNPh6cczabVHCv4rbt+nnL6qy1vLN1DwNgrZIe97rivE8VEC+
-	 L/4W+ts3Zpo/oeUm7SuToPtLF8SYIPC0LyWVxvreKIkhaSJitzbHSgxYNYev7S4sbi
-	 djEA+vfZOhtoQ==
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-60d5c665fceso2404556eaf.1;
-        Mon, 09 Jun 2025 13:00:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCURLLMdHhdCjfBUUsb3pRnohOyQOq0tE+kkOr6QPuS4sH+b6V8AWdUtNNFiCiVtyurHrBGcRgtr7nHF2QhgzmrsM10=@vger.kernel.org, AJvYcCUZNqMNDZzpUzmBYdYBFxilfUDgBk3e1qgjr2ec56aKlMrxatlvr65kVQmBGRD0PYk93gksBbxUHB4=@vger.kernel.org, AJvYcCVsY6Up8iqxlLXJdExH/YL9Xf9LZsYXX/0tUqei14WrDNECwOrFpyHVHP9vIcoI2kQoeAZZ4vnsE9Vqe43X@vger.kernel.org, AJvYcCWqrypqqfK3JSaaTC3CRG1lb/EfEonRlFjGW/7H1kBMoSc57uerDF+idyIoEBvcjDo1EwycykkevnI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywo+JcEradTQEwD9jCwMPs+HBFOu9iUvRlujVTn0ViRsNwx24VJ
-	YluVKFtCIhIFHr8F2Hh5huRVQV0lPY+RgxDwaha9HUVNBbySzGRFlBFgzuEZCcH5GMId+gFyaRN
-	Boi3G3cw2aAE002OipmMRi2lLfXa+e+Y=
-X-Google-Smtp-Source: AGHT+IGyapYqGB+aJHE+wlodJ2N3dVnT13GPTwg0aYuBGZS1d+QikchX8STT0THo/lC3/X19pu8ontXCFl9XwGMdnUU=
-X-Received: by 2002:a05:6820:210:b0:610:d7e3:b823 with SMTP id
- 006d021491bc7-610d7e3df71mr2236793eaf.8.1749499208613; Mon, 09 Jun 2025
- 13:00:08 -0700 (PDT)
+	s=arc-20240116; t=1749499391; c=relaxed/simple;
+	bh=cS5+g8nmAT3LNE359jzJAQDEh1IVeis9yWnQKeTZRJo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S8oJQD1C3lZZ5Qt3lbNgAInd10TFgCQLtLby6keqs9tP5w4up5aQR2+msuHKZi5lPxrrvCVmLmeIyAA2bWlcU0l7tYD5sRvHv1Grnqi7op01/6BgsD6Dsbd14Yf+XJPujWdimEsPm6R2AOKW/kSd/y0g7dvuoYL09R2Nbu66UIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=cyyhig3d; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=pP6nfX3o; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4bGNBs2Zmlz9t5C;
+	Mon,  9 Jun 2025 22:03:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1749499381;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=s7FX6a6j2vVPuJvt3QATUkrzhJNfnfdpsHxwWwNuhKQ=;
+	b=cyyhig3dyGVOMfbrt+Q6J4b9bMu3tfK/YfRAiUcy5biR9xHuMnq73Mj15DRhb/+qJNY5Jz
+	C466H7u+466vT24rL5mlbkL0UadCQGXLL7WbdDhnKDZR1xv1cvTpkyA5xdduTVTwdTwsUr
+	ZXMhmljOl70EhxCfnKz/x4IuKXBmxhyHqZdSgwFRl8OEYefbpocsdL92lbUEf84s7Jrvl1
+	o4KzDpQrQlZ0o9x7h2HTG3yOZXCd2ObiuYS0a95SXLACWZ+/sgBcl+MZlBizpDmsAobiq4
+	Gtlbgkatl24SzdVjxDDCjbm+/Jl8NvvvV5euvOhyGisXqKu/bGG4v0/SEFiIEg==
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1749499379;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=s7FX6a6j2vVPuJvt3QATUkrzhJNfnfdpsHxwWwNuhKQ=;
+	b=pP6nfX3oDeL6cz1oxMxJjaXCeAw87ShgOiwp9ZZDEZ/fYjLTPVHlHbdAo7P5+pRtKqfKQl
+	6PrqtU0sMd81G5GvR792jO1clpFHTY/Amjog8nH+7O20j0yiuAyHsvfwLUdyHUBlxBgIlC
+	pjg33Dh1Om2Jw77bc47Syn0rDRP14sMdOCFE1ciHY6MqS1bcb8x6HZHv/waHEBtqVJrtLd
+	/4VG8ks1ZJ7bj6lmdSanvPlCoNAMtZKsug6BO+9Pmq3sbIkY5e7WalwWG5g4QryTfRdmoW
+	Kf8CD70jPMGNsD32mpcU5tNzNcqft2rbw1kpioTUbmeSjvwrXAyPsaEwnrns4g==
+To: linux-arm-kernel@lists.infradead.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	kernel test robot <lkp@intel.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org
+Subject: [PATCH] regulator: rpi-panel-v2: Add missing GPIOLIB dependency
+Date: Mon,  9 Jun 2025 22:02:06 +0200
+Message-ID: <20250609200242.31271-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250606111749.3142348-1-claudiu.beznea.uj@bp.renesas.com>
- <20250606111749.3142348-2-claudiu.beznea.uj@bp.renesas.com>
- <CAJZ5v0i_Ey+OVpSZHXru=tubMaZi=y-uOh_0M6zmWZ2DqqA7Vg@mail.gmail.com>
- <zhjytvj35lknj7v3jhva3n3nbv6qctvqgykwyi5huj6omet7lz@wchd7f4p4dpv>
- <CAJZ5v0hsT-Q2hz=qoBo409oungaCmexJwwGheN7KRLFqz=6_Dw@mail.gmail.com> <20250607140600.76e87ea5@jic23-huawei>
-In-Reply-To: <20250607140600.76e87ea5@jic23-huawei>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 9 Jun 2025 21:59:57 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0jqZ6gYKb85dpR-X5RwFeUBcbbcJ_b-AOe+JypBXod-MA@mail.gmail.com>
-X-Gm-Features: AX0GCFvVkyM7dSJGee_UmZSFu9Tn0392S88dN1J7jQILREjqC193ls0HTObSI44
-Message-ID: <CAJZ5v0jqZ6gYKb85dpR-X5RwFeUBcbbcJ_b-AOe+JypBXod-MA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] PM: domains: Add devres variant for dev_pm_domain_attach()
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Claudiu <claudiu.beznea@tuxon.dev>, gregkh@linuxfoundation.org, dakr@kernel.org, 
-	len.brown@intel.com, pavel@kernel.org, ulf.hansson@linaro.org, 
-	daniel.lezcano@linaro.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, bhelgaas@google.com, geert@linux-m68k.org, 
-	linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	fabrizio.castro.jz@renesas.com, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: hr4y89zgfs8o5ckt38irad4xdgyf1bzw
+X-MBO-RS-ID: 1575762181f3be4783f
 
-On Sat, Jun 7, 2025 at 3:06=E2=80=AFPM Jonathan Cameron <jic23@kernel.org> =
-wrote:
->
-> On Fri, 6 Jun 2025 22:01:52 +0200
-> "Rafael J. Wysocki" <rafael@kernel.org> wrote:
->
-> Hi Rafael,
->
-> > On Fri, Jun 6, 2025 at 8:55=E2=80=AFPM Dmitry Torokhov
-> > <dmitry.torokhov@gmail.com> wrote:
-> > >
-> > > On Fri, Jun 06, 2025 at 06:00:34PM +0200, Rafael J. Wysocki wrote:
-> > > > On Fri, Jun 6, 2025 at 1:18=E2=80=AFPM Claudiu <claudiu.beznea@tuxo=
-n.dev> wrote:
-> > > > >
-> > > > > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> > > > >
-> > > > > The dev_pm_domain_attach() function is typically used in bus code=
- alongside
-> > > > > dev_pm_domain_detach(), often following patterns like:
-> > > > >
-> > > > > static int bus_probe(struct device *_dev)
-> > > > > {
-> > > > >     struct bus_driver *drv =3D to_bus_driver(dev->driver);
-> > > > >     struct bus_device *dev =3D to_bus_device(_dev);
-> > > > >     int ret;
-> > > > >
-> > > > >     // ...
-> > > > >
-> > > > >     ret =3D dev_pm_domain_attach(_dev, true);
-> > > > >     if (ret)
-> > > > >         return ret;
-> > > > >
-> > > > >     if (drv->probe)
-> > > > >         ret =3D drv->probe(dev);
-> > > > >
-> > > > >     // ...
-> > > > > }
-> > > > >
-> > > > > static void bus_remove(struct device *_dev)
-> > > > > {
-> > > > >     struct bus_driver *drv =3D to_bus_driver(dev->driver);
-> > > > >     struct bus_device *dev =3D to_bus_device(_dev);
-> > > > >
-> > > > >     if (drv->remove)
-> > > > >         drv->remove(dev);
-> > > > >     dev_pm_domain_detach(_dev);
-> > > > > }
-> > > > >
-> > > > > When the driver's probe function uses devres-managed resources th=
-at depend
-> > > > > on the power domain state, those resources are released later dur=
-ing
-> > > > > device_unbind_cleanup().
-> > > > >
-> > > > > Releasing devres-managed resources that depend on the power domai=
-n state
-> > > > > after detaching the device from its PM domain can cause failures.
-> > > > >
-> > > > > For example, if the driver uses devm_pm_runtime_enable() in its p=
-robe
-> > > > > function, and the device's clocks are managed by the PM domain, t=
-hen
-> > > > > during removal the runtime PM is disabled in device_unbind_cleanu=
-p() after
-> > > > > the clocks have been removed from the PM domain. It may happen th=
-at the
-> > > > > devm_pm_runtime_enable() action causes the device to be runtime-r=
-esumed.
-> > > >
-> > > > Don't use devm_pm_runtime_enable() then.
-> > >
-> > > What about other devm_ APIs? Are you suggesting that platform drivers
-> > > should not be using devm_clk*(), devm_regulator_*(),
-> > > devm_request_*_irq() and devm_add_action_or_reset()? Because again,
-> > > dev_pm_domain_detach() that is called by platform bus_remove() may sh=
-ut
-> > > off the device too early, before cleanup code has a chance to execute
-> > > proper cleanup.
-> > >
-> > > The issue is not limited to runtime PM.
-> > >
-> > > >
-> > > > > If the driver specific runtime PM APIs access registers directly,=
- this
-> > > > > will lead to accessing device registers without clocks being enab=
-led.
-> > > > > Similar issues may occur with other devres actions that access de=
-vice
-> > > > > registers.
-> > > > >
-> > > > > Add devm_pm_domain_attach(). When replacing the dev_pm_domain_att=
-ach() and
-> > > > > dev_pm_domain_detach() in bus probe and bus remove, it ensures th=
-at the
-> > > > > device is detached from its PM domain in device_unbind_cleanup(),=
- only
-> > > > > after all driver's devres-managed resources have been release.
-> > > > >
-> > > > > For flexibility, the implemented devm_pm_domain_attach() has 2 st=
-ate
-> > > > > arguments, one for the domain state on attach, one for the domain=
- state on
-> > > > > detach.
-> > > >
-> > > > dev_pm_domain_attach() is not part driver API and I'm not convinced=
- at
-> > >
-> > > Is the concern that devm_pm_domain_attach() will be [ab]used by drive=
-rs?
-> >
-> > Yes, among other things.
->
-> Maybe naming could make abuse at least obvious to spot? e.g.
-> pm_domain_attach_with_devm_release()
+Add missing GPIOLIB dependency reported by the LKP test robot.
+This fixes the following report:
 
-If I'm not mistaken, it is not even necessary to use devres for this.
+"
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for GPIO_REGMAP when selected by REGULATOR_RASPBERRYPI_TOUCHSCREEN_V2
+   WARNING: unmet direct dependencies detected for GPIO_REGMAP
+     Depends on [n]: GPIOLIB [=n]
+     Selected by [y]:
+     - REGULATOR_RASPBERRYPI_TOUCHSCREEN_V2 [=y] && REGULATOR [=y] && I2C [=y]
+"
 
-You might as well add a dev_pm_domain_detach() call to
-device_unbind_cleanup() after devres_release_all().  There is a slight
-complication related to the second argument of it, but I suppose that
-this can be determined at the attach time and stored in a new device
-PM flag, or similar.
+Fixes: d49305862fdc ("regulator: rpi-panel-v2: Add regulator for 7" Raspberry Pi 720x1280")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202506092341.enbNKMOR-lkp@intel.com/
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-renesas-soc@vger.kernel.org
+Cc: linux-rpi-kernel@lists.infradead.org
+---
+ drivers/regulator/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-Note that dev->pm_domain is expected to be cleared by ->detach(), so
-this should not cause the domain to be detached twice in a row from
-the same device, but that needs to be double-checked.
+diff --git a/drivers/regulator/Kconfig b/drivers/regulator/Kconfig
+index 21ad6d938e4d..9a3dc883ff40 100644
+--- a/drivers/regulator/Kconfig
++++ b/drivers/regulator/Kconfig
+@@ -1155,6 +1155,7 @@ config REGULATOR_RASPBERRYPI_TOUCHSCREEN_ATTINY
+ 
+ config REGULATOR_RASPBERRYPI_TOUCHSCREEN_V2
+ 	tristate "Raspberry Pi 7-inch touchscreen panel V2 regulator"
++	depends on GPIOLIB
+ 	depends on I2C
+ 	select GPIO_REGMAP
+ 	select REGMAP_I2C
+-- 
+2.47.2
 
-Thanks!
 
