@@ -1,285 +1,251 @@
-Return-Path: <linux-renesas-soc+bounces-17956-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17957-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACA06AD1637
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 02:08:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1EAAAD1667
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 02:51:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 580B716A1B0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 00:08:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5921C16A462
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 00:51:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F23672F30;
-	Mon,  9 Jun 2025 00:08:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46416D27E;
+	Mon,  9 Jun 2025 00:51:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="CXern0UQ";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="JN8MuGZ2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MkORAGaF"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A2AB28F1;
-	Mon,  9 Jun 2025 00:08:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774321E489
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  9 Jun 2025 00:51:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749427701; cv=none; b=SsmgqjONg9UIt5xCDTUcxKyUrRd/y/xzU2L9C43wprmODLUijrhyfVxs9ZipEwkMTpLFHuUD21xGrEr61HR4FGiNj8ftMz3z/+Z4ppSdgYGs7SKQRj7ABwY7YGhU6SVOF1BabP9ltkMMjOsVPPXYHTi4JKtq30B7uvTgiS3eyDQ=
+	t=1749430286; cv=none; b=TqeauZ0gg4YePPC3MBxszvvXVbOZj7VJzFHD6K3xfaWcY7SaHscpt3LromBRqFSGouVIRWo6qR8nVtheTMjgsQs65TB0obs7lJDnXOUzvU+NJ7Hj2mkA6pq+CMazK45+GacyW4pw8avyCjioX8av3oS8z6sD/0GK74dkNRlbpmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749427701; c=relaxed/simple;
-	bh=fED5QEN2feX+eoIgsM4la+Yh5ttUqShMYZiw5DcHxpo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oPc8EhQxEtDitfzkAkNGj+G7v60cNcIcfPQog5kFgohE2Ut1yD3jKsq2BtvOwh3c+oiRVpDRLv4PY+1XfZXkS2bu3W+ZYXYnLBpeu8J8SsD+ZfqqbUYIlZqawSEUqHEQZWpr4Ats7kDZYjH9BAPmFCBTZhTeO1Q9ehDZ16uSSN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=CXern0UQ; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=JN8MuGZ2; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4bFshL00cwz9tJR;
-	Mon,  9 Jun 2025 02:08:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1749427698;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UAweAZg4dWwJLo+81vLYXM1tyKY29Oi765eX3QjZTKI=;
-	b=CXern0UQ49VkOu8XOKrXfmR6v/coq2kSf3PWwSIaII+MXEGSCG3hLXp9DuLPBM8Jx0ghoy
-	Eyo8HErEg8ONWwYr3w02JM1yQjTdOEEElcwoasJte9WGmb5zLW3HI0MfUqvk/XLP6EG5UZ
-	hqaq508IMI94MDgFGkkITbkEzK5d3drGjsPw7MG55NJvbS5YP9BSDI1gR+rl/sHkGyxxWk
-	bdfck0g1NIprJRMBRuj/K9Xm7vN5ja/pACTH5NqnWB1QHqoHEX8VCuCZV2ibEyHg3uNCex
-	3paHTIa6wOAZkexqDux3S1Bm/OIuJfSQmztfyPzluiyYPqXUvJ9H5+SOXbnsxQ==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1749427695;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UAweAZg4dWwJLo+81vLYXM1tyKY29Oi765eX3QjZTKI=;
-	b=JN8MuGZ2zHoYDSldhkUbm0bT+R3x6OXBRHszcUuq2gbi8URXguzRlPKao7JSYtyeDsM7Fv
-	PdGAEbnbdrjmFSTVZvozN9LHheJqJk4LYOJ7zxcAMkzTGTsVEptZiZaM7EZIaOSPoH3UZj
-	8hWoTiHby8aXvOwVNEtLqo+rKjsjFP1Evr6MWy0lXOKctViLvKjGGSL67r4DZ/+1pH3+vx
-	DxI0aHhLR4bGzBXivFlzYEhjCKbYSxKsl4/235TdwmlfLEoSAXatWxxXdYb35fG1ZTMv/3
-	bLq9Wjuu6D1fPsYJZpBc+6bl1OQfrnvHufPxIqYcW6vL7gDHMfQs1zvghYbE5Q==
-To: linux-arm-kernel@lists.infradead.org
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	s=arc-20240116; t=1749430286; c=relaxed/simple;
+	bh=8S6HYzYYfdFc2GH1aog83DGprnavF4jGjecrMy7dxN0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qpXOlTmWqVZ+cGQ0fwlSQ9eKnSQ9CzwA6/xpeRUkZEwqjM9bRNImIgvCQeULLBxF6FGRL8ekZwGTvgi47RZkoT9OHbHMAcET4xdXJ5AyChAoywfZE3APL4pudSlUcwegfhvcB4s4SOHtsD7RsGjCphVOFSq0Y7TBbTLWll4VzY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MkORAGaF; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749430284; x=1780966284;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8S6HYzYYfdFc2GH1aog83DGprnavF4jGjecrMy7dxN0=;
+  b=MkORAGaFpdUSR/t2ltshL+G5FFAuYTPNS4d5NgL2WZrVnu0yWoA+BzEz
+   ZU+MHlr5xyOLrq6nu40+EB3WCyij0yBmR9oTJofdiiJfsLcFUVmT22aZ7
+   yEHjKyHyEA9lO2s+nvbY7QDZ1RHQDUtxruc+4lIedeaamS17o/iqPmLh5
+   sKxsWJygiYjNVgE12Ov2dK+ZgKMLXiNvNXBa/Av4R/BUtOULocBN38h/g
+   AkJu94x/9mxXEd+rTdnihNoqLy2tXzsV4o4+c5XgjYaKReqwAa3UvO6qv
+   zW+U1D0WzFpTCEOUkTWw+we1JBuImFP6iyBOEj33udrBfVLajiFlWe7bh
+   A==;
+X-CSE-ConnectionGUID: i59V31TtRrq3YL7ygxgO/A==
+X-CSE-MsgGUID: ughvX9irQVeYN179oHmDfg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11458"; a="51497134"
+X-IronPort-AV: E=Sophos;i="6.16,221,1744095600"; 
+   d="scan'208";a="51497134"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2025 17:51:23 -0700
+X-CSE-ConnectionGUID: totC/warQ+CwtLHNkTLCeQ==
+X-CSE-MsgGUID: ZiNGWszkTN26BRDe8LU63A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,221,1744095600"; 
+   d="scan'208";a="151605279"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 08 Jun 2025 17:51:20 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uOQjN-0006fF-0l;
+	Mon, 09 Jun 2025 00:51:17 +0000
+Date: Mon, 9 Jun 2025 08:51:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	dri-devel@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org
-Subject: [PATCH 2/2] regulator: rpi-panel-v2: Add regulator for 7" Raspberry Pi 720x1280
-Date: Mon,  9 Jun 2025 02:06:42 +0200
-Message-ID: <20250609000748.1665219-2-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20250609000748.1665219-1-marek.vasut+renesas@mailbox.org>
-References: <20250609000748.1665219-1-marek.vasut+renesas@mailbox.org>
+	David Airlie <airlied@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 4/4] drm/rcar-du: dsi: Implement DSI command support
+Message-ID: <202506090832.Vo4IJeD2-lkp@intel.com>
+References: <20250608142636.54033-5-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 3e13s6q4d7cfa54f788cuqtm8x3ot3qg
-X-MBO-RS-ID: a313380a87c061665cd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250608142636.54033-5-marek.vasut+renesas@mailbox.org>
 
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Hi Marek,
 
-Add regulator for the 7" Raspberry Pi 720x1280 DSI panel based on ili9881.
-This is the Raspberry Pi DSI Panel V2. The newer Raspberry Pi 5" and 7"
-panels have a slightly different register map to the original one. Add a
-new driver for this "regulator" chip, this time by exposing two GPIOs and
-one PWM controller, both of which can be consumed by panel driver and
-pwm-backlight respectively.
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Loosely based on:
-https://github.com/raspberrypi/linux 3c07b87e877e ("regulator: Add a regulator for the new LCD panels")]
-https://github.com/raspberrypi/linux 68c59b9e6275 ("regulator: rpi_panel_v2: Add remove and shutdown hooks")]
----
-Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Rob Herring <robh@kernel.org>
-Cc: devicetree@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-renesas-soc@vger.kernel.org
-Cc: linux-rpi-kernel@lists.infradead.org
----
- drivers/regulator/Kconfig                  |  10 ++
- drivers/regulator/Makefile                 |   1 +
- drivers/regulator/rpi-panel-v2-regulator.c | 114 +++++++++++++++++++++
- 3 files changed, 125 insertions(+)
- create mode 100644 drivers/regulator/rpi-panel-v2-regulator.c
+[auto build test WARNING on geert-renesas-devel/next]
+[also build test WARNING on drm-exynos/exynos-drm-next linus/master v6.16-rc1 next-20250606]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/regulator/Kconfig b/drivers/regulator/Kconfig
-index 6d8988387da4..21ad6d938e4d 100644
---- a/drivers/regulator/Kconfig
-+++ b/drivers/regulator/Kconfig
-@@ -1153,6 +1153,16 @@ config REGULATOR_RASPBERRYPI_TOUCHSCREEN_ATTINY
- 	  touchscreen unit. The regulator is used to enable power to the
- 	  TC358762, display and to control backlight.
- 
-+config REGULATOR_RASPBERRYPI_TOUCHSCREEN_V2
-+	tristate "Raspberry Pi 7-inch touchscreen panel V2 regulator"
-+	depends on I2C
-+	select GPIO_REGMAP
-+	select REGMAP_I2C
-+	help
-+	  This driver supports regulator on the V2 Raspberry Pi touchscreen
-+	  unit. The regulator is used to enable power to the display and to
-+	  control backlight PWM.
-+
- config REGULATOR_RC5T583
- 	tristate "RICOH RC5T583 Power regulators"
- 	depends on MFD_RC5T583
-diff --git a/drivers/regulator/Makefile b/drivers/regulator/Makefile
-index c0bc7a0f4e67..be98b29d6675 100644
---- a/drivers/regulator/Makefile
-+++ b/drivers/regulator/Makefile
-@@ -136,6 +136,7 @@ obj-$(CONFIG_REGULATOR_PBIAS) += pbias-regulator.o
- obj-$(CONFIG_REGULATOR_PCAP) += pcap-regulator.o
- obj-$(CONFIG_REGULATOR_RAA215300) += raa215300.o
- obj-$(CONFIG_REGULATOR_RASPBERRYPI_TOUCHSCREEN_ATTINY)  += rpi-panel-attiny-regulator.o
-+obj-$(CONFIG_REGULATOR_RASPBERRYPI_TOUCHSCREEN_V2)  += rpi-panel-v2-regulator.o
- obj-$(CONFIG_REGULATOR_RC5T583)  += rc5t583-regulator.o
- obj-$(CONFIG_REGULATOR_RK808)   += rk808-regulator.o
- obj-$(CONFIG_REGULATOR_RN5T618) += rn5t618-regulator.o
-diff --git a/drivers/regulator/rpi-panel-v2-regulator.c b/drivers/regulator/rpi-panel-v2-regulator.c
-new file mode 100644
-index 000000000000..b77383584a3a
---- /dev/null
-+++ b/drivers/regulator/rpi-panel-v2-regulator.c
-@@ -0,0 +1,114 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2022 Raspberry Pi Ltd.
-+ * Copyright (C) 2025 Marek Vasut
-+ */
-+
-+#include <linux/err.h>
-+#include <linux/gpio/driver.h>
-+#include <linux/gpio/regmap.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/pwm.h>
-+#include <linux/regmap.h>
-+
-+/* I2C registers of the microcontroller. */
-+#define REG_ID		0x01
-+#define REG_POWERON	0x02
-+#define REG_PWM		0x03
-+
-+/* Bits for poweron register */
-+#define LCD_RESET_BIT	BIT(0)
-+#define CTP_RESET_BIT	BIT(1)
-+
-+/* Bits for the PWM register */
-+#define PWM_BL_ENABLE	BIT(7)
-+#define PWM_BL_MASK	GENMASK(4, 0)
-+
-+/* Treat LCD_RESET and CTP_RESET as GPIOs */
-+#define NUM_GPIO	2
-+
-+static const struct regmap_config rpi_panel_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.max_register = REG_PWM,
-+	.can_sleep = true,
-+};
-+
-+static int rpi_panel_v2_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-+				  const struct pwm_state *state)
-+{
-+	struct regmap *regmap = pwmchip_get_drvdata(chip);
-+	unsigned int duty;
-+
-+	if (state->polarity != PWM_POLARITY_NORMAL)
-+		return -EINVAL;
-+
-+	if (!state->enabled)
-+		return regmap_write(regmap, REG_PWM, 0);
-+
-+	duty = pwm_get_relative_duty_cycle(state, PWM_BL_MASK);
-+	return regmap_write(regmap, REG_PWM, duty | PWM_BL_ENABLE);
-+}
-+
-+static const struct pwm_ops rpi_panel_v2_pwm_ops = {
-+	.apply = rpi_panel_v2_pwm_apply,
-+};
-+
-+/*
-+ * I2C driver interface functions
-+ */
-+static int rpi_panel_v2_i2c_probe(struct i2c_client *i2c)
-+{
-+	struct gpio_regmap_config gconfig = {
-+		.ngpio		= NUM_GPIO,
-+		.ngpio_per_reg	= NUM_GPIO,
-+		.parent		= &i2c->dev,
-+		.reg_set_base	= REG_POWERON,
-+	};
-+	struct regmap *regmap;
-+	struct pwm_chip *pc;
-+	int ret;
-+
-+	pc = devm_pwmchip_alloc(&i2c->dev, 1, 0);
-+	if (IS_ERR(pc))
-+		return PTR_ERR(pc);
-+
-+	pc->ops = &rpi_panel_v2_pwm_ops;
-+
-+	regmap = devm_regmap_init_i2c(i2c, &rpi_panel_regmap_config);
-+	if (IS_ERR(regmap))
-+		return dev_err_probe(&i2c->dev, PTR_ERR(regmap), "Failed to allocate regmap\n");
-+
-+	pwmchip_set_drvdata(pc, regmap);
-+
-+	regmap_write(regmap, REG_POWERON, 0);
-+
-+	gconfig.regmap = regmap;
-+	ret = PTR_ERR_OR_ZERO(devm_gpio_regmap_register(&i2c->dev, &gconfig));
-+	if (ret)
-+		return dev_err_probe(&i2c->dev, ret, "Failed to create gpiochip\n");
-+
-+	return devm_pwmchip_add(&i2c->dev, pc);
-+}
-+
-+static const struct of_device_id rpi_panel_v2_dt_ids[] = {
-+	{ .compatible = "raspberrypi,touchscreen-panel-regulator-v2" },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, rpi_panel_v2_dt_ids);
-+
-+static struct i2c_driver rpi_panel_v2_regulator_driver = {
-+	.driver = {
-+		.name = "rpi_touchscreen_v2",
-+		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
-+		.of_match_table = of_match_ptr(rpi_panel_v2_dt_ids),
-+	},
-+	.probe = rpi_panel_v2_i2c_probe,
-+};
-+
-+module_i2c_driver(rpi_panel_v2_regulator_driver);
-+
-+MODULE_AUTHOR("Dave Stevenson <dave.stevenson@raspberrypi.com>");
-+MODULE_DESCRIPTION("Regulator device driver for Raspberry Pi 7-inch V2 touchscreen");
-+MODULE_LICENSE("GPL");
+url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Vasut/drm-rcar-du-dsi-Convert-register-bits-to-BIT-macro/20250609-054641
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+patch link:    https://lore.kernel.org/r/20250608142636.54033-5-marek.vasut%2Brenesas%40mailbox.org
+patch subject: [PATCH 4/4] drm/rcar-du: dsi: Implement DSI command support
+config: i386-buildonly-randconfig-005-20250609 (https://download.01.org/0day-ci/archive/20250609/202506090832.Vo4IJeD2-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250609/202506090832.Vo4IJeD2-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506090832.Vo4IJeD2-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c:1064:11: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+    1063 |                                          "Long Packet Response longer than RX buffer (%d), limited to %ld Bytes\n",
+         |                                                                                                       ~~~
+         |                                                                                                       %zu
+    1064 |                                          wc, msg->rx_len);
+         |                                              ^~~~~~~~~~~
+   include/linux/dev_printk.h:156:70: note: expanded from macro 'dev_warn'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                     ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c:1090:7: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+    1089 |                                          "Expected Short Packet Response too long (%ld), limited to 2 Bytes\n",
+         |                                                                                    ~~~
+         |                                                                                    %zu
+    1090 |                                          msg->rx_len);
+         |                                          ^~~~~~~~~~~
+   include/linux/dev_printk.h:156:70: note: expanded from macro 'dev_warn'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                     ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   2 warnings generated.
+
+
+vim +1064 drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+
+  1020	
+  1021	static ssize_t rcar_mipi_dsi_host_rx_transfer(struct mipi_dsi_host *host,
+  1022						      const struct mipi_dsi_msg *msg)
+  1023	{
+  1024		struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
+  1025		u8 *rx_buf = (u8 *)(msg->rx_buf);
+  1026		u32 reg, data, status, wc;
+  1027		int i, ret;
+  1028	
+  1029		/* RX transfer received data validation and parsing starts here. */
+  1030		reg = rcar_mipi_dsi_read(dsi, TOSR);
+  1031		if (reg & TOSR_TATO) {	/* Turn-Around TimeOut. */
+  1032			/* Clear TATO Turn-Around TimeOut bit. */
+  1033			rcar_mipi_dsi_write(dsi, TOSR, TOSR_TATO);
+  1034			return -ETIMEDOUT;
+  1035		}
+  1036	
+  1037		reg = rcar_mipi_dsi_read(dsi, RXPSR);
+  1038	
+  1039		if (msg->flags & MIPI_DSI_MSG_REQ_ACK) {
+  1040			/* Transfer with zero-length RX */
+  1041			if (!(reg & RXPSR_RCVACK)) {
+  1042				/* No ACK on RX response received */
+  1043				return -EINVAL;
+  1044			}
+  1045		} else {
+  1046			/* Transfer with non-zero-length RX */
+  1047			if (!(reg & RXPSR_RCVRESP)) {
+  1048				/* No packet header of RX response received */
+  1049				return -EINVAL;
+  1050			}
+  1051	
+  1052			if (reg & (RXPSR_CRCERR | RXPSR_WCERR | RXPSR_AXIERR | RXPSR_OVRERR)) {
+  1053				/* Incorrect response payload */
+  1054				return -ENODATA;
+  1055			}
+  1056	
+  1057			data = rcar_mipi_dsi_read(dsi, RXPHDR);
+  1058			if (data & RXPHDR_FMT) {	/* Long Packet Response */
+  1059				/* Read Long Packet Response length from packet header. */
+  1060				wc = data & 0xffff;
+  1061				if (wc > msg->rx_len) {
+  1062					dev_warn(dsi->dev,
+  1063						 "Long Packet Response longer than RX buffer (%d), limited to %ld Bytes\n",
+> 1064						 wc, msg->rx_len);
+  1065					wc = msg->rx_len;
+  1066				}
+  1067	
+  1068				if (wc > 16) {
+  1069					dev_warn(dsi->dev,
+  1070						 "Long Packet Response too long (%d), limited to 16 Bytes\n",
+  1071						 wc);
+  1072					wc = 16;
+  1073				}
+  1074	
+  1075				for (i = 0; i < msg->rx_len; i++) {
+  1076					if (!(i % 4))
+  1077						data = rcar_mipi_dsi_read(dsi, RXPPD0R + i);
+  1078	
+  1079					rx_buf[i] = data & 0xff;
+  1080					data >>= 8;
+  1081				}
+  1082			} else {	/* Short Packet Response */
+  1083				if (msg->rx_len >= 1)
+  1084					rx_buf[0] = data & 0xff;
+  1085				if (msg->rx_len >= 2)
+  1086					rx_buf[1] = (data >> 8) & 0xff;
+  1087				if (msg->rx_len >= 3) {
+  1088					dev_warn(dsi->dev,
+  1089						 "Expected Short Packet Response too long (%ld), limited to 2 Bytes\n",
+  1090						 msg->rx_len);
+  1091				}
+  1092			}
+  1093		}
+  1094	
+  1095		if (reg & RXPSR_RCVAKE) {
+  1096			/* Acknowledge and Error report received */
+  1097			return -EFAULT;
+  1098		}
+  1099	
+  1100		ret = read_poll_timeout(rcar_mipi_dsi_read, status,
+  1101					!(status & PPIDL0SR_DIR),
+  1102					2000, 10000, false, dsi, PPIDL0SR);
+  1103		if (ret < 0) {
+  1104			dev_err(dsi->dev, "Command RX DIR timeout (0x%08x)\n", status);
+  1105			return ret;
+  1106		}
+  1107	
+  1108		ret = read_poll_timeout(rcar_mipi_dsi_read, status,
+  1109					status & PPIDL0SR_STPST,
+  1110					2000, 10000, false, dsi, PPIDL0SR);
+  1111		if (ret < 0) {
+  1112			dev_err(dsi->dev, "Command RX STPST timeout (0x%08x)\n", status);
+  1113			return ret;
+  1114		}
+  1115	
+  1116		return 0;
+  1117	}
+  1118	
+
 -- 
-2.47.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
