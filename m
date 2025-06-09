@@ -1,184 +1,140 @@
-Return-Path: <linux-renesas-soc+bounces-17954-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17955-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6EBAAD1634
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 02:02:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2476CAD1635
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 02:08:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B85B73AA2D6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 00:02:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 11A0A3AA2C7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 00:08:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74E252F30;
-	Mon,  9 Jun 2025 00:02:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9BD880B;
+	Mon,  9 Jun 2025 00:08:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="PoDhGYk2"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="R2Ecutie";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="gSyynzV1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011027.outbound.protection.outlook.com [40.107.74.27])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5A2817D2;
-	Mon,  9 Jun 2025 00:02:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.27
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749427346; cv=fail; b=qAG8XWzfX2uqehoK5Nh4BBytGDJESTDhI39imEe8pW4YQr8Fy6zMcBh7T2RIQjCeB+iUt0FbR91juTZq7fzpvr9dwpQji3EhB89Uwt6l4oQ5TIwR+vl7Ft3tg4zEEDhRMA+iOwYsek8rWZfTJvvtwVij0ZU6TzNzr+5Tuk5BgpA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749427346; c=relaxed/simple;
-	bh=Lsjw0Dfctxvri+i2+mXXQKtQv34wfiT3triXIzwCQ7s=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=SB0zwc0O7TR8s1Ijtu1M2exa54bFbbIAFbq3ME6nvXi8/73t1pc71s3YfrPBdRAKj72Pfgj8r3dtW0WrKUZOvYtblzApPEwpdujraP/e0DIvssemJ2MGIXvuJZsEpCfwOUKhOjQ8ktnarEfgVSAzIlu9oDGy3RboMNUV0GqYcWE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=PoDhGYk2; arc=fail smtp.client-ip=40.107.74.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YTTYV5rD3ZGVB4Ycalsv1GYnIatq40EvGF/okve8lQa4N89cc/UydpLHMQGruO9QUMN2XYWY3K7MdWEuvoZr6YBxqm8LkFP2T74xJsHs6GYYvS/GDcd8biaNidHpcoV61DQlhpc8XMns5kNZMj0Aq+mbCvuiHtxXQYfSx6qMowY5IzcF4XuoFQ9gQeeOcSLvIjbZ3jAPgTvwEklplJd+YsQGytqj3oy95xAfvpGak9BozuzWIhCPNEh6NPlW79zhBTF/39/KsVGArvh4+gZq01Mcac73QbvvXN8Drjw0t+JFfW/lOYTz6/KtJpQI8zmOUjSOYRJtdA2dH/7vcwDx3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1FMs/lJIMzXjxjRbN5FIBlxlpqMi7bghFfk6kBKRX18=;
- b=TqJ5kck2qhTsOcXV4ygOs2yGxQyzuAZKxOUrbbq5ioSXU1R6Qq6VC07HEJNgDx7cJ8yMXZZTLugP4FAlT7TPLG8orbULKqfzfLa49jMyfaq/w6A2jFTtRPltvwLMJf/f6dOItcgmA6sCH9WiNBcbKBifr7IMovgdNWjQWDaz+52IPnnQFOz7PrU1gZ0/ayW2q8oCyyOrhbQgpVWXXlm/LHTVTlj44PeF0cgfI002BrVq8rSG2VgGqCSGCqJWfN4IHu4l0NATrWWmuDQx+oyPetN35kzvhKRYtoETN0f5zCBy6agq8Hykm/o4linQfi1rk265Zqjjn8GSQVGarVu9CQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1FMs/lJIMzXjxjRbN5FIBlxlpqMi7bghFfk6kBKRX18=;
- b=PoDhGYk2mHnRJJk6vONmO2U82xL/0zCwFI/htivCgPbUyJPWUUhZjJeba2r/F1PzvzVlqgFLF2LVs8rFL05hJ+7tBXdlXFuAYCSj1601H4NiesIYdfh30eB+kLVyPMuzIRU0WI+fMLkr0fIk4XYaeDpPO+41Hl8K9+BedOZGKPY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYWPR01MB8840.jpnprd01.prod.outlook.com
- (2603:1096:400:16b::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8813.30; Mon, 9 Jun
- 2025 00:02:18 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%6]) with mapi id 15.20.8813.024; Mon, 9 Jun 2025
- 00:02:18 +0000
-Message-ID: <871prt4wae.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED7A1FC3;
+	Mon,  9 Jun 2025 00:08:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749427699; cv=none; b=lMyEHOC1lYqRB6peg94qSWrLOnORw//vmqZtshT9z4yrgeANwq4pMBb/kfmQI7zaHGn0UydyaI7ef6O3lJFzExlc40Wx93wA/+sNDjo1VOB8F45hJIRDH6VLb9m2hfjZ5yVth0IF+obvub+iHE/ML6gk+aBEAkZDw+Vuxh9m53Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749427699; c=relaxed/simple;
+	bh=3KLqp3CQ2N6JDTp3vX8ROIaoJLcuTgZ19RRjm7pzNN0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VnDuZRavwXJIiQdRF5/iZB6wQKTXty4v+hu1px1dJEl+tUnOuberxp3SeTZws//BUZFfLsBpHkjYt31XOWucCyh6Y7gazg3h90zUeSI6Xz+Vq8sa5Y4rv/+ZdXULigK/PIFTyFGvBGQ0yJoOwKwFSSMd1JnYPwHZPDmbm3/hf08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=R2Ecutie; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=gSyynzV1; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4bFshH5Lgbz9vHy;
+	Mon,  9 Jun 2025 02:08:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1749427695;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=47TFo7IpbVAx04igIuRTtk49M4nFiyROCVNhC4tKtD8=;
+	b=R2EcutiekaaS7uiENVeyKDkfyTPuUD2xLV59tNLz4eM5+sxmkADuGEkCPanrjKqmWm0yZT
+	WG7aqNIooGnj1T8JfRf0qS4FVz+0oLaxEbZ2oK4vsmcxCMrgDMRQ6q/KLTLo9U17x80Dvf
+	6+qAXTOyI3XTb9bHHqMoHdpdZfSYV6n14TZbWsdwXm7GX1IKe+GAWf5NAWXJ6E5/PZYVxW
+	idWWvtygZTvUUCeyCWlUVIkT3lA/YI21x4QG3t3uVlXZ2P1AakdyhDPFimIwI3Csn2GTCc
+	CdlJrK/bc17E+q0IlMbv64M4ZNwEzGafj2Xa5O3JozKYSTRdbV0ojn/4GyF1qA==
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1749427693;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=47TFo7IpbVAx04igIuRTtk49M4nFiyROCVNhC4tKtD8=;
+	b=gSyynzV1Qmufr9AwZ0RApkSA+3IYGMe4m4rwXQh+MgZYfqOMh5Mib0O2ZKJVOeKSHrujj8
+	Y1sSp0gQtf+ZXKNsYT8LsoyjNOCvIa8osqEMjfPBFCpaWtn1nLA0lgTVV4LOEujeQQv/oC
+	biFXdJ8rz4u91+ehqdl41KQTt0ncOqGH/2gfjPHvGCB+KPU37mkY7LGIScllcEwxS7gHRC
+	vMENBzdTV33vV7fXnkrNgv6RyxqDNE2N9g4hcljKxWd7TKrpZPT6S68UYntLV/cbN9yv2Y
+	YtBWLhNawxCJUD4dmaSijNft1k4Gv0CJdODyqQVrAJPsUH7dWSinhLTz/Zj1Xw==
+To: linux-arm-kernel@lists.infradead.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-spi@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 22/22] ASoC: renesas: msiof: Convert to <linux/spi/sh_msiof.h>
-In-Reply-To: <63d43d81-afce-4dfd-9be2-ec2ca2bda8ab@sirena.org.uk>
-References: <cover.1747401908.git.geert+renesas@glider.be>
-	<754ed54057e54effd06143e71d6cd305c3334eca.1747401908.git.geert+renesas@glider.be>
-	<63d43d81-afce-4dfd-9be2-ec2ca2bda8ab@sirena.org.uk>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Mon, 9 Jun 2025 00:02:18 +0000
-X-ClientProxiedBy: TYCP301CA0053.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:400:384::20) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org
+Subject: [PATCH 1/2] regulator: dt-bindings: rpi-panel: Add regulator for 7" Raspberry Pi 720x1280
+Date: Mon,  9 Jun 2025 02:06:41 +0200
+Message-ID: <20250609000748.1665219-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYWPR01MB8840:EE_
-X-MS-Office365-Filtering-Correlation-Id: a9d7f7d4-e49f-4e57-b2e3-08dda6e8e637
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?DH3qSKapsPOVxt+NGzbj8nPhGhtOscRxC7/hSrelxtQhCTFvMA1FydxC8t+y?=
- =?us-ascii?Q?9J6fGkDSIIEncfwxZu62GAdVUqKiLmZgt0hRDBe1oPkL7MlMvrFVJL80umnC?=
- =?us-ascii?Q?Cyf+6SPHzNefY7iFdH5Ymw4UvTi1IGl72VHNVrkpZY8EEkPIeVgAFAd9Txxh?=
- =?us-ascii?Q?zDT/WFSa5vUoHI3BSQJAuXRbiCj6uAuawtccMo3vLIipeQflXRhIANlWU4oj?=
- =?us-ascii?Q?AwXMXsqPfJz1m4cryIIcFsBbimRdUUIkawicGovOZ0PJaMK8+QHMW858wRhr?=
- =?us-ascii?Q?Wj/hmPKsFyW5+nGHoxXlf/dnLqcZUq3HEv7woqmMMBlJyqag46KkOTUBtM5t?=
- =?us-ascii?Q?gd+2HiFgl5Gn0+sAwVQ0BOV5GqEIXwZhi7BFo+9XQUyBmsa3NM7THn9xjRe+?=
- =?us-ascii?Q?OnJYCuIg2FNoBYow0awmT1VB6gxA4i4+Cf/BFkbto+Vfl75xbHX/VieUFReG?=
- =?us-ascii?Q?Rc/rKlTfodCeruM7+pUdFW4TrvIBDs1UjHI/ydGlP4oHlMvLFtQWvLecEfDP?=
- =?us-ascii?Q?7T9gBxGrp1EWmMOxqz6kQI+PtVgfaOX6IPaM6h7wsE+vFTA+sLOzA8BMwQBO?=
- =?us-ascii?Q?TEA1Rl/Dh8nqCsq3aS7yGHE7Fv/tTO7uhdv4L22dnHszY9Zr32NEwtnVLn2d?=
- =?us-ascii?Q?gp/wqdqIe32fP58+P7u8flgQEdJ/mhI7VzErK9KER9USVts8RImO0b4eoSik?=
- =?us-ascii?Q?nlo/kLq7mvp681PCND4vgg9onZVbx2rWI8dPqXz8BAIWSxUU0gUYJuVMcyix?=
- =?us-ascii?Q?lxSoqSvID2/FWKm3vn7Lm3XIW7wOQxUUaRpRSWea7yTUa3SZQ6eyBZITA27a?=
- =?us-ascii?Q?6MVk46kjyyiE1gzS0x7Ec1FN0H4Z8r3xFUduuza2/I9fR1kTBhUAPX79g/zM?=
- =?us-ascii?Q?BpYiFv5dxFztabj+TjJhWNq279diqRlp/U3441WiMiqJSDbkgighrpjS/85d?=
- =?us-ascii?Q?TGGkL8nR2yFlXyoAw0spqzr0YYhhSHsrp3tOylzcJUxNkN4wGrK37li9Y1cH?=
- =?us-ascii?Q?cpfift9mK7u7eNZRJljTeIh01DooDwTkB40tm0zYKEUoLZgASc4De85rIoJ2?=
- =?us-ascii?Q?Nx9kNb1q3JJd+EWS2MpF30Kunfud6aaWo0RDP03LkJb2r3biK5EjDUfIBpA3?=
- =?us-ascii?Q?ItEOG6L+VLJ7SIsdrpW1HN/R/5e1lLiEOuKlA1ccjrm0QEefSEMPeNrimL51?=
- =?us-ascii?Q?4aLC29/3BhOG6LWdQYq1aP4/oW4O08bxVCuUVst7ECmfMlJMPjJ3mPZTWQJH?=
- =?us-ascii?Q?qqA77Kjie4KHLiOD707vkyNZx+OdjNx42HW4fotDqKazvLF95ZPEpMwcYpfW?=
- =?us-ascii?Q?reiqewvCmmPfF4O1P4qpascOQ1cjNlz9MPjuNyqskBo3BIa/hCODRG0OqjW7?=
- =?us-ascii?Q?ai3P4qVW058h7bXBnGWB4vgwAkjAb2XQHpdLxeH8BYC6YnoAY3C75SDhILpT?=
- =?us-ascii?Q?zDHG+kHysDYhEkyFPNVyZXk9TKowqF5xAtTcd6OpLbpFSp7cIVpUnA=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?wjxtY1HBCApuL9pE4juahCHVyNQPIke0RHvNmtw2bC8lCEyr9ohbGD1ht2u7?=
- =?us-ascii?Q?P+uiDXknvAVVGwKWd23JDVMku0r2uLBsG1czX07K0QNTWzFrUZTehJAhJ3Rs?=
- =?us-ascii?Q?Pd8ARi5yrFd/At5uoGoujcypkCumnqApyhm56G7eTTk5PsRWWIdjx62QbNbK?=
- =?us-ascii?Q?Lp/4RYatKtiiwpDuaUJq9mbePlEsQqAMCS0g8sKPuiLari2aKx6UoeO9z+/p?=
- =?us-ascii?Q?+ZCkZYGzUV5EXOoS/LjbdvxANdLw1buCyNtHz8tm+a4f1ByO3e3Lh9bKgYYv?=
- =?us-ascii?Q?VgwYOXWkRgC1dG1LfoSU4SF+1U/Mt3/HtKSbDDO+IUfp33w+OpqhiwCn8NuH?=
- =?us-ascii?Q?XgTqlqhJQmLfK2rx8chpQP15H9R9A2JxB4l6jegx50Bsas7kQU3RZUYAJ08j?=
- =?us-ascii?Q?E4dHbp7M4rRMX9deYn6ZQFK4CQ9f8zOGfzyRTbwWbBaL7mTPELYRZ5WwHyCv?=
- =?us-ascii?Q?VavD7DUX0QFNBkUiCa4pY/UEcHx5fG1SfB0M+YuhoSozSFcYSYp6KiQMBoR/?=
- =?us-ascii?Q?hUfj8ZBYFJWt9knf105aORiG7atpzAsvUC+ukLzHppMI14F6+YlypIiaGiaM?=
- =?us-ascii?Q?7eBb1ZQ4HbD27f6J5TV0bV9sgR/0j+f+I0pK9gbLU2IfHa6rBnbxIc7t9J+D?=
- =?us-ascii?Q?o2WcHvfnfALVqMrWU3Gx7VIHnV0NQ6joTiOhOXHIAuaJ+qvN1BFbXZsOxCNN?=
- =?us-ascii?Q?s3P1UCI7+gYFKnK/dJjJqp5UgZ67cC1gV0GptmKSXW/GfozPF5/jdHxttF07?=
- =?us-ascii?Q?F8To9faL8hT8NW4i1+a+9CqTjDuk/zopEoKeXpKe0dqg7FuGG7Ea0gShdwE8?=
- =?us-ascii?Q?Sx4FKK8QTilphidTZpO0d2sRXOyX3dnwE0fFn/YYFHyT5/SqLWEQ+u3QtDMG?=
- =?us-ascii?Q?2s1CN86MWSc69WaUKoiu59wSxz2Cpcep53S+u6YK83WyLRTHopdJ7nMSjD2B?=
- =?us-ascii?Q?7TccejAokJqxzS1MJ3mIbULp4jEIGMffRMGSKozZS5cZqOqURjjo+Woif3MY?=
- =?us-ascii?Q?2NkpcJcFy3LpTpwMVYGZ+ZZ0HL+MHxSpvv842AwoQ1el00RlWMc1GGe8kNzH?=
- =?us-ascii?Q?ZYo6c6inFb2n1sGO+d3gl5+CVFejuYFOcDJ/ETK9gaP5eKkzvk75Y+OpkNuc?=
- =?us-ascii?Q?O4lEGyTJrpH41k1IjmO4WC+9G0da/0bezdO3IQ7Sw0wcAhddZtpTN3DB4Ocu?=
- =?us-ascii?Q?KJua/Wox9OWIPPOt4eByJxKkD3WToWCUMbPA4NaOcDHWvR3fbzzjqxa57dTc?=
- =?us-ascii?Q?MGfLfiscGxff28pfQth3911zrTW/uMEWa7oMy1PnVpoYARmbFCcYOLxsiEqY?=
- =?us-ascii?Q?wPLanmZZhfeq5SOqBQuf6TtI+xLegRYy+7V9mTgKCPuu4q3HgD8itJkvsJML?=
- =?us-ascii?Q?4PNM2lQ1+nNwrLNqTM/f0JXWj5K/Hor6oJ+6PLAZu7bNKcx/5rJfDr/7IJny?=
- =?us-ascii?Q?t7p5MWmAI7ALx26f5kHi0AOl966ZpWDuSV+w2BjCjVgDw/9RIQ8dv+WMiMag?=
- =?us-ascii?Q?xLDZwQQZP6RDabM8WorVCLo34+5wwoe+v+AvQuqy/nRMPpIMEWyiCCOX6nWn?=
- =?us-ascii?Q?AuNYbiAbj4XDxj3r/fvxJyMlRWhTtcO2kqTrKnxxn6Sh3CCFPOU+BPQLts++?=
- =?us-ascii?Q?fg=3D=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a9d7f7d4-e49f-4e57-b2e3-08dda6e8e637
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2025 00:02:18.5586
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vW6LgT4YVYWeGBS+LMOL0wjSnzye5waIWteeZBeV9Ychqob4memsWMQQYwwQBRJeBigaWLRLI5BbcDSkKDqVQVTa+srwnNKdWaSq+TZFV9i6ZY1aV1QkhVjydvyU4Spp
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB8840
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: ocs6tgytgjjnxp7wr41s4qu4wjhpe1as
+X-MBO-RS-ID: 8ac122bcd89682afde3
+X-Rspamd-Queue-Id: 4bFshH5Lgbz9vHy
 
+Document regulator compatible string for the 7" Raspberry Pi 720x1280 DSI
+panel based on ili9881. This is the Raspberry Pi DSI Panel V2. The newer
+Raspberry Pi 5" and 7" panels have a slightly different register map to
+the original one and offers PWM backlight control.
 
-Hi Mark, Geert
-
-> > Convert the MSIOF I2S driver to reuse the MSIOF register and register
-> > bit definitions in the header file shared by the MSIOF SPI driver.
-> > 
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Tested-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> 
-> The dependencies and size of merge were looking nasty for a cross tree
-> merge, I'll try to remember to apply this at -rc1 but it's probably
-> worth checking that I manage to do that.
-
--rc1 was released
-
-Best regards
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
-Kuninori Morimoto
+Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Rob Herring <robh@kernel.org>
+Cc: devicetree@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-renesas-soc@vger.kernel.org
+Cc: linux-rpi-kernel@lists.infradead.org
+---
+ .../raspberrypi,7inch-touchscreen-panel-regulator.yaml     | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/regulator/raspberrypi,7inch-touchscreen-panel-regulator.yaml b/Documentation/devicetree/bindings/regulator/raspberrypi,7inch-touchscreen-panel-regulator.yaml
+index 41678400e63f..18944d39d08f 100644
+--- a/Documentation/devicetree/bindings/regulator/raspberrypi,7inch-touchscreen-panel-regulator.yaml
++++ b/Documentation/devicetree/bindings/regulator/raspberrypi,7inch-touchscreen-panel-regulator.yaml
+@@ -12,14 +12,17 @@ maintainers:
+ description: |
+   The RaspberryPi 7" display has an ATTINY88-based regulator/backlight
+   controller on the PCB, which is used to turn the display unit on/off
+-  and control the backlight.
++  and control the backlight. The V2 supports 5" and 7" panels and also
++  offers PWM backlight control.
+ 
+ allOf:
+   - $ref: regulator.yaml#
+ 
+ properties:
+   compatible:
+-    const: raspberrypi,7inch-touchscreen-panel-regulator
++    enum:
++      - raspberrypi,7inch-touchscreen-panel-regulator
++      - raspberrypi,touchscreen-panel-regulator-v2
+ 
+   reg:
+     maxItems: 1
+-- 
+2.47.2
+
 
