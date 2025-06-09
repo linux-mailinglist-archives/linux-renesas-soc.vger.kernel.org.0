@@ -1,251 +1,233 @@
-Return-Path: <linux-renesas-soc+bounces-17957-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17958-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1EAAAD1667
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 02:51:29 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 040FEAD187E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 08:09:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5921C16A462
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 00:51:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ECD213ABC88
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 06:08:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46416D27E;
-	Mon,  9 Jun 2025 00:51:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83BFC254AF4;
+	Mon,  9 Jun 2025 06:09:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MkORAGaF"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="e8fMuB/I"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010055.outbound.protection.outlook.com [52.101.228.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774321E489
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  9 Jun 2025 00:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749430286; cv=none; b=TqeauZ0gg4YePPC3MBxszvvXVbOZj7VJzFHD6K3xfaWcY7SaHscpt3LromBRqFSGouVIRWo6qR8nVtheTMjgsQs65TB0obs7lJDnXOUzvU+NJ7Hj2mkA6pq+CMazK45+GacyW4pw8avyCjioX8av3oS8z6sD/0GK74dkNRlbpmg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749430286; c=relaxed/simple;
-	bh=8S6HYzYYfdFc2GH1aog83DGprnavF4jGjecrMy7dxN0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qpXOlTmWqVZ+cGQ0fwlSQ9eKnSQ9CzwA6/xpeRUkZEwqjM9bRNImIgvCQeULLBxF6FGRL8ekZwGTvgi47RZkoT9OHbHMAcET4xdXJ5AyChAoywfZE3APL4pudSlUcwegfhvcB4s4SOHtsD7RsGjCphVOFSq0Y7TBbTLWll4VzY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MkORAGaF; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749430284; x=1780966284;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8S6HYzYYfdFc2GH1aog83DGprnavF4jGjecrMy7dxN0=;
-  b=MkORAGaFpdUSR/t2ltshL+G5FFAuYTPNS4d5NgL2WZrVnu0yWoA+BzEz
-   ZU+MHlr5xyOLrq6nu40+EB3WCyij0yBmR9oTJofdiiJfsLcFUVmT22aZ7
-   yEHjKyHyEA9lO2s+nvbY7QDZ1RHQDUtxruc+4lIedeaamS17o/iqPmLh5
-   sKxsWJygiYjNVgE12Ov2dK+ZgKMLXiNvNXBa/Av4R/BUtOULocBN38h/g
-   AkJu94x/9mxXEd+rTdnihNoqLy2tXzsV4o4+c5XgjYaKReqwAa3UvO6qv
-   zW+U1D0WzFpTCEOUkTWw+we1JBuImFP6iyBOEj33udrBfVLajiFlWe7bh
-   A==;
-X-CSE-ConnectionGUID: i59V31TtRrq3YL7ygxgO/A==
-X-CSE-MsgGUID: ughvX9irQVeYN179oHmDfg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11458"; a="51497134"
-X-IronPort-AV: E=Sophos;i="6.16,221,1744095600"; 
-   d="scan'208";a="51497134"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2025 17:51:23 -0700
-X-CSE-ConnectionGUID: totC/warQ+CwtLHNkTLCeQ==
-X-CSE-MsgGUID: ZiNGWszkTN26BRDe8LU63A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,221,1744095600"; 
-   d="scan'208";a="151605279"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 08 Jun 2025 17:51:20 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uOQjN-0006fF-0l;
-	Mon, 09 Jun 2025 00:51:17 +0000
-Date: Mon, 9 Jun 2025 08:51:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	David Airlie <airlied@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 4/4] drm/rcar-du: dsi: Implement DSI command support
-Message-ID: <202506090832.Vo4IJeD2-lkp@intel.com>
-References: <20250608142636.54033-5-marek.vasut+renesas@mailbox.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43119266EFA;
+	Mon,  9 Jun 2025 06:09:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.55
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749449349; cv=fail; b=L1EdXepb8xv96jp5lIW8oQ0pp2BFcgsiWesm1YeNBDkgSa3tt8uVrAgfjDwfJzEbrkbfTx3W5j5/AFgBk+jZaZguE7srBpVGMyvbBXj4U0y/f1E6zHGuzfmECFFzhJvnTsmq8w/X4aVA9l6AeKjt0bEsvonKoyt+mVhRHKT1YAM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749449349; c=relaxed/simple;
+	bh=xcU6e9ohLKs3PFk3YrwswGlO0DoZfzcdoMSh7ab6oRs=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=XURILYzVF73XW2WNT0ynDo1UFiR8hjrbMQamTCUw8rDt4F31I/eXBrFIwVViXVYXsDH7bYsxBuzXOVgELKUGQQVbOBZFzBt5uLriEG8RvUgnkpmRuuLlzLlNKHcCkmSE42BhXv+uZ1T2a4m/vOncKUtzJ3NVftgFYGbMOjuXlyg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=e8fMuB/I; arc=fail smtp.client-ip=52.101.228.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=j6bzspiftLRPzUhNIbS8ki2knDzLLfV3vwd5pgtiF62+Tdw6dnG4OzwJKYGh0ukBysf4Lo1ec0+IOdBL50WYw+Dhvc5tsOyAwG2ayqH0TSOjtxFoMyYwY25M96ntVEc3Tjyk4zepOQCsPsYRIJEr13IWdG+yPy1iaX0c86pFswIWqA0rT24bCMbc2LCZdQQPd95Tv2ATwNMAfypuI96EcSGpS09V7tAYtLJuNXKarJAVRU0/SwkBHMir7Le3koqhS6i9cBojTW4y8aRqhW3R3Q7gkHUFdGpS6yRU8w4NRn70yUTaVDymgaEfDveBCHwAovk/bHrW0yErFEI8FdHSfA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WUfgnNVJbR+AybGtJb+9bt+2h0JsCZzUFAEtSnnvEac=;
+ b=ol4B/kr9RhxELF8FqvH1u7Kx06g3iEmi+D79ex0E85U28SjZv9w4rpasP/yZ/xjXqBUPiOa8hol0t9vLA0ADBJhLKhEkpLoOgtvR1yAuRddXvkUfO+SWB33goD/lKwYdzZGscqm9rms5CuSsXmDKNSZEB27Mob3ofgI+I0Fg1YL6NEaA/zsRZ8sUZAVmJUT3WVluX8CLnEALldVc9laLPJ3hZYqOId/aPDpwmOMpeIahz3+mVfWSlHsKXjvWOMiTl/HMuTmjZdYg5bBI1gbGt6CMuSJ3SUvgynMEbwJQxdaE38sMxTadbs7eLYRu0wGeKvFA1FQNMr9CMzY983g3wg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WUfgnNVJbR+AybGtJb+9bt+2h0JsCZzUFAEtSnnvEac=;
+ b=e8fMuB/It09gtNVLw7U3Xvp4QjOWjBguZ0ZSiyitlBpNv0ttHKbp306ySHRRCGjxky1V7oMCP4U8iZQVedqdr+Sj8WOtDHTEIcMExqQc2m5wHz4Cr+OlOukeQaOdtqfr2YAXLniPRAnP9nVrNMqo1RQtIiNwaNDZ2lPmlncshH8=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TYAPR01MB6235.jpnprd01.prod.outlook.com (2603:1096:402:3d::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8813.26; Mon, 9 Jun
+ 2025 06:09:03 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%5]) with mapi id 15.20.8813.024; Mon, 9 Jun 2025
+ 06:08:56 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Hugo Villeneuve <hugo@hugovil.com>, "maarten.lankhorst@linux.intel.com"
+	<maarten.lankhorst@linux.intel.com>, "mripard@kernel.org"
+	<mripard@kernel.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
+	"airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch" <simona@ffwll.ch>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Chris Brandt
+	<Chris.Brandt@renesas.com>, Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Tommaso
+ Merciai <tommaso.merciai.xr@bp.renesas.com>
+Subject: RE: [PATCH v4 0/1] drm: rcar-du: rzg2l_mipi_dsi: add MIPI DSI command
+ support
+Thread-Topic: [PATCH v4 0/1] drm: rcar-du: rzg2l_mipi_dsi: add MIPI DSI
+ command support
+Thread-Index: AQHb1WCz9MxMOKGcF0qVRVo3sAs1R7P6Xm1A
+Date: Mon, 9 Jun 2025 06:08:56 +0000
+Message-ID:
+ <TY3PR01MB113467BF7F5D6A042AA5CDFD0866BA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20250604145306.1170676-1-hugo@hugovil.com>
+In-Reply-To: <20250604145306.1170676-1-hugo@hugovil.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYAPR01MB6235:EE_
+x-ms-office365-filtering-correlation-id: 624af4d9-40ec-426c-02ab-08dda71c1e27
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|366016|7416014|376014|7053199007|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?arU9zqRFmsOCWbJaiSuUzQSpiyLaBicEZvWp/sFTgMCiymFmJ08qGYIGFFL/?=
+ =?us-ascii?Q?rpgDDkWUh2libK/HZdtfeEmZ+FV5AyVNG5+YJWTXdrpWCM0rJpxLTsfqzJr+?=
+ =?us-ascii?Q?2Nsk8/ZrxcFq2Zlj9La1hid0CMlnKxxTffJZtR4s4DfOhpjcw+OkgxqDnHBF?=
+ =?us-ascii?Q?xbN9V5S3FcauTsBNB9pTUELks2xfHCSyB2VcfKYi2OzAzWckqCDxVv6G1J6a?=
+ =?us-ascii?Q?vvoCQziXyl0XNrcEBpuYwr2bbqNHgz0YmRA1WMBzFgBSGxpQBOKiFVOOE0X3?=
+ =?us-ascii?Q?jCk5iWVrWG904XdkvIsWYm7SqEcGy5oEzNUmkDj34WpU02taiOpS/s6JHPgd?=
+ =?us-ascii?Q?R8V7j0glk4KiEkptO4bJ3G1x0q+9BIZj4DDtZLPUhtRpiHGCDxUcFhcmroNd?=
+ =?us-ascii?Q?I/ElrJNLkzqW3TE2B5iXWGXSHASVgeTRvla2Za66CX/D0mQRarc/JPtRMeoS?=
+ =?us-ascii?Q?YifJr4ftd4gaeaS/4gz2Flvfs8tf+lKbTMdVRVBkAt/ef1gKmnUdS0SKl7BY?=
+ =?us-ascii?Q?lxMODey3gn9LWmGYYJHNjCtn2S4CpOG79+zHAr8o3MT8kjtX+/Wb5I99AETR?=
+ =?us-ascii?Q?2ufrArQq3vL/VI4pdHbdIk9EWcL3mKOmsqLxzxjBZP3JEDT/7p9sEI5iukpU?=
+ =?us-ascii?Q?+P9bRtnli56m4g9SuE9PsyTgp0FTZh2SihH/FsKEZJLJUVaGxn56jodwhYu8?=
+ =?us-ascii?Q?oZRmGfTzYpxCOLFScEoODQXKc/RV5X6h5SVUWYTDwpcLOoDmeCUO/8ZNAMyW?=
+ =?us-ascii?Q?YX2hOWL5oATuCUkCu4kr5Dqk0Yl/rbztsKIYdWVMQEOOwI6w3nRB28Je8RsB?=
+ =?us-ascii?Q?4/6cjGnjAQYeRI6BaN6xM7rEH9EOTMHPylS3nckBEr2i1EKNwsnkx+/q616q?=
+ =?us-ascii?Q?tDG3HcWVqG5qJXCyo6506l3e9qTtBT87m2gvh5wvnIglrHF3dm8OAKMV8zi9?=
+ =?us-ascii?Q?bj4fD9Q9ibbN9sx+0oiq6camx8hxAFzMpUBeMULR/5/PzM9BMOB+b7pp6xO8?=
+ =?us-ascii?Q?i4g0AB6eoct4HVucc5IZgS7j7GcrqOU9yV2HY279lcjTIBJnsMNwlgG/gxal?=
+ =?us-ascii?Q?l+a2uW/WhqlTfXxx7Yaa0ESjT51Cq7M+t3qEi7y2Mt/8NqOaugG2EVvgs9bQ?=
+ =?us-ascii?Q?Ge+S2NWZ5ZUsczhlmF6ayWXZ1T0CqvWDjhQNNVGgAs9YZUlr9CLYCNKE4cuj?=
+ =?us-ascii?Q?nLq9krim0FPsFiSuJ8Wa9awgMQriUQubx9XmBh9BT8E2XTRzoIvzKF/Jztf1?=
+ =?us-ascii?Q?WULUyOpOAUOGlRCRtg4jbhhbyxWyd1fLtDKD7JGTx0yOzUjFNQd0F5srNuAw?=
+ =?us-ascii?Q?LQeUnzSgaJeZLafSZBpQXc9mr0l5C+LV/VwbULoNUnWOc/OcY7wq4FD7vha2?=
+ =?us-ascii?Q?3xHoXm4MiiV9Muc7+TdWcYq8J54Q5Zo+PEWfXkvwsuA+stxXFcI3uUfjrQQ3?=
+ =?us-ascii?Q?ubEIkxU1HXk=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(7053199007)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?Sr4r7dtr40Bh18ibPtaU0NOW0rqI31IuLVmpizHY+qzQ2Vli+QfnwWw/zIQb?=
+ =?us-ascii?Q?cKHT3sFQuYJC2GEEP1ggn45gAu/Lq4C9KT0EaIoWuBE9L3SQ0fzEUhergwzi?=
+ =?us-ascii?Q?QgBfKqClhKJgidZjcgWKaiUkEjvE2Eh0fcTyg/N0uk8r1yggagb8epm9Mz8q?=
+ =?us-ascii?Q?7k7g8pda9Of0iz/rM1yuyU9TWHx9SP4xt5EqZ5Dxdyj6M564FIhh3Q0cmtOJ?=
+ =?us-ascii?Q?s5Y2FoRh2skRJBQF/ydU3znRMDsgAXaKpWPbZ3uM1t9SJlstKx6zgHenpenH?=
+ =?us-ascii?Q?9dmOhF9Nsij/tMuA8W6OxL7ISo82Xd55/kXy2oC/fZmHvZj/TEtsjH51fQpu?=
+ =?us-ascii?Q?R6fCUSeAMJ9vOVMdBBng4b+Lr0eW0wT2dDVlczaYJ4qG/ffLi6Bj/LqZmNoL?=
+ =?us-ascii?Q?Hrgp7wCEyiRkQj6nGKJXYNcyYK0mGl/IXDB3kDlTTNJG0Zg+qFWUp38qYVxg?=
+ =?us-ascii?Q?hOCJlqzM1+P1b8W9MDpmKGTGWaBvT7ghmXu05z3tfPy/eZrZqLpn4yQmQgTS?=
+ =?us-ascii?Q?Vquto4YbW9TKmAAQJNVZMVRLBKNwV4/WnmHy55e+q7RMIp6j0aU4PPn8X50q?=
+ =?us-ascii?Q?9DFVFogBpbYbuo4St8akeMaOwl1FFzZGZUTJXvPf140/DAQkys8jvGaQUyJn?=
+ =?us-ascii?Q?jAhadtHPyPSBq/fQWW0q4AMG7HpScU5WIVl5oOLL/NLEBwFp1mqJ+6mJuxlW?=
+ =?us-ascii?Q?6C4YFbqs6nXC0Tr80C8RRlvtuoGV8gjPeIjoKcV5AeJ4yB9VbUbBARJih9lF?=
+ =?us-ascii?Q?YOv/6u9BBwb9fIIc0e5Kr80XADiz9emlJmDT8YAvpqGdKjsUrN6dqNLD+sUf?=
+ =?us-ascii?Q?Hub1x5lFmqZgQRXI3vWpoJQ7zAKYvKpx6xVd/YhBas81dQo1woL0aLAUQB2U?=
+ =?us-ascii?Q?XdtwAiNwPfSvS35XkUcXAnTNbDGdi2hPp4VT70KEEZJ0neJlrlQzSx3Ab+BK?=
+ =?us-ascii?Q?lucFItIrYoIT+8pAj8kj6rVud896qQbHMmaKIHqu/pyU4yjMr2FUY4htkNDQ?=
+ =?us-ascii?Q?UYMal5A2Nx4V8WX4Jg0V6mJMg8zoZfJ+jvhD3WyjVDafOi/cGxwW0Xmj+m/i?=
+ =?us-ascii?Q?DYxHru9kNbjlwZYmrkJAbta+rpfatSAfwKZAuzbIQWwhY76Zcn/UsZJHKjgJ?=
+ =?us-ascii?Q?Wq2xM3AKwc2udPVHuxl8SF//cnMQ8WxV0dESZp6tQyD92SkOMyD8nJiyGO3l?=
+ =?us-ascii?Q?uIWU301xCckwvjHuLXiP6OJIL+l2obkR4Q52jLjjkuTN2StUiuSDGTHYgszO?=
+ =?us-ascii?Q?UJC/2JpWX0oINn6e/l+FGKPQyP9wLLwkicUKq3OhUpoWJqTalnrI5+Ss9EBJ?=
+ =?us-ascii?Q?F8GMVX27/IwVeoDJw4/iEr0THJes8oVemoARpdV8ZFJMBRDvS/lwJX1fAep6?=
+ =?us-ascii?Q?BeZxH/ZuNKAf46n1US+zSt8WCOvR97HRT8dzcrNexLN7NLgeLTI3/qUhiayq?=
+ =?us-ascii?Q?43LWb33dFcXd5jbeCBQalWKzspd4pRd9+IrWZKzklhMhrMGQ4ghzsn2ZQ51P?=
+ =?us-ascii?Q?AxMf+nbyNLZN3/+Xq207ahbGxo9OZsYI+Rbs49k9Uo0F4JRnDx/pV80RMFlU?=
+ =?us-ascii?Q?8PTP/KWG91qpq94Q8vhJ0eYjpHmdNYSvpLhINDuL?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250608142636.54033-5-marek.vasut+renesas@mailbox.org>
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 624af4d9-40ec-426c-02ab-08dda71c1e27
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jun 2025 06:08:56.2850
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Kmiu0uh8ihhAoc+QQUmsau6LTUHWAe3FqOf1mpWA5b4OSXbqs8z71R1VbrKMga1oLgzQjNGs3qZMTF2JyvOqygi3Ql4OmpUpkqoBupI/zuo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB6235
 
-Hi Marek,
+> Subject: [PATCH v4 0/1] drm: rcar-du: rzg2l_mipi_dsi: add MIPI DSI comman=
+d support
+>=20
+> From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+>=20
+> Hello,
+> this patch series add support for sending MIPI DSI command packets to the=
+ Renesas RZ/G2L MIPI DSI
+> driver.
+>=20
+> Tested on a custom board with a SolidRun RZ/G2L SOM, with two different L=
+CD panels using the jd9365da
+> and st7703 drivers.
+>=20
+> Tested short and long writes.
+>=20
+> Tested read of 1 byte, 2 bytes and long reads. Note that to test long rea=
+ds, most LCD panels need to
+> be sent a DCS configuration command to increase the maximum packet size, =
+which is set to 1 byte by
+> default (at least on the two panels that I tested).
+>=20
+> Thank you.
+>=20
+> Link: [v1] https://lore.kernel.org/all/20250520164034.3453315-1-hugo@hugo=
+vil.com
+> Link: [v3] https://lore.kernel.org/all/20250522143911.138077-1-hugo@hugov=
+il.com
+> Link: [dep1] https://lore.kernel.org/all/20250521210335.3149065-1-chris.b=
+randt@renesas.com/raw
+>=20
+> Changes for V4:
+> - Rebased on drm-misc-next, since this series depends on [dep1]
+> - Move init of DCS maximum return packet size to rzg2l_mipi_dsi_startup()
+> - Reworded comment for DCS maximum return packet size
+> - Merged patches 1 and 2
+>=20
+> Changes for V3:
+> - No code change, resending after fixing mail server config resulting in
+>   only cover letter being sent
+>=20
+> Changes for V2:
+> - Change commit message prefix to "drm: renesas: rz-du: "
+> - Reorder variables in rzg2l_mipi_dsi_read_response()
+> - Remove unused macros
+> - Add missing bitfield include (kernel test robot)
+>=20
+> Hugo Villeneuve (1):
+>   drm: renesas: rz-du: Implement MIPI DSI host transfers
+>=20
+>  .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 186 ++++++++++++++++++
+>  .../drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h   |  54 +++++
+>  2 files changed, 240 insertions(+)
+>=20
+>=20
+> base-commit: 685c407f168cb49a12cc703230d1e2d62767bfd2
+> --
+> 2.39.5
 
-kernel test robot noticed the following build warnings:
+Applied to drm-misc-next
 
-[auto build test WARNING on geert-renesas-devel/next]
-[also build test WARNING on drm-exynos/exynos-drm-next linus/master v6.16-rc1 next-20250606]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thanks,
+Biju
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Vasut/drm-rcar-du-dsi-Convert-register-bits-to-BIT-macro/20250609-054641
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-patch link:    https://lore.kernel.org/r/20250608142636.54033-5-marek.vasut%2Brenesas%40mailbox.org
-patch subject: [PATCH 4/4] drm/rcar-du: dsi: Implement DSI command support
-config: i386-buildonly-randconfig-005-20250609 (https://download.01.org/0day-ci/archive/20250609/202506090832.Vo4IJeD2-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250609/202506090832.Vo4IJeD2-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506090832.Vo4IJeD2-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c:1064:11: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-    1063 |                                          "Long Packet Response longer than RX buffer (%d), limited to %ld Bytes\n",
-         |                                                                                                       ~~~
-         |                                                                                                       %zu
-    1064 |                                          wc, msg->rx_len);
-         |                                              ^~~~~~~~~~~
-   include/linux/dev_printk.h:156:70: note: expanded from macro 'dev_warn'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                     ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c:1090:7: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-    1089 |                                          "Expected Short Packet Response too long (%ld), limited to 2 Bytes\n",
-         |                                                                                    ~~~
-         |                                                                                    %zu
-    1090 |                                          msg->rx_len);
-         |                                          ^~~~~~~~~~~
-   include/linux/dev_printk.h:156:70: note: expanded from macro 'dev_warn'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                     ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   2 warnings generated.
-
-
-vim +1064 drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-
-  1020	
-  1021	static ssize_t rcar_mipi_dsi_host_rx_transfer(struct mipi_dsi_host *host,
-  1022						      const struct mipi_dsi_msg *msg)
-  1023	{
-  1024		struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
-  1025		u8 *rx_buf = (u8 *)(msg->rx_buf);
-  1026		u32 reg, data, status, wc;
-  1027		int i, ret;
-  1028	
-  1029		/* RX transfer received data validation and parsing starts here. */
-  1030		reg = rcar_mipi_dsi_read(dsi, TOSR);
-  1031		if (reg & TOSR_TATO) {	/* Turn-Around TimeOut. */
-  1032			/* Clear TATO Turn-Around TimeOut bit. */
-  1033			rcar_mipi_dsi_write(dsi, TOSR, TOSR_TATO);
-  1034			return -ETIMEDOUT;
-  1035		}
-  1036	
-  1037		reg = rcar_mipi_dsi_read(dsi, RXPSR);
-  1038	
-  1039		if (msg->flags & MIPI_DSI_MSG_REQ_ACK) {
-  1040			/* Transfer with zero-length RX */
-  1041			if (!(reg & RXPSR_RCVACK)) {
-  1042				/* No ACK on RX response received */
-  1043				return -EINVAL;
-  1044			}
-  1045		} else {
-  1046			/* Transfer with non-zero-length RX */
-  1047			if (!(reg & RXPSR_RCVRESP)) {
-  1048				/* No packet header of RX response received */
-  1049				return -EINVAL;
-  1050			}
-  1051	
-  1052			if (reg & (RXPSR_CRCERR | RXPSR_WCERR | RXPSR_AXIERR | RXPSR_OVRERR)) {
-  1053				/* Incorrect response payload */
-  1054				return -ENODATA;
-  1055			}
-  1056	
-  1057			data = rcar_mipi_dsi_read(dsi, RXPHDR);
-  1058			if (data & RXPHDR_FMT) {	/* Long Packet Response */
-  1059				/* Read Long Packet Response length from packet header. */
-  1060				wc = data & 0xffff;
-  1061				if (wc > msg->rx_len) {
-  1062					dev_warn(dsi->dev,
-  1063						 "Long Packet Response longer than RX buffer (%d), limited to %ld Bytes\n",
-> 1064						 wc, msg->rx_len);
-  1065					wc = msg->rx_len;
-  1066				}
-  1067	
-  1068				if (wc > 16) {
-  1069					dev_warn(dsi->dev,
-  1070						 "Long Packet Response too long (%d), limited to 16 Bytes\n",
-  1071						 wc);
-  1072					wc = 16;
-  1073				}
-  1074	
-  1075				for (i = 0; i < msg->rx_len; i++) {
-  1076					if (!(i % 4))
-  1077						data = rcar_mipi_dsi_read(dsi, RXPPD0R + i);
-  1078	
-  1079					rx_buf[i] = data & 0xff;
-  1080					data >>= 8;
-  1081				}
-  1082			} else {	/* Short Packet Response */
-  1083				if (msg->rx_len >= 1)
-  1084					rx_buf[0] = data & 0xff;
-  1085				if (msg->rx_len >= 2)
-  1086					rx_buf[1] = (data >> 8) & 0xff;
-  1087				if (msg->rx_len >= 3) {
-  1088					dev_warn(dsi->dev,
-  1089						 "Expected Short Packet Response too long (%ld), limited to 2 Bytes\n",
-  1090						 msg->rx_len);
-  1091				}
-  1092			}
-  1093		}
-  1094	
-  1095		if (reg & RXPSR_RCVAKE) {
-  1096			/* Acknowledge and Error report received */
-  1097			return -EFAULT;
-  1098		}
-  1099	
-  1100		ret = read_poll_timeout(rcar_mipi_dsi_read, status,
-  1101					!(status & PPIDL0SR_DIR),
-  1102					2000, 10000, false, dsi, PPIDL0SR);
-  1103		if (ret < 0) {
-  1104			dev_err(dsi->dev, "Command RX DIR timeout (0x%08x)\n", status);
-  1105			return ret;
-  1106		}
-  1107	
-  1108		ret = read_poll_timeout(rcar_mipi_dsi_read, status,
-  1109					status & PPIDL0SR_STPST,
-  1110					2000, 10000, false, dsi, PPIDL0SR);
-  1111		if (ret < 0) {
-  1112			dev_err(dsi->dev, "Command RX STPST timeout (0x%08x)\n", status);
-  1113			return ret;
-  1114		}
-  1115	
-  1116		return 0;
-  1117	}
-  1118	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
