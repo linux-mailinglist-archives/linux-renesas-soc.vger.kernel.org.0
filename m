@@ -1,131 +1,111 @@
-Return-Path: <linux-renesas-soc+bounces-18030-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18031-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2FF2AD3AC5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Jun 2025 16:12:21 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD9B2AD3AFD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Jun 2025 16:18:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B3A751667F9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Jun 2025 14:12:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9C5107A7D13
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Jun 2025 14:15:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0EB629B8D2;
-	Tue, 10 Jun 2025 14:09:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 587C829B761;
+	Tue, 10 Jun 2025 14:16:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K14pOdt9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7DD025B30D
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Jun 2025 14:09:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3299D29B214
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Jun 2025 14:16:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749564545; cv=none; b=h8U/bXwrvY4Cp448GlJ6RCTMTXjcvKjjicyjD6df2F4LPWOY4JTOOULVjgLRmipK1EzjrTmjfwsEvBm7zEEAbKBzb/fpv3wx/10UKguI54hwoKnl1QdWtKytAGVu5n0nWsdszEKVw+J23UhQTpaH3sWHkcCWAmsPnhvYN0O0cws=
+	t=1749565011; cv=none; b=GVPXtYkdkYh6G2ZUC7QT1h7Wm5Og7/kh0H0QkSf42Ef/hSdx7lzPCK4ygkkcCgMfEHa/BKjRI9rXSoa1up1e6kJPB5l9l/Htkw7WwtP5RGHsEXuIsXfDmq0+7hZsrnMqrV07ryuVRYcmLMtz4+xbdylj1mq4botrfaZJ7UT7MUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749564545; c=relaxed/simple;
-	bh=QV8PL7LHlrgJnh1TXRqjKsWMT6Pm/vR4GUrEVyWXVy8=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=uoswi+wo/diK9iWiw2AcSnR4rkTpHmdzTbDNf8PqcAi59ktvxP1QJDzDrFk2tcZ6InWy0Kx8m8oZn5//xhKIQ4ECmnks/BOtJc0dU2BOEM5WRaBwF3XlhMVS5NYbjyeDCDWUabm51imiWA94j+tfbrGllgMr3YYme7rDpWJ4LSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE0C3C4CEEF
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Jun 2025 14:09:04 +0000 (UTC)
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: linux-renesas-soc@vger.kernel.org
-Subject: renesas-drivers-2025-06-10-v6.16-rc1
-Date: Tue, 10 Jun 2025 16:09:03 +0200
-Message-ID: <20250610140903.1542862-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1749565011; c=relaxed/simple;
+	bh=RXXxDrUEIPBbjy3PKDw2gspe6TvSiaJPcdNSDA6Iwfg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=TLE2Yq3vITUh0nf32YWsXPFq97LUpxHpfWypFpHpBfb2frBpFaz75//UlA4cjglPMguNyVN1A8BZysWpHLFaRKD8R2Gkz5yl3udih3ijPIeEyQou939Es4yl98otW9pjKKIcpkDphKnzmQ+6FxTIDf6BNcNYKTeb1fn9q1fuECA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K14pOdt9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53E14C4CEED;
+	Tue, 10 Jun 2025 14:16:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749565010;
+	bh=RXXxDrUEIPBbjy3PKDw2gspe6TvSiaJPcdNSDA6Iwfg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=K14pOdt9y3LijzY4is8PinBn0Qst18T1V0ya0YA95a3jxhQvz7ma//GLFQUixACfS
+	 VGLDiM0fUupKGZ+KAiUiUMmgBu8E56xnIr2v/yn1SNb/ZUO5YbvSp5c/jtSqxN8uZI
+	 KouS6sMtpM+d/3PF7sgr52VmxL8uGJmi0FnIjfmAF4Dx5uxZ9Yo2dlT82vltRO14uP
+	 XmKZtxzVPKC3q8NSEvlFc3XLz3EoHug10Xuhkvaf2H1zLQXEQ1sa9uUkaQqX1BKh1n
+	 40FfzAvt1olhbVzizcDedRB1fO/y/EYC972EK8CKYKnTGWny6dj2TgJ+Z65HSfsXJI
+	 8W63ygGuNLdHg==
+From: Mark Brown <broonie@kernel.org>
+To: linux-arm-kernel@lists.infradead.org, 
+ Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: kernel test robot <lkp@intel.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+ linux-rpi-kernel@lists.infradead.org
+In-Reply-To: <20250609200242.31271-1-marek.vasut+renesas@mailbox.org>
+References: <20250609200242.31271-1-marek.vasut+renesas@mailbox.org>
+Subject: Re: [PATCH] regulator: rpi-panel-v2: Add missing GPIOLIB
+ dependency
+Message-Id: <174956500908.46190.8376782599079931737.b4-ty@kernel.org>
+Date: Tue, 10 Jun 2025 15:16:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-c25d1
 
-I have pushed renesas-drivers-2025-06-10-v6.16-rc1 to
-https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
+On Mon, 09 Jun 2025 22:02:06 +0200, Marek Vasut wrote:
+> Add missing GPIOLIB dependency reported by the LKP test robot.
+> This fixes the following report:
+> 
+> "
+> kismet warnings: (new ones prefixed by >>)
+> >> kismet: WARNING: unmet direct dependencies detected for GPIO_REGMAP when selected by REGULATOR_RASPBERRYPI_TOUCHSCREEN_V2
+>    WARNING: unmet direct dependencies detected for GPIO_REGMAP
+>      Depends on [n]: GPIOLIB [=n]
+>      Selected by [y]:
+>      - REGULATOR_RASPBERRYPI_TOUCHSCREEN_V2 [=y] && REGULATOR [=y] && I2C [=y]
+> "
+> 
+> [...]
 
-This tree is meant to ease development of platform support and drivers
-for Renesas ARM and RISC-V SoCs.  It is created by merging (a) the
-for-next branches of various subsystem trees and (b) branches with
-driver code submitted or planned for submission to maintainers into the
-master branch of my renesas-devel.git tree.
+Applied to
 
-Today's version is based on renesas-devel-2025-06-10-v6.16-rc1.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
 
-Included branches with driver code:
-  - renesas-clk-for-v6.17
+Thanks!
 
-Included fixes:
-  - [TEST] soc: renesas: rcar-rst: Enable WDT reset on early R-Car V4M
-  - ARM: shmobile: defconfig: Update shmobile_defconfig
-  - [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
-  - [LOCAL] riscv: rzfive: defconfig: Update rzfive_defconfig
+[1/1] regulator: rpi-panel-v2: Add missing GPIOLIB dependency
+      commit: d6fa0ca959db8efd4462d7beef4bdc5568640fd0
 
-Included subsystem trees:
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#main
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/i2c-host-fixes
-  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/i2c-host
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
-  - https://gitlab.freedesktop.org/drm/kernel.git#drm-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/iommu/linux.git#next
-  - git://linuxtv.org/media_tree.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git#pwm/for-next
-  - https://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rmk/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/drivers
-  - git://git.kernel.org/pub/scm/linux/kernel/git/libata/linux#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
-  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
-  - https://gitlab.freedesktop.org/drm/misc/kernel.git#for-linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/glaubitz/sh-linux.git#for-next
-  - git://git.pengutronix.de/git/pza/linux#reset/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#fixes
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/andy/linux-auxdisplay.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/srini/nvmem.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git#char-misc-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git#togreg
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Gr{oetje,eeting}s,
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-						Geert
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+Thanks,
+Mark
+
 
