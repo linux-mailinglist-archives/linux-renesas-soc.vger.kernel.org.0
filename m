@@ -1,97 +1,74 @@
-Return-Path: <linux-renesas-soc+bounces-18009-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18010-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89571AD2A6E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Jun 2025 01:23:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D71EAD2B10
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Jun 2025 02:55:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B7FB97A130C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jun 2025 23:21:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 080273B1102
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Jun 2025 00:55:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FA8722A7E1;
-	Mon,  9 Jun 2025 23:23:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A11CD1632F2;
+	Tue, 10 Jun 2025 00:55:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bx/VALp3"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ttJZQEtM";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="P9glIRHG"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB0B207DF7;
-	Mon,  9 Jun 2025 23:23:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8389F151985;
+	Tue, 10 Jun 2025 00:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749511383; cv=none; b=lheKGYfCkdlCJjPwVphLpK3zdvynhhIfDb3zgTkPmozlZ8Z78tpQVhqQxBx0E5GAwwpjaQqSmaJHssmQAL+rqQakPZdKXulySAGCoqTAir7k0tyV0S1oJ0vsTOw4ck21e8H9uqrYz2k0bHtm4okf7fjrYVWu1RK68gI+Vp6I0Bo=
+	t=1749516920; cv=none; b=jLq+iZ2iwAg8Oz332NLOTdvvVZFnjtQONoTHuvMpDy8CPttAgdNntyw2J2zhw5AbexcdbXHxGnmDidAbeHj08x76G4yPhUbA7KuFDiz+IyW8bROkBUW+kjgHOEGlCdUTqnlcD+L6CWtZ07IqY6HEKRtdaBSPB58o59agHb+1u1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749511383; c=relaxed/simple;
-	bh=GdmsI7pMe6v/Vb2RwbymOBoTQNKut9pfHgdX/4pQmfg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ox304dGLg/l9tckMCAJh/MSXUXS90IXcOT1N7wpOHovF6iJca8F3u7JljfUHmDp53UGwsv/hvqoq8XvtVpFz0svG+N9XN0bDUd5bPZtEKqdlsj0clZgyrPKleRBUDZ6I9h7tdwVDnfHC+0GkjiUMBsnEZbs7XB2dRnB02TBuzIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bx/VALp3; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43ea40a6e98so61122385e9.1;
-        Mon, 09 Jun 2025 16:23:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749511380; x=1750116180; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ELsjYCnl30x0OWnQc2oxYh9eQERmhciiDwYyV/AXmGs=;
-        b=bx/VALp3xvedkaPNE2q0wjpRnjFZ0HaJe7v2GPzvp4h5qfiAFpnyD9TxT/pK8BElHv
-         PMVnW4VxTEB0DwhsPFm+ipDPccLiR2KPrNUkdjqP63uEgcD/6ONNnN/fIh8Qqid5RTmk
-         5QWkwU3t7+egTCg67nfpMvmqPuflCt8wExA1s390YGzN1FnrAp6fHSNII+MK0hhjMv/0
-         WVfV2UbeYIKuDTdwSDk8UKk43KLlKCRsq/ukI8B3uDdhvAeUVti3kkQ75NfZV+d/EQ3i
-         t0enbEHchFq/Z3dB/mn7fbabSH3a3qUpnDeqjU8Hu5iB7xe7e81IaK4BlUeF/rTlgIPP
-         7ouA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749511380; x=1750116180;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ELsjYCnl30x0OWnQc2oxYh9eQERmhciiDwYyV/AXmGs=;
-        b=rGPvm4uYcTtvOEp1FuudOdHNtc2SHqTRInM79GOQJ2C20PIV/OQYg4me6DOzqKHfxP
-         3u0dIjDwvj1cdVsibcRf++C5X9mi+No7PFQ6/FtSNlWSiVE6flA0HxSf5ommogvbAWMF
-         foAIIKNymeFCF0fsAY3KPL5qUOIQJHcccbvpXGzeoThj9LH9bglxyyJeRwZTAeqABo3X
-         sm2yVCx4J31CXCVkbPhda9xIO9Hdh3bkWVP+nDD9GXFWjgeZ6dmufhuaOlHY0qSc/6JL
-         0/+7yHakXblq3S2He35TYwPY3++Eq0QWiqf9USFTEhJKD8WGhtKzPym2g6J7IN8ujuKP
-         HXjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUlxnn+XpoKOKpr+rwNiuVUgIYVikTSy0bVdX/WUomoPDHPuLEcsahYzYPexyAqtL/LcEfjFfguL+99o/DNhDx8m+A=@vger.kernel.org, AJvYcCVPYaryMiOYmwjnWMDnUTg+GaHi7C8sRp1ucxtBSigTUejpxFEKfVpySvCAP+u0s8Vzh3Vw9CcE8Ygi@vger.kernel.org, AJvYcCXsr1oSNo1WIumrsZC6a6giXa2vOgUD0sYtF6dQrIPuLl9T0MRPC1vegkzDGIaZowJGmZ0Ww0tt5fkdBpSH@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+56UZEu4xFB6Ev06v7wv4m+jEtpUXWNRQzJxPLBEkmcaAOiod
-	e0UJsnaI5Mbo4xPxH8Wce21WYucRfVyZagFPSxqq3p3Pz7j/JNH5qtxn
-X-Gm-Gg: ASbGncuHyRuBlZ4/NVftf1IiZoW8zOpJehW5RxqCKc+TFu7narBOOmVRNkBknlIQSzr
-	hGKU8P3FSt0JVaBv79sCrwfoQbMQFvYZ55ZJ8ferMnzds+b5G9JUMPLTI+7m4ABCoQ/AjJqo1HB
-	6ABM8tDglFSXIMZ7PZIE+rzHPtQp9UVv2e0U+cx3BhW2Xe+KsGZQHHmtTjUD8ccy3xE6B5qYTRF
-	av3pAbiDXbatT5JdNLFdB6ZNN8H6FZeG2c/1+N3BqEFeIOXP/GcpAW0FtjCkeQ1EoiJ+sdYm8X8
-	nbmBY4EQHT6SsI20IdQeoZ1ZfJrP6WBxDwnBWUfpqYBD0apgoV0oV4c8NDcdGm4MszT9e7v7bsK
-	wp39xt6hiDQ==
-X-Google-Smtp-Source: AGHT+IF6nRboebQvBMDZ9PylTL/iJQYYbClRKdB2q0jcR/5cIyx48mQMOjg4Jo64SXDvFWnpnztQuA==
-X-Received: by 2002:a05:600c:c8a:b0:43c:efed:733e with SMTP id 5b1f17b1804b1-4531de198ccmr4089515e9.14.1749511379666;
-        Mon, 09 Jun 2025 16:22:59 -0700 (PDT)
-Received: from iku.Home ([2a06:5906:61b:2d00:3c26:913e:81d:9d46])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45307678020sm74573255e9.15.2025.06.09.16.22.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jun 2025 16:22:59 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-mmc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] dt-bindings: mmc: renesas,sdhi: Document RZ/T2H and RZ/N2H support
-Date: Tue, 10 Jun 2025 00:22:53 +0100
-Message-ID: <20250609232253.514220-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.49.0
+	s=arc-20240116; t=1749516920; c=relaxed/simple;
+	bh=4IC+0RznDsQfg947HHCRZQy3sy0QM/YAwzgVjDX7VY8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nUnlAwKlftncF8+Etr7gPqWyYouUM8A4aUfuzp4SiNu/Iol15d5rFL+ahlGTnphFz+Vb45NQvD+6Q4EMlv1d5RtWSgtBsMXE62JWeVJYaPQ8Z+CvFP5kIAVpWg/Qkibw5pPpBNPfuG9UmcZy+M4qDcs39OJYpjJSbw8GTjUZFbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=ttJZQEtM; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=P9glIRHG; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4bGVh42ZHSz9t00;
+	Tue, 10 Jun 2025 02:55:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1749516916;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=X74FY2y0hU5iurRHZ/0ahZMLJD9IT1RKZd0mC0LWjYM=;
+	b=ttJZQEtMsYFlQFdDMCUwXmC3sM8qgUGxQFlyY+q4QzoTEzkJ5iJOjDDpz8paWnAKfMfi65
+	JyP9fWj9fq3Xp88ZhlFcnVJvJ72rsVUYES3gNsuhg2wZTJK316xwxpOi873OtGp4xFmjEt
+	NRIMXh7WkQt5UIfrWfUzGXUKiJbop8QHOwvJiaIluQxwG4nEQRzI0sZ9PkIFVzV6NbaB5L
+	shg8/VmEzxKvIuZPLq3nrpVuYzb2J20THctT8NHXYNP2YzJKUAYwL+N8PNJxbujMPh2P+J
+	lxe036/AWafWFqLt5ohi0hc/f0Cn3rcDnNueKP3pSse/asT5pgwOJZUfXcm9IA==
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1749516914;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=X74FY2y0hU5iurRHZ/0ahZMLJD9IT1RKZd0mC0LWjYM=;
+	b=P9glIRHGARe84/CnIymgYAG+bb0dr9dReCgKiMAWy4RILrl0h3OgRyn7lMNS0hrkCqfq1c
+	Hre7HcvRnhCmI9JSlKTQ7RGmB99R1pxNAOSk8y6xYZRGu4mP0uaozEQvAa3vBZv4Fsa1ZU
+	V7gwLwTfxGlKTpGLAN0w3sv5uc4QC2CRHk4w+MrICUVa+QG/zF78Rk5KXD/TEYkUPudiJR
+	Q1F8ZK8zQMBvK3NIBy66Xo3tAV1sdHD8It2RZX3a2HbQsDWzLO4ok09vaTaiDJvV2i62d6
+	XGEEqi3CLYQBAyu3d0e+9d3LUUo94skmraX6VnQWVA5vHYdRpxTHSEBhwHe9TA==
+To: linux-input@vger.kernel.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] Input: goodix - add support for polling on devices without IRQ line
+Date: Tue, 10 Jun 2025 02:54:12 +0200
+Message-ID: <20250610005458.126842-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -99,148 +76,143 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: b83bd63a96d321c3a5c
+X-MBO-RS-META: s7qtf83ggwb5ceux9tk53tfd1peinssf
+X-Rspamd-Queue-Id: 4bGVh42ZHSz9t00
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Add the capability of polling the touch controller for events every
+16ms, which is useful on hardware that did integrate this touch
+controller, but did not integrate the IRQ line, like the RasPi .
 
-Add SDHI bindings for the Renesas RZ/T2H (a.k.a R9A09G077) and RZ/N2H
-(a.k.a R9A09G087) SoCs. Use `renesas,sdhi-r9a09g057` as a fallback since
-the SD/MMC block on these SoCs is identical to the one on RZ/V2H(P),
-allowing reuse of the existing driver without modifications.
+Make use of the generic input poller code. Factor out the code
+from goodix_ts_irq_handler() into generic goodix_ts_handler(), so
+it can be used both by the IRQ handler and poller callback.
 
-Update the binding schema to reflect differences: unlike RZ/V2H(P),
-RZ/T2H and RZ/N2H do not require the `resets` property and use only a
-single clock instead of four.
+Use of_client->irq to find out whether the interrupt line is present
+or not, independent of whether this is OF or ACPI system. It is not
+possible to register poller in case request_irq() fails, because the
+request_irq() in this driver is deliberately called after the input
+device was registered, and registering the generic poller at that point
+is too late already.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
- .../devicetree/bindings/mmc/renesas,sdhi.yaml | 88 +++++++++++--------
- 1 file changed, 53 insertions(+), 35 deletions(-)
+This is a rework of https://github.com/raspberrypi/linux 3756b7801f3e ("input: goodix: Add option to poll instead of relying on IRQ line")
+---
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: linux-input@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+ drivers/input/touchscreen/goodix.c | 57 ++++++++++++++++++++++++++++--
+ 1 file changed, 54 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-index 7563623876fc..7d524646da8d 100644
---- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-+++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-@@ -72,6 +72,8 @@ properties:
-           - enum:
-               - renesas,sdhi-r9a09g047 # RZ/G3E
-               - renesas,sdhi-r9a09g056 # RZ/V2N
-+              - renesas,sdhi-r9a09g077 # RZ/T2H
-+              - renesas,sdhi-r9a09g087 # RZ/N2H
-           - const: renesas,sdhi-r9a09g057 # RZ/V2H(P)
+diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
+index a3e8a51c9144..91b7d244301d 100644
+--- a/drivers/input/touchscreen/goodix.c
++++ b/drivers/input/touchscreen/goodix.c
+@@ -48,6 +48,9 @@
+ #define MAX_CONTACTS_LOC	5
+ #define TRIGGER_LOC		6
  
-   reg:
-@@ -129,59 +131,75 @@ allOf:
-         compatible:
-           contains:
-             enum:
--              - renesas,sdhi-r9a09g057
--              - renesas,rzg2l-sdhi
-+              - renesas,sdhi-r9a09g077
-+              - renesas,sdhi-r9a09g087
-     then:
-       properties:
-+        resets: false
-         clocks:
--          items:
--            - description: IMCLK, SDHI channel main clock1.
--            - description: CLK_HS, SDHI channel High speed clock which operates
--                           4 times that of SDHI channel main clock1.
--            - description: IMCLK2, SDHI channel main clock2. When this clock is
--                           turned off, external SD card detection cannot be
--                           detected.
--            - description: ACLK, SDHI channel bus clock.
-+          description: ACLK, SDHI channel bus clock.
-+          maxItems: 1
-         clock-names:
--          items:
--            - const: core
--            - const: clkh
--            - const: cd
--            - const: aclk
--      required:
--        - clock-names
--        - resets
-+          const: aclk
-     else:
-       if:
-         properties:
-           compatible:
-             contains:
-               enum:
--                - renesas,rcar-gen2-sdhi
--                - renesas,rcar-gen3-sdhi
--                - renesas,rcar-gen4-sdhi
-+                - renesas,sdhi-r9a09g057
-+                - renesas,rzg2l-sdhi
-       then:
-         properties:
-           clocks:
--            minItems: 1
--            maxItems: 3
--          clock-names:
--            minItems: 1
--            uniqueItems: true
-             items:
--              - const: core
--              - enum: [ clkh, cd ]
--              - const: cd
--      else:
--        properties:
--          clocks:
--            minItems: 1
--            maxItems: 2
-+              - description: IMCLK, SDHI channel main clock1.
-+              - description: CLK_HS, SDHI channel High speed clock which operates
-+                             4 times that of SDHI channel main clock1.
-+              - description: IMCLK2, SDHI channel main clock2. When this clock is
-+                             turned off, external SD card detection cannot be
-+                             detected.
-+              - description: ACLK, SDHI channel bus clock.
-           clock-names:
--            minItems: 1
-             items:
-               - const: core
-+              - const: clkh
-               - const: cd
-+              - const: aclk
-+        required:
-+          - clock-names
-+          - resets
-+      else:
-+        if:
-+          properties:
-+            compatible:
-+              contains:
-+                enum:
-+                  - renesas,rcar-gen2-sdhi
-+                  - renesas,rcar-gen3-sdhi
-+                  - renesas,rcar-gen4-sdhi
-+        then:
-+          properties:
-+            clocks:
-+              minItems: 1
-+              maxItems: 3
-+            clock-names:
-+              minItems: 1
-+              uniqueItems: true
-+              items:
-+                - const: core
-+                - enum: [ clkh, cd ]
-+                - const: cd
-+        else:
-+          properties:
-+            clocks:
-+              minItems: 1
-+              maxItems: 2
-+            clock-names:
-+              minItems: 1
-+              items:
-+                - const: core
-+                - const: cd
++/* Polling interval (ms) , 16 ms ~= 60 FPS */
++#define POLL_INTERVAL		16
++
+ /* Our special handling for GPIO accesses through ACPI is x86 specific */
+ #if defined CONFIG_X86 && defined CONFIG_ACPI
+ #define ACPI_GPIO_SUPPORT
+@@ -497,6 +500,12 @@ static void goodix_process_events(struct goodix_ts_data *ts)
+ 	input_sync(ts->input_dev);
+ }
  
-   - if:
-       properties:
++static void goodix_ts_handler(struct goodix_ts_data *ts)
++{
++	goodix_process_events(ts);
++	goodix_i2c_write_u8(ts->client, GOODIX_READ_COOR_ADDR, 0);
++}
++
+ /**
+  * goodix_ts_irq_handler - The IRQ handler
+  *
+@@ -507,24 +516,57 @@ static irqreturn_t goodix_ts_irq_handler(int irq, void *dev_id)
+ {
+ 	struct goodix_ts_data *ts = dev_id;
+ 
+-	goodix_process_events(ts);
+-	goodix_i2c_write_u8(ts->client, GOODIX_READ_COOR_ADDR, 0);
++	goodix_ts_handler(ts);
+ 
+ 	return IRQ_HANDLED;
+ }
+ 
++static void goodix_ts_poll(struct input_dev *input_dev)
++{
++	struct goodix_ts_data *ts = input_get_drvdata(input_dev);
++
++	goodix_ts_handler(ts);
++}
++
+ static void goodix_free_irq(struct goodix_ts_data *ts)
+ {
+-	devm_free_irq(&ts->client->dev, ts->client->irq, ts);
++	if (ts->client->irq > 0)
++		devm_free_irq(&ts->client->dev, ts->client->irq, ts);
+ }
+ 
+ static int goodix_request_irq(struct goodix_ts_data *ts)
+ {
++	/* The interrupts property is not present in DT, use poller */
++	if (ts->client->irq <= 0)
++		return 0;
++
++	/* The interrupts property is present in DT, use IRQs */
+ 	return devm_request_threaded_irq(&ts->client->dev, ts->client->irq,
+ 					 NULL, goodix_ts_irq_handler,
+ 					 ts->irq_flags, ts->client->name, ts);
+ }
+ 
++static int goodix_request_poller(struct goodix_ts_data *ts)
++{
++	struct device *dev = &ts->client->dev;
++	int error;
++
++	/* The interrupts property is present in DT, use IRQs */
++	if (ts->client->irq > 0)
++		return 0;
++
++	/* The interrupts property is not present in DT, use poller */
++	error = input_setup_polling(ts->input_dev, goodix_ts_poll);
++	if (error) {
++		dev_err(dev, "Unable to set up polling: %d\n", error);
++		return error;
++	}
++
++	input_set_poll_interval(ts->input_dev, POLL_INTERVAL);
++
++	return 0;
++}
++
+ static int goodix_check_cfg_8(struct goodix_ts_data *ts, const u8 *cfg, int len)
+ {
+ 	int i, raw_cfg_len = len - 2;
+@@ -1219,6 +1261,15 @@ static int goodix_configure_dev(struct goodix_ts_data *ts)
+ 		return error;
+ 	}
+ 
++	input_set_drvdata(ts->input_dev, ts);
++
++	error = goodix_request_poller(ts);
++	if (error) {
++		dev_err(&ts->client->dev,
++			"Failed to initialize poller: %d", error);
++		return error;
++	}
++
+ 	error = input_register_device(ts->input_dev);
+ 	if (error) {
+ 		dev_err(&ts->client->dev,
 -- 
-2.49.0
+2.47.2
 
 
