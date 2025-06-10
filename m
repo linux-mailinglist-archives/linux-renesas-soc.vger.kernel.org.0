@@ -1,155 +1,108 @@
-Return-Path: <linux-renesas-soc+bounces-18032-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18033-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 667A4AD3BA7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Jun 2025 16:50:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF90FAD3D22
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Jun 2025 17:30:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 215327AE122
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Jun 2025 14:49:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9DDA11BA3E01
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Jun 2025 15:27:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77368202F93;
-	Tue, 10 Jun 2025 14:50:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D886224111D;
+	Tue, 10 Jun 2025 15:21:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=borehabit.cfd header.i=@borehabit.cfd header.b="JfzKv1z9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oksrL1/Y"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from borehabit.cfd (ip160.ip-51-81-179.us [51.81.179.160])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF0EC1DA62E
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Jun 2025 14:50:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.81.179.160
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A81D6238D53;
+	Tue, 10 Jun 2025 15:21:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749567016; cv=none; b=PbRRy+KXSfgYmBtMIaa9XOxoBoSrhRpTgEJDgWDALo2XMzK+01BPc9BBqbddXlt1LjuYWw/B4xLymgH+BGWWZGvz/rB7Z8m0WKTjKHDv+CXfMjYqqPOVU+2zKsu2DCgMt8+/uDjY9BqvLELwqHYrfL4q++IjlXgWOoD//co+Atw=
+	t=1749568888; cv=none; b=YE8YdMGotkSHvU7EKFr6jHYK8zhzaSP0hTFHhC6XGIsMAyRh3xbAtPj6diMunr+/CHrtAH6j4i0zx1zK2NjUVcq9DN0JOWiX2U1DK8CnNelUFG11LRZxEdtBEr0A+dSUrDQPbtyspkcpxVJ2FMlOz0lFE29Rvak3Ei8C2F/I91w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749567016; c=relaxed/simple;
-	bh=j/qZ6nCFDOcbnwIbag40JF9HDzOLw0n9TJz9U1mz3X8=;
-	h=To:Subject:Date:From:Message-ID:MIME-Version:Content-Type; b=EtzLiucVTwGC24AiNdLGWVzSG0nj7FvNr1+mCheurM3Ek2wDed2DlC/feRqox/LlZdvuOSLZHjS2h3jFV4iWbNB0iPhjyM0j6WOHh8lvV9u27xoFSxBBPi8/kiv/gZboZzSI7+5T4jatMPFku7wtGl86WG53Lq3/Pm9H06cNVzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=borehabit.cfd; spf=pass smtp.mailfrom=borehabit.cfd; dkim=pass (1024-bit key) header.d=borehabit.cfd header.i=@borehabit.cfd header.b=JfzKv1z9; arc=none smtp.client-ip=51.81.179.160
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=borehabit.cfd
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=borehabit.cfd
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=borehabit.cfd; s=mail; h=Content-Transfer-Encoding:Content-Type:
-	MIME-Version:Message-ID:Reply-To:From:Date:Subject:To:Sender:Cc:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=CFYjPvEUim5mD5QwWelE+Axpgk7p2gwnF2M5gpb++Rg=; b=JfzKv1z9TFPe36oRG9egV3CUNH
-	K6qNubE8wIWG100IpmGRQVaDCcy5u9uBok2ECuxeoaSHOyc2KnpewukDQPO6Gdk01sdJex1nojo9v
-	l2pHf3kvBgsUyh2R+GELpqEy1d1rGapWWrquWUQ2pUn+RwuCODaDCCsn1aoEhROXqpYU=;
-Received: from admin by borehabit.cfd with local (Exim 4.90_1)
-	(envelope-from <support@borehabit.cfd>)
-	id 1uP0Io-000Qek-3h
-	for linux-renesas-soc@vger.kernel.org; Tue, 10 Jun 2025 21:50:14 +0700
-To: linux-renesas-soc@vger.kernel.org
-Subject: WTS Available laptops and Memory
-Date: Tue, 10 Jun 2025 14:50:14 +0000
-From: Exceptional One PC <support@borehabit.cfd>
-Reply-To: info@exceptionalonepc.com
-Message-ID: <ff7dd88b9d8cd936d86ecb463568e671@borehabit.cfd>
+	s=arc-20240116; t=1749568888; c=relaxed/simple;
+	bh=E1xqj+u3vf1FQ4JfQQLgsK2d1JGFFQy+vq6VMPj9YVo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O5wnh0raRJ3T0TahjkBZzbjHEA9sKllwPU7GdoW3j3QULVYbWGc5mu5LXKZjqf5KBbgsWs+u0AhDhidmctFp0ORQCtNR/bf0kAefnQ2GaiMpk/BWTFXvLm4W5C7m91N6JCLXc1TqxOjaJtTSMOski+3q3/lSJ1u6aD/L8e4e5eI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oksrL1/Y; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18015C4CEED;
+	Tue, 10 Jun 2025 15:21:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749568888;
+	bh=E1xqj+u3vf1FQ4JfQQLgsK2d1JGFFQy+vq6VMPj9YVo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oksrL1/YngNECF96m3avQ+YGC7rZcfdVOSkr1F7L17EpDj7HxIjIU6TuJfabOslPm
+	 2kSVH0OmyaJf6II4wLaQ2Lewmx1ZcqauQ680kLk0dpw0ZjFpVysUcGRaZC5Ku82B6y
+	 ljkYQ3d/3EdV/tI7XmtDh/o6YJrsKtQty2p/ZwPSeHzgelbN+yJGxFA+BFBNIl1Ne1
+	 XSfSAb9xi3CUrtQAg3ld+EzBT7YzXeV82JBy10eeYra56J+WirDw0XNyl5I1GP9hOA
+	 53DT07/IoNQ1drNvCqPqptH3qNe5YmWLoOgF7tf+lYKYSk6ASAMS9p+xT779oNHa/e
+	 j+b1V38mqCkVw==
+Date: Tue, 10 Jun 2025 16:21:22 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH] dt-bindings: display: renesas,rzg2l-du: Add support for
+ RZ/V2N SoC
+Message-ID: <20250610-outgrow-reputably-a2141617d2db@spud>
+References: <20250609231905.511904-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-Hello,
-
-Looking for a buyer to move any of the following Items located in USA.
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="glvRYTcO4HsikMOq"
+Content-Disposition: inline
+In-Reply-To: <20250609231905.511904-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 
-Used MICRON SSD 7300 PRO 3.84TB 
-U.2 HTFDHBE3T8TDF SSD 2.5" NVMe 3480GB
-Quantity 400, price $100 EACH 
+--glvRYTcO4HsikMOq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Jun 10, 2025 at 12:19:05AM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>=20
+> Document support for the DU IP found on the Renesas RZ/V2N (R9A09G056) So=
+C.
+> The DU IP is functionally identical to that on the RZ/V2H(P) SoC, so no
+> driver changes are needed. The existing `renesas,r9a09g057-du` compatible
+> will be used as a fallback for the RZ/V2N SoC.
+>=20
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
- 005052112 _ 7.68TB HDD -$200 PER w/ caddies refurbished 
- Quantity 76, price $100
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
+--glvRYTcO4HsikMOq
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-Brand New CISCO C9300-48UXM-E
-Available 5
-$2000 EACH
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaEhNcgAKCRB4tDGHoIJi
+0ihBAP0caHWmTlCMBGf10BqmonncXuuqquzAPIjevbfMbJqjpgEAq1e/Lwlsz3zH
+nPa5REoaGnuz3tHm/EBSbKhqaJWDkQ4=
+=I3B8
+-----END PGP SIGNATURE-----
 
-
-Brand New C9200L-48T-4X-E
-$1,200 EACH
-QTY4
-
-HP 1040G3 Elite Book Folio Processor :- Intel Core i5
-◻Processor :- Intel Core i5
-◻Generation :- 6th
-◻RAM :- 16GB
-◻Storage :- 256G SSD
-◻Display :- 14 inch" Touch Screen 
-QTY 340 $90 EA
-
-
-
-SK HYNIX 16GB 2RX4 PC4 - 2133P-RAO-10
-HMA42GR7AFR4N-TF TD AB 1526
-QTY560 $20 EA
-
-
-Xeon Gold 6442Y (60M Cache, 2.60 GHz)	
- PK8071305120500	 
- QTY670 700 each 
-
-
-SAMSUNG 64GB 4DRX4 PC4-2666V-LD2-12-MAO
-M386A8K40BM2-CTD60 S
-QTY 320 $42 each
-
-
-
-Brand New CISCO C9300-48UXM-E
-Available 5
-$2500 EACH
-
-
-Core i3-1315U (10M Cache, up to 4.50 GHz)	
- FJ8071505258601
-QTY50  $80 EA
-
-Intel Xeon Gold 5418Y Processors
-QTY28 $780 each
-
-
-Brand New C9200L-48T-4X-E  
-$1000 EACH
-QTY4
-
-
-Brand New Gigabyte NVIDIA GeForce RTX 5090 AORUS
-MASTER OC Graphics Card GPU 32GB GDDR7
-QTY50 $1,300
-
-
- Brand New N9K-C93108TC-FX-24 Nexus
-9300-FX w/ 24p 100M/1/10GT & 6p 40/100G
-Available 4
-$3000 each
-
-
-
-Brand New NVIDIA GeForce RTX 4090 Founders
-Edition 24GB - QTY: 56 - $700 each
-
-
-
-
-Charles Lawson
-Exceptional One PC
-3645 Central Ave, Riverside
-CA 92506, United States
-www.exceptionalonepc.com
-info@exceptionalonepc.com
-Office: (951)-556-3104
-
+--glvRYTcO4HsikMOq--
 
