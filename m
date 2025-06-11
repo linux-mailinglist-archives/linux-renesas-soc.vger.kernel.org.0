@@ -1,143 +1,117 @@
-Return-Path: <linux-renesas-soc+bounces-18092-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18093-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A650FAD50E1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jun 2025 12:05:47 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 125D8AD5224
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jun 2025 12:40:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4FECE3A8991
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jun 2025 10:05:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DF049173756
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jun 2025 10:39:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C63F269CED;
-	Wed, 11 Jun 2025 10:03:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85CB726B2CC;
+	Wed, 11 Jun 2025 10:39:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b="Jxt6xsAg";
-	dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b="Jxt6xsAg"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="LhtajO8m"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.mleia.com (mleia.com [178.79.152.223])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5455626988E;
-	Wed, 11 Jun 2025 10:03:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.79.152.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0182C2D7BF
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Jun 2025 10:39:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749636220; cv=none; b=ZM+bBLFI/kXfanKCnFnv99Cfbm9862Fn8gGk36PU3TinWNorfISRvq/MRq47X7FGuvOd4s6q+gw3e6Bcvf1hDpPiA2Ga66DS47AGaspDsRcftAymyMrqzKdLS2OqyDsczMI6PP9a5sMkeMd9+SJTuriwiYjw2DhdCnBpMOfekdk=
+	t=1749638390; cv=none; b=puubZv7MOAI8mm7eYkTLv0dDbaYHrp3mSRUKH8EABQRZMN5zGavcZyHYQS5Ve5ooI319uof1Bo8dII53FuZMTNYzgmxFHufRFDtYtBBj3B/WVMRL0J+S9AmH76VCHQZMomW+fvyFcN9yHOuynszfxEHcciRePIVNlDptRB7aUPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749636220; c=relaxed/simple;
-	bh=ZELWje44IQXg+aqRqhMjZlzmAPP8bdbQVZYOFJq3M9g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jPwi2aCIyJBP1/jIqYMSsWp8Nr9duv8gpVAemQ20wbc4cbKB/W0p2uqFUkaZL5QygGnPBAZiThvwXbnoBQoeAJSEtcrNJH3AkQCqNr7TC/7I86hGxHxIXbaonHK8R4aimiR3rAZt5kNkhSL1n7iO8/0W/1BQqDoJocRH8dKh3OQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mleia.com; spf=none smtp.mailfrom=mleia.com; dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b=Jxt6xsAg; dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b=Jxt6xsAg; arc=none smtp.client-ip=178.79.152.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mleia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=mleia.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mleia.com; s=mail;
-	t=1749635665; bh=ZELWje44IQXg+aqRqhMjZlzmAPP8bdbQVZYOFJq3M9g=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Jxt6xsAgMAOUb4jl76i3Cw/ob+3g27CDrEJ11UaNWweARmh3pASKr9vGVkS92IFac
-	 YPXA6hqSgGV5dnyifiEPzFxSuWmHwqtnnBorcndP4VXu30erdJBfP8YrJ46WtqkT2C
-	 ZB5SXynEGjYF90uyMsBkLTP7/K9tKTjfvpNQc65M4ZFGcmOJyetoZJbQyfgMTcccnC
-	 ovv/hF2800vFjHZenrXZ9Ib3Cs3634CyeipOu5H15sVoNWHX/j8qicu106Z5ZeHvjj
-	 l5CXC3vkbBXv/RUgPw6tOFDOWz5MZGDnaCREKgxUUUqRvZgLkdcVlwdN1MIjOJGq3p
-	 fGRPXfFbZHprg==
-Received: from mail.mleia.com (localhost [127.0.0.1])
-	by mail.mleia.com (Postfix) with ESMTP id 964313C153A;
-	Wed, 11 Jun 2025 09:54:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mleia.com; s=mail;
-	t=1749635665; bh=ZELWje44IQXg+aqRqhMjZlzmAPP8bdbQVZYOFJq3M9g=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Jxt6xsAgMAOUb4jl76i3Cw/ob+3g27CDrEJ11UaNWweARmh3pASKr9vGVkS92IFac
-	 YPXA6hqSgGV5dnyifiEPzFxSuWmHwqtnnBorcndP4VXu30erdJBfP8YrJ46WtqkT2C
-	 ZB5SXynEGjYF90uyMsBkLTP7/K9tKTjfvpNQc65M4ZFGcmOJyetoZJbQyfgMTcccnC
-	 ovv/hF2800vFjHZenrXZ9Ib3Cs3634CyeipOu5H15sVoNWHX/j8qicu106Z5ZeHvjj
-	 l5CXC3vkbBXv/RUgPw6tOFDOWz5MZGDnaCREKgxUUUqRvZgLkdcVlwdN1MIjOJGq3p
-	 fGRPXfFbZHprg==
-Message-ID: <2ae6aa29-ea42-4fdf-a0ae-8cd088c88786@mleia.com>
-Date: Wed, 11 Jun 2025 12:54:21 +0300
+	s=arc-20240116; t=1749638390; c=relaxed/simple;
+	bh=uGMUMHxFQCUGsonCVqrahKBjFMn8KED3ThrrX01SBSs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FR3D3jfukVSJpmpT7xWfz2EkEMkp0Sih7bcXZX6ovZcopYjQIYd2njciP+hU5CpOWBNmHmvxRev+El2y58MGza5aSqI9Zl9u92UE/cK0YwERgxOhMEiY2ppDKGWAd+6jeKP11eC6DWp84Ne9fPWa84gxksuIXh/e4yyILyZU0iM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=LhtajO8m; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=uGMU
+	MHxFQCUGsonCVqrahKBjFMn8KED3ThrrX01SBSs=; b=LhtajO8mJC5W7DZ5RSm+
+	n2lXHw2rOP8PjpeWZBE4YEd1BLYfC8iYCZMrTyBt8GHQ/ZK5k7jIcOnMfAqYTJnr
+	OmapZ7LEb3WHgqdvUCdKlbqRhYfLlYh+KHrmZbL3NrU2qOLu2jFVP0q5Dnd2uCSg
+	PPRT99V9HpvePYVaYUxiK+90La7rnY2qyhSF/iRwpzr1tpW19/Yl1NK5cY/ypkEJ
+	PXvNFP39SdGjLAsSSdmW8LG4uu8tAXSW5PHL3ef1cJbYSV2SuvxArKr3dFawHx76
+	iyR4D0+ZSQpK6VKrhIlSE9Zxq9ua7/bsVx8u2/VO7YKNnWR8WSS+o//ZWCVWcdNJ
+	Yg==
+Received: (qmail 3206855 invoked from network); 11 Jun 2025 12:39:45 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Jun 2025 12:39:45 +0200
+X-UD-Smtp-Session: l3s3148p1@1/9obkk3bpwujnuC
+Date: Wed, 11 Jun 2025 12:39:44 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH 1/5] pinctrl: renesas: use new GPIO line value setter
+ callbacks
+Message-ID: <aElc8A6JI5639Qv2@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+References: <20250611-gpiochip-set-rv-pinctrl-renesas-v1-0-ad169a794ef0@linaro.org>
+ <20250611-gpiochip-set-rv-pinctrl-renesas-v1-1-ad169a794ef0@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 16/17] pinctrl: Constify static 'pinctrl_desc'
-Content-Language: ru-RU
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- Andrew Jeffery <andrew@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>,
- Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>,
- Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>,
- Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>,
- =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
- =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Lorenzo Bianconi <lorenzo@kernel.org>, Sean Wang <sean.wang@kernel.org>,
- Jesper Nilsson <jesper.nilsson@axis.com>,
- Lars Persson <lars.persson@axis.com>, Damien Le Moal <dlemoal@kernel.org>,
- Michal Simek <michal.simek@amd.com>, Emil Renner Berthing <kernel@esmil.dk>,
- Jianlong Huang <jianlong.huang@starfivetech.com>,
- Hal Feng <hal.feng@starfivetech.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Manivannan Sadhasivam <mani@kernel.org>
-Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@axis.com,
- linux-riscv@lists.infradead.org, linux-rtc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com
-References: <20250611-pinctrl-const-desc-v2-0-b11c1d650384@linaro.org>
- <20250611-pinctrl-const-desc-v2-16-b11c1d650384@linaro.org>
-From: Vladimir Zapolskiy <vz@mleia.com>
-In-Reply-To: <20250611-pinctrl-const-desc-v2-16-b11c1d650384@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-49551924 
-X-CRM114-CacheID: sfid-20250611_095425_660571_DE75DF41 
-X-CRM114-Status: UNSURE (   7.40  )
-X-CRM114-Notice: Please train this message. 
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="NfXtYj+XXyXC+0Dn"
+Content-Disposition: inline
+In-Reply-To: <20250611-gpiochip-set-rv-pinctrl-renesas-v1-1-ad169a794ef0@linaro.org>
 
-On 6/11/25 09:13, Krzysztof Kozlowski wrote:
-> The local static 'struct pinctrl_desc' is not modified, so can be made
-> const for code safety.
-> 
-> Acked-by: Lorenzo Bianconi <lorenzo@kernel.org>
-> Acked-by: Jesper Nilsson <jesper.nilsson@axis.com>
-> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->   drivers/pinctrl/berlin/berlin.c                    | 2 +-
->   drivers/pinctrl/cirrus/pinctrl-cs42l43.c           | 2 +-
->   drivers/pinctrl/mediatek/pinctrl-airoha.c          | 2 +-
->   drivers/pinctrl/pinctrl-artpec6.c                  | 2 +-
->   drivers/pinctrl/pinctrl-bm1880.c                   | 2 +-
->   drivers/pinctrl/pinctrl-k210.c                     | 2 +-
->   drivers/pinctrl/pinctrl-lpc18xx.c                  | 2 +-
 
-Acked-by: Vladimir Zapolskiy <vz@mleia.com>
+--NfXtYj+XXyXC+0Dn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->   drivers/pinctrl/pinctrl-mlxbf3.c                   | 2 +-
->   drivers/pinctrl/pinctrl-tb10x.c                    | 2 +-
->   drivers/pinctrl/pinctrl-zynq.c                     | 2 +-
->   drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c | 2 +-
->   11 files changed, 11 insertions(+), 11 deletions(-)
-> 
+On Wed, Jun 11, 2025 at 09:27:52AM +0200, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+>=20
+> struct gpio_chip now has callbacks for setting line values that return
+> an integer, allowing to indicate failures. Convert the driver to using
+> them.
+>=20
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
---
-Best wishes,
-Vladimir
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+
+--NfXtYj+XXyXC+0Dn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmhJXOwACgkQFA3kzBSg
+KbYNww//XBad062sJcpw+QFkihlJ6boWzPKkoYT1qBJpn0StpPCp1BflSvkwhk/O
+oJednrEeXd8YfKvkF5LT7wcTdhKu8MRx1eHLEFRcTkU7k4Y6Qh8Et8xJqbgKanRI
+M2STDzNRdfo3ykhTk7fmi2ss3d0gNguTitQ+ib6tbgjGbukRJZNYT0/CGrLvyhKz
+YzTohhau1dMjjKPmrEDmDoghPsmtNV8U9otoRCeBw5zSWyJzOmBwcpSW/fysA0zI
+H077aVOHWzSmyIFnarjzq1zR1S5J1wozpJrty1UiSGskJJj5GjU+VZGGXanI6Weh
+lyRW5MIkHgabE8cyNwiu/YA3wG3NNIvb4UIVb7DFHWMr4k21ZXDRltfshaEj9lMr
+vuti5MX8D77+kERM3/6w/s5PJyR0CfQCOrPJa3XWI2c7Fr7FHYJJAayIOgKrA2Pg
+OW7uA9Vq3JC/qVsriBzimyCd3eotYi+Tuo0FiU1VXLPVFn+sIQwYdiBHO6hmbTrp
+KpNN7nMsK2zVsmmsOji3YIczvihq+aQjpZHQo3U4pufAt82A1+49rEPuf0+z43Zu
+N6zFaTAqRKO9OG/aRwjZLWM6AKyOfogjP1PL73LtRe2JlYrQqQJu9JITNjqb/JNd
+Q76LXz5VylAuD1716iUeqOL6w6DzA3GVaBrjoSgLryIN2kRJ5pI=
+=kJLV
+-----END PGP SIGNATURE-----
+
+--NfXtYj+XXyXC+0Dn--
 
