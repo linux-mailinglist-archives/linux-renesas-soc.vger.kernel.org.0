@@ -1,302 +1,101 @@
-Return-Path: <linux-renesas-soc+bounces-18129-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18130-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3830EAD5C1B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jun 2025 18:27:30 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE8E6AD5C58
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jun 2025 18:36:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4563B1E1CDB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jun 2025 16:27:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7DDA57AE1FE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jun 2025 16:34:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C26BC1F0E39;
-	Wed, 11 Jun 2025 16:27:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D16621D3DD;
+	Wed, 11 Jun 2025 16:35:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tBrujnsz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IPB7cStP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9123E1EE7C6;
-	Wed, 11 Jun 2025 16:27:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A63121CC71;
+	Wed, 11 Jun 2025 16:34:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749659241; cv=none; b=g1N1GdGedyPyeisaXpc0PyXrno9VNDz3oS1iT98q7CU7XAUp6HF7eSoN+KKW0vGqwnh4UEWPgjRqla0D34FEEUM8IfpyuQrn+vhSFT7P7lIxG2buHSvmz7LldRTRW/zGR5+TeivnDWrokdR1lgy5GqjmtiQfYd5tLloh+ddRxbI=
+	t=1749659700; cv=none; b=sNLkwXnz5PVR7hEZkGzAtnwiBo3HYFLMOgD0icPN6a4x8TCIBlmPqveBiFfA+JGLAG/+rYvtxaGSwjQKf6MvFRMTWCK2W+gBAcaTBJARDUYhM3cH3oLPYc0t65nKsWLR70UQkoqTjgeeqkWnWf6KMaXb37jBbGPAL6JFcUy9M2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749659241; c=relaxed/simple;
-	bh=NLdVGdz+GIw0Qzy5gD5lhi4bHcNad0lEHSZelIp2i1Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=n18PvzAA9uFJn3k4wMa5pJJUYao4WCSN7TiXRdGseoYJpJVuBBlMUGQ8v1h/Xkilz3o1MUNVkr/q2K9azOH6LjAv6ZDyXM6nUNJLqs6xZXgabmwsmNElCOWfwwRyAx4jPhUKicMp/KDg0K2wv/g9diPl8kFbucXJt7j9e+M9ntw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tBrujnsz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2763CC4CEEA;
-	Wed, 11 Jun 2025 16:27:14 +0000 (UTC)
+	s=arc-20240116; t=1749659700; c=relaxed/simple;
+	bh=OP4h1eDhXUPEY+AGbAU6rFlICAMX4bumPauxNj7gIkg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uM2J7gZbixdqj93lmYrZ7+5rntx3g40JApx4Yft4P44yInmby14KRjiuUSiyxrtQwmUUxxsk4+hi5OCPSwWs3pzv4nAO+r6rb9BVLRqklaad/dQzo5th8B/BJygsifZewSHfyNZH9t96Aun1QTk/FIkFQJ60O+t+PFB8ysCfJ1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IPB7cStP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 775E6C4CEEA;
+	Wed, 11 Jun 2025 16:34:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749659241;
-	bh=NLdVGdz+GIw0Qzy5gD5lhi4bHcNad0lEHSZelIp2i1Y=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=tBrujnsz/M4hjNRz5Dhfk/KBw2kR1iOqeeC6BYxrj8iww9YmtvG8NXKIjNdRDdV30
-	 vLlKEDgrDZWNqGQwTtVBmBm4crKPWlhU/NcvLhCxKnzqosXEeXX7apTCqhclOT2dpC
-	 5II/Zt8xWTIOHa2wIGH7bzlgFBeoUHiCEyHSFEyttqU8UbQaZMcESea5hk3P2g8d2+
-	 53SHIFEazOkP3dog67dmD6omx6v9ncZFe9DxNsEXNWrfwoqDrrG/LjJEG+X+wbf32j
-	 tL9YD3h8vsr2RZ3jX2uzsVZtgmSA8g/7wpW1bYlByifPvvemCdxUTBsufTTLuHRI4t
-	 UrO3h+Uz4TORQ==
-Date: Wed, 11 Jun 2025 17:27:10 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Dmitry Torokhov
- <dmitry.torokhov@gmail.com>, gregkh@linuxfoundation.org, dakr@kernel.org,
- len.brown@intel.com, pavel@kernel.org, ulf.hansson@linaro.org,
- daniel.lezcano@linaro.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, bhelgaas@google.com, geert@linux-m68k.org,
- linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- fabrizio.castro.jz@renesas.com, Claudiu Beznea
- <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH v3 1/2] PM: domains: Add devres variant for
- dev_pm_domain_attach()
-Message-ID: <20250611172710.144d8d7d@jic23-huawei>
-In-Reply-To: <84a0e4bf-cb65-4b6e-93d7-48ac3ba06b0f@tuxon.dev>
-References: <20250606111749.3142348-1-claudiu.beznea.uj@bp.renesas.com>
-	<20250606111749.3142348-2-claudiu.beznea.uj@bp.renesas.com>
-	<CAJZ5v0i_Ey+OVpSZHXru=tubMaZi=y-uOh_0M6zmWZ2DqqA7Vg@mail.gmail.com>
-	<zhjytvj35lknj7v3jhva3n3nbv6qctvqgykwyi5huj6omet7lz@wchd7f4p4dpv>
-	<CAJZ5v0hsT-Q2hz=qoBo409oungaCmexJwwGheN7KRLFqz=6_Dw@mail.gmail.com>
-	<20250607140600.76e87ea5@jic23-huawei>
-	<CAJZ5v0jqZ6gYKb85dpR-X5RwFeUBcbbcJ_b-AOe+JypBXod-MA@mail.gmail.com>
-	<84a0e4bf-cb65-4b6e-93d7-48ac3ba06b0f@tuxon.dev>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	s=k20201202; t=1749659699;
+	bh=OP4h1eDhXUPEY+AGbAU6rFlICAMX4bumPauxNj7gIkg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IPB7cStPWtZPmIFZTSApq6xdkX000GBEFqzxhkPFEKPotXJjkl7FI0nKyN0S1dVc/
+	 6cnqk0M6dEdsnUl/3HNJnkKdIQ8cfi5PIDj3dQyya2LBrg2uTuYKdQzrcriPIF+j1l
+	 VWjUuy84vKXsoQ+0KT0jFZ2ccLfcy5EWwkml2nJLkewdLPhhfi6IWhuEjQzRbihZub
+	 OapnHujslY3XlEuNl+LUXOVUWj7kNW9P9aIUPWBxnvinj0DqQbLiKfOcJcM2L139Je
+	 TK5NWGZVYka+XB2Vg+mG7XCdO4CuF76O8XFs5g2VVUjKJKqILRv2RN2GewqklstM8c
+	 XO9M1L8IYAnQQ==
+Date: Wed, 11 Jun 2025 17:34:54 +0100
+From: Conor Dooley <conor@kernel.org>
+To: John Madieu <john.madieu.xa@bp.renesas.com>
+Cc: andrew+netdev@lunn.ch, conor+dt@kernel.org, davem@davemloft.net,
+	edumazet@google.com, geert+renesas@glider.be, krzk+dt@kernel.org,
+	kuba@kernel.org, pabeni@redhat.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com, robh@kernel.org,
+	biju.das.jz@bp.renesas.com, devicetree@vger.kernel.org,
+	john.madieu@gmail.com, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, magnus.damm@gmail.com,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH net-next] dt-bindings: net: renesas-gbeth: Add support
+ for RZ/G3E (R9A09G047) SoC
+Message-ID: <20250611-lushly-watch-eed37703b92f@spud>
+References: <20250611061204.15393-1-john.madieu.xa@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="kw187fJ1qkVK7A2k"
+Content-Disposition: inline
+In-Reply-To: <20250611061204.15393-1-john.madieu.xa@bp.renesas.com>
+
+
+--kw187fJ1qkVK7A2k
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 11 Jun 2025 12:11:08 +0300
-Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
+On Wed, Jun 11, 2025 at 08:12:04AM +0200, John Madieu wrote:
+> Document support for the GBETH IP found on the Renesas RZ/G3E (R9A09G047)=
+ SoC.
+> The GBETH block on RZ/G3E is equivalent in functionality to the GBETH fou=
+nd on
+> RZ/V2H(P) (R9A09G057).
+>=20
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviwed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 
-> Hi, Rafael,
->=20
-> On 09.06.2025 22:59, Rafael J. Wysocki wrote:
-> > On Sat, Jun 7, 2025 at 3:06=E2=80=AFPM Jonathan Cameron <jic23@kernel.o=
-rg> wrote: =20
-> >>
-> >> On Fri, 6 Jun 2025 22:01:52 +0200
-> >> "Rafael J. Wysocki" <rafael@kernel.org> wrote:
-> >>
-> >> Hi Rafael,
-> >> =20
-> >>> On Fri, Jun 6, 2025 at 8:55=E2=80=AFPM Dmitry Torokhov
-> >>> <dmitry.torokhov@gmail.com> wrote: =20
-> >>>>
-> >>>> On Fri, Jun 06, 2025 at 06:00:34PM +0200, Rafael J. Wysocki wrote: =
-=20
-> >>>>> On Fri, Jun 6, 2025 at 1:18=E2=80=AFPM Claudiu <claudiu.beznea@tuxo=
-n.dev> wrote: =20
-> >>>>>>
-> >>>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>>>>>
-> >>>>>> The dev_pm_domain_attach() function is typically used in bus code =
-alongside
-> >>>>>> dev_pm_domain_detach(), often following patterns like:
-> >>>>>>
-> >>>>>> static int bus_probe(struct device *_dev)
-> >>>>>> {
-> >>>>>>     struct bus_driver *drv =3D to_bus_driver(dev->driver);
-> >>>>>>     struct bus_device *dev =3D to_bus_device(_dev);
-> >>>>>>     int ret;
-> >>>>>>
-> >>>>>>     // ...
-> >>>>>>
-> >>>>>>     ret =3D dev_pm_domain_attach(_dev, true);
-> >>>>>>     if (ret)
-> >>>>>>         return ret;
-> >>>>>>
-> >>>>>>     if (drv->probe)
-> >>>>>>         ret =3D drv->probe(dev);
-> >>>>>>
-> >>>>>>     // ...
-> >>>>>> }
-> >>>>>>
-> >>>>>> static void bus_remove(struct device *_dev)
-> >>>>>> {
-> >>>>>>     struct bus_driver *drv =3D to_bus_driver(dev->driver);
-> >>>>>>     struct bus_device *dev =3D to_bus_device(_dev);
-> >>>>>>
-> >>>>>>     if (drv->remove)
-> >>>>>>         drv->remove(dev);
-> >>>>>>     dev_pm_domain_detach(_dev);
-> >>>>>> }
-> >>>>>>
-> >>>>>> When the driver's probe function uses devres-managed resources tha=
-t depend
-> >>>>>> on the power domain state, those resources are released later duri=
-ng
-> >>>>>> device_unbind_cleanup().
-> >>>>>>
-> >>>>>> Releasing devres-managed resources that depend on the power domain=
- state
-> >>>>>> after detaching the device from its PM domain can cause failures.
-> >>>>>>
-> >>>>>> For example, if the driver uses devm_pm_runtime_enable() in its pr=
-obe
-> >>>>>> function, and the device's clocks are managed by the PM domain, th=
-en
-> >>>>>> during removal the runtime PM is disabled in device_unbind_cleanup=
-() after
-> >>>>>> the clocks have been removed from the PM domain. It may happen tha=
-t the
-> >>>>>> devm_pm_runtime_enable() action causes the device to be runtime-re=
-sumed. =20
-> >>>>>
-> >>>>> Don't use devm_pm_runtime_enable() then. =20
-> >>>>
-> >>>> What about other devm_ APIs? Are you suggesting that platform drivers
-> >>>> should not be using devm_clk*(), devm_regulator_*(),
-> >>>> devm_request_*_irq() and devm_add_action_or_reset()? Because again,
-> >>>> dev_pm_domain_detach() that is called by platform bus_remove() may s=
-hut
-> >>>> off the device too early, before cleanup code has a chance to execute
-> >>>> proper cleanup.
-> >>>>
-> >>>> The issue is not limited to runtime PM.
-> >>>> =20
-> >>>>> =20
-> >>>>>> If the driver specific runtime PM APIs access registers directly, =
-this
-> >>>>>> will lead to accessing device registers without clocks being enabl=
-ed.
-> >>>>>> Similar issues may occur with other devres actions that access dev=
-ice
-> >>>>>> registers.
-> >>>>>>
-> >>>>>> Add devm_pm_domain_attach(). When replacing the dev_pm_domain_atta=
-ch() and
-> >>>>>> dev_pm_domain_detach() in bus probe and bus remove, it ensures tha=
-t the
-> >>>>>> device is detached from its PM domain in device_unbind_cleanup(), =
-only
-> >>>>>> after all driver's devres-managed resources have been release.
-> >>>>>>
-> >>>>>> For flexibility, the implemented devm_pm_domain_attach() has 2 sta=
-te
-> >>>>>> arguments, one for the domain state on attach, one for the domain =
-state on
-> >>>>>> detach. =20
-> >>>>>
-> >>>>> dev_pm_domain_attach() is not part driver API and I'm not convinced=
- at =20
-> >>>>
-> >>>> Is the concern that devm_pm_domain_attach() will be [ab]used by driv=
-ers? =20
-> >>>
-> >>> Yes, among other things. =20
-> >>
-> >> Maybe naming could make abuse at least obvious to spot? e.g.
-> >> pm_domain_attach_with_devm_release() =20
-> >=20
-> > If I'm not mistaken, it is not even necessary to use devres for this.
-> >=20
-> > You might as well add a dev_pm_domain_detach() call to
-> > device_unbind_cleanup() after devres_release_all().  There is a slight
-> > complication related to the second argument of it, but I suppose that
-> > this can be determined at the attach time and stored in a new device
-> > PM flag, or similar. =20
->=20
-> I can try this as well.
->=20
-> Another option I see at the moment would be keep the code added in
-> drivers/base/power/common.c in drivers/base/platform.c, something like:
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-Whilst this avoids the exposure of a devm interface by just
-pushing it down to each bus, we'll for ever be rejecting cleanups
-that unify it.  So I'd rather explore Rafael's suggestion to just
-handle this one in the driver core.
+--kw187fJ1qkVK7A2k
+Content-Type: application/pgp-signature; name="signature.asc"
 
-That only deals with the pm domain issue and not the other ones
-Dmitry refers to where devres being handled after bus->remove()
-bites us, but maybe that is the right way forwards for now at least.
+-----BEGIN PGP SIGNATURE-----
 
-Jonathan
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaEmwLgAKCRB4tDGHoIJi
+0hJxAQCPqhlyriyyP1aSi+WgGIMgpg+7uNLM+44pSHu+dtE8ggEApyhN7DXybSKl
+/HL+MqZroKdVMoHcwf8K2A2BerYe9wI=
+=0vPR
+-----END PGP SIGNATURE-----
 
->=20
-> diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-> index 075ec1d1b73a..391d725cd4c7 100644
-> --- a/drivers/base/platform.c
-> +++ b/drivers/base/platform.c
-> @@ -1376,10 +1376,18 @@ static int platform_uevent(const struct device
-> *dev, struct kobj_uevent_env *env
->         return 0;
->  }
->=20
-> +static void platform_dev_pm_domain_detach(struct device *dev, void *res)
-> +{
-> +       bool *power_off =3D res;
-> +
-> +       dev_pm_domain_detach(dev, *power_off);
-> +}
-> +
->  static int platform_probe(struct device *_dev)
->  {
->         struct platform_driver *drv =3D to_platform_driver(_dev->driver);
->         struct platform_device *dev =3D to_platform_device(_dev);
-> +       bool *power_off;
->         int ret;
->=20
->         /*
-> @@ -1396,15 +1404,22 @@ static int platform_probe(struct device *_dev)
->         if (ret < 0)
->                 return ret;
->=20
-> +       power_off =3D devres_alloc(platform_dev_pm_domain_detach,
-> sizeof(*power_off),
-> +                                GFP_KERNEL);
-> +       if (!power_off)
-> +               return -ENOMEM;
-> +
->         ret =3D dev_pm_domain_attach(_dev, true);
-> -       if (ret)
-> +       if (ret) {
-> +               devres_free(power_off);
->                 goto out;
-> +       }
->=20
-> -       if (drv->probe) {
-> +       *power_off =3D true;
-> +       devres_add(_dev, power_off);
-> +
-> +       if (drv->probe)
->                 ret =3D drv->probe(dev);
-> -               if (ret)
-> -                       dev_pm_domain_detach(_dev, true);
-> -       }
->=20
->  out:
->         if (drv->prevent_deferred_probe && ret =3D=3D -EPROBE_DEFER) {
-> @@ -1422,7 +1437,6 @@ static void platform_remove(struct device *_dev)
->=20
->         if (drv->remove)
->                 drv->remove(dev);
-> -       dev_pm_domain_detach(_dev, true);
->  }
->=20
-> but this would involve duplicating code, as, sooner or later, this would
-> have to be done for other busses as well.
->=20
-> Could you please let me know what option would you prefer so that I can go
-> forward with it?
->=20
-> Thank you for your review,
-> Claudiu
->=20
-> >=20
-> > Note that dev->pm_domain is expected to be cleared by ->detach(), so
-> > this should not cause the domain to be detached twice in a row from
-> > the same device, but that needs to be double-checked.
-> >=20
-> > Thanks! =20
->=20
-
+--kw187fJ1qkVK7A2k--
 
