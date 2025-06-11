@@ -1,338 +1,295 @@
-Return-Path: <linux-renesas-soc+bounces-18080-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18081-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E870DAD4D78
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jun 2025 09:54:21 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74FBAAD4F74
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jun 2025 11:11:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D34A1189ECD9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jun 2025 07:54:34 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E52467A2879
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jun 2025 09:10:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 377DB29D19;
-	Wed, 11 Jun 2025 07:54:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E128E2571BD;
+	Wed, 11 Jun 2025 09:11:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V7okQjAs"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="kvJCsUXa"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F19F2D541D
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Jun 2025 07:54:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C93E253953
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Jun 2025 09:11:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749628457; cv=none; b=JYGMdTtl0XfSSYePn9i5Tea21C96BCC1TVRvf3IShj0fUAKnhJ0SKFrPB2cH82wFL9bkQIKmLZKoJK2H0JorgPLeqUZYt0BbrMY346Znz9qERf9zf/hPu73OIagksXeUPd1AUN6eulA1xUuwRtpUzqxKSBku9EjaM0PIJYdgUs4=
+	t=1749633089; cv=none; b=loftyj2Q6a8Se0L6gyGetkViIkpZLk3IksZOhWyGckaZgOFxNYyfL7MwLzTMPBOpFc2JOdn4a4U3HwXKCJPLsxY5lu3+ebt03gWDRG/lhLz/Fc2p7Z3oKbaOEzqwaARlIMXJ2rxbdGGWaIDOU4vGXAYwZeC1ZT5aYWbjEBzwwRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749628457; c=relaxed/simple;
-	bh=iEupZyE9wlGmvJHxZpa2OPELENnrKm3jbq4n7Kzfh/Y=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=BvJ+FvQe0xv/+Sz4KnHlEPG7Ya2A0HdR68TLDb9aBP9Idon1H26AmebtaJiK0hF0thZNS1AQanNkGaBpzoULfum7Bp08AcmlXWSP+31C8V0Y51szmRH5piAv6VQU50Kil7Yt2RaiaRj7y9WDDeITVPYrHkQ+6C569B7Q/efHHfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V7okQjAs; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749628455; x=1781164455;
-  h=date:from:to:cc:subject:message-id;
-  bh=iEupZyE9wlGmvJHxZpa2OPELENnrKm3jbq4n7Kzfh/Y=;
-  b=V7okQjAsEhQdt4ieCB5slc3LFCTQVPEZISBnhGDeX9+CiJa2aGM9LNMt
-   ytHlyHQ9HvSmi2aBLAl1hoIgcBOdEHXWXV9bWI43SXX7NqzaOPU0wjSEO
-   BbbIP8VlnL3T4tWDtRz+12aM+RhhPTrbqLd27tUlOj1EGGPsQuNWxKyQg
-   kCF1D0Ra7BGxdC8wnnFIJtBcLYPw4E0LRoUIUctiiRlQhaNRH2ux9fvF+
-   LdRIy3oQYL7TBtMhDin/z8A/1yZCGFxuENlCd0/YNIGAimUw1lXi02z/J
-   psYyJM18a3vRo10b+YgVAFa1T3CmBiQJGvpqFEMefMYhJm3zt0Z4OSUu8
-   w==;
-X-CSE-ConnectionGUID: VLBWGrfmTgeQHQbBahaiQg==
-X-CSE-MsgGUID: e7EQ3YCyQdOp2tmg+i/23g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11460"; a="51622314"
-X-IronPort-AV: E=Sophos;i="6.16,227,1744095600"; 
-   d="scan'208";a="51622314"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 00:54:15 -0700
-X-CSE-ConnectionGUID: rU7jXuKjTQmcNcJaL3ONWA==
-X-CSE-MsgGUID: bPpA8aAnRj2RPl0Vc45J3w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,227,1744095600"; 
-   d="scan'208";a="146986138"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 11 Jun 2025 00:54:14 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uPGHj-000A9M-20;
-	Wed, 11 Jun 2025 07:54:11 +0000
-Date: Wed, 11 Jun 2025 15:53:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-dt-bindings-for-v6.17] BUILD
- SUCCESS ac02e070627af24a7674334450bfd8e75488c6d2
-Message-ID: <202506111544.iUDjdJ7m-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1749633089; c=relaxed/simple;
+	bh=svnshkck4Z/6Otk3WH/zhHTAY/iPBFU71gzx4y6fQ7o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BG9c2mMGWCoFAPgSjdQv108PLefFeOTVpUveRhOYPSl3TlxAVsywjuozNjdyYIKIWTPoFN+E8sGEbTi/SkcRHVSwqIJSQ+QgjxJrQCCGVP0pkq1clWH17Zjwjq9P9J47D2zXOsZx4OK78ZXbOEKXBbMMBcxAlb+AyRftQvNzRYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=kvJCsUXa; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ade5ca8bc69so447891366b.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Jun 2025 02:11:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1749633085; x=1750237885; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=I9so2D1SFcGeC3ZBssCRYBd2vbdhM7v92BxxUWR2mkU=;
+        b=kvJCsUXaucvm3CkYxyGTQuYnJlVGW/P2jNgDNN77hsbMlq5r5pNusHHB8IFzCLcXui
+         GrMDz4apQn8hLWohB8cGhhg2e/HaUubJ83zjpZnP0kXlzJ1sAND49EO89RSndUJz2gCy
+         29Qh1Hb4yau4R5U/oKoDVLJrg2P6vrvXwdne+HAkVu8PCT25SxNd20jFrurYeq2oAOpX
+         xuaNdgEaaStWaL3zUxLRjGSuJxDuOcwKBsRMkNLQOiAUGfsf2wZD93sQsBYwMTHhBHeL
+         TFpny7YKZtJ3j0N9i8urFCsLbLZsujvQEF+DREzLiP+XLctZqxPJ1k5bbWBgXchtb+rH
+         t9uQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749633085; x=1750237885;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=I9so2D1SFcGeC3ZBssCRYBd2vbdhM7v92BxxUWR2mkU=;
+        b=UtQZOsaY7vqibUOEhgFPx4RCpp/Ld4su9aKLzMcBsC/YQKtsIBRRwrlYhoWfRu8fIU
+         LfHWNNy1tXmEJnjNCcP1PDAHnVPYcrkPd3c9+Szgz0c7j2dwEhzb9gfNtaQltzvJ2h35
+         cQAtM3THeljJBQnlQyv5iSP73ZRrRUT4H+ot0sJZANsPtFEbjGX+9415EV1YUdrmdI0k
+         OWz4GQQRxSdveZ6kN8ebocJ6IqDH0KOjSbm8aiezNMqdFuHYREIPvshzBy2VSu0CmVVi
+         5u6wVINfqCCKEQLFVuejBcrbaKkGlyhMpnQoFbTrgPPjWt/3L7N/G5VoBs3Ctgi4G10v
+         OA2w==
+X-Forwarded-Encrypted: i=1; AJvYcCUS9oXiuGe0JPwF6akAJnNSwjkK3ie2M66sruqhzAAMDHVFlZeXFbA3+HgU4FKAdUg9HeF/kljHjHPdw48ZrYUaeQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwT1IflmqqcbIKKFqLicOafZth+72LxfTtaWuRfZ3AEs3y/ea6k
+	8I13bOc+anhmeevcGcvsm1E0r8TeDHbTOzTSFLej2rYArX2cKpUcr7w/QuBg3vVISDI=
+X-Gm-Gg: ASbGncs7WuWHDeQr5zdZN9UlEIsF2S2wdmZG81OmSnHQ1m8Rnwt4/cUwahhcZwvYzlq
+	wyU+62ny5TdTgWii+xNEMXUzpaOXPhV/6xzU1DQtIewXp6hkz/z4HragSFYRURxJzrjifiBjail
+	68+trDDQ5c9jW4xrslOptWY9pGOuAbxiwilRBbh2gHwgUxoy9/9fsKLtNGCe+u+O5PxLUa0+clZ
+	uFAt5Su4tuarGTYCSxT+6Nuqn5irY/g2957EOSwdtbdLnDH8EleK5iPN5huUj5kl1+sJbI5my1m
+	utktCoMqf/zMEvVjp42Iw+ymKO97ykZH/K9UDa3gP+5Iu0eUREmYiQC/ZU/ZeK4ZfGNzSJtTkjG
+	ig9zH9A==
+X-Google-Smtp-Source: AGHT+IEvOSlxHoXGncKzxzRqRXyipVGyqcvO/ntMV8/CABeJ/b3ILPHrv+DfGj4vZCTUe7oABVL/0w==
+X-Received: by 2002:a17:907:97d1:b0:adb:413e:2a2f with SMTP id a640c23a62f3a-ade893db39fmr225242366b.9.1749633070215;
+        Wed, 11 Jun 2025 02:11:10 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.126])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-607ef848c27sm3966519a12.38.2025.06.11.02.11.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Jun 2025 02:11:09 -0700 (PDT)
+Message-ID: <84a0e4bf-cb65-4b6e-93d7-48ac3ba06b0f@tuxon.dev>
+Date: Wed, 11 Jun 2025 12:11:08 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] PM: domains: Add devres variant for
+ dev_pm_domain_attach()
+To: "Rafael J. Wysocki" <rafael@kernel.org>,
+ Jonathan Cameron <jic23@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, gregkh@linuxfoundation.org,
+ dakr@kernel.org, len.brown@intel.com, pavel@kernel.org,
+ ulf.hansson@linaro.org, daniel.lezcano@linaro.org,
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, bhelgaas@google.com,
+ geert@linux-m68k.org, linux-iio@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, fabrizio.castro.jz@renesas.com,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20250606111749.3142348-1-claudiu.beznea.uj@bp.renesas.com>
+ <20250606111749.3142348-2-claudiu.beznea.uj@bp.renesas.com>
+ <CAJZ5v0i_Ey+OVpSZHXru=tubMaZi=y-uOh_0M6zmWZ2DqqA7Vg@mail.gmail.com>
+ <zhjytvj35lknj7v3jhva3n3nbv6qctvqgykwyi5huj6omet7lz@wchd7f4p4dpv>
+ <CAJZ5v0hsT-Q2hz=qoBo409oungaCmexJwwGheN7KRLFqz=6_Dw@mail.gmail.com>
+ <20250607140600.76e87ea5@jic23-huawei>
+ <CAJZ5v0jqZ6gYKb85dpR-X5RwFeUBcbbcJ_b-AOe+JypBXod-MA@mail.gmail.com>
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Content-Language: en-US
+In-Reply-To: <CAJZ5v0jqZ6gYKb85dpR-X5RwFeUBcbbcJ_b-AOe+JypBXod-MA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dt-bindings-for-v6.17
-branch HEAD: ac02e070627af24a7674334450bfd8e75488c6d2  dt-bindings: soc: renesas: Document RZ/V2H EVK board part number
+Hi, Rafael,
 
-elapsed time: 1272m
+On 09.06.2025 22:59, Rafael J. Wysocki wrote:
+> On Sat, Jun 7, 2025 at 3:06 PM Jonathan Cameron <jic23@kernel.org> wrote:
+>>
+>> On Fri, 6 Jun 2025 22:01:52 +0200
+>> "Rafael J. Wysocki" <rafael@kernel.org> wrote:
+>>
+>> Hi Rafael,
+>>
+>>> On Fri, Jun 6, 2025 at 8:55 PM Dmitry Torokhov
+>>> <dmitry.torokhov@gmail.com> wrote:
+>>>>
+>>>> On Fri, Jun 06, 2025 at 06:00:34PM +0200, Rafael J. Wysocki wrote:
+>>>>> On Fri, Jun 6, 2025 at 1:18 PM Claudiu <claudiu.beznea@tuxon.dev> wrote:
+>>>>>>
+>>>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>>>>
+>>>>>> The dev_pm_domain_attach() function is typically used in bus code alongside
+>>>>>> dev_pm_domain_detach(), often following patterns like:
+>>>>>>
+>>>>>> static int bus_probe(struct device *_dev)
+>>>>>> {
+>>>>>>     struct bus_driver *drv = to_bus_driver(dev->driver);
+>>>>>>     struct bus_device *dev = to_bus_device(_dev);
+>>>>>>     int ret;
+>>>>>>
+>>>>>>     // ...
+>>>>>>
+>>>>>>     ret = dev_pm_domain_attach(_dev, true);
+>>>>>>     if (ret)
+>>>>>>         return ret;
+>>>>>>
+>>>>>>     if (drv->probe)
+>>>>>>         ret = drv->probe(dev);
+>>>>>>
+>>>>>>     // ...
+>>>>>> }
+>>>>>>
+>>>>>> static void bus_remove(struct device *_dev)
+>>>>>> {
+>>>>>>     struct bus_driver *drv = to_bus_driver(dev->driver);
+>>>>>>     struct bus_device *dev = to_bus_device(_dev);
+>>>>>>
+>>>>>>     if (drv->remove)
+>>>>>>         drv->remove(dev);
+>>>>>>     dev_pm_domain_detach(_dev);
+>>>>>> }
+>>>>>>
+>>>>>> When the driver's probe function uses devres-managed resources that depend
+>>>>>> on the power domain state, those resources are released later during
+>>>>>> device_unbind_cleanup().
+>>>>>>
+>>>>>> Releasing devres-managed resources that depend on the power domain state
+>>>>>> after detaching the device from its PM domain can cause failures.
+>>>>>>
+>>>>>> For example, if the driver uses devm_pm_runtime_enable() in its probe
+>>>>>> function, and the device's clocks are managed by the PM domain, then
+>>>>>> during removal the runtime PM is disabled in device_unbind_cleanup() after
+>>>>>> the clocks have been removed from the PM domain. It may happen that the
+>>>>>> devm_pm_runtime_enable() action causes the device to be runtime-resumed.
+>>>>>
+>>>>> Don't use devm_pm_runtime_enable() then.
+>>>>
+>>>> What about other devm_ APIs? Are you suggesting that platform drivers
+>>>> should not be using devm_clk*(), devm_regulator_*(),
+>>>> devm_request_*_irq() and devm_add_action_or_reset()? Because again,
+>>>> dev_pm_domain_detach() that is called by platform bus_remove() may shut
+>>>> off the device too early, before cleanup code has a chance to execute
+>>>> proper cleanup.
+>>>>
+>>>> The issue is not limited to runtime PM.
+>>>>
+>>>>>
+>>>>>> If the driver specific runtime PM APIs access registers directly, this
+>>>>>> will lead to accessing device registers without clocks being enabled.
+>>>>>> Similar issues may occur with other devres actions that access device
+>>>>>> registers.
+>>>>>>
+>>>>>> Add devm_pm_domain_attach(). When replacing the dev_pm_domain_attach() and
+>>>>>> dev_pm_domain_detach() in bus probe and bus remove, it ensures that the
+>>>>>> device is detached from its PM domain in device_unbind_cleanup(), only
+>>>>>> after all driver's devres-managed resources have been release.
+>>>>>>
+>>>>>> For flexibility, the implemented devm_pm_domain_attach() has 2 state
+>>>>>> arguments, one for the domain state on attach, one for the domain state on
+>>>>>> detach.
+>>>>>
+>>>>> dev_pm_domain_attach() is not part driver API and I'm not convinced at
+>>>>
+>>>> Is the concern that devm_pm_domain_attach() will be [ab]used by drivers?
+>>>
+>>> Yes, among other things.
+>>
+>> Maybe naming could make abuse at least obvious to spot? e.g.
+>> pm_domain_attach_with_devm_release()
+> 
+> If I'm not mistaken, it is not even necessary to use devres for this.
+> 
+> You might as well add a dev_pm_domain_detach() call to
+> device_unbind_cleanup() after devres_release_all().  There is a slight
+> complication related to the second argument of it, but I suppose that
+> this can be determined at the attach time and stored in a new device
+> PM flag, or similar.
 
-configs tested: 245
-configs skipped: 11
+I can try this as well.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Another option I see at the moment would be keep the code added in
+drivers/base/power/common.c in drivers/base/platform.c, something like:
 
-tested configs:
-alpha                            alldefconfig    clang-21
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    gcc-15.1.0
-alpha                               defconfig    gcc-15.1.0
-arc                              allmodconfig    clang-19
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    clang-19
-arc                              allyesconfig    gcc-15.1.0
-arc                                 defconfig    gcc-15.1.0
-arc                        nsim_700_defconfig    clang-21
-arc                   randconfig-001-20250610    gcc-12.4.0
-arc                   randconfig-001-20250611    gcc-12.4.0
-arc                   randconfig-002-20250610    gcc-14.3.0
-arc                   randconfig-002-20250611    gcc-12.4.0
-arm                              allmodconfig    clang-19
-arm                              allmodconfig    gcc-15.1.0
-arm                               allnoconfig    gcc-15.1.0
-arm                              allyesconfig    clang-19
-arm                              allyesconfig    gcc-15.1.0
-arm                                 defconfig    gcc-15.1.0
-arm                          exynos_defconfig    clang-21
-arm                      footbridge_defconfig    gcc-12
-arm                       multi_v4t_defconfig    gcc-12
-arm                        neponset_defconfig    gcc-15.1.0
-arm                          pxa168_defconfig    gcc-15.1.0
-arm                          pxa3xx_defconfig    clang-21
-arm                             pxa_defconfig    gcc-12
-arm                   randconfig-001-20250610    clang-19
-arm                   randconfig-001-20250611    gcc-12.4.0
-arm                   randconfig-002-20250610    gcc-8.5.0
-arm                   randconfig-002-20250611    gcc-12.4.0
-arm                   randconfig-003-20250610    clang-21
-arm                   randconfig-003-20250611    gcc-12.4.0
-arm                   randconfig-004-20250610    clang-16
-arm                   randconfig-004-20250611    gcc-12.4.0
-arm                         socfpga_defconfig    clang-21
-arm                          sp7021_defconfig    clang-21
-arm                        spear3xx_defconfig    gcc-12
-arm                        spear3xx_defconfig    gcc-15.1.0
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.1.0
-arm64                               defconfig    gcc-15.1.0
-arm64                 randconfig-001-20250610    clang-21
-arm64                 randconfig-001-20250611    gcc-12.4.0
-arm64                 randconfig-002-20250610    gcc-11.5.0
-arm64                 randconfig-002-20250611    gcc-12.4.0
-arm64                 randconfig-003-20250610    clang-21
-arm64                 randconfig-003-20250611    gcc-12.4.0
-arm64                 randconfig-004-20250610    clang-18
-arm64                 randconfig-004-20250611    gcc-12.4.0
-csky                              allnoconfig    gcc-15.1.0
-csky                                defconfig    gcc-15.1.0
-csky                  randconfig-001-20250610    gcc-12.4.0
-csky                  randconfig-001-20250611    gcc-8.5.0
-csky                  randconfig-002-20250610    gcc-14.3.0
-csky                  randconfig-002-20250611    gcc-8.5.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    gcc-15.1.0
-hexagon                          allyesconfig    clang-21
-hexagon                             defconfig    gcc-15.1.0
-hexagon               randconfig-001-20250610    clang-21
-hexagon               randconfig-001-20250611    gcc-8.5.0
-hexagon               randconfig-002-20250610    clang-21
-hexagon               randconfig-002-20250611    gcc-8.5.0
-i386                             allmodconfig    clang-20
-i386                              allnoconfig    clang-20
-i386                             allyesconfig    clang-20
-i386        buildonly-randconfig-001-20250610    clang-20
-i386        buildonly-randconfig-001-20250611    clang-20
-i386        buildonly-randconfig-002-20250610    clang-20
-i386        buildonly-randconfig-002-20250611    clang-20
-i386        buildonly-randconfig-003-20250610    clang-20
-i386        buildonly-randconfig-003-20250611    clang-20
-i386        buildonly-randconfig-004-20250610    gcc-12
-i386        buildonly-randconfig-004-20250611    clang-20
-i386        buildonly-randconfig-005-20250610    clang-20
-i386        buildonly-randconfig-005-20250611    clang-20
-i386        buildonly-randconfig-006-20250610    clang-20
-i386        buildonly-randconfig-006-20250611    clang-20
-i386                                defconfig    clang-20
-i386                  randconfig-001-20250611    clang-20
-i386                  randconfig-002-20250611    clang-20
-i386                  randconfig-003-20250611    clang-20
-i386                  randconfig-004-20250611    clang-20
-i386                  randconfig-005-20250611    clang-20
-i386                  randconfig-006-20250611    clang-20
-i386                  randconfig-007-20250611    clang-20
-i386                  randconfig-011-20250611    gcc-12
-i386                  randconfig-012-20250611    gcc-12
-i386                  randconfig-013-20250611    gcc-12
-i386                  randconfig-014-20250611    gcc-12
-i386                  randconfig-015-20250611    gcc-12
-i386                  randconfig-016-20250611    gcc-12
-i386                  randconfig-017-20250611    gcc-12
-loongarch                        allmodconfig    gcc-15.1.0
-loongarch                         allnoconfig    gcc-15.1.0
-loongarch                           defconfig    gcc-15.1.0
-loongarch             randconfig-001-20250610    gcc-15.1.0
-loongarch             randconfig-001-20250611    gcc-8.5.0
-loongarch             randconfig-002-20250610    gcc-15.1.0
-loongarch             randconfig-002-20250611    gcc-8.5.0
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-m68k                         apollo_defconfig    clang-21
-m68k                                defconfig    gcc-15.1.0
-m68k                        mvme147_defconfig    gcc-12
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-mips                          ath25_defconfig    clang-21
-mips                        qi_lb60_defconfig    clang-21
-nios2                             allnoconfig    gcc-15.1.0
-nios2                               defconfig    gcc-15.1.0
-nios2                 randconfig-001-20250610    gcc-8.5.0
-nios2                 randconfig-001-20250611    gcc-8.5.0
-nios2                 randconfig-002-20250610    gcc-13.3.0
-nios2                 randconfig-002-20250611    gcc-8.5.0
-openrisc                          allnoconfig    clang-21
-openrisc                         allyesconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-12
-parisc                           allmodconfig    gcc-15.1.0
-parisc                            allnoconfig    clang-21
-parisc                           allyesconfig    gcc-15.1.0
-parisc                              defconfig    gcc-12
-parisc                randconfig-001-20250610    gcc-10.5.0
-parisc                randconfig-001-20250611    gcc-8.5.0
-parisc                randconfig-002-20250610    gcc-15.1.0
-parisc                randconfig-002-20250611    gcc-8.5.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                          allmodconfig    gcc-15.1.0
-powerpc                           allnoconfig    clang-21
-powerpc                          allyesconfig    gcc-15.1.0
-powerpc                      ep88xc_defconfig    clang-21
-powerpc                       holly_defconfig    clang-21
-powerpc                  mpc866_ads_defconfig    clang-21
-powerpc               randconfig-001-20250610    gcc-10.5.0
-powerpc               randconfig-001-20250611    gcc-8.5.0
-powerpc               randconfig-002-20250610    gcc-8.5.0
-powerpc               randconfig-002-20250611    gcc-8.5.0
-powerpc               randconfig-003-20250610    clang-21
-powerpc               randconfig-003-20250611    gcc-8.5.0
-powerpc64             randconfig-001-20250610    clang-21
-powerpc64             randconfig-001-20250611    gcc-8.5.0
-powerpc64             randconfig-002-20250610    clang-21
-powerpc64             randconfig-002-20250611    gcc-8.5.0
-riscv                            alldefconfig    clang-21
-riscv                            allmodconfig    gcc-15.1.0
-riscv                             allnoconfig    clang-21
-riscv                            allyesconfig    gcc-15.1.0
-riscv                               defconfig    gcc-12
-riscv                 randconfig-001-20250610    gcc-14.3.0
-riscv                 randconfig-001-20250611    gcc-15.1.0
-riscv                 randconfig-002-20250610    clang-16
-riscv                 randconfig-002-20250611    gcc-15.1.0
-s390                             allmodconfig    gcc-15.1.0
-s390                              allnoconfig    clang-21
-s390                             allyesconfig    gcc-15.1.0
-s390                          debug_defconfig    gcc-15.1.0
-s390                                defconfig    gcc-12
-s390                  randconfig-001-20250610    gcc-8.5.0
-s390                  randconfig-001-20250611    gcc-15.1.0
-s390                  randconfig-002-20250610    gcc-14.3.0
-s390                  randconfig-002-20250611    gcc-15.1.0
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                                  defconfig    gcc-12
-sh                          landisk_defconfig    clang-21
-sh                    randconfig-001-20250610    gcc-9.3.0
-sh                    randconfig-001-20250611    gcc-15.1.0
-sh                    randconfig-002-20250610    gcc-15.1.0
-sh                    randconfig-002-20250611    gcc-15.1.0
-sh                              ul2_defconfig    gcc-15.1.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                 randconfig-001-20250610    gcc-15.1.0
-sparc                 randconfig-001-20250611    gcc-15.1.0
-sparc                 randconfig-002-20250610    gcc-12.4.0
-sparc                 randconfig-002-20250611    gcc-15.1.0
-sparc64                             defconfig    gcc-12
-sparc64               randconfig-001-20250610    gcc-8.5.0
-sparc64               randconfig-001-20250611    gcc-15.1.0
-sparc64               randconfig-002-20250610    gcc-8.5.0
-sparc64               randconfig-002-20250611    gcc-15.1.0
-um                               alldefconfig    gcc-15.1.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-21
-um                               allyesconfig    gcc-12
-um                                  defconfig    gcc-12
-um                             i386_defconfig    gcc-12
-um                    randconfig-001-20250610    gcc-11
-um                    randconfig-001-20250611    gcc-15.1.0
-um                    randconfig-002-20250610    gcc-12
-um                    randconfig-002-20250611    gcc-15.1.0
-um                           x86_64_defconfig    gcc-12
-x86_64                           alldefconfig    gcc-12
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250610    clang-20
-x86_64      buildonly-randconfig-001-20250611    clang-20
-x86_64      buildonly-randconfig-002-20250610    gcc-12
-x86_64      buildonly-randconfig-002-20250611    clang-20
-x86_64      buildonly-randconfig-003-20250610    clang-20
-x86_64      buildonly-randconfig-003-20250611    clang-20
-x86_64      buildonly-randconfig-004-20250610    clang-20
-x86_64      buildonly-randconfig-004-20250611    clang-20
-x86_64      buildonly-randconfig-005-20250610    gcc-12
-x86_64      buildonly-randconfig-005-20250611    clang-20
-x86_64      buildonly-randconfig-006-20250610    gcc-12
-x86_64      buildonly-randconfig-006-20250611    clang-20
-x86_64                              defconfig    clang-20
-x86_64                                  kexec    clang-20
-x86_64                randconfig-001-20250611    clang-20
-x86_64                randconfig-002-20250611    clang-20
-x86_64                randconfig-003-20250611    clang-20
-x86_64                randconfig-004-20250611    clang-20
-x86_64                randconfig-005-20250611    clang-20
-x86_64                randconfig-006-20250611    clang-20
-x86_64                randconfig-007-20250611    clang-20
-x86_64                randconfig-008-20250611    clang-20
-x86_64                randconfig-071-20250611    gcc-12
-x86_64                randconfig-072-20250611    gcc-12
-x86_64                randconfig-073-20250611    gcc-12
-x86_64                randconfig-074-20250611    gcc-12
-x86_64                randconfig-075-20250611    gcc-12
-x86_64                randconfig-076-20250611    gcc-12
-x86_64                randconfig-077-20250611    gcc-12
-x86_64                randconfig-078-20250611    gcc-12
-x86_64                               rhel-9.4    clang-20
-x86_64                           rhel-9.4-bpf    gcc-12
-x86_64                          rhel-9.4-func    clang-20
-x86_64                         rhel-9.4-kunit    gcc-12
-x86_64                           rhel-9.4-ltp    gcc-12
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250610    gcc-11.5.0
-xtensa                randconfig-001-20250611    gcc-15.1.0
-xtensa                randconfig-002-20250610    gcc-12.4.0
-xtensa                randconfig-002-20250611    gcc-15.1.0
-xtensa                    smp_lx200_defconfig    gcc-12
-xtensa                         virt_defconfig    gcc-12
+diff --git a/drivers/base/platform.c b/drivers/base/platform.c
+index 075ec1d1b73a..391d725cd4c7 100644
+--- a/drivers/base/platform.c
++++ b/drivers/base/platform.c
+@@ -1376,10 +1376,18 @@ static int platform_uevent(const struct device
+*dev, struct kobj_uevent_env *env
+        return 0;
+ }
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
++static void platform_dev_pm_domain_detach(struct device *dev, void *res)
++{
++       bool *power_off = res;
++
++       dev_pm_domain_detach(dev, *power_off);
++}
++
+ static int platform_probe(struct device *_dev)
+ {
+        struct platform_driver *drv = to_platform_driver(_dev->driver);
+        struct platform_device *dev = to_platform_device(_dev);
++       bool *power_off;
+        int ret;
+
+        /*
+@@ -1396,15 +1404,22 @@ static int platform_probe(struct device *_dev)
+        if (ret < 0)
+                return ret;
+
++       power_off = devres_alloc(platform_dev_pm_domain_detach,
+sizeof(*power_off),
++                                GFP_KERNEL);
++       if (!power_off)
++               return -ENOMEM;
++
+        ret = dev_pm_domain_attach(_dev, true);
+-       if (ret)
++       if (ret) {
++               devres_free(power_off);
+                goto out;
++       }
+
+-       if (drv->probe) {
++       *power_off = true;
++       devres_add(_dev, power_off);
++
++       if (drv->probe)
+                ret = drv->probe(dev);
+-               if (ret)
+-                       dev_pm_domain_detach(_dev, true);
+-       }
+
+ out:
+        if (drv->prevent_deferred_probe && ret == -EPROBE_DEFER) {
+@@ -1422,7 +1437,6 @@ static void platform_remove(struct device *_dev)
+
+        if (drv->remove)
+                drv->remove(dev);
+-       dev_pm_domain_detach(_dev, true);
+ }
+
+but this would involve duplicating code, as, sooner or later, this would
+have to be done for other busses as well.
+
+Could you please let me know what option would you prefer so that I can go
+forward with it?
+
+Thank you for your review,
+Claudiu
+
+> 
+> Note that dev->pm_domain is expected to be cleared by ->detach(), so
+> this should not cause the domain to be detached twice in a row from
+> the same device, but that needs to be double-checked.
+> 
+> Thanks!
+
 
