@@ -1,39 +1,39 @@
-Return-Path: <linux-renesas-soc+bounces-18068-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18069-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E64D5AD4B4E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jun 2025 08:19:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73F73AD4B53
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jun 2025 08:19:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 900ED16586C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jun 2025 06:18:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 391E117C75C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jun 2025 06:19:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEF7523184B;
-	Wed, 11 Jun 2025 06:16:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AE3D233728;
+	Wed, 11 Jun 2025 06:16:36 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59014231844;
-	Wed, 11 Jun 2025 06:16:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10ADF22CBD0;
+	Wed, 11 Jun 2025 06:16:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749622590; cv=none; b=eFGyHsybRxFBjcTORKtIBMtVwHg4NwJrJqWnoaeooRmYMEEITt/JLzPbc8D7My8JErN1vGx9Qx0FBaAXZC8vwAOW8NJmDlVXIhIALgJKGwOCwRrG2DdsYB/VcIdxpDIgmSRV7Z1X67so+zmE994IQPwc1VZ61zzQ4smCx8EToQI=
+	t=1749622596; cv=none; b=QXIaMdJEnKkvsBmqHl+cnD8HqihfCzM5pIg9gphA6A5fDtOjNMHU0HX9qzPt38pcYlSr6i72BgoqzDkgfGaQMXywnjdzjxKP3EkLMiJBVqn1O2V/puc2n8B2Z2cek54B8GJLhODozuur8+TOckDn0mUlxzq3y87neC5efuMf0YU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749622590; c=relaxed/simple;
-	bh=SHgyJkJw6ts5JXxTF0Om4+r++lflqduzleGEnmAsJWM=;
+	s=arc-20240116; t=1749622596; c=relaxed/simple;
+	bh=v4L2wlZ33mOuGPZDs6teD614QmYCP+zr9rUg3UN7axQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Q3nJ20Py5QsSIciVr3PrRvKVyarpLiY4bITEiuFiUgYBbfUAjn7W7EDCLnaczjYF+GVjE8jq4QcpTAa724zqKzaowUV2U6ElDXlilxU9x3Y6CwNzOiLgx6GBeRHX/1H/gBEzP/locSC+Mc9kZkTv8hd1OtymNxAKyblvA/tWSV8=
+	 MIME-Version; b=GptMUUWeKohINqhPMX8wAUM56ZzPgCkKtv0rPjxYbJiKoVYiKrb10M90D4eVEy15qv/a1huLPA0VdeXxOMm2isF2vEvYHA6BeEkJe5xfQRsx6M0AmrhgndAnjdCeRvz5mop5oYH/i+z7UJiDhrbEEa67kY+wawaAzfDWRFM9YzI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: JCaD0eQUQEKe8ikXkbRQuw==
-X-CSE-MsgGUID: fsyhh0LGQCSKXK+G4YRJEQ==
+X-CSE-ConnectionGUID: W6AiPcQpSEaYDJP7WfYCYQ==
+X-CSE-MsgGUID: 6gH0QCHpSF2f9qsz7CjlXQ==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 11 Jun 2025 15:16:28 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 11 Jun 2025 15:16:33 +0900
 Received: from ubuntu.adwin.renesas.com (unknown [10.226.92.57])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 0DD59401BEEC;
-	Wed, 11 Jun 2025 15:16:22 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id A33D64012643;
+	Wed, 11 Jun 2025 15:16:28 +0900 (JST)
 From: John Madieu <john.madieu.xa@bp.renesas.com>
 To: andrew+netdev@lunn.ch,
 	conor+dt@kernel.org,
@@ -53,9 +53,9 @@ Cc: biju.das.jz@bp.renesas.com,
 	magnus.damm@gmail.com,
 	netdev@vger.kernel.org,
 	John Madieu <john.madieu.xa@bp.renesas.com>
-Subject: [PATCH v2 2/3] arm64: dts: renesas: r9a09g047: Add GBETH nodes
-Date: Wed, 11 Jun 2025 08:16:08 +0200
-Message-ID: <20250611061609.15527-3-john.madieu.xa@bp.renesas.com>
+Subject: [PATCH v2 3/3] arm64: dts: renesas: rzg3e-smarc-som: Enable eth{0-1} (GBETH) interfaces
+Date: Wed, 11 Jun 2025 08:16:09 +0200
+Message-ID: <20250611061609.15527-4-john.madieu.xa@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250611061609.15527-1-john.madieu.xa@bp.renesas.com>
 References: <20250611061609.15527-1-john.madieu.xa@bp.renesas.com>
@@ -67,233 +67,146 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add GBETH nodes to RZ/G3E (R9A09G047) SoC DTSI.
+Enable the Gigabit Ethernet Interfaces (GBETH) populated on the RZ/G3E SMARC EVK
 
 Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
 Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 ---
- arch/arm64/boot/dts/renesas/r9a09g047.dtsi | 207 +++++++++++++++++++++
- 1 file changed, 207 insertions(+)
+ .../boot/dts/renesas/rzg3e-smarc-som.dtsi     | 106 ++++++++++++++++++
+ 1 file changed, 106 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g047.dtsi b/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
-index a0d4fab4fe05..e6e35b41a9d3 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
-@@ -759,6 +759,213 @@ csi2cru: endpoint@0 {
- 				};
- 			};
- 		};
+diff --git a/arch/arm64/boot/dts/renesas/rzg3e-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg3e-smarc-som.dtsi
+index f99a09d04ddd..4b4c7f3381ad 100644
+--- a/arch/arm64/boot/dts/renesas/rzg3e-smarc-som.dtsi
++++ b/arch/arm64/boot/dts/renesas/rzg3e-smarc-som.dtsi
+@@ -26,6 +26,8 @@ / {
+ 	compatible = "renesas,rzg3e-smarcm", "renesas,r9a09g047e57", "renesas,r9a09g047";
+ 
+ 	aliases {
++		ethernet0 = &eth0;
++		ethernet1 = &eth1;
+ 		i2c2 = &i2c2;
+ 		mmc0 = &sdhi0;
+ 		mmc2 = &sdhi2;
+@@ -77,6 +79,74 @@ &audio_extal_clk {
+ 	clock-frequency = <48000000>;
+ };
+ 
++&eth0 {
++	phy-handle = <&phy0>;
++	phy-mode = "rgmii-id";
 +
-+		eth0: ethernet@15c30000 {
-+			compatible = "renesas,r9a09g047-gbeth", "renesas,rzv2h-gbeth", "snps,dwmac-5.20";
-+			reg = <0 0x15c30000 0 0x10000>;
-+			clocks = <&cpg CPG_MOD 0xbd>, <&cpg CPG_MOD 0xbc>,
-+				 <&cpg CPG_CORE R9A09G047_GBETH_0_CLK_PTP_REF_I>,
-+				 <&cpg CPG_MOD 0xb8>, <&cpg CPG_MOD 0xb9>,
-+				 <&cpg CPG_MOD 0xba>, <&cpg CPG_MOD 0xbb>;
-+			clock-names = "stmmaceth", "pclk", "ptp_ref",
-+				      "tx", "rx", "tx-180", "rx-180";
-+			interrupts = <GIC_SPI 765 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 767 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 766 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 772 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 773 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 774 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 775 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 768 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 769 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 770 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 771 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "macirq", "eth_wake_irq", "eth_lpi",
-+					  "rx-queue-0", "rx-queue-1", "rx-queue-2",
-+					  "rx-queue-3", "tx-queue-0", "tx-queue-1",
-+					  "tx-queue-2", "tx-queue-3";
-+			resets = <&cpg 0xb0>;
-+			power-domains = <&cpg>;
-+			snps,multicast-filter-bins = <256>;
-+			snps,perfect-filter-entries = <128>;
-+			rx-fifo-depth = <8192>;
-+			tx-fifo-depth = <8192>;
-+			snps,fixed-burst;
-+			snps,no-pbl-x8;
-+			snps,force_thresh_dma_mode;
-+			snps,axi-config = <&stmmac_axi_setup>;
-+			snps,mtl-rx-config = <&mtl_rx_setup0>;
-+			snps,mtl-tx-config = <&mtl_tx_setup0>;
-+			snps,txpbl = <32>;
-+			snps,rxpbl = <32>;
-+			status = "disabled";
++	pinctrl-0 = <&eth0_pins>;
++	pinctrl-names = "default";
++	status = "okay";
 +
-+			mdio {
-+				compatible = "snps,dwmac-mdio";
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+			};
++	mdio {
++		#address-cells = <1>;
++		#size-cells = <0>;
++		compatible = "snps,dwmac-mdio";
 +
-+			mtl_rx_setup0: rx-queues-config {
-+				snps,rx-queues-to-use = <4>;
-+				snps,rx-sched-sp;
-+
-+				queue0 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x1>;
-+					snps,map-to-dma-channel = <0>;
-+				};
-+
-+				queue1 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x2>;
-+					snps,map-to-dma-channel = <1>;
-+				};
-+
-+				queue2 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x4>;
-+					snps,map-to-dma-channel = <2>;
-+				};
-+
-+				queue3 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x8>;
-+					snps,map-to-dma-channel = <3>;
-+				};
-+			};
-+
-+			mtl_tx_setup0: tx-queues-config {
-+				snps,tx-queues-to-use = <4>;
-+
-+				queue0 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x1>;
-+				};
-+
-+				queue1 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x2>;
-+				};
-+
-+				queue2 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x4>;
-+				};
-+
-+				queue3 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x8>;
-+				};
-+			};
-+		};
-+
-+		eth1: ethernet@15c40000 {
-+			compatible = "renesas,r9a09g047-gbeth", "renesas,rzv2h-gbeth", "snps,dwmac-5.20";
-+			reg = <0 0x15c40000 0 0x10000>;
-+			clocks = <&cpg CPG_MOD 0xc3>, <&cpg CPG_MOD 0xc2>,
-+				 <&cpg CPG_CORE R9A09G047_GBETH_1_CLK_PTP_REF_I>,
-+				 <&cpg CPG_MOD 0xbe>, <&cpg CPG_MOD 0xbf>,
-+				 <&cpg CPG_MOD 0xc0>, <&cpg CPG_MOD 0xc1>;
-+			clock-names = "stmmaceth", "pclk", "ptp_ref",
-+				      "tx", "rx", "tx-180", "rx-180";
-+			interrupts = <GIC_SPI 780 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 782 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 781 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 787 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 788 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 789 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 790 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 783 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 784 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 785 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 786 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "macirq", "eth_wake_irq", "eth_lpi",
-+					  "rx-queue-0", "rx-queue-1", "rx-queue-2",
-+					  "rx-queue-3", "tx-queue-0", "tx-queue-1",
-+					  "tx-queue-2", "tx-queue-3";
-+			resets = <&cpg 0xb1>;
-+			power-domains = <&cpg>;
-+			snps,multicast-filter-bins = <256>;
-+			snps,perfect-filter-entries = <128>;
-+			rx-fifo-depth = <8192>;
-+			tx-fifo-depth = <8192>;
-+			snps,fixed-burst;
-+			snps,no-pbl-x8;
-+			snps,force_thresh_dma_mode;
-+			snps,axi-config = <&stmmac_axi_setup>;
-+			snps,mtl-rx-config = <&mtl_rx_setup1>;
-+			snps,mtl-tx-config = <&mtl_tx_setup1>;
-+			snps,txpbl = <32>;
-+			snps,rxpbl = <32>;
-+			status = "disabled";
-+
-+			mdio {
-+				compatible = "snps,dwmac-mdio";
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+			};
-+
-+			mtl_rx_setup1: rx-queues-config {
-+				snps,rx-queues-to-use = <4>;
-+				snps,rx-sched-sp;
-+
-+				queue0 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x1>;
-+					snps,map-to-dma-channel = <0>;
-+				};
-+
-+				queue1 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x2>;
-+					snps,map-to-dma-channel = <1>;
-+				};
-+
-+				queue2 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x4>;
-+					snps,map-to-dma-channel = <2>;
-+				};
-+
-+				queue3 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x8>;
-+					snps,map-to-dma-channel = <3>;
-+				};
-+			};
-+
-+			mtl_tx_setup1: tx-queues-config {
-+				snps,tx-queues-to-use = <4>;
-+
-+				queue0 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x1>;
-+				};
-+
-+				queue1 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x2>;
-+				};
-+
-+				queue2 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x4>;
-+				};
-+
-+				queue3 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x8>;
-+				};
-+			};
++		phy0: ethernet-phy@7 {
++			compatible = "ethernet-phy-id0022.1640",
++				     "ethernet-phy-ieee802.3-c22";
++			reg = <7>;
++			interrupts-extended = <&icu 3 IRQ_TYPE_LEVEL_LOW>;
++			rxc-skew-psec = <1400>;
++			txc-skew-psec = <1400>;
++			rxdv-skew-psec = <0>;
++			txdv-skew-psec = <0>;
++			rxd0-skew-psec = <0>;
++			rxd1-skew-psec = <0>;
++			rxd2-skew-psec = <0>;
++			rxd3-skew-psec = <0>;
++			txd0-skew-psec = <0>;
++			txd1-skew-psec = <0>;
++			txd2-skew-psec = <0>;
++			txd3-skew-psec = <0>;
 +		};
 +	};
++};
 +
-+	stmmac_axi_setup: stmmac-axi-config {
-+		snps,lpi_en;
-+		snps,wr_osr_lmt = <0xf>;
-+		snps,rd_osr_lmt = <0xf>;
-+		snps,blen = <16 8 4 0 0 0 0>;
- 	};
++&eth1 {
++	phy-handle = <&phy1>;
++	phy-mode = "rgmii-id";
++
++	pinctrl-0 = <&eth1_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++
++	mdio {
++		#address-cells = <1>;
++		#size-cells = <0>;
++		compatible = "snps,dwmac-mdio";
++
++		phy1: ethernet-phy@7 {
++			compatible = "ethernet-phy-id0022.1640",
++				     "ethernet-phy-ieee802.3-c22";
++			reg = <7>;
++			interrupts-extended = <&icu 16 IRQ_TYPE_LEVEL_LOW>;
++			rxc-skew-psec = <1400>;
++			txc-skew-psec = <1400>;
++			rxdv-skew-psec = <0>;
++			txdv-skew-psec = <0>;
++			rxd0-skew-psec = <0>;
++			rxd1-skew-psec = <0>;
++			rxd2-skew-psec = <0>;
++			rxd3-skew-psec = <0>;
++			txd0-skew-psec = <0>;
++			txd1-skew-psec = <0>;
++			txd2-skew-psec = <0>;
++			txd3-skew-psec = <0>;
++		};
++	};
++};
++
+ &gpu {
+ 	status = "okay";
+ 	mali-supply = <&reg_vdd0p8v_others>;
+@@ -103,6 +173,42 @@ raa215300: pmic@12 {
+ };
  
- 	timer {
+ &pinctrl {
++	eth0_pins: eth0 {
++		pinmux = <RZG3E_PORT_PINMUX(A, 1, 1)>, /* MDC */
++			 <RZG3E_PORT_PINMUX(A, 0, 1)>, /* MDIO */
++			 <RZG3E_PORT_PINMUX(C, 2, 15)>, /* PHY_INTR (IRQ2) */
++			 <RZG3E_PORT_PINMUX(C, 1, 1)>, /* RXD3 */
++			 <RZG3E_PORT_PINMUX(C, 0, 1)>, /* RXD2 */
++			 <RZG3E_PORT_PINMUX(B, 7, 1)>, /* RXD1 */
++			 <RZG3E_PORT_PINMUX(B, 6, 1)>, /* RXD0 */
++			 <RZG3E_PORT_PINMUX(B, 0, 1)>, /* RXC */
++			 <RZG3E_PORT_PINMUX(A, 2, 1)>, /* RX_CTL */
++			 <RZG3E_PORT_PINMUX(B, 5, 1)>, /* TXD3 */
++			 <RZG3E_PORT_PINMUX(B, 4, 1)>, /* TXD2 */
++			 <RZG3E_PORT_PINMUX(B, 3, 1)>, /* TXD1 */
++			 <RZG3E_PORT_PINMUX(B, 2, 1)>, /* TXD0 */
++			 <RZG3E_PORT_PINMUX(B, 1, 1)>, /* TXC */
++			 <RZG3E_PORT_PINMUX(A, 3, 1)>; /* TX_CTL */
++	};
++
++	eth1_pins: eth1 {
++		pinmux = <RZG3E_PORT_PINMUX(D, 1, 1)>, /* MDC */
++			 <RZG3E_PORT_PINMUX(D, 0, 1)>, /* MDIO */
++			 <RZG3E_PORT_PINMUX(F, 2, 15)>, /* PHY_INTR (IRQ15) */
++			 <RZG3E_PORT_PINMUX(F, 1, 1)>, /* RXD3 */
++			 <RZG3E_PORT_PINMUX(F, 0, 1)>, /* RXD2 */
++			 <RZG3E_PORT_PINMUX(E, 7, 1)>, /* RXD1 */
++			 <RZG3E_PORT_PINMUX(E, 6, 1)>, /* RXD0 */
++			 <RZG3E_PORT_PINMUX(E, 0, 1)>, /* RXC */
++			 <RZG3E_PORT_PINMUX(D, 2, 1)>, /* RX_CTL */
++			 <RZG3E_PORT_PINMUX(E, 5, 1)>, /* TXD3 */
++			 <RZG3E_PORT_PINMUX(E, 4, 1)>, /* TXD2 */
++			 <RZG3E_PORT_PINMUX(E, 3, 1)>, /* TXD1 */
++			 <RZG3E_PORT_PINMUX(E, 2, 1)>, /* TXD0 */
++			 <RZG3E_PORT_PINMUX(E, 1, 1)>, /* TXC */
++			 <RZG3E_PORT_PINMUX(D, 3, 1)>; /* TX_CTL */
++	};
++
+ 	i2c2_pins: i2c {
+ 		pinmux = <RZG3E_PORT_PINMUX(3, 4, 1)>, /* SCL2 */
+ 			 <RZG3E_PORT_PINMUX(3, 5, 1)>; /* SDA2 */
 -- 
 2.25.1
 
