@@ -1,129 +1,136 @@
-Return-Path: <linux-renesas-soc+bounces-18139-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18140-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98659AD63E7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 01:36:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AF9DAD63F5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 01:42:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E1A5E7AC81D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jun 2025 23:35:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8917718992CD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jun 2025 23:43:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D96E62C2AA5;
-	Wed, 11 Jun 2025 23:36:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 277CB2C1794;
+	Wed, 11 Jun 2025 23:42:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oUXVVRyR"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="a/RmTaz3";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="B2iSSqA2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D62F2580F9;
-	Wed, 11 Jun 2025 23:36:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B8EA2F4301;
+	Wed, 11 Jun 2025 23:42:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749684987; cv=none; b=p3IfJQPRaWSKlW/yQM0cqBw/NhJoAPKtOOGtjqhBs4NThcjM+ehdzq6DIZo75xIPOGyV3uFskLY0w7cAE6TY5svmacIzHbZf/lGRTjbANNYVNUwbhbgdMHgetRfg9m/bZTOLk+YxFVEh95FA68tmbfHrXm28rAkmbYy3K17ZR3Q=
+	t=1749685364; cv=none; b=dpWkstmaoUuJAq5NbEdWTtj8atlxEkfZlIsWSqSiq6TFwAXSnlNVIyberqFyrrgk+/aJ8sYVF3XWwJ5EC8XAJBpxQNkocXROoIrlbayh14Bx3tOakkqf3e+0MB5vmhw1Bxr4KxHW7C2bi6vApi+phnZ3cguMmqnEJ7I8XH4Q3MQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749684987; c=relaxed/simple;
-	bh=0ezuTcWRuV87/NrpSBg1ipbPs8UNJkLPjKdmfj7dhsU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dRCqgToS2nL2S6PQKbR8aTD6IC3Ilj9ZjTut/InCutUaF6j49YC4fNAPjaE1lPVeg+fC6gWEUZe8w3Y6zReHO+J1OSlmIK2XMhlppDZGk6/1PrrmdhzQ98724aj9FmnsBcdOKOQvbokmv8LsAAq+ea5JKDvswxqB0MrLJEyo7bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oUXVVRyR; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B58F8D52;
-	Thu, 12 Jun 2025 01:36:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1749684975;
-	bh=0ezuTcWRuV87/NrpSBg1ipbPs8UNJkLPjKdmfj7dhsU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oUXVVRyRSdJP57KSpwh9aoP3xMfKx5IaLeWKgkQYloXMM+ywn6vmsMX0SZj6YQL0O
-	 zSFYgP0fdXo9x6/phN8YgZ411MlKDtsK6j5Mg++1uTFjw/hZ3cEnllHQEZDg2WT4NQ
-	 qeMNJoWQkXxiEMjN2KNMaNputiSBM0ir6MhZGFEQ=
-Date: Thu, 12 Jun 2025 02:36:11 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] media: vsp1: Reset FCP for VSPX
-Message-ID: <20250611233611.GR24465@pendragon.ideasonboard.com>
-References: <20250609-vspx-reset-v1-0-9f17277ff1e2@ideasonboard.com>
- <20250609-vspx-reset-v1-3-9f17277ff1e2@ideasonboard.com>
+	s=arc-20240116; t=1749685364; c=relaxed/simple;
+	bh=0Lqc05MJtF78yK+jzAavYAe3CiAx4jlNnkKQn6Lv8No=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RDiPOxC6VDBBzEAYRn65Q+mwmZv3B4kpSwApabAptjqdiERVwl1fBaZhuU5NkYkwLOyNcYn83EIN2NNMdcqaMKvjzvg+g+Cy9oG/FLXFVlJ/xPWUI7kNY7ERw7daCO866kgT16Eo3mPx0ITChbIJ8u3rX/S+4e4F+Ie+BsJfrCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=a/RmTaz3; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=B2iSSqA2; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4bHhzM73Hdz9tNc;
+	Thu, 12 Jun 2025 01:42:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1749685360;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Sn/l8L80yT8SucVw9NU1s346nJMf0F3z8P6jRYyvLow=;
+	b=a/RmTaz3YfWVVWjzZArFwfkmO5NC2U5WzxmKcsMKd3U6l4ZgezdAN8KP0jRVfpL7g25t33
+	J8EGbqMZOS6T4QgbR2kFxBRyixqIRpurcqrdgCHOj9+skydAhT4dmwp/iXkyNEhyEkMyMD
+	/ejbjaAIUzAMFvOcwikq/xhffGYQ7+5WSO8BZyuG3tPoXVqzyFsVZYztd6k6guYbAY5nRd
+	CAAbg2amqLuyafMiMBq+oyb7r2B5VSsOFs72OFGR2TrdaVY0SJaGNEEaMPYPnExYD/W+RB
+	AdKd5OvLyb07PMHY95ePBah3ZbjxgxFdiflJlW8g0l4ePETYMF1CQtr9xC/kIA==
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1749685357;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Sn/l8L80yT8SucVw9NU1s346nJMf0F3z8P6jRYyvLow=;
+	b=B2iSSqA2/FTGSOZmIvAH+X87Dq/xrDgQB1e2YPUH80LbhoEWLEUb3Hhj+jQbKDatdhoPzt
+	K4Vo/9f/JQXhUzu07/Yrg+KmEM43q7qTCOgc9GvevJqzOcOJXqmNVlVSfoU1lzdSfpvIHs
+	qwY5TIf/SeEl/L8txo1b3UySb5IJnB6J1gIjiBqOmBr13PqXfbkSxNZs4gPw9J3Ckyrxyl
+	JEwdOoxOCbldFbj1ndhcV1/+Dk82+wHyEnTbAgzO+gw1jvusKsgwW1K9u1mbTT1pHaKcVw
+	fgl6+rE8ydcdelnZ7EqpVrzA6kHl3+K+XdtDyEDHdsYCbEpOP6TKfnKDZfcMgg==
+To: devicetree@vger.kernel.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2] schemas: pci: bridge: Document REFCLK slot clocks
+Date: Thu, 12 Jun 2025 01:41:41 +0200
+Message-ID: <20250611234206.159695-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250609-vspx-reset-v1-3-9f17277ff1e2@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: uwekucmigtd6pg4quuu68o8z5fztjfrb
+X-MBO-RS-ID: 859cbe2a96078a63047
+X-Rspamd-Queue-Id: 4bHhzM73Hdz9tNc
 
-Hi Jacopo,
+The PCIe slot may have 'REFCLK' clocks which are explicitly
+controlled by the OS, describe the clocks property.
 
-Thank you for the patch.
+Acked-by: Manivannan Sadhasivam <mani@kernel.org>
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Related to https://lore.kernel.org/all/CAMuHMdUFHKHKfymqa6jwfNnxZTAuH3kbj5WL+-zN=TR6XGd0eA@mail.gmail.com/
+---
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-pci@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+V2: - Update commit message
+    - Add AB from Manivannan
+---
+ dtschema/schemas/pci/pci-bus-common.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-On Mon, Jun 09, 2025 at 09:01:44PM +0200, Jacopo Mondi wrote:
-> According section "62.3.7.1 "Operation Control Setting
-
-"According to"
-
-> IP set VSPX+FCPVX" of the R-Car Gen4 Hardware Manual, FCPX has to
-> be reset when stopping the image processing.
-
-That's only when stopping "image process of VSPX+FCPVX immediately".
-Note the "immediately", which involves resetting the VSP too. The code
-below waits for the pipeline to stop at the end of the frame. Resetting
-the FCP doesn't seem to be required in that case.
-
-> Softawre reset the FCPX after the vsp1 pipe has stopped.
-
-s/Softawre/Software/
-
-> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> ---
->  drivers/media/platform/renesas/vsp1/vsp1_pipe.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> index a6e5e10f3ef275c1b081c3d957e6cf356332afce..c6f2417aabc479384012ab8ab99556029ede1f44 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> @@ -499,6 +499,7 @@ bool vsp1_pipeline_stopped(struct vsp1_pipeline *pipe)
->  int vsp1_pipeline_stop(struct vsp1_pipeline *pipe)
->  {
->  	struct vsp1_device *vsp1 = pipe->output->entity.vsp1;
-> +	u32 version = vsp1->version & VI6_IP_VERSION_MODEL_MASK;
->  	struct vsp1_entity *entity;
->  	unsigned long flags;
->  	int ret;
-> @@ -515,8 +516,7 @@ int vsp1_pipeline_stop(struct vsp1_pipeline *pipe)
->  			spin_unlock_irqrestore(&pipe->irqlock, flags);
->  		}
->  
-> -		if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) ==
-> -		    VI6_IP_VERSION_MODEL_VSPD_GEN3)
-> +		if (version == VI6_IP_VERSION_MODEL_VSPD_GEN3)
->  			ret |= rcar_fcp_soft_reset(vsp1->fcp);
->  
->  	} else {
-> @@ -529,6 +529,9 @@ int vsp1_pipeline_stop(struct vsp1_pipeline *pipe)
->  		ret = wait_event_timeout(pipe->wq, vsp1_pipeline_stopped(pipe),
->  					 msecs_to_jiffies(500));
->  		ret = ret == 0 ? -ETIMEDOUT : 0;
-> +
-> +		if (version == VI6_IP_VERSION_MODEL_VSPX_GEN4)
-> +			ret |= rcar_fcp_soft_reset(vsp1->fcp);
->  	}
->  
->  	list_for_each_entry(entity, &pipe->entities, list_pipe) {
-
+diff --git a/dtschema/schemas/pci/pci-bus-common.yaml b/dtschema/schemas/pci/pci-bus-common.yaml
+index ca97a00..3c512cf 100644
+--- a/dtschema/schemas/pci/pci-bus-common.yaml
++++ b/dtschema/schemas/pci/pci-bus-common.yaml
+@@ -82,6 +82,8 @@ properties:
+     items:
+       maximum: 255
+ 
++  clocks: true
++
+   external-facing:
+     description:
+       When present, the port is externally facing. All bridges and endpoints
 -- 
-Regards,
+2.47.2
 
-Laurent Pinchart
 
