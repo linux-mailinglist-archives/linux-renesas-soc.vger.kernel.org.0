@@ -1,114 +1,69 @@
-Return-Path: <linux-renesas-soc+bounces-18127-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18128-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17A18AD5AF4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jun 2025 17:46:52 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF4EAAD5C05
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jun 2025 18:24:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D80E71704EF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jun 2025 15:46:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6FC4018843E4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jun 2025 16:23:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0E9C20B7EE;
-	Wed, 11 Jun 2025 15:45:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 567931E521A;
+	Wed, 11 Jun 2025 16:23:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="I8RIafvC";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MypexiLd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gqPoV5uF"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6182202981;
-	Wed, 11 Jun 2025 15:45:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B291C8632;
+	Wed, 11 Jun 2025 16:23:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749656725; cv=none; b=RilU3CB+gmFyW6CnExC/5mbRSQZD9RDl0i+eaTT0sBX1aDwN/GOlpG02VGiRhjn8LYz90EQXnuzS50zNi9n3wVToB73cdJP9Z5g2LaHRQ8woAPSq7J82/5LV5r99Z6RU6F1V5I0uCitmJZh+/DzHgVmuyiSFOfM0bJVrx/SkbtE=
+	t=1749658996; cv=none; b=JcmICQ1CcfWBsdi1JZrcJwm0f4aYBRprIwFBgvYNWMMZk+sonY33L+4REWBpHLva6AcwBLW/XNdfMulMKoOJxc02uCi5JI5LBShyqarpVliDuGIhCnUMu0ha0xm6ednHmA7m9F32WMJsF1jG8aOjdJPXp2m5owIPsARX4rWQ/70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749656725; c=relaxed/simple;
-	bh=sDVK2rNVrxfNZNRllJDpnqXvBkAblkAhoO15NWnLBPQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s256Vw/T608yAx1fsEyJ+B2ch+vDGfli+/3W6ZyzRB2ID+RemjGMUU+0ITAFcX/4EJFbu+udmKiHutJXYe6xeVGY3Vo4VeXOkAuA1CstDN/y3PO/+QXJdCOajnpFJLEKOUdRMtIu8D0BkBXuF+vQzNbXOORBpDIFCLvDx2hWjnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=I8RIafvC; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=MypexiLd; arc=none smtp.client-ip=103.168.172.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id CDD5F1140216;
-	Wed, 11 Jun 2025 11:45:22 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Wed, 11 Jun 2025 11:45:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1749656722;
-	 x=1749743122; bh=tY4UdvXPOrtNsRp0NLFETQB2wM6h6AcpRdht9AIcbS4=; b=
-	I8RIafvCJfs/2WwsUhn0vTM6ZMrRDPu0WuVtL594+VQU4j4WkijTo2F2uQ2XsRD8
-	ahPD3edXi8hzS1+pZHNdwWvieqicMID6U5jntQBA26dA42tQgGw9pBtgIoqI6Qct
-	Mgmi3AZJeZ0m3jjW4BF3g1fKE7qbnE7jgsgw/ILQcgZ+J7jQ0KAmRrcBvifNzZHa
-	YZI1Ohe4K9n5d32HiU3IPtubGuaJse2ta/zJe9ktzAVQ/JMEfPLIaonot7lAHYhG
-	sgU1WOU8mjYsRKSrHeNH/7Ot/x+ch2+n44jE2XRCtMuS9OYbKXVm3aiqSmmEG96o
-	MRYx3KJRBeB22voA0I6HIw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749656722; x=
-	1749743122; bh=tY4UdvXPOrtNsRp0NLFETQB2wM6h6AcpRdht9AIcbS4=; b=M
-	ypexiLdWlmce0qXW9n3xZ4RLoI+m03kWYJ8S4emfN9Ketg15pC4d9qiKsebGXM6R
-	zFdHaxNNOmZ0R7NzOySRg+2XC6B18Ghsq7zLk+MFYOfMxeYVEki2jAuETkX1ujpK
-	bK1OXTOwrR5Snk/zkbvZHnnJdVt0fCz0w8MiD3HvvXJl7b7BGMloFFICJfv8PCjN
-	Q6uDeoB+T8OFrGdqMoPJnWwlCszvDcPsDmx3yFgR4cfeA+aIDsvqOCGBRK3mWvhy
-	ZtYIOAhoVWGCrw4m/ifh9NMg7OwcOFMQlDCXX8x/WNyD7Z5qMGqdKBIePF1wZfWC
-	vBN9lQxC4eRI/qkLYN7Sg==
-X-ME-Sender: <xms:kqRJaLRjAk0CjeFxdPwdBnKUAyfr3mtfTlL22stNCtcwQ98Z1UWbNw>
-    <xme:kqRJaMxHfjk2d4pehFcFBDcD3oH0cXJYL5yva1MYIdzQiyfXiO21yQYnn2AAEd0Aq
-    lux7oVtqEFtmPFFd8Y>
-X-ME-Received: <xmr:kqRJaA0ytv76nYZnGEu6T-EhtWb4cnUZZHKTfUZkcCGCkjILAl8z47C1uCyABEcxePXGZbUIp0swYcLztvFweiRL>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdduvdehkecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfgggtgfesthekredtredt
-    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
-    guvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgr
-    thhtvghrnhepheeigfeuveeutdefhfehgeekvedtleeuueekveefudehhffhjeffgfegff
-    elfeegnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhep
-    nhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtg
-    hpthhtohepledpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhgthhgvhhgrsges
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlih
-    guvghrrdgsvgdprhgtphhtthhopehsrghkrghrihdrrghilhhusheslhhinhhugidrihhn
-    thgvlhdrtghomhdprhgtphhtthhopehtohhmihdrvhgrlhhkvghinhgvnhdorhgvnhgvsh
-    grshesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhgruhhrvghnthdr
-    phhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehlih
-    hnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhi
-    nhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtph
-    htthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgt
-    phhtthhopehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrg
-    htvggthhdrshgv
-X-ME-Proxy: <xmx:kqRJaLBpatNbXIOG9OnlHdrIySBbjTtdsfO4elRHCoHN1dDPtC51EQ>
-    <xmx:kqRJaEjkxukUC44YMJHBLkWwHlunj5uJBVHXl4WTXTvlY6RkqUSRVw>
-    <xmx:kqRJaPp-Dp5wpORPhgqpt2Tkf3kFZOFDZIg3xz5r4h80aNia3nG63A>
-    <xmx:kqRJaPg9Vp8z5ljInrZd1g4L79TZg2ApgVhcYqtOTJXYNKvJHxQ_KA>
-    <xmx:kqRJaK-OSqpxhimFNQ1AOVJ6H8spJLzlfmtWxHEWBV28I2dwjy9lnFN8>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 11 Jun 2025 11:45:22 -0400 (EDT)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v3 4/4] media: rcar-csi2: Add D-PHY support for V4H
-Date: Wed, 11 Jun 2025 17:44:45 +0200
-Message-ID: <20250611154445.123412-5-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250611154445.123412-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20250611154445.123412-1-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1749658996; c=relaxed/simple;
+	bh=6Yr7neCKNg/B0PNZ095QRrKhidA14r8xP13hJkq563Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AEIgcpSa29dLUoRTSrCBQhstLosq7BOfOn2AoFy3P6qgbqcWpTyZ31zprbGhvnxnzkBP2lRANdRXtRGiwYG6E8x/IIb2Kq9pwEwlbYnfP07UbfqXwp5goWDYtS/Jo3PR2TK55Jz1evBy4J4kOIlfA4TE2499gAjM4SxNe9hVPls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gqPoV5uF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89BA5C4CEE3;
+	Wed, 11 Jun 2025 16:23:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749658993;
+	bh=6Yr7neCKNg/B0PNZ095QRrKhidA14r8xP13hJkq563Q=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=gqPoV5uFk7qp0GcxWwFb4sV5d2YF44Y+vaGki/HO6Ls9HVdP4MwrSib52H3KHcRcA
+	 BeU761q5eImCF4CMawjl/YfQASldadoP1EBgBW8KChPg6cojLsqmBGWfQ2O6eF85Ax
+	 LB0z9OrAD6d6MgvPaJD38yJozqVH+Q0NTDgh9jkMXu38MymZivQXANvu+DfqdOCali
+	 XSAZHpT2MxkWP/ttB0Juv/ToZ7yPu+XEEJa6V1U2qKim7PTWFEkdtkPh1EhxaESUWN
+	 vhTMxwUUmmpJJ/eOKX9WkJ1KZSMuqELbhi9GittWZrpyQ0VO+xuBh/jcninR7UXAi3
+	 EpnczJ/+5XdgQ==
+Date: Wed, 11 Jun 2025 17:23:07 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Claudiu
+ <claudiu.beznea@tuxon.dev>, gregkh@linuxfoundation.org, dakr@kernel.org,
+ len.brown@intel.com, pavel@kernel.org, ulf.hansson@linaro.org,
+ daniel.lezcano@linaro.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, bhelgaas@google.com, geert@linux-m68k.org,
+ linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ fabrizio.castro.jz@renesas.com, Claudiu Beznea
+ <claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH v3 1/2] PM: domains: Add devres variant for
+ dev_pm_domain_attach()
+Message-ID: <20250611172307.37c9b725@jic23-huawei>
+In-Reply-To: <CAJZ5v0jqZ6gYKb85dpR-X5RwFeUBcbbcJ_b-AOe+JypBXod-MA@mail.gmail.com>
+References: <20250606111749.3142348-1-claudiu.beznea.uj@bp.renesas.com>
+	<20250606111749.3142348-2-claudiu.beznea.uj@bp.renesas.com>
+	<CAJZ5v0i_Ey+OVpSZHXru=tubMaZi=y-uOh_0M6zmWZ2DqqA7Vg@mail.gmail.com>
+	<zhjytvj35lknj7v3jhva3n3nbv6qctvqgykwyi5huj6omet7lz@wchd7f4p4dpv>
+	<CAJZ5v0hsT-Q2hz=qoBo409oungaCmexJwwGheN7KRLFqz=6_Dw@mail.gmail.com>
+	<20250607140600.76e87ea5@jic23-huawei>
+	<CAJZ5v0jqZ6gYKb85dpR-X5RwFeUBcbbcJ_b-AOe+JypBXod-MA@mail.gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -116,331 +71,159 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-Add D-PHY support for V4H in addition to the already support C-PHY
-support. The common start-up procedure for C-PHY and D-PHY are shared,
-only PHY setup differ. Extend the V4H setup with D-PHY support as
-documented in the datasheet (Rev.1.21).
+On Mon, 9 Jun 2025 21:59:57 +0200
+"Rafael J. Wysocki" <rafael@kernel.org> wrote:
 
-Most of the start-up procedure is only documented as magic values in
-tables, there is little documentation to make the settings more clear.
-Wherever possible formulas or lookup tables are used as they are
-documented in the datasheet.
+> On Sat, Jun 7, 2025 at 3:06=E2=80=AFPM Jonathan Cameron <jic23@kernel.org=
+> wrote:
+> >
+> > On Fri, 6 Jun 2025 22:01:52 +0200
+> > "Rafael J. Wysocki" <rafael@kernel.org> wrote:
+> >
+> > Hi Rafael,
+> > =20
+> > > On Fri, Jun 6, 2025 at 8:55=E2=80=AFPM Dmitry Torokhov
+> > > <dmitry.torokhov@gmail.com> wrote: =20
+> > > >
+> > > > On Fri, Jun 06, 2025 at 06:00:34PM +0200, Rafael J. Wysocki wrote: =
+=20
+> > > > > On Fri, Jun 6, 2025 at 1:18=E2=80=AFPM Claudiu <claudiu.beznea@tu=
+xon.dev> wrote: =20
+> > > > > >
+> > > > > > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> > > > > >
+> > > > > > The dev_pm_domain_attach() function is typically used in bus co=
+de alongside
+> > > > > > dev_pm_domain_detach(), often following patterns like:
+> > > > > >
+> > > > > > static int bus_probe(struct device *_dev)
+> > > > > > {
+> > > > > >     struct bus_driver *drv =3D to_bus_driver(dev->driver);
+> > > > > >     struct bus_device *dev =3D to_bus_device(_dev);
+> > > > > >     int ret;
+> > > > > >
+> > > > > >     // ...
+> > > > > >
+> > > > > >     ret =3D dev_pm_domain_attach(_dev, true);
+> > > > > >     if (ret)
+> > > > > >         return ret;
+> > > > > >
+> > > > > >     if (drv->probe)
+> > > > > >         ret =3D drv->probe(dev);
+> > > > > >
+> > > > > >     // ...
+> > > > > > }
+> > > > > >
+> > > > > > static void bus_remove(struct device *_dev)
+> > > > > > {
+> > > > > >     struct bus_driver *drv =3D to_bus_driver(dev->driver);
+> > > > > >     struct bus_device *dev =3D to_bus_device(_dev);
+> > > > > >
+> > > > > >     if (drv->remove)
+> > > > > >         drv->remove(dev);
+> > > > > >     dev_pm_domain_detach(_dev);
+> > > > > > }
+> > > > > >
+> > > > > > When the driver's probe function uses devres-managed resources =
+that depend
+> > > > > > on the power domain state, those resources are released later d=
+uring
+> > > > > > device_unbind_cleanup().
+> > > > > >
+> > > > > > Releasing devres-managed resources that depend on the power dom=
+ain state
+> > > > > > after detaching the device from its PM domain can cause failure=
+s.
+> > > > > >
+> > > > > > For example, if the driver uses devm_pm_runtime_enable() in its=
+ probe
+> > > > > > function, and the device's clocks are managed by the PM domain,=
+ then
+> > > > > > during removal the runtime PM is disabled in device_unbind_clea=
+nup() after
+> > > > > > the clocks have been removed from the PM domain. It may happen =
+that the
+> > > > > > devm_pm_runtime_enable() action causes the device to be runtime=
+-resumed. =20
+> > > > >
+> > > > > Don't use devm_pm_runtime_enable() then. =20
+> > > >
+> > > > What about other devm_ APIs? Are you suggesting that platform drive=
+rs
+> > > > should not be using devm_clk*(), devm_regulator_*(),
+> > > > devm_request_*_irq() and devm_add_action_or_reset()? Because again,
+> > > > dev_pm_domain_detach() that is called by platform bus_remove() may =
+shut
+> > > > off the device too early, before cleanup code has a chance to execu=
+te
+> > > > proper cleanup.
+> > > >
+> > > > The issue is not limited to runtime PM.
+> > > > =20
+> > > > > =20
+> > > > > > If the driver specific runtime PM APIs access registers directl=
+y, this
+> > > > > > will lead to accessing device registers without clocks being en=
+abled.
+> > > > > > Similar issues may occur with other devres actions that access =
+device
+> > > > > > registers.
+> > > > > >
+> > > > > > Add devm_pm_domain_attach(). When replacing the dev_pm_domain_a=
+ttach() and
+> > > > > > dev_pm_domain_detach() in bus probe and bus remove, it ensures =
+that the
+> > > > > > device is detached from its PM domain in device_unbind_cleanup(=
+), only
+> > > > > > after all driver's devres-managed resources have been release.
+> > > > > >
+> > > > > > For flexibility, the implemented devm_pm_domain_attach() has 2 =
+state
+> > > > > > arguments, one for the domain state on attach, one for the doma=
+in state on
+> > > > > > detach. =20
+> > > > >
+> > > > > dev_pm_domain_attach() is not part driver API and I'm not convinc=
+ed at =20
+> > > >
+> > > > Is the concern that devm_pm_domain_attach() will be [ab]used by dri=
+vers? =20
+> > >
+> > > Yes, among other things. =20
+> >
+> > Maybe naming could make abuse at least obvious to spot? e.g.
+> > pm_domain_attach_with_devm_release() =20
+>=20
+> If I'm not mistaken, it is not even necessary to use devres for this.
+>=20
+> You might as well add a dev_pm_domain_detach() call to
+> device_unbind_cleanup() after devres_release_all().  There is a slight
+> complication related to the second argument of it, but I suppose that
+> this can be determined at the attach time and stored in a new device
+> PM flag, or similar.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Tested-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
----
-* Fixes since v2
-- Stire DESKEW settings in an array and loop over it instead of opene
-  coding it.
+That options sounds good to me.  I think this moves dev_pm_domain_detach()
+call into the the driver core / perhaps device_unbind_cleanup().  It's a no=
+op
+if a domain was never attached so that should be fine.
 
-* Fixes since v1
-- Init cphy  variables to not trigger false -Wmaybe-uninitialized
-  warning.
-- Adjust line lengths.
----
- drivers/media/platform/renesas/rcar-csi2.c | 240 ++++++++++++++++++++-
- 1 file changed, 230 insertions(+), 10 deletions(-)
+Given that second parameter, I guess we can't move the dev_pm_domain_attach=
+()
+into the driver core as well so it is a little odd wrt to balance,
+but with some documentation that is probably fine. I don't think we
+really want a bus->remove_after_devres() callback for just this.
+Ulf what do you think of this approach?
 
-diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
-index 7ba637d8683b..1fd36823c8e9 100644
---- a/drivers/media/platform/renesas/rcar-csi2.c
-+++ b/drivers/media/platform/renesas/rcar-csi2.c
-@@ -172,6 +172,7 @@ struct rcar_csi2;
- #define V4H_PPI_RW_LPDCOCAL_TWAIT_CONFIG_REG		0x21c0a
- #define V4H_PPI_RW_LPDCOCAL_VT_CONFIG_REG		0x21c0c
- #define V4H_PPI_RW_LPDCOCAL_COARSE_CFG_REG		0x21c10
-+#define V4H_PPI_RW_DDLCAL_CFG_n_REG(n)			(0x21c40 + ((n) * 2)) /* n = 0 - 7 */
- #define V4H_PPI_RW_COMMON_CFG_REG			0x21c6c
- #define V4H_PPI_RW_TERMCAL_CFG_0_REG			0x21c80
- #define V4H_PPI_RW_OFFSETCAL_CFG_0_REG			0x21ca0
-@@ -185,6 +186,13 @@ struct rcar_csi2;
- #define V4H_CORE_DIG_IOCTRL_RW_AFE_CB_CTRL_2_REG(n)	(0x23840 + ((n) * 2)) /* n = 0 - 11 */
- #define V4H_CORE_DIG_RW_COMMON_REG(n)			(0x23880 + ((n) * 2)) /* n = 0 - 15 */
- #define V4H_CORE_DIG_ANACTRL_RW_COMMON_ANACTRL_REG(n)	(0x239e0 + ((n) * 2)) /* n = 0 - 3 */
-+#define V4H_CORE_DIG_COMMON_RW_DESKEW_FINE_MEM_REG	0x23fe0
-+
-+#define V4H_CORE_DIG_DLANE_l_RW_CFG_n_REG(l, n)		(0x26000 + ((l) * 0x400) + ((n) * 2))
-+#define V4H_CORE_DIG_DLANE_l_RW_LP_n_REG(l, n)		(0x26080 + ((l) * 0x400) + ((n) * 2))
-+#define V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, n)	(0x26100 + ((l) * 0x400) + ((n) * 2))
-+#define V4H_CORE_DIG_DLANE_CLK_RW_LP_n_REG(n)		V4H_CORE_DIG_DLANE_l_RW_LP_n_REG(4, (n))
-+#define V4H_CORE_DIG_DLANE_CLK_RW_HS_RX_n_REG(n)	V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(4, (n))
- 
- /* V4H C-PHY */
- #define V4H_CORE_DIG_RW_TRIO0_REG(n)			(0x22100 + ((n) * 2)) /* n = 0 - 3 */
-@@ -1282,11 +1290,203 @@ rcsi2_c_phy_setting_v4h(struct rcar_csi2 *priv, int mbps)
- 	return conf;
- }
- 
-+struct rcsi2_d_phy_setting_v4h_lut_value {
-+	unsigned int mbps;
-+	unsigned char cfg_1;
-+	unsigned char cfg_5_94;
-+	unsigned char cfg_5_30;
-+	unsigned char lane_ctrl_2_8;
-+	unsigned char rw_hs_rx_3_83;
-+	unsigned char rw_hs_rx_3_20;
-+	unsigned char rw_hs_rx_6;
-+	unsigned char rw_hs_rx_1;
-+};
-+
-+static const struct rcsi2_d_phy_setting_v4h_lut_value *
-+rcsi2_d_phy_setting_v4h_lut_lookup(int mbps)
-+{
-+	static const struct rcsi2_d_phy_setting_v4h_lut_value values[] = {
-+		{ 4500, 0x3f, 0x07, 0x00, 0x01, 0x02, 0x01, 0x0d, 0x10 },
-+		{ 4000, 0x47, 0x08, 0x01, 0x01, 0x05, 0x01, 0x0f, 0x0d },
-+		{ 3600, 0x4f, 0x09, 0x01, 0x01, 0x06, 0x01, 0x10, 0x0b },
-+		{ 3230, 0x57, 0x0a, 0x01, 0x01, 0x06, 0x01, 0x12, 0x09 },
-+		{ 3000, 0x47, 0x08, 0x00, 0x00, 0x03, 0x01, 0x0f, 0x0c },
-+		{ 2700, 0x4f, 0x09, 0x01, 0x00, 0x06, 0x01, 0x10, 0x0b },
-+		{ 2455, 0x57, 0x0a, 0x01, 0x00, 0x06, 0x01, 0x12, 0x09 },
-+		{ 2250, 0x5f, 0x0b, 0x01, 0x00, 0x08, 0x01, 0x13, 0x08 },
-+		{ 2077, 0x67, 0x0c, 0x01, 0x00, 0x06, 0x02, 0x15, 0x0d },
-+		{ 1929, 0x6f, 0x0d, 0x02, 0x00, 0x06, 0x02, 0x17, 0x0d },
-+		{ 1800, 0x77, 0x0e, 0x02, 0x00, 0x06, 0x02, 0x18, 0x0d },
-+		{ 1688, 0x7f, 0x0f, 0x02, 0x00, 0x08, 0x02, 0x1a, 0x0d },
-+		{ 1588, 0x87, 0x10, 0x02, 0x00, 0x08, 0x02, 0x1b, 0x0d },
-+		{ 1500, 0x8f, 0x11, 0x03, 0x00, 0x08, 0x02, 0x1d, 0x0c },
-+	};
-+
-+	for (unsigned int i = 0; i < ARRAY_SIZE(values); i++)
-+		if (values[i].mbps >= mbps)
-+			return &values[i];
-+
-+	return NULL;
-+}
-+
-+static int rcsi2_d_phy_setting_v4h(struct rcar_csi2 *priv, int mbps)
-+{
-+	const struct rcsi2_d_phy_setting_v4h_lut_value *lut =
-+		rcsi2_d_phy_setting_v4h_lut_lookup(mbps);
-+	u16 val;
-+
-+	rcsi2_write16(priv, V4H_CORE_DIG_RW_COMMON_REG(7), 0x0000);
-+	rcsi2_write16(priv, V4H_PPI_STARTUP_RW_COMMON_DPHY_REG(7), mbps > 1500 ? 0x0028 : 0x0068);
-+	rcsi2_write16(priv, V4H_PPI_STARTUP_RW_COMMON_DPHY_REG(8), 0x0050);
-+	rcsi2_write16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(0), 0x0063);
-+	rcsi2_write16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(7), 0x1132);
-+	rcsi2_write16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(1), 0x1340);
-+	rcsi2_write16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(2), 0x4b13);
-+	rcsi2_write16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(4), 0x000a);
-+	rcsi2_write16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(6), 0x800a);
-+	rcsi2_write16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(7), 0x1109);
-+
-+	if (mbps > 1500) {
-+		val = roundup(5 * mbps / 64, 1);
-+		rcsi2_write16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(3), val);
-+	}
-+
-+	if (lut) {
-+		rcsi2_modify16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(1),
-+			       lut->cfg_1, 0x00ff);
-+		rcsi2_modify16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(5),
-+			       lut->cfg_5_94 << 4, 0x03f0);
-+		rcsi2_modify16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(5),
-+			       lut->cfg_5_30 << 0, 0x000f);
-+
-+		for (unsigned int l = 0; l < 5; l++)
-+			rcsi2_modify16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 8),
-+				       lut->lane_ctrl_2_8 << 12, 0x1000);
-+	}
-+
-+	for (unsigned int l = 0; l < 4; l++)
-+		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_LP_n_REG(l, 0), 0x463c);
-+
-+	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(0, 2), 0x0000);
-+	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(1, 2), 0x0000);
-+	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(2, 2), 0x0001);
-+	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(3, 2), 0x0000);
-+	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(4, 2), 0x0000);
-+
-+	rcsi2_write16(priv, V4H_CORE_DIG_RW_COMMON_REG(6), 0x0009);
-+
-+	val = mbps > 1500 ? 0x0800 : 0x0802;
-+	for (unsigned int l = 0; l < 5; l++)
-+		rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 12), val);
-+
-+	val = mbps > 1500 ? 0x0000 : 0x0002;
-+	for (unsigned int l = 0; l < 5; l++)
-+		rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 13), val);
-+
-+	if (mbps >= 80) {
-+		if (mbps >= 2560)
-+			val = 6;
-+		else if (mbps >= 1280)
-+			val = 5;
-+		else if (mbps >= 640)
-+			val = 4;
-+		else if (mbps >= 320)
-+			val = 3;
-+		else if (mbps >= 160)
-+			val = 2;
-+		else if (mbps >= 80)
-+			val = 1;
-+
-+		rcsi2_modify16(priv,
-+			       V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(2, 9),
-+			       val << 5, 0xe0);
-+	}
-+
-+	rcsi2_write16(priv, V4H_CORE_DIG_DLANE_CLK_RW_HS_RX_n_REG(0), 0x091c);
-+	rcsi2_write16(priv, V4H_CORE_DIG_DLANE_CLK_RW_HS_RX_n_REG(7), 0x3b06);
-+
-+	val = roundup(1200 / mbps, 1) + 12;
-+	for (unsigned int l = 0; l < 4; l++)
-+		rcsi2_modify16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 0), val << 8, 0xf0);
-+
-+	val = mbps > 1500 ? 0x0004 : 0x0008;
-+	for (unsigned int l = 0; l < 4; l++)
-+		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_CFG_n_REG(l, 1), val);
-+
-+	val = mbps > 2500 ? 0x669a : mbps > 1500 ? 0xe69a : 0xe69b;
-+	for (unsigned int l = 0; l < 4; l++)
-+		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 2), val);
-+
-+	for (unsigned int l = 0; l < 4; l++)
-+		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_LP_n_REG(l, 0), 0x163c);
-+	rcsi2_write16(priv, V4H_CORE_DIG_DLANE_CLK_RW_LP_n_REG(0), 0x163c);
-+
-+	if (lut) {
-+		for (unsigned int l = 0; l < 4; l++)
-+			rcsi2_modify16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 1),
-+				       lut->rw_hs_rx_1, 0xff);
-+	}
-+
-+	for (unsigned int l = 0; l < 4; l++)
-+		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 3), 0x9209);
-+
-+	for (unsigned int l = 0; l < 4; l++)
-+		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 4), 0x0096);
-+
-+	for (unsigned int l = 0; l < 4; l++)
-+		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 5), 0x0100);
-+
-+	for (unsigned int l = 0; l < 4; l++)
-+		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 6), 0x2d02);
-+
-+	for (unsigned int l = 0; l < 4; l++)
-+		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 7), 0x1b06);
-+
-+	if (lut) {
-+		/* Documentation LUT have two values but document writing both
-+		 * values in a single write.
-+		 */
-+		for (unsigned int l = 0; l < 4; l++)
-+			rcsi2_modify16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 3),
-+				       lut->rw_hs_rx_3_83 << 3 | lut->rw_hs_rx_3_20, 0x1ff);
-+
-+		for (unsigned int l = 0; l < 4; l++)
-+			rcsi2_modify16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 6),
-+				       lut->rw_hs_rx_6 << 8, 0xff00);
-+	}
-+
-+	static const u16 deskew_fine[] = {
-+		0x0404, 0x040c, 0x0414, 0x041c, 0x0423, 0x0429, 0x0430, 0x043a,
-+		0x0445, 0x044a, 0x0450, 0x045a, 0x0465, 0x0469, 0x0472, 0x047a,
-+		0x0485, 0x0489, 0x0490, 0x049a, 0x04a4, 0x04ac, 0x04b4, 0x04bc,
-+		0x04c4, 0x04cc, 0x04d4, 0x04dc, 0x04e4, 0x04ec, 0x04f4, 0x04fc,
-+		0x0504, 0x050c, 0x0514, 0x051c, 0x0523, 0x0529, 0x0530, 0x053a,
-+		0x0545, 0x054a, 0x0550, 0x055a, 0x0565, 0x0569, 0x0572, 0x057a,
-+		0x0585, 0x0589, 0x0590, 0x059a, 0x05a4, 0x05ac, 0x05b4, 0x05bc,
-+		0x05c4, 0x05cc, 0x05d4, 0x05dc, 0x05e4, 0x05ec, 0x05f4, 0x05fc,
-+		0x0604, 0x060c, 0x0614, 0x061c, 0x0623, 0x0629, 0x0632, 0x063a,
-+		0x0645, 0x064a, 0x0650, 0x065a, 0x0665, 0x0669, 0x0672, 0x067a,
-+		0x0685, 0x0689, 0x0690, 0x069a, 0x06a4, 0x06ac, 0x06b4, 0x06bc,
-+		0x06c4, 0x06cc, 0x06d4, 0x06dc, 0x06e4, 0x06ec, 0x06f4, 0x06fc,
-+		0x0704, 0x070c, 0x0714, 0x071c, 0x0723, 0x072a, 0x0730, 0x073a,
-+		0x0745, 0x074a, 0x0750, 0x075a, 0x0765, 0x0769, 0x0772, 0x077a,
-+		0x0785, 0x0789, 0x0790, 0x079a, 0x07a4, 0x07ac, 0x07b4, 0x07bc,
-+		0x07c4, 0x07cc, 0x07d4, 0x07dc, 0x07e4, 0x07ec, 0x07f4, 0x07fc,
-+	};
-+
-+	for (unsigned int i = 0; i < ARRAY_SIZE(deskew_fine); i++) {
-+		rcsi2_write16(priv, V4H_CORE_DIG_COMMON_RW_DESKEW_FINE_MEM_REG,
-+			      deskew_fine[i]);
-+	}
-+
-+	return 0;
-+}
-+
- static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv,
- 				    struct v4l2_subdev_state *state)
- {
-+	const struct rcsi2_cphy_setting *cphy = NULL;
- 	const struct rcar_csi2_format *format;
--	const struct rcsi2_cphy_setting *cphy;
- 	const struct v4l2_mbus_framefmt *fmt;
- 	unsigned int lanes;
- 	int mbps;
-@@ -1318,7 +1518,8 @@ static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv,
- 	rcsi2_write(priv, V4H_FLDC_REG, 0);
- 	rcsi2_write(priv, V4H_FLDD_REG, 0);
- 	rcsi2_write(priv, V4H_IDIC_REG, 0);
--	rcsi2_write(priv, V4H_PHY_MODE_REG, V4H_PHY_MODE_CPHY);
-+	rcsi2_write(priv, V4H_PHY_MODE_REG,
-+		    priv->cphy ? V4H_PHY_MODE_CPHY : V4H_PHY_MODE_DPHY);
- 	rcsi2_write(priv, V4H_N_LANES_REG, lanes - 1);
- 
- 	rcsi2_write(priv, V4M_FRXM_REG,
-@@ -1361,9 +1562,15 @@ static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv,
- 	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_CB_CTRL_2_REG(5), 0x4000);
- 
- 	/* T3: PHY settings */
--	cphy = rcsi2_c_phy_setting_v4h(priv, mbps);
--	if (!cphy)
--		return -ERANGE;
-+	if (priv->cphy) {
-+		cphy = rcsi2_c_phy_setting_v4h(priv, mbps);
-+		if (!cphy)
-+			return -ERANGE;
-+	} else {
-+		ret = rcsi2_d_phy_setting_v4h(priv, mbps);
-+		if (ret)
-+			return ret;
-+	}
- 
- 	/* T4: Leave Shutdown mode */
- 	rcsi2_write(priv, V4H_DPHY_RSTZ_REG, BIT(0));
-@@ -1376,11 +1583,23 @@ static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv,
- 	}
- 
- 	/* T6: Analog programming */
--	for (unsigned int l = 0; l < 3; l++) {
--		rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 9),
--			      cphy->lane29);
--		rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 7),
--			      cphy->lane27);
-+	if (priv->cphy) {
-+		for (unsigned int l = 0; l < 3; l++) {
-+			rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 9),
-+				      cphy->lane29);
-+			rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 7),
-+				      cphy->lane27);
-+		}
-+	} else {
-+		u16 val_2_9 = mbps > 2500 ? 0x14 : mbps > 1500 ? 0x04 : 0x00;
-+		u16 val_2_15 = mbps > 1500 ? 0x03 : 0x00;
-+
-+		for (unsigned int l = 0; l < 5; l++) {
-+			rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 9),
-+				      val_2_9);
-+			rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 15),
-+				      val_2_15);
-+		}
- 	}
- 
- 	/* T7: Wait for stop state */
-@@ -2245,6 +2464,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a779g0 = {
- 	.start_receiver = rcsi2_start_receiver_v4h,
- 	.use_isp = true,
- 	.support_cphy = true,
-+	.support_dphy = true,
- };
- 
- static const struct rcsi2_register_layout rcsi2_registers_v4m = {
--- 
-2.49.0
+Jonathan
+
+>=20
+> Note that dev->pm_domain is expected to be cleared by ->detach(), so
+> this should not cause the domain to be detached twice in a row from
+> the same device, but that needs to be double-checked.
+>=20
+> Thanks!
+>=20
 
 
