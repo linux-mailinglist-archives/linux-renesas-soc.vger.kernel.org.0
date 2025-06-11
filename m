@@ -1,127 +1,143 @@
-Return-Path: <linux-renesas-soc+bounces-18091-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18092-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E696FAD50BB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jun 2025 12:00:46 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A650FAD50E1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jun 2025 12:05:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EE68A3A847B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jun 2025 10:00:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4FECE3A8991
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jun 2025 10:05:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEC922367B0;
-	Wed, 11 Jun 2025 10:00:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C63F269CED;
+	Wed, 11 Jun 2025 10:03:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b="Jxt6xsAg";
+	dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b="Jxt6xsAg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.mleia.com (mleia.com [178.79.152.223])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E16220F33;
-	Wed, 11 Jun 2025 10:00:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5455626988E;
+	Wed, 11 Jun 2025 10:03:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.79.152.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749636042; cv=none; b=sxfNXy+IZFnpgjmlwLVuVApvDy42dBUar5qdgL8yek3f8Lg7B2VVxft27QYZMPy+/B4J7yKUP9mjTkSUU5GUzHwFwUPTP1spQguOAcW57N/SHpLR/T3ahwEpW/mdq8GaHh9kaWDhQrNApZlhcowP5tYAasaS3RlMsYDSDxGlnAk=
+	t=1749636220; cv=none; b=ZM+bBLFI/kXfanKCnFnv99Cfbm9862Fn8gGk36PU3TinWNorfISRvq/MRq47X7FGuvOd4s6q+gw3e6Bcvf1hDpPiA2Ga66DS47AGaspDsRcftAymyMrqzKdLS2OqyDsczMI6PP9a5sMkeMd9+SJTuriwiYjw2DhdCnBpMOfekdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749636042; c=relaxed/simple;
-	bh=lLpBVWJviBGG4OM+Gf15b45ueWAxWDj3Bz8Bqt9hHw8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iXQAXA+n99FVfmcGKMN0mhw2KJPGgi6s1RmoI83gekXjhLU4bsya2PcTxhFah8XgEgSyVQZLlduRRhZoIGuQIDKlG7uaZ1dUl+BegKutfg/oS62obZIR3qMTcqjkm6ir7U7tYJa0QaSVe+NDdoekVQ1Tu5gADjE5RZREPzQzLyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-5308b451df0so1958412e0c.2;
-        Wed, 11 Jun 2025 03:00:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749636038; x=1750240838;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BVNUt1zXJa9mOFl6PLZWhV0CAuJbuq8CgZxL2ha14hg=;
-        b=BUPH2tRcgdsYAvCUUadSxInkUVeotnY+nMEqlKkYkvm3v4IGLzmeGRvacjWX+oBqxM
-         FXYN5dfurxN+XBLbQsdyc3TP3Zb/BIvjEA+EzcuEtsWmF4ltmT55RysHt8xP2Rb9ao64
-         lSraExolSXrssrttVTSYbsdwQF7YrfLzE+luhcwIG0Aywnot+Sa2NUcRUtJp14q53GGG
-         xFx4gqCk3HpQrwCMCKo97Gvw3ftyhFTXYgN0byK2eB+Udv7b4hDXbPMo3nGsdXwANASu
-         CpjrusQ8GHxQ6dNhS4vyoUvMVJ7m5ppaPd8SGxiwvZpmtnDoQPL2b+oxcLU0m001Ai3h
-         nPhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX1ZnLP5iEkBjN2+LKGTp1ZXIlm8fBAfCcRn51TbOpjpIkgCeE0/9r13+1oI6+jwx8lIKys6MPYFCsu@vger.kernel.org, AJvYcCXv7Eiot4s5/vGnUBRL/LNahyT9TNCLx1o3fOMLGxwky+JMO+SEQqVaV5Em11djCEB+DVHFVdNO2WOx3ukxIkOs+Oo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzcBVOq3JEwqb7ugdyjpC9XZlB9FhmzaNUqFDup9bMpRP/PlBMM
-	BnLMUNoAS0F20yAdRx77OtS8HYt7uUv/I8hbJXzzwFyMlPze+kxtlmDUsfgjEv+8
-X-Gm-Gg: ASbGncs9coMzfJNPi6M8gXgBdV6R+1DPcg3u+LmiJbHNNYQOphkoAo/9D7kUznAxOF/
-	kvgYIuM2mxsPc2NRxw7jmU+FG8/LEowTl7pRYx8u5XQSHnHhhgQbId4CnkV7nrYYfm7aX1aWMER
-	HshdMEV410AxqyHmJYEttzzk1EokDXt5DmrFDOlYjldcBbjMAXKlJviRJmL/O/kdGs+YJLaXKLR
-	Z+9J/2Vyuy8EdjQ1dIu5ZYw9XPmRORbRABK2xiSLo77/eeZp19pm3/yqg3BCL3pTeGbjCbTCyiG
-	tc5e3yPFAgTlQhiXFAINldOSMlOsiMLTxLJ4mZ1PZQBCT7bfZW/NuS5dOO43aKyYOgqO4rJkCB/
-	m+D1YCzkH7yJrVSqxDNEuUW6E
-X-Google-Smtp-Source: AGHT+IE3w6r8DOMw+g6S1dMSYXO9IpZ460scIGQbPLWs/sztZRplSPwYceosafwA6YV0k/qbNdsVbg==
-X-Received: by 2002:a05:6122:318f:b0:523:e9d2:404d with SMTP id 71dfb90a1353d-53122deb3f2mr1637711e0c.11.1749636037943;
-        Wed, 11 Jun 2025 03:00:37 -0700 (PDT)
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-53113c0d475sm2522180e0c.33.2025.06.11.03.00.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Jun 2025 03:00:36 -0700 (PDT)
-Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-87ecca2dc48so1070843241.1;
-        Wed, 11 Jun 2025 03:00:36 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV0Ah2Vh4qyJCi+y5CD2tCqlR32Ucc1Zf3zjgbIZ9rtCCM2xf9hazryXOlxL2qimPDy+s0wvLOhyRCqgflXa6wCBlY=@vger.kernel.org, AJvYcCVBHS1Wf88FcvH4dYT2LHs3jekc4oS6Wpd9flD/zCzIUVBCYRq58kKcJSnCKUcvbd+O7q00mCUFw2jU@vger.kernel.org
-X-Received: by 2002:a05:6102:4406:b0:4e4:5ed0:19b2 with SMTP id
- ada2fe7eead31-4e7bba2aa59mr1703833137.9.1749636036730; Wed, 11 Jun 2025
- 03:00:36 -0700 (PDT)
+	s=arc-20240116; t=1749636220; c=relaxed/simple;
+	bh=ZELWje44IQXg+aqRqhMjZlzmAPP8bdbQVZYOFJq3M9g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jPwi2aCIyJBP1/jIqYMSsWp8Nr9duv8gpVAemQ20wbc4cbKB/W0p2uqFUkaZL5QygGnPBAZiThvwXbnoBQoeAJSEtcrNJH3AkQCqNr7TC/7I86hGxHxIXbaonHK8R4aimiR3rAZt5kNkhSL1n7iO8/0W/1BQqDoJocRH8dKh3OQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mleia.com; spf=none smtp.mailfrom=mleia.com; dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b=Jxt6xsAg; dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b=Jxt6xsAg; arc=none smtp.client-ip=178.79.152.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mleia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=mleia.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mleia.com; s=mail;
+	t=1749635665; bh=ZELWje44IQXg+aqRqhMjZlzmAPP8bdbQVZYOFJq3M9g=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Jxt6xsAgMAOUb4jl76i3Cw/ob+3g27CDrEJ11UaNWweARmh3pASKr9vGVkS92IFac
+	 YPXA6hqSgGV5dnyifiEPzFxSuWmHwqtnnBorcndP4VXu30erdJBfP8YrJ46WtqkT2C
+	 ZB5SXynEGjYF90uyMsBkLTP7/K9tKTjfvpNQc65M4ZFGcmOJyetoZJbQyfgMTcccnC
+	 ovv/hF2800vFjHZenrXZ9Ib3Cs3634CyeipOu5H15sVoNWHX/j8qicu106Z5ZeHvjj
+	 l5CXC3vkbBXv/RUgPw6tOFDOWz5MZGDnaCREKgxUUUqRvZgLkdcVlwdN1MIjOJGq3p
+	 fGRPXfFbZHprg==
+Received: from mail.mleia.com (localhost [127.0.0.1])
+	by mail.mleia.com (Postfix) with ESMTP id 964313C153A;
+	Wed, 11 Jun 2025 09:54:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mleia.com; s=mail;
+	t=1749635665; bh=ZELWje44IQXg+aqRqhMjZlzmAPP8bdbQVZYOFJq3M9g=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Jxt6xsAgMAOUb4jl76i3Cw/ob+3g27CDrEJ11UaNWweARmh3pASKr9vGVkS92IFac
+	 YPXA6hqSgGV5dnyifiEPzFxSuWmHwqtnnBorcndP4VXu30erdJBfP8YrJ46WtqkT2C
+	 ZB5SXynEGjYF90uyMsBkLTP7/K9tKTjfvpNQc65M4ZFGcmOJyetoZJbQyfgMTcccnC
+	 ovv/hF2800vFjHZenrXZ9Ib3Cs3634CyeipOu5H15sVoNWHX/j8qicu106Z5ZeHvjj
+	 l5CXC3vkbBXv/RUgPw6tOFDOWz5MZGDnaCREKgxUUUqRvZgLkdcVlwdN1MIjOJGq3p
+	 fGRPXfFbZHprg==
+Message-ID: <2ae6aa29-ea42-4fdf-a0ae-8cd088c88786@mleia.com>
+Date: Wed, 11 Jun 2025 12:54:21 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250608142908.54121-1-marek.vasut+renesas@mailbox.org> <20250608142908.54121-2-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20250608142908.54121-2-marek.vasut+renesas@mailbox.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 11 Jun 2025 12:00:25 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU3zezC8X3Z1vSd2PuauaafQ1-3DdFueRu1UgYGy13Y=A@mail.gmail.com>
-X-Gm-Features: AX0GCFtdl7eJYuvMUpMJQIJMqzcl4oDAUWuBYo46PLBnsCr9DCEg3l2ekpjPOiM
-Message-ID: <CAMuHMdU3zezC8X3Z1vSd2PuauaafQ1-3DdFueRu1UgYGy13Y=A@mail.gmail.com>
-Subject: Re: [PATCH 2/3] drm/panel: ilitek-ili9881c: Allow configuration of
- the number of lanes
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: dri-devel@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, David Airlie <airlied@gmail.com>, 
-	Jessica Zhang <quic_jesszhan@quicinc.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>, 
-	Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 16/17] pinctrl: Constify static 'pinctrl_desc'
+Content-Language: ru-RU
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>,
+ Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>,
+ Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>,
+ Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>,
+ =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+ =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Lorenzo Bianconi <lorenzo@kernel.org>, Sean Wang <sean.wang@kernel.org>,
+ Jesper Nilsson <jesper.nilsson@axis.com>,
+ Lars Persson <lars.persson@axis.com>, Damien Le Moal <dlemoal@kernel.org>,
+ Michal Simek <michal.simek@amd.com>, Emil Renner Berthing <kernel@esmil.dk>,
+ Jianlong Huang <jianlong.huang@starfivetech.com>,
+ Hal Feng <hal.feng@starfivetech.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Manivannan Sadhasivam <mani@kernel.org>
+Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@axis.com,
+ linux-riscv@lists.infradead.org, linux-rtc@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com
+References: <20250611-pinctrl-const-desc-v2-0-b11c1d650384@linaro.org>
+ <20250611-pinctrl-const-desc-v2-16-b11c1d650384@linaro.org>
+From: Vladimir Zapolskiy <vz@mleia.com>
+In-Reply-To: <20250611-pinctrl-const-desc-v2-16-b11c1d650384@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-49551924 
+X-CRM114-CacheID: sfid-20250611_095425_660571_DE75DF41 
+X-CRM114-Status: UNSURE (   7.40  )
+X-CRM114-Notice: Please train this message. 
 
-Hi Marek,
+On 6/11/25 09:13, Krzysztof Kozlowski wrote:
+> The local static 'struct pinctrl_desc' is not modified, so can be made
+> const for code safety.
+> 
+> Acked-by: Lorenzo Bianconi <lorenzo@kernel.org>
+> Acked-by: Jesper Nilsson <jesper.nilsson@axis.com>
+> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>   drivers/pinctrl/berlin/berlin.c                    | 2 +-
+>   drivers/pinctrl/cirrus/pinctrl-cs42l43.c           | 2 +-
+>   drivers/pinctrl/mediatek/pinctrl-airoha.c          | 2 +-
+>   drivers/pinctrl/pinctrl-artpec6.c                  | 2 +-
+>   drivers/pinctrl/pinctrl-bm1880.c                   | 2 +-
+>   drivers/pinctrl/pinctrl-k210.c                     | 2 +-
+>   drivers/pinctrl/pinctrl-lpc18xx.c                  | 2 +-
 
-On Sun, 8 Jun 2025 at 23:38, Marek Vasut
-<marek.vasut+renesas@mailbox.org> wrote:
-> Not all panels use all 4 data lanes, so allow configuration based
-> on the compatible string.
->
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Acked-by: Vladimir Zapolskiy <vz@mleia.com>
 
-Thanks for your patch!
+>   drivers/pinctrl/pinctrl-mlxbf3.c                   | 2 +-
+>   drivers/pinctrl/pinctrl-tb10x.c                    | 2 +-
+>   drivers/pinctrl/pinctrl-zynq.c                     | 2 +-
+>   drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c | 2 +-
+>   11 files changed, 11 insertions(+), 11 deletions(-)
+> 
 
-> --- a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-> +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-> @@ -43,6 +43,7 @@ struct ili9881c_desc {
->         const struct drm_display_mode *mode;
->         const unsigned long mode_flags;
->         u8 default_address_mode;
-> +       unsigned int lanes;
-
-You may want to use u8 instead, so this fits into the existing hole
-on 32-bit systems.
-
->  };
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--
+Best wishes,
+Vladimir
 
