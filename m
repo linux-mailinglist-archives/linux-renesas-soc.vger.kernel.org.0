@@ -1,186 +1,160 @@
-Return-Path: <linux-renesas-soc+bounces-18178-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18179-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61B61AD7079
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 14:32:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA8C6AD7087
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 14:34:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ADF361886877
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 12:32:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 895FB3A1477
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 12:34:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB2752F432A;
-	Thu, 12 Jun 2025 12:31:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="GEzH/xP+"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56901221F20;
+	Thu, 12 Jun 2025 12:34:50 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from out.smtpout.orange.fr (out-15.smtpout.orange.fr [193.252.22.15])
-	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2D626AF3;
-	Thu, 12 Jun 2025 12:31:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.22.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 701BE18DB29;
+	Thu, 12 Jun 2025 12:34:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749731510; cv=none; b=AFyr53aj67EuwAi0tOE/cN32D/u75ZQqNF1cydhVjEa5FkwuyYyGJpX/Ft3Cn1qHnhMPPEslc+rss6z2KFXOPpmtthx6/MBPfg7/ea4XKFZLthq4qKSucLfWRbJ/xqeiPxC06vYnKMZgCOeJx4XiIgORVHXgGm9FZwxlz3AVUhk=
+	t=1749731690; cv=none; b=h92tq0aY2Jp2+koURtmLAbJj7b4sq77QnSwgrpcKsKB1ysraspALWNI+y/OJZG1bx5llealQLwtcd73ZdH0sbCMOpcnQoZEvvgXgJRxC7KHQI0oH4HuWL2NvTElS80mVrx9FOO6x3ax2R8+GxdaxIogS6Gfcyb0Di62EMdHwvyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749731510; c=relaxed/simple;
-	bh=RbHu+Mrg3PKCKYZqr/f2DZSc32uOM7Ygmq3rRxKjgzQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B0VrotX5jKfONxwEP6ChkbRNfQujDtLlizigXAAbyfB8V+2FAHJ4g6AXrxkUPVNE0xcCq03PHCo6LXkQUOCJOmDnE8lTDQdH0sKKKJTo/5+P31J2i94HIs8x1jJK/yO3RZDDBFYu7uYQI53aXSCXm1Mjuoo/3D6JWUhyttw3+5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=GEzH/xP+; arc=none smtp.client-ip=193.252.22.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from [172.16.82.72] ([124.33.176.97])
-	by smtp.orange.fr with ESMTPA
-	id Ph5muZu6TvsHFPh5nu7qwc; Thu, 12 Jun 2025 14:31:43 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1749731503;
-	bh=bnwuXERF3JDSg5Su/yPkiBJBRUZgRY0nJ6QB7Y6IK78=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=GEzH/xP+SjBbTe6VW/8WK27Wp1qterPCq/ah2AA1tOZFqhhr0xhX0UdS1qfKUccrK
-	 SJ6uKRrypqP67BpWTGeZeOVXCVuUeT3m7uwlA5CviYxuGRZelAW28VJdLelPF/s7j4
-	 2omTwuVfh9lcnBIRkRVOInBFgSxSJHOJFSbn1eZ2JVeeUPcG5M7u4PSCWsrqDv7ZC2
-	 6/01jAapTsPGSSKVixdpz9n2TDDhKf/fA0xiCzNsyIkeuYoOCWOw9X2/4BDaSAJWV4
-	 O7ai+HQr5Hrr8THg5moww9se4/HBzCkp6H4FmCXfTmevsFWkC4EyMnQE8kEr6x/o7i
-	 F05zzBmVGXzfg==
-X-ME-Helo: [172.16.82.72]
-X-ME-Auth: bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI=
-X-ME-Date: Thu, 12 Jun 2025 14:31:43 +0200
-X-ME-IP: 124.33.176.97
-Message-ID: <7fe53bc6-5e4d-4caf-9c1c-8fed1703d58b@wanadoo.fr>
-Date: Thu, 12 Jun 2025 21:31:38 +0900
+	s=arc-20240116; t=1749731690; c=relaxed/simple;
+	bh=HMvmy76NLGORQArlbIXSPIXwELaN8ey56Ig9mvz4sxY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Syhbr9DGIDMbjdkBsUQ1wHrxmHU/KWyvruhq1LC8ZKd3eJ2c4DMGTT5/HQfNKWw6WNo/CZ2XQy0bmv40Z4XmUcNWGRwYPzBp9qjVcbnYxOGcukvbB2RPedCnj2DhCtezgMewTT9TU9OwQGDQSPjef/+zkhaf3TtmMZt9vWzLZGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6fad79433bbso9856876d6.0;
+        Thu, 12 Jun 2025 05:34:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749731686; x=1750336486;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YdmKBl6XQx/lg6XYfGHOU0jB5qghLcO4dPwReFsMtRM=;
+        b=KiMMa0XEfJb8/8nXxKylvl7VLY7DhuSoUKznjOovZ/6Cq8sjlguIBrr92OiOIzWelN
+         /dkFjOepRQich3JXrsmptdTzLdHEPzfu5nqZ23ahmNBnlRY6DzIgdZaqLh9nVmqf9Kel
+         3I0VGlLAnWkEuPQnb0FcvETZM0NNh9uWt/ecpDs6TOtdDPxXLodWIW3J1eg2/77G9Xaj
+         ZxlCO/oNQi1IZ1P3ItIrQv+S5q/Kv/bSnqEhOuvtYRqYtow/Elqj+V80FxgYxRhPbqZh
+         2Vy9obYP3XyJWUzfd+pW+qaT5K5IpbY3fhSmsDMfnWW2ESMO6O11ZPbXy+BR6DYcJ58+
+         q+kg==
+X-Forwarded-Encrypted: i=1; AJvYcCURLPb+AgC1yRmG93NtCxxlz4cRwCMV+kNNQjw11xIRKmNBB4/VCrjOy/NkmQ0ZnJ7/cRrVsotqNC+MmV4=@vger.kernel.org, AJvYcCWIKRSCwtVZUvMT1MWayJMt9aOcz5DOO2B5a+PYU2/qiwqxbnougP90pFcfj0dM7HLCwQlLplHfuVfQbnw=@vger.kernel.org, AJvYcCXfT4QPxd8JyW/itHtFLgbytIvusredRVxXnADNitSpkdft67hloDcQZkrcGOMaxZpFgw8N8b5wNd18pbd0/rnSrgo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzKaYpfxay0QCag6llgt7a96y8PM7LsJ3IREsfN10VEoRO0QJt7
+	r6hu1uUH578LFFr0kNYrsVnoEaouwFq7lhWdF6+fXLsFJEx6JYRtzexo4MTf0ltc
+X-Gm-Gg: ASbGnctTgq7NE5oKRdO0nVYdfmOb2IsiQEfdHARTrlBeMEybt+dVIm1cnjw77AWNSRU
+	znCTq/WdsAmMLOkpXSbcJqh6mWInHPk7ZpM71C6NeB/yCKfJoZuWWLfEXLnG62k37O8Ji1aTdrt
+	+GkzBixWB9DADkUZgpmxhnMXqAw2nANc2g1aFeFwUB5YdEVbgDdGkTVyLcb09U8MtpqYefeZGfm
+	KtPwPCHp5U8Xfo2LDMVkY2ad/a/pNthSM14+p0M03OQMH5Xw5aluuc8KLByKVulzuN02jHp/+je
+	t/Ffsfavu29WyDMR5ZS44NYwFIsWXjWS/5ct2JmR8uIK3KkpoKhb6OY/R8+M6mOKAYhk4vjEE1l
+	GuNQL/arMSIq22uwjN2yONy6ymUD3
+X-Google-Smtp-Source: AGHT+IHssHqpj8tpytx5oKPL/gYKfnWAcsnJBTEMjqRK6IUxecWolGe0vqo3MRJgMkGJB28DZRIPgg==
+X-Received: by 2002:a0c:f083:0:20b0:6fb:39e5:1b64 with SMTP id 6a1803df08f44-6fb39e51b7emr10142526d6.40.1749731686469;
+        Thu, 12 Jun 2025 05:34:46 -0700 (PDT)
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com. [209.85.222.178])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d3b8eabe70sm34572385a.57.2025.06.12.05.34.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Jun 2025 05:34:46 -0700 (PDT)
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-7d3939ecb7dso91700785a.3;
+        Thu, 12 Jun 2025 05:34:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUdFztynFyr3VNJqCnSTDTjwU18hpKq2+brppVl0PRoG5fSywVc9oP7OSMFjtZPLnV31LTcE+g1A5muAzI=@vger.kernel.org, AJvYcCWdKykHP21sChuXDzmDe8MHhRkk38AafyFg2HQh78NbLL9WjzUXZ0N7azVFFK4e8XwQIx6oU0xhgcc7DQE=@vger.kernel.org, AJvYcCXHpd0tRLTkVuYEYz0ERob7MrGekBe3CppqlD+FR95aduObxlh+/uAQdPRBAvXXOONYHPdyjQV26ak5+pNTK0qImt8=@vger.kernel.org
+X-Received: by 2002:a05:620a:2953:b0:7cd:565b:dbc9 with SMTP id
+ af79cd13be357-7d3b369e445mr372396085a.26.1749731685801; Thu, 12 Jun 2025
+ 05:34:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 06/10] can: rcar_canfd: Repurpose f_dcfg base for other
- registers
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Kazuhiro Takagi <kazuhiro.takagi.hh@hitachi-solutions.com>,
- Duy Nguyen <duy.nguyen.rh@renesas.com>, linux-can@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, Marc Kleine-Budde <mkl@pengutronix.de>,
- Biju Das <biju.das.jz@bp.renesas.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>
-References: <cover.1749655315.git.geert+renesas@glider.be>
- <75c8197c849fc9e360a75d4fa55bc01c1d850433.1749655315.git.geert+renesas@glider.be>
- <420d37b1-5648-4209-8d6f-1ac9d780eea2@wanadoo.fr>
- <CAMuHMdWdEtjbAjeaDxxZuQeJg5GByhpoZXpZ0Gydjk60pMkN6w@mail.gmail.com>
-Content-Language: en-US
-From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Autocrypt: addr=mailhol.vincent@wanadoo.fr; keydata=
- xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
- LFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI+wrIEExYKAFoC
- GwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQTtj3AFdOZ/IOV06OKrX+uI
- bbuZwgUCZx41XhgYaGtwczovL2tleXMub3BlbnBncC5vcmcACgkQq1/riG27mcIYiwEAkgKK
- BJ+ANKwhTAAvL1XeApQ+2NNNEwFWzipVAGvTRigA+wUeyB3UQwZrwb7jsQuBXxhk3lL45HF5
- 8+y4bQCUCqYGzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrbYZzu0JG5w8gxE6EtQe6LmxKMqP6E
- yR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDldOjiq1/riG27mcIFAmceMvMCGwwF
- CQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8VzsZwr/S44HCzcz5+jkxnVVQ5LZ4B
- ANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
-In-Reply-To: <CAMuHMdWdEtjbAjeaDxxZuQeJg5GByhpoZXpZ0Gydjk60pMkN6w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250506104731.111876-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdWhwJTbJOBhKmC9YUaSebBg-9m7euqmxqJLCXdr6++siA@mail.gmail.com>
+ <bdd989b4-a572-44c2-ae7b-2c445c09fd7a@linaro.org> <d05f2c03-fa86-4fc6-9b81-1a7b5592c2e8@nvidia.com>
+In-Reply-To: <d05f2c03-fa86-4fc6-9b81-1a7b5592c2e8@nvidia.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 12 Jun 2025 14:34:32 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX9NzFvsOv9eT0t4KVNufHSqVEht7yRbrt0qE49WgHpGg@mail.gmail.com>
+X-Gm-Features: AX0GCFtVgQikSSiKAPvkGq33v0M-ImHzyr3NJwP-bYJMvcSTiP6kAXgBA_LZ8eQ
+Message-ID: <CAMuHMdX9NzFvsOv9eT0t4KVNufHSqVEht7yRbrt0qE49WgHpGg@mail.gmail.com>
+Subject: Re: [PATCH] arm64: defconfig: Build STMMAC Ethernet driver into the
+ kernel for NFS boot
+To: Jon Hunter <jonathanh@nvidia.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Prabhakar <prabhakar.csengg@gmail.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>
+Content-Type: text/plain; charset="UTF-8"
 
-On 12/06/2025 at 20:33, Geert Uytterhoeven wrote:
-> Hi Vincent,
-> 
-> On Thu, 12 Jun 2025 at 06:00, Vincent Mailhol
-> <mailhol.vincent@wanadoo.fr> wrote:
->> On 12/06/2025 at 00:37, Geert Uytterhoeven wrote:
->>> Reuse the existing Channel Data Bitrate Configuration Register offset
->>> member in the register configuration as the base offset for all related
->>> channel-specific registers.
->>> Rename the member and update the (incorrect) comment to reflect this.
->>> Replace the function-like channel-specific register offset macros by
->>> inline functions.
->>>
->>> This fixes the offsets of all other (currently unused) channel-specific
->>> registers on R-Car Gen4 and RZ/G3E, and allows us to replace
->>> RCANFD_GEN4_FDCFG() by the more generic rcar_canfd_f_cfdcfg().
->>>
->>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->>> Reviewed-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
->>> ---
->>> v2:
->>>   - Add Reviewed-by.
->>>   - Replace function-like macros by inline functions,
->>
->> Thanks!
-> 
->> Thinking of your code, you are still using some magic numbers, e.g.
->>
->>   0x04 + 0x20 * ch
->>
->> to access your registers. But at the end those magic numbers are just describing
->> a memory layout.
->>
->> I think this can be describe as a C structure. This is what I have in mind:
->>
->> --------------8<--------------
->> diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
->> index 1e559c0ff038..487f40320c20 100644
->> --- a/drivers/net/can/rcar/rcar_canfd.c
->> +++ b/drivers/net/can/rcar/rcar_canfd.c
->> @@ -560,10 +560,21 @@ struct rcar_canfd_channel {
->>         spinlock_t tx_lock;                     /* To protect tx path */
->>  };
->>
->> +struct rcar_canfd_f {
->> +       u32 dcfg;
->> +       u32 cfdcfg;
->> +       u32 cfdctr;
->> +       u32 cfdsts;
->> +       u32 cfdcrc;
->> +       u32 padding[3];
->> +};
->> +static_assert(sizeof(struct rcar_canfd_f) == 0x20);
-> 
-> Is that really needed?
+Hi Jon,
 
-It is needed to counterbalance my lack of confidence on whether I am able to
-count up to 8 :)
+CC Arnd
 
-It is just for debug, you can remove. Similarly, feel free to adjust the names.
-I just wanted to convey my idea, and a piece of code was easier than a long
-paragraph for that.
+On Thu, 12 Jun 2025 at 14:20, Jon Hunter <jonathanh@nvidia.com> wrote:
+> On 23/05/2025 12:54, Krzysztof Kozlowski wrote:
+> > On 23/05/2025 13:39, Geert Uytterhoeven wrote:
+> >> On Tue, 6 May 2025 at 12:47, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> >>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >>>
+> >>> Enable `CONFIG_STMMAC_ETH` as built-in (`y`) instead of a module (`m`) to
+> >>> ensure the Ethernet driver is available early in the boot process. This
+> >>> is necessary for platforms mounting the root filesystem via NFS, as the
+> >>> driver must be available before the root filesystem is accessed.
+> >>>
+> >>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >>> ---
+> >>> With this change, the Renesas RZ/V2H EVK board can boot from NFS
+> >>> which has the DWMAC IP.
+> >>
+> >> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> >> i.e. will queue in renesas-devel for v6.17.
+> >
+> > With my Nacked, please.
+>
+> I was surprised to see this change in -next. We also use NFS for testing
+> and we use the dwmac drivers. To date we are explictly building these
+> drivers into the initramfs but I noticed that that is now failing
+> because this driver is no longer a module by default. This is easy for
 
->> @@ -883,8 +883,7 @@ static void rcar_canfd_set_mode(struct rcar_canfd_global *gpriv)
->>
->>                 for_each_set_bit(ch, &gpriv->channels_mask,
->>                                  gpriv->info->max_channels)
->> -                       rcar_canfd_set_bit(gpriv->base,
->> -                                          rcar_canfd_f_cfdcfg(gpriv, ch), val);
->> +                       rcar_canfd_set_bit_reg(&gpriv->cbase[ch].cfdcfg, val);
+Oops, sorry for that...
 
-I was wondering if there was some kind of helper function to do that? If not,
-maybe adding a
+> us to fix.
 
-  io_set_bitl(void __iomem *addr, val);
+Good ;-)
 
-and so on into linux/io.h could be a good idea?
+> I do agree that if we start to build every networking driver into the
+> kernel it is going to bloat. Yes I do see the kernel image growing
+> regardless of this, but nonetheless it seems better to just build as a
+> module IMO.
 
-> Nice!
-> 
->> To be honnest, I am happy to accept your patch as it is now, but what
->> do you think of the above? I think that this approach works with your
->> other macro as well.
-> 
-> Please take this as-is, so we can move forward.
+Not _every_ networking driver, of course.  AFAIK, making network
+drivers built-in for systems where development is done using nfsroot
+has always been acceptable for the arm64 defconfig before.  For things
+not critical for booting, modular is indeed the preferred way.
 
-@Marc, review is done, the series is ready for pick-up.
+BTW, we have other low-hanging fruit to fix, though:
 
-> I will create a proper patch (with your Suggested-by) later,
-> I have more CAN-FD items on my TODO list...
+CONFIG_SOUND=y
+CONFIG_SND=y
+CONFIG_SND_SOC=y
+CONFIG_SND_SOC_SAMSUNG=y (Krzysztof? ;-)
+CONFIG_USB=y
 
-No problem, take your time! My only wish is to not see more complexity added the
-the function-like macros. Any other refactor is just a bonus!
+Gr{oetje,eeting}s,
 
+                        Geert
 
-Yours sincerely,
-Vincent Mailhol
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
