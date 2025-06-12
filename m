@@ -1,161 +1,144 @@
-Return-Path: <linux-renesas-soc+bounces-18186-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18187-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 149B5AD71A8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 15:23:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AA94AD71E8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 15:28:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 154FC3B69A9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 13:19:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 33D403B7B96
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 13:25:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B424244691;
-	Thu, 12 Jun 2025 13:17:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEA49248F6F;
+	Thu, 12 Jun 2025 13:25:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MYnMjsV0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740B52744D;
-	Thu, 12 Jun 2025 13:17:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA31C242D63;
+	Thu, 12 Jun 2025 13:25:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749734223; cv=none; b=djPz2oHq1kZLa2wFGWs6d4bgnSJJzm6izmkMtaCtK6E18KRMbVKrzVfwtVcXjV9P1DfywkJVaHJGBreOR5g7OGB6ltXhlM/hvI0JfRTM4gKZhdSsjcTxl9qO2qlQjZbQRAhBajhSmanjTUgUNwwkqLluLy7PDNrNhsmqJywOAhw=
+	t=1749734707; cv=none; b=jJpnLuseY3YSi7e1X0VjCgk680Udt5nAODZthsp5LYgDD3D5gRbSNilcmoPpfuo0K55K+NdWY5Ew6++CBYDwMxuQnBIIkyzUCN+vy3jCQ7R5B0WUPoLwqjOac6EblNdHWJZ0KmZVe2oRrOi+s3xtUCiKYJEZROByUKz68ZwjCZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749734223; c=relaxed/simple;
-	bh=k4w6XpEXch4GCu7oMZGMsN4hvcVpxo8CKqiDW6bTfUA=;
+	s=arc-20240116; t=1749734707; c=relaxed/simple;
+	bh=IqqMPWUk2v+uBcqO5EM/Ty1qGKfeCbv7fRGmGpsEBz8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qWOjLKnbiiUlXkWCkkZGirarBaOeyuN3m9Ramrv/d5cuEG/2RQWTs33KblpDuVsAv5nPysHNszMtllImfbfF4Vv3rSs7phBJXL96o7ZMUwd8fBw99Mz+Wbq69tCSFEL9ht2zV+I5qfnmJ6m7bg95O7p35pC9c03/e7uiVr88wmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=bdkG1RN6I1G1DfAkIj/jG0FnKZoob1GY88Cp+D1GA17p6faMz5aroEzByfVSbjGFUYoLlbp9lAtHrC9tUJWusGS8HpW1r21v6jM+AlFf0qhBS2RfQdl7oMfRshD4Trd8GK26+A6L8AqLe7IioIVju5FRnlN+JYqsQZkFu8tXwNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MYnMjsV0; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-2cc57330163so624481fac.2;
-        Thu, 12 Jun 2025 06:17:01 -0700 (PDT)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-45310223677so7979515e9.0;
+        Thu, 12 Jun 2025 06:25:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749734704; x=1750339504; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BZMLBIoT9gJSSjfo3bjWT2EO/rqNo4VRFJWQeolqXMA=;
+        b=MYnMjsV0qKnRjk9/VCnD8eDK0E/q2b0JSo46N1zOBLELR1dt0fzgULEv+H8w6D1ZSl
+         fq4+IeofIasVEXLdXSsrSja3PCwes8qN/Qt7PSpp8OFS14lvVF8yifQ0pl5NFCa9Ld8g
+         HBFXkQBsdppT5NKgvr/hZnjKLl5voIBMH6wCSbz0cpKoFAl8ZTnJ5LbGDu/1XILaDQJD
+         fBnaSrTiGWVFDdC3ICcwem3D/LhS4NLDq7CbX1KCMvr5C51xp/bPx4QEQ5lJXNeR/SdP
+         n3y+LsD9uXLHvrOb2bgKi5SZSyWJOb6sNCf7bKIr6v2KSS5X6j2pKGvtl+/6FGOKHvy5
+         Et/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749734219; x=1750339019;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TNonWCq6tQmbQ5Q8JG6wz2OIxHKwlgX2o++VTeBoqTY=;
-        b=EoTNoCSz0afw5lpwbcGC0ld79ohtzQg3hXSS3EIdYiu/JObsI5otdeeJ8kjJ5cDA7K
-         Kav5kazRlypZxpt9iH+skpvbvpF6FEP1FJKFu4v115+bZfVAUiHyNDugZsY879bOjnxI
-         /rmiGqEOXAkpATd2iLEQG/CzzXEMf0Z0IAbdMLOKdQvZe/q6VF7n5aHsM+hP+E7Onc/u
-         wIpdl0dHiPeZO3TS4p/ixgE8fTcnZrZkWkm8VGsWCSfg7q7QhBVkN0xIPHDJG0cB+nYE
-         N7YGIARZo6KqKfbBUoxC7GU5eiXsA09KGsRian9a9oakNpRcCF1KQEYlWCxfmDmh1Cem
-         WPjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUH+FvWR02nRqke880uBC8fM5abm6XI8w4ijY+hDp/aj0M+b+1YzSovrrbZ19adYXDrJu2zyhxWKHy6m0zmvIdU+yo=@vger.kernel.org, AJvYcCUf3fAj83kpQ++KfeZVmGDMJUsKM/Ja6gFckeWbvp/XoLIJePVALN/RrAPvVZwdbtuJ3pvNmPmftTQH@vger.kernel.org, AJvYcCVHNPLSURwmh/bTx1AWsJid7CXx2lgnjhI1Ysh4PrlnRpekHsg7rxxZZUHam6/72uM+xS3y5c2ELKWv@vger.kernel.org, AJvYcCX0ZxZvl40gNv6oVcNF6nrC8i1KM9mFUNC9lGkfyC/Sx2FY0/dKd6adlJhek38XLQr05w7JyN+hW8YHsGOm@vger.kernel.org
-X-Gm-Message-State: AOJu0YxggYUxDTghCT93JLvq0uGdfR15TQL+JE0MvAombKQ+cJL6tQHq
-	4u9LPccvA4malAaaPdip6T6OKTKJgWHWTr0FkG7tBYoELd1IH7S3sB5pmMy8yx8F
-X-Gm-Gg: ASbGncs4Xseb3tFFpYoUEX3aJ6JxuOiFbzIJdmUk34IGbGmXYzLU9cv0qYOq7pdQ0C5
-	9Y2Fi4bjPD3xxH5RIDo5GaBoT5ZMz+YtYTb/PtTdd0xKJGtnbYnErGKOl1xuTt31iK8FwMsGIST
-	cfGFN1HvvtPTjTITNmx8D2sBqexPzcdjeHhDIPCY5o2WJB15QXu3+0jZRWdcddGDkdK3LfaiIea
-	L+epG7YKK6Olh6OuAMyO1eHT7HV208+gN1b7ac+5s6XgXCdFcN2mIl23mI6NkRoxhwLyuWTdCAy
-	6WxPoeQ2FFYgyiGtanf6Ou7uUtNZbbXvRBo3GkmpiMth4FVZWr904BcOzjuXll/mv1Mqwwky5TT
-	/XaNekJOGmJXGIgEkPqN5zczpJdcD
-X-Google-Smtp-Source: AGHT+IFrc2S7d8JXsxh6+5kpeaxchbVsS6LjK7xsAVK86NxxgIJvIS7pTe2FPklIeBdpO1mSSQXc/w==
-X-Received: by 2002:a05:6870:d68b:b0:2d5:2955:aa6b with SMTP id 586e51a60fabf-2ea96b7aee4mr4294786fac.5.1749734219489;
-        Thu, 12 Jun 2025 06:16:59 -0700 (PDT)
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com. [209.85.167.177])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2eab8e6cdbasm291000fac.38.2025.06.12.06.16.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Jun 2025 06:16:59 -0700 (PDT)
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-4066a0d0256so593029b6e.3;
-        Thu, 12 Jun 2025 06:16:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUnAEC3Ao9uHOeCTwb3roLaguny9bhdWOj2AtKHSFhg6A4h5riFRk5AiOdaAr40PwGeH2dGDoepx0ni/xWYY195UOo=@vger.kernel.org, AJvYcCVt+i/lAzvxxZiFJy/2fDAo8R91zfgOvVKqsFSUQLhVSfN/X2P5Nyh4NW1XUIvdK1FXr5pPhHssRdOj@vger.kernel.org, AJvYcCXYDlM4qHE7LYXao/2bFM/fTX0ydW+IYjqsG5Go3N91HZ715ybzUgTWISFo9uQzlKhZ3vGFdBaXHo2+@vger.kernel.org, AJvYcCXmUon39oCc6wzPb4tx4yoqZwyPUC63/sCzgSzJ7dL98x1nRBKYv2pxbsL+mVrvx0vd7U3LITgSuwvl9FM6@vger.kernel.org
-X-Received: by 2002:a05:6808:1794:b0:406:6e31:18a1 with SMTP id
- 5614622812f47-40a5d05f586mr5488096b6e.2.1749734218150; Thu, 12 Jun 2025
- 06:16:58 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1749734704; x=1750339504;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BZMLBIoT9gJSSjfo3bjWT2EO/rqNo4VRFJWQeolqXMA=;
+        b=VYN4nvCREMKY2TKtwdVdvbLQBYFu4voWy0O1bLBHc3VCKdhYtttlUW+OFGkDPU2/77
+         FOaYV5U7A41jNBAPjuGh0vpitkyQgDgBIp3CBEceVWXHxJep+o8bUjeh4SLsd/6uQn2v
+         n9r+QprQEIc6MvlOMPHRZBouWT19MAn92fL+blA2vpGJGwCuqba4X6uzbwiwvtGdyT4e
+         lwd9DbAMY+M9qq7q6XJ4hXY/ogpsDsoO2fmsOjZvIOFrJ8LyCVcHJ7i8X/iPbDSHBwoe
+         Az8/qnQNaW6cxVTbmwmKVRXIqdE1KYeG17DC3of/Md2WkvWYCKDDA3tsNutcpXnTx2pW
+         CLZw==
+X-Forwarded-Encrypted: i=1; AJvYcCV/Tz9y3nFdVsR+OUnCvelTbpFYnqY4sonADRR5KhrMrNuLh7mQlc0ng3PvJuzmTfhoi86qenMpB0JVbuQf@vger.kernel.org, AJvYcCX4g/JeEgpVtNetxA0YqaKOlHF5Tju81VjvFwF7zVmVaWU/MCK4Z2XMX+/eItB6bG5c3TG1nnCu80wd@vger.kernel.org, AJvYcCXMHjzFT3kDBT23W+dM5MDXvX0GH8DsTfqkfsy+2AyF5uPwydEyOB1hLw0OQv1igqQ60zNpeM850kkVDzmcwtLFJw0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMSdHsWwhfNDgMiKKWAJ1xzBV4LwP4Gu8hLA13230lVHEGxlJ/
+	Gy5ESpKc3kSUitqDqIQw+mfW5QlALPyhznM2VV05I8/YLtkPzer7mrMNxPt9gqlL/dL+vtxMtZy
+	gTDCS5pVNhbbS6TVQJTbqLtpKk4TALF8=
+X-Gm-Gg: ASbGncsd/S/thsrtoiPfTJIqawvz5DZbp94ZloFhBghcf3XKVd0uQ34hb4WuUu1veWX
+	A1h2Hge2c8d5Kv+Mc3YHORiUTPnDpz4Z7BrwjlT9p7QjDqrE5EVA9hVBB3KWnbXTY+gDDcgP0zq
+	0r0BBfJ34xBjwLS6EDwfD4wmwc603jlwNwLpJN10/7m3iqYw==
+X-Google-Smtp-Source: AGHT+IGojv7wi+EXgUrJ1iAcaQXcq2yh/a6c2FWgiCP1FdZTWn9scfT0ormpQqL7u63zFto7esDU9JQ3yZ95W1IoapU=
+X-Received: by 2002:a05:6000:420e:b0:3a4:fcc3:4a14 with SMTP id
+ ffacd0b85a97d-3a5612dc4edmr2358774f8f.34.1749734703859; Thu, 12 Jun 2025
+ 06:25:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250607194541.79176-1-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20250607194541.79176-1-marek.vasut+renesas@mailbox.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 12 Jun 2025 15:16:45 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW_89naftFMo881zp=7QGJDznFzzqLQ-kLEuyJ=KJWQnA@mail.gmail.com>
-X-Gm-Features: AX0GCFuXLlnarexsZjEK1q0rakNUWi7gsoLxdkLO2FqaNoBwunA3MuELiFSEafs
-Message-ID: <CAMuHMdW_89naftFMo881zp=7QGJDznFzzqLQ-kLEuyJ=KJWQnA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] PCI/pwrctrl: Add optional slot clock to pwrctrl
- driver for PCI slots
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>, Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: linux-arm-kernel@lists.infradead.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Anand Moon <linux.amoon@gmail.com>, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
+References: <20250528140453.181851-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250528140453.181851-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdVa4axB+aKhH18KxK4DVafeix6wn407PEhMxV_6xfpraA@mail.gmail.com>
+In-Reply-To: <CAMuHMdVa4axB+aKhH18KxK4DVafeix6wn407PEhMxV_6xfpraA@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 12 Jun 2025 14:24:37 +0100
+X-Gm-Features: AX0GCFtWM9emtIyXyU7iiWJWdsMZ7qy_zlJ1u6yeICmsB6pfXTrDdlaHSfP6HUA
+Message-ID: <CA+V-a8stpis6RuFZ8X+g=nnQhQQNJN8X8kpma6kf2Hmi+3hf4w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] arm64: dts: renesas: r9a09g056n48-rzv2n-evk: Enable
+ USB2.0 support
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 7 Jun 2025 at 21:46, Marek Vasut
-<marek.vasut+renesas@mailbox.org> wrote:
-> Add the ability to enable optional slot clock into the pwrctrl driver.
-> This is used to enable slot clock in split-clock topologies, where the
-> PCIe host/controller supply and PCIe slot supply are not provided by
-> the same clock. The PCIe host/controller clock should be described in
-> the controller node as the controller clock, while the slot clock should
-> be described in controller bridge/slot subnode.
+Hi Geert,
+
+Thank you for the review.
+
+On Thu, Jun 12, 2025 at 1:49=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
 >
-> Example DT snippet:
-> &pcicontroller {
->     clocks = <&clk_dif 0>;             /* PCIe controller clock */
+> Hi Prabhakar,
 >
->     pci@0,0 {
->         #address-cells = <3>;
->         #size-cells = <2>;
->         reg = <0x0 0x0 0x0 0x0 0x0>;
->         compatible = "pciclass,0604";
->         device_type = "pci";
->         clocks = <&clk_dif 1>;         /* PCIe slot clock */
->         vpcie3v3-supply = <&reg_3p3v>;
->         ranges;
->     };
-> };
+> On Wed, 28 May 2025 at 16:05, Prabhakar <prabhakar.csengg@gmail.com> wrot=
+e:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Enable USB2.0 support on the RZ/V2N EVK board, CN2 connector on the EVK
+> > supports host/function operation.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Example clock topology:
->  ____________                    ____________
-> |  PCIe host |                  | PCIe slot  |
-> |            |                  |            |
-> |    PCIe RX<|==================|>PCIe TX    |
-> |    PCIe TX<|==================|>PCIe RX    |
-> |            |                  |            |
-> |   PCIe CLK<|======..  ..======|>PCIe CLK   |
-> '------------'      ||  ||      '------------'
->                     ||  ||
->  ____________       ||  ||
-> |  9FGV0441  |      ||  ||
-> |            |      ||  ||
-> |   CLK DIF0<|======''  ||
-> |   CLK DIF1<|==========''
-> |   CLK DIF2<|
-> |   CLK DIF3<|
-> '------------'
+> Thanks for your patch!
 >
-> Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> Reviewed-by: Anand Moon <linux.amoon@gmail.com>
-> Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> > --- a/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts
+> > +++ b/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts
+> > @@ -302,6 +317,16 @@ sd1-dat-cmd {
+> >                         slew-rate =3D <0>;
+> >                 };
+> >         };
+> > +
+> > +       usb20_pins: usb20 {
+> > +               ovc {
+> > +                       pinmux =3D  <RZV2N_PORT_PINMUX(9, 6, 14)>; /* O=
+VC */
+>
+> Any specific reason why OVC needs "bias-pull-up" on RZ/V2H EVK, but
+> not on RZ/V2N EVK?
+>
+On the RZ/V2N EVK for the USB20_OVRCUR pin we have R13110K0603 pullup
+resistor, this was missing on the earlier version of the RZ/V2H EVK
+due to which we saw false OC condition (as seen below). Said that the
+actual EVKs for RZ/V2H for which support is being added do have this
+pullup resistor. After testing I will post a patch to drop the
+`bias-pull-up` property from the RZ/V2H DTS (thanks for reminding me
+:-)).
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+[    2.672424] usb usb3-port1: over-current condition
+[    2.792424] usb usb4-port1: over-current condition
 
-Bartosz: Any chance you can apply this patch to an immutable branch,
-so I can merge that before taking the other two patches?
-The alternative is to postpone the DTS patches for one cycle.
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
 
