@@ -1,85 +1,84 @@
-Return-Path: <linux-renesas-soc+bounces-18195-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18196-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22C69AD7427
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 16:40:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF49DAD744F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 16:44:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 016017A1BA2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 14:37:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6482B188B3B9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 14:39:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53D6424BD00;
-	Thu, 12 Jun 2025 14:38:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E995924DCF0;
+	Thu, 12 Jun 2025 14:38:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A077F24887E;
-	Thu, 12 Jun 2025 14:38:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FE5C24DCE4;
+	Thu, 12 Jun 2025 14:38:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749739085; cv=none; b=ekvPo0xmLcWz/GigWuhntVoBDstSdCW8bhTHwsPSya0pT+bvtIxxAa3vVnVkqBilfAA/IglITng1WuqWa2gel+3eZElBk66gnxOS4mt+oKwJX1xsGybktl97EmDVeYlFKzSXUmiSu5EYinDPD7NouNPUXZZ2lifZ08+0ldWuwMs=
+	t=1749739089; cv=none; b=UAwRMNdbDTxZnoBxUpcdN6bTPaaLpyc7f9OBrVGFbTxztBPk17ffOGyR97WE/OQakcrgjV6swCM4VXUHcUKN3ivOcGcSyZ2fvVgZPYwMFTc8A9Ysd1gs2618PiEcFr5njOXYYiI/FqsRWzkaWWZwj49E2tyGSU6WpE52FHn+nfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749739085; c=relaxed/simple;
-	bh=rcWY/p5LscZB/eY47pNHyjZQUoAaDL7HqhHzTn8MMHQ=;
+	s=arc-20240116; t=1749739089; c=relaxed/simple;
+	bh=d57bO7+sI3f5axm470jL8jsx7sU3KPfN5AVP2Vsa9o8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pT+sr+INd85tndc2wdDTR1de5DWX4whrqogbDv31hKTsub9FBX3giwVyfaKcjY4/TyrXoCK2hCuc8j/EA4b+OTyyNFTYOJxWKMOxEJpucdrkb0QwQ/ers1fFZvyPJQP3FxLplmYnXji+1sVWYvcfDyO4OrYTBX5fCLXHdV6h7PY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.170
+	 To:Cc:Content-Type; b=jcROjtD+kvay7IPO90NlVciQ3vRZgvimXdD0szIOrCeZgd44qAi7GMSGzI57kxaVRiKGKOVvcQlQC463192kBkSnjFzNDv4Hfb8ENTU6v2lw0fdNIBW4L94RLNAbkqim2p5eKRvGibhQAlhJtyUA+NmAmWGfRE3OMZxZtniPUSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7d20f799fe9so103461685a.2;
-        Thu, 12 Jun 2025 07:38:03 -0700 (PDT)
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6fac1c60e19so23984206d6.1;
+        Thu, 12 Jun 2025 07:38:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749739082; x=1750343882;
+        d=1e100.net; s=20230601; t=1749739087; x=1750343887;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WXPKWcxO6rIorYrjw986yZDztVPxEBR0fO+hJyxSFWo=;
-        b=I4DN3neKW3uP6096Zwtd8VXB0lrd5qBuZDR0jJ0tEsIlIhrIP+oEXZl6avHMyy0S7p
-         4V0cNPDs5fUSopYVHwWzSJGi3UQBAyWPFGFq3VBSCiz7BYla36MzA/pE+QOtmln1MkWK
-         40wqalclsa6hrJUOqQySAlXqP5777jMhF8fStIRmz62WlI1vNcAx1llgsT/Q9KoZxPVt
-         uj350Je+H5gD6fuKNQ2ycAieElhGlIpTkvNQBRh3nUlBTUFaNkfQBM/6NAY0GbG2FJK5
-         ZwllW0mDhzE+mg1M4PeBELG1sQZr+osJCssBN9zUtHJXEm7iadxme9kuNi4XKswoU7Pc
-         eLIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUQWh3Qssk9hYINArOoNID5VpHukO+k66QlARHwt1PsWybbBLnPEekipI4OCK3BB8suzufph2uXHYGD@vger.kernel.org, AJvYcCW1MidkJDKkkP96/dnjawh59/6oFvM62Sq849JYf/Z2P83anpYIXMuUAqeWsoHEgTbU/Z1Nqmg+SOKO@vger.kernel.org, AJvYcCWaIckXq0I/RQlvlkcT7heVJ9UHMBBU8BtmMxJ4zwtq7jhrVjkTYfKZk5PXn9bbOOmHKxvX6uptPFQfo6N9Fr3czno=@vger.kernel.org, AJvYcCXz0uHRF6f12IMDpG10H+yioCJXxUPD4dITeUs8sqQHEhv37byL8nu09UevNW7tC0WNroWfguTZtbfOGsA5@vger.kernel.org
-X-Gm-Message-State: AOJu0YwfdZ3gZTKHR7DPvSZplXTf6C2nkf2BAbCQ6xgmLjoU0aLHF7P2
-	VwpWc3mWikqkfj0vyLeNKti4EXCgRM7nukvx9tvDS2fDB4uVrmerijs3OapkfT6m
-X-Gm-Gg: ASbGncvXmcPg9Cf7dtHTuhtBaxAPItWEJZJe8s/hiAFAea+mh2KGckhOfv0bO6kHB3h
-	ToOLPiqvIHUj5Ye57aY9rgMfHz4fqY308bVZkl1o6l1TqMSqFNNrZ3Umc2XX4pC6Rqzqd7btAPy
-	9XOxPeTdNoaacYuV38H7UFPzt7kKKDHZQW1TxHIzlkZRWhBgUEXDJ7DTMFaroJ2xgqTZj15GRQw
-	/+90AWt6D37MYaXK+jWQcMsUACLombupCmXl6yteGtOevn5kA/0w+CsrZK+D5vg0Vn+8GjVBzUa
-	ftceFgVXFlXMn2JB6SWhQ8TdA4V9lrUi+Ee0TNWK3euImGsMbd6WJbhYtAQ0tm+oRE772oWa23+
-	XwM7SKpGSrfdz9Lm8c9WgcIVo
-X-Google-Smtp-Source: AGHT+IFvCCuenbrLRIqzq1LldUXaSalqr+87/5W6hlCFSU6fB+7nKYrrod7vKqzOdsZeRUXPNc+EsA==
-X-Received: by 2002:a05:620a:c50:b0:7ce:e010:88bb with SMTP id af79cd13be357-7d3a883450amr1115162885a.22.1749739082099;
-        Thu, 12 Jun 2025 07:38:02 -0700 (PDT)
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com. [209.85.217.47])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-87f013bc870sm321004241.32.2025.06.12.07.37.58
+        bh=8KRrsnoLIUPr6EswSfiL1UFN7UpyDrO5Rx9RE3EdW4w=;
+        b=FaJY4j9TuQl5RG2FsFXE+Gk4nXLH9rrv/KZO70nr6tyZOq5XPS4yY+CvLpTgA8pN29
+         Gj+8hCc8fad1LY517/pSUzUEu16G2hVAeZW0djYZnZfFH2ywcCY1qUQ0RmtbiJPys/zx
+         zgkUv24AsSRZWvLyNYPZ/5rAIu46Y6Z6gF4jLGiyJvMejgYZF4vBrx6emsm3+MNnS68V
+         9ZNKMUMWe4uub5EpkviehTcAQjdldsXn+H/2PytRzCQHsX5N4x53PWueJT00ww/rCCgB
+         JYRop1XjDNJqhLsqqxsNpmuPbAMLTX/jIFyB6ERdx59rJxcjxUhIdn8Jjkxrsjyumepz
+         eBhA==
+X-Forwarded-Encrypted: i=1; AJvYcCU4Ik9lLWWf7hmNo9wirgUg3NQPmb7virRDWMOQv02XRpSpNrl3Ah8LQasMZSeCaVdTX/AaWgiqvxck9S+J8hcxesc=@vger.kernel.org, AJvYcCU6NpJKvyxUKmhE3MY2UnKEIAeDA4FgMatochB2jqapMnxel2NQ6SX8BRSbxB3UrdoJs7G/fN0hTU8v@vger.kernel.org, AJvYcCVKKk8y3gMbohjlZ3NR1PnEA848g0mhsVwIutstCDIyuFsl/IdXiLubVYto3t09H873gT7Czk4jG63kNAdj@vger.kernel.org, AJvYcCWEzqmu+9QyS37iDhJtC5F+nAdJiR/B+dtxSK4LylWBoi1NtyZkHbOqyZgM+0JSqPdSXS13sr4Bwtpa@vger.kernel.org
+X-Gm-Message-State: AOJu0YziSjuURUImuf73GtfgGq5IZXffzhYPkW/gPdyrnV9P2z7txTxJ
+	V6b2ldTVcM0DpU2tG3a9Ymi/3Ei1qqxNalvZcVMbSX3cOI/VqSRP15BllcVe9Jp8
+X-Gm-Gg: ASbGncuZtegOeVDTKVxDT17ruKk/ps93iPtfuriduwNA3gaXuUO5pzo3k2sUPI+ZRNm
+	3aX3F3CxTQREQNCuxZ+1+7kRJrNk0tlW1jsCoUlisC1a4TKKNXY9AjbTJY5VXF1qlqz2NK9WXc1
+	5wFTj47QBq+o1rYIUW76LSNqEKwX2W0ce5k+VIsssxcOi96YGyNtF/n9isWlu/NzGfex0t0U1oN
+	D9CffnqxRPk0EIUQ7ckWjwc/lmMneVAX3BmSAXa0wy5oQyf+bBpuXf2mDpiI4MZynnDyELpVoPu
+	TK/q1JbZHxONcurqDSie7674SeHEFqlXUcOuQOeYtD2tVr5dsefbgaPcbG5/rnIAwTWcp9V06gp
+	Z0klhaB5FQOjGQqfnT1DrAhVT8YcK
+X-Google-Smtp-Source: AGHT+IG6+vNY+ubkPMACJinyBggXaxM/qRffhL70afwG33dCHN9HLRiN3vTVk+wBNEqvtldS7IF7Zg==
+X-Received: by 2002:ad4:4eaf:0:b0:6f8:c53f:48e with SMTP id 6a1803df08f44-6fb346906ddmr64996546d6.0.1749739086605;
+        Thu, 12 Jun 2025 07:38:06 -0700 (PDT)
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com. [209.85.221.179])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-87f01243001sm313530241.5.2025.06.12.07.38.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Jun 2025 07:38:00 -0700 (PDT)
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-4e7b52428bdso286214137.1;
-        Thu, 12 Jun 2025 07:37:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVnhygOe28nKGyZso1VI1EpT9Lc9ATG3VgD2Bt64puOUGeVhFJ+7OIN2J8T1AeSKqkaqV6eQhrHB94eDnc2Z2c6Fis=@vger.kernel.org, AJvYcCWNuetxqlXq61KvdwhPGq3gFm5sBskqFtOz21pgmjYlOm3ooEENARpHEgJJ4Pk67O19gJwrzI76HEfh@vger.kernel.org, AJvYcCWSaPe2qh/JiztXvHi+3xTZpVU0cdZNY7QtLje9t+y3zRDk/ANHAybPNkSKnPztgai+T1EnPwsBicdnf8oo@vger.kernel.org, AJvYcCXJBJKMxGHPtFHVXsgTomrRu2Olo1/pkliwHvmHKI9rijxHkdjumqpAlTbGekEPHCMya9CvGTG+YHWd@vger.kernel.org
-X-Received: by 2002:a05:6102:6059:b0:4e7:dbd2:4604 with SMTP id
- ada2fe7eead31-4e7dbd24d49mr810417137.17.1749739078113; Thu, 12 Jun 2025
- 07:37:58 -0700 (PDT)
+        Thu, 12 Jun 2025 07:38:06 -0700 (PDT)
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-53125ca7837so607100e0c.0;
+        Thu, 12 Jun 2025 07:38:06 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUk2cBh30rNZ5TY3d+F9W76ATjkt+PtZsQyUzJIv7xvVkvqe3XIr6aQXPJa7gL4cZqdl1UlIFGv/uXW7GPR@vger.kernel.org, AJvYcCV3x2KmbudnN3ecPGxDkVEfckjPBEtBJ4irxq4DchL6BWGQZURGAjvLFKwHRfvVLv6H1ZVrsWqOGGzi@vger.kernel.org, AJvYcCWmg3JkkY0CxRN5ua60pl6UxmG5+cf3Aam0Jp1tU525QfjzdDcKa/bGF73gfA1cpswiclgY6OO740AnejKYkN+w6NE=@vger.kernel.org, AJvYcCXp/nzy5AlKIraBSeS4xUUPUmxAUfH2fwbSQT54tKEHYz8tvL/MEr/1r4o4kU8fvzKDYOIyPN9Zgz+o@vger.kernel.org
+X-Received: by 2002:a05:6122:10e8:b0:531:188b:c1a0 with SMTP id
+ 71dfb90a1353d-5312dbf04fdmr2459867e0c.4.1749739085776; Thu, 12 Jun 2025
+ 07:38:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250609203656.333138-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250609203656.333138-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250609203656.333138-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250609203656.333138-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250609203656.333138-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250609203656.333138-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 12 Jun 2025 16:37:44 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXSreUFnFz7Zic4MHdsCzejtQ-Xe7fe_Eqy=OqU==LqAg@mail.gmail.com>
-X-Gm-Features: AX0GCFuGUSyS6NXK_oY2YSePBy3FQOgAaO2z5J9ycj50v0DbFOnhdEQZTqIlRy0
-Message-ID: <CAMuHMdXSreUFnFz7Zic4MHdsCzejtQ-Xe7fe_Eqy=OqU==LqAg@mail.gmail.com>
-Subject: Re: [PATCH 2/8] soc: renesas: Add config option for RZ/N2H
- (R9A09G087) SoC
+Date: Thu, 12 Jun 2025 16:37:52 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVvQEC9c9wHDrFiY6iixuP-JjOgHZQjfzOkAjvxs=LuqQ@mail.gmail.com>
+X-Gm-Features: AX0GCFtXGUm6FdOJ-AEd9AVkQ_jS9IKzDw3GxgkbzroMqYUK_DU_l-DVn0YmK8w
+Message-ID: <CAMuHMdVvQEC9c9wHDrFiY6iixuP-JjOgHZQjfzOkAjvxs=LuqQ@mail.gmail.com>
+Subject: Re: [PATCH 3/8] dt-bindings: clock: renesas,cpg-mssr: Document RZ/N2H support
 To: Prabhakar <prabhakar.csengg@gmail.com>
 Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -90,16 +89,69 @@ Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
 	Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 
+Hi Prabhakar,
+
+Thanks for your patch!
+
 On Mon, 9 Jun 2025 at 22:37, Prabhakar <prabhakar.csengg@gmail.com> wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Add a new Kconfig option, ARCH_R9A09G087, to enable ARM64 platform support
-> for the Renesas RZ/N2H SoC.
+> Document support for Module Standby and Software Reset found on the
+
+the Clock Generator and Module Standby and Software Reset
+
+> Renesas RZ/N2H (R9A09G087) SoC. The Module Standby and Software Reset IP
+
+Clock Generator and ...
+
+> is similar to that found on the RZ/T2H SoC.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.17.
+> --- /dev/null
+> +++ b/include/dt-bindings/clock/renesas,r9a09g087-cpg-mssr.h
+> @@ -0,0 +1,28 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> + *
+> + * Copyright (C) 2025 Renesas Electronics Corp.
+> + */
+> +
+> +#ifndef __DT_BINDINGS_CLOCK_RENESAS_R9A09G087_CPG_H__
+> +#define __DT_BINDINGS_CLOCK_RENESAS_R9A09G087_CPG_H__
+> +
+> +#include <dt-bindings/clock/renesas-cpg-mssr.h>
+> +
+> +/* R9A09G087 CPG Core Clocks */
+> +#define R9A09G087_CLK_CA55C0           0
+> +#define R9A09G087_CLK_CA55C1           1
+> +#define R9A09G087_CLK_CA55C2           2
+> +#define R9A09G087_CLK_CA55C3           3
+> +#define R9A09G087_CLK_CA55S            4
+> +#define R9A09G087_CLK_CR52_CPU0                5
+> +#define R9A09G087_CLK_CR52_CPU1                6
+> +#define R9A09G087_CLK_CKIO             7
+> +#define R9A09G087_CLK_PCLKAH           8
+> +#define R9A09G087_CLK_PCLKAM           9
+> +#define R9A09G087_CLK_PCLKAL           10
+> +#define R9A09G087_CLK_PCLKGPTL         11
+> +#define R9A09G087_CLK_PCLKH            12
+> +#define R9A09G087_CLK_PCLKM            13
+> +#define R9A09G087_CLK_PCLKL            14
+
+The RZ/T2H DT bindings file lacks PCLKL, which was probably a harmless
+oversight (it can always be added later), as it does exist on RZ/T2H,
+too, according to the documentation.
+
+However, given drivers/clk/renesas/r9a09g077-cpg.c has
+LAST_DT_CORE_CLK = R9A09G077_CLK_PCLKM,
+using R9A09G087_CLK_PCLKL will lead to wrong results.
+
+So either you want to add R9A09G077_CLK_PCLKL and update
+LAST_DT_CORE_CLK first, or set LAST_DT_CORE_CLK to R9A09G087_CLK_PCLKL
+in this patch.
+
+> +
+> +#endif /* __DT_BINDINGS_CLOCK_RENESAS_R9A09G087_CPG_H__ */
 
 Gr{oetje,eeting}s,
 
