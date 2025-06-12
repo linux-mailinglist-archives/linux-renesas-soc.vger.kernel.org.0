@@ -1,242 +1,171 @@
-Return-Path: <linux-renesas-soc+bounces-18146-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18147-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08BCFAD6486
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 02:31:22 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10D4DAD651B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 03:27:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AD96617BFCB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 00:31:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A683D1BC22E2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 01:27:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3381182BC;
-	Thu, 12 Jun 2025 00:31:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LUe/8Hg6"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B28813635E;
+	Thu, 12 Jun 2025 01:27:16 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02on2139.outbound.protection.partner.outlook.cn [139.219.17.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2D7711CAF;
-	Thu, 12 Jun 2025 00:31:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749688278; cv=none; b=FHZLS/dj2Rqr9rEGbFAhI8v1ZpZlm6E/UG5N38akPPKJZb8q2ytOAsaj2CbG0Qbqc7o2crlQhmjDRqV+NtuWqmoLeV8G8Bdo6pQ/2Pfz7krd7FFPTuD0ywjVrwqfvkSCLhG+qIPEsHuA/fcGL4FSclARbiGXOWMv74cZg0Ji2DY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749688278; c=relaxed/simple;
-	bh=DyRfflzLEisox0q5EfayJmbJHbzM1gcrjE066seRdF4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D3mbPH/wJ05GjFPYUXb0l7Rx+qDSVBR5ASeP1HUpFwyHfFYEJHk3iDr22eAO67q+9AQIsIQsl11LFgyOnErzmYKKwiWnXFs5ta0UZSxt1fS7TTn+LfqJJ9ubNB/lTL2pBYeLHQStPKyHMzE4vyRoqzovv5FZGH7zjNoBSzmEols=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LUe/8Hg6; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 81CE222A;
-	Thu, 12 Jun 2025 02:31:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1749688266;
-	bh=DyRfflzLEisox0q5EfayJmbJHbzM1gcrjE066seRdF4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LUe/8Hg6tP5di+AtdZTQYEQykbwG0+KUOcQzuLbH2L6PYm2kLKYfCPc3ZcfqzWJZb
-	 GeT7DtZBDvRYaWZE9/YhqNvnvMtGBcKrGogbgoffizk8yjOPoIKMyJTQQM8Goi4WDn
-	 kBsAjg8wuNdOLM5f9wXNnUUNT9R7khYGhvv/XpYE=
-Date: Thu, 12 Jun 2025 03:31:01 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v5 03/12] media: rcar-vin: Change link setup argument
-Message-ID: <20250612003101.GE22977@pendragon.ideasonboard.com>
-References: <20250606182606.3984508-1-niklas.soderlund+renesas@ragnatech.se>
- <20250606182606.3984508-4-niklas.soderlund+renesas@ragnatech.se>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D5572613;
+	Thu, 12 Jun 2025 01:27:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.17.139
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749691636; cv=fail; b=EqRUkDfUR71eyd7WnO2EjVaRVmN7U76JYRI9LHDkJDLyMmLozlx3fioiliptRqVQMP1DAKRE0nBnWfCYlSQ92IaK/14p8jUDq/6QnPsJXHfkVDslJ5oYCTKxPS77URJAnGTRjtv261dSLYoiIXT7S1TsWxNa70+tnRUnOx1Ajvo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749691636; c=relaxed/simple;
+	bh=c8pvgE3v8aI/eCvcneiU/QzCzZ2LarIoE8YbhUHmUic=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=qfIcK/gjRLUcQqe5CA7AwMJcm1zOOAIOZF2bG0taRRHutYXzpiKb2Zgh/Bq+yW3ChP+MlQ1mOF06171GkxnjeTSUDlgu0/QxEyaZNzB8FJ65Zex1vLyab2j89mnjoHCrMzQXuEqk+uy1Ya9xmAGbb+zCQETK3/gcaLzFfv0l5nk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.17.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nZ26Lg0kosfM4yEQc/FQOT8bXJeHKdxK8aXFnkn0rBlZl2yuet0VQPi/bnQC++pT1mpphVLMb1dlRydaxPNWcULeh3KO6C2BZfJmWLuv8or41Lm9YXvG8EnKmJ9F+CnAsjDkJJ61FzV3lyMk2VLMMDeaW3IRsTD3f08O7ev+O22cZgEXgdijd+Nxu9hkhcccsnpUEkQhT5+J+d+1R50tJWRz4k319nguSdZrkGQ5bPwKMgrumYXXRUOXHxCWVDqiNDjD0SwmI6xv+Xqoe6VBTdiBH0t4fbWdImQoBVAvDPhwvYIGzre4UxFzoPcJ+GZcLnfjkcgKcNLbqvg1sQxmjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=c8pvgE3v8aI/eCvcneiU/QzCzZ2LarIoE8YbhUHmUic=;
+ b=EeyYGtf0q3sdyJrGKIOUda58YvVR2i9D6spBa2Ee751EG0Fbw0e3Od7pCtmkGjtTRiCKZ118MpuFuf2ga6FQoB5tdlim/hvNpBk6unSs59s9hnZD+X9xUJVCFD3TDrMJSGGQXlDIxyfN8sIiuoZ7osBSYPMSmVx/bNHYpBQz1V1wXuS8yuKPmtEr/27oIAxii+Sk0jDxf850WeqyaLyPie30RSE0KNy5I5ZhzZ0EtBovvb+WcdqfL2d0h2FOGpTyIQWvQMDZuhX7Up/RJ0LOO9kYgV63FJVJM0agFpnSThWgKG0x2SOjVjdwzWTXtVDcge7aAycEBPlIDi3gHFR23w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
+Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:1b::9) by ZQ0PR01MB1303.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:1c::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.42; Thu, 12 Jun
+ 2025 01:12:05 +0000
+Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+ ([fe80::64c5:50d8:4f2c:59aa]) by
+ ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn ([fe80::64c5:50d8:4f2c:59aa%7])
+ with mapi id 15.20.8792.038; Thu, 12 Jun 2025 01:12:05 +0000
+From: Changhuang Liang <changhuang.liang@starfivetech.com>
+To: "shao.mingyin@zte.com.cn" <shao.mingyin@zte.com.cn>,
+	"ulf.hansson@linaro.org" <ulf.hansson@linaro.org>
+CC: "geert+renesas@glider.be" <geert+renesas@glider.be>,
+	"magnus.damm@gmail.com" <magnus.damm@gmail.com>, "heiko@sntech.de"
+	<heiko@sntech.de>, "krzk@kernel.org" <krzk@kernel.org>,
+	"alim.akhtar@samsung.com" <alim.akhtar@samsung.com>, Walker Chen
+	<walker.chen@starfivetech.com>, "sebastian.reichel@collabora.com"
+	<sebastian.reichel@collabora.com>, "detlev.casanova@collabora.com"
+	<detlev.casanova@collabora.com>, "finley.xiao@rock-chips.com"
+	<finley.xiao@rock-chips.com>, "shawn.lin@rock-chips.com"
+	<shawn.lin@rock-chips.com>, "pgwipeout@gmail.com" <pgwipeout@gmail.com>,
+	"qiu.yutan@zte.com.cn" <qiu.yutan@zte.com.cn>, "linux-pm@vger.kernel.org"
+	<linux-pm@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-rockchip@lists.infradead.org"
+	<linux-rockchip@lists.infradead.org>, "linux-samsung-soc@vger.kernel.org"
+	<linux-samsung-soc@vger.kernel.org>, "yang.yang29@zte.com.cn"
+	<yang.yang29@zte.com.cn>, "xu.xin16@zte.com.cn" <xu.xin16@zte.com.cn>,
+	"yang.tao172@zte.com.cn" <yang.tao172@zte.com.cn>, "ye.xingchen@zte.com.cn"
+	<ye.xingchen@zte.com.cn>
+Subject:
+ =?utf-8?B?5Zue5aSNOiBbUEFUQ0ggdjJdIHBtZG9tYWluOiBVc2Ugc3RyX2VuYWJsZV9k?=
+ =?utf-8?Q?isable-like_helpers?=
+Thread-Topic: [PATCH v2] pmdomain: Use str_enable_disable-like helpers
+Thread-Index: AQHb2fuaxaFW95Sx/USP9qxGCvTQ0LP+uXyA
+Date: Thu, 12 Jun 2025 01:12:05 +0000
+Message-ID:
+ <ZQ0PR01MB130266C8DC79B041567E2262F2742@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
+References: <20250610193403161UQCV5cVGXCRVDheTb7jvi@zte.com.cn>
+In-Reply-To: <20250610193403161UQCV5cVGXCRVDheTb7jvi@zte.com.cn>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: ZQ0PR01MB1302:EE_|ZQ0PR01MB1303:EE_
+x-ms-office365-filtering-correlation-id: c245bb18-bb2f-4714-a066-08dda94e2573
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|7416014|1800799024|41320700013|38070700018;
+x-microsoft-antispam-message-info:
+ LM29ALdgyzJjhKL9iC5l3yRNObMy8isMzLF/5cnyMplXSrVBfYU1l2MItq7LQAhCoP5AcSlP0f+4U/21dEYx14hzeWiBsGLPH9S8OaBPzLkbJ/ty2FbGKGUDMu+EtkgO8wdtIxSb/TVezcbNaOdPHTb3zyZ5BSz19JFKLu8grY2Rm3QnEk4gwZ8wr9+ZVUlDVinR8njXomcIUgDCB4qlt+V71zjv01I+gLZMaAhgyEjAI0ByG/qrqEZTagGi3Ff3Alr5T1Wc4d/ZdQ1ByKcb4JgNTmvIfO1CTXdM4G7M8cSikuYc7UpSQCUZkLw9juTLlS8c/FuiNX4H9NbE8EgAsvpEbANNY20n+/v1PJrH+dmNup4ikVoEmBNacCngto91CPnTZJ8feQccndNWE8bV/pDA8C6I5Xfy7l3JdvXBUAWqFFsUO4OyaLIeY1J10EwsEJy1eaJbveT8eD0mMqtTlyqrj5yeYE8R+9xpdSIqin52ZCyPAv4eMNMtxJmz/UcH89Sm42F9klFNybuP4f+Axk1pO7OSlkbwEIjyHs829CtFVR2CMhCNws0mrM4i6qwuCc/8LfPBeNnX6DtkG7ddzmaTq5UtH3jtF7nGQ60jPYs=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(41320700013)(38070700018);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?NlIrNnAwbDBZdGIvOFFFdGxIQUt4VkhNVy9qN3V6bkFPYis2T3lUcnI0N01O?=
+ =?utf-8?B?cnJLWnZna1QxRmttV05xbGNNeUQ0SDdodXp0ZUsvbEpYR0ZVOWtjUmpEQ0Zw?=
+ =?utf-8?B?aDVuck1HS2ZPbUJrUllxMzFQMi9EOGRpZ0xiTmUwMmlIenk5VmdUYWpKekpj?=
+ =?utf-8?B?N01UOWVqM25LSForRmptZHZsQWVlWFVVOHZSdjhoVmtBVUFLcnZOQ1YrVlNk?=
+ =?utf-8?B?cU5qSmJHLzR0WFhVU3RBSEFCenNrcHdQNm82d0ZBUkluemp3NVlHZUJEMENa?=
+ =?utf-8?B?NnhJYjFab1dlbmdRNytZVW9TMXZJOHduTFBVbjZXQ0prdUM0TlQ3NUFtRndU?=
+ =?utf-8?B?L01CVWNXWjhIOGlLbDlWdG9SMFVBRnBRZUk2U0tyYm55ek1Nc2ZEc1RwSTNI?=
+ =?utf-8?B?angvZTRBUTBheXFyMFEyRTdLTkIxc0ZsYVpPbXV5R0FyTmVGbVVpdytlUFpo?=
+ =?utf-8?B?Y3RDU1NhMWlsYTd1bFBMazZuRmtTZ1JINUw5YmJrZ1Y4aDcyZjFjUW5OR0Vz?=
+ =?utf-8?B?Z2RyTXdzSU9Ca1JhRjBYb2ZqUmxKVXdqU3U4K0RJMmVIa0wyM3ZhSUpTRzdP?=
+ =?utf-8?B?ek5LZ1YxWTd0cEx5b2dBc0xueE9yWW1ZenpocG1UcmlCOVdUVk1vRnhQdkFC?=
+ =?utf-8?B?dll2MGdrWmxDbUttNHNGU0VNSVgySWJsMVMyMkZHZGNHVHJPdTQ1UmZFcTln?=
+ =?utf-8?B?dThoU05TYTRCaWhSL2J1UjJwNUUvYTMyOXNvUW8vREZCaVpCN2Y1cU5SSk1i?=
+ =?utf-8?B?N2x4akYrd29CbDFIOWMreFhVRHpubG5kNHZpV2tMMXVjTnd5Smx4QTZqc0N5?=
+ =?utf-8?B?M1NHaTdYRHpVUVQ0VE5KeC84dGZMZWZOanJJU2d0cVBOZ1Jpb2tGNVJpSlY3?=
+ =?utf-8?B?OGd1OHFVS04ySkg0T0RkUEpLY3JydkxzVEFKeHJNemgvR2FkZncxdDVsUUdi?=
+ =?utf-8?B?Tmx1VjlDOHJ5NGVZQ2duclRwckFERzhJQ2djWVpmV1FURXFRc2IyQys3R0I3?=
+ =?utf-8?B?cFg4SDZuUDBsdjJKTFRsN1l2YUVMMlJadm9QbzY2SXdCczhVWkdMalhzdTl3?=
+ =?utf-8?B?dEJZSEZxSlNNK3hxVTFQa1Z4MGtWM1Vic1p4Z3QxZEttUnJTVW9xeWtjOTU3?=
+ =?utf-8?B?cFNQb1c0QmJmaEFLL3A1N1lMeWRnNDVFS2VrTUxIS09WNHE1MXZvTEQ0NjM0?=
+ =?utf-8?B?cFp3QkFkM0dXWS9NbGkzM2ZwaHpLNmIwbDZ5RERSOERIY3lvN01Hdy9rbHlF?=
+ =?utf-8?B?cld3aWJvQjNDOW1Ka3Y2T3MrY1dLVE9aVlFEeExpdTV4TCtSMldYRUQwcXpG?=
+ =?utf-8?B?SVRVTHUyN3FRM05UcUdoeElxY21XOVRyVlJHZWczRkdpTENNZXJ6L3ppSGxR?=
+ =?utf-8?B?RjhDSVNRcFlNOCswVjZKTitvMDJyNzgyUFoxSGkwRXRzclYxQVdXenBJSExO?=
+ =?utf-8?B?SzVsY012TUdQZ0ZjTzNXTm5uV2VMWll5Tm9aMnJEREVudkZXQ3JuZDF1NGxy?=
+ =?utf-8?B?eXlYRFc5Z0VrVHpuc3VKMkgvNkp2aDhTNXU5WDNIaFRoN0FLV1d6UXhYeXk0?=
+ =?utf-8?B?RHl2VC9MTHRmejlicDJ0YVBJQUJiK09rSWRWY3lKampsNG5yb0o0QzBMdE1N?=
+ =?utf-8?B?QjhQR3FsUlZkTGxGS1ZHdE1RajdPZDBPSVA1bkc4UnBPcW43VDRaeStDTWFE?=
+ =?utf-8?B?ZFVnems0SUx0NmxoRHhMRHNSRTNxZjNpbjhVWG1MNEZVem5uWDJnVVc4aE9R?=
+ =?utf-8?B?dlBWbEQ1WG00V0NINjFwRmdCUDNDYlp3SzQwdm1SSmZCQkEwSXhDMjNGTWxD?=
+ =?utf-8?B?cnUra0xsbGRpN2VKcm5HVldxdkNCRi9oOERoRlVBY3BiZ2xVTDd6VUI5UzZ5?=
+ =?utf-8?B?eWdkdzF3Q1dRdGwzanR3S2QrRlRnK1BZcENnZ3lHRzlpRmZEd2JiRVFud2Jj?=
+ =?utf-8?B?MWhQK2VITk0wbVNwOGt1aitxVkpHZlRhaXJBb25pNFd2OGVITkE2d2pXN09x?=
+ =?utf-8?B?L0V3QmpsTFp0YkJMZ3JSa09meDlTR2l4Z1ZXR2pPdjdaVmlwNWUrT25veFVW?=
+ =?utf-8?B?eUtML3BRSjBnM0JTcU1IbVJvWmQvbkNVbENyRFJVTmp5cWxzRTFjV0owOFBl?=
+ =?utf-8?B?YW9XWThBQ21mUHNzbDFsN2pnMjQxdkdkbjYzUEx5anZWbS9HT05VMTZIKzFi?=
+ =?utf-8?Q?34X04WYoAgaLMf150t3rE6U=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250606182606.3984508-4-niklas.soderlund+renesas@ragnatech.se>
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-Network-Message-Id: c245bb18-bb2f-4714-a066-08dda94e2573
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jun 2025 01:12:05.7186
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: EZ4kR6m5KO83RiV0FNcph/aV3JQxx05KjjyJaNIUIKDMJK8wp4pyQ2TRJvynmbgNu8/kI6Fko27ZuyDMMhV8EcLeX2DPAzFDNvQ0M8pGKtxqlna9S+607Clz7/dU/UT6
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ0PR01MB1303
 
-Hi Niklas,
-
-Thank you for the patch.
-
-On Fri, Jun 06, 2025 at 08:25:57PM +0200, Niklas Söderlund wrote:
-> The link setup callback once acted on each VIN instance, and expected to
-> be called once for each VIN instance. This have changed as the driver
-> grew support for later hardware generations and the callback is now
-> expected to setup links for all VIN in the group.
-> 
-> The argument to the callback have however remained a pointer to a single
-
-s/have/has/
-
-> VIN instance. This pointer was then used to get the group structure. Fix
-> this and pass the group as the single argument to the link setup
-> callback making the expectation of the function clear.
-> 
-> There is no intentional change in behavior.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Tested-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-> ---
-> * Changes since v4
-> - Use the group->info structure added in previous patch instead of
->   iterating over all VIN to find one that is instantiated to get the
->   same information.
-> - Condense variable declaration in rvin_isp_setup_links().
-> ---
->  .../platform/renesas/rcar-vin/rcar-core.c     | 37 ++++++++++---------
->  .../platform/renesas/rcar-vin/rcar-vin.h      |  2 +-
->  2 files changed, 20 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-> index 66efe075adae..73d713868391 100644
-> --- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-> @@ -65,7 +65,7 @@ static void rvin_group_cleanup(struct rvin_group *group)
->  }
->  
->  static int rvin_group_init(struct rvin_group *group, struct rvin_dev *vin,
-> -			   int (*link_setup)(struct rvin_dev *),
-> +			   int (*link_setup)(struct rvin_group *),
->  			   const struct media_device_ops *ops)
->  {
->  	struct media_device *mdev = &group->mdev;
-> @@ -115,7 +115,7 @@ static void rvin_group_release(struct kref *kref)
->  }
->  
->  static int rvin_group_get(struct rvin_dev *vin,
-> -			  int (*link_setup)(struct rvin_dev *),
-> +			  int (*link_setup)(struct rvin_group *),
->  			  const struct media_device_ops *ops)
->  {
->  	struct rvin_group *group;
-> @@ -247,7 +247,7 @@ static int rvin_group_notify_complete(struct v4l2_async_notifier *notifier)
->  		}
->  	}
->  
-> -	return vin->group->link_setup(vin);
-> +	return vin->group->link_setup(vin->group);
->  }
->  
->  static void rvin_group_notify_unbind(struct v4l2_async_notifier *notifier,
-> @@ -910,35 +910,35 @@ static int rvin_csi2_create_link(struct rvin_group *group, unsigned int id,
->  	return 0;
->  }
->  
-> -static int rvin_csi2_setup_links(struct rvin_dev *vin)
-> +static int rvin_csi2_setup_links(struct rvin_group *group)
->  {
->  	const struct rvin_group_route *route;
->  	unsigned int id;
->  	int ret = -EINVAL;
->  
->  	/* Create all media device links between VINs and CSI-2's. */
-> -	mutex_lock(&vin->group->lock);
-> -	for (route = vin->info->routes; route->chsel; route++) {
-> +	mutex_lock(&group->lock);
-> +	for (route = group->info->routes; route->chsel; route++) {
->  		/* Check that VIN' master is part of the group. */
-> -		if (!vin->group->vin[route->master])
-> +		if (!group->vin[route->master])
->  			continue;
->  
->  		/* Check that CSI-2 is part of the group. */
-> -		if (!vin->group->remotes[route->csi].subdev)
-> +		if (!group->remotes[route->csi].subdev)
->  			continue;
->  
->  		for (id = route->master; id < route->master + 4; id++) {
->  			/* Check that VIN is part of the group. */
-> -			if (!vin->group->vin[id])
-> +			if (!group->vin[id])
->  				continue;
->  
-> -			ret = rvin_csi2_create_link(vin->group, id, route);
-> +			ret = rvin_csi2_create_link(group, id, route);
->  			if (ret)
->  				goto out;
->  		}
->  	}
->  out:
-> -	mutex_unlock(&vin->group->lock);
-> +	mutex_unlock(&group->lock);
->  
->  	return ret;
->  }
-> @@ -992,30 +992,31 @@ static int rvin_csi2_init(struct rvin_dev *vin)
->   * ISP
->   */
->  
-> -static int rvin_isp_setup_links(struct rvin_dev *vin)
-> +static int rvin_isp_setup_links(struct rvin_group *group)
->  {
->  	unsigned int i;
->  	int ret = -EINVAL;
->  
->  	/* Create all media device links between VINs and ISP's. */
-> -	mutex_lock(&vin->group->lock);
-> +	mutex_lock(&group->lock);
->  	for (i = 0; i < RCAR_VIN_NUM; i++) {
->  		struct media_pad *source_pad, *sink_pad;
->  		struct media_entity *source, *sink;
->  		unsigned int source_slot = i / 8;
->  		unsigned int source_idx = i % 8 + 1;
-> +		struct rvin_dev *vin = group->vin[i];
->  
-> -		if (!vin->group->vin[i])
-> +		if (!vin)
->  			continue;
->  
->  		/* Check that ISP is part of the group. */
-> -		if (!vin->group->remotes[source_slot].subdev)
-> +		if (!group->remotes[source_slot].subdev)
->  			continue;
->  
-> -		source = &vin->group->remotes[source_slot].subdev->entity;
-> +		source = &group->remotes[source_slot].subdev->entity;
->  		source_pad = &source->pads[source_idx];
->  
-> -		sink = &vin->group->vin[i]->vdev.entity;
-> +		sink = &vin->vdev.entity;
->  		sink_pad = &sink->pads[0];
->  
->  		/* Skip if link already exists. */
-> @@ -1031,7 +1032,7 @@ static int rvin_isp_setup_links(struct rvin_dev *vin)
->  			break;
->  		}
->  	}
-> -	mutex_unlock(&vin->group->lock);
-> +	mutex_unlock(&group->lock);
->  
->  	return ret;
->  }
-> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> index 313703cd1103..cb8e8fa54f96 100644
-> --- a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> @@ -259,7 +259,7 @@ struct rvin_group {
->  	const struct rvin_info *info;
->  	struct rvin_dev *vin[RCAR_VIN_NUM];
->  
-> -	int (*link_setup)(struct rvin_dev *vin);
-> +	int (*link_setup)(struct rvin_group *group);
->  
->  	struct {
->  		struct v4l2_async_connection *asc;
-
--- 
-Regards,
-
-Laurent Pinchart
+PiBGcm9tOiBTaGFvIE1pbmd5aW4gPHNoYW8ubWluZ3lpbkB6dGUuY29tLmNuPg0KPiANCj4gUmVw
+bGFjZSB0ZXJuYXJ5IChjb25kaXRpb24gPyAiZW5hYmxlIiA6ICJkaXNhYmxlIikgc3ludGF4IGFu
+ZCB0ZXJuYXJ5DQo+IChjb25kaXRpb24gPyAib24iIDogIm9mZiIpIHN5bnRheCB3aXRoIGhlbHBl
+cnMgZnJvbSBzdHJpbmdfY2hvaWNlcy5oIGJlY2F1c2U6DQo+IDEuIFNpbXBsZSBmdW5jdGlvbiBj
+YWxsIHdpdGggb25lIGFyZ3VtZW50IGlzIGVhc2llciB0byByZWFkLiAgVGVybmFyeQ0KPiAgICBv
+cGVyYXRvciBoYXMgdGhyZWUgYXJndW1lbnRzIGFuZCB3aXRoIHdyYXBwaW5nIG1pZ2h0IGxlYWQg
+dG8gcXVpdGUNCj4gICAgbG9uZyBjb2RlLg0KPiAyLiBJcyBzbGlnaHRseSBzaG9ydGVyIHRodXMg
+YWxzbyBlYXNpZXIgdG8gcmVhZC4NCj4gMy4gSXQgYnJpbmdzIHVuaWZvcm1pdHkgaW4gdGhlIHRl
+eHQgLSBzYW1lIHN0cmluZy4NCj4gNC4gQWxsb3dzIGRlZHVwaW5nIGJ5IHRoZSBsaW5rZXIsIHdo
+aWNoIHJlc3VsdHMgaW4gYSBzbWFsbGVyIGJpbmFyeQ0KPiAgICBmaWxlLg0KPiANCj4gU2lnbmVk
+LW9mZi1ieTogU2hhbyBNaW5neWluIDxzaGFvLm1pbmd5aW5AenRlLmNvbS5jbj4NCg0KRm9yIHN0
+YXJmaXZlOg0KDQpSZXZpZXdlZC1ieTogQ2hhbmdodWFuZyBMaWFuZyA8Y2hhbmdodWFuZy5saWFu
+Z0BzdGFyZml2ZXRlY2guY29tPg0KDQo=
 
