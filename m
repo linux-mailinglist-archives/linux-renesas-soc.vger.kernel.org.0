@@ -1,44 +1,55 @@
-Return-Path: <linux-renesas-soc+bounces-18148-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18149-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 103A1AD65E2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 05:00:47 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68612AD669A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 06:05:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B1452189419B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 03:01:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 09D3B7ADBD6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 04:03:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF3401A0BC9;
-	Thu, 12 Jun 2025 03:00:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 544701EA7CB;
+	Thu, 12 Jun 2025 04:01:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="CZ6nRvX6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from out.smtpout.orange.fr (out-13.smtpout.orange.fr [193.252.22.13])
+	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F341418D;
-	Thu, 12 Jun 2025 03:00:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.243.244.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E95E92F4321;
+	Thu, 12 Jun 2025 04:01:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.22.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749697243; cv=none; b=pE5/5zvavkrofOYr6MCiALKZIY1iWoLfs1W3dMB0bfAnLCrjOHzjvoFmZIXFHnoqR/rF/jczf3v9ryHJNc3D3qbrYdeFRsmc+SSJoyD7XEWCdlXjG5oxhxOHTyxm9F27hBaZ+FxoE/GqYYSsJNgrhfbf/E4jmWkI9YnRK2vqHVE=
+	t=1749700905; cv=none; b=HWQ0DMgwSeFQyIUnXI1YOpgY/F7KslBWDTV9MxD8vqpAh47bSujYTM52ZNH6Ove+TWnXwIDfRck29UeGnQvlKPbHNUVUe7KkMTwOOssz8sR1u35oqFj6OIyoFPkeBxDfyLZ79Rgu5F3ljkSfpoYv66dxS3BG2uEJTg4K32ZhNok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749697243; c=relaxed/simple;
-	bh=kzLZEBvYk1M0n5Vs175spQvUD2gAJxA1W819nH0NQoc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DsGrleELrbTrwG4BqVupb1cysbYVpzfBuTIlp+koRs0thQyE48pASW1w9bEUb0SUT+DFT4evbQ3H3V5SHnLqVUO3TjSwYd+XbcNQPMekvNU8sKEAGQW7Mdmrv/nFRfZRt8IVw65tjqoTs1MIuM+KunUxE1pJu1EFC/AR3UiELPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=linux.starfivetech.com; spf=none smtp.mailfrom=linux.starfivetech.com; arc=none smtp.client-ip=54.243.244.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=linux.starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.starfivetech.com
-X-QQ-mid: esmtpgz14t1749697213t65c22161
-X-QQ-Originating-IP: IF1P/oCMu5+Z6gtoOhY0chVmlDO4Lfc/wt6ay8GGmZA=
-Received: from [192.168.125.115] ( [113.104.142.205])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 12 Jun 2025 11:00:10 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 7120148681061884487
-Message-ID: <E9D57DC946595F4F+762b7c45-ba5f-4bba-86d3-4eeea7643157@linux.starfivetech.com>
-Date: Thu, 12 Jun 2025 11:00:09 +0800
+	s=arc-20240116; t=1749700905; c=relaxed/simple;
+	bh=Xl9IJk+Or3dcsl1dHrURMatMQESPYHgQIYPxqiSWVfg=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=O/jEZrFM8hsP4lTAe+uQo/yF4R/1JWW/7grZWqYp2YbWV8mFiKds0465HkKCvpUEE/tyotTSeJt+cDuIZEyB+DnvA6RHWVd2VXr1gMpOnpAAwqV5SVA/N/BhBi9+ryONeC/s2koLfQeMjvKeED/ySrHWBlznoJZnLcjh2GHbqyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=CZ6nRvX6; arc=none smtp.client-ip=193.252.22.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from [172.16.82.72] ([124.33.176.97])
+	by smtp.orange.fr with ESMTPA
+	id PZ6ouUow4A6zePZ72ux1Ti; Thu, 12 Jun 2025 06:00:28 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1749700829;
+	bh=piFlliUk5gxIuODns+BuKiQaW1Okfu37ZFTizIK+/5E=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To;
+	b=CZ6nRvX6/RBt/P65SG22jp38/9ROvXwFbqWuH0MvUN/n9KQubcfOgzw/NibJ/QI0a
+	 +DINoaA/8GhcDVEugnVjXcHl7dTBivVN5n+nm8xfElGr/+btTSdlYE/DpqBUbIoHiy
+	 TX6Kte6Dq0PfLIGhIjcZeie2K0haE2RTpfJgBI7eNqBjPBQoWH3sZAk4qsIOP30Ypb
+	 jiz7UjBEcg/oWvc4gFEHsMnMXs5/IYz6RMd6LFgEHschpCsJSJaD4ImNU/zp9cW4fJ
+	 phCXq1XpUNQuofRlw3yCg8rt8fzeJnQ6me3V7SYG5dVCGMTxJwKauZDtfKjgSmACRs
+	 sJRF1ouMxZtPw==
+X-ME-Helo: [172.16.82.72]
+X-ME-Auth: bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI=
+X-ME-Date: Thu, 12 Jun 2025 06:00:29 +0200
+X-ME-IP: 124.33.176.97
+Message-ID: <420d37b1-5648-4209-8d6f-1ac9d780eea2@wanadoo.fr>
+Date: Thu, 12 Jun 2025 13:00:09 +0900
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -46,112 +57,326 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 16/17] pinctrl: Constify static 'pinctrl_desc'
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- Andrew Jeffery <andrew@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>,
- Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>,
- Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>,
- Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>,
- =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
- =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Lorenzo Bianconi <lorenzo@kernel.org>, Sean Wang <sean.wang@kernel.org>,
- Jesper Nilsson <jesper.nilsson@axis.com>,
- Lars Persson <lars.persson@axis.com>, Damien Le Moal <dlemoal@kernel.org>,
- Vladimir Zapolskiy <vz@mleia.com>, Michal Simek <michal.simek@amd.com>,
- Emil Renner Berthing <kernel@esmil.dk>,
- Jianlong Huang <jianlong.huang@starfivetech.com>,
- Hal Feng <hal.feng@starfivetech.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Manivannan Sadhasivam <mani@kernel.org>
-Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@axis.com,
- linux-riscv@lists.infradead.org, linux-rtc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com
-References: <20250611-pinctrl-const-desc-v2-0-b11c1d650384@linaro.org>
- <20250611-pinctrl-const-desc-v2-16-b11c1d650384@linaro.org>
+From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Subject: Re: [PATCH v2 06/10] can: rcar_canfd: Repurpose f_dcfg base for other
+ registers
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Kazuhiro Takagi <kazuhiro.takagi.hh@hitachi-solutions.com>,
+ Duy Nguyen <duy.nguyen.rh@renesas.com>, linux-can@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, Marc Kleine-Budde <mkl@pengutronix.de>,
+ Biju Das <biju.das.jz@bp.renesas.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+References: <cover.1749655315.git.geert+renesas@glider.be>
+ <75c8197c849fc9e360a75d4fa55bc01c1d850433.1749655315.git.geert+renesas@glider.be>
 Content-Language: en-US
-From: Hal Feng <hal.feng@linux.starfivetech.com>
-In-Reply-To: <20250611-pinctrl-const-desc-v2-16-b11c1d650384@linaro.org>
+Autocrypt: addr=mailhol.vincent@wanadoo.fr; keydata=
+ xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
+ LFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI+wrIEExYKAFoC
+ GwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQTtj3AFdOZ/IOV06OKrX+uI
+ bbuZwgUCZx41XhgYaGtwczovL2tleXMub3BlbnBncC5vcmcACgkQq1/riG27mcIYiwEAkgKK
+ BJ+ANKwhTAAvL1XeApQ+2NNNEwFWzipVAGvTRigA+wUeyB3UQwZrwb7jsQuBXxhk3lL45HF5
+ 8+y4bQCUCqYGzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrbYZzu0JG5w8gxE6EtQe6LmxKMqP6E
+ yR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDldOjiq1/riG27mcIFAmceMvMCGwwF
+ CQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8VzsZwr/S44HCzcz5+jkxnVVQ5LZ4B
+ ANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
+In-Reply-To: <75c8197c849fc9e360a75d4fa55bc01c1d850433.1749655315.git.geert+renesas@glider.be>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:linux.starfivetech.com:qybglogicsvrgz:qybglogicsvrgz5a-1
-X-QQ-XMAILINFO: MwQdfXoP8nuz5XryFdT9mMm5fPxIgvtrmAX83IcgZtRvrqA2KW6dPH7Y
-	UeTHfCncUD9Jw4FWoJXE6riCJ0qi42Tk97iYaZpQDy6wJAfOvCIKqsmZDUCum60Nt/3VI2Q
-	yJVcRouYmizOR86phNyTK+P+HakgJ6+pEI/aqw0RtOKyLhZuLSgKBoynOzcJ5/6RTkE9B5J
-	puSgBmWvIPLeHjJGbyL8JGWYM0Nq3MrWOa1r/0AXtg6DhVMXhlnJrE7o5AjgqjW10RrA+AE
-	5WE2g15YJe2NJklbaucjk0x4K8cryOhRte7230lqlcmRn8gpi1TBaGEDPQGwtFvcvdoODoQ
-	ViN+9EEw1CGjxsqKDswvwoYTmth4hbIF00mxePxjRvyPRJjjMTtZkxWQCXbu1vuVrNj0GU6
-	H92XK6yvShN0RwLay58+1CtT7J1hb0JjCTpQXCEQqh09Y5crsfflVW1nGPua30VSNL7ga/0
-	UQX6RQAQO+yxCdRUPZxoU63SFxIZUYPEw1pf8oT+7AIJCL/uwu2l8C4BOgYTwfYJlWu/teS
-	RSfgRojHYXOVP7I5iHZ7gVrjzenWIqpCyTviHWQQynv7hQMcsSB3U6GtG66WBSgNeu/pNRe
-	Tocet3yEmZ3qO9qBY3680fHoGxJmX+2gy3Wb0wK+bE2SNQOLvmC3RBmuKh+u5aotwInZ0Qq
-	umP8CAGdPjIaX38kcieoKqhzStBo4Jie2+ZSoghn6Ck5Fvs44muufEOzqH43fyGx2hZ+7Ru
-	mBMHQxMbcFRzFfjZAC8A6JHUscRn/CTbwVv9Uqwt1BFk9oEFE4NFxraS/6Th3U3Al2wGXFi
-	Etyp8vXKhF4yCKJnAVYSzS8gpG9LuTHIDswn/A6QbJ4k+aoGh3DBxSpg+w4K6/MMu+IZPej
-	HjFmIJRGP9uvo8Wq6JIzSVfeV5ogrg4FMF7F7BzfszsyHR/FtAtCLA6MUurCWMMxSs4OcYZ
-	ut8Fd0Jmm3ZCA/D7WJRiH33XX8PvGYHAZM67TrNlbvIJmEudSrGb/Q0o0
-X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
-X-QQ-RECHKSPAM: 0
+Content-Transfer-Encoding: 8bit
 
-On 6/11/2025 2:13 PM, Krzysztof Kozlowski wrote:
-> The local static 'struct pinctrl_desc' is not modified, so can be made
-> const for code safety.
+On 12/06/2025 at 00:37, Geert Uytterhoeven wrote:
+> Reuse the existing Channel Data Bitrate Configuration Register offset
+> member in the register configuration as the base offset for all related
+> channel-specific registers.
+> Rename the member and update the (incorrect) comment to reflect this.
+> Replace the function-like channel-specific register offset macros by
+> inline functions.
 > 
-> Acked-by: Lorenzo Bianconi <lorenzo@kernel.org>
-> Acked-by: Jesper Nilsson <jesper.nilsson@axis.com>
-> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> This fixes the offsets of all other (currently unused) channel-specific
+> registers on R-Car Gen4 and RZ/G3E, and allows us to replace
+> RCANFD_GEN4_FDCFG() by the more generic rcar_canfd_f_cfdcfg().
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
 > ---
->  drivers/pinctrl/berlin/berlin.c                    | 2 +-
->  drivers/pinctrl/cirrus/pinctrl-cs42l43.c           | 2 +-
->  drivers/pinctrl/mediatek/pinctrl-airoha.c          | 2 +-
->  drivers/pinctrl/pinctrl-artpec6.c                  | 2 +-
->  drivers/pinctrl/pinctrl-bm1880.c                   | 2 +-
->  drivers/pinctrl/pinctrl-k210.c                     | 2 +-
->  drivers/pinctrl/pinctrl-lpc18xx.c                  | 2 +-
->  drivers/pinctrl/pinctrl-mlxbf3.c                   | 2 +-
->  drivers/pinctrl/pinctrl-tb10x.c                    | 2 +-
->  drivers/pinctrl/pinctrl-zynq.c                     | 2 +-
->  drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c | 2 +-
->  11 files changed, 11 insertions(+), 11 deletions(-)
+> v2:
+>   - Add Reviewed-by.
+>   - Replace function-like macros by inline functions,
+
+Thanks!
+
+>   - s/addresses/offsets/.
+> ---
+>  drivers/net/can/rcar/rcar_canfd.c | 52 ++++++++++++++++++++++---------
+>  1 file changed, 37 insertions(+), 15 deletions(-)
 > 
-...
-> diff --git a/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c b/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c
-> index 27f99183d994dccb92aac81ca42228bdb9225e87..aeaa0ded7c1e5ee7f9c5e4113bfd208fb844ba7d 100644
-> --- a/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c
-> +++ b/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c
-> @@ -898,7 +898,7 @@ static const struct pinconf_ops starfive_pinconf_ops = {
->  	.is_generic = true,
->  };
+> diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
+> index dded509793bb93ec..8baf8a928da757f2 100644
+> --- a/drivers/net/can/rcar/rcar_canfd.c
+> +++ b/drivers/net/can/rcar/rcar_canfd.c
+> @@ -425,19 +425,10 @@
+>  #define RCANFD_C_RPGACC(r)		(0x1900 + (0x04 * (r)))
 >  
-> -static struct pinctrl_desc starfive_desc = {
-> +static const struct pinctrl_desc starfive_desc = {
->  	.name = DRIVER_NAME,
->  	.pins = starfive_pins,
->  	.npins = ARRAY_SIZE(starfive_pins),
-> 
+>  /* R-Car Gen4 Classical and CAN FD mode specific register map */
+> -#define RCANFD_GEN4_FDCFG(m)		(0x1404 + (0x20 * (m)))
+> -
+>  #define RCANFD_GEN4_GAFL_OFFSET		(0x1800)
+>  
+>  /* CAN FD mode specific register map */
+>  
+> -/* RSCFDnCFDCmXXX -> RCANFD_F_XXX(m) */
+> -#define RCANFD_F_DCFG(gpriv, m)		((gpriv)->info->regs->f_dcfg + (0x20 * (m)))
+> -#define RCANFD_F_CFDCFG(m)		(0x0504 + (0x20 * (m)))
+> -#define RCANFD_F_CFDCTR(m)		(0x0508 + (0x20 * (m)))
+> -#define RCANFD_F_CFDSTS(m)		(0x050c + (0x20 * (m)))
+> -#define RCANFD_F_CFDCRC(m)		(0x0510 + (0x20 * (m)))
+> -
+>  /* RSCFDnCFDGAFLXXXj offset */
+>  #define RCANFD_F_GAFL_OFFSET		(0x1000)
+>  
+> @@ -510,7 +501,7 @@ struct rcar_canfd_regs {
+>  	u16 cfcc;	/* Common FIFO Configuration/Control Register */
+>  	u16 cfsts;	/* Common FIFO Status Register */
+>  	u16 cfpctr;	/* Common FIFO Pointer Control Register */
+> -	u16 f_dcfg;	/* Global FD Configuration Register */
+> +	u16 coffset;	/* Channel Data Bitrate Configuration Register */
+>  	u16 rfoffset;	/* Receive FIFO buffer access ID register */
+>  	u16 cfoffset;	/* Transmit/receive FIFO buffer access ID register */
+>  };
+> @@ -641,7 +632,7 @@ static const struct rcar_canfd_regs rcar_gen3_regs = {
+>  	.cfcc = 0x0118,
+>  	.cfsts = 0x0178,
+>  	.cfpctr = 0x01d8,
+> -	.f_dcfg = 0x0500,
+> +	.coffset = 0x0500,
+>  	.rfoffset = 0x3000,
+>  	.cfoffset = 0x3400,
+>  };
+> @@ -651,7 +642,7 @@ static const struct rcar_canfd_regs rcar_gen4_regs = {
+>  	.cfcc = 0x0120,
+>  	.cfsts = 0x01e0,
+>  	.cfpctr = 0x0240,
+> -	.f_dcfg = 0x1400,
+> +	.coffset = 0x1400,
+>  	.rfoffset = 0x6000,
+>  	.cfoffset = 0x6400,
+>  };
+> @@ -800,6 +791,37 @@ static void rcar_canfd_put_data(struct rcar_canfd_channel *priv,
+>  		rcar_canfd_write(priv->base, off + i * sizeof(u32), data[i]);
+>  }
+>  
+> +/* RSCFDnCFDCmXXX -> rcar_canfd_f_xxx(gpriv, ch) */
+> +static inline unsigned int rcar_canfd_f_dcfg(struct rcar_canfd_global *gpriv,
+> +					     unsigned int ch)
+> +{
+> +	return gpriv->info->regs->coffset + 0x00 + 0x20 * ch;
+> +}
+> +
+> +static inline unsigned int rcar_canfd_f_cfdcfg(struct rcar_canfd_global *gpriv,
+> +					       unsigned int ch)
+> +{
+> +	return gpriv->info->regs->coffset + 0x04 + 0x20 * ch;
+> +}
+> +
+> +static inline unsigned int rcar_canfd_f_cfdctr(struct rcar_canfd_global *gpriv,
+> +					       unsigned int ch)
+> +{
+> +	return gpriv->info->regs->coffset + 0x08 + 0x20 * ch;
+> +}
+> +
+> +static inline unsigned int rcar_canfd_f_cfdsts(struct rcar_canfd_global *gpriv,
+> +					       unsigned int ch)
+> +{
+> +	return gpriv->info->regs->coffset + 0x0c + 0x20 * ch;
+> +}
+> +
+> +static inline unsigned int rcar_canfd_f_cfdcrc(struct rcar_canfd_global *gpriv,
+> +					       unsigned int ch)
+> +{
+> +	return gpriv->info->regs->coffset + 0x10 + 0x20 * ch;
+> +}
+> +
+>  static void rcar_canfd_tx_failure_cleanup(struct net_device *ndev)
+>  {
+>  	u32 i;
+> @@ -827,8 +849,8 @@ static void rcar_canfd_set_mode(struct rcar_canfd_global *gpriv)
+>  
+>  		for_each_set_bit(ch, &gpriv->channels_mask,
+>  				 gpriv->info->max_channels)
+> -			rcar_canfd_set_bit(gpriv->base, RCANFD_GEN4_FDCFG(ch),
+> -					   val);
+> +			rcar_canfd_set_bit(gpriv->base,
+> +					   rcar_canfd_f_cfdcfg(gpriv, ch), val);
+>  	} else {
+>  		if (gpriv->fdmode)
+>  			rcar_canfd_set_bit(gpriv->base, RCANFD_GRMCFG,
+> @@ -1468,7 +1490,7 @@ static void rcar_canfd_set_bittiming(struct net_device *ndev)
+>  		cfg = (RCANFD_DCFG_DTSEG1(gpriv, tseg1) | RCANFD_DCFG_DBRP(brp) |
+>  		       RCANFD_DCFG_DSJW(gpriv, sjw) | RCANFD_DCFG_DTSEG2(gpriv, tseg2));
+>  
+> -		rcar_canfd_write(priv->base, RCANFD_F_DCFG(gpriv, ch), cfg);
+> +		rcar_canfd_write(priv->base, rcar_canfd_f_dcfg(gpriv, ch), cfg);
+>  	} else {
+>  		/* Classical CAN only mode */
+>  		if (gpriv->info->shared_can_regs) {
 
-Reviewed-by: Hal Feng <hal.feng@starfivetech.com>
+Thinking of your code, you are still using some magic numbers, e.g.
 
-Best regards,
-Hal
+  0x04 + 0x20 * ch
 
+to access your registers. But at the end those magic numbers are just describing
+a memory layout.
+
+I think this can be describe as a C structure. This is what I have in mind:
+
+--------------8<--------------
+diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
+index 1e559c0ff038..487f40320c20 100644
+--- a/drivers/net/can/rcar/rcar_canfd.c
++++ b/drivers/net/can/rcar/rcar_canfd.c
+@@ -560,10 +560,21 @@ struct rcar_canfd_channel {
+ 	spinlock_t tx_lock;			/* To protect tx path */
+ };
+ 
++struct rcar_canfd_f {
++	u32 dcfg;
++	u32 cfdcfg;
++	u32 cfdctr;
++	u32 cfdsts;
++	u32 cfdcrc;
++	u32 padding[3];
++};
++static_assert(sizeof(struct rcar_canfd_f) == 0x20);
++
+ /* Global priv data */
+ struct rcar_canfd_global {
+ 	struct rcar_canfd_channel *ch[RCANFD_NUM_CHANNELS];
+ 	void __iomem *base;		/* Register base address */
++	struct rcar_canfd_f __iomem *cbase;
+ 	struct platform_device *pdev;	/* Respective platform device */
+ 	struct clk *clkp;		/* Peripheral clock */
+ 	struct clk *can_clk;		/* fCAN clock */
+@@ -803,6 +814,26 @@ static void rcar_canfd_update_bit(void __iomem *base, u32 reg,
+ 	rcar_canfd_update(mask, val, base + reg);
+ }
+ 
++static inline u32 rcar_canfd_read_reg(void __iomem *addr)
++{
++	return readl(addr);
++}
++
++static inline void rcar_canfd_write_reg(void __iomem *addr, u32 val)
++{
++	writel(val, addr);
++}
++
++static void rcar_canfd_set_bit_reg(void __iomem *addr, u32 val)
++{
++	rcar_canfd_update(val, val, addr);
++}
++
++static void rcar_canfd_update_bit_reg(void __iomem *addr, u32 mask, u32 val)
++{
++	rcar_canfd_update(mask, val, addr);
++}
++
+ static void rcar_canfd_get_data(struct rcar_canfd_channel *priv,
+ 				struct canfd_frame *cf, u32 off)
+ {
+@@ -825,37 +856,6 @@ static void rcar_canfd_put_data(struct rcar_canfd_channel *priv,
+ 		rcar_canfd_write(priv->base, off + i * sizeof(u32), data[i]);
+ }
+ 
+-/* RSCFDnCFDCmXXX -> rcar_canfd_f_xxx(gpriv, ch) */
+-static inline unsigned int rcar_canfd_f_dcfg(struct rcar_canfd_global *gpriv,
+-					     unsigned int ch)
+-{
+-	return gpriv->info->regs->coffset + 0x00 + 0x20 * ch;
+-}
+-
+-static inline unsigned int rcar_canfd_f_cfdcfg(struct rcar_canfd_global *gpriv,
+-					       unsigned int ch)
+-{
+-	return gpriv->info->regs->coffset + 0x04 + 0x20 * ch;
+-}
+-
+-static inline unsigned int rcar_canfd_f_cfdctr(struct rcar_canfd_global *gpriv,
+-					       unsigned int ch)
+-{
+-	return gpriv->info->regs->coffset + 0x08 + 0x20 * ch;
+-}
+-
+-static inline unsigned int rcar_canfd_f_cfdsts(struct rcar_canfd_global *gpriv,
+-					       unsigned int ch)
+-{
+-	return gpriv->info->regs->coffset + 0x0c + 0x20 * ch;
+-}
+-
+-static inline unsigned int rcar_canfd_f_cfdcrc(struct rcar_canfd_global *gpriv,
+-					       unsigned int ch)
+-{
+-	return gpriv->info->regs->coffset + 0x10 + 0x20 * ch;
+-}
+-
+ static void rcar_canfd_tx_failure_cleanup(struct net_device *ndev)
+ {
+ 	u32 i;
+@@ -883,8 +883,7 @@ static void rcar_canfd_set_mode(struct rcar_canfd_global *gpriv)
+ 
+ 		for_each_set_bit(ch, &gpriv->channels_mask,
+ 				 gpriv->info->max_channels)
+-			rcar_canfd_set_bit(gpriv->base,
+-					   rcar_canfd_f_cfdcfg(gpriv, ch), val);
++			rcar_canfd_set_bit_reg(&gpriv->cbase[ch].cfdcfg, val);
+ 	} else {
+ 		if (gpriv->fdmode)
+ 			rcar_canfd_set_bit(gpriv->base, RCANFD_GRMCFG,
+@@ -1533,7 +1532,7 @@ static void rcar_canfd_set_bittiming(struct net_device *ndev)
+ 	cfg = (RCANFD_DCFG_DTSEG1(gpriv, tseg1) | RCANFD_DCFG_DBRP(brp) |
+ 	       RCANFD_DCFG_DSJW(gpriv, sjw) | RCANFD_DCFG_DTSEG2(gpriv, tseg2));
+ 
+-	rcar_canfd_write(priv->base, rcar_canfd_f_dcfg(gpriv, ch), cfg);
++	rcar_canfd_write_reg(&gpriv->cbase[ch].dcfg, cfg);
+ 
+ 	/* Transceiver Delay Compensation */
+ 	if (priv->can.ctrlmode & CAN_CTRLMODE_TDC_AUTO) {
+@@ -1546,8 +1545,8 @@ static void rcar_canfd_set_bittiming(struct net_device *ndev)
+ 		tdco = min(tdc->tdcv + tdc->tdco, tdc_const->tdco_max) - 1;
+ 	}
+ 
+-	rcar_canfd_update_bit(gpriv->base, rcar_canfd_f_cfdcfg(gpriv, ch), mask,
+-			      tdcmode | FIELD_PREP(RCANFD_FDCFG_TDCO, tdco));
++	rcar_canfd_update_bit_reg(&gpriv->cbase[ch].cfdcfg, mask,
++				  tdcmode | FIELD_PREP(RCANFD_FDCFG_TDCO, tdco));
+ }
+ 
+ static int rcar_canfd_start(struct net_device *ndev)
+@@ -1861,7 +1860,7 @@ static int rcar_canfd_rx_poll(struct napi_struct *napi, int quota)
+ static unsigned int rcar_canfd_get_tdcr(struct rcar_canfd_global *gpriv,
+ 					unsigned int ch)
+ {
+-	u32 sts = rcar_canfd_read(gpriv->base, rcar_canfd_f_cfdsts(gpriv, ch));
++	u32 sts = rcar_canfd_read_reg(&gpriv->cbase[ch].cfdsts);
+ 	u32 tdcr = FIELD_GET(RCANFD_FDSTS_TDCR, sts);
+ 
+ 	return tdcr & (gpriv->info->tdc_const->tdcv_max - 1);
+@@ -2170,6 +2169,7 @@ static int rcar_canfd_probe(struct platform_device *pdev)
+ 		goto fail_dev;
+ 	}
+ 	gpriv->base = addr;
++	gpriv->cbase = gpriv->base + gpriv->info->regs->coffset;
+ 
+ 	/* Request IRQ that's common for both channels */
+ 	if (info->shared_global_irqs) {
+-------------->8--------------
+
+(this applies on top of the last patch of your series)
+
+
+To be honnest, I am happy to accept your patch as it is now, but what
+do you think of the above? I think that this approach works with your
+other macro as well.
+
+
+Yours sincerely,
+Vincent Mailhol
 
