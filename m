@@ -1,136 +1,177 @@
-Return-Path: <linux-renesas-soc+bounces-18172-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18173-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64FF4AD6ED8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 13:20:12 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05930AD6F17
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 13:34:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F131E3A5768
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 11:19:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7D5E67A5E83
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 11:32:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8352523BCFF;
-	Thu, 12 Jun 2025 11:20:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 484202F4316;
+	Thu, 12 Jun 2025 11:34:04 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B333EC2;
-	Thu, 12 Jun 2025 11:20:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C93CEC2;
+	Thu, 12 Jun 2025 11:34:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749727203; cv=none; b=Hs9wyQB98zYVW34++ZBJbgeumSGZLmQ1FQh574CNFq8ck5emEr2DVoh2XwtJkuHWO+kZkw9TQP1J4IybRJsKYnDdwKT2XSCaORPLXcYdspoSysnL8Ksntdv3mDq1Wl3QCeyGXxaWV3Jy/6l/SoLTNkbfWkBrwRVhQsEY40TMf1Y=
+	t=1749728044; cv=none; b=MkEJ9Rmw4n3qZFgwnMUzKVtns4DyIFKByXogE/ENzlAaBQ6mmzat482ayeiHUCnW2H7JOeJRUIy42vvYWOuhzpp3Hc9Rei7y9+dNv7cUYJbwn2+2hQh61lkqCzef9VYWzehBLYA2jzoyE4l5bHLvlgugC9JGzS/C8t350S8PZlg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749727203; c=relaxed/simple;
-	bh=YqHsxaxpI8FsGsfWWK1FEDhyIw1Uvbz7gYjTt9gIXVM=;
+	s=arc-20240116; t=1749728044; c=relaxed/simple;
+	bh=oJmbUiZ/kU6IuF5+FzbWKirIJYndUG7+SYQ7PWPAEaI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RZh4eg6jtyRjI8f2EsAJC4XbxtzVZzJkx+Xe5wUhVO/BBf5VA8O1a1frcrt2NI7Pklk9UTqRBiqtCF4Hb+QD0vV9u/xU9nO0/m9PuKdMCxaed+oFIh2qzQxJ3iBx/EVqPLcnIKdmXQSSRX9Et5ZNzs+EbIehxekLtJgPph2OLRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.180
+	 To:Cc:Content-Type; b=X7KXEOkdTIt5cW89TPkbLZnxjpMFRZA+ux4BoABEJJmJKevfchuLt0t8a50sKgBSTor5ws1g6pUeGZf+2Jpzpp24JXt2Z7RP1nO7twT8jLoKIQGh7iMgVyMGzH4KPMGtNiYoL+LOE9TwJMFUXLOtPe8UPnNabvKazeKp3/vPkPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-53133c3840dso106039e0c.0;
-        Thu, 12 Jun 2025 04:20:01 -0700 (PDT)
+Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-4e7b8112f4dso226225137.0;
+        Thu, 12 Jun 2025 04:34:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749727199; x=1750331999;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TD3QIUg5vFTzQEXDYZJibnSN+u3ERO545tprLcdmPQo=;
-        b=nj5GXQUy9YgA8abknxAamAaH1sKCAFAmT3HxeMFac3b40JqJQqf/twwM0tgyAYCr1Y
-         8JS2w4V/mKZOa4oDmvRhVZ7z+JSkFYOJN1BlQJXvpDgngZvE783fSXTPGQ9nuMxz/1G2
-         v9YsrY9Llc8NljM+Ol/iwl0qFHOw5p7KwP5hnDnCO/3ewhRCd2f+wC1BDwzJVwOb18ht
-         OYBUjgZOJMUXdf8Nv+mrb6QrQ/d66tQG6ozH2gMcukYE6X31nMK0XdHa7clQ3sIteVZt
-         k7cdfA9TQhoJe5HUgOEZJFryi5zzJ4pVaENTUPRi4/DZgOhYzBSUC8lHFwrHcloEruwD
-         xf+g==
-X-Forwarded-Encrypted: i=1; AJvYcCWqt1qoR7YQ7SdsXVGdeMl3LirBrrAg1k7JH2XySNZoL1vX3q4oUj20RrU2cerettWuVe4Ggt0ugXt0vDaRZ9rFLKQ=@vger.kernel.org, AJvYcCXMBTHHRkiQ2fgvhDNTwBJD0TRYTxJMVwPRxtjzOtRBHsU+S56fZaqnRpL3vtjmFD+nTiA+eG8z7YLa0Vo=@vger.kernel.org, AJvYcCXXhCpJmcYkrwfn/WJ2+z/b7C0pMUbRuu2Z+pOdRQ7tq/uoy7MT396uM0s4yv429Mr1X1R5QcFAnr5kMP4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVPoy704n/vBYn/EPWE/arr/C6HWaXOJiPjwGi+M5syvV7DwmI
-	fyeZPI7L7FVSEvzBlTcQM3H6wo27LIoGlq/lPQlvseQ8bAuL6bDOHZQ599h/akoj
-X-Gm-Gg: ASbGncvw9XEcS4A/YwYn0lk4tU8Bin5i00EPf/Kspsxp685WX6YHRpMQb0GmMtalTIg
-	R0v6ltHytuaNCOyvjC26hipjJ6n016SqW9qpRpev6h1VLGAuhHQIVii2iLD7tftAprwsUTY7/8u
-	OYrLB1+cWqKAmIH2dmQjdy0PGNcQPuShHRRdIh8KAff0RHlT/t6AK+rIjTmgFg2+JuLZzrSBiHp
-	FxuN2u3lp2ObIbp5PxfbtGg6riUNkiEtyetBakbNi8B2qWGCAb6qRy2BUwfqFpTUCuMr5Anv8UB
-	yT1TDc22RPDcfHcN1ANG1tZzNQNRXaZhOlyyGV+09ZVNsmdmOkveQSArKLAcBHHF/b/BxUy9dKm
-	uyS5WDL63wTAKC/VBKQYOT1f0
-X-Google-Smtp-Source: AGHT+IF28ebF8Mg7CzSisDVubvhdnfj5OxKqmZy2OajHlscguj6cAa9QRfsaA5G8EIdpN59aphAKuA==
-X-Received: by 2002:a05:6122:1c1:b0:52a:ee1d:f7fd with SMTP id 71dfb90a1353d-5312227726cmr5129135e0c.8.1749727199067;
-        Thu, 12 Jun 2025 04:19:59 -0700 (PDT)
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com. [209.85.222.42])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5312f2ce812sm264785e0c.0.2025.06.12.04.19.58
+        d=1e100.net; s=20230601; t=1749728040; x=1750332840;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2e04F18MiWEOEGCvxzdMdeRWfi39l+x6X4Bb2RiR5ak=;
+        b=offvl2WKJLch/zPV1X+MWlBZltixrdedlQzGNSYTXZgn5BoBvXIVAb8xR83v0eg55k
+         AEImUPk/F+EOC0vTlzGwo3SAOPVDcocItdM4gu7QXmS0Yyvtr8dEBK1VqEvU9aCO5/7F
+         NhlJKdlVHf2wESgjd7KQ7TJrulgFWvIcYNLTLv0q+KASdjE4SJu7C5tkDH1PGxq8UmIo
+         9SYWgghG4vneIm/NbNot6D1XmZZH5KlDeNNev/eDe0ffp+mX/Mn7jM3VDlL7qaHhweHs
+         QneIeQ3/yYcS3h/js6JuwvJLDE2+CEQEKdD2oS79E9l0eSUVoEa72v+zk8BpP4WwtYQ3
+         AkhA==
+X-Forwarded-Encrypted: i=1; AJvYcCW18aqjPokIx1AA7Mft5qMvjgRjOsR8rWplETawqRRmWh0hkCnhp6Ep+2/56i9x578RDkqkVlGTyQQ=@vger.kernel.org, AJvYcCWyo27CCm/chHMacF5k8xv5YtmrXxS5gG9WzLIehQk9YzDQyN5PO5oqWy6tobikkf3ZkvBf92iZNTGSysK1QnE95jw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzm8dllGCkqzCoTh/9LLgTGp4s61TbhCqdqU6jiqsuiz8BT8hzR
+	CQXv3eDG37EsvhmM+2o56w/b+rRcjB+BF2hOlqEtMJvr3Tkf6adv9spE2+C5vGwl
+X-Gm-Gg: ASbGnctcuQTlgcnCoIUIZ+gF+jT1ZSolFI5MEcLXcOohv4K6E/OMY+uuIh/xoLeYu0V
+	9D/Bc3ZCM5PpLO/0jSnWv45qVwaf17xHtP9AEWeGz7a2kv8ZrHTPB/QMyu9w2htrQoZPzLG5o4k
+	UzYjVWneVpNrFYaxeNi0sR4st/34noYdWBaxYVGMhfqCHRVWvqi/twoQe9wpJR/QBmR+HQuOivU
+	ed6IiuOjoZAMVPhoo1bdeOqP1ZPx4vF6QEULs+yOBTWWe4YaumMcvVF6rO4cIg1BDeESHLdKa1z
+	18uw5mCbIxDyIV7J4aw9DIrGHutBv3R7PwJLBd84Kt3p0nRaJdHh4IYk5rGRwTsWZyI/giCr2zV
+	gS4Ir3yApZ4kFrIy1/taSbHYf
+X-Google-Smtp-Source: AGHT+IGwjGzkY6qTB4RHlusLOtUfnoeo1VRDKQiw+x2DkamLHmAUbYJkq7nSbcYM2AZEUJvV0w1hIg==
+X-Received: by 2002:a05:6102:6e8d:b0:4e7:db51:ea5d with SMTP id ada2fe7eead31-4e7db51eb7amr286725137.6.1749728040271;
+        Thu, 12 Jun 2025 04:34:00 -0700 (PDT)
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com. [209.85.217.48])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-87f012432a4sm254891241.2.2025.06.12.04.33.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Jun 2025 04:19:58 -0700 (PDT)
-Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-87ee848a74bso214453241.2;
-        Thu, 12 Jun 2025 04:19:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUbtXfJGvnSe2dlkjcIGPNwjzPHQsKzCjt+VRyaMqlOGB5vUWF71Kyq4yqlQM3Oi3QP7J9PXwbLUrJv7YMoX8D547U=@vger.kernel.org, AJvYcCX4r+WP9cTxo1o493VUdg9mIzX94nzn3DiNLWSZxHJWLpaxMI6GVFOtUNLzf2oslPSYhh8GIwvLC64hdP0=@vger.kernel.org, AJvYcCXfGvrOQXN83yADEVIewzy/i0JUNuebNsTiF7MzitmG/veJGAUUP5gXGmm6qpnUMv2AvZ2UmPfZ/x0fxpo=@vger.kernel.org
-X-Received: by 2002:a05:6102:c48:b0:4e4:5e11:6832 with SMTP id
- ada2fe7eead31-4e7bae9d35emr6100563137.7.1749727198094; Thu, 12 Jun 2025
- 04:19:58 -0700 (PDT)
+        Thu, 12 Jun 2025 04:33:59 -0700 (PDT)
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-4e7b8112f4dso226220137.0;
+        Thu, 12 Jun 2025 04:33:59 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVAun1Ut77H8nfpLQ3rzdCKe8hxHVUVSLsBAoi8dJekUIl7CHKoVt2tbM95M7mmW62SQpbeHwSReVuPIsuV88QrymQ=@vger.kernel.org, AJvYcCW8rI818NSUf6K8FeL82R/4txG0W1UvAu7/xzZsr2S9mmcqvRsDpeEs2V73kayObDFxFdNCEbmF6aI=@vger.kernel.org
+X-Received: by 2002:a05:6102:cca:b0:4e5:a394:16cb with SMTP id
+ ada2fe7eead31-4e7ccb6b7d6mr2812310137.7.1749728039651; Thu, 12 Jun 2025
+ 04:33:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250611154445.123412-1-niklas.soderlund+renesas@ragnatech.se>
- <20250611154445.123412-5-niklas.soderlund+renesas@ragnatech.se>
- <20250611230412.GO24465@pendragon.ideasonboard.com> <20250612100112.GH330732@ragnatech.se>
-In-Reply-To: <20250612100112.GH330732@ragnatech.se>
+References: <cover.1749655315.git.geert+renesas@glider.be> <75c8197c849fc9e360a75d4fa55bc01c1d850433.1749655315.git.geert+renesas@glider.be>
+ <420d37b1-5648-4209-8d6f-1ac9d780eea2@wanadoo.fr>
+In-Reply-To: <420d37b1-5648-4209-8d6f-1ac9d780eea2@wanadoo.fr>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 12 Jun 2025 13:19:45 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVueS4Dhu0e5DJSEDD1Pt-3Ay3tmjs5Jm-5Z2xQXr4XVQ@mail.gmail.com>
-X-Gm-Features: AX0GCFu6xrIMQdM-0ntmPWVxsgReft2rzNEKQKIMX4TRdYgrZvSUQ6KwwPHdPFc
-Message-ID: <CAMuHMdVueS4Dhu0e5DJSEDD1Pt-3Ay3tmjs5Jm-5Z2xQXr4XVQ@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] media: rcar-csi2: Add D-PHY support for V4H
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, linux-media@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Thu, 12 Jun 2025 13:33:47 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWdEtjbAjeaDxxZuQeJg5GByhpoZXpZ0Gydjk60pMkN6w@mail.gmail.com>
+X-Gm-Features: AX0GCFsPomL1703NswaKihahQ9te90BX_vZhh-MqS-3k8Ala6BSmXquwIEUNYVw
+Message-ID: <CAMuHMdWdEtjbAjeaDxxZuQeJg5GByhpoZXpZ0Gydjk60pMkN6w@mail.gmail.com>
+Subject: Re: [PATCH v2 06/10] can: rcar_canfd: Repurpose f_dcfg base for other registers
+To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Cc: Kazuhiro Takagi <kazuhiro.takagi.hh@hitachi-solutions.com>, 
+	Duy Nguyen <duy.nguyen.rh@renesas.com>, linux-can@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Marc Kleine-Budde <mkl@pengutronix.de>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, 12 Jun 2025 at 12:01, Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> On 2025-06-12 02:04:12 +0300, Laurent Pinchart wrote:
-> > > --- a/drivers/media/platform/renesas/rcar-csi2.c
-> > > +++ b/drivers/media/platform/renesas/rcar-csi2.c
-> > > +   if (mbps >=3D 80) {
-> > > +           if (mbps >=3D 2560)
-> > > +                   val =3D 6;
-> > > +           else if (mbps >=3D 1280)
-> > > +                   val =3D 5;
-> > > +           else if (mbps >=3D 640)
-> > > +                   val =3D 4;
-> > > +           else if (mbps >=3D 320)
-> > > +                   val =3D 3;
-> > > +           else if (mbps >=3D 160)
-> > > +                   val =3D 2;
-> > > +           else if (mbps >=3D 80)
-> > > +                   val =3D 1;
+Hi Vincent,
+
+On Thu, 12 Jun 2025 at 06:00, Vincent Mailhol
+<mailhol.vincent@wanadoo.fr> wrote:
+> On 12/06/2025 at 00:37, Geert Uytterhoeven wrote:
+> > Reuse the existing Channel Data Bitrate Configuration Register offset
+> > member in the register configuration as the base offset for all related
+> > channel-specific registers.
+> > Rename the member and update the (incorrect) comment to reflect this.
+> > Replace the function-like channel-specific register offset macros by
+> > inline functions.
 > >
-> > You could possibly replace this with
+> > This fixes the offsets of all other (currently unused) channel-specific
+> > registers on R-Car Gen4 and RZ/G3E, and allows us to replace
+> > RCANFD_GEN4_FDCFG() by the more generic rcar_canfd_f_cfdcfg().
 > >
-> >               val =3D ilog2(mbps / 80) + 1;
-> >
-> > Up to you.
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > Reviewed-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+> > ---
+> > v2:
+> >   - Add Reviewed-by.
+> >   - Replace function-like macros by inline functions,
 >
-> I opted to keep it as is to make it easier to match with the datasheet.
-> The ilog2() is clever but I will never remember why it was used ;-)
+> Thanks!
 
-+1 for ilog2() ;-)
+> Thinking of your code, you are still using some magic numbers, e.g.
+>
+>   0x04 + 0x20 * ch
+>
+> to access your registers. But at the end those magic numbers are just describing
+> a memory layout.
+>
+> I think this can be describe as a C structure. This is what I have in mind:
+>
+> --------------8<--------------
+> diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
+> index 1e559c0ff038..487f40320c20 100644
+> --- a/drivers/net/can/rcar/rcar_canfd.c
+> +++ b/drivers/net/can/rcar/rcar_canfd.c
+> @@ -560,10 +560,21 @@ struct rcar_canfd_channel {
+>         spinlock_t tx_lock;                     /* To protect tx path */
+>  };
+>
+> +struct rcar_canfd_f {
+> +       u32 dcfg;
+> +       u32 cfdcfg;
+> +       u32 cfdctr;
+> +       u32 cfdsts;
+> +       u32 cfdcrc;
+> +       u32 padding[3];
+> +};
+> +static_assert(sizeof(struct rcar_canfd_f) == 0x20);
+
+Is that really needed?
+
+> @@ -883,8 +883,7 @@ static void rcar_canfd_set_mode(struct rcar_canfd_global *gpriv)
+>
+>                 for_each_set_bit(ch, &gpriv->channels_mask,
+>                                  gpriv->info->max_channels)
+> -                       rcar_canfd_set_bit(gpriv->base,
+> -                                          rcar_canfd_f_cfdcfg(gpriv, ch), val);
+> +                       rcar_canfd_set_bit_reg(&gpriv->cbase[ch].cfdcfg, val);
+
+Nice!
+
+> To be honnest, I am happy to accept your patch as it is now, but what
+> do you think of the above? I think that this approach works with your
+> other macro as well.
+
+Please take this as-is, so we can move forward.
+I will create a proper patch (with your Suggested-by) later,
+I have more CAN-FD items on my TODO list...
+
+Thanks!
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
                                 -- Linus Torvalds
 
