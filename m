@@ -1,151 +1,106 @@
-Return-Path: <linux-renesas-soc+bounces-18179-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18180-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA8C6AD7087
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 14:34:58 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26DF7AD70B6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 14:46:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 895FB3A1477
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 12:34:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1F45A18858EC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 12:47:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56901221F20;
-	Thu, 12 Jun 2025 12:34:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFE721A315C;
+	Thu, 12 Jun 2025 12:46:41 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 701BE18DB29;
-	Thu, 12 Jun 2025 12:34:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F29E6A55;
+	Thu, 12 Jun 2025 12:46:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749731690; cv=none; b=h92tq0aY2Jp2+koURtmLAbJj7b4sq77QnSwgrpcKsKB1ysraspALWNI+y/OJZG1bx5llealQLwtcd73ZdH0sbCMOpcnQoZEvvgXgJRxC7KHQI0oH4HuWL2NvTElS80mVrx9FOO6x3ax2R8+GxdaxIogS6Gfcyb0Di62EMdHwvyA=
+	t=1749732401; cv=none; b=IZSwGtDnd3KJsL3d2vXR+pNJx21+vX0EMOR4TPf5t2qb22eMaQ6ryY+bpDOuxSHqpHMnOXOty/QYQ1O69WHVQVOMv0xSYqrbb3X1g+RGpjXvZ9vU+M2A5XtLDCeMEHZAD9IYtdJ6YxgZGyNgjD7edct15Er0aexfGjrJSDJ4GeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749731690; c=relaxed/simple;
-	bh=HMvmy76NLGORQArlbIXSPIXwELaN8ey56Ig9mvz4sxY=;
+	s=arc-20240116; t=1749732401; c=relaxed/simple;
+	bh=UEHGNT8OkyV40JRRhSs1RS3iCq1KdL1KzjJCQb2gnEU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Syhbr9DGIDMbjdkBsUQ1wHrxmHU/KWyvruhq1LC8ZKd3eJ2c4DMGTT5/HQfNKWw6WNo/CZ2XQy0bmv40Z4XmUcNWGRwYPzBp9qjVcbnYxOGcukvbB2RPedCnj2DhCtezgMewTT9TU9OwQGDQSPjef/+zkhaf3TtmMZt9vWzLZGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.50
+	 To:Cc:Content-Type; b=dmFfRguUgeHcNn5/Zs3KM7KaUZePXJlAcIRh81Z810uQhCzrd14kQa7SCUQ0TJ+jlum79Pw+r5h/aKFKfqOGlV8ZqJ+Ds56bDBW4OA+a4pJk2vK0YzbgAZJExNe+ruKOz9c9sN4yUaCaNkGpK+Vs9RNQW6WVfaaJ9IQr/l7UAVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6fad79433bbso9856876d6.0;
-        Thu, 12 Jun 2025 05:34:48 -0700 (PDT)
+Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-4e79dde8511so221495137.0;
+        Thu, 12 Jun 2025 05:46:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749731686; x=1750336486;
+        d=1e100.net; s=20230601; t=1749732398; x=1750337198;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YdmKBl6XQx/lg6XYfGHOU0jB5qghLcO4dPwReFsMtRM=;
-        b=KiMMa0XEfJb8/8nXxKylvl7VLY7DhuSoUKznjOovZ/6Cq8sjlguIBrr92OiOIzWelN
-         /dkFjOepRQich3JXrsmptdTzLdHEPzfu5nqZ23ahmNBnlRY6DzIgdZaqLh9nVmqf9Kel
-         3I0VGlLAnWkEuPQnb0FcvETZM0NNh9uWt/ecpDs6TOtdDPxXLodWIW3J1eg2/77G9Xaj
-         ZxlCO/oNQi1IZ1P3ItIrQv+S5q/Kv/bSnqEhOuvtYRqYtow/Elqj+V80FxgYxRhPbqZh
-         2Vy9obYP3XyJWUzfd+pW+qaT5K5IpbY3fhSmsDMfnWW2ESMO6O11ZPbXy+BR6DYcJ58+
-         q+kg==
-X-Forwarded-Encrypted: i=1; AJvYcCURLPb+AgC1yRmG93NtCxxlz4cRwCMV+kNNQjw11xIRKmNBB4/VCrjOy/NkmQ0ZnJ7/cRrVsotqNC+MmV4=@vger.kernel.org, AJvYcCWIKRSCwtVZUvMT1MWayJMt9aOcz5DOO2B5a+PYU2/qiwqxbnougP90pFcfj0dM7HLCwQlLplHfuVfQbnw=@vger.kernel.org, AJvYcCXfT4QPxd8JyW/itHtFLgbytIvusredRVxXnADNitSpkdft67hloDcQZkrcGOMaxZpFgw8N8b5wNd18pbd0/rnSrgo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKaYpfxay0QCag6llgt7a96y8PM7LsJ3IREsfN10VEoRO0QJt7
-	r6hu1uUH578LFFr0kNYrsVnoEaouwFq7lhWdF6+fXLsFJEx6JYRtzexo4MTf0ltc
-X-Gm-Gg: ASbGnctTgq7NE5oKRdO0nVYdfmOb2IsiQEfdHARTrlBeMEybt+dVIm1cnjw77AWNSRU
-	znCTq/WdsAmMLOkpXSbcJqh6mWInHPk7ZpM71C6NeB/yCKfJoZuWWLfEXLnG62k37O8Ji1aTdrt
-	+GkzBixWB9DADkUZgpmxhnMXqAw2nANc2g1aFeFwUB5YdEVbgDdGkTVyLcb09U8MtpqYefeZGfm
-	KtPwPCHp5U8Xfo2LDMVkY2ad/a/pNthSM14+p0M03OQMH5Xw5aluuc8KLByKVulzuN02jHp/+je
-	t/Ffsfavu29WyDMR5ZS44NYwFIsWXjWS/5ct2JmR8uIK3KkpoKhb6OY/R8+M6mOKAYhk4vjEE1l
-	GuNQL/arMSIq22uwjN2yONy6ymUD3
-X-Google-Smtp-Source: AGHT+IHssHqpj8tpytx5oKPL/gYKfnWAcsnJBTEMjqRK6IUxecWolGe0vqo3MRJgMkGJB28DZRIPgg==
-X-Received: by 2002:a0c:f083:0:20b0:6fb:39e5:1b64 with SMTP id 6a1803df08f44-6fb39e51b7emr10142526d6.40.1749731686469;
-        Thu, 12 Jun 2025 05:34:46 -0700 (PDT)
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com. [209.85.222.178])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d3b8eabe70sm34572385a.57.2025.06.12.05.34.46
+        bh=8vSAoUstgikUUqDKzXknlBDKU/sYkHZcvI32J0wZveY=;
+        b=uL9+BhKrb7Pjq1gwja1AP+Rkr/iE8ZmbrnZDnOO9srM3cGGgPaJliCw4L22Ddhq+4I
+         FDleCRVWoa8M2NJTktfPRGvKlO73Q50lz9Iwq/fv1qn5PYkrTkeLSnHEtwHb7lh8iuv/
+         PwFJahVCN6uFdVx2w8JT7xRfjh4vv+84A9lrAZfDEPNyJAnXaE/X5ZVe0TchnaWITl7E
+         FhGjmalyem8WYtezoPMlD0xRxf6fCjWmco7wl0BiQVkHrb/b4GBe2wUefdC5ioEtFMew
+         Eq/dz+u9GTs5MpBJ3yUh7uDrfeycadBTUutK3wrqkpHLFhBEhwNuTqsyOBn4NsID/KTF
+         oOZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVUltaUdmULy3tE2rjDDSCHBPwFqngTqZhFw/KOjRnK1VsDbaATmCFnBJttEg7LLr3Wys5/6xvWmhLPodSy@vger.kernel.org, AJvYcCVxoUtd5WuS1PHLkbDGa/DR7VvVD65sC0cOODcCOs0knJ6EXp40i5oSuBZta9J9N1tUeAkNHp4lhSYo@vger.kernel.org, AJvYcCW7abg7JZeof7dRJEZXT4S0gU9LjKs6244WxRzHt6Hmukt0rPcbQYLQ1asVfRn+owGe6iipXSDvO4NDARoYmQUqBYI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpT3plPgrCa3aqmKJKtPykMeJD2KWu3EjVOozTuPQ0SnCBO9Q1
+	AXRgz2oH3bit1NJ1sbWh2TxXg6RbuF3nrJce+WWrnm97X7EjU2ipTYxMDNjJyvMU
+X-Gm-Gg: ASbGnctSLV+OzQkvYyddkWacaM3R4rU1g70qefDQChvjtmVpfOxo3so68Jn+90m3p+W
+	P4jbGCk4iEVRsMooyst84y7DZXRwlf6mnqk8s+eIGotRJf8RLHo5ssCYPrXFUtzhIFv2GCdBEPF
+	eKu9QRQmwGRZkK+TgCIEcHzw6fPpIeZZb97tfXAP33jmCfcLqI5tBg8+h9ob4ukDNyugdsf2/m3
+	vKr+UXlF0wSx1H/ohucW2rGAQvecl/9GBVp09TUFnyl8byVYbP+iNxw5gZaqqjGVpgE7zUQu+tj
+	RkySjcE0bwuvirc5sQa6B84wQcwTzEJI7AsMBI4ZaZ1lOzbT957kuae5Wzat9yLqVOcPGUFqEGx
+	AwFgSHraxp8fvNB/TLUunChJZ
+X-Google-Smtp-Source: AGHT+IExtcISPJB/Z1NN8upup1Nmo+XdMxTbnI7RpcquENYOUiQ9fcXAXS5sB20FuvJTq+okYxfq7g==
+X-Received: by 2002:a05:6102:c52:b0:4e5:a83a:3cee with SMTP id ada2fe7eead31-4e7ce96d112mr1956877137.14.1749732397875;
+        Thu, 12 Jun 2025 05:46:37 -0700 (PDT)
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4e7d0907f4dsm221602137.14.2025.06.12.05.46.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Jun 2025 05:34:46 -0700 (PDT)
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-7d3939ecb7dso91700785a.3;
-        Thu, 12 Jun 2025 05:34:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUdFztynFyr3VNJqCnSTDTjwU18hpKq2+brppVl0PRoG5fSywVc9oP7OSMFjtZPLnV31LTcE+g1A5muAzI=@vger.kernel.org, AJvYcCWdKykHP21sChuXDzmDe8MHhRkk38AafyFg2HQh78NbLL9WjzUXZ0N7azVFFK4e8XwQIx6oU0xhgcc7DQE=@vger.kernel.org, AJvYcCXHpd0tRLTkVuYEYz0ERob7MrGekBe3CppqlD+FR95aduObxlh+/uAQdPRBAvXXOONYHPdyjQV26ak5+pNTK0qImt8=@vger.kernel.org
-X-Received: by 2002:a05:620a:2953:b0:7cd:565b:dbc9 with SMTP id
- af79cd13be357-7d3b369e445mr372396085a.26.1749731685801; Thu, 12 Jun 2025
- 05:34:45 -0700 (PDT)
+        Thu, 12 Jun 2025 05:46:37 -0700 (PDT)
+Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-86f9c719d63so212969241.1;
+        Thu, 12 Jun 2025 05:46:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUONZRMuXsMqi3iiLnjeP7ZlByABW5Hde0f0wT1Ti28Yw1z6JNWbf0WIjOBD642pndjpmJ38eVvUNMeowUl@vger.kernel.org, AJvYcCWDEk3ckl+n+hkgNQmh/2uM481QyjXay5TsvKnkWrNRf13/E2tIeoUvRIRV+SEAKwSgaZ+A43guzrGNPVROiCLTZqo=@vger.kernel.org, AJvYcCWTZ6UScguQQjBux+9wo7wDVRurijx7Jp7e+pjN38HmqwNKNB/wscNc+ZzlUijT8LIUJqDxhPty+4iY@vger.kernel.org
+X-Received: by 2002:a05:6102:441e:b0:4da:fc9d:f00 with SMTP id
+ ada2fe7eead31-4e7ce96d107mr2142848137.13.1749732397116; Thu, 12 Jun 2025
+ 05:46:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250506104731.111876-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdWhwJTbJOBhKmC9YUaSebBg-9m7euqmxqJLCXdr6++siA@mail.gmail.com>
- <bdd989b4-a572-44c2-ae7b-2c445c09fd7a@linaro.org> <d05f2c03-fa86-4fc6-9b81-1a7b5592c2e8@nvidia.com>
-In-Reply-To: <d05f2c03-fa86-4fc6-9b81-1a7b5592c2e8@nvidia.com>
+References: <20250528140453.181851-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250528140453.181851-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250528140453.181851-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 12 Jun 2025 14:34:32 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX9NzFvsOv9eT0t4KVNufHSqVEht7yRbrt0qE49WgHpGg@mail.gmail.com>
-X-Gm-Features: AX0GCFtVgQikSSiKAPvkGq33v0M-ImHzyr3NJwP-bYJMvcSTiP6kAXgBA_LZ8eQ
-Message-ID: <CAMuHMdX9NzFvsOv9eT0t4KVNufHSqVEht7yRbrt0qE49WgHpGg@mail.gmail.com>
-Subject: Re: [PATCH] arm64: defconfig: Build STMMAC Ethernet driver into the
- kernel for NFS boot
-To: Jon Hunter <jonathanh@nvidia.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Prabhakar <prabhakar.csengg@gmail.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
+Date: Thu, 12 Jun 2025 14:46:25 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWeXc1zqOgwRPjJ8RLL_oVFUtEAz5Ka_XssBBatXtEtmw@mail.gmail.com>
+X-Gm-Features: AX0GCFs-ouPmndvanqwNIxMC9hDtu7_aRuCPeAypWbiKcZT-yN-JH5KflfL3yXM
+Message-ID: <CAMuHMdWeXc1zqOgwRPjJ8RLL_oVFUtEAz5Ka_XssBBatXtEtmw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] arm64: dts: renesas: r9a09g056: Add USB2.0 support
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Jon,
-
-CC Arnd
-
-On Thu, 12 Jun 2025 at 14:20, Jon Hunter <jonathanh@nvidia.com> wrote:
-> On 23/05/2025 12:54, Krzysztof Kozlowski wrote:
-> > On 23/05/2025 13:39, Geert Uytterhoeven wrote:
-> >> On Tue, 6 May 2025 at 12:47, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> >>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >>>
-> >>> Enable `CONFIG_STMMAC_ETH` as built-in (`y`) instead of a module (`m`) to
-> >>> ensure the Ethernet driver is available early in the boot process. This
-> >>> is necessary for platforms mounting the root filesystem via NFS, as the
-> >>> driver must be available before the root filesystem is accessed.
-> >>>
-> >>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >>> ---
-> >>> With this change, the Renesas RZ/V2H EVK board can boot from NFS
-> >>> which has the DWMAC IP.
-> >>
-> >> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >> i.e. will queue in renesas-devel for v6.17.
-> >
-> > With my Nacked, please.
+On Wed, 28 May 2025 at 16:05, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> I was surprised to see this change in -next. We also use NFS for testing
-> and we use the dwmac drivers. To date we are explictly building these
-> drivers into the initramfs but I noticed that that is now failing
-> because this driver is no longer a module by default. This is easy for
+> The Renesas RZ/V2N (R9A09G056) SoC features a single-channel USB2.0
+> interface with host and peripheral (function) support.
+>
+> Add the ECHI, OHCI, USB2.0 PHY and reset control nodes for USB2.0
+> channel in R9A09G056 SoC DTSI.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Oops, sorry for that...
-
-> us to fix.
-
-Good ;-)
-
-> I do agree that if we start to build every networking driver into the
-> kernel it is going to bloat. Yes I do see the kernel image growing
-> regardless of this, but nonetheless it seems better to just build as a
-> module IMO.
-
-Not _every_ networking driver, of course.  AFAIK, making network
-drivers built-in for systems where development is done using nfsroot
-has always been acceptable for the arm64 defconfig before.  For things
-not critical for booting, modular is indeed the preferred way.
-
-BTW, we have other low-hanging fruit to fix, though:
-
-CONFIG_SOUND=y
-CONFIG_SND=y
-CONFIG_SND_SOC=y
-CONFIG_SND_SOC_SAMSUNG=y (Krzysztof? ;-)
-CONFIG_USB=y
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.17.
 
 Gr{oetje,eeting}s,
 
