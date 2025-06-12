@@ -1,134 +1,93 @@
-Return-Path: <linux-renesas-soc+bounces-18209-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18210-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84362AD7754
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 18:01:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D894AD7837
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 18:29:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C93DA17E02A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 15:56:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 578761883BD8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 16:30:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D040221DA8;
-	Thu, 12 Jun 2025 15:54:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C054B299AB1;
+	Thu, 12 Jun 2025 16:29:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ojAf1B2Y"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA35922094;
-	Thu, 12 Jun 2025 15:54:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90A86298CB2;
+	Thu, 12 Jun 2025 16:29:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749743653; cv=none; b=Uke2NhumC4gkEPTdixfZ2yMN+WSuMrD1ADmUZEUIX7Tk7EIvX6xWLD6hR2+BuG5WwLBHWE9Gec/3kF4YdYPhbuEqgHBsXzxzQWB9JOQL5UqmoobYZS3B8JvFZH9+s7E5tlDD4mw3hMePuOafVEOrKbo4oETwdlc0hYnYViyewC4=
+	t=1749745779; cv=none; b=GwNYmx9GSX/C2BiowHn/zIj9sJFwIh1IsbJ3k6bHoc9gZ+HPWKJrU8e4V6nnnY2VHSzl/ZpqnFfr5ysQVtaxokclodI3CREeMsKL7VqaYeMtO89Np8QjpH4YQgl4Q0dnjE2V1RBa55rin6/gMDH7Ui/gIh3/kb1/VhT0JKgFIFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749743653; c=relaxed/simple;
-	bh=Lozr22R6CO+RNvwVhifH/eSDDg9MlLQKcOlojkNqxc8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XdPRtZ+04TiEXzaDq4DThV1C333xqU4VygjfUKGnyykOEBYDm32UuzpXdo7FxR8irvLNeGIzWaWRt8+kdpaXnUsKiCbeqU5PloBzL/zHH8XSZJxmVykWMifMC0DaVhOkuBTfEZ+Ss6Wk5X1lGhLYGth00d8d1G3DVDIxGsYei0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-53125ca7837so635169e0c.0;
-        Thu, 12 Jun 2025 08:54:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749743649; x=1750348449;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MCWdKGDkn0LPrrpZul9GwNXUtPRdna1q2f9cpPPTLvA=;
-        b=CJnRmZoQ0g9EeciCPu5VSgLQ6+Yp0sVzbIUuG7Hw0r3haTpYwF21HW+9STnyJy6O9c
-         ulAGUTqJFZZfKyYx/K9NAHZq9OU4XUGGSQzDF0D5+rG37dGfugK7tLcJ9ORfzhwnEdQ2
-         ti8J6zb1CBNoqI5l8cnMvtPfjuH+ukszGhAyaFPr5OHh/UeB8CYRcL6oquxChjyuBW1c
-         75JQwTuG2WmdTRREClWXwkFWny5EXotZJgDPDhfxb/VpPjOPKrPKDBDm9xXULB56wR/y
-         lvFSnQs1LIR/19ZvQ0vyI13j1dumLw5yZsi3MMq44nbsnXSUxfJ5PsmbxY6ihEIRP5TX
-         q5zg==
-X-Forwarded-Encrypted: i=1; AJvYcCUOVp7hSMWtR+LrlA6Frd0BnR/loTzLXVGb6IfRJO7daV1nKfwc2ox2u1PSzwU5k4/23/kwwAeqEMm9w3uvmGLhsmg=@vger.kernel.org, AJvYcCUkZcsR3Ss3sCr5/R3dPXHOmKXPpE59twdWjwVLTketmtnJNYDJ3kPULDU99nRe4YSVsXlAh0JNFYH4SYA=@vger.kernel.org, AJvYcCVbnRcHQmj3qmkwUVH4uDHh359MlnmZw+hxJIOKJLUIRCe8QteOwLNd3L6MdTDZ+eKj8BmX18AmuyG77/kodmX/YFI=@vger.kernel.org, AJvYcCWsUzdGiOMYf+//lkaORyRFeoFsvPxny/1EZNLGOuHbmdEiHkak0tkMBCrPcOAZESHHA/eWlS5GaNs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yypo7DB0NRFCzgTV2JyaYjQsPVhDNqsZD6nC0sYs4+DFYO0wRw9
-	IuOIFBrVs9ll+nasIhuD6sCSZpN4pXFZAn6GFed51DM3bval9f63U43ztnW7OMh2
-X-Gm-Gg: ASbGncthSQPf+5XFYpGw9rz9RnmwgYBPMmsSf/aO4NlXWcmxPqrPSxGDsrvwSA9nc4H
-	ggZO0xyU9NMVKfNL9/DIvmHoyCTz6LJlXydyT5ii9OKpBxwbMzA4WWWKHnEt1eOtI0xP5oqIygC
-	BXv7X5BOdhCV0UqHWyPrt92Qw7A56FZ3Qg8EVoZDF5565LsBmqC9jBMZZmi2DDcEd0eihrZDaHv
-	TC3LVQlK8rQJOJrFvxrxWMoJEl68PPviRzP6aON/dNAOtcnjNHHQ0BUfbi0eRLatc2HG+VET7T0
-	p4Cngyb27KvSLopSDYHIODbb0e/lmWwZP/BGq0WtzpTGFLKU7/woo9Ole8Kme1yukA/DyeO0Jhi
-	uLI5Vk/aaialT3Ga+tExBWS59
-X-Google-Smtp-Source: AGHT+IHPQH4Y8zIYDo7jnYGjuCCKNfPDnUxt8yyPNZacUMOEktQBFF58LQrKvZEwDw2RZYYcI0kOoA==
-X-Received: by 2002:a05:6122:81dc:b0:52d:cc6f:81a2 with SMTP id 71dfb90a1353d-5312dc21da3mr2539414e0c.6.1749743649358;
-        Thu, 12 Jun 2025 08:54:09 -0700 (PDT)
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-87f01259249sm340861241.9.2025.06.12.08.54.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Jun 2025 08:54:08 -0700 (PDT)
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4e7c7680591so656668137.1;
-        Thu, 12 Jun 2025 08:54:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUowVZxKTEwyQURYu7qTx9yNZ323/WGFV047Wy0s8MyKJSqJakBSpr/fIRonZdUt8U/qYz+nzu2uBpnToQ=@vger.kernel.org, AJvYcCVoNcpLFUGR19ERv5s2F4O+s4f3gt2yrCOjsUIjHjkRDU5Ku3VtOHRDbhtwC+IjSZvd/m/n1ATo8/JTQeNO69kadlQ=@vger.kernel.org, AJvYcCWqS1F10E6wubpH3w+gSsedHbklQtjSgYWni/MiuXsqtgfkDi3N7ItySzSw3ImnZ/ZtlX1LjN5gket2VllD36d9ohg=@vger.kernel.org, AJvYcCXRxK2ji42gfTE/fVcDTmDx9S+YlJO6PiHjtQMXYx+6S9XvQe4yrwGqZ8l0aJedtkRtAtuCkiclT4g=@vger.kernel.org
-X-Received: by 2002:a05:6102:5113:b0:4e4:3c3a:f163 with SMTP id
- ada2fe7eead31-4e7cd7a4049mr3737309137.7.1749743648153; Thu, 12 Jun 2025
- 08:54:08 -0700 (PDT)
+	s=arc-20240116; t=1749745779; c=relaxed/simple;
+	bh=+foV1HFQtXe/BJp6C8D+T9nvZYYAoq8z11OiZjLqrZA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sizaS25J5M0cSc0FtUjMA5VSDC1VNBVLB2Muhxdu7pRC7PwvlDlzW2VlCGhElexC99lZVTG5uZ0zXDqx5JDNeT9KvqOmmqfoc+SCnHE4G65HOv6DvHmaXGiSOwQehhBo4yX0c9xK/m1i2F3gCB/OlP1DeJGKIOn7JHccbda2i8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ojAf1B2Y; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40C9DC4CEEA;
+	Thu, 12 Jun 2025 16:29:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749745777;
+	bh=+foV1HFQtXe/BJp6C8D+T9nvZYYAoq8z11OiZjLqrZA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ojAf1B2Y8L8Z8GnLSZ63qs9P7oQzoJJQtlSmIPccOGL/fQ33shMI6q9cwnjssw36Z
+	 0EVTFIGpU27nKUiYKSlbT2qLMWbG1h/HK2JaUbHyvCjX5CHXIfc7xFY7iK51TB0l7L
+	 XWar8ohG56W1no3L8KffNJaOXwcmNd2sRbp/Yx9unVfe6fKY3Qs1r4ggR2iSo0Y0XV
+	 mm5AD4v1uAs5NrCjL++TQrma/O2XUbC2WzBO1mGgkpHaGfNJ7suRZxKGm9z8sGPn5u
+	 Ew+zBCqFgInncnj8sVLgO1DJCqePuLN+fq1Ch8wAKNTGzJ1Wb2I0OBVHvtnwjVJyq2
+	 CxBBUXdFKKSyg==
+Date: Thu, 12 Jun 2025 17:29:34 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-pwm@vger.kernel.org,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: vendor-prefixes: Document Argon40
+Message-ID: <20250612-untidy-quilt-4b8528fd2c27@spud>
+References: <20250610220814.167318-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250610193403161UQCV5cVGXCRVDheTb7jvi@zte.com.cn>
-In-Reply-To: <20250610193403161UQCV5cVGXCRVDheTb7jvi@zte.com.cn>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 12 Jun 2025 17:53:55 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV2Ar95nrmH=NTwY+pkrg6nD-sNoVG7MJY7ofJF4N3bNA@mail.gmail.com>
-X-Gm-Features: AX0GCFsIwHF9_aoZ54iuAPGFucIDRqFn8Tjpa14cAUcOdjFvqEv5PYmW-DjzBPU
-Message-ID: <CAMuHMdV2Ar95nrmH=NTwY+pkrg6nD-sNoVG7MJY7ofJF4N3bNA@mail.gmail.com>
-Subject: Re: [PATCH v2] pmdomain: Use str_enable_disable-like helpers
-To: shao.mingyin@zte.com.cn
-Cc: ulf.hansson@linaro.org, changhuang.liang@starfivetech.com, 
-	geert+renesas@glider.be, magnus.damm@gmail.com, heiko@sntech.de, 
-	krzk@kernel.org, alim.akhtar@samsung.com, walker.chen@starfivetech.com, 
-	sebastian.reichel@collabora.com, detlev.casanova@collabora.com, 
-	finley.xiao@rock-chips.com, shawn.lin@rock-chips.com, pgwipeout@gmail.com, 
-	qiu.yutan@zte.com.cn, linux-pm@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, yang.yang29@zte.com.cn, 
-	xu.xin16@zte.com.cn, yang.tao172@zte.com.cn, ye.xingchen@zte.com.cn
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="qGKAJAv92TKfrpN9"
+Content-Disposition: inline
+In-Reply-To: <20250610220814.167318-1-marek.vasut+renesas@mailbox.org>
 
-Hi Mingyin,
 
-On Tue, 10 Jun 2025 at 13:34, <shao.mingyin@zte.com.cn> wrote:
-> From: Shao Mingyin <shao.mingyin@zte.com.cn>
->
-> Replace ternary (condition ? "enable" : "disable") syntax and ternary
-> (condition ? "on" : "off") syntax with helpers from
-> string_choices.h because:
-> 1. Simple function call with one argument is easier to read.  Ternary
->    operator has three arguments and with wrapping might lead to quite
->    long code.
-> 2. Is slightly shorter thus also easier to read.
-> 3. It brings uniformity in the text - same string.
-> 4. Allows deduping by the linker, which results in a smaller binary
->    file.
->
-> Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
-> ---
-> v2:
->  %sable ==> %s in jh71xx_pmu_dev()
+--qGKAJAv92TKfrpN9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for the update!
+On Wed, Jun 11, 2025 at 12:07:25AM +0200, Marek Vasut wrote:
+> Argon 40 Technologies Limited is a SBC expansion board vendor.
+> Document the prefix. For details see https://argon40.com .
+>=20
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-While I already provided my Rb-tag on Krzysztof's original [1], your
-version is whitespace-damaged (TABs replaced by spaces), and thus
-cannot be applied.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-[1] https://lore.kernel.org/all/CAMuHMdXJ57mATWW4AnBedn+D7TQ4PadkJ642daquFtAo=wZFrQ@mail.gmail.com/
+--qGKAJAv92TKfrpN9
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Gr{oetje,eeting}s,
+-----BEGIN PGP SIGNATURE-----
 
-                        Geert
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaEsAbgAKCRB4tDGHoIJi
+0gZlAP9BHvAO6J8HCOF9ukala1/ekkmylQwjTKy1RsAkCkd6DAEA/pZid+NmoxYJ
+Fl9eqc7GlFBYF5Xsb4fVwjBQ+Yx2dwM=
+=QvxH
+-----END PGP SIGNATURE-----
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--qGKAJAv92TKfrpN9--
 
