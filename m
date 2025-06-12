@@ -1,171 +1,157 @@
-Return-Path: <linux-renesas-soc+bounces-18147-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18148-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10D4DAD651B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 03:27:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 103A1AD65E2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 05:00:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A683D1BC22E2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 01:27:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B1452189419B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 03:01:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B28813635E;
-	Thu, 12 Jun 2025 01:27:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF3401A0BC9;
+	Thu, 12 Jun 2025 03:00:43 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02on2139.outbound.protection.partner.outlook.cn [139.219.17.139])
+Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D5572613;
-	Thu, 12 Jun 2025 01:27:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.17.139
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749691636; cv=fail; b=EqRUkDfUR71eyd7WnO2EjVaRVmN7U76JYRI9LHDkJDLyMmLozlx3fioiliptRqVQMP1DAKRE0nBnWfCYlSQ92IaK/14p8jUDq/6QnPsJXHfkVDslJ5oYCTKxPS77URJAnGTRjtv261dSLYoiIXT7S1TsWxNa70+tnRUnOx1Ajvo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749691636; c=relaxed/simple;
-	bh=c8pvgE3v8aI/eCvcneiU/QzCzZ2LarIoE8YbhUHmUic=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=qfIcK/gjRLUcQqe5CA7AwMJcm1zOOAIOZF2bG0taRRHutYXzpiKb2Zgh/Bq+yW3ChP+MlQ1mOF06171GkxnjeTSUDlgu0/QxEyaZNzB8FJ65Zex1vLyab2j89mnjoHCrMzQXuEqk+uy1Ya9xmAGbb+zCQETK3/gcaLzFfv0l5nk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.17.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nZ26Lg0kosfM4yEQc/FQOT8bXJeHKdxK8aXFnkn0rBlZl2yuet0VQPi/bnQC++pT1mpphVLMb1dlRydaxPNWcULeh3KO6C2BZfJmWLuv8or41Lm9YXvG8EnKmJ9F+CnAsjDkJJ61FzV3lyMk2VLMMDeaW3IRsTD3f08O7ev+O22cZgEXgdijd+Nxu9hkhcccsnpUEkQhT5+J+d+1R50tJWRz4k319nguSdZrkGQ5bPwKMgrumYXXRUOXHxCWVDqiNDjD0SwmI6xv+Xqoe6VBTdiBH0t4fbWdImQoBVAvDPhwvYIGzre4UxFzoPcJ+GZcLnfjkcgKcNLbqvg1sQxmjg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=c8pvgE3v8aI/eCvcneiU/QzCzZ2LarIoE8YbhUHmUic=;
- b=EeyYGtf0q3sdyJrGKIOUda58YvVR2i9D6spBa2Ee751EG0Fbw0e3Od7pCtmkGjtTRiCKZ118MpuFuf2ga6FQoB5tdlim/hvNpBk6unSs59s9hnZD+X9xUJVCFD3TDrMJSGGQXlDIxyfN8sIiuoZ7osBSYPMSmVx/bNHYpBQz1V1wXuS8yuKPmtEr/27oIAxii+Sk0jDxf850WeqyaLyPie30RSE0KNy5I5ZhzZ0EtBovvb+WcdqfL2d0h2FOGpTyIQWvQMDZuhX7Up/RJ0LOO9kYgV63FJVJM0agFpnSThWgKG0x2SOjVjdwzWTXtVDcge7aAycEBPlIDi3gHFR23w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=starfivetech.com; dmarc=pass action=none
- header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
-Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:1b::9) by ZQ0PR01MB1303.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:1c::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.42; Thu, 12 Jun
- 2025 01:12:05 +0000
-Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
- ([fe80::64c5:50d8:4f2c:59aa]) by
- ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn ([fe80::64c5:50d8:4f2c:59aa%7])
- with mapi id 15.20.8792.038; Thu, 12 Jun 2025 01:12:05 +0000
-From: Changhuang Liang <changhuang.liang@starfivetech.com>
-To: "shao.mingyin@zte.com.cn" <shao.mingyin@zte.com.cn>,
-	"ulf.hansson@linaro.org" <ulf.hansson@linaro.org>
-CC: "geert+renesas@glider.be" <geert+renesas@glider.be>,
-	"magnus.damm@gmail.com" <magnus.damm@gmail.com>, "heiko@sntech.de"
-	<heiko@sntech.de>, "krzk@kernel.org" <krzk@kernel.org>,
-	"alim.akhtar@samsung.com" <alim.akhtar@samsung.com>, Walker Chen
-	<walker.chen@starfivetech.com>, "sebastian.reichel@collabora.com"
-	<sebastian.reichel@collabora.com>, "detlev.casanova@collabora.com"
-	<detlev.casanova@collabora.com>, "finley.xiao@rock-chips.com"
-	<finley.xiao@rock-chips.com>, "shawn.lin@rock-chips.com"
-	<shawn.lin@rock-chips.com>, "pgwipeout@gmail.com" <pgwipeout@gmail.com>,
-	"qiu.yutan@zte.com.cn" <qiu.yutan@zte.com.cn>, "linux-pm@vger.kernel.org"
-	<linux-pm@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-rockchip@lists.infradead.org"
-	<linux-rockchip@lists.infradead.org>, "linux-samsung-soc@vger.kernel.org"
-	<linux-samsung-soc@vger.kernel.org>, "yang.yang29@zte.com.cn"
-	<yang.yang29@zte.com.cn>, "xu.xin16@zte.com.cn" <xu.xin16@zte.com.cn>,
-	"yang.tao172@zte.com.cn" <yang.tao172@zte.com.cn>, "ye.xingchen@zte.com.cn"
-	<ye.xingchen@zte.com.cn>
-Subject:
- =?utf-8?B?5Zue5aSNOiBbUEFUQ0ggdjJdIHBtZG9tYWluOiBVc2Ugc3RyX2VuYWJsZV9k?=
- =?utf-8?Q?isable-like_helpers?=
-Thread-Topic: [PATCH v2] pmdomain: Use str_enable_disable-like helpers
-Thread-Index: AQHb2fuaxaFW95Sx/USP9qxGCvTQ0LP+uXyA
-Date: Thu, 12 Jun 2025 01:12:05 +0000
-Message-ID:
- <ZQ0PR01MB130266C8DC79B041567E2262F2742@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
-References: <20250610193403161UQCV5cVGXCRVDheTb7jvi@zte.com.cn>
-In-Reply-To: <20250610193403161UQCV5cVGXCRVDheTb7jvi@zte.com.cn>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=starfivetech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: ZQ0PR01MB1302:EE_|ZQ0PR01MB1303:EE_
-x-ms-office365-filtering-correlation-id: c245bb18-bb2f-4714-a066-08dda94e2573
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|7416014|1800799024|41320700013|38070700018;
-x-microsoft-antispam-message-info:
- LM29ALdgyzJjhKL9iC5l3yRNObMy8isMzLF/5cnyMplXSrVBfYU1l2MItq7LQAhCoP5AcSlP0f+4U/21dEYx14hzeWiBsGLPH9S8OaBPzLkbJ/ty2FbGKGUDMu+EtkgO8wdtIxSb/TVezcbNaOdPHTb3zyZ5BSz19JFKLu8grY2Rm3QnEk4gwZ8wr9+ZVUlDVinR8njXomcIUgDCB4qlt+V71zjv01I+gLZMaAhgyEjAI0ByG/qrqEZTagGi3Ff3Alr5T1Wc4d/ZdQ1ByKcb4JgNTmvIfO1CTXdM4G7M8cSikuYc7UpSQCUZkLw9juTLlS8c/FuiNX4H9NbE8EgAsvpEbANNY20n+/v1PJrH+dmNup4ikVoEmBNacCngto91CPnTZJ8feQccndNWE8bV/pDA8C6I5Xfy7l3JdvXBUAWqFFsUO4OyaLIeY1J10EwsEJy1eaJbveT8eD0mMqtTlyqrj5yeYE8R+9xpdSIqin52ZCyPAv4eMNMtxJmz/UcH89Sm42F9klFNybuP4f+Axk1pO7OSlkbwEIjyHs829CtFVR2CMhCNws0mrM4i6qwuCc/8LfPBeNnX6DtkG7ddzmaTq5UtH3jtF7nGQ60jPYs=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(41320700013)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?NlIrNnAwbDBZdGIvOFFFdGxIQUt4VkhNVy9qN3V6bkFPYis2T3lUcnI0N01O?=
- =?utf-8?B?cnJLWnZna1QxRmttV05xbGNNeUQ0SDdodXp0ZUsvbEpYR0ZVOWtjUmpEQ0Zw?=
- =?utf-8?B?aDVuck1HS2ZPbUJrUllxMzFQMi9EOGRpZ0xiTmUwMmlIenk5VmdUYWpKekpj?=
- =?utf-8?B?N01UOWVqM25LSForRmptZHZsQWVlWFVVOHZSdjhoVmtBVUFLcnZOQ1YrVlNk?=
- =?utf-8?B?cU5qSmJHLzR0WFhVU3RBSEFCenNrcHdQNm82d0ZBUkluemp3NVlHZUJEMENa?=
- =?utf-8?B?NnhJYjFab1dlbmdRNytZVW9TMXZJOHduTFBVbjZXQ0prdUM0TlQ3NUFtRndU?=
- =?utf-8?B?L01CVWNXWjhIOGlLbDlWdG9SMFVBRnBRZUk2U0tyYm55ek1Nc2ZEc1RwSTNI?=
- =?utf-8?B?angvZTRBUTBheXFyMFEyRTdLTkIxc0ZsYVpPbXV5R0FyTmVGbVVpdytlUFpo?=
- =?utf-8?B?Y3RDU1NhMWlsYTd1bFBMazZuRmtTZ1JINUw5YmJrZ1Y4aDcyZjFjUW5OR0Vz?=
- =?utf-8?B?Z2RyTXdzSU9Ca1JhRjBYb2ZqUmxKVXdqU3U4K0RJMmVIa0wyM3ZhSUpTRzdP?=
- =?utf-8?B?ek5LZ1YxWTd0cEx5b2dBc0xueE9yWW1ZenpocG1UcmlCOVdUVk1vRnhQdkFC?=
- =?utf-8?B?dll2MGdrWmxDbUttNHNGU0VNSVgySWJsMVMyMkZHZGNHVHJPdTQ1UmZFcTln?=
- =?utf-8?B?dThoU05TYTRCaWhSL2J1UjJwNUUvYTMyOXNvUW8vREZCaVpCN2Y1cU5SSk1i?=
- =?utf-8?B?N2x4akYrd29CbDFIOWMreFhVRHpubG5kNHZpV2tMMXVjTnd5Smx4QTZqc0N5?=
- =?utf-8?B?M1NHaTdYRHpVUVQ0VE5KeC84dGZMZWZOanJJU2d0cVBOZ1Jpb2tGNVJpSlY3?=
- =?utf-8?B?OGd1OHFVS04ySkg0T0RkUEpLY3JydkxzVEFKeHJNemgvR2FkZncxdDVsUUdi?=
- =?utf-8?B?Tmx1VjlDOHJ5NGVZQ2duclRwckFERzhJQ2djWVpmV1FURXFRc2IyQys3R0I3?=
- =?utf-8?B?cFg4SDZuUDBsdjJKTFRsN1l2YUVMMlJadm9QbzY2SXdCczhVWkdMalhzdTl3?=
- =?utf-8?B?dEJZSEZxSlNNK3hxVTFQa1Z4MGtWM1Vic1p4Z3QxZEttUnJTVW9xeWtjOTU3?=
- =?utf-8?B?cFNQb1c0QmJmaEFLL3A1N1lMeWRnNDVFS2VrTUxIS09WNHE1MXZvTEQ0NjM0?=
- =?utf-8?B?cFp3QkFkM0dXWS9NbGkzM2ZwaHpLNmIwbDZ5RERSOERIY3lvN01Hdy9rbHlF?=
- =?utf-8?B?cld3aWJvQjNDOW1Ka3Y2T3MrY1dLVE9aVlFEeExpdTV4TCtSMldYRUQwcXpG?=
- =?utf-8?B?SVRVTHUyN3FRM05UcUdoeElxY21XOVRyVlJHZWczRkdpTENNZXJ6L3ppSGxR?=
- =?utf-8?B?RjhDSVNRcFlNOCswVjZKTitvMDJyNzgyUFoxSGkwRXRzclYxQVdXenBJSExO?=
- =?utf-8?B?SzVsY012TUdQZ0ZjTzNXTm5uV2VMWll5Tm9aMnJEREVudkZXQ3JuZDF1NGxy?=
- =?utf-8?B?eXlYRFc5Z0VrVHpuc3VKMkgvNkp2aDhTNXU5WDNIaFRoN0FLV1d6UXhYeXk0?=
- =?utf-8?B?RHl2VC9MTHRmejlicDJ0YVBJQUJiK09rSWRWY3lKampsNG5yb0o0QzBMdE1N?=
- =?utf-8?B?QjhQR3FsUlZkTGxGS1ZHdE1RajdPZDBPSVA1bkc4UnBPcW43VDRaeStDTWFE?=
- =?utf-8?B?ZFVnems0SUx0NmxoRHhMRHNSRTNxZjNpbjhVWG1MNEZVem5uWDJnVVc4aE9R?=
- =?utf-8?B?dlBWbEQ1WG00V0NINjFwRmdCUDNDYlp3SzQwdm1SSmZCQkEwSXhDMjNGTWxD?=
- =?utf-8?B?cnUra0xsbGRpN2VKcm5HVldxdkNCRi9oOERoRlVBY3BiZ2xVTDd6VUI5UzZ5?=
- =?utf-8?B?eWdkdzF3Q1dRdGwzanR3S2QrRlRnK1BZcENnZ3lHRzlpRmZEd2JiRVFud2Jj?=
- =?utf-8?B?MWhQK2VITk0wbVNwOGt1aitxVkpHZlRhaXJBb25pNFd2OGVITkE2d2pXN09x?=
- =?utf-8?B?L0V3QmpsTFp0YkJMZ3JSa09meDlTR2l4Z1ZXR2pPdjdaVmlwNWUrT25veFVW?=
- =?utf-8?B?eUtML3BRSjBnM0JTcU1IbVJvWmQvbkNVbENyRFJVTmp5cWxzRTFjV0owOFBl?=
- =?utf-8?B?YW9XWThBQ21mUHNzbDFsN2pnMjQxdkdkbjYzUEx5anZWbS9HT05VMTZIKzFi?=
- =?utf-8?Q?34X04WYoAgaLMf150t3rE6U=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F341418D;
+	Thu, 12 Jun 2025 03:00:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.243.244.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749697243; cv=none; b=pE5/5zvavkrofOYr6MCiALKZIY1iWoLfs1W3dMB0bfAnLCrjOHzjvoFmZIXFHnoqR/rF/jczf3v9ryHJNc3D3qbrYdeFRsmc+SSJoyD7XEWCdlXjG5oxhxOHTyxm9F27hBaZ+FxoE/GqYYSsJNgrhfbf/E4jmWkI9YnRK2vqHVE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749697243; c=relaxed/simple;
+	bh=kzLZEBvYk1M0n5Vs175spQvUD2gAJxA1W819nH0NQoc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DsGrleELrbTrwG4BqVupb1cysbYVpzfBuTIlp+koRs0thQyE48pASW1w9bEUb0SUT+DFT4evbQ3H3V5SHnLqVUO3TjSwYd+XbcNQPMekvNU8sKEAGQW7Mdmrv/nFRfZRt8IVw65tjqoTs1MIuM+KunUxE1pJu1EFC/AR3UiELPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=linux.starfivetech.com; spf=none smtp.mailfrom=linux.starfivetech.com; arc=none smtp.client-ip=54.243.244.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=linux.starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.starfivetech.com
+X-QQ-mid: esmtpgz14t1749697213t65c22161
+X-QQ-Originating-IP: IF1P/oCMu5+Z6gtoOhY0chVmlDO4Lfc/wt6ay8GGmZA=
+Received: from [192.168.125.115] ( [113.104.142.205])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 12 Jun 2025 11:00:10 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 7120148681061884487
+Message-ID: <E9D57DC946595F4F+762b7c45-ba5f-4bba-86d3-4eeea7643157@linux.starfivetech.com>
+Date: Thu, 12 Jun 2025 11:00:09 +0800
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
-X-MS-Exchange-CrossTenant-Network-Message-Id: c245bb18-bb2f-4714-a066-08dda94e2573
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jun 2025 01:12:05.7186
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: EZ4kR6m5KO83RiV0FNcph/aV3JQxx05KjjyJaNIUIKDMJK8wp4pyQ2TRJvynmbgNu8/kI6Fko27ZuyDMMhV8EcLeX2DPAzFDNvQ0M8pGKtxqlna9S+607Clz7/dU/UT6
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ0PR01MB1303
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 16/17] pinctrl: Constify static 'pinctrl_desc'
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>,
+ Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>,
+ Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>,
+ Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>,
+ =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+ =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Lorenzo Bianconi <lorenzo@kernel.org>, Sean Wang <sean.wang@kernel.org>,
+ Jesper Nilsson <jesper.nilsson@axis.com>,
+ Lars Persson <lars.persson@axis.com>, Damien Le Moal <dlemoal@kernel.org>,
+ Vladimir Zapolskiy <vz@mleia.com>, Michal Simek <michal.simek@amd.com>,
+ Emil Renner Berthing <kernel@esmil.dk>,
+ Jianlong Huang <jianlong.huang@starfivetech.com>,
+ Hal Feng <hal.feng@starfivetech.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Manivannan Sadhasivam <mani@kernel.org>
+Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@axis.com,
+ linux-riscv@lists.infradead.org, linux-rtc@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com
+References: <20250611-pinctrl-const-desc-v2-0-b11c1d650384@linaro.org>
+ <20250611-pinctrl-const-desc-v2-16-b11c1d650384@linaro.org>
+Content-Language: en-US
+From: Hal Feng <hal.feng@linux.starfivetech.com>
+In-Reply-To: <20250611-pinctrl-const-desc-v2-16-b11c1d650384@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:linux.starfivetech.com:qybglogicsvrgz:qybglogicsvrgz5a-1
+X-QQ-XMAILINFO: MwQdfXoP8nuz5XryFdT9mMm5fPxIgvtrmAX83IcgZtRvrqA2KW6dPH7Y
+	UeTHfCncUD9Jw4FWoJXE6riCJ0qi42Tk97iYaZpQDy6wJAfOvCIKqsmZDUCum60Nt/3VI2Q
+	yJVcRouYmizOR86phNyTK+P+HakgJ6+pEI/aqw0RtOKyLhZuLSgKBoynOzcJ5/6RTkE9B5J
+	puSgBmWvIPLeHjJGbyL8JGWYM0Nq3MrWOa1r/0AXtg6DhVMXhlnJrE7o5AjgqjW10RrA+AE
+	5WE2g15YJe2NJklbaucjk0x4K8cryOhRte7230lqlcmRn8gpi1TBaGEDPQGwtFvcvdoODoQ
+	ViN+9EEw1CGjxsqKDswvwoYTmth4hbIF00mxePxjRvyPRJjjMTtZkxWQCXbu1vuVrNj0GU6
+	H92XK6yvShN0RwLay58+1CtT7J1hb0JjCTpQXCEQqh09Y5crsfflVW1nGPua30VSNL7ga/0
+	UQX6RQAQO+yxCdRUPZxoU63SFxIZUYPEw1pf8oT+7AIJCL/uwu2l8C4BOgYTwfYJlWu/teS
+	RSfgRojHYXOVP7I5iHZ7gVrjzenWIqpCyTviHWQQynv7hQMcsSB3U6GtG66WBSgNeu/pNRe
+	Tocet3yEmZ3qO9qBY3680fHoGxJmX+2gy3Wb0wK+bE2SNQOLvmC3RBmuKh+u5aotwInZ0Qq
+	umP8CAGdPjIaX38kcieoKqhzStBo4Jie2+ZSoghn6Ck5Fvs44muufEOzqH43fyGx2hZ+7Ru
+	mBMHQxMbcFRzFfjZAC8A6JHUscRn/CTbwVv9Uqwt1BFk9oEFE4NFxraS/6Th3U3Al2wGXFi
+	Etyp8vXKhF4yCKJnAVYSzS8gpG9LuTHIDswn/A6QbJ4k+aoGh3DBxSpg+w4K6/MMu+IZPej
+	HjFmIJRGP9uvo8Wq6JIzSVfeV5ogrg4FMF7F7BzfszsyHR/FtAtCLA6MUurCWMMxSs4OcYZ
+	ut8Fd0Jmm3ZCA/D7WJRiH33XX8PvGYHAZM67TrNlbvIJmEudSrGb/Q0o0
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+X-QQ-RECHKSPAM: 0
 
-PiBGcm9tOiBTaGFvIE1pbmd5aW4gPHNoYW8ubWluZ3lpbkB6dGUuY29tLmNuPg0KPiANCj4gUmVw
-bGFjZSB0ZXJuYXJ5IChjb25kaXRpb24gPyAiZW5hYmxlIiA6ICJkaXNhYmxlIikgc3ludGF4IGFu
-ZCB0ZXJuYXJ5DQo+IChjb25kaXRpb24gPyAib24iIDogIm9mZiIpIHN5bnRheCB3aXRoIGhlbHBl
-cnMgZnJvbSBzdHJpbmdfY2hvaWNlcy5oIGJlY2F1c2U6DQo+IDEuIFNpbXBsZSBmdW5jdGlvbiBj
-YWxsIHdpdGggb25lIGFyZ3VtZW50IGlzIGVhc2llciB0byByZWFkLiAgVGVybmFyeQ0KPiAgICBv
-cGVyYXRvciBoYXMgdGhyZWUgYXJndW1lbnRzIGFuZCB3aXRoIHdyYXBwaW5nIG1pZ2h0IGxlYWQg
-dG8gcXVpdGUNCj4gICAgbG9uZyBjb2RlLg0KPiAyLiBJcyBzbGlnaHRseSBzaG9ydGVyIHRodXMg
-YWxzbyBlYXNpZXIgdG8gcmVhZC4NCj4gMy4gSXQgYnJpbmdzIHVuaWZvcm1pdHkgaW4gdGhlIHRl
-eHQgLSBzYW1lIHN0cmluZy4NCj4gNC4gQWxsb3dzIGRlZHVwaW5nIGJ5IHRoZSBsaW5rZXIsIHdo
-aWNoIHJlc3VsdHMgaW4gYSBzbWFsbGVyIGJpbmFyeQ0KPiAgICBmaWxlLg0KPiANCj4gU2lnbmVk
-LW9mZi1ieTogU2hhbyBNaW5neWluIDxzaGFvLm1pbmd5aW5AenRlLmNvbS5jbj4NCg0KRm9yIHN0
-YXJmaXZlOg0KDQpSZXZpZXdlZC1ieTogQ2hhbmdodWFuZyBMaWFuZyA8Y2hhbmdodWFuZy5saWFu
-Z0BzdGFyZml2ZXRlY2guY29tPg0KDQo=
+On 6/11/2025 2:13 PM, Krzysztof Kozlowski wrote:
+> The local static 'struct pinctrl_desc' is not modified, so can be made
+> const for code safety.
+> 
+> Acked-by: Lorenzo Bianconi <lorenzo@kernel.org>
+> Acked-by: Jesper Nilsson <jesper.nilsson@axis.com>
+> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  drivers/pinctrl/berlin/berlin.c                    | 2 +-
+>  drivers/pinctrl/cirrus/pinctrl-cs42l43.c           | 2 +-
+>  drivers/pinctrl/mediatek/pinctrl-airoha.c          | 2 +-
+>  drivers/pinctrl/pinctrl-artpec6.c                  | 2 +-
+>  drivers/pinctrl/pinctrl-bm1880.c                   | 2 +-
+>  drivers/pinctrl/pinctrl-k210.c                     | 2 +-
+>  drivers/pinctrl/pinctrl-lpc18xx.c                  | 2 +-
+>  drivers/pinctrl/pinctrl-mlxbf3.c                   | 2 +-
+>  drivers/pinctrl/pinctrl-tb10x.c                    | 2 +-
+>  drivers/pinctrl/pinctrl-zynq.c                     | 2 +-
+>  drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c | 2 +-
+>  11 files changed, 11 insertions(+), 11 deletions(-)
+> 
+...
+> diff --git a/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c b/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c
+> index 27f99183d994dccb92aac81ca42228bdb9225e87..aeaa0ded7c1e5ee7f9c5e4113bfd208fb844ba7d 100644
+> --- a/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c
+> +++ b/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c
+> @@ -898,7 +898,7 @@ static const struct pinconf_ops starfive_pinconf_ops = {
+>  	.is_generic = true,
+>  };
+>  
+> -static struct pinctrl_desc starfive_desc = {
+> +static const struct pinctrl_desc starfive_desc = {
+>  	.name = DRIVER_NAME,
+>  	.pins = starfive_pins,
+>  	.npins = ARRAY_SIZE(starfive_pins),
+> 
+
+Reviewed-by: Hal Feng <hal.feng@starfivetech.com>
+
+Best regards,
+Hal
+
 
