@@ -1,244 +1,400 @@
-Return-Path: <linux-renesas-soc+bounces-18222-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18223-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11AF0AD7C0B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 22:12:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C984AD7E5B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jun 2025 00:21:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8ED963A8CD0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 20:12:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 094BD3A1FE1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 22:21:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D6A62D6629;
-	Thu, 12 Jun 2025 20:12:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 856702DECAA;
+	Thu, 12 Jun 2025 22:21:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Db5mO92E"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EtzeKLJ9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11DF2D6615;
-	Thu, 12 Jun 2025 20:12:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C8B2F4314;
+	Thu, 12 Jun 2025 22:21:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749759142; cv=none; b=tSdhqXWkxLUdkgyxA0EPmLkhDiSzhhDl92mI0GbjpJLN5s5yQp6DtRKwTolgEYQEqSTjvRiCpq8BXEZph0ZU4BVCznqSQv6K+/DLBrcEyPYk6oZV9O3SA+tqOsbByb80f3Pe8yVjACGsNTAxsTZvpz5OCd/g10vHQBDOyl0ZPKs=
+	t=1749766881; cv=none; b=iVxO0xHeH3zcItNUemLWbB0eFL12SohCGroaYRGG1+c+FjQT5zF10xERhapYs+ys8kNBfDKsP5DLGwqMF9ChlgKX072ini1m4nhsxAxYVF6L1909ohWX3RSAzxRm9oKrJgX90SMff5q0llER0dWPkTD7gPQrtBAqLohpOKfwg5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749759142; c=relaxed/simple;
-	bh=8WUwrNIEifWHlDqkSgSAcyhQuIrjdbk3GhQhzH3A3BM=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=ggFGq5URxY/pCjrzbdfYUCWejo9Cr3bpXfmmSanA9eLsti3PJUbWmAnBekrYdetTf0nO5RUqbicocNIIqbTXrbzOlRry6azh79+QCGMw8r6qBfLZlZN57viC2k+lbHq5vz2o2Cyn0nae5Lt9UgagBYK+Cd5hoy73wnmZ2xDUYEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Db5mO92E; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FD49C4CEED;
-	Thu, 12 Jun 2025 20:12:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749759141;
-	bh=8WUwrNIEifWHlDqkSgSAcyhQuIrjdbk3GhQhzH3A3BM=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=Db5mO92EwgjRc+0a4g34hDnKxpwY9/yH2Xq0ikIN/VFJsq8jzFAJhn1Qfkr9Do7lo
-	 jqsLk0v8q7QYLpyDlubgBdh4res7Epbam5ET8pWcRbyEELg5GQglOrqf6D3v9KsHeC
-	 nM0U3ZWe0gRuISBJkxfpStqYkh4zAp/CLjAnnEmrpHtUME1GbZ+bQfmJBIjvBgjJ+Z
-	 ULXjfQekairzB9L25OT9e4YHkR+MWW6gmisciU9e8STjkNqh1x/zVozr8pofEz8wJx
-	 BG7N6wUL815HLJ5mcQnHVBlBhgLZG/clB25H896bQnr/74ONvVH03mV02cAwX6O5xO
-	 opJa1JiG/sRFw==
-Date: Thu, 12 Jun 2025 15:12:19 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1749766881; c=relaxed/simple;
+	bh=fGrU0pENieBMN6H+BAjvxFzCsdQ9vYgW2Q9x715RgZM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A9yuctkEsvTwYivaZrrguhniti4a820vXnWbzsRIKnwsXx7QJYy+HFBwOL/yVqpH7uyjtflRW16M3Zjppx6mt2BDu2KHKYGTxf/x0AexYg9VsXKzIQTNKGIeNrTGvZ4LM29hKHCCnoUeoTznfZI7/FiyTTL2lu3QNy45e3BBNHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=EtzeKLJ9; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D292589A;
+	Fri, 13 Jun 2025 00:21:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1749766867;
+	bh=fGrU0pENieBMN6H+BAjvxFzCsdQ9vYgW2Q9x715RgZM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EtzeKLJ9fNofpu8CN6miWfsa35oVpgTUg6oZwKbbR1lpP1VDLZFTgrdhGzoAYvo/w
+	 3FBDhElP3o5W0lfoMQBQPJS1U2qfs92R8cPFAsKdmOFnOstnj5p2vOPWIzbWSjIrcj
+	 v+Geba43pj0ltitHrttq7eFd92sqQTk/jyp0nwZg=
+Date: Fri, 13 Jun 2025 01:21:00 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 4/4] media: rcar-csi2: Add D-PHY support for V4H
+Message-ID: <20250612222100.GD10542@pendragon.ideasonboard.com>
+References: <20250612175904.1126717-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250612175904.1126717-5-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: kuba@kernel.org, krzk+dt@kernel.org, john.madieu@gmail.com, 
- linux-kernel@vger.kernel.org, geert+renesas@glider.be, davem@davemloft.net, 
- pabeni@redhat.com, linux-renesas-soc@vger.kernel.org, 
- netdev@vger.kernel.org, prabhakar.mahadev-lad.rj@bp.renesas.com, 
- conor+dt@kernel.org, biju.das.jz@bp.renesas.com, magnus.damm@gmail.com, 
- edumazet@google.com, devicetree@vger.kernel.org, andrew+netdev@lunn.ch
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-In-Reply-To: <20250611061609.15527-1-john.madieu.xa@bp.renesas.com>
-References: <20250611061609.15527-1-john.madieu.xa@bp.renesas.com>
-Message-Id: <174975871363.2914832.8987482116722925693.robh@kernel.org>
-Subject: Re: [PATCH v2 0/3] Add support for GBETH IPs found on RZ/G3E SoCs
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250612175904.1126717-5-niklas.soderlund+renesas@ragnatech.se>
 
+Hi Niklas,
 
-On Wed, 11 Jun 2025 08:16:06 +0200, John Madieu wrote:
-> Hi all,
+Thank you for the patch.
+
+On Thu, Jun 12, 2025 at 07:59:04PM +0200, Niklas Söderlund wrote:
+> Add D-PHY support for V4H in addition to the already supported C-PHY.
+> The common start-up procedure for C-PHY and D-PHY is shared, only PHY
+> setup differ. Extend the V4H setup with D-PHY support as documented in
+> the datasheet (Rev.1.21).
 > 
-> This series adds support for the two Gigabit Ethernet (GBETH) interfaces on the
-> Renesas RZ/G3E (R9A09G047) SoCs and their enablement on the SMARC-II EVK. This
-> is achieved by integrating the necessary clock/reset signals prior to defining
-> common DTS nodes, and enabling both GBETH ports at the board level.
+> Most of the start-up procedure is only documented as magic values in
+> tables, there is little documentation to make the settings more clear.
+> Wherever possible formulas or lookup tables are used as they are
+> documented in the datasheet.
 > 
-> Here are pach dependencies:
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Tested-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+> * Fixes since v3
+> - Improve spelling in commit message and fix a comment style issue.
+> - Use DIV_ROUND_UP() instead of roundup().
+> - Correct bad mbps comparison in rcsi2_d_phy_setting_v4h_lut_lookup().
+> - Use ilog2() instead of a stacked if .. else if .. else if .. else ..
+>   construct.
 > 
->  - Patch 1/3 is based on renesas-drivers tree, on top of renesas-clk-for-v6.17
->  branch
->  - Patches [2,3]/3  are based on renesas-devel tree, on top of
->  renesas-dts-for-v6.17 branch
+> * Fixes since v2
+> - Stire DESKEW settings in an array and loop over it instead of opene
+>   coding it.
 > 
-> V1 of this series is located here [1]. It originaly included a patch for binding
-> documentation, which, in response to Jakub [2], has been resubmited as a
-> standalone patch for net-next.
+> * Fixes since v1
+> - Init cphy  variables to not trigger false -Wmaybe-uninitialized
+>   warning.
+> - Adjust line lengths.
+> ---
+>  drivers/media/platform/renesas/rcar-csi2.c | 230 ++++++++++++++++++++-
+>  1 file changed, 220 insertions(+), 10 deletions(-)
 > 
-> Changes in v2:
->  - Appart from resending the patches and some collected tags, there is no changes in V2.
->  - Separated binding patch send as standalone patch can be found here [3]
-> 
-> Below are some test logs, involving pings, then unbind/bind, then pings again:
-> 
-> ```
-> root@smarc-rzg3e:~# ping -I eth0 google.com
-> PING google.com (172.217.20.174) from 192.168.1.245 eth0: 56(84) bytes of data.
-> 64 bytes from waw02s07-in-f14.1e100.net (172.217.20.174): icmp_seq=1 ttl=117 time=4.42 ms
-> 64 bytes from waw02s07-in-f14.1e100.net (172.217.20.174): icmp_seq=2 ttl=117 time=3.87 ms
-> 64 bytes from waw02s07-in-f14.1e100.net (172.217.20.174): icmp_seq=3 ttl=117 time=3.68 ms
-> 64 bytes from waw02s07-in-f14.1e100.net (172.217.20.174): icmp_seq=4 ttl=117 time=3.83 ms
-> ^C
-> --- google.com ping statistics ---
-> 4 packets transmitted, 4 received, 0% packet loss, time 3005ms
-> rtt min/avg/max/mdev = 3.680/3.949/4.415/0.278 ms
-> root@smarc-rzg3e:~#
-> 
-> root@smarc-rzg3e:~# ping -I eth1 google.com
-> PING google.com (142.250.75.238) from 192.168.1.242 eth1: 56(84) bytes of data.
-> 64 bytes from par10s41-in-f14.1e100.net (142.250.75.238): icmp_seq=1 ttl=251 time=4.72 ms
-> 64 bytes from par10s41-in-f14.1e100.net (142.250.75.238): icmp_seq=2 ttl=251 time=4.34 ms
-> 64 bytes from par10s41-in-f14.1e100.net (142.250.75.238): icmp_seq=3 ttl=251 time=5.66 ms
-> ^C
-> --- google.com ping statistics ---
-> 3 packets transmitted, 3 received, 0% packet loss, time 2003ms
-> rtt min/avg/max/mdev = 4.338/4.904/5.659/0.555 ms
-> root@smarc-rzg3e:~#
-> root@smarc-rzg3e:~#
-> root@smarc-rzg3e:~#
-> root@smarc-rzg3e:~# echo "15c40000.ethernet" > /sys/bus/platform/drivers/renesas-gbeth/bind
-> [  413.422009] renesas-gbeth 15c40000.ethernet: IRQ sfty not found
-> [  413.429570] renesas-gbeth 15c40000.ethernet: User ID: 0x0, Synopsys ID: 0x52
-> [  413.436749] renesas-gbeth 15c40000.ethernet:         DWMAC4/5
-> [  413.441974] renesas-gbeth 15c40000.ethernet: DMA HW capability register supported
-> [  413.449536] renesas-gbeth 15c40000.ethernet: RX Checksum Offload Engine supported
-> [  413.457098] renesas-gbeth 15c40000.ethernet: Wake-Up On Lan supported
-> [  413.463617] renesas-gbeth 15c40000.ethernet: Enable RX Mitigation via HW Watchdog Timer
-> [  413.471807] renesas-gbeth 15c40000.ethernet: Enabled L3L4 Flow TC (entries=8)
-> [  413.478982] renesas-gbeth 15c40000.ethernet: Enabled RFS Flow TC (entries=10)
-> [  413.486148] renesas-gbeth 15c40000.ethernet: Using 32/32 bits DMA host/device width
-> [  413.523040] renesas-gbeth 15c40000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
-> [  413.534875] renesas-gbeth 15c40000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-1
-> [  413.546218] renesas-gbeth 15c40000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-2
-> [  413.556666] renesas-gbeth 15c40000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-3
-> [  413.633799] renesas-gbeth 15c40000.ethernet eth0: PHY [stmmac-1:07] driver [Microchip KSZ9131 Gigabit PHY] (irq=27)
-> [  413.659645] dwmac4: Master AXI performs fixed burst length
-> [  413.666549] renesas-gbeth 15c40000.ethernet eth0: No Safety Features support found
-> [  413.674263] renesas-gbeth 15c40000.ethernet eth0: IEEE 1588-2008 Advanced Timestamp supported
-> [  413.683733] renesas-gbeth 15c40000.ethernet eth0: registered PTP clock
-> [  413.695546] renesas-gbeth 15c40000.ethernet eth0: configuring for phy/rgmii-id link mode
-> [  416.576645] renesas-gbeth 15c40000.ethernet eth0: Link is Up - 1Gbps/Full - flow control off
-> root@smarc-rzg3e:~#
-> root@smarc-rzg3e:~# echo "15c30000.ethernet" > /sys/bus/platform/drivers/renesas-gbeth/bind
-> [  430.269771] renesas-gbeth 15c30000.ethernet: IRQ sfty not found
-> [  430.277347] renesas-gbeth 15c30000.ethernet: User ID: 0x1, Synopsys ID: 0x52
-> [  430.284525] renesas-gbeth 15c30000.ethernet:         DWMAC4/5
-> [  430.289753] renesas-gbeth 15c30000.ethernet: DMA HW capability register supported
-> [  430.297317] renesas-gbeth 15c30000.ethernet: RX Checksum Offload Engine supported
-> [  430.304880] renesas-gbeth 15c30000.ethernet: Wake-Up On Lan supported
-> [  430.311400] renesas-gbeth 15c30000.ethernet: Enable RX Mitigation via HW Watchdog Timer
-> [  430.319598] renesas-gbeth 15c30000.ethernet: Enabled L3L4 Flow TC (entries=8)
-> [  430.326774] renesas-gbeth 15c30000.ethernet: Enabled RFS Flow TC (entries=10)
-> [  430.333942] renesas-gbeth 15c30000.ethernet: Using 32/32 bits DMA host/device width
-> [  430.360549] renesas-gbeth 15c30000.ethernet eth1: Register MEM_TYPE_PAGE_POOL RxQ-0
-> [  432.366627] renesas-gbeth 15c30000.ethernet eth1: Register MEM_TYPE_PAGE_POOL RxQ-1
-> [  432.377218] renesas-gbeth 15c30000.ethernet eth1: Register MEM_TYPE_PAGE_POOL RxQ-2
-> [  432.386450] renesas-gbeth 15c30000.ethernet eth1: Register MEM_TYPE_PAGE_POOL RxQ-3
-> [  432.461470] renesas-gbeth 15c30000.ethernet eth1: PHY [stmmac-0:07] driver [Microchip KSZ9131 Gigabit PHY] (irq=23)
-> [  432.487523] dwmac4: Master AXI performs fixed burst length
-> [  432.494429] renesas-gbeth 15c30000.ethernet eth1: No Safety Features support found
-> [  432.502149] renesas-gbeth 15c30000.ethernet eth1: IEEE 1588-2008 Advanced Timestamp supported
-> [  432.511638] renesas-gbeth 15c30000.ethernet eth1: registered PTP clock
-> [  432.523033] renesas-gbeth 15c30000.ethernet eth1: configuring for phy/rgmii-id link mode
-> [  435.489601] renesas-gbeth 15c30000.ethernet eth1: Link is Up - 1Gbps/Full - flow control off
-> root@smarc-rzg3e:~#
-> root@smarc-rzg3e:~#
-> root@smarc-rzg3e:~# ping -I eth0 google.com
-> PING google.com (142.250.75.238) from 192.168.1.242 eth0: 56(84) bytes of data.
-> 64 bytes from par10s41-in-f14.1e100.net (142.250.75.238): icmp_seq=1 ttl=251 time=4.62 ms
-> 64 bytes from par10s41-in-f14.1e100.net (142.250.75.238): icmp_seq=2 ttl=251 time=4.19 ms
-> 64 bytes from par10s41-in-f14.1e100.net (142.250.75.238): icmp_seq=3 ttl=251 time=4.49 ms
-> 64 bytes from par10s41-in-f14.1e100.net (142.250.75.238): icmp_seq=4 ttl=251 time=4.76 ms
-> ^C
-> --- google.com ping statistics ---
-> 4 packets transmitted, 4 received, 0% packet loss, time 3005ms
-> rtt min/avg/max/mdev = 4.189/4.514/4.758/0.210 ms
-> root@smarc-rzg3e:~# ping -I eth1 google.com
-> PING google.com (142.250.75.238) from 192.168.1.245 eth1: 56(84) bytes of data.
-> 64 bytes from par10s41-in-f14.1e100.net (142.250.75.238): icmp_seq=1 ttl=251 time=4.45 ms
-> 64 bytes from par10s41-in-f14.1e100.net (142.250.75.238): icmp_seq=2 ttl=251 time=4.79 ms
-> 64 bytes from par10s41-in-f14.1e100.net (142.250.75.238): icmp_seq=3 ttl=251 time=4.42 ms
-> 64 bytes from par10s41-in-f14.1e100.net (142.250.75.238): icmp_seq=4 ttl=251 time=4.47 ms
-> ^C
-> --- google.com ping statistics ---
-> 4 packets transmitted, 4 received, 0% packet loss, time 3005ms
-> rtt min/avg/max/mdev = 4.417/4.530/4.787/0.149 ms
-> root@smarc-rzg3e:~#
-> ```
-> 
-> [1] - https://lore.kernel.org/all/20250604065200.163778-1-john.madieu.xa@bp.renesas.com/
-> [2] - https://lore.kernel.org/all/20250609083008.0157fe47@kernel.org/
-> [3] - https://lore.kernel.org/all/20250611061204.15393-1-john.madieu.xa@bp.renesas.com/
-> 
-> Regards,
-> John Madieu
-> 
-> John Madieu (3):
->   clk: renesas: r9a09g047: Add clock and reset signals for the GBETH IPs
->   arm64: dts: renesas: r9a09g047: Add GBETH nodes
->   arm64: dts: renesas: rzg3e-smarc-som: Enable eth{0-1} (GBETH)
->     interfaces
-> 
->  arch/arm64/boot/dts/renesas/r9a09g047.dtsi    | 207 ++++++++++++++++++
->  .../boot/dts/renesas/rzg3e-smarc-som.dtsi     | 106 +++++++++
->  drivers/clk/renesas/r9a09g047-cpg.c           |  64 ++++++
->  3 files changed, 377 insertions(+)
-> 
-> --
-> 2.25.1
-> 
-> 
-> 
+> diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
+> index 7ba637d8683b..0350eb76df36 100644
+> --- a/drivers/media/platform/renesas/rcar-csi2.c
+> +++ b/drivers/media/platform/renesas/rcar-csi2.c
+> @@ -172,6 +172,7 @@ struct rcar_csi2;
+>  #define V4H_PPI_RW_LPDCOCAL_TWAIT_CONFIG_REG		0x21c0a
+>  #define V4H_PPI_RW_LPDCOCAL_VT_CONFIG_REG		0x21c0c
+>  #define V4H_PPI_RW_LPDCOCAL_COARSE_CFG_REG		0x21c10
+> +#define V4H_PPI_RW_DDLCAL_CFG_n_REG(n)			(0x21c40 + ((n) * 2)) /* n = 0 - 7 */
+>  #define V4H_PPI_RW_COMMON_CFG_REG			0x21c6c
+>  #define V4H_PPI_RW_TERMCAL_CFG_0_REG			0x21c80
+>  #define V4H_PPI_RW_OFFSETCAL_CFG_0_REG			0x21ca0
+> @@ -185,6 +186,13 @@ struct rcar_csi2;
+>  #define V4H_CORE_DIG_IOCTRL_RW_AFE_CB_CTRL_2_REG(n)	(0x23840 + ((n) * 2)) /* n = 0 - 11 */
+>  #define V4H_CORE_DIG_RW_COMMON_REG(n)			(0x23880 + ((n) * 2)) /* n = 0 - 15 */
+>  #define V4H_CORE_DIG_ANACTRL_RW_COMMON_ANACTRL_REG(n)	(0x239e0 + ((n) * 2)) /* n = 0 - 3 */
+> +#define V4H_CORE_DIG_COMMON_RW_DESKEW_FINE_MEM_REG	0x23fe0
+> +
+> +#define V4H_CORE_DIG_DLANE_l_RW_CFG_n_REG(l, n)		(0x26000 + ((l) * 0x400) + ((n) * 2))
+> +#define V4H_CORE_DIG_DLANE_l_RW_LP_n_REG(l, n)		(0x26080 + ((l) * 0x400) + ((n) * 2))
+> +#define V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, n)	(0x26100 + ((l) * 0x400) + ((n) * 2))
+> +#define V4H_CORE_DIG_DLANE_CLK_RW_LP_n_REG(n)		V4H_CORE_DIG_DLANE_l_RW_LP_n_REG(4, (n))
+> +#define V4H_CORE_DIG_DLANE_CLK_RW_HS_RX_n_REG(n)	V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(4, (n))
+>  
+>  /* V4H C-PHY */
+>  #define V4H_CORE_DIG_RW_TRIO0_REG(n)			(0x22100 + ((n) * 2)) /* n = 0 - 3 */
+> @@ -1282,11 +1290,193 @@ rcsi2_c_phy_setting_v4h(struct rcar_csi2 *priv, int mbps)
+>  	return conf;
+>  }
+>  
+> +struct rcsi2_d_phy_setting_v4h_lut_value {
+> +	unsigned int mbps;
+> +	unsigned char cfg_1;
+> +	unsigned char cfg_5_94;
+> +	unsigned char cfg_5_30;
+> +	unsigned char lane_ctrl_2_8;
+> +	unsigned char rw_hs_rx_3_83;
+> +	unsigned char rw_hs_rx_3_20;
+> +	unsigned char rw_hs_rx_6;
+> +	unsigned char rw_hs_rx_1;
+> +};
+> +
+> +static const struct rcsi2_d_phy_setting_v4h_lut_value *
+> +rcsi2_d_phy_setting_v4h_lut_lookup(int mbps)
+> +{
+> +	static const struct rcsi2_d_phy_setting_v4h_lut_value values[] = {
+> +		{ 4500, 0x3f, 0x07, 0x00, 0x01, 0x02, 0x01, 0x0d, 0x10 },
+> +		{ 4000, 0x47, 0x08, 0x01, 0x01, 0x05, 0x01, 0x0f, 0x0d },
+> +		{ 3600, 0x4f, 0x09, 0x01, 0x01, 0x06, 0x01, 0x10, 0x0b },
+> +		{ 3230, 0x57, 0x0a, 0x01, 0x01, 0x06, 0x01, 0x12, 0x09 },
+> +		{ 3000, 0x47, 0x08, 0x00, 0x00, 0x03, 0x01, 0x0f, 0x0c },
+> +		{ 2700, 0x4f, 0x09, 0x01, 0x00, 0x06, 0x01, 0x10, 0x0b },
+> +		{ 2455, 0x57, 0x0a, 0x01, 0x00, 0x06, 0x01, 0x12, 0x09 },
+> +		{ 2250, 0x5f, 0x0b, 0x01, 0x00, 0x08, 0x01, 0x13, 0x08 },
+> +		{ 2077, 0x67, 0x0c, 0x01, 0x00, 0x06, 0x02, 0x15, 0x0d },
+> +		{ 1929, 0x6f, 0x0d, 0x02, 0x00, 0x06, 0x02, 0x17, 0x0d },
+> +		{ 1800, 0x77, 0x0e, 0x02, 0x00, 0x06, 0x02, 0x18, 0x0d },
+> +		{ 1688, 0x7f, 0x0f, 0x02, 0x00, 0x08, 0x02, 0x1a, 0x0d },
+> +		{ 1588, 0x87, 0x10, 0x02, 0x00, 0x08, 0x02, 0x1b, 0x0d },
+> +		{ 1500, 0x8f, 0x11, 0x03, 0x00, 0x08, 0x02, 0x1d, 0x0c },
+> +	};
+> +
+> +	for (unsigned int i = 0; i < ARRAY_SIZE(values); i++)
+> +		if (mbps >= values[i].mbps)
+> +			return &values[i];
+> +
+> +	return NULL;
+> +}
+> +
+> +static int rcsi2_d_phy_setting_v4h(struct rcar_csi2 *priv, int mbps)
+> +{
+> +	const struct rcsi2_d_phy_setting_v4h_lut_value *lut =
+> +		rcsi2_d_phy_setting_v4h_lut_lookup(mbps);
+> +	u16 val;
+> +
+> +	rcsi2_write16(priv, V4H_CORE_DIG_RW_COMMON_REG(7), 0x0000);
+> +	rcsi2_write16(priv, V4H_PPI_STARTUP_RW_COMMON_DPHY_REG(7), mbps > 1500 ? 0x0028 : 0x0068);
+> +	rcsi2_write16(priv, V4H_PPI_STARTUP_RW_COMMON_DPHY_REG(8), 0x0050);
+> +	rcsi2_write16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(0), 0x0063);
+> +	rcsi2_write16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(7), 0x1132);
+> +	rcsi2_write16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(1), 0x1340);
+> +	rcsi2_write16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(2), 0x4b13);
+> +	rcsi2_write16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(4), 0x000a);
+> +	rcsi2_write16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(6), 0x800a);
+> +	rcsi2_write16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(7), 0x1109);
+> +
+> +	if (mbps > 1500) {
+> +		val = DIV_ROUND_UP(5 * mbps, 64);
+> +		rcsi2_write16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(3), val);
+> +	}
+> +
+> +	if (lut) {
+> +		rcsi2_modify16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(1),
+> +			       lut->cfg_1, 0x00ff);
+> +		rcsi2_modify16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(5),
+> +			       lut->cfg_5_94 << 4, 0x03f0);
+> +		rcsi2_modify16(priv, V4H_PPI_RW_DDLCAL_CFG_n_REG(5),
+> +			       lut->cfg_5_30 << 0, 0x000f);
+> +
+> +		for (unsigned int l = 0; l < 5; l++)
+> +			rcsi2_modify16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 8),
+> +				       lut->lane_ctrl_2_8 << 12, 0x1000);
+> +	}
+> +
+> +	for (unsigned int l = 0; l < 4; l++)
+> +		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_LP_n_REG(l, 0), 0x463c);
+> +
+> +	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(0, 2), 0x0000);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(1, 2), 0x0000);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(2, 2), 0x0001);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(3, 2), 0x0000);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(4, 2), 0x0000);
+> +
+> +	rcsi2_write16(priv, V4H_CORE_DIG_RW_COMMON_REG(6), 0x0009);
+> +
+> +	val = mbps > 1500 ? 0x0800 : 0x0802;
+> +	for (unsigned int l = 0; l < 5; l++)
+> +		rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 12), val);
+> +
+> +	val = mbps > 1500 ? 0x0000 : 0x0002;
+> +	for (unsigned int l = 0; l < 5; l++)
+> +		rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 13), val);
+> +
+> +	if (mbps >= 80) {
+> +		/* 2560: 6, 1280: 5, 640: 4, 320: 3, 160: 2, 80: 1 */
+> +		val = ilog2(mbps / 80) + 1;
+> +		rcsi2_modify16(priv,
+> +			       V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(2, 9),
+> +			       val << 5, 0xe0);
+> +	}
+> +
+> +	rcsi2_write16(priv, V4H_CORE_DIG_DLANE_CLK_RW_HS_RX_n_REG(0), 0x091c);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_DLANE_CLK_RW_HS_RX_n_REG(7), 0x3b06);
+> +
+> +	val = DIV_ROUND_UP(1200, mbps) + 12;
+> +	for (unsigned int l = 0; l < 4; l++)
+> +		rcsi2_modify16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 0), val << 8, 0xf0);
+> +
+> +	val = mbps > 1500 ? 0x0004 : 0x0008;
+> +	for (unsigned int l = 0; l < 4; l++)
+> +		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_CFG_n_REG(l, 1), val);
+> +
+> +	val = mbps > 2500 ? 0x669a : mbps > 1500 ? 0xe69a : 0xe69b;
+> +	for (unsigned int l = 0; l < 4; l++)
+> +		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 2), val);
+> +
+> +	for (unsigned int l = 0; l < 4; l++)
+> +		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_LP_n_REG(l, 0), 0x163c);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_DLANE_CLK_RW_LP_n_REG(0), 0x163c);
+> +
+> +	if (lut) {
+> +		for (unsigned int l = 0; l < 4; l++)
+> +			rcsi2_modify16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 1),
+> +				       lut->rw_hs_rx_1, 0xff);
+> +	}
+> +
+> +	for (unsigned int l = 0; l < 4; l++)
+> +		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 3), 0x9209);
+> +
+> +	for (unsigned int l = 0; l < 4; l++)
+> +		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 4), 0x0096);
+> +
+> +	for (unsigned int l = 0; l < 4; l++)
+> +		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 5), 0x0100);
+> +
+> +	for (unsigned int l = 0; l < 4; l++)
+> +		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 6), 0x2d02);
+> +
+> +	for (unsigned int l = 0; l < 4; l++)
+> +		rcsi2_write16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 7), 0x1b06);
+> +
+> +	if (lut) {
+> +		/*
+> +		 * Documentation LUT have two values but document writing both
+> +		 * values in a single write.
+> +		 */
+> +		for (unsigned int l = 0; l < 4; l++)
+> +			rcsi2_modify16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 3),
+> +				       lut->rw_hs_rx_3_83 << 3 | lut->rw_hs_rx_3_20, 0x1ff);
+> +
+> +		for (unsigned int l = 0; l < 4; l++)
+> +			rcsi2_modify16(priv, V4H_CORE_DIG_DLANE_l_RW_HS_RX_n_REG(l, 6),
+> +				       lut->rw_hs_rx_6 << 8, 0xff00);
+> +	}
+> +
+> +	static const u16 deskew_fine[] = {
+> +		0x0404, 0x040c, 0x0414, 0x041c, 0x0423, 0x0429, 0x0430, 0x043a,
+> +		0x0445, 0x044a, 0x0450, 0x045a, 0x0465, 0x0469, 0x0472, 0x047a,
+> +		0x0485, 0x0489, 0x0490, 0x049a, 0x04a4, 0x04ac, 0x04b4, 0x04bc,
+> +		0x04c4, 0x04cc, 0x04d4, 0x04dc, 0x04e4, 0x04ec, 0x04f4, 0x04fc,
+> +		0x0504, 0x050c, 0x0514, 0x051c, 0x0523, 0x0529, 0x0530, 0x053a,
+> +		0x0545, 0x054a, 0x0550, 0x055a, 0x0565, 0x0569, 0x0572, 0x057a,
+> +		0x0585, 0x0589, 0x0590, 0x059a, 0x05a4, 0x05ac, 0x05b4, 0x05bc,
+> +		0x05c4, 0x05cc, 0x05d4, 0x05dc, 0x05e4, 0x05ec, 0x05f4, 0x05fc,
+> +		0x0604, 0x060c, 0x0614, 0x061c, 0x0623, 0x0629, 0x0632, 0x063a,
+> +		0x0645, 0x064a, 0x0650, 0x065a, 0x0665, 0x0669, 0x0672, 0x067a,
+> +		0x0685, 0x0689, 0x0690, 0x069a, 0x06a4, 0x06ac, 0x06b4, 0x06bc,
+> +		0x06c4, 0x06cc, 0x06d4, 0x06dc, 0x06e4, 0x06ec, 0x06f4, 0x06fc,
+> +		0x0704, 0x070c, 0x0714, 0x071c, 0x0723, 0x072a, 0x0730, 0x073a,
+> +		0x0745, 0x074a, 0x0750, 0x075a, 0x0765, 0x0769, 0x0772, 0x077a,
+> +		0x0785, 0x0789, 0x0790, 0x079a, 0x07a4, 0x07ac, 0x07b4, 0x07bc,
+> +		0x07c4, 0x07cc, 0x07d4, 0x07dc, 0x07e4, 0x07ec, 0x07f4, 0x07fc,
+> +	};
+> +
+> +	for (unsigned int i = 0; i < ARRAY_SIZE(deskew_fine); i++) {
+> +		rcsi2_write16(priv, V4H_CORE_DIG_COMMON_RW_DESKEW_FINE_MEM_REG,
+> +			      deskew_fine[i]);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv,
+>  				    struct v4l2_subdev_state *state)
+>  {
+> +	const struct rcsi2_cphy_setting *cphy = NULL;
+>  	const struct rcar_csi2_format *format;
+> -	const struct rcsi2_cphy_setting *cphy;
+>  	const struct v4l2_mbus_framefmt *fmt;
+>  	unsigned int lanes;
+>  	int mbps;
+> @@ -1318,7 +1508,8 @@ static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv,
+>  	rcsi2_write(priv, V4H_FLDC_REG, 0);
+>  	rcsi2_write(priv, V4H_FLDD_REG, 0);
+>  	rcsi2_write(priv, V4H_IDIC_REG, 0);
+> -	rcsi2_write(priv, V4H_PHY_MODE_REG, V4H_PHY_MODE_CPHY);
+> +	rcsi2_write(priv, V4H_PHY_MODE_REG,
+> +		    priv->cphy ? V4H_PHY_MODE_CPHY : V4H_PHY_MODE_DPHY);
+>  	rcsi2_write(priv, V4H_N_LANES_REG, lanes - 1);
+>  
+>  	rcsi2_write(priv, V4M_FRXM_REG,
+> @@ -1361,9 +1552,15 @@ static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv,
+>  	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_CB_CTRL_2_REG(5), 0x4000);
+>  
+>  	/* T3: PHY settings */
+> -	cphy = rcsi2_c_phy_setting_v4h(priv, mbps);
+> -	if (!cphy)
+> -		return -ERANGE;
+> +	if (priv->cphy) {
+> +		cphy = rcsi2_c_phy_setting_v4h(priv, mbps);
+> +		if (!cphy)
+> +			return -ERANGE;
+> +	} else {
+> +		ret = rcsi2_d_phy_setting_v4h(priv, mbps);
+> +		if (ret)
+> +			return ret;
+> +	}
+>  
+>  	/* T4: Leave Shutdown mode */
+>  	rcsi2_write(priv, V4H_DPHY_RSTZ_REG, BIT(0));
+> @@ -1376,11 +1573,23 @@ static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv,
+>  	}
+>  
+>  	/* T6: Analog programming */
+> -	for (unsigned int l = 0; l < 3; l++) {
+> -		rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 9),
+> -			      cphy->lane29);
+> -		rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 7),
+> -			      cphy->lane27);
+> +	if (priv->cphy) {
+> +		for (unsigned int l = 0; l < 3; l++) {
+> +			rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 9),
+> +				      cphy->lane29);
+> +			rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 7),
+> +				      cphy->lane27);
+> +		}
+> +	} else {
+> +		u16 val_2_9 = mbps > 2500 ? 0x14 : mbps > 1500 ? 0x04 : 0x00;
+> +		u16 val_2_15 = mbps > 1500 ? 0x03 : 0x00;
+> +
+> +		for (unsigned int l = 0; l < 5; l++) {
+> +			rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 9),
+> +				      val_2_9);
+> +			rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANEl_CTRL_2_REG(l, 15),
+> +				      val_2_15);
+> +		}
+>  	}
+>  
+>  	/* T7: Wait for stop state */
+> @@ -2245,6 +2454,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a779g0 = {
+>  	.start_receiver = rcsi2_start_receiver_v4h,
+>  	.use_isp = true,
+>  	.support_cphy = true,
+> +	.support_dphy = true,
+>  };
+>  
+>  static const struct rcsi2_register_layout rcsi2_registers_v4m = {
 
+-- 
+Regards,
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
-
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
-
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
-
-  pip3 install dtschema --upgrade
-
-
-This patch series was applied (using b4) to base:
- Base: attempting to guess base-commit...
- Base: tags/v6.16-rc1-15-gc3303e716218 (exact match)
-
-If this is not the correct base, please add 'base-commit' tag
-(or use b4 which does this automatically)
-
-New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/renesas/' for 20250611061609.15527-1-john.madieu.xa@bp.renesas.com:
-
-arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dtb: ethernet@15c30000 (renesas,r9a09g047-gbeth): compatible:0: 'renesas,r9a09g047-gbeth' is not one of ['renesas,r9a09g056-gbeth', 'renesas,r9a09g057-gbeth']
-	from schema $id: http://devicetree.org/schemas/net/renesas,r9a09g057-gbeth.yaml#
-arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dtb: ethernet@15c40000 (renesas,r9a09g047-gbeth): compatible:0: 'renesas,r9a09g047-gbeth' is not one of ['renesas,r9a09g056-gbeth', 'renesas,r9a09g057-gbeth']
-	from schema $id: http://devicetree.org/schemas/net/renesas,r9a09g057-gbeth.yaml#
-
-
-
-
-
+Laurent Pinchart
 
