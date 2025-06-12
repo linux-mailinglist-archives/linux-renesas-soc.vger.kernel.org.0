@@ -1,124 +1,155 @@
-Return-Path: <linux-renesas-soc+bounces-18189-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18190-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 554B9AD729F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 15:50:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3C42AD72C7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 15:57:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 117902C0907
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 13:49:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7653218803FA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jun 2025 13:52:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00BC5248888;
-	Thu, 12 Jun 2025 13:48:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8275224337C;
+	Thu, 12 Jun 2025 13:51:50 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4968C18FC91;
-	Thu, 12 Jun 2025 13:48:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E7C18FC91;
+	Thu, 12 Jun 2025 13:51:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749736084; cv=none; b=KVvOooLQfCExPhbzK7sTEcxpEAa8tF9XOnGSPx0L79SAb9XXjpliZGGzdy3nPOwKES9l20iY/AvgtcmldUtW0XajQOPiJeEcktpsUoj9UJbhr62GiN12ua99rQfuTd1xoP7Smu8mtZDTDergRrzW64/dMEluuzmIJCN4Po45ktw=
+	t=1749736310; cv=none; b=hiQO59GOY5FbhM02PuA70MkizKIK0d5Ls2Ze2uwbkXaooxvAsBuoRkUxxqLqEZgFpJYzumFsYO8qhZZwagkkYTK1bhLTCxN6Oy28/6yo4CXoOrGUihi22+8D4eCyhvN5ZyhCuq/9kqSy/J7KXa84cN4QuTGPRdZeUE44jKPxR6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749736084; c=relaxed/simple;
-	bh=y8CFAn9qh3k/yLp5zOH+ernhDI9ZtahcNeN0S2G9P1U=;
+	s=arc-20240116; t=1749736310; c=relaxed/simple;
+	bh=Kyg7eb1AAplC4+EEmiu7P/7vwpj2UgJh+0WoDayuqFg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GoEr/UTwd0yjYxFkLnt5kbbBk9BCHKiJkRPIocQgFmbatTQ5C6+zpm+3lvTV6FEBLpOv3sT8ftFPO9cKVbL40lH5PzloYqmiWhBKfbq/4HQC6EEkwxdQRSsfV2+/fKYba9sxkWZbr9dYMBCnQ5NSh7ky22p6zLDI8YKD4hBIYZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.47
+	 To:Cc:Content-Type; b=kDLCKcpW8/ILO853GEOH1eBeqZk17k+P4FqijLzko1RD6R8Q7T6loUkuqm9RlGmdTQ//6sYy7C/q7jGWULRvSyl4g2ms28mEeubU0ocZdNcPe88llxuGRwhah0UX/DRnzsujdryWs5UiXt0jhCGv2pFd011C3mIaNfs76zwTBns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-87ec5e1cd4aso286593241.0;
-        Thu, 12 Jun 2025 06:48:03 -0700 (PDT)
+Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-4e7b7b09887so596817137.1;
+        Thu, 12 Jun 2025 06:51:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749736081; x=1750340881;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7FQr7slkKxPbariVEmX9D6gn7HsHdpZpEVmZVDWtqF4=;
-        b=ken/3lX1fPyfnUnYNt0jGkikxCWu/PNw9hhkbguKrgMNVkxDphhnjrLdarAsmViwyP
-         a1myF9ecV+BkWCy3I5lTduUTFCiV+dh6AjE0mvKdHBqTY3fBsrWzA7MSClMVhuXapVlF
-         Xaj9QdCAJZasmRnz6joziF9NqJ2JAQHYdA2UaOujVhcQVoDadGWJ04MK53Cg5wWsSGFh
-         BkqvjBT+1HDaTFY5/AqFHoFjyHc35rktWRsMwMArDjfGdjN1IYUtc6zKFi2JhoEe/Evr
-         LePunl6glEXM+3Rs0Q0CZVN93rqAwuy2WjI8Cz9LQEiRgB6IICmAilNlUdGPSNCjwr9v
-         C+4g==
-X-Forwarded-Encrypted: i=1; AJvYcCURTZcuOj1C4aFovqG+nyY/4QPlLsCrO0WNJQUB0c9zMZQvOm8zj7ezrRJEysuyUl0M9mYs0fSKBJTYzX1s@vger.kernel.org, AJvYcCVQK17dF55n7cXqR6vS1Q703UVU6z2oFpnge4HQHjcU/B85f4sZ4PGGYH1tzFcUWslRGhnoz2dWJ9M=@vger.kernel.org, AJvYcCXoy+9+e1Kkw4wUBQIVv5cyjg11sgtH4KYxqKbCrT685ikBKyGFkQg+Eljz+KW/KdvfZuIfVfgln9tapyTB6Lc426M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLqoO9ZVPCaw71Ymn+S/uycz7otLUNfvsQSwYEQwFIRlAdjcy2
-	u653dXLB9+9crlhHs1IdD6fA+tzXDr3E2v/v7QRoFjk0mU1ZBT3sZISCLiNnWuO9
-X-Gm-Gg: ASbGncvwxMbxXj2mvAyiY7hgL+Oq69VyRpZ2UzcqrdCOlTyYJaQ5NMmLg1T1zF6Jtj5
-	VFvO75x75ZQt1rTdVtwYkylSxb44nSowjrIcKoSPD5zX03Cr4lI4bEJRz+sz2ykCHGdL/BeF9aP
-	8vt7WZqylLIaf2YmwsTe0TipmQmVBlIYWrXy2PTYLdfHCQS2q0Y849o/wWa5pQHp6Ev75rForP1
-	CQbyVq4Cf2cv8CdTKVOaasJMFqPJldbW9udpGirbcXErX6Ci/Fs8eT6XesLttfW4Inpifp0TJJH
-	W+gDb5ltrN/TgdwU77YKNYgzDLn3wK0asRVQHDAsW0oo5RdwmEkoO0KLiEABmpDznzLk2mh9SP+
-	8Ud/J1nzMe6LDUHvavWjgpPKocHjFhHi/CZs=
-X-Google-Smtp-Source: AGHT+IETRftRWQysl+wm+CZvPLOKPLG+qdHOy1bhzi/lsBCa1PgmSaK6GhG64LkitNiC01zQ6irD4Q==
-X-Received: by 2002:a05:6102:94d:b0:4bb:eb4a:f9ef with SMTP id ada2fe7eead31-4e7ce7f841dmr2474911137.4.1749736081419;
-        Thu, 12 Jun 2025 06:48:01 -0700 (PDT)
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-87f01243001sm297441241.5.2025.06.12.06.48.00
+        d=1e100.net; s=20230601; t=1749736307; x=1750341107;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sU+E14nHPWkzbgTxZjHrHqv/1thIS6lIF8oB6Qh0++4=;
+        b=s5D1PEiq/LuH/pqAnMS+6DGYjYo1qcy6ddzeDDIp2CX6mQlPOqSggCc8AnQamJXSrg
+         FCwka4MyZySqneK+6NgCdLg7uKm/GLR4Rb2k7iEiHhUH852cqIa1LqyeTlZxLzHwxmVV
+         SbhxnlG3obthUDKJCqLtlgh9Pjuf9/27SbWHrBYfx8kSaradQ1ohI7QtXtVp7sNZI6WA
+         Sqxc6JU9gFuAOHFbGN9YkeZeBILiwOELqXTrh1l2c8KjixHEC/gYPZbcjDYp4sBxsxBO
+         7EsdK1/4GGVSh8fjgikKtSzCktQk8996rt56qWRN27Xzrr5yuKNQrXTXWnc4K0gBMFT/
+         DfPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUJHTW15742UbZJJEBi44n9ADVsAMjWUw4+ZZLB2peMgd6xQP30S4m5WbDAidbOCsSb2gHHviBxbVBd@vger.kernel.org, AJvYcCVHP1VHuIQlzHGZSsQGZkg1zPOU06voe3p0NGVCb8KqKsA6cBF0P7Huw8+s9CUGcUzaFlMOtnhAUeJrF7Uj@vger.kernel.org, AJvYcCWQeqI1R76kr8Igmhj7w/dnCgRDs1drIyWhaAJLFRblQN0EmW0guKrq98flZkrwkH97m1kmC0mTOYREK8dQSPdsODs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YywZdrN3V9St0B9rFzkEGHSEpJZYqPYGnpgBQ9Bt0vyZhlQLPbU
+	xxJTzipE1XhuR8axPqj7tg9Rdj6hn/vq2Qi0+1/tKGn83aOTw5GekKQxgCUgzhEt
+X-Gm-Gg: ASbGncu0+zMSGHaOWPeFDjq9Dw2M4MRl4sKMkW2bAubBanWgH75vpkdfbNbdoCTMrA+
+	kJlQQnHWZJ2ImmYGpgj6w1ST3KuDMTE/UGeQ2qgaAxI7hsxxuWl5YTC7v9XrPgI7AmUB8JZSzS/
+	vDDer4+vs3H4KCgvW0yTBLAQUPMn5QbfTiEhsQMYqcKnbYVx39SPkB2ib8sSAI8TMmBZwBaqSTG
+	0F1GhCu/NHWV03TNIbfSx4zCSAUnjkN73AylaqzGa/lSrrzPzbYY5xNUeIXcYbOn1mkS73eDvZu
+	JIBD77dC4mTbY9Zo5QmDjxbriXxkTyWco7Xogo/YoHUC15c3CpwAVDBRuBraffYDmwnV0xxSeXa
+	izo1Ln5vahtM35wq+SvrA+5sJ
+X-Google-Smtp-Source: AGHT+IFbb1t4T7FuJxbzRzr5OMuz1N/p+RH8WPh5kWXq1AugQkPRBB57PrwIAN1c0vJj10z37Pgt0A==
+X-Received: by 2002:a05:6102:8028:b0:4e6:f86b:143c with SMTP id ada2fe7eead31-4e7ce7fd855mr2685077137.1.1749736306986;
+        Thu, 12 Jun 2025 06:51:46 -0700 (PDT)
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4e7d095851esm232106137.20.2025.06.12.06.51.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Jun 2025 06:48:00 -0700 (PDT)
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-87ecba78750so321456241.1;
-        Thu, 12 Jun 2025 06:48:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWE8cb5ltxP5tyaxtJ1hku4kA32dVNdNRuxU5XSjVnQ2R085Fhh4wUnVTMGfGAAvztR03V4+T88hdA=@vger.kernel.org, AJvYcCXF84Gbss+bU06Jj8XWWMT5QaZcOS8o7I3rEXv2ko/tw64smfNc3wCA540CDJ2lq3phF7zXz4R4kFYUlCYXyX8laJ0=@vger.kernel.org, AJvYcCXum6x9yUuz8Jt/HWwPD4DjniQuJH88vW8m4grI5gOMOXTSVTbtkeI7r80cbLzp8k/rk5Vzh/i8wZoGQwS7@vger.kernel.org
-X-Received: by 2002:a05:6102:54a9:b0:4e6:d784:3f7 with SMTP id
- ada2fe7eead31-4e7ce8ef245mr2321438137.15.1749736079868; Thu, 12 Jun 2025
- 06:47:59 -0700 (PDT)
+        Thu, 12 Jun 2025 06:51:46 -0700 (PDT)
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4e773c50385so567969137.0;
+        Thu, 12 Jun 2025 06:51:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUHOMcxC1eQNDW9ijh2LlciEopvd2JxA9FU/9ak7tW1PM/PD2FxIAG0UrFiTQSuV4Qn+l1cOaUvNkUS/X3Vimr8IM0=@vger.kernel.org, AJvYcCWFxeGyN8I7QCrABzu1ualR6zPP2+uRMq4e6uv3VwG1S7Zu4En23uqLoGy9caqQtbC1VUslZz5xrgHr@vger.kernel.org, AJvYcCXWPuggxZMsSoMiEsWUe/Dh0xlbNCvquILGmCvOZG9vT5WoCJvrTf0raMfJ7MBqMQa1EjQeruZOCMCCwHUj@vger.kernel.org
+X-Received: by 2002:a05:6102:2909:b0:4e6:df73:f147 with SMTP id
+ ada2fe7eead31-4e7ce872d4fmr2881027137.11.1749736306438; Thu, 12 Jun 2025
+ 06:51:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250609140341.235919-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250609140341.235919-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250528140453.181851-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250528140453.181851-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdVa4axB+aKhH18KxK4DVafeix6wn407PEhMxV_6xfpraA@mail.gmail.com> <CA+V-a8stpis6RuFZ8X+g=nnQhQQNJN8X8kpma6kf2Hmi+3hf4w@mail.gmail.com>
+In-Reply-To: <CA+V-a8stpis6RuFZ8X+g=nnQhQQNJN8X8kpma6kf2Hmi+3hf4w@mail.gmail.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 12 Jun 2025 15:47:47 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU5YyfQ6KwQyVaeZaEk7buNv56H_gPrWt_yb85SSF5aEQ@mail.gmail.com>
-X-Gm-Features: AX0GCFsjFFOMl0FpwnFUdrbDnlL9gyxveYHGO9Mfv0X_27HN0AyCAO3jn5ITdyY
-Message-ID: <CAMuHMdU5YyfQ6KwQyVaeZaEk7buNv56H_gPrWt_yb85SSF5aEQ@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: rzv2h-cpg: Fix missing CLK_SET_RATE_PARENT
- flag for ddiv clocks
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+Date: Thu, 12 Jun 2025 15:51:34 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVEA=agcGwLRvXRX9LCz48YaYT45HL2-nVN10KSjLs3Hw@mail.gmail.com>
+X-Gm-Features: AX0GCFtajsvn3HK0qkSch9g_tEIAAi_atdi1vGvi0U17ZoPSqNBB7DzSH5TlpbM
+Message-ID: <CAMuHMdVEA=agcGwLRvXRX9LCz48YaYT45HL2-nVN10KSjLs3Hw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] arm64: dts: renesas: r9a09g056n48-rzv2n-evk: Enable
+ USB2.0 support
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
 Hi Prabhakar,
 
-On Mon, 9 Jun 2025 at 16:03, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Thu, 12 Jun 2025 at 15:25, Lad, Prabhakar <prabhakar.csengg@gmail.com> w=
+rote:
+> On Thu, Jun 12, 2025 at 1:49=E2=80=AFPM Geert Uytterhoeven <geert@linux-m=
+68k.org> wrote:
+> > On Wed, 28 May 2025 at 16:05, Prabhakar <prabhakar.csengg@gmail.com> wr=
+ote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > Enable USB2.0 support on the RZ/V2N EVK board, CN2 connector on the E=
+VK
+> > > supports host/function operation.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
 >
-> Commit bc4d25fdfadf ("clk: renesas: rzv2h: Add support for dynamic
-> switching divider clocks") missed setting the `CLK_SET_RATE_PARENT`
-> flag when registering ddiv clocks.
->
-> Without this flag, rate changes to the divider clock do not propagate
-> to its parent, potentially resulting in incorrect clock configurations.
->
-> Fix this by setting `CLK_SET_RATE_PARENT` in the clock init data.
->
-> Fixes: bc4d25fdfadfa ("clk: renesas: rzv2h: Add support for dynamic switching divider clocks")
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Thanks for your patch!
+> >
+> > > --- a/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts
+> > > +++ b/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts
+> > > @@ -302,6 +317,16 @@ sd1-dat-cmd {
+> > >                         slew-rate =3D <0>;
+> > >                 };
+> > >         };
+> > > +
+> > > +       usb20_pins: usb20 {
+> > > +               ovc {
+> > > +                       pinmux =3D  <RZV2N_PORT_PINMUX(9, 6, 14)>; /*=
+ OVC */
+> >
+> > Any specific reason why OVC needs "bias-pull-up" on RZ/V2H EVK, but
+> > not on RZ/V2N EVK?
+> >
+> On the RZ/V2N EVK for the USB20_OVRCUR pin we have R13110K0603 pullup
+> resistor, this was missing on the earlier version of the RZ/V2H EVK
+> due to which we saw false OC condition (as seen below). Said that the
 
-Thanks for your patch!
+Thanks, I missed following one branch on the schematics :-(
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk for v6.17, unless you think it deserves
-to be fast-tracked as a fix (issue present since v6.12).
+> actual EVKs for RZ/V2H for which support is being added do have this
+> pullup resistor. After testing I will post a patch to drop the
+> `bias-pull-up` property from the RZ/V2H DTS (thanks for reminding me
+> :-)).
+
+Great, thanks!
 
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
                                 -- Linus Torvalds
 
