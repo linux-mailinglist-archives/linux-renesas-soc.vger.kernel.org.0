@@ -1,270 +1,161 @@
-Return-Path: <linux-renesas-soc+bounces-18265-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18266-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BE72AD8815
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jun 2025 11:38:39 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC076AD8825
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jun 2025 11:42:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7A1833B95CF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jun 2025 09:38:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 64A6B7A5294
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jun 2025 09:41:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB5E4291C04;
-	Fri, 13 Jun 2025 09:38:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90582291C3D;
+	Fri, 13 Jun 2025 09:42:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="ZZse0Hg0";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fArqI0AX"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="R/FyAZcl"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B0D24BD1A;
-	Fri, 13 Jun 2025 09:38:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9522C1596
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 13 Jun 2025 09:42:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749807515; cv=none; b=DbR8/mkoLpeB92QaLun6uHdbHspJGusnv+Fj3KcVm4jB75D+AZXfDLZq+gNjgat03ZGccbETlllLU/ZaRoArVjbe5S7zjacoacoq1msAGwBhiHb3QLZLKDK82qTTLpEgtYkUOiodMp/9BqQ5B1ZGOSVsGu6rY4IdL5dR3mWKDKg=
+	t=1749807746; cv=none; b=NHXxHRhNQTRb+e7zfYDmCQDnnT0nzJ8AJFGKpnAPz53HmVg4OW+V99Jb0wVtsi53QzqUMVK7WvL9S+etTa2J5ww6FpSDr7dF4xYHZgH48ku7kCKECZZ08KdInQ82Hh0tEDt8W4s+O+DY3BApk3pXRDLiJttkpasKAdhw6i86rMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749807515; c=relaxed/simple;
-	bh=M1Vr+ubKjv19b1D/uzQHWx1CK+0qrQr9HQrsYqQCaNw=;
+	s=arc-20240116; t=1749807746; c=relaxed/simple;
+	bh=CtNvxnB0vPCKAmcYC/efh99DjurqltuJUPHBbthRWF8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XEl47cxE2VQmY5ea+PXhxHsvX3Mh24/sXx3EQSoA4U/hZpif/r9mcgSCBJ7zG6/onnzkNBVHqX6OVX21wrpfjhVFPSvVdVluLeC+yZSOdzChBQXDSUq4h4qvrpZabD3DFKrbS+XudalGAXTFPYTNxw0CvNkYWx9K/30pXJhYoY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=ZZse0Hg0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fArqI0AX; arc=none smtp.client-ip=202.12.124.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id D20B21140150;
-	Fri, 13 Jun 2025 05:38:31 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Fri, 13 Jun 2025 05:38:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1749807511;
-	 x=1749893911; bh=Sv4mY3WkFQYLIZpKCvWR41O4FjcLEbQZQL+kVMWdgkg=; b=
-	ZZse0Hg0sb4m4wVZJfSPFVXM1sdAUtUxZGeeZl+ldZO7QFfGU7uer/Zkx9H/Ux4A
-	PEaqpKrBOnv6q1nJjL0jruCoRCJKvYVzpvOsN7u+wTJ68+9WNBRxMCwp2dbLa+jS
-	t1jqG9TeU21AOlvDTjXXdqBz4aCxQFF0fxOlck3k09WgQzOQx7XPTQpryY0eglc/
-	kC7EXST6K37RaB0xfldY/8P6yW/4o8xaj0NhzQ6A0xJhqYcTzEeb7TIzDo115KSi
-	4TxiLNiOpjL20z6GjUztnbqy+5wP0SAPGchwJED2ia0sMyO/g49uQGkd/ODMwGlZ
-	vEZK+5Cx7YZfsJZEZqrgPg==
+	 Content-Type:Content-Disposition:In-Reply-To; b=bATHZO7ZP1m8cE9qGj17q1d2r5d8wSzUfMC4v9TyAFRQEH9iLbZBdG/jWOyTCRV28yNo+wY6lXBiel56l8zqqF1oLYSzuWaSTJTak1LAbPTCX4NTItFaGedo+N2zbyUS6wsYMvBmV7B8tp4fr75ezvP7CDFece1BpZaKQxM84xU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=R/FyAZcl; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749807511; x=
-	1749893911; bh=Sv4mY3WkFQYLIZpKCvWR41O4FjcLEbQZQL+kVMWdgkg=; b=f
-	ArqI0AXuhaXWac2Qj3byrpSfOMQ2ZawNfSySbfV49XPrcRsdXgkCRWwLKT8AnphY
-	5bmMhC41hvSlJXX/7KwuusWjzrvcEw+iUlkER+c826bL6IZo9KOwez3cdMWb23Mf
-	D48FidEmtBI3HBhXWEKUjTG17k4eb/BFPPqrVB1duGSvu1+1QPeHiATf2p1V/lNF
-	fzfhd3b5CsVyBShwactF+7R3qlpEhDap6VA9/WMom7qppugZdA/gksTSy9BI6OD7
-	9QsMKsVJmkc3LmC0cikFDQD2IbMUJxbitV38zTVASoxkfRVf8rhu7MCRhacasqIn
-	0hCf24SdSJLQ59DxYRlXA==
-X-ME-Sender: <xms:l_FLaOjRIqF1I1h_2YVMYgbg501CovqV2IN753OUNQINf3EiRh05Pw>
-    <xme:l_FLaPDrP96_wvyUryq_7xUoUN9j3ly_jlHj0iazXsNmipOgD5m3g2nt2U6N-hUpY
-    WEKsc4_furKYqjtyCE>
-X-ME-Received: <xmr:l_FLaGFt0acvtU7f8Lyk-mrHFYJQFTySNxtpiUJ_B0u5g-4DrnhDZbhpfJ5JHhXDW5AwVslZgpYoLJ9GBUiGJIcQSCL_bDY0Kg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddujeeiudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddt
-    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
-    guvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgr
-    thhtvghrnhepfefhleelhfffjefgfedugfegjeelhfevheeikefhueelgfdtfeeuhefftd
-    dvleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
-    nhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrd
-    hsvgdpnhgspghrtghpthhtohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohep
-    lhgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprh
-    gtphhtthhopehsrghkrghrihdrrghilhhusheslhhinhhugidrihhnthgvlhdrtghomhdp
-    rhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtoh
-    hmihdrvhgrlhhkvghinhgvnhdorhgvnhgvshgrshesihguvggrshhonhgsohgrrhgurdgt
-    ohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdroh
-    hrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgv
-    rhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:l_FLaHQkwNTVvYd8l7zmwe0kOTNvuOfebnSHVgHjnYATg9kydqPnkw>
-    <xmx:l_FLaLyBw6W4AzaOcmXtKMjciFF-B7WojHezoTkakMrB-h2DwVNCDQ>
-    <xmx:l_FLaF7BA10h9XVGWSbu0ABKChS1B27XAbIKDgqsJYc-jcBbby1uog>
-    <xmx:l_FLaIxamTNIiQAV7gZbYFLa4n9FHqSlD2uUYb3wbyCB4h7S-F770g>
-    <xmx:l_FLaDNNhXk7p1AYP69eBRxEylri2UooBqQkK38-UARbOqW_gjlb47I1>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 13 Jun 2025 05:38:31 -0400 (EDT)
-Date: Fri, 13 Jun 2025 11:38:29 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v5 11/12] media: rcar-vin: Enable media-graph on Gen2
-Message-ID: <20250613093829.GB1002387@ragnatech.se>
-References: <20250606182606.3984508-1-niklas.soderlund+renesas@ragnatech.se>
- <20250606182606.3984508-12-niklas.soderlund+renesas@ragnatech.se>
- <20250612235319.GH10542@pendragon.ideasonboard.com>
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=nZy3
+	8NmYICe8Mu3Mjf0MKMXMdi41KhsE9KdB9TPXbwo=; b=R/FyAZcluhMz+xilJAeX
+	AjuZC66tdPKDOWPqHfc55pWuX1hKenjxDjbiNOlSEtvAeTK+JRrq2CsPizBCDmxF
+	Pqx2h976CSHwMUbpNXeLPRCL3IvKrbwU6DUes2Lkv9G9L11zL/TyHvlPJFLJ3GiE
+	+efyepQVVJqaWErYYfnK+OI/fQUPNBJ2kddB57jzDyAdWvEkioEUYFUvyc5YH0Yk
+	fau42RxrxDfr0uJFKJ0JW0KwOF3M5eR7PHuElpYo83effjkSrnNUlgAMmr1CU0+T
+	vWdeMwfO40Bq9Cwww0x8DUl+AaAOChIZfJyMqzXZsAd1y3RAX0edRkGTq1tiRDNN
+	FQ==
+Received: (qmail 166897 invoked from network); 13 Jun 2025 11:42:21 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Jun 2025 11:42:21 +0200
+X-UD-Smtp-Session: l3s3148p1@bEzU3HA3pOEgAwDPXy2/ACpZfVCNKldR
+Date: Fri, 13 Jun 2025 11:42:20 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Frank Li <Frank.li@nxp.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-i3c@lists.infradead.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH RFC 4/7] i3c: add driver for Renesas I3C IP
+Message-ID: <aEvyfM42WTKENbFO@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Frank Li <Frank.li@nxp.com>, linux-renesas-soc@vger.kernel.org,
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-i3c@lists.infradead.org,
+	linux-hardening@vger.kernel.org
+References: <20250611093934.4208-1-wsa+renesas@sang-engineering.com>
+ <20250611093934.4208-5-wsa+renesas@sang-engineering.com>
+ <aEmws+OtHirrUPUo@lizhi-Precision-Tower-5810>
+ <aErqY0QWMRdC7Pvg@shikoro>
+ <aEsDj5Vcb4zFJFlo@lizhi-Precision-Tower-5810>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="K40i87jX3QkMmMc9"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250612235319.GH10542@pendragon.ideasonboard.com>
+In-Reply-To: <aEsDj5Vcb4zFJFlo@lizhi-Precision-Tower-5810>
 
-Hi Laurent,
 
-Thanks for your review. I know this patch must not have been fun to 
-review, much appreciated.
+--K40i87jX3QkMmMc9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 2025-06-13 02:53:19 +0300, Laurent Pinchart wrote:
 
-[snip]
+> > And there are only 8 of these registers. So, there is a maximum of 8 for
+> > this controller. We could hardcode 8. But we could leave the handling as
+> > is, just in case a future controller has more or less of these
+> > registers.
+>=20
+> Okay, can you point me spec link.
 
-> > @@ -290,17 +283,15 @@ static int rvin_group_notify_bound(struct 
-> > v4l2_async_notifier *notifier,
-> >  	guard(mutex)(&group->lock);
-> >  
-> >  	for (unsigned int i = 0; i < RCAR_VIN_NUM; i++) {
-> 		struct rvin_dev *vin = &group->vin[i];
-> 
-> will simplify the code blow.
+Overview of the SoC:
+https://www.renesas.com/en/products/microcontrollers-microprocessors/rz-mpu=
+s/rzg3s-general-purpose-microprocessors-single-core-arm-cortex-a55-11ghz-cp=
+u-and-dual-core-cortex-m33-250mhz#documents
 
-Create idea.
+Datasheet:
+https://www.renesas.com/en/document/mah/rzg3s-group-users-manual-hardware?r=
+=3D25458591
 
-[snip]
+> > Sure thing. I think I didn't get feedback on my original suggestion so
+> > far. If I now know you are positive about it, I will give it a try.
+>=20
+> Sorry, linux-i3c mail list always delay your post, did you register linux=
+-i3c
+> mail list.
 
-> > @@ -971,7 +873,7 @@ static int __maybe_unused rvin_resume(struct 
-> > device *dev)
-> >  	 * as we don't know if and in which order the master VINs will
-> >  	 * be resumed.
-> >  	 */
-> > -	if (vin->info->use_mc) {
-> > +	if (vin->info->model == RCAR_GEN3) {
-> 
-> No need to do this for Gen4 ?
+I did subscribe. I receive mails and my patches using git-send-email go
+through directly. My responses to mails are always held back just saying
+"suspicious header". But I don't know what is "suspicious", so I can't
+work on it.
 
-No. This section restores the routing for a set of VIN instances, a 
-feature only available on Gen3. On Gen4 this functionality is moved to 
-the Channel Selector ISP. That it previously was done on Gen4 was not 
-intentional.
+> > There is a specified timeout? I couldn't find one in the specs, can you
+> > kindly point me to it? So, the solution is to use 100us as timeout?
+>=20
+> See: 5.1.2.5 Controller Clock Stalling
 
-I think this is a good example on how organic grow of this driver have 
-created a lot of unneeded complexity that needs to be resolved, see next 
-comment.
+Ah, I missed this one so far. Thanks!
 
-[snip]
+> The spec have not defined what exactly happen if stall clock more than
+> 100us.
 
-> > @@ -1319,21 +1209,27 @@ static int rcar_vin_probe(struct 
-> > platform_device *pdev)
-> >  	if (ret < 0)
-> >  		return ret;
-> >  
-> > -	if (vin->info->use_isp) {
-> > -		ret = rvin_isp_init(vin);
-> > -	} else if (vin->info->use_mc) {
-> > -		ret = rvin_csi2_init(vin);
-> > +	switch (vin->info->model) {
-> > +	case RCAR_GEN3:
-> > +	case RCAR_GEN4:
-> > +		if (vin->info->use_isp) {
-> > +			ret = rvin_isp_init(vin);
-> > +		} else {
-> > +			ret = rvin_csi2_init(vin);
-> >  
-> > -		if (vin->info->scaler &&
-> > -		    rvin_group_id_to_master(vin->id) == vin->id)
-> > -			vin->scaler = vin->info->scaler;
-> > -	} else {
-> > -		ret = rvin_group_get(vin, NULL, NULL);
-> > +			if (vin->info->scaler &&
-> > +			    rvin_group_id_to_master(vin->id) == vin->id)
-> > +				vin->scaler = vin->info->scaler;
-> > +		}
-> > +		break;
-> > +	default:
-> > +		ret = rvin_group_get(vin, rvin_parallel_setup_links, NULL);
-> >  		if (!ret)
-> >  			ret = rvin_group_notifier_init(vin, 0, 0);
-> >  
-> >  		if (vin->info->scaler)
-> >  			vin->scaler = vin->info->scaler;
-> 
-> If I'm not mistaken there's one group per VIN on Gen2, right ? If so, I
-> think you could move the
-> 
-> 		if (vin->info->scaler &&
-> 		    rvin_group_id_to_master(vin->id) == vin->id)
-> 			vin->scaler = vin->info->scaler;
-> 
-> code after the switch.
+I am going to the I3C Plugfest in Warszaw in 10 days. I could ask people
+there...
 
-Yes and no. The function rvin_group_id_to_master() is purely a Gen3 
-thing. To move the check outside the switch it would need to be made 
-Gen2 aware. It can be kept in the Gen3+Gen4 code path as we know we 
-don't have any scalers on Gen4 so vin->info->scaler will always be 
-false.
+Happy hacking,
 
-As the previous comment hints at, this is a bit of an organic growth 
-mess. In my ever growing todo file to clean up this driver I hope to 
-rework the info structure to remove the remove the 
-vin->info->{model,use_isp,nv12,raw10} flags and replace them with 
-function pointers that do the right thing for each platform without 
-these special cases sprinkled all over. Too much small issues have come 
-up over the years using the current design.
+   Wolfram
 
-For this reason I would like to keep this split in each case of the 
-switch over extending the special case handling more in the helper 
-functions.
 
-[snip]
+--K40i87jX3QkMmMc9
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> > @@ -1011,11 +592,7 @@ static int rvin_open(struct file *file)
-> >  	if (ret)
-> >  		goto err_unlock;
-> >  
-> > -	if (vin->info->use_mc)
-> > -		ret = v4l2_pipeline_pm_get(&vin->vdev.entity);
-> > -	else if (v4l2_fh_is_singular_file(file))
-> > -		ret = rvin_power_parallel(vin, true);
-> > -
-> > +	ret = v4l2_pipeline_pm_get(&vin->vdev.entity);
-> 
-> Another item for your todo list, this is deprecated.
+-----BEGIN PGP SIGNATURE-----
 
-Ack, added to list. I hope I can get that list down to zero at some 
-point! Getting this series done would be a good step as it's blocking 
-many other smaller improvements. Hopefully we won't need another large 
-series like this to move forward.
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmhL8nwACgkQFA3kzBSg
+KbbuVA/+I4VgOS79AXzpTRA0k72Re819xTv12Dq7qqQyCvfvXCSQWsGPY/bHSW7G
+w0mdyHeWX668BlMnSJ0tG16z3aOERAYb84wNXH4hobO2IN5pTAi532QkA/4GOniQ
+gKgep4L26X5/tE1OcO0fb6wUiezfzKRr0FRvgiv34rdK7lnK3zrNij+DjH+t9Osf
+iazabHh+KZGOe0IqqU14ePC3W23edCu6HgluAXscThJSLl+aucuS53XEoO9oPBto
+Lpt694NxL5Cu61OKYEzRmcbh0UdHx8CtH98QgKNifMVR60kd8yByfefcpcMfZDQV
+aKcS5fRiH0qBbxRGO2nvgHYQR8B0N3EPFDs3tRtpGLq74rr2q8Yyf5JEdlBBitQe
+d6JZvrSJGo3P+rL4OFlYeYvCkc0hu3BvPAqEfVzup6qBes3YvClh9j7kEGDU2ySj
+NTx9t1hrFqFFSccOtzAVvRtuXXLOfowYgK9+n/xqzOjINWT4S8PM//pDcrEjrr1/
+r6UJ3PgVCnTaIImNh1LTx87bYOLC+D+h/yQfW7YWJn0IQ8c5gSaoPRdH5txhJo4M
+Z9hD+awjQveg5jIA/B5ghu2CVGxK+u/Lixh07uywkjfefoiKLiPLFbmweSMQLQHk
+RsQtvyJ3wz/jbiHo8RFWauThZa0iiU40L3VW1xogTk3SFfjc1XU=
+=wf2Y
+-----END PGP SIGNATURE-----
 
-[snip]
-
-> > @@ -1162,13 +721,8 @@ int rvin_v4l2_register(struct rvin_dev *vin)
-> >  	vin->format.field = RVIN_DEFAULT_FIELD;
-> >  	vin->format.colorspace = RVIN_DEFAULT_COLORSPACE;
-> >  
-> > -	if (vin->info->use_mc) {
-> > -		vdev->device_caps |= V4L2_CAP_IO_MC;
-> > -		vdev->ioctl_ops = &rvin_mc_ioctl_ops;
-> > -	} else {
-> > -		vdev->ioctl_ops = &rvin_ioctl_ops;
-> > -		rvin_reset_format(vin);
-> > -	}
-> > +	vdev->device_caps |= V4L2_CAP_IO_MC;
-> 
-> You can combine this with the line that sets device_caps.
-> 
-> > +	vdev->ioctl_ops = &rvin_mc_ioctl_ops;
-> 
-> I would also move this above with the rest of the code that sets the
-> vdev fields.
-
-Great catch, thanks!
-
-[snip]
-
--- 
-Kind Regards,
-Niklas Söderlund
+--K40i87jX3QkMmMc9--
 
