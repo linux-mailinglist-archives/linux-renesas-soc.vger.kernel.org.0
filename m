@@ -1,284 +1,182 @@
-Return-Path: <linux-renesas-soc+bounces-18315-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18316-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7563BAD948B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jun 2025 20:38:53 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFFB2AD94EA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jun 2025 20:59:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2AC541797B4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jun 2025 18:38:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1F42A3A3905
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jun 2025 18:58:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C1BD22F74F;
-	Fri, 13 Jun 2025 18:38:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C38223498E;
+	Fri, 13 Jun 2025 18:59:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vfhD9Mzd"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BdQUdt/v"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC0C20F09B;
-	Fri, 13 Jun 2025 18:38:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F20B231837;
+	Fri, 13 Jun 2025 18:59:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749839930; cv=none; b=BD1bhQ2KchGTriCV5j9nqWujGWj3SkVC8bLiGU9pf/IseGV3sCYN42efrVy8BYDUArrbxziiYxwLIPDYsn7Awscy4oUpk2i/ctUXC3aJLO+WTanTqUjD8kK9Bp3R7TXiECXVyCkz4qr3hMV+9LO+LjyFdhkvBT4Bf6TnA8KyCGo=
+	t=1749841152; cv=none; b=Uk1olx3W5IiiRa1lGTwq8TQWhuCih5X6Q4TFXh8/8/w8T0i8J9N50HthCPknFKvdqR3H9WkntlkesBy9J1kFyP3VDMuG9h3/MhW1f4JDa+9l9yYgvqDyxd/y2Cts+rn5W7wPqxJg8pkjfnEtR5pGFm8dvreiByhAhNSXzKfCgRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749839930; c=relaxed/simple;
-	bh=QkDUGyiQ8azH59zSbfbu680cHKpIUkIqBVE2yLlblUc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hrASFVewxFQR7+yHWisZddxk6XTfSHkjU38yJNnpJbRV1zbX8FeFS8jshEbhcfDNrX2xERmDJhg28VUfUcLnoWiWaNigoRfcvHN8y9rC8JbR8iblBN/y+xnCAWGRE67f7KyUUbhOYP2fwYAhKTfpTSzk2WhG5aBBtSWL9+kIPsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vfhD9Mzd; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DD3E3ED;
-	Fri, 13 Jun 2025 20:38:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1749839917;
-	bh=QkDUGyiQ8azH59zSbfbu680cHKpIUkIqBVE2yLlblUc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vfhD9Mzd31x5wYYSx3L+faS+5s0xLXmHfZgTXEN8igbiA8seE98f6UPTI3q2tz5aS
-	 NaeClvUJc41ecxUj/SD235DUNybtnF3qiZGsc752jAY1zPwy3IytWwmUbVw8AoEykG
-	 +aq6/YojCoNMfDwmiVCW8478I/4IbAFYMXnDUrYs=
-Date: Fri, 13 Jun 2025 21:38:31 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v6 11/13] media: rcar-vin: Only expose VIN controls
-Message-ID: <20250613183831.GK25137@pendragon.ideasonboard.com>
-References: <20250613153434.2001800-1-niklas.soderlund+renesas@ragnatech.se>
- <20250613153434.2001800-12-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1749841152; c=relaxed/simple;
+	bh=bfi/XXY37D6EzOO2Od8sT5Dtm/chbynwgKX5STjjpn0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Mhg2F3HKXCeRHPTZucaXa430VrmYR6HrDRyERZBo8yeIufBm4X6s1c5DVBPNUh2B9PcudF8EGAuq3NZoec22SyP29capgrxrUwouMCQoohan8mNtfjop0YiTO67L9LZ/srMon9VKfSfq8z7cik4sxsbS2jnTZTmPHKmEgO4/kgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BdQUdt/v; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3a4e742dc97so2383939f8f.0;
+        Fri, 13 Jun 2025 11:59:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749841149; x=1750445949; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1/YIWQiUS3RgGsA89qeDcl9n+fbbe3YP1rWF9uN/SOc=;
+        b=BdQUdt/vCRSJjW0FSV+gO2rp6q07n0kU5fIrRfy3LoezVTmD9hr9dhf0RDRBfOOfWa
+         LCMrNYgo2rAfyBDBWSJvlwJ/jCSq6cDJjXPasjuZcpFwEJzZaUqG/hBLECf2mFZu9v5v
+         e+jvGemQCCnYo71Q+Xfkevs8o0Nwbne1ZNz5Yurk3RIoDbYSqpVQQxhclm4PVo3bMD7g
+         ir7iTP1a/pOkmurfiF06ltgfhCi5Ogi3wN3kr2F9vP5DUYGCrNmMcI/gCL5gvjVQPQEs
+         Us/io94bMwsasxh2sH21EX13vIxtcOliaPEf8MnBCDauG8WTTxhkgHbr92NosHMj5u2k
+         +BSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749841149; x=1750445949;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1/YIWQiUS3RgGsA89qeDcl9n+fbbe3YP1rWF9uN/SOc=;
+        b=PX8P/nKYm2tjpPSh1j8Fcw/Mtz18v+RC7RwD5xZu8x6DaCXBXt5eGDhKsbeh/KvNzH
+         f78+8wL0S6ITncY9iF/P8RklCdc6J5kBo8wVEaNVChOqbfszT/UnNDdSrcIBEbvUIXo3
+         wEHDh1cISzZD60UYlGkHK+VW8eOxGdcNpjD/j+NXstxTzc0it+tQG4OjkoIr3XbR7LeA
+         RHjKtB/Li1JNeWGnqq7MFRsKMzlhhfkC8jsd4zKIRFkTeNXjSM1PLc1Y9mXk+be+1kC9
+         MCoAtCg0wI7Ga+nXumf/SSbbTAb6SpGJHggKQUtSNsJJCCSTK/rVXIiq8Ce6uiSRbk3O
+         H+OA==
+X-Forwarded-Encrypted: i=1; AJvYcCV7ekGoh+q/0JFFuaLdqZwTffWesMRkgDb9mAo4PsXhK08fw4MXj4ckLTKMVCEvSKR0UwQILP5K2Nj7zOa3@vger.kernel.org, AJvYcCVrpF0qhXOhMNDZzAE/ZrWL6eHQCucl1P/0bn1m0lv7K7E18Md4l4l8lD21W6CZBITFvVefdzV+D0ht@vger.kernel.org, AJvYcCWukulkOV+25xm3AgBmPZYj6R+T0aGG7tq2fCMyeAHWLqyxgH9bJeHYXfoVFledaR9SDDo388Mh5S0gtEb/M3xf6pM=@vger.kernel.org, AJvYcCXwnM7riu/BLSeWQdrih2DKWiUkCiD5hq0O+/yklEO0ZhOXIQjK28jmdzqsw+o6sd6sObBhzUyiYIaP@vger.kernel.org
+X-Gm-Message-State: AOJu0YyUYiCZmaSmS5ZfAG9fTIAv97VsUUdZw+KsIJGHLGvgu8xiRiYT
+	TLA8O+CZLeQY8lZKEUlx6OqMurLbMdvEed0QixXagxiULfa0hWReQiaiF3x7xk4kWzStcO8vBkR
+	myv2iXFzBWqGlZ8hoy49ao5xhZx7MR42hrh+wqRL6RQ==
+X-Gm-Gg: ASbGncsN5ksrNHOOx3TPcYH1wJ/SPviOFGDz97/5Z+CGRbGI5TRXX+nshTRcre27lG9
+	2oFTdcn9dmJxYrh9UHzEH53ho1ndSrdqVkUfgJjVwDncDEkl7v+9Sk0cvLnER+UHDOhha6xS/0E
+	ycJnQwf1LsWikbBYdXQG5blnDJWtarYCYxn6do6tavLkY=
+X-Google-Smtp-Source: AGHT+IH6gVOrqupXkFxkZ8jHnjuBHoHp7WV2inzbQO5tSHCWOyZg7SSesd/x6TXCOy40KyIsVZAvAGsZEk2TYXgix+U=
+X-Received: by 2002:a05:6000:1884:b0:3a4:eb7a:2ccb with SMTP id
+ ffacd0b85a97d-3a56d821e4dmr2085068f8f.16.1749841148379; Fri, 13 Jun 2025
+ 11:59:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250613153434.2001800-12-niklas.soderlund+renesas@ragnatech.se>
+References: <20250609232253.514220-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdWoWqrMKgNSYN_NDOtROD-SAq7ProhREPJTEBTOPCeH=A@mail.gmail.com> <CA+V-a8sBhF-FwV0BXCxpHkuhdAg5YcwDsWPFRPSV_BdmNpLWYA@mail.gmail.com>
+In-Reply-To: <CA+V-a8sBhF-FwV0BXCxpHkuhdAg5YcwDsWPFRPSV_BdmNpLWYA@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Fri, 13 Jun 2025 19:58:42 +0100
+X-Gm-Features: AX0GCFvWiPn4aKbGTJejOZagRntrlAdbPUi0Zn3dwUU2W9SE1HnlVmKNOPFDH-w
+Message-ID: <CA+V-a8t6WNQS-1AkFUeSioxNyF9vSbaxUDkQsYDk-=m1tysu+w@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: mmc: renesas,sdhi: Document RZ/T2H and
+ RZ/N2H support
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Niklas,
+Hi Geert,
 
-Thank you for the patch.
+On Fri, Jun 13, 2025 at 4:37=E2=80=AFPM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+>
+> Hi Geert,
+>
+> Thank you for the review.
+>
+> On Thu, Jun 12, 2025 at 4:47=E2=80=AFPM Geert Uytterhoeven <geert@linux-m=
+68k.org> wrote:
+> >
+> > Hi Prabhakar,
+> >
+> > On Tue, 10 Jun 2025 at 01:23, Prabhakar <prabhakar.csengg@gmail.com> wr=
+ote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > Add SDHI bindings for the Renesas RZ/T2H (a.k.a R9A09G077) and RZ/N2H
+> > > (a.k.a R9A09G087) SoCs. Use `renesas,sdhi-r9a09g057` as a fallback si=
+nce
+> > > the SD/MMC block on these SoCs is identical to the one on RZ/V2H(P),
+> > > allowing reuse of the existing driver without modifications.
+> > >
+> > > Update the binding schema to reflect differences: unlike RZ/V2H(P),
+> > > RZ/T2H and RZ/N2H do not require the `resets` property and use only a
+> > > single clock instead of four.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
+>
+> >
+> > Thanks for your patch!
+> >
+> > > --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> > > +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> > > @@ -129,59 +131,75 @@ allOf:
+> > >          compatible:
+> > >            contains:
+> > >              enum:
+> > > -              - renesas,sdhi-r9a09g057
+> > > -              - renesas,rzg2l-sdhi
+> > > +              - renesas,sdhi-r9a09g077
+> > > +              - renesas,sdhi-r9a09g087
+> > >      then:
+> > >        properties:
+> > > +        resets: false
+> > >          clocks:
+> > > -          items:
+> > > -            - description: IMCLK, SDHI channel main clock1.
+> > > -            - description: CLK_HS, SDHI channel High speed clock whi=
+ch operates
+> > > -                           4 times that of SDHI channel main clock1.
+> > > -            - description: IMCLK2, SDHI channel main clock2. When th=
+is clock is
+> > > -                           turned off, external SD card detection ca=
+nnot be
+> > > -                           detected.
+> > > -            - description: ACLK, SDHI channel bus clock.
+> > > +          description: ACLK, SDHI channel bus clock.
+> >
+> > According to the documentation, this is the SDHI high speed clock...
+> >
+Actually re-reading the doc there are two clocks (I had missed the
+second clock earlier),
+1] ACLK, IMCLK from the PCLKAM which is 200MHz
+2] SDHI_clkhs from PLL2 which is 800MHz
+Note, on RZ/V2H too the ACLK/IMCLK is 200MHz and clk_hs is 800MHz
 
-On Fri, Jun 13, 2025 at 05:34:32PM +0200, Niklas Söderlund wrote:
-> Before moving Gen2 to media controller simplify the creation of controls
-> by not exposing the sub-device controls on the video device. This could
-> be done while enabling media controller but doing it separately reduces
-> the changes needed to do so.
-> 
-> The rework also allows the cleanup and remove paths to be simplified by
-> folding all special cases into the only remaining call site.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+So, I'll represent them as below:
+        clocks:
+          items:
+            - description: ACLK, IMCLK, SDHI channel bus and main clocks.
+            - description: CLK_HS, SDHI channel High speed clock.
+        clock-names:
+          items:
+            - const: aclk
+            - const: clkh
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+And for the ACLK, IMCLK which comes from peripheral module clock
+(PCLKAM) this will be a module clock and CLK_HS will have to be
+modelled as a CORE clock.
 
-> ---
-> * Changes since v5
-> - Reduce number of control buckets to 1.
-> 
-> * Changes since v4
-> - Broken out from a larger patch.
-> ---
->  .../platform/renesas/rcar-vin/rcar-core.c     | 89 +++++--------------
->  1 file changed, 21 insertions(+), 68 deletions(-)
-> 
-> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-> index 7367b5c993cd..74fc90cf5800 100644
-> --- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-> @@ -365,14 +365,6 @@ static int rvin_group_parse_of(struct rvin_dev *vin, unsigned int port,
->  	return ret;
->  }
->  
-> -static void rvin_group_notifier_cleanup(struct rvin_dev *vin)
-> -{
-> -	if (&vin->v4l2_dev == vin->group->notifier.v4l2_dev) {
-> -		v4l2_async_nf_unregister(&vin->group->notifier);
-> -		v4l2_async_nf_cleanup(&vin->group->notifier);
-> -	}
-> -}
-> -
->  static int rvin_parallel_parse_of(struct rvin_dev *vin)
->  {
->  	struct fwnode_handle *fwnode __free(fwnode_handle) = NULL;
-> @@ -510,11 +502,11 @@ static void rvin_free_controls(struct rvin_dev *vin)
->  	vin->vdev.ctrl_handler = NULL;
->  }
->  
-> -static int rvin_create_controls(struct rvin_dev *vin, struct v4l2_subdev *subdev)
-> +static int rvin_create_controls(struct rvin_dev *vin)
->  {
->  	int ret;
->  
-> -	ret = v4l2_ctrl_handler_init(&vin->ctrl_handler, 16);
-> +	ret = v4l2_ctrl_handler_init(&vin->ctrl_handler, 1);
->  	if (ret < 0)
->  		return ret;
->  
-> @@ -528,16 +520,6 @@ static int rvin_create_controls(struct rvin_dev *vin, struct v4l2_subdev *subdev
->  		return ret;
->  	}
->  
-> -	/* For the non-MC mode add controls from the subdevice. */
-> -	if (subdev) {
-> -		ret = v4l2_ctrl_add_handler(&vin->ctrl_handler,
-> -					    subdev->ctrl_handler, NULL, true);
-> -		if (ret < 0) {
-> -			rvin_free_controls(vin);
-> -			return ret;
-> -		}
-> -	}
-> -
->  	vin->vdev.ctrl_handler = &vin->ctrl_handler;
->  
->  	return 0;
-> @@ -627,11 +609,6 @@ static int rvin_parallel_subdevice_attach(struct rvin_dev *vin,
->  	if (ret < 0 && ret != -ENOIOCTLCMD)
->  		return ret;
->  
-> -	/* Add the controls */
-> -	ret = rvin_create_controls(vin, subdev);
-> -	if (ret < 0)
-> -		return ret;
-> -
->  	vin->parallel.subdev = subdev;
->  
->  	return 0;
-> @@ -885,34 +862,17 @@ static int rvin_csi2_setup_links(struct rvin_group *group)
->  	return ret;
->  }
->  
-> -static void rvin_csi2_cleanup(struct rvin_dev *vin)
-> -{
-> -	rvin_group_notifier_cleanup(vin);
-> -	rvin_free_controls(vin);
-> -}
-> -
->  static int rvin_csi2_init(struct rvin_dev *vin)
->  {
->  	int ret;
->  
-> -
-> -	ret = rvin_create_controls(vin, NULL);
-> -	if (ret < 0)
-> -		return ret;
-> -
->  	ret = rvin_group_get(vin, rvin_csi2_setup_links, &rvin_csi2_media_ops);
->  	if (ret)
-> -		goto err_controls;
-> +		return ret;
->  
->  	ret = rvin_group_notifier_init(vin, 1, RVIN_CSI_MAX);
->  	if (ret)
-> -		goto err_group;
-> -
-> -	return 0;
-> -err_group:
-> -	rvin_group_put(vin);
-> -err_controls:
-> -	rvin_free_controls(vin);
-> +		rvin_group_put(vin);
->  
->  	return ret;
->  }
-> @@ -966,34 +926,17 @@ static int rvin_isp_setup_links(struct rvin_group *group)
->  	return ret;
->  }
->  
-> -static void rvin_isp_cleanup(struct rvin_dev *vin)
-> -{
-> -	rvin_group_notifier_cleanup(vin);
-> -	rvin_free_controls(vin);
-> -}
-> -
->  static int rvin_isp_init(struct rvin_dev *vin)
->  {
->  	int ret;
->  
-> -
-> -	ret = rvin_create_controls(vin, NULL);
-> -	if (ret < 0)
-> -		return ret;
-> -
->  	ret = rvin_group_get(vin, rvin_isp_setup_links, NULL);
->  	if (ret)
-> -		goto err_controls;
-> +		return ret;
->  
->  	ret = rvin_group_notifier_init(vin, 2, RVIN_ISP_MAX);
->  	if (ret)
-> -		goto err_group;
-> -
-> -	return 0;
-> -err_group:
-> -	rvin_group_put(vin);
-> -err_controls:
-> -	rvin_free_controls(vin);
-> +		rvin_group_put(vin);
->  
->  	return ret;
->  }
-> @@ -1374,6 +1317,10 @@ static int rcar_vin_probe(struct platform_device *pdev)
->  	if (ret)
->  		goto err_id;
->  
-> +	ret = rvin_create_controls(vin);
-> +	if (ret < 0)
-> +		goto err_id;
-> +
->  	if (vin->info->use_isp) {
->  		ret = rvin_isp_init(vin);
->  	} else if (vin->info->use_mc) {
-> @@ -1392,13 +1339,15 @@ static int rcar_vin_probe(struct platform_device *pdev)
->  	}
->  
->  	if (ret)
-> -		goto err_id;
-> +		goto err_ctrl;
->  
->  	pm_suspend_ignore_children(&pdev->dev, true);
->  	pm_runtime_enable(&pdev->dev);
->  
->  	return 0;
->  
-> +err_ctrl:
-> +	rvin_free_controls(vin);
->  err_id:
->  	rvin_id_put(vin);
->  err_dma:
-> @@ -1415,13 +1364,17 @@ static void rcar_vin_remove(struct platform_device *pdev)
->  
->  	rvin_v4l2_unregister(vin);
->  
-> -	if (vin->info->use_isp)
-> -		rvin_isp_cleanup(vin);
-> -	else if (vin->info->use_mc)
-> -		rvin_csi2_cleanup(vin);
-> +	if (vin->info->use_isp || vin->info->use_mc) {
-> +		if (&vin->v4l2_dev == vin->group->notifier.v4l2_dev) {
-> +			v4l2_async_nf_unregister(&vin->group->notifier);
-> +			v4l2_async_nf_cleanup(&vin->group->notifier);
-> +		}
-> +	}
->  
->  	rvin_group_put(vin);
->  
-> +	rvin_free_controls(vin);
-> +
->  	rvin_id_put(vin);
->  
->  	rvin_dma_unregister(vin);
-
--- 
-Regards,
-
-Laurent Pinchart
+Cheers,
+Prabhakar
 
