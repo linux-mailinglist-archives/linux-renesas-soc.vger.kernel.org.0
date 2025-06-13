@@ -1,174 +1,270 @@
-Return-Path: <linux-renesas-soc+bounces-18264-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18265-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C22BAD87DB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jun 2025 11:30:51 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BE72AD8815
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jun 2025 11:38:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 21CDB16C145
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jun 2025 09:30:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7A1833B95CF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jun 2025 09:38:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2BDF291C0F;
-	Fri, 13 Jun 2025 09:29:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB5E4291C04;
+	Fri, 13 Jun 2025 09:38:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="I3AQDSH0"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="ZZse0Hg0";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fArqI0AX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE87B2C159F
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 13 Jun 2025 09:29:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B0D24BD1A;
+	Fri, 13 Jun 2025 09:38:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749806975; cv=none; b=JZyHRTP2f0p2iqTeCr/IyiSY2SfKuAiHexvv4TFgiRPOfbfoPeYynYqQhpg0+uR6iiKvTcZn8s3tAtyzmFmo4q0KObkVmf1u1Uj14kuqqrUwuNeKKk/VPHhglPT/PO1Fgylk3+89E64cxkBzYtvv1G04RNXkf+YiyPlFHpzqUo0=
+	t=1749807515; cv=none; b=DbR8/mkoLpeB92QaLun6uHdbHspJGusnv+Fj3KcVm4jB75D+AZXfDLZq+gNjgat03ZGccbETlllLU/ZaRoArVjbe5S7zjacoacoq1msAGwBhiHb3QLZLKDK82qTTLpEgtYkUOiodMp/9BqQ5B1ZGOSVsGu6rY4IdL5dR3mWKDKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749806975; c=relaxed/simple;
-	bh=bp8MkveZepRghThB6Wx0XwFx28G0CjBOmYfkM6wef7I=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=QmJ8RrVDG/ThBUwGJAukrG786IEF6E34BulmXagR4aUpmuJ10p0Tnn7IWrffa7qxZ7yzeaajcIbhPMzxBgnLoP0l2TA/uQfEv2elpy6vD2JcCjVnI9gPhNjMb7Jaaozs8tNGS4sjBSQKG1aljn4ZQQrBBHLmvBOG2CaQ1VQyIas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=I3AQDSH0; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-451d41e1ad1so16208105e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 13 Jun 2025 02:29:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749806972; x=1750411772; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KeL8Qu7sf4nHqQXLmDoMdNP1wTEq9OCx9eW5FTGzoxA=;
-        b=I3AQDSH0TxAxJ1kKiqY0tNFEV5WE15QrFckw1cKbnpAZ+ew15oQ4+JcKCa12lZgDVZ
-         gLtGzEQzDhbvUNr+F64Xtbyf0AXN6pb1vQn7uJYkVc7yYFgz2F5Dz7UBz6nXURBG11kE
-         eQfLG/bd/ZnlB4QDkRJi1egThwDpORTWbEr+QE2obZ3AvTahUVH3PAMFjULVL7koYPU8
-         F844oUGFWTdW1Fx41USUGcuSZEMF03fPzMc3MNABk9CKsz60lAUh5JuyMGeJpIDyO2Qr
-         t9qqsPOlgH07nuw9DRPt+dRdopGK/RN68lD4ucRwn5ruIlGNNrddSOdmxbSD+4Whr1vX
-         ruGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749806972; x=1750411772;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=KeL8Qu7sf4nHqQXLmDoMdNP1wTEq9OCx9eW5FTGzoxA=;
-        b=aGzSkx72zIInEoKRPI1JF99IwVJ7Kka6G313fx9TqxYJydqV2p5BDZIlLmYssRDB+w
-         UbLJRqVAcpfDOlr7w1AMuxmUa3orer8HMWtH/eoJFa+CM6mLeoKK8H418qWykqGppeQx
-         Zu71LBf1KuY5u5+3bBTprACn7WYj8su48maLJB4Gvhg9L2QT1WMykEElat5NX9GZcKfa
-         pL5+6s9BYsXnexwe9IL5hmwrppoHSWmAHM9pgVchJRQQ2/cMl/oiFInEATfdVfjOizNl
-         kZYEj47t+1mN9qzuu1Xbv8WR9uZOvC986aeWThOPMqwM6oLj2ygfBlsD7tzuRbY6IB57
-         ckNg==
-X-Forwarded-Encrypted: i=1; AJvYcCWPy8UUKCjL7LfigfIAKXiEcMQue4FVWcBxGfruApYbmgy4N4BGaQX+9V1t3H9mXAgTFIuiyRovYmneZEWlWjF8/Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVwe/hUubnuPBhte7pix0RrwadiHxIDSswkvXD3Cof4XvLHocv
-	/bGxlUafp8o9ovOQYtb8hBlMt6jnlwQy1pAhBPyEXYO9mZKaopHqXYe+NOaHet5JKBY=
-X-Gm-Gg: ASbGncsLllayi6+4lhlgJoYDTW1Zyg3fc0rchpKfnpZG/GXRO+IHhLFRpm5FlZysnZZ
-	Ry0EECSy4npUDku88MTliIXLYf0st9pdYCdq1krh0tt6NGP35ehtW4HQECIpNq6NI17wzAGinBi
-	FfL1665w2/gzCfsPB9FmOPgQmC+u8sugM68bRBZ4VQ0piiMh6NTV5aLm0nuIaIERXcwlqxwpwCV
-	5RydYEZO6oojczEZhpKAUFcVstiNmHxDmoLHQJgHwHNtXP8wzTLARSNLbC9VA9mQ/VPsM2RvbLE
-	2ffsoE3e9ese5rJkU6K0OAqpm270TR3fDWeie+WXruYoxMgfmLPbj6Hqz1D1widfzVV6CCHF4VM
-	JwxPInd/GGN7L6mS4OecJn/0TgZRbwg5vE+YCJwQ=
-X-Google-Smtp-Source: AGHT+IEzzHJggQutbv3FMIU2Sx3ItVvGBq6L+6GRQBSROzILQYMREAdEAhkrfD0tQzijGCqm9DStsg==
-X-Received: by 2002:a05:600c:c8d:b0:43c:f1b8:16ad with SMTP id 5b1f17b1804b1-45334af6e5emr19523925e9.30.1749806972208;
-        Fri, 13 Jun 2025 02:29:32 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:4144:6a84:fe1d:3aae? ([2a01:e0a:3d9:2080:4144:6a84:fe1d:3aae])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532e13d014sm46883265e9.24.2025.06.13.02.29.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Jun 2025 02:29:31 -0700 (PDT)
-Message-ID: <109b5c25-f54c-4413-aa62-8e2ae621c8e6@linaro.org>
-Date: Fri, 13 Jun 2025 11:29:31 +0200
+	s=arc-20240116; t=1749807515; c=relaxed/simple;
+	bh=M1Vr+ubKjv19b1D/uzQHWx1CK+0qrQr9HQrsYqQCaNw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XEl47cxE2VQmY5ea+PXhxHsvX3Mh24/sXx3EQSoA4U/hZpif/r9mcgSCBJ7zG6/onnzkNBVHqX6OVX21wrpfjhVFPSvVdVluLeC+yZSOdzChBQXDSUq4h4qvrpZabD3DFKrbS+XudalGAXTFPYTNxw0CvNkYWx9K/30pXJhYoY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=ZZse0Hg0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fArqI0AX; arc=none smtp.client-ip=202.12.124.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfout.stl.internal (Postfix) with ESMTP id D20B21140150;
+	Fri, 13 Jun 2025 05:38:31 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Fri, 13 Jun 2025 05:38:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1749807511;
+	 x=1749893911; bh=Sv4mY3WkFQYLIZpKCvWR41O4FjcLEbQZQL+kVMWdgkg=; b=
+	ZZse0Hg0sb4m4wVZJfSPFVXM1sdAUtUxZGeeZl+ldZO7QFfGU7uer/Zkx9H/Ux4A
+	PEaqpKrBOnv6q1nJjL0jruCoRCJKvYVzpvOsN7u+wTJ68+9WNBRxMCwp2dbLa+jS
+	t1jqG9TeU21AOlvDTjXXdqBz4aCxQFF0fxOlck3k09WgQzOQx7XPTQpryY0eglc/
+	kC7EXST6K37RaB0xfldY/8P6yW/4o8xaj0NhzQ6A0xJhqYcTzEeb7TIzDo115KSi
+	4TxiLNiOpjL20z6GjUztnbqy+5wP0SAPGchwJED2ia0sMyO/g49uQGkd/ODMwGlZ
+	vEZK+5Cx7YZfsJZEZqrgPg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749807511; x=
+	1749893911; bh=Sv4mY3WkFQYLIZpKCvWR41O4FjcLEbQZQL+kVMWdgkg=; b=f
+	ArqI0AXuhaXWac2Qj3byrpSfOMQ2ZawNfSySbfV49XPrcRsdXgkCRWwLKT8AnphY
+	5bmMhC41hvSlJXX/7KwuusWjzrvcEw+iUlkER+c826bL6IZo9KOwez3cdMWb23Mf
+	D48FidEmtBI3HBhXWEKUjTG17k4eb/BFPPqrVB1duGSvu1+1QPeHiATf2p1V/lNF
+	fzfhd3b5CsVyBShwactF+7R3qlpEhDap6VA9/WMom7qppugZdA/gksTSy9BI6OD7
+	9QsMKsVJmkc3LmC0cikFDQD2IbMUJxbitV38zTVASoxkfRVf8rhu7MCRhacasqIn
+	0hCf24SdSJLQ59DxYRlXA==
+X-ME-Sender: <xms:l_FLaOjRIqF1I1h_2YVMYgbg501CovqV2IN753OUNQINf3EiRh05Pw>
+    <xme:l_FLaPDrP96_wvyUryq_7xUoUN9j3ly_jlHj0iazXsNmipOgD5m3g2nt2U6N-hUpY
+    WEKsc4_furKYqjtyCE>
+X-ME-Received: <xmr:l_FLaGFt0acvtU7f8Lyk-mrHFYJQFTySNxtpiUJ_B0u5g-4DrnhDZbhpfJ5JHhXDW5AwVslZgpYoLJ9GBUiGJIcQSCL_bDY0Kg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddujeeiudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddt
+    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
+    guvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgr
+    thhtvghrnhepfefhleelhfffjefgfedugfegjeelhfevheeikefhueelgfdtfeeuhefftd
+    dvleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
+    nhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrd
+    hsvgdpnhgspghrtghpthhtohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohep
+    lhgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprh
+    gtphhtthhopehsrghkrghrihdrrghilhhusheslhhinhhugidrihhnthgvlhdrtghomhdp
+    rhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtoh
+    hmihdrvhgrlhhkvghinhgvnhdorhgvnhgvshgrshesihguvggrshhonhgsohgrrhgurdgt
+    ohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdroh
+    hrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgv
+    rhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:l_FLaHQkwNTVvYd8l7zmwe0kOTNvuOfebnSHVgHjnYATg9kydqPnkw>
+    <xmx:l_FLaLyBw6W4AzaOcmXtKMjciFF-B7WojHezoTkakMrB-h2DwVNCDQ>
+    <xmx:l_FLaF7BA10h9XVGWSbu0ABKChS1B27XAbIKDgqsJYc-jcBbby1uog>
+    <xmx:l_FLaIxamTNIiQAV7gZbYFLa4n9FHqSlD2uUYb3wbyCB4h7S-F770g>
+    <xmx:l_FLaDNNhXk7p1AYP69eBRxEylri2UooBqQkK38-UARbOqW_gjlb47I1>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 13 Jun 2025 05:38:31 -0400 (EDT)
+Date: Fri, 13 Jun 2025 11:38:29 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v5 11/12] media: rcar-vin: Enable media-graph on Gen2
+Message-ID: <20250613093829.GB1002387@ragnatech.se>
+References: <20250606182606.3984508-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250606182606.3984508-12-niklas.soderlund+renesas@ragnatech.se>
+ <20250612235319.GH10542@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm/panel: ilitek-ili9881c: Use u8 for lane count
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- dri-devel@lists.freedesktop.org
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
- David Airlie <airlied@gmail.com>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-renesas-soc@vger.kernel.org
-References: <20250611234913.161861-1-marek.vasut+renesas@mailbox.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20250611234913.161861-1-marek.vasut+renesas@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250612235319.GH10542@pendragon.ideasonboard.com>
 
-On 12/06/2025 01:49, Marek Vasut wrote:
-> Use u8 to hold lane count in struct ili9881c_desc {} to avoid
-> alignment gap between default_address_mode and lanes members.
-> The ili9881c controller can only operate up to 4 DSI lanes, so
-> there is no chance this value can ever be larger than 4. No
-> functional change.
+Hi Laurent,
 
-The u8 will still take at least 4 bytes and cpu will still
-do at least a 32bit memory access, so there's no point to change
-it to u8.
+Thanks for your review. I know this patch must not have been fun to 
+review, much appreciated.
 
-Neil
+On 2025-06-13 02:53:19 +0300, Laurent Pinchart wrote:
 
+[snip]
+
+> > @@ -290,17 +283,15 @@ static int rvin_group_notify_bound(struct 
+> > v4l2_async_notifier *notifier,
+> >  	guard(mutex)(&group->lock);
+> >  
+> >  	for (unsigned int i = 0; i < RCAR_VIN_NUM; i++) {
+> 		struct rvin_dev *vin = &group->vin[i];
 > 
-> Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> ---
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> Cc: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
->   drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-> index ac433345a179..84927302957a 100644
-> --- a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-> +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-> @@ -43,7 +43,7 @@ struct ili9881c_desc {
->   	const struct drm_display_mode *mode;
->   	const unsigned long mode_flags;
->   	u8 default_address_mode;
-> -	unsigned int lanes;
-> +	u8 lanes;
->   };
->   
->   struct ili9881c {
+> will simplify the code blow.
 
+Create idea.
+
+[snip]
+
+> > @@ -971,7 +873,7 @@ static int __maybe_unused rvin_resume(struct 
+> > device *dev)
+> >  	 * as we don't know if and in which order the master VINs will
+> >  	 * be resumed.
+> >  	 */
+> > -	if (vin->info->use_mc) {
+> > +	if (vin->info->model == RCAR_GEN3) {
+> 
+> No need to do this for Gen4 ?
+
+No. This section restores the routing for a set of VIN instances, a 
+feature only available on Gen3. On Gen4 this functionality is moved to 
+the Channel Selector ISP. That it previously was done on Gen4 was not 
+intentional.
+
+I think this is a good example on how organic grow of this driver have 
+created a lot of unneeded complexity that needs to be resolved, see next 
+comment.
+
+[snip]
+
+> > @@ -1319,21 +1209,27 @@ static int rcar_vin_probe(struct 
+> > platform_device *pdev)
+> >  	if (ret < 0)
+> >  		return ret;
+> >  
+> > -	if (vin->info->use_isp) {
+> > -		ret = rvin_isp_init(vin);
+> > -	} else if (vin->info->use_mc) {
+> > -		ret = rvin_csi2_init(vin);
+> > +	switch (vin->info->model) {
+> > +	case RCAR_GEN3:
+> > +	case RCAR_GEN4:
+> > +		if (vin->info->use_isp) {
+> > +			ret = rvin_isp_init(vin);
+> > +		} else {
+> > +			ret = rvin_csi2_init(vin);
+> >  
+> > -		if (vin->info->scaler &&
+> > -		    rvin_group_id_to_master(vin->id) == vin->id)
+> > -			vin->scaler = vin->info->scaler;
+> > -	} else {
+> > -		ret = rvin_group_get(vin, NULL, NULL);
+> > +			if (vin->info->scaler &&
+> > +			    rvin_group_id_to_master(vin->id) == vin->id)
+> > +				vin->scaler = vin->info->scaler;
+> > +		}
+> > +		break;
+> > +	default:
+> > +		ret = rvin_group_get(vin, rvin_parallel_setup_links, NULL);
+> >  		if (!ret)
+> >  			ret = rvin_group_notifier_init(vin, 0, 0);
+> >  
+> >  		if (vin->info->scaler)
+> >  			vin->scaler = vin->info->scaler;
+> 
+> If I'm not mistaken there's one group per VIN on Gen2, right ? If so, I
+> think you could move the
+> 
+> 		if (vin->info->scaler &&
+> 		    rvin_group_id_to_master(vin->id) == vin->id)
+> 			vin->scaler = vin->info->scaler;
+> 
+> code after the switch.
+
+Yes and no. The function rvin_group_id_to_master() is purely a Gen3 
+thing. To move the check outside the switch it would need to be made 
+Gen2 aware. It can be kept in the Gen3+Gen4 code path as we know we 
+don't have any scalers on Gen4 so vin->info->scaler will always be 
+false.
+
+As the previous comment hints at, this is a bit of an organic growth 
+mess. In my ever growing todo file to clean up this driver I hope to 
+rework the info structure to remove the remove the 
+vin->info->{model,use_isp,nv12,raw10} flags and replace them with 
+function pointers that do the right thing for each platform without 
+these special cases sprinkled all over. Too much small issues have come 
+up over the years using the current design.
+
+For this reason I would like to keep this split in each case of the 
+switch over extending the special case handling more in the helper 
+functions.
+
+[snip]
+
+> > @@ -1011,11 +592,7 @@ static int rvin_open(struct file *file)
+> >  	if (ret)
+> >  		goto err_unlock;
+> >  
+> > -	if (vin->info->use_mc)
+> > -		ret = v4l2_pipeline_pm_get(&vin->vdev.entity);
+> > -	else if (v4l2_fh_is_singular_file(file))
+> > -		ret = rvin_power_parallel(vin, true);
+> > -
+> > +	ret = v4l2_pipeline_pm_get(&vin->vdev.entity);
+> 
+> Another item for your todo list, this is deprecated.
+
+Ack, added to list. I hope I can get that list down to zero at some 
+point! Getting this series done would be a good step as it's blocking 
+many other smaller improvements. Hopefully we won't need another large 
+series like this to move forward.
+
+[snip]
+
+> > @@ -1162,13 +721,8 @@ int rvin_v4l2_register(struct rvin_dev *vin)
+> >  	vin->format.field = RVIN_DEFAULT_FIELD;
+> >  	vin->format.colorspace = RVIN_DEFAULT_COLORSPACE;
+> >  
+> > -	if (vin->info->use_mc) {
+> > -		vdev->device_caps |= V4L2_CAP_IO_MC;
+> > -		vdev->ioctl_ops = &rvin_mc_ioctl_ops;
+> > -	} else {
+> > -		vdev->ioctl_ops = &rvin_ioctl_ops;
+> > -		rvin_reset_format(vin);
+> > -	}
+> > +	vdev->device_caps |= V4L2_CAP_IO_MC;
+> 
+> You can combine this with the line that sets device_caps.
+> 
+> > +	vdev->ioctl_ops = &rvin_mc_ioctl_ops;
+> 
+> I would also move this above with the rest of the code that sets the
+> vdev fields.
+
+Great catch, thanks!
+
+[snip]
+
+-- 
+Kind Regards,
+Niklas Söderlund
 
