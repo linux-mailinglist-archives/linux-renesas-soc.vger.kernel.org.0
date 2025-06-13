@@ -1,60 +1,60 @@
-Return-Path: <linux-renesas-soc+bounces-18230-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18231-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9053AD82D1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jun 2025 07:57:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41711AD831E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jun 2025 08:18:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5386A3A4CB5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jun 2025 05:57:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5C4DC3B63FF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jun 2025 06:17:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B83EA255F53;
-	Fri, 13 Jun 2025 05:57:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18F6C257AD1;
+	Fri, 13 Jun 2025 06:18:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="QQUIZc2N"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="Gc89fVcL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010070.outbound.protection.outlook.com [52.101.228.70])
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011048.outbound.protection.outlook.com [40.107.74.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09ADF254B03;
-	Fri, 13 Jun 2025 05:57:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 070552AE68;
+	Fri, 13 Jun 2025 06:17:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.48
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749794251; cv=fail; b=u73Oeh+x3lXHRSm+x+yrIg9ZRMup0xtiXwbKbDDogPyhgzeJXPc3MI11yp3cNf7IhmgaC92Ou8tm9DeALFp7eE6AJdJ3smSisJwPSatOdBrrd99XKKEmNaKI3tl2jNF97ECgMD90R2Zz/QELAkLhfWhnDwJ0nheQYDjMlj6IAvM=
+	t=1749795482; cv=fail; b=ny7jkFlkjU+m7hzXvephbYiWWp1f/az4Q95u8I4zQctSPno7ErjkSj8hx/gJ7PG4JJaxkqD5klml+5sQNJOpO/aTJQgdJgnzZcawUD2xadrsfbLDTx8EIWeXoh63STx+nx6+XD+ViEsSqeF6QHgKevEq0JH2glnIJ55j2lytJK0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749794251; c=relaxed/simple;
-	bh=GUIHfUATawN3WWg3W5qYMmt4KYjvW4v5m8BlKybKXQY=;
+	s=arc-20240116; t=1749795482; c=relaxed/simple;
+	bh=YgWZz22AWRFEyiIKyMi3gNLP8vlXBUlivvHotClTNE4=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=tPR4FruQEM59DJnXeo9ZTPQ338OUH0Kjk0nd0TS75mzWAHwFngKbr0YV5okDmT9D9jm3OIu5WU8q7m6G/Y/szrRitCZGFUzsQZm9S8WzoKhJ1TL1AZ/FHuhpdppn0l/v6UYnuVGRS5rirc2wjlTlxHKTbdZGLrgRv2NxdjNu4QM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=QQUIZc2N; arc=fail smtp.client-ip=52.101.228.70
+	 Content-Type:MIME-Version; b=IjSKTbiBCIqoFyFRBkP92da4KAbzh6yM7aQ8z1AnZa2R4zYYHTBozAmw/mUppWry/0ldhha2JxqRefrQ+4WlLc6/CafZtbu/Ff6g28MSLsMeIEqWos/6rmNOK7nu0PJEHz6mNQEmL9Ip48Ev9vx1x2gjob7gOD1dF1T+5JdjpRU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=Gc89fVcL; arc=fail smtp.client-ip=40.107.74.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tikSVKyW08F/rZDoiZXlpie4DMCAMjsxKhlE+nazPaKBaoI2UtzO1Bfir9ZMH9OXVB6o/g4E54vDIwd+hiK09fwXAgKWe0yjyk/w3joqdSBkOylMtiyRnfNMJV2kwnLMiN6jYgq82RZqJ1ObULb9r4G6YBNnjATTbVv4JwZyVI2+S03XXb3/ym5sAJplD5ejxMJRxUtYTrJSV++xQTpxF/C99H8OU6PUrcqkScY0OqLiUOlcAiamm4rPbIyNdPS3jHQxvs83eY8/LeyYzHc7gA/InWv+s5u/dbWOISbxtq76CZfcx+N1iMpeOdBkQN4t5lRQ6DCnLXUlZ04wmpcaOA==
+ b=QfyTJHSHFzJGK3cdb6WHEyCeUtjcrWKy+Az4oqWBAP1VjWnGB4b0yptV0H5TuwXp5ClJzi57+q6fwWEk9MSMN34tBWrgsDDqDivSpr9UZ3gwnqFWyoBFHLv+EnJ0JSU7DjoND7FQSG+28LILnlKJP2ToTbDnEnbgFkAKWV7eOGW7diCdC2OysyAfyttkzXacduoBWfGePfGEneUDTYhGvraQh9/vzJrWl1t4e1WcjrWj/aiGqd5Fqvy7KBJJOdbqmHgwN8aiV3rWzOEQQDKG3i3ulHmJe3ltYCDK8TMRo1lIhN+mP7B8ypQBRjpiG52IIV/jb4BubRa2mt5pbDdFjw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=C6mRbc+WIBIPZBczLDGZc2GRSFBHoKEh8iexGQwAxEw=;
- b=TC1wa84FXq6Oko0z4drKsTP3ienRjYHwmf3YqiNO9p4BMYNDc3sgE+S8j9cTKjd3YGX0ZTC4MKFBT8nMST2K4hdh9Z/rAaBjZcZuQ4Q+Oaj5QZVXYVRvNC+en6YOsZiKYYKvqo4g3lnGfs/S0avvVT+xPDz+9AGFM8d4/V9BgTJ9jDx6tHF/fCR9gAORqhrFTzdsNrF7KUQhaFpUppmswZhAFeIzGHT5KJPA3O8DOHVkjD554B/U8XqT66TUC2xzYUkbMfEtVLf554j6AQzN6swr+rnUvxneebHLYs+IxNUHRsUMXpEyQzAM6UJN//rvRMmMfRBYk/nyuUZWl1J88Q==
+ bh=QDYLvrrltn2sSyePDMOtn/IjppSAkxXRQn0ip8dDZO0=;
+ b=rAUHh52/f0AZcM6SW/Pw0aN9J4F2nYLd3v0we1x8FDzOyfkAxYSs8csuknJhgkim4h73cFU6llE7cOUsb2HpyeCsd+0h0nSbb+s2GIUD/hQOjo8BWtMsqlp3MM1dCHJzhZHIcT4co1Nyht5GVGyotqv7w71Nb3lr/8Q7WckuyCE/DHixhZ+mhjC1Z5UsLA9AMFTTg08qsSFxDWyeks8VyUc81DF/UF4lJ6wYNnpAQH8lPuySTmD01STH3pmDk9ONFS07AfRBPhAzdz2j0lxkdCURWsu2713eknis2pQL5nEid9RHXuX+d45tpuvbKnjtOg6AKNHPDAZH0Cw6wZYWrw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C6mRbc+WIBIPZBczLDGZc2GRSFBHoKEh8iexGQwAxEw=;
- b=QQUIZc2NNuKVtstNFBsSYaWjCuyTs1w9xeTTikc6ylDdH7/u/jYLsiCIUTWTW29hbTg8BvCk9y0uUAuReRaCaj9oGQ96sCCVv0k0fmGrpESsnI3kdwH2+N70Il3rp3ImE1w9DnoKmlUeUhaXC8/mixC5HEj0skwlzuFBHy+XXuQ=
+ bh=QDYLvrrltn2sSyePDMOtn/IjppSAkxXRQn0ip8dDZO0=;
+ b=Gc89fVcLZuVsCCfXpzjHIXjzYULWHh4PmlyuXID7d2DgDBQW7Rhy8fST7yi7cKvsWFyS3jrY7BEfgE6hx1KJGGIo4NqYC3sIcJThOhA7G+onFcnvXW7PM1eo3YVyJFOkhKoOnZHr2Fn4J1DSxUb5tf5I65f4gW1Gw1U7I8MWxv4=
 Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TYWPR01MB11465.jpnprd01.prod.outlook.com (2603:1096:400:402::5) with
+ by OSCPR01MB14677.jpnprd01.prod.outlook.com (2603:1096:604:3a0::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8813.21; Fri, 13 Jun
- 2025 05:57:22 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8813.31; Fri, 13 Jun
+ 2025 06:17:55 +0000
 Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
  ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
  ([fe80::86ef:ca98:234d:60e1%5]) with mapi id 15.20.8835.023; Fri, 13 Jun 2025
- 05:57:17 +0000
+ 06:17:55 +0000
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Prabhakar <prabhakar.csengg@gmail.com>, Geert Uytterhoeven
 	<geert+renesas@glider.be>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
@@ -74,17 +74,17 @@ CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
 	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, Fabrizio Castro
 	<fabrizio.castro.jz@renesas.com>, Prabhakar Mahadev Lad
 	<prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH v6 1/4] clk: renesas: rzv2h-cpg: Add support for DSI
- clocks
-Thread-Topic: [PATCH v6 1/4] clk: renesas: rzv2h-cpg: Add support for DSI
- clocks
-Thread-Index: AQHb0YbvZKdKpGoLPEeGBmVqxN0ROrQAp8mg
-Date: Fri, 13 Jun 2025 05:57:17 +0000
+Subject: RE: [PATCH v6 4/4] drm: renesas: rz-du: mipi_dsi: Add support for
+ RZ/V2H(P) SoC
+Thread-Topic: [PATCH v6 4/4] drm: renesas: rz-du: mipi_dsi: Add support for
+ RZ/V2H(P) SoC
+Thread-Index: AQHb0YbxoLXThBVJyEq0KQgkc6A6OrQAr/1Q
+Date: Fri, 13 Jun 2025 06:17:55 +0000
 Message-ID:
- <TY3PR01MB1134654039BA3BAB5DA8C0BB08677A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <TY3PR01MB11346A62FDF84C5F2C1240BBF8677A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 References: <20250530171841.423274-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250530171841.423274-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250530171841.423274-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250530171841.423274-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250530171841.423274-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -92,71 +92,71 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=bp.renesas.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYWPR01MB11465:EE_
-x-ms-office365-filtering-correlation-id: 1bbe6b71-ef20-4ff2-8133-08ddaa3f275e
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OSCPR01MB14677:EE_
+x-ms-office365-filtering-correlation-id: 06519645-4070-49d4-eaeb-08ddaa420921
 x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|1800799024|7416014|376014|921020|38070700018;
+ BCL:0;ARA:13230040|7416014|376014|1800799024|366016|38070700018|921020;
 x-microsoft-antispam-message-info:
- =?us-ascii?Q?1L9TMUtIO3wDzYfpbjMXqPs/3jzTBknBxbtJvbWxIwFMRkQcSERpX40ICukt?=
- =?us-ascii?Q?/oWRr03RuixHPHUgi5HUC7PrPqqnYv5REht1Z+BxP0O437aCXMUYdxTEGDrd?=
- =?us-ascii?Q?6ZDf7sRLJG+9Sd0ZbLxoQW8EMckmwJZJ4D4zyVppGLVvQlVx+jk39NW0YAgC?=
- =?us-ascii?Q?xT68PNIri44XC5U74NWwhooVlVglRKKZlPUtYArPO3udPZ9xe/LhAVylWQ3R?=
- =?us-ascii?Q?ozslrL99SZcN5K3kHh+XYovxPTKFkeJjqqWiO/m/pdgtJ99DYgGV9Wry64FV?=
- =?us-ascii?Q?oygcC3DVci5+QSoyzNDyLg84hu03ewSMqpxHRv2toNrnwBPVq1BBoMkjcis2?=
- =?us-ascii?Q?w+TqXhNaOhe1ZXJthP+4gJlUQkkR0aNNEII+mAlHtKE6MN0obPTC790yyLfU?=
- =?us-ascii?Q?vTNsVgMjgQ9esuZ8+VorGvkwzU/kv6mIjeWgKH9qHb5j60uqGHk3BnfmPuqN?=
- =?us-ascii?Q?r6BzAAZ3Q9Mmnko5wHFBpElYhlDpi8bh8AvyCeeWmPKHfKVwvX1dzp8Kcz58?=
- =?us-ascii?Q?/4iOAAOhSiEnjnhYKGV10MOlH7HShprrzG43OZ48m4pJSWnChmMusxUmduOf?=
- =?us-ascii?Q?PgiXPWLRWiQliTVzcwyAfoU/sIrPUnrIHPL+R5jxLY+Harh+BBaVtl+WjHsW?=
- =?us-ascii?Q?gsJ4kflgHrdlnpmQiVSZdTpSnzVrJfsrSg6rvPpD5Ac+EtFU6qEHPKT3jAEi?=
- =?us-ascii?Q?TZJBuFL4NI8muR8Pfk1n6AXITTcxbc/ckKuE3o0ZHj+BjMe3Y5Thc5VtmY4H?=
- =?us-ascii?Q?vIBwNdSd72xcjxZAr274i1EPKEQZKYUNVVeLkRZIz6isaehKp9GcnUKkxivY?=
- =?us-ascii?Q?t3O/RGQlQUhlueVh/jrDn0I9QP92qXHXEK0GR/JfeUkbKEzlID19b53pqkwv?=
- =?us-ascii?Q?anY3uRoxRsQhMmqv1nW6EHLFkCo2TKSitQKItt47TaBx8SKpRPHKwvnaMcFN?=
- =?us-ascii?Q?M40zoXFXmuwKFJeBkOjRBLxtLjJeGGrpIMwP5iNzz4nB3krVWBCKjUozyPID?=
- =?us-ascii?Q?Kgdidome0I2mj/SrlwfK2b1uhlrKRIHPosjk4kZE7+UzQ1JLCCC6vqYd34Y6?=
- =?us-ascii?Q?POH343G72UefAqbWzXDk1L6n4pdb5j+4Ph4wbYTpU7S+DmrJw2qcTPkMMAXs?=
- =?us-ascii?Q?K7UwmA5L83uXLUx439nQgz3pVz7OLjdOyq+HMzWqohbw3mRz7pDW8iSPFIBf?=
- =?us-ascii?Q?IveQrGyRdhMSF7MYcHRp1GyxDTh3l3WCFiQs5eXci/7G9xsexcAz5Nf162AC?=
- =?us-ascii?Q?Nofuhhe4shcsfW62hyHyoADTAzvCgUNmp3N800yIaikrQopgsdV+Ff6zFALr?=
- =?us-ascii?Q?dB/Wh5JYyhkiqWqUZmBwj+2cwFczxqd4K/ZSFj/NlJj8civ24ohYP2t5efyw?=
- =?us-ascii?Q?exn6+8dL+02MYl1MVZhwyqGAIi5uwWmU5iFxz/67co7QIwMuNiurlSaeNgM7?=
- =?us-ascii?Q?yxVvYJymhkD5VWMvdsVrkkRZjVPS/Pz+TzvFcCofPgUjA8xPaff95kVlKJKd?=
- =?us-ascii?Q?p+P7anN9IXyp7sU=3D?=
+ =?us-ascii?Q?wo3vyZZYR+F1BavUFfLkvwdQ1tWDrjHsNNVp/6U5cts/nEzTJLeOmoLVwo+Q?=
+ =?us-ascii?Q?2mR+vjxyJE5HdAD9PUNYB2VuR53aWfMdc7GHaeDrk5eUccLLakIpDUF5do5m?=
+ =?us-ascii?Q?4TxrwjLXgxhsYsuXdeHEo+Y6CSB9Hm4+GJ6DmHp7nXi4i/GgY88vXwbSNXie?=
+ =?us-ascii?Q?y4BkdYigkRoxYJ84QuD2wSDeb2Lqpr7nmdd7/m0zcGNRMHokqA86jmlRWQe0?=
+ =?us-ascii?Q?wqC5otvidKDKsCpHiXiyn1lZ4Yrsi2b+AlCGsWkAl8zS52uv6vFIqJPQ2aNs?=
+ =?us-ascii?Q?yf/lHBZ+08sfzxw5qs9zU94ufuZiiHQ73LaP8vTbkH52Z35iGh53C8K26UU6?=
+ =?us-ascii?Q?GmKGq4TAcvwZIqGVCVzEeKs+8iueEcPesX9V1iP+l3KG4e/OV7g1ADTyZZhx?=
+ =?us-ascii?Q?GYCqkn+YMzGqS0/GRRoxbMsaUPY5cj0+rHBMF91rzaGbq/7q3YsBgJlLomqK?=
+ =?us-ascii?Q?gEYSdlRaO8idg+eAVCGclKJsP3wXQA/zPx4jQD2PwwrwN9ooM/LYwYkeX2rS?=
+ =?us-ascii?Q?KYKdIChKtVbPKWR2zqjsWideilb8o62w2/1SkLv2LKaaowt7RxIlDhcCp2hT?=
+ =?us-ascii?Q?WoQMCijCNQg2SrpD4ZhfDiN25s7l8eSvoO8Z1uz4QBnDjtBzHu126INz6l1/?=
+ =?us-ascii?Q?kVFoA2lMF/PSixwBUujmZZLXkMd9+swk7JJD/5vaB1azDBdsRvGvVOVxRKxB?=
+ =?us-ascii?Q?j6XFB8pxw5GUwOFqXmieTl45YxyNemV2+AjC4UPAnUORDx9oYKNnSWUqBIVk?=
+ =?us-ascii?Q?0/GmkBU1rmGwPJEQbVIZokyR6ikBqYhoviwxdxJFzy2oEwm5WAL45rei4oYv?=
+ =?us-ascii?Q?Q6QhdO5OeAT+OjRrjJxa4blNL+0NqFuboUDXJRa89jdRzLglM2U4A/tv8nSB?=
+ =?us-ascii?Q?f1P5VU/fYCfeAcEw8wczmuIBpFZ/9ZwYRtuWc4Y0LgbiJ8atlcVm592/orid?=
+ =?us-ascii?Q?FSHcF9BmVzlf9q+AXGxdZc863guceKrN6CbOmHGbs7RjzlRx5Kkav0X5ZxId?=
+ =?us-ascii?Q?vZD0fqHRMJdV8prKky0S7bja3J5IDfo5Tnawf2EBz1w2KzRuEoKmioY1SKJ9?=
+ =?us-ascii?Q?T4euiZxWdbXgEd3vm5QleMx0Fq8YnkKaVrCe/eR2YyOuGZ1jJp7y6SQvPHoJ?=
+ =?us-ascii?Q?be8Yqjh1Vi4SfTPZxokNJUoDTvUXOW2xSJZJ3V35NSlpnMpfhyq49SMqswSV?=
+ =?us-ascii?Q?WolUhhO4am8us1PaAgJBDKaVUqmMglO9O5eSozecalBrraSYAf4cXMVLI/GA?=
+ =?us-ascii?Q?2JqmAhKacIHai+gOFXbnT2rR9Wy6rXqWn5vgLQdCVj2cgudrUJ0HI9/01uup?=
+ =?us-ascii?Q?W+/xcmRKgCtMbzO5frQ8ESAr6obOjmpi9gwdsBV4L81uaRyIreAt7cKDl3cm?=
+ =?us-ascii?Q?Byb+XFQZikpp84mvVzDSIy4u2JLeq1T67E0fri2X9tqCQiqvRrFbjvNn5/2J?=
+ =?us-ascii?Q?F/u+SXdfHvwFakmxNyyc1JfyF4FF5hUL8ES2k3xjLZgenk+7ohmyXIrYeHi2?=
+ =?us-ascii?Q?nPJfPGe/Av3JXEs=3D?=
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(921020)(38070700018);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(38070700018)(921020);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?LLKqKW0Xyc0w2FX48utjSmoPcOXVC56nKjwFZ2X3II/6FYXk35onPPnNvU3u?=
- =?us-ascii?Q?WVEyCImxTW7Y9dq8rpP+0SYbtwLs/tClsLtMjDxKC6Ug68oKp12L/dtsf0iC?=
- =?us-ascii?Q?lKZ54qeaVWrKX4JRNulVspXlTKI4fqTWkq9Kd/swXyRf+E/4RIiYVG22GB+W?=
- =?us-ascii?Q?VPHVWQNPqZwC9iU/dnQb7ZNvJYhoLD05nW212o1M3n3H8iE8UYLfsQ4LkqtN?=
- =?us-ascii?Q?e/iWe8WfMxNb1MVTZLKFLDrQz1ug/sGy6IqBWjZvfCpruiI6gltWeCsKXUea?=
- =?us-ascii?Q?0Mub4/puWs43t1XxWDPlExyQV26LXnlGZYuyV14yYCt+M4ewSU8VmLjFX/qY?=
- =?us-ascii?Q?Orw4fVZ85MBEflmvKIpwbCHqBxoLg4qT9DjQpWGso7TbjEcXom5GCR76Eaaj?=
- =?us-ascii?Q?C7T3S7Zn2HwRlGxGqoHie32m0wwReeoJQYZhj5ya5NdSDgoHyv6pAnCCQOaJ?=
- =?us-ascii?Q?HyYAt6cLkVTh30tmIHmITVzptiqtsY/gk7CQ8YM+UoGBE7kDmcDLXcVbmCrA?=
- =?us-ascii?Q?QLgHgreqjr2Tm8ZvQXEtMKsW303uhe7bSZ+w01AfHAil3uraernSgQkeiyTJ?=
- =?us-ascii?Q?5TFNlk4PPwhXm0FcFf4H23FYlfS7wnDfUaXKY35BzZmzd4YaRlAVu9DBEjjG?=
- =?us-ascii?Q?UV7PPKbUcB99dM8WU+98WFkTpWO50GGmkAKHVXKIpPSOL89pyfbwS06SDosp?=
- =?us-ascii?Q?Pr+TYQlckqNr4Nbh6eazwS60blJJM14I8hn0SHyfSY9YJmgZYvR9khr0gefj?=
- =?us-ascii?Q?4ydVLgkGVMGAPnRJgsYoTDRFV76vT7qp4Y11rvC0mpCe6Y3IChAZ6lju3fWI?=
- =?us-ascii?Q?veK+JJFCN9gCZRx6DxmoLvKiglhobrsyu9yveDRYZCNJi/UA5rp1S9IvbBxA?=
- =?us-ascii?Q?kACp2mQ0kCumvuZfaMGOXtlC2NMQj0L7IAkMA9g3Af4rUOSxcATB9R9M7qIt?=
- =?us-ascii?Q?0Ej4cF0k/+IbquoBSIxjZIQZD22j+XX3IBNQVW+7Mx89wydhBg6L5um/vHhU?=
- =?us-ascii?Q?1itJsiL1zHYZ0hyhsNiF806rDLhulC66v8Og0NTTaj1wIZ5Bc0tDLymMYCaD?=
- =?us-ascii?Q?G/9lZv/a+TaklNZIMtBfvHm2gZQfsXl92tX1ywOFi6hZuXP5qaw3p6wliUHb?=
- =?us-ascii?Q?35hnCKMrRhiSngPSSEEABvm9Z3BSJOePD+vJQVJV5Jozv2NlwS8jD9wIxsHY?=
- =?us-ascii?Q?zlIvnY7Bvuz4BequooO0YpbF2fzb1p5AzyPuclYIMcVf8nGly8v8YzcYN5j1?=
- =?us-ascii?Q?mKE8On897n60O6w3C0nGkf1345GnDUEW9zO1cXAiRx1AQx/ZFdDSInz4FWFm?=
- =?us-ascii?Q?e67U83bFso+EHEoFRcrTxzKcITNYk866vdoZPKqhH1cuoXh22bMuS1icIKnf?=
- =?us-ascii?Q?h4ds3RGaDNPIHTeAYeMhd4H0cKjgTQD3XBNTwaNHwd5VQwigOEuiJnacWWYw?=
- =?us-ascii?Q?xSgWkC8nKVsAhECuYNBfs6oUHNJZrtlvCah+IBUzRIUWIHnrH1r3lTCe0TYy?=
- =?us-ascii?Q?rTXxg0alUYNnGr+Uzheekys117v92fZ73hJsD1SpIwhdylDMVA4qYqGLesOG?=
- =?us-ascii?Q?lQEVxSYeImKLPhfRBrTl/Q3wwm80IH6xp+YQseOl?=
+ =?us-ascii?Q?+JiVN4Ud6BN6ig221CtV0cmgl1hqA9XsuHnTpXmpZ7jL14S2z1inuzf8odo3?=
+ =?us-ascii?Q?k4dq72e4IJJcIvFcRZHJOW9MUoVt6cuvK371pDnql37hlRHqoQ22dhqynWWE?=
+ =?us-ascii?Q?yepucpsP0BmJRuIFttBYB4uxJqUUpXJD1zKDFGPrzcN8IG5Au5XHeDDs7UFV?=
+ =?us-ascii?Q?7+oTwDFRLHDEgvCYhd66iQq3e0RtWQ2sb6QSEAyf+ZHP8dVCck4GichQ+9UK?=
+ =?us-ascii?Q?v7gvhLSnXdZwQm+dG70560QS1bdVuKdztnaC+Io1ko24Cy99Mvq8s/WmLu6k?=
+ =?us-ascii?Q?aehc+OqYHegwcwP/W1F+0zOPwHTmmiC4NmTCMM20JDDtZ/8spqHxk56T9fSZ?=
+ =?us-ascii?Q?BfdoekS32vETjzJKOXlGFYxM56mDjmP9L5DKyns+ji9Chncw7BPUFnwsdzXx?=
+ =?us-ascii?Q?nWax3SZ0wgwe4tzLR/RO8zKmONxCSIxq8BzMKLWEP9kVFCvH/Yns+kTOrmPb?=
+ =?us-ascii?Q?77MiDRlcJf2nlHH5uwVMTkNYJ+vvIRPVc/SrEuDwq8skTTRaDdVpE5uJyuDU?=
+ =?us-ascii?Q?fwkKcaVlYT4AqEhDPR2FA/62//Ansbp+jkaySeYr8r9kxvwBUaXmvul3btl5?=
+ =?us-ascii?Q?dAZBsiXqjQtAtvRQMZqfaN3hyfShHUuF1AXER2/sRBlKozeF1jGwqpkwAuw+?=
+ =?us-ascii?Q?SCbYC6WSRWpQL8V8dGAG4YNgtpbfWffAjjmZvMq0E0sSVBIvbWbuWtd8l1Bb?=
+ =?us-ascii?Q?GqK9IqDsKSLs262rgn2yczpg6CnYA0Clgm78enuzvhgucQtadN+7vfSbWpfQ?=
+ =?us-ascii?Q?ubAvk3ffcJxsW6XCb88urKxS+WaAyhqTFV3ZDvqgeDuiOogOL0Y3cZnMvXEs?=
+ =?us-ascii?Q?a07YX/PS45PzRG3T/JbkPbWtn78+NIKOUYnRCViFkxHg5YQn01xIvPr11E34?=
+ =?us-ascii?Q?jLQl3aALHPMg+wbHxK8vPCf4PmhND0kW5V6nk2lsUnRw1QLeU3/+pqU9todR?=
+ =?us-ascii?Q?hBOeodfjPExWUJ7tMAYt6XVtCHWtGOm9wqeBexyX60/f1lPqJKPXxcUqyYvr?=
+ =?us-ascii?Q?U47TiEwcsTjiQvw7gWOi8MQUCVQ/L0BlGucpHw//3SPbPmfiTgvy4Bd1xC+i?=
+ =?us-ascii?Q?DDrz5+W7nVufhX0EcDA1K7fT8zCfupASbr0pitSvbaKZr24TmrkWKCpXzfYU?=
+ =?us-ascii?Q?I9D26eU7iO+KOfKrO69DE7fdRHoT7FC2hX+WDC+gvkIcDWfs0Rzb9Wnr6qmh?=
+ =?us-ascii?Q?+G9XPdY2tgijTo/3J+vjlSXL/3shxytMrFUUmn8N9aro4Zbbiycb34p+Snyi?=
+ =?us-ascii?Q?3/ts06Tk1VlBxhOh9mcGiX6WnD3ysJuEG2/3ZZ21gVxZW1x0xWVWzXvgGNWm?=
+ =?us-ascii?Q?0ht1F+HRmLGCNUhFImCEPcV8krDvMVltTW/EDUwwI8D56tyzhd//6CMqBDQ5?=
+ =?us-ascii?Q?TxBTTt5h7LaEmZCKbHuRW7RwDX3FM8ji/hIvi6dSzzCrPVKFnFeJT3Asz0ZX?=
+ =?us-ascii?Q?vA3eTUPx98rrNmYj6nYig6tUFuBSZ82Ecg39XulrUCEYupXdQ6r6MumVukga?=
+ =?us-ascii?Q?4d56BArz6ABgXpGqBdM0wcAJ69O+wgQTtoJI3eLSKrCOnTJxxQGchDrppcUl?=
+ =?us-ascii?Q?eL3xWWjV/E6zVKE+NQWqzcqLUQFRwGeUTgugKkOr?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -168,800 +168,554 @@ MIME-Version: 1.0
 X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1bbe6b71-ef20-4ff2-8133-08ddaa3f275e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jun 2025 05:57:17.6149
+X-MS-Exchange-CrossTenant-Network-Message-Id: 06519645-4070-49d4-eaeb-08ddaa420921
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jun 2025 06:17:55.4056
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JFtmFXZHYwI0VKQYwMrCm0AEakuPD0MaeQ1Udr1L5mvjTZ41kykT4BxkUikpdZ3gTI5qzxqhop0JQh//odujiaN2zhYX+7z95hwjTrsiNwE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB11465
+X-MS-Exchange-CrossTenant-userprincipalname: qwL6BKc9yLR28qwDuOtUtlXiw6L9Fz2xy/zaTRgiITDbyTja84D/caLV8mgOT4S6G7NyITyF/2hrn5Wt8UL0Hyp7ewItsap/gE+a4K0wavc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCPR01MB14677
 
 Hi Prabhakar,
 
 > -----Original Message-----
 > From: Prabhakar <prabhakar.csengg@gmail.com>
 > Sent: 30 May 2025 18:19
-.castro.jz@renesas.com>; Prabhakar Mahadev Lad <prabhakar.mahadev-
-> lad.rj@bp.renesas.com>
-> Subject: [PATCH v6 1/4] clk: renesas: rzv2h-cpg: Add support for DSI cloc=
-ks
+> Subject: [PATCH v6 4/4] drm: renesas: rz-du: mipi_dsi: Add support for RZ=
+/V2H(P) SoC
 >=20
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >=20
-> Add support for PLLDSI and PLLDSI divider clocks.
->=20
-> Introduce the `renesas-rzv2h-dsi.h` header to centralize and share PLLDSI=
--related data structures,
-> limits, and algorithms between the RZ/V2H CPG and DSI drivers.
->=20
-> The DSI PLL is functionally similar to the CPG's PLLDSI, but has slightly=
- different parameter limits
-> and omits the programmable divider present in CPG. To ensure precise freq=
-uency calculations-especially
-> for milliHz-level accuracy needed by the DSI driver-the shared algorithm =
-allows both drivers to
-> compute PLL parameters consistently using the same logic and input clock.
+> Add DSI support for Renesas RZ/V2H(P) SoC.
 >=20
 > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
 > v5->v6:
-> - Renamed CPG_PLL_STBY_SSCGEN_WEN to CPG_PLL_STBY_SSC_EN_WEN
-> - Updated CPG_PLL_CLK1_DIV_K, CPG_PLL_CLK1_DIV_M, and
->   CPG_PLL_CLK1_DIV_P macros to use GENMASK
-> - Updated req->rate in rzv2h_cpg_plldsi_div_determine_rate()
-> - Dropped the cast in rzv2h_cpg_plldsi_div_set_rate()
-> - Dropped rzv2h_cpg_plldsi_round_rate() and implemented
->   rzv2h_cpg_plldsi_determine_rate() instead
-> - Made use of FIELD_PREP()
-> - Moved CPG_CSDIV1 macro in patch 2/4
-> - Dropped two_pow_s in rzv2h_dsi_get_pll_parameters_values()
-> - Used mul_u32_u32() while calculating output_m and output_k_range
-> - Used div_s64() instead of div64_s64() while calculating
->   pll_k
-> - Used mul_u32_u32() while calculating fvco and fvco checks
-> - Rounded the final output using DIV_U64_ROUND_CLOSEST()
+> - Made use of GENMASK() macro for PLLCLKSET0R_PLL_*,
+>   PHYTCLKSETR_* and PHYTHSSETR_* macros.
+> - Replaced 10000000UL with 10 * MEGA
+> - Renamed mode_freq_hz to mode_freq_khz in rzv2h_dsi_mode_calc
+> - Replaced `i -=3D 1;` with `i--;`
+> - Renamed RZV2H_MIPI_DPHY_FOUT_MIN_IN_MEGA to
+>   RZV2H_MIPI_DPHY_FOUT_MIN_IN_MHZ and
+>   RZV2H_MIPI_DPHY_FOUT_MAX_IN_MEGA to
+>   RZV2H_MIPI_DPHY_FOUT_MAX_IN_MHZ.
 >=20
 > v4->v5:
 > - No changes
 >=20
-> v3->v4:
-> - Corrected parameter name in rzv2h_dsi_get_pll_parameters_values()
->   description freq_millihz
+> v3->v4
+> - In rzv2h_dphy_find_ulpsexit() made the array static const.
 >=20
 > v2->v3:
-> - Update the commit message to clarify the purpose of `renesas-rzv2h-dsi.=
-h`
->   header
-> - Used mul_u32_u32() in rzv2h_cpg_plldsi_div_determine_rate()
-> - Replaced *_mhz to *_millihz for clarity
-> - Updated u64->u32 for fvco limits
-> - Initialized the members in declaration order for
->   RZV2H_CPG_PLL_DSI_LIMITS() macro
-> - Used clk_div_mask() in rzv2h_cpg_plldsi_div_recalc_rate()
-> - Replaced `unsigned long long` with u64
-> - Dropped rzv2h_cpg_plldsi_clk_recalc_rate() and reused
->   rzv2h_cpg_pll_clk_recalc_rate() instead
-> - In rzv2h_cpg_plldsi_div_set_rate() followed the same style
->   of RMW-operation as done in the other functions
-> - Renamed rzv2h_cpg_plldsi_set_rate() to rzv2h_cpg_pll_set_rate()
-> - Dropped rzv2h_cpg_plldsi_clk_register() and reused
->   rzv2h_cpg_pll_clk_register() instead
-> - Added a gaurd in renesas-rzv2h-dsi.h header
+> - Simplifed V2H DSI timings array to save space
+> - Switched to use fsleep() instead of udelay()
 >=20
 > v1->v2:
-> - No changes
+> - Dropped unused macros
+> - Added missing LPCLK flag to rzv2h info
 > ---
->  drivers/clk/renesas/rzv2h-cpg.c       | 278 +++++++++++++++++++++++++-
->  drivers/clk/renesas/rzv2h-cpg.h       |  13 ++
->  include/linux/clk/renesas-rzv2h-dsi.h | 210 +++++++++++++++++++
->  3 files changed, 492 insertions(+), 9 deletions(-)  create mode 100644 i=
-nclude/linux/clk/renesas-
-> rzv2h-dsi.h
+>  .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 345 ++++++++++++++++++
+>  .../drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h   |  34 ++
+>  2 files changed, 379 insertions(+)
 >=20
-> diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/rzv2h-=
-cpg.c index
-> 761da3bf77ce..d590f9f47371 100644
-> --- a/drivers/clk/renesas/rzv2h-cpg.c
-> +++ b/drivers/clk/renesas/rzv2h-cpg.c
-> @@ -14,9 +14,13 @@
->  #include <linux/bitfield.h>
+> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu=
+/drm/renesas/rz-
+> du/rzg2l_mipi_dsi.c
+> index a31f9b6aa920..ea554ced6713 100644
+> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> @@ -5,6 +5,7 @@
+>   * Copyright (C) 2022 Renesas Electronics Corporation
+>   */
 >  #include <linux/clk.h>
->  #include <linux/clk-provider.h>
 > +#include <linux/clk/renesas-rzv2h-dsi.h>
 >  #include <linux/delay.h>
->  #include <linux/init.h>
+>  #include <linux/io.h>
 >  #include <linux/iopoll.h>
-> +#include <linux/math.h>
-> +#include <linux/math64.h>
-> +#include <linux/minmax.h>
->  #include <linux/mod_devicetable.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> @@ -26,6 +30,7 @@
->  #include <linux/refcount.h>
->  #include <linux/reset-controller.h>
->  #include <linux/string_choices.h>
-> +#include <linux/units.h>
+> @@ -30,6 +31,9 @@
 >=20
->  #include <dt-bindings/clock/renesas-cpg-mssr.h>
+>  #define RZ_MIPI_DSI_FEATURE_16BPP	BIT(0)
 >=20
-> @@ -48,12 +53,13 @@
->  #define CPG_PLL_STBY(x)		((x))
->  #define CPG_PLL_STBY_RESETB	BIT(0)
->  #define CPG_PLL_STBY_RESETB_WEN	BIT(16)
-> +#define CPG_PLL_STBY_SSC_EN_WEN BIT(18)
->  #define CPG_PLL_CLK1(x)		((x) + 0x004)
-> -#define CPG_PLL_CLK1_KDIV(x)	((s16)FIELD_GET(GENMASK(31, 16), (x)))
-> -#define CPG_PLL_CLK1_MDIV(x)	FIELD_GET(GENMASK(15, 6), (x))
-> -#define CPG_PLL_CLK1_PDIV(x)	FIELD_GET(GENMASK(5, 0), (x))
-> +#define CPG_PLL_CLK1_KDIV	GENMASK(31, 16)
-> +#define CPG_PLL_CLK1_MDIV	GENMASK(15, 6)
-> +#define CPG_PLL_CLK1_PDIV	GENMASK(5, 0)
->  #define CPG_PLL_CLK2(x)		((x) + 0x008)
-> -#define CPG_PLL_CLK2_SDIV(x)	FIELD_GET(GENMASK(2, 0), (x))
-> +#define CPG_PLL_CLK2_SDIV	GENMASK(2, 0)
->  #define CPG_PLL_MON(x)		((x) + 0x010)
->  #define CPG_PLL_MON_RESETB	BIT(0)
->  #define CPG_PLL_MON_LOCK	BIT(4)
-> @@ -79,6 +85,8 @@
->   * @last_dt_core_clk: ID of the last Core Clock exported to DT
->   * @mstop_count: Array of mstop values
->   * @rcdev: Reset controller entity
-> + * @dsi_limits: PLL DSI parameters limits
-> + * @plldsi_div_parameters: PLL DSI and divider parameters configuration
->   */
->  struct rzv2h_cpg_priv {
->  	struct device *dev;
-> @@ -95,6 +103,9 @@ struct rzv2h_cpg_priv {
->  	atomic_t *mstop_count;
->=20
->  	struct reset_controller_dev rcdev;
+> +#define RZV2H_MIPI_DPHY_FOUT_MIN_IN_MHZ	(80 * MEGA)
+> +#define RZV2H_MIPI_DPHY_FOUT_MAX_IN_MHZ	(1500 * MEGA)
 > +
-> +	const struct rzv2h_pll_div_limits *dsi_limits;
-> +	struct rzv2h_plldsi_parameters plldsi_div_parameters;
+>  struct rzg2l_mipi_dsi;
+>=20
+>  struct rzg2l_mipi_dsi_hw_info {
+> @@ -40,6 +44,7 @@ struct rzg2l_mipi_dsi_hw_info {
+>  			      u64 *hsfreq_millihz);
+>  	unsigned int (*dphy_mode_clk_check)(struct rzg2l_mipi_dsi *dsi,
+>  					    unsigned long mode_freq);
+> +	const struct rzv2h_pll_div_limits *cpg_dsi_limits;
+>  	u32 phy_reg_offset;
+>  	u32 link_reg_offset;
+>  	unsigned long min_dclk;
+> @@ -47,6 +52,11 @@ struct rzg2l_mipi_dsi_hw_info {
+>  	u8 features;
 >  };
 >=20
->  #define rcdev_to_priv(x)	container_of(x, struct rzv2h_cpg_priv, rcdev)
-> @@ -150,6 +161,24 @@ struct ddiv_clk {
->=20
->  #define to_ddiv_clock(_div) container_of(_div, struct ddiv_clk, div)
->=20
-> +/**
-> + * struct rzv2h_plldsi_div_clk - PLL DSI DDIV clock
-> + *
-> + * @dtable: divider table
-> + * @priv: CPG private data
-> + * @hw: divider clk
-> + * @ddiv: divider configuration
-> + */
-> +struct rzv2h_plldsi_div_clk {
-> +	const struct clk_div_table *dtable;
-> +	struct rzv2h_cpg_priv *priv;
-> +	struct clk_hw hw;
-> +	struct ddiv ddiv;
+> +struct rzv2h_dsi_mode_calc {
+> +	unsigned long mode_freq_khz;
+> +	u64 mode_freq_hz;
 > +};
 > +
-> +#define to_plldsi_div_clk(_hw) \
-> +	container_of(_hw, struct rzv2h_plldsi_div_clk, hw)
+>  struct rzg2l_mipi_dsi {
+>  	struct device *dev;
+>  	void __iomem *mmio;
+> @@ -68,6 +78,18 @@ struct rzg2l_mipi_dsi {
+>  	unsigned int num_data_lanes;
+>  	unsigned int lanes;
+>  	unsigned long mode_flags;
 > +
->  static int rzv2h_cpg_pll_clk_is_enabled(struct clk_hw *hw)  {
->  	struct pll_clk *pll_clk =3D to_pll(hw);
-> @@ -198,6 +227,214 @@ static int rzv2h_cpg_pll_clk_enable(struct clk_hw *=
-hw)
->  	return ret;
+> +	struct rzv2h_dsi_mode_calc mode_calc;
+> +	struct rzv2h_plldsi_parameters dsi_parameters; };
+> +
+> +static const struct rzv2h_pll_div_limits rzv2h_plldsi_div_limits =3D {
+> +	.fvco =3D { .min =3D 1050 * MEGA, .max =3D 2100 * MEGA },
+> +	.m =3D { .min =3D 64, .max =3D 1023 },
+> +	.p =3D { .min =3D 1, .max =3D 4 },
+> +	.s =3D { .min =3D 0, .max =3D 5 },
+> +	.k =3D { .min =3D -32768, .max =3D 32767 },
+> +	.csdiv =3D { .min =3D 1, .max =3D 1 },
+>  };
+>=20
+>  static inline struct rzg2l_mipi_dsi *
+> @@ -184,6 +206,155 @@ static const struct rzg2l_mipi_dsi_timings rzg2l_mi=
+pi_dsi_global_timings[] =3D {
+>  	},
+>  };
+>=20
+> +struct rzv2h_mipi_dsi_timings {
+> +	const u8 *hsfreq;
+> +	u8 len;
+> +	u8 start_index;
+> +};
+> +
+> +enum {
+> +	TCLKPRPRCTL,
+> +	TCLKZEROCTL,
+> +	TCLKPOSTCTL,
+> +	TCLKTRAILCTL,
+> +	THSPRPRCTL,
+> +	THSZEROCTL,
+> +	THSTRAILCTL,
+> +	TLPXCTL,
+> +	THSEXITCTL,
+> +};
+> +
+> +static const u8 tclkprprctl[] =3D {
+> +	15, 26, 37, 47, 58, 69, 79, 90, 101, 111, 122, 133, 143, 150, };
+> +
+> +static const u8 tclkzeroctl[] =3D {
+> +	9, 11, 13, 15, 18, 21, 23, 24, 25, 27, 29, 31, 34, 36, 38,
+> +	41, 43, 45, 47, 50, 52, 54, 57, 59, 61, 63, 66, 68, 70, 73,
+> +	75, 77, 79, 82, 84, 86, 89, 91, 93, 95, 98, 100, 102, 105,
+> +	107, 109, 111, 114, 116, 118, 121, 123, 125, 127, 130, 132,
+> +	134, 137, 139, 141, 143, 146, 148, 150, };
+> +
+> +static const u8 tclkpostctl[] =3D {
+> +	8, 21, 34, 48, 61, 74, 88, 101, 114, 128, 141, 150, };
+> +
+> +static const u8 tclktrailctl[] =3D {
+> +	14, 25, 37, 48, 59, 71, 82, 94, 105, 117, 128, 139, 150, };
+> +
+> +static const u8 thsprprctl[] =3D {
+> +	11, 19, 29, 40, 50, 61, 72, 82, 93, 103, 114, 125, 135, 146, 150, };
+> +
+> +static const u8 thszeroctl[] =3D {
+> +	18, 24, 29, 35, 40, 46, 51, 57, 62, 68, 73, 79, 84, 90,
+> +	95, 101, 106, 112, 117, 123, 128, 134, 139, 145, 150, };
+> +
+> +static const u8 thstrailctl[] =3D {
+> +	10, 21, 32, 42, 53, 64, 75, 85, 96, 107, 118, 128, 139, 150, };
+> +
+> +static const u8 tlpxctl[] =3D {
+> +	13, 26, 39, 53, 66, 79, 93, 106, 119, 133, 146,	150,
+> +};
+> +
+> +static const u8 thsexitctl[] =3D {
+> +	15, 23, 31, 39, 47, 55, 63, 71, 79, 87,
+> +	95, 103, 111, 119, 127, 135, 143, 150, };
+> +
+> +static const struct rzv2h_mipi_dsi_timings rzv2h_dsi_timings_tables[] =
+=3D {
+> +	[TCLKPRPRCTL] =3D {
+> +		.hsfreq =3D tclkprprctl,
+> +		.len =3D ARRAY_SIZE(tclkprprctl),
+> +		.start_index =3D 0,
+> +	},
+> +	[TCLKZEROCTL] =3D {
+> +		.hsfreq =3D tclkzeroctl,
+> +		.len =3D ARRAY_SIZE(tclkzeroctl),
+> +		.start_index =3D 2,
+> +	},
+> +	[TCLKPOSTCTL] =3D {
+> +		.hsfreq =3D tclkpostctl,
+> +		.len =3D ARRAY_SIZE(tclkpostctl),
+> +		.start_index =3D 6,
+> +	},
+> +	[TCLKTRAILCTL] =3D {
+> +		.hsfreq =3D tclktrailctl,
+> +		.len =3D ARRAY_SIZE(tclktrailctl),
+> +		.start_index =3D 1,
+> +	},
+> +	[THSPRPRCTL] =3D {
+> +		.hsfreq =3D thsprprctl,
+> +		.len =3D ARRAY_SIZE(thsprprctl),
+> +		.start_index =3D 0,
+> +	},
+> +	[THSZEROCTL] =3D {
+> +		.hsfreq =3D thszeroctl,
+> +		.len =3D ARRAY_SIZE(thszeroctl),
+> +		.start_index =3D 0,
+> +	},
+> +	[THSTRAILCTL] =3D {
+> +		.hsfreq =3D thstrailctl,
+> +		.len =3D ARRAY_SIZE(thstrailctl),
+> +		.start_index =3D 3,
+> +	},
+> +	[TLPXCTL] =3D {
+> +		.hsfreq =3D tlpxctl,
+> +		.len =3D ARRAY_SIZE(tlpxctl),
+> +		.start_index =3D 0,
+> +	},
+> +	[THSEXITCTL] =3D {
+> +		.hsfreq =3D thsexitctl,
+> +		.len =3D ARRAY_SIZE(thsexitctl),
+> +		.start_index =3D 1,
+> +	},
+> +};
+> +
+> +static u16 rzv2h_dphy_find_ulpsexit(unsigned long freq) {
+> +	static const unsigned long hsfreq[] =3D {
+> +		1953125UL,
+> +		3906250UL,
+> +		7812500UL,
+> +		15625000UL,
+> +	};
+> +	static const u16 ulpsexit[] =3D {49, 98, 195, 391};
+> +	unsigned int i;
+> +
+> +	for (i =3D 0; i < ARRAY_SIZE(hsfreq); i++) {
+> +		if (freq <=3D hsfreq[i])
+> +			break;
+> +	}
+> +
+> +	if (i =3D=3D ARRAY_SIZE(hsfreq))
+> +		i--;
+> +
+> +	return ulpsexit[i];
+> +}
+> +
+> +static u16 rzv2h_dphy_find_timings_val(unsigned long freq, u8 index) {
+> +	const struct rzv2h_mipi_dsi_timings *timings;
+> +	u16 i;
+> +
+> +	timings =3D &rzv2h_dsi_timings_tables[index];
+> +	for (i =3D 0; i < timings->len; i++) {
+> +		unsigned long hsfreq =3D timings->hsfreq[i] * 10 * MEGA;
+> +
+> +		if (freq <=3D hsfreq)
+> +			break;
+> +	}
+> +
+> +	if (i =3D=3D timings->len)
+> +		i--;
+> +
+> +	return timings->start_index + i;
+> +};
+> +
+>  static void rzg2l_mipi_dsi_phy_write(struct rzg2l_mipi_dsi *dsi, u32 reg=
+, u32 data)  {
+>  	iowrite32(data, dsi->mmio + dsi->info->phy_reg_offset + reg); @@ -308,6=
+ +479,160 @@ static int
+> rzg2l_dphy_conf_clks(struct rzg2l_mipi_dsi *dsi, unsigned long mode_f
+>  	return 0;
 >  }
 >=20
-> +static unsigned long rzv2h_cpg_plldsi_div_recalc_rate(struct clk_hw *hw,
-> +						      unsigned long parent_rate)
+> +static unsigned int rzv2h_dphy_mode_clk_check(struct rzg2l_mipi_dsi *dsi=
+,
+> +					      unsigned long mode_freq)
 > +{
-> +	struct rzv2h_plldsi_div_clk *dsi_div =3D to_plldsi_div_clk(hw);
-> +	struct rzv2h_cpg_priv *priv =3D dsi_div->priv;
-> +	struct ddiv ddiv =3D dsi_div->ddiv;
-> +	u32 div;
+> +	struct rzv2h_plldsi_parameters cpg_dsi_parameters;
+> +	struct rzv2h_plldsi_parameters dsi_parameters;
+> +	u64 hsfreq_millihz, mode_freq_hz, mode_freq_millihz;
+> +	unsigned int bpp, i;
 > +
-> +	div =3D readl(priv->base + ddiv.offset);
-> +	div >>=3D ddiv.shift;
-> +	div &=3D clk_div_mask(ddiv.width);
-> +	div =3D dsi_div->dtable[div].div;
+> +	bpp =3D mipi_dsi_pixel_format_to_bpp(dsi->format);
 > +
-> +	return DIV_ROUND_CLOSEST_ULL(parent_rate, div); }
+> +	for (i =3D 0; i < 10; i +=3D 1) {
+> +		unsigned long hsfreq;
+> +		bool parameters_found;
 > +
-> +static int rzv2h_cpg_plldsi_div_determine_rate(struct clk_hw *hw,
-> +					       struct clk_rate_request *req) {
-> +	struct rzv2h_plldsi_div_clk *dsi_div =3D to_plldsi_div_clk(hw);
-> +	struct rzv2h_cpg_priv *priv =3D dsi_div->priv;
-> +	struct rzv2h_plldsi_parameters *dsi_dividers =3D &priv->plldsi_div_para=
-meters;
-> +	u64 rate_millihz;
+> +		mode_freq_hz =3D mul_u32_u32(mode_freq, KILO) + i;
+> +		mode_freq_millihz =3D mode_freq_hz * MILLI;
+> +		parameters_found =3D rzv2h_dsi_get_pll_parameters_values(dsi->info->cp=
+g_dsi_limits,
+> +								       &cpg_dsi_parameters,
+> +								       mode_freq_millihz);
+> +		if (!parameters_found)
+> +			continue;
 > +
-> +	/*
-> +	 * Adjust the requested clock rate (`req->rate`) to ensure it falls wit=
-hin
-> +	 * the supported range of 5.44 MHz to 187.5 MHz.
-> +	 */
-> +	req->rate =3D clamp(req->rate, 5440000UL, 187500000UL);
+> +		hsfreq_millihz =3D DIV_ROUND_CLOSEST_ULL(cpg_dsi_parameters.freq_milli=
+hz * bpp,
+> +						       dsi->lanes);
+> +		parameters_found =3D rzv2h_dsi_get_pll_parameters_values(&rzv2h_plldsi=
+_div_limits,
+> +								       &dsi_parameters,
+> +								       hsfreq_millihz);
+> +		if (!parameters_found)
+> +			continue;
 > +
-> +	rate_millihz =3D mul_u32_u32(req->rate, MILLI);
-> +	if (rate_millihz =3D=3D dsi_dividers->error_millihz + dsi_dividers->fre=
-q_millihz)
-> +		goto exit_determine_rate;
+> +		if (abs(dsi_parameters.error_millihz) >=3D 500)
+> +			continue;
 > +
-> +	if (!rzv2h_dsi_get_pll_parameters_values(priv->dsi_limits,
-> +						 dsi_dividers, rate_millihz)) {
-> +		dev_err(priv->dev,
-> +			"failed to determine rate for req->rate: %lu\n",
-> +			req->rate);
-> +		return -EINVAL;
-> +	}
-
-
-> +
-> +exit_determine_rate:
-> +	req->best_parent_rate =3D req->rate * dsi_dividers->csdiv;
-
-I believe this has to go after below assignment.
-
-As parent_rate =3D rate * calculated DSI divider value.
-
-req->rate =3D DIV_ROUND_CLOSEST_ULL(dsi_dividers->freq_millihz, MILLI);
-req->best_parent_rate =3D req->rate * dsi_dividers->csdiv;
-
-
-
-> +	req->rate =3D DIV_ROUND_CLOSEST_ULL(dsi_dividers->freq_millihz, MILLI);
-> +
-> +	return 0;
-> +};
-> +
-> +static int rzv2h_cpg_plldsi_div_set_rate(struct clk_hw *hw,
-> +					 unsigned long rate,
-> +					 unsigned long parent_rate)
-> +{
-> +	struct rzv2h_plldsi_div_clk *dsi_div =3D to_plldsi_div_clk(hw);
-> +	struct rzv2h_cpg_priv *priv =3D dsi_div->priv;
-> +	struct rzv2h_plldsi_parameters *dsi_dividers =3D &priv->plldsi_div_para=
-meters;
-> +	struct ddiv ddiv =3D dsi_div->ddiv;
-> +	const struct clk_div_table *clkt;
-> +	bool div_found =3D false;
-> +	u32 val, shift, div;
-> +
-> +	div =3D dsi_dividers->csdiv;
-> +	for (clkt =3D dsi_div->dtable; clkt->div; clkt++) {
-> +		if (clkt->div =3D=3D div) {
-> +			div_found =3D true;
-> +			break;
+> +		hsfreq =3D DIV_ROUND_CLOSEST_ULL(hsfreq_millihz, MILLI);
+> +		if (hsfreq >=3D RZV2H_MIPI_DPHY_FOUT_MIN_IN_MHZ &&
+> +		    hsfreq <=3D RZV2H_MIPI_DPHY_FOUT_MAX_IN_MHZ) {
+> +			memcpy(&dsi->dsi_parameters, &dsi_parameters, sizeof(dsi->dsi_paramet=
+ers));
+> +			dsi->mode_calc.mode_freq_khz =3D mode_freq;
+> +			dsi->mode_calc.mode_freq_hz =3D mode_freq_hz;
+> +			return MODE_OK;
 > +		}
 > +	}
 > +
-> +	if (!div_found)
-> +		return -EINVAL;
-
-This check can be done in determine rate and cache the divider??
-
-> +
-> +	shift =3D ddiv.shift;
-> +	val =3D readl(priv->base + ddiv.offset) | DDIV_DIVCTL_WEN(shift);
-> +	val &=3D ~(clk_div_mask(ddiv.width) << shift);
-> +	val |=3D clkt->val << shift;
-> +	writel(val, priv->base + ddiv.offset);
-> +
-> +	return 0;
-> +};
-> +
-> +static const struct clk_ops rzv2h_cpg_plldsi_div_ops =3D {
-> +	.recalc_rate =3D rzv2h_cpg_plldsi_div_recalc_rate,
-> +	.determine_rate =3D rzv2h_cpg_plldsi_div_determine_rate,
-> +	.set_rate =3D rzv2h_cpg_plldsi_div_set_rate, };
-> +
-> +static struct clk * __init
-> +rzv2h_cpg_plldsi_div_clk_register(const struct cpg_core_clk *core,
-> +				  struct rzv2h_cpg_priv *priv)
-> +{
-> +	struct rzv2h_plldsi_div_clk *clk_hw_data;
-> +	struct clk **clks =3D priv->clks;
-> +	struct clk_init_data init;
-> +	const struct clk *parent;
-> +	const char *parent_name;
-> +	struct clk_hw *clk_hw;
-> +	int ret;
-> +
-> +	parent =3D clks[core->parent];
-> +	if (IS_ERR(parent))
-> +		return ERR_CAST(parent);
-> +
-> +	clk_hw_data =3D devm_kzalloc(priv->dev, sizeof(*clk_hw_data), GFP_KERNE=
-L);
-> +	if (!clk_hw_data)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	clk_hw_data->priv =3D priv;
-> +	clk_hw_data->ddiv =3D core->cfg.ddiv;
-> +	clk_hw_data->dtable =3D core->dtable;
-> +
-> +	parent_name =3D __clk_get_name(parent);
-> +	init.name =3D core->name;
-> +	init.ops =3D &rzv2h_cpg_plldsi_div_ops;
-> +	init.flags =3D core->flag;
-> +	init.parent_names =3D &parent_name;
-> +	init.num_parents =3D 1;
-> +
-> +	clk_hw =3D &clk_hw_data->hw;
-> +	clk_hw->init =3D &init;
-> +
-> +	ret =3D devm_clk_hw_register(priv->dev, clk_hw);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
-> +	return clk_hw->clk;
+> +	return MODE_CLOCK_RANGE;
 > +}
 > +
-> +static int rzv2h_cpg_plldsi_determine_rate(struct clk_hw *hw,
-> +					   struct clk_rate_request *req)
+> +static int rzv2h_dphy_conf_clks(struct rzg2l_mipi_dsi *dsi, unsigned lon=
+g mode_freq,
+> +				u64 *hsfreq_millihz)
 > +{
-> +	struct rzv2h_pll_div_limits dsi_limits;
-> +	struct rzv2h_plldsi_parameters dsi_dividers;
-> +	struct pll_clk *pll_clk =3D to_pll(hw);
-> +	struct rzv2h_cpg_priv *priv =3D pll_clk->priv;
-> +	u64 rate_millihz;
+> +	struct rzv2h_plldsi_parameters *dsi_parameters =3D &dsi->dsi_parameters=
+;
+> +	unsigned long status;
 > +
-> +	memcpy(&dsi_limits, priv->dsi_limits, sizeof(dsi_limits));
-> +	dsi_limits.csdiv.min =3D 1;
-> +	dsi_limits.csdiv.max =3D 1;
-> +
-> +	req->rate =3D clamp(req->rate, 25000000UL, 375000000UL);
-
-I guess this clamping is not required as the child already has clamping
-and max DSI divider is fixed.
-
-rate(Max) =3D 187500 * 1000 * divider =3D 187.5 MHz(clamped value) * dsi di=
-vider
-
-> +
-> +	rate_millihz =3D mul_u32_u32(req->rate, MILLI);
-> +	if (!rzv2h_dsi_get_pll_parameters_values(priv->dsi_limits,
-> +						 &dsi_dividers, rate_millihz)) {
-> +		dev_err(priv->dev,
-> +			"failed to determine rate for req->rate: %lu\n",
-> +			req->rate);
-> +		return -EINVAL;
+> +	if (dsi->mode_calc.mode_freq_khz !=3D mode_freq) {
+> +		status =3D rzv2h_dphy_mode_clk_check(dsi, mode_freq);
+> +		if (status !=3D MODE_OK) {
+> +			dev_err(dsi->dev, "No PLL parameters found for mode clk %lu\n",
+> +				mode_freq);
+> +			return -EINVAL;
+> +		}
 > +	}
 > +
-> +	req->best_parent_rate =3D req->rate * dsi_dividers.csdiv;
+> +	clk_set_rate(dsi->vclk, dsi->mode_calc.mode_freq_hz);
 
-This is wrong as it will lead to high value for  parent as the rate is fixe=
-d 24MHz.
+Not sure, Can we use the DSI divider required based on the data rate (vclk,=
+ bpp and numlanes) here
 
-24MHz-> PLL_DSI(This clock) -> DSI DIVIDER-> DoT clock
+and then the set parent clk of PLLDSI as well here (dsi->vclk * the divider=
+ value) ??
 
+24MHZ->PLL DSI->DSI DIVIDER->VCLOCK
+
+Maybe then the clock framework has all the information for setting PLL_DSI =
+and DSI_DIVIDER clks??
 
 Cheers,
 Biju
 
-> +	req->rate =3D DIV_ROUND_CLOSEST_ULL(dsi_dividers.freq_millihz, MILLI);
+
+> +	*hsfreq_millihz =3D dsi_parameters->freq_millihz;
 > +
 > +	return 0;
 > +}
 > +
-> +static int rzv2h_cpg_pll_set_rate(struct clk_hw *hw,
-> +				  unsigned long rate,
-> +				  unsigned long parent_rate)
+> +static int rzv2h_mipi_dsi_dphy_init(struct rzg2l_mipi_dsi *dsi,
+> +				    u64 hsfreq_millihz)
 > +{
-> +	struct pll_clk *pll_clk =3D to_pll(hw);
-> +	struct rzv2h_cpg_priv *priv =3D pll_clk->priv;
-> +	struct rzv2h_plldsi_parameters *dsi_dividers;
-> +	struct pll pll =3D pll_clk->pll;
-> +	u16 offset =3D pll.offset;
-> +	u32 val;
-> +	int ret;
+> +	struct rzv2h_plldsi_parameters *dsi_parameters =3D &dsi->dsi_parameters=
+;
+> +	unsigned long lpclk_rate =3D clk_get_rate(dsi->lpclk);
+> +	u32 phytclksetr, phythssetr, phytlpxsetr, phycr;
+> +	struct rzg2l_mipi_dsi_timings dphy_timings;
+> +	u16 ulpsexit;
+> +	u64 hsfreq;
 > +
-> +	/* Put PLL into standby mode */
-> +	writel(CPG_PLL_STBY_RESETB_WEN, priv->base + CPG_PLL_STBY(offset));
-> +	ret =3D readl_poll_timeout_atomic(priv->base + CPG_PLL_MON(offset),
-> +					val, !(val & CPG_PLL_MON_LOCK),
-> +					100, 2000);
-> +	if (ret) {
-> +		dev_err(priv->dev, "Failed to put PLLDSI into standby mode");
-> +		return ret;
-> +	}
+> +	hsfreq =3D DIV_ROUND_CLOSEST_ULL(hsfreq_millihz, MILLI);
 > +
-> +	dsi_dividers =3D &priv->plldsi_div_parameters;
-> +	/* Output clock setting 1 */
-> +	writel(FIELD_PREP(CPG_PLL_CLK1_KDIV, (u16)dsi_dividers->k) |
-> +	       FIELD_PREP(CPG_PLL_CLK1_MDIV, dsi_dividers->m) |
-> +	       FIELD_PREP(CPG_PLL_CLK1_PDIV, dsi_dividers->p),
-> +	       priv->base + CPG_PLL_CLK1(offset));
+> +	if (dsi_parameters->freq_millihz =3D=3D hsfreq_millihz)
+> +		goto parameters_found;
 > +
-> +	/* Output clock setting 2 */
-> +	val =3D readl(priv->base + CPG_PLL_CLK2(offset));
-> +	writel((val & ~CPG_PLL_CLK2_SDIV) | FIELD_PREP(CPG_PLL_CLK2_SDIV, dsi_d=
-ividers->s),
-> +	       priv->base + CPG_PLL_CLK2(offset));
+> +	if (rzv2h_dsi_get_pll_parameters_values(&rzv2h_plldsi_div_limits,
+> +						dsi_parameters, hsfreq_millihz))
+> +		goto parameters_found;
 > +
-> +	/* Put PLL to normal mode */
-> +	writel(CPG_PLL_STBY_RESETB_WEN | CPG_PLL_STBY_RESETB,
-> +	       priv->base + CPG_PLL_STBY(offset));
+> +	dev_err(dsi->dev, "No PLL parameters found for HSFREQ %lluHz\n", hsfreq=
+);
+> +	return -EINVAL;
 > +
-> +	/* PLL normal mode transition, output clock stability check */
-> +	ret =3D readl_poll_timeout_atomic(priv->base + CPG_PLL_MON(offset),
-> +					val, (val & CPG_PLL_MON_LOCK),
-> +					100, 2000);
-> +	if (ret) {
-> +		dev_err(priv->dev, "Failed to put PLLDSI into normal mode");
-> +		return ret;
-> +	}
+> +parameters_found:
+> +	dphy_timings.tclk_trail =3D
+> +		rzv2h_dphy_find_timings_val(hsfreq, TCLKTRAILCTL);
+> +	dphy_timings.tclk_post =3D
+> +		rzv2h_dphy_find_timings_val(hsfreq, TCLKPOSTCTL);
+> +	dphy_timings.tclk_zero =3D
+> +		rzv2h_dphy_find_timings_val(hsfreq, TCLKZEROCTL);
+> +	dphy_timings.tclk_prepare =3D
+> +		rzv2h_dphy_find_timings_val(hsfreq, TCLKPRPRCTL);
+> +	dphy_timings.ths_exit =3D
+> +		rzv2h_dphy_find_timings_val(hsfreq, THSEXITCTL);
+> +	dphy_timings.ths_trail =3D
+> +		rzv2h_dphy_find_timings_val(hsfreq, THSTRAILCTL);
+> +	dphy_timings.ths_zero =3D
+> +		rzv2h_dphy_find_timings_val(hsfreq, THSZEROCTL);
+> +	dphy_timings.ths_prepare =3D
+> +		rzv2h_dphy_find_timings_val(hsfreq, THSPRPRCTL);
+> +	dphy_timings.tlpx =3D
+> +		rzv2h_dphy_find_timings_val(hsfreq, TLPXCTL);
+> +	ulpsexit =3D rzv2h_dphy_find_ulpsexit(lpclk_rate);
+> +
+> +	phytclksetr =3D FIELD_PREP(PHYTCLKSETR_TCLKTRAILCTL, dphy_timings.tclk_=
+trail) |
+> +		      FIELD_PREP(PHYTCLKSETR_TCLKPOSTCTL, dphy_timings.tclk_post) |
+> +		      FIELD_PREP(PHYTCLKSETR_TCLKZEROCTL, dphy_timings.tclk_zero) |
+> +		      FIELD_PREP(PHYTCLKSETR_TCLKPRPRCTL, dphy_timings.tclk_prepare);
+> +	phythssetr =3D FIELD_PREP(PHYTHSSETR_THSEXITCTL, dphy_timings.ths_exit)=
+ |
+> +		     FIELD_PREP(PHYTHSSETR_THSTRAILCTL, dphy_timings.ths_trail) |
+> +		     FIELD_PREP(PHYTHSSETR_THSZEROCTL, dphy_timings.ths_zero) |
+> +		     FIELD_PREP(PHYTHSSETR_THSPRPRCTL, dphy_timings.ths_prepare);
+> +	phytlpxsetr =3D rzg2l_mipi_dsi_phy_read(dsi, PHYTLPXSETR) & ~PHYTLPXSET=
+R_TLPXCTL;
+> +	phytlpxsetr |=3D FIELD_PREP(PHYTLPXSETR_TLPXCTL, dphy_timings.tlpx);
+> +	phycr =3D rzg2l_mipi_dsi_phy_read(dsi, PHYCR) & ~GENMASK(9, 0);
+> +	phycr |=3D FIELD_PREP(PHYCR_ULPSEXIT, ulpsexit);
+> +
+> +	/* Setting all D-PHY Timings Registers */
+> +	rzg2l_mipi_dsi_phy_write(dsi, PHYTCLKSETR, phytclksetr);
+> +	rzg2l_mipi_dsi_phy_write(dsi, PHYTHSSETR, phythssetr);
+> +	rzg2l_mipi_dsi_phy_write(dsi, PHYTLPXSETR, phytlpxsetr);
+> +	rzg2l_mipi_dsi_phy_write(dsi, PHYCR, phycr);
+> +
+> +	rzg2l_mipi_dsi_phy_write(dsi, PLLCLKSET0R,
+> +				 FIELD_PREP(PLLCLKSET0R_PLL_S, dsi_parameters->s) |
+> +				 FIELD_PREP(PLLCLKSET0R_PLL_P, dsi_parameters->p) |
+> +				 FIELD_PREP(PLLCLKSET0R_PLL_M, dsi_parameters->m));
+> +	rzg2l_mipi_dsi_phy_write(dsi, PLLCLKSET1R,
+> +				 FIELD_PREP(PLLCLKSET1R_PLL_K, dsi_parameters->k));
+> +	fsleep(20);
+> +
+> +	rzg2l_mipi_dsi_phy_write(dsi, PLLENR, PLLENR_PLLEN);
+> +	fsleep(500);
 > +
 > +	return 0;
-> +};
+> +}
 > +
->  static unsigned long rzv2h_cpg_pll_clk_recalc_rate(struct clk_hw *hw,
->  						   unsigned long parent_rate)
->  {
-> @@ -213,12 +450,19 @@ static unsigned long rzv2h_cpg_pll_clk_recalc_rate(=
-struct clk_hw *hw,
->  	clk1 =3D readl(priv->base + CPG_PLL_CLK1(pll.offset));
->  	clk2 =3D readl(priv->base + CPG_PLL_CLK2(pll.offset));
+> +static void rzv2h_mipi_dsi_dphy_startup_late_init(struct rzg2l_mipi_dsi
+> +*dsi) {
+> +	fsleep(220);
+> +	rzg2l_mipi_dsi_phy_write(dsi, PHYRSTR, PHYRSTR_PHYMRSTN); }
+> +
+> +static void rzv2h_mipi_dsi_dphy_exit(struct rzg2l_mipi_dsi *dsi) {
+> +	rzg2l_mipi_dsi_phy_write(dsi, PLLENR, 0); }
+> +
+>  static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+>  				  const struct drm_display_mode *mode)  { @@ -410,6 +735,9 @@ static=
+ void
+> rzg2l_mipi_dsi_set_display_timing(struct rzg2l_mipi_dsi *dsi,
+>  	case 18:
+>  		vich1ppsetr =3D VICH1PPSETR_DT_RGB18;
+>  		break;
+> +	case 16:
+> +		vich1ppsetr =3D VICH1PPSETR_DT_RGB16;
+> +		break;
+>  	}
 >=20
-> -	rate =3D mul_u64_u32_shr(parent_rate, (CPG_PLL_CLK1_MDIV(clk1) << 16) +
-> -			       CPG_PLL_CLK1_KDIV(clk1), 16 + CPG_PLL_CLK2_SDIV(clk2));
-> +	rate =3D mul_u64_u32_shr(parent_rate, (FIELD_GET(CPG_PLL_CLK1_MDIV, clk=
-1) << 16) +
-> +			       (s16)FIELD_GET(CPG_PLL_CLK1_KDIV, clk1),
-> +			       16 + FIELD_GET(CPG_PLL_CLK2_SDIV, clk2));
->=20
-> -	return DIV_ROUND_CLOSEST_ULL(rate, CPG_PLL_CLK1_PDIV(clk1));
-> +	return DIV_ROUND_CLOSEST_ULL(rate, FIELD_GET(CPG_PLL_CLK1_PDIV,
-> +clk1));
+>  	if ((dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE) && @@ -862,6 +11=
+90,22 @@ static void
+> rzg2l_mipi_dsi_remove(struct platform_device *pdev)
+>  	pm_runtime_disable(&pdev->dev);
 >  }
 >=20
-> +static const struct clk_ops rzv2h_cpg_plldsi_ops =3D {
-> +	.recalc_rate =3D rzv2h_cpg_pll_clk_recalc_rate,
-> +	.determine_rate =3D rzv2h_cpg_plldsi_determine_rate,
-> +	.set_rate =3D rzv2h_cpg_pll_set_rate,
-> +};
+> +RZV2H_CPG_PLL_DSI_LIMITS(rzv2h_cpg_pll_dsi_limits);
 > +
->  static const struct clk_ops rzv2h_cpg_pll_ops =3D {
->  	.is_enabled =3D rzv2h_cpg_pll_clk_is_enabled,
->  	.enable =3D rzv2h_cpg_pll_clk_enable,
-> @@ -228,7 +472,8 @@ static const struct clk_ops rzv2h_cpg_pll_ops =3D {  =
-static struct clk * __init
-> rzv2h_cpg_pll_clk_register(const struct cpg_core_clk *core,
->  			   struct rzv2h_cpg_priv *priv,
-> -			   const struct clk_ops *ops)
-> +			   const struct clk_ops *ops,
-> +			   bool turn_on)
->  {
->  	void __iomem *base =3D priv->base;
->  	struct device *dev =3D priv->dev;
-> @@ -258,6 +503,13 @@ rzv2h_cpg_pll_clk_register(const struct cpg_core_clk=
- *core,
->  	pll_clk->base =3D base;
->  	pll_clk->priv =3D priv;
->=20
-> +	if (turn_on) {
-> +		/* Disable SSC and turn on PLL clock when init */
-> +		writel(CPG_PLL_STBY_RESETB_WEN | CPG_PLL_STBY_RESETB |
-> +		       CPG_PLL_STBY_SSC_EN_WEN,
-> +		       base + CPG_PLL_STBY(pll_clk->pll.offset));
-> +	}
+> +static const struct rzg2l_mipi_dsi_hw_info rzv2h_mipi_dsi_info =3D {
+> +	.dphy_init =3D rzv2h_mipi_dsi_dphy_init,
+> +	.dphy_startup_late_init =3D rzv2h_mipi_dsi_dphy_startup_late_init,
+> +	.dphy_exit =3D rzv2h_mipi_dsi_dphy_exit,
+> +	.dphy_mode_clk_check =3D rzv2h_dphy_mode_clk_check,
+> +	.dphy_conf_clks =3D rzv2h_dphy_conf_clks,
+> +	.cpg_dsi_limits =3D &rzv2h_cpg_pll_dsi_limits,
+> +	.phy_reg_offset =3D 0x10000,
+> +	.link_reg_offset =3D 0,
+> +	.min_dclk =3D 5440,
+> +	.max_dclk =3D 187500,
+> +	.features =3D RZ_MIPI_DSI_FEATURE_16BPP, };
 > +
->  	ret =3D devm_clk_hw_register(dev, &pll_clk->hw);
->  	if (ret)
->  		return ERR_PTR(ret);
-> @@ -500,7 +752,7 @@ rzv2h_cpg_register_core_clk(const struct cpg_core_clk=
- *core,
->  			clk =3D clk_hw->clk;
->  		break;
->  	case CLK_TYPE_PLL:
-> -		clk =3D rzv2h_cpg_pll_clk_register(core, priv, &rzv2h_cpg_pll_ops);
-> +		clk =3D rzv2h_cpg_pll_clk_register(core, priv, &rzv2h_cpg_pll_ops,
-> +false);
->  		break;
->  	case CLK_TYPE_DDIV:
->  		clk =3D rzv2h_cpg_ddiv_clk_register(core, priv); @@ -508,6 +760,12 @@
-> rzv2h_cpg_register_core_clk(const struct cpg_core_clk *core,
->  	case CLK_TYPE_SMUX:
->  		clk =3D rzv2h_cpg_mux_clk_register(core, priv);
->  		break;
-> +	case CLK_TYPE_PLLDSI:
-> +		clk =3D rzv2h_cpg_pll_clk_register(core, priv, &rzv2h_cpg_plldsi_ops, =
-true);
-> +		break;
-> +	case CLK_TYPE_PLLDSI_DIV:
-> +		clk =3D rzv2h_cpg_plldsi_div_clk_register(core, priv);
-> +		break;
->  	default:
->  		goto fail;
->  	}
-> @@ -1043,6 +1301,8 @@ static int __init rzv2h_cpg_probe(struct platform_d=
-evice *pdev)
->  	priv->last_dt_core_clk =3D info->last_dt_core_clk;
->  	priv->num_resets =3D info->num_resets;
+>  static const struct rzg2l_mipi_dsi_hw_info rzg2l_mipi_dsi_info =3D {
+>  	.dphy_init =3D rzg2l_mipi_dsi_dphy_init,
+>  	.dphy_exit =3D rzg2l_mipi_dsi_dphy_exit, @@ -872,6 +1216,7 @@ static co=
+nst struct
+> rzg2l_mipi_dsi_hw_info rzg2l_mipi_dsi_info =3D {  };
 >=20
-> +	priv->dsi_limits =3D info->plldsi_limits;
-> +
->  	for (i =3D 0; i < nclks; i++)
->  		clks[i] =3D ERR_PTR(-ENOENT);
->=20
-> diff --git a/drivers/clk/renesas/rzv2h-cpg.h b/drivers/clk/renesas/rzv2h-=
-cpg.h index
-> 7321b085f937..1f1ef2fcf878 100644
-> --- a/drivers/clk/renesas/rzv2h-cpg.h
-> +++ b/drivers/clk/renesas/rzv2h-cpg.h
-> @@ -166,6 +166,8 @@ enum clk_types {
->  	CLK_TYPE_PLL,
->  	CLK_TYPE_DDIV,		/* Dynamic Switching Divider */
->  	CLK_TYPE_SMUX,		/* Static Mux */
-> +	CLK_TYPE_PLLDSI,	/* PLLDSI */
-> +	CLK_TYPE_PLLDSI_DIV,	/* PLLDSI divider */
+>  static const struct of_device_id rzg2l_mipi_dsi_of_table[] =3D {
+> +	{ .compatible =3D "renesas,r9a09g057-mipi-dsi", .data =3D
+> +&rzv2h_mipi_dsi_info, },
+>  	{ .compatible =3D "renesas,rzg2l-mipi-dsi", .data =3D &rzg2l_mipi_dsi_i=
+nfo, },
+>  	{ /* sentinel */ }
 >  };
+> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h b/driver=
+s/gpu/drm/renesas/rz-
+> du/rzg2l_mipi_dsi_regs.h
+> index 16efe4dc59f4..87963871cacd 100644
+> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
+> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
+> @@ -40,6 +40,39 @@
+>  #define DSIDPHYTIM3_THS_TRAIL(x)	((x) << 8)
+>  #define DSIDPHYTIM3_THS_ZERO(x)		((x) << 0)
 >=20
->  #define DEF_TYPE(_name, _id, _type...) \ @@ -193,6 +195,14 @@ enum clk_t=
-ypes {
->  		 .num_parents =3D ARRAY_SIZE(_parent_names), \
->  		 .flag =3D CLK_SET_RATE_PARENT, \
->  		 .mux_flags =3D CLK_MUX_HIWORD_MASK)
-> +#define DEF_PLLDSI(_name, _id, _parent, _pll_packed) \
-> +	DEF_TYPE(_name, _id, CLK_TYPE_PLLDSI, .parent =3D _parent, .cfg.pll =3D
-> +_pll_packed) #define DEF_PLLDSI_DIV(_name, _id, _parent, _ddiv_packed, _=
-dtable) \
-> +	DEF_TYPE(_name, _id, CLK_TYPE_PLLDSI_DIV, \
-> +		 .cfg.ddiv =3D _ddiv_packed, \
-> +		 .dtable =3D _dtable, \
-> +		 .parent =3D _parent, \
-> +		 .flag =3D CLK_SET_RATE_PARENT)
+> +/* RZ/V2H DPHY Registers */
+> +#define PLLENR				0x000
+> +#define PLLENR_PLLEN			BIT(0)
+> +
+> +#define PHYRSTR				0x004
+> +#define PHYRSTR_PHYMRSTN		BIT(0)
+> +
+> +#define PLLCLKSET0R			0x010
+> +#define PLLCLKSET0R_PLL_S		GENMASK(2, 0)
+> +#define PLLCLKSET0R_PLL_P		GENMASK(13, 8)
+> +#define PLLCLKSET0R_PLL_M		GENMASK(25, 16)
+> +
+> +#define PLLCLKSET1R			0x014
+> +#define PLLCLKSET1R_PLL_K		GENMASK(15, 0)
+> +
+> +#define PHYTCLKSETR			0x020
+> +#define PHYTCLKSETR_TCLKTRAILCTL        GENMASK(7, 0)
+> +#define PHYTCLKSETR_TCLKPOSTCTL         GENMASK(15, 8)
+> +#define PHYTCLKSETR_TCLKZEROCTL         GENMASK(23, 16)
+> +#define PHYTCLKSETR_TCLKPRPRCTL         GENMASK(31, 24)
+> +
+> +#define PHYTHSSETR			0x024
+> +#define PHYTHSSETR_THSEXITCTL           GENMASK(7, 0)
+> +#define PHYTHSSETR_THSTRAILCTL          GENMASK(15, 8)
+> +#define PHYTHSSETR_THSZEROCTL           GENMASK(23, 16)
+> +#define PHYTHSSETR_THSPRPRCTL           GENMASK(31, 24)
+> +
+> +#define PHYTLPXSETR			0x028
+> +#define PHYTLPXSETR_TLPXCTL             GENMASK(7, 0)
+> +
+> +#define PHYCR				0x030
+> +#define PHYCR_ULPSEXIT                  GENMASK(9, 0)
+> +
+>  /* --------------------------------------------------------*/
 >=20
->  /**
->   * struct rzv2h_mod_clk - Module Clocks definitions @@ -293,6 +303,7 @@ =
-struct rzv2h_reset {
->   *
->   * @num_mstop_bits: Maximum number of MSTOP bits supported, equivalent t=
-o the
->   *		    number of CPG_BUS_m_MSTOP registers multiplied by 16.
-> + * @plldsi_limits: PLL DSI parameters limits
->   */
->  struct rzv2h_cpg_info {
->  	/* Core Clocks */
-> @@ -311,6 +322,8 @@ struct rzv2h_cpg_info {
->  	unsigned int num_resets;
+>  /* Link Status Register */
+> @@ -116,6 +149,7 @@
 >=20
->  	unsigned int num_mstop_bits;
-> +
-> +	const struct rzv2h_pll_div_limits *plldsi_limits;
->  };
->=20
->  extern const struct rzv2h_cpg_info r9a09g047_cpg_info; diff --git a/incl=
-ude/linux/clk/renesas-rzv2h-
-> dsi.h b/include/linux/clk/renesas-rzv2h-dsi.h
-> new file mode 100644
-> index 000000000000..b77f9bc3777e
-> --- /dev/null
-> +++ b/include/linux/clk/renesas-rzv2h-dsi.h
-> @@ -0,0 +1,210 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Renesas RZ/V2H(P) DSI CPG helper
-> + *
-> + * Copyright (C) 2025 Renesas Electronics Corp.
-> + */
-> +#ifndef __RENESAS_RZV2H_DSI_H__
-> +#define __RENESAS_RZV2H_DSI_H__
-> +
-> +#include <linux/limits.h>
-> +#include <linux/math.h>
-> +#include <linux/math64.h>
-> +#include <linux/units.h>
-> +
-> +#define OSC_CLK_IN_MEGA		(24 * MEGA)
-> +
-> +struct rzv2h_pll_div_limits {
-> +	struct {
-> +		u32 min;
-> +		u32 max;
-> +	} fvco;
-> +
-> +	struct {
-> +		u16 min;
-> +		u16 max;
-> +	} m;
-> +
-> +	struct {
-> +		u8 min;
-> +		u8 max;
-> +	} p;
-> +
-> +	struct {
-> +		u8 min;
-> +		u8 max;
-> +	} s;
-> +
-> +	struct {
-> +		s16 min;
-> +		s16 max;
-> +	} k;
-> +
-> +	struct {
-> +		u8 min;
-> +		u8 max;
-> +	} csdiv;
-> +};
-> +
-> +struct rzv2h_plldsi_parameters {
-> +	u64 freq_millihz;
-> +	s64 error_millihz;
-> +	u16 m;
-> +	s16 k;
-> +	u8 csdiv;
-> +	u8 p;
-> +	u8 s;
-> +};
-> +
-> +#define RZV2H_CPG_PLL_DSI_LIMITS(name)					\
-> +	static const struct rzv2h_pll_div_limits (name) =3D {		\
-> +		.fvco =3D { .min =3D 1600 * MEGA, .max =3D 3200 * MEGA },	\
-> +		.m =3D { .min =3D 64, .max =3D 533 },				\
-> +		.p =3D { .min =3D 1, .max =3D 4 },				\
-> +		.s =3D { .min =3D 0, .max =3D 6 },				\
-> +		.k =3D { .min =3D -32768, .max =3D 32767 },			\
-> +		.csdiv =3D { .min =3D 2, .max =3D 32 },			\
-> +	}								\
-> +
-> +/**
-> + * rzv2h_dsi_get_pll_parameters_values - Finds the best combination of
-> +PLL parameters
-> + * and divider value for a given frequency.
-> + *
-> + * @limits: Pointer to the structure containing the limits for the PLL
-> +parameters and
-> + * divider values
-> + * @pars: Pointer to the structure where the best calculated PLL
-> +parameters and divider
-> + * values will be stored
-> + * @freq_millihz: Target output frequency in millihertz
-> + *
-> + * This function calculates the best set of PLL parameters (M, K, P, S)
-> +and divider
-> + * value (CSDIV) to achieve the desired frequency.
-> + * There is no direct formula to calculate the PLL parameters and the
-> +divider value,
-> + * as it's an open system of equations, therefore this function uses an
-> +iterative
-> + * approach to determine the best solution. The best solution is one
-> +that minimizes
-> + * the error (desired frequency - actual frequency).
-> + *
-> + * Return: true if a valid set of divider values is found, false otherwi=
-se.
-> + */
-> +static __maybe_unused bool
-> +rzv2h_dsi_get_pll_parameters_values(const struct rzv2h_pll_div_limits *l=
-imits,
-> +				    struct rzv2h_plldsi_parameters *pars,
-> +				    u64 freq_millihz)
-> +{
-> +	struct rzv2h_plldsi_parameters p, best;
-> +
-> +	/* Initialize best error to maximum possible value */
-> +	best.error_millihz =3D S64_MAX;
-> +
-> +	for (p.csdiv =3D limits->csdiv.min; p.csdiv <=3D limits->csdiv.max; p.c=
-sdiv +=3D 2) {
-> +		for (p.p =3D limits->p.min; p.p <=3D limits->p.max; p.p++) {
-> +			u32 fref =3D OSC_CLK_IN_MEGA / p.p;
-> +			u16 divider;
-> +
-> +			for (divider =3D p.csdiv << limits->s.min, p.s =3D limits->s.min;
-> +			     p.s <=3D limits->s.max; p.s++, divider *=3D 2) {
-> +				for (p.m =3D limits->m.min; p.m <=3D limits->m.max; p.m++) {
-> +					u64 output_m, output_k_range;
-> +					s64 pll_k, output_k;
-> +					u64 fvco, output;
-> +
-> +					/*
-> +					 * The frequency generated by the combination of the
-> +					 * PLL + divider is calculated as follows:
-> +					 *
-> +					 * Freq =3D Ffout / csdiv
-> +					 *
-> +					 * With:
-> +					 * Ffout =3D Ffvco / 2^(pll_s)
-> +					 * Ffvco =3D (pll_m + (pll_k / 65536)) * Ffref
-> +					 * Ffref =3D 24MHz / pll_p
-> +					 *
-> +					 * Freq can also be rewritten as:
-> +					 * Freq =3D Ffvco / (2^(pll_s) * csdiv))
-> +					 *      =3D Ffvco / divider
-> +					 *      =3D (pll_m * Ffref) / divider + ((pll_k / 65536) * Ffref) /
-> divider
-> +					 *      =3D output_m + output_k
-> +					 *
-> +					 * Every parameter has been determined at this point, but pll_k.
-> +					 * Considering that:
-> +					 * -32768 <=3D pll_k <=3D 32767
-> +					 * Then:
-> +					 * -0.5 <=3D (pll_k / 65536) < 0.5
-> +					 * Therefore:
-> +					 * -Ffref / (2 * divider) <=3D output_k < Ffref / (2 * divider)
-> +					 */
-> +
-> +					/* Compute output M component (in mHz) */
-> +					output_m =3D DIV_ROUND_CLOSEST_ULL(mul_u32_u32(p.m, fref) * MILLI,
-> +									 divider);
-> +					/* Compute range for output K (in mHz) */
-> +					output_k_range =3D DIV_ROUND_CLOSEST_ULL(mul_u32_u32(fref, MILLI),
-> +									       divider * 2);
-> +					/*
-> +					 * No point in continuing if we can't achieve the
-> +					 * desired frequency
-> +					 */
-> +					if (freq_millihz <  (output_m - output_k_range) ||
-> +					    freq_millihz >=3D (output_m + output_k_range))
-> +						continue;
-> +
-> +					/*
-> +					 * Compute the K component
-> +					 *
-> +					 * Since:
-> +					 * Freq =3D output_m + output_k
-> +					 * Then:
-> +					 * output_k =3D Freq - output_m
-> +					 *          =3D ((pll_k / 65536) * Ffref) / divider
-> +					 * Therefore:
-> +					 * pll_k =3D (output_k * 65536 * divider) / Ffref
-> +					 */
-> +					output_k =3D freq_millihz - output_m;
-> +					pll_k =3D div_s64(output_k * 65536ULL * divider, fref);
-> +					pll_k =3D DIV_S64_ROUND_CLOSEST(pll_k, MILLI);
-> +
-> +					/* Validate K value within allowed limits */
-> +					if (pll_k < limits->k.min || pll_k > limits->k.max)
-> +						continue;
-> +
-> +					p.k =3D pll_k;
-> +
-> +					/* Compute (Ffvco * 65536) */
-> +					fvco =3D mul_u32_u32(p.m * 65536 + p.k, fref);
-> +					if ((fvco < mul_u32_u32(limits->fvco.min, 65536)) ||
-> +					    (fvco > mul_u32_u32(limits->fvco.max, 65536)))
-> +						continue;
-> +
-> +					/* PLL_M component of (output * 65536 * PLL_P) */
-> +					output =3D mul_u32_u32(p.m * 65536, OSC_CLK_IN_MEGA);
-> +					/* PLL_K component of (output * 65536 * PLL_P) */
-> +					output +=3D p.k * OSC_CLK_IN_MEGA;
-> +					/* Make it in mHz */
-> +					output *=3D MILLI;
-> +					output =3D DIV_U64_ROUND_CLOSEST(output, 65536 * p.p * divider);
-> +
-> +					p.error_millihz =3D freq_millihz - output;
-> +					p.freq_millihz =3D output;
-> +
-> +					/* If an exact match is found, return immediately */
-> +					if (p.error_millihz =3D=3D 0) {
-> +						*pars =3D p;
-> +						return true;
-> +					}
-> +
-> +					/* Update best match if error is smaller */
-> +					if (abs(best.error_millihz) > abs(p.error_millihz))
-> +						best =3D p;
-> +				}
-> +			}
-> +		}
-> +	}
-> +
-> +	/* If no valid parameters were found, return false */
-> +	if (best.error_millihz =3D=3D S64_MAX)
-> +		return false;
-> +
-> +	*pars =3D best;
-> +	return true;
-> +}
-> +
-> +#endif	/* __RENESAS_RZV2H_DSI_H__ */
+>  /* Video-Input Channel 1 Pixel Packet Set Register */
+>  #define VICH1PPSETR			0x420
+> +#define VICH1PPSETR_DT_RGB16		(0x0e << 16)
+>  #define VICH1PPSETR_DT_RGB18		(0x1e << 16)
+>  #define VICH1PPSETR_DT_RGB18_LS		(0x2e << 16)
+>  #define VICH1PPSETR_DT_RGB24		(0x3e << 16)
 > --
 > 2.49.0
 
