@@ -1,187 +1,109 @@
-Return-Path: <linux-renesas-soc+bounces-18269-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18268-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69589AD88F4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jun 2025 12:12:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 583DBAD88F1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jun 2025 12:11:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7AB7B3A1C3E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jun 2025 10:10:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 090613A1C8C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jun 2025 10:09:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89B742D0283;
-	Fri, 13 Jun 2025 10:10:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CAD92C15B6;
+	Fri, 13 Jun 2025 10:10:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cQeWMcQ1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EkDuArAx"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49E932C376B;
-	Fri, 13 Jun 2025 10:10:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 480232C15B3
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 13 Jun 2025 10:10:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749809458; cv=none; b=fYyDZE7vOoLhf4rYUiCtRBzZaTnCVYEBn8uFxIRpQXPQghLVvkPFN/IDb0xRp92m22wTnkEDBN0PAmWDwBTVEmahweRDO/ANdWg06/dT3R0W+SCH88ovK7qdYld0D+49D7Gazw8Nj7VJu3aYzboAm256B/bcwPx0i3AsngvHVOo=
+	t=1749809406; cv=none; b=h0zRtxQGganR0SH9OZ/Y11B/T/acp3m/t38fb4mZDjE8FCU9XuSzbsz8OIKyFpjoqeodtIoatFvvwJ0R7oV3bQQuICj9E8Xvfd7ZeD2wTgAzusMCGzbuZPiDt3uTWb8TiavevOkejy0kkURi+8PiOLS5FFTMApdzcpCMtop5dj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749809458; c=relaxed/simple;
-	bh=ghZ1LG1KHdiUBK1zj+udIgi2zei5jleAEyjVIVwbSK8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ru0cU9jbVNlkS6Iu93aXp9qsvaI4qJDt0Zb5GfF6n6HV5rsEOaqk9AhcvLwgjqfHre7MwkvX6xUZ0Fyat7wG9alakVKk22myp0zMa3llm4Hg+y/B9j1Tsex/ufZ/K8oOGLnZSRAPFqahlHqO08xHzn7FMZjrEaUPG699gKqDyRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cQeWMcQ1; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-451ebd3d149so13048125e9.2;
-        Fri, 13 Jun 2025 03:10:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749809454; x=1750414254; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=REfwVy48LjvgCSinXle+QxaU3FrH2CN4u42d5xmEyy8=;
-        b=cQeWMcQ1qpHx2TrrfSDMvA/TrPe1qsJUm6zTDmygnt0X3wNO+EA+6lufmG/Kw313Jz
-         RLQgohYw7A33/fDSJ8QHTS5oPddNmivE31ZXKkKbL0ZLxMj3ULT4ose6ACKLRUFwZnzE
-         oNi15cVyy3vDYGQzbvgNhR3AqYjZOR0uMgDst0jRUnBJXb9TwuoCW6+OYG5UQ6adSaku
-         Vfdx6eGMCg7z0+2zMAxb5zmJ0Z1YBoBTlRZkkFfNfpGlkTq950LcolH81s2DoI91/T/5
-         ljbgLPTf1JiJLzsLIHoWl3OGnyDkdlSIedSuar56saSC9CUi67vilWVRPZ7tvKfyGUHx
-         qtsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749809454; x=1750414254;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=REfwVy48LjvgCSinXle+QxaU3FrH2CN4u42d5xmEyy8=;
-        b=c+9wOvHRoQ0izBK0TRN611MvUAQO0RkorLArMPsUoiueXoS1r4GcUUw7CWP2J5xQto
-         qG7o8V7PDy4+i2oyb+O34t3f3YJhEbpTkTVSzG3mS5TgNjuYZE37plVuUFuHtmqpaXbD
-         iFNrLK2pkMkb+KH7lR8jgI3g9iuYw8NpgBm9ALHrC/QhjefsKrf7FAugP86D9i93R7Hf
-         gnIACmdBtR8L0PT+2scSgplMOJl03ra+vjPKOIGRIJjkxUtUryP92qpk4QgkxjcdNIDU
-         CfXvFUNsvbQ/k0SH73jm5tqB3udKu/61XLPmfAhcZVPBR/FAttkDLQocsz0ky+n9rF1b
-         gS7w==
-X-Forwarded-Encrypted: i=1; AJvYcCU3oXaLGXNijYtKr3m1G0rCz3DMwQ5gxTCrpV491oa6MMYabsZZODtNI3/P/wGvDq3xqekcSW+yMNbR@vger.kernel.org, AJvYcCVtP51CXSFTN6bdfLDLiaSeHqR1MQYKhJCSti3SWOikjj7lsohNX4JcZ7TFxczdd2kVs14lvTGd3SgN3M8sssxhI+M=@vger.kernel.org, AJvYcCWyudvbZyd37xH3H3l+uwBag1ONSj2n4g1bhhFVF9vxejQJafCl9bKJBWy7nsHwdvUZx7gnY18sW5MgFK7t@vger.kernel.org, AJvYcCXM2som8jblq3O4aymFOo5ck1F+AiIFaKZsGkjzHpn/pV96ad5jXOJZlBrUvmAFhe7z6ROWtkiuHMkH@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw78l8EY391/zPwYtK6CC85l82liweClSv0AFu3o0qKgOfQnz2Y
-	ANgnU7NrfadHznZIGe6VETZ2gqwp2f7OpBO68foLrDih16e5KaiYxYi/Iv35fft+ABqokUvMyrx
-	+Lg1DqQrOop4075burJsCn185TIt6G+4=
-X-Gm-Gg: ASbGncuB+n1Iffd44ndCeSwUu76GxtME7ZSwSW4g2BWT70j7WcJl4pA+ixX0vxNhiN4
-	YBHQml2TI2pH3RxbVIfAkMwfBK2NWUegj7f0cefo4WNc/f/YdxRTvYFEi6bydjekRdc7YdlGWqq
-	6vfDymJuFvCUj1whw5VSK1akNzuZplFHADCXFtBCmOsdHoOA==
-X-Google-Smtp-Source: AGHT+IEWDvuz4zH4iWOydIQMgbrpQR3J1s4lhCZk8JE7vwP5jdDaVx6ppbnNqm2UA4NOKPnuTe1bjM/QFqa3jPbgQ4I=
-X-Received: by 2002:a05:6000:1acf:b0:3a4:d0ed:257b with SMTP id
- ffacd0b85a97d-3a56870469emr2315734f8f.22.1749809454252; Fri, 13 Jun 2025
- 03:10:54 -0700 (PDT)
+	s=arc-20240116; t=1749809406; c=relaxed/simple;
+	bh=dDI70yGCWfZpRne3xF8sbV+fHRUtVtjORGSx+qpOglE=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=XMl2GN7sY8nwpHJ1NHpDL3KS0gcaozF2EXrmNvrPSt/FI2iz+aXY/+fT82wKTNfv5w+jtgrQ5Wp2TLRGpi9/fnWDFPsGIfA/aXI8dH34xX6GxOMQwfsbGx3Osvd9c2XWfcTGga1iip0GWGQYfg4GwGV/KQ1N46G9FwprImj+2qo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EkDuArAx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D90ACC4CEE3
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 13 Jun 2025 10:10:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749809404;
+	bh=dDI70yGCWfZpRne3xF8sbV+fHRUtVtjORGSx+qpOglE=;
+	h=Subject:From:Date:To:From;
+	b=EkDuArAx8Lsh16qVOp9+vH6t+CCq87wqL/sMzc5K6Agm0A2VnK3+AZtPgkSJoyYqT
+	 sRjIJX7NkEvgmwXC0IL5ct6bmaesTnbNxxY6VxbAGZvjA6FCjtTlGb52mpRB4ZPOiZ
+	 TxGkaXc7i7f7AWZpPujBRb42B+MZaQabTCKzQITs5SdYP3g+Ihmlhw2eBFbxzdeyl8
+	 19b28ixLAdaCKJDeR0YAa96JBBX7DGJIU6fyQk7nM8Zn2z1pBWKJwDbRGEXhC/f225
+	 mXRhzZRK3t8SGYFwE7Y6iR0CpqhdfSCqvL3aGephqAZUw0Er3ps+G1xQtwAM6VhH6x
+	 5aWaH/AB94jow==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id B1BE539EFFD0
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 13 Jun 2025 10:10:35 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250609184114.282732-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250609184114.282732-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdUCYjPP326g9MsnH8p6gM-vy33L4OsFFMGzsZbLbucTUA@mail.gmail.com>
-In-Reply-To: <CAMuHMdUCYjPP326g9MsnH8p6gM-vy33L4OsFFMGzsZbLbucTUA@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 13 Jun 2025 11:10:28 +0100
-X-Gm-Features: AX0GCFsNZ6GYODXXSo_A5GWSFs0V8tUCqmJPQVQONI8m8dqOA67nkeFpQLYGvN8
-Message-ID: <CA+V-a8sWMFEA5Ub8nGh6jygcQKKVm568nD2zo5HSE2jN1qp4pg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] dt-bindings: i2c: renesas,riic: Document RZ/T2H support
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Chris Brandt <chris.brandt@renesas.com>, Andi Shyti <andi.shyti@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Andy Shevchenko <andy@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Conor Dooley <conor.dooley@microchip.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From: patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: 
+ <174980943415.667161.3595647669617325482.git-patchwork-summary@kernel.org>
+Date: Fri, 13 Jun 2025 10:10:34 +0000
+To: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hello:
 
-Thank you for the review.
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-On Thu, Jun 12, 2025 at 1:17=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Mon, 9 Jun 2025 at 20:41, Prabhakar <prabhakar.csengg@gmail.com> wrote=
-:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Document support for the I2C Bus Interface (RIIC) found on the Renesas
-> > RZ/T2H (R9A09G077) SoC. The RIIC IP on this SoC is similar to that on
-> > the RZ/V2H(P) SoC but supports fewer interrupts, lacks FM+ support and
-> > does not require resets. Due to these differences, add a new compatible
-> > string `renesas,riic-r9a09g077` for the RZ/T2H SoC.
-> >
-> > Unlike earlier SoCs that use eight distinct interrupts, the RZ/T2H uses
-> > only four, including a combined error/event interrupt. Update the bindi=
-ng
-> > schema to reflect this interrupt layout and skip the `resets` property
-> > check, as it is not required on these SoCs.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> > Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> > ---
-> > v1-> v2:
-> > - Listed the interrupts in the order as mentioned in the
-> >   HW manual.
-> > - Renamed the interrupt names to match the HW manual.
-> > - Added Acked-by and Reviewed-by tags.
->
-> Thanks for the update!
->
-> > --- a/Documentation/devicetree/bindings/i2c/renesas,riic.yaml
-> > +++ b/Documentation/devicetree/bindings/i2c/renesas,riic.yaml
-> > @@ -29,32 +29,46 @@ properties:
-> >                - renesas,riic-r9a09g056   # RZ/V2N
-> >            - const: renesas,riic-r9a09g057   # RZ/V2H(P)
-> >
-> > -      - const: renesas,riic-r9a09g057   # RZ/V2H(P)
-> > +      - enum:
-> > +          - renesas,riic-r9a09g057   # RZ/V2H(P)
-> > +          - renesas,riic-r9a09g077   # RZ/T2H
-> >
-> >    reg:
-> >      maxItems: 1
-> >
-> >    interrupts:
-> > -    items:
-> > -      - description: Transmit End Interrupt
-> > -      - description: Receive Data Full Interrupt
-> > -      - description: Transmit Data Empty Interrupt
-> > -      - description: Stop Condition Detection Interrupt
-> > -      - description: Start Condition Detection Interrupt
-> > -      - description: NACK Reception Interrupt
-> > -      - description: Arbitration-Lost Interrupt
-> > -      - description: Timeout Interrupt
-> > +    oneOf:
-> > +      - items:
-> > +          - description: Transmit End Interrupt
-> > +          - description: Receive Data Full Interrupt
-> > +          - description: Transmit Data Empty Interrupt
-> > +          - description: Stop Condition Detection Interrupt
-> > +          - description: Start Condition Detection Interrupt
-> > +          - description: NACK Reception Interrupt
-> > +          - description: Arbitration-Lost Interrupt
-> > +          - description: Timeout Interrupt
-> > +      - items:
-> > +          - description: Transmit Error Or Event Generation
->
-> s/Transmit/Transfer/
->
-Agreed.
+Series: Add support for Renesas RZ/N2H (R9A09G087) SoC and RZ/N2H EVK
+  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=969999
+  Lore link: https://lore.kernel.org/r/20250609203656.333138-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+    Patches: [1/8] dt-bindings: soc: Add Renesas RZ/N2H (R9A09G087) SoC
+             [2/8] soc: renesas: Add config option for RZ/N2H (R9A09G087) SoC
 
-> > +          - description: Receive Data Full Interrupt
-> > +          - description: Transmit End Interrupt
-> > +          - description: Transmit Data Empty Interrupt
->
-> The last two don't match the order in the documentation, and the
-> order in interrupt-names below.
->
-Ouch, I'll fix that and send a new version.
+Patch: arm64: dts: renesas: Add bootph-all to sysinfo EEPROM on R-Car Gen3
+  Submitter: Marek Vasut <marek.vasut+renesas@mailbox.org>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=969632
+  Lore link: https://lore.kernel.org/r/20250608215212.1619182-1-marek.vasut+renesas@mailbox.org
 
-Cheers,
-Prabhakar
+Series: soc: use new GPIO line value setter callbacks
+  Submitter: Bartosz Golaszewski <brgl@bgdev.pl>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=970330
+  Lore link: https://lore.kernel.org/r/20250610-gpiochip-set-rv-soc-v1-0-1a0c36c9deed@linaro.org
+    Patches: [1/2] soc: fsl: qe: use new GPIO line value setter callbacks
+             [2/2] soc: renesas: pwc-rzv2m: use new GPIO line value setter callbacks
+
+Series: Add USB2.0 support for R9A09G056 SoC and RZ/V2N EVK
+  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=967032
+  Lore link: https://lore.kernel.org/r/20250528140453.181851-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+    Patches: [1/2] arm64: dts: renesas: r9a09g056: Add USB2.0 support
+             [2/2] arm64: dts: renesas: r9a09g056n48-rzv2n-evk: Enable USB2.0 support
+
+Patch: ARM: dts: renesas: r9a06g032: add second clock input to RTC
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=968554
+  Lore link: https://lore.kernel.org/r/20250604084211.28090-2-wsa+renesas@sang-engineering.com
+
+
+Total patches: 8
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
 
