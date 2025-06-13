@@ -1,173 +1,172 @@
-Return-Path: <linux-renesas-soc+bounces-18311-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18312-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49ECDAD917A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jun 2025 17:36:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33903AD9190
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jun 2025 17:38:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1FB091BC42D9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jun 2025 15:36:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 933E81BC4188
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jun 2025 15:38:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 193101F7554;
-	Fri, 13 Jun 2025 15:35:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 687D51F2BA4;
+	Fri, 13 Jun 2025 15:38:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="RdBwemEs";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="m40lkdG7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HP+PCI1p"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 735771EFF8B;
-	Fri, 13 Jun 2025 15:35:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D501EEA47;
+	Fri, 13 Jun 2025 15:38:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749828936; cv=none; b=eiQ1k3xsogwmHJyUju5RasURU+ryVAI8oZUzKQ3snWdBRYPFaOebf0dFvxcHHseAmhXQM8vRXuRDCPJZQ73z9Aw2MWRs+WoI+ZhEKQ2IbGXgky8EnnjjkMruXhXG3Jk+ZG1IZGhqINDVB8+Fg9cxCN1nT7t52Om6TMy6VVUMzO8=
+	t=1749829104; cv=none; b=l55P2Oeq38l0qFR+Nl4BFkSgtZbO2GVKiA8zJtYv6YUt1UGLnLwC6Y5yggbyYCP/OcwxaHtQ69f7cSSII2wIVKvx6GK/9u3dCLbrrzVh6nRbzmIp/Ms1IGmRhWXGc9eHP6ojp8FEpOsOtLv9mG5S0I/2dsi76E0tdlIUgY51snM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749828936; c=relaxed/simple;
-	bh=VrEBwwMReLYJxYrAda2HKAhIsvebqHhh8z3siGal90U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aTj0VF7Q0hisBJTxMQ9amk4T7mQF+/90WQ1PcY+1U1CYflh7g7nB0N7FLSqaDgNZInuJgDxMJA1TJjNaK9xf4BWufL5GFzo9KCR2UPxkUszrNjExxfToFyyfgBHOw8H6Kw4d9BmDGJ31kR1DBQdKBzCb+OChqTqhQ38aEwfa5Bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=RdBwemEs; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=m40lkdG7; arc=none smtp.client-ip=103.168.172.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id A5FF0114014E;
-	Fri, 13 Jun 2025 11:35:33 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Fri, 13 Jun 2025 11:35:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1749828933;
-	 x=1749915333; bh=nP0T6OrDHDzUlOCarMDQsLhaE5gcUaPlvOGPYxbh/FI=; b=
-	RdBwemEs23U1BE+jM5W9yvT3FBkZ0hWmpJpDnpJ/AgSy7AuqgVXGmc6wa6r1PMQP
-	KAh/N6mnfmrCDZUmUo298QrFx+iK/xCa7vfeJuSs3KeLQLKW37GT8HpDosvbXCfz
-	6ihoedCOoHkg4nQg0wHvOK7uY/wmIOvsnjoQC4UQk/CArfqjtTXteXdTEIVoK9lO
-	AzLtqqfO9BwIJ639cKuLqWkXd5Aop3KvhgM2y5jVS5iKWE47XKFXa9RpQG1i4bB6
-	HPOqPVTP/OfVjGMJEbXww1FVO1yv9mVpaFsVWZE34MP01ROtQlLD6e/Ez+yQJcIB
-	RReixHbwrU/5JQD47KUH1A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749828933; x=
-	1749915333; bh=nP0T6OrDHDzUlOCarMDQsLhaE5gcUaPlvOGPYxbh/FI=; b=m
-	40lkdG7P8kvRbr1o8Gjn3pXBc25kNHA/TBRT31m+aapf31fkvtHpH05ROy37/Saf
-	kkJf7sgJzr/mF5Ho5+yPDCoQ7qW2XFmXPEd9EPEiuqTU+sRmSXX0b6CcAWibtK62
-	aI35P13Jt5ckc8juEccfar6SGVIaV9mMuUawoo1ooHsRtzfQ6Vl5DnSESSpJVHP7
-	CZMpuBRDHzTgjBI9fWdM5x8LkYzsplJ7udNYzV9aGvwyn/oxYrLIHeZbqHFr/C5m
-	sIwI3Dze3xMlP9xebVD4LrTdy2NOZ8D7uHGMFdIJX0IH9JjoG3UXnhSWFZj8iGjl
-	2fYyF8eOfSp5oK4Hc3JmQ==
-X-ME-Sender: <xms:RUVMaI3WEiuN2ats35e8nNtcr_-YJ0MqXYHhMvVxl30Ol1GLOuP2pA>
-    <xme:RUVMaDEkupuUHKMujlOkmKg08e9RctQLaRVp7LcvDyQIRPQiqFAl_eSTErNWipykT
-    VlkVzlbAtMEH3iUMDY>
-X-ME-Received: <xmr:RUVMaA7HUV3QTM-VZfxIIMn1iRppzJdaZvMRUwNMSJ8vuta1K5EbxnmhVENoWXp_pd1S9dXzNUQ1rn73kKUkTDl2>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddukeefvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfgggtgfesthekredtredt
-    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
-    guvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgr
-    thhtvghrnhepheeigfeuveeutdefhfehgeekvedtleeuueekveefudehhffhjeffgfegff
-    elfeegnecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrhhomhep
-    nhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtg
-    hpthhtohepkedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepshgrkhgrrhhirdgr
-    ihhluhhssehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhgthhgvhhgrsg
-    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthhomhhirdhvrghlkhgvihhnvghnodhr
-    vghnvghsrghssehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehlrghurh
-    gvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthht
-    oheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtth
-    hopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-    pdhrtghpthhtohepnhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrg
-    hgnhgrthgvtghhrdhsvgdprhgtphhtthhopehlrghurhgvnhhtrdhpihhntghhrghrthdo
-    rhgvnhgvshgrshesihguvggrshhonhgsohgrrhgurdgtohhm
-X-ME-Proxy: <xmx:RUVMaB3Bcx6IHWnLy79kLmcUoRO1gH7aINdFQTG_X5j6YFSKwGqK2w>
-    <xmx:RUVMaLELyV8_JBzDLVutAy4QzwlYxjvdT2YwnvAOsJv6DSkCyvoy0A>
-    <xmx:RUVMaK-cLS_cGUToljnIX9Yb0uVVghcCZLvQZ4xtMucWWTy99ctlWw>
-    <xmx:RUVMaAmCIreWGg9YsmfYxtY89ns2v9gR6G_63XcRp59KTl2HzSCQdA>
-    <xmx:RUVMaCiNCtBrwLxBrdXsZ1v-te0NOekBCFHqjufPjv1rSF3ZJlIq0Pgl>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 13 Jun 2025 11:35:33 -0400 (EDT)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: [PATCH v6 13/13] media: rcar-vin: Fold event notifier into only user
-Date: Fri, 13 Jun 2025 17:34:34 +0200
-Message-ID: <20250613153434.2001800-14-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250613153434.2001800-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20250613153434.2001800-1-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1749829104; c=relaxed/simple;
+	bh=HQhTZfTnw4diVZnHhB7ZoGRrWk9EQDmPViI90O1QwPg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=r+tM1otCyOo9rcYN+AEDpoXDwdqV5HHolGO13VhDEqO2e0q4eeDudSwEVRQyqr3q7U4FFnTP/VuU6r/p/dhvXjHRhcHpA+l7XzkrcOmoIRZmLAEi16eDpn4Za+830pwB6sN4oaHAntuFKipSc3HuE4VWDK0HsP/WuKaBSDzWYX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HP+PCI1p; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3a375e72473so1410695f8f.0;
+        Fri, 13 Jun 2025 08:38:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749829101; x=1750433901; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Wci3OULWlGFVwJ58oYx/jmZbLNoBsgngvOoZDnSz/1o=;
+        b=HP+PCI1p2WndYBorGxD0G72q7j3QdzuvcFRtKgRln+9DJsUJMW/XpODPJ2ADnKryMw
+         /fmh0c9U0aIc8r7taRf3Yu3hkYkYxiIAX5GEXz8coBaTSoWmK6iLMnhJ1qcI2emkaXTn
+         CjUxgruPMQBVPAO5tBjYYPvb5dMcpLX11DHPCAlVoz01owY7itpbY7VMSCs1ulO7QjAO
+         WG8DyHDvF8eEa40mH5wu4egRk9gWK4eNBAMq2UFt/C8EBNQyl1vaXJ3GlV3yvv6j8+6l
+         COmC0HWTFIQMpyXxeSpHuJdoQPdH1+qqAFzAn+LgD+yDS0K8SySKQHx9sHFk11P8gUb1
+         Y0dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749829101; x=1750433901;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Wci3OULWlGFVwJ58oYx/jmZbLNoBsgngvOoZDnSz/1o=;
+        b=DViOGAcnPVEYvQ31/U6IXxI3NUS6j3n/1RJ8QsvfM9UA6p31ld8SMvftPqs6x2/Mha
+         vCNWSTPy24ABMryH92E0RqNiGUX3UnUjkdJd74+eFPyUViojNrB6cVQpLb/q2IQ54yaX
+         cSinGFKKf7FbGl7HFjgtmUQT6tDgNRGwPhuB1udT4hzo48ODUQP5K++FJQY9quOoUQIs
+         uIJdUvszCvB/IkUa7uFQ6PZZZpVVE0LvZ3yio7XSJvMPbd3rpGEy9+AQ43/mSF0LvzvR
+         Ie0f+Zm7HHoqWVyejTjW1hHU1xkRyJdF9aDfN510Yl4UBm6ese6Nwf4dNbUqByWgAp7/
+         wd0A==
+X-Forwarded-Encrypted: i=1; AJvYcCUNIVbZ//jtnLBVpd3QEWlt1UoIABjvcS4DQmfp81Pc0lsYD63cJ7jIy0i3QWiHBXDRuJzOxeX7mdli@vger.kernel.org, AJvYcCVFWLrUCz9j3TXAD4TlCggzyFwQEu3h+J8net6hcpGNcuwBg3AvHtm2Oifv0Q60ldcgroD6sJq33hCvnTf1@vger.kernel.org, AJvYcCVhjly38mA8nCQ1f3FeVMnQXOg4hVOnPFdilGSixJ6RR/hD5YKtHoccGdqmv0YYnAlm+KSBh8sQqOEym0yIEs68wKo=@vger.kernel.org, AJvYcCWMmll+UlWzQs5rVG+xJuiKlRaTHFsPidpI8Nf97uEzlWLtU0NPNMNkFj7Rp1+Z9S3HpNMP4jwCcibW@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgF+D8fOUCoyPUITcdWrEky5De3DOgaaRmCpWT6m1X90lpJwU4
+	i9mN3P72OqrIsuQd0okUrQ+8hA0TRqVxYIe/9SjcTzyJNfxoHKVyof5Pwmjf83FIJkWMHIFI9yx
+	JaNCiawnIAKMQBFeDLBsc+io9tuXEc0o=
+X-Gm-Gg: ASbGncsmIujHSql7BtgCkfQD5NjSOhX6AX37cRx31+Etsc+vY44cBO9hEME3faqmc6h
+	XBhTTgNgHNxCzeo9M/RDEl/1Ob0ibt8K6aEV1lebaiqQCJplKHQcVCNNtpj11ItVYkqxUgl4Q3I
+	ksgpx4VAdNdTyP5QT4bH1JFNOlE9Dkj0sYyCQE7K79Ye8=
+X-Google-Smtp-Source: AGHT+IEMrjsiK9P909xoQb43iNVR6qh9Ty1yLTa5JLGU6Mssh8oQxVdmG4OaKVUa4OkcVm1Om/tDr6y6PKQ/juNx3+8=
+X-Received: by 2002:a05:6000:2c0f:b0:3a4:ef2c:2e03 with SMTP id
+ ffacd0b85a97d-3a5723a2c47mr224793f8f.33.1749829100900; Fri, 13 Jun 2025
+ 08:38:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250609232253.514220-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWoWqrMKgNSYN_NDOtROD-SAq7ProhREPJTEBTOPCeH=A@mail.gmail.com>
+In-Reply-To: <CAMuHMdWoWqrMKgNSYN_NDOtROD-SAq7ProhREPJTEBTOPCeH=A@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Fri, 13 Jun 2025 16:37:55 +0100
+X-Gm-Features: AX0GCFvZCGvYpOP-G07AbNUHUOwIj4rYaSPCHj8y71th97TvgAtpMZZM4unZwDg
+Message-ID: <CA+V-a8sBhF-FwV0BXCxpHkuhdAg5YcwDsWPFRPSV_BdmNpLWYA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: mmc: renesas,sdhi: Document RZ/T2H and
+ RZ/N2H support
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-With Gen2 converted to use the common media device there is only one
-caller left for the helper to notify a video device of an event, fold it
-in.
+Hi Geert,
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
-* Changes since v4
-- Broken out from larger patch.
----
- .../platform/renesas/rcar-vin/rcar-v4l2.c     | 20 +++++++------------
- 1 file changed, 7 insertions(+), 13 deletions(-)
+Thank you for the review.
 
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-index 3a4c7433f061..9b1e3a9d3249 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-@@ -656,18 +656,6 @@ void rvin_v4l2_unregister(struct rvin_dev *vin)
- 	video_unregister_device(&vin->vdev);
- }
- 
--static void rvin_notify_video_device(struct rvin_dev *vin,
--				     unsigned int notification, void *arg)
--{
--	switch (notification) {
--	case V4L2_DEVICE_NOTIFY_EVENT:
--		v4l2_event_queue(&vin->vdev, arg);
--		break;
--	default:
--		break;
--	}
--}
--
- static void rvin_notify(struct v4l2_subdev *sd,
- 			unsigned int notification, void *arg)
- {
-@@ -693,7 +681,13 @@ static void rvin_notify(struct v4l2_subdev *sd,
- 		if (remote != sd)
- 			continue;
- 
--		rvin_notify_video_device(vin, notification, arg);
-+		switch (notification) {
-+		case V4L2_DEVICE_NOTIFY_EVENT:
-+			v4l2_event_queue(&vin->vdev, arg);
-+			break;
-+		default:
-+			break;
-+		}
- 	}
- }
- 
--- 
-2.49.0
+On Thu, Jun 12, 2025 at 4:47=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Tue, 10 Jun 2025 at 01:23, Prabhakar <prabhakar.csengg@gmail.com> wrot=
+e:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Add SDHI bindings for the Renesas RZ/T2H (a.k.a R9A09G077) and RZ/N2H
+> > (a.k.a R9A09G087) SoCs. Use `renesas,sdhi-r9a09g057` as a fallback sinc=
+e
+> > the SD/MMC block on these SoCs is identical to the one on RZ/V2H(P),
+> > allowing reuse of the existing driver without modifications.
+> >
+> > Update the binding schema to reflect differences: unlike RZ/V2H(P),
+> > RZ/T2H and RZ/N2H do not require the `resets` property and use only a
+> > single clock instead of four.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Thanks for your patch!
+>
+> > --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> > +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> > @@ -129,59 +131,75 @@ allOf:
+> >          compatible:
+> >            contains:
+> >              enum:
+> > -              - renesas,sdhi-r9a09g057
+> > -              - renesas,rzg2l-sdhi
+> > +              - renesas,sdhi-r9a09g077
+> > +              - renesas,sdhi-r9a09g087
+> >      then:
+> >        properties:
+> > +        resets: false
+> >          clocks:
+> > -          items:
+> > -            - description: IMCLK, SDHI channel main clock1.
+> > -            - description: CLK_HS, SDHI channel High speed clock which=
+ operates
+> > -                           4 times that of SDHI channel main clock1.
+> > -            - description: IMCLK2, SDHI channel main clock2. When this=
+ clock is
+> > -                           turned off, external SD card detection cann=
+ot be
+> > -                           detected.
+> > -            - description: ACLK, SDHI channel bus clock.
+> > +          description: ACLK, SDHI channel bus clock.
+>
+> According to the documentation, this is the SDHI high speed clock...
+>
+Agreed, I will update it to `CLKHS, SDHI channel High speed clock.`
 
+> > +          maxItems: 1
+> >          clock-names:
+> > -          items:
+> > -            - const: core
+> > -            - const: clkh
+> > -            - const: cd
+> > -            - const: aclk
+> > -      required:
+> > -        - clock-names
+> > -        - resets
+> > +          const: aclk
+>
+> ... i.e. clkhs.
+s/clkhs/clkh
+
+Cheers,
+Prabhakar
 
