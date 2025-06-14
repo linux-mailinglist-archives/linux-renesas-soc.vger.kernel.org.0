@@ -1,170 +1,139 @@
-Return-Path: <linux-renesas-soc+bounces-18327-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18328-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FD4AAD9C6F
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Jun 2025 13:17:27 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75FEEAD9D5B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Jun 2025 16:16:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9D7A77A171D
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Jun 2025 11:16:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 948EC189A242
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Jun 2025 14:16:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2D2A1E3DEB;
-	Sat, 14 Jun 2025 11:17:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E70E28EA76;
+	Sat, 14 Jun 2025 14:16:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (3072-bit key) header.d=posteo.net header.i=@posteo.net header.b="Lca7QKh6"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="I4/m7bDY";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MVXXa0lL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C08178F5E
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 14 Jun 2025 11:17:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E0783D994;
+	Sat, 14 Jun 2025 14:16:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749899841; cv=none; b=V8EwUSszovPkvwDXRddJUqQuamYQKpIWOmMajg5skq3/hE3hzhJo0+ovE6zRXxa5qTvVyZHcSgbsz52ovHFUaMZrpLMYaNwTsLNaxZa5yyt51EFb0lMBJGMzWDxWPLiTV5C9zS3EVVhCJMm3zB5V2naiOMhCLZWUHOFxCerlG9E=
+	t=1749910581; cv=none; b=FHpCYZz4LvzDDaU7E7uk0okbJp1pTzs956UZVltyRXqgIAgQQr/MlpfPP4cDRK1gVW1TCTBstEH8p3k7Ag3rtZ86J4taCn1HBWuH4fujanI228W/De66PT2LwJB8KEAuPX4HmY6kizi2v0p6VMPBHl/15c43xSHHh5h9k8fCME4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749899841; c=relaxed/simple;
-	bh=d4gNp/0M9SMRUX5Vo9jyFaZjMh959oqzUg9NU3r341s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PKg9Spe71LXZ/fa/hd/RyaaVb1tlmuTJF8IYO3DhlJ+zISWWYeOgITCIPPx3JyYz2qCjEnVXqdxbtHiAPwn7N8QKqyKrwcBMhdO2T03vpDhzGUpxE4W3q/PthDaMd7C3+TJ46Spohw5hA4h8jpzeYIaTjPa0b0Od+esaXza6fPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (3072-bit key) header.d=posteo.net header.i=@posteo.net header.b=Lca7QKh6; arc=none smtp.client-ip=185.67.36.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 1D973240031
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 14 Jun 2025 13:17:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net;
-	s=1984.ea087b; t=1749899832;
-	bh=d4gNp/0M9SMRUX5Vo9jyFaZjMh959oqzUg9NU3r341s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:From;
-	b=Lca7QKh6j957WM9z2uGhxtJ0SvljdRqwb2jlCuWb67exWTonQombxmqnjTCtYsFh5
-	 6wowc8OD7y1uR6Sw0DHc7nc4rp52t+Rbn3jb8JHD0rUjXbYpYuHB6gfPsHghCVQg1k
-	 eoJ2CP6AwhUzFU59QB2uLKmOd0CwOSpJvr0YtHsIyquoZKeJuhyOZNpWCPA4H4ipdP
-	 KEYfc6osVgjdgmG7N53P3rDmLbHF3QmOvxWttVVH1aYepo6ts9ge+t/1ITkpW3xiIE
-	 OHDYljxwR+Lhl8ZCW+tPbDXSFrQr2DSLCWhJX3lyb+i+/pdDQS+Ax41Ro/PF3TLz9K
-	 y2dTiXxYmjplrVYGQDEaSFRCtGqFFCT9vExXL/7K/c1Y2Z6bK2+IJ6VSkVp5GvKZjh
-	 Bn/uUwVyKxJfvKsYREBojzFDxPlooV9wHrXo+vNfSvVFZ3+IvmSSjjFfG6mUDw76eY
-	 lsDFOq2AlyLTUZ+oeOO8HjF1lzN2TVUesC7UWC4oFZB9vL+7jLv
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4bKDHh1hfPz6tsf;
-	Sat, 14 Jun 2025 13:17:04 +0200 (CEST)
-Date: Sat, 14 Jun 2025 11:17:03 +0000
-From: =?utf-8?Q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Joel Stanley <joel@jms.id.au>, Avi Fishman <avifishman70@gmail.com>,
-	Tomer Maimon <tmaimon77@gmail.com>,
-	Tali Perry <tali.perry1@gmail.com>,
-	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
-	Benjamin Fair <benjaminfair@google.com>,
-	Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.ne@posteo.net>,
-	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	s=arc-20240116; t=1749910581; c=relaxed/simple;
+	bh=U4yQSxX+QVuomLBEgf9sZIWfa+E/mb0wq5uOSJVml1o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=r5ao28/T0WMw2/qnFv/uiciD7MgwMXmK/8RVfoopvw7UzqXfVzUfsymCN/msfLnlrdQdKW9nUxC1Uf9QZl6hSjNgU7tce6Kbu9gOgWIR9iB6DaF0XrK28ggRbT6OjNgGEJjPzU0spKJWpZCD/PplWLac4hsrYdD+wWI7v9Czh/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=I4/m7bDY; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=MVXXa0lL; arc=none smtp.client-ip=103.168.172.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id A0CF9114013C;
+	Sat, 14 Jun 2025 10:16:16 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-09.internal (MEProxy); Sat, 14 Jun 2025 10:16:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1749910576; x=1749996976; bh=/D
+	LDU2vpZE4NqKLhZ3pPTKEfAWUacf8pnN0p4apvaLs=; b=I4/m7bDYo2T4tPJaGB
+	m70xwpWJEOlAaCx1fJ9DvrK+n5xcRSoyaB5U6Yg+aAZYCdPM9e/XcGEa5Vi+1Y/9
+	bBRwYIrlqDQD7xd965jNArVnU9V+HFiU32n8CHEd5IKd9Cn5jbCJffAI2sCRiRGe
+	URX0hBE3WepyQtUHxGPdiKZjcdjh9D7SLMrrJG3nLqi4DWyYK1vAIEmxg308Jm99
+	rrWTe11Iqsi6UxONQYVHkxPWMO2zYShDLyWpDZV6Dbhj56oBxSbDkLJkS5WadfpN
+	dxEG25m5URZTRpnj5tbVX6I8CRTM8WWu3ovt49qSDeZx78xnd6g7LNKKqL2kX8jO
+	onhw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1749910576; x=1749996976; bh=/DLDU2vpZE4NqKLhZ3pPTKEfAWUa
+	cf8pnN0p4apvaLs=; b=MVXXa0lL4vE8DDTaDHYksn59gyjhw9UgE9Nn7JX7biGO
+	/Y+fHu3a7VWOCsUhG6UXKJhdT0gY/Hoz+HB5hscX+XGuVS3aMo5zZs2DURTLX38v
+	ddzw9Dxy+cryWd/l8mhivSBTrWPoBNSsJaQBxxvb1Lt8K8IG27atQMWZdvC9YNpx
+	ZQ+a/tR1FHzB6ElGUj8ds7O2AeLRIRVjN5c0IK4cIaJCp6fgiOk1fX+i5JR+UpxV
+	JQt/UZ3AtQaok7z/gIRlf0yryDjkQCbeYEOCs/nwBu6D8zrzS+Y0N6X7hk89AsZt
+	Aos+wVVuMvmNkbTNaHFe9yoEltLs3L0Ml5/rGqT3BA==
+X-ME-Sender: <xms:L4RNaM04i2XTPUQLr_mEluTWj5CoqUAQ7rK1kaWJoL32RbjII5gbmg>
+    <xme:L4RNaHF5Qbyj7yvP6qrr6LK3uBKJmX7GgDG27cR8vpZcrQ15EQPc5WaPRf2PRvoLY
+    ilH9G3YyswqMnimHXo>
+X-ME-Received: <xmr:L4RNaE6TiOQSOhflTT_By0bWdGluotdpqLCxTy8DU7XsKBMjTFXsvg8YIjJEDvBg77EVYsKknW9-XI_yzAdxiYp0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddvuddthecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeen
+    ucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvg
+    hrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthht
+    vghrnhepheduleetteekgffffedufeeuvdejiedvkefhveeifeegffehledtvdevhfefte
+    egnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhi
+    khhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpth
+    htohepkedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhgthhgvhhgrsgeskhgv
+    rhhnvghlrdhorhhgpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihguvg
+    hrrdgsvgdprhgtphhtthhopehsrghkrghrihdrrghilhhusheslhhinhhugidrihhnthgv
+    lhdrtghomhdprhgtphhtthhopehlrghurhgvnhhtrdhpihhntghhrghrthesihguvggrsh
+    honhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghr
+    rdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsoh
+    gtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhn
+    vghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhhikhhlrghsrdhsoh
+    guvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
+X-ME-Proxy: <xmx:L4RNaF04SrdGAlGjiFxI-1N88GBZCe3hKqJSPzaRSu5dL26FPq3BsA>
+    <xmx:L4RNaPFRPZFf1JXp7SKAdgeHvxXOZkw9MHXlCgwQQ1hy2EVIP7RqjA>
+    <xmx:L4RNaO8Fzfc9uHBYPZ8mOhTNR8prXO6XZ0a3H_SHJR5ibYN-5TUJ1A>
+    <xmx:L4RNaEnSkeIip2sbl87U9irhurdU3AG6Gh3qkstErxQVtQrlugafNA>
+    <xmx:MIRNaPRzctdiqoeAs58aiI0VZ4y7DFs1subTMWnqJ6Z1jbDiGfJ6mtoB>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 14 Jun 2025 10:16:15 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Sean Wang <sean.wang@kernel.org>,
-	Jesper Nilsson <jesper.nilsson@axis.com>,
-	Lars Persson <lars.persson@axis.com>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Emil Renner Berthing <kernel@esmil.dk>,
-	Jianlong Huang <jianlong.huang@starfivetech.com>,
-	Hal Feng <hal.feng@starfivetech.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Manivannan Sadhasivam <mani@kernel.org>, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-	openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org, linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@axis.com, linux-riscv@lists.infradead.org,
-	linux-rtc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH v2 06/17] pinctrl: nuvoton: Constify static 'pinctrl_desc'
-Message-ID: <aE1aL_ff1230w2DL@probook>
-References: <20250611-pinctrl-const-desc-v2-0-b11c1d650384@linaro.org>
- <20250611-pinctrl-const-desc-v2-6-b11c1d650384@linaro.org>
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 0/3] media: rcar-vin: Generate FRAME_SYNC events
+Date: Sat, 14 Jun 2025 16:15:42 +0200
+Message-ID: <20250614141545.2860860-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250611-pinctrl-const-desc-v2-6-b11c1d650384@linaro.org>
 
-On Wed, Jun 11, 2025 at 08:13:38AM +0200, Krzysztof Kozlowski wrote:
-> The local static 'struct pinctrl_desc' is not modified, so can be made
-> const for code safety.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Hi,
 
-Reviewed-by: J. Neuschäfer <j.ne@posteo.net>
+This series extend the VIN interrupt handling to be able to generate 
+FRAME_SYNC events. Having these events in user-space is a great help to 
+know when a sensor starts to expose a new frame.
 
-Thanks!
+Patch 1/3 and 2/3 prepays the existing interrupt infrastructure to 
+support more then "frame captured" interrupts. While patch 3/3 enables 
+and checks for VSYNC detection and generates the new event.
 
+The feature is tested on Gen2, Gen3 and Gen4 and all devices correctly 
+generate FRAME_SYNC events.
 
-> ---
->  drivers/pinctrl/nuvoton/pinctrl-npcm7xx.c | 2 +-
->  drivers/pinctrl/nuvoton/pinctrl-npcm8xx.c | 2 +-
->  drivers/pinctrl/nuvoton/pinctrl-wpcm450.c | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/pinctrl/nuvoton/pinctrl-npcm7xx.c b/drivers/pinctrl/nuvoton/pinctrl-npcm7xx.c
-> index dfd32feb34286b7a4d807e9033a11f507e277dce..b8872d8f5930ad931dad208afec4e08a23c3d653 100644
-> --- a/drivers/pinctrl/nuvoton/pinctrl-npcm7xx.c
-> +++ b/drivers/pinctrl/nuvoton/pinctrl-npcm7xx.c
-> @@ -1817,7 +1817,7 @@ static const struct pinconf_ops npcm7xx_pinconf_ops = {
->  };
->  
->  /* pinctrl_desc */
-> -static struct pinctrl_desc npcm7xx_pinctrl_desc = {
-> +static const struct pinctrl_desc npcm7xx_pinctrl_desc = {
->  	.name = "npcm7xx-pinctrl",
->  	.pins = npcm7xx_pins,
->  	.npins = ARRAY_SIZE(npcm7xx_pins),
-> diff --git a/drivers/pinctrl/nuvoton/pinctrl-npcm8xx.c b/drivers/pinctrl/nuvoton/pinctrl-npcm8xx.c
-> index be3db8ab406c416f0709d06eb864e33e3208541a..3c3b9d8d3681c64c21927615e1bb49f157f156b5 100644
-> --- a/drivers/pinctrl/nuvoton/pinctrl-npcm8xx.c
-> +++ b/drivers/pinctrl/nuvoton/pinctrl-npcm8xx.c
-> @@ -2299,7 +2299,7 @@ static const struct pinconf_ops npcm8xx_pinconf_ops = {
->  };
->  
->  /* pinctrl_desc */
-> -static struct pinctrl_desc npcm8xx_pinctrl_desc = {
-> +static const struct pinctrl_desc npcm8xx_pinctrl_desc = {
->  	.name = "npcm8xx-pinctrl",
->  	.pins = npcm8xx_pins,
->  	.npins = ARRAY_SIZE(npcm8xx_pins),
-> diff --git a/drivers/pinctrl/nuvoton/pinctrl-wpcm450.c b/drivers/pinctrl/nuvoton/pinctrl-wpcm450.c
-> index 4264ca749175a2ce0f3603c1d7aa271d98e6cd89..8d8314ba0e4cb55db2b1d3adf2de07e6fb93c279 100644
-> --- a/drivers/pinctrl/nuvoton/pinctrl-wpcm450.c
-> +++ b/drivers/pinctrl/nuvoton/pinctrl-wpcm450.c
-> @@ -989,7 +989,7 @@ static const struct pinconf_ops wpcm450_pinconf_ops = {
->  	.pin_config_set = wpcm450_config_set,
->  };
->  
-> -static struct pinctrl_desc wpcm450_pinctrl_desc = {
-> +static const struct pinctrl_desc wpcm450_pinctrl_desc = {
->  	.name = "wpcm450-pinctrl",
->  	.pins = wpcm450_pins,
->  	.npins = ARRAY_SIZE(wpcm450_pins),
-> 
-> -- 
-> 2.45.2
-> 
+Niklas Söderlund (3):
+  media: rcar-vin: Fold interrupt helpers into only callers
+  media: rcar-vin: Check for correct capture interrupt event
+  media: rcar-vin: Generate FRAME_SYNC events
+
+ .../platform/renesas/rcar-vin/rcar-dma.c      | 54 ++++++++++---------
+ .../platform/renesas/rcar-vin/rcar-v4l2.c     |  2 +
+ 2 files changed, 32 insertions(+), 24 deletions(-)
+
+-- 
+2.49.0
+
 
