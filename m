@@ -1,162 +1,144 @@
-Return-Path: <linux-renesas-soc+bounces-18368-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18369-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1353CADB1F9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 15:32:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CFE6ADB2AC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 15:57:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 09DE5188BA49
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 13:32:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DF13C3A5EB1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 13:55:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 489782877DB;
-	Mon, 16 Jun 2025 13:31:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76F742DBF6E;
+	Mon, 16 Jun 2025 13:54:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="edFZTSDf"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="RtBmYFvs"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85A922877C3;
-	Mon, 16 Jun 2025 13:31:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 368502877F5
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Jun 2025 13:54:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750080713; cv=none; b=Jux8vc5iQNXv3JhEdrfh9tsnF7LVoYQj7Bo90a+0GDxY5iKUnXqp29TIPnDMFekYr7B6tq8E6E03Au8Jt7qBHE66kjuHwXN9yh06mRwkHRAsaBKrjvLqioTbzDouvmuw9GzoxCsLll8n+p+kX4nR7vLGLu9jUoQK4kX+GGRyTe0=
+	t=1750082048; cv=none; b=R1XSscwmUF/d9ttcNasBR6kcn3rEvDrZkQsKpWI/3EPzRSDPsD+ii1YHLTEcGiEvO876VblVmFJr7y9zwn3mb7ZpH46k9N4olGopblNN/2g8ZI8zyUUUcVqURD9Ld3uA5NBJcySPfOCuIOytpsJJVSHqx5S2R9qm0/MgAgqczoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750080713; c=relaxed/simple;
-	bh=YpM6x3pVZDq98sI2oYH3/tGiaLSYiy/AHMV6/X76vdk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qk9lxM9v3FyNArtxTUppIq8qwlItIzbzUvBuQLVxgGUQew5q5MDOyLIJyIaDpVkeOjI41DkRMBCkp8JDb3f0tRXLSaLFboUk+IDc+0WOr4PhuCcdQ60NBRnP6ZsEOhLYYt25MRTuN8/DsGcy7YBy6VdO23q/ukH+fpno+MZyxck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=edFZTSDf; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3C30722A;
-	Mon, 16 Jun 2025 15:31:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1750080698;
-	bh=YpM6x3pVZDq98sI2oYH3/tGiaLSYiy/AHMV6/X76vdk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=edFZTSDfDpb+n/GAtPn9b8ktvswaT0Bq85r7H0riKjD4vvWn/kAB9kUSJ4/8yDc2x
-	 DA2ohGehZFrv+ZXHbkpU5E2gAkdglkCspPw2Q6c+67VDGr9ZMYH6Kd061M+1qGlCcF
-	 Ll9/dp4bue/9FhWsV3aGPibOT6dDZTnF8FKqRAyI=
-Date: Mon, 16 Jun 2025 16:31:34 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: vsp1: vsp1_dl: Count display lists
-Message-ID: <20250616133134.GC10542@pendragon.ideasonboard.com>
-References: <20250529-vsp1_dl_list_count-v1-0-40c6d0e20592@ideasonboard.com>
- <20250529-vsp1_dl_list_count-v1-2-40c6d0e20592@ideasonboard.com>
+	s=arc-20240116; t=1750082048; c=relaxed/simple;
+	bh=WdYsA4gcGJ4whUTHaU62r1/1/AwXMOqpKKD02j5KM2I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LGKIUbRrw/FvgSpf4Trgdm54qSSy5XabgNojlaerU4O2/KogV1k30HIXWXNTLMPQnyikreE6g9CGmH9suvBxResIUGApLNcXC7gY9ki27htrBKlEm+ZFrV+mn0M3HpbD51xXHUNynVUpOdSwEAhOYzZ1HMZd1CHobRVivXgyIHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=RtBmYFvs; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-60707b740a6so6869829a12.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Jun 2025 06:54:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1750082044; x=1750686844; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xJCI+6qwU3+gkjXsqHZde1TYEMyw88mnCNmjbKL5ih4=;
+        b=RtBmYFvsW6Vw+ZL7FzFrE7wKDDtpCgAP3oBtY45llLJtfuIX5KB6kx+wl6KUVXW0wk
+         AdjTflrSENkq8zVE1hn0C6SP7zMnPPh1FgAIiYI9Jranwe2S5LUJveuHvb2UrJYzH/eq
+         ti2Lp0fuYXFr17hqjopDJRft1CSGHtXGdpyEIDoKKCYZP3FgOyha8/l3Z6oNimZ3doeP
+         MBp12iEZovAIAA2B5T80taXplc7XWAnBMHZz8RWe49gY02aUOZBJ91mgYTftvKMFrQRu
+         YvcI4G22TNevck4mSmfYTuwWsipLdgBLZBqy2PImcpD7i60AQA0wQ4lerrYyHpWIg39B
+         Xa6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750082044; x=1750686844;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xJCI+6qwU3+gkjXsqHZde1TYEMyw88mnCNmjbKL5ih4=;
+        b=O/CjlX6RuC8CfgUhT5Q8uPRHaoHYWpmwG8JXNzoB8cT5TbTJRTVGVMJANDWvZ6j8+H
+         AupoQV8TplqlF9sjfBsT+/qVfgF7B/iK6KitWqSIGjmd8vmk/WPo/WMx7CnLChp1o4jq
+         UIZXrwh67vRatSgyqGEJgglW4TFsB7G41Bi7GSNjXaNxSnP6N3d0qxZS8gT+34SE9Hwa
+         aB73WXwPtaSuP1rHCa3S0RpjxIW4riDbinsYE+AOgbuETlXCXrDAbofHx4O9F+ttutsn
+         FhXW7TDW3jZwlCWy9Kd7OALVl/u7zd2geh6LYq9BRoyii8TZQMNis/Ar6yRMgfUkgJpC
+         7+9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXZ7b/AuiQOOzG4EEIbK/HuZQS7SGkpRXdJhsXBL2AkqaILRXa3Cv38jTC+IMj0KYTS1qpDMNZLNjvILTrPF7ju2Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxPfy1GsZ4O2ClPStItMCHzZnwCjeVwQRWsFq2AjLdVb596Y0je
+	kjhsi/mcMNooodKL9W4vjmNRLWNh1c5BXW0EDK+wFrv/LXHTbm0hV8lbs9cUoiDrafM=
+X-Gm-Gg: ASbGncujY7Zx5edIa8v4jOBwtYaGQb6iXo8S4dkrh3tfgHL9bNRQ1mqD4dAerOFmkBY
+	Sz0DZsXV2r4r0hU0PYHGxSV1QWbyrraXKVLDROTpUPyhPH122LcnHAozgXLPZg0O8TNdaMJwQ/q
+	S8NE20A8RF7tRjemuThk0QV5MAwBmUzgft/CXzkeY3kHXNX2X+ri+8dwQ9IGcggbrftckloF8q7
+	ODNTj5hyPTQvOournkNiQo48IaUnlSR5w2BnotGA/9PI5V4iiSWc7uBY/ulmg8mmVXiZ8m5Fwvs
+	trysRwQdaUagoJMYnSmOtgFygSQPHizApR8Wlwm6xeBhC8N9k+CcDMcd94MXn28ldjHsCeRJGSn
+	1SJ5Hxb1OAuk51GTs
+X-Google-Smtp-Source: AGHT+IFIEkskkJG9WLW+Hv9ZKWW2DbdD0zYs82b6WVAC9yGzm6OdzcpBZetxbCKgKVtLW2Au71dzLw==
+X-Received: by 2002:a17:906:c14c:b0:ade:484d:1518 with SMTP id a640c23a62f3a-adfad38b235mr948743466b.26.1750082044401;
+        Mon, 16 Jun 2025 06:54:04 -0700 (PDT)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.110])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-adec897a70bsm662748966b.154.2025.06.16.06.54.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Jun 2025 06:54:03 -0700 (PDT)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	dakr@kernel.org,
+	len.brown@intel.com,
+	pavel@kernel.org,
+	ulf.hansson@linaro.org,
+	jic23@kernel.org,
+	daniel.lezcano@linaro.org,
+	dmitry.torokhov@gmail.com
+Cc: claudiu.beznea@tuxon.dev,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	bhelgaas@google.com,
+	geert@linux-m68k.org,
+	linux-iio@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	fabrizio.castro.jz@renesas.com,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v4 0/2] PM: domains: Detach on device_unbind_cleanup()
+Date: Mon, 16 Jun 2025 16:53:55 +0300
+Message-ID: <20250616135357.3929441-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250529-vsp1_dl_list_count-v1-2-40c6d0e20592@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Jacopo,
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Thank you for the patch.
+Hi,
 
-On Thu, May 29, 2025 at 06:36:31PM +0200, Jacopo Mondi wrote:
-> To detect invalid usage patterns of the display list helpers, store
+Series drops the dev_pm_domain_detach() from platform bus remove and
+adds it in device_unbind_cleanup() to avoid runtime resumming the device
+after it was detached from its PM domain.
 
-We can be more precise:
+Please provide your feedback.
 
-"To detect leaks of display lists, ..."
+Thank you,
+Claudiu
 
-> in the display list manager the number of available display lists
+Changes in v4:
+- added a flag in dev_pm_info that is saved in dev_pm_domain_attach()
+  and used in device_unbind_cleanup()
 
-s/available/allocated/
+Changes in v3:
+- add devm_pm_domain_attach()
 
-> when the manager is created and verify that when the display manager
-> is reset the same number of lists is available.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> ---
->  drivers/media/platform/renesas/vsp1/vsp1_dl.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_dl.c b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
-> index 8a3c0274a163..5c4eeb65216f 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_dl.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
-> @@ -214,6 +214,7 @@ struct vsp1_dl_list {
->   * @pending: list waiting to be queued to the hardware
->   * @pool: body pool for the display list bodies
->   * @cmdpool: commands pool for extended display list
-> + * @list_count: display list counter
+Changes in v2:
+- dropped the devres group open/close approach and use
+  devm_pm_domain_attach()
+- adjusted patch description to reflect the new approach
 
-"number of allocated display lists"
+Claudiu Beznea (2):
+  PM: domains: Add domain detach_power_off state
+  driver core: platform: Drop dev_pm_domain_detach()
 
->   */
->  struct vsp1_dl_manager {
->  	unsigned int index;
-> @@ -228,6 +229,8 @@ struct vsp1_dl_manager {
->  
->  	struct vsp1_dl_body_pool *pool;
->  	struct vsp1_dl_cmd_pool *cmdpool;
-> +
-> +	size_t list_count;
->  };
->  
->  /* -----------------------------------------------------------------------------
-> @@ -1073,7 +1076,9 @@ void vsp1_dlm_setup(struct vsp1_device *vsp1)
->  
->  void vsp1_dlm_reset(struct vsp1_dl_manager *dlm)
->  {
-> +	size_t dlm_list_count;
->  	unsigned long flags;
-> +	size_t list_count;
->  
->  	spin_lock_irqsave(&dlm->lock, flags);
->  
-> @@ -1081,8 +1086,13 @@ void vsp1_dlm_reset(struct vsp1_dl_manager *dlm)
->  	__vsp1_dl_list_put(dlm->queued);
->  	__vsp1_dl_list_put(dlm->pending);
->  
-> +	list_count = list_count_nodes(&dlm->free);
-> +	dlm_list_count = dlm->list_count;
-
-dlm->list_count is not documented as protected by the lock. I don't
-think that's an oversight, as it can only be set when the dlm is
-created. You can drop the dlm_list_count variable and use
-dlm->list_count below.
-
-> +
->  	spin_unlock_irqrestore(&dlm->lock, flags);
->  
-> +	WARN_ON_ONCE(list_count != dlm_list_count);
-> +
->  	dlm->active = NULL;
->  	dlm->queued = NULL;
->  	dlm->pending = NULL;
-> @@ -1150,6 +1160,7 @@ struct vsp1_dl_manager *vsp1_dlm_create(struct vsp1_device *vsp1,
->  				      + sizeof(*dl->header);
->  
->  		list_add_tail(&dl->list, &dlm->free);
-> +		dlm->list_count = list_count_nodes(&dlm->free);
-
-Does this need to be done inside the loop, can't you just write
-
-	dlm->list_count = prealloc;
-
-after the loop ?
-
->  	}
->  
->  	if (vsp1_feature(vsp1, VSP1_HAS_EXT_DL)) {
+ drivers/base/dd.c           | 2 ++
+ drivers/base/platform.c     | 6 +-----
+ drivers/base/power/common.c | 3 +++
+ include/linux/pm.h          | 1 +
+ 4 files changed, 7 insertions(+), 5 deletions(-)
 
 -- 
-Regards,
+2.43.0
 
-Laurent Pinchart
 
