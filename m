@@ -1,87 +1,177 @@
-Return-Path: <linux-renesas-soc+bounces-18358-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18359-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDFEEADAF11
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 13:50:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAAA9ADAFCC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 14:06:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C96D73A6484
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 11:50:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1E3FA3B8E1C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 12:03:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C11D02D9EE1;
-	Mon, 16 Jun 2025 11:50:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73F6E285C95;
+	Mon, 16 Jun 2025 12:02:52 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8EE92737F4
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Jun 2025 11:50:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5204285C84;
+	Mon, 16 Jun 2025 12:02:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750074625; cv=none; b=tunbo41CjTYcD8sToANA0fhbV1ud2tyZnb0+W6/J//66mDkAB3MLdvKxWSrMgdrF0O2mSR4G7fNTYE8ZALEYDtRiSvITExvuJLpsMZPSaRphqJp/UtcU6CLiUk8WCaYGGFSTHrWjr2AFrASPOY57LVCOBFHFUgib7sT1YeXv06Q=
+	t=1750075372; cv=none; b=luO96/XbZ2v7L9+gcbZVuVkT0v7APMxmFr7aQL2mEGY9VV9QBBTifywXN98GUIRaMI+6rgHMFeNDk3HEp635gq11w55i/3vOuT3/ZmqfzhoiRZRbc3u1GVaq/kimKy6rpvEw7VphjDrhs7aX1Tg2KxDu+/j6KNHSdKNQ/R+0tUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750074625; c=relaxed/simple;
-	bh=d51ANhQW4AQEai30Tz9p5pDeU8/8s7l15AS/HMImais=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f7DI/nw4Q8vJb2X2M4zRI+HYspg9ijH9ozAOy1k3Ca0F8wYZfjLxV3WcM37BTH0qFs3UsU502CJhahkeNr0UkQ3tJOpS82IFpUbMRZ+f+9NGbQABbV7N1lqWpqm+Sw7bw82BAQkP0/jXu2xH4cGWL2Me3qZNLHnX+5SsE1uI414=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83BA9C4CEEA;
-	Mon, 16 Jun 2025 11:50:24 +0000 (UTC)
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Magnus Damm <magnus.damm@gmail.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH LOCAL] riscv: rzfive: defconfig: Refresh for v6.16-rc2
-Date: Mon, 16 Jun 2025 13:50:20 +0200
-Message-ID: <09a124b503cb00fb45be844bc34d8ca29d78bc22.1750074549.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1750075372; c=relaxed/simple;
+	bh=vXBu7uwkxPOsvKdqrgHswhlxEEE0Wgvz5jbfmhZinlE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=V5rHDoT0DKLlKiN9ZPLbBL30XsDHuYZDeiMQk1Hp85B322pgzRyU5yxkalvr238mx8CHKRjvGVE50iRCY2I62BMvF0D97qN0a63mK+qDGeHKDJhxoXthicXHwLI+FofsAEJoqNIfZsI3ZUj94D/Bwj9k9g2e7gC9GHgy6Gh+Wqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-6face1d58dcso71264276d6.2;
+        Mon, 16 Jun 2025 05:02:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750075368; x=1750680168;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ploSucNH29V90v2689/j3svshD2BMkR3XA3gPmC2bbo=;
+        b=riUuZmO9ufJc4MSveocOo8GmGmLfU0uuiUQ1uwnSpfCZTKAXFPx/baansQRtTdb2rJ
+         A64CulxiJULe89sdLZwf3W0aN4DW4YrqhK2/MyNZQpDPLEmqWQ7KTZ3b5QJs1F7rir25
+         Aokr996IoDzNe0GkciujQyt7SnrbO7wkaDKYJKQcJVndKJcO3SlHDvF+qt2JKT/haR5h
+         uj/fIdHaXJdWPBHmjljLhrzPr0no1H2uzzjbpAVErpGNCU9K1HCWU16qRJyOTRLOP2ro
+         AdD/AeF/WYQiAmmmvXMP8xriIQ4O0vcGso0PoMdTq+M5TuEcSM1KG+he4ipRb0GrcYu7
+         DwiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUyiAxzoGGz9lAwOPoTvNt5lTW4Gzq9XPREOYbGniAKPPhTn4KolffL9bz+tqeIVH3UzHHNtz1cg5Gvs2Mp@vger.kernel.org, AJvYcCVqU/ylK5WXAKWQ8gQOK42dJJCuXlXSTBtVvX2L/SoMrMcl6zSu7I8DJFGaU1n8nZUtj07+BoheEk/6hJVtkbHFKyc=@vger.kernel.org, AJvYcCXHIaKAuHbNkMqfrbwLkw2o5MPDrfGMG21Jj62dQd+nBBkS1MqmmThjXM0hXEJLvVl6BG8yXdsqbWaS@vger.kernel.org, AJvYcCXLfLmWT2F7VM06HJY78LFWb7HDOXu3lYuW7zBzQCZJjdShzkCkvlYdfVWmZS8Gb/pt4lgTuVQG/MVO@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzgiud/7pIXtnzAb1TpltoFnGZtEOUWnv8pG4gD/b8zdjZAvKQh
+	kQxqEdZeBuJXI82R3zpNIfV3ihiR/lCac3bNBdRDbOee4JOTGpJ/jSFepsoWB2bK
+X-Gm-Gg: ASbGncsFmQSeMiGpa4j0dJ3ttoS6gRyQiSKSBBiqQFFc1Ay0iOfSkDTv9oliVbkBnAW
+	rNZ86kumxvKhbg51M3Zj92NrhRPCZG5ng92tccZH8i0eOLIEq8T2yETZMPTqRZxfpwod4bdRbnM
+	0c+IA/t9fimcJa+4YQyEOoygCDF5JXlzgo/KtXvFFw9Jcsm5Y+rZI2f8JR4U9hwAcZIqXKLRuHl
+	GkHQ42y+wLBM+Z92OXSvHpubDPEZNefoNoMyudw97BF6qhoKGuYamZ/iDcxdbjEbTyMkqwrfhZT
+	WvwxB4PzqYvaJxt/3oUz7tTncwbPZvw1bEYHdi/4zfPcxzVgQTZKDk8voRK3oHpOsB3OeORoqjV
+	T45GiHYykd8aTDguhhMIRGqrlMvGR
+X-Google-Smtp-Source: AGHT+IGaSL4wf+lxi6xehLxilhn3urHlQbpFxBdgSiB38NiFFpsSt7fAX/o6XZC56+FVfkSeFjm/UQ==
+X-Received: by 2002:a05:6214:2b9b:b0:6fa:fe27:a249 with SMTP id 6a1803df08f44-6fb478103b0mr102407926d6.43.1750075367839;
+        Mon, 16 Jun 2025 05:02:47 -0700 (PDT)
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com. [209.85.222.181])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6fb569796e2sm8847296d6.80.2025.06.16.05.02.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Jun 2025 05:02:47 -0700 (PDT)
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-7d2107eb668so716716785a.1;
+        Mon, 16 Jun 2025 05:02:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVc4QZxFF/bIDhVOXu8rIrL8/cuZ0hwVmmA61TcFErKUP+CVoyfe020UMUk8wfhuu8lq8OjEVDsd8SLOGC+cOdcj/8=@vger.kernel.org, AJvYcCVygQWqJ6baCDpylKTIKNhz+gImxkXn6d6ykjSwNSKa7vK+KjMVYSsq2KL3Z2ZnOdKdcLyAUTgmOP2F@vger.kernel.org, AJvYcCW5HoseMoeOuraGAg0V2WN5WddH/Na1pCNUgzbjNOz52JmJnR58v8yA+fhugWgdOdamoUdldlKqJ/f6@vger.kernel.org, AJvYcCWvpzKz3fJwnwGGUQNZ2dKw++FhHh4QpCJNWi3cpq5EgJQUE9bzXhaRG1rTCbuURL0gYrjcBW+B+/cZC9If@vger.kernel.org
+X-Received: by 2002:a05:620a:2a03:b0:7d3:8df8:cc04 with SMTP id
+ af79cd13be357-7d3c6cc98efmr1411274185a.35.1750075366742; Mon, 16 Jun 2025
+ 05:02:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAMuHMdW_89naftFMo881zp=7QGJDznFzzqLQ-kLEuyJ=KJWQnA@mail.gmail.com>
+ <20250613220104.GA986309@bhelgaas>
+In-Reply-To: <20250613220104.GA986309@bhelgaas>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 16 Jun 2025 14:02:34 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU=+Hxz09DJeVOhZ1N5yS=UJgMsr5R40KBeu=ftoq4zrw@mail.gmail.com>
+X-Gm-Features: AX0GCFvGpF0UKvY33FJrsFmSliyEKvidiVPDSH8oJwCDkQnKl_S7otDQDQqSNxs
+Message-ID: <CAMuHMdU=+Hxz09DJeVOhZ1N5yS=UJgMsr5R40KBeu=ftoq4zrw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] PCI/pwrctrl: Add optional slot clock to pwrctrl
+ driver for PCI slots
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	linux-arm-kernel@lists.infradead.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Anand Moon <linux.amoon@gmail.com>, 
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Refresh the defconfig for Renesas RZ/Five systems:
-  - Drop CONFIG_SYSFS_SYSCALL=n (disabled by default since commit
-    c443279a87d54bf3 ("Kconfig: switch CONFIG_SYSFS_SYCALL default to
-    n"),
-  - Disable support for the Zicbop cache block prefetch and SiFive vendor
-    extensions (not supported by RZ/Five),
+Hi Bjorn,
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Not intended for upstream merge.
-To be applied to the topic/renesas-defconfig branch.
+On Sat, 14 Jun 2025 at 00:01, Bjorn Helgaas <helgaas@kernel.org> wrote:
+> On Thu, Jun 12, 2025 at 03:16:45PM +0200, Geert Uytterhoeven wrote:
+> > On Sat, 7 Jun 2025 at 21:46, Marek Vasut
+> > <marek.vasut+renesas@mailbox.org> wrote:
+> > > Add the ability to enable optional slot clock into the pwrctrl driver.
+> > > This is used to enable slot clock in split-clock topologies, where the
+> > > PCIe host/controller supply and PCIe slot supply are not provided by
+> > > the same clock. The PCIe host/controller clock should be described in
+> > > the controller node as the controller clock, while the slot clock should
+> > > be described in controller bridge/slot subnode.
+> > >
+> > > Example DT snippet:
+> > > &pcicontroller {
+> > >     clocks = <&clk_dif 0>;             /* PCIe controller clock */
+> > >
+> > >     pci@0,0 {
+> > >         #address-cells = <3>;
+> > >         #size-cells = <2>;
+> > >         reg = <0x0 0x0 0x0 0x0 0x0>;
+> > >         compatible = "pciclass,0604";
+> > >         device_type = "pci";
+> > >         clocks = <&clk_dif 1>;         /* PCIe slot clock */
+> > >         vpcie3v3-supply = <&reg_3p3v>;
+> > >         ranges;
+> > >     };
+> > > };
+> > >
+> > > Example clock topology:
+> > >  ____________                    ____________
+> > > |  PCIe host |                  | PCIe slot  |
+> > > |            |                  |            |
+> > > |    PCIe RX<|==================|>PCIe TX    |
+> > > |    PCIe TX<|==================|>PCIe RX    |
+> > > |            |                  |            |
+> > > |   PCIe CLK<|======..  ..======|>PCIe CLK   |
+> > > '------------'      ||  ||      '------------'
+> > >                     ||  ||
+> > >  ____________       ||  ||
+> > > |  9FGV0441  |      ||  ||
+> > > |            |      ||  ||
+> > > |   CLK DIF0<|======''  ||
+> > > |   CLK DIF1<|==========''
+> > > |   CLK DIF2<|
+> > > |   CLK DIF3<|
+> > > '------------'
+> > >
+> > > Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> > > Reviewed-by: Anand Moon <linux.amoon@gmail.com>
+> > > Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> >
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> >
+> > Bartosz: Any chance you can apply this patch to an immutable branch,
+> > so I can merge that before taking the other two patches?
+> > The alternative is to postpone the DTS patches for one cycle.
+>
+> I applied this patch only to pci/pwrctrl for v6.17 and made a note
+> that the commit should be immutable:
+>
+>   66db1d3cbdb0 ("PCI/pwrctrl: Add optional slot clock for PCI slots")
+>
+> We will likely add other pwrctrl patches to this branch during this
+> cycle; I assume that will be OK as long as 66db1d3cbdb0 remains
+> untouched, right?
 
- arch/riscv/configs/rzfive_defconfig | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Great, I will merge that branch, and will apply the DTS patches on top.
+Thanks!
 
-diff --git a/arch/riscv/configs/rzfive_defconfig b/arch/riscv/configs/rzfive_defconfig
-index e9998a22dee140cd..cad73b9e83eceac5 100644
---- a/arch/riscv/configs/rzfive_defconfig
-+++ b/arch/riscv/configs/rzfive_defconfig
-@@ -24,7 +24,6 @@ CONFIG_CHECKPOINT_RESTORE=y
- CONFIG_BLK_DEV_INITRD=y
- CONFIG_CC_OPTIMIZE_FOR_SIZE=y
- CONFIG_EXPERT=y
--# CONFIG_SYSFS_SYSCALL is not set
- CONFIG_PROFILING=y
- CONFIG_ARCH_RENESAS=y
- CONFIG_ERRATA_SIFIVE=y
-@@ -40,6 +39,8 @@ CONFIG_NONPORTABLE=y
- # CONFIG_RISCV_ISA_ZBKB is not set
- # CONFIG_RISCV_ISA_ZICBOM is not set
- # CONFIG_RISCV_ISA_ZICBOZ is not set
-+# CONFIG_RISCV_ISA_ZICBOP is not set
-+# CONFIG_RISCV_ISA_VENDOR_EXT_SIFIVE is not set
- # CONFIG_RISCV_ISA_VENDOR_EXT_THEAD is not set
- # CONFIG_EFI is not set
- CONFIG_PM_AUTOSLEEP=y
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.43.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
