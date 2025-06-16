@@ -1,226 +1,194 @@
-Return-Path: <linux-renesas-soc+bounces-18387-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18388-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E21A6ADB7A7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 19:14:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92F01ADB8CB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 20:25:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8275F1701BA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 17:14:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3D40917208A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 18:25:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70AF428853C;
-	Mon, 16 Jun 2025 17:14:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFC50289375;
+	Mon, 16 Jun 2025 18:25:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UVB2KOSi"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fdSzGw+L"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D0B2BEFE1;
-	Mon, 16 Jun 2025 17:14:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12AF41A2632;
+	Mon, 16 Jun 2025 18:25:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750094052; cv=none; b=GRrYIye+WHa9dzVGJByIIatD2uvzNQFDK/gjiFKlxISJeX41or3SwyIUin2czbhAipaL25EGfyNcqq5BtvpXGgCQ/ucnbicK6BNUK8pzSqb0POKTbhO+oc9FsN51lZXzqb+7v3q9jOve3mGcwn7tPEXYjH+nTzXMH8Fvt8qVFeE=
+	t=1750098340; cv=none; b=KIeEveiAVwLrW8ohSJiBxXnp9zw+I3Bbv0pF2HJDYq2ZNzLIDMMUmUcoy0Ei40O4hjfLjh6Qf4Lwa06sZk+FbAj8geHZPA1+Nk7i9IyosCgjwlVl8cdlMLjeHyhHdjAKwmVXG9TdWFErNJxFXhK/VRiwxlvytHjpSiyrAeGA5nM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750094052; c=relaxed/simple;
-	bh=UwjggO9gJnjfl6+Ixw0I0bYEyFGok+qYdoeeLeS+z8M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BAQwlskrTwQuJPWZUi69WSkFH53mqvv4/CCP/2anw0ldL6jy5AWnr4BBbJrFLc7TogZhPZMT3oQ/IvU8OX1NQydFTpXYb2NmsxrkkNV68CpwT2kAYXJRsJz1fEqwuc0V+2b0YEoAsjFOCsgwKizMYtyRqRDR6lgFdqMxDENPY6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UVB2KOSi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A775FC4CEED;
-	Mon, 16 Jun 2025 17:14:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750094051;
-	bh=UwjggO9gJnjfl6+Ixw0I0bYEyFGok+qYdoeeLeS+z8M=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=UVB2KOSimzOXfYnK2DRr3Ybka3oheq7ROCKbXhmFgrLmwNKXVLA614nnhOtP6gCB+
-	 mFAtxrXm0otuAZ2m4j9NFVmQFDjAijl1VkmIK48MMw2jl2APkRgaONYEvlvIKwxtTE
-	 TXEJZzYvos9YuW/VF2u4xVRSYuO9GWrKAmb+DgTdVXdDWGFv4bPm5QGpMjqnAM8BpG
-	 uuVua5/nv57MzBWuwBeEktAOxxvWwj/JohPYLG8n7/bgOshDzstyCP8jVHVpa5RctG
-	 3RowQkKQIFEh/d6G0eU2eajlcbN8CwnMw+EoY5K1mcjqi7Uw5wJX/zvxoEzyzhHdZk
-	 /ITGJv5lNK6Wg==
-Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-408d7e2ad03so3135668b6e.1;
-        Mon, 16 Jun 2025 10:14:11 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU3t/fG+cvN/TcZvOqng4+Wv6QXrK6ks9sdEtaFOpasMF+lj5InryyZhIFHP8sFsR6b2mDgn9GOY+73FGJw1071Irg=@vger.kernel.org, AJvYcCVYbSG55lRNxkBmaAOo+ve0U7g0ETDEzS3g6l/MDQEXo/BvYjT/8TT16qmn7wJ+HmezbcbILdI4/d8=@vger.kernel.org, AJvYcCW18bkU9bhL9xGZeS01HS9DLRPmZE5lcpnhbc8yISPDkFztgLdCym+XYE1JtY9jfHEuJglskp73dRw=@vger.kernel.org, AJvYcCXgwzW1yRDpknj6hy1dgcMk1c+RGvb+mnGTO9jg+9wgPJ8fTlVLf1DY/LShXbySBr9nnSGwr8i3eavi+XhC@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9Rje4MyR6dt1JttrnEDVAnwaeTGXMTmAZbQ6UKI1sI6pdEeUW
-	ErF/0sbkPT2K4aBoDi3DqlHeWMVjTvn02+Fd8Cbm2wL31zKAioZziHh7GoSjcqJv3UNtI7JCV79
-	v1hP64PeQ78IZ3SYEnSmZsMhiis/D+pY=
-X-Google-Smtp-Source: AGHT+IENdHN3S0+/AJ48hd1G5VfOrsAlSi1xyptiND94+qyMdvtUbI3fcqFn659eFO6cyHDU4A3F9NLax2NQGrFUZdg=
-X-Received: by 2002:a05:6808:690b:b0:401:cae9:4dc3 with SMTP id
- 5614622812f47-40a7c13a8b6mr6692272b6e.8.1750094050962; Mon, 16 Jun 2025
- 10:14:10 -0700 (PDT)
+	s=arc-20240116; t=1750098340; c=relaxed/simple;
+	bh=4rCwHuWt5qNqoNmPfO+QCNiYZb5tGvf/6u6jrSUQQEQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oNrIc9LM1cDA5J9yOAG0g+j0xOfz9Wc9P64T5I7S8gBKxe3bpLxQx2PKNihrBi6GPlZLKJGWBJjoNOx60IGXUzGSTntGZhdiB/3WogsfAtVrzZHXRitD9gq5VsaJu681pD0qoM+oWNrstboqocPBfWLJCBcQMDeYyIRmBlg5wfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fdSzGw+L; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3110EC6D;
+	Mon, 16 Jun 2025 20:25:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1750098325;
+	bh=4rCwHuWt5qNqoNmPfO+QCNiYZb5tGvf/6u6jrSUQQEQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fdSzGw+LBJ3SGysL5d6QF8QUblp7xGoJHZdr2rnZ11zKWS7Jr76931bARXCcF7rpR
+	 Ek+r4kuhlsStt7L1Zc6u6ESsDtOM9oN/GvfNc2CsKiG8bZw0TFQoY8HdwNw283zQ2O
+	 fTxxDaZih/nq2DVWtY8SPFJtN+qodyx+u9XfyJaU=
+Date: Mon, 16 Jun 2025 21:25:21 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] media: rcar-vin: Check for correct capture interrupt
+ event
+Message-ID: <20250616182521.GA12825@pendragon.ideasonboard.com>
+References: <20250614141545.2860860-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250614141545.2860860-3-niklas.soderlund+renesas@ragnatech.se>
+ <20250614213213.GM10542@pendragon.ideasonboard.com>
+ <20250615124752.GA1489213@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250616135357.3929441-1-claudiu.beznea.uj@bp.renesas.com> <20250616135357.3929441-2-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20250616135357.3929441-2-claudiu.beznea.uj@bp.renesas.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 16 Jun 2025 19:14:00 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0j_nm_z4ma2AsRkjiZn-AJ2bK982+Mwa8+_PoUAveNATQ@mail.gmail.com>
-X-Gm-Features: AX0GCFs4MChoTlgVHYwMUsgHoWrzBXwH3xptS7eJ6TN2twbvPobpEJ4Vzj_inP8
-Message-ID: <CAJZ5v0j_nm_z4ma2AsRkjiZn-AJ2bK982+Mwa8+_PoUAveNATQ@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] PM: domains: Detach on device_unbind_cleanup()
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
-	len.brown@intel.com, pavel@kernel.org, ulf.hansson@linaro.org, 
-	jic23@kernel.org, daniel.lezcano@linaro.org, dmitry.torokhov@gmail.com, 
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, bhelgaas@google.com, 
-	geert@linux-m68k.org, linux-iio@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, fabrizio.castro.jz@renesas.com, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250615124752.GA1489213@ragnatech.se>
 
-On Mon, Jun 16, 2025 at 3:54=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
-wrote:
->
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> The dev_pm_domain_attach() function is typically used in bus code alongsi=
-de
-> dev_pm_domain_detach(), often following patterns like:
->
-> static int bus_probe(struct device *_dev)
-> {
->     struct bus_driver *drv =3D to_bus_driver(dev->driver);
->     struct bus_device *dev =3D to_bus_device(_dev);
->     int ret;
->
->     // ...
->
->     ret =3D dev_pm_domain_attach(_dev, true);
->     if (ret)
->         return ret;
->
->     if (drv->probe)
->         ret =3D drv->probe(dev);
->
->     // ...
-> }
->
-> static void bus_remove(struct device *_dev)
-> {
->     struct bus_driver *drv =3D to_bus_driver(dev->driver);
->     struct bus_device *dev =3D to_bus_device(_dev);
->
->     if (drv->remove)
->         drv->remove(dev);
->     dev_pm_domain_detach(_dev);
-> }
->
-> When the driver's probe function uses devres-managed resources that depen=
-d
-> on the power domain state, those resources are released later during
-> device_unbind_cleanup().
->
-> Releasing devres-managed resources that depend on the power domain state
-> after detaching the device from its PM domain can cause failures.
->
-> For example, if the driver uses devm_pm_runtime_enable() in its probe
-> function, and the device's clocks are managed by the PM domain, then
-> during removal the runtime PM is disabled in device_unbind_cleanup() afte=
-r
-> the clocks have been removed from the PM domain. It may happen that the
-> devm_pm_runtime_enable() action causes the device to be runtime-resumed.
-> If the driver specific runtime PM APIs access registers directly, this
-> will lead to accessing device registers without clocks being enabled.
-> Similar issues may occur with other devres actions that access device
-> registers.
->
-> Add detach_power_off member to struct dev_pm_info, to be used later in
-> device_unbind_cleanup() as the power_off argument for
-> dev_pm_domain_detach(). This is a preparatory step toward removing
-> dev_pm_domain_detach() calls from bus remove functions. Since the current
-> PM domain detach functions (genpd_dev_pm_detach() and acpi_dev_pm_detach(=
-))
-> already set dev->pm_domain =3D NULL, there should be no issues with bus
-> drivers that still call dev_pm_domain_detach() in their remove functions.
->
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> ---
->
-> Changes in v4:
-> - save dev->power.detach_power_off in dev_pm_domain_attach() and use
->   it in device_unbind_cleanup() when detaching
-> - adjusted patch description
->
-> Changes in v3:
-> - dropped devm_pm_domain_detach_off(), devm_pm_domain_detach_on()
->   and use a single function devm_pm_domain_detach()
->
-> Changes in v2:
-> - none; this patch is new
->
->  drivers/base/dd.c           | 2 ++
->  drivers/base/power/common.c | 3 +++
->  include/linux/pm.h          | 1 +
->  3 files changed, 6 insertions(+)
->
-> diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-> index b526e0e0f52d..13ab98e033ea 100644
-> --- a/drivers/base/dd.c
-> +++ b/drivers/base/dd.c
-> @@ -25,6 +25,7 @@
->  #include <linux/kthread.h>
->  #include <linux/wait.h>
->  #include <linux/async.h>
-> +#include <linux/pm_domain.h>
->  #include <linux/pm_runtime.h>
->  #include <linux/pinctrl/devinfo.h>
->  #include <linux/slab.h>
-> @@ -552,6 +553,7 @@ static void device_unbind_cleanup(struct device *dev)
->         dev->dma_range_map =3D NULL;
->         device_set_driver(dev, NULL);
->         dev_set_drvdata(dev, NULL);
-> +       dev_pm_domain_detach(dev, dev->power.detach_power_off);
->         if (dev->pm_domain && dev->pm_domain->dismiss)
->                 dev->pm_domain->dismiss(dev);
->         pm_runtime_reinit(dev);
-> diff --git a/drivers/base/power/common.c b/drivers/base/power/common.c
-> index 781968a128ff..a8f302ed27a5 100644
-> --- a/drivers/base/power/common.c
-> +++ b/drivers/base/power/common.c
-> @@ -111,6 +111,9 @@ int dev_pm_domain_attach(struct device *dev, bool pow=
-er_on)
->         if (!ret)
->                 ret =3D genpd_dev_pm_attach(dev);
->
-> +       if (dev->pm_domain)
-> +               dev->power.detach_power_off =3D power_on;
+Hi Niklas,
 
-I'm assuming that you have checked all of the users of
-dev_pm_domain_attach() and verified that the "power off" value is the
-same as the "power on" one for all of them.
+On Sun, Jun 15, 2025 at 02:47:52PM +0200, Niklas Söderlund wrote:
+> On 2025-06-15 00:32:13 +0300, Laurent Pinchart wrote:
+> > On Sat, Jun 14, 2025 at 04:15:44PM +0200, Niklas Söderlund wrote:
+> > > Depending on if the capture session deals with fields or whole frames
+> > > interrupts can be generated at an end of field, or end of frame event.
+> > > The interrupt mask is setup to generate an interrupt on one of the two
+> > > events depending on what is needed when the VIN is started. The end of
+> > > field bit is set in both cases so controlling the mask that generates an
+> > > interrupt have been enough to control the two use-cases.
+> > > 
+> > > Before extending the interrupt handler to deal with other types of
+> > > interrupt events it is needs to extended to "capture complete" check for
+> > > correct the use-case in operation. Without this the simplification in
+> > > the handler can result in corrupted frames when the mask on what type of
+> > > events can generate an interrupt generated can no longer be assumed to
+> > > only be an "capture complete" event.
+> > > 
+> > > Which bit is checked matches which bit is enabled at configuration time
+> > > as which event can generate an interrupt for "capture complete". There
+> > > is no functional change.
+> > > 
+> > > While at it switch to use the BIT() macro to describe the bit positions
+> > > for the interrupt functions.
+> > > 
+> > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > > ---
+> > >  drivers/media/platform/renesas/rcar-vin/rcar-dma.c | 14 +++++++++-----
+> > >  1 file changed, 9 insertions(+), 5 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> > > index 585b8b3dcfd8..85e44a00e0fc 100644
+> > > --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> > > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> > > @@ -115,11 +115,12 @@
+> > >  #define VNFC_S_FRAME		(1 << 0)
+> > >  
+> > >  /* Video n Interrupt Enable Register bits */
+> > > -#define VNIE_FIE		(1 << 4)
+> > > -#define VNIE_EFE		(1 << 1)
+> > > +#define VNIE_FIE		BIT(4)
+> > > +#define VNIE_EFE		BIT(1)
+> > >  
+> > >  /* Video n Interrupt Status Register bits */
+> > > -#define VNINTS_FIS		(1 << 4)
+> > > +#define VNINTS_FIS		BIT(4)
+> > > +#define VNINTS_EFS		BIT(1)
+> > >  
+> > >  /* Video n Data Mode Register bits */
+> > >  #define VNDMR_A8BIT(n)		(((n) & 0xff) << 24)
+> > > @@ -1034,7 +1035,7 @@ static void rvin_capture_stop(struct rvin_dev *vin)
+> > >  static irqreturn_t rvin_irq(int irq, void *data)
+> > >  {
+> > >  	struct rvin_dev *vin = data;
+> > > -	u32 status, vnms;
+> > > +	u32 capture, status, vnms;
+> > >  	int slot;
+> > >  	unsigned int handled = 0;
+> > >  	unsigned long flags;
+> > > @@ -1049,7 +1050,10 @@ static irqreturn_t rvin_irq(int irq, void *data)
+> > >  	handled = 1;
+> > >  
+> > >  	/* Nothing to do if nothing was captured. */
+> > > -	if (!(status & VNINTS_FIS))
+> > > +	capture = vin->format.field == V4L2_FIELD_NONE ||
+> > > +		vin->format.field == V4L2_FIELD_ALTERNATE ?
+> > > +		VNINTS_FIS : VNINTS_EFS;
+> > 
+> > I would find
+> > 
+> > 	capture = vin->format.field == V4L2_FIELD_NONE ||
+> > 		  vin->format.field == V4L2_FIELD_ALTERNATE
+> > 		? VNINTS_FIS : VNINTS_EFS;
+> > 
+> > easier to read, but it could be just me.
+> 
+> I agree it's easier to read, but my auto style checker for the file will 
+> not allow it. And if I make one exception from my format rules I fear 
+> the file will soon turn wild. The whole construct is ugly and I hope to 
+> be able to remove it all together in follow up work.
 
-> +
->         return ret < 0 ? ret : 0;
->  }
->  EXPORT_SYMBOL_GPL(dev_pm_domain_attach);
-> diff --git a/include/linux/pm.h b/include/linux/pm.h
-> index f0bd8fbae4f2..dcbe2c1ef59b 100644
-> --- a/include/linux/pm.h
-> +++ b/include/linux/pm.h
-> @@ -720,6 +720,7 @@ struct dev_pm_info {
->         struct pm_subsys_data   *subsys_data;  /* Owned by the subsystem.=
- */
->         void (*set_latency_tolerance)(struct device *, s32);
->         struct dev_pm_qos       *qos;
-> +       bool                    detach_power_off:1;
+Up to you. Fixing the style checker is a big rabbit hole.
 
-Please put the new flag under #ifdef CONFIG_PM after memalloc_noio and
-comment it as "Owned by the driver core".
+> > Do I read it correctly that you use the "Field Interrupt" with
+> > V4L2_FIELD_NONE ? That seems a bit weird to me, but maybe I don't get
+> > how the hardware operates.
+> 
+> I agree it's odd, and likely can be improved upon. But it mirrors what 
+> is done in the capture setup routine. The "Field Interrupt" is enabled 
+> for NONE and ALTERNATE, and the "End Frame Interrupt" is used for the 
+> other cases. See the 'progressive' variable in rvin_setup().
+> 
+> The historical reason for this oddity is that VIN placed to much logic 
+> in the kernel driver that should have been up to user-space, specially 
+> for Gen2. In this case if the video source was providing ALTERNATE then 
+> VIN would automatically default to INTERLACED the output. Some of this 
+> have been reworked and fixed over the years, and a lot of it is finally 
+> fixed in the Gen2 MC series on the list.
+> 
+> That work is however not a dependency of this work, and I feel like a 
+> broken record, but I have started work to refactor this and make it 
+> right. That work is however based on the Gen2 MC series as this allows 
+> me to add proper tests for all of this that covers all the different 
+> generations.
+> 
+> I did not want this series to depend on the cleanups and potentially 
+> grew to yet another large series that fix lots of unrelated things. I 
+> hope it's OK we live with this oddity a little while longer so we can 
+> address it properly as a separate thing.
 
-Otherwise LGTM.
+Fine with me.
 
->  };
->
->  extern int dev_pm_get_subsys_data(struct device *dev);
-> --
-> 2.43.0
->
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> > > +	if (!(status & capture))
+> > >  		goto done;
+> > >  
+> > >  	/* Nothing to do if not running. */
+
+-- 
+Regards,
+
+Laurent Pinchart
 
