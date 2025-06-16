@@ -1,187 +1,141 @@
-Return-Path: <linux-renesas-soc+bounces-18389-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18390-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DF3BADB8D6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 20:28:54 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65D80ADB92D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 20:58:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E69D11735EA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 18:28:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4A0823AD780
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 18:58:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C5F7288CB7;
-	Mon, 16 Jun 2025 18:28:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 488DB289E01;
+	Mon, 16 Jun 2025 18:58:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BlhZFtev"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="BvCp8Gi3";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nsXoN/5d"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C86C1A4E9D;
-	Mon, 16 Jun 2025 18:28:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01757204C1A;
+	Mon, 16 Jun 2025 18:58:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750098530; cv=none; b=CVcyuY4Bpbci5rRM0hFmQnfRcFqYHDddR5miZWj7wGs/JtL5mUJX2Q2SO5LNclhIABoC3auV0HtV//O+rpfNXt0uzSGinvaNepxQ7E6s4oiu83YTR7RhkJ+EYbS0lBKL0rcMz2xk0RauzYrI7xYKRogB4qw6i66jdllpvrGFwAQ=
+	t=1750100314; cv=none; b=uJFi6g5W3yJaGAc8jDYz8D0yP8BH79A5DChC8GVIYBsVW684EHYXFM5Bf7J/USd0Zpi5AFkm/Xnd8WwkY6rifQ2O/NFBTOgbFQnqX/iLdp3yXBuvT0RO3TNKaygY6Gar0pNuq7Bxw5chLfnyCbBd/2jpkxOImeWE301/bLG9HW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750098530; c=relaxed/simple;
-	bh=Klc9wyXwyphIipCnkKssAeWvA5G1dzV3dvSoAOnf8Zw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MURLhYyaZ1oPUbPog5+tnQBdKZCnAmvnh5oIvPrAWzqo8Xk0IxkASfHh6EZLoOGAoWIh+V/anwExeatdUdZUSWaG1B5e6pitWDB3fe60s9mzCUtCpBOKazQVeiy40Lmn6BOvyiwftrk5KHHORX8lVzQHuXzk7kJuP+gF5TXoWNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BlhZFtev; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 04012C6D;
-	Mon, 16 Jun 2025 20:28:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1750098515;
-	bh=Klc9wyXwyphIipCnkKssAeWvA5G1dzV3dvSoAOnf8Zw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BlhZFtevqNTaZiaID5jvfGnCno/Z575MvbzmLopVSL2I0NsNKeeT9mODs2K2q9o/P
-	 sxdtaBYkk478VYiuvjoa3pSS1x+JxFN9QNmZi7zQCtMjbV5Hm0C45zyirIQlZaiMR/
-	 ccaJ8pE92UErehtJnGYNNvFLGTmfnfA+zshtEa/Y=
-Date: Mon, 16 Jun 2025 21:28:30 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	s=arc-20240116; t=1750100314; c=relaxed/simple;
+	bh=oeJRLLSwtRkQcKAdtfO5hAWD0B/mo5uE8GkCFYaDDjg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Q6z5Oh9P8K6Xtyhde94gUgO06aoeNXWOg4fhFh76CGNvu5OuygTyE7+5lxAbuoLr7FGaeswonyzE25fLfSIJMH+YyvY4kyF3ysb+6DA4R9UWaEv2Mvdtwt4NBCWj3HRJ2HWlqB1fAvJxQ6hQhHWCXDYHRJfAKdVNpQZ2Pn7SnWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=BvCp8Gi3; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nsXoN/5d; arc=none smtp.client-ip=103.168.172.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 0962F1140191;
+	Mon, 16 Jun 2025 14:58:31 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Mon, 16 Jun 2025 14:58:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1750100311; x=1750186711; bh=v/
+	TXx1dkm7xsWBo9OfUL4i6toTBkkYNGAFxAjhVZ8q4=; b=BvCp8Gi3DQzw/0p+rI
+	LciRyqRjRZG17SF5Y3Ya0gzowogs0R2IkFVAwAYTfgDvVqznIQ2N3dWZZMA78wXm
+	k0lFaydebtW4Aw1+RDyzecpQyGpNo4SA/tyKZFWXrSbwnhLOnOfK6IBiXgA3NOgO
+	b3QLOjv9o9EGqRtj4R5kpNWOXZWqgxmmgguDj4fxu48+shNJGQyuOziNnKFbyKB5
+	OXOVmwyuYELu0rvqeKsgMFbQbkJ9p8166xgNAY6m4G6VZ7U7wi85vDP7rNtS3mrs
+	aymQKq7E3wjxPA1XezoTvBdwexuwvK97WD4e4Y/bkVlTWfY9CqUsBxcmM4vjh8Ss
+	UGQg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1750100311; x=1750186711; bh=v/TXx1dkm7xsWBo9OfUL4i6toTBk
+	kYNGAFxAjhVZ8q4=; b=nsXoN/5dP18oVPf5gPSposM0WpIMOlyrmDmH2X0MLODa
+	iI/oyV9DA6fe05E4P+RFxuZNPjtIqIno3UuShJOtk358fvPfCNQMugzJZ+6i8glj
+	yupwNf/v6T38BnUK6+TaH7KBYxcOGhDDYI2qbafOcbK1qk3uJFUCH/GPIqr7yidB
+	+fc2l4ZVAljZ3V+ukgSzOZ4DCeuc3KgDREMjjVeQP9yO+XqsMFKlnz3ZI4pztBd0
+	KEEo89NZzs5lu9GmI3nSc9etJJmf7Crr/8rtek1oLQTeXNxgaqJlFnby5tIxbAbb
+	B3GB6n2E8wDhJz9926v14MM8wdkvDCdZbMjPk+9VYQ==
+X-ME-Sender: <xms:VWlQaJfCH4_QCKeK9gXe3iyiSZGwNCvJ9O2vhRVrkVx9tpSqahHUOg>
+    <xme:VWlQaHOggxZXS-XIV7Lexi_5Pm-i7zPB-9s1De311xe83_8u1aqFfJpPSKWyIItUQ
+    mPn_ZU13AVmhksWHF0>
+X-ME-Received: <xmr:VWlQaCj7lnPFO-oGP33UvPwhL-iMOS_SIKnFqZUVWu7YubWla8kqOX16ZA0HZLwZDWMe9CTgpnZRppXPhHBG4ltdHg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddvjeefiecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeen
+    ucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvg
+    hrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthht
+    vghrnhepheduleetteekgffffedufeeuvdejiedvkefhveeifeegffehledtvdevhfefte
+    egnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhi
+    khhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpth
+    htohepkedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhgthhgvhhgrsgeskhgv
+    rhhnvghlrdhorhhgpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihguvg
+    hrrdgsvgdprhgtphhtthhopehsrghkrghrihdrrghilhhusheslhhinhhugidrihhnthgv
+    lhdrtghomhdprhgtphhtthhopehlrghurhgvnhhtrdhpihhntghhrghrthesihguvggrsh
+    honhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghr
+    rdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsoh
+    gtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhn
+    vghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhhikhhlrghsrdhsoh
+    guvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
+X-ME-Proxy: <xmx:VmlQaC9MslqgyBXPQ54NZeVgTbSB830i67fMv1wwpeot6UVunB5crg>
+    <xmx:VmlQaFtu9AeRxnEU0jkp7C0kQLWBIMHFek9SoXvGSRSuM8pY5yrrmA>
+    <xmx:VmlQaBFbAyU0aZcM6MUEHyJsZOfrvOMtKxf-8rdmxXA02ei4xPSnjQ>
+    <xmx:VmlQaMOdiOqIBLegpFhxgMhZdQai47rFLCaCP2BYORBMI33IYf4LDg>
+    <xmx:V2lQaN5417xnN8bvIWiH_hU811K_SQ7Vw4CxErfg22r4ZgCje-yw5AqN>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 16 Jun 2025 14:58:29 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] media: rcar-vin: Fold interrupt helpers into only
- callers
-Message-ID: <20250616182830.GB12825@pendragon.ideasonboard.com>
-References: <20250614141545.2860860-1-niklas.soderlund+renesas@ragnatech.se>
- <20250614141545.2860860-2-niklas.soderlund+renesas@ragnatech.se>
- <20250614212314.GL10542@pendragon.ideasonboard.com>
- <20250615124839.GB1489213@ragnatech.se>
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2 0/3] media: rcar-vin: Generate FRAME_SYNC events
+Date: Mon, 16 Jun 2025 20:57:19 +0200
+Message-ID: <20250616185722.980722-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250615124839.GB1489213@ragnatech.se>
 
-On Sun, Jun 15, 2025 at 02:48:39PM +0200, Niklas Söderlund wrote:
-> On 2025-06-15 00:23:14 +0300, Laurent Pinchart wrote:
-> > On Sat, Jun 14, 2025 at 04:15:43PM +0200, Niklas Söderlund wrote:
-> > > The call sites using the interrupt helper functions have all been
-> > > reworked to only one for each. Fold echo of them into the only call
-> > > sites left.
-> > > 
-> > > While at it rename the variable holding the current interrupt status to
-> > > make the code easier to read.
-> > > 
-> > > There is no functional change.
-> > > 
-> > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > > ---
-> > >  .../platform/renesas/rcar-vin/rcar-dma.c      | 27 +++++--------------
-> > >  1 file changed, 6 insertions(+), 21 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> > > index 5c08ee2c9807..585b8b3dcfd8 100644
-> > > --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> > > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> > > @@ -912,21 +912,6 @@ static int rvin_setup(struct rvin_dev *vin)
-> > >  	return 0;
-> > >  }
-> > >  
-> > > -static void rvin_disable_interrupts(struct rvin_dev *vin)
-> > > -{
-> > > -	rvin_write(vin, 0, VNIE_REG);
-> > > -}
-> > > -
-> > > -static u32 rvin_get_interrupt_status(struct rvin_dev *vin)
-> > > -{
-> > > -	return rvin_read(vin, VNINTS_REG);
-> > > -}
-> > > -
-> > > -static void rvin_ack_interrupt(struct rvin_dev *vin)
-> > > -{
-> > > -	rvin_write(vin, rvin_read(vin, VNINTS_REG), VNINTS_REG);
-> > > -}
-> > > -
-> > >  static bool rvin_capture_active(struct rvin_dev *vin)
-> > >  {
-> > >  	return rvin_read(vin, VNMS_REG) & VNMS_CA;
-> > > @@ -1049,22 +1034,22 @@ static void rvin_capture_stop(struct rvin_dev *vin)
-> > >  static irqreturn_t rvin_irq(int irq, void *data)
-> > >  {
-> > >  	struct rvin_dev *vin = data;
-> > > -	u32 int_status, vnms;
-> > > +	u32 status, vnms;
-> > >  	int slot;
-> > >  	unsigned int handled = 0;
-> > >  	unsigned long flags;
-> > >  
-> > >  	spin_lock_irqsave(&vin->qlock, flags);
-> > >  
-> > > -	int_status = rvin_get_interrupt_status(vin);
-> > > -	if (!int_status)
-> > > +	status = rvin_read(vin, VNINTS_REG);
-> > > +	if (!status)
-> > >  		goto done;
-> > >  
-> > > -	rvin_ack_interrupt(vin);
-> > > +	rvin_write(vin, status, VNINTS_REG);
-> > 
-> > Actually there is a functional change here. Before this change, if an
-> > interrupt occured between reading VNINTS_REG in
-> > rvin_get_interrupt_status() and reading it again in
-> > rvin_ack_interrupt(), it would get lost. This patch fixes a possible
-> > bug.
-> 
-> Indeed, thanks for pointing it out. I will update the commit message to 
-> mention this.
+Hi,
 
-Let me make a proposal.
+This series extend the VIN interrupt handling to be able to generate
+FRAME_SYNC events. Having these events in user-space is a great help to
+know when a sensor starts to expose a new frame.
 
----
-The call sites using the interrupt helper functions have all been
-reworked to only one for each. Fold echo of them into the only call
-sites left.
+Patch 1/3 and 2/3 prepays the existing interrupt infrastructure to
+support more then "frame captured" interrupts. While patch 3/3 enables
+and checks for VSYNC detection and generates the new event.
 
-This fixes a possible interrupt loss in case an interrupt occurs between
-reading VNINTS_REG in rvin_get_interrupt_status() and reading it again
-in rvin_ack_interrupt().
+The feature is tested on Gen2, Gen3 and Gen4 and all devices correctly
+generate FRAME_SYNC events.
 
-While at it rename the variable holding the current interrupt status to
-make the code easier to read.
----
+See individual patches for changelog.
 
-Feel free to add a Fixes: tag if applicable (and a Cc:
-stable@vger.kernel.org in that case).
+Niklas Söderlund (3):
+  media: rcar-vin: Fold interrupt helpers into only callers
+  media: rcar-vin: Check for correct capture interrupt event
+  media: rcar-vin: Generate FRAME_SYNC events
 
-> > With an updated commit message,
-> > 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > 
-> > >  	handled = 1;
-> > >  
-> > >  	/* Nothing to do if nothing was captured. */
-> > > -	if (!(int_status & VNINTS_FIS))
-> > > +	if (!(status & VNINTS_FIS))
-> > >  		goto done;
-> > >  
-> > >  	/* Nothing to do if not running. */
-> > > @@ -1417,7 +1402,7 @@ void rvin_stop_streaming(struct rvin_dev *vin)
-> > >  	rvin_set_stream(vin, 0);
-> > >  
-> > >  	/* disable interrupts */
-> > > -	rvin_disable_interrupts(vin);
-> > > +	rvin_write(vin, 0, VNIE_REG);
-> > >  
-> > >  	/* Return unprocessed buffers from hardware. */
-> > >  	for (unsigned int i = 0; i < HW_BUFFER_NUM; i++) {
+ .../platform/renesas/rcar-vin/rcar-dma.c      | 54 ++++++++++---------
+ .../platform/renesas/rcar-vin/rcar-v4l2.c     |  2 +
+ 2 files changed, 32 insertions(+), 24 deletions(-)
 
 -- 
-Regards,
+2.49.0
 
-Laurent Pinchart
 
