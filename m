@@ -1,879 +1,1092 @@
-Return-Path: <linux-renesas-soc+bounces-18398-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18400-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85B2CADBC13
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 23:40:39 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3646ADBC4D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 23:54:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 325BF1892651
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 21:40:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E9D643B2516
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 21:54:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 448FE226D18;
-	Mon, 16 Jun 2025 21:39:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FA7C220685;
+	Mon, 16 Jun 2025 21:54:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tu0zg8ga"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="SUtlgi2K";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="J6A9zB0g"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C3422578C;
-	Mon, 16 Jun 2025 21:39:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3654620FABC;
+	Mon, 16 Jun 2025 21:54:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750109980; cv=none; b=niEeWNBKIWnX4iWJPB8i0ltiZXvDytNIkk4ZaxsqCwCoYSvKyPGeOfE3uhUpOSECiE4JklANh0gNM7b5tdheusUJAxNRll1ZtrxlkfyxKYNqunn+/Y06AW6zk8Ddaueg196IUuun6eW0ztPOQrWII2jozOuKYS489I6E+zXHO/g=
+	t=1750110876; cv=none; b=MvPuFpY+kGsVFALQwsFXWySsV+ZXv8jVuTvR6BYxAWZydjwXqNJE5VKQcFUQ/6MQXM6bRez0N0eCIWt3pNY7CPINFnCK6xmUm/zSwupGALyIJsIjvrxcBwW7b6snmLcb+O2j4Zjvc4HzayynQ3zSZcJ72ktJ5nA6bnNAS6aHJYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750109980; c=relaxed/simple;
-	bh=/zdb2gOApLyDTlQ8e8gNc2yaghYWzBhiqESdQAmiMsk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tJDJ6E/a/d9dl/TDNDASaKwspf4FmkBGeLwGi6S6J14+WcrLDFBin94S8NLLe+n2PQdmrediylY+5lshewJQzceMWpsZckJ8eUUHe0ZW9Mgx4YVE6XeQmBRjwSy52v2cwXKqUCASA12wNPA/XVs1mXpvWj+L7iBMYCKjaKcvrTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tu0zg8ga; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3a53ee6fcd5so3071433f8f.1;
-        Mon, 16 Jun 2025 14:39:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750109976; x=1750714776; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WYPvYYf8rg7AUfUUg7u5cwFYgLbqdBkm3vmXCqLJZVs=;
-        b=Tu0zg8gaPE9PX5d68JSnsee3YqtIg5r0JJZgST1ioz0jIs4pPO03OR79jLhfRTTOdo
-         UWjh3K0spXJZmdDrJQC7Fx0u2mc7c+UBL0iz370H73H2Fyu9kKrB59Od5t+1xC3/66Lp
-         xk06ODBFrotGOIOgll7Ap249UrcPtkTUnfgkThv0a2RiUJz3nNdrMj8LxerUvjUi883f
-         qVHSAt7dTK+KWhDZWQQb4iEla+4d9mzxYgW0CQ3J/LLbxxD6wcV3LU7tZfM/Hry4kj1G
-         0MS09vFflOW/lHcu5F9Ev5oASK+6dWrGrJrDyyYteCLuwix8XuPOab5A1AUGWBNzF/gv
-         s7yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750109976; x=1750714776;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WYPvYYf8rg7AUfUUg7u5cwFYgLbqdBkm3vmXCqLJZVs=;
-        b=mFTj9GWKc+9tq2zFm2jh/hWos3Rz5SCXtRdaJeQHKcbLzz97zPuc86073CBu3NWD/X
-         +oAOOSY2KReA117Cp2aOA23tVuRHqbW7uJj6lHFCKyi5PHYkvIWVIbgpBQPTC5pbsOwN
-         fk/pHste8ffLpV/087KqGY+0ZTm9kZ6ugGVQif8WfF6gA8UNavtBXmrPui080ZaTjsNZ
-         0WfPsK58rKAf37tMEIVBHVcOG8ePKJcFvMFH7EPp6tAji88+CuSCF/V8eyf9zif0NrYw
-         Qw5lTp3gmQwrHOtPv35hTxWNZLdxmviF3A7jaRQA6o9L/jDVPBD0wkpwczGe9gOdzA7y
-         cmtA==
-X-Forwarded-Encrypted: i=1; AJvYcCUdoeL2+WriVFV67BiIhqqbqTdO37/r9FgP+ZxRmUDAnFPi9yRP8b3c3Z61Z/w0u42Z7yhaP7rAH8gFhnfi@vger.kernel.org, AJvYcCXFLgtpc6eEm6xTI/wbKIGQBgRE2q+dqZO7EQFNmcxYokOQBRIXSkmvhA7SMesZr3sgs7FwbfNuPRLm7NluXLb/bcA=@vger.kernel.org, AJvYcCXlPSmim39wRxDxjNsiu72FvpWvXNKv479qKm9S4IKJsi7CA5gpOghpGjchCLDIWyctQHplpac7goUC@vger.kernel.org
-X-Gm-Message-State: AOJu0YyosxhPlRPQTH+MpwHHmAhHu4B+ahRCYH4iJ+4NCgPqnIrDvMao
-	voAvcITBBwu9KUXb89sM9Ppu+OCG3djzpzParCoGeeI6QTTk04PWR8P+
-X-Gm-Gg: ASbGnctH+rVPG/cd5ZDmvwp87RWCewE88JZqPQGI8954HkBGSqXMqjSwypYBKwseLrE
-	L6JlH5LSz80ZEUR9AdDWXLvkAODu3Te1eqYtU3b6Qf8mwvMP4JiKuu2JbKEPFmr0xoiJk4Qwfzt
-	xP1ioXSaZkm9GxGZKdF2uskESQNmnp9Ol5nJExz8ff22RJ8X7yuctkZaqYp2QVg2OLI0WYaXvHX
-	b/Xfk3J32MHVQrXLORgneVHnVtc4a3Qr9LOW2f4dh5zQEENhROvYSXkfucRkbareumslorPMFmI
-	49O00ke27r1km9Zbfzxa8cBoqQfyY+jDjBxpr26ryGp0ZohPxgOmGPZ1HmKekIvatgNwvY/7D7m
-	JzM4kT/pVyH2vR9d/5Ts1
-X-Google-Smtp-Source: AGHT+IHNGoUkqQpkAQo8M1ZnX7jm30srOFJINfvwDjJF2Z6u9LrvZGledrihnDShwzv+FMuKRj8cWA==
-X-Received: by 2002:a5d:64ca:0:b0:3a3:6a9a:5ebf with SMTP id ffacd0b85a97d-3a5723a352dmr10260579f8f.20.1750109975556;
-        Mon, 16 Jun 2025 14:39:35 -0700 (PDT)
-Received: from iku.example.org ([2a06:5906:61b:2d00:4135:3769:337c:8a0c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532e2354fbsm153211625e9.15.2025.06.16.14.39.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Jun 2025 14:39:34 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v11 5/5] serial: sh-sci: Add support for RZ/T2H SCI
-Date: Mon, 16 Jun 2025 22:39:27 +0100
-Message-ID: <20250616213927.475921-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250616213927.475921-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20250616213927.475921-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1750110876; c=relaxed/simple;
+	bh=PGKUHRWvrD+Wgc8wsjPQlxvuy5oP3UWeQIKuS9LlTmk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BkJdjfU68nD5g1kFF5d5iNywu1F5+trStz9lFPy1k32STN+5gekpAgM5akjrD+AX/R7pEOWjprcIKVHCd4OgcdXONcvsALfXsoeL+Nxj3M+2RRsQPAjr5rCRXvoMAgdm9FUIvAhjAfNlO3x1z4CDSVVbU1IcTVBS/AzBSaDdq4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=SUtlgi2K; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=J6A9zB0g; arc=none smtp.client-ip=103.168.172.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailfout.phl.internal (Postfix) with ESMTP id 1D7D51380397;
+	Mon, 16 Jun 2025 17:54:32 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-10.internal (MEProxy); Mon, 16 Jun 2025 17:54:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1750110872;
+	 x=1750197272; bh=FbSEe66ZL12krf4F8dbyJpgAQUJvPzWiWst2QfHFhSs=; b=
+	SUtlgi2KpWejyzoId/H9Wf9xip91+GhN7LIA/Di5+Lt6RdsQicYH5Q8GAzO1ANqq
+	EUbilklkEXiyiypGZwL5H8MqqAbDjVhOM/KDN9FEG0niwNLxcuAKs0OuVEEnD2au
+	5+u8j4lEjfxf1b8Ex68RxJNcu+J/cq4XtwN0bnr2Fwb0hBgZ0w+zxuLWdv8sf/At
+	UeklmF0nCdIe3ipZzBSqVjuJSbLxtbz72AfbMqRQA5jfKEWXZjU0uBqz7iI2sNwZ
+	pvbJ/p7gDP5/tgjH1CqgNsyGsmxB5rlLrUtNBE8c0RKDYZtYM4Bk0fhCxur4aJ1c
+	qGskH0GwsmpJc/FY+p9Eyw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1750110872; x=
+	1750197272; bh=FbSEe66ZL12krf4F8dbyJpgAQUJvPzWiWst2QfHFhSs=; b=J
+	6A9zB0gKWC5FDJXzt9MsXXYHgiEK1Am1ILMwpNdOayFRWwZOHaEvYQxOWLZIXZxz
+	hE/IM9FST72p4fJBt6cOh6o+hMoQIEB8mFD3GjkTQAQZFtgR5qcxzT9VLp654FEC
+	d1ubghjkyXedoRTOSrOuVXvOMqv6kNA/8lQOPIcIQXWOKWEU/YZel6nTqcI6Bu+D
+	iDLrLSouOiy5vusQCTpuI9+WyDspLitaAUsz5mg+0EmxlGfuTWXXjhBEztg4LZf4
+	A8ku519XpwpUTTODjie/pDqnzkDFP1SK31PzWEtszSaj9LrCGGOqDgSCxJ7Q179k
+	Z77isgjj4iPpRPYeN61yA==
+X-ME-Sender: <xms:l5JQaFrV5zRBsowIfGi5U_x_Xd5UMN84uzPmwgpOlm0expumf7pYfA>
+    <xme:l5JQaHrPUtNkBvQUAWVnH_QLNaXE9JmDj84qj556ce7-KXhr-fUJakLixA0V9xHOb
+    bKFrT2UnOAgAk3KbxI>
+X-ME-Received: <xmr:l5JQaCNLgmgHAtzJrfDBuf_z7CxQi0Tf9pfkXagZUoc2DzTzfYnkP_YlVOrtdobVQrHJGLMnBoz1iyLYVyCRWdTAc2TV-J022g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddvjeejudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddt
+    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
+    guvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepfeet
+    tdehveehleevteetiedvvdegleffhfelieejiedvheehkeevudetveeuvefhnecuffhomh
+    grihhnpehkvghrnhgvlhdrohhrghdpfhhrvggvuggvshhkthhophdrohhrghenucevlhhu
+    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrsh
+    houggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeejpdhm
+    ohguvgepshhmthhpohhuthdprhgtphhtthhopehjrggtohhpohdrmhhonhguihdorhgvnh
+    gvshgrshesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhgruhhrvghn
+    thdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhope
+    hkihgvrhgrnhdrsghinhhghhgrmhdorhgvnhgvshgrshesihguvggrshhonhgsohgrrhgu
+    rdgtohhmpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrhhnvghlrdhorhhgpdhrtghpth
+    htoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghp
+    thhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtph
+    htthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdho
+    rhhg
+X-ME-Proxy: <xmx:l5JQaA7cInKS4Ta3IEk4YAZGUPyeTKTl4WzACR0fV-bWepnS_l4GeA>
+    <xmx:l5JQaE4KuCfFQksrJboqDbPJrsa3elKAer0A1mV9aGvoXDx5AAJ57Q>
+    <xmx:l5JQaIgTbedcHY22YVVhmtY-zUKbgMnoJbePES02rC_Jwe1CwpTcZQ>
+    <xmx:l5JQaG4S--wlOlVK_pdQy52bXt6POqluW6biuXh86F_ADPjoUuLlEg>
+    <xmx:mJJQaILHdSkJIZMS4nDRTsSCYdzbjt6URpZns0MnH2V52eAFRTXNyVlP>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 16 Jun 2025 17:54:31 -0400 (EDT)
+Date: Mon, 16 Jun 2025 23:54:28 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v12] media: vsp1: Add VSPX support
+Message-ID: <20250616215428.GA2243752@ragnatech.se>
+References: <20250616-b4-vspx-v12-1-6bbe2ace82d6@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250616-b4-vspx-v12-1-6bbe2ace82d6@ideasonboard.com>
 
-From: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+Hi Jacopo,
 
-Define a new RSCI port type, and the RSCI 32 bits registers set.
-The RZ/T2H SCI has a a fifo, and a quite different set of registers
-from the original SH SCI ones.
-DMA is not supported yet.
+Thanks for your persistent work on this!
 
-Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/tty/serial/Kconfig         |   7 +
- drivers/tty/serial/Makefile        |   1 +
- drivers/tty/serial/rsci.c          | 483 +++++++++++++++++++++++++++++
- drivers/tty/serial/rsci.h          |  10 +
- drivers/tty/serial/sh-sci-common.h |   5 +
- drivers/tty/serial/sh-sci.c        |  53 +++-
- 6 files changed, 549 insertions(+), 10 deletions(-)
- create mode 100644 drivers/tty/serial/rsci.c
- create mode 100644 drivers/tty/serial/rsci.h
+On 2025-06-16 18:35:05 +0200, Jacopo Mondi wrote:
+> Add support for VSPX, a specialized version of the VSP2 that
+> transfers data to the ISP. The VSPX is composed of two RPF units
+> to read data from external memory and an IIF instance that performs
+> transfer towards the ISP.
+> 
+> The VSPX is supported through a newly introduced vsp1_vspx.c file that
+> exposes two interfaces: vsp1_vspx interface, declared in vsp1_vspx.h
+> for the vsp1 core to initialize and cleanup the VSPX, and a vsp1_isp
+> interface, declared in include/media/vsp1.h for the ISP driver to
+> control the VSPX operations.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 
-diff --git a/drivers/tty/serial/Kconfig b/drivers/tty/serial/Kconfig
-index 79a8186d3361..44427415a80d 100644
---- a/drivers/tty/serial/Kconfig
-+++ b/drivers/tty/serial/Kconfig
-@@ -675,6 +675,13 @@ config SERIAL_SH_SCI_DMA
- 	depends on SERIAL_SH_SCI && DMA_ENGINE
- 	default ARCH_RENESAS
- 
-+config SERIAL_RSCI
-+	tristate "Support for Renesas RZ/T2H SCI variant"
-+	depends on SERIAL_SH_SCI
-+	help
-+	  Support for the RZ/T2H SCI variant with fifo.
-+	  Say Y if you want to be able to use the RZ/T2H SCI serial port.
-+
- config SERIAL_HS_LPC32XX
- 	tristate "LPC32XX high speed serial port support"
- 	depends on ARCH_LPC32XX || COMPILE_TEST
-diff --git a/drivers/tty/serial/Makefile b/drivers/tty/serial/Makefile
-index d58d9f719889..a2ccbc508ec5 100644
---- a/drivers/tty/serial/Makefile
-+++ b/drivers/tty/serial/Makefile
-@@ -71,6 +71,7 @@ obj-$(CONFIG_SERIAL_QCOM_GENI)		+= qcom_geni_serial.o
- obj-$(CONFIG_SERIAL_QE)			+= ucc_uart.o
- obj-$(CONFIG_SERIAL_RDA)		+= rda-uart.o
- obj-$(CONFIG_SERIAL_RP2)		+= rp2.o
-+obj-$(CONFIG_SERIAL_RSCI)		+= rsci.o
- obj-$(CONFIG_SERIAL_SA1100)		+= sa1100.o
- obj-$(CONFIG_SERIAL_SAMSUNG)		+= samsung_tty.o
- obj-$(CONFIG_SERIAL_SB1250_DUART)	+= sb1250-duart.o
-diff --git a/drivers/tty/serial/rsci.c b/drivers/tty/serial/rsci.c
-new file mode 100644
-index 000000000000..18144da51239
---- /dev/null
-+++ b/drivers/tty/serial/rsci.c
-@@ -0,0 +1,483 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2025 Renesas Electronics Corp.
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/bitops.h>
-+#include <linux/io.h>
-+#include <linux/iopoll.h>
-+#include <linux/serial_core.h>
-+#include <linux/serial_sci.h>
-+#include <linux/tty_flip.h>
-+#include "rsci.h"
-+
-+/* RSCI registers */
-+#define RDR	0x00
-+#define TDR	0x04
-+#define CCR0	0x08
-+#define CCR1	0x0C
-+#define CCR2	0x10
-+#define CCR3	0x14
-+#define CCR4	0x18
-+#define FCR	0x24
-+#define DCR	0x30
-+#define CSR	0x48
-+#define FRSR	0x50
-+#define FTSR	0x54
-+#define CFCLR	0x68
-+#define FFCLR	0x70
-+
-+/* RDR (Receive Data Register) */
-+#define RDR_FFER		BIT(12) /* FIFO Framing Error */
-+#define RDR_FPER		BIT(11) /* FIFO Parity Error */
-+#define RDR_RDAT_MSK		GENMASK(8, 0)
-+
-+/* TDR (Transmit Data Register) */
-+#define TDR_MPBT		BIT(9)	/* Multiprocessor Transfer */
-+#define TDR_TDAT_9BIT_LSHIFT	0
-+#define TDR_TDAT_9BIT_VAL	0x1FF
-+#define TDR_TDAT_9BIT_MSK	(TDR_TDAT_9BIT_VAL << TDR_TDAT_9BIT_LSHIFT)
-+
-+/* CCR0 (Common Control Register 0) */
-+#define CCR0_SSE		BIT(24)	/* SSn# Pin Function Enable */
-+#define CCR0_TEIE		BIT(21)	/* Transmit End Interrupt Enable */
-+#define CCR0_TIE		BIT(20)	/* Transmit Interrupt Enable */
-+#define CCR0_RIE		BIT(16)	/* Receive Interrupt Enable */
-+#define CCR0_IDSEL		BIT(10)	/* ID Frame Select */
-+#define CCR0_DCME		BIT(9)	/* Data Compare Match Enable */
-+#define CCR0_MPIE		BIT(8)	/* Multiprocessor Interrupt Enable */
-+#define CCR0_TE			BIT(4)	/* Transmit Enable */
-+#define CCR0_RE			BIT(0)	/* Receive Enable */
-+
-+/* CCR1 (Common Control Register 1) */
-+#define CCR1_NFEN		BIT(28)	/* Digital Noise Filter Function */
-+#define CCR1_SHARPS		BIT(20)	/* Half -duplex Communication Select */
-+#define CCR1_SPLP		BIT(16)	/* Loopback Control */
-+#define CCR1_RINV		BIT(13)	/* RxD invert */
-+#define CCR1_TINV		BIT(12)	/* TxD invert */
-+#define CCR1_PM			BIT(9)	/* Parity Mode */
-+#define CCR1_PE			BIT(8)	/* Parity Enable */
-+#define CCR1_SPB2IO		BIT(5)	/* Serial Port Break I/O */
-+#define CCR1_SPB2DT		BIT(4)	/* Serial Port Break Data Select */
-+#define CCR1_CTSPEN		BIT(1)	/* CTS External Pin Enable */
-+#define CCR1_CTSE		BIT(0)	/* CTS Enable */
-+
-+/* FCR (FIFO Control Register) */
-+#define FCR_RFRST		BIT(23)	/* Receive FIFO Data Register Reset */
-+#define FCR_TFRST		BIT(15)	/* Transmit FIFO Data Register Reset */
-+#define FCR_DRES		BIT(0)	/* Incoming Data Ready Error Select */
-+#define FCR_RTRG4_0		GENMASK(20, 16)
-+#define FCR_TTRG		GENMASK(12, 8)
-+
-+/* CSR (Common Status Register) */
-+#define CSR_RDRF		BIT(31)	/* Receive Data Full */
-+#define CSR_TEND		BIT(30)	/* Transmit End Flag */
-+#define CSR_TDRE		BIT(29)	/* Transmit Data Empty */
-+#define CSR_FER			BIT(28)	/* Framing Error */
-+#define CSR_PER			BIT(27)	/* Parity Error */
-+#define CSR_MFF			BIT(26)	/* Mode Fault Error */
-+#define CSR_ORER		BIT(24)	/* Overrun Error */
-+#define CSR_DFER		BIT(18)	/* Data Compare Match Framing Error */
-+#define CSR_DPER		BIT(17)	/* Data Compare Match Parity Error */
-+#define CSR_DCMF		BIT(16)	/* Data Compare Match */
-+#define CSR_RXDMON		BIT(15)	/* Serial Input Data Monitor */
-+#define CSR_ERS			BIT(4)	/* Error Signal Status */
-+
-+#define SCxSR_ERRORS(port)	(to_sci_port(port)->params->error_mask)
-+#define SCxSR_ERROR_CLEAR(port)	(to_sci_port(port)->params->error_clear)
-+
-+#define RSCI_DEFAULT_ERROR_MASK	(CSR_PER | CSR_FER)
-+
-+#define RSCI_RDxF_CLEAR		(CFCLR_RDRFC)
-+#define RSCI_ERROR_CLEAR	(CFCLR_PERC | CFCLR_FERC)
-+#define RSCI_TDxE_CLEAR		(CFCLR_TDREC)
-+#define RSCI_BREAK_CLEAR	(CFCLR_PERC | CFCLR_FERC | CFCLR_ORERC)
-+
-+/* FRSR (FIFO Receive Status Register) */
-+#define FRSR_R5_0		GENMASK(13, 8)	/* Receive FIFO Data Count */
-+#define FRSR_DR			BIT(0)	/* Receive Data Ready */
-+
-+/* CFCLR (Common Flag CLear Register) */
-+#define CFCLR_RDRFC		BIT(31)	/* RDRF Clear */
-+#define CFCLR_TDREC		BIT(29)	/* TDRE Clear */
-+#define CFCLR_FERC		BIT(28)	/* FER Clear */
-+#define CFCLR_PERC		BIT(27)	/* PER Clear */
-+#define CFCLR_MFFC		BIT(26)	/* MFF Clear */
-+#define CFCLR_ORERC		BIT(24)	/* ORER Clear */
-+#define CFCLR_DFERC		BIT(18)	/* DFER Clear */
-+#define CFCLR_DPERC		BIT(17)	/* DPER Clear */
-+#define CFCLR_DCMFC		BIT(16)	/* DCMF Clear */
-+#define CFCLR_ERSC		BIT(4)	/* ERS Clear */
-+#define CFCLR_CLRFLAG		(CFCLR_RDRFC | CFCLR_FERC | CFCLR_PERC | \
-+				 CFCLR_MFFC | CFCLR_ORERC | CFCLR_DFERC | \
-+				 CFCLR_DPERC | CFCLR_DCMFC | CFCLR_ERSC)
-+
-+/* FFCLR (FIFO Flag CLear Register) */
-+#define FFCLR_DRC		BIT(0)	/* DR Clear */
-+
-+#define DCR_DEPOL		BIT(0)
-+
-+static u32 rsci_serial_in(struct uart_port *p, int offset)
-+{
-+	return readl(p->membase + offset);
-+}
-+
-+static void rsci_serial_out(struct uart_port *p, int offset, int value)
-+{
-+	writel(value, p->membase + offset);
-+}
-+
-+static void rsci_clear_DRxC(struct uart_port *port)
-+{
-+	rsci_serial_out(port, CFCLR, CFCLR_RDRFC);
-+	rsci_serial_out(port, FFCLR, FFCLR_DRC);
-+}
-+
-+static void rsci_clear_SCxSR(struct uart_port *port, unsigned int mask)
-+{
-+	rsci_serial_out(port, CFCLR, mask);
-+}
-+
-+static void rsci_start_rx(struct uart_port *port)
-+{
-+	unsigned int ctrl;
-+
-+	ctrl = rsci_serial_in(port, CCR0);
-+	ctrl |= CCR0_RIE;
-+	rsci_serial_out(port, CCR0, ctrl);
-+}
-+
-+static void rsci_set_termios(struct uart_port *port, struct ktermios *termios,
-+			     const struct ktermios *old)
-+{
-+	struct sci_port *s = to_sci_port(port);
-+	unsigned long flags;
-+
-+	sci_port_enable(s);
-+	uart_port_lock_irqsave(port, &flags);
-+
-+	/* For now, only RX enabling is supported */
-+	if (termios->c_cflag & CREAD)
-+		rsci_start_rx(port);
-+
-+	uart_port_unlock_irqrestore(port, flags);
-+	sci_port_disable(s);
-+}
-+
-+static int rsci_txfill(struct uart_port *port)
-+{
-+	return rsci_serial_in(port, FTSR);
-+}
-+
-+static int rsci_rxfill(struct uart_port *port)
-+{
-+	u32 val = rsci_serial_in(port, FRSR);
-+
-+	return FIELD_GET(FRSR_R5_0, val);
-+}
-+
-+static unsigned int rsci_tx_empty(struct uart_port *port)
-+{
-+	unsigned int status = rsci_serial_in(port, CSR);
-+	unsigned int in_tx_fifo = rsci_txfill(port);
-+
-+	return (status & CSR_TEND) && !in_tx_fifo ? TIOCSER_TEMT : 0;
-+}
-+
-+static void rsci_set_mctrl(struct uart_port *port, unsigned int mctrl)
-+{
-+	/* Not supported yet */
-+}
-+
-+static unsigned int rsci_get_mctrl(struct uart_port *port)
-+{
-+	/* Not supported yet */
-+	return 0;
-+}
-+
-+static void rsci_clear_CFC(struct uart_port *port, unsigned int mask)
-+{
-+	rsci_serial_out(port, CFCLR, mask);
-+}
-+
-+static void rsci_start_tx(struct uart_port *port)
-+{
-+	struct sci_port *sp = to_sci_port(port);
-+	u32 ctrl;
-+
-+	if (sp->chan_tx)
-+		return;
-+
-+	/*
-+	 * TE (Transmit Enable) must be set after setting TIE
-+	 * (Transmit Interrupt Enable) or in the same instruction
-+	 * to start the transmit process.
-+	 */
-+	ctrl = rsci_serial_in(port, CCR0);
-+	ctrl |= CCR0_TIE | CCR0_TE;
-+	rsci_serial_out(port, CCR0, ctrl);
-+}
-+
-+static void rsci_stop_tx(struct uart_port *port)
-+{
-+	u32 ctrl;
-+
-+	ctrl = rsci_serial_in(port, CCR0);
-+	ctrl &= ~CCR0_TIE;
-+	rsci_serial_out(port, CCR0, ctrl);
-+}
-+
-+static void rsci_stop_rx(struct uart_port *port)
-+{
-+	u32 ctrl;
-+
-+	ctrl = rsci_serial_in(port, CCR0);
-+	ctrl &= ~CCR0_RIE;
-+	rsci_serial_out(port, CCR0, ctrl);
-+}
-+
-+static void rsci_enable_ms(struct uart_port *port)
-+{
-+	/* Not supported yet */
-+}
-+
-+static int rsci_txroom(struct uart_port *port)
-+{
-+	return port->fifosize - rsci_txfill(port);
-+}
-+
-+static void rsci_transmit_chars(struct uart_port *port)
-+{
-+	unsigned int stopped = uart_tx_stopped(port);
-+	struct tty_port *tport = &port->state->port;
-+	u32 status, ctrl;
-+	int count;
-+
-+	status = rsci_serial_in(port, CSR);
-+	if (!(status & CSR_TDRE)) {
-+		ctrl = rsci_serial_in(port, CCR0);
-+		if (kfifo_is_empty(&tport->xmit_fifo))
-+			ctrl &= ~CCR0_TIE;
-+		else
-+			ctrl |= CCR0_TIE;
-+		rsci_serial_out(port, CCR0, ctrl);
-+		return;
-+	}
-+
-+	count = rsci_txroom(port);
-+
-+	do {
-+		unsigned char c;
-+
-+		if (port->x_char) {
-+			c = port->x_char;
-+			port->x_char = 0;
-+		} else if (stopped || !kfifo_get(&tport->xmit_fifo, &c)) {
-+			break;
-+		}
-+
-+		rsci_clear_CFC(port, CFCLR_TDREC);
-+		rsci_serial_out(port, TDR, c);
-+
-+		port->icount.tx++;
-+	} while (--count > 0);
-+
-+	if (kfifo_len(&tport->xmit_fifo) < WAKEUP_CHARS)
-+		uart_write_wakeup(port);
-+
-+	if (kfifo_is_empty(&tport->xmit_fifo)) {
-+		ctrl = rsci_serial_in(port, CCR0);
-+		ctrl &= ~CCR0_TIE;
-+		ctrl |= CCR0_TEIE;
-+		rsci_serial_out(port, CCR0, ctrl);
-+	}
-+}
-+
-+static void rsci_receive_chars(struct uart_port *port)
-+{
-+	struct tty_port *tport = &port->state->port;
-+	u32 rdat, status, frsr_status = 0;
-+	int i, count, copied = 0;
-+	unsigned char flag;
-+
-+	status = rsci_serial_in(port, CSR);
-+	frsr_status = rsci_serial_in(port, FRSR);
-+
-+	if (!(status & CSR_RDRF) && !(frsr_status & FRSR_DR))
-+		return;
-+
-+	while (1) {
-+		/* Don't copy more bytes than there is room for in the buffer */
-+		count = tty_buffer_request_room(tport, rsci_rxfill(port));
-+
-+		/* If for any reason we can't copy more data, we're done! */
-+		if (count == 0)
-+			break;
-+
-+		for (i = 0; i < count; i++) {
-+			char c;
-+
-+			rdat = rsci_serial_in(port, RDR);
-+			/* 9-bits data is not supported yet */
-+			c = rdat & RDR_RDAT_MSK;
-+
-+			if (uart_handle_sysrq_char(port, c)) {
-+				count--;
-+				i--;
-+				continue;
-+			}
-+
-+			/* Store data and status.
-+			 * Non FIFO mode is not supported
-+			 */
-+			if (rdat & RDR_FFER) {
-+				flag = TTY_FRAME;
-+				port->icount.frame++;
-+			} else if (rdat & RDR_FPER) {
-+				flag = TTY_PARITY;
-+				port->icount.parity++;
-+			} else {
-+				flag = TTY_NORMAL;
-+			}
-+
-+			tty_insert_flip_char(tport, c, flag);
-+		}
-+
-+		rsci_serial_in(port, CSR); /* dummy read */
-+		rsci_clear_DRxC(port);
-+
-+		copied += count;
-+		port->icount.rx += count;
-+	}
-+
-+	if (copied) {
-+		/* Tell the rest of the system the news. New characters! */
-+		tty_flip_buffer_push(tport);
-+	} else {
-+		/* TTY buffers full; read from RX reg to prevent lockup */
-+		rsci_serial_in(port, RDR);
-+		rsci_serial_in(port, CSR); /* dummy read */
-+		rsci_clear_DRxC(port);
-+	}
-+}
-+
-+static void rsci_poll_put_char(struct uart_port *port, unsigned char c)
-+{
-+	u32 status;
-+	int ret;
-+
-+	ret = readl_relaxed_poll_timeout_atomic(port->membase + CSR, status,
-+						(status & CSR_TDRE), 100,
-+						USEC_PER_SEC);
-+	if (ret != 0) {
-+		dev_err(port->dev,
-+			"Error while sending data in UART TX : %d\n", ret);
-+		goto done;
-+	}
-+	rsci_serial_out(port, TDR, c);
-+done:
-+	rsci_clear_SCxSR(port, CFCLR_TDREC);
-+}
-+
-+static void rsci_prepare_console_write(struct uart_port *port, u32 ctrl)
-+{
-+	struct sci_port *s = to_sci_port(port);
-+	u32 ctrl_temp =
-+		s->params->param_bits->rxtx_enable | CCR0_TIE |
-+		s->hscif_tot;
-+	rsci_serial_out(port, CCR0, ctrl_temp);
-+}
-+
-+static const char *rsci_type(struct uart_port *port)
-+{
-+	return "rsci";
-+}
-+
-+static size_t rsci_suspend_regs_size(void)
-+{
-+	return 0;
-+}
-+
-+static void rsci_shutdown_complete(struct uart_port *port)
-+{
-+	/*
-+	 * Stop RX and TX, disable related interrupts, keep clock source
-+	 */
-+	rsci_serial_out(port, CCR0, 0);
-+}
-+
-+static const struct sci_common_regs rsci_common_regs = {
-+	.status = CSR,
-+	.control = CCR0,
-+};
-+
-+static const struct sci_port_params_bits rsci_port_param_bits = {
-+	.rxtx_enable = CCR0_RE | CCR0_TE,
-+	.te_clear = CCR0_TE | CCR0_TEIE,
-+	.poll_sent_bits = CSR_TDRE | CSR_TEND,
-+};
-+
-+static const struct sci_port_params rsci_port_params = {
-+	.fifosize = 16,
-+	.overrun_reg = CSR,
-+	.overrun_mask = CSR_ORER,
-+	.sampling_rate_mask = SCI_SR(32),
-+	.error_mask = RSCI_DEFAULT_ERROR_MASK,
-+	.error_clear = RSCI_ERROR_CLEAR,
-+	.param_bits = &rsci_port_param_bits,
-+	.common_regs = &rsci_common_regs,
-+};
-+
-+static const struct uart_ops rsci_uart_ops = {
-+	.tx_empty	= rsci_tx_empty,
-+	.set_mctrl	= rsci_set_mctrl,
-+	.get_mctrl	= rsci_get_mctrl,
-+	.start_tx	= rsci_start_tx,
-+	.stop_tx	= rsci_stop_tx,
-+	.stop_rx	= rsci_stop_rx,
-+	.enable_ms	= rsci_enable_ms,
-+	.startup	= sci_startup,
-+	.shutdown	= sci_shutdown,
-+	.set_termios	= rsci_set_termios,
-+	.pm		= sci_pm,
-+	.type		= rsci_type,
-+	.release_port	= sci_release_port,
-+	.request_port	= sci_request_port,
-+	.config_port	= sci_config_port,
-+	.verify_port	= sci_verify_port,
-+};
-+
-+static const struct sci_port_ops rsci_port_ops = {
-+	.read_reg		= rsci_serial_in,
-+	.write_reg		= rsci_serial_out,
-+	.clear_SCxSR		= rsci_clear_SCxSR,
-+	.transmit_chars		= rsci_transmit_chars,
-+	.receive_chars		= rsci_receive_chars,
-+	.poll_put_char		= rsci_poll_put_char,
-+	.prepare_console_write	= rsci_prepare_console_write,
-+	.suspend_regs_size	= rsci_suspend_regs_size,
-+	.shutdown_complete	= rsci_shutdown_complete,
-+};
-+
-+struct sci_of_data of_sci_rsci_data = {
-+	.type = SCI_PORT_RSCI,
-+	.ops = &rsci_port_ops,
-+	.uart_ops = &rsci_uart_ops,
-+	.params = &rsci_port_params,
-+};
-+
-+#ifdef CONFIG_SERIAL_SH_SCI_EARLYCON
-+
-+static int __init rsci_early_console_setup(struct earlycon_device *device,
-+					   const char *opt)
-+{
-+	return scix_early_console_setup(device, &of_sci_rsci_data);
-+}
-+
-+OF_EARLYCON_DECLARE(rsci, "renesas,r9a09g077-rsci", rsci_early_console_setup);
-+
-+#endif /* CONFIG_SERIAL_SH_SCI_EARLYCON */
-+
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("RSCI serial driver");
-diff --git a/drivers/tty/serial/rsci.h b/drivers/tty/serial/rsci.h
-new file mode 100644
-index 000000000000..2af3f28b465a
---- /dev/null
-+++ b/drivers/tty/serial/rsci.h
-@@ -0,0 +1,10 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef __RSCI_H__
-+#define __RSCI_H__
-+
-+#include "sh-sci-common.h"
-+
-+extern struct sci_of_data of_sci_rsci_data;
-+
-+#endif /* __RSCI_H__ */
-diff --git a/drivers/tty/serial/sh-sci-common.h b/drivers/tty/serial/sh-sci-common.h
-index fcddf66780c9..e3c028df14f1 100644
---- a/drivers/tty/serial/sh-sci-common.h
-+++ b/drivers/tty/serial/sh-sci-common.h
-@@ -5,6 +5,11 @@
- 
- #include <linux/serial_core.h>
- 
-+/* Private port IDs */
-+enum SCI_PORT_TYPE {
-+	SCI_PORT_RSCI = BIT(7) | 0,
-+};
-+
- enum SCI_CLKS {
- 	SCI_FCK,		/* Functional Clock */
- 	SCI_SCK,		/* Optional External Clock */
-diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-index db362c80bc10..07ebc5cec726 100644
---- a/drivers/tty/serial/sh-sci.c
-+++ b/drivers/tty/serial/sh-sci.c
-@@ -54,6 +54,7 @@
- #include <asm/platform_early.h>
- #endif
- 
-+#include "rsci.h"
- #include "serial_mctrl_gpio.h"
- #include "sh-sci.h"
- #include "sh-sci-common.h"
-@@ -550,6 +551,7 @@ void sci_port_enable(struct sci_port *sci_port)
- 	}
- 	sci_port->port.uartclk = sci_port->clk_rates[SCI_FCK];
- }
-+EXPORT_SYMBOL(sci_port_enable);
- 
- void sci_port_disable(struct sci_port *sci_port)
- {
-@@ -563,6 +565,7 @@ void sci_port_disable(struct sci_port *sci_port)
- 
- 	pm_runtime_put_sync(sci_port->port.dev);
- }
-+EXPORT_SYMBOL(sci_port_disable);
- 
- static inline unsigned long port_rx_irq_mask(struct uart_port *port)
- {
-@@ -1828,7 +1831,7 @@ static irqreturn_t sci_tx_end_interrupt(int irq, void *ptr)
- 	unsigned long flags;
- 	u32 ctrl;
- 
--	if (s->type != PORT_SCI)
-+	if (s->type != PORT_SCI && s->type != SCI_PORT_RSCI)
- 		return sci_tx_interrupt(irq, ptr);
- 
- 	uart_port_lock_irqsave(port, &flags);
-@@ -2289,6 +2292,7 @@ int sci_startup(struct uart_port *port)
- 
- 	return 0;
- }
-+EXPORT_SYMBOL(sci_startup);
- 
- void sci_shutdown(struct uart_port *port)
- {
-@@ -2319,6 +2323,7 @@ void sci_shutdown(struct uart_port *port)
- 	sci_free_irq(s);
- 	sci_free_dma(port);
- }
-+EXPORT_SYMBOL(sci_shutdown);
- 
- static int sci_sck_calc(struct sci_port *s, unsigned int bps,
- 			unsigned int *srr)
-@@ -2750,6 +2755,7 @@ void sci_pm(struct uart_port *port, unsigned int state,
- 		break;
- 	}
- }
-+EXPORT_SYMBOL(sci_pm);
- 
- static const char *sci_type(struct uart_port *port)
- {
-@@ -2812,6 +2818,7 @@ void sci_release_port(struct uart_port *port)
- 
- 	release_mem_region(port->mapbase, sport->reg_size);
- }
-+EXPORT_SYMBOL(sci_release_port);
- 
- int sci_request_port(struct uart_port *port)
- {
-@@ -2834,6 +2841,7 @@ int sci_request_port(struct uart_port *port)
- 
- 	return 0;
- }
-+EXPORT_SYMBOL(sci_request_port);
- 
- void sci_config_port(struct uart_port *port, int flags)
- {
-@@ -2844,6 +2852,7 @@ void sci_config_port(struct uart_port *port, int flags)
- 		sport->port.ops->request_port(port);
- 	}
- }
-+EXPORT_SYMBOL(sci_config_port);
- 
- int sci_verify_port(struct uart_port *port, struct serial_struct *ser)
- {
-@@ -2853,6 +2862,7 @@ int sci_verify_port(struct uart_port *port, struct serial_struct *ser)
- 
- 	return 0;
- }
-+EXPORT_SYMBOL(sci_verify_port);
- 
- static void sci_prepare_console_write(struct uart_port *port, u32 ctrl)
- {
-@@ -2978,14 +2988,27 @@ static int sci_init_clocks(struct sci_port *sci_port, struct device *dev)
- 	struct clk *clk;
- 	unsigned int i;
- 
--	if (sci_port->type == PORT_HSCIF)
-+	if (sci_port->type == PORT_HSCIF) {
- 		clk_names[SCI_SCK] = "hsck";
-+	} else if (sci_port->type == SCI_PORT_RSCI) {
-+		clk_names[SCI_FCK] = "operation";
-+		clk_names[SCI_BRG_INT] = "bus";
-+	}
- 
- 	for (i = 0; i < SCI_NUM_CLKS; i++) {
--		clk = devm_clk_get_optional(dev, clk_names[i]);
-+		const char *name = clk_names[i];
-+
-+		clk = devm_clk_get_optional(dev, name);
- 		if (IS_ERR(clk))
- 			return PTR_ERR(clk);
- 
-+		if (!clk && sci_port->type == SCI_PORT_RSCI &&
-+		    (i == SCI_FCK || i == SCI_BRG_INT)) {
-+			return dev_err_probe(dev, -ENODEV,
-+					     "failed to get %s\n",
-+					     name);
-+		}
-+
- 		if (!clk && i == SCI_FCK) {
- 			/*
- 			 * Not all SH platforms declare a clock lookup entry
-@@ -2996,13 +3019,13 @@ static int sci_init_clocks(struct sci_port *sci_port, struct device *dev)
- 			if (IS_ERR(clk))
- 				return dev_err_probe(dev, PTR_ERR(clk),
- 						     "failed to get %s\n",
--						     clk_names[i]);
-+						     name);
- 		}
- 
- 		if (!clk)
--			dev_dbg(dev, "failed to get %s\n", clk_names[i]);
-+			dev_dbg(dev, "failed to get %s\n", name);
- 		else
--			dev_dbg(dev, "clk %s is %pC rate %lu\n", clk_names[i],
-+			dev_dbg(dev, "clk %s is %pC rate %lu\n", name,
- 				clk, clk_get_rate(clk));
- 		sci_port->clks[i] = clk;
- 	}
-@@ -3086,10 +3109,10 @@ static int sci_init_single(struct platform_device *dev,
- 	}
- 
- 	/*
--	 * The fourth interrupt on SCI port is transmit end interrupt, so
-+	 * The fourth interrupt on SCI and RSCI port is transmit end interrupt, so
- 	 * shuffle the interrupts.
- 	 */
--	if (p->type == PORT_SCI)
-+	if (p->type == PORT_SCI || p->type == SCI_PORT_RSCI)
- 		swap(sci_port->irqs[SCIx_BRI_IRQ], sci_port->irqs[SCIx_TEI_IRQ]);
- 
- 	/* The SCI generates several interrupts. They can be muxed together or
-@@ -3123,6 +3146,9 @@ static int sci_init_single(struct platform_device *dev,
- 		else
- 			sci_port->rx_trigger = 8;
- 		break;
-+	case SCI_PORT_RSCI:
-+		sci_port->rx_trigger = 15;
-+		break;
- 	default:
- 		sci_port->rx_trigger = 1;
- 		break;
-@@ -3347,7 +3373,8 @@ static void sci_remove(struct platform_device *dev)
- 
- 	if (s->port.fifosize > 1)
- 		device_remove_file(&dev->dev, &dev_attr_rx_fifo_trigger);
--	if (type == PORT_SCIFA || type == PORT_SCIFB || type == PORT_HSCIF)
-+	if (type == PORT_SCIFA || type == PORT_SCIFB || type == PORT_HSCIF ||
-+	    type == SCI_PORT_RSCI)
- 		device_remove_file(&dev->dev, &dev_attr_rx_fifo_timeout);
- }
- 
-@@ -3441,6 +3468,12 @@ static const struct of_device_id of_sci_match[] __maybe_unused = {
- 		.compatible = "renesas,scif-r9a09g057",
- 		.data = &of_sci_scif_rzv2h,
- 	},
-+#ifdef CONFIG_SERIAL_RSCI
-+	{
-+		.compatible = "renesas,r9a09g077-rsci",
-+		.data = &of_sci_rsci_data,
-+	},
-+#endif	/* CONFIG_SERIAL_RSCI */
- 	/* Family-specific types */
- 	{
- 		.compatible = "renesas,rcar-gen1-scif",
-@@ -3700,7 +3733,7 @@ static int sci_probe(struct platform_device *dev)
- 			return ret;
- 	}
- 	if (sp->type == PORT_SCIFA || sp->type == PORT_SCIFB ||
--	    sp->type == PORT_HSCIF) {
-+	    sp->type == PORT_HSCIF || sp->type == SCI_PORT_RSCI) {
- 		ret = device_create_file(&dev->dev, &dev_attr_rx_fifo_timeout);
- 		if (ret) {
- 			if (sp->port.fifosize > 1) {
+I have run a lot of stress tests with v10 and later v11 in my tree today 
+and hit some fun stuff. Since I switched to v12 all fun stuff stopped 
+and everything works as expected, it's even faster then previous 
+versions since the jobs where split. Really nice work reworking the 
+locking!
+
+Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+> ---
+> The VSPX is a VSP2 function that reads data from external memory using
+> two RPF instances and feed it to the ISP.
+> 
+> The VSPX includes an IIF unit (ISP InterFace) modeled in the vsp1 driver
+> as a new, simple, entity type.
+> 
+> IIF is part of VSPX, a version of the VSP2 IP specialized for ISP
+> interfacing. To prepare to support VSPX, support IIF first by
+> introducing a new entity and by adjusting the RPF/WPF drivers to
+> operate correctly when an IIF is present.
+> 
+> Changes in v12:
+> - Use spin_lock_irqsave in job_run as it can be called from IRQ and non
+>   IRQ contexts
+> - Documentation/cosmetic/minors
+> - Link to v11: https://lore.kernel.org/r/20250616-b4-vspx-v11-1-69af6398c185@ideasonboard.com
+> 
+> Changes in v11:
+> - Rework vspx locking:
+>   - Introduce a mutex to protect start/stop streaming sequence
+>   - use a spinlock to protect the 'enabled' flag as it is contended with
+>     the ISP irq context
+>   - Use spinlock_irq when appropriate (start/stop streaming)
+> - Refuse ConfigDMA with less than 17 pairs
+> - Use format mplane to configure the image buffer
+> - Refuse jobs when the VSPX is stopped by returning an error
+> - Expand API documentation
+> - Link to v10: https://lore.kernel.org/r/20250529-b4-vspx-v10-1-02a9cb000853@ideasonboard.com
+> 
+> Changes in v10:
+> - Properly stop the VSP1 pipeline by setting the pipeline in STOPPED
+>   state at frame end time
+> - Prevent new jobs from being scheduled after the pipe has been stopped
+> - Link to v9: https://lore.kernel.org/r/20250506-b4-vspx-v9-1-d7d50a01f7b6@ideasonboard.com
+> 
+> Changes in v9:
+> - Address Laurent's comment on style and comments
+> - Rework job preparation/queueing
+>   - Remove the VSPX job queue
+>   - Move the display list to be part of struct vsp1_isp_job_desc
+> - Rename main spinlock
+> - Rework start/stop procedures
+> - Link to v8: https://lore.kernel.org/r/20250502-b4-vspx-v8-1-b2a7592668dd@ideasonboard.com
+> 
+> Changes in v8:
+> - Remove patches already collected by Laurent in
+>   [GIT PULL FOR v6.16] Renesas media drivers changes
+> 
+> - Rebased on
+>   https://gitlab.freedesktop.org/linux-media/users/pinchartl.git #renesas-next
+> 
+> - Changes to the VSPX interface towards the ISP
+>   - Split start/stop_streaming
+>   - Add vsp1_isp_jobs_release() to release pending jobs
+>   - Add vsp1_isp_free_buffer()
+>   - Remove vsp1_isp_configure() and compute partitions on job creation
+> 
+> - Driver changes
+>   - Drop irq-driver flow
+>     The VSPX used to schedule new jobs as soon as processing the last
+>     one is done. This doesn't work well with the R-Car ISP design
+>     for two reasons:
+>     - The ISP needs per-job registers programming
+>     - The ISP and VSPX job queues have to stay in sync
+> 
+> - Minors
+>   - Remove the jobs_lock as a single lock is fine
+>   - Protect against VSPX/ISP irq races in job_run() by checking the
+>     VSPX 'busy' register and remove the 'processing' flag
+>   - Manually set the pipeline state to STOPPED before scheduling a new
+>     job without waiting for frame_end
+> 
+> Changes in v7:
+> - Include VSPX driver in the series
+> - Use existing VSP1 formats and remove patches extending formats on RPF
+> - Rework VSPX driver to split jobs creation and scheduling in two
+>   different API entry points
+> - Fix VSPX stride using the user provided bytesperline and using the
+>   buffer size for ConfigDMA buffers
+> - Link to v6: https://lore.kernel.org/r/20250321-v4h-iif-v6-0-361e9043026a@ideasonboard.com
+> 
+> Changes in v6:
+> - Little cosmetic change as suggested by Laurent
+> - Collect tags
+> - Link to v5: https://lore.kernel.org/r/20250319-v4h-iif-v5-0-0a10456d792c@ideasonboard.com
+> 
+> Changes in v5:
+> - Drop additional empty line 5/6
+> - Link to v4: https://lore.kernel.org/r/20250318-v4h-iif-v4-0-10ed4c41c195@ideasonboard.com
+> 
+> Changes in v4:
+> - Fix SWAP bits for RAW10, RAW12 and RAW16
+> - Link to v3: https://lore.kernel.org/r/20250317-v4h-iif-v3-0-63aab8982b50@ideasonboard.com
+> 
+> Changes in v3:
+> - Drop 2/6 from v2
+> - Add 5/7 to prepare for a new implementation of 6/7
+> - Individual changelog per patch
+> - Add 7/7
+> - Link to v2: https://lore.kernel.org/r/20250224-v4h-iif-v2-0-0305e3c1fe2d@ideasonboard.com
+> 
+> Changes in v2:
+> - Collect tags
+> - Address review comments from Laurent, a lot of tiny changes here and
+>   there but no major redesign worth an entry in the patchset changelog
+> ---
+>  drivers/media/platform/renesas/vsp1/Makefile    |   1 +
+>  drivers/media/platform/renesas/vsp1/vsp1.h      |   1 +
+>  drivers/media/platform/renesas/vsp1/vsp1_drv.c  |  13 +-
+>  drivers/media/platform/renesas/vsp1/vsp1_regs.h |   1 +
+>  drivers/media/platform/renesas/vsp1/vsp1_vspx.c | 614 ++++++++++++++++++++++++
+>  drivers/media/platform/renesas/vsp1/vsp1_vspx.h |  16 +
+>  include/media/vsp1.h                            |  89 ++++
+>  7 files changed, 734 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/renesas/vsp1/Makefile b/drivers/media/platform/renesas/vsp1/Makefile
+> index de8c802e1d1a16aabe1326fc8c27be33ad2b2e10..2057c8f7be477a13a4598103427e1ddd28cc5a51 100644
+> --- a/drivers/media/platform/renesas/vsp1/Makefile
+> +++ b/drivers/media/platform/renesas/vsp1/Makefile
+> @@ -6,5 +6,6 @@ vsp1-y					+= vsp1_clu.o vsp1_hsit.o vsp1_lut.o
+>  vsp1-y					+= vsp1_brx.o vsp1_sru.o vsp1_uds.o
+>  vsp1-y					+= vsp1_hgo.o vsp1_hgt.o vsp1_histo.o
+>  vsp1-y					+= vsp1_iif.o vsp1_lif.o vsp1_uif.o
+> +vsp1-y					+= vsp1_vspx.o
+>  
+>  obj-$(CONFIG_VIDEO_RENESAS_VSP1)	+= vsp1.o
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1.h b/drivers/media/platform/renesas/vsp1/vsp1.h
+> index f97a1a31bfab3a23371d13978e59596ec63a37fe..94de2e85792e6623555617ca23f65ac1a9af9e4e 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1.h
+> @@ -111,6 +111,7 @@ struct vsp1_device {
+>  	struct media_entity_operations media_ops;
+>  
+>  	struct vsp1_drm *drm;
+> +	struct vsp1_vspx *vspx;
+>  };
+>  
+>  int vsp1_device_get(struct vsp1_device *vsp1);
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> index 8270a9d207cb19c3a08911a408f5039d7d2924b6..d4b7088786395dac34ca3e2078b6e2c306988114 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> @@ -38,6 +38,7 @@
+>  #include "vsp1_uds.h"
+>  #include "vsp1_uif.h"
+>  #include "vsp1_video.h"
+> +#include "vsp1_vspx.h"
+>  
+>  /* -----------------------------------------------------------------------------
+>   * Interrupt Handling
+> @@ -490,7 +491,10 @@ static int vsp1_create_entities(struct vsp1_device *vsp1)
+>  
+>  		ret = media_device_register(mdev);
+>  	} else {
+> -		ret = vsp1_drm_init(vsp1);
+> +		if (vsp1->info->version == VI6_IP_VERSION_MODEL_VSPX_GEN4)
+> +			ret = vsp1_vspx_init(vsp1);
+> +		else
+> +			ret = vsp1_drm_init(vsp1);
+>  	}
+>  
+>  done:
+> @@ -851,6 +855,13 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
+>  		.uif_count = 2,
+>  		.wpf_count = 1,
+>  		.num_bru_inputs = 5,
+> +	}, {
+> +		.version = VI6_IP_VERSION_MODEL_VSPX_GEN4,
+> +		.model = "VSP2-X",
+> +		.gen = 4,
+> +		.features = VSP1_HAS_IIF,
+> +		.rpf_count = 2,
+> +		.wpf_count = 1,
+>  	},
+>  };
+>  
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> index 86e47c2d991fb4e0719b63c4ccb29340610ac24f..10cfbcd1b6e0b3a9c0a8daaa990babfaeb8dde0c 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> @@ -799,6 +799,7 @@
+>  #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
+>  #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
+>  #define VI6_IP_VERSION_MODEL_VSPD_GEN4	(0x1c << 8)
+> +#define VI6_IP_VERSION_MODEL_VSPX_GEN4	(0x1d << 8)
+>  /* RZ/G2L SoCs have no version register, So use 0x80 as the model version */
+>  #define VI6_IP_VERSION_MODEL_VSPD_RZG2L	(0x80 << 8)
+>  
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_vspx.c b/drivers/media/platform/renesas/vsp1/vsp1_vspx.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..f97827ab89d873dfe787bcdf527695e976b3ad47
+> --- /dev/null
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_vspx.c
+> @@ -0,0 +1,614 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * vsp1_vspx.c  --  R-Car Gen 4 VSPX
+> + *
+> + * Copyright (C) 2025 Ideas On Board Oy
+> + * Copyright (C) 2025 Renesas Electronics Corporation
+> + */
+> +
+> +#include "vsp1_vspx.h"
+> +
+> +#include <linux/cleanup.h>
+> +#include <linux/container_of.h>
+> +#include <linux/delay.h>
+> +#include <linux/device.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/list.h>
+> +#include <linux/slab.h>
+> +#include <linux/spinlock.h>
+> +
+> +#include <media/media-entity.h>
+> +#include <media/v4l2-subdev.h>
+> +#include <media/vsp1.h>
+> +
+> +#include "vsp1_dl.h"
+> +#include "vsp1_iif.h"
+> +#include "vsp1_pipe.h"
+> +#include "vsp1_rwpf.h"
+> +
+> +/*
+> + * struct vsp1_vspx_pipeline - VSPX pipeline
+> + * @pipe: the VSP1 pipeline
+> + * @partition: the pre-calculated partition used by the pipeline
+> + * @mutex: protects the streaming start/stop sequences
+> + * @lock: protect access to the enabled flag
+> + * @enabled: the enable flag
+> + * @vspx_frame_end: frame end callback
+> + * @frame_end_data: data for the frame end callback
+> + */
+> +struct vsp1_vspx_pipeline {
+> +	struct vsp1_pipeline pipe;
+> +	struct vsp1_partition partition;
+> +
+> +	struct mutex mutex;
+> +
+> +	/*
+> +	 * Protects the enable flag.
+> +	 *
+> +	 * The enabled flag is contended between the start/stop streaming
+> +	 * routines and the job_run one, which cannot take a mutex as it is
+> +	 * called from the ISP irq context.
+> +	 */
+> +	spinlock_t lock;
+> +	bool enabled;
+> +
+> +	void (*vspx_frame_end)(void *frame_end_data);
+> +	void *frame_end_data;
+> +};
+> +
+> +static inline struct vsp1_vspx_pipeline *
+> +to_vsp1_vspx_pipeline(struct vsp1_pipeline *pipe)
+> +{
+> +	return container_of(pipe, struct vsp1_vspx_pipeline, pipe);
+> +}
+> +
+> +/*
+> + * struct vsp1_vspx - VSPX device
+> + * @vsp1: the VSP1 device
+> + * @pipe: the VSPX pipeline
+> + */
+> +struct vsp1_vspx {
+> +	struct vsp1_device *vsp1;
+> +	struct vsp1_vspx_pipeline pipe;
+> +};
+> +
+> +/* Apply the given width, height and fourcc to the RWPF's subdevice */
+> +static int vsp1_vspx_rwpf_set_subdev_fmt(struct vsp1_device *vsp1,
+> +					 struct vsp1_rwpf *rwpf,
+> +					 u32 isp_fourcc,
+> +					 unsigned int width,
+> +					 unsigned int height)
+> +{
+> +	struct vsp1_entity *ent = &rwpf->entity;
+> +	struct v4l2_subdev_format format = {};
+> +	u32 vspx_fourcc;
+> +
+> +	switch (isp_fourcc) {
+> +	case V4L2_PIX_FMT_GREY:
+> +		/* 8 bit RAW Bayer image. */
+> +		vspx_fourcc = V4L2_PIX_FMT_RGB332;
+> +		break;
+> +	case V4L2_PIX_FMT_Y10:
+> +	case V4L2_PIX_FMT_Y12:
+> +	case V4L2_PIX_FMT_Y16:
+> +		/* 10, 12 and 16 bit RAW Bayer image. */
+> +		vspx_fourcc = V4L2_PIX_FMT_RGB565;
+> +		break;
+> +	case V4L2_META_FMT_GENERIC_8:
+> +		/* ConfigDMA parameters buffer. */
+> +		vspx_fourcc = V4L2_PIX_FMT_XBGR32;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	rwpf->fmtinfo = vsp1_get_format_info(vsp1, vspx_fourcc);
+> +
+> +	format.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+> +	format.pad = RWPF_PAD_SINK;
+> +	format.format.width = width;
+> +	format.format.height = height;
+> +	format.format.field = V4L2_FIELD_NONE;
+> +	format.format.code = rwpf->fmtinfo->mbus;
+> +
+> +	return v4l2_subdev_call(&ent->subdev, pad, set_fmt, NULL, &format);
+> +}
+> +
+> +/* Configure the RPF->IIF->WPF pipeline for ConfigDMA or RAW image transfer. */
+> +static int vsp1_vspx_pipeline_configure(struct vsp1_device *vsp1,
+> +					dma_addr_t addr, u32 isp_fourcc,
+> +					unsigned int width, unsigned int height,
+> +					unsigned int stride,
+> +					unsigned int iif_sink_pad,
+> +					struct vsp1_dl_list *dl,
+> +					struct vsp1_dl_body *dlb)
+> +{
+> +	struct vsp1_vspx_pipeline *vspx_pipe = &vsp1->vspx->pipe;
+> +	struct vsp1_pipeline *pipe = &vspx_pipe->pipe;
+> +	struct vsp1_rwpf *rpf0 = pipe->inputs[0];
+> +	int ret;
+> +
+> +	ret = vsp1_vspx_rwpf_set_subdev_fmt(vsp1, rpf0, isp_fourcc, width,
+> +					    height);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = vsp1_vspx_rwpf_set_subdev_fmt(vsp1, pipe->output, isp_fourcc,
+> +					    width, height);
+> +	if (ret)
+> +		return ret;
+> +
+> +	vsp1_pipeline_calculate_partition(pipe, &pipe->part_table[0], width, 0);
+> +	rpf0->format.plane_fmt[0].bytesperline = stride;
+> +	rpf0->format.num_planes = 1;
+> +	rpf0->mem.addr[0] = addr;
+> +
+> +	/*
+> +	 * Connect RPF0 to the IIF sink pad corresponding to the config or image
+> +	 * path.
+> +	 */
+> +	rpf0->entity.sink_pad = iif_sink_pad;
+> +
+> +	vsp1_entity_route_setup(&rpf0->entity, pipe, dlb);
+> +	vsp1_entity_configure_stream(&rpf0->entity, rpf0->entity.state, pipe,
+> +				     dl, dlb);
+> +	vsp1_entity_configure_partition(&rpf0->entity, pipe,
+> +					&pipe->part_table[0], dl, dlb);
+> +
+> +	return 0;
+> +}
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Interrupt handling
+> + */
+> +
+> +static void vsp1_vspx_pipeline_frame_end(struct vsp1_pipeline *pipe,
+> +					 unsigned int completion)
+> +{
+> +	struct vsp1_vspx_pipeline *vspx_pipe = to_vsp1_vspx_pipeline(pipe);
+> +
+> +	scoped_guard(spinlock_irqsave, &pipe->irqlock) {
+> +		/*
+> +		 * Operating the vsp1_pipe in singleshot mode requires to
+> +		 * manually set the pipeline state to stopped when a transfer
+> +		 * is completed.
+> +		 */
+> +		pipe->state = VSP1_PIPELINE_STOPPED;
+> +	}
+> +
+> +	if (vspx_pipe->vspx_frame_end)
+> +		vspx_pipe->vspx_frame_end(vspx_pipe->frame_end_data);
+> +}
+> +
+> +/* -----------------------------------------------------------------------------
+> + * ISP Driver API (include/media/vsp1.h)
+> + */
+> +
+> +/**
+> + * vsp1_isp_init() - Initialize the VSPX
+> + * @dev: The VSP1 struct device
+> + *
+> + * Return: %0 on success or a negative error code on failure
+> + */
+> +int vsp1_isp_init(struct device *dev)
+> +{
+> +	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
+> +
+> +	if (!vsp1)
+> +		return -EPROBE_DEFER;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(vsp1_isp_init);
+> +
+> +/**
+> + * vsp1_isp_get_bus_master - Get VSPX bus master
+> + * @dev: The VSP1 struct device
+> + *
+> + * The VSPX accesses memory through an FCPX instance. When allocating memory
+> + * buffers that will have to be accessed by the VSPX the 'struct device' of
+> + * the FCPX should be used. Use this function to get a reference to it.
+> + *
+> + * Return: a pointer to the bus master's device
+> + */
+> +struct device *vsp1_isp_get_bus_master(struct device *dev)
+> +{
+> +	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
+> +
+> +	if (!vsp1)
+> +		return ERR_PTR(-ENODEV);
+> +
+> +	return vsp1->bus_master;
+> +}
+> +EXPORT_SYMBOL_GPL(vsp1_isp_get_bus_master);
+> +
+> +/**
+> + * vsp1_isp_alloc_buffer - Allocate a buffer in the VSPX address space
+> + * @dev: The VSP1 struct device
+> + * @size: The size of the buffer to be allocated by the VSPX
+> + * @buffer_desc: The buffer descriptor. Will be filled with the buffer
+> + *		 CPU-mapped address, the bus address and the size of the
+> + *		 allocated buffer
+> + *
+> + * Allocate a buffer that will be later accessed by the VSPX. Buffers allocated
+> + * using vsp1_isp_alloc_buffer() shall be released with a call to
+> + * vsp1_isp_free_buffer(). This function is used by the ISP driver to allocate
+> + * memory for the ConfigDMA parameters buffer.
+> + *
+> + * Return: %0 on success or a negative error code on failure
+> + */
+> +int vsp1_isp_alloc_buffer(struct device *dev, size_t size,
+> +			  struct vsp1_isp_buffer_desc *buffer_desc)
+> +{
+> +	struct device *bus_master = vsp1_isp_get_bus_master(dev);
+> +
+> +	if (IS_ERR_OR_NULL(bus_master))
+> +		return -ENODEV;
+> +
+> +	buffer_desc->cpu_addr = dma_alloc_coherent(bus_master, size,
+> +						   &buffer_desc->dma_addr,
+> +						   GFP_KERNEL);
+> +	if (!buffer_desc->cpu_addr)
+> +		return -ENOMEM;
+> +
+> +	buffer_desc->size = size;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(vsp1_isp_alloc_buffer);
+> +
+> +/**
+> + * vsp1_isp_free_buffer - Release a buffer allocated by vsp1_isp_alloc_buffer()
+> + * @dev: The VSP1 struct device
+> + * @buffer_desc: The descriptor of the buffer to release as returned by
+> + *		 vsp1_isp_alloc_buffer()
+> + *
+> + * Release memory in the VSPX address space allocated by
+> + * vsp1_isp_alloc_buffer().
+> + */
+> +void vsp1_isp_free_buffer(struct device *dev,
+> +			  struct vsp1_isp_buffer_desc *buffer_desc)
+> +{
+> +	struct device *bus_master = vsp1_isp_get_bus_master(dev);
+> +
+> +	if (IS_ERR_OR_NULL(bus_master))
+> +		return;
+> +
+> +	dma_free_coherent(bus_master, buffer_desc->size, buffer_desc->cpu_addr,
+> +			  buffer_desc->dma_addr);
+> +}
+> +
+> +/**
+> + * vsp1_isp_start_streaming - Start processing VSPX jobs
+> + * @dev: The VSP1 struct device
+> + * @frame_end: The frame end callback description
+> + *
+> + * Start the VSPX and prepare for accepting buffer transfer job requests.
+> + * The caller is responsible for tracking the started state of the VSPX.
+> + * Attempting to start an already started VSPX instance is an error.
+> + *
+> + * Return: %0 on success or a negative error code on failure
+> + */
+> +int vsp1_isp_start_streaming(struct device *dev,
+> +			     struct vsp1_vspx_frame_end *frame_end)
+> +{
+> +	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
+> +	struct vsp1_vspx_pipeline *vspx_pipe = &vsp1->vspx->pipe;
+> +	struct vsp1_pipeline *pipe = &vspx_pipe->pipe;
+> +	u32 value;
+> +	int ret;
+> +
+> +	if (!frame_end)
+> +		return -EINVAL;
+> +
+> +	guard(mutex)(&vspx_pipe->mutex);
+> +
+> +	scoped_guard(spinlock_irq, &vspx_pipe->lock) {
+> +		if (vspx_pipe->enabled)
+> +			return -EBUSY;
+> +	}
+> +
+> +	vspx_pipe->vspx_frame_end = frame_end->vspx_frame_end;
+> +	vspx_pipe->frame_end_data = frame_end->frame_end_data;
+> +
+> +	/* Enable the VSP1 and prepare for streaming. */
+> +	vsp1_pipeline_dump(pipe, "VSPX job");
+> +
+> +	ret = vsp1_device_get(vsp1);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	/*
+> +	 * Make sure VSPX is not active. This should never happen in normal
+> +	 * usage
+> +	 */
+> +	value = vsp1_read(vsp1, VI6_CMD(0));
+> +	if (value & VI6_CMD_STRCMD) {
+> +		dev_err(vsp1->dev,
+> +			"%s: Starting of WPF0 already reserved\n", __func__);
+> +		ret = -EBUSY;
+> +		goto error_put;
+> +	}
+> +
+> +	value = vsp1_read(vsp1, VI6_STATUS);
+> +	if (value & VI6_STATUS_SYS_ACT(0)) {
+> +		dev_err(vsp1->dev,
+> +			"%s: WPF0 has not entered idle state\n", __func__);
+> +		ret = -EBUSY;
+> +		goto error_put;
+> +	}
+> +
+> +	scoped_guard(spinlock_irq, &vspx_pipe->lock) {
+> +		vspx_pipe->enabled = true;
+> +	}
+> +
+> +	return 0;
+> +
+> +error_put:
+> +	vsp1_device_put(vsp1);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(vsp1_isp_start_streaming);
+> +
+> +/**
+> + * vsp1_isp_stop_streaming - Stop the VSPX
+> + * @dev: The VSP1 struct device
+> + *
+> + * Stop the VSPX operation by stopping the vsp1 pipeline and waiting for the
+> + * last frame in transfer, if any, to complete.
+> + *
+> + * The caller is responsible for tracking the stopped state of the VSPX.
+> + * Attempting to stop an already stopped VSPX instance is a nop.
+> + */
+> +void vsp1_isp_stop_streaming(struct device *dev)
+> +{
+> +	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
+> +	struct vsp1_vspx_pipeline *vspx_pipe = &vsp1->vspx->pipe;
+> +	struct vsp1_pipeline *pipe = &vspx_pipe->pipe;
+> +
+> +	guard(mutex)(&vspx_pipe->mutex);
+> +
+> +	scoped_guard(spinlock_irq, &vspx_pipe->lock) {
+> +		if (!vspx_pipe->enabled)
+> +			return;
+> +
+> +		vspx_pipe->enabled = false;
+> +	}
+> +
+> +	WARN_ON_ONCE(vsp1_pipeline_stop(pipe));
+> +
+> +	vspx_pipe->vspx_frame_end = NULL;
+> +	vsp1_dlm_reset(pipe->output->dlm);
+> +	vsp1_device_put(vsp1);
+> +}
+> +EXPORT_SYMBOL_GPL(vsp1_isp_stop_streaming);
+> +
+> +/**
+> + * vsp1_isp_job_prepare - Prepare a new buffer transfer job
+> + * @dev: The VSP1 struct device
+> + * @job: The job description
+> + *
+> + * Prepare a new buffer transfer job by populating a display list that will be
+> + * later executed by a call to vsp1_isp_job_run(). All pending jobs must be
+> + * released after stopping the streaming operations with a call to
+> + * vsp1_isp_job_release().
+> + *
+> + * In order for the VSPX to accept new jobs to prepare the VSPX must have been
+> + * started.
+> + *
+> + * Return: %0 on success or a negative error code on failure
+> + */
+> +int vsp1_isp_job_prepare(struct device *dev, struct vsp1_isp_job_desc *job)
+> +{
+> +	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
+> +	struct vsp1_vspx_pipeline *vspx_pipe = &vsp1->vspx->pipe;
+> +	struct vsp1_pipeline *pipe = &vspx_pipe->pipe;
+> +	const struct v4l2_pix_format_mplane *pix_mp;
+> +	struct vsp1_dl_list *second_dl = NULL;
+> +	struct vsp1_dl_body *dlb;
+> +	struct vsp1_dl_list *dl;
+> +	int ret;
+> +
+> +	/*
+> +	 * Transfer the buffers described in the job: an optional ConfigDMA
+> +	 * parameters buffer and a RAW image.
+> +	 */
+> +
+> +	job->dl = vsp1_dl_list_get(pipe->output->dlm);
+> +	if (!job->dl)
+> +		return -ENOMEM;
+> +
+> +	dl = job->dl;
+> +	dlb = vsp1_dl_list_get_body0(dl);
+> +
+> +	/* Configure IIF routing and enable IIF function. */
+> +	vsp1_entity_route_setup(pipe->iif, pipe, dlb);
+> +	vsp1_entity_configure_stream(pipe->iif, pipe->iif->state, pipe,
+> +				     dl, dlb);
+> +
+> +	/* Configure WPF0 to enable RPF0 as source. */
+> +	vsp1_entity_route_setup(&pipe->output->entity, pipe, dlb);
+> +	vsp1_entity_configure_stream(&pipe->output->entity,
+> +				     pipe->output->entity.state, pipe,
+> +				     dl, dlb);
+> +
+> +	if (job->config.pairs) {
+> +		/*
+> +		 * Writing less than 17 pairs corrupts the output images ( < 16
+> +		 * pairs) or freezes the VSPX operations (= 16 pairs). Only
+> +		 * allow more than 16 pairs to be written.
+> +		 */
+> +		if (job->config.pairs <= 16) {
+> +			ret = -EINVAL;
+> +			goto error_put_dl;
+> +		}
+> +
+> +		/*
+> +		 * Configure RPF0 for ConfigDMA data. Transfer the number of
+> +		 * configuration pairs plus 2 words for the header.
+> +		 */
+> +		ret = vsp1_vspx_pipeline_configure(vsp1, job->config.mem,
+> +						   V4L2_META_FMT_GENERIC_8,
+> +						   job->config.pairs * 2 + 2, 1,
+> +						   job->config.pairs * 2 + 2,
+> +						   VSPX_IIF_SINK_PAD_CONFIG,
+> +						   dl, dlb);
+> +		if (ret)
+> +			goto error_put_dl;
+> +
+> +		second_dl = vsp1_dl_list_get(pipe->output->dlm);
+> +		if (!second_dl) {
+> +			ret = -ENOMEM;
+> +			goto error_put_dl;
+> +		}
+> +
+> +		dl = second_dl;
+> +		dlb = vsp1_dl_list_get_body0(dl);
+> +	}
+> +
+> +	/* Configure RPF0 for RAW image transfer. */
+> +	pix_mp = &job->img.fmt;
+> +	ret = vsp1_vspx_pipeline_configure(vsp1, job->img.mem,
+> +					   pix_mp->pixelformat,
+> +					   pix_mp->width, pix_mp->height,
+> +					   pix_mp->plane_fmt[0].bytesperline,
+> +					   VSPX_IIF_SINK_PAD_IMG, dl, dlb);
+> +	if (ret)
+> +		goto error_put_dl;
+> +
+> +	if (second_dl)
+> +		vsp1_dl_list_add_chain(job->dl, second_dl);
+> +
+> +	return 0;
+> +
+> +error_put_dl:
+> +	if (second_dl)
+> +		vsp1_dl_list_put(second_dl);
+> +	vsp1_dl_list_put(job->dl);
+> +	job->dl = NULL;
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(vsp1_isp_job_prepare);
+> +
+> +/**
+> + * vsp1_isp_job_run - Run a buffer transfer job
+> + * @dev: The VSP1 struct device
+> + * @job: The job to be run
+> + *
+> + * Run the display list contained in the job description provided by the caller.
+> + * The job must have been prepared with a call to vsp1_isp_job_prepare() and
+> + * the job's display list shall be valid.
+> + *
+> + * Jobs can be run only on VSPX instances which have been started. Requests
+> + * to run a job after the VSPX has been stopped return -EINVAL and the job
+> + * resources shall be released by the caller with vsp1_isp_job_release().
+> + *
+> + * Return: %0 on success or a negative error code on failure
+> + */
+> +int vsp1_isp_job_run(struct device *dev, struct vsp1_isp_job_desc *job)
+> +{
+> +	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
+> +	struct vsp1_vspx_pipeline *vspx_pipe = &vsp1->vspx->pipe;
+> +	struct vsp1_pipeline *pipe = &vspx_pipe->pipe;
+> +	u32 value;
+> +
+> +	/* Make sure VSPX is not busy processing a frame. */
+> +	value = vsp1_read(vsp1, VI6_CMD(0));
+> +	if (value) {
+> +		dev_err(vsp1->dev,
+> +			"%s: Starting of WPF0 already reserved\n", __func__);
+> +		return -EBUSY;
+> +	}
+> +
+> +	scoped_guard(spinlock_irqsave, &vspx_pipe->lock) {
+> +		/*
+> +		 * If a new job is scheduled when the VSPX is stopped, do not
+> +		 * run it.
+> +		 */
+> +		if (!vspx_pipe->enabled)
+> +			return -EINVAL;
+> +
+> +		vsp1_dl_list_commit(job->dl, 0);
+> +	}
+> +
+> +	scoped_guard(spinlock_irqsave, &pipe->irqlock) {
+> +		vsp1_pipeline_run(pipe);
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(vsp1_isp_job_run);
+> +
+> +/**
+> + * vsp1_isp_job_release - Release a non processed transfer job
+> + * @dev: The VSP1 struct device
+> + * @job: The job to release
+> + *
+> + * Release a job prepared by a call to vsp1_isp_job_prepare() and not yet
+> + * run. All pending jobs shall be released after streaming has been stopped.
+> + */
+> +void vsp1_isp_job_release(struct device *dev,
+> +			  struct vsp1_isp_job_desc *job)
+> +{
+> +	vsp1_dl_list_put(job->dl);
+> +}
+> +EXPORT_SYMBOL_GPL(vsp1_isp_job_release);
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Initialization and cleanup
+> + */
+> +
+> +int vsp1_vspx_init(struct vsp1_device *vsp1)
+> +{
+> +	struct vsp1_vspx_pipeline *vspx_pipe;
+> +	struct vsp1_pipeline *pipe;
+> +
+> +	vsp1->vspx = devm_kzalloc(vsp1->dev, sizeof(*vsp1->vspx), GFP_KERNEL);
+> +	if (!vsp1->vspx)
+> +		return -ENOMEM;
+> +
+> +	vsp1->vspx->vsp1 = vsp1;
+> +
+> +	vspx_pipe = &vsp1->vspx->pipe;
+> +	vspx_pipe->enabled = false;
+> +
+> +	pipe = &vspx_pipe->pipe;
+> +
+> +	vsp1_pipeline_init(pipe);
+> +
+> +	pipe->partitions = 1;
+> +	pipe->part_table = &vspx_pipe->partition;
+> +	pipe->interlaced = false;
+> +	pipe->frame_end = vsp1_vspx_pipeline_frame_end;
+> +
+> +	mutex_init(&vspx_pipe->mutex);
+> +	spin_lock_init(&vspx_pipe->lock);
+> +
+> +	/*
+> +	 * Initialize RPF0 as input for VSPX and use it unconditionally for
+> +	 * now.
+> +	 */
+> +	pipe->inputs[0] = vsp1->rpf[0];
+> +	pipe->inputs[0]->entity.pipe = pipe;
+> +	pipe->inputs[0]->entity.sink = &vsp1->iif->entity;
+> +	list_add_tail(&pipe->inputs[0]->entity.list_pipe, &pipe->entities);
+> +
+> +	pipe->iif = &vsp1->iif->entity;
+> +	pipe->iif->pipe = pipe;
+> +	pipe->iif->sink = &vsp1->wpf[0]->entity;
+> +	pipe->iif->sink_pad = RWPF_PAD_SINK;
+> +	list_add_tail(&pipe->iif->list_pipe, &pipe->entities);
+> +
+> +	pipe->output = vsp1->wpf[0];
+> +	pipe->output->entity.pipe = pipe;
+> +	list_add_tail(&pipe->output->entity.list_pipe, &pipe->entities);
+> +
+> +	return 0;
+> +}
+> +
+> +void vsp1_vspx_cleanup(struct vsp1_device *vsp1)
+> +{
+> +	struct vsp1_vspx_pipeline *vspx_pipe = &vsp1->vspx->pipe;
+> +
+> +	mutex_destroy(&vspx_pipe->mutex);
+> +}
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_vspx.h b/drivers/media/platform/renesas/vsp1/vsp1_vspx.h
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..f871bf9e7dece112c89bf493729cf627731be1d2
+> --- /dev/null
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_vspx.h
+> @@ -0,0 +1,16 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ */
+> +/*
+> + * vsp1_vspx.h  --  R-Car Gen 4 VSPX
+> + *
+> + * Copyright (C) 2025 Ideas On Board Oy
+> + * Copyright (C) 2025 Renesas Electronics Corporation
+> + */
+> +#ifndef __VSP1_VSPX_H__
+> +#define __VSP1_VSPX_H__
+> +
+> +#include "vsp1.h"
+> +
+> +int vsp1_vspx_init(struct vsp1_device *vsp1);
+> +void vsp1_vspx_cleanup(struct vsp1_device *vsp1);
+> +
+> +#endif /* __VSP1_VSPX_H__ */
+> diff --git a/include/media/vsp1.h b/include/media/vsp1.h
+> index 4ea6352fd63fec152593133845f684e0c32f34d4..c9cdb3774a088f1c1fc48babad43cfd9774cedba 100644
+> --- a/include/media/vsp1.h
+> +++ b/include/media/vsp1.h
+> @@ -15,6 +15,10 @@
+>  
+>  struct device;
+>  
+> +/* -----------------------------------------------------------------------------
+> + * VSP1 DU interface
+> + */
+> +
+>  int vsp1_du_init(struct device *dev);
+>  
+>  #define VSP1_DU_STATUS_COMPLETE		BIT(0)
+> @@ -121,4 +125,89 @@ void vsp1_du_atomic_flush(struct device *dev, unsigned int pipe_index,
+>  int vsp1_du_map_sg(struct device *dev, struct sg_table *sgt);
+>  void vsp1_du_unmap_sg(struct device *dev, struct sg_table *sgt);
+>  
+> +/* -----------------------------------------------------------------------------
+> + * VSP1 ISP interface
+> + */
+> +
+> +/**
+> + * struct vsp1_isp_buffer_desc - Describe a buffer allocated by VSPX
+> + * @size: Byte size of the buffer allocated by VSPX
+> + * @cpu_addr: CPU-mapped address of a buffer allocated by VSPX
+> + * @dma_addr: bus address of a buffer allocated by VSPX
+> + */
+> +struct vsp1_isp_buffer_desc {
+> +	size_t size;
+> +	void *cpu_addr;
+> +	dma_addr_t dma_addr;
+> +};
+> +
+> +/**
+> + * struct vsp1_isp_job_desc - Describe a VSPX buffer transfer request
+> + * @config: ConfigDMA buffer descriptor
+> + * @config.pairs: number of reg-value pairs in the ConfigDMA buffer
+> + * @config.mem: bus address of the ConfigDMA buffer
+> + * @img: RAW image buffer descriptor
+> + * @img.fmt: RAW image format
+> + * @img.mem: bus address of the RAW image buffer
+> + * @dl: pointer to the display list populated by the VSPX driver in the
+> + *      vsp1_isp_job_prepare() function
+> + *
+> + * Describe a transfer request for the VSPX to perform on behalf of the ISP.
+> + * The job descriptor contains an optional ConfigDMA buffer and one RAW image
+> + * buffer. Set config.pairs to 0 if no ConfigDMA buffer should be transferred.
+> + * The minimum number of config.pairs that can be written using ConfigDMA is 17.
+> + * A number of pairs < 16 corrupts the output image. A number of pairs == 16
+> + * freezes the VSPX operation. If the ISP driver wants has to write less than
+> + * 17 pairs it shall pad the buffer with writes directed to registers that have
+> + * no effect or avoid using ConfigDMA at all for such small write sequences.
+> + *
+> + * The ISP driver shall pass an instance this type to the vsp1_isp_job_prepare()
+> + * function that will populate the display list pointer @dl using the @config
+> + * and @img descriptors. When the job has to be run on the VSPX, the descriptor
+> + * shall be passed to vsp1_isp_job_run() which consumes the display list.
+> + *
+> + * Job descriptors not yet run shall be released with a call to
+> + * vsp1_isp_job_release() when stopping the streaming in order to properly
+> + * release the resources acquired by vsp1_isp_job_prepare().
+> + */
+> +struct vsp1_dl_list;
+> +struct vsp1_isp_job_desc {
+> +	struct {
+> +		unsigned int pairs;
+> +		dma_addr_t mem;
+> +	} config;
+> +	struct {
+> +		struct v4l2_pix_format_mplane fmt;
+> +		dma_addr_t mem;
+> +	} img;
+> +	struct vsp1_dl_list *dl;
+> +};
+> +
+> +/**
+> + * struct vsp1_vspx_frame_end - VSPX frame end callback data
+> + * @vspx_frame_end: Frame end callback. Called after a transfer job has been
+> + *		    completed. If the job includes both a ConfigDMA and a
+> + *		    RAW image, the callback is called after both have been
+> + *		    transferred
+> + * @frame_end_data: Frame end callback data, passed to vspx_frame_end
+> + */
+> +struct vsp1_vspx_frame_end {
+> +	void (*vspx_frame_end)(void *data);
+> +	void *frame_end_data;
+> +};
+> +
+> +int vsp1_isp_init(struct device *dev);
+> +struct device *vsp1_isp_get_bus_master(struct device *dev);
+> +int vsp1_isp_alloc_buffer(struct device *dev, size_t size,
+> +			  struct vsp1_isp_buffer_desc *buffer_desc);
+> +void vsp1_isp_free_buffer(struct device *dev,
+> +			  struct vsp1_isp_buffer_desc *buffer_desc);
+> +int vsp1_isp_start_streaming(struct device *dev,
+> +			     struct vsp1_vspx_frame_end *frame_end);
+> +void vsp1_isp_stop_streaming(struct device *dev);
+> +int vsp1_isp_job_prepare(struct device *dev,
+> +			 struct vsp1_isp_job_desc *job);
+> +int vsp1_isp_job_run(struct device *dev, struct vsp1_isp_job_desc *job);
+> +void vsp1_isp_job_release(struct device *dev,  struct vsp1_isp_job_desc *job);
+> +
+>  #endif /* __MEDIA_VSP1_H__ */
+> 
+> ---
+> base-commit: 4d2c3d70799f5eb210003613766bbd113bbebc1a
+> change-id: 20250502-b4-vspx-90c815bff6dd
+> 
+> Best regards,
+> -- 
+> Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> 
+
 -- 
-2.49.0
-
+Kind Regards,
+Niklas Söderlund
 
