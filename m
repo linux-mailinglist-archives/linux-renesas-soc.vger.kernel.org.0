@@ -1,144 +1,212 @@
-Return-Path: <linux-renesas-soc+bounces-18366-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18367-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F10FEADB19C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 15:21:12 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E5FAADB200
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 15:32:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 400A7188A076
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 13:21:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 925403B8021
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 13:29:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0278285C9F;
-	Mon, 16 Jun 2025 13:21:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F6162C3745;
+	Mon, 16 Jun 2025 13:27:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="RwNE0IMo"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EJX4ursR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1CEA322A;
-	Mon, 16 Jun 2025 13:21:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B25F32980B0;
+	Mon, 16 Jun 2025 13:27:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750080068; cv=none; b=ZF1mGUPGGs0hX692V4UIem86HvM2QSsymFxtgBpvtZzrL02A4LiVFMP0YJhbspLogZpCIFoha32XTn2uqNpx+Rtp8e51Y0RS4qim83+rOTsnw03OflqSwNq5qIhw6lITyUNiW+5d9VdXz+un10CIeBabzr04W2NFxDFj49+NhXA=
+	t=1750080478; cv=none; b=IYvGeUUFf1XSwG8/UkkaqeyidWs5jkYU/SFgZgknzhLLqe1ExSbOr4CCqPzY0coaRisusLTpZVtZNemOIiVy5y6DZdefx7fGAUwFE6e+0X0ExLpHqpfWLOi6G8lzaywQJoyv/xpvft6ptz+CMehyQY5KjBHrkFEneBgt1Aeilxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750080068; c=relaxed/simple;
-	bh=b7y+6QUg1+vDkF1/CRKNKxBZL1lupknT8gYBU+POvFU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PggSdhMjyvnvWqfaz0Toqk+N/mZ48iJ+JFe19whWZzmVz/059K35dPg9dGt2rvlzVJCtqnyv5s/wpAatzgHJ9OstOIhHxcHkcJie7KnO6YU9JGAFIi3Luq4Chqa+53UAywng0Lo1o6DgDk1BLtLplRKNqnrH95roxnyHdm448no=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=RwNE0IMo; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4BB1322A;
-	Mon, 16 Jun 2025 15:20:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1750080053;
-	bh=b7y+6QUg1+vDkF1/CRKNKxBZL1lupknT8gYBU+POvFU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RwNE0IMop4TPix+EjU/G9543Zalt6JLwSKPJzemhWlSVkQIWU3BKH7o2AGdBXzVym
-	 CTtsAf5heAvSDeXDTfP8YEBzFao3LnEAAChPTJkDsqslVFT4DpzWr7NECQTr7cX5jO
-	 LS6aearXskTBj4GYrGycloL+WAR09oYpqdwTyhXk=
-Date: Mon, 16 Jun 2025 16:20:49 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] media: vsp1: vsp1_dl: Add usage counter
-Message-ID: <20250616132049.GA10542@pendragon.ideasonboard.com>
-References: <20250529-vsp1_dl_list_count-v1-0-40c6d0e20592@ideasonboard.com>
- <20250529-vsp1_dl_list_count-v1-1-40c6d0e20592@ideasonboard.com>
+	s=arc-20240116; t=1750080478; c=relaxed/simple;
+	bh=gOQ5iOFvknvIf0NqR8lprZaU7amJcBfVS53KLfZWKIU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IGqC/brjTEt/GWe2Um5vSYk1NW9csY/jrqOCoHSG7/htTI1Y3sDkbi7QWpajPuLPmVTaqjx1dAy4qrrIKd1Vid1q91LXD8RB2Zs+mvbNDFDODgLvf1mARGUxEtprRN6pEW4SE2oNa9bbMhal156yfzEb1XcP0Yzk0JkqXwcZLSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EJX4ursR; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4530921461aso38060095e9.0;
+        Mon, 16 Jun 2025 06:27:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750080474; x=1750685274; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RfLkLdbUr3hRGaqHqxx+0GHMmYhwozHBPTBmczCVDo4=;
+        b=EJX4ursR1bbz2Gn8tWFJvo0k0I6bqMyEsP+JIXHAddJ1WppTmRf2L62yFXRyS8gdOR
+         jZP9mSwZT3T1Ugwkn7S3Z+/AYsd8el9F+GCtLiCiGfjWVSlDi07aCy2KtOo5TOA8uoVc
+         x5vpIH1GbgxM28oG1rYvmCQYAgACK2DR1t3u2t2F8IrzRF8UJtJ3uBua1xIWnrB0bTYE
+         7FdlxPv15LsEFL//EAfXKimaiR5I5vMGBLoAGyWAAABdelbCWhN4rqaHOY8XSyEjBOkc
+         mmyKY1H+IvCiQy+CYYNjMJXJ0fzsuoBAWIMcrCmk5L45Zu+7iDnoPbCGQeLWrNjkUetW
+         si2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750080474; x=1750685274;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RfLkLdbUr3hRGaqHqxx+0GHMmYhwozHBPTBmczCVDo4=;
+        b=dh5uDibNpKEAbidsIr9wDZ2uu85jhWs62GSpCtpgT3RU6/xtnHqUC2uVQijqlkqlFq
+         8gTQPYeRF+oYIVzqHofFIEwaHwC7m9HwplA73Ia3rQJY2S5BkrRyV11TZLThYk20j8S3
+         IILx83raQuFrGAuEbRYJG92Vgo3xpNf1Mh8GVvr3vJAcxPcYwsXf8R+7atD4a60mMuhh
+         VVWasS/EdQvPasce+Z8dk7DkvFVAtXr6XT/3Ic2sGqTEGkL3ui9fgFUO9oHdW+2xHzsC
+         fFIBRJ7aM9PWziZhmjTCU5ScuqPH/wV+TVTr+EOIg8daBQoYgzmoP1uoiB1hH/uhWgxB
+         Ynyw==
+X-Forwarded-Encrypted: i=1; AJvYcCUZ3ElsZra5Z4Z3tSf5+s83NzPhOEfbmNpFKtjbZDjGm5VNCnN8FayoeBrn+Vq7SedzBEErxWzM88ha@vger.kernel.org, AJvYcCX6z2kZ4LSTgKTn4tCTbhWQGy2RbSi9hLWrzzPi3Y7MHiwi7bs01t35J6xw+LJtGUd7WqNFxHgxu218gjTF@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRqcaR00uiovibYkSOmiyXaKRJmQY1mNPLl5Y6/eeT60/JDJwE
+	Wl7iuN2Zf2Ckqyw7jZz8VI53vTHzi8tr3LP15gOJo4AwVVCg12HEs/ef
+X-Gm-Gg: ASbGncsAa+y8lfEiGmhzH4L5c3S+TFC3OKYn8+F07qj4S73SVP0/RTaxkCf35+Nl8oj
+	LJteCAiC5+ExLzwrvsf9ZxCPgEd0ODkpT0lBsk0oL9NeDP2FAiUu4UOZyElCKx2ZWkz2R5rZs3H
+	b9M3AFMFOYjEWejocB2us3yX5+SuTNBfFhQn3pE2GejnxvGydPN8+qt4zRk/J9NLskiPqc2VNFq
+	Kmo4tSrArvC+SjCM1VfWYpdi0iItBHrCHM+W9QO7D9SWuKtFs/nB/HXhfY5nc8mK4Z7BYLHkPBs
+	JLjFUgMqri68TeyYpP4FrqIzI3PFT+qF0rCsDhMNPJWYv8g9okHglkQ+Nn9SUObFbu40fNpsQJV
+	tnXKNxWI1yTUrrdDanOA6CugBklfVJBU=
+X-Google-Smtp-Source: AGHT+IEH/hG5OFXO4uIu5EX1I60NRv2+jYS1WKU3eep/fEAn9xod/u7kXmYD2crC8ANAVrLy1v1yFQ==
+X-Received: by 2002:a05:600c:35ca:b0:442:e0f9:394d with SMTP id 5b1f17b1804b1-4533cab1298mr75941125e9.24.1750080473777;
+        Mon, 16 Jun 2025 06:27:53 -0700 (PDT)
+Received: from iku.example.org ([2a06:5906:61b:2d00:4135:3769:337c:8a0c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532e14fc8bsm145024815e9.28.2025.06.16.06.27.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Jun 2025 06:27:53 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] pinctrl: renesas: rzg2l: Validate pins before setting mux function
+Date: Mon, 16 Jun 2025 14:27:50 +0100
+Message-ID: <20250616132750.216368-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250529-vsp1_dl_list_count-v1-1-40c6d0e20592@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Jacopo,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Thank you for the patch.
+Ensure only valid pins are configured by validating pin mappings before
+setting the mux function.
 
-On Thu, May 29, 2025 at 06:36:30PM +0200, Jacopo Mondi wrote:
-> In order to detect invalid usage pattern such as double list_put()
-> calls, add a usage counter to each display list. Increment it whenever
-> a list is get() and decrement it when the list is put(). Warn if the
-> usage counter goes below 0.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> ---
->  drivers/media/platform/renesas/vsp1/vsp1_dl.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_dl.c b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
-> index bb8228b19824..8a3c0274a163 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_dl.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
-> @@ -179,6 +179,7 @@ struct vsp1_dl_cmd_pool {
->   * @has_chain: if true, indicates that there's a partition chain
->   * @chain: entry in the display list partition chain
->   * @flags: display list flags, a combination of VSP1_DL_FRAME_END_*
-> + * @usage: usage counter to detect double list free
->   */
->  struct vsp1_dl_list {
->  	struct list_head list;
-> @@ -198,6 +199,7 @@ struct vsp1_dl_list {
->  	struct list_head chain;
->  
->  	unsigned int flags;
-> +	int usage;
+Rename rzg2l_validate_gpio_pin() to rzg2l_validate_pin() to reflect its
+broader purpose validating both GPIO pins and muxed pins. This helps
+avoid invalid configurations.
 
-If you have no objection, I'd like to include "count" in the name. This
-could be usage_count, ref_count or refcount.
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c | 45 ++++++++++++++-----------
+ 1 file changed, 25 insertions(+), 20 deletions(-)
 
->  };
->  
->  /**
-> @@ -617,6 +619,7 @@ struct vsp1_dl_list *vsp1_dl_list_get(struct vsp1_dl_manager *dlm)
->  		 * display list can assert list_empty() if it is not in a chain.
->  		 */
->  		INIT_LIST_HEAD(&dl->chain);
-> +		dl->usage++;
-
-The usage count will never go above 1, as there's not real reference
-counting for display lists. Better than including "count" in the field
-name, we could replace
-
-	int usage;
-
-with
-
-	bool allocated;
-
-(right after has_chain to avoid increasing the structure size).
-
->  	}
->  
->  	spin_unlock_irqrestore(&dlm->lock, flags);
-> @@ -657,6 +660,10 @@ static void __vsp1_dl_list_put(struct vsp1_dl_list *dl)
->  	 */
->  	dl->body0->num_entries = 0;
->  
-> +	/* decrement usage count to detect invalid usage pattern. */
-
-s/decrement/Decrement/
-
-> +	if (WARN_ON_ONCE(--dl->usage < 0))
-> +		dl->usage = 0;
-> +
->  	list_add_tail(&dl->list, &dl->dlm->free);
->  }
->  
-
+diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+index 59c32a0d87f1..2a10ae0bf5bd 100644
+--- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
++++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+@@ -493,6 +493,23 @@ static void rzv2h_pmc_writeb(struct rzg2l_pinctrl *pctrl, u8 val, u16 offset)
+ 	writeb(pwpr & ~PWPR_REGWE_A, pctrl->base + regs->pwpr);
+ }
+ 
++static int rzg2l_validate_pin(struct rzg2l_pinctrl *pctrl,
++			      u64 cfg, u32 port, u8 bit)
++{
++	u8 pinmap = FIELD_GET(PIN_CFG_PIN_MAP_MASK, cfg);
++	u32 off = RZG2L_PIN_CFG_TO_PORT_OFFSET(cfg);
++	u64 data;
++
++	if (!(pinmap & BIT(bit)) || port >= pctrl->data->n_port_pins)
++		return -EINVAL;
++
++	data = pctrl->data->port_pin_configs[port];
++	if (off != RZG2L_PIN_CFG_TO_PORT_OFFSET(data))
++		return -EINVAL;
++
++	return 0;
++}
++
+ static void rzg2l_pinctrl_set_pfc_mode(struct rzg2l_pinctrl *pctrl,
+ 				       u8 pin, u8 off, u8 func)
+ {
+@@ -536,6 +553,7 @@ static int rzg2l_pinctrl_set_mux(struct pinctrl_dev *pctldev,
+ 	unsigned int i, *psel_val;
+ 	struct group_desc *group;
+ 	const unsigned int *pins;
++	int ret;
+ 
+ 	func = pinmux_generic_get_function(pctldev, func_selector);
+ 	if (!func)
+@@ -552,6 +570,10 @@ static int rzg2l_pinctrl_set_mux(struct pinctrl_dev *pctldev,
+ 		u32 off = RZG2L_PIN_CFG_TO_PORT_OFFSET(*pin_data);
+ 		u32 pin = RZG2L_PIN_ID_TO_PIN(pins[i]);
+ 
++		ret = rzg2l_validate_pin(pctrl, *pin_data, RZG2L_PIN_ID_TO_PORT(pins[i]), pin);
++		if (ret)
++			return ret;
++
+ 		dev_dbg(pctrl->dev, "port:%u pin: %u off:%x PSEL:%u\n",
+ 			RZG2L_PIN_ID_TO_PORT(pins[i]), pin, off, psel_val[i] - hwcfg->func_base);
+ 
+@@ -806,23 +828,6 @@ static int rzg2l_dt_node_to_map(struct pinctrl_dev *pctldev,
+ 	return ret;
+ }
+ 
+-static int rzg2l_validate_gpio_pin(struct rzg2l_pinctrl *pctrl,
+-				   u64 cfg, u32 port, u8 bit)
+-{
+-	u8 pinmap = FIELD_GET(PIN_CFG_PIN_MAP_MASK, cfg);
+-	u32 off = RZG2L_PIN_CFG_TO_PORT_OFFSET(cfg);
+-	u64 data;
+-
+-	if (!(pinmap & BIT(bit)) || port >= pctrl->data->n_port_pins)
+-		return -EINVAL;
+-
+-	data = pctrl->data->port_pin_configs[port];
+-	if (off != RZG2L_PIN_CFG_TO_PORT_OFFSET(data))
+-		return -EINVAL;
+-
+-	return 0;
+-}
+-
+ static u32 rzg2l_read_pin_config(struct rzg2l_pinctrl *pctrl, u32 offset,
+ 				 u8 bit, u32 mask)
+ {
+@@ -1287,7 +1292,7 @@ static int rzg2l_pinctrl_pinconf_get(struct pinctrl_dev *pctldev,
+ 	} else {
+ 		bit = RZG2L_PIN_ID_TO_PIN(_pin);
+ 
+-		if (rzg2l_validate_gpio_pin(pctrl, *pin_data, RZG2L_PIN_ID_TO_PORT(_pin), bit))
++		if (rzg2l_validate_pin(pctrl, *pin_data, RZG2L_PIN_ID_TO_PORT(_pin), bit))
+ 			return -EINVAL;
+ 	}
+ 
+@@ -1447,7 +1452,7 @@ static int rzg2l_pinctrl_pinconf_set(struct pinctrl_dev *pctldev,
+ 	} else {
+ 		bit = RZG2L_PIN_ID_TO_PIN(_pin);
+ 
+-		if (rzg2l_validate_gpio_pin(pctrl, *pin_data, RZG2L_PIN_ID_TO_PORT(_pin), bit))
++		if (rzg2l_validate_pin(pctrl, *pin_data, RZG2L_PIN_ID_TO_PORT(_pin), bit))
+ 			return -EINVAL;
+ 	}
+ 
+@@ -1687,7 +1692,7 @@ static int rzg2l_gpio_request(struct gpio_chip *chip, unsigned int offset)
+ 	u8 reg8;
+ 	int ret;
+ 
+-	ret = rzg2l_validate_gpio_pin(pctrl, *pin_data, port, bit);
++	ret = rzg2l_validate_pin(pctrl, *pin_data, port, bit);
+ 	if (ret)
+ 		return ret;
+ 
 -- 
-Regards,
+2.49.0
 
-Laurent Pinchart
 
