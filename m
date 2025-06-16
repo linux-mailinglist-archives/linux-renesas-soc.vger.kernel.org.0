@@ -1,274 +1,493 @@
-Return-Path: <linux-renesas-soc+bounces-18347-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18348-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1F53ADAC09
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 11:37:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F2C6ADADAB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 12:45:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 18F5F1891487
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 09:38:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2A861188CC85
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 10:45:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2B6D273D6A;
-	Mon, 16 Jun 2025 09:37:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E46F27FB10;
+	Mon, 16 Jun 2025 10:45:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="W7+MozSm"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i0Wj6v8m"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB412701AB
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Jun 2025 09:37:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E4AB2980BF;
+	Mon, 16 Jun 2025 10:45:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750066668; cv=none; b=QOK9FzpR4HGCVfhYMBc4OEw+WCT2B14xRBSUKQowvRZ7hk8AhDckkwoOg6VMprT5Ydqii8FnO+iFIiuN9KvYHKrzppO3cHCZ/VQYpVXMVNHxSzEVdt/2Ke/MY50kxbuV4Rj0+BFfeOERpSq62v1b3EAEQm6TYLXu+ksGmW8Zfaw=
+	t=1750070732; cv=none; b=dS4ZqQrgow/dQS6LfpljNP9lsn63N6zKIuHA5zyQkeedf91H3rbBrK4ZnQanPKBAbGQmcAjtMdr41M1+/Lda3j2U9SVVPsas/p+iMKhInHv6uYDrS7i+bMdKp89TC91wKUFEvqnLhDqt9xgJK92F5c3KF9pC6y6vaIPL3FP4BiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750066668; c=relaxed/simple;
-	bh=v7iwsXmtI/7HuEw8E5jMH8gjGCJ/PmdbDct0UukEscI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CRAu8vK3HMLkVs8H62G2N8ric3liLWmr/9D/5gZI5VOSODL4u+CvtHKS2ZIoL8Vb3QzTtJ1UB81Qya6kXRoJmbWMNgxD7fcDHdap0lrOm8mf28yJvGiKBOMSmXkVFI/ciYXGT+OyEio+SxIL5UMMkmwWT20UHohqUpqWudx22kU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=W7+MozSm; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-606b58241c9so7255453a12.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Jun 2025 02:37:45 -0700 (PDT)
+	s=arc-20240116; t=1750070732; c=relaxed/simple;
+	bh=+AnXL+rMVMXhh4f/+erM44ThdTxIodxHBnw/jR8wlxY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YeXr/IRzPxtz5sxKsNfD1+Vg5o/x3WTnDXce+4CFBz8kacM1JGV9UayG1u59/55XsZK+gLJY84O/bs1Qb78me7LElnUb2znHefgHuTgikGuUvAiurI+tuBtsMpKIZrXmCYm8ThOPmeGVLboajfSbmbpW4nFXJ1mb1c7Yl/vdpjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i0Wj6v8m; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a36748920cso5124065f8f.2;
+        Mon, 16 Jun 2025 03:45:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1750066664; x=1750671464; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dfP8v62XGv6w7z/ZmGpzfijGDXvy28lSonmS90eMeCc=;
-        b=W7+MozSmJ0KttRNUxdO2NaTes8jsh6mtJkE40GPIZHfMhgoWxq2VW7+1KnpgkdA933
-         bY8dZsdRaZck6xWd/OnGzO+o2NR+cJ+Nx25Mz+OrDcekVJf6zgrAedgZRPV6Tf+FUtDZ
-         xrwLb+8K3BvFq5a0SAywDWXOT75BAc+vVTo7a2uHxTA09UixEhyQFRteBTYH6TmIWfaJ
-         St/CGkf8CZtkZLD5RvoVIz7Y3y0T5JYxd8AfKeK98PDDW6zL1kj+nZYicAa9qERwKJfV
-         UVTwTCUy1RT+Yy9XM32X9TmqVQrFxLb/ik9wd1YqDxyzuyEC242Y5ZJNTBlxp1HgbuZF
-         F/Xg==
+        d=gmail.com; s=20230601; t=1750070725; x=1750675525; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NSDl2PiJGaG4FkK+fLWvA+1Qct2FhEDuUrKC3P6/vhQ=;
+        b=i0Wj6v8mk66W7EWstunyT3gAAJxdHS7Wx9vz7M9yQr09/Kl11mgWMmaQ3FoecvtI1H
+         iwhkyXiZYcdEBhB9qNfi52GS09w2+nv0rRsFUpcE3ogpK//K1XTC5tZUAWh8Db2OH8DD
+         y/I42CQBbyzsRUFHSd+WQvR17JOAl1KRuqjQTtAZdx3oO3KyAoYtiOnDnyFm7Tg7VO/5
+         M6SdoFgvNvQ0v4Bt0CgzdCYKUBDHw1oSE0qI1Cj5jtXAI4sDFPUageoDG2Y2LlKiK6Ep
+         GTp8Ol55oYCSIdIh6+mILrpyRWBrzpPpFoOuyTCVuNu3m90i5qOSADjgMqUsdCEC4JfN
+         FB3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750066664; x=1750671464;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dfP8v62XGv6w7z/ZmGpzfijGDXvy28lSonmS90eMeCc=;
-        b=Q6GoFEVyomst25RHD0QTLBPIyVjqjPu8LtOpIYgHmYVcohcF4AiDMAhZCpLoVoq1zC
-         0uYknyki0aP6K+Om8+w/jteD7JZq6K6xVhRMBV4voudslkbU8laJbSfcky7rR0MKx0NR
-         U9qkFq3biC1qjlboYVGy3Vm16jdR9lVP/H5AYC+xNAh4DcKycuEwX3dBpNfec7C2nuI/
-         7NS1VvfIhYcCCDE1IBfEdJzcuOfXpRXj40/x2oKmHnZc3AivwVB0tx1qXYFTVKU7iINY
-         IZaYwX86066gEWqk8wa+v00CaImVw6i7psrye3YUCjpY9lpx4/eFtDzW4pQzODPsprm3
-         zCKA==
-X-Forwarded-Encrypted: i=1; AJvYcCV35hNZLgYlURuHAs+iKTYr5s/il9DcMNktXOv3uGqLQ4/xblBBDosnBTvs4tS6Hlda8o8A8oTi8hxESWb/ZRsokA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTrxmFKDd5/0CXcgjnm3iLq9hG5qrU1WwSGbIEfAp2wvHzjE7t
-	onDQsfDYCWHAsbDbh2FhU0WbYQKTSRe9F1fAgC2r0i7TJiJp8Fo7AQB6Bz3fEiSm0RM=
-X-Gm-Gg: ASbGncuTTcQsMltFU+qdHAwoPXRrYZZvM2Z6Ll9SOUDVGXuLpH8/o+zH4Zl5mzPP9Xk
-	kNwhu8rU6xxskxcmWeYD6Jx6NGfh/m1AmbqpaWGB7gBaXOkB9+bicAI3p94u0mgmdvGy+8/jyPw
-	IT2BMbwSeBGSOW2rasObtz9so+ByotP339xsZ+dT5e/53Q86rYostylcIqCM0Km8+UC2RpoW/MT
-	8wvu03ZbXUk6nVNIQ9NkpD/aHyIXLutswivHJWK8gMiFOWHNmwrgFKgItVJ+BFfEeLXauIgyC9+
-	UsXo0adacrqNsaStn0wY5tVxmUxWlB63nxnAmY8J36UpHqSnzAMyWRWbnLERObz98ruBEGkjmzv
-	aTvneQg==
-X-Google-Smtp-Source: AGHT+IGstgDvCZ7kkheENEgwtKA2GsdZiS2gQeWTudsZRkiraVvavy0/6m9lYQPhBNBoWFt98BlCYg==
-X-Received: by 2002:a17:906:9f88:b0:ad8:96d2:f3e with SMTP id a640c23a62f3a-adfad326d9cmr714122866b.22.1750066663863;
-        Mon, 16 Jun 2025 02:37:43 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.110])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-adfddc96709sm126821866b.134.2025.06.16.02.37.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Jun 2025 02:37:43 -0700 (PDT)
-Message-ID: <4360ee7a-d85a-4fa0-a1d6-d09a3b9d57c0@tuxon.dev>
-Date: Mon, 16 Jun 2025 12:37:41 +0300
+        d=1e100.net; s=20230601; t=1750070725; x=1750675525;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NSDl2PiJGaG4FkK+fLWvA+1Qct2FhEDuUrKC3P6/vhQ=;
+        b=TulYGRxIQ+9FfJubENxhnI1k/Mr8ydzfxIQhJrmXzSiAuf1hje/Kk30neXgHqO3+Ib
+         hlHuIdhAGMdAdempnlG9XoSNV6ddgNZj8UU1PgCWdE2ZOKguOo3rb6JG0kW3dhxP/FSG
+         4a0xwgIWvBrZqv6DQTkRJLtLDacUy28JLQY+7X21giXzYAkkyJmmNhGGgoi/yfaILpJv
+         rl2CSs84VHqoofrjems/Zg/7piE8LzJh62PExNv/zg/ObmcgSxjWM8QHVragwrb+jqvs
+         fHFfBsfxUWK3KN4+3FAjEcgSubp0Iwrlz9CegfQrLeasLmCIobnJal4s4Lupd4yVZe1L
+         /47g==
+X-Forwarded-Encrypted: i=1; AJvYcCUmwC64gAZJ06sAT6TLZp2w80ZoS3LBYHKIY0SO8WaT7C22dgbY/HB9TtDCUZOQdu00MM6lJd7LbQWv@vger.kernel.org, AJvYcCVtzLvGv2d0JYgVUGqnLF+63DqS2JDFwIaeWpb18ZUc0XYf1rp9vS6TmeXUYjRk4uMObEgWnO+6sYmdK+ExENidRIs=@vger.kernel.org, AJvYcCWOECy3xoMX41GiiISn8YvwEMqv1kFUxN+xvBLL5mzzeqW6GH2wM1H5P3qKwkKarsm5scEmgtQuPHfs@vger.kernel.org, AJvYcCXG9cAe0EdmtNTR87bjjhDtyrW4WgNX7G57UAEyyh5mzIfQuMz5ZOX/Odz03cgsm0hXerzNHCWE4dWJQw2n@vger.kernel.org
+X-Gm-Message-State: AOJu0YzVpe0DLOEYoFtV3D/PPvf71Cm+AHKVACK0foa+Hhqvppmn8KtG
+	bOVmpTKhE0MEb461jQCn/BUkup3BfGkXOC7uGXBap1m4F2pemgyKF8lMjFwk+vwaw/9M2Pu4Vyz
+	fI/wwuIRF7gXd1onFLRd16v2BQvHTNvs=
+X-Gm-Gg: ASbGncvAgiEj30WaZsy8I7ZglEamWTPPvt6runsKV7UCqszMHW8QO8tajZdiizj6MLp
+	keWu+L+zM1pG5whQx0FZ4BWXDKgIBA0ocBcZlTrD4MCLymfq6pHIyCP1awn5grICdWirpv6knfA
+	0Bxetbf/s8AYtJQaRwXjtEgxWBTkKKsh91/7gpIg3p8g==
+X-Google-Smtp-Source: AGHT+IEgQgiyztxqvtZKll0mOfiV5M1uoxnaWLnIuq/McTRUg97y7B4O7fuqHTvpQIDbJeirPhUGsHjX7qpzXfEpLio=
+X-Received: by 2002:a05:6000:2088:b0:3a5:3e47:8af5 with SMTP id
+ ffacd0b85a97d-3a5723a26d6mr7502087f8f.27.1750070725289; Mon, 16 Jun 2025
+ 03:45:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] PM: domains: Add devres variant for
- dev_pm_domain_attach()
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Jonathan Cameron <jic23@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, gregkh@linuxfoundation.org,
- dakr@kernel.org, len.brown@intel.com, pavel@kernel.org,
- ulf.hansson@linaro.org, daniel.lezcano@linaro.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, bhelgaas@google.com,
- geert@linux-m68k.org, linux-iio@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, fabrizio.castro.jz@renesas.com,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20250606111749.3142348-1-claudiu.beznea.uj@bp.renesas.com>
- <20250606111749.3142348-2-claudiu.beznea.uj@bp.renesas.com>
- <CAJZ5v0i_Ey+OVpSZHXru=tubMaZi=y-uOh_0M6zmWZ2DqqA7Vg@mail.gmail.com>
- <zhjytvj35lknj7v3jhva3n3nbv6qctvqgykwyi5huj6omet7lz@wchd7f4p4dpv>
- <CAJZ5v0hsT-Q2hz=qoBo409oungaCmexJwwGheN7KRLFqz=6_Dw@mail.gmail.com>
- <20250607140600.76e87ea5@jic23-huawei>
- <CAJZ5v0jqZ6gYKb85dpR-X5RwFeUBcbbcJ_b-AOe+JypBXod-MA@mail.gmail.com>
- <486a1110-5336-42fd-82b8-a7b1452bad65@tuxon.dev>
- <CAJZ5v0hqBm4L2V9aUjB0tmW67eRRCnM7FScgdJQ=ihnpAZuMfA@mail.gmail.com>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <CAJZ5v0hqBm4L2V9aUjB0tmW67eRRCnM7FScgdJQ=ihnpAZuMfA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250530171841.423274-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250530171841.423274-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <TY3PR01MB1134654039BA3BAB5DA8C0BB08677A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB1134654039BA3BAB5DA8C0BB08677A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 16 Jun 2025 11:44:58 +0100
+X-Gm-Features: AX0GCFslazxqxWe5-uy3WUsn7KLkJazXk2uLh7M8KS7bYpORB5xGv-n0ot5eFC8
+Message-ID: <CA+V-a8tSMt9SaHAdeEd4vj=QmaDz5bMd4hwJUCx_mBF8-mw2kw@mail.gmail.com>
+Subject: Re: [PATCH v6 1/4] clk: renesas: rzv2h-cpg: Add support for DSI clocks
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	"laurent.pinchart" <laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, 
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi, Rafael,
+Hi Biju,
 
-On 13.06.2025 13:02, Rafael J. Wysocki wrote:
-> On Fri, Jun 13, 2025 at 9:39 AM Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
->>
->> Hi, Rafael,
->>
->> On 09.06.2025 22:59, Rafael J. Wysocki wrote:
->>> On Sat, Jun 7, 2025 at 3:06 PM Jonathan Cameron <jic23@kernel.org> wrote:
->>>>
->>>> On Fri, 6 Jun 2025 22:01:52 +0200
->>>> "Rafael J. Wysocki" <rafael@kernel.org> wrote:
->>>>
->>>> Hi Rafael,
->>>>
->>>>> On Fri, Jun 6, 2025 at 8:55 PM Dmitry Torokhov
->>>>> <dmitry.torokhov@gmail.com> wrote:
->>>>>>
->>>>>> On Fri, Jun 06, 2025 at 06:00:34PM +0200, Rafael J. Wysocki wrote:
->>>>>>> On Fri, Jun 6, 2025 at 1:18 PM Claudiu <claudiu.beznea@tuxon.dev> wrote:
->>>>>>>>
->>>>>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>>>>>
->>>>>>>> The dev_pm_domain_attach() function is typically used in bus code alongside
->>>>>>>> dev_pm_domain_detach(), often following patterns like:
->>>>>>>>
->>>>>>>> static int bus_probe(struct device *_dev)
->>>>>>>> {
->>>>>>>>     struct bus_driver *drv = to_bus_driver(dev->driver);
->>>>>>>>     struct bus_device *dev = to_bus_device(_dev);
->>>>>>>>     int ret;
->>>>>>>>
->>>>>>>>     // ...
->>>>>>>>
->>>>>>>>     ret = dev_pm_domain_attach(_dev, true);
->>>>>>>>     if (ret)
->>>>>>>>         return ret;
->>>>>>>>
->>>>>>>>     if (drv->probe)
->>>>>>>>         ret = drv->probe(dev);
->>>>>>>>
->>>>>>>>     // ...
->>>>>>>> }
->>>>>>>>
->>>>>>>> static void bus_remove(struct device *_dev)
->>>>>>>> {
->>>>>>>>     struct bus_driver *drv = to_bus_driver(dev->driver);
->>>>>>>>     struct bus_device *dev = to_bus_device(_dev);
->>>>>>>>
->>>>>>>>     if (drv->remove)
->>>>>>>>         drv->remove(dev);
->>>>>>>>     dev_pm_domain_detach(_dev);
->>>>>>>> }
->>>>>>>>
->>>>>>>> When the driver's probe function uses devres-managed resources that depend
->>>>>>>> on the power domain state, those resources are released later during
->>>>>>>> device_unbind_cleanup().
->>>>>>>>
->>>>>>>> Releasing devres-managed resources that depend on the power domain state
->>>>>>>> after detaching the device from its PM domain can cause failures.
->>>>>>>>
->>>>>>>> For example, if the driver uses devm_pm_runtime_enable() in its probe
->>>>>>>> function, and the device's clocks are managed by the PM domain, then
->>>>>>>> during removal the runtime PM is disabled in device_unbind_cleanup() after
->>>>>>>> the clocks have been removed from the PM domain. It may happen that the
->>>>>>>> devm_pm_runtime_enable() action causes the device to be runtime-resumed.
->>>>>>>
->>>>>>> Don't use devm_pm_runtime_enable() then.
->>>>>>
->>>>>> What about other devm_ APIs? Are you suggesting that platform drivers
->>>>>> should not be using devm_clk*(), devm_regulator_*(),
->>>>>> devm_request_*_irq() and devm_add_action_or_reset()? Because again,
->>>>>> dev_pm_domain_detach() that is called by platform bus_remove() may shut
->>>>>> off the device too early, before cleanup code has a chance to execute
->>>>>> proper cleanup.
->>>>>>
->>>>>> The issue is not limited to runtime PM.
->>>>>>
->>>>>>>
->>>>>>>> If the driver specific runtime PM APIs access registers directly, this
->>>>>>>> will lead to accessing device registers without clocks being enabled.
->>>>>>>> Similar issues may occur with other devres actions that access device
->>>>>>>> registers.
->>>>>>>>
->>>>>>>> Add devm_pm_domain_attach(). When replacing the dev_pm_domain_attach() and
->>>>>>>> dev_pm_domain_detach() in bus probe and bus remove, it ensures that the
->>>>>>>> device is detached from its PM domain in device_unbind_cleanup(), only
->>>>>>>> after all driver's devres-managed resources have been release.
->>>>>>>>
->>>>>>>> For flexibility, the implemented devm_pm_domain_attach() has 2 state
->>>>>>>> arguments, one for the domain state on attach, one for the domain state on
->>>>>>>> detach.
->>>>>>>
->>>>>>> dev_pm_domain_attach() is not part driver API and I'm not convinced at
->>>>>>
->>>>>> Is the concern that devm_pm_domain_attach() will be [ab]used by drivers?
->>>>>
->>>>> Yes, among other things.
->>>>
->>>> Maybe naming could make abuse at least obvious to spot? e.g.
->>>> pm_domain_attach_with_devm_release()
->>>
->>> If I'm not mistaken, it is not even necessary to use devres for this.
->>>
->>> You might as well add a dev_pm_domain_detach() call to
->>> device_unbind_cleanup() after devres_release_all().  There is a slight
->>> complication related to the second argument of it, but I suppose that
->>> this can be determined at the attach time and stored in a new device
->>> PM flag, or similar.
->>>
->>
->> I looked into this solution. I've tested it for all my failure cases and
->> went good.
-> 
-> OK
-> 
->>> Note that dev->pm_domain is expected to be cleared by ->detach(), so
->>> this should not cause the domain to be detached twice in a row from
->>> the same device, but that needs to be double-checked.
->>
->> The genpd_dev_pm_detach() calls genpd_remove_device() ->
->> dev_pm_domain_set(dev, NULL) which sets the dev->pm_domain = NULL. I can't
->> find any other detach function in the current code base.
-> 
-> There is also acpi_dev_pm_detach() which can be somewhat hard to find,
-> but it calls dev_pm_domain_set(dev, NULL) either.
-> 
->> The code I've tested for this solution is this one:
->>
->> diff --git a/drivers/base/dd.c b/drivers/base/dd.c
->> index b526e0e0f52d..5e9750d007b4 100644
->> --- a/drivers/base/dd.c
->> +++ b/drivers/base/dd.c
->> @@ -25,6 +25,7 @@
->>  #include <linux/kthread.h>
->>  #include <linux/wait.h>
->>  #include <linux/async.h>
->> +#include <linux/pm_domain.h>
->>  #include <linux/pm_runtime.h>
->>  #include <linux/pinctrl/devinfo.h>
->>  #include <linux/slab.h>
->> @@ -552,8 +553,11 @@ static void device_unbind_cleanup(struct device *dev)
->>         dev->dma_range_map = NULL;
->>         device_set_driver(dev, NULL);
->>         dev_set_drvdata(dev, NULL);
->> -       if (dev->pm_domain && dev->pm_domain->dismiss)
->> -               dev->pm_domain->dismiss(dev);
->> +       if (dev->pm_domain) {
->> +               if (dev->pm_domain->dismiss)
->> +                       dev->pm_domain->dismiss(dev);
->> +               dev_pm_domain_detach(dev, dev->pm_domain->detach_power_off);
-> 
-> I would do the "detach" before the "dismiss" to retain the current ordering.
+Thank you for the review.
 
-I applied on my local development branch all your suggestions except this
-one because genpd_dev_pm_detach() as well as acpi_dev_pm_detach() set
-dev->pm_domain = NULL.
+On Fri, Jun 13, 2025 at 6:57=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.co=
+m> wrote:
+>
+> Hi Prabhakar,
+>
+> > -----Original Message-----
+> > From: Prabhakar <prabhakar.csengg@gmail.com>
+> > Sent: 30 May 2025 18:19
+> .castro.jz@renesas.com>; Prabhakar Mahadev Lad <prabhakar.mahadev-
+> > lad.rj@bp.renesas.com>
+> > Subject: [PATCH v6 1/4] clk: renesas: rzv2h-cpg: Add support for DSI cl=
+ocks
+> >
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Add support for PLLDSI and PLLDSI divider clocks.
+> >
+> > Introduce the `renesas-rzv2h-dsi.h` header to centralize and share PLLD=
+SI-related data structures,
+> > limits, and algorithms between the RZ/V2H CPG and DSI drivers.
+> >
+> > The DSI PLL is functionally similar to the CPG's PLLDSI, but has slight=
+ly different parameter limits
+> > and omits the programmable divider present in CPG. To ensure precise fr=
+equency calculations-especially
+> > for milliHz-level accuracy needed by the DSI driver-the shared algorith=
+m allows both drivers to
+> > compute PLL parameters consistently using the same logic and input cloc=
+k.
+> >
+> > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > v5->v6:
+> > - Renamed CPG_PLL_STBY_SSCGEN_WEN to CPG_PLL_STBY_SSC_EN_WEN
+> > - Updated CPG_PLL_CLK1_DIV_K, CPG_PLL_CLK1_DIV_M, and
+> >   CPG_PLL_CLK1_DIV_P macros to use GENMASK
+> > - Updated req->rate in rzv2h_cpg_plldsi_div_determine_rate()
+> > - Dropped the cast in rzv2h_cpg_plldsi_div_set_rate()
+> > - Dropped rzv2h_cpg_plldsi_round_rate() and implemented
+> >   rzv2h_cpg_plldsi_determine_rate() instead
+> > - Made use of FIELD_PREP()
+> > - Moved CPG_CSDIV1 macro in patch 2/4
+> > - Dropped two_pow_s in rzv2h_dsi_get_pll_parameters_values()
+> > - Used mul_u32_u32() while calculating output_m and output_k_range
+> > - Used div_s64() instead of div64_s64() while calculating
+> >   pll_k
+> > - Used mul_u32_u32() while calculating fvco and fvco checks
+> > - Rounded the final output using DIV_U64_ROUND_CLOSEST()
+> >
+> > v4->v5:
+> > - No changes
+> >
+> > v3->v4:
+> > - Corrected parameter name in rzv2h_dsi_get_pll_parameters_values()
+> >   description freq_millihz
+> >
+> > v2->v3:
+> > - Update the commit message to clarify the purpose of `renesas-rzv2h-ds=
+i.h`
+> >   header
+> > - Used mul_u32_u32() in rzv2h_cpg_plldsi_div_determine_rate()
+> > - Replaced *_mhz to *_millihz for clarity
+> > - Updated u64->u32 for fvco limits
+> > - Initialized the members in declaration order for
+> >   RZV2H_CPG_PLL_DSI_LIMITS() macro
+> > - Used clk_div_mask() in rzv2h_cpg_plldsi_div_recalc_rate()
+> > - Replaced `unsigned long long` with u64
+> > - Dropped rzv2h_cpg_plldsi_clk_recalc_rate() and reused
+> >   rzv2h_cpg_pll_clk_recalc_rate() instead
+> > - In rzv2h_cpg_plldsi_div_set_rate() followed the same style
+> >   of RMW-operation as done in the other functions
+> > - Renamed rzv2h_cpg_plldsi_set_rate() to rzv2h_cpg_pll_set_rate()
+> > - Dropped rzv2h_cpg_plldsi_clk_register() and reused
+> >   rzv2h_cpg_pll_clk_register() instead
+> > - Added a gaurd in renesas-rzv2h-dsi.h header
+> >
+> > v1->v2:
+> > - No changes
+> > ---
+> >  drivers/clk/renesas/rzv2h-cpg.c       | 278 +++++++++++++++++++++++++-
+> >  drivers/clk/renesas/rzv2h-cpg.h       |  13 ++
+> >  include/linux/clk/renesas-rzv2h-dsi.h | 210 +++++++++++++++++++
+> >  3 files changed, 492 insertions(+), 9 deletions(-)  create mode 100644=
+ include/linux/clk/renesas-
+> > rzv2h-dsi.h
+> >
+> > diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/rzv2=
+h-cpg.c index
+> > 761da3bf77ce..d590f9f47371 100644
+> > --- a/drivers/clk/renesas/rzv2h-cpg.c
+> > +++ b/drivers/clk/renesas/rzv2h-cpg.c
+> > @@ -14,9 +14,13 @@
+> >  #include <linux/bitfield.h>
+> >  #include <linux/clk.h>
+> >  #include <linux/clk-provider.h>
+> > +#include <linux/clk/renesas-rzv2h-dsi.h>
+> >  #include <linux/delay.h>
+> >  #include <linux/init.h>
+> >  #include <linux/iopoll.h>
+> > +#include <linux/math.h>
+> > +#include <linux/math64.h>
+> > +#include <linux/minmax.h>
+> >  #include <linux/mod_devicetable.h>
+> >  #include <linux/module.h>
+> >  #include <linux/of.h>
+> > @@ -26,6 +30,7 @@
+> >  #include <linux/refcount.h>
+> >  #include <linux/reset-controller.h>
+> >  #include <linux/string_choices.h>
+> > +#include <linux/units.h>
+> >
+> >  #include <dt-bindings/clock/renesas-cpg-mssr.h>
+> >
+> > @@ -48,12 +53,13 @@
+> >  #define CPG_PLL_STBY(x)              ((x))
+> >  #define CPG_PLL_STBY_RESETB  BIT(0)
+> >  #define CPG_PLL_STBY_RESETB_WEN      BIT(16)
+> > +#define CPG_PLL_STBY_SSC_EN_WEN BIT(18)
+> >  #define CPG_PLL_CLK1(x)              ((x) + 0x004)
+> > -#define CPG_PLL_CLK1_KDIV(x) ((s16)FIELD_GET(GENMASK(31, 16), (x)))
+> > -#define CPG_PLL_CLK1_MDIV(x) FIELD_GET(GENMASK(15, 6), (x))
+> > -#define CPG_PLL_CLK1_PDIV(x) FIELD_GET(GENMASK(5, 0), (x))
+> > +#define CPG_PLL_CLK1_KDIV    GENMASK(31, 16)
+> > +#define CPG_PLL_CLK1_MDIV    GENMASK(15, 6)
+> > +#define CPG_PLL_CLK1_PDIV    GENMASK(5, 0)
+> >  #define CPG_PLL_CLK2(x)              ((x) + 0x008)
+> > -#define CPG_PLL_CLK2_SDIV(x) FIELD_GET(GENMASK(2, 0), (x))
+> > +#define CPG_PLL_CLK2_SDIV    GENMASK(2, 0)
+> >  #define CPG_PLL_MON(x)               ((x) + 0x010)
+> >  #define CPG_PLL_MON_RESETB   BIT(0)
+> >  #define CPG_PLL_MON_LOCK     BIT(4)
+> > @@ -79,6 +85,8 @@
+> >   * @last_dt_core_clk: ID of the last Core Clock exported to DT
+> >   * @mstop_count: Array of mstop values
+> >   * @rcdev: Reset controller entity
+> > + * @dsi_limits: PLL DSI parameters limits
+> > + * @plldsi_div_parameters: PLL DSI and divider parameters configuratio=
+n
+> >   */
+> >  struct rzv2h_cpg_priv {
+> >       struct device *dev;
+> > @@ -95,6 +103,9 @@ struct rzv2h_cpg_priv {
+> >       atomic_t *mstop_count;
+> >
+> >       struct reset_controller_dev rcdev;
+> > +
+> > +     const struct rzv2h_pll_div_limits *dsi_limits;
+> > +     struct rzv2h_plldsi_parameters plldsi_div_parameters;
+> >  };
+> >
+> >  #define rcdev_to_priv(x)     container_of(x, struct rzv2h_cpg_priv, rc=
+dev)
+> > @@ -150,6 +161,24 @@ struct ddiv_clk {
+> >
+> >  #define to_ddiv_clock(_div) container_of(_div, struct ddiv_clk, div)
+> >
+> > +/**
+> > + * struct rzv2h_plldsi_div_clk - PLL DSI DDIV clock
+> > + *
+> > + * @dtable: divider table
+> > + * @priv: CPG private data
+> > + * @hw: divider clk
+> > + * @ddiv: divider configuration
+> > + */
+> > +struct rzv2h_plldsi_div_clk {
+> > +     const struct clk_div_table *dtable;
+> > +     struct rzv2h_cpg_priv *priv;
+> > +     struct clk_hw hw;
+> > +     struct ddiv ddiv;
+> > +};
+> > +
+> > +#define to_plldsi_div_clk(_hw) \
+> > +     container_of(_hw, struct rzv2h_plldsi_div_clk, hw)
+> > +
+> >  static int rzv2h_cpg_pll_clk_is_enabled(struct clk_hw *hw)  {
+> >       struct pll_clk *pll_clk =3D to_pll(hw);
+> > @@ -198,6 +227,214 @@ static int rzv2h_cpg_pll_clk_enable(struct clk_hw=
+ *hw)
+> >       return ret;
+> >  }
+> >
+> > +static unsigned long rzv2h_cpg_plldsi_div_recalc_rate(struct clk_hw *h=
+w,
+> > +                                                   unsigned long paren=
+t_rate)
+> > +{
+> > +     struct rzv2h_plldsi_div_clk *dsi_div =3D to_plldsi_div_clk(hw);
+> > +     struct rzv2h_cpg_priv *priv =3D dsi_div->priv;
+> > +     struct ddiv ddiv =3D dsi_div->ddiv;
+> > +     u32 div;
+> > +
+> > +     div =3D readl(priv->base + ddiv.offset);
+> > +     div >>=3D ddiv.shift;
+> > +     div &=3D clk_div_mask(ddiv.width);
+> > +     div =3D dsi_div->dtable[div].div;
+> > +
+> > +     return DIV_ROUND_CLOSEST_ULL(parent_rate, div); }
+> > +
+> > +static int rzv2h_cpg_plldsi_div_determine_rate(struct clk_hw *hw,
+> > +                                            struct clk_rate_request *r=
+eq) {
+> > +     struct rzv2h_plldsi_div_clk *dsi_div =3D to_plldsi_div_clk(hw);
+> > +     struct rzv2h_cpg_priv *priv =3D dsi_div->priv;
+> > +     struct rzv2h_plldsi_parameters *dsi_dividers =3D &priv->plldsi_di=
+v_parameters;
+> > +     u64 rate_millihz;
+> > +
+> > +     /*
+> > +      * Adjust the requested clock rate (`req->rate`) to ensure it fal=
+ls within
+> > +      * the supported range of 5.44 MHz to 187.5 MHz.
+> > +      */
+> > +     req->rate =3D clamp(req->rate, 5440000UL, 187500000UL);
+> > +
+> > +     rate_millihz =3D mul_u32_u32(req->rate, MILLI);
+> > +     if (rate_millihz =3D=3D dsi_dividers->error_millihz + dsi_divider=
+s->freq_millihz)
+> > +             goto exit_determine_rate;
+> > +
+> > +     if (!rzv2h_dsi_get_pll_parameters_values(priv->dsi_limits,
+> > +                                              dsi_dividers, rate_milli=
+hz)) {
+> > +             dev_err(priv->dev,
+> > +                     "failed to determine rate for req->rate: %lu\n",
+> > +                     req->rate);
+> > +             return -EINVAL;
+> > +     }
+>
+>
+> > +
+> > +exit_determine_rate:
+> > +     req->best_parent_rate =3D req->rate * dsi_dividers->csdiv;
+>
+> I believe this has to go after below assignment.
+>
+Good catch, agreed.
 
-Due to this I would call first ->dismiss() then ->detach(), as initially
-proposed. Please let me know if you consider it otherwise.
+> As parent_rate =3D rate * calculated DSI divider value.
+>
+> req->rate =3D DIV_ROUND_CLOSEST_ULL(dsi_dividers->freq_millihz, MILLI);
+> req->best_parent_rate =3D req->rate * dsi_dividers->csdiv;
+>
+>
+>
+> > +     req->rate =3D DIV_ROUND_CLOSEST_ULL(dsi_dividers->freq_millihz, M=
+ILLI);
+> > +
+> > +     return 0;
+> > +};
+> > +
+> > +static int rzv2h_cpg_plldsi_div_set_rate(struct clk_hw *hw,
+> > +                                      unsigned long rate,
+> > +                                      unsigned long parent_rate)
+> > +{
+> > +     struct rzv2h_plldsi_div_clk *dsi_div =3D to_plldsi_div_clk(hw);
+> > +     struct rzv2h_cpg_priv *priv =3D dsi_div->priv;
+> > +     struct rzv2h_plldsi_parameters *dsi_dividers =3D &priv->plldsi_di=
+v_parameters;
+> > +     struct ddiv ddiv =3D dsi_div->ddiv;
+> > +     const struct clk_div_table *clkt;
+> > +     bool div_found =3D false;
+> > +     u32 val, shift, div;
+> > +
+> > +     div =3D dsi_dividers->csdiv;
+> > +     for (clkt =3D dsi_div->dtable; clkt->div; clkt++) {
+> > +             if (clkt->div =3D=3D div) {
+> > +                     div_found =3D true;
+> > +                     break;
+> > +             }
+> > +     }
+> > +
+> > +     if (!div_found)
+> > +             return -EINVAL;
+>
+> This check can be done in determine rate and cache the divider??
+>
+Ok, I'll drop this check as the divider is already cached. The for
+loop above is to determine the val which is used below to program the
+registers.
 
-Thank you,
-Claudiu
+> > +
+> > +     shift =3D ddiv.shift;
+> > +     val =3D readl(priv->base + ddiv.offset) | DDIV_DIVCTL_WEN(shift);
+> > +     val &=3D ~(clk_div_mask(ddiv.width) << shift);
+> > +     val |=3D clkt->val << shift;
+> > +     writel(val, priv->base + ddiv.offset);
+> > +
+> > +     return 0;
+> > +};
+> > +
+> > +static const struct clk_ops rzv2h_cpg_plldsi_div_ops =3D {
+> > +     .recalc_rate =3D rzv2h_cpg_plldsi_div_recalc_rate,
+> > +     .determine_rate =3D rzv2h_cpg_plldsi_div_determine_rate,
+> > +     .set_rate =3D rzv2h_cpg_plldsi_div_set_rate, };
+> > +
+> > +static struct clk * __init
+> > +rzv2h_cpg_plldsi_div_clk_register(const struct cpg_core_clk *core,
+> > +                               struct rzv2h_cpg_priv *priv)
+> > +{
+> > +     struct rzv2h_plldsi_div_clk *clk_hw_data;
+> > +     struct clk **clks =3D priv->clks;
+> > +     struct clk_init_data init;
+> > +     const struct clk *parent;
+> > +     const char *parent_name;
+> > +     struct clk_hw *clk_hw;
+> > +     int ret;
+> > +
+> > +     parent =3D clks[core->parent];
+> > +     if (IS_ERR(parent))
+> > +             return ERR_CAST(parent);
+> > +
+> > +     clk_hw_data =3D devm_kzalloc(priv->dev, sizeof(*clk_hw_data), GFP=
+_KERNEL);
+> > +     if (!clk_hw_data)
+> > +             return ERR_PTR(-ENOMEM);
+> > +
+> > +     clk_hw_data->priv =3D priv;
+> > +     clk_hw_data->ddiv =3D core->cfg.ddiv;
+> > +     clk_hw_data->dtable =3D core->dtable;
+> > +
+> > +     parent_name =3D __clk_get_name(parent);
+> > +     init.name =3D core->name;
+> > +     init.ops =3D &rzv2h_cpg_plldsi_div_ops;
+> > +     init.flags =3D core->flag;
+> > +     init.parent_names =3D &parent_name;
+> > +     init.num_parents =3D 1;
+> > +
+> > +     clk_hw =3D &clk_hw_data->hw;
+> > +     clk_hw->init =3D &init;
+> > +
+> > +     ret =3D devm_clk_hw_register(priv->dev, clk_hw);
+> > +     if (ret)
+> > +             return ERR_PTR(ret);
+> > +
+> > +     return clk_hw->clk;
+> > +}
+> > +
+> > +static int rzv2h_cpg_plldsi_determine_rate(struct clk_hw *hw,
+> > +                                        struct clk_rate_request *req)
+> > +{
+> > +     struct rzv2h_pll_div_limits dsi_limits;
+> > +     struct rzv2h_plldsi_parameters dsi_dividers;
+> > +     struct pll_clk *pll_clk =3D to_pll(hw);
+> > +     struct rzv2h_cpg_priv *priv =3D pll_clk->priv;
+> > +     u64 rate_millihz;
+> > +
+> > +     memcpy(&dsi_limits, priv->dsi_limits, sizeof(dsi_limits));
+> > +     dsi_limits.csdiv.min =3D 1;
+> > +     dsi_limits.csdiv.max =3D 1;
+> > +
+> > +     req->rate =3D clamp(req->rate, 25000000UL, 375000000UL);
+>
+> I guess this clamping is not required as the child already has clamping
+> and max DSI divider is fixed.
+>
+> rate(Max) =3D 187500 * 1000 * divider =3D 187.5 MHz(clamped value) * dsi =
+divider
+>
+Agreed, I will drop the clamp.
+
+> > +
+> > +     rate_millihz =3D mul_u32_u32(req->rate, MILLI);
+> > +     if (!rzv2h_dsi_get_pll_parameters_values(priv->dsi_limits,
+> > +                                              &dsi_dividers, rate_mill=
+ihz)) {
+> > +             dev_err(priv->dev,
+> > +                     "failed to determine rate for req->rate: %lu\n",
+> > +                     req->rate);
+> > +             return -EINVAL;
+> > +     }
+> > +
+> > +     req->best_parent_rate =3D req->rate * dsi_dividers.csdiv;
+>
+> This is wrong as it will lead to high value for  parent as the rate is fi=
+xed 24MHz.
+>
+> 24MHz-> PLL_DSI(This clock) -> DSI DIVIDER-> DoT clock
+>
+Agreed we cannot adjust the best_parent_rate here.
+
+Cheers,
+Prabhakar
 
