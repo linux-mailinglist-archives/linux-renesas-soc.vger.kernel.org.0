@@ -1,143 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-18422-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18423-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70034ADC5D6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 11:10:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6941EADC5DF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 11:12:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 013DB176B11
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 09:10:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 15F48161562
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 09:12:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AF912949ED;
-	Tue, 17 Jun 2025 09:09:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="QPw58bue";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="PN2xsj/0"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EF7721B184;
+	Tue, 17 Jun 2025 09:12:38 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE1C293457;
-	Tue, 17 Jun 2025 09:09:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B2042BEFF6;
+	Tue, 17 Jun 2025 09:12:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750151345; cv=none; b=vBUR1wa8jKjBZqa/0pzJO09gJQwJAbdqIwRlPHv0YsLBfhJ+umyu0zwRR3iQt5G60RlawuqyyHj8STpgbiC3UkWyg5TrRzMix03b3fYjnyTIiiNn5lB087GFd0V4KCl15/G1rw29bP0HFS5SpgsmEswemOzIxDhApNa/dw4i74Q=
+	t=1750151558; cv=none; b=budCAPGKLPtXwOFsWSAsBigsJZoN95fW6el8KDgIGZHh+jFyZttxF5XN2UaPeVm1hgHvP/4EZAEA6dieJj445XnowRXBbF5F9sO/BmbL8cWQ8iin4bH1zzI3wXAiBXpzP5t/ghHPdVccvMsmQPeKJiQ6ALVmZGoheaV33Yj1gP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750151345; c=relaxed/simple;
-	bh=SEBaWNsn7j7zIu4K9J7rqzur89jgUy2wbonTIcXXdSM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bOCzR4e7GLSEZ5sNyheQP5A3hmG+IVxxl4NIAtWyIUPdYGpGWBVDOS6oxhp2JDwY9LVAJ+Ij8cCuu989/ZD7ZjWZVjJnZwH/99CQ6lo9MYeeiyAbjJQrmUDOwpVlvwQ28yh+RBGpQZfED+0vYMr4ojdwYNvn7tpzpbEP+Bg1qec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=QPw58bue; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=PN2xsj/0; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4bM1JS31Cvz9tPr;
-	Tue, 17 Jun 2025 11:08:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1750151336;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=upW6BwV3K5F69Ugq8iSkj5vSJYqS1QvTVSbv3NhyNso=;
-	b=QPw58buefDBlF4Z5bQ96F0QUsKuUcApRM1M25BySRn7f1kfzuT6CeiV64vEFYVhXqqE61F
-	35L3vCXnnbHs9OyHBFO8KvzWq9PzY2npoJVcedAlw+nriYIaAPRzWAi/LwEs31/4T3vQ4x
-	T5jpmJrIypoAPyaDDci4v6jPek1KmYgBrMCHciGX9JgO6hjbEWQuJWofBZ4rJju4yYWEUn
-	KVn0J54FQw1QdliknrKzl3zsWMFB8xbvb1VzIUIgglGyY/+6edv80BTIw0H228tii1B19A
-	9uCOgzRyfxxG6o2fCNHQ6XbXGO51JbaKoFXMup0P9gtpt5x7MmuoJd2yLQbpng==
-Message-ID: <759de22c-e7b9-4938-b6e9-199e8ac9135e@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1750151334;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=upW6BwV3K5F69Ugq8iSkj5vSJYqS1QvTVSbv3NhyNso=;
-	b=PN2xsj/0MdVr3E8TajrwLd8zTYH6J1m37vmIedPPTLk/7SBFtnIvuwmxCKL7Rk3b22/B1j
-	Yf8c8/iIzIPRgFosgHDVqihEpOURHPDOU+i/gcOv+j7AgT9ms98XQw0UqmkR3EgMY0U2z0
-	r3he8hrn4oe6ea8cPBXLkvh0l00mjWOFl33kjYQlMTrMvneN+Rugluh8ym6Mam0wzgQkfG
-	HFsEUer2M5/Z4G5AUGIiaBla+mQNJ5pM+v+iltIdlI8y6HRfiRX3f4KnsOjTMAxPRZPLBT
-	I9ieYvcevkoJeN93chCzU8egVhNB2a/UZLj9vkor+a+DJ2WzUwk/7BwlC9F9qQ==
-Date: Tue, 17 Jun 2025 11:08:51 +0200
+	s=arc-20240116; t=1750151558; c=relaxed/simple;
+	bh=4XxmjDxsaEAudKOul0VlofkNJPUiL5PE4boM7M2Zyio=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oHWWEh3rTWP782/S5EAcBp/nq/DuQpSig5AxQimr6k8AGrPJ2h0oClZQ8PjbsheFd5SXo2NZuyhHxTtX/4NZypUj0xI7O6hybiq0I1iwM5yloYtqKMG3m0rdERRAx4Pxm6UKs9fdfL9Y5oRdN88sXDq1Qat3we3GU6+elPH3Hbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-4e7fb730078so888503137.1;
+        Tue, 17 Jun 2025 02:12:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750151554; x=1750756354;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fYK884yO6/IR5FBKJlqO/qD4jdw4rEoWtSGdzWlN3y8=;
+        b=Lnd1BMXVMBcarVAUpkfIKglkVeQfA0uU5NKPGDF6CRHjJlHN93WxoQbI7C5VzuaFor
+         R6uI08SRrtw9GFj1RhyNM49g8yWQZq9NNy0kyjJL3JgL4XRmQI1jdhwgx+ceoI2p06Oy
+         KepvNA3wWEn4s6CYUc+kQ+yXve2WuVWFnl0Usj2W8zc4SOQmIKPmAQIqdW4cRgoq4MvI
+         E5Qu0zJXviKt9THw+jmrjwX4JiDfGl3wxa7soRjnYFWpxDkpAcdxzqfNJtLwbVi7rlgT
+         q7YFs9O5ZAIGRjnfHdSRmalM3cWOpBSrw7yUVmRuiR5MfKaBOUJXJFodfpGSGLiIWcK6
+         pRgg==
+X-Forwarded-Encrypted: i=1; AJvYcCWW2tlCx7DaWtpSqS47KWFOWPkPtXTi/ZIvUxBSn/YRCSrHr2h1XmMWyfMfAsg7I+5ooDHokJOS6Blvo4s4F9GwCY4=@vger.kernel.org, AJvYcCWn94TplzQRVmV1XNshH8JialVf0HnSqOKr49I5TpS2HuRZ/Tpy3Zu8pmpOq/C3YVkkNxgWLYFcY4fH@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+VmgpaJjFjO5nNRcVaBRxNb3O1Ix+nSg/UCZynxYIGwoanqId
+	fCr3YBjGUc/vfeamvad7Kd3EhqWvUnGjRb4wte0gmkRMzaIDotjduIzKJ7dj8AUG
+X-Gm-Gg: ASbGncuNPqbs1VwoYhf2W/rqjhCzV5wVIzoGESlSgJT7zunuq+PuYxYMumGpufRmmDN
+	OstxAd4hyNSvw1Vhm77G7EIgPASgZ42xf/jfQYyko+l1Ij9qzvRAzgui0N19hrCwiHwpXnbJKsT
+	ZPFvM71d0hstORyrFjf0tRdsG6GUBttjHmqiPauCIpAJi/x0TPVuCdqwLUQI6fOrPxHPwUFR1Vn
+	a2jkLBzTpTWAipU04/NdSI8ta3cI2WztgbNQkluILmoE7E1axUMdJxHhN9Sm7HzN8naNVTxV6BQ
+	5SQQLkXZsgFfd3LQxXWYZn0h/6nArK2jjPEiWUs9VvTZg0i2SCNW/KQgeWmz6jsf3U+l7D883PC
+	QPGjjqOjWP7ppmO2EDWjS0DNT
+X-Google-Smtp-Source: AGHT+IFQAaVBNJsDGJU1AIOqYgxdLprOdxSHmyPAYVmW+TDpcyTK9/lNn7KjjyTbQUF3ZiRBttuVTg==
+X-Received: by 2002:a05:6102:4bc5:b0:4e6:eaed:7e2 with SMTP id ada2fe7eead31-4e7f6188746mr8899191137.5.1750151554166;
+        Tue, 17 Jun 2025 02:12:34 -0700 (PDT)
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4e979b63419sm175344137.25.2025.06.17.02.12.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Jun 2025 02:12:33 -0700 (PDT)
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-87f1bd2229aso555326241.0;
+        Tue, 17 Jun 2025 02:12:33 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUNCPsfS4vFixD+om3EQrui7mp57nEyXp7iCkXfwAYbTuZqVau+5e2+r3R84vK7tgJhgGG+wscsNvv7@vger.kernel.org, AJvYcCUdZ+P1VscyCbuCwgiCwKjPf3u0Q65CiW+W3GBXoFbEfFpTacc7xpQDFXu5BMdsSkUxUUAh7vtxS4j1387f+9dmq84=@vger.kernel.org
+X-Received: by 2002:a05:6102:6f0b:b0:4e9:8488:ceb0 with SMTP id
+ ada2fe7eead31-4e98488d207mr329743137.15.1750151553318; Tue, 17 Jun 2025
+ 02:12:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 2/3] dt-bindings: pwm: argon40,fan-hat: Document
- Argon40 Fan HAT
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-pwm@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
- devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20250617002852.606409-1-marek.vasut+renesas@mailbox.org>
- <20250617002852.606409-2-marek.vasut+renesas@mailbox.org>
- <ikzvtvoigie7e4ift57zoi2uaygemwisjycs4zvgbiwf5s3mxi@mf6pjf6zujcv>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <ikzvtvoigie7e4ift57zoi2uaygemwisjycs4zvgbiwf5s3mxi@mf6pjf6zujcv>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 3sqga3j67jgdxrgw1ao83xuxrfymke3r
-X-MBO-RS-ID: 744d3e6f14c78584c4c
-X-Rspamd-Queue-Id: 4bM1JS31Cvz9tPr
+References: <b648ffcfe6268d3886b134a98908b2f91dbece56.1749801865.git.geert+renesas@glider.be>
+ <aEvotoVqitiHxgYA@shikoro> <CAMuHMdV+2AQbuzLhx5rdtuiVdN85oHJpdUvTKPkVdEn5krp6Fg@mail.gmail.com>
+ <CAMRc=MfB_7JTzsSk+9ssdC4N2S1Rn1hHpkQ7CbWMF6SFUadrJA@mail.gmail.com>
+In-Reply-To: <CAMRc=MfB_7JTzsSk+9ssdC4N2S1Rn1hHpkQ7CbWMF6SFUadrJA@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 17 Jun 2025 11:12:20 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU2LHU54ebB5ihcdn8tyQbZ_tbdGGs0n_6nvfopyRk3Jw@mail.gmail.com>
+X-Gm-Features: AX0GCFu2HQLGscXm0McAabw44QdLWzbrp-fVKqsgQ_8xkt86E1gQgEeiUAdo_5g
+Message-ID: <CAMuHMdU2LHU54ebB5ihcdn8tyQbZ_tbdGGs0n_6nvfopyRk3Jw@mail.gmail.com>
+Subject: Re: [PATCH] gpio: rcar: Use new line value setter callbacks
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Magnus Damm <magnus.damm@gmail.com>, 
+	linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/17/25 9:49 AM, Uwe Kleine-König wrote:
-> Hello Marek,
+Hi Bartosz,
 
-Hi,
+On Tue, 17 Jun 2025 at 11:06, Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+> On Fri, Jun 13, 2025 at 2:02=E2=80=AFPM Geert Uytterhoeven <geert@linux-m=
+68k.org> wrote:
+> > On Fri, 13 Jun 2025 at 13:42, Wolfram Sang
+> > <wsa+renesas@sang-engineering.com> wrote:
+> > > >       bankmask =3D mask[0] & GENMASK(chip->ngpio - 1, 0);
+> > > >       if (!bankmask)
+> > > > -             return;
+> > > > +             return 0;
+> > >
+> > > Doesn't that mean that the mask is invalid and we could return an err=
+or
+> > > here? Or is '!bankmask' an expected use-case?
+> >
+> > That is a good question!
+> >
+> > I _think_ this really can't happen anymore, as the GPIO core is suppose=
+d
+> > to check this against the valid mask? Or isn't it?
+>
+> Yes but this doesn't seem to have anything to do with the valid_mask?
+> If it's about the number of GPIOs then that too is verified by GPIO
+> core.
 
-> On Tue, Jun 17, 2025 at 02:28:01AM +0200, Marek Vasut wrote:
->> Document trivial PWM on Argon40 Fan HAT, which is a RaspberryPi
->> blower fan hat which can be controlled over I2C.
->>
->> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
->> ---
->> Cc: "Uwe Kleine-König" <ukleinek@kernel.org>
->> Cc: Conor Dooley <conor+dt@kernel.org>
->> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
->> Cc: Rob Herring <robh@kernel.org>
->> Cc: devicetree@vger.kernel.org
->> Cc: linux-pwm@vger.kernel.org
->> Cc: linux-renesas-soc@vger.kernel.org
->> ---
->> V2: Implement dedicated binding document
->> ---
->>   .../bindings/pwm/argon40,fan-hat.yaml         | 47 +++++++++++++++++++
->>   1 file changed, 47 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/pwm/argon40,fan-hat.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/pwm/argon40,fan-hat.yaml b/Documentation/devicetree/bindings/pwm/argon40,fan-hat.yaml
->> new file mode 100644
->> index 000000000000..2725eee5328c
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/pwm/argon40,fan-hat.yaml
->> @@ -0,0 +1,47 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/pwm/argon40,fan-hat.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Argon40 Fan HAT PWM controller
->> +
->> +maintainers:
->> +  - Marek Vasut <marek.vasut+renesas@mailbox.org>
->> +
->> +description: |
->> +  The trivial PWM on Argon40 Fan HAT, which is a RaspberryPi blower fan
->> +  hat which can be controlled over I2C, generates a fixed duty cycle PWM
->> +  signal with configurable period to control the fan speed.
-> 
-> Did you get that right? I would have expected a fixed period and the
-> parameter modifying the duty cycle?
-I actually found a fixed 30 kHz period PWM at the underside of the 
-device, it wasn't easy to reach. Expect a V3.
+Sure, about the collection of valid GPIO offsets.  So it cannot really
+happen, and just bailing out with zero sounds fine to me?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
