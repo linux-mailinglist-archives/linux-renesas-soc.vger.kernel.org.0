@@ -1,119 +1,143 @@
-Return-Path: <linux-renesas-soc+bounces-18421-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18422-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 813A0ADC5AC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 11:06:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70034ADC5D6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 11:10:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 33668177F82
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 09:06:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 013DB176B11
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 09:10:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A935E290BC6;
-	Tue, 17 Jun 2025 09:06:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AF912949ED;
+	Tue, 17 Jun 2025 09:09:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="hE2QhMfp"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="QPw58bue";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="PN2xsj/0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C9C28FA8D
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Jun 2025 09:06:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE1C293457;
+	Tue, 17 Jun 2025 09:09:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750151197; cv=none; b=UwWKUPoV3n6HHXVncZ88lONBEVgt9n8tvIDdQmPKTdNyVRHT3kavW7qvUE1juZ91/ajQwi1fTPRfxsWohXbX1f2b7ymYhtn1q+alsxuo1NLgs81leOv+/7OqNYRjYzsrNEwvFTr36kBHCdOtyz0iRp/T8BX2sBRlCOvWGopKzuA=
+	t=1750151345; cv=none; b=vBUR1wa8jKjBZqa/0pzJO09gJQwJAbdqIwRlPHv0YsLBfhJ+umyu0zwRR3iQt5G60RlawuqyyHj8STpgbiC3UkWyg5TrRzMix03b3fYjnyTIiiNn5lB087GFd0V4KCl15/G1rw29bP0HFS5SpgsmEswemOzIxDhApNa/dw4i74Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750151197; c=relaxed/simple;
-	bh=VnnWAyTUfMYF9OfisVSLFv03JCDiJkAGct7ouNDogi8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YPpHS7RpKQnQKYrEvmVlJuwDKpYOgswPraQUoKwipmT5vnRp4IxaRNBasC+EERO7CZgk0Bru+FzwKbAqLOILkKIDbJKzA8MpU45y28H/jxvWiZTc2ONSojtefHosjj6Upxeo0dH8gWnWcjvEzpijXKhl7zRyT3mraj6IC9iy/98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=hE2QhMfp; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-553c31542b1so1974300e87.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Jun 2025 02:06:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1750151194; x=1750755994; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DYSR9cPTGMttpq4ANyJ9wXClXskALgO97k4qcjZi/YY=;
-        b=hE2QhMfpnI9Nl2arLUPNfgwSgpBWma3UboNDB0fey3P+4UPcfCfA8J1gemcp1P59St
-         zOVz2lHenYrcFg10pUD7DPIrsI4GNvV5+GyZXqLiLu8EgZHH4EfxZdBv6tTBxYtilCoy
-         BWOWALfernEDDxt5D7vQXaGAt7rG2wY4TZEJLJL0ioF+5XCqkqSnCZU0WezDG4KYz+MG
-         A7o79Xk/L6nubof911z/6+1bemF3zTjLB1kxmO3XCPShzGq7RHmq+ybYVafToPVwWDu4
-         DuMUgM3c7bnabUiSmqsEdQwV+H29QW0kyg5QNBZRChky0wlUBXbF2LMAnFkytQVtJjg8
-         AiVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750151194; x=1750755994;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DYSR9cPTGMttpq4ANyJ9wXClXskALgO97k4qcjZi/YY=;
-        b=wEtjB+e9RyEgZqiY7dpG+qIkT8L/xLVVrRWFN0xU4ANqWT5RE/eHK7fulKIKqosj2N
-         uVCJVtn1sY2rIxlws3LreCpMp2bq0OsH1zgz7RVdeR7kHDR38UT6dYZQ9+wDSvajofSF
-         Z5B6l2YJfGCzX82fFzasXaLpYVhDLkN1R/GDTcsLhr6iIvG/se4fck5mTyBwOM8prS3Z
-         prQRtt2xsFSahpRgArtkGIiK/A+ZYb2KU+apjPVMwrAuUxCPikJ6g1sQOpt5wHCTQEnZ
-         WG8+Dm6yO9HiTiTf6dE0tIhAly0qgkMEOVUQa0xZg8QNh3E0zMebF42tXokyfig1k7Pe
-         PdCw==
-X-Forwarded-Encrypted: i=1; AJvYcCXHxnYkphrNjdMIorzsjXI9dRCr2sIrrW0I7HGx/s0mxAHkqFRjxgYGzmHpbuA4QghcU7IHwS9r9S6m8q+TGhh6Pw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3zRM8n2sRjnWN2SraHtgB0f0OckqEFqAizm5qKt2VnjD41AbF
-	9pLUBDskKxm6hspmkjFal0Np5zsgRfv6Sktts2IOJl/h4kHMcUOPVUHZecN4kKp9BXo499iqVMf
-	gYEvNivOv8nkmY6WjjXDPLR2DxUJ4NapkzVkRXfV3Ig==
-X-Gm-Gg: ASbGncuPhmqbS9YwWEj/DycsEAQdcR0DRdh41ErPAf/5ERKj3ilFSy/slOfmZSV16QR
-	uOkTmJLTriBTMKj8e4mhkTquvJ4ozIUaZ5Lu7l+rd5l2cxIIYKik6kawPlczwmzG1V5baZy3TNI
-	Qdp+z7KlQ437aU4IL3rtx6YHTmXewv0aBKnerif2ybWlqZwyc/KpMI73++06X5+/YMJw058AUHi
-	SaY7WA5hN7WKA==
-X-Google-Smtp-Source: AGHT+IHxfvF/JsaZcrfFFhgdaJyfP3Q1Rvsp+Eki2op7uwpLqALSK/SkV0T30JPb2qy9MbbSEPsYfSWYtxl6UeRzssA=
-X-Received: by 2002:a05:6512:2314:b0:549:5866:6489 with SMTP id
- 2adb3069b0e04-553b6f31234mr2964444e87.47.1750151193633; Tue, 17 Jun 2025
- 02:06:33 -0700 (PDT)
+	s=arc-20240116; t=1750151345; c=relaxed/simple;
+	bh=SEBaWNsn7j7zIu4K9J7rqzur89jgUy2wbonTIcXXdSM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bOCzR4e7GLSEZ5sNyheQP5A3hmG+IVxxl4NIAtWyIUPdYGpGWBVDOS6oxhp2JDwY9LVAJ+Ij8cCuu989/ZD7ZjWZVjJnZwH/99CQ6lo9MYeeiyAbjJQrmUDOwpVlvwQ28yh+RBGpQZfED+0vYMr4ojdwYNvn7tpzpbEP+Bg1qec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=QPw58bue; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=PN2xsj/0; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4bM1JS31Cvz9tPr;
+	Tue, 17 Jun 2025 11:08:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1750151336;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=upW6BwV3K5F69Ugq8iSkj5vSJYqS1QvTVSbv3NhyNso=;
+	b=QPw58buefDBlF4Z5bQ96F0QUsKuUcApRM1M25BySRn7f1kfzuT6CeiV64vEFYVhXqqE61F
+	35L3vCXnnbHs9OyHBFO8KvzWq9PzY2npoJVcedAlw+nriYIaAPRzWAi/LwEs31/4T3vQ4x
+	T5jpmJrIypoAPyaDDci4v6jPek1KmYgBrMCHciGX9JgO6hjbEWQuJWofBZ4rJju4yYWEUn
+	KVn0J54FQw1QdliknrKzl3zsWMFB8xbvb1VzIUIgglGyY/+6edv80BTIw0H228tii1B19A
+	9uCOgzRyfxxG6o2fCNHQ6XbXGO51JbaKoFXMup0P9gtpt5x7MmuoJd2yLQbpng==
+Message-ID: <759de22c-e7b9-4938-b6e9-199e8ac9135e@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1750151334;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=upW6BwV3K5F69Ugq8iSkj5vSJYqS1QvTVSbv3NhyNso=;
+	b=PN2xsj/0MdVr3E8TajrwLd8zTYH6J1m37vmIedPPTLk/7SBFtnIvuwmxCKL7Rk3b22/B1j
+	Yf8c8/iIzIPRgFosgHDVqihEpOURHPDOU+i/gcOv+j7AgT9ms98XQw0UqmkR3EgMY0U2z0
+	r3he8hrn4oe6ea8cPBXLkvh0l00mjWOFl33kjYQlMTrMvneN+Rugluh8ym6Mam0wzgQkfG
+	HFsEUer2M5/Z4G5AUGIiaBla+mQNJ5pM+v+iltIdlI8y6HRfiRX3f4KnsOjTMAxPRZPLBT
+	I9ieYvcevkoJeN93chCzU8egVhNB2a/UZLj9vkor+a+DJ2WzUwk/7BwlC9F9qQ==
+Date: Tue, 17 Jun 2025 11:08:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <b648ffcfe6268d3886b134a98908b2f91dbece56.1749801865.git.geert+renesas@glider.be>
- <aEvotoVqitiHxgYA@shikoro> <CAMuHMdV+2AQbuzLhx5rdtuiVdN85oHJpdUvTKPkVdEn5krp6Fg@mail.gmail.com>
-In-Reply-To: <CAMuHMdV+2AQbuzLhx5rdtuiVdN85oHJpdUvTKPkVdEn5krp6Fg@mail.gmail.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Tue, 17 Jun 2025 11:06:22 +0200
-X-Gm-Features: AX0GCFvLh6XS4qqKu4e0InKMYhz7K-nQiQrWLqpktjZgla1xYJJ-ImUIP2a8ocg
-Message-ID: <CAMRc=MfB_7JTzsSk+9ssdC4N2S1Rn1hHpkQ7CbWMF6SFUadrJA@mail.gmail.com>
-Subject: Re: [PATCH] gpio: rcar: Use new line value setter callbacks
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, Magnus Damm <magnus.damm@gmail.com>, 
-	linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 2/3] dt-bindings: pwm: argon40,fan-hat: Document
+ Argon40 Fan HAT
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-pwm@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20250617002852.606409-1-marek.vasut+renesas@mailbox.org>
+ <20250617002852.606409-2-marek.vasut+renesas@mailbox.org>
+ <ikzvtvoigie7e4ift57zoi2uaygemwisjycs4zvgbiwf5s3mxi@mf6pjf6zujcv>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <ikzvtvoigie7e4ift57zoi2uaygemwisjycs4zvgbiwf5s3mxi@mf6pjf6zujcv>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: 3sqga3j67jgdxrgw1ao83xuxrfymke3r
+X-MBO-RS-ID: 744d3e6f14c78584c4c
+X-Rspamd-Queue-Id: 4bM1JS31Cvz9tPr
 
-On Fri, Jun 13, 2025 at 2:02=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Wolfram,
->
-> On Fri, 13 Jun 2025 at 13:42, Wolfram Sang
-> <wsa+renesas@sang-engineering.com> wrote:
-> > >       bankmask =3D mask[0] & GENMASK(chip->ngpio - 1, 0);
-> > >       if (!bankmask)
-> > > -             return;
-> > > +             return 0;
-> >
-> > Doesn't that mean that the mask is invalid and we could return an error
-> > here? Or is '!bankmask' an expected use-case?
->
-> That is a good question!
->
-> I _think_ this really can't happen anymore, as the GPIO core is supposed
-> to check this against the valid mask? Or isn't it?
->
+On 6/17/25 9:49 AM, Uwe Kleine-König wrote:
+> Hello Marek,
 
-Yes but this doesn't seem to have anything to do with the valid_mask?
-If it's about the number of GPIOs then that too is verified by GPIO
-core.
+Hi,
 
-Bart
+> On Tue, Jun 17, 2025 at 02:28:01AM +0200, Marek Vasut wrote:
+>> Document trivial PWM on Argon40 Fan HAT, which is a RaspberryPi
+>> blower fan hat which can be controlled over I2C.
+>>
+>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+>> ---
+>> Cc: "Uwe Kleine-König" <ukleinek@kernel.org>
+>> Cc: Conor Dooley <conor+dt@kernel.org>
+>> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+>> Cc: Rob Herring <robh@kernel.org>
+>> Cc: devicetree@vger.kernel.org
+>> Cc: linux-pwm@vger.kernel.org
+>> Cc: linux-renesas-soc@vger.kernel.org
+>> ---
+>> V2: Implement dedicated binding document
+>> ---
+>>   .../bindings/pwm/argon40,fan-hat.yaml         | 47 +++++++++++++++++++
+>>   1 file changed, 47 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/pwm/argon40,fan-hat.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/pwm/argon40,fan-hat.yaml b/Documentation/devicetree/bindings/pwm/argon40,fan-hat.yaml
+>> new file mode 100644
+>> index 000000000000..2725eee5328c
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/pwm/argon40,fan-hat.yaml
+>> @@ -0,0 +1,47 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/pwm/argon40,fan-hat.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Argon40 Fan HAT PWM controller
+>> +
+>> +maintainers:
+>> +  - Marek Vasut <marek.vasut+renesas@mailbox.org>
+>> +
+>> +description: |
+>> +  The trivial PWM on Argon40 Fan HAT, which is a RaspberryPi blower fan
+>> +  hat which can be controlled over I2C, generates a fixed duty cycle PWM
+>> +  signal with configurable period to control the fan speed.
+> 
+> Did you get that right? I would have expected a fixed period and the
+> parameter modifying the duty cycle?
+I actually found a fixed 30 kHz period PWM at the underside of the 
+device, it wasn't easy to reach. Expect a V3.
 
