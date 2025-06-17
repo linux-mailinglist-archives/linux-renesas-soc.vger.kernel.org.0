@@ -1,214 +1,171 @@
-Return-Path: <linux-renesas-soc+bounces-18401-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18402-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B51AADBDA9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 01:32:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01BEAADBDEB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 02:07:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4A09B3A9547
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jun 2025 23:31:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 000663B5995
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 00:07:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE7F31A262D;
-	Mon, 16 Jun 2025 23:32:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41CA7749C;
+	Tue, 17 Jun 2025 00:07:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AtEPvM9f"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="EaXvgmtC";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Owlek8XE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261F52BF01B
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Jun 2025 23:32:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1302315D1;
+	Tue, 17 Jun 2025 00:07:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750116736; cv=none; b=m498ZrNJnjuTDRrgemRWWDMw0/zVMYuihoiKQC/kvYGvAZvi+U/iVIBJ0+FQiafAg8Evguv3aAb3qT7c6+4zgyHF3lTY63cJfqJsbwHolTewaXe7tL9B8Uyeal+TpPvBFTgOBdygarF55gZ06HQUu+DZpysAXY4FaZP/E8fncic=
+	t=1750118865; cv=none; b=n/3akOqQwKY+cYE8dqeevTkhlIBqXdH1ZhVobpKTQWe8XGfHcRmkj3LS1FX6wpzbZ0BCEoaAdR5RhXSKDIplAUmYBQEwL3pRPS8oyEk3S8/5wPoXuTq1mwj0stpKpSqjKTY29Gmf3k6boBNR8s7zucZ781ONyCgE77yN7ctIxqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750116736; c=relaxed/simple;
-	bh=n2EpaQfbh8zqyIrfDJxweuQtb2vBXjj+e9cgjtN2AX4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=uTU08z6maXvXK26dMatqkMoAStEAh7ep0ZUYAsxZWqiHI4SAfb2t7wRKKFTED6IK2A7yEdEWUU4UOuGT6HRKpQyWuSrfnuq4ve6hCT7teeNfCwnnsAeGxhTQs/q+MUBZFqUQZ1SLqqjAX0ZF+07XuFCSeaQUZQUVL+9kdqwqat0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AtEPvM9f; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750116735; x=1781652735;
-  h=date:from:to:cc:subject:message-id;
-  bh=n2EpaQfbh8zqyIrfDJxweuQtb2vBXjj+e9cgjtN2AX4=;
-  b=AtEPvM9fcTkN7ScXgcinSr9w1KqyulB9ZUqJlcmI7JIxGpPii5rqrBr6
-   xiXOX01f2OiyZrBJu//jzQ887t2yEKjdstxXprsjgHdbPEreKi+aQsDbw
-   HgK9SEQT6kPZSXLQozN50KWwiy2gSYm5nRUmgPwtbF8mjaelAgMr57rxb
-   CqkjeYKVnaSIIYBeGUo9X48yXsiA7ZL2S864+yAY6mVpbM4EObE0unRrS
-   9Ox8i6Z+s3OCUUDJdk1QKkn/Mkp4p+JQybg/OVq9bfYpm3XuEDPPr8O9v
-   DccvIvmvhvFWY9X5IHcctSbHcIne7hoy0OQl0G0o27r6U/tHejN0PUtk0
-   Q==;
-X-CSE-ConnectionGUID: IDFKbNT4SPybWzyb2MO/jA==
-X-CSE-MsgGUID: a+f7GvUxQI+24aVyJykj1A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="63625212"
-X-IronPort-AV: E=Sophos;i="6.16,241,1744095600"; 
-   d="scan'208";a="63625212"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2025 16:32:14 -0700
-X-CSE-ConnectionGUID: I9UKwQjyQUmpzhR9EZVCYg==
-X-CSE-MsgGUID: r+IfNpArQaO9T22pMNpKkg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,241,1744095600"; 
-   d="scan'208";a="148500442"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 16 Jun 2025 16:32:13 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uRJJD-000FQC-1z;
-	Mon, 16 Jun 2025 23:32:11 +0000
-Date: Tue, 17 Jun 2025 07:31:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- 0fac5a55b63ea5dae641130d0fd32edae3f22de4
-Message-ID: <202506170744.BR8IKF6x-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1750118865; c=relaxed/simple;
+	bh=+GOSnPA+f9Trr5CeE6V0npPlUTWzgrSNCL2ruCZqQWM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=k8JwuYloru0sL5uRqshWS2t1LaSWppryrI2bscWT6Wekff6iG0pkTEURzB9MCzAZhiQ+VGJEVVSIzctS8r60km4OYTQRMhtn1E0PZf4CpkE1HqgSmXLtZav95wYIZzIf8H7ulwKkWhCZmrvOXEEOnykdzUux92ydv1aFBP6lWfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=EaXvgmtC; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Owlek8XE; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4bLnHx0K4Fz9tTf;
+	Tue, 17 Jun 2025 02:07:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1750118861;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZnsIyW9tv0sGXNtyowY3m/tCK7SsmF8uHZkFxsRk0JA=;
+	b=EaXvgmtCce17StNGPYwn24Hc27mpZJ3tkEaaJqAE+hCgJn1i1Qo5IQ/ThV7GIwFFle4dF4
+	u/HKtLJPi9ujH896vhkqXyPAGHcQG2QjESYGRMSDTgrEeZiVH4LMd9cfuzp4cf9ROvHMKt
+	G3eOsyDT3yEGzm+9+W36uBEu5J2NRaSUWwykeqA7Ti8gQaqWQUvqMFU81n7JM+lV0YIMCv
+	LjX0Rvppwv6C4iaN2lCOruTvA6XGayk6sQco9pT4UL1nnW+zRD+8F+I1R9FZ3SfvFZKTb7
+	8ReeGMQFEglFt4MXK562tmBG+pBm86CK26z8xfvsBTSVy7i2+7cg6afGHZHwVQ==
+Message-ID: <b04c3e8b-531d-4990-8e26-b00c9531700b@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1750118859;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZnsIyW9tv0sGXNtyowY3m/tCK7SsmF8uHZkFxsRk0JA=;
+	b=Owlek8XEHGk+/8i3uQo83VXByhiaGBzDCFZ5MGbjSf92XauzuvfY8tQaYRTEhjRknSzRr+
+	vyqXg8vvv7w+otnXLfPKpOcYN+kwSZSQZC8viE15UFBS2BDXv1/adKE6aERi4ZB30R/xre
+	XO50ouH3oMSCjudpmspmPsNSVS7MIt8Xdx+QTwD+RCePmzK5fTdTd+qY84Oe8gTqFKEj35
+	x9K0BGeqpxk3I1DsTUOOTrNJZxpKXSsietjQ0fhrS1cSNBf3up7uEzEhkjVYO0QjGK8j7P
+	6Dju/TBDBYQIPCQSmB0iKpAZhiyjMg8r/2N6HfxVZ7Weh7P0mcJVgJy4wVAH/Q==
+Date: Tue, 17 Jun 2025 02:07:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Subject: Re: [PATCH 3/3] pwm: argon-fan-hat: Add Argon40 Fan HAT support
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-pwm@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20250610220814.167318-1-marek.vasut+renesas@mailbox.org>
+ <20250610220814.167318-3-marek.vasut+renesas@mailbox.org>
+ <3vfic5s64fzs5e4k33dik74rrwpsivj6fiwzdy5xckald43y4c@kcalsxmse6mp>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <3vfic5s64fzs5e4k33dik74rrwpsivj6fiwzdy5xckald43y4c@kcalsxmse6mp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: sykr4yh4d7cpkyajqprfanpep19hzct3
+X-MBO-RS-ID: 7573945765a46f24491
+X-Rspamd-Queue-Id: 4bLnHx0K4Fz9tTf
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: 0fac5a55b63ea5dae641130d0fd32edae3f22de4  Merge tag 'v6.16-rc2' into renesas-devel
+On 6/11/25 7:55 AM, Uwe Kleine-König wrote:
+> Hello Marek,
 
-elapsed time: 762m
+Hi,
 
-configs tested: 121
-configs skipped: 11
+> I wonder how this device works in rpios, I didn't find a matching driver
+> (but I also didn't try more than two minutes).
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+The installation guide is here, download the PDF:
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    gcc-15.1.0
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    gcc-15.1.0
-arc                   randconfig-001-20250616    gcc-15.1.0
-arc                   randconfig-002-20250616    gcc-15.1.0
-arm                              allmodconfig    gcc-15.1.0
-arm                               allnoconfig    clang-21
-arm                              allyesconfig    gcc-15.1.0
-arm                   randconfig-001-20250616    gcc-12.4.0
-arm                   randconfig-002-20250616    gcc-15.1.0
-arm                   randconfig-003-20250616    clang-21
-arm                   randconfig-004-20250616    clang-21
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.1.0
-arm64                 randconfig-001-20250616    gcc-8.5.0
-arm64                 randconfig-002-20250616    gcc-15.1.0
-arm64                 randconfig-003-20250616    clang-19
-arm64                 randconfig-004-20250616    gcc-8.5.0
-csky                              allnoconfig    gcc-15.1.0
-csky                  randconfig-001-20250616    gcc-13.3.0
-csky                  randconfig-002-20250616    gcc-15.1.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-21
-hexagon                          allyesconfig    clang-21
-hexagon               randconfig-001-20250616    clang-21
-hexagon               randconfig-002-20250616    clang-21
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250616    gcc-12
-i386        buildonly-randconfig-002-20250616    gcc-11
-i386        buildonly-randconfig-003-20250616    clang-20
-i386        buildonly-randconfig-004-20250616    gcc-12
-i386        buildonly-randconfig-005-20250616    gcc-12
-i386        buildonly-randconfig-006-20250616    clang-20
-i386                                defconfig    clang-20
-loongarch                        allmodconfig    gcc-15.1.0
-loongarch                         allnoconfig    gcc-15.1.0
-loongarch             randconfig-001-20250616    gcc-15.1.0
-loongarch             randconfig-002-20250616    gcc-15.1.0
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-m68k                       m5275evb_defconfig    gcc-15.1.0
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-mips                        omega2p_defconfig    clang-21
-nios2                             allnoconfig    gcc-14.2.0
-nios2                 randconfig-001-20250616    gcc-8.5.0
-nios2                 randconfig-002-20250616    gcc-10.5.0
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-15.1.0
-parisc                           allmodconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                           allyesconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250616    gcc-8.5.0
-parisc                randconfig-002-20250616    gcc-9.3.0
-powerpc                          allmodconfig    gcc-15.1.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                          allyesconfig    clang-21
-powerpc                 linkstation_defconfig    clang-20
-powerpc                 mpc8315_rdb_defconfig    clang-21
-powerpc               randconfig-001-20250616    clang-21
-powerpc               randconfig-002-20250616    clang-21
-powerpc               randconfig-003-20250616    clang-21
-powerpc64             randconfig-001-20250616    gcc-8.5.0
-powerpc64             randconfig-002-20250616    clang-21
-powerpc64             randconfig-003-20250616    clang-21
-riscv                            allmodconfig    clang-21
-riscv                             allnoconfig    gcc-15.1.0
-riscv                            allyesconfig    clang-16
-riscv                               defconfig    clang-21
-riscv                 randconfig-001-20250616    clang-19
-riscv                 randconfig-002-20250616    clang-21
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-21
-s390                             allyesconfig    gcc-15.1.0
-s390                                defconfig    clang-21
-s390                  randconfig-001-20250616    gcc-11.5.0
-s390                  randconfig-002-20250616    gcc-10.5.0
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                                  defconfig    gcc-15.1.0
-sh                            hp6xx_defconfig    gcc-15.1.0
-sh                    randconfig-001-20250616    gcc-12.4.0
-sh                    randconfig-002-20250616    gcc-12.4.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                 randconfig-001-20250616    gcc-13.3.0
-sparc                 randconfig-002-20250616    gcc-8.5.0
-sparc64                             defconfig    gcc-15.1.0
-sparc64               randconfig-001-20250616    gcc-13.3.0
-sparc64               randconfig-002-20250616    gcc-8.5.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-21
-um                               allyesconfig    gcc-12
-um                                  defconfig    clang-21
-um                             i386_defconfig    gcc-12
-um                    randconfig-001-20250616    clang-20
-um                    randconfig-002-20250616    clang-21
-um                           x86_64_defconfig    clang-21
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250616    clang-20
-x86_64      buildonly-randconfig-002-20250616    clang-20
-x86_64      buildonly-randconfig-003-20250616    clang-20
-x86_64      buildonly-randconfig-004-20250616    clang-20
-x86_64      buildonly-randconfig-005-20250616    gcc-12
-x86_64      buildonly-randconfig-006-20250616    clang-20
-x86_64                              defconfig    gcc-11
-x86_64                          rhel-9.4-rust    clang-18
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250616    gcc-13.3.0
-xtensa                randconfig-002-20250616    gcc-8.5.0
+https://argon40.com/blogs/argon-resources/argon-fan-hat-installation-guide
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Which leads to this script, which you download on the RPI and (better 
+not without reading it first and understanding it) run:
+
+https://download.argon40.com/argonfanhat.sh
+
+Which downloads more scripts, installs systemd services which run other 
+scripts, but ultimately this convoluted scripting leads to a single 
+register write for this fan.
+
+> On Wed, Jun 11, 2025 at 12:07:27AM +0200, Marek Vasut wrote:
+>> diff --git a/drivers/pwm/pwm-argon-fan-hat.c b/drivers/pwm/pwm-argon-fan-hat.c
+>> new file mode 100644
+>> index 000000000000..3d04abdbd349
+>> --- /dev/null
+>> +++ b/drivers/pwm/pwm-argon-fan-hat.c
+>> @@ -0,0 +1,64 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * Copyright (C) 2025 Marek Vasut
+>> + */
+> 
+>   * Limitations:
+>   * - fixed period (which?)
+>   * - no support for offset/polarity
+> 
+> If you can find out if it completes a period when reconfigured that
+> would also be nice to document.
+> 
+> This device is really trivial, but for completeness' sake: If there is a
+> data sheet publicly available, please add a link here.
+
+There is nuvoton MS51FB9AE microcontroller on the underside of the 
+board, which I think does the I2C communication and PWM generation. The 
+firmware source does not seem available.
+
+I can see some signal on the FAN itself, it is horribly noisy, but with 
+sufficient filtering I can see they change the PWM period, from some 0 
+Hz to 120 kHz , with duty cycle being some 10% (but I might be wrong, 
+the signal is not great).
+
+> 
+>> +#include <linux/err.h>
+>> +#include <linux/i2c.h>
+>> +#include <linux/module.h>
+>> +#include <linux/pwm.h>
+>> +
+>> +static int argon_fan_hat_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+>> +				   const struct pwm_state *state)
+> 
+> Can you please implement the new-style callbacks?
+
+Sure
+
+[...]
+
+>> +static const struct pwm_ops argon_fan_hat_pwm_ops = {
+>> +	.apply = argon_fan_hat_pwm_apply,
+> 
+> Can you read back the configuration? If yes then please implement
+> .read_waveform().
+
+Nope, reading from the I2C device stops the fan.
+
+Rest is fixed in V2, thanks.
+
+-- 
+Best regards,
+Marek Vasut
 
