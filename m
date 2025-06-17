@@ -1,225 +1,114 @@
-Return-Path: <linux-renesas-soc+bounces-18440-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18441-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B93FBADC9EB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 13:50:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8C46ADCB8C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 14:30:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C8FD6188A02A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 11:50:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B0161172E22
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 12:28:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDB702DF3EA;
-	Tue, 17 Jun 2025 11:49:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BFA72EA466;
+	Tue, 17 Jun 2025 12:26:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D4mcFmG7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rJZwMlxF"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB3E5230D0E;
-	Tue, 17 Jun 2025 11:49:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F38182E92DE;
+	Tue, 17 Jun 2025 12:26:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750160984; cv=none; b=MqH6+EE0atkLXpUYJBsx3zyYDs0+IJgOgGKjyLrx5sMzLY2JTepEaAVnJW65sovx3NQ/L2BuTvbjQ13I4UqAERpVFo1MiIzAqqoe7R54gU1SQtKFQMfvU/jxRm+7ZEwDdQyshAfA+vuKPxnMgHddlltqwZkw056FTBK6l8VADWM=
+	t=1750163183; cv=none; b=oC4WrCK+dOSHzcNLLLAkbcSZuMbc9IG3j0A0Smu8Aj4M1oST8o5x9HcpLKXKAEAkbenQlr4t/apPn4TOQSygMEm7/K0tT6ItQHBmtELDdMmeFOppH9RoFPb9Z1vy4hCHXzKXYn57QtJBD7Her9P7Rp2WqaxceNPz0cSjgbLaLb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750160984; c=relaxed/simple;
-	bh=+3jejbzi/UX8Ec0mhpgozWv+X0A0PGWADEU6Rnouo9Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dWgv7DjJY50J0NoV0fhMuc5csGr+RCapCzUFwgABrKfskP1sWZnvEroudJfNPbDqGpVbRKt61+jE1zwKo9Qux+EK0WyuYGkCheRt67AKC60apPjCl9ZNWg6SdO2Zq5slbM5tsum3D0DBvDmJVDVP9/7tsAZWVP9rGRCrkGAe4s0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D4mcFmG7; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3a507e88b0aso5444839f8f.1;
-        Tue, 17 Jun 2025 04:49:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750160980; x=1750765780; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4P5jqw3g9OutfxFCvzVYfN1sp9bg/IIyWYucQYRsIF4=;
-        b=D4mcFmG73woELy5dBVZotyntrkPaq33azwc+MjirdCMeocK5cUCzGRwiQXAfUpnusv
-         TOihNF83QW2C3FhYal7FG4YStPasr6m1mxNPs4mkUjS4+BfSjMSyb9o+8UG3Z+PbIWh/
-         FvXlh/5hhIwu1fjNBcK8PI9lrxrSFB6Oa0JLq7Cggn0fsAdZnhuWk6nlCu+RJCAZ1mDQ
-         4hR2Ip+FJWR00T9CrcFUlD6YUwfSEGXASfRlaIfcqlff3IxicZNQmjAXfVI2bajlZVkP
-         3m+klCGOuzp4nNz0Uh4jVUzOksFSxhJpg3JoFOSwQzivubyYLC9n1UIsRPH+PsXLCFqL
-         1MrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750160980; x=1750765780;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4P5jqw3g9OutfxFCvzVYfN1sp9bg/IIyWYucQYRsIF4=;
-        b=VNCV7Ve+Cbu6iLG9f6q9mHaKIeRo1QHaSHxfH1gF165PfXn7b9uXlthLntcMwQDSoO
-         jR6YJvaWeOUIHPP8mXxr3Hon7kPhRYJP5rTC6SAsLFjYpOeSJv+KdeTBj/iaDkGGmcaq
-         r0Ow624rRMb8fe9vn0Na2OAPNOTvXnafdmRr5cVYt0DW9APl0VVnc2q0CjDEVObllyIV
-         BU0pgeUTMeM5c3QWIKgQmK20OpJG268rJPNpV++A7l3DN+okvf585/R9Y1EjZkl9/N+a
-         NSZApLgF+DeBA7UtSke36EI050TZZ2G9VYZbnUv9ACkdQPHebezzY2/vDsrLbY2gjRJq
-         +4jA==
-X-Forwarded-Encrypted: i=1; AJvYcCU14rJN3tvMpF2H51LJR0Hxtc00k9CUm79pdPxqva+xV820x+G+xCjag9jxuQMYuv0KL/gthlIgL2DtLz9m@vger.kernel.org, AJvYcCVJ8cu1Duu9U24Qos5+Nyy5aXIrf2PXEAX8kTc5pXi76ft37M1iC9Wrv8aGMaDDKHv76B8Hu4oqf2fL@vger.kernel.org, AJvYcCWC6L9zk6NX7MSQu+Tn+VvYRem1UQdlHCe3nSXqXm4haPwdCg/sG7uCeoFY1PtzV2+W7K5fo2jiDCoMI2D/@vger.kernel.org, AJvYcCWlwObHDajH+SkZ9xbbpH8Y15bQWIpsHj6omiS/qKsTkoXqK7jmToOV0rtojlJOUXMqYDc3++UocNF8kf5k47Nu2tc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxd02GfQMna1YKd+5o7bxUdcqKdmzvCtz81kZQkt7ld8NboGXtM
-	t5C78tGDQoSPpkiX3zKq6NFiYN/bCAQxmgpLyZNSI0frEsRs3690xnPUA6uZJooeF1GMFLwLt33
-	KZ2Fwnsh2vbs4vXit9u/5m4TdgitO3Fw=
-X-Gm-Gg: ASbGnctBtY4wDRrUmW1162Vv4KNE6mkpb6qSeV/jLMt2D1kTbrcNb317YhLKxc5ia7+
-	n9ADb+hkWbtPi89MrO5EdMlHKKCm4bcF4UQ5LmOI3nWqeCJxsRLRM2RjCCtiBMWXmUoxWjmblEN
-	aR7wq70nKlG1IemC0yFegzgBEJiZuoQ3tmsJr4r4wzXufbuSk/CP8L
-X-Google-Smtp-Source: AGHT+IFMnnYZ+pjG8+JWodgW3GrzWG4MhQiRhrETarsYLmq9cfGpEPPF0Mh3Xvd3g+xLkZ9TaXSss0j55wQ46l7D4bQ=
-X-Received: by 2002:a05:6000:2c12:b0:3a4:e68e:d33c with SMTP id
- ffacd0b85a97d-3a572e2dcafmr10806198f8f.47.1750160979760; Tue, 17 Jun 2025
- 04:49:39 -0700 (PDT)
+	s=arc-20240116; t=1750163183; c=relaxed/simple;
+	bh=MnYggXt1DmzLw3znPdMFXwZLsZaCNbYxq0l13Lkdwdo=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=DLuaWBYRVSbCnO+yzxU09vWdqb4KHe4kcaWpfpWtMvd7MUiTf0WqQijzS47AjPRbnGVIRegZ8WJ/nt9uZZ1ZfZPWJyiG+1Hk19xPU0KWXf9PDY+sNThkGRKWsKQOaTU+YobkRbp5mmKNEXcbE5b/yfQc9ilITrkDzKkg0Nd2qcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rJZwMlxF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F980C4CEF1;
+	Tue, 17 Jun 2025 12:26:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750163182;
+	bh=MnYggXt1DmzLw3znPdMFXwZLsZaCNbYxq0l13Lkdwdo=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=rJZwMlxF15g7P/9eloPAfeyGiCDn3VVYajFxR+h/dmOcDu8bhNF/vS3tp8Bf/mRcC
+	 2dd3V+zCVThyg1mev/V5TnvnxpgFzNsLM2y5xmXVYAkppKh1MaNgGW1VbAN1JPeB6S
+	 Cix8Hv/tKS0tMNN8wfqGMdTLxBTzA4avPtmBWNZ9pD/xAqldwLMZrCEgrkznr2lyhK
+	 QNZUj92+y/UNDepMEmXBmEOQyZYc6I61DAeAvxAaBZ3ibTn0a9s4RvWmTNP5SqrV/z
+	 3EwFQ0z5CwfwqUV7DzbPbptuWC3JVe1WonJv4RY8v4K5+fwS/ZxPznLSApl9VoWWAX
+	 ZYQJr0GAmWI+Q==
+Date: Tue, 17 Jun 2025 07:26:21 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250616213927.475921-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250616213927.475921-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdUU-EyU3DgqP9KDmeT_A4i-xaE9hAUOvYFQcbYmpJc2ng@mail.gmail.com>
-In-Reply-To: <CAMuHMdUU-EyU3DgqP9KDmeT_A4i-xaE9hAUOvYFQcbYmpJc2ng@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 17 Jun 2025 12:49:13 +0100
-X-Gm-Features: AX0GCFt57kGEIA-PKHbNLObdyw93QsTMKg_5oT9XHkfnEChXyzD9lLoEbnOPV-Q
-Message-ID: <CA+V-a8vnOY-aA+kfJgDabJG-g3PLS8Y8TBiudzJmJN46Yz8BZQ@mail.gmail.com>
-Subject: Re: [PATCH v11 3/5] tty: serial: sh-sci: Use port ops callbacks
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20250617092037.37229-2-marek.vasut+renesas@mailbox.org>
+References: <20250617092037.37229-1-marek.vasut+renesas@mailbox.org>
+ <20250617092037.37229-2-marek.vasut+renesas@mailbox.org>
+Message-Id: <175016318163.1418393.10980265892327260592.robh@kernel.org>
+Subject: Re: [PATCH v3 2/3] dt-bindings: pwm: argon40,fan-hat: Document
+ Argon40 Fan HAT
 
-Hi Geert,
 
-Thank you for the review.
+On Tue, 17 Jun 2025 11:19:35 +0200, Marek Vasut wrote:
+> Document trivial PWM on Argon40 Fan HAT, which is a RaspberryPi
+> blower fan hat which can be controlled over I2C.
+> 
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> ---
+> Cc: "Uwe Kleine-König" <ukleinek@kernel.org>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-pwm@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+> V2: Implement dedicated binding document
+> V3: Update the description and pwm-cells
+> ---
+>  .../bindings/pwm/argon40,fan-hat.yaml         | 48 +++++++++++++++++++
+>  1 file changed, 48 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/pwm/argon40,fan-hat.yaml
+> 
 
-On Tue, Jun 17, 2025 at 9:44=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Mon, 16 Jun 2025 at 23:39, Prabhakar <prabhakar.csengg@gmail.com> wrot=
-e:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Replace direct calls to internal helpers such as sci_stop_tx(),
-> > sci_start_tx(), sci_stop_rx(), sci_set_mctrl(), sci_enable_ms(), and
-> > sci_request_port() with their corresponding port ops callbacks.
-> >
-> > This change improves consistency and abstraction across the driver and
-> > prepares the codebase for adding support for the RSCI driver on the
-> > Renesas RZ/T2H SoC, which heavily reuses the existing SCI driver.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Thanks for your patch!
->
-> I am a bit reluctant to increase the number of indirect calls in a
-> driver that is also used on (old and slow) SH systems...
->
-Ok, I will do that. My initial thought was just to replace the direct
-calls where it's shared, But for consistency I replaced them all.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-> > --- a/drivers/tty/serial/sh-sci.c
-> > +++ b/drivers/tty/serial/sh-sci.c
-> > @@ -880,7 +880,7 @@ static void sci_transmit_chars(struct uart_port *po=
-rt)
-> >                         sci_serial_out(port, SCSCR, ctrl);
-> >                 }
-> >
-> > -               sci_stop_tx(port);
-> > +               s->port.ops->stop_tx(port);
->
-> RSCI has its own implementation of sci_port_ops.transmit_chars(), so
-> I think it is better to avoid the overhead of an indirect call, and keep
-> calling sci_stop_tx() directly.
->
-Ok, I will drop this change.
+yamllint warnings/errors:
 
->          }
-> >  }
-> >
-> > @@ -1497,7 +1497,7 @@ static void sci_dma_tx_work_fn(struct work_struct=
- *work)
-> >  switch_to_pio:
-> >         uart_port_lock_irqsave(port, &flags);
-> >         s->chan_tx =3D NULL;
-> > -       sci_start_tx(port);
-> > +       s->port.ops->start_tx(port);
->
-> This function is indeed shared by sh-sci and rsci, but still unused
-> by the latter as it does not support DMA yet.
->
-Ok, I will drop this change.
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pwm/argon40,fan-hat.example.dtb: pwm@1a (argon40,fan-hat): #pwm-cells: 3 was expected
+	from schema $id: http://devicetree.org/schemas/pwm/argon40,fan-hat.yaml#
 
-> >         uart_port_unlock_irqrestore(port, flags);
-> >         return;
-> >  }
-> > @@ -2289,8 +2289,8 @@ void sci_shutdown(struct uart_port *port)
-> >         mctrl_gpio_disable_ms_sync(to_sci_port(port)->gpios);
-> >
-> >         uart_port_lock_irqsave(port, &flags);
-> > -       sci_stop_rx(port);
-> > -       sci_stop_tx(port);
-> > +       s->port.ops->stop_rx(port);
-> > +       s->port.ops->stop_tx(port);
->
-> OK.
->
-> >         s->ops->shutdown_complete(port);
-> >         uart_port_unlock_irqrestore(port, flags);
-> >
-> > @@ -2684,7 +2684,7 @@ static void sci_set_termios(struct uart_port *por=
-t, struct ktermios *termios,
-> >         }
-> >         if (port->flags & UPF_HARD_FLOW) {
-> >                 /* Refresh (Auto) RTS */
-> > -               sci_set_mctrl(port, port->mctrl);
-> > +               s->port.ops->set_mctrl(port, port->mctrl);
->
-> RSCI has its own implementation of uart_ops.set_termios(), so please
-> keep the direct call.
->
-Ok, I will drop this change.
+doc reference errors (make refcheckdocs):
 
-> >         }
-> >
-> >         /*
-> > @@ -2721,7 +2721,7 @@ static void sci_set_termios(struct uart_port *por=
-t, struct ktermios *termios,
-> >         sci_port_disable(s);
-> >
-> >         if (UART_ENABLE_MS(port, termios->c_cflag))
-> > -               sci_enable_ms(port);
-> > +               s->port.ops->enable_ms(port);
->
-> Likewise.
-> And once RSCI fully implements uart_ops.set_termios(), I think
-> it can just reuse sci_enable_ms().
->
-Ok, I will drop this change.
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250617092037.37229-2-marek.vasut+renesas@mailbox.org
 
-> >  }
-> >
-> >  void sci_pm(struct uart_port *port, unsigned int state,
-> > @@ -2827,7 +2827,7 @@ void sci_config_port(struct uart_port *port, int =
-flags)
-> >                 struct sci_port *sport =3D to_sci_port(port);
-> >
-> >                 port->type =3D sport->cfg->type;
-> > -               sci_request_port(port);
-> > +               sport->port.ops->request_port(port);
->
-> Both sh-sci and rsci use sci_request_port() as their
-> uart_ops.request_port() callbacks, so please use a direct call.
->
-Ok, I will drop this change.
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-Cheers,
-Prabhakar
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
 
