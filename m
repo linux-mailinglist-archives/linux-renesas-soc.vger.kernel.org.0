@@ -1,138 +1,120 @@
-Return-Path: <linux-renesas-soc+bounces-18450-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18452-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D4A9ADCDFA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 15:48:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3887ADCE31
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 15:51:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 54C60188D79E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 13:47:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4180D188CAA2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 13:49:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C14C52EA498;
-	Tue, 17 Jun 2025 13:45:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4D852E6D1E;
+	Tue, 17 Jun 2025 13:48:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N2nK/EcW"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="YR1APQXH";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="EEFy69h/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD6532E975D;
-	Tue, 17 Jun 2025 13:45:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2D982E266C;
+	Tue, 17 Jun 2025 13:48:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750167918; cv=none; b=E3g5JjKUoVQhAy5cVte5cBIDg0AZArRrH95XpOHaGkTP2IwADq/CxWylqE4dVcSlD+2tl9+uwF8f2XFKCWQ6Fwa0WGGXf/80ld/hzCk4uEuOeFiv1KEHAgIdPxgcVpNBbFMNX6xi8fRs0eno66/C3noShFosbs0NKASue9ZtC14=
+	t=1750168107; cv=none; b=C72kFLkZsyrchbNZaV8sn/wogI80mXzHw+wxCA70K7z3f+TIW1EQ0A34X21vI7e1r2ag6PHTZwbk0gm4epFpn3v7X0zWp2FsGwN91qjKxgJ/ubChCiVE0qG4Bc2x3mvx+iCLB068lJcjpMOtczi0RC2fUa1dOxqvK2PGeukvmRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750167918; c=relaxed/simple;
-	bh=BzxjO2z1leHYDjty4qWmrq5BBlFSqcT0qYJbbm0j/og=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jodBwChpKerVHrrwShxUXzZOMoBwtMorvHIfxbNrwnlx3QRv5c0DQL7DDPij5T+oBODe2fztloZyQE2RwBRUdv407J5xRULJYCfCnCOXN+0iHx6f0Y1dZq8mTSoZyNSWXijmzdgbB8+NRSKhqs4NsaT5VEvGQlk5BdoO7xpQSHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N2nK/EcW; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-451d7b50815so48657655e9.2;
-        Tue, 17 Jun 2025 06:45:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750167915; x=1750772715; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CV8mc/E0A+rPFjLDN5GDkaclgYEmX3SItNdHdGCGzKo=;
-        b=N2nK/EcWsdaGWB+mSGXsZT84fhaVHiWVhRGhB8o0HieDNTcM+w7Z/KHGs5erxbb8Db
-         c0FVpDYRNtYbahNYW8TqzR/I4sdOwG1TJUrZGGAfTRE6oREm8jYfzWogZ7MNmaXEwlq+
-         oNlLFMXKw5YZ/2+Ne7yyRwo4qfScKM9PAr/DlC8B8ynHFgtc6S5jErT00I9YszRB+Ikm
-         j3HrGLLMUQax7At51kyyxLMhGl4QukEOIZoC3ey7kZ+4cV4wtv81khM+aKowpbZEuup+
-         tJhLr/Wrqu1PGZTpWpju4q0osb8PvPM1ZcNjWgG8asC4VUXnnMabV7KJnOKRAHFZ0ABJ
-         jkYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750167915; x=1750772715;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CV8mc/E0A+rPFjLDN5GDkaclgYEmX3SItNdHdGCGzKo=;
-        b=gp8k27n44+Ft+bHbJM1M0nCvlmGyTlfMFOHmpX4zdjx7hbdJX//VLbXv4m+S7L0V/s
-         w7EPbR92Ka/zT5RvwWs2OAkE35gZbTa+kARpgjKzZeXLw2q57t6L+VXKi6aObI3m8Sey
-         Em7q7kCPbhzr1bKTgrIk5qF0aeZ5y3oqdRpRBWgo2ItuyZL/77Wfr/Qll4WiML4t0ZbP
-         GNkAipwkpvBli7Q646hPiiw4UX4pa0tJoMvACnc9XHLFzfnuVW3bsmZwRfQj3qHWNQI0
-         l68XxBWXz8DR1pSbOHUcQNxUSMRYIA74EWlY6jnUBpAsUPsKjuk+aomL+NKfrkHoLX0D
-         E4OA==
-X-Forwarded-Encrypted: i=1; AJvYcCUBh0QLXaWTDU8fYGhQpwXACTmq0vS5gjk7KbQP1Py+0cKJKr0mFNz0ihzDTuzmwzIqxDfh40QI3/HzNcT1@vger.kernel.org, AJvYcCV+jhmNzmvVf5p7rFrM5UZcznEpiN76j2T3cST4VjCsR9eLWBSLnsD3p8j605egtW75VmdHRiNnB7JC@vger.kernel.org, AJvYcCVPY0Yt/F0Qj5XTKTdpUKHVmPnyt/WAK8RfDd0rkJVn5nkyIfw9HbsqkZtre/I5EZD5aEnTB3r7K//h/AQB@vger.kernel.org, AJvYcCWcBbPx/rI21HDo3zqSayYLyXfLCGG04yJhRbPoBm7Q+AFNPd0pE5MSFYmY8PzqCl2HYh+yHPbfEr7ZXO20iKx15nc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yys64j6gkfpTqu3e2L/c9ixlp+TzdI+ao1OqHWHWFVKalXorDEv
-	ZmaUtqnPOmzz+NdYce9jhG4b30p/jTydsQQysVDyz4sL1YlPx6AXv6wN
-X-Gm-Gg: ASbGncsjszgkVcxigER27WvYM6u+0kRusHpDaLFt4V4PXNqdYbfQuSl/rO2AXRrKrF9
-	3HJ8FPyKBTyBnKLsCcaRcrSPkyna5kuah8oNdjC+CHcPHEBS6e3BFPfB8OJ9QPdyWAgD75BzZ+b
-	VUveUI0d5AHnXMxOelqrMw0rig3Lw2I5HRZCEiRwdiaS7a5v51mZsCCkQHYGtzbCl6LRHnNulMs
-	e70oFWbZA7rMzAYdNccT+k7+GjvN3RpfuiwRmXi/E09kme3lRd6eiqQ8zsMI8e2RNswk8dwpcxJ
-	buh/F7PIAZ7obnZ79CLnFu5U49sdnPRAA6EvHX+Gg/kTadeJF/1mcReQ3LgYdYXERBfYtLiblji
-	yzI/uYCGKDWM=
-X-Google-Smtp-Source: AGHT+IGoVGmy+0cBQSC3INJh3nwC+DMd3BPjaS1S/WZ+Jo80+/MgZyl3Q2iBu4iR7criuZ+EScQZJQ==
-X-Received: by 2002:a05:600c:8b8b:b0:450:d3b9:4b96 with SMTP id 5b1f17b1804b1-4533cae9345mr155234975e9.13.1750167914854;
-        Tue, 17 Jun 2025 06:45:14 -0700 (PDT)
-Received: from iku.Home ([2a06:5906:61b:2d00:a081:30f1:e1c7:6f28])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568a54b7asm14239728f8f.16.2025.06.17.06.45.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jun 2025 06:45:14 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v12 7/7] arm64: defconfig: Enable Renesas RZ/T2H serial SCI
-Date: Tue, 17 Jun 2025 14:45:04 +0100
-Message-ID: <20250617134504.126313-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250617134504.126313-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20250617134504.126313-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1750168107; c=relaxed/simple;
+	bh=wiws6Qaja8X1qNEjGaJBYuW6EgiAvsI/Llg/tKoPxRA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=D6BYIriRhKWoRPXjfYPcO8HJ+zemceTfRyBZrN+PdAlhq3zyjgqctmQpGhpg/kEa1nknFe+jjIcPsNi5KFDvBYNbwy4gPNIj67yuoL3KHh1/tHrAXvMnryP9kSbtxI8l+TCxsufeqe6muMsFZJr9RiVwGlzsToSCjoRUtJk+3o8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=YR1APQXH; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=EEFy69h/; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4bM7Vp10B5z9sxK;
+	Tue, 17 Jun 2025 15:48:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1750168098;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=28480iRiD2DiK7+l0ougqeAbzPAdy3FYtcPpLg+iQ/U=;
+	b=YR1APQXHSPoA87bVSe7176AQmJZCTx7e67nH1o1+Ki0kzO5o0L8ncV/DgrT+CTH7mDLbjq
+	cDumIEOjyIFRp7LXN+XbRTbFlZ0i8yAeOoaEbwO41I3hLgodq/VIQfYe/8dHG55q0+QsSV
+	rm+kSgijL4w6ncnxfEX1aTtnJx/Ec8hCA+cJzpebXylsEklCzeqFczE7uAsnD+vUGUKM4N
+	JUhE9i5pkEQE8Hf5CGs9dVZqjIbOCF7LchlrcxKJmrjuh5fvZuJFgNtz2WkETz5zHt4fh5
+	+rUk4ddGqxuszLPfcsNDp6wWz+ueRFgACUDi1P9g/q9RrMapkkzm9WneRWZZxQ==
+Message-ID: <2e152214-5f2d-451c-8659-941184cd8fdd@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1750168095;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=28480iRiD2DiK7+l0ougqeAbzPAdy3FYtcPpLg+iQ/U=;
+	b=EEFy69h/jzJcT2LqxSCOrB8TwmP7kXnW8vH+5pyOWSPwHSrJd8lSvVuedifRv6QpFPR7xK
+	bUpfVThL6kixuqxZHz7mQfOmoSx5DasMxZZhPuu2r2pGVZzC8YYPOfVcvs2yQ7+zsdvjFd
+	MM9f98Z3RE1EXZDGWNd/nvFBwZkLi9WNuyI/kyY4jNXaVKAgsyhzdm/UraN6eYCybfypqj
+	zgSPxNA8T5QP3092xtkUyq6QAxUd39uZZ54sPngPdLgD+7btlMYYFr39TXaQi93R+FrKXK
+	Thco+PsRpgHQEg10F7EnD+REmFdOBXhjwOWWsi2DOG97u14ks9xXZDBEojDLFg==
+Date: Tue, 17 Jun 2025 15:48:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v3 2/3] dt-bindings: pwm: argon40,fan-hat: Document
+ Argon40 Fan HAT
+To: Rob Herring <robh@kernel.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-pwm@vger.kernel.org, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
+ <ukleinek@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20250617092037.37229-1-marek.vasut+renesas@mailbox.org>
+ <20250617092037.37229-2-marek.vasut+renesas@mailbox.org>
+ <20250617133744.GA1888765-robh@kernel.org>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <20250617133744.GA1888765-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: 19ud1dzt3j9i63whngikdsipgjbabbii
+X-MBO-RS-ID: 7de417b6fb1811c835b
 
-From: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+On 6/17/25 3:37 PM, Rob Herring wrote:
 
-Selects RZ/T2H (aka r9a09g077) SCI (serial) specific code.
+[...]
 
-Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+>> +++ b/Documentation/devicetree/bindings/pwm/argon40,fan-hat.yaml
+>> @@ -0,0 +1,48 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/pwm/argon40,fan-hat.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Argon40 Fan HAT PWM controller
+>> +
+>> +maintainers:
+>> +  - Marek Vasut <marek.vasut+renesas@mailbox.org>
+>> +
+>> +description: |
+> 
+> Don't need '|'.
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 96e21d458867..937ec08cb859 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -495,6 +495,7 @@ CONFIG_SERIAL_TEGRA_TCU=y
- CONFIG_SERIAL_IMX=y
- CONFIG_SERIAL_IMX_CONSOLE=y
- CONFIG_SERIAL_SH_SCI=y
-+CONFIG_SERIAL_RSCI=y
- CONFIG_SERIAL_MSM=y
- CONFIG_SERIAL_MSM_CONSOLE=y
- CONFIG_SERIAL_QCOM_GENI=y
--- 
-2.49.0
+Fixed in V4 ...
 
+>> +      pwm@1a {
+>> +        compatible = "argon40,fan-hat";
+>> +        reg = <0x1a>;
+>> +        #pwm-cells = <2>;
+... and also this one, detected by the bot, thanks.
 
