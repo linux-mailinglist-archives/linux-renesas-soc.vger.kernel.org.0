@@ -1,85 +1,84 @@
-Return-Path: <linux-renesas-soc+bounces-18460-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18461-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F541ADD119
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 17:11:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CAE3ADD195
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 17:32:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BD969188D0CC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 15:12:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DEDB41897203
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 15:32:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCAB22E9742;
-	Tue, 17 Jun 2025 15:11:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 371E92ECD31;
+	Tue, 17 Jun 2025 15:32:33 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0C992E9733;
-	Tue, 17 Jun 2025 15:11:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DDB4293443;
+	Tue, 17 Jun 2025 15:32:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750173094; cv=none; b=N3jZuiY8HDVxyq5moyC5Ay8zsqVPk2zepSTWAGhs5exJ7fnStMbdM1Po8HTIf/I33rvVardpsM63MJiqAyJtOgryWoO8Mk2tMwH63vIcC514jrOoPRUs5zZOzsIC9p05jSqQ9scarbJ1oRBeDgoZjsErfV7eEyCjA42mbJQLvdM=
+	t=1750174353; cv=none; b=V02Dch9qePG47RN0uoUNTYjgV2oypKYi9wv3tBscDDfgx8u8wGO7oswr1j2CbKpMe5zVO0wUyBD2KJ+rsHhv9XOpv6AMMuwIu3MlCu12h5Jnm1Ea2fJnZ5Y/9WG04Th+ESwYb2ZdxxdrV9L/eWgXfKpoXCMcdgYp1M3jmz5pnk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750173094; c=relaxed/simple;
-	bh=Zsh5aIo+bj1A7ONN8PodNeASYr6LUKd2rkEpVPlcDeI=;
+	s=arc-20240116; t=1750174353; c=relaxed/simple;
+	bh=dCxlk196YZYPE8TlRLNIkJ9CdJg40ti/ptp9oiQH4Bc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jK6adyT52nI2/J2H+V7ic2JGkyPOPfFb94s5gh7kozb/P8ctq5sGBaqIe+mNF1Ks1vUv1fz863nXmPdqa3VtAKhH1vKEt1L0qeilF55Fru0NQyDp/lKgLX1OAUGx/lJMNnATsy3pkm4eBsC7THBF/g6/5Bc4Ft16lIRvQch1SOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.179
+	 To:Cc:Content-Type; b=MGa/XS4fB6ri/fZ07C7EPsoyDDmZcQL+sQ8Bj3PTJ6eQW5pHv1LA6omHkSrgFGD10uTk5u/6SZ7tq0ZhzYpevmGFVFd8OXHyuZ1KFirQjDj51HQPUAq5yMPLqQ9nntH7i59kONskmMxxRNV/Wq4Q4eOpb/xI9H4wYyTpmj0n1r4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4a43972dcd7so74762411cf.3;
-        Tue, 17 Jun 2025 08:11:31 -0700 (PDT)
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6fb3bba0730so58330446d6.0;
+        Tue, 17 Jun 2025 08:32:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750173090; x=1750777890;
+        d=1e100.net; s=20230601; t=1750174346; x=1750779146;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vO7a97pP4ukARVbDLbAKCzb/am8gMifgt4A7ef66jhM=;
-        b=g9EEG7INJWGa258Oy6rwWUhcAW5siUx754PCwx1qyuK08jwI5gqkjE14bG1xKD/JM8
-         xsAAbt2tvarOnfHUPyUJYX0oFVBT/+iFn5HkuoUV3BVHd+2XiVFiqCHXULydYyura4uN
-         /Yi4GKxEtZYjQEgjqL2v0ZETmrG9zk7ZpVuoyVE+y8zMGfwgrulsqthprMqhK0IJ0snT
-         aS4nRW41jeGadduS7fA8Hss7720VCVGTOne6g8ZJgRCi49WdI+mCFZZXlT4w85+PPmTj
-         6oGtXk0c34EoJdp3ICpjm9zdrNdELv2lnZL44eSJ+cezPCaVhQi/fuZw35S5e1G0JV/t
-         ETyw==
-X-Forwarded-Encrypted: i=1; AJvYcCVCODdI5maIZUK8x0b7XIpV7twfijqCLwT0vRSf9GJoUmUxZRxEf4sr5BHcymSm+AmCV68vaKd2@vger.kernel.org, AJvYcCW6QH9AbRhASs8oZSaKpEcXgpept2q2UjaPZ9vWBvKiSyfUXu53BEnyGPyKii3qcacMS/6v37yCsHi+PgHk@vger.kernel.org, AJvYcCXLLEo53Kyqn8oZY1XopYTE7JjcWrcOOqgbRucC5RnN0ZbsThEP+yspSpuQCk//LStr+qSj9hvAT73T@vger.kernel.org, AJvYcCXZMhVHeCEU/DaTls4owpiz/p4bP1845CCTqegH+gBwNNdTmsFn788hM7Pn7wZTFeRxBJ3JZ9IvIthijMiwjTG3gcQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzldXLIHKmXN3T27/zEhLD5EOGy6Pb54tRCWNNoatRNr+pAavAZ
-	VRhNGrNY0KKJ1F/0WhvGaP8mFqv7zPQXbAXIhno82sW+HYUj6MFZOYmkRVygy83l
-X-Gm-Gg: ASbGncuElgRO6SV5/+LcoIL9wDW431E+t5j9a5eVIxhaT87pgP2gMg6kalwOs6nNMFT
-	5owkPGWK+op9ilHvEkuHrfQ92Bi16DbxiJlPmYXjORI5p2loKd+yZ8w3k+s0Di5ZEI+J3CGmHA2
-	sTdRAM4R/0XZhBM2MHzG6JaLl9CW/eKfK/Dg4ivvHFI0zRvPZa528u/E7JZKOJXCd8zEuGXvV+j
-	5n2hMtvlSAWXej1APncljXAayH2dK3JJ+u1teYfXXuo/dwj15ISEm9uXzeY0xktUJ7EcmMQJhxy
-	wwpbAE/GHzXzpLRcHU9yMc1L9mdDZkauApjl8n+3mfQ35P4DAz8+yjz6wjCpE0THRZOHlGCuwN2
-	clFzsS9YB28/C2DHh8M2F57btdafu
-X-Google-Smtp-Source: AGHT+IEX2Bjy6La5Rp4ul7jKmgUKQN0m3E3+9FXnVOfpn6cUDld26sB6pcM1We78L1iu0pDJcE3oYg==
-X-Received: by 2002:a05:622a:18a0:b0:4a4:3d6e:57c8 with SMTP id d75a77b69052e-4a73c5f941cmr219515821cf.34.1750173089864;
-        Tue, 17 Jun 2025 08:11:29 -0700 (PDT)
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com. [209.85.222.172])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6fb4ed60787sm33751536d6.48.2025.06.17.08.11.29
+        bh=1hKN7NniJW8hug/LTZijcgQthH3orsVUhf13e+m8K8s=;
+        b=mTSdVRmDZg4mTxrrw829iudhonirSNHidlcUOXOqXNeDR5m++5ki4LG2u9zDjdGF1P
+         5TExwVo38aeIiB+Gek7OHeB1P+wuGyTJQAJio3FTlhFM63WSyHsdmCVGqWiLCt5XhGY5
+         ah0lVsxBhWMbAvFnF9iBPvNVci25SnvyEpln+7uQNeLZ4IEH14HcdmyXifmkxsepguYD
+         554p4p9ELe9EhA01mgRR+NwhVi1EkBH6QsbAvbd5YczMQvJuuicr4whMUz9bDWJqw2m5
+         aA5b970PguUXIOQUf8I19mI55OscgffYrGESbmhMZ+44uSQKxWJhsT94HyUQWq4l6L0w
+         T44g==
+X-Forwarded-Encrypted: i=1; AJvYcCU/pLyXpXGJs5AOGufu+P084+/ztqjgLoPubyzU/fEKbFCklCm5Kka1yseOIp0Y9L7oKy0NPQs6LIgCbmzC@vger.kernel.org, AJvYcCW+6AwoD/pFX821FrrbjHQv7vO6GQaOMrOE/2ArKACb7uwFmTWKcHWVVgSy80u6NLKaK0jwKJrhoXbo@vger.kernel.org, AJvYcCWGV0UW68n9HUeNLx5T4spDiTk/m+yy1u7sqopVAuXStTlj/NZ0IDucpezn2TZBaPE9m9IwCOS2zV+DAdLqVgYuxPA=@vger.kernel.org, AJvYcCXAfNGjWaCVTbjQSMdtGlkwcsr8+wfTyKRH8+274XckW73wbxXsjkcGmnppROWjyOlI/bEYpCmc@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+qEzQj0BrxnL5mVY4XiO+QlchtIUAEDEWhXosDFAHyBnK4Jmm
+	cnzQSi/diX2G7x6DhkLZN63eamuEGCp542c405E/0aFaYookReTkOQvNWYnKxC2P
+X-Gm-Gg: ASbGnct+9sMyegD8D6/SSwDmiLkugtvB69UVMIHjqYZPOFovqgmG0VYRjoTGBTUFcTq
+	UmDgz9xxfoypoP4OSpME1qTf948wUIXhjZi3/Qnz9rHmWkZ1rObvvKEMU7s56qxxrGRdkzgOjgF
+	+iZ03WOiSiGqR+gmZhd3i/lya/XcBDSyDBiaUw5ZPYdmDrWsTc+Hl0dQJGYzlAY7FVg5PVcvBgX
+	clHBr5EqcCMzD+dEZz6vuptGkQj8oFGiidVOgor29mqwYNbVy5ttVUIZ79zomj4Ub66mg1XJKTH
+	Bx4kCVbfznxjv6Ig9w16mh6XpqkREgWG66Xb92D2jZ64Y0771dKuGElZQLpt6AWHKEQAbCYJbL/
+	wwTBKYmiYtyLRhJw66m75ahvlgQ0M
+X-Google-Smtp-Source: AGHT+IF68CJaSmxz9OruhZX2NRP7NVMyTQUVzUN9pYxgiveh68piNHYoZ6WakNbCUJxGTI+4b4QEjg==
+X-Received: by 2002:a05:6214:5b09:b0:6fa:cd5e:f4 with SMTP id 6a1803df08f44-6fb5e9f2c72mr48011196d6.6.1750174345624;
+        Tue, 17 Jun 2025 08:32:25 -0700 (PDT)
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com. [209.85.160.172])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6fb48217708sm38752946d6.78.2025.06.17.08.32.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Jun 2025 08:11:29 -0700 (PDT)
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-7c5b8d13f73so644463285a.0;
-        Tue, 17 Jun 2025 08:11:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUYcHUlfymYbkzumkB8iWuE177kGit9rIEh//B4Yf5wMBjl2ya0cG2/XKPslSxtioo/T2bfbcL8@vger.kernel.org, AJvYcCV0JcIlH8vn/7IkMizb5q4BwaXLN9CQFYbBZJ/DvD/H4DnXvn/TVrcQKVXAGNEQ6LaGuPEhIpleUu4F@vger.kernel.org, AJvYcCVgBlCeqz1Mf5lBmftoihhUbWbo1yFWIGhesfZ1gxfDDWsYrPtyyvxZGKENoxxgh66YIFQgTe6WMF85FBJO@vger.kernel.org, AJvYcCWPQ6i22dD7bpyARLHlA6my0VBew96gN4Nige6Rn4sgF1bKvdQjGCDpWY+7Zsp+Fxdp0MwO3xysnbOhSpHaeS4/8LQ=@vger.kernel.org
-X-Received: by 2002:a05:620a:4690:b0:7d3:913e:802e with SMTP id
- af79cd13be357-7d3c6cf5d27mr1916389785a.41.1750173089155; Tue, 17 Jun 2025
- 08:11:29 -0700 (PDT)
+        Tue, 17 Jun 2025 08:32:25 -0700 (PDT)
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4a745fc9bafso31737741cf.1;
+        Tue, 17 Jun 2025 08:32:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUE1x+NVg/HhqowAMh+DOoKSems8URHAt0L/+D2HOcBa7Ox4H9l3UVMRSlERi9Gz/akCkUgON98ZZvS2Otoo7SesgE=@vger.kernel.org, AJvYcCV5bvAZvghUXHUHEpO66YqlsADRuBC7rmsiihrV07Q8FSBiTaltvKTGEz/YE8P3EszFqTlgDDgrLzqV@vger.kernel.org, AJvYcCV6iqcNwgXn2rCFBUM5f7Sa/KL40DddWR7I5T7Cv9GtoyBKYKaXm/fXtQrI8A+wtD0puG5X9JmA@vger.kernel.org, AJvYcCX2F2IvEfroYWMmG8h1YR3D6DhU7ttJLU99C5c+t8VeHpTqqxDc2btk2egKXn9WJ8rjhQptDrjeK1K0nDmB@vger.kernel.org
+X-Received: by 2002:a05:622a:1a99:b0:4a5:9993:ede8 with SMTP id
+ d75a77b69052e-4a75b9645e8mr44837301cf.15.1750174344423; Tue, 17 Jun 2025
+ 08:32:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250611061609.15527-1-john.madieu.xa@bp.renesas.com> <20250611061609.15527-2-john.madieu.xa@bp.renesas.com>
-In-Reply-To: <20250611061609.15527-2-john.madieu.xa@bp.renesas.com>
+References: <20250611061609.15527-1-john.madieu.xa@bp.renesas.com> <20250611061609.15527-3-john.madieu.xa@bp.renesas.com>
+In-Reply-To: <20250611061609.15527-3-john.madieu.xa@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 17 Jun 2025 17:11:17 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXE-C4FAXOfzQv8xfgFytwpqkARDORGLkosZtCsjK8nmg@mail.gmail.com>
-X-Gm-Features: Ac12FXyQCqP8CWB4cTKabVnuKWIm_-hzOXZkBQa3qOJhr22FARrB3ykfGLTgX08
-Message-ID: <CAMuHMdXE-C4FAXOfzQv8xfgFytwpqkARDORGLkosZtCsjK8nmg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] clk: renesas: r9a09g047: Add clock and reset
- signals for the GBETH IPs
+Date: Tue, 17 Jun 2025 17:32:12 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXEL17KruAigL2Le+9ATLWo7hQqGZjaEsFKpDt7pQr_8g@mail.gmail.com>
+X-Gm-Features: Ac12FXwRWLGR2Tg4UsulLDZ0f33e_FE46TCkUsEs2fenHbM9JFlYLdpXdo-psJo
+Message-ID: <CAMuHMdXEL17KruAigL2Le+9ATLWo7hQqGZjaEsFKpDt7pQr_8g@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] arm64: dts: renesas: r9a09g047: Add GBETH nodes
 To: John Madieu <john.madieu.xa@bp.renesas.com>
 Cc: andrew+netdev@lunn.ch, conor+dt@kernel.org, davem@davemloft.net, 
 	edumazet@google.com, krzk+dt@kernel.org, kuba@kernel.org, pabeni@redhat.com, 
@@ -91,10 +90,8 @@ Content-Type: text/plain; charset="UTF-8"
 
 Hi John,
 
-On Wed, 11 Jun 2025 at 11:02, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
-> Add clock and reset entries for the Gigabit Ethernet Interfaces (GBETH 0-1)
-> IPs found on the RZ/G3E SoC. This includes various PLLs, dividers, and mux
-> clocks needed by these two GBETH IPs.
+On Wed, 11 Jun 2025 at 11:01, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
+> Add GBETH nodes to RZ/G3E (R9A09G047) SoC DTSI.
 >
 > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
@@ -102,82 +99,48 @@ On Wed, 11 Jun 2025 at 11:02, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
 
 Thanks for your patch!
 
-> --- a/drivers/clk/renesas/r9a09g047-cpg.c
-> +++ b/drivers/clk/renesas/r9a09g047-cpg.c
-> @@ -85,7 +95,18 @@ static const struct clk_div_table dtable_2_64[] = {
->         {0, 0},
->  };
->
-> +static const struct clk_div_table dtable_2_100[] = {
-> +       {0, 2},
-> +       {1, 10},
-> +       {2, 100},
-> +       {0, 0},
-> +};
+> --- a/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
+> @@ -759,6 +759,213 @@ csi2cru: endpoint@0 {
+>                                 };
+>                         };
+>                 };
 > +
->  /* Mux clock tables */
-> +static const char * const smux2_gbe0_rxclk[] = { ".plleth_gbe0", "et0_rxc_rx_clk" };
-> +static const char * const smux2_gbe0_txclk[] = { ".plleth_gbe0", "et0_txc_tx_clk" };
-> +static const char * const smux2_gbe1_rxclk[] = { ".plleth_gbe1", "et1-rxc-rx_clk" };
-> +static const char * const smux2_gbe1_txclk[] = { ".plleth_gbe1", "et1-txc-tx_clk" };
+> +               eth0: ethernet@15c30000 {
 
-Please use consistent naming for the external clocks (underscores
-vs. dashes).  However, both differ from the similar names used on
-RZ/V2H and RZ/V2N; perhaps use the naming from the latter instead?
+[...]
 
->  static const char * const smux2_xspi_clk0[] = { ".pllcm33_div3", ".pllcm33_div4" };
->  static const char * const smux2_xspi_clk1[] = { ".smux2_xspi_clk0", ".pllcm33_div5" };
->
+> +                       mdio {
 
-> @@ -214,6 +252,30 @@ static const struct rzv2h_mod_clk r9a09g047_mod_clks[] __initconst = {
->                                                 BUS_MSTOP(8, BIT(4))),
->         DEF_MOD("sdhi_2_aclk",                  CLK_PLLDTY_ACPU_DIV4, 10, 14, 5, 14,
->                                                 BUS_MSTOP(8, BIT(4))),
-> +       DEF_MOD("gbeth_0_clk_tx_i",             CLK_SMUX2_GBE0_TXCLK, 11, 8, 5, 24,
-> +                                               BUS_MSTOP(8, BIT(5))),
-> +       DEF_MOD("gbeth_0_clk_rx_i",             CLK_SMUX2_GBE0_RXCLK, 11, 9, 5, 25,
-> +                                               BUS_MSTOP(8, BIT(5))),
-> +       DEF_MOD("gbeth_0_clk_tx_180_i",         CLK_SMUX2_GBE0_TXCLK, 11, 10, 5, 26,
-> +                                               BUS_MSTOP(8, BIT(5))),
-> +       DEF_MOD("gbeth_0_clk_rx_180_i",         CLK_SMUX2_GBE0_RXCLK, 11, 11, 5, 27,
-> +                                               BUS_MSTOP(8, BIT(5))),
-> +       DEF_MOD("gbeth_0_aclk_csr_i",           CLK_PLLDTY_DIV8, 11, 12, 5, 28,
-> +                                               BUS_MSTOP(8, BIT(5))),
-> +       DEF_MOD("gbeth_0_aclk_i",               CLK_PLLDTY_DIV8, 11, 13, 5, 29,
-> +                                               BUS_MSTOP(8, BIT(5))),
-> +       DEF_MOD("gbeth_1_clk_tx_i",             CLK_SMUX2_GBE1_TXCLK, 11, 14, 5, 30,
-> +                                               BUS_MSTOP(8, BIT(6))),
-> +       DEF_MOD("gbeth_1_clk_rx_i",             CLK_SMUX2_GBE1_RXCLK, 11, 15, 5, 31,
-> +                                               BUS_MSTOP(8, BIT(6))),
-> +       DEF_MOD("gbeth_1_clk_tx_180_i",         CLK_SMUX2_GBE1_TXCLK, 12, 0, 6, 0,
+You probably want to add a label (mdio0) here...
 
-scripts/checkpatch.pl says:
+> +                               compatible = "snps,dwmac-mdio";
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +                       };
 
-    WARNING: please, no space before tabs
+> +               eth1: ethernet@15c40000 {
 
-> +                                               BUS_MSTOP(8, BIT(6))),
-> +       DEF_MOD("gbeth_1_clk_rx_180_i",         CLK_SMUX2_GBE1_RXCLK, 12, 1, 6, 1,
-> +                                               BUS_MSTOP(8, BIT(6))),
-> +       DEF_MOD("gbeth_1_aclk_csr_i",           CLK_PLLDTY_DIV8, 12, 2, 6, 2,
-> +                                               BUS_MSTOP(8, BIT(6))),
-> +       DEF_MOD("gbeth_1_aclk_i",               CLK_PLLDTY_DIV8, 12, 3, 6, 3,
-> +                                               BUS_MSTOP(8, BIT(6))),
+[...]
 
-Shouldn't all of these use DEF_MOD_MUX_EXTERNAL() instead of DEF_MOD(),
-like on RZ/V2H and RZ/V2N?
+> +                       mdio {
 
->         DEF_MOD("cru_0_aclk",                   CLK_PLLDTY_ACPU_DIV2, 13, 2, 6, 18,
->                                                 BUS_MSTOP(9, BIT(4))),
->         DEF_MOD_NO_PM("cru_0_vclk",             CLK_PLLVDO_CRU0, 13, 3, 6, 19,
+... and here (mdio1), for easier configuration of the PHY in the
+board-specific DTS.
 
-The rest LGTM. Note that I don't have access to the Additional Document,
-so I couldn't verify all details.
+> +                               compatible = "snps,dwmac-mdio";
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +                       };
+
+The rest LGTM, so
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
