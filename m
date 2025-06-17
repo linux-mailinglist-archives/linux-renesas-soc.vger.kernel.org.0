@@ -1,119 +1,225 @@
-Return-Path: <linux-renesas-soc+bounces-18439-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18440-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C605CADC946
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 13:26:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B93FBADC9EB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 13:50:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 72752177737
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 11:26:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C8FD6188A02A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 11:50:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95B6C2DBF5A;
-	Tue, 17 Jun 2025 11:25:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDB702DF3EA;
+	Tue, 17 Jun 2025 11:49:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D4mcFmG7"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1BF42980AF
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Jun 2025 11:25:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB3E5230D0E;
+	Tue, 17 Jun 2025 11:49:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750159558; cv=none; b=mkVZB7W8azM5d7kt3rudjLvk06PCy1WDiDROg0lhA6mFgQ8WKBjQNl5TZ8SLirt3715qsnYfrI1JiLh9vrWnQkYCLgAqF8Nv8DPtQLkS3wfPl5+zTe0XwZTuw8snUdNZFgjD0m5BHQA4AaV15LLOe+WIfUdq4vU0PXrn1TDkuH0=
+	t=1750160984; cv=none; b=MqH6+EE0atkLXpUYJBsx3zyYDs0+IJgOgGKjyLrx5sMzLY2JTepEaAVnJW65sovx3NQ/L2BuTvbjQ13I4UqAERpVFo1MiIzAqqoe7R54gU1SQtKFQMfvU/jxRm+7ZEwDdQyshAfA+vuKPxnMgHddlltqwZkw056FTBK6l8VADWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750159558; c=relaxed/simple;
-	bh=W3rd3YFqLqs6oaBtTWk4eEC8Uwn0umRcC0MCOfpNwdw=;
+	s=arc-20240116; t=1750160984; c=relaxed/simple;
+	bh=+3jejbzi/UX8Ec0mhpgozWv+X0A0PGWADEU6Rnouo9Y=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=gVQLeoCmXyp9NPs0XCp1aJ52GfLxGsL2RBjdZDf1PYrlKUD6isHUFsuNkZjlP5H5I9A78mb4oqJAxNWGNwNRpGSz8C8VraSYbZ/2e2ebK6Xmb82PwraroYiKI5puC/a9ELFrsY+nTqLN8h7SC6GuAh1dvfH7dWqBceei2ju6rHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=dWgv7DjJY50J0NoV0fhMuc5csGr+RCapCzUFwgABrKfskP1sWZnvEroudJfNPbDqGpVbRKt61+jE1zwKo9Qux+EK0WyuYGkCheRt67AKC60apPjCl9ZNWg6SdO2Zq5slbM5tsum3D0DBvDmJVDVP9/7tsAZWVP9rGRCrkGAe4s0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D4mcFmG7; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-53145c74e15so1021564e0c.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Jun 2025 04:25:55 -0700 (PDT)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3a507e88b0aso5444839f8f.1;
+        Tue, 17 Jun 2025 04:49:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750160980; x=1750765780; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4P5jqw3g9OutfxFCvzVYfN1sp9bg/IIyWYucQYRsIF4=;
+        b=D4mcFmG73woELy5dBVZotyntrkPaq33azwc+MjirdCMeocK5cUCzGRwiQXAfUpnusv
+         TOihNF83QW2C3FhYal7FG4YStPasr6m1mxNPs4mkUjS4+BfSjMSyb9o+8UG3Z+PbIWh/
+         FvXlh/5hhIwu1fjNBcK8PI9lrxrSFB6Oa0JLq7Cggn0fsAdZnhuWk6nlCu+RJCAZ1mDQ
+         4hR2Ip+FJWR00T9CrcFUlD6YUwfSEGXASfRlaIfcqlff3IxicZNQmjAXfVI2bajlZVkP
+         3m+klCGOuzp4nNz0Uh4jVUzOksFSxhJpg3JoFOSwQzivubyYLC9n1UIsRPH+PsXLCFqL
+         1MrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750159554; x=1750764354;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4s7zjWnMrE51CHcpWDoAC8/Fv14R357c5YrFei33PNM=;
-        b=ZRnzT7UPOMY6DDcPboLV3U31Jxzm3N2eHaoCETQZoF3N0HP9dUN3C3MTqpxiiPZQJt
-         qAImC4Mypk9T81BN4HG65aq6G08ea/m/pHVxkuPfGCde9OWwug5OrwMpqxtIfdJg/7ni
-         BeGpeqIquI6W50bUagGeBCHbJpelFcDdezcx0dN4izi/5rRqFo22AQay4Tp4KdbzBzYu
-         giFI51HBi0XUWOYndw4iUpY8mzH8ZgfpgX40tbbK5QNN561LKZwsqY6B0NZ+WmjNuLgn
-         /LGZ3mYk/dmUjLIeFbCv1EQ+C0rcBWcUCIXyES5o+G5p+rKu+5BUuJSGJrzcOq+3I+aO
-         rqaw==
-X-Gm-Message-State: AOJu0Yw9JaoZbf7s1mmxLuwj9dUY9wEsDfX0osYiV/mdlFX63n1cuVyo
-	TDBH1VQgQyM0hTMsaokS5xBk9hm/VGNmZ1v9yrFFFF5pCUqDjPYEhQT9lWggkghw
-X-Gm-Gg: ASbGncs7iymxYXxfL1r+x+CfD+kR0FYiqmk6zQSgxJ8NDrWuauZ7g5bfbwhx4qXPUOu
-	zTqPk0uhVJph8BKnQLn27OZq/ZjD4piYE+Cf97s4gGsEFjXm0RKmQKcPEAtupuPeMhMISuGGwT/
-	537/6wnKerO3XQ4rqIuzALv2KIPh6m6tJ0dlLYN//42s9WRoab4FUooCTYuZLVKF1MTPcRXcssA
-	W+GV7qpeer3dt1E/ECPSoX2Psaj43MT6/+mYE/NQpcxKMtOVeDKb1b5AkxxPXFRrVQqMHuCVyV5
-	BGZDkKbrpLET8cqSCdtjk6LSmntzaFGt2LIAFOoNdFcHOm3SY9MXVN6GKAG0kfZbFhYU2VTx4d9
-	uZNLmCZuf+XpPEnCsoiqP1OsGfLP6
-X-Google-Smtp-Source: AGHT+IHCmsdRQy2z2J8DEdfUOeuDNTpowy3UtwLBtOYYf3X/Bsy1Bj8jMNjW0tIMclhy51CRQVyQ0A==
-X-Received: by 2002:a05:6122:1d86:b0:520:af9c:c058 with SMTP id 71dfb90a1353d-531495f865dmr7836960e0c.5.1750159554140;
-        Tue, 17 Jun 2025 04:25:54 -0700 (PDT)
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com. [209.85.221.180])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5313e028c88sm1610381e0c.32.2025.06.17.04.25.53
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Jun 2025 04:25:53 -0700 (PDT)
-Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-530d764149eso1568743e0c.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Jun 2025 04:25:53 -0700 (PDT)
-X-Received: by 2002:a05:6102:4194:b0:4e5:949b:78de with SMTP id
- ada2fe7eead31-4e7f6147da9mr8536448137.11.1750159553716; Tue, 17 Jun 2025
- 04:25:53 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1750160980; x=1750765780;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4P5jqw3g9OutfxFCvzVYfN1sp9bg/IIyWYucQYRsIF4=;
+        b=VNCV7Ve+Cbu6iLG9f6q9mHaKIeRo1QHaSHxfH1gF165PfXn7b9uXlthLntcMwQDSoO
+         jR6YJvaWeOUIHPP8mXxr3Hon7kPhRYJP5rTC6SAsLFjYpOeSJv+KdeTBj/iaDkGGmcaq
+         r0Ow624rRMb8fe9vn0Na2OAPNOTvXnafdmRr5cVYt0DW9APl0VVnc2q0CjDEVObllyIV
+         BU0pgeUTMeM5c3QWIKgQmK20OpJG268rJPNpV++A7l3DN+okvf585/R9Y1EjZkl9/N+a
+         NSZApLgF+DeBA7UtSke36EI050TZZ2G9VYZbnUv9ACkdQPHebezzY2/vDsrLbY2gjRJq
+         +4jA==
+X-Forwarded-Encrypted: i=1; AJvYcCU14rJN3tvMpF2H51LJR0Hxtc00k9CUm79pdPxqva+xV820x+G+xCjag9jxuQMYuv0KL/gthlIgL2DtLz9m@vger.kernel.org, AJvYcCVJ8cu1Duu9U24Qos5+Nyy5aXIrf2PXEAX8kTc5pXi76ft37M1iC9Wrv8aGMaDDKHv76B8Hu4oqf2fL@vger.kernel.org, AJvYcCWC6L9zk6NX7MSQu+Tn+VvYRem1UQdlHCe3nSXqXm4haPwdCg/sG7uCeoFY1PtzV2+W7K5fo2jiDCoMI2D/@vger.kernel.org, AJvYcCWlwObHDajH+SkZ9xbbpH8Y15bQWIpsHj6omiS/qKsTkoXqK7jmToOV0rtojlJOUXMqYDc3++UocNF8kf5k47Nu2tc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxd02GfQMna1YKd+5o7bxUdcqKdmzvCtz81kZQkt7ld8NboGXtM
+	t5C78tGDQoSPpkiX3zKq6NFiYN/bCAQxmgpLyZNSI0frEsRs3690xnPUA6uZJooeF1GMFLwLt33
+	KZ2Fwnsh2vbs4vXit9u/5m4TdgitO3Fw=
+X-Gm-Gg: ASbGnctBtY4wDRrUmW1162Vv4KNE6mkpb6qSeV/jLMt2D1kTbrcNb317YhLKxc5ia7+
+	n9ADb+hkWbtPi89MrO5EdMlHKKCm4bcF4UQ5LmOI3nWqeCJxsRLRM2RjCCtiBMWXmUoxWjmblEN
+	aR7wq70nKlG1IemC0yFegzgBEJiZuoQ3tmsJr4r4wzXufbuSk/CP8L
+X-Google-Smtp-Source: AGHT+IFMnnYZ+pjG8+JWodgW3GrzWG4MhQiRhrETarsYLmq9cfGpEPPF0Mh3Xvd3g+xLkZ9TaXSss0j55wQ46l7D4bQ=
+X-Received: by 2002:a05:6000:2c12:b0:3a4:e68e:d33c with SMTP id
+ ffacd0b85a97d-3a572e2dcafmr10806198f8f.47.1750160979760; Tue, 17 Jun 2025
+ 04:49:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAMuHMdWXPesKV7XE_QwLrM6pZ1z6GFC-SjJ1ceFTs4o=hv71Zg@mail.gmail.com>
- <CAMuHMdX8HtWOAK6MDdN8F8V0aer0hTHzeAcnCGMycpS70hesNQ@mail.gmail.com>
- <CAMuHMdUjse9v=U8=oZHDJx0Oh9uVzxVWYU+C9jaP_23UOBVMaw@mail.gmail.com>
- <CAMuHMdVGnDg=zkjOSmCWAjEnjfSN9rhOCG-ubzeTf3mvjTEavw@mail.gmail.com>
- <CAMuHMdXkdD0dN93zsQnjCzFo6ijS2xDzbh+GPGe6--_FuuRbHQ@mail.gmail.com>
- <CAMuHMdV0KWN2nHDGT28ysTPwBTrachBSsGWf0hHqrci-d0U33A@mail.gmail.com>
- <CAMuHMdUWt+h7=rF+Z5sjQ_=xvoK8FeDGk9OnL=2KJ+gFdTnp3A@mail.gmail.com>
- <CAMuHMdXi1Ev3uKBVnrE5HO8=m+kkaXLc+5b92txFpB8rLUGrcw@mail.gmail.com>
- <CAMuHMdVd=6eTSddjyr1TLeu6akVp6QMmz89JCb5e_oT2XjY2mw@mail.gmail.com>
- <CAMuHMdU+Q=k3XnYUOytN4tOh_u=JyRr97XwX=vmV0V5ht8U6uA@mail.gmail.com>
- <CAMuHMdXbJvFC9n=LTW=fXhGBRgrDzQG2LUDTbZZruyovU5OsQw@mail.gmail.com>
- <CAMuHMdXPg6dBhvdgKwKVVDHP+7qJDKTfRzKGhXkUTb=gX833Ag@mail.gmail.com>
- <CAMuHMdVJ2joZgT6Yp4VhXs3yr4ntgHSyCt0JiyWHXueN-3pNFA@mail.gmail.com>
- <CAMuHMdUS=MTCYxgCzWT1K6NX-BzxxKpBm_Q85GbCGTN3ppUhYQ@mail.gmail.com> <CAMuHMdW2d+kh=J2GUeL2f16DUM5ExBD4eva34tHSq-JH38RM+A@mail.gmail.com>
-In-Reply-To: <CAMuHMdW2d+kh=J2GUeL2f16DUM5ExBD4eva34tHSq-JH38RM+A@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 17 Jun 2025 13:25:41 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWBc002vKmUsTpDpxZPU+Z8J2=NM1hYXWj-z26oV3gxwg@mail.gmail.com>
-X-Gm-Features: Ac12FXyHFw7xm2bs-ddrDAZTnsr_o_xlxU0-Ps6qHdDJuahM5kTDknnR4AlgQ74
-Message-ID: <CAMuHMdWBc002vKmUsTpDpxZPU+Z8J2=NM1hYXWj-z26oV3gxwg@mail.gmail.com>
-Subject: Re: Future renesas-drivers releases
-To: Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <20250616213927.475921-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250616213927.475921-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdUU-EyU3DgqP9KDmeT_A4i-xaE9hAUOvYFQcbYmpJc2ng@mail.gmail.com>
+In-Reply-To: <CAMuHMdUU-EyU3DgqP9KDmeT_A4i-xaE9hAUOvYFQcbYmpJc2ng@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Tue, 17 Jun 2025 12:49:13 +0100
+X-Gm-Features: AX0GCFt57kGEIA-PKHbNLObdyw93QsTMKg_5oT9XHkfnEChXyzD9lLoEbnOPV-Q
+Message-ID: <CA+V-a8vnOY-aA+kfJgDabJG-g3PLS8Y8TBiudzJmJN46Yz8BZQ@mail.gmail.com>
+Subject: Re: [PATCH v11 3/5] tty: serial: sh-sci: Use port ops callbacks
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 26 Mar 2025 at 09:48, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->   - renesas-drivers-2025-05-27-v6.15 (TBD),
->   - renesas-drivers-2025-06-03-v6.15 (TBD).
+Hi Geert,
 
-This became renesas-drivers-2025-05-27-v6.15, followed by
-renesas-drivers-2025-06-10-v6.16-rc1.
+Thank you for the review.
 
-Next planned releases, if all goes well:
-  - renesas-drivers-2025-06-24-v6.16-rc3,
-  - renesas-drivers-2025-07-08-v6.16-rc5,
-  - renesas-drivers-2025-07-29-v6.16 (TBD),
-  - renesas-drivers-2025-08-05-v6.16 (TBD).
+On Tue, Jun 17, 2025 at 9:44=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Mon, 16 Jun 2025 at 23:39, Prabhakar <prabhakar.csengg@gmail.com> wrot=
+e:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Replace direct calls to internal helpers such as sci_stop_tx(),
+> > sci_start_tx(), sci_stop_rx(), sci_set_mctrl(), sci_enable_ms(), and
+> > sci_request_port() with their corresponding port ops callbacks.
+> >
+> > This change improves consistency and abstraction across the driver and
+> > prepares the codebase for adding support for the RSCI driver on the
+> > Renesas RZ/T2H SoC, which heavily reuses the existing SCI driver.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Thanks for your patch!
+>
+> I am a bit reluctant to increase the number of indirect calls in a
+> driver that is also used on (old and slow) SH systems...
+>
+Ok, I will do that. My initial thought was just to replace the direct
+calls where it's shared, But for consistency I replaced them all.
 
-Gr{oetje,eeting}s,
+> > --- a/drivers/tty/serial/sh-sci.c
+> > +++ b/drivers/tty/serial/sh-sci.c
+> > @@ -880,7 +880,7 @@ static void sci_transmit_chars(struct uart_port *po=
+rt)
+> >                         sci_serial_out(port, SCSCR, ctrl);
+> >                 }
+> >
+> > -               sci_stop_tx(port);
+> > +               s->port.ops->stop_tx(port);
+>
+> RSCI has its own implementation of sci_port_ops.transmit_chars(), so
+> I think it is better to avoid the overhead of an indirect call, and keep
+> calling sci_stop_tx() directly.
+>
+Ok, I will drop this change.
 
-                        Geert
+>          }
+> >  }
+> >
+> > @@ -1497,7 +1497,7 @@ static void sci_dma_tx_work_fn(struct work_struct=
+ *work)
+> >  switch_to_pio:
+> >         uart_port_lock_irqsave(port, &flags);
+> >         s->chan_tx =3D NULL;
+> > -       sci_start_tx(port);
+> > +       s->port.ops->start_tx(port);
+>
+> This function is indeed shared by sh-sci and rsci, but still unused
+> by the latter as it does not support DMA yet.
+>
+Ok, I will drop this change.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> >         uart_port_unlock_irqrestore(port, flags);
+> >         return;
+> >  }
+> > @@ -2289,8 +2289,8 @@ void sci_shutdown(struct uart_port *port)
+> >         mctrl_gpio_disable_ms_sync(to_sci_port(port)->gpios);
+> >
+> >         uart_port_lock_irqsave(port, &flags);
+> > -       sci_stop_rx(port);
+> > -       sci_stop_tx(port);
+> > +       s->port.ops->stop_rx(port);
+> > +       s->port.ops->stop_tx(port);
+>
+> OK.
+>
+> >         s->ops->shutdown_complete(port);
+> >         uart_port_unlock_irqrestore(port, flags);
+> >
+> > @@ -2684,7 +2684,7 @@ static void sci_set_termios(struct uart_port *por=
+t, struct ktermios *termios,
+> >         }
+> >         if (port->flags & UPF_HARD_FLOW) {
+> >                 /* Refresh (Auto) RTS */
+> > -               sci_set_mctrl(port, port->mctrl);
+> > +               s->port.ops->set_mctrl(port, port->mctrl);
+>
+> RSCI has its own implementation of uart_ops.set_termios(), so please
+> keep the direct call.
+>
+Ok, I will drop this change.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> >         }
+> >
+> >         /*
+> > @@ -2721,7 +2721,7 @@ static void sci_set_termios(struct uart_port *por=
+t, struct ktermios *termios,
+> >         sci_port_disable(s);
+> >
+> >         if (UART_ENABLE_MS(port, termios->c_cflag))
+> > -               sci_enable_ms(port);
+> > +               s->port.ops->enable_ms(port);
+>
+> Likewise.
+> And once RSCI fully implements uart_ops.set_termios(), I think
+> it can just reuse sci_enable_ms().
+>
+Ok, I will drop this change.
+
+> >  }
+> >
+> >  void sci_pm(struct uart_port *port, unsigned int state,
+> > @@ -2827,7 +2827,7 @@ void sci_config_port(struct uart_port *port, int =
+flags)
+> >                 struct sci_port *sport =3D to_sci_port(port);
+> >
+> >                 port->type =3D sport->cfg->type;
+> > -               sci_request_port(port);
+> > +               sport->port.ops->request_port(port);
+>
+> Both sh-sci and rsci use sci_request_port() as their
+> uart_ops.request_port() callbacks, so please use a direct call.
+>
+Ok, I will drop this change.
+
+Cheers,
+Prabhakar
 
