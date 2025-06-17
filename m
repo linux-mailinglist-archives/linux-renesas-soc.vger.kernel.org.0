@@ -1,282 +1,199 @@
-Return-Path: <linux-renesas-soc+bounces-18428-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18429-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A6F3ADC616
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 11:21:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 529AFADC6D2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 11:42:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3C1B516C2C1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 09:21:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3518A3A9C2C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 09:42:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD56729346F;
-	Tue, 17 Jun 2025 09:21:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A1C829346F;
+	Tue, 17 Jun 2025 09:42:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="gihDhi5a";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="XHACR0wt"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="GMWwKYhN"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2DC28FFFB;
-	Tue, 17 Jun 2025 09:20:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6853528F508
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Jun 2025 09:42:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750152061; cv=none; b=o2geUWp0gtBKUuLZhli6hD4evXswl0gYTqFVFxqaOZAgfOC7a9AWu+KxRHevvD1ZyTV6T40ItMrHrbZOqr8UjdV+2iOzpDUGyHHH/wb/nHLNHsg5+dtJglgAne7OUF8Eemj2KOoOBdOFTzGjHsRIcRl8Ndzd5tx182qeEitiQMo=
+	t=1750153373; cv=none; b=fkY/omFyM9Kkm05asm0mL1gCT75Hh0+HeeGfvZp8sWgOCNfUGtIaJff0pZS6++SFAv9YKXudk+f22hH/4MhyEI3i5oQvsr7ywtpuEVkzw/7WrHHWG9nfUvrh8dRgeHVBHgVdgGPdY5IOHfCGvRJWSVTvL5v0+jubkS0LvB/MFZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750152061; c=relaxed/simple;
-	bh=RZ49EYiuEBe//gJA7l+urmw3mBTIE5qPYjYIiRC5WbA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RA86KDYRspwZB4PYjhMD8IWgeNCyhy/njtwcgnOYvHvDh8F7nAXpX3IPcbXbmZW1AQeP7K7SOdqUlNapCT+D8fnJCBrCq13y3T+6vBewhN6iyk1a8JWQKHpmiGd+sOl0CGwLGD/M6fvL9AxETzvj40QjGYmS6iIfGZ7MUDDtxY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=gihDhi5a; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=XHACR0wt; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4bM1ZK67PQz9sTb;
-	Tue, 17 Jun 2025 11:20:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1750152057;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Mw92VLyJgn+5px9AirmOrbYFjpqlQH9nBGpVDrOJeto=;
-	b=gihDhi5aV0VF6TF04zkAnbAQeKWrmWA47PbYTpBxn+5DwLq2XLPPzn1TjbZvCexyeeVk2Q
-	/Ihems18df8qThjehW0BrCzqAnvvsNT1jHeVilLA4GdXXrFMtWBBehCsgWShzUrX+zzUaB
-	zQ140IVCmRHQROqCxcHsU7mQlqYQXXmDqE6XhpCVb2D6BEdKlVNWPJ1UKMYMGfls4P64kR
-	I81qsUY3arjwFWCYN7UveV77ZpqUQg/51bdlFGpfiLET/GI2f2ZlWqomBhhb0OU/S98XpG
-	pcYRXkFAKa4zdLlLVKinPF13l8Ozi4VVj2cOndEo8IxWxcSSx+bKdh+945pTAw==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1750152055;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Mw92VLyJgn+5px9AirmOrbYFjpqlQH9nBGpVDrOJeto=;
-	b=XHACR0wtXy9oeAn661cIP5sRixppWVsDP8wI8nGNaCBpSuDIctacxhtuxV840m4jaVm+bm
-	PzTEEuQmGt79Unas/ZEELr6hP8IPMdQwA7E7lHuuZR+42tVLwVcI/xBuNAV5u9fHwMOzT+
-	R1yHhF7wvHdvQR6z0KqKbhu3fixMosquDuFsaDsBWa+9sZsxYmLYIKIWIlkwdBDN2i1ZMz
-	kG8eQIlRwooUz5CAGeyS6fCUKRo9/iUx1ac+oaYENk4pqpTGivnCQk3Cf27V/xVapBU0ni
-	X58Ew84Jl9QGOqwYLIDox1NxfoWAmIso7A2PBcNbCRwUEn0e56VeEMnHhCvUKw==
-To: linux-pwm@vger.kernel.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3 3/3] pwm: argon-fan-hat: Add Argon40 Fan HAT support
-Date: Tue, 17 Jun 2025 11:19:36 +0200
-Message-ID: <20250617092037.37229-3-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20250617092037.37229-1-marek.vasut+renesas@mailbox.org>
-References: <20250617092037.37229-1-marek.vasut+renesas@mailbox.org>
+	s=arc-20240116; t=1750153373; c=relaxed/simple;
+	bh=xaE/PMeoOICl6xRLwJIOUDitFaeMYrwS0QlpB2Bo+gs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sLVHk3WDd2h7uJbzLKRwQUm+a6ihzpnTc0uRyDtTr1Fa10aboQVOL4DCY9eb3vug0cH5z+REge+q++qoopAgedzlaNo/OsmZfwDc3ew/enKnT6mmqYWPZ6GeIoYYbn30p+/9aYA5RQdc/OHpIJAWcd/Mgmjwgbr8peiNY7zha4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=GMWwKYhN; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=5Nu8
+	wYWOVF85nemsZ/25+lLkQ0qafeZ231O7LDkXoXY=; b=GMWwKYhNyjWQbrAjDmk5
+	ALhySfdH2SBIbpPrN8OF+qNr1gBtkbZJX8LFYfK0+mvERoiUyg8Sbr61qzDZxFo5
+	sI+MtnwhzKTEkqvoymiGms1zmu45ImFhL3h0JQ3WkVjqyCJ8rwWz2PCnYB5nIMOW
+	GUDJ6G1BQgWI74qThx9sNu9/9l+opUdzuy3HZXnyQULuWZ5gDVGfeTx6TVPbnMzJ
+	DTH/XbxMkExkjRa3z558hQgmzJ545MEnaOIlY99pa8cTfthHsZcXlG0moC6PHhLO
+	SM0PSqTVLZ2FZeNaBWbVUXi1/Thx7EdNVOWlVyTj0HWPbOedMggO8bIohfWxFB7J
+	4g==
+Received: (qmail 1600317 invoked from network); 17 Jun 2025 11:42:40 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Jun 2025 11:42:40 +0200
+X-UD-Smtp-Session: l3s3148p1@Vc1UVcE3DtUgAwDPXy2/ACpZfVCNKldR
+Date: Tue, 17 Jun 2025 11:42:39 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Frank Li <Frank.li@nxp.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-i3c@lists.infradead.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH RFC 4/7] i3c: add driver for Renesas I3C IP
+Message-ID: <aFE4j86NaZcMvxBF@shikoro>
+References: <20250611093934.4208-1-wsa+renesas@sang-engineering.com>
+ <20250611093934.4208-5-wsa+renesas@sang-engineering.com>
+ <aEmws+OtHirrUPUo@lizhi-Precision-Tower-5810>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: ocg4oe9th5skxwo8ws16wbo9ngga9xo8
-X-MBO-RS-ID: 241d3e7cbe834ea492d
-X-Rspamd-Queue-Id: 4bM1ZK67PQz9sTb
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ty0/U/BdEFVy0pZE"
+Content-Disposition: inline
+In-Reply-To: <aEmws+OtHirrUPUo@lizhi-Precision-Tower-5810>
 
-Add trivial PWM driver for Argon40 Fan HAT, which is a RaspberryPi
-blower fan hat which can be controlled over I2C. Model this device
-as a PWM, so the pwm-fan can be attached to it and handle thermal
-zones and RPM management in a generic manner.
 
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: "Uwe Kleine-König" <ukleinek@kernel.org>
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Rob Herring <robh@kernel.org>
-Cc: devicetree@vger.kernel.org
-Cc: linux-pwm@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
----
-V2: - Switch to waveform ops
-    - Add shutdown hook to force the fan to maximum RPM on shutdown
-      instead of stopping it, to be on the safe side
-V3: - Find the 30 kHz fixed period PWM, use that
-    - Add comments
-    - Consolidate argon_fan_hat_write()
----
- drivers/pwm/Kconfig             |   9 +++
- drivers/pwm/Makefile            |   1 +
- drivers/pwm/pwm-argon-fan-hat.c | 122 ++++++++++++++++++++++++++++++++
- 3 files changed, 132 insertions(+)
- create mode 100644 drivers/pwm/pwm-argon-fan-hat.c
+--ty0/U/BdEFVy0pZE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
-index 6e113f8b4baf..3ef1757502eb 100644
---- a/drivers/pwm/Kconfig
-+++ b/drivers/pwm/Kconfig
-@@ -66,6 +66,15 @@ config PWM_APPLE
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called pwm-apple.
- 
-+config PWM_ARGON_FAN_HAT
-+	tristate "Argon40 Fan HAT support"
-+	depends on I2C && OF
-+	help
-+	  Generic PWM framework driver for Argon40 Fan HAT.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called pwm-argon-fan-hat.
-+
- config PWM_ATMEL
- 	tristate "Atmel PWM support"
- 	depends on ARCH_AT91 || COMPILE_TEST
-diff --git a/drivers/pwm/Makefile b/drivers/pwm/Makefile
-index 96160f4257fc..ff4f47e5fb7a 100644
---- a/drivers/pwm/Makefile
-+++ b/drivers/pwm/Makefile
-@@ -3,6 +3,7 @@ obj-$(CONFIG_PWM)		+= core.o
- obj-$(CONFIG_PWM_AB8500)	+= pwm-ab8500.o
- obj-$(CONFIG_PWM_ADP5585)	+= pwm-adp5585.o
- obj-$(CONFIG_PWM_APPLE)		+= pwm-apple.o
-+obj-$(CONFIG_PWM_ARGON_FAN_HAT)	+= pwm-argon-fan-hat.o
- obj-$(CONFIG_PWM_ATMEL)		+= pwm-atmel.o
- obj-$(CONFIG_PWM_ATMEL_HLCDC_PWM)	+= pwm-atmel-hlcdc.o
- obj-$(CONFIG_PWM_ATMEL_TCB)	+= pwm-atmel-tcb.o
-diff --git a/drivers/pwm/pwm-argon-fan-hat.c b/drivers/pwm/pwm-argon-fan-hat.c
-new file mode 100644
-index 000000000000..58b94ad4d9bc
---- /dev/null
-+++ b/drivers/pwm/pwm-argon-fan-hat.c
-@@ -0,0 +1,122 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2025 Marek Vasut
-+ *
-+ * Limitations:
-+ * - no support for offset/polarity
-+ * - fixed 30 kHz period
-+ *
-+ * Argon Fan HAT https://argon40.com/products/argon-fan-hat
-+ */
-+
-+#include <linux/err.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/pwm.h>
-+
-+#define ARGON40_FAN_HAT_PERIOD_NS	33333	/* ~30 kHz */
-+
-+static int argon_fan_hat_round_waveform_tohw(struct pwm_chip *chip,
-+					     struct pwm_device *pwm,
-+					     const struct pwm_waveform *wf,
-+					     void *_wfhw)
-+{
-+	u8 *wfhw = _wfhw;
-+
-+	*wfhw = DIV_ROUND_CLOSEST_ULL(wf->duty_length_ns * 100, wf->period_length_ns);
-+
-+	return 0;
-+}
-+
-+static int argon_fan_hat_round_waveform_fromhw(struct pwm_chip *chip,
-+					       struct pwm_device *pwm,
-+					       const void *_wfhw,
-+					       struct pwm_waveform *wf)
-+{
-+	const u8 *wfhw = _wfhw;
-+
-+	wf->period_length_ns = ARGON40_FAN_HAT_PERIOD_NS;
-+	wf->duty_length_ns = DIV64_U64_ROUND_UP(wf->period_length_ns * *wfhw, 100);
-+	wf->duty_offset_ns = 0;
-+
-+	return 0;
-+}
-+
-+static int argon_fan_hat_write(struct i2c_client *i2c, const u8 wfhw)
-+{
-+	u8 tx[2] = { 0x80, wfhw };
-+	struct i2c_msg msg = {
-+		.addr = i2c->addr,
-+		.len = 2,
-+		.buf = tx,
-+	};
-+
-+	return (i2c_transfer(i2c->adapter, &msg, 1) == 1) ? 0 : -EINVAL;
-+}
-+
-+static int argon_fan_hat_write_waveform(struct pwm_chip *chip,
-+					struct pwm_device *pwm,
-+					const void *_wfhw)
-+{
-+	struct i2c_client *i2c = pwmchip_get_drvdata(chip);
-+	const u8 *wfhw = _wfhw;
-+
-+	return argon_fan_hat_write(i2c, *wfhw);
-+}
-+
-+static const struct pwm_ops argon_fan_hat_pwm_ops = {
-+	.sizeof_wfhw		= sizeof(u8),
-+	.round_waveform_fromhw	= argon_fan_hat_round_waveform_fromhw,
-+	.round_waveform_tohw	= argon_fan_hat_round_waveform_tohw,
-+	.write_waveform		= argon_fan_hat_write_waveform,
-+	/*
-+	 * The controller does not provide any way to read info back,
-+	 * reading from the controller stops the fan, therefore there
-+	 * is no .read_waveform here.
-+	 */
-+};
-+
-+static int argon_fan_hat_i2c_probe(struct i2c_client *i2c)
-+{
-+	struct pwm_chip *pc = devm_pwmchip_alloc(&i2c->dev, 1, 0);
-+	int ret;
-+
-+	if (IS_ERR(pc))
-+		return PTR_ERR(pc);
-+
-+	pc->ops = &argon_fan_hat_pwm_ops;
-+	pwmchip_set_drvdata(pc, i2c);
-+
-+	ret = devm_pwmchip_add(&i2c->dev, pc);
-+	if (ret)
-+		return dev_err_probe(&i2c->dev, ret, "Could not add PWM chip\n");
-+
-+	return 0;
-+}
-+
-+static void argon_fan_hat_i2c_shutdown(struct i2c_client *i2c)
-+{
-+	argon_fan_hat_write(i2c, 100);
-+}
-+
-+static const struct of_device_id argon_fan_hat_dt_ids[] = {
-+	{ .compatible = "argon40,fan-hat" },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, argon_fan_hat_dt_ids);
-+
-+static struct i2c_driver argon_fan_hat_driver = {
-+	.driver = {
-+		.name = "argon-fan-hat",
-+		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
-+		.of_match_table = argon_fan_hat_dt_ids,
-+	},
-+	.probe = argon_fan_hat_i2c_probe,
-+	.shutdown = argon_fan_hat_i2c_shutdown,
-+};
-+
-+module_i2c_driver(argon_fan_hat_driver);
-+
-+MODULE_AUTHOR("Marek Vasut <marek.vasut+renesas@mailbox.org>");
-+MODULE_DESCRIPTION("Argon40 Fan HAT");
-+MODULE_LICENSE("GPL");
--- 
-2.47.2
+Hi,
 
+some status updates...
+
+> It is similar ADI version. Can you simple descript hardware behavor to sh=
+ow
+> why need RENESAS_I3C_MAX_DEVS,
+
+I hope the documentation links I sent were helpful.
+
+> Add common header in drivers/i3c/master/core.h implement inline helper
+> function
+
+I decided to handle this incrementally. I need to work on the real show
+stoppers first, I'd say.
+
+> #define PRTS                 0x00
+> #define  PRTS_PRTMD          BIT(0)
+>=20
+> Add extra space help distinguish register and field define.
+
+Done.
+
+> > +#define STDBR			0x74
+> > +#define STDBR_SBRLO(cond, x)	((((x) >> (cond)) & 0xff) << 0)
+> > +#define STDBR_SBRHO(cond, x)	((((x) >> (cond)) & 0xff) << 8)
+>=20
+> FIELD_GET FIELD_PREP
+>=20
+> check other define
+
+Done. Also with GETMASK
+
+> > +static inline void i3c_reg_update(u32 mask, u32 val, void __iomem *reg)
+> > +{
+> > +	u32 data =3D readl(reg);
+> > +
+> > +	data &=3D ~mask;
+> > +	data |=3D (val & mask);
+> > +	writel(data, reg);
+> > +}
+>=20
+> can you move reg to first argument to align below help function?
+
+Done.
+
+> > +out:
+> > +	kfree(xfer);
+>=20
+> you can __free(kfree) xfer =3D NULL at declear to avoid this goto branch.
+
+Do you insist on this? It makes the driver less consistent because there
+are other 'out'-branches with kfree() in them which we need to keep
+anyhow, because there are more instructions needed. I can do the change
+if you want but I personally would prefer to leave the code as is.
+
+> > +		if (!i3c_xfers[i].rnw && i3c_xfers[i].len > 4) {
+>=20
+> Only pre fill fifo when len >4? what happen if only write 1 byte?
+
+That was a really good catch, thank you! I think the code is completely
+redundant because we fill the FIFO again at a later time. Then, also
+handling the case of < 4 bytes correctly. Sadly, I can't test this with
+my current setup right now. I hope to have tested this by next week.
+
+> > +		if (!wait_for_completion_timeout(&xfer->comp, XFER_TIMEOUT))
+> > +			renesas_i3c_dequeue_xfer(i3c, xfer);
+>=20
+> This may common problem, I3C spec have 100us timeout, target side may
+> timeout when driver wait for irq. So target side treat "repeat start" as
+> "start" and issue address arbitration.
+
+As said, I will try to discuss this at the I3C plugfest.
+
+> > +	i3c->addrs[pos] =3D dev->info.dyn_addr ? : dev->info.static_addr;
+>=20
+> Are there extension of "?" operator in C ? I remember
+
+As agreed, I will keep this.
+
+> > +		ret =3D devm_request_irq(&pdev->dev, ret, renesas_i3c_irqs[i].isr,
+> > +				       0, renesas_i3c_irqs[i].desc, i3c);
+> > +		if (ret) {
+> > +			dev_err(&pdev->dev, "failed to request irq %s\n",
+> > +				renesas_i3c_irqs[i].desc);
+> > +			return ret;
+
+I removed the printout comepletely. No need to do it for irqs.
+
+I plan to resubmit the non-RFC version next week after the plugfest.
+Fingers crossed.
+
+Thanks and all the best,
+
+   Wolfram
+
+
+--ty0/U/BdEFVy0pZE
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmhROIsACgkQFA3kzBSg
+KbZ/Xw/8DX5jexSQzPCertcmZdvx2WFQht/3bF3fEGKe2TolB3N7T6+8ufA4IKTR
+66mcTrw/JX+hmPbyxFb4ycfNiczSJ2JwhM8r4Wi+29DKO5VN5Ijp77eGASXlCUOz
+9jQKbz8pbFY9X6yCY8YZGS8KWGA0Uy4icKY8tnGmtOgWg7A98fYOk5zN6YY3L1Ua
+P92qa55YKSdduD5P1oWWxg7xdwKGztgwuhts4ImslmMjR8DaTROHuDUGWbA4A981
+nUoqoZ4bTvszO7ANJ76Vi0blUVZd6uPC5IMfg246/r5fXWtMtPUArWQ5tsrGgj4p
+vAzQ3Scx5dgNTtfVJ+aVR80+LYO4RHkXzV8UGmZpb/FDo06qtNyXbayCF1m+kDC9
+KvieuLnfsZro5T6WjeAjDs97CCnf0Q6MP0HPbiHUGxr5DBL/fUGxCI5W7nNJE5Q2
+IlU8vJev+xu1Gs5IYoemJvpquiVP/dDiTW8cOfJzW9EsQyypseasCSf2QrzMHkNT
+hoDiGo0Op/gV6YZ7Kq0t1qNfHM5vMI1fnki7YIo4oZduPWlzhUleb+FCjQJosfQl
+ypC0WYwprqZYVzX51d3EderVsu4o87OeydEa72ctv2gp4WD80lJwbxOwO9BHFAOT
+UChANBnupaV93h/WDysb5jB8ZCgE0laQ8m2Z/+Y4KGvW4Qj2gtg=
+=gPHu
+-----END PGP SIGNATURE-----
+
+--ty0/U/BdEFVy0pZE--
 
