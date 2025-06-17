@@ -1,249 +1,137 @@
-Return-Path: <linux-renesas-soc+bounces-18471-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18472-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45F98ADD9A5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 19:08:26 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75033ADD94F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 19:04:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4A7684A3A37
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 16:50:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 293CC7A5231
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 17:03:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BF00285056;
-	Tue, 17 Jun 2025 16:49:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08F182FA65C;
+	Tue, 17 Jun 2025 17:04:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HlqgBPyZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MlC18b1v"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E17237162;
-	Tue, 17 Jun 2025 16:49:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C118A2FA62D;
+	Tue, 17 Jun 2025 17:04:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750178962; cv=none; b=FAqWXvDOZAtYLajICJPQ4ivmUD+Ene+FtEnDbBa1lA2/hJdPB9DapB1OLQgxteaShhlJIzdr7yMEaHycSCGcCeioSGNi2mqLJhI+Joeg8ef7JjpIkBhFE0LZ3T6XFM8icxzEe3WSml9jPBryzzjLLHEvgFKaBD7JOicokO6P8xk=
+	t=1750179889; cv=none; b=R5O5QIgG8m2dW1/v+L9DpGIkh1gGEJO7bop/w/rR3rhdSEwG1Eo2bnBbbzKf9HySuu7ZCV5U8uPqsMYlcU9Rt+o6ZSK95zbZYJG/44r6eMtpdTWIkoE3NR9AY3ux2fSatbMJ2JamQae9W2NwXpTafQVywSyOL0+3jSpzDbDeobs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750178962; c=relaxed/simple;
-	bh=KRh/3IWUi8wJK9HBTanwpW1Ne/zckpysbpzJqR2v3lY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZXZtDDLJD7ZQjcnsOlbh1qUXrNCbwNbuL/9z9nTnRYN+3UijDQNsxbjwUlmfwUm1AAX5kuB9zmQyFUDDae4dLFok47DOACt4X9Eh99BhGiCAbuPMt2DyWWLHsV3xs9QZXkOuOCDNwQH5N3WLTTFXYlD/C0V/CrVPhJoNoEdSnEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HlqgBPyZ; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-453398e90e9so33077395e9.1;
-        Tue, 17 Jun 2025 09:49:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750178959; x=1750783759; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5XIMm+//qp4wqccCF+D0DH+tZhbKp+Az+d9fFWrYfco=;
-        b=HlqgBPyZSVPAhUuyfQuGYlSovg7s5bUsvHkbUsSAwyyg0ugt49eaAuJI18u4Vl2yCE
-         2+MBAjSirqpf97fvt+kVFlOf3xbcvJKkZPC/ItuAot3/NukvBokNAWH39k+QXbfT2182
-         RGfGFcoLcAc94vqbKW9oSHleXvsqXJZ9EEP4wjeYQpRN6MdSWc7nuButQxjKVHT21owO
-         ijX6tR2hxfuEUaZ/aHd5XuawcXeC+/S/qb4QperMqneeodV3ka2zYK74mVLmuHnRGCQS
-         SeFG2KhUh9bFk4l4RlTIFmcdykU+1JGlOUjW4fODFtFsKAH53jpzHIka6o/+JZW3k7QO
-         1thw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750178959; x=1750783759;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5XIMm+//qp4wqccCF+D0DH+tZhbKp+Az+d9fFWrYfco=;
-        b=k/1TmAZkiOiiSqPfKEYAbzkvBfg72LwB+TW+8Qgzkskg8zhQTsQon04v5CC958N1Do
-         K753iU2SqL6XQX8LnBQwQwHK1Eb627sytIzl/g40f6U8jyEDdthMLsCtX9zniStzb9mp
-         BKQHNCYeedXa7NlsoTR+fDk3gquqNgfVY1rikopuC31C2nncRWk9sCVOpwNTzlX/jrM7
-         4f5NcNv2zlYTVYxdgh4AT+PZsO34fXnw14n9uDxCCAFsBSfd/xiXImlGLFXX9xEHmRDv
-         Yr1HhS2R0l5fQiNVZJuXdGM7qjAxXMl8RwUK2YfJ6uiPY0s/90Iuk+zyxyWmdu49BGgB
-         fu4w==
-X-Forwarded-Encrypted: i=1; AJvYcCU2aG5rMles9viZao//HwSqU0aP7dH/qzgcFw9KEIC/hoe5ncTF/Z33OSKiUTRCBKgZfmoZSopnonaE/bur@vger.kernel.org, AJvYcCU8aY3g/960ZZYRZtvnKHOdFOzjfioHJcFiuHhjGPuYv3noSH773D3w9mpcuRHqS48sRe1zputodm/ZnzY4k0vW7L8=@vger.kernel.org, AJvYcCWCSVX3dFb4V9sq+SsqljobnulYLVIN9Dl1569ctKO5Z0OY4r6x0mT83rwZ6tDZNF73K4EAS6uB9NUp@vger.kernel.org
-X-Gm-Message-State: AOJu0YyxSvGRZ8x5aIwYHAdwfRL69z/q5BQ+nCGg5BVRi3mOLFL64BpQ
-	1IRLBbnB9HjyO8VIGh7L2PG2TQOiahYq5dyQbQ++HFdOsPEUZXLNXtsp
-X-Gm-Gg: ASbGncsCAuBaue4sSyv7hhzpyC6unrmsrJojqyL1NOaHlUPVKs7BpHfL6XvlxdQf2uJ
-	jqadNyKkKnazMX1qM1xhi2H6nH6j7jl3Xz/GQrykt5JUkE11dH9tVmx+35JKP4Ff+ats6zMMtGe
-	EhC3sIuRksAd3fdW68dHTa3mqEFXztMbgQgwjB1uUxJG38Afs8O6ZdQBPE8WF8vO7FCxsQaKS4N
-	+3HEJY/Jw+XmPzvFXRiTMUVMkK586DFTaw9EsAnBJipXbKdgdxRwrNZ7+Uag1IT/scx4f/S0bFl
-	lmLAUa6up7o548UQdegvgIn40byjLhhjcdSyolu5iCV5HkfqdSBVTVPhsvjkEHzoBLLsXaI49hQ
-	lEMQBePQIICQ=
-X-Google-Smtp-Source: AGHT+IHqPQo3No+AxPf3KB6UZMn8Svd+qINdy29DPZOX/zUQw5gwrIihVc5xl0ma5/mBOSDc0/zJTg==
-X-Received: by 2002:a05:6000:65b:b0:3a5:88cf:479c with SMTP id ffacd0b85a97d-3a588cf4cadmr2820887f8f.30.1750178958740;
-        Tue, 17 Jun 2025 09:49:18 -0700 (PDT)
-Received: from iku.Home ([2a06:5906:61b:2d00:a081:30f1:e1c7:6f28])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568b18f96sm14597105f8f.66.2025.06.17.09.49.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jun 2025 09:49:18 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-mmc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2] dt-bindings: mmc: renesas,sdhi: Document RZ/T2H and RZ/N2H support
-Date: Tue, 17 Jun 2025 17:49:14 +0100
-Message-ID: <20250617164914.158091-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.49.0
+	s=arc-20240116; t=1750179889; c=relaxed/simple;
+	bh=AZZ54kpbaOyDLy+/ubXOlw8lKqafcE1tTXmUjCQGWkw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=elp8Fubyv97lO9R1JJsPIYidfrzIMhVH96u5n8nCeHPzqFR6zxeL8c46tL0QmIG6iqHVa3Io11AlYrThcK2+cInJVHlXtgirUZZUvH8b9S5opldwD1E42i80ILgZQnXcMDICh+woRuH+y+/HRTf6hIWfdpO+jAY2teB65ynp/dQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MlC18b1v; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98668C4CEE7;
+	Tue, 17 Jun 2025 17:04:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750179889;
+	bh=AZZ54kpbaOyDLy+/ubXOlw8lKqafcE1tTXmUjCQGWkw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MlC18b1vd0B4fVN9w5YHP3iWoS2zcaCPsljwmcoX3+nufojAu9ux9GD648NXkZ6Xu
+	 ykGAkZdR8/9deA/XSWZvkRsvZMHP9KSlCRFc7zhzxvC1bxom2VpbDB6SDUPtoY96rP
+	 reXO92NmQ1FCVKBDLdrlkPvGpNS9uvnANRnhC1oTjEULrVggTIxfBYqH2vfhL5uQ8e
+	 pzVR8TAqhfQYn1E6XZUb90/p15T5/SHj5DbMyDKjzRmLcX1sKORaVX5dd6DEcFuPJ6
+	 NF+3Kg1GhbDypYEuZpfgp/w9NoMbx8TQsMLeVMQneJK/QxM9q7T0G0FIqimZUm6Wx4
+	 LQSZLYLEBI/nw==
+Date: Tue, 17 Jun 2025 22:34:38 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: bhelgaas@google.com, lpieralisi@kernel.org, kw@linux.com, 
+	manivannan.sadhasivam@linaro.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	geert+renesas@glider.be, magnus.damm@gmail.com, mturquette@baylibre.com, sboyd@kernel.org, 
+	p.zabel@pengutronix.de, linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, john.madieu.xa@bp.renesas.com, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH v2 3/8] dt-bindings: PCI: renesas,r9a08g045s33-pcie: Add
+ documentation for the PCIe IP on Renesas RZ/G3S
+Message-ID: <cmh64utcezpq6thnfrfm7z4dxm63fxzkidirtyjj53cbuzu5ef@v73majd6kepz>
+References: <20250530111917.1495023-1-claudiu.beznea.uj@bp.renesas.com>
+ <20250530111917.1495023-4-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250530111917.1495023-4-claudiu.beznea.uj@bp.renesas.com>
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Fri, May 30, 2025 at 02:19:12PM +0300, Claudiu wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> The PCIe IP available on the Renesas RZ/G3S complies with the PCI Express
+> Base Specification 4.0. It is designed for root complex applications and
+> features a single-lane (x1) implementation. Add documentation for it.
+> 
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> ---
+> 
+> Changes in v2:
+> - update the interrupt names by dropping "int" and "rc" string; due
+>   to this the patch description was adjusted
+> - added "interrupt-controller" and made it mandatory
+> - s/clkl1pm/pm/g
+> - dropped the legacy-interrupt-controller node; with this the gic
+>   interrupt controller node was dropped as well as it is not needed
+>   anymore
+> - updated interrupt-map in example and added interrupt-controller
+> - added clock-names as required property as the pm clock is not
+>   handled though PM domains; this will allow the driver to have
+>   the option to request the pm clock by its name when implementation
+>   will be adjusted to used the pm clock
+> - adjusted the size of dma-ranges to reflect the usage on
+>   SMARC module board
+> - moved "renesas,sysc" at the end of the node in example to align
+>   with dts coding style
+> 
+>  .../pci/renesas,r9a08g045s33-pcie.yaml        | 202 ++++++++++++++++++
+>  1 file changed, 202 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/pci/renesas,r9a08g045s33-pcie.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/pci/renesas,r9a08g045s33-pcie.yaml b/Documentation/devicetree/bindings/pci/renesas,r9a08g045s33-pcie.yaml
+> new file mode 100644
+> index 000000000000..8ba30c084d1b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/pci/renesas,r9a08g045s33-pcie.yaml
+> @@ -0,0 +1,202 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/pci/renesas,r9a08g045s33-pcie.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 
-Add SDHI bindings for the Renesas RZ/T2H (a.k.a R9A09G077) and RZ/N2H
-(a.k.a R9A09G087) SoCs. Use `renesas,sdhi-r9a09g057` as a fallback since
-the SD/MMC block on these SoCs is identical to the one on RZ/V2H(P),
-allowing reuse of the existing driver without modifications.
+[...]
 
-Update the binding schema to reflect differences: unlike RZ/V2H(P),
-RZ/T2H and RZ/N2H do not require the `resets` property and use only a
-two clocks instead of four.
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/r9a08g045-cpg.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    bus {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        pcie@11e40000 {
+> +            compatible = "renesas,r9a08g045s33-pcie";
+> +            reg = <0 0x11e40000 0 0x10000>;
+> +            ranges = <0x03000000 0 0x30000000 0 0x30000000 0 0x8000000>;
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v1->v2:
-- Added the high speed clock to the clocks list.
----
- .../devicetree/bindings/mmc/renesas,sdhi.yaml | 85 ++++++++++++-------
- 1 file changed, 53 insertions(+), 32 deletions(-)
+This 'ranges' property looks bogus. The bitfield specifies that the memory is
+64 bit non-prefetchable, which can't be true.
 
-diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-index 7563623876fc..ba15ccbda61a 100644
---- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-+++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-@@ -72,6 +72,8 @@ properties:
-           - enum:
-               - renesas,sdhi-r9a09g047 # RZ/G3E
-               - renesas,sdhi-r9a09g056 # RZ/V2N
-+              - renesas,sdhi-r9a09g077 # RZ/T2H
-+              - renesas,sdhi-r9a09g087 # RZ/N2H
-           - const: renesas,sdhi-r9a09g057 # RZ/V2H(P)
- 
-   reg:
-@@ -129,59 +131,78 @@ allOf:
-         compatible:
-           contains:
-             enum:
--              - renesas,sdhi-r9a09g057
--              - renesas,rzg2l-sdhi
-+              - renesas,sdhi-r9a09g077
-+              - renesas,sdhi-r9a09g087
-     then:
-       properties:
-+        resets: false
-         clocks:
-           items:
--            - description: IMCLK, SDHI channel main clock1.
--            - description: CLK_HS, SDHI channel High speed clock which operates
--                           4 times that of SDHI channel main clock1.
--            - description: IMCLK2, SDHI channel main clock2. When this clock is
--                           turned off, external SD card detection cannot be
--                           detected.
--            - description: ACLK, SDHI channel bus clock.
-+            - description: ACLK, IMCLK, SDHI channel bus and main clocks.
-+            - description: CLK_HS, SDHI channel High speed clock.
-         clock-names:
-           items:
--            - const: core
--            - const: clkh
--            - const: cd
-             - const: aclk
--      required:
--        - clock-names
--        - resets
-+            - const: clkh
-     else:
-       if:
-         properties:
-           compatible:
-             contains:
-               enum:
--                - renesas,rcar-gen2-sdhi
--                - renesas,rcar-gen3-sdhi
--                - renesas,rcar-gen4-sdhi
-+                - renesas,sdhi-r9a09g057
-+                - renesas,rzg2l-sdhi
-       then:
-         properties:
-           clocks:
--            minItems: 1
--            maxItems: 3
--          clock-names:
--            minItems: 1
--            uniqueItems: true
-             items:
--              - const: core
--              - enum: [ clkh, cd ]
--              - const: cd
--      else:
--        properties:
--          clocks:
--            minItems: 1
--            maxItems: 2
-+              - description: IMCLK, SDHI channel main clock1.
-+              - description: CLK_HS, SDHI channel High speed clock which operates
-+                             4 times that of SDHI channel main clock1.
-+              - description: IMCLK2, SDHI channel main clock2. When this clock is
-+                             turned off, external SD card detection cannot be
-+                             detected.
-+              - description: ACLK, SDHI channel bus clock.
-           clock-names:
--            minItems: 1
-             items:
-               - const: core
-+              - const: clkh
-               - const: cd
-+              - const: aclk
-+        required:
-+          - clock-names
-+          - resets
-+      else:
-+        if:
-+          properties:
-+            compatible:
-+              contains:
-+                enum:
-+                  - renesas,rcar-gen2-sdhi
-+                  - renesas,rcar-gen3-sdhi
-+                  - renesas,rcar-gen4-sdhi
-+        then:
-+          properties:
-+            clocks:
-+              minItems: 1
-+              maxItems: 3
-+            clock-names:
-+              minItems: 1
-+              uniqueItems: true
-+              items:
-+                - const: core
-+                - enum: [ clkh, cd ]
-+                - const: cd
-+        else:
-+          properties:
-+            clocks:
-+              minItems: 1
-+              maxItems: 2
-+            clock-names:
-+              minItems: 1
-+              items:
-+                - const: core
-+                - const: cd
- 
-   - if:
-       properties:
+- Mani
+
 -- 
-2.49.0
-
+மணிவண்ணன் சதாசிவம்
 
