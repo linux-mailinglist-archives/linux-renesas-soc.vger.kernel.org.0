@@ -1,78 +1,76 @@
-Return-Path: <linux-renesas-soc+bounces-18464-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18463-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02817ADD3B5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 18:01:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A31CCADD46B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 18:09:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8E4C67AC3DD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 16:00:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9583E1946BD3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 16:01:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D150B2EE5F9;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02B232EE5E4;
 	Tue, 17 Jun 2025 15:58:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j43ECud9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Io3w9Uv6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F22D52ED87D;
-	Tue, 17 Jun 2025 15:58:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B1B2ECE99;
+	Tue, 17 Jun 2025 15:58:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750175883; cv=none; b=hJbc7CdgMXUkcmFaEScswWe6RS72EnQRKnzN63mBbjEppNbxyktRJ53lUy0MtcQy5kcihAPI2LCyj85JpER+A/uyk4GBzEq6Jk5vC7I+V1GzogkOS2Ol55AiPsv8Yrp9pmZ8fQcfpwczyvrjqhh+tciN7x2rOUGhv3PpFHv7LL0=
+	t=1750175882; cv=none; b=Rq6wQS/nu1MRQFUnjWWU0CIBOUr2eer8azHGgjvwkoDSHcQ66e+1dUJMSU3QVFP+gb0XqXXIZkyiGWydsyyeNa83VmsOiFKrLJnp389ZocekV3Hi6vmJ5a7VuaK6Em/h/zFTjo5d/F9LnQJdjvyV9uv3BkQfsdqsaEBMuOzCjk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750175883; c=relaxed/simple;
-	bh=k2IZUGGSjNh7YmwST6Jj/uXIReJvEhYDnealB+gedeo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=c31maCjkMS+POq6mgQRgOA1inL7tqbYu5A7VXZNd/SfSXNHG/X37ZyO8nwFs6hp+PKot+J9zFys98ZL0LCo5TJgPaJAWCWGc+mnNvrxaH8i2thhBhpT7DaEB3ZCQXTiHwEQ9gGdfna4Pb0Yf6CZSheyt+8+Nbc+AFWTCBTFjVNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j43ECud9; arc=none smtp.client-ip=209.85.128.43
+	s=arc-20240116; t=1750175882; c=relaxed/simple;
+	bh=SffMIIFbr7xI/iF/n2eCRR6ijDsf2+ugvTClsReolMg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KGPg7hbBld5m0ykSA0csWQk3obMzqUzAk6r7TkNUbweVmkIcXpZp8sFUmgq445wQclDPy7Rh1+crccoxm0sh53xR+aixKNrWihkc3jfBAPoFITWUsxQzXG/Sr/4rNGZ4NGstCSiKg60W1hY+nzqrYNFiZMTB/ATTxLZsqOiecQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Io3w9Uv6; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-451d41e1ad1so50989015e9.1;
-        Tue, 17 Jun 2025 08:58:01 -0700 (PDT)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-450ce671a08so37400365e9.3;
+        Tue, 17 Jun 2025 08:58:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750175880; x=1750780680; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NsZfxeqM9LP6dvIsvkURMf+pGGLMSvH+G4Gi/Jfw6oo=;
-        b=j43ECud9tiq0oBhConQdzHp4XexmQgY19VWod8lffbM/DSbfZz8naZ5LUGUN8kwhC1
-         30tjY1c5xiAQFjrjwaIjkOOKSuyAcTxzWQGNdYGu3xNCzVbAHjHeVkV0clyZhHuhwzuS
-         b5/1M3cEioMoyCl97obEh1ruM6H1zYTOX5YgS97rzEWJvCm1CZi2nNSrYTCS0MLSdqTa
-         sUVZCeZnHF6LvQJ7G4gNVaeCAzIxUfqq7+SjryYZscwIpoS6VGC8KRN4eCSMh41pEBG2
-         cJPvWqLmNYgb0uYcs1RFfM7Eaep6vEfhO9EH9mEAxgd+UNpI4ZUu9P53WZ62UIsLQnZT
-         cO3Q==
+        d=gmail.com; s=20230601; t=1750175879; x=1750780679; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KJJNLvFYXH8jXiom8tinXa8ZRDeIOxc/CjQYop7JDbc=;
+        b=Io3w9Uv65yn2DGfSGuJxHRiIaz0bkAxWp7WGRyRgFsYJnRJklcgrwdfd89FfoxQ2og
+         zsE6+mU09PIZAw7pTKd976EoIb7A6/1LtM7hwzNf5u5e4QaX3Bs5epfWZ/cABVSA+y7R
+         BZeO4TncU2BWVDdwl8yU741kxTNiiezqTQllXl4oOWwJEnZsEqZMyo7vtGY7DETGkS7e
+         Xvy6kSUgPXWSUTGHX3HSFto3ROs8Pfb2R3PN1cQYka1vsVmBv/ti8x7zufm/tOmh+ycd
+         Y0eZPzUz4BhYcHHtViU/eXSwnFZqVVFBTs8bkK0klPeFyC0eiZD5Ueen1wACmywWytqX
+         miNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750175880; x=1750780680;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NsZfxeqM9LP6dvIsvkURMf+pGGLMSvH+G4Gi/Jfw6oo=;
-        b=sqCr7W+6immfmfu5FV4lzWdY/BdguUwJIHTGpjz37xG4fuO56JEndyzaGHxx5R0pJK
-         GsOqp1TAsm8Of77d4Cxu4f05LoeAOuwoMxXvDWYxJvz8X3KLqHunjuTHiLgn3WkT6OCe
-         hptLb8gTGlZlUqePhJvYG0u/BS8ctcxi58HG2j7GnGk7Zy/H4wAHiDhKhW0FP0Sgd9ei
-         33vPAGpgRY35h4RY+DcKUpSmuD+Ub4N0cgP9YHA84Wj1cY2ZPZzOB1Yq5qYGhIgDDWPP
-         8HCxKkMAAzZSa6/kRwjac2ukIFKxHcLwADe87SvvxpyUhXl9SLLZjpz/M0YnYaZ6t4TM
-         zIZg==
-X-Forwarded-Encrypted: i=1; AJvYcCUdAVt/sIhwPvALru+B+lghzQaGxfVbM3npCn+JcawoRrr4Ic9ACSDwo+auMOklJ4x95/lEdMgObT0y2TYh@vger.kernel.org, AJvYcCXWsCiPqgkzeZx/F8HNw8B26bWxHYJg2v7ujcDr2E+5aqoaO+AdympyreG2MaFIrOrfVFW7YD7Ge1jA@vger.kernel.org, AJvYcCXfr9EkGxSO/uhvs2u7eNdCV+YuJzhSN4QAmKHHtoP2TI3PHqT551ET/yA7K/6393bvCAGBCxfEPANM@vger.kernel.org
-X-Gm-Message-State: AOJu0YyijesahS1IgnMBm3XKSfvdPqzgzxerDC/IFz+AmwGuocU6u5sv
-	jvD5y/YURYKSLMDzp9/xuzeIpN2C6kEa//4gJoRNfyyO01Q3RKJ4UOc1
-X-Gm-Gg: ASbGncsrD74o93A3gv9En3YxlJl/Y4kJmeNHhHYPZhqa6qNg+7/YQTKStJH9M23R/HD
-	VhoyXpBCphFRoTT7cz0n61bGvwbJren68UlyPr3jv97WfLKXi5oTjPNO23q43RzcBSd/OAKWBc0
-	CvHiPnAlKD3sgQIWQmYeDAQjSfRf4aJyh96H2cj0TpMYOGSOtlSVFsBH3MBwRNxfT8p0wuA/rys
-	CKlUfHGSI+v3Xe/Nw+33JWbOvCQS99dMgV6nEzPz85fnCJ3CBq3lXU+pp3BynSjUd/4NcNZXS/c
-	SgJAuFCg0yfcs1yJb13qHGiXBwDLQuR9KE+nAEvMlKqeDG7J0zf1ZoQuDkh2QFFur4iOelNp+rx
-	xe3AotUWrNfQ=
-X-Google-Smtp-Source: AGHT+IGnD2jDwQ6p30B87/o1bgbnTO4JgOm2ZpuDQ4yqKdnflI0Cuey9Cpb1eNwwMaJdryWKn1XHsA==
-X-Received: by 2002:a5d:5f48:0:b0:3a4:d8b6:ca3f with SMTP id ffacd0b85a97d-3a5723a291dmr10158013f8f.30.1750175879992;
+        d=1e100.net; s=20230601; t=1750175879; x=1750780679;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KJJNLvFYXH8jXiom8tinXa8ZRDeIOxc/CjQYop7JDbc=;
+        b=er9M17ftnWdT2Mxq0hLO5VFyp6Bf7ApbB0YnENuZTmTcHMgBKZLEj1Tiw7l6ygMipG
+         y0TTDAmJh+tNKBCG6ihUlR1hzaHNmQfVPFD8xcO83+E/gC0hKtLqu88NVJO+yQNKT0gb
+         AgvE91f2XsytRUxt+r8QmIiG1iHQA+u37eKmce/MojOlCONLxL9dyYaWfxpNy9cDw3Io
+         Q1fe2RahyQwYE/yZNBnrueV5SsAEWbxH+NfZ6TO7IAEvGEpMfaN3DxxiwgqcuQxENDSN
+         vM+s25mmTdNHY2pDvaG5JIhnMvafWvUnQw05rcKdxrjZng+jl8WM8+srKlDQpC/S6ip+
+         pEAw==
+X-Forwarded-Encrypted: i=1; AJvYcCUlmw4gqOZhCfdXcARKMZXUnOXUw02n1c7uj9qAKmzcyADGWBgsWeeQ67hNs51bSA27bG5G7fKy6Wr2A1tJ@vger.kernel.org, AJvYcCVzyL8SAQnQH7F2zOphEOSTOm7C3VYg/TIGT2nNwBReEji8kGxgh861yiuY3bhwGLp5zFx8hb1F6nt1@vger.kernel.org, AJvYcCWDYBTbZnTHQbv4FzbMFjtpTptR2YdOBmrcD0fe0SzWi23meB6arZZsA0RHQCl+ufySaMtVcQTNYqqc@vger.kernel.org
+X-Gm-Message-State: AOJu0YwD5tyDUXU9F157bqxdB5cLAhmjdQAPsSA5pxBSIGNCcqxJ+9/6
+	OwRl6N7NWMjeGJke7LnK+Fpvil9z+mDoUqiQ6477qpAUlWVLkg/kiXiz
+X-Gm-Gg: ASbGncsOLTbLGM9Rx2sW8aayR7zNeWxjWbrH45u6AoFWBd0KGPrRv3Rv6SbkjisHWP2
+	2dSTeHmvRIQxlQNuYEt59BaXj6KHKBUJ+/skFFNNnvbA+E5fmxV9yt4QsXmwT8Tri0LCTU+OHuM
+	kMuzgZjaC7qTE+8AukKOChERhsE/cz9QfZkhl76R6srzmskjZcn91zl6hZtMjHtIzefoXaFFa3n
+	YkaHqvaMzy36KIRnZFmwychvgGPOXsB+uCUgh088Npna78sp8o17WsKR1UT4TrhcCSIP1z6N6Xz
+	c6ItJ5niJe5vDD4xyTXJThYcGVi8ea3Ms7da5ZDO7e6m11Sxp441Lr5WPV/HBWn3ApqNXydCL0J
+	1yHXO57MApTY=
+X-Google-Smtp-Source: AGHT+IEHG+qH1Kc0aRWhRe2pFMGOtmXhNLQop3+1vD7jRkXX9/xcUoyibN9G6CU0imRTOunbvijpqw==
+X-Received: by 2002:a05:600c:529b:b0:43d:97ea:2f4 with SMTP id 5b1f17b1804b1-4533caf5b1amr132980785e9.12.1750175879106;
         Tue, 17 Jun 2025 08:57:59 -0700 (PDT)
 Received: from iku.Home ([2a06:5906:61b:2d00:a081:30f1:e1c7:6f28])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568a53f79sm14189115f8f.4.2025.06.17.08.57.59
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568a53f79sm14189115f8f.4.2025.06.17.08.57.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jun 2025 08:57:59 -0700 (PDT)
+        Tue, 17 Jun 2025 08:57:58 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -89,14 +87,11 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Prabhakar <prabhakar.csengg@gmail.com>,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH v2 1/4] dt-bindings: clock: renesas,cpg-mssr: Document RZ/N2H support
-Date: Tue, 17 Jun 2025 16:57:54 +0100
-Message-ID: <20250617155757.149597-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 0/4] Add CPG/MSSR support for RZ/N2H SoC
+Date: Tue, 17 Jun 2025 16:57:53 +0100
+Message-ID: <20250617155757.149597-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250617155757.149597-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20250617155757.149597-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -107,79 +102,43 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Document support for the Clock Generator, Module Standby and Software
-Reset found on the Renesas RZ/N2H (R9A09G087) SoC. This hardware block
-is similar to the one found on the RZ/T2H SoC.
+Hi All,
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
----
+This series adds support for the Clock Generator, Module Standby, and
+Software Reset (CPG/MSSR) found on the Renesas RZ/N2H (R9A09G087) SoC.
+The implementation reuses the existing RZ/T2H (R9A09G077) CPG/MSSR
+driver, as both SoCs share the same clock and reset architecture.
+
+Note, Ive split the CPG/MMSR support into separate series previously
+the patches were part of series [1].
+
+[1] https://lore.kernel.org/all/20250609203656.333138-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+
 v1->v2:
-- Updated commit message
-- Added Acked-by tag
----
+- Rebased on latest linux-next.
+- Update commit messages for patches 1/4 and 4/4
+- Patches 2/4 and 3/4 are new patches to add PCLKL core clock
+- Added reviewed-by tags.
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (4):
+  dt-bindings: clock: renesas,cpg-mssr: Document RZ/N2H support
+  dt-bindings: clock: renesas,r9a09g077: Add PCLKL core clock ID
+  clk: renesas: r9a09g077-cpg: Add PCLKL core clock
+  clk: renesas: Add CPG/MSSR support to RZ/N2H SoC
+
  .../bindings/clock/renesas,cpg-mssr.yaml      |  5 +++-
+ drivers/clk/renesas/Kconfig                   |  5 ++++
+ drivers/clk/renesas/Makefile                  |  1 +
+ drivers/clk/renesas/r9a09g077-cpg.c           |  4 ++-
+ drivers/clk/renesas/renesas-cpg-mssr.c        |  6 ++++
+ .../clock/renesas,r9a09g077-cpg-mssr.h        |  1 +
  .../clock/renesas,r9a09g087-cpg-mssr.h        | 28 +++++++++++++++++++
- 2 files changed, 32 insertions(+), 1 deletion(-)
+ 7 files changed, 48 insertions(+), 2 deletions(-)
  create mode 100644 include/dt-bindings/clock/renesas,r9a09g087-cpg-mssr.h
 
-diff --git a/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml b/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
-index 708ab6bd7d44..bc2fd3761328 100644
---- a/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
-+++ b/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
-@@ -53,6 +53,7 @@ properties:
-       - renesas,r8a779g0-cpg-mssr # R-Car V4H
-       - renesas,r8a779h0-cpg-mssr # R-Car V4M
-       - renesas,r9a09g077-cpg-mssr # RZ/T2H
-+      - renesas,r9a09g087-cpg-mssr # RZ/N2H
- 
-   reg:
-     minItems: 1
-@@ -112,7 +113,9 @@ allOf:
-       properties:
-         compatible:
-           contains:
--            const: renesas,r9a09g077-cpg-mssr
-+            enum:
-+              - renesas,r9a09g077-cpg-mssr
-+              - renesas,r9a09g087-cpg-mssr
-     then:
-       properties:
-         reg:
-diff --git a/include/dt-bindings/clock/renesas,r9a09g087-cpg-mssr.h b/include/dt-bindings/clock/renesas,r9a09g087-cpg-mssr.h
-new file mode 100644
-index 000000000000..f28166d6015f
---- /dev/null
-+++ b/include/dt-bindings/clock/renesas,r9a09g087-cpg-mssr.h
-@@ -0,0 +1,28 @@
-+/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+ *
-+ * Copyright (C) 2025 Renesas Electronics Corp.
-+ */
-+
-+#ifndef __DT_BINDINGS_CLOCK_RENESAS_R9A09G087_CPG_H__
-+#define __DT_BINDINGS_CLOCK_RENESAS_R9A09G087_CPG_H__
-+
-+#include <dt-bindings/clock/renesas-cpg-mssr.h>
-+
-+/* R9A09G087 CPG Core Clocks */
-+#define R9A09G087_CLK_CA55C0		0
-+#define R9A09G087_CLK_CA55C1		1
-+#define R9A09G087_CLK_CA55C2		2
-+#define R9A09G087_CLK_CA55C3		3
-+#define R9A09G087_CLK_CA55S		4
-+#define R9A09G087_CLK_CR52_CPU0		5
-+#define R9A09G087_CLK_CR52_CPU1		6
-+#define R9A09G087_CLK_CKIO		7
-+#define R9A09G087_CLK_PCLKAH		8
-+#define R9A09G087_CLK_PCLKAM		9
-+#define R9A09G087_CLK_PCLKAL		10
-+#define R9A09G087_CLK_PCLKGPTL		11
-+#define R9A09G087_CLK_PCLKH		12
-+#define R9A09G087_CLK_PCLKM		13
-+#define R9A09G087_CLK_PCLKL		14
-+
-+#endif /* __DT_BINDINGS_CLOCK_RENESAS_R9A09G087_CPG_H__ */
 -- 
 2.49.0
 
