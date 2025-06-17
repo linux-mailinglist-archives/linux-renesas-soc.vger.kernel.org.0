@@ -1,130 +1,247 @@
-Return-Path: <linux-renesas-soc+bounces-18455-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18456-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0FFBADCE71
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 15:58:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D481CADCEAB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 16:04:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F0F5F188D885
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 13:58:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DD5E7188C5ED
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jun 2025 14:02:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D06A92DBF44;
-	Tue, 17 Jun 2025 13:57:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 561291885AB;
+	Tue, 17 Jun 2025 14:02:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LK6FAhu5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D36792E7179;
-	Tue, 17 Jun 2025 13:57:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F188482FF;
+	Tue, 17 Jun 2025 14:02:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750168654; cv=none; b=oiE51dmh1E+W8scrYXPecpw2+BIdj7Zn2Kysr+6QffF/wggwSqhzEPzZqruBfPYxrg6Fp9uJw0O19OSo1LLjVIY5Xjcd+yv/y4yYv86ZBC9/7jM+bwLUXkNansWDti3d8la5eyJVnlv4YZNFGJcsb/gYXVcSekSMO6G13hvvx64=
+	t=1750168946; cv=none; b=bAcSA7cHo7BtVkOD1GcG8yDlZiM9JSu5xXTqno9TjxAV9WIublYJIM3AKdALGlL+ldT1WugCp0bq8B3uX0jmi2Ths7N4lAP1gc4a7K4JNrJ7G1+xIZ1MbKrJ0fFGcZ5Zx5a77KB9X4Q3VpHXD1cu4TRtEszScMG1HSxCZ8X9WYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750168654; c=relaxed/simple;
-	bh=Ok+h/hslqpBIYtKWXl+Hk4lXs44vVszLjZf/RHvkAJg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hYtdTTzHVMMtPQGhXPk/eCo070Mf5wdRXgq+2+B+5IBkUCoSjF7ckTPCN8jLTtk8c+c1ZQOi5BI1FbPhPVnUxDQdC/Ft5mTm8v7IitvV1vN7MTiXKfoV/xg/+UwELIrbFTNWtpZPtahBzcShN4TZWlp+93nwzw7gxJZaldbxLxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-5308b451df0so1609422e0c.2;
-        Tue, 17 Jun 2025 06:57:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750168651; x=1750773451;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sUxmDYXurhyNXGwP8gjUs30r8dluW8wkF+4NNh3dZLc=;
-        b=wfXnBsXyB7bI13WYUviYBT7jH4hALXDgzHK3jNwZP/3ebyYW91Xb1V1OzA9NC2nw2a
-         urWRGty9LYbdsu785PY+F/l5TbY74FH65tlopfdVRj2a/9CNX55Vox4K9k45ET9vFcGv
-         GxI9+oxWlRjVz0GKBcYFcbFSYRGZxK1XFcM80I3iqv8wgExDllYcr2kgmWdIqUZO+sX2
-         E0asqGU3mx7M+KUshlzfHXutwHUWxkezhG7KJqfLtDLT/EGv5vZLCDBk51Q3Bdv/mQUI
-         kkNwnuENeKIF8zgvUkMuqe/vyf7VtFMCoWM77cWhY/9PLQTK6Z9UffDVrieaVhdC8K06
-         Y+xg==
-X-Forwarded-Encrypted: i=1; AJvYcCUYHCVq2iosJxulyit7k91mxszG7qLM4QraDQ/m6v+8cjKcS272au6UCSDQ82bU6a834QvuaOT31YMbq+t4@vger.kernel.org, AJvYcCUy4VmUyQzwX2wFoL+tiCxOaEpXSDYbmuWI9THDxzWPwYRhL22mI683tmZq9/mWHBMer3ewSKj4SGr0gouS@vger.kernel.org, AJvYcCVpcxeRlzVHlVOoqE5teO6l8dcnN5vqWgPnegAwh4mfXeWFuLCtvyG5/atzqyBWNgevUvSY/DodHY5i@vger.kernel.org, AJvYcCWFko/0KEKqHlO9R9MdhAJ6OhFcjpj7iPm1efenvxkUsnH4YA/27ooGJDHRf6ghrymQTY8MN5VQcscLBBje4Wbx8Xw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQ7W6Oai+/g1XVna3Rv7ZwEp8T+vMEGxGNKd9VvW8baqWfu9Uj
-	84G/KIC/DmmEM0Y/kS4zms43uNOclv67Ry6jnDdy2bsftPG6+x1Q5+pqqgDqMB5k
-X-Gm-Gg: ASbGnctecoTyZZhK9KhpYPvS66XnTygYtqvqQr4C19AMQowg+PW0cvN7vbf+vxInfIA
-	OFjQFoVlm0V6am2HRplyhVwRPYI/fbt3h5JHwLiLYSFBR5Ot+UQQC1hGq9Yqf5ZeXf1okek4T7/
-	4vFChO6iiN5LixtAEDUsBZ5iSOFIhTHLDWagxzfecGDo98W49iw/WGITEfbPsPZH2Zg8JtmWbyM
-	yge+QbckI8IItUg1ZDR5PSQaBv3WzRHHr+MyJJKvifESs73PW/OwSRoj8b4yvUST4LR6mAfb1M/
-	9WL/Zcj5rcHl7bu/wfiw13nhg+Fm9dZ/5hNaZPb//gH17jABwqVfFa4Mxcy6qsZ68EBgZViyOGw
-	phDBn3+rmUZ7AO5tvNLrrDv34
-X-Google-Smtp-Source: AGHT+IGQMyiDiFb/4WSyDLipPVZRf1Fo/2hZ1NzPqYdHvHfoqGURzZoDTIr+5omvsG1uNxVeI2QGWw==
-X-Received: by 2002:a05:6122:8f8d:b0:531:2afc:463e with SMTP id 71dfb90a1353d-53149551fd7mr8600015e0c.5.1750168650981;
-        Tue, 17 Jun 2025 06:57:30 -0700 (PDT)
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5314d938c48sm1208519e0c.39.2025.06.17.06.57.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Jun 2025 06:57:30 -0700 (PDT)
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-87f30519147so530346241.0;
-        Tue, 17 Jun 2025 06:57:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU3myT3KVW8lCjGrPbF/51PreK801XF1dtTqJet6mdMMs//pmMEF6p9IrZ9XsubLt9gAMHTh3HDVlY3@vger.kernel.org, AJvYcCUqDQ8bHvAB2wsC3DjnEtkV20AATqlsiF6MvMn/hV5X3+NgL3ZDp2f/eilHWOeTpNY0J4ms1Z/sWmXVw4Xc@vger.kernel.org, AJvYcCUxBcJ85Due1rg0/vM7/nmJlKsSRuzDX5ITdX1N29hZdjOjuo/rBoAbHPNVA4dcOydYzlBNh2HnobneY0f8iplNJ0s=@vger.kernel.org, AJvYcCVft5cGRZgQ16t+P0hV4wRD0Ber4alTeYmjzPx+4kiojwEAVtbr7N/epn0lyxVuH9SxvjaJPvC0NlJK251a@vger.kernel.org
-X-Received: by 2002:a05:6102:6a8c:b0:4e4:5ed0:19b2 with SMTP id
- ada2fe7eead31-4e7f61646ecmr10361664137.9.1750168650648; Tue, 17 Jun 2025
- 06:57:30 -0700 (PDT)
+	s=arc-20240116; t=1750168946; c=relaxed/simple;
+	bh=IDX1O24AQ0fDZmg1ZPj5AQ8cxPkyCVGdTnsRhraCqI4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s2V03Ex23TEmmlkVjOdZlZ0O/huu8beZI94c7Llx8un5YAl5OqdtJuBk860kqMtK/a6VJj0x4l0M0+sBZK5MHnNgkMCP6z8HyAE1li33GhPEarVdWewz02q3bJV7RMwuKjCOb05I/YHb9qVoZQLQxekAJ0SsjEV1WdYhOwQwXAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LK6FAhu5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AD75C4CEF0;
+	Tue, 17 Jun 2025 14:02:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750168945;
+	bh=IDX1O24AQ0fDZmg1ZPj5AQ8cxPkyCVGdTnsRhraCqI4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LK6FAhu5ZIAiinLdF1hK6FzwBJNcznjlQDAhJ6n/e0Oakxc2TRRZSvg74pmqZKlvi
+	 ZojcdOtJTnLg4sEvm0oraVwDgq3UQ4LujOoA0Yp0ps/V7uc9dYpQ4og4olKK6XoVK2
+	 4mtkf0zz6Z/XjB5v8x+Kg1QB6D25bu/o1+vpa+ZLqmabh5Q/INhJOv0hNs/Oqu+LCe
+	 q7cAWd2Lz+T4Uk62NFEM2/QPp7B0DG0TLoVWhkf+Z8qUsmPTko0Xt2KXljYtjOx6wb
+	 rQY1+oakjC2wlGcY5JExwVgTP9TISF+I5wiBUR1X/+o4zvkcz/wVt6hxIrOea4q50V
+	 w34f7FluotYXQ==
+Date: Tue, 17 Jun 2025 16:02:22 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-pwm@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] pwm: argon-fan-hat: Add Argon40 Fan HAT support
+Message-ID: <fhns5fnckokwsb572kge6tmqaaoholzvgncdctj7vskigytvmu@3uirsrszul36>
+References: <20250617092037.37229-1-marek.vasut+renesas@mailbox.org>
+ <20250617092037.37229-3-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250617134504.126313-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250617134504.126313-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250617134504.126313-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 17 Jun 2025 15:57:18 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWfsqYvdL16hrbWug3PhK1XrSunaWtduajRzViKBRPeCA@mail.gmail.com>
-X-Gm-Features: Ac12FXx9rL6On1cpfgpw-cjWhbvyIu0jjh2MQYrNFm-hEQyv6wxGvVbnYEQpoQ4
-Message-ID: <CAMuHMdWfsqYvdL16hrbWug3PhK1XrSunaWtduajRzViKBRPeCA@mail.gmail.com>
-Subject: Re: [PATCH v12 7/7] arm64: defconfig: Enable Renesas RZ/T2H serial SCI
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-arm-kernel@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-serial@vger.kernel.org, devicetree@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="t62wktukis6g36v3"
+Content-Disposition: inline
+In-Reply-To: <20250617092037.37229-3-marek.vasut+renesas@mailbox.org>
 
-Hi Prabhakar,
 
-On Tue, 17 Jun 2025 at 15:45, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
->
-> Selects RZ/T2H (aka r9a09g077) SCI (serial) specific code.
->
-> Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+--t62wktukis6g36v3
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH v3 3/3] pwm: argon-fan-hat: Add Argon40 Fan HAT support
+MIME-Version: 1.0
 
-Thanks for your patch!
+Hello Marek,
 
-> ---
->  arch/arm64/configs/defconfig | 1 +
->  1 file changed, 1 insertion(+)
+On Tue, Jun 17, 2025 at 11:19:36AM +0200, Marek Vasut wrote:
+> diff --git a/drivers/pwm/pwm-argon-fan-hat.c b/drivers/pwm/pwm-argon-fan-hat.c
+> new file mode 100644
+> index 000000000000..58b94ad4d9bc
+> --- /dev/null
+> +++ b/drivers/pwm/pwm-argon-fan-hat.c
+> @@ -0,0 +1,122 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2025 Marek Vasut
+> + *
+> + * Limitations:
+> + * - no support for offset/polarity
+> + * - fixed 30 kHz period
+> + *
+> + * Argon Fan HAT https://argon40.com/products/argon-fan-hat
+> + */
+> +
+> +#include <linux/err.h>
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +#include <linux/pwm.h>
+> +
+> +#define ARGON40_FAN_HAT_PERIOD_NS	33333	/* ~30 kHz */
+> +
+> +static int argon_fan_hat_round_waveform_tohw(struct pwm_chip *chip,
+> +					     struct pwm_device *pwm,
+> +					     const struct pwm_waveform *wf,
+> +					     void *_wfhw)
+> +{
+> +	u8 *wfhw = _wfhw;
+> +
+> +	*wfhw = DIV_ROUND_CLOSEST_ULL(wf->duty_length_ns * 100, wf->period_length_ns);
 
-I don't expect GregKH to apply this patch (or better: I expect GregKH
-to not apply this patch ;-) so IMO there is no point in including it
-in this series.
+Oh, I thought I already pointed this out to be wrong in reply to v2, but
+it seems I didn't :-\ Ah, I did that for your other PWM patch
+https://lore.kernel.org/all/jgafc7te2zotqwvetudo6c4o4nit6zi3yp4ecg4gka53hrypk5@7ypb5asrc2ct/.
 
-Thierry's original version is still in my queue, together with the
-DTS patches, waiting for the RSCI DT bindings to be accepted...
+I see you have concerns there, I'll address these in that thread.
 
-Gr{oetje,eeting}s,
+> +	return 0;
+> +}
+> +
+> +static int argon_fan_hat_round_waveform_fromhw(struct pwm_chip *chip,
+> +					       struct pwm_device *pwm,
+> +					       const void *_wfhw,
+> +					       struct pwm_waveform *wf)
+> +{
+> +	const u8 *wfhw = _wfhw;
+> +
+> +	wf->period_length_ns = ARGON40_FAN_HAT_PERIOD_NS;
+> +	wf->duty_length_ns = DIV64_U64_ROUND_UP(wf->period_length_ns * *wfhw, 100);
+> +	wf->duty_offset_ns = 0;
+> +
+> +	return 0;
+> +}
+> +
+> +static int argon_fan_hat_write(struct i2c_client *i2c, const u8 wfhw)
+> +{
+> +	u8 tx[2] = { 0x80, wfhw };
 
-                        Geert
+The vendor "driver" has `ADDR_ARGONONEREG_DUTYCYCLE=0x80`, maybe put that
+into a define, too?
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> +	struct i2c_msg msg = {
+> +		.addr = i2c->addr,
+> +		.len = 2,
+> +		.buf = tx,
+> +	};
+> +
+> +	return (i2c_transfer(i2c->adapter, &msg, 1) == 1) ? 0 : -EINVAL;
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+The vendor driver uses smbus stuff. I suggest to use
+i2c_smbus_write_byte_data() here, too.
+
+I also found that the vendor driver reads the duty-cycle register (using
+i2c_smbus_read_byte_data()). Strange that this stops the fan.
+
+> +}
+> +
+> +static int argon_fan_hat_write_waveform(struct pwm_chip *chip,
+> +					struct pwm_device *pwm,
+> +					const void *_wfhw)
+> +{
+> +	struct i2c_client *i2c = pwmchip_get_drvdata(chip);
+> +	const u8 *wfhw = _wfhw;
+> +
+> +	return argon_fan_hat_write(i2c, *wfhw);
+> +}
+> +
+> +static const struct pwm_ops argon_fan_hat_pwm_ops = {
+> +	.sizeof_wfhw		= sizeof(u8),
+> +	.round_waveform_fromhw	= argon_fan_hat_round_waveform_fromhw,
+> +	.round_waveform_tohw	= argon_fan_hat_round_waveform_tohw,
+> +	.write_waveform		= argon_fan_hat_write_waveform,
+
+Please don't align the =, use a single space only.
+
+> +	/*
+> +	 * The controller does not provide any way to read info back,
+> +	 * reading from the controller stops the fan, therefore there
+> +	 * is no .read_waveform here.
+> +	 */
+> +};
+> +
+> +static int argon_fan_hat_i2c_probe(struct i2c_client *i2c)
+> +{
+> +	struct pwm_chip *pc = devm_pwmchip_alloc(&i2c->dev, 1, 0);
+
+Can you please rename "pc" to "chip"? "pc" is usually used for the
+driver data struct.
+
+> +	int ret;
+> +
+> +	if (IS_ERR(pc))
+> +		return PTR_ERR(pc);
+> +
+> +	pc->ops = &argon_fan_hat_pwm_ops;
+> +	pwmchip_set_drvdata(pc, i2c);
+> +
+> +	ret = devm_pwmchip_add(&i2c->dev, pc);
+> +	if (ret)
+> +		return dev_err_probe(&i2c->dev, ret, "Could not add PWM chip\n");
+> +
+> +	return 0;
+> +}
+> +
+> +static void argon_fan_hat_i2c_shutdown(struct i2c_client *i2c)
+> +{
+> +	argon_fan_hat_write(i2c, 100);
+> +}
+
+Isn't that something that the fan driver should cope for? PWM drivers
+usually do nothing on shutdown.
+
+> +static const struct of_device_id argon_fan_hat_dt_ids[] = {
+> +	{ .compatible = "argon40,fan-hat" },
+> +	{ },
+> +};
+> +MODULE_DEVICE_TABLE(of, argon_fan_hat_dt_ids);
+> +
+> +static struct i2c_driver argon_fan_hat_driver = {
+> +	.driver = {
+> +		.name = "argon-fan-hat",
+> +		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+> +		.of_match_table = argon_fan_hat_dt_ids,
+> +	},
+> +	.probe = argon_fan_hat_i2c_probe,
+> +	.shutdown = argon_fan_hat_i2c_shutdown,
+> +};
+> +
+> +module_i2c_driver(argon_fan_hat_driver);
+> +
+> +MODULE_AUTHOR("Marek Vasut <marek.vasut+renesas@mailbox.org>");
+> +MODULE_DESCRIPTION("Argon40 Fan HAT");
+> +MODULE_LICENSE("GPL");
+
+--t62wktukis6g36v3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmhRdWsACgkQj4D7WH0S
+/k5sewf/W/Bkf4IPqRyNruG1KiJrgDv7v9R+ERQDdI7f9RsSCXJfEz12JrTZYUm2
+atwr+J/EiXfGpeDU9saB0mzie5SUc++yLDwYWMP8Xrhd5IKr6gvD/IAuIFOLcsGl
+F8mBog3Ee1FRBpadulBuXqj9S7/Z+zlfRpnBqtqgoeedRkurJp2DdP5oYPQGcrid
+0cisVKrPXPVj10ab0HSBbh/Q6xDlIgVR1byv5OLX3QGrgKWuXXzhTHIhWiSTEC+w
+lsD1PlM7+oe7eiVtbSGxcsyxthvXzVym53b5ygde1IHpPWvi1OwWl15EGyDG29Ml
+27diFYbYMY6Nug82++4siY7k54bT5A==
+=1E7U
+-----END PGP SIGNATURE-----
+
+--t62wktukis6g36v3--
 
