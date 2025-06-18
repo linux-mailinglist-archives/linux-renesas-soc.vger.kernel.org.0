@@ -1,317 +1,808 @@
-Return-Path: <linux-renesas-soc+bounces-18509-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18510-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 186C9ADEF11
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Jun 2025 16:19:47 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56EA0ADF157
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Jun 2025 17:25:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 62E921895898
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Jun 2025 14:19:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F2D4A4A07B5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Jun 2025 15:25:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDA9F2E8E09;
-	Wed, 18 Jun 2025 14:19:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B87572EF2B4;
+	Wed, 18 Jun 2025 15:24:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="kqAAtn/a"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m8mN0Sa0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010011.outbound.protection.outlook.com [52.101.228.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F892E6D1E;
-	Wed, 18 Jun 2025 14:19:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750256351; cv=fail; b=HuAhh/Xwn/m+jv6AQ0z2oeQ6ZLjauGUjZqfhUtZZQODpeGi2dovjHohPJHBVLJQ79e6Vdg+MfTbWBku4iLqLapYp37sfSR/5xEv4RY+IBPRpCMvY6ZLD71fGHVWz64aKtnSzowN77e41Su4XMlbtwNsAF3UwroIft6HNTtfzWww=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750256351; c=relaxed/simple;
-	bh=JZUVnGfy1+yUdu/fPweXtVQDY3MI87eoPxUSRxfGejo=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=mTZTx2A2RvfZaazJu31G0zKzZ5uu6ABOWhAVmM40fJapgF+okUum2x6L6phsypptRsLeSk72G7NWNdq8tyOdxOfkrV/uKtqGyo6x3d3IWsjxsuJgZFOxu9qCKbIDZV5LZaoJ2oiEMBh6SDLitApmt6VnOUo6xeCNbTyk6iT11n4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=kqAAtn/a; arc=fail smtp.client-ip=52.101.228.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RjBwcyyVjemdZNEJBqngsGIbeExoMwSX7hnwxjhxDVhIayJgmFo+zU67XWvBaMEw/7lOf/WXEYTWER/wVlFERHxhOd60Cenq5/c6t+Z5IkUyk58B9+CQixRaCSRXa5kG33oR4KWLJ6FUWJe10hwU3/ibBbALc7Sm3a8IpcNNsRf4+oTxYBNRrmGVbLC5H6LdH/67B5U7oSRI/YGatEwz9yhz7fOwXPfQmO1nUIg+CEY0xO0KcBUwZECr9ryY8Q/1J8KXm9XLMT+KlSHJg42moUTohCSFcZmCnb0SCqnCwfNKPJRipB6TxypNHHSkNjFZ45nJBnCiQTgi7Buh1nBWog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JZUVnGfy1+yUdu/fPweXtVQDY3MI87eoPxUSRxfGejo=;
- b=l0kdDmRgsAc/npvqg7mi4SvxgoXMlti/eW8G6OvdIDhzUkHvlYACQx4pbAcSqXwBmVTksE9aIB7kusfzHeBwn6NNwzT0mZieklPvOKFXZ2Fj+XOTu15048QWtQ9Nl8GAq+9u0QNGywkW4UlrCKR6/XCqEtHyWKn5UFogX0qvVCKqzrGHEIxTVNNK3Y7Zg2XqNEgxknm3JvmholoOKKTFBeFcuZzl3LBpcqHufeSyQx7Och93JgRluW3xyHjbyyCVkdhr/Wo6cUucwhZYV0WvBE3CossQUMc0hufJvgGR7Uux6DKdZfbHFG5Iu0D16JCDHME1yCihK4nHj+wiDaYYwg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JZUVnGfy1+yUdu/fPweXtVQDY3MI87eoPxUSRxfGejo=;
- b=kqAAtn/aWshU7cKrUDHtOE1QUoVaNzw5NxIEBLAXv+uphDN+2RHXPhDb4zLAhJ7xdBN3nWLX0DvskaOgMO3hudOBgZJ6MB63Dy7Z0qpNasqbgrUCDuHPekdJW+CVFvjD96Kraoi6SLPPRTtqNvQL9TtXfohX0qPtwQdsya0Xm7Y=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by OS7PR01MB15007.jpnprd01.prod.outlook.com (2603:1096:604:39a::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.29; Wed, 18 Jun
- 2025 14:19:04 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%5]) with mapi id 15.20.8835.027; Wed, 18 Jun 2025
- 14:19:04 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>, Andrzej Hajda
-	<andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, Robert
- Foss <rfoss@kernel.org>, laurent.pinchart
-	<laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Michael
- Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Magnus
- Damm <magnus.damm@gmail.com>, "dri-devel@lists.freedesktop.org"
-	<dri-devel@lists.freedesktop.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, "linux-clk@vger.kernel.org"
-	<linux-clk@vger.kernel.org>, Fabrizio Castro
-	<fabrizio.castro.jz@renesas.com>, Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH v6 4/4] drm: renesas: rz-du: mipi_dsi: Add support for
- RZ/V2H(P) SoC
-Thread-Topic: [PATCH v6 4/4] drm: renesas: rz-du: mipi_dsi: Add support for
- RZ/V2H(P) SoC
-Thread-Index: AQHb0YbxoLXThBVJyEq0KQgkc6A6OrQAr/1QgAUFOYCAAABy8IAACLuAgANUVpA=
-Date: Wed, 18 Jun 2025 14:19:04 +0000
-Message-ID:
- <TY3PR01MB11346C8A09D89D59ED10B8A708672A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20250530171841.423274-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250530171841.423274-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <TY3PR01MB11346A62FDF84C5F2C1240BBF8677A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <CA+V-a8sZfTgOENXfR2NnykgjGHd+2-vS9Jk-dNLWTVQyAGbQTw@mail.gmail.com>
- <TYCPR01MB11332F40696148C7216866D3B8670A@TYCPR01MB11332.jpnprd01.prod.outlook.com>
- <CA+V-a8tKm4yjEG_ZbajXcgTdOB=GxqA=kt63svJ4ZF609tXHDA@mail.gmail.com>
-In-Reply-To:
- <CA+V-a8tKm4yjEG_ZbajXcgTdOB=GxqA=kt63svJ4ZF609tXHDA@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OS7PR01MB15007:EE_
-x-ms-office365-filtering-correlation-id: 72ebae67-b4ca-4802-589d-08ddae73145a
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|1800799024|376014|7416014|38070700018;
-x-microsoft-antispam-message-info:
- =?utf-8?B?Q2xRcDFXWlUvaWdoZGJaT1F6NVJCTXFpVTNNakZvYUR4VzNrUFRiQWNMZFVL?=
- =?utf-8?B?dUt0YldKYVMrRmFUaFloMFIwVFB3ZGtlWnBLZDRVU055Szd2RU8xcFppQXRK?=
- =?utf-8?B?VmlWd1c4UVUza1gxVWRJS3R2WExraDVsa3BnRnBlMUxFRkhZVHYxS2FWY0c1?=
- =?utf-8?B?K1pyaDNCSGRUNFUzYjRMUXF6bEZCQ2gxNTFyTlZUeVhXNzRSK0lUeVF5eEN6?=
- =?utf-8?B?SWs2Mzk2L2x2SmZvL3FjYWluZDlZdFI2Ymp1bWxzdW1TellDcEhFWm9qUi9t?=
- =?utf-8?B?OGhsZkc5TlRna0ZKUXk0SnhnSFZlV205dVdPdmZWR01rNmJ6UXpHR245M1Fv?=
- =?utf-8?B?ZGc0SnVoemNiaS8zb1FHR2RYOFpaOVV1N3ROZWJ6Q2ZaclJTdVV1RjMvYlJR?=
- =?utf-8?B?RkQxVERUaVZMQmlqcU1DQ1FQdXZOWjhWaU0zcFJRVGpxNzkxZVg2bHJrZm02?=
- =?utf-8?B?T040N0VjTkZVRDloN3R6Q1FjeXU1R0lkeVJvak1CeG0wMVU0T1ZNRDUybWdX?=
- =?utf-8?B?QlJHaVlOUnNocnBQS1ltamJEWE8xbXdPYmdKRSsweDkyNkRQa3RoMlVEWXRL?=
- =?utf-8?B?dTFQMWRYbTVwQWkzTm9xZGVFWkkrZGUvVW5GcEZFYnFybTIyTHU1R1RuUEFj?=
- =?utf-8?B?ODU5NHFsMVZ1ckY2VXFlNHVqU1RzQUJza2o4VElpWmdEVFZZQzNXcVNvUjJ2?=
- =?utf-8?B?SGVTaWRVMDR1cnNHYUhLWi9yVXFuR2hWSUpTM3pMTXp2L3VVZWdlMThhbkZT?=
- =?utf-8?B?QTFUMFRScTJQMXkvaUkxM01GVHgwUUJlUFZBamJ5eFNyOHJybENaYWc1blhS?=
- =?utf-8?B?Sm1UenhDZEQ3V1c4dWZwYktIZWhad2RDZXE3YzlmeXlkenY5cWhucnVsUHNP?=
- =?utf-8?B?TmVQbmMwSm5CRUh2aks5dEc1QitaZmplcWQzRm0wMmh1cCsvRmt5VjN5UEVI?=
- =?utf-8?B?bkxIR1BPVnZGOG43OTB4dEMwdGF4dXlia1FVSWhueUNBc1pzRDFicmJKc3Jj?=
- =?utf-8?B?dkdxQWZ3amZEZ1FQbEhsRGo0SnhEZnpYclhzYllmM0ZtaFRHd283b1ZqaWh2?=
- =?utf-8?B?US96NzZuMVhPcUlLd0pHV3M5aW5zTHA3ZG5HNmxuU3hzSGxhZExDUnZncnFK?=
- =?utf-8?B?U3Z5SnhjSUxsTEwzRWlLZkt4TEt2ZGQ4Sy9STWRaZkJFcFgvMHVzckYyRUc5?=
- =?utf-8?B?N3QxNVRyamUxK3NaNDA2bzFNNWhSZkEzUVZ3bkhpVFU3OGNuV3NnUEgwWFFO?=
- =?utf-8?B?UGxpOHpuME1MTE01M0VNM2dmOVMzNEYrZnUrRmFwb0JHNDdRZmtrVDhBdmlU?=
- =?utf-8?B?bXBwRUpIOVpnMWJWdmFXUW83Z25nVW50S1ZFUUpZcXFjUEFtUFRuSWlnS2VG?=
- =?utf-8?B?TXA4ZTVySTBKZTVVSmZqb0Z1T0VaNVJTbWZZYUVOZG0xQ2UrNHJ3ZG5LVGtw?=
- =?utf-8?B?UDRKSFovYkNVNFpTQk5JQVk2WUhkNWQ0WlJDaGc1Ykkyc3VIaERBOUMzSEQv?=
- =?utf-8?B?VmkxOC9CczBDYldSTitxTlNRZWxpTk9XNzU5VitWbGQ0cGlkUXliWXpxUERH?=
- =?utf-8?B?WC9oTVVtL2h6UGhhYVhOUXUwaHZCcjh3VHNLdVhWVXNrWUJkTWp4RktiZXpv?=
- =?utf-8?B?aGhnOVcxNHVPNzRZcm5mK3h3MkwrK2hjR1BzY1JHSHlpRkFQTVo1eW5ubS9K?=
- =?utf-8?B?QU84YUFFS3FyektoRVlHN1F6OTU5Y1pFS0haVkZoVDhDQXpsdGQ4blE4VWxz?=
- =?utf-8?B?VmZIeDVxRURpWk05TDVONTN2VENzZGZTaVZEWmFaV2p5S3ZNdlpkQ3A2M0o1?=
- =?utf-8?B?ZW1UQWJTSFBzTjFLVnlIVyswYXZxODN4YXJkSENvRGkyZnk5c1k0cGlVaFlr?=
- =?utf-8?B?eUFBR2ttRmlpYzlrRVRYRnBOS0RlSUVFQjUzVjdMTWczamhKUUNGRyt4NG9u?=
- =?utf-8?B?SVlod04wNVM4ZFVRaUp3SndBYlpqSkZHZUdsTlIyZ0c1N3NoWFBidHBPK25D?=
- =?utf-8?B?UjYvNVFPUHRBPT0=?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?SVpYMlplcWdxb1pIOTY4d0pYL3BoMUNvNmFJOFRqUERiQWRQWG9IUDd4T3dQ?=
- =?utf-8?B?TGRaNDh1YndFMlpLcHBwMjJ1QTNpZXNCdWljWXJSYnhKRDIvMGpocGY0Tmwy?=
- =?utf-8?B?Y2lVaDZkS213R0llYmVFZG1JZEU2ZDJucG12ajNlZUdwc25acmZQYTBaUXJn?=
- =?utf-8?B?emZkYWtDSHo4SkllejRLVWZmcENVbXhFVEtkSytoK1VONS8wL2RiSkI1ZGMv?=
- =?utf-8?B?UVZmYUEzMXdBWGNuRnlTeG9FbU42Zm5ib3ZGOUpkYU9VRnpwbXlqbCtCNGt3?=
- =?utf-8?B?NFBmM0xrbnhEZGpzVXFxRzBkcnc4cnR6c2owNzROZlFYQjFMYVhtbEc0RXpL?=
- =?utf-8?B?K3hjWXA0MmR1VERKTGM4R0I3Wk5tUERPb3JOQUpyMFNxR2Zhb0lJTEsxTWZF?=
- =?utf-8?B?OGxkdGpoODVwbGJON0dEUjdvR1QvN0tYZ1Bua3hwaG5nOUYzVy9NVm04RGg1?=
- =?utf-8?B?aXI0dFUzVDd3Ny9JcVRoSlIrTWo5UVJEdGJHK1BhUHB3M25OdHM1ZyswTTJS?=
- =?utf-8?B?clRXY3k2MlY0TmdkL1hXUWo3MlY1aGx0TitUb0M5eisyQllsZnp3M1FsbE5q?=
- =?utf-8?B?am0wayt2eUxZRVVlTWJjdjQ3YUhtejdNN0hFTWJ2L243QlRFL1ZxaWFTdDIx?=
- =?utf-8?B?QWo5VHpsTGJMQXV6ZHFKbzNxaDR6Vk1meTdEclRneWhnNDZjbWI3WFh2R1BM?=
- =?utf-8?B?TkV0SHE2eTFFdWQwOW5hbkxXbzQvN0lmaEw1L0RtSWVtWmhIeWRXamVqS3Fo?=
- =?utf-8?B?Ny8rY3Z2U2pkRlk3bWdKVjROenhyODV2NXhQcVUwcHYrcGpmWlROVVcxNzBq?=
- =?utf-8?B?ZFlMZWp1TmRZYjVjbUdybURCcUlDN2xnTWVMeXJsc0VsMERtVjBSMlpkenha?=
- =?utf-8?B?WjB1TS9WT3BCWEVmWEloTnBxRDdEQlNVd0NXL0dpQ0I3SjRPUlE4UlExVE5k?=
- =?utf-8?B?SXp1bERRcTA3YzEzeFkzUy9uZFdwQ0E0ZS9VYkdIWDFyZGtKUEk1VTJCazVz?=
- =?utf-8?B?TlZldDcvdFNNbklFMGFRenVlQ2V2L2pSeGUwLzlFalh3bmRQZC9lN2pNNFM5?=
- =?utf-8?B?N0xuQm40L2JUWDFQaVlCOXpTR0JQOVFReTNQR3pmclp5SVRVcUFGY01oSFE3?=
- =?utf-8?B?NW1nakcrZWNBVUNsWEx5K3RuYU9GK1dJTGgzR2hSUHRKYTVGOXJOcFM2Rysv?=
- =?utf-8?B?bWxjWnFuYUlReW5MclcwWktScmlUUHJLNGRiL1NkR3dBRmpNL0ZRVmxxaXd6?=
- =?utf-8?B?SHdIeVpxTlNHaDdwTmVzS1M3WDRQekFxY2tKS2VmQkgwVnY1MTlLU1pGYy9E?=
- =?utf-8?B?MEFwcEtZcS9vdUswOUFLdk9BK0x6U0dOV09sOXdqUm54UzhQY00xK2ZWVW1u?=
- =?utf-8?B?a3RFZVRUcTB0cGRSNlpsQTJ1MGFPZG5KQmJDOEFVdURqSC80b0R0K3hody9s?=
- =?utf-8?B?MjJpZnlNcXg4bHVXUFZ0MXlRZ1lpRm0wd3g2RDF5aHU1ME93UU14L2pPbXBr?=
- =?utf-8?B?YnpTREV3TStXN2FrT3p6by83NHVPRW9QQ3k2a2ovaiszMGhnRjhaK2QrMUNw?=
- =?utf-8?B?Um4rZ1UreldBVXZ3V25uQmJPWVlKMXN2eWlvb0Y5TlB0amVHbGMrNkhLRDNa?=
- =?utf-8?B?RkNWck5LUEg3dDcrcU8wdzQ1QUhKd0pNZGJ2bTdKQmdNVm1hRWdCb1ZsZGEw?=
- =?utf-8?B?cis4SFBFd29VTXFERTJ0NFp3a1JiWU5VYmJJMmorazZEa0dvQWxrNFZWZkJC?=
- =?utf-8?B?Qk05MVF0ZGZLVysrVFFNbENHRXcwVG5nS3hxR2pGM01qb2JUNVhuQjNBZjd2?=
- =?utf-8?B?Z2V5WjZHemxHN3M0bzdMZzFiWEtYTzJhck5OTGlEelA0eWFYY3ZySDBKeEh1?=
- =?utf-8?B?c282U0dsTEFUN2NiWkVIc3lZcXJZSXhHdEJqMURrUndVR3V3cEpnL1B0RmR6?=
- =?utf-8?B?eGVVSEZkT3BvSXRIb2xYRGFDdysvN3ZyUlU1cW5HSTRvYzNDa29yUUNVVUxP?=
- =?utf-8?B?WWlGR01heXZUNklVM2hIYlQxUkE2ZVdMWTRIbS81K2VrTkgxRG1PcG5MVklm?=
- =?utf-8?B?eDdHZThhSzIySmFLZVJZSERlQXZoNGxOOE5kS1pzM3hZay9kZDdpbjh2aWJW?=
- =?utf-8?Q?M8ajOTdberGWFEUHKJCtSZcwk?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D67292EF2A7;
+	Wed, 18 Jun 2025 15:24:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750260298; cv=none; b=MvE5SjcuWf497YODw7uaZZ7YCTVFWP3JUY0XfqtjPgcujYo1pAfAC1BsEQybWGxZkvzil5DnH4iIgVL1sLkOTMMXvOWNAaAwlGPAJqHomF+UrumSkV9b33KMeciAVVZ48L0ouQGBX5lqedIVBbiIiqsFfFijRjJoiDmvYyI5NmE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750260298; c=relaxed/simple;
+	bh=oqSrxa4bPcw9rCNbFoTZDudXoPLJ6miM+1RnjDLji3c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MxyDqM9SvIttn87/Zp5Wq6tA+RqIxPvCPGpVVbfdImbRcmpm+J/WnWfUcOR69FMEQ+FovUoJxL3OSVBYYPssLM1ew/1hBz9hkivhN4sL1/zzR5hOJW5ioP51o7a9mufsrlJkmR02BRH0CRSw8k06ZHVxxd9ml/yc7SLKWkbsLjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m8mN0Sa0; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-451ebd3d149so48061525e9.2;
+        Wed, 18 Jun 2025 08:24:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750260294; x=1750865094; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z1aFUGYQqSYHGQ7/Wuy6bSzGJxwls5++o+QYK1qoSaI=;
+        b=m8mN0Sa0ulj6QeHbMBCpaIdgJz4jvsloW9t0PywHnfB6uJg2zvWzHqcc9HPtezwOct
+         tb9zSFtc+ImBu6yEkIT8bPzeyc9PiV7lDvCM7xD83KkwfHwX/CiBZQoVrYMC9KhX2xD1
+         Jrtoy1bxwtBRUyIHVnKa+8Q6tIm+UWTvXdRCCplA3U9bqraZ74BdXB9LEW+7NsY51RrU
+         zKoCT8Ss7ybfgYiNTM9lX9fNcSSXL8A6vdyXVh/1T94mKHQFMXSLMahupVU6Ih9fQEkr
+         PIhULx5VQexnHwjS76EVsUyH3pFvfipeRqRTB9paotg/lyfuIyc5n3AaKjrcMMb+Js4A
+         DIGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750260294; x=1750865094;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Z1aFUGYQqSYHGQ7/Wuy6bSzGJxwls5++o+QYK1qoSaI=;
+        b=EQfUTIZQHpVD6rA2A2c0cN9nTnKwy4iqaXuQ+HCtavEEcAoHJt+2d83T7BGP0LmlF8
+         gddIn71C5wCcw9LEtFZoWR+1KBAyCC/xVQBBoMnr+h9q1+cZq0chbWzdhft/JblpYFQE
+         Y8Zu30NP2rfdx5fJs4q+3MxcxQWDxYEGrnFgrealLwb7xsEKceFpZFJULtyWGZKmXdQt
+         pRJ/JNgEoZry8nW5oiRDF4Ow8bMOF2zWk/4Q5N9FRkKkFhzd/5KRcTsYnHMRgDZXFiW9
+         NMX6p5YqduGBPswqu3O/Dqp/fcd1S9WP8KK2SazKjnFUlXo3LT1aRPv7MU5kvrILQXDO
+         djWg==
+X-Forwarded-Encrypted: i=1; AJvYcCVDuAHzsdnDwzzwycnL8w1xSPchI5gRfJ6qujQ4t7hiDCMxPp6eTO3lNe9cuv6rbbs9J6CsMY2pqm6mQvCU6Ad6YlY=@vger.kernel.org, AJvYcCXCBreBg8UiT03bInugFqUmw9BXlNwPfboj/bjgUMg1OG0qI8NI8ROUqEIWUcvnItkO0c7tA9UhW0fP@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/BeT2/q8BOuBVnvWJnmuBzkJuE/kvNp488TAANBZlD7YVCxHh
+	QbbupvvV9eEVv+24PYPscBIeHKyq/HXnf6Q6pe13SQ8aiywUQ1/zVvv1RxYtSuKM4e6hQsrRIwt
+	wIfYMX0tjvsiIlrcWigZDf3HCjkWJiCc=
+X-Gm-Gg: ASbGnct4iy3l9Z/+UEtTT9jA/dxSWsQu/whqc5usFvf6L4BPQU9T8mFkp22q3o53Tio
+	oCFyxWlpDKk/XxJCSnjRi94GUvra1cfpAAzHt6oanaVJLg2w7gBy2WVRwhUuL4eK1yigOu1dD05
+	hMC6mHRvz6IsHV2+ymBALf+s6eworYkGV8AKv0ykC7621e6Q==
+X-Google-Smtp-Source: AGHT+IHTnlp0S/0a3luYMmfTgNzHY4YrQRf8QZ6bjWuHmUyxMuNpoiYsQ9bAJefAe+NiLHRE78PDEfaDSGAxUxCozIE=
+X-Received: by 2002:a05:600c:8710:b0:44a:775d:b5e8 with SMTP id
+ 5b1f17b1804b1-4533cadf840mr155585545e9.1.1750260293770; Wed, 18 Jun 2025
+ 08:24:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 72ebae67-b4ca-4802-589d-08ddae73145a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jun 2025 14:19:04.1864
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: qhB47gR99dREb/q28r7Zt83sHpRZ2cfB82WRDGhR2JmxCrMnTOhj/W78CBpWNs2/KCUgGmGz3QsqffmiXMnS6nHEqOulwhJzJPeEzW5cKLI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB15007
+References: <20250311113620.4312-1-biju.das.jz@bp.renesas.com>
+ <20250311113620.4312-2-biju.das.jz@bp.renesas.com> <TYCPR01MB11332F064115080582332B78986AD2@TYCPR01MB11332.jpnprd01.prod.outlook.com>
+ <CAMuHMdVy3B+i2p6unkX-n=7AYCfP5B8sW7F9GJi7URcvniGA2A@mail.gmail.com>
+ <TYCPR01MB1133206083EC0249A827261EB86AD2@TYCPR01MB11332.jpnprd01.prod.outlook.com>
+ <CAMuHMdUyY8SsUQEZwxdCK-ggPuYy8L_WwnUgq3Cj7oYiTcyNTQ@mail.gmail.com>
+ <TY3PR01MB11346123B74D86590C0F8B9CD86AD2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <CAMuHMdWevyJ8Z4YWYx0rr=_TD0OTywbkPfNwRcw5k=yDV-i2Ow@mail.gmail.com>
+ <CA+V-a8t1siG17NKna-ACUzCoXFTOyVxuLonTVSRLnNq1ie3iTg@mail.gmail.com>
+ <CAMuHMdXw+mcj-P=Zm4R8WF0PxogPLfFCbALBRFN9Wn8UEo1FkQ@mail.gmail.com>
+ <CA+V-a8u4PgttE0LaH7M=-5Br400sNE1gzk_a3L_9jfXZgCLd-Q@mail.gmail.com>
+ <CAMuHMdVQ7pK+zvZm6MHsfGRctyOSurQpDYJztSfD6P1gvuw_RA@mail.gmail.com>
+ <CA+V-a8tG4_2bXJ9H=FPT-Qa8zcgsE_5vkVQRj-ONDna5n4Ptgw@mail.gmail.com> <CAMuHMdUOHmKM6mqQHFhGqmNp-doox1rHx0WNN9O8xntp1-TXqw@mail.gmail.com>
+In-Reply-To: <CAMuHMdUOHmKM6mqQHFhGqmNp-doox1rHx0WNN9O8xntp1-TXqw@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Wed, 18 Jun 2025 16:24:26 +0100
+X-Gm-Features: Ac12FXzTwZNLF0qqzrNT6NtR5rEaW0wcKd5eU38O4_ibPd7mepNVUVCAtDczkJI
+Message-ID: <CA+V-a8voEU7CpEarBN-0FugdE1Zny_YvkwKEw9ZChns95oXHaw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/9] dt-bindings: memory: Document RZ/G3E support
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Mark Brown <broonie@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+	Stephen Boyd <sboyd@kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	"biju.das.au" <biju.das.au@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-SGkgUHJhYmhha2FyLA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IGRy
-aS1kZXZlbCA8ZHJpLWRldmVsLWJvdW5jZXNAbGlzdHMuZnJlZWRlc2t0b3Aub3JnPiBPbiBCZWhh
-bGYgT2YgTGFkLCBQcmFiaGFrYXINCj4gU2VudDogMTYgSnVuZSAyMDI1IDEyOjIxDQo+IFN1Ympl
-Y3Q6IFJlOiBbUEFUQ0ggdjYgNC80XSBkcm06IHJlbmVzYXM6IHJ6LWR1OiBtaXBpX2RzaTogQWRk
-IHN1cHBvcnQgZm9yIFJaL1YySChQKSBTb0MNCj4gDQo+IEhpIEJpanUsDQo+IA0KPiBPbiBNb24s
-IEp1biAxNiwgMjAyNSBhdCAxMTo1NOKAr0FNIEJpanUgRGFzIDxiaWp1LmRhcy5qekBicC5yZW5l
-c2FzLmNvbT4gd3JvdGU6DQo+ID4NCj4gPg0KPiA+DQo+ID4gPiAtLS0tLU9yaWdpbmFsIE1lc3Nh
-Z2UtLS0tLQ0KPiA+ID4gRnJvbTogTGFkLCBQcmFiaGFrYXIgPHByYWJoYWthci5jc2VuZ2dAZ21h
-aWwuY29tPg0KPiA+ID4gU2VudDogTW9uZGF5LCBKdW5lIDE2LCAyMDI1IDExOjQ4IEFNDQo+ID4g
-PiBUbzogQmlqdSBEYXMgPGJpanUuZGFzLmp6QGJwLnJlbmVzYXMuY29tPg0KPiA+ID4gQ2M6IEdl
-ZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnQrcmVuZXNhc0BnbGlkZXIuYmU+OyBBbmRyemVqIEhhamRh
-DQo+ID4gPiA8YW5kcnplai5oYWpkYUBpbnRlbC5jb20+OyBOZWlsIEFybXN0cm9uZw0KPiA+ID4g
-PG5laWwuYXJtc3Ryb25nQGxpbmFyby5vcmc+OyBSb2JlcnQgRm9zcyA8cmZvc3NAa2VybmVsLm9y
-Zz47DQo+ID4gPiBsYXVyZW50LnBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2Fy
-ZC5jb20+OyBKb25hcyBLYXJsbWFuDQo+ID4gPiA8am9uYXNAa3dpYm9vLnNlPjsgSmVybmVqIFNr
-cmFiZWMgPGplcm5lai5za3JhYmVjQGdtYWlsLmNvbT47DQo+ID4gPiBNYWFydGVuIExhbmtob3Jz
-dCA8bWFhcnRlbi5sYW5raG9yc3RAbGludXguaW50ZWwuY29tPjsgTWF4aW1lIFJpcGFyZA0KPiA+
-ID4gPG1yaXBhcmRAa2VybmVsLm9yZz47IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBz
-dXNlLmRlPjsgRGF2aWQNCj4gPiA+IEFpcmxpZSA8YWlybGllZEBnbWFpbC5jb20+OyBTaW1vbmEg
-VmV0dGVyIDxzaW1vbmFAZmZ3bGwuY2g+OyBSb2INCj4gPiA+IEhlcnJpbmcgPHJvYmhAa2VybmVs
-Lm9yZz47IEtyenlzenRvZiBLb3psb3dza2kgPGtyemsrZHRAa2VybmVsLm9yZz47DQo+ID4gPiBD
-b25vciBEb29sZXkgPGNvbm9yK2R0QGtlcm5lbC5vcmc+OyBNaWNoYWVsIFR1cnF1ZXR0ZQ0KPiA+
-ID4gPG10dXJxdWV0dGVAYmF5bGlicmUuY29tPjsgU3RlcGhlbiBCb3lkIDxzYm95ZEBrZXJuZWwu
-b3JnPjsgTWFnbnVzDQo+ID4gPiBEYW1tIDxtYWdudXMuZGFtbUBnbWFpbC5jb20+OyBkcmktIGRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsNCj4gPiA+IGRldmljZXRyZWVAdmdlci5rZXJuZWwu
-b3JnOyBsaW51eC0ga2VybmVsQHZnZXIua2VybmVsLm9yZzsNCj4gPiA+IGxpbnV4LXJlbmVzYXMt
-c29jQHZnZXIua2VybmVsLm9yZzsgbGludXgtIGNsa0B2Z2VyLmtlcm5lbC5vcmc7DQo+ID4gPiBG
-YWJyaXppbyBDYXN0cm8gPGZhYnJpemlvLmNhc3Ryby5qekByZW5lc2FzLmNvbT47IFByYWJoYWth
-ciBNYWhhZGV2DQo+ID4gPiBMYWQgPHByYWJoYWthci5tYWhhZGV2LWxhZC5yakBicC5yZW5lc2Fz
-LmNvbT4NCj4gPiA+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjYgNC80XSBkcm06IHJlbmVzYXM6IHJ6
-LWR1OiBtaXBpX2RzaTogQWRkDQo+ID4gPiBzdXBwb3J0IGZvcg0KPiA+ID4gUlovVjJIKFApIFNv
-Qw0KPiA+ID4NCj4gPiA+IEhpIEJpanUsDQo+ID4gPg0KPiA+ID4gVGhhbmsgeW91IGZvciB0aGUg
-cmV2aWV3Lg0KPiA+ID4NCj4gPiA+IE9uIEZyaSwgSnVuIDEzLCAyMDI1IGF0IDc6MTfigK9BTSBC
-aWp1IERhcw0KPiA+ID4gPGJpanUuZGFzLmp6QGJwLnJlbmVzYXMuY29tPg0KPiA+ID4gd3JvdGU6
-DQo+ID4gPiA+DQo+ID4gPiA+IEhpIFByYWJoYWthciwNCj4gPiA+ID4NCj4gPiA+ID4gPiAtLS0t
-LU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+ID4gPiA+IEZyb206IFByYWJoYWthciA8cHJhYmhh
-a2FyLmNzZW5nZ0BnbWFpbC5jb20+DQo+ID4gPiA+ID4gU2VudDogMzAgTWF5IDIwMjUgMTg6MTkN
-Cj4gPiA+ID4gPiBTdWJqZWN0OiBbUEFUQ0ggdjYgNC80XSBkcm06IHJlbmVzYXM6IHJ6LWR1OiBt
-aXBpX2RzaTogQWRkDQo+ID4gPiA+ID4gc3VwcG9ydCBmb3IgUlovVjJIKFApIFNvQw0KPiA+ID4g
-PiA+DQo+ID4gPiA+ID4gRnJvbTogTGFkIFByYWJoYWthciA8cHJhYmhha2FyLm1haGFkZXYtbGFk
-LnJqQGJwLnJlbmVzYXMuY29tPg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gQWRkIERTSSBzdXBwb3J0
-IGZvciBSZW5lc2FzIFJaL1YySChQKSBTb0MuDQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBDby1kZXZl
-bG9wZWQtYnk6IEZhYnJpemlvIENhc3Rybw0KPiA+ID4gPiA+IDxmYWJyaXppby5jYXN0cm8uanpA
-cmVuZXNhcy5jb20+DQo+ID4gPiA+ID4gU2lnbmVkLW9mZi1ieTogRmFicml6aW8gQ2FzdHJvIDxm
-YWJyaXppby5jYXN0cm8uanpAcmVuZXNhcy5jb20+DQo+ID4gPiA+ID4gU2lnbmVkLW9mZi1ieTog
-TGFkIFByYWJoYWthcg0KPiA+ID4gPiA+IDxwcmFiaGFrYXIubWFoYWRldi1sYWQucmpAYnAucmVu
-ZXNhcy5jb20+DQo+ID4gPiA+ID4gLS0tDQo+ID4gPiA+ID4gdjUtPnY2Og0KPiA+ID4gPiA+IC0g
-TWFkZSB1c2Ugb2YgR0VOTUFTSygpIG1hY3JvIGZvciBQTExDTEtTRVQwUl9QTExfKiwNCj4gPiA+
-ID4gPiAgIFBIWVRDTEtTRVRSXyogYW5kIFBIWVRIU1NFVFJfKiBtYWNyb3MuDQo+ID4gPiA+ID4g
-LSBSZXBsYWNlZCAxMDAwMDAwMFVMIHdpdGggMTAgKiBNRUdBDQo+ID4gPiA+ID4gLSBSZW5hbWVk
-IG1vZGVfZnJlcV9oeiB0byBtb2RlX2ZyZXFfa2h6IGluIHJ6djJoX2RzaV9tb2RlX2NhbGMNCj4g
-PiA+ID4gPiAtIFJlcGxhY2VkIGBpIC09IDE7YCB3aXRoIGBpLS07YA0KPiA+ID4gPiA+IC0gUmVu
-YW1lZCBSWlYySF9NSVBJX0RQSFlfRk9VVF9NSU5fSU5fTUVHQSB0bw0KPiA+ID4gPiA+ICAgUlpW
-MkhfTUlQSV9EUEhZX0ZPVVRfTUlOX0lOX01IWiBhbmQNCj4gPiA+ID4gPiAgIFJaVjJIX01JUElf
-RFBIWV9GT1VUX01BWF9JTl9NRUdBIHRvDQo+ID4gPiA+ID4gICBSWlYySF9NSVBJX0RQSFlfRk9V
-VF9NQVhfSU5fTUhaLg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gdjQtPnY1Og0KPiA+ID4gPiA+IC0g
-Tm8gY2hhbmdlcw0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gdjMtPnY0DQo+ID4gPiA+ID4gLSBJbiBy
-enYyaF9kcGh5X2ZpbmRfdWxwc2V4aXQoKSBtYWRlIHRoZSBhcnJheSBzdGF0aWMgY29uc3QuDQo+
-ID4gPiA+ID4NCj4gPiA+ID4gPiB2Mi0+djM6DQo+ID4gPiA+ID4gLSBTaW1wbGlmZWQgVjJIIERT
-SSB0aW1pbmdzIGFycmF5IHRvIHNhdmUgc3BhY2UNCj4gPiA+ID4gPiAtIFN3aXRjaGVkIHRvIHVz
-ZSBmc2xlZXAoKSBpbnN0ZWFkIG9mIHVkZWxheSgpDQo+ID4gPiA+ID4NCj4gPiA+ID4gPiB2MS0+
-djI6DQo+ID4gPiA+ID4gLSBEcm9wcGVkIHVudXNlZCBtYWNyb3MNCj4gPiA+ID4gPiAtIEFkZGVk
-IG1pc3NpbmcgTFBDTEsgZmxhZyB0byByenYyaCBpbmZvDQo+ID4gPiA+ID4gLS0tDQo+ID4gPiA+
-ID4gIC4uLi9ncHUvZHJtL3JlbmVzYXMvcnotZHUvcnpnMmxfbWlwaV9kc2kuYyAgICB8IDM0NQ0K
-PiA+ID4gKysrKysrKysrKysrKysrKysrDQo+ID4gPiA+ID4gIC4uLi9kcm0vcmVuZXNhcy9yei1k
-dS9yemcybF9taXBpX2RzaV9yZWdzLmggICB8ICAzNCArKw0KPiA+ID4gPiA+ICAyIGZpbGVzIGNo
-YW5nZWQsIDM3OSBpbnNlcnRpb25zKCspDQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL3JlbmVzYXMvcnotZHUvcnpnMmxfbWlwaV9kc2kuYw0KPiA+ID4g
-PiA+IGIvZHJpdmVycy9ncHUvZHJtL3JlbmVzYXMvcnotIGR1L3J6ZzJsX21pcGlfZHNpLmMgaW5k
-ZXgNCj4gPiA+ID4gPiBhMzFmOWI2YWE5MjAuLmVhNTU0Y2VkNjcxMyAxMDA2NDQNCj4gPiA+ID4g
-PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcmVuZXNhcy9yei1kdS9yemcybF9taXBpX2RzaS5jDQo+
-ID4gPiA+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3JlbmVzYXMvcnotZHUvcnpnMmxfbWlwaV9k
-c2kuYw0KPiA+ID4gPiA+IEBAIC01LDYgKzUsNyBAQA0KPiA+ID4gPiA+ICAgKiBDb3B5cmlnaHQg
-KEMpIDIwMjIgUmVuZXNhcyBFbGVjdHJvbmljcyBDb3Jwb3JhdGlvbg0KPiA+ID4gPiA+ICAgKi8N
-Cj4gPiA+ID4gPiAgI2luY2x1ZGUgPGxpbnV4L2Nsay5oPg0KPiA+ID4gPiA+ICsjaW5jbHVkZSA8
-bGludXgvY2xrL3JlbmVzYXMtcnp2MmgtZHNpLmg+DQo+ID4gPiA+ID4gICNpbmNsdWRlIDxsaW51
-eC9kZWxheS5oPg0KPiA+ID4gPiA+ICAjaW5jbHVkZSA8bGludXgvaW8uaD4NCj4gPiA+ID4gPiAg
-I2luY2x1ZGUgPGxpbnV4L2lvcG9sbC5oPg0KPiA+ID4gPHNuaXA+DQo+ID4gPiA+ID4gKw0KPiA+
-ID4gPiA+ICtzdGF0aWMgaW50IHJ6djJoX2RwaHlfY29uZl9jbGtzKHN0cnVjdCByemcybF9taXBp
-X2RzaSAqZHNpLA0KPiA+ID4gPiA+ICt1bnNpZ25lZA0KPiA+ID4gbG9uZyBtb2RlX2ZyZXEsDQo+
-ID4gPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdTY0ICpoc2ZyZXFfbWlsbGlo
-eikgew0KPiA+ID4gPiA+ICsgICAgIHN0cnVjdCByenYyaF9wbGxkc2lfcGFyYW1ldGVycyAqZHNp
-X3BhcmFtZXRlcnMgPSAmZHNpLQ0KPiA+ID4gPmRzaV9wYXJhbWV0ZXJzOw0KPiA+ID4gPiA+ICsg
-ICAgIHVuc2lnbmVkIGxvbmcgc3RhdHVzOw0KPiA+ID4gPiA+ICsNCj4gPiA+ID4gPiArICAgICBp
-ZiAoZHNpLT5tb2RlX2NhbGMubW9kZV9mcmVxX2toeiAhPSBtb2RlX2ZyZXEpIHsNCj4gPiA+ID4g
-PiArICAgICAgICAgICAgIHN0YXR1cyA9IHJ6djJoX2RwaHlfbW9kZV9jbGtfY2hlY2soZHNpLCBt
-b2RlX2ZyZXEpOw0KPiA+ID4gPiA+ICsgICAgICAgICAgICAgaWYgKHN0YXR1cyAhPSBNT0RFX09L
-KSB7DQo+ID4gPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgIGRldl9lcnIoZHNpLT5kZXYsICJO
-byBQTEwgcGFyYW1ldGVycyBmb3VuZA0KPiA+ID4gPiA+ICsgZm9yDQo+ID4gPiBtb2RlIGNsayAl
-bHVcbiIsDQo+ID4gPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbW9kZV9mcmVx
-KTsNCj4gPiA+ID4gPiArICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIC1FSU5WQUw7DQo+ID4g
-PiA+ID4gKyAgICAgICAgICAgICB9DQo+ID4gPiA+ID4gKyAgICAgfQ0KPiA+ID4gPiA+ICsNCj4g
-PiA+ID4gPiArICAgICBjbGtfc2V0X3JhdGUoZHNpLT52Y2xrLCBkc2ktPm1vZGVfY2FsYy5tb2Rl
-X2ZyZXFfaHopOw0KPiA+ID4gPg0KPiA+ID4gPiBOb3Qgc3VyZSwgQ2FuIHdlIHVzZSB0aGUgRFNJ
-IGRpdmlkZXIgcmVxdWlyZWQgYmFzZWQgb24gdGhlIGRhdGENCj4gPiA+ID4gcmF0ZSAodmNsaywg
-YnBwIGFuZCBudW1sYW5lcykgaGVyZQ0KPiA+ID4gPg0KPiA+ID4gPiBhbmQgdGhlbiB0aGUgc2V0
-IHBhcmVudCBjbGsgb2YgUExMRFNJIGFzIHdlbGwgaGVyZSAoZHNpLT52Y2xrICoNCj4gPiA+ID4g
-dGhlDQo+ID4gPiBkaXZpZGVyIHZhbHVlKSA/Pw0KPiA+ID4gPg0KPiA+ID4gPiAyNE1IWi0+UExM
-IERTSS0+RFNJIERJVklERVItPlZDTE9DSw0KPiA+ID4gPg0KPiA+ID4gPiBNYXliZSB0aGVuIHRo
-ZSBjbG9jayBmcmFtZXdvcmsgaGFzIGFsbCB0aGUgaW5mb3JtYXRpb24gZm9yIHNldHRpbmcNCj4g
-PiA+IFBMTF9EU0kgYW5kIERTSV9ESVZJREVSIGNsa3M/Pw0KPiA+ID4gPg0KPiA+ID4gQ2FuIHlv
-dSBwbGVhc2UgZWxhYm9yYXRlIGhlcmUgd2l0aCBhIGRldGFpbGVkIGV4YW1wbGUuDQo+ID4NCj4g
-PiBUaGVyZSB3aWxsIGJlIGRldGVybWluZV9jbGsgZm9sbG93ZWQgYnkgc2V0X2Nsb2NrIGZvciBz
-ZXR0aW5nIG5ldyByYXRlDQo+ID4gZm9yIFBMTCBEU0koZHNpLT52Y2xrICogdGhlIGRpdmlkZXIg
-dmFsdWUpIEZvciBlZzogIHZjbGtfbWF4ID0gMTg3LjUNCj4gPiBNSHosIERTSSBEaXZpZGVyIHJl
-cXVpcmVkID0gMTYgVGhlbiBzZXQgUExMX0RTSSA9IDE4Ny41ICogMTYgTUh6IHVzaW5nIGNsa19z
-ZXQuDQo+ID4NCj4gWW91IG1lYW4gdG8gdXNlIGBjbGtfc2V0X3JhdGUoZHNpLT52Y2xrLCAoY2xr
-X2dldF9yYXRlKGRzaS0+dmNsaykgKiBkc2lfZGl2aWRlcikpO2AgPw0KDQpXaGF0IEkgbWVhbnQg
-aXMNCmRzaV9kaXZfY2xrID0gY2xrX2dldF9wYXJlbnQoZHNpLT52Y2xrKTsNCnBsbF9kc2lfY2xr
-ID0gY2xrX2dldF9wYXJlbnQoZHNpX2Rpdl9jbGspOw0KDQpjbGtfc2V0X3JhdGUocGxsX2RzaV9j
-bGssIGRzaS0+bW9kZV9jYWxjLm1vZGVfZnJlcV9oeiAqIGRzaV9kaXZpZGVyKSk7YA0KY2xrX3Nl
-dF9yYXRlKGRzaS0+dmNsaywgZHNpLT5tb2RlX2NhbGMubW9kZV9mcmVxX2h6KTsNCg0KV2l0aCB0
-aGlzIHlvdSB3aWxsIGdldCwgZGl2aWRlci9wbGwgIHJlcXVpcmVkIGluIGRzaV9kaXZpZGVyX2Ns
-ayBhbmQgcGxsX2RzaV9jbGs/Pw0KDQpDaGVlcnMsDQpCaWp1DQo=
+Hi Geert,
+
+On Wed, Jun 18, 2025 at 3:03=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Wed, 18 Jun 2025 at 15:41, Lad, Prabhakar <prabhakar.csengg@gmail.com>=
+ wrote:
+> > On Wed, Jun 18, 2025 at 1:59=E2=80=AFPM Geert Uytterhoeven <geert@linux=
+-m68k.org> wrote:
+> > > On Wed, 18 Jun 2025 at 14:06, Lad, Prabhakar <prabhakar.csengg@gmail.=
+com> wrote:
+> > > > On Wed, Jun 18, 2025 at 8:03=E2=80=AFAM Geert Uytterhoeven <geert@l=
+inux-m68k.org> wrote:
+> > > > > On Tue, 17 Jun 2025 at 23:05, Lad, Prabhakar <prabhakar.csengg@gm=
+ail.com> wrote:
+> > > > > > On Mon, Mar 31, 2025 at 7:25=E2=80=AFPM Geert Uytterhoeven <gee=
+rt@linux-m68k.org> wrote:
+> > > > > > > On Mon, 31 Mar 2025 at 17:33, Biju Das <biju.das.jz@bp.renesa=
+s.com> wrote:
+> > > > > > > > > From: Geert Uytterhoeven <geert@linux-m68k.org>
+> > > > > > > > > On Mon, 31 Mar 2025 at 16:34, Biju Das <biju.das.jz@bp.re=
+nesas.com> wrote:
+> > > > > > > > > > > From: Geert Uytterhoeven <geert@linux-m68k.org> On Mo=
+n, 31 Mar 2025
+> > > > > > > > > > > at 15:54, Biju Das <biju.das.jz@bp.renesas.com> wrote=
+:
+> > > > > > > > > > > > > From: Biju Das <biju.das.jz@bp.renesas.com> Docum=
+ent support for
+> > > > > > > > > > > > > the Expanded Serial Peripheral Interface (xSPI) C=
+ontroller in
+> > > > > > > > > > > > > the Renesas RZ/G3E
+> > > > > > > > > > > > > (R9A09G047) SoC.
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> > > > > > > > > > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.c=
+om>
+> > > > > > > > > > >
+> > > > > > > > > > > > > --- /dev/null
+> > > > > > > > > > > > > +++ b/Documentation/devicetree/bindings/memory-co=
+ntrollers/renes
+> > > > > > > > > > > > > +++ as,r
+> > > > > > > > > > > > > +++ zg3e
+> > > > > > > > > > > > > +++ -xspi.yaml
+> > > > > > > > > > >
+> > > > > > > > > > > > > +    spi@11030000 {
+> > > > > > > > > > > > > +        compatible =3D "renesas,r9a09g047-xspi";
+> > > > > > > > > > > > > +        reg =3D <0x11030000 0x10000>, <0x2000000=
+0 0x10000000>;
+> > > > > > > > > > > > > +        reg-names =3D "regs", "dirmap";
+> > > > > > > > > > > > > +        interrupts =3D <GIC_SPI 228 IRQ_TYPE_EDG=
+E_RISING>,
+> > > > > > > > > > > > > +                     <GIC_SPI 229 IRQ_TYPE_EDGE_=
+RISING>;
+> > > > > > > > > > > > > +        interrupt-names =3D "pulse", "err_pulse"=
+;
+> > > > > > > > > > > > > +        clocks =3D <&cpg CPG_MOD 0x9f>, <&cpg CP=
+G_MOD 0xa0>,
+> > > > > > > > > > > > > +                 <&cpg CPG_MOD 0xa1>, <&cpg CPG_=
+MOD 0xa1>;
+> > > > > > > > > > > >
+> > > > > > > > > > > > On the next version I am going to update spix2 clk =
+as <&cpg
+> > > > > > > > > > > > CPG_CORE R9A09G047_SPI_CLK_SPIX2>
+> > > > > > >
+> > > > > > > According to the RZ/G3E clock system diagram, (the parent of)=
+ clk_spi
+> > > > > > > is derived from (the parent of) clk_spix2, not the other way =
+around?
+> > > > > > > So you can model clk_spi as a fixed divider clock with parent=
+ clk_spix2
+> > > > >                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
+^^^^^^^^^^
+> > > [A]
+> > >
+> > > > > > > and factor two.  I.e. provide a new core clock R9A09G047_SPI_=
+CLK_SPI
+> > > > > > > instead of your proposed R9A09G047_SPI_CLK_SPIX2?
+> > > > > > >
+> > > > > > With this approach when R9A09G047_SPI_CLK_SPI is used as a core=
+ clock
+> > > > > > and XSPI node is disabled the clk_summary reports the core cloc=
+k is ON
+> > > > > > (while it's actually OFF).
+> > > > >
+> > > > > Is that a real problem, or is it purely cosmetic?
+> > > > Just cosmetic tbh as despite being a MOD clock we have to define it=
+ as
+> > > > a core clock in the DT.
+> > > >
+> > > > > > Can we maybe use a unused ON index and ON bit for example 25, 0=
+ (ie
+> > > > > > 0x190) and represent this is a module clock for example for the
+> > > > > > spi_clk_spix2 clock and use this in the DT and let the CPG core=
+ code
+> > > > > > handle such turning ON/OF the module clocks based on the enable=
+ count
+> > > > > > which will be handled internally in the driver?
+> > > > >
+> > > > > Please do not use "unused" module clock bits.  These do not descr=
+ibe
+> > > > > the hardware, and may actually exist in the hardware (try disabli=
+ng
+> > > > > all undocumented module clocks, and observe what fails...).
+> > > > >
+> > > > Agreed, "unused" module clock bits were only used as a dummy. The
+> > > > read/write operations were only performed on the actual bits which =
+are
+> > > > documented in the HW manual.
+> > > >
+> > > > > If spi_clk_spi really must show being disabled, you can change it
+> > > > > from a fixed divider clock (which does not implement .{en,dis}abl=
+e())
+> > > > > to a custom fixed divider clock that does implement .{en,dis}able=
+()
+> > > > > and keeps track internally of the fake state, or even looks at th=
+e
+> > > > > state of spi_clk_spix2?
+> > > > >
+> > > > Good point. Maybe instead of implementing the dummy .{en,dis}able()=
+ I
+> > > > will implement the is_enabled() + (clk_fixed_factor_ops). The
+> > > > is_enabled() will take care of reading from the MON bits and report
+> > > > the actual state of the clock.
+> > > >
+> > > > > However, upon second look, spi_clk_spi is not implemented as a fi=
+xed
+> > > > > divider clock with parent clk_spix2, as described above:
+> > > > >
+> > > > >       .smux2_xspi_clk1     0  0  0 320000000  0  0  50000  Y
+> > > > >          .pllcm33_xspi     0  0  0 40000000   0  0  50000  Y
+> > > > >             spi_clk_spix2  0  0  0 40000000   0  0  50000  N
+> > > > >             spi_clk_spi    0  0  0 20000000   0  0  50000  Y
+> > > > >          spi_aclk          0  0  0 200000000  0  0  50000  N
+> > > > >          spi_hclk          0  0  0 200000000  0  0  50000  N
+> > > > >       .smux2_xspi_clk0     0  0  0 533333333  0  0  50000  Y
+> > > > >
+> > > > > Instead, they both use pllcm33_xspi as the parent clock.
+> > > > > Apparently I missed that in the review of RZ/G3E XSPI clock suppo=
+rt.
+> > > > > The changelog for that patch does describe the correct topology?
+> > > > >
+> > > > The topology is correct for RZ/G3E, spi/spix2 are sourced from
+> > > > pllcm33_xspi divider and there is a divider (/2) for spi.
+> > >
+> > > Both spi_clk_spix2 and spi_clk_spix have .pllcm33_xspi as
+> > > immediate parent.
+> > >
+> > > [A] describes something different:
+> > >
+> > >     .pllcm33_xspi     0  0  0 40000000   0  0  50000  Y
+> > >         spi_clk_spix2  0  0  0 40000000   0  0  50000  N
+> > >             spi_clk_spi    0  0  0 20000000   0  0  50000  Y
+> > >
+> > > I.e. if spi_clk_spix2() is disabled, spi_clk_spi() is disabled, too.
+> > >
+> > Okay, thanks - got it.
+> >
+> > To clarify, to implement spi_clk_spi core clock as a parent of
+> > spi_clk_spix2 I will need to implement some sort of mechanism which
+> > registers (late) core clks after core clks and module clks are
+> > registered as spi_clk_spix2 is a module clock.
+>
+> Yes, I wondered about that as well, but wasn't too worried as you
+> already added the smux with e.g. "et0_rxclk" as parent, which also
+> doesn't exist at registration time ;-)
+>
+Good point.
+
+> But indeed, the smux uses clock names to find the parents, while
+> fixed-factor clocks in zv2h_cpg_register_core_clk() expect clock IDs
+> (which are converted to names), and don't handle non-core clocks yet.
+> So either add support for late core clocks, or modify CLK_TYPE_FF
+> to use cpg_core_clock.parent_names[] in case of a non-core parent?
+>
+I choose the late core registration of the clocks and with this the
+core clk_spi still reports `Y` in the summary while the parent is OFF
+(since its a FF clock).
+
+Logs for option #1
+------------------------
+root@rzv2h-evk:~# modprobe spi_rpc_if
+[  217.783625] 3 fixed-partitions partitions found on MTD device spi0.0
+[  217.790029] Creating 3 MTD partitions on "spi0.0":
+[  217.794958] 0x000000000000-0x000000060000 : "bl2"
+[  217.800464] 0x000000060000-0x000002000000 : "fip"
+[  217.807788] 0x000002000000-0x000004000000 : "user"
+root@rzv2h-evk:~#
+root@rzv2h-evk:~# cat /sys/kernel/debug/clk/clk_summary | grep spi
+             spi_aclk                0       1        0
+200000000   0          0     50000      N               deviceless
+                 of_clk_get_from_provider
+             spi_hclk                0       1        0
+200000000   0          0     50000      N               deviceless
+                 of_clk_get_from_provider
+          .smux2_xspi_clk0           1       1        0
+533333333   0          0     50000      Y            deviceless
+              no_connection_id
+             .smux2_xspi_clk1        1       1        0
+533333333   0          0     50000      Y               deviceless
+                 no_connection_id
+                .pllcm33_xspi        1       1        0
+266666667   0          0     50000      Y                  deviceless
+                    no_connection_id
+                   spi_clk_spix2     2       2        0
+266666667   0          0     50000      Y
+11030000.spi                    spix2
+                      spi_clk_spi    1       1        0
+133333333   0          0     50000      Y
+11030000.spi                    spi
+root@rzv2h-evk:~#
+root@rzv2h-evk:~# modprobe -r  spi_rpc_if
+[  225.376563] Deleting MTD partitions on "spi0.0":
+[  225.381218] Deleting bl2 MTD partition
+[  225.385504] Deleting fip MTD partition
+[  225.617827] Deleting user MTD partition
+root@rzv2h-evk:~#
+root@rzv2h-evk:~#
+root@rzv2h-evk:~# cat /sys/kernel/debug/clk/clk_summary | grep spi
+             spi_aclk                0       0        0
+200000000   0          0     50000      N               deviceless
+                 no_connection_id
+             spi_hclk                0       0        0
+200000000   0          0     50000      N               deviceless
+                 no_connection_id
+          .smux2_xspi_clk0           0       0        0
+533333333   0          0     50000      Y            deviceless
+              no_connection_id
+             .smux2_xspi_clk1        0       0        0
+533333333   0          0     50000      Y               deviceless
+                 no_connection_id
+                .pllcm33_xspi        0       0        0
+266666667   0          0     50000      Y                  deviceless
+                    no_connection_id
+                   spi_clk_spix2     0       0        0
+266666667   0          0     50000      N
+deviceless                      no_connection_id
+                      spi_clk_spi    0       0        0
+133333333   0          0     50000      Y
+deviceless                      no_connection_id
+root@rzv2h-evk:~#
+root@rzv2h-evk:~#
+
+
+
+
+Code implementation for option#1
+------------------------------------------------
+diff --git a/drivers/clk/renesas/r9a09g057-cpg.c
+b/drivers/clk/renesas/r9a09g057-cpg.c
+index 9952474bcf48..ab9e9a3e8cd1 100644
+--- a/drivers/clk/renesas/r9a09g057-cpg.c
++++ b/drivers/clk/renesas/r9a09g057-cpg.c
+@@ -231,7 +231,10 @@ static const struct cpg_core_clk
+r9a09g057_core_clks[] __initconst =3D {
+           CLK_PLLETH_DIV_125_FIX, 1, 1),
+     DEF_FIXED("gbeth_1_clk_ptp_ref_i", R9A09G057_GBETH_1_CLK_PTP_REF_I,
+           CLK_PLLETH_DIV_125_FIX, 1, 1),
+-    DEF_FIXED("spi_clk_spi", R9A09G057_SPI_CLK_SPI, CLK_PLLCM33_XSPI, 1, 2=
+),
++};
++
++static const struct cpg_core_clk r9a09g057_late_core_clks[] __initconst =
+=3D {
++    DEF_FIXED("spi_clk_spi", R9A09G057_SPI_CLK_SPI, 0xa1, 1, 2),
+ };
+
+ static const struct rzv2h_mod_clk r9a09g057_mod_clks[] __initconst =3D {
+@@ -502,6 +505,8 @@ const struct rzv2h_cpg_info r9a09g057_cpg_info
+__initconst =3D {
+     /* Core Clocks */
+     .core_clks =3D r9a09g057_core_clks,
+     .num_core_clks =3D ARRAY_SIZE(r9a09g057_core_clks),
++    .late_core_clks =3D r9a09g057_late_core_clks,
++    .num_late_core_clks =3D ARRAY_SIZE(r9a09g057_late_core_clks),
+     .last_dt_core_clk =3D LAST_DT_CORE_CLK,
+     .num_total_core_clks =3D MOD_CLK_BASE,
+
+diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/rzv2h-cp=
+g.c
+index 97bcd252fcbf..0fdac1578f8b 100644
+--- a/drivers/clk/renesas/rzv2h-cpg.c
++++ b/drivers/clk/renesas/rzv2h-cpg.c
+@@ -710,7 +710,7 @@ static struct clk
+
+ static void __init
+ rzv2h_cpg_register_core_clk(const struct cpg_core_clk *core,
+-                struct rzv2h_cpg_priv *priv)
++                struct rzv2h_cpg_priv *priv, bool late)
+ {
+     struct clk *clk =3D ERR_PTR(-EOPNOTSUPP), *parent;
+     unsigned int id =3D core->id, div =3D core->div;
+@@ -727,8 +727,12 @@ rzv2h_cpg_register_core_clk(const struct
+cpg_core_clk *core,
+         break;
+     case CLK_TYPE_FF:
+         WARN_DEBUG(core->parent >=3D priv->num_core_clks);
+-        parent =3D priv->clks[core->parent];
++        if (late)
++            parent =3D priv->clks[priv->num_core_clks + core->parent];
++        else
++            parent =3D priv->clks[core->parent];
+         if (IS_ERR(parent)) {
++            pr_err("parent clk is NULL for %s parent:%d\n",
+core->name, core->parent);
+             clk =3D parent;
+             goto fail;
+         }
+@@ -1298,11 +1302,14 @@ static int __init rzv2h_cpg_probe(struct
+platform_device *pdev)
+         clks[i] =3D ERR_PTR(-ENOENT);
+
+     for (i =3D 0; i < info->num_core_clks; i++)
+-        rzv2h_cpg_register_core_clk(&info->core_clks[i], priv);
++        rzv2h_cpg_register_core_clk(&info->core_clks[i], priv, false);
+
+     for (i =3D 0; i < info->num_mod_clks; i++)
+         rzv2h_cpg_register_mod_clk(&info->mod_clks[i], priv);
+
++    for (i =3D 0; i < info->num_late_core_clks; i++)
++        rzv2h_cpg_register_core_clk(&info->late_core_clks[i], priv, true);
++
+     error =3D of_clk_add_provider(np, rzv2h_cpg_clk_src_twocell_get, priv)=
+;
+     if (error)
+         return error;
+diff --git a/drivers/clk/renesas/rzv2h-cpg.h b/drivers/clk/renesas/rzv2h-cp=
+g.h
+index bce131bec80b..442289b9cafb 100644
+--- a/drivers/clk/renesas/rzv2h-cpg.h
++++ b/drivers/clk/renesas/rzv2h-cpg.h
+@@ -297,6 +297,8 @@ struct rzv2h_reset {
+  *
+  * @core_clks: Array of Core Clock definitions
+  * @num_core_clks: Number of entries in core_clks[]
++ * @late_core_clks: Array of Core Clocks that are late initialized
++ * @num_late_core_clks: Number of entries in late_core_clks[]
+  * @last_dt_core_clk: ID of the last Core Clock exported to DT
+  * @num_total_core_clks: Total number of Core Clocks (exported + internal)
+  *
+@@ -315,6 +317,8 @@ struct rzv2h_cpg_info {
+     /* Core Clocks */
+     const struct cpg_core_clk *core_clks;
+     unsigned int num_core_clks;
++    const struct cpg_core_clk *late_core_clks;
++    unsigned int num_late_core_clks;
+     unsigned int last_dt_core_clk;
+     unsigned int num_total_core_clks;
+
+
+# Option#2
+As mentioned in the previous thread I implemented FF clock with
+is_enabled() with this I can see the status of core clk_spi reports
+correct status.
+
+Logs for option #2
+---------------------
+root@rzv2h-evk:~# cat /sys/kernel/debug/clk/clk_summary | grep spi
+             spi_aclk                0       1        0
+200000000   0          0     50000      N               deviceless
+                 of_clk_get_from_provider
+             spi_hclk                0       1        0
+200000000   0          0     50000      N               deviceless
+                 of_clk_get_from_provider
+          .smux2_xspi_clk0           1       1        0
+533333333   0          0     50000      Y            deviceless
+              no_connection_id
+             .smux2_xspi_clk1        1       1        0
+533333333   0          0     50000      Y               deviceless
+                 no_connection_id
+                .pllcm33_xspi        2       2        0
+266666667   0          0     50000      Y                  deviceless
+                    no_connection_id
+                   spi_clk_spix2     1       1        0
+266666667   0          0     50000      Y
+11030000.spi                    spix2
+                   spi_clk_spi       1       1        0
+133333333   0          0     50000      Y
+11030000.spi                    spi
+root@rzv2h-evk:~#
+root@rzv2h-evk:~# modprobe -r spi_rpc_if
+[   58.860437] Deleting MTD partitions on "spi0.0":
+[   58.865078] Deleting bl2 MTD partition
+[   58.869355] Deleting fip MTD partition
+[   58.907329] Deleting user MTD partition
+root@rzv2h-evk:~#
+root@rzv2h-evk:~# cat /sys/kernel/debug/clk/clk_summary | grep spi
+             spi_aclk                0       0        0
+200000000   0          0     50000      N               deviceless
+                 no_connection_id
+             spi_hclk                0       0        0
+200000000   0          0     50000      N               deviceless
+                 no_connection_id
+          .smux2_xspi_clk0           0       0        0
+533333333   0          0     50000      Y            deviceless
+              no_connection_id
+             .smux2_xspi_clk1        0       0        0
+533333333   0          0     50000      Y               deviceless
+                 no_connection_id
+                .pllcm33_xspi        0       0        0
+266666667   0          0     50000      Y                  deviceless
+                    no_connection_id
+                   spi_clk_spix2     0       0        0
+266666667   0          0     50000      N
+deviceless                      no_connection_id
+                   spi_clk_spi       0       0        0
+133333333   0          0     50000      N
+deviceless                      no_connection_id
+root@rzv2h-evk:~#
+root@rzv2h-evk:~# modprobe spi_rpc_if
+[   65.423581] 3 fixed-partitions partitions found on MTD device spi0.0
+[   65.429971] Creating 3 MTD partitions on "spi0.0":
+[   65.434778] 0x000000000000-0x000000060000 : "bl2"
+[   65.440203] 0x000000060000-0x000002000000 : "fip"
+[   65.446337] 0x000002000000-0x000004000000 : "user"
+root@rzv2h-evk:~#
+root@rzv2h-evk:~#
+root@rzv2h-evk:~# cat /sys/kernel/debug/clk/clk_summary | grep spi
+             spi_aclk                0       1        0
+200000000   0          0     50000      N               deviceless
+                 of_clk_get_from_provider
+             spi_hclk                0       1        0
+200000000   0          0     50000      N               deviceless
+                 of_clk_get_from_provider
+          .smux2_xspi_clk0           1       1        0
+533333333   0          0     50000      Y            deviceless
+              no_connection_id
+             .smux2_xspi_clk1        1       1        0
+533333333   0          0     50000      Y               deviceless
+                 no_connection_id
+                .pllcm33_xspi        2       2        0
+266666667   0          0     50000      Y                  deviceless
+                    no_connection_id
+                   spi_clk_spix2     1       1        0
+266666667   0          0     50000      Y
+11030000.spi                    spix2
+                   spi_clk_spi       1       1        0
+133333333   0          0     50000      Y
+11030000.spi                    spi
+root@rzv2h-evk:~#
+
+Code implementation for option#2
+------------------------------------------------
+
+diff --git a/drivers/clk/renesas/r9a09g057-cpg.c
+b/drivers/clk/renesas/r9a09g057-cpg.c
+index 9952474bcf48..c56e43492a02 100644
+--- a/drivers/clk/renesas/r9a09g057-cpg.c
++++ b/drivers/clk/renesas/r9a09g057-cpg.c
+@@ -231,7 +231,8 @@ static const struct cpg_core_clk
+r9a09g057_core_clks[] __initconst =3D {
+           CLK_PLLETH_DIV_125_FIX, 1, 1),
+     DEF_FIXED("gbeth_1_clk_ptp_ref_i", R9A09G057_GBETH_1_CLK_PTP_REF_I,
+           CLK_PLLETH_DIV_125_FIX, 1, 1),
+-    DEF_FIXED("spi_clk_spi", R9A09G057_SPI_CLK_SPI, CLK_PLLCM33_XSPI, 1, 2=
+),
++    DEF_FIXED_MOD_STATUS("spi_clk_spi", R9A09G057_SPI_CLK_SPI,
+CLK_PLLCM33_XSPI, 1, 2,
++                 FIXED_MOD_CONF_XSPI),
+ };
+
+ static const struct rzv2h_mod_clk r9a09g057_mod_clks[] __initconst =3D {
+diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/rzv2h-cp=
+g.c
+index 97bcd252fcbf..96db6ce4460f 100644
+--- a/drivers/clk/renesas/rzv2h-cpg.c
++++ b/drivers/clk/renesas/rzv2h-cpg.c
+@@ -179,6 +179,28 @@ struct rzv2h_plldsi_div_clk {
+ #define to_plldsi_div_clk(_hw) \
+     container_of(_hw, struct rzv2h_plldsi_div_clk, hw)
+
++/**
++ * struct rzv2h_ff_mod_status_clk - Fixed Factor Module Status Clock
++ *
++ * @priv: CPG private data
++ * @conf: fixed mod configuration
++ * @hw: Fixed Factor Status Clock handle
++ * @mult: multiplier value
++ * @div: divider value
++ * @flags: flags for the clock
++ */
++ struct rzv2h_ff_mod_status_clk {
++    struct rzv2h_cpg_priv *priv;
++    struct fixed_mod_conf conf;
++    struct clk_hw hw;
++    unsigned int mult;
++    unsigned int div;
++    unsigned int flags;
++};
++
++#define to_rzv2h_ff_mod_status_clk(_hw) \
++    container_of(_hw, struct rzv2h_ff_mod_status_clk, hw)
++
+ static int rzv2h_cpg_pll_clk_is_enabled(struct clk_hw *hw)
+ {
+     struct pll_clk *pll_clk =3D to_pll(hw);
+@@ -664,6 +686,114 @@ rzv2h_cpg_mux_clk_register(const struct
+cpg_core_clk *core,
+     return clk_hw->clk;
+ }
+
++static unsigned long
++rzv2h_clk_ff_mod_status_recalc_rate(struct clk_hw *hw,
++                    unsigned long parent_rate)
++{
++    struct rzv2h_ff_mod_status_clk *fix =3D to_rzv2h_ff_mod_status_clk(hw)=
+;
++    unsigned long long int rate;
++
++    rate =3D (unsigned long long int)parent_rate * fix->mult;
++    do_div(rate, fix->div);
++    return (unsigned long)rate;
++}
++
++static long
++rzv2h_clk_ff_mod_status_round_rate(struct clk_hw *hw, unsigned long rate,
++                   unsigned long *prate)
++{
++    struct rzv2h_ff_mod_status_clk *fix =3D to_rzv2h_ff_mod_status_clk(hw)=
+;
++
++    if (clk_hw_get_flags(hw) & CLK_SET_RATE_PARENT) {
++        unsigned long best_parent;
++
++        best_parent =3D (rate / fix->mult) * fix->div;
++        *prate =3D clk_hw_round_rate(clk_hw_get_parent(hw), best_parent);
++    }
++
++    return (*prate / fix->div) * fix->mult;
++}
++
++static int rzv2h_clk_ff_mod_status_set_rate(struct clk_hw *hw,
+unsigned long rate,
++                        unsigned long parent_rate)
++{
++    return 0;
++}
++
++static unsigned long
++rzv2h_clk_ff_mod_status_recalc_accuracy(struct clk_hw *hw,
++                    unsigned long parent_accuracy)
++{
++    return parent_accuracy;
++}
++
++static int
++rzv2h_clk_ff_mod_status_is_enabled(struct clk_hw *hw)
++{
++    struct rzv2h_ff_mod_status_clk *fix =3D to_rzv2h_ff_mod_status_clk(hw)=
+;
++    struct rzv2h_cpg_priv *priv =3D fix->priv;
++    u32 offset =3D GET_CLK_MON_OFFSET(fix->conf.mon_index);
++    u32 bitmask =3D BIT(fix->conf.mon_bit);
++    u32 val;
++
++    val =3D readl(priv->base + offset);
++    return !!(val & bitmask);
++}
++
++static const struct clk_ops rzv2h_clk_ff_mod_status_ops =3D {
++    .round_rate =3D rzv2h_clk_ff_mod_status_round_rate,
++    .set_rate =3D rzv2h_clk_ff_mod_status_set_rate,
++    .recalc_rate =3D rzv2h_clk_ff_mod_status_recalc_rate,
++    .recalc_accuracy =3D rzv2h_clk_ff_mod_status_recalc_accuracy,
++    .is_enabled =3D rzv2h_clk_ff_mod_status_is_enabled,
++};
++
++static struct clk * __init
++rzv2h_cpg_fixed_mod_status_clk_register(const struct cpg_core_clk *core,
++                    struct rzv2h_cpg_priv *priv)
++{
++    struct rzv2h_ff_mod_status_clk *clk_hw_data;
++    struct clk_init_data init =3D { };
++    const struct clk *parent;
++    const char *parent_name;
++    struct clk_hw *hw;
++    int ret;
++
++    WARN_DEBUG(core->parent >=3D priv->num_core_clks);
++    parent =3D priv->clks[core->parent];
++    if (IS_ERR(parent))
++        return ERR_CAST(parent);
++
++    parent_name =3D __clk_get_name(parent);
++    parent =3D priv->clks[core->parent];
++    if (IS_ERR(parent))
++        return ERR_CAST(parent);
++
++    clk_hw_data =3D devm_kzalloc(priv->dev, sizeof(*clk_hw_data), GFP_KERN=
+EL);
++    if (!clk_hw_data)
++        return ERR_PTR(-ENOMEM);
++
++    clk_hw_data->priv =3D priv;
++    clk_hw_data->conf =3D core->cfg.fixed_mod;
++    clk_hw_data->mult =3D core->mult;
++    clk_hw_data->div =3D core->div;
++
++    init.name =3D core->name;
++    init.ops =3D &rzv2h_clk_ff_mod_status_ops;
++    init.flags =3D CLK_SET_RATE_PARENT;
++    init.parent_names =3D &parent_name;
++    init.num_parents =3D 1;
++
++    hw =3D &clk_hw_data->hw;
++    hw->init =3D &init;
++
++    ret =3D devm_clk_hw_register(priv->dev, hw);
++    if (ret)
++        return ERR_PTR(ret);
++
++    return hw->clk;
++}
++
+ static struct clk
+ *rzv2h_cpg_clk_src_twocell_get(struct of_phandle_args *clkspec,
+                    void *data)
+@@ -742,6 +872,9 @@ rzv2h_cpg_register_core_clk(const struct cpg_core_clk *=
+core,
+         else
+             clk =3D clk_hw->clk;
+         break;
++    case CLK_TYPE_FF_MOD_STATUS:
++        clk =3D rzv2h_cpg_fixed_mod_status_clk_register(core, priv);
++        break;
+     case CLK_TYPE_PLL:
+         clk =3D rzv2h_cpg_pll_clk_register(core, priv,
+&rzv2h_cpg_pll_ops, false);
+         break;
+diff --git a/drivers/clk/renesas/rzv2h-cpg.h b/drivers/clk/renesas/rzv2h-cp=
+g.h
+index bce131bec80b..29e1dc841b46 100644
+--- a/drivers/clk/renesas/rzv2h-cpg.h
++++ b/drivers/clk/renesas/rzv2h-cpg.h
+@@ -94,6 +94,23 @@ struct smuxed {
+         .width =3D (_width), \
+     })
+
++/**
++ * struct fixed_mod_conf - Structure for fixed module configuration
++ *
++ * @mon_index: monitor index
++ * @mon_bit: monitor bit
++ */
++struct fixed_mod_conf {
++    u8 mon_index;
++    u8 mon_bit;
++};
++
++#define FIXED_MOD_CONF_PACK(_index, _bit) \
++    ((struct fixed_mod_conf){ \
++        .mon_index =3D (_index), \
++        .mon_bit =3D (_bit), \
++    })
++
+ #define CPG_SSEL0        (0x300)
+ #define CPG_SSEL1        (0x304)
+ #define CPG_CDDIV0        (0x400)
+@@ -137,6 +154,8 @@ struct smuxed {
+                  FIELD_PREP_CONST(BUS_MSTOP_BITS_MASK, (mask)))
+ #define BUS_MSTOP_NONE        GENMASK(31, 0)
+
++#define FIXED_MOD_CONF_XSPI    FIXED_MOD_CONF_PACK(5, 1)
++
+ /**
+  * Definitions of CPG Core Clocks
+  *
+@@ -157,6 +176,7 @@ struct cpg_core_clk {
+         struct ddiv ddiv;
+         struct pll pll;
+         struct smuxed smux;
++        struct fixed_mod_conf fixed_mod;
+     } cfg;
+     const struct clk_div_table *dtable;
+     const char * const *parent_names;
+@@ -169,6 +189,7 @@ enum clk_types {
+     /* Generic */
+     CLK_TYPE_IN,        /* External Clock Input */
+     CLK_TYPE_FF,        /* Fixed Factor Clock */
++    CLK_TYPE_FF_MOD_STATUS,    /* Fixed Factor Clock which can report
+the status of module clock */
+     CLK_TYPE_PLL,
+     CLK_TYPE_DDIV,        /* Dynamic Switching Divider */
+     CLK_TYPE_SMUX,        /* Static Mux */
+@@ -186,6 +207,9 @@ enum clk_types {
+     DEF_TYPE(_name, _id, CLK_TYPE_IN)
+ #define DEF_FIXED(_name, _id, _parent, _mult, _div) \
+     DEF_BASE(_name, _id, CLK_TYPE_FF, _parent, .div =3D _div, .mult =3D _m=
+ult)
++#define DEF_FIXED_MOD_STATUS(_name, _id, _parent, _mult, _div, _gate) \
++    DEF_BASE(_name, _id, CLK_TYPE_FF_MOD_STATUS, _parent, .div =3D _div, \
++         .mult =3D _mult, .cfg.fixed_mod =3D _gate)
+ #define DEF_DDIV(_name, _id, _parent, _ddiv_packed, _dtable) \
+     DEF_TYPE(_name, _id, CLK_TYPE_DDIV, \
+         .cfg.ddiv =3D _ddiv_packed, \
+
+Please share your thoughts on this.
+
+Cheers,
+Prabhakar
 
