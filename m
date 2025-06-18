@@ -1,56 +1,55 @@
-Return-Path: <linux-renesas-soc+bounces-18512-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18513-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F530ADF212
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Jun 2025 17:59:51 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14D56ADF22F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Jun 2025 18:11:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 69632189FF82
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Jun 2025 15:59:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CD5313B60DD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Jun 2025 16:11:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9FF12EFDB5;
-	Wed, 18 Jun 2025 15:59:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F1522F0026;
+	Wed, 18 Jun 2025 16:11:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Uegyf41u"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="N/jO84hp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B2302EE617;
-	Wed, 18 Jun 2025 15:59:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1972ED159;
+	Wed, 18 Jun 2025 16:11:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750262353; cv=none; b=jn2ljTdt6fMsaiuJCqqQmqCUDCG7OnK1dQ5LmcSnnvw0wMVoIrygIa6fvWFPbCL67Kp/dnztJllpmS9btTXxTwY+bw3KHcxDfBMQ4fITmwxI7fmbra8J/vy5NFaLvYcmed9tOnf4HHWxWzI2HgnbykOXesVtuedwfMI5h0p1fwI=
+	t=1750263090; cv=none; b=NaLxu3DCTcv1q6MzmfSoK26ASZt4Qzt9lEc88Zegn0txLInOzsLM7pfXL8X1vJQZKqvVGHx68m6irJo/EqryZp78/HTmm8FBR9VHvBTdHoYhauBvcCthnV03aIRqRn7Pv2iATkqFeS4T4tBqnRhlMxICjDV4QrJNvsGXKLwfXKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750262353; c=relaxed/simple;
-	bh=fCqVENc9CZO81zr//o/oiav5RoS2SRTDMugbmxl0dz0=;
+	s=arc-20240116; t=1750263090; c=relaxed/simple;
+	bh=vIWMG3n/2wjGriOMukJ4NbSZUhwXvQrp6a1oB2WSyGc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JecLD810hketKarMUk+Py6bnvwbBL3zI7Efi9998INlWes67nOJRQte2joX4TE2tnc+0hGpwnzm1u5/bMJJiVDfDEa62Ca1PCm7qRuayBEmB66nGn/vaUs69KXsFi3ncd2wY24X1apP+UkNS0N2ccAOpQGWgYGTLFC1vide0ETg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Uegyf41u; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=a/VpkRlknhDbO0IeQfEP9Oa6tHgIkIrOXZZ882TsEXn8OPMHtrYUoiocxJYf4XRrBl88O6xDDPuhtdxxXb2FOgCFj+Z7ym10p2UntbZKkqBdZ9KaPwj7N1yM97Ugtep/7UkVCYCDWuNDi0amXD9MInSLAmKY6X+IgRBQC2/v9uk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=N/jO84hp; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D8C7B2B3;
-	Wed, 18 Jun 2025 17:58:54 +0200 (CEST)
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0E0BE752;
+	Wed, 18 Jun 2025 18:11:13 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1750262335;
-	bh=fCqVENc9CZO81zr//o/oiav5RoS2SRTDMugbmxl0dz0=;
+	s=mail; t=1750263074;
+	bh=vIWMG3n/2wjGriOMukJ4NbSZUhwXvQrp6a1oB2WSyGc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Uegyf41u42ocjfi/GtLPISMxFPKc1Qw72qSZ4heQWO8OfbdbCxPKRizK7aEPuEcf3
-	 Ytr+BH7fSd4YDP0nxzzse9yAKLp5Wy+O+4Tl3LrfIFxOAAf9isfqOUyh1HSQw7gD+5
-	 CX9GizDZC8iDvAOXzXmAAqkPLLykmriYj/Z6scpc=
-Date: Wed, 18 Jun 2025 18:58:51 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] media: vsp1: Add missing export.h
-Message-ID: <20250618155851.GA31351@pendragon.ideasonboard.com>
-References: <20250618-vspx-include-export-v1-1-95a2da4ec465@ideasonboard.com>
+	b=N/jO84hpjkLiUnBn4pDPPfzd7C+s18wA65ZSE8GPjyLDSPRyYybNU8W4QlbMM4SWo
+	 TR+MH1obh8+QbwP1Yz3E9ZO7MKmxXMagH1b68JSsqoqk7xDG24CLg2DbprrN9O1+wm
+	 WntLGAy1uHNIiLJYfQuYpwghr7k7Dmvga3t0lMk0=
+Date: Wed, 18 Jun 2025 18:11:23 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: Re: [PATCH] media: vsp1: Use lockdep assertions to enforce
+ documented conventions
+Message-ID: <uavxxji4amplptulcligbw2uy64d5tlvx2yscaz2pnqgx5pkwz@rm3ljuui7p3z>
+References: <20250618020150.9863-1-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -59,68 +58,87 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250618-vspx-include-export-v1-1-95a2da4ec465@ideasonboard.com>
+In-Reply-To: <20250618020150.9863-1-laurent.pinchart@ideasonboard.com>
 
-Hi Jacopo,
+Hi Laurent
 
-On Wed, Jun 18, 2025 at 05:42:47PM +0200, Jacopo Mondi wrote:
-> As reported by the Kernel Test Robot, the newly merged vspx driver
-> exports a few symbols but doesn't include the export.h header.
-> 
-> While at it, include the header file in vsp1_drm.c which exports
-> symbols as well.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202506181950.r9PRdV59-lkp@intel.com/
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
+On Wed, Jun 18, 2025 at 05:01:49AM +0300, Laurent Pinchart wrote:
+> A few functions have documented locking conventions. Documentation is
+> nice, but runtime checks are better. Enforce the conventions with
+> lockdep assertions.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
-> Add missing export.h header as reported by kernel test robot <lkp@intel.com>
-> 
-> Can this patch be fast-tracked to ensure it lands with the one that
-> introduces the vspx driver ?
+>  drivers/media/platform/renesas/vsp1/vsp1_dl.c   | 5 +++++
+>  drivers/media/platform/renesas/vsp1/vsp1_pipe.c | 3 +++
+>  2 files changed, 8 insertions(+)
+>
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_dl.c b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
+> index c660f8539ff5..d732b4ed1180 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_dl.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
+> @@ -10,6 +10,7 @@
+>  #include <linux/device.h>
+>  #include <linux/dma-mapping.h>
+>  #include <linux/gfp.h>
+> +#include <linux/lockdep.h>
+>  #include <linux/refcount.h>
+>  #include <linux/slab.h>
+>  #include <linux/workqueue.h>
+> @@ -612,6 +613,8 @@ struct vsp1_dl_list *vsp1_dl_list_get(struct vsp1_dl_manager *dlm)
+>  	struct vsp1_dl_list *dl = NULL;
+>  	unsigned long flags;
+>
+> +	lockdep_assert_not_held(&dlm->lock);
+> +
+>  	spin_lock_irqsave(&dlm->lock, flags);
+>
+>  	if (!list_empty(&dlm->free)) {
+> @@ -639,6 +642,8 @@ static void __vsp1_dl_list_put(struct vsp1_dl_list *dl)
+>  	if (!dl)
+>  		return;
+>
+> +	lockdep_assert_held(&dl->dlm->lock);
+> +
 
-I'll include it in my next pull request for Renesas media drivers,
-either this week or the next.
+Is it intentional to place this after the !dl check ? Is this to avoid
+a lockdep warning in case !dl ?
 
-> ---
->  drivers/media/platform/renesas/vsp1/vsp1_drm.c  | 1 +
->  drivers/media/platform/renesas/vsp1/vsp1_vspx.c | 1 +
->  2 files changed, 2 insertions(+)
-> 
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> index fe55e8747b05aa351c1547469f9cbbe2b6d25408..15d266439564e2317dbc380ef04d2b15ae899852 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+Anyway
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+
+Thanks
+  j
+
+>  	/*
+>  	 * Release any linked display-lists which were chained for a single
+>  	 * hardware operation.
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> index 3cbb768cf6ad..5d769cc42fe1 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
 > @@ -9,6 +9,7 @@
->  
->  #include <linux/device.h>
->  #include <linux/dma-mapping.h>
-> +#include <linux/export.h>
->  #include <linux/slab.h>
->  
->  #include <media/media-entity.h>
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_vspx.c b/drivers/media/platform/renesas/vsp1/vsp1_vspx.c
-> index 6551d63ba387a05c932d2e557bd0ae5f8810acc7..a754b92232bd57f1b4cd3f9e7903f0b5da5c5c57 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_vspx.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_vspx.c
-> @@ -13,6 +13,7 @@
+>
 >  #include <linux/delay.h>
->  #include <linux/device.h>
->  #include <linux/dma-mapping.h>
-> +#include <linux/export.h>
 >  #include <linux/list.h>
->  #include <linux/slab.h>
->  #include <linux/spinlock.h>
-> 
-> ---
-> base-commit: 642b70d526ab8daa8f256dfc1eb6bf27c3290cc6
-> change-id: 20250618-vspx-include-export-84379a99bf59
-
--- 
-Regards,
-
-Laurent Pinchart
+> +#include <linux/lockdep.h>
+>  #include <linux/sched.h>
+>  #include <linux/wait.h>
+>
+> @@ -473,6 +474,8 @@ void vsp1_pipeline_run(struct vsp1_pipeline *pipe)
+>  {
+>  	struct vsp1_device *vsp1 = pipe->output->entity.vsp1;
+>
+> +	lockdep_assert_held(&pipe->irqlock);
+> +
+>  	if (pipe->state == VSP1_PIPELINE_STOPPED) {
+>  		vsp1_write(vsp1, VI6_CMD(pipe->output->entity.index),
+>  			   VI6_CMD_STRCMD);
+>
+> base-commit: d20469375306163719ee458dd83b7d6c1c93d4d1
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
 
