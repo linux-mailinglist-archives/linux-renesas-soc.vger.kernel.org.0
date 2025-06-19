@@ -1,65 +1,65 @@
-Return-Path: <linux-renesas-soc+bounces-18557-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18558-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85F4BAE0D69
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Jun 2025 21:18:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86785AE0D6F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Jun 2025 21:18:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 27B7B3BE5B7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Jun 2025 19:17:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5BA736A5520
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Jun 2025 19:18:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC045244E8C;
-	Thu, 19 Jun 2025 19:18:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5018F30E82E;
+	Thu, 19 Jun 2025 19:18:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QlvfoknH"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="B05VUuCJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE3C244693
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Jun 2025 19:18:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95525152DE7
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Jun 2025 19:18:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750360688; cv=none; b=dXibYVCLg8QjKKblWE9ppq4y1Uu/1T1iMc6b2qBX/hUaPSc1eK8qpOcNqAbEvLLp090rrALF69M17AycasEC5J7vt2wa0bw6Cbd/Lzbe7iQjMchOdZ89mSlf77Cz+jBmc6wlyjfBYX+EcW9jxZgXeMbvYsaUABy6Bt2gmz34Toc=
+	t=1750360698; cv=none; b=st38ocoQpMWhDlE8pOGLWplWecNrF1lhxSkn4PovnbRMAAvZ3ldhfJa8OSeNayT/V8s4S4r0xgMwDlUFam1gK2Q/8QBen3N6TYC9vjsLYYfWAflFONr/tc1bpoLplECTaJLMfQ2CYKXZECcqCwWQJN3cHxXKAWYuOqsdGbocU1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750360688; c=relaxed/simple;
-	bh=Tc35LYnloxYekiZZhivWmAHnrRtMhAnr/P2YRkymKvc=;
+	s=arc-20240116; t=1750360698; c=relaxed/simple;
+	bh=vwDL0e/kpo3IfQsCqGi/us3Z8zaxOzAuP+sQe4GqNv4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OXmYWAkQYOkyWut+yWgyg9gZOpCuP4EqI2QewttyUSiF4xLew6U2oUA3YFbhV2s0M7/8cWTYhZ/ph4lOQlcmTWFeW8XwxJINM4kq2r7IL7QGv9oXXavCnuWPCKJuGY6J8t/rZcrOpImgLps5jGky5ldQb3xa+x3Bi9IxmMmqgpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QlvfoknH; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:To:Cc; b=NehvRHkOzvAesq1hI6Ut94UpuR8xxlVtUpfNpHt5/DLNqdTQLq5x//5EVyAR1i5BoHQNn3yNdQcswW7FuYExhgqbRvGQPxCnpeRDP2cJQE9rygI6R6JfkcBDbiX+WqB9glxvhqcRRfOMBwdgjCXvdoSM6zdtIpLrvug3ZEuCsXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=B05VUuCJ; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1750360686;
+	s=mimecast20190719; t=1750360695;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Eo/zVUS27I3iBJXxa3aUPvdwg21sDptKqghnN2ZomoU=;
-	b=QlvfoknHmSi/Dq3caNFm392jfiSZQpqi6ESZKcTLZPGP1oUAe9roq4Sq7Tl43tE768gle5
-	OD2ZbUQnTrSQrTFjH/sy6MK7uoNQdXtAU5O0NDHIPnn0y90rRIIklSIOxEuitB1QQxYq3c
-	0r/W0HRckWskaW4nudaEVk77OOTEPB0=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=0uj5bq15NBziJEiGW1nt+d5vwRWbeeBx1df0xo6lfNU=;
+	b=B05VUuCJUMUu5ZARNvCHXaSkBGzCv+dEdmzACmHc8m0+01TDrQA3G5luWn47INUxTQ8Aqa
+	49oZxJg9pOdmKLqyS8WcfADIekvmhWhhVY4qfV8AJXr+D0w4HORbAsZPa76BhY53yR6vgC
+	jaQBIil6xc/b69dZUZbYhatLaGE4ip0=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-410--ujauuIfPGOIoVTMItiAUA-1; Thu,
- 19 Jun 2025 15:18:02 -0400
-X-MC-Unique: -ujauuIfPGOIoVTMItiAUA-1
-X-Mimecast-MFC-AGG-ID: -ujauuIfPGOIoVTMItiAUA_1750360678
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-536-NlCAE8VIN0ew9ASJW0oK_A-1; Thu,
+ 19 Jun 2025 15:18:13 -0400
+X-MC-Unique: NlCAE8VIN0ew9ASJW0oK_A-1
+X-Mimecast-MFC-AGG-ID: NlCAE8VIN0ew9ASJW0oK_A_1750360689
 Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8117C195608E;
-	Thu, 19 Jun 2025 19:17:57 +0000 (UTC)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1940618002EC;
+	Thu, 19 Jun 2025 19:18:08 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.132])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E157419560B2;
-	Thu, 19 Jun 2025 19:17:47 +0000 (UTC)
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id DAC5819560A3;
+	Thu, 19 Jun 2025 19:17:57 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 19 Jun 2025 14:15:55 -0500
-Subject: [PATCH v2 03/16] drm/panel/samsung-dsicm: Keep up with refcounting
+Date: Thu, 19 Jun 2025 14:15:56 -0500
+Subject: [PATCH v2 04/16] drm/panel/sun4i: Keep up with refcounting
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -68,7 +68,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250619-b4-of_drm_find_panel_part1-v2-3-0df94aecc43d@redhat.com>
+Message-Id: <20250619-b4-of_drm_find_panel_part1-v2-4-0df94aecc43d@redhat.com>
 References: <20250619-b4-of_drm_find_panel_part1-v2-0-0df94aecc43d@redhat.com>
 In-Reply-To: <20250619-b4-of_drm_find_panel_part1-v2-0-0df94aecc43d@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -102,41 +102,38 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
  linux-samsung-soc@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
  linux-tegra@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1750360565; l=983;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1750360565; l=704;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=Tc35LYnloxYekiZZhivWmAHnrRtMhAnr/P2YRkymKvc=;
- b=vN92IBQi+M09EbSRlRz+7klMp240mFog3YQFqIvUWNP4EPGP0V5d40UNgVhMKMGQioZJzKxlt
- 4mDoniewSgwD271dOvPPbqJJrVnML3dE9maoN1t5FCwFi6HaNRX+SIk
+ bh=vwDL0e/kpo3IfQsCqGi/us3Z8zaxOzAuP+sQe4GqNv4=;
+ b=g7khlqVnumIsHfCfSyg1woKg7b+yPfwhEzUFo3QOoMq0IPTiWV2rTpeFC7PVXfC46T3XRxrJF
+ fI+al3sbj0kDgQkGEBOUB30evTAaic6E/aBtVIm4pMDxX40daFlJ1F0
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
 Put the panel reference back when driver is no
-longer using it. The panel that of_drm_find_panel()
-returns is or the purpose of finding a out->bridge.
-After which it is no longer used. Drop the refcount
-accordingly.
+longer using it.
 
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
-v2: Explain in commit message why the refcount is put in the
-attach function which is not usual.
+v2: none.
 ---
- drivers/gpu/drm/bridge/samsung-dsim.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index 0014c497e3fe7d8349a119dbdda30d65d816cccf..3667855ff0d6d1b608c579573de657af7fd14388 100644
---- a/drivers/gpu/drm/bridge/samsung-dsim.c
-+++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -1748,6 +1748,7 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
- 			dsi->out_bridge = ERR_PTR(-EINVAL);
- 	}
+diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+index c35b70d83e53b7397c6e38dde45824bd49fdf099..36d47d7cedde1e1e3e83eb670520664100bd0a25 100644
+--- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
++++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+@@ -990,6 +990,8 @@ static int sun6i_dsi_detach(struct mipi_dsi_host *host,
  
-+	drm_panel_put(panel);
- 	of_node_put(remote);
+ 	drm_kms_helper_hotplug_event(dsi->drm);
  
- 	if (IS_ERR(dsi->out_bridge)) {
++	drm_panel_put(dsi->panel);
++
+ 	return 0;
+ }
+ 
 
 -- 
 2.48.1
