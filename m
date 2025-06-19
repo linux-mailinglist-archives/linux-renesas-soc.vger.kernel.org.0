@@ -1,85 +1,85 @@
-Return-Path: <linux-renesas-soc+bounces-18534-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18535-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3290AE05C2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Jun 2025 14:29:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C71A3AE05D4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Jun 2025 14:31:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D2830188B3B2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Jun 2025 12:28:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 48B454A4E2C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Jun 2025 12:29:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8787F24DCFE;
-	Thu, 19 Jun 2025 12:25:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E209623E33D;
+	Thu, 19 Jun 2025 12:28:50 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FFD82459EA;
-	Thu, 19 Jun 2025 12:25:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D190623B627;
+	Thu, 19 Jun 2025 12:28:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750335959; cv=none; b=XuVkt40SAHKTMu6vNFFywebodY63fXSfnbfvZDQxrLo2zHyy3AjYX3dZdpOcpX/DvU54hnDozUq6Vu+g5sJyAarO/ob0BMvHOwM8CcNdUvU5NXEpnQYqRcqsxEfBA23BqG4B6wNowX90PbwXkWtHiM5gMQwEeaPPyNoaBoDgeik=
+	t=1750336130; cv=none; b=cLtleqlLGaau3aKhAIqA96vrSAnHAcPPJ9AC5BRW6z2l+1noLb7aK18t0CDKlhtCVFqjiFlRKcYnAGSp3c4u8VCamsh8pXsIHL+ul2SsNxRmo73D+GQEYU6K9RaJ3qTs3+lRMx0lvgTBUeJADXY5kPnZL60x775VUU7srTVVlLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750335959; c=relaxed/simple;
-	bh=nw+6paORmE3fJuO8ylVKNY7c0AcGWBN96GycDaN9lNE=;
+	s=arc-20240116; t=1750336130; c=relaxed/simple;
+	bh=4bW674pfC7bs8dldvM0Hic3wFQnfBcgS3yLOQJJbm+0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MgL9UFzYmj8/gaI0vgb1x+e02frUfHTD44u22RQN0VR4TSITktCouBGyOXydHF01oBZZ+LkCHfFDRaVV7Ty0cSC8jiSDYuQEJmpV0EW8Inc8PIBjCw6BWl2XP85NTy0fw9hII64Cul6UOsgRrcRQie3bQtv46S/JxweT1paC90s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.54
+	 To:Cc:Content-Type; b=E4HKnCDCW33POfuufZcR27QEBvht2pLldWSCahzTUynN0UFPRyQvGJpwWDzbTCgOt3Kl7HScVLybgV9pE49Tlmi6QaaIQyiL+Y/P8v5EWgM65fMM/UgRzIrwI86jyGem1TYEQJl3JP8hVnAZfDMgWRtsWRtfTpWNqsbHk4Dta0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-4e7efae1bfdso171558137.3;
-        Thu, 19 Jun 2025 05:25:56 -0700 (PDT)
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5315ebfda19so256250e0c.1;
+        Thu, 19 Jun 2025 05:28:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750335955; x=1750940755;
+        d=1e100.net; s=20230601; t=1750336127; x=1750940927;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=QRKDQT8PZNuVIkxqQQfCZ0RpWeCez8dwdZEAe8PYgYg=;
-        b=e8Yvs3asvys8i3HZxxcbjba8wuzJXWw4WTURm7wwBVdvPuTTlydRBPsGaFs4KUlM7v
-         SxvpzKF9dg7YKsRLtS2qmaXStk423xsUm95SA5wrl48/0TlNqCAAhde6eRU6Xh5myuCe
-         DYQyOmlTnAjq4rFTnLXQVCVZ2A8N8/ypxlCLh8OYxs9aa2EHLtv8+FIHShSV+yxqDdcz
-         Xqa+sFHp555z3GPgsR2LlrYUYvhlcWXtOVDL1DPiB86PePUIYfQDGOW8DvjHnEDnbsPN
-         Hp3/yuQIIhJ70Cpjge/A2X1PXUX/DsU34WmTVyw+Y5Q+QIZ2/RA5ALjykObmKU9eo1uK
-         u6KA==
-X-Forwarded-Encrypted: i=1; AJvYcCVTVzI3H9CD4fss36FE0tD+tJI5gyVrzw1WfHfJulWYrNJN4I4DJDEqHDa+Y9pMHnf7A1HoaEz0LwVm@vger.kernel.org, AJvYcCW1P1faC5NLgd5kNYaEoofg0fby5HXfTn8LkYak4xLM5gSYnS+4zNm9EnToXXwlgTxPpdadajjUwYNxw4YF@vger.kernel.org, AJvYcCXcX3rXYZs5bfgHkJDHvFQajyhERLXlyHmo7atxn2B+7CSMQgFI3/rSM7cRSObvsBb50U0rabUaGBhg5ENYa561CzU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUjJv462B1O7dByovK5siQzJozk5rmGXG7wT5r6RxMYwwdE/87
-	TBiGC5EeAn46SpiRTXxvkkPbRArLeVgvu3ElFWgFVT3uaKHDSXPJ6VNC+mF5u0ko
-X-Gm-Gg: ASbGncsU2KdahPraKD1e87KCkX1X2aCAspeef49QqX9GWS1FP7Cl006+mgz2VqeF4iz
-	qt9C8t2ZRN1gzIYgPZCKYZKoYn48BPb1WI1c23ivhTQkmgEiRB2+brMcmk1+VKPt2JcyS3Hp/Hp
-	9Kb4lZPYafvSvVOco2K3JS0N1vyOZdgNrTkgpDpiY1I2TzATSECB3QgQsO1eKTE52f8ERCsm0KA
-	HAIt9YbNHHgKFtf5fjGkGAJTaiEEdoUkojgoUEbuvFFFre7NB6fBLNIXfoKAjurEarkRY3WmVsP
-	kkN0UnvaMpoa5terWknO2RkmiHB50V64SRxmLfV2hEN51yDlrRHoxJeiPWMDcD9SWQCya9e9hzm
-	+Alhe4wyj7rjuv1FtoqOtFbWU
-X-Google-Smtp-Source: AGHT+IFyz5Yg/uTDzTv8rfupdZi+qtm6CmvCpnHtM1ea362AW4aA8J10dv8uyvJW7PcELXnOZyTqng==
-X-Received: by 2002:a05:6102:4b8c:b0:4e6:d94f:c197 with SMTP id ada2fe7eead31-4e7f62629b7mr15996686137.23.1750335955041;
-        Thu, 19 Jun 2025 05:25:55 -0700 (PDT)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-87f0fb27703sm2278914241.18.2025.06.19.05.25.54
+        bh=Z9KqxynSkhQNk5Ajxj7HbKnlzRSGeB7hI86xplRL1UM=;
+        b=xSb2tUj/Lw5Abza4W0pxxUhUL4spauPDCPlyEG3obz/lHuFxi2kIh3dn1dlCfZ+mPp
+         6A8tH5Qr6xa6jOBPoe2Mn5qQIV+Ltc4bOCeyoNRBfS25wJtJq2Row7HFXizE4yTWnqrJ
+         YdvBMNGHe/0ospPYVpNFLJWz7ILvVkHWVt2YiE0CpPJIoTfYVFS/WCghgbUR2snXZbiE
+         2hfwc0pOY6hqfYsHNuaIVPgnO5vK1cAuw1LOaiyEaxX8I/LEoj2Er6ln5jhM5OS117ci
+         EkFFs5K3A4JHgNEmi5+2QP1cxx/J4uQ2Keb02y5ThpOfQn5S5P/NlDd/RJbF3Rj4/7wm
+         Td/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWb8EhTnlvzJYY8KpPn5zy3cE+pg7v5VpQLGp1uqL7SLTa4BN3r0/S+b67j5fh63z73OYfc8+qI4bEkBjUbJG566LI=@vger.kernel.org, AJvYcCXEMSE/q93t9h/vzJsoAx9oGe6lwdqgis0nTxSI/KhcrHNeR20JEiq9rLgy0XpB9vDFfr4+ViIBfGhK@vger.kernel.org, AJvYcCXdYCHYda80CDinBCiWRbHBpiYjln5MVCMCbP23/g9xvjp65/uHAmu/tIxJdMCFfOWhP6wEHqpmzjqTqekg@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmWIG6iTKgun62fNH2jCR5uWVI923u0ARsNrkVRFxDaPjNuzOq
+	jxwvCKdXu86XEg8cBtMo89WVlfFMtyw0pFfcsGH6wMDHhS+5vMu4ipehonB2Nf8M
+X-Gm-Gg: ASbGncvX0pZCGqoKIT0stD1qMZ/I93gBwCX12EM8vNO0NcjCQz3ikyWbwCeHoc77Gw/
+	5p+l+tz4tIJWWw3kvHdzOXd9QnPAb+cbjMKcwE8cNldbtlMIdOTgSG0kxXeK6+QXomsPz4SUk4I
+	J7OUiChh8IHmiRHTWbh56iuWove03GKN3S1oWrK0HyBcs+ldiNZGjoNLQvaeC6iFwfPriIGOR3l
+	j69a456bF9MFitQr+BNDxgMChpF88nZnkQJfZObqoW84TLlSHsxQJLihAamBccKEc2ko9eI/Zvl
+	XhzmrpmNdfrVmEcGkaN+F/eGfVbiKFiWJuckRsklPACeKylvhG+5zaVsdpumhPAQjhleOFO8yLE
+	OXQeUwXN+bE0vunIakWucaoo98H71QTnPbzMYEiE=
+X-Google-Smtp-Source: AGHT+IGx8k3nfavDsoWNmKZRXluJCsYYc+fdwa0aziH8qtN0kmE/8rylSR+/WN9xX9gEfqPKDqglzw==
+X-Received: by 2002:a05:6122:91e:b0:531:2d3a:32aa with SMTP id 71dfb90a1353d-531493eb7d5mr13489184e0c.0.1750336127238;
+        Thu, 19 Jun 2025 05:28:47 -0700 (PDT)
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com. [209.85.221.182])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5313dd849fdsm2398314e0c.3.2025.06.19.05.28.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Jun 2025 05:25:54 -0700 (PDT)
-Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-87f26496daeso160231241.2;
-        Thu, 19 Jun 2025 05:25:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW+AabZIe0s+K9Q4z8PgHwM2AOzsmjvsLfaKv4z6uk+QSCY9I8d49xePm9N2PVSELuRJ59X32dRENdC@vger.kernel.org, AJvYcCWWVSCU9MF87N1zSe9xWawJeatLw2QH93VU73yaP0U0JCCpnsS+r9fZ2p0o7U4POnfhDd1nF3evX33rKAfx@vger.kernel.org, AJvYcCWus4rHjQWWTvv5eL2t/o9UyqLQzUiZC2P/m+Rjv0eD0khEwedwstesG1qOy6kLMdLsIYvhTjNnnybP4zxUmT1Wyus=@vger.kernel.org
-X-Received: by 2002:a05:6102:c8f:b0:4e5:59ce:4717 with SMTP id
- ada2fe7eead31-4e7f614b8femr15344553137.9.1750335954100; Thu, 19 Jun 2025
- 05:25:54 -0700 (PDT)
+        Thu, 19 Jun 2025 05:28:47 -0700 (PDT)
+Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-531a1fad7faso184456e0c.2;
+        Thu, 19 Jun 2025 05:28:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWVFAoF8S6brFDP3YB3ZrP7ZvmJexWdGrWhvqDtg8yVlTBFETwYqdXY9YXqCVzGKlfpNwE+3ZUxAnVki9rE@vger.kernel.org, AJvYcCXha2fwUF332A0og6oKyLZaSBO/X0egJmHWoTQ2JWAQh+Xzrlue78y0InYhbkXvXIJ538eDzr0JqqagasszEjaTk+c=@vger.kernel.org, AJvYcCXzvaZX4BtkD9ac3VlfJY43S1aFYYlf8OowAV3HV/6EO8ujA/92p1PzOz1R/bFpM6ZY2rchJ04QJd5N@vger.kernel.org
+X-Received: by 2002:a05:6122:3208:b0:531:394a:23f3 with SMTP id
+ 71dfb90a1353d-53149d80aadmr14846344e0c.10.1750336126701; Thu, 19 Jun 2025
+ 05:28:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250613135614.154100-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250613135614.154100-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250613135614.154100-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250613135614.154100-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250613135614.154100-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250613135614.154100-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 19 Jun 2025 14:25:41 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW3ScFxjDbyV8Bv6q_DiA1URX_vjMgEm7vHVTtt6CC5vg@mail.gmail.com>
-X-Gm-Features: Ac12FXzTevVT1F9nmwPwzvFo3iv8JFfZZuEc_a8tX7ch1cGzxu9PI7Dt0EFhBXE
-Message-ID: <CAMuHMdW3ScFxjDbyV8Bv6q_DiA1URX_vjMgEm7vHVTtt6CC5vg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] arm64: dts: renesas: r9a09g077: Remove
- GIC_CPU_MASK_SIMPLE() from timer node
+Date: Thu, 19 Jun 2025 14:28:35 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWGjH9vBy7A9OzCMSsAvQ0PCr30BE8rwOoeOcwWokfjGA@mail.gmail.com>
+X-Gm-Features: Ac12FXz6gOogY53aCzPg30ihF40YYPIdOFf3WNQ66idS_HlyDDWQlgy2eefQecY
+Message-ID: <CAMuHMdWGjH9vBy7A9OzCMSsAvQ0PCr30BE8rwOoeOcwWokfjGA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] arm64: dts: renesas: r9a09g077: Add missing
+ hypervisor virtual timer IRQ
 To: Prabhakar <prabhakar.csengg@gmail.com>
 Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -89,12 +89,12 @@ Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 13 Jun 2025 at 17:26, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+On Fri, 13 Jun 2025 at 17:15, Prabhakar <prabhakar.csengg@gmail.com> wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> The RZ/T2H SoC uses GICv3, which does not require a CPU mask in the
-> `interrupts-extended` property of the ARMv8 timer node. The CPU mask
-> macro `GIC_CPU_MASK_SIMPLE()` is only applicable to pre-GICv3 systems.
+> Add the missing fifth interrupt to the device node that represents the
+> ARM architected timer.  While at it, add an interrupt-names property for
+> clarity.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
