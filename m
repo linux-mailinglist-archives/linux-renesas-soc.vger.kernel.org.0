@@ -1,130 +1,144 @@
-Return-Path: <linux-renesas-soc+bounces-18527-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18528-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5B21AE0359
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Jun 2025 13:20:53 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EA1EAE048B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Jun 2025 13:58:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D6CB018912D5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Jun 2025 11:21:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8073518943E5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Jun 2025 11:58:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4927227BAA;
-	Thu, 19 Jun 2025 11:20:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jBP3CyOq"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4D8D22DFBE;
+	Thu, 19 Jun 2025 11:56:58 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0840F22A4E3
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Jun 2025 11:20:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85D2A221FB5;
+	Thu, 19 Jun 2025 11:56:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750332036; cv=none; b=QXljOMJen8CtYtZMPtbSe01ZZKJcOZArVfdTbqnbPrDRhgKZL3IAlQz6KVRJnFRaf47BpS6TGNU9yNeJcdW247oa8ub5+UNba5h8pUgj1Zrr1G0Ajui0gvOaPzjjwiPK58iFAlJJ3i8SzLw7U2DKTZqL6M0SwapbKXlubulUPLQ=
+	t=1750334218; cv=none; b=mV1vJSBVl/OsvvobAa/ictXoZ/EU8mZqZ4qGq8xhDf9m1UlvoUaR1AKcy8urqAOhZWcmCOo4XcB1fncFi4DCXUw/Ua+7xCdDVTRleL3vFLKIG5RxDbma2pUqdH5iAlLF8ZE6IV0DwWjLH3UKaMrnq65K2OKJxzlXKlPurJggiJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750332036; c=relaxed/simple;
-	bh=9pSahM0HmxhP6UtGl7AOfeIBaFsaVroRHY5Tv3KWLyE=;
+	s=arc-20240116; t=1750334218; c=relaxed/simple;
+	bh=8gpgFAMcvUJ6Rja32ErDKR6th+vyq1ETj1ydtbmRPkc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ivYz71p+r2OVZwEVd3jJnGK/NIrpvuEOcUOjyh/0Cp+t5vRtD4LSDisIb5Xjh/YKV9bp4YkAmsre7tFZRlsp3n1r/VETGlnZ8LiNE/j7lC2hXsgr19cyFXWW69ezmmSSM26WTv5noUAYSeAdE2bcjZksQ/kDmIPKzbLc0DLPRec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jBP3CyOq; arc=none smtp.client-ip=209.85.219.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e81826d5b72so673253276.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Jun 2025 04:20:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750332034; x=1750936834; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3xEvTLQHosr95aKQz8ls7/EAhineMRS0oHFEy/wGbTg=;
-        b=jBP3CyOqwTdNRnoLLsQKhx96nHOa4tRYXlAUhQCD0vdQFQITa1qepl10XKw8G+bTyc
-         lDBvQFt4eB984lr6rmKSvLKXEA1NIO4gSYMA2RQ5VjvJhhN89F7mvzs3/a6JQmNGqOoA
-         0iAwqZW/c9YmOpjcs4oxrXbGaurq2ai5Rmndu0yvS1rZ16jKY09nTUYURio4WBjzsVAh
-         JGlXkn4d96LJhKfUpP/u4D8lw403/l2WghGhcGKZI6Z0MzFfbZaHq62u5rRZkvPpdcEV
-         jQZaLYqag4peRjbuOI8HWoqlQuDJEV3Xe+pOLoDeQj7RwYrEPKIqGpf8wHgB1GsCGYun
-         /K3A==
+	 To:Cc:Content-Type; b=CVnZId2MmQ6wp0siZedzUlfrB1X6xYEgIQeGx5Vf99+VSJCtBf2Qw/+b7HrXdwDuLQheSeI0YkDMqCOeF5rdnTA6+OoNiuNtDR6KKCDWeqA6JlGWRxGqNYCUoBI7J6D3mIZfJTu80mOMps9qRCnTVjVftXSJus6SfENQCUeEKos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4e7fb730078so216456137.1;
+        Thu, 19 Jun 2025 04:56:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750332034; x=1750936834;
+        d=1e100.net; s=20230601; t=1750334213; x=1750939013;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3xEvTLQHosr95aKQz8ls7/EAhineMRS0oHFEy/wGbTg=;
-        b=Kbeh7VQftkOztdNbROd/Azl4cff5PwMOoAltLjNoQ6lD1s1Zsefo6gxEtACujfNAm1
-         8SLmBhOJ83Szb7GoMKB4g4ARmC3SL/etiM8m8zrWDPnX+/BISJdp/bsrdkQM0aMiIMdh
-         uAp4i/JimcV9FLRzzEG8gMgGCTIdicOuI8SqAiB0OYYNRu5u7boxhcdV4VelUeXnvlEJ
-         o1znNgaLFmGC1qrtA2P9IP19toe+9jyQlBAkgNdsgCjrznhRLhc07g5XpTIkQ3z8cd5m
-         Z3LZSFDyTzvsi8VpjM6CWEJepNyJz551LGgfBQcegfgy8uH+50bS9ji2CNy0WAdYlAmW
-         +Gzg==
-X-Forwarded-Encrypted: i=1; AJvYcCUHXxMxANQpKk4sm5hj6l/wGwt5V3soR9HemZ1nyLhk0kWju/IjLcPL9la3ofZB7uF+zktEk5UOTVvR9vazp1McSA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxI6JIAyAmsfmZgkL8PlVkHVMlNNWswaOYnQOndfGZOSJkzfWwQ
-	JUu+0AtNafuxiN90RFrJusZA6Rr6daKjpFBMgJx24oW+5MYEaPezrYkO89MuTM+TS6VbEE0axXV
-	Sz+d8bwi+t2+Nuzgjd4+1zGbCh/evP+Czlvk6momJBQ==
-X-Gm-Gg: ASbGncsomstSVjBy+nZ9oSPKY1icJpMrX72xVkNnN2TJ+KpJhNAjaft6Yzda2pE3R17
-	8FgnIFzni657OnASWQRJabyF9lqsn27LUapbLxIGEq6zKKOFTcoAhvj3H0+jfpcLG5cTicuQrga
-	7QGtfsQDTdJdtxzpougNxmTk2fwrLiUDWzxZCTE6v/BgrT
-X-Google-Smtp-Source: AGHT+IHReMbe4e7CYUTrFlvHqEy2OoF755pDBH2zwKUZpS8zGhtltmAJpMWBYtkk36UX+5cBHvHG54lCGBmFTund9GE=
-X-Received: by 2002:a05:6902:2611:b0:e81:45ca:7918 with SMTP id
- 3f1490d57ef6-e822ac9a9c6mr27837692276.40.1750332034050; Thu, 19 Jun 2025
- 04:20:34 -0700 (PDT)
+        bh=BOekpUHLxVl+H9ogVNkhekXa6Qv+Gfytq3jYEtN/Fk8=;
+        b=UUaPUTqFPR+yc1uobCeOCmB02VwPFvbAI8Cuyp+kCNBn/NYCDTk7yl1dGQBbA4sW1R
+         5okh3N9MsQ7V1Oc1ltLzHfBTR006u9vjSvfeHNUfO54tZoSM9J8tulcEXwRCaj6NfDpI
+         8xyeDRNBK1z5kNIloyp+LqyeACm/3jVDCXdyuN2Jm6idfPoJK+TPxvTsfTfopXlHBU4G
+         bNR7Nr2C2lSnJz2ajC69q2s4n+cnctnyafyG4KuzUAi9EKNqmCVSgWGESyUOEYyK/lut
+         EvHsylTo8Owmf2ZQ5PXfUytJr0g+INLyWJXJKELEPTe1TTbMWoG5kbUX9AgF4ppkko3N
+         Rdsw==
+X-Forwarded-Encrypted: i=1; AJvYcCUQgd09bTbAfRbdTyqxvdOoPf29TqR5OH1yyTKND4BJ5nODLNMQeQym4uJtZG/km63dvDGxjKTP@vger.kernel.org, AJvYcCVSbOMiLnHOkQM4B3P54qrIwjhkvGeihXtRDdoCnFbQdRc15uzZmsbNUJ37yDyqCqX4OLglYU7V3Cms82Q8iYoxgpM=@vger.kernel.org, AJvYcCVi3lyfU88U0Li6+nonA3Q7S0dJvq3cBY8owyMGqbjq53iDcX6Xnvp2Yph9Fw9OCjCYr8TLS0pVUZM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjUlXqWRI+6djl7Hlb+tEBs+PlgK7aeu+JHu411CAM1wqGJ1tm
+	xvXhg7obxRXN6KmU4URzxJFYJE07JkfBzOzEOE+PJxMQHDn+UeNLVp94SezdSg7X
+X-Gm-Gg: ASbGnctNA2O3Tuz79yqwkXPW/FTzal7d5DrtVMSLvPRSO+hvdnblXTQ79DxKwLpb6oU
+	jZliDp/ShrbK2iX9TF2Gbv1aV7jSe0/mNgAo+qnhVFceJj0uCUShmAEd5pG+3mcaQUIDfjgkFPu
+	/9aB5OsLIzSYe5tRfz/4LVdyu7I9qX5XXVsbhqUbrEErE5OoDandF/wDeSN7aF+/vvr7Ltvc/yB
+	rkuOq2By8ma8e9rSzvKww+ONlKy8tSX+Y2q9H9AsiCFFRjTL1ApWd31OmD7H/tS0qqtVu0cjqbJ
+	k+bnV3+x1AHZE2ZqXVeQshdEh5QrvrbJSl+AZ+ji8M6Ch4+eDIJrxY9yooE5iYIyHbDeXoehFBe
+	/di08BwqBGKQ9t2USxGcharB8+8O6jfZXcAQ=
+X-Google-Smtp-Source: AGHT+IHUdje8djMOJ6vGdfnq6/CfUq2jHO/6QR8A/m7Dc+6do4a+BpGZQ6c2bc5Npn5cfNyWr1Z5OQ==
+X-Received: by 2002:a05:6102:dcd:b0:4e4:5e11:6848 with SMTP id ada2fe7eead31-4e7f62db333mr15418479137.23.1750334212811;
+        Thu, 19 Jun 2025 04:56:52 -0700 (PDT)
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com. [209.85.222.44])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-87f0fa1551bsm2233395241.15.2025.06.19.04.56.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Jun 2025 04:56:52 -0700 (PDT)
+Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-87f2a0825e1so73403241.2;
+        Thu, 19 Jun 2025 04:56:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV7RdkEIL3uujE0waJjEgpfXyjPevK/NUQ8WKx6f67VAmDMjnaDMtkQk8MIxys5MnXebb8EUIgj@vger.kernel.org, AJvYcCVEG3+iD7oRQUXww7HfivtKSHwb2tUW0VdH3DeDbmKcFjGaCBbSRZqakovzkTo42tJGiV1dQemD6cE=@vger.kernel.org, AJvYcCVEeFPHIEvPeQ/JjouPtX4td8MCVFhk+9MwmFjaShb+Wu6u5Feg0bNKeB+NyAn4IqFX5BWr7+HX2j/k7EDpu80+qtU=@vger.kernel.org
+X-Received: by 2002:a05:6102:508b:b0:4e2:aafe:1bde with SMTP id
+ ada2fe7eead31-4e7f61b60b9mr15809836137.9.1750334211820; Thu, 19 Jun 2025
+ 04:56:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250610072545.2001435-1-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20250610072545.2001435-1-yoshihiro.shimoda.uh@renesas.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Thu, 19 Jun 2025 13:19:58 +0200
-X-Gm-Features: AX0GCFshKpw4sVOE43rS78CtziFk1gnCfgajseqdc-k80l16iBEUigL_cuZ1Hr0
-Message-ID: <CAPDyKFqncNemZXZtNBL6EvPuK5HtK29Z19_G2n6z52J3CL5JyQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] mmc: host: renesas_sdhi: Fix incorrect auto retuning
- for an SDIO card
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: wsa+renesas@sang-engineering.com, linux-mmc@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
+References: <292b75b3bc8dd95f805f0223f606737071c8cf86.1750327217.git.geert+renesas@glider.be>
+ <88b0892f-5994-4b7a-9de3-eab39075acaa@wanadoo.fr>
+In-Reply-To: <88b0892f-5994-4b7a-9de3-eab39075acaa@wanadoo.fr>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 19 Jun 2025 13:56:40 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVKx7+errmKfzEZmuan0sRFw0-NXEORtntfyksgpAy8_g@mail.gmail.com>
+X-Gm-Features: Ac12FXxLqCQOLmUYExvuxFVIHkAzYSxdzJTT0HSJUsvD4i8ZwRv-VEuUpXdyQuw
+Message-ID: <CAMuHMdVKx7+errmKfzEZmuan0sRFw0-NXEORtntfyksgpAy8_g@mail.gmail.com>
+Subject: Re: [PATCH] can: rcar_canfd: Describe channel-specific FD registers
+ using C struct
+To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Cc: Jakub Kicinski <kuba@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	linux-can@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Marc Kleine-Budde <mkl@pengutronix.de>, 
+	"David S . Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 10 Jun 2025 at 09:25, Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
->
-> This host controller is possible to change incorrect tap if an SDIO
-> card is used because DAT1 is used for interrupt signal on SDIO standard
-> but the contoller doesn't take care of it. So, in the worst case,
-> this behavior causes a CRC error.
->
-> To resolve the issue, add some new ops into the tmio core and
-> add fixed code into the renesas_sdhi driver.
->
-> This patch set tested on RZ/G2M (r8a774a1-hihope-rzg2m-ex.dtb) with
-> EmbeddedArtists 1ZM module.
->
-> Before I don't apply this patch set, the RVSCNTL value was changed
-> unexpectidly like below.
->
-> [  687.103589] renesas_sdhi_internal_dmac ee100000.mmc: renesas_sdhi_auto_correction: rvscntl = 00000701
-> ...
-> [  768.490979] renesas_sdhi_internal_dmac ee100000.mmc: renesas_sdhi_auto_correction: rvscntl = 00000501
-> [  768.500307] renesas_sdhi_internal_dmac ee100000.mmc: renesas_sdhi_auto_correction: rvscntl = 00000401
-> [  768.509640] renesas_sdhi_internal_dmac ee100000.mmc: renesas_sdhi_auto_correction: rvscntl = 00000501
-> [  768.518947] renesas_sdhi_internal_dmac ee100000.mmc: renesas_sdhi_auto_correction: rvscntl = 00000501
-> [  768.528217] renesas_sdhi_internal_dmac ee100000.mmc: renesas_sdhi_auto_correction: rvscntl = 00000501
-> [  768.537494] renesas_sdhi_internal_dmac ee100000.mmc: renesas_sdhi_auto_correction: rvscntl = 00000601
->
-> Yoshihiro Shimoda (2):
->   mmc: host: tmio: Add .sdio_irq()
->   mmc: host: renesas_sdhi: Fix incorrect auto retuning for an SDIO card
->
->  drivers/mmc/host/renesas_sdhi.h      |  1 +
->  drivers/mmc/host/renesas_sdhi_core.c | 48 ++++++++++++++++++++++++----
->  drivers/mmc/host/tmio_mmc.h          |  1 +
->  drivers/mmc/host/tmio_mmc_core.c     |  5 ++-
->  4 files changed, 47 insertions(+), 8 deletions(-)
->
+Hi Vincent,
 
-The series applied for next, thanks!
+On Thu, 19 Jun 2025 at 13:12, Vincent Mailhol
+<mailhol.vincent@wanadoo.fr> wrote:
+> On 19/06/2025 at 19:13, Geert Uytterhoeven wrote:
+> > The rcar_canfd_f_*() inline functions to obtain channel-specific CAN-FD
+> > register offsets really describe a memory layout.  Hence replace them by
+> > a C structure, to simplify the code, and reduce kernel size.
+> >
+> > This also gets rid of warnings about unused rcar_canfd_f_*() inline
+> > functions, which are reported by recent versions of clang.
+> >
+> > Suggested-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+> > Reported-by: Jakub Kicinski <kuba@kernel.org>
+> > Closes: https://lore.kernel.org/20250618183827.5bebca8f@kernel.org
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> > Fast-tracked because of the clang warnings.
+>
+> Make sense.
+>
+> @Jakub, OK for me if you want to directly pick this patch without going through
+> the linux-can tree.
+>
+> > Changes compared to Vincent's original suggestion
+> > (https://lore.kernel.org/420d37b1-5648-4209-8d6f-1ac9d780eea2@wanadoo.fr):
+> >   - Move rcar_canfd_f to the old RCANFD_F_*() location,
+> >   - Update RSCFDnCFDCmXXX comment.
+> >   - Rename struct rcar_canfd_f to struct rcar_canfd_f,
+>                                            ^^^^^^^^^^^^
+> rcar_canfd_f_c ;)
 
-Kind regards
-Uffe
+Oops, right...
+
+> >   - Rename cbase to fcbase,
+> >   - Drop static_assert(),
+> >   - Drop unused car_canfd_*_reg() functions.
+> >   - Drop simple wrappers around {read,write}l(),
+>
+> Acked-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
