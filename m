@@ -1,162 +1,114 @@
-Return-Path: <linux-renesas-soc+bounces-18547-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18548-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2D6EAE09C9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Jun 2025 17:09:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FF9FAE0A36
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Jun 2025 17:20:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4324C7AFCD0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Jun 2025 15:08:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0EDC73AED90
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Jun 2025 15:16:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8E8C21CA0C;
-	Thu, 19 Jun 2025 15:07:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4078230D2B;
+	Thu, 19 Jun 2025 15:17:01 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A50E1FE44D;
-	Thu, 19 Jun 2025 15:07:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49056189905;
+	Thu, 19 Jun 2025 15:17:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750345675; cv=none; b=eyuglXv8yj8WaMf4PVNuEU3q6FeE+b7+kPE/AmgijgOvOD6k0HcWRwWrXY86bkHLiZVe57hW3cxbFBPgcwj6JvYLFh7WWCB8cR8I2YwHWHWrOTJ9VwKFzeyBQ1BJ970YkrI9iQzIHLTEqgjOnfmJtvo4khcGwF5kBpo9AcNSfPE=
+	t=1750346221; cv=none; b=XR+TV+j/cK3RtvKA6WxGig1QTucByQdnks2Jv73MoJIwPTfkTT1MfJDO0k9Xk2e6IvvMZEghHT9DTiQUfS7XWZ7lceNSk1v8YzzewSjUgfYSr0wDLI9llgndIi2JAdSYUVMWM4A6vCTues9NNCS3I0HRzWvCalcoCFlcjBC4FUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750345675; c=relaxed/simple;
-	bh=EgW9uuCj1TkY834i13v0eLe0br95u+N1morseH8cszs=;
+	s=arc-20240116; t=1750346221; c=relaxed/simple;
+	bh=FynZUrOWo1OBRsrSlMyUpJKAiRROjGE99tAwiKFyEr0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OP5l77G86j2RN5tiYDB6fkxj3L0I/ZY6KsCKPr+7X4SYZ19eNHTxL/MA7hxgyWyqw/Zimga1ohcQ57qKbC5BxegQBkP/cy3aI91n9WvUMnbKB1sonT2PV/UkrLHWgJd11ya7N9wAb9Iwea89FiE9zpYMKdN+EaHI14gjMA61C0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.181
+	 To:Cc:Content-Type; b=FHw8/j4N0amq1krGboZWbdMVoHuFHYei7FvRmea17Afa91n246Atji94grn9KwTtbXQ/BjSJNwBhXtfFjNEw2GcBXSHA/UgxSqbXyP4ZKaa4qkh6TS4KJwgHODvnx/j4BnUMixzKRHinoedyDLIUeN+6receO05lKgPhXFEW4Vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4a442a3a2bfso13203461cf.1;
-        Thu, 19 Jun 2025 08:07:53 -0700 (PDT)
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6fafd3cc8f9so12603466d6.3;
+        Thu, 19 Jun 2025 08:17:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750345671; x=1750950471;
+        d=1e100.net; s=20230601; t=1750346219; x=1750951019;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cXr4DkxQyQe6cO2hVmMV/1vKr4WFSQJXwlWoVF3SQUw=;
-        b=M7QhSWaa7CVaQ0l0o2AfYiX8nbD2NfzQIxMifXExZfxL4P8PSQiETvtcEmuF28FtYq
-         SJqb0Bi6xvyWEFb5GuIfWy089/4Dc96vhF5yxZ7FS1mv5PmSwmNbOWTqxIKrLayyau/R
-         Az9FHXtDMMs/sCItLmVRTk1sRMqR98W8xQwDOPdB5SWiScPKzcdB2BTGsF8UCFNyzk23
-         MlMktSeT3dvxIoRHFG0x3sVgy2JEOjYonAhXxtEjLErEIMZFrCuKFn7KFrjDd2tyOzT9
-         r2cDUD56Pih2VCclnGo1E9AYMRJ7b2bRPRvQBnEPaizAxwee8vtePA/D+61LATua3ykB
-         r7tQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUxqaDZL5YjenojoXD4z5OFtxJWEPloIbdyQPLnGtqF0Una+NwegrFUAO3jlDXUDDXY5I+/wq6/fcajg88=@vger.kernel.org, AJvYcCVmps3S5QRe8Bt2DP3aPBw11xCncWNINUZx3G6ycf8CsdA2Nr2+WHMx/mc5vt1XyzE7rDnP9dMVSWjsYPA=@vger.kernel.org, AJvYcCXLGK+NbTbiZ/NtMWDIRGtw7N3qHnyubQSXQ21PdTFfY/p4GWhcaadwybUwjkjPNk3y038V6amAqCyvohAfK7rK0qI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz51RL/A5tRSFn8szPcyS7nh6p0smgljB6Mc8hq4rkOA3i2315f
-	ycMNnzMj5ZHiEqIoXCou43b+aReDaBgVJGzFenASf03+74AHAf6zddnRb+nppF0N
-X-Gm-Gg: ASbGnctO7LcHaB/03pU0802Kerq8HaacUBCT/5VT1KlneB3uoRQANS+gPaP01l4g93M
-	bfK18iq5FROS/5lvPGwdpHlMCui6ABITKiUEfWC0CV4u5ZmBKDkOuBmE/o4PrEXuMtzc4vF2Pe2
-	PSK9fiTbnDADk8X0KrD200wCgsfOpGNpKxN9nP8kSJtoBO2c6l+eC3L9mRFFSHcJUt8piuwp9L+
-	/tq9ANuwUqzRPuo85iJJBRTvG9eVnYXi1BXyBiZ41FBuIGZ2XxXCR+afxflkgIBaeslHnTD9Xu5
-	RnXEDwQu2PVXHILs9nti3+phCd7l1uq5d7V6TsEtppale12cwhJYYG0SYou0q/FK2mXp39BszRw
-	XP3yH4oZ13Il5hju3Nu2oKi56n7PY
-X-Google-Smtp-Source: AGHT+IH2VQoxeZ4MlsXLGXW1iYTwh8bc5zogZbpBSrotexv/yblbvyqLA2vsGoKnzGPmRJFSZUE2+w==
-X-Received: by 2002:a05:622a:1887:b0:4a7:22fe:8ec5 with SMTP id d75a77b69052e-4a76d467930mr62973931cf.1.1750345671232;
-        Thu, 19 Jun 2025 08:07:51 -0700 (PDT)
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com. [209.85.222.169])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4a7785a9e82sm264491cf.44.2025.06.19.08.07.50
+        bh=hb4d+jU9LktUZoo7Q80d2jjPMRXxQ5XDUnbXoqjilQk=;
+        b=pXwVffm2uaPpiKcmAY6AE8uPnq83s1I9dML3Ev3Qo+WwzZ5IyYqLS2QtouNUmxAjqw
+         chrRWgsm8ORvFuBT8vdm2yyTHo/zdr9tnbYhnpvGpLjzxdDKMv9ABrikM0p0hdVrCEK6
+         Iw79u4d5IzRYMXTpcXUS/tkj22eJWHX5NDudG6jgaCfYPu9IfysWFfePc0TRmrlDEAk3
+         8IzPX3Y28dphAFXq2VYQC3bv8Nh5wm5YdqfH5l4urBf2sTxWrtnVrk6KiegT1C03b2qR
+         pd298Nl0At5RejmJ61a59+gBLbrRqTko7rmEE2sp3/nVdv6FRCfDk9SfL7e4O4YTRzrK
+         djfg==
+X-Forwarded-Encrypted: i=1; AJvYcCUZ8jK6X1r3DIv9NnH/hkGb8jztbx1YMf6xiiwnU1jWU1nWnx68Q4/jl46OiLYQiOyeKqCrGo9IaH6r@vger.kernel.org, AJvYcCUuAiDOKLUJ/ZOayqU/bcR8m0N2fO5nEThtmkINsPj7+hmvy/1D9NDI89a6YSxZCdBFntsG4vY5Gq0U4At1iMTiVKs=@vger.kernel.org, AJvYcCXYSHAq2yGBBAsF/YNBvNyEGgj+1tLYLA1pIXgkKBHQZR68yYCEZIoVC4AKnneuUkqNgc2R/n7Gtdb4LC1a@vger.kernel.org, AJvYcCXrpY0rZofOU1P6RclmBmULtPPdzV3bHZ6U7HKZgF+Go+0v/lhUNzOtBw0S2ip4xOv24B8RxKq+PsN/@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyvjac3W9kX68BFSch7bqGTqUIy/81ZfHz+MNY2OkR3rGJAdDU5
+	vduON+LuwUEBJ3vaKbTOjqPZ8uOQflAW60Q7g1EGpJGmvn6DwOI5hUyNHIpxOVDz
+X-Gm-Gg: ASbGnct364KgMk4ZqAKXyQBl/Wx1B77QZ+HWFDSc5OBErKTtC09z232EdKQFSR5NUbN
+	9lREfyeT2aERI0U8LNMBRY3A22AES3RytNXx5Wr1Mqkl3A4fj9vFXUp4UiCcC60TYmBLNn79YOI
+	UPZQN3s9VRYd/8zPqO0iTN9u7pkAPUTjF6R62OVSrlIGBR41DsKgP+DHsXkfmyCUs/thXPiEiOr
+	ApN4ll9AINugKKCkAMLSy+PYm4apesp8FbPwHyAXb24pXbZ6bZh2WMZRWTIEZ5H4m9HXWrmi6px
+	Tny9mEJPYSoM600nLkqNc2c4yHdRWDo2sfHyaKFz9vbBV5jzy6PnmidLm2A/WH4UkaWnOyflGSp
+	BEcwB9PtBxMmtxdAefVdiTJi8kFxy
+X-Google-Smtp-Source: AGHT+IHucctIUHC/fZIjQ10En3uvdaTo2TdApWVwyzB5BpL1TjfoNuBzKXmtQhsje19cgO4j4eCsHw==
+X-Received: by 2002:a05:6214:19ec:b0:6fb:f03:6b24 with SMTP id 6a1803df08f44-6fb478019b0mr362498736d6.40.1750346218822;
+        Thu, 19 Jun 2025 08:16:58 -0700 (PDT)
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com. [209.85.222.173])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6fd0957756esm746216d6.83.2025.06.19.08.16.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Jun 2025 08:07:50 -0700 (PDT)
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-7d3dd14a7edso151552285a.2;
-        Thu, 19 Jun 2025 08:07:50 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWT5pyUW8IKs97rkdkC1Ruj8dTEElneV1Lo0NXWG8xUsW2pF3NlaH/3XOZG4ReBQ3xx/5JVY1vT3FEcLJg=@vger.kernel.org, AJvYcCWVv9DlYfI5T/3+cSlROf9zO0A4FGbQg2Qy5OBE+aonFn4aNj68mRI6HEb8btxqgne7ijh0W3kBSw9F5lJWSIaX3uY=@vger.kernel.org, AJvYcCWeqWld8whZXkwfOCpZs8hJkf0wfEVlo/CaxdvL47I+L+Bcp+/HxPy8KyVm4GjKUTFSttqy652Q4/4p3QM=@vger.kernel.org
-X-Received: by 2002:a05:620a:319b:b0:7d3:8566:e9ad with SMTP id
- af79cd13be357-7d3c6cda22amr2925901685a.34.1750345669885; Thu, 19 Jun 2025
- 08:07:49 -0700 (PDT)
+        Thu, 19 Jun 2025 08:16:58 -0700 (PDT)
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7d20f79a00dso139295285a.0;
+        Thu, 19 Jun 2025 08:16:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVqkUt2qc4hHT1HTZzyCGDRd+MBubRkZHVWs4eHRU2kG3X8WTbXIgS9NnKM0qe4Bh3wvw6OWSUrChWh@vger.kernel.org, AJvYcCW1pZQH/xaTbrOVJTYvFwFSynFQSBIpSE7iVmYyug+p754ExubfQXjDdXVLuc7AWT7INZkEg3ehim3CCEOo@vger.kernel.org, AJvYcCXdLcvJ9pSs8X/MUNRtw5Z74f+tRwUZ63zuXSTuCO9URrWXLqE179hwmBmaXqm4Fb1flleVquwLxzryWkseq9OTbcg=@vger.kernel.org, AJvYcCXx70ji7JwoTlgmdGSNwOIlOxuZ3l0kZI20yXYOHgQi1OoLlHFU4To58mkWEBaCByGuQzuqDZ1eq3J7@vger.kernel.org
+X-Received: by 2002:a05:620a:8392:b0:7d3:ed4d:a423 with SMTP id
+ af79cd13be357-7d3ed4da47bmr881977185a.7.1750346218363; Thu, 19 Jun 2025
+ 08:16:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250506104731.111876-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdWhwJTbJOBhKmC9YUaSebBg-9m7euqmxqJLCXdr6++siA@mail.gmail.com>
- <bdd989b4-a572-44c2-ae7b-2c445c09fd7a@linaro.org> <d05f2c03-fa86-4fc6-9b81-1a7b5592c2e8@nvidia.com>
- <CAMuHMdX9NzFvsOv9eT0t4KVNufHSqVEht7yRbrt0qE49WgHpGg@mail.gmail.com> <kjotbgwqlvl4uv4bcynqsiynf4dsoplw3szaqlcfd7rm7k633p@64c552v3llz2>
-In-Reply-To: <kjotbgwqlvl4uv4bcynqsiynf4dsoplw3szaqlcfd7rm7k633p@64c552v3llz2>
+References: <20250617155757.149597-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250617155757.149597-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWNGPTNMw=JJtoy02kEEpzpRTwsjfdnFe1ffevNmJb5dw@mail.gmail.com>
+In-Reply-To: <CAMuHMdWNGPTNMw=JJtoy02kEEpzpRTwsjfdnFe1ffevNmJb5dw@mail.gmail.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 19 Jun 2025 17:07:38 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXt0AoHnCitc6GNUuT_THRvy17c5uq5geD0ubQ12FONZw@mail.gmail.com>
-X-Gm-Features: Ac12FXyqjFu03K5SyvIX5tcmxTFfiSwi7mDocCZBFa2GT0By0yuMp0VwoZlcHKg
-Message-ID: <CAMuHMdXt0AoHnCitc6GNUuT_THRvy17c5uq5geD0ubQ12FONZw@mail.gmail.com>
-Subject: Re: [PATCH] arm64: defconfig: Build STMMAC Ethernet driver into the
- kernel for NFS boot
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: Jon Hunter <jonathanh@nvidia.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Prabhakar <prabhakar.csengg@gmail.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
+Date: Thu, 19 Jun 2025 17:16:46 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW=7VoJr8pr14fYsm9SoRNVsdtMgb_y7paz4AM+ovPE=Q@mail.gmail.com>
+X-Gm-Features: Ac12FXys6bHdFUDdE89YA8F6cZp87qAVDewo7OQq7-Rj0miDlziIsIlK3CcncT0
+Message-ID: <CAMuHMdW=7VoJr8pr14fYsm9SoRNVsdtMgb_y7paz4AM+ovPE=Q@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] dt-bindings: clock: renesas,r9a09g077: Add PCLKL
+ core clock ID
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 12 Jun 2025 at 16:30, Thierry Reding <thierry.reding@gmail.com> wrote:
-> On Thu, Jun 12, 2025 at 02:34:32PM +0200, Geert Uytterhoeven wrote:
-> > On Thu, 12 Jun 2025 at 14:20, Jon Hunter <jonathanh@nvidia.com> wrote:
-> > > On 23/05/2025 12:54, Krzysztof Kozlowski wrote:
-> > > > On 23/05/2025 13:39, Geert Uytterhoeven wrote:
-> > > >> On Tue, 6 May 2025 at 12:47, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> > > >>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > >>>
-> > > >>> Enable `CONFIG_STMMAC_ETH` as built-in (`y`) instead of a module (`m`) to
-> > > >>> ensure the Ethernet driver is available early in the boot process. This
-> > > >>> is necessary for platforms mounting the root filesystem via NFS, as the
-> > > >>> driver must be available before the root filesystem is accessed.
-> > > >>>
-> > > >>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > >>> ---
-> > > >>> With this change, the Renesas RZ/V2H EVK board can boot from NFS
-> > > >>> which has the DWMAC IP.
-> > > >>
-> > > >> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > >> i.e. will queue in renesas-devel for v6.17.
-> > > >
-> > > > With my Nacked, please.
-> > >
-> > > I was surprised to see this change in -next. We also use NFS for testing
-> > > and we use the dwmac drivers. To date we are explictly building these
-> > > drivers into the initramfs but I noticed that that is now failing
-> > > because this driver is no longer a module by default. This is easy for
+On Thu, 19 Jun 2025 at 17:03, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Tue, 17 Jun 2025 at 17:58, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> > Oops, sorry for that...
+> > Add the Peripheral Module Clock L (PCLKL) core clock ID for the RZ/T2H
+> > (R9A09G077) SoC. This clock is used by peripherals such as IIC, WDT,
+> > and others.
 > >
-> > > us to fix.
-> >
-> > Good ;-)
-> >
-> > > I do agree that if we start to build every networking driver into the
-> > > kernel it is going to bloat. Yes I do see the kernel image growing
-> > > regardless of this, but nonetheless it seems better to just build as a
-> > > module IMO.
-> >
-> > Not _every_ networking driver, of course.  AFAIK, making network
-> > drivers built-in for systems where development is done using nfsroot
-> > has always been acceptable for the arm64 defconfig before.  For things
-> > not critical for booting, modular is indeed the preferred way.
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > v1->v2:
+> > - New patch to add PCLKL core clock ID.
 >
-> Last time I tried to merge something like this I was told that we
-> shouldn't bloat the kernel for everyone just for our own convenience. I
-> tend to agree with this now. It's trivial to make local adjustments for
-> things like this. In fact, that's what I do all the time. I will use
-> defconfig as a base line and if I want the convenience of having network
-> drivers included because I don't want to update the initramfs every time
-> I update the kernel, I'll just change the driver to built-in in my local
-> .config.
->
-> I think of the defconfig as more of a reference for what a typical
-> development system would need. So it gives you reasonable build coverage
-> and such for a wide variety of boards.
->
-> If we start building too many things into the kernel, then at some point
-> it's going to become uselessly large for everyone. That's essentially
-> trading everyone's convenience for your own.
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> i.e. will queue in renesas-clk for v6.17.
 
-As discussed with Arnd on #armlinux, I will drop this patch.
+Actually in renesas-r9a09g077-dt-binding-defs, which will be merged
+in my clock and DTS branches.
 
 Gr{oetje,eeting}s,
 
