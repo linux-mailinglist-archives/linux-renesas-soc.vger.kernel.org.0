@@ -1,65 +1,65 @@
-Return-Path: <linux-renesas-soc+bounces-18563-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18564-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84292AE0D8A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Jun 2025 21:19:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 361B2AE0DF3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Jun 2025 21:26:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 80F2F1678B2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Jun 2025 19:19:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8B1973A5D48
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Jun 2025 19:26:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A350B24679F;
-	Thu, 19 Jun 2025 19:19:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6015B245032;
+	Thu, 19 Jun 2025 19:19:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OcdFRfk1"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Fog6QAr9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06DEC221DAC
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Jun 2025 19:19:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B77EF24501C
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Jun 2025 19:19:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750360746; cv=none; b=F52fP0e+g+J3izzWVVUrELCjIaHe1OwsETu09V5ddyfFNBPAAbiX4exWHG+VsMKql2odcXsj3l/kyl9BbCYRNncErwkDkjposCi/B7qfZunDP6OG7/mDaKPAoCJiaHrjfS5IWOVyyMCTcW0OokBNllPH7Uod6s2Pfol4RYORWxk=
+	t=1750360757; cv=none; b=rflsKaSTaPpeHVG7zKOhm7ErDo9M3A7u19daubPbgH4fW7acrbQJnSMjh5/ADJzF3vpM0HNLnf2H7qED+agMqvgYaQgjTSs42mr1W0uZeVGhRyYxsCjyVgBuK9AWrHgEvqUs2sXbe1SEmxXs0ianx/yKBCatsdkDPwDSrTYb4N8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750360746; c=relaxed/simple;
-	bh=QRJEE7qMiFs5kGf7cQ4VQ29VylwbR1QuEXQpr4H6ph4=;
+	s=arc-20240116; t=1750360757; c=relaxed/simple;
+	bh=yNvjv7hb6ySNQZ968pU8oFIf8+51CHNBGcedVDbIpZQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=NzCUmZWW+z27gFKcvSyZRZ+RcaZiTIkcD9RVyxca5a+mj36qCDdWL/9adVeQAJmgd3Ul9YZQm13/+mvyuZhKoGKvd9e3+dPUaoQPpdXzedK8gwP7DvyFvUj7miMQR0jeghS6YKYd5zL5H3mC5louWo+M6n/KrSZFJirjDMgRydY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OcdFRfk1; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:To:Cc; b=c4FoTBUOWyJgfFH5bKoSgygvKAfUGFNv9WTI/SA7YR7gfKhwlLIQ/0I20QmkLfrePs/B212XZb2qP7CSqKW691q6ipv6I5+gFU1gTnBNbVz2C8Ao6QW//OMYuDFteX9uhLNYYTvDdIgJE22+2KKAJlfQPiV0F9aq7w/pfHWyBO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Fog6QAr9; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1750360744;
+	s=mimecast20190719; t=1750360754;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7sFoguKbQ+ywoNOBanwhKx40TrbH0RfaNLTPZL/qqQI=;
-	b=OcdFRfk1v7Rztubzl34hRs+L1VxnN2YcLEFeCyzJqgw4FRG2HycCV6Mr7r4mTbZ2S/s9NH
-	oMMXWupndM+wFJHThl15T8e2uzgeho/3v/qEB7M3tDsAFIbqk0ky8LFaub0H9TyjEJxfDm
-	WXYnJ2HIXLMJe/0vtDmCDLP8/QxCCNU=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+	bh=DaPEqK1ftZ2q8jPM1X2TY9mvqbsIChLSEqaubg3Qn14=;
+	b=Fog6QAr9sr7T36kN+qh/oRpIQtEgXFEv0gJdLxMtjkcOHq3tzh94oapc2xCFuqsTUZCSHt
+	m6aUSDbUyYdPmb/0OGJh/jgMbEbh0LZgK8GiXrKIuUvYnqKCaNOecJyS0ZvOpynTP7Bqf0
+	z9yO5WT2yRR8FiyKiGqNg3pNICdv6YE=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-81-CdGqKCOAOZC6-edMBUC-cw-1; Thu,
- 19 Jun 2025 15:19:00 -0400
-X-MC-Unique: CdGqKCOAOZC6-edMBUC-cw-1
-X-Mimecast-MFC-AGG-ID: CdGqKCOAOZC6-edMBUC-cw_1750360736
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-663-P-xQEcNjPZ2X5DMB_NCRUg-1; Thu,
+ 19 Jun 2025 15:19:10 -0400
+X-MC-Unique: P-xQEcNjPZ2X5DMB_NCRUg-1
+X-Mimecast-MFC-AGG-ID: P-xQEcNjPZ2X5DMB_NCRUg_1750360745
 Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 478E21956089;
-	Thu, 19 Jun 2025 19:18:56 +0000 (UTC)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7B7DA19560B2;
+	Thu, 19 Jun 2025 19:19:05 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.132])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 637AE19560A3;
-	Thu, 19 Jun 2025 19:18:47 +0000 (UTC)
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A054819560A3;
+	Thu, 19 Jun 2025 19:18:56 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 19 Jun 2025 14:16:01 -0500
-Subject: [PATCH v2 09/16] drm/bridge/fsl-ldb: Keep up with refcounting.
+Date: Thu, 19 Jun 2025 14:16:02 -0500
+Subject: [PATCH v2 10/16] drm/panel/omapdrm: Keep up with refcounting
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -68,7 +68,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250619-b4-of_drm_find_panel_part1-v2-9-0df94aecc43d@redhat.com>
+Message-Id: <20250619-b4-of_drm_find_panel_part1-v2-10-0df94aecc43d@redhat.com>
 References: <20250619-b4-of_drm_find_panel_part1-v2-0-0df94aecc43d@redhat.com>
 In-Reply-To: <20250619-b4-of_drm_find_panel_part1-v2-0-0df94aecc43d@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -102,42 +102,51 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
  linux-samsung-soc@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
  linux-tegra@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1750360565; l=878;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1750360565; l=1123;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=QRJEE7qMiFs5kGf7cQ4VQ29VylwbR1QuEXQpr4H6ph4=;
- b=rf5TDHyC/mKX//6VO60XyDEb/LvxfTxI4tSGPNoe3kJnj7ukVEG1KCcjk1ZdJXU4ETlYnuI36
- auqktcHeGylCbFo3ZWzVD37odWuiAhXYqypY5UUegR++n1R2ZmlFDTb
+ bh=yNvjv7hb6ySNQZ968pU8oFIf8+51CHNBGcedVDbIpZQ=;
+ b=Pf17x5qSnl1YboGZisOg1cYhskCTcpvu2mq/FNYcxXkDWPbt08xnacLBCfVPhW+Co+JmewGCl
+ BQ1ZjYD5uzNBVuKCKB3K5jIsd+v82S9388H3cI9wFxUXoYITXzt+97K
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-The panel returned by of_drm_find_panel() is for
-calling devm_drm_panel_bridge_add and not
-anywhere after that.
-
-Put the panel reference accordingly.
+Put the reference of the panel returned by
+of_drm_find_panel().
 
 Patch added in v2.
 
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
- drivers/gpu/drm/bridge/fsl-ldb.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/omapdrm/dss/output.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
-index 5c3cf37200bcee1db285c97e2b463c9355ee6acb..ef0bbc272c1dc3484d0f7955233f4e8c6590235f 100644
---- a/drivers/gpu/drm/bridge/fsl-ldb.c
-+++ b/drivers/gpu/drm/bridge/fsl-ldb.c
-@@ -341,6 +341,9 @@ static int fsl_ldb_probe(struct platform_device *pdev)
- 		return PTR_ERR(panel);
+diff --git a/drivers/gpu/drm/omapdrm/dss/output.c b/drivers/gpu/drm/omapdrm/dss/output.c
+index 7378e855c278c3809bc431ff48a1c5a41b7dedfc..259ef19d4be2cb559ba9ffe53db9e6e4b4409b21 100644
+--- a/drivers/gpu/drm/omapdrm/dss/output.c
++++ b/drivers/gpu/drm/omapdrm/dss/output.c
+@@ -48,7 +48,6 @@ int omapdss_device_init_output(struct omap_dss_device *out,
+ 			ret = PTR_ERR(bridge);
+ 			goto error;
+ 		}
+-
+ 		out->bridge = bridge;
+ 	}
  
- 	fsl_ldb->panel_bridge = devm_drm_panel_bridge_add(dev, panel);
-+
-+	drm_panel_put(panel);
-+
- 	if (IS_ERR(fsl_ldb->panel_bridge))
- 		return PTR_ERR(fsl_ldb->panel_bridge);
+@@ -76,9 +75,12 @@ int omapdss_device_init_output(struct omap_dss_device *out,
  
+ void omapdss_device_cleanup_output(struct omap_dss_device *out)
+ {
+-	if (out->bridge && out->panel)
++	if (out->bridge && out->panel) {
+ 		drm_panel_bridge_remove(out->next_bridge ?
+ 					out->next_bridge : out->bridge);
++		drm_panel_put(out->panel);
++
++	}
+ }
+ 
+ void dss_mgr_set_timings(struct omap_dss_device *dssdev,
 
 -- 
 2.48.1
