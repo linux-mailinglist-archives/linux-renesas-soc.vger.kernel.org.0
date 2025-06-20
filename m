@@ -1,126 +1,139 @@
-Return-Path: <linux-renesas-soc+bounces-18579-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18580-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E182DAE18CE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Jun 2025 12:27:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 387F9AE1AA9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Jun 2025 14:12:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 830C21BC40B7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Jun 2025 10:28:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CFD114A6DCE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Jun 2025 12:12:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DD3D27FD5D;
-	Fri, 20 Jun 2025 10:27:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05A4828AB00;
+	Fri, 20 Jun 2025 12:11:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FDdk+xum"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fwjA8Iek"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A6D199947;
-	Fri, 20 Jun 2025 10:27:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D107728B501;
+	Fri, 20 Jun 2025 12:10:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750415268; cv=none; b=CO1nbDEPPL9FbY/Sk4viCCVv4H4DTQy3i2ZAZltq4PD3HessslbGzALq8W/QS3ezZutBlU4ATlVxXycxEGw5pSXcEQbXWQeg/Vek/qZfqYPtO8VAPqHL8qLIDPeGT9baUYbrxniAKcIFi4zqZ6vYFodToBumgyjUYZru6SvT/7w=
+	t=1750421459; cv=none; b=FpBPM10W63jgXRdRX66lphfqYOOd2S/CyAmV/eGk2hSBvx5Lfi5HsyaV22anCvWFCrxtjOQ5ulmIpBZptveIPux5sBZCe8aKSOTUW+mKgS0jrQJMfLEpKYu9iHKfUTJ5z3XHsAJYQpe3XWrCimSdC1Gk/6bYB3Io6E4IjPYG/Bw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750415268; c=relaxed/simple;
-	bh=8ZaXuRIcCN5t1dEdAZ8c4UKN9AUODzeOKp5agQy1JNE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IbNV1zlxrvOa1oIbZhCkxgHxVYaWoqxXxcP03tZ5e3q4I901Uogty9g75kP3jwOYoJSgz7KiSQP4U+eNKGiH0paHPj4Uf4znsgxUv7YfnUxPkMPmT936XYqoqYedtr5I2Qn9+6jSbJWR7qN4++HXeAMPPowuHc4sJGCro8MF81w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FDdk+xum; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 479CCC4CEE3;
-	Fri, 20 Jun 2025 10:27:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750415267;
-	bh=8ZaXuRIcCN5t1dEdAZ8c4UKN9AUODzeOKp5agQy1JNE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FDdk+xum4CQ3J1mF/DGW1PGg2u89KQk/gjS7/HKD1c4e01QdSlosKtr4KGRjAMOTZ
-	 AuNFHwaMbm2FeuTR88thtQ/oWfNyE5dffYaVSVqY2KQfmw63jFNBsaBvobnsOBFM++
-	 691ba0s2wtCCmJ+ciQIEd+6o4ND/0rQ9OadKg3zLw62J8dp9BJttTjG81iPbXF3yKK
-	 4cMPMMPdAf6jX2h1YeHj5zaNQtQh4mH7LG3/WSlI5b94XfaaGPrJk+GY146PNT5EtI
-	 IL2KDy+rUJmn6Q6bFwnKki+uLC06eG9qrcd6ZvwWSocNQiIlPxjRBQBg7e0vjTtIHj
-	 93X2tvQqyuRwA==
-Date: Fri, 20 Jun 2025 12:27:44 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: Rob Herring <robh@kernel.org>, 
-	Marek Vasut <marek.vasut+renesas@mailbox.org>, linux-pwm@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] dt-bindings: pwm: argon40,fan-hat: Document
- Argon40 Fan HAT
-Message-ID: <foiatljwemu3owuogzekgiydcyedxbhb2nyvzbs53zuxx7yohs@atpwrceby5fd>
-References: <20250617092037.37229-1-marek.vasut+renesas@mailbox.org>
- <20250617092037.37229-2-marek.vasut+renesas@mailbox.org>
- <20250617133744.GA1888765-robh@kernel.org>
- <2e152214-5f2d-451c-8659-941184cd8fdd@mailbox.org>
+	s=arc-20240116; t=1750421459; c=relaxed/simple;
+	bh=Gdsl7ltgcSSl1T/a9BRg4IRgPzHjEOcp1Ptwab5s3L0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eIuAGB/rFXoLk0zn0uA2ElLRCKg2BdO51Vyf2Z2m5cIurpVpQ3Jr89reHwSId/MQ5rBi1xbKpL1hToj5eYEv6zyT3aXhREAwmpIpldn6FWqPvjaxmCZeJkvqWXWmbW2LtfcJ0E1hZJk3uKHLIfVswRB6BK8+j+11miKqlD7wV0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fwjA8Iek; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3a54700a463so1018127f8f.1;
+        Fri, 20 Jun 2025 05:10:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750421455; x=1751026255; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yaHis4TQolxCGd0DYXkBS/c5nHz2SDiffjSBzhVvE0s=;
+        b=fwjA8IekJk2ubVvPN+3LjzH/Crik+HB1qyYI8ymy9p5sUjEcqYgjQcrnOeiWC/F76T
+         7RbX58201wzC5gc/uSeTzIQXMA1viMBSycBkYoFLKZt+mZ2+Nnbzh2giQKbggCRi6VLi
+         YFQBQnlQpMZYjStJ39+tAUzzHMbkvdhja91ucA1lzD8T6vahr8t88DvbFY5O86Jr4BFa
+         04PMu2wxQyfA51rq2OkG2SDPCFY1oSmi6jloPVnpRm8cEtBzZKC4gAJoTjQGEalxk+wb
+         dMm5ibHS0Afu7c9nKHYcRi/TjlwczcXJXPKJBpsE8L/FNLWu0BddwbogQyWox1+9GUPR
+         rboQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750421455; x=1751026255;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yaHis4TQolxCGd0DYXkBS/c5nHz2SDiffjSBzhVvE0s=;
+        b=QfaysvQcXfWLumCQjDNc9RR+2DHB2cEDNQj9Xp/xmk0rzwPnQ+tc+uJljNpsiR44OR
+         cc96vb1KE1ZMz9pLMzgO1/r+hXyzHf9CpFnhTwZQkWy2ZVJw+2wWMbbU1Q0G2amoYNj2
+         8xYthIDJdKeQrozEY8AUCS2D9xsfwu9p9PKVHoybMadLnyxdDAICjhtfLqe1tFv00L/p
+         ZvnNzJNyTCUC9lD0Oef24+F0lKmke0Q2F3sZdcTahNUrZ2Gar7OkBeFQUuk56ISVWyHB
+         ljavJIs4FozGg2dZi9MTCC8cFVOz1n/52tygAm27NAnqO/YoB55zTWVT27+mybozTylp
+         du5A==
+X-Forwarded-Encrypted: i=1; AJvYcCVXMrTTUC1IXZIvxSkVXjBxiqpZcDEvMuEiphLKpBtca3R1Nzs07y/ewpcxGQLIn6Q0EIx2Qiu2I+jOzgTd@vger.kernel.org, AJvYcCWRwJp5fHt/6ope5XVAUTiHl5sIjlmYxsKI34r4LDgYqd5YPrdYFCnediEDIzqjRAjFT8TBxOWP269N@vger.kernel.org
+X-Gm-Message-State: AOJu0YxGF2XCaut2ePO3PiedV23kSLyo5OyfFrBuI0MoTZaRf/7SkWjI
+	qsIdrJ7XZDwdLHYx6ELOGyCD36dfZ4jd9muqWOyA5CeBiKcLDn/g3ZaE
+X-Gm-Gg: ASbGnctjtIpvGZgxCmKm62oOWXPe+Vfs6TtpSzLknOTUYIH2tD+FhrjfU5lrepyez/4
+	qg64r9RSQFbrazM8HOJcWRHmHD0d3FClUMJcJKxYXEYBWtgzEOdY88j7aDqfZ9f9eQIH7eGfuof
+	s6PKgONxIvtYcxUBdBRybEgAxtg0InSUVeiQzMI/WfuqqJV6tzpQKQqihAnqOv4vGs+dlfLt4v1
+	RV32x8GWvqEtPjeWMOEiAseMZoILlP/8dDysZrIHoRkJ9CszPmoEmpMQ80MoaLR7rGq/JBosnLO
+	54U2USjod8AxJz3rHvhqbwJOTySW85wJo9prTQq3K6BsZFfyfW2OUBP759JphyR+6XFN2pmO72C
+	/uknt7dGU6g==
+X-Google-Smtp-Source: AGHT+IHUnxU4a+Lid6u3sR5kgimhf4N4hEUSoyeS3GWqYTWIGu4WGeSGmL7q3DCvDAIvHah6NwVE3A==
+X-Received: by 2002:a05:6000:2282:b0:3a5:270e:7d3 with SMTP id ffacd0b85a97d-3a6d27e16ccmr1728088f8f.13.1750421454825;
+        Fri, 20 Jun 2025 05:10:54 -0700 (PDT)
+Received: from iku.Home ([2a06:5906:61b:2d00:e188:15d5:9cc6:1db])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4535e97a915sm58234645e9.7.2025.06.20.05.10.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Jun 2025 05:10:54 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/3] Add CN15 eMMC and SD overlays for RZ/V2N and RZ/V2H EVKs
+Date: Fri, 20 Jun 2025 13:10:42 +0100
+Message-ID: <20250620121045.56114-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="c46vdgxgomsxt4zs"
-Content-Disposition: inline
-In-Reply-To: <2e152214-5f2d-451c-8659-941184cd8fdd@mailbox.org>
+Content-Transfer-Encoding: 8bit
 
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
---c46vdgxgomsxt4zs
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 2/3] dt-bindings: pwm: argon40,fan-hat: Document
- Argon40 Fan HAT
-MIME-Version: 1.0
+Hi all,
 
-Hello Marek,
+This series introduces device tree overlays for the RZ/V2N and RZ/V2H EVKs
+to support the eMMC and microSD sub-boards connected via the CN15 connector.
+The overlays utilize shared DTSI fragments for common configurations, and
+also update the base board DTS files to define necessary aliases and
+regulator nodes.
 
-On Tue, Jun 17, 2025 at 03:48:13PM +0200, Marek Vasut wrote:
-> On 6/17/25 3:37 PM, Rob Herring wrote:
->=20
-> [...]
->=20
-> > > +++ b/Documentation/devicetree/bindings/pwm/argon40,fan-hat.yaml
-> > > @@ -0,0 +1,48 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/pwm/argon40,fan-hat.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Argon40 Fan HAT PWM controller
-> > > +
-> > > +maintainers:
-> > > +  - Marek Vasut <marek.vasut+renesas@mailbox.org>
-> > > +
-> > > +description: |
-> >=20
-> > Don't need '|'.
->=20
-> Fixed in V4 ...
+Cheers,
+Prabhakar
 
-That sounds as if there is already a v4 on the lists. I don't find such
-a patch series though. Am I missing something or just misinterpreting
-your words?
+Lad Prabhakar (3):
+  arm64: dts: renesas: Add CN15 eMMC and SD overlays for RZ/V2N EVK
+  arm64: dts: renesas: r9a09g057h44-rzv2h-evk: Rename fixed regulator
+    node names
+  arm64: dts: renesas: Add CN15 eMMC and SD overlays for RZ/V2H EVK
 
-Best regards
-Uwe
+ arch/arm64/boot/dts/renesas/Makefile          |  8 +++
+ .../r9a09g056n48-rzv2n-evk-cn15-emmc.dtso     | 15 +++++
+ .../r9a09g056n48-rzv2n-evk-cn15-sd.dtso       | 16 +++++
+ .../dts/renesas/r9a09g056n48-rzv2n-evk.dts    | 10 +++
+ .../r9a09g057h44-rzv2h-evk-cn15-emmc.dtso     | 15 +++++
+ .../r9a09g057h44-rzv2h-evk-cn15-sd.dtso       | 16 +++++
+ .../dts/renesas/r9a09g057h44-rzv2h-evk.dts    | 14 +++-
+ .../renesas/rzv2-evk-cn15-emmc-common.dtsi    | 46 +++++++++++++
+ .../dts/renesas/rzv2-evk-cn15-sd-common.dtsi  | 67 +++++++++++++++++++
+ 9 files changed, 205 insertions(+), 2 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtso
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtso
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk-cn15-emmc.dtso
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk-cn15-sd.dtso
+ create mode 100644 arch/arm64/boot/dts/renesas/rzv2-evk-cn15-emmc-common.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/rzv2-evk-cn15-sd-common.dtsi
 
---c46vdgxgomsxt4zs
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.49.0
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmhVN50ACgkQj4D7WH0S
-/k6P5gf/TPtqvZOLxU/tA8vZQmMSdQP78vV4Tg9EJnssQRAM03y9ZUxMSQdcw6kf
-xHUqZJ0IQLyF4UcWom8JJLZUrtFWEOCx8x0wj53PSWO7+5KQtc2BTiWxWEfqzkJu
-1i51XtXB9oPBSjGa8RzW7vboEhzbNGjtT5AVt7ruVW6rT2Y1OsAbKQg90q5wi53K
-Ok0Eq8hLKPbKAWTkLm6QfHC08NbSc/0qrymIA2WXKCrxFLaV9sbF9orGltlQBm1N
-LPVrSgP+M7vHzShEWTpCd4HaethV/G+YIGjeJTOLIlQjbk3KAG9vdINyUkKlP9gz
-fGxuegx0+/2Umu2UNLRvM3FIRe39hg==
-=84d0
------END PGP SIGNATURE-----
-
---c46vdgxgomsxt4zs--
 
