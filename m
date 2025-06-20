@@ -1,136 +1,129 @@
-Return-Path: <linux-renesas-soc+bounces-18576-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18577-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 740C1AE1630
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Jun 2025 10:35:21 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AA8FAE167B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Jun 2025 10:42:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0FF6E189ACC6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Jun 2025 08:34:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CF70B17B2AE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Jun 2025 08:41:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B044219A67;
-	Fri, 20 Jun 2025 08:34:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BF35236442;
+	Fri, 20 Jun 2025 08:37:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZDorirDa"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GI5vBH6a"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay16.mail.gandi.net (relay16.mail.gandi.net [217.70.178.236])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F8514D2A0;
-	Fri, 20 Jun 2025 08:34:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.236
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9244E218EBF;
+	Fri, 20 Jun 2025 08:37:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750408451; cv=none; b=ZNGZQcc8wJfqPwPlVbw3s1R5q6loZXCvY1hW1AIGJ0K9uShTzmSDmpx8yyUwXqTzI1GrZzVKh4DOCZw4LIbzwtsA8g163TEAYpHhI2Co+ysReEIGAC3s3zHn7KpdZJhfY3iW8XdZJjWAlaFRMMUNTRi7oe5rd2Gc2KUrBvT1Dgk=
+	t=1750408660; cv=none; b=PerLl/JPjZJd925DkNes1GTjsKf5mTWOwrU88VRIwShinSObAt1FwW+NceLqxOCltAtBMaV2CUuOH1ojmJoJHp8SB6D6oh14O4blJB6lKdv0LQ5IkZonuBFmEoxiBhI39PNnrRHr/gJntpOni0GESDazzzwItulwxlp76nlDbYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750408451; c=relaxed/simple;
-	bh=m2+1Jf63p+eryKj1QfsbNx2w8kSuf3w3Tygti8IwXz0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=obfe2FE1b+jXmfDBAHgvGJpejzw9Ppx1LhROfweGM/+kj1aE+hEDYlbFJHeYocNghAEJT3VXPd7qsChpvoX5PQ+TEsm0/CWEFjl5FiMJAZpeVCnzpQPIXWVkOvMMduSevTXVB55Ox4m+m5JLDXxBvW+Cup3bN1ThVxi6Oe7YP1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ZDorirDa; arc=none smtp.client-ip=217.70.178.236
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0B77143887;
-	Fri, 20 Jun 2025 08:33:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1750408441;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4T0Z/wKoqLmnZWVx5qElF2JVZUpRD4o2zM/wrspldp0=;
-	b=ZDorirDaJiVzEhZ+Dy5FPuY8TciEHIDL8biqP15QbS75l5K+mN/9vhPvUetmMwpkDRzfOQ
-	WHb7+TFsKrBH1rRjrZR+jzIh2KfQOQ0Mq82vWl0vh8WPSNr8xmzHZiQ0V32deavtB6Ok9Y
-	DOPJz+azWbHlfM+uSiIKZ4sA+6NuKrXe1ohvO3vS/ughrEkDvC5c7zCwTdep9PWkmfGdO1
-	QHICWKbWeAgfVett5jhC2c18sCM92MjX78cWfymdnXj2SRdFgpm8isir0uDWN+o+tVg+eY
-	hQ2cniRepzW0GW0m+iIWQz54dDccAHp9LBbrgg4viHJtDjOCw6lwehfeLI81IQ==
-Date: Fri, 20 Jun 2025 10:33:53 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang
- <jessica.zhang@oss.qualcomm.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan
- Teki <jagan@amarulasolutions.com>, Marek Szyprowski
- <m.szyprowski@samsung.com>, Andrzej Hajda <andrzej.hajda@intel.com>, Robert
- Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>, Seung-Woo Kim
- <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
- <alim.akhtar@samsung.com>, Laurent Pinchart
- <laurent.pinchart+renesas@ideasonboard.com>, Tomi Valkeinen
- <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham
- <kieran.bingham+renesas@ideasonboard.com>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Biju Das
- <biju.das.jz@bp.renesas.com>, Tomi Valkeinen
- <tomi.valkeinen@ideasonboard.com>, Alain Volmat <alain.volmat@foss.st.com>,
- Raphael Gallais-Pou <rgallaispou@gmail.com>, Stefan Agner
- <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, Linus Walleij
- <linus.walleij@linaro.org>, Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter
- <jonathanh@nvidia.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v2 01/16] drm/panel: get/put panel reference in
- drm_panel_add/remove()
-Message-ID: <20250620103353.5b43b86f@booty>
-In-Reply-To: <20250619-b4-of_drm_find_panel_part1-v2-1-0df94aecc43d@redhat.com>
-References: <20250619-b4-of_drm_find_panel_part1-v2-0-0df94aecc43d@redhat.com>
-	<20250619-b4-of_drm_find_panel_part1-v2-1-0df94aecc43d@redhat.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1750408660; c=relaxed/simple;
+	bh=B98CFS4nw8P44kWvPzhcglPGCieASk0aylbTF3UEGJc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hlhMfaa3GgHjio0x/sDqzgxKienotDXUL9rwxmT5x/XGRmbJRF1y++Hyyi5xKWBV1w3gaFoNUQe1IAw038qeYVT/Yh6CIRuizVxeUXdFYgl+sT1G8zhe0G00fWdvjuYAxsQZyW40wxBuB8RzDO/h/4ukS/DNyHpqT0sJ9+m/9vs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GI5vBH6a; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-453608ed113so14897065e9.0;
+        Fri, 20 Jun 2025 01:37:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750408657; x=1751013457; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tkZMdMJtiCI1godzM9JRbQDVZvxgUYM0ZUn00XDblK4=;
+        b=GI5vBH6aO3WEeIV5ey9oAv1XSrHRsKuwi+rrDD+BKYCxhqkivu/ajq+nJEg3fffNY8
+         +7thQOhSkvK//lR6CyY629mZOqnwQao5VFLrmYPoGOXm6HZRudfXgb5qrPLi6naCgLw8
+         R2O/X3BVf5olf9jvNtWmuxYWD3x+yWr3v+TnHrzVqQ6zH4xtZ7s5DVt3ecuoEtKCZsC2
+         K2sYih5M62vFKOwbhso+zDiHm+2I6jOrUormQme1BS13yXeRCPk9DLCwgjo4zPKWxMwr
+         OmpqmIWkR2k7LRSY+a61kei5t2qn4HFpnoVpPK9+o5mmxYbclqSv+TD/RLtLhVBP9Jhq
+         JCaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750408657; x=1751013457;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tkZMdMJtiCI1godzM9JRbQDVZvxgUYM0ZUn00XDblK4=;
+        b=jWVIPESEuSHGC+OhqrYyHXOWcdnOXL3qPierSRqGdXTt3yMSU5F1lhP+wC+N8KU8YN
+         0e91AWj+U08NHBiZQFRO01Ahf2QdkEW0QzYKgqZ/qb4YojrYRD9gZpKL+IxvwYuu4O3H
+         B6iOpvFLfVmsQUzF/HRhKqOwm4W29i7OkBvDVG308RZiPuV7n+mMATD+OkHOQEu8q0Mm
+         kMP/IR5zxtLpOebRGHPqjiByN619hn6y7s37fWSLGNJHL7G3hCHt9AiNU/Ove2AA0AAZ
+         Gm3vz70S2pWDnuAsVocQPuMVaBdEwm/6mB8LKWDuneg12Wb64wGAGSFDGD25S0dkZvaV
+         1AsQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXAtv98rjzD0JtKjsYcZlSgDSKw1IqeOOHLTUYqb1uagKZj8S2E8FaTtL8ykwwmMqXwGSJ7AyAqXFTh@vger.kernel.org, AJvYcCXWkqsKFs6v1/IF8nqmLChNMutnv+pPF3hXDsz+i9fP8XQZL9o7Szt5wMXWTuLGXCfBVDPeUyBvu7iO87O6jesuWbM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzzjz3kKuBYOkr13kVjUFPCwdNVIrNVXFLtjlgI9e+Fm4TtJTW2
+	p4i6aLijhj1vfg9plDOk43PfCgKgAdfDfjzxso28h1uJGFPgex/Q1bW/umPE/6+ohzxRtYgO0E4
+	Usxl5KfWJDvVeu1hEcOGaWwrB1hokGBo=
+X-Gm-Gg: ASbGncvePz9xYki6yj0M/fIm/zpHsXSHeFwf44ZglSlJlc5OPpK/VmdNC4Acuo+HMkt
+	9UVh44nswruk7yJ7mAq16JM8gsXoA/4c82jEa0N6+bAJ2pDSzCOLRaZQ8iEixo9W5dpL8XRJRFU
+	IYn0oWP3qQpJaVuziccXA4bNYcxFZNEnKtFyS7QD6KPwkPEQ==
+X-Google-Smtp-Source: AGHT+IH91L09rKl1WvHHN6miWU42yNno2KuBsV5zEbCXDsnr6stucdm+5+kVbuTet4qP0eO2vIMK3isuHSCFs9idYtY=
+X-Received: by 2002:a05:600c:4fc5:b0:453:2066:4a26 with SMTP id
+ 5b1f17b1804b1-453659ee9famr16883665e9.16.1750408656499; Fri, 20 Jun 2025
+ 01:37:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddvgdejleefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepgeegpdhrtghpthhtoheprghsrhhivhgrthhssehrvgguhhgrthdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtohepjhgvshhsihgtrgdriihhrghnghesohhsshdrq
- hhurghltghomhhmrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghh
+References: <0703ecbc355164e35b90a9fe088438c821f13cd3.1749741263.git.geert+renesas@glider.be>
+In-Reply-To: <0703ecbc355164e35b90a9fe088438c821f13cd3.1749741263.git.geert+renesas@glider.be>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Fri, 20 Jun 2025 09:37:08 +0100
+X-Gm-Features: Ac12FXwoHC5okYTQfQ1hd3pLbVxnrfdeiudtMlvvUAqtZogtU5CVCeKmChDP3KY
+Message-ID: <CA+V-a8ticxRyDrtAMOLjULWhU-iXNhgQNEYx0JQvc0qKHRSf+A@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: soc: renesas: Document RZ/T2H Evaluation
+ Board part number
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello Anusha,
+On Thu, Jun 12, 2025 at 4:39=E2=80=AFPM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> To be queued in renesas-devel for v6.17.
+>
+>  Documentation/devicetree/bindings/soc/renesas/renesas.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Thu, 19 Jun 2025 14:15:53 -0500
-Anusha Srivatsa <asrivats@redhat.com> wrote:
+Cheers,
+Prabhakar
 
-> Take the panel reference and put it back as required.
-> drm_panel_add() and drm_panel_remove() add a panel to
-> the global registry and removes a panel respectively.
-> Use get() and put() helpers to keep up with refcounting.
-> 
-> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
-
-This patch is good.
-
-I'd just point out that this must be applied only after all drivers
-have been converted to the the _alloc API, otherwise with the following
-sequence:
-
-  panel = devm_kzalloc();
-  drm_panel_init(panel);
-  drm_panel_add(panel);
-  ...
-  drm_panel_remove(panel); <-----
-
-at the drm_panel_remove() you'd have a warning:
-
-  refcount_t: addition on 0; use-after-free.
-
-So, if all panel drivers are converted:
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+> diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml b=
+/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
+> index aac7af605de24f99..c25f12642061b6eb 100644
+> --- a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
+> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
+> @@ -595,7 +595,7 @@ properties:
+>        - description: RZ/T2H (R9A09G077)
+>          items:
+>            - enum:
+> -              - renesas,rzt2h-evk # RZ/T2H Evaluation Board
+> +              - renesas,rzt2h-evk # RZ/T2H Evaluation Board (RTK9RZT2H0S=
+00000BJ)
+>            - enum:
+>                - renesas,r9a09g077m04 # RZ/T2H with Single Cortex-A55 + D=
+ual Cortex-R52 - no security
+>                - renesas,r9a09g077m24 # RZ/T2H with Dual Cortex-A55 + Dua=
+l Cortex-R52 - no security
+> --
+> 2.43.0
+>
+>
 
