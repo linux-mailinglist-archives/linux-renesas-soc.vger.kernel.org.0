@@ -1,219 +1,136 @@
-Return-Path: <linux-renesas-soc+bounces-18575-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18576-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D13BAE1577
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Jun 2025 10:09:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 740C1AE1630
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Jun 2025 10:35:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BAA217A314C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Jun 2025 08:07:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0FF6E189ACC6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Jun 2025 08:34:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 221D522DFAA;
-	Fri, 20 Jun 2025 08:09:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B044219A67;
+	Fri, 20 Jun 2025 08:34:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZDorirDa"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
+Received: from relay16.mail.gandi.net (relay16.mail.gandi.net [217.70.178.236])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BA1622A1E9;
-	Fri, 20 Jun 2025 08:08:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F8514D2A0;
+	Fri, 20 Jun 2025 08:34:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.236
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750406943; cv=none; b=HPGfc55r6Tjt5+uT/iXVV1ox71r1+u/5+1ItQPP7V1LNcx34yqp1MZKH/i+1qpquDsxrdGrTAHkXc5eAjJesSb6FUkLa4NK6wkEYvm6tpvox3U9kfKv3kLGJxpLp86zSG4o81rpYjvQBvpVy1If7dW7H1tSyvK7aspXEYIqopBY=
+	t=1750408451; cv=none; b=ZNGZQcc8wJfqPwPlVbw3s1R5q6loZXCvY1hW1AIGJ0K9uShTzmSDmpx8yyUwXqTzI1GrZzVKh4DOCZw4LIbzwtsA8g163TEAYpHhI2Co+ysReEIGAC3s3zHn7KpdZJhfY3iW8XdZJjWAlaFRMMUNTRi7oe5rd2Gc2KUrBvT1Dgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750406943; c=relaxed/simple;
-	bh=pxqPziK15Wg3g2t9bTkyy7xbwTJ8XZFDrgsd4s2deVw=;
-	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=nU8K/tnjtTEdkvVZu6sec0raZ/7a7aWUE3IFdh1j456j/tLHHl8RZEkGwBSToHCe6QpVQ0oT0BKN7ojG9rIJJcicyF4KdcJ0afefNDg2/C2M4TqRrXLKLXpclVaodmz+JeTCwUpIwPsNxcKDtM+9bOsZ7eFKy7PNPR+1XOwW/KM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4bNqqg07y6z4xfxK;
-	Fri, 20 Jun 2025 16:08:47 +0800 (CST)
-Received: from xaxapp04.zte.com.cn ([10.99.98.157])
-	by mse-fl2.zte.com.cn with SMTP id 55K88WkU022600;
-	Fri, 20 Jun 2025 16:08:32 +0800 (+08)
-	(envelope-from shao.mingyin@zte.com.cn)
-Received: from mapi (xaxapp02[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Fri, 20 Jun 2025 16:08:34 +0800 (CST)
-Date: Fri, 20 Jun 2025 16:08:34 +0800 (CST)
-X-Zmail-TransId: 2afa68551702562-5cd67
-X-Mailer: Zmail v1.0
-Message-ID: <20250620160834242DDgecL4HF8b1OBLiZnnrl@zte.com.cn>
+	s=arc-20240116; t=1750408451; c=relaxed/simple;
+	bh=m2+1Jf63p+eryKj1QfsbNx2w8kSuf3w3Tygti8IwXz0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=obfe2FE1b+jXmfDBAHgvGJpejzw9Ppx1LhROfweGM/+kj1aE+hEDYlbFJHeYocNghAEJT3VXPd7qsChpvoX5PQ+TEsm0/CWEFjl5FiMJAZpeVCnzpQPIXWVkOvMMduSevTXVB55Ox4m+m5JLDXxBvW+Cup3bN1ThVxi6Oe7YP1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ZDorirDa; arc=none smtp.client-ip=217.70.178.236
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0B77143887;
+	Fri, 20 Jun 2025 08:33:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1750408441;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4T0Z/wKoqLmnZWVx5qElF2JVZUpRD4o2zM/wrspldp0=;
+	b=ZDorirDaJiVzEhZ+Dy5FPuY8TciEHIDL8biqP15QbS75l5K+mN/9vhPvUetmMwpkDRzfOQ
+	WHb7+TFsKrBH1rRjrZR+jzIh2KfQOQ0Mq82vWl0vh8WPSNr8xmzHZiQ0V32deavtB6Ok9Y
+	DOPJz+azWbHlfM+uSiIKZ4sA+6NuKrXe1ohvO3vS/ughrEkDvC5c7zCwTdep9PWkmfGdO1
+	QHICWKbWeAgfVett5jhC2c18sCM92MjX78cWfymdnXj2SRdFgpm8isir0uDWN+o+tVg+eY
+	hQ2cniRepzW0GW0m+iIWQz54dDccAHp9LBbrgg4viHJtDjOCw6lwehfeLI81IQ==
+Date: Fri, 20 Jun 2025 10:33:53 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang
+ <jessica.zhang@oss.qualcomm.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan
+ Teki <jagan@amarulasolutions.com>, Marek Szyprowski
+ <m.szyprowski@samsung.com>, Andrzej Hajda <andrzej.hajda@intel.com>, Robert
+ Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, Seung-Woo Kim
+ <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
+ <alim.akhtar@samsung.com>, Laurent Pinchart
+ <laurent.pinchart+renesas@ideasonboard.com>, Tomi Valkeinen
+ <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham
+ <kieran.bingham+renesas@ideasonboard.com>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Biju Das
+ <biju.das.jz@bp.renesas.com>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>, Alain Volmat <alain.volmat@foss.st.com>,
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, Stefan Agner
+ <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, Linus Walleij
+ <linus.walleij@linaro.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter
+ <jonathanh@nvidia.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v2 01/16] drm/panel: get/put panel reference in
+ drm_panel_add/remove()
+Message-ID: <20250620103353.5b43b86f@booty>
+In-Reply-To: <20250619-b4-of_drm_find_panel_part1-v2-1-0df94aecc43d@redhat.com>
+References: <20250619-b4-of_drm_find_panel_part1-v2-0-0df94aecc43d@redhat.com>
+	<20250619-b4-of_drm_find_panel_part1-v2-1-0df94aecc43d@redhat.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <shao.mingyin@zte.com.cn>
-To: <geert+renesas@glider.be>
-Cc: <changhuang.liang@starfivetech.com>, <geert+renesas@glider.be>,
-        <magnus.damm@gmail.com>, <heiko@sntech.de>, <alim.akhtar@samsung.com>,
-        <walker.chen@starfivetech.com>, <sebastian.reichel@collabora.com>,
-        <detlev.casanova@collabora.com>, <finley.xiao@rock-chips.com>,
-        <shawn.lin@rock-chips.com>, <pgwipeout@gmail.com>,
-        <shao.mingyin@zte.com.cn>, <linux-pm@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-rockchip@lists.infradead.org>,
-        <linux-samsung-soc@vger.kernel.org>, <yang.yang29@zte.com.cn>,
-        <xu.xin16@zte.com.cn>, <yang.tao172@zte.com.cn>,
-        <ye.xingchen@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIIHYzXSBwbWRvbWFpbjogVXNlIHN0cl9lbmFibGVfZGlzYWJsZSgpIGFuZCBzdHJfb25fb2ZmKCkgaGVscGVycw==?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl2.zte.com.cn 55K88WkU022600
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6855170F.000/4bNqqg07y6z4xfxK
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddvgdejleefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepgeegpdhrtghpthhtoheprghsrhhivhgrthhssehrvgguhhgrthdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtohepjhgvshhsihgtrgdriihhrghnghesohhsshdrq
+ hhurghltghomhhmrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghh
 
-From: Shao Mingyin <shao.mingyin@zte.com.cn>
+Hello Anusha,
 
-Use str_enable_disable() and str_on_off() helper instead of open
-coding the same.
+On Thu, 19 Jun 2025 14:15:53 -0500
+Anusha Srivatsa <asrivats@redhat.com> wrote:
 
-Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
-Reviewed-by: Changhuang Liang <changhuang.liang@starfivetech.com>
----
-v3:
-preserve the original patch format to avoid whitespace-damaged
- drivers/pmdomain/renesas/rcar-gen4-sysc.c    | 3 ++-
- drivers/pmdomain/renesas/rcar-sysc.c         | 3 ++-
- drivers/pmdomain/rockchip/pm-domains.c       | 3 ++-
- drivers/pmdomain/samsung/exynos-pm-domains.c | 6 +++---
- drivers/pmdomain/starfive/jh71xx-pmu.c       | 7 ++++---
- 5 files changed, 13 insertions(+), 9 deletions(-)
+> Take the panel reference and put it back as required.
+> drm_panel_add() and drm_panel_remove() add a panel to
+> the global registry and removes a panel respectively.
+> Use get() and put() helpers to keep up with refcounting.
+> 
+> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 
-diff --git a/drivers/pmdomain/renesas/rcar-gen4-sysc.c b/drivers/pmdomain/renesas/rcar-gen4-sysc.c
-index e001b5c25bed..c8aa7538e95f 100644
---- a/drivers/pmdomain/renesas/rcar-gen4-sysc.c
-+++ b/drivers/pmdomain/renesas/rcar-gen4-sysc.c
-@@ -18,6 +18,7 @@
- #include <linux/slab.h>
- #include <linux/spinlock.h>
- #include <linux/types.h>
-+#include <linux/string_choices.h>
+This patch is good.
 
- #include "rcar-gen4-sysc.h"
+I'd just point out that this must be applied only after all drivers
+have been converted to the the _alloc API, otherwise with the following
+sequence:
 
-@@ -171,7 +172,7 @@ static int rcar_gen4_sysc_power(u8 pdr, bool on)
-  out:
- 	spin_unlock_irqrestore(&rcar_gen4_sysc_lock, flags);
+  panel = devm_kzalloc();
+  drm_panel_init(panel);
+  drm_panel_add(panel);
+  ...
+  drm_panel_remove(panel); <-----
 
--	pr_debug("sysc power %s domain %d: %08x -> %d\n", on ? "on" : "off",
-+	pr_debug("sysc power %s domain %d: %08x -> %d\n", str_on_off(on),
- 		 pdr, ioread32(rcar_gen4_sysc_base + SYSCISCR(reg_idx)), ret);
- 	return ret;
- }
-diff --git a/drivers/pmdomain/renesas/rcar-sysc.c b/drivers/pmdomain/renesas/rcar-sysc.c
-index 047495f54e8a..dae01ca0ef6a 100644
---- a/drivers/pmdomain/renesas/rcar-sysc.c
-+++ b/drivers/pmdomain/renesas/rcar-sysc.c
-@@ -17,6 +17,7 @@
- #include <linux/io.h>
- #include <linux/iopoll.h>
- #include <linux/soc/renesas/rcar-sysc.h>
-+#include <linux/string_choices.h>
+at the drm_panel_remove() you'd have a warning:
 
- #include "rcar-sysc.h"
+  refcount_t: addition on 0; use-after-free.
 
-@@ -162,7 +163,7 @@ static int rcar_sysc_power(const struct rcar_sysc_pd *pd, bool on)
-
- 	spin_unlock_irqrestore(&rcar_sysc_lock, flags);
-
--	pr_debug("sysc power %s domain %d: %08x -> %d\n", on ? "on" : "off",
-+	pr_debug("sysc power %s domain %d: %08x -> %d\n", str_on_off(on),
- 		 pd->isr_bit, ioread32(rcar_sysc_base + SYSCISR), ret);
- 	return ret;
- }
-diff --git a/drivers/pmdomain/rockchip/pm-domains.c b/drivers/pmdomain/rockchip/pm-domains.c
-index 4cce407bb1eb..0681c763f843 100644
---- a/drivers/pmdomain/rockchip/pm-domains.c
-+++ b/drivers/pmdomain/rockchip/pm-domains.c
-@@ -21,6 +21,7 @@
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
- #include <linux/mfd/syscon.h>
-+#include <linux/string_choices.h>
- #include <soc/rockchip/pm_domains.h>
- #include <soc/rockchip/rockchip_sip.h>
- #include <dt-bindings/power/px30-power.h>
-@@ -595,7 +596,7 @@ static int rockchip_do_pmu_set_power_domain(struct rockchip_pm_domain *pd,
- 					is_on == on, 0, 10000);
- 	if (ret) {
- 		dev_err(pmu->dev, "failed to set domain '%s' %s, val=%d\n",
--			genpd->name, on ? "on" : "off", is_on);
-+			genpd->name, str_on_off(on), is_on);
- 		return ret;
- 	}
-
-diff --git a/drivers/pmdomain/samsung/exynos-pm-domains.c b/drivers/pmdomain/samsung/exynos-pm-domains.c
-index 9b502e8751d1..1a892c611dad 100644
---- a/drivers/pmdomain/samsung/exynos-pm-domains.c
-+++ b/drivers/pmdomain/samsung/exynos-pm-domains.c
-@@ -13,6 +13,7 @@
- #include <linux/err.h>
- #include <linux/platform_device.h>
- #include <linux/slab.h>
-+#include <linux/string_choices.h>
- #include <linux/pm_domain.h>
- #include <linux/delay.h>
- #include <linux/of.h>
-@@ -38,7 +39,6 @@ static int exynos_pd_power(struct generic_pm_domain *domain, bool power_on)
- 	struct exynos_pm_domain *pd;
- 	void __iomem *base;
- 	u32 timeout, pwr;
--	char *op;
-
- 	pd = container_of(domain, struct exynos_pm_domain, pd);
- 	base = pd->base;
-@@ -51,8 +51,8 @@ static int exynos_pd_power(struct generic_pm_domain *domain, bool power_on)
-
- 	while ((readl_relaxed(base + 0x4) & pd->local_pwr_cfg) != pwr) {
- 		if (!timeout) {
--			op = (power_on) ? "enable" : "disable";
--			pr_err("Power domain %s %s failed\n", domain->name, op);
-+			pr_err("Power domain %s %s failed\n", domain->name,
-+			       str_enable_disable(power_on));
- 			return -ETIMEDOUT;
- 		}
- 		timeout--;
-diff --git a/drivers/pmdomain/starfive/jh71xx-pmu.c b/drivers/pmdomain/starfive/jh71xx-pmu.c
-index 74720c09a6e3..dc3e109e273a 100644
---- a/drivers/pmdomain/starfive/jh71xx-pmu.c
-+++ b/drivers/pmdomain/starfive/jh71xx-pmu.c
-@@ -12,6 +12,7 @@
- #include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/pm_domain.h>
-+#include <linux/string_choices.h>
- #include <dt-bindings/power/starfive,jh7110-pmu.h>
-
- /* register offset */
-@@ -155,7 +156,7 @@ static int jh7110_pmu_set_state(struct jh71xx_pmu_dev *pmd, u32 mask, bool on)
-
- 	if (ret) {
- 		dev_err(pmu->dev, "%s: failed to power %s\n",
--			pmd->genpd.name, on ? "on" : "off");
-+			pmd->genpd.name, str_on_off(on));
- 		return -ETIMEDOUT;
- 	}
-
-@@ -197,8 +198,8 @@ static int jh71xx_pmu_set_state(struct jh71xx_pmu_dev *pmd, u32 mask, bool on)
- 	}
-
- 	if (is_on == on) {
--		dev_dbg(pmu->dev, "pm domain [%s] is already %sable status.\n",
--			pmd->genpd.name, on ? "en" : "dis");
-+		dev_dbg(pmu->dev, "pm domain [%s] is already %s status.\n",
-+			pmd->genpd.name, str_enable_disable(on));
- 		return 0;
- 	}
+So, if all panel drivers are converted:
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 -- 
-2.25.1
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
