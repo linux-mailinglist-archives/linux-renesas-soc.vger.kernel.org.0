@@ -1,181 +1,132 @@
-Return-Path: <linux-renesas-soc+bounces-18604-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18605-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AACBAE2A17
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 Jun 2025 18:03:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA762AE2A42
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 Jun 2025 18:20:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E5EBE3B7791
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 Jun 2025 16:03:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9066917764B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 Jun 2025 16:20:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 235D921D3CD;
-	Sat, 21 Jun 2025 16:03:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38A0513C8E8;
+	Sat, 21 Jun 2025 16:20:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="oskZNe05";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ArQN0kW0"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="qPlu7BCi";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="jP5By4tz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A201DE2B4
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 21 Jun 2025 16:03:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F191D19BBC;
+	Sat, 21 Jun 2025 16:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750521815; cv=none; b=Ys/M+i3tRVEBtdWl/pBZgtgXUJXYX8cgEqb5JzLoi1UHIFp7oiyPYv3Cgp95wA9idQ8SrvbOgWL9qhsglJT9tbam7BNBch4y1QXIhiIzp3lWjQoPSLlWSRsYw8x5pfytpHE7BomEBdJ3j83Tne41Y1RHPRUYM/V9bF6IpNNrmRk=
+	t=1750522811; cv=none; b=YI15vOk3YXWEezA2N/Cz5xk/6SipS8RRePdKEPJg4E3THdYU7f/mOdoFg7OhuHgqoga/aFJJKlCFQqZ3zJ5BDqW2okO/2aRuaIWp2m6tTXQyK+3dcK3br3OLXQLFS/e8GYaErtG3IQCpjevPIf3sjoqiQN04zvDFwKvy3HOREoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750521815; c=relaxed/simple;
-	bh=LuTZl2mQ4AuWZIMNpvxvaz+5ldk1tebEWqHC6OamDE4=;
+	s=arc-20240116; t=1750522811; c=relaxed/simple;
+	bh=1kwlWE50IrDKcOsB0Q92H3E7Gf1/s26EaRGwuaWDrQU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CJWcSu19FIP41/VBFQPnD3XVIOEoTHyCG6NUBGK9fvOqYb30XwVouB/LWHvJ82kB8pF0ZEj9x/Bho8XI5OHhA7qN5tMXF0rRLCKSCpMxN2w7KGePZ7m4h4SXzER+cjtvnqf76EHmLhhi6uMi+/i48zY5TbezlWCQlyHyocIL/HM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=oskZNe05; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=ArQN0kW0; arc=none smtp.client-ip=80.241.56.172
+	 In-Reply-To:Content-Type; b=TTUcPAJ5YrLuc67Bohy1Ijne6ai8rZqMnHr5I2BmK47sK8Q9uzPsUTUtJ1kGGk9cRXRxvluzVhvk00bA6gCBHnMAtgvxPu1ABZ/Wen0sQJ79vxlK1Tj30OOjHW2ZQ0A2i0GZELVFofveHYEA5mqPmD6J97bjFED4OZb+vb05HSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=qPlu7BCi; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=jP5By4tz; arc=none smtp.client-ip=80.241.56.161
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4bPfJr5Rbkz9t7q;
-	Sat, 21 Jun 2025 18:03:24 +0200 (CEST)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4bPfh06YPqz9snC;
+	Sat, 21 Jun 2025 18:20:00 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1750521804;
+	t=1750522800;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pzyJH1ntb+VLEfnIUWzQcRIuZ1D4PCyEOfdCS6emkzQ=;
-	b=oskZNe05bcEy7P1+umE9dY2Tc+Lw4GX2Xi3/RSgjmnHB/xlt8uVF/CCSzZ3xauHok7mHfH
-	AXp3aBaeprkPOnRgcSl+KTEAqtnTk2Ohp5xqaD036DKeuDTXnkB9qEf/wzDHndDx2VHC1y
-	VbLBlW3efunTiFePewtPxoiA+J9TkWzElN4IOmC7Hru83kz+PgFyiH8T/l3J6ZB84KQ2nb
-	ukZ6xyRDxj3N2vHZdRy9sOpkcuyPyVNXahBEX/bTRedt351Kg+V1xl8uO54/3JPDWClDq+
-	Dob/aK6RtipoFEhIZHwB3Jvy8siZWzscifgzgG4EzwurFFJ03rTstLiPCwZfZA==
-Message-ID: <32d302d6-b404-4814-9f17-fda5fe0d3391@mailbox.org>
+	bh=UmGkueZv92x8FVoX2PUBUwwGVfuumaUY5sT7yc1Es/s=;
+	b=qPlu7BCimxSBdGvk5KOedTZYTE3w+irmAPpNZostJ+ueK+cC7donVMSG6Whhe0DBqZG2JD
+	SgIaKogXo+2lKwyR2kfBuyGGe5rEOWwciwbuQtZZvKMkePAoWTsAp3j5Ehm/2Hbl3dbpBW
+	0SnjohFmhfd/b30bj2YsrifuIX84i5AvioFR60TD9fV3NjDVPov0V00gGeMPfAIrWp73iK
+	ZKqw8viWC8/V1HaEYnpwVQUG8PVUpa75hiFjAbtKb0DLgWPByYKg/6qhn57RoVF+CZ9YQa
+	TB/U2wLcms+/e4KQFPHv0HU9fFvgf5OMn/+xwF9LcMOktJpFtGzGs+lJ/vP/1Q==
+Message-ID: <9a846ef0-e558-41b7-b285-6106723f2343@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1750521802;
+	t=1750522798;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pzyJH1ntb+VLEfnIUWzQcRIuZ1D4PCyEOfdCS6emkzQ=;
-	b=ArQN0kW0Ty9E+mG10hkk5kpnC1ZFqxARa2+iyA3aLdaHp3B2i3FYBsACd6VMKlUkiGkVa5
-	Y/3cTHvTT16Lufp8xO6WDBrCeo84p9BhBMxYO/QfeSA6SBjiwm20LLh12SEIlWAEQfxEGK
-	V6Jul7y2pi3rtpkqoM9m0ByijR0GiVov6auvtsurrdBguy3F/E8FO5rh2ul4Tqb5ScCBgM
-	xpFSLMG3SvQMU+ARASG7o9nieQue8qcqjaWt36mCvD0BclES++N24Sw67BS2m2vX1Aumbe
-	qVJyvNLCE3nfE4MhuFWeehOGjT1s9DBaAjXWvPoQnZB6J5A6gEwcX3ZLyxhByA==
-Date: Sat, 21 Jun 2025 18:03:20 +0200
+	bh=UmGkueZv92x8FVoX2PUBUwwGVfuumaUY5sT7yc1Es/s=;
+	b=jP5By4tzF40KKmW8w6xjwlu8B20jehJSvC8+dW+dpyBn1WhrnSqkv9wOoyauj/wzAR5vPH
+	g7czqRPju9VWnds97jQz+UtBtv7nP8qXsGsL11TkBjCKWQgOC4FCDVRBqgDenLJpYXtXzc
+	ReqRM+Z22sILWG5MgAsNKgRUqlQXStJ49gEouJruZGO9zWXGSW1rjdUwTy9vpXzjPZTYfs
+	JGwkNulN7ZKXsM3X6dXNQOAkCDAOgqGnRdh2mXDUEmZ8bpB7narxpyOB/xU5Dg3Vv47kU+
+	CwlKokVMeqCbdW9EyGucdXJfZ5B9Cho0vZwDO5t4bnWwY4Hl1U6KtFD7kl+JmQ==
+Date: Sat, 21 Jun 2025 18:19:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/panel: ilitek-ili9881c: Use u8 for lane count
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>,
- dri-devel@lists.freedesktop.org
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
- David Airlie <airlied@gmail.com>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-renesas-soc@vger.kernel.org
-References: <20250611234913.161861-1-marek.vasut+renesas@mailbox.org>
- <109b5c25-f54c-4413-aa62-8e2ae621c8e6@linaro.org>
- <a263d600-4f62-4d40-864c-e0b0c42f6863@mailbox.org>
- <ef842208-069e-4471-8680-f945d5ccb1a7@linaro.org>
- <e6c51a8d-978e-44f0-bff1-efcd05617aa7@mailbox.org>
- <67da8003-ced9-4b52-a484-b37147068ae7@linaro.org>
+Subject: Re: [PATCH v3 2/3] dt-bindings: pwm: argon40,fan-hat: Document
+ Argon40 Fan HAT
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+Cc: Rob Herring <robh@kernel.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>, linux-pwm@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, devicetree@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20250617092037.37229-1-marek.vasut+renesas@mailbox.org>
+ <20250617092037.37229-2-marek.vasut+renesas@mailbox.org>
+ <20250617133744.GA1888765-robh@kernel.org>
+ <2e152214-5f2d-451c-8659-941184cd8fdd@mailbox.org>
+ <foiatljwemu3owuogzekgiydcyedxbhb2nyvzbs53zuxx7yohs@atpwrceby5fd>
 Content-Language: en-US
 From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <67da8003-ced9-4b52-a484-b37147068ae7@linaro.org>
+In-Reply-To: <foiatljwemu3owuogzekgiydcyedxbhb2nyvzbs53zuxx7yohs@atpwrceby5fd>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: c6kef4io7w1tjt9rjehs4ujy6xiu4gg7
-X-MBO-RS-ID: 8aaea9198d2fbf8141d
-X-Rspamd-Queue-Id: 4bPfJr5Rbkz9t7q
+X-MBO-RS-META: mr1bsa3wx79ntexb9wpe3m78dwnswoum
+X-MBO-RS-ID: a1a734fcd8b5f712755
 
-On 6/16/25 6:26 PM, Neil Armstrong wrote:
-> On 16/06/2025 18:05, Marek Vasut wrote:
->> On 6/16/25 1:45 PM, Neil Armstrong wrote:
->>> On 13/06/2025 12:54, Marek Vasut wrote:
->>>> On 6/13/25 11:29 AM, Neil Armstrong wrote:
->>>>> On 12/06/2025 01:49, Marek Vasut wrote:
->>>>>> Use u8 to hold lane count in struct ili9881c_desc {} to avoid
->>>>>> alignment gap between default_address_mode and lanes members.
->>>>>> The ili9881c controller can only operate up to 4 DSI lanes, so
->>>>>> there is no chance this value can ever be larger than 4. No
->>>>>> functional change.
->>>>>
->>>>> The u8 will still take at least 4 bytes and cpu will still
->>>>> do at least a 32bit memory access, so there's no point to change
->>>>> it to u8.
->>>> Assuming this layout:
->>>>
->>>>    40 struct ili9881c_desc {
->>>>    41         const struct ili9881c_instr *init;
->>>>    42         const size_t init_length;
->>>>    43         const struct drm_display_mode *mode;
->>>>    44         const unsigned long mode_flags;
->>>>    45         u8 default_address_mode;
->>>>    46         u8 lanes;
->>>>    47 };
->>>>
->>>> I wrote a quick test:
->>>>
->>>> $ cat test.c
->>>> #include <stdio.h>
->>>> #include <stdint.h>
->>>>
->>>> struct foo {
->>>>      void *a;
->>>>      size_t b;
->>>>      void *c;
->>>>      unsigned long d;
->>>>
->>>>      uint8_t x;
->>>>      unsigned long y; // ~= lanes
->>>> };
->>>>
->>>> struct bar {
->>>>      void *a;
->>>>      size_t b;
->>>>      void *c;
->>>>      unsigned long d;
->>>>
->>>>      uint8_t x;
->>>>      uint8_t y; // ~= lanes
->>>> };
->>>>
->>>> int main(void)
->>>> {
->>>>      printf("%d %d\n", sizeof(struct foo), sizeof(struct bar));
->>>>      return 0;
->>>> }
->>>>
->>>> With which I get these results on x86-64:
->>>>
->>>> $ gcc -o test test.c && ./test
->>>> 48 40
->>>>
->>>> And on x86 32bit:
->>>>
->>>> $ i686-linux-gnu-gcc -o test test.c && ./test
->>>> 24 20
->>>>
->>>> Maybe there is some improvement ?
+On 6/20/25 12:27 PM, Uwe Kleine-König wrote:
+> Hello Marek,
+
+Hi,
+
+> On Tue, Jun 17, 2025 at 03:48:13PM +0200, Marek Vasut wrote:
+>> On 6/17/25 3:37 PM, Rob Herring wrote:
+>>
+>> [...]
+>>
+>>>> +++ b/Documentation/devicetree/bindings/pwm/argon40,fan-hat.yaml
+>>>> @@ -0,0 +1,48 @@
+>>>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>>>> +%YAML 1.2
+>>>> +---
+>>>> +$id: http://devicetree.org/schemas/pwm/argon40,fan-hat.yaml#
+>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>> +
+>>>> +title: Argon40 Fan HAT PWM controller
+>>>> +
+>>>> +maintainers:
+>>>> +  - Marek Vasut <marek.vasut+renesas@mailbox.org>
+>>>> +
+>>>> +description: |
 >>>
->>> Try again with code size included, and other archs since 99% of the 
->>> users would be an arm/riscv based boards.
->> Doesn't that mean, that one some systems it wins us a bit of memory 
->> utilization improvement, and on other systems it has no impact ?
+>>> Don't need '|'.
+>>
+>> Fixed in V4 ...
 > 
-> 4 or 8 bytes less in a dynamically allocated struct which is by default 
-> aligned
-> on 64 bytes by default on x86, 128 on aarch64, 32/64/128 on arm32, 64 on 
-> riscv, sorry this is negligible.
-It is still not zero, so why tolerate the inefficiency when it can be 
-improved ?
+> That sounds as if there is already a v4 on the lists. I don't find such
+> a patch series though. Am I missing something or just misinterpreting
+> your words?
 
-Is this change rejected ?
+Its coming once I sort out all the feedback, I did not post V4 yet.
+
+-- 
+Best regards,
+Marek Vasut
 
