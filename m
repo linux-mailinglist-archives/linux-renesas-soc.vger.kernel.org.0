@@ -1,132 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-18605-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18606-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA762AE2A42
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 Jun 2025 18:20:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EEFFAE2A9A
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 Jun 2025 19:21:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9066917764B
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 Jun 2025 16:20:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2DD1E179C0C
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 Jun 2025 17:21:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38A0513C8E8;
-	Sat, 21 Jun 2025 16:20:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79007235C1E;
+	Sat, 21 Jun 2025 17:19:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="qPlu7BCi";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="jP5By4tz"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="G7CU0G7r";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="eBYFpmja"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F191D19BBC;
-	Sat, 21 Jun 2025 16:20:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E4622222CE;
+	Sat, 21 Jun 2025 17:19:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750522811; cv=none; b=YI15vOk3YXWEezA2N/Cz5xk/6SipS8RRePdKEPJg4E3THdYU7f/mOdoFg7OhuHgqoga/aFJJKlCFQqZ3zJ5BDqW2okO/2aRuaIWp2m6tTXQyK+3dcK3br3OLXQLFS/e8GYaErtG3IQCpjevPIf3sjoqiQN04zvDFwKvy3HOREoI=
+	t=1750526399; cv=none; b=R72v+gMgy0ODhNZS5Q0LvITWCqvq6YT0QfdOmuLNNuL9P7gg3sOOXYCDSx/NFrIqDNNgYEBBa2u9PAmjkf49tOyyrPkyHv8lvBIOYLRlZg6gQeTuf4qdBuOT0y24R5vXTl1eP2ktk0Cl0OybHgM8ilr/McSf+M3poeer1UVgjis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750522811; c=relaxed/simple;
-	bh=1kwlWE50IrDKcOsB0Q92H3E7Gf1/s26EaRGwuaWDrQU=;
+	s=arc-20240116; t=1750526399; c=relaxed/simple;
+	bh=/rYtmmNYw+6vj67WCLNmPW917Q0ItenIXSAMMVkiZHQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TTUcPAJ5YrLuc67Bohy1Ijne6ai8rZqMnHr5I2BmK47sK8Q9uzPsUTUtJ1kGGk9cRXRxvluzVhvk00bA6gCBHnMAtgvxPu1ABZ/Wen0sQJ79vxlK1Tj30OOjHW2ZQ0A2i0GZELVFofveHYEA5mqPmD6J97bjFED4OZb+vb05HSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=qPlu7BCi; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=jP5By4tz; arc=none smtp.client-ip=80.241.56.161
+	 In-Reply-To:Content-Type; b=Fg7veqjZWBHxgYs+L2MEExSR/brVXdKtlBmcwyP06ULtvakRdt2xDNgbjy/VTFy5iP8ak1zwwMbF/PsSd+6+5gYJClRIRGDvmv5TwE348YsgsJVK5Z4tHzq2LKfvpHLUNxP3es/ZxkAIPA13HpAd4vtv/8vdexPzP+5nfWcYVKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=G7CU0G7r; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=eBYFpmja; arc=none smtp.client-ip=80.241.56.161
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4bPfh06YPqz9snC;
-	Sat, 21 Jun 2025 18:20:00 +0200 (CEST)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4bPh171g6rz9smF;
+	Sat, 21 Jun 2025 19:19:55 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1750522800;
+	t=1750526395;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UmGkueZv92x8FVoX2PUBUwwGVfuumaUY5sT7yc1Es/s=;
-	b=qPlu7BCimxSBdGvk5KOedTZYTE3w+irmAPpNZostJ+ueK+cC7donVMSG6Whhe0DBqZG2JD
-	SgIaKogXo+2lKwyR2kfBuyGGe5rEOWwciwbuQtZZvKMkePAoWTsAp3j5Ehm/2Hbl3dbpBW
-	0SnjohFmhfd/b30bj2YsrifuIX84i5AvioFR60TD9fV3NjDVPov0V00gGeMPfAIrWp73iK
-	ZKqw8viWC8/V1HaEYnpwVQUG8PVUpa75hiFjAbtKb0DLgWPByYKg/6qhn57RoVF+CZ9YQa
-	TB/U2wLcms+/e4KQFPHv0HU9fFvgf5OMn/+xwF9LcMOktJpFtGzGs+lJ/vP/1Q==
-Message-ID: <9a846ef0-e558-41b7-b285-6106723f2343@mailbox.org>
+	bh=o/o8SytGqLrPW++cgqD523xjz89j9jqhYkyN19k+2To=;
+	b=G7CU0G7r4VS/cavdQvqq67jdI+e0mR2eJwNu/zQDi4g4IM9K6BuNzza3ghswmzBTlVHeLb
+	cUpK8dPt13AUTQ8S2J+xFOpa0e+AnXA2vI2xDt7FpSPHPMAzMH8L64iryyu55fL+bauwxm
+	XtpwTCraNce7i4FEt0mfdHJt88ss64ZCuQsMF4LY+/gkyhXglm0NyVjt2Myolu11Dze+j/
+	dqH6OB0e8VIum4qVDG1rgGwgLIDy7ikkZuv9KhpJDREm6piHVMM9k/3KWL2HgolkfHRo4c
+	mRgV5LDy35DxMtLt+A2itYj5vpUjdqPbI+tKbp/+4ZI5OxPKCbf1VtoKGciFUw==
+Message-ID: <7ed914a7-8a40-4e13-8783-0fc2c01546e5@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1750522798;
+	t=1750526393;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UmGkueZv92x8FVoX2PUBUwwGVfuumaUY5sT7yc1Es/s=;
-	b=jP5By4tzF40KKmW8w6xjwlu8B20jehJSvC8+dW+dpyBn1WhrnSqkv9wOoyauj/wzAR5vPH
-	g7czqRPju9VWnds97jQz+UtBtv7nP8qXsGsL11TkBjCKWQgOC4FCDVRBqgDenLJpYXtXzc
-	ReqRM+Z22sILWG5MgAsNKgRUqlQXStJ49gEouJruZGO9zWXGSW1rjdUwTy9vpXzjPZTYfs
-	JGwkNulN7ZKXsM3X6dXNQOAkCDAOgqGnRdh2mXDUEmZ8bpB7narxpyOB/xU5Dg3Vv47kU+
-	CwlKokVMeqCbdW9EyGucdXJfZ5B9Cho0vZwDO5t4bnWwY4Hl1U6KtFD7kl+JmQ==
-Date: Sat, 21 Jun 2025 18:19:57 +0200
+	bh=o/o8SytGqLrPW++cgqD523xjz89j9jqhYkyN19k+2To=;
+	b=eBYFpmjakuZnWQDC555gHSe2TpGnpktAqBtYgr983PEcj8o31tQqANwYfkYFqYagche2gi
+	zCOT5sjJAZrvJFyieVtnOmZ4FTMG8z4u1UH/tdb7BFImUyteBGOLrblLgXuqjxuTikTTey
+	k+VfU6GihXR2SaFcBodtAt7cMyf7/0sNfHJfk6hGqkuFn8EYMvKUv07MQLcVlGH0+qoQDF
+	rKXs/Eh8cU9KHfeKtWcX66Ufd+vwnuCcBnF9WXDbopMBKW8Q3ax9I6RVW/wuAmHJaoIq9o
+	dIkgeuDO5o4pAhyammCGgR7mymDD8JNalVMpRPbotbR1Zqh+GWxegXXZ6035Nw==
+Date: Sat, 21 Jun 2025 19:19:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 2/3] dt-bindings: pwm: argon40,fan-hat: Document
- Argon40 Fan HAT
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-Cc: Rob Herring <robh@kernel.org>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>, linux-pwm@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] pwm: argon-fan-hat: Add Argon40 Fan HAT support
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-pwm@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 References: <20250617092037.37229-1-marek.vasut+renesas@mailbox.org>
- <20250617092037.37229-2-marek.vasut+renesas@mailbox.org>
- <20250617133744.GA1888765-robh@kernel.org>
- <2e152214-5f2d-451c-8659-941184cd8fdd@mailbox.org>
- <foiatljwemu3owuogzekgiydcyedxbhb2nyvzbs53zuxx7yohs@atpwrceby5fd>
+ <20250617092037.37229-3-marek.vasut+renesas@mailbox.org>
+ <fhns5fnckokwsb572kge6tmqaaoholzvgncdctj7vskigytvmu@3uirsrszul36>
 Content-Language: en-US
 From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <foiatljwemu3owuogzekgiydcyedxbhb2nyvzbs53zuxx7yohs@atpwrceby5fd>
+In-Reply-To: <fhns5fnckokwsb572kge6tmqaaoholzvgncdctj7vskigytvmu@3uirsrszul36>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: mr1bsa3wx79ntexb9wpe3m78dwnswoum
-X-MBO-RS-ID: a1a734fcd8b5f712755
+X-MBO-RS-META: adnbsmabp7tfe8umzehd83rnr4ery46f
+X-MBO-RS-ID: 0fb01e9de8abf08b292
+X-Rspamd-Queue-Id: 4bPh171g6rz9smF
 
-On 6/20/25 12:27 PM, Uwe Kleine-König wrote:
+On 6/17/25 4:02 PM, Uwe Kleine-König wrote:
 > Hello Marek,
 
 Hi,
 
-> On Tue, Jun 17, 2025 at 03:48:13PM +0200, Marek Vasut wrote:
->> On 6/17/25 3:37 PM, Rob Herring wrote:
->>
->> [...]
->>
->>>> +++ b/Documentation/devicetree/bindings/pwm/argon40,fan-hat.yaml
->>>> @@ -0,0 +1,48 @@
->>>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->>>> +%YAML 1.2
->>>> +---
->>>> +$id: http://devicetree.org/schemas/pwm/argon40,fan-hat.yaml#
->>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>> +
->>>> +title: Argon40 Fan HAT PWM controller
->>>> +
->>>> +maintainers:
->>>> +  - Marek Vasut <marek.vasut+renesas@mailbox.org>
->>>> +
->>>> +description: |
->>>
->>> Don't need '|'.
->>
->> Fixed in V4 ...
+>> +static int argon_fan_hat_write(struct i2c_client *i2c, const u8 wfhw)
+>> +{
+>> +	u8 tx[2] = { 0x80, wfhw };
 > 
-> That sounds as if there is already a v4 on the lists. I don't find such
-> a patch series though. Am I missing something or just misinterpreting
-> your words?
+> The vendor "driver" has `ADDR_ARGONONEREG_DUTYCYCLE=0x80`, maybe put that
+> into a define, too?
+> 
+>> +	struct i2c_msg msg = {
+>> +		.addr = i2c->addr,
+>> +		.len = 2,
+>> +		.buf = tx,
+>> +	};
+>> +
+>> +	return (i2c_transfer(i2c->adapter, &msg, 1) == 1) ? 0 : -EINVAL;
+> 
+> The vendor driver uses smbus stuff. I suggest to use
+> i2c_smbus_write_byte_data() here, too.
+> 
+> I also found that the vendor driver reads the duty-cycle register (using
+> i2c_smbus_read_byte_data()). Strange that this stops the fan.
 
-Its coming once I sort out all the feedback, I did not post V4 yet.
+So it seems.
 
--- 
-Best regards,
-Marek Vasut
+[...]
+
+>> +static void argon_fan_hat_i2c_shutdown(struct i2c_client *i2c)
+>> +{
+>> +	argon_fan_hat_write(i2c, 100);
+>> +}
+> 
+> Isn't that something that the fan driver should cope for? PWM drivers
+> usually do nothing on shutdown.
+It's probably best to force the blower fan to maximum before 
+reboot/shutdown. The firmware might not handle the fan and the SoC might 
+get very hot before Linux boots again.
+
+The rest is addressed in V4.
 
