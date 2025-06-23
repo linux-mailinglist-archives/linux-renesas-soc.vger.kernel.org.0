@@ -1,126 +1,146 @@
-Return-Path: <linux-renesas-soc+bounces-18620-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18621-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF71FAE3C18
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Jun 2025 12:20:53 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA91EAE3C52
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Jun 2025 12:29:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 710FC16A89B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Jun 2025 10:20:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 88C8B175215
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Jun 2025 10:29:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89AD3239E93;
-	Mon, 23 Jun 2025 10:20:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90E7D23AE7C;
+	Mon, 23 Jun 2025 10:29:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SgbPBOWF"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from pegase1.c-s.fr (pegase1.c-s.fr [93.17.236.30])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB5D923ABAF;
-	Mon, 23 Jun 2025 10:20:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.236.30
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E52201261;
+	Mon, 23 Jun 2025 10:29:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750674044; cv=none; b=lJi1EGzEPJtAP3DVTTqINeUOXKzxnzdPy11L5WSRSdFFMnOOpZy3K7hCB7XmEoD7n4FONn8AvIZSthcQXY4S5EuQr3PsJMKqUIUDC3anwpm6k319Jbto8tQMv5kd+22DARfRUbPurItEt7NSPb2RMLTXp+x3PP1GvxNqCgcnX+4=
+	t=1750674577; cv=none; b=iavfBD2f7L/9/r2UQ4teOoXOMocBQ7IHBOjNw70rDZHxOmh2AIztSiH45+uiYBrFarx+nmRuUg331p0/bghAZmfGbCZ8/xvgps1BBbxYAsjr8G1Ns+Zmuee9LpOzo5Zl2uw+qo0663MgtX2hqExsmyUsI0Ndh6XeWGlwfMeGPAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750674044; c=relaxed/simple;
-	bh=2O0ASG1tgknCDrBskU1uAOjJnO7GN+XCNByF6GVWYRI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hCP+T9iaeBYiRSo+z6kMFrFm0tWdeSSo43OFPg5SxtexG8pi0tIJemfGMSqGZu2UqFoKP+k7TNc0OWMgGde5lWVRGrhE+u3+r2g24RqDnnP/+1yJgf5kOxT+4yPzX/Cu0c+p4JNlrvSAFB5sFEgX6BRsbpCTtxUxxJ37BxnGm9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.236.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
-Received: from localhost (mailhub3.si.c-s.fr [192.168.12.233])
-	by localhost (Postfix) with ESMTP id 4bQkGv3dTSz9sp5;
-	Mon, 23 Jun 2025 12:05:27 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
-	by localhost (pegase1.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QCJuaHhYGyDk; Mon, 23 Jun 2025 12:05:27 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase1.c-s.fr (Postfix) with ESMTP id 4bQkGv2shGz9snk;
-	Mon, 23 Jun 2025 12:05:27 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 5D0F18B764;
-	Mon, 23 Jun 2025 12:05:27 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id GRsg_LSFRtsh; Mon, 23 Jun 2025 12:05:27 +0200 (CEST)
-Received: from [10.25.207.146] (unknown [10.25.207.146])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 1F91F8B763;
-	Mon, 23 Jun 2025 12:05:27 +0200 (CEST)
-Message-ID: <f527c6a8-faf2-45b8-81f5-03def802e485@csgroup.eu>
-Date: Mon, 23 Jun 2025 12:05:26 +0200
+	s=arc-20240116; t=1750674577; c=relaxed/simple;
+	bh=+GW4fgeA+xKGchuTpQBu6jwVxlJTWxJyFy/i+RiAaek=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=XomwX4rXCwWZ3lAuOei2s4joSjYo1mjdWxMoEsQvcNRhTB6O9c6/wskw7Pi2jZCDGUMxEOIDbvD10Iqt8sqqGcl3iO+VY2yZKI1h/dJz7WyCnCDYPgUptJmQW2LH2Ac3whcLnHrztzX4CSmghrPMlISBvzP7EExuBpNnS8kHZck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SgbPBOWF; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-236470b2dceso40635015ad.0;
+        Mon, 23 Jun 2025 03:29:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750674575; x=1751279375; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LNA9piZjlRKT0wGiiHkHTEOKa/CNGuXgOq/W48NNgPc=;
+        b=SgbPBOWFbqhi3GVRHIrwh6I+gB8bXvFhmAX6yand6mqYrC8XIaVXAjXUx4EKhv9w0q
+         2/oG4UMvbnDflYRoEN8+5iP+jHiORmkoe7FX1xZmij0u0uDilX8AakAadxTMPf9kpzLw
+         l2KD4SkSirrIGB2rl4lIrp9cp5qzefJEe3MzQ0zP47oGdIUBpdO1lMXbdwXC/0S6xgMB
+         JR8VH60/IdlRJa5owat2fhYG8djysZMeTV7wPnhFRe76/K19jyjd51ueSn8Kqhh4iurf
+         hTSMaIVlAO9Qms6dpu3hzKCz+YZ0Qz3Z5ZGn7aTdF8saQaj9uFEl7u+1Bs6VeKtVGZx3
+         5RtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750674575; x=1751279375;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LNA9piZjlRKT0wGiiHkHTEOKa/CNGuXgOq/W48NNgPc=;
+        b=adl/CWY7jt2DIW8cwIPCqDPKyPal9Zy1gozIKkDTnKEL7N4pquZxSAEV6eJlPD5NzZ
+         mYUWOhjMYQOPYnp5S2C2u7tXwZh0mYqmtuKVBOgZMzMu1iqvJCtISIzLT00lvGf6s8Se
+         SzHxvgDZnBVBAcoZFO/Ad75eBNeN7c8DU/b/0nBZtq3S2tDq21Qqkr2wf2GVNU5uDQji
+         R2GKRo9iNhF+QXFwE79ss9kf8DyttQK4XFvLRWQRMv0WzOkX4AjIlzxkqz/2hNKWKfUI
+         18dyke8QMK4TXKw5BlNsalpupzrGvxQBuhcz0Vmw5nytp4R3xefkobjCBcqDvQ2c4Sdv
+         5Wsg==
+X-Forwarded-Encrypted: i=1; AJvYcCURyZ79C7VWK2cVjssDZVCyONmz4Cbjmzz9ZTasoo0AXZbRhbqTLPcLPlnXr9IrqJ+CopF/+m6kcJ43b7rCfcQ=@vger.kernel.org, AJvYcCV9XjArZuUYNgIyUFUTDulTYm85G+sVXNeQHw2Db2kxkouApR8emMA/2C4PWHbEG4B0UWRkUNQBNAietYm+@vger.kernel.org, AJvYcCX5sgfxEHXBQOy2TPQjVyFxDULkujJlTnaKrIPi+yi9jh7KbebqoFXFLn7yM1RFZePQLLAmKwBRCNbclfaUb+Y/QMY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5vXqbAUfI74Atq0crB5qPvy2u3pUKN84O6BEA4n731udp7P4g
+	YVKCydGlVBy+yBGdj3cXtFkjWimJLEIZ1+93fPsqPyFYdxuTfO3gDFEH
+X-Gm-Gg: ASbGnctgeuFWAbHHzZTbm5be+htvuKQ/bdAH22+Vzeeq31FafEZp0WPduzhvhksc46V
+	hSS9EOZ8yKyQZ9ioA0bD6ujB5s7D5ATxjLpPTynjdTLcfTI+nW+MRVijq4Rc3MQYYG2k3v3tvch
+	DC8hqXjw7EtIhJMG4oxRt884G5fXCUDTxuDsYvgHoNax2LdWyvpzMq/cz72HOFNzm4V1X1+eQ2E
+	T1Ps6eqY6l+FfuhqdeRllkjzr7rtRfxlpKSaD/v8WZSjMgCMa4l1/JcJ7h00s40T+ZtTIailuin
+	symb+pzM+f6+xfLF0su2s28M3Ag0Ef8biuO8jBDlXQciLWN7sWchpi1aj6frdJKbjtK1mJB1bD3
+	AM12QdPIffrgV22ZyIE2xd8Vmeje+MYs=
+X-Google-Smtp-Source: AGHT+IGu/olQd3gCQ9n8b1T0IY/BOseKz/yROaIShRCjegUE1QktPgjGuNH4gxysfO4C6lOdqqk82A==
+X-Received: by 2002:a17:902:f642:b0:234:c549:d9f1 with SMTP id d9443c01a7336-237d9bac013mr160443415ad.47.1750674575287;
+        Mon, 23 Jun 2025 03:29:35 -0700 (PDT)
+Received: from [172.17.0.2] (125-227-29-20.hinet-ip.hinet.net. [125.227.29.20])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-237eec29a77sm39901125ad.165.2025.06.23.03.29.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Jun 2025 03:29:34 -0700 (PDT)
+From: Leo Wang <leo.jt.wang@gmail.com>
+X-Google-Original-From: Leo Wang <leo.jt.wang@fii-foxconn.com>
+Subject: [PATCH v3 0/2] ARM: dts: Add support for Meta Clemente BMC
+Date: Mon, 23 Jun 2025 18:29:00 +0800
+Message-Id: <20250623-add-support-for-meta-clemente-bmc-v3-0-c223ffcf46cf@fii-foxconn.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] soc: use new GPIO line value setter callbacks
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Qiang Zhao <qiang.zhao@nxp.com>, Linus Walleij
- <linus.walleij@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, linuxppc-dev@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-References: <20250610-gpiochip-set-rv-soc-v1-0-1a0c36c9deed@linaro.org>
- <CAMRc=McVV=VBw0DRiz-4tTjh7ZtRLWg=N_LQ2-7O1sKyW30rxw@mail.gmail.com>
- <c6eece57-8767-4435-beda-c9f399e3fa80@csgroup.eu>
- <CAMRc=MdYuk_O3P1QtepvF-6m01jn3xpDP4YxttQSp1-J-J2GvA@mail.gmail.com>
-Content-Language: fr-FR
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-In-Reply-To: <CAMRc=MdYuk_O3P1QtepvF-6m01jn3xpDP4YxttQSp1-J-J2GvA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGwsWWgC/5XNQQ6CMBCF4auYrh1DC63WlfcwLsowSBNpSVsJh
+ nB3CysTN7p8k8n3zyxSsBTZeTezQKON1rs8yv2OYWfcncA2eTNRCFkofgLTNBCfw+BDgtYH6Ck
+ ZwAf15BJB3SPoiptK6RqlKFl2hkCtnbbG9ZZ3Z2Py4bUlR75e/9FHDgWQRKOUJqqO9aW1Nv9O6
+ J07oO/Z2hjFhyv4L67IrkJJbSE1rzR+u8uyvAG3SOkwMAEAAA==
+X-Change-ID: 20250618-add-support-for-meta-clemente-bmc-941a469bc523
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>, Kees Cook <kees@kernel.org>, 
+ Tony Luck <tony.luck@intel.com>, 
+ "Guilherme G. Piccoli" <gpiccoli@igalia.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+ linux-hardening@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ bruce.jy.hung@fii-foxconn.com, george.kw.lee@fii-foxconn.com, 
+ Leo Wang <leo.jt.wang@fii-foxconn.com>, Leo Wang <leo.jt.wang@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1750674571; l=1272;
+ i=leo.jt.wang@fii-foxconn.com; s=20250618; h=from:subject:message-id;
+ bh=+GW4fgeA+xKGchuTpQBu6jwVxlJTWxJyFy/i+RiAaek=;
+ b=btkegG8seakota/9EBKZL2P1m9hbYQ7NcEdNGd+Iz8G8tbLqCymMYqAzZy0D7nJsbPbeG6fVy
+ yF1S00pOaEBAlGU31LLYn+ehfvKPiteZ5u+ZO0/xuwC9i50JSo2Nnnf
+X-Developer-Key: i=leo.jt.wang@fii-foxconn.com; a=ed25519;
+ pk=x+DKjAtU/ZbbMkkAVdwfZzKpvNUVgiV1sLJbidVIwSQ=
 
+This series adds initial support for the Meta Clemente BMC based on the ASPEED AST2600 SoC.
 
+Patch 1 documents the compatible string.
+Patch 2 adds the device tree for the board.
 
-Le 23/06/2025 à 11:55, Bartosz Golaszewski a écrit :
-> On Mon, Jun 23, 2025 at 11:54 AM Christophe Leroy
-> <christophe.leroy@csgroup.eu> wrote:
->>
->> Hi,
->>
->>
->> Le 23/06/2025 à 09:33, Bartosz Golaszewski a écrit :
->>> On Tue, Jun 10, 2025 at 2:38 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
->>>>
->>>> Commit 98ce1eb1fd87e ("gpiolib: introduce gpio_chip setters that return
->>>> values") added new line setter callbacks to struct gpio_chip. They allow
->>>> to indicate failures to callers. We're in the process of converting all
->>>> GPIO controllers to using them before removing the old ones. This series
->>>> converts all GPIO chips implemented under drivers/soc/.
->>>>
->>>> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
->>>> ---
->>>> Bartosz Golaszewski (2):
->>>>         soc: fsl: qe: use new GPIO line value setter callbacks
->>>>         soc: renesas: pwc-rzv2m: use new GPIO line value setter callbacks
->>>>
->>>>    drivers/soc/fsl/qe/gpio.c       | 6 ++++--
->>>>    drivers/soc/renesas/pwc-rzv2m.c | 8 +++++---
->>>>    2 files changed, 9 insertions(+), 5 deletions(-)
->>>> ---
->>>> base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
->>>> change-id: 20250523-gpiochip-set-rv-soc-14e1d9414f70
->>>>
->>>> Best regards,
->>>> --
->>>> Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
->>>>
->>>
->>> I see Geert queued patch 2/2, who would take patch 1/2?
->>
->>
->> It is in my pipe for v6.17 but if someone else wants to take it I can
->> Ack it instead.
->>
->> Christophe
-> 
-> No, that's alright, I just didn't get any notification nor is it in
-> linux-next yet.
+Signed-off-by: Leo Wang <leo.jt.wang@fii-foxconn.com>
+---
+Changes in v3:
+- Modify leakage sensor to reflect current design.
+- Link to v2: https://lore.kernel.org/r/20250621-add-support-for-meta-clemente-bmc-v2-0-6c5ef059149c@fii-foxconn.com
 
-Don't worry, it is not lost, see 
-https://patchwork.ozlabs.org/project/linuxppc-dev/list/?series=&submitter=&state=&q=&archive=&delegate=61610
+Changes in v2:
+- Fix patch 1/2 subject line to match dt-bindings convention.
+- Reorder device tree nodes in patch 2/2 to follow upstream DTS style.
+- Link to v1: https://lore.kernel.org/r/20250618-add-support-for-meta-clemente-bmc-v1-0-e5ca669ee47b@fii-foxconn.com
+
+---
+Leo Wang (2):
+      dt-bindings: arm: aspeed: add Meta Clemente board
+      ARM: dts: aspeed: clemente: add Meta Clemente BMC
+
+ .../devicetree/bindings/arm/aspeed/aspeed.yaml     |    1 +
+ arch/arm/boot/dts/aspeed/Makefile                  |    1 +
+ .../dts/aspeed/aspeed-bmc-facebook-clemente.dts    | 1254 ++++++++++++++++++++
+ 3 files changed, 1256 insertions(+)
+---
+base-commit: 52da431bf03b5506203bca27fe14a97895c80faf
+change-id: 20250618-add-support-for-meta-clemente-bmc-941a469bc523
+
+Best regards,
+-- 
+Leo Wang <leo.jt.wang@fii-foxconn.com>
+
 
