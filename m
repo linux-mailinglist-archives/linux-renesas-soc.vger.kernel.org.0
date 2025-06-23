@@ -1,216 +1,149 @@
-Return-Path: <linux-renesas-soc+bounces-18629-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18630-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF2A6AE47ED
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Jun 2025 17:08:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FEA3AE482B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Jun 2025 17:17:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 51A29164804
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Jun 2025 15:07:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1F74E162806
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Jun 2025 15:14:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 815F326FD8E;
-	Mon, 23 Jun 2025 15:07:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF81828466F;
+	Mon, 23 Jun 2025 15:14:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Dk4DRySe"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F133272624;
-	Mon, 23 Jun 2025 15:06:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 957FE27991E;
+	Mon, 23 Jun 2025 15:14:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750691222; cv=none; b=PFCYVh4srXaybyyf7rCY+KrRrqn7kVxR6mfxJPp+fKszAecI82+6qceccXUZ3oaTLSb5/P+hyqZnyVNJstynRpsVUXT/ljMNs+pa/LZTjsj0LQVyLdkZQYKPBhDT4eixNbVT2BV1ArggRdKNGG0ZUt6DWzoEhWhnR4wyi/G6v0U=
+	t=1750691645; cv=none; b=LnlgSVeCNqV/eP1kKBTxVbv+yO9dAWzTPo1/ImUHPVrQOHOqrblJ+3KqKvqBUT6x7E1D2gyHX5yB6V/F5m6K4TyfEiFBuZm6Q/rOh+ftfadWEhUVWZqxnc4o3umA3Hl87EmsCwvjr2kSjZtje2aXPGyawwbUZoC+tSvt13x4i7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750691222; c=relaxed/simple;
-	bh=Z5wED7/qlRbrh+Qp7zPPEYCLFeGrd4A4BV2F3KdHedU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P583aMUfV1yXNW4gRWH6JKc4uyTZY3IC/jCq/YdoXx9Is5Z0JfzbgRzSb7MtznnG82KDrXCeXpujmWCpLKdTfNvN9OunbI2jhVfLWp4EFsAx6fMs0l/cY5nevHizkzafBzVxIEg+mKug/AmSg3Qlwcw8c2w0XVHKaemeTLFwx98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6faf66905adso24399016d6.2;
-        Mon, 23 Jun 2025 08:06:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750691217; x=1751296017;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Lp76G6zSq2VEZ9aK70X+T0RQCLIqoSSA+Av6/Es2hYc=;
-        b=Fbkz5tcL3G7UQFD5xhmWtu+jiJ6B9mX049VE02+kJf6r0exCDlOVGpQjvWCTV4hoFt
-         qKj9Q8waUe4+sdHiCxunL1RlQUC+qlOxLYehnqwS/UIRFJvoPk6Nv/g6rjHMGOGBUBn3
-         FMZx3YsrIDR0Kj4En3CNx9U6VqUSbXKuk1nOANtes9inpCgM/COLzEmFkcXosSLFVOXG
-         G85g3xrkQFMT0rZ0fo33mn6LagEObmUlL3fXX4hyF3KVhGhhbFaoFymQoTOM2dqCDWPr
-         UVOW099XNT/S/VmO68QdlHC6OxpuZuKmv7YsI+9dqd/RtHZnaVHZZQ0xIpDB0XYvWbB4
-         DDfw==
-X-Forwarded-Encrypted: i=1; AJvYcCVvt0fhu3RqkxK7YAXnTntucO3ldWNZJFrMmO2uHcI3Rl5INAe9CTz3CWUTJAUYBVUPm0yOKd/aJqY=@vger.kernel.org, AJvYcCWDRsx/ilrwCO2gBu+P2muLuCad5UZmqtWtxnKRj6mekkuqBrvtmHtKky0EmX+Ld6BcL3dxS+XH9Ic78Zw6X0TasqI=@vger.kernel.org, AJvYcCX7k3Xb+/XV3jG53/v+48WIA/PdOdgDVYycbHH5FimvvK9/bpsfB6qak0aAZSXsCeyXIPR8Qy7Dw7QsEeI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxyx/Mck7kuyE4qlW81eTEaMVcV0OCQ6LvidhAo0tYy4+fnuP87
-	IWCSuLAKfYQLAEKbCUpRETVpQ6/eR1P4GjzSGxLwk8f1497tb/2T0grjA9o9+UzZ
-X-Gm-Gg: ASbGncsQNhuuVyZD4JDPAsLBUnQt7FCqjzR1XBcUdbnQP8ALWB4jN7sPkdITr41bhMQ
-	aZhdA97RZ2zRTopmzi9nSl5eFIKYqodVPdstYQZeExG2HHlEUk2qO/l54ZKLTBapZnlp8ofovpo
-	t0fSkTcfveLOcFnIDGZa+UEFi7y563utKX3vKdZFWXHOCIZv3rVNiUV1vQPN6U8XNtqx8ZLz008
-	X3HKASmJMbGOU+uhH1rFN+DH+fo/jdzpn/J/Yc30KoszIQFE/sC3/mSXJFOwFHRMegGI6mlmCWJ
-	HK+pcUMSru+uMw7NYTud//6xwQfGiEvlFgZBij0Un+GGP46HH4BBFGo8SCKR9Jx2KRhuuY4nP6s
-	pJhrYi3R+ytwbUhsk5InW0Fqrv0HH
-X-Google-Smtp-Source: AGHT+IGaLADj805LkkuGmyFATfbaWgRlvHKjNfhxtULwkj0qu4iE2aHspKh0PauTr6dkvNIVxKCmFQ==
-X-Received: by 2002:a05:6214:485:b0:6fb:5bb5:ccfb with SMTP id 6a1803df08f44-6fd0a5880e1mr235066446d6.34.1750691216510;
-        Mon, 23 Jun 2025 08:06:56 -0700 (PDT)
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com. [209.85.222.171])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6fd0953809fsm45505656d6.68.2025.06.23.08.06.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Jun 2025 08:06:55 -0700 (PDT)
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7d3e5df4785so281075785a.0;
-        Mon, 23 Jun 2025 08:06:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUiLTioRoEeYuvQKascM2prUYrxtV4T1HJAqqLmTnUf0nCr5ciFrJsJgJ0yEQrP9QEgCJHqk+kCqP4=@vger.kernel.org, AJvYcCVBIbTMoJlmf+v0NsPdqkQJaw7xAsRtapDYPMdq9J4Ca8mE6rmXIXUHW9AbTfEh6gOI8/mdKABfqBSJnEE=@vger.kernel.org, AJvYcCXi+h/Ixwe/L4OT/DNncLZBthyPJjwQp0pG9u5xZE/KGcwB1aqVpwN/A0MtyjYmOW4WkZDCRdNJVhhwxkhRN/FkMH8=@vger.kernel.org
-X-Received: by 2002:a05:620a:298f:b0:7c5:9b12:f53c with SMTP id
- af79cd13be357-7d3f98c18f0mr1924690385a.5.1750691214368; Mon, 23 Jun 2025
- 08:06:54 -0700 (PDT)
+	s=arc-20240116; t=1750691645; c=relaxed/simple;
+	bh=45lmqAUYpUykmyRNsOjFpkel3OPLmML527QXdh0o9zU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=hK+7gZKYSHAqxgdGA2MlGmdFsGm1Hm1pkro6djfcz3U6LmRLqLC6cPrrJ3OttmC5wKxxbRe+Pg9QRjcd+X8inaTq6LopXZBqx65izD+Zqqkr6sHIcUSeP45S7Y2NgqZDNdk/wvn3dV5ODfIsAyaCQraBygZxuFChAxwq7N9cdx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Dk4DRySe; arc=none smtp.client-ip=217.70.183.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id EC94944288;
+	Mon, 23 Jun 2025 15:13:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1750691640;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=45lmqAUYpUykmyRNsOjFpkel3OPLmML527QXdh0o9zU=;
+	b=Dk4DRySeiEHJkC5ucZz7LZZ5UhTo8qfaM+NNpNfIAmI8eb71jZ1iyZigWxGJIVUh/eddQP
+	8Xl1XY+V1ya18+kaQTE+VfNrEVges9y6YeLXaGu/C3rRQVwdpYLIzr+sV2HHzE/5UmgjzB
+	/+xepzhCWX1cw6Sjteg1eK+SyfTf1nG848+wARLHC34oEtB0GGeHyHyWCzEjD96U8cz4ZV
+	Q9lHqj9ZKe3ogELbhBMi//RQzmrzPpFKAf5qiAiUT/AZUHomVPjE09J5Bf3w9srIdSfWcY
+	Yt4Oua24qVH3rU576TSTUWjL+lZ5mN7oW47CVCJAgdJIvxqw3/Z3LAIlRF5uqQ==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Pan Chuang <panchuang@vivo.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,  Daniel Lezcano
+ <daniel.lezcano@linaro.org>,  Zhang Rui <rui.zhang@intel.com>,  Lukasz
+ Luba <lukasz.luba@arm.com>,  Markus Mayer <mmayer@broadcom.com>,  Broadcom
+ internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+  Florian Fainelli <florian.fainelli@broadcom.com>,  Shawn Guo
+ <shawnguo@kernel.org>,  Sascha Hauer <s.hauer@pengutronix.de>,
+  Pengutronix Kernel Team <kernel@pengutronix.de>,  Fabio Estevam
+ <festevam@gmail.com>,  zhanghongchen <zhanghongchen@loongson.cn>,  Yinbo
+ Zhu <zhuyinbo@loongson.cn>,  Amit Kucheria <amitk@kernel.org>,  Thara
+ Gopinath <thara.gopinath@gmail.com>,  Niklas =?utf-8?Q?S=C3=B6derlund?=
+ <niklas.soderlund@ragnatech.se>,  Geert Uytterhoeven
+ <geert+renesas@glider.be>,  Magnus Damm <magnus.damm@gmail.com>,  Heiko
+ Stuebner <heiko@sntech.de>,  Bartlomiej Zolnierkiewicz
+ <bzolnier@gmail.com>,  Krzysztof Kozlowski <krzk@kernel.org>,  Alim Akhtar
+ <alim.akhtar@samsung.com>,  Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+  Alexandre Torgue <alexandre.torgue@foss.st.com>,  Vasily Khoruzhick
+ <anarsoul@gmail.com>,  Yangtao Li <tiny.windzz@gmail.com>,  Chen-Yu Tsai
+ <wens@csie.org>,  Jernej Skrabec <jernej.skrabec@gmail.com>,  Samuel
+ Holland <samuel@sholland.org>,  Thierry Reding <thierry.reding@gmail.com>,
+  Jonathan Hunter <jonathanh@nvidia.com>,  Kunihiko Hayashi
+ <hayashi.kunihiko@socionext.com>,  Masami Hiramatsu <mhiramat@kernel.org>,
+  Thomas Gleixner <tglx@linutronix.de>,  Matthias Brugger
+ <matthias.bgg@gmail.com>,  AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>,  Srinivas Pandruvada
+ <srinivas.pandruvada@linux.intel.com>,  Greg KH
+ <gregkh@linuxfoundation.org>,  Peter Zijlstra <peterz@infradead.org>,
+  =?utf-8?Q?N=C3=ADcolas?= F. R. A. Prado <nfraprado@collabora.com>,  Conor
+ Dooley
+ <conor.dooley@microchip.com>,  Julien Panis <jpanis@baylibre.com>,  Arnd
+ Bergmann <arnd@arndb.de>,  Uwe =?utf-8?Q?Kleine-K=C3=B6nig?=
+ <u.kleine-koenig@baylibre.com>,  Colin Ian King <colin.i.king@gmail.com>,
+  Raphael Gallais-Pou <rgallaispou@gmail.com>,  Patrice Chotard
+ <patrice.chotard@foss.st.com>,  Jonathan Cameron
+ <Jonathan.Cameron@huawei.com>,  "Jiri Slaby (SUSE)"
+ <jirislaby@kernel.org>,  Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>,  Andrew Morton <akpm@linux-foundation.org>,
+  Costa Shulyupin <costa.shul@redhat.com>,  Yury Norov
+ <yury.norov@gmail.com>,  Cheng-Yang Chou <yphbchou0911@gmail.com>,  Caleb
+ Sander Mateos <csander@purestorage.com>,  linux-pm@vger.kernel.org,
+  linux-kernel@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
+  imx@lists.linux.dev,  linux-arm-msm@vger.kernel.org,
+  linux-renesas-soc@vger.kernel.org,  linux-rockchip@lists.infradead.org,
+  linux-samsung-soc@vger.kernel.org,
+  linux-stm32@st-md-mailman.stormreply.com,  linux-sunxi@lists.linux.dev,
+  linux-tegra@vger.kernel.org,  linux-mediatek@lists.infradead.org,
+  Yangtao Li <frank.li@vivo.com>,  Uwe =?utf-8?Q?Kleine-K=C3=B6nig?=
+ <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH v6 01/24] genirq/devres: Add
+ devm_request_threaded_irq_probe() and devm_request_irq_probe()
+In-Reply-To: <20250623123054.472216-2-panchuang@vivo.com> (Pan Chuang's
+	message of "Mon, 23 Jun 2025 20:30:34 +0800")
+References: <20250623123054.472216-1-panchuang@vivo.com>
+	<20250623123054.472216-2-panchuang@vivo.com>
+User-Agent: mu4e 1.12.7; emacs 30.1
+Date: Mon, 23 Jun 2025 17:13:54 +0200
+Message-ID: <87a55ywkwd.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250523134025.75130-1-ulf.hansson@linaro.org>
- <fd4cfe7a-e29b-4237-b82f-48354deead3b@ideasonboard.com> <CAPDyKFpprO=HGuiHX3MQ_+m1YRnaWG=XwCx8-fSdXak8VBDUbQ@mail.gmail.com>
- <CAPDyKFpXcpwkacnYqWz2vxaTd7pW5bSRa2F063BryFxVNEAmPA@mail.gmail.com>
-In-Reply-To: <CAPDyKFpXcpwkacnYqWz2vxaTd7pW5bSRa2F063BryFxVNEAmPA@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 23 Jun 2025 17:06:42 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXGS+efbbQ_Pn1iYhQ1aWc_DuJ-CBN=jxfjwOWxTRx+9Q@mail.gmail.com>
-X-Gm-Features: Ac12FXx7Xjfa_xE6RhCHr0iaDW4i79STg-K82k32jY3Xof1MYNIo6ZlgJY_vcl0
-Message-ID: <CAMuHMdXGS+efbbQ_Pn1iYhQ1aWc_DuJ-CBN=jxfjwOWxTRx+9Q@mail.gmail.com>
-Subject: Re: [PATCH v2 00/21] pmdomain: Add generic ->sync_state() support to genpd
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Saravana Kannan <saravanak@google.com>, 
-	Stephen Boyd <sboyd@kernel.org>, linux-pm@vger.kernel.org, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Michael Grzeschik <m.grzeschik@pengutronix.de>, Bjorn Andersson <andersson@kernel.org>, 
-	Abel Vesa <abel.vesa@linaro.org>, Peng Fan <peng.fan@oss.nxp.com>, 
-	Johan Hovold <johan@kernel.org>, Maulik Shah <maulik.shah@oss.qualcomm.com>, 
-	Michal Simek <michal.simek@amd.com>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddvgddujeefhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefujghffgffkfggtgfgsehtqhertddtreejnecuhfhrohhmpefoihhquhgvlhcutfgrhihnrghluceomhhiqhhuvghlrdhrrgihnhgrlhessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepffeghfejtdefieeguddukedujeektdeihfelleeuieeuveehkedvleduheeivdefnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhhiqhhuvghlrdhrrgihnhgrlhessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepjedtpdhrtghpthhtohepphgrnhgthhhurghnghesvhhivhhordgtohhmpdhrtghpthhtoheprhgrfhgrvghlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegurghnihgvlhdrlhgviigtrghnoheslhhinhgrrhhordhorhhgpdhrtghpthhtoheprhhuihdriihhrghnghesihhnthgvlhdrtghomhdprhgtphhtthhopehluhhkrghsiidrlhhusggrsegrrhhmrdgtohhmpdhrtghpthhtohepmhhmrgihv
+ ghrsegsrhhorggutghomhdrtghomhdprhgtphhtthhopegstghmqdhkvghrnhgvlhdqfhgvvggusggrtghkqdhlihhsthessghrohgruggtohhmrdgtohhmpdhrtghpthhtohepfhhlohhrihgrnhdrfhgrihhnvghllhhisegsrhhorggutghomhdrtghomh
+X-GND-Sasl: miquel.raynal@bootlin.com
 
-Hi Ulf,
+Hi Pan,
 
-On Mon, 23 Jun 2025 at 16:21, Ulf Hansson <ulf.hansson@linaro.org> wrote:
-> On Thu, 19 Jun 2025 at 13:40, Ulf Hansson <ulf.hansson@linaro.org> wrote:
-> > On Fri, 13 Jun 2025 at 12:33, Tomi Valkeinen
-> > <tomi.valkeinen@ideasonboard.com> wrote:
-> > > On 23/05/2025 16:39, Ulf Hansson wrote:
-> > > > Changes in v2:
-> > > >       - Well, quite a lot as I discovered various problems when doing
-> > > >       additional testing of corner-case. I suggest re-review from scratch,
-> > > >       even if I decided to keep some reviewed-by tags.
-> > > >       - Added patches to allow some drivers that needs to align or opt-out
-> > > >       from the new common behaviour in genpd.
-> > > >
-> > > > If a PM domain (genpd) is powered-on during boot, there is probably a good
-> > > > reason for it. Therefore it's known to be a bad idea to allow such genpd to be
-> > > > powered-off before all of its consumer devices have been probed. This series
-> > > > intends to fix this problem.
-> > > >
-> > > > We have been discussing these issues at LKML and at various Linux-conferences
-> > > > in the past. I have therefore tried to include the people I can recall being
-> > > > involved, but I may have forgotten some (my apologies), feel free to loop them
-> > > > in.
-> > > >
-> > > > I have tested this with QEMU with a bunch of local test-drivers and DT nodes.
-> > > > Let me know if you want me to share this code too.
-> > > >
-> > > > Please help review and test!
-> > >
-> > > I tested this Renesas white-hawk board, and it hangs at boot. With
-> > > earlycon, I captured with/without boot logs, attached.
-> > >
-> > > The hang case doesn't look very healthy with all these: "kobject:
-> > > '(null)' ((____ptrval____)): is not initialized, yet kobject_get() is
-> > > being called."
-> >
-> > Tomi, thanks a lot for helping out with testing!
-> >
-> > rcar_gen4_sysc_pd_init() calls pm_genpd_init() and
-> > of_genpd_add_provider_onecell().
-> >
-> > rcar_gen4_sysc_pd_init() is an early_initcall, which I guess is the
-> > reason for these problems, as the genpd_provider_bus has not been
-> > registered that early (it's done at core_initcall)
-> >
-> > Do you think it would be possible to move rcar_gen4_sysc_pd_init() to
-> > a postcore/arch_initcall?
+On 23/06/2025 at 20:30:34 +08, Pan Chuang <panchuang@vivo.com> wrote:
+
+> From: Yangtao Li <frank.li@vivo.com>
 >
-> I did some investigation around this and found that both
-> drivers/pmdomain/renesas/rcar-gen4-sysc.c and
-> drivers/pmdomain/renesas/rcar-sysc.c are registering their genpd
-> providers at the early_initcall() level.
->
-> I was trying to find (by browsing renesas DTSes and looking into
-> drivers) if there is any consumers that actually relies on this, but
-> so far the earliest consumer I have found is the
-> drivers/irqchip/irq-renesas-irqc.c, but that's at postcore_initcall().
-> Of course, it's difficult to say if my analysis is complete as there
-> are a lot of platform variants and I didn't check them all.
->
-> Maybe we should just give it a try and move both two drivers above to
-> postcore_initcall and see if it works (assuming the irq-renesas-irqc
-> supports -EPROBE_DEFER correctly too).
->
-> If this doesn't work, I think we need to find a way to allow deferring
-> the call to device_add() in of_genpd_provider_add*() for genpd
-> provider's devices.
+> There are more than 700 calls to devm_request_threaded_irq method and
+> more than 1000 calls to devm_request_irq method. Most drivers only
+> request one interrupt resource, and these error messages are basically
+> the same. If error messages are printed everywhere, more than 2000 lines
+> of code can be saved by removing the msg in the driver.
 
-Commit dcc09fd143bb97c2 ("soc: renesas: rcar-sysc: Add DT support for
-SYSC PM domains") explains:
+[...]
 
-   "Initialization is done from an early_initcall(), to make sure the PM
-    Domains are initialized before secondary CPU bringup."
+> So add devm_request_threaded_irq_probe() and devm_request_irq_probe(),
+> which ensure that all error handling branches print error information.
+> In this way, when this function fails, the upper-layer functions can
+> directly return an error code without missing debugging information.
+> Otherwise, the error message will be printed redundantly or missing.
 
-but that matters only for arm32 systems (R-Car Gen1 and Gen2).
-Arm64 systems (R-Car Gen3 and Gen4) use PSCI for CPU PM Domain control.
+While I understand the goal and adhere to it, may I challenge the use of
+a yet another intermediate function that 99% of the users will anyway
+use? Wouldn't it be more straightforward to just add the error message
+in the existing functions directly? If we really want an alternative, it
+may be created and called in the few places where a dev_err_probe()
+might not be relevant.
 
-While changing rcar-sysc.c to use a postcore_initcall indeed moves PM
-Domain initialization after secondary CPU bringup, the second CPU core
-on R-Car M2-W is still brought up fine.
-
-For R-Car H1, there is a regression:
-
-    smp: Bringing up secondary CPUs ...
-    CPU1: failed to boot: -19
-    CPU2: failed to boot: -19
-    CPU3: failed to boot: -19
-    smp: Brought up 1 node, 1 CPU
-    SMP: Total of 1 processors activated (500.00 BogoMIPS).
-
-CPU bringup/teardown in userspace using
-/sys/devices/system/cpu/cpu*/online still works.
-R-Car H1 was never converted to use "enable-method" in DT, and relies
-on calling into the rcar-sysc driver directly (see [1]).  However,
-that does not use any actual calls into the genpd core, so probably it
-can be made to work by splitting rcar_sysc_pd_init() in two parts: an
-early_initcall() that allocates all domain structures and populates the
-internal hierarchy, and a postcore_initcall() that registers everything
-with the genpd core.
-
-As expected, there is no impact on R-Car H3 ES2.0.
-I will test on R-Car V4M tomorrow, but expect no issues.
-
-FTR, drivers/pmdomain/renesas/rmobile-sysc.c uses core_initcall().
-Changing that to postcore_initcall does not seem to make a difference
-(on R-Mobile A1).
-
-[1] https://elixir.bootlin.com/linux/v6.15.3/source/drivers/pmdomain/renesas/rcar-sysc.c#L439
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks,
+Miqu=C3=A8l
 
