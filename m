@@ -1,349 +1,173 @@
-Return-Path: <linux-renesas-soc+bounces-18637-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18638-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7396AE5BC5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jun 2025 07:11:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB96CAE5D24
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jun 2025 08:51:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9BD781B63A3D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jun 2025 05:11:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9A38C173784
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jun 2025 06:51:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 842032253E9;
-	Tue, 24 Jun 2025 05:11:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="B/EfH9aB"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FC2124BD02;
+	Tue, 24 Jun 2025 06:50:50 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010024.outbound.protection.outlook.com [52.101.229.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3FDB35946;
-	Tue, 24 Jun 2025 05:11:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.24
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750741896; cv=fail; b=IoIpON2bqUf6PZ/2T3APqWSUQgCSnTr2jwYeyXAKcQ5sWbilwhsZlOICk/DFNx7s3rORUiwb6z58jdnI8oMxXeno3siiQ96G8sMQ24lRia9c59900vw95MsZDsSHSz0TiOFDl0iSuW9gtldtIt61SR865UEwKLc2/68ZrW5BXkY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750741896; c=relaxed/simple;
-	bh=SS+HuKvmYm6PonUS0/RfYSbmWy9aKNrtSax0nX8jB7w=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=gp5e4WZe6jk9ePrrHkXYTt1fT8Gg/6h93AFnIgneYZn3RqcZ2YnDtDEE0V0uTuru9KAGaQwYK/kwTAMvvQkM/TUnP4Vr88eCPV7uyHsm6xEsW59FqaR9Ra+HdMbHqUy15tcznN4ZJ6vFRHzrx/sLeZT4z3aw1UNRCxyyVIWxYfU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=B/EfH9aB; arc=fail smtp.client-ip=52.101.229.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EW6DFXO6r2lT48Zz+Yzi32MCzGhPCy6KDw1xuBWfPsyQ4JxTuPgqRX0lVIP13i0DfX4hkLrOW0iHUNGh8xhN5cPXIRyk2LDogyefd+UfsgDJEMxhMYd1HBfLLf8/s/gG/QaNVvt2rsO75ywnSvQOIOoqHLhwweGO46wqTKw0AzbnFuj1VLxLQReTwX/1KCvgAjhkjDwxnMcJSAWIhFMrtbEuB/mkPVrU4JT0Amu+D867k6k88bJ7p4u+0GFSqTEMnenUACM1/wpnA95YWuAJanC+905zyocIdQFgCzo7TsnMO57F5Fn1GvK19Ww61SGdgErHrh1e7bOgCPP9sAd0VA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Xg34AcXN3tfQml7PWfHtKss9y3AUKp/kz4RAEGAwWR4=;
- b=YvhaoEhG6e85jsB/VL08Cw91yGC9gNB8EMc4rg/QYM9WXeG4abKbIAjmetefhuV9O5jdsvkdmG8uLnhlKvi4tE3Zh2DxIX8t4R3ZbleRU6Nbfd8eL/kx4H/mN67p5kiW9EEu1qcYzVqwWt86JpGYdsK6/HKhGCgGPXmWdWGpjaTlrO65VgT8OgAzeL+gBw/urn8MQu05Tv5MUUxYQcsU34bginAwWlJpV/otWyzFuZvRl5bvrHwdOhT5QAlTG5ib6cF7gEdTsaKtJniJXLLHyzcJMcmB6njZulb997kg5G2HD4SmFapGQHe89wOKy8ev2lmtb0WFXFWI+ZEgzmQI4Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Xg34AcXN3tfQml7PWfHtKss9y3AUKp/kz4RAEGAwWR4=;
- b=B/EfH9aB5dqnxQYXyhRsN9OI2pViuX3T7o1LkoEallvzYu7BL1Y2mJiiINjBSPlq9ylSwRxa+V9yDdUWTrZjX8za5QDH+nkIM94GeRPFZ8FTGAhzDaBM5djdofMGvvCYFPzBVaP8D+OrzXGzdRumHciy+4BJfmZipcel/2eG0g4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYBPR01MB5519.jpnprd01.prod.outlook.com
- (2603:1096:404:802c::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.30; Tue, 24 Jun
- 2025 05:11:31 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.8857.026; Tue, 24 Jun 2025
- 05:11:31 +0000
-Message-ID: <87bjqdraf1.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 2/2] pinctrl: renesas: unify config naming
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-To: Geert Uytterhoeven <geert+renesas@glider.be>, Linus Walleij <linus.walleij@linaro.org>
-Cc: linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
-In-Reply-To: <87ecv9ragd.wl-kuninori.morimoto.gx@renesas.com>
-References: <87ecv9ragd.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 24 Jun 2025 05:11:31 +0000
-X-ClientProxiedBy: TYCP286CA0304.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:38b::12) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AFB924BBEC;
+	Tue, 24 Jun 2025 06:50:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750747850; cv=none; b=kfhW4X2guCm9xP3nbhIC3KWbWHfjxvyi8L88ktKas383EcQJzyI7WerhMZ2STbFm4/W7muJ5lrsfPp4rl3Ujw6S3lGDXavRE7smH8VDEAeNPyYISh5+dkWu2X1tTPO5QNBWPZKKiC3vqgRwFl41lcN6aDvJxO6+gej/puYXSOxs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750747850; c=relaxed/simple;
+	bh=94OLxcoN/V+1uMAi0Yf0uaUni2K65tJnVOlQBUpp6Y0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qJxgo2A/EFE7kkKUhS4LOAlSCIZnLDOX1lOuU0wpPLlfD1IYYwvjdNUVF3kfs/CAXYZ5whOFQOviaNRIUUuLg/OBYq/qSO3jsZIZtZHbmrlXB3F/LKl0k9Xxb4A8BsNW/z3hafk0fwFvxo5mzOGQVfScphNK+uWR0/MIzC4n5Do=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-87edd8f4e9fso28478241.0;
+        Mon, 23 Jun 2025 23:50:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750747847; x=1751352647;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KAB8c2lzwHiV1cefx4j1HLZ5SO2BK5h0p7k6kwYAaug=;
+        b=NkxdQrLwSpo618S6jr4p+MX/VAWeq36jf9KzPnfvINEovqKRNwVWKLSwVFqlrodfl2
+         m0Bz6o4Hgvp+oQSTaCZhsyYLFD8cuDFCwbBEO8PGYlXvL20aKWOioum1aOAwt31/J+oM
+         nZ+6tJoUgH3+l5gaxUq6jHEOwt1y8gornsTQRDjRhqg5WH3Pbse/dAC/HG46phOFzqHX
+         o4ABcCU4tspj1GML72T3GUe4ItPNEx+SrmjwkEkLcivydBDQBnNBwEl3X3MJUcccRdMk
+         9zgUUyKOga2Ou3pnmjPSTv0y73F5kl1z9QmsDA2QU/WJ0X1O0N31g2satWIFLn5FT7hG
+         NlHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUA4O5X4p5m2hU+nXjezb4yXbEZDPuBrZxn4VmNwng+zTMjSbl0gbLx+1jQ9aTtyM9AQuvrWkw4D3o5gj8+Fi/aUts=@vger.kernel.org, AJvYcCUCfiVRxjSaS8VR7fUINn6d7cIhEEPI5fbnaXf5oTD4gHfPPT96MiMMD/Acs3MaczHS9Z3GmrOeoe3s@vger.kernel.org, AJvYcCV+lFtkTgOpLZiaX6SHzJye34T37B2hjjzKvaKvuq51y2y6e8HdsQ8s6Y92fCpvSYo/C+z9OJeNN59d@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyr5se9moZhoQdcAjh+0dp8D/uLaJAMRpDDEiXy6Z/lrTqjDXs6
+	4Jie2oG2vdprzXJpfSxsERfoaUkwvrB4KMeZUwDhBFNmHRCF2LblMrRUiajmus8Y
+X-Gm-Gg: ASbGncupH6uF9PFWzW3niAZFBtxx3h62geyG6WgMUZa7oEtZlMw+6x2Ahzrr/ehaXo+
+	CSRMpLlbt78Bi6IJBwMuL+VJCVv5AWnCQ3L6QZbQ9vIKYO9DESH2gasIIk3gw+v0FFBHDMR5RNc
+	pRgYXWc0jXOApN1mxLB7s2HkUvGtwdUaCue8WF2FFEgMnNfelHPqouuFBALZDM5Yrm0ukU/1/Q/
+	zoV2WPuoCo7U/+Al+b1A6L/egJyv29YTjyH3Ir4lspnEI7T+sHhxzaOZRJ2IUTUt36ujyGiGJ9F
+	I6TJQ1QIL29V+CHbX39miqSkAZ8wtFhS7+4IuUAN5tx+iMrej/DA9Lquh/aNRsZvA1wtXmVP2Xr
+	NYUD8LZXVI4hQib5z24+hP7MA
+X-Google-Smtp-Source: AGHT+IFQeVs1LHo+L5Rg4eMWN/3O28dMzmgvn5N2nwsCawNfsSkdyf//uA36dyJVWxPOuDJ4XfA2BQ==
+X-Received: by 2002:a05:6102:1483:b0:4e9:b3b9:720e with SMTP id ada2fe7eead31-4e9c2799f18mr9268914137.5.1750747846421;
+        Mon, 23 Jun 2025 23:50:46 -0700 (PDT)
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com. [209.85.217.48])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8811acf9869sm1566939241.3.2025.06.23.23.50.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Jun 2025 23:50:46 -0700 (PDT)
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-4e7fc3309f2so17765137.2;
+        Mon, 23 Jun 2025 23:50:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUAr6YH8wdE2U0ucRpffmdqSkssBV6GNDBJeHK5ISTDVZ6FW71zCLlOL+gkkXbRHc1KWtQrfx54eNb3@vger.kernel.org, AJvYcCUMn5/pwXAnwVepBUlmgaaZAtwvxgJuSknMw9Il7wzFbvgxjGGnZ9DxX83olqfG9Ug0TybNWqnmgY4u796t05+R+mA=@vger.kernel.org, AJvYcCW7YvQS0h6Q5ibcsaX0fwOdbbJi4/4zY8r9lUtghXwXG2VbosJFtr75W/9vyTdDEKRBIL3WLYVe68IN@vger.kernel.org
+X-Received: by 2002:a05:6102:3051:b0:4e2:c6e4:ab1e with SMTP id
+ ada2fe7eead31-4e9c281661amr8855058137.7.1750747845652; Mon, 23 Jun 2025
+ 23:50:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYBPR01MB5519:EE_
-X-MS-Office365-Filtering-Correlation-Id: f17f7cee-d59f-4436-3fc9-08ddb2dd94eb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|1800799024|376014|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?f6c8rYltyb1kXhQEZrkaGkZ4YL3TJkaUAQFX9Hx64yz7/mskdLOZRaPhrfYp?=
- =?us-ascii?Q?9miqcRTNddPNRTCLXsS/r3k4EkW3TiOE34vfpJwSvkO4p28uWMRORHHvATPC?=
- =?us-ascii?Q?CcyTn9p04/zTNoiXPmLtKZ9KoR9rtfokkznDgy5xoU5fzogUgf057SeZk0dA?=
- =?us-ascii?Q?IbeWaylJG5DB12tF8FanNsJ+AYatxU9rN094ZYuI4nxSXZUDYUwg9QiH3ou8?=
- =?us-ascii?Q?IjceHnMgMEiiBLVQ3znTkzV6kRrx3/F30bgQ2f5QPJl3AO6d3ZX1ccnRiHWG?=
- =?us-ascii?Q?YnB2HCXZRdYwgBOdnSxOgqiUS6KfwTYGsU6ZkVSDr6ThUHGeVA5EFftSHqeH?=
- =?us-ascii?Q?ZlXMbugKU0yMe2wyuz9Q+YvNy+EntmyHjgM+BQxk0pGHf/lUeZTn+HfPaapO?=
- =?us-ascii?Q?30DAi5i1W8WITEuybCmjye+bUiX4g0SfXfpW7pmDw5UYsaEsq8F7fUYfDmOa?=
- =?us-ascii?Q?j16ZGMaBvBFWtUvoTsBy8It2gUU87kqq8G+fXi3jKFJRerVHXYupu6938o2X?=
- =?us-ascii?Q?bMNVOs5VAWZs/6QAaP+T3gnusXKdfapNPs0FdbAPeXXs/7Yeto/VXVsR2y+3?=
- =?us-ascii?Q?ZxMsVC7+j1jN3fjmP9WnTR9cvPkkjqgdfEPU3HasKvBqYg5cAK/mvenSpSQU?=
- =?us-ascii?Q?9od00t6VjNWZ6QlT6ZNyN1L5Gdyw2IWSCH25zXGpNwaIzP65i6iBJMfh+fnI?=
- =?us-ascii?Q?aidcaHVu9ff0Oe1EfzGM9X04mXKLzcMIls8rC961Yc7r3RBmtRIIAC+zo3mD?=
- =?us-ascii?Q?qQAjdZCBRjE4NFvpLaDyJVB+hvrDc7e57NYNrqLhFuCNpGiJgvrKZEmazip2?=
- =?us-ascii?Q?ntJzG/c6nK+sGhh0D3dCyVZd7gnHJINNJwusDmdCYe/+US0G4rmYqQiAiRrV?=
- =?us-ascii?Q?qcBXrLyMqLYI7pjjE8LESRbKN7RXmcvVqYpfI+Brt4v+F0SQinKJdfZoHgg2?=
- =?us-ascii?Q?eLCprHalBsBhIGObA+/DdioN3Zeeu8OZXCZ/nl/zxY/8suJzA0eCyngJ2Q0C?=
- =?us-ascii?Q?hFu3RrNp4QGHtAeknUc2DRijTuaGs8a0ERwFkaoeD+dKW4Uj9XOhZSB4xKmC?=
- =?us-ascii?Q?AF/nZACbuohVzGSKNO7ymSoMe//B36jISTfjcx9LWDCL51Urq2bbYB1z9jws?=
- =?us-ascii?Q?yDwft1KOjyA9X3j8NmQZ/exFnQSqmZFP48wBfEkv777CRPwf+jX2iXdKFgiu?=
- =?us-ascii?Q?9cvDbbfyrvSvwPtqYBpur75DTiPuX8eWaZW1dJShRA2GLKfQknoKrp57T4DI?=
- =?us-ascii?Q?uEq3OQAtbMq8bSxM+//1notuRxlHjTQ5e7YomfVvOB9J8Hjo9lPaOfqakBxT?=
- =?us-ascii?Q?Qlw/O9fqV+2vt3r1YhI0XCeNQyfDeN7cwJmTSkR3vhUVFVlfBs7PDPa6V6KJ?=
- =?us-ascii?Q?nLDT0kobVJzOrHtnUfPzieraeWG+eFFb1VQfKhju3H424Z97xtezROJamsL/?=
- =?us-ascii?Q?9QYjdy6NiDWzMJ8ll1MJ2GWNzcvKp7qTrEv9t84jdkXidx/dhTil+g=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(1800799024)(376014)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?h3Pa4NE5OmdQeKZe/sE/z3qLd9drE5GjnvFslfkcFkAomCwa47nNoWcGM8xn?=
- =?us-ascii?Q?0a0Z2sWOLxVeWFMzNIxSRQ4TekE7WgJkSdfKh6F3cb7YVCcWVD7tNXF7Qvzi?=
- =?us-ascii?Q?s1HNz2eJQNSc1hiY7262nC0T2fhOMQzub7rhDKvI0mb1FizkkmT9fN0E/rgG?=
- =?us-ascii?Q?93OG8eOQmtRd9mcoKLgqIyAwWJic9Nfdw1nzPOQPPu4wGOwlQ8Z4yA013drz?=
- =?us-ascii?Q?t+nlf6O+E802h5tAVOlkuB5HCRALDGhTJdXqB3CDU2yHb7zefhvRYrl1ep7r?=
- =?us-ascii?Q?WFp6tPC42JugewwAyX50p+msXZufqxxzYpfwcgyRwFTUcZvTTb0E53fEnwuT?=
- =?us-ascii?Q?JhjizYAQrHV2iIX19s5NiIZWYxPugwxTg26JOCFW1MQNpIjbka0Jw45SE2z5?=
- =?us-ascii?Q?2ucwXlOxLDToM+wUczgaEahPpMx3sfXIXDtJr14wYc2W27Jvk/r3J2rLXr+R?=
- =?us-ascii?Q?+niOu0k8NMPMrKpgYC7NNFqvLMvJuH/93uy4iW2EsYCU7sSnYZNb5FPr6f2G?=
- =?us-ascii?Q?3r5U49HVDnrXhbNVlNepXpjN4Tk3G879k29wFvImKXGXZ2DewWryEBw8n6SA?=
- =?us-ascii?Q?FYGY9xAY7G0DocNoFU50n76mOW5djfSWONG75/6mBUKyPptxEmWqs6S7t1eW?=
- =?us-ascii?Q?28eb4iu+bAlAfLp5yDbxdr+eX2PUCGAw/vs1AH6HqN7rLwWbh/+ygBF/aiA3?=
- =?us-ascii?Q?RC9+Ao8H61Anr2Df2/Z8CnhJJ0FS7hlEywYy+OfzcnWH3pK31F/0N76TI0j+?=
- =?us-ascii?Q?wyhedsO3cUK0ivGYuaF/VKuH5aIQoGs5gSET+/5u4v9nAJwJ3PEZyfTqK+We?=
- =?us-ascii?Q?2aAopqdJkC0oMwzayDTXjRMKDBStIur7qnFTugfZIrIe9wFZhlIKiiWrZW9K?=
- =?us-ascii?Q?FynFfx3iaVh84yIPfs/PRfq27RZV+ruWGEZaNY05Dv9oM6uOlsyh3/n0OyR5?=
- =?us-ascii?Q?lUZyisAZhgqyPJlSbW61js+U7/yOkHyp/k02Rbzc2HTyM1l4JdyETFCfCb2t?=
- =?us-ascii?Q?ljRA1PLO4PPjtrhj1EULGY+e43D3MuByHYPIZ94LDEOzaVxThP0retBr1mKj?=
- =?us-ascii?Q?maury/FgXl0zxD1x2aEvzlSCQ9os1ebsqUTe3DV3GiO+hW0BLUeScUiFKDzi?=
- =?us-ascii?Q?cgvyOo1gsAbP7LQJBESv05cpFlhP0Z/Oztl03vtQigdJPoNAmO3aGm/BbKuI?=
- =?us-ascii?Q?z8D2WY/kjA7ozUHKvNRXcE9gV0EBcpvqcH011TkCuE01sPkiCGb60yF0XuSC?=
- =?us-ascii?Q?19oiaIX/1cCo3xN4VXY0dyrfK3I6gICVHb0fHoeBBQy3xVMeUT456PQ2sG06?=
- =?us-ascii?Q?sU+tQHofff9W3Zb1eRUeuZYOMY2BuVrdbPFriUR4p1ld/KRSXvllwYeZqhym?=
- =?us-ascii?Q?SQvMZ/zv3K26ZT33nNQCfPVo4M98be/wE/pi3Zu1hC/qvylypvqpmdwcDnWA?=
- =?us-ascii?Q?DdnaOMJmX1HtNbUIbr6VPs6FF/HfrEm1Y4B13WfgBXXePh88/eIMQpT2y/su?=
- =?us-ascii?Q?KYsVFfymobAiRv5ozo6O7qrTELRod8qCdZWbxJG/V4EnP68Cue4ApotLY9SO?=
- =?us-ascii?Q?FiwaMZWaHlqtxKbfSu4LSTkr2Ucjc9NRDBorMyKUw/WIsZrz++J8MxDK2IJC?=
- =?us-ascii?Q?LkRuMI0LmgS4DYpOXfyDdqQ=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f17f7cee-d59f-4436-3fc9-08ddb2dd94eb
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2025 05:11:31.3353
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: y0knuTCetDrQ2yPBtRQ422tmTneQXzCLc9gbMY9/WtHvR5c3hwSXEZkI+MnN6tdWU35mEG2Bq1w0YBTdt/+N+NcTkZUiwKdeBFKXWzj+oKmeGboO/1HW3xiTFjxwrk7U
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYBPR01MB5519
+References: <20250621172056.160855-1-marek.vasut+renesas@mailbox.org>
+ <20250621172056.160855-3-marek.vasut+renesas@mailbox.org> <purpjdp72jw2rok5ihyua635izyih54ufom2knsbaiwdd3jzgk@6wjf364fao2g>
+ <dbec18f0-5df4-4eb8-93ab-da6ccfedf8ab@mailbox.org> <apbocxuzcptlpghphh7nchnwyxpfhmiwosgxrt4y5awsb67ar3@fbskfbulwsma>
+ <033bbb7d-ab00-467e-ab21-877f76d027a2@mailbox.org>
+In-Reply-To: <033bbb7d-ab00-467e-ab21-877f76d027a2@mailbox.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 24 Jun 2025 08:50:33 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXU=dWZYnnvmJMFdJYGRB_VWPTGgn=rLT4xX6BEdgDrNg@mail.gmail.com>
+X-Gm-Features: Ac12FXyvAL7oGYPDEwzEolSUTkN2WV6Bn2A6LFh9dBHlJQ90gV5YB70gnY5u-wQ
+Message-ID: <CAMuHMdXU=dWZYnnvmJMFdJYGRB_VWPTGgn=rLT4xX6BEdgDrNg@mail.gmail.com>
+Subject: Re: [PATCH v4 3/3] pwm: argon-fan-hat: Add Argon40 Fan HAT support
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
+	linux-pwm@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Renesas SoC has chip number / chip name. Some SoC is using chip number,
-and some SoC is using chip name on current Renesas pincontrol Kconfig.
-Let's unify "pin control support for ${CHIP_NUMBER} (${CHIP_NAME}).
+Hi Marek,
 
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
----
- drivers/pinctrl/renesas/Kconfig | 66 ++++++++++++++++-----------------
- 1 file changed, 33 insertions(+), 33 deletions(-)
+On Mon, 23 Jun 2025 at 22:44, Marek Vasut <marek.vasut@mailbox.org> wrote:
+> On 6/23/25 9:53 PM, Uwe Kleine-K=C3=B6nig wrote:
+> > On Mon, Jun 23, 2025 at 07:30:33PM +0200, Marek Vasut wrote:
+> >> On 6/23/25 11:11 AM, Uwe Kleine-K=C3=B6nig wrote:
+> >>> when I replied to v3 this v4 was already on the list which I missed. =
+My
+> >>> concern applies here, too, though.
+> >>>
+> >>> On Sat, Jun 21, 2025 at 07:19:56PM +0200, Marek Vasut wrote:
+> >>>> +static void argon_fan_hat_i2c_shutdown(struct i2c_client *i2c)
+> >>>> +{
+> >>>> +  argon_fan_hat_write(i2c, 100);
+> >>>> +}
+> >>>
+> >>> If you drop this, I'm willing to apply.
+> >>
+> >> Dropping this would make the hardware which uses this device more
+> >> susceptible to thermal damage, e.g. in case it gets stuck during reboo=
+t and
+> >> does not boot Linux afterward. I don't want to risk such thermal damag=
+e.
+> >
+> > We agree here. But the right place to address this is the pwm-fan
+> > driver. A PWM is supposed to do exactly and only what its consumer want=
+s
+> > it to do (in the limits set by hardware). Officially a PWM driver
+> > doesn't know the polarity of a fan, so `argon_fan_hat_write(i2c, 100)`
+> > might fully enable or complete disable the fan. The fan-driver knows th=
+e
+> > polarity. The PWM driver doesn't even know that it controls a fan. And
+> > the next guy takes the argon device and controls a motor with it --- an=
+d
+> > wonders that the vehicle gives full-speed at shutdown.
+>
+> I suspect this cannot happen without non-standard hardware change of
+> this device, see the link which shows what this device is, it is an
+> integrated PWM+fan device:
+>
+> Argon Fan HAT https://argon40.com/products/argon-fan-hat
+>
+> > So I hope we also agree that the pwm-fan driver (or an even more generi=
+c
+> > place if possible that applies to all fan drivers) is the right layer t=
+o
+> > fix this. And note that the pwm-fan driver already has such a decision
+> > implemented, it's just the wrong one from your POV as it disables the
+> > fan at shutdown. For me this is another confirmation that having a
+> > shutdown callback in the PWM driver is wrong. The two affected drivers
+> > shouldn't fight about what is the right policy.
+>
+> I would fully agree with this argument for a generic PWM controller, but
+> this isn't one, this is a combined PWM+fan device.
+>
+> The PWM driver is the last one that is being shut down, it is being shut
+> down after the pwm-fan driver. If the pwm-fan driver fails for whatever
+> reason, the PWM driver -- in this case driver for a combined PWM+fan
+> device -- should make sure that the hardware does not melt. So I would
+> argue that, for this specific device, the shutdown hook here is correct.
+>
+> I would propose to keep the shutdown hook here, and extend the pwm-fan
+> driver to be aligned with the behavior of the shutdown hook here. Does
+> that work for you ?
 
-diff --git a/drivers/pinctrl/renesas/Kconfig b/drivers/pinctrl/renesas/Kconfig
-index 5a30134edd54..b955fe395a65 100644
---- a/drivers/pinctrl/renesas/Kconfig
-+++ b/drivers/pinctrl/renesas/Kconfig
-@@ -87,123 +87,123 @@ config PINCTRL_PFC_EMEV2
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A73A4
--	bool "pin control support for R-Mobile APE6" if COMPILE_TEST
-+	bool "pin control support for R8A73A4 (R-Mobile APE6)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC_GPIO
- 
- config PINCTRL_PFC_R8A7740
--	bool "pin control support for R-Mobile A1" if COMPILE_TEST
-+	bool "pin control support for R8A7740 (R-Mobile A1)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC_GPIO
- 
- config PINCTRL_PFC_R8A7742
--	bool "pin control support for RZ/G1H" if COMPILE_TEST
-+	bool "pin control support for R8A7742 (RZ/G1H)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A7743
--	bool "pin control support for RZ/G1M" if COMPILE_TEST
-+	bool "pin control support for R8A7743 (RZ/G1M)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A7744
--	bool "pin control support for RZ/G1N" if COMPILE_TEST
-+	bool "pin control support for R8A7744 (RZ/G1N)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A7745
--	bool "pin control support for RZ/G1E" if COMPILE_TEST
-+	bool "pin control support for R8A7745 (RZ/G1E)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A77470
--	bool "pin control support for RZ/G1C" if COMPILE_TEST
-+	bool "pin control support for R8A77470 (RZ/G1C)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A774A1
--	bool "pin control support for RZ/G2M" if COMPILE_TEST
-+	bool "pin control support for R8A774A1 (RZ/G2M)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A774B1
--	bool "pin control support for RZ/G2N" if COMPILE_TEST
-+	bool "pin control support for R8A774B1 (RZ/G2N)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A774C0
--	bool "pin control support for RZ/G2E" if COMPILE_TEST
-+	bool "pin control support for R8A774C0 (RZ/G2E)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A774E1
--	bool "pin control support for RZ/G2H" if COMPILE_TEST
-+	bool "pin control support for R8A774E1 (RZ/G2H)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A7778
--	bool "pin control support for R-Car M1A" if COMPILE_TEST
-+	bool "pin control support for R8A7778 (R-Car M1A)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A7779
--	bool "pin control support for R-Car H1" if COMPILE_TEST
-+	bool "pin control support for R8A7779 (R-Car H1)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A7790
--	bool "pin control support for R-Car H2" if COMPILE_TEST
-+	bool "pin control support for R8A7790 (R-Car H2)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A7791
--	bool "pin control support for R-Car M2-W" if COMPILE_TEST
-+	bool "pin control support for R8A7791 (R-Car M2-W)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A7792
--	bool "pin control support for R-Car V2H" if COMPILE_TEST
-+	bool "pin control support for R8A7792 (R-Car V2H)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A7793
--	bool "pin control support for R-Car M2-N" if COMPILE_TEST
-+	bool "pin control support for R8A7793 (R-Car M2-N)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A7794
--	bool "pin control support for R-Car E2" if COMPILE_TEST
-+	bool "pin control support for R8A7794 (R-Car E2)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A77951
--	bool "pin control support for R-Car H3 ES2.0+" if COMPILE_TEST
-+	bool "pin control support for R8A77951 (R-Car H3 ES2.0+)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A77960
--	bool "pin control support for R-Car M3-W" if COMPILE_TEST
-+	bool "pin control support for R8A77960 (R-Car M3-W)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A77961
--	bool "pin control support for R-Car M3-W+" if COMPILE_TEST
-+	bool "pin control support for R8A77961 (R-Car M3-W+)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A77965
--	bool "pin control support for R-Car M3-N" if COMPILE_TEST
-+	bool "pin control support for R8A77965 (R-Car M3-N)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A77970
--	bool "pin control support for R-Car V3M" if COMPILE_TEST
-+	bool "pin control support for R8A77970 (R-Car V3M)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A77980
--	bool "pin control support for R-Car V3H" if COMPILE_TEST
-+	bool "pin control support for R8A77980 (R-Car V3H)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A77990
--	bool "pin control support for R-Car E3" if COMPILE_TEST
-+	bool "pin control support for R8A77990 (R-Car E3)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A77995
--	bool "pin control support for R-Car D3" if COMPILE_TEST
-+	bool "pin control support for R8A77995 (R-Car D3)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A779A0
--	bool "pin control support for R-Car V3U" if COMPILE_TEST
-+	bool "pin control support for R8A779A0 (R-Car V3U)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A779F0
--	bool "pin control support for R-Car S4-8" if COMPILE_TEST
-+	bool "pin control support for R8A779F0 (R-Car S4-8)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A779G0
--	bool "pin control support for R-Car V4H" if COMPILE_TEST
-+	bool "pin control support for R8A779G0 (R-Car V4H)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_R8A779H0
--	bool "pin control support for R-Car V4M" if COMPILE_TEST
-+	bool "pin control support for R8A779H0 (R-Car V4M)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC
- 
- config PINCTRL_PFC_SH7203
-@@ -219,7 +219,7 @@ config PINCTRL_PFC_SH7269
- 	select PINCTRL_SH_FUNC_GPIO
- 
- config PINCTRL_PFC_SH73A0
--	bool "pin control support for SH-Mobile AG5" if COMPILE_TEST
-+	bool "pin control support for SH73A0 (SH-Mobile AG5)" if COMPILE_TEST
- 	select PINCTRL_SH_PFC_GPIO
- 	select REGULATOR
- 
-@@ -232,11 +232,11 @@ config PINCTRL_PFC_SH7722
- 	select PINCTRL_SH_FUNC_GPIO
- 
- config PINCTRL_PFC_SH7723
--	bool "pin control support for SH-Mobile R2" if COMPILE_TEST
-+	bool "pin control support for SH7723 (SH-Mobile R2)" if COMPILE_TEST
- 	select PINCTRL_SH_FUNC_GPIO
- 
- config PINCTRL_PFC_SH7724
--	bool "pin control support for SH-Mobile R2R" if COMPILE_TEST
-+	bool "pin control support for SH7724 (SH-Mobile R2R)" if COMPILE_TEST
- 	select PINCTRL_SH_FUNC_GPIO
- 
- config PINCTRL_PFC_SH7734
--- 
-2.43.0
+Perhaps modelling it as a pwm-driver was not the right thing to do?
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
