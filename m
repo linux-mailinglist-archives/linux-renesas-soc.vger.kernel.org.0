@@ -1,179 +1,192 @@
-Return-Path: <linux-renesas-soc+bounces-18671-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18672-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96C26AE6DC5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jun 2025 19:41:23 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B385AAE6DDE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jun 2025 19:50:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EC88217C144
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jun 2025 17:41:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C6E217AC6DA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jun 2025 17:49:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD28E2E765E;
-	Tue, 24 Jun 2025 17:40:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E53A2D3229;
+	Tue, 24 Jun 2025 17:50:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kgWw30U3"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fDOg14F9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B862E6D25;
-	Tue, 24 Jun 2025 17:40:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16739126C05;
+	Tue, 24 Jun 2025 17:50:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750786844; cv=none; b=bFN2bN9Dn5jX7VTQGVbxB7KHSZJwWVq+Mdwf/2xw9VyR3qKbxkiVJXEcY3f6InCOxbpCyw6uMke9bTyaemoVAbP5sahHe/sA2INy9l10tqtfO+SrYSCUWZVOSCOemDrhGmoQvvkSPHqFNd4v2x9ggWurjYU+WgnBREs4Yl2gKoU=
+	t=1750787434; cv=none; b=d3bWZM31p1D3gAfXq42jC5vTmu730UGwBBeaP2MYs4wlDYicb1pYLvFnqZxlVnfksT8nAxff4T5kvUsFYv3a7X6FRr0dSjIXMRD6yHCzS6BEBNHOSmYVyrz5DnmrSZ/LHqGKa50DXR5JpFyWvrl44h7T5smGPtvJ4WZ+4gvuRHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750786844; c=relaxed/simple;
-	bh=fQzrbePrYxIhqaVEoVCCnBo8eFypKcmkIBYe9dmZyhw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=u/qIFx7beKXM+xYjNMB6uITzjxtDT+RQTF/VKQcMUuICfcS40hdAFylYAC0JECJm6ANaZJWbP+pEMGvIpj4xpE5o3yxgFpvhGbuzd6T7CE9ERDeiUnZqky6Lx8bfxrsPNeygORC4kt+dYb2zPEPHShrUH92q4tpQr40fjlyfuK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kgWw30U3; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-453634d8609so5851175e9.3;
-        Tue, 24 Jun 2025 10:40:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750786840; x=1751391640; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yFpLgdSSuWbM/Fh3sFwagffQ7A+FzIgyJ4W4hLYxV2A=;
-        b=kgWw30U3KWXSPPWBh7Ryng6iJbAAdo4TKyDbxrGFDHyHj1qvhsToHNRtG6vDoWCt7K
-         zSxcNHP4+2X9wULSeI3kcq5lleXL2pw36ZzAd/u0r0ggiITL9EBzoo2fWbh9mVEmLNkE
-         84oY68exoopqhC/GwuVqSqtmSEdWmN4gwo1G+srg5l/lGZcZl9xmvUBnG0Sfi8QQCsYf
-         XEpWkuO2Tcyw+MGpBu/ummqFFmTaD4HoyxMDyPu5mBXimyfi7UG7VKH8w6zQp4oKD4u7
-         CngXFm1b9KJOXdfSYe13EFNv+SAUo8LdAeuW/lXvGsdqNHnvJ37DeL7lRauE5e7XnHU9
-         usGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750786840; x=1751391640;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yFpLgdSSuWbM/Fh3sFwagffQ7A+FzIgyJ4W4hLYxV2A=;
-        b=XPWW8uz71EphmG5mKMDWbBTY0zuEtUrIxEQKSbglhnDr+oCncnv0wYLoKldU23J6jJ
-         N/RjJlDlAXwFXKQXxbi5aX2qz8qR5uL/sCGNBzWpsg0cdoF/+YxVFT6KB72FIeAzc3h9
-         eBLnEjw0kKwiOeKMzJQdTA7nI+699pbgE0f5q+JEYJ5wiYpZS5DPnDTlXLmwPdhWO15M
-         l0ffdarbDK7/M2SQWXdfEJQ+qcAAFKY7ch6wbShSqC2P3wAoc9Pj+8WRW5+oi8oRQFcC
-         VbLpKE/PE/ZNSOkQjRLBII28h4PrZE06RDyshD44duX4Ar9l2ZvXNfQ2lVkM7DObf/Dz
-         JETg==
-X-Forwarded-Encrypted: i=1; AJvYcCVhBbPozQA9tR5HIsZhkSqs9T/Zli/8Ev/1HsAwofbIbSFNNPwgsK852s3WYfkhN8PeViStemCNFEnO@vger.kernel.org, AJvYcCX1+zQw/SGoWATKpe5UM7psccZq9COgk9/gRLbc/LoNhyRRptWULmjJknszEU3ubHmRSFi+xBLU8k3iFy7G@vger.kernel.org
-X-Gm-Message-State: AOJu0YwtowWNoKhEfHEec2sIRkAGsBC6hBHLMCcQh6Y4062g0F/IxvTb
-	yFR0fmsNHDcvcpPDBcj/70nkBnF0gEY2zdyPkFb7fd1DJka1IY6eolek/v3nl/5P
-X-Gm-Gg: ASbGncu9+JyyKidZZ/Bk9uUnLdAvrk7dJzx2k3IsV7rbKmm334wk2FHnWjWuIlspXvA
-	aKyWMREhBzJFf2g6VgHML8Or+1JxOjoeA/E/O6HnjBCGIil96RcjlE2HBWfzGcdQpqWGnSokH2U
-	XmyFaLk5H5jWo2Prvtc8SHC8rV5FLOExMBLtKsZE1VgIDCc0xK8l13L9QbmvPnnVkWPYjdlDp66
-	t5lBvxEQmjVocDbf8mGDLUsX7DKglGfvVCaczVIWIWn7yt54wRlia/sBj0/ES7BwVWGhqSckJEb
-	r4GQafQ+/KokN7xe9s1LgHHTMehG9886bh2CHfgz26z9tTt7Xephytb/pma6owswAw6ve1cQ/IW
-	iI6k/gDQrEc5SfmpXqWUmVpnccIi4f/s=
-X-Google-Smtp-Source: AGHT+IEVL67P7XwnvBMlu06MJ0roiWKvVGQR2VixgMEAacbZGjv8U8Xgvd360NNO5BtpHSEmzXC4fA==
-X-Received: by 2002:a05:600c:3496:b0:442:f4a3:b5f2 with SMTP id 5b1f17b1804b1-453815363d7mr4376015e9.6.1750786839055;
-        Tue, 24 Jun 2025 10:40:39 -0700 (PDT)
-Received: from iku.example.org ([2a06:5906:61b:2d00:a522:16f6:ec97:d332])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-453646cb692sm149812735e9.2.2025.06.24.10.40.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jun 2025 10:40:38 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 4/4] arm64: dts: renesas: r9a09g057h44-rzv2h-evk: Enable serial NOR FLASH
-Date: Tue, 24 Jun 2025 18:40:33 +0100
-Message-ID: <20250624174033.475401-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250624174033.475401-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20250624174033.475401-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1750787434; c=relaxed/simple;
+	bh=VgySgcofLjIDheyi2Z4dzO4qQUPe78x+evJivduU/EE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YSyCvqLofF1Mom4EUv0gfijiZ1crFfeeVLYuNzJ4r8dqVVZGFlyGPyMktcdu6pdMhpe7pyszAuGFeIxdTzMgBQ+u/SHsdeakzYDuj5unlAP/Uxitq4KgOkI5YTMYfUyHoY4T19rC5D2sk4An3O/s4yYpeVJO6+On+GpmqiDlVPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fDOg14F9; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 154E5C72;
+	Tue, 24 Jun 2025 19:50:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1750787412;
+	bh=VgySgcofLjIDheyi2Z4dzO4qQUPe78x+evJivduU/EE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=fDOg14F9mP4NKm6nCL69WNdV8xyRbpVdZ76JN7gCNZU0BkwDPwKhgvqeiL4edYkAA
+	 mHwYwDrDpVOyCtWqLhqdB/ShVWoi12HgFC+kfqJvbTV2BKiR8Md50L1RNezXV87Ct1
+	 I9nLRiC8h9Rxa4V9+TrHcNN3vWBi7Q5UUYKQ/IHM=
+Message-ID: <a8f7c179-e266-448d-8e3b-9382cfd179c8@ideasonboard.com>
+Date: Tue, 24 Jun 2025 18:50:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] dt-bindings: media: Add bindings for the RZ/V2H
+ IVC block
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, jacopo.mondi@ideasonboard.com,
+ biju.das.jz@bp.renesas.com
+References: <20250624-ivc-v2-0-e4ecdddb0a96@ideasonboard.com>
+ <20250624-ivc-v2-1-e4ecdddb0a96@ideasonboard.com>
+ <cfc25ba6-753e-41bd-8cb6-f31ba57593a8@kernel.org>
+ <c2ab887c-398d-49c4-9ae6-1d0986c32781@ideasonboard.com>
+ <CAMuHMdV-aAyZWU1KMRdQ_F3+LXWGf=6Ci7uEmVe5jdn-O4ZG2A@mail.gmail.com>
+Content-Language: en-US
+From: Dan Scally <dan.scally@ideasonboard.com>
+Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <CAMuHMdV-aAyZWU1KMRdQ_F3+LXWGf=6Ci7uEmVe5jdn-O4ZG2A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi Geert
 
-Enable MT25QU512ABB8E12 FLASH connected to XSPI.
+On 24/06/2025 17:45, Geert Uytterhoeven wrote:
+> Hi Dan,
+>
+> On Tue, 24 Jun 2025 at 16:17, Dan Scally <dan.scally@ideasonboard.com> wrote:
+>> On 24/06/2025 14:16, Krzysztof Kozlowski wrote:
+>>> On 24/06/2025 14:35, Daniel Scally wrote:
+>>>> The RZ/V2H SoC has a block called the Input Video Control block which
+>>>> feeds image data into the Image Signal Processor. Add dt bindings to
+>>>> describe the IVC.
+>>>>
+>>>> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+>>>> ---
+>>>> Changes in v2:
+>>>>
+>>>>       - compatible matches filename
+>>> This is not what I asked.
+>> Ah, you meant the other way round. Ok.
+>>
+>>>>       - Added power-domains
+>>>>       - Aligned clock and reset entries on opening "<"
+>>>>       - Removed status = "okay"; from example
+>>>> ---
+>>>>    .../bindings/media/renesas,rzv2h-ivc.yaml          | 103 +++++++++++++++++++++
+>>>>    1 file changed, 103 insertions(+)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/media/renesas,rzv2h-ivc.yaml b/Documentation/devicetree/bindings/media/renesas,rzv2h-ivc.yaml
+>>>> new file mode 100644
+>>>> index 0000000000000000000000000000000000000000..ee0849eeeaba840cf43c81d69449c631ad1c6a6a
+>>>> --- /dev/null
+>>>> +++ b/Documentation/devicetree/bindings/media/renesas,rzv2h-ivc.yaml
+>>>> @@ -0,0 +1,103 @@
+>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>>> +%YAML 1.2
+>>>> +---
+>>>> +$id: http://devicetree.org/schemas/media/renesas,rzv2h-ivc.yaml#
+>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>> +
+>>>> +title: Renesas RZ/V2H Input Video Control Block
+>>>> +
+>>>> +maintainers:
+>>>> +  - Daniel Scally <dan.scally@ideasonboard.com>
+>>>> +
+>>>> +description:
+>>>> +  The IVC block is a module that takes video frames from memory and feeds them
+>>>> +  to the Image Signal Processor for processing.
+>>>> +
+>>>> +properties:
+>>>> +  compatible:
+>>>> +    const: renesas,rzv2h-ivc
+>>> No, you cannot use generic compatibles. See writing bindings (or
+>>> basically every review from DT maintainers).
+>>
+>> OK...to throw a spanner into this, I think there's actually two soc codes with the IP; r9a09g057h44
+>> and r9a09g057h48. renesas,rzg2l-cru.yaml and renesas,rzg2l-csi2.yaml seem to use the 'generic' code
+>> in a way that suggests this:
+> Do you need to distinguish between r9a09g057h44 and r9a09g057h48 for
+> the IVC block? Isn't renesas,r9a09g057-ivc good enough?
+>
+> https://elixir.bootlin.com/linux/v6.15.3/source/Documentation/devicetree/bindings/soc/renesas/renesas.yaml#L554
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- .../dts/renesas/r9a09g057h44-rzv2h-evk.dts    | 48 +++++++++++++++++++
- 1 file changed, 48 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dts b/arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dts
-index f9a0e9aefe7a..1af03cb143ba 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dts
-@@ -371,6 +371,18 @@ vbus {
- 			pinmux = <RZV2H_PORT_PINMUX(6, 6, 14)>; /* VBUS */
- 		};
- 	};
-+
-+	xspi_pins: xspi0 {
-+		ctrl {
-+			pins = "XSPI0_RESET0N", "XSPI0_CS0N", "XSPI0_CKP";
-+			output-enable;
-+		};
-+
-+		io {
-+			pins = "XSPI0_IO0", "XSPI0_IO1", "XSPI0_IO2", "XSPI0_IO3";
-+			renesas,output-impedance = <3>;
-+		};
-+	};
- };
- 
- &qextal_clk {
-@@ -425,3 +437,39 @@ &usb2_phy1 {
- &wdt1 {
- 	status = "okay";
- };
-+
-+&xspi {
-+	pinctrl-0 = <&xspi_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+
-+	flash@0 {
-+		compatible = "jedec,spi-nor";
-+		reg = <0>;
-+		vcc-supply = <&reg_1p8v>;
-+		m25p,fast-read;
-+		spi-tx-bus-width = <4>;
-+		spi-rx-bus-width = <4>;
-+
-+		partitions {
-+			compatible = "fixed-partitions";
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+
-+			partition@0 {
-+				label = "bl2";
-+				reg = <0x00000000 0x00060000>;
-+			};
-+
-+			partition@60000 {
-+				label = "fip";
-+				reg = <0x00060000 0x1fa0000>;
-+			};
-+
-+			partition@2000000 {
-+				label = "user";
-+				reg = <0x2000000 0x2000000>;
-+			};
-+		};
-+	};
-+};
--- 
-2.49.0
+It's good enough to be able to inform the kernel how to run the hardware sure - if that's specific 
+enough then I'll stick to that.
 
+
+Thanks
+
+Dan
+
+>
+> Gr{oetje,eeting}s,
+>
+>                          Geert
+>
 
