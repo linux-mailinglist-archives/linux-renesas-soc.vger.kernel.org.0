@@ -1,166 +1,139 @@
-Return-Path: <linux-renesas-soc+bounces-18658-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18659-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F32E8AE6CCB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jun 2025 18:48:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 640D8AE6D61
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jun 2025 19:16:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5DEDB3B38FB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jun 2025 16:46:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 42B903B9A9A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jun 2025 17:15:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABD772E7F02;
-	Tue, 24 Jun 2025 16:45:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4FDF22DA06;
+	Tue, 24 Jun 2025 17:16:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QSG828Xw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961122E7632;
-	Tue, 24 Jun 2025 16:45:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 207B81A8F60;
+	Tue, 24 Jun 2025 17:16:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750783558; cv=none; b=Ib+Zy+mss8kJysoFZirX7ISmtW2m3shgM/ETntG4/iKuUcR6/2utWEnet8yglUehEW02wl4Ck3OuT7Mssy0vs4tZzVUXceXpWMuTB7omH6Hz6dUeheahiK4/6oKKcn/zkpY1Tmgh6hTvapxcKaD9q0rv74xOSXJiQePfYVPRgjA=
+	t=1750785373; cv=none; b=kwksxmBWHqFwUe08yG8a1Wf7ZdwcR0ZDT7wcrX1EtCY5yOOFpdtkRPfwzKo/y2hnAZq9q8SU8EEew6nrhRwOmpvjYKP+L0i7kz57nVuGnECXygKVW+xcNdMcgcv1WWYQ3eYZbKpApzsA/wuR21R3ijzgxRiYE7ygiwYjBsxuZhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750783558; c=relaxed/simple;
-	bh=QrbtW5TGMUVnqvrKoBCUYz/oCNP1PdFA9txT+OYVSd4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=L2D1t8keWucfuCUM+Bhx/BisHczUSpgtT+XPZtGks5yr5/u46MHLIB2HOslA5aQbwN0eGNm3+DVZOjJuQGOYeaxQMEqZSZ9Os8T1ECaOYqQGTAv6E/KpL5WBHehcSj1pECTCgcBybK81/t3tAQIVcasBsalHwNAJA8IC0zjU3oc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1750785373; c=relaxed/simple;
+	bh=QZ1TcpdPgIFJyAZanFzW8cm4WLnFoJuVELAiMeyoopQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HEN7hcyH92PjFUIOmwRuDXIyhi/1zy8bE4tUn7KSm4nWZbIU6ijDJShVpXkBr8k0ICG5RZrObWfb/7jFqQHQSet/RYk0Usu4SbJtufe3QhraeZIeubjfZtPitbjU7ZZKuXTmQ1d1q+5PxwDNlz7W7Znr+bxWklkwdo06ugcmGjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QSG828Xw; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-5316a5e4c6cso187616e0c.1;
-        Tue, 24 Jun 2025 09:45:55 -0700 (PDT)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4537deebb01so5851675e9.0;
+        Tue, 24 Jun 2025 10:16:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750785369; x=1751390169; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HsR7NJDAwXIG1UDTQq7wzW72HQmPr4b4eMr+oAxOFl0=;
+        b=QSG828XwlltrUThQkxgoHzX8Vk4Pa4pHX5/ETXNA0bGBc/YVh+eBEwWpLlguxu6jHD
+         QxN8BGttYG2iLF9KdNyjbCw25LKTjm2T6paBKXRq2C/g9uqyg0Z3AQS4pixr+wklZmjO
+         bmaL35wXHj9qrdtWEeKtyUEOMKqRwm2/ihkkqK7URZrJO3UHdmsuLUuF/olibNQaoAGu
+         FuaYYnlR0QR1ghQ1EAPCN5NNGUG6o7F3B2wIJ5s97kcxLSnmbehhfPxz5p4wJbGOFTcP
+         noWSVnaXrPROQsmUWkNW1S0d8P/ODAnhsBSoze2umGYzFrdbru3XZJTcP/+381wU1Npb
+         p+uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750783554; x=1751388354;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1750785369; x=1751390169;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=E/7SYfxrw1wRG0i1u99YXPQjyYLvHC1mIoHvaxvkaig=;
-        b=YPFaKTd0r8wU+NmbBrcJOKDGkb6IB/WzEbCE+/TLkkanOXm8KwEc5n1RHtG2mPXvPm
-         UXy9njQI2QtZ5FIuSL4Q7rMkFl2Rld57nZRc83tWejW/DpogBnsoK3yQl1W7BCwrzTFz
-         Hv6WtvoUN+zVzTUMIwwblcM0C4qrQdjB2VG+ysUhrfHc0f+WQboqr/6Itc89VRliHOud
-         IE18Tlvd1aA0wc5TUC/xPtmkfTQ75aZ5X6/Dyzfn/0CC2m34axLTq/6LduWYHLG9QdEd
-         jh0LAziLa7Cu5KRcsq3ok5wOlRxy1+Gu9QVB8DtzWSc+tFus5nT6r2skxLUJk3Y1q8UI
-         nOPg==
-X-Forwarded-Encrypted: i=1; AJvYcCVNphc+JTweYtukWwPLbLnfh1P6DHs7dcr1J+LZ4RRapk8mXiFywuKlcyRQeiJzAS1AmIKk+HUVMJ53@vger.kernel.org, AJvYcCWqArDo6/nKI8htNhbADRox6EA0nd+Fy/iJ90O+4BXmwqb1yy4TsJwAVpSngw2Nj2Z7fDsiyEEIySRTxxz5UvX5WqQ=@vger.kernel.org, AJvYcCWw8Fu79MI4u7CvkbMODMcFhITVXqLs9nuK1jWcVwDdTGYByZPSdY9JA5q29TGS20myl3XDtfUl1IdSEuo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLAaHAaN163/N1UGHvN6z4FypToUlZUxeIneWDEJ/hA3t7v9O8
-	7T7yDkxzUUFXAnbGXFUHquhiXht9rhiuEC8HL9kTnTKIhPWM1e19bMgXM9K8cWC/
-X-Gm-Gg: ASbGncvHo+lQ8Cx37KkV5oKI6neogmdxLoXTVJ6ltCcXBXEBhE3ypYpq/2S6rMTdfTG
-	wqx+WZYlvI1/2/TRhblssDdk+dMommFqxOKC9uON0pbBAwh4RjWBxGhst4WE2YuuJBzx0aMZrW+
-	4jCOVoww936IenKNVaTW9B+d80F32ud90iTo2eyQbOyEbKJME1P+1htSFWu7bnXg2IK9PHKPysp
-	fhWY5vTmTRmr+77Ve+toIci5s/pc5nXc54iwFFL1uTUft53EKH4xlHL+3RrmaMTVBArcoSX97FC
-	L3zW2vVfqvedscCckDoktLgTsHU35IJymaA30cniTjqtcqemgbSChUlVDh2m2JYL3hLbQlOOaIt
-	8VQnBLrKOlUEH7/wSN0ww6glB
-X-Google-Smtp-Source: AGHT+IEOeSyc83XdKOEPETowTpod2U65ZAsN4ATARVRD5El7FjoJRyHs/spVQURmBrJuC8W1lmT/Hg==
-X-Received: by 2002:a05:6122:2a46:b0:530:6e61:d1e1 with SMTP id 71dfb90a1353d-531ad5ac01emr10713904e0c.4.1750783553525;
-        Tue, 24 Jun 2025 09:45:53 -0700 (PDT)
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com. [209.85.222.42])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-531bf2a470csm1066957e0c.11.2025.06.24.09.45.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Jun 2025 09:45:53 -0700 (PDT)
-Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-87f0efa51c0so217260241.1;
-        Tue, 24 Jun 2025 09:45:53 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV9NITVyqc4IJcsZ2karV37JgGlyIHqXDlbvwC7Tc/ezVtmRyLs+DsFo1kW4U5+/3e2EPN4VQvXO9qd0K0=@vger.kernel.org, AJvYcCVzLE3rbyHk5p6BXgLMFPkhT2Lf8lU5dQlG7Q6T0BsblkfV92fkz4m4vwWmVxcu5OsOPj1s7N7TvXeY@vger.kernel.org, AJvYcCW/+O7jFZcYxqsIwX4GP7Vyu45d4duU25WjwyA04DCloD7CxZRRgezKKHLj71Eaa2Hdb3aqBN4tHKneMLPWL6kb4lw=@vger.kernel.org
-X-Received: by 2002:a05:6102:26d3:b0:4e4:5ed0:19b2 with SMTP id
- ada2fe7eead31-4e9c2ccd513mr10695969137.9.1750783552778; Tue, 24 Jun 2025
- 09:45:52 -0700 (PDT)
+        bh=HsR7NJDAwXIG1UDTQq7wzW72HQmPr4b4eMr+oAxOFl0=;
+        b=r5gYg0nqOI0jV3PZvxhxspQHlJGrmouyuDkjEFaq/j9Jd9beIj/BcG2w2jD4fgOWgn
+         MbOEsMsduJx1nTiZ7zbW59tFZsq59RhusieQN06zwvDfPnkcWCVbBOVUIbb6DPVbTso8
+         3a51j5OErQLFOkVxi28jzASo+THPpxBMmqmcn3/c7DCosR9JyHyEB9un77qqWajXkUH1
+         pD/6caucxmNwkE1XgXRKd1JyetfrsEEhwOtvYg0uDglxxEo6bPQX6k/35d1Kwj4UuJmC
+         WT65MOmfXAcTueM8xr7iGFsfTiQMa1pGstVsdUBvv7E1v0atXuCS+6EGPADao8Ss+cKK
+         y4Ow==
+X-Forwarded-Encrypted: i=1; AJvYcCUTu2LSAzZHAfsWrIgH6yvqbJVSk+8V3DqrGJykOOYtRLnxLHXBJPxH/nkHEEUMyXJjX32Ml7LKsjHZ@vger.kernel.org, AJvYcCX/HWOyXqlhAfv7XfsL1OfBLn0VvPSXvO9CYomt7yfjiaKdYXh4/skGKGjNs9VO9bTeq1A7jwz+7op/5zFGDF+YIKI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpT78spLNtpJ0+wCHnSUsONJKlEt0urSdvGqeBniSEMu/ldkPm
+	R67k9Br6huUjBmEE1pJI/HsQxRHWi1PuwT8bnvVJFUXJt0QY6ZKwq1Nu
+X-Gm-Gg: ASbGnctvA84PsCZxQNi3cdvz5lY5zABaMwc3E4u6/AhHtzNc+MMy7L96I5vPlZpuWrq
+	/zsOFYGuZ+MDubiKy8TmLl0RcgwFTgyXrkwK/dq1rTCcJSmO52UOmPB3zOxVFAx1ow57MHGKjZt
+	ct16G8m87/bdh65XSeezojgF9SFDj1ntcHTGGCxelscfHAINhG/DS4A/a7tDm1buFnuLaqNPRLt
+	s4lTJOx6AN2FH+JbkeB1n6f2OnusUfA2rJNTjv42IL1eAkXWX0bgEl7EyBcY7pfnmbjaZufpM3G
+	/kTbPJfdCsXw6E+Js15x2lLmINS8JMPeUTakac5AhpkNt8MziAgIFda9aPsuTA4AWHIdLXY2NM8
+	KU3vXw3o0EJHGiJM7alKX
+X-Google-Smtp-Source: AGHT+IHi7nu6IpK9dIOlmVZ06kuGDTr8M6EYbD6JoMTVVj3VsN5JutQswHRnFATRwnDZUrHT3lbbBA==
+X-Received: by 2002:a05:600c:1c88:b0:43d:82c:2b11 with SMTP id 5b1f17b1804b1-4537e8dd620mr27161145e9.23.1750785369071;
+        Tue, 24 Jun 2025 10:16:09 -0700 (PDT)
+Received: from iku.example.org ([2a06:5906:61b:2d00:a522:16f6:ec97:d332])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a6e80f2a4csm2433515f8f.65.2025.06.24.10.16.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Jun 2025 10:16:08 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>
+Cc: linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] dt-bindings: memory: renesas,rzg3e-xspi: Document RZ/V2H(P) and RZ/V2N support
+Date: Tue, 24 Jun 2025 18:16:05 +0100
+Message-ID: <20250624171605.469724-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250624-ivc-v2-0-e4ecdddb0a96@ideasonboard.com>
- <20250624-ivc-v2-1-e4ecdddb0a96@ideasonboard.com> <cfc25ba6-753e-41bd-8cb6-f31ba57593a8@kernel.org>
- <c2ab887c-398d-49c4-9ae6-1d0986c32781@ideasonboard.com>
-In-Reply-To: <c2ab887c-398d-49c4-9ae6-1d0986c32781@ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 24 Jun 2025 18:45:41 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV-aAyZWU1KMRdQ_F3+LXWGf=6Ci7uEmVe5jdn-O4ZG2A@mail.gmail.com>
-X-Gm-Features: Ac12FXwg0Lj2SBGd1rPpVV21mDq5qin3im7qmwhylZZSNh7Ek6TdUIFwJQ3EcKc
-Message-ID: <CAMuHMdV-aAyZWU1KMRdQ_F3+LXWGf=6Ci7uEmVe5jdn-O4ZG2A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: media: Add bindings for the RZ/V2H
- IVC block
-To: Dan Scally <dan.scally@ideasonboard.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, linux-media@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	jacopo.mondi@ideasonboard.com, biju.das.jz@bp.renesas.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Dan,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Tue, 24 Jun 2025 at 16:17, Dan Scally <dan.scally@ideasonboard.com> wrote:
-> On 24/06/2025 14:16, Krzysztof Kozlowski wrote:
-> > On 24/06/2025 14:35, Daniel Scally wrote:
-> >> The RZ/V2H SoC has a block called the Input Video Control block which
-> >> feeds image data into the Image Signal Processor. Add dt bindings to
-> >> describe the IVC.
-> >>
-> >> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
-> >> ---
-> >> Changes in v2:
-> >>
-> >>      - compatible matches filename
-> > This is not what I asked.
->
-> Ah, you meant the other way round. Ok.
->
-> >
-> >>      - Added power-domains
-> >>      - Aligned clock and reset entries on opening "<"
-> >>      - Removed status = "okay"; from example
-> >> ---
-> >>   .../bindings/media/renesas,rzv2h-ivc.yaml          | 103 +++++++++++++++++++++
-> >>   1 file changed, 103 insertions(+)
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/media/renesas,rzv2h-ivc.yaml b/Documentation/devicetree/bindings/media/renesas,rzv2h-ivc.yaml
-> >> new file mode 100644
-> >> index 0000000000000000000000000000000000000000..ee0849eeeaba840cf43c81d69449c631ad1c6a6a
-> >> --- /dev/null
-> >> +++ b/Documentation/devicetree/bindings/media/renesas,rzv2h-ivc.yaml
-> >> @@ -0,0 +1,103 @@
-> >> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> >> +%YAML 1.2
-> >> +---
-> >> +$id: http://devicetree.org/schemas/media/renesas,rzv2h-ivc.yaml#
-> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >> +
-> >> +title: Renesas RZ/V2H Input Video Control Block
-> >> +
-> >> +maintainers:
-> >> +  - Daniel Scally <dan.scally@ideasonboard.com>
-> >> +
-> >> +description:
-> >> +  The IVC block is a module that takes video frames from memory and feeds them
-> >> +  to the Image Signal Processor for processing.
-> >> +
-> >> +properties:
-> >> +  compatible:
-> >> +    const: renesas,rzv2h-ivc
-> > No, you cannot use generic compatibles. See writing bindings (or
-> > basically every review from DT maintainers).
->
->
-> OK...to throw a spanner into this, I think there's actually two soc codes with the IP; r9a09g057h44
-> and r9a09g057h48. renesas,rzg2l-cru.yaml and renesas,rzg2l-csi2.yaml seem to use the 'generic' code
-> in a way that suggests this:
+Document support for the Expanded Serial Peripheral Interface (xSPI)
+controller found on the Renesas RZ/V2H(P) (R9A09G057) and RZ/V2N
+(R9A09G056) SoCs.
 
-Do you need to distinguish between r9a09g057h44 and r9a09g057h48 for
-the IVC block? Isn't renesas,r9a09g057-ivc good enough?
+The xSPI hardware block on these SoCs is functionally identical to the
+one on the RZ/G3E (R9A09G047) SoC. Therefore, the existing driver can be
+reused without modification by using `renesas,r9a09g047-xspi` as a
+fallback compatible.
 
-https://elixir.bootlin.com/linux/v6.15.3/source/Documentation/devicetree/bindings/soc/renesas/renesas.yaml#L554
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ .../bindings/memory-controllers/renesas,rzg3e-xspi.yaml  | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/Documentation/devicetree/bindings/memory-controllers/renesas,rzg3e-xspi.yaml b/Documentation/devicetree/bindings/memory-controllers/renesas,rzg3e-xspi.yaml
+index 2bfe63ec62dc..7a84f5bb7284 100644
+--- a/Documentation/devicetree/bindings/memory-controllers/renesas,rzg3e-xspi.yaml
++++ b/Documentation/devicetree/bindings/memory-controllers/renesas,rzg3e-xspi.yaml
+@@ -23,7 +23,14 @@ allOf:
+ 
+ properties:
+   compatible:
+-    const: renesas,r9a09g047-xspi  # RZ/G3E
++    oneOf:
++      - const: renesas,r9a09g047-xspi  # RZ/G3E
++
++      - items:
++          - enum:
++              - renesas,r9a09g056-xspi  # RZ/V2N
++              - renesas,r9a09g057-xspi  # RZ/V2H(P)
++          - const: renesas,r9a09g047-xspi
+ 
+   reg:
+     items:
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.49.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
