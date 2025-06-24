@@ -1,78 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-18664-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18665-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4917AAE6D8E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jun 2025 19:31:26 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65DFFAE6D92
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jun 2025 19:31:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8ABA41BC61F5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jun 2025 17:31:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BD6D617F1AC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jun 2025 17:31:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 409272E765D;
-	Tue, 24 Jun 2025 17:30:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A1DE2E7F2F;
+	Tue, 24 Jun 2025 17:30:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WKJlM+WG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T48Z5IEc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0252E6D21;
-	Tue, 24 Jun 2025 17:30:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C962E762C;
+	Tue, 24 Jun 2025 17:30:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750786242; cv=none; b=gh2Whkw6eChxy4yXusSwFXJKVXv2s07B8tzoBlZB0jHtkmypaM+En8tdRz3qDs8QhhC4B7bJt6xSinO32R+XWfJJQiZ/blb8IAWySKPjCYgmVAJTWLxIhvhPFXJLb0lvdyAiaAoeEHljfTfYJKWdk2R547YOBQlV4I9c9NJAAcs=
+	t=1750786243; cv=none; b=Wo5HMHPfl2o1ZRus4q8Fj+eMMjvqOiM3t9yDccgIFHPCQeRHJk1921ZYkiam4YHQT+xgGK+Q02c8oMTka2q06EQLTLPGX7DlnbEJ8Y9D56TooRPBBWVRgh8n+fEUnTffQjEjPXnIlAv+/o3EfAHdgBzpRN+Fx+72ajFY4H2YNRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750786242; c=relaxed/simple;
-	bh=UEBUHE/DGAWtL9IV45PYPMN/r9yDe3zXWs2F8mUIL/g=;
+	s=arc-20240116; t=1750786243; c=relaxed/simple;
+	bh=pauJs4BU7uWbM9MMX8vR+VYB5wfokBF6mkOLCILpzdk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cWwygn2MMEEhhp1M+dae1LFKYhJ3QvbyXCvRRIQ8kGAjOERcQhNAOBRs89Tb6k0fBLGLHk5uYs8UiAs5tLgo1KeqpFxj0mJl3yVCFasYuhu3hzTCfwcxIlegmKSI+kL7WORzgPJ/7jX+rDu8U4Z78pbmODDvY61w2uhCtJOF7IE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WKJlM+WG; arc=none smtp.client-ip=209.85.128.51
+	 MIME-Version; b=NuGdMeofgkTsQ5wrQXbxOVkH0oWsURZZQTlutL/0dfjeGqx5RsVgjrG4dPYJQ3qeanbCrxs7KzXMH2i5jbxhL6pRn/AaDqnd7XLdrDSLwnmLd2RwaT50MVce6gPREBueW9O8DKVU4XKwRoAuThxerfjzOg3akXfuGIqUz5V5/FU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T48Z5IEc; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4535fbe0299so31510315e9.3;
-        Tue, 24 Jun 2025 10:30:39 -0700 (PDT)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3a525eee2e3so586565f8f.2;
+        Tue, 24 Jun 2025 10:30:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750786238; x=1751391038; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1750786240; x=1751391040; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Q6NKGC362pA3i/BAGWUyJ6Alui9mWvc3wem6CesrlFQ=;
-        b=WKJlM+WGOFcsApt9o9jbTj3uOTA+5tV5UFUreFrYAnHscmCTe4k6Fgszxlug+TEBYk
-         DlP8VO6lfqsR1zUcAZ4MVdVrzqejaBrGqSYXuVCFIAoxKEN/e/FXhRUfXDT+GFklSg9O
-         xLaM9tYiun8KYqkOcvYyhunKjiVzk2aP9Ig86R0grluF98GUcYP4GyiwwPMVdmwM80s+
-         HW/GHw5ozjSP6YZydKhok1HILxCdooJ2ToDXaQJ07KO6kZyQORcQ5M51YpSaql6/N8Vk
-         4a1Stz+woYgo6+FFStsJcEWzAdUz+2OkzthD+o2T1jVOooifhhs8N2yIqAcSt4ncu6+1
-         Da1A==
+        bh=FwhSlWerG+8T4+prUat9IsNl8NdxT3TFxF7x4Oqs4qM=;
+        b=T48Z5IEcqicB3AYjOWAerTA2wh2QwhZ44CKZGLkM/ATRltU5NYAejmJZ/1VsjsMR3S
+         syXzLnTN+loD4yq0h0eOGPWscmHt72grcb5TR5W33/5ejBhWk/9MhstFaHz/qEn8LZWu
+         N+kjW1eItC1azKAMMGstQCdShGNG25BzlHQjOiCD2IyyHK1IayBDf05nR2+/360p6Tat
+         9l5ef5/VUGRT7z7H2FQUJ7exd00t78i0yLlhcavXGe1n34BSkpeC6gG0R3/XGsiRiX7Q
+         8U32tv4Ul+vAP9LJrGJ/as1jZRye0fJeJF7sqYPNMwakEJnTBShIOEPXK2Hoc6PaXNI0
+         MTDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750786238; x=1751391038;
+        d=1e100.net; s=20230601; t=1750786240; x=1751391040;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Q6NKGC362pA3i/BAGWUyJ6Alui9mWvc3wem6CesrlFQ=;
-        b=nFjVyGkRQJo9uWg1pVZb4ca8TJ0ObuggBKueLTt6+D/gWKc0lSxgx+2YAkMSu2NPUN
-         bVkOmDUf3jTDoFTIsdSR2J7f5HIwlRpobJJ/FIjw0E5vcZJ2av4rtALOc07j4wvhbPKp
-         ueeY1muuInkntK+X2XYlpA+aY5umTvCzNMLpwPV0falLJlc7NwKsAp6qurJARSSIRuS4
-         ojmxoLALeF858kGfugzU02xU7k+5hg32cAhNnwDdsrsgArD8cVYmWI910UVnXk3UeZ1o
-         0OCTipjorzQ6L583runB3U48yrtTSIhYnY+yp4t7E8p5CnPhoPk7ElRaP9VzTh9678WF
-         pfwg==
-X-Forwarded-Encrypted: i=1; AJvYcCW4IxaXs7IRbz0vUea1Zf11Ln3CY25+GkDCG4yLSSpoddulMQAXolX1aZHTbNohRStQqNpFRsQIPK82biIi@vger.kernel.org, AJvYcCWZ2Tl8Cy/0RK/5oUAgyOBlXascC8qQPV1r0x1efPzZliZpIRgOYsBwffqLX13IDJOjY/I0Jqk/1EAu@vger.kernel.org, AJvYcCXtI9FpsYywxssLRtTrxx0y8RKzKH+cig4qn4uO31okAkh7QyKrJ2Ygk60uLicHDrPYofiZ6p6dZqf7@vger.kernel.org
-X-Gm-Message-State: AOJu0YzF8Dwt5jKvxCie802oU56c2QbcARHCR43jU7pUUMGUXJoYK8yS
-	HcquAw1fHE84Woar8YbAZojPAuvGbroa/kcFgRJV7uptomdR6WGoGmsL
-X-Gm-Gg: ASbGncuqu3jLtV6PqStJhFpPEyDsXP6pNbgjkGqoHG3QxC6970yTmBGffMVEpLOYa24
-	AsVCtZyBV8wCAJRIISH3tHVanXfK45FEbcdmvHlID7jmA5n/97Egfrip1v7Al5OcDnU5tZxNxH3
-	PMloXB7x2k6MSi3vjNCNslhIzgB995W7owNCPWynbo7nRMtsVlqOMr10dg4kY5RU9LcnVUBLgHe
-	r+ppgWCMQyw2b+BlhpEvJWFxrb0WeJl77y6MCivRWnkyb18b086sdtyrjCPyPbAZ+3RrJqljk5X
-	2K4cXEOE8KJG2jSHUyM/xRv6idpqxRKn5nTsC3I2IBa/Vfptiisje35TizK74QVy4dNQrn7fDer
-	9hbep5CqCjS+5QUFj8NZ3
-X-Google-Smtp-Source: AGHT+IEZ/iq8mHAW3TThdNzJowXX4LkR1NhhS85+vFyjwutfDxXJrUG8HVF+xw0IGv4e1GfTU+IEag==
-X-Received: by 2002:a05:600c:6211:b0:453:5a04:b60e with SMTP id 5b1f17b1804b1-453659f5828mr141529555e9.26.1750786238246;
-        Tue, 24 Jun 2025 10:30:38 -0700 (PDT)
+        bh=FwhSlWerG+8T4+prUat9IsNl8NdxT3TFxF7x4Oqs4qM=;
+        b=l9exQRfyd14dSIWcaynF11NWUbuLbPvvO70xptzd/Lp95Hcr7Kb7Z3hDJDdtEF9WCx
+         b7ELBIFveCAJqTNTTsumo5/MQv67QVw+IWyRY2jTgqzbI1UA5384EDjMlSOUyiT+EV0z
+         /sH+26dmysMfrMwyNP2K4yENLe9exAQS30ybO/wx4NEqwwZcJNIxw9BY/5M75NxwVdW/
+         X6l2Wg9RUcc2MxOoInnOwkrshhsMXj1PpA6ViIOZG2/9PIUnOiuLs/Pu7006W/vAwsrQ
+         VzVCy1RriNBBK07jY/3AX92w59uc3pGF+CAOHTirWqOckasWGKtDIQW0e6uHNjeDzN0l
+         Qsdw==
+X-Forwarded-Encrypted: i=1; AJvYcCUczo6Gk7B6bqiNnPad+vVTS7OnRvMt4HMFqOvHPA7grcF6aDWibyJ5NsuuN8d0O5NQzxrYXfzfhVfC@vger.kernel.org, AJvYcCVOSw3BtW11ttf0c8dhPd3PSl+oUqJPi0qhhcxGwWbLewoYa+XSELn+O0HKzoyxf0razJmNq7E8N+O4r3C8@vger.kernel.org, AJvYcCXfZezIsCYd2zTsBHhUNMQgD8UUsukmYSrNKvR+OVupLsfBkX9yq8BQJelqGBh+nWuGfqP/zlrypfTS@vger.kernel.org
+X-Gm-Message-State: AOJu0YyiROD9EmAUu+cUasam9Jv2dRdX/cdvw42YFvH4Rm0ID19emPOD
+	M+bVBvRmojkSkI+O5SrtRA/In6Zor0EDiWlN4TFzdDQSLyTmOPb1R+eq
+X-Gm-Gg: ASbGncsQ0ffFGwSW59KZX72HTREb7WeELl7NgD5xWdZexeo7T5bfbFRNrXO2/+2oSu6
+	vq1WD/X1R5xzRfqgM+flx5NWQzqCKoqejj2pzAa5ulqFALf3O83WQpKrU4IDBKnERqZDWb7aGy9
+	aBBhqicrc4AtQRT/q71PX66r86balAU4JoYTGN8MV3PSPegInoSqpv2m9m+ptYscrSwBrQVnMYO
+	TmK0HXGjQclF/BlF79NYMzac/TuxbruktX4YWwGu9dlIR7Dz7FWeuPgGGrYIjFpP8Y37f1KmKJF
+	MVTvUGKZX/Yx2HVJ1hjvJHnNwtlxmQ8OCpTO7KQYlW6P+0IXtRcMNuJIzuHhXsU3MnvMoBBdt8T
+	Oj+YWEBg89b08XwE0kmOe
+X-Google-Smtp-Source: AGHT+IFci8RguuhhZRjRHIGlONaqNWhKtwS2A9YaHlkYOKp2HzfYZa1M3jCzpgBvldqyWLc4YmRHWA==
+X-Received: by 2002:a05:6000:2409:b0:3a4:dfc2:b9e1 with SMTP id ffacd0b85a97d-3a6d1192b3fmr15315984f8f.2.1750786239475;
+        Tue, 24 Jun 2025 10:30:39 -0700 (PDT)
 Received: from iku.example.org ([2a06:5906:61b:2d00:a522:16f6:ec97:d332])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4535ead202asm181662565e9.27.2025.06.24.10.30.37
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4535ead202asm181662565e9.27.2025.06.24.10.30.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jun 2025 10:30:37 -0700 (PDT)
+        Tue, 24 Jun 2025 10:30:38 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -90,9 +90,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 4/6] clk: renesas: rzv2h: Add fixed-factor module clocks with status reporting
-Date: Tue, 24 Jun 2025 18:30:28 +0100
-Message-ID: <20250624173030.472196-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 5/6] clk: renesas: r9a09g056: Add XSPI clock/reset
+Date: Tue, 24 Jun 2025 18:30:29 +0100
+Message-ID: <20250624173030.472196-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250624173030.472196-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20250624173030.472196-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -106,183 +106,78 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Add support for fixed-factor module clocks that can report their enable
-status through the module status monitor. Introduce a new clock type,
-CLK_TYPE_FF_MOD_STATUS, and define the associated structure,
-rzv2h_ff_mod_status_clk, to manage these clocks.
-
-Implement the .is_enabled callback by reading the module status register
-using monitor index and bit definitions. Provide a helper macro,
-DEF_FIXED_MOD_STATUS, to simplify the definition of such clocks.
+Add XSPI clock and reset entries.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- drivers/clk/renesas/rzv2h-cpg.c | 83 +++++++++++++++++++++++++++++++++
- drivers/clk/renesas/rzv2h-cpg.h | 22 +++++++++
- 2 files changed, 105 insertions(+)
+ drivers/clk/renesas/r9a09g056-cpg.c | 12 ++++++++++++
+ drivers/clk/renesas/rzv2h-cpg.h     |  2 ++
+ 2 files changed, 14 insertions(+)
 
-diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/rzv2h-cpg.c
-index 11325980379a..a511f34abf18 100644
---- a/drivers/clk/renesas/rzv2h-cpg.c
-+++ b/drivers/clk/renesas/rzv2h-cpg.c
-@@ -150,6 +150,22 @@ struct ddiv_clk {
+diff --git a/drivers/clk/renesas/r9a09g056-cpg.c b/drivers/clk/renesas/r9a09g056-cpg.c
+index 040acd4ae5dd..437af86f49dd 100644
+--- a/drivers/clk/renesas/r9a09g056-cpg.c
++++ b/drivers/clk/renesas/r9a09g056-cpg.c
+@@ -39,6 +39,7 @@ enum clk_ids {
+ 	CLK_SMUX2_XSPI_CLK0,
+ 	CLK_SMUX2_XSPI_CLK1,
+ 	CLK_PLLCM33_XSPI,
++	CLK_PLLCM33_GEAR,
+ 	CLK_PLLCLN_DIV2,
+ 	CLK_PLLCLN_DIV8,
+ 	CLK_PLLCLN_DIV16,
+@@ -123,6 +124,7 @@ static const struct cpg_core_clk r9a09g056_core_clks[] __initconst = {
+ 	DEF_SMUX(".smux2_xspi_clk1", CLK_SMUX2_XSPI_CLK1, SSEL1_SELCTL3, smux2_xspi_clk1),
+ 	DEF_CSDIV(".pllcm33_xspi", CLK_PLLCM33_XSPI, CLK_SMUX2_XSPI_CLK1, CSDIV0_DIVCTL3,
+ 		  dtable_2_16),
++	DEF_DDIV(".pllcm33_gear", CLK_PLLCM33_GEAR, CLK_PLLCM33_DIV4, CDDIV0_DIVCTL1, dtable_2_64),
  
- #define to_ddiv_clock(_div) container_of(_div, struct ddiv_clk, div)
+ 	DEF_FIXED(".pllcln_div2", CLK_PLLCLN_DIV2, CLK_PLLCLN, 1, 2),
+ 	DEF_FIXED(".pllcln_div8", CLK_PLLCLN_DIV8, CLK_PLLCLN, 1, 8),
+@@ -162,6 +164,8 @@ static const struct cpg_core_clk r9a09g056_core_clks[] __initconst = {
+ 		  CLK_PLLETH_DIV_125_FIX, 1, 1),
+ 	DEF_FIXED("gbeth_1_clk_ptp_ref_i", R9A09G056_GBETH_1_CLK_PTP_REF_I,
+ 		  CLK_PLLETH_DIV_125_FIX, 1, 1),
++	DEF_FIXED_MOD_STATUS("spi_clk_spi", R9A09G056_SPI_CLK_SPI, CLK_PLLCM33_XSPI, 1, 2,
++			     FIXED_MOD_CONF_XSPI),
+ };
  
-+/**
-+ * struct rzv2h_ff_mod_status_clk - Fixed Factor Module Status Clock
-+ *
-+ * @priv: CPG private data
-+ * @conf: fixed mod configuration
-+ * @fix: fixed factor clock
-+ */
-+struct rzv2h_ff_mod_status_clk {
-+	struct rzv2h_cpg_priv *priv;
-+	struct fixed_mod_conf conf;
-+	struct clk_fixed_factor fix;
-+};
-+
-+#define to_rzv2h_ff_mod_status_clk(_hw) \
-+	container_of(_hw, struct rzv2h_ff_mod_status_clk, fix.hw)
-+
- static int rzv2h_cpg_pll_clk_is_enabled(struct clk_hw *hw)
- {
- 	struct pll_clk *pll_clk = to_pll(hw);
-@@ -421,6 +437,70 @@ rzv2h_cpg_mux_clk_register(const struct cpg_core_clk *core,
- 	return clk_hw->clk;
- }
- 
-+static int
-+rzv2h_clk_ff_mod_status_is_enabled(struct clk_hw *hw)
-+{
-+	struct rzv2h_ff_mod_status_clk *fix = to_rzv2h_ff_mod_status_clk(hw);
-+	struct rzv2h_cpg_priv *priv = fix->priv;
-+	u32 offset = GET_CLK_MON_OFFSET(fix->conf.mon_index);
-+	u32 bitmask = BIT(fix->conf.mon_bit);
-+	u32 val;
-+
-+	val = readl(priv->base + offset);
-+	return !!(val & bitmask);
-+}
-+
-+static struct clk_ops rzv2h_clk_ff_mod_status_ops;
-+
-+static struct clk * __init
-+rzv2h_cpg_fixed_mod_status_clk_register(const struct cpg_core_clk *core,
-+					struct rzv2h_cpg_priv *priv)
-+{
-+	struct rzv2h_ff_mod_status_clk *clk_hw_data;
-+	struct clk_init_data init = { };
-+	struct clk_fixed_factor *fix;
-+	const struct clk *parent;
-+	const char *parent_name;
-+	int ret;
-+
-+	WARN_DEBUG(core->parent >= priv->num_core_clks);
-+	parent = priv->clks[core->parent];
-+	if (IS_ERR(parent))
-+		return ERR_CAST(parent);
-+
-+	parent_name = __clk_get_name(parent);
-+	parent = priv->clks[core->parent];
-+	if (IS_ERR(parent))
-+		return ERR_CAST(parent);
-+
-+	clk_hw_data = devm_kzalloc(priv->dev, sizeof(*clk_hw_data), GFP_KERNEL);
-+	if (!clk_hw_data)
-+		return ERR_PTR(-ENOMEM);
-+
-+	clk_hw_data->priv = priv;
-+	clk_hw_data->conf = core->cfg.fixed_mod;
-+
-+	rzv2h_clk_ff_mod_status_ops = clk_fixed_factor_ops;
-+	rzv2h_clk_ff_mod_status_ops.is_enabled = rzv2h_clk_ff_mod_status_is_enabled;
-+
-+	init.name = core->name;
-+	init.ops = &rzv2h_clk_ff_mod_status_ops;
-+	init.flags = CLK_SET_RATE_PARENT;
-+	init.parent_names = &parent_name;
-+	init.num_parents = 1;
-+
-+	fix = &clk_hw_data->fix;
-+	fix->hw.init = &init;
-+	fix->mult = core->mult;
-+	fix->div = core->div;
-+
-+	ret = devm_clk_hw_register(priv->dev, &clk_hw_data->fix.hw);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	return clk_hw_data->fix.hw.clk;
-+}
-+
- static struct clk
- *rzv2h_cpg_clk_src_twocell_get(struct of_phandle_args *clkspec,
- 			       void *data)
-@@ -499,6 +579,9 @@ rzv2h_cpg_register_core_clk(const struct cpg_core_clk *core,
- 		else
- 			clk = clk_hw->clk;
- 		break;
-+	case CLK_TYPE_FF_MOD_STATUS:
-+		clk = rzv2h_cpg_fixed_mod_status_clk_register(core, priv);
-+		break;
- 	case CLK_TYPE_PLL:
- 		clk = rzv2h_cpg_pll_clk_register(core, priv, &rzv2h_cpg_pll_ops);
- 		break;
+ static const struct rzv2h_mod_clk r9a09g056_mod_clks[] __initconst = {
+@@ -219,6 +223,12 @@ static const struct rzv2h_mod_clk r9a09g056_mod_clks[] __initconst = {
+ 						BUS_MSTOP(1, BIT(7))),
+ 	DEF_MOD("riic_7_ckm",			CLK_PLLCLN_DIV16, 9, 11, 4, 27,
+ 						BUS_MSTOP(1, BIT(8))),
++	DEF_MOD("spi_hclk",			CLK_PLLCM33_GEAR, 9, 15, 4, 31,
++						BUS_MSTOP(4, BIT(5))),
++	DEF_MOD("spi_aclk",			CLK_PLLCM33_GEAR, 10, 0, 5, 0,
++						BUS_MSTOP(4, BIT(5))),
++	DEF_MOD("spi_clk_spix2",		CLK_PLLCM33_XSPI, 10, 1, 5, 2,
++						BUS_MSTOP(4, BIT(5))),
+ 	DEF_MOD("sdhi_0_imclk",			CLK_PLLCLN_DIV8, 10, 3, 5, 3,
+ 						BUS_MSTOP(8, BIT(2))),
+ 	DEF_MOD("sdhi_0_imclk2",		CLK_PLLCLN_DIV8, 10, 4, 5, 4,
+@@ -307,6 +317,8 @@ static const struct rzv2h_reset r9a09g056_resets[] __initconst = {
+ 	DEF_RST(9, 14, 4, 15),		/* RIIC_6_MRST */
+ 	DEF_RST(9, 15, 4, 16),		/* RIIC_7_MRST */
+ 	DEF_RST(10, 0, 4, 17),		/* RIIC_8_MRST */
++	DEF_RST(10, 3, 4, 20),          /* SPI_HRESETN */
++	DEF_RST(10, 4, 4, 21),          /* SPI_ARESETN */
+ 	DEF_RST(10, 7, 4, 24),		/* SDHI_0_IXRST */
+ 	DEF_RST(10, 8, 4, 25),		/* SDHI_1_IXRST */
+ 	DEF_RST(10, 9, 4, 26),		/* SDHI_2_IXRST */
 diff --git a/drivers/clk/renesas/rzv2h-cpg.h b/drivers/clk/renesas/rzv2h-cpg.h
-index 7321b085f937..317c8ee2e2d5 100644
+index 317c8ee2e2d5..42b7c7e13284 100644
 --- a/drivers/clk/renesas/rzv2h-cpg.h
 +++ b/drivers/clk/renesas/rzv2h-cpg.h
-@@ -93,6 +93,23 @@ struct smuxed {
- 		.width = (_width), \
- 	})
+@@ -148,6 +148,8 @@ struct fixed_mod_conf {
+ 				 FIELD_PREP_CONST(BUS_MSTOP_BITS_MASK, (mask)))
+ #define BUS_MSTOP_NONE		GENMASK(31, 0)
  
-+/**
-+ * struct fixed_mod_conf - Structure for fixed module configuration
-+ *
-+ * @mon_index: monitor index
-+ * @mon_bit: monitor bit
-+ */
-+struct fixed_mod_conf {
-+	u8 mon_index;
-+	u8 mon_bit;
-+};
++#define FIXED_MOD_CONF_XSPI	FIXED_MOD_CONF_PACK(5, 1)
 +
-+#define FIXED_MOD_CONF_PACK(_index, _bit) \
-+	((struct fixed_mod_conf){ \
-+		.mon_index = (_index), \
-+		.mon_bit = (_bit), \
-+	})
-+
- #define CPG_SSEL0		(0x300)
- #define CPG_SSEL1		(0x304)
- #define CPG_CDDIV0		(0x400)
-@@ -151,6 +168,7 @@ struct cpg_core_clk {
- 		struct ddiv ddiv;
- 		struct pll pll;
- 		struct smuxed smux;
-+		struct fixed_mod_conf fixed_mod;
- 	} cfg;
- 	const struct clk_div_table *dtable;
- 	const char * const *parent_names;
-@@ -163,6 +181,7 @@ enum clk_types {
- 	/* Generic */
- 	CLK_TYPE_IN,		/* External Clock Input */
- 	CLK_TYPE_FF,		/* Fixed Factor Clock */
-+	CLK_TYPE_FF_MOD_STATUS,	/* Fixed Factor Clock which can report the status of module clock */
- 	CLK_TYPE_PLL,
- 	CLK_TYPE_DDIV,		/* Dynamic Switching Divider */
- 	CLK_TYPE_SMUX,		/* Static Mux */
-@@ -178,6 +197,9 @@ enum clk_types {
- 	DEF_TYPE(_name, _id, CLK_TYPE_IN)
- #define DEF_FIXED(_name, _id, _parent, _mult, _div) \
- 	DEF_BASE(_name, _id, CLK_TYPE_FF, _parent, .div = _div, .mult = _mult)
-+#define DEF_FIXED_MOD_STATUS(_name, _id, _parent, _mult, _div, _gate) \
-+	DEF_BASE(_name, _id, CLK_TYPE_FF_MOD_STATUS, _parent, .div = _div, \
-+		 .mult = _mult, .cfg.fixed_mod = _gate)
- #define DEF_DDIV(_name, _id, _parent, _ddiv_packed, _dtable) \
- 	DEF_TYPE(_name, _id, CLK_TYPE_DDIV, \
- 		.cfg.ddiv = _ddiv_packed, \
+ /**
+  * Definitions of CPG Core Clocks
+  *
 -- 
 2.49.0
 
