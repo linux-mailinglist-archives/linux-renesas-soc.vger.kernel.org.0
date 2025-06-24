@@ -1,232 +1,153 @@
-Return-Path: <linux-renesas-soc+bounces-18642-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18643-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B799AE62B1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jun 2025 12:40:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2521AE6440
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jun 2025 14:10:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 23CC11891436
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jun 2025 10:40:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8B10A189BCAF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jun 2025 12:11:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05EFA2874F7;
-	Tue, 24 Jun 2025 10:40:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="v1IFWcFr";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3q5D0uT4"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0954928E607;
+	Tue, 24 Jun 2025 12:10:54 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A19279DC8;
-	Tue, 24 Jun 2025 10:40:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6F521F5617;
+	Tue, 24 Jun 2025 12:10:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750761607; cv=none; b=jBdUwDUNri/EOqrm5kjsjiAoJcepYN1RPBHtUPlcI+utZrX4vHGKC8JrfQu7eLk2nZeBez4VVwFHyE1Nb0oKhCptOrJFV/PR/KC60JE9i6+vB0CalgZaD4of8bzBqCRDb8zBo00+kmDjhzkKw8OBYqaEg5PQL6t1y7DxZOHmoug=
+	t=1750767053; cv=none; b=nFj7w3X5qAwFy656KT9iQ+gIUNwFYAyItGbfSMpr8BREBpYJgRTYuXr7XONf+yZKpM63vZS3qINpuWc49+/I9i5a8YIPTIYvK+L9tmJio723lGkg29yGEDJ9hJ4GTe103YimCIF3exZ9HG/fA57zOY1HkvMOaWzB5tPUJxmV2vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750761607; c=relaxed/simple;
-	bh=f8XsI5O1CkfkYFDeROjVLKjcyy9Tl6y4vwZNlHiFsyg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=RASDgoa9P94TdrpI1W91tg257cW/56rp4OpUy1zGOud0g3K4yQHxX0S4NnDqFOXPTzt99DWWTo4mV97PZ3foJ8ibEnxBZ//EsgrT5YL4ywINwv7OWiwl33cu2UxteQ3f9FGjaOS1iko2dDIx3jJQEq8DLUa4qCf2dMEoKJLqbXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=v1IFWcFr; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=3q5D0uT4; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1750761604;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PmKtYLO9DDYaj9Me5RnB2od40m2nfSC9/3iVyLRTgPc=;
-	b=v1IFWcFrbObYtAZ/RT0Kppv2+R1ysQJUiAOhyBDBdBD7GRafKVhWIJlEp4M1/MAbW7r3Ca
-	o8ExT+FJNwE1MLi5ZHj7mixRk7DPF7y0JESsK+b/BXPx0H36L3GknAlPGKQ80sDZSd8kX8
-	c7tk3xzYOhkh9+PB8l0sOAqBJbObspXXOYombtNTWorYQc/dnlFuIdXCWjoZNydWHsEEfw
-	BxAB1cxurgSdDrVSKVwi91WSkw72/7/zhYIxKx2zfbMR8WyyBWVel7X/khQj5qlBzANr+W
-	waHxljQ3WDmwbOBvDQ6fj/PD/LbBRXtKBrQTzgU9iEnxcn0NlO2wYO/ak4OZtw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1750761604;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PmKtYLO9DDYaj9Me5RnB2od40m2nfSC9/3iVyLRTgPc=;
-	b=3q5D0uT4oSfP2VhfCp/l4dQktoBuSpc64H38sBuCNB8bE8D63GfRugryCyLDa3R+2guT87
-	o5CUyJOaQUdlplCw==
-To: Pan Chuang <panchuang@vivo.com>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui
- <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, Miquel Raynal
- <miquel.raynal@bootlin.com>, Markus Mayer <mmayer@broadcom.com>, Broadcom
- internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>, Shawn Guo
- <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- zhanghongchen <zhanghongchen@loongson.cn>, Yinbo Zhu
- <zhuyinbo@loongson.cn>, Amit Kucheria <amitk@kernel.org>, Thara Gopinath
- <thara.gopinath@gmail.com>, Niklas =?utf-8?Q?S=C3=B6derlund?=
- <niklas.soderlund@ragnatech.se>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Heiko
- Stuebner <heiko@sntech.de>, Bartlomiej Zolnierkiewicz
- <bzolnier@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
- <alim.akhtar@samsung.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Vasily Khoruzhick
- <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Thierry Reding <thierry.reding@gmail.com>, Jonathan
- Hunter <jonathanh@nvidia.com>, Kunihiko Hayashi
- <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Srinivas Pandruvada
- <srinivas.pandruvada@linux.intel.com>, Greg KH
- <gregkh@linuxfoundation.org>, Peter Zijlstra <peterz@infradead.org>,
- =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>,
- Conor Dooley
- <conor.dooley@microchip.com>, Julien Panis <jpanis@baylibre.com>, Arnd
- Bergmann <arnd@arndb.de>, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?=
- <u.kleine-koenig@baylibre.com>,
- Colin Ian King <colin.i.king@gmail.com>, Raphael Gallais-Pou
- <rgallaispou@gmail.com>, Patrice Chotard <patrice.chotard@foss.st.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, "Jiri Slaby (SUSE)"
- <jirislaby@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Andrew Morton <akpm@linux-foundation.org>, Costa Shulyupin
- <costa.shul@redhat.com>, Yury Norov <yury.norov@gmail.com>, Cheng-Yang
- Chou <yphbchou0911@gmail.com>, Caleb Sander Mateos
- <csander@purestorage.com>, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- imx@lists.linux.dev, linux-arm-msm@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org
-Cc: Yangtao Li <frank.li@vivo.com>, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?=
- <u.kleine-koenig@pengutronix.de>, Jonathan Cameron
- <Jonathan.Cameron@Huawei.com>, Pan Chuang <panchuang@vivo.com>
-Subject: Re: [PATCH v6 01/24] genirq/devres: Add
- devm_request_threaded_irq_probe() and devm_request_irq_probe()
-In-Reply-To: <20250623123054.472216-2-panchuang@vivo.com>
-References: <20250623123054.472216-1-panchuang@vivo.com>
- <20250623123054.472216-2-panchuang@vivo.com>
-Date: Tue, 24 Jun 2025 10:13:10 +0200
-Message-ID: <87h605o8vd.ffs@tglx>
+	s=arc-20240116; t=1750767053; c=relaxed/simple;
+	bh=svt/KgpTl1UQdBWjOCi02AXSgJP8MSaLDBl0In/0Pzo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lQHGISchQsTpbMXqHoJtotYNxDMvBtI1uNdT8T2KkD4hAHCkb6pbrx7AvQoDIpvHJhwu9JFILce7d1dc07MXou8Rn9A/j9cN9FxFXOYoGZGMnB1s89gSGUDcSORLHa5u1hvAkyTznDXzU016dPBYLDhLcGCcLS91xHxQeQKf6WE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-4e9a109035bso3820412137.1;
+        Tue, 24 Jun 2025 05:10:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750767050; x=1751371850;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mr7Tfc01vfHuBtZDbQIwiPabXFzT1mWwxVomhbQ8jNg=;
+        b=gM74n4xdu/bnvVN7mQv5OVlyFJtkNdof4hSpZ9Fxw4qa5l5ep0Br0U/uHWxGxfJBoT
+         ExoMaxNeJsroLU3WHn72WWtWS2fh7riP5JWY8bi71uMyMCuetzdqTPK3VcwrvKtwVD7u
+         Wd4LDdFU1FcTXYD1N2XYw7uyChboWfB7SkrdW9mxgJIL4XrZ42c3rWUcx4cIEwCZdoUR
+         7jzoZIRrZQRq30Kdanca3vEut6MFPxHSnJOeeQoBNeQDPRYiFBwoCkHIMad38YrWKxPz
+         rLY+3dl3GZkZMhx3sXuYaYH4uKuXgdeG+7xYQ4G+PfclNjyOX445zdxm+5DAGdWSOuS4
+         e6Nw==
+X-Forwarded-Encrypted: i=1; AJvYcCUbEbk9tGuGqrINGc/RYzbnOOgoF/Mwnmpgb4eArQYkEjxkdrn0ldLxjjsTvVjTicPFopPLa7c+rr4=@vger.kernel.org, AJvYcCVU17TCHNp3e/9NDq+OMJnTppHk4sJEhGvlroQtxWwHVBQQZ7t6PLNabBPgdviwSHAjU8IoqV+lt9YYRC8=@vger.kernel.org, AJvYcCXu8E7oDU7+MKjJWBCZiBYqCPlsgdPyQ+c7vBLEdcDnK3vTg0pqvcxtSJnJHqmedv7CL4IA33CHfKLwONIyk3e9LPY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfU2Cf1voWZyGKSJjSsjEb8VLoipbMley30vYhTBQHo4acatXf
+	LQgtvqqWYnwPaQEIFT/xCXor79bAowWwPZoc6/OsuWlBL5BbFLD8bf1yWY3R8S5N
+X-Gm-Gg: ASbGnctNAQkZKeuFBlMfP0CHG1+0Nk/KHYc3BpfgUuzvzmYhi7Uwrat5pEgyN+jn+Oe
+	EftiSqRjUcGxtfg8BFcRbWdCIIS5ulJ7pMuJ3Q0rnzFRupMRaoj3o2nGiXDgPW2dtrtn4mGKkmv
+	TRvO33f0/yEr9Ev0lUOqDf5bzAKOlrGZNEGjbxXvb37g9MxfGIcWO+Qkjsaw3YNjeflO0wAKG7N
+	oN6dZnBdG/t9BS04pvzKwC7QJW3pQLesGt4qEmsivkLldMiwS1E5VzHXlALX82858THcCv+0snA
+	BlHZjRwuASpU4UCu6Tk9724MFid5e+h+7Udf0u9cMOjB7AgjSxyJuIVyH1hzXHStVBnUY+g24yq
+	tiSrjhEk9d4JAxDf9olg75Y6O
+X-Google-Smtp-Source: AGHT+IFzPV6lGahCPZM10hz/RD8kJ154DeNa80y71Uq88UWlu8u+px8xBjYaeHlVj54i6i9YJGWLyQ==
+X-Received: by 2002:a05:6102:2ad0:b0:4e9:b612:9013 with SMTP id ada2fe7eead31-4e9c2bc7cc9mr9535500137.13.1750767049603;
+        Tue, 24 Jun 2025 05:10:49 -0700 (PDT)
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8811acfa12csm1646905241.5.2025.06.24.05.10.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Jun 2025 05:10:48 -0700 (PDT)
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-87f36c458afso3418357241.1;
+        Tue, 24 Jun 2025 05:10:48 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVK2X8+VO5aPojiwV3PH9ubC/Ym1OmnSXESz0HiR/fVbdOtZPzzJmL+9iY95lsn2PLUuY15dDQKCd1N2LicD9d8AFI=@vger.kernel.org, AJvYcCVSVjS6vLBWQyJM/iFfh+EelHT77bqkzhbOpe+knTd5uOPhZN9/R1fJZ9dZA7hEUAKJK7US2S77eN6kztk=@vger.kernel.org, AJvYcCXXMCw0in+8ajdrdptpECHwxuUzh4j1OJYHnDQntfIKb/hwtfDWROU5JcamV83sk7ogBDScLdykUUU=@vger.kernel.org
+X-Received: by 2002:a05:6102:8016:b0:4df:9e8b:8cad with SMTP id
+ ada2fe7eead31-4e9c2c6dcb7mr9458493137.22.1750767048099; Tue, 24 Jun 2025
+ 05:10:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20250523134025.75130-1-ulf.hansson@linaro.org>
+ <fd4cfe7a-e29b-4237-b82f-48354deead3b@ideasonboard.com> <CAPDyKFpprO=HGuiHX3MQ_+m1YRnaWG=XwCx8-fSdXak8VBDUbQ@mail.gmail.com>
+ <CAPDyKFpXcpwkacnYqWz2vxaTd7pW5bSRa2F063BryFxVNEAmPA@mail.gmail.com> <CAMuHMdXGS+efbbQ_Pn1iYhQ1aWc_DuJ-CBN=jxfjwOWxTRx+9Q@mail.gmail.com>
+In-Reply-To: <CAMuHMdXGS+efbbQ_Pn1iYhQ1aWc_DuJ-CBN=jxfjwOWxTRx+9Q@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 24 Jun 2025 14:10:34 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVit2WtjmFUHctBjndAo33Dibsg-GrOyFj98==gxk5rEw@mail.gmail.com>
+X-Gm-Features: Ac12FXypYh-k6otCqY6pCtpIjWF0CfZNia3ZUPKNyrqASzd2JswYUEhHL-kiM-Y
+Message-ID: <CAMuHMdVit2WtjmFUHctBjndAo33Dibsg-GrOyFj98==gxk5rEw@mail.gmail.com>
+Subject: Re: [PATCH v2 00/21] pmdomain: Add generic ->sync_state() support to genpd
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Saravana Kannan <saravanak@google.com>, 
+	Stephen Boyd <sboyd@kernel.org>, linux-pm@vger.kernel.org, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Michael Grzeschik <m.grzeschik@pengutronix.de>, Bjorn Andersson <andersson@kernel.org>, 
+	Abel Vesa <abel.vesa@linaro.org>, Peng Fan <peng.fan@oss.nxp.com>, 
+	Johan Hovold <johan@kernel.org>, Maulik Shah <maulik.shah@oss.qualcomm.com>, 
+	Michal Simek <michal.simek@amd.com>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jun 23 2025 at 20:30, Pan Chuang wrote:
-> +/**
-> + * devm_request_threaded_irq_probe - request irq for a managed device with error msg (recommended in probe)
-> + * @dev:	Device to request interrupt for
-> + * @irq:	Interrupt line to allocate
-> + * @handler:	Function to be called when the IRQ occurs
-> + * @thread_fn:	Function to be called in a threaded interrupt context. NULL
-> + *		for devices which handle everything in @handler
-> + * @irqflags:	Interrupt type flags
-> + * @devname:	An ascii name for the claiming device, dev_name(dev) if NULL
-> + * @dev_id:	A cookie passed back to the handler function
-> + * @info:	Optional additional error log
-> + *
-> + * This is a variant of the devm_request_threaded_irq function.
-> + * It will print an error message by default when the request fails,
-> + * and the consumer can add a special error msg.
-> + *
-> + * Except for the extra @info argument, this function takes the
-> + * same arguments and performs the same function as
-> + * devm_request_threaded_irq(). IRQs requested with this function will be
-> + * automatically freed on driver detach.
+On Mon, 23 Jun 2025 at 17:06, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Mon, 23 Jun 2025 at 16:21, Ulf Hansson <ulf.hansson@linaro.org> wrote:
+> > On Thu, 19 Jun 2025 at 13:40, Ulf Hansson <ulf.hansson@linaro.org> wrote:
+> > > rcar_gen4_sysc_pd_init() is an early_initcall, which I guess is the
+> > > reason for these problems, as the genpd_provider_bus has not been
+> > > registered that early (it's done at core_initcall)
+> > >
+> > > Do you think it would be possible to move rcar_gen4_sysc_pd_init() to
+> > > a postcore/arch_initcall?
+> >
+> > I did some investigation around this and found that both
+> > drivers/pmdomain/renesas/rcar-gen4-sysc.c and
+> > drivers/pmdomain/renesas/rcar-sysc.c are registering their genpd
+> > providers at the early_initcall() level.
+> >
+> > I was trying to find (by browsing renesas DTSes and looking into
+> > drivers) if there is any consumers that actually relies on this, but
+> > so far the earliest consumer I have found is the
+> > drivers/irqchip/irq-renesas-irqc.c, but that's at postcore_initcall().
+> > Of course, it's difficult to say if my analysis is complete as there
+> > are a lot of platform variants and I didn't check them all.
+> >
+> > Maybe we should just give it a try and move both two drivers above to
+> > postcore_initcall and see if it works (assuming the irq-renesas-irqc
+> > supports -EPROBE_DEFER correctly too).
+> >
+> > If this doesn't work, I think we need to find a way to allow deferring
+> > the call to device_add() in of_genpd_provider_add*() for genpd
+> > provider's devices.
+>
+> Commit dcc09fd143bb97c2 ("soc: renesas: rcar-sysc: Add DT support for
+> SYSC PM domains") explains:
+>
+>    "Initialization is done from an early_initcall(), to make sure the PM
+>     Domains are initialized before secondary CPU bringup."
+>
+> but that matters only for arm32 systems (R-Car Gen1 and Gen2).
+> Arm64 systems (R-Car Gen3 and Gen4) use PSCI for CPU PM Domain control.
 
-I really have to ask why you need the extra info argument. It's not
-providing any really value.
+[...]
 
-What's important when the interrupt request fails?
+> As expected, there is no impact on R-Car H3 ES2.0.
+> I will test on R-Car V4M tomorrow, but expect no issues.
 
-    1) The device, which is identifiable by @devname and/or dev_name(@dev)
+R-Car V4M is fine, too.
 
-    2) The interrupt number
+Gr{oetje,eeting}s,
 
-    3) The error code
+                        Geert
 
-If you want to be more expressive then you can also print out the
-handler function symbols, which makes it even more useful to map back
-into the affected driver.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-As you cited correctly I said back then:
-
-  "So there is certainly an argument to be made that this particular
-   function should print a well formatted and informative error
-   message."
-
-This particular function is: devm_request_threaded_irq().
-
-IOW, I did not ask you should go an create a new one, right?
-
-The extra @info argument is just proliferating the nonsensical
-information which driver developers put into the output. I just looked
-through a couple of your thermal patches (hint, I had to chase them
-manually because you failed to thread them properly). While most of them
-provide NULL, the two adding 'alarm' are really not providing any useful
-information.
-
-The point is, that the information is aimed at developers and not to be
-helpful for Joe User to identify/fix a problem. If the driver
-developer/maintainer is not able to track back the information (name,
-number, error code) to the driver in question, then the added "foo" info
-is not going to make him any smarter.
-
-If that happens, then being able to map it back to the driver is only 1%
-of the problem analysis, simply because you need to decode the
-underlying problem (DT, vector exhaustion, memory exhaustion ....) to be
-able to address it.
-
-So just make devm_request.*irq() emit a uniform and informative message
-on fail and you can go and remove all the homebrewn useless error prints
-from the drivers.
-
-It does not matter at all if there are duplicated error messages for a
-release or two until all drivers have been cleaned up. This is not the
-common case and only rarely triggered. So what?
-
-> +int devm_request_threaded_irq_probe(struct device *dev, unsigned int irq,
-> +				    irq_handler_t handler, irq_handler_t thread_fn,
-> +				    unsigned long irqflags, const char *devname,
-> +				    void *dev_id, const char *info)
-> +{
-> +	int rc;
-> +
-> +	rc = devm_request_threaded_irq(dev, irq, handler, NULL, irqflags, devname, dev_id);
-
-This is just wrong as you fail to hand in thread_fn.
-
-Q: How was this code ever tested?
-A: Not at all.
-
-> Could you please consider merging the entire series into your branch? 
-
-You're seriously asking that for something which is so obviously broken?
-
-> +	if (rc) {
-> +		return dev_err_probe(dev, rc, "Failed to request %sinterrupt %u %s %s\n",
-> +				     thread_fn ? "threaded " : "", irq, devname ? : dev_name(dev),
-> +				     info ? : "");
-
-This is wrong too because devm_request_threaded_irq() allows you to hand
-in both a hard interrupt and a threaded handler and either one of them
-can be NULL.
-
-So what you want to add in devm_request_threaded_irq() is something like
-this:
-
-	if (rc < 0) {
-		return dev_err_probe(dev, rc, "request_irq(%u) %pS %pS %s\n",
-                        	     handler, thread_fn, devname ? : "");
-        }
-
-dev_err_probe() already prefixes the caller string with 'error ', so
-there is no need for a lenghty 'failed to request ....' novel.
-
-Thanks,
-
-        tglx
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
