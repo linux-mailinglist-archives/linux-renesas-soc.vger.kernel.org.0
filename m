@@ -1,257 +1,253 @@
-Return-Path: <linux-renesas-soc+bounces-18652-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18653-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23E57AE689F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jun 2025 16:28:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D903AE6B32
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jun 2025 17:35:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 01D7C1C20D09
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jun 2025 14:24:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1D6A617A598
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jun 2025 15:30:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E2012DA74F;
-	Tue, 24 Jun 2025 14:17:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C40F02E0B6F;
+	Tue, 24 Jun 2025 15:16:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rmdx3goE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lvRymQg2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770262D130A;
-	Tue, 24 Jun 2025 14:17:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B43AA2D2380;
+	Tue, 24 Jun 2025 15:16:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750774630; cv=none; b=Zj+VJkJle12sPma4JYcRHBqoQb5CB25uxtznnstvm5PVMOwNfAOVsiI9bOdAPsp4Xd6FZVzZNN9byaXkJHTrESMgxJ/zRCus8LP8YxtxYqhbEiHvZfy52ercoDQfWlzRdSRakCSpGMCJN3fW5fW9U1c5GnbL2R54gPg3/VR1f8I=
+	t=1750778194; cv=none; b=FKeB/DHbgmXONbgIuSWjhe6qq0e+G9bsqxtLk6FP7jwAwd3fhHvXKxWNKE6SAd7VhSX/aIz5PwswUJkKeLENtOY9/75HXvzjAj200ikuAGPvmalhd9yQBBdQZ/pIyh77b3/lk9T8XXZpf4YCmrNajRyEN3+TzwjBIfmKbFCdlGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750774630; c=relaxed/simple;
-	bh=aeBoJ8p54UOKtgfJ5R4VO20RJ4pdixxB9hiwvMp94Es=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZonyrYYyxwqlRbIQnH0GZCID6sftMdq/nXxvpy9OXvF6U5HKCLUC/lLzr8JKK+jLquNoccvLcMPmPe1IkdOnLuA/QLRVC6dgXmYKLehwxTFt6Vx9LgInWWfEhoZhh0on2wGlOb+bv0979hX9nqfszzIec2tEI29SNfVO0OB/daM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rmdx3goE; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9CB30EFF;
-	Tue, 24 Jun 2025 16:16:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1750774609;
-	bh=aeBoJ8p54UOKtgfJ5R4VO20RJ4pdixxB9hiwvMp94Es=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=rmdx3goEzUrmIuksFeSxSH7oaLKU4oxoEj4hhWBD3DitmBnOMFj8TdvFA2uBnIVwN
-	 05n4Dc8qKUygB1YWABULCpxAVbM9aQaQNQjzcqT1CZYFPlCis5AMm1VZppJKJnpC+M
-	 1TqhAQvxoT5PW16F+qD9GGCN4shpC3CqzTuAWboQ=
-Message-ID: <c2ab887c-398d-49c4-9ae6-1d0986c32781@ideasonboard.com>
-Date: Tue, 24 Jun 2025 15:17:03 +0100
+	s=arc-20240116; t=1750778194; c=relaxed/simple;
+	bh=2HwvlF2LYWERMPVKFChh7P5jnSjjJLwyRgHLxB0Oddc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lazDXaSte+79S9mzl/azeCfnD3hWMQ+Fq++s7fQoSMRJqboYza3YYjKy/e+B15MYVLd+0bBbgpXHkefl2kaurh1FUI2q4pBJAlUrnUwZ+nplSMaMDyVhpqsmIBEcFBSKI/Q8MV3nRkOQinWgKUU8Pr3vq8B/lJQtjJgXpNz2rfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lvRymQg2; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-607cc1a2bd8so8346828a12.2;
+        Tue, 24 Jun 2025 08:16:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750778191; x=1751382991; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Xz6lF9XniltLisPEnyJriOyTCQCRxSp9Qc6C+GjVXIs=;
+        b=lvRymQg2IpLc5oDCR+GFDazyhzKh7roA5U2NyEBCupXzR64Yl24+L4y1xcMpJ0XB+3
+         +/AHa3sh0vR1FlZIcNXF0aC47d8IcqVjEp9VmnYn1Q8+6BC+5R1iSfKmlEeSD7vaGOxN
+         EOYZJnPU7BJXoM6oUkmEnc6qh2vANgsewIsNTi5UPumed/IaK01ElSHKELhYnuXaWqDR
+         QdRbe57i/sPKHB9HATFAqieIEZCg5eGzPeMePHw8klh+K1wv0mabYOltcMe8+T2J9Bgq
+         yc05A7lpR3sgFgHNN5cJXvhTm4nF1muBe/O9YtSY9T28qVv7e0oAIekbOjNJTvaTT4z0
+         NmZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750778191; x=1751382991;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Xz6lF9XniltLisPEnyJriOyTCQCRxSp9Qc6C+GjVXIs=;
+        b=hon+LHMyx1gF6R38An0cNXZkVnPjeMTDL2BB/HLBPhwSjxA3yXPEgWt/5UDutHuBef
+         CfiIXHbCvq1lFvOuK9pJN3M29DBmAd9yJPYuyyBYmdPm7KAHWxRSCrqTdOS/HWJeyUoQ
+         b8eJDw8D+dRI9Uz84krE6MGEYm0zdGy+zXY04g5/RfMk7IMGnMfbo/VzNZXOAvzZL4FA
+         XvNn5jMZrpRtubDY0lPjHB7LwQEOZd4CVfvpsPSrfjqitjdE/FUNqrpkQ0INeEdBdPAb
+         0ORQppOzIYiUiVdI2txs5t9qi0oJVtSg99bOqHFLvTRaIhRdCgZOBGYA+veZI2AG0gm+
+         M/Rg==
+X-Forwarded-Encrypted: i=1; AJvYcCU4JBCtBy+ia4asaEox+cV1/W1ff7XP7QYjb2Sb91TArXzJJLzeUIP4V7l3fAuMEL7PgfvekylVLPHE@vger.kernel.org, AJvYcCW+99RxePhxmhJtxQRj2I+isLAoEnlN9OD5iyRGYQ8vB2xNHm9lpbDI5TSUhV1ydSgQN/mMPHNQvf4bwi2q@vger.kernel.org, AJvYcCW7R5UWnx08WJv0sJOBh7qBqCGzsYcWCxk0pXEiGxpMRKF/k4jmi4Kv2GjiqlD4C0QMVNhX6Kns+NDl@vger.kernel.org, AJvYcCXa+l2yafG6C26OOqxFJOkmhabRFptuK7Q2CU3sMGX60qpQXhEXyzZWotywLfCXpFprNR7CMdccxkd1u0KtrZoQzTE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzyz9Gx/gdFUnpBqIX8dP/3SalytRJEVf5XTHF3GhIQ5qM9BJZK
+	g8KyG9dk4S7NsOZYUBc8XB12oENml+fwPWeXVnJD7p9h8jntsoMS0Rty18aPzNXxcW8/NOX1fyi
+	CbzNUouE7whA13ADoddPzU7ZiSFwnib0=
+X-Gm-Gg: ASbGnctt4g43OoiImEEiBEH/aQjWXhJa/XnKIm+7VOBZGPVYGIV+e2toTw9bZEmUYp8
+	aHPEMw3668LErFgPZPX3WVWKhJ0bf4zCvMysn76ibnuQqz006m5cHjclpmlWxfrDCc5nZG6wcwE
+	z68nS6rEKQCEkOWW3+tIXqPPdh4Lp0TB743/ICzbGT3j6tjSypJVo3+KUZ
+X-Google-Smtp-Source: AGHT+IG+Z5NuC4RG8ReXh+ijI0QVvcrGpC6q73clRUZr6aJi8i6CQO+smzxdbdwirUDg+z0XbAcVWnQEOSlhWZ83ilc=
+X-Received: by 2002:a05:6402:1d53:b0:604:5bba:61a0 with SMTP id
+ 4fb4d7f45d1cf-60a1cf2d130mr14287673a12.23.1750778190705; Tue, 24 Jun 2025
+ 08:16:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] dt-bindings: media: Add bindings for the RZ/V2H
- IVC block
-To: Krzysztof Kozlowski <krzk@kernel.org>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- jacopo.mondi@ideasonboard.com, biju.das.jz@bp.renesas.com
-References: <20250624-ivc-v2-0-e4ecdddb0a96@ideasonboard.com>
- <20250624-ivc-v2-1-e4ecdddb0a96@ideasonboard.com>
- <cfc25ba6-753e-41bd-8cb6-f31ba57593a8@kernel.org>
-Content-Language: en-US
-From: Dan Scally <dan.scally@ideasonboard.com>
-Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
- 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
-In-Reply-To: <cfc25ba6-753e-41bd-8cb6-f31ba57593a8@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20250530171841.423274-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250530171841.423274-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <TY3PR01MB11346A62FDF84C5F2C1240BBF8677A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <CA+V-a8sZfTgOENXfR2NnykgjGHd+2-vS9Jk-dNLWTVQyAGbQTw@mail.gmail.com> <TYCPR01MB11332F40696148C7216866D3B8670A@TYCPR01MB11332.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYCPR01MB11332F40696148C7216866D3B8670A@TYCPR01MB11332.jpnprd01.prod.outlook.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Tue, 24 Jun 2025 16:16:03 +0100
+X-Gm-Features: AX0GCFtI-IF1eAXq4c-T_qlior0_QFH7KRpC7NQJfzxetksCcBYQKOzsOlDjoug
+Message-ID: <CA+V-a8txzBEwSSNEgoPkxBGAoQDrdGFtnYoLo49SqN-aZUUVXw@mail.gmail.com>
+Subject: Re: [PATCH v6 4/4] drm: renesas: rz-du: mipi_dsi: Add support for
+ RZ/V2H(P) SoC
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	"laurent.pinchart" <laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, 
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Krzysztof - thanks for comments
-
-On 24/06/2025 14:16, Krzysztof Kozlowski wrote:
-> On 24/06/2025 14:35, Daniel Scally wrote:
->> The RZ/V2H SoC has a block called the Input Video Control block which
->> feeds image data into the Image Signal Processor. Add dt bindings to
->> describe the IVC.
->>
->> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
->> ---
->> Changes in v2:
->>
->> 	- compatible matches filename
-> This is not what I asked.
-
-
-Ah, you meant the other way round. Ok.
-
->
->> 	- Added power-domains
->> 	- Aligned clock and reset entries on opening "<"
->> 	- Removed status = "okay"; from example
->> ---
->>   .../bindings/media/renesas,rzv2h-ivc.yaml          | 103 +++++++++++++++++++++
->>   1 file changed, 103 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/media/renesas,rzv2h-ivc.yaml b/Documentation/devicetree/bindings/media/renesas,rzv2h-ivc.yaml
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..ee0849eeeaba840cf43c81d69449c631ad1c6a6a
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/media/renesas,rzv2h-ivc.yaml
->> @@ -0,0 +1,103 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/media/renesas,rzv2h-ivc.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Renesas RZ/V2H Input Video Control Block
->> +
->> +maintainers:
->> +  - Daniel Scally <dan.scally@ideasonboard.com>
->> +
->> +description:
->> +  The IVC block is a module that takes video frames from memory and feeds them
->> +  to the Image Signal Processor for processing.
->> +
->> +properties:
->> +  compatible:
->> +    const: renesas,rzv2h-ivc
-> No, you cannot use generic compatibles. See writing bindings (or
-> basically every review from DT maintainers).
-
-
-OK...to throw a spanner into this, I think there's actually two soc codes with the IP; r9a09g057h44 
-and r9a09g057h48. renesas,rzg2l-cru.yaml and renesas,rzg2l-csi2.yaml seem to use the 'generic' code 
-in a way that suggests this:
-
-compatible:
-         items:
-             - enum:
-                 - renesas,r9a09g057h44-ivc
-                 - renesas,r9a09g057h48-ivc
-             - const: renesas,rzv2h-ivc
-
-
-And then the filename stays as it is, but the example-schema.yaml to me suggests this, without the 
-'generic' code there at all:
-
-
-compatible:
-         items:
-             - enum:
-                 - renesas,r9a09g057h48-ivc
-             - const: renesas,r9a09g057h44-ivc
-
-
-Is the latter one right?
-
-
->
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  clocks:
->> +    items:
->> +      - description: Input Video Control block register access clock
->> +      - description: Video input data AXI bus clock
->> +      - description: ISP system clock
->> +
->> +  clock-names:
->> +    items:
->> +      - const: pclk
->> +      - const: vin_aclk
-> aclk
->
-> vin is redundant. This cannot be anything else than vin.
-Fair enough; there's also a clock that the documentation calls "reg_aclk" that goes to the ISP core 
-and I've been calling that one just "aclk" so the "vin_" was to distinguish them...but maybe I 
-should just stop trying to follow the documentation's names; how about "reg", "axi" and "isp" for 
-both the clock and reset names?
-
->
->> +      - const: sclk
->> +
->> +  power-domains:
->> +    maxItems: 1
->> +
->> +  resets:
->> +    items:
->> +      - description: Input Video Control block register access reset
->> +      - description: Video input data AXI bus reset
->> +      - description: ISP core reset
->> +
->> +  reset-names:
->> +    items:
->> +      - const: presetn
->> +      - const: vin_aresetn
->> +      - const: sresetn
->
-> s/reset// because it is redundant... which would point to pretty
-> pointless names. Look at your description - one is core or registers,
-> second is vin and other is isp-core... although then I wonder why ISP
-> input resets ISP core?
-
-
-The two IP blocks share the ISP system clock / ISP core reset and also Video input data AXI bus 
-clock / reset.
-
-
-Thanks
-
-Dan
-
+On Mon, Jun 16, 2025 at 11:54=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.c=
+om> wrote:
 >
 >
 >
-> Best regards,
-> Krzysztof
+> > -----Original Message-----
+> > From: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+> > Sent: Monday, June 16, 2025 11:48 AM
+> > To: Biju Das <biju.das.jz@bp.renesas.com>
+> > Cc: Geert Uytterhoeven <geert+renesas@glider.be>; Andrzej Hajda
+> > <andrzej.hajda@intel.com>; Neil Armstrong <neil.armstrong@linaro.org>;
+> > Robert Foss <rfoss@kernel.org>; laurent.pinchart
+> > <laurent.pinchart@ideasonboard.com>; Jonas Karlman <jonas@kwiboo.se>;
+> > Jernej Skrabec <jernej.skrabec@gmail.com>; Maarten Lankhorst
+> > <maarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@kernel.org>=
+;
+> > Thomas Zimmermann <tzimmermann@suse.de>; David Airlie <airlied@gmail.co=
+m>;
+> > Simona Vetter <simona@ffwll.ch>; Rob Herring <robh@kernel.org>; Krzyszt=
+of
+> > Kozlowski <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>;
+> > Michael Turquette <mturquette@baylibre.com>; Stephen Boyd
+> > <sboyd@kernel.org>; Magnus Damm <magnus.damm@gmail.com>; dri-
+> > devel@lists.freedesktop.org; devicetree@vger.kernel.org; linux-
+> > kernel@vger.kernel.org; linux-renesas-soc@vger.kernel.org; linux-
+> > clk@vger.kernel.org; Fabrizio Castro <fabrizio.castro.jz@renesas.com>;
+> > Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Subject: Re: [PATCH v6 4/4] drm: renesas: rz-du: mipi_dsi: Add support =
+for
+> > RZ/V2H(P) SoC
+> >
+> > Hi Biju,
+> >
+> > Thank you for the review.
+> >
+> > On Fri, Jun 13, 2025 at 7:17=E2=80=AFAM Biju Das <biju.das.jz@bp.renesa=
+s.com>
+> > wrote:
+> > >
+> > > Hi Prabhakar,
+> > >
+> > > > -----Original Message-----
+> > > > From: Prabhakar <prabhakar.csengg@gmail.com>
+> > > > Sent: 30 May 2025 18:19
+> > > > Subject: [PATCH v6 4/4] drm: renesas: rz-du: mipi_dsi: Add support
+> > > > for RZ/V2H(P) SoC
+> > > >
+> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > >
+> > > > Add DSI support for Renesas RZ/V2H(P) SoC.
+> > > >
+> > > > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > > > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > > > Signed-off-by: Lad Prabhakar
+> > > > <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > ---
+> > > > v5->v6:
+> > > > - Made use of GENMASK() macro for PLLCLKSET0R_PLL_*,
+> > > >   PHYTCLKSETR_* and PHYTHSSETR_* macros.
+> > > > - Replaced 10000000UL with 10 * MEGA
+> > > > - Renamed mode_freq_hz to mode_freq_khz in rzv2h_dsi_mode_calc
+> > > > - Replaced `i -=3D 1;` with `i--;`
+> > > > - Renamed RZV2H_MIPI_DPHY_FOUT_MIN_IN_MEGA to
+> > > >   RZV2H_MIPI_DPHY_FOUT_MIN_IN_MHZ and
+> > > >   RZV2H_MIPI_DPHY_FOUT_MAX_IN_MEGA to
+> > > >   RZV2H_MIPI_DPHY_FOUT_MAX_IN_MHZ.
+> > > >
+> > > > v4->v5:
+> > > > - No changes
+> > > >
+> > > > v3->v4
+> > > > - In rzv2h_dphy_find_ulpsexit() made the array static const.
+> > > >
+> > > > v2->v3:
+> > > > - Simplifed V2H DSI timings array to save space
+> > > > - Switched to use fsleep() instead of udelay()
+> > > >
+> > > > v1->v2:
+> > > > - Dropped unused macros
+> > > > - Added missing LPCLK flag to rzv2h info
+> > > > ---
+> > > >  .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 345
+> > ++++++++++++++++++
+> > > >  .../drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h   |  34 ++
+> > > >  2 files changed, 379 insertions(+)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > > b/drivers/gpu/drm/renesas/rz- du/rzg2l_mipi_dsi.c index
+> > > > a31f9b6aa920..ea554ced6713 100644
+> > > > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > > @@ -5,6 +5,7 @@
+> > > >   * Copyright (C) 2022 Renesas Electronics Corporation
+> > > >   */
+> > > >  #include <linux/clk.h>
+> > > > +#include <linux/clk/renesas-rzv2h-dsi.h>
+> > > >  #include <linux/delay.h>
+> > > >  #include <linux/io.h>
+> > > >  #include <linux/iopoll.h>
+> > <snip>
+> > > > +
+> > > > +static int rzv2h_dphy_conf_clks(struct rzg2l_mipi_dsi *dsi, unsign=
+ed
+> > long mode_freq,
+> > > > +                             u64 *hsfreq_millihz) {
+> > > > +     struct rzv2h_plldsi_parameters *dsi_parameters =3D &dsi-
+> > >dsi_parameters;
+> > > > +     unsigned long status;
+> > > > +
+> > > > +     if (dsi->mode_calc.mode_freq_khz !=3D mode_freq) {
+> > > > +             status =3D rzv2h_dphy_mode_clk_check(dsi, mode_freq);
+> > > > +             if (status !=3D MODE_OK) {
+> > > > +                     dev_err(dsi->dev, "No PLL parameters found fo=
+r
+> > mode clk %lu\n",
+> > > > +                             mode_freq);
+> > > > +                     return -EINVAL;
+> > > > +             }
+> > > > +     }
+> > > > +
+> > > > +     clk_set_rate(dsi->vclk, dsi->mode_calc.mode_freq_hz);
+> > >
+> > > Not sure, Can we use the DSI divider required based on the data rate
+> > > (vclk, bpp and numlanes) here
+> > >
+> > > and then the set parent clk of PLLDSI as well here (dsi->vclk * the
+> > divider value) ??
+> > >
+> > > 24MHZ->PLL DSI->DSI DIVIDER->VCLOCK
+> > >
+> > > Maybe then the clock framework has all the information for setting
+> > PLL_DSI and DSI_DIVIDER clks??
+> > >
+> > Can you please elaborate here with a detailed example.
+>
+> There will be determine_clk followed by set_clock for setting new rate fo=
+r PLL DSI(dsi->vclk * the divider value)
+> For eg:  vclk_max =3D 187.5 MHz, DSI Divider required =3D 16
+> Then set PLL_DSI =3D 187.5 * 16 MHz using clk_set.
+>
+This will trigger the algorithm twice, so I'll go with the current
+approach which is optimal.
+
+Cheers,
+Prabhakar
 
