@@ -1,212 +1,277 @@
-Return-Path: <linux-renesas-soc+bounces-18715-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18716-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B409AE8021
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 12:49:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09857AE80A9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 13:11:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7F3C47B49B5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 10:47:43 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A493A7A4034
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 11:09:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB8FE2DBF75;
-	Wed, 25 Jun 2025 10:45:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 878672BDC10;
+	Wed, 25 Jun 2025 11:10:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PqrmozRI"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="dQmPgMH3";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="VLtwbBhy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A33742DAFAD;
-	Wed, 25 Jun 2025 10:45:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E571E1C3F;
+	Wed, 25 Jun 2025 11:10:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750848345; cv=none; b=PWk/1WQRiuWD5IQZzzZxS9p6KVIxZGADFki1Vrc7mNqxwRjVr4t2aP24V7u3nXYtarButzKNaL/otR1vUr/WsmpouF/LkuutmvMoyyJpaf6wKvZmhxlDQkAd7J3hu1RPjCSuk0Q/YBOn7iirdxqYWtY09aEjiulusX4QSM8Wrqo=
+	t=1750849831; cv=none; b=hICqJ1scXYJChvNRhFvnpw9vCp/DrMdOv6bfC2rlIcKWs+6Q+C8VtffxrlJIaIGROuzQJQ6Ol59+Hm7C7oN48Zq3nAKNNf11sZmCSFTs3QYJBp+FfaUITJcjcsvYZLoKJb3qAg4ciFTvGyL70wINdfVOe3qFVg32yPiB3DOjKeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750848345; c=relaxed/simple;
-	bh=qdP/GNG9ynrq763FP3QFBIjwWpwvoFqtkVSEzaOB3lo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=a8czfRxzaaLSr+2rpkucoTwZOEel+JgPw8glRrevBDXVrln4PxY+G7aTjj8kvbejhgVzGZgl+lnAEkw0iqvZWs4rgs+u32h5YGlcJCjV/R5huyaLPj6ipV0qHltpSdoCp0LpzZVdmB0B0iwFKyDLkqcMe0WU5z+YQZotv89aI7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PqrmozRI; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-451d41e1ad1so10674775e9.1;
-        Wed, 25 Jun 2025 03:45:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750848341; x=1751453141; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o7TjW11pS9pqBHrVFgl2ri7fsSXdHbIvbSJxHftaM5A=;
-        b=PqrmozRIgIJ6ZDOGSJMpr3eCqjvuNfGHmMrpfOREDrFmi6343cyFKYPxA44Mt9NSAv
-         OlV7t94POHCkkiiQdSwZVVUX6HreaHDH2GQ4xEtto0OMIA0nOrsVlufyA+d8DVcOQeWC
-         Gh2h1/ddT1jYX0kYF4ZdVyGiCsd/Cx1i2hUvtoN9zB9VY3199whNfE8ikQ66WzUKFNj0
-         ryOk0oz7MLJ+SZtASCJNGFbc/QcqYlFCNKHeUO8NDohWcG2c4kW1mPX2bNz+lxDl6wMT
-         o9CbaBcXX6GZjspXRaKFJ4Wrex938vaP1CL5uv5Teio4mgtbQn23VlpZzM0XSfEhOSGD
-         O7jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750848341; x=1751453141;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=o7TjW11pS9pqBHrVFgl2ri7fsSXdHbIvbSJxHftaM5A=;
-        b=JTDlKaM16W5fymoMUCg3r3zBmaP7z+EwjIVbXE/QxubyJWJbu6zgisF2u57F0obiFk
-         dbJiGLFGmWEIlRWIT04vfImxpwzA9EV2Gw9+qHobQ+njGFgOpQjdYSmNB4ZtN/cDUbzP
-         ptHjrug83iJFGTKf/dSMDwmN5r78ZIwIwinDHoHU3eGnJ9R20T/P9oAPFtQFexIjGHkn
-         gzsE3ur/lhiR86ctxq/p3G8MHDniuvhgDxQfzm09Z9h+GIOPjeXgb3pT7w17g0Jfy01i
-         m+j8Sg2mCevFLNVxnBNXPHTmvWqUSfKZn1w9siuFwzurdcPpKXAPbxqX2/aJOhMWjmwP
-         PSqg==
-X-Forwarded-Encrypted: i=1; AJvYcCUP8gq5NftleeI41oNZIFhKxnUO3ouGEe/5Mqz9Y5bBBoWgcH7zN4bx/8n7DwG3NMsx25aHPQZXlnLH@vger.kernel.org, AJvYcCVedxXxMGiivEtV8ktTjbt3SuJXrNvz2J8ZS52j9mfbPaUCE2Np3DZxFluDn6J+ZQFyUHX5b6TwdbYW@vger.kernel.org, AJvYcCWha58ePTvHRZVwzxPknIDJ3kJZKDsjznkEfcqZMn60uhxOU3YA94P4IJ/4krceCXli8KyMNePsxmkvM9j7@vger.kernel.org
-X-Gm-Message-State: AOJu0YwC3VE1p3jfDayfVC3UlPT8ZI0dJggkJVWOdN3gQ3PGe76yhsi+
-	2JhD5V+GMg5WVzxcs+x9e9uJRm9uEyaNrDvhYncSSRa9HoIKAhYfn035
-X-Gm-Gg: ASbGncs0o/hVZK0QnXndKfororA4fRu58JOsiV9Wt3FaKFPb9T9x/v2FjF0dy5IrNGO
-	yaOgl1CnQOJ5boEz2FWPtf4IceTFUnzR9caL1stv4L4ESlF/jUjcUPAHmdJaIgWe1gmZulUefxF
-	cL9V3ImbZ3iDGCHM8GWr6EXKR3j0G89VYcanuB2dWJq2X0nR6dIHrzjAiwyCIZeSLJmtUakQ9WI
-	Wmn7E5ALstmb1xwTR2X6Q5Ah5lVKQVMae7VGnUfxhJ/r2oJlBMLgLxe6g1FGU7UPQEIXXlzPsad
-	JfrlV+YSL7XUd9BviaUUDKphrEZUGFcus1laNUfSdDCA5n3RXPgAZp/o4t928fB4Y6SgGxzECh4
-	tBH88aImFKdWnGDH3q49d
-X-Google-Smtp-Source: AGHT+IFBxm6EmW32lcRlPsUnLPbeySEPUX/S1vK0KZddhQnAehcP1rndzN0/KfNC4ajIDkyKWoVBKw==
-X-Received: by 2002:a05:600c:670a:b0:43c:f81d:34 with SMTP id 5b1f17b1804b1-45381aba2efmr25272935e9.9.1750848340503;
-        Wed, 25 Jun 2025 03:45:40 -0700 (PDT)
-Received: from iku.example.org ([2a06:5906:61b:2d00:c47e:d783:f875:2c7c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538233c1easm16036175e9.3.2025.06.25.03.45.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jun 2025 03:45:39 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Chris Brandt <chris.brandt@renesas.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	s=arc-20240116; t=1750849831; c=relaxed/simple;
+	bh=XT+EwPD4OgKIgCidfsqog4gzyYrb031nl7652LHFA+I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FbAarGURno4Ubr07DCjm91M+gmxQrhzA1qVgYQEYd+yWqBxIC5oq9UkFRbGiGtEXEO/HL96DvbCOZzENLVPOhS7mMqR+TT2dKhHNm/z/7zMt3EhZh45C2eynpzIAjea2+1gEaprrq+zUXFIwSrEohmbywH+29lDGd2Wtqse8EcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=dQmPgMH3; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=VLtwbBhy; arc=none smtp.client-ip=103.168.172.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
+	by mailfout.phl.internal (Postfix) with ESMTP id 45B4BEC0292;
+	Wed, 25 Jun 2025 07:10:27 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-12.internal (MEProxy); Wed, 25 Jun 2025 07:10:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1750849827;
+	 x=1750936227; bh=pfz7ME3gmVUD4gHhu/odMLYpeYC9QIWk3tsj5/f8bRE=; b=
+	dQmPgMH3SQYrbOnd4o9OEI2mbO0FBWMlwDmH4pearvPMsLxrXNP0fIlHZl03Qdlh
+	v20nmE61iXP+9ZV2E2LrYcAnUHCwZArQSlKVoFb1wCSlmf7TtFIQ2cyrfFWZBh0L
+	MRY5SHykz1tp/jCVgQm50Mn8yvv69gCS6xqUw1+LupWedZVJYr7PyGeRB2yanQpc
+	KnPygzNNLX8wSZuwkyvNWeWva05t5IObOMU9MOkGg1Ybm2c+5zZl8o1GNExI62bA
+	RG0ybaqo3SktS1kb2gGA42OoW/Xxzo0/RZT6GeQvVeaCzMiUKQbw9a3op8bjEEH3
+	6z/oe88sL4mxNIE+bmK1QQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1750849827; x=
+	1750936227; bh=pfz7ME3gmVUD4gHhu/odMLYpeYC9QIWk3tsj5/f8bRE=; b=V
+	LtwbBhyFep8zGcZ/H3hDNt7qhtSwvR1rOW7Tbzh+m9gV7wfFb6R0D6G1oXkpJ87A
+	LPX7LWfqYisSdkwxzZ8NklT6ybgwR2sEmiNJIre6fGt4xi7ZSVQedAkfeT1rAERZ
+	ZQ/54cyMwW1bPW8xa0FD/ps84N8QekbN5xSKzA+RoH3QtY0yG2IfXMoZylRkIwKZ
+	uOkDrxDdFbhrZqo6UsvtYKgRPntEVHH2iNhL9Lesnrxu+vslGRCEvaPNi5aoYEYJ
+	FyojSBQ/cqzYnrNsESWTYcdFiOk/F6NZ46tVgVm+NI8fZ0IgJ8ifB9X4CvDmCUE5
+	wYImr62d+kRFjl2w0nHjg==
+X-ME-Sender: <xms:ItlbaG8K6_ljU3apPcYci3q-kwXdVQEhO0G8PREQsoK3Jy4aSuIoLA>
+    <xme:ItlbaGtHvbwxXnA94rvzxe7D0UGxCI1nzBoQ0u55scxchX1LuvuxO7TkkQuYHzOO9
+    CmBLx_d1QjCisMiiUY>
+X-ME-Received: <xmr:ItlbaMDixQKsceSZPuutL6PpVsPvL9S3YVnkwxt34mkht4rGcwiZyvkijIZtRgBLW-b49evRDtoCR94A1-BrWzriIMo9EVcVng>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddvgddvvdeiudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhikhhlrghs
+    ucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrth
+    gvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepveetgedtvddvhfdtkeeghfeffeehteeh
+    keekgeefjeduieduueelgedtheekkeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+    hrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgr
+    thgvtghhrdhsvgdpnhgspghrtghpthhtohepledpmhhouggvpehsmhhtphhouhhtpdhrtg
+    hpthhtohepmhgrrhgvkhdrvhgrshhuthdorhgvnhgvshgrshesmhgrihhlsghogidrohhr
+    ghdprhgtphhtthhopehlihhnuhigqdhpmhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprh
+    gtphhtthhopehrrghfrggvlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggrnhhi
+    vghlrdhlvgiitggrnhhosehlihhnrghrohdrohhrghdprhgtphhtthhopehgvggvrhhtod
+    hrvghnvghsrghssehglhhiuggvrhdrsggvpdhrtghpthhtoheplhhukhgrshiirdhluhgs
+    rgesrghrmhdrtghomhdprhgtphhtthhopehmrghgnhhushdruggrmhhmsehgmhgrihhlrd
+    gtohhmpdhrtghpthhtoheprhhuihdriihhrghnghesihhnthgvlhdrtghomhdprhgtphht
+    thhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorh
+    hg
+X-ME-Proxy: <xmx:ItlbaOd33cVm7FM2GAEKt1LxbzFKmRNcK-aU4zgQGYoewesAFTHMFA>
+    <xmx:ItlbaLNbPVAVzcVy74QajidDLQq9QAXvi4Of7WvIdUucOWpnvnObLg>
+    <xmx:ItlbaIl5bY4-8WIw9UMsf22uXx3z9xW-T6zvfT-7DnaQJftSEpOCKw>
+    <xmx:ItlbaNtmt0oBFIWosiJ38HEo0XSt4WjTJTTQ-8LWs9SvW9gWmQptBw>
+    <xmx:I9lbaLcnin9YYA1hOIo0B0PF7MH8bcsg1MtjwKUg5pIVTUV3W3yXcKpu>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 25 Jun 2025 07:10:26 -0400 (EDT)
+Date: Wed, 25 Jun 2025 13:10:24 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Lukasz Luba <lukasz.luba@arm.com>,
 	Magnus Damm <magnus.damm@gmail.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Andy Shevchenko <andy@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v4 5/5] i2c: riic: Add support for RZ/T2H SoC
-Date: Wed, 25 Jun 2025 11:45:26 +0100
-Message-ID: <20250625104526.101004-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250625104526.101004-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20250625104526.101004-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Zhang Rui <rui.zhang@intel.com>, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/2] thermal: rcar_gen3: Add support for per-SoC default
+ trim values
+Message-ID: <20250625111024.GA854038@ragnatech.se>
+References: <20250625100116.7538-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250625100116.7538-1-marek.vasut+renesas@mailbox.org>
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi Marek,
 
-Add support for the Renesas RZ/T2H (R9A09G077) SoC, which features a
-different interrupt layout for the RIIC controller. Unlike other SoCs
-with individual error interrupts, RZ/T2H uses a combined error interrupt
-(EEI).
+Thanks for your work!
 
-Introduce a new IRQ descriptor table for RZ/T2H, along with a custom
-ISR (`riic_eei_isr`) to handle STOP and NACK detection from the shared
-interrupt.
+On 2025-06-25 11:59:58 +0200, Marek Vasut wrote:
+> The Working Sample R-Car SoCs may not yet have thermal sensor trimming
+> values programmed into fuses, those fuses are blank instead. For such
+> SoCs, the driver includes fallback trimming values. Those values are
+> currently applied to all SoCs which use this driver.
+> 
+> Introduce support for per-SoC fallback trimming values in preparation
+> for SoCs which do not use these current trimming values. No functional
+> change is intended here.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com> # on RZ/A1
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
----
-v3->v4:
-- No changes.
+I like the change, only have one bikeshedding comment about naming.
 
-v2->v3:
-- No changes.
+> 
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> ---
+> Cc: "Niklas Söderlund" <niklas.soderlund@ragnatech.se>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Lukasz Luba <lukasz.luba@arm.com>
+> Cc: Magnus Damm <magnus.damm@gmail.com>
+> Cc: Zhang Rui <rui.zhang@intel.com>
+> Cc: linux-pm@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+>  drivers/thermal/renesas/rcar_gen3_thermal.c | 42 ++++++++++++++-------
+>  1 file changed, 28 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/thermal/renesas/rcar_gen3_thermal.c b/drivers/thermal/renesas/rcar_gen3_thermal.c
+> index 24a702ee4c1f..a388bd3135e4 100644
+> --- a/drivers/thermal/renesas/rcar_gen3_thermal.c
+> +++ b/drivers/thermal/renesas/rcar_gen3_thermal.c
+> @@ -73,11 +73,17 @@ struct rcar_gen3_thermal_fuse_info {
+>  	u32 mask;
+>  };
+>  
+> +struct rcar_gen3_thermal_fuse_default_info {
 
-v1->v2:
-- Updated the riic_rzt2h_irqs array to match the order of
-  interrupts as mentioned in the DT binding.
-- Updated the interrupt names in the riic_rzt2h_irqs array to
-  match the HW manual.
-- Added Tested-by and Reviewed-by tags.
----
- drivers/i2c/busses/i2c-riic.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+Maybe call this 'rcar_gen3_thermal_fuse_default' to reduce the symbol 
+length. In retrospect picking the preifx 'rcar_gen3_thermal_' was a 
+really bad idea on my part...
 
-diff --git a/drivers/i2c/busses/i2c-riic.c b/drivers/i2c/busses/i2c-riic.c
-index d0b975e45595..9c164a4b9bb9 100644
---- a/drivers/i2c/busses/i2c-riic.c
-+++ b/drivers/i2c/busses/i2c-riic.c
-@@ -79,6 +79,7 @@
- #define ICIER_SPIE	BIT(3)
- 
- #define ICSR2_NACKF	BIT(4)
-+#define ICSR2_STOP	BIT(3)
- 
- #define ICBR_RESERVED	GENMASK(7, 5) /* Should be 1 on writes */
- 
-@@ -326,6 +327,19 @@ static irqreturn_t riic_stop_isr(int irq, void *data)
- 	return IRQ_HANDLED;
- }
- 
-+static irqreturn_t riic_eei_isr(int irq, void *data)
-+{
-+	u8 icsr2 = riic_readb(data, RIIC_ICSR2);
-+
-+	if (icsr2 & ICSR2_NACKF)
-+		return riic_tend_isr(irq, data);
-+
-+	if (icsr2 & ICSR2_STOP)
-+		return riic_stop_isr(irq, data);
-+
-+	return IRQ_NONE;
-+}
-+
- static u32 riic_func(struct i2c_adapter *adap)
- {
- 	return I2C_FUNC_I2C | I2C_FUNC_SMBUS_EMUL;
-@@ -497,6 +511,13 @@ static const struct riic_irq_desc riic_irqs[] = {
- 	{ .res_num = 5, .isr = riic_tend_isr, .name = "riic-nack" },
- };
- 
-+static const struct riic_irq_desc riic_rzt2h_irqs[] = {
-+	{ .res_num = 0, .isr = riic_eei_isr,  .name = "riic-eei" },
-+	{ .res_num = 1, .isr = riic_rdrf_isr, .name = "riic-rxi" },
-+	{ .res_num = 2, .isr = riic_tdre_isr, .name = "riic-txi" },
-+	{ .res_num = 3, .isr = riic_tend_isr, .name = "riic-tei" },
-+};
-+
- static int riic_i2c_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -643,6 +664,12 @@ static const struct riic_of_data riic_rz_v2h_info = {
- 	.fast_mode_plus = true,
- };
- 
-+static const struct riic_of_data riic_rz_t2h_info = {
-+	.regs = riic_rz_v2h_regs,
-+	.irqs = riic_rzt2h_irqs,
-+	.num_irqs = ARRAY_SIZE(riic_rzt2h_irqs),
-+};
-+
- static int riic_i2c_suspend(struct device *dev)
- {
- 	struct riic_dev *riic = dev_get_drvdata(dev);
-@@ -695,6 +722,7 @@ static const struct dev_pm_ops riic_i2c_pm_ops = {
- static const struct of_device_id riic_i2c_dt_ids[] = {
- 	{ .compatible = "renesas,riic-r7s72100", .data =  &riic_rz_a1h_info, },
- 	{ .compatible = "renesas,riic-r9a09g057", .data = &riic_rz_v2h_info },
-+	{ .compatible = "renesas,riic-r9a09g077", .data = &riic_rz_t2h_info },
- 	{ .compatible = "renesas,riic-rz", .data = &riic_rz_a_info },
- 	{ /* Sentinel */ }
- };
+> +	u32 ptat[3];
+> +	u32 thcodes[TSC_MAX_NUM][3];
+> +};
+> +
+>  struct rcar_thermal_info {
+>  	int scale;
+>  	int adj_below;
+>  	int adj_above;
+>  	const struct rcar_gen3_thermal_fuse_info *fuses;
+> +	const struct rcar_gen3_thermal_fuse_default_info *fuse_defaults;
+>  };
+>  
+>  struct equation_set_coef {
+> @@ -289,6 +295,7 @@ static void rcar_gen3_thermal_fetch_fuses(struct rcar_gen3_thermal_priv *priv)
+>  
+>  static bool rcar_gen3_thermal_read_fuses(struct rcar_gen3_thermal_priv *priv)
+>  {
+> +	const struct rcar_gen3_thermal_fuse_default_info *fuse_defaults = priv->info->fuse_defaults;
+>  	unsigned int i;
+>  	u32 thscp;
+>  
+> @@ -297,24 +304,16 @@ static bool rcar_gen3_thermal_read_fuses(struct rcar_gen3_thermal_priv *priv)
+>  	if (!priv->info->fuses ||
+>  	    (thscp & THSCP_COR_PARA_VLD) != THSCP_COR_PARA_VLD) {
+>  		/* Default THCODE values in case FUSEs are not set. */
+> -		static const int thcodes[TSC_MAX_NUM][3] = {
+> -			{ 3397, 2800, 2221 },
+> -			{ 3393, 2795, 2216 },
+> -			{ 3389, 2805, 2237 },
+> -			{ 3415, 2694, 2195 },
+> -			{ 3356, 2724, 2244 },
+> -		};
+> -
+> -		priv->ptat[0] = 2631;
+> -		priv->ptat[1] = 1509;
+> -		priv->ptat[2] = 435;
+> +		priv->ptat[0] = fuse_defaults->ptat[0];
+> +		priv->ptat[1] = fuse_defaults->ptat[1];
+> +		priv->ptat[2] = fuse_defaults->ptat[2];
+>  
+>  		for (i = 0; i < priv->num_tscs; i++) {
+>  			struct rcar_gen3_thermal_tsc *tsc = priv->tscs[i];
+>  
+> -			tsc->thcode[0] = thcodes[i][0];
+> -			tsc->thcode[1] = thcodes[i][1];
+> -			tsc->thcode[2] = thcodes[i][2];
+> +			tsc->thcode[0] = fuse_defaults->thcodes[i][0];
+> +			tsc->thcode[1] = fuse_defaults->thcodes[i][1];
+> +			tsc->thcode[2] = fuse_defaults->thcodes[i][2];
+>  		}
+>  
+>  		return false;
+> @@ -361,11 +360,24 @@ static const struct rcar_gen3_thermal_fuse_info rcar_gen3_thermal_fuse_info_gen4
+>  	.mask = GEN4_FUSE_MASK,
+>  };
+>  
+> +static const struct rcar_gen3_thermal_fuse_default_info
+> +	rcar_gen3_thermal_fuse_default_info_gen3 = {
+
+With the names adjusted above this could be
+
+static const struct rcar_gen3_thermal_fuse_default rcar_gen3_thermal_fuses_default_gen3 = {
+
+And that would fit the 100 char limit. We have lines that are 100 chars 
+long already in the file, so this is fine IMHO. Again having such a long 
+prefix string was a bad idea, sorry about that.
+
+With this addressed,
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+> +	.ptat = { 2631, 1509, 435 },
+> +	.thcodes = {
+> +		{ 3397, 2800, 2221 },
+> +		{ 3393, 2795, 2216 },
+> +		{ 3389, 2805, 2237 },
+> +		{ 3415, 2694, 2195 },
+> +		{ 3356, 2724, 2244 },
+> +	},
+> +};
+> +
+>  static const struct rcar_thermal_info rcar_m3w_thermal_info = {
+>  	.scale = 157,
+>  	.adj_below = -41,
+>  	.adj_above = 116,
+>  	.fuses = &rcar_gen3_thermal_fuse_info_gen3,
+> +	.fuse_defaults = &rcar_gen3_thermal_fuse_default_info_gen3,
+>  };
+>  
+>  static const struct rcar_thermal_info rcar_gen3_thermal_info = {
+> @@ -373,6 +385,7 @@ static const struct rcar_thermal_info rcar_gen3_thermal_info = {
+>  	.adj_below = -41,
+>  	.adj_above = 126,
+>  	.fuses = &rcar_gen3_thermal_fuse_info_gen3,
+> +	.fuse_defaults = &rcar_gen3_thermal_fuse_default_info_gen3,
+>  };
+>  
+>  static const struct rcar_thermal_info rcar_gen4_thermal_info = {
+> @@ -380,6 +393,7 @@ static const struct rcar_thermal_info rcar_gen4_thermal_info = {
+>  	.adj_below = -41,
+>  	.adj_above = 126,
+>  	.fuses = &rcar_gen3_thermal_fuse_info_gen4,
+> +	.fuse_defaults = &rcar_gen3_thermal_fuse_default_info_gen3,
+>  };
+>  
+>  static const struct of_device_id rcar_gen3_thermal_dt_ids[] = {
+> -- 
+> 2.47.2
+> 
+
 -- 
-2.49.0
-
+Kind Regards,
+Niklas Söderlund
 
