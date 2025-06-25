@@ -1,61 +1,62 @@
-Return-Path: <linux-renesas-soc+bounces-18748-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18749-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B834AE8B5C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 19:15:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 820F7AE8BC7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 19:54:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3B41F3A5D66
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 17:15:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E86C04A315B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 17:54:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E56A1AC88A;
-	Wed, 25 Jun 2025 17:15:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C12E2BD59C;
+	Wed, 25 Jun 2025 17:54:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NIAxI9Q+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a4ZHKFfM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C813224F6;
-	Wed, 25 Jun 2025 17:15:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB2F1AF0BB;
+	Wed, 25 Jun 2025 17:54:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750871733; cv=none; b=C5mBOVE3aDHvIB/49/SugPObJJsidHDxlrxNP2gk0NM6JiCjPLCc9aT7Sr+Qia+AeaRBzLCW3/OFJweSwLQnOQmjV6m6APsyO/0l8DH5EAtE+EG6oBK8zaSIsUzmfJJzNT1liyb9mLl8oWH+PxM3uGAhxu92k0VGpeycaSKnrXE=
+	t=1750874083; cv=none; b=tWIqZ7NjhUV8XclPsCW9FWoiotc4dJtobBNM7f6KJz9j56S6r6txDW0sMDMdWfcsvbnOkerAfPnr9TS3yU6XC9BG579CU1MdH+8hXvoyk0J46ostyWbjg5co6vk+vz9Nm7wrMg2g7cmPE2qC/DPRGib0ja8Vh8viqcGC+/nvywU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750871733; c=relaxed/simple;
-	bh=tsPO0OiBG0PBkJSG9uxmHSEGiRUT65aNlEBWC9J6YaY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bMfxru8/sPGv/VBM6CddvxZmKRQltgOK85g0w6xVp+UZtLFdaVd12LgyxCwyyrQt0KcJxO7uMBCwyyZsMnX78OU7wcnM3lVBc95fh9MhKzDe33w7oY8y/YikVmDGXGQgCOt4+Ozgej+Gi09gEVyoAtvEYnL24VcIHdaGTKrJDIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NIAxI9Q+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 481A7C4CEEA;
-	Wed, 25 Jun 2025 17:15:30 +0000 (UTC)
+	s=arc-20240116; t=1750874083; c=relaxed/simple;
+	bh=V/776moD0WP3JA8kmJKpRFhViMjXtiD1Hu+QZ1gN3ik=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=JSZhppCoVGpYxsx2g1mYhb04M6ccBVqUqDMlP8i4fSXJ2KQcOhgglgtmM8rWYR6oBmB6qGZoHLulzl5Qc84Xy9vlu2iYUpOCi4cDiSHr2znaFKy9+DIJ9wApeffQR4dKqEbG5WfRgN5wuCIHxP3f2CCgSKnHM+HsVcgZv8gsYBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a4ZHKFfM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FC41C4CEEA;
+	Wed, 25 Jun 2025 17:54:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750871732;
-	bh=tsPO0OiBG0PBkJSG9uxmHSEGiRUT65aNlEBWC9J6YaY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NIAxI9Q+V8bIHjAs4Fxp6lyInGwd77wN+e9vmBEL9ifR9OCEFHhAzhrvlKGvgHS5W
-	 N7hCw9fCHd1xuPRiJSY4Jk8ElbiVC7OjcsaHCvY1KhIstYCJRuc2xIzo3jQf1ZpB6A
-	 DV7fO5csG6cSpBbstMfChRSNOoEchn4g1yEKtb8EaeZVSSn5+njtXTuCmzvWFlkKM9
-	 OPRt/QlEg+cQJn9yI4LqKLcUth3kBuk6eaBMjfC1xxzdD7MNGEUqHYyoLNc9UwqtRS
-	 Su0X5XW80XeRCwGEkcS7giV/udeIDDuHieRiDiMvqJTBPjgTbs9LGckRkB4BeRWBJe
-	 DMAt42uMfA4rA==
-Date: Wed, 25 Jun 2025 18:15:28 +0100
-From: Simon Horman <horms@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: net: Rename renesas,r9a09g057-gbeth.yaml
-Message-ID: <20250625171528.GK1562@horms.kernel.org>
-References: <721f6e0e09777e0842ecaca4578bc50c953d2428.1750838954.git.geert+renesas@glider.be>
+	s=k20201202; t=1750874082;
+	bh=V/776moD0WP3JA8kmJKpRFhViMjXtiD1Hu+QZ1gN3ik=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=a4ZHKFfM/MUH7wdncYY6XrWlP2fPRfVmsLpbFF+gwUxm9ucIgZFB5A819+w4EfYM+
+	 IdC82XoKAqDp92w5NLOvTPSjp6gE9SGH/sFTWE19zj/0YrsqrXGwFNq3E42xElDtgr
+	 +Vp1dOHyeR1G+XEKcajNklagWy1jzEF3m/d2xpD/qV5vAnGJu67u/CBOTARe5trz2U
+	 Y4jwsjCjh6vxmW0H39DZ3XIgA7wPcKPkqQ+UWs86uUAYiQUYHDf2wzl/Ifvq1QjIht
+	 VessRp4F48UN8weEyp0gvCFYX+TbdV7N1EP/Q8Z5efJP+q7PCS4JRYefgayvBidAIG
+	 kuBHiMzqzBMPA==
+Date: Wed, 25 Jun 2025 12:54:41 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, bhelgaas@google.com,
+	lpieralisi@kernel.org, kw@linux.com,
+	manivannan.sadhasivam@linaro.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, geert+renesas@glider.be,
+	magnus.damm@gmail.com, mturquette@baylibre.com, sboyd@kernel.org,
+	p.zabel@pengutronix.de, linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-clk@vger.kernel.org, john.madieu.xa@bp.renesas.com,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH v2 4/8] PCI: rzg3s-host: Add Initial PCIe Host Driver for
+ Renesas RZ/G3S SoC
+Message-ID: <20250625175441.GA1579685@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -64,15 +65,37 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <721f6e0e09777e0842ecaca4578bc50c953d2428.1750838954.git.geert+renesas@glider.be>
+In-Reply-To: <5ed851fd-6cdc-48f6-ae39-67c95e6ad6d0@tuxon.dev>
 
-On Wed, Jun 25, 2025 at 10:10:48AM +0200, Geert Uytterhoeven wrote:
-> The DT bindings file "renesas,r9a09g057-gbeth.yaml" applies to a whole
-> family of SoCs, and uses "renesas,rzv2h-gbeth" as a fallback compatible
-> value.  Hence rename it to the more generic "renesas,rzv2h-gbeth.yaml".
+On Wed, Jun 25, 2025 at 04:07:58PM +0300, Claudiu Beznea wrote:
+> On 18.06.2025 20:42, Manivannan Sadhasivam wrote:
+> > On Fri, May 30, 2025 at 02:19:13PM +0300, Claudiu wrote:
+> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >>
+> >> The Renesas RZ/G3S features a PCIe IP that complies with the PCI Express
+> >> Base Specification 4.0 and supports speeds of up to 5 GT/s. It functions
+> >> only as a root complex, with a single-lane (x1) configuration. The
+> >> controller includes Type 1 configuration registers, as well as IP
+> >> specific registers (called AXI registers) required for various adjustments.
+
+> This is how HW manual suggest to do it. The manual is open, it can be
+> downloaded from [1]. Chapter that describes the steps implemented here is
+> 34.4.2.4 Issuing Special Requests.
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Steps to reach the HW manual:
+> 1/ click "RZ/G3S Group User's Manual: Hardware" button
+> 2/ click confirm
+> 3/ open the archive
+> 4/ go to r01uh1014ej0110-rzg3s-users-manual-hardware -> Deliverables
+> 5/ open r01uh1014ej0110-rzg3s.pdf
 
-Reviewed-by: Simon Horman <horms@kernel.org>
+Nice that the manual is public!  URLs are a great invention; it's too
+bad when we need directions for where to click, etc, in addition to
+the URL.  Maybe one or both of these URLs could be included in the
+commit log.
 
+> [1]
+> https://www.renesas.com/en/products/microcontrollers-microprocessors/rz-mpus/rzg3s-general-purpose-microprocessors-single-core-arm-cortex-a55-11ghz-cpu-and-dual-core-cortex-m33-250mhz?queryID=695cc067c2d89e3f271d43656ede4d12
+
+https://www.renesas.com/en/document/mah/rzg3s-group-users-manual-hardware?r=25458591
 
