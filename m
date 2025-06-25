@@ -1,55 +1,65 @@
-Return-Path: <linux-renesas-soc+bounces-18753-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18754-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34ECCAE8E79
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 21:20:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 310C4AE8F28
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 22:05:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 98F33168AF9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 19:20:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6F26C5A8137
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 20:05:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 758702DAFA9;
-	Wed, 25 Jun 2025 19:20:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 500CA26A0F2;
+	Wed, 25 Jun 2025 20:04:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eKn/Am9G"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SjAaOqGZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6402D3A77;
-	Wed, 25 Jun 2025 19:20:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A2BF20C026;
+	Wed, 25 Jun 2025 20:04:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750879253; cv=none; b=jZ1hYOaDvR+8uxdauBeZ4yRFwje1LG1o7t73tV5GilMDdeNWzoXoRZUoegDIcUAo1ujYezP6sanQ9U0u4VPGHL6skZct+55gHx9wdCpdE/r3aOtrPdpLv8vJIahBLCpq8UgTeY73iY5s+dNTKw3ayBVOiaRMKHmCugyDlev/hC0=
+	t=1750881892; cv=none; b=s1Q6gKjDSmjcuoEyC//wZ7RMPnga5jwDyQfNWbvO0ry1UtcLjfoXXWRLTymn6W5AnVnwtaVJR63rISE09ZtpV4rTC67PHA7WjxUU2YrHzmYd6FTqcHiZytNg/h2J5Co0aWoiAkN7TzTzs8zAQGzGMU3F4bouo53otx7cu+oX4UU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750879253; c=relaxed/simple;
-	bh=0M5isegZ+u88QFyNHKXhyISo4jB/zwu5zpA+8O1xpgg=;
+	s=arc-20240116; t=1750881892; c=relaxed/simple;
+	bh=Wge9Fm4x36OgbfZOTFgwfrZuYoukt8bZYelLZzh4bd8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d9/sg7pBSukHRyFUsIv/UDFBskCbZ79P4hq46Ksiy5wb/rQ8qyOg/Eu4ttmviwHkXh5VXaI6Ma3vNCaZIFrUUomHhgssh4pdeBXPUnRv1iSYORFSd+g9kmBkyZraLijZ605lg2FUtuAc9hW1jZX2R9y9G8mIlvfPQv4ayY7klvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eKn/Am9G; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADC56C4CEEA;
-	Wed, 25 Jun 2025 19:20:52 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=N253ySnXpi7TMsT/scjUVxQYYjriXO3QOK2J6NBV0GlB2uGTYrdau/z1TDo4BtPMw8Vd9XSJFuCfcXzHXLninCXY0GAkQVgr4iJbLnpk8hFn1AA4V4Egeo+D3WVKEyhudvwss/7PH/rAFmzG+FewW++JbaUatp6ASsx9f0QYkUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SjAaOqGZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6D92C4CEEA;
+	Wed, 25 Jun 2025 20:04:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750879252;
-	bh=0M5isegZ+u88QFyNHKXhyISo4jB/zwu5zpA+8O1xpgg=;
+	s=k20201202; t=1750881892;
+	bh=Wge9Fm4x36OgbfZOTFgwfrZuYoukt8bZYelLZzh4bd8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eKn/Am9GrBnYVo/vRcXGXe/epWOjVSybz0XxzThZ6Jgg4oUFOvDIXKt6NlJM3x7WC
-	 E8jQEXbcgrk+jjI1BUl6yrTd5r7wgC3surQRs5f5fBdR/2k8ZuaRYBvihcBA2hQ54k
-	 XjKgcIHiWxnsn6+yh8PxQ04eteLonRTA859Uy02ZmkbWHNklD1Qs7Gdg+uzv79AwaO
-	 70cpwasBQKNPPSVz6qR2RCtk5I7wrRB9D8AEvMVdTGRTgwMCD3CZYjtPLooxqD5A8a
-	 4RxRNcHf+cEAtfYBoKVcvFWoTwy5J9aakDv1ZhyMAayPAWJVwHf9jSlCtn8CwEjT72
-	 dJ6/Uvi5P+gyw==
-Date: Wed, 25 Jun 2025 14:20:51 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>
-Subject: Re: [PATCH] dt-bindings: trivial-devices: Add Analog Devices ADT7411
-Message-ID: <175087925106.2068953.11227381201215645741.robh@kernel.org>
-References: <20250608162240.3023-2-wsa+renesas@sang-engineering.com>
+	b=SjAaOqGZZk9YzmGzRpHefzfJlf6naR6zPr4PH5BcqwtGrlsEaInaMI18oGzB69azi
+	 ukB+4+1wCNHwqmjI0zpXz9X08fBkyUHeh50D6CNYX01s8fhMEWnyqz7K54EtNnfsKx
+	 OFFajCgQ7UW5zE9FR8tnNgxJlMghlqlqKftJfHlsExvUQJcdxziWN4whV56tzfwABz
+	 F3uOmvQnljBbSivOb0Z1im/Xnq3ISH6acCmhKlOS5DQwNhN+LOuOMHTtryOuj+E6bQ
+	 QcOOqhyAe9llU9z5XwEg3HKAT5eJbFbNUYW+ee6BUcucCwvJVNjJGko38UmGVIFH0e
+	 IfNc7eurzjyxg==
+Date: Wed, 25 Jun 2025 15:04:51 -0500
+From: Rob Herring <robh@kernel.org>
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Frank Li <Frank.li@nxp.com>, linux-renesas-soc@vger.kernel.org,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-i3c@lists.infradead.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH RFC 3/7] dt-bindings: i3c: renesas,i3c: Add binding for
+ Renesas I3C controller
+Message-ID: <20250625200451.GA2117971-robh@kernel.org>
+References: <20250611093934.4208-1-wsa+renesas@sang-engineering.com>
+ <20250611093934.4208-4-wsa+renesas@sang-engineering.com>
+ <aEmjbY8ifoI5Cs5t@lizhi-Precision-Tower-5810>
+ <aErkyDQvV3C0TZSu@shikoro>
+ <52401543-28df-4f13-8b7a-6463fe54cd5f@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -58,24 +68,47 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250608162240.3023-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <52401543-28df-4f13-8b7a-6463fe54cd5f@bp.renesas.com>
 
+On Thu, Jun 12, 2025 at 04:51:42PM +0200, Tommaso Merciai wrote:
+> Hi Frank, Wolfram,
+> 
+> Thanks both for your work.
+> 
+> On 12/06/25 16:31, Wolfram Sang wrote:
+> > Hi Frank,
+> > 
+> > > > +  clock-names:
+> > > > +    oneOf:
+> > > > +      - items:
+> > > > +          - const: pclk
+> > > > +          - const: tclk
+> > > > +      - items:
+> > > > +          - const: pclk
+> > > > +          - const: pclkrw
+> > > > +          - const: tclk
+> > > 
+> > > Suggested clock name is, apb, trans, srfs.
 
-On Sun, 08 Jun 2025 18:21:09 +0200, Wolfram Sang wrote:
-> Describe this SPI-/I2C-Compatible, 10-Bit Digital Temperature Sensor and
-> 8-Channel ADC. The driver is in hwmon for ages.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
-> 
-> Found while using a local setup, but there are upstream users already:
-> 
-> arch/arm/boot/dts/nxp/vf/vf610-zii-scu4-aib.dts:                compatible = "adi,adt7411";
-> 
->  Documentation/devicetree/bindings/trivial-devices.yaml | 2 ++
->  1 file changed, 2 insertions(+)
-> 
+Suggested by who?
 
-Applied, thanks!
+> > > Needn't clk surfix and provide meanful name.
+> > 
+> > ? Why can't we have the name from the datasheets? It will be
+> > unnecessarily hard for users to verify the correctness of the clock
+> > assignments if they need an artifical mapping of these names. If they
+> > are the same as in the datasheet, the same task becomes very easy.
+> > 
+> 
+> Agreed.
+> Since the name comes from the hw manual I think is better to leave it as is.
 
+Agreed.
+
+While 'clk' is considered redundant, naming clocks 'p' and 't' is too 
+terse even for me. So the rule is clk is redundant unless it is with a 
+single letter. The rules apply to s/w folks making up names, not h/w 
+manuals.
+
+Rob
 
