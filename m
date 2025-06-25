@@ -1,174 +1,187 @@
-Return-Path: <linux-renesas-soc+bounces-18687-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18688-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49E4BAE750D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 05:01:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9729AE785B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 09:20:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D92D41921D52
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 03:01:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6A3C118974DC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 07:20:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDDA927701;
-	Wed, 25 Jun 2025 03:01:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1FE61E834E;
+	Wed, 25 Jun 2025 07:20:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="aO76Twib"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bADYCqdk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010005.outbound.protection.outlook.com [52.101.229.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B87C3074BF;
-	Wed, 25 Jun 2025 03:01:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.5
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750820479; cv=fail; b=K7oyA1aU7tOpgj41ZZ5bQU9sjBSFTDubMoLt5DBndAi/qO2Nqrl2UGq0pH4rLT/lw1xrwsqaZ/GYrn0980hFsPIRBFuFWKclbWK8EhRy3Up/SmKAZeefg4IwMvwrr1HUqdA+T1r1Q+Vh7lYWLg0pytoBBMT6JJ/6GMivPszY8eI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750820479; c=relaxed/simple;
-	bh=pXd3Sr3y80l0W6Nh14H41kL6p2bLOsNa2AGf3kLCNtw=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=YRPDilfBzTJvMNV8v1rmrce0+kGzvIZpn6mjx7k0zFAdD1uv9JtHvMT/tjzARZN0oR4E4cclJ4uarT3y6/h9iRaKXW0GQp/OrJM0I9sywwXovMgjRlDe5rvAKqICAfhBGOIkqllPMZMnRlvcvkWpldf2jSMSzoigmt2ghTdCYTQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=aO76Twib; arc=fail smtp.client-ip=52.101.229.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ib0mPQunAKy674GTjR//p9vZGeht3vVym3n0XsFZ2/+vJrOBTTP9d0Qo3W24mYFgMJr6467PUmhrz6AQ/hWXcqb683I9I+JoowTDl57KgsUyVY9A9REa3ushI0xZBI9QtPjbOew9p/yupduYNDywwPYByIR+Bj0Gbj2yS2mali1YNAolY7XdPaKV3hUlNiaXcM0EqelDuN4Nw+W8abtrOSq+PrVp7o1pZOBoxRkbNcmySMTtBDwfvY4pk8z5c+6Ea1Xx6obKcq6SMrh6Wnaygi9cL6b46qYWO8JZT5MsscH/ILwQ2TBu7l+zkOchpOKZF4HpGeJrBNcZQAjBr8GQaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pXd3Sr3y80l0W6Nh14H41kL6p2bLOsNa2AGf3kLCNtw=;
- b=sU8kxSoHQyEfw+ZHaossgGWiqMQjJuJESBiA8WWn1WLctVeonkcgxb42l/1DGeJ9VPxlsXLsNK3NribWGEgT/hTowWYp/AAp3kgavS1DISojkcN8kacqa5HeONkGy7nqIv2bm6Aq0nS2MQMmmqSE1lNhIFfuZWPFATBvNT1K0WMtEzY4CEJ/UnSeCqCSp/pUh3J3pzJgH4/+RM/sK2VzQGpHcMG2S2DWE7O4KAleIasJYVVOA76K1NTJVWJtgO8wwcCbVLh6/yDhDE6xI+3EpBoOZ2SIVAk96dLqC16WC7DQ2Q2VttRIWg35fj8ne41sPsrBfc+CJ7FJT/POPZILUA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pXd3Sr3y80l0W6Nh14H41kL6p2bLOsNa2AGf3kLCNtw=;
- b=aO76TwibN/exL1I2VlRhgx0tl4yt5ojbok1fFq0ut9fD4YmyYo0QgL7fdT4MzYxzTpWr4mNkRpEd9lqil1HZlZR79odzt+/30XBY/r6l+Zlfu9e1PRq3BG/yNxi/ESTDCx8AsjAmVryGlsN2fY7a21P/xdP57f7kVguQ6nGNs3c=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by OS3PR01MB8285.jpnprd01.prod.outlook.com
- (2603:1096:604:1a0::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.28; Wed, 25 Jun
- 2025 03:01:10 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.8857.026; Wed, 25 Jun 2025
- 03:01:10 +0000
-Message-ID: <875xgk4j9l.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Linus Walleij <linus.walleij@linaro.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-gpio@vger.kernel.org
-Subject: Re: [PATCH 0/2] pinctrl: renesas: tidyup Kconfig
-In-Reply-To: <87ecv9ragd.wl-kuninori.morimoto.gx@renesas.com>
-References: <87ecv9ragd.wl-kuninori.morimoto.gx@renesas.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Wed, 25 Jun 2025 03:01:10 +0000
-X-ClientProxiedBy: TYCP286CA0074.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:31a::19) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770C33597E;
+	Wed, 25 Jun 2025 07:20:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750836002; cv=none; b=R2allyfr8NEtF38cD44RauNhcizOL+nS/6quMtTb0Z3K5QnMkMrHYA4c4OWpncrsRXGoDK0pO9/Tfj49RrgxGoxFgJ+b9tw4NqvoGAfgw9DvvES63VA80u6B12nUB7twjqk3z6Dhnak+fvVuUNHQI+as5qWFjX7zDPVJX2tF/GM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750836002; c=relaxed/simple;
+	bh=LuJi1VNE/G1vKjVvK+xAlqsoT8AAVna9tG+hj4b7RFo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PFuf9P37kYmfyA8eZuk6m8jsRwOk04Q/S+6pZ9IJSSHk/TJryGrjK/Xqv2w0njK7C8tqxLMt9MTVdNkoUdFS4u0kLPnUBwPyM4zAVKy5EbfzideMzd3qAHAydC92bTlDIXVlNjU9DsNKjOZt6oWvPbzZWzj9KYaRGlBerUuJ1RQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bADYCqdk; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A366C4CEEA;
+	Wed, 25 Jun 2025 07:20:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750836002;
+	bh=LuJi1VNE/G1vKjVvK+xAlqsoT8AAVna9tG+hj4b7RFo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bADYCqdkD3ZNIf1+Eb8K3j67BIAQrorSJEnvXZKYAnnvvbYP+mHniMOxO6gBJjuli
+	 XebWDmwLVmZEoykCEHg9YZXCMoMIMUDzcFECae4G/5vaDD/LdlThcb6R8O3jMEmvtf
+	 3oOUKAvToc6y5KfhLLEm0n7nRHACLDlfUigQFIf8orGck+QDphJ79Qc3xoxT6bZbJt
+	 AXhIwuE9hK6bEqhzGVQvSWEF4+oLzxft464zT3ZRmr0yaN8eJ6dqPHvvqvypBERWxi
+	 tlJxyYt3oVxRd8jEcqHisL2g1D+opks5KFWxhI38eCu5tqIm5QOYKabDs/SG3nFgF6
+	 YgYb/gzfDydvg==
+Date: Wed, 25 Jun 2025 09:19:58 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: linux-pwm@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 3/3] pwm: argon-fan-hat: Add Argon40 Fan HAT support
+Message-ID: <n5euqjvuc6efyi3mums7ggmmmgycuda7ol5d6mz5htetqpebwl@6zumq5ruftee>
+References: <20250621172056.160855-1-marek.vasut+renesas@mailbox.org>
+ <20250621172056.160855-3-marek.vasut+renesas@mailbox.org>
+ <purpjdp72jw2rok5ihyua635izyih54ufom2knsbaiwdd3jzgk@6wjf364fao2g>
+ <dbec18f0-5df4-4eb8-93ab-da6ccfedf8ab@mailbox.org>
+ <apbocxuzcptlpghphh7nchnwyxpfhmiwosgxrt4y5awsb67ar3@fbskfbulwsma>
+ <033bbb7d-ab00-467e-ab21-877f76d027a2@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS3PR01MB8285:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6ae4170d-46f8-43f8-e9a3-08ddb39489c2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|376014|366016|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?C8L+En05Bn+YuRKZWlQ/e6Oi8skyk60pvjmrCHWZ/wfGtaqcY/atNVPfLRbM?=
- =?us-ascii?Q?0clXIk1YK9ypZoqwpbWN/+uuHjBiYnI+yoI+XBMnQAdcm2zIrJ56NY+34WVh?=
- =?us-ascii?Q?obCZ7TrsHbGi+6cxn1FsjUyie+zJt8m6ebWtTEpVoCrC38vKqMbKkTllwrqe?=
- =?us-ascii?Q?O1kDJSItvMzN4o5qQr0l2zysMZORE5TImQKHnkV6NfyKNpFUiccFaGLlGb8z?=
- =?us-ascii?Q?DRVbUTb7ze6IFOpMJkef2YOaYKyzCrxWLOSPd+Vqx169zq8k3Fnls82gbk3D?=
- =?us-ascii?Q?u7FdIZ+xqfMc1whYs0RwSk62VyGZ5jWutUJyHZpIFf6XM970WR7xIFxBadL7?=
- =?us-ascii?Q?RQGmAyTVs3ZgZlzhLC8xGZLagTwLmN4ZWUQzDne3uKEM8s0ErE/qo9KODm+U?=
- =?us-ascii?Q?N/ACmTgsmCwl/zOHf4XGEQSov9DgbyF91N3II4D3SqtOcuOVsdZ/hgeW4WHt?=
- =?us-ascii?Q?5XeublHOxjxiMgSXhfWZ7RTGE6Q6CFcpVB5FzDK9+qMvT7d1H5FyUbLUOigo?=
- =?us-ascii?Q?6q3AH5x+Tg8I/Eb+N/B4iBwI6A0vWFckm/Fr//y7fAxms8jBbOLdYjGTgghV?=
- =?us-ascii?Q?K3RPluIR8ZxO+JQf7jUQTWwg4CFleZYHPm3jW8dMLPmX5pMdP65j5IoUKSZl?=
- =?us-ascii?Q?jQC9CnK3NJwZuRw8OzIBOBzo67gfJDsslQHMUZ17kv2jiPKPS/gmfyN3CNHM?=
- =?us-ascii?Q?ucaYENI0AnMx5EU7Mvt7dcKTPOOCUaD5mnE53aiZCk4c4CrcwzcgywZLgzlL?=
- =?us-ascii?Q?/RTEwmilYjBIGDDzgNvHI04eYx6anBHzoQldRBZyZ1iNR5faWrco+o6+6zJm?=
- =?us-ascii?Q?Ksy3Qnb/3g8W5+v46RxR80iHi+ERCr10WIZIGsGo5ylPidDMGU+lS4BvMKI9?=
- =?us-ascii?Q?+44Hsb1R6uKnLvAiuljMn8/LJy51kNFc8BI7aQb2gBqK0hQJX1Lgdsyg7yR0?=
- =?us-ascii?Q?CI9bR7F8Lel/r26Y6Uht7tLpJjzGrmkBjypPfYIHoZpIEu9H2LRnlKTcUiUV?=
- =?us-ascii?Q?TgGBTZXwvk+wXRFI7SKqm5iYoTG9SJc9k2xlp9nbbBHy0prD+72wlirAQxxx?=
- =?us-ascii?Q?RTXKs5CLgZIS/uKQxwYhLt9pPiGNtyqYYHWc6gzomiifCnWSuP1JSBLcjlfn?=
- =?us-ascii?Q?JJzOiO0vO0r2M6KlSni4wlRB+cuGOIuYymfjNuf1qDPFy3R0izL5kIHsIkdi?=
- =?us-ascii?Q?SpVNb54FY3+ryM0QVyyCsz6EO3vEqgahCNV0qApHUK1zOfMFxZAWxo3t3FPO?=
- =?us-ascii?Q?d0gpIroL34UFCXuGsESvMee/ytcwgchfU/7NMs+VHSH7fIf5lroJs7wxoRzR?=
- =?us-ascii?Q?DihsReyvsZ9j2pk6mvC86OqhARLr8KJPtRw5igtsn65rZCgP5VPBPLgZtJYJ?=
- =?us-ascii?Q?pHAvYpqFnwe52gPuxY2FDvsxPVSOcQ3cxKgtJv/Pp9AzemfVjpSPdTCJ9KkO?=
- =?us-ascii?Q?FNe7EIB8SLdK6zAP/aHGBfYE0bTH8xzOB5R5qCQPGxa7VDuu5OvuEbKsPwCv?=
- =?us-ascii?Q?FFxVcK/HC61hj7I=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?gomOyHRULRv5Nw3Ga6645H9C1T+UhRNQ7reK4xAjxFQl6TeJnMRZHLxvraFA?=
- =?us-ascii?Q?VNBTxaRTEEHPsy/ee3y9mPMMvwRiA+IEFyd/dqrO9R6v6xWL3ztZqJtTia1P?=
- =?us-ascii?Q?r88dHaZXWLn7hg3dSZwps7FcvKaDH7ygYte/ud2Spx3CWmsYiV80/JZuSMzc?=
- =?us-ascii?Q?BlYeE1VkOEStZcEd+MnbwGtj1gnkyHhyPFiuK5s4953LHoIfLQYaSBbKTK1L?=
- =?us-ascii?Q?cnZ9T9igw1edNo+vuoLJfHDhFP+5gi1Wbmp/SxSbrJ6slip0h5loO1CIIgEJ?=
- =?us-ascii?Q?8aT+JvUYuqmOExFIX2MwkFReWLKVzPHXpLxusfYNBz1DFmkMWFWTSNlwGi0B?=
- =?us-ascii?Q?L43Hpts646LzY3GU3G4xYBGDKLEVYveoobqPydmxK/iqDrweo8Qjnb+svsUh?=
- =?us-ascii?Q?rs4DMQB5yPfy0MlgZZzl+y0obCQz/Je20tTzyJPYvHKkesftoC2NMYtJU+4S?=
- =?us-ascii?Q?3xy7U3ArNLs4mDM34DtXtTdpeMBwh+VGeqwHAs3AlE677ikBG69qdE0aM7Nf?=
- =?us-ascii?Q?9EHwxLibfCLKlCnQQTqdERSwHzHHHUr6DKbw+DwDTP24sS3SLqDMo/jmKmnj?=
- =?us-ascii?Q?Bks1l8uplrNO4NsJvvrTWX31jZxHpTFQ6ruTFwPPO8Q+lAYcj4NrJiRE/0Be?=
- =?us-ascii?Q?EInGEXIDn9kJS9hxOaN0fgEuiJEUTIn+cnfQs5Unfa41vIDHCODAtq5y1YpX?=
- =?us-ascii?Q?I4orAiO4vmWAAW7wAAIgtk77kJ+wEHyokjltdPpOihyfIinC9IFVs9Hx+3Hb?=
- =?us-ascii?Q?7zmuvckMDdgNH0QCyPaL3HmSY66ma5dtjJia/KoMeHESbZT8jAHT0qejXud6?=
- =?us-ascii?Q?F45iChQ89cXUpqYBFs3wmmUGyvdsZIyTvQJVuCYBX3SrKIFIdcrzZYDOP+zp?=
- =?us-ascii?Q?uyn6jV4F5UVCCrBozKKJbi8oI7hL+SeZb6qTWsc5fM0RqX07J0hphypNlg24?=
- =?us-ascii?Q?B9pfaal535e3xLlMA4nb6lGpfn28zGUrC8aywvPX0AVLt+RSweSdj1CC4wOQ?=
- =?us-ascii?Q?8hs3NM5pXm1ctBykorme/ZnBrkjuvO0ZF5ngIf2PPZEz4jYM2EgQpBWIzqU9?=
- =?us-ascii?Q?vOqnXgaBgzskDrWIYQDmo9YmDQqtDBxhvjeoQfW49q5uPD+eDEeKm0KZ0nas?=
- =?us-ascii?Q?8qLjcZYbG5udz2LzFu9sDTvIqNWemf+Fx76hw3fX2YL7jRP/6PMgr3RF/av0?=
- =?us-ascii?Q?3BTnukS8rqn8WGWZIkyemDEqFn06sWCPR3etyunE7p7Gi+gziNjmHRzWutja?=
- =?us-ascii?Q?jc9O8HZsAnBAs5DnzP0GwK8H8nn3qeWgYjwE9QoD39LOqHmVzcQl7NJpMGdX?=
- =?us-ascii?Q?fnMbhPNzhvHaoJQPXv/TzIWbYOS+v3r4w9gluvsw9yJ504DbuEKd/IWaGHdq?=
- =?us-ascii?Q?OiXopzXpgqmriT+1BZGDWA7+k1UiDaoNq7r4I6veVd+WpPtd5eNRnF9OeGfO?=
- =?us-ascii?Q?SfEB7tRf8eJ4gFGWqSAcisaGTTEexY1p7FdUsUHJJuay3o/Wphx0I/ajObjS?=
- =?us-ascii?Q?hO0B2RGq7mWCaje1C3bSGgeNjD5u24Ueck8iAY0BkFYGky6MtPVpe7hdQRgy?=
- =?us-ascii?Q?dL2bWGseQIUf2UfpN/Jtykn0wbbKGKydieWWASXzeHBVy6j/WxquQvCrPevu?=
- =?us-ascii?Q?vXbH9NBxUfb3yqLuA7rJDyE=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ae4170d-46f8-43f8-e9a3-08ddb39489c2
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2025 03:01:10.5621
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XC/UVIgmxywKG0Lwv399pZOQRlBhkft7Ci2FmeN7M2NHPzXPjJxFkZ5IsbCRHdSDkVJvotv4k8pXkdHlh5c7dO30kyuboOttnhkPHmXlrgDldVkcPqmic1u+Fbte7JKf
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB8285
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="pbpjsoz762zsasuf"
+Content-Disposition: inline
+In-Reply-To: <033bbb7d-ab00-467e-ab21-877f76d027a2@mailbox.org>
 
 
-Hi Geert
+--pbpjsoz762zsasuf
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 3/3] pwm: argon-fan-hat: Add Argon40 Fan HAT support
+MIME-Version: 1.0
 
-> Current Renesas pincontrol Kconfig is randomly sorted.
-> And, the menu prompt is also ramdom.
-> This patches tidyup these.
+Hello Marek,
 
-Ah... this is menu alphabetical order, instead of SYMBOL...
-OK, please drop this patches.
+On Mon, Jun 23, 2025 at 10:44:28PM +0200, Marek Vasut wrote:
+> On 6/23/25 9:53 PM, Uwe Kleine-K=F6nig wrote:
+> > On Mon, Jun 23, 2025 at 07:30:33PM +0200, Marek Vasut wrote:
+> > > On 6/23/25 11:11 AM, Uwe Kleine-K=F6nig wrote:
+> > > > when I replied to v3 this v4 was already on the list which I missed=
+=2E My
+> > > > concern applies here, too, though.
+> > > >=20
+> > > > On Sat, Jun 21, 2025 at 07:19:56PM +0200, Marek Vasut wrote:
+> > > > > +static void argon_fan_hat_i2c_shutdown(struct i2c_client *i2c)
+> > > > > +{
+> > > > > +	argon_fan_hat_write(i2c, 100);
+> > > > > +}
+> > > >=20
+> > > > If you drop this, I'm willing to apply.
+> > >=20
+> > > Dropping this would make the hardware which uses this device more
+> > > susceptible to thermal damage, e.g. in case it gets stuck during rebo=
+ot and
+> > > does not boot Linux afterward. I don't want to risk such thermal dama=
+ge.
+> >=20
+> > We agree here. But the right place to address this is the pwm-fan
+> > driver. A PWM is supposed to do exactly and only what its consumer wants
+> > it to do (in the limits set by hardware). Officially a PWM driver
+> > doesn't know the polarity of a fan, so `argon_fan_hat_write(i2c, 100)`
+> > might fully enable or complete disable the fan. The fan-driver knows the
+> > polarity. The PWM driver doesn't even know that it controls a fan. And
+> > the next guy takes the argon device and controls a motor with it --- and
+> > wonders that the vehicle gives full-speed at shutdown.
+>=20
+> I suspect this cannot happen without non-standard hardware change of this
+> device, see the link which shows what this device is, it is an integrated
+> PWM+fan device:
+>=20
+> Argon Fan HAT https://argon40.com/products/argon-fan-hat
 
-Thank you for your help !!
+I know people using hardware in different ways than specified by the
+vendor, so this is a weak argument.
+
+> > So I hope we also agree that the pwm-fan driver (or an even more generic
+> > place if possible that applies to all fan drivers) is the right layer to
+> > fix this. And note that the pwm-fan driver already has such a decision
+> > implemented, it's just the wrong one from your POV as it disables the
+> > fan at shutdown. For me this is another confirmation that having a
+> > shutdown callback in the PWM driver is wrong. The two affected drivers
+> > shouldn't fight about what is the right policy.
+>=20
+> I would fully agree with this argument for a generic PWM controller, but
+> this isn't one, this is a combined PWM+fan device.
+
+You model it as PWM + fan, and that's fine. I don't want special sauce
+in the PWM driver part. And you don't need special sauce in the PWM
+driver part to ensure the fan to spin up at shutdown.
+
+> The PWM driver is the last one that is being shut down, it is being shut
+> down after the pwm-fan driver.
+
+Did you notice that the i2c bus driver is shut down still later? I
+suggest to ensure there that the fan isn't disabled. /s
+
+> If the pwm-fan driver fails for whatever
+> reason, the PWM driver -- in this case driver for a combined PWM+fan devi=
+ce
+> -- should make sure that the hardware does not melt. So I would argue tha=
+t,
+> for this specific device, the shutdown hook here is correct.
+
+The most likely problem in the pwm-fan driver is that the i2c bus is
+broken, the pwm driver doesn't help here either. How far do you want to
+go? Force the driver to =3Dy in .config? Probe it even when it's missing
+in the device tree? Provide the fan device if PWM_FAN is disabled?
+
+=46rom a software architecture POV splitting responsibilities to different
+components is the right thing to do. This helps to keep maintainability
+efforts within bounds, doesn't surprise developers that research the fan
+behaviour and so check the fan driver, and increase reusability and
+solving problems only once. Also the next PWM driver author creating an
+i2c based PWM driver won't copy the shutdown hook from the argon40
+driver which probably is even more wrong for that one.
+
+> I would propose to keep the shutdown hook here, and extend the pwm-fan
+> driver to be aligned with the behavior of the shutdown hook here. Does th=
+at
+> work for you ?
+
+I stand to my request: Drop the shutdown hook and adapt the pwm-fan
+driver to your needs.
 
 Best regards
----
-Kuninori Morimoto
+Uwe
+
+--pbpjsoz762zsasuf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmhboxwACgkQj4D7WH0S
+/k55+gf/dN2PkFx0Wau4xvX9qA+TxSD+j6m0BISKvrRoXw8iqySCwgDTSGju2eNX
+HKV/G1PrOpE7iOayyfi7VFAuBprFzFjPluMFnt6k1pgR7jqVSzYKLqu9OrF+fNkO
+W90XLEHRbCvEb/7p1xi03guEk2QCt3482DUpcRBelcxg7aVh3Blcl7tgK83ScJ0f
+KasNtPZRwS8jqaACXamebkzVLPmAMYNzVO8FWwbOiyrZ/m2CCHYCNBe1XjiKryyZ
+YOKHtchyyqUg7smGKBiW6hsmB1zPXjYGYXvDAyryurIC+4WX88doAbJ284P3fwyI
+MYSqSjxpZp5ZIIGWuhO7q/m9p2i9nw==
+=l2Zr
+-----END PGP SIGNATURE-----
+
+--pbpjsoz762zsasuf--
 
