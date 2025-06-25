@@ -1,101 +1,222 @@
-Return-Path: <linux-renesas-soc+bounces-18749-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18751-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 820F7AE8BC7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 19:54:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DA33AE8C2B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 20:18:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E86C04A315B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 17:54:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9C8FA680A6F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 18:18:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C12E2BD59C;
-	Wed, 25 Jun 2025 17:54:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E86B22D5439;
+	Wed, 25 Jun 2025 18:18:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a4ZHKFfM"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="OEvezP42";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="dTc7ONhb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB2F1AF0BB;
-	Wed, 25 Jun 2025 17:54:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37832D5C8D;
+	Wed, 25 Jun 2025 18:18:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750874083; cv=none; b=tWIqZ7NjhUV8XclPsCW9FWoiotc4dJtobBNM7f6KJz9j56S6r6txDW0sMDMdWfcsvbnOkerAfPnr9TS3yU6XC9BG579CU1MdH+8hXvoyk0J46ostyWbjg5co6vk+vz9Nm7wrMg2g7cmPE2qC/DPRGib0ja8Vh8viqcGC+/nvywU=
+	t=1750875488; cv=none; b=ohAleVt/MEc9kpnEetMxLGSmF36O67nQ4kTjlkZ3LyDVSAIRMmw9kEcj6MjthSMtaz6lHdfGqNn+jIJ4p27w/HcAirxMjH/QCojbwZjZh2wBRYw5zeCHonzZadZHWkdaqCbJDBWYY5m8dGru043p8LSy4PDv3dKzCk5z9eEaMuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750874083; c=relaxed/simple;
-	bh=V/776moD0WP3JA8kmJKpRFhViMjXtiD1Hu+QZ1gN3ik=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=JSZhppCoVGpYxsx2g1mYhb04M6ccBVqUqDMlP8i4fSXJ2KQcOhgglgtmM8rWYR6oBmB6qGZoHLulzl5Qc84Xy9vlu2iYUpOCi4cDiSHr2znaFKy9+DIJ9wApeffQR4dKqEbG5WfRgN5wuCIHxP3f2CCgSKnHM+HsVcgZv8gsYBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a4ZHKFfM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FC41C4CEEA;
-	Wed, 25 Jun 2025 17:54:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750874082;
-	bh=V/776moD0WP3JA8kmJKpRFhViMjXtiD1Hu+QZ1gN3ik=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=a4ZHKFfM/MUH7wdncYY6XrWlP2fPRfVmsLpbFF+gwUxm9ucIgZFB5A819+w4EfYM+
-	 IdC82XoKAqDp92w5NLOvTPSjp6gE9SGH/sFTWE19zj/0YrsqrXGwFNq3E42xElDtgr
-	 +Vp1dOHyeR1G+XEKcajNklagWy1jzEF3m/d2xpD/qV5vAnGJu67u/CBOTARe5trz2U
-	 Y4jwsjCjh6vxmW0H39DZ3XIgA7wPcKPkqQ+UWs86uUAYiQUYHDf2wzl/Ifvq1QjIht
-	 VessRp4F48UN8weEyp0gvCFYX+TbdV7N1EP/Q8Z5efJP+q7PCS4JRYefgayvBidAIG
-	 kuBHiMzqzBMPA==
-Date: Wed, 25 Jun 2025 12:54:41 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: Manivannan Sadhasivam <mani@kernel.org>, bhelgaas@google.com,
-	lpieralisi@kernel.org, kw@linux.com,
-	manivannan.sadhasivam@linaro.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, geert+renesas@glider.be,
-	magnus.damm@gmail.com, mturquette@baylibre.com, sboyd@kernel.org,
-	p.zabel@pengutronix.de, linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-clk@vger.kernel.org, john.madieu.xa@bp.renesas.com,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH v2 4/8] PCI: rzg3s-host: Add Initial PCIe Host Driver for
- Renesas RZ/G3S SoC
-Message-ID: <20250625175441.GA1579685@bhelgaas>
+	s=arc-20240116; t=1750875488; c=relaxed/simple;
+	bh=W/zbPpbf0RvPEMTTCTLW12hN74dRuApMwJ7JDHdUseg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nvQ7tpP/b43VetE+FYtnXJ6l6DmNKod2R8Fn5b5cKdUdKFYzo2BeahNVRmx3aIBUSCeUitfX/8Jp3/KBgkATN/bz6oKWaYRunUa0AV7eFcF11s3Ka1BMLO4eNGvvwS3kXjCc6G+TKvpZinPsZBoF8A6GanTWgCaM/M9zPCJ5W+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=OEvezP42; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=dTc7ONhb; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4bS96H2Hrkz9tdq;
+	Wed, 25 Jun 2025 20:17:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1750875479;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=bwkEg6xzPXySEtSLWRflCbZ9TrAwuDzKxLBcHCDf3+g=;
+	b=OEvezP42eSR8jz8C+AIx5Z9xYQfGWdxCJoIDC4n6Q+lwyvajnWkGXWbJIBIBgjhMZrFmd9
+	7zjYMLUhR/eLDhbJp7YQXr4/3YQyYKF+Vpnhnmp7lKHsmgpAwMKErWJQoLPHCXcWH0UTAm
+	Qc1yc8dpHkgvDuwdCg1vZQlYYugfDIRBDFgJOCy2a3uLKwBcebyfbrgwwb+NIAwPUMCJnp
+	beEcqD8/Z1ppl4oNM0r8NktvkRN4FRgoSFpEkPQol0U+zzqua+wyvIL37a+rAhuMzH4g+0
+	ebHSKWSBCoaIqaMgTX4oxj3m8T3kXcUZAE2lQwBfKdM47eeDFykQ57v7UmM56Q==
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1750875477;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=bwkEg6xzPXySEtSLWRflCbZ9TrAwuDzKxLBcHCDf3+g=;
+	b=dTc7ONhb/cMvQ34/cuN2vTHpC3rBGJXgX7eHzkYlLHxMNF1QU+eYhBaJBxIAIqxB0L2Gxo
+	E2cEFmxHvUS9Ygp1PoVWTIPsDmy2Z4knC0tUN+iPKGuN+NHd2uDWkk/6AsCzXggFNk+BwM
+	W1uiKcThS1NdOVaFmPyvFDshXzybtFCJms9KDc+qWn6RSdqC4Gk8sU+ALhPdu3ufaeCRWG
+	P/tuKkTv1NNrw/WBCKJgzBja4loUu70nVpaFhHDu6Xngbd0jAoF1H+FHYFheTtsTk1zoTH
+	+DKUx0thdRpIdvD+LXn6E8wIcqm8d8doijYil+FBSq3xUsHehX03GBwwu+buZQ==
+To: linux-pm@vger.kernel.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Zhang Rui <rui.zhang@intel.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 1/2] thermal: rcar_gen3: Add support for per-SoC default trim values
+Date: Wed, 25 Jun 2025 20:16:57 +0200
+Message-ID: <20250625181739.28391-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5ed851fd-6cdc-48f6-ae39-67c95e6ad6d0@tuxon.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: f54eb5a1f0d9a894733
+X-MBO-RS-META: 18e7xn8q8jtt1pzuuhueajpxgth6w58r
+X-Rspamd-Queue-Id: 4bS96H2Hrkz9tdq
 
-On Wed, Jun 25, 2025 at 04:07:58PM +0300, Claudiu Beznea wrote:
-> On 18.06.2025 20:42, Manivannan Sadhasivam wrote:
-> > On Fri, May 30, 2025 at 02:19:13PM +0300, Claudiu wrote:
-> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>
-> >> The Renesas RZ/G3S features a PCIe IP that complies with the PCI Express
-> >> Base Specification 4.0 and supports speeds of up to 5 GT/s. It functions
-> >> only as a root complex, with a single-lane (x1) configuration. The
-> >> controller includes Type 1 configuration registers, as well as IP
-> >> specific registers (called AXI registers) required for various adjustments.
+The Working Sample R-Car SoCs may not yet have thermal sensor trimming
+values programmed into fuses, those fuses are blank instead. For such
+SoCs, the driver includes fallback trimming values. Those values are
+currently applied to all SoCs which use this driver.
 
-> This is how HW manual suggest to do it. The manual is open, it can be
-> downloaded from [1]. Chapter that describes the steps implemented here is
-> 34.4.2.4 Issuing Special Requests.
-> 
-> Steps to reach the HW manual:
-> 1/ click "RZ/G3S Group User's Manual: Hardware" button
-> 2/ click confirm
-> 3/ open the archive
-> 4/ go to r01uh1014ej0110-rzg3s-users-manual-hardware -> Deliverables
-> 5/ open r01uh1014ej0110-rzg3s.pdf
+Introduce support for per-SoC fallback trimming values in preparation
+for SoCs which do not use these current trimming values. No functional
+change is intended here.
 
-Nice that the manual is public!  URLs are a great invention; it's too
-bad when we need directions for where to click, etc, in addition to
-the URL.  Maybe one or both of these URLs could be included in the
-commit log.
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: "Niklas Söderlund" <niklas.soderlund@ragnatech.se>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Lukasz Luba <lukasz.luba@arm.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>
+Cc: Zhang Rui <rui.zhang@intel.com>
+Cc: linux-pm@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+V2: - :%s@\<rcar_gen3_thermal_fuse_default_info\>@rcar_gen3_thermal_fuse_default@g
+    - Put rcar_gen3_thermal_fuse_default_info_gen3 on single line
+    - Add RB from Niklas
+---
+ drivers/thermal/renesas/rcar_gen3_thermal.c | 41 ++++++++++++++-------
+ 1 file changed, 27 insertions(+), 14 deletions(-)
 
-> [1]
-> https://www.renesas.com/en/products/microcontrollers-microprocessors/rz-mpus/rzg3s-general-purpose-microprocessors-single-core-arm-cortex-a55-11ghz-cpu-and-dual-core-cortex-m33-250mhz?queryID=695cc067c2d89e3f271d43656ede4d12
+diff --git a/drivers/thermal/renesas/rcar_gen3_thermal.c b/drivers/thermal/renesas/rcar_gen3_thermal.c
+index 24a702ee4c1f..413b373523e4 100644
+--- a/drivers/thermal/renesas/rcar_gen3_thermal.c
++++ b/drivers/thermal/renesas/rcar_gen3_thermal.c
+@@ -73,11 +73,17 @@ struct rcar_gen3_thermal_fuse_info {
+ 	u32 mask;
+ };
+ 
++struct rcar_gen3_thermal_fuse_default {
++	u32 ptat[3];
++	u32 thcodes[TSC_MAX_NUM][3];
++};
++
+ struct rcar_thermal_info {
+ 	int scale;
+ 	int adj_below;
+ 	int adj_above;
+ 	const struct rcar_gen3_thermal_fuse_info *fuses;
++	const struct rcar_gen3_thermal_fuse_default *fuse_defaults;
+ };
+ 
+ struct equation_set_coef {
+@@ -289,6 +295,7 @@ static void rcar_gen3_thermal_fetch_fuses(struct rcar_gen3_thermal_priv *priv)
+ 
+ static bool rcar_gen3_thermal_read_fuses(struct rcar_gen3_thermal_priv *priv)
+ {
++	const struct rcar_gen3_thermal_fuse_default *fuse_defaults = priv->info->fuse_defaults;
+ 	unsigned int i;
+ 	u32 thscp;
+ 
+@@ -297,24 +304,16 @@ static bool rcar_gen3_thermal_read_fuses(struct rcar_gen3_thermal_priv *priv)
+ 	if (!priv->info->fuses ||
+ 	    (thscp & THSCP_COR_PARA_VLD) != THSCP_COR_PARA_VLD) {
+ 		/* Default THCODE values in case FUSEs are not set. */
+-		static const int thcodes[TSC_MAX_NUM][3] = {
+-			{ 3397, 2800, 2221 },
+-			{ 3393, 2795, 2216 },
+-			{ 3389, 2805, 2237 },
+-			{ 3415, 2694, 2195 },
+-			{ 3356, 2724, 2244 },
+-		};
+-
+-		priv->ptat[0] = 2631;
+-		priv->ptat[1] = 1509;
+-		priv->ptat[2] = 435;
++		priv->ptat[0] = fuse_defaults->ptat[0];
++		priv->ptat[1] = fuse_defaults->ptat[1];
++		priv->ptat[2] = fuse_defaults->ptat[2];
+ 
+ 		for (i = 0; i < priv->num_tscs; i++) {
+ 			struct rcar_gen3_thermal_tsc *tsc = priv->tscs[i];
+ 
+-			tsc->thcode[0] = thcodes[i][0];
+-			tsc->thcode[1] = thcodes[i][1];
+-			tsc->thcode[2] = thcodes[i][2];
++			tsc->thcode[0] = fuse_defaults->thcodes[i][0];
++			tsc->thcode[1] = fuse_defaults->thcodes[i][1];
++			tsc->thcode[2] = fuse_defaults->thcodes[i][2];
+ 		}
+ 
+ 		return false;
+@@ -361,11 +360,23 @@ static const struct rcar_gen3_thermal_fuse_info rcar_gen3_thermal_fuse_info_gen4
+ 	.mask = GEN4_FUSE_MASK,
+ };
+ 
++static const struct rcar_gen3_thermal_fuse_default rcar_gen3_thermal_fuse_default_info_gen3 = {
++	.ptat = { 2631, 1509, 435 },
++	.thcodes = {
++		{ 3397, 2800, 2221 },
++		{ 3393, 2795, 2216 },
++		{ 3389, 2805, 2237 },
++		{ 3415, 2694, 2195 },
++		{ 3356, 2724, 2244 },
++	},
++};
++
+ static const struct rcar_thermal_info rcar_m3w_thermal_info = {
+ 	.scale = 157,
+ 	.adj_below = -41,
+ 	.adj_above = 116,
+ 	.fuses = &rcar_gen3_thermal_fuse_info_gen3,
++	.fuse_defaults = &rcar_gen3_thermal_fuse_default_info_gen3,
+ };
+ 
+ static const struct rcar_thermal_info rcar_gen3_thermal_info = {
+@@ -373,6 +384,7 @@ static const struct rcar_thermal_info rcar_gen3_thermal_info = {
+ 	.adj_below = -41,
+ 	.adj_above = 126,
+ 	.fuses = &rcar_gen3_thermal_fuse_info_gen3,
++	.fuse_defaults = &rcar_gen3_thermal_fuse_default_info_gen3,
+ };
+ 
+ static const struct rcar_thermal_info rcar_gen4_thermal_info = {
+@@ -380,6 +392,7 @@ static const struct rcar_thermal_info rcar_gen4_thermal_info = {
+ 	.adj_below = -41,
+ 	.adj_above = 126,
+ 	.fuses = &rcar_gen3_thermal_fuse_info_gen4,
++	.fuse_defaults = &rcar_gen3_thermal_fuse_default_info_gen3,
+ };
+ 
+ static const struct of_device_id rcar_gen3_thermal_dt_ids[] = {
+-- 
+2.47.2
 
-https://www.renesas.com/en/document/mah/rzg3s-group-users-manual-hardware?r=25458591
 
