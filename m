@@ -1,277 +1,197 @@
-Return-Path: <linux-renesas-soc+bounces-18716-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18717-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09857AE80A9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 13:11:48 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 790F0AE8170
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 13:36:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A493A7A4034
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 11:09:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 55C8F1C23DE6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 11:36:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 878672BDC10;
-	Wed, 25 Jun 2025 11:10:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75FA31F12E9;
+	Wed, 25 Jun 2025 11:32:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="dQmPgMH3";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="VLtwbBhy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aKcoe7zn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E571E1C3F;
-	Wed, 25 Jun 2025 11:10:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C801214209;
+	Wed, 25 Jun 2025 11:32:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750849831; cv=none; b=hICqJ1scXYJChvNRhFvnpw9vCp/DrMdOv6bfC2rlIcKWs+6Q+C8VtffxrlJIaIGROuzQJQ6Ol59+Hm7C7oN48Zq3nAKNNf11sZmCSFTs3QYJBp+FfaUITJcjcsvYZLoKJb3qAg4ciFTvGyL70wINdfVOe3qFVg32yPiB3DOjKeQ=
+	t=1750851155; cv=none; b=D4J4ZbvPg248Ov9gVzJmbg5nVABWrchyykVWTn8HvPRptwzxeNu/XjLB1C1SHQd2i8Qi14tX++MVPeQgkOPyRiHcN1yKcupLb8pnlYyzGcwa3lOBRH8HBdyOMcLzGVOqgXmuzzOic8IHvyL+W1mVxRkg7H0aJSpiFSGzcopUcRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750849831; c=relaxed/simple;
-	bh=XT+EwPD4OgKIgCidfsqog4gzyYrb031nl7652LHFA+I=;
+	s=arc-20240116; t=1750851155; c=relaxed/simple;
+	bh=b8HExZsm4GZZYkcq+Be3f1cAN7tYaXlR5706Bb4d3ZE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FbAarGURno4Ubr07DCjm91M+gmxQrhzA1qVgYQEYd+yWqBxIC5oq9UkFRbGiGtEXEO/HL96DvbCOZzENLVPOhS7mMqR+TT2dKhHNm/z/7zMt3EhZh45C2eynpzIAjea2+1gEaprrq+zUXFIwSrEohmbywH+29lDGd2Wtqse8EcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=dQmPgMH3; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=VLtwbBhy; arc=none smtp.client-ip=103.168.172.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfout.phl.internal (Postfix) with ESMTP id 45B4BEC0292;
-	Wed, 25 Jun 2025 07:10:27 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-12.internal (MEProxy); Wed, 25 Jun 2025 07:10:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1750849827;
-	 x=1750936227; bh=pfz7ME3gmVUD4gHhu/odMLYpeYC9QIWk3tsj5/f8bRE=; b=
-	dQmPgMH3SQYrbOnd4o9OEI2mbO0FBWMlwDmH4pearvPMsLxrXNP0fIlHZl03Qdlh
-	v20nmE61iXP+9ZV2E2LrYcAnUHCwZArQSlKVoFb1wCSlmf7TtFIQ2cyrfFWZBh0L
-	MRY5SHykz1tp/jCVgQm50Mn8yvv69gCS6xqUw1+LupWedZVJYr7PyGeRB2yanQpc
-	KnPygzNNLX8wSZuwkyvNWeWva05t5IObOMU9MOkGg1Ybm2c+5zZl8o1GNExI62bA
-	RG0ybaqo3SktS1kb2gGA42OoW/Xxzo0/RZT6GeQvVeaCzMiUKQbw9a3op8bjEEH3
-	6z/oe88sL4mxNIE+bmK1QQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1750849827; x=
-	1750936227; bh=pfz7ME3gmVUD4gHhu/odMLYpeYC9QIWk3tsj5/f8bRE=; b=V
-	LtwbBhyFep8zGcZ/H3hDNt7qhtSwvR1rOW7Tbzh+m9gV7wfFb6R0D6G1oXkpJ87A
-	LPX7LWfqYisSdkwxzZ8NklT6ybgwR2sEmiNJIre6fGt4xi7ZSVQedAkfeT1rAERZ
-	ZQ/54cyMwW1bPW8xa0FD/ps84N8QekbN5xSKzA+RoH3QtY0yG2IfXMoZylRkIwKZ
-	uOkDrxDdFbhrZqo6UsvtYKgRPntEVHH2iNhL9Lesnrxu+vslGRCEvaPNi5aoYEYJ
-	FyojSBQ/cqzYnrNsESWTYcdFiOk/F6NZ46tVgVm+NI8fZ0IgJ8ifB9X4CvDmCUE5
-	wYImr62d+kRFjl2w0nHjg==
-X-ME-Sender: <xms:ItlbaG8K6_ljU3apPcYci3q-kwXdVQEhO0G8PREQsoK3Jy4aSuIoLA>
-    <xme:ItlbaGtHvbwxXnA94rvzxe7D0UGxCI1nzBoQ0u55scxchX1LuvuxO7TkkQuYHzOO9
-    CmBLx_d1QjCisMiiUY>
-X-ME-Received: <xmr:ItlbaMDixQKsceSZPuutL6PpVsPvL9S3YVnkwxt34mkht4rGcwiZyvkijIZtRgBLW-b49evRDtoCR94A1-BrWzriIMo9EVcVng>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddvgddvvdeiudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhikhhlrghs
-    ucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrth
-    gvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepveetgedtvddvhfdtkeeghfeffeehteeh
-    keekgeefjeduieduueelgedtheekkeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
-    hrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgr
-    thgvtghhrdhsvgdpnhgspghrtghpthhtohepledpmhhouggvpehsmhhtphhouhhtpdhrtg
-    hpthhtohepmhgrrhgvkhdrvhgrshhuthdorhgvnhgvshgrshesmhgrihhlsghogidrohhr
-    ghdprhgtphhtthhopehlihhnuhigqdhpmhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprh
-    gtphhtthhopehrrghfrggvlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggrnhhi
-    vghlrdhlvgiitggrnhhosehlihhnrghrohdrohhrghdprhgtphhtthhopehgvggvrhhtod
-    hrvghnvghsrghssehglhhiuggvrhdrsggvpdhrtghpthhtoheplhhukhgrshiirdhluhgs
-    rgesrghrmhdrtghomhdprhgtphhtthhopehmrghgnhhushdruggrmhhmsehgmhgrihhlrd
-    gtohhmpdhrtghpthhtoheprhhuihdriihhrghnghesihhnthgvlhdrtghomhdprhgtphht
-    thhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorh
-    hg
-X-ME-Proxy: <xmx:ItlbaOd33cVm7FM2GAEKt1LxbzFKmRNcK-aU4zgQGYoewesAFTHMFA>
-    <xmx:ItlbaLNbPVAVzcVy74QajidDLQq9QAXvi4Of7WvIdUucOWpnvnObLg>
-    <xmx:ItlbaIl5bY4-8WIw9UMsf22uXx3z9xW-T6zvfT-7DnaQJftSEpOCKw>
-    <xmx:ItlbaNtmt0oBFIWosiJ38HEo0XSt4WjTJTTQ-8LWs9SvW9gWmQptBw>
-    <xmx:I9lbaLcnin9YYA1hOIo0B0PF7MH8bcsg1MtjwKUg5pIVTUV3W3yXcKpu>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 25 Jun 2025 07:10:26 -0400 (EDT)
-Date: Wed, 25 Jun 2025 13:10:24 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=unBVaSSz92eegRPdkBOgg+DU2GzrWe8HvV/KW6ixj88lGN6moxkpJ0yYNVSLl3oVtuf0hfNvsO6whw4nF5AVWKcbSal342slma+3MnWf0zHr+bl3ZeEbxCSbUcHUN3LTDX1ANtMk1cmYMSBOhy5qOvrh63jv0F6ayRDVyguTBdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aKcoe7zn; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750851154; x=1782387154;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=b8HExZsm4GZZYkcq+Be3f1cAN7tYaXlR5706Bb4d3ZE=;
+  b=aKcoe7zn2lgBZlyrxIjzb/6RI0aS6zQf0onLWPfW++uKtb5F4fdQfbeZ
+   TPQde0CzVd/O/+JRd81VFB4r6syhfYFLF9VRglOaKyLpyMDJrigvarA1B
+   ZX/nZccfG+jVz0PFC1VAOnGP08jALJld86zXrcEFxHAWvVj1VdP2N8aP3
+   ZXQ9MZ6Wp+K0U4F/8uZ3EaPU2GrH9Dk9Qmstrys6OJVfigycGpTXsta+v
+   3ApiHhz1RSmA443bDlsHzMm2/yy4HF3VFy/+eT2HdThIC/elSPUDS0/OH
+   7MqCrDP0x8ABoiKUPzmdttqXkAvdFtRuQWk2opN6wOjF5fW7C5gObFjim
+   w==;
+X-CSE-ConnectionGUID: jon4LHGCTEWpuxEKPLKnwA==
+X-CSE-MsgGUID: YRX4vHH9TCiORdLU8H2flg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="52232756"
+X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; 
+   d="scan'208";a="52232756"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 04:32:33 -0700
+X-CSE-ConnectionGUID: Pe3OIX3TS0GODZpYIBAnfg==
+X-CSE-MsgGUID: +AIkFjC4RvKbHxfHQa8CQg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; 
+   d="scan'208";a="157964784"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 25 Jun 2025 04:32:30 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uUOMd-000T3u-2f;
+	Wed, 25 Jun 2025 11:32:27 +0000
+Date: Wed, 25 Jun 2025 19:32:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Mark Brown <broonie@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Lukasz Luba <lukasz.luba@arm.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Zhang Rui <rui.zhang@intel.com>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/2] thermal: rcar_gen3: Add support for per-SoC default
- trim values
-Message-ID: <20250625111024.GA854038@ragnatech.se>
-References: <20250625100116.7538-1-marek.vasut+renesas@mailbox.org>
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 3/6] spi: Add driver for the RZ/V2H(P) RSPI IP
+Message-ID: <202506251915.mDWx8v2S-lkp@intel.com>
+References: <20250624192304.338979-4-fabrizio.castro.jz@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250625100116.7538-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20250624192304.338979-4-fabrizio.castro.jz@renesas.com>
 
-Hi Marek,
+Hi Fabrizio,
 
-Thanks for your work!
+kernel test robot noticed the following build errors:
 
-On 2025-06-25 11:59:58 +0200, Marek Vasut wrote:
-> The Working Sample R-Car SoCs may not yet have thermal sensor trimming
-> values programmed into fuses, those fuses are blank instead. For such
-> SoCs, the driver includes fallback trimming values. Those values are
-> currently applied to all SoCs which use this driver.
-> 
-> Introduce support for per-SoC fallback trimming values in preparation
-> for SoCs which do not use these current trimming values. No functional
-> change is intended here.
+[auto build test ERROR on broonie-spi/for-next]
+[also build test ERROR on geert-renesas-drivers/renesas-clk arm64/for-next/core geert-renesas-devel/next robh/for-next linus/master v6.16-rc3 next-20250625]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I like the change, only have one bikeshedding comment about naming.
+url:    https://github.com/intel-lab-lkp/linux/commits/Fabrizio-Castro/clk-renesas-r9a09g057-Add-entries-for-the-RSPIs/20250625-032714
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+patch link:    https://lore.kernel.org/r/20250624192304.338979-4-fabrizio.castro.jz%40renesas.com
+patch subject: [PATCH 3/6] spi: Add driver for the RZ/V2H(P) RSPI IP
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250625/202506251915.mDWx8v2S-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250625/202506251915.mDWx8v2S-lkp@intel.com/reproduce)
 
-> 
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> ---
-> Cc: "Niklas Söderlund" <niklas.soderlund@ragnatech.se>
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Lukasz Luba <lukasz.luba@arm.com>
-> Cc: Magnus Damm <magnus.damm@gmail.com>
-> Cc: Zhang Rui <rui.zhang@intel.com>
-> Cc: linux-pm@vger.kernel.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
->  drivers/thermal/renesas/rcar_gen3_thermal.c | 42 ++++++++++++++-------
->  1 file changed, 28 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/thermal/renesas/rcar_gen3_thermal.c b/drivers/thermal/renesas/rcar_gen3_thermal.c
-> index 24a702ee4c1f..a388bd3135e4 100644
-> --- a/drivers/thermal/renesas/rcar_gen3_thermal.c
-> +++ b/drivers/thermal/renesas/rcar_gen3_thermal.c
-> @@ -73,11 +73,17 @@ struct rcar_gen3_thermal_fuse_info {
->  	u32 mask;
->  };
->  
-> +struct rcar_gen3_thermal_fuse_default_info {
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506251915.mDWx8v2S-lkp@intel.com/
 
-Maybe call this 'rcar_gen3_thermal_fuse_default' to reduce the symbol 
-length. In retrospect picking the preifx 'rcar_gen3_thermal_' was a 
-really bad idea on my part...
+All errors (new ones prefixed by >>):
 
-> +	u32 ptat[3];
-> +	u32 thcodes[TSC_MAX_NUM][3];
-> +};
-> +
->  struct rcar_thermal_info {
->  	int scale;
->  	int adj_below;
->  	int adj_above;
->  	const struct rcar_gen3_thermal_fuse_info *fuses;
-> +	const struct rcar_gen3_thermal_fuse_default_info *fuse_defaults;
->  };
->  
->  struct equation_set_coef {
-> @@ -289,6 +295,7 @@ static void rcar_gen3_thermal_fetch_fuses(struct rcar_gen3_thermal_priv *priv)
->  
->  static bool rcar_gen3_thermal_read_fuses(struct rcar_gen3_thermal_priv *priv)
->  {
-> +	const struct rcar_gen3_thermal_fuse_default_info *fuse_defaults = priv->info->fuse_defaults;
->  	unsigned int i;
->  	u32 thscp;
->  
-> @@ -297,24 +304,16 @@ static bool rcar_gen3_thermal_read_fuses(struct rcar_gen3_thermal_priv *priv)
->  	if (!priv->info->fuses ||
->  	    (thscp & THSCP_COR_PARA_VLD) != THSCP_COR_PARA_VLD) {
->  		/* Default THCODE values in case FUSEs are not set. */
-> -		static const int thcodes[TSC_MAX_NUM][3] = {
-> -			{ 3397, 2800, 2221 },
-> -			{ 3393, 2795, 2216 },
-> -			{ 3389, 2805, 2237 },
-> -			{ 3415, 2694, 2195 },
-> -			{ 3356, 2724, 2244 },
-> -		};
-> -
-> -		priv->ptat[0] = 2631;
-> -		priv->ptat[1] = 1509;
-> -		priv->ptat[2] = 435;
-> +		priv->ptat[0] = fuse_defaults->ptat[0];
-> +		priv->ptat[1] = fuse_defaults->ptat[1];
-> +		priv->ptat[2] = fuse_defaults->ptat[2];
->  
->  		for (i = 0; i < priv->num_tscs; i++) {
->  			struct rcar_gen3_thermal_tsc *tsc = priv->tscs[i];
->  
-> -			tsc->thcode[0] = thcodes[i][0];
-> -			tsc->thcode[1] = thcodes[i][1];
-> -			tsc->thcode[2] = thcodes[i][2];
-> +			tsc->thcode[0] = fuse_defaults->thcodes[i][0];
-> +			tsc->thcode[1] = fuse_defaults->thcodes[i][1];
-> +			tsc->thcode[2] = fuse_defaults->thcodes[i][2];
->  		}
->  
->  		return false;
-> @@ -361,11 +360,24 @@ static const struct rcar_gen3_thermal_fuse_info rcar_gen3_thermal_fuse_info_gen4
->  	.mask = GEN4_FUSE_MASK,
->  };
->  
-> +static const struct rcar_gen3_thermal_fuse_default_info
-> +	rcar_gen3_thermal_fuse_default_info_gen3 = {
+   drivers/spi/spi-rzv2h-rspi.c: In function 'rzv2h_rspi_prepare_message':
+>> drivers/spi/spi-rzv2h-rspi.c:298:18: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+     298 |         conf32 = FIELD_PREP(RSPI_SPCMD_CPOL, !!(spi->mode & SPI_CPOL));
+         |                  ^~~~~~~~~~
 
-With the names adjusted above this could be
 
-static const struct rcar_gen3_thermal_fuse_default rcar_gen3_thermal_fuses_default_gen3 = {
+vim +/FIELD_PREP +298 drivers/spi/spi-rzv2h-rspi.c
 
-And that would fit the 100 char limit. We have lines that are 100 chars 
-long already in the file, so this is fine IMHO. Again having such a long 
-prefix string was a bad idea, sorry about that.
-
-With this addressed,
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-> +	.ptat = { 2631, 1509, 435 },
-> +	.thcodes = {
-> +		{ 3397, 2800, 2221 },
-> +		{ 3393, 2795, 2216 },
-> +		{ 3389, 2805, 2237 },
-> +		{ 3415, 2694, 2195 },
-> +		{ 3356, 2724, 2244 },
-> +	},
-> +};
-> +
->  static const struct rcar_thermal_info rcar_m3w_thermal_info = {
->  	.scale = 157,
->  	.adj_below = -41,
->  	.adj_above = 116,
->  	.fuses = &rcar_gen3_thermal_fuse_info_gen3,
-> +	.fuse_defaults = &rcar_gen3_thermal_fuse_default_info_gen3,
->  };
->  
->  static const struct rcar_thermal_info rcar_gen3_thermal_info = {
-> @@ -373,6 +385,7 @@ static const struct rcar_thermal_info rcar_gen3_thermal_info = {
->  	.adj_below = -41,
->  	.adj_above = 126,
->  	.fuses = &rcar_gen3_thermal_fuse_info_gen3,
-> +	.fuse_defaults = &rcar_gen3_thermal_fuse_default_info_gen3,
->  };
->  
->  static const struct rcar_thermal_info rcar_gen4_thermal_info = {
-> @@ -380,6 +393,7 @@ static const struct rcar_thermal_info rcar_gen4_thermal_info = {
->  	.adj_below = -41,
->  	.adj_above = 126,
->  	.fuses = &rcar_gen3_thermal_fuse_info_gen4,
-> +	.fuse_defaults = &rcar_gen3_thermal_fuse_default_info_gen3,
->  };
->  
->  static const struct of_device_id rcar_gen3_thermal_dt_ids[] = {
-> -- 
-> 2.47.2
-> 
+   268	
+   269	static int rzv2h_rspi_prepare_message(struct spi_controller *ctlr,
+   270					      struct spi_message *message)
+   271	{
+   272		struct rzv2h_rspi_priv *rspi = spi_controller_get_devdata(ctlr);
+   273		const struct spi_device *spi = message->spi;
+   274		struct spi_transfer *xfer;
+   275		u32 speed_hz = U32_MAX;
+   276		u8 bits_per_word;
+   277		u32 conf32;
+   278		u16 conf16;
+   279	
+   280		/* Make sure SPCR.SPE is 0 before amending the configuration */
+   281		rzv2h_rspi_spe_disable(rspi);
+   282	
+   283		/* Configure the device to work in "host" mode */
+   284		conf32 = RSPI_SPCR_MSTR;
+   285	
+   286		/* Auto-stop function */
+   287		conf32 |= RSPI_SPCR_SCKASE;
+   288	
+   289		/* SPI receive buffer full interrupt enable */
+   290		conf32 |= RSPI_SPCR_SPRIE;
+   291	
+   292		writel(conf32, rspi->base + RSPI_SPCR);
+   293	
+   294		/* Use SPCMD0 only */
+   295		writeb(0x0, rspi->base + RSPI_SPSCR);
+   296	
+   297		/* Setup mode */
+ > 298		conf32 = FIELD_PREP(RSPI_SPCMD_CPOL, !!(spi->mode & SPI_CPOL));
+   299		conf32 |= FIELD_PREP(RSPI_SPCMD_CPHA, !!(spi->mode & SPI_CPHA));
+   300		conf32 |= FIELD_PREP(RSPI_SPCMD_LSBF, !!(spi->mode & SPI_LSB_FIRST));
+   301		conf32 |= FIELD_PREP(RSPI_SPCMD_SSLKP, 1);
+   302		conf32 |= FIELD_PREP(RSPI_SPCMD_SSLA, spi_get_chipselect(spi, 0));
+   303		writel(conf32, rspi->base + RSPI_SPCMD);
+   304		if (spi->mode & SPI_CS_HIGH)
+   305			writeb(BIT(spi_get_chipselect(spi, 0)), rspi->base + RSPI_SSLP);
+   306		else
+   307			writeb(0, rspi->base + RSPI_SSLP);
+   308	
+   309		/* Setup FIFO thresholds */
+   310		conf16 = FIELD_PREP(RSPI_SPDCR2_TTRG, RSPI_FIFO_SIZE - 1);
+   311		conf16 |= FIELD_PREP(RSPI_SPDCR2_RTRG, 0);
+   312		writew(conf16, rspi->base + RSPI_SPDCR2);
+   313	
+   314		rzv2h_rspi_clear_fifos(rspi);
+   315	
+   316		list_for_each_entry(xfer, &message->transfers, transfer_list) {
+   317			if (!xfer->speed_hz)
+   318				continue;
+   319	
+   320			speed_hz = min(xfer->speed_hz, speed_hz);
+   321			bits_per_word = xfer->bits_per_word;
+   322		}
+   323	
+   324		if (speed_hz == U32_MAX)
+   325			return -EINVAL;
+   326	
+   327		rspi->bytes_per_word = roundup_pow_of_two(BITS_TO_BYTES(bits_per_word));
+   328		rzv2h_rspi_reg_rmw(rspi, RSPI_SPCMD, RSPI_SPCMD_SPB, bits_per_word - 1);
+   329	
+   330		rspi->freq = rzv2h_rspi_setup_clock(rspi, speed_hz);
+   331		if (!rspi->freq)
+   332			return -EINVAL;
+   333	
+   334		rzv2h_rspi_spe_enable(rspi);
+   335	
+   336		return 0;
+   337	}
+   338	
 
 -- 
-Kind Regards,
-Niklas Söderlund
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
