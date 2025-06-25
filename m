@@ -1,48 +1,51 @@
-Return-Path: <linux-renesas-soc+bounces-18693-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18694-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACA49AE7979
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 10:05:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D992AE79A0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 10:11:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3F1DC3BF175
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 08:05:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 125663A81B2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jun 2025 08:10:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A80C20B218;
-	Wed, 25 Jun 2025 08:05:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 148CD20C47C;
+	Wed, 25 Jun 2025 08:10:58 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5001E5B95;
-	Wed, 25 Jun 2025 08:05:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6BDE3074AD;
+	Wed, 25 Jun 2025 08:10:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750838757; cv=none; b=tCBR8WaEkX03SlKAd3Z7J7h2/sr3pbYqWl92BS+i+axx27GMP9KLY9QAP0DM6eq4CV+Tn7Te+tFh021mk0gHSJ8t5rLnKG8Mtst2bfrPUS4umDZ3f+BpZt4EbqLvvVsnLIuI3WqbJmYP+ddsvnjjs1HuZWnyRwJVHsW0zUurO4o=
+	t=1750839058; cv=none; b=Pvvmsi8o7g2tXlFw2Owh8tp6v4dZis2wc6DoKDFXKaAGagpZMJcT/iWqPKUhKiJdck2TmrReL9822+wBojZfhngIYhzEbGyvxoWmmw1Ys3a2GdZeWZ5BRXib8oy/o2WxWh4twy+fwgIsPPRxGs0nyAhsFbF1lj3n2ErYybRd2aE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750838757; c=relaxed/simple;
-	bh=m4s27MBJCT7wdhGNUL8+TSGO3vAJAA0A+1pGmYq74t0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Wx9hrXhJ2TW96CyA++Qs2SfD/912ie67Flw+N3vcWdlKrE7BsTthFrDy84+9afluPCC/t9qGejC5eItJmSzBegY9jxA1fLkPlCnh7HtUjDWGitDYyODIiyhW0DXltD6THMt/x1+iO/zdk1K0By3ZqYZdPJT7lMAHyEKwpgUyi8Q=
+	s=arc-20240116; t=1750839058; c=relaxed/simple;
+	bh=w4XBhTXvsyJ9T1RijrpxWM3w73mJ20E248FeBMP007I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=t2bi0gXUJE2f+oGVyXO0Tam8yhvmo/mS8KUpeWXtbtYj59E+2E+pz25fYj9HC0TNn06L27Pm+FLuYQ0U7wf61B6MIho38T9oB6LVqc+qnhJc5iB1j2+OZ/69cb3dg7iqb+RyXI6tpLnymXH/Md3PkNc1PoyyGthsVqgeZ6mRWHw=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 314F9C4CEF1;
-	Wed, 25 Jun 2025 08:05:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA7D4C4CEEA;
+	Wed, 25 Jun 2025 08:10:54 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-gpio@vger.kernel.org,
+To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: netdev@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 2/2] gpio: rcar: Use new line value setter callbacks
-Date: Wed, 25 Jun 2025 10:05:47 +0200
-Message-ID: <f09a0481fc0ddafb9aa05d903fbb42ef52332c03.1750838486.git.geert+renesas@glider.be>
+Subject: [PATCH] dt-bindings: net: Rename renesas,r9a09g057-gbeth.yaml
+Date: Wed, 25 Jun 2025 10:10:48 +0200
+Message-ID: <721f6e0e09777e0842ecaca4578bc50c953d2428.1750838954.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1750838486.git.geert+renesas@glider.be>
-References: <cover.1750838486.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -51,66 +54,32 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-struct gpio_chip now has callbacks for setting line values that return
-integers, so they can indicate failures.  Convert the driver to using
-them.
+The DT bindings file "renesas,r9a09g057-gbeth.yaml" applies to a whole
+family of SoCs, and uses "renesas,rzv2h-gbeth" as a fallback compatible
+value.  Hence rename it to the more generic "renesas,rzv2h-gbeth.yaml".
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-v2:
-  - Rebase.
----
- drivers/gpio/gpio-rcar.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ .../{renesas,r9a09g057-gbeth.yaml => renesas,rzv2h-gbeth.yaml}  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename Documentation/devicetree/bindings/net/{renesas,r9a09g057-gbeth.yaml => renesas,rzv2h-gbeth.yaml} (98%)
 
-diff --git a/drivers/gpio/gpio-rcar.c b/drivers/gpio/gpio-rcar.c
-index 8416e0430887bd5e..1d121a4275905e09 100644
---- a/drivers/gpio/gpio-rcar.c
-+++ b/drivers/gpio/gpio-rcar.c
-@@ -356,7 +356,7 @@ static int gpio_rcar_get_multiple(struct gpio_chip *chip, unsigned long *mask,
- 	return 0;
- }
+diff --git a/Documentation/devicetree/bindings/net/renesas,r9a09g057-gbeth.yaml b/Documentation/devicetree/bindings/net/renesas,rzv2h-gbeth.yaml
+similarity index 98%
+rename from Documentation/devicetree/bindings/net/renesas,r9a09g057-gbeth.yaml
+rename to Documentation/devicetree/bindings/net/renesas,rzv2h-gbeth.yaml
+index 9961253d1d411bd0..23e39bcea96b31db 100644
+--- a/Documentation/devicetree/bindings/net/renesas,r9a09g057-gbeth.yaml
++++ b/Documentation/devicetree/bindings/net/renesas,rzv2h-gbeth.yaml
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+ %YAML 1.2
+ ---
+-$id: http://devicetree.org/schemas/net/renesas,r9a09g057-gbeth.yaml#
++$id: http://devicetree.org/schemas/net/renesas,rzv2h-gbeth.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
  
--static void gpio_rcar_set(struct gpio_chip *chip, unsigned offset, int value)
-+static int gpio_rcar_set(struct gpio_chip *chip, unsigned int offset, int value)
- {
- 	struct gpio_rcar_priv *p = gpiochip_get_data(chip);
- 	unsigned long flags;
-@@ -364,10 +364,12 @@ static void gpio_rcar_set(struct gpio_chip *chip, unsigned offset, int value)
- 	raw_spin_lock_irqsave(&p->lock, flags);
- 	gpio_rcar_modify_bit(p, OUTDT, offset, value);
- 	raw_spin_unlock_irqrestore(&p->lock, flags);
-+
-+	return 0;
- }
- 
--static void gpio_rcar_set_multiple(struct gpio_chip *chip, unsigned long *mask,
--				   unsigned long *bits)
-+static int gpio_rcar_set_multiple(struct gpio_chip *chip, unsigned long *mask,
-+				  unsigned long *bits)
- {
- 	u32 bankmask = mask[0] & GENMASK(chip->ngpio - 1, 0);
- 	struct gpio_rcar_priv *p = gpiochip_get_data(chip);
-@@ -380,6 +382,8 @@ static void gpio_rcar_set_multiple(struct gpio_chip *chip, unsigned long *mask,
- 	val |= (bankmask & bits[0]);
- 	gpio_rcar_write(p, OUTDT, val);
- 	raw_spin_unlock_irqrestore(&p->lock, flags);
-+
-+	return 0;
- }
- 
- static int gpio_rcar_direction_output(struct gpio_chip *chip, unsigned offset,
-@@ -531,8 +535,8 @@ static int gpio_rcar_probe(struct platform_device *pdev)
- 	gpio_chip->get = gpio_rcar_get;
- 	gpio_chip->get_multiple = gpio_rcar_get_multiple;
- 	gpio_chip->direction_output = gpio_rcar_direction_output;
--	gpio_chip->set = gpio_rcar_set;
--	gpio_chip->set_multiple = gpio_rcar_set_multiple;
-+	gpio_chip->set_rv = gpio_rcar_set;
-+	gpio_chip->set_multiple_rv = gpio_rcar_set_multiple;
- 	gpio_chip->label = name;
- 	gpio_chip->parent = dev;
- 	gpio_chip->owner = THIS_MODULE;
+ title: GBETH glue layer for Renesas RZ/V2H(P) (and similar SoCs)
 -- 
 2.43.0
 
