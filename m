@@ -1,196 +1,153 @@
-Return-Path: <linux-renesas-soc+bounces-18811-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18812-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ABE7AEAA29
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jun 2025 01:06:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66340AEAA31
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jun 2025 01:09:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C49564A6ABF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Jun 2025 23:06:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 00560562AA5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Jun 2025 23:08:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68EC4223301;
-	Thu, 26 Jun 2025 23:06:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD6EC224B05;
+	Thu, 26 Jun 2025 23:09:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="pbxg1Nc5"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E6HSjCRP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010006.outbound.protection.outlook.com [52.101.228.6])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 845D118871F;
-	Thu, 26 Jun 2025 23:06:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.6
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750979174; cv=fail; b=TVRZDE262Scnphh3ZFTU4SUPzjCiOLafm93rFZVGUgg7XBe8Vfhxmpe7POhFaVg8RE3Qe2El7kAY0xPSOSRyiftdbjc3M7Yhgf4og/LeU6SsjtaIHmhkxjqZkxGmYuFsPTQvM8CW7oPJ6dK9soV0fIjqeHCk2XsFoL5elPGp/+8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750979174; c=relaxed/simple;
-	bh=uARGc66XmY8MN11UnvPn6Gx1le4Z7aXsOsTE+H0IGjE=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=mA2jymvFMzM8YtsupVbOWfXnwXEssJRNud9a2CR1OmsiROYrtF+mggxBFwGlDpGRpCtCQ8I1ldu34+gWV9H7QVumRdDMmp1u4/InxForgP3dDNOQxii6pOSmeTo95r4btQbwkVoPhR1SReMQkl1rlsa6sLsLTIkukSaTPA46JFw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=pbxg1Nc5; arc=fail smtp.client-ip=52.101.228.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=m9+yeqiA8j97OhZadf+zKi9OS1NeBH+8aBbgfhljU6WEyyKAQCPtfhJsW3CmdFyw2aUGirXaevJ/kOpvqeuLfNjnJFpkb8pKxrcqYl3LDS6ZyR6QpoCoF5Y69HWTxoCo0ve3aDcVtkRpGUS4KL0foD6iWX0YZlxs1URs+jxoKF7+asHqTA4fkeq8DNHny8DuDozox8MnwXFcOYzZ5v4ou1UyfQrHcbBzSszln8uc4x9mGE67wwcOK5wRFxIQWRWELz0HMwImYfSW8BznlR6hdXu5QbJiHCZ+SjIFnEmH/fC7dEsp6hmhhlEJMPp/q+9e1Yov44cWDfijyiwANiUyJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=voHul8xpD1tP8uUIHwGg7y6jP2b1TGCCTzTtUT5xpb8=;
- b=abtub0/ef8beQYsqP3NefTVDyzGRe1yRkJcpRAhkZniABoHFDmXCOyFn6sETFvb4dRo8+qR2EYmMXFieWdKr9DkRn2qd+uO/4BmajTFtEkavaDc/3rjfXqa8tVy86O4F+XsH+cxoAXzhUBogJuok9klR+9IhMoS9c0ECkSZUgEvG2VSw9+6srZmdXGgBaZ96JIbPG67fG8RcRPi16m/QezrOopJ3o2RSO4fWyes6GBPPPXKM4F8PL2FQwSufxdCOxxaUQtvfj5JuOcchi/TzcRZ1B4L9abfXQCjFbI5tz2swlULHet6po47Ki08LGK9lCEcLUrnGX/20syPxEu/mMg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=voHul8xpD1tP8uUIHwGg7y6jP2b1TGCCTzTtUT5xpb8=;
- b=pbxg1Nc5aUMkj5XkJFaMLGOLVlI55B061tN7qGBxucMzTvDJcr8uzv83x+JJPn+ld4jmPGU9SYs02cZUBp/g4bYo3/CkO2Emphq+s8cITpvEGwjpMKgiLjh4DiW/g0Fo3Py4LmF3aoRdA6vvV2rYDc0O/aBtz1Q3J+DAy0k3lR4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by OSZPR01MB7697.jpnprd01.prod.outlook.com
- (2603:1096:604:1b1::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.18; Thu, 26 Jun
- 2025 23:06:04 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.8880.021; Thu, 26 Jun 2025
- 23:06:03 +0000
-Message-ID: <87ecv6gl2h.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	linux-renesas-soc@vger.kernel.org,
-	linux-gpio@vger.kernel.org
-Subject: Re: [PATCH 0/2] pinctrl: renesas: tidyup Kconfig
-In-Reply-To: <CAMuHMdWst5fhcUgWbTqzG_DQmuL8tWtUuCpg4BoeqhnCfo_MVw@mail.gmail.com>
-References: <87ecv9ragd.wl-kuninori.morimoto.gx@renesas.com>
-	<875xgk4j9l.wl-kuninori.morimoto.gx@renesas.com>
-	<CAMuHMdWst5fhcUgWbTqzG_DQmuL8tWtUuCpg4BoeqhnCfo_MVw@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 26 Jun 2025 23:06:02 +0000
-X-ClientProxiedBy: TYCP286CA0224.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:3c5::8) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACDE12236F8;
+	Thu, 26 Jun 2025 23:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750979354; cv=none; b=BA/a4081JoVoEl2k9QSFoyxa1dC64OEHf/D0LaW0QqZS2suekyaXoMtLbWNphIfzLmXoM06OAebLfyg40YaHiifHKbCqpSCoORndu7Ee/9rXIqZcX0uE0Q5grb6RW/nUJSLOt9oW+dx2uAhiky658fuBpBWIxbroy9w5y8Qj5oQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750979354; c=relaxed/simple;
+	bh=NldmZOZLq6IiyJ7LGJYUM4TN7NywgseMK5R0ow1fO/8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LQTc5TVwKzv93wHmj7mpqtHq0FleC7fnDLBrTt9wP2IhS4X75NI9SpCOkHQEpYB4WU8/sa/Uf8/gV9RXS/x4fxZa24nFozYiMTGlWC0FDjgb6H1/wiSH3LK9Aov22VlLQzTRex5kdXLGpIlsjE4IK/GbFQZ4sbWdtBKs1j1qzmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E6HSjCRP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0ADE8C4CEEB;
+	Thu, 26 Jun 2025 23:09:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750979354;
+	bh=NldmZOZLq6IiyJ7LGJYUM4TN7NywgseMK5R0ow1fO/8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=E6HSjCRPb3tBYcmnXFW9/p22GYEtwy21hP711lYkpkPd4mwOBVxRGjnHQ3R0KjkjH
+	 SEYaHKTFRmOrsANeVQbR/0gO0lyVdUySyGuN/rY0tc7d2HYUz/nPff/5x5H/IaCFpy
+	 fnE8s17wbZRpNTjj6dQ0BNJEnU68NHfABTerdjf+qRrS/oPTDeR+tWonZQsbATzqMI
+	 JT6yYp1vKUSvDC1luTlH51pdNzV3zoUnDoGheZ2voD4CZw+O5WGtv8WQisUrxEM0ew
+	 G7tnTvIhhICfW6iAUzzKrc5B3go9Hu8Kaz39mIX5GklyOJQKnMReDZIaMdXQe75dNU
+	 SEebhsihP8elA==
+Date: Thu, 26 Jun 2025 18:09:13 -0500
+From: Rob Herring <robh@kernel.org>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v12 1/7] dt-bindings: serial: Added secondary clock for
+ RZ/T2H RSCI
+Message-ID: <20250626230913.GA1338561-robh@kernel.org>
+References: <20250617134504.126313-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250617134504.126313-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OSZPR01MB7697:EE_
-X-MS-Office365-Filtering-Correlation-Id: c7357ec0-160b-47e5-1e15-08ddb50605dd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|52116014|1800799024|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?DrqF+XLaS/6KlQBoh0H3bQfQ0b1maDUQwif/w8T1EHa44zmgyocSSfl42WJ2?=
- =?us-ascii?Q?gf9ipEUvpRe53h4UbRvoCJNSNBMvdH0h2TyJEoj5HFm2fakSZMqI8kjxtvJ7?=
- =?us-ascii?Q?JWkMuATqCbkdHOFsNts/eUZPsXEt2+yRWb1Y4ij42EElZadXTej9Gq3VaDk4?=
- =?us-ascii?Q?COVw1Oh2KmjdNhzpTHPz+Dl8ZFD4vVBF6swOei2buDMaZNj3B5v1XTNeSFte?=
- =?us-ascii?Q?rpK6bsIvHrWahUYQsLrP+IJms3+krEsGDq17Q8sOXPw5rZS3PX8oLZy2SIFs?=
- =?us-ascii?Q?FgRcMHxS6VvU331BfGCTi+8l7LMQYc+bz9N07a8YDQPdUDRPBZoFBwNU+Zvj?=
- =?us-ascii?Q?Khg+waJ2CDnGCYyI1bJIIbZGS+thIkKpb+EX5rg0BsrE6Azm6NFM2HkyoxU5?=
- =?us-ascii?Q?47OILhszdvGEaLwKTgCoohGTIqhgH/8Kb4vxylpyOPCxsYmQV+Iah5A+VdaZ?=
- =?us-ascii?Q?HHswNza/9Qy/4MB43bZ8Ckn4I5GUK9v6wfiRpXZ+/XQ/MSStlA/ihtBzfIcz?=
- =?us-ascii?Q?9+1htwbuZA/eoWmEdjwiJ8k+pSWo2lGVQ3IFF08/05jQeEdjwOuzbxKXRXOG?=
- =?us-ascii?Q?q4YxtTko8rBvt6w3mEOj8UGqdgBC747KrJmdQEhEnDqAZY3Uv22yoQUNOce7?=
- =?us-ascii?Q?5h0O7UorQ9ACdR/C3J7vcMZbCQYSHbgBc04aqtQ5nrpwhFo8D5Tb2ZJCqPhN?=
- =?us-ascii?Q?r3x5MiN2Y8gs4K1RkxcB1l3hCEXXH8fAAzZTdy/KYvXDHkCn00ZW9o5B4QV6?=
- =?us-ascii?Q?/krAogSwgE/Veb3ZvcEDvTY1IrGK2Xd3MIInxj3f/K2Q8TmjyBi3YqnNRT4z?=
- =?us-ascii?Q?7F8GYcoFcgStRHwPlKsGyvfmDAfZpeNTJ3FZ1bIaQalud/HbDRdRoU/VgBvq?=
- =?us-ascii?Q?g7ozLRn+3KLKRnjGVY1BhTuZcgLb9eAST/vlWLKyfb5MuAGO4KEDNhF8poQ2?=
- =?us-ascii?Q?ngqK6ksTza19kojBxykOtMvslS3nLRat0q+Pdo9HAriFXLNK+LAw3uta4GsX?=
- =?us-ascii?Q?sYsyu4JlC0C/rHko90iuWnIFSxazM/rFmJNCAgaGRyEaD9BzMMFtangqzLpp?=
- =?us-ascii?Q?SO6G2Fvwjtt4zHKsO78DvoCAEV9/WP7ftZb5GuCTlrjaY52NiLFL1hCcA8az?=
- =?us-ascii?Q?rEyk6580L59YGt1O5IVVRpZi9NOwJXrNfsDcLX2/OdlbhBo1uVzDBvxugp7S?=
- =?us-ascii?Q?52xytRqJGTZNqQBXDOH7XD6Fn+GuBy1bG0HJWu9UKbUlYQZB4XdyGjoEgNQe?=
- =?us-ascii?Q?+Ye82Hh3qd9NS5AwldMXQSRNN1Y/L8suwp40mYkDT3A1rqxAOt7VAqziPb2K?=
- =?us-ascii?Q?WutDPbHgZ66J/X0WMA3sH4PK1rLolahS6zeSSeLInLU9YJfAtf/RghFLk9v4?=
- =?us-ascii?Q?hNErcCRqVDboHciy9PTbfBx1e/O0xTg9CEO+YKQNvXU0BRLSnl+gSc4Y3hGU?=
- =?us-ascii?Q?ONxYhJlab+3YHn8K08wzhBMsHyRA0Vkm0cVB9agVDGhWg5d5e58p+g=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?11mJOsMmL1yXDu0duVRcaSozOzztJgsig7dcemcjU5+9ziJcsnDRa224jp9o?=
- =?us-ascii?Q?Ar+5phr66AUIWU2SiVuo037G8MEXyvBNj6Zyhgh2HGn/YmE0U8ZCMiXhJG9U?=
- =?us-ascii?Q?SwKgLvG/lE4eU6qmKFfJTdUSvSV4sE506FohGcR2w2Z+5SgVlq2yP5nfKnUD?=
- =?us-ascii?Q?OeUJCPU5mtiFsEk1RaffIHiA2xXQlv/pl7G/8GSvNl15mfXisC8H9zvoBodT?=
- =?us-ascii?Q?Aou3GgOh3HXxmna43sDmIVetBa2Et8pQp5V/+a1n14YbUoQqANOseTqGpOBt?=
- =?us-ascii?Q?C230eXsGKtvh/PBB8cHTKdNNupZM57Vq60gS561u8ZMLExv69wcVE64FGJPX?=
- =?us-ascii?Q?eBxwN0UpgOjVtYC1Eu/4zgGJFQsswTnQ1fpTKJsBFoPEvwYq20/7+IICXwnW?=
- =?us-ascii?Q?98dtjl5FK7OmohWoKDzvydP5aOCHoHmnM1I7MgqH4dELrgsYWtgF+hhaDpiZ?=
- =?us-ascii?Q?VaV/cvyos3vLNOq87N4PieWtcYE3B9dtMOeSIqEIxWO6jD3m0TBiw0fAW78F?=
- =?us-ascii?Q?W1Aav80SyINVgyanv2S1Ew970bYM81SNANJx2oz6sW6Lb6Z2wO8nOh83gIQV?=
- =?us-ascii?Q?C8y9XhdojYNgAlKGiB9xWyZWI9fEl9Pz2M2D0RybiwEoKHDTuVIWFJzodXmV?=
- =?us-ascii?Q?eFWpH5aUuRtXUMjMAijcGFjQK3ISFbp9+wS1xxTkJEGeRVn6uxI4w9o8zA+3?=
- =?us-ascii?Q?WfOdvdIyHwvVnxZRCbMqqg5ONFyyQXu3OV/uPRK/8npQ3kUs/qfrMnf25YZY?=
- =?us-ascii?Q?o7v0Md2wQpR7MgQnVSp/W0SLH/tAP/LUxuwXb35N0fEQ2AocuzYeYYD6EY/5?=
- =?us-ascii?Q?kYG9ZAyoiyhxHxZ0B1IbNvmvUsv6tj+wBBIxM1yFYtkLaB/E8dFbd0cihMH1?=
- =?us-ascii?Q?C3xaf8wBrHRpeKQe3WNpz8Izpqo/kRf9P+zJycaC+T+uGH1ezJSmiH7yBTqW?=
- =?us-ascii?Q?ctVi1EF1CE7aQGH9L9+JsSmwSisRUMUzmyIq4FIl7yVU5wJ9JpKA2wKvcvPf?=
- =?us-ascii?Q?TOs7y+/xQdL3+PhS5kL9Q2OvgLFwdnUB7hfqC2EofI8dnbASrvb4xc2aS37P?=
- =?us-ascii?Q?dUWS/3WOknjTPdAE9XgVPDJNT9wsBRliafgB87FAZ7+TqB9bizBSzlBqx5RW?=
- =?us-ascii?Q?JEf3x5KWQtwZoggMyrTmQiIWNHppHomrLCD2I6RRv2NwQMHl5Ic0DHXFcrOU?=
- =?us-ascii?Q?sbomfNdBZgjYyNjyMW8cZrmt6/WIdiNXsrVzVD823v3x25ypRfKOU+e8FeNd?=
- =?us-ascii?Q?sCieBCto/bcI799PyvWDh98YaJFIyOrdPSKCFz0Cqxkp/RoRm9o5lkFNxFjM?=
- =?us-ascii?Q?xMS1NnMlUfBcr/46GqnMr+keeQKYtVeDTqxt3h+ILa8x9h25BoB+Y7Uz+kbE?=
- =?us-ascii?Q?4KIWnTs7ZUlYEMEyBlnH4aRBA1xsAIXfYK3lIjrzNvud6hp9GpUQHIClSK2V?=
- =?us-ascii?Q?QEqJ8PiN6gaaJE95qJcSMBwouoNexC/QdZBR38UVAUe3ZpzrgBk0HxczPAxW?=
- =?us-ascii?Q?QBo06tsZkoNjpaPtHFpgP8Sf0OkQpt7C28lAzCAlQ6Jha2/Dho2KODOC5Jyn?=
- =?us-ascii?Q?tq/8Dlg1DQ+EJbMu94u8us5ikdQWCnpraM3mtYfPnxVy2d++E+SzzKbwUvcm?=
- =?us-ascii?Q?qdr5QogH/c7GGgjkGa0Lqpc=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c7357ec0-160b-47e5-1e15-08ddb50605dd
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2025 23:06:03.0631
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6BYUX9EQFLVKc64WLTlAvZMttwuX041R3v3UK01m4xxFWYL3g0KIBuZJZeMAjP84C5/fBdY0Iry7aApTXMshAmF/vo3nM40IxYHOFIsGVUkjIjXtnfqSl6ar48eDr3bj
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB7697
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250617134504.126313-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-
-Hi Geert
-
-> > Ah... this is menu alphabetical order, instead of SYMBOL...
+On Tue, Jun 17, 2025 at 02:44:58PM +0100, Prabhakar wrote:
+> From: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
 > 
-> Courtesy of your commit d89a08f52b0dd30d ("pinctrl: sh-pfc: Tidy up
-> driver description title") in v5.10...
-(snip)
-> Actually I prefer the sorting by Kconfig symbol/part number, and
-> somewhat regret applying the aforementioned commit.
+> At boot, the default clock is the PCLKM core clock (synchronous
+> clock, which is enabled by the bootloader).
+> For different baudrates, the asynchronous clock input must be used.
+> Clock selection is made by an internal register of RCSI.
+> 
+> Add the optional "sck", external clock input.
+> 
+> Also remove the unneeded serial0 alias from the dts example.
+> 
+> Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Hi Rob,
+> As mentioned in the thread [1] below there are no users of the RSCI binding
+> hence this change doesn not break any ABI.
+> 
+> [1] https://lore.kernel.org/all/CAMuHMdUThuWxxznhjvcn5cOFCWOkb5u-fRYwTOoenDRY=4H6FA@mail.gmail.com/
 
-Yeah, actually, I agree...
+Please state this in the commit message. If you want to break the ABI 
+you have to say that you are and why it is okay.
 
-One excuse from my side is that, from "menuconfig user" side point of view,
-"description alphabetical order" is easy to find driver, because it
-indicates "SoC Name" instead of "SoC Serial Number".
-
-But from "developer point of view", indeed SYMBOL number order is better,
-but it makes "menuconfig user" confuse, because description doesn't indicate
-SoC Serial Number.
-
-> I am happy to take this series!
-
-This patch ([1/2]) sorts it by "SYMBOL number" (= developer happy), and also
-indicate "SoC Chip Name" (= user happy) ([2/2]).
-
-> Then we're just left with fixing drivers/pmdomain/renesas/Kconfig
-> and drivers/soc/renesas/Kconfig ;-)
-
-I'm happy to help it if you want to me.
-
-Thank you for your help !!
-
-Best regards
----
-Kuninori Morimoto
+> 
+> Cheers, Prabhakar
+> ---
+>  .../bindings/serial/renesas,rsci.yaml           | 17 +++++++++--------
+>  1 file changed, 9 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/serial/renesas,rsci.yaml b/Documentation/devicetree/bindings/serial/renesas,rsci.yaml
+> index ea879db5f485..1bf255407df0 100644
+> --- a/Documentation/devicetree/bindings/serial/renesas,rsci.yaml
+> +++ b/Documentation/devicetree/bindings/serial/renesas,rsci.yaml
+> @@ -35,10 +35,15 @@ properties:
+>        - const: tei
+>  
+>    clocks:
+> -    maxItems: 1
+> +    minItems: 2
+> +    maxItems: 3
+>  
+>    clock-names:
+> -    const: fck # UART functional clock
+> +    minItems: 2
+> +    items:
+> +      - const: operation
+> +      - const: bus
+> +      - const: sck # optional external clock input
+>  
+>    power-domains:
+>      maxItems: 1
+> @@ -60,10 +65,6 @@ examples:
+>      #include <dt-bindings/interrupt-controller/arm-gic.h>
+>      #include <dt-bindings/clock/renesas-cpg-mssr.h>
+>  
+> -    aliases {
+> -        serial0 = &sci0;
+> -    };
+> -
+>      sci0: serial@80005000 {
+>          compatible = "renesas,r9a09g077-rsci";
+>          reg = <0x80005000 0x400>;
+> @@ -72,7 +73,7 @@ examples:
+>                       <GIC_SPI 592 IRQ_TYPE_EDGE_RISING>,
+>                       <GIC_SPI 593 IRQ_TYPE_LEVEL_HIGH>;
+>          interrupt-names = "eri", "rxi", "txi", "tei";
+> -        clocks = <&cpg CPG_MOD 108>;
+> -        clock-names = "fck";
+> +        clocks = <&cpg CPG_MOD 8>, <&cpg CPG_CORE 13>;
+> +        clock-names = "operation", "bus";
+>          power-domains = <&cpg>;
+>      };
+> -- 
+> 2.49.0
+> 
 
