@@ -1,89 +1,96 @@
-Return-Path: <linux-renesas-soc+bounces-18769-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18770-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51B4BAE99B8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Jun 2025 11:11:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96E50AE9A69
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Jun 2025 11:51:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9E47016D033
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Jun 2025 09:11:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BB6CA4A390C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Jun 2025 09:51:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B11F826B76D;
-	Thu, 26 Jun 2025 09:11:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="jl391GaC"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9B8D2627F9;
+	Thu, 26 Jun 2025 09:51:42 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 922391A8F94
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Jun 2025 09:11:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FAB9239E79;
+	Thu, 26 Jun 2025 09:51:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750929101; cv=none; b=cJLL/JnVoKrA5iWSyxTYfpLmTtw7T0DO+s+v7jYCUo59n/0dS+2WpnbUpPaQs7BfDUZ4tzpYDtUg3vnhoBfflzu8cb2OWwgxC//Kf5bVof9Voria0aTZfipejHFk3Mthqj3DUYzI8U/5BwONbuXw55pSYtPXPEfdcs0uGFK2Twk=
+	t=1750931502; cv=none; b=Btgj9/fpZiWc+Ef+xAlng/ibV4cm7QcoaBgQ2E7X8eOx4ijmAyR+BoqOsdnlcvMfXlzKAhs4r2yNQ/OsrvowrtAhTSgTEVQQ690kNMcdL40iSJ6+AxdkodNRsEo/YCj87Wh476Zz3fJOhhpzT7iYhMZD4kqL0P4uaUgy0ekZObk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750929101; c=relaxed/simple;
-	bh=I6zdfncc/96+Gw/Om3k8PNo1tLAvs9mp+tWHF0Z6tuA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rD328S9jAwWyl+lgLcXdHHpzNDidSIzuj9LObPNFytc5iV2D13AdjXxQhWaCRbLax88FcKC/IZVeGJrMaqrvn2cPP0ewPG8rRB5Z708X2BVo4kHnTxkuKX8Hm1ZbEgCdCDEvb04rzk/ThcOh2Py+6rLrsj6YDUcfCcq5ue7YB6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=jl391GaC; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=Eeeh
-	I820+vbYXqz5ZAdlcKhAicg7pFQoE1iRyfgvkis=; b=jl391GaCgtDBiK5ltUyR
-	Ft3buEKQxhgmRrTOeJmBBqEQ7JWZF45QxCAzgCf0+0NGGOek5Qwa39JzNIAfRXO+
-	6a/rA0wLQaQDSy7wPzptFTrPqf2/E1a9Qb4EVo/uVT5URp7T5WFudd9T8ELjFbpf
-	rS0UVvPdlqsv2sr5CtE586mhXFAY+g9QvyBzIs9hDXnnP03nO7864FkivtPN5Bf3
-	B01W+utOPoOvrzAbWYDqGDoDnZXhXLTam86yPptEK0ix3Q7Q+viR3ftT+r5Jgz2P
-	Dih91qyUCWZwbYMbURNKIz3HVsrO3MVf+MHCUb7uo3XQRsN3r6YbI7G4j8RQduxY
-	4Q==
-Received: (qmail 974836 invoked from network); 26 Jun 2025 11:11:24 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 26 Jun 2025 11:11:24 +0200
-X-UD-Smtp-Session: l3s3148p1@MCYW8nU46tIgAwDPXzuUAOCQSK0rM+sw
-Date: Thu, 26 Jun 2025 11:11:24 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Frank Li <Frank.li@nxp.com>
+	s=arc-20240116; t=1750931502; c=relaxed/simple;
+	bh=GAogl0MVLOfOGpNGLd25LIjqf8QgUf7LzfIvUj35LgA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=G4Cme/jAP/MihiAnJtR30StYE8zmiiQoCBEp/kZjM8xpyehxzyW44ehxEXrgDKgb/1W+NeQ0BSDfHoliHOj4Uiv52WaIhVov675DwZ6lL+CIphQj8ZMMb8CEPXWp5/JbGz7iBsBMi8bph3wsfERGtWbmQ69FR1effJSWLy1/kqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89DC4C4CEEB;
+	Thu, 26 Jun 2025 09:51:40 +0000 (UTC)
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
 Cc: linux-renesas-soc@vger.kernel.org,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-i3c@lists.infradead.org
-Subject: Re: [PATCH 1/3] i3c: core: switch to use SUSV4 error codes
-Message-ID: <aF0OvNnmOIfpKwmQ@shikoro>
-References: <20250625130918.14507-5-wsa+renesas@sang-engineering.com>
- <20250625130918.14507-6-wsa+renesas@sang-engineering.com>
- <aFxcbGQyfjaHOHDt@lizhi-Precision-Tower-5810>
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 0/4] arm64: renesas: Add support for Gray Hawk Single with R-Car V4M-7
+Date: Thu, 26 Jun 2025 11:51:31 +0200
+Message-ID: <cover.1750931027.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aFxcbGQyfjaHOHDt@lizhi-Precision-Tower-5810>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jun 25, 2025 at 04:30:36PM -0400, Frank Li wrote:
-> On Wed, Jun 25, 2025 at 03:09:19PM +0200, Wolfram Sang wrote:
-> > This checkpatch warning makes sense here: "ENOTSUPP is not a SUSV4 error
-> > code, prefer EOPNOTSUPP" We don't have a userspace interface yet, but we
-> > probably will get one. So, let's convert these error codes now, before
-> > it will be forgotten in the future, and they could slip through to
-> > applications.
-> 
-> I suggest the simple words should be enough.
-> 
-> i3c: core: replace ENOTSUPP with SUSV4-compliant EOPNOTSUPP
-> 
-> Replace non-standard ENOTSUPP with the SUSV4-defined error code EOPNOTSUPP
-> to fix below checkpatch warning:
->   "ENOTSUPP is not a SUSV4 error code, prefer EOPNOTSUPP"
+        Hi all,
 
-Can do so, if you really want, but "to fix checkpatch warning" is
-usually a not-so-good commit description. The above text tells WHY
-checkpatch issues the warning and why we should care. However, I can
-probably simplify the wording a little.
+This patch series adds support for the Gray Hawk Single development
+board variant equipped with an R-Car V4M-7 SoC.
 
+Changes compared to the internal RFC:
+  - Correct board part number.
+
+I plan to queue this in renesas-devel for v6.17.
+
+Thanks for your comments!
+
+Geert Uytterhoeven (3):
+  dt-bindings: soc: renesas: Document R-Car V4M-7 Gray Hawk Single
+  arm64: dts: renesas: Factor out Gray Hawk Single board support
+  arm64: dts: renesas: r8a779h2: Add Gray Hawk Single support
+
+Tam Nguyen (1):
+  arm64: dts: renesas: Add Renesas R8A779H2 SoC support
+
+ .../bindings/soc/renesas/renesas.yaml         |   7 +
+ arch/arm64/boot/dts/renesas/Makefile          |   2 +
+ ...-hawk-single.dts => gray-hawk-single.dtsi} |  12 +-
+ .../dts/renesas/r8a779h0-gray-hawk-single.dts | 855 +-----------------
+ .../dts/renesas/r8a779h2-gray-hawk-single.dts |  17 +
+ arch/arm64/boot/dts/renesas/r8a779h2.dtsi     |  12 +
+ 6 files changed, 43 insertions(+), 862 deletions(-)
+ copy arch/arm64/boot/dts/renesas/{r8a779h0-gray-hawk-single.dts => gray-hawk-single.dtsi} (98%)
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a779h2-gray-hawk-single.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a779h2.dtsi
+
+-- 
+2.43.0
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
