@@ -1,264 +1,269 @@
-Return-Path: <linux-renesas-soc+bounces-18765-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18766-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20029AE973D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Jun 2025 09:51:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F1A6AE9856
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Jun 2025 10:31:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 67434172F6D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Jun 2025 07:51:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 940053A56C1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Jun 2025 08:30:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E804423D29D;
-	Thu, 26 Jun 2025 07:51:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79E2828F50F;
+	Thu, 26 Jun 2025 08:30:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="jLITSKSo"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="q8grUMFn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011070.outbound.protection.outlook.com [52.101.125.70])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76B3F20013A;
-	Thu, 26 Jun 2025 07:51:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.70
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750924306; cv=fail; b=SbMKpYHIXicR4k5dmxsp0bJSqQ/bT3lAs26r9xetf9tj5Qa6ycQA4HOHKmgg9jJtr4cGGDzHjmpzOecQvyhHkJ+0a2tE+JG6p7fD2YCcgVIwQDNtkpKQelNmuGiP/IsJ4QacveAbtZlkuCJFo4hf3CFSYWX2Ewv2+GnG+ESpi00=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750924306; c=relaxed/simple;
-	bh=XEkEj1qMl4WwR4+L5ZDXD+y8e8cP/kxg/4srBF3/H8U=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=iHs2YKezaQTeCX7/Gtx2bSjokR4G2x+RQFyByQ3rTI0M3gFPWmEN7lR2mPrQwL8DbnjgvVBKpMqHPg0L6vtQAWNVlVKSlw6n+So6xm83kThuD+P2jyQ06tZsIhqG7G5fR+OD48lBSHNUDujIMkM82RlD6fzpmzaBX9hcreNOZ8k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=jLITSKSo; arc=fail smtp.client-ip=52.101.125.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=in2yO1belpOlFSQF7e9vgvljn+Bjy3j111O31zfLGu12VweGpFec2gYIdBPTDxlNS0M69ldS6ucaVoNCjCtMryy2MQYlnMr5jhzfhjsDZcfmva7xNSAA0LR5HZLJD3WkrHsrQRNh0ow7UtjX/g0xMUnoBwDtxrFQ2yMZ/i3Yup/VISdzHfszg8ENYHM/MnlOovl9x7hEfnbgA1BJdSRXwm7dHeOqf2tvrLyNYJo3qSCCREqCjBtUfyQWgku0DnyZvavVmMPZqn9v7eymhsRd6v6PSkwxyrMUB3s5BD/oZJ5j9wgLSm4+k/7yMqfXb6dF60NZwldRCO2wm0axKIRq0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XEkEj1qMl4WwR4+L5ZDXD+y8e8cP/kxg/4srBF3/H8U=;
- b=rhlQZIJp1NlXjXGkrivKj2mTC2uWuZQzJmh167HVPuUm2Bb0Tm3qO2U+YZH1Cejt8w99gKpLwHiHzsitkLMm263YBr+qV9BPAdfcPF6G4BuLV4UMISoPvn/mMlt40cnLddFvJlhLyzN2fvyGCOKb+KtfVQCKMyv+TsZswtnpLDcibpNl1cXYyE6ukFkuNtNqWNcvqbi3NhqmrC0S0ZCJiQREFNRkgc5giPk3/T5F4N4+EUGGqIUMC/7pWCJ6C5lCx3rBiq3TG2gDDhPLGH30DBS8ZupamV4K+EFDt6VSf+AtRu6H8r5/cBTubQeXAmnBTiHKqLPOWQsvC3mqFkmwYw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XEkEj1qMl4WwR4+L5ZDXD+y8e8cP/kxg/4srBF3/H8U=;
- b=jLITSKSo6ELppdOr6KOwJ816Wk2ECZOckwXS6Bk3z28rpKOLC9VwYf/6+n0msd9VGl5Vg5uI9lbiZd7HsjWbwL5hCqmvJbelBR4NgVZHgwuY5x6ZzDusQ9hbg4EnRGqdkPDcs/vaGGrd9XYL9iigY1opIQQW8ey3Fx1h5FR+PP4=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by OS7PR01MB12113.jpnprd01.prod.outlook.com (2603:1096:604:265::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.21; Thu, 26 Jun
- 2025 07:51:39 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%5]) with mapi id 15.20.8857.026; Thu, 26 Jun 2025
- 07:51:38 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>, John Madieu
-	<john.madieu.xa@bp.renesas.com>
-CC: "magnus.damm@gmail.com" <magnus.damm@gmail.com>, "robh@kernel.org"
-	<robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>, "mturquette@baylibre.com"
-	<mturquette@baylibre.com>, "sboyd@kernel.org" <sboyd@kernel.org>,
-	"richardcochran@gmail.com" <richardcochran@gmail.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH v3 3/3] arm64: dts: renesas: rzg3e-smarc-som: Enable
- eth{0-1} (GBETH) interfaces
-Thread-Topic: [PATCH v3 3/3] arm64: dts: renesas: rzg3e-smarc-som: Enable
- eth{0-1} (GBETH) interfaces
-Thread-Index: AQHb5BWCKQYhL2RsjUudvpKiVbgmqLQUACIAgAEVNoA=
-Date: Thu, 26 Jun 2025 07:51:38 +0000
-Message-ID:
- <TY3PR01MB113467747667812091F42CA6E867AA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20250623080405.355083-1-john.madieu.xa@bp.renesas.com>
- <20250623080405.355083-4-john.madieu.xa@bp.renesas.com>
- <CAMuHMdWtciRt+H3eQjwLw3O5T=NCG7Vqx8a=pGWBoHTJ2Q_G1Q@mail.gmail.com>
-In-Reply-To:
- <CAMuHMdWtciRt+H3eQjwLw3O5T=NCG7Vqx8a=pGWBoHTJ2Q_G1Q@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OS7PR01MB12113:EE_
-x-ms-office365-filtering-correlation-id: f7ddd3a2-c4ea-4290-191b-08ddb4864859
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|366016|376014|7416014|38070700018;
-x-microsoft-antispam-message-info:
- =?utf-8?B?MDRmc0tsWTZyM3JwUzcvYkh6K1ZEUUpRWUtBZUZOTGVVMG9QeTlGd2w2RkUv?=
- =?utf-8?B?VWJMczd1K3FRVmhqWW1ONTNlNUR1UVErcUwvK3cvY0pka01PSkgzVURscXZP?=
- =?utf-8?B?SjZqVUxZODloVGFySDczNkp5ZDlFVVRYNk5yUDhaMUgxc1psR1FNVVV1cEFs?=
- =?utf-8?B?S1RLejBrbEptUEhmOUtJMjNKdytBa092YUtqZWM0bVZwZUdLcURjLzh3bi9w?=
- =?utf-8?B?WlowV1BqWmdEb1NxaW4ydEYrbEFLblFMcnlxcU5KSS9pb3MzWFdUVWw1SmNy?=
- =?utf-8?B?M1FNV2trRGwwYUdWUFJ5NHg3djNicTltMTE5S3NBSDBRR3Boa01TbmpqdGdm?=
- =?utf-8?B?Mkcvb2tqTWw5RE5WOTFMeDVSL25JUjFDSjUzbmpDM1p5ZUoyTXMrMWt1WWVX?=
- =?utf-8?B?ckRDelVoSE5JblQrY0lXaERzMFEraW9sYXk4V2kzNlFOMDFMeE9aVWRXc2xJ?=
- =?utf-8?B?T2RwdzFCUmdCano2VWc2amRIcUl5cGM0QkRuVnhXZnR2RHZBYjZyUndjZU1k?=
- =?utf-8?B?dTkrd2xKT1VrTit0YkRSV1BZYjdGeGZUZ3BPbVllb2hKK1hhRDVuMHpzcHFB?=
- =?utf-8?B?Rk1OTHd0Ym9GOXBUWlVDSVluVnpuMGczcVZjMWRsajlNU0NEN05kWmFhQk9v?=
- =?utf-8?B?M2UzbEE0R0ZEVWlITktKOGYxTFNQMERHMnZ6WEdDaHB1b1BKRjRXdzdaUmE2?=
- =?utf-8?B?QnEyVDJKSkZrcUM1ajhQbWcreGhjd29qUDdtZExSdFhmalRNYmI5b3gvbzVG?=
- =?utf-8?B?RnRnZU8zU0J3U0FSTHlnSFZEMGNYSlMrWjNwUTdYWk04RTNHSGNRSFRhbXdv?=
- =?utf-8?B?VXFUc2VCZm5GNXFXS3RiemJGc0x0d25DVVlQdmRKbUVwL2crOWpIZnBzMTB3?=
- =?utf-8?B?SVNwaDdIczhRaEUyUWZXR29ObUxweDZnS2FobjIyUGxZWXova2t4N1BzTHBm?=
- =?utf-8?B?T2NYSk1YMDVjYzhvVldHQVYrVnBOOElHcDRUTVpiNGo0NVNaTXFaZGlsa2JL?=
- =?utf-8?B?eXNFaEUxRVhSaUlWK0UzYXNZUUx1am5VRklRNlRpeTZxVGovTmhOUnVub0pL?=
- =?utf-8?B?OE1NTXpPK2ZVMEU0UlNnRDc2VjdZMkJGdWVHb2FmckFxVmMwL2o0aHZNTnBC?=
- =?utf-8?B?NGdIZ28waC8xTEtpRWs1ajFCTlJSN2V0R1VEaklacVdEYytTbDJoLzFja2ZI?=
- =?utf-8?B?eW16cFpJdkhMMUVzZU9UaEZtSUoySkswSElCeE5TUGVxZkJDRFNsOTMwZVEx?=
- =?utf-8?B?cXNJamRFTUxZT3UySnRiSXpla29QTGVrb015NWxIT2hmK1FaWjZKZ25pdVRm?=
- =?utf-8?B?QnRMQ0FENVIvTGRIN1JaZXdTdUF6ZzBSbnJYS1J4bDFKVlZMZGI5TlhaNElL?=
- =?utf-8?B?WjdJcyt1R2RrN2R4VDB1VUp3Y0srQ1BQcGNVTlVhL01ab3BRVTdrby9iNzli?=
- =?utf-8?B?OE43WEZzK1BndFBvR2w3d211YVVqT05HanFGVU1wYXlMN0FlNkg1czJRTU1X?=
- =?utf-8?B?ZkJmZDhWbUFUd1lFVEJkK2NGTndtRU9TNEdMcjhYUkFZZHNzeC8wNlVtNC9K?=
- =?utf-8?B?ZkwzK1BleWRjb2krQ0FUcVhiQTdJSGRaSTR1VXY0MGpMbnkwdFROaE53WjBq?=
- =?utf-8?B?RFlCNld0aWxOWS9PZGhHVFRNZW9Yc2RQeEdCczJmeFNYMzgzY25GZEkyTjBJ?=
- =?utf-8?B?OEpNUm5rRXhUL3Vtb1B5WXNJT2lGa0FRNC9rK2lDNmxWN3RUR2FlQWdNcXZ6?=
- =?utf-8?B?VVFUSlJ5MTJ4Q0FmRmtDb1RkaTRna25xK2VZY2ZtMG9nc1JRZmhYZlVLMjZ5?=
- =?utf-8?B?emhYU1BQRDZvMnRURlhlaWk4N0ZzNUo4RUYxaEFvbmdWMFc0VEl2TlMyUWNi?=
- =?utf-8?B?c3c2SXVtMEZ3SmlNVFNBWDFlT2F3SGdIc1FobWIwbml4OVFrSG00SkRsRVJi?=
- =?utf-8?B?RXUrbDRHM1hkbU9obERqc0ZLMFczTzFTQWtqQ1c1SmlLMUxZM0dZcUtQU1ZH?=
- =?utf-8?Q?g3qKuxWuKaoLoyEzYkYfcoTknC0pwg=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?ekNvcUwrL3RXdmJPTjcwek5mYTBreXhwY21zZGpyTGdvY1NZYkdmVDdXNHpC?=
- =?utf-8?B?NWxGRUNGMW8xa3pURUkyMkJWTmdsbXFiSlJtYlA3YlNSZHVSaS9aaEhEaUlu?=
- =?utf-8?B?d0xJRlU2TktrTTVPYVR0MFhBbnJVMnh1M25nSklITnpKQzVjWVh5SStWUEJv?=
- =?utf-8?B?S2JYM1c5QVh0dlZ2OHpsUVQva1R5RjBCZnhWMEVmamw2SW9mam1kQWlINkVV?=
- =?utf-8?B?L0xicHN6eDZwSGEvNk4wY0w1Nm9QeTVwSVJxc25LVVM0L0JaSElQb0szVkJJ?=
- =?utf-8?B?TEx4aUI5WldOUVVoT0JlZ0VVeE1qQWlpcTJrNVJHdkdvZFZic0lRdXF2amlM?=
- =?utf-8?B?bFRnSmVKUHNJS0MyUFNtY25IRXMya3ZZQXkxMEVxNHJOanVRNTZ2WW5EUnNx?=
- =?utf-8?B?STlFNDJOOHEyeElqU3RUc1VVRm0wZ0x5QW5OdU9UR1dySlhqaWxkS2syQjk1?=
- =?utf-8?B?ZzYxdU0zZERZWG9pa044WVkvK3pyVEJyS0dMclJJcUN1VEtCazhwcGFYTW5w?=
- =?utf-8?B?YVF1S29vQVRUOFh2NEpaa1pIUDQwbFhTb201aW4zOUplRlRnQytHTlp2N1JJ?=
- =?utf-8?B?Q0YvZ09kTUdLSGlQeXZ2L2U3YndOZDUrZG5HdWl1M2Fldkpma001eTVPT0lz?=
- =?utf-8?B?cjEzTGZ0SHRnZG93Q1pBRFFoNkY5eTJma0ZlVXBiMlBDckZQdC9hN3VwenFp?=
- =?utf-8?B?UjhDVU13YnNrZ0JNbXMyOG5Ub0ZZV2huL1R3YUhRK0lkOElqNmRaR21mVnZV?=
- =?utf-8?B?WHQ2a1p5Yi9uN2N4bUdwMTRoMjJ4bXcyVnFUY0hKeFVYbG1iZ2pnbllSby9a?=
- =?utf-8?B?OGc5YjVhTEN1cWE1dnNhQ0s2TUhlMmNsNTFsbU53Rms1QmxTTlZqUmg1MmFM?=
- =?utf-8?B?VW94UnMvZG83b3RyWnp2dDBKenhHL3U3OXRkb1pMZEduNXk5U3Y2Nm5CdjJl?=
- =?utf-8?B?cEpXeEFFODJsL2kra29JanZJWW5HOU8rM3RuajFObGE2UU9DZlJoOW84R0Y5?=
- =?utf-8?B?Qk1kN3Y3aXRZVDlQZUZPR1h6aXpUTnBYY3hKbEtMUFRrYUNtUDhZdTlEMlF2?=
- =?utf-8?B?V1V6OGZRL0REUmxUY0NENU9oUkZtclZyZXRjeHFTRmpKbEpXRS9kS3RhOU93?=
- =?utf-8?B?a2hGeW1GTmFuL3JZd2J2a255Y3ZzdFgrdWVXZ1d1SWtxUnNHd1dIWGpLeURs?=
- =?utf-8?B?czdQQk1PN3A4Ky8wMkdmMzRqZU1Gd3RlQVdZeVBiV09Rclg5VnEwUG9jUVlu?=
- =?utf-8?B?L1dLdnBFV21WK0J4OHNUMHUrb3ZSN2RJTDNObWIybnBmSzROMXVnOTMxM2Ns?=
- =?utf-8?B?eHN5cjkrUTNoSDZWVk1wb3BaY1F4WlhSZm9vTHgzaGExQUlTT2RqNnV1czhw?=
- =?utf-8?B?S1JsT0ZWaFY5VnhvWEcwZXFjcmpaMkhOc0hjS2dXaXdGdGZ6U0dKbVVNYW1q?=
- =?utf-8?B?VVhPeGI5eWZTSDFrK0dSa3hPVkoyRzZWeDNQb0tvb3BYUnA1bnM5U0crMURE?=
- =?utf-8?B?K1lFUE9CeDkrekM2VUtTTTJKbm1MeE5VZ2RQTXVGRFRzNUZZbmdGQzRCVDlm?=
- =?utf-8?B?eFVlMWhibXdGWllvcTNlWi9WWmhSMzhmSFFoNm82azFwL1NmSnZ1Yi9jaTNz?=
- =?utf-8?B?YndIQklyQzF6SXlNY0pRVlZCT2ZHWktlWFVCczBwTEFZM1d4bERHc01RRXd2?=
- =?utf-8?B?eUdRM1NCR0V1Mm9DVjNsakxHNlArZkFvUjRncmdlb0RlU0laSUVNUlkvRFFr?=
- =?utf-8?B?R0dLcXdHSUZNMVNJdnNwMFBKTWV0YWJLK1QrQ0x4ZFRWVHJlVFliSzY3WEd0?=
- =?utf-8?B?dVVIWmV5cUNMa3Z4NmhmYjh2NG9tZ2tHUGxjdDNvVDRmVSt6aG94cUR5RXMv?=
- =?utf-8?B?TzRHY0J6VnJ5VjlOSkdIbjdrZm1lVVlNMmJFUmg2czJtU3labTdodTkxbVcx?=
- =?utf-8?B?TjVSWFNqNFl4K3ZBTVVBVnJFTTJiQmRXKysxTExUT08xbUF1aTFxcitaMDVG?=
- =?utf-8?B?dEhFT1dQYXlKWDRJeTVNZS8yRmwrQ0MxTFBYcnZqb3NrZ2U3NHpTTjJqaEpp?=
- =?utf-8?B?c01kY3Q5Y2NJM1E1REtGZ0FWdjl0QVR6UDNhZTAzajc5QTdpMWx2OFFwc3Nv?=
- =?utf-8?B?QnZTSnN1MUhIMk1PTmtlR3YrdGhrSU9vNllFZ3VscDJxcDVic3JmMTFWRFNI?=
- =?utf-8?B?L0E9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C21728C5D2;
+	Thu, 26 Jun 2025 08:30:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750926650; cv=none; b=WICgnalW5x0t7gsgaqQGil5mXbOvNqdySsJ4rZACDWDWfISosMqk3IXzdHSCVkP5Yp8+4u4Y8/RlBEIk26v6KhEZWIsSgxAl6WBztMIpHdr+LklqChDz3ckKKEbJlloIrGHXIOzpDezKKZw0+4k98m7UJLsY9oP6BDmvmEGO25U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750926650; c=relaxed/simple;
+	bh=AjazNlGQRyJ8vN0ubuJ6K3w2xxQtuQyHx81PNoQHYcU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VpNKyTJGkw41GW5RdQ/Gq/V9mZ9ixqhJombig+4Xq6mhxtqUSqJP0adwiiB0n2SI6xxAOHQTgxHeMUxEfs/WaHyqf7Fd7KVqTH8LY8W0ONqkQGb7sHdZ/GJSGQT55dTNHnT38RIJme5+XyYVR/GDpVQqeemcFSfXWrCJJ4bV7G0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=q8grUMFn; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 693B6EBA;
+	Thu, 26 Jun 2025 10:30:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1750926628;
+	bh=AjazNlGQRyJ8vN0ubuJ6K3w2xxQtuQyHx81PNoQHYcU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=q8grUMFnTHvGC/9bgypn3eP3ZYvNp04iPBDwZkXxNecUNWmy2p7jfWpefqzUII5kO
+	 mvHsSMW4HDAYWPgozT5mwVd2RLAm+fldD3Q0xppWCWqlnEYYAlnGmjgOU4NKOYwEoe
+	 dc5xfnfNBhM7jW+WqQjntaR/k3jEcvuDgnWvMYd4=
+Message-ID: <6e299f94-bf50-48c0-b9ec-5d02eccfdfac@ideasonboard.com>
+Date: Thu, 26 Jun 2025 11:30:44 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f7ddd3a2-c4ea-4290-191b-08ddb4864859
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jun 2025 07:51:38.8797
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: KdWiiui7TH/kCTgr7zOLF36qsWLYTbwx5iQL4/0TF9TBs+596vGTy8GtYgdyBzJGtLdo5OuY/mR1wnB0JZj7bss5x1zZnILHz5wSGJbj7Ow=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB12113
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/19] media: renesas: vsp1: Conversion to subdev
+ active state
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-media@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>
+References: <20240619001722.9749-1-laurent.pinchart+renesas@ideasonboard.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
+ wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
+ Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
+ eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
+ LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
+ G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
+ DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
+ 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
+ rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
+ Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABzTBUb21pIFZhbGtl
+ aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT7CwY4EEwEIADgWIQTEOAw+
+ ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
+ PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
+ VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
+ 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
+ uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
+ R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
+ sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
+ Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
+ PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
+ dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
+ qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENc7BTQROprNHARAAx0aat8GU
+ hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
+ DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
+ KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
+ 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
+ xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
+ UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
+ /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
+ 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
+ 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
+ mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAcLBXwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
+ 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
+ suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
+ xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
+ m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
+ CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
+ CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
+ 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
+ ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
+ yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
+ 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
+In-Reply-To: <20240619001722.9749-1-laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogR2VlcnQgVXl0dGVyaG9l
-dmVuIDxnZWVydEBsaW51eC1tNjhrLm9yZz4NCj4gU2VudDogMjUgSnVuZSAyMDI1IDE2OjE3DQo+
-IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjMgMy8zXSBhcm02NDogZHRzOiByZW5lc2FzOiByemczZS1z
-bWFyYy1zb206IEVuYWJsZSBldGh7MC0xfSAoR0JFVEgpIGludGVyZmFjZXMNCj4gDQo+IEhpIEpv
-aG4sDQo+IA0KPiBPbiBNb24sIDIzIEp1biAyMDI1IGF0IDEwOjA0LCBKb2huIE1hZGlldSA8am9o
-bi5tYWRpZXUueGFAYnAucmVuZXNhcy5jb20+IHdyb3RlOg0KPiA+IEVuYWJsZSB0aGUgR2lnYWJp
-dCBFdGhlcm5ldCBJbnRlcmZhY2VzIChHQkVUSCkgcG9wdWxhdGVkIG9uIHRoZSBSWi9HM0UNCj4g
-PiBTTUFSQyBFVksNCj4gPg0KPiA+IFJldmlld2VkLWJ5OiBCaWp1IERhcyA8YmlqdS5kYXMuanpA
-YnAucmVuZXNhcy5jb20+DQo+ID4gVGVzdGVkLWJ5OiBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAu
-cmVuZXNhcy5jb20+DQo+ID4gUmV2aWV3ZWQtYnk6IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnQr
-cmVuZXNhc0BnbGlkZXIuYmU+DQo+ID4gU2lnbmVkLW9mZi1ieTogSm9obiBNYWRpZXUgPGpvaG4u
-bWFkaWV1LnhhQGJwLnJlbmVzYXMuY29tPg0KPiANCj4gPiB2MzoNCj4gPiBVcGRhdGVzIG1kaW8g
-c2VwYXJhdGVseSwgYmFzZWQgb24gcGhhbmRsZXMgaW5zdGVhZCBvZiBub2RlDQo+ID4gcmVkZWZp
-bml0aW9uDQo+IA0KPiBUaGFua3MgZm9yIHRoZSB1cGRhdGUhDQo+IA0KPiA+IC0tLSBhL2FyY2gv
-YXJtNjQvYm9vdC9kdHMvcmVuZXNhcy9yemczZS1zbWFyYy1zb20uZHRzaQ0KPiA+ICsrKyBiL2Fy
-Y2gvYXJtNjQvYm9vdC9kdHMvcmVuZXNhcy9yemczZS1zbWFyYy1zb20uZHRzaQ0KPiANCj4gPiAg
-JnBpbmN0cmwgew0KPiA+ICsgICAgICAgZXRoMF9waW5zOiBldGgwIHsNCj4gPiArICAgICAgICAg
-ICAgICAgcGlubXV4ID0gPFJaRzNFX1BPUlRfUElOTVVYKEEsIDEsIDEpPiwgLyogTURDICovDQo+
-ID4gKyAgICAgICAgICAgICAgICAgICAgICAgIDxSWkczRV9QT1JUX1BJTk1VWChBLCAwLCAxKT4s
-IC8qIE1ESU8gKi8NCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgPFJaRzNFX1BPUlRfUElO
-TVVYKEMsIDIsIDE1KT4sIC8qIFBIWV9JTlRSIChJUlEyKSAqLw0KPiA+ICsgICAgICAgICAgICAg
-ICAgICAgICAgICA8UlpHM0VfUE9SVF9QSU5NVVgoQywgMSwgMSk+LCAvKiBSWEQzICovDQo+ID4g
-KyAgICAgICAgICAgICAgICAgICAgICAgIDxSWkczRV9QT1JUX1BJTk1VWChDLCAwLCAxKT4sIC8q
-IFJYRDIgKi8NCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgPFJaRzNFX1BPUlRfUElOTVVY
-KEIsIDcsIDEpPiwgLyogUlhEMSAqLw0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICA8UlpH
-M0VfUE9SVF9QSU5NVVgoQiwgNiwgMSk+LCAvKiBSWEQwICovDQo+ID4gKyAgICAgICAgICAgICAg
-ICAgICAgICAgIDxSWkczRV9QT1JUX1BJTk1VWChCLCAwLCAxKT4sIC8qIFJYQyAqLw0KPiA+ICsg
-ICAgICAgICAgICAgICAgICAgICAgICA8UlpHM0VfUE9SVF9QSU5NVVgoQSwgMiwgMSk+LCAvKiBS
-WF9DVEwgKi8NCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgPFJaRzNFX1BPUlRfUElOTVVY
-KEIsIDUsIDEpPiwgLyogVFhEMyAqLw0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICA8UlpH
-M0VfUE9SVF9QSU5NVVgoQiwgNCwgMSk+LCAvKiBUWEQyICovDQo+ID4gKyAgICAgICAgICAgICAg
-ICAgICAgICAgIDxSWkczRV9QT1JUX1BJTk1VWChCLCAzLCAxKT4sIC8qIFRYRDEgKi8NCj4gPiAr
-ICAgICAgICAgICAgICAgICAgICAgICAgPFJaRzNFX1BPUlRfUElOTVVYKEIsIDIsIDEpPiwgLyog
-VFhEMCAqLw0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICA8UlpHM0VfUE9SVF9QSU5NVVgo
-QiwgMSwgMSk+LCAvKiBUWEMgKi8NCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgPFJaRzNF
-X1BPUlRfUElOTVVYKEEsIDMsIDEpPjsgLyogVFhfQ1RMICovDQo+ID4gKyAgICAgICB9Ow0KPiA+
-ICsNCj4gPiArICAgICAgIGV0aDFfcGluczogZXRoMSB7DQo+ID4gKyAgICAgICAgICAgICAgIHBp
-bm11eCA9IDxSWkczRV9QT1JUX1BJTk1VWChELCAxLCAxKT4sIC8qIE1EQyAqLw0KPiA+ICsgICAg
-ICAgICAgICAgICAgICAgICAgICA8UlpHM0VfUE9SVF9QSU5NVVgoRCwgMCwgMSk+LCAvKiBNRElP
-ICovDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgIDxSWkczRV9QT1JUX1BJTk1VWChGLCAy
-LCAxNSk+LCAvKiBQSFlfSU5UUiAoSVJRMTUpICovDQo+ID4gKyAgICAgICAgICAgICAgICAgICAg
-ICAgIDxSWkczRV9QT1JUX1BJTk1VWChGLCAxLCAxKT4sIC8qIFJYRDMgKi8NCj4gPiArICAgICAg
-ICAgICAgICAgICAgICAgICAgPFJaRzNFX1BPUlRfUElOTVVYKEYsIDAsIDEpPiwgLyogUlhEMiAq
-Lw0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICA8UlpHM0VfUE9SVF9QSU5NVVgoRSwgNywg
-MSk+LCAvKiBSWEQxICovDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgIDxSWkczRV9QT1JU
-X1BJTk1VWChFLCA2LCAxKT4sIC8qIFJYRDAgKi8NCj4gPiArICAgICAgICAgICAgICAgICAgICAg
-ICAgPFJaRzNFX1BPUlRfUElOTVVYKEUsIDAsIDEpPiwgLyogUlhDICovDQo+ID4gKyAgICAgICAg
-ICAgICAgICAgICAgICAgIDxSWkczRV9QT1JUX1BJTk1VWChELCAyLCAxKT4sIC8qIFJYX0NUTCAq
-Lw0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICA8UlpHM0VfUE9SVF9QSU5NVVgoRSwgNSwg
-MSk+LCAvKiBUWEQzICovDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgIDxSWkczRV9QT1JU
-X1BJTk1VWChFLCA0LCAxKT4sIC8qIFRYRDIgKi8NCj4gPiArICAgICAgICAgICAgICAgICAgICAg
-ICAgPFJaRzNFX1BPUlRfUElOTVVYKEUsIDMsIDEpPiwgLyogVFhEMSAqLw0KPiA+ICsgICAgICAg
-ICAgICAgICAgICAgICAgICA8UlpHM0VfUE9SVF9QSU5NVVgoRSwgMiwgMSk+LCAvKiBUWEQwICov
-DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgIDxSWkczRV9QT1JUX1BJTk1VWChFLCAxLCAx
-KT4sIC8qIFRYQyAqLw0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICA8UlpHM0VfUE9SVF9Q
-SU5NVVgoRCwgMywgMSk+OyAvKiBUWF9DVEwgKi8NCj4gPiArICAgICAgIH07DQo+ID4gKw0KPiA+
-ICAgICAgICAgaTJjMl9waW5zOiBpMmMgew0KPiA+ICAgICAgICAgICAgICAgICBwaW5tdXggPSA8
-UlpHM0VfUE9SVF9QSU5NVVgoMywgNCwgMSk+LCAvKiBTQ0wyICovDQo+ID4gICAgICAgICAgICAg
-ICAgICAgICAgICAgIDxSWkczRV9QT1JUX1BJTk1VWCgzLCA1LCAxKT47IC8qIFNEQTIgKi8NCj4g
-DQo+IEJhc2VkIG9uIHRoZSBmZWVkYmFjayBmcm9tIFByYWJoYWthciBvbiB2MiwgSSB1bmRlcnN0
-YW5kIHRoaXMgbmVlZHMgdG8gY29uZmlndXJlIG91dHB1dC1lbmFibGUgZm9yIHRoZQ0KPiBFVDBf
-VFhDX1RYQ0xLIGFuZCBFVDFfVFhDX1RYQ0xLIHBpbnMsIGFuZCB0byBhZGQgc3VwcG9ydCBmb3Ig
-dGhhdCBpbiB0aGUgcGluIGNvbnRyb2wgZHJpdmVyIGZpcnN0Pw0KPiANCj4gWzFdIGh0dHBzOi8v
-bG9yZS5rZXJuZWwub3JnL2FsbC9DQStWLWE4dWl6dTVNQ3VyXz1nNXZKeVdiV1NUU1AySjZGa1E4
-OUpCOGdlczdHV2RzamdAbWFpbC5nbWFpbC5jb20vDQoNCk1heWJlIHRoaXMgY291bGQgYmUgdGhl
-IHJlYXNvbiBmb3IgUlovVjJIIHNlZXMgY2xvY2sgbW9uaXRvciBpc3N1ZSBkdXJpbmcgdW5iaW5k
-L2JpbmQgYW5kIFJaL0czRSBkb24ndCBzZWUgaXQgd2hlbg0KdXNpbmcgREVGX01PRCBtYWNyby4g
-TWF5YmUgYWZ0ZXIgdGhpcyBjaGFuZ2UsIEl0IG1heSB0cmlnZ2VyIHRoZSBjbG9jayBtb25pdG9y
-IGlzc3VlIG9uIFJaL0czRSBhcyB3ZWxsDQpmb3JjaW5nIHRvIHVzZSBERUZfTU9EX0VYVEVSTkFM
-Pz8NCg0KQ2hlZXJzLA0KQmlqdQ0KDQo=
+Hi Laurent,
+
+On 19/06/2024 03:17, Laurent Pinchart wrote:
+> Hello,
+> 
+> This patch series is the second version of the vsp1 driver conversion to
+> using the subdev active state. This version suffers from the same main
+> lockdep issue as v1 (see below), but I decided to still repost it as the
+> first 17 patches can go in already while we figure out how to handle the
+> lockdep issue.
+> 
+> The driver is fairly complex and creates many subdevs, exposing them to
+> userspace through subdev nodes but also controlling them from within the
+> kernel when acting as a backend for the R-Car DU display driver. It is
+> thus a good testing ground to validate the subdev active state API.
+> 
+> The first 17 patches are miscellaneous refactoring and cleanups to
+> prepare for the actual conversion. In the middle of that is patch 11/19,
+> which adds a function to dump a pipeline to the kernel log, which came
+> very handy for debugging.
+> 
+> Patch 18/19 is the actual conversion to the active state API. While I
+> tried to keep it as small as possible by handling all the refactoring in
+> separate patches, it's still the largest one in the series, mostly due
+> to the fact that the drivers creates many subdevs. If that's any
+> consolation, the diffstat is nice (net removal of 261 lines). Patch
+> 19/19 is then an additional cleanup on top.
+> 
+> The good news is that both the VSP test suite ([1]) and the display test
+> suite ([2]) pass. The bad news is that lockdep complains quite heavily:
+> 
+> [  276.810170] ============================================
+> [  276.815489] WARNING: possible recursive locking detected
+> [  276.820813] 6.10.0-rc3-00175-g639ee34a20f1 #803 Not tainted
+> [  276.826401] --------------------------------------------
+> [  276.831724] yavta/1481 is trying to acquire lock:
+> [  276.836442] ffff00000ff26868 (vsp1_entity:531:sd->active_state->lock){+.+.}-{3:3}, at: v4l2_subdev_link_validate+0x140/0x308
+> [  276.847736] 
+> [  276.847736] but task is already holding lock:
+> [  276.853581] ffff00000ff27c68 (vsp1_entity:531:sd->active_state->lock){+.+.}-{3:3}, at: v4l2_subdev_link_validate+0x118/0x308
+> [  276.864856] 
+> [  276.864856] other info that might help us debug this:
+> [  276.871396]  Possible unsafe locking scenario:
+> [  276.871396] 
+> [  276.877326]        CPU0
+> [  276.879779]        ----
+> [  276.882232]   lock(vsp1_entity:531:sd->active_state->lock);
+> [  276.887827]   lock(vsp1_entity:531:sd->active_state->lock);
+> [  276.893422] 
+> [  276.893422]  *** DEADLOCK ***
+> [  276.893422] 
+> [  276.899349]  May be due to missing lock nesting notation
+> [  276.899349] 
+> [  276.906145] 3 locks held by yavta/1481:
+> [  276.909996]  #0: ffff00000fcaa7a0 (&video->lock){+.+.}-{3:3}, at: __video_do_ioctl+0x19c/0x5b0
+> [  276.918666]  #1: ffff00000fc9f418 (&mdev->graph_mutex){+.+.}-{3:3}, at: vsp1_video_streamon+0xec/0x4e8
+> [  276.928031]  #2: ffff00000ff27c68 (vsp1_entity:531:sd->active_state->lock){+.+.}-{3:3}, at: v4l2_subdev_link_validate+0x118/0x308
+> [  276.939744] 
+> [  276.939744] stack backtrace:
+> [  276.944114] CPU: 1 PID: 1481 Comm: yavta Not tainted 6.10.0-rc3-00175-g639ee34a20f1 #803
+> [  276.952225] Hardware name: Renesas Salvator-X 2nd version board based on r8a77965 (DT)
+> [  276.960157] Call trace:
+> [  276.962616]  dump_backtrace+0xa0/0x128
+> [  276.966391]  show_stack+0x20/0x38
+> [  276.969723]  dump_stack_lvl+0x8c/0xd0
+> [  276.973412]  dump_stack+0x1c/0x28
+> [  276.976747]  print_deadlock_bug+0x29c/0x3b0
+> [  276.980950]  __lock_acquire+0x165c/0x1b80
+> [  276.984978]  lock_acquire.part.0+0x168/0x310
+> [  276.989265]  lock_acquire+0x70/0x90
+> [  276.992772]  __mutex_lock+0x10c/0x4b8
+> [  276.996458]  mutex_lock_nested+0x2c/0x40
+> [  277.000396]  v4l2_subdev_link_validate+0x140/0x308
+> [  277.005213]  __media_pipeline_start+0x880/0xc30
+> [  277.009763]  __video_device_pipeline_start+0x48/0x68
+> [  277.014750]  vsp1_video_streamon+0x148/0x4e8
+> [  277.019044]  v4l_streamon+0x50/0x70
+> [  277.022553]  __video_do_ioctl+0x4cc/0x5b0
+> [  277.026583]  video_usercopy+0x3c4/0xb90
+> [  277.030438]  video_ioctl2+0x20/0x48
+> [  277.033942]  v4l2_ioctl+0xa4/0xc8
+> [  277.037278]  __arm64_sys_ioctl+0xec/0x118
+> [  277.041310]  invoke_syscall+0x68/0x198
+> [  277.045084]  el0_svc_common.constprop.0+0x80/0x150
+> [  277.049900]  do_el0_svc+0x38/0x50
+> [  277.053237]  el0_svc+0x4c/0xc0
+> [  277.056309]  el0t_64_sync_handler+0x120/0x130
+> [  277.060685]  el0t_64_sync+0x190/0x198
+> 
+> There is no actual deadlock situation caused by the tests, but a lockdep
+> class deadlock detection.
+> 
+> Subdev initialization is handled in one helper function for all subdevs
+> created by the driver. This causes all locks for the active state being
+> created with the same lock class. As a result, when validating links and
+> trying to lock both the sink and source states, lockdep complains of
+> recursive locking, even if the two locks are different mutex instances.
+
+Sounds familiar =).
+
+> Working around the issue is likely possible. The
+> v4l2_subdev_init_finalize() function is actually a macro calling
+> __v4l2_subdev_init_finalize() with an explicit lock class. The VSP1
+> driver could do the same and push the lock class one layer up, to the
+> callers of vsp1_entity_init(). This would solve part of the problem
+> only, as the driver creates multiple subdevs of the same type, so
+> dynamic allocation of the lock class may be required. That would however
+> be a bad solution, or rather not a solution to the actual problem. There
+> is a reason why lockdep groups locks in classes, beside just saving
+> memory. When locks belonging to different instances of the same object
+> type are taken recursively, it is often the sign of a bad design.
+> 
+> Even if we worked around this problem, lockdep would later complain
+> about AB-BA locking at link validation time. The VSP1 entities can be
+> assembled in a pipeline in any order, so even if the link validation
+> helpers are careful to always lock in the sink-source order, the sink
+> and source could get swapped.
+> 
+> I believe this calls for a rework of locking for subdev states. The
+> option I'm envisioning is to lock all subdevs in a pipeline when
+> starting the pipeline, with a new media_pipeline_lock() call just before
+> media_pipeline_start(). The link validation helpers would then be called
+> with all locks taken, and so would the .s_stream() subdev operations.
+> This would simplify locking in drivers as a result, which I think is a
+> very desirable side effect. Then, after starting the pipeline, the
+> top-level driver would call media_pipeline_unlock(). Similar locking
+> would be performed at pipeline stop time, to ensure that the .s_stream()
+> operations would also be called with the locks held. Obviously, just
+> moving locking around won't fix the lockdep issues, and the second part
+> of the fix would be to use ww-mutexes instead of regular mutexes. The
+> result would be similar to the implementation of the KMS atomic API,
+> giving me some confidence that it goes in the right direction. An
+> additional difficulty, however, is that we need to lock both the subdev
+> active state and the control handler with the same lock.
+
+This has been the long term plan, but perhaps it's not so far off in the
+future, then...
+
+But should the control state be merged to the active state first? I fear
+that's a large amount of work in itself, though, but managing the active
+state and control state locking separately with the scheme you outline
+sounds complex.
+
+Or can we do a new requirement for active-state-enabled subdevs: the
+control handler _must_ use the same lock as the active state (which, I
+think, is often done already). Would that help?
+
+Or as a temporary solution... If there's a central place in the vsp1
+infrastructure, can we have a single (shared) state lock for all the
+vsp1 subdevs? That would mean taking the same lock multiple times, but
+somehow I recall that a similar thing was already done in some of the
+drivers.
+
+So I agree with the goal. But it would be nice to not block this series
+until all the work is done. Or can we annotate the locking for this
+particular case so that lockdep doesn't care about vsp1 locks?
+
+ Tomi
+
 
