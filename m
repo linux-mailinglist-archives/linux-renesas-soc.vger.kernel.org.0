@@ -1,61 +1,59 @@
-Return-Path: <linux-renesas-soc+bounces-18808-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18809-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77B3CAEA621
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Jun 2025 21:10:07 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D98A2AEA85B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Jun 2025 22:44:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E3DD6189C560
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Jun 2025 19:10:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D41C21888F91
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Jun 2025 20:44:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 936E72EF667;
-	Thu, 26 Jun 2025 19:10:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 167CF2F0E2A;
+	Thu, 26 Jun 2025 20:44:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Elq4s9t9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aU54u4/c"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E142ED155;
-	Thu, 26 Jun 2025 19:10:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A892F0C7F;
+	Thu, 26 Jun 2025 20:44:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750965001; cv=none; b=l4EuyawgMi48EXQKJFZjzQwIUwin7KxprWfKIMT4285rzKVwbt/jr4wDi7AtcEjyTPn8hyHigdOKFujOs/Co/6V+uSvbXXjch49KY6l8iuXAamF+hpp6UkOoEm8B9zbGuDv78GKIXpt+4iQCnfcOiR9VEuVEtmiCa2MbvyHztrQ=
+	t=1750970671; cv=none; b=lfYg5+h/k5stLrEND3IWL1AFZcYh1DDo9ht9/fcddKDn+6J98GLz5Np3Lizio0MduxauUco1bW2sjplNkvzJ9NkrelQkx4a5LwtLbI23Wj2KCNUFWNA81lkuxTBukgCIwDM/fPHXl0VYFHVAD9ytXiv51b4Zb32gy/D1dkyZTWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750965001; c=relaxed/simple;
-	bh=XZlMQtOpbNIhRZ9pHesx/nbn3+6U5J4RnnbP/llCorU=;
+	s=arc-20240116; t=1750970671; c=relaxed/simple;
+	bh=abaYV/TxoNSuyHl0eTqG9SzcI4RVLABBdwTCYM/IuUE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RC6G4FkTTtfZdwKAwvOaESs+a+qwbpmuYSXnIGE6wSkq6RfBYSbvzUjZJrcB251HhkR4rn3bXP+BVkgwTpQOrlxkFt0VXfHa4Hbh8//zKYhKk6BrOTkDjyEEmEMpUH/MQXm0D9QvU2c9Y7ZDawxc19ygwzwsVIZcA6R5QyKqtQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Elq4s9t9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1224AC4CEEB;
-	Thu, 26 Jun 2025 19:10:01 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=R4fv/g1TqF2y4fz6Fl/IyxlxRRWlAknG+9UUQGgRPsBx4gZjvNQ4GNK2nNckAvRt7VoVN6Ounw53cgj4h1THkpvtcuxtX2MV9xCdR/yuacrzkXYQtpYdpCoxKLamAI0CVZdZnFDvtslhTpFGILWvP0/NhJ2WVD7xsmzxJFZlvdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aU54u4/c; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 787D6C4CEEB;
+	Thu, 26 Jun 2025 20:44:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750965001;
-	bh=XZlMQtOpbNIhRZ9pHesx/nbn3+6U5J4RnnbP/llCorU=;
+	s=k20201202; t=1750970670;
+	bh=abaYV/TxoNSuyHl0eTqG9SzcI4RVLABBdwTCYM/IuUE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Elq4s9t98ApYLWb9OT7lHEbs4xMsxf2C5cA+eNoj6yT+o4TQfi86YXu3fLIiWB1kG
-	 3ucymYmROlOKDVAhNxpCWdQMU3E24QiddwEyG6ADo5oy0+OSvcwfNXYP7shPa+fx1a
-	 zjx7onUFkYHoaozmapAO+gAV3Fp+iv/5jS6/5QN+ayMIC31UXxLVaNpr7UXrGR53IN
-	 rryDOgP7oY35ZfNS9ns5pZijkY/7T/wmDPTiaChHmxDuBA/m/WOD+JyZi54f1IcO8P
-	 +7+fCq0+RxDwayCQuOqSi7rdtTcothfgaXeVRHnquI+yo9FGbLew4oVrG7XiHOlpde
-	 aUQLSQ6l8qThw==
-Date: Thu, 26 Jun 2025 14:10:00 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Conor Dooley <conor+dt@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	devicetree@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
-	Eric Dumazet <edumazet@google.com>
-Subject: Re: [PATCH] dt-bindings: net: Rename renesas,r9a09g057-gbeth.yaml
-Message-ID: <175096499970.600223.16523078298033164696.robh@kernel.org>
-References: <721f6e0e09777e0842ecaca4578bc50c953d2428.1750838954.git.geert+renesas@glider.be>
+	b=aU54u4/cN2JAQ9nEf5AfYIcmyjgFIqvA3lOdGsnxB02qthvI85iMArx7c9v/YLgWu
+	 ygsqR33ijsfk/UZYDmcPdO0v1uiPvqvRIGfi+fbJrWhlKHk84USM1XV5tMsg92zp07
+	 I7dNUfRMysVq9ebTu+To/GRg0xIoYUxblBkeoO/rGWF16ARF7m57Mvt5MKTEaPy03V
+	 dS//DqTwW0VVdwewQK2DOoXqQs6MmHcKAkUnaHENeK5XZqMKw4lj2DGHWYDU+PK2n0
+	 IqqLAJkhnN1U23rLmnr4+mmURiiJAuhInR7XWkwnGV7f/+ndTiKEiMmtwgDyvub4qc
+	 O85FInCQCIeqQ==
+Date: Thu, 26 Jun 2025 22:44:25 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Chris Brandt <chris.brandt@renesas.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Andy Shevchenko <andy@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v4 0/5] Add RIIC support for RZ/T2H and RZ/N2H SoCs
+Message-ID: <va2iyipvikhgt6uq6n6bjydsqbmeep267ue4w24z2ptzdq4t4c@w36e3vstxnzh>
+References: <20250625104526.101004-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -64,21 +62,20 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <721f6e0e09777e0842ecaca4578bc50c953d2428.1750838954.git.geert+renesas@glider.be>
+In-Reply-To: <20250625104526.101004-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
+Hi Prabhakar,
 
-On Wed, 25 Jun 2025 10:10:48 +0200, Geert Uytterhoeven wrote:
-> The DT bindings file "renesas,r9a09g057-gbeth.yaml" applies to a whole
-> family of SoCs, and uses "renesas,rzv2h-gbeth" as a fallback compatible
-> value.  Hence rename it to the more generic "renesas,rzv2h-gbeth.yaml".
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  .../{renesas,r9a09g057-gbeth.yaml => renesas,rzv2h-gbeth.yaml}  | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename Documentation/devicetree/bindings/net/{renesas,r9a09g057-gbeth.yaml => renesas,rzv2h-gbeth.yaml} (98%)
-> 
+> Lad Prabhakar (5):
+>   dt-bindings: i2c: renesas,riic: Move ref for i2c-controller.yaml to
+>     the end
+>   dt-bindings: i2c: renesas,riic: Document RZ/T2H and RZ/N2H support
+>   i2c: riic: Pass IRQ desc array as part of OF data
+>   i2c: riic: Move generic compatible string to end of array
+>   i2c: riic: Add support for RZ/T2H SoC
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Merged to i2c/i2c-host.
 
+Thanks,
+Andi
 
