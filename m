@@ -1,44 +1,46 @@
-Return-Path: <linux-renesas-soc+bounces-18834-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18835-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44831AEB7E0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jun 2025 14:40:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26EE4AEB7E2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jun 2025 14:40:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 38115640044
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jun 2025 12:40:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D940A1C234E0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jun 2025 12:40:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6603F2D3EE3;
-	Fri, 27 Jun 2025 12:40:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B0592D3207;
+	Fri, 27 Jun 2025 12:40:26 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48E132D3207;
-	Fri, 27 Jun 2025 12:40:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FB532676D9;
+	Fri, 27 Jun 2025 12:40:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751028024; cv=none; b=IF+e2LHiH6NwyUEAQvpWPjGDOAf89sfGcAuajS2uCoK5OBiypLxgv+3fReS/oFbYzcUoBcjOLpAHl5IwrQuhOVTPJ9BoLt6i1Ssm7qxlZE2Vu78iKynuIQGbiTYefRMcOJK/FPcmJL6uZ0gdhWjm0c0PyZjlr5a+0KU2PVfLRZA=
+	t=1751028026; cv=none; b=gR8kPyvuFq67/uAhHNMk+ovymFvuo/tXZBhTbIu6ZsjUun5EvIzhAu97Sv6q9V29mGXvopoY5bNU8oXQuWqnTvtW9REYdHzuebdLS3dsf9bBJZ2Ib/lP2CBDbrCEBchXGZmItTrdC6RIv7/paizQh8s/6Er/lPLByfUaWcapTNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751028024; c=relaxed/simple;
-	bh=v2lCpA0F4K4NMIyhzSKRRpKfWzSIpA5TU69L4qXZElE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HbXp3Kcz0v8kkiQS/0a02l+Q/biEuO/nZqQDqMQCUCe/eb74ZFerZbr4usZM24R/270Tyijsn5Z2Ika4cRjwFRDgah/zC4oEqo/Wo2vu9KhVaOs7snE4ixEm224PfFwnBfggzB+WulAHY+1KAF+7iYvjPoRMmmumB0KvvX8C09E=
+	s=arc-20240116; t=1751028026; c=relaxed/simple;
+	bh=fNbLqPBe2KWDtOO99wvCHnfAazdRZz3SkocH7ZmEHI0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=YyWN2p/EWDmD1pDvcF3ldJWIN/biQw11Cjc+xRKHNtDnvhu4aBe4qw8z9X2mF/r2TI8Vh8du9bDgUzAiFSrootqvc20G75/VtSgIhjteUjpAv8w0DqTJuH2lEiG8SIATvm8Qxg0BG6At0tVSKtamkVSLpWKBTnmAedCS4lLnA7Q=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BE71C4CEED;
-	Fri, 27 Jun 2025 12:40:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69E17C4CEE3;
+	Fri, 27 Jun 2025 12:40:24 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: soc@lists.linux.dev,
-	soc <soc@kernel.org>
+To: soc@lists.linux.dev
 Cc: Magnus Damm <magnus.damm@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL 0/4] Renesas SoC updates for v6.17
-Date: Fri, 27 Jun 2025 14:40:15 +0200
-Message-ID: <cover.1751026657.git.geert+renesas@glider.be>
+Subject: [GIT PULL 1/4] Renesas ARM defconfig updates for v6.17
+Date: Fri, 27 Jun 2025 14:40:16 +0200
+Message-ID: <cover.1751026659.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1751026657.git.geert+renesas@glider.be>
+References: <cover.1751026657.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -47,57 +49,33 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-	Hi SoC folks,
+The following changes since commit e04c78d86a9699d136910cfc0bdcf01087e3267e:
 
-This is my first pull request for the inclusion of Renesas SoC updates
-for v6.17.
+  Linux 6.16-rc2 (2025-06-15 13:49:41 -0700)
 
-It consists of 4 parts:
+are available in the Git repository at:
 
-  [GIT PULL 1/4] Renesas ARM defconfig updates for v6.17
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-arm-defconfig-for-v6.17-tag1
 
-    - Enable modular support for Renesas RZ/V2H USB2PHY Port Reset Control
-      in the ARM64 defconfig,
-    - Refresh shmobile_defconfig for v6.16-rc2.
+for you to fetch changes up to 910aa7765a7a12a5b485547de924fa97a21eb779:
 
-  [GIT PULL 2/4] Renesas driver updates for v6.17
+  ARM: shmobile: defconfig: Refresh for v6.16-rc2 (2025-06-19 19:19:46 +0200)
 
-    - Initial support for the Renesas RZ/T2H (R9A09G077) and RZ/N2H
-      (R9A09G087) SoCs,
-    - Convert the RZ/V2M External Power Sequence Controller (PWC) driver
-      to the new GPIO line value setter callbacks.
+----------------------------------------------------------------
+Renesas ARM defconfig updates for v6.17
 
-  [GIT PULL 3/4] Renesas DT binding updates for v6.17
+  - Enable modular support for Renesas RZ/V2H USB2PHY Port Reset Control
+    in the ARM64 defconfig,
+  - Refresh shmobile_defconfig for v6.16-rc2.
 
-    - Document more board part numbers.
+----------------------------------------------------------------
+Geert Uytterhoeven (1):
+      ARM: shmobile: defconfig: Refresh for v6.16-rc2
 
-  [GIT PULL 4/4] Renesas DTS updates for v6.17
+Lad Prabhakar (1):
+      arm64: defconfig: Enable RZ/V2H(P) USB2 PHY controller reset driver
 
-    - Add SPI FLASH, camera, and Ethernet support on the RZ/G3E SoC and/or
-      the RZ/G3E SoM and SMARC Carrier-II EVK development board,
-    - Add Ethernet, USB2, and PMIC support on the RZ/V2H and RZ/V2N SoCs
-      and EVK boards,
-    - Add timer, I2C, watchdog, and GPU support on the RZ/V2N SoC and the
-      RZ/V2N EVK board,
-    - Add debug LED support for the RZN1D-DB development board,
-    - Improve PCIe clock description on the Retronix Sparrow Hawk board,
-    - Miscellaneous fixes and improvements.
-
-Notes:
-  - PR 4/4 includes an immutable branch in the PCI subsystem, as a
-    dependency for reworking the PCIe clock topology on the Retronix
-    Sparrow Hawk board.
-
-Thanks for pulling!
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+ arch/arm/configs/shmobile_defconfig | 1 +
+ arch/arm64/configs/defconfig        | 1 +
+ 2 files changed, 2 insertions(+)
 
