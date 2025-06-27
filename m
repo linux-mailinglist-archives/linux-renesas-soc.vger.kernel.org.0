@@ -1,81 +1,131 @@
-Return-Path: <linux-renesas-soc+bounces-18827-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18828-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC858AEB069
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jun 2025 09:46:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7017AAEB1AA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jun 2025 10:52:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DE3501C21138
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jun 2025 07:46:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 551961BC6AE2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jun 2025 08:53:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B5A7C2FB;
-	Fri, 27 Jun 2025 07:46:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40D1D27EC78;
+	Fri, 27 Jun 2025 08:52:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=growora.pl header.i=@growora.pl header.b="Hc5zRAVi"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d0X1vnDU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.growora.pl (mail.growora.pl [51.254.119.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB01E1C6BE
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Jun 2025 07:46:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.254.119.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6844227F00C;
+	Fri, 27 Jun 2025 08:52:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751010373; cv=none; b=WYrZUeovlbCbdwHMr3i/2JNN+aM8LiuM84OMtW/XYt343elS+YMEoOjSC3H1kgDx+fsKj/diTPruFf0aJlnObnXneZ/yegt5guiuDO1LgIsqgb5Dgt2d8aE3/s/B5LbH/r5pwxtPgas9Qt/K6kv9P/UAfg3fkYIV2coLVDNQQZ0=
+	t=1751014363; cv=none; b=cPV09yhEieut0b2CTyubl/m2H0E5zB2JkURW928v1NKHB0oubA++63iSCwM+7XFrfvzyVJllSSCyjRsYL3HbMgF804/GgpFHsc5mFTfBaj/mg8puvfbApTYw94HIPSrfMrTBQO/+HbIDRN6AaYHRTXYjCO8Y/iTtxLHzII+jfXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751010373; c=relaxed/simple;
-	bh=EB99enkNQ3/lKc2PdUObvM5/Gi3NF8gZrWwaTOp5KYs=;
-	h=Message-ID:Date:From:To:Subject:MIME-Version:Content-Type; b=dFin91hSl6kiFD5gNlS3SiHyjcy923p+ms4wXAZMuSekGnVic1kSvn6ua6PQTfUsKS8Pia5cRn8PbKf/hBktHD/sI4xohbc+mRy4cM5kFRr6FuzJTLwrInUW3UsXkmT9wrWG9GAC7bwejvCIQ9rvhPpO9UXZTXUfl3LMa2WbnY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=growora.pl; spf=pass smtp.mailfrom=growora.pl; dkim=pass (2048-bit key) header.d=growora.pl header.i=@growora.pl header.b=Hc5zRAVi; arc=none smtp.client-ip=51.254.119.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=growora.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=growora.pl
-Received: by mail.growora.pl (Postfix, from userid 1002)
-	id ECF2B23B8E; Fri, 27 Jun 2025 09:45:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=growora.pl; s=mail;
-	t=1751010365; bh=EB99enkNQ3/lKc2PdUObvM5/Gi3NF8gZrWwaTOp5KYs=;
-	h=Date:From:To:Subject:From;
-	b=Hc5zRAVi/FiQo1cWJ4mNwmzWY5AfjifhL+oexpQglUwr5RaRSJTFgk/ivLiM+EHf4
-	 u3PYovH9k+4fKdgioBUqQ8XS6skRvZEmzjby7fWkIhQ575oHbqZkayihAZcWt0GqK4
-	 i8xd8eTVE34n9zxzKH+WLgWi0wg3cnp4Ert1d8fDjg/79aw2rX3BVW1PvoQkaqpvgO
-	 h8vgiUlBOgE8KXzN7V47wUnqjqnE8PATmMragYZ6on/vZ9DQxTkXceDw2lhEQzg7Fj
-	 HVIWOHUNWZg6bV1twA/OLqfqeb1XXToOaKab9mdzSRzIOiXEb9dK5ccY53xt+GRxm1
-	 sMCucv6niJ80g==
-Received: by mail.growora.pl for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Jun 2025 07:45:48 GMT
-Message-ID: <20250627084500-0.1.ka.21kia.0.oxjtm5i2mm@growora.pl>
-Date: Fri, 27 Jun 2025 07:45:48 GMT
-From: "Mateusz Hopczak" <mateusz.hopczak@growora.pl>
-To: <linux-renesas-soc@vger.kernel.org>
-Subject: IT bez rekrutacji
-X-Mailer: mail.growora.pl
+	s=arc-20240116; t=1751014363; c=relaxed/simple;
+	bh=MVi8yWxtFhXoKsglCyvLg0uvnEuEB32/G55NLIq1SuY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ODZfGtTKw25kYR38Q8ECi72beVU5qkW9/yBJF64lIzoKwYwl94Vb3DT98GRCLweaTbatChJ9S6DYvNPRvWatu6TKjPK1HpDsM0VwjBjYYCcJ3aD7Qor2tLQIGYCsEdlde8WP5vbsUUm6Uy2b5hoQB4kYUnYroOXJrpuM0sh2tfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d0X1vnDU; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4537deebb01so10041995e9.0;
+        Fri, 27 Jun 2025 01:52:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751014359; x=1751619159; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OPYhSssyoo10A9+7dWN2Lf8KR49WV8MfSc/Fso5u7Ak=;
+        b=d0X1vnDUIIgozPCoDAM/8c6CVK/Y9JJru1pn+MK0CwvCxMxEnM5n7xU+0twXh0TFyv
+         pp0vNhS9Gw8ujIUjxkBEsaC5SZPlJiXNRqDSWkhVXOZTAJy+fl7158iNVqV7QVfX5W7b
+         Uvsg6eIAubuDxL5XJdnKSu9t+WFm2Db/GIgq2M8Vxv5Pzk90IhSN2zak8wSJ8pVK0Gmp
+         Y+/7CkpVJlxqKXZ/EHHAYuITXqnXJ5DliJSKs1vhEHmHJBFwuHJi/QC9miIlXhN63zmp
+         IYweASc4MDAf6vd+nvj1VlTcbpJXcpcKl8CnZPrMOuK8zBbcC+d8XDkzcOFM+GmlyQed
+         Q3bQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751014359; x=1751619159;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OPYhSssyoo10A9+7dWN2Lf8KR49WV8MfSc/Fso5u7Ak=;
+        b=MYH33AZb3zanZel+6sPtLpIxWydUQrkNzyJwXMgTuPRNx5Mqk8Taa6LBF7nx9cTJwX
+         fRDnC37bJ1FUAyuC8t6CrFI9paWlywl8Zn4rvS3TC+yi0fHG8/ipTqtPDKFIJXUftft4
+         jmQDed+2O4GDa/YSVoD9mQYCrDBSKFUvMI8lcKnymTNG0HpEbUTILMai0pOkXVIJcPkH
+         e1RMzZ8y4W/DbbCrN/lPLuQ7tYiyt1QzJVKaaWGmiHFLroNQ097a8Jyfs3npI9a2eNQB
+         0eXNKhveFiNAuPT1xPtCboFWPWfi6kYzgmh0gFgM2f56fMJhimRwyB2WJoBP86aoT26f
+         j40A==
+X-Forwarded-Encrypted: i=1; AJvYcCU6dAH0PBl/GjyymABY77W+g1oNASQcNvil3iPl4gy5I//Ro0TKdkpErQEgQFVg+ygvF7WHKFLqkjfq@vger.kernel.org, AJvYcCVzdALx/I+BkLoOzjENgkixOt+/tvANXkQFiaSvENvDm90s4/LiyGxaQjovEmNJvIDMqG8LWAFJ18cihBJqeW97wVw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwlfaHV1JMb2m2CKIAUqFyc+ncZOrsr2ZRPMTUzJP87yDNJ3Umg
+	FsfiFLmkPADk0x+O1ceaFDcul+lpNXWI4vzI+YFkFbeNrb/QQoaC2dwiQ/EjAK+hKuYCQNwPQw2
+	srUbYv5ksPE5DuWMxdFj1uzrKqrsFW5w=
+X-Gm-Gg: ASbGncs8BFu681eHKRJkSo+Dmdg3KzmXZ92wUN4LDXm1oocnKMDl67G2aNFuSnPsIFe
+	fE6JID3ZB+DFHVnq9zuebVRaXCwCckMklJUX2nK6qtgv72UJyfI7o1BVmQdyycTx+iUyj7ps8hD
+	6ICynwABvVXar9G14WH9QpI+uDIaSa9mIX0AYmYnxUVZtyplbvs4k7Mr1NbNbVDe+qNIV5bWSiQ
+	lE=
+X-Google-Smtp-Source: AGHT+IFdxDruX766IIoz313iJZ6+nZNOXIuDixEpUMFx3gkBtbofLXCFEuAN6ICw1b3b8B2wPim+s3CjYGJeU8R6JOY=
+X-Received: by 2002:a05:600c:8b06:b0:442:f4a3:8c5c with SMTP id
+ 5b1f17b1804b1-4538ee3b85amr29504475e9.10.1751014359204; Fri, 27 Jun 2025
+ 01:52:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <d74843e06f73cd4c6e822d65f606e6042a50a0b7.1750945516.git.geert+renesas@glider.be>
+In-Reply-To: <d74843e06f73cd4c6e822d65f606e6042a50a0b7.1750945516.git.geert+renesas@glider.be>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Fri, 27 Jun 2025 09:52:13 +0100
+X-Gm-Features: Ac12FXxFAq3oRp3cM7Ig6eKoVj6x-DIxBVtkuYZHESB5chmrfEXPgDYZ48hTJU8
+Message-ID: <CA+V-a8tDQWcoHk0x+kjxLFYEg45R--Tew8byGN47g-f_pMh9Dg@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: renesas: Simplify PINCTRL_RZV2M logic
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Linus Walleij <linus.walleij@linaro.org>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Cze=C5=9B=C4=87,
+On Thu, Jun 26, 2025 at 2:52=E2=80=AFPM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> PINCTRL_RZV2M is selected by ARCH_R9A09G011, hence there is no need to
+> depend on the latter.  Move the dependency on COMPILE_TEST to the symbol
+> prompt, like is done for all other auto-selected pin control symbols.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> To be queued in renesas-pinctrol for v6.17.
+>
+>  drivers/pinctrl/renesas/Kconfig | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-wiem, =C5=BCe rozw=C3=B3j oprogramowania to dzi=C5=9B nie tylko kwestia t=
-echnologii, ale tempa i dost=C4=99pno=C5=9Bci odpowiednich ludzi.=20
+Cheers,
+Prabhakar
 
-Je=C5=9Bli temat dotyczy r=C3=B3wnie=C5=BC Pa=C5=84stwa zespo=C5=82u, by=C4=
-=87 mo=C5=BCe warto porozmawia=C4=87 o wsp=C3=B3=C5=82pracy, w kt=C3=B3re=
-j to my przejmujemy ca=C5=82y proces tworzenia oprogramowania =E2=80=93 o=
-d analizy po utrzymanie. Pracujemy elastycznie, dostosowuj=C4=85c si=C4=99=
- do wewn=C4=99trznych procedur i Waszego stacku technologicznego.
-
-Dzia=C5=82amy tak, jakby=C5=9Bmy byli cz=C4=99=C5=9Bci=C4=85 zespo=C5=82u=
-, ale bez operacyjnego ci=C4=99=C5=BCaru, ryzyka kosztownych rekrutacji, =
-z elastycznym podej=C5=9Bciem i transparentnym modelem rozlicze=C5=84.
-
-Czy jeste=C5=9Bcie Pa=C5=84stwo zainteresowani pog=C5=82=C4=99bieniem tem=
-atu?
-
-
-Pozdrawiam
-Mateusz Hopczak
+> diff --git a/drivers/pinctrl/renesas/Kconfig b/drivers/pinctrl/renesas/Kc=
+onfig
+> index 5d7e6d5dbfa90e3e..bbcbb9f33f71d6a6 100644
+> --- a/drivers/pinctrl/renesas/Kconfig
+> +++ b/drivers/pinctrl/renesas/Kconfig
+> @@ -250,9 +250,8 @@ config PINCTRL_RZN1
+>           This selects pinctrl driver for Renesas RZ/N1 devices.
+>
+>  config PINCTRL_RZV2M
+> -       bool "pin control support for RZ/V2M"
+> +       bool "pin control support for RZ/V2M" if COMPILE_TEST
+>         depends on OF
+> -       depends on ARCH_R9A09G011 || COMPILE_TEST
+>         select GPIOLIB
+>         select GENERIC_PINCTRL_GROUPS
+>         select GENERIC_PINMUX_FUNCTIONS
+> --
+> 2.43.0
+>
+>
 
