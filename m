@@ -1,184 +1,267 @@
-Return-Path: <linux-renesas-soc+bounces-18867-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18868-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA57AEC147
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jun 2025 22:44:14 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8562CAEC16F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jun 2025 22:47:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4A55118871BD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jun 2025 20:44:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 132947A605E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jun 2025 20:45:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A5E42EE983;
-	Fri, 27 Jun 2025 20:42:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC9732EBDE5;
+	Fri, 27 Jun 2025 20:46:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GF90QWAV"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Zy2MPGSN"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012067.outbound.protection.outlook.com [52.101.66.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 524F72EE5EC;
-	Fri, 27 Jun 2025 20:42:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751056974; cv=none; b=EqJJMpBe9p4q6IQGLKZmUtbUuj/H8jHJJN6NrbR9ms0eyVJKXhx2RBDLUDVtDJZTfCRMSYBlUtO44xxxufe/kBJJsHD/V+IE1uRVsbijug0Ws0T/cigrpALdBm/YyX8JdkXorwjm49iA7nZz6QlKIg5iqb67DmW7M1Ki6aprGJY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751056974; c=relaxed/simple;
-	bh=8QkcunE7avjR4ETyOBJIS9ShZo4Feau4QzXVbObg1+k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=j0vLy2lt76BXhaKrDJQ/4EocOwM00MhRIRC1gDXpasBfWJdmCBiOhs2BKqnARzjZviUt74YGgkB+sJXzl0RTEFmvSGkpZTe3y+LYU5iJErd8u7g51szG/mGma3omT4QDIt6/6znus3uNR1OzMFWKtIbv23IiUiNiy0vsrgqUXLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GF90QWAV; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-451d3f72391so2755425e9.3;
-        Fri, 27 Jun 2025 13:42:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751056971; x=1751661771; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JFogUEFPDwoe5zvFZR9IXlLvXXTdFdqsNR9k44UIfj0=;
-        b=GF90QWAV51pa8Iw+otH4m3OzGDs63mSSnOI1zv7whIQlohRmidLtHXKbzabu0g+nPF
-         7mOgk0BW20leeT3C+jsGwjwH/OgY6nwo/7OVB8QzEL/7Rr/nnjL7khBIRBfeLutVBW1D
-         P+SZ5/Z4aDklQ0RTPshqyVTDJh16SPNeZPUGdXeh/3ktQcj2svRKMgZTZc8osXI15kRo
-         QoIU7HNkxpHH5HmpJr/vV7ZUNuJ9qh/bjSL0g4K2N3Gb7VWDg6zTOgvk0qxJxvfJhDBI
-         vkW82QE1M+Vb87hmdt5o6SzL9KepdQ0IkhBKpztn3QrV+yd9vsU1yL6SfGHCI6NnBrEV
-         /L3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751056971; x=1751661771;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JFogUEFPDwoe5zvFZR9IXlLvXXTdFdqsNR9k44UIfj0=;
-        b=JrqQLbNknp47g+RfIfhTOKT7Yn3ceeCRxOgYSyCvSZBdkG3vANJHOYNUecqEvyigTf
-         JeyZ3d6AZC7UWFjOuzqcldMCSePdqELQDdyq8qLOWlNGJ6z/Yl7wl5DMP0nX3BScOkjV
-         j6fnP0rBhZ0/zf4Lb50lef3M5tzgFIxd/rPaUTuNaXulDfBOXX0UsH1HhzD0WO/qT+cI
-         ekbGLW/xj4XBJ0ZL5EBAt0HVfvy8XEv0D1YWsVsR9BxBAiv9Ohu5ietaTtLSY3epJRzL
-         32A9YSrPdqeCQOuppfibFdr1DN5TINEyytaq33OPrkehXNhiTke3SvdfxzSjNlEvLnZH
-         lBRw==
-X-Forwarded-Encrypted: i=1; AJvYcCU/PkG/W34xQhdmEaGJ/rPBh9mb+FZuUDae26RCbgd977tjSqi/gsJpA5yP5Dhh7GmR/559hblVAG74@vger.kernel.org, AJvYcCUWxa1a0OjS1Ai0zX488H2oiolMFMGZw2a/1ZXx5VBHCRoVQ2XIl09cPb6Molm0T+lDVuCErV6ueUYc50Rp@vger.kernel.org, AJvYcCUbJeX+MAFiSxScAwl+1WZsvEvKwXcDzAe3M4B0C58ALtTOzCSSQWQO8gEzhX/l8cK5HTH8anC1J6+f@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQgPGOPxx3ASUTD+ZxgLAXXtARkxfOvWXYe8tLM9zCQ/7TdAW/
-	BGciufrjRb7d5Wi3zMVNJm09c7JkGkjsZ4B/DWS2Eub9afItShs+vX+Z
-X-Gm-Gg: ASbGncsOk9hy1x8/8ffzVTu+KHTy9ag2ROSZS/JXMUkd6gGOEiMFw1qrWFC4J3JfdAW
-	YcSxze0xU2HE37HZfPyjtyIUMf1W/0rmbtnGap2+0yGPgqndLB9aL6xg395lFf9tUebN+Kh5YZo
-	YO9s8l5hY4GwCV8hi3FHhA45V9NDK018ALJtRfWjVD4J4sYjhPVYUH5bVg8c7BSgddmSbO/jl6m
-	OfyXXJk2XbvA8JfUgczSfxvPofY2b0m4r1AAvitEvn0Egt9b/odn+17+4f+hloggmKNy2Kyn6iZ
-	8hpkast/tOzijPniwUsh3ZECLySHG8vOeHj1LBK0KwPtkkYGdsy3SD/cVbX85h/bgEdkTMqgvhh
-	pSlWlYKgIAw==
-X-Google-Smtp-Source: AGHT+IHreqXziLECND4E146z9XCfLLQ7bEVfI+nB28X5sGu6INUIfUxfhFQlKoKmti/oMpVcdTkrXg==
-X-Received: by 2002:a05:6000:2082:b0:3a5:2875:f985 with SMTP id ffacd0b85a97d-3a90066afb5mr4907750f8f.59.1751056970518;
-        Fri, 27 Jun 2025 13:42:50 -0700 (PDT)
-Received: from iku.Home ([2a06:5906:61b:2d00:3b46:edb1:4d0:593b])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a88c7fab7asm3609322f8f.24.2025.06.27.13.42.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jun 2025 13:42:49 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E97551DF738
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Jun 2025 20:46:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.67
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751057209; cv=fail; b=L+cxHttAkO0AfWFr5Ub98ir8Z2CJIfNfCW7rL3GmS2MbSPxxIgHUx8pV05aCmldIInAjrvNhX1qziz3+p2G6wGnq4ZJchQwuOGkzQqFq13wJQWmQdev3CfqEYxHHXjc90E7VkUvsnvzlj+m1HgWjiouzOnLCi/zVz5ysWsVcFFk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751057209; c=relaxed/simple;
+	bh=Owgp9+WDAYS9T6jSPIUjN94hOtDj8snxPm2I2o5MTYY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=IcUicsDGpiZGd9vSphr60VJR01LtL2lLU2+4dDblx1EgpcrFUdhxwHFLks4fvjf7q7jW0hJTDROCC4oief02AlXZKyXGCfBzyidIIZ5uplvaCSoaBrRnD8k7i/CNKGEN23iWRUkW4LGoWCGxx8pWJ5h0/CqP6cg5EdM3Uj7/MJs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Zy2MPGSN; arc=fail smtp.client-ip=52.101.66.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xrNPUExiihQuJhJhQ1psC2RLBTT85EPjKE9qSIpHPoTyBjKlIpCesarIhyBzm6efJOIeY8HYaVaK1WnPE9IC5Dnc30XnOZv16GsvMqohI8lStanyxBfiTYv5kbgXdQtZolstTDkWRiIvLr/sc3rYlPWeKBXOe1zpjaJhqiaN2mrm6RB39e1ugzHP3zqjyQbYdW/dEDzj/UX/smv185G2Apm9IfsxVi/MhkuwL7I2c0h8rrgwdGZ7fwFO5uVFmA319rtVcebETc2TW4qqIjd/AT9y/o210WOzBCZU0fo9F2HFfsIRYdKNd9/nsZyKfbzp67v8jmX+wQmQcpeGRlGbGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gQSbSTDMPR+9dEK0RCPLJqmZIM4gNSgOZCxkzeA7gwQ=;
+ b=cz8GbFku8d2GsCvj+xqOQvV8QQDnxiT0Mr+WOhaykbzPIlLQKsdsl+9iufciDpOti1zir1Cs0WDFdm3oI3w5k2wGSwpWgmxNGTy9gAOYtEE7+6+mypuxp288GkNKwvvCRmH7GFWuVTqWKsg1DzQ7+kMJ2ofNZ0brwmC4YhjkwtyG71Q25edsW4InSvt3ndRRsA0NQhonJpoBCxpd7VjWnsDBw89UizzW/ITIn9MITrm7H+7BNz1zWBUwKQ7CmfQqGF1Epidu1IW4q31sr20FbOTza2fIJ5HiYSP+qfa7kegxY3L2m2l3h8oa9zEd3Hl+s7XIUeIFw+6dgHbv9BRc5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gQSbSTDMPR+9dEK0RCPLJqmZIM4gNSgOZCxkzeA7gwQ=;
+ b=Zy2MPGSNQS386s6fZAzPbZ8ybft879lHe8uR7QpMrk/T3mAu8mo5K3hiUk40EjKcRCDQjvDO/+UIQzvkhV1hDhx53imN88P3l/gvx8dWom3UnDPSnBiJWH368qkbLZEfI3avWcY5oH5Rp8r/oHQkyoTRbzzBE3lKCMOeOlPnQ0oCfevHJEoo+PAU/scvxD40MVsgjEDUhcLEuPLMI89q2YIuN2ggITdfc02n3CoLQ5hhrxPHPtCmg6n9cttPwM96om5sp6KwdW1hsIUq+/GxXrwVdnNvSeSoug4jUDYcXRtyQzpkwDFg9eIRspm1ZUhjpDdMaIoBiZ8GWbPbIqW2Tg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
+ by GV1PR04MB10966.eurprd04.prod.outlook.com (2603:10a6:150:204::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.16; Fri, 27 Jun
+ 2025 20:46:41 +0000
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06%7]) with mapi id 15.20.8880.015; Fri, 27 Jun 2025
+ 20:46:40 +0000
+Date: Fri, 27 Jun 2025 16:46:37 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc: linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 6/6] clk: renesas: r9a09g057: Add XSPI clock/reset
-Date: Fri, 27 Jun 2025 21:42:37 +0100
-Message-ID: <20250627204237.214635-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250627204237.214635-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20250627204237.214635-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-i3c@lists.infradead.org
+Subject: Re: [PATCH v2 1/3] i3c: master: replace ENOTSUPP with
+ SUSV4-compliant EOPNOTSUPP
+Message-ID: <aF8DLbPnxLJVDn6t@lizhi-Precision-Tower-5810>
+References: <20250627111755.16535-5-wsa+renesas@sang-engineering.com>
+ <20250627111755.16535-6-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250627111755.16535-6-wsa+renesas@sang-engineering.com>
+X-ClientProxiedBy: AM0PR10CA0082.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:15::35) To PAXPR04MB9642.eurprd04.prod.outlook.com
+ (2603:10a6:102:240::14)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|GV1PR04MB10966:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9df97570-4e10-4b1d-fe25-08ddb5bbb7fa
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|38350700014|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?qbE/mDGk/rPBnIB9g0Ii53dbNNoYNMbqWakh47WX1q9GfW0ZdYTLdNTAnRoe?=
+ =?us-ascii?Q?IJPYSt6Bm2q0Qv2Nre7wfUKVrEu3R9XshapHksfsN+Zp97ZGuFkHjSJBWxvW?=
+ =?us-ascii?Q?ENkIePCvkL0LGWVnirRVcUOoeXynwP6pL45M5o8scjC+aN6FTVSef0h3D+xC?=
+ =?us-ascii?Q?MjN07o8E8ED7qlvJqArLz0mkTx1rgD64nz6K2/3R4TtiVATDKFD+8cEJatqL?=
+ =?us-ascii?Q?ZuuR1l6ozToPaBC3ZqOH4L25RKSEfYxTT62VI/FswL619mcDOZtagtrIIF37?=
+ =?us-ascii?Q?EJ2BZXM3/bQ4BHfYe6CwoJlykb1QI4LoNVDV6rd3YabUPfbITQVrHMlsUDiP?=
+ =?us-ascii?Q?jI8hbT59PiMmemZ0wE6R0MIySDXp8Fuc9LdaaXHxmT/Z1vj5DKmrTQ8fDv/0?=
+ =?us-ascii?Q?EDIqVCO5mRrI3BkCDsxTDiXjUgoInZfh//7w4W/0qUph6sZ9KinGO4qXvgMw?=
+ =?us-ascii?Q?KXv+Clh2KsihSpogXc4SHWVKH0ZC8bOxTof3B87gEaw19r6sMsv2s+7iPqX1?=
+ =?us-ascii?Q?G2QcwhOoonW0SKWEEURXAhDehwIaixSStVHolXxE/TechFp/tkz7/Qc48cJI?=
+ =?us-ascii?Q?fVkfQkrKcHdwBYvHd0pqBrMDnK6stUcsxWAr60fh5j/5PWnU9jPPQGoWKyOD?=
+ =?us-ascii?Q?deOq/AD9BlPbAIl7PBRC8+W/tjW5wPNOCzlyvFmEWfleFdZZkys9J9M/w2jk?=
+ =?us-ascii?Q?z3h5bGD+91X5Q49RUY3M0bXTZMMC+GtVMEODZpFLNL4i7UL8sstCArFFxmp0?=
+ =?us-ascii?Q?HPsEvGjo4DtgYLIryKymwvEcLlFCjgtPDZd+0Vrfwh0l/G7RqBqmxwR4/lhG?=
+ =?us-ascii?Q?U65m3r1YJCnQBfNTzjzlSRJW9QeovyOTFBmMiIR6wOQdaGd8+t5dH4p62hEf?=
+ =?us-ascii?Q?G2FerDp7xB7wypFQc4k4alT4STauCiQWbR5Mr3DUCxr3tTWnMD1Q5BCVTDGR?=
+ =?us-ascii?Q?+vLtXmwwtRcz/j/VLWC/CAP+eFLfSr4YlSZaDrAPEO6ODsedso+31yQjaBb2?=
+ =?us-ascii?Q?gPei58p0rCYpoeHoeq2Wp8IQPEW6KTTWkpDBviXUUCnPOOymZWPz1GArJpHa?=
+ =?us-ascii?Q?mfu207B+YgsfHhddNouHhQ6KUTavv222oK+7MSzQmK9+Otwg6MhEvKLjOdBV?=
+ =?us-ascii?Q?iYAspW7IBbl3ZQw14Vj69R33k1gIfI/r44THr2qSK6HjKdNQp7C5/vJxqQqV?=
+ =?us-ascii?Q?zPPUIw4KowAz3rYmvForcBJ9IHe74dPZ5Z//tIvEC0TkaQaQv3TATHOq3V48?=
+ =?us-ascii?Q?hOTFNUrrn1O48327f7eJWE+lA/9YGAKyIveigyoayoCqStdHLWN0X6Nrt+tb?=
+ =?us-ascii?Q?bDp3NqCI87GA4Q7fwDh5Uo05qEIye9XaxrdR05y3z4C0DrRlXy5AlCeDC5oD?=
+ =?us-ascii?Q?GnbRQhbGlaJ7MfUnAffruO4vrE/PX6iFkr1SVsJGCshhNMH5zQveqksNNGV/?=
+ =?us-ascii?Q?45wNYxoWzxtc6UbktlvNNQx3Q/NOSEupHuWoqwFUEinNOCwwxmJt/A=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(38350700014)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?IgglXlU3M+gx5jqxZFPDlqr5NS/oXGdqoaPYYt9XaG6+H3qzkPfHVkYk57Zo?=
+ =?us-ascii?Q?AF+LUJ4GUDpCnTZTCvt8oOw6glKg7eA8ewUyXfiVvN85YQUszHdL693iq09K?=
+ =?us-ascii?Q?E21p8ofw4VWJPrw5u+uhjj8rIKzvGnsYt0M6qeKnN0DrExOvJEZTLxXs965P?=
+ =?us-ascii?Q?JP3b/RVaOITFyAi6xVhPADN5sAAO871dfipzsCKYP19j7Hzr+gNYzzqRAk/m?=
+ =?us-ascii?Q?GtHguCuiYW4XoE02Tch81Lfx7LDJ8JrAZzWhf0y0se/Wkl3zDzXNJtYwtnmF?=
+ =?us-ascii?Q?HIa1ohW82KcQy46ZrMHvzmf6rQe9aNoaiRExd4AUpCSnL5C+5IwxfWyYynV/?=
+ =?us-ascii?Q?pVk9I+RlO1a8Prm2QueiNauskl42aodt1kZQYwrvJ6fPDm8qT73Dm46jm5pC?=
+ =?us-ascii?Q?JrFkNdIhL0eL089+cJ17AE27G7ONvCPE4MhrHKG12tVDxAtMAhoynqU4bteT?=
+ =?us-ascii?Q?J6nvM6luv7zXZZgvfh16PjnnRMqfbOsAwZzVXCS+88bTstPe2iQevbeVNDN9?=
+ =?us-ascii?Q?SAUryPP/EGVAcX4YNNZcvg6iyN9pl9pI1HxTgCJ+DhuSJmUHcdHIU9jXhstf?=
+ =?us-ascii?Q?9+HcFcQWIEyG/rt9f7IR9JNKXq92AVuxKRvy7WBB/F0rp4fOHE4l/MV3r4oK?=
+ =?us-ascii?Q?hckyQ+nj5tVI6KmaFXOWQ0h0cWvC/vW65thmU5AHRyZli7vyaOkRtl3XK7jL?=
+ =?us-ascii?Q?o9jLw5FdJXoY81TemNOGjp2eE34QrrGVQ8r6WjElUoQz1EIeRb3q5raF74r3?=
+ =?us-ascii?Q?PwmbBkpOL4vR/R+XHjnKLdSs1srTt8uPJ3kTJueythEZlPHb8CN1REutQhdh?=
+ =?us-ascii?Q?jGrAaHQU+Ply4tu1We8Hz+1JzOzUPlgVTkxAmavSjR8O3UZbk4kH5eLv75Nb?=
+ =?us-ascii?Q?bQUE6CbIh3h+0+j3KXNZjcerlNkLY5Yvkx3l6VHbXL6NN1dO8DMWTizQYDa6?=
+ =?us-ascii?Q?Zw52ZaVK1SZSLAZJln10gPtsOC1MLkocJ5eQ9RURfv4Ktfn7QlJ1QWiVK/EM?=
+ =?us-ascii?Q?Z/IGpRyBYaD8+RSsi2O82ZyR2SBiI0x2M7f7dyneC0NMOBzd+0MjHzC6+566?=
+ =?us-ascii?Q?7hUVrzCCXJTf+pU42g+if9IXm6z8H7s6kM8OYgnFZzBO371UqoXfg5qp/GDP?=
+ =?us-ascii?Q?KO4VMsp+8lCePTTKV0T3jyEwZj8oOv37ELImJG50eQCMXGCXkZ+vsi6yrnRP?=
+ =?us-ascii?Q?NMCDU5XyuvO7gHQn7sP8S1VwXRsj5GyMMHnTiGJe7ADCVWHJj/Ejy2g7zXWE?=
+ =?us-ascii?Q?ighVBnqdGnxxX8jPsQsBs2v6Uk8TjQvY2IjC94DDtmEJD8ii17P8mIlf8L8F?=
+ =?us-ascii?Q?co2zTzcWoIEUBM5ygNt41LJLqhYn7n10IU3Y73kKFz/8TCf/MpOYMJ54osxM?=
+ =?us-ascii?Q?W5Y9n3MIAn5K5nU6g6g5PsKxgtpzV1wtUmVLkfl7m6Ts2o/N8y4O7S+iU2GS?=
+ =?us-ascii?Q?0zBbA/NkifWY3W2VgrqOWTe+9fcPTvEJtO3FYW+RXPnnvFmOlCxwJjFJzw8W?=
+ =?us-ascii?Q?13Xy7jAr81buXfjW1aFZy87+XKNBNA4jc6qPNk9P1a0zItCy3CeVW0PVhdEA?=
+ =?us-ascii?Q?5XZKPvGq7KNQbBnUY8PyWkM7810uJr7zYkKG7+Qd?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9df97570-4e10-4b1d-fe25-08ddb5bbb7fa
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2025 20:46:40.9320
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OSbSdv82TdrOMmOXs5L4ztjDkrdZnht1QWg9NxyCubaA+U81f4xYNtm7HdhF8/wyBL/w8oXMBNspqMk9uzIokg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB10966
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Fri, Jun 27, 2025 at 01:17:56PM +0200, Wolfram Sang wrote:
+> The checkpatch warning '"ENOTSUPP is not a SUSV4 error code, prefer
+> EOPNOTSUPP"' is correct. We never want this to slip to userspace.
 
-Add clock and reset entries for the XSPI interface on the R9A09G057 SoC.
+what's means "We never want this to slip to userspace."?
 
-While at it, rename CLK_PLLCM33_DIV4_PLLCM33 to CLK_PLLCM33_GEAR to align
-with the terminology used in the hardware manual.
+especial what's 'this' here?
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v1-> v2:
-- No change.
----
- drivers/clk/renesas/r9a09g057-cpg.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/clk/renesas/r9a09g057-cpg.c b/drivers/clk/renesas/r9a09g057-cpg.c
-index 39065d63df61..687c25f76852 100644
---- a/drivers/clk/renesas/r9a09g057-cpg.c
-+++ b/drivers/clk/renesas/r9a09g057-cpg.c
-@@ -36,8 +36,8 @@ enum clk_ids {
- 	CLK_PLLCM33_DIV3,
- 	CLK_PLLCM33_DIV4,
- 	CLK_PLLCM33_DIV5,
--	CLK_PLLCM33_DIV4_PLLCM33,
- 	CLK_PLLCM33_DIV16,
-+	CLK_PLLCM33_GEAR,
- 	CLK_SMUX2_XSPI_CLK0,
- 	CLK_SMUX2_XSPI_CLK1,
- 	CLK_PLLCM33_XSPI,
-@@ -134,7 +134,7 @@ static const struct cpg_core_clk r9a09g057_core_clks[] __initconst = {
- 	DEF_FIXED(".pllcm33_div3", CLK_PLLCM33_DIV3, CLK_PLLCM33, 1, 3),
- 	DEF_FIXED(".pllcm33_div4", CLK_PLLCM33_DIV4, CLK_PLLCM33, 1, 4),
- 	DEF_FIXED(".pllcm33_div5", CLK_PLLCM33_DIV5, CLK_PLLCM33, 1, 5),
--	DEF_DDIV(".pllcm33_div4_pllcm33", CLK_PLLCM33_DIV4_PLLCM33,
-+	DEF_DDIV(".pllcm33_gear", CLK_PLLCM33_GEAR,
- 		 CLK_PLLCM33_DIV4, CDDIV0_DIVCTL1, dtable_2_64),
- 	DEF_FIXED(".pllcm33_div16", CLK_PLLCM33_DIV16, CLK_PLLCM33, 1, 16),
- 	DEF_SMUX(".smux2_xspi_clk0", CLK_SMUX2_XSPI_CLK0, SSEL1_SELCTL2, smux2_xspi_clk0),
-@@ -189,10 +189,12 @@ static const struct cpg_core_clk r9a09g057_core_clks[] __initconst = {
- 		  CLK_PLLETH_DIV_125_FIX, 1, 1),
- 	DEF_FIXED("gbeth_1_clk_ptp_ref_i", R9A09G057_GBETH_1_CLK_PTP_REF_I,
- 		  CLK_PLLETH_DIV_125_FIX, 1, 1),
-+	DEF_FIXED_MOD_STATUS("spi_clk_spi", R9A09G057_SPI_CLK_SPI, CLK_PLLCM33_XSPI, 1, 2,
-+			     FIXED_MOD_CONF_XSPI),
- };
- 
- static const struct rzv2h_mod_clk r9a09g057_mod_clks[] __initconst = {
--	DEF_MOD("dmac_0_aclk",			CLK_PLLCM33_DIV4_PLLCM33, 0, 0, 0, 0,
-+	DEF_MOD("dmac_0_aclk",			CLK_PLLCM33_GEAR, 0, 0, 0, 0,
- 						BUS_MSTOP(5, BIT(9))),
- 	DEF_MOD("dmac_1_aclk",			CLK_PLLDTY_ACPU_DIV2, 0, 1, 0, 1,
- 						BUS_MSTOP(3, BIT(2))),
-@@ -258,6 +260,12 @@ static const struct rzv2h_mod_clk r9a09g057_mod_clks[] __initconst = {
- 						BUS_MSTOP(1, BIT(7))),
- 	DEF_MOD("riic_7_ckm",			CLK_PLLCLN_DIV16, 9, 11, 4, 27,
- 						BUS_MSTOP(1, BIT(8))),
-+	DEF_MOD("spi_hclk",			CLK_PLLCM33_GEAR, 9, 15, 4, 31,
-+						BUS_MSTOP(4, BIT(5))),
-+	DEF_MOD("spi_aclk",			CLK_PLLCM33_GEAR, 10, 0, 5, 0,
-+						BUS_MSTOP(4, BIT(5))),
-+	DEF_MOD("spi_clk_spix2",		CLK_PLLCM33_XSPI, 10, 1, 5, 2,
-+						BUS_MSTOP(4, BIT(5))),
- 	DEF_MOD("sdhi_0_imclk",			CLK_PLLCLN_DIV8, 10, 3, 5, 3,
- 						BUS_MSTOP(8, BIT(2))),
- 	DEF_MOD("sdhi_0_imclk2",		CLK_PLLCLN_DIV8, 10, 4, 5, 4,
-@@ -380,6 +388,8 @@ static const struct rzv2h_reset r9a09g057_resets[] __initconst = {
- 	DEF_RST(9, 14, 4, 15),		/* RIIC_6_MRST */
- 	DEF_RST(9, 15, 4, 16),		/* RIIC_7_MRST */
- 	DEF_RST(10, 0, 4, 17),		/* RIIC_8_MRST */
-+	DEF_RST(10, 3, 4, 20),		/* SPI_HRESETN */
-+	DEF_RST(10, 4, 4, 21),		/* SPI_ARESETN */
- 	DEF_RST(10, 7, 4, 24),		/* SDHI_0_IXRST */
- 	DEF_RST(10, 8, 4, 25),		/* SDHI_1_IXRST */
- 	DEF_RST(10, 9, 4, 26),		/* SDHI_2_IXRST */
--- 
-2.49.0
-
+Frank
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>  drivers/i3c/master.c | 20 ++++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
+>
+> diff --git a/drivers/i3c/master.c b/drivers/i3c/master.c
+> index e53c69d24873..354fef4a033c 100644
+> --- a/drivers/i3c/master.c
+> +++ b/drivers/i3c/master.c
+> @@ -837,14 +837,14 @@ static int i3c_master_send_ccc_cmd_locked(struct i3c_master_controller *master,
+>  		return -EINVAL;
+>
+>  	if (!master->ops->send_ccc_cmd)
+> -		return -ENOTSUPP;
+> +		return -EOPNOTSUPP;
+>
+>  	if ((cmd->id & I3C_CCC_DIRECT) && (!cmd->dests || !cmd->ndests))
+>  		return -EINVAL;
+>
+>  	if (master->ops->supports_ccc_cmd &&
+>  	    !master->ops->supports_ccc_cmd(master, cmd))
+> -		return -ENOTSUPP;
+> +		return -EOPNOTSUPP;
+>
+>  	ret = master->ops->send_ccc_cmd(master, cmd);
+>  	if (ret) {
+> @@ -1439,7 +1439,7 @@ static int i3c_master_retrieve_dev_info(struct i3c_dev_desc *dev)
+>
+>  	if (dev->info.bcr & I3C_BCR_HDR_CAP) {
+>  		ret = i3c_master_gethdrcap_locked(master, &dev->info);
+> -		if (ret && ret != -ENOTSUPP)
+> +		if (ret && ret != -EOPNOTSUPP)
+>  			return ret;
+>  	}
+>
+> @@ -2210,7 +2210,7 @@ of_i3c_master_add_i2c_boardinfo(struct i3c_master_controller *master,
+>  	 */
+>  	if (boardinfo->base.flags & I2C_CLIENT_TEN) {
+>  		dev_err(dev, "I2C device with 10 bit address not supported.");
+> -		return -ENOTSUPP;
+> +		return -EOPNOTSUPP;
+>  	}
+>
+>  	/* LVR is encoded in reg[2]. */
+> @@ -2340,13 +2340,13 @@ static int i3c_master_i2c_adapter_xfer(struct i2c_adapter *adap,
+>  		return -EINVAL;
+>
+>  	if (!master->ops->i2c_xfers)
+> -		return -ENOTSUPP;
+> +		return -EOPNOTSUPP;
+>
+>  	/* Doing transfers to different devices is not supported. */
+>  	addr = xfers[0].addr;
+>  	for (i = 1; i < nxfers; i++) {
+>  		if (addr != xfers[i].addr)
+> -			return -ENOTSUPP;
+> +			return -EOPNOTSUPP;
+>  	}
+>
+>  	i3c_bus_normaluse_lock(&master->bus);
+> @@ -2766,7 +2766,7 @@ static int i3c_master_check_ops(const struct i3c_master_controller_ops *ops)
+>   *	    controller)
+>   * @ops: the master controller operations
+>   * @secondary: true if you are registering a secondary master. Will return
+> - *	       -ENOTSUPP if set to true since secondary masters are not yet
+> + *	       -EOPNOTSUPP if set to true since secondary masters are not yet
+>   *	       supported
+>   *
+>   * This function takes care of everything for you:
+> @@ -2793,7 +2793,7 @@ int i3c_master_register(struct i3c_master_controller *master,
+>
+>  	/* We do not support secondary masters yet. */
+>  	if (secondary)
+> -		return -ENOTSUPP;
+> +		return -EOPNOTSUPP;
+>
+>  	ret = i3c_master_check_ops(ops);
+>  	if (ret)
+> @@ -2954,7 +2954,7 @@ int i3c_dev_do_priv_xfers_locked(struct i3c_dev_desc *dev,
+>  		return -EINVAL;
+>
+>  	if (!master->ops->priv_xfers)
+> -		return -ENOTSUPP;
+> +		return -EOPNOTSUPP;
+>
+>  	return master->ops->priv_xfers(dev, xfers, nxfers);
+>  }
+> @@ -3004,7 +3004,7 @@ int i3c_dev_request_ibi_locked(struct i3c_dev_desc *dev,
+>  	int ret;
+>
+>  	if (!master->ops->request_ibi)
+> -		return -ENOTSUPP;
+> +		return -EOPNOTSUPP;
+>
+>  	if (dev->ibi)
+>  		return -EBUSY;
+> --
+> 2.47.2
+>
 
