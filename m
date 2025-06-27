@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-18847-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18848-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 630BCAEBA41
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jun 2025 16:46:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8A0BAEBA45
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jun 2025 16:47:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E10053A6293
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jun 2025 14:46:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9ED851886281
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jun 2025 14:47:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A965A156F3C;
-	Fri, 27 Jun 2025 14:46:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 403D52E1C7B;
+	Fri, 27 Jun 2025 14:47:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YVSoUfOJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y9csjxZp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3022F1FF0;
-	Fri, 27 Jun 2025 14:46:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11037156F3C;
+	Fri, 27 Jun 2025 14:47:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751035590; cv=none; b=VWI+A7PKg2YzHlxO9mbWzZKvhsN7dXfku/A0h0FdXblFz6b7sUgU6WvvIQmo8RLy0GMgBhjothALhmS2fRdNCgrkWnNrJMGAIQtdH2AzI8wyh0qokReOOm1wcS/yXsZ9ZIo5R/sq7+gnqETyGfd1VwVF0iTBaThLxyH2+p7flNw=
+	t=1751035646; cv=none; b=skKcTNThH0tcejGy5JiiCUuNCZxN6FmQGCoC8Hg3KA9rVJB9MEL4G/s4zlVtq1YJPkQeTdUadN2kV1WD8lXvNh/kaZAY/ygdJ9ce+t6wPTmUplVCP9bJaN7CTTF+AhrKdtKLpmrDjFbTo2c8vwbpawnxq2qdcmm6tDD7YRHKbSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751035590; c=relaxed/simple;
-	bh=W9t38McK4tyheidmbY2q/l9zvRrhx/u9kHLbNNljFuY=;
+	s=arc-20240116; t=1751035646; c=relaxed/simple;
+	bh=zJy8DXqoG6CILsDNc8bv2NztRVduZLB9R1XokmiByWQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jhYXBrZ4PQIRK+1GshXg4utge8yxBAnr9DNs6wlIdMCMld6IEAuvZyBQSRrIHnETvuy1y1WRwLtj3REr9vnspjJsOHovmX3nLqy9U1at+KPDcBpyCiwvD02QTnCapZpk1jXNr0pVk3wPSvalYdbe4a0knNrb3il2GYCZ0FPbCgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YVSoUfOJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 843AEC4CEE3;
-	Fri, 27 Jun 2025 14:46:22 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=hCIvaCbIC7TMuYK/8Us3b2cCjBA+yZ/U8U9HYtr0H/GPAQzV40MASjdBzAsIGkdL64mTUSN3H4R2FOJbZHXugpwMGQk4efXleKZz6UYND8TyNdafXoCjcOtpbwRKDRfI8YmOFtbJpRbiy+8sobeGq/7x5jaeFs9HOOL8MmY8MvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y9csjxZp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40526C4CEE3;
+	Fri, 27 Jun 2025 14:47:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751035589;
-	bh=W9t38McK4tyheidmbY2q/l9zvRrhx/u9kHLbNNljFuY=;
+	s=k20201202; t=1751035645;
+	bh=zJy8DXqoG6CILsDNc8bv2NztRVduZLB9R1XokmiByWQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=YVSoUfOJgV1Wm74sHuF8tmm6guVCkvdt8SaryW+pMtBRyYEuL1wc4Y2LN5iBLWS+I
-	 rOtkGWnc2tWx4IVq3S39kVlagKT8egpVTqOrdUKi/NX/nQMf2IenT2/9yKndA+kIcl
-	 Tfhoah2rR2Ay5Frm01P7IkE/u+WL12lyZQj9GsERXwEwiSt8n7vZ/IhUw7at/rdgSq
-	 mDXXeU2nf7Ll/aeKZ5dft9roUdAlW35av4FCU0M+ivtfSbeCrlN47quJh8LIiSoUbK
-	 uoXPzUFaVN15kH6mCfXGYoGTiwhgi8q5d1FkGvDFwQUnidob9YbzOkyQPMVVtUFYtw
-	 YAbnFkNwtByGA==
-Message-ID: <3019258f-8455-4faf-bc5c-4c03d2540bcf@kernel.org>
-Date: Fri, 27 Jun 2025 16:46:19 +0200
+	b=Y9csjxZpH2hosPAAFRJYXHijHz+wX46Xoke9TVNos6FXsV0RQXVqw1Om2hg68wMTl
+	 2H3Vsyl/idFNtQHRTuJbyX05u5aHXhxk4lBBPeC0X4X6TVX3jsEqrMyV1HG0RK6l49
+	 0z6IUaF2skpKNMjWbg7KVWBoQeK7m3f9id3CoEdwxzKZ3ZWlruj1MqqM++vH9VtnMG
+	 XImCYeqcqK3ZII+ZAj7rVjZ0k80ZbKoXWZfbaRY+Gid0yES7zzeJUcwvdZ/jj4vYew
+	 JrmIbGUEb4ognv81dc2CK4QaccxOq9CIW4KTRGUbKV4dYH8rc09vX6Qrdf1M2QXvX7
+	 ZysPukc7DN1MQ==
+Message-ID: <06178661-5665-4b9d-8652-de12c2a55f94@kernel.org>
+Date: Fri, 27 Jun 2025 16:47:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/2] dt-bindings: arm: aspeed: add Meta Clemente board
+Subject: Re: [PATCH v5 2/2] ARM: dts: aspeed: clemente: add Meta Clemente BMC
 To: Leo Wang <leo.jt.wang@gmail.com>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
@@ -64,7 +64,7 @@ Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  bruce.jy.hung@fii-foxconn.com, george.kw.lee@fii-foxconn.com,
  Leo Wang <leo.jt.wang@fii-foxconn.com>
 References: <20250627-add-support-for-meta-clemente-bmc-v5-0-038ed6f1cb9f@fii-foxconn.com>
- <20250627-add-support-for-meta-clemente-bmc-v5-1-038ed6f1cb9f@fii-foxconn.com>
+ <20250627-add-support-for-meta-clemente-bmc-v5-2-038ed6f1cb9f@fii-foxconn.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -110,21 +110,18 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250627-add-support-for-meta-clemente-bmc-v5-1-038ed6f1cb9f@fii-foxconn.com>
+In-Reply-To: <20250627-add-support-for-meta-clemente-bmc-v5-2-038ed6f1cb9f@fii-foxconn.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 27/06/2025 09:31, Leo Wang wrote:
 > From: Leo Wang <leo.jt.wang@gmail.com>
 > 
-> Document the new compatibles used on Meta Clemente.
+> Add linux device tree entry for Meta Clemente compute-tray
+> BMC using AST2600 SoC.
 > 
 > Signed-off-by: Leo Wang <leo.jt.wang@fii-foxconn.com>
-Don't send multiple versions per day. You just repeated the mistakes and
-sending next version hides review comments.
-
-Implement the feedback you received. I provided that feedback BEFORE you
-send this v5, so basically you just ignored it.
+No, still checkpatch issues.
 
 Best regards,
 Krzysztof
