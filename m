@@ -1,69 +1,69 @@
-Return-Path: <linux-renesas-soc+bounces-18820-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18821-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F46AAEAE07
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jun 2025 06:41:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9123EAEAE09
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jun 2025 06:42:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E2FA51BC5BDB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jun 2025 04:41:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6A5621BC5C06
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jun 2025 04:42:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C6401C5F10;
-	Fri, 27 Jun 2025 04:41:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A08F61C5D77;
+	Fri, 27 Jun 2025 04:42:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="CF5G6zvK"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="SAVPhEwW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010031.outbound.protection.outlook.com [52.101.228.31])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010013.outbound.protection.outlook.com [52.101.228.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B517F194098
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Jun 2025 04:41:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2967441A8F;
+	Fri, 27 Jun 2025 04:41:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.13
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750999289; cv=fail; b=ee5OAzq4Loqze4ZTFf3Jxr+3iLKD16r/wnoFnxbcvbfLogdn2jdS88/yeDhVlKgQOK0qjGb7wp1MevEvFSa14YaPstuWMIiw0nSwmp3nn1FtFeM9kRRHsLM2f7z7EYii/3SAk4EdQpyztJqAh330+LK69Umq8j7SB1KxUE0ZsIE=
+	t=1750999322; cv=fail; b=lpjtD6kMd1R4p7cLHyPbupYS/efrI9tqHnQ7yBOv2FHiNYA6yDYBfGPYeYO27QhnGaNrsWdDxHKukzBVBesiRUr1VgVaPlCMvWA6GbEAoiBRYymZU5jAOhXUKbaW3+uoUxtWusg9nYN28BV45SMFlodie3lxE3huGTnLCBXs7t4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750999289; c=relaxed/simple;
-	bh=1UqfmYPnT0F4IKczolV0VwPWZholl8X2u/SoXTFelhM=;
-	h=Message-ID:To:From:Subject:Content-Type:Date:MIME-Version; b=SJf/WaRoKEaDzJ54hnptf0Jwti6JhsWfdYEtkkryNtPOZVUErj3umZDCuhNLWCautSrRUBgPeUCK/J86MVX/b5KHu63RMixf0GI9tddeRMppJxluwN3xmQ3QVeJCgzT1i9hZr8muHDDcfUmjUGcyjhxJ5K774XoCuBw92pu6djg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=CF5G6zvK; arc=fail smtp.client-ip=52.101.228.31
+	s=arc-20240116; t=1750999322; c=relaxed/simple;
+	bh=pXfhQssbdK/RMDx4QdmIp2zgSzZJ7QB4B6uJCyt3FLo=;
+	h=Message-ID:To:From:Subject:Content-Type:Date:MIME-Version; b=E1vOU4kCKdE8kluVv69nrAIW4/XjZKl7wyZS8MNXdHsu38JCvC97spVYIHo80bT50TeSHNzeBn+/MjP8Rh/u7pcQCkpA4Tw/qkD+4lNtmUNemXgxl01QYtIdZFi9x82k9vRwBuhroQvNy2mW+zEHI79ow3uwHcMpLEXrb10HInE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=SAVPhEwW; arc=fail smtp.client-ip=52.101.228.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CV1GbF4/m+ICiIkGIwvyEFwAr6bPX05q87PLv3ePn8Mcb0Agn05gvNy6UKeKJDRIJkrc53jDrkoHmRuhSyTGxY+qOjTvWk5+9BBuwD6uvpR988wm4Z2HqQwpW+Z5kcAHPxkpTVctzHZKexDyA76o3qtrtdCp1VhqJuUWuczKb1DueV8VQ+szmwDfwOi6Mxsf/GqyXjVDq+wsSnsfd5P1QuiR9EnC5uS12llx06Orqi+i96+/e/kdoNs37H85Oxwi+kADoncYwAVdE7fDUlD7QDXxCiYHvHhrvY4RgvgUtnEIIJPIzb4w9f22e8nFGDPf7ZZwC0r6IMV7dyZHdAXNTQ==
+ b=jwJ2sjgE/OmpVwp6f/4KJ0mpTNeS6ID0tygIp1l7CAnYZiTk7aE0CttS13auKQg/uGsq2ygfxv/jbxZugyYv5gwWCTEnKrsxgST/lLBws/7nPLwrbm4ZILH0Fw+8r9UVhWgshCfi+TxQ4wndghePUPNe6oG85QUQ9tlxp832qSA7s3Y5t2TDKRs4WTsx2O0EOZxSp28PuLK3o/WUTcasGT/ZIDXKU5BTmnXbF6hmJU4bwgrUbtIukd8U5jHvr56360YdJEv/JTy4lXqz5sutBZmAOtxbYsIgWbWm38y3S60VQ4OcJLc+XiESQ93Zubae+AgVvif51WqCeQ1sMd2i8A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tWnV7quxot3k86KTt0p3Qq+knPYMxg/Voe0x8DvYO8I=;
- b=Ip+UzCCSaqDnxJTbOQcuBwpE8KNmutl9tnQJJqahZ4OP6WKjwZoFJdHQSeg26kF0wrSBofFxgtex0EbBblYJtemZT42Y/Rv/Hf9g5i7xpnTzMsFY16Cp8DBq/rZTFMuOTqa2K2pS/HlXyovj2FZPkLi8Zu1uo4XjlvkhZvjkjA5v3DCkPOh3uK+PXxe59/y3Y0/SX6AREyXcScINZrxc1jjRxoatB7Z0z4L0sDk5DLH2FBniq5+U7yAkNGI9k/6RFd1n52Qi4n2MHU5z8KA+6H6CFJlAMUFiqqr7IFn0dwgmdXlQcCSLz5dANWAh3BoTYTCjzegtMOtlD+ogc5WyCw==
+ bh=B2wiMK4xhNkimVSoYKIQAm1pQSwrk86XL0hI6+bV9Uk=;
+ b=CfWYKiW4ABXbYVC3OBlJDoIWnytl+NvQ3ZCh4MvRM2LHydWcYcarNXmM2JBbw2rNWg0vjXwCa0zby7/vChk/YKhLlB1wVWs/VGtqiqLNBGTY9NoQPxnBiUrCVQhbG2JII/Fv+XV3L1YqpK93uH2YLQHoZTiYzcb9SqP8mGVp11Aensuze0oQswxIsPmEYSjuSnq5Ya8I5O3z9Zis7fQ0bmTiiaZj2F45GAyR1maN15aCKwvSYh+Jm0PzSLTc/yEM2g5XA9ruflQuARLgyB6Tece6GsLou96B/auWtdjzhi0QC2JpL4vihWH1p3IrM1rTAvEeqfPaFYhTRgubUj8Dlw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tWnV7quxot3k86KTt0p3Qq+knPYMxg/Voe0x8DvYO8I=;
- b=CF5G6zvKXUmP8YoW6uARSimjQn4A52Ic2kk8KRacr597xuBzP0aOrL9rdXJ23RKMicSZtUp+r6vCC8tOVqShLU5sNuf5rJeY6G1B6jlPHG9wj6T446f3V1XZF+W2RWePL/1uLeIGgiHi9z2UFSqsydI54zpQeKS+yPbSXPxE0RI=
+ bh=B2wiMK4xhNkimVSoYKIQAm1pQSwrk86XL0hI6+bV9Uk=;
+ b=SAVPhEwWvRTSPh0C036Qwq4G9WQacaOHLJUhDN2cVpNRAhkpUTgCVpmBAFYutkS+o3vCHvikPvyfhjA747oZ9hU4f7HITeR73DFIh9NrGBrhfHh1Cc+MAfDnq7rbzvrGt/1DFa8csetZofFSp+Ou4STOLKFIrnRPSSdv3tye55k=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11) by OS3PR01MB6790.jpnprd01.prod.outlook.com
  (2603:1096:604:115::9) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.17; Fri, 27 Jun
- 2025 04:41:21 +0000
+ 2025 04:41:58 +0000
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.8880.021; Fri, 27 Jun 2025
- 04:41:21 +0000
-Message-ID: <877c0xhk3z.wl-kuninori.morimoto.gx@renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>, linux-renesas-soc@vger.kernel.org
+ 04:41:58 +0000
+Message-ID: <875xghhk2y.wl-kuninori.morimoto.gx@renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Ulf Hansson <ulf.hansson@linaro.org>, linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH] soc: renesas: sort Renesas Kconfig configs
+Subject: [PATCH 1/2] pmdomain: renesas: use menu for Renesas
 Content-Type: text/plain; charset=US-ASCII
-Date: Fri, 27 Jun 2025 04:41:20 +0000
-X-ClientProxiedBy: TYCP286CA0343.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:38e::11) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+Date: Fri, 27 Jun 2025 04:41:58 +0000
+X-ClientProxiedBy: TYCPR01CA0124.jpnprd01.prod.outlook.com
+ (2603:1096:400:26d::10) To TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -73,621 +73,106 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS3PR01MB6790:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2c2d4b17-adda-4d7b-7674-08ddb534dd07
+X-MS-Office365-Filtering-Correlation-Id: 71429bb3-673f-47d0-5369-08ddb534f354
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?BXPpqthy7Bl8s7MzOnT2F5q8qcgL9UlbhiVJPEIyOXesGHlleupt0i8BbNZy?=
- =?us-ascii?Q?a6Sy5+tWFI+c7oOpHbgCTCmC7UOGeBAiZCjKOkPzlxEa0hUnGUE8D22S5HH1?=
- =?us-ascii?Q?+mUYCcUDaAsq1ZbB0c6xGA02zejsyTxFkUTfaJDgykrphpC+HlW4/w5/ckXl?=
- =?us-ascii?Q?/l38MlqiJ3oMNvLV2AfDLIauoI6xe/ZFFUBf5mhGDXFB2JyM47rTatUFNUIA?=
- =?us-ascii?Q?WZPeDsBlRg/LnZd7ssAcJSZAHj0HXSQB6bA/fAFY0gw7sxSLDdU7sgZohnzR?=
- =?us-ascii?Q?p9y+HtFu+AjoRhqszCGv6gJTOLdW5vH36s8pE+R0Ca1ESrqkRWV7gHrhQHEx?=
- =?us-ascii?Q?4AJMeaQRnmPUvY5BHuhM3MHJ59LGZsVYGhBQKeJQ9HhBHt0rwnWusMUrDKd9?=
- =?us-ascii?Q?whw0o6ne6LGoLzCjYccyaCuOh4EW4JOcCQo6Xizsxwbh1qNge6oYd+hrzMVk?=
- =?us-ascii?Q?0IsdlM1/bs9RBbLGQUGNQMW6flynnH43m9LSZoCOz7aqC0R8TlOLYDNkQRus?=
- =?us-ascii?Q?6QZSVdsPCilhsmcx6xnDIiUzSdIX+qgmHoXCmJsIsn+OXGaw+uau9BwIHp3F?=
- =?us-ascii?Q?tpkgr/UKF9uAe9WLOhiHQXLxi8/joFozdQL6VX2fQHREdL2/W/n7aOGbckJe?=
- =?us-ascii?Q?kD+lQEzBJR8JubQ/o++2wEO+KU26ESZTLtW66FtG5BMSHztzLnNhSLaLch/v?=
- =?us-ascii?Q?+nPfjm8xiKjPHnnfrSzW9PoZ7ZGfeuZrX8Z1slVweN60S7uO5aJTatGJJ/OQ?=
- =?us-ascii?Q?g/gcYr5qs7gxayVcGT2YRCggJ3xfO5ckwlW4FyJ+TBMxNYTB6CtxM2vpYuM9?=
- =?us-ascii?Q?8/MpO+eRCa6Fb3pZuXEzjdgklhB66yWX3flyy4GxJeiheW9RELXgsMqkFiDV?=
- =?us-ascii?Q?TrZbtVuaefYqCnCezkmbm+q2pWNI0Izp4fyW3Tnd7JfRPmEtA7/W03T1iS6T?=
- =?us-ascii?Q?zU94Tnte8csM7rhVdQEMs+SdloFK3MRJOeV6vTwHLWGI4+sFxfwGMNBXG8mq?=
- =?us-ascii?Q?PFktOBy/xEc9yGS0ph7zH2cHCR0VduRcEpNMrYzaN32B0vhYLLk1xEHSgh51?=
- =?us-ascii?Q?IHuHIZRhTRSxv+PiWNOikzAZJbO6lkGIESln2Xwdu3sfU88dyFaMg1ciwf9i?=
- =?us-ascii?Q?p2tPxDFlxEvCMRYiBOBcmjsKrG4RYfDtn9F5OWCvfJkT69a1Mkrd0w6Y0b45?=
- =?us-ascii?Q?jwJWMQVw/VNhQcVtVS+awj4XtN01ycbNkt5+eGM8pZ/W4Fh458wVVp8JTL0v?=
- =?us-ascii?Q?1P99LDG/1ysTkOqLx85sKhPyRU3ZQF5g0Fj2NYGT9TuzhACn0ylDJPGxT4co?=
- =?us-ascii?Q?gQ23bp1imX4aaseCL/cxw7bPJwnLCpBJAlzVaQ+LfCfuyqcIpnHSN2b4ThKT?=
- =?us-ascii?Q?xvTTEK7Eo3Gglabq9Gx7yEjxk9VN+rvB1Tlq9s4LwGyCaL3KpLk0csE/ZR7+?=
- =?us-ascii?Q?+wSOLpUsAqYxdpO8RgZ2qFaiQXUSh/gx0wyq8MazuVg3Skk0vb3Vjg=3D=3D?=
+	=?us-ascii?Q?bRfJb7oPlACqf2dPFib4w4kMVjEbGzAPSlIFKNAuMElDIavOfpF3v4Y1Zleh?=
+ =?us-ascii?Q?MNmofhHJN7SmWuLqoN/u6YVSW39OkO9l0BIUD5epLkebXbgQ5dXHS1GOaayH?=
+ =?us-ascii?Q?mFduT3AbIWEqURRw42C8Nc8Io2X6Fe9GzfKtEMzQ4ZdAuJoU8XXVtStfNOHn?=
+ =?us-ascii?Q?QWE8kQSOD6TfotMsm5XL1rXQPZgyhYRDsMaE8z3NM1xwpZrFhEhFDBFVgLH5?=
+ =?us-ascii?Q?UuCGSm5hNCF/1IvXh850LwB/1uJE1jlNYxQnZE7eoUdT5QzZgkOcJycuF6eh?=
+ =?us-ascii?Q?v62PkQftvn6WgC0eM1cwCDy+S/wA1NyirpxmcA9psmyxt37zB/PREOX1/dQD?=
+ =?us-ascii?Q?/JCUREht1kzQn22yiRVzwWGx+76Xm4AW18n3D+yZMc5DmAr754RhGoqWGKPs?=
+ =?us-ascii?Q?go+9DGOPxqby8iXaDJS0mGms+B5tRJUYWgiZtAgUuFgvrku1yuRJXorQ8St+?=
+ =?us-ascii?Q?3G2SQVCTbad5p/yb4n+mTs6713PqwKVxI8ldjgYW9FbJ8ewZ3vL4XxrvhmOm?=
+ =?us-ascii?Q?IZJUbX4SB/0QFsMrjXGXQM33GwJjoTvBxj6FZbn/mHneEPAxUgADbjsgpZGF?=
+ =?us-ascii?Q?/o/LEIpDcUIiiexDaVbbd5T6GQtOMmK54FtYFZpF+sz3w4BCgVnHZ/MPrnpw?=
+ =?us-ascii?Q?JEzlo1m6z5N2nYdrelngG/+bAwCi7J4Q6hnksDzHaKDW/8v9pofXjq07SbSt?=
+ =?us-ascii?Q?izBx1l4OkIdXBApnd9g/qQX6BYzblwU2pdnAK3LXreFDtL5JtNyWgHTyYyg3?=
+ =?us-ascii?Q?HlIoLaG50andwDHIZLuoT8DuLJK22m+G1EEVnMjyOIFoUxmV32pgNU9C+yYP?=
+ =?us-ascii?Q?z1TGpjg6Ud9KH+8L9m0YsK4SQ8XxV3QAZpsN2PlzFp2iIdBpUSvQb6hSe9vR?=
+ =?us-ascii?Q?iW1OC1OijNldwYH2fxPhokXvLuoP+tOq3pQElxq7a024df9yxCcJEvSAJ+YU?=
+ =?us-ascii?Q?AFuFgzlXwyUMzxezYoOCIzuWeeQwNq8iM6zyrotU4/LtKy2Kx/lkuefgr+xv?=
+ =?us-ascii?Q?bKW//tVl2M3+UthgD7ZaZgyZ/kjek9uxlLBq+Qp/2GzNyRhTs2yFRUlRLzSd?=
+ =?us-ascii?Q?hnDnB7Rm2ghIR80ZwXn+LIi2ZO+WC2qC0TCm1+SMRBbfHEfIESX/2WuqnaP+?=
+ =?us-ascii?Q?oJzi0nRnx8/itFVuKXPIOe2zlTrrl7cn4jpdmSn0F15mpCzxnqSPNq+wwn0r?=
+ =?us-ascii?Q?0Ydm00FCZGYy0gJmFZev26+k9TIVMJ8WCdsknekPnySp7qRvOrn1ecgSlL+3?=
+ =?us-ascii?Q?aKD9V/crR6RsXmRFbTglYYKSubPA98URH2vVtMbBKGIbfAkjwwT9PSHthiXY?=
+ =?us-ascii?Q?tElDi7Q1NwzEec9qbbdk8tdb1BP6U8XSfYlw/fHK7wMvV3cZD9ecBXHD8eZr?=
+ =?us-ascii?Q?sf8hdGff6XP0sT7UZqiFlpE68lKgN9Q/EUI2f9VqNp2lsozYygI7D/mWw01i?=
+ =?us-ascii?Q?4oLaPu3dCkXBeThhu9foR5s58fwxopCDX4eWyNo6BuZPaLopYjDxYQ=3D=3D?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?5+Y3FMShNrcnnfbi4RBsEWY6Ib8wiMKpZ9qzZ7iWEMHh/C/iKSMAwrmJdjA5?=
- =?us-ascii?Q?e0QTMqkUQYzjYI9z+3nJVWifFDZDI1upz/pDh8iCv4emIXOvSjqSq13z7Mb0?=
- =?us-ascii?Q?vhMU1fflTE/ONCxrrmRQahjKT0EGzD3fxPv7S3cbo644twbC54ZHDc0FcEgM?=
- =?us-ascii?Q?9lN/4AKV3fotmnfdUubAnF1BZvIX4CoL3d7qEwtyqi9w6StRWHteHI/n5Fjk?=
- =?us-ascii?Q?VguLysxV7Q7xiQ3oWsF7KOTNtvTPtEUVEhoSlfHdBK/Spho0zH4HNdk1yWR8?=
- =?us-ascii?Q?V1t/S4ZzUVw+X5EHX/oi6AT93hm6LUmF3Rca4ZJ7WEM5KxY3Mu3PMPE46u3D?=
- =?us-ascii?Q?NFighMmKjKjJdm6sRBguvGiZtC+wuPvaNHgis3f87I8IhKiBU8kAYxYexq6I?=
- =?us-ascii?Q?j6fk07xfs11OQLZpWqifcCmmxdX9NWcP2eij5KnfhKmfLGKdk8CpPqTZgHPL?=
- =?us-ascii?Q?PPTrCE2TufXuVmhxTezwN4UhO4LD89yvDyvBKk24+podvMhZVyJHFUmHlVs3?=
- =?us-ascii?Q?AXjkK4z22C75z38DmsgUgLiOsOSa5IaYgyDE5X20zuRBsQYMu5Gzl0OdlXri?=
- =?us-ascii?Q?2FHmcC+xr59bC+TBWOY+J8/NICsxrmSEWbT0Ve9o4M7IQpkMAXMOKN+MITXu?=
- =?us-ascii?Q?HAjOPR5qudInItwDlExILbmDrfnGoYDNMac5Cw3H+Ph8iUz26gUy6WbNWak8?=
- =?us-ascii?Q?OAx4+qIaAJDwnGCwg+Zq9khw5LZkLki0jDXQjEjczHS0WX6nKRV6+lMS5p7V?=
- =?us-ascii?Q?xK/dAH3gXeufprjfUist3QPiYtnuQrXnPPcL7bgfy6XNdDaSa0PtHDZf5H8J?=
- =?us-ascii?Q?IH3Z990ONa5tBs4oB8Mq772Zi4zO9ukXaA/Bn1mvRZEHEno2rBkrrok1fHuM?=
- =?us-ascii?Q?9znaX8kuX4xA7Ycu3548v+mPfAGEHA6uB+tUcg5JUxbZ8ZbKp91VHnQlYGEJ?=
- =?us-ascii?Q?ZxDHXhsSJ0uVGgeinl8m02K6YkaAB7lq+922lmyrZIqyp0fj1L9+Xoz4th5o?=
- =?us-ascii?Q?dQNgF5W5ndZoSzGsUg/PiAwBKY4hrggcBpbe3JbfOwkBr/j0dDP6BVk+G9+P?=
- =?us-ascii?Q?JcY+TPsETDZvFJEQ/FTGdHj2WNAbDfiS+HtT2lpUaETlZvux9lvrEtP0F4Ek?=
- =?us-ascii?Q?jGP17wrwSUy92aRod89T+eEgNoi4iGaK22neFMifrA7tIRKroEw4LTq8kMK3?=
- =?us-ascii?Q?9q3eLApNveuLMSc7W0gzuwps5DaH68lbctxJF2Ai3fx5rGFkdUHDFBIGFlsI?=
- =?us-ascii?Q?Q2LUMb4gYhLVKMQwH+TGFcvOJX00+pGnBhlQAUOmD3ZfCP1w1vs2r73xVq93?=
- =?us-ascii?Q?blzmtHHOJpCcqyljEYv5LmDUF22iHkHBu48jWLRGV245aXE8dqo8GLkVn3Yv?=
- =?us-ascii?Q?+w2Qg1aOv/yXo+SOpvTlR635sEjuR5zlIOSNPe15QhTLhMuIMZzUPvWpx6CK?=
- =?us-ascii?Q?JqwGEu6JCXW84sNbSDFf4o9RD/gLDsiu9tzT51JYNMwI0amArJBaZunu18oz?=
- =?us-ascii?Q?XcresOwdtoRKk7qU9CLdD5P80epzxJCTK7ZfHEXj4iUAB35F7Btt15yybiV+?=
- =?us-ascii?Q?4tqplL4gc1ke1ZQBWZAWNZky1Tw0Uz7tMu0M2jNYz19xl5b5MsjBdIitCouQ?=
- =?us-ascii?Q?WVd+TkBIDzVY7csFnsVrQzQ=3D?=
+	=?us-ascii?Q?R8oV7eBEIgt8L1rU+Jb1m6o2R98iihvlBz0G1+1noUPEKeHKipE3jiWRT0GD?=
+ =?us-ascii?Q?y3OHoketQPN6zB/++AfvlqE0rF/AxQnSSsEGaylPC1m6YGP7ClQc2dTfQl39?=
+ =?us-ascii?Q?QY3z/yBzqmSpLofQYpQhShISzotRE824C61xUj8EIJcMhqGqnYXiM62yIx28?=
+ =?us-ascii?Q?DUnbygRJ+Xv+Kbjak0fN2dxGpRBL+xvxe0n47OqC8MHRLgMRAAJmlAwWiz6y?=
+ =?us-ascii?Q?0Hp3MXhZrhT5em/rhrEyQTcJzjFA86Rjj+FeT1Ybt+JAKiAwf0XUSG/gkntq?=
+ =?us-ascii?Q?otNodHoWTDAbJog9N8oHyr+liA+f+BvHvh9PWIirpuwkin8nHZhPr7u42Lkf?=
+ =?us-ascii?Q?c2+R5PCz4DOdvMjPJir34DmAqgSUEvG8hzVXxaaAYkrXYYut9p1Dgj0vxhe3?=
+ =?us-ascii?Q?gq+mnpYd9PahVOauje3QSZTmsML/Ezxi9p7Mib/lmauGlHI7Fm1/hJc8O7Is?=
+ =?us-ascii?Q?ow7YD8407mBoAcyYNmYbybPfsvYEMhAt47wJSIdwUDcJVHLk1fNW3snLh4K5?=
+ =?us-ascii?Q?3p9cfpw7dqoEH76VlSMfscTQ9nVuRNLsyWXpN741XucakzABYO3l/aCgC5lF?=
+ =?us-ascii?Q?wmL19oEnZ6tUJOX0l9LmVnjkdkm4inQm9KpTR7hf6P6BxDZsbY1RN6tZTOvf?=
+ =?us-ascii?Q?10Z2E7zRVresDFbWX/+hYyHVn7T1ZD6zzG1jCTRJ8GwnmTB/k+9OxAgvU1gg?=
+ =?us-ascii?Q?QZjpOEZMXHmnp2keH6zr8ekmg0SGbX0AipYRlbAqwq8Nnr+Y0QKqpQn1Uy+5?=
+ =?us-ascii?Q?iiKG22eUvNz9PpHClRowazPgSLB9WE3jxYy/jHs6K+fmesrb6e1ygOjuo7yt?=
+ =?us-ascii?Q?fcxi/C9h9ppVSZPm35tfwHPvteSVpLPznPjHyBO+G8K3BP8VHwspoph7nMZ0?=
+ =?us-ascii?Q?OwXxOwcTEiAtYtv12o4vKZOhrk0WQafo+bBbo5X3stKasurkPuMsAhO1u2vr?=
+ =?us-ascii?Q?o6jkyNtxhedotwBtt3U4f5GTWriIf6wBUa+w+xAoJuCMqnNfTbLoG4XQ7ynP?=
+ =?us-ascii?Q?c2u2UtflNHp+wWF6zpTn9Dte01wvGOXyf52S86KJ0Ei5HlD2xAPmBaS42seN?=
+ =?us-ascii?Q?9WFeXd39nELBoxT+OLrnn2SH3qK0Fl3c/x2jJijpPAR5NPuKDNE4lfChYaeW?=
+ =?us-ascii?Q?ugH3ahroCJ86bzRmyiRH/DpqFHdoUbQlhopgIiCFtPvD4RkhuBcHX0FIiPF6?=
+ =?us-ascii?Q?ejQJGowf7jrM9xAAYt5qrR4vrmjsqGhEigwihGl2m1mMcY2y7em+aRJO+SUM?=
+ =?us-ascii?Q?Ydf+7l5ajII5A1G6DmN4K50fF0B5rS++hBlEH84pwpVvHyPTBz5gkJ7bRMgj?=
+ =?us-ascii?Q?mvEnz42UmvMxS1bWPFzp3O90EI1K+WMd6mxQh8ZGqIwLr0i26lJUJiCqC6M3?=
+ =?us-ascii?Q?n5PPJ2YKgSia1tLzFeowFFehorgRWeQUW3yOe9Wl/T1EtpaI2y4A8cXqWE36?=
+ =?us-ascii?Q?12UptOiBRSaGHKJrB4D6+y5E6DllspH0enamVneirFJKdCpj9lqrnesFcoOF?=
+ =?us-ascii?Q?/VnXpXu7lsxmiRJ6IjmX44N1H8NPRRUC2bDg2V4u2ioDCp+iFhQfYqhmzdRz?=
+ =?us-ascii?Q?u3p4KPE7lTcv/gInGuD7ZHXA4ZtxCI+FByjhfr49afwhQmYvqrU0DbsbgzKR?=
+ =?us-ascii?Q?Q5PFGHVseJBnUit5XdRSk1Y=3D?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2c2d4b17-adda-4d7b-7674-08ddb534dd07
+X-MS-Exchange-CrossTenant-Network-Message-Id: 71429bb3-673f-47d0-5369-08ddb534f354
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2025 04:41:20.9230
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2025 04:41:58.2879
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DhWLWeK9xFr3r/+jyHrTuzeheqL06gwnN8L1ASYYjmuFgITSKNKTEscGDTan4OjsnpUF7eXhXobQBMghtlXD8fpGCInNCtTbqpOyznxAoWl+mOAuVPtgZ7UjDJcoVcPb
+X-MS-Exchange-CrossTenant-UserPrincipalName: ycbTeW1gCh9F7zusIMTuIckmbLUOv2HLU485xmuslGeA9gQnVSz7wG61atqJ0X63+h+WXN44OFzpo9fjznxW1/AjzywO0LMnv2KpbbPikeQeYsv56QFmyLnNndYFgJeX
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB6790
 
-Renesas Kconfig is using "SoC serial number" for CONFIG symbol, but is
-using "SoC chip name" for menu description. Because of it, it looks
-random order when we run "make menuconfig".
-
-commit 6d5aded8d57fc ("soc: renesas: Sort driver description title")
-sorted Renesas Kconfig by menu description title order, but it makes
-confusable to add new config.
-
-Let's unify "ARMxx Platform support for ${CHIP_NUMBER} (${CHIP_NAME}),
-and sort it again.
+Current Renesas PM Domains appears on top page. Let's create new
+menu for Renesas.
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- drivers/soc/renesas/Kconfig | 315 ++++++++++++++++++------------------
- 1 file changed, 159 insertions(+), 156 deletions(-)
+ drivers/pmdomain/renesas/Kconfig | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
-index fbc3b69d21a7..5213eb485a05 100644
---- a/drivers/soc/renesas/Kconfig
-+++ b/drivers/soc/renesas/Kconfig
-@@ -69,139 +69,142 @@ config ARCH_EMEV2
- 	select HAVE_ARM_SCU if SMP
- 	select SYS_SUPPORTS_EM_STI
+diff --git a/drivers/pmdomain/renesas/Kconfig b/drivers/pmdomain/renesas/Kconfig
+index 54acb4b1ec7c..70bd6605a97c 100644
+--- a/drivers/pmdomain/renesas/Kconfig
++++ b/drivers/pmdomain/renesas/Kconfig
+@@ -1,5 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0
+ if SOC_RENESAS
++menu "Renesas PM Domains"
  
--config ARCH_R8A7794
--	bool "ARM32 Platform support for R-Car E2"
-+config ARCH_R7S72100
-+	bool "ARM32 Platform support for R7S72100 (RZ/A1H)"
- 	default ARCH_RENESAS
--	select ARCH_RCAR_GEN2
--	select ARM_ERRATA_814220
--	select SYSC_R8A7794
-+	select ARM_ERRATA_754322
-+	select PM
-+	select PM_GENERIC_DOMAINS
-+	select RENESAS_OSTM
-+	select RENESAS_RZA1_IRQC
-+	select SYS_SUPPORTS_SH_MTU2
+ config SYSC_RCAR
+ 	bool "System Controller support for R-Car" if COMPILE_TEST
+@@ -110,4 +111,5 @@ config SYSC_R8A774B1
+ 	bool "System Controller support for RZ/G2N" if COMPILE_TEST
+ 	select SYSC_RCAR
  
--config ARCH_R8A7779
--	bool "ARM32 Platform support for R-Car H1"
-+config ARCH_R7S9210
-+	bool "ARM32 Platform support for R7S9210 (RZ/A2)"
- 	default ARCH_RENESAS
--	select ARCH_RCAR_GEN1
--	select ARM_ERRATA_754322
--	select ARM_GLOBAL_TIMER
--	select HAVE_ARM_SCU if SMP
--	select HAVE_ARM_TWD if SMP
--	select SYSC_R8A7779
-+	select PM
-+	select PM_GENERIC_DOMAINS
-+	select RENESAS_OSTM
-+	select RENESAS_RZA1_IRQC
- 
--config ARCH_R8A7790
--	bool "ARM32 Platform support for R-Car H2"
-+
-+
-+
-+config ARCH_R8A73A4
-+	bool "ARM32 Platform support for R8A73A4 (R-Mobile APE6)"
- 	default ARCH_RENESAS
--	select ARCH_RCAR_GEN2
-+	select ARCH_RMOBILE
- 	select ARM_ERRATA_798181 if SMP
- 	select ARM_ERRATA_814220
--	select I2C
--	select SYSC_R8A7790
-+	select HAVE_ARM_ARCH_TIMER
-+	select RENESAS_IRQC
- 
--config ARCH_R8A7778
--	bool "ARM32 Platform support for R-Car M1A"
-+config ARCH_R8A7740
-+	bool "ARM32 Platform support for R8A7740 (R-Mobile A1)"
- 	default ARCH_RENESAS
--	select ARCH_RCAR_GEN1
-+	select ARCH_RMOBILE
- 	select ARM_ERRATA_754322
-+	select RENESAS_INTC_IRQPIN
- 
--config ARCH_R8A7793
--	bool "ARM32 Platform support for R-Car M2-N"
-+config ARCH_R8A7742
-+	bool "ARM32 Platform support for R8A7742 (RZ/G1H)"
- 	default ARCH_RENESAS
- 	select ARCH_RCAR_GEN2
- 	select ARM_ERRATA_798181 if SMP
--	select I2C
--	select SYSC_R8A7791
-+	select ARM_ERRATA_814220
-+	select SYSC_R8A7742
- 
--config ARCH_R8A7791
--	bool "ARM32 Platform support for R-Car M2-W"
-+config ARCH_R8A7743
-+	bool "ARM32 Platform support for R8A7743 (RZ/G1M)"
- 	default ARCH_RENESAS
- 	select ARCH_RCAR_GEN2
- 	select ARM_ERRATA_798181 if SMP
--	select I2C
--	select SYSC_R8A7791
-+	select SYSC_R8A7743
- 
--config ARCH_R8A7792
--	bool "ARM32 Platform support for R-Car V2H"
-+config ARCH_R8A7744
-+	bool "ARM32 Platform support for R8A7744 (RZ/G1N)"
- 	default ARCH_RENESAS
- 	select ARCH_RCAR_GEN2
- 	select ARM_ERRATA_798181 if SMP
--	select SYSC_R8A7792
-+	select SYSC_R8A7743
- 
--config ARCH_R8A7740
--	bool "ARM32 Platform support for R-Mobile A1"
-+config ARCH_R8A7745
-+	bool "ARM32 Platform support for R8A7745 (RZ/G1E)"
- 	default ARCH_RENESAS
--	select ARCH_RMOBILE
--	select ARM_ERRATA_754322
--	select RENESAS_INTC_IRQPIN
-+	select ARCH_RCAR_GEN2
-+	select ARM_ERRATA_814220
-+	select SYSC_R8A7745
- 
--config ARCH_R8A73A4
--	bool "ARM32 Platform support for R-Mobile APE6"
-+config ARCH_R8A77470
-+	bool "ARM32 Platform support for R8A77470 (RZ/G1C)"
- 	default ARCH_RENESAS
--	select ARCH_RMOBILE
--	select ARM_ERRATA_798181 if SMP
-+	select ARCH_RCAR_GEN2
- 	select ARM_ERRATA_814220
--	select HAVE_ARM_ARCH_TIMER
--	select RENESAS_IRQC
-+	select SYSC_R8A77470
- 
--config ARCH_R7S72100
--	bool "ARM32 Platform support for RZ/A1H"
-+config ARCH_R8A7778
-+	bool "ARM32 Platform support for R8A7778 (R-Car M1A)"
- 	default ARCH_RENESAS
-+	select ARCH_RCAR_GEN1
- 	select ARM_ERRATA_754322
--	select PM
--	select PM_GENERIC_DOMAINS
--	select RENESAS_OSTM
--	select RENESAS_RZA1_IRQC
--	select SYS_SUPPORTS_SH_MTU2
- 
--config ARCH_R7S9210
--	bool "ARM32 Platform support for RZ/A2"
-+config ARCH_R8A7779
-+	bool "ARM32 Platform support for R8A7779 (R-Car H1)"
- 	default ARCH_RENESAS
--	select PM
--	select PM_GENERIC_DOMAINS
--	select RENESAS_OSTM
--	select RENESAS_RZA1_IRQC
-+	select ARCH_RCAR_GEN1
-+	select ARM_ERRATA_754322
-+	select ARM_GLOBAL_TIMER
-+	select HAVE_ARM_SCU if SMP
-+	select HAVE_ARM_TWD if SMP
-+	select SYSC_R8A7779
- 
--config ARCH_R8A77470
--	bool "ARM32 Platform support for RZ/G1C"
-+config ARCH_R8A7790
-+	bool "ARM32 Platform support for R8A7790 (R-Car H2)"
- 	default ARCH_RENESAS
- 	select ARCH_RCAR_GEN2
-+	select ARM_ERRATA_798181 if SMP
- 	select ARM_ERRATA_814220
--	select SYSC_R8A77470
-+	select I2C
-+	select SYSC_R8A7790
- 
--config ARCH_R8A7745
--	bool "ARM32 Platform support for RZ/G1E"
-+config ARCH_R8A7791
-+	bool "ARM32 Platform support for R8A7791 (R-Car M2-W)"
- 	default ARCH_RENESAS
- 	select ARCH_RCAR_GEN2
--	select ARM_ERRATA_814220
--	select SYSC_R8A7745
-+	select ARM_ERRATA_798181 if SMP
-+	select I2C
-+	select SYSC_R8A7791
- 
--config ARCH_R8A7742
--	bool "ARM32 Platform support for RZ/G1H"
-+config ARCH_R8A7792
-+	bool "ARM32 Platform support for R8A7792 (R-Car V2H)"
- 	default ARCH_RENESAS
- 	select ARCH_RCAR_GEN2
- 	select ARM_ERRATA_798181 if SMP
--	select ARM_ERRATA_814220
--	select SYSC_R8A7742
-+	select SYSC_R8A7792
- 
--config ARCH_R8A7743
--	bool "ARM32 Platform support for RZ/G1M"
-+config ARCH_R8A7793
-+	bool "ARM32 Platform support for R8A7793 (R-Car M2-N)"
- 	default ARCH_RENESAS
- 	select ARCH_RCAR_GEN2
- 	select ARM_ERRATA_798181 if SMP
--	select SYSC_R8A7743
-+	select I2C
-+	select SYSC_R8A7791
- 
--config ARCH_R8A7744
--	bool "ARM32 Platform support for RZ/G1N"
-+config ARCH_R8A7794
-+	bool "ARM32 Platform support for R8A7794 (R-Car E2)"
- 	default ARCH_RENESAS
- 	select ARCH_RCAR_GEN2
--	select ARM_ERRATA_798181 if SMP
--	select SYSC_R8A7743
-+	select ARM_ERRATA_814220
-+	select SYSC_R8A7794
- 
- config ARCH_R9A06G032
--	bool "ARM32 Platform support for RZ/N1D"
-+	bool "ARM32 Platform support for R9A06G032 (RZ/N1D)"
- 	default ARCH_RENESAS
- 	select ARCH_RZN1
- 	select ARM_ERRATA_814220
- 
- config ARCH_SH73A0
--	bool "ARM32 Platform support for SH-Mobile AG5"
-+	bool "ARM32 Platform support for SH73A0 (SH-Mobile AG5)"
- 	default ARCH_RENESAS
- 	select ARCH_RMOBILE
- 	select ARM_ERRATA_754322
-@@ -214,26 +217,40 @@ endif # ARM
- 
- if ARM64
- 
--config ARCH_R8A77995
--	bool "ARM64 Platform support for R-Car D3"
-+config ARCH_R8A774A1
-+	bool "ARM64 Platform support for R8A774A1 (RZ/G2M)"
- 	default y if ARCH_RENESAS
- 	select ARCH_RCAR_GEN3
--	select SYSC_R8A77995
-+	select SYSC_R8A774A1
- 	help
--	  This enables support for the Renesas R-Car D3 SoC.
--	  This includes different gradings like R-Car D3e.
-+	  This enables support for the Renesas RZ/G2M SoC.
- 
--config ARCH_R8A77990
--	bool "ARM64 Platform support for R-Car E3"
-+config ARCH_R8A774B1
-+	bool "ARM64 Platform support for R8A774B1 (RZ/G2N)"
- 	default y if ARCH_RENESAS
- 	select ARCH_RCAR_GEN3
--	select SYSC_R8A77990
-+	select SYSC_R8A774B1
- 	help
--	  This enables support for the Renesas R-Car E3 SoC.
--	  This includes different gradings like R-Car E3e.
-+	  This enables support for the Renesas RZ/G2N SoC.
-+
-+config ARCH_R8A774C0
-+	bool "ARM64 Platform support for R8A774C0 (RZ/G2E)"
-+	default y if ARCH_RENESAS
-+	select ARCH_RCAR_GEN3
-+	select SYSC_R8A774C0
-+	help
-+	  This enables support for the Renesas RZ/G2E SoC.
-+
-+config ARCH_R8A774E1
-+	bool "ARM64 Platform support for R8A774E1 (RZ/G2H)"
-+	default y if ARCH_RENESAS
-+	select ARCH_RCAR_GEN3
-+	select SYSC_R8A774E1
-+	help
-+	  This enables support for the Renesas RZ/G2H SoC.
- 
- config ARCH_R8A77951
--	bool "ARM64 Platform support for R-Car H3 ES2.0+"
-+	bool "ARM64 Platform support for R8A77951 (R-Car H3 ES2.0+)"
- 	default y if ARCH_RENESAS
- 	select ARCH_RCAR_GEN3
- 	select SYSC_R8A7795
-@@ -242,17 +259,8 @@ config ARCH_R8A77951
- 	  later).
- 	  This includes different gradings like R-Car H3e, H3e-2G, and H3Ne.
- 
--config ARCH_R8A77965
--	bool "ARM64 Platform support for R-Car M3-N"
--	default y if ARCH_RENESAS
--	select ARCH_RCAR_GEN3
--	select SYSC_R8A77965
--	help
--	  This enables support for the Renesas R-Car M3-N SoC.
--	  This includes different gradings like R-Car M3Ne and M3Ne-2G.
--
- config ARCH_R8A77960
--	bool "ARM64 Platform support for R-Car M3-W"
-+	bool "ARM64 Platform support for R8A77960 (R-Car M3-W)"
- 	default y if ARCH_RENESAS
- 	select ARCH_RCAR_GEN3
- 	select SYSC_R8A77960
-@@ -260,7 +268,7 @@ config ARCH_R8A77960
- 	  This enables support for the Renesas R-Car M3-W SoC.
- 
- config ARCH_R8A77961
--	bool "ARM64 Platform support for R-Car M3-W+"
-+	bool "ARM64 Platform support for R8A77961 (R-Car M3-W+)"
- 	default y if ARCH_RENESAS
- 	select ARCH_RCAR_GEN3
- 	select SYSC_R8A77961
-@@ -268,40 +276,67 @@ config ARCH_R8A77961
- 	  This enables support for the Renesas R-Car M3-W+ SoC.
- 	  This includes different gradings like R-Car M3e and M3e-2G.
- 
--config ARCH_R8A779F0
--	bool "ARM64 Platform support for R-Car S4-8"
-+config ARCH_R8A77965
-+	bool "ARM64 Platform support for R8A77965 (R-Car M3-N)"
- 	default y if ARCH_RENESAS
--	select ARCH_RCAR_GEN4
--	select SYSC_R8A779F0
-+	select ARCH_RCAR_GEN3
-+	select SYSC_R8A77965
- 	help
--	  This enables support for the Renesas R-Car S4-8 SoC.
-+	  This enables support for the Renesas R-Car M3-N SoC.
-+	  This includes different gradings like R-Car M3Ne and M3Ne-2G.
-+
-+config ARCH_R8A77970
-+	bool "ARM64 Platform support for R8A77970 (R-Car V3M)"
-+	default y if ARCH_RENESAS
-+	select ARCH_RCAR_GEN3
-+	select SYSC_R8A77970
-+	help
-+	  This enables support for the Renesas R-Car V3M SoC.
- 
- config ARCH_R8A77980
--	bool "ARM64 Platform support for R-Car V3H"
-+	bool "ARM64 Platform support for R8A77980 (R-Car V3H)"
- 	default y if ARCH_RENESAS
- 	select ARCH_RCAR_GEN3
- 	select SYSC_R8A77980
- 	help
- 	  This enables support for the Renesas R-Car V3H SoC.
- 
--config ARCH_R8A77970
--	bool "ARM64 Platform support for R-Car V3M"
-+config ARCH_R8A77990
-+	bool "ARM64 Platform support for R8A77990 (R-Car E3)"
- 	default y if ARCH_RENESAS
- 	select ARCH_RCAR_GEN3
--	select SYSC_R8A77970
-+	select SYSC_R8A77990
- 	help
--	  This enables support for the Renesas R-Car V3M SoC.
-+	  This enables support for the Renesas R-Car E3 SoC.
-+	  This includes different gradings like R-Car E3e.
-+
-+config ARCH_R8A77995
-+	bool "ARM64 Platform support for R8A77995 (R-Car D3)"
-+	default y if ARCH_RENESAS
-+	select ARCH_RCAR_GEN3
-+	select SYSC_R8A77995
-+	help
-+	  This enables support for the Renesas R-Car D3 SoC.
-+	  This includes different gradings like R-Car D3e.
- 
- config ARCH_R8A779A0
--	bool "ARM64 Platform support for R-Car V3U"
-+	bool "ARM64 Platform support for R8A779A0 (R-Car V3U)"
- 	default y if ARCH_RENESAS
- 	select ARCH_RCAR_GEN4
- 	select SYSC_R8A779A0
- 	help
- 	  This enables support for the Renesas R-Car V3U SoC.
- 
-+config ARCH_R8A779F0
-+	bool "ARM64 Platform support for R8A779F0 (R-Car S4-8)"
-+	default y if ARCH_RENESAS
-+	select ARCH_RCAR_GEN4
-+	select SYSC_R8A779F0
-+	help
-+	  This enables support for the Renesas R-Car S4-8 SoC.
-+
- config ARCH_R8A779G0
--	bool "ARM64 Platform support for R-Car V4H"
-+	bool "ARM64 Platform support for R8A779G0 (R-Car V4H)"
- 	default y if ARCH_RENESAS
- 	select ARCH_RCAR_GEN4
- 	select SYSC_R8A779G0
-@@ -309,68 +344,36 @@ config ARCH_R8A779G0
- 	  This enables support for the Renesas R-Car V4H SoC.
- 
- config ARCH_R8A779H0
--	bool "ARM64 Platform support for R-Car V4M"
-+	bool "ARM64 Platform support for R8A779H0 (R-Car V4M)"
- 	default y if ARCH_RENESAS
- 	select ARCH_RCAR_GEN4
- 	select SYSC_R8A779H0
- 	help
- 	  This enables support for the Renesas R-Car V4M SoC.
- 
--config ARCH_R8A774C0
--	bool "ARM64 Platform support for RZ/G2E"
--	default y if ARCH_RENESAS
--	select ARCH_RCAR_GEN3
--	select SYSC_R8A774C0
--	help
--	  This enables support for the Renesas RZ/G2E SoC.
--
--config ARCH_R8A774E1
--	bool "ARM64 Platform support for RZ/G2H"
--	default y if ARCH_RENESAS
--	select ARCH_RCAR_GEN3
--	select SYSC_R8A774E1
--	help
--	  This enables support for the Renesas RZ/G2H SoC.
--
--config ARCH_R8A774A1
--	bool "ARM64 Platform support for RZ/G2M"
--	default y if ARCH_RENESAS
--	select ARCH_RCAR_GEN3
--	select SYSC_R8A774A1
--	help
--	  This enables support for the Renesas RZ/G2M SoC.
--
--config ARCH_R8A774B1
--	bool "ARM64 Platform support for RZ/G2N"
--	default y if ARCH_RENESAS
--	select ARCH_RCAR_GEN3
--	select SYSC_R8A774B1
--	help
--	  This enables support for the Renesas RZ/G2N SoC.
--
- config ARCH_R9A07G043
--	bool "ARM64 Platform support for RZ/G2UL"
-+	bool "ARM64 Platform support for R9A07G043 (RZ/G2UL)"
- 	default y if ARCH_RENESAS
- 	select ARCH_RZG2L
- 	help
- 	  This enables support for the Renesas RZ/G2UL SoC variants.
- 
- config ARCH_R9A07G044
--	bool "ARM64 Platform support for RZ/G2L"
-+	bool "ARM64 Platform support for R9A07G044 (RZ/G2L)"
- 	default y if ARCH_RENESAS
- 	select ARCH_RZG2L
- 	help
- 	  This enables support for the Renesas RZ/G2L SoC variants.
- 
- config ARCH_R9A07G054
--	bool "ARM64 Platform support for RZ/V2L"
-+	bool "ARM64 Platform support for R9A07G054 (RZ/V2L)"
- 	default y if ARCH_RENESAS
- 	select ARCH_RZG2L
- 	help
- 	  This enables support for the Renesas RZ/V2L SoC variants.
- 
- config ARCH_R9A08G045
--	bool "ARM64 Platform support for RZ/G3S"
-+	bool "ARM64 Platform support for R9A08G045 (RZ/G3S)"
- 	default y if ARCH_RENESAS
- 	select ARCH_RZG2L
- 	select SYSC_R9A08G045
-@@ -378,7 +381,7 @@ config ARCH_R9A08G045
- 	  This enables support for the Renesas RZ/G3S SoC variants.
- 
- config ARCH_R9A09G011
--	bool "ARM64 Platform support for RZ/V2M"
-+	bool "ARM64 Platform support for R9A09G011 (RZ/V2M)"
- 	default y if ARCH_RENESAS
- 	select PM
- 	select PM_GENERIC_DOMAINS
-@@ -387,21 +390,21 @@ config ARCH_R9A09G011
- 	  This enables support for the Renesas RZ/V2M SoC.
- 
- config ARCH_R9A09G047
--	bool "ARM64 Platform support for RZ/G3E"
-+	bool "ARM64 Platform support for R9A09G047 (RZ/G3E)"
- 	default y if ARCH_RENESAS
- 	select SYS_R9A09G047
- 	help
- 	  This enables support for the Renesas RZ/G3E SoC variants.
- 
- config ARCH_R9A09G056
--	bool "ARM64 Platform support for RZ/V2N"
-+	bool "ARM64 Platform support for R9A09G056 (RZ/V2N)"
- 	default y if ARCH_RENESAS
- 	select SYS_R9A09G056
- 	help
- 	  This enables support for the Renesas RZ/V2N SoC variants.
- 
- config ARCH_R9A09G057
--	bool "ARM64 Platform support for RZ/V2H(P)"
-+	bool "ARM64 Platform support for R9A09G057 (RZ/V2H(P))"
- 	default y if ARCH_RENESAS
- 	select RENESAS_RZV2H_ICU
- 	select SYS_R9A09G057
-@@ -413,7 +416,7 @@ endif # ARM64
- if RISCV
- 
- config ARCH_R9A07G043
--	bool "RISC-V Platform support for RZ/Five"
-+	bool "RISC-V Platform support for R9A07G043 (RZ/Five)"
- 	depends on NONPORTABLE
- 	depends on !DMA_DIRECT_REMAP
- 	depends on RISCV_ALTERNATIVE
-@@ -439,19 +442,19 @@ config SYSC_RZ
- 	bool "System controller for RZ SoCs" if COMPILE_TEST
- 
- config SYSC_R9A08G045
--	bool "Renesas RZ/G3S System controller support" if COMPILE_TEST
-+	bool "Renesas System controller support for R9A08G045 (RZ/G3S)" if COMPILE_TEST
- 	select SYSC_RZ
- 
- config SYS_R9A09G047
--	bool "Renesas RZ/G3E System controller support" if COMPILE_TEST
-+	bool "Renesas System controller support for R9A09G047 (RZ/G3E)" if COMPILE_TEST
- 	select SYSC_RZ
- 
- config SYS_R9A09G056
--	bool "Renesas RZ/V2N System controller support" if COMPILE_TEST
-+	bool "Renesas System controller support for R9A09G056 (RZ/V2N)" if COMPILE_TEST
- 	select SYSC_RZ
- 
- config SYS_R9A09G057
--	bool "Renesas RZ/V2H System controller support" if COMPILE_TEST
-+	bool "Renesas System controller support for R9A09G057 (RZ/V2H)" if COMPILE_TEST
- 	select SYSC_RZ
- 
- endif # SOC_RENESAS
++endmenu
+ endif
 -- 
 2.43.0
 
