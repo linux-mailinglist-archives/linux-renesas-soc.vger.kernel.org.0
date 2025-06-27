@@ -1,197 +1,140 @@
-Return-Path: <linux-renesas-soc+bounces-18845-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18846-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFC58AEB976
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jun 2025 16:06:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F691AEBA1A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jun 2025 16:42:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6C1AF3B445E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jun 2025 14:06:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 797391C466DA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jun 2025 14:42:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E7562DE203;
-	Fri, 27 Jun 2025 14:06:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jZ5t9e4S"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A8632E7177;
+	Fri, 27 Jun 2025 14:42:12 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F36722DE1E7;
-	Fri, 27 Jun 2025 14:06:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B59192E3B01;
+	Fri, 27 Jun 2025 14:42:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751033192; cv=none; b=nBhDeiHBv0fk3sGuZF1d1qwAnkTYVKjs2nMVfFi17PFkgtmAkSXetGqGSLHaTqMZ4MQQpGjVQI/+H374wUiHQq4YfKPSs60m0JGCaTPzrJYaM5T3YCrJTAXzrG+rYnKvcguUFBKlvSaFmEG3Tv8PHfspIggcclr/VVL92DM9HgA=
+	t=1751035332; cv=none; b=L8uLjTBtOs5xHnes3jFf24JSbRiQ8Yi2s6ltiLdtB+Eijw2FiRpLl/uDc2+kFrr4cv92KGJHRFJiG1YXmPpWl0mLScs6V/cMZByUxMOOs0blBD9KvvDWqJxAYjzD6M5zckekhKK2IXoTSLi9ggGXSWzgyqynZfCPSF1D8xVfLqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751033192; c=relaxed/simple;
-	bh=adVsjIBtKgCgfvIZbKXclC2cbdubaiTo5YZIsWYdjqA=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=Ueo8liShSRdEkkeG6WfYzBZj9xQtKLAqzyrNcOAWHyZjbhtc2lHm2ed7PuiMgnOpt1AW1Rd6zoikuIdfnCR0/TsZVm5m9700d/w3jgRbrwZIVNVEZHbkNXDKsBFkx12ljI16IF6FRzlmbEwZ7pUafxbKnitLaA5F6BZ/XlKyNJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jZ5t9e4S; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD77FC4CEE3;
-	Fri, 27 Jun 2025 14:06:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751033191;
-	bh=adVsjIBtKgCgfvIZbKXclC2cbdubaiTo5YZIsWYdjqA=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=jZ5t9e4SSWnGYL0n2bI4xn1iOrlC+e/Nf4REXNYlxgqerKtOjjvsgPzXd1jxylOOC
-	 84facDh65ry5zHJWSewulap42brLM0ofT6G9YDow0rqvEv2ZEv9FUwfkB3V7NuuZgT
-	 BS5i2jX/1UV7J5+17yFOh59uv2yqTerAkTBlzgDobTE/JotqgYrOayXgfGoYjZfcbK
-	 zUHOG+bOV+n8B+jSldNIDoD9lfP3PJses40Iu4uoW6i732j0lHhxu+N6H02JPMF2O7
-	 NZ0/POcs7Vy+K2OHvbulthQwNu9CNHwasY/HT99WUhkBpc3SmaKB9v55/wvz3KlXtg
-	 W4HI7DsBO2ymw==
-Date: Fri, 27 Jun 2025 09:06:30 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1751035332; c=relaxed/simple;
+	bh=e3BHHBVZlq/S67/tR0+2qQvPKQqHZzH10SKFYIUWKGY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=U6hXpoTUWr1JscjPyNa8B8tTZ3T7iSqd3jwvaj9fy2UsHFMEoyXOg8vDxU57vG9sDCBPFYqRSgygU3ml1OwC6ytmlarH8MLJ7JOcwDbbRr+B4hwqqe9JDpQDYiYci1eciWg0MA3eco9m+8LcjbcyHNyS4HTuMASGeXg6hnF9vK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-531acaddd5eso561105e0c.2;
+        Fri, 27 Jun 2025 07:42:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751035328; x=1751640128;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3aBTCInNVurYWF8TPzTAt3dAlN0/OaNFB23Z5/H8BJU=;
+        b=m2V1ArQr+6sZCycEDa52iB3cZhYLdon4SQLmgWa/viAbdJ2Nb1yErBuHOVpeqj/7DV
+         gkR5+W6kHWlLFMRZuX0Ucr4PE4GtwXOsHDA9gX3Wh1wlBJHlX9Ki6xrIGvroLr2kOvhC
+         VXaZtksaRNWqr3o8qs3UV6vcjnyxIZZ9WdacOuG4Paycs44dmZnyKLKhG6O3/p2IC9xb
+         dlHTDnngxJmdfHhN06vkO0stPiK4DItXdrjOSHaI/4jboMqz2c407MViGfaP+56ZLQOg
+         MSWhH2BRCvOPy4Tx8OsvMTAYym+ReoDFLVsOcoPUZfGAw7odl7//nnGbpopkKJaMkQpJ
+         HBcg==
+X-Forwarded-Encrypted: i=1; AJvYcCU6BGXlExMFNQro5bBVp6VgzcHEL0K/iCos12SKkoLylr1tH6WnNMR5hEum7y7jsywskcYtGDDKEi2RSXdLCEs=@vger.kernel.org, AJvYcCVl6emYTF+FwHB3flStImzvzNOEccbWZ/IvX3urlBk1Hl2u+GLNc0kRLRJNsFlvDztAPmB2xCXEUJ8MHP4J8WxOAYY=@vger.kernel.org, AJvYcCWEIwJT2U6hS86Cms6WCpLKJc7ucwMPlv9fH31c969vHGWAIsBfETHIvnTwIkwsv3rgxSXKg77a5eqTV9MY@vger.kernel.org, AJvYcCXcQmQPfM8o92R8iTq/ZL2WcK2cNkXMxRld0f7rA+7X3tmqQvP91Fu5ISUfCuHig65F5wLQxBVj@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxc/l9hOncHUFg79HTmYFzzQ3RLe89FQRGNxBnXeHmilcZc6FWK
+	sWy354ga2McXCT0fD5uPjV5w1PFOtzhJ4ebGEDAIVMw3TFCj/jXMDHoULjVRVOQB
+X-Gm-Gg: ASbGnctXD23OTEn1brEjad7YoSxVPV6PjXhXHEAV3rtXQnLBi85xfX7mtPjAwU/C5Ci
+	hiQ6lyjm9qweGmg1w6e2KypruZcpG2Do2U5KTXm9qs9SLrDtvmPAIx7Rxe6EqiScRZFQwGb7KxD
+	WV4i6ePv2HWZy1evSxPL2083ZDhmbkpMV/iJuJhi7a6ZfrapcpFttnOayGJj2+mcOvmwrha3X5A
+	XqaxNrnWHorxZqsRsEwdWbe+5QHyU/X0tBLOcrh7GhmVTAI0MRebDQ5kcVeClVFfYStVX5iWeW+
+	vklbZO3E+weQ2XwwpdbsQ8dQpzq56r6rPb0gRI5WGJCfgVoy9oRrLdth/5k1dgAzpm1hNpT5dwc
+	2N87x8L6HjOJgLYy2KrF+ehL5
+X-Google-Smtp-Source: AGHT+IEbESGZjr8sjBHrKLN3ubjxE9Swd3JdDLqDgrCkyxsGfiz5Iy4rtAAAIgDdk6GI4feRV2KkLw==
+X-Received: by 2002:a05:6122:8f05:b0:530:6538:cb12 with SMTP id 71dfb90a1353d-5330c0ef44cmr2599229e0c.11.1751035327998;
+        Fri, 27 Jun 2025 07:42:07 -0700 (PDT)
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com. [209.85.217.54])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-884d1c458c2sm627337241.13.2025.06.27.07.42.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Jun 2025 07:42:07 -0700 (PDT)
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-4e8135adfccso532629137.1;
+        Fri, 27 Jun 2025 07:42:07 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUcm3Nd7D4tct9Mp0CGcGeqouaOeN7PrFM0BLKu7AE4pLgTYxLrN1RlRTecbMY00xjCGlLWwhKd0px3qtEc5zegCRc=@vger.kernel.org, AJvYcCVsgnBIN5pUyT45+RRygpEEooVcSY4lwYAowLWyfHVV2Bo3fedHWh3blHyhNK0Dx8YLw1cqDW4xK7qLWTiG@vger.kernel.org, AJvYcCX6g3QD5Jp3hG8oD3Q4yhs3eaTgBVFreohj3bwa43KB13hecqR6l/CVtGF+Jq+FOtpK2z827y2u@vger.kernel.org, AJvYcCXMTJPufnBsbQgYSTUAYihBMgt9XLs3i+cogb+woxNEnngdQ22QB2b4BJzMSgZDIMc5kKrxK/z5wcs5egxigps=@vger.kernel.org
+X-Received: by 2002:a05:6102:509f:b0:4e6:fb90:1e21 with SMTP id
+ ada2fe7eead31-4ee4f4e4416mr3041505137.2.1751035326779; Fri, 27 Jun 2025
+ 07:42:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Leo Wang <leo.jt.wang@fii-foxconn.com>, 
- Magnus Damm <magnus.damm@gmail.com>, george.kw.lee@fii-foxconn.com, 
- Conor Dooley <conor+dt@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, 
- linux-hardening@vger.kernel.org, Kees Cook <kees@kernel.org>, 
- Tony Luck <tony.luck@intel.com>, 
- "Guilherme G. Piccoli" <gpiccoli@igalia.com>, 
- linux-arm-kernel@lists.infradead.org, 
- Andrew Jeffery <andrew@codeconstruct.com.au>, 
- linux-renesas-soc@vger.kernel.org, 
- Geert Uytterhoeven <geert+renesas@glider.be>, bruce.jy.hung@fii-foxconn.com, 
- linux-kernel@vger.kernel.org, Joel Stanley <joel@jms.id.au>, 
- devicetree@vger.kernel.org
-To: Leo Wang <leo.jt.wang@gmail.com>
-In-Reply-To: <20250627-add-support-for-meta-clemente-bmc-v5-0-038ed6f1cb9f@fii-foxconn.com>
-References: <20250627-add-support-for-meta-clemente-bmc-v5-0-038ed6f1cb9f@fii-foxconn.com>
-Message-Id: <175103315156.3220577.5517131859109984485.robh@kernel.org>
-Subject: Re: [PATCH v5 0/2] ARM: dts: Add support for Meta Clemente BMC
+References: <20250627134453.51780-1-lukas.bulwahn@redhat.com>
+In-Reply-To: <20250627134453.51780-1-lukas.bulwahn@redhat.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 27 Jun 2025 16:41:54 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWag5S38D5dqKy+0+5rrhyJPc+KMdi6SipXwJ04k_K4zQ@mail.gmail.com>
+X-Gm-Features: Ac12FXwrVS3MEt_q-Oqh9tZ8p7AjJm9MhCNyBt5kUT4GenaWkJM3yHEHUeQa49Y
+Message-ID: <CAMuHMdWag5S38D5dqKy+0+5rrhyJPc+KMdi6SipXwJ04k_K4zQ@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: adjust file entry after renaming rzv2h-gbeth dtb
+To: Lukas Bulwahn <lbulwahn@redhat.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Lukas Bulwahn <lukas.bulwahn@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Lukas,
 
-On Fri, 27 Jun 2025 15:31:20 +0800, Leo Wang wrote:
-> This series adds initial support for the Meta Clemente BMC based on the ASPEED AST2600 SoC.
-> 
-> Patch 1 documents the compatible string.
-> Patch 2 adds the device tree for the board.
-> 
-> Signed-off-by: Leo Wang <leo.jt.wang@fii-foxconn.com>
-> ---
-> Changes in v5:
-> - Remove accidently pasted texts.
-> - Link to v4: https://lore.kernel.org/r/20250627-add-support-for-meta-clemente-bmc-v4-0-ce7ff23460c4@fii-foxconn.com
-> 
-> Changes in v4:
-> - Move properties of nodes defined in the same file from label ref back to where they belong.
-> - Move pinctrl default configs for ncsi3 and ncsi4 to aspeed-g6-pinctrl.dtsi.
-> - Add properties to i2c10 and i2c15 to enable MCTP.
-> - Link to v3: https://lore.kernel.org/r/20250623-add-support-for-meta-clemente-bmc-v3-0-c223ffcf46cf@fii-foxconn.com
-> 
-> Changes in v3:
-> - Modify leakage sensor to reflect current design.
-> - Link to v2: https://lore.kernel.org/r/20250621-add-support-for-meta-clemente-bmc-v2-0-6c5ef059149c@fii-foxconn.com
-> 
-> Changes in v2:
-> - Fix patch 1/2 subject line to match dt-bindings convention.
-> - Reorder device tree nodes in patch 2/2 to follow upstream DTS style.
-> - Link to v1: https://lore.kernel.org/r/20250618-add-support-for-meta-clemente-bmc-v1-0-e5ca669ee47b@fii-foxconn.com
-> 
-> ---
-> Leo Wang (2):
->       dt-bindings: arm: aspeed: add Meta Clemente board
->       ARM: dts: aspeed: clemente: add Meta Clemente BMC
-> 
->  .../devicetree/bindings/arm/aspeed/aspeed.yaml     |    1 +
->  arch/arm/boot/dts/aspeed/Makefile                  |    1 +
->  .../dts/aspeed/aspeed-bmc-facebook-clemente.dts    | 1291 ++++++++++++++++++++
->  arch/arm/boot/dts/aspeed/aspeed-g6-pinctrl.dtsi    |   11 +
->  4 files changed, 1304 insertions(+)
-> ---
-> base-commit: 52da431bf03b5506203bca27fe14a97895c80faf
-> change-id: 20250618-add-support-for-meta-clemente-bmc-941a469bc523
-> 
-> Best regards,
+Thanks for your patch!
+
+On Fri, 27 Jun 2025 at 15:45, Lukas Bulwahn <lbulwahn@redhat.com> wrote:
+> From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+>
+> Commit d53320aeef18 ("dt-bindings: net: Rename
+> renesas,r9a09g057-gbeth.yaml") renames the net devicetree binding
+> renesas,r9a09g057-gbeth.yaml to renesas,rzv2h-gbeth.yaml, but misses to
+> adjust the file entry in the RENESAS RZ/V2H(P) DWMAC GBETH GLUE LAYER
+> DRIVER section in MAINTAINERS.
+
+Doh...
+
+> Adjust the file entry after this file renaming.
+>
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -21271,7 +21271,7 @@ M:      Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>  L:     netdev@vger.kernel.org
+>  L:     linux-renesas-soc@vger.kernel.org
+>  S:     Maintained
+> -F:     Documentation/devicetree/bindings/net/renesas,r9a09g057-gbeth.yaml
+> +F:     Documentation/devicetree/bindings/net/renesas,rzv2h-gbeth.yaml
+
+Alternatively, just remove the entry?
+Prabhakar is listed as the maintainer inside the file.
+
+>  F:     drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c
+>
+>  RENESAS RZ/V2H(P) USB2PHY PORT RESET DRIVER
 > --
-> Leo Wang <leo.jt.wang@fii-foxconn.com>
-> 
-> 
-> 
 
+Gr{oetje,eeting}s,
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
+                        Geert
 
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
-
-  pip3 install dtschema --upgrade
-
-
-This patch series was applied (using b4) to base:
- Base: using specified base-commit 52da431bf03b5506203bca27fe14a97895c80faf
-
-If this is not the correct base, please add 'base-commit' tag
-(or use b4 which does this automatically)
-
-New warnings running 'make CHECK_DTBS=y for arch/arm/boot/dts/aspeed/' for 20250627-add-support-for-meta-clemente-bmc-v5-0-038ed6f1cb9f@fii-foxconn.com:
-
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: timer (arm,armv7-timer): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /sdram@1e6e0000: failed to match any schema with compatible: ['aspeed,ast2600-sdram-edac', 'syscon']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: bus@1e600000 (aspeed,ast2600-ahbc): compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
-	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: syscon@1e6e2000 (aspeed,ast2600-scu): 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^pinctrl-[0-9]+$', '^silicon-id@[0-9a-f]+$'
-	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/display@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2600-gfx', 'syscon']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: adc@1e6e9000 (aspeed,ast2600-adc0): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: adc@1e6e9100 (aspeed,ast2600-adc1): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: crypto@1e6fa000 (aspeed,ast2600-acry): 'aspeed,ahbc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/timer@1e782000: failed to match any schema with compatible: ['aspeed,ast2600-timer']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): reg-io-width: 4 is not of type 'object'
-	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): lpc-snoop@80: 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: kcs@24 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: kcs@28 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: kcs@2c (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: kcs@114 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2600-ibt-bmc']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: sdc@1e740000 (aspeed,ast2600-sd-controller): sdhci@1e740100:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
-	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: sdc@1e740000 (aspeed,ast2600-sd-controller): sdhci@1e740200:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
-	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740100: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740200: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: adc@34 (maxim,max1363): '#address-cells', '#size-cells', 'channel@0', 'channel@1', 'channel@2', 'channel@3' do not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/iio/adc/maxim,max1363.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: adc@35 (maxim,max1363): '#address-cells', '#size-cells', 'channel@0', 'channel@1', 'channel@2', 'channel@3' do not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/iio/adc/maxim,max1363.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: fsi@1e79b000 (aspeed,ast2600-fsi-master): compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
-	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/fsi@1e79b000: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: fsi@1e79b100 (aspeed,ast2600-fsi-master): compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
-	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/fsi@1e79b100: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/dma-controller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udma']
-
-
-
-
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
