@@ -1,77 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-18893-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18894-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3529AAECCF0
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 29 Jun 2025 15:39:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC00CAECCF3
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 29 Jun 2025 15:41:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 57E811717E2
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 29 Jun 2025 13:39:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F21ED3A7D04
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 29 Jun 2025 13:40:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF11F20766E;
-	Sun, 29 Jun 2025 13:38:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3AC3220680;
+	Sun, 29 Jun 2025 13:41:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="LoGbuL0b";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="VIFsH+TA"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="GMDMXBJc";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="OOsSovNB"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A3A579C4;
-	Sun, 29 Jun 2025 13:38:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA0601E412A;
+	Sun, 29 Jun 2025 13:41:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751204339; cv=none; b=V7o+TuSVMrxFORUsbA/WsjuLmWOYKOkX3eKJ266rgp5hRPYOt8gn0MVigUzB9LJy8BBGJzooKxKOMvZMcDgK+R29WdU82RPgzClTXaweaeZrrySaiD2B9UIrLK33t1CtttQuMgdxU1fsNmqqQ8jGYB8PZZQ0zMAZToPeTEFBWSM=
+	t=1751204465; cv=none; b=bw0kclK9601wosKde0vdtXhRXoVcyaMH9XtGpKeAjLqjDmVuvM71u9Id7pS4nMnfAkd+WJOWmAavSLQ6XcpW4lcXD7Ewdl77WswBmJrboL6C3wURYaLMs9tTta+yC/zTNQXdRHMYZGXWsYQaseQKfPbX18z1uZNK7M/lH/tz+aI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751204339; c=relaxed/simple;
-	bh=/t9GDmtQGRRo7HQnTqMcSQyKeLGv2bGFIcooBtlP13M=;
+	s=arc-20240116; t=1751204465; c=relaxed/simple;
+	bh=ofylXM0bNhc+0Hn0xsheBNV5v7fT13QC41IvHArub2U=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=SAS4Rc7LLjvAEXVBziEgk9m1JOJrozDqQmFuSj8I98tUEX8GnP80ssIo/4AmeDzszWsiagMmu53NpBJpqM8oSsJkCTQzxBNPmRB67tbE0PmpMd2lgRDCVH5W700p/Co4ZlMLWVM9X2KjrmKg9asX3iJnzvq+ACOCgMTHN1DauyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=LoGbuL0b; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=VIFsH+TA; arc=none smtp.client-ip=80.241.56.172
+	 In-Reply-To:Content-Type; b=fS4sfBpZsudRe2pbIVtfYz4cOzjRWlP2Tyy0GanqWPQu6rk6OpayjaOBcAmWJQLTo5pg5ubxXYW70v2h0pKLluXJsSNgNYCwDGg8iRzjOgbM8WcW3kwcWaT3OgoW9A9uWe/aFr0wdg20u3kjIfE0Y2fsiXCKNqboLfZCsHaBc/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=GMDMXBJc; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=OOsSovNB; arc=none smtp.client-ip=80.241.56.161
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4bVVkL4Htpz9spB;
-	Sun, 29 Jun 2025 15:38:50 +0200 (CEST)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4bVVmm3fKHz9ssQ;
+	Sun, 29 Jun 2025 15:40:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1751204330;
+	t=1751204456;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=22TNUrpWs0dCvXFS4EC9TI2wCwRpAAoj9nfiemj7nQY=;
-	b=LoGbuL0bV2Hu8vi8cOUEmUrKEKA8ekZJF1bSVVnZnAsH6gpPKx7IV+jCMo8EHBqT91QfsP
-	+fUHor4+7R2LEPDreYXJGBPBiRb6JyPSUR4JWUUvYD5EZ47hpHfwfULHD2uIx7n15tm26f
-	eL8ceKgXTtSfNw4OzV5WPHG7y4zV+AnnSwJ8Bb7iKWt4Vdn9wQfbV3ZcO+BMGcv/RgM3vC
-	Ay5fDB8haiMr/dNiPmOdeA8o/wzcwwC1HHqYNVusZwEG7TfU6zh0U1cmcBOEceXCR3i2vt
-	WOmFRKx+LTEuqIv/P2eQGOXKA1TDv8oZhQU4HznF8pwJSRoF3XtSKlaabor3UQ==
-Message-ID: <5b33d136-3a9f-4fc8-b57e-b24f91950998@mailbox.org>
+	bh=cLaYRknvNSB2sQwEoSd6wEhEpGLT7/N8YCWa8FD45fU=;
+	b=GMDMXBJcxiLTbTv1/l69bTd2kUro3G4F7VjfiMnln3T2O5uXmNEFgOvIU1yph+1848uTvD
+	TYOZUaDHGgnqtGQ2qSbjeh/NInOUg2kLdGLAp6n86AR8rpdQz3lOxwQKaMd+LWDs7sXmt8
+	PUqeQG6GNDzykkWVHt9+jIIWSrhVO91A11VmFnRAF3VPOEw43yteq1o6aaOlk1sF9e9zSP
+	qKBKzUTiaaDc+q+uqbmkX9JVnUOTgwqG2mkfh3ZqD95UixqsxyYKA2I5cm224QoXMLfi2E
+	ZbbJJQ/ASdnTgF8efy46sDNoTOvdRbzkqUMdvgLz4sJMLEHQ6rbu7Y8vBWmPag==
+Message-ID: <917fedbb-06f3-49a7-8d80-bf6834de055a@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1751204328;
+	t=1751204454;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=22TNUrpWs0dCvXFS4EC9TI2wCwRpAAoj9nfiemj7nQY=;
-	b=VIFsH+TAzkRbEAVZprrXTP7WyTuBICjxLFBaylRDEkTJT/0//NU6CBCbvx8D87zPbbHkJw
-	fcHQVJ8ANvnUH6jdtNxYy4RUdgVm2jtXvF7Yt35kjcDEuVsOfx+cLGRKKOMBBC/WFYUZSM
-	B+VMXzzQJZXRiwYY/DrV8Atlu3Zl9BD9HldN9pnk7lU2XNP0MBnafDmNJF/FTjRb8DTOgC
-	iwS9G5b8kEE73zLENZVCDzExr4jQrBrwL/ZGntucGjCajbxQGeHEteuJ05IN6TTpFLHWdM
-	siV+TWbuINCR+/QSK3vSRRlsX62wMd5HgNcMnN+uVTYwg2TjASCps7/QtO4E2A==
-Date: Sun, 29 Jun 2025 15:38:46 +0200
+	bh=cLaYRknvNSB2sQwEoSd6wEhEpGLT7/N8YCWa8FD45fU=;
+	b=OOsSovNBiOVDZIXOC2LbKpQZYCY7J5yGHDmyBkHFyCaYUzXegwCgl6kghOhobIAYq8niq4
+	18IoD/JjRWJTmBaNqHhnDMpzgpFDt/pvQktxi//heHqOqTUxYTw7HZY+9sOkBL9cncK6l4
+	rIJRqhEL/tUK9zSOWRS8gjPlLwQrkfP/oIwoi/MGLffjpGHKlbtyo6Vs70ixyT+50gXzTD
+	utUvj0yL4PYkYQvAwgwvHx8ZYb55GsU5DAhZKERJ29GbSlcs9fJ7FDDgTN9CEjciHodE0t
+	YELQyxtvIOtPdF/bE0OF4gTVeKSjdd3g1m455PSSgJ3HcwdNAJHkk+4CFthO8Q==
+Date: Sun, 29 Jun 2025 15:40:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/5] arm64: dts: renesas: r8a779g3-sparrow-hawk-fan-pwm:
- Add missing install target
+Subject: Re: [PATCH 2/5] arm64: dts: renesas: sparrow-hawk: Add overlay for
+ IMX219 on J1
 To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
  <niklas.soderlund+renesas@ragnatech.se>,
  Geert Uytterhoeven <geert+renesas@glider.be>, Rob Herring <robh@kernel.org>,
@@ -79,39 +79,42 @@ To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
  <conor+dt@kernel.org>, Marek Vasut <marek.vasut+renesas@mailbox.org>,
  linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
 References: <20250628215337.1688969-1-niklas.soderlund+renesas@ragnatech.se>
- <20250628215337.1688969-2-niklas.soderlund+renesas@ragnatech.se>
+ <20250628215337.1688969-3-niklas.soderlund+renesas@ragnatech.se>
 Content-Language: en-US
 From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <20250628215337.1688969-2-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20250628215337.1688969-3-niklas.soderlund+renesas@ragnatech.se>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: e066797296566a4f44f
-X-MBO-RS-META: 3wtntsc6w9k99eq8ayzqdxuoknk953c4
-X-Rspamd-Queue-Id: 4bVVkL4Htpz9spB
+X-MBO-RS-ID: 581c28c6208c7a9478e
+X-MBO-RS-META: ftq54k1q7pezt3h8kkumprpox95d3qh7
 
 On 6/28/25 11:53 PM, Niklas Söderlund wrote:
-> The target to consider the dtbo file for installation is missing, add
-> it.
-> 
-> Fixes: a719915e76f2 ("arm64: dts: renesas: r8a779g3: Add Retronix R-Car V4H Sparrow Hawk board support")
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->   arch/arm64/boot/dts/renesas/Makefile | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-> index 677ba3aa8931..47e46ef99d36 100644
-> --- a/arch/arm64/boot/dts/renesas/Makefile
-> +++ b/arch/arm64/boot/dts/renesas/Makefile
-> @@ -96,6 +96,7 @@ dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g2-white-hawk-single-ard-audio-da7212.dtb
->   
->   DTC_FLAGS_r8a779g3-sparrow-hawk += -Wno-spi_bus_bridge
->   dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk.dtb
-> +dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-fan-pwm.dtbo
->   r8a779g3-sparrow-hawk-fan-pwm-dtbs := r8a779g3-sparrow-hawk.dtb r8a779g3-sparrow-hawk-fan-pwm.dtbo
->   dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-fan-pwm.dtb
 
-Reviewed-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Hello Niklas,
 
-I was not aware of this, thanks for pointing this out.
+> +&{/} {
+> +	clk_cam_j1: clk_cam_j1 {
+> +		compatible = "fixed-clock";
+> +		#clock-cells = <0>;
+> +		clock-frequency = <24000000>;
+> +		status = "okay";
+> +	};
+> +
+> +	/* Page 29 / CSI_IF_CN / J1 */
+> +	reg_cam_j1: reg_cam_j1 {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "reg_cam_j1";
+> +		enable-active-high;
+> +		status = "okay";
+> +		gpios = <&gpio0 1 GPIO_ACTIVE_HIGH>;
+> +	};
+> +
+> +	reg_cam_j1_dummy: reg_cam_j1_dummy {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "reg_cam_j1_dummy";
+> +		status = "okay";
+
+Is the 'status = "okay"' property needed for these regulators ? I think 
+'status = "okay"' is the default behavior if "status" property is not 
+present , so 'status = "okay"' is superfluous here.
 
