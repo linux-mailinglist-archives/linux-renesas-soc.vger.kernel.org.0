@@ -1,82 +1,117 @@
-Return-Path: <linux-renesas-soc+bounces-18892-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18893-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53BFDAECC70
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 29 Jun 2025 14:28:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3529AAECCF0
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 29 Jun 2025 15:39:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 81C1D3B06EB
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 29 Jun 2025 12:27:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 57E811717E2
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 29 Jun 2025 13:39:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7B3922068E;
-	Sun, 29 Jun 2025 12:28:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF11F20766E;
+	Sun, 29 Jun 2025 13:38:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="D+U/fpi2"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="LoGbuL0b";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="VIFsH+TA"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7254121A931;
-	Sun, 29 Jun 2025 12:28:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A3A579C4;
+	Sun, 29 Jun 2025 13:38:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751200098; cv=none; b=rPPY7i28XQMKLbeaD1Xgn1lq4EQMOowEox7rGpwl3NIO+QCVtEvly2UOjp/98O5mtF4D/N/pbo/DKjOayvZCi6NNwQ4P5yvedMF2hB3f9VqzQUr8l3sVNaE2K0ljBKQUIUPD40v9CIBGspfteOQBX09rPozKSPg08NdwH6aLero=
+	t=1751204339; cv=none; b=V7o+TuSVMrxFORUsbA/WsjuLmWOYKOkX3eKJ266rgp5hRPYOt8gn0MVigUzB9LJy8BBGJzooKxKOMvZMcDgK+R29WdU82RPgzClTXaweaeZrrySaiD2B9UIrLK33t1CtttQuMgdxU1fsNmqqQ8jGYB8PZZQ0zMAZToPeTEFBWSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751200098; c=relaxed/simple;
-	bh=UmCkYjZ4SN7uIpGorsrh78pScN/soOWdA3gPhn0qSTA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=niQvO5Z9exBTl7ZRjTPw/jdOKGZlkCWeqWIl0RrnFzXvzBB4jp1wzKw52q/m0bbNb5Sus6LAtKIAgM5LzpsM/899AA2UEohrdG/ekA+mTHxB1bpOLmAO0tk6Y/dE8FRF8vD8EQ8pJhh7nz32PHLWdhzgq4qFX2nv2cdM1AQcIHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=D+U/fpi2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B204C4CEEB;
-	Sun, 29 Jun 2025 12:28:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1751200097;
-	bh=UmCkYjZ4SN7uIpGorsrh78pScN/soOWdA3gPhn0qSTA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=D+U/fpi2tf4PSGtkLBR/FbmGlNiv1hnR3zCDhpcPBjWhGTBagzsgWhhZlc2C5sgHm
-	 iJuwYogEmMKlQdLmHSUSYoF3PDHcd8oHw6XgFNtj+//v8mfBas0N0w2pLuMFOXod1u
-	 mPpOze7T83NdqDfS+W18NNDAmbOJebe12k5977WM=
-Date: Sun, 29 Jun 2025 14:27:09 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Jiri Slaby <jirislaby@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v13 5/5] serial: sh-sci: Add support for RZ/T2H SCI
-Message-ID: <2025062914-unkempt-reentry-470c@gregkh>
-References: <20250628115715.102338-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250628115715.102338-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1751204339; c=relaxed/simple;
+	bh=/t9GDmtQGRRo7HQnTqMcSQyKeLGv2bGFIcooBtlP13M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=SAS4Rc7LLjvAEXVBziEgk9m1JOJrozDqQmFuSj8I98tUEX8GnP80ssIo/4AmeDzszWsiagMmu53NpBJpqM8oSsJkCTQzxBNPmRB67tbE0PmpMd2lgRDCVH5W700p/Co4ZlMLWVM9X2KjrmKg9asX3iJnzvq+ACOCgMTHN1DauyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=LoGbuL0b; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=VIFsH+TA; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4bVVkL4Htpz9spB;
+	Sun, 29 Jun 2025 15:38:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1751204330;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=22TNUrpWs0dCvXFS4EC9TI2wCwRpAAoj9nfiemj7nQY=;
+	b=LoGbuL0bV2Hu8vi8cOUEmUrKEKA8ekZJF1bSVVnZnAsH6gpPKx7IV+jCMo8EHBqT91QfsP
+	+fUHor4+7R2LEPDreYXJGBPBiRb6JyPSUR4JWUUvYD5EZ47hpHfwfULHD2uIx7n15tm26f
+	eL8ceKgXTtSfNw4OzV5WPHG7y4zV+AnnSwJ8Bb7iKWt4Vdn9wQfbV3ZcO+BMGcv/RgM3vC
+	Ay5fDB8haiMr/dNiPmOdeA8o/wzcwwC1HHqYNVusZwEG7TfU6zh0U1cmcBOEceXCR3i2vt
+	WOmFRKx+LTEuqIv/P2eQGOXKA1TDv8oZhQU4HznF8pwJSRoF3XtSKlaabor3UQ==
+Message-ID: <5b33d136-3a9f-4fc8-b57e-b24f91950998@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1751204328;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=22TNUrpWs0dCvXFS4EC9TI2wCwRpAAoj9nfiemj7nQY=;
+	b=VIFsH+TAzkRbEAVZprrXTP7WyTuBICjxLFBaylRDEkTJT/0//NU6CBCbvx8D87zPbbHkJw
+	fcHQVJ8ANvnUH6jdtNxYy4RUdgVm2jtXvF7Yt35kjcDEuVsOfx+cLGRKKOMBBC/WFYUZSM
+	B+VMXzzQJZXRiwYY/DrV8Atlu3Zl9BD9HldN9pnk7lU2XNP0MBnafDmNJF/FTjRb8DTOgC
+	iwS9G5b8kEE73zLENZVCDzExr4jQrBrwL/ZGntucGjCajbxQGeHEteuJ05IN6TTpFLHWdM
+	siV+TWbuINCR+/QSK3vSRRlsX62wMd5HgNcMnN+uVTYwg2TjASCps7/QtO4E2A==
+Date: Sun, 29 Jun 2025 15:38:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250628115715.102338-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 1/5] arm64: dts: renesas: r8a779g3-sparrow-hawk-fan-pwm:
+ Add missing install target
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+References: <20250628215337.1688969-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250628215337.1688969-2-niklas.soderlund+renesas@ragnatech.se>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <20250628215337.1688969-2-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: e066797296566a4f44f
+X-MBO-RS-META: 3wtntsc6w9k99eq8ayzqdxuoknk953c4
+X-Rspamd-Queue-Id: 4bVVkL4Htpz9spB
 
-On Sat, Jun 28, 2025 at 12:57:15PM +0100, Prabhakar wrote:
-> +EXPORT_SYMBOL(sci_port_enable);
+On 6/28/25 11:53 PM, Niklas Söderlund wrote:
+> The target to consider the dtbo file for installation is missing, add
+> it.
+> 
+> Fixes: a719915e76f2 ("arm64: dts: renesas: r8a779g3: Add Retronix R-Car V4H Sparrow Hawk board support")
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>   arch/arm64/boot/dts/renesas/Makefile | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
+> index 677ba3aa8931..47e46ef99d36 100644
+> --- a/arch/arm64/boot/dts/renesas/Makefile
+> +++ b/arch/arm64/boot/dts/renesas/Makefile
+> @@ -96,6 +96,7 @@ dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g2-white-hawk-single-ard-audio-da7212.dtb
+>   
+>   DTC_FLAGS_r8a779g3-sparrow-hawk += -Wno-spi_bus_bridge
+>   dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk.dtb
+> +dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-fan-pwm.dtbo
+>   r8a779g3-sparrow-hawk-fan-pwm-dtbs := r8a779g3-sparrow-hawk.dtb r8a779g3-sparrow-hawk-fan-pwm.dtbo
+>   dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-fan-pwm.dtb
 
-EXPORT_SYMBOL_GPL() perhaps?  (sorry, I have to ask).
+Reviewed-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-Also, why not limit this to just this one other driver that you want to
-use it with the proper namespace usage instead?
-
-Same for all other new exports in this file.
-
-thanks,
-
-greg k-h
+I was not aware of this, thanks for pointing this out.
 
