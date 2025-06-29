@@ -1,274 +1,202 @@
-Return-Path: <linux-renesas-soc+bounces-18903-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18906-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B994AED191
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jun 2025 00:08:23 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB357AED1A6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jun 2025 00:33:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BA03A16F55A
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 29 Jun 2025 22:08:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 11BBC7A833D
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 29 Jun 2025 22:31:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4D8E23FC5F;
-	Sun, 29 Jun 2025 22:08:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3624F205AA8;
+	Sun, 29 Jun 2025 22:33:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Lt0xrerH";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="v84DgpGT"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="X9YEudhN";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="O2wvv5vp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 087391DD0EF;
-	Sun, 29 Jun 2025 22:08:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE2417A30F;
+	Sun, 29 Jun 2025 22:33:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751234901; cv=none; b=iwph6CFXzQM66dUTSFMGtkydNmvDCLhPJF5K/yLcvJsiBaFUWYn9lVpVAXQUw8L490XEYRn9onst1JLGjfzsbpeVcMNqgMGd0jT+XWIzxt6Mf/MiPL6dwS/w770GAA9ouajXDcUpW0pCfujjx/+Iegi4IVhcNlHMjssD/q9ovvE=
+	t=1751236383; cv=none; b=BNq7kwm2bJ5FQkgwcWAapWSzTfu354c7y2FpRlcHzFelh834pCKxGxbobOMUw2nSfIIRFu4vcWLfkr3MISyjmWvARRjHXWfo9dumf0XEeg46Nk66j9MXgXbCWCUTSn0oL1WAEabybU1vIHs0N9onBtmjmVGyfeGKpDILvX1euQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751234901; c=relaxed/simple;
-	bh=0JOjYfKAzVruBnBuqHn8SeK7Bb8gtnPA6TWVf7BcE1g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fjJN2kYJYZoDAJpe7SZRLWOXZD6+RQ0csqw/GoVF4579nP6l3nxK9JJpqHU/Qai76JHi+KswgalVRigHPu8N7p6/06xXR2qvLeCOY2XaqmJbVNvgiIlFd5+P43yWISSr5nDDLpQhlqnLCXRrQ1iqUx7ZENwKAgGjSpDUM3ttD2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Lt0xrerH; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=v84DgpGT; arc=none smtp.client-ip=80.241.56.161
+	s=arc-20240116; t=1751236383; c=relaxed/simple;
+	bh=N2uaiSdDiLRULBaf+pEbYnJyw3e0faVelMWJccN0GWo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BSUZESovkWlhY09Bf876b5Xjoszx7IZgoWWsziWsCVtITeMi8oLXJf8tFZpb6hEy68HqDOTc2F3q+2olDShvaTemtvnr0kfiPzWOYfS8ADls0+F54cke/R/S302sG+5aW+yBjcXFmNCNP/FdRRsY0J3r/8UmKPPRbT3x+FmdYX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=X9YEudhN; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=O2wvv5vp; arc=none smtp.client-ip=80.241.56.151
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4bVk2908RVz9srf;
-	Mon, 30 Jun 2025 00:08:17 +0200 (CEST)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4bVkZg1fVXz9st4;
+	Mon, 30 Jun 2025 00:32:59 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1751234897;
+	t=1751236379;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VCezvZH57woMKE+MUjaf7KpEpF9KPuEYDFUd6+xgS9w=;
-	b=Lt0xrerHclL4BIg25429gxmCXMktK7vKmcBn1FwDNiyZIn4bjsdVdIDlmfEyd6Zji9MFwE
-	ii2rL2LHODYhTwVYGMh8ED1V4+ZF+Sr0N4yTzE69fQG8Rgxq8pVZri0v29ImSt9VOWsG6J
-	4BrUlOR3NCA03FJR76q+3l9BodxzfdNit8HUuqZ29YpnWom1/goNUHKnkh1vy0JgR+Bkgc
-	pv+eWwIaYl0jJmb3v92/UFJ3Sot591VVpB3GK5P5WUMLgDJBaWS4VoHm17vurSx6CZywoO
-	b/5/ZleP7ye1/0dzfvP8Ij+E3UXc3vH35Sqw23ApXEbR4hZWvSScB3+Bw1ey7Q==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+	bh=kDdpl3By3X9ovNNxMrYzM8BcEB9nscefW9jEfoZxips=;
+	b=X9YEudhNYyyQKsMiNjcgzjtDOADX/Hv10Qk0k+HuNEQ8ykiwfc28TT9U8GUlfUXUNR0LyG
+	tPZGlv6/ocb9qYSs+yKRIDaIMGsYGvIZu5XGUk9zkUvyKcFXK9X/8JCrvzvNyvnSQWkHpP
+	X15jC3gY41r2waV/GFDtmlFzq+yB1i7mkjaztuRktFQ8wXL+ejstgQSuIZvdAttnAglB7S
+	PKg4lFKpSfvQ3W0XZ+zPO0QVzv7ouMyZZUwViaYeIfcJ0roYIt+hbBATAMy7mMquuq34Yy
+	x3yQaF/4OgzhdXw84EE5UgpziQl45GpKh8fn2QJR3MMvcVGJzwCI4jXQCdZFTw==
+Message-ID: <c0ec7600-158f-431e-8f99-a462d68b808e@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1751234894;
+	t=1751236377;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VCezvZH57woMKE+MUjaf7KpEpF9KPuEYDFUd6+xgS9w=;
-	b=v84DgpGT6mD0585yJI7xOUGUzKi6pFVtp6U5Fxvd/lYlMqoNF5ZcnIW1SWWY8ABMPeKsl9
-	4EVlYtnBW2V+X9mO9GCN0bw0chnD+Sv0qms78sSDuMO+MBpnTua/ijMVI3OLV2RFXTsK2X
-	s+Z+OTy6UYDCmjeXy1tsvZSBZz3yqJZNZEK9nsxMW1cU7oYsmPCyZQkVMDb0u/KoS488g5
-	a5d3tMnZicZHCsDQr449PS2BUJxCN9s3PfbWSW9SJGRwVzIG7q0JsFVFmsEbQhDSMegyzZ
-	YlrgFkVL0CMl7gSekgxobbbUetVN+7RnHnKQfwbusKhesNG/DPPZwavfuYkIag==
-To: linux-pwm@vger.kernel.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v5 3/3] pwm: argon-fan-hat: Add Argon40 Fan HAT support
-Date: Mon, 30 Jun 2025 00:07:20 +0200
-Message-ID: <20250629220757.936212-3-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20250629220757.936212-1-marek.vasut+renesas@mailbox.org>
-References: <20250629220757.936212-1-marek.vasut+renesas@mailbox.org>
+	bh=kDdpl3By3X9ovNNxMrYzM8BcEB9nscefW9jEfoZxips=;
+	b=O2wvv5vpGSPgJRfrdRylP+6fnD36JGHlQkMm2PCf5GW+bch6SGCD5OP1xGtws1aJ9LNag5
+	doFfqUIyia9SICS+oUC/wCe6lhItsjTxjG3wF/0LZif3tq1kiQYmpZBys1bUXPXvKi4W5L
+	0bkcas8UYWVc2z5oF5FNU26mgUiZeZx8DX8TGaFUwLVIUZAkX+J82fxcPyig9zJ0OCZPe2
+	s48NSlxFd+0sPGJBeqJXRj4hElophW1N2GRofKiD44IZsR8qDccQNmST6VIJHiu5GpLd8K
+	w58gqgTgkEUmwogqnd/VMzDmyrh7rBvs1nmFAbZIC7c70wO4B4VDM779bHA2dw==
+Date: Mon, 30 Jun 2025 00:32:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH] arm64: dts: renesas: r8a779g3: Update thermal trip points
+ on V4H Sparrow Hawk
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Magnus Damm
+ <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+ devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20250625100330.7629-1-marek.vasut+renesas@mailbox.org>
+ <20250626214152.GA1817595@ragnatech.se>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <20250626214152.GA1817595@ragnatech.se>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: hi3dcoo6fxyc143nwzuqrb569d6kbf3b
-X-MBO-RS-ID: 5194294e4403238fda2
+X-MBO-RS-ID: 2484d965c38b68daec3
+X-MBO-RS-META: 5jta8u7daqtyj6ngn4tdp1n53siur7bj
 
-Add trivial PWM driver for Argon40 Fan HAT, which is a RaspberryPi
-blower fan hat which can be controlled over I2C. Model this device
-as a PWM, so the pwm-fan can be attached to it and handle thermal
-zones and RPM management in a generic manner.
+On 6/26/25 11:41 PM, Niklas Söderlund wrote:
 
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: "Uwe Kleine-König" <ukleinek@kernel.org>
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Rob Herring <robh@kernel.org>
-Cc: devicetree@vger.kernel.org
-Cc: linux-pwm@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
----
-V2: - Switch to waveform ops
-    - Add shutdown hook to force the fan to maximum RPM on shutdown
-      instead of stopping it, to be on the safe side
-V3: - Find the 30 kHz fixed period PWM, use that
-    - Add comments
-    - Consolidate argon_fan_hat_write()
-V4: - Add if (wf->duty_length_ns > ARGON40_FAN_HAT_PERIOD_NS) overflow check
-    - Use i2c_smbus_write_byte_data()
-    - Rename struct pwm_chip *pc to struct pwm_chip *chip
-    - Remove tab alignment from argon_fan_hat_pwm_ops {}
-    - Define ARGON40_FAN_HAT_REG_DUTY_CYCLE macro
-V5: - Undo "Add shutdown hook" from V2
----
- drivers/pwm/Kconfig             |   9 +++
- drivers/pwm/Makefile            |   1 +
- drivers/pwm/pwm-argon-fan-hat.c | 109 ++++++++++++++++++++++++++++++++
- 3 files changed, 119 insertions(+)
- create mode 100644 drivers/pwm/pwm-argon-fan-hat.c
+Hello Niklas,
 
-diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
-index 6e113f8b4baf..3ef1757502eb 100644
---- a/drivers/pwm/Kconfig
-+++ b/drivers/pwm/Kconfig
-@@ -66,6 +66,15 @@ config PWM_APPLE
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called pwm-apple.
- 
-+config PWM_ARGON_FAN_HAT
-+	tristate "Argon40 Fan HAT support"
-+	depends on I2C && OF
-+	help
-+	  Generic PWM framework driver for Argon40 Fan HAT.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called pwm-argon-fan-hat.
-+
- config PWM_ATMEL
- 	tristate "Atmel PWM support"
- 	depends on ARCH_AT91 || COMPILE_TEST
-diff --git a/drivers/pwm/Makefile b/drivers/pwm/Makefile
-index 96160f4257fc..ff4f47e5fb7a 100644
---- a/drivers/pwm/Makefile
-+++ b/drivers/pwm/Makefile
-@@ -3,6 +3,7 @@ obj-$(CONFIG_PWM)		+= core.o
- obj-$(CONFIG_PWM_AB8500)	+= pwm-ab8500.o
- obj-$(CONFIG_PWM_ADP5585)	+= pwm-adp5585.o
- obj-$(CONFIG_PWM_APPLE)		+= pwm-apple.o
-+obj-$(CONFIG_PWM_ARGON_FAN_HAT)	+= pwm-argon-fan-hat.o
- obj-$(CONFIG_PWM_ATMEL)		+= pwm-atmel.o
- obj-$(CONFIG_PWM_ATMEL_HLCDC_PWM)	+= pwm-atmel-hlcdc.o
- obj-$(CONFIG_PWM_ATMEL_TCB)	+= pwm-atmel-tcb.o
-diff --git a/drivers/pwm/pwm-argon-fan-hat.c b/drivers/pwm/pwm-argon-fan-hat.c
-new file mode 100644
-index 000000000000..2c59bd142d40
---- /dev/null
-+++ b/drivers/pwm/pwm-argon-fan-hat.c
-@@ -0,0 +1,109 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2025 Marek Vasut
-+ *
-+ * Limitations:
-+ * - no support for offset/polarity
-+ * - fixed 30 kHz period
-+ *
-+ * Argon Fan HAT https://argon40.com/products/argon-fan-hat
-+ */
-+
-+#include <linux/err.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/pwm.h>
-+
-+#define ARGON40_FAN_HAT_PERIOD_NS	33333	/* ~30 kHz */
-+
-+#define ARGON40_FAN_HAT_REG_DUTY_CYCLE	0x80
-+
-+static int argon_fan_hat_round_waveform_tohw(struct pwm_chip *chip,
-+					     struct pwm_device *pwm,
-+					     const struct pwm_waveform *wf,
-+					     void *_wfhw)
-+{
-+	u8 *wfhw = _wfhw;
-+
-+	if (wf->duty_length_ns > ARGON40_FAN_HAT_PERIOD_NS)
-+		*wfhw = 100;
-+	else
-+		*wfhw = mul_u64_u64_div_u64(wf->duty_length_ns, 100, ARGON40_FAN_HAT_PERIOD_NS);
-+
-+	return 0;
-+}
-+
-+static int argon_fan_hat_round_waveform_fromhw(struct pwm_chip *chip,
-+					       struct pwm_device *pwm,
-+					       const void *_wfhw,
-+					       struct pwm_waveform *wf)
-+{
-+	const u8 *wfhw = _wfhw;
-+
-+	wf->period_length_ns = ARGON40_FAN_HAT_PERIOD_NS;
-+	wf->duty_length_ns = DIV64_U64_ROUND_UP(wf->period_length_ns * *wfhw, 100);
-+	wf->duty_offset_ns = 0;
-+
-+	return 0;
-+}
-+
-+static int argon_fan_hat_write_waveform(struct pwm_chip *chip,
-+					struct pwm_device *pwm,
-+					const void *_wfhw)
-+{
-+	struct i2c_client *i2c = pwmchip_get_drvdata(chip);
-+	const u8 *wfhw = _wfhw;
-+
-+	return i2c_smbus_write_byte_data(i2c, ARGON40_FAN_HAT_REG_DUTY_CYCLE, *wfhw);
-+}
-+
-+static const struct pwm_ops argon_fan_hat_pwm_ops = {
-+	.sizeof_wfhw = sizeof(u8),
-+	.round_waveform_fromhw = argon_fan_hat_round_waveform_fromhw,
-+	.round_waveform_tohw = argon_fan_hat_round_waveform_tohw,
-+	.write_waveform = argon_fan_hat_write_waveform,
-+	/*
-+	 * The controller does not provide any way to read info back,
-+	 * reading from the controller stops the fan, therefore there
-+	 * is no .read_waveform here.
-+	 */
-+};
-+
-+static int argon_fan_hat_i2c_probe(struct i2c_client *i2c)
-+{
-+	struct pwm_chip *chip = devm_pwmchip_alloc(&i2c->dev, 1, 0);
-+	int ret;
-+
-+	if (IS_ERR(chip))
-+		return PTR_ERR(chip);
-+
-+	chip->ops = &argon_fan_hat_pwm_ops;
-+	pwmchip_set_drvdata(chip, i2c);
-+
-+	ret = devm_pwmchip_add(&i2c->dev, chip);
-+	if (ret)
-+		return dev_err_probe(&i2c->dev, ret, "Could not add PWM chip\n");
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id argon_fan_hat_dt_ids[] = {
-+	{ .compatible = "argon40,fan-hat" },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, argon_fan_hat_dt_ids);
-+
-+static struct i2c_driver argon_fan_hat_driver = {
-+	.driver = {
-+		.name = "argon-fan-hat",
-+		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
-+		.of_match_table = argon_fan_hat_dt_ids,
-+	},
-+	.probe = argon_fan_hat_i2c_probe,
-+};
-+
-+module_i2c_driver(argon_fan_hat_driver);
-+
-+MODULE_AUTHOR("Marek Vasut <marek.vasut+renesas@mailbox.org>");
-+MODULE_DESCRIPTION("Argon40 Fan HAT");
-+MODULE_LICENSE("GPL");
--- 
-2.47.2
+>> +&a76_3 {
+>> +	a76_3_thermal_idle: thermal-idle {
+>> +		#cooling-cells = <2>;
+>> +		duration-us = <10000>;
+>> +		exit-latency-us = <500>;
+>> +	};
+>> +};
+> 
+> I did not know you could do this and use it as a cooling device, thanks
+> for teaching me something new!
 
+You could, although the cooling effect may vary. Some cores enter e.g. 
+clock stop during idle and then they really cool down, some do not.
+
+>> +/* THS sensors in SoC, critical temperature trip point is 100C */
+>> +&sensor1_crit {
+>> +	temperature = <100000>;
+>> +};
+>> +
+>> +&sensor2_crit {
+>> +	temperature = <100000>;
+>> +};
+>> +
+>> +&sensor3_crit {
+>> +	temperature = <100000>;
+>> +};
+>> +
+>> +&sensor4_crit {
+>> +	temperature = <100000>;
+>> +};
+>> +
+>> +&sensor_thermal_cr52 {
+>> +	critical-action = "shutdown";
+>> +};
+>> +
+>> +&sensor_thermal_cnn {
+>> +	critical-action = "shutdown";
+>> +};
+> 
+> Is this not the default action for critical trip points? In my testing
+> in the past R-Car systems have always shutdown when the critical trip is
+> reached.
+
+It isn't quite that clear cut.
+
+drivers/thermal/thermal_of.c thermal_of_zone_register() contains this 
+piece of code:
+
+"
+407         ret = of_property_read_string(np, "critical-action", &action);
+408         if (!ret && !of_ops.critical) {
+409                 if (!strcasecmp(action, "reboot"))
+410                         of_ops.critical = 
+thermal_zone_device_critical_reboot;
+411                 else if (!strcasecmp(action, "shutdown"))
+412                         of_ops.critical = 
+thermal_zone_device_critical_shutdown;
+413         }
+"
+
+If "critical-action" DT property is not set, then of_ops.critical are 
+not modified.
+
+drivers/thermal/thermal_core.c thermal_zone_device_register_with_trips() 
+contains this piece of code:
+
+1571         if (!tz->ops.critical)
+1572                 tz->ops.critical = thermal_zone_device_critical;
+
+If (in case of OF) of_ops.critical is not set, use 
+thermal_zone_device_critical() handler.
+
+There is a slight difference:
+- If critical-action = "shutdown" is set in DT, then handler
+   thermal_zone_device_critical_shutdown() is called, which is a wrapper
+   around thermal_zone_device_halt(tz, HWPROT_ACT_SHUTDOWN);
+- If critical-action = "shutdown" is NOT set in DT, then handler
+   thermal_zone_device_critical() is called, which is a wrapper
+   around thermal_zone_device_halt(tz, HWPROT_ACT_DEFAULT);
+
+thermal_zone_device_halt() itself is a wrapper around 
+__hw_protection_trigger(msg, poweroff_delay_ms, action); , where action 
+is either HWPROT_ACT_SHUTDOWN or HWPROT_ACT_DEFAULT , which is handled 
+in kernel/reboot.c __hw_protection_trigger() implementation :
+
+1028 void __hw_protection_trigger(const char *reason, int ms_until_forced,
+1029                              enum hw_protection_action action)
+1030 {
+1031         static atomic_t allow_proceed = ATOMIC_INIT(1);
+1032
+1033         if (action == HWPROT_ACT_DEFAULT)
+1034                 action = hw_protection_action;
+
+In case of HWPROT_ACT_DEFAULT , the 'hw_protection_action' which is 
+assigned into 'action' can be overridden, either via sysfs write, or 
+hw_protection_ kernel command line parameter . In case of 
+HWPROT_ACT_SHUTDOWN , the action cannot be overridden .
+
+In case this hardware starts to melt, we surely want HWPROT_ACT_SHUTDOWN 
+with no override options ...
+
+> If it's not I think we should move these to r8a779g0.dtsi. And
+> likely add them for all other SoCs too?
+
+... the other hardware has non-optional heatsink, where override-able 
+HWPROT_ACT_DEFAULT is the right option I think .
 
