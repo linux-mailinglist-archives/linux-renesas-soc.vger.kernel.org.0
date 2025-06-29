@@ -1,99 +1,113 @@
-Return-Path: <linux-renesas-soc+bounces-18896-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18897-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C8C1AECE5B
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 29 Jun 2025 17:40:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6902AECE70
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 29 Jun 2025 18:02:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5533E7A5672
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 29 Jun 2025 15:38:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E7BCD1896039
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 29 Jun 2025 16:02:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9855619F11F;
-	Sun, 29 Jun 2025 15:40:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1011922DFA4;
+	Sun, 29 Jun 2025 16:02:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="ZenjCMxU"
+	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="AtOxdF1r"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from out.smtpout.orange.fr (out-74.smtpout.orange.fr [193.252.22.74])
-	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-221-239.mail.qq.com (out203-205-221-239.mail.qq.com [203.205.221.239])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2458D43147;
-	Sun, 29 Jun 2025 15:40:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.22.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D329128819;
+	Sun, 29 Jun 2025 16:02:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751211614; cv=none; b=lt5Rkrbq076uHCU4Ml2w8czGEmL3nTs2CZR0o8PomkzdbC9T/+6w2fUgS1wIKcMW2ji7ePEi5oZC13MwRo7Fx2k+unvNI2H11OKCAZ74fB2MPP7VzaGxXfzoZL9YnvM4S9vrlz/9L9a8ZuEsC1yAq5+CozEH+cGW6hhS1LenQVs=
+	t=1751212935; cv=none; b=T8lZzVytUQ8i3FfIGkf1kgjP3U0E7m1lHbBAoNgpycYpo6/mX6f405f7Nc2cEszxzR+XPN7o11wfRI+A0cO51pGyOYt+NScrmUVOKlAh+rXJ/GzRr5EdQrbcAdnEbKV4N+rUYqb7URSE/dnCTx0jhWpEKch02kKpyY6Q2Bn/O2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751211614; c=relaxed/simple;
-	bh=rT2lgqc9BKdMUJ0jypPlL1wSna+/d9C+a5HgXD5o6wM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LIIlx9SykiDwgO6o5v+qOu2ehpXn/5okPfx6QN15jYYYnuh1WzPzam1sNj/ipLanRXpMFRDHdKiYZHaS4XX5J02T1A/k7sTIGe6pSV1woO9qMgCq5gGYYK7Dtpx4/WHcxadD1+HmsJsif/3s2SfDSeYuLO4PV0h2BMoO7HabDng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=ZenjCMxU; arc=none smtp.client-ip=193.252.22.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from [172.16.82.72] ([124.33.176.97])
-	by smtp.orange.fr with ESMTPA
-	id Vu7juYYhtmEU9Vu8Su6Ic5; Sun, 29 Jun 2025 17:40:08 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1751211608;
-	bh=63YVuvhNKhvutN+IZ6hlgh/2Cir4VaP+1GCWC48EJR8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=ZenjCMxU18A2EvwWmZw0BJOE2z6kAW1p1y5R5g9WZ5eVErgvN8AQ3ZKFH9DkZ8CYZ
-	 fuEmhnWbcj6+7rTgPyM+9qQqGSUo6TcXZmB8TjvLUy/kXoJtQKxm/RiBUd1OmSAeBR
-	 /UU7jGXw9y/RrBE5yEWFVOR9TFbpdnpzlOtKz8cwJ7qEHXxpZDPAtXSMDBTDzj1/tW
-	 7eSQoPxTFs3kIdpqEZOFP62Pik1OyXOZTF2DtJQd2shjapx2vTW9ZSKJ95dWodbx/n
-	 LG7h9CX9SVDBn3sqIk7kZOrRoiAvjIT49x1/t8l2MKYkQJ5jvqtUAyp/Zj0pXlEf6h
-	 idgNI0ZQMIPcQ==
-X-ME-Helo: [172.16.82.72]
-X-ME-Auth: bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 29 Jun 2025 17:40:08 +0200
-X-ME-IP: 124.33.176.97
-Message-ID: <6c1ac003-6e79-45df-b172-5c01178ff6ed@wanadoo.fr>
-Date: Mon, 30 Jun 2025 00:39:18 +0900
+	s=arc-20240116; t=1751212935; c=relaxed/simple;
+	bh=Q3NZ/Hs7IXDXg0EZbN/RJ1y/NoUVJyPO4WAfgzm7ugM=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=DnjOr8+ztntjEd3AjNBvpj38WjrwGMFp2uV3+Ly82+l8yjd0XasXuIpVu9VxmbH3DLzZ9UqVyw2mDCdVQCLBqKZ0m759aS0NdrKzxBp1hdfZ7Cse/MsxMfix7ZvGHFPqyNVaTj2uEtbqWHmb6mxs5enEKLmWLX88Uk7tOyRwh54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=AtOxdF1r; arc=none smtp.client-ip=203.205.221.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1751212621;
+	bh=rjiuaExuqilvnnkZXH6U2UQzWHA6Kj+xZY3GhDa4HWo=;
+	h=From:To:Cc:Subject:Date;
+	b=AtOxdF1rMf6IV6PPOX9e9467H+kuLtikVPrPuVWxHq2EE/riab9QlUWIxQPd4Jmax
+	 0VV1xHYLM0xFsSsOmJWDqo/zuk8+b+U7GmEAWQw4GtUVdag2IpDPjjrdbwWo9d3V84
+	 169KnJHH1KtkNyJ2m2QoDVo7A2IODr0Vk0jGbers=
+Received: from KernelDevBox.byted.org ([115.190.40.13])
+	by newxmesmtplogicsvrsza29-0.qq.com (NewEsmtp) with SMTP
+	id E3A3683E; Sun, 29 Jun 2025 23:56:58 +0800
+X-QQ-mid: xmsmtpt1751212618takwe3j1s
+Message-ID: <tencent_71CC9630D88A8792C2396A8844DCCD5C6D06@qq.com>
+X-QQ-XMAILINFO: Ne9q9v6AFM79dBrz8kR5U6Cz4mmV6e8rVzM5Nas1C5p3krQFksLLqJ7NCq3wzR
+	 SD478DuZr9QUTEpgNk5QYaW310myImXSTEG7iuf0iOpG7ZIRtFTNx2cqR6dTIHIQtiw9zbU0E6Ms
+	 Nhldmz6oEuKIvF0DsWyHwnPjc8vTEbr+VeU76laRaR2pbLf6HhQQafrQUocy+9W9NAqaszFaRqt0
+	 vw+m/fdesEXcX5uVAN62IQZK/8Hep3cxtLjqadJBW6fuCIxs76wYD4mLlvdBLqCvK74dWk6rzoRZ
+	 SN50i32+NYOFTZDZrzvbMUi5Tdlzovq24G0lCRw3K59mmcCt8fLm9hr/vxCPAgy7LBIjhsbyfs/u
+	 DFOg8mJEo+iqzmrAgJBXsrkZeVbVqOxVnWo/z+0gP7XYwM4lisekoBnttLI7Pda6wmxeYONvzdsQ
+	 zqWwmPuYKJUN1hRCcLKE+ah6J8LBsWzvjyQ3ZcSGGSvGb/0Od/7ZOREejtiHk2qRSDbKJ835EMdw
+	 tYhRvTJunw62a4bwhBv5bXlvcArXPyuj9GtvD2Fa8/BSlXWcvIPeZCES86Y5fwtWldQSw7rzUq5S
+	 EFhZMoLnMuZ4Hx791XpqejacNeotd6ncF1fvvDVRb3F+L77WGLKbZgF+y72P6roTJjY9UlUg+3gm
+	 3bYfABds0ySybQdv6Kq4ZcwcqBFO19foz92WAt/FV7y1GMaKCnFoNwBMBgkJj4znwDUZljtSpvqV
+	 lpTFJyZejeddaLIm2fkYYnWSLfjywwlqNIUeaO3HdjY6hXfbkHT2r7nCgaskuaaGMLCTj6l+uJnz
+	 HOEcXPZvvKNajdEga8SF9D1tHGaJoaDZDVuEdZHXqoUK01H6mdq6DAejKLTimTufF4dOSe0MCHxx
+	 U1yccSGBZDQ15g0iDALu5U6hyZP640OEuhYIEAZc9KDfwkwYvGOjNfsszGpFEafPwAoxrpqoUOWp
+	 3AxXsqCwWHG4mxxWmwFfeAJTeNsTOaoSnB6uBDRUMSTS58pHP8GFSGInPCnxLAMqM7GTMXuMNmOc
+	 klBCEnqtHsUkO7jRsN
+X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
+From: Zhang Shurong <zhang_shurong@foxmail.com>
+To: vkoul@kernel.org
+Cc: geert+renesas@glider.be,
+	magnus.damm@gmail.com,
+	robin.murphy@arm.com,
+	ulf.hansson@linaro.org,
+	kuninori.morimoto.gx@renesas.com,
+	u.kleine-koenig@baylibre.com,
+	dmaengine@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhang Shurong <zhang_shurong@foxmail.com>
+Subject: [PATCH] dmaengine: rcar-dmac: Fix PM usage counter imbalance
+Date: Sun, 29 Jun 2025 23:56:57 +0800
+X-OQ-MSGID: <20250629155657.2074439-1-zhang_shurong@foxmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] can: rcar_canfd: Drop unused macros
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: linux-can@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Biju Das <biju.das.au@gmail.com>, Marc Kleine-Budde <mkl@pengutronix.de>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>
-References: <20250629150417.97784-1-biju.das.jz@bp.renesas.com>
-Content-Language: en-US
-From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Autocrypt: addr=mailhol.vincent@wanadoo.fr; keydata=
- xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
- LFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI+wrIEExYKAFoC
- GwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQTtj3AFdOZ/IOV06OKrX+uI
- bbuZwgUCZx41XhgYaGtwczovL2tleXMub3BlbnBncC5vcmcACgkQq1/riG27mcIYiwEAkgKK
- BJ+ANKwhTAAvL1XeApQ+2NNNEwFWzipVAGvTRigA+wUeyB3UQwZrwb7jsQuBXxhk3lL45HF5
- 8+y4bQCUCqYGzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrbYZzu0JG5w8gxE6EtQe6LmxKMqP6E
- yR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDldOjiq1/riG27mcIFAmceMvMCGwwF
- CQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8VzsZwr/S44HCzcz5+jkxnVVQ5LZ4B
- ANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
-In-Reply-To: <20250629150417.97784-1-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 30/06/2025 at 00:04, Biju Das wrote:
-> Drop unused macros from the rcar_canfd.c.
-> 
-> Reported-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-> Closes: https://lore.kernel.org/all/7ff93ff9-f578-4be2-bdc6-5b09eab64fe6@wanadoo.fr/
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+pm_runtime_get_sync will increment pm usage counter
+even it failed. Forgetting to putting operation will
+result in reference leak here. We fix it by replacing
+it with pm_runtime_resume_and_get to keep usage counter
+balanced.
 
-Thanks a lot for this clean-up!
+Fixes: 87244fe5abdf ("dmaengine: rcar-dmac: Add Renesas R-Car Gen2 DMA Controller (DMAC) driver")
+Signed-off-by: Zhang Shurong <zhang_shurong@foxmail.com>
+---
+ drivers/dma/sh/rcar-dmac.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-
-
-Yours sincerely,
-Vincent Mailhol
+diff --git a/drivers/dma/sh/rcar-dmac.c b/drivers/dma/sh/rcar-dmac.c
+index 0c45ce8c74aa..c1ce3b0ae74d 100644
+--- a/drivers/dma/sh/rcar-dmac.c
++++ b/drivers/dma/sh/rcar-dmac.c
+@@ -1068,7 +1068,7 @@ static int rcar_dmac_alloc_chan_resources(struct dma_chan *chan)
+ 	if (ret < 0)
+ 		return -ENOMEM;
+ 
+-	return pm_runtime_get_sync(chan->device->dev);
++	return pm_runtime_resume_and_get(chan->device->dev);
+ }
+ 
+ static void rcar_dmac_free_chan_resources(struct dma_chan *chan)
+-- 
+2.39.5
 
 
