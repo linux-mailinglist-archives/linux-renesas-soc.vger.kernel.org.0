@@ -1,86 +1,95 @@
-Return-Path: <linux-renesas-soc+bounces-18909-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18910-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B134EAED238
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jun 2025 03:32:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 016B1AED3A5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jun 2025 07:02:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6BE9F16D3B6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jun 2025 01:32:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 31DC8189484C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jun 2025 05:03:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 026291F948;
-	Mon, 30 Jun 2025 01:32:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F5CE18FDBE;
+	Mon, 30 Jun 2025 05:02:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y06AxkaE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NmS2Fw2G"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87F3E3D69;
-	Mon, 30 Jun 2025 01:32:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE7FF1FDD;
+	Mon, 30 Jun 2025 05:02:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751247136; cv=none; b=H723z4mwowQnZefW3bBXso/IA3rmAzlgDgwyamCWLzGzLXKy8kTBH3X7hX92IDdRdUBJngiaXgbw4llk1nBXMOuIhrJRGuFMEmuhBpfIjH3rUL4/CiUpvV/coMom9U8Gb1IlhrDaQqS06PizsU5cPhMiy/2/Mw5CPWoYUqLyw9A=
+	t=1751259772; cv=none; b=J/sstf+59woIU9N97M/lT4mzR4aI27xqh8T3JoBFd5dGwxRcs0kNoNMLB71LVhGzrwMowxIB78HXNuSpBwH3K+uo76sQCVKn9JM1/+Tus21cgkuQqdApPABYicXBrpvcy6vjPOoqLWX1REb5yDRMzScQwjYFre+sXZ5U4WRG7vM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751247136; c=relaxed/simple;
-	bh=hdiL7HMoLJHVYQx0nZ/jiH0MELCWgrEJVD5K/zMgloI=;
+	s=arc-20240116; t=1751259772; c=relaxed/simple;
+	bh=5VTdQ4tGtrefrn2S+93SpE0Y+HCmh+YKtuLUej5R6hs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SY0oznjiUMCy2Wbvsm5a2J6KJ9VMj7wgN7bHM5I53dhsoGRSBti8XGVgi5Yss078hVto0vgShNQLZrO7ePChUePDz8l2dv/yNqUgh+PBNAUvLZZkhSmqqoMiNqkoXHgIFYa0A9gPdR5r5vbpys3lmA8ld/3S607mtG58gqw/aeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y06AxkaE; arc=none smtp.client-ip=209.85.210.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=qFuDn9+hrAdEPtY6bwSQsW0gSRiBouR5kqkQelBqUCKWNPdJI9COGILPc3MBFAUn6WGuNEHg+gHHGPc6R/PwfxM8a7H/9VI7RSL9+pezljDo3RmRicsCCZiUTtSSoBsXn0YvlNRbWIXZpVy4nqOEgxWVP9s1eVWIJaDrjtaA8xE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NmS2Fw2G; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7426c44e014so4137839b3a.3;
-        Sun, 29 Jun 2025 18:32:15 -0700 (PDT)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-23602481460so39240355ad.0;
+        Sun, 29 Jun 2025 22:02:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751247135; x=1751851935; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1751259770; x=1751864570; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=L0aAsZ1sbdiZCT7aZCI1+5dJ3jW5sPjVrCZW6zgvqsA=;
-        b=Y06AxkaEqlDUuDtUZenjeLFA8Ko4KUEjGTwoaYmVLlQz5pXq0l67AzYMMS/q5YLCxL
-         KEeVEuoX0jyLJFXwibQnrrU4bmfUAqG/2+3MzWH4nAM5GxXl/CwPbAuwPhBiTafBjpO1
-         4VfmpRK6ouI3fU+IlTA/VaWzmSgckhUq7l6IYmnFNjDrC4wdPca5SjuoSQ8P8IoOqc1q
-         IN4EuNlFsfVRYCJohxrr1tLw2gmdTJhr1ORnxXMi2OJzGOsqnCyC8xYBYYZ0/ORY4wF7
-         ob4xrTx17X7PmAQ6ZiCRkhoatFURUOhRRXSQZu7Z1ks7dE3luHj8/BOmfqBCS2Kzs2Fm
-         V5rw==
+        bh=k14vHInxFXfvWiA3yiBDXZSY6za1W36jbGVMCLDj9aM=;
+        b=NmS2Fw2Gva9xt7kq0M2uJfYhSPTu4fR/+snZ3x5jhn0yOFngl5cjVbpkyUi8mIb38v
+         xSiiYbO4fbFZEP/zOXpkGNotTiuU1RhjtKa2rxGiyH8tXeK+5z9U00RtAtWZxFArDxbn
+         VwWNFN5n1oQR9bbHkAOw/3CXFS3p5m89ZmHfAwPHgSko7CBngCJgOaqXmrKZv+WpunN4
+         uOIqq2V7SdoioUegdVe9TlPbhInWUmiYOD4UJDs7ssqJGOn8XYXM/tyrST8f9qjuVpkn
+         jBXbA8R4bgryh1deQ2hfRIBT2rxjHmdj0cnvs85cUzJ7IQTSR+KLWpgjctHLacF3qSlx
+         Ik5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751247135; x=1751851935;
+        d=1e100.net; s=20230601; t=1751259770; x=1751864570;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=L0aAsZ1sbdiZCT7aZCI1+5dJ3jW5sPjVrCZW6zgvqsA=;
-        b=wdFMLYDfj5PgTalGT9af2G/Fs8LUnsnjhWl5qsU1JI1x9rRIWK5G2F+OvNJMbhfW+W
-         f0nVUx+1y1rgA/L95Bi3k2tCg1K0+kyiB5g5kjigaz/5d/OfXUMJqRnXMrpIqko+eFPf
-         XEBG3DUviO7pOVA8fo06f+WWZNU6drKZTubG2KX7fBgyiITPdmVVeaK4zwr3ydmyv6uv
-         FRuJz7SpmSkXYdzG1D4fIM4/xI4zNFIFBqSDe2Zb0mygSwRF1k5G3xB7jyN4ycBJoKdf
-         dpjZk8ggXbVtXTcp6BWgKQxjzvFeriln3J8nKI/OukXgwQCCA56+f+XVZGndNnCi6vNH
-         VjlA==
-X-Forwarded-Encrypted: i=1; AJvYcCWzdi8H/zeyfw6EtHORqxnv/pC5JCz21fKw66/r60PotD1PCiEVKFGVw7tvjnSYHurNq+z3BI6ZqdJrlbCCRxCsvg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwnybYaG8YDN387xh8wfVs2QiNP2Rwu4faPNr5UipkR5AMk5kfj
-	FtfqAu9OVycH7xQTO8tdqAX6/7o887lfXk67Ryi8GPMUHrvUAUprkRL6
-X-Gm-Gg: ASbGncs2qLFeZZv9Rw9VGnzGLmhv83pWQcEs6hhCsd2skAJ50DV85J+bQkuTfvB3OL8
-	5weBJ2LrefGiXSghDLwxN/CeJ3J6B5lKT1E4CVrd2XWIrc0lpLyAn96Pt4QyHoBi4169owNJ9vq
-	7xVPNl5G13Jel+mzWLoIBisOQQsTTSs3ubnLRutZYUf29EBUl4gAnVXztiB7/g6EGG9r0sDcIR+
-	QPGAQ1m78BRjk+boNgp2KRs5diOr7ka7zw0DjO2pc1oiGSwYyIHhFi04udzuhO4i73mHoPIZqN0
-	vErTM/cWEnSjmYNSYAdDO3WVvv7qLXbjN/HqruOXMrsTZunA85ZHqAy/8Qpgbog=
-X-Google-Smtp-Source: AGHT+IFE8EqfrNatNXll66MY6QiMMmzpfEIT1JyiUdPzr69mN+JQpR3DwaIs+MGZ4Tx6D+Zu3tsQ1g==
-X-Received: by 2002:a05:6a00:1a8f:b0:748:f6a0:7731 with SMTP id d2e1a72fcca58-74af6fcd495mr18563358b3a.23.1751247134690;
-        Sun, 29 Jun 2025 18:32:14 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:d8da:e3e0:2b93:2315])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af56d0002sm7980964b3a.136.2025.06.29.18.32.13
+        bh=k14vHInxFXfvWiA3yiBDXZSY6za1W36jbGVMCLDj9aM=;
+        b=o0UM6sMTMohk2KGGBg7wdxefzp+sHzqwTQlNIyftQxw2C869k6whfM4kg/zWEe9kMC
+         dU0PXiJwBk0IfCmp54AfFomKBtqXxYagnXITR3W3cKOkDMa78PYS71ZI75MhgVW+aido
+         ZLxmyLRIzpM4SkYvbON8glQr3lrKn7/G7n+Md58z28tsqUtYFHEdvtgy2hs//29pHG/C
+         xKfQRaiJYKbYpVryWhHgfpAI9/LSSeGIFVWivgdcr4oFeQwUrA3l688MPm99OrJshTkt
+         uwdlfUJTBD4fIS1dUm6fxiR42J87GdqI+AWsi2yhWXOEgtgip+5hCunb5rvzplaMisGF
+         Zdag==
+X-Forwarded-Encrypted: i=1; AJvYcCUJgDzRRT63CVF1NDAnuh0Bp/TJKNT8We9G6EYCGYGyITQFu3G95cxSmxn3qhzswkAdCB5grsjwG5fBKrZP@vger.kernel.org, AJvYcCVVi8p2Bz4EUcPgddkDubzzVvMLlVe0rdPeSFAFhLEtFjunbAlo75jtqp9n38dwdeIhCM5Gb/1NU2I=@vger.kernel.org, AJvYcCWKJkiyGk4vr1aoaj9aePklXL/ucWo19pLOXS9vb3VskTXIahDVRas5ZHJ8dsqrgEAdocCHx/Dg+cU=@vger.kernel.org, AJvYcCXCgex86kRCUlE182BacLliR51XaZU5WfxHmsJGzSXx/2n2z0jETrBGZEmz11aKwGbQoKJpuj9rqIpl@vger.kernel.org, AJvYcCXlIZihNSA+/QVwREhfhuN2lvWKzL2DgN/5xqisQUcHMrDKDIptBWI1uq+ODIQRsnRT+FxESlJWJ3H4aumYcJzFnB4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyiJF34tTWo2B1N8Pkd6e/k2U8nDAUmCEekqKsUju+ntInKxSwa
+	zPhPAjDWtYNI+aMkOTJj0UB2oyVt/pli8vr115xFbbRJt5vFeyAtD3F6
+X-Gm-Gg: ASbGncufSmskDRwVYIlA/wuYI+gjgD7mGCHPm90rpBirtfKp2gV9hZK6YpvdJklNMMs
+	6XRu7Ian3aJzzCRxdke1X9AHuVVVMD0HPG0lZV1vUjzZr3hUi40FwZnnybobTlAhKH4qbGGHm9A
+	eZBFs+8oGTMAQZWwpMa0PbHwxbRtUzuP5a8R4muoAG3bOsjH5Y52Vpd7w1boA9c1SAydGRAleyK
+	U8yQ4kMkaC1aupilJkdIvMs7AU47SK1fJXrCOb4yDCiCCHpiyBfkBbR+LB/HyntzlwR0ttfXuqX
+	Oiy3vNSpFmZbfo3x3fy/BKGLljA2QWf+ms8glBwxVcg2cz8yNq8kHdrBQsRE1YN0mCSJkKbS
+X-Google-Smtp-Source: AGHT+IE5SYnmn2DsoXc2OcyiJSIeLfFJprEUGRZPg+PLqeBpDfsjB+lQj9pvXgneyXycHf+dUh7hcA==
+X-Received: by 2002:a17:902:e881:b0:235:f3e6:4680 with SMTP id d9443c01a7336-23ac3cf5c12mr163799695ad.21.1751259769921;
+        Sun, 29 Jun 2025 22:02:49 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:c92b:c666:1f8:990e])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb3bc4fdsm72602095ad.202.2025.06.29.22.02.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Jun 2025 18:32:14 -0700 (PDT)
-Date: Sun, 29 Jun 2025 18:32:11 -0700
+        Sun, 29 Jun 2025 22:02:49 -0700 (PDT)
+Date: Sun, 29 Jun 2025 22:02:45 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-input@vger.kernel.org, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Hans de Goede <hdegoede@redhat.com>, 
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] Input: goodix - add support for polling on devices
- without IRQ line
-Message-ID: <6kqp24t5c23vcvv7wuirkjz6a5s3daacifw37rb5554v4uqeit@jzsinkx6qb7r>
-References: <20250610005458.126842-1-marek.vasut+renesas@mailbox.org>
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	gregkh@linuxfoundation.org, dakr@kernel.org, len.brown@intel.com, pavel@kernel.org, 
+	jic23@kernel.org, daniel.lezcano@linaro.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, bhelgaas@google.com, geert@linux-m68k.org, 
+	linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	fabrizio.castro.jz@renesas.com, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
+	linux-i2c <linux-i2c@vger.kernel.org>, "andi.shyti@kernel.org" <andi.shyti@kernel.org>
+Subject: Re: [PATCH v4 1/2] PM: domains: Detach on device_unbind_cleanup()
+Message-ID: <f4vj7rab6uftieicz5s3qur7yk26cg3xxaabhcmqnx3nybhshl@j6ahyvw6grik>
+References: <20250616135357.3929441-1-claudiu.beznea.uj@bp.renesas.com>
+ <20250616135357.3929441-2-claudiu.beznea.uj@bp.renesas.com>
+ <CAJZ5v0j_nm_z4ma2AsRkjiZn-AJ2bK982+Mwa8+_PoUAveNATQ@mail.gmail.com>
+ <04a6c53c-8383-4496-b502-149bd261cfdb@tuxon.dev>
+ <CAJZ5v0gZ3GZ79j2gbhVSjTN+RmYjEUJQjGMSoLsEkUYtjWTngQ@mail.gmail.com>
+ <CAPDyKFo5=_eiWBf8fpv6kG8qhM6K3DxnqhttgHHgSTP6CM8LuA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -89,32 +98,27 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250610005458.126842-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <CAPDyKFo5=_eiWBf8fpv6kG8qhM6K3DxnqhttgHHgSTP6CM8LuA@mail.gmail.com>
 
-Hi Marek,
-
-On Tue, Jun 10, 2025 at 02:54:12AM +0200, Marek Vasut wrote:
-> Add the capability of polling the touch controller for events every
-> 16ms, which is useful on hardware that did integrate this touch
-> controller, but did not integrate the IRQ line, like the RasPi .
+On Thu, Jun 19, 2025 at 02:16:37PM +0200, Ulf Hansson wrote:
 > 
-> Make use of the generic input poller code. Factor out the code
-> from goodix_ts_irq_handler() into generic goodix_ts_handler(), so
-> it can be used both by the IRQ handler and poller callback.
+> I am not sure it's needed, unless it's especially targeted for the
+> ACPI PM domain, which I find hard to believe.
 > 
-> Use of_client->irq to find out whether the interrupt line is present
-> or not, independent of whether this is OF or ACPI system. It is not
-> possible to register poller in case request_irq() fails, because the
-> request_irq() in this driver is deliberately called after the input
-> device was registered, and registering the generic poller at that point
-> is too late already.
-> 
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> Also, I find it awkward why the i2c bus should be any different from
+> many other types of buses. It's probably just because of legacy and
+> that someone took a decision when we added it.
 
-There was another version of this patch that was submitted and reviewed
-by Hans, so I merged it. 
+It has nothing to do with I2C and everything to do with ACPI and the
+fact that it brings devices into D0 when probing. On ACPI systems
+(unlike DT ones) power sequencing is done in firmware so drivers are
+unable to control this. And this causes annoying flashing of privacy
+leds on webcams.
 
-BTW I think this version would end up trying to disable IRQ0...
+See details in 1e96078e0ae4 ("at24: Support probing while in non-zero ACPI D state")
+
+If there was a SPI device sharing power rails with a camera we'd need
+similar hack in SPI bus.
 
 Thanks.
 
