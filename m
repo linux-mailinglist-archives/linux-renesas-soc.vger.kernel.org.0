@@ -1,219 +1,141 @@
-Return-Path: <linux-renesas-soc+bounces-18924-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18925-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6195AAEE2AB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jun 2025 17:34:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D93E8AEE2D9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jun 2025 17:41:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B94BA167735
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jun 2025 15:34:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C281E3B9137
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jun 2025 15:40:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED9FB28F519;
-	Mon, 30 Jun 2025 15:34:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 128B628DF41;
+	Mon, 30 Jun 2025 15:41:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="m7XaFWli"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YRE4VEb3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FDE928A1D4
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Jun 2025 15:34:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF84285C9C;
+	Mon, 30 Jun 2025 15:40:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751297672; cv=none; b=ZKSItPhYJN4RJr+OKq3v+l9CT0pb9OBH65Efnz9IoWVV9fGEPUrbYyAoCaPXWpoNaawrHlulTBlfaYElLZswXnTaVTC81Z5h2gznaQsNOaLmep5j0QU6HdX0JX6hBMIOQ6dckuhXKU1UQm9qbYhdDiknen9vzfzJp2XduxRzPqQ=
+	t=1751298061; cv=none; b=e/NH9QR5vJnyjzSaO7U8USuxUpzgfHarJin1iCoCD+PzdFIdXYq6kEvj0go4b2eu8NyOx5YBYv93Aw4HkMZgmGclsEEJ5rAT2+8tpqI0tO+IpbtL3uR+KFsAzNe2CAq0StjzH1OCxvl65VCCKQh0+swt3eC+fvxMD2GHP5tMGW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751297672; c=relaxed/simple;
-	bh=x36TDPEuTbBgvceBNfq2Dadxx5ypYe9R/7kAxnbk/yw=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=XMPj1dBKX/jydqZyEOSXjmDSuPTHzqfAZKXhV73HmsSukkyuDkQVQwlrz5F8oKiT8v8O+IV+2oETYB1pacISFtSfpe0hx5QVna3C56l5R7n7cIc6YpIcU+8yda5ZcnA+jBXJu5S1zO7wR+54tEMZiFjT7ybkaKX9zAdJIpG6Kmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=m7XaFWli; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-45310223677so16020545e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Jun 2025 08:34:30 -0700 (PDT)
+	s=arc-20240116; t=1751298061; c=relaxed/simple;
+	bh=szgUvhAymDaMF1TTwvfTKDtpX/gYDuuzBM7Z2uDEPx8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nTfbn258C/BAoXw5PcoEisbzyE3vwQ66nxtOEKtlhNaoJS5ytdRZv44HPYqhMCPw27nubHMxVjNwDNGdV5unLme4khY5DSvi+Wn+nScqZm3heMINQsM5xNX0NbrwJsY3F6syuj/rMpFRUgZTuuLq45QZgluG1vMswyrBMJ51wxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YRE4VEb3; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2350fc2591dso41912005ad.1;
+        Mon, 30 Jun 2025 08:40:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1751297669; x=1751902469; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/NbWFirpIKBP3IzXTFfaq+ycycNGcBK0e0jJK5acRo4=;
-        b=m7XaFWliEtve6i3tvbsFqdnOQuOPOgpiiwG2dYyPvGbbx7JQCegpmgCiY6tSKWo0+n
-         f0Er5cUyID4J0e0/R/nAI4zIbZOpNDFYCRxpLMBL6/IefQkr1cdXIxulApsyV8c+Wert
-         yA1HNtPZhckk2zf0ejvh04Urh2uxSeezUl1VcgZuO45HNRm+jyMi80uxQd8aG3TXlfu/
-         XcDLyNUDIp54ZKrHIijMI/HKT93CTHYbizXQZ9nh8Cyjj9rLF43tvyEdGj/zIbtPaTwJ
-         g1SboY/a4dGBf/uz/M5b1MLMpRa0il5GvGMcGb5GpDyjkiz6WunZo2/GFpix+34vxd+3
-         gx9A==
+        d=gmail.com; s=20230601; t=1751298058; x=1751902858; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=y/+Pz6yJJ9TpPcn1KvtixIaXLFE0T8H5Au1H6tkIU6Q=;
+        b=YRE4VEb3p/TfCuvGRvFvnVTFg6SLQKNxQ94p6B3ERjj95gO7emd9JQbxCGToMYAA0i
+         ZBC2XoL6aTxGypyjx7H/mLOnzSNH/t7H4+1ZLar2MSohK2n1X5Hqr4zNMCyV+I4EUxVE
+         8uWe8wrVybk+ge2IsGEfGPiqJTwpp06VBcpDyxvzQfuF//tB6iZEXk69fQSqLbwFzz7I
+         hGHxCURb4Iu/E6/Gw02N9W+Ym5jjHFmiL2OeU5fH4sW1Sxry9KhTfGX/46koutaldytS
+         oF/SkTbhe/ocEmsjw8zZ2YM2diHrZxpoDMuGXNC7whJuHRDL6v7kEpUflhvrDUQC1CoW
+         /wCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751297669; x=1751902469;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=/NbWFirpIKBP3IzXTFfaq+ycycNGcBK0e0jJK5acRo4=;
-        b=c9eVMk1z6WKH0NMgi6LTmgFNUWPgciyJ6neebs+hPm6WBW80zV+8u6uhTlBSHBna9X
-         mMCZGLkpPHiRSGBlByxt/W8dCZkOD8737ZK+L5Gurf7tuhTuZNY3HumPq7AlEbkWsGCG
-         7hRk5mBc4lkEP1VFRsQ/FMtTsrdIW2YTobEeIPIKzvF/HCGicEvP/G7Ug5BDkUTUyyJx
-         5wkDpNfHkLX95gLdRThRc4HaFtzGhnUwrqqLaVi7rHQWC/SsfRwrLkvzXbUtmMK7SOe8
-         XcG/RT/tRfgUOgChjhqFFhi0SPJhWND/1SDSaECxXaRgelx4Nzs/S4LxwkYS++EE83yN
-         hiXw==
-X-Forwarded-Encrypted: i=1; AJvYcCXvmQsoC8Kbv66YFhkLpeAj8n9ZxpUTyCpwUys/s2a6Ke2SNVSpzOmlnzyjOB5dic/FpIhQASo89FMl4sa8iMflFA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZQvfSpzSeECVHs9LxzhP0tgC4tKrX7i1heCuOdjnD+fW0kKtU
-	QmKLjAJScQMzae/bYkpd0rWvw0jEfmmrUaWieH4cyC9vOMK+3HHqkRhLAhRNc0f9y/w=
-X-Gm-Gg: ASbGncs8T6HEjF4TLujHunoFgNEty1MreIPGTnPh2d7ouRz/XFmbWg0x9CI5jgYbVOt
-	MN2ll19DEKZAlpaIVxMulUuhcGbuSWk3lBjFWHO4DKzVLUuNqCCQeXWnf79vejIWdU8eck8qFdS
-	zeNvR8ydDGEKp5BrFgPiW0PdpxS5xhBL88YaB61T933ro9RzjIa9BROFBwkXN4zSLYznu6qoAFf
-	5jP75zYMcatdv/VjVuB6AjxgTGMC5iyBAPtCJCXjMfkpH9FRkKO1uKkV9UR1c4WU6DXcrevgoH2
-	BfpREVodoluWhHM+1xEc7InHEu83kQEecgucUR88WL+ymxaQqPtgpQalO69TCS//totUfSKLhoZ
-	sRRaKZK59Z7BWiXWUuSk7b7SHLSNYriYOsH5BA6A=
-X-Google-Smtp-Source: AGHT+IHc2LFChK6nKJsc7X9nBMScmXFF/jGKl+Q64KebHtgermLdzgFXssJvaq5SKIfgcrAoui6bdQ==
-X-Received: by 2002:a05:6000:1a8f:b0:3a5:541c:b40f with SMTP id ffacd0b85a97d-3a8f435e1c6mr11770341f8f.9.1751297669218;
-        Mon, 30 Jun 2025 08:34:29 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:abe8:a49c:efe7:4dfb? ([2a01:e0a:3d9:2080:abe8:a49c:efe7:4dfb])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538a390bf8sm141654655e9.4.2025.06.30.08.34.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Jun 2025 08:34:28 -0700 (PDT)
-Message-ID: <5ff999e9-f0b1-4550-98c8-2d1eb7e97389@linaro.org>
-Date: Mon, 30 Jun 2025 17:34:28 +0200
+        d=1e100.net; s=20230601; t=1751298058; x=1751902858;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y/+Pz6yJJ9TpPcn1KvtixIaXLFE0T8H5Au1H6tkIU6Q=;
+        b=T4CF9c3aEfNe9k2hdPBlTbfWX6xEVqH5AD5u3na3O3tHuRbhVVDPtHlFdFlTB8eB/C
+         kXbd72UoEr4EZff1evfTzvcj019g8/A+EVbJLvv1MbORc1Ww7cO5XBnESc78EfBE45yX
+         YQlP7Ot0sSHDscfql/hv6U5ndaKJ/4r3/NE3S1crz1VrKfB/Tl1xQIBlm9YsCc000SoB
+         etPj8YY/cjlJXJmIqpBlOHsZE8UXc23fLqg+PVmXcU4GoJF9bSqR9QMoUbzR0V3etkYS
+         kG+CpIeR4h0UK4ku/GMFq8M2JmMe9SwoxCxF+qwa4HFvAFPC2m1DT57HfSgH6Fynl/dn
+         RsEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUYTmtS+WxQTBvphOubmj/cLq7rs/2IQW625/FD7j0DWSMKMUQJnB4OaLfBC31Pj+paMYlwFJ2HjpNKOA==@vger.kernel.org, AJvYcCVooVpidioiiE9CbAlYp3SS1Ey241dGuZq31zrBBcRg7bUfxQEdRBbbgeJb0DKfvWJKbq6YSXqj0b6V/0neJjyjLJQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzvvg3/+UwzOO7ENabzxr/NUm6evS/Uz/o1DJuaaHovnv1ULtAy
+	maulZAzc6NEXvNxk6QRnODgYecgpXLPlUmw3dm/d9Oz7nMqD0cE7MncO
+X-Gm-Gg: ASbGncvzLgipXqlqY4o8QpTZop4Jde6NKXiukO32jx8biePCoMmLeT+zTNJJJWsh8zO
+	D5KurOzeorbjsy0oZNkH3B3Jnm8+GpbFp0rIiwCvwJRCfyIXxDuhc/3XFJahEobqeyu3FLw5XZX
+	8awL+18p5ngPCQLwSCrMgGoxuprlQaCTbJnFon4tQX/yiFihGMF5gI/sRhc0CYFRs3Ct7B6egBP
+	bUcTXGCzF7T6TCroG8FFIHE29Fv2ybNyWMlbOeT2337QVMRG75u7T9QYJDjD+I6D88JxelaDdr1
+	FXHPpOAf5+xuzeXCCksEShfBS+XeC1quT+Z63/PaylklvekoxP98kLwmRtjWjStF/VSgG/0n
+X-Google-Smtp-Source: AGHT+IH+QwKdMned1YzkQf+3kUg8SHZfXI3JDPR3BmNGXT1hMzVAvWwENvZSRuZhlcBaUkxAHmmSKg==
+X-Received: by 2002:a17:902:c952:b0:215:a303:24e9 with SMTP id d9443c01a7336-23b3548c28amr512465ad.3.1751298058379;
+        Mon, 30 Jun 2025 08:40:58 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:c92b:c666:1f8:990e])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb39b934sm83297225ad.92.2025.06.30.08.40.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Jun 2025 08:40:57 -0700 (PDT)
+Date: Mon, 30 Jun 2025 08:40:55 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+	linux-input@vger.kernel.org, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Hans de Goede <hdegoede@redhat.com>, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] Input: goodix - add support for polling on devices
+ without IRQ line
+Message-ID: <csjblrulwqcmcjvyzbetng6o3ct4xedff26nvgwlb56fkqphew@rp63nsl7reuk>
+References: <20250610005458.126842-1-marek.vasut+renesas@mailbox.org>
+ <6kqp24t5c23vcvv7wuirkjz6a5s3daacifw37rb5554v4uqeit@jzsinkx6qb7r>
+ <cfa155f9-573a-479a-b8db-89c3bb077114@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm/panel: ilitek-ili9881c: Use u8 for lane count
-To: Marek Vasut <marek.vasut@mailbox.org>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>,
- dri-devel@lists.freedesktop.org
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
- David Airlie <airlied@gmail.com>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-renesas-soc@vger.kernel.org
-References: <20250611234913.161861-1-marek.vasut+renesas@mailbox.org>
- <109b5c25-f54c-4413-aa62-8e2ae621c8e6@linaro.org>
- <a263d600-4f62-4d40-864c-e0b0c42f6863@mailbox.org>
- <ef842208-069e-4471-8680-f945d5ccb1a7@linaro.org>
- <e6c51a8d-978e-44f0-bff1-efcd05617aa7@mailbox.org>
- <67da8003-ced9-4b52-a484-b37147068ae7@linaro.org>
- <32d302d6-b404-4814-9f17-fda5fe0d3391@mailbox.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <32d302d6-b404-4814-9f17-fda5fe0d3391@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cfa155f9-573a-479a-b8db-89c3bb077114@mailbox.org>
 
-On 21/06/2025 18:03, Marek Vasut wrote:
-> On 6/16/25 6:26 PM, Neil Armstrong wrote:
->> On 16/06/2025 18:05, Marek Vasut wrote:
->>> On 6/16/25 1:45 PM, Neil Armstrong wrote:
->>>> On 13/06/2025 12:54, Marek Vasut wrote:
->>>>> On 6/13/25 11:29 AM, Neil Armstrong wrote:
->>>>>> On 12/06/2025 01:49, Marek Vasut wrote:
->>>>>>> Use u8 to hold lane count in struct ili9881c_desc {} to avoid
->>>>>>> alignment gap between default_address_mode and lanes members.
->>>>>>> The ili9881c controller can only operate up to 4 DSI lanes, so
->>>>>>> there is no chance this value can ever be larger than 4. No
->>>>>>> functional change.
->>>>>>
->>>>>> The u8 will still take at least 4 bytes and cpu will still
->>>>>> do at least a 32bit memory access, so there's no point to change
->>>>>> it to u8.
->>>>> Assuming this layout:
->>>>>
->>>>>    40 struct ili9881c_desc {
->>>>>    41         const struct ili9881c_instr *init;
->>>>>    42         const size_t init_length;
->>>>>    43         const struct drm_display_mode *mode;
->>>>>    44         const unsigned long mode_flags;
->>>>>    45         u8 default_address_mode;
->>>>>    46         u8 lanes;
->>>>>    47 };
->>>>>
->>>>> I wrote a quick test:
->>>>>
->>>>> $ cat test.c
->>>>> #include <stdio.h>
->>>>> #include <stdint.h>
->>>>>
->>>>> struct foo {
->>>>>      void *a;
->>>>>      size_t b;
->>>>>      void *c;
->>>>>      unsigned long d;
->>>>>
->>>>>      uint8_t x;
->>>>>      unsigned long y; // ~= lanes
->>>>> };
->>>>>
->>>>> struct bar {
->>>>>      void *a;
->>>>>      size_t b;
->>>>>      void *c;
->>>>>      unsigned long d;
->>>>>
->>>>>      uint8_t x;
->>>>>      uint8_t y; // ~= lanes
->>>>> };
->>>>>
->>>>> int main(void)
->>>>> {
->>>>>      printf("%d %d\n", sizeof(struct foo), sizeof(struct bar));
->>>>>      return 0;
->>>>> }
->>>>>
->>>>> With which I get these results on x86-64:
->>>>>
->>>>> $ gcc -o test test.c && ./test
->>>>> 48 40
->>>>>
->>>>> And on x86 32bit:
->>>>>
->>>>> $ i686-linux-gnu-gcc -o test test.c && ./test
->>>>> 24 20
->>>>>
->>>>> Maybe there is some improvement ?
->>>>
->>>> Try again with code size included, and other archs since 99% of the users would be an arm/riscv based boards.
->>> Doesn't that mean, that one some systems it wins us a bit of memory utilization improvement, and on other systems it has no impact ?
->>
->> 4 or 8 bytes less in a dynamically allocated struct which is by default aligned
->> on 64 bytes by default on x86, 128 on aarch64, 32/64/128 on arm32, 64 on riscv, sorry this is negligible.
-> It is still not zero, so why tolerate the inefficiency when it can be improved ?
+On Mon, Jun 30, 2025 at 11:44:03AM +0200, Marek Vasut wrote:
+> On 6/30/25 3:32 AM, Dmitry Torokhov wrote:
+> > Hi Marek,
 > 
-> Is this change rejected ?
+> Hi,
+> 
+> > On Tue, Jun 10, 2025 at 02:54:12AM +0200, Marek Vasut wrote:
+> > > Add the capability of polling the touch controller for events every
+> > > 16ms, which is useful on hardware that did integrate this touch
+> > > controller, but did not integrate the IRQ line, like the RasPi .
+> > > 
+> > > Make use of the generic input poller code. Factor out the code
+> > > from goodix_ts_irq_handler() into generic goodix_ts_handler(), so
+> > > it can be used both by the IRQ handler and poller callback.
+> > > 
+> > > Use of_client->irq to find out whether the interrupt line is present
+> > > or not, independent of whether this is OF or ACPI system. It is not
+> > > possible to register poller in case request_irq() fails, because the
+> > > request_irq() in this driver is deliberately called after the input
+> > > device was registered, and registering the generic poller at that point
+> > > is too late already.
+> > > 
+> > > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> > 
+> > There was another version of this patch that was submitted and reviewed
+> > by Hans, so I merged it.
+> 
+> Is it the following patch, with malformed commit message and some odd
+> "LF-15225" subject tag ?
+> 
+> https://patchwork.kernel.org/project/linux-input/patch/20250522020418.1963422-1-qijian.guo@nxp.com/
 
-I won't nack it since it's technically correct, but won't ack it since it's an useless change.
+Yes, I cleaned the commit message.
 
-Neil
+> 
+> > BTW I think this version would end up trying to disable IRQ0...
+> How come ?
+
+Won't we hit disable_irq(client->irq) call in goodix_suspend()? In
+polling mode client->irq is 0.
+
+Thanks.
+
+-- 
+Dmitry
 
