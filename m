@@ -1,229 +1,219 @@
-Return-Path: <linux-renesas-soc+bounces-18923-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18924-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DB81AEE220
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jun 2025 17:15:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6195AAEE2AB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jun 2025 17:34:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 35AC3188D21A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jun 2025 15:15:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B94BA167735
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jun 2025 15:34:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D787428DF2E;
-	Mon, 30 Jun 2025 15:13:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED9FB28F519;
+	Mon, 30 Jun 2025 15:34:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Qeelgwk2"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="m7XaFWli"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012063.outbound.protection.outlook.com [52.101.66.63])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7E4528DF29
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Jun 2025 15:13:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.63
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751296435; cv=fail; b=Jn0jJjOcegdf0MpzArVkrryQCLcBPDK1LZk+fHcqrvWr/DsGZ7mr8BmF5joPsKzQUKqHBBTf9fNJXj7ANJyaQbWRRVJ6KCmc4TbTHx6DxgwbtnvdbuDhxgHBvrBHDJJJsq3s3cD2fLTk+gmNL3r0gAiswoSQIxpWVJ/AsTC/7Do=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751296435; c=relaxed/simple;
-	bh=tBTFgAMbmjGmxnyAcNx0vXBjRYscJ4gCZ6MdTpVyKVo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=LNT2Sfhf4kg5vrtOQvgJx8Su1/dC6uKXyPRIdXQ1hzd5z9Hh+R1S5TQ7fOKIy48ASyJYsHsoZpPrWL5CVv9134NKnn2DudKbUkLcHjvQ1xruQS4AoflO5u+P195J0avvHXUzeiddWtCIrLDK3GizT/IT82UkOV931GWsSm3wo7c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Qeelgwk2; arc=fail smtp.client-ip=52.101.66.63
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WsKZHVaj4JkLewi5L8GSL2mngoZLXpVCsUm2YamctmQVDUDM5VsQ8+qbU/QzoNV1PL9Xsnl5gBIwF12tsA/lkl26qg4pxHIARomVxv04ryZd507e9xVV2A4/m8/sLVpmHH3KsySazmYOzX/hJyEYsITZTODJqksCezpXXtWNTAOOv/kTMexZk5+NhfXJYKUgH/P+6D32jXPvnNclwUUQNZbtCaJUrQvjcmLZGf1uN0rUCXy0jUwPp3K67vA3evcbTKBoIlxamSu9i0GxjbRCk0YmZ5l9cZVaMbzIAiFORaQI3myLqFYTqD20KMsrMymepTn68sfYBsAnOQAGrFPihg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MFL05wxzFLj1nlBumJAubvH8rM5PC0Ejg9RLhChR2IE=;
- b=bJosteh/ZZ2Owg0NAtJ86NJlL6RUQSonxv//AcapbcBXvgO/PmNXBj0xkuA5gmnWzQkLfyfK/eMSN9IvXQHJdseqCxjawYPwmGhiOW/xBxs57chM0VxGrxay6SGIv1Oas96ubW573VAvHvOyUUNkgfK/yM5Bup9ipAPvbMG0LabneSxRbXSRZvmdf97iv108mVP6g3uEzcW65/E8q/mLgwQgLQ4XszBkZD/lJUpg2vx0/nXkKfuQz0eixGevu8ZJ3Gyzh3sVtLCJ9dtKNpfMVEkyUm6/KrM6/+Td4rG1FYyNAqEA/Fx/lXKuJNdQoOsZnTuMQnxuTXkZKIFZy6eBEw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MFL05wxzFLj1nlBumJAubvH8rM5PC0Ejg9RLhChR2IE=;
- b=Qeelgwk2Shlgq4VN8FAvgbJJVBuxgsBJmWYAquzPwk4jMM6f1HXYQOzFhAsrGKIdiA1oTpTMBpkxPquhMt4nWYAO3DlGTGRr4uBiAr+pZi9Frre9JK7kMQFGmIXvuPvBm4MOzvFALABs9ENG2OWUJQutRH8wqAKaUzCg/YpobRmmOj3k4RbpAJaOLURsmasnTMxuqykX9JAYN+1hUElUSKmVfxZSfeb4dKdHfLtEYXilwf4wtN0m761ayWXIIcAFzWsWabAhVWzYNwN7D229DjklRjNG2zfGQ2k/QnZjhc+RCuRwO91J6iVp9ieR2r219XD2cYFo2fasPttgOnjCSQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from DB9PR04MB9626.eurprd04.prod.outlook.com (2603:10a6:10:309::18)
- by PAXPR04MB8909.eurprd04.prod.outlook.com (2603:10a6:102:20c::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.29; Mon, 30 Jun
- 2025 15:13:50 +0000
-Received: from DB9PR04MB9626.eurprd04.prod.outlook.com
- ([fe80::e81:b393:ebc5:bc3d]) by DB9PR04MB9626.eurprd04.prod.outlook.com
- ([fe80::e81:b393:ebc5:bc3d%4]) with mapi id 15.20.8880.027; Mon, 30 Jun 2025
- 15:13:50 +0000
-Date: Mon, 30 Jun 2025 11:13:46 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	=?utf-8?Q?Przemys=C5=82aw?= Gaj <pgaj@cadence.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-i3c@lists.infradead.org
-Subject: Re: [PATCH v3 3/3] i3c: master: cdns: replace ENOTSUPP with
- SUSV4-compliant EOPNOTSUPP
-Message-ID: <aGKpkqeb+d+yrvFk@lizhi-Precision-Tower-5810>
-References: <20250628192027.3932-5-wsa+renesas@sang-engineering.com>
- <20250628192027.3932-8-wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250628192027.3932-8-wsa+renesas@sang-engineering.com>
-X-ClientProxiedBy: AM9P250CA0027.EURP250.PROD.OUTLOOK.COM
- (2603:10a6:20b:21c::32) To DB9PR04MB9626.eurprd04.prod.outlook.com
- (2603:10a6:10:309::18)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FDE928A1D4
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Jun 2025 15:34:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751297672; cv=none; b=ZKSItPhYJN4RJr+OKq3v+l9CT0pb9OBH65Efnz9IoWVV9fGEPUrbYyAoCaPXWpoNaawrHlulTBlfaYElLZswXnTaVTC81Z5h2gznaQsNOaLmep5j0QU6HdX0JX6hBMIOQ6dckuhXKU1UQm9qbYhdDiknen9vzfzJp2XduxRzPqQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751297672; c=relaxed/simple;
+	bh=x36TDPEuTbBgvceBNfq2Dadxx5ypYe9R/7kAxnbk/yw=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=XMPj1dBKX/jydqZyEOSXjmDSuPTHzqfAZKXhV73HmsSukkyuDkQVQwlrz5F8oKiT8v8O+IV+2oETYB1pacISFtSfpe0hx5QVna3C56l5R7n7cIc6YpIcU+8yda5ZcnA+jBXJu5S1zO7wR+54tEMZiFjT7ybkaKX9zAdJIpG6Kmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=m7XaFWli; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-45310223677so16020545e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Jun 2025 08:34:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1751297669; x=1751902469; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/NbWFirpIKBP3IzXTFfaq+ycycNGcBK0e0jJK5acRo4=;
+        b=m7XaFWliEtve6i3tvbsFqdnOQuOPOgpiiwG2dYyPvGbbx7JQCegpmgCiY6tSKWo0+n
+         f0Er5cUyID4J0e0/R/nAI4zIbZOpNDFYCRxpLMBL6/IefQkr1cdXIxulApsyV8c+Wert
+         yA1HNtPZhckk2zf0ejvh04Urh2uxSeezUl1VcgZuO45HNRm+jyMi80uxQd8aG3TXlfu/
+         XcDLyNUDIp54ZKrHIijMI/HKT93CTHYbizXQZ9nh8Cyjj9rLF43tvyEdGj/zIbtPaTwJ
+         g1SboY/a4dGBf/uz/M5b1MLMpRa0il5GvGMcGb5GpDyjkiz6WunZo2/GFpix+34vxd+3
+         gx9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751297669; x=1751902469;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=/NbWFirpIKBP3IzXTFfaq+ycycNGcBK0e0jJK5acRo4=;
+        b=c9eVMk1z6WKH0NMgi6LTmgFNUWPgciyJ6neebs+hPm6WBW80zV+8u6uhTlBSHBna9X
+         mMCZGLkpPHiRSGBlByxt/W8dCZkOD8737ZK+L5Gurf7tuhTuZNY3HumPq7AlEbkWsGCG
+         7hRk5mBc4lkEP1VFRsQ/FMtTsrdIW2YTobEeIPIKzvF/HCGicEvP/G7Ug5BDkUTUyyJx
+         5wkDpNfHkLX95gLdRThRc4HaFtzGhnUwrqqLaVi7rHQWC/SsfRwrLkvzXbUtmMK7SOe8
+         XcG/RT/tRfgUOgChjhqFFhi0SPJhWND/1SDSaECxXaRgelx4Nzs/S4LxwkYS++EE83yN
+         hiXw==
+X-Forwarded-Encrypted: i=1; AJvYcCXvmQsoC8Kbv66YFhkLpeAj8n9ZxpUTyCpwUys/s2a6Ke2SNVSpzOmlnzyjOB5dic/FpIhQASo89FMl4sa8iMflFA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzZQvfSpzSeECVHs9LxzhP0tgC4tKrX7i1heCuOdjnD+fW0kKtU
+	QmKLjAJScQMzae/bYkpd0rWvw0jEfmmrUaWieH4cyC9vOMK+3HHqkRhLAhRNc0f9y/w=
+X-Gm-Gg: ASbGncs8T6HEjF4TLujHunoFgNEty1MreIPGTnPh2d7ouRz/XFmbWg0x9CI5jgYbVOt
+	MN2ll19DEKZAlpaIVxMulUuhcGbuSWk3lBjFWHO4DKzVLUuNqCCQeXWnf79vejIWdU8eck8qFdS
+	zeNvR8ydDGEKp5BrFgPiW0PdpxS5xhBL88YaB61T933ro9RzjIa9BROFBwkXN4zSLYznu6qoAFf
+	5jP75zYMcatdv/VjVuB6AjxgTGMC5iyBAPtCJCXjMfkpH9FRkKO1uKkV9UR1c4WU6DXcrevgoH2
+	BfpREVodoluWhHM+1xEc7InHEu83kQEecgucUR88WL+ymxaQqPtgpQalO69TCS//totUfSKLhoZ
+	sRRaKZK59Z7BWiXWUuSk7b7SHLSNYriYOsH5BA6A=
+X-Google-Smtp-Source: AGHT+IHc2LFChK6nKJsc7X9nBMScmXFF/jGKl+Q64KebHtgermLdzgFXssJvaq5SKIfgcrAoui6bdQ==
+X-Received: by 2002:a05:6000:1a8f:b0:3a5:541c:b40f with SMTP id ffacd0b85a97d-3a8f435e1c6mr11770341f8f.9.1751297669218;
+        Mon, 30 Jun 2025 08:34:29 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:3d9:2080:abe8:a49c:efe7:4dfb? ([2a01:e0a:3d9:2080:abe8:a49c:efe7:4dfb])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538a390bf8sm141654655e9.4.2025.06.30.08.34.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Jun 2025 08:34:28 -0700 (PDT)
+Message-ID: <5ff999e9-f0b1-4550-98c8-2d1eb7e97389@linaro.org>
+Date: Mon, 30 Jun 2025 17:34:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9PR04MB9626:EE_|PAXPR04MB8909:EE_
-X-MS-Office365-Filtering-Correlation-Id: 32d99b36-37a7-42f4-cdf1-08ddb7e8b7d6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|376014|52116014|366016|1800799024|7053199007|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?wxw6j9waXzqud7wGfUusojVvYrFXP4els1HTOjtYN0SnOejFzEkCZuAJwXZG?=
- =?us-ascii?Q?jFFHsizcyS5wjT7lo9zJtFSoW5FUlgrjdqH0i7Wf/axzFq9TJHFIn95bk3yd?=
- =?us-ascii?Q?2C8tR+gnamyMxVOIqrI63DHXXrIMDGHE1ikQampHha/gDek7Fajyassi8YfD?=
- =?us-ascii?Q?lkBYGKn2WUSMEk+BS/maA2JvAsyEcT0aIhADhSerj3Z+n7LV6XDVY1BkRpoo?=
- =?us-ascii?Q?oORRksHLzoJnx7f5tCsK9VtRjR4Qw1BxHsP45BE3y2tYNAOkqcQ1pOUbvNSL?=
- =?us-ascii?Q?TjijexwD898tGlzcbLvFxELcJcf9NGCgXMJNMUtcnsBzxtKFPbCxsbiRv60j?=
- =?us-ascii?Q?mBEsgt0S08OneOwd9aHM6Md3s8e3T3nVE2WkKVVpS9VBSHwi+1cDyMuJco9v?=
- =?us-ascii?Q?DSjT+FnBlTHx+a+X9LovSsQblI3BF+bN6TlapeBi0+lXKmv27YNS2Cf/M8CA?=
- =?us-ascii?Q?fdEp+4uOj2pgXgkPBVmmJifkLllVWDK0/NdK0H+0QA7HT+hHhFJmRt0cBALM?=
- =?us-ascii?Q?Ilyc4yjFQlJI2ZPedf7VG/LSzjkScmsQ76r+ksQ/SIe3kAUJy8JKMf3qqY6l?=
- =?us-ascii?Q?v0/8OTdqQbOSuDZpZCey6cQ1uOUsndYpPKdrI7y4AU/vS3jeFGVfEhAdNZg6?=
- =?us-ascii?Q?I0dB/WMwnJEelJgT385E6vlrEbAaZl1PDlVW4Re5XU5HyWJPkCNsgnkeHktz?=
- =?us-ascii?Q?amLu8pYU1D+WhWYBDes4Ysf93TIWMRDyWl8Q5TnuKYMHDj6++5WqEC8QVK5c?=
- =?us-ascii?Q?YcNC+8JDygouNCrKE3S9e8B0rkCc8+/yb8LGiU1pkbZ3EwXylP5AXKGJ5fMh?=
- =?us-ascii?Q?rDqPnCs3yigkYFKTPosx314X3N0HJKSPTzJGtrE97Fo/xgKW91FN9Nz4mQ/E?=
- =?us-ascii?Q?Zd1DczxgMh6iSnIvvYTFBt2EFxJO7UpSncjjjJ8rXqRx/AMzjcuu5XmVyz4f?=
- =?us-ascii?Q?qtPOJ/JofP3Qy1Avj1LB0Kne4Z6u8QOaLMdXbcH3G6HUMy5eZBg0IMh8I/hB?=
- =?us-ascii?Q?GPDXBjqlrIWly5PGo3ujRwPXaE0yI2v2acAlg6D2QggjARxdntvUbfy4hHUw?=
- =?us-ascii?Q?H1UCAKxf4zUO5gdRE/32FVvD/e9bm4KbQKiv4TeGljhcUhat6TpBCW0/3/5f?=
- =?us-ascii?Q?DrddTXba7I7q5TKk4peBRzuK4MlGc8LL96bh1Pip6w+LQR7zNAWBFKLgBN+h?=
- =?us-ascii?Q?1Be+KP0RqGiT1o5dTa7YCY6OHq3Vwffb7D29wCe4Z4y19w4QwtLVm2sQFr+J?=
- =?us-ascii?Q?FvEKsLqBbKBFhKuLU/ZIy6jc6WlftqDwm/IIFPgeoR/MyUzz7kqj1ST79sSi?=
- =?us-ascii?Q?6Tq5hS/NJ0cXXBHGGFImR3PfXmoLHNjkDuhZccY0FuMDWWqULMP0irj3siY4?=
- =?us-ascii?Q?TWhY4bBPw/k7dywXGaoM9gOewObeS9wMSZpOHOcKRBy+bPD+9lHapChfugTe?=
- =?us-ascii?Q?1kNwhYso4a7G6EjZd/jJ71w+lRZejwJSdLA+rT1drqEDkDDqjdvJDg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB9626.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(376014)(52116014)(366016)(1800799024)(7053199007)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?g6wlo8miVM08shsZz/hT8/dAsfecx5lBHF6C0Ow09bAGiFVcZ9+DewOBhv29?=
- =?us-ascii?Q?1rY3We+At1/y6XbsBvgpUjuQSmXvfRH3IE0M/vNacUsZ48C/+l4Vr4jaiDaY?=
- =?us-ascii?Q?q7Jk+VdGtM/zhi0/wZ48eCd/cZkhj4mC20eKWTZkETuErN8xTpm0KYWT9VCi?=
- =?us-ascii?Q?kl2g5hikDV8MTgv3uFz5iMPE1uzn3eHoRyaEZ117cZcqVN1O2mdhKZmNf43q?=
- =?us-ascii?Q?/SijipjrCqPINeZU+2ozEaibg3BwdmSDklbMtA9anDu26gyM+y4x5vmlAepy?=
- =?us-ascii?Q?nm/dHKil5G3yTRFp3bi2mF2ValR+nRjzInu7QYIs8s7yLpgx77OYySb/8DL3?=
- =?us-ascii?Q?yfGGq4C3ZrUahChV8rR34aD9qPB88iM9jP5Ip8g1jafcAc96AZOhBATsN4Rd?=
- =?us-ascii?Q?dvqobPEg1RmHie9rOdT8lqE3Q7gvFKEWPEFNpGs/NyvuIaJ0ZzXF1q/NKPov?=
- =?us-ascii?Q?t5IA6E0t41sJCJCQq2vgtFyV3mN6rPEPqEW4RouoAFRhXkrbf+PKBinfHHfn?=
- =?us-ascii?Q?iYintXDwGJqhqlPhAu3aq9lSRprp/14Ry7vsdTxDIZ0TUcrhHOKcjE42Vo/A?=
- =?us-ascii?Q?waxuvxx8AZ2cu+wO5qug0OZnP9XCReWoZ2/SzZ4ny7ID1e4r5vzrQsmcaxjU?=
- =?us-ascii?Q?6bX2ZH1VOBUAw59zRIjuzeppSiGAjAPMoG4f7ysfHC0KrdEtSrtOEFq7AH6t?=
- =?us-ascii?Q?c6cOkc9pOpu1iMMUIIB0DMmhhld1gZsMM9Pwe2cvRxzgSVfpHDPLf5NbMm0D?=
- =?us-ascii?Q?hQDr/J0Y07jaU3IaqzlGf3AryUUqfocBzCIuI8bdG1quo/Bi/LupJp5CABdW?=
- =?us-ascii?Q?QsHwzJdYSqcf0CvcB/3x+gGBqXnUX0d/0zAkoBMiUWnBDe9ehCgdOEWkrORe?=
- =?us-ascii?Q?XEwykP5EL7w0zOx7M0dXADzFqft9PwVCEMVGHa52AnvT9DHZpaLKWKptYzKM?=
- =?us-ascii?Q?yLyT4xzAPmC1nyYPfNEmpa8rZBLHaaVR9xcF13rX2MNxJ328GW0sViZpBKXr?=
- =?us-ascii?Q?tKlPdY/BPPissYdog7oEgMDOnDQB2lL/x1kbsGgxpf8wUd8kMJQiNjQmy6i7?=
- =?us-ascii?Q?foSAr1luA++zaOQZdPXV/GoAr+cQ5GsunbCvaiP6jIAuj9+xM/PIwXntjA1e?=
- =?us-ascii?Q?doBVRYkORtaqAE2IN5k+w8F9DRpFSOu4N/pGI+sRjEy4cH0PKoU6Skr2iMaT?=
- =?us-ascii?Q?YquhIkW4fdXH+EFEc/q9uja1j6ZGD0q+96GPo1Wi/8YGlikH1/5eSbJV3h1S?=
- =?us-ascii?Q?NpBRWDzpEohkAvHDv9D47WN6IVKBeNTrcB9YfZyHxEzwWPkJ/t/fqd3q+uBt?=
- =?us-ascii?Q?CC0rR14gTk0iv8Ds7vz0zHr4ORrZgmBpyv4s0KNHZvjGruaiOshI9AMQmJwS?=
- =?us-ascii?Q?/rIGTZjHP0n5/tYflgPrLmNBeFiaZswjaXH5OIS7d5SVoCkvJ/1qEHY4st+m?=
- =?us-ascii?Q?H40Qcd5uew+iahOcKeGWwrL8bpIXeRnnjvzmVpa7RygKQxaE/n46DOQ42Y6d?=
- =?us-ascii?Q?d3EcLT26P9f+knVxiliosolhu5Qxhjhh6YIgXetcDK+JdUDb7q++KM2zkJt0?=
- =?us-ascii?Q?8C7cF9T3UOvpLUtoVd0=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 32d99b36-37a7-42f4-cdf1-08ddb7e8b7d6
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9626.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2025 15:13:50.4062
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YrqdOkDlm8U5KEwIUZ1SnyZsikIRgpqv/WEoT+YCTsBXSVrSHclAI2LlwLzdSC5Dvag+uyh6hAM8hH5+SDNlcQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8909
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] drm/panel: ilitek-ili9881c: Use u8 for lane count
+To: Marek Vasut <marek.vasut@mailbox.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ dri-devel@lists.freedesktop.org
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+ David Airlie <airlied@gmail.com>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-renesas-soc@vger.kernel.org
+References: <20250611234913.161861-1-marek.vasut+renesas@mailbox.org>
+ <109b5c25-f54c-4413-aa62-8e2ae621c8e6@linaro.org>
+ <a263d600-4f62-4d40-864c-e0b0c42f6863@mailbox.org>
+ <ef842208-069e-4471-8680-f945d5ccb1a7@linaro.org>
+ <e6c51a8d-978e-44f0-bff1-efcd05617aa7@mailbox.org>
+ <67da8003-ced9-4b52-a484-b37147068ae7@linaro.org>
+ <32d302d6-b404-4814-9f17-fda5fe0d3391@mailbox.org>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <32d302d6-b404-4814-9f17-fda5fe0d3391@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jun 28, 2025 at 09:20:30PM +0200, Wolfram Sang wrote:
-> Replace non-standard ENOTSUPP with the SUSV4-defined error code
-> EOPNOTSUPP to fix below checkpatch warning:
->   "ENOTSUPP is not a SUSV4 error code, prefer EOPNOTSUPP"
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+On 21/06/2025 18:03, Marek Vasut wrote:
+> On 6/16/25 6:26 PM, Neil Armstrong wrote:
+>> On 16/06/2025 18:05, Marek Vasut wrote:
+>>> On 6/16/25 1:45 PM, Neil Armstrong wrote:
+>>>> On 13/06/2025 12:54, Marek Vasut wrote:
+>>>>> On 6/13/25 11:29 AM, Neil Armstrong wrote:
+>>>>>> On 12/06/2025 01:49, Marek Vasut wrote:
+>>>>>>> Use u8 to hold lane count in struct ili9881c_desc {} to avoid
+>>>>>>> alignment gap between default_address_mode and lanes members.
+>>>>>>> The ili9881c controller can only operate up to 4 DSI lanes, so
+>>>>>>> there is no chance this value can ever be larger than 4. No
+>>>>>>> functional change.
+>>>>>>
+>>>>>> The u8 will still take at least 4 bytes and cpu will still
+>>>>>> do at least a 32bit memory access, so there's no point to change
+>>>>>> it to u8.
+>>>>> Assuming this layout:
+>>>>>
+>>>>>    40 struct ili9881c_desc {
+>>>>>    41         const struct ili9881c_instr *init;
+>>>>>    42         const size_t init_length;
+>>>>>    43         const struct drm_display_mode *mode;
+>>>>>    44         const unsigned long mode_flags;
+>>>>>    45         u8 default_address_mode;
+>>>>>    46         u8 lanes;
+>>>>>    47 };
+>>>>>
+>>>>> I wrote a quick test:
+>>>>>
+>>>>> $ cat test.c
+>>>>> #include <stdio.h>
+>>>>> #include <stdint.h>
+>>>>>
+>>>>> struct foo {
+>>>>>      void *a;
+>>>>>      size_t b;
+>>>>>      void *c;
+>>>>>      unsigned long d;
+>>>>>
+>>>>>      uint8_t x;
+>>>>>      unsigned long y; // ~= lanes
+>>>>> };
+>>>>>
+>>>>> struct bar {
+>>>>>      void *a;
+>>>>>      size_t b;
+>>>>>      void *c;
+>>>>>      unsigned long d;
+>>>>>
+>>>>>      uint8_t x;
+>>>>>      uint8_t y; // ~= lanes
+>>>>> };
+>>>>>
+>>>>> int main(void)
+>>>>> {
+>>>>>      printf("%d %d\n", sizeof(struct foo), sizeof(struct bar));
+>>>>>      return 0;
+>>>>> }
+>>>>>
+>>>>> With which I get these results on x86-64:
+>>>>>
+>>>>> $ gcc -o test test.c && ./test
+>>>>> 48 40
+>>>>>
+>>>>> And on x86 32bit:
+>>>>>
+>>>>> $ i686-linux-gnu-gcc -o test test.c && ./test
+>>>>> 24 20
+>>>>>
+>>>>> Maybe there is some improvement ?
+>>>>
+>>>> Try again with code size included, and other archs since 99% of the users would be an arm/riscv based boards.
+>>> Doesn't that mean, that one some systems it wins us a bit of memory utilization improvement, and on other systems it has no impact ?
+>>
+>> 4 or 8 bytes less in a dynamically allocated struct which is by default aligned
+>> on 64 bytes by default on x86, 128 on aarch64, 32/64/128 on arm32, 64 on riscv, sorry this is negligible.
+> It is still not zero, so why tolerate the inefficiency when it can be improved ?
+> 
+> Is this change rejected ?
 
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
+I won't nack it since it's technically correct, but won't ack it since it's an useless change.
 
-> ---
->  drivers/i3c/master/i3c-master-cdns.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/i3c/master/i3c-master-cdns.c b/drivers/i3c/master/i3c-master-cdns.c
-> index fd3752cea654..e24d93a82e1c 100644
-> --- a/drivers/i3c/master/i3c-master-cdns.c
-> +++ b/drivers/i3c/master/i3c-master-cdns.c
-> @@ -742,7 +742,7 @@ static int cdns_i3c_master_priv_xfers(struct i3c_dev_desc *dev,
->
->  	for (i = 0; i < nxfers; i++) {
->  		if (xfers[i].len > CMD0_FIFO_PL_LEN_MAX)
-> -			return -ENOTSUPP;
-> +			return -EOPNOTSUPP;
->  	}
->
->  	if (!nxfers)
-> @@ -750,7 +750,7 @@ static int cdns_i3c_master_priv_xfers(struct i3c_dev_desc *dev,
->
->  	if (nxfers > master->caps.cmdfifodepth ||
->  	    nxfers > master->caps.cmdrfifodepth)
-> -		return -ENOTSUPP;
-> +		return -EOPNOTSUPP;
->
->  	/*
->  	 * First make sure that all transactions (block of transfers separated
-> @@ -765,7 +765,7 @@ static int cdns_i3c_master_priv_xfers(struct i3c_dev_desc *dev,
->
->  	if (rxslots > master->caps.rxfifodepth ||
->  	    txslots > master->caps.txfifodepth)
-> -		return -ENOTSUPP;
-> +		return -EOPNOTSUPP;
->
->  	cdns_xfer = cdns_i3c_master_alloc_xfer(master, nxfers);
->  	if (!cdns_xfer)
-> @@ -822,11 +822,11 @@ static int cdns_i3c_master_i2c_xfers(struct i2c_dev_desc *dev,
->  	int i, ret = 0;
->
->  	if (nxfers > master->caps.cmdfifodepth)
-> -		return -ENOTSUPP;
-> +		return -EOPNOTSUPP;
->
->  	for (i = 0; i < nxfers; i++) {
->  		if (xfers[i].len > CMD0_FIFO_PL_LEN_MAX)
-> -			return -ENOTSUPP;
-> +			return -EOPNOTSUPP;
->
->  		if (xfers[i].flags & I2C_M_RD)
->  			nrxwords += DIV_ROUND_UP(xfers[i].len, 4);
-> @@ -836,7 +836,7 @@ static int cdns_i3c_master_i2c_xfers(struct i2c_dev_desc *dev,
->
->  	if (ntxwords > master->caps.txfifodepth ||
->  	    nrxwords > master->caps.rxfifodepth)
-> -		return -ENOTSUPP;
-> +		return -EOPNOTSUPP;
->
->  	xfer = cdns_i3c_master_alloc_xfer(master, nxfers);
->  	if (!xfer)
-> --
-> 2.47.2
->
+Neil
 
