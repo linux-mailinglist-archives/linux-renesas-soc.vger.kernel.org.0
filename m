@@ -1,243 +1,187 @@
-Return-Path: <linux-renesas-soc+bounces-18916-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18917-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF5DAED6CF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jun 2025 10:13:38 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5F0FAED8BA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jun 2025 11:32:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BAA5918998BF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jun 2025 08:13:54 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0F4087A2D70
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jun 2025 09:31:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF1DB239E78;
-	Mon, 30 Jun 2025 08:13:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="OSl6IrPc";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nqQArAVl"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78D0B244683;
+	Mon, 30 Jun 2025 09:32:19 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BB117C220;
-	Mon, 30 Jun 2025 08:13:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2831120E70B;
+	Mon, 30 Jun 2025 09:32:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751271213; cv=none; b=FOe1SeGowuz+gouAhyqYdPiapqGDd3doSX8a74KU+6eJGURr4RuwOZM1s/FrMgUb4Hvp+govuH3TS77GkR/GCwgmesN2qY9MWuM1mx8yZxoZ7HvI2bGSUJ7hrQ4aFVoptHokHV9zGUNp5c15jcl/92OktPwET/QkZt49ScC/GCM=
+	t=1751275939; cv=none; b=fKJuaky2KGZ7L+V3yfhV97EcJNS1opc/PUU2HAU9+k2G7rl1gu0InTqQXq4tX7tbUPjaBG61lvlqI4iQhQRaXQCXBS+D9BktY4AztIT+WVr4v+Swte16/gsHs1S0Uy6onzE7VU4mnB2WSeDMvgzxOZ/0xqbcz8EHllKRZwOLlkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751271213; c=relaxed/simple;
-	bh=G80l/NpfLbJVcIN/LA2KlmUhr4Pb56IUBD6Ecd8vCJ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=USfUvmegPHmEd5Sze4qgxNJz4D3F3NWgppiUlrkNVJ83Wv0O1M1CYulCzv6Kdxd6IMQar1bvk4JKy9FzjH8zgv4KqypdAgHn5iXpOg7jduqk4Dl2DQP0ekMhnVHgZ+6BuqZeq3yYzAXgtWYUBYYylbvWXI/3H2UXClxDsIP6LII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=OSl6IrPc; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nqQArAVl; arc=none smtp.client-ip=202.12.124.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 0F3E67A017F;
-	Mon, 30 Jun 2025 04:13:30 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-11.internal (MEProxy); Mon, 30 Jun 2025 04:13:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1751271209;
-	 x=1751357609; bh=ISC1jHbfiqurHfFKZgFEQDld2FTVesd2AslHB3FcMZQ=; b=
-	OSl6IrPcYA0w8eyp05Istu06l8SNgs1aQOsGVZeUkOgVOqJ9EYM3OBKZSFNpD1ob
-	YCIiY1Vj/sm0epsf3MwPy+zTXWrpHlH2HYMOVK2Fc1sjd84HcmIPM3OUPHpFa9pH
-	N2MjY1TCOk9DzqFb2BqCKNkVdx4NKhlssT6bs/ORWFuYPlVkW/zBYYTtbeqP+HBD
-	qPz6nvLVtShiuPsSmm/sfLvaOP1ZuV5HGfaaGI+ezbGR94ek3qlWEj9a/hzqZnHc
-	/RZ0opCqv0PcZO9brPHFD84MfYyFmCP5Qyum1poGR/8V/9vSyPdNWkkKYpjvuYvU
-	yjOD69w/R7iKdVyPRl7/Rg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1751271209; x=
-	1751357609; bh=ISC1jHbfiqurHfFKZgFEQDld2FTVesd2AslHB3FcMZQ=; b=n
-	qQArAVlXef8VZ2XVViFWJXUjkrmDbe2uLKlzA3sULjpiV+0k4LZxuV9jKvtAQQcU
-	NH2izK8YsnB/kdkLTfj06HbQPL//DkSj7hdr94Id9q/XIdeM2TyCbkB9n5zVbzDk
-	zUkr0uN85KYGGF+q5qKSdPS5yXK5JLUfmv62KN1MR0muHN62gg/PSwfY/2QJtVEG
-	U6s6ZTVS3hhBfQ73dK6VwLDLsemFduUjfmKhaUX94nriKmQLKxP2wF46xZfDFF02
-	hsjw6abg8UsFZQPtgvwEDF+EUEI1AYdVTNg75hpFx0BDa+dRjgWwNcAeD79T5n3J
-	h6AnpUSXlJcXOQleBwdow==
-X-ME-Sender: <xms:KUdiaL6pr2Zesc4sfCg_jp2pBdt3HlM4K28BuZL8eMJzpEMNLmqiBw>
-    <xme:KUdiaA4WahKURnpWF_DFQpeu7PPlvPhhv55oXQUeZ7A3oOIyR8OH7tkYc3agL9-o7
-    L3FxZiit8bdYwMNCyc>
-X-ME-Received: <xmr:KUdiaCdQRJcpW2ooaAV-RLw0I3tkZQldwkXbmtVKg9eYBjmBuyVpDLdJa3-FvWK18KKeJxHDzvlkYoM1gaZrI19W6XuxSCDsqA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduuddulecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhikhhlrghs
-    ucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrth
-    gvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepveetgedtvddvhfdtkeeghfeffeehteeh
-    keekgeefjeduieduueelgedtheekkeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
-    hrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgr
-    thgvtghhrdhsvgdpnhgspghrtghpthhtohepuddtpdhmohguvgepshhmthhpohhuthdprh
-    gtphhtthhopehmrghrvghkrdhvrghsuhhtsehmrghilhgsohigrdhorhhgpdhrtghpthht
-    ohepmhgrrhgvkhdrvhgrshhuthdorhgvnhgvshgrshesmhgrihhlsghogidrohhrghdprh
-    gtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfhhrrggu
-    vggrugdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpd
-    hrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihguvghrrdgsvgdprhgtphht
-    thhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrghgnhhush
-    druggrmhhmsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdr
-    ohhrghdprhgtphhtthhopeguvghvihgtvghtrhgvvgesvhhgvghrrdhkvghrnhgvlhdroh
-    hrgh
-X-ME-Proxy: <xmx:KUdiaMKW8MI6Osjoq8CWKUAcG-I22IDqT__kkvOyfijzcowagpelHA>
-    <xmx:KUdiaPJA_pqO_0OwhD0J6F9jCc4zffGlkCizb2hKgz2Uan6t0qvyUw>
-    <xmx:KUdiaFyvmagPxv63wrZAB1K8NPwlufXf4EVMyDnKq1JRVuETL-Zy_A>
-    <xmx:KUdiaLLjacCyICS0bMzey6SLOzdtvdXAAap--zgjgtbbeA_Srl4O_Q>
-    <xmx:KUdiaN7zTOf65V6lb8DgBB9ngE1yNDjpOv8r0alDxlH-d_6X-4mhkkaF>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 30 Jun 2025 04:13:29 -0400 (EDT)
-Date: Mon, 30 Jun 2025 10:13:28 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] arm64: dts: renesas: r8a779g3: Update thermal trip
- points on V4H Sparrow Hawk
-Message-ID: <20250630081328.GC2837343@ragnatech.se>
-References: <20250625100330.7629-1-marek.vasut+renesas@mailbox.org>
- <20250626214152.GA1817595@ragnatech.se>
- <c0ec7600-158f-431e-8f99-a462d68b808e@mailbox.org>
+	s=arc-20240116; t=1751275939; c=relaxed/simple;
+	bh=BwUCkqpykc2xiyZ4oqu+ZEGw0sMiSNpgXHtRj3lEPbo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Jq9DQdZyDfG/mmmKU9xI8T5URCIO4rKyKWRabEHIZYZHys9WkAK95q4MzvakADBL/2p1mnkPhWtI4CAgJFVjvYAsOdix0KfKowCEZURND/5DTN96OgS79GoVs4XUuiw5BmAmPs85tjH0AFT7EtrognT3sICdIQyYeQ/d9cZt684=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-4e2b5ffb932so902301137.0;
+        Mon, 30 Jun 2025 02:32:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751275934; x=1751880734;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0HHyttpDTe6qStRsM+nsbJq6FKJZTXS/oIqRBj8ZQtE=;
+        b=ctrdL+PabSDUxXpMQyhjEyw83wjJysr0wzzfRaOMsKs0Y1UFM8vU5MAqcmpKTLHO1i
+         JqEI3WO6y7j2wesNeo/i/Q8hixOHgJOYEC2rFC1G0kiq19k3m38mFUvWyBLyBbTMajYi
+         NPJT4oGbC8sLRhNtdNy6xrgEapYFZajYDU443RaaaJNUGPZaapIeX65jotwWF7QVFrGE
+         3FxWhdfcLuudVaLwCTIaI3tvFLbPkVH8BENbY78/rogWMIU8Y+AqkQktgWbIsvn+2iEB
+         LdsoRCQI43Tv/Roczps60MsB89kbd4xETgHg6743wLohqwvUXg6+4OvUZQct4emVt+hz
+         lRVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUr5oArRa/bndIom0ck9TTYT+v9tJ0ZVwHxBxEnoXudZVDfM8FQ9YyfpNImskjyluuFMA/cEuM+aBcEcFc=@vger.kernel.org, AJvYcCVM7Vw40M+2a2vFgNdvYBybgTAkhlw3w6vSGgqJxYRQXY1Tdy9a9Bkh8EKExbHhe7xcLFnOtKidvBU=@vger.kernel.org, AJvYcCXrH7lNreOj9fi3UJAxnLfSe4T7SQSYKHwZ11qHhMGeUOTUpKNXMhzwM0YC+Lu0a5+Wz1020ixhJ5MvZDjG5C8q01c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwaqO+BQBel6p5wuYAorPlpdTJ2K6phMr4l7HWZVglAxKeVU7xZ
+	caNFIPOmOPvBSvzTwKL/rD9oDre+zDzF7ZvYi0MhXi+xNQvMHjNEdTTQ0aKrcdoJ
+X-Gm-Gg: ASbGncv0rIgwouDy3mynwjVJAzdWkEmy+EEu3klG062aEw13CBwIqCGBJuL7Dz5ZntW
+	Dg0gk7KaqK/ESsmWbi12tDYZhG/fHYjbsIxgGlPgU2VMH3NCsA6VZP5x+gwO3cYMsF7tuXxDMaI
+	azuLu4ptVQhERvqXHYxtvTpiahNjjruC6ZrmeExtKqho0oDmSHGC23fL7qEe3D8fyHyUVmU3nFP
+	YbJkHYo9ofPf3kS5Rn44ZIydygUyppMwWcdIKgRbvtQlLXfSMWoJNKSxolVzgYXUU/PgAzzlSZp
+	akqMVcC0tlzZqYTIYOnJUvUKL9PnixwvNzfD+vncW47zYmBRiEBaJ3ls0rCkd5cA2j9YSTVC+lt
+	xhEvyC1Igea8mYDzCiaAxS4HM
+X-Google-Smtp-Source: AGHT+IGIT+E/CaAL5PE6ydDStpFjv3VCBTFdIKHAfw1sinZ2+157uXsHfhTqTuNcMw8c/ZcwN0uV7g==
+X-Received: by 2002:a05:6102:5e8a:b0:4e5:980a:d164 with SMTP id ada2fe7eead31-4ee4f0c2d1bmr8831842137.0.1751275933478;
+        Mon, 30 Jun 2025 02:32:13 -0700 (PDT)
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com. [209.85.217.53])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-884d1c3781esm1606687241.10.2025.06.30.02.32.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Jun 2025 02:32:12 -0700 (PDT)
+Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-4e7fc3309f2so919111137.2;
+        Mon, 30 Jun 2025 02:32:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUUxmaTCuRJfAIndzTd41c4PxlEqfTq+N19g4cXfplgimESkcLzekDGRX2Lz99Q1taSb9TzHPMPvG4HxZk=@vger.kernel.org, AJvYcCVA1Q5FrIIRIWr1YG9w5cghVa/zOkLJ9KU5vhCrGRkGlhudzFJWfvK0xZxB4Fto9G/KL1jjuMD3S+c=@vger.kernel.org, AJvYcCXFIvmPkkDG1NylBHyraBVQnZPIvlYM1Xw1vmmHTzXqpXscF4f0OmjQsCpegV8j3ZTS58ISYRaT7BovsA7qmKqVwYw=@vger.kernel.org
+X-Received: by 2002:a05:6102:f82:b0:4e2:c6e4:ab1e with SMTP id
+ ada2fe7eead31-4ee4f55bd15mr8009074137.7.1751275931927; Mon, 30 Jun 2025
+ 02:32:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c0ec7600-158f-431e-8f99-a462d68b808e@mailbox.org>
+References: <20250523134025.75130-1-ulf.hansson@linaro.org>
+ <fd4cfe7a-e29b-4237-b82f-48354deead3b@ideasonboard.com> <CAPDyKFpprO=HGuiHX3MQ_+m1YRnaWG=XwCx8-fSdXak8VBDUbQ@mail.gmail.com>
+ <CAPDyKFpXcpwkacnYqWz2vxaTd7pW5bSRa2F063BryFxVNEAmPA@mail.gmail.com>
+ <CAMuHMdXGS+efbbQ_Pn1iYhQ1aWc_DuJ-CBN=jxfjwOWxTRx+9Q@mail.gmail.com> <CAPDyKFoJHFuY278eEobje4TOv_+-i966H2OuP9fqHMLLevb0qw@mail.gmail.com>
+In-Reply-To: <CAPDyKFoJHFuY278eEobje4TOv_+-i966H2OuP9fqHMLLevb0qw@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 30 Jun 2025 11:31:58 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVo1eOZiRpcH_XNqP6Y0imk4+bcAe=+W4_Su1pF16uRVA@mail.gmail.com>
+X-Gm-Features: Ac12FXyy1jcX9FikFs2NK5_wkqpBj31k8jOziXAUTCaEyHrb3yLbemdWFSlcECU
+Message-ID: <CAMuHMdVo1eOZiRpcH_XNqP6Y0imk4+bcAe=+W4_Su1pF16uRVA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/21] pmdomain: Add generic ->sync_state() support to genpd
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Saravana Kannan <saravanak@google.com>, 
+	Stephen Boyd <sboyd@kernel.org>, linux-pm@vger.kernel.org, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Michael Grzeschik <m.grzeschik@pengutronix.de>, Bjorn Andersson <andersson@kernel.org>, 
+	Abel Vesa <abel.vesa@linaro.org>, Peng Fan <peng.fan@oss.nxp.com>, 
+	Johan Hovold <johan@kernel.org>, Maulik Shah <maulik.shah@oss.qualcomm.com>, 
+	Michal Simek <michal.simek@amd.com>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hello Marek,
+Hi Ulf,
 
-On 2025-06-30 00:32:54 +0200, Marek Vasut wrote:
-> On 6/26/25 11:41 PM, Niklas Söderlund wrote:
-> 
-> Hello Niklas,
-> 
-> > > +&a76_3 {
-> > > +	a76_3_thermal_idle: thermal-idle {
-> > > +		#cooling-cells = <2>;
-> > > +		duration-us = <10000>;
-> > > +		exit-latency-us = <500>;
-> > > +	};
-> > > +};
-> > 
-> > I did not know you could do this and use it as a cooling device, thanks
-> > for teaching me something new!
-> 
-> You could, although the cooling effect may vary. Some cores enter e.g. clock
-> stop during idle and then they really cool down, some do not.
-> 
-> > > +/* THS sensors in SoC, critical temperature trip point is 100C */
-> > > +&sensor1_crit {
-> > > +	temperature = <100000>;
-> > > +};
-> > > +
-> > > +&sensor2_crit {
-> > > +	temperature = <100000>;
-> > > +};
-> > > +
-> > > +&sensor3_crit {
-> > > +	temperature = <100000>;
-> > > +};
-> > > +
-> > > +&sensor4_crit {
-> > > +	temperature = <100000>;
-> > > +};
-> > > +
-> > > +&sensor_thermal_cr52 {
-> > > +	critical-action = "shutdown";
-> > > +};
-> > > +
-> > > +&sensor_thermal_cnn {
-> > > +	critical-action = "shutdown";
-> > > +};
-> > 
-> > Is this not the default action for critical trip points? In my testing
-> > in the past R-Car systems have always shutdown when the critical trip is
-> > reached.
-> 
-> It isn't quite that clear cut.
-> 
-> drivers/thermal/thermal_of.c thermal_of_zone_register() contains this piece
-> of code:
-> 
-> "
-> 407         ret = of_property_read_string(np, "critical-action", &action);
-> 408         if (!ret && !of_ops.critical) {
-> 409                 if (!strcasecmp(action, "reboot"))
-> 410                         of_ops.critical =
-> thermal_zone_device_critical_reboot;
-> 411                 else if (!strcasecmp(action, "shutdown"))
-> 412                         of_ops.critical =
-> thermal_zone_device_critical_shutdown;
-> 413         }
-> "
-> 
-> If "critical-action" DT property is not set, then of_ops.critical are not
-> modified.
-> 
-> drivers/thermal/thermal_core.c thermal_zone_device_register_with_trips()
-> contains this piece of code:
-> 
-> 1571         if (!tz->ops.critical)
-> 1572                 tz->ops.critical = thermal_zone_device_critical;
-> 
-> If (in case of OF) of_ops.critical is not set, use
-> thermal_zone_device_critical() handler.
-> 
-> There is a slight difference:
-> - If critical-action = "shutdown" is set in DT, then handler
->   thermal_zone_device_critical_shutdown() is called, which is a wrapper
->   around thermal_zone_device_halt(tz, HWPROT_ACT_SHUTDOWN);
-> - If critical-action = "shutdown" is NOT set in DT, then handler
->   thermal_zone_device_critical() is called, which is a wrapper
->   around thermal_zone_device_halt(tz, HWPROT_ACT_DEFAULT);
-> 
-> thermal_zone_device_halt() itself is a wrapper around
-> __hw_protection_trigger(msg, poweroff_delay_ms, action); , where action is
-> either HWPROT_ACT_SHUTDOWN or HWPROT_ACT_DEFAULT , which is handled in
-> kernel/reboot.c __hw_protection_trigger() implementation :
-> 
-> 1028 void __hw_protection_trigger(const char *reason, int ms_until_forced,
-> 1029                              enum hw_protection_action action)
-> 1030 {
-> 1031         static atomic_t allow_proceed = ATOMIC_INIT(1);
-> 1032
-> 1033         if (action == HWPROT_ACT_DEFAULT)
-> 1034                 action = hw_protection_action;
-> 
-> In case of HWPROT_ACT_DEFAULT , the 'hw_protection_action' which is assigned
-> into 'action' can be overridden, either via sysfs write, or hw_protection_
-> kernel command line parameter . In case of HWPROT_ACT_SHUTDOWN , the action
-> cannot be overridden .
-> 
-> In case this hardware starts to melt, we surely want HWPROT_ACT_SHUTDOWN
-> with no override options ...
-> 
-> > If it's not I think we should move these to r8a779g0.dtsi. And
-> > likely add them for all other SoCs too?
-> 
-> ... the other hardware has non-optional heatsink, where override-able
-> HWPROT_ACT_DEFAULT is the right option I think .
+On Tue, 24 Jun 2025 at 17:30, Ulf Hansson <ulf.hansson@linaro.org> wrote:
+> On Mon, 23 Jun 2025 at 17:06, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Mon, 23 Jun 2025 at 16:21, Ulf Hansson <ulf.hansson@linaro.org> wrote:
+> > > On Thu, 19 Jun 2025 at 13:40, Ulf Hansson <ulf.hansson@linaro.org> wrote:
+> > > > Do you think it would be possible to move rcar_gen4_sysc_pd_init() to
+> > > > a postcore/arch_initcall?
+> > >
+> > > I did some investigation around this and found that both
+> > > drivers/pmdomain/renesas/rcar-gen4-sysc.c and
+> > > drivers/pmdomain/renesas/rcar-sysc.c are registering their genpd
+> > > providers at the early_initcall() level.
+> > >
+> > > I was trying to find (by browsing renesas DTSes and looking into
+> > > drivers) if there is any consumers that actually relies on this, but
+> > > so far the earliest consumer I have found is the
+> > > drivers/irqchip/irq-renesas-irqc.c, but that's at postcore_initcall().
+> > > Of course, it's difficult to say if my analysis is complete as there
+> > > are a lot of platform variants and I didn't check them all.
+> > >
+> > > Maybe we should just give it a try and move both two drivers above to
+> > > postcore_initcall and see if it works (assuming the irq-renesas-irqc
+> > > supports -EPROBE_DEFER correctly too).
+> > >
+> > > If this doesn't work, I think we need to find a way to allow deferring
+> > > the call to device_add() in of_genpd_provider_add*() for genpd
+> > > provider's devices.
+> >
+> > Commit dcc09fd143bb97c2 ("soc: renesas: rcar-sysc: Add DT support for
+> > SYSC PM domains") explains:
+> >
+> >    "Initialization is done from an early_initcall(), to make sure the PM
+> >     Domains are initialized before secondary CPU bringup."
+> >
+> > but that matters only for arm32 systems (R-Car Gen1 and Gen2).
+> > Arm64 systems (R-Car Gen3 and Gen4) use PSCI for CPU PM Domain control.
+>
+> Geert, thanks a lot for providing these details and helping out, much
+> appreciated!
+>
+> > While changing rcar-sysc.c to use a postcore_initcall indeed moves PM
+> > Domain initialization after secondary CPU bringup, the second CPU core
+> > on R-Car M2-W is still brought up fine.
 
-Wow, thanks for the detailed rundown. With that I agree with you, we 
-should only force the shutdown on this particular platform. Nice work.
+To rule out relying on anything being enabled by the bootloader,
+I offlined the second CPU, and booted the kernel using kexec.
+The second CPU still comes up fine.  Which is not that unsurprising,
+as rcar-sysc.c ignores domains with the PD_CPU flag...
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > For R-Car H1, there is a regression:
+> >
+> >     smp: Bringing up secondary CPUs ...
+> >     CPU1: failed to boot: -19
+> >     CPU2: failed to boot: -19
+> >     CPU3: failed to boot: -19
+> >     smp: Brought up 1 node, 1 CPU
+> >     SMP: Total of 1 processors activated (500.00 BogoMIPS).
+> >
+> > CPU bringup/teardown in userspace using
+> > /sys/devices/system/cpu/cpu*/online still works.
+> > R-Car H1 was never converted to use "enable-method" in DT, and relies
+> > on calling into the rcar-sysc driver directly (see [1]).  However,
+> > that does not use any actual calls into the genpd core, so probably it
+> > can be made to work by splitting rcar_sysc_pd_init() in two parts: an
+> > early_initcall() that allocates all domain structures and populates the
+> > internal hierarchy, and a postcore_initcall() that registers everything
+> > with the genpd core.
+>
+> Yes, that seems like a viable option.
+
+... so it's just R-Car H1 that needs some code to run early.
+
+> Unless you prefer to have a stab at it, I intend to look into it and
+> make the patch(es) part of a new version of the $subject series. Of
+> course I am still relying on your help with testing/review.
+
+Sure, I will do testing and review.
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Kind Regards,
-Niklas Söderlund
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
