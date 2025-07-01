@@ -1,154 +1,143 @@
-Return-Path: <linux-renesas-soc+bounces-18966-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18967-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D797AEF774
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Jul 2025 13:56:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C70E7AEF7D4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Jul 2025 14:08:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BDD091C03351
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Jul 2025 11:55:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A85713AE761
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Jul 2025 12:07:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC4C7275850;
-	Tue,  1 Jul 2025 11:50:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED102270ECF;
+	Tue,  1 Jul 2025 12:07:34 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF7F275847;
-	Tue,  1 Jul 2025 11:50:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 271BD26B97F;
+	Tue,  1 Jul 2025 12:07:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751370609; cv=none; b=sCQh9bkt9LFZ/mZnU5K4NccRVzOwLsZ+Vo0g+jIqSdKxHgCoCByukWlYNSxdO2XwFLGmdFxSuvypZG9zAooX350heYwqlnRTk+dV15dZxNZxX+8KzMJ09nTALHRaAOy4i2eyBcuegHj87GqQmRVueiuisq26CUrY7u9QT0Z+wo8=
+	t=1751371654; cv=none; b=RTlA12cDA3U5vK8kZzoPn/oWUIBAqMgiX6j2HZi3AUyUJVUBqLehfFvYV8lT27L2gA4eTh6AtIzjqEvqiFc64QISJn5uQCOz6HNVmZyeaJyT5749EtjhVgT/Vt6/PshynVCR90w2Ao+aKNHTAX3HTl1JNW3mP/5dtEGbKq/f5jA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751370609; c=relaxed/simple;
-	bh=oQaSfjn16gkpmyiOHuJHxs/od2PeJENkOL44tWybTSI=;
+	s=arc-20240116; t=1751371654; c=relaxed/simple;
+	bh=XGST3wr7iVgLwBhs0x/QleYk1S88h1v1ZOObVkwGAQA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iLgZXz7Vo1RBb/GkKYlfo0sEsUJq7A1MaNS+C5i90Qtscsac7tpcxWEit100G6BPiBtNOBHXZertXVPvUVg2aLe6P5FwN9Iqii0GHNMGSRADIjXqddtuNE4QjAhodYh9uQFndSo0IDkM+vNu0cxHPq3YlE5HA1+LaWbEDhEGsdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.175
+	 To:Cc:Content-Type; b=a+4zyOHUFaSstbjElODJuxa3oE1MM9XGQumtK3qKn2Tkgppy0M7kV89tPn78Oeo0UOttp7p2ZDziw44OSnwLD/VZi3gsOjzrSRauBE4Kp6DuHOHuonMGiwPoJqMgrWDXa4nkhCCKPbd8EurzkolVQqXzfA2bUwm75FwAKqdORWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-532d498eb95so1039858e0c.1;
-        Tue, 01 Jul 2025 04:50:07 -0700 (PDT)
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6fada2dd785so40146916d6.2;
+        Tue, 01 Jul 2025 05:07:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751370606; x=1751975406;
+        d=1e100.net; s=20230601; t=1751371651; x=1751976451;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SNcAgqNSg4xL8jPZ4ZsDnoQkMlpOI3kIKIEOSXamPXA=;
-        b=Df+J7Ko5cZbxck3Y/AeiiouZbVfUabI6XvazapIULiyTOlKhtMHUAS+oZQCGgReeib
-         YAlNkE78lYJ+ItapcLOeV8HZb1qItIirRIVOjSYAhgjX1ZXD3WJ9PbPUTSorwRWYSxYJ
-         r3xG18a+xqlTR4X+VTp2NUwrQR9Hk0LQIDN+lHPr5rkkTotKj0ziYgQcKQomm5yP1bpr
-         NaQpNkiJ4Mf9VgniUZ7RMRuxuSPPBJbFpvfUMXaDx9gnvuvyn+puSKcetKITwEEmwntI
-         yfcA/K3gdtDuJKLBj6jN7jeDFxbuERLbPvGXU3OoCVMW4B8aYEcZjuBjVw0ijqLirKDa
-         xbHA==
-X-Forwarded-Encrypted: i=1; AJvYcCUvG8GMXhDdhQzbBQinIpASXQgnF0xaK6c7qXIQRO9qAfs1LjS2VzZ36hdYuZZINlqPwRS7ydFG9dWz@vger.kernel.org, AJvYcCWJoNLE8jgthtBBluLSvADcEjUVs3AX3Holn5DZ7f47TZluRg3SPmlCJmQJsz0UqX7cWMEu14USBjJf1uWVW3JrQsU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywnzo6PmO2Z6JnS+T06shPPxMfLYqvxloesDe/QQRY6CujyJANw
-	DagAx/lOeU57Z5bpelIbHJ299boQj7dsIH+91+6sT0ZFEd9oFfK+zLltJfCCbV5N
-X-Gm-Gg: ASbGncuau4t10aDSz52gmGVfUGiF5q2kPrAVbm+0vTcpW7NKXdd3MDIB39ksn9lyLuF
-	WGeuBeeLFV9zrVhV+kmWOJCvKo60iHnJBaMrW9bNNsMb37tuPkKqtgzpkJEgYD9Gg1K80H5mp48
-	hvNbeNUPviWps3WC4lRKyTIY+yJWPJiMWdQQmTzOuHMrLP18mQ8rXIBpAl2eUwDJfq5lKJ5OlmM
-	UWccPZDNpdfaVVntKHwtsgSjrhaLZDko/6zvo7HUeoJ87ZofY/XXcV4J91pUhS5KsnZWD4IM8Lq
-	USwHtGAu27pwHXJjvXKEDEJcYqUB3bCZZ+/oFAdz33ggnCtN5bz0FoM0QoWbKBhWATWHzGBzK64
-	3b5Ozgs9ThRS43Gos0Cmp1EVS
-X-Google-Smtp-Source: AGHT+IFd1BS47FCf4HvrIBoeWTZ8l915KmZ7mCErDSAjS0lWFeCUxw7Az/xIPEv9Y/6HnIaQQmIcaA==
-X-Received: by 2002:a05:6122:168a:b0:526:19e6:fa34 with SMTP id 71dfb90a1353d-5330be06b4cmr9426733e0c.1.1751370605436;
-        Tue, 01 Jul 2025 04:50:05 -0700 (PDT)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-884d1c3781esm2015978241.10.2025.07.01.04.50.04
+        bh=dBi1azPO7hUkur2yGpBD5HIE+HCtFCCLXIiOeZ0Dla0=;
+        b=HkV+dNeNjhwPl21pHIPam8FW5VEjXoKgfssFTuu9ylNqcGIMCJFZwcTmhyx28dSfiV
+         kCXwI3G6RLbbaDqOUKSD/asjKdL6i/5scTiwSVfrY02JQ5nkiaBMUeU3dZ08CWgkI1vN
+         pvArmBBgN5M4jQbqkxlK3Hwfr9bIMaQXUtxGKmLNns3U9OwMpso0CQK9oW3KrOBlgkIa
+         rLfC0H59luLF2bn/OAjuMWsWSCv44pdM0HBn7mdUGgbn06zh197equp1xXcfEyCyfMZu
+         ZVfbrb9K8znsYhN1l7LRc6NvmxaIn4a1VG/LqYGWAN9oVe2SAFoyaxLtXHsxF3jeu9Ig
+         wotQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUfsav+zQHG6HXmK+mFvbDwwBl/SQ/Fw97dhtbbKaB+cBtfkjjbJKifPVIU3aIqvn3PUUmTyYWVhcRHrCjC@vger.kernel.org, AJvYcCVVOFFkUb9UZO+TqGQ/Lgu1JIoBqvdT2urVb7LZQH5V1Ym7KFZh+/RsbgCdklv2zDZpJ+RhxQvhAaZT@vger.kernel.org, AJvYcCX66VzrHEl6LXHylYxj5z7VRmz416vFQ9594Gt5E98x2t4v6qwoCgCXRXLkWQrDpRpV88QAEkRLevR47wdnxekf2vo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKRJBqsSyjK5kZD9iMhVH57d7LJK7b7pN/+KdSEfppAvWZNzpM
+	pnK4mythSvWh0cWfKNvU6hVcN5v+mbcoCkQPWfgQI6B4SiD2SRJIu4lP0TzT+8AB
+X-Gm-Gg: ASbGncuQAGGIXHSJkEmr45zYNn7JeQvzJF7+HCaxFNOOB6Im8ykGWxIMUu8U8WyGJr3
+	PEuzKKuejsh5u2Bv0XuULLWSVwNERjHE1zxXEXmbEPtEYTDudpltsQNQYq7OEWwTbrHjNifNKgL
+	lxDjr/jO3GP5lPvMkWVtSDhVxu+MmHpVQGez0mWGyScGyUlVbVTkKV+E7CPpVlWt7PgWeb+LgzG
+	fvDerbF/kuNnOmMuG3SNBk+cOkyGyzxJmsCLm7KNfJ9rjXttSWuoTxsk0s/IAfzt7NRvhTFip6X
+	eDDW6vHyVpu2toaUZX2aBUrvlHcygMHdCGtCme4iIn325gU4WBweIOs1tvkkjCb0HOoPhMuAwPT
+	Hu0nk9mXVNN6DnJxXQAc7v8Vn1CAn75F+A+bXxAc=
+X-Google-Smtp-Source: AGHT+IGzTZV3hNSgLIQzl3Z4zs/2VIujms4pHTVj4WSxmKaWwm9OmryyQal43qV6atyZCdUBuMzW3w==
+X-Received: by 2002:a05:6214:2aa1:b0:6fb:5f1d:bf8c with SMTP id 6a1803df08f44-6fffdcff5c9mr224046646d6.11.1751371651236;
+        Tue, 01 Jul 2025 05:07:31 -0700 (PDT)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com. [209.85.222.177])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6fd7730ac6csm83445156d6.103.2025.07.01.05.07.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Jul 2025 04:50:05 -0700 (PDT)
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-87ed3b792a2so601161241.3;
-        Tue, 01 Jul 2025 04:50:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV9jcO7gaAd4DVmlBQza9FXyQRh034U3sRJGEgxGOfeWI6kTCyfBejQ9Ax3N7Lf+63Sl1SM0v7Eqqpe03t2U5a3WbE=@vger.kernel.org, AJvYcCW+Mi3iQfeeqofPBC0VmWcFtBWL3zwi81aHVRZ10rJaSGA8nCatAKwAT88xUhc0GEpiCwX2o8etX+6W@vger.kernel.org
-X-Received: by 2002:a05:6102:2ac9:b0:4e5:a394:16cb with SMTP id
- ada2fe7eead31-4ee4f579878mr10321161137.7.1751370604674; Tue, 01 Jul 2025
- 04:50:04 -0700 (PDT)
+        Tue, 01 Jul 2025 05:07:30 -0700 (PDT)
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-7d3e7503333so456094185a.3;
+        Tue, 01 Jul 2025 05:07:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUXK6iZHgqPbZ97iFdr98ynwg8CnBrH+r3ZdJCWO/ol4LEh5qjO2VDz7Wr35/LdyfF+b0tYbuOgxfR3@vger.kernel.org, AJvYcCUdits5J/Iq43J1P2Ky6CKHyO/dFIIRPLj1tDBLKO0XdFgnMQy2uBxI3TitYl2HcYzskgcWU3Hi7anTL0qgBgr+v3E=@vger.kernel.org, AJvYcCXsQZ1Jpp68RuEdSIYMjBBlOcBcbkhgZw5t7UEV0VuRafnfysy2eIMfbs7HhHQugOR8ywrShLh/FjeZ9gKA@vger.kernel.org
+X-Received: by 2002:a05:620a:8015:b0:7d0:a0f2:e6b1 with SMTP id
+ af79cd13be357-7d443969746mr2276471785a.32.1751371650122; Tue, 01 Jul 2025
+ 05:07:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250414153818.214811-1-biju.das.jz@bp.renesas.com>
- <CAMuHMdUjtG-EcrpbDO2y8M=GQeV=5i4qODp=VZqymipeCneXhQ@mail.gmail.com> <TY3PR01MB11346205BCA481EA7B740A3028641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY3PR01MB11346205BCA481EA7B740A3028641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20250624174033.475401-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250624174033.475401-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250624174033.475401-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 1 Jul 2025 13:49:53 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVNCRGMmgBT2Ow4Af0CTf1iiS=AwhsLnZMFFy40tLYS0Q@mail.gmail.com>
-X-Gm-Features: Ac12FXzVaMxYpR0NooRU2Rl0a4IA6capgW65lhENwGvxKsSwezd-mA-KIH1omJg
-Message-ID: <CAMuHMdVNCRGMmgBT2Ow4Af0CTf1iiS=AwhsLnZMFFy40tLYS0Q@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r9a09g047e57-smarc: Add gpio keys
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	"biju.das.au" <biju.das.au@gmail.com>
+Date: Tue, 1 Jul 2025 14:07:18 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXtdFqqbArLb=uGRSGY2b-gmH8sPoCzw+4LJ-4UHA0t+w@mail.gmail.com>
+X-Gm-Features: Ac12FXzhvXr_q6i48RmjcywN2HbyRepIy66tV5-4603YOboIAQwFqOZCkfgM7VM
+Message-ID: <CAMuHMdXtdFqqbArLb=uGRSGY2b-gmH8sPoCzw+4LJ-4UHA0t+w@mail.gmail.com>
+Subject: Re: [PATCH 1/4] arm64: dts: renesas: r9a09g056: Add XSPI node
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Biju,
+Hi Prabhakar,
 
-On Tue, 1 Jul 2025 at 13:40, Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > From: Geert Uytterhoeven <geert@linux-m68k.org>
-> > On Mon, 14 Apr 2025 at 17:38, Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > > RZ/G3E SMARC EVK  has 3 user buttons called USER_SW1, USER_SW2 and
-> > > USER_SW3. Add a DT node in device tree to instantiate the gpio-keys
-> > > driver for these buttons.
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-
-> > > --- a/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi
-> > > +++ b/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi
-> > > @@ -12,8 +12,13 @@
-> > >   * SW_SDIO_M2E:
-> > >   *     0 - SMARC SDIO signal is connected to uSD1
-> > >   *     1 - SMARC SDIO signal is connected to M.2 Key E connector
-> > > + *
-> > > + * GPIO keys are enabled by default. Use PMOD_GPIO macros to disable
-> > > + them
-> > > + * if needed.
-> > >   */
-> > >
-> > > +#include <dt-bindings/input/input.h>
-> > > +
-> > >  / {
-> > >         model = "Renesas RZ SMARC Carrier-II Board";
-> > >         compatible = "renesas,smarc2-evk"; @@ -27,6 +32,31 @@ aliases
-> > > {
-> > >                 serial3 = &scif0;
-> > >                 mmc1 = &sdhi1;
-> > >         };
-> > > +
-> > > +       keys: keys {
-> > > +               compatible = "gpio-keys";
-> > > +
-> > > +               key-1 {
-> > > +                       interrupts-extended = <&pinctrl KEY_1_GPIO
-> > > + IRQ_TYPE_EDGE_FALLING>;
-> >
-> > So you are using them as interrupts. Don't you need to configure pin control for that (function 15 =
-> > IRQ14)?
+On Tue, 24 Jun 2025 at 19:40, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> The same pin can be configured as TINT or IRQ15, currently it is configured as TINT IRQ.
-> Is it ok?
-
-OK.
-
-> > Alternatively, can't you use them as gpios with interrupt facilities?
+> Add XSPI node to RZ/V2N ("R9A09G056") SoC DTSI.
 >
-> interrupts-extended = <&pinctrl KEY_1_GPIO IRQ_TYPE_EDGE_FALLING>;
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+Thanks for your patch!
+
+> --- a/arch/arm64/boot/dts/renesas/r9a09g056.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r9a09g056.dtsi
+> @@ -208,6 +208,29 @@ sys: system-controller@10430000 {
+>                         resets = <&cpg 0x30>;
+>                 };
 >
-> The TINT IRQ will provide the same right? Am I missing anything here?
+> +               xspi: spi@11030000 {
+> +                       compatible = "renesas,r9a09g056-xspi", "renesas,r9a09g047-xspi";
+> +                       reg = <0 0x11030000 0 0x10000>,
+> +                             <0 0x20000000 0 0x10000000>;
+> +                       reg-names = "regs", "dirmap";
+> +                       interrupts = <GIC_SPI 228 IRQ_TYPE_EDGE_RISING>,
+> +                                    <GIC_SPI 229 IRQ_TYPE_EDGE_RISING>;
+> +                       interrupt-names = "pulse", "err_pulse";
+> +                       clocks = <&cpg CPG_MOD 0x9f>,
+> +                                <&cpg CPG_MOD 0xa0>,
+> +                                <&cpg CPG_CORE R9A09G056_SPI_CLK_SPI>,
+> +                                <&cpg CPG_MOD 0xa1>;
+> +                       clock-names = "ahb", "axi", "spi", "spix2";
+> +                       assigned-clocks = <&cpg CPG_CORE R9A09G056_SPI_CLK_SPI>;
+> +                       assigned-clock-rates = <133333334>;
 
-When you use interrupts directly, the system will detect only key presses,
-and fake (timer-based) key releases.
-When you use GPIOs with interrupt-capability, the system can detect both
-key presses and releases.
+Do you need these two properties?
+If yes, perhaps they should be moved to the board part?
 
-See also commit cab3511ea7a0b1fc ("ARM: dts: marzen: Add slide switches").
+> +                       resets = <&cpg 0xa3>, <&cpg 0xa4>;
+> +                       reset-names = "hresetn", "aresetn";
+> +                       power-domains = <&cpg>;
+> +                       #address-cells = <1>;
+> +                       #size-cells = <0>;
+> +                       status = "disabled";
+> +               };
+> +
+>                 ostm0: timer@11800000 {
+>                         compatible = "renesas,r9a09g056-ostm", "renesas,ostm";
+>                         reg = <0x0 0x11800000 0x0 0x1000>;
+
+The rest LGTM, so
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
