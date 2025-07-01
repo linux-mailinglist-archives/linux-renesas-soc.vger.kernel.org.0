@@ -1,905 +1,237 @@
-Return-Path: <linux-renesas-soc+bounces-18992-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18993-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04115AEFAD1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Jul 2025 15:37:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F2BCAEFCC4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Jul 2025 16:39:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CE70316B4DA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Jul 2025 13:34:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 26A7B444A60
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Jul 2025 14:38:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 219912741D4;
-	Tue,  1 Jul 2025 13:33:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EFED27604B;
+	Tue,  1 Jul 2025 14:39:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jZjqNsPW"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="lepBG5o8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010025.outbound.protection.outlook.com [52.101.229.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F705274B55;
-	Tue,  1 Jul 2025 13:33:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751376798; cv=none; b=nXAvCyFjYsXwmuV8oqfNn09Pm1/mlvWn2wn1PPD2N2Itm+H5PL8GOjG9qdRobsjpDQj4/+oG9j04exE0hx9l+9FnX6ud5WwIIdh5H8QCJ9Ct1SilkwCNuwgxF7SLxv8i01IKSwEYmkz1peVt9oCGRnWM7y7/4oEq/zr1OcxSHVk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751376798; c=relaxed/simple;
-	bh=Bltvy5Pprs+VLq6Qm3YeE7YYefuo5jxIbcHDeXhFs5M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Kt2bS23YPMpoHfiCbtXSZbqfnm7m54g7pE7gC1UMqz2TBLG4gMojDJZSMdcnLxqi3UFMLrU3QIWXJjWFoJXwe7+191c2oxlNYLHi2fRQ+T0ZcRVwd/jpGLgE3zKxtXzUZlqyAg6k0AK4+XP/GukKtYSEUoM6hF3Z17mufTKlreE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jZjqNsPW; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E5A9D6F3;
-	Tue,  1 Jul 2025 15:32:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1751376771;
-	bh=Bltvy5Pprs+VLq6Qm3YeE7YYefuo5jxIbcHDeXhFs5M=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=jZjqNsPWtivIOVRZSwHIrqZJlAFZg82QC2f+OkdMgZhj4oFzaz8s006YPnje9iPiE
-	 ybHhF9OAnesBDqtzq1EZ+O9rJK3TxLTqhKvzofXS4ANyj2al3qxx+QYhEr1ZTPMWGh
-	 3u/r1LiUkn0uCcl4jB/M66ZGe+gesGjvKDvNFeDE=
-Message-ID: <cefac528-9f82-47eb-bb3d-2db1ae5571a8@ideasonboard.com>
-Date: Tue, 1 Jul 2025 14:33:10 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B16A3275AFF;
+	Tue,  1 Jul 2025 14:38:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751380743; cv=fail; b=M4ILpQv2e0QkyOU7fPDr0GX8xY/KuNnnzwQ3VSXFVDF8mNQg6QQVVgQs9HqXi5ZAUJjjckA/WBclLTA4ZDBN64jCRutNKDTEiM8RO8R/iRa4YKFVUkUk3kPBhb46V4FGKR2/W9Ux8bgpvHX3YFqnDRhY4Li0oytZxHS/X/gIkuc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751380743; c=relaxed/simple;
+	bh=lwzkZoxs+OOlc7YLbXqabE5emx8YiRKZazafK8LF0vI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=ugzKWrWquEYZmYluBxdRDvMP88mn20ZgsGfw17lINktTKJ/z/uku6LJ43QyG3EmDFB2xg04xRS3SGpZAyILLPxdqfIOELfJcn++X7PCoiRIHG+6FkPa8TDZkGkyKRbaqLD2T9/g9Y9jflAt9C0klg6hDorz9HYfHP01ff3uCew4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=lepBG5o8; arc=fail smtp.client-ip=52.101.229.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yij+ClqwzM3Kv1c8og8mcdVd1Cd6O/O0445ssO49ppErO8FvRgilcfNpc65N8goBVUOlkROh3kQ+GuvzyXbvtJIb1V5Itk61tVYH1QibM8S13yXhmCiuSK2Xv3TnqzJsdQA5hQZw3mDrGiq8xXFaH88Y4s1YBQPcgx3svnmUlKQ1mldfKUzI4ZTT8AAexGI+bTc+0hUDGLH1sUJTsTtxWGFL4rQK66z0WKARDsTdGE6yyWK8RzS8w0EW1m0pgtYscDaeRO2PDJyqYde7jeEzf5YoLalvikv20By/ISw3ncnt/siWEPozvmiwCoIRvhttLbI5GedssHZtiU6+wByi3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lwzkZoxs+OOlc7YLbXqabE5emx8YiRKZazafK8LF0vI=;
+ b=Gik3evNIIh9QpzdXKTCbuUqRz6YP7UoTZ6RjX/fO1olhSjd7qT7RsjwsomM93UbKiUXsMSMB8WO3JejSZ+VpB0wDxzzTZQ4FISy7RxM8yS9DWEff9Jep788v3cLbm7hffCChqTx7mHWwDCVnNggW+SbkgLqGh7yh3PWY2c8OgkfpLOnPDsO0R/CfUj/R6vR146AWiJxk8qJI5HoieW/8bhPVrMUennWtPXN2q/DY8OVRAxIy73YEKiet4cP/I0zA7swzX8guI5ajHLuxIBgGF4oH7NKwMpS7m4H89I1pcA2XA7UpgevBo4UE+ytYkwM7MTgGuZiXGy5w4USzrNfD8g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lwzkZoxs+OOlc7YLbXqabE5emx8YiRKZazafK8LF0vI=;
+ b=lepBG5o8jKJa0lYYymem8sWaad2TAFuiHCTt+UBT3VteIbFfH3CJ8WZAJT2sTgJoAoaUOj+lbac93wbBfWmAg5OqAtKOJnDQflcTyJc1zhP+BRXK4vYlbgpAXTN1kHhDoBw253GzGew5ocAbg5U6Ll7RPD6170za41+wVmvTvkQ=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TYWPR01MB8542.jpnprd01.prod.outlook.com (2603:1096:400:171::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.31; Tue, 1 Jul
+ 2025 14:38:53 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%7]) with mapi id 15.20.8880.029; Tue, 1 Jul 2025
+ 14:38:53 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+CC: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Prabhakar Mahadev
+ Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
+	<biju.das.au@gmail.com>
+Subject: RE: [PATCH] arm64: dts: renesas: r9a09g047e57-smarc: Add gpio keys
+Thread-Topic: [PATCH] arm64: dts: renesas: r9a09g047e57-smarc: Add gpio keys
+Thread-Index: AQHbrVNDGj8C8kQeE0eZE1bPrrwQPbPEGWSAgFmCYRCAAAYYgIAALWkw
+Date: Tue, 1 Jul 2025 14:38:53 +0000
+Message-ID:
+ <TY3PR01MB113462A4490760D5C6C59FF968641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20250414153818.214811-1-biju.das.jz@bp.renesas.com>
+ <CAMuHMdUjtG-EcrpbDO2y8M=GQeV=5i4qODp=VZqymipeCneXhQ@mail.gmail.com>
+ <TY3PR01MB11346205BCA481EA7B740A3028641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <CAMuHMdVNCRGMmgBT2Ow4Af0CTf1iiS=AwhsLnZMFFy40tLYS0Q@mail.gmail.com>
+In-Reply-To:
+ <CAMuHMdVNCRGMmgBT2Ow4Af0CTf1iiS=AwhsLnZMFFy40tLYS0Q@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYWPR01MB8542:EE_
+x-ms-office365-filtering-correlation-id: 88c7b9a6-3165-401a-d726-08ddb8ad00b7
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?NG52ZGtyMGJzT1JJa3l5MkJJZHNwTnN6MGtRcnFQVEwxdFNrNHZ5UkUvLzg4?=
+ =?utf-8?B?OTh6eVhhVUV3WUVYazhMckpKNXphQXdaZXFqMTV2NXVWVWs0cHJZNVVZT2Ri?=
+ =?utf-8?B?Z3k1UDM3bmFXdXRJS1BnOTZMMUxQVnMrVmsrRTVXaGgySTUvckFQK3FiQ1Zz?=
+ =?utf-8?B?UVJxMDhaTzQzNWJtSmJZN3U5bndPSnJWR2ttcWxxa2FtaFFDMEVyenN6aFh0?=
+ =?utf-8?B?YjdsTnNPSTc3eFNoemVrek1lOWpPenVpMWNyR3V1bEVtRUxsTnNLeC8zdGtp?=
+ =?utf-8?B?OTFyZFg5UmMwd3RMcmphbk5IVDAvTjV4dytiRUNIMzNUeU1BQW84QXpHdExB?=
+ =?utf-8?B?WCtRays3N2VvU2hoeUdOUTVJeXJORXMrczdGc2JYMnJBOTNEMXE2U3hEODM1?=
+ =?utf-8?B?b2tPNmRKWE9XSWRiSmNPK1VySCtxMS9GUTBJRGJwMVp5cUlHUlpUR2NvUjMw?=
+ =?utf-8?B?T3RISjEyOVluaENrWTBSUEJ2TG5CMk9wSGdqRzh2NXlIeEg5Tm9KVGhJM2VQ?=
+ =?utf-8?B?bEZQL1VkM09pdVJSandWSUk5cWtvb1BRZ2N2VTJXTG1nQlNObDhlcEFCdzRt?=
+ =?utf-8?B?RC9jZUloQkp1VWJaaDdnSFhSZ2F5S3FvaC9MVmhWMTBQN3dIZkpmcDNmTGZo?=
+ =?utf-8?B?enFscGsyOGFwSWhwb2ZKbWkrQjFweDQycHJIc2FhMFowdnd1cHpDeGFIVlNp?=
+ =?utf-8?B?MUtWM2JDUmhkVkQxWXdiMUZnUVpsRy9iZUcrT3BRUXlRYTJmVWt3STNnZll6?=
+ =?utf-8?B?bnNvQnZIVmY1Tjk4S3RWTHBFdFhuZXdSNzk5dWY5U3dHMElpT2JlL0R1Tm5o?=
+ =?utf-8?B?TFdRQUlxaXNValpZenJZNU1jTzJXRUZTSEhydSt6S08zeTNZYkZPdEpXdjJP?=
+ =?utf-8?B?c3crUk1yNDJlY1VEWkVPeWdnQVh5bW5aVmJmaVUzTUhtdGtsSisrdEhXL1dp?=
+ =?utf-8?B?UTZ6bmVkUllTSzVZWmdWRldwQjJzMjlXUHNXeVlLZzhTdmxGZ2FsNjd2czlZ?=
+ =?utf-8?B?Z1dxdTNaRHhLdkwzWW1Ub0o5ejZiMzlHVFlzWTV6aVhxV2t3RkRSTEorS0kv?=
+ =?utf-8?B?ZG5iSXU3MndNWGFTd25XcktvUlllNXBNaEVONUIyVnh0WWFNc2d1UXVISXg2?=
+ =?utf-8?B?L0QyMUhyWkdVTmUyQ2xjSDA2bXV4WkNXNkY5V3l1aVlwYlRiMTVvK2FSVk5a?=
+ =?utf-8?B?SVF2YklNa0Mxcjg1c05UWnNRaDdWRG9Ua1RwZFdtMUxFYUZ6Y1grc2p5MFdM?=
+ =?utf-8?B?YTZOVnZ5MTlBVlFZV2tTWTY2YUhQR2RpSWFQYjNSVEdGcGdya2YrNFU2TWlz?=
+ =?utf-8?B?ZU4vUlI5c2I5aHBrNEd1WGxOM0VnNDAxTnNQb3hUaVlMZ05HN0JmV0RUZ3ha?=
+ =?utf-8?B?Ym9oSm94cjF6K2ZLUmtlN2s4d25tSWdoWHZBcnRVZHFVbjcrZmQ3VzBLMUtD?=
+ =?utf-8?B?Sm10TVFPNzNLQ3RpbTV5YjJoRXdrOE1iUzVEQW9HdjhITHJJd1hNeUdPcjJn?=
+ =?utf-8?B?TXgzbDBpaENHL2V5WTF6cDJteWtjeHd2d0ZMQnF2RnJpU0F5c1huR254YVM2?=
+ =?utf-8?B?S2NKTzc4U0RUN1JWMHZyTWlNZWlCVi9NV3pFUXFVSFZFSmN3MUh4ZlV6Q2xn?=
+ =?utf-8?B?WjQrVVJpM05OUXJuaTJUS1czN1kwRmc3QUYwUzRaWjdKZUdkT0JKZHR6Lzgy?=
+ =?utf-8?B?ZFJxSzltUjRVb3FnM0hVaDBGaEtSaWV6OGtsT1pHVlA0NHUzWHM0L2g4UzM2?=
+ =?utf-8?B?TGF2Vk1BUGw0SWJBZGN4SzFnT0RxVk1rQ3B0WWJ1aHRFcWUxbFRobDVaUExa?=
+ =?utf-8?B?TzkxdzhCVG8zd3NEb3ZUYnZFUUNaK010S0VaTXBwdzcwaDhtcC9Id3JEMWFi?=
+ =?utf-8?B?MzE0ckVYdlNpNlBGUDAvQm9qZVFrdWsxY29NOWtXeGU5NHhGYk4xalgrZm53?=
+ =?utf-8?Q?lpLpwfc9O20=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?cytmNXVEbmhVUWg3QmdxUFdRUHBPL09zTXJKUHRNN081eVBtb0RLTS9wNGYz?=
+ =?utf-8?B?K2FPTk40UUl4TG1sKzNBWExLeWFxTk1kVU1objc0WDhOVjNoNStDc0hLbVF4?=
+ =?utf-8?B?Tzg5ZGgzMFdnem5lb1NxeFAxVnYvNTF4Rk9XSWVxWi9LSjRBWlB1Y24xc3Av?=
+ =?utf-8?B?L0J1VWJCR3QvZWw3R0x6Ry85NjVoS3VwSS9pYmVRUCtOTDFZcmJnV3doUXk0?=
+ =?utf-8?B?NWZYYTVvR1JQcGJCSDhUaHBDVGM4WHdIR1hVRnBIOVdqczd6Z1RBMXJ5bDdS?=
+ =?utf-8?B?aldWbmYwUkhxVUwxRy8zTm5ZYzlqUXRTeGs3VkFWRVNjUVJlZzNQeUI4MWtO?=
+ =?utf-8?B?MHBERzdpR3lGU3pnQndnL0J5YXRYQ2VtWjZQeDA1ZGx0dVFXZlc4YnNsVndC?=
+ =?utf-8?B?anphNXRRNFhLWU1tblA3akJYa0MzdGwwUG9uVkRFbUJ0SlRCT2xlNEd3dTF3?=
+ =?utf-8?B?UENlVkRRdE5PNjFjS2ozeU5pTUUxS2ZJVWlObDZNMG94VU9NSzg1VmJjWURq?=
+ =?utf-8?B?Q2x1cnoxQldTeFJxWTh5OW1qQytPaktuUDA3eUhsTFpwd0J0ZjVqQlp1MFJn?=
+ =?utf-8?B?bEhXc3k0RW1aaGFLcWhIWk1NbXJrMC9MSHFKN09PQ01VMWVaeHVRV3hFVEs0?=
+ =?utf-8?B?QS8vWHUxQVJiWStwSmkvakJya2llT0lqcm45VTYwSmRzMmxzTUc2dEhKaEFl?=
+ =?utf-8?B?cFQ0dURFdlQrRXgyTDVwT002NERMSm4zUkFMTG1zU3VzRXJFYXpCVWxPNVBL?=
+ =?utf-8?B?bm43Y2t4cGhEN0lIWnJNcHhuSjBpL0JoUlg2UzJZY0RyR3Vqc1lJZSs3N3hM?=
+ =?utf-8?B?S3cySlZUdWFuY1BTNU1MMHQ2VXNUNEhscTBHK0srRHJOeDJNYXRjdmVVQmJl?=
+ =?utf-8?B?amtIUE9rNG5XUi9sKzM4Q0tPU1RLUXVDN3N3SGNIdldvSnl5b1BEVTBlVy81?=
+ =?utf-8?B?L04wM1NNdWFiT1M4V1ZVWXBnZFd2TXVIUzYyT3RvVlZ1bTVyaXlERmxMMVRT?=
+ =?utf-8?B?cE1BTVlYN1BnWXZHZ0JKdVNGQWs5SDRocTU5d0JNb21mdC8xWGMyLzhMWnpU?=
+ =?utf-8?B?VUordDUwOU95OFVhVHVvUWhYQUxRRlpud1JEOWdqd3Z1SlJBV1dmYjZpMGN0?=
+ =?utf-8?B?ZkdzUHhOMldEdGg5M3hKR0dxVUlWUGZIYjRaMUlxRjNBT1AvbzRjMzcwSU50?=
+ =?utf-8?B?ZTAzdUxNSlJ4bG8zMWNyRTVlclJlb2Y2NWJSQkR1OXNRM2dSY3Q5U1Vud3VJ?=
+ =?utf-8?B?dXk4RHU5ZnJwdVJzcFRmTWJOc3R4QmF5VndUOE5sTkhpSUVXQjdMZEJZaWtL?=
+ =?utf-8?B?UUVFdFFHWElvY3BNRWZERktlcFZJM1VSczF4VitadVBxTVFXSXhPL0padlFP?=
+ =?utf-8?B?TW9Fc1pucld5MXE0VEJnNExoRmo5M3RPN0wwcDRHRlZWTmlXalF6UkRwTVN5?=
+ =?utf-8?B?dzNJWXBjdXpYZGp4cXJGSFhzRGVtSnU1YmptaFNMdkNLZFpYMk1LN0p5WHFI?=
+ =?utf-8?B?T0kzYWJFTHRPY3Q4MWIzbVpHMWx6b1ZwQ1F6Tk9oUUkvOG9EeG5TZ0lwOTQ0?=
+ =?utf-8?B?eENkK1Jwc1BaMnpkM1RHRjlwMEIrRW9hWFczbGd4OEFqTFF2SzdQZnJRSnU2?=
+ =?utf-8?B?b1BLNEFhU0xsTStTOVgybnZnY0ZqWnZGYVZWL2RZVk5SS1lrVWtPWGdxNHN1?=
+ =?utf-8?B?WXRoTUVIbHc1aSt5TS90Q0FQS2xvVVdMWU90c2Q1ZWU5blZ0TzZXeTNGVjYx?=
+ =?utf-8?B?eHZkVzd6TTFxRHJkaVorblFkTnkybzhtNjNXaGJ3cXh6d1NzOFR1NE9WaDh6?=
+ =?utf-8?B?QS9RMkJ5OUtpU051MlYvWVJ2L3hCZVRkNzlYTW5EM05wSU1EUU1PN05JZmpn?=
+ =?utf-8?B?OXk4K2R3TGlqcVZPbEd1a3BiMzE4a3JQT1MxL0VxUXE3eGd6RjY3VFNiZFBB?=
+ =?utf-8?B?TTYrRCtQNlpCQ2p6Z0lFU0k0T3BkelErRUpKcDBGdUhZZFpFNkltM29KT0ky?=
+ =?utf-8?B?dUdxSzN1SFJGSFFuVnZyTmNFcW1IQkFnaytuNVdRU1BUZFVWd01USFJZVUhD?=
+ =?utf-8?B?Y05RdWY2cW1sbkZ4OTVralk2Uml6MktXbituL2lXaE16Rjh1VWRJV2hKQVRi?=
+ =?utf-8?B?QnV6MDd0SEZyOXlKN2tZQkViUFJYUkwxckwxcXNkeFNSNUZsRVVYQTI4V09p?=
+ =?utf-8?B?Zmc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] media: platform: Add Renesas Input Video Control
- block driver
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- biju.das.jz@bp.renesas.com
-References: <20250624-ivc-v2-0-e4ecdddb0a96@ideasonboard.com>
- <20250624-ivc-v2-2-e4ecdddb0a96@ideasonboard.com>
- <tgjqjwqfmjihux545gnmdvaisdgayxh62lsrrqqv2zy2av5scr@mnkmo3ysacet>
- <d200372a-7edb-4469-8bb4-1080203676bb@ideasonboard.com>
- <mcutfm7pqpgcho4xqsvgous7yfuxfc2haya5asewfa6zyrb2zp@m6rnv6ksd62w>
- <08d03115-e580-43f2-bcca-ca30866e51c3@ideasonboard.com>
- <33mdmcvsxipleukxvqysadnnwjfw3taaiov6welva4kthg5sct@q75e7xvy57n7>
- <22a0e86a-b750-4db7-9263-ea99bf4c7fa1@ideasonboard.com>
- <nn5spkrsp4lppwbg3qha5gtokbr2cq5hg7ussbtgakorvduo6a@nznfu253iffi>
- <3dcd5ce9-2bf4-4e63-a494-e364540b00af@ideasonboard.com>
- <btrgnypglvff3k5lsh6g4ietat55ec5wctap67ylredsgdblrr@e722ix2cy74q>
-Content-Language: en-US
-From: Dan Scally <dan.scally@ideasonboard.com>
-Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
- 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
-In-Reply-To: <btrgnypglvff3k5lsh6g4ietat55ec5wctap67ylredsgdblrr@e722ix2cy74q>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 88c7b9a6-3165-401a-d726-08ddb8ad00b7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jul 2025 14:38:53.7133
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fas0J8j6zYge4OHhFeMOe0aS+8N3zC7mOJD1q0l9eJye9qWj2uObDKPnaGHojIWfBCbv8hJnf1ekTTf0gHeteW3wyEVEiF6SXGkK7fFWI4k=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB8542
 
-Hi Jacopo
-
-On 01/07/2025 14:31, Jacopo Mondi wrote:
-> Hi Dan
->
-> On Tue, Jul 01, 2025 at 02:21:09PM +0100, Dan Scally wrote:
->> Hi Jacopo
->>
->> On 01/07/2025 14:17, Jacopo Mondi wrote:
->>> Hi Dan
->>>
->>> On Tue, Jul 01, 2025 at 02:01:25PM +0100, Dan Scally wrote:
->>>> Hi Jacopo
->>>>
->>>> On 01/07/2025 13:58, Jacopo Mondi wrote:
->>>>> Hi Dan
->>>>>
->>>>> On Tue, Jul 01, 2025 at 12:27:41PM +0100, Dan Scally wrote:
->>>>>> Hi Jacopo
->>>>>>
->>>>> [snip]
->>>>>
->>>>>>>>>> +static bool rzv2h_ivc_pipeline_ready(struct media_pipeline *pipe)
->>>>>>>>>> +{
->>>>>>>>>> +	struct media_pipeline_entity_iter iter;
->>>>>>>>>> +	unsigned int n_video_devices = 0;
->>>>>>>>>> +	struct media_entity *entity;
->>>>>>>>>> +	int ret;
->>>>>>>>>> +
->>>>>>>>>> +	ret = media_pipeline_entity_iter_init(pipe, &iter);
->>>>>>>>>> +	if (ret)
->>>>>>>>>> +		return ret;
->>>>>>>>>> +
->>>>>>>>>> +	media_pipeline_for_each_entity(pipe, &iter, entity) {
->>>>>>>>>> +		if (entity->obj_type == MEDIA_ENTITY_TYPE_VIDEO_DEVICE)
->>>>>>>>>> +			n_video_devices++;
->>>>>>>>>> +	}
->>>>>>>>> This counts the ISP video devices as well, right ?
->>>>>>>> That's right
->>>>>>>>
->>>>>>>>>> +
->>>>>>>>>> +	media_pipeline_entity_iter_cleanup(&iter);
->>>>>>>>>> +
->>>>>>>>>> +	return n_video_devices == pipe->start_count;
->>>>>>>>> So this checks that all other video devices have started when this one
->>>>>>>>> is started as well. What if we start the IVC first and the ISP later?
->>>>>>>> Doesn't matter which order; nothing happens until they're all started and
->>>>>>>> then the .pipeline_started() callbacks for the entities run.
->>>>>>> Ah sure, thanks, I got it wrong.
->>>>>>>
->>>>>>> I see that all drivers in the series (IVC and mali) that use the
->>>>>>> media_pipeline_started() helper have to implement a function similar
->>>>>>> in spirit to rzv2h_ivc_pipeline_ready(). Can't the framework do that ?
->>>>>>> So that drivers can call media_pipeline_started() [*] unconditionally
->>>>>>> and use its return value to find out if the pipeline has actually
->>>>>>> started or not ?
->>>>>> The steer I got from Laurent and Sakari was that code from mc shouldn't be
->>>>>> checking for MEDIA_ENTITY_TYPE_VIDEO_DEVICE, but perhaps we could have a
->>>>>> V4L2 helper that does that instead?
->>>>> Do you mean this check ?
->>>>>
->>>>> 	media_pipeline_for_each_entity(pipe, &iter, entity) {
->>>>> 		if (entity->obj_type == MEDIA_ENTITY_TYPE_VIDEO_DEVICE)
->>>>> 			n_video_devices++;
->>>>> 	}
->>>> Yes
->>>>
->>>>> We have wrappers like
->>>>>
->>>>> __must_check int video_device_pipeline_start(struct video_device *vdev,
->>>>> 					     struct media_pipeline *pipe)
->>>>>
->>>>> already, so this might become something like
->>>>>
->>>>> int video_device_try_run_pipeline(vdev)
->>>>> {
->>>>>            pipe = video_device_pipeline(&ivc->vdev.dev);
->>>>>
->>>>>          	ret = media_pipeline_entity_iter_init(pipe, &iter);
->>>>> 	if (ret)
->>>>> 		return ret;
->>>>>
->>>>> 	media_pipeline_for_each_entity(pipe, &iter, entity) {
->>>>> 		if (entity->obj_type == MEDIA_ENTITY_TYPE_VIDEO_DEVICE)
->>>>> 			n_video_devices++;
->>>>> 	}
->>>>>
->>>>> 	media_pipeline_entity_iter_cleanup(&iter);
->>>>>
->>>>> 	return (n_video_devices == pipe->start_count) ?
->>>>> 		media_pipeline_started(pipe) : -ENODEV;
->>>>> }
->>>>>
->>>>> The drivers then should become something like:
->>>>>
->>>>> static int rzv2h_ivc_start_streaming(struct vb2_queue *q, unsigned int count)
->>>>> {
->>>>> 	struct rzv2h_ivc *ivc = vb2_get_drv_priv(q);
->>>>> 	struct media_pipeline *pipe;
->>>>> 	int ret;
->>>>>
->>>>> 	ret = pm_runtime_resume_and_get(ivc->dev);
->>>>> 	if (ret)
->>>>> 		goto err_return_buffers;
->>>>>
->>>>> 	ret = video_device_pipeline_alloc_start(&ivc->vdev.dev);
->>>>> 	if (ret) {
->>>>> 		dev_err(ivc->dev, "failed to start media pipeline\n");
->>>>> 		goto err_pm_runtime_put;
->>>>> 	}
->>>>>
->>>>> 	rzv2h_ivc_format_configure(ivc);
->>>>>
->>>>> 	ivc->buffers.sequence = 0;
->>>>> 	ivc->vvalid_ifp = 0;
->>>>>
->>>>>            if (!video_device_try_run_pipeline(ivc->dev))
->>>>> 		media_jobs_run_jobs(ivc->sched);
->>>>>
->>>>> 	return 0;
->>>>>
->>>>> err_pm_runtime_put:
->>>>> 	pm_runtime_put(ivc->dev);
->>>>> err_return_buffers:
->>>>> 	rzv2h_ivc_return_buffers(ivc, VB2_BUF_STATE_QUEUED);
->>>>>
->>>>> 	return ret;
->>>>> }
->>>>>
->>>>> Removing a bit of boilerplate in all drivers using
->>>>> media_pipeline_started()/stopped() ?
->>>> Yes something like video_device_pipeline_start() is what I was thinking,
->>>> what you've done there looks spot on to me!
->>> You know, looking at what [video|media]_pipeline_[alloc]_start() does,
->>> it could even be renamed to pipeline_validate() and your new functions
->>> named 'start' :)
->>>
->>> Anyway, just for the sake of discussion, one could even create a
->>>
->>> [video|media]_pipeline_[alloc]_run() function that bundles together
->>> the existing _start() functions and the newly proposed _try_run().
->>>
->>> The driver would be an even more compact
->>>
->>>    static int rzv2h_ivc_start_streaming(struct vb2_queue *q, unsigned int count)
->>>    {
->>>    	struct rzv2h_ivc *ivc = vb2_get_drv_priv(q);
->>>    	struct media_pipeline *pipe;
->>>    	int ret;
->>>
->>>    	ret = pm_runtime_resume_and_get(ivc->dev);
->>>    	if (ret)
->>>    		goto err_return_buffers;
->>>
->>>    	rzv2h_ivc_format_configure(ivc);
->>>
->>>    	ivc->buffers.sequence = 0;
->>>    	ivc->vvalid_ifp = 0;
->>>
->>>    	ret = video_device_pipeline_alloc_run(&ivc->vdev.dev);
->>>    	if (ret) {
->>>    		dev_err(ivc->dev, "failed to start media pipeline\n");
->>>    		goto err_pm_runtime_put;
->>>    	}
->>>
->>> 	media_jobs_run_jobs(ivc->sched);
->> Wouldn't this still need to be conditional? We'd need
-> Yeah my thinking was that if (ret) we don't get here
->
->> video_device_pipeline_alloc_run() to be able to return something that
->> indicated:
->>
->>
->> 1. Failure
->>
->> 2. Success, but the pipeline isn't ready to start
->>
->> 3. Success and the pipeline is ready to start
->>
->>
->> right?
-> But yes, you have 3 possible return states, something that might make
-> the API cumbersome to design
->
->>> 	return 0;
->>> }
->>>
->>> Do you see a use case for first starting the pipeline then trying to
->>> run it in a separate step ?
->>
->> Not off the top of my head...they're both operations that ought to happen in
->> .start_streaming()...but do you propose replacing the existing
->> video_device_pipeline_start() with a bundled function, or just adding a new
->> function and retaining the old one?
->>
-> Not replacing them no, otherwise all drivers should be ported to use
-> pipeline_started(), right ?
-Yes
-> However given the "three return values" problem, we might want to keep
-> _try_run() separate ?
-
-
-I'll have a think and post something...I'll probably bundle this and the pipeline_started() / 
-pipeline_stopped() entity ops patch
-
->> Dan
->>
->>>>>>>>>> +}
->>>>>>>>>> +
->>>>>>>>>> +static int rzv2h_ivc_start_streaming(struct vb2_queue *q, unsigned int count)
->>>>>>>>>> +{
->>>>>>>>>> +	struct rzv2h_ivc *ivc = vb2_get_drv_priv(q);
->>>>>>>>>> +	struct media_pipeline *pipe;
->>>>>>>>>> +	int ret;
->>>>>>>>>> +
->>>>>>>>>> +	ret = pm_runtime_resume_and_get(ivc->dev);
->>>>>>>>>> +	if (ret)
->>>>>>>>>> +		goto err_return_buffers;
->>>>>>>>>> +
->>>>>>>>>> +	ret = video_device_pipeline_alloc_start(&ivc->vdev.dev);
->>>>>>>>>> +	if (ret) {
->>>>>>>>>> +		dev_err(ivc->dev, "failed to start media pipeline\n");
->>>>>>>>>> +		goto err_pm_runtime_put;
->>>>>>>>>> +	}
->>>>>>>>>> +
->>>>>>>>>> +	rzv2h_ivc_format_configure(ivc);
->>>>>>>>>> +
->>>>>>>>>> +	ivc->buffers.sequence = 0;
->>>>>>>>>> +
->>>>>>>>>> +	spin_lock(&ivc->spinlock);
->>>>>>>>>> +	ivc->vvalid_ifp = 0;
->>>>>>>>>> +	spin_unlock(&ivc->spinlock);
->>>>>>>>> scoped_guard() maybe, and I wonder if you need this if you initialize
->>>>>>>>> the variable before resume_and_get
->>>>>>>> It was just to guarantee that it's in a known state, but I can probably drop it
->>>>>>> I don't contest resetting it to 0, I'm just pointing out you can do
->>>>>>> that earlier and avoid locking ?
->>>>>> Ah! Yes certainly true.
->>>>>>>>>> +
->>>>>>>>>> +	pipe = video_device_pipeline(&ivc->vdev.dev);
->>>>>>>>>> +	if (rzv2h_ivc_pipeline_ready(pipe)) {
->>>>>>>>>> +		ret = media_pipeline_started(pipe);
->>>>>>>>>> +		if (ret)
->>>>>>>>>> +			goto err_stop_pipeline;
->>>>>>>>>> +
->>>>>>>>>> +		media_jobs_run_jobs(ivc->sched);
->>>>>>>>>> +	}
->>>>>>>>>> +
->>>>>>>>>> +	return 0;
->>>>>>>>>> +
->>>>>>>>>> +err_stop_pipeline:
->>>>>>>>>> +	video_device_pipeline_stop(&ivc->vdev.dev);
->>>>>>>>>> +err_pm_runtime_put:
->>>>>>>>>> +	pm_runtime_put(ivc->dev);
->>>>>>>>>> +err_return_buffers:
->>>>>>>>>> +	rzv2h_ivc_return_buffers(ivc, VB2_BUF_STATE_QUEUED);
->>>>>>>>>> +
->>>>>>>>>> +	return ret;
->>>>>>>>>> +}
->>>>>>>>>> +
->>>>>>>>>> +static void rzv2h_ivc_stop_streaming(struct vb2_queue *q)
->>>>>>>>>> +{
->>>>>>>>>> +	struct rzv2h_ivc *ivc = vb2_get_drv_priv(q);
->>>>>>>>>> +	struct media_pipeline *pipe;
->>>>>>>>>> +
->>>>>>>>>> +	pipe = video_device_pipeline(&ivc->vdev.dev);
->>>>>>>>>> +	if (rzv2h_ivc_pipeline_ready(pipe)) {
->>>>>>>>>> +		media_pipeline_stopped(pipe);
->>>>>>>>>> +		media_jobs_cancel_jobs(ivc->sched);
->>>>>>>>>> +	}
->>>>>>>>> I suspect I already asked about this, but this returns true only if
->>>>>>>>> all video devices have started right ?
->>>>>>>> Right
->>>>>>>>>       So what if ISP is stopped first
->>>>>>>>> then IVC ?
->>>>>>>> It doesn't matter which gets stopped first, it's just to make sure we run
->>>>>>>> media_pipeline_stopped() and media_jobs_cancel_jobs() whenever the _first_
->>>>>>>> video device is stopped
->>>>>>>>>> +
->>>>>>>>>> +	rzv2h_ivc_return_buffers(ivc, VB2_BUF_STATE_ERROR);
->>>>>>>>>> +	video_device_pipeline_stop(&ivc->vdev.dev);
->>>>>>>>>> +	pm_runtime_mark_last_busy(ivc->dev);
->>>>>>>>>> +	pm_runtime_put_autosuspend(ivc->dev);
->>>>>>>>>> +}
->>>>>>>>>> +
->>>>>>>>>> +static const struct vb2_ops rzv2h_ivc_vb2_ops = {
->>>>>>>>>> +	.queue_setup		= &rzv2h_ivc_queue_setup,
->>>>>>>>>> +	.buf_queue		= &rzv2h_ivc_buf_queue,
->>>>>>>>>> +	.wait_prepare		= vb2_ops_wait_prepare,
->>>>>>>>>> +	.wait_finish		= vb2_ops_wait_finish,
->>>>>>>>>> +	.start_streaming	= &rzv2h_ivc_start_streaming,
->>>>>>>>>> +	.stop_streaming		= &rzv2h_ivc_stop_streaming,
->>>>>>>>>> +};
->>>>>>>>>> +
->>>>>>>>>> +static const struct rzv2h_ivc_format *
->>>>>>>>>> +rzv2h_ivc_format_from_pixelformat(u32 fourcc)
->>>>>>>>>> +{
->>>>>>>>>> +	unsigned int i;
->>>>>>>>> nit: Could live inside the for loop
->>>>>>>> Ack
->>>>>>>>>> +
->>>>>>>>>> +	for (i = 0; i < ARRAY_SIZE(rzv2h_ivc_formats); i++)
->>>>>>>>>> +		if (fourcc == rzv2h_ivc_formats[i].fourcc)
->>>>>>>>>> +			return &rzv2h_ivc_formats[i];
->>>>>>>>>> +
->>>>>>>>>> +	return &rzv2h_ivc_formats[0];
->>>>>>>>>> +}
->>>>>>>>>> +
->>>>>>>>>> +static int rzv2h_ivc_enum_fmt_vid_out(struct file *file, void *fh,
->>>>>>>>>> +				      struct v4l2_fmtdesc *f)
->>>>>>>>>> +{
->>>>>>>>>> +	if (f->index >= ARRAY_SIZE(rzv2h_ivc_formats))
->>>>>>>>>> +		return -EINVAL;
->>>>>>>>>> +
->>>>>>>>>> +	f->pixelformat = rzv2h_ivc_formats[f->index].fourcc;
->>>>>>>>>> +	return 0;
->>>>>>>>>> +}
->>>>>>>>>> +
->>>>>>>>>> +static int rzv2h_ivc_g_fmt_vid_out(struct file *file, void *fh,
->>>>>>>>>> +				   struct v4l2_format *f)
->>>>>>>>>> +{
->>>>>>>>>> +	struct rzv2h_ivc *ivc = video_drvdata(file);
->>>>>>>>>> +
->>>>>>>>>> +	f->fmt.pix = ivc->format.pix;
->>>>>>>>>> +
->>>>>>>>>> +	return 0;
->>>>>>>>>> +}
->>>>>>>>>> +
->>>>>>>>>> +static void rzv2h_ivc_try_fmt(struct v4l2_pix_format *pix,
->>>>>>>>>> +			      const struct rzv2h_ivc_format *fmt)
->>>>>>>>>> +{
->>>>>>>>>> +	pix->pixelformat = fmt->fourcc;
->>>>>>>>>> +
->>>>>>>>>> +	pix->width = clamp(pix->width, RZV2H_IVC_MIN_WIDTH,
->>>>>>>>>> +			   RZV2H_IVC_MAX_WIDTH);
->>>>>>>>>> +	pix->height = clamp(pix->height, RZV2H_IVC_MIN_HEIGHT,
->>>>>>>>>> +			    RZV2H_IVC_MAX_HEIGHT);
->>>>>>>>>> +
->>>>>>>>>> +	pix->field = V4L2_FIELD_NONE;
->>>>>>>>>> +	pix->colorspace = V4L2_COLORSPACE_RAW;
->>>>>>>>>> +	pix->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
->>>>>>>>>> +	pix->quantization = V4L2_QUANTIZATION_DEFAULT;
->>>>>>>>> Same as per the subdevice use explicit values, or at least the
->>>>>>>>> DEFAULT() macros
->>>>>>>>>
->>>>>>>>>> +
->>>>>>>>>> +	v4l2_fill_pixfmt(pix, pix->pixelformat, pix->width, pix->height);
->>>>>>>>>> +}
->>>>>>>>>> +
->>>>>>>>>> +static void rzv2h_ivc_set_format(struct rzv2h_ivc *ivc,
->>>>>>>>>> +				 struct v4l2_pix_format *pix)
->>>>>>>>>> +{
->>>>>>>>>> +	const struct rzv2h_ivc_format *fmt;
->>>>>>>>>> +
->>>>>>>>>> +	fmt = rzv2h_ivc_format_from_pixelformat(pix->pixelformat);
->>>>>>>>>> +
->>>>>>>>>> +	rzv2h_ivc_try_fmt(pix, fmt);
->>>>>>>>>> +	ivc->format.pix = *pix;
->>>>>>>>>> +	ivc->format.fmt = fmt;
->>>>>>>>>> +}
->>>>>>>>>> +
->>>>>>>>>> +static int rzv2h_ivc_s_fmt_vid_out(struct file *file, void *fh,
->>>>>>>>>> +				   struct v4l2_format *f)
->>>>>>>>>> +{
->>>>>>>>>> +	struct rzv2h_ivc *ivc = video_drvdata(file);
->>>>>>>>>> +	struct v4l2_pix_format *pix = &f->fmt.pix;
->>>>>>>>>> +
->>>>>>>>>> +	if (vb2_is_busy(&ivc->vdev.vb2q))
->>>>>>>>>> +		return -EBUSY;
->>>>>>>>>> +
->>>>>>>>>> +	rzv2h_ivc_set_format(ivc, pix);
->>>>>>>>>> +
->>>>>>>>>> +	return 0;
->>>>>>>>>> +}
->>>>>>>>>> +
->>>>>>>>>> +static int rzv2h_ivc_try_fmt_vid_out(struct file *file, void *fh,
->>>>>>>>>> +				     struct v4l2_format *f)
->>>>>>>>>> +{
->>>>>>>>>> +	const struct rzv2h_ivc_format *fmt;
->>>>>>>>>> +
->>>>>>>>>> +	fmt = rzv2h_ivc_format_from_pixelformat(f->fmt.pix.pixelformat);
->>>>>>>>>> +
->>>>>>>>>> +	rzv2h_ivc_try_fmt(&f->fmt.pix, fmt);
->>>>>>>>> nit: maybe remove the previous empty line and add one before return ?
->>>>>>>>>
->>>>>>>>>> +	return 0;
->>>>>>>>>> +}
->>>>>>>>>> +
->>>>>>>>>> +static int rzv2h_ivc_querycap(struct file *file, void *fh,
->>>>>>>>>> +			      struct v4l2_capability *cap)
->>>>>>>>>> +{
->>>>>>>>>> +	strscpy(cap->driver, "rzv2h-ivc", sizeof(cap->driver));
->>>>>>>>>> +	strscpy(cap->card, "Renesas Input Video Control", sizeof(cap->card));
->>>>>>>>>> +
->>>>>>>>>> +	return 0;
->>>>>>>>>> +}
->>>>>>>>>> +
->>>>>>>>>> +static const struct v4l2_ioctl_ops rzv2h_ivc_v4l2_ioctl_ops = {
->>>>>>>>>> +	.vidioc_reqbufs = vb2_ioctl_reqbufs,
->>>>>>>>>> +	.vidioc_querybuf = vb2_ioctl_querybuf,
->>>>>>>>>> +	.vidioc_create_bufs = vb2_ioctl_create_bufs,
->>>>>>>>>> +	.vidioc_qbuf = vb2_ioctl_qbuf,
->>>>>>>>>> +	.vidioc_expbuf = vb2_ioctl_expbuf,
->>>>>>>>>> +	.vidioc_dqbuf = vb2_ioctl_dqbuf,
->>>>>>>>>> +	.vidioc_prepare_buf = vb2_ioctl_prepare_buf,
->>>>>>>>>> +	.vidioc_streamon = vb2_ioctl_streamon,
->>>>>>>>>> +	.vidioc_streamoff = vb2_ioctl_streamoff,
->>>>>>>>>> +	.vidioc_enum_fmt_vid_out = rzv2h_ivc_enum_fmt_vid_out,
->>>>>>>>>> +	.vidioc_g_fmt_vid_out = rzv2h_ivc_g_fmt_vid_out,
->>>>>>>>>> +	.vidioc_s_fmt_vid_out = rzv2h_ivc_s_fmt_vid_out,
->>>>>>>>>> +	.vidioc_try_fmt_vid_out = rzv2h_ivc_try_fmt_vid_out,
->>>>>>>>>> +	.vidioc_querycap = rzv2h_ivc_querycap,
->>>>>>>>>> +	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
->>>>>>>>>> +	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
->>>>>>>>>> +};
->>>>>>>>>> +
->>>>>>>>>> +static const struct v4l2_file_operations rzv2h_ivc_v4l2_fops = {
->>>>>>>>>> +	.owner = THIS_MODULE,
->>>>>>>>>> +	.unlocked_ioctl = video_ioctl2,
->>>>>>>>>> +	.open = v4l2_fh_open,
->>>>>>>>>> +	.release = vb2_fop_release,
->>>>>>>>>> +	.poll = vb2_fop_poll,
->>>>>>>>>> +	.mmap = vb2_fop_mmap,
->>>>>>>>>> +};
->>>>>>>>>> +
->>>>>>>>>> +static bool rzv2h_ivc_job_ready(void *data)
->>>>>>>>>> +{
->>>>>>>>>> +	struct rzv2h_ivc *ivc = data;
->>>>>>>>>> +
->>>>>>>>>> +	guard(spinlock)(&ivc->buffers.lock);
->>>>>>>>>> +
->>>>>>>>>> +	if (list_empty(&ivc->buffers.pending))
->>>>>>>>>> +		return false;
->>>>>>>>>> +
->>>>>>>>>> +	return true;
->>>>>>>>>> +}
->>>>>>>>>> +
->>>>>>>>>> +static void rzv2h_ivc_job_queue(void *data)
->>>>>>>>>> +{
->>>>>>>>>> +	struct rzv2h_ivc *ivc = data;
->>>>>>>>>> +	struct rzv2h_ivc_buf *buf;
->>>>>>>>>> +
->>>>>>>>>> +	/*
->>>>>>>>>> +	 * We need to move an entry from the pending queue to the input queue
->>>>>>>>>> +	 * here. We know that there is one, or .check_dep() would not have
->>>>>>>>>> +	 * allowed us to get this far. The entry needs to be removed or the same
->>>>>>>>>> +	 * check would allow a new job to be queued for the exact same buffer.
->>>>>>>>>> +	 */
->>>>>>>>>> +	guard(spinlock)(&ivc->buffers.lock);
->>>>>>>>>> +	buf = list_first_entry(&ivc->buffers.pending,
->>>>>>>>>> +			       struct rzv2h_ivc_buf, queue);
->>>>>>>>>> +	list_move_tail(&buf->queue, &ivc->buffers.queue);
->>>>>>>>>> +}
->>>>>>>>>> +
->>>>>>>>>> +static void rzv2h_ivc_job_abort(void *data)
->>>>>>>>>> +{
->>>>>>>>>> +	struct rzv2h_ivc *ivc = data;
->>>>>>>>>> +	struct rzv2h_ivc_buf *buf;
->>>>>>>>>> +
->>>>>>>>>> +	guard(spinlock)(&ivc->buffers.lock);
->>>>>>>>>> +	buf = list_first_entry(&ivc->buffers.queue,
->>>>>>>>>> +			       struct rzv2h_ivc_buf, queue);
->>>>>>>>>> +
->>>>>>>>>> +	if (buf)
->>>>>>>>>> +		list_move(&buf->queue, &ivc->buffers.pending);
->>>>>>>>>> +}
->>>>>>>>>> +
->>>>>>>>>> +static int rzv2h_ivc_job_add_steps(struct media_job *job, void *data)
->>>>>>>>>> +{
->>>>>>>>>> +	struct rzv2h_ivc *ivc = data;
->>>>>>>>>> +	int ret;
->>>>>>>>>> +
->>>>>>>>>> +	ret = media_jobs_add_job_step(job, rzv2h_ivc_set_next_buffer, ivc,
->>>>>>>>>> +				      MEDIA_JOBS_FL_STEP_ANYWHERE, 0);
->>>>>>>>>> +	if (ret)
->>>>>>>>>> +		return ret;
->>>>>>>>>> +
->>>>>>>>>> +	/*
->>>>>>>>>> +	 * This stage will be the second to last one to run - the ISP driver may
->>>>>>>>>> +	 * have some post-frame processing to do.
->>>>>>>>>> +	 */
->>>>>>>>>> +	return media_jobs_add_job_step(job, rzv2h_ivc_transfer_buffer, ivc,
->>>>>>>>>> +				       MEDIA_JOBS_FL_STEP_FROM_BACK, 1);
->>>>>>>>>> +}
->>>>>>>>>> +
->>>>>>>>>> +static struct media_job_contributor_ops rzv2h_ivc_media_job_ops = {
->>>>>>>>>> +	.add_steps	= rzv2h_ivc_job_add_steps,
->>>>>>>>>> +	.ready		= rzv2h_ivc_job_ready,
->>>>>>>>>> +	.queue		= rzv2h_ivc_job_queue,
->>>>>>>>>> +	.abort		= rzv2h_ivc_job_abort
->>>>>>>>>> +};
->>>>>>>>>> +
->>>>>>>>>> +int rzv2h_initialise_video_dev_and_queue(struct rzv2h_ivc *ivc,
->>>>>>>>>> +					 struct v4l2_device *v4l2_dev)
->>>>>>>>>> +{
->>>>>>>>>> +	struct v4l2_pix_format pix = { };
->>>>>>>>>> +	struct video_device *vdev;
->>>>>>>>>> +	struct vb2_queue *vb2q;
->>>>>>>>>> +	int ret;
->>>>>>>>>> +
->>>>>>>>>> +	spin_lock_init(&ivc->buffers.lock);
->>>>>>>>>> +	INIT_LIST_HEAD(&ivc->buffers.queue);
->>>>>>>>>> +	INIT_LIST_HEAD(&ivc->buffers.pending);
->>>>>>>>>> +	init_waitqueue_head(&ivc->buffers.wq);
->>>>>>>>>> +
->>>>>>>>>> +	/* Initialise vb2 queue */
->>>>>>>>>> +	vb2q = &ivc->vdev.vb2q;
->>>>>>>>>> +	vb2q->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
->>>>>>>>> it's my understandin that MPLANE API is usually preferred also for devices
->>>>>>>>> that only support single planar formats
->>>>>>>> Oh ok - thanks, I'll make the switch
->>>>>>>>>> +	vb2q->io_modes = VB2_MMAP | VB2_DMABUF;
->>>>>>>>>> +	vb2q->drv_priv = ivc;
->>>>>>>>>> +	vb2q->mem_ops = &vb2_dma_contig_memops;
->>>>>>>>>> +	vb2q->ops = &rzv2h_ivc_vb2_ops;
->>>>>>>>>> +	vb2q->buf_struct_size = sizeof(struct rzv2h_ivc_buf);
->>>>>>>>>> +	vb2q->min_queued_buffers = 0;
->>>>>>>>> You can spare this, or keep it if you want it explicit
->>>>>>>> I'll probably keep it
->>>>>>>>>> +	vb2q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
->>>>>>>>>> +	vb2q->lock = &ivc->lock;
->>>>>>>>>> +	vb2q->dev = ivc->dev;
->>>>>>>>>> +
->>>>>>>>>> +	ret = vb2_queue_init(vb2q);
->>>>>>>>>> +	if (ret)
->>>>>>>>>> +		return dev_err_probe(ivc->dev, ret, "vb2 queue init failed\n");
->>>>>>>>>> +
->>>>>>>>>> +	/* Initialise Video Device */
->>>>>>>>>> +	vdev = &ivc->vdev.dev;
->>>>>>>>>> +	strscpy(vdev->name, "rzv2h-ivc", sizeof(vdev->name));
->>>>>>>>>> +	vdev->release = video_device_release_empty;
->>>>>>>>>> +	vdev->fops = &rzv2h_ivc_v4l2_fops;
->>>>>>>>>> +	vdev->ioctl_ops = &rzv2h_ivc_v4l2_ioctl_ops;
->>>>>>>>>> +	vdev->lock = &ivc->lock;
->>>>>>>>>> +	vdev->v4l2_dev = v4l2_dev;
->>>>>>>>>> +	vdev->queue = vb2q;
->>>>>>>>>> +	vdev->device_caps = V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_STREAMING;
->>>>>>>>>> +	vdev->vfl_dir = VFL_DIR_TX;
->>>>>>>>>> +	video_set_drvdata(vdev, ivc);
->>>>>>>>>> +
->>>>>>>>>> +	pix.pixelformat = V4L2_PIX_FMT_SRGGB16;
->>>>>>>>>> +	pix.width = RZV2H_IVC_DEFAULT_WIDTH;
->>>>>>>>>> +	pix.height = RZV2H_IVC_DEFAULT_HEIGHT;
->>>>>>>>>> +	rzv2h_ivc_set_format(ivc, &pix);
->>>>>>>>>> +
->>>>>>>>>> +	ivc->vdev.pad.flags = MEDIA_PAD_FL_SOURCE;
->>>>>>>>>> +	ivc->vdev.dev.entity.ops = &rzv2h_ivc_media_ops;
->>>>>>>>>> +	ret = media_entity_pads_init(&ivc->vdev.dev.entity, 1, &ivc->vdev.pad);
->>>>>>>>>> +	if (ret)
->>>>>>>>>> +		goto err_release_vb2q;
->>>>>>>>>> +
->>>>>>>>>> +	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
->>>>>>>>>> +	if (ret) {
->>>>>>>>>> +		dev_err(ivc->dev, "failed to register IVC video device\n");
->>>>>>>>>> +		goto err_cleanup_vdev_entity;
->>>>>>>>>> +	}
->>>>>>>>> What is the path that registers the subdevice devnode to userspace ?
->>>>>>>>> IOW I was expecting to see v4l2_device_register_subdev_nodes()
->>>>>>>>> somewhere
->>>>>>>> That's in the ISP driver - the IVC's subdevice connects through the V4L2
->>>>>>>> asynchronous API to the ISP's notifier, and the notifier's .complete()
->>>>>>>> callback runs v4l2_device_register_subdev_nodes()
->>>>>>>>
->>>>>>> Ack, sure, thanks for clarifying it!
->>>>>>>
->>>>>>>>>> +
->>>>>>>>>> +	ret = media_create_pad_link(&vdev->entity, 0, &ivc->subdev.sd.entity,
->>>>>>>>>> +				    RZV2H_IVC_SUBDEV_SINK_PAD,
->>>>>>>>>> +				    MEDIA_LNK_FL_ENABLED |
->>>>>>>>>> +				    MEDIA_LNK_FL_IMMUTABLE);
->>>>>>>>>> +	if (ret) {
->>>>>>>>>> +		dev_err(ivc->dev, "failed to create media link\n");
->>>>>>>>>> +		goto err_unregister_vdev;
->>>>>>>>>> +	}
->>>>>>>>>> +
->>>>>>>>>> +	ivc->sched = media_jobs_get_scheduler(vdev->entity.graph_obj.mdev);
->>>>>>>>>> +	if (IS_ERR(ivc->sched)) {
->>>>>>>>>> +		ret = PTR_ERR(ivc->sched);
->>>>>>>>>> +		goto err_remove_link;
->>>>>>>>>> +	}
->>>>>>>>>> +
->>>>>>>>>> +	ret = media_jobs_register_job_contributor(ivc->sched,
->>>>>>>>>> +						  &rzv2h_ivc_media_job_ops, ivc,
->>>>>>>>>> +						  MEDIA_JOB_TYPE_PIPELINE_PULSE);
->>>>>>>>>> +	if (ret)
->>>>>>>>>> +		goto err_put_media_job_scheduler;
->>>>>>>>>> +
->>>>>>>>>> +	return 0;
->>>>>>>>>> +
->>>>>>>>>> +err_put_media_job_scheduler:
->>>>>>>>>> +	media_jobs_put_scheduler(ivc->sched);
->>>>>>>>>> +err_remove_link:
->>>>>>>>>> +	media_entity_remove_links(&vdev->entity);
->>>>>>>>>> +err_unregister_vdev:
->>>>>>>>>> +	video_unregister_device(vdev);
->>>>>>>>>> +err_cleanup_vdev_entity:
->>>>>>>>>> +	media_entity_cleanup(&vdev->entity);
->>>>>>>>>> +err_release_vb2q:
->>>>>>>>>> +	vb2_queue_release(vb2q);
->>>>>>>>>> +
->>>>>>>>>> +	return ret;
->>>>>>>>>> +}
->>>>>>>>>> +
->>>>>>>>>> +void rzv2h_deinit_video_dev_and_queue(struct rzv2h_ivc *ivc)
->>>>>>>>>> +{
->>>>>>>>>> +	struct video_device *vdev = &ivc->vdev.dev;
->>>>>>>>>> +	struct vb2_queue *vb2q = &ivc->vdev.vb2q;
->>>>>>>>>> +
->>>>>>>>>> +	if (!ivc->sched)
->>>>>>>>>> +		return;
->>>>>>>>>> +
->>>>>>>>>> +	media_jobs_put_scheduler(ivc->sched);
->>>>>>>>>> +	vb2_video_unregister_device(vdev);
->>>>>>>>>> +	media_entity_cleanup(&vdev->entity);
->>>>>>>>>> +	vb2_queue_release(vb2q);
->>>>>>>>> Shouldn't you get here also in case of !ivc->sched ?
->>>>>>>> This driver (at least in this version) should always have a sched pointer,
->>>>>>>> so this was just a convenient way to check if initialisation finished before
->>>>>>>> trying to deinit anything...it'll probably change though.
->>>>>>> I see, a comment to explain that might be enough!
->>>>>> Sure - I'll add one.
->>>>>>
->>>>>>
->>>>>> Thanks
->>>>>>
->>>>>> Dan
->>>>>>
->>>>>>> Thanks
->>>>>>>       j
->>>>>>>
->>>>>>>
->>>>>>>>>> +}
->>>>>>>>>> diff --git a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h
->>>>>>>>>> new file mode 100644
->>>>>>>>>> index 0000000000000000000000000000000000000000..d2e310ce868125772d97259619b9369ccbcefe3d
->>>>>>>>>> --- /dev/null
->>>>>>>>>> +++ b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h
->>>>>>>>>> @@ -0,0 +1,133 @@
->>>>>>>>>> +/* SPDX-License-Identifier: GPL-2.0 */
->>>>>>>>>> +/*
->>>>>>>>>> + * Renesas RZ/V2H Input Video Control Block driver
->>>>>>>>>> + *
->>>>>>>>>> + * Copyright (C) 2025 Ideas on Board Oy
->>>>>>>>>> + */
->>>>>>>>>> +
->>>>>>>>>> +#include <linux/clk.h>
->>>>>>>>>> +#include <linux/list.h>
->>>>>>>>>> +#include <linux/mutex.h>
->>>>>>>>>> +#include <linux/reset.h>
->>>>>>>>>> +#include <linux/spinlock.h>
->>>>>>>>>> +#include <linux/types.h>
->>>>>>>>>> +#include <linux/videodev2.h>
->>>>>>>>>> +#include <linux/wait.h>
->>>>>>>>>> +
->>>>>>>>>> +#include <media/media-entity.h>
->>>>>>>>>> +#include <media/v4l2-device.h>
->>>>>>>>>> +#include <media/v4l2-subdev.h>
->>>>>>>>>> +#include <media/videobuf2-core.h>
->>>>>>>>>> +#include <media/videobuf2-v4l2.h>
->>>>>>>>>> +
->>>>>>>>>> +#define RZV2H_IVC_REG_AXIRX_PLNUM			0x0000
->>>>>>>>>> +#define RZV2H_IVC_ONE_EXPOSURE				0x00
->>>>>>>>>> +#define RZV2H_IVC_TWO_EXPOSURE				0x01
->>>>>>>>>> +#define RZV2H_IVC_REG_AXIRX_PXFMT			0x0004
->>>>>>>>>> +#define RZV2H_IVC_INPUT_FMT_MIPI			(0 << 16)
->>>>>>>>>> +#define RZV2H_IVC_INPUT_FMT_CRU_PACKED			(1 << 16)
->>>>>>>>>> +#define RZV2H_IVC_PXFMT_DTYPE				GENMASK(7, 0)
->>>>>>>>>> +#define RZV2H_IVC_REG_AXIRX_SADDL_P0			0x0010
->>>>>>>>>> +#define RZV2H_IVC_REG_AXIRX_SADDH_P0			0x0014
->>>>>>>>>> +#define RZV2H_IVC_REG_AXIRX_SADDL_P1			0x0018
->>>>>>>>>> +#define RZV2H_IVC_REG_AXIRX_SADDH_P1			0x001c
->>>>>>>>>> +#define RZV2H_IVC_REG_AXIRX_HSIZE			0x0020
->>>>>>>>>> +#define RZV2H_IVC_REG_AXIRX_VSIZE			0x0024
->>>>>>>>>> +#define RZV2H_IVC_REG_AXIRX_BLANK			0x0028
->>>>>>>>>> +#define RZV2H_IVC_VBLANK(x)				((x) << 16)
->>>>>>>>>> +#define RZV2H_IVC_REG_AXIRX_STRD			0x0030
->>>>>>>>>> +#define RZV2H_IVC_REG_AXIRX_ISSU			0x0040
->>>>>>>>>> +#define RZV2H_IVC_REG_AXIRX_ERACT			0x0048
->>>>>>>>>> +#define RZV2H_IVC_REG_FM_CONTEXT			0x0100
->>>>>>>>>> +#define RZV2H_IVC_SOFTWARE_CFG				0x00
->>>>>>>>>> +#define RZV2H_IVC_SINGLE_CONTEXT_SW_HW_CFG		BIT(0)
->>>>>>>>>> +#define RZV2H_IVC_MULTI_CONTEXT_SW_HW_CFG		BIT(1)
->>>>>>>>>> +#define RZV2H_IVC_REG_FM_MCON				0x0104
->>>>>>>>>> +#define RZV2H_IVC_REG_FM_FRCON				0x0108
->>>>>>>>>> +#define RZV2H_IVC_REG_FM_STOP				0x010c
->>>>>>>>>> +#define RZV2H_IVC_REG_FM_INT_EN				0x0120
->>>>>>>>>> +#define RZV2H_IVC_VVAL_IFPE				BIT(0)
->>>>>>>>>> +#define RZV2H_IVC_REG_FM_INT_STA			0x0124
->>>>>>>>>> +#define RZV2H_IVC_REG_AXIRX_FIFOCAP0			0x0208
->>>>>>>>>> +#define RZV2H_IVC_REG_CORE_CAPCON			0x020c
->>>>>>>>>> +#define RZV2H_IVC_REG_CORE_FIFOCAP0			0x0228
->>>>>>>>>> +#define RZV2H_IVC_REG_CORE_FIFOCAP1			0x022c
->>>>>>>>>> +
->>>>>>>>>> +#define RZV2H_IVC_MIN_WIDTH				640
->>>>>>>>>> +#define RZV2H_IVC_MAX_WIDTH				4096
->>>>>>>>>> +#define RZV2H_IVC_MIN_HEIGHT				480
->>>>>>>>>> +#define RZV2H_IVC_MAX_HEIGHT				4096
->>>>>>>>>> +#define RZV2H_IVC_DEFAULT_WIDTH				1920
->>>>>>>>>> +#define RZV2H_IVC_DEFAULT_HEIGHT			1080
->>>>>>>>>> +
->>>>>>>>>> +#define RZV2H_IVC_NUM_CLOCKS				3
->>>>>>>>>> +#define RZV2H_IVC_NUM_RESETS				3
->>>>>>>>>> +
->>>>>>>>>> +struct device;
->>>>>>>>>> +
->>>>>>>>>> +enum rzv2h_ivc_subdev_pads {
->>>>>>>>>> +	RZV2H_IVC_SUBDEV_SINK_PAD,
->>>>>>>>>> +	RZV2H_IVC_SUBDEV_SOURCE_PAD,
->>>>>>>>>> +	RZV2H_IVC_NUM_SUBDEV_PADS
->>>>>>>>>> +};
->>>>>>>>>> +
->>>>>>>>>> +struct rzv2h_ivc_format {
->>>>>>>>>> +	u32 fourcc;
->>>>>>>>>> +	/*
->>>>>>>>>> +	 * The CRU packed pixel formats are bayer-order agnostic, so each could
->>>>>>>>>> +	 * support any one of the 4 possible media bus formats.
->>>>>>>>>> +	 */
->>>>>>>>>> +	u32 mbus_codes[4];
->>>>>>>>>> +	u8 dtype;
->>>>>>>>>> +};
->>>>>>>>>> +
->>>>>>>>>> +struct rzv2h_ivc {
->>>>>>>>>> +	struct device *dev;
->>>>>>>>>> +	void __iomem *base;
->>>>>>>>>> +	struct clk_bulk_data clks[RZV2H_IVC_NUM_CLOCKS];
->>>>>>>>>> +	struct reset_control_bulk_data resets[RZV2H_IVC_NUM_RESETS];
->>>>>>>>>> +	int irqnum;
->>>>>>>>>> +	u8 vvalid_ifp;
->>>>>>>>>> +
->>>>>>>>>> +	struct {
->>>>>>>>>> +		struct video_device dev;
->>>>>>>>>> +		struct vb2_queue vb2q;
->>>>>>>>>> +		struct media_pad pad;
->>>>>>>>>> +	} vdev;
->>>>>>>>>> +
->>>>>>>>>> +	struct {
->>>>>>>>>> +		struct v4l2_subdev sd;
->>>>>>>>>> +		struct media_pad pads[RZV2H_IVC_NUM_SUBDEV_PADS];
->>>>>>>>>> +	} subdev;
->>>>>>>>>> +
->>>>>>>>>> +	struct {
->>>>>>>>>> +		/* Spinlock to guard buffer queue */
->>>>>>>>>> +		spinlock_t lock;
->>>>>>>>>> +		wait_queue_head_t wq;
->>>>>>>>>> +		struct list_head queue;
->>>>>>>>>> +		struct list_head pending;
->>>>>>>>>> +		struct rzv2h_ivc_buf *curr;
->>>>>>>>>> +		unsigned int sequence;
->>>>>>>>>> +	} buffers;
->>>>>>>>>> +
->>>>>>>>>> +	struct media_job_scheduler *sched;
->>>>>>>>>> +
->>>>>>>>>> +	struct {
->>>>>>>>>> +		struct v4l2_pix_format pix;
->>>>>>>>>> +		const struct rzv2h_ivc_format *fmt;
->>>>>>>>>> +	} format;
->>>>>>>>>> +
->>>>>>>>>> +	/* Mutex to provide to vb2 */
->>>>>>>>>> +	struct mutex lock;
->>>>>>>>>> +	/* Lock to protect the interrupt counter */
->>>>>>>>>> +	spinlock_t spinlock;
->>>>>>>>>> +};
->>>>>>>>>> +
->>>>>>>>>> +int rzv2h_initialise_video_dev_and_queue(struct rzv2h_ivc *ivc,
->>>>>>>>>> +					 struct v4l2_device *v4l2_dev);
->>>>>>>>>> +void rzv2h_deinit_video_dev_and_queue(struct rzv2h_ivc *ivc);
->>>>>>>>>> +int rzv2h_ivc_initialise_subdevice(struct rzv2h_ivc *ivc);
->>>>>>>>>> +void rzv2h_ivc_deinit_subdevice(struct rzv2h_ivc *ivc);
->>>>>>>>>> +void rzv2h_ivc_write(struct rzv2h_ivc *ivc, u32 addr, u32 val);
->>>>>>>>>> +void rzv2h_ivc_update_bits(struct rzv2h_ivc *ivc, unsigned int addr,
->>>>>>>>>> +			   u32 mask, u32 val);
->>>>>>>>>>
->>>>>>>>> As agreed, I didn't review the job scheduler part but only the IVC
->>>>>>>>> specific bits. A few nits here and there and next version should be
->>>>>>>>> good to go!
->>>>>>>>>
->>>>>>>>> Thanks
->>>>>>>>>        j
->>>>>>>>>
->>>>>>>>>> --
->>>>>>>>>> 2.34.1
->>>>>>>>>>
->>>>>>>>>>
+SGkgR2VlcnQsDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogR2VlcnQg
+VXl0dGVyaG9ldmVuIDxnZWVydEBsaW51eC1tNjhrLm9yZz4NCj4gU2VudDogMDEgSnVseSAyMDI1
+IDEyOjUwDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0hdIGFybTY0OiBkdHM6IHJlbmVzYXM6IHI5YTA5
+ZzA0N2U1Ny1zbWFyYzogQWRkIGdwaW8ga2V5cw0KPiANCj4gSGkgQmlqdSwNCj4gDQo+IE9uIFR1
+ZSwgMSBKdWwgMjAyNSBhdCAxMzo0MCwgQmlqdSBEYXMgPGJpanUuZGFzLmp6QGJwLnJlbmVzYXMu
+Y29tPiB3cm90ZToNCj4gPiA+IEZyb206IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnRAbGludXgt
+bTY4ay5vcmc+IE9uIE1vbiwgMTQgQXByIDIwMjUNCj4gPiA+IGF0IDE3OjM4LCBCaWp1IERhcyA8
+YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+IHdyb3RlOg0KPiA+ID4gPiBSWi9HM0UgU01BUkMg
+RVZLICBoYXMgMyB1c2VyIGJ1dHRvbnMgY2FsbGVkIFVTRVJfU1cxLCBVU0VSX1NXMiBhbmQNCj4g
+PiA+ID4gVVNFUl9TVzMuIEFkZCBhIERUIG5vZGUgaW4gZGV2aWNlIHRyZWUgdG8gaW5zdGFudGlh
+dGUgdGhlDQo+ID4gPiA+IGdwaW8ta2V5cyBkcml2ZXIgZm9yIHRoZXNlIGJ1dHRvbnMuDQo+ID4g
+PiA+DQo+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IEJpanUgRGFzIDxiaWp1LmRhcy5qekBicC5yZW5l
+c2FzLmNvbT4NCj4gDQo+ID4gPiA+IC0tLSBhL2FyY2gvYXJtNjQvYm9vdC9kdHMvcmVuZXNhcy9y
+ZW5lc2FzLXNtYXJjMi5kdHNpDQo+ID4gPiA+ICsrKyBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvcmVu
+ZXNhcy9yZW5lc2FzLXNtYXJjMi5kdHNpDQo+ID4gPiA+IEBAIC0xMiw4ICsxMiwxMyBAQA0KPiA+
+ID4gPiAgICogU1dfU0RJT19NMkU6DQo+ID4gPiA+ICAgKiAgICAgMCAtIFNNQVJDIFNESU8gc2ln
+bmFsIGlzIGNvbm5lY3RlZCB0byB1U0QxDQo+ID4gPiA+ICAgKiAgICAgMSAtIFNNQVJDIFNESU8g
+c2lnbmFsIGlzIGNvbm5lY3RlZCB0byBNLjIgS2V5IEUgY29ubmVjdG9yDQo+ID4gPiA+ICsgKg0K
+PiA+ID4gPiArICogR1BJTyBrZXlzIGFyZSBlbmFibGVkIGJ5IGRlZmF1bHQuIFVzZSBQTU9EX0dQ
+SU8gbWFjcm9zIHRvDQo+ID4gPiA+ICsgZGlzYWJsZSB0aGVtDQo+ID4gPiA+ICsgKiBpZiBuZWVk
+ZWQuDQo+ID4gPiA+ICAgKi8NCj4gPiA+ID4NCj4gPiA+ID4gKyNpbmNsdWRlIDxkdC1iaW5kaW5n
+cy9pbnB1dC9pbnB1dC5oPg0KPiA+ID4gPiArDQo+ID4gPiA+ICAvIHsNCj4gPiA+ID4gICAgICAg
+ICBtb2RlbCA9ICJSZW5lc2FzIFJaIFNNQVJDIENhcnJpZXItSUkgQm9hcmQiOw0KPiA+ID4gPiAg
+ICAgICAgIGNvbXBhdGlibGUgPSAicmVuZXNhcyxzbWFyYzItZXZrIjsgQEAgLTI3LDYgKzMyLDMx
+IEBADQo+ID4gPiA+IGFsaWFzZXMgew0KPiA+ID4gPiAgICAgICAgICAgICAgICAgc2VyaWFsMyA9
+ICZzY2lmMDsNCj4gPiA+ID4gICAgICAgICAgICAgICAgIG1tYzEgPSAmc2RoaTE7DQo+ID4gPiA+
+ICAgICAgICAgfTsNCj4gPiA+ID4gKw0KPiA+ID4gPiArICAgICAgIGtleXM6IGtleXMgew0KPiA+
+ID4gPiArICAgICAgICAgICAgICAgY29tcGF0aWJsZSA9ICJncGlvLWtleXMiOw0KPiA+ID4gPiAr
+DQo+ID4gPiA+ICsgICAgICAgICAgICAgICBrZXktMSB7DQo+ID4gPiA+ICsgICAgICAgICAgICAg
+ICAgICAgICAgIGludGVycnVwdHMtZXh0ZW5kZWQgPSA8JnBpbmN0cmwgS0VZXzFfR1BJTw0KPiA+
+ID4gPiArIElSUV9UWVBFX0VER0VfRkFMTElORz47DQo+ID4gPg0KPiA+ID4gU28geW91IGFyZSB1
+c2luZyB0aGVtIGFzIGludGVycnVwdHMuIERvbid0IHlvdSBuZWVkIHRvIGNvbmZpZ3VyZSBwaW4N
+Cj4gPiA+IGNvbnRyb2wgZm9yIHRoYXQgKGZ1bmN0aW9uIDE1ID0gSVJRMTQpPw0KPiA+DQo+ID4g
+VGhlIHNhbWUgcGluIGNhbiBiZSBjb25maWd1cmVkIGFzIFRJTlQgb3IgSVJRMTUsIGN1cnJlbnRs
+eSBpdCBpcyBjb25maWd1cmVkIGFzIFRJTlQgSVJRLg0KPiA+IElzIGl0IG9rPw0KPiANCj4gT0su
+DQo+IA0KPiA+ID4gQWx0ZXJuYXRpdmVseSwgY2FuJ3QgeW91IHVzZSB0aGVtIGFzIGdwaW9zIHdp
+dGggaW50ZXJydXB0IGZhY2lsaXRpZXM/DQo+ID4NCj4gPiBpbnRlcnJ1cHRzLWV4dGVuZGVkID0g
+PCZwaW5jdHJsIEtFWV8xX0dQSU8gSVJRX1RZUEVfRURHRV9GQUxMSU5HPjsNCj4gPg0KPiA+IFRo
+ZSBUSU5UIElSUSB3aWxsIHByb3ZpZGUgdGhlIHNhbWUgcmlnaHQ/IEFtIEkgbWlzc2luZyBhbnl0
+aGluZyBoZXJlPw0KPiANCj4gV2hlbiB5b3UgdXNlIGludGVycnVwdHMgZGlyZWN0bHksIHRoZSBz
+eXN0ZW0gd2lsbCBkZXRlY3Qgb25seSBrZXkgcHJlc3NlcywgYW5kIGZha2UgKHRpbWVyLWJhc2Vk
+KSBrZXkNCj4gcmVsZWFzZXMuDQo+IFdoZW4geW91IHVzZSBHUElPcyB3aXRoIGludGVycnVwdC1j
+YXBhYmlsaXR5LCB0aGUgc3lzdGVtIGNhbiBkZXRlY3QgYm90aCBrZXkgcHJlc3NlcyBhbmQgcmVs
+ZWFzZXMuDQo+IA0KPiBTZWUgYWxzbyBjb21taXQgY2FiMzUxMWVhN2EwYjFmYyAoIkFSTTogZHRz
+OiBtYXJ6ZW46IEFkZCBzbGlkZSBzd2l0Y2hlcyIpLg0KDQpBcyBwZXIgWzFdLCBmb3IgR1BJT3Mg
+d2l0aCBpbnRlcnJ1cHQtY2FwYWJpbGl0eSwgSVJRIGNvbnRyb2xsZXIgbmVlZHMgdG8gc3VwcG9y
+dCBib3RoIGVkZ2VzLg0KQnV0IFRJTlQgc3VwcG9ydHMgUmlzaW5nIG9yIEZhbGxpbmcgZWRnZSwg
+YnV0IG5vdCBib3RoLiBTbywgd2UgY2Fubm90IHVzZSB0aGlzLg0KDQpUaGF0IGlzIHRoZSByZWFz
+b24gdXNpbmcgaW50ZXJydXB0IGRpcmVjdGx5Lg0KDQpbMV0NCmh0dHBzOi8vZWxpeGlyLmJvb3Rs
+aW4uY29tL2xpbnV4L3Y2LjE2LXJjNC9zb3VyY2UvZHJpdmVycy9pbnB1dC9rZXlib2FyZC9ncGlv
+X2tleXMuYyNMOTgwDQoNCg0KQ2hlZXJzLA0KQmlqdQ0K
 
