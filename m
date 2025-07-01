@@ -1,168 +1,165 @@
-Return-Path: <linux-renesas-soc+bounces-18944-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-18945-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25CB2AEF073
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Jul 2025 10:06:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1647BAEF147
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Jul 2025 10:35:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 28F6F189922D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Jul 2025 08:06:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 360B01BC5C42
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Jul 2025 08:35:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0354267B95;
-	Tue,  1 Jul 2025 08:06:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2C3726B0B2;
+	Tue,  1 Jul 2025 08:35:06 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1C364A0C;
-	Tue,  1 Jul 2025 08:06:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31A0226AAA7
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  1 Jul 2025 08:35:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751357165; cv=none; b=P3mYTMa72HYCQcixB60kSD1pIklUpfA3wSfIxSNLgxsLtSBDR0gNP68ExRml9S4APiaaS50kQgX+M12XnGsZ8okVPn3SLNah/6Tb+w++TOVbvNtuXbq1x8J9eJ4fu5l/+RM+donH9V2NIEE4eUv+ASWD9p/ZpUMQlQ9p+2p2EkA=
+	t=1751358906; cv=none; b=ajRTjSN8tzT8TivpO/ZcINBU78/7frjqBeHmk3xVmSV9M4U959ChE8LRLZXCDC0p0HqWiqc4koEiJkYW9HQyvPs5s1YxbZmZLi003ibyqbPEusRNT7wz2K1SFxQtVv30rkMhghC5g3LHlMCNFMNejAcRJX3vShKoKoIm/GKqyec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751357165; c=relaxed/simple;
-	bh=Fg9/wOKd839gSjrSSUAyOaaW+du1KFVWOz1piLBNugA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QwNLawQ2DuwDt25WmjFgpS9Tk0UdwTxkIaPbJ7OWNjbAlMoN/cSc+KDTljTgkk42AKlL2FYMCHh9leJ4Ch8KFKa70W+apd3YUsuc4JyFfFC7kxY28Xt952yt1R75Zdq5xZs/LsrsZrLB4yCfsvymdQkc4fPGsC+6nDeGXzX+J1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-528ce9730cfso1006118e0c.3;
-        Tue, 01 Jul 2025 01:06:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751357162; x=1751961962;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nOPgQPiH0cyH4gfLvX6iKuYNofmLskPWLW/+70n9+4I=;
-        b=A1bLhELszWCLWq4fP8U3KC5sY5oHzI46tvwpUBbvCH1dsQw94S/2p1gHA8RsfMGqxU
-         cwMcJztV6s8EJycKR5plNkFM4+oS/5Ckbs1aVKE8fGycf/Adhu7QX4s1WaUlD5OZw1bj
-         OW/5Fcz4EiCinV0A69tsPTAzjup53FLK+tRDvIf6c/fuahoDQ35Ilmox3xkbvQdnPMTe
-         WmcyPFuDnYUTyorPFnZkNoIAvt+xYJ6HvdSXfVZyUvHzyX+/ny+JntB6PyW8TmaMuJw8
-         oYOaYa5AxDJ758DQYxbT0sm4iN7/ZIxReD0d0s/k0qW/LOJXJ2SkLttiNitBEgYHVkC7
-         7WYg==
-X-Forwarded-Encrypted: i=1; AJvYcCUfQeqdqSUzyibsrrTo7MXnKBPI+zPUPzzqWjUeQ2W+Vu2XrLuQEe7VOkCX+oYv7MSs21Hoc252@vger.kernel.org, AJvYcCWDBBsVU3wXofxHi0z3NGgcO1moPFy43OxR8LC7gvH9cCfyz4TgPNLrppGxVgCwbBUAHgEktl7HUl+ajA86@vger.kernel.org, AJvYcCWcjasgFByOheWQlDmmWWF4KwgAL9OqzVe47qZUs5AvZwMxVB2S5KgsnQnQWMOWX+nE0ZovNxNG3XTqUSK9UAlXrlY=@vger.kernel.org, AJvYcCXoKAEETIpCX48twwM2TkW0u5Xb35AGLzqpdnCYjoly7B2pHOPcfuALToaH0wPq02T9/a0gl356qNCI@vger.kernel.org
-X-Gm-Message-State: AOJu0Yybgto1sxdts96/KATfoH4v1xnuAsGIUigD02+2Q+nW0gd1q8cw
-	pGBci+ndycLfUQfmzgYTMUpbXGDLwJDkdv68IPB1oFoQiN64cvszx5OCj0gHmGly
-X-Gm-Gg: ASbGnctIARKSt08uTL7mYJGOkXHpqqJk04mxEb7poeiQzPYD8eFOGrHyyy1ofJ8eOpp
-	JojYJUAazxFiKluFs577l63DiPVKLbOy61abFUY7GCWDxVc27GMaG5Bq4hXUHonNk9RAGFjazTU
-	Z6Jk7P//kMFgcsst6Q7Ot2Dvnp2Kds0GX3Oyu/88FIJ3XPaOwJvVXWng/AZLc2e0LFTrjIDgKpU
-	ko0/NuZEh5+FM2yG/ssqwGj/anZ3/V015/83OLNVyZEOIZVaILt7YJJ2+h4acv8EbG88/aPcs+p
-	e1i4THlIKH8SC173AarAkZ3s9sO4mijdjXtWsksQ/2yeohNa+SPS0WTsfOReHvvThamQWS7RNdh
-	jzf1Xjhtd2dgqdVG6h/Yh0Jl8
-X-Google-Smtp-Source: AGHT+IFkB0H2eiscp0BdbL2ydvtM4ljlUHOIXGfR2eF5qkFcb1G1KMuM+wT599vFU9gKaGdSzEO52A==
-X-Received: by 2002:a05:6122:370e:b0:531:2afc:461b with SMTP id 71dfb90a1353d-5330be677a3mr11513303e0c.4.1751357161534;
-        Tue, 01 Jul 2025 01:06:01 -0700 (PDT)
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com. [209.85.222.42])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-53323b0f091sm1017153e0c.0.2025.07.01.01.06.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Jul 2025 01:06:01 -0700 (PDT)
-Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-87f2170921dso635112241.0;
-        Tue, 01 Jul 2025 01:06:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUZgmvX7WL7FpiNjQKW4B28tg4kyIdoIsenjcbHkQEH32IFUyvwM4HjShQaYbcPDZIfY+5EnHQu@vger.kernel.org, AJvYcCUm0bXwH8/6RWCsN8ZDWsgwV5D4c2Mb7r149TP+H2hcR/zfzMzzHx6swkdkXhOzhWw/ZsbNdEqQfBysKOwv@vger.kernel.org, AJvYcCUy3WJDYSbCZfzB1CxWWdsIPpURi1joXouN7UdV/ATw6PI9VWY8t2c0KMOohSeL1DCJSkCZgGF2XnPk9ycO+zZZzD0=@vger.kernel.org, AJvYcCXxoQ9EhyHGwAVrOYlkMEUPtcVfIn+blN027k5OSvM33schn/Kz25ivjOZDqN8z3uoBz/Xra9QZdfzI@vger.kernel.org
-X-Received: by 2002:a05:6102:5717:b0:4e9:c773:dca1 with SMTP id
- ada2fe7eead31-4ee4f6d96fbmr11242699137.11.1751357161130; Tue, 01 Jul 2025
- 01:06:01 -0700 (PDT)
+	s=arc-20240116; t=1751358906; c=relaxed/simple;
+	bh=0xe8FGfrXDzC5wjnPnQaezc6X0eO0KIJ+XiANWs49w4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=NGv5djpQOq0D7M99qOrVKN/Xqew1jE0KztysGAcg/q/cPFDJQqENrIqwl15ex72yCWRAzxJPf3MkH7XUm81ZG9S7bOl8nL+q4XaYnbVt/XjSlXz53Xnar5wubAC+j760v9E2CQEymZvG0O3lLavPL8QnR8+Pd417xoCtsPk6tRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1uWWS2-0000f8-Nt; Tue, 01 Jul 2025 10:34:50 +0200
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1uWWS0-006F1A-37;
+	Tue, 01 Jul 2025 10:34:48 +0200
+Received: from pza by lupine with local (Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1uWWS0-0003VY-2v;
+	Tue, 01 Jul 2025 10:34:48 +0200
+Message-ID: <8301d2862546507303e2dba1dd61906b848552c2.camel@pengutronix.de>
+Subject: Re: [PATCH v2 2/3] media: platform: Add Renesas Input Video Control
+ block driver
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Daniel Scally <dan.scally@ideasonboard.com>,
+ linux-media@vger.kernel.org,  devicetree@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+  Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>,
+ jacopo.mondi@ideasonboard.com,  biju.das.jz@bp.renesas.com
+Date: Tue, 01 Jul 2025 10:34:48 +0200
+In-Reply-To: <20250624-ivc-v2-2-e4ecdddb0a96@ideasonboard.com>
+References: <20250624-ivc-v2-0-e4ecdddb0a96@ideasonboard.com>
+	 <20250624-ivc-v2-2-e4ecdddb0a96@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250611061609.15527-1-john.madieu.xa@bp.renesas.com>
- <20250611061609.15527-2-john.madieu.xa@bp.renesas.com> <CAMuHMdXE-C4FAXOfzQv8xfgFytwpqkARDORGLkosZtCsjK8nmg@mail.gmail.com>
- <OSCPR01MB14647EFA0DA38119F00DF1D50FF72A@OSCPR01MB14647.jpnprd01.prod.outlook.com>
- <CAMuHMdWnz3VUeFaJBEgLc0F_gGkdm679H4YqFFuRAEVFKZd8OA@mail.gmail.com>
- <OSCPR01MB1464715327B4DDE8622B9B510FF7DA@OSCPR01MB14647.jpnprd01.prod.outlook.com>
- <CA+V-a8sF2wmLEAp7uhxhKaNx_u9xTf9SR_y8rafyvYYaUgxYDw@mail.gmail.com>
- <CAMuHMdXdhYJ7ZKVa_f15PMBv7t1_xsDUuwR+uv+bOaHMxtr8Lg@mail.gmail.com> <OSCPR01MB14647AB8B2901DE1EBEB32145FF46A@OSCPR01MB14647.jpnprd01.prod.outlook.com>
-In-Reply-To: <OSCPR01MB14647AB8B2901DE1EBEB32145FF46A@OSCPR01MB14647.jpnprd01.prod.outlook.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 1 Jul 2025 10:05:49 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXMLv6mfKsNfKDgMKqOSf7Nf+FTJcy7M84EN_oeHbzbTA@mail.gmail.com>
-X-Gm-Features: Ac12FXyTtjI4YTwpovffxojy8Q1Ejihuqc3wkPKs28S37LOjQ2ir27DL4UhK71w
-Message-ID: <CAMuHMdXMLv6mfKsNfKDgMKqOSf7Nf+FTJcy7M84EN_oeHbzbTA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] clk: renesas: r9a09g047: Add clock and reset
- signals for the GBETH IPs
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, "conor+dt@kernel.org" <conor+dt@kernel.org>, 
-	"davem@davemloft.net" <davem@davemloft.net>, "edumazet@google.com" <edumazet@google.com>, 
-	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, "kuba@kernel.org" <kuba@kernel.org>, 
-	"pabeni@redhat.com" <pabeni@redhat.com>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	"robh@kernel.org" <robh@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"john.madieu@gmail.com" <john.madieu@gmail.com>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	"magnus.damm@gmail.com" <magnus.damm@gmail.com>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
-Hi John,
+On Di, 2025-06-24 at 13:35 +0100, Daniel Scally wrote:
+> Add a driver for the Input Video Control block in an RZ/V2H SoC which
+> feeds data into the Arm Mali-C55 ISP.
+>=20
+> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+> ---
+> Changes in v2:
+>=20
+> 	- Added selects and depends statements to Kconfig entry
+> 	- Fixed copyright year
+> 	- Stopped including in .c files headers already included in .h
+> 	- Fixed uninitialized variable in iterator
+> 	- Only check vvalid member in interrupt function and wait
+> 	  unconditionally elsewhere
+> 	- __maybe_unused for the PM ops
+> 	- Initialise the subdevice after setting up PM
+> 	- Fixed the remove function for the driver to actually do
+> 	  something.
+> 	- Some minor formatting changes
+> 	- Fixed the quantization member for the format
+> 	- Changes accounting for the v2 of the media jobs framework
+> 	- Change min_queued_buffers to 0
+> ---
+>  drivers/media/platform/renesas/Kconfig             |   2 +
+>  drivers/media/platform/renesas/Makefile            |   1 +
+>  drivers/media/platform/renesas/rzv2h-ivc/Kconfig   |  15 +
+>  drivers/media/platform/renesas/rzv2h-ivc/Makefile  |   5 +
+>  .../platform/renesas/rzv2h-ivc/rzv2h-ivc-dev.c     | 237 +++++++
+>  .../platform/renesas/rzv2h-ivc/rzv2h-ivc-subdev.c  | 379 ++++++++++++
+>  .../platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c   | 678 +++++++++++++++=
+++++++
+>  .../media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h   | 133 ++++
+>  8 files changed, 1450 insertions(+)
+>=20
+> diff --git a/drivers/media/platform/renesas/Kconfig b/drivers/media/platf=
+orm/renesas/Kconfig
+> index 27a54fa7908384f2e8200f0f7283a82b0ae8435c..5462e524c3708be87a50dd80d=
+4b4017a2466aa99 100644
+> --- a/drivers/media/platform/renesas/Kconfig
+> +++ b/drivers/media/platform/renesas/Kconfig
+> @@ -42,6 +42,8 @@ config VIDEO_SH_VOU
+>  source "drivers/media/platform/renesas/rcar-isp/Kconfig"
+>  source "drivers/media/platform/renesas/rcar-vin/Kconfig"
+>  source "drivers/media/platform/renesas/rzg2l-cru/Kconfig"
+> +source "drivers/media/platform/renesas/rzv2h-ivc/Kconfig"
+> +
+> =20
+>  # Mem2mem drivers
+> =20
+> diff --git a/drivers/media/platform/renesas/Makefile b/drivers/media/plat=
+form/renesas/Makefile
+> index 1127259c09d6a51b70803e76c495918e06777f67..b6b4abf01db246aaf8269b802=
+7efee9b0b32083a 100644
+> --- a/drivers/media/platform/renesas/Makefile
+> +++ b/drivers/media/platform/renesas/Makefile
+> @@ -6,6 +6,7 @@
+>  obj-y +=3D rcar-isp/
+>  obj-y +=3D rcar-vin/
+>  obj-y +=3D rzg2l-cru/
+> +obj-y +=3D rzv2h-ivc/
+>  obj-y +=3D vsp1/
+> =20
+>  obj-$(CONFIG_VIDEO_RCAR_CSI2) +=3D rcar-csi2.o
+> diff --git a/drivers/media/platform/renesas/rzv2h-ivc/Kconfig b/drivers/m=
+edia/platform/renesas/rzv2h-ivc/Kconfig
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..3df8ff585c36fe7c74e1eb040=
+8b344cbc2b4d898
+> --- /dev/null
+> +++ b/drivers/media/platform/renesas/rzv2h-ivc/Kconfig
+> @@ -0,0 +1,15 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +
+> +config VIDEO_RZV2H_IVC
+> +	tristate "Renesas RZ/V2H Input Video Control block driver"
+> +	depends on V4L_PLATFORM_DRIVERS
+> +	depends on VIDEO_DEV
+> +	depends on ARCH_RENESAS || COMPILE_TEST
+> +	depends on OF
+> +	select VIDEOBUF2_DMA_CONTIG
+> +	select MEDIA_CONTROLLER
+> +	select VIDEO_V4L2_SUBDEV_API
+> +	select RESET_CONTROLLER
 
-On Mon, 30 Jun 2025 at 18:23, John Madieu <john.madieu.xa@bp.renesas.com> w=
-rote:
-> > From: Geert Uytterhoeven <geert@linux-m68k.org>
-> > On Thu, 19 Jun 2025 at 10:22, Lad, Prabhakar <prabhakar.csengg@gmail.co=
-m>
-> > wrote:
-> > > On Thu, Jun 19, 2025 at 5:34=E2=80=AFAM John Madieu
-> > > <john.madieu.xa@bp.renesas.com> wrote:
-> > > > > From: Geert Uytterhoeven <geert@linux-m68k.org> On Wed, 18 Jun
-> > > > > 2025 at 12:04, John Madieu <john.madieu.xa@bp.renesas.com>
-> > > > > wrote:
-> > > > > > > From: Geert Uytterhoeven <geert@linux-m68k.org> On Wed, 11 Ju=
-n
-> > > > > > > 2025 at 11:02, John Madieu <john.madieu.xa@bp.renesas.com>
-> > > > > > > wrote:
-> > > > > > > > Add clock and reset entries for the Gigabit Ethernet
-> > > > > > > > Interfaces (GBETH
-> > > > > > > > 0-1) IPs found on the RZ/G3E SoC. This includes various
-> > > > > > > > PLLs, dividers, and mux clocks needed by these two GBETH IP=
-s.
-> > > > > > > >
-> > > > > > > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > > > > > > Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > > > > > > Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
-> > > > > > >
-> > > > > > > Thanks for your patch!
-> > > > > > >
-> > > > > > > > --- a/drivers/clk/renesas/r9a09g047-cpg.c
-> > > > > > > > +++ b/drivers/clk/renesas/r9a09g047-cpg.c
-> > >
-> > > "The clock gating cells require source clocks to operate correctly. I=
-f
-> > > the source clocks are stopped, these registers cannot be used."
-> >
-> > Has this been sorted out yet? I see no change or mention of it in v3.
->
-> Yes, it has been sorted out. I mean they operated properly after
-> all the tests, even after S2R/wakeup test.
->
-> While at it, even with OEN patches applied, I could not reproduce
-> the issue known to V2H. That's why I've asked if you'd prefer
-> DEF_MOD_EXTERNAL instead of DEF_MOD (which does not work on V2H)
-> for consistency with RZ/V2H, I can do that as well.
+There is no need to select RESET_CONTROLLER, the API has stubs to allow
+compiling without it.
 
-As DEF_MOD_MUX_EXTERNAL() better matches the undelying
-hardware, I prefer that.
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+regards
+Philipp
 
