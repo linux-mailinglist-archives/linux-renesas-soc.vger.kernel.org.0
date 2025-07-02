@@ -1,183 +1,143 @@
-Return-Path: <linux-renesas-soc+bounces-19025-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19026-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC3A6AF137B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Jul 2025 13:17:26 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09D12AF138B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Jul 2025 13:19:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 69A9A3B5325
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Jul 2025 11:16:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 157E37A67D2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Jul 2025 11:17:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C03F5264609;
-	Wed,  2 Jul 2025 11:16:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE46325A347;
+	Wed,  2 Jul 2025 11:19:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cinJtd5W"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="tqT6VSg1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out.smtpout.orange.fr (out-67.smtpout.orange.fr [193.252.22.67])
+	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE6552620D5;
-	Wed,  2 Jul 2025 11:16:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40171244693;
+	Wed,  2 Jul 2025 11:19:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.22.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751455003; cv=none; b=ZWvIlkyQM1WOUp5fJVeyi5dH+rKm7YdzoqdAih2gi1c3DYd0SYoXsPZDrbwP2FSVhs0oMY0amlld5g4XBiNtgBM9wAuLN+g8FJz0uo8LncNtE/n28nmdPRTTTnK2fwdP77Z73F/SGlXFmzowIl6YRhIMViudcoh5X6gy4Wn1fKc=
+	t=1751455154; cv=none; b=QqD3qNbM/GfHHkuDlqSu8fggsPPAuZx/cr7nTTeXoWm8mwsn3phwn18B6tqftdHy5EPcZ383EXB5SxQaHnfByk3D6EhAGIuy1iNKm6tfoifvRcvq3V8zBnlSwkkTsoF8ozwMBxh/ZQPpHzW1jkeubS2LtQfXQ2o01cz22UCpOR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751455003; c=relaxed/simple;
-	bh=iai0tW//mVRNAaFjjMnCpnaKmwhfswFybX05OfYaVN4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Qa3Tz6nLQ61ilSva4eYqC1aHuejoI6gZgbBfjeBaiaYRKVLAiV27Mfb0r5i7ZMUAgciDuojJEYRf6nRdAg/ckAWLy+oh6NtObDzjJqIppK5Zzr3MD6wPrXLY0V2M1GRhdcLQ9YJV4OAJhm9q/JKwH28p7l6qfb3ys4SR8bmz7MI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cinJtd5W; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-453643020bdso58137615e9.1;
-        Wed, 02 Jul 2025 04:16:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751455000; x=1752059800; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=549RYgSqBKWypR35lL4+7WsRiiZbDOpf2dghVsPGmpY=;
-        b=cinJtd5WaVCtDTZ011LM8TWoc/p3qFiro//4Eda/f1QqMs/JSvhrC1Nj6tf6jXLeHC
-         4+SPETwi/Dv6L78QqXwIZavuDGRESoHN2B2VFU+kaq4yDSOLAETzAeWhJIs7h4YtHFqC
-         cxSvEy7OJrKyfK3KjyW0cjQSKfJZdVh4Ynj7CWE6s2RD/ef8LKIrh+B4flBJA8FcgqKN
-         1l3NOognVJ96oJzZuAJItE9/apuMcLedKrVzXhBxCcsoSZZ0WEWmxSMldTF3lhWiURI9
-         xc2259kwh8mbIHvpjMmApsgep81hsUq9LG7YXPF1KY6znG0j2oSOK2ejkqE6wSI5bkFJ
-         a4ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751455000; x=1752059800;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=549RYgSqBKWypR35lL4+7WsRiiZbDOpf2dghVsPGmpY=;
-        b=MsS24RrNBbKhgkTDpTfLiqyZbvq5UkVrezjXL5zf06BqCZHR5cdpY4F94DzITJWdaJ
-         CONePv5wEVZc9IkUYBb+QeThvRyRqrdSTb8BVymANq2y6oNgA9b0bS1cIvXJ0a9SURGd
-         6tb1lCeRrHLwECl4rH3v4eUS3VnXYOz53JbmXuJG4mIpqdKFfMrTMqkPjpksSqW4o0XE
-         mio8U/LmZ9MZy1J8xXLn6pvhc7HrG1Ak9mqq/w63aBonFNo/BU6Mu1zAruIRWPgRf8Fz
-         2BMO+62N0X9kCJKvciePpNlr9Kcn+yzOi4SocS7MH53CA7DdBO7Ga/Tn3vhCTqwHsMBt
-         tCYw==
-X-Forwarded-Encrypted: i=1; AJvYcCV1mtDbCvn7nXKo2jp15ctZr1gAMEysNJnuAb+4sei2zbuQGziP5qodyi9r5geVzEWgRbKybweqpfIT@vger.kernel.org, AJvYcCVjLpwKt4wWKwHtISflVyiguP/atBkF5lHCOgmpOFze+l2IfjbvYLEbB8FkJvz4cEK46+gENXl8Adjuv1Pz@vger.kernel.org, AJvYcCWJDwfSBKp01wFRXVIlBHh+8sMrhaChgI4W7tsil6aJZjSwyEIAW/pod9uHEDX19AEFLcP6lLVx8qg0fs7sej9bVlk=@vger.kernel.org, AJvYcCWTDmOh0aPCk7i/sI5I0uAhI1XifmMoAtmtpXLgf01ri1aLB/1WSeIbV9BC2O7+Dj0vfmlsLsT7Y/q0@vger.kernel.org, AJvYcCXOBH19+uYvcm3gk4ktZPVavvtQDpqJcM015WMoP+hdCFpIEny3Q3mFS1KtrNhv53Ur8xiZ5HCD@vger.kernel.org
-X-Gm-Message-State: AOJu0YwhxKnnJSKASmDRz4e/baB/Icz1TlG00vTyN8rKlAfmDuMpjGgQ
-	vRLuVseWPePiIE5ADILcASu9Z62J58KiV3f2+87NNpxdeUQIoG7NlVyuxlHgrJ4IPd4SVk5NjQz
-	haYpt3L1yKupk7RMRtXWjVODlaIdFDY3qNOk8
-X-Gm-Gg: ASbGncsjMbiu0nUWhO2OMViKtGzssirWIOGlfUNdv7kQmHJk8XKtu2NTxSKyEFeJpfi
-	5Z2WQRihAsltul05f3mWPEZnqjJ7WMuMLadqoH57eRhDcsMt2hQuqPKxQcQgaX3rLMUwiCsiplI
-	SdRIgjucI/zYuPPrEFf1f/3zOkwK85iGwtPE1PII23D7H3LrG0kJnGc2QFTtbgCnHvaN66zgGH6
-	vuBksQ8rP8kZNo=
-X-Google-Smtp-Source: AGHT+IFeKN0FvjV/iKqE42THXeDbLi9oziLlix03inqM9yiGjQuLrcguM/r8tfbOm1mYwyZ+nUwAsTk4bCYzYh2DZSA=
-X-Received: by 2002:a05:600c:628c:b0:442:ccf9:e6f2 with SMTP id
- 5b1f17b1804b1-454a3708f05mr28698715e9.16.1751454999782; Wed, 02 Jul 2025
- 04:16:39 -0700 (PDT)
+	s=arc-20240116; t=1751455154; c=relaxed/simple;
+	bh=vFgPLOm/HF2rte6e4ZbxusmO3v5sRE5ZjJu9SjGeizw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bDNBcmRjFlJkjH/G4OG7Na5bZkkciixdeWF/6aSP7PngNQxssd1tKOF/9yIr/1PVN7M/ABQ4N6WIb5drOOTViKcoij6x68ARLAZ/QcHheaIah5OUSA6AR8eoMpqrq/NEMQLMff6aartT/Qtu1TlCal8VkGwoJ2lkW3l7ae+5o00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=tqT6VSg1; arc=none smtp.client-ip=193.252.22.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from [172.16.82.72] ([124.33.176.97])
+	by smtp.orange.fr with ESMTPA
+	id WvUQuOSXovzLVWvURuX85Z; Wed, 02 Jul 2025 13:19:03 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1751455143;
+	bh=zY0Vcncre8ymncF/krsSSccSYnb8ci79tIDtcmbKi8o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=tqT6VSg1AGvOz0HtRL6ZqeRZ50FWwUsVhw6FsqXGN9GsRo/7ZoQ6Qwacqfll6LBDv
+	 B5uJamNYlGN+Mbd3eawjQSV4EtaCljFlnWHiyTsaQi8quPA9G4NIIlH0C2Ul4v+MQm
+	 hbVHr6PLM+G8wyViMtTiF5eA0C9WtVPzYrpYlCstKoFEiJruCFiruuc/KEI7yyKsYC
+	 C60Zf6h38Z/vprDIweUFmh2dc0JBhJj1bZxtgyGTmNZvtUNG0rzfWSo95BSzUZPxoj
+	 Cz7GxouzwtNAkfomOkhGcszlfgPGcEypvajDvcKFg6GQln2iR9Eh8BpiQDjGwidPqP
+	 7RUhjldGO/Qhw==
+X-ME-Helo: [172.16.82.72]
+X-ME-Auth: bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI=
+X-ME-Date: Wed, 02 Jul 2025 13:19:03 +0200
+X-ME-IP: 124.33.176.97
+Message-ID: <b0e1655d-1efc-419c-8acf-f9a6243e56d0@wanadoo.fr>
+Date: Wed, 2 Jul 2025 20:18:57 +0900
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250702005706.1200059-1-john.madieu.xa@bp.renesas.com>
- <20250702005706.1200059-4-john.madieu.xa@bp.renesas.com> <CAMuHMdVOhJaYuKqJeJA4N1n-_a=msyaYbiSHpaMw8OkHrprZSA@mail.gmail.com>
-In-Reply-To: <CAMuHMdVOhJaYuKqJeJA4N1n-_a=msyaYbiSHpaMw8OkHrprZSA@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 2 Jul 2025 12:16:13 +0100
-X-Gm-Features: Ac12FXxKgI7r15K6Lifif8agJoG7VZyyIB7KQTuknktkKr34MscCH7t7bPpgpoA
-Message-ID: <CA+V-a8tUVgvYeMd5g8Y_FUTiE1v0eNcYFvdJsW2Rk3-a2ui1DA@mail.gmail.com>
-Subject: Re: [PATCH v4 3/4] pinctrl: renesas: rzg2l: Add PFC_OEN support for
- RZ/G3E SoC
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: John Madieu <john.madieu.xa@bp.renesas.com>, prabhakar.mahadev-lad.rj@bp.renesas.com, 
-	magnus.damm@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org, 
-	richardcochran@gmail.com, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-clk@vger.kernel.org, netdev@vger.kernel.org, biju.das.jz@bp.renesas.com, 
-	john.madieu@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] can: rcar_canfd: Drop unused macros
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Marc Kleine-Budde <mkl@pengutronix.de>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ "linux-can@vger.kernel.org" <linux-can@vger.kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "biju.das.au" <biju.das.au@gmail.com>
+References: <20250629150417.97784-1-biju.das.jz@bp.renesas.com>
+ <CAMuHMdXK9ZBpgPSE32Zya-nVBXQw25=2-g5pnixjFOoyOkrrvg@mail.gmail.com>
+ <TY3PR01MB113463762D1EC916BDE1B7BA28640A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <CAMuHMdUcTbM_pbxmbb-kuWf7Kgb=94QtPzRVJZaUrezL3wwN6w@mail.gmail.com>
+Content-Language: en-US
+From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Autocrypt: addr=mailhol.vincent@wanadoo.fr; keydata=
+ xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
+ LFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI+wrIEExYKAFoC
+ GwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQTtj3AFdOZ/IOV06OKrX+uI
+ bbuZwgUCZx41XhgYaGtwczovL2tleXMub3BlbnBncC5vcmcACgkQq1/riG27mcIYiwEAkgKK
+ BJ+ANKwhTAAvL1XeApQ+2NNNEwFWzipVAGvTRigA+wUeyB3UQwZrwb7jsQuBXxhk3lL45HF5
+ 8+y4bQCUCqYGzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrbYZzu0JG5w8gxE6EtQe6LmxKMqP6E
+ yR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDldOjiq1/riG27mcIFAmceMvMCGwwF
+ CQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8VzsZwr/S44HCzcz5+jkxnVVQ5LZ4B
+ ANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
+In-Reply-To: <CAMuHMdUcTbM_pbxmbb-kuWf7Kgb=94QtPzRVJZaUrezL3wwN6w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Geert,
+On 02/07/2025 at 19:01, Geert Uytterhoeven wrote:
+> Hi Biju,
+> 
+> On Wed, 2 Jul 2025 at 11:46, Biju Das <biju.das.jz@bp.renesas.com> wrote:
+>>> From: Geert Uytterhoeven <geert@linux-m68k.org>
+>>> On Sun, 29 Jun 2025 at 17:04, Biju Das <biju.das.jz@bp.renesas.com> wrote:
+>>>> Drop unused macros from the rcar_canfd.c.
+>>>>
+>>>> Reported-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+>>>> Closes:
+>>>> https://lore.kernel.org/all/7ff93ff9-f578-4be2-bdc6-5b09eab64fe6@wanad
+>>>> oo.fr/
+>>>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> 
+>>>     #define RCANFD_RFPTR_RFDLC    GENMASK(31, 28)
+>>>
+>>>> @@ -298,16 +256,10 @@
+>>>>  #define RCANFD_GSTS                    (0x008c)
+>>>>  /* RSCFDnCFDGERFL / RSCFDnGERFL */
+>>>>  #define RCANFD_GERFL                   (0x0090)
+>>>> -/* RSCFDnCFDGTSC / RSCFDnGTSC */
+>>>> -#define RCANFD_GTSC                    (0x0094)
+>>>
+>>> Note that removed register offsets will become anonymous gaps when the register offsets are replaced
+>>> by C structs, cfr. commit ab2aa5453bb83d05
+>>> ("can: rcar_canfd: Describe channel-specific FD registers using C struct").
+>>
+>> OK. But removing unused reg offset is not an issue at the moment, I guess??
+> 
+> No, it is not an issue at the moment, as they are unused.  Re-adding
+> register members to a C struct later is just more tedious, as you have
+> remove gaps or adjust their sizes (lol, mind the gap ;-).
+> 
+> IIRC Vincent's biggest gripe is the use of function-like macros,
+> not the definition of unused register offsets and bits?
 
-Thank you for the review.
+Correct.
 
-On Wed, Jul 2, 2025 at 10:55=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi John, Prabhakar,
->
-> On Wed, 2 Jul 2025 at 02:57, John Madieu <john.madieu.xa@bp.renesas.com> =
-wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Add support to configure the PFC_OEN register on the RZ/G3E SoC for
-> > specific pins that require direction control via output-enable.
-> >
-> > On the RZ/G3E SoC, certain pins such as TXC_TXCLK must be switchable
-> > between input and output modes depending on the PHY interface mode
-> > (MII or RGMII). This behavior maps to the `output-enable` property in
-> > the device tree and requires configuring the PFC_OEN register.
-> >
-> > Update the r9a09g047_variable_pin_cfg array to include PB1, PE1, PL0,
-> > PL1, PL2, and PL4 with PIN_CFG_OEN flags to indicate support for this
-> > feature. Define a new rzg3e_hwcfg structure with SoC-specific pin names
-> > used for OEN bit mapping.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Thanks for your patch!
->
-> > --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> > +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
->
-> > @@ -3283,6 +3307,19 @@ static const char * const rzv2h_oen_pin_names[] =
-=3D {
-> >         "XSPI0_CKN", "XSPI0_CKP"
-> >  };
-> >
-> > +static const char * const rzg3e_oen_pin_names[] =3D {
-> > +       "PB1", "PE1", "PL4", "PL1", "PL2", "PL0"
-> > +};
-> > +
-> > +static const struct rzg2l_hwcfg rzg3e_hwcfg =3D {
-> > +       .regs =3D {
-> > +               .pwpr =3D 0x3c04,
-> > +       },
-> > +       .tint_start_index =3D 17,
-> > +       .oen_pin_names =3D rzg3e_oen_pin_names,
-> > +       .oen_pin_names_len =3D ARRAY_SIZE(rzg3e_oen_pin_names),
-> > +};
-> > +
-> >  static const struct rzg2l_hwcfg rzv2h_hwcfg =3D {
-> >         .regs =3D {
-> >                 .pwpr =3D 0x3c04,
-> > @@ -3352,7 +3389,7 @@ static struct rzg2l_pinctrl_data r9a09g047_data =
-=3D {
-> >         .dedicated_pins =3D rzg3e_dedicated_pins,
-> >         .n_port_pins =3D ARRAY_SIZE(r9a09g047_gpio_configs) * RZG2L_PIN=
-S_PER_PORT,
-> >         .n_dedicated_pins =3D ARRAY_SIZE(rzg3e_dedicated_pins),
-> > -       .hwcfg =3D &rzv2h_hwcfg,
-> > +       .hwcfg =3D &rzg3e_hwcfg,
-> >         .variable_pin_cfg =3D r9a09g047_variable_pin_cfg,
-> >         .n_variable_pin_cfg =3D ARRAY_SIZE(r9a09g047_variable_pin_cfg),
-> >         .num_custom_params =3D ARRAY_SIZE(renesas_rzv2h_custom_bindings=
-),
->
-> I would rather use the existing .oen_{read,write}() abstraction,
-> and thus provide new rzg3e_oen_{read,write}() implementations:
->
-Ok.
+My comment really came from the fact that I did not understand why you were only
+removing RCANFD_GAFLCFG_GETRNC() while keeping the other unused macros in:
 
->     -    .oen_read =3D &rzv2h_oen_read,
->     -    .oen_write =3D &rzv2h_oen_write,
->     +    .oen_read =3D &rzg3e_oen_read,
->     +    .oen_write =3D &rzg3e_oen_write,
->
-> Of course this requires refactoring the existing rzv2h_pin_to_oen_bit()
-> and rzv2h_oen_{read,write}() functions to avoid duplication.
-> Do you agree?
->
-Agreed.
+https://lore.kernel.org/all/7ff93ff9-f578-4be2-bdc6-5b09eab64fe6@wanadoo.fr/
 
-Cheers,
-Prabhakar
+To be honnest, I would still rather prefer to see those unused macros removed,
+but it is something that I am totally fine to leave to your judgement.
+
+Keeping the unused macro is totally negotiable if you prefer to do so :)
+
+My no-go is indeed on the proliferation of function-like macros.
+
+
+Yours sincerely,
+Vincent Mailhol
+
 
