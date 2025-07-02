@@ -1,135 +1,244 @@
-Return-Path: <linux-renesas-soc+bounces-19008-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19009-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 317C2AF0C65
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Jul 2025 09:19:56 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5742AF0CB8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Jul 2025 09:37:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C092B3B0518
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Jul 2025 07:19:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 92F287AFF23
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Jul 2025 07:36:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28020223339;
-	Wed,  2 Jul 2025 07:19:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bF5Yyc/t"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 948DA226D0D;
+	Wed,  2 Jul 2025 07:37:48 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65CD0634EC;
-	Wed,  2 Jul 2025 07:19:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E43C2236E8;
+	Wed,  2 Jul 2025 07:37:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751440791; cv=none; b=M3Wh8zbdBTNjWFZ8mwRkNT824ZQKq/lEdKoXNYUtG/fCFpOEcM7mZfVfRJFZVqHbHVMuouxD65xWBExauMR+7AjD9gF2Lf2YOUIXyG6eKF9wol4mJVCGgK0/vTz+I0HqsIMEwhtpxtelHyOop4C9imNTCY039Eu6kO7Wb7ThAn4=
+	t=1751441868; cv=none; b=lFHDwMRnbCv6GRM29zSEc50UL3wOPC7Idd1IzP4z52dVe/FW4D7kmYIDFSJbG91DV6KkhxIL4urn2AsHqmPqLMIkDZGKo2toyUraXpZiZRCnX8URNL3CYnzea56o0pyTES3b7g66qG5U910KQXUqFg4Ih/vI1ujpllUrdH86/4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751440791; c=relaxed/simple;
-	bh=HZwQzes1s0dCeXQ80X1zgZSKLvoJz6waGynj8z/p1Nk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lQzv2Yx566Z9/6ZAPeVce4HyUlzJnUth7Z3AS7Ix+1KXq4D8vo33e5hq2zGvTqROp23Ts5RBPvdj7woYMPxxOOzG7ZBiwv6Z7F9bnxK5ikZZz1F9Xpad0avoWmi7GLAnw9I176A/0mtz3y51m5uvVrmH9lvotNNiqeScOXN0BZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bF5Yyc/t; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1751441868; c=relaxed/simple;
+	bh=0cuocMIUY2qgipwdxtV+Tzq02fGz0/hCUSj0KzZAy3w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iamZZqMd7OxKOqBxqfi8NrpPW995zSoV9NTbr7ItcOJambh/oSiN8e5vx3VH7k34q+zXstyFpTOIQipcUpWyVrtDm5UgjRsXpXS5fJXd/qs8Fy2azXOya2gGNNZ5fJP47uETozs7feWyX0RptePztG/2ctVAtR2OQJmqcFjCtKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3a577ab8c34so878242f8f.3;
-        Wed, 02 Jul 2025 00:19:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751440787; x=1752045587; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=29Ak/ncEpBZr7ANmY5PCAbSSEdsdCcghSMWZ9aad75g=;
-        b=bF5Yyc/tRQz+JkdV7OjYCWVLyqY3ddBsBBkFmAlmyeQkYOvCwVMJM08TYBlTRipPRt
-         CEZpJL2vQ757pu5ChCEy+XyqT8/wwcPVDOrPi9rQX7KQGlCDskayuWM0FbCNQyKSxrVf
-         jPYCYZv/8rZkHvcUMzA8hee49WxuITYun7mofSh//6+VTC1ZsjdonxXgVWmUjBJe238L
-         oLOvpdtmuU7kuanczTjyvXS79yMTb1jZrlcffQE6pVvxQz4gz1GJSz+4e/wgqknmlybU
-         akrDpQksXPp4G+cfsPRyoGDVqwA+vrajMazjCS65afvV53ZfbC4pNKwCUmTnyW3mgTZM
-         F+PQ==
+Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-4e7ade16082so1074669137.1;
+        Wed, 02 Jul 2025 00:37:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751440787; x=1752045587;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1751441864; x=1752046664;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=29Ak/ncEpBZr7ANmY5PCAbSSEdsdCcghSMWZ9aad75g=;
-        b=dedW+PMutUk3s/s0jLW6uyk2uVNuMoLuDGiFAaVSpR63oA91BQuRlw8ZMCru3Ie84i
-         B3/+nqDEpcQ+xHRjWoJpxisGSzT+96NoHUT3171D+RrOh+qvUQsH0HZBG8taDxgKz5qQ
-         kN6R8cOaU2Sl2s7Gpjx0XqQdz5OFyY9keOJRdYr8+V/6B+W3WBTEAMLud3LMMQsrfz7E
-         biP+OLNuv/CtdpBAH6kGfgr0Fc0/sZ2//dHC5j0ZTO0jV9pxCLJSidGnjudhJgl2IBF1
-         q92AQ1HS9W9ZPFDrbuiu5P8Q3+wjjhrOo+dTFQrVZX/og6gM44p7lgHnE5qeqK1mK/8o
-         Z4KA==
-X-Forwarded-Encrypted: i=1; AJvYcCUWhSozJHXtibnMugPn9gwozApr5JxEh9sFya3Pb+PaUma5KqGrzQSEiPN2Npbf3Q02oWrZraE041jjKVs=@vger.kernel.org, AJvYcCXCzyzmMyio+w8P/rV4488GisnthQjy850IN1k05hmPJoYfjqVysx40DPHhx3xH7aXwf7ZlQRXu@vger.kernel.org, AJvYcCXFlXYmjpO7PfT2PVI4XcnxZIPibHYEe1k1/CqRlhKtjhJ2+Xyza4nhJFz0YnAjGXMKIsDKF0nFg0sSlpJHUTGrYIE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxHsG87buLfQ+Wo5+iFRT8pGBNG0cXMJM7zkkW/Yw2ALsFnjBS
-	XrH/ac+LOK1udie/GiV9CxtZLsb8x7iGcOGFlrhWhFBKXWEpn3CWiPBE
-X-Gm-Gg: ASbGncsgnlvhwJWmAbb63Dvl2nWfpyyQg5ILy1KPcUwkYkXUvOZzRMQTN04fsq14MpI
-	DNTDhcxWn3tPvf6nMdXX1vxhpFeL8eUdBY97IL9fQiUqPqoXWNZcJ7ZFNTLjTO/Doo7woadfL5/
-	PDqP9yV9INi87+LMlO7rJAAHLvQqa3ACM44OCnncic7xTgIjuR8wUDuhqCsXkWVXpggdA3drW3U
-	0X5t3+aGclpU7EWFIvvCvvg5gWp/+e+azOuFGUSfcCrmJ8vgbCa2v7tpW+sHhhiaZ/bgGF7MVWy
-	ed8n/WTFIlVjw86oftCzwTmJeC6Ap2Ve61AlVPcl87HOwV0q2iBf494g7erK7paQbqiapkLJKs5
-	ePyyLkghysVNz
-X-Google-Smtp-Source: AGHT+IFvEc/YQH0iMY9kuno2iXyUVs1TvRbucMzr5iCCWzoq4QGjRiP5liXmGKiCZcU1DHEwPw2+Hg==
-X-Received: by 2002:a05:600c:358f:b0:439:8c80:6aee with SMTP id 5b1f17b1804b1-454a370c4d7mr6204995e9.4.1751440787221;
-        Wed, 02 Jul 2025 00:19:47 -0700 (PDT)
-Received: from thomas-precision3591.imag.fr ([2001:660:5301:24:9d5:215:761c:daff])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-453823ad0f3sm223424525e9.19.2025.07.02.00.19.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Jul 2025 00:19:46 -0700 (PDT)
-From: Thomas Fourier <fourier.thomas@gmail.com>
-To: 
-Cc: Thomas Fourier <fourier.thomas@gmail.com>,
-	stable@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-mtd@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] mtd: rawnand: renesas: Add missing check after DMA map
-Date: Wed,  2 Jul 2025 09:17:22 +0200
-Message-ID: <20250702071722.24921-3-fourier.thomas@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=qzDhxNWDqLt/2XBcAROgu4jg21pPwa7UKkY7d5iZMBM=;
+        b=CeJ9fxOgJ2uE84RBhrZj/SPxQGrWZkGpqBfxxEqgIySq1HxpxbUXwwCrS/rCLD7ELJ
+         8iWVDJZHh/YmvOTQgDMO5WMFCXQ+Fwen6Eva0WzMvJX9sf2cJr/92opJ6D8VDNGhHoaR
+         yiBq2la1/TKbm2S6geqmGCio5Rc4QrgF/zWNbMxhcAD9R/rFmF1q2j2nD9PRw0fs09+X
+         +no0QsVxsAi2Qvku53KCeBOiXO7G+ZzKFcxq0OHCQtAF60T+afTCO/1dgD7+CfpFn9kv
+         AXKDGXgwAPvLrBFRezI4nKTQGglPZE4+YOZJNzfNNmuWh7IgIamFOitF1Kbuck07qr1g
+         7l9g==
+X-Forwarded-Encrypted: i=1; AJvYcCVMWyLICsUYLK9+mPW+y6Lai2ZN0/db0csjy2th7TCvyjTKt3ZUp3M63uII/vZLkku22Jbu+XHrkV1HWfsW85W1+5c=@vger.kernel.org, AJvYcCW0fXmBQDUJ9ShgBvQwZXDejDdK6BpXf1SYtOjxtB3ScQra+qGhXU2n3wCjnzUFNgVTwwhMfy2Icyw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxim/Um+p7u/Ix3DXFhRjhUlXNdD3JyX359sbOo1mPu9r6nVsAu
+	+zPzoIeKRbaQCTdmvokq4Wa7X3En7S8kFeIKmYamKgtp5zWnKDxnSw4+nrnKOk4z
+X-Gm-Gg: ASbGncvf38X5zRtGGrfuAU5JgIHt5mtliV2/F1a7Lrqig2btv677BYwe/Cbz4lJ6G/u
+	SwjWeh7hWKhdcKokSUtmizf51RDbKvNAHu2UXRNYDIOFSLlt+bsF4fkVVNbUVvUJ7T5247DrpUc
+	zxj54Gdac8GIyj/KzgHB59wFOqr7h+QWPGWTKZofjTqHZBK1EgBP1bzj7n4x5UnpttCm4FWqNHn
+	rMslnWPybOFDphvNt5RtRVt0rSek4NFyPKz6XoOzPY0VsLKt2/3R4R6wtM/Hc9Ut8huq4vTOeLw
+	tKgrkObj7P4o59C4UA+Laa/w1bwGu21Mh1yFdZpr7r6VGGIr+pNguIJJMQZtD2Yd6A4VE+aDDL0
+	0qRoYgV+mD5QZvATz5ODitEBP
+X-Google-Smtp-Source: AGHT+IEIDnURumR22zSn6UsJZxMaGiVhWByPO5Nw05E8+J7YFYsFcttWB9j+H6vtzbSsZEu4eRgf0w==
+X-Received: by 2002:a05:6102:3587:b0:4e5:8c2a:fbee with SMTP id ada2fe7eead31-4f161230abemr665367137.15.1751441863555;
+        Wed, 02 Jul 2025 00:37:43 -0700 (PDT)
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4ee4cb724ecsm1787718137.16.2025.07.02.00.37.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Jul 2025 00:37:43 -0700 (PDT)
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-87ed3b792a2so798396241.3;
+        Wed, 02 Jul 2025 00:37:43 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWEV21+/4VpFSSO4aRzvH9m8vWH2+rLELsoCFdBX2bEXsZlvWMT1CNI5+OLgx7Ke22ncqnQWWepn5VGgjJ6ucpf1sg=@vger.kernel.org, AJvYcCWRSMFFWIKcq6GSnLpNY1qV9IwOkiwd2j1Rj68qwXo33iXdNXdAMsT1+O5FwGqZPmAhprIB0R4CVEU=@vger.kernel.org
+X-Received: by 2002:a05:6102:4b1b:b0:4e5:a394:16cb with SMTP id
+ ada2fe7eead31-4f16107b1a1mr699354137.7.1751441862666; Wed, 02 Jul 2025
+ 00:37:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250629150417.97784-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20250629150417.97784-1-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 2 Jul 2025 09:37:30 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXK9ZBpgPSE32Zya-nVBXQw25=2-g5pnixjFOoyOkrrvg@mail.gmail.com>
+X-Gm-Features: Ac12FXwtv2XR1uUhcWOWqo-MJTSpu3hhBbAj25tUW75zxUNzcJWB8H2tjtZs0j4
+Message-ID: <CAMuHMdXK9ZBpgPSE32Zya-nVBXQw25=2-g5pnixjFOoyOkrrvg@mail.gmail.com>
+Subject: Re: [PATCH] can: rcar_canfd: Drop unused macros
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-can@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-The DMA map functions can fail and should be tested for errors.
+Hi Biju,
 
-Fixes: d8701fe890ec ("mtd: rawnand: renesas: Add new NAND controller driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Thomas Fourier <fourier.thomas@gmail.com>
----
- drivers/mtd/nand/raw/renesas-nand-controller.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+On Sun, 29 Jun 2025 at 17:04, Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Drop unused macros from the rcar_canfd.c.
+>
+> Reported-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+> Closes: https://lore.kernel.org/all/7ff93ff9-f578-4be2-bdc6-5b09eab64fe6@wanadoo.fr/
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-diff --git a/drivers/mtd/nand/raw/renesas-nand-controller.c b/drivers/mtd/nand/raw/renesas-nand-controller.c
-index 44f6603736d1..f4a775571733 100644
---- a/drivers/mtd/nand/raw/renesas-nand-controller.c
-+++ b/drivers/mtd/nand/raw/renesas-nand-controller.c
-@@ -426,6 +426,10 @@ static int rnandc_read_page_hw_ecc(struct nand_chip *chip, u8 *buf,
- 	/* Configure DMA */
- 	dma_addr = dma_map_single(rnandc->dev, rnandc->buf, mtd->writesize,
- 				  DMA_FROM_DEVICE);
-+	if (dma_mapping_error(rnandc->dev, dma_addr)) {
-+		dev_err(rnandc->dev, "DMA mapping failed.\n");
-+		return -ENOMEM;
-+	}
- 	writel(dma_addr, rnandc->regs + DMA_ADDR_LOW_REG);
- 	writel(mtd->writesize, rnandc->regs + DMA_CNT_REG);
- 	writel(DMA_TLVL_MAX, rnandc->regs + DMA_TLVL_REG);
-@@ -606,6 +610,10 @@ static int rnandc_write_page_hw_ecc(struct nand_chip *chip, const u8 *buf,
- 	/* Configure DMA */
- 	dma_addr = dma_map_single(rnandc->dev, (void *)rnandc->buf, mtd->writesize,
- 				  DMA_TO_DEVICE);
-+	if (dma_mapping_error(rnandc->dev, dma_addr)) {
-+		dev_err(rnandc->dev, "DMA mapping failed.\n");
-+		return -ENOMEM;
-+	}
- 	writel(dma_addr, rnandc->regs + DMA_ADDR_LOW_REG);
- 	writel(mtd->writesize, rnandc->regs + DMA_CNT_REG);
- 	writel(DMA_TLVL_MAX, rnandc->regs + DMA_TLVL_REG);
+Thanks for your patch!
+
+> --- a/drivers/net/can/rcar/rcar_canfd.c
+> +++ b/drivers/net/can/rcar/rcar_canfd.c
+> @@ -51,25 +51,17 @@
+>  #define RCANFD_GCFG_EEFE               BIT(6)
+>  #define RCANFD_GCFG_CMPOC              BIT(5)  /* CAN FD only */
+>  #define RCANFD_GCFG_DCS                        BIT(4)
+> -#define RCANFD_GCFG_DCE                        BIT(1)
+> -#define RCANFD_GCFG_TPRI               BIT(0)
+
+Does it make sense to remove all simple bit definitions?
+They serve as documentation.
+
+[...]
+
+> @@ -121,15 +108,9 @@
+>  #define RCANFD_NCFG_NBRP(x)            (((x) & 0x3ff) << 0)
+>
+>  /* RSCFDnCFDCmCTR / RSCFDnCmCTR */
+> -#define RCANFD_CCTR_CTME               BIT(24)
+
+CTME will be needed for adding listen-only and loopback support.
+Of course it can be added back later...
+
+>  #define RCANFD_CCTR_ERRD               BIT(23)
+>  #define RCANFD_CCTR_BOM_MASK           (0x3 << 21)
+> -#define RCANFD_CCTR_BOM_ISO            (0x0 << 21)
+>  #define RCANFD_CCTR_BOM_BENTRY         (0x1 << 21)
+> -#define RCANFD_CCTR_BOM_BEND           (0x2 << 21)
+
+If the driver uses one of the possible field values, why not keep the
+other values for documentation purposes?
+
+> -#define RCANFD_CCTR_TDCVFIE            BIT(19)
+> -#define RCANFD_CCTR_SOCOIE             BIT(18)
+> -#define RCANFD_CCTR_EOCOIE             BIT(17)
+>  #define RCANFD_CCTR_TAIE               BIT(16)
+>  #define RCANFD_CCTR_ALIE               BIT(15)
+>  #define RCANFD_CCTR_BLIE               BIT(14)
+
+> @@ -196,13 +169,6 @@
+>  #define RCANFD_FDCFG_TDCOC             BIT(8)
+>
+>  /* RSCFDnCFDCmFDSTS */
+> -#define RCANFD_FDSTS_SOC               GENMASK(31, 24)
+> -#define RCANFD_FDSTS_EOC               GENMASK(23, 16)
+> -#define RCANFD_GEN4_FDSTS_TDCVF                BIT(15)
+> -#define RCANFD_GEN4_FDSTS_PNSTS                GENMASK(13, 12)
+> -#define RCANFD_FDSTS_SOCO              BIT(9)
+> -#define RCANFD_FDSTS_EOCO              BIT(8)
+> -#define RCANFD_FDSTS_TDCVF             BIT(7)
+
+Does it make sense to remove all simple bit and proper mask definitions?
+They serve as documentation.
+
+>  #define RCANFD_FDSTS_TDCR              GENMASK(7, 0)
+>
+>  /* RSCFDnCFDRFCCx */
+> @@ -215,7 +181,6 @@
+>  /* RSCFDnCFDRFSTSx */
+>  #define RCANFD_RFSTS_RFIF              BIT(3)
+>  #define RCANFD_RFSTS_RFMLT             BIT(2)
+> -#define RCANFD_RFSTS_RFFLL             BIT(1)
+>  #define RCANFD_RFSTS_RFEMP             BIT(0)
+>
+>  /* RSCFDnCFDRFIDx */
+> @@ -224,8 +189,6 @@
+>
+>  /* RSCFDnCFDRFPTRx */
+>  #define RCANFD_RFPTR_RFDLC(x)          (((x) >> 28) & 0xf)
+> -#define RCANFD_RFPTR_RFPTR(x)          (((x) >> 16) & 0xfff)
+> -#define RCANFD_RFPTR_RFTS(x)           (((x) >> 0) & 0xffff)
+
+OK, as macros like this will probably be reworked anyway when these
+ever become used with FIELD_{GET,PREP}(), .e.g
+
+    #define RCANFD_RFPTR_RFDLC    GENMASK(31, 28)
+
+> @@ -298,16 +256,10 @@
+>  #define RCANFD_GSTS                    (0x008c)
+>  /* RSCFDnCFDGERFL / RSCFDnGERFL */
+>  #define RCANFD_GERFL                   (0x0090)
+> -/* RSCFDnCFDGTSC / RSCFDnGTSC */
+> -#define RCANFD_GTSC                    (0x0094)
+
+Note that removed register offsets will become anonymous gaps when the
+register offsets are replaced by C structs, cfr. commit ab2aa5453bb83d05
+("can: rcar_canfd: Describe channel-specific FD registers using C struct").
+
+>  /* RSCFDnCFDGAFLECTR / RSCFDnGAFLECTR */
+>  #define RCANFD_GAFLECTR                        (0x0098)
+>  /* RSCFDnCFDGAFLCFG / RSCFDnGAFLCFG */
+>  #define RCANFD_GAFLCFG(w)              (0x009c + (0x04 * (w)))
+> -/* RSCFDnCFDRMNB / RSCFDnRMNB */
+> -#define RCANFD_RMNB                    (0x00a4)
+> -/* RSCFDnCFDRMND / RSCFDnRMND */
+> -#define RCANFD_RMND(y)                 (0x00a8 + (0x04 * (y)))
+>
+>  /* RSCFDnCFDRFCCx / RSCFDnRFCCx */
+>  #define RCANFD_RFCC(gpriv, x)          ((gpriv)->info->regs->rfcc + (0x04 * (x)))
+
+> @@ -482,23 +358,11 @@ struct rcar_canfd_f_c {
+>         (RCANFD_F_CFOFFSET(gpriv) + 0x0c + (0x180 * (ch)) + (0x80 * (idx)) + \
+>          (0x04 * (df)))
+>
+> -/* RSCFDnCFDTMXXp -> RCANFD_F_TMXX(p) */
+> -#define RCANFD_F_TMID(p)               (0x4000 + (0x20 * (p)))
+> -#define RCANFD_F_TMPTR(p)              (0x4004 + (0x20 * (p)))
+> -#define RCANFD_F_TMFDCTR(p)            (0x4008 + (0x20 * (p)))
+> -#define RCANFD_F_TMDF(p, b)            (0x400c + (0x20 * (p)) + (0x04 * (b)))
+> -
+> -/* RSCFDnCFDTHLACCm */
+> -#define RCANFD_F_THLACC(m)             (0x6000 + (0x04 * (m)))
+> -/* RSCFDnCFDRPGACCr */
+> -#define RCANFD_F_RPGACC(r)             (0x6400 + (0x04 * (r)))
+
+OK, as probably the high register offsets will never be used.
+
+> -
+>  /* Constants */
+>  #define RCANFD_FIFO_DEPTH              8       /* Tx FIFO depth */
+>  #define RCANFD_NAPI_WEIGHT             8       /* Rx poll quota */
+>
+>  #define RCANFD_NUM_CHANNELS            8       /* Eight channels max */
+> -#define RCANFD_CHANNELS_MASK           BIT((RCANFD_NUM_CHANNELS) - 1)
+
+Yeah, this one was never used.
+
+>
+>  #define RCANFD_GAFL_PAGENUM(entry)     ((entry) / 16)
+>  #define RCANFD_CHANNEL_NUMRULES                1       /* only one rule per channel */
+
+As the patch is correct:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.43.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
