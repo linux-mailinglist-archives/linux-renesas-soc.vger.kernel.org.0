@@ -1,111 +1,173 @@
-Return-Path: <linux-renesas-soc+bounces-19032-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19033-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E954AF1629
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Jul 2025 14:55:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04747AF583A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Jul 2025 15:13:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 389373A5CB1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Jul 2025 12:55:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 27C183AADCB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Jul 2025 13:12:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63947275851;
-	Wed,  2 Jul 2025 12:55:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 219C327586B;
+	Wed,  2 Jul 2025 13:13:02 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 820E827465A;
-	Wed,  2 Jul 2025 12:55:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248C826658A;
+	Wed,  2 Jul 2025 13:12:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751460918; cv=none; b=GFOXpAZtsN8/c1wTU5KdOgH4yRGGDaMjx9zw8+eMaKd3KmhX3YScsh058YOGfnK7NvnHYcJO5qsvUGHgAODWGKP4x1zlB4naWeomSyAK1tSkc9kT8ePWZr+eIwiEqT8ofb50Cs/IEIxvE9cChrtVkFIJN8mc1+LY97JoL40+8TE=
+	t=1751461982; cv=none; b=VgUNa99LsIydv2MEOAzOnRGheHd9iXQBF2NiGEhfoMFxHgk6Y22+SXssqLTkPiukoaIblZz7TuWkMLCsrnULDTxsfVwGoc58ktlS4JCRCr2P/4Ja/Ay8HmdKHhVpwdCKTo4J6Z/BzJtoL5Msq5fNXmWTSScm9EUvay0lPWCM4Sk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751460918; c=relaxed/simple;
-	bh=4RMRk7+aVwR+3Qw5vc1Ge0MyIELEc9PS8LA/+Ea8jc0=;
+	s=arc-20240116; t=1751461982; c=relaxed/simple;
+	bh=G/X8FLYXIhm8Xtuy1bdv90EErCQcha2aru4EN9oN/OQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eBs92xRnd2K1r4L+e9hHy7A7VK/qghT5+2W+pGO9FFtuYZWx0oMytX8CZPjUSilvi8vMtSnrxY3E8ZVUJ40Cijb7CZKHw8SDDPQr+fTkdIqPAZ9//G9bIUJIP0rWkol2gR55zlvuj5HjtkG9NIP1VV1PQGKifskHbPQnY0xlsi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.181
+	 To:Cc:Content-Type; b=LoWjejih5Asbt2IPKU3YuOGblJpUxMVFjrsOKcAJTnQeav5n+Nrd7MA4K6Rs/gy3v9x3vNGE62I6dIkRv8NGdA+iMn/EiVPUCCm/QnqO7gVERXN8soSewL5iPAl2bBr/DJzX0EVEvc0v8N4n+q58qCW+VH47JggRgGaNSeeyTvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-531466622beso2144042e0c.1;
-        Wed, 02 Jul 2025 05:55:16 -0700 (PDT)
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4a4bb155edeso79655281cf.2;
+        Wed, 02 Jul 2025 06:12:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751460915; x=1752065715;
+        d=1e100.net; s=20230601; t=1751461978; x=1752066778;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=p7ECsAw6yB8tihJqn6f0QSOOmPwyyTIsWvoJ6n9vWgs=;
-        b=lM7PkMjfIZ54SG+C67uykIS5xAgwa4Qm0TZxWx5uKwDKi+3OOzvH17cH4PdDKhGaaw
-         y5kIcdKsiSIuWkoFuvXq3EQ9yLfKGa0ppKYrQb8lCSY/TNg84YeG3AZD3x+140r0N5o1
-         vdDkGSjz2CAETjxFROGONozWBun6kAYhz20ocqGdyKyKaLWGz5Ej0emWEgsL3w2qBA7r
-         LeWTDuTrxgQmVQf/pasfV2ewLLFgmt8fqRP4+8ROOUsKi0HIJ3F4kweP8YqixOVaGLXo
-         fteicsqJTNH5uZ9R4AxbvfmxwAXSl3O0zkJApHnAD1mojVjA2Fbh/rnn7v844ne0ObL6
-         Q+jA==
-X-Forwarded-Encrypted: i=1; AJvYcCW609MiAIe9RFfdrsW+4c3WCqR3PPf/cAzxtwcXMLKK7cGdSp1AckuidUkTJ/eLhYUIclyhYSSjHnhyF6FJtMp6KLM=@vger.kernel.org, AJvYcCW67kj1JEAEGRiXSE85Gym5nksoJrcH/VHIGJUlr2Vn/E7CGQou0NkTi5Mnw+wq/asl8CD26MJ5HZ+5@vger.kernel.org, AJvYcCWe+3K/fKNZaeAu0miM9M0zvjolpnPlQ+MaUafkc/k31V0mK1TgaI8HI+d2qNU8rvTcwY0n7VYGIZqbtRUM@vger.kernel.org
-X-Gm-Message-State: AOJu0YxqhQiNOLsnjtJOwfOv+UpEP/zPRjcKTozCX7C63ODX7oYc/uRo
-	pG1rirwooDfoyirKKJWJ8rmH6F8CoCyGZUi1s2e9dNM5bEsT9jnAL3e9wLgnuRoP
-X-Gm-Gg: ASbGncs9EfRTRj+daCJoIua0oEPzkQyIarKZHJhOPVE9FGFzHX7mn6dPKI2dJmHJXIB
-	QCaYUxOVLyFo8Bv5nKp8ktYBq4bPjNzdAP9aElfvKn3jaC2Kqe0VnpYYHaz+z1/PoE9qhT0oQnl
-	IT9On/h1GwfWS0kBlznAhX6kIvvevvj1AqrzUHe8so1pUEvwBFb8RgS8ftBCyeauSwkuoQMmcs+
-	xzR2ZF9oYWqTTcXmkDBf4cj1KoE5t4Wir6L+wLNMf+TUqWrywvs2VbX2xJ3Xg4isfqBNHK7WjKH
-	8x+LuLuRUq1G5BdbbMfljhhlLZKNsEGKcRS414jB4jkGxK3oPRHHPNUMDFcyXKSFrXdQI+4IFYX
-	fMu/3F76n/EBwS91rzlDo6Ncv
-X-Google-Smtp-Source: AGHT+IEOZa61rOVXqWUImLBUueXdZ7FsJrWVa2PyZ3BfxDJAIJPFIRmop0rm7aoffoIRG2Y9rasRiQ==
-X-Received: by 2002:a05:6122:7d3:b0:531:2906:751e with SMTP id 71dfb90a1353d-5345842cfadmr1652539e0c.8.1751460914878;
-        Wed, 02 Jul 2025 05:55:14 -0700 (PDT)
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com. [209.85.222.44])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-533090c46c0sm2112924e0c.19.2025.07.02.05.55.14
+        bh=d8vJAeCiyCz2kQO3TB9Yq0+wZP0/k8LFuyb4YwCjLgw=;
+        b=Bch8Jn+IbRfBkYwkDcpk75G4OqHGbYffm3dF/eqhRg7VOJam3v+fAawS5DzVML7Gd4
+         DItIuJk5KYn7Or7tN8uvYqRzxNN7oGtgZBkg+k/Sl9j2HGkLdGorrKObcCncbINHYOUx
+         y2idKTwzIclyv6Ym482uH/4tTyKpjEmYriNzgN8b/gRT1MXNEHNQUMDT038RZf+Yi74o
+         XE2HDNjQncGGb7nYgMFor8woz6XEA/MxEDNnCE0kB7YoST69yKMOx2Xx8KLpFfHkxQkX
+         6tE9LYql7lyv1j6cZZ9t+LnAtlJP32VMraL0JjOVJDrl8tUhK1Zqq58UwD0bs2CihWrJ
+         gUXw==
+X-Forwarded-Encrypted: i=1; AJvYcCUt2IXiJsGwm68OitJHxHLwOhglpLhipsY0Ets6Eq3tTURhLPH03LBOUByk6YanIdBtr9xubYrtgquF@vger.kernel.org, AJvYcCWXH67oYM3/s4rI5LpwlkfGm3mcowZr1/Jr82cXEwxwFWhIX5fiPxL+YwHQIR1cgzUrP1DIDiGZRTuOBvAeAKv6qLY=@vger.kernel.org, AJvYcCWmPO5QS2nhO7WsKNPQCeuG7bgCqEbV3HVrhrN3udVHZLy5+mSPpZGvrAlJTPEw/5uizODTumdo8ANqf25D@vger.kernel.org
+X-Gm-Message-State: AOJu0YwS4IOEDQu3cEERVQnhSZ99P8C2n1gNKOB2+pxPr4taPrMIR4Ie
+	IUkFFlmfgWxtQsHaHYFdP3rWcOTZn25IYrqcwhNrLOLUlCk09YAVYdDJlctm8CGf
+X-Gm-Gg: ASbGncuz8lBvjOhAalgqIq3f8TqLY3h66BVbMzvqXftPU3ePsmkrkGApwXyE725abDL
+	3BWofrg/jwtTWL2pNr7WPtW4CfPMdxPa1sBuDEMPlg+QVipFul+uIi6YwKUC9Xv3iKSkIAipk02
+	SnNSRObnlKta5dFfT71cUMEMNU1wTHSh/gIFMET0kR2e1fu8JtZIRxqqeyBNvhdkO8FYv5DGIZM
+	WPACY3iDQYQusZl+fFVIFH1aJnt8MNLp2Ym6MKGSuEDKG/v/ExyzXH4GNXOrOdwZxGarX934qgy
+	zHLs3lBlO8ZWy8tL5gYKSyohJQPIq8tQgBsH3b/uTr8csGWuXzoAAHpTrekBIGbdT2VIAus9MYH
+	MCHMllNubvwtQ0xxZcv30ZvLDY18p0p8Z8nC8Vcg=
+X-Google-Smtp-Source: AGHT+IHgT57N6yqC7AunftHC3anA2jtFrHp4h0aNi/X1RpOnY3PMCb1mj8YAvpyW4SgfCIYgO7QKJw==
+X-Received: by 2002:a05:622a:406:b0:4a5:a96d:6071 with SMTP id d75a77b69052e-4a9769e54a0mr49484121cf.38.1751461978242;
+        Wed, 02 Jul 2025 06:12:58 -0700 (PDT)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com. [209.85.222.177])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4a7fc57d905sm90612731cf.64.2025.07.02.06.12.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Jul 2025 05:55:14 -0700 (PDT)
-Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-87f4c8e9cdcso1574726241.2;
-        Wed, 02 Jul 2025 05:55:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUTAACNnnR+uYKz3sco/knX8WqT0Ck6jlqaVN9/y6er829Vf7IJj+YVEhInTX/0mnELJCJEyVoStncO+5Hk@vger.kernel.org, AJvYcCVnMlvNt9V8UiN0idA6B85DnsmYFSm1A4fAbmPjuDuOzoQBUxMBDPirqnGi/qvMIdAeQeSmJ8Q2xyMu@vger.kernel.org, AJvYcCWp9QtGIVcjVUmRjtv8yeY8N42UlHcDzkkrWW09xxx1NtVsqTPQw48Vc48KvZM4T50zYTDxsC308HEn0UBqZRifUHg=@vger.kernel.org
-X-Received: by 2002:a05:6102:26d3:b0:4de:d08f:6727 with SMTP id
- ada2fe7eead31-4f1612b5345mr1087681137.13.1751460914346; Wed, 02 Jul 2025
- 05:55:14 -0700 (PDT)
+        Wed, 02 Jul 2025 06:12:58 -0700 (PDT)
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-7d425fc4e5fso565024785a.0;
+        Wed, 02 Jul 2025 06:12:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUBRHrpMDImFFfOtTr3JkM/5ebcpJZCokDAu7j0Vrwavxhas6jtgxGibpDD7WQ+lKW3ggcvoBhEIKoaQw4u@vger.kernel.org, AJvYcCV8vQjPShWSmc2qvrdRiF7xRFj25k3WuAX8lUf0im1Gra8AuLjAYkouJxxogA/5rah1jDzTdJpG06PIn9bohfzWQEE=@vger.kernel.org, AJvYcCVsU4P/v9IoCcIKocbfykYplLCMAgeFSUCA3OYN+U8LT01D/ACWj/yd5cbfEp8jyyLGqn7+nd+TJKy8@vger.kernel.org
+X-Received: by 2002:a05:620a:4392:b0:7d4:dce:5f5d with SMTP id
+ af79cd13be357-7d5c4718813mr355226985a.38.1751461976712; Wed, 02 Jul 2025
+ 06:12:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250702092755.70847-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20250702092755.70847-1-biju.das.jz@bp.renesas.com>
+References: <20250627193742.110818-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250627193742.110818-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 2 Jul 2025 14:55:01 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUp90=Mt5_NsEBWwy-JZJN+oBHwoYPmA8CORZiXt2Fk+A@mail.gmail.com>
-X-Gm-Features: Ac12FXwam2Ru_p8NswoQrhU_Ll5UaQya1Z8AGYUKOu7OYX9gkB0z4zqCseLiccA
-Message-ID: <CAMuHMdUp90=Mt5_NsEBWwy-JZJN+oBHwoYPmA8CORZiXt2Fk+A@mail.gmail.com>
-Subject: Re: [PATCH v2] arm64: dts: renesas: r9a09g047e57-smarc: Add gpio keys
-To: Biju Das <biju.das.jz@bp.renesas.com>
+Date: Wed, 2 Jul 2025 15:12:44 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWaoToq0ZHx5_nFCx0iL4B2PUHRkegm5Vy3K+5MG2YSrg@mail.gmail.com>
+X-Gm-Features: Ac12FXyyu7nDvYgvHQb8BzoWhr6k4DDH67v3mSfFK_-ePILOH8E1-RslKsIyuio
+Message-ID: <CAMuHMdWaoToq0ZHx5_nFCx0iL4B2PUHRkegm5Vy3K+5MG2YSrg@mail.gmail.com>
+Subject: Re: [PATCH v2] arm64: dts: renesas: Add CN15 eMMC and SD overlays for
+ RZ/V2H and RZ/V2N EVKs
+To: Prabhakar <prabhakar.csengg@gmail.com>
 Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 2 Jul 2025 at 11:28, Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> RZ/G3E SMARC EVK  has 3 user buttons called USER_SW1, USER_SW2 and
-> USER_SW3 and SLEEP button with NMI support. Add a DT node in device tree
-> to instantiate the gpio-keys driver for these buttons.
+Hi Prabhakar,
+
+On Fri, 27 Jun 2025 at 21:37, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> The system can enter into STR state by pressing the sleep button and
-> wakeup from STR is done by pressing power button. The USER_SW{1,2,3}
-> configured as wakeup-source, so it can wakeup the system during s2idle.
+> Introduce device tree overlays for supporting the eMMC (RTK0EF0186B02000BJ)
+> and microSD (RTK0EF0186B01000BJ) sub-boards connected via the CN15
+> connector on the RZ/V2H and RZ/V2N evaluation kits.
 >
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> These overlays enable SDHI0 with appropriate pin control settings, power
+> regulators, and GPIO handling. Both sub-boards are supported using shared
+> overlay files that can be applied to either EVK due to their identical
+> connector layout and interface support.
+>
+> To support this, new DT overlay files are added:
+> - `rzv2-evk-cn15-emmc.dtso` for eMMC
+> - `rzv2-evk-cn15-sd.dtso` for microSD
+>
+> Additionally, the base DTS files for both EVKs are updated to include a
+> fixed 1.8V regulator (`reg_1p8v`) needed by the eMMC sub-board and
+> potential future use cases such as HDMI output.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
 > v1->v2:
->  * Added support for sleep button
->  * Dropped the extra spaces after the define keywords for KEY_*_GPIO.
->  * Dropped /delete-node/ keys as KEY_SLEEP will always present.
->  * Moved input.h to r9a09g047e57-smarc.dts
+> - Dropped patch 2/3 from previous series as that has been merged.
+> - Dropped adding alias in base DTS instead added in overlay.
+> - Switched to using single overlay files for both RZ/V2H and RZ/V2N EVKs
+>   instead of separate overlays for each EVK.
+> - Used RZG2L_GPIO and RZG2L_PORT_PINMUX to avoid using SoC specific
+>   macros.
+
+Thanks for the update!
+
+> --- a/arch/arm64/boot/dts/renesas/Makefile
+> +++ b/arch/arm64/boot/dts/renesas/Makefile
+> @@ -161,8 +161,16 @@ r9a09g047e57-smarc-cru-csi-ov5645-dtbs := r9a09g047e57-smarc.dtb r9a09g047e57-sm
+>  dtb-$(CONFIG_ARCH_R9A09G047) += r9a09g047e57-smarc-cru-csi-ov5645.dtb
+>
+>  dtb-$(CONFIG_ARCH_R9A09G056) += r9a09g056n48-rzv2n-evk.dtb
+> +dtb-$(CONFIG_ARCH_R9A09G056) += rzv2-evk-cn15-emmc.dtbo
+> +r9a09g056n48-rzv2-evk-cn15-emmc.dts := r9a09g056n48-rzv2n-evk.dtb rzv2-evk-cn15-emmc.dtbo
+
+.dts?
+
+I take it you meant:
+
+    +r9a09g056n48-rzv2n-evk-cn15-emmc-dtbs :=
+r9a09g056n48-rzv2n-evk.dtb rzv2-evk-cn15-emmc.dtbo
+    +dtb-$(CONFIG_ARCH_R9A09G056) += r9a09g056n48-rzv2n-evk-cn15-emmc.dtb
+
+> +dtb-$(CONFIG_ARCH_R9A09G056) += rzv2-evk-cn15-sd.dtbo
+> +r9a09g056n48-rzv2-evk-cn15-sd.dts := r9a09g056n48-rzv2n-evk.dtb rzv2-evk-cn15-sd.dtbo
+
+    +r9a09g056n48-rzv2n-evk-cn15-sd-dtbs := r9a09g056n48-rzv2n-evk.dtb
+rzv2-evk-cn15-sd.dtbo
+    +dtb-$(CONFIG_ARCH_R9A09G056) += r9a09g056n48-rzv2n-evk-cn15-sd.dtb
+
+>  dtb-$(CONFIG_ARCH_R9A09G057) += r9a09g057h44-rzv2h-evk.dtb
+> +dtb-$(CONFIG_ARCH_R9A09G057) += rzv2-evk-cn15-emmc.dtbo
+> +r9a09g057h44-rzv2-evk-cn15-emmc.dts := r9a09g057h44-rzv2h-evk.dtb rzv2-evk-cn15-emmc.dtbo
+
+    +r9a09g057h44-rzv2h-evk-cn15-emmc-dtbs :=
+r9a09g057h44-rzv2h-evk.dtb rzv2-evk-cn15-emmc.dtbo
+    +dtb-$(CONFIG_ARCH_R9A09G057) += r9a09g057h44-rzv2h-evk-cn15-emmc.dtb
+
+> +dtb-$(CONFIG_ARCH_R9A09G057) += rzv2-evk-cn15-sd.dtbo
+> +r9a09g057h44-rzv2-evk-cn15-sd.dts := r9a09g057h44-rzv2h-evk.dtb rzv2-evk-cn15-sd.dtbo
+
+    +r9a09g057h44-rzv2h-evk-cn15-sd-dtbs := r9a09g057h44-rzv2h-evk.dtb
+rzv2-evk-cn15-sd.dtbo
+    +dtb-$(CONFIG_ARCH_R9A09G057) += r9a09g057h44-rzv2h-evk-cn15-sd.dtb
+
+>  dtb-$(CONFIG_ARCH_R9A09G057) += r9a09g057h48-kakip.dtb
+>
+>  dtb-$(CONFIG_ARCH_RCAR_GEN3) += draak-ebisu-panel-aa104xd12.dtbo
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.17.
+i.e. will queue in renesas-devel for v6.17, with the above fixed.
 
 Gr{oetje,eeting}s,
 
