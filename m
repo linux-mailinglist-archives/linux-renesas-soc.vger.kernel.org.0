@@ -1,179 +1,169 @@
-Return-Path: <linux-renesas-soc+bounces-19033-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19034-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04747AF583A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Jul 2025 15:13:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E169AF58B4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Jul 2025 15:26:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 27C183AADCB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Jul 2025 13:12:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8D4D34E1FA0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Jul 2025 13:23:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 219C327586B;
-	Wed,  2 Jul 2025 13:13:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DCA027AC35;
+	Wed,  2 Jul 2025 13:20:01 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248C826658A;
-	Wed,  2 Jul 2025 13:12:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E811327875C;
+	Wed,  2 Jul 2025 13:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751461982; cv=none; b=VgUNa99LsIydv2MEOAzOnRGheHd9iXQBF2NiGEhfoMFxHgk6Y22+SXssqLTkPiukoaIblZz7TuWkMLCsrnULDTxsfVwGoc58ktlS4JCRCr2P/4Ja/Ay8HmdKHhVpwdCKTo4J6Z/BzJtoL5Msq5fNXmWTSScm9EUvay0lPWCM4Sk=
+	t=1751462401; cv=none; b=Y+qBUV0SD1BBe3Io0u0Y4gqTWA+jduMdjJOqaCfSC/6b9BZCo55DLLSiigKxLWDjHgWTTa56APbzCOjVcXOKzdQzCh4+Xc18aPlLm8uqsodkli0addmhnqM/G0BtX17/HNbE13SAj+qBBQ/aNwotB/vRBzKBdHAULOE3L1i6Rak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751461982; c=relaxed/simple;
-	bh=G/X8FLYXIhm8Xtuy1bdv90EErCQcha2aru4EN9oN/OQ=;
+	s=arc-20240116; t=1751462401; c=relaxed/simple;
+	bh=85ruyl2LVlHR8nSggDDFRbuvkEepOfyZN7EwSafKY6s=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LoWjejih5Asbt2IPKU3YuOGblJpUxMVFjrsOKcAJTnQeav5n+Nrd7MA4K6Rs/gy3v9x3vNGE62I6dIkRv8NGdA+iMn/EiVPUCCm/QnqO7gVERXN8soSewL5iPAl2bBr/DJzX0EVEvc0v8N4n+q58qCW+VH47JggRgGaNSeeyTvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.178
+	 To:Cc:Content-Type; b=NYCH2TJ1lfiybuD/QBygqw4T+fe4mhCcUyJnO1Z0YSGizrg11nT++Deifvz1/NIli8LZ3Kyfi11/lzhfHmU7dZf8lpcmnP2EWyH0fLqRLGKk16B6pj2fVNNqAy2NwP9UMz6ssf/4Fs8W6fEyqFnX78XF88ADSc/0sdn6zoOI5sk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4a4bb155edeso79655281cf.2;
-        Wed, 02 Jul 2025 06:12:59 -0700 (PDT)
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-52b2290e292so1247066e0c.3;
+        Wed, 02 Jul 2025 06:19:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751461978; x=1752066778;
+        d=1e100.net; s=20230601; t=1751462398; x=1752067198;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=d8vJAeCiyCz2kQO3TB9Yq0+wZP0/k8LFuyb4YwCjLgw=;
-        b=Bch8Jn+IbRfBkYwkDcpk75G4OqHGbYffm3dF/eqhRg7VOJam3v+fAawS5DzVML7Gd4
-         DItIuJk5KYn7Or7tN8uvYqRzxNN7oGtgZBkg+k/Sl9j2HGkLdGorrKObcCncbINHYOUx
-         y2idKTwzIclyv6Ym482uH/4tTyKpjEmYriNzgN8b/gRT1MXNEHNQUMDT038RZf+Yi74o
-         XE2HDNjQncGGb7nYgMFor8woz6XEA/MxEDNnCE0kB7YoST69yKMOx2Xx8KLpFfHkxQkX
-         6tE9LYql7lyv1j6cZZ9t+LnAtlJP32VMraL0JjOVJDrl8tUhK1Zqq58UwD0bs2CihWrJ
-         gUXw==
-X-Forwarded-Encrypted: i=1; AJvYcCUt2IXiJsGwm68OitJHxHLwOhglpLhipsY0Ets6Eq3tTURhLPH03LBOUByk6YanIdBtr9xubYrtgquF@vger.kernel.org, AJvYcCWXH67oYM3/s4rI5LpwlkfGm3mcowZr1/Jr82cXEwxwFWhIX5fiPxL+YwHQIR1cgzUrP1DIDiGZRTuOBvAeAKv6qLY=@vger.kernel.org, AJvYcCWmPO5QS2nhO7WsKNPQCeuG7bgCqEbV3HVrhrN3udVHZLy5+mSPpZGvrAlJTPEw/5uizODTumdo8ANqf25D@vger.kernel.org
-X-Gm-Message-State: AOJu0YwS4IOEDQu3cEERVQnhSZ99P8C2n1gNKOB2+pxPr4taPrMIR4Ie
-	IUkFFlmfgWxtQsHaHYFdP3rWcOTZn25IYrqcwhNrLOLUlCk09YAVYdDJlctm8CGf
-X-Gm-Gg: ASbGncuz8lBvjOhAalgqIq3f8TqLY3h66BVbMzvqXftPU3ePsmkrkGApwXyE725abDL
-	3BWofrg/jwtTWL2pNr7WPtW4CfPMdxPa1sBuDEMPlg+QVipFul+uIi6YwKUC9Xv3iKSkIAipk02
-	SnNSRObnlKta5dFfT71cUMEMNU1wTHSh/gIFMET0kR2e1fu8JtZIRxqqeyBNvhdkO8FYv5DGIZM
-	WPACY3iDQYQusZl+fFVIFH1aJnt8MNLp2Ym6MKGSuEDKG/v/ExyzXH4GNXOrOdwZxGarX934qgy
-	zHLs3lBlO8ZWy8tL5gYKSyohJQPIq8tQgBsH3b/uTr8csGWuXzoAAHpTrekBIGbdT2VIAus9MYH
-	MCHMllNubvwtQ0xxZcv30ZvLDY18p0p8Z8nC8Vcg=
-X-Google-Smtp-Source: AGHT+IHgT57N6yqC7AunftHC3anA2jtFrHp4h0aNi/X1RpOnY3PMCb1mj8YAvpyW4SgfCIYgO7QKJw==
-X-Received: by 2002:a05:622a:406:b0:4a5:a96d:6071 with SMTP id d75a77b69052e-4a9769e54a0mr49484121cf.38.1751461978242;
-        Wed, 02 Jul 2025 06:12:58 -0700 (PDT)
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com. [209.85.222.177])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4a7fc57d905sm90612731cf.64.2025.07.02.06.12.58
+        bh=XOjOgujBLhdh42XnOnmsLevgNhI71hwIXKJu5W4lV34=;
+        b=laeutsph7Pspdkmc+pXEAFMegNqSFl08wzACcnFnOv+OTTNzAggEEiG7Owwh6Ed58T
+         o4G2WCshVrceRH9t/8n+93sjMPoU0GtNrzeTxDbhcPVqr7H4n4s74QW1bT0yWsytE+d2
+         l2DierguTuhsOADLmOUCiCD4JzvpHjjuhYr4ueId7IXURCPM72cGg0DysquqrLZL4kK8
+         7cBA07Br+ix586kSRAC800orYrDj8ZBp9YHR9BHPaHTFPfyJtM5F6axmtaMcMx0UXEvp
+         SybzS8ZJ2I1xUfkblREMCuSI5OgwMq3zWfs2j3Ff2UgqyQBwdDmdnWXiCR6wF2jPQ3dT
+         YNsA==
+X-Forwarded-Encrypted: i=1; AJvYcCU9S6crSaOWJLH/MId4FiIXb76shHOlqavoJmIPdZn5NSOWR9XB5nWEHQQ0CZrgMKjpXke0v2IKI0Nsn+z4@vger.kernel.org, AJvYcCUYN/vPw4Emr1O9n3jXwB2SYzqT5vxUhT3unWMWVUm1rMTeRuE93gi2wxw21wkS0uQcyGYVtmDbVgNU@vger.kernel.org, AJvYcCVzICaSWuFxkwLBauq+VWAcVgU6btymEoFRWTOVR7Ppr8LnLe0AIzdS+1ZQc6FHLavQbL9fftAOK7bS0LoN53pN14U=@vger.kernel.org, AJvYcCWd16nHBjQsZdtgIaenSCFKiwbHeS6iSZk90PN49r/vHWM1xgMMswSRz0cmM7GJp8zkwq5OGgohpn+X6g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywi+NO/BL92agChEkl8U9S5UeflXUbYxXMmhB/cZ2uKIBC6VpAy
+	Fc2b3so3Wvpaa8nO6BpzdvlKOehX+M0shOUtvaT30mZsVyF9sTRKI/GU+0ZQobFI
+X-Gm-Gg: ASbGncvxs8zubsuaxeELfIYWwCGp+9hu+EnqHjiBVPan2PGnPuEratiUyqtCKDUi9dZ
+	xdpUiU+OdIigOnTD0SQfss932yFFtFR2yCR31q/LYgizQnglhSYbNvneVWiDW20Iys7OBRPa6Mh
+	5dmogTvT0pUUz5c8IFM1jRX4uMYdNGzXvFt0BmiVw681t04BhtzkRlnX8OAVTlZsF5lYLUN22wJ
+	jNLhShbnNagHkymAASApgFMFVXFFq7Eu/wwZd/KW9L2HQORUPbsR8oVQNTK1/Nfi0wCvsQMMOdt
+	f7AwQ9P8NR2fkh2GLPLueQ3zVuUlMdHV3EwjHh455bXLtk6dplce1iAcjkY8hfkVQY04NhJs+Y4
+	1hNVK+7KiAhCs9a7/+bxBwNJq
+X-Google-Smtp-Source: AGHT+IEnwLIndcUKAdrmJZYxxHSNfSGC6MvTSwmlQBJkP2mfWluUyJWP2Jerw8osY6On1i25meOwKw==
+X-Received: by 2002:a05:6122:d08:b0:531:2d3a:32aa with SMTP id 71dfb90a1353d-53457c61245mr1760232e0c.0.1751462397253;
+        Wed, 02 Jul 2025 06:19:57 -0700 (PDT)
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5330924154esm2095754e0c.48.2025.07.02.06.19.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Jul 2025 06:12:58 -0700 (PDT)
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-7d425fc4e5fso565024785a.0;
-        Wed, 02 Jul 2025 06:12:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUBRHrpMDImFFfOtTr3JkM/5ebcpJZCokDAu7j0Vrwavxhas6jtgxGibpDD7WQ+lKW3ggcvoBhEIKoaQw4u@vger.kernel.org, AJvYcCV8vQjPShWSmc2qvrdRiF7xRFj25k3WuAX8lUf0im1Gra8AuLjAYkouJxxogA/5rah1jDzTdJpG06PIn9bohfzWQEE=@vger.kernel.org, AJvYcCVsU4P/v9IoCcIKocbfykYplLCMAgeFSUCA3OYN+U8LT01D/ACWj/yd5cbfEp8jyyLGqn7+nd+TJKy8@vger.kernel.org
-X-Received: by 2002:a05:620a:4392:b0:7d4:dce:5f5d with SMTP id
- af79cd13be357-7d5c4718813mr355226985a.38.1751461976712; Wed, 02 Jul 2025
- 06:12:56 -0700 (PDT)
+        Wed, 02 Jul 2025 06:19:57 -0700 (PDT)
+Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-886c8de5d90so208547241.0;
+        Wed, 02 Jul 2025 06:19:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUVAws/ARpojRXD8n8RXhpSUhDIRetjCchDLk3ng7mWSGqk9Ve1SZyttt7axJobFQetZ/9CifuTjBL9RcjT/jYGXDQ=@vger.kernel.org, AJvYcCWG2c9qANNogntx+furJ70rEio7hsdIaNqpBTKeuJPc2s5PcR+J1WJ2d14bicBkr8llAtR1rs4saswEcg==@vger.kernel.org, AJvYcCXGg1oX+8weiUA5yN+m7CUo1V4NtlMRRroQE0WWH7TFywQ7t8NwL/GME6eqcWD4/r0C9RiSSFZwn7BE@vger.kernel.org, AJvYcCXOIJJsHKJse+yyk/oT/z54UmMybgZsnqchNceQ+9VZ+dqFImheMO7E0wZvUy5n1jWYItQHE2Ty0cuJnSyp@vger.kernel.org
+X-Received: by 2002:a05:6102:1620:b0:4e5:963b:738a with SMTP id
+ ada2fe7eead31-4f1612289e4mr1219271137.16.1751462395540; Wed, 02 Jul 2025
+ 06:19:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250627193742.110818-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250627193742.110818-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250625130712.140778-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250625130712.140778-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250627210526.GA128966-robh@kernel.org>
+In-Reply-To: <20250627210526.GA128966-robh@kernel.org>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 2 Jul 2025 15:12:44 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWaoToq0ZHx5_nFCx0iL4B2PUHRkegm5Vy3K+5MG2YSrg@mail.gmail.com>
-X-Gm-Features: Ac12FXyyu7nDvYgvHQb8BzoWhr6k4DDH67v3mSfFK_-ePILOH8E1-RslKsIyuio
-Message-ID: <CAMuHMdWaoToq0ZHx5_nFCx0iL4B2PUHRkegm5Vy3K+5MG2YSrg@mail.gmail.com>
-Subject: Re: [PATCH v2] arm64: dts: renesas: Add CN15 eMMC and SD overlays for
- RZ/V2H and RZ/V2N EVKs
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+Date: Wed, 2 Jul 2025 15:19:43 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU+hT=i=gs35ia_9vvmqJPAsjscQ0CBhBZK3wyn=35Emg@mail.gmail.com>
+X-Gm-Features: Ac12FXzUqy0vTSjo4_AKL8CJawsMDkDPDtVyP9enUVNCvJ78ZI9kbmcr2DTv_-M
+Message-ID: <CAMuHMdU+hT=i=gs35ia_9vvmqJPAsjscQ0CBhBZK3wyn=35Emg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] dt-bindings: pinctrl: renesas: document RZ/T2H and
+ RZ/N2H SoCs
+To: Rob Herring <robh@kernel.org>
+Cc: Prabhakar <prabhakar.csengg@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	Magnus Damm <magnus.damm@gmail.com>, Bartosz Golaszewski <brgl@bgdev.pl>, linux-renesas-soc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Prabhakar,
+Hi Rob,
 
-On Fri, 27 Jun 2025 at 21:37, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Fri, 27 Jun 2025 at 23:05, Rob Herring <robh@kernel.org> wrote:
+> On Wed, Jun 25, 2025 at 02:07:10PM +0100, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Document the pin and GPIO controller IP for the Renesas RZ/T2H
+> > (R9A09G077) and RZ/N2H (R9A09G087) SoCs, and add the shared DTSI
+> > header file used by both the bindings and the driver.
+> >
+> > The RZ/T2H SoC supports 729 pins, while the RZ/N2H supports 576 pins.
+> > Both share the same controller architecture; separate compatible
+> > strings are added for each SoC to distinguish them.
+> >
+> > Co-developed-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+> > Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/pinctrl/renesas,rzt2h-pinctrl.yaml
+> > +additionalProperties:
 >
-> Introduce device tree overlays for supporting the eMMC (RTK0EF0186B02000BJ)
-> and microSD (RTK0EF0186B01000BJ) sub-boards connected via the CN15
-> connector on the RZ/V2H and RZ/V2N evaluation kits.
+> This style was for existing bindings which had no node name pattern.
+> Define a pattern for node names.
+
+The node name depends on the device for which pin control is configured.\
+Typical examples are "sd2", "sound", "usb0", ...
+...
+
+> > +  anyOf:
+> > +    - type: object
+> > +      additionalProperties: false
+> > +      allOf:
+> > +        - $ref: pincfg-node.yaml#
+> > +        - $ref: pinmux-node.yaml#
+> > +
+> > +      description:
+> > +        Pin controller client devices use pin configuration subnodes (children
+> > +        and grandchildren) for desired pin configuration.
+> > +        Client device subnodes use the below standard properties.
+> > +
+> > +      properties:
+> > +        pinmux:
+> > +          description:
+> > +            Values are constructed from GPIO port number, pin number, and
+> > +            alternate function configuration number using the RZT2H_PORT_PINMUX()
+> > +            helper macro from <dt-bindings/pinctrl/renesas,r9a09g077-pinctrl.h>.
+> > +        pins: true
+> > +        gpio-hog: true
+> > +        gpios: true
+> > +        input: true
+> > +        input-enable: true
+> > +        output-enable: true
+> > +        output-high: true
+> > +        output-low: true
+> > +        line-name: true
+> > +
+> > +    - type: object
+> > +      additionalProperties:
+> > +        $ref: "#/additionalProperties/anyOf/0"
 >
-> These overlays enable SDHI0 with appropriate pin control settings, power
-> regulators, and GPIO handling. Both sub-boards are supported using shared
-> overlay files that can be applied to either EVK due to their identical
-> connector layout and interface support.
->
-> To support this, new DT overlay files are added:
-> - `rzv2-evk-cn15-emmc.dtso` for eMMC
-> - `rzv2-evk-cn15-sd.dtso` for microSD
->
-> Additionally, the base DTS files for both EVKs are updated to include a
-> fixed 1.8V regulator (`reg_1p8v`) needed by the eMMC sub-board and
-> potential future use cases such as HDMI output.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v1->v2:
-> - Dropped patch 2/3 from previous series as that has been merged.
-> - Dropped adding alias in base DTS instead added in overlay.
-> - Switched to using single overlay files for both RZ/V2H and RZ/V2N EVKs
->   instead of separate overlays for each EVK.
-> - Used RZG2L_GPIO and RZG2L_PORT_PINMUX to avoid using SoC specific
->   macros.
+> Do you really need both 1 OR 2 levels of nodes? Can't you decide on one
+> way?
 
-Thanks for the update!
-
-> --- a/arch/arm64/boot/dts/renesas/Makefile
-> +++ b/arch/arm64/boot/dts/renesas/Makefile
-> @@ -161,8 +161,16 @@ r9a09g047e57-smarc-cru-csi-ov5645-dtbs := r9a09g047e57-smarc.dtb r9a09g047e57-sm
->  dtb-$(CONFIG_ARCH_R9A09G047) += r9a09g047e57-smarc-cru-csi-ov5645.dtb
->
->  dtb-$(CONFIG_ARCH_R9A09G056) += r9a09g056n48-rzv2n-evk.dtb
-> +dtb-$(CONFIG_ARCH_R9A09G056) += rzv2-evk-cn15-emmc.dtbo
-> +r9a09g056n48-rzv2-evk-cn15-emmc.dts := r9a09g056n48-rzv2n-evk.dtb rzv2-evk-cn15-emmc.dtbo
-
-.dts?
-
-I take it you meant:
-
-    +r9a09g056n48-rzv2n-evk-cn15-emmc-dtbs :=
-r9a09g056n48-rzv2n-evk.dtb rzv2-evk-cn15-emmc.dtbo
-    +dtb-$(CONFIG_ARCH_R9A09G056) += r9a09g056n48-rzv2n-evk-cn15-emmc.dtb
-
-> +dtb-$(CONFIG_ARCH_R9A09G056) += rzv2-evk-cn15-sd.dtbo
-> +r9a09g056n48-rzv2-evk-cn15-sd.dts := r9a09g056n48-rzv2n-evk.dtb rzv2-evk-cn15-sd.dtbo
-
-    +r9a09g056n48-rzv2n-evk-cn15-sd-dtbs := r9a09g056n48-rzv2n-evk.dtb
-rzv2-evk-cn15-sd.dtbo
-    +dtb-$(CONFIG_ARCH_R9A09G056) += r9a09g056n48-rzv2n-evk-cn15-sd.dtb
-
->  dtb-$(CONFIG_ARCH_R9A09G057) += r9a09g057h44-rzv2h-evk.dtb
-> +dtb-$(CONFIG_ARCH_R9A09G057) += rzv2-evk-cn15-emmc.dtbo
-> +r9a09g057h44-rzv2-evk-cn15-emmc.dts := r9a09g057h44-rzv2h-evk.dtb rzv2-evk-cn15-emmc.dtbo
-
-    +r9a09g057h44-rzv2h-evk-cn15-emmc-dtbs :=
-r9a09g057h44-rzv2h-evk.dtb rzv2-evk-cn15-emmc.dtbo
-    +dtb-$(CONFIG_ARCH_R9A09G057) += r9a09g057h44-rzv2h-evk-cn15-emmc.dtb
-
-> +dtb-$(CONFIG_ARCH_R9A09G057) += rzv2-evk-cn15-sd.dtbo
-> +r9a09g057h44-rzv2-evk-cn15-sd.dts := r9a09g057h44-rzv2h-evk.dtb rzv2-evk-cn15-sd.dtbo
-
-    +r9a09g057h44-rzv2h-evk-cn15-sd-dtbs := r9a09g057h44-rzv2h-evk.dtb
-rzv2-evk-cn15-sd.dtbo
-    +dtb-$(CONFIG_ARCH_R9A09G057) += r9a09g057h44-rzv2h-evk-cn15-sd.dtb
-
->  dtb-$(CONFIG_ARCH_R9A09G057) += r9a09g057h48-kakip.dtb
->
->  dtb-$(CONFIG_ARCH_RCAR_GEN3) += draak-ebisu-panel-aa104xd12.dtbo
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.17, with the above fixed.
+Having two possible levels allows us to group pins that need similar
+configuration, which is quite common for e.g. Ethernet and SDHI.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
+
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
