@@ -1,148 +1,202 @@
-Return-Path: <linux-renesas-soc+bounces-19017-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19018-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25E84AF0EC1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Jul 2025 11:03:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 661D2AF0FEE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Jul 2025 11:28:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6E20B1C24875
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Jul 2025 09:03:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9E45F164615
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Jul 2025 09:28:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC73823B616;
-	Wed,  2 Jul 2025 09:03:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0526F244663;
+	Wed,  2 Jul 2025 09:28:06 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA6161C5D62;
-	Wed,  2 Jul 2025 09:03:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B15C423CEF8;
+	Wed,  2 Jul 2025 09:28:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751446999; cv=none; b=WQnqpdy4GKMibBoqhAC93EPFn0M7UNpzjQguxeoc2YwYzpvmANwKzzPluTUq628ZVIFp0Lb/t6vpNs870t4yf8yPzDsMVAdUX9mEYMegHsekNWgUuY4nrFeTN065x185k/1kicGgqgo8fgD4DjF8xVnlw70/9+zPubeF3cw7Noc=
+	t=1751448485; cv=none; b=buDM+ycPQ4FuiR7FkVnLMS4OQRFNT9m216+lfQhzm9TAH8vdBUXkbBimeF47R37qIby8izfppY2h3ENTHI+pQ01rL5aLHbUWha+aylbISODbM7YV7uslGnjeiI9fehX89S9hhf3RYXRu+1g+ZpnW2Qtff2XQFcVisTLQoJALhcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751446999; c=relaxed/simple;
-	bh=WvCSPAdXA7YMAOl08dmb3AIBfa+EJ3tyacOjS7cxvrQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nL5r69JMFNTiF4trykeZdu4FIE4q05W4j0hqCMTzQHqH2oKTAY88mcHnYfgHaIkuAD5NdNfl5S3mZSXZrCc5EoiZgmWxzWwoD53BWWcBIR5yGulq6wdXuyFnFLmsPJlvjGS7U2nj/kKEb/IJ+Q31GDabQRAmS11a5Ypoqy9fdaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-53145c74e15so1925900e0c.0;
-        Wed, 02 Jul 2025 02:03:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751446994; x=1752051794;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pWkqrPH+Peqo0aIdz6HAaPwffu/WSJWGQUNNsg59/84=;
-        b=XGecPL6Z+oTE0KbsCpPiCiuuEW8cEz9yW1hcohj4YOP0lwFG1VGeDRf39Un5uuBQO3
-         zDdScwU4c+kT0DO0BPnbeQ7Yyl/9vynCVfi4HZZHkspkxIpHJc8j3Xt0MSIocyvCB6iH
-         UzWWjpRH6toTzCE8Z3esifQKlrx3DZowErG4YDvhMual+3enkTj5LihfYcP/dJYEQJkL
-         qcozGjNJzZUianajPU1c9F4WALlnwoGs2PN5Qlmuu4txjoXPe1jiVpb+az9VtnOatI2h
-         Zu/AWppN+y+HrdzuNkbmrz86hUgJJL0aYgZmXK9HLmXEaXEtE8+qeGwJAnJjmQwSl1WS
-         7HFg==
-X-Forwarded-Encrypted: i=1; AJvYcCUPWnF82jbtjpqFCPZW81Qgd1lg2OLOS1lBe5a02MOsLIQliQV54D1JeBVP/zA0A+UHGwUXAse36+9z@vger.kernel.org, AJvYcCVf2bMVgsNLMFBmdP3TXBJnRkLEdhFKb4NyJd6DlHKPI4IEe+Gc1pdlRBcHm+Ley6W/Hy/iEZu0u8ZA@vger.kernel.org, AJvYcCW4wfVGFvmXgxRR4i+mcwPo706pDdoJiu+XEISUpkQiuEoAwNx2TpafRReJsBelVHoK/zZ8BC6zWWcDmHzR@vger.kernel.org, AJvYcCWR6iHUXX4GnwIf0VChUu1jBnbQpiPR0vkcRUoSst132HDmXsp7P2qUInYR+/ZzEzgqSTdsaR/2@vger.kernel.org, AJvYcCXxVOEARwUAgnlCLK5n8sltqCK8CxdgbU+e8aSowblPvTLS8z817927FUnnVKxekpf7eUimXFvZ2DgsZs8hsZ5Y5xU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxBQ2fBHmPCAlGauA7x+SZKnqFBz3Ui0ypi3TpzZOBnMZpy3mlM
-	K5SEndVnE26tNENQygj5dRQm7Gyr2ZUBYwLAp0LmLDnG0/EBddCesdJnZiRK3g2x
-X-Gm-Gg: ASbGncsKvYxn5Kr8QbJNx19B9FEwOuz2SwBIbR63nUMenM+aqidlWI4wpLdHbcJ7teV
-	LKb80paDRV95JWZwiGSZL8V95kB9SDEUUfujDERx57iBQgvgdVvyKuyAHVM0IhsCT66VnwSPEX2
-	JEoKQsSDy/dovL9lkcgnV3ClFxYPzwLuHGqKzirImi60yjjJCAqD5JrJcS/tFECQtnx4M7n2D5A
-	J7RmSktAU2G9jfP5mjq81DFPSonaCK0XTeGBiiQYgVFa5l37wHyrwnf58elQY8yQSs7YemdBa/D
-	5mOVvjTnP8cGO8TAUcXWJrMFQrdZwCXfdKRRPDavsbZI804a+D7+2BxHATFBwm0W31agJBskLXZ
-	3FApooyLg85ewh0mRK6nFF5gb
-X-Google-Smtp-Source: AGHT+IGCHzlWZAjVbeSdUuhmcP0DTrGFm7as/qlrZIjC+w1VciHkZP9Xg119GdeyNys0FAwG97jScw==
-X-Received: by 2002:a05:6122:80b2:b0:531:4041:c4c7 with SMTP id 71dfb90a1353d-53458353a95mr1339612e0c.7.1751446993964;
-        Wed, 02 Jul 2025 02:03:13 -0700 (PDT)
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com. [209.85.217.48])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-533090c46b5sm2042205e0c.20.2025.07.02.02.03.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Jul 2025 02:03:13 -0700 (PDT)
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-4e8110ac0f5so1744649137.0;
-        Wed, 02 Jul 2025 02:03:13 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU0ksvN7lKj5idj7MfkhNPD/VnUOZOvatBgvhMgGyASMeH1ubvub5ms7aoU7ihzQTD6Ph47mM/DIDogKhRbou9Mebg=@vger.kernel.org, AJvYcCVT+j2FT7z1WN63LzBeMApsOpYiVAuQFdnW4USDIruNgJd1uvo24T+JytkkzjoYWL+UIzMbgFog68Pq@vger.kernel.org, AJvYcCVa8z/9OGBMQhZAjR34wSmVEzPBNAL9bOKzxD0dfuqRMhsMMIU06nqFlHMzYpIMhIpWVJ9dVFZFgKf6@vger.kernel.org, AJvYcCWQt91Y0PuKsNESdV0rkDaUWHvPTdOJKBK4dWYTfTjOGbf9KikP2P3fcT+HyUfJqMhjHHEp84g9C85OLkek@vger.kernel.org, AJvYcCXK3MeguY+2q6W0GURYo/d9jHy0y4VUPhPhNHPoa7b6bnLX34Vxu51bRQrAXB2/C+0g6vvG/mMf@vger.kernel.org
-X-Received: by 2002:a05:6102:32c4:b0:4e2:a235:2483 with SMTP id
- ada2fe7eead31-4f1612aa178mr748536137.19.1751446993429; Wed, 02 Jul 2025
- 02:03:13 -0700 (PDT)
+	s=arc-20240116; t=1751448485; c=relaxed/simple;
+	bh=998uWJjRFOw5w+jHsc6gCACuy7MJzmnNtJzp2XH3cyo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m7usfD3C36Px9dW+IDmYgIpxPXLLzVor+US3euGSx0ZYjIUEE5mnPC9+BS0LfmP+bRPfkE+vcevUpQIBZcftH54a5DOzgZv4sWBVDBwjOVBCbryA+c6JZzKRQ6bRDTPincDVqqtESDwdbZRmvG5KZm+Z4dF4RrOUa+w3fU7o15I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-CSE-ConnectionGUID: NitnyPPpTae6aSBJwSx/hA==
+X-CSE-MsgGUID: TvqiaY7XT5mjO4hvgffLIw==
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 02 Jul 2025 18:28:01 +0900
+Received: from localhost.localdomain (unknown [10.226.92.89])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 6C56241B60C0;
+	Wed,  2 Jul 2025 18:27:58 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v2] arm64: dts: renesas: r9a09g047e57-smarc: Add gpio keys
+Date: Wed,  2 Jul 2025 10:27:53 +0100
+Message-ID: <20250702092755.70847-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250702005706.1200059-1-john.madieu.xa@bp.renesas.com> <20250702005706.1200059-5-john.madieu.xa@bp.renesas.com>
-In-Reply-To: <20250702005706.1200059-5-john.madieu.xa@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 2 Jul 2025 11:03:00 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWzGLQwmGep9L0A9bzp5mYybA00W=S2cZnGH0tbMJvzEw@mail.gmail.com>
-X-Gm-Features: Ac12FXwiA2_DO3vhH2MiiQxz-3dxHaqMTUJ7xX0QMzU3J14CqHlagpboID9b-mo
-Message-ID: <CAMuHMdWzGLQwmGep9L0A9bzp5mYybA00W=S2cZnGH0tbMJvzEw@mail.gmail.com>
-Subject: Re: [PATCH v4 4/4] arm64: dts: renesas: rzg3e-smarc-som: Enable
- eth{0-1} (GBETH) interfaces
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: magnus.damm@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org, 
-	richardcochran@gmail.com, prabhakar.mahadev-lad.rj@bp.renesas.com, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
-	netdev@vger.kernel.org, biju.das.jz@bp.renesas.com, john.madieu@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi John,
+RZ/G3E SMARC EVK  has 3 user buttons called USER_SW1, USER_SW2 and
+USER_SW3 and SLEEP button with NMI support. Add a DT node in device tree
+to instantiate the gpio-keys driver for these buttons.
 
-On Wed, 2 Jul 2025 at 02:57, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
-> Enable the Gigabit Ethernet Interfaces (GBETH) populated on the RZ/G3E SMARC EVK
->
-> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+The system can enter into STR state by pressing the sleep button and
+wakeup from STR is done by pressing power button. The USER_SW{1,2,3}
+configured as wakeup-source, so it can wakeup the system during s2idle.
 
-> v4:
->  - Update pinmux to add OEN support
->  - Drops Tb and Rb tags initially collected
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+v1->v2:
+ * Added support for sleep button
+ * Dropped the extra spaces after the define keywords for KEY_*_GPIO.
+ * Dropped /delete-node/ keys as KEY_SLEEP will always present.
+ * Moved input.h to r9a09g047e57-smarc.dts
+---
+ .../boot/dts/renesas/r9a09g047e57-smarc.dts   | 37 +++++++++++++++++++
+ .../boot/dts/renesas/renesas-smarc2.dtsi      | 31 ++++++++++++++++
+ 2 files changed, 68 insertions(+)
 
-Thanks for the update!
-
-> --- a/arch/arm64/boot/dts/renesas/rzg3e-smarc-som.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/rzg3e-smarc-som.dtsi
->  &pinctrl {
-> +       eth0_pins: eth0 {
-> +               clk0 {
-
-No need for the 0 ...
-
-> +                       pinmux = <RZG3E_PORT_PINMUX(B, 1, 1)>; /* TXC */
-> +                       output-enable;
-> +               };
-> +
-> +               ctrl0 {
-
-... suffixes...
-
-> +       eth1_pins: eth1 {
-> +               clk1 {
-
-... or the 1...
-
-> +                       pinmux = <RZG3E_PORT_PINMUX(E, 1, 1)>; /* TXC */
-> +                       output-enable;
-> +               };
-> +
-> +               ctrl1 {
-
-... suffixes.
-
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.17 with the above fixed.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts b/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
+index 2454a9743df2..8efc4f0c6517 100644
+--- a/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
++++ b/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
+@@ -8,6 +8,7 @@
+ /dts-v1/;
+ 
+ /* Switch selection settings */
++#define SW_LCD_EN		0
+ #define SW_GPIO8_CAN0_STB	0
+ #define SW_GPIO9_CAN1_STB	0
+ #define SW_LCD_EN		0
+@@ -15,7 +16,16 @@
+ #define SW_SD0_DEV_SEL		0
+ #define SW_SDIO_M2E		0
+ 
++#define PMOD_GPIO4		0
++#define PMOD_GPIO6		0
++#define PMOD_GPIO7		0
++
++#define KEY_1_GPIO		RZG3E_GPIO(3, 1)
++#define KEY_2_GPIO		RZG3E_GPIO(8, 4)
++#define KEY_3_GPIO		RZG3E_GPIO(8, 5)
++
+ #include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/input/input.h>
+ #include <dt-bindings/pinctrl/renesas,r9a09g047-pinctrl.h>
+ #include "r9a09g047e57.dtsi"
+ #include "rzg3e-smarc-som.dtsi"
+@@ -79,6 +89,29 @@ &i2c0 {
+ 	pinctrl-names = "default";
+ };
+ 
++&keys{
++	key-sleep {
++		pinctrl-0 = <&nmi_pins>;
++		pinctrl-names = "default";
++
++		interrupts-extended = <&icu 0 IRQ_TYPE_EDGE_FALLING>;
++		linux,code = <KEY_SLEEP>;
++		label = "SLEEP";
++		debounce-interval = <20>;
++	};
++#if PMOD_GPIO4
++	/delete-node/ key-1;
++#endif
++
++#if SW_LCD_EN || PMOD_GPIO6
++	/delete-node/ key-2;
++#endif
++
++#if SW_LCD_EN || PMOD_GPIO7
++	/delete-node/ key-3;
++#endif
++};
++
+ &pinctrl {
+ 	canfd_pins: canfd {
+ 		can1_pins: can1 {
+@@ -97,6 +130,10 @@ i2c0_pins: i2c0 {
+ 			 <RZG3E_PORT_PINMUX(D, 5, 4)>; /* SDA0 */
+ 	};
+ 
++	nmi_pins: nmi {
++		pinmux = <RZG3E_PORT_PINMUX(S, 0, 0)>; /* NMI */
++	};
++
+ 	scif_pins: scif {
+ 		pins = "SCIF_TXD", "SCIF_RXD";
+ 		renesas,output-impedance = <1>;
+diff --git a/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi b/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi
+index 3cac292f20b3..58561da3007a 100644
+--- a/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi
++++ b/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi
+@@ -23,6 +23,9 @@
+  * SW_GPIO9_CAN1_STB:
+  *	0 - Connect to GPIO9 PMOD (default)
+  *	1 - Connect to CAN1 transceiver STB pin
++ *
++ * GPIO keys are enabled by default. Use PMOD_GPIO macros to disable them
++ * if needed.
+  */
+ 
+ / {
+@@ -53,6 +56,34 @@ can_transceiver1: can-phy1 {
+ 		max-bitrate = <8000000>;
+ 		status = "disabled";
+ 	};
++
++	keys: keys {
++		compatible = "gpio-keys";
++
++		key-1 {
++			interrupts-extended = <&pinctrl KEY_1_GPIO IRQ_TYPE_EDGE_FALLING>;
++			linux,code = <KEY_1>;
++			label = "USER_SW1";
++			wakeup-source;
++			debounce-interval = <20>;
++		};
++
++		key-2 {
++			interrupts-extended = <&pinctrl KEY_2_GPIO IRQ_TYPE_EDGE_FALLING>;
++			linux,code = <KEY_2>;
++			label = "USER_SW2";
++			wakeup-source;
++			debounce-interval = <20>;
++		};
++
++		key-3 {
++			interrupts-extended = <&pinctrl KEY_3_GPIO IRQ_TYPE_EDGE_FALLING>;
++			linux,code = <KEY_3>;
++			label = "USER_SW3";
++			wakeup-source;
++			debounce-interval = <20>;
++		};
++	};
+ };
+ 
+ &canfd {
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.43.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
