@@ -1,268 +1,250 @@
-Return-Path: <linux-renesas-soc+bounces-19087-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19088-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C56E2AF723D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 13:29:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78086AF73E4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 14:24:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0FBB94E0EED
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 11:28:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 923FB1C85329
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 12:23:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD7F12E6D20;
-	Thu,  3 Jul 2025 11:27:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B92FD2E7F1A;
+	Thu,  3 Jul 2025 12:19:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="cxqeRkAm"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eLH/Rf98"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2142F2E54D4
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  3 Jul 2025 11:27:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAB8938384
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  3 Jul 2025 12:19:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751542077; cv=none; b=G6gMciDeIWT9s8AzAPQ7uW46f2Fje4S7D272FsdGn5J+AZvZhkQURPtveh+eieTljfJ7ffoY+aWfOic00RPyugVLuMopzH84Nvsu8fd0b5/FQbGV9SxGvHE/hJNhDlj+UhYzi8zM9SQysFI7nzrKTDeph1pA/lsLULqjduzz87w=
+	t=1751545191; cv=none; b=Wo/NLI7rN5oP/MlHnzBzy88mxaHUwZxnxabJg/FxsB58WTdabNEa/bdE9S84ew6xHaZjzKfg3NoyUc4toLzCybnBLZTOdhJyXXtYwte3LgaRWakdcy3Mx1Ng5P8d2Xyx0mmVEE29dAenvKLtiile7CsdvwwqnY5IeBrkLZiMgQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751542077; c=relaxed/simple;
-	bh=dKp9sNBVKhCMWq2ozbMkBemUSa+iPERmFu+4dZggoQ0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O5DYmvDtZ2zMggSDTK223l7MmTU9Mfvbni8S5zNw7/tIeSSlrqJcGfx0jaQ0NnYZUcuH1IAWVFK1i9sZh55Lc3cCPjXt+oEBWbNRWZ1gdWfH7hlKmEAWEVczUEEvXaoxsLMjXBtMiqcS8HdJaa5wCMGY6Nmh+eCHTBrB6FYfaU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=cxqeRkAm; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ae0dd7ac1f5so1388522566b.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 03 Jul 2025 04:27:53 -0700 (PDT)
+	s=arc-20240116; t=1751545191; c=relaxed/simple;
+	bh=z8FZnR4Rw/qWdYY8qz/fLFF2yrmytUH3WBZHq3bugK8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VH452029TfFKoknqeDqLHcorGm6XUv1t2I1stdT3a52Y+uUlxKcRIiII3n4RCVsA3hvk/2BS/QsVEz34hqXY7UItbgPVBHhFBnjOabRn3trN24zZCdmrCXLEi8Oo4MBSoVBgms7x+RuGPqOZ1vSIaYQEir8RY7E0mcfsOc6DykY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eLH/Rf98; arc=none smtp.client-ip=209.85.219.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e8986a25cbfso1417610276.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 03 Jul 2025 05:19:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1751542072; x=1752146872; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=amy1aSEWJFLjdFKle4TRafGT1dI6FK2dRgoWrJhpEoE=;
-        b=cxqeRkAmo+uhAkoMMQwvBP/akaaA+fW/9V9vZNVm2+J3NsvGJPkfzEQDkhNz6BvmOh
-         3sy7SDwTPiykFPgHxFKqPDV70lgxb9VitxB2zID8UhJEFqbjSr6/beF1A+paHxzJLbV2
-         fCsPFX0X2dXVHFISOIdTo8bHJzzw2i/2PWJU1fYLb+tV1f0mIKR8nnHFEOgX2m69aacR
-         NgtAX6hIBrFtiKatkSlnHgVieJORSNq7h/WbY5fRfJUzCPYMt6OG0G9qmrBkr2OuIoFH
-         BjAsSdZRFHbIo+yxKwu60qLSEiRdqqKoSmqYbWC/MXA7Fwv6q3tItqmJmsLAJS2Nzb1K
-         iL3w==
+        d=linaro.org; s=google; t=1751545189; x=1752149989; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=N2wuby6dihOR3rr2SUBYnQ0Uq7yXMHWKxft/QT/79xE=;
+        b=eLH/Rf98JC/HMuL7KJZBbT6Ya9KGteDjP9Kh4ZPe36Q88AcLivWi60GCowxr/Cg9jv
+         A01pT5MtEtQAV5EzJkZP67t/lNJ58hKDUHG/bgyi/C/ysSjB6HamHtUYS0pkjDs9l4CP
+         eyaAnYETJ0+8ztO1TwB644c+dSA7Os8yO7138nTREOR4e842Oh+JavV4rQlNkcPLTai/
+         uWD90AxCTZPRufjnJnVQqXR5YML7gm0pY8g9svTI+N7UFDd2WDbcpboSW9V3BXLEJqRe
+         zQjqL1J4UuMyv0esy4cn3XLr8cjhtdrhTKEVjm+T4k/zIRafPCKG2CYPEJ7SYF4NpPTi
+         y1vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751542072; x=1752146872;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=amy1aSEWJFLjdFKle4TRafGT1dI6FK2dRgoWrJhpEoE=;
-        b=IF1kaGzAXPqef7axN+itRSUCWVbJo61Gj/PVZ3xY7m/WSv5U9BGLFLnNox6vLN1HgG
-         IZntXIFVSQkFIEEmnFGh1Fa83sltKUC9Oo9KPg09NDue3iXssPeu0vdVSo0o+IyrI8N9
-         xTYRDWRjRHaOCuGZPPsK9HkOGrEv9iiEQfMbI8glMCLFT1h82opHIiSWPpIgKHTY8ZyC
-         d6w26C88OsNkBWa2RJ6AsS8Y5XwqIObuWmGQSA544NZwNPlyAt+XsL33kcd7j0tebQEc
-         oDjD1AujWegJCwkUTEvFpcgp1tBVsljIysHSLR/RZqp9OsBFP6QTT9q7ZBkw5hiPIwdB
-         iP+g==
-X-Forwarded-Encrypted: i=1; AJvYcCX36RrXMgkNprX/L2GwnxvB7wp7ndTQx3DEuz7kdhEexkN5WqVY5tNiAtwkPdLL+/JTnfiHQiiRbgmTMRhwyePPZQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxe8FzzgvKHcTA1Q/Au8b/M2YrqTvpbtZ5wqVSp4JqcBce48wW6
-	PHt4Ifb/M7po4AJVlAt827fEJgWO6BlDKgz6P8T3ShU0xdlwXDHcJI66CujYpt+NAvw=
-X-Gm-Gg: ASbGncv0bNTMWqTQLOq9i4UW1j9XFw6H+6WkEkVXmL8lox2fsYRGvxA63pbzn8Tzdqb
-	LCzmSKyg4SgJGureSLURC/BPXIFcWyD8rMe8bZkOsxA8DeXy3vbGwLePSj3GlxkBupi5l2qZiTi
-	B2qG8EaTOuddUwgagje0WJCTa/0zIyVgkYbD4NFfdXBEYngHhcC6vw7J4f0TZcjWncXlUCwqJl8
-	JMByz57n1jhhfUbPSh0AJm2KweG1MCLSqWCwU0GEEP1m9ZMvZiGE6mwwlmcE9uQnOj0yc4waz6D
-	wI1+rg7A6G4wugf1rol631q3pKUYIS5/GDQlOfUJuCMdHppp6nGywA9B68+3wCobwf/4hIEJJMN
-	qZZMu4mIrUIF/Vrg=
-X-Google-Smtp-Source: AGHT+IGtvsJyDMQsLfUDl9utWzUCxFT2n50ILIV0XhgAq1dND93ylmRMS+yE9TxwtIdCeTyEpsNdFg==
-X-Received: by 2002:a17:907:d644:b0:ae3:cd73:efde with SMTP id a640c23a62f3a-ae3d8b1b1d4mr273821366b.44.1751542072208;
-        Thu, 03 Jul 2025 04:27:52 -0700 (PDT)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.83])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae35365a75fsm1247016966b.67.2025.07.03.04.27.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jul 2025 04:27:51 -0700 (PDT)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: linux@armlinux.org.uk,
-	gregkh@linuxfoundation.org,
-	david.m.ertman@intel.com,
-	ira.weiny@intel.com,
-	leon@kernel.org,
-	rafael@kernel.org,
-	dakr@kernel.org,
-	len.brown@intel.com,
-	pavel@kernel.org,
-	andersson@kernel.org,
-	mturquette@baylibre.com,
-	sboyd@kernel.org,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	wsa+renesas@sang-engineering.com,
-	ulf.hansson@linaro.org,
-	mathieu.poirier@linaro.org,
-	vkoul@kernel.org,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	broonie@kernel.org,
-	robh@kernel.org,
-	jirislaby@kernel.org,
-	saravanak@google.com,
-	jic23@kernel.org,
-	dmitry.torokhov@gmail.com
-Cc: claudiu.beznea@tuxon.dev,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	linux-mmc@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	bhelgaas@google.com,
-	geert@linux-m68k.org,
-	linux-iio@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	fabrizio.castro.jz@renesas.com,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v5 3/3] driver core: platform: Drop dev_pm_domain_detach() call
-Date: Thu,  3 Jul 2025 14:27:08 +0300
-Message-ID: <20250703112708.1621607-4-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250703112708.1621607-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20250703112708.1621607-1-claudiu.beznea.uj@bp.renesas.com>
+        d=1e100.net; s=20230601; t=1751545189; x=1752149989;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=N2wuby6dihOR3rr2SUBYnQ0Uq7yXMHWKxft/QT/79xE=;
+        b=vSglaJcNSh5Mz2Qy73XjuHntPuSisM+JnaTRkj/VMepxrqE+C9IWXNy8zYZotId3kr
+         mnqZiLJgsc2FiKhP4dnnligvcVQZEZnfUfO6FszBqhqIzNxggXtdc4MiTP7D6zEkCjwd
+         tYykd4gSmntWflBdthqroZeQC39oS8aGIfGxqufFTEEFBOgPhHx3zrAektkG6bba1Fge
+         FThfuty2wqWZWOrTUdJdojfukS+3pt2LdMj1EQ8lVFT/3iWupDQjJ1X7G7vDHjoNjkTE
+         WeDKqFlBlfe4DPUo1bhmbe//6aOGa0rNSIjX6r3BaGGaH0VQCJC79pvSon8LzEaL9us8
+         LbeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXg4TLvtcIwyG8M+GvFgwB2dXeMe6UOSgTZZ/SFgwRKcXzxXnE1lPQoVZRJTBjtiw5JzZOOdOGRu5Wo/PnoosuwKw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7fam+vksWKLjLSaXvMWQTJzbsDdK9qaY+GgYc8PSg9O50vowT
+	128FQwrl5uCF1GTERp7hBpGykrVrgjnJEb3f8hG14qLgm/zsjyq8ktoal1nvKmy2s9ibFtUlYAY
+	RCGu/tXyS8vXpnFF3TB1dOmr/2X9GUHLtwSfiJT+6IQ==
+X-Gm-Gg: ASbGncuwjqZohVJUSbs/CB1pBeANmz56/3pYS+AtWIB3wvK68idDSCVy8dRfE0iY86g
+	SK7w8bA27BdG0y6HwgsbzKbEcogvY/zsl8hM2eMm2pQoq7UqdbEhJTttfdxgH24r0vIzadRJ342
+	iy1mXJtfstcjpfrLo98nDAcEs3rD8bfPHMomw/fBqPOLBY
+X-Google-Smtp-Source: AGHT+IEeRTEttwsTQvILUVHrceCqzM9cMbjNTuLR5NzW92fxDyMdJhdnzbpkuw2WPjwuUny5S4J+pKNydZxICX8WeYw=
+X-Received: by 2002:a05:690c:14:b0:70e:2cf0:f66a with SMTP id
+ 00721157ae682-71658fd7204mr50507077b3.6.1751545188852; Thu, 03 Jul 2025
+ 05:19:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250617164914.158091-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250617164914.158091-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Thu, 3 Jul 2025 14:19:12 +0200
+X-Gm-Features: Ac12FXxJYgE2tX-oOlBR7QzPvk6TF-AjaS4HJVIbxSdXpqqJydqW899apydF_zo
+Message-ID: <CAPDyKFqWmqO=Lw9yfLKV+zrwegGe_oCk3h2SWxPaU+_s2XnQjg@mail.gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: mmc: renesas,sdhi: Document RZ/T2H and
+ RZ/N2H support
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+On Tue, 17 Jun 2025 at 18:49, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+>
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Add SDHI bindings for the Renesas RZ/T2H (a.k.a R9A09G077) and RZ/N2H
+> (a.k.a R9A09G087) SoCs. Use `renesas,sdhi-r9a09g057` as a fallback since
+> the SD/MMC block on these SoCs is identical to the one on RZ/V2H(P),
+> allowing reuse of the existing driver without modifications.
+>
+> Update the binding schema to reflect differences: unlike RZ/V2H(P),
+> RZ/T2H and RZ/N2H do not require the `resets` property and use only a
+> two clocks instead of four.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On the Renesas RZ/G3S (and other Renesas SoCs, e.g., RZ/G2{L, LC, UL}),
-clocks are managed through PM domains. These PM domains, registered on
-behalf of the clock controller driver, are configured with
-GENPD_FLAG_PM_CLK. In most of the Renesas drivers used by RZ SoCs, the
-clocks are enabled/disabled using runtime PM APIs. The power domains may
-also have power_on/power_off support implemented. After the device PM
-domain is powered off any CPU accesses to these domains leads to system
-aborts.
+Applied for next, thanks!
 
-During probe, devices are attached to the PM domain controlling their
-clocks and power. Similarly, during removal, devices are detached from the
-PM domain.
+Kind regards
+Uffe
 
-The detachment call stack is as follows:
 
-device_driver_detach() ->
-  device_release_driver_internal() ->
-    __device_release_driver() ->
-      device_remove() ->
-        platform_remove() ->
-          dev_pm_domain_detach()
-
-During driver unbind, after the device is detached from its PM domain,
-the device_unbind_cleanup() function is called, which subsequently invokes
-devres_release_all(). This function handles devres resource cleanup.
-
-If runtime PM is enabled in driver probe via devm_pm_runtime_enable(), the
-cleanup process triggers the action or reset function for disabling runtime
-PM. This function is pm_runtime_disable_action(), which leads to the
-following call stack of interest when called:
-
-pm_runtime_disable_action() ->
-  pm_runtime_dont_use_autosuspend() ->
-    __pm_runtime_use_autosuspend() ->
-      update_autosuspend() ->
-        rpm_idle()
-
-The rpm_idle() function attempts to resume the device at runtime. However,
-at the point it is called, the device is no longer part of a PM domain
-(which manages clocks and power states). If the driver implements its own
-runtime PM APIs for specific functionalities - such as the rzg2l_adc
-driver - while also relying on the power domain subsystem for power
-management, rpm_idle() will invoke the driver's runtime PM API. However,
-since the device is no longer part of a PM domain at this point, the PM
-domain's runtime PM APIs will not be called. This leads to system aborts on
-Renesas SoCs.
-
-Another identified case is when a subsystem performs various cleanups
-using device_unbind_cleanup(), calling driver-specific APIs in the process.
-A known example is the thermal subsystem, which may call driver-specific
-APIs to disable the thermal device. The relevant call stack in this case
-is:
-
-device_driver_detach() ->
-  device_release_driver_internal() ->
-    device_unbind_cleanup() ->
-      devres_release_all() ->
-        devm_thermal_of_zone_release() ->
-          thermal_zone_device_disable() ->
-            thermal_zone_device_set_mode() ->
-              struct thermal_zone_device_ops::change_mode()
-
-At the moment the driver-specific change_mode() API is called, the device
-is no longer part of its PM domain. Accessing its registers without proper
-power management leads to system aborts.
-
-Drop the call to dev_pm_domain_detach() from the platform bus remove
-function and rely on the newly introduced call in device_unbind_cleanup().
-This ensures the same effect, but the call now occurs after all
-driver-specific devres resources have been freed.
-
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
-
-Changes in v5:
-- dropped tab in the call traces from patch description
-- used PD_FLAG_ATTACH_POWER_ON, PD_FLAG_DETACH_POWER_OFF
-
-Changes in v4:
-- dropped devm_pm_domain_attach() approach
-- adjusted patch description to reflect this
-
-Changes in v3:
-- adjusted the call to devm_pm_domain_attach() as it now gets
-  2 parameters
-
-Changes in v2:
-- dropped the devres group open/close approach and use
-  devm_pm_domain_attach()
-- adjusted patch description to reflect the new approach
-
- drivers/base/platform.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-index df1ec34fdf56..09450349cf32 100644
---- a/drivers/base/platform.c
-+++ b/drivers/base/platform.c
-@@ -1396,15 +1396,13 @@ static int platform_probe(struct device *_dev)
- 	if (ret < 0)
- 		return ret;
- 
--	ret = dev_pm_domain_attach(_dev, PD_FLAG_ATTACH_POWER_ON);
-+	ret = dev_pm_domain_attach(_dev, PD_FLAG_ATTACH_POWER_ON |
-+					 PD_FLAG_DETACH_POWER_OFF);
- 	if (ret)
- 		goto out;
- 
--	if (drv->probe) {
-+	if (drv->probe)
- 		ret = drv->probe(dev);
--		if (ret)
--			dev_pm_domain_detach(_dev, true);
--	}
- 
- out:
- 	if (drv->prevent_deferred_probe && ret == -EPROBE_DEFER) {
-@@ -1422,7 +1420,6 @@ static void platform_remove(struct device *_dev)
- 
- 	if (drv->remove)
- 		drv->remove(dev);
--	dev_pm_domain_detach(_dev, true);
- }
- 
- static void platform_shutdown(struct device *_dev)
--- 
-2.43.0
-
+> ---
+> v1->v2:
+> - Added the high speed clock to the clocks list.
+> ---
+>  .../devicetree/bindings/mmc/renesas,sdhi.yaml | 85 ++++++++++++-------
+>  1 file changed, 53 insertions(+), 32 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> index 7563623876fc..ba15ccbda61a 100644
+> --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> @@ -72,6 +72,8 @@ properties:
+>            - enum:
+>                - renesas,sdhi-r9a09g047 # RZ/G3E
+>                - renesas,sdhi-r9a09g056 # RZ/V2N
+> +              - renesas,sdhi-r9a09g077 # RZ/T2H
+> +              - renesas,sdhi-r9a09g087 # RZ/N2H
+>            - const: renesas,sdhi-r9a09g057 # RZ/V2H(P)
+>
+>    reg:
+> @@ -129,59 +131,78 @@ allOf:
+>          compatible:
+>            contains:
+>              enum:
+> -              - renesas,sdhi-r9a09g057
+> -              - renesas,rzg2l-sdhi
+> +              - renesas,sdhi-r9a09g077
+> +              - renesas,sdhi-r9a09g087
+>      then:
+>        properties:
+> +        resets: false
+>          clocks:
+>            items:
+> -            - description: IMCLK, SDHI channel main clock1.
+> -            - description: CLK_HS, SDHI channel High speed clock which operates
+> -                           4 times that of SDHI channel main clock1.
+> -            - description: IMCLK2, SDHI channel main clock2. When this clock is
+> -                           turned off, external SD card detection cannot be
+> -                           detected.
+> -            - description: ACLK, SDHI channel bus clock.
+> +            - description: ACLK, IMCLK, SDHI channel bus and main clocks.
+> +            - description: CLK_HS, SDHI channel High speed clock.
+>          clock-names:
+>            items:
+> -            - const: core
+> -            - const: clkh
+> -            - const: cd
+>              - const: aclk
+> -      required:
+> -        - clock-names
+> -        - resets
+> +            - const: clkh
+>      else:
+>        if:
+>          properties:
+>            compatible:
+>              contains:
+>                enum:
+> -                - renesas,rcar-gen2-sdhi
+> -                - renesas,rcar-gen3-sdhi
+> -                - renesas,rcar-gen4-sdhi
+> +                - renesas,sdhi-r9a09g057
+> +                - renesas,rzg2l-sdhi
+>        then:
+>          properties:
+>            clocks:
+> -            minItems: 1
+> -            maxItems: 3
+> -          clock-names:
+> -            minItems: 1
+> -            uniqueItems: true
+>              items:
+> -              - const: core
+> -              - enum: [ clkh, cd ]
+> -              - const: cd
+> -      else:
+> -        properties:
+> -          clocks:
+> -            minItems: 1
+> -            maxItems: 2
+> +              - description: IMCLK, SDHI channel main clock1.
+> +              - description: CLK_HS, SDHI channel High speed clock which operates
+> +                             4 times that of SDHI channel main clock1.
+> +              - description: IMCLK2, SDHI channel main clock2. When this clock is
+> +                             turned off, external SD card detection cannot be
+> +                             detected.
+> +              - description: ACLK, SDHI channel bus clock.
+>            clock-names:
+> -            minItems: 1
+>              items:
+>                - const: core
+> +              - const: clkh
+>                - const: cd
+> +              - const: aclk
+> +        required:
+> +          - clock-names
+> +          - resets
+> +      else:
+> +        if:
+> +          properties:
+> +            compatible:
+> +              contains:
+> +                enum:
+> +                  - renesas,rcar-gen2-sdhi
+> +                  - renesas,rcar-gen3-sdhi
+> +                  - renesas,rcar-gen4-sdhi
+> +        then:
+> +          properties:
+> +            clocks:
+> +              minItems: 1
+> +              maxItems: 3
+> +            clock-names:
+> +              minItems: 1
+> +              uniqueItems: true
+> +              items:
+> +                - const: core
+> +                - enum: [ clkh, cd ]
+> +                - const: cd
+> +        else:
+> +          properties:
+> +            clocks:
+> +              minItems: 1
+> +              maxItems: 2
+> +            clock-names:
+> +              minItems: 1
+> +              items:
+> +                - const: core
+> +                - const: cd
+>
+>    - if:
+>        properties:
+> --
+> 2.49.0
+>
 
