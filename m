@@ -1,232 +1,190 @@
-Return-Path: <linux-renesas-soc+bounces-19123-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19124-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10E1DAF81D0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 22:15:19 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2018FAF8224
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 22:53:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C219A54591E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 20:14:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 29274160641
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 20:53:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCABC19CC3D;
-	Thu,  3 Jul 2025 20:15:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1A342BCF7D;
+	Thu,  3 Jul 2025 20:52:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="TQZtEj29"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="lkJWMUWJ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="EcWmYffi"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12olkn2029.outbound.protection.outlook.com [40.92.21.29])
+Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2AE9258CC0;
-	Thu,  3 Jul 2025 20:15:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.21.29
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751573715; cv=fail; b=co8mAsctFm6e+O5LUWTn573D52WcMQ9a6EimnmhxZzQM65XM4K9wABBqXOQRChMqvlID15h3fYzni1LNPHuKXZ4BX37fRvkk3rZQsQ35Dup5Cu2Jpzm1wagJdzDaVS1e6BPTZsaqiBv/9jrmqe3CTi4asSmJTCq2M00pV/Z1zeE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751573715; c=relaxed/simple;
-	bh=GpPa8PttmV9QeZrLpwZFMMDGIup/hbiIFaQN3FfVTKU=;
-	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Ad+AFw2Ma/AeSa2+Tx2+Z8V8zDy3xCHCmvHMtKbx+boP3oYTD5kCYyXZPg15wuhknU+6KiTOXseeuk1A/VkBd1zz8I5qLdbj+wlr6vxX7AQjNuKY7AHi3WnIdxWE91O95fMGpia2NHIxgLA0PeqQSFO9Cpi42g+t36lDkw9NPr8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=TQZtEj29; arc=fail smtp.client-ip=40.92.21.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FYMoFhO0vVRw0bFh7EGYJ06odbrl6WISBSfRTFXuD17cDPzwjBjvEu8PvJhp0YtkBzCn4UxWD+V4xQrRlEWdTuvvnuR7Oap3Be7HLSLH+7TGZNVGQye4HpkRZkemy3F6vk+DqHWrjoofcIL5InSsCy0TxrvXxzB3uv2ynpcSeej+uNBbuDKvGKrgf2pHGcFKJqxIOjyFtz0YV0yo4VqYtsRI8ZxB0jRncoOOZeZDg2VEpy+2rECfwxFWmQjVbH8n52s982DuvYz5S2bDR0LToPAegiI5Yw6IaRE5oz7aYpTxlImhZ8NdtrBei9STMCLFG2wmdcgeRCo9wkxR10kLWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P48sLGsD6eEqr2ySKyw4dHg5J6/Btwi/MdCmP24TWBM=;
- b=WiCXQ/k70smFgrywiveXPi0LEp2PDc6GlMpc4TCHz8dRRePYOq60N3PFutU+gct/0sI/pTGNJHHW5kG9wYHsfz+5yhlMAzQxZbjSosMtnE2kMdg6GIKA07D6vw8m/wwAktfNChJY5M3MJ5PyWXTE1F0otfu3C4IZ+EiYDloD0GSzEzuLEKyiWO84/1a1K+uzTdrlld3Yf3Yx4c/qz5+vCJnbarMJ6Fff495ArwpMQCyouBjUCjM2kl7mDIILuwMnr5jTksIfsvXKGhCAe7C8RiQT2BGgv7SuaS4WHtEKca7qvhljMS/1v1hxOQkpsLW6n8URAVEWgmxK01vRvWbXfg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P48sLGsD6eEqr2ySKyw4dHg5J6/Btwi/MdCmP24TWBM=;
- b=TQZtEj29JguBy2cDgZuUykZx8g0aG631qZuzh76Qbto6J4iNn89POAsluPLO8B2muMPUpGydWJiYOy40ReaVebukDfk0kDZTWIohmpWoF7bOz6ciSQQf9FH7bj13Zd2DI5lE1PmTEadCua2qUxDXJwNXM3Fb4uzJXgijvu0dmRt8fVNayVGOTWmYB4wlyzOqF6hgSvjZatYOesW3zJm1xWEj04WuK/jQwmd+B64hYBE6UBWASI4rn5NgFYIliB3FFQp8OTHnoQZqjbIzDeq1ZTMO3qg5vyZ6ZtOkEh940eA8XKHmsi2Ixrolc0NyVUeAl0o/VBGFLIxPGS/HJs3AOg==
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
- by DS7PR02MB9551.namprd02.prod.outlook.com (2603:10b6:8:e3::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.22; Thu, 3 Jul
- 2025 20:15:08 +0000
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::cedd:1e64:8f61:b9df]) by SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::cedd:1e64:8f61:b9df%4]) with mapi id 15.20.8901.018; Thu, 3 Jul 2025
- 20:15:08 +0000
-From: Michael Kelley <mhklinux@outlook.com>
-To: Thomas Gleixner <tglx@linutronix.de>, Nam Cao <namcao@linutronix.de>, Marc
- Zyngier <maz@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	=?iso-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kwilczynski@kernel.org>, Manivannan
- Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, Bjorn Helgaas
-	<bhelgaas@google.com>, "linux-pci@vger.kernel.org"
-	<linux-pci@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, Karthikeyan Mitran
-	<m.karthikeyan@mobiveil.co.in>, Hou Zhiqiang <Zhiqiang.Hou@nxp.com>, Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>, =?iso-8859-2?Q?Pali_Roh=E1r?=
-	<pali@kernel.org>, "K . Y . Srinivasan" <kys@microsoft.com>, Haiyang Zhang
-	<haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui
-	<decui@microsoft.com>, Joyce Ooi <joyce.ooi@intel.com>, Jim Quinlan
-	<jim2101024@gmail.com>, Nicolas Saenz Julienne <nsaenz@kernel.org>, Florian
- Fainelli <florian.fainelli@broadcom.com>, Broadcom internal kernel review
- list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>, Ryder Lee <ryder.lee@mediatek.com>,
-	Jianjun Wang <jianjun.wang@mediatek.com>, Marek Vasut
-	<marek.vasut+renesas@gmail.com>, Yoshihiro Shimoda
-	<yoshihiro.shimoda.uh@renesas.com>, Michal Simek <michal.simek@amd.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>, Nirmal Patel
-	<nirmal.patel@linux.intel.com>, Jonathan Derrick
-	<jonathan.derrick@linux.dev>, Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-hyperv@vger.kernel.org"
-	<linux-hyperv@vger.kernel.org>, "linux-rpi-kernel@lists.infradead.org"
-	<linux-rpi-kernel@lists.infradead.org>, "linux-mediatek@lists.infradead.org"
-	<linux-mediatek@lists.infradead.org>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH 14/16] PCI: hv: Switch to msi_create_parent_irq_domain()
-Thread-Topic: [PATCH 14/16] PCI: hv: Switch to msi_create_parent_irq_domain()
-Thread-Index: AQHb5qqGWI9T0Ene10yNxUr1s0p/CbQgsvtAgAAprgCAAAJH0A==
-Date: Thu, 3 Jul 2025 20:15:07 +0000
-Message-ID:
- <SN6PR02MB41576745C28D8F49081B8E77D443A@SN6PR02MB4157.namprd02.prod.outlook.com>
-References: <cover.1750858083.git.namcao@linutronix.de>
- <024f0122314198fe0a42fef01af53e8953a687ec.1750858083.git.namcao@linutronix.de>
- <SN6PR02MB4157A6F9B2ABD3C69CE5B521D443A@SN6PR02MB4157.namprd02.prod.outlook.com>
- <87cyaht595.ffs@tglx>
-In-Reply-To: <87cyaht595.ffs@tglx>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|DS7PR02MB9551:EE_
-x-ms-office365-filtering-correlation-id: 1684491c-b5f4-41b7-cbe5-08ddba6e4e58
-x-microsoft-antispam:
- BCL:0;ARA:14566002|8062599006|8060799009|15080799009|19110799006|461199028|440099028|4302099013|3412199025|40105399003|12091999003|10035399007|102099032|1602099012;
-x-microsoft-antispam-message-info:
- =?iso-8859-2?Q?FBiRYiTlHwCkxk22fqMXcrUtHw3Z7bNt1J5qq6D6AsKIKS8VKevna+ixx8?=
- =?iso-8859-2?Q?RamadjufESQYNPOY+S5kJsGoDgUdy5CEoOh43awxX6tEmm1xz9k2ZZyuT+?=
- =?iso-8859-2?Q?p2yK3TRD/t02wQtpTu1x5Ffc/8PEbr4KmkiBLlHC8npslx3+kqNeB4dyAs?=
- =?iso-8859-2?Q?5ogwQ2ythKeakZfOLiYbQZOSurUrbFhCR0q1Bupy59vY7bP0GBjRVtOU6U?=
- =?iso-8859-2?Q?hF96SN9xE2pGRoPAPDoZsiMqU9Ed5jV4l1b5WbdWEfpnsQlb4tkqOshIxv?=
- =?iso-8859-2?Q?P15dmv/9/HJP/GyNE5Y8wXZB5D98KCjdOvNb+leJxnIt/yv3mL5U6THH9W?=
- =?iso-8859-2?Q?4fME7aRyJpJj9oRb080x3H02YT/QVoA12NX/6EseYwj25azvdA8mtFYnZ7?=
- =?iso-8859-2?Q?92kHFxR65KUm+//O6vEl7JzJEZMzKk6GQolv11cArwsESAbBsWDDMaROuG?=
- =?iso-8859-2?Q?gGiZinpMcr1cHCxPKHFRu4D5oOB4sjYOC/+MqLmYSIeyfaCXvnOdBbq4FD?=
- =?iso-8859-2?Q?eUeFFRmnukDuIFoChs6EZSCMk4m99kkqGg6UA6eWMJUy/65ENpHFAXLPcY?=
- =?iso-8859-2?Q?BmWFbf6szKDj1yPaPT0+xj6M/BAbI5Ogk9v+koIgoyijg7YclQgOuRoNP2?=
- =?iso-8859-2?Q?9NBSZJwyEPYexDiPmb+dKnMitaNEwcDtHVrs4g/Eqc31QPKO5UisBnTkXG?=
- =?iso-8859-2?Q?c0AWEieDUBFFQ3aB3S0NTl+c9vFmAaaifK8VsV0BHLmvW6f3d8j+piHBDo?=
- =?iso-8859-2?Q?ogquqkQrfXI/YqtwA/YNERLmkf6EXpR5qkz3tYnfHyAXO+iQma0jZZPooB?=
- =?iso-8859-2?Q?p59KlMaWCDL1Z7uUKMrJ1V5kK524Y3ZNXDk/we3uNJoIkQ2ot3ls3TopQk?=
- =?iso-8859-2?Q?Ko3GiPCNyqrHHHIzgMPwk8k7jPvvV8jHZegpQCwQdIVIwiAYa1N4lfq6NB?=
- =?iso-8859-2?Q?e9nt3u1Bufntx7qVKrNSv+Lyo7Fhjh1jHXLL40lTfgIhX7wIz23mUp901a?=
- =?iso-8859-2?Q?m57gWWs72xJM+36Z0amKO4wNWARmTm24VRuIPqHitvozvqwbiesp0gmESa?=
- =?iso-8859-2?Q?ILayXA+F9ed4gPSFREPLg2p5KdZqmQTB8HX4b+P8JJ9CdTu5Mx7qGXm7fT?=
- =?iso-8859-2?Q?30gd31fk60brQsT2184bM/sLy8BhX1NSWPZBV3lrAihel9GvkOUN3r1Zlv?=
- =?iso-8859-2?Q?txjKFWHmDNBhhZGan9R/l+1QUN5BCnIBFDs8HBv+TIdXuo+e+U8Kpmjh4L?=
- =?iso-8859-2?Q?iPhDD23mWIhKPnwOHOXpF4yA2hvvDqMYy9Mya+bgQjxIISsFIVuUlrp/uv?=
- =?iso-8859-2?Q?Y2/5O9kePUg/kSeeNQ99hqeS2g=3D=3D?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-2?Q?aV30hbEUONKmfQvslOd8ynEsAtLrcC7sm86sq6O7k5UcOlhs3jbHkzk7Ws?=
- =?iso-8859-2?Q?WQZaUBSRiSdaav+rnBBApx+Lunq9+hEFuDnArFIsQ6l2FP27Ioov/akdLe?=
- =?iso-8859-2?Q?W9hiczfaZ/gX5+JesXjmxEXz8+vkmDNsKNvkF3+V9HuZI5yA3jv3mcxPvu?=
- =?iso-8859-2?Q?Z67rGczY5lBpRsv8YrvyQDAGW1XJKQMRNxPsDf8bnNhJbIDOrm3B2HkFK3?=
- =?iso-8859-2?Q?/m/qwIr/YmbeAGNuPYgjz20lm0/Ci62JkQnYm0i0WdrCn3pIc7fiqXzFjd?=
- =?iso-8859-2?Q?5mQoAL6g5Ob4tTPhwdVSthoTB8ml7Hsm5ePonp2h9OQaNQW7tqsEj+1J8Z?=
- =?iso-8859-2?Q?pY904gXKVrrKQh1g6jBgUxxhpzKxuBBlON54M0OXnGeCXXY+OZ+3/JpUDP?=
- =?iso-8859-2?Q?METHmtTArbgCrok7hV0adq+IFeCfbNpq6d45Twg3uOy/9JeZsFkuPoOxKU?=
- =?iso-8859-2?Q?bLS0j6UbBIUsqBpsoMcnB9ehuzjf5ghH4W5CRfgWqK7Oy4GItIxH5E9lAO?=
- =?iso-8859-2?Q?3f4AwsgkiJurHCqEZTsU+4rFWirTr0V+Fl+3OldO6JvFltLOJKMt9SN2oA?=
- =?iso-8859-2?Q?rGI6fPbs7z4y1g5MgZ2wkOpNikGtdVBUyHPyPjHLYo3dqDJ1yxybN5/WoB?=
- =?iso-8859-2?Q?L290mB7UrWVBjZ2T+449XCNkg34zmZgeBaTl11Ji+4FC9iQ/5MTU5YZTQJ?=
- =?iso-8859-2?Q?EwhRrpoy/UBgh1Oz3fhUfPNoi8VqXH83qCLse9aRXAOnCMLDqqMeK26Ga6?=
- =?iso-8859-2?Q?sdxfCoBjMHc8dl7YcdPrE2NuSuhMJ4lXrkwR3g/aYYOzUEimpgAhC5ZSyh?=
- =?iso-8859-2?Q?ns04Hn3/hxE1Q2HLSa8NlMIh14RZVkezOumVaMwW14pxwoJ64Kis3vxWB+?=
- =?iso-8859-2?Q?3KigopfFw7T1kG+mUvsajXyWH4DTPWLxlpVY9w8uY+fUQof/B8chrk822O?=
- =?iso-8859-2?Q?AvC+vt6Fr9v2etDs4uRn53uQXfqTN6m4YRXXM9MrLrf/YtmJsYy4PM2mb8?=
- =?iso-8859-2?Q?7pnnXWpWxZoDCVdBb30VBsDBGCGACjteFimPdu2qMDLLQVLESlSbMWCkiS?=
- =?iso-8859-2?Q?b8tjLo88c1w+2u9j04cKRoa/lvb2puqC+XqACnZVZAh35k5luvhc5BPf2l?=
- =?iso-8859-2?Q?uaOMuQXNGSB4Zipr874q4fs8y/95aAFejyHICoOdKtUTjeEoYg3b7c3aBe?=
- =?iso-8859-2?Q?/VrLstCIIftLfh9JvDfAg+M9eyLEb8JskUve3nwFVFvLa9NRmCoWATUNQE?=
- =?iso-8859-2?Q?y6po1jxqK5eIbJKNX2gHAJ2xa3rYKQYNCR0k+9p2c=3D?=
-Content-Type: text/plain; charset="iso-8859-2"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46641CDFCE;
+	Thu,  3 Jul 2025 20:52:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751575977; cv=none; b=M6DOkX7KGnShrx1l6xL2RSZlXf0AgT2jWnfn4lgGTAMOfqw6UlxdOYHKlfeRrAvlSQBN/5PDhdedw5nXKtxOl3FAlkr7DpoOA714klzXWPaXNH8RoEji6/peu8srUepKuQKDZKRhDIDq0oqabRKPYCO7nrl/bLm513lGaDRWAPQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751575977; c=relaxed/simple;
+	bh=o3bFz0kdD0THHZiXWbF2M47HHiC80i6Q2yfBBjsgRS8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=TxSsA7SUTRQRjf7OemccLgv0qT8+f6DHouBas+9kV/sSmDFEGc8JXRBVBZyDEJU8KagJm48VcQfsgOor8XrCfpDmfqiQiPTlHxrGhiGZ0DrDVZ1+YNrbV/Pqz4ePEmKasue87rD+hSUFNAqsGk64KGCj2y5dTcSuWRLnJTHfb7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=lkJWMUWJ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=EcWmYffi; arc=none smtp.client-ip=103.168.172.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
+	by mailfout.phl.internal (Postfix) with ESMTP id B343AEC0F44;
+	Thu,  3 Jul 2025 16:52:53 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Thu, 03 Jul 2025 16:52:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm1; t=1751575973; x=1751662373; bh=Cb
+	O88HqhCEj5JIou4AJDqQqC/4wBE46Wunks0ZO3g/g=; b=lkJWMUWJ02Tv0fXZz0
+	bWMF6MJDQnHFPS7aj4xfjda1JJAnbY7vLrn/AZAXkyDjPlXQa/t1Uq2S/eoPYHdW
+	/cR30qQT08kjF6BoXPBRGz8gw8jiLM3W8JTPbluPfDlrRS90DZ+Uov9jRaYewaLg
+	YQO4QXDz3qJSlFdVqdu7vkdE6hpg2ixshhh/WK52c1efcyNTq8UzhHLwVEI7cWsz
+	KNnKhAHqq/ILwuiAFwJBRP49Ndh7vIpsn6CYnfwiaXyCXGqt03EZEy7gnIYtJ2W1
+	JmM3F/2sz+wfcgdS4FooQOWCqLnjk690Oi2llkq4t6NUfr64mgaAjrPEuHOrEYWw
+	UmsA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1751575973; x=1751662373; bh=CbO88HqhCEj5JIou4AJDqQqC/4wB
+	E46Wunks0ZO3g/g=; b=EcWmYffiAXVAKhOBdtvEY+oGhVlmXTuWRv+ejK5h8iOB
+	1J+X98zWT+/erekleKDp8mDS7JxaV72GFVCp95C7ZLmIaMZgFXLZjVZxc1syKMNc
+	8QLnXkAVfMA/E7rbQk4v3vxFxBDvMxuZ1jZnXutUt/OuX6Br0JucyE2uxSfXTQ5z
+	qVbzvAQAn3zCF1UeKVSuGMWsiYej2rdKldulIE8497D1jgffGz4Aygf9rMrHRZrr
+	71AWeeam+1LUdpvT0ITCFdjr1euyu74QYtXr6rpF6erEhyDXCtLcNc9bJoTdQdTu
+	Tkgyq+jvo3egQYt3b+4jMBYXuiVKXlmRzJsLcCa8jg==
+X-ME-Sender: <xms:o-1maNbzi5Bh91Pi2aAhQNc1h_H9T2sTDUuHFYQlwFbE0WBK-kiGTw>
+    <xme:o-1maEYy5-0szOgyMcgGSu_7UcQOWeSho7rXLqxiW7Hs-JSLVIJClyUk8Hli67KyY
+    m9_ffddvvZ_HJBO-sA>
+X-ME-Received: <xmr:o-1maP-jgwamfRPk24CQ7bSx7QaO5en_rth6ugsmsXYnDp8gW1n7e2LY1YHxKSYT1H2DeZPLbcoHdg4WiOnoJQ_GVQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddvuddvlecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomheppfhikhhlrghsucfu
+    npguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghsse
+    hrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepheduleetteekgffffedu
+    feeuvdejiedvkefhveeifeegffehledtvdevhfefteegnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhgu
+    sehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepjedpmhhouggvpehsmhhtph
+    houhhtpdhrtghpthhtoheplhgrrhhssehmvghtrghfohhordguvgdprhgtphhtthhopehm
+    tghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehhvhgvrhhkuhhilhesgi
+    hsgegrlhhlrdhnlhdprhgtphhtthhopehlrghurhgvnhhtrdhpihhntghhrghrthesihgu
+    vggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvh
+    hgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghs
+    qdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhhikhhlrghsrd
+    hsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
+X-ME-Proxy: <xmx:o-1maLpZW6GksTP_-SSXTuwtZ2i9OiaBjgEg9QlGthWoeYpVPaNp3Q>
+    <xmx:o-1maIoUPgb6KhVlgUXEx4Yvf_46Q81F-Sgn-xCNOAefXOGs_PM8Dg>
+    <xmx:o-1maBRXAYuDq1pX_O1d9ZnfD7pvItG8yvY6rcvd987v0642sX3BEA>
+    <xmx:o-1maAqd23Qqca7_b_SKHaXt9FiGpGndA_1sSyMYV8PIuiQmHNez-w>
+    <xmx:pe1maBfW04xLE0lYe6XJj6sKQaiG7ITmIqnOfWxsMGnPEJAYkrWnmyF->
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 3 Jul 2025 16:52:51 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Lars-Peter Clausen <lars@metafoo.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 00/11] media: adv7180: Improve the control over decoder power
+Date: Thu,  3 Jul 2025 22:52:12 +0200
+Message-ID: <20250703205223.2810806-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1684491c-b5f4-41b7-cbe5-08ddba6e4e58
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jul 2025 20:15:07.9765
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR02MB9551
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Thomas Gleixner <tglx@linutronix.de> Sent: Thursday, July 3, 2025 1:0=
-0 PM
->=20
-> On Thu, Jul 03 2025 at 17:41, Michael Kelley wrote:
-> > From: Nam Cao <namcao@linutronix.de> Sent: Thursday, June 26, 2025 7:48=
- AM
-> >>
-> >> Move away from the legacy MSI domain setup, switch to use
-> >> msi_create_parent_irq_domain().
-> >
-> > From a build standpoint, this patch does not apply cleanly to
-> > linux-next20250630. See also an issue below where a needed irq
-> > function isn't exported.
->=20
-> Does it conflict against the PCI tree?
+Hello,
 
-There's no conflict in the "next" or "for-linus" tags in
-https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/.
+This series started as an effort to fix issues with querystd. To do that 
+it turned out the whole drivers design around how it controls the power 
+to the video decoder block inside the chip had to be reworked. As a 
+bonus this works removes the now deprecated .s_power callback from 
+adv7180.
 
-The conflict is with Patch 2 of this series:
+The adv7180 drivers comes from a time before media controller and all 
+operation callbacks are, more or less, designed around the concept that 
+a video device is the only user-space facing API. In that world a vdev 
+would attached the subdevice, call .s_power and then perform format 
+configuration using the other operation callbacks and then start 
+streaming with .s_stream. Needles to say this mode of operation don't 
+work well with media controller where the subdevices itself have a 
+user-space API exposed thru a subdev device.
 
-https://lore.kernel.org/linux-hyperv/1749650984-9193-1-git-send-email-shrad=
-hagupta@linux.microsoft.com/
+The initial problem I tried to solve (querystd) was that it stopped 
+functioning as expected after the subdev had been used to stream once 
+(.s_power(1), .s_power(0)). As it turns out different variants of the 
+adv7180 device have different reset beaver for if its video decoder 
+block is left running or powered off. On my device it was left running 
+so querystd functioned the first time, but not after the video decoder 
+had been switched off once by .s_power(0).
 
-which is in netdev/net-next.
+I first tried to fix this by introducing proper PM handling in the 
+driver to be able to remove the .s_power callback. I quickly learnt the 
+power on/off logic happening in the driver had noting to do with 
+controlling power to the chip itself, but to control if the chips video 
+decoder block was turned off.
 
-Michael
+When this block is powered on the device process video data, if there is 
+a video source else it free runs. However when the block is turned off 
+the device can still be configured, in fact some configuration requires
+it to be off.
 
->=20
-> > At runtime, I've done basic smoke testing on an x86 VM in the Azure
-> > cloud that has a Mellanox NIC VF and two NVMe devices as PCI devices.
-> > So far everything looks good. But I'm still doing additional testing, a=
-nd
-> > I want to also test on an ARM64 VM. Please give me another day or two
-> > to be completely satisfied.
->=20
-> Sure.
-> >> +static void hv_pcie_domain_free(struct irq_domain *d, unsigned int vi=
-rq, unsigned int nr_irqs)
-> >> +{
-> >> +	struct msi_domain_info *info =3D d->host_data;
-> >> +
-> >> +	for (int i =3D 0; i < nr_irqs; i++)
-> >> +		hv_msi_free(d, info, virq + i);
-> >> +
-> >> +	irq_domain_free_irqs_top(d, virq, nr_irqs);
-> >
-> > This code can be built as a module, so irq_domain_free_irqs_top() needs=
- to be
-> > exported, which it currently is not.
->=20
-> Nam, can you please create a seperate patch, which exports this and take
-> care of the conflict?
->=20
-> Thanks,
->=20
->         tglx
+For this reason I dropped the effort to add proper PM handling and 
+treated the decoder power as a stream on/off switch. I still think 
+proper PM handling would be beneficial for this driver but to not 
+explode this already large series I left that for another time. Solving 
+the issue around .s_power will make that work easier as well as other 
+task such as converting to the v4l2_subdev active state API.
+
+Patch 1/11 just moves code around to make the consecutive changes easier 
+to read. Patch 2/11 fix a locking issues when suspending the device.  
+Patch 3/11 and 4/11 improves the locking design to prepare to improve 
+the driver.
+
+Patch 5/11 make sure the device controls are always programmed after the 
+device have been reset, fixing a possible issue when the device where 
+resumed from system sleep.
+
+Patches 6/11, 7/11 and 8/11 is the real change where the .s_power 
+callback is reworked to fit the design of .s_stream instead.
+
+And finally patch 9/11, 10/11 and 11/11 removes programming of the 
+device from operation callbacks and solves the issue with querystd.
+
+The work is tested on R-Car M2 together with a ADV7180 device.
+
+Niklas Söderlund (11):
+  media: adv7180: Move adv7180_set_power() and init_device()
+  media: adv7180: Add missing lock in suspend callback
+  media: adv7180: Move state mutex handling outside init_device()
+  media: adv7180: Use v4l2-ctrls core to handle s_ctrl locking
+  media: adv7180: Setup controls every time the device is reset
+  media: adv7180: Power down decoder when configuring the device
+  media: adv7180: Split device initialization and reset
+  media: adv7180: Remove the s_power callback
+  media: adv7180: Do not write format to device in set_fmt
+  media: adv7180: Only validate format in s_std
+  media: adv7180: Only validate format in querystd
+
+ drivers/media/i2c/adv7180.c | 338 +++++++++++++++++++-----------------
+ 1 file changed, 174 insertions(+), 164 deletions(-)
+
+-- 
+2.50.0
+
 
