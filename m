@@ -1,110 +1,219 @@
-Return-Path: <linux-renesas-soc+bounces-19067-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19068-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C754CAF6CF8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 10:32:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 163BEAF6D08
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 10:35:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E668552372F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 08:32:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CC8761C43B4C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 08:35:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81A6B2D12FD;
-	Thu,  3 Jul 2025 08:31:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 261442D12EB;
+	Thu,  3 Jul 2025 08:35:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="mns8X3pX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9AA52DE6E8;
-	Thu,  3 Jul 2025 08:31:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C28017996
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  3 Jul 2025 08:35:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751531517; cv=none; b=ZEBmyS3+ZA5ePYSC53gR5InipBFn71AjKlJ8KMX03hrVajte5QgF0DxM4t9lEWc0jlszvQSOEhpmBOKwJmuZK0DXCPSohxhtZBdm71ac/Pcm+fBfdbPtCDlveE3TUcpA8uj57YCW8GslgcNcvE7kzxfvMIu/zetDRW5wW83M/xQ=
+	t=1751531707; cv=none; b=dUuIE3qsfgj2cylWo+jJEYXsz6I/OE8PExaCUKRoxNmFfqBAq7/ly7QDMJUH3lW+RRCPeJzZnuTBpec2Qxft460GdiTiHyE5xakKQNVXw1Cu3yztCOy+YTx7oOtdZMrASISMSQ6ydVpAR/Qcdm49V3p/etUdpq1RMwkBw30wP/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751531517; c=relaxed/simple;
-	bh=1kEHEAtL+xQOR1Xta9OGgGAHb/6BYqBlR21jUZejIn0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=q7Q3Z6Z6gfwydLnHp3NNisFwSBlKw8ykEGU5IMzvsJKlBGemTSV/sYD0bsmLXZWPwszwc08w9dRpjrD7jzcfF2TUpkTCztKzpgCuWoe4lNUE/2QTvs2IQrIES5X30PdjpM9k29mqaGXn17mzIe6pOcbQrf2mHsQNDMJjbX+UcLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-886c8de5d90so442427241.0;
-        Thu, 03 Jul 2025 01:31:55 -0700 (PDT)
+	s=arc-20240116; t=1751531707; c=relaxed/simple;
+	bh=NT0yQG3sC1VKEvVYPrK/jls25IuUlGbDhx/qzeFhFw8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZifzYa0CS9EfBOROyGA9bVwGa0tCJgY9+ogzjWOfsYew4NyM4azEBT1iWlKyQlmkDmMB2DyHeLn1CUPD9b7NtKJjI6jAKHaXG4WDMM+pd1SUv0Q3XwIk3+y/JSlbM2ih+dQEcl43Lc5x+krVi/wNZpxG5OUUJ6RPakX9suDaJLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=mns8X3pX; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6099d89a19cso10167736a12.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 03 Jul 2025 01:35:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1751531703; x=1752136503; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=b2eX30yl7oqdcdrJB3WzZqEr8ZG/CPC8SD+o4qZfKEs=;
+        b=mns8X3pXn78K+Taco4IvfsudjoD2Z1IsAlm/kahzWYNl/veVhEv7VtoJIXKbkU2G9w
+         3OG50mqMpmYfTjgtF02A60O3pfaNyNa3m05UZ95szpeejwrO+sPYsvR7mpEYkBDjRxsg
+         8OsOPaoYN0ySmmTjJw/1B+iC3deCHVVJoXv6YlquiF0m/dl07s5ZWRaluTplkw1YhjWI
+         x/qJLLHR13sYevjrKAVEXgtN5G4cZ0N0U33OFJDUcItjMwnAiHQcqD53nhUBsWxBN60j
+         /olV5mfwpNVPlg8MPDO2lvGHSupEe2YWati+7OxAlSktBZQR7WXeHtPEnAZ1eky6ZUmv
+         6q+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751531514; x=1752136314;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2Rrnl8A78Ot72qT4JJsETkK35WvjMF8fm1TQ3376urc=;
-        b=RqmSBvno4+HYbMhCzEBnhUsZLEAJPZLSpjQJGZXaG0tS7nK57kjxIX/WTueJEq9l1/
-         XONOSsucQFzwcf6FgvDgcPNk+hwBgs/VqjeDCVJJVRtPPbDP/WfWCyJTQsFvEseb26eT
-         7RT4PuC/7PQBSBMHmAUiUF6nlBg8KXXSRvgI1AxjCQ9txaB9tQ/ytp9uZuZoxcgHsCN/
-         ysQgOrLL46c9bAOOugPhZs8Czv1BTv8Rqh3QyijE8LC90koQRA3W3vGl0iMCMippWK0L
-         ug04nzgETNM8b+foFaTNU8wwClTDyuFkqslV5qRNpf0xKljQa5mro6KxOau0TgEHDFOv
-         xAug==
-X-Forwarded-Encrypted: i=1; AJvYcCUBunbbhD+8JE3Jxq7wEYJ9FMrfIDdz6a5E2gv5CJB4bID6KlVUQb+6sbb7E3DUeAfzanmekNVc3HYy@vger.kernel.org, AJvYcCVF4Xh7NGqBisG10hECTZyg5L3KqBIkgaVH+OmcJ+FkwxhNd7pZ0G/j2MMYdO7E59tVKsc/I1W2dwR1DihVneKLbHM=@vger.kernel.org, AJvYcCW82QgG5Kt8bRCS00u2OxPSQn9bVHV23/ZnWZKQMeebGwzcioaizTbm+xajTUqkJNJX3eQcISAkIvgiKkXG@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUAy4tn9VOI2w1CSrkAVNtdkbX6iW4SXxlC4yni2T/gTEhqyW1
-	wyfus6gHkq8ADzCj8ddHy7dhWH8eSZ5JtTHQEcyPicIdDJyWUIC5km3TsE0jaeUC
-X-Gm-Gg: ASbGnct2UNfwPgg5y+fTL60IGuscJDpzaDuhCTEusb/JKkQtZJvpHtTH29hClgZFQeX
-	xJxUlpxv443NckmGwjHp4/qRjUwp0ND7CIFhGYV8CAz5iGLvD6Fj5A2wPauvSBEl0XVnqopNElw
-	ZT0nbYITz+v7sogEra91EixBpadncI22SB2tumoabkif+0oNVTq/7PnIa6fF/kkKwJZ4A0fg9la
-	W7o2b53qQ9HcwlE+DnNG6+mAvylRl0xF6Yv5iJ/ZJE407wJVNnxUfC+hY4AhDcLuiTtp7t+H+qS
-	jMWTRqwpdxgDXTJJP8O2SyR8XtipoHW11+/fiWa89Y4KRfyHvNPrgjidpsLDmZ90KggadrfiGmi
-	Dj/VOyOYBPE8I/ddOgBAjmum4U7A8ZkKVi+c=
-X-Google-Smtp-Source: AGHT+IHFmlAjymRsAjcOZcUEFPJsX3qwNDNEAcSU1+k+hq/73qQL/T3wQ/9d+m5dhA728+/blinBCA==
-X-Received: by 2002:a05:6102:689a:b0:4e5:a0a9:3ad1 with SMTP id ada2fe7eead31-4f17479c21emr2033747137.2.1751531513896;
-        Thu, 03 Jul 2025 01:31:53 -0700 (PDT)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-884ee766fe7sm1900418241.29.2025.07.03.01.31.53
+        d=1e100.net; s=20230601; t=1751531703; x=1752136503;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=b2eX30yl7oqdcdrJB3WzZqEr8ZG/CPC8SD+o4qZfKEs=;
+        b=rlSuhZiBc3mbFSyrPJBqgVPzTDMLq2O2qzIBv6JtEFXXfrDbpb3jJpoOuwDJii3AGU
+         +QYSZxopVxe1tAS5JB+Anl4VQi6rWrmbGIuxx7vrzP8BpBKjlJL76gHg5bvld1m0rSpG
+         0htpiWtAR/C7AhINa7MVVA/rR7Q7Zm7VwrMo6X0xj/UdbkasWaOQeNx/6KXXuvb6G+X3
+         BeKxq46zVCvJetWV407SlZd1X7QZYg/R7HZKQnveTCEtDFYkPXVOHLbN3WVN+Df2C4mZ
+         LqFVnqGiqq1Img+KM7jljeV00fUY7QXUB7rfYhpxsLw7DDAehJ1IEKBfVKwZon50xXfB
+         mmtg==
+X-Forwarded-Encrypted: i=1; AJvYcCXC8qhxkpqDVG/KP0lJ+MGbfJlA3Ym1CPtW8ZO0EurfkWqUArmv5f8D0NtOzZVxYt2m6Pc5hwCkeITankbCf3kbJA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YysK87Py+eewnu2OUNXTCHDXXEfgUXbCNu7Z+RXgyWRQ++UynJe
+	dnmKLqigxZ092KoUyR02zvs3iTe48Gp1atL4Z+Ah4cGl+qEvnMEEa3LADx+k33WzRzM=
+X-Gm-Gg: ASbGnctJCO8O/YkKGAvYnK1wGJwr5xGA77SoeGZKl464W4oN5TfjQOJgWJC6sCMOT8C
+	K+ruoy9D1FcTYrsbUwiDwDQhAyez1cG+F8dPFL18mKjPZgTBspCewXKbYRo3LNQym1PjG1CejYi
+	vvi+L6oG5QWVyQbEJ5fkAuaJ7LhUl+TzBmv24AVpFhURIHmYTh9xGe6OWqfRIOHjUKMnizYp+za
+	lY6M8EeYx7gn9poobVP85helqlp1wvjc2nvsQhzhASyhUjQgeKhjHPhsm0o9nCnmF6F134IKp1I
+	DWZxDjzryRJnGH6l2bhU3qy/NNRJL+mSOFVpLSMiWTc2Wmo15l+JqEIO7/mMYRbHfKTzLg==
+X-Google-Smtp-Source: AGHT+IF/Y2iFli3knmF19jiiLfqcT8/gMSbL/8+pT+jQ7QFuTg1qr/h5I1xoan1atXKvMNyhdeJAjw==
+X-Received: by 2002:a05:6402:51d2:b0:606:f836:c656 with SMTP id 4fb4d7f45d1cf-60e52d01efamr5862235a12.19.1751531702333;
+        Thu, 03 Jul 2025 01:35:02 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.83])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-60c8319b155sm10376216a12.52.2025.07.03.01.35.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Jul 2025 01:31:53 -0700 (PDT)
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-87f2a0825e1so457174241.2;
-        Thu, 03 Jul 2025 01:31:53 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVmjEj9k88bx8Py9uQ5/XF12E5wLP0qtXp25GXzzoBar+eerZ85yX7xYsN7OJbk3tB48BSUcRqMJzBGODSi@vger.kernel.org, AJvYcCWjj7/PA3CsNIH6YHIwxog0StIzH/p/Pa7pnmlpjuG/X8Y79xWQLY3907UAJMsh7InJpyyMnSB4fjMSX133MazybiI=@vger.kernel.org, AJvYcCXcNtgjyiYGtLpAopMEGxXH43QMmAZ3ZLogpu2fgbOVzyxMyRTIerd3ixA5trxSGh6oRMD5qRS98Jr5@vger.kernel.org
-X-Received: by 2002:a05:6102:6481:10b0:4e9:a01a:ed57 with SMTP id
- ada2fe7eead31-4f174a08262mr1350401137.20.1751531512921; Thu, 03 Jul 2025
- 01:31:52 -0700 (PDT)
+        Thu, 03 Jul 2025 01:35:01 -0700 (PDT)
+Message-ID: <bdcae7f1-b53e-47f8-9349-93306815f418@tuxon.dev>
+Date: Thu, 3 Jul 2025 11:35:00 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <87frfddghg.wl-kuninori.morimoto.gx@renesas.com> <87cyahdgfu.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87cyahdgfu.wl-kuninori.morimoto.gx@renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 3 Jul 2025 10:31:40 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW7bo1-7ChQ1uXJYWSZ2anyM3NU3-jj8evbw+NVRW_1BA@mail.gmail.com>
-X-Gm-Features: Ac12FXzmqA1snx2jD8jqedEwfPi52TfMhZyXCh7LxjUXWZIBTmcnchov9sv5N8I
-Message-ID: <CAMuHMdW7bo1-7ChQ1uXJYWSZ2anyM3NU3-jj8evbw+NVRW_1BA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] serial: sh-sci: Add R-Car Gen5 support
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Conor Dooley <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jiri Slaby <jirislaby@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-serial@vger.kernel.org, 
-	Nghia Nguyen <nghia.nguyen.jg@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] arm64: dts: renesas: r9a09g047e57-smarc: Add gpio keys
+To: Biju Das <biju.das.jz@bp.renesas.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "biju.das.au" <biju.das.au@gmail.com>
+References: <20250414153818.214811-1-biju.das.jz@bp.renesas.com>
+ <CAMuHMdUjtG-EcrpbDO2y8M=GQeV=5i4qODp=VZqymipeCneXhQ@mail.gmail.com>
+ <TY3PR01MB11346205BCA481EA7B740A3028641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <CAMuHMdVNCRGMmgBT2Ow4Af0CTf1iiS=AwhsLnZMFFy40tLYS0Q@mail.gmail.com>
+ <TY3PR01MB113462A4490760D5C6C59FF968641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <25a4e9bc-4c96-4c9c-880f-e67223662f56@tuxon.dev>
+ <TY3PR01MB113467E8D43A07ECDE07D12648643A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Content-Language: en-US
+In-Reply-To: <TY3PR01MB113467E8D43A07ECDE07D12648643A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, 3 Jul 2025 at 06:52, Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> Add "rcar-gen5-scif" compatible string for R-Car Gen5 support.
->
-> Signed-off-by: Nghia Nguyen <nghia.nguyen.jg@renesas.com>
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Hi, Biju,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On 03.07.2025 10:42, Biju Das wrote:
+> Hi Claudiu,
+> 
+>> -----Original Message-----
+>> From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+>> Sent: 03 July 2025 08:17
+>> Subject: Re: [PATCH] arm64: dts: renesas: r9a09g047e57-smarc: Add gpio keys
+>>
+>> Hi, Biju,
+>>
+>> On 01.07.2025 17:38, Biju Das wrote:
+>>> Hi Geert,
+>>>
+>>>> -----Original Message-----
+>>>> From: Geert Uytterhoeven <geert@linux-m68k.org>
+>>>> Sent: 01 July 2025 12:50
+>>>> Subject: Re: [PATCH] arm64: dts: renesas: r9a09g047e57-smarc: Add
+>>>> gpio keys
+>>>>
+>>>> Hi Biju,
+>>>>
+>>>> On Tue, 1 Jul 2025 at 13:40, Biju Das <biju.das.jz@bp.renesas.com> wrote:
+>>>>>> From: Geert Uytterhoeven <geert@linux-m68k.org> On Mon, 14 Apr 2025
+>>>>>> at 17:38, Biju Das <biju.das.jz@bp.renesas.com> wrote:
+>>>>>>> RZ/G3E SMARC EVK  has 3 user buttons called USER_SW1, USER_SW2 and
+>>>>>>> USER_SW3. Add a DT node in device tree to instantiate the
+>>>>>>> gpio-keys driver for these buttons.
+>>>>>>>
+>>>>>>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+>>>>
+>>>>>>> --- a/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi
+>>>>>>> +++ b/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi
+>>>>>>> @@ -12,8 +12,13 @@
+>>>>>>>   * SW_SDIO_M2E:
+>>>>>>>   *     0 - SMARC SDIO signal is connected to uSD1
+>>>>>>>   *     1 - SMARC SDIO signal is connected to M.2 Key E connector
+>>>>>>> + *
+>>>>>>> + * GPIO keys are enabled by default. Use PMOD_GPIO macros to
+>>>>>>> + disable them
+>>>>>>> + * if needed.
+>>>>>>>   */
+>>>>>>>
+>>>>>>> +#include <dt-bindings/input/input.h>
+>>>>>>> +
+>>>>>>>  / {
+>>>>>>>         model = "Renesas RZ SMARC Carrier-II Board";
+>>>>>>>         compatible = "renesas,smarc2-evk"; @@ -27,6 +32,31 @@
+>>>>>>> aliases {
+>>>>>>>                 serial3 = &scif0;
+>>>>>>>                 mmc1 = &sdhi1;
+>>>>>>>         };
+>>>>>>> +
+>>>>>>> +       keys: keys {
+>>>>>>> +               compatible = "gpio-keys";
+>>>>>>> +
+>>>>>>> +               key-1 {
+>>>>>>> +                       interrupts-extended = <&pinctrl KEY_1_GPIO
+>>>>>>> + IRQ_TYPE_EDGE_FALLING>;
+>>>>>>
+>>>>>> So you are using them as interrupts. Don't you need to configure
+>>>>>> pin control for that (function 15 = IRQ14)?
+>>>>>
+>>>>> The same pin can be configured as TINT or IRQ15, currently it is configured as TINT IRQ.
+>>>>> Is it ok?
+>>>>
+>>>> OK.
+>>>>
+>>>>>> Alternatively, can't you use them as gpios with interrupt facilities?
+>>>>>
+>>>>> interrupts-extended = <&pinctrl KEY_1_GPIO IRQ_TYPE_EDGE_FALLING>;
+>>>>>
+>>>>> The TINT IRQ will provide the same right? Am I missing anything here?
+>>>>
+>>>> When you use interrupts directly, the system will detect only key
+>>>> presses, and fake (timer-based) key releases.
+>>>> When you use GPIOs with interrupt-capability, the system can detect both key presses and releases.
+>>>>
+>>>> See also commit cab3511ea7a0b1fc ("ARM: dts: marzen: Add slide switches").
+>>>
+>>> As per [1], for GPIOs with interrupt-capability, IRQ controller needs to support both edges.
+>>> But TINT supports Rising or Falling edge, but not both. So, we cannot use this.
+>>
+>> If I clearly understand it, this has been solved on RZ/G3S SMARC Carrier-II by defining these pins as
+>> gpio hogs:
+>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/boot/dts/renesas/rz
+>> g3s-smarc.dtsi#n141
+> 
+> Looks like it is redundant, you may need to take out the gpio hog node as 
+> pinctrl driver already configure the pin as input pin[1].
 
-Gr{oetje,eeting}s,
+The pinctrl support wasn't there at the moment gpio hog was introduced.
 
-                        Geert
+> 
+> As per [2], still it is not GPIOs with interrupt-capability.
 
+OK, the I must have been wrong. I haven't looked in deep over this thread.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Sorry for the noise,
+Claudiu
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> 
+> [1]
+> https://elixir.bootlin.com/linux/v6.16-rc4/source/drivers/pinctrl/renesas/pinctrl-rzg2l.c#L2534
+> [2]
+> https://elixir.bootlin.com/linux/v6.16-rc4/source/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi#L30
+> 
+> 
+> Cheers,
+> Biju 
+
 
