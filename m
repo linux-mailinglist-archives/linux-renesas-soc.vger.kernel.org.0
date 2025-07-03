@@ -1,206 +1,398 @@
-Return-Path: <linux-renesas-soc+bounces-19111-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19112-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A732BAF7F0E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 19:37:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CA90AF7F39
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 19:41:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0D949581AB0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 17:37:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D1B55583E27
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 17:41:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDF15289E23;
-	Thu,  3 Jul 2025 17:36:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72B662F198F;
+	Thu,  3 Jul 2025 17:41:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SweRyXb/"
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="alaFhBs1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04olkn2105.outbound.protection.outlook.com [40.92.47.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF8F222CBD8
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  3 Jul 2025 17:36:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751564218; cv=none; b=gWs+qV2ON7C7fADzbpC6k/kHzt4KwC7EyMGi53HGiGvgTdwyajy9KC/PZ+CprEubSICLHEsfWF9KiSf3va3Qn490GIOPEeKdOo4Oiud48KC0a2Q346O/urUjid+ijHX17ZWYWCBsshKtX80sfi4tIZyLBFAkYnkg841z5e18VW4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751564218; c=relaxed/simple;
-	bh=C9xur0aYAR7gBMP03qTwwnw/i5u/cviiq2rMbs+X+dc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=SygYQ8EbawBgmaXLTGm1MeNoHfJPBdHIG8f27rvwY/YctMCA9HUh3hnNlDOZsWv+bqMcpiOqZvW+bGnyCze9weo4lYXTeVROgVPM+iSUoI0ktHpfCV3dx2peS1GMb539aPXtlyljFYES7S6eziYd/9VHQCQAXPfzA4ByHbKVZeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SweRyXb/; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751564217; x=1783100217;
-  h=date:from:to:cc:subject:message-id;
-  bh=C9xur0aYAR7gBMP03qTwwnw/i5u/cviiq2rMbs+X+dc=;
-  b=SweRyXb/JnYWkFsBkGLf8S/ThKmciuJ9jG7Ef5HzGAlxaqox3laN3K2C
-   41dNshC/i8XTXRAzRtp0YqYknh+6zNMoHK4XiwutDhRo78r2+qQR5X/PB
-   op4sPQZaehMlHrydoaMEKKnuy7oQ9NrxlF5ozaCWKhPm12l4gfznC1JmV
-   jEPuZ1ufH7kvtKQdHr/p93THsn34aMq2oESmkOFjp1rzTJpzC3+1UPz8n
-   /HHaN1YML99F/lIWvCZxgQ/j0VWGpjPOzRNHxiuitoDAyG4adRNSOdjsD
-   T26/IRzgxokq/S5w51+dLwlmbS0x7dJzE7GgapNU53lNd4NJ8EsZC1NCd
-   A==;
-X-CSE-ConnectionGUID: r6nRyosFSQKiVQO+r52sug==
-X-CSE-MsgGUID: zm+Xe6AYRU6X4Jni/aMYag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="79338459"
-X-IronPort-AV: E=Sophos;i="6.16,284,1744095600"; 
-   d="scan'208";a="79338459"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 10:36:56 -0700
-X-CSE-ConnectionGUID: HtkhKkyJTj2eAts5OFYcdA==
-X-CSE-MsgGUID: zxkHl84LTNOL413EIbJMwA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,284,1744095600"; 
-   d="scan'208";a="155173167"
-Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 03 Jul 2025 10:36:55 -0700
-Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uXNrh-0002qZ-02;
-	Thu, 03 Jul 2025 17:36:53 +0000
-Date: Fri, 04 Jul 2025 01:36:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-clk] BUILD SUCCESS
- 17dc02f7d29314ac4e1db19e3f708828c734bbb8
-Message-ID: <202507040155.yBXjkEsH-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA7C2BEC5C;
+	Thu,  3 Jul 2025 17:41:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.47.105
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751564488; cv=fail; b=eyboA3vdwQXC8rXGY9AxVKFThhEqn8Ec2+QfRWDiIWvqs9NydalPcJ7qLeUr5XoyzOl2aEWqhF26ZTiHGBrNVpg9cZGS2TxcFAkU65LRUSMAhdPT5Acf/At2Q/798muxJ4UkgFn0PWqb5CBIm8y7pDIl08q0Fe6cGBaxsqP+HeY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751564488; c=relaxed/simple;
+	bh=bL8S4UxS7TzaIoK9G1IEPIlc1lz6KGlUQp/UZip9fmM=;
+	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=oVq5lwvG58QXZOV30UahykBwxLpMO4B/mJjJblclP5sn28VkINWMcQm1k92UF1mCqoAJJsqRW4QopFhj86o3OfpWwm3znO5FzQ/NsMvKw3CVcIKhzKDET/aTA/4DHy1ZpFUiyp6eLpv2C83Np7ENCgiiPVUSRNBkKT77q6ZGTx8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=alaFhBs1; arc=fail smtp.client-ip=40.92.47.105
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RGPCVbFH6ZiceRcrKJW09A02H79EcZ9mjyndzEgCMO9cd5TzDRPRUmRoTok5eWr6bWjzcUQAkGQohv+BSqnV8dv3MhbxSyGH4NPrcIJ0S7wDwLzbdN41Tim/FivOOploRArOZbh4h/l0NRPtLFNBDwMw2PrRuRimNU9784PH0/SnOrEPS9E/kOMmNBQ7yZhmIbHAiAPBzNiqcL9InOMHt4mWJ4AShw7PTq5yIGRwnix5ww5rH3+pR7uswuUu/9h/ztK9d6F/zlCwXxe4MM/9KSf4xAd707X/1s4qyb7IWxaho0F5LE3OiP1rgqLCO5qBnHsUA/lCpx5mC4aXA9IecA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/VAFSTBpM8aaRN1aRNspaAZrjHQIotwTq1huwaSnwso=;
+ b=CkFjUY5/NByi/0U8guzlcuyGST2SvDXbL0hdrN5bgArNkvFvsGnnASKYDdAe59/aj/5k580RtBgtZWc05rGhD+BcDpvWsuGbWyQC2K7SWd2AnZdXbM3lg1LV/PhHbo2s1G237KzHUcKNwyvRrbkEwXgzS7VPcXmH7aA2SdZ0uM/b4+snCNqVbROsO/1xRZQo4RUb3Edmwws8FkzeOt6ATBssATM+6GSl2DH9VDu31dLU13CYzXUaCpvJCmv8dLr0LQwuLUAU8T/NOq96VzJhVogEpoLvfGxODKHVp0fAWaJB/Vyab/ClwCuZDS9ukbNkOluXK9xhDvHDktswSxhowA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/VAFSTBpM8aaRN1aRNspaAZrjHQIotwTq1huwaSnwso=;
+ b=alaFhBs1BDu/Ojvfg4v4Gd/qqZ2jLccYF9CpF3X0bXKB9EF6BryDPIR6SyqEiBkH3BE43KCW/pBW8j+vGC85WhbReIV6g/D7Vu8BWXBnvPxeyCJuoBFcqD5Ys28Pm9P/Qo1O0ytLzqbjejfa8EeeWo2rc09X2G5NrYGWRVGD0x9Y44snq8BiMqeZrXAfPvLM3AEZ3YTZTAn4z2IYWLHjatk5YgL++2NOqf8CuhTaKL2Ukx4d2pivz3fAHO+vN7KOtVD+k6nqFwySmG5ue0LFdEdmybveQNevhn2e/HAB2n2ffnZTJzKa7BouRAKFkwc4lOCK2cRz7+8c8llTOEh2iw==
+Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
+ by SN7PR02MB10177.namprd02.prod.outlook.com (2603:10b6:806:2a5::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.23; Thu, 3 Jul
+ 2025 17:41:20 +0000
+Received: from SN6PR02MB4157.namprd02.prod.outlook.com
+ ([fe80::cedd:1e64:8f61:b9df]) by SN6PR02MB4157.namprd02.prod.outlook.com
+ ([fe80::cedd:1e64:8f61:b9df%4]) with mapi id 15.20.8901.018; Thu, 3 Jul 2025
+ 17:41:19 +0000
+From: Michael Kelley <mhklinux@outlook.com>
+To: Nam Cao <namcao@linutronix.de>, Marc Zyngier <maz@kernel.org>, Thomas
+ Gleixner <tglx@linutronix.de>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	=?iso-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kwilczynski@kernel.org>, Manivannan
+ Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, Bjorn Helgaas
+	<bhelgaas@google.com>, "linux-pci@vger.kernel.org"
+	<linux-pci@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Karthikeyan Mitran
+	<m.karthikeyan@mobiveil.co.in>, Hou Zhiqiang <Zhiqiang.Hou@nxp.com>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>, =?iso-8859-2?Q?Pali_Roh=E1r?=
+	<pali@kernel.org>, "K . Y . Srinivasan" <kys@microsoft.com>, Haiyang Zhang
+	<haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui
+	<decui@microsoft.com>, Joyce Ooi <joyce.ooi@intel.com>, Jim Quinlan
+	<jim2101024@gmail.com>, Nicolas Saenz Julienne <nsaenz@kernel.org>, Florian
+ Fainelli <florian.fainelli@broadcom.com>, Broadcom internal kernel review
+ list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>, Ryder Lee <ryder.lee@mediatek.com>,
+	Jianjun Wang <jianjun.wang@mediatek.com>, Marek Vasut
+	<marek.vasut+renesas@gmail.com>, Yoshihiro Shimoda
+	<yoshihiro.shimoda.uh@renesas.com>, Michal Simek <michal.simek@amd.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>, Nirmal Patel
+	<nirmal.patel@linux.intel.com>, Jonathan Derrick
+	<jonathan.derrick@linux.dev>, Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-hyperv@vger.kernel.org"
+	<linux-hyperv@vger.kernel.org>, "linux-rpi-kernel@lists.infradead.org"
+	<linux-rpi-kernel@lists.infradead.org>, "linux-mediatek@lists.infradead.org"
+	<linux-mediatek@lists.infradead.org>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH 14/16] PCI: hv: Switch to msi_create_parent_irq_domain()
+Thread-Topic: [PATCH 14/16] PCI: hv: Switch to msi_create_parent_irq_domain()
+Thread-Index: AQHb5qqGWI9T0Ene10yNxUr1s0p/CbQgsvtA
+Date: Thu, 3 Jul 2025 17:41:19 +0000
+Message-ID:
+ <SN6PR02MB4157A6F9B2ABD3C69CE5B521D443A@SN6PR02MB4157.namprd02.prod.outlook.com>
+References: <cover.1750858083.git.namcao@linutronix.de>
+ <024f0122314198fe0a42fef01af53e8953a687ec.1750858083.git.namcao@linutronix.de>
+In-Reply-To:
+ <024f0122314198fe0a42fef01af53e8953a687ec.1750858083.git.namcao@linutronix.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|SN7PR02MB10177:EE_
+x-ms-office365-filtering-correlation-id: 1a7b9f80-e47d-4e33-f013-08ddba58d183
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|8062599006|461199028|41001999006|19110799006|15080799009|31055399003|440099028|53005399003|3412199025|40105399003|19111999003|12091999003|102099032;
+x-microsoft-antispam-message-info:
+ =?iso-8859-2?Q?yVAYVYitFHJhgU8knHDpuxs0gE4/2cnNKt9w6DFAxOG6VaR5isSNaUXlCF?=
+ =?iso-8859-2?Q?lQBaqzfAgD0+nx4VuUBXOh4FtEu0dmMaLhprG/hVaFlSFkWI0FUCt0ahkn?=
+ =?iso-8859-2?Q?9GvdXSeTWn2FZR+goYSa7TynEXPp74j0uHN8X9ddGs2BonDD9WEMaMg3bA?=
+ =?iso-8859-2?Q?2NmQtMwLfgRSdwV/KyU40SYhPNFN9ndpj2SrBJWRaZLXneuZf3ib3kQImZ?=
+ =?iso-8859-2?Q?QIbbR6Gsv61FpVjSDzhJ/fmCD2y14h/4r/iukcz9sIAcRYEYqwd2nAWoXs?=
+ =?iso-8859-2?Q?wRYVcz2wMzf8sbC9y01mR6UhMck61fQDqbHa16BV1KmVszp7tK4bi4n91s?=
+ =?iso-8859-2?Q?pADnY9duYy81T0BWyyWiI8vtZWFCAcrtVU8ouu/2cBgTFTULlqcp0YQNXh?=
+ =?iso-8859-2?Q?Zt7D6t9UoEmqGbSL2a9jb54dBU4ONWwUWwo7caH2zUlsXmYCLE/imEqLoM?=
+ =?iso-8859-2?Q?d4/Y/Rb3Ad0A62gUxtIGLCaa4Eg3/DLxT892M1WjyD2T1H3d82rPgg8x66?=
+ =?iso-8859-2?Q?/htLovYMx6LV23p/JbZ4aW9k27zuf2qQt++ebS42fzVo5xhW1wk6LQoZMM?=
+ =?iso-8859-2?Q?+0rRfgUBs+wpHKE0eiYAGIMNAsvjv76HfFF5uW69fVOMj7RieU7bnaFFEc?=
+ =?iso-8859-2?Q?PmOttx+krYVVTJae+WwCMxV1Brzq7Q/qUl8xGf58kiQ7F1uw5vVG3CyTN0?=
+ =?iso-8859-2?Q?Dwgez2m8U+fiKX0xHMszvjJvgi1hGbc1ZbLXfZNA3Peasp19PmHNkLzNw1?=
+ =?iso-8859-2?Q?NKIHuaPhtQSQiVo3eaTel4GDpfx2I3aYDYxbs3x35M6lz0cwuMe7wAg0Ni?=
+ =?iso-8859-2?Q?XmiKIL1+uGSi+tkQTY70GPUfv2YZ/XCpOpQIg9Qy14IUeRecE4XFHDnGbe?=
+ =?iso-8859-2?Q?7ccdicByrejhQrcaIGOcqYRH0W9upu3a0gpvK8sb+2eUd/caeszAs91TII?=
+ =?iso-8859-2?Q?aIB2X4PKS6WZDixtdzeUJR7XaUEbefNtSz1p3R3JhOFxbuwWj2lA1idvb0?=
+ =?iso-8859-2?Q?/0hgUhqYAlKRQBzner+5+RFT47+z5+FguoIY7+fPBQmBISQOsaGjNNrlNz?=
+ =?iso-8859-2?Q?5cKgfbpNz69f6YUa/ra1XDXdVTenIQSvqNoVEKvZlAIpV0mXkGxt1623bf?=
+ =?iso-8859-2?Q?TFbT76NVsrSBiBAjjrUXQtB2kBl90=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-2?Q?Z59M2Z+eP8SHsbWZjgdDZJ4vTSM6uchbZKh9qeD0dtqkqhvuBRiQdSosIQ?=
+ =?iso-8859-2?Q?XKTg7FLr4KY4WGh+HzsMDwomc8JbOv1uJd3UdlodF0Q4NN8d6QK3MG3qlb?=
+ =?iso-8859-2?Q?0mxhZxN9gyFZ6/fQcE+X8IdLucZ8AL8iL+Udp9BFshbh+uaolQAeVkWVgx?=
+ =?iso-8859-2?Q?RiP811I7+cxEz0kEhWMMsA9pHA26KNHSJ81AWBOJHchUvtir5zyj5bqqrO?=
+ =?iso-8859-2?Q?m8HRN8hWPtWf7O1gq2eg079LPYq8FBAxwO2QG2+MEJ0zvBIGpVhmJ5cqTD?=
+ =?iso-8859-2?Q?UgwL3nIjt1xUhDtjkzODd9KzDxskCxb73bb59zU6iVLkL70mmbjHfgNRjD?=
+ =?iso-8859-2?Q?kL4kiyR4sNQJADbQZzrwzoTQ3jTFrKO6VETMJpRMW66/hlkOBAKY3ilxeh?=
+ =?iso-8859-2?Q?J4YT70KxTm5onE8DwscZ6Y7Cu9JZbks4R5m3Mhd3F4EaGe9IiIWX56+vwj?=
+ =?iso-8859-2?Q?UpSLRf5P6XXREt/koUMRtsNc5QPOj3ZWRQ6uzk7Qen0xS2oPTW/jdxAM7e?=
+ =?iso-8859-2?Q?qDC39UVG3QFR23i0sQufNZ0+GSkFbdy4VOX0oWvn+5ynBXnDms57RoFNHr?=
+ =?iso-8859-2?Q?rQPqbicI0J6dAjMgqqlSkhSheKLUjMmzcas3hP5wRUBSkGuApjkSOjZZic?=
+ =?iso-8859-2?Q?ggV29dVFG96a4lbSCjFXGibVq6GklU27CnBW810rIwlwXYF/9M5UM97Ki1?=
+ =?iso-8859-2?Q?lFe/DoQKc2n7HVLEh8CtbmfNsNSTtNn0ob9irStykUB0TW+/Z46IQygrNX?=
+ =?iso-8859-2?Q?XJZFKT65WxqY+xDWUlQDAJlm/UMhH4lmo3zvIVcUQiE6OvWLkjpIy4tvpk?=
+ =?iso-8859-2?Q?XXCPPjC2fE1o+RLG5vLNv4cW2ZZgMiJGLP2KQS0qMo4wqc8XyK7k6N21Qr?=
+ =?iso-8859-2?Q?4lqxPOelUeKTy4uHlFtwhWyAjEwiTo2iZwng9/xX1NTXba03wcAgfMEX9N?=
+ =?iso-8859-2?Q?gCme2jfUS5I7IPnje+67dr50Se+0lRWXn83d6hzrYT7E1UlXo3tWpwroDj?=
+ =?iso-8859-2?Q?meZ7uWeR0PKGuMBj35LwnVFcIrrTf0vlNLhrBJ112A6CnI/hYhISSzQhkd?=
+ =?iso-8859-2?Q?WpOlqTT9rLQNmww55LX9rcMXQSB1sYD0QCXIt/PQl3AG5gklmNv+6tbC9H?=
+ =?iso-8859-2?Q?cm9uTJvidVAfs6m2Yosz2z4ijePtFA1CsiiZKnz5PEU1J2imjZlDseuT9a?=
+ =?iso-8859-2?Q?sU06bN0/1JZELfuNQ7lK+SP++WTikwdQQxjZeD16foY83jhd45NLBNAPSo?=
+ =?iso-8859-2?Q?Hy7QVQryY8bVNpD46yFNfxMAvwTFCUUneMbsTCTHM=3D?=
+Content-Type: text/plain; charset="iso-8859-2"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a7b9f80-e47d-4e33-f013-08ddba58d183
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jul 2025 17:41:19.1261
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR02MB10177
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk
-branch HEAD: 17dc02f7d29314ac4e1db19e3f708828c734bbb8  clk: renesas: r9a09g047: Add clock and reset signals for the GBETH IPs
+From: Nam Cao <namcao@linutronix.de> Sent: Thursday, June 26, 2025 7:48 AM
+>=20
+> Move away from the legacy MSI domain setup, switch to use
+> msi_create_parent_irq_domain().
 
-elapsed time: 1246m
+From a build standpoint, this patch does not apply cleanly to
+linux-next20250630. See also an issue below where a needed irq
+function isn't exported.
 
-configs tested: 113
-configs skipped: 3
+At runtime, I've done basic smoke testing on an x86 VM in the Azure
+cloud that has a Mellanox NIC VF and two NVMe devices as PCI devices.
+So far everything looks good. But I'm still doing additional testing, and
+I want to also test on an ARM64 VM. Please give me another day or two
+to be completely satisfied.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Michael Kelley
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    gcc-15.1.0
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    gcc-15.1.0
-arc                   randconfig-001-20250703    gcc-11.5.0
-arc                   randconfig-002-20250703    gcc-12.4.0
-arm                              allmodconfig    gcc-15.1.0
-arm                               allnoconfig    clang-21
-arm                              allyesconfig    gcc-15.1.0
-arm                   randconfig-001-20250703    clang-21
-arm                   randconfig-002-20250703    gcc-8.5.0
-arm                   randconfig-003-20250703    clang-17
-arm                   randconfig-004-20250703    clang-21
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.1.0
-arm64                 randconfig-001-20250703    clang-21
-arm64                 randconfig-002-20250703    gcc-14.3.0
-arm64                 randconfig-003-20250703    clang-21
-arm64                 randconfig-004-20250703    gcc-8.5.0
-csky                              allnoconfig    gcc-15.1.0
-csky                  randconfig-001-20250703    gcc-14.3.0
-csky                  randconfig-002-20250703    gcc-12.4.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-21
-hexagon                          allyesconfig    clang-21
-hexagon               randconfig-001-20250703    clang-21
-hexagon               randconfig-002-20250703    clang-21
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250703    clang-20
-i386        buildonly-randconfig-002-20250703    gcc-12
-i386        buildonly-randconfig-003-20250703    gcc-12
-i386        buildonly-randconfig-004-20250703    clang-20
-i386        buildonly-randconfig-005-20250703    gcc-12
-i386        buildonly-randconfig-006-20250703    gcc-12
-i386                                defconfig    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                        allmodconfig    gcc-15.1.0
-loongarch                         allnoconfig    gcc-15.1.0
-loongarch             randconfig-001-20250703    gcc-15.1.0
-loongarch             randconfig-002-20250703    gcc-15.1.0
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                               defconfig    gcc-14.2.0
-nios2                 randconfig-001-20250703    gcc-8.5.0
-nios2                 randconfig-002-20250703    gcc-8.5.0
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-parisc                           allmodconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                           allyesconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250703    gcc-8.5.0
-parisc                randconfig-002-20250703    gcc-8.5.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                          allmodconfig    gcc-15.1.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                          allyesconfig    clang-21
-powerpc               randconfig-001-20250703    gcc-10.5.0
-powerpc               randconfig-002-20250703    clang-21
-powerpc               randconfig-003-20250703    gcc-8.5.0
-powerpc64             randconfig-001-20250703    clang-18
-powerpc64             randconfig-002-20250703    clang-21
-powerpc64             randconfig-003-20250703    gcc-14.3.0
-riscv                            allmodconfig    clang-21
-riscv                             allnoconfig    gcc-15.1.0
-riscv                            allyesconfig    clang-16
-riscv                 randconfig-001-20250703    gcc-13.3.0
-riscv                 randconfig-002-20250703    gcc-14.3.0
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-21
-s390                             allyesconfig    gcc-15.1.0
-s390                  randconfig-001-20250703    gcc-12.4.0
-s390                  randconfig-002-20250703    clang-21
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                    randconfig-001-20250703    gcc-9.3.0
-sh                    randconfig-002-20250703    gcc-15.1.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20250703    gcc-8.5.0
-sparc                 randconfig-002-20250703    gcc-13.3.0
-sparc64               randconfig-001-20250703    gcc-8.5.0
-sparc64               randconfig-002-20250703    gcc-8.5.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-21
-um                               allyesconfig    gcc-12
-um                    randconfig-001-20250703    gcc-12
-um                    randconfig-002-20250703    gcc-12
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250703    gcc-11
-x86_64      buildonly-randconfig-002-20250703    gcc-12
-x86_64      buildonly-randconfig-003-20250703    clang-20
-x86_64      buildonly-randconfig-004-20250703    clang-20
-x86_64      buildonly-randconfig-005-20250703    gcc-12
-x86_64      buildonly-randconfig-006-20250703    gcc-12
-x86_64                              defconfig    gcc-11
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250703    gcc-14.3.0
-xtensa                randconfig-002-20250703    gcc-8.5.0
+>=20
+> Signed-off-by: Nam Cao <namcao@linutronix.de>
+> ---
+> Cc: K. Y. Srinivasan <kys@microsoft.com>
+> Cc: Haiyang Zhang <haiyangz@microsoft.com>
+> Cc: Wei Liu <wei.liu@kernel.org>
+> Cc: Dexuan Cui <decui@microsoft.com>
+> Cc: linux-hyperv@vger.kernel.org
+> ---
+>  drivers/pci/Kconfig                 |  1 +
+>  drivers/pci/controller/pci-hyperv.c | 98 +++++++++++++++++++++++------
+>  2 files changed, 80 insertions(+), 19 deletions(-)
+>=20
+> diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig
+> index 9c0e4aaf4e8cb..9a249c65aedcd 100644
+> --- a/drivers/pci/Kconfig
+> +++ b/drivers/pci/Kconfig
+> @@ -223,6 +223,7 @@ config PCI_HYPERV
+>  	tristate "Hyper-V PCI Frontend"
+>  	depends on ((X86 && X86_64) || ARM64) && HYPERV && PCI_MSI && SYSFS
+>  	select PCI_HYPERV_INTERFACE
+> +	select IRQ_MSI_LIB
+>  	help
+>  	  The PCI device frontend driver allows the kernel to import arbitrary
+>  	  PCI devices from a PCI backend to support PCI driver domains.
+> diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller=
+/pci-hyperv.c
+> index ef5d655a0052c..3a24fadddb83b 100644
+> --- a/drivers/pci/controller/pci-hyperv.c
+> +++ b/drivers/pci/controller/pci-hyperv.c
+> @@ -44,6 +44,7 @@
+>  #include <linux/delay.h>
+>  #include <linux/semaphore.h>
+>  #include <linux/irq.h>
+> +#include <linux/irqchip/irq-msi-lib.h>
+>  #include <linux/msi.h>
+>  #include <linux/hyperv.h>
+>  #include <linux/refcount.h>
+> @@ -508,7 +509,6 @@ struct hv_pcibus_device {
+>  	struct list_head children;
+>  	struct list_head dr_list;
+>=20
+> -	struct msi_domain_info msi_info;
+>  	struct irq_domain *irq_domain;
+>=20
+>  	struct workqueue_struct *wq;
+> @@ -1687,7 +1687,7 @@ static void hv_msi_free(struct irq_domain *domain, =
+struct msi_domain_info *info,
+>  	struct msi_desc *msi =3D irq_data_get_msi_desc(irq_data);
+>=20
+>  	pdev =3D msi_desc_to_pci_dev(msi);
+> -	hbus =3D info->data;
+> +	hbus =3D domain->host_data;
+>  	int_desc =3D irq_data_get_irq_chip_data(irq_data);
+>  	if (!int_desc)
+>  		return;
+> @@ -1705,7 +1705,6 @@ static void hv_msi_free(struct irq_domain *domain, =
+struct msi_domain_info *info,
+>=20
+>  static void hv_irq_mask(struct irq_data *data)
+>  {
+> -	pci_msi_mask_irq(data);
+>  	if (data->parent_data->chip->irq_mask)
+>  		irq_chip_mask_parent(data);
+>  }
+> @@ -1716,7 +1715,6 @@ static void hv_irq_unmask(struct irq_data *data)
+>=20
+>  	if (data->parent_data->chip->irq_unmask)
+>  		irq_chip_unmask_parent(data);
+> -	pci_msi_unmask_irq(data);
+>  }
+>=20
+>  struct compose_comp_ctxt {
+> @@ -2101,6 +2099,44 @@ static void hv_compose_msi_msg(struct irq_data *da=
+ta, struct msi_msg *msg)
+>  	msg->data =3D 0;
+>  }
+>=20
+> +static bool hv_pcie_init_dev_msi_info(struct device *dev, struct irq_dom=
+ain *domain,
+> +				      struct irq_domain *real_parent, struct msi_domain_info *info)
+> +{
+> +	struct irq_chip *chip =3D info->chip;
+> +
+> +	if (!msi_lib_init_dev_msi_info(dev, domain, real_parent, info))
+> +		return false;
+> +
+> +	info->ops->msi_prepare =3D hv_msi_prepare;
+> +
+> +	chip->irq_set_affinity =3D irq_chip_set_affinity_parent;
+> +
+> +	if (IS_ENABLED(CONFIG_X86))
+> +		chip->flags |=3D IRQCHIP_MOVE_DEFERRED;
+> +
+> +	return true;
+> +}
+> +
+> +#define HV_PCIE_MSI_FLAGS_REQUIRED (MSI_FLAG_USE_DEF_DOM_OPS
+> 	| \
+> +				    MSI_FLAG_USE_DEF_CHIP_OPS		| \
+> +				    MSI_FLAG_PCI_MSI_MASK_PARENT)
+> +#define HV_PCIE_MSI_FLAGS_SUPPORTED (MSI_FLAG_MULTI_PCI_MSI
+> 	| \
+> +				     MSI_FLAG_PCI_MSIX			| \
+> +				     MSI_GENERIC_FLAGS_MASK)
+> +
+> +static const struct msi_parent_ops hv_pcie_msi_parent_ops =3D {
+> +	.required_flags		=3D HV_PCIE_MSI_FLAGS_REQUIRED,
+> +	.supported_flags	=3D HV_PCIE_MSI_FLAGS_SUPPORTED,
+> +	.bus_select_token	=3D DOMAIN_BUS_PCI_MSI,
+> +#ifdef CONFIG_X86
+> +	.chip_flags		=3D MSI_CHIP_FLAG_SET_ACK,
+> +#elif defined(CONFIG_ARM64)
+> +	.chip_flags		=3D MSI_CHIP_FLAG_SET_EOI,
+> +#endif
+> +	.prefix			=3D "HV-",
+> +	.init_dev_msi_info	=3D hv_pcie_init_dev_msi_info,
+> +};
+> +
+>  /* HW Interrupt Chip Descriptor */
+>  static struct irq_chip hv_msi_irq_chip =3D {
+>  	.name			=3D "Hyper-V PCIe MSI",
+> @@ -2108,7 +2144,6 @@ static struct irq_chip hv_msi_irq_chip =3D {
+>  	.irq_set_affinity	=3D irq_chip_set_affinity_parent,
+>  #ifdef CONFIG_X86
+>  	.irq_ack		=3D irq_chip_ack_parent,
+> -	.flags			=3D IRQCHIP_MOVE_DEFERRED,
+>  #elif defined(CONFIG_ARM64)
+>  	.irq_eoi		=3D irq_chip_eoi_parent,
+>  #endif
+> @@ -2116,9 +2151,37 @@ static struct irq_chip hv_msi_irq_chip =3D {
+>  	.irq_unmask		=3D hv_irq_unmask,
+>  };
+>=20
+> -static struct msi_domain_ops hv_msi_ops =3D {
+> -	.msi_prepare	=3D hv_msi_prepare,
+> -	.msi_free	=3D hv_msi_free,
+> +static int hv_pcie_domain_alloc(struct irq_domain *d, unsigned int virq,=
+ unsigned int nr_irqs,
+> +			       void *arg)
+> +{
+> +	/* TODO: move the content of hv_compose_msi_msg() in here */
+> +	int ret;
+> +
+> +	ret =3D irq_domain_alloc_irqs_parent(d, virq, nr_irqs, arg);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	for (int i =3D 0; i < nr_irqs; i++) {
+> +		irq_domain_set_info(d, virq + i, 0, &hv_msi_irq_chip, NULL, FLOW_HANDL=
+ER, NULL,
+> +				    FLOW_NAME);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void hv_pcie_domain_free(struct irq_domain *d, unsigned int virq,=
+ unsigned int nr_irqs)
+> +{
+> +	struct msi_domain_info *info =3D d->host_data;
+> +
+> +	for (int i =3D 0; i < nr_irqs; i++)
+> +		hv_msi_free(d, info, virq + i);
+> +
+> +	irq_domain_free_irqs_top(d, virq, nr_irqs);
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+This code can be built as a module, so irq_domain_free_irqs_top() needs to =
+be
+exported, which it currently is not.
+
+> +}
+> +
+> +static const struct irq_domain_ops hv_pcie_domain_ops =3D {
+> +	.alloc	=3D hv_pcie_domain_alloc,
+> +	.free	=3D hv_pcie_domain_free,
+>  };
+>=20
+>  /**
+> @@ -2136,17 +2199,14 @@ static struct msi_domain_ops hv_msi_ops =3D {
+>   */
+>  static int hv_pcie_init_irq_domain(struct hv_pcibus_device *hbus)
+>  {
+> -	hbus->msi_info.chip =3D &hv_msi_irq_chip;
+> -	hbus->msi_info.ops =3D &hv_msi_ops;
+> -	hbus->msi_info.flags =3D (MSI_FLAG_USE_DEF_DOM_OPS |
+> -		MSI_FLAG_USE_DEF_CHIP_OPS | MSI_FLAG_MULTI_PCI_MSI |
+> -		MSI_FLAG_PCI_MSIX);
+> -	hbus->msi_info.handler =3D FLOW_HANDLER;
+> -	hbus->msi_info.handler_name =3D FLOW_NAME;
+> -	hbus->msi_info.data =3D hbus;
+> -	hbus->irq_domain =3D pci_msi_create_irq_domain(hbus->fwnode,
+> -						     &hbus->msi_info,
+> -						     hv_pci_get_root_domain());
+> +	struct irq_domain_info info =3D {
+> +		.fwnode		=3D hbus->fwnode,
+> +		.ops		=3D &hv_pcie_domain_ops,
+> +		.host_data	=3D hbus,
+> +		.parent		=3D hv_pci_get_root_domain(),
+> +	};
+> +
+> +	hbus->irq_domain =3D msi_create_parent_irq_domain(&info, &hv_pcie_msi_p=
+arent_ops);
+>  	if (!hbus->irq_domain) {
+>  		dev_err(&hbus->hdev->device,
+>  			"Failed to build an MSI IRQ domain\n");
+> --
+> 2.39.5
+>=20
+
 
