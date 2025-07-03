@@ -1,105 +1,154 @@
-Return-Path: <linux-renesas-soc+bounces-19077-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19078-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8B25AF6F93
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 12:02:06 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A62BAF6F97
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 12:02:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5689A1C40EF0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 10:02:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 68712525C1B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 10:02:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 290912E1752;
-	Thu,  3 Jul 2025 10:01:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="U/RVzsMt"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BF552E266C;
+	Thu,  3 Jul 2025 10:02:20 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80AA613C82E;
-	Thu,  3 Jul 2025 10:01:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988B72E175F;
+	Thu,  3 Jul 2025 10:02:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751536912; cv=none; b=Vok3TnUMXnAc/SN6oYLychq9JxeNm5cWorh9v7ecQQS07v1OH3vEEMXn1sKk80Lkyx6B2zVdL56g+vMWSa0TIWgFEpbi+sALIug2s+xesNjMCoBUmYVGYWw9jxUjRvbkm+zCTLVhlVDGZrNqh6PRf4/a9bwW8Zw7PqzQoC1+8CU=
+	t=1751536940; cv=none; b=TBu67o/O/ng6EvyJZSFzJJjr12YEebXokt3oHIDlDuwOlC6I4eUSy9ZRXLRwTCmToi3myiXCJZCHiV8hDbD2b87kIXp8YZ//N5lc2QldYN61akNKi2zZN2nQBDD0gJKXoZvA5ExN8De6FyDhuIXC40LjfvcDox71eTUE4g8lrEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751536912; c=relaxed/simple;
-	bh=SIP1cv/nfFPPcYAt8bSxvGN9cHpfhJDhYuQ9yDbsm5o=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dnlrhkIDrouZpJPa3uDh18iVio4tE/RjTRSS154v39XIELCOZZ894wvgY4gtb7HayK0zS8mfU1VVuxRHww3ZtvGk+GY3WPiwx9gP6EG6wGQs0c40HwvlY3oTLNYYp5DMmvzR8t0TCoojpSuwN1y+3MA4PP+pfwHHQmcGkAE6TzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=U/RVzsMt; arc=none smtp.client-ip=220.197.31.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=KO
-	0SdRrfWM51e/MZYsiLBwiZIMApjZVXhDZgKnfi9JQ=; b=U/RVzsMtX6PHAUMIvs
-	fBiCvOt6AK1MlEhfJg7O8rJU3k0zTCVLbXKe7ShzY5O0pAogwR/kAaX5BYeIKsfJ
-	1JRlyncww+b+A2NtSMmTkvb634w0Eq4DXr5NCa+uCIjpA7LsstlKtE/ppm6/E0B9
-	kj5MDrlizF9Z6AnzOAUNaNbnI=
-Received: from icess-ProLiant-DL380-Gen10.. (unknown [])
-	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wD374rnVGZoZdkDCQ--.58228S4;
-	Thu, 03 Jul 2025 18:01:12 +0800 (CST)
-From: Haoxiang Li <haoxiang_li2024@163.com>
-To: niklas.soderlund@ragnatech.se,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	richardcochran@gmail.com
-Cc: netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Haoxiang Li <haoxiang_li2024@163.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] net: ethernet: rtsn: Fix a null pointer dereference in rtsn_probe()
-Date: Thu,  3 Jul 2025 18:01:09 +0800
-Message-Id: <20250703100109.2541018-1-haoxiang_li2024@163.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1751536940; c=relaxed/simple;
+	bh=gDX780VY4dR/qG1ozIAynPHoGgqIhKcREQIqdk8HTsQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=grmJTsGcGItgzEJ0lGdIp0JKnbth4ySPUIBLNkz8nN7bvoMjRpVC5jnyqPQ1xw5pdBKNUd7RNU3muXoqVcZnk5BSME8aQN6qFbfE6uWayVg0tLT2qHF1ax9yveRj5GwsVbJAwFdrJGWidqDoW0sYwARe5UCDVjYx86p+53xiz9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-7d3900f90f6so519074585a.1;
+        Thu, 03 Jul 2025 03:02:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751536937; x=1752141737;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cvo2bpcwGrGHE2F3u33rAVWzmYgZxRKIZST4sTWJ+JM=;
+        b=k7a6P2YBIHnRk8xtQocNCnUDmnFfAzllz5dW+AlWKUrrnZ12nvXKnG+064KUl4L8Bv
+         gar4rhclkXksHV8sh8hhnn5yObYhSxAdvgaRx2XFISFbKjWCP1gr/gFUUxT4NuRj+uV+
+         UW8DthGNTh3Ad+Nx6c3oMbdP76T7gevNwmeyedx/d6G/2CgYiAjf+K7hM29yfYWF0YDJ
+         MHcw85A+upDx8YHcCI6HyACuXoSLnO+CrNhdXDqUWW367ekz1nlJ3FLNEVwc0HQvRIFi
+         SSkPIp1yyC+PzJaE+btgK5H29VVyKg7d14j6iOH2iT/GCg+xGU4XPhp2fDrMVxGEQ8s+
+         cSIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVb8XyzhhvhdmGU6rhamRvTPpReZAp07X248iRQZSfhjThrLzNtnzrnUOGoKo2Chb9kfyj9xtUrCPXj2FY80ZrkH8U=@vger.kernel.org, AJvYcCWdgNhQE2pBNaHMGSFyQ5rYu0qZtSPRKLu3biOcMlY46WYne5b1o6JFbc7FKXLp7pjyMpKvysJrBzr2IXKz@vger.kernel.org, AJvYcCWoTWDQBUYUCE7LVyOeV+KOJCcNRnPPyQMlOXiAGQ5ZzNAHenK5R3fvS5Ofzx4MGZb2MdK/lygaNvw5@vger.kernel.org, AJvYcCX8Q2DLfGePVLH8rKlRL8c1UR7+Wtl68Vo3qBNuszLpT1uo4OzOQmYOPNwHzOue6Eqw9uTrLLjpsSk9gA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyic/kYFYqxxLOIIS7vPt3eVIDhKV/zJI525adAEI2OzCvuIQ/7
+	YIpek/eMDRvBV+5MAUJzt3sGNUD8jyIt8+hmAXEsr3jTvQMOva912+mxf4yXaeA0
+X-Gm-Gg: ASbGncv3ub9aTAAhtn6tgTjnQzMR4P0k9JyGB9TnmGiraz7jsnFWnhPBYsziUQiQuYI
+	5T2/aijwukrOFFpG5mfbIWrCPw1Y9JAWj2jwVztvO70ochshBKRBDI3cNt1w+XDlQZ9YuUKfMac
+	DKG77SyPBqiLibcsiWuzXmeTE8rVrTJ3G1KlTpDcGemxyMwTyn33t+y3G+Zg6m2j5gxFR0BGH4K
+	MQdtumT2SsuMrxKs/48F5MD3eKk/vHeNOp0B81JeW4lOyCcoRgNeWonHh1QSnOZfMNkmRFT6EsB
+	RdP8jcTaSHNqqIRbo5q/fceTuUkA7yFAaHdSOqvX6SR3mKGknZdiiDiJ/5ErmB7G5yG/Dxnhk+2
+	gIBMNUfR1QwymlkGcHJlkXTWuXD7A
+X-Google-Smtp-Source: AGHT+IH4KfkaGI+crNbYLz5U9XyfcLTcQbqsilihqV8cektXO9ZV8A8TWKAL3i0G/pS/NfkxJU13UA==
+X-Received: by 2002:a05:620a:6602:b0:7d4:4b7d:fc66 with SMTP id af79cd13be357-7d5d13f3c8fmr460247985a.18.1751536934432;
+        Thu, 03 Jul 2025 03:02:14 -0700 (PDT)
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com. [209.85.222.181])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d44320572dsm1079786085a.69.2025.07.03.03.02.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Jul 2025 03:02:14 -0700 (PDT)
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-7d3cc0017fdso588072385a.3;
+        Thu, 03 Jul 2025 03:02:13 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVwJEl1xcb0WsLPDLYYIekDytjDwALjPc5SzfwxVU5LcbEpGTnKHJ1gHS+s4GwixJg2yZC57u8ZVyPfWw==@vger.kernel.org, AJvYcCW9VOwV7Qn/9Lhm0JHrHjt2LCutbvqY6eKswyG42zb03MGMeZ15rJzMaeN5ogxccJ1XmjtvmpPDKqt3@vger.kernel.org, AJvYcCX53FrnYRVJODX6NBgAGkgXOzw+4aJgIHemepheYQ7kPpt5MdInNDj0Snew9Y7PGxolpCMOvHz9cFesqsNKlWbjYq4=@vger.kernel.org, AJvYcCXZU28PUJe7USTXWAYXAUG+76qHpX2iN4ig8StkAXuuxVQFcYkH6jV+l2juzcnPRBYvfCuFjhEyPfCLBtgc@vger.kernel.org
+X-Received: by 2002:a05:620a:2792:b0:7d4:4e42:7b43 with SMTP id
+ af79cd13be357-7d5d14612f0mr347575085a.30.1751536933143; Thu, 03 Jul 2025
+ 03:02:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD374rnVGZoZdkDCQ--.58228S4
-X-Coremail-Antispam: 1Uf129KBjvdXoW7JryxZF18GF4fuF4xCw43trb_yoWDKrX_Kw
-	12vFs5Xw4DAr1jkw1UKw43u34ayr4kXr9YvFsrtrZxtay7Zr15XFZ5ZF93Gr1Uuwn5CF9r
-	ZrnxJa1xA342qjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRG0PfUUUUUU==
-X-CM-SenderInfo: xkdr5xpdqjszblsqjki6rwjhhfrp/xtbBkBh-bmhmTADskwABsl
+References: <20250625130712.140778-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250625130712.140778-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250625130712.140778-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 3 Jul 2025 12:02:01 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW1+4EhYNWOHu1skaAg7jwLc373ZkBmPOhU=R5jhLJf_w@mail.gmail.com>
+X-Gm-Features: Ac12FXxLzVyjzWFl5fPBiLIrQzerhqd0vyh3KZSzE3KEWfQf4b8isxzF0-1Pg6s
+Message-ID: <CAMuHMdW1+4EhYNWOHu1skaAg7jwLc373ZkBmPOhU=R5jhLJf_w@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] pinctrl: renesas: Add support for RZ/T2H
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Bartosz Golaszewski <brgl@bgdev.pl>, linux-renesas-soc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Add check for the return value of rcar_gen4_ptp_alloc()
-to prevent potential null pointer dereference.
+Hi Prabhakar,
 
-Fixes: b0d3969d2b4d ("net: ethernet: rtsn: Add support for Renesas Ethernet-TSN")
-Cc: stable@vger.kernel.org
-Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
----
-Changes in v2:
-- Add a blank line to make the grouping similar to the
-style of other error checks in probe. Thanks, Niklas!
----
- drivers/net/ethernet/renesas/rtsn.c | 5 +++++
- 1 file changed, 5 insertions(+)
+On Wed, 25 Jun 2025 at 15:07, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+>
+> Add the pinctrl and gpio driver for RZ/T2H
+>
+> Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+> Co-developed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v1->v2:
+> - All the regions are now accessed by reg names
+> - Added support to validate the pins
 
-diff --git a/drivers/net/ethernet/renesas/rtsn.c b/drivers/net/ethernet/renesas/rtsn.c
-index 6b3f7fca8d15..05c4b6c8c9c3 100644
---- a/drivers/net/ethernet/renesas/rtsn.c
-+++ b/drivers/net/ethernet/renesas/rtsn.c
-@@ -1259,7 +1259,12 @@ static int rtsn_probe(struct platform_device *pdev)
- 	priv = netdev_priv(ndev);
- 	priv->pdev = pdev;
- 	priv->ndev = ndev;
-+
- 	priv->ptp_priv = rcar_gen4_ptp_alloc(pdev);
-+	if (!priv->ptp_priv) {
-+		ret = -ENOMEM;
-+		goto error_free;
-+	}
- 
- 	spin_lock_init(&priv->lock);
- 	platform_set_drvdata(pdev, priv);
--- 
-2.25.1
+Thanks for the update!
 
+> --- a/drivers/pinctrl/renesas/Kconfig
+> +++ b/drivers/pinctrl/renesas/Kconfig
+> @@ -44,6 +44,7 @@ config PINCTRL_RENESAS
+>         select PINCTRL_RZG2L if ARCH_R9A09G047
+>         select PINCTRL_RZG2L if ARCH_R9A09G056
+>         select PINCTRL_RZG2L if ARCH_R9A09G057
+> +       select PINCTRL_RZT2H if ARCH_R9A09G077
+>         select PINCTRL_PFC_SH7203 if CPU_SUBTYPE_SH7203
+>         select PINCTRL_PFC_SH7264 if CPU_SUBTYPE_SH7264
+>         select PINCTRL_PFC_SH7269 if CPU_SUBTYPE_SH7269
+> @@ -249,6 +250,18 @@ config PINCTRL_RZN1
+>         help
+>           This selects pinctrl driver for Renesas RZ/N1 devices.
+>
+> +config PINCTRL_RZT2H
+> +       bool "pin control support for RZ/T2H"
+> +       depends on OF
+> +       depends on ARCH_R9A09G077 || COMPILE_TEST
+
+This line is not needed, as PINCTRL_RZT2H is selected above (On RZ/A1,
+RZ/A2, and RZ/N1, the pin control driver is optional).  Please move the
+"|| COMPILE_TEST" to the prompt, like is done for most other drivers.
+
+> +       select GPIOLIB
+> +       select GENERIC_PINCTRL_GROUPS
+> +       select GENERIC_PINMUX_FUNCTIONS
+> +       select GENERIC_PINCONF
+> +       help
+> +         This selects GPIO and pinctrl driver for Renesas RZ/T2H
+> +         platforms.
+> +
+>  config PINCTRL_RZV2M
+>         bool "pin control support for RZ/V2M"
+>         depends on OF
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
