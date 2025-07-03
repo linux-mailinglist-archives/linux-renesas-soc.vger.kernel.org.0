@@ -1,250 +1,161 @@
-Return-Path: <linux-renesas-soc+bounces-19088-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19089-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78086AF73E4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 14:24:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91387AF7536
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 15:16:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 923FB1C85329
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 12:23:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C1045189A465
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 13:16:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B92FD2E7F1A;
-	Thu,  3 Jul 2025 12:19:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75FAA4A1E;
+	Thu,  3 Jul 2025 13:16:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eLH/Rf98"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="SLmp6xJ/";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="mAocVhQk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAB8938384
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  3 Jul 2025 12:19:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B085081E;
+	Thu,  3 Jul 2025 13:16:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751545191; cv=none; b=Wo/NLI7rN5oP/MlHnzBzy88mxaHUwZxnxabJg/FxsB58WTdabNEa/bdE9S84ew6xHaZjzKfg3NoyUc4toLzCybnBLZTOdhJyXXtYwte3LgaRWakdcy3Mx1Ng5P8d2Xyx0mmVEE29dAenvKLtiile7CsdvwwqnY5IeBrkLZiMgQ0=
+	t=1751548588; cv=none; b=UhKCLHta/OyKuZ7wJAQKCOknlyx/oX5BXlCweB6JBxd/23WytsQ3HLg9XorA3lmrc1lkfSz6HBsBlCvin8c8eYX5wjB6wVwz07cXV/lb5Lynv1+T10Cw0UJZB+rBtNc+u9zp5MtzkDvaAdvun9J8K4rWpcCoLxSOYKxTj36ky7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751545191; c=relaxed/simple;
-	bh=z8FZnR4Rw/qWdYY8qz/fLFF2yrmytUH3WBZHq3bugK8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VH452029TfFKoknqeDqLHcorGm6XUv1t2I1stdT3a52Y+uUlxKcRIiII3n4RCVsA3hvk/2BS/QsVEz34hqXY7UItbgPVBHhFBnjOabRn3trN24zZCdmrCXLEi8Oo4MBSoVBgms7x+RuGPqOZ1vSIaYQEir8RY7E0mcfsOc6DykY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eLH/Rf98; arc=none smtp.client-ip=209.85.219.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e8986a25cbfso1417610276.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 03 Jul 2025 05:19:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1751545189; x=1752149989; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=N2wuby6dihOR3rr2SUBYnQ0Uq7yXMHWKxft/QT/79xE=;
-        b=eLH/Rf98JC/HMuL7KJZBbT6Ya9KGteDjP9Kh4ZPe36Q88AcLivWi60GCowxr/Cg9jv
-         A01pT5MtEtQAV5EzJkZP67t/lNJ58hKDUHG/bgyi/C/ysSjB6HamHtUYS0pkjDs9l4CP
-         eyaAnYETJ0+8ztO1TwB644c+dSA7Os8yO7138nTREOR4e842Oh+JavV4rQlNkcPLTai/
-         uWD90AxCTZPRufjnJnVQqXR5YML7gm0pY8g9svTI+N7UFDd2WDbcpboSW9V3BXLEJqRe
-         zQjqL1J4UuMyv0esy4cn3XLr8cjhtdrhTKEVjm+T4k/zIRafPCKG2CYPEJ7SYF4NpPTi
-         y1vQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751545189; x=1752149989;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=N2wuby6dihOR3rr2SUBYnQ0Uq7yXMHWKxft/QT/79xE=;
-        b=vSglaJcNSh5Mz2Qy73XjuHntPuSisM+JnaTRkj/VMepxrqE+C9IWXNy8zYZotId3kr
-         mnqZiLJgsc2FiKhP4dnnligvcVQZEZnfUfO6FszBqhqIzNxggXtdc4MiTP7D6zEkCjwd
-         tYykd4gSmntWflBdthqroZeQC39oS8aGIfGxqufFTEEFBOgPhHx3zrAektkG6bba1Fge
-         FThfuty2wqWZWOrTUdJdojfukS+3pt2LdMj1EQ8lVFT/3iWupDQjJ1X7G7vDHjoNjkTE
-         WeDKqFlBlfe4DPUo1bhmbe//6aOGa0rNSIjX6r3BaGGaH0VQCJC79pvSon8LzEaL9us8
-         LbeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXg4TLvtcIwyG8M+GvFgwB2dXeMe6UOSgTZZ/SFgwRKcXzxXnE1lPQoVZRJTBjtiw5JzZOOdOGRu5Wo/PnoosuwKw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7fam+vksWKLjLSaXvMWQTJzbsDdK9qaY+GgYc8PSg9O50vowT
-	128FQwrl5uCF1GTERp7hBpGykrVrgjnJEb3f8hG14qLgm/zsjyq8ktoal1nvKmy2s9ibFtUlYAY
-	RCGu/tXyS8vXpnFF3TB1dOmr/2X9GUHLtwSfiJT+6IQ==
-X-Gm-Gg: ASbGncuwjqZohVJUSbs/CB1pBeANmz56/3pYS+AtWIB3wvK68idDSCVy8dRfE0iY86g
-	SK7w8bA27BdG0y6HwgsbzKbEcogvY/zsl8hM2eMm2pQoq7UqdbEhJTttfdxgH24r0vIzadRJ342
-	iy1mXJtfstcjpfrLo98nDAcEs3rD8bfPHMomw/fBqPOLBY
-X-Google-Smtp-Source: AGHT+IEeRTEttwsTQvILUVHrceCqzM9cMbjNTuLR5NzW92fxDyMdJhdnzbpkuw2WPjwuUny5S4J+pKNydZxICX8WeYw=
-X-Received: by 2002:a05:690c:14:b0:70e:2cf0:f66a with SMTP id
- 00721157ae682-71658fd7204mr50507077b3.6.1751545188852; Thu, 03 Jul 2025
- 05:19:48 -0700 (PDT)
+	s=arc-20240116; t=1751548588; c=relaxed/simple;
+	bh=XytcD+vaZ9RJo/DfZdRUZv3WXvu5odrf278v+i2KoHs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qGqGxj6FtiKmY+KvHelXHm56bI7SNcnhf78OerzFKk1s6tLuIQo/IJnsLeqgCYxEVKuYvgaWre6TxwgxIUGIuod1T/odM5uAdfrTsPOfwto47b5ambqhvgxY2VWtvkq562bEPwEU/s3GlUwy++em3YJKFAFOCtKZlGxFYKE2Rwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=SLmp6xJ/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=mAocVhQk; arc=none smtp.client-ip=202.12.124.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 8AE197A0178;
+	Thu,  3 Jul 2025 09:16:24 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-12.internal (MEProxy); Thu, 03 Jul 2025 09:16:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1751548584;
+	 x=1751634984; bh=BOGBp2DJegAx2Lc/mJxCM1Eut5ojkmLVEQeycC/XxH8=; b=
+	SLmp6xJ/tPVDiaA5ooFReHwnYWyXCGOD4CZUs39MpuykhRPXb6lLCTjLst84fo3N
+	/SSInCJYaDIYO/RURtuLkeXgWLeSHO+dn2/ffU/Kw0FnAh3MSH5sD+y2lYkr/hMz
+	zoBUq4prc7TwrFLi+GNYevzXEOODe9E1rL0RqqJJxljAVb/35dH2/3l70tpYsbu7
+	RMpnKOJ6l6SPvA4GUtxTLA+1PNFUcKPzo7jejiXoh/JOjQRmrKbUVN5A44pvhAzu
+	E4Jsf2hDknzw+S2Jf6uj1TVGyKa4RvhPmlin0VfjwyhfajrHL/3EEdsvAhpShhnx
+	RvT24+LCYVvhzB0cmjekFw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1751548584; x=
+	1751634984; bh=BOGBp2DJegAx2Lc/mJxCM1Eut5ojkmLVEQeycC/XxH8=; b=m
+	AocVhQkiUtqa5yHFhPYWsVRPfvekoRGfnPsytzCArFklpslMni53h1K3wmbtiDjS
+	BL/eCFE3mrMSKjXGDXhCRbKY16Z0qHx79VfktuC78ThTnp4bVCLr+2JeTzYEdoAc
+	VQ9iVtQx0jK2LCVEhfvWoYRyvAZ8bwd5Ut1HmaXUBa32ABE6HRmwseF++LiwzYkP
+	0Z/WY1GDWhUOSlevdhgAtlm2AGN5UYZwZV9iqyrUN1YBEj+TasnuE5Gy++Amc7tp
+	D+E3wOzZiy43byEphB7nhidxgTIfK6g1jmjtcUOL/b+PYM63f671xYznlKlas6c2
+	QZL/V+k+YKgJnvVNelCow==
+X-ME-Sender: <xms:qIJmaDSSR9LmqGPrfgfcIgZcBZyxFfepZ-IzPs6NraVsd4o8I8SFew>
+    <xme:qIJmaEwUuv2le5Y5qsy2Gm3tY9qQ3ssZGHITqmaKuRZHfp_4OPNJlR6ulpguLCHyA
+    ng7nCFo5X9TzmBkY4M>
+X-ME-Received: <xmr:qIJmaI1E58ujjTX93pRqPB3OdeW4PqZJkIbb2uASVLxSsJ5BzgwYB4dYZRTMJKkUVC2HT9f9iVM0PrvoI3z68n5xEh85B1PJRQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddvtdefkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhikhhlrghs
+    ucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrth
+    gvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepveetgedtvddvhfdtkeeghfeffeehteeh
+    keekgeefjeduieduueelgedtheekkeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+    hrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgr
+    thgvtghhrdhsvgdpnhgspghrtghpthhtohepuddupdhmohguvgepshhmthhpohhuthdprh
+    gtphhtthhopehhrghogihirghnghgplhhivddtvdegseduieefrdgtohhmpdhrtghpthht
+    oheprghnughrvgifodhnvghtuggvvheslhhunhhnrdgthhdprhgtphhtthhopegurghvvg
+    hmsegurghvvghmlhhofhhtrdhnvghtpdhrtghpthhtohepvgguuhhmrgiivghtsehgohho
+    ghhlvgdrtghomhdprhgtphhtthhopehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpth
+    htohepphgrsggvnhhisehrvgguhhgrthdrtghomhdprhgtphhtthhopehrihgthhgrrhgu
+    tghotghhrhgrnhesghhmrghilhdrtghomhdprhgtphhtthhopehnvghtuggvvhesvhhgvg
+    hrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhs
+    ohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:qIJmaDBK7lUQ_By2uIWr5UtX3THEi_zbpdfh0jnjzMPqeeEcEYGdHA>
+    <xmx:qIJmaMh6oO0szYF9TLacp2BMO92KUT0ng5h6VGVfPbYDgLYxpp3GKw>
+    <xmx:qIJmaHqT6nzcM3yrTMSThzH2xayrXDB_iQCIg5xNGVtIRBV4fWJBsg>
+    <xmx:qIJmaHj4dSMI9mfPDKPd-6p3ceeUgTkvQqVjJLZ6750y6jQGO9yKeA>
+    <xmx:qIJmaFEGiyLTcw_JceSAG82Ik7gWYRB-XbAOxd5rALA0GyBPYHsmC1Vd>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 3 Jul 2025 09:16:23 -0400 (EDT)
+Date: Thu, 3 Jul 2025 15:16:21 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Haoxiang Li <haoxiang_li2024@163.com>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, richardcochran@gmail.com,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2] net: ethernet: rtsn: Fix a null pointer dereference
+ in rtsn_probe()
+Message-ID: <20250703131621.GB3900914@ragnatech.se>
+References: <20250703100109.2541018-1-haoxiang_li2024@163.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250617164914.158091-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250617164914.158091-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Thu, 3 Jul 2025 14:19:12 +0200
-X-Gm-Features: Ac12FXxJYgE2tX-oOlBR7QzPvk6TF-AjaS4HJVIbxSdXpqqJydqW899apydF_zo
-Message-ID: <CAPDyKFqWmqO=Lw9yfLKV+zrwegGe_oCk3h2SWxPaU+_s2XnQjg@mail.gmail.com>
-Subject: Re: [PATCH v2] dt-bindings: mmc: renesas,sdhi: Document RZ/T2H and
- RZ/N2H support
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250703100109.2541018-1-haoxiang_li2024@163.com>
 
-On Tue, 17 Jun 2025 at 18:49, Prabhakar <prabhakar.csengg@gmail.com> wrote:
->
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Add SDHI bindings for the Renesas RZ/T2H (a.k.a R9A09G077) and RZ/N2H
-> (a.k.a R9A09G087) SoCs. Use `renesas,sdhi-r9a09g057` as a fallback since
-> the SD/MMC block on these SoCs is identical to the one on RZ/V2H(P),
-> allowing reuse of the existing driver without modifications.
->
-> Update the binding schema to reflect differences: unlike RZ/V2H(P),
-> RZ/T2H and RZ/N2H do not require the `resets` property and use only a
-> two clocks instead of four.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi Haoxiang,
 
-Applied for next, thanks!
+Thanks for your work.
 
-Kind regards
-Uffe
+On 2025-07-03 18:01:09 +0800, Haoxiang Li wrote:
+> Add check for the return value of rcar_gen4_ptp_alloc()
+> to prevent potential null pointer dereference.
+> 
+> Fixes: b0d3969d2b4d ("net: ethernet: rtsn: Add support for Renesas Ethernet-TSN")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
 
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
 > ---
-> v1->v2:
-> - Added the high speed clock to the clocks list.
+> Changes in v2:
+> - Add a blank line to make the grouping similar to the
+> style of other error checks in probe. Thanks, Niklas!
 > ---
->  .../devicetree/bindings/mmc/renesas,sdhi.yaml | 85 ++++++++++++-------
->  1 file changed, 53 insertions(+), 32 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> index 7563623876fc..ba15ccbda61a 100644
-> --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> @@ -72,6 +72,8 @@ properties:
->            - enum:
->                - renesas,sdhi-r9a09g047 # RZ/G3E
->                - renesas,sdhi-r9a09g056 # RZ/V2N
-> +              - renesas,sdhi-r9a09g077 # RZ/T2H
-> +              - renesas,sdhi-r9a09g087 # RZ/N2H
->            - const: renesas,sdhi-r9a09g057 # RZ/V2H(P)
->
->    reg:
-> @@ -129,59 +131,78 @@ allOf:
->          compatible:
->            contains:
->              enum:
-> -              - renesas,sdhi-r9a09g057
-> -              - renesas,rzg2l-sdhi
-> +              - renesas,sdhi-r9a09g077
-> +              - renesas,sdhi-r9a09g087
->      then:
->        properties:
-> +        resets: false
->          clocks:
->            items:
-> -            - description: IMCLK, SDHI channel main clock1.
-> -            - description: CLK_HS, SDHI channel High speed clock which operates
-> -                           4 times that of SDHI channel main clock1.
-> -            - description: IMCLK2, SDHI channel main clock2. When this clock is
-> -                           turned off, external SD card detection cannot be
-> -                           detected.
-> -            - description: ACLK, SDHI channel bus clock.
-> +            - description: ACLK, IMCLK, SDHI channel bus and main clocks.
-> +            - description: CLK_HS, SDHI channel High speed clock.
->          clock-names:
->            items:
-> -            - const: core
-> -            - const: clkh
-> -            - const: cd
->              - const: aclk
-> -      required:
-> -        - clock-names
-> -        - resets
-> +            - const: clkh
->      else:
->        if:
->          properties:
->            compatible:
->              contains:
->                enum:
-> -                - renesas,rcar-gen2-sdhi
-> -                - renesas,rcar-gen3-sdhi
-> -                - renesas,rcar-gen4-sdhi
-> +                - renesas,sdhi-r9a09g057
-> +                - renesas,rzg2l-sdhi
->        then:
->          properties:
->            clocks:
-> -            minItems: 1
-> -            maxItems: 3
-> -          clock-names:
-> -            minItems: 1
-> -            uniqueItems: true
->              items:
-> -              - const: core
-> -              - enum: [ clkh, cd ]
-> -              - const: cd
-> -      else:
-> -        properties:
-> -          clocks:
-> -            minItems: 1
-> -            maxItems: 2
-> +              - description: IMCLK, SDHI channel main clock1.
-> +              - description: CLK_HS, SDHI channel High speed clock which operates
-> +                             4 times that of SDHI channel main clock1.
-> +              - description: IMCLK2, SDHI channel main clock2. When this clock is
-> +                             turned off, external SD card detection cannot be
-> +                             detected.
-> +              - description: ACLK, SDHI channel bus clock.
->            clock-names:
-> -            minItems: 1
->              items:
->                - const: core
-> +              - const: clkh
->                - const: cd
-> +              - const: aclk
-> +        required:
-> +          - clock-names
-> +          - resets
-> +      else:
-> +        if:
-> +          properties:
-> +            compatible:
-> +              contains:
-> +                enum:
-> +                  - renesas,rcar-gen2-sdhi
-> +                  - renesas,rcar-gen3-sdhi
-> +                  - renesas,rcar-gen4-sdhi
-> +        then:
-> +          properties:
-> +            clocks:
-> +              minItems: 1
-> +              maxItems: 3
-> +            clock-names:
-> +              minItems: 1
-> +              uniqueItems: true
-> +              items:
-> +                - const: core
-> +                - enum: [ clkh, cd ]
-> +                - const: cd
-> +        else:
-> +          properties:
-> +            clocks:
-> +              minItems: 1
-> +              maxItems: 2
-> +            clock-names:
-> +              minItems: 1
-> +              items:
-> +                - const: core
-> +                - const: cd
->
->    - if:
->        properties:
-> --
-> 2.49.0
->
+>  drivers/net/ethernet/renesas/rtsn.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/net/ethernet/renesas/rtsn.c b/drivers/net/ethernet/renesas/rtsn.c
+> index 6b3f7fca8d15..05c4b6c8c9c3 100644
+> --- a/drivers/net/ethernet/renesas/rtsn.c
+> +++ b/drivers/net/ethernet/renesas/rtsn.c
+> @@ -1259,7 +1259,12 @@ static int rtsn_probe(struct platform_device *pdev)
+>  	priv = netdev_priv(ndev);
+>  	priv->pdev = pdev;
+>  	priv->ndev = ndev;
+> +
+>  	priv->ptp_priv = rcar_gen4_ptp_alloc(pdev);
+> +	if (!priv->ptp_priv) {
+> +		ret = -ENOMEM;
+> +		goto error_free;
+> +	}
+>  
+>  	spin_lock_init(&priv->lock);
+>  	platform_set_drvdata(pdev, priv);
+> -- 
+> 2.25.1
+> 
+
+-- 
+Kind Regards,
+Niklas Söderlund
 
