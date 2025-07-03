@@ -1,117 +1,105 @@
-Return-Path: <linux-renesas-soc+bounces-19076-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19077-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B57EEAF6F8C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 12:01:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B25AF6F93
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 12:02:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2F4CF3A7D81
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 10:01:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5689A1C40EF0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 10:02:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C4B028FAA5;
-	Thu,  3 Jul 2025 10:01:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 290912E1752;
+	Thu,  3 Jul 2025 10:01:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="U/RVzsMt"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED4B523ABAA;
-	Thu,  3 Jul 2025 10:01:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80AA613C82E;
+	Thu,  3 Jul 2025 10:01:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751536897; cv=none; b=DXqfbJuZZ9mA1ADfSPZ/hNDZP857IXiipUuiQ5xnRoL0UVp3fq4VBku0J+YMaognqu0j8Z46FI1fOkVipgoUe2ABA/Kh+oYVw+CDnopz1zaqneQHg81PIEJfXnmDuyr8SwAeHNFwski1+Pf9Bsr6RwHgwzzMzfBMPqcNqJ9rKE4=
+	t=1751536912; cv=none; b=Vok3TnUMXnAc/SN6oYLychq9JxeNm5cWorh9v7ecQQS07v1OH3vEEMXn1sKk80Lkyx6B2zVdL56g+vMWSa0TIWgFEpbi+sALIug2s+xesNjMCoBUmYVGYWw9jxUjRvbkm+zCTLVhlVDGZrNqh6PRf4/a9bwW8Zw7PqzQoC1+8CU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751536897; c=relaxed/simple;
-	bh=RkNPZD0gXbVv9QMnhyaYHoHf3RLE4sm+UPdb7vIE3GM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lsdSpImXSkypkirDxi7/3kCilm9guyzz1wcWSoYhPE6RofcpdOxap3H6YCppvOtr8RzJLn8aPCFnRM+GpJR8HZXkQgoiOxzD8iUYAOZ/hfdob0PmwtcNaOoLv0Xyywj5soCzsWBbSlEow/0PPk2F8y0m/2u6NfJfg1tj6Uje13M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3e05bb6efe0so9895705ab.3;
-        Thu, 03 Jul 2025 03:01:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751536894; x=1752141694;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Vk6ZYpOZ+r73oR7qUxC8epbzhU6ue1sl2KbvmZi/cL0=;
-        b=GC0NIYhFKej6qrxRbuItsw5Xrlxci54mcMpgOViV0S2nOdoT6UUr+lZ8q1ncD5ud84
-         4rGwQHQU/jPxby/HRYR2wD6WUxb/PolK8iGkWgFwX6bw61Faj9IMigxZBP1c+0TK4o0u
-         YU+g4hyGuuXWMqDlo7hk6qfpFNcHHMoi83MrvIMeAXVH94w39hv4+2PwmM59wQrZUwnF
-         aEwJOYrnZlnj61sx7yCICXfRsqzy4X6QyeSnFWkkKmov8RUbj+TA2TOwuOB49KjnHr54
-         NXUfrOo+402dsaNsIwTvyZH3qs/AtvgeOonTRsviAVFWL7cB/d+QXKg8udvaMUc016df
-         88KA==
-X-Forwarded-Encrypted: i=1; AJvYcCUV5Mo5dFail/UyeqrKSxJazgSHOUzxutgsBINfqlczVNOt03HhcfS2ywUqgbriz5HMyrzYnFgz7FE1@vger.kernel.org, AJvYcCVFACjHpizGuHCeaUiyUhzz0Kb1nzuDTRUwEoLbd7DXXROJ53XC7lvBciwH1/JEXAJK+HJS840uCoe6PZDzjJpUhfg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwI9/9EF0VQWSkxpsH4McvPoQNFCRJqPrBUWD/nGL+WHQ9M87Wl
-	Npm2RmT98Zpj50u+iLHcCNSGvQyIAbzG6yqekP0GiKH18NktXmArklAlOi2mE1b+
-X-Gm-Gg: ASbGncu3hdZ2taDUWScb8mhfNU/+nkqqUKNxqmGN6HJv9rQN8gXuXSq8OrSeHNeFQY0
-	s0+nwO5Ou6KYtSDfwBQlwiowSXzGB/BWVK+zGRjYOkklaz1IAVTO+wWvfe6pVsuun3Ef7+mecYY
-	ucsAb5+h8tqTofGX370gFFO/bcSigNZi7RUKFTBsc+/9lU1zGvCGtKZZnNfDH6jTsFx8oCdhF/C
-	No5B9vFTrhDJSI72o8CA8xXs7tFZUQyjlTAg+OnE+T/4zT/coWb9lZVyeAo9OAyjwMQU9t+fpOp
-	drfD3in8AI0Fp6EyPSgb+4W7g45kg91krQShKNbhoEjiZVQY8q0mKOMj/T70wLQtv5n+G815VsV
-	ORVMDtvnJhzZrzZnM1Z8m8HGlskHN
-X-Google-Smtp-Source: AGHT+IGUuxsdq4D+33wM78MhGzji7JM2Hstbeo8SLiYZArk7OIbMPVR7f2Wc18xBsBQ6NRE72BYWOQ==
-X-Received: by 2002:a05:6e02:b24:b0:3dd:f743:d182 with SMTP id e9e14a558f8ab-3e05c930472mr26973885ab.5.1751536893914;
-        Thu, 03 Jul 2025 03:01:33 -0700 (PDT)
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com. [209.85.166.182])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-50204ab05a8sm3387195173.120.2025.07.03.03.01.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Jul 2025 03:01:33 -0700 (PDT)
-Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-3e058e82584so12187685ab.2;
-        Thu, 03 Jul 2025 03:01:33 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVgzcftcezD1bo6j8Iur5Qhprga1Gt3svFmRiiCU58NKmeMrALZZ1Vd/Upq6PHhFE/Ep9rQ/COLZfns@vger.kernel.org, AJvYcCVnnhOR2ol/dh8eSYBnosYahuGt4jfJBbtphHis+HCCVZihIV7JnadDduZIiwI41OJYa51BmQjjgD67YZW1uEWsScc=@vger.kernel.org
-X-Received: by 2002:a05:6102:f11:b0:4eb:eedf:df65 with SMTP id
- ada2fe7eead31-4f1762801a1mr1715033137.11.1751536881731; Thu, 03 Jul 2025
- 03:01:21 -0700 (PDT)
+	s=arc-20240116; t=1751536912; c=relaxed/simple;
+	bh=SIP1cv/nfFPPcYAt8bSxvGN9cHpfhJDhYuQ9yDbsm5o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dnlrhkIDrouZpJPa3uDh18iVio4tE/RjTRSS154v39XIELCOZZ894wvgY4gtb7HayK0zS8mfU1VVuxRHww3ZtvGk+GY3WPiwx9gP6EG6wGQs0c40HwvlY3oTLNYYp5DMmvzR8t0TCoojpSuwN1y+3MA4PP+pfwHHQmcGkAE6TzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=U/RVzsMt; arc=none smtp.client-ip=220.197.31.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=KO
+	0SdRrfWM51e/MZYsiLBwiZIMApjZVXhDZgKnfi9JQ=; b=U/RVzsMtX6PHAUMIvs
+	fBiCvOt6AK1MlEhfJg7O8rJU3k0zTCVLbXKe7ShzY5O0pAogwR/kAaX5BYeIKsfJ
+	1JRlyncww+b+A2NtSMmTkvb634w0Eq4DXr5NCa+uCIjpA7LsstlKtE/ppm6/E0B9
+	kj5MDrlizF9Z6AnzOAUNaNbnI=
+Received: from icess-ProLiant-DL380-Gen10.. (unknown [])
+	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wD374rnVGZoZdkDCQ--.58228S4;
+	Thu, 03 Jul 2025 18:01:12 +0800 (CST)
+From: Haoxiang Li <haoxiang_li2024@163.com>
+To: niklas.soderlund@ragnatech.se,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	richardcochran@gmail.com
+Cc: netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Haoxiang Li <haoxiang_li2024@163.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v2] net: ethernet: rtsn: Fix a null pointer dereference in rtsn_probe()
+Date: Thu,  3 Jul 2025 18:01:09 +0800
+Message-Id: <20250703100109.2541018-1-haoxiang_li2024@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250701112612.3957799-1-niklas.soderlund+renesas@ragnatech.se> <20250701112612.3957799-2-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20250701112612.3957799-2-niklas.soderlund+renesas@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 3 Jul 2025 12:01:08 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU7du6-BNo_Nf+iRWc3OVTiA1GVAzku05fkibvz=O7VgA@mail.gmail.com>
-X-Gm-Features: Ac12FXxdJw4l-iJqGZpsG2LNm2BkE2ShlbGH23VCJfTiv05ZqsDAcKNeOwiDEb0
-Message-ID: <CAMuHMdU7du6-BNo_Nf+iRWc3OVTiA1GVAzku05fkibvz=O7VgA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] arm64: dts: renesas: r8a779g3-sparrow-hawk-fan-pwm:
- Add missing install target
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Marek Vasut <marek.vasut+renesas@mailbox.org>, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD374rnVGZoZdkDCQ--.58228S4
+X-Coremail-Antispam: 1Uf129KBjvdXoW7JryxZF18GF4fuF4xCw43trb_yoWDKrX_Kw
+	12vFs5Xw4DAr1jkw1UKw43u34ayr4kXr9YvFsrtrZxtay7Zr15XFZ5ZF93Gr1Uuwn5CF9r
+	ZrnxJa1xA342qjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRG0PfUUUUUU==
+X-CM-SenderInfo: xkdr5xpdqjszblsqjki6rwjhhfrp/xtbBkBh-bmhmTADskwABsl
 
-On Tue, 1 Jul 2025 at 13:26, Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> The target to consider the dtbo file for installation is missing, add
-> it.
->
-> Fixes: a719915e76f2 ("arm64: dts: renesas: r8a779g3: Add Retronix R-Car V=
-4H Sparrow Hawk board support")
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
-> Reviewed-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Add check for the return value of rcar_gen4_ptp_alloc()
+to prevent potential null pointer dereference.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.17.
+Fixes: b0d3969d2b4d ("net: ethernet: rtsn: Add support for Renesas Ethernet-TSN")
+Cc: stable@vger.kernel.org
+Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
+---
+Changes in v2:
+- Add a blank line to make the grouping similar to the
+style of other error checks in probe. Thanks, Niklas!
+---
+ drivers/net/ethernet/renesas/rtsn.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Gr{oetje,eeting}s,
+diff --git a/drivers/net/ethernet/renesas/rtsn.c b/drivers/net/ethernet/renesas/rtsn.c
+index 6b3f7fca8d15..05c4b6c8c9c3 100644
+--- a/drivers/net/ethernet/renesas/rtsn.c
++++ b/drivers/net/ethernet/renesas/rtsn.c
+@@ -1259,7 +1259,12 @@ static int rtsn_probe(struct platform_device *pdev)
+ 	priv = netdev_priv(ndev);
+ 	priv->pdev = pdev;
+ 	priv->ndev = ndev;
++
+ 	priv->ptp_priv = rcar_gen4_ptp_alloc(pdev);
++	if (!priv->ptp_priv) {
++		ret = -ENOMEM;
++		goto error_free;
++	}
+ 
+ 	spin_lock_init(&priv->lock);
+ 	platform_set_drvdata(pdev, priv);
+-- 
+2.25.1
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
