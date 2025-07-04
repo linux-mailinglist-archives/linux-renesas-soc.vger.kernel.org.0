@@ -1,175 +1,167 @@
-Return-Path: <linux-renesas-soc+bounces-19209-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19210-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01696AF9135
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jul 2025 13:16:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44FE9AF915E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jul 2025 13:20:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9EFDB4A3C9D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jul 2025 11:15:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D8B5F3A7C64
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jul 2025 11:20:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C8DB2877C7;
-	Fri,  4 Jul 2025 11:16:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 541942C15AD;
+	Fri,  4 Jul 2025 11:20:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tQyS3S4B"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pYuy8hE1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD3E23ABB6
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Jul 2025 11:16:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DEF7258CC0;
+	Fri,  4 Jul 2025 11:20:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751627770; cv=none; b=G7eE5cu9zEflXoAd7ljUKltzn+n9fjCuswgPJgobJxy16cro7UQx+1X8hv6th0InwatW/GFJrYWmBuCIXHkfZLhDgpe9prKQnIlp0A+UidRkpxlLvKF4/VTaivdRVoC+1bN04iODG80v58cpenSYSAuiNFjEdqH9gP29gdlwnO0=
+	t=1751628045; cv=none; b=HAVEEFVI5FzXcZ2C2DUo01d/X7nMkjjXHECZqL3CUsO79TeQHL253p0oO0TQhaHffM1sYCfJTZEdR3ZD8nzOsLkQ71mrnLaceejG07zML0x1m92izmfD9+Bd09kmTP0AQCs0h8Akw2G0SB8jgOzeKwkp/ULze87Y01byGTZfjQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751627770; c=relaxed/simple;
-	bh=b9rtoKDrBAYC3BaF1M9Ck1YA+omLHf3ebvKNPvZnx2s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Jaa5slROf7KDSz1OqQbNPjnu8Ey8R2VG+YF5x1fDmkERDLy/cViTr8mEOvfMC4kjEYJxiPpDjbLhJG9JgCrkn6x4UDakkAdlu2JwHXgz90rBDY1zsmwy84BBGZrKjuIKkF3vko0nLvuimjQyx9LwKb9VMsYkVADDGekPAFfjdfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tQyS3S4B; arc=none smtp.client-ip=209.85.219.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e85e06a7f63so700133276.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Jul 2025 04:16:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1751627767; x=1752232567; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=PjpGYVa/Cr3/NCJD8CT9IY6HzXhXvTQMbsQZwOON6l4=;
-        b=tQyS3S4B2wbGP1Dqsu7JNrBtVdj91LQh2w8veoQ7h0MrGDi1p7vqMTB2KnEfYSxOYT
-         nCeOIdg0bzfoUS9fknPL6U/uxlkZoBZmwNkMV4zBDt1GmAfbMkwVeKutU2q2RNlrQDpR
-         6prf8vynMeEeFXAOcHn0YsENBARqw9mHcSL6Sq/8ElrEo3wIGrX7fqJWQ1wie3U8xryT
-         7IezF6IwbQ86ZUR+nRM3Q2oweyf2+uWHTZWLmUmL7uDSz65WecELfxdVUzs3c92fAZIL
-         AGmaOLE0mGwpaUqqqNHdyNAHU9oKyisiMgEfGXhUHqOvRVJrQrtdTvhr+8krET00XqJ5
-         CoMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751627767; x=1752232567;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PjpGYVa/Cr3/NCJD8CT9IY6HzXhXvTQMbsQZwOON6l4=;
-        b=ueSLDAgr961yuJMKLrvpqqhiF/3wTGT7JoGL/sn6PDA5dsdOApHqbIV1XKsiLVTKTm
-         DY4j073QQSgGSP8ilV/pvvRMqbZW/b3Khk89jQ9F11FKpr0q7d4nOI+hNUAIpbIQr5/q
-         P9nBwmsnXg6FboXBDgYhj88niMnz3xAQz/s1trZz13EYqlvv830tvhwm+q0NAtO/1U3p
-         uwjEF92bjhiV1h9nIFDgQg8u+3od4TloosYmX9C7ikai9v56kDZP0Qx/hEbQ/2LBvJjE
-         o2YhT3gJpW6ARUmdkpI9cagHWXnQ9xfZi7Cr3RbFK2zZFmNoDpCPpaGp4esgDgjr5gsT
-         QDJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWbaskUGV/Bj3wZRxiwTsstxp9w94OKtPKd46saQAU//1OMZlmMZFY+f/ZhPWhae5sJol8ySrEIqa/8MUS1tDcLvA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtCg9qKgj8bRhhBDTTRMyfMCcEec+Vge2pU78cSmysU/Ezyl3b
-	3rvO7IJhL0pD5gRFI3dM/b0uDR105561J5exPYatcgnM9Nujyc/S4eMzU5RjwIIzgbmzW87GoLK
-	Nbm3MQ45+yEoWo46iq8BXkqH2+M/qFAsenF4aCbrrsw==
-X-Gm-Gg: ASbGnct/F6Hz9MXcOhHuzeUIeyDY0HpXv5myfJk9ygs3zuszJv7MosRgNg0hCYgPoiI
-	QJ61EsY+yBg2zq0SD3MEhLHCqGHYsB4uEVFy1T1loEWH6ZBJZJimj406jPkFjzeSpsq/Dry+b0i
-	PLHY5bL2oZVlGVnBUunSTz7MpAZKd9B+APxvNDRuWnsadX
-X-Google-Smtp-Source: AGHT+IHAW8UyCQ9W+pvHvcTvef9aFULLZGbhQe98R4X9+6EEdiQxhHHKyUMUuOYP0+BDeQPC3PK4UvgN4CdOsI4nxiQ=
-X-Received: by 2002:a05:690c:9c09:b0:70f:9fcd:2075 with SMTP id
- 00721157ae682-71668c0e0ddmr26398687b3.3.1751627767124; Fri, 04 Jul 2025
- 04:16:07 -0700 (PDT)
+	s=arc-20240116; t=1751628045; c=relaxed/simple;
+	bh=N4dlHWBi2Yw9Z2ZRxUydBN+ggzvwZfk/YrAhBy+usOg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=bLQk9BjSOfTyTnJKi2WZChWAzAQAsV4Bw94yLM7eyf/S1jrgTZ4AppwunFG1EQQ8YE9izdFxdQJ5hDBecc8iiZi3ZkoonpVxOKrR9hLevQbKPdg1JIUoI46GZseSnZT9xzqyppkocrFLG6QIUMwhKvxAlwr1OPjDUpbAZAHHa5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pYuy8hE1; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [127.0.1.1] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 53C15669;
+	Fri,  4 Jul 2025 13:20:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1751628016;
+	bh=N4dlHWBi2Yw9Z2ZRxUydBN+ggzvwZfk/YrAhBy+usOg=;
+	h=From:Subject:Date:To:Cc:From;
+	b=pYuy8hE1iM8gnZo5SclQElv201Kg90dEgmOu1tdyXMPEJUbYuHlWiEFminIuAjVth
+	 /IwB0lwenzLoNV5FDkUVqFrrMQEUh4kLwBDWuGWDWvOfQG8Jrzt244Vt9l1wy+s+QA
+	 xnwjnY0vy9RAeMc8K3/uat8bybl3QTh33ylvfm5w=
+From: Daniel Scally <dan.scally@ideasonboard.com>
+Subject: [PATCH v3 0/5] Add Input Video Control Block driver for RZ/V2H
+Date: Fri, 04 Jul 2025 12:20:17 +0100
+Message-Id: <20250704-ivc-v3-0-5c45d936ef2e@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250703112708.1621607-1-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20250703112708.1621607-1-claudiu.beznea.uj@bp.renesas.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Fri, 4 Jul 2025 13:15:31 +0200
-X-Gm-Features: Ac12FXwfheYVCqCiLAFVR27m9ptp6dfE-AwljIFg4O16ch_FdabejHZIDOFh5ww
-Message-ID: <CAPDyKFoznqfdX7Dvu3VPa5Me10VHGphnRRHrU17w-fie7HrQ5g@mail.gmail.com>
-Subject: Re: [PATCH v5 0/3] PM: domains: Detach on device_unbind_cleanup()
-To: Claudiu <claudiu.beznea@tuxon.dev>, rafael@kernel.org
-Cc: linux@armlinux.org.uk, gregkh@linuxfoundation.org, 
-	david.m.ertman@intel.com, ira.weiny@intel.com, leon@kernel.org, 
-	dakr@kernel.org, len.brown@intel.com, pavel@kernel.org, andersson@kernel.org, 
-	mturquette@baylibre.com, sboyd@kernel.org, maarten.lankhorst@linux.intel.com, 
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
-	wsa+renesas@sang-engineering.com, mathieu.poirier@linaro.org, 
-	vkoul@kernel.org, yung-chuan.liao@linux.intel.com, 
-	pierre-louis.bossart@linux.dev, broonie@kernel.org, robh@kernel.org, 
-	jirislaby@kernel.org, saravanak@google.com, jic23@kernel.org, 
-	dmitry.torokhov@gmail.com, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, 
-	linux-serial@vger.kernel.org, bhelgaas@google.com, geert@linux-m68k.org, 
-	linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	fabrizio.castro.jz@renesas.com, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPG4Z2gC/2WSzW7bQAyEX8XQuTKWP/vnU9+jyIFLcmsBiZ1Kr
+ tEgyLt34xYo7N5EaOebITjv0+br4tt02L1Pq1+XbTmfxkBfdpMe5fTd58XGPGHAGBLyvFx1LkS
+ GTDlBytN4+bp6X37dKN+extzX88t8Oa4u/7QRKnDMkfccOYQ4w2xy2m8qz89vXxdz2c6ndpbV9
+ np++Utd/cfPEenyBz012Xwef1+Wy2EHFTM2yiLcC6lEbNarQrJoBZoZUGSufEPJRY9jk8NOHHo
+ MHCnXHiuzdYgWekIXlVoCpcjiRPeqPsDdAuZcyAeTOmABy5VMpTPnmlgzPnoV80gJqWZNwg2sd
+ CbRBkjemilDwLHGvcp65tIAikbsxpga5gAhV5PSNYQAkqGE/OCFHgtLbFBqq7lmEmnpU0fDuwf
+ PKahAuVdhTCWxazBrXUmSZ29RXCGKkTZHa875wctVIxcad+wjI5aqoZJnAIs8NgM1K02p3atAX
+ BJBEhSW3OLn96D3cboUiM3TsE0Zp88GHZftcl7fbrW84u34dw284hxmH8ltJA9S0/8Nevr4+Pg
+ NLwEAXd8CAAA=
+X-Change-ID: 20250624-ivc-833d24376167
+To: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ jacopo.mondi@ideasonboard.com, biju.das.jz@bp.renesas.com, 
+ Daniel Scally <dan.scally@ideasonboard.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3661;
+ i=dan.scally@ideasonboard.com; h=from:subject:message-id;
+ bh=N4dlHWBi2Yw9Z2ZRxUydBN+ggzvwZfk/YrAhBy+usOg=;
+ b=owEBbQKS/ZANAwAKAchJV3psRXUyAcsmYgBoZ7kBoSwDnlqqAg27ZctLvqRYisRkiMWmujHE9
+ NQHwX/isQeJAjMEAAEKAB0WIQQqyuwyDnZdb+mxmm/ISVd6bEV1MgUCaGe5AQAKCRDISVd6bEV1
+ Mjh8D/9tMnKxm0EOfSDVveUdybgnldv6fdxifE5Ha5IQR2yHGCw7f/LUULvoSJrE8RA9xoubfhZ
+ dSBxfvkSDal9BmmfNq0nuz6BaMSbk8iHmuH51mQ/VlES7gvGkKtf6KBTUiBTZAtXJQxWFaymXjm
+ cLOQ2mETLDSLUdr693AQkO/Whsh7Bo1iIKNhuyTtjSixfN4lIQ/sAjBsMOWcD1OfACt0wt9NkAF
+ M8TYsAQoHyYLaAUTakAp26LpQWGJqco7CTILF+NLu9klKQXzmTZTNLEfYwtr1tzziPNFt2A4aOo
+ LCdnetmAYydOoOdO74daV1xzTnhrO0MkYoWB/Mqnlo9ZrxVrwS2o/yYLPqmc3zXDj+WpWEmyQnp
+ nRZR2xINDP4dYiLjUxeN9Fi4hc32o3YUlhvH7sI3f7nMkkYHaIEPYNzWuIdx/srHFnqxo/izkAL
+ hxQu1/gGTHOFBtEJUyPgOL5AUH3sWUfhNyQA00Ms/qebLcYqST6DJ6Prs7RM1u84CDb9qXUi8nU
+ gSuKKe0fusQvemjpHLt+MJPHDPuTNl854Sk5DORv4y5+6MlojABlTNdh2Qa1D9tpexPUH/19ePt
+ 90RivLLndlchTWwr6h/UqXFlga6m2Od6oiJR7PrHMuyzStBJk1UJrIMC1Pa0CTXB/tGBszHc4da
+ /L4bNQJ4C7tTS8w==
+X-Developer-Key: i=dan.scally@ideasonboard.com; a=openpgp;
+ fpr=EEC699ACA1B7CB5D31330C0BBD501C2A3546CCF6
 
-On Thu, 3 Jul 2025 at 13:27, Claudiu <claudiu.beznea@tuxon.dev> wrote:
->
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> Hi,
->
-> Series drops the dev_pm_domain_detach() from platform bus remove and
-> adds it in device_unbind_cleanup() to avoid runtime resumming the device
-> after it was detached from its PM domain.
->
-> Please provide your feedback.
->
-> Thank you,
-> Claudiu
->
-> Changes in v5:
-> - added PD_FLAG_ATTACH_POWER_ON, PD_FLAG_DETACH_POWER_OFF;
->   due to this a new patch was introduced
->   "PM: domains: Add flags to specify power on attach/detach"
->
-> Changes in v4:
-> - added a flag in dev_pm_info that is saved in dev_pm_domain_attach()
->   and used in device_unbind_cleanup()
->
-> Changes in v3:
-> - add devm_pm_domain_attach()
->
-> Changes in v2:
-> - dropped the devres group open/close approach and use
->   devm_pm_domain_attach()
-> - adjusted patch description to reflect the new approach
->
->
-> Claudiu Beznea (3):
->   PM: domains: Add flags to specify power on attach/detach
->   PM: domains: Detach on device_unbind_cleanup()
->   driver core: platform: Drop dev_pm_domain_detach() call
->
->  drivers/amba/bus.c                       |  4 ++--
->  drivers/base/auxiliary.c                 |  2 +-
->  drivers/base/dd.c                        |  2 ++
->  drivers/base/platform.c                  |  9 +++------
->  drivers/base/power/common.c              |  9 ++++++---
->  drivers/clk/qcom/apcs-sdx55.c            |  2 +-
->  drivers/gpu/drm/display/drm_dp_aux_bus.c |  2 +-
->  drivers/i2c/i2c-core-base.c              |  2 +-
->  drivers/mmc/core/sdio_bus.c              |  2 +-
->  drivers/rpmsg/rpmsg_core.c               |  2 +-
->  drivers/soundwire/bus_type.c             |  2 +-
->  drivers/spi/spi.c                        |  2 +-
->  drivers/tty/serdev/core.c                |  2 +-
->  include/linux/pm.h                       |  1 +
->  include/linux/pm_domain.h                | 10 ++++++++--
->  15 files changed, 31 insertions(+), 22 deletions(-)
->
-> --
-> 2.43.0
->
+Hello all
 
-The series looks good to me, please add:
-Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+This series adds a driver for the Input Video Control Block in the
+RZ/V2H SoC. The IVC block transmits input image data from memory to
+the ISP core (on this SoC, a Mali-C55 ISP). The driver registers an
+output video device for userspace to queue image buffers to. One
+noteworthy feature is that - because it is not a part of the main ISP
+drive - the IVC driver also registers a subdevice, which connects to
+the media device created by the ISP driver through the usual v4l2
+async framework. This requires delaying the registration of the video
+device until the .registered() callback of the subdevice, so that the
+struct v4l2_dev pointer the subdevice connected to can be set to the
+video device.
 
-Rafael, do you intend to pick this via your tree?
+This version of the driver drops the reliance on the new media
+framework that was posted recently [1], so can be merged without it
+and updated later. One patch from that series is retained here though
+(since it's used independently of the new framework) and another new
+patch added to add a new helper in V4L2. The series is also based on
+top of the latest version of the Mali-C55 driver [2] and some updates
+to rzg2l-cru [3].
 
-Another note, the similar thing that is being done in patch3 from the
-platform bus, is needed for other buses too (at least the amba bus for
-sure). Claudiu, are you planning to do that as a step on top - or are
-you expecting others to help out?
+Thanks
+Dan
 
-Kind regards
-Uffe
+[1] https://lore.kernel.org/linux-media/20250624-media-jobs-v2-0-8e649b069a96@ideasonboard.com/T/#t
+[2] https://lore.kernel.org/linux-media/20250624-c55-v10-0-54f3d4196990@ideasonboard.com/T/#t
+[3] https://lore.kernel.org/linux-media/20250625-rzg2l-cru-v6-0-a9099ed26c14@ideasonboard.com/T
+
+---
+Changes in v3:
+- Added two new patches that create helpers in V4L2 and mc core that
+  the driver then consumes.
+
+- Link to v2: https://lore.kernel.org/r/20250624-ivc-v2-0-e4ecdddb0a96@ideasonboard.com
+
+---
+Daniel Scally (5):
+      media: mc: entity: Add pipeline_started/stopped ops
+      media: v4l2-dev: Add helpers to run media_pipeline_[started|stopped]()
+      dt-bindings: media: Add bindings for the RZ/V2H IVC block
+      media: platform: Add Renesas Input Video Control block driver
+      MAINTAINERS: Add entry for rzv2h-ivc driver
+
+ .../bindings/media/renesas,r9a09g057-ivc.yaml      | 103 ++++
+ MAINTAINERS                                        |   7 +
+ drivers/media/mc/mc-entity.c                       |  46 ++
+ drivers/media/platform/renesas/Kconfig             |   2 +
+ drivers/media/platform/renesas/Makefile            |   1 +
+ drivers/media/platform/renesas/rzv2h-ivc/Kconfig   |  16 +
+ drivers/media/platform/renesas/rzv2h-ivc/Makefile  |   5 +
+ .../platform/renesas/rzv2h-ivc/rzv2h-ivc-dev.c     | 228 +++++++++
+ .../platform/renesas/rzv2h-ivc/rzv2h-ivc-subdev.c  | 376 ++++++++++++++
+ .../platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c   | 568 +++++++++++++++++++++
+ .../media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h   | 131 +++++
+ drivers/media/v4l2-core/v4l2-dev.c                 |  57 +++
+ include/media/media-entity.h                       |  29 ++
+ include/media/v4l2-dev.h                           |  36 ++
+ 14 files changed, 1605 insertions(+)
+---
+base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+change-id: 20250624-ivc-833d24376167
+prerequisite-patch-id: ae1f5045379f5944df15d0f62eaca9803654ae33
+prerequisite-patch-id: ff9cfd027783e4943f1281d793dcaf447964c724
+prerequisite-patch-id: a8de5362397c6a4b1d8f43acb123ebbdc4102192
+prerequisite-patch-id: df748b118c52fd426b2701079da8fc0001a71807
+prerequisite-patch-id: a2e584a5b189b97973aab601073c6af0e760ca18
+prerequisite-patch-id: 256864ec0ddbfc3a6e7eb5aec15ad3cbe2dbe477
+prerequisite-patch-id: ecc5483454fc52289c093e711d5423e1cdd8bc3b
+prerequisite-patch-id: 1aea6316a2a4a7b56316dbef3ca6034de6ec1672
+
+Best regards,
+-- 
+Daniel Scally <dan.scally@ideasonboard.com>
+
 
