@@ -1,147 +1,97 @@
-Return-Path: <linux-renesas-soc+bounces-19248-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19249-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCB53AF9981
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jul 2025 19:13:20 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B453FAF9A1A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jul 2025 19:50:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4459C17D1D2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jul 2025 17:13:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 11AD15A842C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jul 2025 17:50:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9946B293B42;
-	Fri,  4 Jul 2025 17:13:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B83F2DA769;
+	Fri,  4 Jul 2025 17:50:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OwH5AepA"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="4jiUg6cp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E212E3713;
-	Fri,  4 Jul 2025 17:13:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A24052D8371;
+	Fri,  4 Jul 2025 17:50:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751649196; cv=none; b=NgnY8J/n5cewMG57+MWjrBhoWt37rSzDQ7VunulwVW6vdNxAMpQ1bYknvfdTpoPY9X4NwkPATCOylm61Xv7uU7AJVZ/th5H4DVpfdP2p44munkOnvD/rnTwXls5Rsv+59+OKqi1gzM3GBJektPn/PZ2PplySLB3jz6qcu1MXDLk=
+	t=1751651408; cv=none; b=H2SqXxxR5RmsRxSqBIzLY5kUtzBPmlfGipwt5R6Uto9IGcmGF3Ah03xtQ/9H/1zp/sEp5yzG8FVz7EGsPeG2hzldTbtuot8jTOxrI9lDoMEh1qhWa2njiDIn9OxBp8ji7qh1lBj69X734ucvRV4MtHvb5nV22SwAzQs9NU/30ss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751649196; c=relaxed/simple;
-	bh=1EyDVXXMVLol+7QZs1VPMEJtlkKlZUBeMC4m/Udzxc0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fzUxxKrswc7XkMGIC/zCgPdXbBivPIeI0vvtMzEPgePy6s+6DfTe1st41XqgKNiyLVzGrkj2fdKdoCaNV16BernFKuKPY16QYmhD40vzELbKt6ghPehXZtV1RRjdmpA/PqdjAeD6Vr66xqkGrzoba8ZX5mZ+RL3a/JnOeVbQ1TQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OwH5AepA; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-450cb2ddd46so6127395e9.2;
-        Fri, 04 Jul 2025 10:13:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751649193; x=1752253993; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=V/2fEHQ1GEiGNPuo9j5/RpeCrkwSbYJX6sR6izT+TvM=;
-        b=OwH5AepAdxJTu1Rxuwtj2m+oR7pq/UEL6s4xgQYeZE+2g1xNyYjKzI1j0bk/Ij4mPY
-         3n9O5EDw5FWjPiW8Zp+oKumWbMU3SbIvx4opGbLnU6Jz+uU7YYnRHCkiGOx7RUNWqLrj
-         h5BBh5I931QI0mUkvSJHBF2gqIcBLoKHn17q6Bl4zkai/l2WXLVNT92mPt77mpkLn4Xg
-         z8TSQUrfpRQEZbIGCJjPqM3Yul8Fjm9SzCF1Vn1fumYGhZFlFFmIGb/haPC9cJlIYdYP
-         eFkk8RmAkyGMYjEyLbd5jgk93YLdIRVXWxDJ3eiZwpWZ1Q3sWhmmHG0PTxgLmvS3QMjD
-         W3aA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751649193; x=1752253993;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=V/2fEHQ1GEiGNPuo9j5/RpeCrkwSbYJX6sR6izT+TvM=;
-        b=Gy9wBHCOXf4mnxyFPhgCrNw7aJ2+9uK2w6m86WChMO8NevBY6+SOgXK6XbdfxaQZMg
-         C9yNR7yMvpymmMi2XtmwlupkXovSCwqojEYKvGWEwxlTBRm/tYzinfnbVPo4u+hGwaiG
-         Qh7ffjC40VQssXFO07sYmDYrHhr9RpOFZ9LL/uH1vqdXe7QjJvVH7sNnqTHLy3+Kfa15
-         lLPOX9noUIcDNv/AXj+eeNlnF6Rq4IOVxlfL7MaGUF3u0PzL3yW3LAvdVCvBBDDspCOQ
-         xrvUe+KEXdrecMrsTIIB7BklX99hAvi4kNijs5gaaM+x6cJeozzLky5MRe2/fezxWX8G
-         p5HQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVVf9Y4wrfUKqQnh7MIDTW5YL/p7/SHrCKqNfc+B6GKe7tpxukEOCqUkG0z6uEYR6vwlHrFutsNdpLk@vger.kernel.org, AJvYcCW5sq9cTczpA1N63MRVRMKGcQbDc+5PDEXxz0KtseQxV+LwF/LLAO8Yy+kmCaZQzKYvcrjVw8rhpK9J66t+@vger.kernel.org, AJvYcCWGsEeoFVBB1CeNjjtpt6V3C7On8S85wQomtGeIG7pSMRwPqKodWhJpDMLdKxH9pA9116ov1BkCStRbrJDtTggYxIQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwS2KJsKZNHjinfVR+hGnrWqmUBHvHNhA6oWgRv9gmMXeAY6L4Y
-	nRLVH0HVOAHgvRdfju4wk1RKnR4QGFsWfjwscdnHSBY4tz/3QFlWmoDY/tTryiK31ZzUJOqvwIi
-	zcWOeNzS9+OvZnFSQIAf4nDjQzpV+VCw=
-X-Gm-Gg: ASbGncvz9R0vNODOMtGc6mixjT4j79PwsxxYPXipAJxaSfwv0sDKpQV0Es4ONzDY5Ig
-	LWVszYGbkunb80MfUNcGMJm59rVwHzzTG4KayLA0SmNGsXIqTjUN+YGb5uufixg9x9XYnPnLOMq
-	3Mf6TFSnsNBQJ57QkD8qRqcH+7vHGtWyC2c6vQorq2uWaE
-X-Google-Smtp-Source: AGHT+IGSFx+iMx3ZbRiYNNO3ouCFIIMLPoYmfc7VjUeo056sKlRi94k+VtSLPgIFIfLYCOyuW4DIE4zkra/OfPvYyss=
-X-Received: by 2002:a05:600c:8b84:b0:451:e394:8920 with SMTP id
- 5b1f17b1804b1-454b929f1cfmr9296375e9.27.1751649192567; Fri, 04 Jul 2025
- 10:13:12 -0700 (PDT)
+	s=arc-20240116; t=1751651408; c=relaxed/simple;
+	bh=b6l9iIP7nJMscPckrZPN4pMD2z4gS76/uS9VHZsmiMQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P1B20NOFHN1yFkV1+vbWM7GN3HR4Ww4WZ6XP/iHO905UcqzI2tvlskU4UaKjLZkEBVzKb90vUxIm0rlXxrvpyuLjOMgpGKaUuAQWFT6NX2mTkySiHwrmhBr/GVu1F6jpskuWt6Z1rHbJEsrLOJ3eSrVHka+uzuXwlwFri402la4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=4jiUg6cp; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=okx0DMr3QVLyZvzQ2fFZkUdAS7PR6z16rYKmkt7R2nI=; b=4jiUg6cpeWQRLLVJBgPp7+JB3b
+	l2TUbhZ0NvoiRgWk+MK7VFTMqABygMzj/Ubbbkr0aMAcSFGQBv2Qrba66uEjBoP3jHsJHFhymPyNc
+	5z+CC+flwlxtq0hWEy8o51qS/YsxTM26MIufkqi0iyAxhMTiE6kF/RFCz2VI7p0MfvLs=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1uXkXn-000H9G-Nk; Fri, 04 Jul 2025 19:49:51 +0200
+Date: Fri, 4 Jul 2025 19:49:51 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Cc: Michael Dege <michael.dege@renesas.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Paul Barker <paul@pbarker.dev>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] net: renesas: rswitch: add offloading for L2
+ switching
+Message-ID: <c601dc85-67c2-4fa0-bd92-64aa0a0f48df@lunn.ch>
+References: <20250704-add_l2_switching-v1-0-ff882aacb258@renesas.com>
+ <20250704-add_l2_switching-v1-2-ff882aacb258@renesas.com>
+ <64e7de61-c4ed-4b42-83c6-5001a9d28ec0@lunn.ch>
+ <8d17d946-07fb-4335-b8e8-9ee256f75c12@cogentembedded.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250625153042.159690-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250625153042.159690-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdVvxebkm9A4g9hADww=9zREXJqyW3eQ6tFVwVJvkUkEOw@mail.gmail.com> <CA+V-a8s9r9U91CqUdC5zDxZGuAA51upduJ1epgmMdKPeYPJQxQ@mail.gmail.com>
-In-Reply-To: <CA+V-a8s9r9U91CqUdC5zDxZGuAA51upduJ1epgmMdKPeYPJQxQ@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 4 Jul 2025 18:12:46 +0100
-X-Gm-Features: Ac12FXzVFMcau5ucG50XdB4zOyogQv_Qrb-IfgDeSTpZyuqB7m9XeWgyiVFn8j0
-Message-ID: <CA+V-a8uW00iMUFfSczBsFsC3JLSK8SbufMhYGd_1XgrZ29C1Cg@mail.gmail.com>
-Subject: Re: [PATCH 3/6] arm64: dts: renesas: r9a09g077: Add SDHI nodes
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8d17d946-07fb-4335-b8e8-9ee256f75c12@cogentembedded.com>
 
-Hi Geert,
-
-On Fri, Jul 4, 2025 at 12:52=E2=80=AFAM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
->
-> Hi Geert,
->
-> Thank you for the review.
->
-> On Thu, Jul 3, 2025 at 10:56=E2=80=AFAM Geert Uytterhoeven <geert@linux-m=
-68k.org> wrote:
-> >
-> > Hi Prabhakar,
-> >
-> > On Wed, 25 Jun 2025 at 17:31, Prabhakar <prabhakar.csengg@gmail.com> wr=
-ote:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > Add SDHI0-SDHI1 nodes to RZ/T2H ("R9A09G077") SoC DTSI.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
->
-> >
-> > Thanks for your patch!
-> >
-> > > --- a/arch/arm64/boot/dts/renesas/r9a09g077.dtsi
-> > > +++ b/arch/arm64/boot/dts/renesas/r9a09g077.dtsi
-> > > @@ -155,6 +155,46 @@ gic: interrupt-controller@83000000 {
-> > >                         interrupt-controller;
-> > >                         interrupts =3D <GIC_PPI 9 IRQ_TYPE_LEVEL_LOW>=
-;
-> > >                 };
+On Fri, Jul 04, 2025 at 11:02:55AM +0200, Nikita Yushchenko wrote:
+> > >   	struct phy *serdes;
 > > > +
-> > > +               sdhi0: mmc@92080000  {
-> > > +                       compatible =3D "renesas,sdhi-r9a09g077",
-> > > +                                    "renesas,sdhi-r9a09g057";
-> > > +                       reg =3D <0x0 0x92080000 0 0x10000>;
-> > > +                       interrupts =3D <GIC_SPI 782 IRQ_TYPE_LEVEL_HI=
-GH>,
-> > > +                                    <GIC_SPI 783 IRQ_TYPE_LEVEL_HIGH=
->;
-> > > +                       clocks =3D <&cpg CPG_MOD 1212>,
-> >
-> > 1112?
-> >
-> Agreed (and below).
->
-Sorry, it is indeed 1212/1213 as the bits belong to MSTPCRM register.
+> > > +	struct net_device *brdev;	/* master bridge device */
+> > 
+> > How many ports does this device have? If it is just two, this might
+> > work. But for a multi-port device, you need to keep this in the port
+> > structure.
+> 
+> Having per-device (not per port) brdev was designed by me.  Reasoning is
+> that hw L2 forwarding support lacks any sort of source port based filtering,
+> which makes it unusable to offload more than one bridge device. Either you
+> allow hardware to forward destination MAC to a port, or you have to send it
+> to CPU. You can't make it forward only if src and dst ports are in the same
+> brdev.
 
-Cheers,
-Prabhakar
+This needs to be part of the commit message, since it is not
+obvious. I think some comments in the code would also be good, where
+it decides there is a bridge in use, and so it needs to reject the
+offload for another bridge. This limitation is very unusual, pretty
+much a design error, so it needs calling out.
+
+	Andrew
 
