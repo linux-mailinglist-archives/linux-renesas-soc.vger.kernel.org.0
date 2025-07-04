@@ -1,115 +1,176 @@
-Return-Path: <linux-renesas-soc+bounces-19197-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19198-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3171FAF8E01
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jul 2025 11:16:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3862AF8DF7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jul 2025 11:15:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 48F835A126F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jul 2025 09:12:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A36021885645
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jul 2025 09:14:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F7A9328B0E;
-	Fri,  4 Jul 2025 09:05:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b="H3U2ymWm"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9AD52F2735;
+	Fri,  4 Jul 2025 09:09:21 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D51E82F5477
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Jul 2025 09:05:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAD562F272E;
+	Fri,  4 Jul 2025 09:09:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751619918; cv=none; b=ARWjVzigljITBUmNLd0DS2h6IcMWeKYzYJvU27P7it2A5fEUsbdte7Y98p4mr0FzwWB61Wa/vavsdSKR2KGUVPakUget97n7tlspS4kCghRcioGgleDrP4ArDSg3R1ckQ/Hvowkio/1Pktsd+EN3D2DO6zCCXATuNJ/Oz8FmufM=
+	t=1751620161; cv=none; b=QRqJJxM825qiz0mYXV23ROPkHASR9ZU4Hgz4ze5AEh5XNQMKHRCSUemaVnqvLp7jmKVk56YY+IFfA4amqxeS2xnqJ5nx1OIcztQ0mu/351ShTS57oT3ofu1rrzIPEjEqoeWq5nylGmgsN3jjZklBX9CutYPhyDslH3eyHW0yjZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751619918; c=relaxed/simple;
-	bh=lRw7yJVneIfUXB5qnJ6oSwcGV4RKbOy3n7DSX0pBpsM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FRp73j2Bya9NKwhng9a9tzDa/W6eupSLHVVmDqbtlx9oA67/cbFAemZpzE6h++qQkKuwenyJiu4JmUFQv0h0HlO5mdIfpoFDXVPhnFCGlAElmKJsXKXOrG1zm1GBByf+3Ipg6gdjAe7X8wd+TfNLxaYv8pJkgCA8QrqnB9qq2F4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com; spf=pass smtp.mailfrom=cogentembedded.com; dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b=H3U2ymWm; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cogentembedded.com
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-ae361e8ec32so157834766b.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Jul 2025 02:05:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20230601.gappssmtp.com; s=20230601; t=1751619915; x=1752224715; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5lvqW25n8VSdsxeIbb6N6y1V/bckNRxGH4LVpn13n8M=;
-        b=H3U2ymWmKJvzY6LVPa7qpM4oO2dpgixhT8WECCxKAxFXOafT6qAvJGd4nfO8CjUfxK
-         aqXGukWxDg/2q/LUqBk7Btvs2Ml1HFqRo3+Kfo+p98HdrMzzvxAe1cy8/JZiSz0fnxuW
-         X5eTKMlP4Pfk6I8mkB47Ya9AUeTLbl6fmcaiKF/6Pk2UzdwU8TcyPWlmEpzkSaWa5Vie
-         BJHeDbf/9wk94WUn05wJ9zJOtbCOJ+NFQIlMQXATdR57st5dhs5l05A3zXn3jpj4DC5L
-         yqMxKLiwbH/2IWxa5oQSjBWSQsr2tx76v9qzFAgWb0oQRRHCus7RJvyNFye2zFZYDeFQ
-         iUfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751619915; x=1752224715;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5lvqW25n8VSdsxeIbb6N6y1V/bckNRxGH4LVpn13n8M=;
-        b=kkUOYffhttieJmnX+3kHZfzAj9mPMHHdEvDY2G+je+fxS3aAtxKQzi1j2/XTamZGSW
-         SVQImfPvy1imAZQxuw4tB5j5IRhCSmzs7opKWNN4wbREyaX3lUemK6OExvnZFwWKsEWH
-         MJ1TAU91RDaZY+kKjc7CKVULmZkadn8QTS+WccNWG7PDjmlepbCUP7U6i00JW4wpzjok
-         5fu9s2lt0fXNVKoFwf0m5Nzehm/8QLNeA7OpXxjN4XsVpKQ5wQx7jLXXJQ8pjLzsodx7
-         9bLMHxq8agX6PKAp2EGnMXVmaNaw8EjaUWkNyXifDPRT2Vc+IxbC+lB7FIihNs3ggvtn
-         niTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW95aptCw8LP0fWbYSgKTl/9vkVGsQvUqHxtnE1R9GzVUrlwiGuYEtBrTCxAq0qUrAX3X8hT0Sm7uRKOV3bcJQZJA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzrVfgOMQawY9I/+xPGMPjXlv2Rv0eYCbu0YLtuvW6VhVnKylwp
-	jlu+LZFKxWh0ZuUKxULxXCG8+2Vc0iV/gDL+40H3DnFFIQ6Rj0u6EnN9Bv/WFlWa7p4=
-X-Gm-Gg: ASbGncvor8afknF6NQHiQuAhQU/LfuUvDiQywt+4khozqTxK+mWeHqMA9Dz/ti3Zn+L
-	v2dzYrrOkHInOJp7ekoqhp6qjNPgBQuDNnF4UMjWYgkElhyWda7OyyGk/y7XHzzRLp1v6wp778t
-	6sNYVZB3bBM7fxGnGblI6V+5fYF6INbm+DpaVfsOHhsGZkw1ZN8rdq2Ve8++DxMyR2IxugQrGae
-	5w7yUfXm4bwxDANuKFOSV+tvF/TMrPKxZj+f4hCPELz3vdMXVyjVNBPtozxiV4Si+PRC9TMvMk1
-	q5JrYQL6T789oZaBD/9LjB7P7mWtb/K19wjAuCXLk0y+KsZzcJMHId5bx0+HVTM3Gbc3p/srqqi
-	sAHYFechFnEky
-X-Google-Smtp-Source: AGHT+IEZO1zxjcWXhdMMtE+CxCjQoXtX/7S5BwYI92EZAOfHlQnV8tIpwdxwwtnNSgAwSoG0neHl+w==
-X-Received: by 2002:a17:906:c102:b0:ad4:8ec1:8fcf with SMTP id a640c23a62f3a-ae3fbd6c7d4mr177062566b.46.1751619915226;
-        Fri, 04 Jul 2025 02:05:15 -0700 (PDT)
-Received: from ?IPV6:2a02:810a:b98:a000::f225? ([2a02:810a:b98:a000::f225])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae3f66d91cdsm137351766b.22.2025.07.04.02.05.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Jul 2025 02:05:14 -0700 (PDT)
-Message-ID: <79a57427-fd4a-4b9a-a081-cf09b649a20e@cogentembedded.com>
-Date: Fri, 4 Jul 2025 11:05:14 +0200
+	s=arc-20240116; t=1751620161; c=relaxed/simple;
+	bh=munUDtgCHhnGuDcxIuSFnsFhUCfzFZ32SGb9JULuB9I=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=iIn95vL02B48x2CeEk8cRzLCSwfJc9UKkPwmTq5D/GHr+HB8KT8Kcv+UqWTvHOTNs13X4YJz84R7Y0bnncIFbTX0b7ERcQHrfYdkdAiH6B6tl7USehY5/PosgkJALNVUXtJJugS4gAyQ/BSaPM93xY9YWZEOIVFX5S/mIZrOeY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4bYSRb2XN3z6L5HM;
+	Fri,  4 Jul 2025 17:06:19 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id C9103140393;
+	Fri,  4 Jul 2025 17:09:17 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 4 Jul
+ 2025 11:09:16 +0200
+Date: Fri, 4 Jul 2025 10:09:14 +0100
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+CC: Linus Walleij <linus.walleij@linaro.org>, Jonathan Cameron
+	<jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, Nuno
+ =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>, Andy Shevchenko
+	<andy@kernel.org>, Eugen Hristev <eugen.hristev@linaro.org>, Nicolas Ferre
+	<nicolas.ferre@microchip.com>, Alexandre Belloni
+	<alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Cai Huoqing <cai.huoqing@linux.dev>, Haibo Chen <haibo.chen@nxp.com>, "Shawn
+ Guo" <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
+	<festevam@gmail.com>, Marek Vasut <marek.vasut@gmail.com>, "Geert
+ Uytterhoeven" <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Maxime Coquelin
+	<mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Chen-Yu Tsai <wens@csie.org>, "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, Francesco Dolcini
+	<francesco@dolcini.it>, =?ISO-8859-1?Q?Jo=E3o?= Paulo
+ =?ISO-8859-1?Q?Gon=E7alves?= <jpaulo.silvagoncalves@gmail.com>, "Jiri Slaby
+ (SUSE)" <jirislaby@kernel.org>, Fabrice Gasnier
+	<fabrice.gasnier@foss.st.com>, "Rob Herring (Arm)" <robh@kernel.org>, Uwe
+ =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>, "Mike
+ Looijmans" <mike.looijmans@topic.nl>, Olivier Moysan
+	<olivier.moysan@foss.st.com>, Christophe JAILLET
+	<christophe.jaillet@wanadoo.fr>, Julien Stephan <jstephan@baylibre.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-iio@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <imx@lists.linux.dev>,
+	<linux-renesas-soc@vger.kernel.org>,
+	<linux-stm32@st-md-mailman.stormreply.com>, <linux-sunxi@lists.linux.dev>
+Subject: Re: [PATCH 28/80] iio: adc: Remove redundant
+ pm_runtime_mark_last_busy() calls
+Message-ID: <20250704100914.000042db@huawei.com>
+In-Reply-To: <20250704075420.3219092-1-sakari.ailus@linux.intel.com>
+References: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
+	<20250704075420.3219092-1-sakari.ailus@linux.intel.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] net: renesas: rswitch: R-Car S4 add HW offloading for
- layer 2 switching
-To: Andrew Lunn <andrew@lunn.ch>, Michael Dege <michael.dege@renesas.com>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Paul Barker <paul@pbarker.dev>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250704-add_l2_switching-v1-0-ff882aacb258@renesas.com>
- <4310ae08-983a-49bb-b9fe-4292ca1c6ace@lunn.ch>
-Content-Language: en-US, ru-RU
-From: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-In-Reply-To: <4310ae08-983a-49bb-b9fe-4292ca1c6ace@lunn.ch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-> Looking at the code, it is not clear to me what would happen with:
+On Fri,  4 Jul 2025 10:54:19 +0300
+Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+
+> pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
+> pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
+> to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
+> pm_runtime_mark_last_busy().
 > 
-> ip link add name br0 type bridge
-> ip link set dev tsn0 master br0
-> ip link set dev br0 up
-> ip link set dev tsn0 up
-> ip link add name br1 type bridge
-> ip link set dev tsn1 master br1
-> ip link set dev br1 up
-> ip link set dev tsn1 up
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+> The cover letter of the set can be found here
+> <URL:https://lore.kernel.org/linux-pm/20250704075225.3212486-1-sakari.ailus@linux.intel.com>.
+> 
+> In brief, this patch depends on PM runtime patches adding marking the last
+> busy timestamp in autosuspend related functions. The patches are here, on
+> rc2:
+> 
+>         git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git \
+>                 pm-runtime-6.17-rc1
+> 
+>  drivers/iio/adc/ab8500-gpadc.c     |  1 -
+>  drivers/iio/adc/at91-sama5d2_adc.c | 10 ----------
+>  drivers/iio/adc/imx8qxp-adc.c      |  2 --
+>  drivers/iio/adc/imx93_adc.c        |  1 -
+>  drivers/iio/adc/rcar-gyroadc.c     |  1 -
+>  drivers/iio/adc/rzg2l_adc.c        |  3 ---
+>  drivers/iio/adc/stm32-adc-core.c   |  1 -
+>  drivers/iio/adc/stm32-adc.c        |  7 -------
+>  drivers/iio/adc/sun4i-gpadc-iio.c  |  2 --
+>  drivers/iio/adc/ti-ads1015.c       |  1 -
+>  drivers/iio/adc/ti-ads1100.c       |  1 -
+>  drivers/iio/adc/ti-ads1119.c       |  2 --
+>  12 files changed, 32 deletions(-)
+> 
+> diff --git a/drivers/iio/adc/ab8500-gpadc.c b/drivers/iio/adc/ab8500-gpadc.c
+> index f3b057f92310..8eaa1dd6a89b 100644
+> --- a/drivers/iio/adc/ab8500-gpadc.c
+> +++ b/drivers/iio/adc/ab8500-gpadc.c
+> @@ -607,7 +607,6 @@ static int ab8500_gpadc_read(struct ab8500_gpadc *gpadc,
+>  	}
+>  
+>  	/* This eventually drops the regulator */
+> -	pm_runtime_mark_last_busy(gpadc->dev);
+>  	pm_runtime_put_autosuspend(gpadc->dev);
+>  
+>  	return (high_data << 8) | low_data;
+> diff --git a/drivers/iio/adc/at91-sama5d2_adc.c b/drivers/iio/adc/at91-sama5d2_adc.c
+> index c3450246730e..67846fefe21a 100644
+> --- a/drivers/iio/adc/at91-sama5d2_adc.c
+> +++ b/drivers/iio/adc/at91-sama5d2_adc.c
+> @@ -896,7 +896,6 @@ static int at91_adc_config_emr(struct at91_adc_state *st,
+>  	emr |= osr | AT91_SAMA5D2_TRACKX(trackx);
+>  	at91_adc_writel(st, EMR, emr);
+>  
+> -	pm_runtime_mark_last_busy(st->dev);
+>  	pm_runtime_put_autosuspend(st->dev);
+>  
+>  	st->oversampling_ratio = oversampling_ratio;
+> @@ -971,7 +970,6 @@ static int at91_adc_configure_touch(struct at91_adc_state *st, bool state)
+>  				AT91_SAMA5D2_IER_PEN | AT91_SAMA5D2_IER_NOPEN);
+>  		at91_adc_writel(st, TSMR, 0);
+>  
+> -		pm_runtime_mark_last_busy(st->dev);
+>  		pm_runtime_put_autosuspend(st->dev);
+>  		return 0;
+>  	}
+> @@ -1143,7 +1141,6 @@ static int at91_adc_configure_trigger(struct iio_trigger *trig, bool state)
+>  	at91_adc_configure_trigger_registers(st, state);
+>  
+>  	if (!state) {
+> -		pm_runtime_mark_last_busy(st->dev);
 
-Per design, it shall enable hardware forwarding when two ports are in the same brdev.
+Getting familiar. I'll not comment on other cases but {} should go here.
+
+>  		pm_runtime_put_autosuspend(st->dev);
+>  	}
+
+Please fix all those up and post a v2 series for IIO.
+
+I'd guess similar are present in other subsystems though so may well
+need a v2 as well with the excess brackets dropped.
+
+
+Jonathan
+
+
 
