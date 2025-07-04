@@ -1,194 +1,137 @@
-Return-Path: <linux-renesas-soc+bounces-19221-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19222-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B18E0AF94AB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jul 2025 15:52:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A874AF94FB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jul 2025 16:08:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 250351CA84CA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jul 2025 13:53:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A6067188707A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jul 2025 14:08:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A61230AAAE;
-	Fri,  4 Jul 2025 13:51:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0609E18A6C4;
+	Fri,  4 Jul 2025 14:08:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="qRfmkpVD"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JQnf500S"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC88330AAC0
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Jul 2025 13:51:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D8A18C008;
+	Fri,  4 Jul 2025 14:08:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751637075; cv=none; b=uzN3PJ3Mw7Zyxi9PgsMBuWkWHQqYpKcqBqXuHD5uVSJh48LK+kKtWlLFcqm2M1ql7ZlGR0iAj00OUqsL1cyK5Pypq16gu0CC8ba29MhlzQhfuXpYSOA2as5cuQCcVNok6nBqn9rO9DyixC828K7t0KnKmcDBCuzHBUTt3JZ8nFM=
+	t=1751638113; cv=none; b=FcTyV3qeMq7lcsCnGyM/F+jO6racJAkZoDSJiMbFQcR7K01munNl7mClwYikhMY5l6G034VHDw1Z7KM6j6xJ+tqC5TEALKxIrfHTgQnzViFxkig41g0AoYahaNk4BeDa57SMiIjDRwdtltzfKfuxlAGLBKF2s0uP+TWK4Ukj3Ag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751637075; c=relaxed/simple;
-	bh=miC47NO9VePQREntYQ2C1ptH1JHrH445C2mxs1mptSY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CMQnuctddJVUcPuyDYxMGkvsTazycXygAaY+uQnsAnWsbYiPPr/UjgRAHbTHCt+d3B9U4zyEpsS4puol0DqkfzK8FLG3pjbDuf2xySByr8TFKEC4gN33B40JRVk7nsx1GOHWz/VT+94VfriWOuQhRzmxYHwDoNAbV0DhCpvveKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=qRfmkpVD; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-605b9488c28so1570611a12.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Jul 2025 06:51:12 -0700 (PDT)
+	s=arc-20240116; t=1751638113; c=relaxed/simple;
+	bh=rkudmlwj5S5EgGAdSMyc96jztEkaEpIzKdfZIMBoCJE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KTE/t63GHRj2GPnxAeDxCJdRGtSFx6eeLXO8lHEb1nB3rzbNMNs1Z3InEtjQyBLKOzyf2UoNEkMC4D4j8kk7tK1Hw3uNNPAdocUrvxWXJZy7U6y6RaZIgYmhyijkhUffXRFRSA2M4tskwzzXAIZ5G5wblfBnzG6CcG05Mbm7opI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JQnf500S; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3a531fcaa05so647183f8f.3;
+        Fri, 04 Jul 2025 07:08:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1751637071; x=1752241871; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=U+4pnbmOXAdM0mHM7kF6SCf+HmJcVo3mHL3EXrsTmvo=;
-        b=qRfmkpVD+xI+Npzbq1OPbfQdUTJO8vOQ9eX5GxigJa2Tqop1BOwVlQj/S9qRHzx5ty
-         viijJo0m9xgO15vGt3QzdtbbE6rX+kxUIf0SNjmKTWN7qsD9gzGXGHe8h/CxP8CoVAsJ
-         00dZtJsEQcSkR1yUpcFoxzwhyoSBPCtnHkiH7pz1pJKL4qKLN2dO55QZKACEisQXU1Gs
-         8cD0wWE1yYcbGiZRGvbY8OXL+JEzvXr/u3E7dDPab3pA1b6ir403KnL3zfp0tKgftnVm
-         C+18Q4E3kv2QP2/PxCrpcfMR1vC5fKkh00Rw/74AUPiotlD/MJ8bM0BoV7i5Hepz2DNo
-         icuw==
+        d=gmail.com; s=20230601; t=1751638109; x=1752242909; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WgdvoWmTjoUV83Jp0UzfixiUnTbiJL6h1V/XZeYQOAg=;
+        b=JQnf500SYRl0b0mkH3Gwt78XRr0oN3UPCIOozQOaQU+TuQmf9GJsm9A/fkIlCVbwni
+         EQtaY/36nGc+Ei7YfChqYxpWy3eQr0cUj1i4p+0OivqodSvrKYK7GfauF+PY5yQO8Wfk
+         8ephlMHHK+PgE8oAXKuvlST+SuAsC6O1F0GY9l0EPJkmTr9gPIK/FgIxZ6xRt0SGhoyq
+         F7dps7bWgYvfY1O7p+Wp8l7xVTqChaJecWooY1qgoDokOuJdZGSqDDqdN2mv8aAqSiee
+         zm0G6rwg+toze2ijtHj1W30jAKuo/5WFVUlp3UFB2V1aDILtClxgpamf2jX3ZwATVnCp
+         ++eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751637071; x=1752241871;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=U+4pnbmOXAdM0mHM7kF6SCf+HmJcVo3mHL3EXrsTmvo=;
-        b=k0v1Kj8tjqtmIaU0WtWBHMk0xx+yfO/d1x9hK35RfkEt9LJfFT8OohUf0GGUbtknVN
-         0IE5o/+gJmWdKB6PHiOY3PkI1LRTTYuR9oo0CjbJ3RJM38bvyD1sYw07d+FzND9q/U1W
-         ARJT3w5wbRmjeKGBn+CpjJJnZwhlgde9lQq7/F+bmtrvBaxi1VK958d+mzzGKn2FqZET
-         p1EKMqRfyaP9Mr/esHDPLnohcee6cQ0gito7TK20uL9GzGODa3vPvfcZhUeqtYsPO7U3
-         fUh4ALegyHSDDj/NutXNkGNkmdhbh7yaqcBWGP5emRlL4h9mu1xq8hejCnt8mcYj4imK
-         eVIw==
-X-Forwarded-Encrypted: i=1; AJvYcCU1uSNEyPVYhqcEqaDVZtuMRGtBd0S8sxWTS68UMXu1HRPoxMtIlFJxvzPi+DmMC0dF1A5a3etykCDBNPOhL+DRTg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YypQBr7Wm+ETHCy4ZBcqL7hpux5Bt81NgBbLJOjDZTsPTMmBY/d
-	iyAkl4No8rzH+ehnB20Gb5/o3rxjTdEHsN0n0mSwUkNIWsrPfzNjG2/GBVcTrHEddnU=
-X-Gm-Gg: ASbGncvhb5fR1PB5qBOLldE0K+2QkOhOOGYWeUjodX/kJKuspbXorumr2ZKLTNeqkX1
-	oD/2jYbPYGYap+FADzB/tqR/EGF2hbNaPmWbtozO2Y3ZLkJT9DxzFgA7owM+0MFs3of/qvb10WE
-	qYSWeYK5y8JDyVJNXg+7FZF/MljSQL+lV+FTjMgxIYPgnImGeE0ydIViurHAiL43/4/qh5EnJfy
-	18LTMbU2/+YtPEXITWg29MJI4ofmkZjnQ5OBMlilLcTYxxEHoi9/1g+pYf3kafRmLwDEZcCbAL7
-	JHiqp0BpdBpJrNejINNDIOlqXhKySWejKo7U9WKYVhwUmmE9SAGY4saLddiuMXXtLlk/iQ==
-X-Google-Smtp-Source: AGHT+IEKaHL8J9Su0mB3XI0LmZS3jYa1Tv+ttRwStxrwJ7gZXvWH4fgHU4a56M1/TXoMiu+j5EZrtA==
-X-Received: by 2002:a17:907:6d26:b0:ae3:6cc8:e426 with SMTP id a640c23a62f3a-ae3fbc336f7mr270116966b.9.1751637071005;
-        Fri, 04 Jul 2025 06:51:11 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.83])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae3f692ecacsm179199366b.57.2025.07.04.06.51.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Jul 2025 06:51:10 -0700 (PDT)
-Message-ID: <930cf8e2-5716-4a36-8238-e573876db869@tuxon.dev>
-Date: Fri, 4 Jul 2025 16:51:06 +0300
+        d=1e100.net; s=20230601; t=1751638109; x=1752242909;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WgdvoWmTjoUV83Jp0UzfixiUnTbiJL6h1V/XZeYQOAg=;
+        b=BEfLfPlMGReCzCQVA5g+xmhwqZYQb6FO6yoyJMQC5zAimw5poMfIqefQ1jsARviraO
+         +K/sy46EdKS+Abz7esYVD+zfXQ1JNqwSwrnnPJs+EycptM8yHNIMYQg6KX3zqtplRpdK
+         Rq1+UDiBhK1jD0pEQRcUiqofZe8HGFSn36iVGZ4V8kNMM2r2jQgFDblDB2RRPjFXapDF
+         JF5Yb2tlwacsvnaujqeUfF3H+FOKYTpuRacygNLlp6cc/GZwCCFwZzW88E2Scyhrwdtl
+         pAVQgloaQ5KD7J6aAw/7D3ljyFLuNtoH4Vl3RSlbSXmgwHk81g7IwypbPPosGvYdVEx9
+         rTWA==
+X-Forwarded-Encrypted: i=1; AJvYcCVwNW5dCr3ifLmUL9Pz2mvPemYmAhaDUo9DGu6bM6N08aDstcHGT6rsf2jlnwldWYRG8Q6fglk3BA+O@vger.kernel.org, AJvYcCX18+QEOiltjVZU/YgdIpB90LMmHkGDY9pPm42t/Iio0dY6cu97jNYvmOd/2jSy6DKJht8QaakVcN8suFUm@vger.kernel.org
+X-Gm-Message-State: AOJu0YxWeg5pVXtRff1jdWzrZ/Py75pbd781SzHXibCzykmK/8ZKmWZ0
+	VbIrUaXVV1SbG95FT1vibGIfMQr9zQ25cVD5pXoEg6oLEXDR1g43iUOP
+X-Gm-Gg: ASbGncsE2eGbt3m/y5b1SPFgF3yE1PxwLAnxufFRODl5BT+/+Nwx3nrtpOiVTQGszbx
+	EAXRYhAO/tEw42zMFPej/VVhh0DwzqxYXp4YkasxDzuUTgqZBZFoUizEaFlcNcsfx/St4snjRs8
+	vEG0wzkpuEibZ3uvNS+QRocbIrnSfDu5QUZOgoEsrXemMj3z7j27gOjFFxh06KYA7CpcA1/bwaW
+	N3b8G8+WImLEEQ8/0ls3LsblMN2Fy/MCUiC4kd6R/5ki/S9Ydxd9WO882JW5CrREOCqfCISldQn
+	VACjddwAr5VfRkzXAJu1SouUCAPlwQrx7VvlBnJXCdmUFG7rbdg6/h7KJCzJRjkj4y+lIOy3PVC
+	uZblMxxllmPjJugSxnYsk6yWFSkgl0VQ=
+X-Google-Smtp-Source: AGHT+IFptSEGZ7HUfijhgVKjvnlANq6yGkg3IZdo37Q9u9/fWa7aeHsGqK31baJFZu20DXRkh6AjTA==
+X-Received: by 2002:a05:6000:430a:b0:3b3:59c3:483d with SMTP id ffacd0b85a97d-3b4964c097bmr2358697f8f.14.1751638109010;
+        Fri, 04 Jul 2025 07:08:29 -0700 (PDT)
+Received: from iku.example.org ([2a06:5906:61b:2d00:e31c:ff37:8f66:5091])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b47225afd4sm2535946f8f.83.2025.07.04.07.08.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Jul 2025 07:08:27 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 0/4] arm64: dts: renesas: Add XSPI support for RZ/V2N and RZ/V2H(P) SoCs and EVK
+Date: Fri,  4 Jul 2025 15:08:19 +0100
+Message-ID: <20250704140823.163572-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/3] PM: domains: Detach on device_unbind_cleanup()
-To: Ulf Hansson <ulf.hansson@linaro.org>, rafael@kernel.org
-Cc: linux@armlinux.org.uk, gregkh@linuxfoundation.org,
- david.m.ertman@intel.com, ira.weiny@intel.com, leon@kernel.org,
- dakr@kernel.org, len.brown@intel.com, pavel@kernel.org,
- andersson@kernel.org, mturquette@baylibre.com, sboyd@kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, wsa+renesas@sang-engineering.com,
- mathieu.poirier@linaro.org, vkoul@kernel.org,
- yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
- broonie@kernel.org, robh@kernel.org, jirislaby@kernel.org,
- saravanak@google.com, jic23@kernel.org, dmitry.torokhov@gmail.com,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-i2c@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-remoteproc@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-serial@vger.kernel.org,
- bhelgaas@google.com, geert@linux-m68k.org, linux-iio@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, fabrizio.castro.jz@renesas.com,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20250703112708.1621607-1-claudiu.beznea.uj@bp.renesas.com>
- <CAPDyKFoznqfdX7Dvu3VPa5Me10VHGphnRRHrU17w-fie7HrQ5g@mail.gmail.com>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <CAPDyKFoznqfdX7Dvu3VPa5Me10VHGphnRRHrU17w-fie7HrQ5g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi, Ulf,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On 04.07.2025 14:15, Ulf Hansson wrote:
-> On Thu, 3 Jul 2025 at 13:27, Claudiu <claudiu.beznea@tuxon.dev> wrote:
->>
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> Hi,
->>
->> Series drops the dev_pm_domain_detach() from platform bus remove and
->> adds it in device_unbind_cleanup() to avoid runtime resumming the device
->> after it was detached from its PM domain.
->>
->> Please provide your feedback.
->>
->> Thank you,
->> Claudiu
->>
->> Changes in v5:
->> - added PD_FLAG_ATTACH_POWER_ON, PD_FLAG_DETACH_POWER_OFF;
->>   due to this a new patch was introduced
->>   "PM: domains: Add flags to specify power on attach/detach"
->>
->> Changes in v4:
->> - added a flag in dev_pm_info that is saved in dev_pm_domain_attach()
->>   and used in device_unbind_cleanup()
->>
->> Changes in v3:
->> - add devm_pm_domain_attach()
->>
->> Changes in v2:
->> - dropped the devres group open/close approach and use
->>   devm_pm_domain_attach()
->> - adjusted patch description to reflect the new approach
->>
->>
->> Claudiu Beznea (3):
->>   PM: domains: Add flags to specify power on attach/detach
->>   PM: domains: Detach on device_unbind_cleanup()
->>   driver core: platform: Drop dev_pm_domain_detach() call
->>
->>  drivers/amba/bus.c                       |  4 ++--
->>  drivers/base/auxiliary.c                 |  2 +-
->>  drivers/base/dd.c                        |  2 ++
->>  drivers/base/platform.c                  |  9 +++------
->>  drivers/base/power/common.c              |  9 ++++++---
->>  drivers/clk/qcom/apcs-sdx55.c            |  2 +-
->>  drivers/gpu/drm/display/drm_dp_aux_bus.c |  2 +-
->>  drivers/i2c/i2c-core-base.c              |  2 +-
->>  drivers/mmc/core/sdio_bus.c              |  2 +-
->>  drivers/rpmsg/rpmsg_core.c               |  2 +-
->>  drivers/soundwire/bus_type.c             |  2 +-
->>  drivers/spi/spi.c                        |  2 +-
->>  drivers/tty/serdev/core.c                |  2 +-
->>  include/linux/pm.h                       |  1 +
->>  include/linux/pm_domain.h                | 10 ++++++++--
->>  15 files changed, 31 insertions(+), 22 deletions(-)
->>
->> --
->> 2.43.0
->>
-> 
-> The series looks good to me, please add:
-> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
-> 
-> Rafael, do you intend to pick this via your tree?
-> 
-> Another note, the similar thing that is being done in patch3 from the
-> platform bus, is needed for other buses too (at least the amba bus for
-> sure). Claudiu, are you planning to do that as a step on top - or are
-> you expecting others to help out?
+Hi all,
 
-My plan was to take care of it once the approach here (or something
-similar, if any) will end up in a release.
+This patch series adds XSPI support to the Renesas RZ/V2N (R9A09G056)
+and RZ/V2H(P) (R9A09G057) SoCs. It introduces the XSPI controller nodes
+in the SoC-level DTSI files and enables a connected serial NOR flash
+device on the respective evaluation boards.
 
-Thank you,
-Claudiu
+Note,
+- DT binding patches have been posted seprately [0]
 
-> 
-> Kind regards
-> Uffe
+
+[0] https://lore.kernel.org/all/20250624171605.469724-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+
+v1->v2:
+- Added Reviewed-by tags from Geert
+- Moved assigned-clocks and assigned-clock-rates properties to board DTS
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (4):
+  arm64: dts: renesas: r9a09g056: Add XSPI node
+  arm64: dts: renesas: r9a09g057: Add XSPI node
+  arm64: dts: renesas: r9a09g056n48-rzv2n-evk: Enable serial NOR FLASH
+  arm64: dts: renesas: r9a09g057h44-rzv2h-evk: Enable serial NOR FLASH
+
+ arch/arm64/boot/dts/renesas/r9a09g056.dtsi    | 21 +++++++
+ .../dts/renesas/r9a09g056n48-rzv2n-evk.dts    | 55 +++++++++++++++++++
+ arch/arm64/boot/dts/renesas/r9a09g057.dtsi    | 21 +++++++
+ .../dts/renesas/r9a09g057h44-rzv2h-evk.dts    | 55 +++++++++++++++++++
+ 4 files changed, 152 insertions(+)
+
+-- 
+2.49.0
 
 
