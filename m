@@ -1,98 +1,55 @@
-Return-Path: <linux-renesas-soc+bounces-19167-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19168-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9694AF8498
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jul 2025 01:56:11 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB75BAF84B5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jul 2025 02:18:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 20D623BF6DA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jul 2025 23:55:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 28B354A7D49
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jul 2025 00:18:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44C482DCF6E;
-	Thu,  3 Jul 2025 23:55:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 677C31FC8;
+	Fri,  4 Jul 2025 00:18:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kz/ts2Bs"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mJpHQyei"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861832D94B5;
-	Thu,  3 Jul 2025 23:55:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A92ABA48;
+	Fri,  4 Jul 2025 00:18:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751586956; cv=none; b=TrwgoYGItpH4S/oiAprkKuB4GGWItxfFF6jXeGkLj7LU5NTejmp6rppcc8OyniLQhrqxxfWQZ85lVPC0MwmNt4dRCTNQgAdL7OOuMfm/uYilJ8+7VwWlmaTMDv2QT9wJGMQ6Ec0Rxh79/TrDZiP9PHEh8XfyAeABB6O1qqmQofc=
+	t=1751588324; cv=none; b=GieubIJkZX0IdbD6yPcKtBaEqf2hhuYo3akWvlRsfABbCK1zt9fZjq7GnU/f7r7CtFelKOQ5iXwsCkdh+3VTs+i2A95uBl62nr0NrprC4MBUELWPoeYLTR97JytM2ESnBg0ROFEYYoiq9wd79Xlox6LEP05FLwUXitR/VQn7fsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751586956; c=relaxed/simple;
-	bh=u0ANpC16B14FJ0MBF9cnVDGrHEU/D3GBctgg8DSWQqQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fDGBdEcOh24cWw7r0wVCNEwZtFGgtyJkl9kQxhO9CSWVUcqPbcv54BwwA8qXfabXPebkJ11iXbx6Wjk2nc8udykyzWAnvVoTJv89g8EVyOBJ024LQxg/0QAIsASkfUo5G9A0AzwDyzR5TrwhymiVr71x6AHuFGqr7uDQFW3RZ80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kz/ts2Bs; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4538a2fc7ffso10668815e9.0;
-        Thu, 03 Jul 2025 16:55:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751586953; x=1752191753; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+wqidWqIfOoA8OQeeV49xJDBAiz49nIOR1nc+UTiq1g=;
-        b=kz/ts2BsSVpno9yAvqF+la5igjH+zLzntuLgNNIpPPyNr6wwqc7/4CdhJatYUgJhi2
-         ICOtbmdSod/FKruUmwbtK9FsWYc2PfcRI0fWRkjd6yf+2hMrdbqdCbQVOLUZAE3qYVRE
-         rQ3e92fYYj2Qm5WovSRjBHmonOOo8RPnc1qe540wlJ9Sjz5mgR0GPdIuqlglKs0Px0Kw
-         E7/UVGNTzSQ6h4iq6ZvNK6m6iZX/aja12ohmX++WKQ9Kda1zSlTsSKBn1G43nYgZfehS
-         +u8I2VbKnnm3LolBjCYQuBaJK/XAwRA/N92p5sPLbsvcYhXCzgS9iTAxHDsInGm4KyNN
-         15lA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751586953; x=1752191753;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+wqidWqIfOoA8OQeeV49xJDBAiz49nIOR1nc+UTiq1g=;
-        b=FSlfqLPyBW3Tc+kQ3d5N4FpSSHgfdgRuJCSZI9TZavXH6rPHVaycuQw9LbNgfpjZgL
-         LJPS+ezMoPa2O7c572Wx8Z8lqJqG4/KgoFDnSk241UMvK1t8YlxrlLzyQLtsffrpyWcU
-         bFh0kMvHlD8GdrqcKdgbI6Nh6wkxisEY7Mdxd1ynYCVmA3tBdWTQGx5EOfKPZ/luVedb
-         2UmW9agZ2V4lqqhfoGhvcM6zasIvVzHt9KBJ0Ah7s+J5sjuKYk2vuFnZ69cAC7tJE3i5
-         6bQjmiNm1Y1NW/IWHnF0nfP/vLEHdg9noOtDN44GFCRIhooCahFV+MYY49u2pnWv86eK
-         ogRg==
-X-Forwarded-Encrypted: i=1; AJvYcCUSF+cwCiv4l8H+M3vHgVHxM+LpjQ3BIKPzbUuadfoDr1Zs732cP2XBFp1iJeRy81Jdp5VY4tgn7vG96cnJ@vger.kernel.org, AJvYcCXXqoMDhJR9o4+tYAiO+IBcO1C54HvQrOPu2wGZ6lzokZVqRq82WumJSZMv3HyYKZZfGJ5RU9GiVSiC@vger.kernel.org
-X-Gm-Message-State: AOJu0YwfN0SdkN5vYbNy7pR/xQKAmqICnzfbiuT2Jzbv+hlKOPD3birU
-	Y7HmUT1ki6OddQsoWaWaNccl4L7VgFZMi4lLgMiTcErkvdVMng7npZId
-X-Gm-Gg: ASbGnctk+r18gcIpzs/3wfIeumxRyVqlc0KZ2Pp6EGCzbRS4//tIwmxu1AE4qVgKxmx
-	qyO3ITMiLYIm3bbp0st8jtwPK6BuPj5MgtaFx5sVFgik4snbGpBL5BC1Xojd6CTQlUiRAknJUeO
-	C3Lcvj5ediGq2wdcTvZs101OavHCoqsYWoMJ510L/SB29rMqt5YTLNk5mY+XK5xW9GLln03sLza
-	DssrvE8ok4+iPcreO4XvA4REo7qImdc/8MpM3gThYEQIN3XnLXbndeJcggMon36zeX1/V8jhMnd
-	0fL7vRiDaFChoDLVskEXeizAwn6cPlV4cwhiWnSU+Yrapc4UeJEs/wJL15K0dTx9MLA8hZYl6My
-	vW+opvlzxH1s=
-X-Google-Smtp-Source: AGHT+IEhNhLFwtoERvqR4wwIzABw3n2OOlNv4OV5lL7WaKkPa5Z+UnEUJfje79VBNaD3WpA1dHlqtQ==
-X-Received: by 2002:a5d:6f02:0:b0:3a5:1241:afde with SMTP id ffacd0b85a97d-3b495b9446amr673335f8f.9.1751586952791;
-        Thu, 03 Jul 2025 16:55:52 -0700 (PDT)
-Received: from iku.Home ([2a06:5906:61b:2d00:5f46:9d65:6ef9:1650])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b47225b5cdsm932436f8f.85.2025.07.03.16.55.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jul 2025 16:55:52 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
+	s=arc-20240116; t=1751588324; c=relaxed/simple;
+	bh=w59yCbyVYLeKW7J7CfFPxVOeJUlnH2OvcmUrVuoZlzc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g8qAitvm08IT87eu1rTds+CaNJ70HE1N4u1cUkemoimaNQJSLQj99epyf05/KDC2rhb3uHkiX0TCjK4sVnOhVgLptm9eFnotApd/pqd9DUhfjoVPMolWiEvTU3AX4TQuxxb7fny0Zj0rmyDNI7xmiiKml/EC0ZakdL32QKT2FCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mJpHQyei; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 6D4C1669;
+	Fri,  4 Jul 2025 02:18:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1751588295;
+	bh=w59yCbyVYLeKW7J7CfFPxVOeJUlnH2OvcmUrVuoZlzc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=mJpHQyei4r7Azkxg+XbdlkafWqOH6RwCVb0ZtufKDku1Qtqpxl0uSf6bQ/QS7r9h8
+	 LH4KkCSsxCs1V+qjWiCbvjc+CTF7sxs3z5bxx27eOaxXaQL87LtjgwTQRUnpxN99fv
+	 e558mltdDtlgpnsFf4HnKyalZZOJWlmni8A96RuY=
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To: linux-media@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 2/2] arm64: dts: renesas: r9a09g056n48-rzv2n-evk: Fix pinctrl node name for GBETH1
-Date: Fri,  4 Jul 2025 00:55:44 +0100
-Message-ID: <20250703235544.715433-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v3 0/8] media: renesas: vsp1: Fix v4l2-compliance failures
+Date: Fri,  4 Jul 2025 03:18:04 +0300
+Message-ID: <20250704001812.30064-1-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250703235544.715433-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20250703235544.715433-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -101,31 +58,75 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hello,
 
-Rename the GBETH1 pinctrl node from "eth0" to "eth1" to avoid duplicate
-node names in the DT and correctly reflect the label "eth1_pins".
+This series fixes all v4l2-compliance failures in the VSP1 driver. The
+v4l2-compliance log is long, and not that interesting as there's no
+failure. Here's the executive summary, if anyone wants the full log,
+please let me know.
 
-Fixes: f111192baa80 ("arm64: dts: renesas: r9a09g056n48-rzv2n-evk: Enable GBETH")
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+----------------------------------------
+root@buildroot ~ # v4l2-compliance -m /dev/media1
+v4l2-compliance 1.31.0-5383, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 58fb1141ca7c 2025-07-03 19:50:58
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts b/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts
-index 8bce7398c2c4..910679dd1b23 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts
-@@ -327,7 +327,7 @@ eth0_pins: eth0 {
- 		output-enable;
- 	};
- 
--	eth1_pins: eth0 {
-+	eth1_pins: eth1 {
- 		pins = "ET1_TXC_TXCLK";
- 		output-enable;
- 	};
+Compliance test for vsp1 device /dev/media1:
+
+Media Driver Info:
+        Driver name      : vsp1
+        Model            : VSP2-BD
+        Serial           :
+        Bus info         : platform:fe960000.vsp
+        Media version    : 6.16.0
+        Hardware revision: 0x01011504 (16848132)
+        Driver version   : 6.16.0
+
+[...]
+
+
+Grand Total for vsp1 device /dev/media1: 751, Succeeded: 751, Failed: 0, Warnings: 0
+----------------------------------------
+
+The series has also been tested with the vsp-tests suite, which reported
+no regression.
+
+Compared to v2, I've fixed a bisection compilation breakage in patch 1/8.
+
+Laurent Pinchart (8):
+  media: renesas: vsp1: Store supported media bus codes in vsp1_entity
+  media: renesas: vsp1: Store size limits in vsp1_entity
+  media: renesas: vsp1: Fix code checks in frame size enumeration
+  media: renesas: vsp1: Fix crop left and top clamping on RPF
+  media: renesas: vsp1: Fix crop width and height clamping on RPF
+  media: renesas: vsp1: Fix RWPF media bus code and frame size
+    enumeration
+  media: renesas: vsp1: Fix format propagation on the BRX
+  media: renesas: vsp1: Implement control events
+
+ .../media/platform/renesas/vsp1/vsp1_brx.c    |  37 ++---
+ .../media/platform/renesas/vsp1/vsp1_clu.c    |  47 ++-----
+ .../media/platform/renesas/vsp1/vsp1_entity.c | 110 +++++++--------
+ .../media/platform/renesas/vsp1/vsp1_entity.h |  21 +--
+ .../media/platform/renesas/vsp1/vsp1_histo.c  |  27 ++--
+ .../media/platform/renesas/vsp1/vsp1_histo.h  |   2 -
+ .../media/platform/renesas/vsp1/vsp1_hsit.c   |  24 ++--
+ .../media/platform/renesas/vsp1/vsp1_iif.c    |  39 ++----
+ .../media/platform/renesas/vsp1/vsp1_lif.c    |  40 ++----
+ .../media/platform/renesas/vsp1/vsp1_lut.c    |  47 ++-----
+ .../media/platform/renesas/vsp1/vsp1_rpf.c    |   7 +-
+ .../media/platform/renesas/vsp1/vsp1_rwpf.c   | 127 ++++++++++++++----
+ .../media/platform/renesas/vsp1/vsp1_rwpf.h   |   6 +-
+ .../media/platform/renesas/vsp1/vsp1_sru.c    |  63 ++++-----
+ .../media/platform/renesas/vsp1/vsp1_uds.c    |  62 ++++-----
+ .../media/platform/renesas/vsp1/vsp1_uif.c    |  40 ++----
+ .../media/platform/renesas/vsp1/vsp1_wpf.c    |  13 +-
+ 17 files changed, 335 insertions(+), 377 deletions(-)
+
+
+base-commit: c26e8dcd9d4e86d788c5bf7a5dd0ea70a95ab067
 -- 
-2.49.0
+Regards,
+
+Laurent Pinchart
 
 
