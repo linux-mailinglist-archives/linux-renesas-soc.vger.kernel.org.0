@@ -1,101 +1,340 @@
-Return-Path: <linux-renesas-soc+bounces-19244-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19245-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCE22AF9801
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jul 2025 18:21:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DD95AF9822
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jul 2025 18:28:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1FE751CC1536
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jul 2025 16:21:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DFC951BC492D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jul 2025 16:28:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82CD32E091D;
-	Fri,  4 Jul 2025 16:21:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C14F12D5A16;
+	Fri,  4 Jul 2025 16:27:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LCGwqARu"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DAD32D9487;
-	Fri,  4 Jul 2025 16:21:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1C62BE04B;
+	Fri,  4 Jul 2025 16:27:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751646065; cv=none; b=C6RTIzGFzkq7xj2yTpBWupQCxK3MAZNizqHO50uMBGt8XrK6U+cAj/TNKEWrPexipgynsH97TfXozpp/xwK6NWwnxRZv+CsiMNhpwd26AwmHTVmhiCVfXMM29YAhFx6FDaoWUrRDyK2hegHvY/iW5qzQD7UKRxPeYjUAbaoBzN0=
+	t=1751646476; cv=none; b=RoaseRbeTb0Bdp97HMfpXqHi6CDiV6AXWG2hErcTwuMG49sQ72ktBfOG+GXCmozJO0dacilqkJTe8jG9Ee8WmxvPrNb97DJNb72Pg211oLkUktCWKZUdz3Kckri+AOgq7E/QGDwBuQTiXA2BPx6ycX/7ZSFv/3pYzMtqNH7sIoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751646065; c=relaxed/simple;
-	bh=CIDS4XGH+4cb5LLUPPoJh/Iq1GZ1TrpGst48kw15a8s=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=NrahMbp8bTlkUenCC3l5+bRh8W0Lry6Oqitye27tlcv9jijiMZRNgGZgsQxuZOfZd6NRXyVqFHvEexvyV+5JsVywL3GELjhT8UX0fYX6yXMRsrnQNagxtNIzOS1G9UBxqz4VZ5TTc/BroCoNC+Y94F71+wj9phQSllqJ20nUpyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-CSE-ConnectionGUID: QbHu6frQQd2iQMDJh4Z0QQ==
-X-CSE-MsgGUID: tRZFKmlsSDSimj/84SskUQ==
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 05 Jul 2025 01:20:58 +0900
-Received: from mulinux.home (unknown [10.26.240.6])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 26D35401DDFD;
-	Sat,  5 Jul 2025 01:20:53 +0900 (JST)
-From: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: linux-spi@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 3/3] MAINTAINERS: Add entries for the RZ/V2H(P) RSPI
-Date: Fri,  4 Jul 2025 17:20:36 +0100
-Message-Id: <20250704162036.468765-4-fabrizio.castro.jz@renesas.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250704162036.468765-1-fabrizio.castro.jz@renesas.com>
-References: <20250704162036.468765-1-fabrizio.castro.jz@renesas.com>
+	s=arc-20240116; t=1751646476; c=relaxed/simple;
+	bh=ENkHb/UDY+ZdjHwl01NUONqHHbQa9bsjE2fkRf4Gp74=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MOZCPAcx+T1d1g1hxMv7bWqXWEnwJv37ipiKgjgCTVZ2F7aPnNw+BKvbWZMMRIR4SfO+/oUMV26AlxAZCf5fPca8blNgODngqI5pEKZbG/eksbnFP7LppABAiW73UlzMk9++6mqVAdt4P3arxY64hkXA1HsxZDa+jnjiM23IvaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LCGwqARu; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (unknown [IPv6:2001:b07:6462:5de2:520d:d7a3:63ca:99e8])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DDF15669;
+	Fri,  4 Jul 2025 18:27:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1751646448;
+	bh=ENkHb/UDY+ZdjHwl01NUONqHHbQa9bsjE2fkRf4Gp74=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LCGwqARueJorZurfUiR07qw2x7xd+/DhTYhB08M+Wbe7pJJBtytZjfqjcnu3gp0zN
+	 GPnWhM6XUhpYwQqgYhC0rOpOZ3AgtAGsPzc/6k9J8nlLalWwUzFETGWjrt6GfHuCaD
+	 dhYh+FRj0WqzzC7VGj7LFD+0vCLm94aUk1FmOpOY=
+Date: Fri, 4 Jul 2025 18:27:48 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v3 3/8] media: renesas: vsp1: Fix code checks in frame
+ size enumeration
+Message-ID: <tsa2qbc6lqvo5xbl4rdr5suxpoqlxd3qppvx7mvliwv2jinzij@3vjpl4df23ec>
+References: <20250704001812.30064-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20250704001812.30064-4-laurent.pinchart+renesas@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250704001812.30064-4-laurent.pinchart+renesas@ideasonboard.com>
 
-Add the MAINTAINERS entries for the Renesas RZ/V2H(P) RSPI
-driver.
+Hi Laurent
 
-Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Fri, Jul 04, 2025 at 03:18:07AM +0300, Laurent Pinchart wrote:
+> The media bus code passed to the .enum_frame_size() operation for the
+> sink pad is required to be supported by the device, but not to match the
+> current format. All entities that use the vsp1_subdev_enum_frame_size()
+> helper, as well as the SRU and UDS entities that implement the operation
+> manually, perform the check incorrectly.
+>
+> Fix the issue by implementing the correct code check in the
+> vsp1_subdev_enum_frame_size(). For the SRU and UDS, to avoid duplicating
+> code, use the vsp1_subdev_enum_frame_size() as a base and override the
+> enumerated size on the source pad with entity-specific constraints.
+>
+> While at it, include the missing <linux/mutex.h> as the code locks
+> mutexes.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+> Changes since v1:
+>
+> - Include <linux/cleanup.h> and <linux/mutex.h>
+> ---
+>  .../media/platform/renesas/vsp1/vsp1_entity.c | 49 ++++++++++++-------
+>  .../media/platform/renesas/vsp1/vsp1_sru.c    | 38 +++++++-------
+>  .../media/platform/renesas/vsp1/vsp1_uds.c    | 38 +++++++-------
+>  3 files changed, 64 insertions(+), 61 deletions(-)
+>
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_entity.c b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
+> index 04b7ae6fb935..892a2adfdf3a 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_entity.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
+> @@ -7,8 +7,10 @@
+>   * Contact: Laurent Pinchart (laurent.pinchart@ideasonboard.com)
+>   */
+>
+> +#include <linux/cleanup.h>
+>  #include <linux/device.h>
+>  #include <linux/gfp.h>
+> +#include <linux/mutex.h>
+>
+>  #include <media/media-entity.h>
+>  #include <media/v4l2-ctrls.h>
+> @@ -238,42 +240,51 @@ int vsp1_subdev_enum_frame_size(struct v4l2_subdev *subdev,
+>  				struct v4l2_subdev_frame_size_enum *fse)
+>  {
+>  	struct vsp1_entity *entity = to_vsp1_entity(subdev);
+> -	struct v4l2_subdev_state *state;
+> -	struct v4l2_mbus_framefmt *format;
+> -	int ret = 0;
+>
+> -	state = vsp1_entity_get_state(entity, sd_state, fse->which);
+> -	if (!state)
+> +	if (fse->index)
+>  		return -EINVAL;
+>
+> -	format = v4l2_subdev_state_get_format(state, fse->pad);
+> -
+> -	mutex_lock(&entity->lock);
+> -
+> -	if (fse->index || fse->code != format->code) {
+> -		ret = -EINVAL;
+> -		goto done;
+> -	}
+> -
+>  	if (fse->pad == 0) {
+> +		unsigned int i;
+> +
+> +		for (i = 0; i < entity->num_codes; ++i) {
+> +			if (fse->code == entity->codes[i])
+> +				break;
+> +		}
+> +
+> +		if (i == entity->num_codes)
+> +			return -EINVAL;
+> +
+>  		fse->min_width = entity->min_width;
+>  		fse->max_width = entity->max_width;
+>  		fse->min_height = entity->min_height;
+>  		fse->max_height = entity->max_height;
+>  	} else {
+> +		struct v4l2_subdev_state *state;
+> +		struct v4l2_mbus_framefmt *format;
+> +
+> +		state = vsp1_entity_get_state(entity, sd_state, fse->which);
+> +		if (!state)
+> +			return -EINVAL;
+> +
+>  		/*
+> -		 * The size on the source pad are fixed and always identical to
+> -		 * the size on the sink pad.
+> +		 * The media bus code and size on the source pad are fixed and
+> +		 * always identical to the sink pad.
+>  		 */
+> +		format = v4l2_subdev_state_get_format(state, 0);
+> +
+> +		guard(mutex)(&entity->lock);
+> +
+> +		if (fse->code != format->code)
+> +			return -EINVAL;
+> +
+>  		fse->min_width = format->width;
+>  		fse->max_width = format->width;
+>  		fse->min_height = format->height;
+>  		fse->max_height = format->height;
+>  	}
+>
+> -done:
+> -	mutex_unlock(&entity->lock);
+> -	return ret;
+> +	return 0;
+>  }
+>
+>  /*
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_sru.c b/drivers/media/platform/renesas/vsp1/vsp1_sru.c
+> index 1dc34e6a510d..37fd36d09045 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_sru.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_sru.c
+> @@ -7,8 +7,10 @@
+>   * Contact: Laurent Pinchart (laurent.pinchart@ideasonboard.com)
+>   */
+>
+> +#include <linux/cleanup.h>
+>  #include <linux/device.h>
+>  #include <linux/gfp.h>
+> +#include <linux/mutex.h>
+>
+>  #include <media/v4l2-subdev.h>
+>
+> @@ -116,29 +118,25 @@ static int sru_enum_frame_size(struct v4l2_subdev *subdev,
+>  			       struct v4l2_subdev_frame_size_enum *fse)
+>  {
+>  	struct vsp1_sru *sru = to_sru(subdev);
+> -	struct v4l2_subdev_state *state;
+> -	struct v4l2_mbus_framefmt *format;
+> -	int ret = 0;
+> +	int ret;
+>
+> -	state = vsp1_entity_get_state(&sru->entity, sd_state, fse->which);
+> -	if (!state)
+> -		return -EINVAL;
+> +	ret = vsp1_subdev_enum_frame_size(subdev, sd_state, fse);
+> +	if (ret)
+> +		return ret;
 
----
-v1->v2:
-* Collected tags.
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Here, in case of PAD_SOURCE, we have validated that the fse->code
+matches the format on the sink
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8d9b940ee8ee..f467e6900c09 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -21219,6 +21219,14 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/net/renesas,r9a09g057-gbeth.yaml
- F:	drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c
- 
-+RENESAS RZ/V2H(P) RSPI DRIVER
-+M:	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-+L:	linux-spi@vger.kernel.org
-+L:	linux-renesas-soc@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/spi/renesas,rzv2h-rspi.yaml
-+F:	drivers/spi/spi-rzv2h-rspi.c
-+
- RENESAS RZ/V2H(P) USB2PHY PORT RESET DRIVER
- M:	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
- M:	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
--- 
-2.34.1
+>
+> -	format = v4l2_subdev_state_get_format(state, SRU_PAD_SINK);
+> +	if (fse->pad == SRU_PAD_SOURCE) {
+> +		struct v4l2_subdev_state *state;
+> +		struct v4l2_mbus_framefmt *format;
+>
+> -	mutex_lock(&sru->entity.lock);
+> +		state = vsp1_entity_get_state(&sru->entity, sd_state,
+> +					      fse->which);
+> +		if (!state)
+> +			return -EINVAL;
+>
+> -	if (fse->index || fse->code != format->code) {
+> -		ret = -EINVAL;
+> -		goto done;
+> -	}
+> +		format = v4l2_subdev_state_get_format(state, SRU_PAD_SINK);
+> +
+> +		guard(mutex)(&sru->entity.lock);
 
+and we get here where we do SRU-specific adjustments to the sizes but
+we don't re-check for the code.
+
+Can the code on the sink change between the above call to
+vsp1_subdev_enum_frame_size() and here ? Is this a concern ?
+
+Same for UDS I guess..
+
+Thanks
+  j
+
+>
+> -	if (fse->pad == SRU_PAD_SINK) {
+> -		fse->min_width = SRU_MIN_SIZE;
+> -		fse->max_width = SRU_MAX_SIZE;
+> -		fse->min_height = SRU_MIN_SIZE;
+> -		fse->max_height = SRU_MAX_SIZE;
+> -	} else {
+>  		fse->min_width = format->width;
+>  		fse->min_height = format->height;
+>  		if (format->width <= SRU_MAX_SIZE / 2 &&
+> @@ -151,9 +149,7 @@ static int sru_enum_frame_size(struct v4l2_subdev *subdev,
+>  		}
+>  	}
+>
+> -done:
+> -	mutex_unlock(&sru->entity.lock);
+> -	return ret;
+> +	return 0;
+>  }
+>
+>  static void sru_try_format(struct vsp1_sru *sru,
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_uds.c b/drivers/media/platform/renesas/vsp1/vsp1_uds.c
+> index 8006d49ffbea..dd4722315c56 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_uds.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_uds.c
+> @@ -7,8 +7,10 @@
+>   * Contact: Laurent Pinchart (laurent.pinchart@ideasonboard.com)
+>   */
+>
+> +#include <linux/cleanup.h>
+>  #include <linux/device.h>
+>  #include <linux/gfp.h>
+> +#include <linux/mutex.h>
+>
+>  #include <media/v4l2-subdev.h>
+>
+> @@ -121,38 +123,32 @@ static int uds_enum_frame_size(struct v4l2_subdev *subdev,
+>  			       struct v4l2_subdev_frame_size_enum *fse)
+>  {
+>  	struct vsp1_uds *uds = to_uds(subdev);
+> -	struct v4l2_subdev_state *state;
+> -	struct v4l2_mbus_framefmt *format;
+> -	int ret = 0;
+> +	int ret;
+>
+> -	state = vsp1_entity_get_state(&uds->entity, sd_state, fse->which);
+> -	if (!state)
+> -		return -EINVAL;
+> +	ret = vsp1_subdev_enum_frame_size(subdev, sd_state, fse);
+> +	if (ret)
+> +		return ret;
+>
+> -	format = v4l2_subdev_state_get_format(state, UDS_PAD_SINK);
+> +	if (fse->pad == UDS_PAD_SOURCE) {
+> +		struct v4l2_subdev_state *state;
+> +		struct v4l2_mbus_framefmt *format;
+>
+> -	mutex_lock(&uds->entity.lock);
+> +		state = vsp1_entity_get_state(&uds->entity, sd_state,
+> +					      fse->which);
+> +		if (!state)
+> +			return -EINVAL;
+>
+> -	if (fse->index || fse->code != format->code) {
+> -		ret = -EINVAL;
+> -		goto done;
+> -	}
+> +		format = v4l2_subdev_state_get_format(state, UDS_PAD_SINK);
+> +
+> +		guard(mutex)(&uds->entity.lock);
+>
+> -	if (fse->pad == UDS_PAD_SINK) {
+> -		fse->min_width = UDS_MIN_SIZE;
+> -		fse->max_width = UDS_MAX_SIZE;
+> -		fse->min_height = UDS_MIN_SIZE;
+> -		fse->max_height = UDS_MAX_SIZE;
+> -	} else {
+>  		uds_output_limits(format->width, &fse->min_width,
+>  				  &fse->max_width);
+>  		uds_output_limits(format->height, &fse->min_height,
+>  				  &fse->max_height);
+>  	}
+>
+> -done:
+> -	mutex_unlock(&uds->entity.lock);
+> -	return ret;
+> +	return 0;
+>  }
+>
+>  static void uds_try_format(struct vsp1_uds *uds,
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
+>
 
