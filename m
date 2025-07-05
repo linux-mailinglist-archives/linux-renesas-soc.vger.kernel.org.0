@@ -1,234 +1,159 @@
-Return-Path: <linux-renesas-soc+bounces-19275-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19276-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E24EAAFA14F
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Jul 2025 21:09:38 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDC01AFA16C
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Jul 2025 21:31:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 590C43A8B53
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Jul 2025 19:09:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 386EE3A3F2F
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Jul 2025 19:31:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78BBA1CEEBE;
-	Sat,  5 Jul 2025 19:09:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 152A71B4248;
+	Sat,  5 Jul 2025 19:31:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="HlF6kCHm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CFEA1C84CB
-	for <linux-renesas-soc@vger.kernel.org>; Sat,  5 Jul 2025 19:09:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3F7A14386D;
+	Sat,  5 Jul 2025 19:31:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751742575; cv=none; b=kJLKDg1xmjryVIIcKyynsNHsYAFu2gZw5pYOK+i9jvk6JKUlyPlWbOvbH4B2KdhcoZ4dO7dH4KSrTfxJabBAnwRCYNlCiTl955d9g6xWG59BjymcCNStF0+u2GRFkcqngGmCC0NoEvF7Oe/ve6BEHtTT62ZGcCwcQzh2SHK+Qqs=
+	t=1751743886; cv=none; b=Uefabgsd02T0v8uJwPVnl4kzNz+Yhn005hgIe811MebeDjrJiGUhBISQzeBzwiG2/AByW+h1m3g5ZyJSvhDlg5sngQvCCslfIDINJGSq7hXClneLLCrErA2n1jw6ilYxvCftzk8yIiMnrcCO3Lvsm0Hf9Zi923NJTvRtCvWdx7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751742575; c=relaxed/simple;
-	bh=sZfwkV9T3IOdwUrtrV9lLKz+9fb+HXkUumwHPFPoe5A=;
-	h=From:To:Cc:Date:Message-Id:In-Reply-To:References:Subject; b=BRWnWqZIi9rs7Ex2G1sCAKVmN5dnK7yzbUNQ8JMaPDld+B3OhMgzLmK9Pn6hQpau3S0SBO7muT9PR/jeCSF8lFZEndQxmVclfWt+nXatpaYBny0Pnbtd+uZrahWz+Gw+KZNmn4btNXwH9NllhzKT3LlWlydfxQtk/0VFYc+GEP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=opensource.se; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=opensource.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7d3f192a64eso200083785a.2
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 05 Jul 2025 12:09:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751742572; x=1752347372;
-        h=subject:references:in-reply-to:message-id:date:cc:to:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XzKpRcEmc4OfyEBuLF2/nElHzG6TDnezVmnQrOsN8H0=;
-        b=sAhe/tEvFnz22A0g45O7eJXvlRSqEY6028I8hh9t2kFX6zWtZy2a89hrC/jZ5YJpdY
-         MytcZNnpBVz24/9YUl35MhLCfwC/wwtKH9ecHbkSF4yBrb3Y0oQA0dXqXaAa2BGFlvQI
-         z2hZMYA59+NAnEZ26ifLP9DVRqEt5hLcMFnurZ+9oUJfwmQJZIpV127f/37ww6ML3X49
-         OY32xgaXfs0C4suzpw5hCs9GsAj0ZstCPFsGa6eInzxFottf6+s3A8/J5x7anX40FbVS
-         RVtaRvhBc/va2PP55Nvp65CPAP4WqEhlpCjcJwZ44F6l7bFWXytiyaiYOItSVjssWWxI
-         0VMA==
-X-Gm-Message-State: AOJu0YzbQQCwYpKim+HrL51vIxzx8FpRNetoqBxOhxev6onskA81adT/
-	EqcgqS82U/s6q5JKUmIEqaev6ZJZ+OajeVNvgvVJ7MjRGXW83I7xhw58ydzh7iU/
-X-Gm-Gg: ASbGncu1YBzcsot8TTtqVd6LKd67L/ikgVxF1i+yC064M+g+cogudPbM3wjApFbMAZQ
-	Kke71n9sCL3IbRtE7JMhCOPYN+lPPgj1LXWSWj0Q3raXv5VlJcqpWohPrKBqgGs4J3bAKQvqy5Q
-	65oCglGFkEBtJfpONcgJSev1frhf7z46YreP5IMXz9xJnoX8xJgST+0eoOCWtNG9Q7urC7KBenu
-	VuWEdFuNXt9/DDI67mwHFq9APgx9cwtEWB2y7NICoiQiCVuuavs84ppM8BYwnDERH8uAJMbNt77
-	oWc14yjQZ7Ks2UEENUCkeGl6BQcYmTvVskafWcPD4DhQL/ryZ7pQ/ZePH/ohFIp6g+goOQsc3Qu
-	HPcUqs4e91nJD
-X-Google-Smtp-Source: AGHT+IEtocTnYwTR1JhxIBwnd87ij0BhBUCAOWNHYsuf/wmoT7bQcdMG7/0UTELWhoKSpIZ+Y++GeA==
-X-Received: by 2002:a05:620a:46a0:b0:7d4:5abd:6859 with SMTP id af79cd13be357-7d5f16ec1a8mr535953385a.46.1751742572014;
-        Sat, 05 Jul 2025 12:09:32 -0700 (PDT)
-Received: from 1.0.0.127.in-addr.arpa ([167.99.4.198])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d5dbe7bc91sm346628085a.56.2025.07.05.12.09.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Jul 2025 12:09:31 -0700 (PDT)
-From: Magnus Damm <damm@opensource.se>
-To: linux-renesas-soc@vger.kernel.org
-Cc: wsa+renesas@sang-engineering.com,Magnus Damm <damm@opensource.se>,geert+renesas@glider.be
-Date: Sat, 05 Jul 2025 21:09:29 +0200
-Message-Id: <175174256950.83411.5319298494550248866.sendpatchset@1.0.0.127.in-addr.arpa>
-In-Reply-To: <175174252387.83411.17393827352291413834.sendpatchset@1.0.0.127.in-addr.arpa>
-References: <175174252387.83411.17393827352291413834.sendpatchset@1.0.0.127.in-addr.arpa>
-Subject: [PATCH 6/6] ARM: dts: renesas: rza2mbtc: initial board support
+	s=arc-20240116; t=1751743886; c=relaxed/simple;
+	bh=FTO5G4X+pxGHSBpXzwIlVzU1sFOHICPeIYKUVFrky6k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rYeOU0p/ahcf3FVNFvYRFVUhvPyeGI/W8LuCEFyZ8z/tu4H99lHd9kHkZ2kC0EJ7N+OLc88ur/MmT1CAY0RmUIyJvCb5bqz8EJtPDVATIHvTiUHXPKuzMb84CETyyexInpg4pUzVPteBa84LGMU5mGJrNXgPlxBsLJsOCyMi9II=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=HlF6kCHm; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=6ORbq48ws88BzoCg+3C3lrqxEVQITGSfVV6sDqkLObc=; b=HlF6kCHm7Z1146GdO7SLnj71+9
+	/C+tGhuejjoazPhpxK8Ve0ym29eARPV84ad6YdaQtI40RgwcZklR/avhIMFzXMlXa3ON+jwdIq1sf
+	nQBaxTHR3rUktGW/TbF+I88NmIQKyZvgSISYK4QeBFEDHtbyj+Kxri2K50SkpUKe4peSCdmgVJpLb
+	Nh+PKQrDTWdz0G81MuxYnENLP5wDTaGegMl7BDsvWff/ph9OZav9mh0oo3tWDrcl1LeYZe3a13kLj
+	uhfEnB7I0ObqceH8Vzo5gw0VexoLR8a6yuUZo7tZDiBlZXxDdKEhSFlYwVVm51Ekg3xy0Ju/82JvI
+	EbIUvTrQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:50760)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1uY8bP-0003UC-2L;
+	Sat, 05 Jul 2025 20:31:11 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1uY8bL-0007Ki-1z;
+	Sat, 05 Jul 2025 20:31:07 +0100
+Date: Sat, 5 Jul 2025 20:31:07 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: Re: [PATCH net-next] net: stmmac: dwmac-renesas-gbeth: Add PM
+ suspend/resume callbacks
+Message-ID: <aGl9e9Exvq1fVI0s@shell.armlinux.org.uk>
+References: <20250705170326.106073-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250705170326.106073-1-biju.das.jz@bp.renesas.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-From: Magnus Damm <damm@opensource.se>
+On Sat, Jul 05, 2025 at 06:03:24PM +0100, Biju Das wrote:
+> Add PM suspend/resume callbacks for RZ/G3E SMARC EVK.
+> 
+> The PM deep entry is executed by pressing the SLEEP button and exit from
+> entry is by pressing the power button.
+> 
+> Logs:
+> root@smarc-rzg3e:~# PM: suspend entry (deep)
+> Filesystems sync: 0.115 seconds
+> Freezing user space processes
+> Freezing user space processes completed (elapsed 0.002 seconds)
+> OOM killer disabled.
+> Freezing remaining freezable tasks
+> Freezing remaining freezable tasks completed (elapsed 0.001 seconds)
+> printk: Suspending console(s) (use no_console_suspend to debug)
+> NOTICE:  BL2: v2.10.5(release):2.10.5/rz_soc_dev-162-g7148ba838
+> NOTICE:  BL2: Built : 14:23:58, Jul  5 2025
+> NOTICE:  BL2: SYS_LSI_MODE: 0x13e06
+> NOTICE:  BL2: SYS_LSI_DEVID: 0x8679447
+> NOTICE:  BL2: SYS_LSI_PRR: 0x0
+> NOTICE:  BL2: Booting BL31
+> renesas-gbeth 15c30000.ethernet end0: Link is Down
+> Disabling non-boot CPUs ...
+> psci: CPU3 killed (polled 0 ms)
+> psci: CPU2 killed (polled 0 ms)
+> psci: CPU1 killed (polled 0 ms)
+> Enabling non-boot CPUs ...
+> Detected VIPT I-cache on CPU1
+> GICv3: CPU1: found redistributor 100 region 0:0x0000000014960000
+> CPU1: Booted secondary processor 0x0000000100 [0x412fd050]
+> CPU1 is up
+> Detected VIPT I-cache on CPU2
+> GICv3: CPU2: found redistributor 200 region 0:0x0000000014980000
+> CPU2: Booted secondary processor 0x0000000200 [0x412fd050]
+> CPU2 is up
+> Detected VIPT I-cache on CPU3
+> GICv3: CPU3: found redistributor 300 region 0:0x00000000149a0000
+> CPU3: Booted secondary processor 0x0000000300 [0x412fd050]
+> CPU3 is up
+> dwmac4: Master AXI performs fixed burst length
+> 15c30000.ethernet end0: No Safety Features support found
+> 15c30000.ethernet end0: IEEE 1588-2008 Advanced Timestamp supported
+> 15c30000.ethernet end0: configuring for phy/rgmii-id link mode
+> dwmac4: Master AXI performs fixed burst length
+> 15c40000.ethernet end1: No Safety Features support found
+> 15c40000.ethernet end1: IEEE 1588-2008 Advanced Timestamp supported
+> 15c40000.ethernet end1: configuring for phy/rgmii-id link mode
+> OOM killer enabled.
+> Restarting tasks: Starting
+> Restarting tasks: Done
+> random: crng reseeded on system resumption
+> PM: suspend exit
+> 
+> 15c30000.ethernet end0: Link is Up - 1Gbps/Full - flow control rx/tx
+> root@smarc-rzg3e:~# ifconfig end0 192.168.10.7 up
+> root@smarc-rzg3e:~# ping 192.168.10.1
+> PING 192.168.10.1 (192.168.10.1) 56(84) bytes of data.
+> 64 bytes from 192.168.10.1: icmp_seq=1 ttl=64 time=2.05 ms
+> 64 bytes from 192.168.10.1: icmp_seq=2 ttl=64 time=0.928 ms
 
-Add initial support for the RZA2MBTC board which is based on the RZ/A2M by
-Renesas Electronics. Included in this patch are DTS nodes for serial console,
-on-board SPI flash as well as RMII Ethernet.
+You should also test with the interface configured before suspend/resume
+and confirm that it continues working afterwards without being
+reconfigured.
 
-Signed-off-by: Magnus Damm <damm@opensource.se>
----
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
- Applies to next-20250704
+Reviewed-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 
- arch/arm/boot/dts/renesas/Makefile                  |    1 
- work/arch/arm/boot/dts/renesas/r7s9210-rza2mbtc.dts |  133 +++++++++++++++++++
- 2 files changed, 134 insertions(+)
- 
---- 0006/arch/arm/boot/dts/renesas/Makefile
-+++ work/arch/arm/boot/dts/renesas/Makefile	2025-07-05 22:03:46.456578459 +0900
-@@ -5,6 +5,7 @@ dtb-$(CONFIG_ARCH_RENESAS) += \
- 	r7s72100-gr-peach.dtb \
- 	r7s72100-rskrza1.dtb \
- 	r7s9210-gr-mango.dtb \
-+	r7s9210-rza2mbtc.dtb \
- 	r7s9210-rza2mevb.dtb \
- 	r8a73a4-ape6evm.dtb \
- 	r8a7740-armadillo800eva.dtb \
---- /dev/null
-+++ work/arch/arm/boot/dts/renesas/r7s9210-rza2mbtc.dts	2025-07-05 22:03:21.996442287 +0900
-@@ -0,0 +1,133 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Device Tree Source for the RZ/A2M BTC board
-+ *
-+ * Based on RZA2MEVB, Copyright (C) 2018 Renesas Electronics
-+ */
-+
-+/dts-v1/;
-+#include "r7s9210.dtsi"
-+#include <dt-bindings/pinctrl/r7s9210-pinctrl.h>
-+
-+/ {
-+	model = "RZA2MBTC";
-+	compatible = "aprg,rza2mbtc", "renesas,r7s9210";
-+
-+	aliases {
-+		serial0 = &scif1;
-+		spi0 = &rpc0;
-+	};
-+
-+	chosen {
-+		bootargs = "ignore_loglevel";
-+		stdout-path = "serial0:115200n8";
-+	};
-+};
-+
-+&extal_clk {
-+	clock-frequency = <24000000>; /* EXTAL: Y2: ECS-240-8-47B-7KM-TR (24MHz) */
-+};
-+
-+&ostm0 {
-+	status = "okay";
-+};
-+
-+&ostm1 {
-+	status = "okay";
-+};
-+
-+&rpc0 {
-+	status = "okay";
-+
-+	flash0: spi-flash@0 {
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+		compatible = "jedec,spi-nor";
-+		spi-max-frequency = <50000000>;
-+		spi-tx-bus-width = <1>;
-+		spi-rx-bus-width = <1>;
-+		reg = <0>;
-+
-+		partitions {
-+			compatible = "fixed-partitions";
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+
-+			partition@0 {
-+				label = "mcuboot";
-+				reg = <0x00000000 0x00018000>;
-+				read-only;
-+			};
-+			partition@18000 {
-+				label = "mcuboot-scratch";
-+				reg = <0x00018000 0x00008000>;
-+				read-only;
-+			};
-+			partition@20000 {
-+				label = "mcuboot-primary";
-+				reg = <0x00020000 0x00060000>;
-+				read-only;
-+			};
-+			partition@80000 {
-+				label = "mcuboot-secondary";
-+				reg = <0x00080000 0x00060000>;
-+			};
-+			partition@e0000 {
-+				label = "u-boot-env";
-+				reg = <0x000e0000 0x00010000>;
-+			};
-+			partition@f0000 {
-+				label = "factory-data";
-+				reg = <0x000f0000 0x00010000>;
-+				read-only;
-+			};
-+		};
-+	};
-+};
-+
-+&ether1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&eth1_pins>;
-+	status = "okay";
-+	phy-mode = "rmii";
-+
-+	renesas,no-ether-link;
-+	phy-handle = <&phy0>;
-+
-+	phy0: ethernet-phy@0 {
-+		compatible = "ethernet-phy-id0007.c0f0",
-+			   "ethernet-phy-ieee802.3-c22";
-+		reg = <0>;
-+	};
-+};
-+
-+&pinctrl {
-+	scif1_pins: serial0 {
-+		pinmux = <RZA2_PINMUX(PORTJ, 2, 4)>, /* H1:1 PJ_2 (TxD1) */
-+			 <RZA2_PINMUX(PORTJ, 1, 4)>; /* H1:2 PJ_1 (RxD1) */
-+	};
-+
-+	eth1_pins: eth1 {
-+		pinmux = <RZA2_PINMUX(PORT3, 3, 1)>, /* ET1_MDC */
-+			 <RZA2_PINMUX(PORT3, 4, 1)>, /* ET1_MDIO */
-+			 <RZA2_PINMUX(PORTK, 3, 7)>, /* REF50CK1 */
-+			 <RZA2_PINMUX(PORTK, 0, 7)>, /* RMII1_TXDEN */
-+			 <RZA2_PINMUX(PORTK, 1, 7)>, /* RMII1_TXD0 */
-+			 <RZA2_PINMUX(PORTK, 2, 7)>, /* RMII1_TXD1 */
-+			 <RZA2_PINMUX(PORT3, 2, 7)>, /* RMII1_CRSDV */
-+			 <RZA2_PINMUX(PORTK, 4, 7)>, /* RMII1_RXD0 */
-+			 <RZA2_PINMUX(PORT3, 5, 7)>, /* RMII1_RXD1 */
-+			 <RZA2_PINMUX(PORT3, 1, 7)>; /* RMII1_RXER */
-+	};
-+};
-+
-+&rtc_x1_clk {
-+	clock-frequency = <32768>; /* RTC_X1: Y1: ECS-.327-12.5-1210-TR (32kHz) */
-+};
-+
-+&scif1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&scif1_pins>;
-+
-+	status = "okay";
-+};
+Thanks!
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
 
