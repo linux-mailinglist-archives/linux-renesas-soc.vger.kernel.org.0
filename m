@@ -1,147 +1,101 @@
-Return-Path: <linux-renesas-soc+bounces-19268-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19269-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74E4FAFA0FB
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Jul 2025 19:03:47 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7BC3AFA149
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Jul 2025 21:08:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CDD453A3C57
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Jul 2025 17:03:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 26DF27A128C
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Jul 2025 19:07:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B219A1FE47B;
-	Sat,  5 Jul 2025 17:03:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94A931C84CB;
+	Sat,  5 Jul 2025 19:08:50 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2916672634;
-	Sat,  5 Jul 2025 17:03:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0DEF19CD1D
+	for <linux-renesas-soc@vger.kernel.org>; Sat,  5 Jul 2025 19:08:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751735024; cv=none; b=pIyLRqNA0gQcbLnqXmr+v3l5qickLsWhWNpBiKJnA3uh4SgrPSmc5duIWxmSFZIvIMkbElKa9ODr3eZrhPGBe6iSqGJeGqpVGiR+TgwQvPpYmqzjcC2xwBmwdHaNPcjRHaJdOOBI5cCEvpA7lcWvHLpSbIYikhtr10Dfdnx2BNc=
+	t=1751742530; cv=none; b=mMXdw0e9ITBoDhoVK+OhTQVxm24z29tFNaMd6jdcy9GCQl5tBBiztCXnvekx8ptYhhGb0tiWUvBeV0i0eumTzGgYv1mkLRQ2N2s2M/QamobsNxrqwRmJfFV21lkIgLc9SdELoz7Kw3uF5bCv84WyfepWiq7K63ysK1ofgT64Gao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751735024; c=relaxed/simple;
-	bh=QjfCCAHuG5KSO6VVPMvYRGWXhmONEiIJ+1z/qE4+WX8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LDs8B8vjN35HqwTcYHwBieo1lu76QUt4egD+2+CW+zYAXNrnaS2yP4XCjnYh6gZKkhWCUXEQb5wA95OxcYT2rS6h3SNIvul49ovGC6PU32umWNWFmOwfS7N7O78XTwvCN6y5oW5dImHvVJgwaqXuyBH1EBPe7aOUMxkzTJtFkN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: UIRvHSRsSVmKRx59j0yRyQ==
-X-CSE-MsgGUID: cnHpFD2WTtap0SSiNRFArw==
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 06 Jul 2025 02:03:33 +0900
-Received: from localhost.localdomain (unknown [10.226.92.32])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 1D9304010E1B;
-	Sun,  6 Jul 2025 02:03:28 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH net-next] net: stmmac: dwmac-renesas-gbeth: Add PM suspend/resume callbacks
-Date: Sat,  5 Jul 2025 18:03:24 +0100
-Message-ID: <20250705170326.106073-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1751742530; c=relaxed/simple;
+	bh=7M9mpvMwXno2tINlC/k/YCV868UAs8VKdBeG4ME54LY=;
+	h=From:To:Cc:Date:Message-Id:Subject; b=unyR0DVI2OhKOvD1u/KmoBXgTuftxz/OTJL2GdUmiULmZTcXukBdD+JUDFxDpQ/QsUakGwHx5ZQdaWkisx1gEWNK/ybxn09mT7o4C/8uUes8CCQZ+Jm/P2BaPxCDxJBbYxpXGhZnRkjoU7RaJ7CZ70i9SCPqwUoP2MZ7fjNoznE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=opensource.se; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=opensource.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6facc3b9559so33678256d6.0
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 05 Jul 2025 12:08:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751742527; x=1752347327;
+        h=subject:message-id:date:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Oo7p5L1krWoHLWjiaYwSuyJcNLXuqBfpbtRJqREB/mw=;
+        b=VQFui9RC2Pi1deGRk/shkvMoX6Lglko06yU2RFIRpRRqQCMeyqOEMT+TYjarjWr8wR
+         aHU0ppnEjZn1qQGhpY4p54AOOfZ3r1vFhEbCcA7f1YAO04Zxl6y4TJuPhoVYrDBIgjpt
+         24I51yVRXr9KQUEkWwVApvkS+g3HDdBhST2o8rXWtwczXbsKWfjjhd+3vTeF9zTugeDF
+         x9llRGZXm/2v/bTYxFBmgY2vXTeq5+m+bcJx/d11714AzcLCO8G0e5O+T1d5VdR0L5j0
+         DaCWnkxRHnL7EeofmbvVMdvYHcYemqZyE1gIDXgM/6qYK2joCbs2e47Fn6D8Qml43qjI
+         8RHg==
+X-Gm-Message-State: AOJu0YyrHsu+30UZBmseIWmEsxiLZrK06ZjUOV7vhmZd3u7pFR6zqc1q
+	+/l+d5vyPT9BjkZtwBd529xMjZx5dpPOC0/BJmAec/oGcjW8pI6EeqQrEM89akfk
+X-Gm-Gg: ASbGncsDoqDnJNIRhswMrLcxuPovqR15it/vBc9MsYmzF9yj1VeMG0VPUw6UVEUP5kZ
+	P9Sklf17EF3r3gTURRwzXhLHvG1iuKjDH1LraZ2Ya20PCv75lKE+KG1QbR1/UA5+bjc0IZt4HFA
+	dmYKPg41r2OMHtbHLE+VnAN5kxGR6SHnXM9jVU6IGNWtTtwyXDhStBt1iXP8UabZyxtB213pfoU
+	SZghyDVIi6ZayMQukOavU6if/H0DM8LxrooASE+SvFFLles2bZ1KZw6YnwdM9/aqhuSdjd9b1Rv
+	4OklrqSZYB139890YTTcRQZ9UE9CCJxjPQSrOQr/2N5rO2QbQWX+OWMBfAClJR16eYiORJDX+BF
+	Akm6vQffX7AHM
+X-Google-Smtp-Source: AGHT+IGg7awBjOvd3anfpfxWJ5cL6ZHCASS5pXIsVSPusqr0VxnJ+iwuJq8sTbSNYfpY7AfPd+MLAQ==
+X-Received: by 2002:a0c:f083:0:20b0:702:d0e6:6e6b with SMTP id 6a1803df08f44-702d0e66e9emr38690936d6.45.1751742526536;
+        Sat, 05 Jul 2025 12:08:46 -0700 (PDT)
+Received: from 1.0.0.127.in-addr.arpa ([167.99.4.198])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-702c4d5ad3csm32492616d6.89.2025.07.05.12.08.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Jul 2025 12:08:46 -0700 (PDT)
+From: Magnus Damm <damm@opensource.se>
+To: linux-renesas-soc@vger.kernel.org
+Cc: wsa+renesas@sang-engineering.com,Magnus Damm <damm@opensource.se>,geert+renesas@glider.be
+Date: Sat, 05 Jul 2025 21:08:43 +0200
+Message-Id: <175174252387.83411.17393827352291413834.sendpatchset@1.0.0.127.in-addr.arpa>
+Subject: [PATCH 0/6] Add rpc-if to RZ/A1, RZ/A2 and update/add board support
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Add PM suspend/resume callbacks for RZ/G3E SMARC EVK.
+Add rpc-if to RZ/A1, RZ/A2 and update/add board support
 
-The PM deep entry is executed by pressing the SLEEP button and exit from
-entry is by pressing the power button.
+[PATCH 1/6] dt-bindings: memory-controllers: renesas,rpc-if: Add RZ compat str
+[PATCH 2/6] ARM: dts: renesas: r7s72100: add rpc-if nodes
+[PATCH 3/6] ARM: dts: renesas: r7s9210: add rpc-if node
+[PATCH 4/6] ARM: dts: renesas: genmai: add rpc-if SPI NOR flash
+[PATCH 5/6] ARM: dts: renesas: gr-mango: initial board support
+[PATCH 6/6] ARM: dts: renesas: rza2mbtc: initial board support
 
-Logs:
-root@smarc-rzg3e:~# PM: suspend entry (deep)
-Filesystems sync: 0.115 seconds
-Freezing user space processes
-Freezing user space processes completed (elapsed 0.002 seconds)
-OOM killer disabled.
-Freezing remaining freezable tasks
-Freezing remaining freezable tasks completed (elapsed 0.001 seconds)
-printk: Suspending console(s) (use no_console_suspend to debug)
-NOTICE:  BL2: v2.10.5(release):2.10.5/rz_soc_dev-162-g7148ba838
-NOTICE:  BL2: Built : 14:23:58, Jul  5 2025
-NOTICE:  BL2: SYS_LSI_MODE: 0x13e06
-NOTICE:  BL2: SYS_LSI_DEVID: 0x8679447
-NOTICE:  BL2: SYS_LSI_PRR: 0x0
-NOTICE:  BL2: Booting BL31
-renesas-gbeth 15c30000.ethernet end0: Link is Down
-Disabling non-boot CPUs ...
-psci: CPU3 killed (polled 0 ms)
-psci: CPU2 killed (polled 0 ms)
-psci: CPU1 killed (polled 0 ms)
-Enabling non-boot CPUs ...
-Detected VIPT I-cache on CPU1
-GICv3: CPU1: found redistributor 100 region 0:0x0000000014960000
-CPU1: Booted secondary processor 0x0000000100 [0x412fd050]
-CPU1 is up
-Detected VIPT I-cache on CPU2
-GICv3: CPU2: found redistributor 200 region 0:0x0000000014980000
-CPU2: Booted secondary processor 0x0000000200 [0x412fd050]
-CPU2 is up
-Detected VIPT I-cache on CPU3
-GICv3: CPU3: found redistributor 300 region 0:0x00000000149a0000
-CPU3: Booted secondary processor 0x0000000300 [0x412fd050]
-CPU3 is up
-dwmac4: Master AXI performs fixed burst length
-15c30000.ethernet end0: No Safety Features support found
-15c30000.ethernet end0: IEEE 1588-2008 Advanced Timestamp supported
-15c30000.ethernet end0: configuring for phy/rgmii-id link mode
-dwmac4: Master AXI performs fixed burst length
-15c40000.ethernet end1: No Safety Features support found
-15c40000.ethernet end1: IEEE 1588-2008 Advanced Timestamp supported
-15c40000.ethernet end1: configuring for phy/rgmii-id link mode
-OOM killer enabled.
-Restarting tasks: Starting
-Restarting tasks: Done
-random: crng reseeded on system resumption
-PM: suspend exit
+Add support for rpc-if to RZ/A1 and RZ/A2 SoCs and update/add a few boards
+to make use of this and other devices as well.
 
-15c30000.ethernet end0: Link is Up - 1Gbps/Full - flow control rx/tx
-root@smarc-rzg3e:~# ifconfig end0 192.168.10.7 up
-root@smarc-rzg3e:~# ping 192.168.10.1
-PING 192.168.10.1 (192.168.10.1) 56(84) bytes of data.
-64 bytes from 192.168.10.1: icmp_seq=1 ttl=64 time=2.05 ms
-64 bytes from 192.168.10.1: icmp_seq=2 ttl=64 time=0.928 ms
+The support level of the boards when this series is applied is as follows:
+Genmai: (RZ/A1 SoC) Serial Console, SPI flash, Ethernet
+GR-Peach: (RZ/A2 SoC) Serial Console, Ethernet
+RZA2MBTC: (RZ/A2 SoC) Serial Console, SPI flash, Ethernet
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Signed-off-by: Magnus Damm <damm@opensource.se>
 ---
-This patch is tested with out-of tree patch for save/restore
-ethernet OEN registers in the pinctrl block.
----
- drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c
-index 9a774046455b..df4ca897a60c 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c
-@@ -136,6 +136,7 @@ static struct platform_driver renesas_gbeth_driver = {
- 	.probe  = renesas_gbeth_probe,
- 	.driver = {
- 		.name		= "renesas-gbeth",
-+		.pm		= &stmmac_pltfr_pm_ops,
- 		.of_match_table	= renesas_gbeth_match,
- 	},
- };
--- 
-2.43.0
+ Applies to next-20250704
 
+ Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml |    2 
+ arch/arm/boot/dts/renesas/Makefile                                       |    2 
+ arch/arm/boot/dts/renesas/r7s72100-genmai.dts                            |   71 +++--
+ arch/arm/boot/dts/renesas/r7s72100.dtsi                                  |   22 +
+ arch/arm/boot/dts/renesas/r7s9210-gr-mango.dts                           |   87 ++++++
+ arch/arm/boot/dts/renesas/r7s9210-rza2mbtc.dts                           |  133 ++++++++++
+ arch/arm/boot/dts/renesas/r7s9210.dtsi                                   |   12 
+ 7 files changed, 300 insertions(+), 29 deletions(-)
 
