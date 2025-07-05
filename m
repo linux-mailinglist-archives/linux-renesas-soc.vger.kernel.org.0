@@ -1,101 +1,96 @@
-Return-Path: <linux-renesas-soc+bounces-19269-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19270-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7BC3AFA149
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Jul 2025 21:08:55 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 849EDAFA14A
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Jul 2025 21:09:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 26DF27A128C
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Jul 2025 19:07:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BC3154A77AC
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Jul 2025 19:09:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94A931C84CB;
-	Sat,  5 Jul 2025 19:08:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87F081C84CB;
+	Sat,  5 Jul 2025 19:08:57 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0DEF19CD1D
-	for <linux-renesas-soc@vger.kernel.org>; Sat,  5 Jul 2025 19:08:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DABF19CD1D
+	for <linux-renesas-soc@vger.kernel.org>; Sat,  5 Jul 2025 19:08:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751742530; cv=none; b=mMXdw0e9ITBoDhoVK+OhTQVxm24z29tFNaMd6jdcy9GCQl5tBBiztCXnvekx8ptYhhGb0tiWUvBeV0i0eumTzGgYv1mkLRQ2N2s2M/QamobsNxrqwRmJfFV21lkIgLc9SdELoz7Kw3uF5bCv84WyfepWiq7K63ysK1ofgT64Gao=
+	t=1751742537; cv=none; b=KB+3j3TmJ/JJN8ameUMwElZXAAITIux93IVrkbdID91Bym/YhgK9e+vU0eBQoGcVruS+2asBQcYZqrh2Q4IL3jjhxcjiVt6J1/fY6uXNIfR9xwHuo3E2X/c+l4cssjjzedBGEFiDaCf8qwWNl1TrnXyiPzrb8dHmmzOlQ9C2uE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751742530; c=relaxed/simple;
-	bh=7M9mpvMwXno2tINlC/k/YCV868UAs8VKdBeG4ME54LY=;
-	h=From:To:Cc:Date:Message-Id:Subject; b=unyR0DVI2OhKOvD1u/KmoBXgTuftxz/OTJL2GdUmiULmZTcXukBdD+JUDFxDpQ/QsUakGwHx5ZQdaWkisx1gEWNK/ybxn09mT7o4C/8uUes8CCQZ+Jm/P2BaPxCDxJBbYxpXGhZnRkjoU7RaJ7CZ70i9SCPqwUoP2MZ7fjNoznE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=opensource.se; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.43
+	s=arc-20240116; t=1751742537; c=relaxed/simple;
+	bh=5EPCd7mgWkSSi69/gcToNW9Ic58X7LcISm/IhCKemcI=;
+	h=From:To:Cc:Date:Message-Id:In-Reply-To:References:Subject; b=eAEgLS9GFvzXZiZGPInIqYl1VgihdQSQSX+2Aejo2Tyt5P5IroMyWnYUJp3fVdAThWVxASza4+VM+2r+Lmh/CUlNORu/Ey1iz4bO+xrKF2m4CTJU0pIPf+bvY3+jFha6oPwWtk3ADlqz8njPP2o90FfKK4AgAawkdjuMgT3kAm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=opensource.se; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=opensource.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6facc3b9559so33678256d6.0
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 05 Jul 2025 12:08:47 -0700 (PDT)
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6faf66905baso28230756d6.2
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 05 Jul 2025 12:08:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751742527; x=1752347327;
-        h=subject:message-id:date:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Oo7p5L1krWoHLWjiaYwSuyJcNLXuqBfpbtRJqREB/mw=;
-        b=VQFui9RC2Pi1deGRk/shkvMoX6Lglko06yU2RFIRpRRqQCMeyqOEMT+TYjarjWr8wR
-         aHU0ppnEjZn1qQGhpY4p54AOOfZ3r1vFhEbCcA7f1YAO04Zxl6y4TJuPhoVYrDBIgjpt
-         24I51yVRXr9KQUEkWwVApvkS+g3HDdBhST2o8rXWtwczXbsKWfjjhd+3vTeF9zTugeDF
-         x9llRGZXm/2v/bTYxFBmgY2vXTeq5+m+bcJx/d11714AzcLCO8G0e5O+T1d5VdR0L5j0
-         DaCWnkxRHnL7EeofmbvVMdvYHcYemqZyE1gIDXgM/6qYK2joCbs2e47Fn6D8Qml43qjI
-         8RHg==
-X-Gm-Message-State: AOJu0YyrHsu+30UZBmseIWmEsxiLZrK06ZjUOV7vhmZd3u7pFR6zqc1q
-	+/l+d5vyPT9BjkZtwBd529xMjZx5dpPOC0/BJmAec/oGcjW8pI6EeqQrEM89akfk
-X-Gm-Gg: ASbGncsDoqDnJNIRhswMrLcxuPovqR15it/vBc9MsYmzF9yj1VeMG0VPUw6UVEUP5kZ
-	P9Sklf17EF3r3gTURRwzXhLHvG1iuKjDH1LraZ2Ya20PCv75lKE+KG1QbR1/UA5+bjc0IZt4HFA
-	dmYKPg41r2OMHtbHLE+VnAN5kxGR6SHnXM9jVU6IGNWtTtwyXDhStBt1iXP8UabZyxtB213pfoU
-	SZghyDVIi6ZayMQukOavU6if/H0DM8LxrooASE+SvFFLles2bZ1KZw6YnwdM9/aqhuSdjd9b1Rv
-	4OklrqSZYB139890YTTcRQZ9UE9CCJxjPQSrOQr/2N5rO2QbQWX+OWMBfAClJR16eYiORJDX+BF
-	Akm6vQffX7AHM
-X-Google-Smtp-Source: AGHT+IGg7awBjOvd3anfpfxWJ5cL6ZHCASS5pXIsVSPusqr0VxnJ+iwuJq8sTbSNYfpY7AfPd+MLAQ==
-X-Received: by 2002:a0c:f083:0:20b0:702:d0e6:6e6b with SMTP id 6a1803df08f44-702d0e66e9emr38690936d6.45.1751742526536;
-        Sat, 05 Jul 2025 12:08:46 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1751742534; x=1752347334;
+        h=subject:references:in-reply-to:message-id:date:cc:to:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sSZgO62sYhbRUrX6DM7v/4kR2Px5APcbuTHj31OnGIs=;
+        b=oFjHSl36Ol/pbqEzuyrE6eoT0WKlGz85EHxf2W+AsLuUZQ5Rp/+lqGh2MvTMTdNHOT
+         7MaDwY2MzvlN2bWu2zSgO2E1gjpGfiGcnkbk+h4EXTXDwKmmSiMuYeKWzmmRZ+5H5mFu
+         2gp2GD3QBj80tOQ8+SEIMLw/9KgLOZJnlmpE51Lxp2jPLClCveR/sZuiiGsSh3OBLaXy
+         PzbQmb6KUSuKTa/gixkLI4+wRSXbawPz4jJsOICzUKHKI3pDLHyU4ARKL0R+kpTD7U1f
+         AsLMbPzd/iTyvRwYkkhOZmwjZTqWipXQeKtsuAlxcRo6nZiy7i2MPsVlqnlCRGzMTUe4
+         VmLg==
+X-Gm-Message-State: AOJu0YzNhu0hGNONLjwdzvzwRBC2/zY+E4EC16Kp0pAPVDMwP0BFdQav
+	FWbYNX8PKRqUeALu1tnHgkpMPvwCeAYTm7mB+rwqFNRT4CHaJXauwOiBwFWQDla/
+X-Gm-Gg: ASbGncvJA8cJ2nlk5gE6HgHROozpZJN7vaTxfQdHTq+QKJQTyvGb/g5unLbID8F1Isk
+	yoPEGjMXGn13cygqpOJIwdswTzBpaNo5YpHYqLTl/sa5IaPqAYzsOQ+rHoe7uApg1fXAJboSiik
+	x4H7zkmfewhDKdXm8rkQf2v25cJT7kV2jHaNMdEhHDyHP8zJEi4mC1Rji/8k3jDbFM7ORSHCha1
+	DhUA91pPhGIL1yBNQUbtVLSYSJ/JSeYRoitSB2OLz5LDxxXiOwNsIph9sTX61ge6R4+Df3jP3zx
+	lMrjOkTopIXDguhHkn4ZUBlfPiQsHJHrpySTxzE95olgYBqWaTw4rEY0M367v+RxttKUUGsj6T8
+	onJs84ENmJG1Y
+X-Google-Smtp-Source: AGHT+IHlYcqoYRBX1CedWs0nOi0wm6I/WwmU1OAgYdovrHTrIIvpfQ623IUSsz9ie37ZCshnjoB7Kw==
+X-Received: by 2002:a0c:f086:0:10b0:702:ca9e:db95 with SMTP id 6a1803df08f44-702ca9eddecmr51493536d6.40.1751742534187;
+        Sat, 05 Jul 2025 12:08:54 -0700 (PDT)
 Received: from 1.0.0.127.in-addr.arpa ([167.99.4.198])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-702c4d5ad3csm32492616d6.89.2025.07.05.12.08.45
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-702c4cc7751sm33024966d6.10.2025.07.05.12.08.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Jul 2025 12:08:46 -0700 (PDT)
+        Sat, 05 Jul 2025 12:08:53 -0700 (PDT)
 From: Magnus Damm <damm@opensource.se>
 To: linux-renesas-soc@vger.kernel.org
 Cc: wsa+renesas@sang-engineering.com,Magnus Damm <damm@opensource.se>,geert+renesas@glider.be
-Date: Sat, 05 Jul 2025 21:08:43 +0200
-Message-Id: <175174252387.83411.17393827352291413834.sendpatchset@1.0.0.127.in-addr.arpa>
-Subject: [PATCH 0/6] Add rpc-if to RZ/A1, RZ/A2 and update/add board support
+Date: Sat, 05 Jul 2025 21:08:51 +0200
+Message-Id: <175174253155.83411.3250526926071589353.sendpatchset@1.0.0.127.in-addr.arpa>
+In-Reply-To: <175174252387.83411.17393827352291413834.sendpatchset@1.0.0.127.in-addr.arpa>
+References: <175174252387.83411.17393827352291413834.sendpatchset@1.0.0.127.in-addr.arpa>
+Subject: [PATCH 1/6] dt-bindings: memory-controllers: renesas,rpc-if: Add RZ compat str
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 
-Add rpc-if to RZ/A1, RZ/A2 and update/add board support
+From: Magnus Damm <damm@opensource.se>
 
-[PATCH 1/6] dt-bindings: memory-controllers: renesas,rpc-if: Add RZ compat str
-[PATCH 2/6] ARM: dts: renesas: r7s72100: add rpc-if nodes
-[PATCH 3/6] ARM: dts: renesas: r7s9210: add rpc-if node
-[PATCH 4/6] ARM: dts: renesas: genmai: add rpc-if SPI NOR flash
-[PATCH 5/6] ARM: dts: renesas: gr-mango: initial board support
-[PATCH 6/6] ARM: dts: renesas: rza2mbtc: initial board support
-
-Add support for rpc-if to RZ/A1 and RZ/A2 SoCs and update/add a few boards
-to make use of this and other devices as well.
-
-The support level of the boards when this series is applied is as follows:
-Genmai: (RZ/A1 SoC) Serial Console, SPI flash, Ethernet
-GR-Peach: (RZ/A2 SoC) Serial Console, Ethernet
-RZA2MBTC: (RZ/A2 SoC) Serial Console, SPI flash, Ethernet
+Add RZ/A1 and RZ/A2 compat strings for the renesas rpc-if device.
 
 Signed-off-by: Magnus Damm <damm@opensource.se>
 ---
 
  Applies to next-20250704
 
- Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml |    2 
- arch/arm/boot/dts/renesas/Makefile                                       |    2 
- arch/arm/boot/dts/renesas/r7s72100-genmai.dts                            |   71 +++--
- arch/arm/boot/dts/renesas/r7s72100.dtsi                                  |   22 +
- arch/arm/boot/dts/renesas/r7s9210-gr-mango.dts                           |   87 ++++++
- arch/arm/boot/dts/renesas/r7s9210-rza2mbtc.dts                           |  133 ++++++++++
- arch/arm/boot/dts/renesas/r7s9210.dtsi                                   |   12 
- 7 files changed, 300 insertions(+), 29 deletions(-)
+ Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
+
+--- 0001/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml
++++ work/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml	2025-07-05 21:37:00.395177936 +0900
+@@ -27,6 +27,8 @@ properties:
+     oneOf:
+       - items:
+           - enum:
++	      - renesas,r7s72100-rpc-if       # RZ/A1H
++	      - renesas,r7s9210-rpc-if        # RZ/A2M
+               - renesas,r8a774a1-rpc-if       # RZ/G2M
+               - renesas,r8a774b1-rpc-if       # RZ/G2N
+               - renesas,r8a774c0-rpc-if       # RZ/G2E
 
