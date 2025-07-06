@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-19278-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19279-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E56EAAFA36D
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  6 Jul 2025 09:26:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45233AFA36E
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  6 Jul 2025 09:26:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 484273BD6D9
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  6 Jul 2025 07:25:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 81DCD189B236
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  6 Jul 2025 07:27:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F5941B425C;
-	Sun,  6 Jul 2025 07:25:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45A0B155CBD;
+	Sun,  6 Jul 2025 07:26:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i42GKdBE"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MwI9EOXV"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC3515E8B
-	for <linux-renesas-soc@vger.kernel.org>; Sun,  6 Jul 2025 07:25:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F04E610D
+	for <linux-renesas-soc@vger.kernel.org>; Sun,  6 Jul 2025 07:26:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751786725; cv=none; b=o+JN1ln0rebodG6ZZyALvdO/kcxOekZcHNXD7BFgKiZos4y4P3zgewChx8mX2IMKy7N4xkHzQvdpUbX3JmdHLU/J4F+RqL6dT12N3mXcTDTCDm7wogdLtQrJJzuUYkt+apgmX+wvd9I78YCCQJ5hQoEFNd3klD053leTZ47bjAA=
+	t=1751786807; cv=none; b=NOSng/mz7SeZdMcIEPlMtloGahxkh8RYnPosS+WdhOvAwNl79SGXbhGkboAR3qqDTvrlsot8o9XF75zZf326DQlvsIPtxhqLi4Jdy3X5OQiNDoRtF3a8gjRsuhMeuMyCONJumpHlU3HahZB5YzCUx/FteMy242x0L4Bgv1umnIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751786725; c=relaxed/simple;
-	bh=52Qu1xhP6PE5oEt7rAhhd+aMIAOF5xWMvGJawnCPG4U=;
+	s=arc-20240116; t=1751786807; c=relaxed/simple;
+	bh=gMridhOgjO5690S/7L342g7F68++JsLyl7s7mchRxl8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R5+ZFXZL1Ba1gbLKXajre14BuaMsAX4geW85NUgzn5Ir+iPjZhyK69VHEx/Q72gb/CVAj70kVNKgq3TWMJ518gAbiYJwwsjVc7lXjFfmdQzW0sj1Zky11xvtbeFEfIBouizCLA6jN6BfMhX+BhYifGuZQ6AkMIeWz2I8PsX9hng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i42GKdBE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98E6FC4CEED;
-	Sun,  6 Jul 2025 07:25:22 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=lYd288NAetAR+lF5kOev3d3xvLhOyZyI/WNOAuFBrtzT9qRNnf8hF3Jy6wZ45Z1T01SQmoISmOjgA4EFTFHFfgK0vYFjsRhTAbxUvofga9pgX3iUQqMgTosQPtGTDdKk4SkQIdXUtTqml4RWl5s1hDpp3M8od+tQkK0xy7Wy5qA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MwI9EOXV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4B5EC4CEEE;
+	Sun,  6 Jul 2025 07:26:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751786724;
-	bh=52Qu1xhP6PE5oEt7rAhhd+aMIAOF5xWMvGJawnCPG4U=;
+	s=k20201202; t=1751786806;
+	bh=gMridhOgjO5690S/7L342g7F68++JsLyl7s7mchRxl8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=i42GKdBEL4kZ6VoSMMzVE0lpBQwkQUsV61Pp6r5ge0YTx15AMn2J8bCtTaw3d2dnV
-	 EVINp2KnVzsrQuRGMIlPrjdc7YrcT8Y3rwJ2aPZrnV9iWQpp2Z8BwThYZMvBu6iO8R
-	 CZugF/suCSW6r+ve/vw4k9VgfNS4lMbOS/E3xkyz/HpThhUVjLiRLMRgF4Q2vwtDZx
-	 M8OVvwKB32jBImd4uk243aqJspsdxWZD0olcJO3WHJORJp8CmxOkOTPdwYeNOw5MAx
-	 XtPG4QRLHu2ktUY+Qy/KNN35Vqb7mi1rPllU0nv+pOiUMimJF2QNGBjsCSJAHvUsyc
-	 2395YUjaX6Pcg==
-Message-ID: <2e4e032c-ba65-4a10-85f8-1d36658423e0@kernel.org>
-Date: Sun, 6 Jul 2025 09:25:20 +0200
+	b=MwI9EOXVSc69Q6ElLmSj7XC6kqmgmBXWPKiWlg/UITSefCWcTVx1o0FSlYkPWe6wh
+	 +hRKi/Dlm5JbCa+5fnefqJ8dWeN7WyuTiMXfU12llCmUd/78dmK7aCL6YDJPk62Hq5
+	 cY2mqhv5VZQAGwiBN1dCL8SVWEaMCvHoj1a5Rs6f80vj4A+xhb/wK0CZRmnDM7cnRB
+	 8L42MbWVcobqWGopXOBHw0qftIkXxJmKj9pIWcJN6bnlSoHEVajCpIMU+Hfa1IODV4
+	 P6u2Q/EOA5UwY3YpMAIuv508ZMkme2NvLfrTC1o1pU2nzf3x7xqEJAxkarEQOhhFEX
+	 zU2yw/nJO71YQ==
+Message-ID: <aa0df92a-2624-4879-a573-7eaa33231554@kernel.org>
+Date: Sun, 6 Jul 2025 09:26:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,12 +50,11 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] dt-bindings: memory-controllers: renesas,rpc-if: Add
- RZ compat str
+Subject: Re: [PATCH 6/6] ARM: dts: renesas: rza2mbtc: initial board support
 To: Magnus Damm <damm@opensource.se>, linux-renesas-soc@vger.kernel.org
 Cc: wsa+renesas@sang-engineering.com, geert+renesas@glider.be
 References: <175174252387.83411.17393827352291413834.sendpatchset@1.0.0.127.in-addr.arpa>
- <175174253155.83411.3250526926071589353.sendpatchset@1.0.0.127.in-addr.arpa>
+ <175174256950.83411.5319298494550248866.sendpatchset@1.0.0.127.in-addr.arpa>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -101,46 +100,95 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <175174253155.83411.3250526926071589353.sendpatchset@1.0.0.127.in-addr.arpa>
+In-Reply-To: <175174256950.83411.5319298494550248866.sendpatchset@1.0.0.127.in-addr.arpa>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 05/07/2025 21:08, Magnus Damm wrote:
+On 05/07/2025 21:09, Magnus Damm wrote:
 > From: Magnus Damm <damm@opensource.se>
 > 
-> Add RZ/A1 and RZ/A2 compat strings for the renesas rpc-if device.
+> Add initial support for the RZA2MBTC board which is based on the RZ/A2M by
+> Renesas Electronics. Included in this patch are DTS nodes for serial console,
+> on-board SPI flash as well as RMII Ethernet.
 > 
 > Signed-off-by: Magnus Damm <damm@opensource.se>
+> ---
+> 
+>  Applies to next-20250704
+> 
+>  arch/arm/boot/dts/renesas/Makefile                  |    1 
+>  work/arch/arm/boot/dts/renesas/r7s9210-rza2mbtc.dts |  133 +++++++++++++++++++
+>  2 files changed, 134 insertions(+)
+>  
+> --- 0006/arch/arm/boot/dts/renesas/Makefile
+> +++ work/arch/arm/boot/dts/renesas/Makefile	2025-07-05 22:03:46.456578459 +0900
+> @@ -5,6 +5,7 @@ dtb-$(CONFIG_ARCH_RENESAS) += \
+>  	r7s72100-gr-peach.dtb \
+>  	r7s72100-rskrza1.dtb \
+>  	r7s9210-gr-mango.dtb \
+> +	r7s9210-rza2mbtc.dtb \
+>  	r7s9210-rza2mevb.dtb \
+>  	r8a73a4-ape6evm.dtb \
+>  	r8a7740-armadillo800eva.dtb \
+> --- /dev/null
+> +++ work/arch/arm/boot/dts/renesas/r7s9210-rza2mbtc.dts	2025-07-05 22:03:21.996442287 +0900
+> @@ -0,0 +1,133 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Device Tree Source for the RZ/A2M BTC board
+> + *
+> + * Based on RZA2MEVB, Copyright (C) 2018 Renesas Electronics
+> + */
+> +
+> +/dts-v1/;
+> +#include "r7s9210.dtsi"
+> +#include <dt-bindings/pinctrl/r7s9210-pinctrl.h>
+> +
+> +/ {
+> +	model = "RZA2MBTC";
+> +	compatible = "aprg,rza2mbtc", "renesas,r7s9210";
+> +
+> +	aliases {
+> +		serial0 = &scif1;
+> +		spi0 = &rpc0;
+> +	};
+> +
+> +	chosen {
+> +		bootargs = "ignore_loglevel";
+> +		stdout-path = "serial0:115200n8";
+> +	};
+> +};
+> +
+> +&extal_clk {
+> +	clock-frequency = <24000000>; /* EXTAL: Y2: ECS-240-8-47B-7KM-TR (24MHz) */
+> +};
+> +
+> +&ostm0 {
+> +	status = "okay";
+> +};
+> +
+> +&ostm1 {
+> +	status = "okay";
+> +};
+> +
+> +&rpc0 {
+> +	status = "okay";
+> +
+> +	flash0: spi-flash@0 {
 
-You not only skipped maintainers of the subsystem, but also DT
-maintainers... and you never tested it. Eh...
+That's just flash@0
 
+> +		#address-cells = <1>;
+> +		#size-cells = <1>;
+> +		compatible = "jedec,spi-nor";
 
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC. It might happen, that command when run on an older
-kernel, gives you outdated entries. Therefore please be sure you base
-your patches on recent Linux kernel.
+Follow DTS coding style - read about property order.
 
-Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-people, so fix your workflow. Tools might also fail if you work on some
-ancient tree (don't, instead use mainline) or work on fork of kernel
-(don't, instead use mainline). Just use b4 and everything should be
-fine, although remember about `b4 prep --auto-to-cc` if you added new
-patches to the patchset.
-
-You missed at least devicetree list (maybe more), so this won't be
-tested by automated tooling. Performing review on untested code might be
-a waste of time.
-
-Please kindly resend and include all necessary To/Cc entries.
-
-
-It does not look like you tested the bindings, at least after quick
-look. Please run `make dt_binding_check` (see
-Documentation/devicetree/bindings/writing-schema.rst for instructions).
-Maybe you need to update your dtschema and yamllint. Don't rely on
-distro packages for dtschema and be sure you are using the latest
-released dtschema.
+> +		spi-max-frequency = <50000000>;
+> +		spi-tx-bus-width = <1>;
+> +		spi-rx-bus-width = <1>;
+> +		reg = <0>;
+> +
 
 
 Best regards,
