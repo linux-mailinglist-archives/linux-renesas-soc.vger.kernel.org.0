@@ -1,208 +1,247 @@
-Return-Path: <linux-renesas-soc+bounces-19286-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19287-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71E64AFA519
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  6 Jul 2025 14:34:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51D1CAFA5AF
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  6 Jul 2025 16:06:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C361E17A6BD
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  6 Jul 2025 12:34:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9B4E2169F92
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  6 Jul 2025 14:06:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0764254652;
-	Sun,  6 Jul 2025 12:33:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A6D223C8A0;
+	Sun,  6 Jul 2025 14:06:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="EGl8P5OZ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ONLNNjc3"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="Vdm5Jybb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011041.outbound.protection.outlook.com [52.101.125.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54802153EA;
-	Sun,  6 Jul 2025 12:33:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751805182; cv=none; b=WjIHO1XvlSgy+XZYrtCa23K2Hww2YlWqJzrHhS/0WVO4BAhb+B26SkseyLps3H3v2grMT02sPJq3kuccANLChW1+7MQ0kBotY/61L54MP3EKvgOo9qy3W592rTBn59gLNlc7uqBave12mOmge/xcZa3EHZi6z+iDpu7QM5bV838=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751805182; c=relaxed/simple;
-	bh=TnTwhdfUs0035lf1PuzNbGz3UEKhLIoDjITur1nXOhc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=R9ZZXisDZa+d13xrf3RCCaACtoh9QlMp/T2w6W3swOb2/9dwvCq+L/s+QAuvZTgHxsWuXCjVrV5VdziHwTdB3RJycaLD+JJCeFq9YoGq/j7cWVWrsH+tKPDv5BNL/OfvmkImhhkb9mQIuqRbV5N3WNPhFMLn5Yj1eLGNzelxeOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=EGl8P5OZ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ONLNNjc3; arc=none smtp.client-ip=202.12.124.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
-	by mailfout.stl.internal (Postfix) with ESMTP id 7CD701D0007B;
-	Sun,  6 Jul 2025 08:32:59 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Sun, 06 Jul 2025 08:32:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm1; t=1751805179; x=1751891579; bh=/6
-	WwnkRzxkG1WlezZTOwYjW+6IG0f3NQF3cKmfUFfrA=; b=EGl8P5OZFUWE1rck2N
-	sS/JWMx9bomqP/Pqx9pRcMsDAsZLSLQjoaRG25/Jkpm6HWzhwwAqwTxNqMhYr9IA
-	tF2DlngXgY1CV7IiYvZccDT9LzrsiTgWGLfBrUEjqJww5SZ3Ba8cgc59ojftoZnJ
-	4MbiP2GsEty6GE2GChijj5USsPWq4Ir//TNXed3b88m2sfA/cBLyA0WnAGRdkl+P
-	5epqbAXvxhzb93d39S6GeEOk8kRlaD4KvU7sTlVcIcndaORL/dOp6md4RyzJNTKd
-	fMexYE0eNfpmvf/vj02lv3pG4D6typ5DksBCGqKs5497eSmMbwm1MQ4EiyObe8Ju
-	HPnQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1751805179; x=1751891579; bh=/6WwnkRzxkG1WlezZTOwYjW+6IG0
-	f3NQF3cKmfUFfrA=; b=ONLNNjc35f8eaYW6puwXX2CDyKglHTLjS+eHho/sc/r6
-	27m1GTrVJjgTpyOgf64ezG3DCcc5cINtEzYRNoWTG0Cwd2DKr8bCY9up4gv3HWNe
-	dFj82WG0ZoCX4PEZcMbUkDfoe5gJ8CoRNtOr5pESIzYfPRdaGPoTm963YFgXZHeI
-	Zyoal6uAivm78PsOrSkrFQ9L3oMnNNG0gfuUy1BEcgqozzaE0+U58j4Er33l01zB
-	1Jl2dj5IMVW3VLeIr0DNfIbX0f5bwEZcukA47EonjjY7qiXNfHGip9BbxEb77U4/
-	g53NZMMs5a4xD9j+tK4AZ8bEC+eoi4iTv4k9qlyhYA==
-X-ME-Sender: <xms:-2xqaFRWd5R6JkxRO0imRw9wWZV0_6MG8p7gDdeWE7D_SPLFgGUclw>
-    <xme:-2xqaOxVxSM2v2-lEDPdI_FFplAatqrGFEtOB87xnoajN8yV-Phv4H90a2I7XVarY
-    fBvmQ2oLmfZvd5_mTo>
-X-ME-Received: <xmr:-2xqaK31J1tQ8tqn963S32tmBF549seOu7Kk5EoWzgQqCHDg8vhDd1A_PnvTc72rKrbLlkuycV-GVORbWpSonhZSCg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddvkeelvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomheppfhikhhlrghsucfu
-    npguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghsse
-    hrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhephfeghfevgefhteduheff
-    hfejieelheekvdevffdutdelgedugeejueeffeevffdtnecuffhomhgrihhnpehkvghrnh
-    gvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
-    ohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsg
-    gprhgtphhtthhopeeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehrohgshhes
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtohepshgrrhgrvhgrnhgrkhesghhoohhglhgvrd
-    gtohhmpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihguvghrrdgsvgdp
-    rhgtphhtthhopeguvghvihgtvghtrhgvvgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprh
-    gtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghl
-    rdhorhhgpdhrtghpthhtohepnhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrg
-    hssehrrghgnhgrthgvtghhrdhsvg
-X-ME-Proxy: <xmx:-2xqaNB0HH0BB4P0K2bVEGNnChhpjhDF-Q0nDoCBWwJOT2UwCXTkYg>
-    <xmx:-2xqaOhgFCI0Y62aeC_9sOjZ_RIaPFIaZe0ZNnLcFOYmjFgkqGOQVA>
-    <xmx:-2xqaBpPhNg931FhY87ZIi85uYGWKA_hZsARyaN2PFfZkMkbfHvDmQ>
-    <xmx:-2xqaJib_PmE5G35Y5U9uezp3zPoyo5wqMsV2ldk_PMd8CzzroVmtA>
-    <xmx:-2xqaGXRagGXQkCQ1qmGCyZzSX0Tw5FKa-8sNvkUaBoqJQWSvWWsYXFv>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 6 Jul 2025 08:32:58 -0400 (EDT)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	devicetree@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2] dtc: Demote graph_child_address checks to W=2
-Date: Sun,  6 Jul 2025 14:32:43 +0200
-Message-ID: <20250706123243.1050718-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.50.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2652C17BA5;
+	Sun,  6 Jul 2025 14:06:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751810812; cv=fail; b=tQBIVPkmnQF16HwMtG07QVCBvm63j77qVLxRlean3/+P5QSlui2k/6wXgT3Gx/6H0lgPU3+A95eDyXXYt4aztMRPHMXfjtatOpkczRLh3HJUmA9K5AJ+xnTul7+TOkV7G5Bja3kz/7exb2pEiYdHGtLZVKVzFyLYVXmQ+7t9hNM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751810812; c=relaxed/simple;
+	bh=6XEnh0yVxQdaV0l7Qwe/dvTzJXfG5eVWCg5jKCD8MxM=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=UVwSuZ5IXd6WdX2ZP8eKHTDXcEHKMkP70O0aUVMBYf9dQuIEoggTmaE+r6VUQCaeEjNRZXcNiupq4UImlE1xFH2E0R5Rd0zdvmrYUIEbgOQjWthj6IlKPRjeWTYT4XYj4z43KRuCOfmuqcqsTmEnjtpyxqlwtAIt87vd9MfOlIc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=Vdm5Jybb; arc=fail smtp.client-ip=52.101.125.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MDE8rnulnjKttjPbv8MBMnkj1SbNVlfnDoT5jG0w6L6++8kvSwE4F/jY7PfmPY/MX3iiZmN32VtCv4dybYcTqyh931z8olj13BwZOLZw9HCmAAxm7ZjUawLZLP4fFgyTq9c8S9kTwiLWu3UqVlpROSY8RTdc1jbW7YRDn0Vb6qaC40T7lLioXA/PSs7my3rBP0YWk4OdlcW1OpwUmGCnKaROtjj58qA7zOWIs48xq1SvGNh00n6MfLMYZ6c8nkTbrWKtGcC+bkn0+I6NmZZ9i+7/b7fdCWaHT9p0RcaGDUpzzQZNIrxd6n6oP/u+Hyby5SOrJmbWE6Fb5YUGm2NQiw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D9iPYPYAXHoH3+86H3Xyi28+Nj+QQ9YSyhIdqoDn4eM=;
+ b=cYjEjf1QgIi0D9bznfQ+bEbvElcNNKXe6Jbl3rN2jeUYdsc0gJn85jdaXR6aJZ0NzEo4ZtuZNZxRGHhiLC/aBvPj4GawZRwsM77ogN/oHtYQpowUd0CVmvVcOUP/OQ11L1jWtu6XgwtIa/P9Tk82FVffGsxD96PFQ2ge+6/oFlgUf5Xmk/bCDI1o67WkhM5HG+dx3xZ8UyNwEPSV0lyjjHoH5L+dkZM2EdkGIOLWzH2gnokTmB9pslczhKiMJks7eKHpLI7NTeNs9FWD71tQ+VRcr6UGkBlOagZ83LfHXeEiiqQw3XXEh0tGWZZhYMKuV78Va1qDOiuK28mWCVnVXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=D9iPYPYAXHoH3+86H3Xyi28+Nj+QQ9YSyhIdqoDn4eM=;
+ b=Vdm5JybbiTvqOZXvHHtr7gbiL5DrOQkv8i3km1hKtzPXcML+LoUxVgFssZFPkImQ3e+xsttSpCVIoEueKTngpsqEMNTlCpjyI+HIfrXRT2TrJLOdkr2Xrb1A8LAxmqDtHnatsxEurkhdD0gjFU8OSlIcWRDc9XCc0Km7DCjmYmw=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by OS9PR01MB16197.jpnprd01.prod.outlook.com (2603:1096:604:3de::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.24; Sun, 6 Jul
+ 2025 14:06:43 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%3]) with mapi id 15.20.8901.024; Sun, 6 Jul 2025
+ 14:06:42 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Russell King <linux@armlinux.org.uk>
+CC: Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Andrew
+ Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre
+ Torgue <alexandre.torgue@foss.st.com>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>,
+	"linux-stm32@st-md-mailman.stormreply.com"
+	<linux-stm32@st-md-mailman.stormreply.com>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+	biju.das.au <biju.das.au@gmail.com>
+Subject: RE: [PATCH net-next] net: stmmac: dwmac-renesas-gbeth: Add PM
+ suspend/resume callbacks
+Thread-Topic: [PATCH net-next] net: stmmac: dwmac-renesas-gbeth: Add PM
+ suspend/resume callbacks
+Thread-Index:
+ AQHb7c6+F2cIzXpCE0eHQabSLpoq6LQj6xeAgAALbTCAANFSwIAAEXhAgAAHjACAAD+qsA==
+Date: Sun, 6 Jul 2025 14:06:42 +0000
+Message-ID:
+ <TY3PR01MB1134675512A8812B5CA7BB7F9864CA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20250705170326.106073-1-biju.das.jz@bp.renesas.com>
+ <aGl9e9Exvq1fVI0s@shell.armlinux.org.uk>
+ <TYCPR01MB11332BCE03B3533784711A5BF864DA@TYCPR01MB11332.jpnprd01.prod.outlook.com>
+ <TY3PR01MB113460004F6A57B3AAD77E86E864CA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <TY3PR01MB113467D8E13143E412B119270864CA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <aGpLpLDPdcPByC7j@shell.armlinux.org.uk>
+In-Reply-To: <aGpLpLDPdcPByC7j@shell.armlinux.org.uk>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OS9PR01MB16197:EE_
+x-ms-office365-filtering-correlation-id: bac42693-9282-4914-079a-08ddbc9655ae
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|7416014|366016|1800799024|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?8p2Gfo8vWHrNMcQIDOUA6t7oY5lS10zGrGDC98ndPQ62gJnEk5tuMst16EiE?=
+ =?us-ascii?Q?U2FTFhUPcUbuoXY4GONpo9IvLnbGH7+8l061Xqejv+DalFFtqSZmfYQ4E8mZ?=
+ =?us-ascii?Q?lLQVHWTqbXj/7TbeN0DW0MRCQwJMZXVtlhU94Dl6E6xuhl8SqPzaWoblSG0R?=
+ =?us-ascii?Q?eBuhccJN90Nl14REv/mAOerjKU4lzpHMyXMOsHTzI8o4YeBKdFP2n1hvkw2C?=
+ =?us-ascii?Q?o/q/iY+EC6LqAj0M8d1anXKif2KpP0578ZQ7kQl0/l/FBVIxGj6VLMcglXB9?=
+ =?us-ascii?Q?lItXGnyKtzhMW63iKpV5l94WenuOR1ov0OcG3pf56veIM+1WRwo3ExAjXnLC?=
+ =?us-ascii?Q?ylj/mPenoo1VZ4NHkZvWl9MRdZOfQja6P1AAW9zCWBcyJbcNqtd7zJh2rKf+?=
+ =?us-ascii?Q?qxhaQ5MGtmnaK/leptpt8OUg5FQpzT0/HhNxqPtwQvvqFzgFupo0hXzPmkw8?=
+ =?us-ascii?Q?MlF97nqRtBmWwTktO/UW7n5nYdmpaaQVDxcEr3OqV0hE2op3vCRXf7wTTzyv?=
+ =?us-ascii?Q?mt9KhMkujjzhqXvxRHQiTpbjFsOn2/NxdhriIHTlik+1Ms+3qoFtHlIRMANm?=
+ =?us-ascii?Q?7Fky5grz0gTm2TXVPMC+KFFS3lKqMXLXbZxo4JTV9CmgobJVCBHkKIL6d04O?=
+ =?us-ascii?Q?OaoeFFvknCrb5wnLPzQ57DbxTb7vy35krO5oIh/QTWJCVs6E4MYTNk1s9qmD?=
+ =?us-ascii?Q?R7byn9dzFJW0zcCFIRUWBs3rKXBCUli2raFSB1wEk19hcDH9x0omTdRLIZGA?=
+ =?us-ascii?Q?jU9ZzME2pyZLZuOr28u/1O4rwmvL82LoxWkUGysgyL+yXaA12OLUdQ5hEyxW?=
+ =?us-ascii?Q?9GXbKe/s/rlyAkA+KpYmyRAcrwMeuZQm2DUHZABeUdFPG9jioCDo6EDB236u?=
+ =?us-ascii?Q?bgyK71nGKDTMpng5u0sF0yPn8qVyNp36yfajmkWPH8whFOkntsdAnFVOEnbK?=
+ =?us-ascii?Q?dTnmAc/U2KIjRmoLCqOsKowkWcoiNH7fR9zFNnENTSASx5AZypiCUmMwAt4Z?=
+ =?us-ascii?Q?8jyzrFbCrhG9F3Ey0KCYnki7h2GoUe9i/zZgQlWXRKDRLuhrx1A4aDJdgxbf?=
+ =?us-ascii?Q?0oWUqXZTAMLvbKcoFLKAwCl3OGZlPl4Igq1jLdmRo8G9fHWyuYyIm2WlKyz+?=
+ =?us-ascii?Q?TYEqWDojDuOOf8keWuoMWUUm1AjRaC7k31G10REeSL0hE/4Bi8C90oRoFDNo?=
+ =?us-ascii?Q?ZacOywkI2FPzV9OR4q7ZuYCDfYej1pnXZGIGMG9F2JaWj6Th2P4oTkk3M7xZ?=
+ =?us-ascii?Q?1mfjTv6XoYK40Cub12h5AdEJyBTc5B/K9Xd4JNGf7Z9oUXj8esi57EH6k7A7?=
+ =?us-ascii?Q?DGfMYXPW0d5WpL+RAO+qshcRSOXl4XFUfgOSHUzwyX6inKKv44p9RHR3flSA?=
+ =?us-ascii?Q?88bMTZVug2dsgDskMR3vcWXKTPPaEMADTzY/hL/3ofsbhZluTxtxAsrtzHKm?=
+ =?us-ascii?Q?ygMzfPRcx9CYnK4d2LzZQnTUF36DLPx3mfkbp5PfiIFXMdptTVvIlMVNUXcP?=
+ =?us-ascii?Q?Pw2gmc81tvGBbdE=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?s5ANKwDVMUWKcwOC6LMOB7uXn3lOAqChQK7ZyB8cNirgweOzejnfSIVT27lz?=
+ =?us-ascii?Q?5dgRfoNEeTEcBaoP1FqrUGm5nAhyoRz8QxXYk2NAbQlJIOedRqGfAfyzjuMS?=
+ =?us-ascii?Q?1baUYHQYtBagnVw6RS/DV/Q/1SrpXEduo6AVLaNO/9SRq7PVBHZXQoTVd4G/?=
+ =?us-ascii?Q?aTwNN0X3usOsYp+GdXipA6h81mB452PwHxebyWhwZ783gscxXkMr/8HBlsoZ?=
+ =?us-ascii?Q?GXAzbjRRze5oiTCp3sv6QgE/7CiptqFBODUdkH0q0LH9WrtfMtglZv0RD6g6?=
+ =?us-ascii?Q?btr8HxW/Q9siFObnTvGSEMMhR1RIM746LbmsP8I17lqeEWI8wQmseklwWmUT?=
+ =?us-ascii?Q?TJbvcgYdw00LDBTpUuXVgxGvbKieNp2FIfqEbNKoncP74QfhI9zpWGOqbFWw?=
+ =?us-ascii?Q?RTzqmuoJ4/oB/qiZYiWZG/Iq9MENbtssPI5R+AhRGuNx6murvgn9UEwRGUlp?=
+ =?us-ascii?Q?aeo8Kky5PSsfl7iuwm+6UGJ2uTYi3xc/GCXXGZEeueNqV94wU1l7UpvVdQbz?=
+ =?us-ascii?Q?OIEtF4FOm1lIyWaF0KcJC/2fkpwfuZg6CwSzuqWocWNOMkd6QhCZenKfQXPl?=
+ =?us-ascii?Q?I9rZ8jL2BcbiLgUPDwRmWLM7vnDBd4Di/NHHQHMYxyXDd11NJ5teg8GB6JO6?=
+ =?us-ascii?Q?YQ+xd0eVVahlIIzHX8HaSZ1cp973WnwYLFzchG8dc+CXTZKfa1SADC7huFAw?=
+ =?us-ascii?Q?cvfwNSirf9q0to8oeBa4p8btDZfxesH83fPw/F38eDRRDRfozjXU82cIfiMO?=
+ =?us-ascii?Q?JU3ulhzQKOZV0ThI9CWmZ7rJNbsn68w3jOZ6N800C0u403iraaNPBzqwmo7B?=
+ =?us-ascii?Q?Ml0LadHdoMi9xUlxJiVy2dIIDc1GqIzp17kxdC7zyLApVwpBDCYxtwhywtsr?=
+ =?us-ascii?Q?Et9OCYkJFDpOEVUPv7Ug0eZCO9ybr52WvGSOvF8BVU/UpHpIMg9O9uqQqQKj?=
+ =?us-ascii?Q?kIPzEhVF/+MNdvbVzPeuKamvQzQ7ovI8smtTSLf1PNlw5GjrhkOMXRflvuFH?=
+ =?us-ascii?Q?R/nRF+BNczPFt2WPhK3ehhgYZu6fovdOq04cUYFfNag1YJrmJYoc2CF2G2/v?=
+ =?us-ascii?Q?xognqz/CctdcoJpsrZXNeyqO3x+Y0vEcZLBrP/jW+hr6QUcPXR7um3kecgnq?=
+ =?us-ascii?Q?oL31zFa4W4yjr2QeWxcKr2EHdgS/Rq9vXM2aBEb8EnquV2YlekiPIR6yQetn?=
+ =?us-ascii?Q?jxDRl7GXKRYCUK3L8V2fMFnkAlcP1+n9LmOCXEW95WPOPA9X8kwoJIF3uOP+?=
+ =?us-ascii?Q?UQ5Q7fqySSu/Mi+ZG+WlXqgSuO7OjTp6yHz21i+x49PdvJcOC8fmz+s46k16?=
+ =?us-ascii?Q?C9/Y5fkSnYTPp5f4wSu87REPYJSaHsACfAb2lGW0NmRlmYa/uU6YQSuZX3Ou?=
+ =?us-ascii?Q?+U1CUVSxot2SZfoZGzi6jo1SMu9ejEt+4Lp02maUdlCc6abw+x+DoOmRyvxM?=
+ =?us-ascii?Q?P28pv7F3ZmA5EA01qZTkf7AQmc+dhsH//7LKI9BEqnm05pJMDea8pXtwstnI?=
+ =?us-ascii?Q?geOBm442ZtqYVDXDUigPjIOla0wMw+ozgLRiuJymictdpHLbThnqygb298sY?=
+ =?us-ascii?Q?1NhJabPCx3E7nBDc/ZVu93Iz+RSvphmUNTznJ37f0c59GLlCNqmxFrP9bO8m?=
+ =?us-ascii?Q?zw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bac42693-9282-4914-079a-08ddbc9655ae
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jul 2025 14:06:42.4698
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: EI5onKvUkxQLZwc3RGGcj8ygZOCKhoWJYhHtzgUB8VBOrU7LH3J71eb/4AjVKZ0HGijkmPcrPRQtPE4ccWDJkkoonYm+A5VDGsFa2WiFkbE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9PR01MB16197
 
-The dtc graph_child_address check can't distinguish between bindings
-where there can only be a single endpoint, and cases where there can be
-multiple endpoints.
 
-In cases where the bindings allow for multiple endpoints but only one is
-described false warnings about unnecessary #address-cells/#size-cells
-can be generated, but only if the endpoint described have an address of
-0 (A), for single endpoints with a non-zero address (B) no warnings are
-generated.
 
-A)
-    ports {
-        #address-cells = <1>;
-        #size-cells = <0>;
+> -----Original Message-----
+> From: Russell King <linux@armlinux.org.uk>
+> Sent: 06 July 2025 11:11
+> To: Biju Das <biju.das.jz@bp.renesas.com>
+> Cc: Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>; Andr=
+ew Lunn
+> <andrew+netdev@lunn.ch>; David S. Miller <davem@davemloft.net>; Eric Duma=
+zet <edumazet@google.com>;
+> Jakub Kicinski <kuba@kernel.org>; Paolo Abeni <pabeni@redhat.com>; Maxime=
+ Coquelin
+> <mcoquelin.stm32@gmail.com>; Alexandre Torgue <alexandre.torgue@foss.st.c=
+om>; netdev@vger.kernel.org;
+> linux-renesas-soc@vger.kernel.org; linux-stm32@st-md-mailman.stormreply.c=
+om; linux-arm-
+> kernel@lists.infradead.org; linux-kernel@vger.kernel.org; Geert Uytterhoe=
+ven
+> <geert+renesas@glider.be>; biju.das.au <biju.das.au@gmail.com>
+> Subject: Re: [PATCH net-next] net: stmmac: dwmac-renesas-gbeth: Add PM su=
+spend/resume callbacks
+>=20
+> On Sun, Jul 06, 2025 at 09:55:28AM +0000, Biju Das wrote:
+> > Just adding some logs:
+> > Currently PHY resume is called twice
+> > [   35.754933]  kszphy_resume+0x3c/0xf0
+> > [   35.754940]  phy_resume+0x3c/0x74
+> > [   35.754949]  phylink_prepare_resume+0x58/0xa0
+> > [   35.754957]  stmmac_resume+0x90/0x2a0
+> > [   35.771296]  stmmac_pltfr_resume+0x3c/0x4c
+> >
+> > and
+> >
+> > [   35.771258]  kszphy_resume+0x3c/0xf0
+> > [   35.771263]  __phy_resume+0x28/0x54
+> > [   35.771270]  phy_start+0x7c/0xb4
+> > [   35.771275]  phylink_start+0xb8/0x210
+> > [   35.771282]  phylink_resume+0x7c/0xc4
+> > [   35.771288]  stmmac_resume+0x1ec/0x2a0
+> > [   35.771296]  stmmac_pltfr_resume+0x3c/0x4c
+>=20
+> This shouldn't be a problem. Phylib will do this, and PHY drivers are exp=
+ected to cope.
+>=20
+> For example, on non-MAC managed PM PHYs, mdio_bus_phy_resume() will call =
+phy_init_hw() followed by
+> phy_resume(). If a MAC subsequently is brought up, phy_start() will be ca=
+lled, which will also call
+> __phy_resume().
+>=20
+> If this is upsetting the KSZ PHY, then the KSZ PHY driver needs fixing.
 
-        port@0 {
-            #address-cells = <1>;
-            #size-cells = <0>;
+By reconfiguring rgmii_delay during resume also fixes the issue.
+Not sure, PHY device is expected to configure the delay during every resume=
+?
 
-            sourceA: endpoint@0 {
-                reg = <0>
-            };
-        };
-    };
 
-B)
-    ports {
-        #address-cells = <1>;
-        #size-cells = <0>;
+	if (phy_interface_is_rgmii(phydev)) {
+		ret =3D ksz9131_config_rgmii_delay(phydev);
+		if (ret < 0)
+			return ret;
+	}
 
-        port@0 {
-            #address-cells = <1>;
-            #size-cells = <0>;
-
-            sourceB: endpoint@1 {
-                reg = <1>
-            };
-        };
-    };
-
-The false warnings, and especially the confusion on why it only triggers
-for single endpoints where the address is 0, leads to confused user and
-reports of issues with DTS files. To try and mitigate this behavior by
-demote the check to W=2.
-
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
-* Changes since v1
-- Drop adding a comment to dtc/checks.c documenting the possibility for
-  a false warning. This change have been posted separately to the
-  devicetree-compiler list [1]
-
-1.  https://lore.kernel.org/devicetree-compiler/20250706122638.1040347-1-niklas.soderlund+renesas@ragnatech.se/
-
----
-Hi,
-
-This solution was lightly hinted at [1] by Rob and I have ran with it
-for a while locally and I'm happy with the result. Lets see what the
-rest of you think.
-
-1. https://lore.kernel.org/all/20250109150327.GA3352888-robh@kernel.org/
----
- scripts/Makefile.dtbs | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/scripts/Makefile.dtbs b/scripts/Makefile.dtbs
-index 8d56c0815f33..fd8316bcf6c9 100644
---- a/scripts/Makefile.dtbs
-+++ b/scripts/Makefile.dtbs
-@@ -89,21 +89,21 @@ $(call multi_depend, $(multi-dtb-y), .dtb, -dtbs)
- # ---------------------------------------------------------------------------
- 
- DTC ?= $(objtree)/scripts/dtc/dtc
--DTC_FLAGS += -Wno-unique_unit_address
-+DTC_FLAGS += -Wno-graph_child_address -Wno-unique_unit_address
- 
- # Disable noisy checks by default
- ifeq ($(findstring 1,$(KBUILD_EXTRA_WARN)),)
- DTC_FLAGS += -Wno-unit_address_vs_reg \
-              -Wno-avoid_unnecessary_addr_size \
-              -Wno-alias_paths \
--             -Wno-graph_child_address \
-              -Wno-simple_bus_reg
- else
- DTC_FLAGS += -Wunique_unit_address_if_enabled
- endif
- 
- ifneq ($(findstring 2,$(KBUILD_EXTRA_WARN)),)
--DTC_FLAGS += -Wnode_name_chars_strict \
-+DTC_FLAGS += -Wgraph_child_address \
-+             -Wnode_name_chars_strict \
-              -Wproperty_name_chars_strict \
-              -Wunique_unit_address
- endif
--- 
-2.50.0
-
+Cheers,
+Biju
 
