@@ -1,60 +1,57 @@
-Return-Path: <linux-renesas-soc+bounces-19357-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19355-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D918BAFBDD1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 23:45:20 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41818AFBD8C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 23:33:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 874614217DC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 21:44:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D1533166FD1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 21:33:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F19A628D8C3;
-	Mon,  7 Jul 2025 21:45:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0C30202997;
+	Mon,  7 Jul 2025 21:33:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="eSsjsyDF"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="hPJqPQwY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC92288525
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Jul 2025 21:45:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.249
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37102287261
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Jul 2025 21:33:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751924703; cv=none; b=rJUFRYqBARLjtpF2DatOPz9BRtCDig2wCGEuuEn2iOc8UQ61fjERLLJ8YozpdtCVqoAqOTX1BIhEoUaLX6lFNi9kistEzmhX1jBN9jXKyR9/4kZn47hRJW5FNXMbH6mylzfInQuya4BX0Coxb3NrIP2PvPxa2Z5T0i25qLzTudk=
+	t=1751923985; cv=none; b=QkdeVSI4uOmKUn1KtQlRIm33tIbZ7L2DiZIreT2dUIV8Rf0Tx3Qu6WBqB8WFVYpez7sLa9X9HhhRFZj6kIs6s5Ky42CC31g+yNp3RJr3RGEaK+6YVweCgNiZKQe7R0WOEJBgN8GW285uCflxoAxVI74jn9hyuqiOAMit8NfpwiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751924703; c=relaxed/simple;
-	bh=bbVpsaHbOW7H44IEUHyBK2PBmXU/jQa4y8SbKOXuATk=;
+	s=arc-20240116; t=1751923985; c=relaxed/simple;
+	bh=wSompjqmbSEVeAPoQJOD5cAU5q5FQF/ScfMnLgPoXcU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l2MwLYaUOpCZ454xrNKy/9L3hWfobc0eF9Is2XOlSSHb0dHohl/aroPLvR8X4/9Myx+xRX/2b9ZzcmbS+heTmwJ+OpGvjTNWR4pF4CQSs6qlTKxEOwQ8jL1kkGcv74kH3txYgpqgGJ0EGMPk82arvNYoRu5jWyJ4LgKhLFQsQXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=eSsjsyDF; arc=none smtp.client-ip=217.70.178.249
+	 Content-Type:Content-Disposition:In-Reply-To; b=r3gK8G/XWLbtnIwnZEHAp3890QNNvjaSzMztuKEyBqtk+S0KVGRyL2H3Fp7e5923ZacJMia6keCH/cmmkVCyj2IWAqwnKDFtJrQeCSzuXKkZKfVaJl7Jjzq3oTN7+iJ+S9cjUcK3WBariOGj/nFwv8zhO4Vk01g4fZv/fAPhtjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=hPJqPQwY; arc=none smtp.client-ip=217.70.183.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
-	by mslow3.mail.gandi.net (Postfix) with ESMTP id 88D8058055C
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Jul 2025 21:33:03 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id DF62544264;
-	Mon,  7 Jul 2025 21:32:54 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id EC08A44509;
+	Mon,  7 Jul 2025 21:33:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1751923975;
+	t=1751923981;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9ljSPiguxoKwfPYui8PklE/v9l10zHor4jOjap/p6Yc=;
-	b=eSsjsyDFSgYeGgTSOiZy6S8577TyRPkfl7+PAunbIjdgnbBgJFlNQJ2eEaqn/ojtTQFXNy
-	TEhwEEcijSP8ax88j16AwartQ5M4pYwm61TqqZKiWEnkSnQimTMq2L/bDsoT2zy8dttmkY
-	MiDdphO447Lbbj0SrLO+cr5hqTgSga0aj9Ojg3w+okDhS/5jo+UyTHHJ9dMaftN9FmTSdl
-	g+fS6+zQfwS3qleMh6uBzmmBD//Mq6uTmt2Td4aooyjRZ2JaywZwJVC4pndB8r954c4GE4
-	umRYNCC1wl661ZqDdsYp5YEHCrxzOs8JjNIV7F4lKZuEX9D8Hg7BjSGlrR2VHA==
-Date: Mon, 7 Jul 2025 23:32:54 +0200
+	bh=eBweJfa20t+uTrC0Tbt2Zt8JsHqgLKvN87CrpIsBHwo=;
+	b=hPJqPQwYTrlyIjfRu11e+URVh3HjuvfevQZ3QnX3ZjzAKE0g2BN4uSn0TNG6XcL/PyM/48
+	FIQ0YqO6PxdRHrS/07ZkYJVCl3WQlzc47/tDBhCkcHHqdeBjxC9LtVtYQJ61/vkW/5OqAB
+	H6XwyY5mgFHHHLFn9hC/p5tF1rg0q+3MDSaQatWiekLhvFzUo5vfjCUaheFQpjVC6934Bz
+	3Oudi6cfV/uFGxS4QfjlLhdCuUTJW90ZuomkVAZyyCHyBDPARrUC+kFm9y8vYvplEcoEWW
+	O+EjFylu+pkFNx9RYcmDZY8vE7GluH+zhTJKIc9Tw6Sf1FGBEpoFe4SGJeVDVA==
+Date: Mon, 7 Jul 2025 23:33:00 +0200
 From: Alexandre Belloni <alexandre.belloni@bootlin.com>
 To: linux-renesas-soc@vger.kernel.org,
 	Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc: Frank Li <Frank.Li@nxp.com>, linux-i3c@lists.infradead.org
-Subject: Re: [PATCH] i3c: prefix hexadecimal entries in sysfs
-Message-ID: <175192395159.1512350.1764310029044120995.b4-ty@bootlin.com>
-References: <20250707115409.73545-2-wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH v2] i3c: don't fail if GETHDRCAP is unsupported
+Message-ID: <175192395158.1512350.481879161267562741.b4-ty@bootlin.com>
+References: <20250704204524.6124-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -63,24 +60,29 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250707115409.73545-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20250704204524.6124-1-wsa+renesas@sang-engineering.com>
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdefvdekkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomheptehlvgigrghnughrvgcuuegvlhhlohhnihcuoegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeijeefhfffkeejueehveeuveejvdelveejteduffehuedtffdufeejudffuedvtdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemvgdtrgemvdgumeeifeejtdemjeekvgdtmegttdgvkeemvdektdeimeekrggtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemvgdtrgemvdgumeeifeejtdemjeekvgdtmegttdgvkeemvdektdeimeekrggtiedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomheprghlvgigrghnughrvgdrsggvlhhlohhnihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepgedprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepfihsrgdorhgvnhgvshgrshesshgrn
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdefvdeklecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomheptehlvgigrghnughrvgcuuegvlhhlohhnihcuoegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeijeefhfffkeejueehveeuveejvdelveejteduffehuedtffdufeejudffuedvtdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemvgdtrgemvdgumeeifeejtdemjeekvgdtmegttdgvkeemvdektdeimeekrggtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemvgdtrgemvdgumeeifeejtdemjeekvgdtmegttdgvkeemvdektdeimeekrggtiedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomheprghlvgigrghnughrvgdrsggvlhhlohhnihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepgedprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepfihsrgdorhgvnhgvshgrshesshgrn
  hhgqdgvnhhgihhnvggvrhhinhhgrdgtohhmpdhrtghpthhtohephfhrrghnkhdrnfhisehngihprdgtohhmpdhrtghpthhtoheplhhinhhugidqiheftgeslhhishhtshdrihhnfhhrrgguvggrugdrohhrgh
 X-GND-Sasl: alexandre.belloni@bootlin.com
 
-On Mon, 07 Jul 2025 13:54:08 +0200, Wolfram Sang wrote:
-> Hexadecimal values in sysfs should be prefixed with '0x' like e.g. PCI
-> and SCSI already do it. Also ensure the two digit length since BCR and
-> DCR are a byte in size.
+On Fri, 04 Jul 2025 22:44:32 +0200, Wolfram Sang wrote:
+> 'I3C_BCR_HDR_CAP' is still spec v1.0 and has been renamed to 'advanced
+> capabilities' in v1.1 onwards. The ST pressure sensor LPS22DF does not
+> have HDR, but has the 'advanced cap' bit set. The core still wants to
+> get additional information using the CCC 'GETHDRCAP' (or GETCAPS in v1.1
+> onwards). Not all controllers support this CCC and will notify the upper
+> layers about it. For instantiating the device, we can ignore this
+> unsupported CCC as standard communication will work. Without this patch,
+> the device will not be instantiated at all.
 > 
-> 
+> [...]
 
 Applied, thanks!
 
-[1/1] i3c: prefix hexadecimal entries in sysfs
-      https://git.kernel.org/abelloni/c/12aa3e0cb0c6
+[1/1] i3c: don't fail if GETHDRCAP is unsupported
+      https://git.kernel.org/abelloni/c/447270cdb41b
 
 Best regards,
 
