@@ -1,101 +1,57 @@
-Return-Path: <linux-renesas-soc+bounces-19333-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19334-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DF2FAFB5B7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 16:19:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E35C8AFB616
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 16:30:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2104B3BA807
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 14:18:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 14E72188A01E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 14:30:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD1BC2D8796;
-	Mon,  7 Jul 2025 14:18:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NgNdtAJR"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96A832D9ED8;
+	Mon,  7 Jul 2025 14:30:14 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E382D8393;
-	Mon,  7 Jul 2025 14:18:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41F692D978D;
+	Mon,  7 Jul 2025 14:30:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751897936; cv=none; b=l9nf1Wa5wgYwfvgwYmg6+Z/C2en6KlgpFS/Hq8yLofa302S1rqE/kXX3Kko/5nvdkilanhiPxTIv8Wt0X0A4fON65s5/F63n5V0sEN7f3tmR7m5i51t9wvUUzmrMPsyLwnoLNPVFiu+zG49bIiFGB5oCokDGyX2ItGd8dQ+MuFM=
+	t=1751898614; cv=none; b=PQlBibqt8ejeKA3jZdiKmOlewGgWiTS3Jub3FinQ2keN96fsaGtL3FdhQ6ou9+kAy09zwEGwkwQ0L+BHJjZjjxWfCFJLbWle0KJ89nKQDFhrEh6f0JBEouohWrfaCKLwR0mIImXFmrXPg7GGg/b4LeCAPBXcyHXuqyGgTJkyNrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751897936; c=relaxed/simple;
-	bh=RCqVNrzJHaDjGi0nTRmKOCM2IBNClaZu6a32Pmp0POs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ldEP2Floi9UruVmp8Wh/VB55qSuXbnS78G2MhSLwkRfcrsl97L359Wllg6pbGgfObrZhlqpGbzuBJdj93f/trJ2Z1M4KNkarGVEmjvOEbSFJDUEuNal6Q+ITz3h9JdoXoT7vVdG8yAbeuSJBGdEJ8TSlOtOLJiNwnkMv6mjq+F8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NgNdtAJR; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3a4fd1ba177so2194084f8f.0;
-        Mon, 07 Jul 2025 07:18:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751897933; x=1752502733; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OIhIWADLdNO/nd33yinxD1H8qsnfEtBKs3ChjZsVi4s=;
-        b=NgNdtAJRAgmXiCUZHVeuB0r9oi5uz/Usng+0P58uuI0kzRq/7b3MoswdmByXRTYqvZ
-         Pta+9hcn+eb0jqZcQVvdha7bjntUlrISLMgacYYgsaxNfGBDb7ImHZ3MEzZ5GD23uaII
-         v+Nzg5wkgESL3Sr7PETJ3+bwS/CkuEVHinrQ0qos+2tEf8Hw/4n6CSHqmVra8pLLAk22
-         0xXsnOVR8FMc6LHuEJwaEMsudYDnylgAhOjVBP8NzIBdqwH4f8iubb7tDNX8ichC1ibh
-         6DvtggfDojbzcSiXjtDKI/wHo8EDJuT58Dk50YsLMDVVB4qgLywo760HS191YeQRxfZh
-         pzjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751897933; x=1752502733;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OIhIWADLdNO/nd33yinxD1H8qsnfEtBKs3ChjZsVi4s=;
-        b=d2VE/DAR84EmLMf8V9unRvRe+BvH4nEp6btC/AX60psQ0oHv4XgjmIzLIKXmdWl0Ue
-         1gYCuN3/rys9eqiIP6EW7ZfFksUX/hFivfk7VQAkQLxB8Fz36BKMzX1bZVuc1eOZz783
-         J3q6BYbzE2lIA45p6KsENSvQ2Sum+n2RtPi6Gsh4A+L0ylynOOvsYkJWh9Ba2ojkHO/J
-         kxLfH5ZCMBvS84EdxQK41azxDTGzG4NDFck1AmYmTYacjt2y59uh2S6Fy043k4WEuBdL
-         xqAZv7X6lRri3FkegQiSF+9uAR21bFwOonTErnruZKIrDJdaA50pBsbLWaSrGruAhDEI
-         QoJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCULQKSjrzRq0vRw6oXzjMYbW5FPz+eCJTHrcQve6B9EuJbTEQbn8VqREHSz2gq/G0oPDW3v5Tailvpy@vger.kernel.org, AJvYcCVqM889bbNGej18YNHtCATz0oCh2guWJd85mnPm6VlVHZcs5t+3q54iFg7T3Tx9HwC4SerkUohVHZkhpsD9@vger.kernel.org, AJvYcCWPdBN4HoEpuNqVthTynZFp3MCfmdd6UVkdzoYNgxzKie5WASKX8/AP92Q/yRQbTUmaLp+JgrAJI8oTAg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwtHk2Jk+EZyc22Btsus0hxHq0fo5wK7EOZZsYlp03ItLpWs7c9
-	nsUCpcvtLqiiS9nMJh6YXhr4to2ByVZCg6JAKMGNrBodxwJQV1DIFCXt
-X-Gm-Gg: ASbGncvvRRF3NxNw6pB3BY4e203/8bzWqGNH1sfGgym6+DeWt7cXxzwywbtCtK+zhTc
-	7WVZuBMj7JjcZG5W5Hd8KFmzYvwExmmI399ZQUIsqwUrqYXhah1vnUwElD2tt4xXY3/J8rIgVmG
-	0k6pqjS2me628Par0xtilWXQVWdSw+SIXx2DCL1agSOvWqV+wnhx8VH28C2LfTSebGxHcI8bbdX
-	4WjztYAKp3h5gTBGB29OY3o5LNWIPaFFzm0v7PUQRWR0yiAe/QYAgU1ipSsJSMbBDFAbCU+Fh3k
-	ao9tcC2qYEXOXGQK+rKOK6RoNrh4i2nSdbXDztUrTglH/EUuqWRbnu49yiwuuRuWvCv3iYUsmM8
-	FzBZ0cOd0oLIVji6ciNc=
-X-Google-Smtp-Source: AGHT+IGjLz6S5fM35cF5+hKHA2tlk2smJKUGXb+pW5FqZs9HjzbC9U07thu3RNUJDSRoioKMADfuCA==
-X-Received: by 2002:a05:6000:200c:b0:3b3:9c56:b825 with SMTP id ffacd0b85a97d-3b4955895fbmr11097185f8f.22.1751897932896;
-        Mon, 07 Jul 2025 07:18:52 -0700 (PDT)
-Received: from iku.example.org ([2a06:5906:61b:2d00:d418:e5eb:1bc:30dd])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b471b966cbsm10131868f8f.49.2025.07.07.07.18.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Jul 2025 07:18:52 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org,
+	s=arc-20240116; t=1751898614; c=relaxed/simple;
+	bh=Qz0DFO0VSKhEu1+cvI/4COfERFTiMUB+Vg+TOZ23il0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rRseYE/Lo2Fu9dv5URRgKUjVkn8YDEpdDObE2jaPK88m1hXftYiQYD0ZLxSN7h6yRdn944Fpxn7Axrr8R8uH4nj7B3j64Nl82KVJisK7TIMH7zU1QgSZnfACmX6nZXFGMD7fuq5dJHeoLHHGKmf1tqbBgN8rkisp6PAIH3Xtslk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-CSE-ConnectionGUID: GahDgNtlQdq2xb0Kp7Nrrg==
+X-CSE-MsgGUID: /eiXqvwKTC2eUsjobiA7QA==
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 07 Jul 2025 23:30:03 +0900
+Received: from localhost.localdomain (unknown [10.226.92.69])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id B8D2B4257A78;
+	Mon,  7 Jul 2025 23:29:59 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Russell King <linux@armlinux.org.uk>,
+	netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Subject: [PATCH v3 3/3] pinctrl: renesas: rzt2h: Add support for RZ/N2H SoC
-Date: Mon,  7 Jul 2025 15:18:48 +0100
-Message-ID: <20250707141848.279528-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250707141848.279528-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20250707141848.279528-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH net-next] net: phy: micrel: Add callback for restoring context
+Date: Mon,  7 Jul 2025 15:29:51 +0100
+Message-ID: <20250707142957.118966-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -104,89 +60,103 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+The Renesas RZ/G3E SMARC EVK uses KSZ9131RNXC phy. On deep power state,
+PHY loses the power and on wakeup the rgmii delays are not reconfigured
+causing it to fail.
 
-The RZ/N2H (R9A09G087) SoC from Renesas shares a similar pin controller
-architecture with the RZ/T2H (R9A09G077) SoC, differing primarily in the
-number of supported pins-576 on RZ/N2H versus 729 on RZ/T2H.
+Add a generic resume callback for restoring the context on exit from
+the PM suspend state. KSZ9131 is the first user of this callback and
+reconfigure the rgmii_delay when it exit from PM suspend state.
 
-Add the necessary pin configuration data and compatible string to enable
-support for the RZ/N2H SoC in the RZ/T2H pinctrl driver.
-
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
-v2->v3:
-- No changes.
-
-v1->v2:
-- New patch.
+Ref:
+ https://patchwork.kernel.org/project/linux-renesas-soc/patch/20250705170326.106073-1-biju.das.jz@bp.renesas.com/#26459627
 ---
- drivers/pinctrl/renesas/Kconfig         |  3 ++-
- drivers/pinctrl/renesas/pinctrl-rzt2h.c | 17 +++++++++++++++++
- 2 files changed, 19 insertions(+), 1 deletion(-)
+ drivers/net/phy/micrel.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/drivers/pinctrl/renesas/Kconfig b/drivers/pinctrl/renesas/Kconfig
-index 0d0920f4678b..8cbd79a13414 100644
---- a/drivers/pinctrl/renesas/Kconfig
-+++ b/drivers/pinctrl/renesas/Kconfig
-@@ -45,6 +45,7 @@ config PINCTRL_RENESAS
- 	select PINCTRL_RZG2L if ARCH_R9A09G056
- 	select PINCTRL_RZG2L if ARCH_R9A09G057
- 	select PINCTRL_RZT2H if ARCH_R9A09G077
-+	select PINCTRL_RZT2H if ARCH_R9A09G087
- 	select PINCTRL_PFC_SH7203 if CPU_SUBTYPE_SH7203
- 	select PINCTRL_PFC_SH7264 if CPU_SUBTYPE_SH7264
- 	select PINCTRL_PFC_SH7269 if CPU_SUBTYPE_SH7269
-@@ -304,7 +305,7 @@ config PINCTRL_RZN1
- 	  This selects pinctrl driver for Renesas RZ/N1 devices.
+diff --git a/drivers/net/phy/micrel.c b/drivers/net/phy/micrel.c
+index 74fd6ff32c6c..cea6082ac45c 100644
+--- a/drivers/net/phy/micrel.c
++++ b/drivers/net/phy/micrel.c
+@@ -362,6 +362,8 @@
+ /* Delay used to get the second part from the LTC */
+ #define LAN8841_GET_SEC_LTC_DELAY		(500 * NSEC_PER_MSEC)
  
- config PINCTRL_RZT2H
--	bool "pin control support for RZ/T2H" if COMPILE_TEST
-+	bool "pin control support for RZ/N2H and RZ/T2H" if COMPILE_TEST
- 	depends on 64BIT && OF
- 	select GPIOLIB
- 	select GENERIC_PINCTRL_GROUPS
-diff --git a/drivers/pinctrl/renesas/pinctrl-rzt2h.c b/drivers/pinctrl/renesas/pinctrl-rzt2h.c
-index 877f6d00830f..55c64d74cb54 100644
---- a/drivers/pinctrl/renesas/pinctrl-rzt2h.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rzt2h.c
-@@ -764,6 +764,12 @@ static const u8 r9a09g077_gpio_configs[] = {
- 	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f,
- };
- 
-+static const u8 r9a09g087_gpio_configs[] = {
-+	0x1f, 0xff, 0xff, 0x1f, 0, 0xfe, 0xff, 0, 0x7e, 0xf0, 0xff, 0x1,
-+	0xff, 0xff, 0xff, 0, 0xe0, 0xff, 0xff, 0, 0xff, 0xff, 0xff, 0x1,
-+	0xe0, 0xff, 0xff, 0x7f, 0, 0xfe, 0xff, 0x7f, 0, 0xfc, 0x7f,
-+};
++static void ksz9131_restore_rgmii_delay(struct phy_device *phydev);
 +
- static struct rzt2h_pinctrl_data r9a09g077_data = {
- 	.port_pins = rzt2h_gpio_names,
- 	.n_port_pins = ARRAY_SIZE(r9a09g077_gpio_configs) * RZT2H_PINS_PER_PORT,
-@@ -771,11 +777,22 @@ static struct rzt2h_pinctrl_data r9a09g077_data = {
- 	.n_ports = ARRAY_SIZE(r9a09g077_gpio_configs),
+ struct kszphy_hw_stat {
+ 	const char *string;
+ 	u8 reg;
+@@ -374,6 +376,7 @@ static struct kszphy_hw_stat kszphy_hw_stats[] = {
  };
  
-+static struct rzt2h_pinctrl_data r9a09g087_data = {
-+	.port_pins = rzt2h_gpio_names,
-+	.n_port_pins = ARRAY_SIZE(r9a09g087_gpio_configs) * RZT2H_PINS_PER_PORT,
-+	.port_pin_configs = r9a09g087_gpio_configs,
-+	.n_ports = ARRAY_SIZE(r9a09g087_gpio_configs),
-+};
+ struct kszphy_type {
++	void (*resume)(struct phy_device *phydev);
+ 	u32 led_mode_reg;
+ 	u16 interrupt_level_mask;
+ 	u16 cable_diag_reg;
+@@ -444,6 +447,7 @@ struct kszphy_priv {
+ 	bool rmii_ref_clk_sel;
+ 	bool rmii_ref_clk_sel_val;
+ 	bool clk_enable;
++	bool is_suspended;
+ 	u64 stats[ARRAY_SIZE(kszphy_hw_stats)];
+ 	struct kszphy_phy_stats phy_stats;
+ };
+@@ -491,6 +495,7 @@ static const struct kszphy_type ksz9021_type = {
+ };
+ 
+ static const struct kszphy_type ksz9131_type = {
++	.resume = ksz9131_restore_rgmii_delay,
+ 	.interrupt_level_mask	= BIT(14),
+ 	.disable_dll_tx_bit	= BIT(12),
+ 	.disable_dll_rx_bit	= BIT(12),
+@@ -1387,6 +1392,12 @@ static int ksz9131_config_rgmii_delay(struct phy_device *phydev)
+ 			      txcdll_val);
+ }
+ 
++static void ksz9131_restore_rgmii_delay(struct phy_device *phydev)
++{
++	if (phy_interface_is_rgmii(phydev))
++		ksz9131_config_rgmii_delay(phydev);
++}
 +
- static const struct of_device_id rzt2h_pinctrl_of_table[] = {
- 	{
- 		.compatible = "renesas,r9a09g077-pinctrl",
- 		.data = &r9a09g077_data,
- 	},
-+	{
-+		.compatible = "renesas,r9a09g087-pinctrl",
-+		.data = &r9a09g087_data,
-+	},
- 	{ /* sentinel */ }
- };
+ /* Silicon Errata DS80000693B
+  *
+  * When LEDs are configured in Individual Mode, LED1 is ON in a no-link
+@@ -2345,6 +2356,11 @@ static int kszphy_generic_suspend(struct phy_device *phydev)
  
+ static int kszphy_suspend(struct phy_device *phydev)
+ {
++	struct kszphy_priv *priv = phydev->priv;
++
++	if (priv)
++		priv->is_suspended = true;
++
+ 	/* Disable PHY Interrupts */
+ 	if (phy_interrupt_is_valid(phydev)) {
+ 		phydev->interrupts = PHY_INTERRUPT_DISABLED;
+@@ -2381,8 +2397,17 @@ static void kszphy_parse_led_mode(struct phy_device *phydev)
+ 
+ static int kszphy_resume(struct phy_device *phydev)
+ {
++	struct kszphy_priv *priv = phydev->priv;
+ 	int ret;
+ 
++	if (priv && priv->is_suspended) {
++		const struct kszphy_type *type = priv->type;
++
++		priv->is_suspended = false;
++		if (type->resume)
++			type->resume(phydev);
++	}
++
+ 	ret = kszphy_generic_resume(phydev);
+ 	if (ret)
+ 		return ret;
 -- 
-2.49.0
+2.43.0
 
 
