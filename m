@@ -1,163 +1,92 @@
-Return-Path: <linux-renesas-soc+bounces-19313-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19314-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16107AFB28B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 13:47:51 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2EB9AFB2A8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 13:53:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5D6EB1760C1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 11:47:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A214E7A12A4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 11:52:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A288E289358;
-	Mon,  7 Jul 2025 11:47:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4801D29994A;
+	Mon,  7 Jul 2025 11:53:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="s/XG/WfU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF4B1F790F;
-	Mon,  7 Jul 2025 11:47:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 637751373;
+	Mon,  7 Jul 2025 11:53:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751888868; cv=none; b=aei54W2PjxgpfksqvzzUFVOUd0Zr66Ylvh+xF2k4G7rpEHg58AeVj/d2bYdQLNudhi+lHqyfrzKRhYB92McJxQhJhE7Utdgo4dPTQKTC0Fv7ObABT4JCTWe70Ycl4lQA0qUsiwu6QDADmAzfnnLQ4owaENVmCPloAL5vw9x3dfE=
+	t=1751889226; cv=none; b=F1r28Ikosn6L1hYfIYyDTXLMiLVpgp6OHtzWmuUnrvr5AbtBNaUmo/RCXcDSLL/8cg9xZqGMxvisKaCp7rIRGzHTkcx3Bc6LyBEhNYQ6SUzbqNmv1fc/ix2agn2kzMk+nXcizxVlr+lq6d6/S8AB7S/mBAcGeG6JEtweeQE1zvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751888868; c=relaxed/simple;
-	bh=pqtGbvFe50dzIt/ozQzefWcUhX7Nvfv+KWvzIkd/5Ic=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WaltMFaeoGYeT2fHVuqAYUvFS0bYy52TDLSAs5EIu/6aYNNcBFE9DxMqX4/nxpEERR8WBkOODwTUO+3tymuSDwu7r3rrM1sx/wxMXK7IjVidfsOXyqYKr+GdKlB33SwWh3kJJZB6hELpSmrtVZaGgEuER4QFH4IF1o1TX8wmkOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-5290be1aedcso3185905e0c.1;
-        Mon, 07 Jul 2025 04:47:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751888864; x=1752493664;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Vqz6ail9a2lZl2f2rkeZnHcwFj2PeKZLl8yrU9geXlU=;
-        b=CbfB93wfVeM7tdBnT87eRLgpJIGQ+2OMk7C2ym1JPYfmvCbG9Ws01R7FZjmhivtxOC
-         Gix+J1/2ZoznX7ekS6RON0FuUKmTwn55cql3bJqvHpIDrISFFjCiFreilKYIzS7vCszR
-         mJpVqSAo4K1K1ffSEVHlIRqZFoHh/bE3gCbTSgWdcvxIF1qaDHKbn8yeMgL0Ny0Mug3y
-         MZjIP6E35D3cFMlJPISWYClwvF8IK279rPT4N/GeQjobEKxe99kS4eiNma7ri2I7FBpi
-         1MZR55LGBg0/y5zoHipsyfkxu+xqZ04Fe0HPv+KHTKyVAo1wFo8JR7Q3ZdSLrFDrANr2
-         iItA==
-X-Forwarded-Encrypted: i=1; AJvYcCWlQ+deATy6y3wQ0LtX0SsIXW6LDIwYwqYr3/Kp2QZ1QWu088/FRe8wcl8qCbsTUyIFMkk+rs2sHB/h3MjbBUEnV+8=@vger.kernel.org, AJvYcCXpvXx0HdO/XQYiqvm7l5ytSltHKGtgicdVAgjdqsdJDYfDlfuWALm3F48Z13ijrafPz12/jRPusl3D@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxy12L1jErABM+m+fyZ7SNawW82POUFh1bSO8/C8nI4xWVtp7U9
-	KqU/0O5Yj0mgGluqUIy/n7BePPv9BBhh61pIkoDiyfZwW45V8WDgHfledT4cTL4N
-X-Gm-Gg: ASbGncuUAGeEEDWg+/D5DEMEdkeM8QnGjNQ0EdOGst/NiKOwtgMW4DxErwUb3Kd4GYZ
-	dvXg+24iJ8kkYACJzh/ipfL2Xo1W8S8g70XUkXqa1p/bWS+Ozyy/bXmQvxE+v7tvL7zb7ZNb3O5
-	snGHDDb7nxXU/pcO5hMIYKdH3lAgEhlfWQEAlM/zcvORVsXpwPYDE7mCe5FH2vu4BXo2mKAflQw
-	hFNWeNpEVtkzBW7a6wMxyAoTL2h9zAYcboGAD9ooVx72ku/zGb3Iony8smMN1WlyyQbOik5lAj0
-	qmPvKLBGagNCB/vwaMrLZA6m3d21BK6ZeD8r1j9aSol5m5eM7v3o2y33myUNgB+nPh8HWdT/r6Q
-	HiOYJcNA8CxnZ+5ybKCIdL4IkxOURfleeVVnNQ4c=
-X-Google-Smtp-Source: AGHT+IGqoWZS8c5Ut+BJIVJ/L7KFv5Mckf+0XXR6VfTyT8n983rIQ69d4O+/IEwlYhdQVVZs4ggLUw==
-X-Received: by 2002:a05:6102:144d:20b0:4ed:e307:adc4 with SMTP id ada2fe7eead31-4f2ec76b702mr5378963137.7.1751888864421;
-        Mon, 07 Jul 2025 04:47:44 -0700 (PDT)
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com. [209.85.221.178])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-886e922e896sm1435265241.6.2025.07.07.04.47.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Jul 2025 04:47:44 -0700 (PDT)
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-5290be1aedcso3185862e0c.1;
-        Mon, 07 Jul 2025 04:47:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVFHtvSHNRPrC2ixeRB8QWCkGA5h5vwmeE74f2Ge5WxbMv/GE6qnjoLCj2YJ6F5SQg5nuf5SZeDkPAaSbV/TTeDV/g=@vger.kernel.org, AJvYcCXjz/DOw5DjB2FRh+VYmm3paUIJiyyAy/SYA20MiPUZRGM/fys1R3JaeE9G3Rdkrb92qixywh0TSEUG@vger.kernel.org
-X-Received: by 2002:a05:6122:3548:b0:535:3125:9b00 with SMTP id
- 71dfb90a1353d-5353125a066mr3949373e0c.4.1751888863597; Mon, 07 Jul 2025
- 04:47:43 -0700 (PDT)
+	s=arc-20240116; t=1751889226; c=relaxed/simple;
+	bh=jM+/UUCJoXc+bzfrp40R7IOgg6i7fASt5M7fn2z62CQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eOzWgkOB2JkaA1Q820QF3JLGCuYXWs3oexY9jEjHlOOWEP2HIwN4QuEG0pA/9Wpsjo0PJSgQSOz0tP9N/0Qr2jDl0NSaBTisIffd5ln9OBoOkyY2DcoiOutaSLJOxZOGuTPbscYH5srZpRDy7G+Je6awMJ74KSGCG4aUbfXR3JI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=s/XG/WfU; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=xjTX6YNdxABo8Jl2jn8Lm6RPCYX+HMZYyUJcZGWNE5w=; b=s/XG/WfUD5TwLxJR21YjurMr1+
+	uIrql8eVFB8xIOWZb4jN66SOFhAIiOzXDuBzM8UYaxQPnp47ksUndJ1Mo8p9nminew4/FcaTjzxfH
+	vpDQ1eD4Ib2UtLuPW5FSqB7k5isk46x6lgS73u0NqgVfNgvLtqQYrjdEF9pRl//l0ReY=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1uYkPc-000hxy-QL; Mon, 07 Jul 2025 13:53:32 +0200
+Date: Mon, 7 Jul 2025 13:53:32 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Michael Dege <michael.dege@renesas.com>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Paul Barker <paul@pbarker.dev>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Subject: Re: [PATCH 0/3] net: renesas: rswitch: R-Car S4 add HW offloading
+ for layer 2 switching
+Message-ID: <dd75a12d-17cd-45a7-97d0-a243df54c215@lunn.ch>
+References: <20250704-add_l2_switching-v1-0-ff882aacb258@renesas.com>
+ <9c8cb213-7daf-43bb-8d20-aaefa13127af@lunn.ch>
+ <TY4PR01MB14282E8A9E82714106D448EA0824FA@TY4PR01MB14282.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250704100734.3387856-1-niklas.soderlund+renesas@ragnatech.se> <20250704100734.3387856-3-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20250704100734.3387856-3-niklas.soderlund+renesas@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 7 Jul 2025 13:47:32 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX-1KJ4yrNeNT1SYqvfrn+XEjWuMxQkNTKJ5j9+fxgDdw@mail.gmail.com>
-X-Gm-Features: Ac12FXxwjRnPTKitAeyZYlbuSaKiGGcYbp2iBh_Sana_txh4dTsvcCrw2Olnd2Q
-Message-ID: <CAMuHMdX-1KJ4yrNeNT1SYqvfrn+XEjWuMxQkNTKJ5j9+fxgDdw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/5] arm64: dts: renesas: sparrow-hawk: Add overlay for
- IMX219 on J1
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Marek Vasut <marek.vasut+renesas@mailbox.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TY4PR01MB14282E8A9E82714106D448EA0824FA@TY4PR01MB14282.jpnprd01.prod.outlook.com>
 
-Hi Niklas,
+> There is a discrepancy between the value being passed by iproute2 and brctl. Iproute2 passes the
+> value unaltered in seconds and brctl passes the value in seconds multiplied by 100. So far this
+> is OK because brctl is deprecated. But the default value being passed when neither brctl is called
+> nor the ageing parameter is added when the bridge is created is also multiplied by 100 resulting in
+> 30000s being set as default ageing time instead of 300s. Is this a known issue?
 
-On Fri, 4 Jul 2025 at 12:08, Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> Add an overlay to connect an IMX219 camera sensor to the J1 connector.
-> The IMX219 utilizes 2 CSI-2 D-PHY lanes. This enables the video capture
-> pipeline behind the CSI40 Rx to be enabled to process images from the
-> sensor.
->
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
+You need to be careful of 100. It is probably the value of HZ you are
+using. This means it is probably in jiffies.
 
-Thanks for your patch!
+It could be whoever added support to DSA was using HZ = 1000, and so
+assumed it has milliseconds, not jiffies, and the API is broken.
 
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-camera-j1-imx219.=
-dtso
+If you have time, could you dig into this. Trace there where jiffies
+are used, seconds, and what conversions are preformed, for the default
+values, netlink API and sysfs API. Once we know where it goes wrong,
+we can figure out how to fix it.
 
-> +/* Page 29 / CSI_IF_CN */
-> +&csi40 {
-> +       status =3D "okay";
-> +
-> +       ports {
-> +               port {
-
-The base arch/arm64/boot/dts/renesas/r8a779g0.dtsi has "port@0".
-Still, this is applied to the correct node?
-
-    $ dtx_diff --color
-arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk{,-camera-j1-imx219}.dtb
-    [...]
-
-                                    port@0 {
-                                            reg =3D <0x00>;
-    +
-    +                                       endpoint {
-    +                                               bus-type =3D <0x04>;
-    +                                               clock-lanes =3D <0x00>;
-    +                                               data-lanes =3D <0x01 0x=
-02>;
-    +                                               phandle =3D <0xf2>;
-    +                                               remote-endpoint =3D <0x=
-f3>;
-    +                                       };
-                                    };
-
-                                    port@1 {
-    [...]
-
-> +                       csi40_in: endpoint {
-> +                               bus-type =3D <MEDIA_BUS_TYPE_CSI2_DPHY>;
-> +                               clock-lanes =3D <0>;
-> +                               data-lanes =3D <1 2>;
-> +                               remote-endpoint =3D <&imx219_j1_out>;
-> +                       };
-> +               };
-> +       };
-> +};
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+	Andrew
 
