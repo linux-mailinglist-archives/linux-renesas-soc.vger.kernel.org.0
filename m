@@ -1,197 +1,425 @@
-Return-Path: <linux-renesas-soc+bounces-19341-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19342-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AD3AAFB891
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 18:26:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E458AFBA31
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 19:55:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 08A8D4A165D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 16:26:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C2F311886E68
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 17:55:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51E9F219311;
-	Mon,  7 Jul 2025 16:25:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC9CF1FAC4E;
+	Mon,  7 Jul 2025 17:55:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="KjScqVJl"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sqlifN5B"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013003.outbound.protection.outlook.com [40.107.159.3])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 293DD155A25
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Jul 2025 16:25:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.3
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751905555; cv=fail; b=ModVL9xJ0WDY2ExsUHIrhp6dFg+tSehA8k5xiMYyDnPZjbeqxF1e5N+FxyoulGWx3uqRE1nNlW1VUZecuoZqA2GkCD7HnRjj0S4aNyqi3jxdUjHhHXvi7S9F/Hfr/vJRMn2cziTDun8MvMn6xOOI+3k1LnfWUWZDpu6UXytOtlY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751905555; c=relaxed/simple;
-	bh=iCvtRES8PWjFaA071Rrvp5Bagy4NAL+cZqzcLTB7Br0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=VgLI5deJoAW0J8+ljx9ZKzMrF3BHOUT6iP8hGMPOKiU7FtuxtjFGpAmg3/yrdR+rb47KXJDc1E95iJdSQTAq7fDLUuGDnCfztDG8KiDBFKUhmL36xP1PdFeAKRynX6Pot7RkzZsSEyIrPSb2UdkyD2At1TjGJc2wCfShb93LTZM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=KjScqVJl; arc=fail smtp.client-ip=40.107.159.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XfXwKKiIzXzug2GxNlqh9Ea2Qq2TXHRsPaIOStHU4GZ74JW11OhZkiy4zTzvooSWAbPtYlyA2QD9xS5BXiroTdZlmFkQtxXWnSoltR0u+y7IJd36ckxj7Ey+gmSKlV3XWbdNoBMJPdFyxqhQhfghNVZpmYhOpdomwDVnSzkxsMB1Qv3ACzbh2Vwj2J6SPFjwA6l5B3O0kCmnLqH4ymnuUMbQKF6ns6TsuU8gHrJQoWbx35Q28951f6vTFkOoqY8ERJNXOv+Kbl+bChF8pyeK7QXQLRv5BscvJTMWDbIJBugmy+SLdJ+CH1YdkKH0r3JeITBe0Li2yL+NnCh+QyM1KA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7tgNdZ+XSbCpuNU+JxaVyXwoTSbmKjSjbn2SkhNjOSc=;
- b=WE/c2nT09z+T8UT20Fvd0GetNRjAZ9VyQFYloXl28hETJle028vtcXsnaSc6XHKGRtcsu5Iy25oGoi/OY/dCu1Wz2DshrICiFggEMeYHAsaneiQM9Qi1skv6IRAEtzd/0PR3pc7SJ79XBvQqvNu5XNM+N3v8YGqVsEsPkCQVTN71+c3V5va+XX5BINIybaJ8Q1k8We8V4YYMYnCusUT8WFGwr26T1cq7QcAZaJx9Gms7cNPp7VmiflCu7h3LdlbQLVmPTY5hQuN8wVixEF5tj1DxzA2CNAqwV2k9/HoI7vHbADxbT74yXqHuz0Nod+keOn9OI7kWzJVJQDeJwR6P8A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7tgNdZ+XSbCpuNU+JxaVyXwoTSbmKjSjbn2SkhNjOSc=;
- b=KjScqVJlREUudqqYwefktspUF60mLo3sbkji7FOTD988zVaQEpMKM7z+ypMMEi9Zgpk9xS2U8VMfl/wo30Dwk+EKoYE9TdmPTxu6GjJnSh1fZsgS82ZE9LwXEX0OQjf9gxIfZB/XE845cvkhqYkBG9jCrgBS4xjX5Gg6iTL5eFigzjsJIGcT2eNnq9ORbSO04PV9ryFO4eTso4KflYVtfDo7fCg+B10Tunahr+wywZ56k2qpERgdzDRDIchNLL5wpLcTc2tqLDwirrSulsKZbKh84o3FGiKHhcPBoySpmBtY9yLhdJjhfHXpofyNvV8TDv0nBcXEcZEm83mbNWh8FQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
- by AM9PR04MB8163.eurprd04.prod.outlook.com (2603:10a6:20b:3e8::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.27; Mon, 7 Jul
- 2025 16:25:50 +0000
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06%5]) with mapi id 15.20.8901.023; Mon, 7 Jul 2025
- 16:25:50 +0000
-Date: Mon, 7 Jul 2025 12:25:45 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-i3c@lists.infradead.org
-Subject: Re: [PATCH v2] i3c: don't fail if GETHDRCAP is unsupported
-Message-ID: <aGv1CdufwRnYmWeX@lizhi-Precision-Tower-5810>
-References: <20250704204524.6124-1-wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250704204524.6124-1-wsa+renesas@sang-engineering.com>
-X-ClientProxiedBy: AS4P251CA0018.EURP251.PROD.OUTLOOK.COM
- (2603:10a6:20b:5d3::10) To PAXPR04MB9642.eurprd04.prod.outlook.com
- (2603:10a6:102:240::14)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985B218A6C4
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Jul 2025 17:55:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751910926; cv=none; b=PJXJ6+hxytQABsP556SE4BEb8I2Q8c1S7BuqjE0wxH3hJzHp73m0PViLl05VfXAFrlscY8a5NGNsotp8WF0gHHhJMOAJKcMwlwTg/3t7q6zvk54RT7+CuiOU81M1XolA3J79xQDZVRVBOLPPV9xpueHATID4MbLh+ijbdVJsoKM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751910926; c=relaxed/simple;
+	bh=9RI1XNRLU+F8pLlE7Yt7aAxeX/dhWxvg6lRu/mCIfsE=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=lyUVm9mh4mK+egfvrcmV7EAEps8B0wQPQYYTneGsqEDH/VK3oFMRP+V/wl6YKBLOiv+sUR/oeDmQ3pIVvQY33AcFLrL/+STEzM47KLuY9mdGJgtNh75Hj12+iqWUuh+QwGIq142nzd8Pg6BhdYBONExuLzs1ILRWaTVLfZj9nTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sqlifN5B; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E868EC4CEE3;
+	Mon,  7 Jul 2025 17:55:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751910926;
+	bh=9RI1XNRLU+F8pLlE7Yt7aAxeX/dhWxvg6lRu/mCIfsE=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=sqlifN5BB1tlyoxRFtRB4nhO5ALJQv5YWraFxF4s9Sfw8rNKZAlnjZQMtmwrFTCs7
+	 6/VWiBNwaMIjpM+pfUI2SrXLBBHX02IwLXHuiai8cvl27ilYJcAnVgECKQNm5VAR8H
+	 oORYmII5wfFIbblLwSNZmCVWTDZ5BZ9yNcbh3GauzPSoU42BBMz4POu1wDciFBNmLz
+	 0gJEzEFwcrsMM4x/r4P/qmM8zTVs/FMOLl9Gf8QVPQYZ3U8a4BNAPcI/RJxWTJxcP4
+	 lJMi/Z4cTFeGhVi5KABYO26zhWxamQoELw/Uj5AWvyP/1ebBB6DaseouOUfuwBez8+
+	 4nWFU2x1IOX+Q==
+Date: Mon, 07 Jul 2025 12:55:25 -0500
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|AM9PR04MB8163:EE_
-X-MS-Office365-Filtering-Correlation-Id: f62325b1-29c4-455a-4e84-08ddbd72ef94
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|1800799024|366016|376014|52116014|38350700014|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?qfWj1mh20DHITG8XhKD18JryPVm7k08KDRIisEQ0CUfcjDa5MmaQobIvcgbJ?=
- =?us-ascii?Q?D2XydB/OKE65cHUyqimjZSKpDXe9fB0DPy8UCyQGQAEyPPTqFBS6bEeVUqVI?=
- =?us-ascii?Q?ZDCYP06JMAnmxdk/xVS4DMxL78fqzi5zBvMZATAgVX/8ggrAQtwTJuysvLtN?=
- =?us-ascii?Q?30INZV5JowxFxQgkzKRrwrbUUE0NxbPnjpSBZ4LOtO3XEsUMxAZdP99rdbWs?=
- =?us-ascii?Q?wGmDJZH0Ake4gZN1x9bEcEt539SP2JuX6aMw4h+8UApKSmT9HnXldb39DgsS?=
- =?us-ascii?Q?LEf44rSaMXrJnaR3/400yiRVvQU1BoqH5uBKRvXzdeyfigJF11iKXeqkxa/f?=
- =?us-ascii?Q?MRVl3qow6IyWJCaiF9kHwSL0Mftd1psyqm0hA72FxgL7InO71oJ7nk67LiZb?=
- =?us-ascii?Q?z8f0hDV1izQahMYA5WqoBVn/dJN/BwwaJVHCa33yAYgSSuGkGEiCp58PSgp/?=
- =?us-ascii?Q?+6DnZ6+oPG/GKmiRXQ2ZMQsA1UYDSa/pM8qe9I2kiLRb/3lzFlxFELZNokh9?=
- =?us-ascii?Q?RmR9/99Tg0f1CuVNXDFfUupE3nWN4tTZe98v/VNz6bm8SkqYtiFi+cv3cu1C?=
- =?us-ascii?Q?x3XiiA1ifWgpd1GVVXwAXYTYJqFsWcwvV8JzDo17nqq4WJKOa4qJo8JwSkD/?=
- =?us-ascii?Q?xW1MOw4yjD1kvq0IANtZ1zOj6V3lNSFkMhTNv+rZ8Wr0s1mdJEKFPU23RFKs?=
- =?us-ascii?Q?/sTEx4dBC0yUKuiD+Lo72F42qNNJO6XYgKfLuJABTV9sevPcVx4CkfQTtpu6?=
- =?us-ascii?Q?xcjOvVidxX4h0+LJiX0AiMMEsJXcGAfl01tfh6rL/h74aoBQUwKsVG7jrP90?=
- =?us-ascii?Q?r2nIxOY7tUuB6qmYDe8cTJ5EG5h8OrNeTblJwUGaBaBZYDL8HQbNnp8HySER?=
- =?us-ascii?Q?ErCOfqjlV+w/Zryw3ouxsE/eKvSbAIJnCYUfZobn1TmDxNgECHd9B+WEOHYi?=
- =?us-ascii?Q?AzwV4o/4AwNNZKscyL9ZX+GqTRXn5EKIaTde/s5Tex5Hu/Y/NN8WzEfRZKwd?=
- =?us-ascii?Q?bF9b/3gN2YrblycG82pIKo6MXXEe/URvDpki17MXXnmbYDr3V52lkS5pSCjO?=
- =?us-ascii?Q?9n3cHVYqpSVG5MLUYpmZj7CeQygRgPjXWB1rLW8y9RpoOB8Oz7X9SnuTOUqM?=
- =?us-ascii?Q?yr5BPNAQEd2tev6jEDjYCjhHsFzWluCYLvuidmO3PAHRu/r7k0eurHH8ithr?=
- =?us-ascii?Q?yKJLX21yiEZJTcxOMuXW+f7x3XjyymwS5bSFb9oWQoLIXvgHOulwOdylMSVm?=
- =?us-ascii?Q?MD1x9rtNV7o5RBDKpKN9ljH9/6zqJW06/UH1Gz7JSfCiGEPqkR5gVzbHecKy?=
- =?us-ascii?Q?io9xJTMtWrT/g3MqPQj1HPapWzpS6edyGVTpRbTuiSnCmvC4gis7qxvEyNtW?=
- =?us-ascii?Q?k+zoKsdtaG5dL0o9oiQiK8LWnTLgc9EWUwM/Vrz/g7ZvBtczSV9MziT/Wmx1?=
- =?us-ascii?Q?jD0B/kDQh0vXDPHcYWas0SLamb/F9sq3TQs1LJ3AxdIu5nJwDnUlbg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(1800799024)(366016)(376014)(52116014)(38350700014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?+iCQnMHikHY9ytGzp9GRtyKP6M1kXZNrHXk8YvjxlwOOJvFNrNvZVLYl+TEJ?=
- =?us-ascii?Q?JSz4lj0gQarMjkQGVaEFdnGm990ACYkQPPuC2O1yBaW+d2dbxbywAZD/vU8D?=
- =?us-ascii?Q?V6WMmeVKXRPdalJy+sZOwYRD/pz8ByVGka7QSJPNIzRlFaQYz0m9yIvIsqfO?=
- =?us-ascii?Q?s+ABRxLL7pQQIsUvSHjEoQM89rGI2OgqpqXh2VDLw7CxLK/YeUu7Hn0gYaXU?=
- =?us-ascii?Q?VTkhBPmw9tq8B7GLxtsbAaRcwr68YtpeZAq4y5rGvjOs/9eBoKJC4nuyfG2F?=
- =?us-ascii?Q?wNQFtm35sPHD4BTICw8/e92r/kgkj93ETwhu6RYV0WJAn+Q53kRgAxbUsh9u?=
- =?us-ascii?Q?dGj/1qfq93MbfqdiG0bd9yqZi2QrjPUiyz981boF6y/fNNEC8dwkDFmlazMz?=
- =?us-ascii?Q?faxe5LreoRdlBSy7hEW0emj8INNZKjs6oIxdxeiiZZASzMAlrf9Ki0qKZsei?=
- =?us-ascii?Q?7uyyWV76H9DAXjiRPl7JzB2q5Rr6NeeXlxs1CCM8mudMLFW+kirmgfjoWnS5?=
- =?us-ascii?Q?XeMaiGxHzPjhZlWy6C49kYMBfS7rLElr44C1211/bMVdywGeHLZtC+7hpnu0?=
- =?us-ascii?Q?CDf5pbxw1+1HhImGca0pF3o09ANs9Kp2t3n6Q5SD5Et1UVSEFdvZTE8y/y+X?=
- =?us-ascii?Q?3Iuran3ssNAZ7qPl29bVd4bNunHLumHHtNiklc9jvgIkIiVy+VwWN8Y9CMbh?=
- =?us-ascii?Q?AkEz0TlHOA8O5hvwlHpevuzzcd8sMrTRrRjkbLS2CuS/4UkGx6Gn2wIINWj0?=
- =?us-ascii?Q?QmQM78liISQ1WWVISxm39OH2Bvdz6w3h6Ylocp5ghtQCHyxrQffkkORNQQhu?=
- =?us-ascii?Q?BYyGqi6sW0JpGauoS9KqV3SB3RyvixAX45jVcm7BwNtRgKEgPXu+mPyz+mf5?=
- =?us-ascii?Q?UMU9wgbXqqMuW9fzXsejsg/ifqyzqVLIsbSHuZzTKCYP7v97SnxmSNQAc+Lm?=
- =?us-ascii?Q?a824xnZf1srZyVc6JXZDfYTpG9CTneILd9EDAeQ6XnY3bFJM7lxS9jn38WHw?=
- =?us-ascii?Q?k2myUoGFoYTaqRzjndbIF7VWlPpA221FOWE720K9v35nOmrStxPqLKb8xA7J?=
- =?us-ascii?Q?SHVLWjpgJAcu7YQbNp05PfQwEnMZYRS+wCw+TYqH3RKz9h7kWrVooEm/6JnI?=
- =?us-ascii?Q?7coBhBgs2UamwnxSTVvfuJ5E0lMzmD97QW3OuQtdpR3SPd6ykGe5WOohXBRO?=
- =?us-ascii?Q?gma99TIQZXSPwqgeB+SvUm8KfhDh+dak11jVZ/BFjGmdx8H7cRvgBWMqpoa/?=
- =?us-ascii?Q?w4yYC1Ov4JTLbXeMHXUDz7RW/Gax6O+4TAPpu/pPmkf93t98NKDyvXtHBiIt?=
- =?us-ascii?Q?3Xdoz2hrSrG9dt3yzDz6OzduR6+dAGSsCF/bVA/LHAXzOy2RBctH873XHcP0?=
- =?us-ascii?Q?4BWhH58/mPndohhamqqGWtNy+Z0CEcGuELX7KtQOmylfsKFF07mFOhwFbDds?=
- =?us-ascii?Q?xcNxiAfSuMU2qpFt5b6gvK9t+zZJk1Uga04CUjHWiei40c41ec4Hx7h+io7J?=
- =?us-ascii?Q?fWDYgoF7U9hgZTUJyP4MHU5293pGohIXzs1L3cSc633Vjt159V1/dGciRDBr?=
- =?us-ascii?Q?cLZpRq5XXcQqVEj0m+0=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f62325b1-29c4-455a-4e84-08ddbd72ef94
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2025 16:25:50.1572
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eLXuNcYJknhtMjS79BlrWzzUnG8eS9rch9+zZADZoCt2Unpf+ZIQ1+Sadz4RTeNsiPibCbTSOGmvIfB4uH/u4Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8163
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: geert+renesas@glider.be, linux-renesas-soc@vger.kernel.org, 
+ wsa+renesas@sang-engineering.com
+To: Magnus Damm <damm@opensource.se>
+In-Reply-To: <175174252387.83411.17393827352291413834.sendpatchset@1.0.0.127.in-addr.arpa>
+References: <175174252387.83411.17393827352291413834.sendpatchset@1.0.0.127.in-addr.arpa>
+Message-Id: <175191074120.3364537.16527238039356772179.robh@kernel.org>
+Subject: Re: [PATCH 0/6] Add rpc-if to RZ/A1, RZ/A2 and update/add board
+ support
 
-On Fri, Jul 04, 2025 at 10:44:32PM +0200, Wolfram Sang wrote:
-> 'I3C_BCR_HDR_CAP' is still spec v1.0 and has been renamed to 'advanced
-> capabilities' in v1.1 onwards. The ST pressure sensor LPS22DF does not
-> have HDR, but has the 'advanced cap' bit set. The core still wants to
-> get additional information using the CCC 'GETHDRCAP' (or GETCAPS in v1.1
-> onwards). Not all controllers support this CCC and will notify the upper
-> layers about it. For instantiating the device, we can ignore this
-> unsupported CCC as standard communication will work. Without this patch,
-> the device will not be instantiated at all.
->
 
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
-
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+On Sat, 05 Jul 2025 21:08:43 +0200, Magnus Damm wrote:
+> Add rpc-if to RZ/A1, RZ/A2 and update/add board support
+> 
+> [PATCH 1/6] dt-bindings: memory-controllers: renesas,rpc-if: Add RZ compat str
+> [PATCH 2/6] ARM: dts: renesas: r7s72100: add rpc-if nodes
+> [PATCH 3/6] ARM: dts: renesas: r7s9210: add rpc-if node
+> [PATCH 4/6] ARM: dts: renesas: genmai: add rpc-if SPI NOR flash
+> [PATCH 5/6] ARM: dts: renesas: gr-mango: initial board support
+> [PATCH 6/6] ARM: dts: renesas: rza2mbtc: initial board support
+> 
+> Add support for rpc-if to RZ/A1 and RZ/A2 SoCs and update/add a few boards
+> to make use of this and other devices as well.
+> 
+> The support level of the boards when this series is applied is as follows:
+> Genmai: (RZ/A1 SoC) Serial Console, SPI flash, Ethernet
+> GR-Peach: (RZ/A2 SoC) Serial Console, Ethernet
+> RZA2MBTC: (RZ/A2 SoC) Serial Console, SPI flash, Ethernet
+> 
+> Signed-off-by: Magnus Damm <damm@opensource.se>
 > ---
->
-> Changes since v1:
-> * updated commit message
->
-> Please note that Joshua Yeong was also in favor of this patch. Sadly, he
-> did not send an official Acked-by yet.
->
->  drivers/i3c/master.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/i3c/master.c b/drivers/i3c/master.c
-> index fd81871609d9..e53c69d24873 100644
-> --- a/drivers/i3c/master.c
-> +++ b/drivers/i3c/master.c
-> @@ -1439,7 +1439,7 @@ static int i3c_master_retrieve_dev_info(struct i3c_dev_desc *dev)
->
->  	if (dev->info.bcr & I3C_BCR_HDR_CAP) {
->  		ret = i3c_master_gethdrcap_locked(master, &dev->info);
-> -		if (ret)
-> +		if (ret && ret != -ENOTSUPP)
->  			return ret;
->  	}
->
-> --
-> 2.47.2
->
+> 
+>  Applies to next-20250704
+> 
+>  Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml |    2
+>  arch/arm/boot/dts/renesas/Makefile                                       |    2
+>  arch/arm/boot/dts/renesas/r7s72100-genmai.dts                            |   71 +++--
+>  arch/arm/boot/dts/renesas/r7s72100.dtsi                                  |   22 +
+>  arch/arm/boot/dts/renesas/r7s9210-gr-mango.dts                           |   87 ++++++
+>  arch/arm/boot/dts/renesas/r7s9210-rza2mbtc.dts                           |  133 ++++++++++
+>  arch/arm/boot/dts/renesas/r7s9210.dtsi                                   |   12
+>  7 files changed, 300 insertions(+), 29 deletions(-)
+> 
+> 
+
+
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
+
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+This patch series was applied (using b4) to base:
+ Base: attempting to guess base-commit...
+ Base: failed to guess base
+
+If this is not the correct base, please add 'base-commit' tag
+(or use b4 which does this automatically)
+
+New warnings running 'make CHECK_DTBS=y for arch/arm/boot/dts/renesas/' for 175174252387.83411.17393827352291413834.sendpatchset@1.0.0.127.in-addr.arpa:
+
+arch/arm/boot/dts/renesas/r7s72100-genmai.dtb: spi-flash@0 (jedec,spi-nor): $nodename:0: 'spi-flash@0' does not match '^(flash|.*sram|nand)(@.*)?$'
+	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
+arch/arm/boot/dts/renesas/r7s72100-genmai.dtb: spi-flash@0 (jedec,spi-nor): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'partitions' were unexpected)
+	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
+arch/arm/boot/dts/renesas/r7s9210-rza2mbtc.dtb: / (aprg,rza2mbtc): compatible: 'oneOf' conditional failed, one must be fixed:
+	['aprg,rza2mbtc', 'renesas,r7s9210'] is too short
+arch/arm/boot/dts/renesas/r7s9210-rza2mbtc.dtb: / (aprg,rza2mbtc): compatible: 'oneOf' conditional failed, one must be fixed:
+		['aprg,rza2mbtc', 'renesas,r7s9210'] is too short
+		'shimafuji,kingfisher' was expected
+		'renesas,r7s9210' is not one of ['renesas,h3ulcb', 'renesas,m3ulcb', 'renesas,m3nulcb']
+	'aprg,rza2mbtc' is not one of ['renesas,kzm9d']
+	'aprg,rza2mbtc' is not one of ['renesas,genmai', 'renesas,gr-peach', 'renesas,rskrza1']
+	'aprg,rza2mbtc' is not one of ['renesas,rza2mevb']
+	'aprg,rza2mbtc' is not one of ['renesas,kzm9g']
+	'aprg,rza2mbtc' is not one of ['renesas,ape6evm']
+	'aprg,rza2mbtc' is not one of ['renesas,armadillo800eva']
+	'aprg,rza2mbtc' is not one of ['iwave,g21m']
+	'aprg,rza2mbtc' is not one of ['iwave,g21d']
+	'aprg,rza2mbtc' is not one of ['iwave,g20d']
+	'aprg,rza2mbtc' is not one of ['iwave,g20m', 'renesas,sk-rzg1m']
+	'aprg,rza2mbtc' is not one of ['iwave,g20m']
+	'aprg,rza2mbtc' is not one of ['iwave,g22m', 'renesas,sk-rzg1e']
+	'iwave,g22d' was expected
+	'aprg,rza2mbtc' is not one of ['iwave,g23s']
+	'aprg,rza2mbtc' is not one of ['hoperun,hihope-rzg2m', 'beacon,beacon-rzg2m']
+	'aprg,rza2mbtc' is not one of ['hoperun,hihope-rzg2-ex']
+	'aprg,rza2mbtc' is not one of ['hoperun,hihope-rzg2m']
+	'aprg,rza2mbtc' is not one of ['beacon,beacon-rzg2n', 'hoperun,hihope-rzg2n']
+	'aprg,rza2mbtc' is not one of ['si-linux,cat874']
+	'aprg,rza2mbtc' is not one of ['si-linux,cat875']
+	'aprg,rza2mbtc' is not one of ['beacon,beacon-rzg2h', 'hoperun,hihope-rzg2h']
+	'aprg,rza2mbtc' is not one of ['renesas,bockw']
+	'aprg,rza2mbtc' is not one of ['renesas,marzen']
+	'aprg,rza2mbtc' is not one of ['renesas,lager', 'renesas,stout']
+	'aprg,rza2mbtc' is not one of ['renesas,henninger', 'renesas,koelsch', 'renesas,porter']
+	'aprg,rza2mbtc' is not one of ['renesas,blanche', 'renesas,wheat']
+	'aprg,rza2mbtc' is not one of ['renesas,gose']
+	'aprg,rza2mbtc' is not one of ['renesas,alt', 'renesas,silk']
+	'aprg,rza2mbtc' is not one of ['renesas,h3ulcb', 'renesas,salvator-x', 'renesas,salvator-xs']
+	'aprg,rza2mbtc' is not one of ['renesas,m3ulcb', 'renesas,salvator-x', 'renesas,salvator-xs']
+	'aprg,rza2mbtc' is not one of ['renesas,m3ulcb', 'renesas,salvator-xs']
+	'aprg,rza2mbtc' is not one of ['renesas,m3nulcb', 'renesas,salvator-x', 'renesas,salvator-xs']
+	'aprg,rza2mbtc' is not one of ['renesas,eagle', 'renesas,v3msk']
+	'aprg,rza2mbtc' is not one of ['renesas,condor', 'renesas,v3hsk']
+	'aprg,rza2mbtc' is not one of ['renesas,condor-i']
+	'aprg,rza2mbtc' is not one of ['renesas,ebisu']
+	'aprg,rza2mbtc' is not one of ['renesas,draak']
+	'aprg,rza2mbtc' is not one of ['renesas,falcon-cpu']
+	'aprg,rza2mbtc' is not one of ['renesas,falcon-breakout']
+	'aprg,rza2mbtc' is not one of ['renesas,spider-cpu']
+	'aprg,rza2mbtc' is not one of ['renesas,spider-breakout']
+	'aprg,rza2mbtc' is not one of ['renesas,s4sk']
+	'aprg,rza2mbtc' is not one of ['renesas,white-hawk-cpu']
+	'aprg,rza2mbtc' is not one of ['renesas,white-hawk-breakout']
+	'aprg,rza2mbtc' is not one of ['renesas,white-hawk-single']
+	'aprg,rza2mbtc' is not one of ['retronix,sparrow-hawk']
+	'aprg,rza2mbtc' is not one of ['renesas,gray-hawk-single']
+	'aprg,rza2mbtc' is not one of ['renesas,h3ulcb', 'renesas,salvator-xs']
+	'aprg,rza2mbtc' is not one of ['renesas,m3nulcb', 'renesas,salvator-xs']
+	'aprg,rza2mbtc' is not one of ['renesas,rzn1d400-db']
+	'aprg,rza2mbtc' is not one of ['renesas,rzn1d400-eb']
+	'aprg,rza2mbtc' is not one of ['renesas,smarc-evk']
+	'aprg,rza2mbtc' is not one of ['myir,remi-pi']
+	'aprg,rza2mbtc' is not one of ['renesas,r9a08g045s33']
+	'renesas,rzg3s-smarcm' was expected
+	'renesas,smarc2-evk' was expected
+	'aprg,rza2mbtc' is not one of ['renesas,rzv2mevk2']
+	'aprg,rza2mbtc' is not one of ['renesas,smarc2-evk']
+	'aprg,rza2mbtc' is not one of ['renesas,rzv2n-evk']
+	'aprg,rza2mbtc' is not one of ['renesas,rzv2h-evk']
+	'yuridenki,kakip' was expected
+	'aprg,rza2mbtc' is not one of ['renesas,rzt2h-evk']
+	'aprg,rza2mbtc' is not one of ['renesas,rzn2h-evk']
+	'renesas,emev2' was expected
+	'renesas,r7s72100' was expected
+	'renesas,sh73a0' was expected
+	'renesas,r8a73a4' was expected
+	'renesas,r8a7740' was expected
+	'renesas,r8a7742' was expected
+	'iwave,g21m' was expected
+	'iwave,g20m' was expected
+	'renesas,r8a7743' was expected
+	'renesas,r8a7744' was expected
+	'renesas,r8a7745' was expected
+	'iwave,g22m' was expected
+	'renesas,r8a77470' was expected
+	'renesas,r8a774a1' was expected
+	'hoperun,hihope-rzg2m' was expected
+	'renesas,r8a774a3' was expected
+	'renesas,r8a774b1' was expected
+	'hoperun,hihope-rzg2n' was expected
+	'renesas,r8a774c0' was expected
+	'si-linux,cat874' was expected
+	'renesas,r8a774e1' was expected
+	'hoperun,hihope-rzg2h' was expected
+	'renesas,r8a7778' was expected
+	'renesas,r8a7779' was expected
+	'renesas,r8a7790' was expected
+	'renesas,r8a7791' was expected
+	'renesas,r8a7792' was expected
+	'renesas,r8a7793' was expected
+	'renesas,r8a7794' was expected
+	'renesas,r8a7795' was expected
+	'renesas,r8a7796' was expected
+	'renesas,r8a77961' was expected
+	'renesas,r8a77965' was expected
+	'renesas,r8a77970' was expected
+	'renesas,r8a77980' was expected
+	'renesas,r8a77980a' was expected
+	'renesas,r8a77990' was expected
+	'renesas,r8a77995' was expected
+	'renesas,r8a779a0' was expected
+	'renesas,falcon-cpu' was expected
+	'renesas,r8a779f0' was expected
+	'renesas,spider-cpu' was expected
+	'renesas,r8a779f4' was expected
+	'renesas,r8a779g0' was expected
+	'renesas,white-hawk-cpu' was expected
+	'renesas,r7s9210' is not one of ['renesas,r8a779g2', 'renesas,r8a779g3']
+	'renesas,r8a779g3' was expected
+	'renesas,r8a779h0' was expected
+	'renesas,r8a779h2' was expected
+	'renesas,r8a779m0' was expected
+	'renesas,r8a779m1' was expected
+	'renesas,r8a779m2' was expected
+	'renesas,r8a779m3' was expected
+	'renesas,r8a779m4' was expected
+	'renesas,r8a779m5' was expected
+	'renesas,r8a779m6' was expected
+	'renesas,r8a779m7' was expected
+	'renesas,r8a779m8' was expected
+	'renesas,r8a779mb' was expected
+	'renesas,r9a06g032' was expected
+	'renesas,rzn1d400-db' was expected
+	'renesas,r7s9210' is not one of ['renesas,r9a07g043f01', 'renesas,r9a07g043u11', 'renesas,r9a07g043u12']
+	'renesas,r7s9210' is not one of ['renesas,r9a07g044c1', 'renesas,r9a07g044c2', 'renesas,r9a07g044l1', 'renesas,r9a07g044l2']
+	'renesas,r9a07g044l2' was expected
+	'renesas,r7s9210' is not one of ['renesas,r9a07g054l1', 'renesas,r9a07g054l2']
+	'renesas,r9a08g045' was expected
+	'renesas,r9a08g045s33' was expected
+	'renesas,r9a09g011' was expected
+	'renesas,r7s9210' is not one of ['renesas,rzg3e-smarcm']
+	'renesas,r7s9210' is not one of ['renesas,r9a09g056n41', 'renesas,r9a09g056n42', 'renesas,r9a09g056n43', 'renesas,r9a09g056n44', 'renesas,r9a09g056n45', 'renesas,r9a09g056n46', 'renesas,r9a09g056n47', 'renesas,r9a09g056n48']
+	'renesas,r7s9210' is not one of ['renesas,r9a09g057h41', 'renesas,r9a09g057h42', 'renesas,r9a09g057h44', 'renesas,r9a09g057h45', 'renesas,r9a09g057h46', 'renesas,r9a09g057h48']
+	'renesas,r9a09g057h48' was expected
+	'renesas,r7s9210' is not one of ['renesas,r9a09g077m04', 'renesas,r9a09g077m24', 'renesas,r9a09g077m44']
+	'renesas,r7s9210' is not one of ['renesas,r9a09g087m04', 'renesas,r9a09g087m24', 'renesas,r9a09g087m44']
+	from schema $id: http://devicetree.org/schemas/soc/renesas/renesas.yaml#
+arch/arm/boot/dts/renesas/r7s9210-rza2mbtc.dtb: /: failed to match any schema with compatible: ['aprg,rza2mbtc', 'renesas,r7s9210']
+arch/arm/boot/dts/renesas/r7s9210-gr-mango.dtb: / (renesas,grmango): compatible: 'oneOf' conditional failed, one must be fixed:
+	['renesas,grmango', 'renesas,r7s9210'] is too short
+arch/arm/boot/dts/renesas/r7s9210-gr-mango.dtb: / (renesas,grmango): compatible: 'oneOf' conditional failed, one must be fixed:
+		['renesas,grmango', 'renesas,r7s9210'] is too short
+		'shimafuji,kingfisher' was expected
+		'renesas,r7s9210' is not one of ['renesas,h3ulcb', 'renesas,m3ulcb', 'renesas,m3nulcb']
+	'renesas,grmango' is not one of ['renesas,kzm9d']
+	'renesas,grmango' is not one of ['renesas,genmai', 'renesas,gr-peach', 'renesas,rskrza1']
+	'renesas,grmango' is not one of ['renesas,rza2mevb']
+	'renesas,grmango' is not one of ['renesas,kzm9g']
+	'renesas,grmango' is not one of ['renesas,ape6evm']
+	'renesas,grmango' is not one of ['renesas,armadillo800eva']
+	'renesas,grmango' is not one of ['iwave,g21m']
+	'renesas,grmango' is not one of ['iwave,g21d']
+	'renesas,grmango' is not one of ['iwave,g20d']
+	'renesas,grmango' is not one of ['iwave,g20m', 'renesas,sk-rzg1m']
+	'renesas,grmango' is not one of ['iwave,g20m']
+	'renesas,grmango' is not one of ['iwave,g22m', 'renesas,sk-rzg1e']
+	'iwave,g22d' was expected
+	'renesas,grmango' is not one of ['iwave,g23s']
+	'renesas,grmango' is not one of ['hoperun,hihope-rzg2m', 'beacon,beacon-rzg2m']
+	'renesas,grmango' is not one of ['hoperun,hihope-rzg2-ex']
+	'renesas,grmango' is not one of ['hoperun,hihope-rzg2m']
+	'renesas,grmango' is not one of ['beacon,beacon-rzg2n', 'hoperun,hihope-rzg2n']
+	'renesas,grmango' is not one of ['si-linux,cat874']
+	'renesas,grmango' is not one of ['si-linux,cat875']
+	'renesas,grmango' is not one of ['beacon,beacon-rzg2h', 'hoperun,hihope-rzg2h']
+	'renesas,grmango' is not one of ['renesas,bockw']
+	'renesas,grmango' is not one of ['renesas,marzen']
+	'renesas,grmango' is not one of ['renesas,lager', 'renesas,stout']
+	'renesas,grmango' is not one of ['renesas,henninger', 'renesas,koelsch', 'renesas,porter']
+	'renesas,grmango' is not one of ['renesas,blanche', 'renesas,wheat']
+	'renesas,grmango' is not one of ['renesas,gose']
+	'renesas,grmango' is not one of ['renesas,alt', 'renesas,silk']
+	'renesas,grmango' is not one of ['renesas,h3ulcb', 'renesas,salvator-x', 'renesas,salvator-xs']
+	'renesas,grmango' is not one of ['renesas,m3ulcb', 'renesas,salvator-x', 'renesas,salvator-xs']
+	'renesas,grmango' is not one of ['renesas,m3ulcb', 'renesas,salvator-xs']
+	'renesas,grmango' is not one of ['renesas,m3nulcb', 'renesas,salvator-x', 'renesas,salvator-xs']
+	'renesas,grmango' is not one of ['renesas,eagle', 'renesas,v3msk']
+	'renesas,grmango' is not one of ['renesas,condor', 'renesas,v3hsk']
+	'renesas,grmango' is not one of ['renesas,condor-i']
+	'renesas,grmango' is not one of ['renesas,ebisu']
+	'renesas,grmango' is not one of ['renesas,draak']
+	'renesas,grmango' is not one of ['renesas,falcon-cpu']
+	'renesas,grmango' is not one of ['renesas,falcon-breakout']
+	'renesas,grmango' is not one of ['renesas,spider-cpu']
+	'renesas,grmango' is not one of ['renesas,spider-breakout']
+	'renesas,grmango' is not one of ['renesas,s4sk']
+	'renesas,grmango' is not one of ['renesas,white-hawk-cpu']
+	'renesas,grmango' is not one of ['renesas,white-hawk-breakout']
+	'renesas,grmango' is not one of ['renesas,white-hawk-single']
+	'renesas,grmango' is not one of ['retronix,sparrow-hawk']
+	'renesas,grmango' is not one of ['renesas,gray-hawk-single']
+	'renesas,grmango' is not one of ['renesas,h3ulcb', 'renesas,salvator-xs']
+	'renesas,grmango' is not one of ['renesas,m3nulcb', 'renesas,salvator-xs']
+	'renesas,grmango' is not one of ['renesas,rzn1d400-db']
+	'renesas,grmango' is not one of ['renesas,rzn1d400-eb']
+	'renesas,grmango' is not one of ['renesas,smarc-evk']
+	'renesas,grmango' is not one of ['myir,remi-pi']
+	'renesas,grmango' is not one of ['renesas,r9a08g045s33']
+	'renesas,rzg3s-smarcm' was expected
+	'renesas,smarc2-evk' was expected
+	'renesas,grmango' is not one of ['renesas,rzv2mevk2']
+	'renesas,grmango' is not one of ['renesas,smarc2-evk']
+	'renesas,grmango' is not one of ['renesas,rzv2n-evk']
+	'renesas,grmango' is not one of ['renesas,rzv2h-evk']
+	'yuridenki,kakip' was expected
+	'renesas,grmango' is not one of ['renesas,rzt2h-evk']
+	'renesas,grmango' is not one of ['renesas,rzn2h-evk']
+	'renesas,emev2' was expected
+	'renesas,r7s72100' was expected
+	'renesas,sh73a0' was expected
+	'renesas,r8a73a4' was expected
+	'renesas,r8a7740' was expected
+	'renesas,r8a7742' was expected
+	'iwave,g21m' was expected
+	'iwave,g20m' was expected
+	'renesas,r8a7743' was expected
+	'renesas,r8a7744' was expected
+	'renesas,r8a7745' was expected
+	'iwave,g22m' was expected
+	'renesas,r8a77470' was expected
+	'renesas,r8a774a1' was expected
+	'hoperun,hihope-rzg2m' was expected
+	'renesas,r8a774a3' was expected
+	'renesas,r8a774b1' was expected
+	'hoperun,hihope-rzg2n' was expected
+	'renesas,r8a774c0' was expected
+	'si-linux,cat874' was expected
+	'renesas,r8a774e1' was expected
+	'hoperun,hihope-rzg2h' was expected
+	'renesas,r8a7778' was expected
+	'renesas,r8a7779' was expected
+	'renesas,r8a7790' was expected
+	'renesas,r8a7791' was expected
+	'renesas,r8a7792' was expected
+	'renesas,r8a7793' was expected
+	'renesas,r8a7794' was expected
+	'renesas,r8a7795' was expected
+	'renesas,r8a7796' was expected
+	'renesas,r8a77961' was expected
+	'renesas,r8a77965' was expected
+	'renesas,r8a77970' was expected
+	'renesas,r8a77980' was expected
+	'renesas,r8a77980a' was expected
+	'renesas,r8a77990' was expected
+	'renesas,r8a77995' was expected
+	'renesas,r8a779a0' was expected
+	'renesas,falcon-cpu' was expected
+	'renesas,r8a779f0' was expected
+	'renesas,spider-cpu' was expected
+	'renesas,r8a779f4' was expected
+	'renesas,r8a779g0' was expected
+	'renesas,white-hawk-cpu' was expected
+	'renesas,r7s9210' is not one of ['renesas,r8a779g2', 'renesas,r8a779g3']
+	'renesas,r8a779g3' was expected
+	'renesas,r8a779h0' was expected
+	'renesas,r8a779h2' was expected
+	'renesas,r8a779m0' was expected
+	'renesas,r8a779m1' was expected
+	'renesas,r8a779m2' was expected
+	'renesas,r8a779m3' was expected
+	'renesas,r8a779m4' was expected
+	'renesas,r8a779m5' was expected
+	'renesas,r8a779m6' was expected
+	'renesas,r8a779m7' was expected
+	'renesas,r8a779m8' was expected
+	'renesas,r8a779mb' was expected
+	'renesas,r9a06g032' was expected
+	'renesas,rzn1d400-db' was expected
+	'renesas,r7s9210' is not one of ['renesas,r9a07g043f01', 'renesas,r9a07g043u11', 'renesas,r9a07g043u12']
+	'renesas,r7s9210' is not one of ['renesas,r9a07g044c1', 'renesas,r9a07g044c2', 'renesas,r9a07g044l1', 'renesas,r9a07g044l2']
+	'renesas,r9a07g044l2' was expected
+	'renesas,r7s9210' is not one of ['renesas,r9a07g054l1', 'renesas,r9a07g054l2']
+	'renesas,r9a08g045' was expected
+	'renesas,r9a08g045s33' was expected
+	'renesas,r9a09g011' was expected
+	'renesas,r7s9210' is not one of ['renesas,rzg3e-smarcm']
+	'renesas,r7s9210' is not one of ['renesas,r9a09g056n41', 'renesas,r9a09g056n42', 'renesas,r9a09g056n43', 'renesas,r9a09g056n44', 'renesas,r9a09g056n45', 'renesas,r9a09g056n46', 'renesas,r9a09g056n47', 'renesas,r9a09g056n48']
+	'renesas,r7s9210' is not one of ['renesas,r9a09g057h41', 'renesas,r9a09g057h42', 'renesas,r9a09g057h44', 'renesas,r9a09g057h45', 'renesas,r9a09g057h46', 'renesas,r9a09g057h48']
+	'renesas,r9a09g057h48' was expected
+	'renesas,r7s9210' is not one of ['renesas,r9a09g077m04', 'renesas,r9a09g077m24', 'renesas,r9a09g077m44']
+	'renesas,r7s9210' is not one of ['renesas,r9a09g087m04', 'renesas,r9a09g087m24', 'renesas,r9a09g087m44']
+	from schema $id: http://devicetree.org/schemas/soc/renesas/renesas.yaml#
+arch/arm/boot/dts/renesas/r7s9210-gr-mango.dtb: /: failed to match any schema with compatible: ['renesas,grmango', 'renesas,r7s9210']
+arch/arm/boot/dts/renesas/r7s9210-rza2mbtc.dtb: spi-flash@0 (jedec,spi-nor): $nodename:0: 'spi-flash@0' does not match '^(flash|.*sram|nand)(@.*)?$'
+	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
+arch/arm/boot/dts/renesas/r7s9210-rza2mbtc.dtb: spi-flash@0 (jedec,spi-nor): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'partitions' were unexpected)
+	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
+
+
+
+
+
 
