@@ -1,219 +1,167 @@
-Return-Path: <linux-renesas-soc+bounces-19319-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19320-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC764AFB306
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 14:17:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 500F6AFB31A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 14:21:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0F0013A01A5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 12:17:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8F4E43B7DD2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 12:20:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B43A28851E;
-	Mon,  7 Jul 2025 12:17:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61B4B275AF8;
+	Mon,  7 Jul 2025 12:21:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3D229AB07;
-	Mon,  7 Jul 2025 12:17:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BC9D191499
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Jul 2025 12:21:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751890672; cv=none; b=cEHbzAxB5C6u1uWMHaJHDYmwZTRmEpCproHhBtf9bVu+xWJclxjDnIvILnudK/VpHioElwWIJB8bO14993FVeltTr32aaHqTdBoQEkNYJUStwjr6uZ6Wkt6OFU3dyT+41y1sUtVuI9yeT0q/tu+s7Q122iwdDyl7lNkOdZvCC/c=
+	t=1751890869; cv=none; b=tuakTcEQKKwObdjjuX3q4BfYaeCjQACd2Yghua7SXsaUCq/Wwx1VsrnRYXQBMwPoriZ5LuvXrdRKoa2I2xFVGtkJpMEGAtHw0GTIAseJmFebEa3H6I+NHuEK3GRsu1STVxK6kXJEH0WcVwQ90VnIK1XzNxvRWIgQBpvRs0D0iy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751890672; c=relaxed/simple;
-	bh=GHP2t4XYotp+4m74VTLoM0og2PSMiBPuSglV7gkwuzo=;
-	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=i/qYENgHId2Fj0yy2jMv4Wa+Vp0oyr6Sd99qhNGsap/SK19/Ec6A9iySR884WlgsXa/s4laNFuHUxQn9oqwN2r8acFZRypUelbX2bHw3a67IoEKhhwV7rt+ZLwK2ccSOpVQ96BRLtc5ZhyKGx/s5wzcgmqwhFcfdcvAgsXw5wYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4bbNXj4wqdz4x5pp;
-	Mon,  7 Jul 2025 20:17:25 +0800 (CST)
-Received: from xaxapp04.zte.com.cn ([10.99.98.157])
-	by mse-fl1.zte.com.cn with SMTP id 567CHOTs040120;
-	Mon, 7 Jul 2025 20:17:24 +0800 (+08)
-	(envelope-from shao.mingyin@zte.com.cn)
-Received: from mapi (xaxapp02[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Mon, 7 Jul 2025 20:17:27 +0800 (CST)
-Date: Mon, 7 Jul 2025 20:17:27 +0800 (CST)
-X-Zmail-TransId: 2afa686bbad7fffffffffe8-248e9
-X-Mailer: Zmail v1.0
-Message-ID: <20250707201727549ObAZpoScxRwGsruRnQQCP@zte.com.cn>
+	s=arc-20240116; t=1751890869; c=relaxed/simple;
+	bh=6JD3aSAq8/LAvqw974LYHPei6HetMJ9ZBmla7wPbH0s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MMgXJmezNXGLt9w06ZQ8L0YwBKHygsa5vgk5Igm3gdtgTJ5epdO8kJAsWn16G6fFpG/ZiIE3cmGJ5g1gtG//y24kt9L/BLxO2GJkOf0iLyRBdOm2ZfZFQpsrxEjhoY0Xhr15u2G28qZ642ZZPRGapClJ3arbOHknHxVldfQHPIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-86fea8329cdso1666740241.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Jul 2025 05:21:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751890865; x=1752495665;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WxbXVi4CG4qIKHgvTDvY36sOFFXFukjPuI1uc+3+ihQ=;
+        b=EZOObJPT6MtdPAMCJWrRjCsbErm2itVYCDaQD8wz3RlEZ0+07eGZPKmGXKHPq8YQ1d
+         OsxK+RdW3wY1e4IWn/6R8xlqHQg7uzQ1ww4ox1hQkafkrPz3N6SR6YGhdLe8QjaQ5bbE
+         LLx0hBGlhasnU7QTiwxiMCsPk5fAE6cJnkF1IpHTRCxz9voI5ZPE1dhXx9kSJRQA8Acp
+         lWcImfxho9wLdL5fxVI715WFF+Fr+E8mh9/Hr+wkN1tKHNtF2euKyzLbNYfA5mzr2AYT
+         sxqya1m1VpUZghHZRkbxTRTYW8Bi//ZkevY3UE2FV6/GpEdmdvBPo+srmDO8kf+2fGRl
+         LcfA==
+X-Gm-Message-State: AOJu0YzkYlGJ65Xr2/ooxNS7yHSqAkxJsqNmQF92CQ9KbIClGUtV3qRN
+	0rXwMWlqQdPQWiPmMr6FPWxraMXP8hF/SvdewebRievCvawkngmykF+FgA2PRqNo
+X-Gm-Gg: ASbGncsRR2TnuFrktRm1VgOQdvAW5ux/CxqwOkxDpSv+sqPtxf9g9TyoD+/v3itCTiA
+	3/QpSd0oQ9u1OScngv/benBFoBwPKWWWiOWM2LzlbEOlT5+Io9ssGNzahGlTJXB/zdGpdFzxmSW
+	jr6xtYWsDnm9rZbXMJVeJ9wXHgq1mBKexAUjRty271V0D7Z95xuT+0BMWLmrCHRUJBcykMHOoh0
+	gMwDzxDnvCbcrxVrmPuSvQVenF+2LWHk0dEiEoEhmNS0BgKy2eIm2oaFr4jnGgvgIjs06XxBw86
+	KFDZO+mLwn2MjXRtgBqHKVNsIsxBm5YMkqAKvVZ1u6yn+QNKHbvBNAEDGP+/+HCWsWH7rc4+hbh
+	irsKYCeJpm8nsBZzmYBuS3qqd
+X-Google-Smtp-Source: AGHT+IEX3Vt3zNHyWz3RvojHPm7VowczpatPjI0/bbLvWVkUasQq69ViLJvw/eOyyR6w6QLZz5WGUw==
+X-Received: by 2002:a05:6102:3e95:b0:4e5:9c06:39d8 with SMTP id ada2fe7eead31-4f3059d6016mr4495541137.5.1751890864994;
+        Mon, 07 Jul 2025 05:21:04 -0700 (PDT)
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4f2ea73b3acsm1035990137.29.2025.07.07.05.21.04
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Jul 2025 05:21:04 -0700 (PDT)
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-87f74a28a86so2333595241.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Jul 2025 05:21:04 -0700 (PDT)
+X-Received: by 2002:a05:6102:548c:b0:4df:4a04:8d5e with SMTP id
+ ada2fe7eead31-4f305a4d98fmr4616069137.8.1751890864531; Mon, 07 Jul 2025
+ 05:21:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <shao.mingyin@zte.com.cn>
-To: <geert+renesas@glider.be>
-Cc: <changhuang.liang@starfivetech.com>, <geert+renesas@glider.be>,
-        <magnus.damm@gmail.com>, <heiko@sntech.de>, <alim.akhtar@samsung.com>,
-        <walker.chen@starfivetech.com>, <sebastian.reichel@collabora.com>,
-        <detlev.casanova@collabora.com>, <finley.xiao@rock-chips.com>,
-        <shawn.lin@rock-chips.com>, <pgwipeout@gmail.com>,
-        <shao.mingyin@zte.com.cn>, <linux-pm@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-rockchip@lists.infradead.org>,
-        <linux-samsung-soc@vger.kernel.org>, <yang.yang29@zte.com.cn>,
-        <xu.xin16@zte.com.cn>, <yang.tao172@zte.com.cn>,
-        <ye.xingchen@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIIHY0XSBwbWRvbWFpbjogVXNlIHN0cl9lbmFibGVfZGlzYWJsZSgpIGFuZCBzdHJfb25fb2ZmKCkgaGVscGVycw==?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 567CHOTs040120
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 686BBAD5.000/4bbNXj4wqdz4x5pp
+MIME-Version: 1.0
+References: <175174252387.83411.17393827352291413834.sendpatchset@1.0.0.127.in-addr.arpa>
+ <175174255437.83411.8624204632703877341.sendpatchset@1.0.0.127.in-addr.arpa>
+In-Reply-To: <175174255437.83411.8624204632703877341.sendpatchset@1.0.0.127.in-addr.arpa>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 7 Jul 2025 14:20:52 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWxZGB4KD_L2scf97Af96TbhjMaS_b9WBoPu+usRYiKYQ@mail.gmail.com>
+X-Gm-Features: Ac12FXwqCJiUX1R3XtaWXw3EQQFl7iwt0UTD59V9EfpTr74WEO-sQwmSuuKVnYc
+Message-ID: <CAMuHMdWxZGB4KD_L2scf97Af96TbhjMaS_b9WBoPu+usRYiKYQ@mail.gmail.com>
+Subject: Re: [PATCH 4/6] ARM: dts: renesas: genmai: add rpc-if SPI NOR flash
+To: Magnus Damm <damm@opensource.se>
+Cc: linux-renesas-soc@vger.kernel.org, wsa+renesas@sang-engineering.com
+Content-Type: text/plain; charset="UTF-8"
 
-From: Shao Mingyin <shao.mingyin@zte.com.cn>
+Hi Magnus,
 
-Use str_enable_disable() and str_on_off() helper instead of open
-coding the same.
+On Sat, 5 Jul 2025 at 21:09, Magnus Damm <damm@opensource.se> wrote:
+> From: Magnus Damm <damm@opensource.se>
+>
+> Add genmai board support code to make use of one of the on-chip rpc-if devices
+> to interface to the on-board SPI flash U6 Spansion S25FK512S-16. Without this
+> patch the SPI flash is accessible through a memory mapped window, however by
+> adding pinctrl configuration and a rpc-if device node to the DTS we can now
+> access the SPI flash via the the rpc-if driver instead.
+>
+> Signed-off-by: Magnus Damm <damm@opensource.se>
 
-Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
-Reviewed-by: Changhuang Liang <changhuang.liang@starfivetech.com>
----
-v4:
-insert new includes alphabetically
- drivers/pmdomain/renesas/rcar-gen4-sysc.c    | 3 ++-
- drivers/pmdomain/renesas/rcar-sysc.c         | 3 ++-
- drivers/pmdomain/rockchip/pm-domains.c       | 3 ++-
- drivers/pmdomain/samsung/exynos-pm-domains.c | 6 +++---
- drivers/pmdomain/starfive/jh71xx-pmu.c       | 7 ++++---
- 5 files changed, 13 insertions(+), 9 deletions(-)
+Thanks for your patch!
 
-diff --git a/drivers/pmdomain/renesas/rcar-gen4-sysc.c b/drivers/pmdomain/renesas/rcar-gen4-sysc.c
-index e001b5c25bed..d93caae5bed5 100644
---- a/drivers/pmdomain/renesas/rcar-gen4-sysc.c
-+++ b/drivers/pmdomain/renesas/rcar-gen4-sysc.c
-@@ -17,6 +17,7 @@
- #include <linux/pm_domain.h>
- #include <linux/slab.h>
- #include <linux/spinlock.h>
-+#include <linux/string_choices.h>
- #include <linux/types.h>
+> --- 0001/arch/arm/boot/dts/renesas/r7s72100-genmai.dts
+> +++ work/arch/arm/boot/dts/renesas/r7s72100-genmai.dts  2025-07-06 00:02:33.267119292 +0900
+> @@ -18,6 +18,7 @@
+>
+>         aliases {
+>                 serial0 = &scif2;
+> +               spi0 = &rpc0;
 
- #include "rcar-gen4-sysc.h"
-@@ -171,7 +172,7 @@ static int rcar_gen4_sysc_power(u8 pdr, bool on)
-  out:
- 	spin_unlock_irqrestore(&rcar_gen4_sysc_lock, flags);
+I don't think you need this/
 
--	pr_debug("sysc power %s domain %d: %08x -> %d\n", on ? "on" : "off",
-+	pr_debug("sysc power %s domain %d: %08x -> %d\n", str_on_off(on),
- 		 pdr, ioread32(rcar_gen4_sysc_base + SYSCISCR(reg_idx)), ret);
- 	return ret;
- }
-diff --git a/drivers/pmdomain/renesas/rcar-sysc.c b/drivers/pmdomain/renesas/rcar-sysc.c
-index 047495f54e8a..38406414035a 100644
---- a/drivers/pmdomain/renesas/rcar-sysc.c
-+++ b/drivers/pmdomain/renesas/rcar-sysc.c
-@@ -14,6 +14,7 @@
- #include <linux/pm_domain.h>
- #include <linux/slab.h>
- #include <linux/spinlock.h>
-+#include <linux/string_choices.h>
- #include <linux/io.h>
- #include <linux/iopoll.h>
- #include <linux/soc/renesas/rcar-sysc.h>
-@@ -162,7 +163,7 @@ static int rcar_sysc_power(const struct rcar_sysc_pd *pd, bool on)
+>         };
+>
+>         chosen {
+> @@ -25,35 +26,6 @@
+>                 stdout-path = "serial0:115200n8";
+>         };
+>
+> -       flash@18000000 {
+> -               compatible = "mtd-rom";
+> -               reg = <0x18000000 0x08000000>;
+> -               bank-width = <4>;
+> -               device-width = <1>;
+> -
+> -               clocks = <&mstp9_clks R7S72100_CLK_SPIBSC0>;
+> -               power-domains = <&cpg_clocks>;
+> -
+> -               #address-cells = <1>;
+> -               #size-cells = <1>;
+> -
+> -               partitions {
+> -                       compatible = "fixed-partitions";
+> -                       #address-cells = <1>;
+> -                       #size-cells = <1>;
+> -
+> -                       partition@0 {
+> -                               label = "user";
+> -                               reg = <0x00000000 0x04000000>;
+> -                       };
+> -
+> -                       partition@4000000 {
+> -                               label = "user1";
+> -                               reg = <0x04000000 0x04000000>;
+> -                       };
+> -               };
+> -       };
+> -
 
- 	spin_unlock_irqrestore(&rcar_sysc_lock, flags);
+Removing this breaks the direct-mapped FLASH ROM, which may affect
+userspace, and prevents using XIP (but I understand no one cares about
+the latter anymore).
 
--	pr_debug("sysc power %s domain %d: %08x -> %d\n", on ? "on" : "off",
-+	pr_debug("sysc power %s domain %d: %08x -> %d\n", str_on_off(on),
- 		 pd->isr_bit, ioread32(rcar_sysc_base + SYSCISR), ret);
- 	return ret;
- }
-diff --git a/drivers/pmdomain/rockchip/pm-domains.c b/drivers/pmdomain/rockchip/pm-domains.c
-index 242570c505fb..a7abbb67ae70 100644
---- a/drivers/pmdomain/rockchip/pm-domains.c
-+++ b/drivers/pmdomain/rockchip/pm-domains.c
-@@ -21,6 +21,7 @@
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
- #include <linux/mfd/syscon.h>
-+#include <linux/string_choices.h>
- #include <soc/rockchip/pm_domains.h>
- #include <soc/rockchip/rockchip_sip.h>
- #include <dt-bindings/power/px30-power.h>
-@@ -599,7 +600,7 @@ static int rockchip_do_pmu_set_power_domain(struct rockchip_pm_domain *pd,
- 					is_on == on, 0, 10000);
- 	if (ret) {
- 		dev_err(pmu->dev, "failed to set domain '%s' %s, val=%d\n",
--			genpd->name, on ? "on" : "off", is_on);
-+			genpd->name, str_on_off(on), is_on);
- 		return ret;
- 	}
+>         keyboard {
+>                 compatible = "gpio-keys";
+>
 
-diff --git a/drivers/pmdomain/samsung/exynos-pm-domains.c b/drivers/pmdomain/samsung/exynos-pm-domains.c
-index 9b502e8751d1..1a892c611dad 100644
---- a/drivers/pmdomain/samsung/exynos-pm-domains.c
-+++ b/drivers/pmdomain/samsung/exynos-pm-domains.c
-@@ -13,6 +13,7 @@
- #include <linux/err.h>
- #include <linux/platform_device.h>
- #include <linux/slab.h>
-+#include <linux/string_choices.h>
- #include <linux/pm_domain.h>
- #include <linux/delay.h>
- #include <linux/of.h>
-@@ -38,7 +39,6 @@ static int exynos_pd_power(struct generic_pm_domain *domain, bool power_on)
- 	struct exynos_pm_domain *pd;
- 	void __iomem *base;
- 	u32 timeout, pwr;
--	char *op;
 
- 	pd = container_of(domain, struct exynos_pm_domain, pd);
- 	base = pd->base;
-@@ -51,8 +51,8 @@ static int exynos_pd_power(struct generic_pm_domain *domain, bool power_on)
+Gr{oetje,eeting}s,
 
- 	while ((readl_relaxed(base + 0x4) & pd->local_pwr_cfg) != pwr) {
- 		if (!timeout) {
--			op = (power_on) ? "enable" : "disable";
--			pr_err("Power domain %s %s failed\n", domain->name, op);
-+			pr_err("Power domain %s %s failed\n", domain->name,
-+			       str_enable_disable(power_on));
- 			return -ETIMEDOUT;
- 		}
- 		timeout--;
-diff --git a/drivers/pmdomain/starfive/jh71xx-pmu.c b/drivers/pmdomain/starfive/jh71xx-pmu.c
-index 74720c09a6e3..dc3e109e273a 100644
---- a/drivers/pmdomain/starfive/jh71xx-pmu.c
-+++ b/drivers/pmdomain/starfive/jh71xx-pmu.c
-@@ -12,6 +12,7 @@
- #include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/pm_domain.h>
-+#include <linux/string_choices.h>
- #include <dt-bindings/power/starfive,jh7110-pmu.h>
-
- /* register offset */
-@@ -155,7 +156,7 @@ static int jh7110_pmu_set_state(struct jh71xx_pmu_dev *pmd, u32 mask, bool on)
-
- 	if (ret) {
- 		dev_err(pmu->dev, "%s: failed to power %s\n",
--			pmd->genpd.name, on ? "on" : "off");
-+			pmd->genpd.name, str_on_off(on));
- 		return -ETIMEDOUT;
- 	}
-
-@@ -197,8 +198,8 @@ static int jh71xx_pmu_set_state(struct jh71xx_pmu_dev *pmd, u32 mask, bool on)
- 	}
-
- 	if (is_on == on) {
--		dev_dbg(pmu->dev, "pm domain [%s] is already %sable status.\n",
--			pmd->genpd.name, on ? "en" : "dis");
-+		dev_dbg(pmu->dev, "pm domain [%s] is already %s status.\n",
-+			pmd->genpd.name, str_enable_disable(on));
- 		return 0;
- 	}
+                        Geert
 
 -- 
-2.25.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
