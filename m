@@ -1,82 +1,167 @@
-Return-Path: <linux-renesas-soc+bounces-19293-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19294-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9E44AFAB64
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 08:01:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99CD5AFABC6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 08:21:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3194B3A5657
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 06:01:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0D85E17CA8C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 06:21:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34887214A8B;
-	Mon,  7 Jul 2025 06:01:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25F59279798;
+	Mon,  7 Jul 2025 06:20:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="TTo2znUC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V+QSi6mV"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C71F3597A;
-	Mon,  7 Jul 2025 06:01:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E79282586EA;
+	Mon,  7 Jul 2025 06:20:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751868092; cv=none; b=TQpUKbpc5PSwv0NyDLCyFbOI3QFLVmCWmhd/qaadZLSCl3oUDO2NeWW1CL7TX0D0Eiz9b5ypwE5mwYQz+ibgi+HWR1rgvr7MuO98kakvaBVuZheZFh23dNDgxnPn1nsBHxWWyI2H/G/X3WNr7KILPSvQ1pkvjTJF63sP1c//umQ=
+	t=1751869244; cv=none; b=I7rIjQTD0KurgshK1vAUBK1jaGainpYazmzglkVQ8wZBY7RmvjY3kp0Ka+IeSVcTrXapOLcTHgajET/XliUvAgUYa5EjdkIdYbZ8e9L8MG4VDDSdLga8aj0B8jqqyye4trnRgQFgbKVkuK21NexpsPR/Co/0iwlnEpJSbEIUATQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751868092; c=relaxed/simple;
-	bh=CRlyrRUbGylFP7Dzr2WFkdgGT7QGpSw/wY2SKY47u7o=;
+	s=arc-20240116; t=1751869244; c=relaxed/simple;
+	bh=IJAq2PfQObnW6djmQ2Dn7nC/QiKTJAuTfPAiQ+HmqUY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tvk9g7Jm3dgqgj3Yf6eu0NbcYjyIsmscMe3Bxl68RSc0Ihi0RGC/kfeGvOj5uHWPuJEyFppwh+YsrlQG2gG/C4rjYSiD3lrBdk7DON5RA83Ej0pBeK9aJRdAjXFPD5xitpBuQntbBtdzi67WzknpouTKkz3XSxPax+V+aJyw42Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=TTo2znUC; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=fKFpE5qupet+0Nh/FoTBhF5j2fJsUh2F3voPRFf8ozE=; b=TTo2znUCwpBCHOrF4sjWOrjHRv
-	+1f9s1EsMj8jMeDPkDK5TXAsR6eZEW4bv6IpiiFWZ9jPjdXdW7WE0cuQ+yMVgPl6ZcHylrs5OYMqr
-	O2zntqGlKTHSr1ax0Dguy6eYwgzzytz2RCDIn9YtpDIPBExHvxOMUAceAaIz5lsr/+nU=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1uYeuo-000gIZ-Mt; Mon, 07 Jul 2025 08:01:22 +0200
-Date: Mon, 7 Jul 2025 08:01:22 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Rosen Penev <rosenp@gmail.com>
-Cc: netdev@vger.kernel.org, Vladimir Oltean <olteanv@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 1/2] net: dsa: rzn1_a5psw: add COMPILE_TEST
-Message-ID: <4f851fba-3765-4d97-94b4-d03d90bb9089@lunn.ch>
-References: <20250707003918.21607-1-rosenp@gmail.com>
- <20250707003918.21607-2-rosenp@gmail.com>
- <08324803-3039-4814-b93e-12b863bbadd1@lunn.ch>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wo2ngWJpp7KT7NzbZGIdESv9YHv/sODFnST6sEWaN5Y0bGl5qfipmWPoOzpRx4it5R9dX/Qa4WRo6Kqfov3ma3wC7TmtDZKkeOKudlMCfTlQjamqkrhgVs8mbP64XMJ2OfoVGR067tQIxo6lTHep6MpzY04go5ry8LtVeSQLdp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V+QSi6mV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47EACC4CEE3;
+	Mon,  7 Jul 2025 06:20:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751869243;
+	bh=IJAq2PfQObnW6djmQ2Dn7nC/QiKTJAuTfPAiQ+HmqUY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=V+QSi6mVE3+RjRIFYSr3Hg8Nz4FOiR65HQCzs89hgfLQp5zI5mS5pqQ+LBmW/lPaB
+	 wlFGeFGAjxEzQt47UFAYMGyh/x1rEHYE9mxhxtod5uKBJ7Sdm3deCFEAFcBBUGk/Ti
+	 kVl2yFB6eVRNxouJnOtBXZwB8E64GEMx96or66Os2jTNeMMZqVYQldoX2b2JqCKRtf
+	 x2ntWAzxFhSPFundBgQWzekNuyzjlNlr9nFIx1cZZug/vvJ6yAlSTyvZ3kwwlduI60
+	 IV3BlW6x4Zv1m5d+GZZjJR42JOmzSHlGu4X2wCEIstFcpNtOHlnncPDkDAfkEgLXR9
+	 bs8y6hmZ97f+g==
+Date: Mon, 7 Jul 2025 11:50:26 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Nam Cao <namcao@linutronix.de>
+Cc: Bjorn Helgaas <helgaas@kernel.org>, Marc Zyngier <maz@kernel.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>, Hou Zhiqiang <Zhiqiang.Hou@nxp.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>, 
+	"K . Y . Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, 
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, 
+	Joyce Ooi <joyce.ooi@intel.com>, Jim Quinlan <jim2101024@gmail.com>, 
+	Nicolas Saenz Julienne <nsaenz@kernel.org>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, Ryder Lee <ryder.lee@mediatek.com>, 
+	Jianjun Wang <jianjun.wang@mediatek.com>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Michal Simek <michal.simek@amd.com>, 
+	Daire McNamara <daire.mcnamara@microchip.com>, Nirmal Patel <nirmal.patel@linux.intel.com>, 
+	Jonathan Derrick <jonathan.derrick@linux.dev>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-hyperv@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 00/16] PCI: MSI parent domain conversion
+Message-ID: <etrzv5627z5k4i2fbhkoqsmegukm7f6zbxunazipkokyctlfpd@epewaygdyxkq>
+References: <cover.1750858083.git.namcao@linutronix.de>
+ <20250703172801.GA1934994@bhelgaas>
+ <20250704044806.7wtcOlGB@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <08324803-3039-4814-b93e-12b863bbadd1@lunn.ch>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250704044806.7wtcOlGB@linutronix.de>
 
-On Mon, Jul 07, 2025 at 07:55:21AM +0200, Andrew Lunn wrote:
-> On Sun, Jul 06, 2025 at 05:39:17PM -0700, Rosen Penev wrote:
-> > There's no architecture specific requirement for it to compile. Allows
-> > the bots to test compilation properly.
+On Fri, Jul 04, 2025 at 06:48:06AM GMT, Nam Cao wrote:
+> On Thu, Jul 03, 2025 at 12:28:01PM -0500, Bjorn Helgaas wrote:
+> > On Thu, Jun 26, 2025 at 04:47:50PM +0200, Nam Cao wrote:
+> > > The initial implementation of PCI/MSI interrupt domains in the hierarchical
+> > > interrupt domain model used a shortcut by providing a global PCI/MSI
+> > > domain.
+> > > 
+> > > This works because the PCI/MSI[X] hardware is standardized and uniform, but
+> > > it violates the basic design principle of hierarchical interrupt domains:
+> > > Each hardware block involved in the interrupt delivery chain should have a
+> > > separate interrupt domain.
+> > > 
+> > > For PCI/MSI[X], the interrupt controller is per PCI device and not a global
+> > > made-up entity.
+> > > 
+> > > Unsurprisingly, the shortcut turned out to have downsides as it does not
+> > > allow dynamic allocation of interrupt vectors after initialization and it
+> > > prevents supporting IMS on PCI. For further details, see:
+> > > 
+> > > https://lore.kernel.org/lkml/20221111120501.026511281@linutronix.de/
+> > > 
+> > > The solution is implementing per device MSI domains, this means the
+> > > entities which provide global PCI/MSI domain so far have to implement MSI
+> > > parent domain functionality instead.
+> > > 
+> > > This series converts the PCI controller drivers to implement MSI parent
+> > > domain.
+> > > 
+> > >  drivers/pci/Kconfig                           |   1 +
+> > >  drivers/pci/controller/Kconfig                |  11 +
+> > >  drivers/pci/controller/dwc/Kconfig            |   1 +
+> > >  .../pci/controller/dwc/pcie-designware-host.c |  68 ++----
+> > >  drivers/pci/controller/dwc/pcie-designware.h  |   1 -
+> > >  drivers/pci/controller/mobiveil/Kconfig       |   1 +
+> > >  .../controller/mobiveil/pcie-mobiveil-host.c  |  42 ++--
+> > >  .../pci/controller/mobiveil/pcie-mobiveil.h   |   1 -
+> > >  drivers/pci/controller/pci-aardvark.c         |  59 ++---
+> > >  drivers/pci/controller/pci-hyperv.c           |  98 ++++++--
+> > >  drivers/pci/controller/pcie-altera-msi.c      |  44 ++--
+> > >  drivers/pci/controller/pcie-brcmstb.c         |  44 ++--
+> > >  drivers/pci/controller/pcie-iproc-msi.c       |  45 ++--
+> > >  drivers/pci/controller/pcie-mediatek-gen3.c   |  67 ++---
+> > >  drivers/pci/controller/pcie-mediatek.c        |  46 ++--
+> > >  drivers/pci/controller/pcie-rcar-host.c       |  69 ++----
+> > >  drivers/pci/controller/pcie-xilinx-dma-pl.c   |  48 ++--
+> > >  drivers/pci/controller/pcie-xilinx-nwl.c      |  45 ++--
+> > >  drivers/pci/controller/pcie-xilinx.c          |  55 +++--
+> > >  drivers/pci/controller/plda/Kconfig           |   1 +
+> > >  drivers/pci/controller/plda/pcie-plda-host.c  |  44 ++--
+> > >  drivers/pci/controller/plda/pcie-plda.h       |   1 -
+> > >  drivers/pci/controller/vmd.c                  | 229 +++++++++---------
+> > >  23 files changed, 504 insertions(+), 517 deletions(-)
 > > 
-> > Signed-off-by: Rosen Penev <rosenp@gmail.com>
+> > Looks good to me, thanks!  I think Mani will probably pick this up.
+> > 
+> > I might have included the specific "legacy MSI domain" thing you're
+> > replacing.  It looks like you're replacing pci_msi_create_irq_domain()
+> > with msi_create_parent_irq_domain()?
+> 
+> Yes, pci_msi_create_irq_domain() is legacy. We will delete it once
+> everything is converted.
+> 
 
-Lets try that again...
+I'll amend the commit message to include pci_msi_create_irq_domain().
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+> > Minor merge conflict in pcie-mediatek-gen3.c with dcbea1c7e94e ("PCI:
+> > mediatek-gen3: Use dev_fwnode() for irq_domain_create_linear()").  No
+> > problem, we can easily fix that up.
+> 
+> Thanks!
+> 
+> > The "++i" in vmd.c stuck out to me since "i++" is so much more common.
+> 
+> I always do "++i", maybe I'm the weird one..
+> 
 
-    Andrew
+Just for the sake of uniformity, I'll do 's/++i/i++' while applying.
+
+And based on the discussion on patch 14/16, I'll drop it to be applied through
+netdev and apply the rest of the series through PCI tree.
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
 
