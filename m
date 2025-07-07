@@ -1,170 +1,138 @@
-Return-Path: <linux-renesas-soc+bounces-19326-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19327-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CED0EAFB3F1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 15:10:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47E4AAFB416
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 15:13:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 13BC63BCED9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 13:09:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9CFE61AA49AD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jul 2025 13:14:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1038E299952;
-	Mon,  7 Jul 2025 13:10:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 685B829C347;
+	Mon,  7 Jul 2025 13:13:32 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3A725E44D;
-	Mon,  7 Jul 2025 13:10:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB94F28F94E;
+	Mon,  7 Jul 2025 13:13:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751893817; cv=none; b=nN1WDc8OFruIz2IlHE8S6I/+PpBDjSvL1GtHccuh58Be4WPp+uhi9/Ic83z3yYMVAKJsEoRVsTTkE/wvmZpE7luXDyvWviRZPLc6PdCNR0m5DwuZ9du6HtwGDu25beAFy9LSZyA96pprXXjxOtfS5Hxi4KCZUruuLPF0apkVg3Y=
+	t=1751894012; cv=none; b=X6azo9j09aY4OKqktCw+Wff9sgrwkLWMOgDTUYre7rptPPv6GgxD+OPbhkemDdaUDV+CHwG0A+0CiC4TM/hq8SBwyAkC1Eut30hRdJL68JavfJZNyPG9OXW7UwyjHHt8QOetVezz5yeMiR4gqtziJRVhTskzWYQnPJuppObq/VM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751893817; c=relaxed/simple;
-	bh=61RBaMbea8NRtSu+ZTmspIqUZ9eaxU9e2E5giPGZh4Y=;
+	s=arc-20240116; t=1751894012; c=relaxed/simple;
+	bh=4chqhDIunjp5JeZ04kGthvwbjcBbP/ShElPqA5Y0jNg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PBLXfu2aQFcDQduLchyZRljYCd2UUNXRt2E3yx+BipDtIqPG+O0QiyFxF90a1N52ZhdbKZRb78nsk2G1JewnvdMBLueQuOL3bSHIN5BREcirhqQVRzPgb0QQBLpwGlkpUCtpS+SDPAmazfOC1KuUxqYQAeBTibWAWAmYriuBm2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.48
+	 To:Cc:Content-Type; b=bObhQzIfWZiKOQVVGtzon+Qzv0zgp7+gk9o88CKjZB/PCoN5t+dq2nVJY7E4/pr2GhKEH4SwfhqZX6wE39d68NrQxo1DymQIxzyjHlmN4FK77PQ86WxVs4c3fSstgSu5hKab4G8i2c0eSjnIwCD+QWtWesVFfdMZy5kUhwWC5gY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6fd0a91ae98so21414276d6.1;
-        Mon, 07 Jul 2025 06:10:14 -0700 (PDT)
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-7d7f2600c17so173531885a.0;
+        Mon, 07 Jul 2025 06:13:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751893813; x=1752498613;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Euf94tgn/3xSDnyNvltb3qvyn0bNOPjl7Q09Ppxb8q4=;
-        b=nKq+lc/Cq7dRG5NrJ97R4rOOtkTS2vjYPZxqedvLOCaHKOzKIgyRvOmt4gvB/2X/B4
-         WGahawKoNk9a1q6KaJt7FCwaRiG9jp8f/2HZYaOxhVj9Q3GmTxQIIuAJMSPolkMZB3B3
-         9Rb7Q9Y3uRdigih0Ls3tqqJhMrdcHnLMILl80xjrJCIsPOQ/BwQVIKjcBg5PsXuu8YAr
-         8RrqFcnuzCbQ3Obi7DhnoKbPj9/5SpJ+ge2Idn2bAYIUE3vpCXyYIRmKNE0u7jq1a+1n
-         j0Wf4usKX5UQitUH6LqAQVckxL4lSnouOOkAJwRhZ7SUt83jzJKC2olgSXrxXWorKZjd
-         pNaA==
-X-Forwarded-Encrypted: i=1; AJvYcCV3QMUXBY5+TJwdPb4+HuoUvoIu9U88JJH15f4/J7rYTPch0flxDv3u1nHgpDBy11ZAQrPOTGbwsqAL@vger.kernel.org, AJvYcCWCpKacvZveg86paaz6tNt1f3xizVlzmd+IENwhOrQkmb9IU/HbCI8ey6aJzUDqOXNLoXM6bZ1amG3eWJenUBnf4B8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YymjhuXikA0RjhGVQLXP5tWnVhXJEo8NSj+IUWpVlSHIe+JLcBA
-	zb5aVcsOaQ2OiYOuG8LaGqoR2wJKlN/LP0j/JIl5FALUsdYy68bGyPMKyrDq8+S+
-X-Gm-Gg: ASbGncs9ot29S5SscBBz2iDSad8vIU57mOhHay9B/9zgmAtFaEpWdjnYoMdBnv6wo4C
-	Z2XFT6TSS8YlN+DQYXNQwQTUtBHUNOIYANJTn8YxNxGSvzbJQxuP9m8XTB9u0wFY5z4sO+tO5vg
-	3k+h3oQLvCF81BNZc0BLmF000H9h0DhN+C0/iJ1ExbbWRpw2abMDmsdJoGunJSAOfbzgQAdlH9X
-	jymktyXOhv8zBdSQLWeDo5sarOBDlCeJO5XOqHnxC5906XRykMCiJ0QY6ZluMKUAGn3R2qRLKIA
-	IjV0a6gqjds4EUu/i3Gt0P7WURN52/vmBYnkhpEE7J8u9m3pFc8fE8pBZiXBhUwn/8nB/TPLoab
-	GKOoKe81Cs5wQ+OqI85blKxGnWgYa
-X-Google-Smtp-Source: AGHT+IH/k0VG8ho4a8wGYhBpr4VelB9UdjqO5RyaR2RI7UI0lPobmklqvLa3wLmnjGRGq+sWDE3T+A==
-X-Received: by 2002:a05:6214:1944:b0:702:c124:29bc with SMTP id 6a1803df08f44-702c898f516mr192854316d6.0.1751893813240;
-        Mon, 07 Jul 2025 06:10:13 -0700 (PDT)
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com. [209.85.222.177])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-702c4d5af0esm58314376d6.103.2025.07.07.06.10.13
+        d=1e100.net; s=20230601; t=1751894009; x=1752498809;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b5A4mQ2sj3YnvJWQjhwDdfJtv56v7k+z4RJsYDwtFwY=;
+        b=FKAO6sSzwaTuSX5mOPhd2OVGqK0eRJoVhqaJpvqFyLjlyRTa/m+PHY67P+5z7nYmRx
+         oimATRhgJcPOgZS5j+vrM0d7TdRYu/FHjsAIrae3V95Hb/VRrnL8MLaATEzw9tVUgVWe
+         TBp+/a2UssT4vwXLxe+BVMESSZ10QHeAln9RtKiATHYlTvH59L8DTbAHjCgxVo3B4uBt
+         knG1qPlz429mN4r5d7FMXPHri84DODNy/aAKgLRYiuHle/GMzyTWk/tj9rT0l+Iz3VJc
+         uVnxWiF9jjI8fkYR708oUKxdIS9KJGpQYZBz71FZomMtapeyvF8zo1VuZuyKdDPgzJmF
+         t0AQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU1ZtGMVkWDZ4Abziw0JAMn9FVkyr6jiaRxudHzA9whKunzsWL9yJ2tGef2Nb76YfITnypE8zDW1aq/@vger.kernel.org, AJvYcCVApfoLwhfNQe6yRYiDOc2qCZB1/MZvp1TMlSSWuXA2xfOwpilGB+eZfSG2e4iVGRxw8TJp5Ygm304pkKOH2OjsTkg=@vger.kernel.org, AJvYcCWIu8INC/pPbg0bA5n5HNIrNTQgiRto/ScuT2Kg1jZJf/3OkliLb+wTMhHpkDBXe99UtSXM6u+DSIyCR5I1@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpTs/OwGoQ3XoVvqpaKN92KlP+ugFEIcqVVeB8tkXlOOZxmb8+
+	k3JOa6l9lwSvMxzZ8oAZEogNwegRSg323PxDn3Tg0MrqGHz08pgedEPZPtEP61g1
+X-Gm-Gg: ASbGncv4aeoc8qO88HiObR/znTFJMSJm9LQ4rX+WYROaV+rx5A/12bx58EKnP/qAOSc
+	JSAz9e9NmBzUPElI5AP2UjgNWPdVRkVJuxVXJF5RAtWZKgsu2d2zsyE7IEVDEeTYPI94Jv0DDB4
+	50PmJvu4LYa5uKWgYSgDMCRhORfG2f1g1XMH/44/Cv3dVyJj1K+X9Dhk12tlkDe8nRtpYbYijJH
+	Gko+lAEO7srbxeg89oBLPgHqSHbUXo4seFv+qLHVgtdKD4SBwp3CV4erdVwvQRcHBCthiUuJjpc
+	c3cRq+vIoWlz06qdvcGZKnnlT61JRn+FYULSpchO7hGV0CqjAZmLlWNIZgiAJ3ILSrALEDvCvBu
+	rUuH2bTNV91hl+VDqBCmdifMUYs7mB+h9n5Ly6QE=
+X-Google-Smtp-Source: AGHT+IHN9o+/oZ5fF14nWIc5tY5Iz0i1syS2DkIDgNvnt/ZJVRdqjncEOcfoi5gf5wpEaWdM/fRH2Q==
+X-Received: by 2002:a05:620a:4553:b0:7d4:6123:fae0 with SMTP id af79cd13be357-7d5f17e8e0emr1421017585a.44.1751894008802;
+        Mon, 07 Jul 2025 06:13:28 -0700 (PDT)
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com. [209.85.160.171])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d5dbd93e10sm605359285a.5.2025.07.07.06.13.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Jul 2025 06:10:13 -0700 (PDT)
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-7d44c6774e7so190429285a.3;
-        Mon, 07 Jul 2025 06:10:13 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVNBz9dHxxQsviXseMH+6stFDMIDdg6+nKFzwOztBCw+Azlw1ST/HaJ9XbLpi4hL+s9IpxDZb7lfTBd@vger.kernel.org, AJvYcCWgBSqiAlx51j9GCNKcbKzBtZeS0Cl57tMg0PridM/bKj4z/lVdzEUMgpb8SCMR1yIvyee7N9bntxzzi+IVu6i3ojM=@vger.kernel.org
-X-Received: by 2002:a05:620a:4488:b0:7d4:5802:6b52 with SMTP id
- af79cd13be357-7d5df161a6cmr1265231585a.33.1751893812720; Mon, 07 Jul 2025
- 06:10:12 -0700 (PDT)
+        Mon, 07 Jul 2025 06:13:28 -0700 (PDT)
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4a9741b513eso69343221cf.1;
+        Mon, 07 Jul 2025 06:13:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUG9gv99/WVD4/k57vxG3abLBeA21MrJezCkvAdqzk26OCuuq3na93GYVNKmA9pgQtiksVXmrmeZJxu@vger.kernel.org, AJvYcCUjtaRilQPvfxB2FSjYmLjHdx3veJ2XnzuApEkhzUgana1B4HQ9xXbKi9i7qU+51T9hTjDvc47iF+i8kqGM1eDwfbE=@vger.kernel.org, AJvYcCVHGwqxjMP6TW6o7mgvlBP4+U7BQpLIRxMoCgTKtIhwRykdVTBHFcSxYpaXkhw1ubXWLk+yoQuM9b3N9qv6@vger.kernel.org
+X-Received: by 2002:ac8:59d5:0:b0:4a5:8b39:626b with SMTP id
+ d75a77b69052e-4a9a69a26dfmr148018231cf.27.1751894008321; Mon, 07 Jul 2025
+ 06:13:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250704100734.3387856-1-niklas.soderlund+renesas@ragnatech.se>
- <20250704100734.3387856-3-niklas.soderlund+renesas@ragnatech.se>
- <CAMuHMdX-1KJ4yrNeNT1SYqvfrn+XEjWuMxQkNTKJ5j9+fxgDdw@mail.gmail.com> <20250707130435.GA1410739@ragnatech.se>
-In-Reply-To: <20250707130435.GA1410739@ragnatech.se>
+References: <20250704140823.163572-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250704140823.163572-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 7 Jul 2025 15:09:59 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVg8pKHF6073Z5SWAzAuRvk_WE34PFdQcecKCyY=LtWqg@mail.gmail.com>
-X-Gm-Features: Ac12FXx0KNw0yHzEkykXKzsLWLnUdfvDiKwqlaJs8e4FdctyBTYbK74uok71sfM
-Message-ID: <CAMuHMdVg8pKHF6073Z5SWAzAuRvk_WE34PFdQcecKCyY=LtWqg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/5] arm64: dts: renesas: sparrow-hawk: Add overlay for
- IMX219 on J1
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Marek Vasut <marek.vasut+renesas@mailbox.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org
+Date: Mon, 7 Jul 2025 15:13:16 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWTEoi8D_9L_d8VPkmWYeU4vSYw6kQwxGuYMaQ4h55BwA@mail.gmail.com>
+X-Gm-Features: Ac12FXx3LHe-a7yTaUPt9CR4AOBP4CmYZh5LHUSoBAQwdhq8-wvOnVoZrUcevpc
+Message-ID: <CAMuHMdWTEoi8D_9L_d8VPkmWYeU4vSYw6kQwxGuYMaQ4h55BwA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] arm64: dts: renesas: Add XSPI support for RZ/V2N
+ and RZ/V2H(P) SoCs and EVK
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Niklas,
+Hi Prabhakar,
 
-On Mon, 7 Jul 2025 at 15:04, Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> On 2025-07-07 13:47:32 +0200, Geert Uytterhoeven wrote:
-> > On Fri, 4 Jul 2025 at 12:08, Niklas S=C3=B6derlund
-> > <niklas.soderlund+renesas@ragnatech.se> wrote:
-> > > Add an overlay to connect an IMX219 camera sensor to the J1 connector=
-.
-> > > The IMX219 utilizes 2 CSI-2 D-PHY lanes. This enables the video captu=
-re
-> > > pipeline behind the CSI40 Rx to be enabled to process images from the
-> > > sensor.
-> > >
-> > > Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnat=
-ech.se>
-
-> > > --- /dev/null
-> > > +++ b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-camera-j1-imx=
-219.dtso
-> >
-> > > +/* Page 29 / CSI_IF_CN */
-> > > +&csi40 {
-> > > +       status =3D "okay";
-> > > +
-> > > +       ports {
-> > > +               port {
-> >
-> > The base arch/arm64/boot/dts/renesas/r8a779g0.dtsi has "port@0".
+On Fri, 4 Jul 2025 at 16:08, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Indeed, this should be port@, will fix.
+> This patch series adds XSPI support to the Renesas RZ/V2N (R9A09G056)
+> and RZ/V2H(P) (R9A09G057) SoCs. It introduces the XSPI controller nodes
+> in the SoC-level DTSI files and enables a connected serial NOR flash
+> device on the respective evaluation boards.
+>
+> Note,
+> - DT binding patches have been posted seprately [0]
+>
+>
+> [0] https://lore.kernel.org/all/20250624171605.469724-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+>
+> v1->v2:
+> - Added Reviewed-by tags from Geert
+> - Moved assigned-clocks and assigned-clock-rates properties to board DTS
+
+Thanks, will queue in renesas-devel for v6.17.
+
+    * MT25QU512ABB8E12 flash chip is capable of running at 166MHz
+    * clock frequency. Set the maximum clock frequency to 133MHz
+    * supported by the RZ/V2N SoC.
+
+Shouldn't that be:
+
+    * MT25QU512ABB8E12 flash chip is capable of running at 166MHz
+    * clock frequency. Set the clock frequency to the maximum 133MHz
+    * supported by the RZ/V2N SoC.
+
+? Or am I misunderstanding?
 
 Thanks!
-
-> > Still, this is applied to the correct node?
->
-> As far as I can tell it did, and the cameras worked as expected.
-
-I am just wondering if dynamic overlays behave the same...
-
-> >     $ dtx_diff --color
-> > arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk{,-camera-j1-imx219}.d=
-tb
-> >     [...]
-> >
-> >                                     port@0 {
-> >                                             reg =3D <0x00>;
-> >     +
-> >     +                                       endpoint {
-> >     +                                               bus-type =3D <0x04>=
-;
-> >     +                                               clock-lanes =3D <0x=
-00>;
-> >     +                                               data-lanes =3D <0x0=
-1 0x02>;
-> >     +                                               phandle =3D <0xf2>;
-> >     +                                               remote-endpoint =3D=
- <0xf3>;
-> >     +                                       };
-> >                                     };
-> >
-> >                                     port@1 {
-> >     [...]
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
                                 -- Linus Torvalds
 
