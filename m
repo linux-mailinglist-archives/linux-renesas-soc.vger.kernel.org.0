@@ -1,43 +1,43 @@
-Return-Path: <linux-renesas-soc+bounces-19369-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19370-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAEBAAFC703
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 11:28:16 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7805EAFC70A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 11:29:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E5EEE3ACB5C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 09:27:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 903591655EC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 09:28:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 467792356A4;
-	Tue,  8 Jul 2025 09:28:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6777626657D;
+	Tue,  8 Jul 2025 09:28:03 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BC592253E4;
-	Tue,  8 Jul 2025 09:27:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1ECB22B8D0;
+	Tue,  8 Jul 2025 09:28:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751966881; cv=none; b=C94WKAB1u6nJGEDkvkZCEyxgDT5q1jVO9luuI/pa9xtkEs2qpqOGm5fE0EQkYKtp8pWomRfs7adgW8xsJJt6YBVGOhqu+ArZg/wWzNeQtYTDP4ogrxZqQn7Q/xDHesWJBIV3yxLys1Er00ycMMfc04a0OqK0WKTcD2YV/GiyKtM=
+	t=1751966883; cv=none; b=Z0evZUMv5GwWibP2xlHZWm7kKAaA0jLTPFSy0xnhnLL3IKmO45920B8zwFINOlE/DMXDQhkOOOBaVg9YNaXDgS/6GXE+yx8CQ6Pp3XKSTJFK0fsT1acpF9mlVnnMZY/aCA9JsT4mEcQIXjjLqimXo5rOhKfy21Z+dOGBcHT5/cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751966881; c=relaxed/simple;
-	bh=l4w4ScuC6+kKDFL0zv62ICBhy98vqkkl4tddPQXmdeU=;
+	s=arc-20240116; t=1751966883; c=relaxed/simple;
+	bh=KVrzRmQGG2cdaeFhNKeIxvEvNE+9YXP1pbh5qNJxgq8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FMFKb8nBrFZwr8IZpDbMQwn1/RIc/W8BlK6jh2yk/AhzjZsYRUYE9S7e89qaw2Tnvmx0jAsh4xSNn2KaUqVUM8A+xVJLfOkb5DLlu8lShc49KzEBIqmWDXGXiadtigeSywQbAKpWbo3fqj0SOapDxzVi+4bvoHs9p95Zg1cD/To=
+	 In-Reply-To:To:Cc; b=kpxQXikfcQelqT81F661StTWWqXPdhTfiPeQo7zYH9BDxxgkOo8ayZxUU4d8eAlt2CmNF1SxclbqJ2uInMHRlGYex3AM+ZFlO73xLVRq6+yZi64Wl+oQwP5uB2s628XctCiDWaW3F+e6J6OYWO60FWUIEUjzTEgickLQ3J5+Szk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-CSE-ConnectionGUID: Nclw74RMR7+LM6awX3QxxQ==
-X-CSE-MsgGUID: V2nIMrjjRKis5CxHPKUJyA==
+X-CSE-ConnectionGUID: il9EKbu7SK2cU6f8KfR/wQ==
+X-CSE-MsgGUID: Lben6mkeQcS2kDFHnXzE3Q==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 08 Jul 2025 18:27:53 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 08 Jul 2025 18:27:57 +0900
 Received: from [127.0.1.1] (unknown [10.226.78.19])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 82054400A8AD;
-	Tue,  8 Jul 2025 18:27:50 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 5630B400A8B4;
+	Tue,  8 Jul 2025 18:27:54 +0900 (JST)
 From: Michael Dege <michael.dege@renesas.com>
-Date: Tue, 08 Jul 2025 11:27:37 +0200
-Subject: [PATCH v2 1/4] net: renesas: rswitch: rename rswitch.c to
- rswitch_main.c
+Date: Tue, 08 Jul 2025 11:27:38 +0200
+Subject: [PATCH v2 2/4] net: renesas: rswitch: configure default ageing
+ time
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -46,7 +46,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250708-add_l2_switching-v2-1-f91f5556617a@renesas.com>
+Message-Id: <20250708-add_l2_switching-v2-2-f91f5556617a@renesas.com>
 References: <20250708-add_l2_switching-v2-0-f91f5556617a@renesas.com>
 In-Reply-To: <20250708-add_l2_switching-v2-0-f91f5556617a@renesas.com>
 To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
@@ -58,40 +58,90 @@ Cc: netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
  linux-kernel@vger.kernel.org, Michael Dege <michael.dege@renesas.com>, 
  Nikita Yushchenko <nikita.yoush@cogentembedded.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1751966866; l=1175;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1751966866; l=2858;
  i=michael.dege@renesas.com; s=20250523; h=from:subject:message-id;
- bh=l4w4ScuC6+kKDFL0zv62ICBhy98vqkkl4tddPQXmdeU=;
- b=VR3sQ3MOk7Nje9xJ1qdtyJO85uiGyd6rp2iK5sIziDYFO4ZEUOH0yomJMBaN82npDagM8CQFO
- MWbCqCX5eTwCXj33BWc5oyHWaBIrvdcK/J+Spx5ING/rqwXgCGgz10m
+ bh=KVrzRmQGG2cdaeFhNKeIxvEvNE+9YXP1pbh5qNJxgq8=;
+ b=TVnx45njwCp5BH422RmcAWnWYLfBWfhSbieDx2qYNcrjlsh8qsDkLLtd6co8er8O9ZfNhgnQU
+ 0IBwPdg3H8lCbYhmqbCKrqcjihxRJfmovVNoPK2t8AmcQzhYmZNmn8V
 X-Developer-Key: i=michael.dege@renesas.com; a=ed25519;
  pk=+gYTlVQ3/MlOju88OuKnXA7MlapP4lYqJn1F81HZGSo=
 
-Adding new functionality to the driver. Therefore splitting into multiple
-c files to keep them manageable. New functionality will be added to
-separate files.
+Enable MAC ageing by setting up the timer and setting the ageging
+time to the default of 300s.
 
 Signed-off-by: Michael Dege <michael.dege@renesas.com>
 ---
- drivers/net/ethernet/renesas/Makefile                      | 1 +
- drivers/net/ethernet/renesas/{rswitch.c => rswitch_main.c} | 0
- 2 files changed, 1 insertion(+)
+ drivers/net/ethernet/renesas/rswitch.h      | 13 ++++++++++++-
+ drivers/net/ethernet/renesas/rswitch_main.c | 11 ++++++++++-
+ 2 files changed, 22 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/net/ethernet/renesas/Makefile b/drivers/net/ethernet/renesas/Makefile
-index f65fc76f8b4df8dd9f24af836b6dc0772965366f..6222298bb5582b7091cf8de76acb83ac7dd39c11 100644
---- a/drivers/net/ethernet/renesas/Makefile
-+++ b/drivers/net/ethernet/renesas/Makefile
-@@ -8,6 +8,7 @@ obj-$(CONFIG_SH_ETH) += sh_eth.o
- ravb-objs := ravb_main.o ravb_ptp.o
- obj-$(CONFIG_RAVB) += ravb.o
+diff --git a/drivers/net/ethernet/renesas/rswitch.h b/drivers/net/ethernet/renesas/rswitch.h
+index 532192cbca4b520e06a7e35653929d8364f1ccb2..feb62b99bceb50e1d68345ff9eba581f7c38edbe 100644
+--- a/drivers/net/ethernet/renesas/rswitch.h
++++ b/drivers/net/ethernet/renesas/rswitch.h
+@@ -1,7 +1,7 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ /* Renesas Ethernet Switch device driver
+  *
+- * Copyright (C) 2022 Renesas Electronics Corporation
++ * Copyright (C) 2022-2025 Renesas Electronics Corporation
+  */
  
-+rswitch-objs := rswitch_main.o
- obj-$(CONFIG_RENESAS_ETHER_SWITCH) += rswitch.o
+ #ifndef __RSWITCH_H__
+@@ -826,6 +826,17 @@ enum rswitch_gwca_mode {
  
- obj-$(CONFIG_RENESAS_GEN4_PTP) += rcar_gen4_ptp.o
-diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch_main.c
-similarity index 100%
-rename from drivers/net/ethernet/renesas/rswitch.c
-rename to drivers/net/ethernet/renesas/rswitch_main.c
+ #define FWPBFCSDC(j, i)         (FWPBFCSDC00 + (i) * 0x10 + (j) * 0x04)
+ 
++#define FWMACAGUSPC_MACAGUSP	GENMASK(9, 0)
++#define FWMACAGC_MACAGT		GENMASK(15, 0)
++#define FWMACAGC_MACAGE		BIT(16)
++#define FWMACAGC_MACAGSL	BIT(17)
++#define FWMACAGC_MACAGPM	BIT(18)
++#define FWMACAGC_MACDES		BIT(24)
++#define FWMACAGC_MACAGOG	BIT(28)
++#define FWMACAGC_MACDESOG	BIT(29)
++
++#define RSW_AGEING_TIME		300
++
+ /* TOP */
+ #define TPEMIMC7(queue)		(TPEMIMC70 + (queue) * 4)
+ 
+diff --git a/drivers/net/ethernet/renesas/rswitch_main.c b/drivers/net/ethernet/renesas/rswitch_main.c
+index aba772e14555d30891dc74a5a123121dad77e92b..2474271cac7f057fffb472131f5a7a72a0fa9a87 100644
+--- a/drivers/net/ethernet/renesas/rswitch_main.c
++++ b/drivers/net/ethernet/renesas/rswitch_main.c
+@@ -1,7 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /* Renesas Ethernet Switch device driver
+  *
+- * Copyright (C) 2022 Renesas Electronics Corporation
++ * Copyright (C) 2022-2025 Renesas Electronics Corporation
+  */
+ 
+ #include <linux/clk.h>
+@@ -113,6 +113,7 @@ static void rswitch_fwd_init(struct rswitch_private *priv)
+ {
+ 	u32 all_ports_mask = GENMASK(RSWITCH_NUM_AGENTS - 1, 0);
+ 	unsigned int i;
++	u32 reg_val;
+ 
+ 	/* Start with empty configuration */
+ 	for (i = 0; i < RSWITCH_NUM_AGENTS; i++) {
+@@ -128,6 +129,14 @@ static void rswitch_fwd_init(struct rswitch_private *priv)
+ 		iowrite32(0, priv->addr + FWPBFC(i));
+ 	}
+ 
++	/* Configure MAC table aging */
++	rswitch_modify(priv->addr, FWMACAGUSPC, FWMACAGUSPC_MACAGUSP,
++		       FIELD_PREP(FWMACAGUSPC_MACAGUSP, 0x140));
++
++	reg_val = FIELD_PREP(FWMACAGC_MACAGT, RSW_AGEING_TIME);
++	reg_val |= FWMACAGC_MACAGE | FWMACAGC_MACAGSL;
++	iowrite32(reg_val, priv->addr + FWMACAGC);
++
+ 	/* For enabled ETHA ports, setup port based forwarding */
+ 	rswitch_for_each_enabled_port(priv, i) {
+ 		/* Port based forwarding from port i to GWCA port */
 
 -- 
 2.49.0
