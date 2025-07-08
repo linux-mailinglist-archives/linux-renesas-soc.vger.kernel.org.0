@@ -1,65 +1,66 @@
-Return-Path: <linux-renesas-soc+bounces-19399-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19400-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CCB7AFD7AD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 21:55:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21C9EAFD832
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 22:20:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E62261AA67DA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 19:55:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 27EC9542513
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 20:19:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D22B23B638;
-	Tue,  8 Jul 2025 19:55:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B12F123D2B9;
+	Tue,  8 Jul 2025 20:18:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ez6qp2MK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eZq2ZSm5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09893204096;
-	Tue,  8 Jul 2025 19:55:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA3F1D54E2;
+	Tue,  8 Jul 2025 20:18:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752004527; cv=none; b=BCkHEbDRFtYXA8kHfuswobyFW4G471Gt1zSF5NSWD9FjavATr1433wHNnkutdi7FF8/TSnZ1C+YY1VQE5cOxWvwBbCwV39i7Vuw8htcVQLi1qY8y9rdaa6Le39Qq56NQpSoTOsCwsVvZC/anGE/XpBOIzuRbsw0Mr/7UkwWWsac=
+	t=1752005888; cv=none; b=MUZEzUbo4ibu47hqdrG1Mfd8x4Sp2PiE4ILafxNO67+m/VsJoJOKB7LzSZ2owizjigtLxoggn2RHdI0aT+BqoRiCNhZ91dYGLVKD6CFYLYkgvWfl8DsxzvarVa3r4HxdDiZnltDUosjaZUjJSKFPPJErWb3sqglaa1R60+bDRC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752004527; c=relaxed/simple;
-	bh=THklj9+DZKasC/I7ZV05zBVQQT7G6vPIipQ3X2d3as4=;
+	s=arc-20240116; t=1752005888; c=relaxed/simple;
+	bh=zfkbjPg4tfTz4BD5E+6M+vCmZHxU3gsUQB6PvWPchNM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q2hFneQss9wk5RplpJ3vq0Saj3+85q5WMy0uqzYyKIrZiHrNJ2FZcYVu7aJg2iP9gkFrff2Ut/4MY/g4oGIPldm1SB5EU3AT9e4Q8Mn40ltlKewWo7k7Xl1I8ldwo2TboNq04OXp4aD81gn6qiQN2rhbEmjOxrm5WeCijRC+KIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ez6qp2MK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 545BFC4CEED;
-	Tue,  8 Jul 2025 19:55:26 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=tPiAnwL2T2sbOIAmtfd2jIJlx0AMdPWpV6sz9QIUUj8cpJAmIGyqwhtDDmbOGh0pTxgoCZsvf6qu2b6/5Jx8EdOscd/rni1+dfYXK8tCWUSt83Hrb7Ydqul/WrCwyO02dIsAOOJQuV3zV3jiJMX1ihXpbp97JFf+1GbYHynPlfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eZq2ZSm5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6534C4CEF1;
+	Tue,  8 Jul 2025 20:18:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752004526;
-	bh=THklj9+DZKasC/I7ZV05zBVQQT7G6vPIipQ3X2d3as4=;
+	s=k20201202; t=1752005888;
+	bh=zfkbjPg4tfTz4BD5E+6M+vCmZHxU3gsUQB6PvWPchNM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ez6qp2MKiHw0jYLyulx5FcTB2KGMIkMOc+KyNt7zGek54/NNNY9XcQ/Mwy5ZkbwYh
-	 ab4XJErcOSeGzYy4hISXxqRGqm9gk4V58pm6WNv5N9BVhOR35WrMfmjp4/r0UeRRxu
-	 mIT9z60lYc5qAcdliYfKtOg87mXryl5QTqhypXdK4WkWpoBrBTJS1EshmKwGDo8ZF0
-	 obxCyvvCbIJZWhfK2rYSSLHtUyQN6lNt6K5F2GtNpFc1XICGbiPdcF7MhXvgnVRU5Y
-	 UQwmjZUkf5IWwozadjr2j/syFxtGjOQEP6Fd5PXBQ6Ocr9ulQHobU3vhlRJrqBKpve
-	 B702aNdAMfLKA==
-Date: Tue, 8 Jul 2025 14:55:25 -0500
+	b=eZq2ZSm55e4ofOg+hNlkFpOxIV5V7eRne+d2kXkN110cHHYVQ8dYjm2LIrlDnQxCJ
+	 PhKK0uGqlbgRLeTJihMhwiMOS9emQvGv42QvUGg52nOyin7M4jlPraFnYPgaWp/UKg
+	 OvaPRBE5A2LQd5feBze+97YbboqOVJ5DaNQybooiYdcmwD0soFL4EPO60Qi34l6HVn
+	 7oCaMp0yxWDwxsJrJehhDmxEiIb7bBkQmYkRXXyxzokxkLsa1ojG4gw2Aq0VBosMFs
+	 +ajvyu23qepGhhAJtMJtLbJIGAVh2Tgrhdjpvi6eH09OJkc+fnwEJkxS0w1IoP8EDV
+	 z2YaCt8KTOgIQ==
+Date: Tue, 8 Jul 2025 15:18:06 -0500
 From: Rob Herring <robh@kernel.org>
 To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Linus Walleij <linus.walleij@linaro.org>,
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Subject: Re: [PATCH v3 1/3] dt-bindings: pinctrl: renesas: document RZ/T2H
- and RZ/N2H SoCs
-Message-ID: <20250708195525.GA837365-robh@kernel.org>
-References: <20250707141848.279528-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250707141848.279528-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 1/9] dt-bindings: watchdog: renesas,wdt: Add support for
+ RZ/T2H and RZ/N2H
+Message-ID: <20250708201806.GA897559-robh@kernel.org>
+References: <20250707200111.329663-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250707200111.329663-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -68,202 +69,96 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250707141848.279528-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250707200111.329663-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Mon, Jul 07, 2025 at 03:18:46PM +0100, Prabhakar wrote:
+On Mon, Jul 07, 2025 at 09:01:03PM +0100, Prabhakar wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> Document the pin and GPIO controller IP for the Renesas RZ/T2H
-> (R9A09G077) and RZ/N2H (R9A09G087) SoCs, and add the shared DTSI
-> header file used by both the bindings and the driver.
+> Extend the Renesas WDT device tree bindings to support the watchdog timer
+> found on the RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs.
 > 
-> The RZ/T2H SoC supports 729 pins, while the RZ/N2H supports 576 pins.
-> Both share the same controller architecture; separate compatible
-> strings are added for each SoC to distinguish them.
+> The RZ/T2H WDT is mostly compatible with the one found on the RZ/V2H(P),
+> but includes an additional register and differs in the clock division
+> ratio settings for the WDTCR[CKS] field. To reflect these differences,
+> introduce a new compatible string, "renesas,r9a09g077-wdt".
 > 
-> Co-developed-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
-> Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+> The binding schema is updated accordingly. On RZ/T2H, the WDT does not
+> require the "resets" property. It also requires two register regions and
+> the presence of a "power-domains" property. The "clock-names" property is
+> limited to a single entry, "pclk", for this SoC.
+> 
+> The RZ/N2H SoC uses the same WDT IP as the RZ/T2H. It is supported by
+> using "renesas,r9a09g087-wdt" as the primary compatible string, with
+> "renesas,r9a09g077-wdt" listed as a fallback to describe the shared
+> hardware features.
+> 
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
-> v2->v3:
-> - Dropped refference to gpio.txt instead pointed to
->   in include/dt-bindings/gpio/gpio.h.
+>  .../bindings/watchdog/renesas,wdt.yaml        | 37 +++++++++++++++++--
+>  1 file changed, 34 insertions(+), 3 deletions(-)
 > 
-> v1->v2:
-> - Added a new DT binding file
-> ---
->  .../pinctrl/renesas,rzt2h-pinctrl.yaml        | 132 ++++++++++++++++++
->  .../pinctrl/renesas,r9a09g077-pinctrl.h       |  22 +++
->  2 files changed, 154 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,rzt2h-pinctrl.yaml
->  create mode 100644 include/dt-bindings/pinctrl/renesas,r9a09g077-pinctrl.h
-> 
-> diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,rzt2h-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/renesas,rzt2h-pinctrl.yaml
-> new file mode 100644
-> index 000000000000..ead5ab7e7ebb
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/pinctrl/renesas,rzt2h-pinctrl.yaml
-> @@ -0,0 +1,132 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/pinctrl/renesas,rzt2h-pinctrl.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> index 78874b90c88c..ce439a401c12 100644
+> --- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> @@ -81,10 +81,17 @@ properties:
+>                - renesas,r9a09g056-wdt # RZ/V2N
+>            - const: renesas,r9a09g057-wdt # RZ/V2H(P)
+>  
+> -      - const: renesas,r9a09g057-wdt       # RZ/V2H(P)
+> +      - enum:
+> +          - renesas,r9a09g057-wdt    # RZ/V2H(P)
+> +          - renesas,r9a09g077-wdt    # RZ/T2H
 > +
-> +title: Renesas RZ/T2H Pin and GPIO controller
-> +
-> +maintainers:
-> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> +
-> +description:
-> +  The Renesas RZ/T2H SoC features a combined Pin and GPIO controller.
-> +  Pin multiplexing and GPIO configuration is performed on a per-pin basis.
-> +  Each port features up to 8 pins, each of them configurable for GPIO function
-> +  (port mode) or in alternate function mode.
-> +  Up to 8 different alternate function modes exist for each single pin.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - renesas,r9a09g077-pinctrl # RZ/T2H
-> +      - renesas,r9a09g087-pinctrl # RZ/N2H
-> +
-> +  reg:
+> +      - items:
+> +          - const: renesas,r9a09g087-wdt # RZ/N2H
+> +          - const: renesas,r9a09g077-wdt # RZ/T2H
+>  
+>    reg:
+> -    maxItems: 1
 > +    minItems: 1
-> +    items:
-> +      - description: Non-safety I/O Port base
-> +      - description: Safety I/O Port safety region base
-> +      - description: Safety I/O Port Non-safety region base
-> +
-> +  reg-names:
-> +    minItems: 1
-> +    items:
-> +      - const: nsr
-> +      - const: srs
-> +      - const: srn
-> +
-> +  gpio-controller: true
-> +
-> +  '#gpio-cells':
-> +    const: 2
-> +    description:
-> +      The first cell contains the global GPIO port index, constructed using the
-> +      RZT2H_GPIO() helper macro from <dt-bindings/pinctrl/renesas,r9a09g077-pinctrl.h>
-> +      (e.g. "RZT2H_GPIO(3, 0)" for P03_0). The second cell represents the consumer
-> +      flag. Use the macros defined in include/dt-bindings/gpio/gpio.h.
-> +
-> +  gpio-ranges:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +additionalProperties:
-> +  anyOf:
-> +    - type: object
-> +      additionalProperties: false
-> +      allOf:
-> +        - $ref: pincfg-node.yaml#
-> +        - $ref: pinmux-node.yaml#
-> +
-> +      description:
-> +        Pin controller client devices use pin configuration subnodes (children
-> +        and grandchildren) for desired pin configuration.
-> +        Client device subnodes use the below standard properties.
-> +
+> +    maxItems: 2
+>  
+>    interrupts:
+>      minItems: 1
+> @@ -132,6 +139,7 @@ allOf:
+>            compatible:
+>              contains:
+>                enum:
+> +                - renesas,r9a09g077-wdt
+>                  - renesas,rza-wdt
+>                  - renesas,rzn1-wdt
+>      then:
+> @@ -183,7 +191,9 @@ allOf:
+>        properties:
+>          compatible:
+>            contains:
+> -            const: renesas,r9a09g057-wdt
+> +            enum:
+> +              - renesas,r9a09g057-wdt
+> +              - renesas,r9a09g077-wdt
+>      then:
+>        properties:
+>          interrupts: false
+> @@ -192,6 +202,27 @@ allOf:
+>        required:
+>          - interrupts
+>  
+> +  - if:
 > +      properties:
-> +        pinmux:
-> +          description:
-> +            Values are constructed from GPIO port number, pin number, and
-> +            alternate function configuration number using the RZT2H_PORT_PINMUX()
-> +            helper macro from <dt-bindings/pinctrl/renesas,r9a09g077-pinctrl.h>.
-> +        pins: true
-> +        gpio-hog: true
-> +        gpios: true
-> +        input: true
-> +        input-enable: true
-> +        output-enable: true
-> +        output-high: true
-> +        output-low: true
-> +        line-name: true
-> +
-> +    - type: object
-> +      additionalProperties:
-> +        $ref: "#/additionalProperties/anyOf/0"
+> +        compatible:
+> +          contains:
+> +            const: renesas,r9a09g077-wdt
+> +    then:
+> +      properties:
+> +        resets: false
+> +        clock-names:
+> +          items:
+> +            - const: pclk
 
-Again, please define some common suffix or prefix for the node names. 
-Any name is for existing bindings *only*.
+Just 'maxItems: 1' as pclk is already the defined name.
 
-patternProperties:
-  '-pins$':
-     type: object
-     ...
+With that,
 
-  '-state$':
-     type: object
-     additionalProperties:
-       $ref: '#/patternProperties/-pins$'
-
-I don't care what prefixes you use here...
-
-(Note some regex's don't work as JSON pointers and then you would have 
-to use a $defs section.)
-
-> +
-> +allOf:
-> +  - $ref: pinctrl.yaml#
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - gpio-controller
-> +  - '#gpio-cells'
-> +  - gpio-ranges
-> +  - clocks
-> +  - power-domains
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h>
-> +    #include <dt-bindings/pinctrl/renesas,r9a09g077-pinctrl.h>
-> +
-> +    pinctrl@802c0000 {
-> +        compatible = "renesas,r9a09g077-pinctrl";
-> +        reg = <0x802c0000 0x2000>,
-> +              <0x812c0000 0x2000>,
-> +              <0x802b0000 0x2000>;
-> +        reg-names = "nsr", "srs", "srn";
-> +        clocks = <&cpg CPG_CORE R9A09G077_CLK_PCLKM>;
-> +        gpio-controller;
-> +        #gpio-cells = <2>;
-> +        gpio-ranges = <&pinctrl 0 0 288>;
-> +        power-domains = <&cpg>;
-> +
-> +        sci_pins: serial0 {
-> +            pinmux = <RZT2H_PORT_PINMUX(38, 0, 1)>, /* Tx */
-> +                     <RZT2H_PORT_PINMUX(38, 1, 1)>; /* Rx */
-> +        };
-> +
-> +        sd1-pwr-en-hog {
-
-This is exactly why no name pattern is a problem. Nothing in the schema 
-says you even have hog nodes which are a totally different kind of node. 
-It only passes because you have 0 required properties (probably an 
-error because an empty node shouldn't be valid).
-
-This node does happen to get validated only because we match on nodes 
-with 'gpio-hog' property which is an unusual pattern and may likely change.
-
-Rob
-
-> +            gpio-hog;
-> +            gpios = <RZT2H_GPIO(39, 2) 0>;
-> +            output-high;
-> +            line-name = "sd1_pwr_en";
-> +         };
-> +    };
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
