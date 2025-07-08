@@ -1,90 +1,168 @@
-Return-Path: <linux-renesas-soc+bounces-19377-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19378-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D30AAFC888
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 12:40:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 442E4AFC8CE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 12:47:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2F5A7421AE1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 10:39:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2ED0318984AE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 10:48:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 076D12D660D;
-	Tue,  8 Jul 2025 10:39:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F364231839;
+	Tue,  8 Jul 2025 10:47:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mvn49aUG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mWG37/zX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7A9025A320
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Jul 2025 10:39:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 416ED27054B;
+	Tue,  8 Jul 2025 10:47:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751971195; cv=none; b=Uw9DZWUZhoWod5uGdzEnD2zQAY1dKWaTHX8prjZU2L6ij9yEWuEj/due3NqWoGjVgd3O6PoLVUMQVYplbM27vwKqdLfnXQJF3fjTYfoO0sedXf0094TKTo4G9pP0S8qG1V1CKn5NHGcjTMMU4tDOFsvosGKCy4tvCG7YVUGXTeE=
+	t=1751971666; cv=none; b=XcQFyvHAhlHdNk7/LXTgRKkoP+ddwPOOmna2kZ2Nq6XO3DjqhkEXvpceZgpGBL770hTRql55pyZNCLcuYzXOfY1gdnwtU7LIqUSyTnkM1/RjuoDkAxibZQHV4TveS5Gy7pSroWGQYHmVb04Lw0jrr7mNJClP/wQTeCZhHFzEPfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751971195; c=relaxed/simple;
-	bh=LjRPp+WhO9i+4j1LT/r2damDD1p5oluQGEbXbaoTjK8=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=QxQ62WNsb0ktwxGY0RFoc92Rhb/2bbEYXPb4VuBseyF4A0ljHKV7StuIFhgzTdEzs4Anne46kQgnabYAMlYByZTd0vW37Wj74CQw7JVXDmZBJnkBGINOkOih4cfLvSOUQh7hJlrk3yPJx7KhkgBgpkuOMw057cWl9PD+wfUGb1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mvn49aUG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66A23C4CEED
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Jul 2025 10:39:55 +0000 (UTC)
+	s=arc-20240116; t=1751971666; c=relaxed/simple;
+	bh=gNF5kIHsZITNZE/wVRzomd+2nIA/Rq2Srm2KIybh62I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r7SYsuouvqVZslcbBd0agw9KE5bYG2+eQrOrLPxUcMnCPVurezCzw+AI9/sxFYyP2VG++QljWlUlZZzVGgQVXbkjRcn6CqhsXZFeliG4OGCpsSof48v0NoC1L/OzesGsNRz3QcTyficVeDPo5kIqqOzEUP2wFUsOH+kglya6obA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mWG37/zX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E57EC4CEED;
+	Tue,  8 Jul 2025 10:47:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751971195;
-	bh=LjRPp+WhO9i+4j1LT/r2damDD1p5oluQGEbXbaoTjK8=;
-	h=Subject:From:Date:To:From;
-	b=mvn49aUG/bBcmrN8dgaXrcOGeBsANRLY3r8fGXtWy/8W2i7j1a+5XP0FM/3czlixm
-	 HcnGnq+Gw6qG82/doNWqTN5Ly4UfPuYSci8y0hVvj+j1G7lJgOiU8aUoUXZMeLlpM6
-	 Zy9boDkythAJ6JcBForjixGVZMstFwHe1UTQQhlMbH0CiY6pj2oC1uq+5RhgGsvOle
-	 Nr7HYNgM8QZ0vXVsB/fSRKlytkZi0sNX9bTFcq8S4LgHYe8zkXo2+YoHaqmb0jg7fw
-	 IBsq+MsY5WuDyyK4dRA3WeIE0pZ19DHSMvI8xKYzPgJkaXrIRV7S1V9bsiPQZQnNqc
-	 /xNP+5Ctrt8SA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 74B7F380DBEE
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Jul 2025 10:40:19 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1751971665;
+	bh=gNF5kIHsZITNZE/wVRzomd+2nIA/Rq2Srm2KIybh62I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mWG37/zXq8qflsPAZPW5mY2kWxxRKIzWGl+K7jvZFoBAI84nbX1aVYz0AZeVgrXki
+	 Ln7zdoEDFlNTYTl+dzs+KAe7I6bqA0Z5QrW4yX8V9cANDEeFXPhkBcDFFMgjCKjjop
+	 tMn4xt9n5mGQbGJ1uQIJoBvDnc1ARZDFH1NNP/HONRVvZcnYVrDbR+lpxrywhoO7jF
+	 hujxHev+nNHFZa+ByzUCT5sTdWR4kDu5dIyXbG7PVc/Ds0WNl0F6vJQv1iLv1zER3v
+	 TYlo9zzHyzv3K4NLKtVr3zAeDdEmRT9X6VDnszpNbr9NBFgx9X+NH+r77L9ZI2WMJt
+	 broObH8AWFYIg==
+Date: Tue, 8 Jul 2025 11:47:40 +0100
+From: Simon Horman <horms@kernel.org>
+To: Michael Dege <michael.dege@renesas.com>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Paul Barker <paul@pbarker.dev>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Subject: Re: [PATCH v2 3/4] net: renesas: rswitch: add offloading for L2
+ switching
+Message-ID: <20250708104740.GF452973@horms.kernel.org>
+References: <20250708-add_l2_switching-v2-0-f91f5556617a@renesas.com>
+ <20250708-add_l2_switching-v2-3-f91f5556617a@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From: patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: 
- <175197121799.4019242.1066773097279955983.git-patchwork-summary@kernel.org>
-Date: Tue, 08 Jul 2025 10:40:17 +0000
-To: linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250708-add_l2_switching-v2-3-f91f5556617a@renesas.com>
 
-Hello:
+On Tue, Jul 08, 2025 at 11:27:39AM +0200, Michael Dege wrote:
+> This commit adds hardware offloading for L2 switching on R-Car S4.
+> 
+> On S4 brdev is limited to one per-device (not per port). Reasoning
+> is that hw L2 forwarding support lacks any sort of source port based
+> filtering, which makes it unusable to offload more than one bridge
+> device. Either you allow hardware to forward destination MAC to a
+> port, or you have to send it to CPU. You can't make it forward only
+> if src and dst ports are in the same brdev.
+> 
+> Signed-off-by: Michael Dege <michael.dege@renesas.com>
+> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+...
 
-Series: arm64: dts: renesas: r9a09g056n48/r9a09g057h44: Fix pinctrl node names for GBETH1
-  Submitter: Prabhakar <prabhakar.csengg@gmail.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=978895
-  Lore link: https://lore.kernel.org/r/20250703235544.715433-1-prabhakar.mahadev-lad.rj@bp.renesas.com
-    Patches: [1/2] arm64: dts: renesas: r9a09g057h44-rzv2h-evk: Fix pinctrl node name for GBETH1
-             [2/2] arm64: dts: renesas: r9a09g056n48-rzv2n-evk: Fix pinctrl node name for GBETH1
+> diff --git a/drivers/net/ethernet/renesas/rswitch_l2.c b/drivers/net/ethernet/renesas/rswitch_l2.c
 
-Series: arm64: dts: renesas: Add XSPI support for RZ/V2N and RZ/V2H(P) SoCs and EVK
-  Submitter: Prabhakar <prabhakar.csengg@gmail.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=979155
-  Lore link: https://lore.kernel.org/r/20250704140823.163572-1-prabhakar.mahadev-lad.rj@bp.renesas.com
-    Patches: [v2,1/4] arm64: dts: renesas: r9a09g056: Add XSPI node
-             [v2,2/4] arm64: dts: renesas: r9a09g057: Add XSPI node
+...
+
+> +static void rswitch_update_offload_brdev(struct rswitch_private *priv,
+> +					 bool force_update_l2_offload)
+> +{
+> +	struct net_device *offload_brdev = NULL;
+> +	struct rswitch_device *rdev, *rdev2;
+> +
+> +	rswitch_for_all_ports(priv, rdev) {
+> +		if (!rdev->brdev)
+> +			continue;
+> +		rswitch_for_all_ports(priv, rdev2) {
+> +			if (rdev2 == rdev)
+> +				break;
+> +			if (rdev2->brdev == rdev->brdev) {
+> +				offload_brdev = rdev->brdev;
+> +				break;
+> +			}
+> +		}
+> +		if (offload_brdev)
+> +			break;
+> +	}
+> +
+> +	if (offload_brdev == priv->offload_brdev) {
+> +		if (offload_brdev && force_update_l2_offload)
+> +			rswitch_update_l2_offload(priv);
+> +		return;
+> +	}
+> +
+> +	if (offload_brdev && !priv->offload_brdev)
+> +		dev_dbg(&priv->pdev->dev, "starting l2 offload for %s\n",
+> +			netdev_name(offload_brdev));
+> +	else if (!offload_brdev && priv->offload_brdev)
+> +		dev_dbg(&priv->pdev->dev, "stopping l2 offload for %s\n",
+> +			netdev_name(priv->offload_brdev));
+> +	else
+> +		dev_dbg(&priv->pdev->dev,
+> +			"changing l2 offload from %s to %s\n",
+> +			netdev_name(priv->offload_brdev),
+> +			netdev_name(offload_brdev));
+
+Smatch flags a false-positive about possible NULL references by the
+netdev_name() calls on the line above.
+
+Due to the previous if statement it seems to me that cannot occur.
+But it did take me a few moments to convince myself of that.
+
+So while I don't think we should write our code to static analysis tooling.
+I did play around a bit to see if I could come up with something that is
+both easier on the eyes and keeps Smatch happy.
+
+Perhaps it isn't easier on the eyes, but rather I'm just more familiar with
+the code now. But in any case, I'm sharing what I came up with in case it
+is useful. (Compile tested only!).
 
 
-Total patches: 4
+        if (!offload_brdev && !priv->offload_brdev)
+                return;
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+        if (!priv->offload_brdev)
+                dev_dbg(&priv->pdev->dev, "starting l2 offload for %s\n",
+                        netdev_name(offload_brdev));
+        else if (!offload_brdev)
+                dev_dbg(&priv->pdev->dev, "stopping l2 offload for %s\n",
+                        netdev_name(priv->offload_brdev));
+        else if (offload_brdev != priv->offload_brdev)
+                dev_dbg(&priv->pdev->dev,
+                        "changing l2 offload from %s to %s\n",
+                        netdev_name(priv->offload_brdev),
+                        netdev_name(offload_brdev));
+        else if (!force_update_l2_offload)
+                return;
 
+> +
+> +	priv->offload_brdev = offload_brdev;
+> +
+> +	rswitch_update_l2_offload(priv);
+> +}
 
+...
 
