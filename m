@@ -1,43 +1,43 @@
-Return-Path: <linux-renesas-soc+bounces-19368-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19369-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49494AFC700
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 11:28:02 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAEBAAFC703
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 11:28:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 65DFC3AC9AD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 09:27:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E5EEE3ACB5C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 09:27:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F3D022A4E5;
-	Tue,  8 Jul 2025 09:28:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 467792356A4;
+	Tue,  8 Jul 2025 09:28:01 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5E5718A6DB;
-	Tue,  8 Jul 2025 09:27:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BC592253E4;
+	Tue,  8 Jul 2025 09:27:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751966880; cv=none; b=kbzD6dqJpRoXoq+++a0AWem1FI//zahE1PvfVUvOR3E+V7JfKqW/ctDmiUXXE2SQ7XyU4mZklnUnw8aoNmSlfixW2kdPFuDIVIBb2eJAoFNZlkm5beQxcz/CfCVMV4EBRxIi+lLvfVgatjYNEqcTapQXW1g2npKj6RLvZp6pQ84=
+	t=1751966881; cv=none; b=C94WKAB1u6nJGEDkvkZCEyxgDT5q1jVO9luuI/pa9xtkEs2qpqOGm5fE0EQkYKtp8pWomRfs7adgW8xsJJt6YBVGOhqu+ArZg/wWzNeQtYTDP4ogrxZqQn7Q/xDHesWJBIV3yxLys1Er00ycMMfc04a0OqK0WKTcD2YV/GiyKtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751966880; c=relaxed/simple;
-	bh=C99uMKHenzxbuGkCQo56LwfHOevcoSU5d+ZLJw7xICo=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ieGhD4kaZOqGok7QLrP+7iyK39S5yCxSRzc6VPJd4/0kOcL+uDj3VYmQWdRwQZuQBchUPQkriSXsU5Q5nba5c41Q2HWnrq5ICktVqo0R9W3yoK1UeYBA8kzXQ87XSyUCUkMrA/A+aJYOhurzwQDOX1kkKqOzq3UWnHtIu1aqxes=
+	s=arc-20240116; t=1751966881; c=relaxed/simple;
+	bh=l4w4ScuC6+kKDFL0zv62ICBhy98vqkkl4tddPQXmdeU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=FMFKb8nBrFZwr8IZpDbMQwn1/RIc/W8BlK6jh2yk/AhzjZsYRUYE9S7e89qaw2Tnvmx0jAsh4xSNn2KaUqVUM8A+xVJLfOkb5DLlu8lShc49KzEBIqmWDXGXiadtigeSywQbAKpWbo3fqj0SOapDxzVi+4bvoHs9p95Zg1cD/To=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-CSE-ConnectionGUID: hyF2CXbtTtS2p5D+tWXBgQ==
-X-CSE-MsgGUID: kEqNHHyzQ2yr+MOnLnZfDw==
+X-CSE-ConnectionGUID: Nclw74RMR7+LM6awX3QxxQ==
+X-CSE-MsgGUID: V2nIMrjjRKis5CxHPKUJyA==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 08 Jul 2025 18:27:50 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 08 Jul 2025 18:27:53 +0900
 Received: from [127.0.1.1] (unknown [10.226.78.19])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id A95D0400A8AD;
-	Tue,  8 Jul 2025 18:27:46 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 82054400A8AD;
+	Tue,  8 Jul 2025 18:27:50 +0900 (JST)
 From: Michael Dege <michael.dege@renesas.com>
-Subject: [PATCH v2 0/4] net: renesas: rswitch: R-Car S4 add HW offloading
- for layer 2 switching
-Date: Tue, 08 Jul 2025 11:27:36 +0200
-Message-Id: <20250708-add_l2_switching-v2-0-f91f5556617a@renesas.com>
+Date: Tue, 08 Jul 2025 11:27:37 +0200
+Subject: [PATCH v2 1/4] net: renesas: rswitch: rename rswitch.c to
+ rswitch_main.c
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -45,12 +45,10 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAIjkbGgC/2WNQQ6CMBBFr0JmbU1bKRBX3sMQUtsBJtGWdAhqC
- He34tLle8l/fwXGRMhwLlZIuBBTDBn0oQA32jCgIJ8ZtNRGVqoS1vvurjt+0uxGCoM4lUapWkn
- jpYc8mxL29NqT1zbzSDzH9N4fFvW1v1gty//YooQUfd802lp306a5JAzIlo8uPqDdtu0DiWUhA
- 7IAAAA=
-X-Change-ID: 20250616-add_l2_switching-345117105d0d
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250708-add_l2_switching-v2-1-f91f5556617a@renesas.com>
+References: <20250708-add_l2_switching-v2-0-f91f5556617a@renesas.com>
+In-Reply-To: <20250708-add_l2_switching-v2-0-f91f5556617a@renesas.com>
 To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
  =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
  Paul Barker <paul@pbarker.dev>, Andrew Lunn <andrew+netdev@lunn.ch>, 
@@ -60,91 +58,42 @@ Cc: netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
  linux-kernel@vger.kernel.org, Michael Dege <michael.dege@renesas.com>, 
  Nikita Yushchenko <nikita.yoush@cogentembedded.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1751966866; l=2788;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1751966866; l=1175;
  i=michael.dege@renesas.com; s=20250523; h=from:subject:message-id;
- bh=C99uMKHenzxbuGkCQo56LwfHOevcoSU5d+ZLJw7xICo=;
- b=H0titr0CI8KQiJxXWfyU8c15NQRip6oqY3fpRxnKPMTGS4r6ufUBuvJsF3gO+LR/VDUQ+9DqS
- XAt4s8NkILTDKxfVvRwoIEQdn3sj/hHMHSiI14AowZxhQlQFV2PD7Dm
+ bh=l4w4ScuC6+kKDFL0zv62ICBhy98vqkkl4tddPQXmdeU=;
+ b=VR3sQ3MOk7Nje9xJ1qdtyJO85uiGyd6rp2iK5sIziDYFO4ZEUOH0yomJMBaN82npDagM8CQFO
+ MWbCqCX5eTwCXj33BWc5oyHWaBIrvdcK/J+Spx5ING/rqwXgCGgz10m
 X-Developer-Key: i=michael.dege@renesas.com; a=ed25519;
  pk=+gYTlVQ3/MlOju88OuKnXA7MlapP4lYqJn1F81HZGSo=
 
-Hello!
-
-The current R-Car S4 rswitch driver only supports port based fowarding.
-This patch set adds HW offloading for L2 switching/bridgeing. The driver
-hooks into switchdev.
-
-1. Rename the base driver file to keep the driver name (rswitch.ko)
-
-2. Add setting of default MAC ageing time in hardware.
-
-3. Add the L2 driver extension in a separate file. The HW offloading
-is automatically configured when a port is added to the bridge device.
-
-Usage example:
-ip link add name br0 type bridge
-ip link set dev tsn0 master br0
-ip link set dev tsn1 master br0
-ip link set dev br0 up
-ip link set dev tsn0 up
-ip link set dev tsn1 up
-
-Layer 2 traffic is now fowarded by HW from port TSN0 to port TSN1.
-
-4. Provides the functionality to set the MAC table ageing time in the
-Rswitch.
-
-Usage example:
-ip link change dev br0 type bridge ageing 100
-
-Changes in v2:
-- Pulled default ageing setting into separate patch.
-- Changed logging priority from info to dbg.
-- Updated usage examples.
-- Fixed passing of ageing parameter. Parameter is already in seconds
-  no need to convert. Parameter checking improved.
-- Updated commit message of [3/4] to point out that the switch hardware
-  only supports the offloading of one bridge device. 
-- Link to v1: https://lore.kernel.org/r/20250704-add_l2_switching-v1-0-ff882aacb258@renesas.com
-
-Thanks,
-
-Michael
+Adding new functionality to the driver. Therefore splitting into multiple
+c files to keep them manageable. New functionality will be added to
+separate files.
 
 Signed-off-by: Michael Dege <michael.dege@renesas.com>
-Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
 ---
-To: Niklas Söderlund <niklas.soderlund@ragnatech.se>
-To: Paul Barker <paul@pbarker.dev>
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To: Andrew Lunn <andrew+netdev@lunn.ch>
-To: David S. Miller <davem@davemloft.net>
-To: Eric Dumazet <edumazet@google.com>
-To: Jakub Kicinski <kuba@kernel.org>
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: netdev@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
+ drivers/net/ethernet/renesas/Makefile                      | 1 +
+ drivers/net/ethernet/renesas/{rswitch.c => rswitch_main.c} | 0
+ 2 files changed, 1 insertion(+)
 
----
-Michael Dege (4):
-      net: renesas: rswitch: rename rswitch.c to rswitch_main.c
-      net: renesas: rswitch: configure default ageing time
-      net: renesas: rswitch: add offloading for L2 switching
-      net: renesas: rswitch: add modifiable ageing time
+diff --git a/drivers/net/ethernet/renesas/Makefile b/drivers/net/ethernet/renesas/Makefile
+index f65fc76f8b4df8dd9f24af836b6dc0772965366f..6222298bb5582b7091cf8de76acb83ac7dd39c11 100644
+--- a/drivers/net/ethernet/renesas/Makefile
++++ b/drivers/net/ethernet/renesas/Makefile
+@@ -8,6 +8,7 @@ obj-$(CONFIG_SH_ETH) += sh_eth.o
+ ravb-objs := ravb_main.o ravb_ptp.o
+ obj-$(CONFIG_RAVB) += ravb.o
+ 
++rswitch-objs := rswitch_main.o
+ obj-$(CONFIG_RENESAS_ETHER_SWITCH) += rswitch.o
+ 
+ obj-$(CONFIG_RENESAS_GEN4_PTP) += rcar_gen4_ptp.o
+diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch_main.c
+similarity index 100%
+rename from drivers/net/ethernet/renesas/rswitch.c
+rename to drivers/net/ethernet/renesas/rswitch_main.c
 
- drivers/net/ethernet/renesas/Makefile              |   1 +
- drivers/net/ethernet/renesas/rswitch.h             |  42 ++-
- drivers/net/ethernet/renesas/rswitch_l2.c          | 339 +++++++++++++++++++++
- drivers/net/ethernet/renesas/rswitch_l2.h          |  15 +
- .../ethernet/renesas/{rswitch.c => rswitch_main.c} |  88 +++++-
- 5 files changed, 479 insertions(+), 6 deletions(-)
----
-base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
-change-id: 20250616-add_l2_switching-345117105d0d
-
-Best regards,
 -- 
-Michael Dege <michael.dege@renesas.com>
+2.49.0
 
 
