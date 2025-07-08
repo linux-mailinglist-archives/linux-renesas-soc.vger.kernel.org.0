@@ -1,278 +1,198 @@
-Return-Path: <linux-renesas-soc+bounces-19382-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19383-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02A2BAFCB9A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 15:15:19 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B73D4AFCBD4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 15:24:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 86B251C20F76
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 13:14:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 79C9D7AA96E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 13:22:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AE2F2E0930;
-	Tue,  8 Jul 2025 13:11:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 000432DEA68;
+	Tue,  8 Jul 2025 13:23:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mPaJp4gi"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kKtNOJ3a"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C418C2DCBF7;
-	Tue,  8 Jul 2025 13:11:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5CA52AF07;
+	Tue,  8 Jul 2025 13:23:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751980273; cv=none; b=REVi9EOTBOcxgwlITCtGpZXxcrTkU/qAZxoyyECbl+urdmiUNL1G0fUqoCfEGCXY5Gk5bjLAGm+eNoIF1gkcIfoeMdwPOLAfuBnve0GgNtMKjsbo49I3qDuAUH3ZkxoaLYE8GhWeh8CnI3ehcpRMRRNNqxDqzn1F08oNnO8iOic=
+	t=1751981018; cv=none; b=NKWULFEkDIDciQZ3jhidDA3dxMeRsvc92ciisr4ctfqkCPxVmKBoBr0Bfje/21XGlXaoD6Zi9VfxLYc+sfgLe8dLxZFSkkmxj3hjKb1bXXx06GLDk/mU9nGYiKQLUZ206xmxN1/EKuUFGaw/E4AFhzzCKdqqdZ9Y7pGL2Wid4sM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751980273; c=relaxed/simple;
-	bh=qgK1+p+2S6x9solPSjiOTcbNhibG/PD66ABLIzslZxs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i7KqLLGNa9gO0IMnn8IFW9coZZYKXVDuwezepMNDA+j7qTRZcYkPRKFMYrmpcfW637A/imFzr95EgTIC2ubebYOF19wRcvKCgJox3aC2SU0V0yew6gOqMt5BF7bB0CckOtd93UNRvuYGLDdBU/KTXb0uh4guyrqne+9beNXwgIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mPaJp4gi; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (mob-5-90-136-241.net.vodafone.it [5.90.136.241])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 90C7F8FA;
-	Tue,  8 Jul 2025 15:10:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1751980239;
-	bh=qgK1+p+2S6x9solPSjiOTcbNhibG/PD66ABLIzslZxs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mPaJp4gihjeQL3f6n+rZvx750swul15ViT6dkcslLqKmwVXVYlhiwx+9hB0tAwc3j
-	 XFxlkZzfLmLdPtRpMVPUmyRqbvuJ5k+zuP//UpjmuZwMX9nynUppZ/yWJyFKXt5owh
-	 o2qUi0ACA9LDEH+2iMxLLr9U1FYByRN7WmEHWZb8=
-Date: Tue, 8 Jul 2025 15:10:58 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Daniel Scally <dan.scally@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, jacopo.mondi@ideasonboard.com, biju.das.jz@bp.renesas.com
-Subject: Re: [PATCH v3 2/5] media: v4l2-dev: Add helpers to run
- media_pipeline_[started|stopped]()
-Message-ID: <v3gonywym2km6u4qpsm2bkpn5n7vmvm4rdt3nfiws6mri3b7y4@gh4q5f4cmavc>
-References: <20250704-ivc-v3-0-5c45d936ef2e@ideasonboard.com>
- <20250704-ivc-v3-2-5c45d936ef2e@ideasonboard.com>
+	s=arc-20240116; t=1751981018; c=relaxed/simple;
+	bh=VQw21ed22+lnZ2irmlex1nQT0JoxG9StrL4OXsI32V0=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=lRIgHVWkD4ZowqLX1Lb2udsvZrS+PBoq3m3a5yTSxtpLuWRIv79FRAYgZCKr8QShSk0r0YuDf4hw28by0RtsJxD/qDcN660y2MZPzp4X+qoR2xH3cA/cTPkoZjD9emePBQl7YP7/TacE4lh/xlTkIeG6Nc2ijye99Q5R/LUZDX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kKtNOJ3a; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10F10C4CEED;
+	Tue,  8 Jul 2025 13:23:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751981018;
+	bh=VQw21ed22+lnZ2irmlex1nQT0JoxG9StrL4OXsI32V0=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=kKtNOJ3aKX82SUU3ABxuBZWlYCZdF27u8RnN30UjJV2uFX9Om1g4wTEifu2eYRaZK
+	 8f3KJYp1dF6Dj2/xN91sRuyP7CNao5o26fN0elDplOeN/9EpFw77ukpHfNi1imbMZZ
+	 GsO+ghaviShSaL//fuzgya4ixMOQA9O9FhB/zODyPr3u2maOKT0WcCJvzivK9znwNc
+	 obEd/AiF9FGkgj3hNIbeSpRZXvsElkto2CTi6APWAt2wUNUrFibm1zhvUyL0pbpy0s
+	 tMnKlBWEtMSWdxlhkWbh3FsMilKBoEWt5r5nY3G/hd2gMYV3FNt5PYF7eciNPMAggD
+	 lvjSSoE7c/5fw==
+Date: Tue, 08 Jul 2025 08:23:36 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250704-ivc-v3-2-5c45d936ef2e@ideasonboard.com>
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>, linux-hardening@vger.kernel.org, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ "Guilherme G. Piccoli" <gpiccoli@igalia.com>, devicetree@vger.kernel.org, 
+ Joel Stanley <joel@jms.id.au>, Conor Dooley <conor+dt@kernel.org>, 
+ Tony Luck <tony.luck@intel.com>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>, linux-aspeed@lists.ozlabs.org, 
+ linux-arm-kernel@lists.infradead.org, Kees Cook <kees@kernel.org>, 
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+To: Leo Wang <leo.jt.wang@gmail.com>
+In-Reply-To: <20250708-add-support-for-meta-clemente-bmc-v6-0-7f3e57bd0336@fii-foxconn.com>
+References: <20250708-add-support-for-meta-clemente-bmc-v6-0-7f3e57bd0336@fii-foxconn.com>
+Message-Id: <175198090815.436996.783632066057009711.robh@kernel.org>
+Subject: Re: [PATCH v6 0/2] ARM: dts: Add support for Meta Clemente BMC
 
-Hi Dan
 
-On Fri, Jul 04, 2025 at 12:20:19PM +0100, Daniel Scally wrote:
-> Add helpers to run the new media_pipeline_started() and
-> media_pipeline_stopped() functions. The helpers iterate over the
-> entities in the pipeline and count the number of video devices and
-> compare that to the pipeline's start_count() before acting. This
-> allows us to only run the media pipeline callbacks in the event that
-> the pipeline has had video_pipeline_start() called for each video
-> device.
->
-> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
->
+On Tue, 08 Jul 2025 18:17:59 +0800, Leo Wang wrote:
+> This series adds initial support for the Meta Clemente BMC based on the
+> ASPEED AST2600 SoC.
+> 
+> Patch 1 documents the compatible string.
+> Patch 2 adds the device tree for the board.
+> 
+> Signed-off-by: Leo Wang <leo.jt.wang@gmail.com>
 > ---
->
-> We could take this further perhaps and include the equivalent routine
-> in video_device_pipeline[_alloc]_start()...if none of the entities
-> involved have .pipeline_started() or .pipeline_stopped() operations it
-> should be harmless, but I'm a bit reluctant to force the choice to run
-> those operations on users.
-
-I know I've kind of suggested that, but after all I don't think it's a
-very good idea, having this in two steps is probably better. And I
-like the fact the v4l2-dev layer operates on the video device counting
-and only relies on the mc layer for the callbacks notification.
-
->
+> Changes in v6:
+> - Correct Author email to match Signed-off-by email address.
+> - Link to v5: https://lore.kernel.org/r/20250627-add-support-for-meta-clemente-bmc-v5-0-038ed6f1cb9f@fii-foxconn.com
+> 
+> Changes in v5:
+> - Remove accidentally pasted texts.
+> - Link to v4: https://lore.kernel.org/r/20250627-add-support-for-meta-clemente-bmc-v4-0-ce7ff23460c4@fii-foxconn.com
+> 
+> Changes in v4:
+> - Move properties of nodes defined in the same file from label ref back to where they belong.
+> - Move pinctrl default configs for ncsi3 and ncsi4 to aspeed-g6-pinctrl.dtsi.
+> - Add properties to i2c10 and i2c15 to enable MCTP.
+> - Link to v3: https://lore.kernel.org/r/20250623-add-support-for-meta-clemente-bmc-v3-0-c223ffcf46cf@fii-foxconn.com
+> 
+> Changes in v3:
+> - Modify leakage sensor to reflect current design.
+> - Link to v2: https://lore.kernel.org/r/20250621-add-support-for-meta-clemente-bmc-v2-0-6c5ef059149c@fii-foxconn.com
+> 
 > Changes in v2:
->
-> 	- Adapted now media_pipeline_for_each_entity() takes an iter
-> 	  variable
-> 	- Fixed the Return: section of the kerneldoc comments
+> - Fix patch 1/2 subject line to match dt-bindings convention.
+> - Reorder device tree nodes in patch 2/2 to follow upstream DTS style.
+> - Link to v1: https://lore.kernel.org/r/20250618-add-support-for-meta-clemente-bmc-v1-0-e5ca669ee47b@fii-foxconn.com
+> 
 > ---
->  drivers/media/v4l2-core/v4l2-dev.c | 57 ++++++++++++++++++++++++++++++++++++++
->  include/media/v4l2-dev.h           | 36 ++++++++++++++++++++++++
->  2 files changed, 93 insertions(+)
->
-> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-> index c369235113d98ae26c30a1aa386e7d60d541a66e..f3309f8349664f7296a95216a40dd9d9baae8d9e 100644
-> --- a/drivers/media/v4l2-core/v4l2-dev.c
-> +++ b/drivers/media/v4l2-core/v4l2-dev.c
-> @@ -1200,6 +1200,63 @@ struct media_pipeline *video_device_pipeline(struct video_device *vdev)
->  }
->  EXPORT_SYMBOL_GPL(video_device_pipeline);
->
-> +static int __video_device_pipeline_started(struct media_pipeline *pipe)
-
-__function_name() is usually reserved for the non-locking version of
-function_name().
-
-This seems to be an helper only used internally by
-video_device_pipeline_started() so I would use a different name
-something like video_device_has_pipeline_started() ?
-
-
-> +{
-> +	struct media_pipeline_entity_iter iter;
-> +	unsigned int n_video_devices = 0;
-> +	struct media_entity *entity;
-> +	int ret;
-> +
-> +	ret = media_pipeline_entity_iter_init(pipe, &iter);
-> +	if (ret)
-> +		return ret;
-> +
-> +	media_pipeline_for_each_entity(pipe, &iter, entity) {
-> +		if (entity->obj_type == MEDIA_ENTITY_TYPE_VIDEO_DEVICE)
-> +			n_video_devices++;
-> +	}
-> +
-> +	media_pipeline_entity_iter_cleanup(&iter);
-> +
-> +	return n_video_devices - pipe->start_count;
-> +}
-> +
-> +int video_device_pipeline_started(struct video_device *vdev)
-> +{
-> +	struct media_pipeline *pipe;
-> +	int ret;
-> +
-> +	pipe = video_device_pipeline(vdev);
-> +	if (!pipe)
-> +		return -ENODEV;
-> +
-> +	ret = __video_device_pipeline_started(pipe);
-> +	if (ret)
-> +		return ret;
-
-I would not return ret, as it might take random values betwen
-n_video_devices and 1. See below on the return value documentation
-
-> +
-> +	return media_pipeline_started(pipe);
-> +}
-> +EXPORT_SYMBOL_GPL(video_device_pipeline_started);
-> +
-> +int video_device_pipeline_stopped(struct video_device *vdev)
-> +{
-> +	struct media_pipeline *pipe;
-> +	int ret;
-> +
-> +	pipe = video_device_pipeline(vdev);
-> +	if (!pipe)
-> +		return -ENODEV;
-> +
-> +	ret = __video_device_pipeline_started(pipe);
-> +	if (ret)
-> +		return ret;
-
-ditto
-
-> +
-> +	media_pipeline_stopped(pipe);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(video_device_pipeline_stopped);
-> +
->  #endif /* CONFIG_MEDIA_CONTROLLER */
->
->  /*
-> diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
-> index 1b6222fab24eda96cbe459b435431c01f7259366..26b4a491024701ef47320aec6a1a680149ba4fc3 100644
-> --- a/include/media/v4l2-dev.h
-> +++ b/include/media/v4l2-dev.h
-> @@ -654,6 +654,42 @@ __must_check int video_device_pipeline_alloc_start(struct video_device *vdev);
->   */
->  struct media_pipeline *video_device_pipeline(struct video_device *vdev);
->
-> +/**
-> + * video_device_pipeline_started - Run the pipeline_started() entity operation
-> + *				   for a fully-started media pipeline
-> + * @vdev: A video device that's part of the pipeline
-> + *
-> + * This function checks whether all MEDIA_ENTITY_TYPE_VIDEO_DEVICE entities
-> + * connected to a given video device through enabled links have been marked as
-
-I would use the same text as the one from video_device_pipeline_start()
-
-" connected to a given video device through enabled links, either
-directly or indirectly,"
-
-> + * streaming through the use of video_device_pipeline_start() or one of its
-> + * equivalent functions. If so, media_pipeline_started() is called to inform
-> + * entities in the pipeline of that fact. The intention is to provide drivers
-> + * with a shortcut for checking whether their pipeline is fully ready to start
-> + * processing data.
-
-Not really a shortcut, I would use "mechanism" instead.
-
-I would also specify that:
-
- * entities in the pipeline of that fact. The intention is to provide drivers
- * with a mechanism for checking whether their pipeline is fully ready to start
- * processing data and call the .pipeline_started() media entity operation
- * on all the entities in the pipeline.
-
-> + *
-> + * Return: The number of video devices in the pipeline remaining to be started,
-> + * or a negative error number on failure.
-
-0 for success as well
-
-I would anyway return 0 for success and a specific error code for the
-three failure cases:
--ENOMEM if allocating the iterator fails
--ENODEV if not all video devices have started
--EINVAL if media_pipeline_started() fails
-
-You can document them as (copying from iommu.h)
-
-* Return:
-* * 0            - success
-* * EINVAL       - call to pipeline_started() failed
-* * ENOMEM       - failed to allocate pipe iterator
-* * ENODEV       - pipeline not yet fully started
-
-> + */
-> +int video_device_pipeline_started(struct video_device *vdev);
-> +
-> +/**
-> + * video_device_pipeline_stopped - Run the pipeline_stopped() entity operation
-> + *				   for a fully-started media pipeline
-> + * @vdev: A video device that's part of the pipeline
-> + *
-> + * This function checks whether all MEDIA_ENTITY_TYPE_VIDEO_DEVICE entities
-> + * connected to a given video device through enabled links have been marked as
-> + * streaming through the use of video_device_pipeline_start() or one of its
-
-What is the intended semantic here ? The first video device to receive
-a streamoff() will trigger media_pipeline_stopped() or should the last
-one do that ?
-
-> + * equivalent functions. If so, media_pipeline_stopped() is called for each
-> + * entity in the pipeline. The intention is to provide drivers with a shortcut
-> + * for checking whether this video device is the first device in the pipeline
-> + * to be stopped.
-> + *
-> + * Return: The number of video devices in the pipeline remaining to be started, or a
-> + * negative error number on failure.
-> + */
-> +int video_device_pipeline_stopped(struct video_device *vdev);
-> +
->  #endif /* CONFIG_MEDIA_CONTROLLER */
->
->  #endif /* _V4L2_DEV_H */
->
+> Leo Wang (2):
+>       dt-bindings: arm: aspeed: add Meta Clemente board
+>       ARM: dts: aspeed: clemente: add Meta Clemente BMC
+> 
+>  .../devicetree/bindings/arm/aspeed/aspeed.yaml     |    1 +
+>  arch/arm/boot/dts/aspeed/Makefile                  |    1 +
+>  .../dts/aspeed/aspeed-bmc-facebook-clemente.dts    | 1291 ++++++++++++++++++++
+>  arch/arm/boot/dts/aspeed/aspeed-g6-pinctrl.dtsi    |   11 +
+>  4 files changed, 1304 insertions(+)
+> ---
+> base-commit: 52da431bf03b5506203bca27fe14a97895c80faf
+> change-id: 20250618-add-support-for-meta-clemente-bmc-941a469bc523
+> 
+> Best regards,
 > --
-> 2.34.1
->
->
+> Leo Wang <leo.jt.wang@fii-foxconn.com>
+> 
+> 
+> 
+
+
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
+
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+This patch series was applied (using b4) to base:
+ Base: using specified base-commit 52da431bf03b5506203bca27fe14a97895c80faf
+
+If this is not the correct base, please add 'base-commit' tag
+(or use b4 which does this automatically)
+
+New warnings running 'make CHECK_DTBS=y for arch/arm/boot/dts/aspeed/' for 20250708-add-support-for-meta-clemente-bmc-v6-0-7f3e57bd0336@fii-foxconn.com:
+
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: timer (arm,armv7-timer): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /sdram@1e6e0000: failed to match any schema with compatible: ['aspeed,ast2600-sdram-edac', 'syscon']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: bus@1e600000 (aspeed,ast2600-ahbc): compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
+	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: syscon@1e6e2000 (aspeed,ast2600-scu): 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^pinctrl-[0-9]+$', '^silicon-id@[0-9a-f]+$'
+	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/display@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2600-gfx', 'syscon']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: adc@1e6e9000 (aspeed,ast2600-adc0): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: adc@1e6e9100 (aspeed,ast2600-adc1): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: crypto@1e6fa000 (aspeed,ast2600-acry): 'aspeed,ahbc' does not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/timer@1e782000: failed to match any schema with compatible: ['aspeed,ast2600-timer']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): reg-io-width: 4 is not of type 'object'
+	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): lpc-snoop@80: 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: kcs@24 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: kcs@28 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: kcs@2c (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: kcs@114 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2600-ibt-bmc']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: sdc@1e740000 (aspeed,ast2600-sd-controller): sdhci@1e740100:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
+	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: sdc@1e740000 (aspeed,ast2600-sd-controller): sdhci@1e740200:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
+	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740100: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740200: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: adc@34 (maxim,max1363): '#address-cells', '#size-cells', 'channel@0', 'channel@1', 'channel@2', 'channel@3' do not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/iio/adc/maxim,max1363.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: adc@35 (maxim,max1363): '#address-cells', '#size-cells', 'channel@0', 'channel@1', 'channel@2', 'channel@3' do not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/iio/adc/maxim,max1363.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: fsi@1e79b000 (aspeed,ast2600-fsi-master): compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
+	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/fsi@1e79b000: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: fsi@1e79b100 (aspeed,ast2600-fsi-master): compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
+	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/fsi@1e79b100: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/dma-controller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udma']
+
+
+
+
+
 
