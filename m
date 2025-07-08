@@ -1,62 +1,62 @@
-Return-Path: <linux-renesas-soc+bounces-19396-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19397-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A55FAFD347
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 18:55:47 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF126AFD4B0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 19:08:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3FEE07AE26B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 16:54:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0F2891C41D0C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 17:04:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58A2B2E4985;
-	Tue,  8 Jul 2025 16:55:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBCA62E6D0D;
+	Tue,  8 Jul 2025 17:03:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EHpaHR0f"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TbMPeAHH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D1F1DB127;
-	Tue,  8 Jul 2025 16:55:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E0152E2F0D;
+	Tue,  8 Jul 2025 17:03:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751993742; cv=none; b=XLHh0/bOcl3mGj8rU5bbe1nvB7Xdb+PorOy5gjEbhmS+FYk/TvtAkUzFPpLui1V9m59ytX/HN63MeW0DxO1U915lCA86aRtqJfPjaIVGfVQB1x74q2zqC4Fv84V77Yd8DFsRDbDmVbzoQ/idMv96SnEybD7Ow2yWHDoZ41PwCOw=
+	t=1751994190; cv=none; b=ttyZNEDphssnyNMtjZ6z3YqRzVCRpHJ2oKf+AGg2d+J86VIcWG8/hIHlIrdtXZCdYBKMOs1bpB+FcwmWRasDtXdzoRBKNI++af17TqEoYxKl0dCKt90tnZbCI2hZKvymXR1JKTKSHE+VD8KV36g6EehyvA8MI2minLlH9sh+3IY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751993742; c=relaxed/simple;
-	bh=9SPb1rRg+3+y0YQTrg9m/lWRcSKvEJxMR3VbM/EFUUA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Prx+5ljX6Nsuim3epN7Jz/2bfr7TQFefNlr1/KqSbaS/pGoAxzyUSdgyOlOhbGkHBw3vqghTCdoBPizpxynNY5ZvA6nJ25e6u8aU8d9KmWhL+L7O4KP5ph/hEUOwHjZrt7uZKkdUSq5jTqeyssyeyxD7f7kkIbti4oYcDLD5+x4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EHpaHR0f; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB01BC4CEF0;
-	Tue,  8 Jul 2025 16:55:41 +0000 (UTC)
+	s=arc-20240116; t=1751994190; c=relaxed/simple;
+	bh=XKYlXVbQYV2iMMorUJfhOli2L25rSRot9E9TXpcj7rE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R65+JcpVE7gN4n1rBkFxt1+29PPG6a3bC1LNOqRSNGhl1RJu4kS2y+MtZD1EjMxweCbK2FX1UrfVxKwoWX7jYha8BPIUJCE3ZnmDgbXY6LA853sFdxeH4OGGQzzHF6j9DgZhqQ/fJDLNdaMWsfzJkMmhRXO/jip9hfwUPwYbFxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TbMPeAHH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4A9BC4CEED;
+	Tue,  8 Jul 2025 17:03:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751993741;
-	bh=9SPb1rRg+3+y0YQTrg9m/lWRcSKvEJxMR3VbM/EFUUA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=EHpaHR0ffbOEJLvutnq6EJZxTb4B+wsgE0ku2vZ6OGZue52AHZyXy4ClSNQErDb1A
-	 e7wui51WfrOD1y6A/38rkoxGDfxsj3KGtcUIrWFw4rT54xVXMd0v6lBBxslKek1GyN
-	 erhDuARC7u3/perdrZ31s7mVo0aRRtDORWHdjZlz0WzMWQdzaGGBoEORy61nJZxM15
-	 H/hdHI+IikZEqweykpUhM393xWfSLHwKd/fLxdCxfEu6onms3cKXezc0x4pChK3OT0
-	 iPaMKXcN0jjSwn+w/lhOPOEWidhO26xgsz6AzqZ2pfBY8BYZrkjJMyOYQzbCrw2n4u
-	 36fkHlc7ThUQg==
-Date: Tue, 8 Jul 2025 11:55:40 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: bhelgaas@google.com, lpieralisi@kernel.org, kwilczynski@kernel.org,
-	mani@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com,
-	catalin.marinas@arm.com, will@kernel.org, mturquette@baylibre.com,
-	sboyd@kernel.org, p.zabel@pengutronix.de, lizhi.hou@amd.com,
-	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH v3 7/9] arm64: dts: renesas: rzg3s-smarc-som: Update
- dma-ranges for PCIe
-Message-ID: <20250708165540.GA2148533@bhelgaas>
+	s=k20201202; t=1751994190;
+	bh=XKYlXVbQYV2iMMorUJfhOli2L25rSRot9E9TXpcj7rE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TbMPeAHHyXupSUq7veM3WmjyvDpgmewaXHTP9Jz26AlaId9Gi6H4aJv6u0v0m1Y4u
+	 6DyWIPTcGpCrS0/yNIpTpV0yHF9EyJJ0JVlsGuQAm7YYhZDiwoKCDYEgtUKLstyl/p
+	 MjnQp29JLDT9GVwMr7D8UeIi9CIyyjMx9P0JT2d6mB5fC++h+CDsx7OwaKhgYO44Bc
+	 0EIdjaW6ytdTXpRjchHVlX5OMKQfSQuWMJ/1nOGm3cHhP29DSNM81xAy3AvKTb02P3
+	 YBRQV3l6+kdZf7d/iXmEENuZuMYcztgpWiDQXb3x2U8+wS2msuAm6UN265pucXKrC3
+	 ez7QflFr3/Dbg==
+Date: Tue, 8 Jul 2025 12:03:08 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Nghia Nguyen <nghia.nguyen.jg@renesas.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-serial@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: serial: sh-sci: Document r8a78000
+ bindings
+Message-ID: <175199418824.629588.10971950243048104169.robh@kernel.org>
+References: <87frfddghg.wl-kuninori.morimoto.gx@renesas.com>
+ <87ecuxdggq.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -65,47 +65,25 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250704161410.3931884-8-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <87ecuxdggq.wl-kuninori.morimoto.gx@renesas.com>
 
-On Fri, Jul 04, 2025 at 07:14:07PM +0300, Claudiu wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+
+On Thu, 03 Jul 2025 04:51:50 +0000, Kuninori Morimoto wrote:
+> From: Nghia Nguyen <nghia.nguyen.jg@renesas.com>
 > 
-> The first 128MB of memory is reserved on this board for secure area.
-> Update the PCIe dma-ranges property to reflect this.
-
-Can we include a sentence or two about what the "secure area" means?
-I don't know how to connect this with anything in the driver.
-
-> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> R-Car X5H (R8A78000) SoC has the R-Car Gen5 compatible SCIF and
+> HSCIF ports, so document the SoC specific bindings.
+> 
+> [Kuninori: tidyup for upstreaming]
+> 
+> Signed-off-by: Nghia Nguyen <nghia.nguyen.jg@renesas.com>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 > ---
+>  .../devicetree/bindings/serial/renesas,hscif.yaml          | 7 +++++++
+>  Documentation/devicetree/bindings/serial/renesas,scif.yaml | 7 +++++++
+>  2 files changed, 14 insertions(+)
 > 
-> Changes in v3:
-> - collected tags
-> 
-> Changes in v2:
-> - none, this patch is new
-> 
->  arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-> index 39845faec894..1b03820a6f02 100644
-> --- a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-> @@ -214,6 +214,11 @@ &sdhi2 {
->  };
->  #endif
->  
-> +&pcie {
-> +	/* First 128MB is reserved for secure area. */
-> +	dma-ranges = <0x42000000 0 0x48000000 0 0x48000000 0x0 0x38000000>;
-> +};
-> +
->  &pinctrl {
->  #if SW_CONFIG3 == SW_ON
->  	eth0-phy-irq-hog {
-> -- 
-> 2.43.0
-> 
+
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
+
 
