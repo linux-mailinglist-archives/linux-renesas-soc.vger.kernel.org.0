@@ -1,262 +1,189 @@
-Return-Path: <linux-renesas-soc+bounces-19365-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19366-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7442CAFC080
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 04:10:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC8B4AFC124
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 05:07:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 00E2C4A3668
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 02:10:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0865F3B6FC9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 03:07:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 419FF158538;
-	Tue,  8 Jul 2025 02:10:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B9551FBE9B;
+	Tue,  8 Jul 2025 03:07:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jlnOtr/H"
+	dkim=pass (2048-bit key) header.d=gibson.dropbear.id.au header.i=@gibson.dropbear.id.au header.b="B3CpGznH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29A33217719
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Jul 2025 02:09:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7969A19005E;
+	Tue,  8 Jul 2025 03:07:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751940601; cv=none; b=hGJxymX0BPoBNNGVGrRk8h/+ByUmLgp0tdBTZnHmpo4KfF7j54amatOcpa6Zlxua++KU12haA/W8KFvMO5w+m6gkLqC71YShlaoQgqayPSQjr6URHPIp2Xk1NXJ07+dSpek2ow0rBKl0PAa+j53fqo2VymyiiLyhhO193ilueY8=
+	t=1751944044; cv=none; b=MwU2OjSNMo3oizcA4WbzYvVMIqdpGBJJ1X21qoWM0Y8cowcT79COFAzBrz2U+nf3EivRXyOl8U1qcNp71/tC+lhmIVivvPq/hXs85b/HxbT7CBaPpzHEyQDUs4CuPVw6YF9AGmJb4F0hsZooOJdzRsaw8WWurl9nJLe3Nk3Vq28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751940601; c=relaxed/simple;
-	bh=RsVRr31ZrPIqbkyo/B+6CLNpmp5PCQpgFmz08ZZiCtE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=iL5NKwuejl9fHtbBVvGSlqLatvfSFL7AiXOJg2c16xmxSOk7xMgkpHiTEA8+Yb3eZ00ppwnxppV5buZb7TcJZOaWvt4/CVqxjQOPO44YWkd316Tb+wX4+eRnlf4np48JjDQ6bD6T1sWtIYFJioXsGT8CPIg2B3IxkiKEXEL9Y8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jlnOtr/H; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751940599; x=1783476599;
-  h=date:from:to:cc:subject:message-id;
-  bh=RsVRr31ZrPIqbkyo/B+6CLNpmp5PCQpgFmz08ZZiCtE=;
-  b=jlnOtr/HnZkn+vxCxr1lZYdZB4oFqjQujL1oaF5eMQvcWZsuB6gb/ZEC
-   WdaYiW9DHW0wTSDy5hgcyo8gkGnSaKNTv84w8LLM+P0E7kraCzmeMXe9T
-   utxX25q42fYbYErhibf2degkK/tGMu8y2li+HKtpzSnIjchS6xcJF+ojr
-   lYZbdxp4PxVCJNdpGMbO19nDI3qCN/pXqo8sKa5nmGyyzw4EGTmjq7dBl
-   yK9y04tSzpIc9UXZ2Z6z3Mu/GTkjP3vCwWlWdATZxoTnGpV+MWMIH2W8+
-   ckvlWevwL/lAHgyUqsI3VMVNmZmudgsWJQO1WKMbx8jnf3knJcpfVI9MV
-   w==;
-X-CSE-ConnectionGUID: z3Tkns0RRb+eJRgkihMR6g==
-X-CSE-MsgGUID: 7h3xw0y4RiKOOVD/SWIpQg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="56780928"
-X-IronPort-AV: E=Sophos;i="6.16,296,1744095600"; 
-   d="scan'208";a="56780928"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2025 19:09:59 -0700
-X-CSE-ConnectionGUID: 5dCBjmCvRuSRtJAxpkJErA==
-X-CSE-MsgGUID: vhOpCcF2Sa2Y8QfDe/qneg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,296,1744095600"; 
-   d="scan'208";a="159640028"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 07 Jul 2025 19:09:57 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uYxmN-0000uh-1Z;
-	Tue, 08 Jul 2025 02:09:55 +0000
-Date: Tue, 08 Jul 2025 10:09:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-dts-for-v6.17] BUILD SUCCESS
- 05477def4ba90c3a637110eb371b9e342df546a8
-Message-ID: <202507081047.u9djauPd-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1751944044; c=relaxed/simple;
+	bh=rMbqKakFi/+xhU3Rj6kPXO+HS24cMlilfRTp5oDO+CU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dHgELrNr2PkEtI6n7Oc/JKLK+6n4eT7Xv1Clnoq4YuANQtJA6BMs/msGpyYDgKupOyAskEQh8rEIPcikxOFFFq7nxXpnD130alHBy49ZC/3uXrB3AXz/bXSmZc/fDSTO7JbYwe3/5rlU/390T0DuR2ZppViISFcaX66RSJxsN9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gibson.dropbear.id.au; spf=pass smtp.mailfrom=gandalf.ozlabs.org; dkim=pass (2048-bit key) header.d=gibson.dropbear.id.au header.i=@gibson.dropbear.id.au header.b=B3CpGznH; arc=none smtp.client-ip=150.107.74.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gibson.dropbear.id.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gandalf.ozlabs.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=gibson.dropbear.id.au; s=202506; t=1751943978;
+	bh=fsi1GjFyUUdQ0uiXj5hjqPOXToWH6CrE18MFTYBTWnU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=B3CpGznHUjsl3Kye/eYpzJO3Mp91NQbMMiSs0PQHIQ5DBIWezKcpP5kfYTiJoshrh
+	 nk+MYZJwCsTyfyFM7DUAvpAkE3ATFspvdxPJuXZEARW/Gt/CWu3jePJuRjH3XA5+Hs
+	 t9re0otpfTSLx/3DLU0RZVoIC8kvwoT8YKMUAM2iB9d0AuS5YQV1ihI8Lpn5C4Kfny
+	 Pc8HZ2SOtAIlvXMOm9KW15+Jx11rXJR3M7aixe1KEeWvlOyar4k0SpjI5yBBc1DAs0
+	 rvLViwkaT9CJJKSx/josJ07wLtE3AJH6DOqIv2CJvXF6ugtzdjoHl9nDx32BBaX4tw
+	 1a3K0SHGsjX6Q==
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+	id 4bbmGL0myyz4wxh; Tue,  8 Jul 2025 13:06:18 +1000 (AEST)
+Date: Tue, 8 Jul 2025 13:07:12 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	devicetree-compiler@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] checks: Document possible false warning for graph child
+ addresses
+Message-ID: <aGyLYBoJ0c0UcN-8@zatzit>
+References: <20250706122638.1040347-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="T/dgtULPfiNkkQRZ"
+Content-Disposition: inline
+In-Reply-To: <20250706122638.1040347-1-niklas.soderlund+renesas@ragnatech.se>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dts-for-v6.17
-branch HEAD: 05477def4ba90c3a637110eb371b9e342df546a8  arm64: dts: renesas: r8a779g3-sparrow-hawk-fan-pwm: Add missing install target
 
-Unverified Warning (likely false positive, kindly check if interested):
+--T/dgtULPfiNkkQRZ
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-    arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: usb-phy@15800200 (renesas,usb2-phy-r9a09g056): compatible: 'oneOf' conditional failed, one must be fixed:
-    arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: usb20phy-reset@15830000 (renesas,r9a09g056-usb2phy-reset): compatible: ['renesas,r9a09g056-usb2phy-reset', 'renesas,r9a09g057-usb2phy-reset'] is too long
-    arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: usb20phy-reset@15830000 (renesas,r9a09g056-usb2phy-reset): compatible:0: 'renesas,r9a09g057-usb2phy-reset' was expected
-    arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: usb@15820000 (renesas,usbhs-r9a09g056): compatible: 'oneOf' conditional failed, one must be fixed:
+On Sun, Jul 06, 2025 at 02:26:38PM +0200, Niklas S=F6derlund wrote:
+> The dtc graph_child_address check can't distinguish between bindings
+> where there can only be a single endpoint, and cases where there can be
+> multiple endpoints.
+>=20
+> In cases where the bindings allow for multiple endpoints but only one is
+> described false warnings about unnecessary #address-cells/#size-cells
+> can be generated, but only if the endpoint described have an address of
+> 0 (A), for single endpoints with a non-zero address (B) no warnings are
+> generated.
+>=20
+> A)
+>     ports {
+> 	#address-cells =3D <1>;
+> 	#size-cells =3D <0>;
+>=20
+> 	port@0 {
+> 	    #address-cells =3D <1>;
+> 	    #size-cells =3D <0>;
+>=20
+> 	    sourceA: endpoint@0 {
+> 		reg =3D <0>
+> 	    };
+> 	};
+>     };
+>=20
+> B)
+>     ports {
+> 	#address-cells =3D <1>;
+> 	#size-cells =3D <0>;
+>=20
+> 	port@0 {
+> 	    #address-cells =3D <1>;
+> 	    #size-cells =3D <0>;
+>=20
+> 	    sourceB: endpoint@1 {
+> 		reg =3D <1>
+> 	    };
+> 	};
+>     };
+>=20
+> Add a comment in the check to document this.
 
-Warning ids grouped by kconfigs:
+Hm.  I don't know the graph bindings at all well, so I'll take your
+word for it on what's happening here.  But simply documenting this
+within the code doesn't seem particularly useful.  Someone running dtc
+will still see the bogus error, and they'd have a pretty long way to
+go to find this explanation.
 
-recent_errors
-|-- arm64-randconfig-051-20250707
-|   |-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb-(renesas-usbhs-r9a09g056):compatible:oneOf-conditional-failed-one-must-be-fixed:
-|   |-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb-phy-(renesas-usb2-phy-r9a09g056):compatible:oneOf-conditional-failed-one-must-be-fixed:
-|   |-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb20phy-reset-(renesas-r9a09g056-usb2phy-reset):compatible:renesas-r9a09g056-usb2phy-reset-renesas-r9a09g057-usb2phy-reset-is-too-long
-|   `-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb20phy-reset-(renesas-r9a09g056-usb2phy-reset):compatible:renesas-r9a09g057-usb2phy-reset-was-expected
-|-- arm64-randconfig-052-20250707
-|   |-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb-(renesas-usbhs-r9a09g056):compatible:oneOf-conditional-failed-one-must-be-fixed:
-|   |-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb-phy-(renesas-usb2-phy-r9a09g056):compatible:oneOf-conditional-failed-one-must-be-fixed:
-|   |-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb20phy-reset-(renesas-r9a09g056-usb2phy-reset):compatible:renesas-r9a09g056-usb2phy-reset-renesas-r9a09g057-usb2phy-reset-is-too-long
-|   `-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb20phy-reset-(renesas-r9a09g056-usb2phy-reset):compatible:renesas-r9a09g057-usb2phy-reset-was-expected
-|-- arm64-randconfig-053-20250707
-|   |-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb-(renesas-usbhs-r9a09g056):compatible:oneOf-conditional-failed-one-must-be-fixed:
-|   |-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb-phy-(renesas-usb2-phy-r9a09g056):compatible:oneOf-conditional-failed-one-must-be-fixed:
-|   |-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb20phy-reset-(renesas-r9a09g056-usb2phy-reset):compatible:renesas-r9a09g056-usb2phy-reset-renesas-r9a09g057-usb2phy-reset-is-too-long
-|   `-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb20phy-reset-(renesas-r9a09g056-usb2phy-reset):compatible:renesas-r9a09g057-usb2phy-reset-was-expected
-|-- arm64-randconfig-054-20250707
-|   |-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb-(renesas-usbhs-r9a09g056):compatible:oneOf-conditional-failed-one-must-be-fixed:
-|   |-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb-phy-(renesas-usb2-phy-r9a09g056):compatible:oneOf-conditional-failed-one-must-be-fixed:
-|   |-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb20phy-reset-(renesas-r9a09g056-usb2phy-reset):compatible:renesas-r9a09g056-usb2phy-reset-renesas-r9a09g057-usb2phy-reset-is-too-long
-|   `-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb20phy-reset-(renesas-r9a09g056-usb2phy-reset):compatible:renesas-r9a09g057-usb2phy-reset-was-expected
-`-- arm64-randconfig-055-20250707
-    |-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb-(renesas-usbhs-r9a09g056):compatible:oneOf-conditional-failed-one-must-be-fixed:
-    |-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb-phy-(renesas-usb2-phy-r9a09g056):compatible:oneOf-conditional-failed-one-must-be-fixed:
-    |-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb20phy-reset-(renesas-r9a09g056-usb2phy-reset):compatible:renesas-r9a09g056-usb2phy-reset-renesas-r9a09g057-usb2phy-reset-is-too-long
-    `-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb20phy-reset-(renesas-r9a09g056-usb2phy-reset):compatible:renesas-r9a09g057-usb2phy-reset-was-expected
+Probably better to simply remove the check (and maybe comment that it
+would be nice to check further, but we can't adequately it from a
+valid case).
 
-elapsed time: 975m
+>=20
+> Signed-off-by: Niklas S=F6derlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+> Hello,
+>=20
+> This was previously part of a patch posted to devicetree@vger.kernel.org
+> [1], but as Rob's points out in that thread it should have been posted
+> separately to devicetree-compiler@vger.kernel.org. Sorry for not
+> realising that dtc changes go to thru a separate tree.
+>=20
+> 1.  https://lore.kernel.org/all/20250702085008.689727-1-niklas.soderlund%=
+2Brenesas@ragnatech.se/
+> ---
+>  checks.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>=20
+> diff --git a/checks.c b/checks.c
+> index 123f2eb425f4..52d09fcf8d3a 100644
+> --- a/checks.c
+> +++ b/checks.c
+> @@ -1913,6 +1913,11 @@ static void check_graph_child_address(struct check=
+ *c, struct dt_info *dti,
+>  		cnt++;
+>  	}
+> =20
+> +	/*
+> +	 * This check can produce false warnings if the bindings allow for more
+> +	 * then one endpoint in the node but only one is present and it has a
+> +	 * unit address of zero.
+> +	 */
+>  	if (cnt =3D=3D 1 && node->addr_cells !=3D -1)
+>  		FAIL(c, dti, node, "graph node has single child node '%s', #address-ce=
+lls/#size-cells are not necessary",
+>  		     node->children->name);
 
-configs tested: 133
-configs skipped: 4
+--=20
+David Gibson (he or they)	| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you, not the other way
+				| around.
+http://www.ozlabs.org/~dgibson
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+--T/dgtULPfiNkkQRZ
+Content-Type: application/pgp-signature; name=signature.asc
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    gcc-15.1.0
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    gcc-15.1.0
-arc                   randconfig-001-20250707    gcc-15.1.0
-arc                   randconfig-002-20250707    gcc-8.5.0
-arm                              allmodconfig    gcc-15.1.0
-arm                               allnoconfig    clang-21
-arm                              allyesconfig    gcc-15.1.0
-arm                           imxrt_defconfig    clang-21
-arm                   randconfig-001-20250707    gcc-10.5.0
-arm                   randconfig-002-20250707    gcc-11.5.0
-arm                   randconfig-003-20250707    clang-21
-arm                   randconfig-004-20250707    clang-21
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.1.0
-arm64                 randconfig-001-20250707    gcc-8.5.0
-arm64                 randconfig-002-20250707    gcc-11.5.0
-arm64                 randconfig-003-20250707    gcc-12.3.0
-arm64                 randconfig-004-20250707    gcc-14.3.0
-csky                              allnoconfig    gcc-15.1.0
-csky                  randconfig-001-20250707    gcc-15.1.0
-csky                  randconfig-002-20250707    gcc-12.4.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-21
-hexagon                          allyesconfig    clang-21
-hexagon               randconfig-001-20250707    clang-21
-hexagon               randconfig-002-20250707    clang-21
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250707    gcc-12
-i386        buildonly-randconfig-002-20250707    clang-20
-i386        buildonly-randconfig-003-20250707    gcc-12
-i386        buildonly-randconfig-004-20250707    gcc-12
-i386        buildonly-randconfig-005-20250707    gcc-12
-i386        buildonly-randconfig-006-20250707    gcc-12
-i386                                defconfig    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-21
-loongarch             randconfig-001-20250707    clang-21
-loongarch             randconfig-002-20250707    gcc-15.1.0
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-m68k                        m5307c3_defconfig    gcc-15.1.0
-m68k                            mac_defconfig    gcc-15.1.0
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-mips                        bcm63xx_defconfig    clang-21
-mips                            gpr_defconfig    clang-18
-nios2                             allnoconfig    gcc-14.2.0
-nios2                             allnoconfig    gcc-15.1.0
-nios2                               defconfig    gcc-14.2.0
-nios2                               defconfig    gcc-15.1.0
-nios2                 randconfig-001-20250707    gcc-10.5.0
-nios2                 randconfig-002-20250707    gcc-12.4.0
-openrisc                          allnoconfig    clang-21
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-15.1.0
-parisc                           allmodconfig    gcc-15.1.0
-parisc                            allnoconfig    clang-21
-parisc                            allnoconfig    gcc-15.1.0
-parisc                           allyesconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250707    gcc-8.5.0
-parisc                randconfig-002-20250707    gcc-15.1.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                           allnoconfig    clang-21
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                          allyesconfig    clang-21
-powerpc                      mgcoge_defconfig    clang-21
-powerpc               randconfig-001-20250707    gcc-8.5.0
-powerpc               randconfig-002-20250707    clang-21
-powerpc               randconfig-003-20250707    gcc-8.5.0
-powerpc64             randconfig-001-20250707    gcc-8.5.0
-powerpc64             randconfig-002-20250707    gcc-10.5.0
-powerpc64             randconfig-003-20250707    clang-21
-riscv                            allmodconfig    clang-21
-riscv                             allnoconfig    clang-21
-riscv                             allnoconfig    gcc-15.1.0
-riscv                            allyesconfig    clang-16
-riscv                               defconfig    clang-21
-riscv                 randconfig-001-20250707    clang-21
-riscv                 randconfig-002-20250707    clang-21
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-21
-s390                             allyesconfig    gcc-15.1.0
-s390                                defconfig    clang-21
-s390                  randconfig-001-20250707    clang-21
-s390                  randconfig-002-20250707    gcc-11.5.0
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                                  defconfig    gcc-15.1.0
-sh                    randconfig-001-20250707    gcc-15.1.0
-sh                    randconfig-002-20250707    gcc-15.1.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20250707    gcc-12.4.0
-sparc                 randconfig-002-20250707    gcc-8.5.0
-sparc64                             defconfig    clang-20
-sparc64               randconfig-001-20250707    clang-20
-sparc64               randconfig-002-20250707    gcc-15.1.0
-um                               alldefconfig    clang-21
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-21
-um                               allyesconfig    gcc-12
-um                                  defconfig    clang-21
-um                             i386_defconfig    gcc-12
-um                    randconfig-001-20250707    gcc-12
-um                    randconfig-002-20250707    gcc-12
-um                           x86_64_defconfig    clang-21
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250707    gcc-12
-x86_64      buildonly-randconfig-002-20250707    gcc-12
-x86_64      buildonly-randconfig-003-20250707    gcc-12
-x86_64      buildonly-randconfig-004-20250707    clang-20
-x86_64      buildonly-randconfig-005-20250707    gcc-12
-x86_64      buildonly-randconfig-006-20250707    clang-20
-x86_64                              defconfig    gcc-11
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250707    gcc-12.4.0
-xtensa                randconfig-002-20250707    gcc-8.5.0
-xtensa                    xip_kc705_defconfig    gcc-15.1.0
+-----BEGIN PGP SIGNATURE-----
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+iQIzBAEBCgAdFiEEO+dNsU4E3yXUXRK2zQJF27ox2GcFAmhsi1QACgkQzQJF27ox
+2GcC9xAAhAvHNofV7GzkBH/OdnfKkBr5UmcMuWko3CnBpJE0+mbbpVaAMrcYoI8N
+eGp+UvqYt72c49VdGnkzShK4IEyjtMxtytt7j62/GJa6+N0MI+Iqa3JcrmVwkJu0
+R2e+gq/V+MNpvGFJqqwoXuNRxWi7DoV/o9sEAVHnz4kDM2iFKxcJIi1wkZ1LDO6z
+AsDR5LFZiGECZM8Ua/uQ0BHFdTKXNGLnoptDM1ABZmHSKicDMRuR5Za4Zk+EfIOY
+nJcBK0IFJJHf2n/t6PEKJmQcauDY0hxeHDzyT5/GI7Ao+g0PPiVJ99RezmMtymHu
+OaK+D025fUcvveYVf8CWdK3AzaLSakE4qNzTrhfgPIF+Y2SJy3dD7AdWpTTdv44g
+4Gu+Ygd0ioDbUWBqyRuynml8bggCT2Ace7D/aUF+hV84a3w386uxKxh/5c/hkQzR
+fSB1lDLUnhYlgfmr+0NG14T5LhhhOmPUbgI2WzahVGEsMHql0VMMbGDjjyNOZbH7
+DZYc41/c59FZIEJCbYp2UfCUc3r55hfyLW7gQlA9TATIqipwKlcbvp3EkarPxbLs
+oV50CQGPwSyNEmgDrC3aEd+pTgHq51dYR9jmFE98A57i58Q2wWvTrFIGQcYzc03Q
+NG2bwRJjnVWX9w7ZkwfZ+JeY2yvJGAavZ2162kq18tMoW9Ar7e4=
+=l1ny
+-----END PGP SIGNATURE-----
+
+--T/dgtULPfiNkkQRZ--
 
