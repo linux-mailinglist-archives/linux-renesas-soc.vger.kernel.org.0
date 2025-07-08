@@ -1,237 +1,169 @@
-Return-Path: <linux-renesas-soc+bounces-19394-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19395-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F7E3AFD06F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 18:18:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED00CAFD173
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 18:36:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3C7964280BD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 16:17:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 37A8E188C90C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jul 2025 16:34:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F3572E1C65;
-	Tue,  8 Jul 2025 16:18:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 723362E5423;
+	Tue,  8 Jul 2025 16:34:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="TB0LHkGt";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="As4/7X/F"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="azMXPSKl"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D3A21A426;
-	Tue,  8 Jul 2025 16:18:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 300022E2F0D;
+	Tue,  8 Jul 2025 16:34:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751991494; cv=none; b=IExK53jByG8pwUSaCVXumzTXBVm4SVwwTE+EW4hW5Sr2aEABxNFOO2b4S6EKI6tdPiK1rvh/0M5C7oOOQCsNCQUUb8PXYtiBqseuojVvu+Gj0oqj9TfbC/jvXg86pQidxAWl0NPXrB+/2nH8Cz87QIIc631hUSgN6oLT5UQ45Fc=
+	t=1751992449; cv=none; b=WITI7ja0GhLZTXr70sVXX2x++zJkbDKHYTczpkubvuO/nEVPCsr6T0dNcfM7/Y76cvGbaA3LdR/5Rt+kqq/CB5u7lPIRYvJkrK4CXpr0uhbIrXVMXAI3NltQZmJd9/O8QKYlUuJt/MRgP85Nr6yUnNM3/B1nV1AbE3N9P5ftknQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751991494; c=relaxed/simple;
-	bh=dryBCeRanaSKC3KSIZdco4PvBDmkn7sbCKozEVF6TEc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HaR4sXHzPpjJqVUWqVTywHHPvtG/9MrA/iJW5d/IZ45Mbgx2tdSfqxzTwfx1dmPa+Gnmk7mriGUGR1vK1NP8OtmT0Amr0GLpl6M0e+FprXoiw6AxLWEsM6y5So0l8IsC4nh9yxhngJ2RGxT9nmW5wVBbH+xoUx2c4mBI7i4i0XY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=TB0LHkGt; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=As4/7X/F; arc=none smtp.client-ip=202.12.124.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 866597A015A;
-	Tue,  8 Jul 2025 12:18:10 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-12.internal (MEProxy); Tue, 08 Jul 2025 12:18:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1751991490;
-	 x=1752077890; bh=NfROuzrJSbw2grJ6GM2uOV14LjZuQ6VaXQF3xvusaco=; b=
-	TB0LHkGt/dOUc/WZuKf5LW3+OlpqdgYjhMRxjKsXmFgsCLiI+TOrqK/J7nQCV5MD
-	SJ3qioor1CGCgdmIWGqxInuy7aHxIEw0SJEjCXXckb0vLBbvTHP3SodZIb5nyidE
-	+LsRAl0Odp4B7mgDDA5dU/Y097QkQp/9YBIONh287E5HnAxQ7vc0yACAi3LkfIiN
-	3ol8N3xfCpF+iaexzFuYwzWGZhfk1oWWuEfNwla8ls/6f6+k/Unx/i3o9UBjPXw4
-	6p1piWSCNROcrVws7pSG8XV4p7w0OWxTx7Y7UfKwNncYYQ7vJUf+ZNBrI/c9xVEI
-	ONz7kklQGzYg6K0M12qOwA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1751991490; x=
-	1752077890; bh=NfROuzrJSbw2grJ6GM2uOV14LjZuQ6VaXQF3xvusaco=; b=A
-	s4/7X/F72zbPt0f5GtiVmvCs7SVdk1ZlXxCpHw9zPirMyeU6h+sFJ9mZdwXjLyYt
-	0b9ZZQ6uFrdAc4NoamM4WtIdYmzSt9NIdSw8boC+F7gr5g18M3GwwKdoQggvDlyv
-	hv9HgoAh28wJaXtQR6/fK/dbWBy9ZmySsmncx+q3V2oS+Prl/+STaEEhUqolacwl
-	mmBEmQhXjVHKclLjCKu82bWGgXtRXpJbJPb5XseRgQ0ncYbkrMMXjUh0skgGv8nV
-	7a3vpkIfY+l3RWsQEWNM32aFgB+OKzRQgPTOxCPc/zympt3itaDdELjY1KrczLUu
-	pBcGFPzldhUEIvb1wQxgQ==
-X-ME-Sender: <xms:wURtaDVHE-jNm2Olckqp-WT1INdEBZZ7iG08Cawh6T-3RNQG3L7eSA>
-    <xme:wURtaJLLTqgKAZNrYf-ygJOU_nrpbgRZg_NyuHoSuIYFwRMLtkNKf66Vi7r-wyiKW
-    0qATXkvC6MU8bDtgG0>
-X-ME-Received: <xmr:wURtaF1HuUkV37EWPVMNw9aRlXgssVR-S0PXtkdJQJHFYftuAAZcIEt7uCCADR7oPKLKalPQGYbTm0BwiN2xnzTUIV49sWFZ3w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdefhedugecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhikhhlrghs
-    ucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrg
-    hssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepffekgfdukeeghffh
-    jeetvdeitdegteeikeffieduhfegveetjeevtdffvdekffdtnecuffhomhgrihhnpehkvg
-    hrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
-    fhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrg
-    htvggthhdrshgvpdhnsggprhgtphhtthhopeeipdhmohguvgepshhmthhpohhuthdprhgt
-    phhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggrvhhiugesgh
-    hisghsohhnrdgurhhophgsvggrrhdrihgurdgruhdprhgtphhtthhopehsrghrrghvrghn
-    rghksehgohhoghhlvgdrtghomhdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghsse
-    hglhhiuggvrhdrsggvpdhrtghpthhtohepuggvvhhitggvthhrvggvsehvghgvrhdrkhgv
-    rhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvh
-    hgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:wURtaP7EcZGxW-AHpw9MQr0vbTt7Q3l5ghuiHe5Y-5y5_WBQ_eG7Ew>
-    <xmx:wURtaO9z4lTdnAaiMb-gd-tfdC22FxqvBvd2LtHqIuqk9Mb3nU5zZA>
-    <xmx:wURtaGVywi73B-1OKSCOyHmu0GqH6oEduiYxmWLe4xgUZLP65JZO3A>
-    <xmx:wURtaBpuFjW4AM7GFwSIx9153VWL3PMQE0mpgeDfnEii2lI8O1E51g>
-    <xmx:wkRtaI1dB9frcgUcio1bRVvesFvcnvAZAfVwJtvoq_4rUhZcrNbFMjfD>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 8 Jul 2025 12:18:09 -0400 (EDT)
-Date: Tue, 8 Jul 2025 18:18:07 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Rob Herring <robh@kernel.org>,
-	David Gibson <david@gibson.dropbear.id.au>,
-	Saravana Kannan <saravanak@google.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	devicetree@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] checks: Remove check for graph child addresses
-Message-ID: <20250708161807.GA1830614@ragnatech.se>
-References: <20250708160201.141428-1-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1751992449; c=relaxed/simple;
+	bh=SgfdUXzh2Nml5Z3bb/5kyq3mdQdgb9FfXFfA9SvpmDQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=VAEI9xrEo3Ly5VZrCVn5cK43yRvVjbVFGd48J4Zg17zpR7my3wBn+Bc6ngeR/h6TIvU/wRPpfCXu86gysQioSLjkzbPCqwuwDw0K3DN0CARJA2JEPZ3Xupj/joe/bi3nq9Re/Y28if/OSOBaeNGjDjfLutJg6ZAS8BWM1f6btDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=azMXPSKl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6D4FC4CEF6;
+	Tue,  8 Jul 2025 16:34:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751992449;
+	bh=SgfdUXzh2Nml5Z3bb/5kyq3mdQdgb9FfXFfA9SvpmDQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=azMXPSKl/cKhJH/ynvyluDOzxcpZwYDm4K+ao5thzQed3wrQRNk0B1kWpuK5JNyfM
+	 AtMyy7PP7q2t5/9TFMMeck2emNZwxvwqiJhAVafZNIe/h8+dnZCoWL0NxxvWckE2mt
+	 Jth6t+YijRDPahsaE9FnJ8odSlCtQNXxs97jPn1+8p/GIBxNIzskwbMTLO02bG/wvn
+	 EytWUL6LWW1YiGiEsf5g2w7F+EIA7ud5u40x8r64WU9EG2ptzsw3IbLSKLL/XQUmNk
+	 NkORhxTHhw8QrigiyoXt6UPm6n1eBH5aWKtPpctk+Hj+4VfpvJ2f3EYIhe1WxdduJp
+	 A0UfauJ4tl4Nw==
+Date: Tue, 8 Jul 2025 11:34:07 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: bhelgaas@google.com, lpieralisi@kernel.org, kwilczynski@kernel.org,
+	mani@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com,
+	catalin.marinas@arm.com, will@kernel.org, mturquette@baylibre.com,
+	sboyd@kernel.org, p.zabel@pengutronix.de, lizhi.hou@amd.com,
+	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH v3 4/9] dt-bindings: PCI: renesas,r9a08g045s33-pcie: Add
+ documentation for the PCIe IP on Renesas RZ/G3S
+Message-ID: <20250708163407.GA2149616@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250708160201.141428-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20250704161410.3931884-5-claudiu.beznea.uj@bp.renesas.com>
 
-Hello,
+On Fri, Jul 04, 2025 at 07:14:04PM +0300, Claudiu wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> The PCIe IP available on the Renesas RZ/G3S complies with the PCI Express
+> Base Specification 4.0. It is designed for root complex applications and
+> features a single-lane (x1) implementation. Add documentation for it.
 
-This was sent to the wrong list, please ignore it. I have resent it to 
-the correct devicetree-compiler@vger.kernel.org list.
+> +++ b/Documentation/devicetree/bindings/pci/renesas,r9a08g045s33-pcie.yaml
 
-Sorry for the noise.
+The "r9a08g045s33" in the filename seems oddly specific.  Does it
+leave room for descendants of the current chip that will inevitably be
+added in the future?  Most bindings are named with a fairly generic
+family name, e.g., "fsl,layerscape", "hisilicon,kirin", "intel,
+keembay", "samsung,exynos", etc.
 
-On 2025-07-08 18:02:01 +0200, Niklas Söderlund wrote:
-> The dtc graph_child_address check can't distinguish between bindings
-> where there can only be a single endpoint, and cases where there can be
-> multiple endpoints.
-> 
-> In cases where the bindings allow for multiple endpoints but only one is
-> described false warnings about unnecessary #address-cells/#size-cells
-> can be generated, but only if the endpoint described have an address of
-> 0 (A), for single endpoints with a non-zero address (B) no warnings are
-> generated.
-> 
-> A)
->     ports {
-> 	#address-cells = <1>;
-> 	#size-cells = <0>;
-> 
-> 	port@0 {
-> 	    #address-cells = <1>;
-> 	    #size-cells = <0>;
-> 
-> 	    sourceA: endpoint@0 {
-> 		reg = <0>
-> 	    };
-> 	};
->     };
-> 
-> B)
->     ports {
-> 	#address-cells = <1>;
-> 	#size-cells = <0>;
-> 
-> 	port@0 {
-> 	    #address-cells = <1>;
-> 	    #size-cells = <0>;
-> 
-> 	    sourceB: endpoint@1 {
-> 		reg = <1>
-> 	    };
-> 	};
->     };
-> 
-> Remove the check as it is somewhat redundant now that we can use schemas
-> to validate the full node.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
-> Hello,
-> 
-> This started as an effort to demote this check to W=2 [1] and have then
-> moved on from there to completely remove the check in this patch per
-> David and Rob's suggestion.
-> 
-> This patch supersedes all other patches for my me in this area.
-> 
-> If this change is accepted in dtc and later checks.c synced to
-> linux/scripts/dtc/checks.c one must also drop "-Wno-graph_child_address"
-> from Documentation/devicetree/bindings/Makefile and
-> scripts/Makefile.dtbs.
-> 
-> 1.  https://lore.kernel.org/all/20250702085008.689727-1-niklas.soderlund%2Brenesas@ragnatech.se/
-> ---
->  checks.c | 27 +--------------------------
->  1 file changed, 1 insertion(+), 26 deletions(-)
-> 
-> diff --git a/checks.c b/checks.c
-> index 123f2eb425f4..0b1fd9f13cb4 100644
-> --- a/checks.c
-> +++ b/checks.c
-> @@ -1894,31 +1894,6 @@ static void check_graph_endpoint(struct check *c, struct dt_info *dti,
->  }
->  WARNING(graph_endpoint, check_graph_endpoint, NULL, &graph_nodes);
->  
-> -static void check_graph_child_address(struct check *c, struct dt_info *dti,
-> -				      struct node *node)
-> -{
-> -	int cnt = 0;
-> -	struct node *child;
-> -
-> -	if (node->bus != &graph_ports_bus && node->bus != &graph_port_bus)
-> -		return;
-> -
-> -	for_each_child(node, child) {
-> -		struct property *prop = get_property(child, "reg");
-> -
-> -		/* No error if we have any non-zero unit address */
-> -                if (prop && propval_cell(prop) != 0 )
-> -			return;
-> -
-> -		cnt++;
-> -	}
-> -
-> -	if (cnt == 1 && node->addr_cells != -1)
-> -		FAIL(c, dti, node, "graph node has single child node '%s', #address-cells/#size-cells are not necessary",
-> -		     node->children->name);
-> -}
-> -WARNING(graph_child_address, check_graph_child_address, NULL, &graph_nodes, &graph_port, &graph_endpoint);
-> -
->  static struct check *check_table[] = {
->  	&duplicate_node_names, &duplicate_property_names,
->  	&node_name_chars, &node_name_format, &property_name_chars,
-> @@ -2005,7 +1980,7 @@ static struct check *check_table[] = {
->  
->  	&alias_paths,
->  
-> -	&graph_nodes, &graph_child_address, &graph_port, &graph_endpoint,
-> +	&graph_nodes, &graph_port, &graph_endpoint,
->  
->  	&always_fail,
->  };
-> -- 
-> 2.50.0
-> 
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/r9a08g045-cpg.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    bus {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        pcie@11e40000 {
+> +            compatible = "renesas,r9a08g045s33-pcie";
+> +            reg = <0 0x11e40000 0 0x10000>;
+> +            ranges = <0x02000000 0 0x30000000 0 0x30000000 0 0x8000000>;
+> +            dma-ranges = <0x42000000 0 0x48000000 0 0x48000000 0 0x38000000>;
+> +            bus-range = <0x0 0xff>;
+> +            clocks = <&cpg CPG_MOD R9A08G045_PCI_ACLK>,
+> +                     <&cpg CPG_MOD R9A08G045_PCI_CLKL1PM>;
+> +            clock-names = "aclk", "pm";
+> +            resets = <&cpg R9A08G045_PCI_ARESETN>,
+> +                     <&cpg R9A08G045_PCI_RST_B>,
+> +                     <&cpg R9A08G045_PCI_RST_GP_B>,
+> +                     <&cpg R9A08G045_PCI_RST_PS_B>,
+> +                     <&cpg R9A08G045_PCI_RST_RSM_B>,
+> +                     <&cpg R9A08G045_PCI_RST_CFG_B>,
+> +                     <&cpg R9A08G045_PCI_RST_LOAD_B>;
+> +            reset-names = "aresetn", "rst_b", "rst_gp_b", "rst_ps_b",
+> +                          "rst_rsm_b", "rst_cfg_b", "rst_load_b";
+> +            interrupts = <GIC_SPI 395 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 396 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 397 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 398 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 399 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 400 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 401 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 402 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 403 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 404 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 405 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 406 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 407 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 408 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 409 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 410 IRQ_TYPE_LEVEL_HIGH>;
+> +            interrupt-names = "serr", "serr_cor", "serr_nonfatal",
+> +                              "serr_fatal", "axi_err", "inta",
+> +                              "intb", "intc", "intd", "msi",
+> +                              "link_bandwidth", "pm_pme", "dma",
+> +                              "pcie_evt", "msg", "all";
+> +            #interrupt-cells = <1>;
+> +            interrupt-controller;
+> +            interrupt-map-mask = <0 0 0 7>;
+> +            interrupt-map = <0 0 0 1 &pcie 0 0 0 0>, /* INT A */
+> +                            <0 0 0 2 &pcie 0 0 0 1>, /* INT B */
+> +                            <0 0 0 3 &pcie 0 0 0 2>, /* INT C */
+> +                            <0 0 0 4 &pcie 0 0 0 3>; /* INT D */
 
--- 
-Kind Regards,
-Niklas Söderlund
+The spec styles these closed up: "INTA", "INTB", etc.
+
+> +            device_type = "pci";
+> +            num-lanes = <1>;
+> +            #address-cells = <3>;
+> +            #size-cells = <2>;
+> +            power-domains = <&cpg>;
+> +            vendor-id = <0x1912>;
+> +            device-id = <0x0033>;
+
+Some of this is specific to a Root Port, not to the Root Complex as a
+whole.  E.g., device-type = "pci", num-lanes, vendor-id, device-id,
+are Root Port properties.  Some of the resets, clocks, and interrupts
+might be as well.
+
+I really want to separate those out because even though this
+particular version of this PCIe controller only supports a single Root
+Port, there are other controllers (and possibly future iterations of
+this controller) that support multiple Root Ports, and it makes
+maintenance easier if the DT bindings and the driver structures are
+similar.
+
+This email includes pointers to sample DT bindings and driver code
+that is structured to allow multiple Root Ports:
+
+  https://lore.kernel.org/linux-pci/20250625221653.GA1590146@bhelgaas/
+
+Bjorn
 
