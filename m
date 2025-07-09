@@ -1,50 +1,44 @@
-Return-Path: <linux-renesas-soc+bounces-19461-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19462-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8911AFF1A6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 21:16:59 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0006AFF2BF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 22:14:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5D1787B7648
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 19:15:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BAAC75C077D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 20:14:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6732E241131;
-	Wed,  9 Jul 2025 19:16:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 665CA242D77;
+	Wed,  9 Jul 2025 20:14:02 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA4A21D00D;
-	Wed,  9 Jul 2025 19:16:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 495D823B63D;
+	Wed,  9 Jul 2025 20:14:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752088595; cv=none; b=ubfrfkPCuCZiC4P4m93++T8uGPai15Mc8Zz4fFCwxAIlNhvvXbwSIRRGRG37vIaF+xoqc/PXfzBU6ktCQJD/XvghBGpDvFx8vCHkKleMu0LjA48cge8hZ0TK3TlByMNQ/Kmu5gqtQep7nLTl8vDxnnaqNUtEb6nRIOLu+pZ17aQ=
+	t=1752092042; cv=none; b=V95tsLBa/gE2R/LAiNcf+Ec5oHri8vtiu96RwPyHHHS/xYYyg7zSDlCGmdwDudVHyFhsawjoJN8p33p6skH0FL6AxU0zO1DQmShdy9zv/JFF05pa6kRd5PV5pFSkpE+Q9tTvNdm1K+g/3zibzxUGVs0cSgDcemYSy6eXukw1Dxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752088595; c=relaxed/simple;
-	bh=41hN8NTdGB4I+pESBM5z8FrvtwgyLVopG5wAPcyZj8s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=u3+K9K/fK2C1+jDbMtq8eT5mMAy9cryYTplI6xBonrtYN4MugabB91BpdbovgECwOPPZ3YOVe535CRUJU9AG+cwGbpCrAOeGCdr2IAhU4oXl2bkyhiveJS1O8lwJTusieOnYbkF4fWbi/BLyz2cJcCwDiSvfwJxLvyqYzrdttMw=
+	s=arc-20240116; t=1752092042; c=relaxed/simple;
+	bh=pNzTYUmlF/VciLsoLVJjTOZYjdVUnThdM6V49xOkra0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f0DFSVNhB7cCeQWiruniuFn1VGV9iZVO6WeCAkquB2og1UjX1mHGj5VrUnGDYXPQsto/ENZAzpOsgLyW1Vas1T3DgsMK2wxzTzMc1eaGVb8wCs4Yy1k8rQuVCoQMr7VT4j/++1LzSah/xX3gYiF6f2ryPL0/kKwy3ckf7tohY4M=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC804C4CEF4;
-	Wed,  9 Jul 2025 19:16:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51A21C4CEEF;
+	Wed,  9 Jul 2025 20:14:00 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Jacopo Mondi <jacopo@jmondi.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org,
+To: soc@lists.linux.dev,
+	soc <soc@kernel.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>,
+	linux-arm-kernel@lists.infradead.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 5/5] media: renesas: vsp1: Convert to SYSTEM_SLEEP/RUNTIME_PM_OPS()
-Date: Wed,  9 Jul 2025 21:16:11 +0200
-Message-ID: <7de021d90e524ef740d6d59a899fb9a34fbf5247.1752088108.git.geert+renesas@glider.be>
+Subject: [GIT PULL 0/3] Renesas SoC updates for v6.17 (take two)
+Date: Wed,  9 Jul 2025 22:13:24 +0200
+Message-ID: <cover.1752090396.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1752088108.git.geert+renesas@glider.be>
-References: <cover.1752088108.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -53,78 +47,47 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert the Renesas VSP1 Video Processing Engine driver from
-SET_SYSTEM_SLEEP_PM_OPS() and SET_RUNTIME_PM_OPS() to
-SYSTEM_SLEEP_PM_OPS(), RUNTIME_PM_OPS(), and pm_ptr().  This lets us
-drop the __maybe_unused annotations from its various suspend and resume
-callbacks, and reduces kernel size in case CONFIG_PM is disabled.
+	Hi SoC folks,
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/media/platform/renesas/vsp1/vsp1_drv.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+This is my second pull request for the inclusion of Renesas SoC updates
+for v6.17.
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-index b8d06e88c4757317..6c64657fc4f3366f 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-@@ -618,7 +618,7 @@ void vsp1_device_put(struct vsp1_device *vsp1)
-  * Power Management
-  */
- 
--static int __maybe_unused vsp1_pm_suspend(struct device *dev)
-+static int vsp1_pm_suspend(struct device *dev)
- {
- 	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
- 
-@@ -634,7 +634,7 @@ static int __maybe_unused vsp1_pm_suspend(struct device *dev)
- 	return 0;
- }
- 
--static int __maybe_unused vsp1_pm_resume(struct device *dev)
-+static int vsp1_pm_resume(struct device *dev)
- {
- 	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
- 
-@@ -650,7 +650,7 @@ static int __maybe_unused vsp1_pm_resume(struct device *dev)
- 	return 0;
- }
- 
--static int __maybe_unused vsp1_pm_runtime_suspend(struct device *dev)
-+static int vsp1_pm_runtime_suspend(struct device *dev)
- {
- 	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
- 
-@@ -660,7 +660,7 @@ static int __maybe_unused vsp1_pm_runtime_suspend(struct device *dev)
- 	return 0;
- }
- 
--static int __maybe_unused vsp1_pm_runtime_resume(struct device *dev)
-+static int vsp1_pm_runtime_resume(struct device *dev)
- {
- 	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
- 	int ret;
-@@ -693,8 +693,8 @@ static int __maybe_unused vsp1_pm_runtime_resume(struct device *dev)
- }
- 
- static const struct dev_pm_ops vsp1_pm_ops = {
--	SET_SYSTEM_SLEEP_PM_OPS(vsp1_pm_suspend, vsp1_pm_resume)
--	SET_RUNTIME_PM_OPS(vsp1_pm_runtime_suspend, vsp1_pm_runtime_resume, NULL)
-+	SYSTEM_SLEEP_PM_OPS(vsp1_pm_suspend, vsp1_pm_resume)
-+	RUNTIME_PM_OPS(vsp1_pm_runtime_suspend, vsp1_pm_runtime_resume, NULL)
- };
- 
- /* -----------------------------------------------------------------------------
-@@ -1042,7 +1042,7 @@ static struct platform_driver vsp1_platform_driver = {
- 	.remove		= vsp1_remove,
- 	.driver		= {
- 		.name	= "vsp1",
--		.pm	= &vsp1_pm_ops,
-+		.pm	= pm_ptr(&vsp1_pm_ops),
- 		.of_match_table = vsp1_of_match,
- 	},
- };
--- 
-2.43.0
+It consists of 3 parts:
 
+  [GIT PULL 1/3] Renesas driver updates for v6.17 (take two)
+
+    - Sort Renesas Kconfig symbols.
+
+  [GIT PULL 2/3] Renesas DT binding updates for v6.17 (take two)
+
+    - Document support for the Renesas Gray Hawk Single board with R-Car
+      V4M-7 (R8A779H2).
+
+  [GIT PULL 3/3] Renesas DTS updates for v6.17 (take two)
+
+    - Add support for the Renesas Gray Hawk Single board with R-Car
+      V4M-7 (R8A779H2),
+    - Add eMMC and microSD expansion board support for the RZ/V2H and
+      RZ/V2N EVK development boards,
+    - Add GPIO keys and Ethernet support for the RZ/G3E SoM and SMARC
+      Carrier-II EVK development board,
+    - Add QSPI FLASH support for the RZ/V2H and RZ/V2N SoCs and their EVK
+      development boards,
+    - Miscellaneous fixes and improvements.
+
+Note that PR 3/3 includes DT binding definition updates for the RZ/V2H
+and RZ/V2N SoCs, which are shared by clock driver and DT source files.
+
+Thanks for pulling!
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
