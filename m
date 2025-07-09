@@ -1,128 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-19465-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19466-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A20AFF2C2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 22:14:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00941AFF2C5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 22:14:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 33D505C077A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 20:14:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 504495C0896
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 20:14:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28435235046;
-	Wed,  9 Jul 2025 20:14:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD38D2441AF;
+	Wed,  9 Jul 2025 20:14:20 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B67723B63D;
-	Wed,  9 Jul 2025 20:14:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EB7243954;
+	Wed,  9 Jul 2025 20:14:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752092048; cv=none; b=t3yIkAuPlh2giy6B4RxriPADAnxFW6MIneZkUALaD+lsvZaHrvoLF3KfVZuHBJrfs6uaIL29iEHUEgg2DQ2yAaFUoQOAy7DE2NfuK7Q1eIilJ/xmZLYXVzOLzkA+yqycVcowtp37S+v5Cw7Rizpjj7HFCC6KkprvvEB/UwtZFPo=
+	t=1752092060; cv=none; b=oDZ3NQgLCsnQQ/EJ4vWrLCH88Qv0PyofFXTrgYZbigI1d0rZggqz91SIW1CSdeMIKzoLUipMA2y8zCgkxOV3jaTN5Ib9sYyKsRA2RRaun/L7ZJXImTVzn01yTDAl0YpO//I5ip7yEP1de3uZco/PBhH5Deg5eU4UaEBo6QPWBOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752092048; c=relaxed/simple;
-	bh=7cOZEDC37PQUz6lOI2JpP4JtummP2MBbj48uUi5o0Ck=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gU+jYkWePAW6Fgf0Ph+Zrzx0I5copvFTyAss7l5OkVRlLbfV7dr0BuU2xtRnqEzbeyvoEpLPLBJcH+VFp1b17+teFzrnL55jhDEhVilXBE1vNls4l0vrhsLKZdlsc2eEujy3fowtXwniqw9d7tKyLjIHNNAXOn+nqesAqnDxfRs=
+	s=arc-20240116; t=1752092060; c=relaxed/simple;
+	bh=baFOyU5jXIBmGqiXM+xoPbfVkQZ75rSm/M3/gWwE1SU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZTBLh9tAvDJ2sADTGfgJ/Ccn5dQ9o9Qqyhz2lFKSJPm+y+jwykKaX+UrVrGOoH+mdn5+rz7bM7mctYTft5mrAjmylxhGbQvZsA+ABZDSrodK5ePZ+JY0BfWut3ipOmyL/Z82uRLC95nxmwEMfAwj6qIrKdorJQw/vIuxk/hYMNE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36E8AC4CEF0;
-	Wed,  9 Jul 2025 20:14:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA42DC4CEEF;
+	Wed,  9 Jul 2025 20:14:14 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: soc@lists.linux.dev
-Cc: Magnus Damm <magnus.damm@gmail.com>,
-	linux-arm-kernel@lists.infradead.org,
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: linux-clk@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL 3/3] Renesas DTS updates for v6.17 (take two)
-Date: Wed,  9 Jul 2025 22:13:27 +0200
-Message-ID: <cover.1752090401.git.geert+renesas@glider.be>
+Subject: [GIT PULL] clk: renesas: Updates for v6.17 (take two)
+Date: Wed,  9 Jul 2025 22:14:11 +0200
+Message-ID: <cover.1752090701.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1752090396.git.geert+renesas@glider.be>
-References: <cover.1752090396.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The following changes since commit 41ffbb1c42d30a173cc43e931bbaf7bf29e92d1f:
+	Hi Mike, Stephen,
 
-  arm64: dts: renesas: r9a09g047: Add GBETH nodes (2025-06-26 16:37:21 +0200)
+The following changes since commit b7c26cbd5b704a350b3176669f47047153903bc9:
+
+  clk: renesas: rzv2h: Add missing include file (2025-06-26 16:28:50 +0200)
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-dts-for-v6.17-tag2
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-clk-for-v6.17-tag2
 
-for you to fetch changes up to 145a2a9e27562926c592645a05d682fe8e1f82e9:
+for you to fetch changes up to 0ab2d84f94dae48c3e7605cdc99dbb4e7c7b206a:
 
-  arm64: dts: renesas: r9a09g057h44-rzv2h-evk: Enable serial NOR FLASH (2025-07-08 12:06:26 +0200)
+  clk: renesas: r9a08g045: Add MSTOP for coupled clocks as well (2025-07-08 11:36:16 +0200)
 
 ----------------------------------------------------------------
-Renesas DTS updates for v6.17 (take two)
+clk: renesas: Updates for v6.17 (take two)
 
-  - Add support for the Renesas Gray Hawk Single board with R-Car
-    V4M-7 (R8A779H2),
-  - Add eMMC and microSD expansion board support for the RZ/V2H and
-    RZ/V2N EVK development boards,
-  - Add GPIO keys and Ethernet support for the RZ/G3E SoM and SMARC
-    Carrier-II EVK development board,
-  - Add QSPI FLASH support for the RZ/V2H and RZ/V2N SoCs and their EVK
-    development boards,
+  - Add Expanded Serial Peripheral Interface (xSPI) clocks and resets on
+    RZ/V2H(P) and RZ/V2N,
+  - Add SPI (RSPI) clocks and resets on RZ/V2H(P),
+  - Add SDHI and I2C clocks on RZ/T2H and RZ/N2H,
+  - Add Ethernet clocks and resets on RZ/G3E,
   - Miscellaneous fixes and improvements.
 
-----------------------------------------------------------------
-Biju Das (1):
-      arm64: dts: renesas: r9a09g047e57-smarc: Add gpio keys
+Note that this includes DT binding definition updates for the RZ/N2H,
+RZ/T2H, RZ/V2H, and RZ/V2N SoCs, which are shared by clock driver and DT
+source files.
 
-Geert Uytterhoeven (3):
-      arm64: dts: renesas: Factor out Gray Hawk Single board support
-      arm64: dts: renesas: r8a779h2: Add Gray Hawk Single support
-      Merge tag 'renesas-r9a09g057-dt-binding-defs-tag4' into renesas-dts-for-v6.17
+Thanks for pulling!
+
+----------------------------------------------------------------
+Claudiu Beznea (1):
+      clk: renesas: r9a08g045: Add MSTOP for coupled clocks as well
+
+Fabrizio Castro (1):
+      clk: renesas: r9a09g057: Add entries for the RSPIs
+
+Geert Uytterhoeven (2):
+      Merge tag 'renesas-r9a09g087-dt-binding-defs-tag2' into renesas-clk-for-v6.17
+      Merge tag 'renesas-r9a09g057-dt-binding-defs-tag4' into renesas-clk-for-v6.17
 
 John Madieu (1):
-      arm64: dts: renesas: rzg3e-smarc-som: Enable eth{0-1} (GBETH) interfaces
+      clk: renesas: r9a09g047: Add clock and reset signals for the GBETH IPs
 
-Lad Prabhakar (8):
+Lad Prabhakar (10):
       dt-bindings: clock: renesas,r9a09g056/57-cpg: Add XSPI core clock
-      arm64: dts: renesas: Add CN15 eMMC and SD overlays for RZ/V2H and RZ/V2N EVKs
-      arm64: dts: renesas: r9a09g057h44-rzv2h-evk: Fix pinctrl node name for GBETH1
-      arm64: dts: renesas: r9a09g056n48-rzv2n-evk: Fix pinctrl node name for GBETH1
-      arm64: dts: renesas: r9a09g056: Add XSPI node
-      arm64: dts: renesas: r9a09g057: Add XSPI node
-      arm64: dts: renesas: r9a09g056n48-rzv2n-evk: Enable serial NOR FLASH
-      arm64: dts: renesas: r9a09g057h44-rzv2h-evk: Enable serial NOR FLASH
+      dt-bindings: clock: renesas,r9a09g077/87: Add SDHI_CLKHS clock ID
+      clk: renesas: rzv2h: Drop redundant base pointer from pll_clk
+      clk: renesas: r9a09g077: Add PLL2 and SDHI clock support
+      clk: renesas: r9a09g077: Add RIIC module clocks
+      clk: renesas: r9a09g056: Add support for xspi mux and divider
+      clk: renesas: r9a09g057: Add support for xspi mux and divider
+      clk: renesas: rzv2h: Add fixed-factor module clocks with status reporting
+      clk: renesas: r9a09g056: Add XSPI clock/reset
+      clk: renesas: r9a09g057: Add XSPI clock/reset
 
-Niklas Söderlund (1):
-      arm64: dts: renesas: r8a779g3-sparrow-hawk-fan-pwm: Add missing install target
+ drivers/clk/renesas/r9a08g045-cpg.c                |  6 +-
+ drivers/clk/renesas/r9a09g047-cpg.c                | 64 +++++++++++++++
+ drivers/clk/renesas/r9a09g056-cpg.c                | 37 ++++++++-
+ drivers/clk/renesas/r9a09g057-cpg.c                | 63 +++++++++++++-
+ drivers/clk/renesas/r9a09g077-cpg.c                | 15 +++-
+ drivers/clk/renesas/rzv2h-cpg.c                    | 95 +++++++++++++++++++++-
+ drivers/clk/renesas/rzv2h-cpg.h                    | 24 ++++++
+ include/dt-bindings/clock/renesas,r9a09g056-cpg.h  |  1 +
+ include/dt-bindings/clock/renesas,r9a09g057-cpg.h  |  1 +
+ .../dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h |  1 +
+ .../dt-bindings/clock/renesas,r9a09g087-cpg-mssr.h |  1 +
+ 11 files changed, 297 insertions(+), 11 deletions(-)
 
-Tam Nguyen (1):
-      arm64: dts: renesas: Add Renesas R8A779H2 SoC support
+Gr{oetje,eeting}s,
 
- arch/arm64/boot/dts/renesas/Makefile               |  15 +
- arch/arm64/boot/dts/renesas/gray-hawk-single.dtsi  | 866 +++++++++++++++++++++
- .../boot/dts/renesas/r8a779h0-gray-hawk-single.dts | 855 +-------------------
- .../boot/dts/renesas/r8a779h2-gray-hawk-single.dts |  17 +
- arch/arm64/boot/dts/renesas/r8a779h2.dtsi          |  12 +
- arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts |  37 +
- arch/arm64/boot/dts/renesas/r9a09g056.dtsi         |  21 +
- .../boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts    |  66 +-
- arch/arm64/boot/dts/renesas/r9a09g057.dtsi         |  21 +
- .../boot/dts/renesas/r9a09g057h44-rzv2h-evk.dts    |  66 +-
- arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi    |  31 +
- arch/arm64/boot/dts/renesas/rzg3e-smarc-som.dtsi   | 111 +++
- .../arm64/boot/dts/renesas/rzv2-evk-cn15-emmc.dtso |  50 ++
- arch/arm64/boot/dts/renesas/rzv2-evk-cn15-sd.dtso  |  69 ++
- include/dt-bindings/clock/renesas,r9a09g056-cpg.h  |   1 +
- include/dt-bindings/clock/renesas,r9a09g057-cpg.h  |   1 +
- 16 files changed, 1383 insertions(+), 856 deletions(-)
- create mode 100644 arch/arm64/boot/dts/renesas/gray-hawk-single.dtsi
- create mode 100644 arch/arm64/boot/dts/renesas/r8a779h2-gray-hawk-single.dts
- create mode 100644 arch/arm64/boot/dts/renesas/r8a779h2.dtsi
- create mode 100644 arch/arm64/boot/dts/renesas/rzv2-evk-cn15-emmc.dtso
- create mode 100644 arch/arm64/boot/dts/renesas/rzv2-evk-cn15-sd.dtso
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
