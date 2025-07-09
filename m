@@ -1,46 +1,43 @@
-Return-Path: <linux-renesas-soc+bounces-19441-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19442-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47701AFF101
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 20:43:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0ED0AFF103
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 20:44:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9819B176AF1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 18:43:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DF41A486C0D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 18:43:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9860239E95;
-	Wed,  9 Jul 2025 18:43:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44E27239E96;
+	Wed,  9 Jul 2025 18:44:04 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D197921B8FE
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  9 Jul 2025 18:43:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2785A21B8FE;
+	Wed,  9 Jul 2025 18:44:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752086612; cv=none; b=Tdc7xzJfKAyt0hbiVlhlkl1f3H9Y0hc4eRGhHeVZ2VoktNgSllJ7OkXNwa+qUKW49KNvRKTKd3Xo5Xk4Zc/0DIG2/rjuvKTex3BK/X72qs/3uhDaBE3DDpiS6vWpBMFa1LFDyO6CCxRfDu9CUmBWyO2w2Uwa0PngR9JWBjcFZB8=
+	t=1752086644; cv=none; b=O4Nr52jbdYoHyMB1qgvdsTkjI/YMo80eCYzxV50nPzh0nXxFbsMhET4sHi3vekb1cPi5OW/DQkpyUN95oC96Y1dWrXL5b9PEbGFX5Y7UeXngM2Q4b4nrp9np5bNseSz3NtBHR5RJkHnNaG8PwcRux4cXdglwJDxGwjHH7zZ5oOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752086612; c=relaxed/simple;
-	bh=Y/wT4ZYcx2D26jZlMMCt66WIadzihDxZEXzmgKsjQ3Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tl/fGG6A+bIT4xPZS3F1nfcr77SpiFf7fwYWeSuF7vS/kDDB823+j7R78SNNwVxJvWDyOT5Jy94kb6WffWGeX/RDoDK4MmttA9h0WU9zEt8KxwTML7v7lIW8z5na99Iplsjc/lBfD1b1iBfyHW9j2wGTwEUiwdJQfZmrfAeoGZI=
+	s=arc-20240116; t=1752086644; c=relaxed/simple;
+	bh=NaamJAiQ/uPd2cn/PhgvymbWIOuMwRjtrg10NpXj0ms=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Wre7FigRAu9T7dHoO96L9A5GdIhnLSEgMCHR7uKL2APNWv2hO8NCQE9NU5zkLX8gXECem67dUQ4R302WGyDhOStGSArbbnkoAks3+Zm9qsc+uT1w/se3O/WkK73HM27nQWwCEFc4ZZZAi6DhEhN9ur2ZN+sh3UZdOI2/O/K5cbQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DDFBC4CEEF;
-	Wed,  9 Jul 2025 18:43:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 374C8C4CEEF;
+	Wed,  9 Jul 2025 18:44:02 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Biju Das <biju.das.jz@bp.renesas.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org,
+To: Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-gpio@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] drm: renesas: rz-du: mipi_dsi: Convert to RUNTIME_PM_OPS()
-Date: Wed,  9 Jul 2025 20:43:25 +0200
-Message-ID: <cdfc1b8ec9e62553654639b9e9026bfed8dd07d1.1752086582.git.geert+renesas@glider.be>
+Subject: [PATCH] gpio: rcar: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
+Date: Wed,  9 Jul 2025 20:43:59 +0200
+Message-ID: <e201140426daacaa799d73e2f76bfd96b6f5718f.1752086619.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -50,55 +47,47 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert the Renesas RZ/G2L MIPI DSI Encoder driver from
-SET_RUNTIME_PM_OPS() to RUNTIME_PM_OPS() and pm_ptr().  This lets us
-drop the __maybe_unused annotations from its runtime suspend and resume
-callbacks, and reduces kernel size in case CONFIG_PM is disabled.
+Convert the Renesas R-Car GPIO driver from SIMPLE_DEV_PM_OPS() to
+DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr().  This lets us drop the
+check for CONFIG_PM_SLEEP, and reduces kernel size in case CONFIG_PM or
+CONFIG_PM_SLEEP is disabled, while increasing build coverage.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpio/gpio-rcar.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-index f87337c3cbb54559..3b52dfc0ea1e04e6 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-@@ -913,7 +913,7 @@ static const struct mipi_dsi_host_ops rzg2l_mipi_dsi_host_ops = {
-  * Power Management
-  */
+diff --git a/drivers/gpio/gpio-rcar.c b/drivers/gpio/gpio-rcar.c
+index 1d121a4275905e09..cd31580effa9037f 100644
+--- a/drivers/gpio/gpio-rcar.c
++++ b/drivers/gpio/gpio-rcar.c
+@@ -592,7 +592,6 @@ static void gpio_rcar_remove(struct platform_device *pdev)
+ 	pm_runtime_disable(&pdev->dev);
+ }
  
--static int __maybe_unused rzg2l_mipi_pm_runtime_suspend(struct device *dev)
-+static int rzg2l_mipi_pm_runtime_suspend(struct device *dev)
+-#ifdef CONFIG_PM_SLEEP
+ static int gpio_rcar_suspend(struct device *dev)
  {
- 	struct rzg2l_mipi_dsi *dsi = dev_get_drvdata(dev);
+ 	struct gpio_rcar_priv *p = dev_get_drvdata(dev);
+@@ -651,16 +650,16 @@ static int gpio_rcar_resume(struct device *dev)
  
-@@ -923,7 +923,7 @@ static int __maybe_unused rzg2l_mipi_pm_runtime_suspend(struct device *dev)
  	return 0;
  }
+-#endif /* CONFIG_PM_SLEEP*/
  
--static int __maybe_unused rzg2l_mipi_pm_runtime_resume(struct device *dev)
-+static int rzg2l_mipi_pm_runtime_resume(struct device *dev)
- {
- 	struct rzg2l_mipi_dsi *dsi = dev_get_drvdata(dev);
- 	int ret;
-@@ -940,7 +940,7 @@ static int __maybe_unused rzg2l_mipi_pm_runtime_resume(struct device *dev)
- }
+-static SIMPLE_DEV_PM_OPS(gpio_rcar_pm_ops, gpio_rcar_suspend, gpio_rcar_resume);
++static DEFINE_SIMPLE_DEV_PM_OPS(gpio_rcar_pm_ops, gpio_rcar_suspend,
++				gpio_rcar_resume);
  
- static const struct dev_pm_ops rzg2l_mipi_pm_ops = {
--	SET_RUNTIME_PM_OPS(rzg2l_mipi_pm_runtime_suspend, rzg2l_mipi_pm_runtime_resume, NULL)
-+	RUNTIME_PM_OPS(rzg2l_mipi_pm_runtime_suspend, rzg2l_mipi_pm_runtime_resume, NULL)
- };
- 
- /* -----------------------------------------------------------------------------
-@@ -1072,7 +1072,7 @@ static struct platform_driver rzg2l_mipi_dsi_platform_driver = {
- 	.remove = rzg2l_mipi_dsi_remove,
- 	.driver	= {
- 		.name = "rzg2l-mipi-dsi",
--		.pm = &rzg2l_mipi_pm_ops,
-+		.pm = pm_ptr(&rzg2l_mipi_pm_ops),
- 		.of_match_table = rzg2l_mipi_dsi_of_table,
- 	},
+ static struct platform_driver gpio_rcar_device_driver = {
+ 	.probe		= gpio_rcar_probe,
+ 	.remove		= gpio_rcar_remove,
+ 	.driver		= {
+ 		.name	= "gpio_rcar",
+-		.pm     = &gpio_rcar_pm_ops,
++		.pm     = pm_sleep_ptr(&gpio_rcar_pm_ops),
+ 		.of_match_table = gpio_rcar_of_table,
+ 	}
  };
 -- 
 2.43.0
