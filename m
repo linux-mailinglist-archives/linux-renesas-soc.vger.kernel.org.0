@@ -1,615 +1,251 @@
-Return-Path: <linux-renesas-soc+bounces-19427-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19436-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1839AFEE36
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 17:56:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C560AFEEAA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 18:10:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 18903175D09
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 15:55:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7FC1A543FD7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 16:10:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE3F52E972A;
-	Wed,  9 Jul 2025 15:55:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DF802E763D;
+	Wed,  9 Jul 2025 16:08:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DQv6dVFP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A8RX+5dQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8910828EBFE;
-	Wed,  9 Jul 2025 15:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506BC2E54A7
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  9 Jul 2025 16:08:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752076537; cv=none; b=MQeZlBi9rh5pII66+IOxv/ujERJySpv6gvsnVpCpTikwy1zndLGGsjAU1S3VuwdyQ9JSyFs3dD8i4Kgw/DoI5mYxLSdNE9HckU/rsVQwGqY/XdDn1bm17uuHcn92V0hqT2osLWmx9EfWzBhlMmr1nHA66n88e3Xl1Zicg1SG/PI=
+	t=1752077331; cv=none; b=jh5/5MhEiVvj8VNsrGIpDGx9lfLRbAUcttqgeC1TFq8oDps/1dWoMDI7+if3HHX275vwVFCQl1Qz06Z4GysXqMu64JHNdaUROBdcA/n4rnFhU1cEITPVkpO7HiLOGEHjE0QJ52sJqoM6LjSXNLfTkjQ+NH/gHK3Vp/J0XJIrS9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752076537; c=relaxed/simple;
-	bh=mVjXPOAg9weKqqM+utmP+Waw+D2zBYFJmdCUm7iSM5o=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YWlNkr1Iz7mFcMskNq+8oKR4flo7UXq7FpX5szeDrbRTCdAMK/Wn+s3XGNmYEuWXXBeHCvvObyzTZyTs3xrHL+V0lOHb2ULRKyBFsxgTQzAkb3VRhECxAAHbw3TFlVxfCDPELqReBEpnJJF4PnLsq2uHUjsVhYfvLdP04SFtb/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DQv6dVFP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6226CC4CEEF;
-	Wed,  9 Jul 2025 15:55:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752076537;
-	bh=mVjXPOAg9weKqqM+utmP+Waw+D2zBYFJmdCUm7iSM5o=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=DQv6dVFPZXnWE5mVdchUmWOcZLDHoNqBxVcKwbyfhuPmhN1bPeSvfkbFeyoUtGemI
-	 d4cV6c3FBbbx6vCprlLSmKzsrCJ5lXnaI6qs/WLCUbEtWs1+RJjxBH3qhSNsrQj1N+
-	 2P8quu4CqsOkamxBMNWqusLJs3QM4W+4C6ce5HQ9c305eEXsI7AXoRFF1luQhaHsyp
-	 9SqugPT0/U1S1GdcGeQ/psqB7nHV8wo91lErIdWgWfPxo395g2YTR+Xl1xFetzxbhs
-	 shSuolxW66i12vJbGZu+AHjMn1zes9CsjagUBld/Zik1pilmcSfkVUiyUVcQOVQMGl
-	 n5MVfYJcxgphw==
-Date: Wed, 9 Jul 2025 16:55:10 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: David Lechner <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Linus Walleij
- <linus.walleij@linaro.org>, Eugen Hristev <eugen.hristev@linaro.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Cai Huoqing <cai.huoqing@linux.dev>, Haibo Chen <haibo.chen@nxp.com>, Shawn
- Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
- <festevam@gmail.com>, Marek Vasut <marek.vasut@gmail.com>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Magnus Damm
- <magnus.damm@gmail.com>, Lad Prabhakar
- <prabhakar.mahadev-lad.rj@bp.renesas.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Francesco Dolcini <francesco@dolcini.it>, =?UTF-8?B?Sm/Do28=?= Paulo
- =?UTF-8?B?R29uw6dhbHZlcw==?= <jpaulo.silvagoncalves@gmail.com>, Rui Miguel
- Silva <rmfrfs@gmail.com>, Jean-Baptiste Maneyrol
- <jean-baptiste.maneyrol@tdk.com>, Subhajit Ghosh
- <subhajit.ghosh@tweaklogic.com>, Gerald Loacker
- <gerald.loacker@wolfvision.net>, Andreas Klinger <ak@it-klinger.de>, Crt
- Mori <cmo@melexis.com>, Waqar Hameed <waqar.hameed@axis.com>, Julien
- Stephan <jstephan@baylibre.com>, Peter Zijlstra <peterz@infradead.org>,
- Greg KH <gregkh@linuxfoundation.org>, Bo Liu <liubo03@inspur.com>, Al Viro
- <viro@zeniv.linux.org.uk>, Sean Nyekjaer <sean@geanix.com>, Frank Li
- <Frank.Li@nxp.com>, Han Xu <han.xu@nxp.com>, Rayyan Ansari
- <rayyan@ansari.sh>, Gustavo Vaz <gustavo.vaz@usp.br>, Matti Vaittinen
- <mazziesaccount@gmail.com>, Alexandru Ardelean <aardelean@baylibre.com>,
- "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, "Rob Herring (Arm)"
- <robh@kernel.org>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Uwe
- =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>, Olivier
- Moysan <olivier.moysan@foss.st.com>, Christophe JAILLET
- <christophe.jaillet@wanadoo.fr>, Marcelo Schmitt
- <marcelo.schmitt1@gmail.com>, Vasileios Amoiridis <vassilisamir@gmail.com>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, Hans de Goede
- <hansg@kernel.org>, Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- Abhash Jha <abhashkumarjha123@gmail.com>, chuguangqing
- <chuguangqing@inspur.com>, Shreeya Patel <shreeya.patel@collabora.com>,
- Per-Daniel Olsson <perdaniel.olsson@axis.com>, =?UTF-8?B?QmFybmFiw6FzIEN6?=
- =?UTF-8?B?w6ltw6Fu?= <barnabas.czeman@mainlining.org>, Neil Armstrong
- <neil.armstrong@linaro.org>, David Laight <david.laight@aculab.com>, Jakob
- Hauser <jahau@rocketmail.com>, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 00/12] iio: Remove redundant
- pm_runtime_mark_last_busy() calls
-Message-ID: <20250709165510.61fc852d@jic23-huawei>
-In-Reply-To: <20250708231144.971170-1-sakari.ailus@linux.intel.com>
-References: <20250708231144.971170-1-sakari.ailus@linux.intel.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1752077331; c=relaxed/simple;
+	bh=xxBDt1G0OIJHtYZ9p3lnhL9Z7BcnVm1K/HC9sDZRY3A=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=WpZFSG3QPlAqhKt6TNjHPvZFqbb2uqlEO+PxeJqWbtMv4QlOccXKsGso5/f8krjht+/i1WeqeeR7eTWX0Ig0nsZq95knavPY3Rthi8wGlyxaJBJc+sAlUwLCo3ZbSJ3jYH+Fs71wvs67yTMyFldIBq8RFBMPuEa/yBMtmmGG7kc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A8RX+5dQ; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752077329; x=1783613329;
+  h=date:from:to:cc:subject:message-id;
+  bh=xxBDt1G0OIJHtYZ9p3lnhL9Z7BcnVm1K/HC9sDZRY3A=;
+  b=A8RX+5dQHN3f0uxBQnpHiN/OVHA6t0h5CfG/VJjisz+s8bOrDoeb/5rz
+   zUaKKZ/jnoCzzeHCpnmWkLwTcVJtzL6Dpk5WUhjmK6lW4Iqc8ZdUqe/RR
+   o40s3RCAMxC8DSHniDMvGKjd2tAriEQZXOZkU8mQMcso6L0wTAe7HNRze
+   FLdErqhyEBQXEVeERVNxd8+vrD9UbNOMqZgVosXWKot6QhLI+u79L47bi
+   ePigofpXilAg1s2Zm7/qz/TlLFr/V1QIXRX7bhGxGsd6NlWQm5wW35bI2
+   IwVn/fwwIqrOIUQ40U/TJimYcQqXyf1NBZ2l5D8tMwKi0rfYOlMvtim+a
+   Q==;
+X-CSE-ConnectionGUID: iFDuuewjSlqqgAuR4qeAWg==
+X-CSE-MsgGUID: 2y2OvoDVQnO4+vIIbQbNwQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="54474010"
+X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
+   d="scan'208";a="54474010"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 09:08:49 -0700
+X-CSE-ConnectionGUID: tfFSIXWsTA2sI2U2+3wquw==
+X-CSE-MsgGUID: GsyLULQJS7a7J5wIFIMgqQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
+   d="scan'208";a="160350358"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 09 Jul 2025 09:08:48 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uZXLh-0003jL-1I;
+	Wed, 09 Jul 2025 16:08:45 +0000
+Date: Thu, 10 Jul 2025 00:08:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:master] BUILD SUCCESS
+ a762dd13768a5f6c0fb81a07b9ab0fec112aaf72
+Message-ID: <202507100049.wX8MXWMf-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Wed,  9 Jul 2025 02:11:44 +0300
-Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+branch HEAD: a762dd13768a5f6c0fb81a07b9ab0fec112aaf72  [LOCAL] riscv: rzfive: defconfig: Update for renesas-drivers
 
-> Hello everyone,
-> 
-> Late last year I posted a set to switch to __pm_runtime_mark_last_busy()
-> and gradually get rid of explicit pm_runtime_mark_last_busy() calls in
-> drivers, embedding them in the appropriate pm_runtime_*autosuspend*()
-> calls. The overall feedback I got at the time was that this is an
-> unnecessary intermediate step, and removing the
-> pm_runtime_mark_last_busy() calls can be done after adding them to the
-> relevant Runtime PM autosuspend related functions. The latter part has
-> been done and is present in Rafael's tree at the moment, also see
-> <URL:https://lore.kernel.org/linux-pm/CAJZ5v0g7-8UWp6ATOy+=oGdxDaCnfKHBG_+kbiTr+VeuXZsUFQ@mail.gmail.com/>:
-> 
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git \
-> 		pm-runtime-6.17-rc1
-> 
-> So before merging these, please pull Rafael's tag. My thinking is indeed
-> these would be best merged via the respective trees as there's some
-> potential for conflicts (there are around 920 call sites modified here).
-> 
-> These patches are on next-20250701.
-> 
-> since v1:
-> 
-> - Drop unneeded braces.
-> 
-> - Further rework call sites that simply assigned a local variable (ret) to
->   return it, by removing that local variable and the redundant else
->   clause.
-> 
-> The diff from v1 (<20250704075225.3212486-1-sakari.ailus@linux.intel.com>)
-> for iio patches is:
+Unverified Warning (likely false positive, kindly check if interested):
 
-Looking at all these patches, I wonder if the time is correct for introducing
-appropriate wrappers to be able to either do a __free() or guard() based
-auto suspending.   That would however want to be a follow up series
-as many of the drivers would need other rework to take full advantage of that.
+    drivers/gpu/drm/xe/xe_lrc.c:916:15: warning: 'wa_bb_offset' defined but not used [-Wunused-function]
 
-It would end up looking something like
+Warning ids grouped by kconfigs:
 
-	guard(pm_runtime_autosuspend)(dev);
+recent_errors
+|-- alpha-allyesconfig
+|   `-- drivers-gpu-drm-xe-xe_lrc.c:warning:wa_bb_offset-defined-but-not-used
+|-- arc-allmodconfig
+|   `-- drivers-gpu-drm-xe-xe_lrc.c:warning:wa_bb_offset-defined-but-not-used
+|-- arc-allyesconfig
+|   `-- drivers-gpu-drm-xe-xe_lrc.c:warning:wa_bb_offset-defined-but-not-used
+|-- arm-allmodconfig
+|   `-- drivers-gpu-drm-xe-xe_lrc.c:warning:wa_bb_offset-defined-but-not-used
+|-- arm-allyesconfig
+|   `-- drivers-gpu-drm-xe-xe_lrc.c:warning:wa_bb_offset-defined-but-not-used
+|-- i386-allmodconfig
+|   `-- drivers-gpu-drm-xe-xe_lrc.c:warning:wa_bb_offset-defined-but-not-used
+|-- i386-allyesconfig
+|   `-- drivers-gpu-drm-xe-xe_lrc.c:warning:wa_bb_offset-defined-but-not-used
+|-- loongarch-randconfig-001-20250709
+|   `-- drivers-gpu-drm-xe-xe_lrc.c:warning:wa_bb_offset-defined-but-not-used
+|-- microblaze-allmodconfig
+|   `-- drivers-gpu-drm-xe-xe_lrc.c:warning:wa_bb_offset-defined-but-not-used
+|-- microblaze-allyesconfig
+|   `-- drivers-gpu-drm-xe-xe_lrc.c:warning:wa_bb_offset-defined-but-not-used
+|-- mips-allyesconfig
+|   `-- drivers-gpu-drm-xe-xe_lrc.c:warning:wa_bb_offset-defined-but-not-used
+|-- s390-allyesconfig
+|   `-- drivers-gpu-drm-xe-xe_lrc.c:warning:wa_bb_offset-defined-but-not-used
+|-- sparc-allmodconfig
+|   `-- drivers-gpu-drm-xe-xe_lrc.c:warning:wa_bb_offset-defined-but-not-used
+|-- um-allyesconfig
+|   `-- drivers-gpu-drm-xe-xe_lrc.c:warning:wa_bb_offset-defined-but-not-used
+`-- xtensa-allyesconfig
+    `-- drivers-gpu-drm-xe-xe_lrc.c:warning:wa_bb_offset-defined-but-not-used
 
-> 
-> diff --git a/drivers/iio/accel/bmc150-accel-core.c b/drivers/iio/accel/bmc150-accel-core.c
-> index f45beae83f8b..fe1783d439de 100644
-> --- a/drivers/iio/accel/bmc150-accel-core.c
-> +++ b/drivers/iio/accel/bmc150-accel-core.c
-> @@ -332,11 +332,10 @@ static int bmc150_accel_set_power_state(struct bmc150_accel_data *data, bool on)
->  	struct device *dev = regmap_get_device(data->regmap);
->  	int ret;
->  
-> -	if (on) {
-> +	if (on)
->  		ret = pm_runtime_resume_and_get(dev);
-> -	} else {
-> +	else
->  		ret = pm_runtime_put_autosuspend(dev);
-> -	}
->  
->  	if (ret < 0) {
->  		dev_err(dev,
-> diff --git a/drivers/iio/accel/kxcjk-1013.c b/drivers/iio/accel/kxcjk-1013.c
-> index 44d770729186..2823ddde4bf2 100644
-> --- a/drivers/iio/accel/kxcjk-1013.c
-> +++ b/drivers/iio/accel/kxcjk-1013.c
-> @@ -636,9 +636,8 @@ static int kxcjk1013_set_power_state(struct kxcjk1013_data *data, bool on)
->  
->  	if (on)
->  		ret = pm_runtime_resume_and_get(&data->client->dev);
-> -	else {
-> +	else
->  		ret = pm_runtime_put_autosuspend(&data->client->dev);
-> -	}
->  	if (ret < 0) {
->  		dev_err(&data->client->dev,
->  			"Failed: %s for %d\n", __func__, on);
-> diff --git a/drivers/iio/accel/mma8452.c b/drivers/iio/accel/mma8452.c
-> index 5863478bab62..393294df02db 100644
-> --- a/drivers/iio/accel/mma8452.c
-> +++ b/drivers/iio/accel/mma8452.c
-> @@ -224,11 +224,10 @@ static int mma8452_set_runtime_pm_state(struct i2c_client *client, bool on)
->  #ifdef CONFIG_PM
->  	int ret;
->  
-> -	if (on) {
-> +	if (on)
->  		ret = pm_runtime_resume_and_get(&client->dev);
-> -	} else {
-> +	else
->  		ret = pm_runtime_put_autosuspend(&client->dev);
-> -	}
->  
->  	if (ret < 0) {
->  		dev_err(&client->dev,
-> diff --git a/drivers/iio/accel/mma9551_core.c b/drivers/iio/accel/mma9551_core.c
-> index 22768f43fd24..247c2eda8420 100644
-> --- a/drivers/iio/accel/mma9551_core.c
-> +++ b/drivers/iio/accel/mma9551_core.c
-> @@ -671,9 +671,8 @@ int mma9551_set_power_state(struct i2c_client *client, bool on)
->  
->  	if (on)
->  		ret = pm_runtime_resume_and_get(&client->dev);
-> -	else {
-> +	else
->  		ret = pm_runtime_put_autosuspend(&client->dev);
-> -	}
->  
->  	if (ret < 0) {
->  		dev_err(&client->dev,
-> diff --git a/drivers/iio/adc/at91-sama5d2_adc.c b/drivers/iio/adc/at91-sama5d2_adc.c
-> index 67846fefe21a..b4c36e6a7490 100644
-> --- a/drivers/iio/adc/at91-sama5d2_adc.c
-> +++ b/drivers/iio/adc/at91-sama5d2_adc.c
-> @@ -1140,9 +1140,8 @@ static int at91_adc_configure_trigger(struct iio_trigger *trig, bool state)
->  
->  	at91_adc_configure_trigger_registers(st, state);
->  
-> -	if (!state) {
-> +	if (!state)
->  		pm_runtime_put_autosuspend(st->dev);
-> -	}
->  
->  	return 0;
->  }
-> diff --git a/drivers/iio/adc/rcar-gyroadc.c b/drivers/iio/adc/rcar-gyroadc.c
-> index 467c6a9213ab..3a17b3898bf6 100644
-> --- a/drivers/iio/adc/rcar-gyroadc.c
-> +++ b/drivers/iio/adc/rcar-gyroadc.c
-> @@ -163,11 +163,10 @@ static int rcar_gyroadc_set_power(struct rcar_gyroadc *priv, bool on)
->  {
->  	struct device *dev = priv->dev;
->  
-> -	if (on) {
-> +	if (on)
->  		return pm_runtime_resume_and_get(dev);
-> -	} else {
-> -		return pm_runtime_put_autosuspend(dev);
-> -	}
-> +
-> +	return pm_runtime_put_autosuspend(dev);
->  }
->  
->  static int rcar_gyroadc_read_raw(struct iio_dev *indio_dev,
-> diff --git a/drivers/iio/adc/rzg2l_adc.c b/drivers/iio/adc/rzg2l_adc.c
-> index 29264a410def..39389091ee29 100644
-> --- a/drivers/iio/adc/rzg2l_adc.c
-> +++ b/drivers/iio/adc/rzg2l_adc.c
-> @@ -588,9 +588,8 @@ static int rzg2l_adc_resume(struct device *dev)
->  	return 0;
->  
->  rpm_restore:
-> -	if (adc->was_rpm_active) {
-> +	if (adc->was_rpm_active)
->  		pm_runtime_put_autosuspend(dev);
-> -	}
->  resets_restore:
->  	reset_control_bulk_assert(ARRAY_SIZE(resets), resets);
->  	return ret;
-> diff --git a/drivers/iio/adc/ti-ads1015.c b/drivers/iio/adc/ti-ads1015.c
-> index d3920fcb131b..f2a93c63ca14 100644
-> --- a/drivers/iio/adc/ti-ads1015.c
-> +++ b/drivers/iio/adc/ti-ads1015.c
-> @@ -374,11 +374,10 @@ static int ads1015_set_power_state(struct ads1015_data *data, bool on)
->  	int ret;
->  	struct device *dev = regmap_get_device(data->regmap);
->  
-> -	if (on) {
-> +	if (on)
->  		ret = pm_runtime_resume_and_get(dev);
-> -	} else {
-> +	else
->  		ret = pm_runtime_put_autosuspend(dev);
-> -	}
->  
->  	return ret < 0 ? ret : 0;
->  }
-> diff --git a/drivers/iio/dac/stm32-dac.c b/drivers/iio/dac/stm32-dac.c
-> index 7d47c7dddbf8..0988c991cf60 100644
-> --- a/drivers/iio/dac/stm32-dac.c
-> +++ b/drivers/iio/dac/stm32-dac.c
-> @@ -95,16 +95,14 @@ static int stm32_dac_set_enable_state(struct iio_dev *indio_dev, int ch,
->  	if (en && dac->common->hfsel)
->  		udelay(1);
->  
-> -	if (!enable) {
-> +	if (!enable)
->  		pm_runtime_put_autosuspend(dev);
-> -	}
->  
->  	return 0;
->  
->  err_put_pm:
-> -	if (enable) {
-> +	if (enable)
->  		pm_runtime_put_autosuspend(dev);
-> -	}
->  
->  	return ret;
->  }
-> diff --git a/drivers/iio/gyro/bmg160_core.c b/drivers/iio/gyro/bmg160_core.c
-> index 4dbe3c0cc5eb..38394b5f3275 100644
-> --- a/drivers/iio/gyro/bmg160_core.c
-> +++ b/drivers/iio/gyro/bmg160_core.c
-> @@ -309,9 +309,8 @@ static int bmg160_set_power_state(struct bmg160_data *data, bool on)
->  
->  	if (on)
->  		ret = pm_runtime_get_sync(dev);
-> -	else {
-> +	else
->  		ret = pm_runtime_put_autosuspend(dev);
-> -	}
->  
->  	if (ret < 0) {
->  		dev_err(dev, "Failed: bmg160_set_power_state for %d\n", on);
-> diff --git a/drivers/iio/imu/kmx61.c b/drivers/iio/imu/kmx61.c
-> index 42016d56c852..3cd91d8a89ee 100644
-> --- a/drivers/iio/imu/kmx61.c
-> +++ b/drivers/iio/imu/kmx61.c
-> @@ -747,11 +747,10 @@ static int kmx61_set_power_state(struct kmx61_data *data, bool on, u8 device)
->  		data->mag_ps = on;
->  	}
->  
-> -	if (on) {
-> +	if (on)
->  		ret = pm_runtime_resume_and_get(&data->client->dev);
-> -	} else {
-> +	else
->  		ret = pm_runtime_put_autosuspend(&data->client->dev);
-> -	}
->  	if (ret < 0) {
->  		dev_err(&data->client->dev,
->  			"Failed: kmx61_set_power_state for %d, ret %d\n",
-> diff --git a/drivers/iio/light/isl29028.c b/drivers/iio/light/isl29028.c
-> index 5ff20d423def..374bccad9119 100644
-> --- a/drivers/iio/light/isl29028.c
-> +++ b/drivers/iio/light/isl29028.c
-> @@ -336,15 +336,11 @@ static int isl29028_ir_get(struct isl29028_chip *chip, int *ir_data)
->  static int isl29028_set_pm_runtime_busy(struct isl29028_chip *chip, bool on)
->  {
->  	struct device *dev = regmap_get_device(chip->regmap);
-> -	int ret;
->  
-> -	if (on) {
-> -		ret = pm_runtime_resume_and_get(dev);
-> -	} else {
-> -		ret = pm_runtime_put_autosuspend(dev);
-> -	}
-> +	if (on)
-> +		return pm_runtime_resume_and_get(dev);
->  
-> -	return ret;
-> +	return pm_runtime_put_autosuspend(dev);
->  }
->  
->  /* Channel IO */
-> diff --git a/drivers/iio/light/pa12203001.c b/drivers/iio/light/pa12203001.c
-> index 93823421f42f..98a1f1624c75 100644
-> --- a/drivers/iio/light/pa12203001.c
-> +++ b/drivers/iio/light/pa12203001.c
-> @@ -185,14 +185,10 @@ static int pa12203001_set_power_state(struct pa12203001_data *data, bool on,
->  		mutex_unlock(&data->lock);
->  	}
->  
-> -	if (on) {
-> -		ret = pm_runtime_resume_and_get(&data->client->dev);
-> +	if (on)
-> +		return pm_runtime_resume_and_get(&data->client->dev);
->  
-> -	} else {
-> -		ret = pm_runtime_put_autosuspend(&data->client->dev);
-> -	}
-> -
-> -	return ret;
-> +	return pm_runtime_put_autosuspend(&data->client->dev);
->  
->  err:
->  	mutex_unlock(&data->lock);
-> diff --git a/drivers/iio/light/rpr0521.c b/drivers/iio/light/rpr0521.c
-> index 15e2cca22e4d..fd538aec4819 100644
-> --- a/drivers/iio/light/rpr0521.c
-> +++ b/drivers/iio/light/rpr0521.c
-> @@ -358,11 +358,10 @@ static int rpr0521_set_power_state(struct rpr0521_data *data, bool on,
->  	 * Note: If either measurement is re-enabled before _suspend(),
->  	 * both stay enabled until _suspend().
->  	 */
-> -	if (on) {
-> +	if (on)
->  		ret = pm_runtime_resume_and_get(&data->client->dev);
-> -	} else {
-> +	else
->  		ret = pm_runtime_put_autosuspend(&data->client->dev);
-> -	}
->  	if (ret < 0) {
->  		dev_err(&data->client->dev,
->  			"Failed: rpr0521_set_power_state for %d, ret %d\n",
-> diff --git a/drivers/iio/light/tsl2583.c b/drivers/iio/light/tsl2583.c
-> index d3a4923e5adc..8801a491de77 100644
-> --- a/drivers/iio/light/tsl2583.c
-> +++ b/drivers/iio/light/tsl2583.c
-> @@ -641,15 +641,10 @@ static const struct iio_chan_spec tsl2583_channels[] = {
->  
->  static int tsl2583_set_pm_runtime_busy(struct tsl2583_chip *chip, bool on)
->  {
-> -	int ret;
-> +	if (on)
-> +		return pm_runtime_resume_and_get(&chip->client->dev);
->  
-> -	if (on) {
-> -		ret = pm_runtime_resume_and_get(&chip->client->dev);
-> -	} else {
-> -		ret = pm_runtime_put_autosuspend(&chip->client->dev);
-> -	}
-> -
-> -	return ret;
-> +	return pm_runtime_put_autosuspend(&chip->client->dev);
->  }
->  
->  static int tsl2583_read_raw(struct iio_dev *indio_dev,
-> diff --git a/drivers/iio/light/us5182d.c b/drivers/iio/light/us5182d.c
-> index 8f0f85e98f3a..d2f5a44892a8 100644
-> --- a/drivers/iio/light/us5182d.c
-> +++ b/drivers/iio/light/us5182d.c
-> @@ -361,18 +361,13 @@ static int us5182d_shutdown_en(struct us5182d_data *data, u8 state)
->  
->  static int us5182d_set_power_state(struct us5182d_data *data, bool on)
->  {
-> -	int ret;
-> -
->  	if (data->power_mode == US5182D_ONESHOT)
->  		return 0;
->  
-> -	if (on) {
-> -		ret = pm_runtime_resume_and_get(&data->client->dev);
-> -	} else {
-> -		ret = pm_runtime_put_autosuspend(&data->client->dev);
-> -	}
-> +	if (on)
-> +		return pm_runtime_resume_and_get(&data->client->dev);
->  
-> -	return ret;
-> +	return pm_runtime_put_autosuspend(&data->client->dev);
->  }
->  
->  static int us5182d_read_value(struct us5182d_data *data,
-> diff --git a/drivers/iio/light/vcnl4000.c b/drivers/iio/light/vcnl4000.c
-> index 39e2cf20038a..7d70bb71b432 100644
-> --- a/drivers/iio/light/vcnl4000.c
-> +++ b/drivers/iio/light/vcnl4000.c
-> @@ -576,15 +576,11 @@ static bool vcnl4010_is_in_periodic_mode(struct vcnl4000_data *data)
->  static int vcnl4000_set_pm_runtime_state(struct vcnl4000_data *data, bool on)
->  {
->  	struct device *dev = &data->client->dev;
-> -	int ret;
->  
-> -	if (on) {
-> -		ret = pm_runtime_resume_and_get(dev);
-> -	} else {
-> -		ret = pm_runtime_put_autosuspend(dev);
-> -	}
-> +	if (on)
-> +		return pm_runtime_resume_and_get(dev);
->  
-> -	return ret;
-> +	return pm_runtime_put_autosuspend(dev);
->  }
->  
->  static int vcnl4040_read_als_it(struct vcnl4000_data *data, int *val, int *val2)
-> diff --git a/drivers/iio/light/vcnl4035.c b/drivers/iio/light/vcnl4035.c
-> index 079fb49bf73b..963747927425 100644
-> --- a/drivers/iio/light/vcnl4035.c
-> +++ b/drivers/iio/light/vcnl4035.c
-> @@ -141,16 +141,12 @@ static const struct iio_trigger_ops vcnl4035_trigger_ops = {
->  
->  static int vcnl4035_set_pm_runtime_state(struct vcnl4035_data *data, bool on)
->  {
-> -	int ret;
->  	struct device *dev = &data->client->dev;
->  
-> -	if (on) {
-> -		ret = pm_runtime_resume_and_get(dev);
-> -	} else {
-> -		ret = pm_runtime_put_autosuspend(dev);
-> -	}
-> +	if (on)
-> +		return pm_runtime_resume_and_get(dev);
->  
-> -	return ret;
-> +	return pm_runtime_put_autosuspend(dev);
->  }
->  
->  static int vcnl4035_read_info_raw(struct iio_dev *indio_dev,
-> diff --git a/drivers/iio/magnetometer/bmc150_magn.c b/drivers/iio/magnetometer/bmc150_magn.c
-> index 53d860e640a9..7c5fef79ad04 100644
-> --- a/drivers/iio/magnetometer/bmc150_magn.c
-> +++ b/drivers/iio/magnetometer/bmc150_magn.c
-> @@ -260,11 +260,10 @@ static int bmc150_magn_set_power_state(struct bmc150_magn_data *data, bool on)
->  #ifdef CONFIG_PM
->  	int ret;
->  
-> -	if (on) {
-> +	if (on)
->  		ret = pm_runtime_resume_and_get(data->dev);
-> -	} else {
-> +	else
->  		ret = pm_runtime_put_autosuspend(data->dev);
-> -	}
->  
->  	if (ret < 0) {
->  		dev_err(data->dev,
-> diff --git a/drivers/iio/proximity/srf04.c b/drivers/iio/proximity/srf04.c
-> index f2e2c638a2b6..310467ce39e2 100644
-> --- a/drivers/iio/proximity/srf04.c
-> +++ b/drivers/iio/proximity/srf04.c
-> @@ -117,9 +117,8 @@ static int srf04_read(struct srf04_data *data)
->  	udelay(data->cfg->trigger_pulse_us);
->  	gpiod_set_value(data->gpiod_trig, 0);
->  
-> -	if (data->gpiod_power) {
-> +	if (data->gpiod_power)
->  		pm_runtime_put_autosuspend(data->dev);
-> -	}
->  
->  	/* it should not take more than 20 ms until echo is rising */
->  	ret = wait_for_completion_killable_timeout(&data->rising, HZ/50);
-> 
-> 
-> Sakari Ailus (12):
->   iio: accel: Remove redundant pm_runtime_mark_last_busy() calls
->   iio: adc: Remove redundant pm_runtime_mark_last_busy() calls
->   iio: chemical: Remove redundant pm_runtime_mark_last_busy() calls
->   iio: common: Remove redundant pm_runtime_mark_last_busy() calls
->   iio: dac: Remove redundant pm_runtime_mark_last_busy() calls
->   iio: gyro: Remove redundant pm_runtime_mark_last_busy() calls
->   iio: imu: Remove redundant pm_runtime_mark_last_busy() calls
->   iio: light: Remove redundant pm_runtime_mark_last_busy() calls
->   iio: magnetometer: Remove redundant pm_runtime_mark_last_busy() calls
->   iio: pressure: Remove redundant pm_runtime_mark_last_busy() calls
->   iio: proximity: Remove redundant pm_runtime_mark_last_busy() calls
->   iio: temperature: Remove redundant pm_runtime_mark_last_busy() calls
-> 
->  drivers/iio/accel/bmc150-accel-core.c               |  6 ++----
->  drivers/iio/accel/bmi088-accel-core.c               |  3 ---
->  drivers/iio/accel/fxls8962af-core.c                 |  1 -
->  drivers/iio/accel/kxcjk-1013.c                      |  4 +---
->  drivers/iio/accel/kxsd9.c                           |  3 ---
->  drivers/iio/accel/mma8452.c                         |  6 ++----
->  drivers/iio/accel/mma9551_core.c                    |  4 +---
->  drivers/iio/accel/msa311.c                          |  6 ------
->  drivers/iio/adc/ab8500-gpadc.c                      |  1 -
->  drivers/iio/adc/at91-sama5d2_adc.c                  | 13 +------------
->  drivers/iio/adc/imx8qxp-adc.c                       |  2 --
->  drivers/iio/adc/imx93_adc.c                         |  1 -
->  drivers/iio/adc/rcar-gyroadc.c                      |  8 +++-----
->  drivers/iio/adc/rzg2l_adc.c                         |  6 +-----
->  drivers/iio/adc/stm32-adc-core.c                    |  1 -
->  drivers/iio/adc/stm32-adc.c                         |  7 -------
->  drivers/iio/adc/sun4i-gpadc-iio.c                   |  2 --
->  drivers/iio/adc/ti-ads1015.c                        |  6 ++----
->  drivers/iio/adc/ti-ads1100.c                        |  1 -
->  drivers/iio/adc/ti-ads1119.c                        |  2 --
->  drivers/iio/chemical/atlas-sensor.c                 |  2 --
->  drivers/iio/chemical/bme680_core.c                  |  3 ---
->  drivers/iio/common/hid-sensors/hid-sensor-trigger.c |  1 -
->  drivers/iio/dac/stm32-dac.c                         |  9 ++-------
->  drivers/iio/gyro/bmg160_core.c                      |  4 +---
->  drivers/iio/gyro/fxas21002c_core.c                  |  2 --
->  drivers/iio/gyro/mpu3050-core.c                     |  3 ---
->  drivers/iio/gyro/mpu3050-i2c.c                      |  1 -
->  drivers/iio/imu/inv_icm42600/inv_icm42600_accel.c   |  5 -----
->  drivers/iio/imu/inv_icm42600/inv_icm42600_buffer.c  |  1 -
->  drivers/iio/imu/inv_icm42600/inv_icm42600_gyro.c    |  5 -----
->  drivers/iio/imu/inv_icm42600/inv_icm42600_temp.c    |  1 -
->  drivers/iio/imu/inv_mpu6050/inv_mpu_core.c          |  6 ------
->  drivers/iio/imu/inv_mpu6050/inv_mpu_trigger.c       |  1 -
->  drivers/iio/imu/kmx61.c                             |  6 ++----
->  drivers/iio/light/apds9306.c                        |  2 --
->  drivers/iio/light/apds9960.c                        |  1 -
->  drivers/iio/light/bh1780.c                          |  1 -
->  drivers/iio/light/gp2ap002.c                        |  2 --
->  drivers/iio/light/isl29028.c                        | 11 +++--------
->  drivers/iio/light/ltrf216a.c                        |  1 -
->  drivers/iio/light/pa12203001.c                      | 11 +++--------
->  drivers/iio/light/rpr0521.c                         |  6 ++----
->  drivers/iio/light/tsl2583.c                         | 12 +++---------
->  drivers/iio/light/tsl2591.c                         |  2 --
->  drivers/iio/light/us5182d.c                         | 12 +++---------
->  drivers/iio/light/vcnl4000.c                        | 11 +++--------
->  drivers/iio/light/vcnl4035.c                        | 11 +++--------
->  drivers/iio/magnetometer/ak8974.c                   |  2 --
->  drivers/iio/magnetometer/ak8975.c                   |  1 -
->  drivers/iio/magnetometer/als31300.c                 |  2 --
->  drivers/iio/magnetometer/bmc150_magn.c              |  6 ++----
->  drivers/iio/magnetometer/tmag5273.c                 |  2 --
->  drivers/iio/magnetometer/yamaha-yas530.c            |  2 --
->  drivers/iio/pressure/bmp280-core.c                  |  5 -----
->  drivers/iio/pressure/icp10100.c                     |  1 -
->  drivers/iio/pressure/mpl115.c                       |  2 --
->  drivers/iio/pressure/zpa2326.c                      |  2 --
->  drivers/iio/proximity/pulsedlight-lidar-lite-v2.c   |  1 -
->  drivers/iio/proximity/srf04.c                       |  4 +---
->  drivers/iio/temperature/mlx90614.c                  |  1 -
->  drivers/iio/temperature/mlx90632.c                  |  1 -
->  drivers/iio/temperature/mlx90635.c                  |  1 -
->  63 files changed, 41 insertions(+), 208 deletions(-)
-> 
+elapsed time: 1451m
 
+configs tested: 120
+configs skipped: 3
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig    gcc-15.1.0
+alpha                            allyesconfig    gcc-15.1.0
+arc                              allmodconfig    gcc-15.1.0
+arc                               allnoconfig    gcc-15.1.0
+arc                              allyesconfig    gcc-15.1.0
+arc                   randconfig-001-20250709    gcc-8.5.0
+arc                   randconfig-002-20250709    gcc-11.5.0
+arc                        vdk_hs38_defconfig    gcc-15.1.0
+arm                              allmodconfig    gcc-15.1.0
+arm                               allnoconfig    clang-21
+arm                              allyesconfig    gcc-15.1.0
+arm                           imxrt_defconfig    clang-21
+arm                          ixp4xx_defconfig    gcc-15.1.0
+arm                   randconfig-001-20250709    gcc-12.4.0
+arm                   randconfig-002-20250709    gcc-10.5.0
+arm                   randconfig-003-20250709    clang-21
+arm                   randconfig-004-20250709    clang-21
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-15.1.0
+arm64                 randconfig-001-20250709    clang-21
+arm64                 randconfig-002-20250709    gcc-15.1.0
+arm64                 randconfig-003-20250709    clang-21
+arm64                 randconfig-004-20250709    gcc-10.5.0
+csky                              allnoconfig    gcc-15.1.0
+csky                  randconfig-001-20250709    gcc-15.1.0
+csky                  randconfig-002-20250709    gcc-15.1.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-21
+hexagon                          allyesconfig    clang-21
+hexagon               randconfig-001-20250709    clang-19
+hexagon               randconfig-002-20250709    clang-21
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250709    gcc-12
+i386        buildonly-randconfig-002-20250709    clang-20
+i386        buildonly-randconfig-003-20250709    clang-20
+i386        buildonly-randconfig-004-20250709    clang-20
+i386        buildonly-randconfig-005-20250709    gcc-12
+i386        buildonly-randconfig-006-20250709    clang-20
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    clang-19
+loongarch                         allnoconfig    clang-21
+loongarch             randconfig-001-20250709    gcc-15.1.0
+loongarch             randconfig-002-20250709    gcc-12.4.0
+m68k                             allmodconfig    gcc-15.1.0
+m68k                              allnoconfig    gcc-15.1.0
+m68k                             allyesconfig    gcc-15.1.0
+microblaze                       allmodconfig    gcc-15.1.0
+microblaze                        allnoconfig    gcc-15.1.0
+microblaze                       allyesconfig    gcc-15.1.0
+microblaze                          defconfig    gcc-15.1.0
+mips                              allnoconfig    gcc-15.1.0
+nios2                         10m50_defconfig    gcc-14.2.0
+nios2                             allnoconfig    gcc-14.2.0
+nios2                               defconfig    gcc-14.2.0
+nios2                 randconfig-001-20250709    gcc-14.2.0
+nios2                 randconfig-002-20250709    gcc-14.2.0
+openrisc                          allnoconfig    gcc-15.1.0
+openrisc                            defconfig    gcc-15.1.0
+parisc                            allnoconfig    gcc-15.1.0
+parisc                              defconfig    gcc-15.1.0
+parisc                randconfig-001-20250709    gcc-15.1.0
+parisc                randconfig-002-20250709    gcc-14.3.0
+parisc64                            defconfig    gcc-15.1.0
+powerpc                           allnoconfig    gcc-15.1.0
+powerpc               randconfig-001-20250709    gcc-8.5.0
+powerpc               randconfig-002-20250709    clang-21
+powerpc               randconfig-003-20250709    clang-21
+powerpc64             randconfig-001-20250709    gcc-10.5.0
+powerpc64             randconfig-002-20250709    gcc-10.5.0
+powerpc64             randconfig-003-20250709    clang-21
+riscv                             allnoconfig    gcc-15.1.0
+riscv                               defconfig    clang-21
+riscv                 randconfig-001-20250709    gcc-10.5.0
+riscv                 randconfig-002-20250709    clang-21
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-21
+s390                             allyesconfig    gcc-15.1.0
+s390                                defconfig    clang-21
+s390                  randconfig-001-20250709    clang-17
+s390                  randconfig-002-20250709    clang-21
+sh                               allmodconfig    gcc-15.1.0
+sh                                allnoconfig    gcc-15.1.0
+sh                               allyesconfig    gcc-15.1.0
+sh                                  defconfig    gcc-15.1.0
+sh                         ecovec24_defconfig    gcc-15.1.0
+sh                 kfr2r09-romimage_defconfig    gcc-15.1.0
+sh                    randconfig-001-20250709    gcc-10.5.0
+sh                    randconfig-002-20250709    gcc-14.3.0
+sparc                            allmodconfig    gcc-15.1.0
+sparc                             allnoconfig    gcc-15.1.0
+sparc                               defconfig    gcc-15.1.0
+sparc                 randconfig-001-20250709    gcc-15.1.0
+sparc                 randconfig-002-20250709    gcc-10.3.0
+sparc64                             defconfig    clang-20
+sparc64               randconfig-001-20250709    clang-21
+sparc64               randconfig-002-20250709    clang-21
+um                               alldefconfig    clang-21
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-21
+um                               allyesconfig    gcc-12
+um                                  defconfig    clang-21
+um                             i386_defconfig    gcc-12
+um                    randconfig-001-20250709    clang-17
+um                    randconfig-002-20250709    gcc-12
+um                           x86_64_defconfig    clang-21
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250709    gcc-12
+x86_64      buildonly-randconfig-002-20250709    clang-20
+x86_64      buildonly-randconfig-003-20250709    gcc-12
+x86_64      buildonly-randconfig-004-20250709    gcc-12
+x86_64      buildonly-randconfig-005-20250709    clang-20
+x86_64      buildonly-randconfig-006-20250709    gcc-12
+x86_64                              defconfig    gcc-11
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    gcc-15.1.0
+xtensa                randconfig-001-20250709    gcc-8.5.0
+xtensa                randconfig-002-20250709    gcc-11.5.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
