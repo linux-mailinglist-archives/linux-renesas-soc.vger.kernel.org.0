@@ -1,43 +1,42 @@
-Return-Path: <linux-renesas-soc+bounces-19442-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19443-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0ED0AFF103
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 20:44:06 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBE7AAFF108
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 20:45:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DF41A486C0D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 18:43:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C0B751C80F69
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 18:45:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44E27239E96;
-	Wed,  9 Jul 2025 18:44:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31C37239E86;
+	Wed,  9 Jul 2025 18:45:08 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2785A21B8FE;
-	Wed,  9 Jul 2025 18:44:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 143B923BCEB;
+	Wed,  9 Jul 2025 18:45:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752086644; cv=none; b=O4Nr52jbdYoHyMB1qgvdsTkjI/YMo80eCYzxV50nPzh0nXxFbsMhET4sHi3vekb1cPi5OW/DQkpyUN95oC96Y1dWrXL5b9PEbGFX5Y7UeXngM2Q4b4nrp9np5bNseSz3NtBHR5RJkHnNaG8PwcRux4cXdglwJDxGwjHH7zZ5oOI=
+	t=1752086708; cv=none; b=A/em0mqcC9zbSoiGa2Ur0jWDWv23Z3lJrksvFsaL7iFhj3My4G/EH/gx5fiV3fqXdTrp038R1/6OPAFq5yoiuZJd1bmTD2aMJCGPUCsw/gMzI3NWjjWDRRcmMigX5yD3wN41zQOa3iUXsu64p7BsPlRkZ0sknfACDxyntdBqaks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752086644; c=relaxed/simple;
-	bh=NaamJAiQ/uPd2cn/PhgvymbWIOuMwRjtrg10NpXj0ms=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Wre7FigRAu9T7dHoO96L9A5GdIhnLSEgMCHR7uKL2APNWv2hO8NCQE9NU5zkLX8gXECem67dUQ4R302WGyDhOStGSArbbnkoAks3+Zm9qsc+uT1w/se3O/WkK73HM27nQWwCEFc4ZZZAi6DhEhN9ur2ZN+sh3UZdOI2/O/K5cbQ=
+	s=arc-20240116; t=1752086708; c=relaxed/simple;
+	bh=csSeS/fzyGVN71RyVkg11xjtxoCkIfFqxEDVn/Ra2O8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MpPHimL4H9iEzj+QW8W69JrE769YCMp+mGTK+4lcC9j69hleFg3wGCgFSRWQfX4WWqWEJ1i9NBz5payq96owfYL1FP8m+hmE0NK5ucQrkhwXPOxixoM+gV1GY00zbPnyhyHU3snlKNTjHIcviw38Ev8tVn8Jofze0fO+BtOGQTg=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 374C8C4CEEF;
-	Wed,  9 Jul 2025 18:44:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48B26C4CEEF;
+	Wed,  9 Jul 2025 18:45:06 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
+To: Thomas Gleixner <tglx@linutronix.de>,
 	Magnus Damm <magnus.damm@gmail.com>
-Cc: linux-gpio@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] gpio: rcar: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
-Date: Wed,  9 Jul 2025 20:43:59 +0200
-Message-ID: <e201140426daacaa799d73e2f76bfd96b6f5718f.1752086619.git.geert+renesas@glider.be>
+Subject: [PATCH] irqchip/renesas-intc-irqpin: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
+Date: Wed,  9 Jul 2025 20:45:01 +0200
+Message-ID: <865e5274cc516d8c345048330a46e753e2bda677.1752086656.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -47,48 +46,48 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert the Renesas R-Car GPIO driver from SIMPLE_DEV_PM_OPS() to
-DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr().  This lets us drop the
-check for CONFIG_PM_SLEEP, and reduces kernel size in case CONFIG_PM or
-CONFIG_PM_SLEEP is disabled, while increasing build coverage.
+Convert the Renesas INTC External IRQ Pin driver from
+SIMPLE_DEV_PM_OPS() to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr().
+This lets us drop the __maybe_unused annotations from its suspend
+callbacks, and reduces kernel size in case CONFIG_PM or CONFIG_PM_SLEEP
+is disabled.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/gpio/gpio-rcar.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/irqchip/irq-renesas-intc-irqpin.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpio/gpio-rcar.c b/drivers/gpio/gpio-rcar.c
-index 1d121a4275905e09..cd31580effa9037f 100644
---- a/drivers/gpio/gpio-rcar.c
-+++ b/drivers/gpio/gpio-rcar.c
-@@ -592,7 +592,6 @@ static void gpio_rcar_remove(struct platform_device *pdev)
+diff --git a/drivers/irqchip/irq-renesas-intc-irqpin.c b/drivers/irqchip/irq-renesas-intc-irqpin.c
+index 117b74b635ea8b76..7951292d2d9b1d6c 100644
+--- a/drivers/irqchip/irq-renesas-intc-irqpin.c
++++ b/drivers/irqchip/irq-renesas-intc-irqpin.c
+@@ -570,7 +570,7 @@ static void intc_irqpin_remove(struct platform_device *pdev)
  	pm_runtime_disable(&pdev->dev);
  }
  
--#ifdef CONFIG_PM_SLEEP
- static int gpio_rcar_suspend(struct device *dev)
+-static int __maybe_unused intc_irqpin_suspend(struct device *dev)
++static int intc_irqpin_suspend(struct device *dev)
  {
- 	struct gpio_rcar_priv *p = dev_get_drvdata(dev);
-@@ -651,16 +650,16 @@ static int gpio_rcar_resume(struct device *dev)
+ 	struct intc_irqpin_priv *p = dev_get_drvdata(dev);
  
+@@ -580,7 +580,7 @@ static int __maybe_unused intc_irqpin_suspend(struct device *dev)
  	return 0;
  }
--#endif /* CONFIG_PM_SLEEP*/
  
--static SIMPLE_DEV_PM_OPS(gpio_rcar_pm_ops, gpio_rcar_suspend, gpio_rcar_resume);
-+static DEFINE_SIMPLE_DEV_PM_OPS(gpio_rcar_pm_ops, gpio_rcar_suspend,
-+				gpio_rcar_resume);
+-static SIMPLE_DEV_PM_OPS(intc_irqpin_pm_ops, intc_irqpin_suspend, NULL);
++static DEFINE_SIMPLE_DEV_PM_OPS(intc_irqpin_pm_ops, intc_irqpin_suspend, NULL);
  
- static struct platform_driver gpio_rcar_device_driver = {
- 	.probe		= gpio_rcar_probe,
- 	.remove		= gpio_rcar_remove,
+ static struct platform_driver intc_irqpin_device_driver = {
+ 	.probe		= intc_irqpin_probe,
+@@ -588,7 +588,7 @@ static struct platform_driver intc_irqpin_device_driver = {
  	.driver		= {
- 		.name	= "gpio_rcar",
--		.pm     = &gpio_rcar_pm_ops,
-+		.pm     = pm_sleep_ptr(&gpio_rcar_pm_ops),
- 		.of_match_table = gpio_rcar_of_table,
+ 		.name		= "renesas_intc_irqpin",
+ 		.of_match_table	= intc_irqpin_dt_ids,
+-		.pm		= &intc_irqpin_pm_ops,
++		.pm		= pm_sleep_ptr(&intc_irqpin_pm_ops),
  	}
  };
+ 
 -- 
 2.43.0
 
