@@ -1,150 +1,316 @@
-Return-Path: <linux-renesas-soc+bounces-19424-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19425-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C773AFEA8F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 15:44:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1340DAFEB78
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 16:14:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF4773A9EFF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 13:43:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5E2DB3B7DE4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 14:05:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53B462DFF2E;
-	Wed,  9 Jul 2025 13:43:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C1292E7BAB;
+	Wed,  9 Jul 2025 14:03:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tD8hL708"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Dxef8x8d"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1834A21C9ED;
-	Wed,  9 Jul 2025 13:43:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07BF2E7642
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  9 Jul 2025 14:02:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752068623; cv=none; b=ajOLz63K/8KHeNzoTdO6bhHI9fshvi1LEvD5iWUwJU0J6QFX/sUw+mj3aCX+AjLdvhmY1tmuP0DxpzmZl1pa/cJExtGFReqZAI3Y/cH7gOF4msKdio9szljeUR1yISeJUo6X7c6jqd1EJDjbD4Ih+4WcaKKfUyQJ8YLQXS+TM98=
+	t=1752069781; cv=none; b=mMYKju5PK5G56XENZJA7TxdoUvzDfVPKas/OXrnBJHd3u7+bnx7BC3UraDBi44nnd5UMvyjAnx3w4wjbCCqlQ/svKUD3mmED0eV1oGFd2kTNQacsTWmdshv+BtSj9JRP+XQg32oOpvrtzOS+w4OBS2VNoryDeWgZOkeXXj9x664=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752068623; c=relaxed/simple;
-	bh=E1zdbjxPwboIg03CvXt86zzohIki4jb09rL8p71QZbg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=X548z1Dz9fGddZza47bZXG/PSeAet+gBN6vgRhYFjr1cSytr35PdJ2uKRj1N13HKsPFD0HQ+FsOEn27XzHUXtZEXM79ob2TLW1YuN6nCXl8yx4tkWBNMLubYcTTkJNcSOhSwh2WHWcSgPxnKQSg81RkU8SMgDF9ioxraUgoH9dM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tD8hL708; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6120CC4CEEF;
-	Wed,  9 Jul 2025 13:43:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752068622;
-	bh=E1zdbjxPwboIg03CvXt86zzohIki4jb09rL8p71QZbg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=tD8hL708Ygf8m7Uu1YwrBx+SHfPNsQGBGaP4jP4qvkQlfkarcIDpmTbhnpSvSC1BT
-	 RXJdrzfWR3tWmqpRPqCbDJMP2d870SBcYUEipkZxzoPKLcdg6aczmvdJGZx7BxtZV9
-	 C6r9+o7w9kd/+5jt7uJnYSioPZ3uc4Fq8FNwZRX6EX7+ABRD3SdId/5gPgXw+LJgj0
-	 7VcjcanLazbY++44Q3WN/7JWoqHIMiNq+pPoJumcHQsV+fcpwSupbIXPFOvctYYXXY
-	 MBJbejELjs7wt5jaUOxz3ICMVXz1M32q/Fn0bKLiXfW5jH0o99e468/QCc3c58u2Sy
-	 +5/X8Q5d0O29A==
-Message-ID: <2e0d815a-774a-4e31-92f1-71e0772294c7@kernel.org>
-Date: Wed, 9 Jul 2025 15:43:35 +0200
+	s=arc-20240116; t=1752069781; c=relaxed/simple;
+	bh=8ab465XL8RGJp2xwiNdST7psmhAqO4d1Mew5u/WfDXQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WeGJfUQFN3czA7/CJ7AHSLp0lB7CU2CenNAr/hKitiVRodTjIJU2yfvxfp3YC/rUAo/tdyKF8CTTso6e4phSLWPrMUbO14ZC5u0j9t3+bKKjqGO85ivBimiaWJ8oGbvsD/a+9tqAjCFcZ9mf4nP6kJUbVepbj+qUXMvHGWnn2nc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Dxef8x8d; arc=none smtp.client-ip=209.85.128.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-7170344c100so36491587b3.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 09 Jul 2025 07:02:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1752069778; x=1752674578; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=0jxeF6qQ15W3iRJfD8FVALOVDq0XQ6sXFz3PZD+HrmQ=;
+        b=Dxef8x8dRcZgbfIFnay55lDzXM8yBse7JQM5QQTfEPYTcFdfzPV6lyikF1cJ3Ax10F
+         2BAz1FCXa+ybHZh1pddz0hkK49ZQcH+cexpRV90ri+BVT+wLEvN5ZuWeLOz231uSurxo
+         09jXhJTqCc7JdgtOwgUxIcCArYAqcA47sOuyG5NABz/TkqEds30Y0bh2tEWUSfdcWLbi
+         evN2M86syWQR/lp15PX0Fa8jL6TDD27H/SVL/uI8rsdERSm6Q0SpyvUQjTOR5gpP5DAS
+         6YHxSIh4amUz7sJK4PxtOJO9hy8o3Bac0CRdCUfdMnpG+mOz4NNvjlGUU1S+1+kO0WVb
+         ahFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752069778; x=1752674578;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0jxeF6qQ15W3iRJfD8FVALOVDq0XQ6sXFz3PZD+HrmQ=;
+        b=TaH3a4VzBlnd8+omD/he/LypN2JNMFM2khkTUFF4KNxqJIl31d3VghugIhbP07Wull
+         QLN2sdUpdZtFSHsLm1YBHg/Id44gAdK/okT8+LQgk1YJmPHhS68xoXFgGxP3X4u/iw05
+         vIyH/0NrGu0yTSwbLigunt2WQBlBq/oZgC3b/5xxvW84OKEHPhYsYL+87t2a7WH7DRpt
+         iS7MBVK+RVS81IaEwcYnV0ViqLmOclpTa34s0bNuFh+Cy/6Qi3tbPtr0gGHAgshl1icr
+         xE4NpTp7hd90jWnwCCC29C11fo2gENELkeVNAQjD8m6BWK+xHhaTo4XZG4Kc4MBcQPEt
+         VogQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWGufI3vyfqnEHNe1gOMXCFQPs0NLzoEbwXRR1T8Z3iIEQXrqLDdKCBKTlKhGuridMafauJz7HCA34NMHWP0XfVBA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyO3rWIQ7TCJ9PUajtqv+I1ujjNAYfWEzyjHABxg7aK292K5woF
+	EbF+iMSVHoL9pcG1zhChLR/nj5lZAWimDUdfUsgOkOg749Ie7LOJi9c94v3xMutxFyNIu4YjB/Z
+	q96PgflISg7ddzi0fhaS3vwGfGqPWLG7uax+3NPBkXQ==
+X-Gm-Gg: ASbGncsAyThLW916cjFoWKEIr7rfGknB/p7cfQ87LmSQ46VoAIa/yMBjt40XMdSw13M
+	CS49fDAtycYQ2KdCKRlozzndY5SliP+dU/9R24rzxPKaQmgWy/e/wDOVfFsMk5sH/l5MvSEgWkt
+	fOBhn3RM0DGvlfJDERPgeWwkoJWBcSc+soGnJgvmacaVHc
+X-Google-Smtp-Source: AGHT+IFtWA8c7PWFxCFRls9OTwmIX50KvZ84tz29XCIMOswJWdVGY+cHCZiaI7O65CCj8j+BQ/aRqyiXkvmlO0NA56I=
+X-Received: by 2002:a05:690c:9c09:b0:70e:2d17:84b5 with SMTP id
+ 00721157ae682-717b13bf817mr39839927b3.0.1752069776636; Wed, 09 Jul 2025
+ 07:02:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/9] dt-bindings: PCI: renesas,r9a08g045s33-pcie: Add
- documentation for the PCIe IP on Renesas RZ/G3S
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Claudiu <claudiu.beznea@tuxon.dev>, bhelgaas@google.com,
- lpieralisi@kernel.org, kwilczynski@kernel.org, mani@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- geert+renesas@glider.be, magnus.damm@gmail.com, catalin.marinas@arm.com,
- will@kernel.org, mturquette@baylibre.com, sboyd@kernel.org,
- p.zabel@pengutronix.de, lizhi.hou@amd.com, linux-pci@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org, Claudiu Beznea
- <claudiu.beznea.uj@bp.renesas.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>
-References: <20250709132449.GA2193594@bhelgaas>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250709132449.GA2193594@bhelgaas>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250704075225.3212486-1-sakari.ailus@linux.intel.com> <20250704075434.3220506-1-sakari.ailus@linux.intel.com>
+In-Reply-To: <20250704075434.3220506-1-sakari.ailus@linux.intel.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Wed, 9 Jul 2025 16:02:20 +0200
+X-Gm-Features: Ac12FXwuMSAHr6sQzvdlqPxk0AdX5s1c2M_fF3m8uP0HMwMi2plFNm-Wc6CWOgg
+Message-ID: <CAPDyKFp+aBO9XTmvBYGj4bcL9BW26LCZb9O=6nstj29zctHi6A@mail.gmail.com>
+Subject: Re: [PATCH 44/80] mmc: Remove redundant pm_runtime_mark_last_busy() calls
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Aubin Constans <aubin.constans@microchip.com>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Russell King <linux@armlinux.org.uk>, Adrian Hunter <adrian.hunter@intel.com>, 
+	Haibo Chen <haibo.chen@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Vignesh Raghavendra <vigneshr@ti.com>, Orson Zhai <orsonzhai@gmail.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Avri Altman <avri.altman@sandisk.com>, 
+	Victor Shih <victor.shih@genesyslogic.com.tw>, Binbin Zhou <zhoubinbin@loongson.cn>, 
+	Huacai Chen <chenhuacai@kernel.org>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+	linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org, 
+	imx@lists.linux.dev, s32@nxp.com, linux-arm-msm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 09/07/2025 15:24, Bjorn Helgaas wrote:
-> On Wed, Jul 09, 2025 at 08:47:05AM +0200, Krzysztof Kozlowski wrote:
->> On 08/07/2025 18:34, Bjorn Helgaas wrote:
->>> On Fri, Jul 04, 2025 at 07:14:04PM +0300, Claudiu wrote:
->>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>
->>>> The PCIe IP available on the Renesas RZ/G3S complies with the PCI Express
->>>> Base Specification 4.0. It is designed for root complex applications and
->>>> features a single-lane (x1) implementation. Add documentation for it.
->>>
->>>> +++ b/Documentation/devicetree/bindings/pci/renesas,r9a08g045s33-pcie.yaml
->>>
->>> The "r9a08g045s33" in the filename seems oddly specific.  Does it
->>> leave room for descendants of the current chip that will inevitably be
->>> added in the future?  Most bindings are named with a fairly generic
->>> family name, e.g., "fsl,layerscape", "hisilicon,kirin", "intel,
->>> keembay", "samsung,exynos", etc.
->>>
->>
->> Bindings should be named by compatible, not in a generic way, so name is
->> correct. It can always grow with new compatibles even if name matches
->> old one, it's not a problem.
-> 
-> Ok, thanks!
-> 
-> I guess that means I'm casting shade on the "r9a08g045s33" compatible.
-> I suppose it means something to somebody.
+On Fri, 4 Jul 2025 at 09:54, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+>
+> pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
+> pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
+> to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
+> pm_runtime_mark_last_busy().
+>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Well, I hope it matches the name of the SoC, from which the compatible
-should come :)
+I have pulled in pm-runtime-6.17-rc1 and applied the $subject patch
+for next, thanks!
 
-Best regards,
-Krzysztof
+Kind regards
+Uffe
+
+
+> ---
+> The cover letter of the set can be found here
+> <URL:https://lore.kernel.org/linux-pm/20250704075225.3212486-1-sakari.ailus@linux.intel.com>.
+>
+> In brief, this patch depends on PM runtime patches adding marking the last
+> busy timestamp in autosuspend related functions. The patches are here, on
+> rc2:
+>
+>         git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git \
+>                 pm-runtime-6.17-rc1
+>
+>  drivers/mmc/core/core.c            | 1 -
+>  drivers/mmc/host/atmel-mci.c       | 2 --
+>  drivers/mmc/host/mmci.c            | 1 -
+>  drivers/mmc/host/omap_hsmmc.c      | 3 ---
+>  drivers/mmc/host/sdhci-esdhc-imx.c | 1 -
+>  drivers/mmc/host/sdhci-msm.c       | 1 -
+>  drivers/mmc/host/sdhci-omap.c      | 2 --
+>  drivers/mmc/host/sdhci-pxav3.c     | 2 --
+>  drivers/mmc/host/sdhci-sprd.c      | 1 -
+>  drivers/mmc/host/sdhci_am654.c     | 1 -
+>  drivers/mmc/host/tmio_mmc_core.c   | 1 -
+>  11 files changed, 16 deletions(-)
+>
+> diff --git a/drivers/mmc/core/core.c b/drivers/mmc/core/core.c
+> index a0e2dce70434..874c6fe92855 100644
+> --- a/drivers/mmc/core/core.c
+> +++ b/drivers/mmc/core/core.c
+> @@ -882,7 +882,6 @@ void mmc_put_card(struct mmc_card *card, struct mmc_ctx *ctx)
+>         WARN_ON(ctx && host->claimer != ctx);
+>
+>         mmc_release_host(host);
+> -       pm_runtime_mark_last_busy(&card->dev);
+>         pm_runtime_put_autosuspend(&card->dev);
+>  }
+>  EXPORT_SYMBOL(mmc_put_card);
+> diff --git a/drivers/mmc/host/atmel-mci.c b/drivers/mmc/host/atmel-mci.c
+> index c885c04e938a..43f92f48590f 100644
+> --- a/drivers/mmc/host/atmel-mci.c
+> +++ b/drivers/mmc/host/atmel-mci.c
+> @@ -541,7 +541,6 @@ static int atmci_regs_show(struct seq_file *s, void *v)
+>         memcpy_fromio(buf, host->regs, ATMCI_REGS_SIZE);
+>         spin_unlock_bh(&host->lock);
+>
+> -       pm_runtime_mark_last_busy(dev);
+>         pm_runtime_put_autosuspend(dev);
+>
+>         seq_printf(s, "MR:\t0x%08x%s%s ",
+> @@ -2567,7 +2566,6 @@ static int atmci_probe(struct platform_device *pdev)
+>         dev_info(dev, "Atmel MCI controller at 0x%08lx irq %d, %u slots\n",
+>                  host->mapbase, irq, nr_slots);
+>
+> -       pm_runtime_mark_last_busy(dev);
+>         pm_runtime_put_autosuspend(dev);
+>
+>         return 0;
+> diff --git a/drivers/mmc/host/mmci.c b/drivers/mmc/host/mmci.c
+> index c70c64f8adc4..8367283647a9 100644
+> --- a/drivers/mmc/host/mmci.c
+> +++ b/drivers/mmc/host/mmci.c
+> @@ -2082,7 +2082,6 @@ static void mmci_enable_sdio_irq(struct mmc_host *mmc, int enable)
+>         spin_unlock_irqrestore(&host->lock, flags);
+>
+>         if (!enable) {
+> -               pm_runtime_mark_last_busy(mmc_dev(mmc));
+>                 pm_runtime_put_autosuspend(mmc_dev(mmc));
+>         }
+>  }
+> diff --git a/drivers/mmc/host/omap_hsmmc.c b/drivers/mmc/host/omap_hsmmc.c
+> index bf3b9f5b067c..adc0d0b6ae37 100644
+> --- a/drivers/mmc/host/omap_hsmmc.c
+> +++ b/drivers/mmc/host/omap_hsmmc.c
+> @@ -1663,7 +1663,6 @@ static int mmc_regs_show(struct seq_file *s, void *data)
+>         seq_printf(s, "CAPA:\t\t0x%08x\n",
+>                         OMAP_HSMMC_READ(host->base, CAPA));
+>
+> -       pm_runtime_mark_last_busy(host->dev);
+>         pm_runtime_put_autosuspend(host->dev);
+>
+>         return 0;
+> @@ -1954,7 +1953,6 @@ static int omap_hsmmc_probe(struct platform_device *pdev)
+>         }
+>
+>         omap_hsmmc_debugfs(mmc);
+> -       pm_runtime_mark_last_busy(host->dev);
+>         pm_runtime_put_autosuspend(host->dev);
+>
+>         return 0;
+> @@ -2031,7 +2029,6 @@ static int omap_hsmmc_resume(struct device *dev)
+>         if (!(host->mmc->pm_flags & MMC_PM_KEEP_POWER))
+>                 omap_hsmmc_conf_bus_power(host);
+>
+> -       pm_runtime_mark_last_busy(host->dev);
+>         pm_runtime_put_autosuspend(host->dev);
+>         return 0;
+>  }
+> diff --git a/drivers/mmc/host/sdhci-esdhc-imx.c b/drivers/mmc/host/sdhci-esdhc-imx.c
+> index 64c27349d79f..a040c0896a7b 100644
+> --- a/drivers/mmc/host/sdhci-esdhc-imx.c
+> +++ b/drivers/mmc/host/sdhci-esdhc-imx.c
+> @@ -2108,7 +2108,6 @@ static int sdhci_esdhc_resume(struct device *dev)
+>             esdhc_is_usdhc(imx_data))
+>                 sdhc_esdhc_tuning_restore(host);
+>
+> -       pm_runtime_mark_last_busy(dev);
+>         pm_runtime_put_autosuspend(dev);
+>
+>         return ret;
+> diff --git a/drivers/mmc/host/sdhci-msm.c b/drivers/mmc/host/sdhci-msm.c
+> index 732b65d4b61a..68e56251d5e8 100644
+> --- a/drivers/mmc/host/sdhci-msm.c
+> +++ b/drivers/mmc/host/sdhci-msm.c
+> @@ -2750,7 +2750,6 @@ static int sdhci_msm_probe(struct platform_device *pdev)
+>         if (ret)
+>                 goto pm_runtime_disable;
+>
+> -       pm_runtime_mark_last_busy(&pdev->dev);
+>         pm_runtime_put_autosuspend(&pdev->dev);
+>
+>         return 0;
+> diff --git a/drivers/mmc/host/sdhci-omap.c b/drivers/mmc/host/sdhci-omap.c
+> index 429d8a517fb6..cdb09605e009 100644
+> --- a/drivers/mmc/host/sdhci-omap.c
+> +++ b/drivers/mmc/host/sdhci-omap.c
+> @@ -1370,7 +1370,6 @@ static int sdhci_omap_probe(struct platform_device *pdev)
+>                 host->mmc->pm_caps |= MMC_PM_KEEP_POWER | MMC_PM_WAKE_SDIO_IRQ;
+>         }
+>
+> -       pm_runtime_mark_last_busy(dev);
+>         pm_runtime_put_autosuspend(dev);
+>
+>         return 0;
+> @@ -1379,7 +1378,6 @@ static int sdhci_omap_probe(struct platform_device *pdev)
+>         sdhci_cleanup_host(host);
+>
+>  err_rpm_put:
+> -       pm_runtime_mark_last_busy(dev);
+>         pm_runtime_put_autosuspend(dev);
+>  err_rpm_disable:
+>         pm_runtime_dont_use_autosuspend(dev);
+> diff --git a/drivers/mmc/host/sdhci-pxav3.c b/drivers/mmc/host/sdhci-pxav3.c
+> index 34abf986573f..1371960e34eb 100644
+> --- a/drivers/mmc/host/sdhci-pxav3.c
+> +++ b/drivers/mmc/host/sdhci-pxav3.c
+> @@ -494,7 +494,6 @@ static int sdhci_pxav3_suspend(struct device *dev)
+>         if (host->tuning_mode != SDHCI_TUNING_MODE_3)
+>                 mmc_retune_needed(host->mmc);
+>         ret = sdhci_suspend_host(host);
+> -       pm_runtime_mark_last_busy(dev);
+>         pm_runtime_put_autosuspend(dev);
+>
+>         return ret;
+> @@ -507,7 +506,6 @@ static int sdhci_pxav3_resume(struct device *dev)
+>
+>         pm_runtime_get_sync(dev);
+>         ret = sdhci_resume_host(host);
+> -       pm_runtime_mark_last_busy(dev);
+>         pm_runtime_put_autosuspend(dev);
+>
+>         return ret;
+> diff --git a/drivers/mmc/host/sdhci-sprd.c b/drivers/mmc/host/sdhci-sprd.c
+> index a5dec1a0e934..fe2fe52b23b2 100644
+> --- a/drivers/mmc/host/sdhci-sprd.c
+> +++ b/drivers/mmc/host/sdhci-sprd.c
+> @@ -863,7 +863,6 @@ static int sdhci_sprd_probe(struct platform_device *pdev)
+>         if (ret)
+>                 goto err_cleanup_host;
+>
+> -       pm_runtime_mark_last_busy(&pdev->dev);
+>         pm_runtime_put_autosuspend(&pdev->dev);
+>
+>         return 0;
+> diff --git a/drivers/mmc/host/sdhci_am654.c b/drivers/mmc/host/sdhci_am654.c
+> index ea14d56558c4..e2c4a0049d61 100644
+> --- a/drivers/mmc/host/sdhci_am654.c
+> +++ b/drivers/mmc/host/sdhci_am654.c
+> @@ -986,7 +986,6 @@ static int sdhci_am654_probe(struct platform_device *pdev)
+>         /* Setting up autosuspend */
+>         pm_runtime_set_autosuspend_delay(dev, SDHCI_AM654_AUTOSUSPEND_DELAY);
+>         pm_runtime_use_autosuspend(dev);
+> -       pm_runtime_mark_last_busy(dev);
+>         pm_runtime_put_autosuspend(dev);
+>         return 0;
+>
+> diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
+> index 2cec463b5e00..21c2f9095bac 100644
+> --- a/drivers/mmc/host/tmio_mmc_core.c
+> +++ b/drivers/mmc/host/tmio_mmc_core.c
+> @@ -160,7 +160,6 @@ static void tmio_mmc_enable_sdio_irq(struct mmc_host *mmc, int enable)
+>                 sd_ctrl_write16(host, CTL_SDIO_IRQ_MASK, host->sdio_irq_mask);
+>
+>                 host->sdio_irq_enabled = false;
+> -               pm_runtime_mark_last_busy(mmc_dev(mmc));
+>                 pm_runtime_put_autosuspend(mmc_dev(mmc));
+>         }
+>  }
+> --
+> 2.39.5
+>
 
