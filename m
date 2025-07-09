@@ -1,72 +1,72 @@
-Return-Path: <linux-renesas-soc+bounces-19418-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19419-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 963BAAFE674
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 12:56:20 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E581AFE676
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 12:56:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 640341BC4438
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 10:55:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A9F93166420
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 10:56:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CD9828FAB9;
-	Wed,  9 Jul 2025 10:47:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EDFF28DB5E;
+	Wed,  9 Jul 2025 10:49:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tw2hdOwu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Syi2ZCo6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F7A728D85A
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  9 Jul 2025 10:47:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF56821766A
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  9 Jul 2025 10:49:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752058041; cv=none; b=NQpY9NF3UhusGW9BN5DYqD3N8huDvqZc3OCZtlg20ljGcDcjOQsUbmAe9VnNChScJqN92ebcKaaqxuLAwQgZ+p6BoDPTutfeUialbTk46RgKpLqYd3tDXcPK6A1kjDGip1s9Ua9u/w/2c0MyNWTch4hluk1H46IGNG6NshPr8D0=
+	t=1752058166; cv=none; b=r0ZVuUq1FbStUMraJa9ibyNbbH8e2GSk8qaKJnw72KGS6G2NB+2qm7eIMPDux+UTyAWiXVqyUBRiU5ByV+2IAJTnkH15g0CPV9/pfCzhaYno22xCAqYRjl2o3LFVv2Y95stHyjHCcDA8dDelyX4pqnbkEizQXZBb6RjmpVH5zPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752058041; c=relaxed/simple;
-	bh=Ty7X9xKrF7bI1eHSpcV2xz5B8LIDBFzGkdXldFwUHT4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gwwPlUZjxXjGqp3k2Nn6mO4EbOda+66Z4Ter1GHwe3LPkI2NeqWWAQmQVVt7zbvvvlvdF+UF7dMIkrWOZED6T3ROxIfobzP09KCuDw7nNlirQZucbj09JWLOw1lJywpJYiErcJ7broVAWCwHNifb1k3DB5hKQJ/vq89uNLOoGdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tw2hdOwu; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1752058166; c=relaxed/simple;
+	bh=xUmA18VsloScbf4os+1Og6NT5aPRs0IvA8e7GjnNeME=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=EAop4SwfcT5WWMFJDm6RXjWsMO6RQnPcpKfLILEJsQXcsoCyphKTYL2uN4gqTJUc7QeSXj+X0YVLrmwdM7g5AIuwVOSMYyOvhNx8EXmUsLMmunH+Zd3I9w/Hne4t8MQi7C2/ebARm62Jjew7EmjlHTStKBbdLPpgaUZAaM8UVGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Syi2ZCo6; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752058039; x=1783594039;
+  t=1752058165; x=1783594165;
   h=date:from:to:cc:subject:message-id;
-  bh=Ty7X9xKrF7bI1eHSpcV2xz5B8LIDBFzGkdXldFwUHT4=;
-  b=Tw2hdOwu6ZZXwlGCkcot8zDK37b/YauZTaa1FDvGLYx/hTVczq6cZWs8
-   0XsxTHVkb8j+PU5PUNnGDq9wmcO8Cxv/nWG6WIXKOpcG3laevwF7aVIuy
-   vKCTvQ3W13HsTfsC6dUTQrwW0uhB7ZIjF3aY1Tl9SidJWJgXQ06rbNS+h
-   dqZvwU4tBYAnXR6I+j4XarkMABAB1/VuPmsyzjBrGGic+b0CIF2xXRm8L
-   g2TRcDH2GOJ0E2zzPewPT0bNJ//ZTVDWoyeG2vEAtcUgY9HxTG7Sgx7UX
-   Ab0DlimOTcqJDxCcrluDAxvN8uObzBsSNkRYr4E1u4NGXt3IjHuY1zklI
-   w==;
-X-CSE-ConnectionGUID: KFlACZnOREuKFIOWaALkCQ==
-X-CSE-MsgGUID: iAEaQhA4RD+3WiyoFBsdEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="71899403"
+  bh=xUmA18VsloScbf4os+1Og6NT5aPRs0IvA8e7GjnNeME=;
+  b=Syi2ZCo6mH+ZB8iTHco009WDWika+21r6T0MCp8kTwlMLXz0ZVsuO0BS
+   iQPGhl/bPbIEnOtxKVv6kYzGhjY3ri17yQho9WbW4jeCfn4YbyZgX97nV
+   6O56FrPS5zhz5+qb7SOdjU5pNiONPqebIC9iTMxW1KxiqliAw/ZJoUMvN
+   HM/dXMF1Mv2c1XkJBjz3QAhItdVmiy+86EZlE5qztSD9qF1LPeqYxZih6
+   1LScgGfzaEiP9POlSVBckiDahTPRBDTu/GMyqdSOB1josQXVGUavEX7Xj
+   vdWPPBxIW6lADc2kSCbrkrMkxa/l/+wMumDCL1vAPtMOFlMHAYEmNK4XJ
+   Q==;
+X-CSE-ConnectionGUID: HIOVG5WkRNSELXBiGsoGuw==
+X-CSE-MsgGUID: oWsHgaY3Sh2MOB6saBK5Mw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="56921073"
 X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="71899403"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 03:47:17 -0700
-X-CSE-ConnectionGUID: rLcv7oTlSGKqDxn3XIACtQ==
-X-CSE-MsgGUID: n3JyO2bHQ3iPev2TK9GUyA==
+   d="scan'208";a="56921073"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 03:49:19 -0700
+X-CSE-ConnectionGUID: 31I7yl4jTjK5ZBH2AElczA==
+X-CSE-MsgGUID: sZN6bZdJS+2MmDV82O9LnA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="155871893"
+   d="scan'208";a="160270403"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 09 Jul 2025 03:47:16 -0700
+  by orviesa004.jf.intel.com with ESMTP; 09 Jul 2025 03:49:17 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uZSKX-0003Pr-1C;
-	Wed, 09 Jul 2025 10:47:13 +0000
-Date: Wed, 09 Jul 2025 18:46:48 +0800
+	id 1uZSMT-0003QJ-2O;
+	Wed, 09 Jul 2025 10:49:13 +0000
+Date: Wed, 09 Jul 2025 18:48:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
 Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-dts-for-v6.17] BUILD SUCCESS
- 145a2a9e27562926c592645a05d682fe8e1f82e9
-Message-ID: <202507091832.h91RAPDD-lkp@intel.com>
+Subject: [geert-renesas-devel:next] BUILD SUCCESS
+ 7a323accaf6bf40f0d345694978e3657363c3772
+Message-ID: <202507091819.MvE9NnG1-lkp@intel.com>
 User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -74,55 +74,32 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dts-for-v6.17
-branch HEAD: 145a2a9e27562926c592645a05d682fe8e1f82e9  arm64: dts: renesas: r9a09g057h44-rzv2h-evk: Enable serial NOR FLASH
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+branch HEAD: 7a323accaf6bf40f0d345694978e3657363c3772  Merge branches 'renesas-arm-defconfig-for-v6.17', 'renesas-drivers-for-v6.17', 'renesas-dt-bindings-for-v6.17' and 'renesas-dts-for-v6.17' into renesas-next
 
-Unverified Warning (likely false positive, kindly check if interested):
-
-    arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: usb-phy@15800200 (renesas,usb2-phy-r9a09g056): compatible: 'oneOf' conditional failed, one must be fixed:
-    arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: usb20phy-reset@15830000 (renesas,r9a09g056-usb2phy-reset): compatible: ['renesas,r9a09g056-usb2phy-reset', 'renesas,r9a09g057-usb2phy-reset'] is too long
-    arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: usb20phy-reset@15830000 (renesas,r9a09g056-usb2phy-reset): compatible:0: 'renesas,r9a09g057-usb2phy-reset' was expected
-    arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: usb@15820000 (renesas,usbhs-r9a09g056): compatible: 'oneOf' conditional failed, one must be fixed:
-
-Warning ids grouped by kconfigs:
-
-recent_errors
-|-- arm64-randconfig-051-20250709
-|   |-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb-(renesas-usbhs-r9a09g056):compatible:oneOf-conditional-failed-one-must-be-fixed:
-|   |-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb-phy-(renesas-usb2-phy-r9a09g056):compatible:oneOf-conditional-failed-one-must-be-fixed:
-|   |-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb20phy-reset-(renesas-r9a09g056-usb2phy-reset):compatible:renesas-r9a09g056-usb2phy-reset-renesas-r9a09g057-usb2phy-reset-is-too-long
-|   `-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb20phy-reset-(renesas-r9a09g056-usb2phy-reset):compatible:renesas-r9a09g057-usb2phy-reset-was-expected
-|-- arm64-randconfig-052-20250709
-|   |-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb-(renesas-usbhs-r9a09g056):compatible:oneOf-conditional-failed-one-must-be-fixed:
-|   |-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb-phy-(renesas-usb2-phy-r9a09g056):compatible:oneOf-conditional-failed-one-must-be-fixed:
-|   |-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb20phy-reset-(renesas-r9a09g056-usb2phy-reset):compatible:renesas-r9a09g056-usb2phy-reset-renesas-r9a09g057-usb2phy-reset-is-too-long
-|   `-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb20phy-reset-(renesas-r9a09g056-usb2phy-reset):compatible:renesas-r9a09g057-usb2phy-reset-was-expected
-`-- arm64-randconfig-053-20250709
-    |-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb-(renesas-usbhs-r9a09g056):compatible:oneOf-conditional-failed-one-must-be-fixed:
-    |-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb-phy-(renesas-usb2-phy-r9a09g056):compatible:oneOf-conditional-failed-one-must-be-fixed:
-    |-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb20phy-reset-(renesas-r9a09g056-usb2phy-reset):compatible:renesas-r9a09g056-usb2phy-reset-renesas-r9a09g057-usb2phy-reset-is-too-long
-    `-- arch-arm64-boot-dts-renesas-r9a09g056n48-rzv2n-evk.dtb:usb20phy-reset-(renesas-r9a09g056-usb2phy-reset):compatible:renesas-r9a09g057-usb2phy-reset-was-expected
-
-elapsed time: 1445m
+elapsed time: 1447m
 
 configs tested: 125
-configs skipped: 4
+configs skipped: 3
 
 The following configs have been built successfully.
 More configs may be tested in the coming days.
 
 tested configs:
+alpha                            alldefconfig    gcc-15.1.0
 alpha                             allnoconfig    gcc-15.1.0
 alpha                            allyesconfig    gcc-15.1.0
+alpha                               defconfig    gcc-15.1.0
 arc                              allmodconfig    gcc-15.1.0
 arc                               allnoconfig    gcc-15.1.0
 arc                              allyesconfig    gcc-15.1.0
 arc                                 defconfig    gcc-15.1.0
+arc                 nsimosci_hs_smp_defconfig    gcc-15.1.0
 arc                   randconfig-001-20250708    gcc-13.4.0
 arc                   randconfig-002-20250708    gcc-8.5.0
+arc                    vdk_hs38_smp_defconfig    gcc-15.1.0
+arm                              allmodconfig    gcc-15.1.0
 arm                               allnoconfig    clang-21
-arm                          gemini_defconfig    clang-20
-arm                           h3600_defconfig    gcc-15.1.0
 arm                   randconfig-001-20250708    clang-21
 arm                   randconfig-002-20250708    clang-17
 arm                   randconfig-003-20250708    gcc-10.5.0
@@ -157,13 +134,13 @@ loongarch             randconfig-002-20250708    clang-21
 m68k                             allmodconfig    gcc-15.1.0
 m68k                              allnoconfig    gcc-15.1.0
 m68k                             allyesconfig    gcc-15.1.0
-m68k                        mvme16x_defconfig    gcc-15.1.0
+m68k                          atari_defconfig    gcc-15.1.0
 microblaze                       allmodconfig    gcc-15.1.0
 microblaze                        allnoconfig    gcc-15.1.0
 microblaze                       allyesconfig    gcc-15.1.0
 microblaze                          defconfig    gcc-15.1.0
 mips                              allnoconfig    gcc-15.1.0
-mips                          ath25_defconfig    clang-21
+nios2                         10m50_defconfig    gcc-14.2.0
 nios2                             allnoconfig    gcc-14.2.0
 nios2                               defconfig    gcc-14.2.0
 nios2                 randconfig-001-20250708    gcc-8.5.0
@@ -180,18 +157,15 @@ parisc                randconfig-002-20250708    gcc-14.3.0
 parisc64                            defconfig    gcc-15.1.0
 powerpc                          allmodconfig    gcc-15.1.0
 powerpc                           allnoconfig    gcc-15.1.0
-powerpc                          allyesconfig    clang-21
-powerpc                    gamecube_defconfig    clang-21
-powerpc                         ps3_defconfig    gcc-15.1.0
 powerpc               randconfig-001-20250708    gcc-8.5.0
 powerpc               randconfig-002-20250708    clang-19
 powerpc               randconfig-003-20250708    clang-21
+powerpc                     tqm5200_defconfig    gcc-15.1.0
+powerpc                     tqm8540_defconfig    gcc-15.1.0
 powerpc64             randconfig-001-20250708    clang-21
 powerpc64             randconfig-002-20250708    clang-21
 powerpc64             randconfig-003-20250708    clang-21
-riscv                            allmodconfig    clang-21
 riscv                             allnoconfig    gcc-15.1.0
-riscv                            allyesconfig    clang-16
 riscv                               defconfig    clang-21
 riscv                 randconfig-001-20250708    clang-16
 riscv                 randconfig-002-20250708    gcc-11.5.0
@@ -205,9 +179,9 @@ sh                               allmodconfig    gcc-15.1.0
 sh                                allnoconfig    gcc-15.1.0
 sh                               allyesconfig    gcc-15.1.0
 sh                                  defconfig    gcc-15.1.0
+sh                          polaris_defconfig    gcc-15.1.0
 sh                    randconfig-001-20250708    gcc-11.5.0
 sh                    randconfig-002-20250708    gcc-15.1.0
-sh                        sh7763rdp_defconfig    gcc-15.1.0
 sparc                            allmodconfig    gcc-15.1.0
 sparc                             allnoconfig    gcc-15.1.0
 sparc                               defconfig    gcc-15.1.0
