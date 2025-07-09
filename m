@@ -1,97 +1,103 @@
-Return-Path: <linux-renesas-soc+bounces-19449-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19450-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 414D4AFF155
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 21:03:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8772AFF162
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 21:04:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1F9EF7B3291
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 19:01:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3AA0A17D709
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 19:04:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D59E71F63D9;
-	Wed,  9 Jul 2025 19:02:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 600A823BCEC;
+	Wed,  9 Jul 2025 19:03:43 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F9F23C4FE;
-	Wed,  9 Jul 2025 19:02:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE5423C4FE;
+	Wed,  9 Jul 2025 19:03:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752087759; cv=none; b=jSHIHFsLV2pq0/FYiJUAJEtkolFgtNn1pbWBLSY46bAG0LTZ6usCpi751ki2rJk6mENiQn6bbZ91OhHiUIwhjhlNQgrZEfV1PwNO5iLfm1ZxYVwcLQN4zFPzSSJ1DnHrbOcLK0ltuWcQ9S+fEXO2cpPChRkAyzYaEsZZpuAE9mo=
+	t=1752087823; cv=none; b=HCvVXDTKngphVm6Qp/UJstG9v0pPap8ZRWDGJaYiCTHAfsNDR9T3XyDhSOxgbf5bHnEx6DoR+kUEbKSCeE3lmZcMhb8Pum69ntmOGVrKOGgm67QLGmb7E35Gto8BEmZmV3JvYEAbNrNGcb2JVHx0AGOmlSLzkpxRbUFxi7mH4Ks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752087759; c=relaxed/simple;
-	bh=1lfuOlPRTQl53IhjDaRX/DekBP9Ray642xwwYyqcoSg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uwi4hw6/wXU28dzYb+4mOI5Wk5f9th5PrbIZmab1vWsOGVN/foQNBamVSgCGS7Oto2Q/OK+P2ayHmPK6hH/bSNy41J8kYZ3tEbp8SPyEJtT9SKM1k1CCzY96kfbhuUTupaT1k/L60znrZvHdgAbTCf9w3IjYi+icMzw/RARHgKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AD05C4CEEF;
-	Wed,  9 Jul 2025 19:02:36 +0000 (UTC)
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-spi@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] spi: sh-msiof: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
-Date: Wed,  9 Jul 2025 21:02:33 +0200
-Message-ID: <108c136f2cab9aa8bc8ac90d14a05e66fb87deb0.1752087740.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1752087823; c=relaxed/simple;
+	bh=dbQ6yFQ3FFviBApF8t06O+SuXNB8Hm+OERWMZU9Z6oA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DxQ6hKhV4sNBjaTzvENPquDlLQnLWmSIPBkO051scEhpAsd4pN+omU5kRxvg4XvPJML2/EV5L8qRmC1g5Fr8T8tY+xtm/QJGEgnJvTb+RMc4qdCUDqCjUUq3qCdKum34tKEmjpiEEw1T1lPFbYbideyfauKmpm7Tf8vOOnh6zPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-7d9e2f85ab4so19418185a.3;
+        Wed, 09 Jul 2025 12:03:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752087819; x=1752692619;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IK7wLEDDGqAnvkVp+22bCllHhK7jta3H8Yu04LUbZuI=;
+        b=SSfBl7YGOWJQqlWrUMjvz8xIw2i1P5JZsS7+UAoK3gw5BQcHki6i40fFj6VqIRHvNn
+         ALnX633bvNrZarvq+mWcYlWD7ItsnvClpIky7+h0PcHb9/IH2uFZ1kGIUvHI4AoTuDps
+         nQ95y/qQhBAtdxnQ3BrxOnON2oyk7vSqzgEGgOW1RtMq3Z+ys0I8/AHHdseHtRfuoSkb
+         M19YSSxK0Rz95AX/6nsOfWz2uLuyhasP09RZEcnANk3CVUOqOcc2W9WsY5jYVEQM7CVU
+         xuxqA2qo3vwRgPNmVLDzVZyDERdacZ0jmKSPOEbmiJMoy7nn/6TorpWm4gCSWUtZ1dCF
+         AJkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUdYc1z8I85nJxkiejDjsIkwM9QQBSy7qJ76vLELA4StXavO/vXSxqFMyDgB8P2itI71AU9NRDqY6vrvKSw8wMFgw==@vger.kernel.org, AJvYcCXu/flVQqAvBZz86HJnlxQLhG5aqjLZmaXotJCJuWk6Bk0eGDy9jtix6mRx2KMRgPn3yhirNQgb5a0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxiEO4u9lTYNYVDrNlJN1Hhe932r6FnYQ7M/V0ra1TDOmcuMkA6
+	EfQmvKl/oUamZm3Z7FRaSWquz3dHISie4zY89AwNFYQHW614EmTmxkmDeL6TE9ar
+X-Gm-Gg: ASbGncvzZUTuaE2qE2HX2sUwpJHLte+R9zhqal5I5aR9cmxSk0CJMbjRO1twdl0yPHj
+	4cCIauokMRGpWUfKJqRgE1a3S+yz+tBRCeDTciKAUFCQyGMrRWNmsUPQw6YoOzTovSHBhsxiHNI
+	+2w8yuiueNmpz+bBzQDbpek4lLUPM0MdnpIABci9BW646cG7dfvUrFy8rMwodUbuVpoxBuDTJwx
+	nuGTKm/OrfJ3sIO3EYUlNPIY2WzeEmauj+lqJtR8jcuBJd9VIqtWBMYmR6w0XTgjBS3vHlz3AXs
+	vs3cLOcvwqHaNSNYSV9JpLSxcaP8gd5OAZhP2Ghoj1WSQmro4EMmczb2XwF/OaCs/eG/MiXYZt9
+	logxCYX4+A6C7sDiWIwHhb8G1T+DN
+X-Google-Smtp-Source: AGHT+IE2BgxSmZCy6nQg5MTycOEYc8g5e0tOtUdahtxSq9INAerGmgdKSFRw1hopwlI3M/S/GIfGCg==
+X-Received: by 2002:a05:620a:f84:b0:7d3:f15c:ee33 with SMTP id af79cd13be357-7db7b121192mr414504685a.10.1752087819188;
+        Wed, 09 Jul 2025 12:03:39 -0700 (PDT)
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com. [209.85.222.169])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d5dbdb73e2sm977765885a.36.2025.07.09.12.03.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Jul 2025 12:03:38 -0700 (PDT)
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-7d09f11657cso25019085a.0;
+        Wed, 09 Jul 2025 12:03:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXDwYAvKzb1VND3lcZO1hELfVyRMcGJ2M6zhKLH9oYAv7wlgR5gpf4SBPv2YrMY+glKwOl444xuojwgV6t8yt2gug==@vger.kernel.org, AJvYcCXqcaAJQNEhzTWRqldK/vxDNq9wguWflvWSop/lZyPJ6788Mr/n1J4mZIeJRv2Y4naFRsXtZCGq5n4=@vger.kernel.org
+X-Received: by 2002:a05:620a:1a95:b0:7d4:1e5a:95cf with SMTP id
+ af79cd13be357-7db7d3a58d7mr548228985a.47.1752087818534; Wed, 09 Jul 2025
+ 12:03:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <a5628fe028362ae3f8729021a7864dd39f7869bf.1752086885.git.geert+renesas@glider.be>
+In-Reply-To: <a5628fe028362ae3f8729021a7864dd39f7869bf.1752086885.git.geert+renesas@glider.be>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 9 Jul 2025 21:03:24 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU_PgqFyYczf+bsJ6BLRtQz65zkjw+H9Whoct49GEfrNA@mail.gmail.com>
+X-Gm-Features: Ac12FXxfid5XamUE-HLX9WyHBs5ltMj3xKDA9nzEEuoscbbx6cV3FOZvwIoRmc0
+Message-ID: <CAMuHMdU_PgqFyYczf+bsJ6BLRtQz65zkjw+H9Whoct49GEfrNA@mail.gmail.com>
+Subject: Re: [PATCH] serial: sh-sci: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-rtc@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-sh@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Convert the Renesas SuperH MSIOF driver from SIMPLE_DEV_PM_OPS() to
-DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr().  This lets us drop the
-check for CONFIG_PM_SLEEP without impacting code size, while increasing
-build coverage.
+On Wed, 9 Jul 2025 at 21:00, Geert Uytterhoeven <geert+renesas@glider.be> wrote:
+> Convert the Renesas SuperH SCI(F) serial port driver from
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/spi/spi-sh-msiof.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+My apologies, this was not meant to be sent to the RTC subsystem.
 
-diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
-index 94a867967e024446..b695870fae8c4bd6 100644
---- a/drivers/spi/spi-sh-msiof.c
-+++ b/drivers/spi/spi-sh-msiof.c
-@@ -1320,7 +1320,6 @@ static const struct platform_device_id spi_driver_ids[] = {
- };
- MODULE_DEVICE_TABLE(platform, spi_driver_ids);
- 
--#ifdef CONFIG_PM_SLEEP
- static int sh_msiof_spi_suspend(struct device *dev)
- {
- 	struct sh_msiof_spi_priv *p = dev_get_drvdata(dev);
-@@ -1335,12 +1334,8 @@ static int sh_msiof_spi_resume(struct device *dev)
- 	return spi_controller_resume(p->ctlr);
- }
- 
--static SIMPLE_DEV_PM_OPS(sh_msiof_spi_pm_ops, sh_msiof_spi_suspend,
--			 sh_msiof_spi_resume);
--#define DEV_PM_OPS	(&sh_msiof_spi_pm_ops)
--#else
--#define DEV_PM_OPS	NULL
--#endif /* CONFIG_PM_SLEEP */
-+static DEFINE_SIMPLE_DEV_PM_OPS(sh_msiof_spi_pm_ops, sh_msiof_spi_suspend,
-+				sh_msiof_spi_resume);
- 
- static struct platform_driver sh_msiof_spi_drv = {
- 	.probe		= sh_msiof_spi_probe,
-@@ -1348,7 +1343,7 @@ static struct platform_driver sh_msiof_spi_drv = {
- 	.id_table	= spi_driver_ids,
- 	.driver		= {
- 		.name		= "spi_sh_msiof",
--		.pm		= DEV_PM_OPS,
-+		.pm		= pm_sleep_ptr(&sh_msiof_spi_pm_ops),
- 		.of_match_table = of_match_ptr(sh_msiof_match),
- 	},
- };
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.43.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
