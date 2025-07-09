@@ -1,42 +1,43 @@
-Return-Path: <linux-renesas-soc+bounces-19446-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19447-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8196FAFF144
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 21:00:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B57BBAFF145
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 21:01:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CD32F5664E4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 19:00:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AB4503A46AC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 19:01:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C841723C4F6;
-	Wed,  9 Jul 2025 19:00:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34716222577;
+	Wed,  9 Jul 2025 19:01:25 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A65A9238178;
-	Wed,  9 Jul 2025 19:00:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14BA71F63D9;
+	Wed,  9 Jul 2025 19:01:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752087629; cv=none; b=dut6lNpa+4c0l2oYeQ9LV4J6QUYPNiyynckT0YII/wVOKRhMIij+lSmKMSCkqDm7j84W6hS0Svhro8WELdxu+0LuCZOz9i7+4sVmbqgY4MVRJiHDzvlFzgYg0qOUIY0EoQDv9/Y8L1s9W9cbotV/6a7e4PHYDSp4JpLm1eyMFCs=
+	t=1752087685; cv=none; b=JJoIKYyYvNxCL1KAvU1YLSW81RaYfIJ+I6PhQg4G6c3xh3CzNbFjrIT+lvWtDutaWOcF4CZkZZOdMrSmzoqEWQgbKjuMUq60vJtifecpSFsv5tlm/oOoYnfTC9XINdXt3rgdtcgQwZrcE0GQz31f8x30IETQJounXzK7V0IDnIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752087629; c=relaxed/simple;
+	s=arc-20240116; t=1752087685; c=relaxed/simple;
 	bh=wSR0kEid9wsA6jwGEKFrLZ9x+P2yYmI58utH+96AOno=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=M0LT0VrvoaKXOp0zBTwoIYh7OiUE09K6fUzb0vnl+HvGE7z8Q6rp+ZGbOlWYL/9LYoUq9jkCr7kYxSG34AA9HulBdukBNOmkAI8tV2bJSW5gExrl3udUYjul8j2vSpqMe1y17d62mHBM2ORgcIyGrKDPAeLqq3KmP7GIIZR/J1Y=
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nggF5U6ifOYbTYts9+F83E77BcEODRw/40AXPD4zPR/zjrhye8QGNS/Yguyps3DQyQSJDouTJuG8Jns8jeEQtCqOnSGH9Dn7Vi3eYkdzj+VQc44a9CbElBMMj9JZuKuYTxfEspQgV72VG/XGbae+I1otbnJiZASqDZf4fDchyFU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5E14C4CEEF;
-	Wed,  9 Jul 2025 19:00:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 627E1C4CEEF;
+	Wed,  9 Jul 2025 19:01:23 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
 	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-rtc@vger.kernel.org,
+Cc: linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	linux-sh@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
 Subject: [PATCH] serial: sh-sci: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
-Date: Wed,  9 Jul 2025 21:00:25 +0200
+Date: Wed,  9 Jul 2025 21:01:20 +0200
 Message-ID: <a5628fe028362ae3f8729021a7864dd39f7869bf.1752086885.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
