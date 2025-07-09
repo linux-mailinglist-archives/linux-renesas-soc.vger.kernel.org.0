@@ -1,42 +1,43 @@
-Return-Path: <linux-renesas-soc+bounces-19454-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19455-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAEC3AFF172
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 21:07:21 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D631AFF174
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 21:08:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E012F1C84C74
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 19:07:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5832216CEA2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jul 2025 19:08:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 008EF23C4FA;
-	Wed,  9 Jul 2025 19:07:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97D6223BCF2;
+	Wed,  9 Jul 2025 19:08:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9556233158;
-	Wed,  9 Jul 2025 19:07:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C38923B63F;
+	Wed,  9 Jul 2025 19:08:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752088038; cv=none; b=oAfl7tmlzKlcs9/GSGjFKlLkT2G3JVtKpZdIA3c5AmK22xJNKVfNmch2HF5DiDlq90Zryv5IDC3OB8tPNVcywvcTcr/0/adDqcEpMUK+HDnwKS0wwbvnTfwhns3wv+7oONPMDxcBQcIiPtfKcYyqL9okc+ANfIwqmYca25Lrj0o=
+	t=1752088089; cv=none; b=XcXSAR1BIr83jniDLX8j+X6AU/er/DVp1RbglqoSNkzVmtjXzIftF9GwDw7vyrGnG2HbfZrLTQVVAE4wgmX5wTJjWXMC2tlnL/ibaAtjgCrf7WibM17JDa865TCWgm1yhwg6eVuTYc3QLFX2zEallBaR5ra0IoeDuME95tNe2Bw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752088038; c=relaxed/simple;
-	bh=xqkVLHRdxE9lNVpmAKGwBrjctmuxSuIOxgVeit0QvzI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AHvyvblEOQ9bK5QRfjNIEYMAFBeXcXJ0kEInA9Ia9943XP0MxsIkdhqOHJVkJKSuJ6HsvQ3cOk+mLkfxO/C0nI0+VFgzwoB8COyIDTYSfwejrq/bEc9bSWiT93bqQrXL+6dI7W6sXoIhR4Y/Lng8DQeAocMSot9hrmKCxmiXIUs=
+	s=arc-20240116; t=1752088089; c=relaxed/simple;
+	bh=Mn7bkK/nno6f3EjcneavdhgU9dI62oWTTOfTg9UZD8o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lHvkY64zdLQRfucN1oz6OsMAwRRxI8GJ+dxUcKhv4cBB3UoaBvyhj2IqMb2KOk9h+Mxej3J6Z9vvJSykhetyprV6CDpwXPJNCavlQgOF47sbhtzPkWJdGztmpaP2p0vaCy2H+dcz25NUXpOLuvuqN1PKw0BgYTMFhISSHeLH+20=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38B93C4CEEF;
-	Wed,  9 Jul 2025 19:07:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B558C4CEEF;
+	Wed,  9 Jul 2025 19:08:07 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: linux-usb@vger.kernel.org,
+To: Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-watchdog@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] usb: gadget: udc: renesas_usb3: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
-Date: Wed,  9 Jul 2025 21:07:08 +0200
-Message-ID: <424d6c7843c5bfd47c0e1d8d02aa030581530bb1.1752087999.git.geert+renesas@glider.be>
+Subject: [PATCH] watchdog: renesas_wdt: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
+Date: Wed,  9 Jul 2025 21:08:05 +0200
+Message-ID: <3d6d46ff56c908880a167ffb2a74c713060a1a57.1752088043.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -46,50 +47,56 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert the Renesas USB3.0 Peripheral controller driver from
-SIMPLE_DEV_PM_OPS() to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr().
-This lets us drop the check for CONFIG_PM_SLEEP, and reduces kernel size
-in case CONFIG_PM or CONFIG_PM_SLEEP is disabled, while increasing build
-coverage.
+Convert the Renesas WDT watchdog driver from SIMPLE_DEV_PM_OPS() to
+DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr().  This lets us drop the
+__maybe_unused annotations from its suspend and resume callbacks, and
+reduces kernel size in case CONFIG_PM or CONFIG_PM_SLEEP is disabled.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/usb/gadget/udc/renesas_usb3.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/watchdog/renesas_wdt.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/gadget/udc/renesas_usb3.c b/drivers/usb/gadget/udc/renesas_usb3.c
-index 3e4d5645759791e4..d1b72c15799f65f4 100644
---- a/drivers/usb/gadget/udc/renesas_usb3.c
-+++ b/drivers/usb/gadget/udc/renesas_usb3.c
-@@ -2973,7 +2973,6 @@ static int renesas_usb3_probe(struct platform_device *pdev)
- 	return ret;
+diff --git a/drivers/watchdog/renesas_wdt.c b/drivers/watchdog/renesas_wdt.c
+index c0b2a9c5250dd721..97bcd32bade52131 100644
+--- a/drivers/watchdog/renesas_wdt.c
++++ b/drivers/watchdog/renesas_wdt.c
+@@ -300,7 +300,7 @@ static void rwdt_remove(struct platform_device *pdev)
+ 	pm_runtime_disable(&pdev->dev);
  }
  
--#ifdef CONFIG_PM_SLEEP
- static int renesas_usb3_suspend(struct device *dev)
+-static int __maybe_unused rwdt_suspend(struct device *dev)
++static int rwdt_suspend(struct device *dev)
  {
- 	struct renesas_usb3 *usb3 = dev_get_drvdata(dev);
-@@ -3004,17 +3003,16 @@ static int renesas_usb3_resume(struct device *dev)
+ 	struct rwdt_priv *priv = dev_get_drvdata(dev);
  
+@@ -310,7 +310,7 @@ static int __maybe_unused rwdt_suspend(struct device *dev)
  	return 0;
  }
--#endif
  
--static SIMPLE_DEV_PM_OPS(renesas_usb3_pm_ops, renesas_usb3_suspend,
--			renesas_usb3_resume);
-+static DEFINE_SIMPLE_DEV_PM_OPS(renesas_usb3_pm_ops, renesas_usb3_suspend,
-+				renesas_usb3_resume);
+-static int __maybe_unused rwdt_resume(struct device *dev)
++static int rwdt_resume(struct device *dev)
+ {
+ 	struct rwdt_priv *priv = dev_get_drvdata(dev);
  
- static struct platform_driver renesas_usb3_driver = {
- 	.probe		= renesas_usb3_probe,
- 	.remove		= renesas_usb3_remove,
- 	.driver		= {
- 		.name =	udc_name,
--		.pm		= &renesas_usb3_pm_ops,
-+		.pm		= pm_sleep_ptr(&renesas_usb3_pm_ops),
- 		.of_match_table = usb3_of_match,
+@@ -320,7 +320,7 @@ static int __maybe_unused rwdt_resume(struct device *dev)
+ 	return 0;
+ }
+ 
+-static SIMPLE_DEV_PM_OPS(rwdt_pm_ops, rwdt_suspend, rwdt_resume);
++static DEFINE_SIMPLE_DEV_PM_OPS(rwdt_pm_ops, rwdt_suspend, rwdt_resume);
+ 
+ static const struct of_device_id rwdt_ids[] = {
+ 	{ .compatible = "renesas,rcar-gen2-wdt", },
+@@ -334,7 +334,7 @@ static struct platform_driver rwdt_driver = {
+ 	.driver = {
+ 		.name = "renesas_wdt",
+ 		.of_match_table = rwdt_ids,
+-		.pm = &rwdt_pm_ops,
++		.pm = pm_sleep_ptr(&rwdt_pm_ops),
  	},
- };
+ 	.probe = rwdt_probe,
+ 	.remove = rwdt_remove,
 -- 
 2.43.0
 
