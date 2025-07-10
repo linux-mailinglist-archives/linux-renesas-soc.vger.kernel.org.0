@@ -1,141 +1,101 @@
-Return-Path: <linux-renesas-soc+bounces-19501-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19502-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B97F2B00B15
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Jul 2025 20:09:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA981B00D61
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Jul 2025 22:50:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0E18818994CF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Jul 2025 18:09:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A247C1C88177
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Jul 2025 20:50:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE95C2FC3DC;
-	Thu, 10 Jul 2025 18:09:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01E622FCFFF;
+	Thu, 10 Jul 2025 20:49:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G/+bbNPF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h6fyEEN4"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEFE72FCE04
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Jul 2025 18:09:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B003728C5D7;
+	Thu, 10 Jul 2025 20:49:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752170947; cv=none; b=PXohFk7DrXTS03JtKBBUOxEab4MwtPNIGssF9zI9rjFHY/8S7d22pENroGvynnsTy73P7BCsXJ4fxZJ1iQZ6UBbpzGrLB+ec49C49C8BqiK664lWjrk+iAWZzkpzUO7ZZBcYmEZ0C5Aa+ej4lS+NI/fdm+eUI+Xu6XASqCImdgc=
+	t=1752180594; cv=none; b=UZwyqbfmL+gy1wcHAlYxPnllWm+ZOl8JHX7La8oMonQh/fKxEi/aEhoJYSLdgJBOa//6FP9ZOnZouMZFUAGJ4/k1gMCqu3rR58I4gZEsPSslPemunAN/qS6+FYkiFdPINGq1/N9txCAz6RPCalgs5scaEtDn8EXctIE4u4H1c+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752170947; c=relaxed/simple;
-	bh=X0fGP1Yeoot8PPyVFMtD93Xj+aTtzl/Ny9kf1d3cGGc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hzwiNylmpGknqxSdQnVyFYgAvi6bn/BhjFNP1GZwaaL4jPGSiHbM/qSdugnh2BVrsSRhns6mwUfpR3KerWDlf6F8Zeck1+KOrLhytiMIr7ybb1Xnq/khEmEBWmnnIe6P858DY7zWgj1Z3KRZAtwKR7wyOtd0qE6eVfYkBsF+Vbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G/+bbNPF; arc=none smtp.client-ip=209.85.219.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-e812fc35985so1103474276.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Jul 2025 11:09:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752170945; x=1752775745; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=13L8aCLszxX1/1/hvEDvza5uyCXqpHL8e03s93/NbCQ=;
-        b=G/+bbNPFZwFpRjjQHggV5c+xtyAeZru1qNuuRrbHbE6cw0Ni7F11F1v9JDP7DZ9yZU
-         xlLn/cakSiPzfYsAzn3t/ZGXbzZfPI4ZkSk/HKoCWi7HGj+mV8D35EU2Gg0Ge4BGZ/Y7
-         Qsem2ZrUWoqBmDAq2Pj0vvqnEodd8Hd90T0an68AdXEHWhUH6Vk+VSw/LRoDWRWE9Bb/
-         g+qxewNMMllpxbZE++WOPA+AZpFNvST17kvO5lU+WV8cNDGBIi7UA7K0yV7qDod8VHqT
-         jNjcgfSRF3jJCQ1zDSweQ6ey3tqsGErYWksw3/4g8GUzPIm0KBGNqprZmq1NZPOz9trG
-         IrNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752170945; x=1752775745;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=13L8aCLszxX1/1/hvEDvza5uyCXqpHL8e03s93/NbCQ=;
-        b=YtQ6ytblDqLwf1S0aOHAU51M6Q4/yWogtHxkmbBQqpFhHUdCLQz9pXUo+IhozBJIS/
-         zO5ueGmae7vVpk0MPFlBNKNi8Zr8zVZBXKjielnbONzaYxQCfgcLZFYYO+0JA+9HmpKS
-         hHBQbRhyGubn6jxuPdy+i1gR8IpV2uBUAEJGlHwfzjuh8HZ8r9hxSZD9uukZ/8/kA2g3
-         fd4C61NCL4RLo2MblgFfk/UN5lweJIq1crzA/HLZQkB2m6rVyH32xwhGkP/9rzpLzWjC
-         414mB6kJlPHzzuyKnYZjqzRszliBUUWGnkY1jvBzt/hZnriKPwjEEtIRthYyf3A1m8n/
-         vG6A==
-X-Forwarded-Encrypted: i=1; AJvYcCU5Ya6OsL3AinobnVAZqFR4AVfO+hd1bPyDZmwGgRLND0qlbHKPhEcazVusS07sGfFxTsoY2zL3OOy1aTDGCgGxwA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxF87Gw0xTCeYnuVZurUJKYGut+4rq5zSuVCcWVRj2hT8+0ab1N
-	UjmwCq/RC6pjSLTN1JX8oZpzZgFrej13u70QSarK9+rKrRNarZB+6H1OsZxW3CtwufZCichCw7R
-	o6s46UAl5cSZpVrdsyZGXtfbsT0XM3haSK48F1U4=
-X-Gm-Gg: ASbGncuDNE9tlMT/FVH+cq3g1GczJcspRsVOpkzHtt66KDC5sb4701e3hfup/n73o80
-	eanabZvhI6uTm9tJX6MRL/vKQJwcw15G8t3he0UC+z33quH89BsaPPVYBhvX9kftU/UfmGsUZ+X
-	FlAqQyTUl+++GKaLF6W9HQIH9LDjoj2rcMY0Db9PmH+GYpirTk/eZS
-X-Google-Smtp-Source: AGHT+IGLPzg5fWebp32z1ut6K/O4BgHsttOgQ284Oa+wn/uLVwQmPKaDP0EPQbe2PBhNuCXZuwp7yjxk0cW51J8vsAk=
-X-Received: by 2002:a05:690c:4c05:b0:6f9:7920:e813 with SMTP id
- 00721157ae682-717d5b7c46dmr8093387b3.4.1752170944401; Thu, 10 Jul 2025
- 11:09:04 -0700 (PDT)
+	s=arc-20240116; t=1752180594; c=relaxed/simple;
+	bh=R7alaaCPHt1AUC5EDQMaWx/LazeRtOK9h/LtGYLubzc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nWhSvfjZe2LrvpM3In6r2w5oMcKpJPPuwcAeOuouTN58eTMwDIVvjDz3Nlctgctj9gWARXzyCtVDHbSs51F25Zu1SqnyXzNQaD7yPhuh3MqPkEVIi0ODkwQBbl5WHjB64QQImJMHStm416QGv3Xr5pi0R3+NCPnl4xITfd9n9Rg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h6fyEEN4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2068FC4CEF4;
+	Thu, 10 Jul 2025 20:49:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752180594;
+	bh=R7alaaCPHt1AUC5EDQMaWx/LazeRtOK9h/LtGYLubzc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=h6fyEEN4OVF3X4z4T6olPNkDshuKXL14P1ZPQgpydfMFcwR9gfB/GOgMD4XCHMsaT
+	 imvTz7KUSeoR1/jaC3kgG9uR9g+XUykWN4fqfF0+nqa4G5qvdeRbBc9MnFG6JPwpxC
+	 ox4Ky8S7mPhrBIne33gDYoUD0T/ERZI7PD7fw9WWgjzVEj37q6CWRlQMB9b2NLWezl
+	 pJUcn55+qsWr3Y3mSb6HfxYvVxDKlTeiX2xva/VTcEnydxdor+JtVDcKnaLMw8YBlC
+	 yvnIRSbvTfsVnfz3DHpgDKlZWNaOUzIt2YJhwLMQOWTEF/SJIDs2dY6X2jqzlqJK3p
+	 Bvxnwb3KGLDBg==
+Date: Thu, 10 Jul 2025 22:49:49 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Elie Morisse <syniurge@gmail.com>, 
+	Shyam Sundar S K <shyam-sundar.s-k@amd.com>, Codrin Ciubotariu <codrin.ciubotariu@microchip.com>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Michal Simek <michal.simek@amd.com>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Jarkko Nikula <jarkko.nikula@linux.intel.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
+	Jan Dabros <jsd@semihalf.com>, Jean Delvare <jdelvare@suse.com>, 
+	Dong Aisheng <aisheng.dong@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Oleksij Rempel <o.rempel@pengutronix.de>, 
+	Gregory CLEMENT <gregory.clement@bootlin.com>, Ajay Gupta <ajayg@nvidia.com>, 
+	Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas Kemnade <andreas@kemnade.info>, 
+	Kevin Hilman <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>, 
+	Tony Lindgren <tony@atomide.com>, Janusz Krzysztofik <jmkrzyszt@gmail.com>, 
+	Vignesh R <vigneshr@ti.com>, Loic Poulain <loic.poulain@oss.qualcomm.com>, 
+	Robert Foss <rfoss@kernel.org>, Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>, 
+	Viken Dadhaniya <quic_vdadhani@quicinc.com>, Chris Brandt <chris.brandt@renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Orson Zhai <orsonzhai@gmail.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, linux-omap@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [PATCH 23/80] i2c: Remove redundant pm_runtime_mark_last_busy()
+ calls
+Message-ID: <sj24iciugqjrof6672tvlnxjfvgperdliftfa47cquyfe6g22c@s5e7twdtjhsj>
+References: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
+ <20250704075415.3218608-1-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <175174252387.83411.17393827352291413834.sendpatchset@1.0.0.127.in-addr.arpa>
- <175174255437.83411.8624204632703877341.sendpatchset@1.0.0.127.in-addr.arpa>
- <CAMuHMdWxZGB4KD_L2scf97Af96TbhjMaS_b9WBoPu+usRYiKYQ@mail.gmail.com> <aG1_DpJy_VS-rK0s@shikoro>
-In-Reply-To: <aG1_DpJy_VS-rK0s@shikoro>
-From: Magnus Damm <magnus.damm@gmail.com>
-Date: Thu, 10 Jul 2025 20:08:51 +0200
-X-Gm-Features: Ac12FXwi_PJTts8bZIzFgio28O3cMJ_xGtdjtW1SBStTt-AeClXHMyWMwJHpSBk
-Message-ID: <CANqRtoSMzB3jME-S0EmwH8SdPdnoeBmsDR5_Y6+cBh+Oj+RkQw@mail.gmail.com>
-Subject: Re: [PATCH 4/6] ARM: dts: renesas: genmai: add rpc-if SPI NOR flash
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250704075415.3218608-1-sakari.ailus@linux.intel.com>
 
-Hi Wolfram and Geert,
+Hi Sakari,
 
-On Tue, Jul 8, 2025 at 10:27=E2=80=AFPM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
->
-> > Removing this breaks the direct-mapped FLASH ROM, which may affect
-> > userspace, and prevents using XIP (but I understand no one cares about
-> > the latter anymore).
->
-> What is the gain of using rpc-if vs. memory-mapped?
+On Fri, Jul 04, 2025 at 10:54:15AM +0300, Sakari Ailus wrote:
+> pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
+> pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
+> to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
+> pm_runtime_mark_last_busy().
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Correct me if I'm wrong, but I believe the "SPI Multi I/O Bus
-Controller" on RZ/A1 is an on-chip device used to interface to the
-on-board SPI flash memories, like Spansion S25FK512S-16 on the Genmai
-board. Depending on the board design and the SoC variant there could
-be a single or  two SPI memories in parallel and they may be used in
-QSPI mode as well. There is also HyperFlash support in some newer
-SoCs. This device may by the way often be used to boot the SoC using
-some Mask ROM code.
+Acked-by: Andi Shyti <andi.shyti@kernel.org>
 
-The on-chip hardware device (driven by rpc-if under Linux) lets the
-device driver programmer access the external memory either by setting
-up SPI master transfers to read or write the memory, or setting up the
-so-called memory mapped mode. In the memory mapped mode the SPI master
-may be programmed with information such as which flash command
-sequence that should be performed for read accesses. The memory mapped
-mode also has a single physical memory window that automatically
-translates read accesses by the CPU to statically initialized SPI
-master read requests.
-
-What Geert refers to as direct-mapped FLASH ROM is probably Linux
-performing read-only access to the memory window that is part of the
-"SPI Multi I/O Bus Controller". The configuration has either been set
-up by the Mask ROM (which happens in case the device boots from the
-serial flash) or perhaps the boot loader.
-
-While the memory mapped read-only mode is kind of cool, for my use
-case the rpc-if driver (either in the kernel or in U-Boot) is used to
-access the flash in various ways. Using MTD under Linux seems like a
-pretty good standard way of for instance programming the flash memory.
-
-Also the memory-mapped region is fed into the rpc-if device driver as
-part of the device resources but I don't know exactly how it is being
-utilized. And exactly how the "mtd-rom" device node works with XIP is
-beyond me, but I would be happy to learn if someone could explain.
-
-Cheers
-
-Magnus
+Thanks,
+Andi
 
