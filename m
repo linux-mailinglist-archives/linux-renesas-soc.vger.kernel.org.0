@@ -1,101 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-19502-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19503-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA981B00D61
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Jul 2025 22:50:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F96DB00F51
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jul 2025 01:10:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A247C1C88177
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Jul 2025 20:50:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 521AA546C3C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Jul 2025 23:10:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01E622FCFFF;
-	Thu, 10 Jul 2025 20:49:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3EE52BEFF1;
+	Thu, 10 Jul 2025 23:09:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h6fyEEN4"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="d9vUVbIO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B003728C5D7;
-	Thu, 10 Jul 2025 20:49:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFC772C1596;
+	Thu, 10 Jul 2025 23:09:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752180594; cv=none; b=UZwyqbfmL+gy1wcHAlYxPnllWm+ZOl8JHX7La8oMonQh/fKxEi/aEhoJYSLdgJBOa//6FP9ZOnZouMZFUAGJ4/k1gMCqu3rR58I4gZEsPSslPemunAN/qS6+FYkiFdPINGq1/N9txCAz6RPCalgs5scaEtDn8EXctIE4u4H1c+g=
+	t=1752188993; cv=none; b=UO1fGS+i7Y3Zo356q7Urwlx5WpEkK0br0kPzh6qVvxpXPBrNeKrwUYAblXdPi1mLojPpJtJsAOjbHVGtYntufxM00aalkLr7ju3cIHjO1chdnOvo/GIgji9Nqkua9NwIA4m/xSgMY0xsMXuEad4YLYba14wmwIvaW5/EQC5RlpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752180594; c=relaxed/simple;
-	bh=R7alaaCPHt1AUC5EDQMaWx/LazeRtOK9h/LtGYLubzc=;
+	s=arc-20240116; t=1752188993; c=relaxed/simple;
+	bh=oUF2dEkUNOGHHj2aTHBd7djDVX7cxprxXzXPBCHmszg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nWhSvfjZe2LrvpM3In6r2w5oMcKpJPPuwcAeOuouTN58eTMwDIVvjDz3Nlctgctj9gWARXzyCtVDHbSs51F25Zu1SqnyXzNQaD7yPhuh3MqPkEVIi0ODkwQBbl5WHjB64QQImJMHStm416QGv3Xr5pi0R3+NCPnl4xITfd9n9Rg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h6fyEEN4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2068FC4CEF4;
-	Thu, 10 Jul 2025 20:49:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752180594;
-	bh=R7alaaCPHt1AUC5EDQMaWx/LazeRtOK9h/LtGYLubzc=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=WjaUW+qRMxluOEhGhFQwbiIM+L6Qk1f22+0qEnyzLhvLUHB83GHbf+vMzAyAcOdcmmB5Mi9uv0vspr7zTlA+zHuYayFlH1DsW6EH9BjB6vpMVSkZ1bJN4sE9PAoAbuUlxKnqnPADVzC9cAx/8HSccCXvVNcGasI2QIzoRKZf3L0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=d9vUVbIO; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 903A9E45;
+	Fri, 11 Jul 2025 01:09:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1752188960;
+	bh=oUF2dEkUNOGHHj2aTHBd7djDVX7cxprxXzXPBCHmszg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=h6fyEEN4OVF3X4z4T6olPNkDshuKXL14P1ZPQgpydfMFcwR9gfB/GOgMD4XCHMsaT
-	 imvTz7KUSeoR1/jaC3kgG9uR9g+XUykWN4fqfF0+nqa4G5qvdeRbBc9MnFG6JPwpxC
-	 ox4Ky8S7mPhrBIne33gDYoUD0T/ERZI7PD7fw9WWgjzVEj37q6CWRlQMB9b2NLWezl
-	 pJUcn55+qsWr3Y3mSb6HfxYvVxDKlTeiX2xva/VTcEnydxdor+JtVDcKnaLMw8YBlC
-	 yvnIRSbvTfsVnfz3DHpgDKlZWNaOUzIt2YJhwLMQOWTEF/SJIDs2dY6X2jqzlqJK3p
-	 Bvxnwb3KGLDBg==
-Date: Thu, 10 Jul 2025 22:49:49 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Elie Morisse <syniurge@gmail.com>, 
-	Shyam Sundar S K <shyam-sundar.s-k@amd.com>, Codrin Ciubotariu <codrin.ciubotariu@microchip.com>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Michal Simek <michal.simek@amd.com>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Jarkko Nikula <jarkko.nikula@linux.intel.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	Jan Dabros <jsd@semihalf.com>, Jean Delvare <jdelvare@suse.com>, 
-	Dong Aisheng <aisheng.dong@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Oleksij Rempel <o.rempel@pengutronix.de>, 
-	Gregory CLEMENT <gregory.clement@bootlin.com>, Ajay Gupta <ajayg@nvidia.com>, 
-	Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas Kemnade <andreas@kemnade.info>, 
-	Kevin Hilman <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>, 
-	Tony Lindgren <tony@atomide.com>, Janusz Krzysztofik <jmkrzyszt@gmail.com>, 
-	Vignesh R <vigneshr@ti.com>, Loic Poulain <loic.poulain@oss.qualcomm.com>, 
-	Robert Foss <rfoss@kernel.org>, Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>, 
-	Viken Dadhaniya <quic_vdadhani@quicinc.com>, Chris Brandt <chris.brandt@renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Orson Zhai <orsonzhai@gmail.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, linux-omap@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH 23/80] i2c: Remove redundant pm_runtime_mark_last_busy()
- calls
-Message-ID: <sj24iciugqjrof6672tvlnxjfvgperdliftfa47cquyfe6g22c@s5e7twdtjhsj>
-References: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
- <20250704075415.3218608-1-sakari.ailus@linux.intel.com>
+	b=d9vUVbIOiXnuLzrUHKMQu2heTdYqVngKh5pbo0ghkqgPz5y8K9zLhI/rQis2D2y4b
+	 JCfiWmLfirdefJsbg+d7zcfCa/esEpTOl2Hqn5ZyzRT+Ppj+liBNPRUodW2uMNuFdh
+	 982OBzqvFoD3mL/tJLNUFmvagpSUJEfJoJ5E27oc=
+Date: Fri, 11 Jul 2025 02:09:19 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/5] media: renesas: rcar_drif: Convert to
+ DEFINE_SIMPLE_DEV_PM_OPS()
+Message-ID: <20250710230919.GA27674@pendragon.ideasonboard.com>
+References: <cover.1752088108.git.geert+renesas@glider.be>
+ <ad032c66fc32dddf3a5590a5939792c1139a554c.1752088108.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250704075415.3218608-1-sakari.ailus@linux.intel.com>
+In-Reply-To: <ad032c66fc32dddf3a5590a5939792c1139a554c.1752088108.git.geert+renesas@glider.be>
 
-Hi Sakari,
-
-On Fri, Jul 04, 2025 at 10:54:15AM +0300, Sakari Ailus wrote:
-> pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
-> pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
-> to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
-> pm_runtime_mark_last_busy().
+On Wed, Jul 09, 2025 at 09:16:07PM +0200, Geert Uytterhoeven wrote:
+> Convert the Renesas Digital Radio Interface driver from
+> SIMPLE_DEV_PM_OPS() to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr().
+> This lets us drop the __maybe_unused annotations from its suspend and
+> resume callbacks, and reduces kernel size in case CONFIG_PM or
+> CONFIG_PM_SLEEP is disabled.
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/media/platform/renesas/rcar_drif.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rcar_drif.c b/drivers/media/platform/renesas/rcar_drif.c
+> index fc8b6bbef793c64e..0f0c5844e22ea86c 100644
+> --- a/drivers/media/platform/renesas/rcar_drif.c
+> +++ b/drivers/media/platform/renesas/rcar_drif.c
+> @@ -1446,18 +1446,18 @@ static void rcar_drif_remove(struct platform_device *pdev)
+>  }
+>  
+>  /* FIXME: Implement suspend/resume support */
+> -static int __maybe_unused rcar_drif_suspend(struct device *dev)
+> +static int rcar_drif_suspend(struct device *dev)
+>  {
+>  	return 0;
+>  }
+>  
+> -static int __maybe_unused rcar_drif_resume(struct device *dev)
+> +static int rcar_drif_resume(struct device *dev)
+>  {
+>  	return 0;
+>  }
+>  
+> -static SIMPLE_DEV_PM_OPS(rcar_drif_pm_ops, rcar_drif_suspend,
+> -			 rcar_drif_resume);
+> +static DEFINE_SIMPLE_DEV_PM_OPS(rcar_drif_pm_ops, rcar_drif_suspend,
+> +				rcar_drif_resume);
+>  
+>  static const struct of_device_id rcar_drif_of_table[] = {
+>  	{ .compatible = "renesas,rcar-gen3-drif" },
+> @@ -1470,7 +1470,7 @@ static struct platform_driver rcar_drif_driver = {
+>  	.driver = {
+>  		.name = RCAR_DRIF_DRV_NAME,
+>  		.of_match_table = rcar_drif_of_table,
+> -		.pm = &rcar_drif_pm_ops,
+> +		.pm = pm_sleep_ptr(&rcar_drif_pm_ops),
+>  		},
 
-Acked-by: Andi Shyti <andi.shyti@kernel.org>
+While at it, let's fix the indentation issue here. I can do so when
+applying, no need to resend just for this.
 
-Thanks,
-Andi
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+
+>  	.probe = rcar_drif_probe,
+>  	.remove = rcar_drif_remove,
+
+-- 
+Regards,
+
+Laurent Pinchart
 
