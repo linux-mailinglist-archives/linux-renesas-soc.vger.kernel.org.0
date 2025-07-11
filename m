@@ -1,118 +1,119 @@
-Return-Path: <linux-renesas-soc+bounces-19511-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19512-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BEC3B018B0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jul 2025 11:49:27 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE574B01998
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jul 2025 12:21:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 43D3E1893B41
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jul 2025 09:49:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 13C111C4512F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jul 2025 10:21:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28CE027F015;
-	Fri, 11 Jul 2025 09:48:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9EBA279DC3;
+	Fri, 11 Jul 2025 10:21:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="POXC6jug"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585DD27EFE6
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Jul 2025 09:48:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D45A027F4CA
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Jul 2025 10:21:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752227335; cv=none; b=X1WQGM3lqNrgWQqHVMbKBjTxWCGU4WqB8TAUbICppEo55XFo5kvdirszuMxu3gXH9UV+tyKUDtsHQu9vRqRk1fKOGWYaU4TQhmkH2VOLmN7mBrxGbxA7KE9hmHjg1AMVEx7wxFTsnIYtSa9Dyy3eXZEF6IqYYdzRpayBuesND7s=
+	t=1752229278; cv=none; b=jLFPoexKOhEOgznUghrVfDCZeUke4if3dJGx8W2PV190XZZ4KffeIHBf7o/uVt3ecHY+wPsbX+4rZc0hwzhZ4VQVnVXnfgckCNN3MlPI3215srq2PDJs7S8YUQo/cp4kuiRGzhFOI7cX62w9NK8J24f+RMEuTE97S86undBS1yo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752227335; c=relaxed/simple;
-	bh=XE04xjW8Ih8MjJqQrwcHCMZEgNqRZvl5cOT9qaT/7HI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SV3U4Hw5L+W+OsdwUVpyZEuJGdxtJo+ZJDeqdEtk6tKjJfQmVOvRPWQuQk9kzNbGHgRRL81UzVZwOQXeRSw4ec0y41QWCZE4g+WxFM8BwRl3bYFlNvfc/yurCtRXsTtvbK05nbRrssuxlKq32WttL2yP9uL0I+LDaGgDslO4tdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1uaAMx-0007Hr-RZ; Fri, 11 Jul 2025 11:48:39 +0200
-Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1uaAMw-007tqA-0z;
-	Fri, 11 Jul 2025 11:48:38 +0200
-Received: from pengutronix.de (p5b1645f7.dip0.t-ipconnect.de [91.22.69.247])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id EFAD343C77D;
-	Fri, 11 Jul 2025 09:48:37 +0000 (UTC)
-Date: Fri, 11 Jul 2025 11:48:37 +0200
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, linux-can@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
-Subject: Re: [PATCH v2] can: rcar_canfd: Drop unused macros
-Message-ID: <20250711-expert-vengeful-urchin-9419f5-mkl@pengutronix.de>
-References: <20250702120539.98490-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1752229278; c=relaxed/simple;
+	bh=9U5Qw/3AXzJBpxBChR745u6GgyjjbqlHXinlbSjJtnk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WxtbCql31/ShZqN8+kL0sY/LaavXhTu7sPG+m5e8t4nRiQFG4IzDqYNW+VNrPHwd9WzMHxOXxDT51c/koKinjE9SlaZDO8s5U4hcR2eXJOPpq7J8b+0/IZnXEpjkyn3VpIe1krZxFQN3G7w9t9dGECdU2eJa3Ke0AeMyfYEbFeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=POXC6jug; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-453643020bdso14782065e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Jul 2025 03:21:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1752229274; x=1752834074; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ucM8ujevxCrED8BMR+hWxz3gAzlP3qd37Xf/zMpVXBg=;
+        b=POXC6jugrseP7ouxfWlr2cFmAdErlOGj/sKevMXpG0l3pRCAzX48BwwCEpfHUt51nv
+         3fYhA2D9FXVWpY2gBBWjfJicYs2zngDBW5o7vjhtnbNM2Z3K2sylQiCVAF3e+Spj8+rg
+         b1AXTxJ1kbzHhkFn+zOOYRAzR3dT4veVn79d55nktE6DDuCKUq2TWy1lAC5EQte5qBRa
+         ReKh2c4SoesgnGq+ztSbQsiTwLwbI0p0R9kcewYYqsWxbO1/GWzmxazgSZlcwhEaUdqv
+         Fzy4hYDGnxZPWobPEYta1XqviDpT/y6TAhJW3YwnBN5SatjINSinndhYFZFWAMu7VpT3
+         Ye6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752229274; x=1752834074;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ucM8ujevxCrED8BMR+hWxz3gAzlP3qd37Xf/zMpVXBg=;
+        b=WRVmtJkXI2/gT8ICYxB/g0wwFxOTtagOH9e3UKxQWZdocBYu4EAbhxDilnoomtk8TT
+         n0ACyk50XptUYWleYTUHZJ+3z+R73LOB5Z1wt4e1eAVNs7idt4vT/pNxa3r8o4j4w7L3
+         O/griHX4nAhUzy25Ht6aqJWJ0/u6QDnSIAUrn1LIyWR+t4mpNMIQROTZDyfAdh34eNQg
+         o8hQGbYsPIBQn/oJ2NJOtFmxuUuZKHtlNXK9pZ4JECEo6zEYVpLhzdgZPmZDxEK8oObN
+         k6I2iXcWGUJkSi5fb4J92Lt7D4BmpFrK/bKSpmkZGfI2rmi4q+y3s3+Pp0jna4Dj6C98
+         Hd3A==
+X-Forwarded-Encrypted: i=1; AJvYcCXSD5asBb7h0A5V//U4PF+dNdbh/0JT1WV+IK5iIAo8mIligIzx8iAZ80xOtw2DAKvxqr2wYqOgYAgvqiqDLOP5Ig==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4qJ9M5SeZDzfZsd0QFgUryz3q0KTIEfWe+3yBwFND98DWxdZ1
+	yQAEr9Dbp+d+1lPGyolnxmPvIuvVojuH63GiLY0cVU5IxbWMnS6yThW/QuSoIBhS0PiA6374ry9
+	alO6a+zQ=
+X-Gm-Gg: ASbGncvOcvzmpbm3J3Z4e+uhtS7Qgh0UfExKz+nz9wN+BvCnArRDDFVWZVD8gkIZ7yB
+	CH521jaHiTddYjwVPdFk3YutqdppuxARmeT8DI0KOV1iZ8lRkJ9X6uEoPEgQElVBY+ulqcMsG5e
+	PLXAJZWJveTB+XkDRtf7gFH2OXIyfsYhXMMcUtuJxf9VoCLv4akFP6gbq4/Q6x0x3dAUBymvnXw
+	vnUcOPb5nSwoUrbsO+np2beqY8ftPyqrxsgRRsRrJk1RNmmch8BDmBzKlMZvNGBlVVcawljxbo+
+	S11tKzGnrlTajyw2FSQBcM8bejgLycrYqvONr4Hy770HHcvQGF8OAxvlDVTmUo5QZ/K70Xy0wJd
+	4pwpc1qGgBPdWqgJBtzE/vQ==
+X-Google-Smtp-Source: AGHT+IFKfLwK0/p6xfFnLGZFXzWGAdSY/SqT9MSCFhGWxiczu2skaO80Yn33FTFBelWczkU9tzk9Xw==
+X-Received: by 2002:a05:6000:4112:b0:3a3:6e62:d8e8 with SMTP id ffacd0b85a97d-3b5f18dff07mr2432560f8f.55.1752229273959;
+        Fri, 11 Jul 2025 03:21:13 -0700 (PDT)
+Received: from brgl-uxlite.home ([2a01:cb1d:dc:7e00:4de1:8724:bdd:326e])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8e14e82sm4085256f8f.71.2025.07.11.03.21.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Jul 2025 03:21:13 -0700 (PDT)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+To: Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	linux-gpio@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] gpio: rcar: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
+Date: Fri, 11 Jul 2025 12:21:12 +0200
+Message-ID: <175222927033.51560.13787916709041612909.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <e201140426daacaa799d73e2f76bfd96b6f5718f.1752086619.git.geert+renesas@glider.be>
+References: <e201140426daacaa799d73e2f76bfd96b6f5718f.1752086619.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ayyagcjcd6zy664r"
-Content-Disposition: inline
-In-Reply-To: <20250702120539.98490-1-biju.das.jz@bp.renesas.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
 
---ayyagcjcd6zy664r
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2] can: rcar_canfd: Drop unused macros
-MIME-Version: 1.0
+On Wed, 09 Jul 2025 20:43:59 +0200, Geert Uytterhoeven wrote:
+> Convert the Renesas R-Car GPIO driver from SIMPLE_DEV_PM_OPS() to
+> DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr().  This lets us drop the
+> check for CONFIG_PM_SLEEP, and reduces kernel size in case CONFIG_PM or
+> CONFIG_PM_SLEEP is disabled, while increasing build coverage.
+> 
+> 
 
-On 02.07.2025 13:05:29, Biju Das wrote:
-> Drop unused macros from the rcar_canfd.c.
->=20
-> Reported-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-> Closes: https://lore.kernel.org/all/7ff93ff9-f578-4be2-bdc6-5b09eab64fe6@=
-wanadoo.fr/
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Applied, thanks!
 
-Applied to linux-can-next.
+[1/1] gpio: rcar: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
+      https://git.kernel.org/brgl/linux/c/328d48cc0a644bc54c2ab27ee584f3510ae8c6ec
 
-Thanks,
-Marc
-
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde          |
-Embedded Linux                   | https://www.pengutronix.de |
-Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
-
---ayyagcjcd6zy664r
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEn/sM2K9nqF/8FWzzDHRl3/mQkZwFAmhw3fIACgkQDHRl3/mQ
-kZwxuggAk3XM8kUBt5sCB8IgNc+xXLujHbRWgpABtj7VuNTfDF/Nglp+xHh/xGHt
-62gSc85PhiDj3Bik+hYR5LnWKl0P92x3hltGuWsePGvPv4ha7rp8LDICYy2mSckY
-L+PJUNNESpiSNRIdwpdrk2U/a5PFANw1GwUdMkGSoJ5bUw0XhCyDfSSocSaKUe/J
-yf+VZ8Tq13xWZBKWcEDJ9+q71CVZsdfayVRYwFEezzDTOJ/chxI321KExUTW/xij
-5BD32NmEvEjxXCmQCgrqw3vqzCzggw8uavD7m7GoAByTCXfh4bR1OCqsMuYPmJP4
-6Lkknu6ij97AIBH8gPr9zjoNQ9eS6Q==
-=qgPY
------END PGP SIGNATURE-----
-
---ayyagcjcd6zy664r--
+Best regards,
+-- 
+Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
