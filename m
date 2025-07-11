@@ -1,115 +1,116 @@
-Return-Path: <linux-renesas-soc+bounces-19509-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19510-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 059F4B012CD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jul 2025 07:40:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47E81B017FE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jul 2025 11:35:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 10BDA1C83324
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jul 2025 05:41:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BA811188DF70
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jul 2025 09:35:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47F0C1C7015;
-	Fri, 11 Jul 2025 05:40:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54BD727A92F;
+	Fri, 11 Jul 2025 09:34:23 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75806192D83;
-	Fri, 11 Jul 2025 05:40:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E1327A90E
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Jul 2025 09:34:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752212446; cv=none; b=LP/OK0R1AKPbQT/HyM9HgXChrG6Q2MGAgy66iOlHsL0zbz9D4ciBLjNq75Z3UUWBJ+F4J73IQu67alXnDlN3WcW66Z0VSFh1JVitkASmCt3HcW6KEsKKBEEkaMrBoJN387+YxMuUSTekyz3IiUaylJq2mrMg3H6Yaef9fu/Phwg=
+	t=1752226463; cv=none; b=rgcAzjRmNwdxIjGKhEMne9YDICMfxrCXnvvsiZEY4C0CCm2tDtOwCFN7m79560RIv2zbADB95s6svhBygVnlv98ZWJibfjW0nnx86IF+VOK3Ut5ALDOm0hn3jq55iFYretEpF8+HqbjBxwwsg0Qi17JkCVtQY22MMP8fS2Lt9Wk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752212446; c=relaxed/simple;
-	bh=cLcSoW4RHFm1zNpR3N8xD4FvB98ZNkaDU1D2fYe6qoE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S+MH7ThJtaadhVWHStjTPVaE0zd8c2qUBClA0+3nbvhfgVYvQtdW0BDzRdn2ek90vrZ1XbHqpyAtOu1KAuITHZimlwFoNiHS4BEye/pM5nxa11UNq0HRvk1lD4ZqShEIo/uL5T13oBovvsxByrbGI9r3R87WNh2aLbkD/pWvQuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: 8ouIrc07RPWR8qAsOQQyXw==
-X-CSE-MsgGUID: 5T/umF0RT5ygupuhHbcXYQ==
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 11 Jul 2025 14:40:36 +0900
-Received: from localhost.localdomain (unknown [10.226.92.72])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 58B70413B428;
-	Fri, 11 Jul 2025 14:40:32 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Russell King <linux@armlinux.org.uk>,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH net-next v2] net: phy: micrel: Add ksz9131_resume()
-Date: Fri, 11 Jul 2025 06:40:21 +0100
-Message-ID: <20250711054029.48536-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1752226463; c=relaxed/simple;
+	bh=PNw8/wjEXbri5MSRzmdIu6nBISxUaGUoc5kF04xM0to=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jeEYItwtTEx8VmaGfJku1Q5/q3m12Gm5xgcrhfCWrmAJxqNdQEdXILvgeWN5QW1eZ+NNdf0m7Emcm/kTXXUIjlASEbzCDg9m61+ITSHdWM6xeWQuESu+bM3Bs1j7lkcPX0tmHzce9nS+rBzL9gWTQ7fOXBYQA03BjhQRsCYBfp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1uaA94-0005G8-Sc; Fri, 11 Jul 2025 11:34:18 +0200
+Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1uaA94-007tk8-24;
+	Fri, 11 Jul 2025 11:34:18 +0200
+Received: from pengutronix.de (p5b1645f7.dip0.t-ipconnect.de [91.22.69.247])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: mkl-all@blackshift.org)
+	by smtp.blackshift.org (Postfix) with ESMTPSA id 62F3C43C756;
+	Fri, 11 Jul 2025 09:34:18 +0000 (UTC)
+Date: Fri, 11 Jul 2025 11:34:18 +0200
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
+	linux-can@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] can: rcar_can: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
+Message-ID: <20250711-clever-daffy-anteater-76e617-mkl@pengutronix.de>
+References: <6ffe085f6e2548f53674dd11704b388cf4b303e9.1752086078.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xhfuhzctmbniy4fq"
+Content-Disposition: inline
+In-Reply-To: <6ffe085f6e2548f53674dd11704b388cf4b303e9.1752086078.git.geert+renesas@glider.be>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
-The Renesas RZ/G3E SMARC EVK uses KSZ9131RNXC phy. On deep power state,
-PHY loses the power and on wakeup the rgmii delays are not reconfigured
-causing it to fail.
 
-Replace the callback kszphy_resume()->ksz9131_resume() for reconfiguring
-the rgmii_delay when it exits from PM suspend state.
+--xhfuhzctmbniy4fq
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] can: rcar_can: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
+MIME-Version: 1.0
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * Added ksz9131-specific phy_driver->resume to reconfigure the rgmii
-   delays on exit from PM suspend state.
- * Replaced 'priv->is_suspended'->'phydev->suspended' for checking
-   exit from PM state.
- * Updated commit description.
-Ref:
- https://patchwork.kernel.org/project/linux-renesas-soc/patch/20250705170326.106073-1-biju.das.jz@bp.renesas.com/#26459627
----
- drivers/net/phy/micrel.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+On 09.07.2025 20:36:21, Geert Uytterhoeven wrote:
+> Convert the Renesas R-Car CAN driver from SIMPLE_DEV_PM_OPS() to
+> DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr().  This lets us drop the
+> __maybe_unused annotations from its suspend and resume callbacks, and
+> reduces kernel size in case CONFIG_PM or CONFIG_PM_SLEEP is disabled.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-diff --git a/drivers/net/phy/micrel.c b/drivers/net/phy/micrel.c
-index 74fd6ff32c6c..f678c1bdacdf 100644
---- a/drivers/net/phy/micrel.c
-+++ b/drivers/net/phy/micrel.c
-@@ -5633,6 +5633,14 @@ static int lan8841_suspend(struct phy_device *phydev)
- 	return kszphy_generic_suspend(phydev);
- }
- 
-+static int ksz9131_resume(struct phy_device *phydev)
-+{
-+	if (phydev->suspended && phy_interface_is_rgmii(phydev))
-+		ksz9131_config_rgmii_delay(phydev);
-+
-+	return kszphy_resume(phydev);
-+}
-+
- static struct phy_driver ksphy_driver[] = {
- {
- 	.phy_id		= PHY_ID_KS8737,
-@@ -5879,7 +5887,7 @@ static struct phy_driver ksphy_driver[] = {
- 	.get_strings	= kszphy_get_strings,
- 	.get_stats	= kszphy_get_stats,
- 	.suspend	= kszphy_suspend,
--	.resume		= kszphy_resume,
-+	.resume		= ksz9131_resume,
- 	.cable_test_start	= ksz9x31_cable_test_start,
- 	.cable_test_get_status	= ksz9x31_cable_test_get_status,
- 	.get_features	= ksz9477_get_features,
--- 
-2.43.0
+Applied to can-next.
 
+Thanks,
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde          |
+Embedded Linux                   | https://www.pengutronix.de |
+Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
+
+--xhfuhzctmbniy4fq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEn/sM2K9nqF/8FWzzDHRl3/mQkZwFAmhw2pcACgkQDHRl3/mQ
+kZwcBggAk50ANoieXas5biYJ+By14HZi89nVtmPzTV9o3GTqsg8tFyC9r8/bLbZe
+E9Dv1l0DGwUL5J4G6pWsXwWFJ8+cOq+LPhqi2gLOEq1fJBS7m9ltkevygkioifev
+Z6HgYdBrujzTp2MOyHz+wNT+c3zuTqVgKGLw10R3ioKi9aszF2iDyaxp3NSggxiO
+YJUZezOKNPFmfgvRLBo4sp5WPrytU61Oz5G08Gc78PTfPCFSpSk8MZp9lVQMifkE
+zp0D5kWuMg1JiK4lCx/RSjl6iskUQCuBE5uQmIfIcIg7mtVKZ5dlbTl/MFm6ObPG
+Dkg99VETUUq/YphVOpCJ7VhgwRyqFw==
+=tzT5
+-----END PGP SIGNATURE-----
+
+--xhfuhzctmbniy4fq--
 
