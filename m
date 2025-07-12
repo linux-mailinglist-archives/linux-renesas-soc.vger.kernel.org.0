@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-19531-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19532-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C609DB02BF6
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Jul 2025 18:46:06 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3687B02BFA
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Jul 2025 18:48:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4B08BA470B2
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Jul 2025 16:45:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 31237177D61
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Jul 2025 16:48:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B24D813D52F;
-	Sat, 12 Jul 2025 16:46:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C06A276028;
+	Sat, 12 Jul 2025 16:48:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HKM+lY2K"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="umSbT+To"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81C6D5258;
-	Sat, 12 Jul 2025 16:46:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E75A47;
+	Sat, 12 Jul 2025 16:48:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752338761; cv=none; b=meU5pyeTnfFQ2iaqj3QmmgUtOq9URKbZqc1tT+5u/XH4Qq8E1MmUE7QH70I27ifvAQiOuo1HWDvO7jRee1C6Rsu5a69O+t+B9U1vQZK3Mes25FBFXPb8nI31ZCecMuamYuEMtsOq+XQE13a4xQuYrsr7lhUw5jnDSiThQq2vDtc=
+	t=1752338908; cv=none; b=BQhcX/wPxV5548CurAwTLaMVH6NFLqwM5J+CTr9DOmfVlg8mBT9C7gQjuUvRsj+bT1DaFOr46xImkBC1A5TbL98Ubu1CY1dUDFPkIiDBLy1noPSrWCdTynw/yCVBGydWmM7vvO9POh5AXQVUxUU3kk5oB8XuZBaYJ2Tmk4r6WrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752338761; c=relaxed/simple;
-	bh=UU7UvpC2jSFAVcgB16h4bO68UOAG8NVx1pdZ2KWZcFs=;
+	s=arc-20240116; t=1752338908; c=relaxed/simple;
+	bh=+0nHvhgancvGiSRfVV8wQmUw7rewLgoMSfTzrx4krGs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=f0U2k8p1BeUN1aLiYu9U6doKk/taNHcI0Ex8w6ipFicx/XuUtmMmR7P7pyIp6PFHVjojcvqI/+0PGPs5rOTYzEH4MNAiXPkCV8C1RRYNhCL/4cT2QJwG1MPwF2bG0tRjJMuX6y3+lERLOo3y8bD5l4QDUBRFwq1clw2uJCcYWHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HKM+lY2K; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80816C4CEEF;
-	Sat, 12 Jul 2025 16:45:58 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=d+MEFV1jbBPem7jYl/wRDDdpMhVrkwWBsyOBv4NcJGtUEXgKKOBKXGT91ab2/fONz9/Moayw0+y97sT36GVjJK9m8v8Sez903OYRC/mNOwu0GRCXNcttc6aHpK6EfhTpmh/RBV3uNkOXF7D68VjIsD6kUCh7dz3eFzjaDoBzOZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=umSbT+To; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB9E2C4CEEF;
+	Sat, 12 Jul 2025 16:48:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752338761;
-	bh=UU7UvpC2jSFAVcgB16h4bO68UOAG8NVx1pdZ2KWZcFs=;
+	s=k20201202; t=1752338907;
+	bh=+0nHvhgancvGiSRfVV8wQmUw7rewLgoMSfTzrx4krGs=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=HKM+lY2KsVFG24tnq1djn4Ud5guSECPYIQlMR6P48UF3k6zqfctmzv6cD9qYsSLMQ
-	 SJvAYWN/nv+Lc/foD15ZTacj91MgozvUY5r3QmiWlXVvJ5XCm+xTCEAZpD9LACkckH
-	 EahiF49xfCWe+yEcI7LGiQctAwkGA8lilYzqxl9AKm29Lb9D9hipflwxHQAVY3iQlz
-	 +yr7PTDogeqJHWLIthpTAXt6MjyCq2vMM5fzTQ71C97oSRiUpDXrzfTInuU43ijKp2
-	 SoexqG1mxLsTjzMb/UVxT3g6ID4uh8FEirKXpKgkAxqJ3Hv7YUrCSDr9GKRxW5Bqte
-	 R2yG15QExLAzQ==
-Message-ID: <c8a16b30-569a-4266-9e2c-86be348afa86@kernel.org>
-Date: Sat, 12 Jul 2025 18:45:56 +0200
+	b=umSbT+ToYAwrnovFEJEckwiJ645OsvVO4o3j3LLtSaVQyRNTqhxVbmVZg5RKcSuB5
+	 Hd+wEaTXoMhnB26NSPye0g2e1vaCjfyonKszoc9gT/R2sjAWLgkC5iRd1wnZUCL38V
+	 71XULXk9UgSFDXXqfb9z7uoIlEcK/3YgVkmcpRIlj7D+oNSe/23ynWUXQA2M4LdTGV
+	 h2qiWYp6batTm8ZriFUJ/0VsKs6223f9MDS1uy9stbyAAC+iMM+pagEKXyG4NuDgJe
+	 oW93qDB0UeprIGBqZc3f7LdFsGskQU6yZhJAZzqGE9iO91NxdRYav2oOFVw5QnV+25
+	 Y0NuthflXxMcw==
+Message-ID: <5977e5d9-c369-47f4-a35f-bc5c9488d5bc@kernel.org>
+Date: Sat, 12 Jul 2025 18:48:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,17 +50,17 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] dt-bindings: memory-controllers: renesas,rpc-if:
- Add RZ/A1 and RZ/A2 compat strings
+Subject: Re: [PATCH v2 3/4] memory: renesas-rpc-if: Add RZ/A1 and RZ/A2
+ support
 To: Magnus Damm <damm@opensource.se>, linux-renesas-soc@vger.kernel.org
 Cc: robh@kernel.org, geert+renesas@glider.be, devicetree@vger.kernel.org,
  conor+dt@kernel.org, linux-kernel@vger.kernel.org,
  wsa+renesas@sang-engineering.com, sergei.shtylyov@gmail.com,
  p.zabel@pengutronix.de
 References: <175232755943.19062.8739774784256290646.sendpatchset@1.0.0.127.in-addr.arpa>
- <175232756792.19062.3922882730162396395.sendpatchset@1.0.0.127.in-addr.arpa>
-Content-Language: en-US
+ <175232759314.19062.13901247607746044271.sendpatchset@1.0.0.127.in-addr.arpa>
 From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
@@ -104,46 +104,32 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <175232756792.19062.3922882730162396395.sendpatchset@1.0.0.127.in-addr.arpa>
+In-Reply-To: <175232759314.19062.13901247607746044271.sendpatchset@1.0.0.127.in-addr.arpa>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 12/07/2025 15:39, Magnus Damm wrote:
 > From: Magnus Damm <damm@opensource.se>
 > 
-> Add RZ/A1 and RZ/A2 compat strings for the renesas rpc-if device.
-> 
-> Signed-off-by: Magnus Damm <damm@opensource.se>
-> ---
-> 
->  Changes since v1:
->  - Moved RZ/A to top of RZ
-> 
->  Applies to next-20250710
-> 
->  Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml |    5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> --- 0001/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml
-> +++ work/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml	2025-07-11 04:50:41.505855241 +0900
-> @@ -50,6 +50,11 @@ properties:
->  
->        - items:
->            - enum:
-> +	      - renesas,r7s72100-rpc-if       # RZ/A1H
-> +	      - renesas,r7s9210-rpc-if        # RZ/A2M
+> Add RZ/A1 and RZ/A2 compat strings to the rpc-if driver. Also make the
+> reset controller optional. This is because RZ/A1 does not have any reset
+> bits assigned to the device so there is no reset controller available.
 
-Still not tested.
+That's different ABI and if you tested bindings, you would see warnings.
+My previous instruction was really important so I am disappointed that
+you replied that you are not going to test bindings or your DTS patches.
 
-You got extensive guideline from me last time. You just replied (in
-private!) that you are not going to install dtschema and test it.
+Fix the bindings.
 
-Fine if you send correct code.
+> +
+>  static const struct of_device_id rpcif_of_match[] = {
+> +	{ .compatible = "renesas,r7s72100-rpc-if", .data = &rpcif_info_rz_a },
+> +	{ .compatible = "renesas,r7s9210-rpc-if", .data = &rpcif_info_rz_a },
 
-Not fine if you write buggy code. And this is obviously the case here as
-easily visible in the diff above - borken indentation.
+So devices are compatible. Express it with proper fallbacks and don't
+create redundant entries.
 
-Please read carefully previous instructions.
+Or explain in the binding WHY they are not compatible.
 
 Best regards,
 Krzysztof
