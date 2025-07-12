@@ -1,210 +1,123 @@
-Return-Path: <linux-renesas-soc+bounces-19527-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19528-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43C99B02BB1
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Jul 2025 17:25:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D25ECB02BB4
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Jul 2025 17:30:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6186F1AA1D0C
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Jul 2025 15:26:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2B9BB4A0361
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Jul 2025 15:30:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2E36287245;
-	Sat, 12 Jul 2025 15:25:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD647523A;
+	Sat, 12 Jul 2025 15:30:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VwAalHwO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5097A17548;
-	Sat, 12 Jul 2025 15:25:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A41754A24
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 12 Jul 2025 15:30:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752333945; cv=none; b=C9wx9IPUu6CsLQZtzpqVj9UL9/OhwBeKKonyzg0V9cY9/pv61Z+GOqgz84FXZkN/AppiJ/IdjbSvNochwDFA+R2JdXCXpvdS7MqC8J/smsGoqTQBcFPaeXsZGD4+Ge0ImTyXFT15h1eNbv2p+EDphyxqaohOx56RQ2a2/Kl1Jq0=
+	t=1752334245; cv=none; b=OlJLCigMIUFMeKmYw7GVjEx9v7jISJskMSZXDI9Jg4kOn4DA7AULNMelJv2gZMpLS+jQfGJhtTY/jo9a2t5kvDn43ZULVIgSh1mBVLwWfP07A1hEgO7UgTf95iANMFzpQc1a38EPCbCTe2eUA/RDDE7IzK3/60PwfXMGrwMZZYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752333945; c=relaxed/simple;
-	bh=dVCJf2k1OWqbqdPrRoNsq+l8ijSLfkITsUaUape0i5k=;
-	h=From:To:Cc:Date:Message-Id:Subject; b=Hj57pnU8cBvFQ13SQXVvI0rp1TXJAWdZAIbD34zTrkvwENCBGxxrk3DaVpYmzPPRuz5J2TIdNVUokmDwlmJ61iXoumA6mfEpYwVcY0V1fUVRS4QBFgkuCn/zPnhcbBmhGYml99hAWdoOBe92r4K2OGvT4gKzN8T0D2wvt6axc5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=opensource.se; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=opensource.se
+	s=arc-20240116; t=1752334245; c=relaxed/simple;
+	bh=JuMA6stv8WOjoulAGI4qFia8JUQsC6U4tVlCU02J/nk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=K569WPfKMwCITO9OnhK8P+WQQ5p5j8kfSEPfI8ZHig+iNU1beAL8nusZ6lUglVBZ7nZ9ZozX4D9a37yIvAfFSty8iirj6taa7S+9iMIpfktaPsacIttDYTw41+3TNNDsdUweyrLCxdIUSt881CsOrVKVGUMo3dIHu7u141XOMyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VwAalHwO; arc=none smtp.client-ip=209.85.219.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7d467a1d9e4so365605085a.0;
-        Sat, 12 Jul 2025 08:25:43 -0700 (PDT)
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e81826d5b72so2635991276.3
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 12 Jul 2025 08:30:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752334241; x=1752939041; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JuMA6stv8WOjoulAGI4qFia8JUQsC6U4tVlCU02J/nk=;
+        b=VwAalHwOpAS/vJe1jU4uwVWKAWQ5hUhO5oEyMhIboyw7hdYsGY2JX9mnLkkUXLJFn0
+         caQwLeKQVXmho2uAXToa75rIqrM8oFgqBTPT0VbNgBFFxzmSYBB/1PBBklZUDGf3ntDj
+         25zWHcbXUt71tysTSj90BLc+btEw2+tDAI/QqTU1X00yc41jLx4qno67K93Hy75nWyT0
+         w6V+vmCJA0zJL/ihJh1RfMe75LVtBu3vURzB3nsuQuQBSsr6TI3d2DehGwd+LmZC2g85
+         lEjc3s3OFdjy0oL6H0Py+XwiXF9in26iTHuICkVabuMP3Ij5VwLOOxjboLB4y9q4dyIA
+         H3LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752333942; x=1752938742;
-        h=subject:message-id:date:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1752334241; x=1752939041;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=T+N5KD6QaMsdoeJ3b0BLrO/WgyuCz2gEah52R6qWS/Q=;
-        b=pU8bZD/Cc2sb6V9DLQ6+dU37W3fAdmEmFVkHov5gWau07tyFStn1RBhNSGN8rdFL8g
-         ibN7EhRnzhHM032fX8YLBhyexOxp2Q/biXMp4+E7u9VK7tvufTQE+ko1VmlP5ALg1r0S
-         COKKSqQ3V7FK6qDHx79PPB8CfL0ZxCf/aLNiBlNDDdl8kgKo1scv+IuCYv+EVvCE7mSd
-         HcyYFIacRWKom35cFisPQX+CGrI9glAAzQIP+zrM6z5wq6VKGuoI2nozHEmXRUA2kR3z
-         4XNfQjp0E87HjmSp62QqYFIB6yNtyEwpXfUPsaT2Nr8goUn7vZU09cM+tdEmilK6JK3e
-         MC5A==
-X-Forwarded-Encrypted: i=1; AJvYcCUemL0TPdMY/epzh2+bYO46tKM4peL1D1bdXOzM3FycMEsFk8wemkt1o9FsDV0Ni6sgAUoMyeeezNKj@vger.kernel.org, AJvYcCXSYm3oO+sZSzZOTZ/ulALh+BKU9jJNQsu3VC7oNh4+zpuONYm9jEgTgGzao0LyuDAGFj0lF1hyqJSx2MlI@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWdihw0l9RvSIbd99jIofVcqviI6gLkxnvQU/fp2z6yYTqpLgR
-	6Ld1ofl+sS/k1vV4y+jDgQqNZASsRBs5oAqJ8nZyRmVY9ocETaItbpjqyIbxdNy7
-X-Gm-Gg: ASbGncvLiX78uvAUzOQtlcKuwQv+Ae2oElsIJtuNF77OYI/eUXAorxtumsF3Ma7Bbja
-	vdsREQbI7IfBZJnI15f1hnmo1YJ1NYVBnjdUBnQD8Zl4XOavpzuKkf0bqf2UFw5+fkBvocQiNqm
-	HanDmoDC95Q/juem6rvtz2qKdQwo5Vgkn6LZBpjGQAwYapE9xOFueAroptRslREXBlcsMA0jgVs
-	1eOOPB6/QvFnwLyoOFJeNECrcXLp3aZiVim8AMO2vzmqUDkCxcdbLxBFgLwfwX9HhUiOhh7dOCQ
-	KN7QEFJ7g9tJFB6C3DryyIIXZfwgXePp8uY7WIlzvDxhKXs9O9RjkdNobvcSTYP3jAAq3a2FrDy
-	KbcJDOMEz24yqtjw7uYnmEcpQCvmFs+7hRjAvSahggt6Uo4TSkkHQXNbg
-X-Google-Smtp-Source: AGHT+IHdE5MYH3wYQll8797nHXVKbS8a1g4vZDFCSVd85ewT/EWohjE4SOpqHO46LVPiylee35kfjA==
-X-Received: by 2002:a05:620a:ac14:b0:7e0:136f:db91 with SMTP id af79cd13be357-7e0136fdfccmr622808485a.19.1752333941843;
-        Sat, 12 Jul 2025 08:25:41 -0700 (PDT)
-Received: from Bjoern-Magnuss-MacBook-Pro.local ([167.99.4.198])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7dcdc000d6esm328240685a.27.2025.07.12.08.25.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Jul 2025 08:25:41 -0700 (PDT)
-From: Magnus Damm <damm@opensource.se>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Magnus Damm <damm@opensource.se>,geert+renesas@glider.be,linux-gpio@vger.kernel.org,linus.walleij@linaro.org,linux-kernel@vger.kernel.org,wsa+renesas@sang-engineering.com
-Date: Sat, 12 Jul 2025 17:25:38 +0200
-Message-Id: <175233393885.19419.10468322450742766513.sendpatchset@Bjoern-Magnuss-MacBook-Pro.local>
-Subject: [PATCH] pinctrl: renesas: rza1: Check pin state before configuring
+        bh=JuMA6stv8WOjoulAGI4qFia8JUQsC6U4tVlCU02J/nk=;
+        b=hOevOayaXYZGK1KElV3a0p9cXgOTBFCASWVorGNo++kFU56uNrwEot01qWhJ0w5eXo
+         gRvtsemVyqb0CPk3jc1Ew7Kvrt0CCQhZVJrbHztAroOVrGy7i+DXLAqZnUPkr1LfDYY4
+         iEtWRuhFhupe+a2t+y55KopQnOIuLtWMlp8j8wI5KAfntLxqcpy0DtnEqbPIFw9mMh4r
+         yQTRTHiivqTRicVJqGn3f6FPOgnZI4hVY+5Uh45YcQeW40/C+JAETGR73BSEiFz6RvA1
+         E5/tSPzeSjYFS+6bU9T9Z3NNGI0nExzL/lFS4/tIlr+LOczKhA2vMRlyBZ2RuULBv/SJ
+         MM4A==
+X-Forwarded-Encrypted: i=1; AJvYcCUXe8CWDoxH4z1aw27CeS/89ReaVDvDII4UGlM/xXguGODQG4Fhpm78hx7R2Cva37pmNk/19pUzAJof9WrAMGXrYg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzafakeSiNgG1zR3wRxoq/qflFfKL3EPiHVWDBxFxcojk+ieqUR
+	mxaP8IeQ0bGgUI5dB79LSF4CELgmyGDDRvgw4z0ZerrD3nt4kPj1aXwlGwjbdyQS4MPiUXkyeKV
+	leA9s+Dmsgb10JEeveLZuorjLCcGpx2dZHWMnbAU=
+X-Gm-Gg: ASbGncsQqfr9UGlCdsOTymcL0PorWAbk0ol58Sxvhteh+d2b0TAXugZLfAW41eNwjt8
+	ha8egQoJWmYKnxDl8y0RXK+JUna+wN0bxxX0Deoz94MSUuCDuvWVrHyhco9i4HNSKSG/HXcpbrR
+	Gzumvv9aVpD8OqJJ1iioW0YPPLgCo1sbqVLe72VrsraJvJJw4zhYgW7RN+X0EsxGnC2NDvGCXkc
+	rCXRZSOMQq9TmMe
+X-Google-Smtp-Source: AGHT+IGkM5vNTw/Rmz8Y7CJY1TpfaXzfl43aGdULpbAkp4q0xh3hkHDVdgpXRbJwNLjyeHujxvSOf1Lw1CQZ9vyxqoU=
+X-Received: by 2002:a05:690c:3391:b0:714:691:6d1d with SMTP id
+ 00721157ae682-717d5dc7c9emr110475627b3.24.1752334241306; Sat, 12 Jul 2025
+ 08:30:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <175109918476.52629.8694334943062364426.sendpatchset@1.0.0.127.in-addr.arpa>
+ <aGjPcpFJo0kdNgoH@ninjato>
+In-Reply-To: <aGjPcpFJo0kdNgoH@ninjato>
+From: Magnus Damm <magnus.damm@gmail.com>
+Date: Sat, 12 Jul 2025 17:30:30 +0200
+X-Gm-Features: Ac12FXyfI3jGsJ1w05MUu4EnBCZo7UnkpvX4jti_f4_-R_lyZerQop9J_VkFO5Y
+Message-ID: <CANqRtoTkn7C9wC-hGT0Ejxy==JadLHfuSS_HzUR+jk=jo4EyHA@mail.gmail.com>
+Subject: Re: [PATCH] Update r7s72100 Genmai DTS to include NOR Flash pinctrl
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>, Magnus Damm <damm@opensource.se>, 
+	geert+renesas@glider.be, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Magnus Damm <damm@opensource.se>
+Hi Wolfram,
 
-Add code to the RZ/A1 pinctrl driver to check the state of the pin before
-writing any registers. As it is without this patch, resetting the pin state
-for every pin regardless of preious state might negatively be affecting
-certain shared pins like for instance address and data bus pins.
+On Sat, Jul 5, 2025 at 9:15=E2=80=AFAM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+> Wow, Magnus!
+>
+> On Sat, Jun 28, 2025 at 10:26:24AM +0200, Magnus Damm wrote:
+> > From: Magnus Damm <damm@opensource.se>
+> >
+> > Add pinctrl configuration to the Genmai board for the NOR Flash on CS0 =
+and CS1.
+>
+> Very glad to see you again! Took a while to get my Genmai out of a far
+> away drawer, but now I set it up again.
 
-Signed-off-by: Magnus Damm <damm@opensource.se>
----
+Thank you.
 
-  This makes the following patch work with Linux:
-  [PATCH] Update r7s72100 Genmai DTS to include NOR Flash pinctrl
+> My board won't boot with this patch, though. I assume this is because
+> the address and data lines are shared with SDRAM and playing with those
+> while using them is not going to work?
 
-  In U-Boot the above DTS change works without any changes most likely
-  because the external SDRAM is not in use and on-chip RAM is used instead.
+Yes, I think you are right. Before sending out I made the mistake to
+only test with the pinctrl driver in U-Boot, sorry.
 
-  For the Linux case the SDRAM has been setup and reconfiguring shared
-  pins will mess with the memory bus pins and cause the system to lock up.
+I've now written some code for the Linux pinctrl driver that makes the
+DT modifications in this patch to start working. Please search for:
+[PATCH] pinctrl: renesas: rza1: Check pin state before configuring
 
-  Did I get the MUX_FLAGS_SWIO_INPUT | MUX_FLAGS_SWIO_OUTPUT handling right?
+Cheers,
 
-  After enabling DEBUG and checking the "Genmai DTS NOR Flash pinctrl" patch
-  above it becomes obvious that most pins are skipped however the following
-  pins still seem to get configured:
-  
-   pinctrl-rza1 fcfe3000.pinctrl: Configuring pinmux port pin 8 8
-   pinctrl-rza1 fcfe3000.pinctrl: Configuring pinmux port pin 8 9
-   pinctrl-rza1 fcfe3000.pinctrl: Configuring pinmux port pin 8 10
-   pinctrl-rza1 fcfe3000.pinctrl: Configuring pinmux port pin 8 11
-   pinctrl-rza1 fcfe3000.pinctrl: Configuring pinmux port pin 8 12
-   pinctrl-rza1 fcfe3000.pinctrl: Configuring pinmux port pin 7 8
-   pinctrl-rza1 fcfe3000.pinctrl: Configuring pinmux port pin 7 0
-
- That translates to A16, A17, A18, A19, A20, RD and CS0.
- The CFI detection is still working on both CS0 and CS1 NOR flash banks.
-
- drivers/pinctrl/renesas/pinctrl-rza1.c |   83 ++++++++++++++++++++++++++++++++
- 1 file changed, 83 insertions(+)
-
---- 0001/drivers/pinctrl/renesas/pinctrl-rza1.c
-+++ work/drivers/pinctrl/renesas/pinctrl-rza1.c	2025-07-12 23:51:15.000275500 +0900
-@@ -663,6 +663,75 @@ static inline int rza1_pin_get(struct rz
- }
- 
- /**
-+ * rza1_pin_mux_needs_update() - check pin multiplexing on a single pin
-+ *
-+ * @rza1_pctl: RZ/A1 pin controller device
-+ * @mux_conf: pin multiplexing descriptor
-+ */
-+static int rza1_pin_mux_needs_update(struct rza1_pinctrl *rza1_pctl,
-+				     struct rza1_mux_conf *mux_conf)
-+{
-+	struct rza1_port *port = &rza1_pctl->ports[mux_conf->port];
-+	unsigned int pin = mux_conf->pin;
-+	u8 mux_func = mux_conf->mux_func;
-+	u8 mux_flags = mux_conf->mux_flags;
-+	u8 mux_flags_from_table;
-+
-+	/* follow register write logic from rza1_pin_mux_single()
-+	 * but instead of programming the hardware check if the
-+	 * pin actually needs to be configured or not
-+	 *
-+	 * we read the register settings and in case it does not
-+	 * match the expected value we return 1 right away
-+	 *
-+	 * return value 0 means all registers are matching
-+	 * and no need to perform any register update
-+	 */
-+
-+	/* SWIO pinmux flags coming from DT are high precedence */
-+	mux_flags_from_table = rza1_pinmux_get_flags(port->id, pin, mux_func,
-+						     rza1_pctl);
-+	if (mux_flags)
-+		mux_flags |= (mux_flags_from_table & MUX_FLAGS_BIDIR);
-+	else
-+		mux_flags = mux_flags_from_table;
-+
-+	mux_func -= 1;
-+
-+	/* return 1 in case register bit does not match MUX_FLAGS/FUNC */
-+
-+	if (!!(mux_flags & MUX_FLAGS_BIDIR) !=
-+	  !!rza1_get_bit(port, RZA1_PBDC_REG, pin))
-+		return 1;
-+
-+	if (!!(mux_func & MUX_FUNC_PFC_MASK) !=
-+	    !!rza1_get_bit(port, RZA1_PFC_REG, pin))
-+		return 1;
-+
-+	if (!!(mux_func & MUX_FUNC_PFCE_MASK) !=
-+	    !!rza1_get_bit(port, RZA1_PFCE_REG, pin))
-+		return 1;
-+
-+	if (!!(mux_func & MUX_FUNC_PFCEA_MASK) !=
-+	    !!rza1_get_bit(port, RZA1_PFCEA_REG, pin))
-+		return 1;
-+
-+	if (mux_flags & (MUX_FLAGS_SWIO_INPUT | MUX_FLAGS_SWIO_OUTPUT)) {
-+		if (!!(mux_func & MUX_FLAGS_SWIO_INPUT) !=
-+		    !!rza1_get_bit(port, RZA1_PM_REG, pin))
-+			return 1;
-+	} else {
-+		if (!rza1_get_bit(port, RZA1_PIPC_REG, pin))
-+			return 1;
-+	}
-+
-+	if (!rza1_get_bit(port, RZA1_PMC_REG, pin))
-+		return 1;
-+
-+	return 0;
-+}
-+
-+/**
-  * rza1_pin_mux_single() - configure pin multiplexing on a single pin
-  *
-  * @rza1_pctl: RZ/A1 pin controller device
-@@ -677,6 +746,20 @@ static int rza1_pin_mux_single(struct rz
- 	u8 mux_flags = mux_conf->mux_flags;
- 	u8 mux_flags_from_table;
- 
-+	/* Before touching the hardware check if it is actually needed.
-+	 * The reason for doing this is that some pins may be used
-+	 * already while the driver operates, for instance address bus
-+	 * for a NOR flash might be shared with SDRAM or similar.
-+	 * Reconfiguring such a pin might cause the system to lock up.
-+	 */
-+	if (!rza1_pin_mux_needs_update(rza1_pctl, mux_conf)) {
-+		dev_dbg(rza1_pctl->dev, "Skipping pinmux port pin %d %d\n",
-+			mux_conf->port, pin);
-+		return 0;
-+	}
-+	dev_dbg(rza1_pctl->dev, "Configuring pinmux port pin %d %d\n",
-+		mux_conf->port, pin);
-+
- 	rza1_pin_reset(port, pin);
- 
- 	/* SWIO pinmux flags coming from DT are high precedence */
+Magnus
 
