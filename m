@@ -1,161 +1,150 @@
-Return-Path: <linux-renesas-soc+bounces-19529-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19531-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB5A6B02BE8
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Jul 2025 18:28:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C609DB02BF6
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Jul 2025 18:46:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4BC05A45798
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Jul 2025 16:27:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4B08BA470B2
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Jul 2025 16:45:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53648289373;
-	Sat, 12 Jul 2025 16:28:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B24D813D52F;
+	Sat, 12 Jul 2025 16:46:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="LGHKUZYf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HKM+lY2K"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from out162-62-57-64.mail.qq.com (out162-62-57-64.mail.qq.com [162.62.57.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5FA278768;
-	Sat, 12 Jul 2025 16:28:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81C6D5258;
+	Sat, 12 Jul 2025 16:46:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752337688; cv=none; b=gzd0CzT9t02qySCLGDd94VDOuAYCPOXIrgzyoEkYHSLEDqjCfz/nMHFiuGvT2mSufREjNjKIsQFaGKVcYgiPJViAMdQsjGkI2bC/1cW5wV6MRBrjl2NbjSadjQqkNh6GBOon/0WSYeEiIfynOV1cmBFF+KivPuIhw1nRa+c2L2U=
+	t=1752338761; cv=none; b=meU5pyeTnfFQ2iaqj3QmmgUtOq9URKbZqc1tT+5u/XH4Qq8E1MmUE7QH70I27ifvAQiOuo1HWDvO7jRee1C6Rsu5a69O+t+B9U1vQZK3Mes25FBFXPb8nI31ZCecMuamYuEMtsOq+XQE13a4xQuYrsr7lhUw5jnDSiThQq2vDtc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752337688; c=relaxed/simple;
-	bh=zShYQvLlzDshUKKlZg1x1TOtfC/ez1gpBFtv+Tsd8e8=;
-	h=Message-ID:Content-Type:Mime-Version:Subject:From:In-Reply-To:
-	 Date:Cc:References:To; b=dZEfrvK2jL2VsYmlbsEm1ULPp+lG1xlarG0Xw3G7c8KbxALRPXWXJBm6XjqWhmiMJUdVVn2sNIPMNifMt8ZyV3zvyR4LvXOvM2acZWHzzgNVB8MB23D+ShUZKTsWUHx8Gnex54Ewo0kTiFHN+TwAIPyQVs8ZMG0IU0FXDXqNWEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=LGHKUZYf; arc=none smtp.client-ip=162.62.57.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1752337674;
-	bh=nr1V0epckhRFNIAskc+SB3bvY8ZpoSKvj9saTw6BZ8g=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To;
-	b=LGHKUZYfQD43gvXhxwpSfTEwjJkYQc2J1oPMS8Xosu6ev1BwUfsHQHnS5PQ1tvvOS
-	 nKPBGlh3q+4ZTfbpFcbtO47d5vJLVyAEMyw3YTTLovmPhR9+PYiiX659m9fAdCrstj
-	 nn9qoJzvg0CZgGoaGylBvbjlz0te/DOdLks3hTdY=
-Received: from smtpclient.apple ([36.110.163.70])
-	by newxmesmtplogicsvrsza36-0.qq.com (NewEsmtp) with SMTP
-	id 6F2020E8; Sun, 13 Jul 2025 00:27:50 +0800
-X-QQ-mid: xmsmtpt1752337670tj4zzscnw
-Message-ID: <tencent_F796C219AAAF44C38D59EDDB560958888706@qq.com>
-X-QQ-XMAILINFO: NEGqkzgyFYqO0FYFVu/yc6yh9bWxl9ihuMmJtegKHU/BW9ZmNLaPdVeAToGmOK
-	 dqJXy6Nj7d5li+9HIyqpCEtrgixybNtXEx5p/FiNWPUcD9aGduLYZRnbD0oMs396dt4a6Ve9p3C1
-	 JeFxHpM9jcooNiXsWAI7PDELthYU2ujfGz84gMkL479PfJfw/wJveibHhyGZwPKVjh6hAwYW/23W
-	 7W+Nnbyaj2ZYpQiXy0Mrrmt7bTH1PeGNe96N8eTC5TH2Zc1B3iSlnEeTowamKFkaxqqXeGefI8Fx
-	 28dmMrn+gSbaaV9HBtC2ukFTRazCrFvJchCXEzMBlagBYOPBWGsLPHAEEA6a0E6NyiwskLlU1KGU
-	 5P6+sT7GkfPlF0spB081Sdf+2AY5E68AXayfPyY+86A42Hal70GbkkPpn3/x5nsL8SHVkvo+E8vp
-	 6BbGQSi6EQfwKaoKFc0YJ4qKbaby2i5eYkCFT6pdHkMbhj8+Xw0Yc+8aTJKjAPBRIqkbkHoIc8iG
-	 K1YHNikEHKGkwMA3AYj7lSvZOzyW5ghApxVitA6EXlEJwtlElciAlUd4tmCQfhPQz834uYMu1l1J
-	 C6KT7ZdbW32IZPjYn81KjMyhkkMnZgZBrAGTBYhl0oTe971tcw8T8Gp6ImiZMPsGiMcIVCmXZt6j
-	 1EOh9tLivWU0P1bahLeEszKghy4XRpKPxM3PEKGHLKbUr6h7typAPMdXRyUdkDuf9gM7/iaEwz0x
-	 IS7kuJROyIM/ZfMtFBlbVGSotrzLRxbQRzsuYwMNecXvPjeu+cwGZoWThCPjCiAFfca5gkYUeQhZ
-	 kZ+rJ9mz6l/W9GxcUq8Sh+CAW/yNsYbqxTgDlrNoEL5ct+xM7qQuRFR6n9NaDjwUbZYyVXXXo2r7
-	 W+gs3rN9iV13ZFYxIlmurKbdKj/u3w9s5LIfgQdgvNQIGQkgU2yXnjFOSnehQND9Spqb3ouSXVBa
-	 tz8t1QR+C6Nksz/H0NIEswzUMgGWYAwC9ovz9k2wlQnnJu1MdhBwGElsgPxJzq3wCJR3dgcZ6EJt
-	 YHAJPxa2beF18t163w3oQlrvVxc4UMdBp7vZqFPVAQQvFi0JHIXltlKum4fXDMXOUYfReQI89hmC
-	 bAgnRF
-X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
-Content-Type: text/plain;
-	charset=us-ascii
+	s=arc-20240116; t=1752338761; c=relaxed/simple;
+	bh=UU7UvpC2jSFAVcgB16h4bO68UOAG8NVx1pdZ2KWZcFs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=f0U2k8p1BeUN1aLiYu9U6doKk/taNHcI0Ex8w6ipFicx/XuUtmMmR7P7pyIp6PFHVjojcvqI/+0PGPs5rOTYzEH4MNAiXPkCV8C1RRYNhCL/4cT2QJwG1MPwF2bG0tRjJMuX6y3+lERLOo3y8bD5l4QDUBRFwq1clw2uJCcYWHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HKM+lY2K; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80816C4CEEF;
+	Sat, 12 Jul 2025 16:45:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752338761;
+	bh=UU7UvpC2jSFAVcgB16h4bO68UOAG8NVx1pdZ2KWZcFs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=HKM+lY2KsVFG24tnq1djn4Ud5guSECPYIQlMR6P48UF3k6zqfctmzv6cD9qYsSLMQ
+	 SJvAYWN/nv+Lc/foD15ZTacj91MgozvUY5r3QmiWlXVvJ5XCm+xTCEAZpD9LACkckH
+	 EahiF49xfCWe+yEcI7LGiQctAwkGA8lilYzqxl9AKm29Lb9D9hipflwxHQAVY3iQlz
+	 +yr7PTDogeqJHWLIthpTAXt6MjyCq2vMM5fzTQ71C97oSRiUpDXrzfTInuU43ijKp2
+	 SoexqG1mxLsTjzMb/UVxT3g6ID4uh8FEirKXpKgkAxqJ3Hv7YUrCSDr9GKRxW5Bqte
+	 R2yG15QExLAzQ==
+Message-ID: <c8a16b30-569a-4266-9e2c-86be348afa86@kernel.org>
+Date: Sat, 12 Jul 2025 18:45:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.600.51.1.1\))
-Subject: Re: [PATCH] dmaengine: rcar-dmac: Fix PM usage counter imbalance
-From: Zhang Shurong <zhang_shurong@foxmail.com>
-In-Reply-To: <CAMuHMdUhZqLCkLWtFTaCq67=Nb0O0_XLSWeyweMiNp25XArfKA@mail.gmail.com>
-Date: Sun, 13 Jul 2025 00:27:39 +0800
-Cc: vkoul@kernel.org,
- magnus.damm@gmail.com,
- robin.murphy@arm.com,
- ulf.hansson@linaro.org,
- kuninori.morimoto.gx@renesas.com,
- u.kleine-koenig@baylibre.com,
- dmaengine@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Content-Transfer-Encoding: quoted-printable
-X-OQ-MSGID: <2F2D2C10-F245-472B-A764-AFDA86F1AA66@foxmail.com>
-References: <tencent_71CC9630D88A8792C2396A8844DCCD5C6D06@qq.com>
- <CAMuHMdUhZqLCkLWtFTaCq67=Nb0O0_XLSWeyweMiNp25XArfKA@mail.gmail.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-X-Mailer: Apple Mail (2.3826.600.51.1.1)
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/4] dt-bindings: memory-controllers: renesas,rpc-if:
+ Add RZ/A1 and RZ/A2 compat strings
+To: Magnus Damm <damm@opensource.se>, linux-renesas-soc@vger.kernel.org
+Cc: robh@kernel.org, geert+renesas@glider.be, devicetree@vger.kernel.org,
+ conor+dt@kernel.org, linux-kernel@vger.kernel.org,
+ wsa+renesas@sang-engineering.com, sergei.shtylyov@gmail.com,
+ p.zabel@pengutronix.de
+References: <175232755943.19062.8739774784256290646.sendpatchset@1.0.0.127.in-addr.arpa>
+ <175232756792.19062.3922882730162396395.sendpatchset@1.0.0.127.in-addr.arpa>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <175232756792.19062.3922882730162396395.sendpatchset@1.0.0.127.in-addr.arpa>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Geert,
-Thank you for reviewing my patch and providing the Reviewed-by tag.=20
-I appreciate you pointing this out. Testing these fixes comprehensively =
-has been challenging=20
-as QEMU doesn't support the Renesas R-Car SoC, which makes it difficult =
-to verify the complete
-behavior of the driver.
-I'll continue working on addressing the memory leak issue where the =
-function doesn't free previously
-allocated memory on failure.
-Thanks again for your thorough review.
+On 12/07/2025 15:39, Magnus Damm wrote:
+> From: Magnus Damm <damm@opensource.se>
+> 
+> Add RZ/A1 and RZ/A2 compat strings for the renesas rpc-if device.
+> 
+> Signed-off-by: Magnus Damm <damm@opensource.se>
+> ---
+> 
+>  Changes since v1:
+>  - Moved RZ/A to top of RZ
+> 
+>  Applies to next-20250710
+> 
+>  Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml |    5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> --- 0001/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml
+> +++ work/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml	2025-07-11 04:50:41.505855241 +0900
+> @@ -50,6 +50,11 @@ properties:
+>  
+>        - items:
+>            - enum:
+> +	      - renesas,r7s72100-rpc-if       # RZ/A1H
+> +	      - renesas,r7s9210-rpc-if        # RZ/A2M
+
+Still not tested.
+
+You got extensive guideline from me last time. You just replied (in
+private!) that you are not going to install dtschema and test it.
+
+Fine if you send correct code.
+
+Not fine if you write buggy code. And this is obviously the case here as
+easily visible in the diff above - borken indentation.
+
+Please read carefully previous instructions.
+
 Best regards,
-Zhang Shurong
-
-> On Jul 2, 2025, at 18:18, Geert Uytterhoeven <geert@linux-m68k.org> =
-wrote:
->=20
-> Hi Zhang,
->=20
-> On Sun, 29 Jun 2025 at 17:57, Zhang Shurong =
-<zhang_shurong@foxmail.com> wrote:
->> pm_runtime_get_sync will increment pm usage counter
->> even it failed. Forgetting to putting operation will
->> result in reference leak here. We fix it by replacing
->> it with pm_runtime_resume_and_get to keep usage counter
->> balanced.
->>=20
->> Fixes: 87244fe5abdf ("dmaengine: rcar-dmac: Add Renesas R-Car Gen2 =
-DMA Controller (DMAC) driver")
->> Signed-off-by: Zhang Shurong <zhang_shurong@foxmail.com>
->=20
-> Thanks for your patch!
->=20
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->=20
->> --- a/drivers/dma/sh/rcar-dmac.c
->> +++ b/drivers/dma/sh/rcar-dmac.c
->> @@ -1068,7 +1068,7 @@ static int =
-rcar_dmac_alloc_chan_resources(struct dma_chan *chan)
->>        if (ret < 0)
->>                return -ENOMEM;
->>=20
->> -       return pm_runtime_get_sync(chan->device->dev);
->> +       return pm_runtime_resume_and_get(chan->device->dev);
->=20
-> Note that there are other issues with this function: in case of =
-failure,
-> none of the memory allocated before is freed.  Probably the original
-> author assumed none of this can really fail.
->=20
->> }
->>=20
->> static void rcar_dmac_free_chan_resources(struct dma_chan *chan)
->=20
-> Gr{oetje,eeting}s,
->=20
->                        Geert
->=20
-> --=20
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- =
-geert@linux-m68k.org
->=20
-> In personal conversations with technical people, I call myself a =
-hacker. But
-> when I'm talking to journalists I just say "programmer" or something =
-like that.
->                                -- Linus Torvalds
-
-
+Krzysztof
 
