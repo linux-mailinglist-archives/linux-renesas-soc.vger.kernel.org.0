@@ -1,132 +1,154 @@
-Return-Path: <linux-renesas-soc+bounces-19534-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19535-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CAFCB02C88
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Jul 2025 21:06:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5530B0304B
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 13 Jul 2025 10:49:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8AEB03AA078
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Jul 2025 19:06:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 00715189B974
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 13 Jul 2025 08:50:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B35127AC2A;
-	Sat, 12 Jul 2025 19:06:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA68426B956;
+	Sun, 13 Jul 2025 08:49:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XiP/zIAt"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="DQsZjoHm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DB04183CB0;
-	Sat, 12 Jul 2025 19:06:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E3EA1E5701
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 13 Jul 2025 08:49:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752347214; cv=none; b=UnZSo9VRstH4mqayXWAMKrGh5tK3C102cpONkZOlBrPNgxZEWEacfXjYlQN1P0SMDACPrFRU6oTIlClzUXYhMdOiLUKSOlNjHn7IK8fTKhBDYGX6QKXYV/Hcgw3MQ3y4G+tY5t/OxtbZVmO77zoJAgL4VDq1f6K5w2Afa/ppS2U=
+	t=1752396581; cv=none; b=l4gxmBb9c0r8L/mSGIVyM8cZoRKYOm5+SNJFOpYEfVjjVt2UnKqtjuCldYLKfnF37pQSA6w12sVYHw8EEbUj4wautiA8D7TP40NveRN+RwfAOqtBxPGDASwxfODjVGQ8RXvzgxIkJz84WbY6KVXky6/fWpErVOLjRUuE2ow/fek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752347214; c=relaxed/simple;
-	bh=2cDLI+6d2t8/DuOIFZTlroviLAPEPg1elL5QTvHbT/c=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=p/1DJIikTsxXiZRMpMWAc8/bD1sWv8AEroTw1AcgYY4zQ6Qysu7C/jT2ZXJVyjk1Fi5IddDUMeq47DlflWr+MUHAAt+vNTg1TK8/ae9qZDSKA+DjacN1qrKo6xkpUpoL7Mz9O7xQj8Fy/FE23NX6M96eaubVkPqmf9wmKn+h7fY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XiP/zIAt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B25B2C4CEEF;
-	Sat, 12 Jul 2025 19:06:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752347212;
-	bh=2cDLI+6d2t8/DuOIFZTlroviLAPEPg1elL5QTvHbT/c=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=XiP/zIAt91l4afZSPSKZYFzut01E3Mp6JRrMtzOdeoFB/D3AhcmbvD1XyZHTZ0pro
-	 LA8rCZrPDOuv07AP97ZD7kjCCd1BIHU3Dk5J4KaFvMlSM4+5Lpv5v3bqRl00LV8eU0
-	 S5ZrYGCHyvnwMTe/eYEHuFXDimf/gYV68dp+giuHJzsFARFDJlxHPype1cgXcc2Wxb
-	 /xoB0beLlpj7Gsk0Mgv4qPcjdlIQGw5s5wuysJp1qZ47Lj4B3OUB4AoD9RKO14pUZZ
-	 fsWv+44936WhANh0F70N44YKOzDTyk7FY6QeGKdsOcO8jS/6plCgLvrQlE/g0zGx1r
-	 YXZEPAlZoS7GQ==
-Date: Sat, 12 Jul 2025 14:06:51 -0500
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+	s=arc-20240116; t=1752396581; c=relaxed/simple;
+	bh=cV/NDwp/sNmpTSnX+YcZxa/+NKwprOpcCeD5lvtK6q0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=G5Xgtr54uqBe6XWjB/uB7gpq6+bGemYpjt2SC2wg6YduvWLGpwm5C1ukA4oWglOdyEDs+9S/17dWenoQ7VwOIJY3LJHvaB9bWPJe/tMsj/7IhCdQpqozAC8L/eFiAR9Zfm2x2X/jcyumqvbkxvbXoZNutbfPOJzjCr3EO9PqfYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=DQsZjoHm; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-54b10594812so3377523e87.1
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 13 Jul 2025 01:49:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1752396578; x=1753001378; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i68FJiG6+f1ETXgbeYCotuF64Qw8JxOf1zX940i2cSU=;
+        b=DQsZjoHmVwV9MmKt7CfHZxdRcawgETMhaxaLPPte9pzg0WJ2HLeOhB9IVZmBKetjqk
+         tomUXCW92R25h77mTh5r4xnEaHZFVwlrEjTa+MWQl1OtBr9d9gIjzA3Fg2iPIDD43n0f
+         zXxSDfZXEXAbwoET2it2fvkNRN9z46eBDkVzq2QE20fXzwKBJwNnMw2Wg4hOjBQAe8ZA
+         bXVp4ABKuzwBx2UFZhMNo6rx9W6sSwCn/JHagH6KGcM/zLn4Bk3PlFfbl4A+YR6QQrB0
+         IaEhLBN+59p6f8QQUF9MTy6qqxDjWTYMwQHUy445FOxg0T16rlvGDFC/XawgyjwLcGp7
+         mU6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752396578; x=1753001378;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=i68FJiG6+f1ETXgbeYCotuF64Qw8JxOf1zX940i2cSU=;
+        b=GscWgBtMZGcD6QZLg0SwptTEhojGn3z4m0IWfQyR4FJikehqxQzLcZMMdE3To4hzqe
+         HGjcBfMXz/B6QF6IJY8YUFMSLpYRNYwaJdrQzxjEfDQej3A0vvffnZ+mj5fOgA9+/L06
+         GBXYjhuVNJ2D1OrcOsUypCFiu5XnNB504wrsGNHu6aKXYN03Dj8s67JVCRsxmMdyq5IP
+         Lwymeaz/HzmuyIPsIxHTAJO8AUEEl7bTGGIryEz3SnjcC1DLTZTBAKis6+2MXSHkVUAI
+         N+od6Q86u7mYoBK0tqJn5ZUH50GZDFr4VU+vixkXEcXP7DABLEyBDZ70ujaHHjTte3Rx
+         ycfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUCwFmiyvxqFosm0bd4Muu1ie2fCMB8m3dV68ByCebmot6MpyJSnGrsWOjt6xEJC/sDAmsiiJ6Tb1TBol6LWT0MMA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yws2c9wSEkHprf3jYc/GZON9fCvE5XQ3XLuOmqvkwUbIBnMlUcl
+	5oHTxWUBAMj73Di8dZRKM3583uHixRWztVOkjHS/vpYl4U6VZTrBJ9T/MYU/jN/ODCVcWfqCl4k
+	b1WOlzqeZWUuST4XldDCASGN8Ea1NfaUWBZ/SINiaHg==
+X-Gm-Gg: ASbGncsaAJzT6VKc1Vybd9r8n/dqNaIafGJgNFFXwGFVmTDrO0HuSIRdm0/WtJsG9ei
+	VSuWa+x/m5xPKiGIfDr2hfqs9jFaihWfYCRh4vMPFb2T7RI+eoWmsX8MF/uLZcnRBmBPYVAO2Xy
+	P/jea12P8GniO7edaF8blIp+Xr7oiwwbQQLB8JEL34eV8q9unnqjRc/OIUZAZHGY/tOw3z8iuHV
+	Jpj9BOnOErT5Bk/xoby2Xi+F5pOLIRL26zW3jROL4Nk2u95Eg==
+X-Google-Smtp-Source: AGHT+IHSVlR3f84ykKc18xLN16yOuI1UBS+R1HGXkNcrI5d6VuncH7GOy5up7ZkTvuUg5ocaceSyWG2pJHHAQMTtfQA=
+X-Received: by 2002:a05:6512:6cd:b0:553:2355:1f26 with SMTP id
+ 2adb3069b0e04-55a0463d16fmr3003378e87.50.1752396578149; Sun, 13 Jul 2025
+ 01:49:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-kernel@vger.kernel.org, wsa+renesas@sang-engineering.com, 
- devicetree@vger.kernel.org, geert+renesas@glider.be, p.zabel@pengutronix.de, 
- krzk@kernel.org, linux-renesas-soc@vger.kernel.org, 
- sergei.shtylyov@gmail.com, conor+dt@kernel.org
-To: Magnus Damm <damm@opensource.se>
-In-Reply-To: <175232756792.19062.3922882730162396395.sendpatchset@1.0.0.127.in-addr.arpa>
-References: <175232755943.19062.8739774784256290646.sendpatchset@1.0.0.127.in-addr.arpa>
- <175232756792.19062.3922882730162396395.sendpatchset@1.0.0.127.in-addr.arpa>
-Message-Id: <175234721189.1426581.6723570878637323009.robh@kernel.org>
-Subject: Re: [PATCH v2 1/4] dt-bindings: memory-controllers:
- renesas,rpc-if: Add RZ/A1 and RZ/A2 compat strings
+References: <20250610-gpiochip-set-rv-soc-v1-0-1a0c36c9deed@linaro.org> <20250610-gpiochip-set-rv-soc-v1-1-1a0c36c9deed@linaro.org>
+In-Reply-To: <20250610-gpiochip-set-rv-soc-v1-1-1a0c36c9deed@linaro.org>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Sun, 13 Jul 2025 10:49:27 +0200
+X-Gm-Features: Ac12FXyhZJT7lfbn0I6DoUYvpi_8wvzLxArloCSn9kbjMpsbWPmC7MSTvAUWCwE
+Message-ID: <CAMRc=Mc1UyWgWwUFVGw=1EVJb1u4MQYUKcguiQedmbxTK6pY1w@mail.gmail.com>
+Subject: Re: [PATCH 1/2] soc: fsl: qe: use new GPIO line value setter callbacks
+To: Qiang Zhao <qiang.zhao@nxp.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>
+Cc: linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-On Sat, 12 Jul 2025 15:39:27 +0200, Magnus Damm wrote:
-> From: Magnus Damm <damm@opensource.se>
-> 
-> Add RZ/A1 and RZ/A2 compat strings for the renesas rpc-if device.
-> 
-> Signed-off-by: Magnus Damm <damm@opensource.se>
+On Tue, Jun 10, 2025 at 2:38=E2=80=AFPM Bartosz Golaszewski <brgl@bgdev.pl>=
+ wrote:
+>
+> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+>
+> struct gpio_chip now has callbacks for setting line values that return
+> an integer, allowing to indicate failures. Convert the driver to using
+> them.
+>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 > ---
-> 
->  Changes since v1:
->  - Moved RZ/A to top of RZ
-> 
->  Applies to next-20250710
-> 
->  Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml |    5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> --- 0001/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml
-> +++ work/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml	2025-07-11 04:50:41.505855241 +0900
-> @@ -50,6 +50,11 @@ properties:
-> 
->        - items:
->            - enum:
-> +	      - renesas,r7s72100-rpc-if       # RZ/A1H
-> +	      - renesas,r7s9210-rpc-if        # RZ/A2M
+>  drivers/soc/fsl/qe/gpio.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/soc/fsl/qe/gpio.c b/drivers/soc/fsl/qe/gpio.c
+> index 3ef24ba0245b75471ffa10f579bb744c0c3b7e43..5391cce4e6efe6d120db7fdf7=
+509dc5eb840f344 100644
+> --- a/drivers/soc/fsl/qe/gpio.c
+> +++ b/drivers/soc/fsl/qe/gpio.c
+> @@ -57,7 +57,7 @@ static int qe_gpio_get(struct gpio_chip *gc, unsigned i=
+nt gpio)
+>         return !!(ioread32be(&regs->cpdata) & pin_mask);
+>  }
+>
+> -static void qe_gpio_set(struct gpio_chip *gc, unsigned int gpio, int val=
+)
+> +static int qe_gpio_set(struct gpio_chip *gc, unsigned int gpio, int val)
+>  {
+>         struct of_mm_gpio_chip *mm_gc =3D to_of_mm_gpio_chip(gc);
+>         struct qe_gpio_chip *qe_gc =3D gpiochip_get_data(gc);
+> @@ -75,6 +75,8 @@ static void qe_gpio_set(struct gpio_chip *gc, unsigned =
+int gpio, int val)
+>         iowrite32be(qe_gc->cpdata, &regs->cpdata);
+>
+>         spin_unlock_irqrestore(&qe_gc->lock, flags);
 > +
-> +      - items:
-> +          - enum:
->                - renesas,r9a07g043-rpc-if      # RZ/G2UL
->                - renesas,r9a07g044-rpc-if      # RZ/G2{L,LC}
->                - renesas,r9a07g054-rpc-if      # RZ/V2L
-> 
-> 
+> +       return 0;
+>  }
+>
+>  static void qe_gpio_set_multiple(struct gpio_chip *gc,
+> @@ -317,7 +319,7 @@ static int __init qe_add_gpiochips(void)
+>                 gc->direction_input =3D qe_gpio_dir_in;
+>                 gc->direction_output =3D qe_gpio_dir_out;
+>                 gc->get =3D qe_gpio_get;
+> -               gc->set =3D qe_gpio_set;
+> +               gc->set_rv =3D qe_gpio_set;
+>                 gc->set_multiple =3D qe_gpio_set_multiple;
+>
+>                 ret =3D of_mm_gpiochip_add_data(np, mm_gc, qe_gc);
+>
+> --
+> 2.48.1
+>
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Christophe: let me reping you here as there's no reason for this
+relatively trivial patch to miss the upcoming merge window. Do you
+have any objections to me queueing it via the GPIO tree?
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml:53:1: [error] syntax error: found character '\t' that cannot start any token (syntax)
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml: ignoring, error parsing file
-./Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml:53:1: found character that cannot start any token
-make[2]: *** Deleting file 'Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.example.dts'
-Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml:53:1: found character that cannot start any token
-make[2]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.example.dts] Error 1
-make[2]: *** Waiting for unfinished jobs....
-make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1525: dt_binding_check] Error 2
-make: *** [Makefile:248: __sub-make] Error 2
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/175232756792.19062.3922882730162396395.sendpatchset@1.0.0.127.in-addr.arpa
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+Bartosz
 
