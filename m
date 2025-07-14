@@ -1,1601 +1,398 @@
-Return-Path: <linux-renesas-soc+bounces-19542-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19543-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BDCFB03A85
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Jul 2025 11:13:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 046AFB04395
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Jul 2025 17:23:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EA7A2189DA2E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Jul 2025 09:13:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DC7BD4E0BEF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Jul 2025 15:21:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F08F242D92;
-	Mon, 14 Jul 2025 09:12:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 274D325CC75;
+	Mon, 14 Jul 2025 15:19:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Q5tRa3uz"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="DobKFmfJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D75EB23C8D5
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Jul 2025 09:12:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E8E1F55FA;
+	Mon, 14 Jul 2025 15:19:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752484352; cv=none; b=XHZqd4jI0ob5Dpgi99ozmuvhKiS0ryNVoMYKyB7qfBWiFdaZ9rgAmPhYowdBJMUlIzd8dGUQl6uBWVjrjHYQF2VpzU6Pf3xSV7y6Km/M3DwtnhGW5QiNL9Dvms7KePrIDe70TWQZ239DeafBHofALiBkAICZL32Ggfavzs5aeDM=
+	t=1752506373; cv=none; b=mkg4gsfbJsw0fL1bBVqg5zAA2/oqHE3wwUBDrzGlaLsjPSpLEoefznULOgeYdMCc+jBxX7yUfJN8Bt2hUfRXEc85QIGwQp3NcZ7JvAo0QqMDFoEERKip6f1iI3sAaB00GArco6zo3yAslKfktL+XInPUL2Qj14TUDMURTl6CBB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752484352; c=relaxed/simple;
-	bh=S7x56Wxbq4QdniwR5HtZEhj36blgAJ6+nG3XdnETDi8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=et/aOZkfohKE2uWZuzFiI9irkUYev5ZxOIOrEQLFTrXq+J7IIo0di7Bb68Pg8OgYxetuHrot47HsAmviTY1RalmJOYEM/x2gsZqZqEBiLiu7fEI0qk/nzockx2XKRCe2ApOEf+qT5J4kSqXWOikPSu4T4hVjvWQ/l85avMrxMFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Q5tRa3uz; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=esXAB2cOtDMH34luHWCrW4lvEBe9lROlGd1VH1ivoSY=; b=Q5tRa3
-	uzmEj/XnmxMrmUH3Wr9SCyXuQK5AOOE5KVR6aq7AUcD3ttJO/VXEKLXNi7oDmgXB
-	qrksgOY1TvoHx0samKU07UQdbYMz17GumjXCCdYLO//D+dN7DSb5k62t1SLCTZtp
-	qFZIkuQ/Q3MdKHlQbPuY6S+rTs1t/+Awlgul+3KWbQj4jsmgXV6bxnVRhIXLgMn6
-	0OYmNEpsnRroJ3P41bZvbuiYVje3diROusYBrCjoB2nAgJZ53K1SHOlE6c8x+UnK
-	Liy/U1INYfPFjPlgemlXdnSI9l/R2RBqnIuFL8kb6vVYtjIypgMcLd9ic8lgTv87
-	XLey7tTcvLyHXXxQ==
-Received: (qmail 2399915 invoked from network); 14 Jul 2025 11:12:26 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Jul 2025 11:12:26 +0200
-X-UD-Smtp-Session: l3s3148p1@Qj/xDuA58N4gAwDPXxNjAMIr4MhSGEU6
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-i3c@lists.infradead.org,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH 2/2] i3c: add driver for Renesas I3C controller
-Date: Mon, 14 Jul 2025 11:12:09 +0200
-Message-ID: <20250714091211.20497-3-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250714091211.20497-1-wsa+renesas@sang-engineering.com>
-References: <20250714091211.20497-1-wsa+renesas@sang-engineering.com>
+	s=arc-20240116; t=1752506373; c=relaxed/simple;
+	bh=qw2dZlPqTjcKIGKNedcDpRfZyoEkFKW3mfzlag+uLiw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=eecdN7XGtl5ywnSx74lGsQRTFNjTBI1XIACx2JOhAloFAz6RXUAiE/zeppQgTHbry6igJHNrPsx+9bOHSF78YAyKsVF6f53XjVhD9McDXZdF2uOMkmUrc6xOfTRoU+8OrooUvyBFpfhzFePfm6XvzEomF8pXOtqJi9zgUNGOx24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=DobKFmfJ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [127.0.1.1] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 46E5882A;
+	Mon, 14 Jul 2025 17:18:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1752506337;
+	bh=qw2dZlPqTjcKIGKNedcDpRfZyoEkFKW3mfzlag+uLiw=;
+	h=From:Subject:Date:To:Cc:From;
+	b=DobKFmfJ49lx6Jh5vUrlJDlfeBSmjpTLV33y5Zzbajd4otdBadf/PsczAVTj09Q6u
+	 dH/jNia7TAEzNJtSE2Iz+gLNa2/LU+2Y7PDSMF12gIuJIV1fc4qm4/H4MqHLtdxPNi
+	 ttEgPanH+/AnY7Br/X2uzMprc6Eab4OR+ZRJHu1E=
+From: Daniel Scally <dan.scally@ideasonboard.com>
+Subject: [PATCH v4 0/3] Add Input Video Control Block driver for RZ/V2H
+Date: Mon, 14 Jul 2025 16:19:16 +0100
+Message-Id: <20250714-ivc-v4-0-534ea488c738@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPUfdWgC/22Qy2rDMBBFf8VoXQU9Lcur/kfpYjQaNwLHTiXXJ
+ IT8e+U0kJZmeZk5l5lzYYVyosL65sIyramkearBvDQM9zB9EE+xZqaEsqJVhqcVead1VEa7Vra
+ O1c1jpiGdbi1v7zUPeT7wZZ8JHqyVXhrrrNkZa4SwXPII064gjOP5NUWCMk9hhhx3OB/urZk+v
+ +pJy081C1CI1+khLX0DnfUdukgyYPTGtBLBGvRO0QA+GAIr5BA8+/1K39yOcUJyOi00lRRG4kf
+ IcKCFcuErjCnCUi1w7LQc3GARRehX9axnE4LW8qBRt0GRjB32q5Rss7BPZZnz+aa24tsDfyyui
+ gtOhjDGGAT49r+FrWbVD9SJO6oratHY6HVLg6In6PV6/QY/jtV63gEAAA==
+X-Change-ID: 20250624-ivc-833d24376167
+To: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ jacopo.mondi@ideasonboard.com, biju.das.jz@bp.renesas.com, 
+ laurent.pinchart@ideasonboard.com, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Daniel Scally <dan.scally@ideasonboard.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=13105;
+ i=dan.scally@ideasonboard.com; h=from:subject:message-id;
+ bh=qw2dZlPqTjcKIGKNedcDpRfZyoEkFKW3mfzlag+uLiw=;
+ b=owEBbQKS/ZANAwAKAchJV3psRXUyAcsmYgBodR/+QXN4pPtpqfTSq7NLPpad7AwOl59G94OPI
+ hjpb17s5wyJAjMEAAEKAB0WIQQqyuwyDnZdb+mxmm/ISVd6bEV1MgUCaHUf/gAKCRDISVd6bEV1
+ MlUmD/9yV/4Jrv6QvzmNQfyhK68jPZuHobqnDenrggoSLOAmsNTbS/bXhuDo9WXKg4IrOMpX6b8
+ yNJR8ivTQ1dux+dEKaxospck0A/gyFsTQYtpphPAWDwXf9t9CzyHe64x07v8HHi5JuD4/RNRC4V
+ QeWXsvm01pjoQpvoV+9lQ7pMolpU6xG+CXFV50yeSmXxLscrScmrAS/ctmwg7Xl1s/859mBaqvY
+ gBvkV0W5gX3Ao924o6yOBMIBuoICNHb81CSD1W+U2H8oLWBqBQv1UfijwKqOIY56EQog9OFw9BN
+ tEyHq7COEcge1dw73FhIIHksHwC6Yi9wNtMhTsm9R7wUZsSlh8ns8bEFVfUAKUlIMsXjIXyLSp2
+ 7fvyyooMS5wyx3k9Vgl77eVk51VST2vL6dF75wc3FcYlqaiQ7wr+5+i44S1h23YjQYT+PSgUaos
+ l4kzj71cAojWEqVuU45031qBYPslIsLKkYtfj2NY5Cjjq15pqt0Sv103JSZWwbwz9LvfntxLoHQ
+ DMNOIpRDiop5bK/WMnXDXxPX8caH6qZmrdLgPCYfyuuJ6A7Is9aaMeoTy/HiaLweh2tQqJW21A1
+ od8cQDST028qo/SqmvN7bYMp9gndkaoTlk9FJVpnwsdmHotahZMREmCreakgTADT7N1P+paBVib
+ Sm7YnM4OIZOjXWw==
+X-Developer-Key: i=dan.scally@ideasonboard.com; a=openpgp;
+ fpr=EEC699ACA1B7CB5D31330C0BBD501C2A3546CCF6
 
-This adds a basic driver for the I3C IP found in various SoCs like
-RZ/G3S and G3E. Missing features to be added incrementally are IBI,
-HotJoin and target support. Other than that, this driver has been tested
-with I3C pure busses (2 targets) and mixed busses (2 I3C + various I2C
-targets). DAA and reading/writing to the temperature sensors worked
-reliably at different speeds.
+Hello all
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+This series adds a driver for the Input Video Control Block in the
+RZ/V2H SoC. The IVC block transmits input image data from memory to
+the ISP core (on this SoC, a Mali-C55 ISP). The driver registers an
+output video device for userspace to queue image buffers to. One
+noteworthy feature is that - because it is not a part of the main ISP
+drive - the IVC driver also registers a subdevice, which connects to
+the media device created by the ISP driver through the usual v4l2
+async framework. This requires delaying the registration of the video
+device until the .registered() callback of the subdevice, so that the
+struct v4l2_dev pointer the subdevice connected to can be set to the
+video device.
+
+This version of the driver drops the reliance on the new media
+framework that was posted recently [1], so can be merged without it
+and updated later. The series is also based on top of the latest
+version of the Mali-C55 driver [2].
+
+Thanks
+Dan
+
+[1] https://lore.kernel.org/linux-media/20250624-media-jobs-v2-0-8e649b069a96@ideasonboard.com/T/#t
+[2] https://lore.kernel.org/linux-media/20250714-c55-v11-0-bc20e460e42a@ideasonboard.com/
+
 ---
+Changes in v4:
+- Dropped the mc / V4L2 helper patches - they're in the C55 series instead, the aim
+  being to avoid creating a circular dependency between the two sets
+- Link to v3: https://lore.kernel.org/r/20250704-ivc-v3-0-5c45d936ef2e@ideasonboard.com
 
-Changes since RFC:
-* updated #defines for registers (add extra indentation for bit
-    definitions, use FIELD_* helpers)
-* switched to new I3C FIFO access helpers
-* removed unnecessary second filling of the FIFO before transfer
-* added INCBA handling again, so broadcast address is properly prepended
-    to messages again
-* updated the list of supported CCCs
-* add 'unsupported CCC' error of the internal state machine
-* added renesas_i3c_wait_xfer() helper to ensure proper usage of
-    wait_for_completion_timeout()
-* refactored 'i3c_reg_update' to match other 'i3c_reg*' helper arguments
-* renamed some functions to have the "renesas_" prefix
-* use scope_guard consistently when handling the xferqueue
-* do not activate interrupts we don't handle anymore
-* removed left over code which used rx_isr during DAA. This is not
-    needed anymore
-* handled a race condition between rx_isr and resp_isr by expicitly
-    checking in resp_isr if rx_isr has run already
-* less output in probe()
-* corrected some variable types
+Changes in v3:
+- Added two new patches that create helpers in V4L2 and mc core that
+  the driver then consumes.
 
+- Link to v2: https://lore.kernel.org/r/20250624-ivc-v2-0-e4ecdddb0a96@ideasonboard.com
 
- MAINTAINERS                      |    7 +
- drivers/i3c/master/Kconfig       |   10 +
- drivers/i3c/master/Makefile      |    1 +
- drivers/i3c/master/renesas-i3c.c | 1433 ++++++++++++++++++++++++++++++
- 4 files changed, 1451 insertions(+)
- create mode 100644 drivers/i3c/master/renesas-i3c.c
+The rest of this message is the v4l2-compliance report for the video
+device and subdevice:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 60bba48f5479..6c841aa52113 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11462,6 +11462,13 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/i3c/cdns,i3c-master.yaml
- F:	drivers/i3c/master/i3c-master-cdns.c
- 
-+I3C DRIVER FOR RENESAS
-+M:	Wolfram Sang <wsa+renesas@sang-engineering.com>
-+M:	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-+S:	Supported
-+F:	Documentation/devicetree/bindings/i3c/renesas,i3c.yaml
-+F:	drivers/i3c/master/renesas-i3c.c
-+
- I3C DRIVER FOR SYNOPSYS DESIGNWARE
- S:	Orphan
- F:	Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.yaml
-diff --git a/drivers/i3c/master/Kconfig b/drivers/i3c/master/Kconfig
-index 7b30db3253af..13df2944f2ec 100644
---- a/drivers/i3c/master/Kconfig
-+++ b/drivers/i3c/master/Kconfig
-@@ -64,3 +64,13 @@ config MIPI_I3C_HCI_PCI
- 
- 	  This driver can also be built as a module. If so, the module will be
- 	  called mipi-i3c-hci-pci.
-+
-+config RENESAS_I3C
-+	tristate "Renesas I3C controller driver"
-+	depends on HAS_IOMEM
-+	depends on ARCH_RENESAS || COMPILE_TEST
-+	help
-+	  Support the Renesas I3C controller as found in some RZ variants.
-+
-+	  This driver can also be built as a module. If so, the module will be
-+	  called renesas-i3c.
-diff --git a/drivers/i3c/master/Makefile b/drivers/i3c/master/Makefile
-index 3e97960160bc..aac74f3e3851 100644
---- a/drivers/i3c/master/Makefile
-+++ b/drivers/i3c/master/Makefile
-@@ -4,3 +4,4 @@ obj-$(CONFIG_DW_I3C_MASTER)		+= dw-i3c-master.o
- obj-$(CONFIG_AST2600_I3C_MASTER)	+= ast2600-i3c-master.o
- obj-$(CONFIG_SVC_I3C_MASTER)		+= svc-i3c-master.o
- obj-$(CONFIG_MIPI_I3C_HCI)		+= mipi-i3c-hci/
-+obj-$(CONFIG_RENESAS_I3C)		+= renesas-i3c.o
-diff --git a/drivers/i3c/master/renesas-i3c.c b/drivers/i3c/master/renesas-i3c.c
-new file mode 100644
-index 000000000000..2625462144c4
---- /dev/null
-+++ b/drivers/i3c/master/renesas-i3c.c
-@@ -0,0 +1,1433 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Renesas I3C Controller driver
-+ * Copyright (C) 2023-25 Renesas Electronics Corp.
-+ *
-+ * TODO: IBI support, HotJoin support, Target support
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/bitops.h>
-+#include <linux/clk.h>
-+#include <linux/completion.h>
-+#include <linux/err.h>
-+#include <linux/errno.h>
-+#include <linux/i2c.h>
-+#include <linux/i3c/master.h>
-+#include <linux/interrupt.h>
-+#include <linux/ioport.h>
-+#include <linux/iopoll.h>
-+#include <linux/list.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/reset.h>
-+#include <linux/slab.h>
-+#include "../internals.h"
-+
-+#define PRTS			0x00
-+#define  PRTS_PRTMD		BIT(0)
-+
-+#define BCTL			0x14
-+#define  BCTL_INCBA		BIT(0)
-+#define  BCTL_HJACKCTL		BIT(8)
-+#define  BCTL_ABT		BIT(29)
-+#define  BCTL_BUSE		BIT(31)
-+
-+#define MSDVAD			0x18
-+#define  MSDVAD_MDYAD(x)	FIELD_PREP(GENMASK(21, 16), x)
-+#define  MSDVAD_MDYADV		BIT(31)
-+
-+#define RSTCTL			0x20
-+#define  RSTCTL_RI3CRST		BIT(0)
-+#define  RSTCTL_INTLRST		BIT(16)
-+
-+#define INST			0x30
-+
-+#define IBINCTL			0x58
-+#define  IBINCTL_NRHJCTL	BIT(0)
-+#define  IBINCTL_NRMRCTL	BIT(1)
-+#define  IBINCTL_NRSIRCTL	BIT(3)
-+
-+#define SVCTL			0x64
-+
-+#define REFCKCTL		0x70
-+#define  REFCKCTL_IREFCKS(x)	FIELD_PREP(GENMASK(2, 0), x)
-+
-+#define STDBR			0x74
-+#define  STDBR_SBRLO(cond, x)	FIELD_PREP(GENMASK(7, 0), (x) >> (cond))
-+#define  STDBR_SBRHO(cond, x)	FIELD_PREP(GENMASK(15, 8), (x) >> (cond))
-+#define  STDBR_SBRLP(x)		FIELD_PREP(GENMASK(21, 16), x)
-+#define  STDBR_SBRHP(x)		FIELD_PREP(GENMASK(29, 24), x)
-+#define  STDBR_DSBRPO		BIT(31)
-+
-+#define EXTBR			0x78
-+#define  EXTBR_EBRLO(x)		FIELD_PREP(GENMASK(7, 0), x)
-+#define  EXTBR_EBRHO(x)		FIELD_PREP(GENMASK(15, 8), x)
-+#define  EXTBR_EBRLP(x)		FIELD_PREP(GENMASK(21, 16), x)
-+#define  EXTBR_EBRHP(x)		FIELD_PREP(GENMASK(29, 24), x)
-+
-+#define BFRECDT			0x7c
-+#define  BFRECDT_FRECYC(x)	FIELD_PREP(GENMASK(8, 0), x)
-+
-+#define BAVLCDT			0x80
-+#define  BAVLCDT_AVLCYC(x)	FIELD_PREP(GENMASK(8, 0), x)
-+
-+#define BIDLCDT			0x84
-+#define  BIDLCDT_IDLCYC(x)	FIELD_PREP(GENMASK(17, 0), x)
-+
-+#define ACKCTL			0xa0
-+#define  ACKCTL_ACKT		BIT(1)
-+#define  ACKCTL_ACKTWP		BIT(2)
-+
-+#define SCSTRCTL		0xa4
-+#define  SCSTRCTL_ACKTWE	BIT(0)
-+#define  SCSTRCTL_RWE		BIT(1)
-+
-+#define SCSTLCTL		0xb0
-+
-+#define CNDCTL			0x140
-+#define  CNDCTL_STCND		BIT(0)
-+#define  CNDCTL_SRCND		BIT(1)
-+#define  CNDCTL_SPCND		BIT(2)
-+
-+#define NCMDQP			0x150 /* Normal Command Queue */
-+#define  NCMDQP_CMD_ATTR(x)	FIELD_PREP(GENMASK(2, 0), x)
-+#define  NCMDQP_IMMED_XFER	0x01
-+#define  NCMDQP_ADDR_ASSGN	0x02
-+#define  NCMDQP_TID(x)		FIELD_PREP(GENMASK(6, 3), x)
-+#define  NCMDQP_CMD(x)		FIELD_PREP(GENMASK(14, 7), x)
-+#define  NCMDQP_CP		BIT(15)
-+#define  NCMDQP_DEV_INDEX(x)	FIELD_PREP(GENMASK(20, 16), x)
-+#define  NCMDQP_BYTE_CNT(x)	FIELD_PREP(GENMASK(25, 23), x)
-+#define  NCMDQP_DEV_COUNT(x)	FIELD_PREP(GENMASK(29, 26), x)
-+#define  NCMDQP_MODE(x)		FIELD_PREP(GENMASK(28, 26), x)
-+#define  NCMDQP_RNW(x)		FIELD_PREP(GENMASK(29, 29), x)
-+#define  NCMDQP_ROC		BIT(30)
-+#define  NCMDQP_TOC		BIT(31)
-+#define  NCMDQP_DATA_LENGTH(x)	FIELD_PREP(GENMASK(31, 16), x)
-+
-+#define NRSPQP			0x154 /* Normal Respone Queue */
-+#define  NRSPQP_NO_ERROR			0
-+#define  NRSPQP_ERROR_CRC		1
-+#define  NRSPQP_ERROR_PARITY		2
-+#define  NRSPQP_ERROR_FRAME		3
-+#define  NRSPQP_ERROR_IBA_NACK		4
-+#define  NRSPQP_ERROR_ADDRESS_NACK	5
-+#define  NRSPQP_ERROR_OVER_UNDER_FLOW	6
-+#define  NRSPQP_ERROR_TRANSF_ABORT	8
-+#define  NRSPQP_ERROR_I2C_W_NACK_ERR	9
-+#define  NRSPQP_ERROR_UNSUPPORTED	10
-+#define  NRSPQP_DATA_LEN(x)	FIELD_GET(GENMASK(15, 0), x)
-+#define  NRSPQP_ERR_STATUS(x)	FIELD_GET(GENMASK(31, 28), x)
-+
-+#define NTDTBP0			0x158 /* Normal Transfer Data Buffer */
-+#define  NTDTBP0_DEPTH		16
-+
-+#define NQTHCTL			0x190
-+#define  NQTHCTL_CMDQTH(x)	FIELD_PREP(GENMASK(1, 0), x)
-+#define  NQTHCTL_IBIDSSZ(x)	FIELD_PREP(GENMASK(23, 16), x)
-+
-+#define NTBTHCTL0		0x194
-+
-+#define NRQTHCTL		0x1c0
-+
-+#define BST			0x1d0
-+#define  BST_STCNDDF		BIT(0)
-+#define  BST_SPCNDDF		BIT(1)
-+#define  BST_NACKDF		BIT(4)
-+#define  BST_TENDF		BIT(8)
-+
-+#define BSTE			0x1d4
-+#define  BSTE_STCNDDE		BIT(0)
-+#define  BSTE_SPCNDDE		BIT(1)
-+#define  BSTE_NACKDE		BIT(4)
-+#define  BSTE_TENDE		BIT(8)
-+#define  BSTE_ALE		BIT(16)
-+#define  BSTE_TODE		BIT(20)
-+#define  BSTE_WUCNDDE		BIT(24)
-+#define  BSTE_ALL_FLAG		(BSTE_STCNDDE | BSTE_SPCNDDE |\
-+				BSTE_NACKDE | BSTE_TENDE |\
-+				BSTE_ALE | BSTE_TODE | BSTE_WUCNDDE)
-+
-+#define BIE			0x1d8
-+#define  BIE_STCNDDIE		BIT(0)
-+#define  BIE_SPCNDDIE		BIT(1)
-+#define  BIE_NACKDIE		BIT(4)
-+#define  BIE_TENDIE		BIT(8)
-+
-+#define NTST			0x1e0
-+#define  NTST_TDBEF0		BIT(0)
-+#define  NTST_RDBFF0		BIT(1)
-+#define  NTST_CMDQEF		BIT(3)
-+#define  NTST_RSPQFF		BIT(4)
-+#define  NTST_TABTF		BIT(5)
-+#define  NTST_TEF		BIT(9)
-+
-+#define NTSTE			0x1e4
-+#define  NTSTE_TDBEE0		BIT(0)
-+#define  NTSTE_RDBFE0		BIT(1)
-+#define  NTSTE_IBIQEFE		BIT(2)
-+#define  NTSTE_CMDQEE		BIT(3)
-+#define  NTSTE_RSPQFE		BIT(4)
-+#define  NTSTE_TABTE		BIT(5)
-+#define  NTSTE_TEE		BIT(9)
-+#define  NTSTE_RSQFE		BIT(20)
-+#define  NTSTE_ALL_FLAG		(NTSTE_TDBEE0 | NTSTE_RDBFE0 |\
-+				NTSTE_IBIQEFE | NTSTE_CMDQEE |\
-+				NTSTE_RSPQFE | NTSTE_TABTE |\
-+				NTSTE_TEE | NTSTE_RSQFE)
-+
-+#define NTIE			0x1e8
-+#define  NTIE_TDBEIE0		BIT(0)
-+#define  NTIE_RDBFIE0		BIT(1)
-+#define  NTIE_IBIQEFIE		BIT(2)
-+#define  NTIE_RSPQFIE		BIT(4)
-+#define  NTIE_RSQFIE		BIT(20)
-+
-+#define BCST			0x210
-+#define  BCST_BFREF		BIT(0)
-+
-+#define DATBAS(x)		(0x224 + 0x8 * (x))
-+#define  DATBAS_DVSTAD(x)	FIELD_PREP(GENMASK(6, 0), x)
-+#define  DATBAS_DVDYAD(x)	FIELD_PREP(GENMASK(23, 16), x)
-+
-+#define NDBSTLV0		0x398
-+#define  NDBSTLV0_RDBLV(x)	(((x) >> 8) & 0xff)
-+
-+#define RENESAS_I3C_MAX_DEVS	8
-+#define I2C_INIT_MSG		-1
-+
-+/* Bus condition timing */
-+#define I3C_BUS_THIGH_MIXED_NS	40		/* 40ns */
-+#define I3C_BUS_FREE_TIME_NS	1300		/* 1.3us for Mixed Bus with I2C FM Device*/
-+#define I3C_BUS_AVAL_TIME_NS	1000		/* 1us */
-+#define I3C_BUS_IDLE_TIME_NS	200000		/* 200us */
-+
-+#define XFER_TIMEOUT		(msecs_to_jiffies(1000))
-+
-+enum i3c_internal_state {
-+	I3C_INTERNAL_STATE_DISABLED,
-+	I3C_INTERNAL_STATE_CONTROLLER_IDLE,
-+	I3C_INTERNAL_STATE_CONTROLLER_ENTDAA,
-+	I3C_INTERNAL_STATE_CONTROLLER_SETDASA,
-+	I3C_INTERNAL_STATE_CONTROLLER_WRITE,
-+	I3C_INTERNAL_STATE_CONTROLLER_READ,
-+	I3C_INTERNAL_STATE_CONTROLLER_COMMAND_WRITE,
-+	I3C_INTERNAL_STATE_CONTROLLER_COMMAND_READ,
-+};
-+
-+enum i3c_event {
-+	I3C_COMMAND_ADDRESS_ASSIGNMENT,
-+	I3C_WRITE,
-+	I3C_READ,
-+	I3C_COMMAND_WRITE,
-+	I3C_COMMAND_READ,
-+};
-+
-+struct renesas_i3c_cmd {
-+	u32 cmd0;
-+	u32 len;
-+	const void *tx_buf;
-+	u32 tx_count;
-+	void *rx_buf;
-+	u32 rx_count;
-+	u32 err;
-+	u8 rnw;
-+	/* i2c xfer */
-+	int i2c_bytes_left;
-+	int i2c_is_last;
-+	u8 *i2c_buf;
-+	const struct i2c_msg *msg;
-+};
-+
-+struct renesas_i3c_xfer {
-+	struct list_head node;
-+	struct completion comp;
-+	int ret;
-+	bool is_i2c_xfer;
-+	unsigned int ncmds;
-+	struct renesas_i3c_cmd cmds[] __counted_by(ncmds);
-+};
-+
-+struct renesas_i3c_xferqueue {
-+	struct list_head list;
-+	struct renesas_i3c_xfer *cur;
-+	/* Lock for accessing the xfer queue */
-+	spinlock_t lock;
-+};
-+
-+struct renesas_i3c {
-+	struct i3c_master_controller base;
-+	enum i3c_internal_state internal_state;
-+	u16 maxdevs;
-+	u32 free_pos;
-+	u32 i2c_STDBR;
-+	u32 i3c_STDBR;
-+	u8 addrs[RENESAS_I3C_MAX_DEVS];
-+	struct renesas_i3c_xferqueue xferqueue;
-+	void __iomem *regs;
-+	struct clk *tclk;
-+};
-+
-+struct renesas_i3c_i2c_dev_data {
-+	u8 index;
-+};
-+
-+struct renesas_i3c_irq_desc {
-+	char *name;
-+	irq_handler_t isr;
-+	char *desc;
-+};
-+
-+struct renesas_i3c_config {
-+	unsigned int has_pclkrw:1;
-+};
-+
-+static inline void i3c_reg_update(void __iomem *reg, u32 mask, u32 val)
-+{
-+	u32 data = readl(reg);
-+
-+	data &= ~mask;
-+	data |= (val & mask);
-+	writel(data, reg);
-+}
-+
-+static inline u32 i3c_reg_read(void __iomem *base, u32 reg)
-+{
-+	return readl(base + reg);
-+}
-+
-+static inline void i3c_reg_write(void __iomem *base, u32 reg, u32 val)
-+{
-+	writel(val, base + reg);
-+}
-+
-+static void i3c_reg_set_bit(void __iomem *base, u32 reg, u32 val)
-+{
-+	i3c_reg_update(base + reg, val, val);
-+}
-+
-+static void i3c_reg_clear_bit(void __iomem *base, u32 reg, u32 val)
-+{
-+	i3c_reg_update(base + reg, val, 0);
-+}
-+
-+static void i3c_reg_update_bit(void __iomem *base, u32 reg,
-+			       u32 mask, u32 val)
-+{
-+	i3c_reg_update(base + reg, mask, val);
-+}
-+
-+static inline struct renesas_i3c *
-+to_renesas_i3c(struct i3c_master_controller *master)
-+{
-+	return container_of(master, struct renesas_i3c, base);
-+}
-+
-+static inline u32 datbas_dvdyad_with_parity(u8 addr)
-+{
-+	return DATBAS_DVDYAD(addr | (parity8(addr) ? 0 : BIT(7)));
-+}
-+
-+static int renesas_i3c_get_free_pos(struct renesas_i3c *i3c)
-+{
-+	if (!(i3c->free_pos & GENMASK(i3c->maxdevs - 1, 0)))
-+		return -ENOSPC;
-+
-+	return ffs(i3c->free_pos) - 1;
-+}
-+
-+static int renesas_i3c_get_addr_pos(struct renesas_i3c *i3c, u8 addr)
-+{
-+	int pos;
-+
-+	for (pos = 0; pos < i3c->maxdevs; pos++) {
-+		if (addr == i3c->addrs[pos])
-+			return pos;
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+static struct renesas_i3c_xfer *
-+renesas_i3c_alloc_xfer(struct renesas_i3c *i3c, unsigned int ncmds)
-+{
-+	struct renesas_i3c_xfer *xfer;
-+
-+	xfer = kzalloc(struct_size(xfer, cmds, ncmds), GFP_KERNEL);
-+	if (!xfer)
-+		return NULL;
-+
-+	INIT_LIST_HEAD(&xfer->node);
-+	xfer->ncmds = ncmds;
-+	xfer->ret = -ETIMEDOUT;
-+
-+	return xfer;
-+}
-+
-+static void renesas_i3c_start_xfer_locked(struct renesas_i3c *i3c)
-+{
-+	struct renesas_i3c_xfer *xfer = i3c->xferqueue.cur;
-+	struct renesas_i3c_cmd *cmd;
-+	u32 cmd1;
-+
-+	if (!xfer)
-+		return;
-+
-+	cmd = xfer->cmds;
-+
-+	switch (i3c->internal_state) {
-+	case I3C_INTERNAL_STATE_CONTROLLER_ENTDAA:
-+	case I3C_INTERNAL_STATE_CONTROLLER_SETDASA:
-+		i3c_reg_set_bit(i3c->regs, NTIE, NTIE_RSPQFIE);
-+		i3c_reg_write(i3c->regs, NCMDQP, cmd->cmd0);
-+		i3c_reg_write(i3c->regs, NCMDQP, 0);
-+		break;
-+	case I3C_INTERNAL_STATE_CONTROLLER_WRITE:
-+	case I3C_INTERNAL_STATE_CONTROLLER_COMMAND_WRITE:
-+		i3c_reg_set_bit(i3c->regs, NTIE, NTIE_RSPQFIE);
-+		if (cmd->len <= 4) {
-+			cmd->cmd0 |= NCMDQP_CMD_ATTR(NCMDQP_IMMED_XFER);
-+			cmd->cmd0 |= NCMDQP_BYTE_CNT(cmd->len);
-+			cmd->tx_count = cmd->len;
-+			cmd1 = cmd->len == 0 ? 0 : *(u32 *)cmd->tx_buf;
-+		} else {
-+			cmd1 = NCMDQP_DATA_LENGTH(cmd->len);
-+		}
-+		i3c_reg_write(i3c->regs, NCMDQP, cmd->cmd0);
-+		i3c_reg_write(i3c->regs, NCMDQP, cmd1);
-+		break;
-+	case I3C_INTERNAL_STATE_CONTROLLER_READ:
-+	case I3C_INTERNAL_STATE_CONTROLLER_COMMAND_READ:
-+		i3c_reg_set_bit(i3c->regs, NTIE, NTIE_RDBFIE0);
-+		cmd1 = NCMDQP_DATA_LENGTH(cmd->len);
-+		i3c_reg_write(i3c->regs, NCMDQP, cmd->cmd0);
-+		i3c_reg_write(i3c->regs, NCMDQP, cmd1);
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	/* Clear the command queue empty flag */
-+	i3c_reg_clear_bit(i3c->regs, NTST, NTST_CMDQEF);
-+}
-+
-+static void renesas_i3c_dequeue_xfer_locked(struct renesas_i3c *i3c,
-+					    struct renesas_i3c_xfer *xfer)
-+{
-+	if (i3c->xferqueue.cur == xfer)
-+		i3c->xferqueue.cur = NULL;
-+	else
-+		list_del_init(&xfer->node);
-+}
-+
-+static void renesas_i3c_dequeue_xfer(struct renesas_i3c *i3c, struct renesas_i3c_xfer *xfer)
-+{
-+	scoped_guard(spinlock_irqsave, &i3c->xferqueue.lock)
-+		renesas_i3c_dequeue_xfer_locked(i3c, xfer);
-+}
-+
-+static void renesas_i3c_enqueue_xfer(struct renesas_i3c *i3c, struct renesas_i3c_xfer *xfer)
-+{
-+	reinit_completion(&xfer->comp);
-+	scoped_guard(spinlock_irqsave, &i3c->xferqueue.lock) {
-+		if (i3c->xferqueue.cur) {
-+			list_add_tail(&xfer->node, &i3c->xferqueue.list);
-+		} else {
-+			i3c->xferqueue.cur = xfer;
-+			if (!xfer->is_i2c_xfer)
-+				renesas_i3c_start_xfer_locked(i3c);
-+		}
-+	}
-+}
-+
-+static void renesas_i3c_wait_xfer(struct renesas_i3c *i3c, struct renesas_i3c_xfer *xfer)
-+{
-+	unsigned long time_left;
-+
-+	renesas_i3c_enqueue_xfer(i3c, xfer);
-+
-+	time_left = wait_for_completion_timeout(&xfer->comp, XFER_TIMEOUT);
-+	if (!time_left)
-+		renesas_i3c_dequeue_xfer(i3c, xfer);
-+}
-+
-+static void renesas_i3c_set_prts(struct renesas_i3c *i3c, u32 val)
-+{
-+	/* Required sequence according to tnrza0140ae */
-+	i3c_reg_set_bit(i3c->regs, RSTCTL, RSTCTL_INTLRST);
-+	i3c_reg_write(i3c->regs, PRTS, val);
-+	i3c_reg_clear_bit(i3c->regs, RSTCTL, RSTCTL_INTLRST);
-+}
-+
-+static void renesas_i3c_bus_enable(struct i3c_master_controller *m, bool i3c_mode)
-+{
-+	struct renesas_i3c *i3c = to_renesas_i3c(m);
-+
-+	/* Setup either I3C or I2C protocol */
-+	if (i3c_mode) {
-+		renesas_i3c_set_prts(i3c, 0);
-+		/* Revisit: INCBA handling, especially after I2C transfers */
-+		i3c_reg_set_bit(i3c->regs, BCTL, BCTL_HJACKCTL | BCTL_INCBA);
-+		i3c_reg_set_bit(i3c->regs, MSDVAD, MSDVAD_MDYADV);
-+		i3c_reg_write(i3c->regs, STDBR, i3c->i3c_STDBR);
-+	} else {
-+		renesas_i3c_set_prts(i3c, PRTS_PRTMD);
-+		i3c_reg_write(i3c->regs, STDBR, i3c->i2c_STDBR);
-+	}
-+
-+	/* Enable I3C bus */
-+	i3c_reg_set_bit(i3c->regs, BCTL, BCTL_BUSE);
-+}
-+
-+static int renesas_i3c_reset(struct renesas_i3c *i3c)
-+{
-+	u32 val;
-+
-+	i3c_reg_write(i3c->regs, BCTL, 0);
-+	i3c_reg_set_bit(i3c->regs, RSTCTL, RSTCTL_RI3CRST);
-+
-+	/* Wait for reset completion  */
-+	return readl_relaxed_poll_timeout(i3c->regs + RSTCTL, val,
-+					  !(val & RSTCTL_RI3CRST), 0, 1000);
-+}
-+
-+static int renesas_i3c_bus_init(struct i3c_master_controller *m)
-+{
-+	struct renesas_i3c *i3c = to_renesas_i3c(m);
-+	struct i3c_bus *bus = i3c_master_get_bus(m);
-+	struct i3c_device_info info = {};
-+	struct i2c_timings t;
-+	unsigned long rate;
-+	u32 double_SBR, val;
-+	int cks, pp_high_ticks, pp_low_ticks, i3c_total_ticks;
-+	int od_high_ticks, od_low_ticks, i2c_total_ticks;
-+	int ret;
-+
-+	rate = clk_get_rate(i3c->tclk);
-+	if (!rate)
-+		return -EINVAL;
-+
-+	ret = renesas_i3c_reset(i3c);
-+	if (ret)
-+		return ret;
-+
-+	i2c_total_ticks = DIV_ROUND_UP(rate, bus->scl_rate.i2c);
-+	i3c_total_ticks = DIV_ROUND_UP(rate, bus->scl_rate.i3c);
-+
-+	i2c_parse_fw_timings(&m->dev, &t, true);
-+
-+	for (cks = 0; cks < 7; cks++) {
-+		/* SCL low-period calculation in Open-drain mode */
-+		od_low_ticks = ((i2c_total_ticks * 6) / 10);
-+
-+		/* SCL clock calculation in Push-Pull mode */
-+		if (bus->mode == I3C_BUS_MODE_PURE)
-+			pp_high_ticks = ((i3c_total_ticks * 5) / 10);
-+		else
-+			pp_high_ticks = DIV_ROUND_UP(I3C_BUS_THIGH_MIXED_NS,
-+						     1000000000 / rate);
-+		pp_low_ticks = i3c_total_ticks - pp_high_ticks;
-+
-+		if ((od_low_ticks / 2) <= 0xFF && pp_low_ticks < 0x3F)
-+			break;
-+
-+		i2c_total_ticks /= 2;
-+		i3c_total_ticks /= 2;
-+		rate /= 2;
-+	}
-+
-+	/* SCL clock period calculation in Open-drain mode */
-+	if ((od_low_ticks / 2) > 0xFF || pp_low_ticks > 0x3F) {
-+		dev_err(&m->dev, "invalid speed (i2c-scl = %lu Hz, i3c-scl = %lu Hz). Too slow.\n",
-+			(unsigned long)bus->scl_rate.i2c, (unsigned long)bus->scl_rate.i3c);
-+		ret = -EINVAL;
-+		return ret;
-+	}
-+
-+	/* SCL high-period calculation in Open-drain mode */
-+	od_high_ticks = i2c_total_ticks - od_low_ticks;
-+
-+	/* Standard Bit Rate setting */
-+	double_SBR = od_low_ticks > 0xFF ? 1 : 0;
-+	i3c->i3c_STDBR = (double_SBR ? STDBR_DSBRPO : 0) |
-+			STDBR_SBRLO(double_SBR, od_low_ticks) |
-+			STDBR_SBRHO(double_SBR, od_high_ticks) |
-+			STDBR_SBRLP(pp_low_ticks) |
-+			STDBR_SBRHP(pp_high_ticks);
-+
-+	od_low_ticks -= t.scl_fall_ns / (1000000000 / rate) + 1;
-+	od_high_ticks -= t.scl_rise_ns / (1000000000 / rate) + 1;
-+	i3c->i2c_STDBR = (double_SBR ? STDBR_DSBRPO : 0) |
-+			STDBR_SBRLO(double_SBR, od_low_ticks) |
-+			STDBR_SBRHO(double_SBR, od_high_ticks) |
-+			STDBR_SBRLP(pp_low_ticks) |
-+			STDBR_SBRHP(pp_high_ticks);
-+	i3c_reg_write(i3c->regs, STDBR, i3c->i3c_STDBR);
-+
-+	/* Extended Bit Rate setting */
-+	i3c_reg_write(i3c->regs, EXTBR, EXTBR_EBRLO(od_low_ticks) |
-+					   EXTBR_EBRHO(od_high_ticks) |
-+					   EXTBR_EBRLP(pp_low_ticks) |
-+					   EXTBR_EBRHP(pp_high_ticks));
-+
-+	i3c_reg_write(i3c->regs, REFCKCTL, REFCKCTL_IREFCKS(cks));
-+
-+	/* Disable Slave Mode */
-+	i3c_reg_write(i3c->regs, SVCTL, 0);
-+
-+	/* Initialize Queue/Buffer threshold */
-+	i3c_reg_write(i3c->regs, NQTHCTL, NQTHCTL_IBIDSSZ(6) |
-+					     NQTHCTL_CMDQTH(1));
-+
-+	/* The only supported configuration is two entries*/
-+	i3c_reg_write(i3c->regs, NTBTHCTL0, 0);
-+	/* Interrupt when there is one entry in the queue */
-+	i3c_reg_write(i3c->regs, NRQTHCTL, 0);
-+
-+	/* Enable all Bus/Transfer Status Flags */
-+	i3c_reg_write(i3c->regs, BSTE, BSTE_ALL_FLAG);
-+	i3c_reg_write(i3c->regs, NTSTE, NTSTE_ALL_FLAG);
-+
-+	/* Interrupt enable settings */
-+	i3c_reg_write(i3c->regs, BIE, BIE_NACKDIE | BIE_TENDIE);
-+	i3c_reg_write(i3c->regs, NTIE, 0);
-+
-+	/* Clear Status register */
-+	i3c_reg_write(i3c->regs, NTST, 0);
-+	i3c_reg_write(i3c->regs, INST, 0);
-+	i3c_reg_write(i3c->regs, BST, 0);
-+
-+	/* Hot-Join Acknowlege setting. */
-+	i3c_reg_update_bit(i3c->regs, BCTL, BCTL_HJACKCTL, BCTL_HJACKCTL);
-+
-+	i3c_reg_write(i3c->regs, IBINCTL, IBINCTL_NRHJCTL | IBINCTL_NRMRCTL |
-+					     IBINCTL_NRSIRCTL);
-+
-+	i3c_reg_write(i3c->regs, SCSTLCTL, 0);
-+	i3c_reg_set_bit(i3c->regs, SCSTRCTL, SCSTRCTL_ACKTWE);
-+
-+	/* Bus condition timing */
-+	val = DIV_ROUND_UP(I3C_BUS_FREE_TIME_NS, 1000000000 / rate);
-+	i3c_reg_write(i3c->regs, BFRECDT, BFRECDT_FRECYC(val));
-+
-+	val = DIV_ROUND_UP(I3C_BUS_AVAL_TIME_NS, 1000000000 / rate);
-+	i3c_reg_write(i3c->regs, BAVLCDT, BAVLCDT_AVLCYC(val));
-+
-+	val = DIV_ROUND_UP(I3C_BUS_IDLE_TIME_NS, 1000000000 / rate);
-+	i3c_reg_write(i3c->regs, BIDLCDT, BIDLCDT_IDLCYC(val));
-+
-+	ret = i3c_master_get_free_addr(m, 0);
-+	if (ret < 0)
-+		return ret;
-+
-+	i3c_reg_write(i3c->regs, MSDVAD, MSDVAD_MDYAD(ret) | MSDVAD_MDYADV);
-+
-+	memset(&info, 0, sizeof(info));
-+	info.dyn_addr = ret;
-+	return i3c_master_set_info(&i3c->base, &info);
-+}
-+
-+static void renesas_i3c_bus_cleanup(struct i3c_master_controller *m)
-+{
-+	struct renesas_i3c *i3c = to_renesas_i3c(m);
-+	u32 val;
-+
-+	i3c_reg_write(i3c->regs, BCTL, 0);
-+	i3c_reg_update_bit(i3c->regs, RSTCTL, RSTCTL_RI3CRST, RSTCTL_RI3CRST);
-+	/* Wait for reset completion  */
-+	readl_relaxed_poll_timeout(i3c->regs + RSTCTL, val,
-+				   !(val & RSTCTL_RI3CRST), 0, 1000);
-+}
-+
-+static int renesas_i3c_daa(struct i3c_master_controller *m)
-+{
-+	struct renesas_i3c *i3c = to_renesas_i3c(m);
-+	struct renesas_i3c_xfer *xfer;
-+	struct renesas_i3c_cmd *cmd;
-+	u32 olddevs, newdevs;
-+	u8 last_addr = 0, pos;
-+	int ret;
-+
-+	/* Enable I3C bus. */
-+	renesas_i3c_bus_enable(m, true);
-+
-+	olddevs = ~(i3c->free_pos);
-+	i3c->internal_state = I3C_INTERNAL_STATE_CONTROLLER_ENTDAA;
-+
-+	/* Setting DATBASn registers for target devices. */
-+	for (pos = 0; pos < i3c->maxdevs; pos++) {
-+		if (olddevs & BIT(pos))
-+			continue;
-+
-+		ret = i3c_master_get_free_addr(m, last_addr + 1);
-+		if (ret < 0)
-+			return -ENOSPC;
-+
-+		i3c->addrs[pos] = ret;
-+		last_addr = ret;
-+
-+		i3c_reg_write(i3c->regs, DATBAS(pos), datbas_dvdyad_with_parity(ret));
-+	}
-+
-+	xfer = renesas_i3c_alloc_xfer(i3c, 1);
-+	if (!xfer)
-+		return -ENOMEM;
-+
-+	init_completion(&xfer->comp);
-+	cmd = xfer->cmds;
-+	cmd->rx_count = 0;
-+
-+	ret = renesas_i3c_get_free_pos(i3c);
-+	if (ret < 0)
-+		goto out;
-+
-+	/*
-+	 * Setup the command descriptor to start the ENTDAA command
-+	 * and starting at the selected device index.
-+	 */
-+	cmd->cmd0 = NCMDQP_CMD_ATTR(NCMDQP_ADDR_ASSGN) | NCMDQP_ROC |
-+		    NCMDQP_TID(I3C_COMMAND_ADDRESS_ASSIGNMENT) |
-+		    NCMDQP_CMD(I3C_CCC_ENTDAA) | NCMDQP_DEV_INDEX(ret) |
-+		    NCMDQP_DEV_COUNT(i3c->maxdevs - ret) | NCMDQP_TOC;
-+
-+	renesas_i3c_wait_xfer(i3c, xfer);
-+
-+	newdevs = GENMASK(i3c->maxdevs - cmd->rx_count - 1, 0);
-+	newdevs &= ~olddevs;
-+
-+	for (pos = 0; pos < i3c->maxdevs; pos++) {
-+		if (newdevs & BIT(pos))
-+			i3c_master_add_i3c_dev_locked(m, i3c->addrs[pos]);
-+	}
-+
-+out:
-+	kfree(xfer);
-+	return ret < 0 ? ret : 0;
-+}
-+
-+static bool renesas_i3c_supports_ccc_cmd(struct i3c_master_controller *m,
-+						const struct i3c_ccc_cmd *cmd)
-+{
-+	if (cmd->ndests > 1)
-+		return false;
-+
-+	switch (cmd->id) {
-+	case I3C_CCC_ENEC(true):
-+	case I3C_CCC_ENEC(false):
-+	case I3C_CCC_DISEC(true):
-+	case I3C_CCC_DISEC(false):
-+	case I3C_CCC_ENTAS(0, true):
-+	case I3C_CCC_ENTAS(1, true):
-+	case I3C_CCC_ENTAS(2, true):
-+	case I3C_CCC_ENTAS(3, true):
-+	case I3C_CCC_ENTAS(0, false):
-+	case I3C_CCC_ENTAS(1, false):
-+	case I3C_CCC_ENTAS(2, false):
-+	case I3C_CCC_ENTAS(3, false):
-+	case I3C_CCC_RSTDAA(true):
-+	case I3C_CCC_RSTDAA(false):
-+	case I3C_CCC_ENTDAA:
-+	case I3C_CCC_DEFSLVS:
-+	case I3C_CCC_SETMWL(true):
-+	case I3C_CCC_SETMWL(false):
-+	case I3C_CCC_SETMRL(true):
-+	case I3C_CCC_SETMRL(false):
-+	case I3C_CCC_ENTTM:
-+	case I3C_CCC_SETDASA:
-+	case I3C_CCC_SETNEWDA:
-+	case I3C_CCC_GETMWL:
-+	case I3C_CCC_GETMRL:
-+	case I3C_CCC_GETPID:
-+	case I3C_CCC_GETBCR:
-+	case I3C_CCC_GETDCR:
-+	case I3C_CCC_GETSTATUS:
-+	case I3C_CCC_GETACCMST:
-+	case I3C_CCC_GETMXDS:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
-+static int renesas_i3c_send_ccc_cmd(struct i3c_master_controller *m,
-+					   struct i3c_ccc_cmd *ccc)
-+{
-+	struct renesas_i3c *i3c = to_renesas_i3c(m);
-+	struct renesas_i3c_xfer *xfer;
-+	struct renesas_i3c_cmd *cmd;
-+	int ret, pos = 0;
-+
-+	if (ccc->id & I3C_CCC_DIRECT) {
-+		pos = renesas_i3c_get_addr_pos(i3c, ccc->dests[0].addr);
-+		if (pos < 0)
-+			return pos;
-+	}
-+
-+	xfer = renesas_i3c_alloc_xfer(i3c, 1);
-+	if (!xfer)
-+		return -ENOMEM;
-+
-+	renesas_i3c_bus_enable(m, true);
-+
-+	init_completion(&xfer->comp);
-+	cmd = xfer->cmds;
-+	cmd->rnw = ccc->rnw;
-+	cmd->cmd0 = 0;
-+
-+	/* Calculate the command descriptor. */
-+	switch (ccc->id) {
-+	case I3C_CCC_SETDASA:
-+		i3c_reg_write(i3c->regs, DATBAS(pos),
-+			DATBAS_DVSTAD(ccc->dests[0].addr) |
-+			DATBAS_DVDYAD(*(u8 *)ccc->dests[0].payload.data >> 1));
-+		cmd->cmd0 = NCMDQP_CMD_ATTR(NCMDQP_ADDR_ASSGN) | NCMDQP_ROC |
-+			NCMDQP_TID(I3C_COMMAND_ADDRESS_ASSIGNMENT) |
-+			NCMDQP_CMD(I3C_CCC_SETDASA) | NCMDQP_DEV_INDEX(pos) |
-+			NCMDQP_DEV_COUNT(0) | NCMDQP_TOC;
-+		i3c->internal_state = I3C_INTERNAL_STATE_CONTROLLER_SETDASA;
-+		break;
-+	default:
-+		/* Calculate the command descriptor. */
-+		cmd->cmd0 = NCMDQP_TID(I3C_COMMAND_WRITE) | NCMDQP_MODE(0) |
-+				NCMDQP_RNW(ccc->rnw) | NCMDQP_CMD(ccc->id) |
-+				NCMDQP_ROC | NCMDQP_TOC | NCMDQP_CP |
-+				NCMDQP_DEV_INDEX(pos);
-+
-+		if (ccc->rnw) {
-+			cmd->rx_buf = ccc->dests[0].payload.data;
-+			cmd->len = ccc->dests[0].payload.len;
-+			cmd->rx_count = 0;
-+			i3c->internal_state = I3C_INTERNAL_STATE_CONTROLLER_COMMAND_READ;
-+		} else {
-+			cmd->tx_buf = ccc->dests[0].payload.data;
-+			cmd->len = ccc->dests[0].payload.len;
-+			cmd->tx_count = 0;
-+			i3c->internal_state = I3C_INTERNAL_STATE_CONTROLLER_COMMAND_WRITE;
-+		}
-+	}
-+
-+	renesas_i3c_wait_xfer(i3c, xfer);
-+
-+	ret = xfer->ret;
-+	if (ret)
-+		ccc->err = I3C_ERROR_M2;
-+
-+	kfree(xfer);
-+
-+	return ret;
-+}
-+
-+static int renesas_i3c_priv_xfers(struct i3c_dev_desc *dev, struct i3c_priv_xfer *i3c_xfers,
-+					 int i3c_nxfers)
-+{
-+	struct i3c_master_controller *m = i3c_dev_get_master(dev);
-+	struct renesas_i3c *i3c = to_renesas_i3c(m);
-+	struct renesas_i3c_i2c_dev_data *data = i3c_dev_get_master_data(dev);
-+	struct renesas_i3c_xfer *xfer;
-+	int i;
-+
-+	/* Enable I3C bus. */
-+	renesas_i3c_bus_enable(m, true);
-+
-+	xfer = renesas_i3c_alloc_xfer(i3c, 1);
-+	if (!xfer)
-+		return -ENOMEM;
-+
-+	init_completion(&xfer->comp);
-+
-+	for (i = 0; i < i3c_nxfers; i++) {
-+		struct renesas_i3c_cmd *cmd = xfer->cmds;
-+
-+		/* Calculate the Transfer Command Descriptor */
-+		cmd->rnw = i3c_xfers[i].rnw;
-+		cmd->cmd0 = NCMDQP_DEV_INDEX(data->index) | NCMDQP_MODE(0) |
-+			    NCMDQP_RNW(cmd->rnw) | NCMDQP_ROC | NCMDQP_TOC;
-+
-+		if (i3c_xfers[i].rnw) {
-+			cmd->rx_count = 0;
-+			cmd->cmd0 |= NCMDQP_TID(I3C_READ);
-+			cmd->rx_buf = i3c_xfers[i].data.in;
-+			cmd->len = i3c_xfers[i].len;
-+			i3c->internal_state = I3C_INTERNAL_STATE_CONTROLLER_READ;
-+		} else {
-+			cmd->tx_count = 0;
-+			cmd->cmd0 |= NCMDQP_TID(I3C_WRITE);
-+			cmd->tx_buf = i3c_xfers[i].data.out;
-+			cmd->len = i3c_xfers[i].len;
-+			i3c->internal_state = I3C_INTERNAL_STATE_CONTROLLER_WRITE;
-+		}
-+
-+		if (!i3c_xfers[i].rnw && i3c_xfers[i].len > 4) {
-+			i3c_writel_fifo(i3c->regs + NTDTBP0, cmd->tx_buf, cmd->len);
-+			if (cmd->len > NTDTBP0_DEPTH * sizeof(u32))
-+				i3c_reg_set_bit(i3c->regs, NTIE, NTIE_TDBEIE0);
-+		}
-+
-+		renesas_i3c_wait_xfer(i3c, xfer);
-+	}
-+
-+	return 0;
-+}
-+
-+static int renesas_i3c_attach_i3c_dev(struct i3c_dev_desc *dev)
-+{
-+	struct i3c_master_controller *m = i3c_dev_get_master(dev);
-+	struct renesas_i3c *i3c = to_renesas_i3c(m);
-+	struct renesas_i3c_i2c_dev_data *data;
-+	int pos;
-+
-+	pos = renesas_i3c_get_free_pos(i3c);
-+	if (pos < 0)
-+		return pos;
-+
-+	data = kzalloc(sizeof(*data), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	data->index = pos;
-+	i3c->addrs[pos] = dev->info.dyn_addr ? : dev->info.static_addr;
-+	i3c->free_pos &= ~BIT(pos);
-+
-+	i3c_reg_write(i3c->regs, DATBAS(pos), DATBAS_DVSTAD(dev->info.static_addr) |
-+				    datbas_dvdyad_with_parity(i3c->addrs[pos]));
-+	i3c_dev_set_master_data(dev, data);
-+
-+	return 0;
-+}
-+
-+static int renesas_i3c_reattach_i3c_dev(struct i3c_dev_desc *dev,
-+					       u8 old_dyn_addr)
-+{
-+	struct i3c_master_controller *m = i3c_dev_get_master(dev);
-+	struct renesas_i3c *i3c = to_renesas_i3c(m);
-+	struct renesas_i3c_i2c_dev_data *data = i3c_dev_get_master_data(dev);
-+
-+	i3c->addrs[data->index] = dev->info.dyn_addr ? dev->info.dyn_addr :
-+							dev->info.static_addr;
-+
-+	return 0;
-+}
-+
-+static void renesas_i3c_detach_i3c_dev(struct i3c_dev_desc *dev)
-+{
-+	struct renesas_i3c_i2c_dev_data *data = i3c_dev_get_master_data(dev);
-+	struct i3c_master_controller *m = i3c_dev_get_master(dev);
-+	struct renesas_i3c *i3c = to_renesas_i3c(m);
-+
-+	i3c_dev_set_master_data(dev, NULL);
-+	i3c->addrs[data->index] = 0;
-+	i3c->free_pos |= BIT(data->index);
-+	kfree(data);
-+}
-+
-+static int renesas_i3c_i2c_xfers(struct i2c_dev_desc *dev,
-+					struct i2c_msg *i2c_xfers,
-+					int i2c_nxfers)
-+{
-+	struct i3c_master_controller *m = i2c_dev_get_master(dev);
-+	struct renesas_i3c *i3c = to_renesas_i3c(m);
-+	struct renesas_i3c_xfer *xfer;
-+	struct renesas_i3c_cmd *cmd;
-+	u8 start_bit = CNDCTL_STCND;
-+	int ret, i;
-+
-+	if (!i2c_nxfers)
-+		return 0;
-+
-+	renesas_i3c_bus_enable(m, false);
-+
-+	xfer = renesas_i3c_alloc_xfer(i3c, 1);
-+	if (!xfer)
-+		return -ENOMEM;
-+
-+	init_completion(&xfer->comp);
-+	xfer->is_i2c_xfer = true;
-+	cmd = xfer->cmds;
-+
-+	if (!(i3c_reg_read(i3c->regs, BCST) & BCST_BFREF)) {
-+		cmd->err = -EBUSY;
-+		goto out;
-+	}
-+
-+	i3c_reg_write(i3c->regs, BST, 0);
-+
-+	renesas_i3c_enqueue_xfer(i3c, xfer);
-+
-+	for (i = 0; i < i2c_nxfers; i++) {
-+		cmd->i2c_bytes_left = I2C_INIT_MSG;
-+		cmd->i2c_buf = i2c_xfers[i].buf;
-+		cmd->msg = &i2c_xfers[i];
-+		cmd->i2c_is_last = (i == i2c_nxfers - 1);
-+
-+		i3c_reg_set_bit(i3c->regs, BIE, BIE_NACKDIE);
-+		i3c_reg_set_bit(i3c->regs, NTIE, NTIE_TDBEIE0);
-+		i3c_reg_set_bit(i3c->regs, BIE, BIE_STCNDDIE);
-+
-+		/* Issue Start condition */
-+		i3c_reg_set_bit(i3c->regs, CNDCTL, start_bit);
-+
-+		i3c_reg_set_bit(i3c->regs, NTSTE, NTSTE_TDBEE0);
-+
-+		wait_for_completion_timeout(&xfer->comp, m->i2c.timeout);
-+
-+		if (cmd->err)
-+			break;
-+
-+		start_bit = CNDCTL_SRCND;
-+	}
-+out:
-+	renesas_i3c_dequeue_xfer(i3c, xfer);
-+	ret = cmd->err;
-+	kfree(xfer);
-+	return ret ?: 0;
-+}
-+
-+static int renesas_i3c_attach_i2c_dev(struct i2c_dev_desc *dev)
-+{
-+	struct i3c_master_controller *m = i2c_dev_get_master(dev);
-+	struct renesas_i3c *i3c = to_renesas_i3c(m);
-+	struct renesas_i3c_i2c_dev_data *data;
-+	int pos;
-+
-+	pos = renesas_i3c_get_free_pos(i3c);
-+	if (pos < 0)
-+		return pos;
-+
-+	data = kzalloc(sizeof(*data), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	data->index = pos;
-+	i3c->addrs[pos] = dev->addr;
-+	i3c->free_pos &= ~BIT(pos);
-+	i2c_dev_set_master_data(dev, data);
-+
-+	return 0;
-+}
-+
-+static void renesas_i3c_detach_i2c_dev(struct i2c_dev_desc *dev)
-+{
-+	struct renesas_i3c_i2c_dev_data *data = i2c_dev_get_master_data(dev);
-+	struct i3c_master_controller *m = i2c_dev_get_master(dev);
-+	struct renesas_i3c *i3c = to_renesas_i3c(m);
-+
-+	i2c_dev_set_master_data(dev, NULL);
-+	i3c->addrs[data->index] = 0;
-+	i3c->free_pos |= BIT(data->index);
-+	kfree(data);
-+}
-+
-+static irqreturn_t renesas_i3c_tx_isr(int irq, void *data)
-+{
-+	struct renesas_i3c *i3c = data;
-+	struct renesas_i3c_xfer *xfer;
-+	struct renesas_i3c_cmd *cmd;
-+	u8 val;
-+
-+	scoped_guard(spinlock, &i3c->xferqueue.lock) {
-+		xfer = i3c->xferqueue.cur;
-+		cmd = xfer->cmds;
-+
-+		if (xfer->is_i2c_xfer) {
-+			if (!cmd->i2c_bytes_left)
-+				return IRQ_NONE;
-+
-+			if (cmd->i2c_bytes_left != I2C_INIT_MSG) {
-+				val = *cmd->i2c_buf;
-+				cmd->i2c_buf++;
-+				cmd->i2c_bytes_left--;
-+				i3c_reg_write(i3c->regs, NTDTBP0, val);
-+			}
-+
-+			if (cmd->i2c_bytes_left == 0) {
-+				i3c_reg_clear_bit(i3c->regs, NTIE, NTIE_TDBEIE0);
-+				i3c_reg_set_bit(i3c->regs, BIE, BIE_TENDIE);
-+			}
-+
-+			/* Clear the Transmit Buffer Empty status flag. */
-+			i3c_reg_clear_bit(i3c->regs, NTST, NTST_TDBEF0);
-+		} else {
-+			i3c_writel_fifo(i3c->regs + NTDTBP0, cmd->tx_buf, cmd->len);
-+		}
-+	}
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static irqreturn_t renesas_i3c_resp_isr(int irq, void *data)
-+{
-+	struct renesas_i3c *i3c = data;
-+	struct renesas_i3c_xfer *xfer;
-+	struct renesas_i3c_cmd *cmd;
-+	u32 resp_descriptor = i3c_reg_read(i3c->regs, NRSPQP);
-+	u32 bytes_remaining = 0;
-+	u32 ntst, data_len;
-+	int ret = 0;
-+
-+	scoped_guard(spinlock, &i3c->xferqueue.lock) {
-+		xfer = i3c->xferqueue.cur;
-+		cmd = xfer->cmds;
-+
-+		/* Clear the Respone Queue Full status flag*/
-+		i3c_reg_clear_bit(i3c->regs, NTST, NTST_RSPQFF);
-+
-+		data_len = NRSPQP_DATA_LEN(resp_descriptor);
-+
-+		switch (i3c->internal_state) {
-+		case I3C_INTERNAL_STATE_CONTROLLER_ENTDAA:
-+			cmd->rx_count = data_len;
-+			break;
-+		case I3C_INTERNAL_STATE_CONTROLLER_WRITE:
-+		case I3C_INTERNAL_STATE_CONTROLLER_COMMAND_WRITE:
-+			/* Disable the transmit IRQ if it hasn't been disabled already. */
-+			i3c_reg_clear_bit(i3c->regs, NTIE, NTIE_TDBEIE0);
-+			break;
-+		case I3C_INTERNAL_STATE_CONTROLLER_READ:
-+		case I3C_INTERNAL_STATE_CONTROLLER_COMMAND_READ:
-+			if (NDBSTLV0_RDBLV(i3c_reg_read(i3c->regs, NDBSTLV0)) && !cmd->err)
-+				bytes_remaining = data_len - cmd->rx_count;
-+
-+			i3c_readl_fifo(i3c->regs + NTDTBP0, cmd->rx_buf, bytes_remaining);
-+			i3c_reg_clear_bit(i3c->regs, NTIE, NTIE_RDBFIE0);
-+			break;
-+		default:
-+			break;
-+		}
-+
-+		switch (NRSPQP_ERR_STATUS(resp_descriptor)) {
-+		case NRSPQP_NO_ERROR:
-+			break;
-+		case NRSPQP_ERROR_PARITY:
-+		case NRSPQP_ERROR_IBA_NACK:
-+		case NRSPQP_ERROR_TRANSF_ABORT:
-+		case NRSPQP_ERROR_CRC:
-+		case NRSPQP_ERROR_FRAME:
-+			ret = -EIO;
-+			break;
-+		case NRSPQP_ERROR_OVER_UNDER_FLOW:
-+			ret = -ENOSPC;
-+			break;
-+		case NRSPQP_ERROR_UNSUPPORTED:
-+			ret = -EOPNOTSUPP;
-+			break;
-+		case NRSPQP_ERROR_I2C_W_NACK_ERR:
-+		case NRSPQP_ERROR_ADDRESS_NACK:
-+		default:
-+			ret = -EINVAL;
-+			break;
-+		}
-+
-+		/*
-+		 * If the transfer was aborted, then the abort flag must be cleared
-+		 * before notifying the application that a transfer has completed.
-+		 */
-+		ntst = i3c_reg_read(i3c->regs, NTST);
-+		if (ntst & NTST_TABTF)
-+			i3c_reg_clear_bit(i3c->regs, BCTL, BCTL_ABT);
-+
-+		/* Clear error status flags. */
-+		i3c_reg_clear_bit(i3c->regs, NTST, NTST_TEF | NTST_TABTF);
-+
-+		xfer->ret = ret;
-+		complete(&xfer->comp);
-+
-+		xfer = list_first_entry_or_null(&i3c->xferqueue.list,
-+						struct renesas_i3c_xfer, node);
-+		if (xfer)
-+			list_del_init(&xfer->node);
-+
-+		i3c->xferqueue.cur = xfer;
-+	}
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static irqreturn_t renesas_i3c_tend_isr(int irq, void *data)
-+{
-+	struct renesas_i3c *i3c = data;
-+	struct renesas_i3c_xfer *xfer;
-+	struct renesas_i3c_cmd *cmd;
-+
-+	scoped_guard(spinlock, &i3c->xferqueue.lock) {
-+		xfer = i3c->xferqueue.cur;
-+		cmd = xfer->cmds;
-+
-+		if (xfer->is_i2c_xfer) {
-+			if (i3c_reg_read(i3c->regs, BST) & BST_NACKDF) {
-+				/* We got a NACKIE */
-+				i3c_reg_read(i3c->regs, NTDTBP0); /* dummy read */
-+				i3c_reg_clear_bit(i3c->regs, BST, BST_NACKDF);
-+				cmd->err = -ENXIO;
-+			} else if (cmd->i2c_bytes_left) {
-+				i3c_reg_set_bit(i3c->regs, NTIE, NTIE_TDBEIE0);
-+				return IRQ_NONE;
-+			}
-+
-+			if (cmd->i2c_is_last || cmd->err) {
-+				i3c_reg_clear_bit(i3c->regs, BIE, BIE_TENDIE);
-+				i3c_reg_set_bit(i3c->regs, BIE, BIE_SPCNDDIE);
-+				i3c_reg_set_bit(i3c->regs, CNDCTL, CNDCTL_SPCND);
-+			} else {
-+				/* Transfer is complete, but do not send STOP */
-+				i3c_reg_clear_bit(i3c->regs, NTSTE, NTSTE_TDBEE0);
-+				i3c_reg_clear_bit(i3c->regs, BIE, BIE_TENDIE);
-+				xfer->ret = 0;
-+				complete(&xfer->comp);
-+			}
-+		}
-+
-+		/* Clear the Transmit Buffer Empty status flag. */
-+		i3c_reg_clear_bit(i3c->regs, BST, BST_TENDF);
-+	}
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static irqreturn_t renesas_i3c_rx_isr(int irq, void *data)
-+{
-+	struct renesas_i3c *i3c = data;
-+	struct renesas_i3c_xfer *xfer;
-+	struct renesas_i3c_cmd *cmd;
-+	int read_bytes;
-+
-+	/* If resp_isr already read the data and updated 'xfer', we can just leave */
-+	if (!(i3c_reg_read(i3c->regs, NTIE) & NTIE_RDBFIE0))
-+		return IRQ_NONE;
-+
-+	scoped_guard(spinlock, &i3c->xferqueue.lock) {
-+		xfer = i3c->xferqueue.cur;
-+		cmd = xfer->cmds;
-+
-+		if (xfer->is_i2c_xfer) {
-+			if (!cmd->i2c_bytes_left)
-+				return IRQ_NONE;
-+
-+			if (cmd->i2c_bytes_left == I2C_INIT_MSG) {
-+				cmd->i2c_bytes_left = cmd->msg->len;
-+				i3c_reg_set_bit(i3c->regs, SCSTRCTL, SCSTRCTL_RWE);
-+				i3c_reg_read(i3c->regs, NTDTBP0); /* dummy read */
-+				if (cmd->i2c_bytes_left == 1)
-+					i3c_reg_write(i3c->regs, ACKCTL, ACKCTL_ACKT | ACKCTL_ACKTWP);
-+				return IRQ_HANDLED;
-+			}
-+
-+			if (cmd->i2c_bytes_left == 1) {
-+				/* STOP must come before we set ACKCTL! */
-+				if (cmd->i2c_is_last) {
-+					i3c_reg_set_bit(i3c->regs, BIE, BIE_SPCNDDIE);
-+					i3c_reg_clear_bit(i3c->regs, BST, BST_SPCNDDF);
-+					i3c_reg_set_bit(i3c->regs, CNDCTL, CNDCTL_SPCND);
-+				}
-+				i3c_reg_write(i3c->regs, ACKCTL, ACKCTL_ACKT | ACKCTL_ACKTWP);
-+			} else {
-+				i3c_reg_write(i3c->regs, ACKCTL, ACKCTL_ACKTWP);
-+			}
-+
-+			/* Reading acks the RIE interrupt */
-+			*cmd->i2c_buf = i3c_reg_read(i3c->regs, NTDTBP0);
-+			cmd->i2c_buf++;
-+			cmd->i2c_bytes_left--;
-+		} else {
-+			read_bytes = NDBSTLV0_RDBLV(i3c_reg_read(i3c->regs, NDBSTLV0)) * sizeof(u32);
-+			i3c_readl_fifo(i3c->regs + NTDTBP0, cmd->rx_buf, read_bytes);
-+			cmd->rx_count = read_bytes;
-+		}
-+
-+		/* Clear the Read Buffer Full status flag. */
-+		i3c_reg_clear_bit(i3c->regs, NTST, NTST_RDBFF0);
-+	}
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static irqreturn_t renesas_i3c_stop_isr(int irq, void *data)
-+{
-+	struct renesas_i3c *i3c = data;
-+	struct renesas_i3c_xfer *xfer;
-+
-+	scoped_guard(spinlock, &i3c->xferqueue.lock) {
-+		xfer = i3c->xferqueue.cur;
-+
-+		/* read back registers to confirm writes have fully propagated */
-+		i3c_reg_write(i3c->regs, BST, 0);
-+		i3c_reg_read(i3c->regs, BST);
-+		i3c_reg_write(i3c->regs, BIE, 0);
-+		i3c_reg_clear_bit(i3c->regs, NTST, NTST_TDBEF0 | NTST_RDBFF0);
-+		i3c_reg_clear_bit(i3c->regs, SCSTRCTL, SCSTRCTL_RWE);
-+
-+		xfer->ret = 0;
-+		complete(&xfer->comp);
-+	}
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static irqreturn_t renesas_i3c_start_isr(int irq, void *data)
-+{
-+	struct renesas_i3c *i3c = data;
-+	struct renesas_i3c_xfer *xfer;
-+	struct renesas_i3c_cmd *cmd;
-+	u8 val;
-+
-+	scoped_guard(spinlock, &i3c->xferqueue.lock) {
-+		xfer = i3c->xferqueue.cur;
-+		cmd = xfer->cmds;
-+
-+		if (xfer->is_i2c_xfer) {
-+			if (!cmd->i2c_bytes_left)
-+				return IRQ_NONE;
-+
-+			if (cmd->i2c_bytes_left == I2C_INIT_MSG) {
-+				if (cmd->msg->flags & I2C_M_RD) {
-+					/* On read, switch over to receive interrupt */
-+					i3c_reg_clear_bit(i3c->regs, NTIE, NTIE_TDBEIE0);
-+					i3c_reg_set_bit(i3c->regs, NTIE, NTIE_RDBFIE0);
-+				} else {
-+					/* On write, initialize length */
-+					cmd->i2c_bytes_left = cmd->msg->len;
-+				}
-+
-+				val = i2c_8bit_addr_from_msg(cmd->msg);
-+				i3c_reg_write(i3c->regs, NTDTBP0, val);
-+			}
-+		}
-+
-+		i3c_reg_clear_bit(i3c->regs, BIE, BIE_STCNDDIE);
-+		i3c_reg_clear_bit(i3c->regs, BST, BST_STCNDDF);
-+	}
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static const struct i3c_master_controller_ops renesas_i3c_ops = {
-+	.bus_init = renesas_i3c_bus_init,
-+	.bus_cleanup = renesas_i3c_bus_cleanup,
-+	.attach_i3c_dev = renesas_i3c_attach_i3c_dev,
-+	.reattach_i3c_dev = renesas_i3c_reattach_i3c_dev,
-+	.detach_i3c_dev = renesas_i3c_detach_i3c_dev,
-+	.do_daa = renesas_i3c_daa,
-+	.supports_ccc_cmd = renesas_i3c_supports_ccc_cmd,
-+	.send_ccc_cmd = renesas_i3c_send_ccc_cmd,
-+	.priv_xfers = renesas_i3c_priv_xfers,
-+	.attach_i2c_dev = renesas_i3c_attach_i2c_dev,
-+	.detach_i2c_dev = renesas_i3c_detach_i2c_dev,
-+	.i2c_xfers = renesas_i3c_i2c_xfers,
-+};
-+
-+static struct renesas_i3c_irq_desc renesas_i3c_irqs[] = {
-+	{ .name = "resp", .isr = renesas_i3c_resp_isr, .desc = "i3c-resp" },
-+	{ .name = "rx", .isr = renesas_i3c_rx_isr, .desc = "i3c-rx" },
-+	{ .name = "tx", .isr = renesas_i3c_tx_isr, .desc = "i3c-tx" },
-+	{ .name = "st", .isr = renesas_i3c_start_isr, .desc = "i3c-start" },
-+	{ .name = "sp", .isr = renesas_i3c_stop_isr, .desc = "i3c-stop" },
-+	{ .name = "tend", .isr = renesas_i3c_tend_isr, .desc = "i3c-tend" },
-+	{ .name = "nack", .isr = renesas_i3c_tend_isr, .desc = "i3c-nack" },
-+};
-+
-+static int renesas_i3c_probe(struct platform_device *pdev)
-+{
-+	struct renesas_i3c *i3c;
-+	struct reset_control *reset;
-+	struct clk *clk;
-+	const struct renesas_i3c_config *config = of_device_get_match_data(&pdev->dev);
-+	int ret, i;
-+
-+	if (!config)
-+		return -ENODATA;
-+
-+	i3c = devm_kzalloc(&pdev->dev, sizeof(*i3c), GFP_KERNEL);
-+	if (!i3c)
-+		return -ENOMEM;
-+
-+	i3c->regs = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(i3c->regs))
-+		return PTR_ERR(i3c->regs);
-+
-+	clk = devm_clk_get_enabled(&pdev->dev, "pclk");
-+	if (IS_ERR(clk))
-+		return PTR_ERR(clk);
-+
-+	if (config->has_pclkrw) {
-+		clk = devm_clk_get_enabled(&pdev->dev, "pclkrw");
-+		if (IS_ERR(clk))
-+			return PTR_ERR(clk);
-+	}
-+
-+	i3c->tclk = devm_clk_get_enabled(&pdev->dev, "tclk");
-+	if (IS_ERR(i3c->tclk))
-+		return PTR_ERR(i3c->tclk);
-+
-+	reset = devm_reset_control_get_optional_exclusive_deasserted(&pdev->dev, "tresetn");
-+	if (IS_ERR(reset))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(reset),
-+				     "Error: missing tresetn ctrl\n");
-+
-+	reset = devm_reset_control_get_optional_exclusive_deasserted(&pdev->dev, "presetn");
-+	if (IS_ERR(reset))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(reset),
-+				     "Error: missing presetn ctrl\n");
-+
-+	spin_lock_init(&i3c->xferqueue.lock);
-+	INIT_LIST_HEAD(&i3c->xferqueue.list);
-+
-+	ret = renesas_i3c_reset(i3c);
-+	if (ret)
-+		return ret;
-+
-+	for (i = 0; i < ARRAY_SIZE(renesas_i3c_irqs); i++) {
-+		ret = platform_get_irq_byname(pdev, renesas_i3c_irqs[i].name);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = devm_request_irq(&pdev->dev, ret, renesas_i3c_irqs[i].isr,
-+				       0, renesas_i3c_irqs[i].desc, i3c);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	platform_set_drvdata(pdev, i3c);
-+
-+	i3c->maxdevs = RENESAS_I3C_MAX_DEVS;
-+	i3c->free_pos = GENMASK(i3c->maxdevs - 1, 0);
-+
-+	return i3c_master_register(&i3c->base, &pdev->dev, &renesas_i3c_ops, false);
-+}
-+
-+static void renesas_i3c_remove(struct platform_device *pdev)
-+{
-+	struct renesas_i3c *i3c = platform_get_drvdata(pdev);
-+
-+	i3c_master_unregister(&i3c->base);
-+}
-+
-+static const struct renesas_i3c_config empty_i3c_config = {
-+};
-+
-+static const struct renesas_i3c_config r9a09g047_i3c_config = {
-+	.has_pclkrw = 1,
-+};
-+
-+static const struct of_device_id renesas_i3c_of_ids[] = {
-+	{ .compatible = "renesas,r9a08g045-i3c", .data = &empty_i3c_config },
-+	{ .compatible = "renesas,r9a09g047-i3c", .data = &r9a09g047_i3c_config },
-+	{ .compatible = "renesas,i3c", .data = &empty_i3c_config },
-+	{ /* sentinel */ },
-+};
-+MODULE_DEVICE_TABLE(of, renesas_i3c_of_ids);
-+
-+static struct platform_driver renesas_i3c = {
-+	.probe = renesas_i3c_probe,
-+	.remove = renesas_i3c_remove,
-+	.driver = {
-+		.name = "renesas-i3c",
-+		.of_match_table = renesas_i3c_of_ids,
-+	},
-+};
-+module_platform_driver(renesas_i3c);
-+
-+MODULE_AUTHOR("Wolfram Sang <wsa+renesas@sang-engineering.com>");
-+MODULE_AUTHOR("Renesas BSP teams");
-+MODULE_DESCRIPTION("Renesas I3C controller driver");
-+MODULE_LICENSE("GPL");
+v4l2-compliance 1.31.0-5380, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 1cc84dfb41d8 2025-07-08 08:28:16
+
+Compliance test for device /dev/v4l-subdev3:
+
+Driver Info:
+        Driver version   : 6.15.0
+        Capabilities     : 0x00000000
+        Client Capabilities: 0x0000000000000003
+streams interval-uses-which 
+Required ioctls:
+        test VIDIOC_SUDBEV_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/v4l-subdev3 open: OK
+        test VIDIOC_SUBDEV_QUERYCAP: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+        test VIDIOC_QUERYCTRL: OK (Not Supported)
+        test VIDIOC_G/S_CTRL: OK (Not Supported)
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 0 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK (Not Supported)
+        test VIDIOC_TRY_FMT: OK (Not Supported)
+        test VIDIOC_S_FMT: OK (Not Supported)
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK (Not Supported)
+        test Requests: OK (Not Supported)
+        test blocking wait: OK (Not Supported)
+
+Total for device /dev/v4l-subdev3: 46, Succeeded: 46, Failed: 0, Warnings: 0
+
+v4l2-compliance 1.31.0-5380, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 1cc84dfb41d8 2025-07-08 08:28:16
+
+Compliance test for rzv2h-ivc device /dev/video3:
+
+Driver Info:
+        Driver name      : rzv2h-ivc
+        Card type        : Renesas Input Video Control
+        Bus info         : platform:16080000.isp
+        Driver version   : 6.15.0
+        Capabilities     : 0x84202000
+                Video Output Multiplanar
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04202000
+                Video Output Multiplanar
+                Streaming
+                Extended Pix Format
+Media Driver Info:
+        Driver name      : mali-c55
+        Model            : ARM Mali-C55 ISP
+        Serial           : 
+        Bus info         : platform:16080000.isp
+        Media version    : 6.15.0
+        Hardware revision: 0x01d982d6 (31032022)
+        Driver version   : 6.15.0
+Interface Info:
+        ID               : 0x0300002a
+        Type             : V4L Video
+Entity Info:
+        ID               : 0x00000028 (40)
+        Name             : rzv2h-ivc
+        Function         : V4L2 I/O
+        Pad 0x01000029   : 0: Source
+          Link 0x0200002c: to remote pad 0x1000026 of entity 'rzv2h ivc block' (Video Pixel Formatter): Data, Enabled, Immutable
+
+Required ioctls:
+        test MC information (see 'Media Driver Info' above): OK
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video3 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+        test VIDIOC_QUERYCTRL: OK (Not Supported)
+        test VIDIOC_G/S_CTRL: OK (Not Supported)
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 0 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+        test blocking wait: OK
+
+Total for rzv2h-ivc device /dev/video3: 49, Succeeded: 49, Failed: 0, Warnings: 0
+
+To: linux-media@vger.kernel.org
+To: devicetree@vger.kernel.org
+To: linux-renesas-soc@vger.kernel.org
+Cc: Rob Herring <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Magnus Damm <magnus.damm@gmail.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: jacopo.mondi@ideasonboard.com
+Cc: biju.das.jz@bp.renesas.com
+Cc: laurent.pinchart@ideasonboard.com
+
+---
+Daniel Scally (3):
+      dt-bindings: media: Add bindings for the RZ/V2H IVC block
+      media: platform: Add Renesas Input Video Control block driver
+      MAINTAINERS: Add entry for rzv2h-ivc driver
+
+ .../bindings/media/renesas,r9a09g057-ivc.yaml      | 103 ++++
+ MAINTAINERS                                        |   7 +
+ drivers/media/platform/renesas/Kconfig             |   1 +
+ drivers/media/platform/renesas/Makefile            |   1 +
+ drivers/media/platform/renesas/rzv2h-ivc/Kconfig   |  18 +
+ drivers/media/platform/renesas/rzv2h-ivc/Makefile  |   5 +
+ .../platform/renesas/rzv2h-ivc/rzv2h-ivc-dev.c     | 229 +++++++++
+ .../platform/renesas/rzv2h-ivc/rzv2h-ivc-subdev.c  | 376 ++++++++++++++
+ .../platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c   | 568 +++++++++++++++++++++
+ .../media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h   | 131 +++++
+ 10 files changed, 1439 insertions(+)
+---
+base-commit: a8598c7de1bcd94461ca54c972efa9b4ea501fb9
+change-id: 20250624-ivc-833d24376167
+prerequisite-change-id: 20250701-extensible-parameters-validation-c831f7f5cc0b:v2
+prerequisite-patch-id: eedc860a79e00a7b875b51c1b27369b7d9343ea7
+prerequisite-patch-id: 92fbff7664257963606b4b528a9ce517462a9b6c
+prerequisite-patch-id: e7986bc6bf23aced55153711a840568810638aed
+prerequisite-patch-id: b5e5b4110ff198562face15fdb99813d3792ebe1
+prerequisite-patch-id: e6ebc9baad32ef8286b05f9ebc77b25b2c53d39c
+prerequisite-patch-id: 2b002f36ec01afc3571f19cf6b6474e59cd8ed65
+prerequisite-patch-id: 64d6914de4c8c877567752ba4fec82328a8a9ea9
+prerequisite-patch-id: 35f7062835d60a07930bc8733b3f47771f68c074
+prerequisite-change-id: 20250624-c55-b3c36b2e1d8c:v11
+prerequisite-patch-id: eedc860a79e00a7b875b51c1b27369b7d9343ea7
+prerequisite-patch-id: 92fbff7664257963606b4b528a9ce517462a9b6c
+prerequisite-patch-id: e7986bc6bf23aced55153711a840568810638aed
+prerequisite-patch-id: b5e5b4110ff198562face15fdb99813d3792ebe1
+prerequisite-patch-id: e6ebc9baad32ef8286b05f9ebc77b25b2c53d39c
+prerequisite-patch-id: 2b002f36ec01afc3571f19cf6b6474e59cd8ed65
+prerequisite-patch-id: 64d6914de4c8c877567752ba4fec82328a8a9ea9
+prerequisite-patch-id: 35f7062835d60a07930bc8733b3f47771f68c074
+prerequisite-patch-id: 833a35b9ac1ed96d059b3d4ba779593b0e5b156e
+prerequisite-patch-id: 17de205479b4594a017ba8e444b7f5629d85b380
+prerequisite-patch-id: ecc5483454fc52289c093e711d5423e1cdd8bc3b
+prerequisite-patch-id: 1aea6316a2a4a7b56316dbef3ca6034de6ec1672
+prerequisite-patch-id: e48d41a6a7af49983fa9b34499e25ee4657d5af2
+prerequisite-patch-id: e9aa66a8455fc64be546098dcb0573567ca0a389
+prerequisite-patch-id: e3d958df2440718af06d00ba377126fd9179db1b
+prerequisite-patch-id: 19226131d738efc4319fe493e68d8287936670c0
+prerequisite-patch-id: 03df7faabe3da3b07bb69127206f1123ea6d601b
+prerequisite-patch-id: dff49267a0db686172ae90cee86ad82af985b292
+prerequisite-patch-id: 8b5b0ff8043abbe1eb15c005697a91171365e272
+prerequisite-patch-id: 67c6aaf1985cc437c3a82ab88e1b5fbd14bb0737
+prerequisite-patch-id: 09c97e68cbd196d71d289ba2ee71ad6752f7f03d
+prerequisite-patch-id: db4133370a99861b1ec50eea46b13797473cab22
+prerequisite-patch-id: 7843ebd2523bcdbdcd8446a2a5abac6d1a8f85c1
+prerequisite-patch-id: 8f4c5c8f7aca170aa951b0ce02a6720a47a231da
+prerequisite-patch-id: 704ce2c3f16eafb4ec974d9b6b574fe58991313a
+prerequisite-patch-id: b0683fafcd57b8a64c40910b9795370748a46a84
+prerequisite-patch-id: ba97bc1b7d997001ba18b7ba3a1a80009d5625d4
+
+Best regards,
 -- 
-2.47.2
+Daniel Scally <dan.scally@ideasonboard.com>
 
 
