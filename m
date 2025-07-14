@@ -1,240 +1,389 @@
-Return-Path: <linux-renesas-soc+bounces-19537-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19538-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A021B03391
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Jul 2025 02:07:02 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD963B03742
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Jul 2025 08:38:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 924D11896979
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Jul 2025 00:07:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 13A0116B595
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Jul 2025 06:38:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8410360;
-	Mon, 14 Jul 2025 00:06:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B25C6225779;
+	Mon, 14 Jul 2025 06:37:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="l+wuzABU"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="K3hOuZwU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010027.outbound.protection.outlook.com [52.101.229.27])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC15B184
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Jul 2025 00:06:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.27
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752451618; cv=fail; b=PdNsuFVhzpQ5PEt77+43TEKkK0XoZRZFkghWuTxlqPjG3Et0K8bubgq9IiFcmmHdFpfpg17KyUm7HtIDZ/u1F3y5zzwp7ELgOfekF8maz6v1ABxQp47+qKwiNrVInH7DDBalREnbaORZzUPcgj2QC8XkLZDzx2phIcPypiXZTmk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752451618; c=relaxed/simple;
-	bh=X1TncONbzgJlpzkVGkGQz2vW6nAxSlf17CLn6T/4T1Q=;
-	h=Message-ID:To:Cc:From:Subject:Content-Type:Date:MIME-Version; b=N825F/49jlOSYa9jQBcmJTsiAeqCTt2JL01Zd6krFM7+/w5hoMXvVZrEE5gIYHTdkW/FgGsdAiukUFfTp1r5eu80gwvUI3dCe8BvIHPF/J3B7QFJlukveIqDAA1O0L2eyfa91mELLkOPJRHXNDC14VJsmLOinZ6Phge/42fqwGA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=l+wuzABU; arc=fail smtp.client-ip=52.101.229.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BrDQNVVx4Ht7xX90TFeGSdzLTMtXaLzrmkOX0wA014mdF0AP2UO5eIxI7nq0gnERFCO8WUQE/n3SPl3v8mW1PpxBJncXls2HwpQdEkjf62XnaK91JS4Z0/CuTya+tb8IfkRaWlwVFiWsujnkz8ViAgFmnhOkGds5XaUXacRkn0owdT3mcWGBJCtRZxOjsHsN8czT1ewbgT/IWO1IyVJgEp68ugahMqaelK+jXr8U7Afr0XMEB+wMpPSYZh6QFB8AJCkMwxb3NKH+5E5PZkCMnzOqiDr3FuVt9ZnvnQHHJYCqBR+qmruFx0qX8LiKCEKzN0Bjwxlm15C3mAoaf7vCNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AtNf47PDxiNSB7GMxKaojMmiWBNc6nG3GFk0JEcHTDg=;
- b=RNCT4VQxIAJ9kogBgGELEw0ELwWbuibDh8ZMLXPRCL3AZ/AjXdcOJbjxydjsrz3gL8lvuZM0qjsWQnn4CVAWrkox+bGWwBmMuR60h1VwHQBCPa8VfM1w878BM1CX0D5y7Wz+7Knso43pEn3d4mqoEzY3Ci4AKxX2fuZjOhC3Emc5OFMD31ucw7LM0ez+e1Q0C3L8Vk5cb6C2MIABuufcJvyunQlWRI1SPExcaHrGjorTB8BH51nxNmKB9VglXn5NyDltMumpzOYf430pdB4H9hc67BKxoKifqTqh4al1Li8hOsrb7F/LcTGeewCjJfc8Juq5GiHpH7jcgSrhxSv03w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AtNf47PDxiNSB7GMxKaojMmiWBNc6nG3GFk0JEcHTDg=;
- b=l+wuzABUIZ9aL6ePA5p2tARX5Zc96B0AZiric/5NRCruPk7UIcxXqXp5z+yyv0uzc3olM9aGb1dIlp+HU+QnboidkKSPBEPb5xQN68Po77Xo72Q/tF2ZF8m4yTP8xuQUdzRPA+gzMdb3Sjav0qGFjKAUPZBktsJrPsn4ffSmwDQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by OSZPR01MB7149.jpnprd01.prod.outlook.com
- (2603:1096:604:137::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.32; Mon, 14 Jul
- 2025 00:06:52 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8922.023; Mon, 14 Jul 2025
- 00:06:52 +0000
-Message-ID: <87ple33aar.wl-kuninori.morimoto.gx@renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>, linux-renesas-soc@vger.kernel.org
-Cc: Duy Nguyen <duy.nguyen.rh@renesas.com>, Huy Bui <huy.bui.wm@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v2] soc: renesas: Identify R-Car X5H
-Content-Type: text/plain; charset=US-ASCII
-Date: Mon, 14 Jul 2025 00:06:52 +0000
-X-ClientProxiedBy: TYCPR01CA0170.jpnprd01.prod.outlook.com
- (2603:1096:400:2b2::10) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CEAA214811;
+	Mon, 14 Jul 2025 06:37:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752475078; cv=none; b=LUWMvooky5mvwLxoBIo5ap9ByODcIjOnfaQtghLa3RjWjyOLwo9YWzGazCKJwOok6GVSuS66gboUCwHZrt20J3q22Y+/zSGEJOI5kQjBXZMSgP+ZovDpVkC6e00u9ftdiHdhI6vaHxf1EcFCQIdz7e1un6Ju5TRUFsmDGv0tOaI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752475078; c=relaxed/simple;
+	bh=k8eumjXWtaL+P7x6V4qanMlZfpqr02RRBQ2lMTG3PqM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jFC45EzYYUQMUtOCts/YDEvtrrwApMA5oZnGRzrGyCrFl0PBbr5YDK4O14w/QRNYemm+3rpwhVQalKgGSRieCdrJsP0/wFe6I4NY0ek7zkYRLc2M3G5UYejXJjYRk6nn/TtfEkFTWz+yX7Q+lY4HexcK1aXL8zVfWaToor8MG5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=K3hOuZwU; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8F0271127;
+	Mon, 14 Jul 2025 08:37:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1752475042;
+	bh=k8eumjXWtaL+P7x6V4qanMlZfpqr02RRBQ2lMTG3PqM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=K3hOuZwUo+1xAeClaoO/xZEnTR5U8+F23uiVOSiqHfTfyoSh/eCLB3O/h9jGopbKH
+	 AkTTGgA7V8yqZQuFFXYy6jwXr8pV7IKYBE00JmcjXlZ9N7sMGESOTgTHsoKhxv+KwV
+	 5wc56fZCUjyiw+wVYG144Hjabt//2rsIE9uQOs6w=
+Message-ID: <dbc0c7a5-b307-49de-a31d-a50ec462d2fd@ideasonboard.com>
+Date: Mon, 14 Jul 2025 07:37:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OSZPR01MB7149:EE_
-X-MS-Office365-Filtering-Correlation-Id: a4c4afc9-a7db-440b-4ac0-08ddc26a5642
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|52116014|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?tKqFFNBWgUT8GgTDuB1KzidyoxC7uvfZP0frt9eOVgFP6kCmmQhR9QfxqZG9?=
- =?us-ascii?Q?iO+yQyqasBFTu0Y0jUFWD0rUWtfVVB4kKP6G4HUbW89h28u6iK+yEfaw3uvL?=
- =?us-ascii?Q?G7omwSAh/VHlAGI+MMN1mwJlmWoqBkFcus1u1/xrG/EF2gT1jdr5A/4brYJH?=
- =?us-ascii?Q?Wo4EV52X/fy+3TO0VNqazW/pA1rKEF+WdchexQychivFnKubEriWd/mCBgrW?=
- =?us-ascii?Q?FHvdq83/KeHkqbVwUY8jgmyzvQKRDkDLNCoeSlhlD06z2tcaFmacHRqsMJA/?=
- =?us-ascii?Q?JGXlhOzG6cq85pK1sjS8AvMdxYZdGjkyVCxJYccZAK1n2ZjjJshiEmWoXufo?=
- =?us-ascii?Q?TOXuvxGCJWIotwlpESv8GH8t30OqY5n3nefbjkCPly50Ar/m+rlVoTpr47a2?=
- =?us-ascii?Q?O70sFtHKVf1e7ZqyWRDETFBNa6HU6bVeZ4iCdpu+4nWIGn+PqvHKdU5sqBW1?=
- =?us-ascii?Q?YJrgdxxkwV1CHjGjsqsFC5Qmz7C3J6EUnZRHSYqZYziEpbGcAqSkh1SXN5n9?=
- =?us-ascii?Q?c3WjVC05TLvutoucAgBmKoveLsiaUc01jj6zdpXj4xa2kDBaalqhEKWNGQF6?=
- =?us-ascii?Q?2E1sVI86hPRpjUfuOLoZv9HrjU03Y3PHWaA+G4hOkqv2GKF8N1VuuRZBmOMQ?=
- =?us-ascii?Q?l0TKMqQp+uUGWhS565I8Vra9ccRBIcIRB3mkYaEZ8vxmdzGG7854x/M9QfO1?=
- =?us-ascii?Q?k9AeZ/dvqbQCn+HmVw+aVT9wSmgtYFQkW6MrjHlcrMk/fpoNAK5K2fjNeobH?=
- =?us-ascii?Q?leLK85y/nnsLud/TgJdm9ZyaP/8ujeotQoZxdAAQHUzv0BtcwnlBrp63UXvN?=
- =?us-ascii?Q?TEjY9kL0othEEl1vT+yinqiWgnGr4esvRLP1+GS0W6r/emRdWz5EEDtl0Rt6?=
- =?us-ascii?Q?JXSF/jZAFsDNujZRu3wG7DIGIhjLdynGbGtS9gJxpkMsU7UwtxahMSARIpaC?=
- =?us-ascii?Q?5uy0G/7e6nlq6HFwo2Qlax9U/WRd1xqTdr+Q6zHSya8k7EsTkHlNcbF6/Pu4?=
- =?us-ascii?Q?YRWAHwVR9rT4O8yFZHLw0yf7ppN6EGvuEw+STZoKOWDpASdpcxFtPv5BBcsv?=
- =?us-ascii?Q?tXxh7uYloPRpOSUMrXvMjWIIw+JZ9RLhCwGeHiMLUxyTV/GNp+Bew2vcavrL?=
- =?us-ascii?Q?ViDCFolnVtG4DcRFrx6MJqj+1fCMXFT2gyQCmleCZxpgOvu7qC9mnfTXtCAh?=
- =?us-ascii?Q?/LUDgXTbE4DTiSOuSAq1hivBhTAmN6erauufh2LNYn4EeAJ97iuBtdTrJcKK?=
- =?us-ascii?Q?GOW1V31RZP3ppcaeRSaZQcJleNJVglOIireLk/gevG9iXrt64hefr6hbFW0b?=
- =?us-ascii?Q?ndfMd8qWQdnGT3K50HYqwl0fLOBPvwQrEd79hU+MHl/G+f5SRyx2/jtBAIeS?=
- =?us-ascii?Q?VFIak9nXOX9gIxx6GPmnNasEi6nApKKqTCvcg3YJvKW9k+1SQi2QNUx2Y4mG?=
- =?us-ascii?Q?wvryUL4y1mnYrH5J5UKQn8jbHBzTvaEpV/O0v/vt9tzaAFDks3gnVA=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?7pOQZ43Quoo5ozdCscT6W2oGwm0HH5z+6Vnnh83UAdVhGzSSX7wwEx5HUtfU?=
- =?us-ascii?Q?1xz269Y4XqK3BWBXIOkMSAfcJuzb8Y4FELaUCnk0h4fKc+vfLdZwmfxEZdEr?=
- =?us-ascii?Q?oA42GwZJMayBXPVS4GF+a2SMNZZyjHRmoBs7hmlHHWSPB3fEQHEtXPXzcaIX?=
- =?us-ascii?Q?drgrhinB+P9xGbfPwEGK4bU2yhaO/tDr2llhtMCXBijhhaCs84oQ9vmjFH2q?=
- =?us-ascii?Q?3hSghUh9MROb/Mvxq0seZ84kldT4zwcXNh7Wxajf87/TvCtosI/ADK//ALMx?=
- =?us-ascii?Q?TtA4s2jUQ1I3fWo8zd1A7pes3v3PSGluXZ5vLLQhVrw+bORh3wYxVGGNNkH8?=
- =?us-ascii?Q?2nM/dVQ5CW2/IymwxHeMuiPEgDW5Vgflfn29BP6WNssS0aMCikwRtcTU0QLW?=
- =?us-ascii?Q?8fn9x1L0igpp8IidKdr4Cv8/8GDwH8+w5Zw7yj2hx3GXuduUIgTMmT47fz7c?=
- =?us-ascii?Q?oSpBCvN8GlKoCSl703f/RfF6Evj86ju+zacw+YLUzZPoO5gPmqE7Txak+DHY?=
- =?us-ascii?Q?LMPJ9/9XLw1nqq0eb+ktKsyZbmsG3eJVKitwpCgpzGAGpBf+BLsV/ruYm8rk?=
- =?us-ascii?Q?jw+3d87bzx/8+zjyzf5MaPg+4c+WjTWQdVxMqGxscP4fhSZnZjRg2P3XGdsD?=
- =?us-ascii?Q?WzkJtoAb5e2c9YnXV4oGeo7Ry0lZyRWbawbutFPwt+9dxKRCUfaS9SXGShZp?=
- =?us-ascii?Q?XW1lxRj7Ps4yM5EaovilTU0aBcToWzckE8FuyY7Is+TFOThfKnhU9oK5KF/X?=
- =?us-ascii?Q?OGqHqhz3r8jMcgDFx8IY0LTrJ5Q+vljzEPO0i5DGBkLsDCkhztiLLKkPwSCG?=
- =?us-ascii?Q?/zl98UkHi5lAHkiFWB5ymDgWU+6uw4ExWQvbGg2vr6Q8YeDVm0V2ERYCFobn?=
- =?us-ascii?Q?Py8qat+ALbNEolXDqYQ1B0GJJDeKx7NxzNWnmjEMlvYV5DlOHZPfy+cw+lwD?=
- =?us-ascii?Q?kdiLECMd8hHp3BSReC/yXUeOvIGg9r75ifPAN27pAfORNwIGleYosxcy7PJB?=
- =?us-ascii?Q?ZOmuvqVYlsC/NBm64/ebfMjL2JdCw5b2Q2G1Gzo04AgRbzzePSsJJyp+HEea?=
- =?us-ascii?Q?H4GjzPlkMF/KOp58PlBsWTLEMRvLh8rJrznjMTukxadreZj/niGbIwEharzL?=
- =?us-ascii?Q?i5dtWkYVsiqE21mrxxaDHkIiIZDEEWjn6QPEFxeACua2FtxXooD1ER/IBdrY?=
- =?us-ascii?Q?cAPjjW/ykyzFQvzHcxuRokT/WxX0KLiS+9MtkTpo32XibpEOSWfuuVG6IRzz?=
- =?us-ascii?Q?jQS7wVlGCtEb9HNsPQEBDLbW3o9e9icytLJmOvL3a6b7i99g44hBg16MUGAv?=
- =?us-ascii?Q?8WPWaarw82+KCbInZIffrlknGXQsfIOX/c2yQ2xVksX/S5J1W84kWGJ+ODXj?=
- =?us-ascii?Q?BzW9MDKOGI/IhPY/V2rGjepKZISu3wH6TxXTaFYJzP9kUV3R81u8dGtMQkdn?=
- =?us-ascii?Q?or3L63f3ZSsUwXHvOnrQF2qgsu66XehBOxWR4zawaZ9zkVSWw1OBQ4wf1LCC?=
- =?us-ascii?Q?zHzPqNiy6qRevUChc6nO0TdcCn3d6uQVj5DGAPfUHV9EnxJ8qm6joAHyBU2c?=
- =?us-ascii?Q?Hgwc5m5OjDIEAprga79sTyJzkxo7A3buQak4KFh4wcELC6Z/0JY2WIj0MKQ3?=
- =?us-ascii?Q?ibtuxxXjbmLdcMHi7gIj210=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a4c4afc9-a7db-440b-4ac0-08ddc26a5642
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2025 00:06:52.7870
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FrcUsERs/ILgTvIfqbJFK3CdiixjgJDK7u1yyCr7c1CIFdQ8oZmf46oEtWepp/Kxmd2rcoAgUDaOkVyeYSAu5fRSHsjnjlJ8nrhe9QYdEx5RUyVFHU6QxMqQawzZqJ58
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB7149
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/5] media: v4l2-dev: Add helpers to run
+ media_pipeline_[started|stopped]()
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ biju.das.jz@bp.renesas.com
+References: <20250704-ivc-v3-0-5c45d936ef2e@ideasonboard.com>
+ <20250704-ivc-v3-2-5c45d936ef2e@ideasonboard.com>
+ <v3gonywym2km6u4qpsm2bkpn5n7vmvm4rdt3nfiws6mri3b7y4@gh4q5f4cmavc>
+ <436bbb33-0740-4ef8-8297-a06aa8243cfd@ideasonboard.com>
+ <54c94bcf-9b68-4fe7-a84d-fed665b362a3@ideasonboard.com>
+ <hb73r4nu2n3ganodzpbpg2tn7c45ye2otzzc4une2x3tskuba7@dgfc2wf4vprh>
+Content-Language: en-US
+From: Dan Scally <dan.scally@ideasonboard.com>
+Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <hb73r4nu2n3ganodzpbpg2tn7c45ye2otzzc4une2x3tskuba7@dgfc2wf4vprh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-From: Duy Nguyen <duy.nguyen.rh@renesas.com>
+Hi Jacopo
 
-Add support for identifying the R-Car X5H SoC.
-
-[Kuninori: tidyup for upstreaming]
-
-Signed-off-by: Duy Nguyen <duy.nguyen.rh@renesas.com>
-Signed-off-by: Huy Bui <huy.bui.wm@renesas.com>
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
----
-v1 -> v2
-
-	- Based on latest linux-next/master
-
- drivers/soc/renesas/Kconfig       | 11 +++++++++++
- drivers/soc/renesas/renesas-soc.c | 13 +++++++++++++
- 2 files changed, 24 insertions(+)
-
-diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
-index 719b7f4f376f..96d1d342f0b0 100644
---- a/drivers/soc/renesas/Kconfig
-+++ b/drivers/soc/renesas/Kconfig
-@@ -39,6 +39,10 @@ config ARCH_RCAR_GEN4
- 	bool
- 	select ARCH_RCAR_GEN3
- 
-+config ARCH_RCAR_GEN5
-+	bool
-+	select ARCH_RCAR_GEN4
-+
- config ARCH_RMOBILE
- 	bool
- 	select PM
-@@ -348,6 +352,13 @@ config ARCH_R8A779H0
- 	help
- 	  This enables support for the Renesas R-Car V4M SoC.
- 
-+config ARCH_R8A78000
-+	bool "ARM64 Platform support for R8A78000 (R-Car X5H)"
-+	default ARCH_RENESAS
-+	select ARCH_RCAR_GEN5
-+	help
-+	  This enables support for the Renesas R-Car X5H SoC.
-+
- config ARCH_R9A07G043
- 	bool "ARM64 Platform support for R9A07G043U (RZ/G2UL)"
- 	default y if ARCH_RENESAS
-diff --git a/drivers/soc/renesas/renesas-soc.c b/drivers/soc/renesas/renesas-soc.c
-index df2b38417b80..5b78388bafcf 100644
---- a/drivers/soc/renesas/renesas-soc.c
-+++ b/drivers/soc/renesas/renesas-soc.c
-@@ -36,6 +36,11 @@ static const struct renesas_family fam_rcar_gen4 __initconst __maybe_unused = {
- 	.name	= "R-Car Gen4",
- };
- 
-+static const struct renesas_family fam_rcar_gen5 __initconst __maybe_unused = {
-+	.name   = "R-Car Gen5",
-+	.reg    = 0xfff00044,		/* PRR (Product Register) */
-+};
-+
- static const struct renesas_family fam_rmobile __initconst __maybe_unused = {
- 	.name	= "R-Mobile",
- 	.reg	= 0xe600101c,		/* CCCR (Common Chip Code Register) */
-@@ -266,6 +271,11 @@ static const struct renesas_soc soc_rcar_v4m __initconst __maybe_unused = {
- 	.id     = 0x5d,
- };
- 
-+static const struct renesas_soc soc_rcar_x5h __initconst __maybe_unused = {
-+	.family = &fam_rcar_gen5,
-+	.id     = 0x60,
-+};
-+
- static const struct renesas_soc soc_shmobile_ag5 __initconst __maybe_unused = {
- 	.family	= &fam_shmobile,
- 	.id	= 0x37,
-@@ -378,6 +388,9 @@ static const struct of_device_id renesas_socs[] __initconst __maybe_unused = {
- #ifdef CONFIG_ARCH_R8A779H0
- 	{ .compatible = "renesas,r8a779h0",	.data = &soc_rcar_v4m },
- #endif
-+#ifdef CONFIG_ARCH_R8A78000
-+	{ .compatible = "renesas,r8a78000",	.data = &soc_rcar_x5h },
-+#endif
- #ifdef CONFIG_ARCH_R9A07G043
- #ifdef CONFIG_RISCV
- 	{ .compatible = "renesas,r9a07g043",	.data = &soc_rz_five },
--- 
-2.43.0
-
+On 11/07/2025 14:39, Jacopo Mondi wrote:
+> Hi Dan
+>
+> On Fri, Jul 11, 2025 at 01:43:16PM +0100, Dan Scally wrote:
+>> On 11/07/2025 12:51, Dan Scally wrote:
+>>> Hi Jacopo - thanks for the comments
+>>>
+>>> On 08/07/2025 14:10, Jacopo Mondi wrote:
+>>>> Hi Dan
+>>>>
+>>>> On Fri, Jul 04, 2025 at 12:20:19PM +0100, Daniel Scally wrote:
+>>>>> Add helpers to run the new media_pipeline_started() and
+>>>>> media_pipeline_stopped() functions. The helpers iterate over the
+>>>>> entities in the pipeline and count the number of video devices and
+>>>>> compare that to the pipeline's start_count() before acting. This
+>>>>> allows us to only run the media pipeline callbacks in the event that
+>>>>> the pipeline has had video_pipeline_start() called for each video
+>>>>> device.
+>>>>>
+>>>>> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+>>>>>
+>>>>> ---
+>>>>>
+>>>>> We could take this further perhaps and include the equivalent routine
+>>>>> in video_device_pipeline[_alloc]_start()...if none of the entities
+>>>>> involved have .pipeline_started() or .pipeline_stopped() operations it
+>>>>> should be harmless, but I'm a bit reluctant to force the choice to run
+>>>>> those operations on users.
+>>>> I know I've kind of suggested that, but after all I don't think it's a
+>>>> very good idea, having this in two steps is probably better. And I
+>>>> like the fact the v4l2-dev layer operates on the video device counting
+>>>> and only relies on the mc layer for the callbacks notification.
+>>>
+>>> Yeah me too. Let's stick to this
+>>>
+>>>>> Changes in v2:
+>>>>>
+>>>>>      - Adapted now media_pipeline_for_each_entity() takes an iter
+>>>>>        variable
+>>>>>      - Fixed the Return: section of the kerneldoc comments
+>>>>> ---
+>>>>>    drivers/media/v4l2-core/v4l2-dev.c | 57 ++++++++++++++++++++++++++++++++++++++
+>>>>>    include/media/v4l2-dev.h           | 36 ++++++++++++++++++++++++
+>>>>>    2 files changed, 93 insertions(+)
+>>>>>
+>>>>> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+>>>>> index c369235113d98ae26c30a1aa386e7d60d541a66e..f3309f8349664f7296a95216a40dd9d9baae8d9e 100644
+>>>>> --- a/drivers/media/v4l2-core/v4l2-dev.c
+>>>>> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+>>>>> @@ -1200,6 +1200,63 @@ struct media_pipeline *video_device_pipeline(struct video_device *vdev)
+>>>>>    }
+>>>>>    EXPORT_SYMBOL_GPL(video_device_pipeline);
+>>>>>
+>>>>> +static int __video_device_pipeline_started(struct media_pipeline *pipe)
+>>>> __function_name() is usually reserved for the non-locking version of
+>>>> function_name().
+>>>>
+>>>> This seems to be an helper only used internally by
+>>>> video_device_pipeline_started() so I would use a different name
+>>>> something like video_device_has_pipeline_started() ?
+>>>
+>>> What it does is count the number of _unstarted_ video
+>>> devices..."video_device_pipeline_unstarted_vdevs()"?
+>>>
+>>>>
+>>>>> +{
+>>>>> +    struct media_pipeline_entity_iter iter;
+>>>>> +    unsigned int n_video_devices = 0;
+>>>>> +    struct media_entity *entity;
+>>>>> +    int ret;
+>>>>> +
+>>>>> +    ret = media_pipeline_entity_iter_init(pipe, &iter);
+>>>>> +    if (ret)
+>>>>> +        return ret;
+>>>>> +
+>>>>> +    media_pipeline_for_each_entity(pipe, &iter, entity) {
+>>>>> +        if (entity->obj_type == MEDIA_ENTITY_TYPE_VIDEO_DEVICE)
+>>>>> +            n_video_devices++;
+>>>>> +    }
+>>>>> +
+>>>>> +    media_pipeline_entity_iter_cleanup(&iter);
+>>>>> +
+>>>>> +    return n_video_devices - pipe->start_count;
+>>>>> +}
+>>>>> +
+>>>>> +int video_device_pipeline_started(struct video_device *vdev)
+>>>>> +{
+>>>>> +    struct media_pipeline *pipe;
+>>>>> +    int ret;
+>>>>> +
+>>>>> +    pipe = video_device_pipeline(vdev);
+>>>>> +    if (!pipe)
+>>>>> +        return -ENODEV;
+>>>>> +
+>>>>> +    ret = __video_device_pipeline_started(pipe);
+>>>>> +    if (ret)
+>>>>> +        return ret;
+>>>> I would not return ret, as it might take random values betwen
+>>>> n_video_devices and 1. See below on the return value documentation
+>>> But we need to be able to signal to the driver three states:
+>>>
+>>>
+>>> 1. No errors, but there are still unstarted video devices
+>>>
+>>> 2. No errors and there are no unstarted video devices
+>>>
+>>> 3. An error
+>>>
+>>>
+>>> So I expect a driver to do a two stage check:
+>>>
+>>>
+>>> ret = video_device_pipeline_started(vdev);
+>>>
+>>> if (ret < 0)
+>>>
+>>>          goto err_out;
+>>>
+>>> if (ret == 0)
+>>>
+>>>          // something appropriate here like run the media jobs scheduler
+>>>
+>> Sorry: I had a reading comprehension failure. You were suggesting to use
+>> -ENODEV to signal that there are unstarted video devices remaining. I
+>> understand now, but I'm still not sure about it, because then instead of the
+>> "if (ret == 0) check here we'd have "if (ret == -ENODEV)", which I don't
+>> especially like...or am I missing some way to avoid having that check here?
+> Yes, that would require drivers to check for -ENODEV to identify a
+> non-failure case when not all devices have started..
+>
+> You're right it might not be optimal. With you implementation we
+> should then have
+>
+>   0: success
+>   < 0: error
+>   > 0: not all devices started
+>
+> ?
+Yes
+>
+> I might be actually ok with this, but could you please document it as
+> I've below suggested for clarity ?
+Yep, will do
+>
+> Thanks
+>    j
+>
+>>
+>> Thanks
+>>
+>> Dan
+>>
+>>>>> +
+>>>>> +    return media_pipeline_started(pipe);
+>>>>> +}
+>>>>> +EXPORT_SYMBOL_GPL(video_device_pipeline_started);
+>>>>> +
+>>>>> +int video_device_pipeline_stopped(struct video_device *vdev)
+>>>>> +{
+>>>>> +    struct media_pipeline *pipe;
+>>>>> +    int ret;
+>>>>> +
+>>>>> +    pipe = video_device_pipeline(vdev);
+>>>>> +    if (!pipe)
+>>>>> +        return -ENODEV;
+>>>>> +
+>>>>> +    ret = __video_device_pipeline_started(pipe);
+>>>>> +    if (ret)
+>>>>> +        return ret;
+>>>> ditto
+>>>>
+>>>>> +
+>>>>> +    media_pipeline_stopped(pipe);
+>>>>> +
+>>>>> +    return 0;
+>>>>> +}
+>>>>> +EXPORT_SYMBOL_GPL(video_device_pipeline_stopped);
+>>>>> +
+>>>>>    #endif /* CONFIG_MEDIA_CONTROLLER */
+>>>>>
+>>>>>    /*
+>>>>> diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
+>>>>> index 1b6222fab24eda96cbe459b435431c01f7259366..26b4a491024701ef47320aec6a1a680149ba4fc3 100644
+>>>>> --- a/include/media/v4l2-dev.h
+>>>>> +++ b/include/media/v4l2-dev.h
+>>>>> @@ -654,6 +654,42 @@ __must_check int video_device_pipeline_alloc_start(struct video_device *vdev);
+>>>>>     */
+>>>>>    struct media_pipeline *video_device_pipeline(struct video_device *vdev);
+>>>>>
+>>>>> +/**
+>>>>> + * video_device_pipeline_started - Run the pipeline_started() entity operation
+>>>>> + *                   for a fully-started media pipeline
+>>>>> + * @vdev: A video device that's part of the pipeline
+>>>>> + *
+>>>>> + * This function checks whether all MEDIA_ENTITY_TYPE_VIDEO_DEVICE entities
+>>>>> + * connected to a given video device through enabled links have been marked as
+>>>> I would use the same text as the one from video_device_pipeline_start()
+>>>>
+>>>> " connected to a given video device through enabled links, either
+>>>> directly or indirectly,"
+>>>
+>>> Ack
+>>>
+>>>>> + * streaming through the use of video_device_pipeline_start() or one of its
+>>>>> + * equivalent functions. If so, media_pipeline_started() is called to inform
+>>>>> + * entities in the pipeline of that fact. The intention is to provide drivers
+>>>>> + * with a shortcut for checking whether their pipeline is fully ready to start
+>>>>> + * processing data.
+>>>> Not really a shortcut, I would use "mechanism" instead.
+>>>>
+>>>> I would also specify that:
+>>>>
+>>>>    * entities in the pipeline of that fact. The intention is to provide drivers
+>>>>    * with a mechanism for checking whether their pipeline is fully ready to start
+>>>>    * processing data and call the .pipeline_started() media entity operation
+>>>>    * on all the entities in the pipeline.
+>>> Ack!
+>>>>> + *
+>>>>> + * Return: The number of video devices in the pipeline remaining to be started,
+>>>>> + * or a negative error number on failure.
+>>>> 0 for success as well
+>>>>
+>>>> I would anyway return 0 for success and a specific error code for the
+>>>> three failure cases:
+>>>> -ENOMEM if allocating the iterator fails
+>>>> -ENODEV if not all video devices have started
+>>>> -EINVAL if media_pipeline_started() fails
+>>>>
+>>>> You can document them as (copying from iommu.h)
+>>>>
+>>>> * Return:
+>>>> * * 0            - success
+>>>> * * EINVAL       - call to pipeline_started() failed
+>>>> * * ENOMEM       - failed to allocate pipe iterator
+>>>> * * ENODEV       - pipeline not yet fully started
+>>>>
+>>>>> + */
+>>>>> +int video_device_pipeline_started(struct video_device *vdev);
+>>>>> +
+>>>>> +/**
+>>>>> + * video_device_pipeline_stopped - Run the pipeline_stopped() entity operation
+>>>>> + *                   for a fully-started media pipeline
+>>>>> + * @vdev: A video device that's part of the pipeline
+>>>>> + *
+>>>>> + * This function checks whether all MEDIA_ENTITY_TYPE_VIDEO_DEVICE entities
+>>>>> + * connected to a given video device through enabled links have been marked as
+>>>>> + * streaming through the use of video_device_pipeline_start() or one of its
+>>>> What is the intended semantic here ? The first video device to receive
+>>>> a streamoff() will trigger media_pipeline_stopped() or should the last
+>>>> one do that ?
+>>> The first one should do it, so the first device caling stop should
+>>> trigger actual stop in all involved hardware.
+>>>>> + * equivalent functions. If so, media_pipeline_stopped() is called for each
+>>>>> + * entity in the pipeline. The intention is to provide drivers with a shortcut
+>>>>> + * for checking whether this video device is the first device in the pipeline
+>>>>> + * to be stopped.
+>>>>> + *
+>>>>> + * Return: The number of video devices in the pipeline remaining to be started, or a
+>>>>> + * negative error number on failure.
+>>>>> + */
+>>>>> +int video_device_pipeline_stopped(struct video_device *vdev);
+>>>>> +
+>>>>>    #endif /* CONFIG_MEDIA_CONTROLLER */
+>>>>>
+>>>>>    #endif /* _V4L2_DEV_H */
+>>>>>
+>>>>> --
+>>>>> 2.34.1
+>>>>>
+>>>>>
 
