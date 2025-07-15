@@ -1,94 +1,123 @@
-Return-Path: <linux-renesas-soc+bounces-19550-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19551-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74184B04CF1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Jul 2025 02:32:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49704B04F72
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Jul 2025 05:46:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 06B095604C4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Jul 2025 00:32:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7AA244E357D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Jul 2025 03:45:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A2D7221FA8;
-	Tue, 15 Jul 2025 00:30:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC1D92D12E0;
+	Tue, 15 Jul 2025 03:44:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f7JlgibV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oVstyHr0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F0DFF9C1;
-	Tue, 15 Jul 2025 00:30:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07172D0C9D;
+	Tue, 15 Jul 2025 03:44:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752539406; cv=none; b=IYU22kSmaMIYobVq6fST411QhN/CuKCJigZFVdiCs2InQxZQP0UG1q9E4pY4M9Mz7KrWTtVs0gNMVXpmcwcJ5+Q3mcd+jg3+uyd/Z6iRLTCgKTE4HEG2O/AwxWBCDgjT2b91gvZlx4KalCTSkQYGwpQ3oTf7LDG4K3RH79wePe0=
+	t=1752551082; cv=none; b=SLGwrwr56HCZyeRWPL2QHSFkY+jVHrRANIeGEj0n0AV6YfyI60DVfgdIAogH202R81qMnyRrT/+f0yxvMLvPNsUWAvTDcg8koFYFI8q4ARo2ur5SIFzYukYHtDSVoVLFiwQEnli0qvRbxuyFFa1oAQz0SuEQN6I6PjcDOWlB4KY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752539406; c=relaxed/simple;
-	bh=0IagI1zat30udtHUUL9oMa1MM9a7xBwR1iXrFBogpCg=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=rQYy/T94rCdOzt2isSwiM31zNabPusVIt/Hq+A4gvVMb/8DpRo1PzD5uGGUKTFECVAx6RZPYS0WO+GwYPF9RjKab+g0BCyFKZlDtNwj2VBTMMEL4EV7DyoOIWt56947Tt6o2a9+cqgWq5wIYxYCADfqEhq5/uwnUsueMDINZ7JU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f7JlgibV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DC6EC4CEED;
-	Tue, 15 Jul 2025 00:30:05 +0000 (UTC)
+	s=arc-20240116; t=1752551082; c=relaxed/simple;
+	bh=SFnlblJV2LTPacCzanOSpqW7BNUpkXOMLqiq6h/Tr+E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JLyS8eAutcqyPnyFZqn7tvVK0F9B4XDoU834Lx73+K3D7qK99BWWTQyr1zLpx5eDD/ZIB3Z4JASYRVstkBPTA5z7hVpeueO3ZCAmS8a2KsG0k9wOLPc/jgj3E/VtZvnd4Y9ONOH7h/3Com4niV/kUWauyysJpSope7DqyVQrCUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oVstyHr0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17AF3C4CEE3;
+	Tue, 15 Jul 2025 03:44:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752539405;
-	bh=0IagI1zat30udtHUUL9oMa1MM9a7xBwR1iXrFBogpCg=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=f7JlgibV20vrDi0ObQFP7vFtEC97V6dUaPKTEHbdxNIzfGQWcIOjxiXcTdhg60+OR
-	 O0lvYQ/amiLc4o5RAUF1FmgSV58j0aTS5aalMaF0+kUfUs2z5qMc589cfa2EQ7q9wh
-	 3mDD9vNXB4d62la9uakvzT+4S1M6H9uxALzAns2WZJf2Ae1AEPKZ/eR8QpqK8u3V2Q
-	 w4Az8NRdbD4skCgG8m69D87gfPr4wUDgTsjWrsO3/EjyjIkKq88XtCrenAApMopJXE
-	 njzPP+iwvOQJ9g8BK3k3CrZJlCDUiY6JwLdOnm1Op1ru2IJN/VknvvRL/E+a45vQqo
-	 oxh672atXM2qg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADCF4383B276;
-	Tue, 15 Jul 2025 00:30:27 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1752551082;
+	bh=SFnlblJV2LTPacCzanOSpqW7BNUpkXOMLqiq6h/Tr+E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oVstyHr0A/GqQRMJSqyegZGPttVsjfqUJiBDWLK9rvS3UARWL8B+pXBkJLlOLvWlS
+	 Bwcf4FlO6VQc9Gp3dVqyIGJqdJ/intvsZEU4lb/icCbzM9Z2zDExBnOhuS0SKUsf/N
+	 yPgzniuRGuapfxssvWNOXXgPDRbFBK8Qy+6sMSejNbeLA5G+ymprNJ7rDlfMlvtGal
+	 mn1N62Hu3QFdatFBqwjN7EMhZ8xvTuSNWuMExc6zWF+EvYWB2a4YJ0BhpHU/6Yjql3
+	 NfKIiTMGKYRemglEGFAU4S9lQeRQu0lfE+Au17ECShs6Bk5GQBkUKCUsNvE+F0RRxB
+	 xrJfDZgTqmDaA==
+Date: Mon, 14 Jul 2025 22:44:41 -0500
+From: Rob Herring <robh@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-i3c@lists.infradead.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: i3c: renesas,i3c: Add binding for
+ Renesas I3C controller
+Message-ID: <20250715034441.GA4186417-robh@kernel.org>
+References: <20250714091211.20497-1-wsa+renesas@sang-engineering.com>
+ <20250714091211.20497-2-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v2] net: phy: micrel: Add ksz9131_resume()
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <175253942624.4037397.1130283220408120755.git-patchwork-notify@kernel.org>
-Date: Tue, 15 Jul 2025 00:30:26 +0000
-References: <20250711054029.48536-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20250711054029.48536-1-biju.das.jz@bp.renesas.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: andrew@lunn.ch, hkallweit1@gmail.com, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- linux@armlinux.org.uk, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- geert+renesas@glider.be, prabhakar.mahadev-lad.rj@bp.renesas.com,
- biju.das.au@gmail.com, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250714091211.20497-2-wsa+renesas@sang-engineering.com>
 
-Hello:
-
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Fri, 11 Jul 2025 06:40:21 +0100 you wrote:
-> The Renesas RZ/G3E SMARC EVK uses KSZ9131RNXC phy. On deep power state,
-> PHY loses the power and on wakeup the rgmii delays are not reconfigured
-> causing it to fail.
+On Mon, Jul 14, 2025 at 11:12:08AM +0200, Wolfram Sang wrote:
+> From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 > 
-> Replace the callback kszphy_resume()->ksz9131_resume() for reconfiguring
-> the rgmii_delay when it exits from PM suspend state.
+> Available in R9A08G045 (RZ/G3S), R9A09G047 (RZ/G3E) SoCs.
 > 
-> [...]
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+> 
+> Changes since RFC:
+> * resorted the clks, so G3S can only have the first two while G3E needs
+>     needs all three
+> 
+>  .../devicetree/bindings/i3c/renesas,i3c.yaml  | 180 ++++++++++++++++++
+>  1 file changed, 180 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/i3c/renesas,i3c.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/i3c/renesas,i3c.yaml b/Documentation/devicetree/bindings/i3c/renesas,i3c.yaml
+> new file mode 100644
+> index 000000000000..f53a176cad2c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/i3c/renesas,i3c.yaml
+> @@ -0,0 +1,180 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/i3c/renesas,i3c.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas RZ/G3S and RZ/G3E I3C Bus Interface
+> +
+> +maintainers:
+> +  - Wolfram Sang <wsa+renesas@sang-engineering.com>
+> +  - Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - renesas,r9a08g045-i3c # RZ/G3S
+> +          - renesas,r9a09g047-i3c # RZ/G3E
 
-Here is the summary with links:
-  - [net-next,v2] net: phy: micrel: Add ksz9131_resume()
-    https://git.kernel.org/netdev/net-next/c/f25a7eaa897f
+You already have to have differences between these 2. So how are they 
+the same and compatible with this:
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+> +      - const: renesas,i3c
 
+Even without a difference, this seems like it will be short lived for 
+how many SoC will be compatible with it (though we get to keep it 
+forever). 
 
+Rob
 
