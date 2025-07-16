@@ -1,410 +1,273 @@
-Return-Path: <linux-renesas-soc+bounces-19563-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19564-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A793B07C83
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Jul 2025 20:10:19 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 078D6B07CA6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Jul 2025 20:19:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 75A7B3B5C64
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Jul 2025 18:09:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2A3197A5449
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Jul 2025 18:18:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9296328FA89;
-	Wed, 16 Jul 2025 18:10:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D981928C85D;
+	Wed, 16 Jul 2025 18:19:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ns/uav6y"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="iZl1Saq0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011051.outbound.protection.outlook.com [40.107.74.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03AEB28F957;
-	Wed, 16 Jul 2025 18:10:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752689416; cv=none; b=luR06dNIF0FT8HntJenuz80GNgy6MOExfA2yrXZSGqoCII70JzWinc+gey0Lq+RoO3R8l6RcZaOpe5KoUYbWcd0AFEg/Dq/fbPFPFCcymj1hAarmp/2i1VSX+0DvVU6WynbiZPYwy2VXhtUmbblzr79sGe90Dn5u17JO6nT+BIU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752689416; c=relaxed/simple;
-	bh=Ncj6+lrCocmTg10SkbqNYjPO9SQZWn8ZW4Ypaptrcjs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CN3T18WX91D9/rIM5KWco2oF44F783KROhNZbaqIm/x7Yi6SzhB1yuHpnzGbQ7YcbqlSBIxZw+2xB9rUDwnqtx4BfqG0jZCK6t+BjwVd2awNesMGsIqdHGgx2QGI0CSWzFIKjV87aIjgkrbbnZnz83a6RGpWd5yZY4kM0NWxUTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ns/uav6y; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752689414; x=1784225414;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Ncj6+lrCocmTg10SkbqNYjPO9SQZWn8ZW4Ypaptrcjs=;
-  b=Ns/uav6yP/gDYBa9MU5C88xbdOBmO4T3zJUWc9bvkqGPpck0eOmwrvdO
-   drNYppO6UHWNCIkuN1OpY/a16OwPUbynACivl56S6HopigSj94kvLcRJd
-   RIeMdXlZUvSDI39JOLEiu8qa2gfPGaqCk01qaFKxzP5ExSRWIGNbx36pL
-   s+ponS7Z5NX3JeUaujsviM3YCSWCM7AR0ahQpY7DR/L+B5vceb9sa5BHH
-   o4XTJKJokLZ+rw7KuOsUbmAc4crfh2bgKdZUkO0GXva7ba8UzlVZxXDbp
-   P+lIGkvFqFtP1aQhbq97e4mCJYTw7hzqyQWQa9xsYaT6s6g9AEBMbFbte
-   w==;
-X-CSE-ConnectionGUID: IYxCCTycTi6HoBW2yft00A==
-X-CSE-MsgGUID: A3iRrKPcTBSwnukVv2oj6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="72401352"
-X-IronPort-AV: E=Sophos;i="6.16,316,1744095600"; 
-   d="scan'208";a="72401352"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2025 11:10:13 -0700
-X-CSE-ConnectionGUID: lMHOxPCqTEGfF+eh6al9XQ==
-X-CSE-MsgGUID: d0wGUeqURg2n+drWX2U07w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,316,1744095600"; 
-   d="scan'208";a="163204134"
-Received: from patelni-desk.amr.corp.intel.com (HELO localhost) ([10.2.132.131])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2025 11:10:10 -0700
-Date: Wed, 16 Jul 2025 11:10:09 -0700
-From: Nirmal Patel <nirmal.patel@linux.intel.com>
-To: Nam Cao <namcao@linutronix.de>
-Cc: Marc Zyngier <maz@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof =?UTF-8?Q?Wilczy?=
- =?UTF-8?Q?=C5=84ski?= <kwilczynski@kernel.org>, Manivannan Sadhasivam
- <mani@kernel.org>, Rob Herring <robh@kernel.org>, Bjorn Helgaas
- <bhelgaas@google.com>, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, Karthikeyan Mitran
- <m.karthikeyan@mobiveil.co.in>, Hou Zhiqiang <Zhiqiang.Hou@nxp.com>, Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>, Pali =?UTF-8?Q?Roh=C3=A1r?=
- <pali@kernel.org>, "K . Y . Srinivasan" <kys@microsoft.com>, Haiyang Zhang
- <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui
- <decui@microsoft.com>, Joyce Ooi <joyce.ooi@intel.com>, Jim Quinlan
- <jim2101024@gmail.com>, Nicolas Saenz Julienne <nsaenz@kernel.org>, Florian
- Fainelli <florian.fainelli@broadcom.com>, Broadcom internal kernel review
- list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>, Ryder Lee <ryder.lee@mediatek.com>,
- Jianjun Wang <jianjun.wang@mediatek.com>, Marek Vasut
- <marek.vasut+renesas@gmail.com>, Yoshihiro Shimoda
- <yoshihiro.shimoda.uh@renesas.com>, Michal Simek <michal.simek@amd.com>,
- Daire McNamara <daire.mcnamara@microchip.com>, Jonathan Derrick
- <jonathan.derrick@linux.dev>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 16/16] PCI: vmd: Switch to
- msi_create_parent_irq_domain()
-Message-ID: <20250716111009.000022ff@linux.intel.com>
-In-Reply-To: <de3f1d737831b251e9cd2cbf9e4c732a5bbba13a.1750858083.git.namcao@linutronix.de>
-References: <cover.1750858083.git.namcao@linutronix.de>
-	<de3f1d737831b251e9cd2cbf9e4c732a5bbba13a.1750858083.git.namcao@linutronix.de>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-w64-mingw32)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B433B35949;
+	Wed, 16 Jul 2025 18:19:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752689983; cv=fail; b=cjXDdPQR2gB8VeBbkP2VVj4d1AOp52vawvuNN0fFw4r0Cam/FDlX6GwwIMOCre8zj84Q/MtcQncx9b99uZmTEJxxB3nTYs6fe5MfXgcdXlZJsMGLFptk5EJ1JwYPp8bqRUvfMJEcctnETAUtKxkSo+7dPlTPlCoqXCltq5Zf4gM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752689983; c=relaxed/simple;
+	bh=BBnJKpl82Afa8EpiYEyWoogDds3OnBFZxmZKI4xXBQU=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=rKB5rNHtaWf455DSfB5N8/V/6spZAqc1PEotXLYcrU1q3Oso3ed5IwvEBWfBNt3pfs8jvuNBxlQZ6sD22zUqkZuaEXhBcj34Iz8QFA9RyP2zFw0xp2V+joYAgQMvHWWUT8mNH0C7OLKLwgXZQy/PDzelRlO2sRO9/XHlCNaWbB0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=iZl1Saq0; arc=fail smtp.client-ip=40.107.74.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UNOcEgVJSMaQu4SrfxxCYyBXmIafDsA/Nr8Ffsc49yWk9fKaMTAsw1AT6FmO4qVjj/OJkQ7JoPvo/OftC9xoVuwK1Np9vVWtsxHtH8W9oJ69pNMKC/u2DOqfl+vjZJwBLQzOtsRJ4zc/KngiAGzgy151brDyoSXIK7N3ZGGeoPYJy6ETR7yq5vD9cbbjacEDXRH3LWS1l2lKBXsep27l/FXeBKMwc9pZ3/P1yPmVe/b9AGuPmehlwITQfyn5tUpLvbyh9jjaxiNWM1m+U4CT+Ge7Y+NN5PpDYwwSd9r5lwak33nPd/4SsWUYmCFyUenHuN7JAILxBgLnG+3MQXMm/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zyDXjwVUy7sWdd4AnS0BRamaayO6x9EB8a9X8ksaOrI=;
+ b=LyKhV6h69qZr9lwnckHz36bBawjhiVxDPGDuWWZxu8ZJImxT4FAzrllpBvPSIU5mJfVa09re7dETlfzIe6O0Hnwc6yVQcYadeclahJ6VKK2JmnrtXnm66oofELU4KOov+j8s6P8UUv2QpkRmFO2/64nAL8bTzJjNUwFsd0UVFMkYOL1CdRtw/tXxbXlTwURTk1IH5YI7Pw69gZdunnqdcB+zevETFnDX6SgQATheErP2XMHl9Ny86TiMl4GKX/i6+498BTupvcMAFCN70zHcfwmsmxJOR7CT72nh/VY0GmX3XcJPwvG1vOyEKfJ0vRL5o7iB+utGWkgYLiMuky8r/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zyDXjwVUy7sWdd4AnS0BRamaayO6x9EB8a9X8ksaOrI=;
+ b=iZl1Saq0JrcZy5X2WfNORNLQch4kXtALoXRMOu1KOKj6nRSecbO2vShD8pPvdoS9ke5R+gLjxhwdS+Nxbf6046gbjtgaZU/I90o4K4+6qUxkVc4yLb8y8MMCoTJWiYAb2GaTqf3vDIHJv1aMGe6IQoOv2cBNPjGm6ku5pkHi7v0=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by OS3PR01MB10075.jpnprd01.prod.outlook.com (2603:1096:604:1e5::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.32; Wed, 16 Jul
+ 2025 18:19:35 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%4]) with mapi id 15.20.8922.028; Wed, 16 Jul 2025
+ 18:19:33 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>, Andrew Lunn
+	<andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre
+ Torgue <alexandre.torgue@foss.st.com>
+CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"linux-stm32@st-md-mailman.stormreply.com"
+	<linux-stm32@st-md-mailman.stormreply.com>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+	biju.das.au <biju.das.au@gmail.com>
+Subject: RE: [PATCH net-next] net: stmmac: dwmac-renesas-gbeth: Add PM
+ suspend/resume callbacks
+Thread-Topic: [PATCH net-next] net: stmmac: dwmac-renesas-gbeth: Add PM
+ suspend/resume callbacks
+Thread-Index: AQHb7c6+F2cIzXpCE0eHQabSLpoq6LQ1IIJw
+Date: Wed, 16 Jul 2025 18:19:33 +0000
+Message-ID:
+ <TY3PR01MB11346F9BF41DA974F52CD4CB88656A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20250705170326.106073-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20250705170326.106073-1-biju.das.jz@bp.renesas.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OS3PR01MB10075:EE_
+x-ms-office365-filtering-correlation-id: c65e6165-e331-406a-57d6-08ddc4955087
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|376014|1800799024|7416014|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?QcaZtl0ra5oKd9YdoCpljEQhLHAh3uyILAMIPVvppIoQ8OI5MAEz6S3qjTqw?=
+ =?us-ascii?Q?D2p2gSEeYKDqVXRnxDCOr/mUiND2VbdJslPOsrNiK0YhjH55BsRnaQaSbJbU?=
+ =?us-ascii?Q?m2Tc7rrybEGDT6Q+O0YdAyKW0s01Pw/DZqp/haREVGFHkXEuHB9M6Hq+ZBUC?=
+ =?us-ascii?Q?5Ny+/R4md3+i10PTTtdItt4xy0Jvljoq5bFwViJHJqHelwALA0bvMfKfXXCt?=
+ =?us-ascii?Q?89sTayn9V7TvZyniXmaq/c1bkYQAeY9/nBL0qn9tsByUlF/SX4t+8rC5U4FK?=
+ =?us-ascii?Q?lovlzqNyo01kcuMvDBdK31afbKYbNe9/1ye5jFv7We2YRMGG43mQ+N9jY3Yl?=
+ =?us-ascii?Q?927kxIgJIoBXzFDuSyjqvx5VrRoNs4MaDW0nLBk3ikvKLN95LdH6ysGbjuYN?=
+ =?us-ascii?Q?/S83Ab4h2+h59jQ489fiCqsXonP7gv4vwJP9FFj1tq/ON6Wi4JL3QZPovpvH?=
+ =?us-ascii?Q?KCZHnacrTUeLmXO5r7IcAV6IEXaVz06IYuthaKPANtrz1gVqVTLrzmZbXv22?=
+ =?us-ascii?Q?BNSCwnWX3qevsUx3OhC3SE1HWmKYuMhkelxfFrZ6cd5busD/YoRlmgOOI76G?=
+ =?us-ascii?Q?j3RDUqXF2c2c2fQQBhDeifLIlr517DgkRSZ5QLbELPNP4hRkX5GZgkQzvFRf?=
+ =?us-ascii?Q?DwDPN0x4PhSWmb9G4PcM8wSnVzBnMCI920WZbHffmnSKsuJDr4xX2w5LbMG9?=
+ =?us-ascii?Q?VnfVmDzPmtPDAhbFuNSp09Cq0Qsh40XyJ7Ux9ck1xcnC8RcmW9LhTGlCJFyo?=
+ =?us-ascii?Q?r/g1v6uIiyYFUcGDq5eu3MT/9ztNC9nCK9zkz6rjU3UHxZ7rGQvn4AsjF5Dt?=
+ =?us-ascii?Q?5uV5brKr21KmUYnLtWaffQY6kVjQ5mJRR0pYhoTA24Oqos5fVYYBw7+Ndcxt?=
+ =?us-ascii?Q?8p3s9QwbFlW477nfHVLkYwT5dTOD8VFPuZCxTGe7TGHErxNpi2Qb6RRVWDdG?=
+ =?us-ascii?Q?jGYY6TMHVvfQ1eEgRnglNyVdh9MMNHjYKgyAbv43hJvYJJAPObRj6qya6WXb?=
+ =?us-ascii?Q?YpsurI/hbrQVd+UlP3YOjmet709to4nREaw1jo6YaFg2NGr3vuTveSZAU+X7?=
+ =?us-ascii?Q?zAIz9li7XjwhWG2dNv3uO5fvVIq+8X9XhXis90DPhakZn/BOs76nexd1loEo?=
+ =?us-ascii?Q?JyCN1tA8e/kOt7JB7Ef96AfA1qatfSUqj9TeTdEKnRvaW/si62X9czK8dS1b?=
+ =?us-ascii?Q?4Qt1aRz7f0UVS7GG3IUDooy+wOUxf5nJWG72WNcqPiuiwb1OC01mKlxGba1m?=
+ =?us-ascii?Q?/VKLduqKUXhDpEqxIQtF3GVrefXFiECQB5c/fBK2Awj0Nx9EfvOikE1tczeS?=
+ =?us-ascii?Q?yPsjIzAKLrAJQpkPR59WHnAv+XC2hId4vJP++aqSM/X7IdRaHqr3pwMcSoLc?=
+ =?us-ascii?Q?tzp2m+nJElSvGzILMA1LWEb8gHPhWJKbPjs/tIKKjCEvuk2bW0QtVIPt2C5s?=
+ =?us-ascii?Q?iWnPLBlAoNTEM70klF5WTAUifxA2q75//PHHXy3T9Nzbytws5fDo7A=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7416014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?bfFnZeJcd3vISO1RhzumAV9MIqw6fGJSt7xL3sM+vi5M40sCQRV961OEMTvZ?=
+ =?us-ascii?Q?7apBOc1ZezPJ3dq2JuXHKrHl9ywVLv4saHfeUJuYQOY9qhgLbiRaIo5ClJ/G?=
+ =?us-ascii?Q?qbiSDUCT1Cgu33RGfeBu3c7+sECeMKnxNocpj3bqVPG2SpppctxwLgXIotZd?=
+ =?us-ascii?Q?7SQioEoZytNYlrNGQztKa4fsUrplCOkh6sRmZEk7ECzXj9vXM1eo+19hOieI?=
+ =?us-ascii?Q?kpkxP73c7zWxH0XYNwAyRbIXy3KzifaINiH+AyW57iAt50NfesDLcmhwqREh?=
+ =?us-ascii?Q?G9+9l2bu8yZU1rx2c1l4cxdRbmKoX14ghuTSXB8X2HBm3Od66NLTb3mENzHG?=
+ =?us-ascii?Q?9HyruVjjps7rD4GL3a8709AomrEldJkR6/7qkXhe8jVsnzk+Flb1dt4afh2L?=
+ =?us-ascii?Q?YB9dUE4jz89IchzYsy+MOoLkr9g0bHCBx7Aeo02Fw3PtsREx1P7eWJFAe+c4?=
+ =?us-ascii?Q?9zn6JGgKZ45QyviJ+X36c9lV8by1rqlzwonMXEs3kMV9zrmFm8zxmy7hEEKC?=
+ =?us-ascii?Q?0XnKgvEwGUegY0Toy0REFJLjmnqX5k30G5Hjj6E7uCNNRTIG5E5iGXtKRLb5?=
+ =?us-ascii?Q?QKyS+aR62InVMr20oZusNM7y9U7eMZA0LDqH2rtGHELAozyRRIS2FxwdgyC1?=
+ =?us-ascii?Q?kVpRi/O07tZ/PCxJvUJwL41SBTpXE0xOwGeZN3HsP4uc3pUif8J2+6g+yUZa?=
+ =?us-ascii?Q?ISG3txWqd01DGxxw+4c1MLDpERRn3trQ8zhhVDUAWAPHEtO+O2fIRfp4FEK1?=
+ =?us-ascii?Q?VyWsaAjD8Y1I2IXTHtHJFfdYtP0Moow5hJORydSE7Dy4KpBY/ElH9Ab+UYj+?=
+ =?us-ascii?Q?QVxDXvI2ehur1682VVA0Om9I288wmTs62QJwC90eO0K6UdErKRjQx91gTrNs?=
+ =?us-ascii?Q?oUrQ35RPulA+HI2rj8KDQsvAM585SyHEiu9Bsfi2QI3OMzoZVdIdWTRUELFB?=
+ =?us-ascii?Q?6BQC9yYmzsg/GvA2/Q/FxwW7alux9pLzW43FGNNqaZ6KQgu4yawzJcZ04P0k?=
+ =?us-ascii?Q?lJ/n5M88R9hzJ2EPBpXso4HBUarvCRrqD76pkMQkjjwwY9BRsbf+nXS/Br9o?=
+ =?us-ascii?Q?KzlVksR8joCnSnDtwxNwvZNYYv+OwS5kn0PpndrgOK4XWUuQeel9WU0TSM1w?=
+ =?us-ascii?Q?PNF80ZWW0bdoUHX6o9c/52ecVLYk8JSQf/pjj1EtzZ5+uWRnpO2RdNKZ2zAY?=
+ =?us-ascii?Q?0GNX1QYJhUBBZX0hyZx/6zLIz3BBK0UCrpDU9U82/r9j3I3FsV/MZkxSXDp9?=
+ =?us-ascii?Q?V9Mewt3+hads3DK5k38Uh+H9Piyh+P6cK3dnz6xndWDxazFdbBybGOTQMcKb?=
+ =?us-ascii?Q?dbX1s1iwiElfLDkp4ee0ifo+yffPVivVYTjKOYrLQ8FbUR+4DF+qaYp2r0DH?=
+ =?us-ascii?Q?7KrQnHrbvN1tCKpmBuCtlBENTgipfPB8gyGk3bzauS80pfJsYuzz1ZqDCUMN?=
+ =?us-ascii?Q?sznobvtR8qAp3gGhSdnVBskK8GNo38VuleLyaDwZ6lMeTqP61VAEHGIU+Ihs?=
+ =?us-ascii?Q?9E7/CmVTmrqFjsFw373NxWbZNl0clBdEVa9btcIU56YwYgRlWPJXYm5kqGTr?=
+ =?us-ascii?Q?H62l6kLx8AbBN1MMmkZp3aUUnFQukdL4zdu6rr93NHs4I7BIsk1PfSNOelG3?=
+ =?us-ascii?Q?7g=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c65e6165-e331-406a-57d6-08ddc4955087
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jul 2025 18:19:33.6576
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 9rzr93f7NXdZVoyLYaGsgBdU0aYncBazTcdLLyg+Kvdnw00Cs/xmxY3OXNczPkFbeDUI1QhtKZt7e2JSz9QFplRLXHlKoQCAq4QaxxLLht0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB10075
 
-On Thu, 26 Jun 2025 16:48:06 +0200
-Nam Cao <namcao@linutronix.de> wrote:
+Hi all,
 
-> Move away from the legacy MSI domain setup, switch to use
-> msi_create_parent_irq_domain().
-> 
-> Signed-off-by: Nam Cao <namcao@linutronix.de>
+> -----Original Message-----
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+> Sent: 05 July 2025 18:03
+> Subject: [PATCH net-next] net: stmmac: dwmac-renesas-gbeth: Add PM suspen=
+d/resume callbacks
+>=20
+> Add PM suspend/resume callbacks for RZ/G3E SMARC EVK.
+>=20
+> The PM deep entry is executed by pressing the SLEEP button and exit from =
+entry is by pressing the
+> power button.
+>=20
+> Logs:
+> root@smarc-rzg3e:~# PM: suspend entry (deep) Filesystems sync: 0.115 seco=
+nds Freezing user space
+> processes Freezing user space processes completed (elapsed 0.002 seconds)=
+ OOM killer disabled.
+> Freezing remaining freezable tasks
+> Freezing remaining freezable tasks completed (elapsed 0.001 seconds)
+> printk: Suspending console(s) (use no_console_suspend to debug)
+> NOTICE:  BL2: v2.10.5(release):2.10.5/rz_soc_dev-162-g7148ba838
+> NOTICE:  BL2: Built : 14:23:58, Jul  5 2025
+> NOTICE:  BL2: SYS_LSI_MODE: 0x13e06
+> NOTICE:  BL2: SYS_LSI_DEVID: 0x8679447
+> NOTICE:  BL2: SYS_LSI_PRR: 0x0
+> NOTICE:  BL2: Booting BL31
+> renesas-gbeth 15c30000.ethernet end0: Link is Down Disabling non-boot CPU=
+s ...
+> psci: CPU3 killed (polled 0 ms)
+> psci: CPU2 killed (polled 0 ms)
+> psci: CPU1 killed (polled 0 ms)
+> Enabling non-boot CPUs ...
+> Detected VIPT I-cache on CPU1
+> GICv3: CPU1: found redistributor 100 region 0:0x0000000014960000
+> CPU1: Booted secondary processor 0x0000000100 [0x412fd050]
+> CPU1 is up
+> Detected VIPT I-cache on CPU2
+> GICv3: CPU2: found redistributor 200 region 0:0x0000000014980000
+> CPU2: Booted secondary processor 0x0000000200 [0x412fd050]
+> CPU2 is up
+> Detected VIPT I-cache on CPU3
+> GICv3: CPU3: found redistributor 300 region 0:0x00000000149a0000
+> CPU3: Booted secondary processor 0x0000000300 [0x412fd050]
+> CPU3 is up
+> dwmac4: Master AXI performs fixed burst length 15c30000.ethernet end0: No=
+ Safety Features support
+> found 15c30000.ethernet end0: IEEE 1588-2008 Advanced Timestamp supported=
+ 15c30000.ethernet end0:
+> configuring for phy/rgmii-id link mode
+> dwmac4: Master AXI performs fixed burst length 15c40000.ethernet end1: No=
+ Safety Features support
+> found 15c40000.ethernet end1: IEEE 1588-2008 Advanced Timestamp supported=
+ 15c40000.ethernet end1:
+> configuring for phy/rgmii-id link mode OOM killer enabled.
+> Restarting tasks: Starting
+> Restarting tasks: Done
+> random: crng reseeded on system resumption
+> PM: suspend exit
+>=20
+> 15c30000.ethernet end0: Link is Up - 1Gbps/Full - flow control rx/tx root=
+@smarc-rzg3e:~# ifconfig end0
+> 192.168.10.7 up root@smarc-rzg3e:~# ping 192.168.10.1 PING 192.168.10.1 (=
+192.168.10.1) 56(84) bytes of
+> data.
+> 64 bytes from 192.168.10.1: icmp_seq=3D1 ttl=3D64 time=3D2.05 ms
+> 64 bytes from 192.168.10.1: icmp_seq=3D2 ttl=3D64 time=3D0.928 ms
+>=20
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
-> Cc: Nirmal Patel <nirmal.patel@linux.intel.com>
-> Cc: Jonathan Derrick <jonathan.derrick@linux.dev>
+> This patch is tested with out-of tree patch for save/restore ethernet OEN=
+ registers in the pinctrl
+> block.
 > ---
->  drivers/pci/controller/Kconfig |   1 +
->  drivers/pci/controller/vmd.c   | 160
-> +++++++++++++++++---------------- 2 files changed, 82 insertions(+),
-> 79 deletions(-)
-> 
-> diff --git a/drivers/pci/controller/Kconfig
-> b/drivers/pci/controller/Kconfig index 8f56ffd029ba2..41748d083b933
-> 100644 --- a/drivers/pci/controller/Kconfig
-> +++ b/drivers/pci/controller/Kconfig
-> @@ -156,6 +156,7 @@ config PCI_IXP4XX
->  config VMD
->  	depends on PCI_MSI && X86_64 && !UML
->  	tristate "Intel Volume Management Device Driver"
-> +	select IRQ_MSI_LIB
->  	help
->  	  Adds support for the Intel Volume Management Device (VMD).
-> VMD is a secondary PCI host bridge that allows PCI Express root ports,
-> diff --git a/drivers/pci/controller/vmd.c
-> b/drivers/pci/controller/vmd.c index d9b893bf4e456..38693a9487d9b
-> 100644 --- a/drivers/pci/controller/vmd.c
-> +++ b/drivers/pci/controller/vmd.c
-> @@ -7,6 +7,7 @@
->  #include <linux/device.h>
->  #include <linux/interrupt.h>
->  #include <linux/irq.h>
-> +#include <linux/irqchip/irq-msi-lib.h>
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/msi.h>
-> @@ -174,9 +175,6 @@ static void vmd_compose_msi_msg(struct irq_data
-> *data, struct msi_msg *msg) msg->arch_addr_lo.destid_0_7 =
-> index_from_irqs(vmd, irq); }
->  
-> -/*
-> - * We rely on MSI_FLAG_USE_DEF_CHIP_OPS to set the IRQ mask/unmask
-> ops.
-> - */
->  static void vmd_irq_enable(struct irq_data *data)
->  {
->  	struct vmd_irq *vmdirq = data->chip_data;
-> @@ -186,7 +184,11 @@ static void vmd_irq_enable(struct irq_data *data)
->  		list_add_tail_rcu(&vmdirq->node,
-> &vmdirq->irq->irq_list); vmdirq->enabled = true;
->  	}
-> +}
->  
-> +static void vmd_pci_msi_enable(struct irq_data *data)
-> +{
-> +	vmd_irq_enable(data->parent_data);
->  	data->chip->irq_unmask(data);
->  }
->  
-> @@ -194,8 +196,6 @@ static void vmd_irq_disable(struct irq_data *data)
->  {
->  	struct vmd_irq *vmdirq = data->chip_data;
->  
-> -	data->chip->irq_mask(data);
-> -
->  	scoped_guard(raw_spinlock_irqsave, &list_lock) {
->  		if (vmdirq->enabled) {
->  			list_del_rcu(&vmdirq->node);
-> @@ -204,19 +204,17 @@ static void vmd_irq_disable(struct irq_data
-> *data) }
->  }
->  
-> +static void vmd_pci_msi_disable(struct irq_data *data)
-> +{
-> +	data->chip->irq_mask(data);
-> +	vmd_irq_disable(data->parent_data);
-> +}
-> +
->  static struct irq_chip vmd_msi_controller = {
->  	.name			= "VMD-MSI",
-> -	.irq_enable		= vmd_irq_enable,
-> -	.irq_disable		= vmd_irq_disable,
->  	.irq_compose_msi_msg	= vmd_compose_msi_msg,
+>  drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c
+> b/drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c
+> index 9a774046455b..df4ca897a60c 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c
+> @@ -136,6 +136,7 @@ static struct platform_driver renesas_gbeth_driver =
+=3D {
+>  	.probe  =3D renesas_gbeth_probe,
+>  	.driver =3D {
+>  		.name		=3D "renesas-gbeth",
+> +		.pm		=3D &stmmac_pltfr_pm_ops,
+>  		.of_match_table	=3D renesas_gbeth_match,
+>  	},
 >  };
->  
-> -static irq_hw_number_t vmd_get_hwirq(struct msi_domain_info *info,
-> -				     msi_alloc_info_t *arg)
-> -{
-> -	return 0;
-> -}
-> -
->  /*
->   * XXX: We can be even smarter selecting the best IRQ once we solve
-> the
->   * affinity problem.
-> @@ -250,100 +248,110 @@ static struct vmd_irq_list
-> *vmd_next_irq(struct vmd_dev *vmd, struct msi_desc *d return
-> &vmd->irqs[best]; }
->  
-> -static int vmd_msi_init(struct irq_domain *domain, struct
-> msi_domain_info *info,
-> -			unsigned int virq, irq_hw_number_t hwirq,
-> -			msi_alloc_info_t *arg)
-> +static void vmd_msi_free(struct irq_domain *domain, unsigned int
-> virq, unsigned int nr_irqs); +
-> +static int vmd_msi_alloc(struct irq_domain *domain, unsigned int
-> virq, unsigned int nr_irqs,
-> +			 void *arg)
 
-Is this wrapped in 80 columns? I can see few lines are more than 80.
-Disregard this if it is wrapped and it can be my claws mail client
-issue.
 
->  {
-> -	struct msi_desc *desc = arg->desc;
-> -	struct vmd_dev *vmd =
-> vmd_from_bus(msi_desc_to_pci_dev(desc)->bus);
-> -	struct vmd_irq *vmdirq = kzalloc(sizeof(*vmdirq),
-> GFP_KERNEL);
-> +	struct msi_desc *desc = ((msi_alloc_info_t *)arg)->desc;
-> +	struct vmd_dev *vmd = domain->host_data;
-> +	struct vmd_irq *vmdirq;
->  
-> -	if (!vmdirq)
-> -		return -ENOMEM;
-> +	for (int i = 0; i < nr_irqs; ++i) {
-> +		vmdirq = kzalloc(sizeof(*vmdirq), GFP_KERNEL);
-> +		if (!vmdirq) {
-> +			vmd_msi_free(domain, virq, i);
-> +			return -ENOMEM;
-> +		}
->  
-> -	INIT_LIST_HEAD(&vmdirq->node);
-> -	vmdirq->irq = vmd_next_irq(vmd, desc);
-> -	vmdirq->virq = virq;
-> +		INIT_LIST_HEAD(&vmdirq->node);
-> +		vmdirq->irq = vmd_next_irq(vmd, desc);
-> +		vmdirq->virq = virq + i;
-> +
-> +		irq_domain_set_info(domain, virq + i,
-> vmdirq->irq->virq, &vmd_msi_controller,
-> +				    vmdirq, handle_untracked_irq,
-> vmd, NULL);
-> +	}
->  
-> -	irq_domain_set_info(domain, virq, vmdirq->irq->virq,
-> info->chip, vmdirq,
-> -			    handle_untracked_irq, vmd, NULL);
->  	return 0;
->  }
->  
-> -static void vmd_msi_free(struct irq_domain *domain,
-> -			struct msi_domain_info *info, unsigned int
-> virq) +static void vmd_msi_free(struct irq_domain *domain, unsigned
-> int virq, unsigned int nr_irqs) {
->  	struct vmd_irq *vmdirq = irq_get_chip_data(virq);
->  
-> -	synchronize_srcu(&vmdirq->irq->srcu);
-> +	for (int i = 0; i < nr_irqs; ++i) {
-> +		synchronize_srcu(&vmdirq->irq->srcu);
->  
-> -	/* XXX: Potential optimization to rebalance */
-> -	scoped_guard(raw_spinlock_irq, &list_lock)
-> -		vmdirq->irq->count--;
-> +		/* XXX: Potential optimization to rebalance */
-> +		scoped_guard(raw_spinlock_irq, &list_lock)
-> +			vmdirq->irq->count--;
->  
-> -	kfree(vmdirq);
-> +		kfree(vmdirq);
-> +	}
->  }
->  
-> -static int vmd_msi_prepare(struct irq_domain *domain, struct device
-> *dev,
-> -			   int nvec, msi_alloc_info_t *arg)
-> +static const struct irq_domain_ops vmd_msi_domain_ops = {
-> +	.alloc		= vmd_msi_alloc,
-> +	.free		= vmd_msi_free,
-> +};
-> +
-> +static bool vmd_init_dev_msi_info(struct device *dev, struct
-> irq_domain *domain,
-> +				  struct irq_domain *real_parent,
-> struct msi_domain_info *info) {
-> -	struct pci_dev *pdev = to_pci_dev(dev);
-> -	struct vmd_dev *vmd = vmd_from_bus(pdev->bus);
-> +	if (WARN_ON_ONCE(info->bus_token !=
-> DOMAIN_BUS_PCI_DEVICE_MSIX))
-> +		return false;
->  
-> -	if (nvec > vmd->msix_count)
-> -		return vmd->msix_count;
-> +	if (!msi_lib_init_dev_msi_info(dev, domain, real_parent,
-> info))
-> +		return false;
->  
-> -	memset(arg, 0, sizeof(*arg));
-> -	return 0;
-> +	info->chip->irq_enable		= vmd_pci_msi_enable;
-> +	info->chip->irq_disable		= vmd_pci_msi_disable;
-> +	return true;
->  }
->  
-> -static void vmd_set_desc(msi_alloc_info_t *arg, struct msi_desc
-> *desc) -{
-> -	arg->desc = desc;
-> -}
-> +#define VMD_MSI_FLAGS_SUPPORTED
-> (MSI_GENERIC_FLAGS_MASK | MSI_FLAG_PCI_MSIX) +#define
-> VMD_MSI_FLAGS_REQUIRED		(MSI_FLAG_USE_DEF_DOM_OPS |
-> MSI_FLAG_NO_AFFINITY) -static struct msi_domain_ops
-> vmd_msi_domain_ops = {
-> -	.get_hwirq	= vmd_get_hwirq,
-> -	.msi_init	= vmd_msi_init,
-> -	.msi_free	= vmd_msi_free,
-> -	.msi_prepare	= vmd_msi_prepare,
-> -	.set_desc	= vmd_set_desc,
-> +static const struct msi_parent_ops vmd_msi_parent_ops = {
-> +	.supported_flags	= VMD_MSI_FLAGS_SUPPORTED,
-> +	.required_flags		= VMD_MSI_FLAGS_REQUIRED,
-> +	.bus_select_token	= DOMAIN_BUS_VMD_MSI,
-> +	.bus_select_mask	= MATCH_PCI_MSI,
-> +	.prefix			= "VMD-",
-> +	.init_dev_msi_info	= vmd_init_dev_msi_info,
->  };
->  
-> -static struct msi_domain_info vmd_msi_domain_info = {
-> -	.flags		= MSI_FLAG_USE_DEF_DOM_OPS |
-> MSI_FLAG_USE_DEF_CHIP_OPS |
-> -			  MSI_FLAG_NO_AFFINITY | MSI_FLAG_PCI_MSIX,
-> -	.ops		= &vmd_msi_domain_ops,
-> -	.chip		= &vmd_msi_controller,
-> -};
-> -
-> -static void vmd_set_msi_remapping(struct vmd_dev *vmd, bool enable)
-> -{
-> -	u16 reg;
-> -
-> -	pci_read_config_word(vmd->dev, PCI_REG_VMCONFIG, &reg);
-> -	reg = enable ? (reg & ~VMCONFIG_MSI_REMAP) :
-> -		       (reg | VMCONFIG_MSI_REMAP);
-> -	pci_write_config_word(vmd->dev, PCI_REG_VMCONFIG, reg);
-> -}
-> -
->  static int vmd_create_irq_domain(struct vmd_dev *vmd)
->  {
-> -	struct fwnode_handle *fn;
-> +	struct irq_domain_info info = {
-> +		.size		= vmd->msix_count,
-> +		.ops		= &vmd_msi_domain_ops,
-> +		.host_data	= vmd,
-> +	};
->  
-> -	fn = irq_domain_alloc_named_id_fwnode("VMD-MSI",
-> vmd->sysdata.domain);
-> -	if (!fn)
-> +	info.fwnode = irq_domain_alloc_named_id_fwnode("VMD-MSI",
-> vmd->sysdata.domain);
-> +	if (!info.fwnode)
->  		return -ENODEV;
->  
-> -	vmd->irq_domain = pci_msi_create_irq_domain(fn,
-> &vmd_msi_domain_info, NULL);
-> +	vmd->irq_domain = msi_create_parent_irq_domain(&info,
-> &vmd_msi_parent_ops); if (!vmd->irq_domain) {
-> -		irq_domain_free_fwnode(fn);
-> +		irq_domain_free_fwnode(info.fwnode);
->  		return -ENODEV;
->  	}
->  
->  	return 0;
->  }
->  
-> +static void vmd_set_msi_remapping(struct vmd_dev *vmd, bool enable)
-> +{
-> +	u16 reg;
-> +
-> +	pci_read_config_word(vmd->dev, PCI_REG_VMCONFIG, &reg);
-> +	reg = enable ? (reg & ~VMCONFIG_MSI_REMAP) :
-> +		       (reg | VMCONFIG_MSI_REMAP);
-> +	pci_write_config_word(vmd->dev, PCI_REG_VMCONFIG, reg);
-> +}
-> +
->  static void vmd_remove_irq_domain(struct vmd_dev *vmd)
->  {
->  	/*
-> @@ -874,12 +882,6 @@ static int vmd_enable_domain(struct vmd_dev
-> *vmd, unsigned long features) ret = vmd_create_irq_domain(vmd);
->  		if (ret)
->  			return ret;
-> -
-> -		/*
-> -		 * Override the IRQ domain bus token so the domain
-> can be
-> -		 * distinguished from a regular PCI/MSI domain.
-> -		 */
-> -		irq_domain_update_bus_token(vmd->irq_domain,
-> DOMAIN_BUS_VMD_MSI); } else {
->  		vmd_set_msi_remapping(vmd, false);
->  	}
+Gentle ping.
 
+Cheers,
+Biju
 
