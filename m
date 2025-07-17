@@ -1,209 +1,192 @@
-Return-Path: <linux-renesas-soc+bounces-19582-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19583-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8F52B09126
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Jul 2025 17:59:33 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0151CB0941B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Jul 2025 20:40:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6674FA46E0B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Jul 2025 15:59:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3AD311771D0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Jul 2025 18:40:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACFC02FF480;
-	Thu, 17 Jul 2025 15:56:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 419111DF968;
+	Thu, 17 Jul 2025 18:40:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qs7BPlUy"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="fvunkLBA"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010011.outbound.protection.outlook.com [52.101.84.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A19E2FF473;
-	Thu, 17 Jul 2025 15:56:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752767763; cv=none; b=bzoWIjMdnSh27tgBC3qvF125cJ4+6bDqEGGL4X3iZG/CjQYAOHE1t4FO79qWvs6f3pIP/C+G9NfFYm4cs4swjQpyjkTxiMpKhpmqQR2TFnJEYv5nP9GaqNfxrWTFS/wqpXQaUt+npbbZrvTO2baJBEfGJi94OgtV+hUOpP6bnVg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752767763; c=relaxed/simple;
-	bh=ETE3uINkugnYi4agKJD86EcRqdByscrq4QL3HGf8HlM=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=RIElalZ5Bxq0hgBbg0D8M0xGQAHLBQKB6u+ff7+qNiQPdoBK3t997B0wLn5B3aQVcoDV0bIBw93UxfVoXs7Jl+yEo35t7ZexHXvgQTCQmu7DbsWCCl0H3wuKLgofjzL3Lw+6u5FpLWCYDsfKobYRhNqMTS1Be9fPH25zL3/l6Dk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qs7BPlUy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36FFBC4CEE3;
-	Thu, 17 Jul 2025 15:56:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752767763;
-	bh=ETE3uINkugnYi4agKJD86EcRqdByscrq4QL3HGf8HlM=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=qs7BPlUyzE8m+gnsQzztBR15GnL7U5qODNzNQwAe6MVD+NCQu1Gp/gMUaoeedFRWZ
-	 zz6WmNDdlNCFib6z6YVOMPK4ycltg6J6r5J8q7IgLjcT6wv8XeNHV37/7APyP1kpss
-	 Y0Hb9wJnCrseLt//Wh1RS8gNGcEe/R5Yv9TqVv1nskQWnyANJK05jtcQ85fUIkr9q7
-	 GBsClTs/255oVe56d2GFPUhDoSwLN58bi1Po6qWW8/vmTh9SzlsAcyVlcAcRc0HFTP
-	 SmHXlIHt5bZzWZUCHAwva4q1Y3cQVxCZcY34M3JlT9z4IsNAHN3sKK685yvmXBJFyN
-	 itkL34HZFKcWw==
-Date: Thu, 17 Jul 2025 10:56:02 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F6A20ED
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Jul 2025 18:40:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752777639; cv=fail; b=r3RJ4CvRP5lEviTe2c0D4QGn2TqxdfaxwR5ugnL/trKDnfXPHH7dqznLR/FqiV5Ul/+DHij1Nzo+tpw1Y1AturJ+oIfRmc8ZpxTWr43amWNw74vFcv1fY+gr7rmkMbbU1JnPCYjZDboveddTr31mtl2xVClpoVxRUjzOGFA0+rA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752777639; c=relaxed/simple;
+	bh=+PnaueFHwlXFCg3V74L8VwfUSrnODxI/raXbqffQnd4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=EbA2DOjfgDvgkPi8eC6ABU+BnbGoJN0ARlavm9/gGgDaQuEKB+2AjrkiUJ8Fwpvo7jlsWHsIB/cVACUgjix/W66Ic/x7wCIjF4UqS4tgVU2NvjTavJNjubo7zjJK3UHl5w3WjYsk0Zk7z2TpdbG56pUJ6QYtccJF32rt177mPPY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=fvunkLBA; arc=fail smtp.client-ip=52.101.84.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UUupI20AWgO4sXxcOityrXu4ruoroZGcbtdmwjOdBO6c4TspNGiGz01/e+qQr9djMz+2DOycuouCSmFT8DpWrKC1xL8v3Ira0utsqYG7B5OSByJ9DNTVHwXxNp/tZpd9quVviESzzET7WbxP5Ai7aIQPbslZ6bUH49/K/LZqsySl2mQykrOVS7XQVGzhzBN7QJLMg8mkUZTxonQdcrFKhaz28cIqtik3W2Glyqs48F1I0HsNfuISf8f5kAeGuAGOo/0hKPeRgF0kX7ehh0nVjlxE4NTdoJ0tJRYjgsg/N9EW25UI9UWA6mMG6/1HvkXRuq2zIA6C7I261BVhnUftTg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NLOJpPJ1XikL8S0haKZ8m8F0dabsa3Ir9BLOOTUhsmI=;
+ b=F9M+xz1gPAU+Y8u1cVQHTfaVvMe03kUTweX7TsDXTXCHUmH4vORKRQsaPQQWPHxFsI04tAob+lQTsy54spr/iqyMD1+80S35byTs14LBYpsMIo+XFCtBmijud8FmEZX6ZKIIoXPX5BOCNVO135khdZaKmM0LUbAVeyWHIYVVJkL0ExOF4mrXa2MQUkoB1WTYKM7IB+PmAR7d5QDo2npna4MPeyw6Y5rOMVVktlNEb+MO6LY6et9QqXdFi9qRNKDx/7B2Vy87iYvcrWaORmLJNhkA6roBpGdoYYe2XAhegfjMJsYv9Ra4gs9nEOJPaDmQYuU8m1xa5fRVEMErx9j3kw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NLOJpPJ1XikL8S0haKZ8m8F0dabsa3Ir9BLOOTUhsmI=;
+ b=fvunkLBAXqei50u1r1VO6JygxHEGPlkB1gPUBKciTzKQHwicAzXuY0hg40hyole7AHCMBSNtxE99QZ6syaAVqPPKIYnAB/s98cuhAp5C/xburnDFz6hqENFTeYgyYd5fIRqH6/vSUHUiU9ewyV33ORtFE8kRDw4AzolKBAhHm8W9/AofoLY7UFZ2363IWWAl3KeS6xS7STQeOVel+jyCg5MU3iuOoG09f8Ltb0tyEDIrNHBfPesEjLi22MoPOq2MBVyPdkfDNxLvBIGUSG6ZdLBv/0Nd3ifQoVjEuUlh65Ry6lekQDnHFHiVHM7c8W/T5eHeY+f1PAweQkDTAFGCiQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
+ by DU4PR04MB10576.eurprd04.prod.outlook.com (2603:10a6:10:58a::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.39; Thu, 17 Jul
+ 2025 18:40:34 +0000
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06%5]) with mapi id 15.20.8922.037; Thu, 17 Jul 2025
+ 18:40:34 +0000
+Date: Thu, 17 Jul 2025 14:40:30 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, kernel test robot <lkp@intel.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-i3c@lists.infradead.org
+Subject: Re: [PATCH] i3c: add missing include to internal header
+Message-ID: <aHlDnqjpJQpTqLHq@lizhi-Precision-Tower-5810>
+References: <20250717120046.9022-2-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250717120046.9022-2-wsa+renesas@sang-engineering.com>
+X-ClientProxiedBy: AS4P189CA0056.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:659::26) To PAXPR04MB9642.eurprd04.prod.outlook.com
+ (2603:10a6:102:240::14)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: devicetree@vger.kernel.org, george.kw.lee@fii-foxconn.com, 
- Tony Luck <tony.luck@intel.com>, linux-renesas-soc@vger.kernel.org, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>, linux-aspeed@lists.ozlabs.org, 
- leo.jt.wang@fii-foxconn.com, Joel Stanley <joel@jms.id.au>, 
- Kees Cook <kees@kernel.org>, Conor Dooley <conor.dooley@microchip.com>, 
- linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, 
- bruce.jy.hung@fii-foxconn.com, "Guilherme G. Piccoli" <gpiccoli@igalia.com>, 
- linux-hardening@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>, 
- linux-arm-kernel@lists.infradead.org
-To: Leo Wang <leo.jt.wang@gmail.com>
-In-Reply-To: <20250716-add-support-for-meta-clemente-bmc-v7-0-d5bb7459c5aa@fii-foxconn.com>
-References: <20250716-add-support-for-meta-clemente-bmc-v7-0-d5bb7459c5aa@fii-foxconn.com>
-Message-Id: <175276729762.3490946.6491929182740244284.robh@kernel.org>
-Subject: Re: [PATCH v7 0/2] ARM: dts: Add support for Meta Clemente BMC
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|DU4PR04MB10576:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3f31a4a8-ed61-4908-ebaf-08ddc5616a6f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|52116014|19092799006|1800799024|38350700014|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?NMbNRI0S7MxzVhH5HpuOMBSZM9h4Da3yNC5WEWNNk6dmtQ4yLz8r/OwGau55?=
+ =?us-ascii?Q?7Lm61+UP2H86ojozwFFn9XRzW+IPNY0Qtkx6+mTLoDdHopU3cUuAZhKKsSsb?=
+ =?us-ascii?Q?P/dz+BMHvHcIBhpK2+Eztwidrn9mTCVdyFvwE4yWEmMQYMYFQTOHby8aEE9k?=
+ =?us-ascii?Q?xtwSUY9RliCoex20qvcbhqgGLRmkr6963+D7MUCeZBsSxees7KLk9UPLVZKL?=
+ =?us-ascii?Q?snvBbu1XIKrn/RlDyGeXbXgyZpmx/0R+P7dSQYoRkZ+zD0J6VFPWdfDsRg5w?=
+ =?us-ascii?Q?JwVK7HhcIMLGFHclBSfZWUoWlbMXnA1V3b2BsNmPk2mcqJelSSy8ag5tJ35S?=
+ =?us-ascii?Q?Gvd/DnuzJ3dorPNOmEmYH41TNnlRRmphE55JHqRxE6jw6Oqjc0rzUwrYHJ+C?=
+ =?us-ascii?Q?iF5EJYov7mW5H9AxHYrWWkeShf1jgj0lP8579mXub4EvY01tu+1eQtr/gTXM?=
+ =?us-ascii?Q?tbGxTlqhuC3fuOc/qkKJ6aC6bz3iMftRJDKdRVZWnBx3/u1yfKEqH+Rfbv2p?=
+ =?us-ascii?Q?BX2veHUVis5zEa+IaAbkr9MtK0ujWspUids8sD36MXIEMr2/PNAG/63Amqxb?=
+ =?us-ascii?Q?3XS4mc07aNM8TQMxGMndGxaLm55TBkxYVjL5A2ol5yGMAx1nbK52MBtoFnzB?=
+ =?us-ascii?Q?6BEmuca9nQPQHlPtrPD0Lg+F+7z4ScCo/Og+TwPmtMvrwqchPzJ6kz9ui5E/?=
+ =?us-ascii?Q?l6sztALRi32UwH6/YDYhDx8OT1NvDcAkAd1Xl5Kd2rnaVCcX+22VOT96nDg/?=
+ =?us-ascii?Q?697Fok+8VPwRBgoPg8ARyVbWAkan8H+Evm05eSLjpFstKhly+hkRdB77kipg?=
+ =?us-ascii?Q?+0Jwj3Bi9qlqGssaC4oqX0y/NCyWmPAglDYxo6Mhp0MWcYqI3EjyIqiYvKIp?=
+ =?us-ascii?Q?BGNEFiGVxuABBG17joNwWaLds5K2mTM7Uv3vp0WMpNjgLswZ5c8zPDNzTLyP?=
+ =?us-ascii?Q?gYIxAVgfV2aJBzFM2435hOf71CXz+chRxfchfNdvCyN1GOsosSPG/X+IgvHR?=
+ =?us-ascii?Q?bg0Xwb10V56D/9bbNGJ6Kd8Iv0HhfdnADnzSA3Cv6uyoNHqvlNvrBHnbNNfZ?=
+ =?us-ascii?Q?rX1kzokP4PNtxQr2Rp7QIAb6lSIC85Nph1bEi9KT7q08IZn+K4lh1h50fi65?=
+ =?us-ascii?Q?m4g4dcqqMdb61L+nkNW8DfD9v1IKdPLqO9SQ4D3aP0BOr1U9VnByi+T6RSs7?=
+ =?us-ascii?Q?W/enO/292QDvRQjr1qgCG6/IkZQTMfuQIV7bWcZgCjOGKOVyB/7wXeR6zbRP?=
+ =?us-ascii?Q?JsYtiCiYy+l4eg69AdYq29VsW1PXOoQboHShtghVAo5ijUlwKkaBnumJ7jj5?=
+ =?us-ascii?Q?zKwfm3jphEUuGcPFUSajBeQQcNY6kxmI7vAMVaw9YCAPqYwWmOqVYFl1yIEE?=
+ =?us-ascii?Q?fumDR/j7qlBE3lx+ec5BEQrbN5/5u40VXwrnCQhhxRnlNFPBm5ajxe5wmCgV?=
+ =?us-ascii?Q?ofkBFwUkAzAeT/z2v3yiSSW/uTVTQ65bXYn6YJ/O/kwH4xXvAbr0QRF722Fn?=
+ =?us-ascii?Q?myuFuRYQnAWlGy4=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(19092799006)(1800799024)(38350700014)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?uVLePqW8drSga+7zFr9LlJgle13DwDOhYgP2hUtSudV28nBb5VNpWteyb9aH?=
+ =?us-ascii?Q?URyeY4NSuj4ng7RkT9+mV+7o0Folf7a910Ds8BOlqgbW0rU7QkdWWd2kFcXU?=
+ =?us-ascii?Q?UvogpdzMQR1m831odYaWgdk4xZ0fD7aZXE88vKKX97CFvQI3GJLU2sOATN+Z?=
+ =?us-ascii?Q?5tGFi5RQPN+dw75JruImzhQtyTahauUliC3xl3UhoMS282VeSrXV6TKLhbpw?=
+ =?us-ascii?Q?dnDkTgkwxHj3cArtfRHGCBKTtLdYoXt7BpsUSp9pnMmc6KlO6QIE2OGldyc/?=
+ =?us-ascii?Q?Q20mGnm1BlL3mF8TQg8hsepIqMwzz4Ud3hdz3D9AnUQ1dZjNiUSx/Kjc9PX5?=
+ =?us-ascii?Q?09JOROUONo+VlBFReHcFMiwpY0CLnZj+Lk5SdX74CyyxKkH9LQ8w2HIFnzJ+?=
+ =?us-ascii?Q?DyJ6idaMJB/R6g/T1KKFUOulKQR9BlnQ2TJbq1ly8aJEbjuGOG4DAloa3Ddj?=
+ =?us-ascii?Q?07kpt0NHo/jw6UZCqVWDDS6P59sRcCnBzaSGNTsmNBMoqa/cBeqjer2UvBDz?=
+ =?us-ascii?Q?QRdgsdO3LDBKZfydfc6vieBeZNkzj6JX7Pe/NT726B+8vYFan1Qng7RQEAHB?=
+ =?us-ascii?Q?EiYWcDV/BC1WsPHj5/B5P4mPOk3eLKwNRxZyxzAT4ywp2+QTS1IYAZ6ltJuB?=
+ =?us-ascii?Q?vEm5NLyrEUwCgvx7VR6L177ReI91xDWKPprXs9rGxR7ztvISjs2pljmAnNSE?=
+ =?us-ascii?Q?kcVcDlDQtT4Jpx8mUEw9u3yuvaHM2OqHRrhfzeajtiEkxSz+aZRlmOJmRu5Y?=
+ =?us-ascii?Q?A6Z946QHzRKqbd+CNrxCkf4h7Gbq72WX8RURm+PW/NB3a/lOlm6vFkWew6EX?=
+ =?us-ascii?Q?o21Mr41hkMiO4aeYsddOi0mQTwEIoh6puqVKVMCOyKYCp9S+N/wgZNweG43t?=
+ =?us-ascii?Q?b2viLTN8UgQXtB3ZdxmIcUpHM5A7YHZ0ctV1kb6N3vVVEh0OAT+uGSepzLNp?=
+ =?us-ascii?Q?alFBp3Ni66YqO12u6TwA8CsiPQgDRdMCUctVnw+9hUtt/ukhN9PPB8L3esmq?=
+ =?us-ascii?Q?rgJWBpzjeqYlAAs2m3xUlCzMiayNDqyTyVsxsBpp9xGdkRuG775tXkzgJt4c?=
+ =?us-ascii?Q?bC6oiokDwEx2wDeaposFh58gKwNVddOGBH+GeWdSUJDC9L+o/wuhs88IoxYP?=
+ =?us-ascii?Q?EE5ZXBOArYOsSViUz/v7Kqm8bkOf1HIivOpcZ0RTNyzJAK0OXbbq4fu4cVgt?=
+ =?us-ascii?Q?NZhtlDEAbgIxTMj6oF7NVcDxpJU402Tz6L1y+CJoNi13oqVMd0A7ThVSdiYm?=
+ =?us-ascii?Q?jqOMQ2QzHAxqim+wBYCQIu0r3kd5x9HCQ79nD1zxL8b3UiyvxftDdvd2NYRX?=
+ =?us-ascii?Q?/eqyypBymFvJKWEJDMRu186jbs02HVgtrTO5VXkEN7TpA7zilP2vExBkAuyx?=
+ =?us-ascii?Q?emOEHtRDIwEthzhWZwDX3blt51q5JlomjpC9Cer5ArnzNzw9CTb3GR8VL6F6?=
+ =?us-ascii?Q?5M1nvIziXGmB2U4gIAXztZAZbFuJzIyRBOVtOkBKH70sXr3JiAXXWmgYmkYQ?=
+ =?us-ascii?Q?3W2EEmYMdRSf93c3jZVcUlsP7TWIx9YV8XE9pnKxDgUuk+GCMImTNv4v029t?=
+ =?us-ascii?Q?zy+bH5QhUigJelQL18W90pAinWtW+pHt9t1x/NZW?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f31a4a8-ed61-4908-ebaf-08ddc5616a6f
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2025 18:40:34.7346
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QaLJxbCJv+py72y5As44Uy3FwM32Z1PiC0DTWfpRYVVtM6DHSIVdZY3Rsk8zV50PASFMjSBpT/ekvF4/No9dOQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB10576
 
+On Thu, Jul 17, 2025 at 02:00:47PM +0200, Wolfram Sang wrote:
+> LKP found a random config which failed to build because IO accessors
+> were not defined:
+>
+>    In file included from drivers/i3c/master.c:21:
+>    drivers/i3c/internals.h: In function 'i3c_writel_fifo':
+> >> drivers/i3c/internals.h:35:9: error: implicit declaration of function 'writesl' [-Werror=implicit-function-declaration]
+>
+> Add the proper header to where the IO accessors are used.
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202507150208.BZDzzJ5E-lkp@intel.com/
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-On Wed, 16 Jul 2025 14:24:13 +0800, Leo Wang wrote:
-> This series adds initial support for the Meta Clemente BMC based on the
-> ASPEED AST2600 SoC.
-> 
-> Patch 1 documents the compatible string.
-> Patch 2 adds the device tree for the board.
-> 
-> Signed-off-by: Leo Wang <leo.jt.wang@gmail.com>
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
+
 > ---
-> Changes in v7:
-> - Relocate CBC FRU EEPROMs from i2c13 to i2c12.
-> - Link to v6: https://lore.kernel.org/r/20250708-add-support-for-meta-clemente-bmc-v6-0-7f3e57bd0336@fii-foxconn.com
-> 
-> Changes in v6:
-> - Correct Author email to match Signed-off-by email address.
-> - Link to v5: https://lore.kernel.org/r/20250627-add-support-for-meta-clemente-bmc-v5-0-038ed6f1cb9f@fii-foxconn.com
-> 
-> Changes in v5:
-> - Remove accidentally pasted texts.
-> - Link to v4: https://lore.kernel.org/r/20250627-add-support-for-meta-clemente-bmc-v4-0-ce7ff23460c4@fii-foxconn.com
-> 
-> Changes in v4:
-> - Move properties of nodes defined in the same file from label ref back to where they belong.
-> - Move pinctrl default configs for ncsi3 and ncsi4 to aspeed-g6-pinctrl.dtsi.
-> - Add properties to i2c10 and i2c15 to enable MCTP.
-> - Link to v3: https://lore.kernel.org/r/20250623-add-support-for-meta-clemente-bmc-v3-0-c223ffcf46cf@fii-foxconn.com
-> 
-> Changes in v3:
-> - Modify leakage sensor to reflect current design.
-> - Link to v2: https://lore.kernel.org/r/20250621-add-support-for-meta-clemente-bmc-v2-0-6c5ef059149c@fii-foxconn.com
-> 
-> Changes in v2:
-> - Fix patch 1/2 subject line to match dt-bindings convention.
-> - Reorder device tree nodes in patch 2/2 to follow upstream DTS style.
-> - Link to v1: https://lore.kernel.org/r/20250618-add-support-for-meta-clemente-bmc-v1-0-e5ca669ee47b@fii-foxconn.com
-> 
-> ---
-> Leo Wang (2):
->       dt-bindings: arm: aspeed: add Meta Clemente board
->       ARM: dts: aspeed: clemente: add Meta Clemente BMC
-> 
->  .../devicetree/bindings/arm/aspeed/aspeed.yaml     |    1 +
->  arch/arm/boot/dts/aspeed/Makefile                  |    1 +
->  .../dts/aspeed/aspeed-bmc-facebook-clemente.dts    | 1297 ++++++++++++++++++++
->  arch/arm/boot/dts/aspeed/aspeed-g6-pinctrl.dtsi    |   11 +
->  4 files changed, 1310 insertions(+)
-> ---
-> base-commit: 52da431bf03b5506203bca27fe14a97895c80faf
-> change-id: 20250618-add-support-for-meta-clemente-bmc-941a469bc523
-> 
-> Best regards,
+>  drivers/i3c/internals.h | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/i3c/internals.h b/drivers/i3c/internals.h
+> index 67ed1c44f615..1bf6aecebcbb 100644
+> --- a/drivers/i3c/internals.h
+> +++ b/drivers/i3c/internals.h
+> @@ -9,6 +9,7 @@
+>  #define I3C_INTERNALS_H
+>
+>  #include <linux/i3c/master.h>
+> +#include <linux/io.h>
+>
+>  extern const struct device_type i3c_masterdev_type;
+>
 > --
-> Leo Wang <leo.jt.wang@fii-foxconn.com>
-> 
-> 
-> 
-
-
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
-
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
-
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
-
-  pip3 install dtschema --upgrade
-
-
-This patch series was applied (using b4) to base:
- Base: using specified base-commit 52da431bf03b5506203bca27fe14a97895c80faf
-
-If this is not the correct base, please add 'base-commit' tag
-(or use b4 which does this automatically)
-
-New warnings running 'make CHECK_DTBS=y for arch/arm/boot/dts/aspeed/' for 20250716-add-support-for-meta-clemente-bmc-v7-0-d5bb7459c5aa@fii-foxconn.com:
-
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: timer (arm,armv7-timer): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /sdram@1e6e0000: failed to match any schema with compatible: ['aspeed,ast2600-sdram-edac', 'syscon']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: bus@1e600000 (aspeed,ast2600-ahbc): compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
-	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: syscon@1e6e2000 (aspeed,ast2600-scu): 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^pinctrl-[0-9]+$', '^silicon-id@[0-9a-f]+$'
-	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/display@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2600-gfx', 'syscon']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: adc@1e6e9000 (aspeed,ast2600-adc0): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: adc@1e6e9100 (aspeed,ast2600-adc1): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: crypto@1e6fa000 (aspeed,ast2600-acry): 'aspeed,ahbc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/timer@1e782000: failed to match any schema with compatible: ['aspeed,ast2600-timer']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): reg-io-width: 4 is not of type 'object'
-	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): lpc-snoop@80: 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: kcs@24 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: kcs@28 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: kcs@2c (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: kcs@114 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2600-ibt-bmc']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: sdc@1e740000 (aspeed,ast2600-sd-controller): sdhci@1e740100:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
-	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: sdc@1e740000 (aspeed,ast2600-sd-controller): sdhci@1e740200:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
-	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740100: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740200: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-fuji.dtb: syscon@1e6e2000 (aspeed,ast2600-scu): 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^pinctrl-[0-9]+$', '^silicon-id@[0-9a-f]+$'
-	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: adc@34 (maxim,max1363): '#address-cells', '#size-cells', 'channel@0', 'channel@1', 'channel@2', 'channel@3' do not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/iio/adc/maxim,max1363.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: adc@35 (maxim,max1363): '#address-cells', '#size-cells', 'channel@0', 'channel@1', 'channel@2', 'channel@3' do not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/iio/adc/maxim,max1363.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-qcom-dc-scm-v1.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740200: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
-arch/arm/boot/dts/aspeed/aspeed-bmc-ufispace-ncplite.dtb: pca9535@20 (nxp,pca9535): '#address-cells', '#size-cells' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/gpio/gpio-pca95xx.yaml#arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: /gpio-fsi/cfam@0,0/hub@3400: failed to match any schema with compatible: ['fsi-master-hub']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: fsi@1e79b000 (aspeed,ast2600-fsi-master): compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
-	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/fsi@1e79b000: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: fsi@1e79b100 (aspeed,ast2600-fsi-master): compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
-	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/fsi@1e79b100: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/dma-controller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udma']
-
-
-
-
-
+> 2.47.2
+>
 
