@@ -1,82 +1,113 @@
-Return-Path: <linux-renesas-soc+bounces-19575-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19576-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1BC7B08C6A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Jul 2025 14:05:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E524B08CD0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Jul 2025 14:25:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E8B49A47529
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Jul 2025 12:04:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8E4DC177CC1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Jul 2025 12:25:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA42829DB76;
-	Thu, 17 Jul 2025 12:04:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3D912BDC07;
+	Thu, 17 Jul 2025 12:25:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="MCzVgkqn"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="EAl0qA9m"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8741C29B77B
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Jul 2025 12:04:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD6C52BD033
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Jul 2025 12:25:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752753887; cv=none; b=Y5bpife3bVnCzU9tMh5W5b41lH4irYzvONpVmoPy2zwMOp2guQG+H7CDNvMF/lA1lMWXBxsKAFDSjwwBhGaZqPxFtceMCJu8MyjwGnyUQFUw9eUGgWgd6y5Afi267zpAaNnTOO68oRw44pA4pVBFD3A1WXM9TxGBRvdiHNsna/k=
+	t=1752755117; cv=none; b=uMLNByX9uZgjVIxXidJ1RdVkJZzfbQlRfvtYuZzWayR/hoUJPmdAMdUsTjYmHuP9XrLektI2gnsvazgPD7I0hrwopwvjIZH9U/dQwLg1kunalnOIWmM/egYzMghZD8YIVf2JXS5rQit6uYxFNopIgflYn0Lyix5xRjzp7xbM3Zc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752753887; c=relaxed/simple;
-	bh=M6Ya16CMFbVI6tcFbaGSamvGuZTDOfrELjEnXLbNK0Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Sk4e/x8iR1gR0c8GYUNQOq0N8orfRhuV0APy+aemMzpVbNUCqhodTE0LvKf1+MA6tvsaD73BvAUbuPN8ry6dSwDS7rNrcWYHTrcSWkW08rXXbQkTihYElcmnLuz5fWHSc0B03QPxx8xs9aNfJ1r0srriLoE+Kz5/Zg1/xj1gxHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=MCzVgkqn; arc=none smtp.client-ip=194.117.254.33
+	s=arc-20240116; t=1752755117; c=relaxed/simple;
+	bh=YcINvDLfHkGzyANlr1ZupfWjKFva7tSMisQVD/2gG+4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HY2GLnbFumE/Lwnl4aB5W7ieBItpWGNTNY4BcgyzpPK1seh0HDCpKyIMMTamA2+lnUaeyESMz5JbocrgwB2v6spZGm1Qx0bnuzOzUHOa/mm4URkC0PSFgQWtbZM7SacWULxkGpTmCi2FeltZi09W7Snfgzi+8n+mIlqzWhEEN/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=EAl0qA9m; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=HL0V
-	WTAht8AVy4zqain08zkh4A2mMxT0R9SsJPX1Hl0=; b=MCzVgkqnJqo5893x/yj9
-	FvBv65ra2ykSCN8eTFbvwwt2+himuFy4BGELoaE40P7c35EPyZfOOcVr092JM1DS
-	htX97mIXCei0NertlUBEfObwcUqEOKd4QMAJTtmiExunsgz9SyV7gaWSHB3wIsRs
-	INyTa1LyeVNzdgUkEfgufddWMJStpV7hINVz+bOUSVF5gqt/7ulHeyXfT65Oq8nt
-	XgMoCEFsrFtyTgs+2QzqVdGRUhPNeuxZR37oa3LN0JP6pzfu5Fdg6PNC/z9FFS/y
-	oyBIGq9o3xXqWSDIDciIS/XwEGCVfLJfCnp9ueVL3Z1F/MQJG92heFT2nKSWftT4
-	bQ==
-Received: (qmail 3665366 invoked from network); 17 Jul 2025 14:04:39 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Jul 2025 14:04:39 +0200
-X-UD-Smtp-Session: l3s3148p1@aSlU0B46UpMgAwDPXx+vAAkEB0lWxGP4
-Date: Thu, 17 Jul 2025 14:04:38 +0200
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=bNx8gllGSe/xy2
+	vLhCn0cAXNpGel+OqdtdLDQBiWdoQ=; b=EAl0qA9mbot7pso+VTslj4rNQBSt56
+	66eiK2vjlv0+lnmxGqkjxz5RT6YfksGS12ls5HmBACf2IlO7i2YD6zi6qixXSJ7t
+	/JMMvGMjzuFdMNN43pYrPNWnzFajR5o9u2su7oWMatEPIyCHpCX0hy8X2J+8DCYk
+	xXox0gCwEoIBjIV5B0Pps6cIXu3kiFzw1I/+ivaxd75Wto9Lt/eMsQws89o6pDGH
+	f8dtBk+Xza8Gv2MCb/U6k3EV7Vf3VCcOl7uGdLYduE3QPJToTBLm8q8nbvwgLtZ0
+	iZFo9WNPXlnY74dwRs56GJgFPQKFJuDuM7aCZQ3BGcdaUUipo2dz/9JA==
+Received: (qmail 3671446 invoked from network); 17 Jul 2025 14:25:12 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Jul 2025 14:25:12 +0200
+X-UD-Smtp-Session: l3s3148p1@HWbYGR86GMcgAwDPXx+vAAkEB0lWxGP4
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-renesas-soc@vger.kernel.org
-Cc: kernel test robot <lkp@intel.com>,
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Frank Li <Frank.Li@nxp.com>, linux-i3c@lists.infradead.org
-Subject: Re: [PATCH] i3c: add missing include to internal header
-Message-ID: <aHjm1tjpBk4h3SSp@shikoro>
-References: <20250717120046.9022-2-wsa+renesas@sang-engineering.com>
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	Frank Li <Frank.Li@nxp.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-hardening@vger.kernel.org,
+	linux-i3c@lists.infradead.org,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Rob Herring <robh@kernel.org>,
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Subject: [PATCH v2 0/2] i3c: add support for the Renesas controller
+Date: Thu, 17 Jul 2025 14:24:51 +0200
+Message-ID: <20250717122455.9521-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250717120046.9022-2-wsa+renesas@sang-engineering.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 17, 2025 at 02:00:47PM +0200, Wolfram Sang wrote:
-> LKP found a random config which failed to build because IO accessors
-> were not defined:
-> 
->    In file included from drivers/i3c/master.c:21:
->    drivers/i3c/internals.h: In function 'i3c_writel_fifo':
-> >> drivers/i3c/internals.h:35:9: error: implicit declaration of function 'writesl' [-Werror=implicit-function-declaration]
-> 
-> Add the proper header to where the IO accessors are used.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202507150208.BZDzzJ5E-lkp@intel.com/
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Here is a basic driver for the I3C IP found in various Renesas SoCs like
+RZ/G3S and G3E. Missing features to be added incrementally are IBI,
+HotJoin and maybe target support. Other than that, this driver has been
+tested with I3C pure busses (2 targets) and mixed busses (2 I3C +
+various I2C targets). DAA and reading/writing to the temperature sensors
+worked reliably at different speeds. Scoping the bus, the output from
+the protocol analyzer seems reasonable, too. It was created by merging
+two versions of it from two different BSPs. Then, improved according to
+code analyzers, cleaned up with regard to coding style, and then
+refactored to hopefully match I3C subsystem standards.
 
-Fixes: b7371ff9bdf7 ("i3c: master: Add inline i3c_readl_fifo() and i3c_writel_fifo()")
+Changes since v1 are described in the individual patches. A branch with
+enablement patches for RZ/G3S+G3E can be found here:
+
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/g3s/i3c
+
+Looking forward to comments,
+
+   Wolfram
+
+
+Tommaso Merciai (1):
+  dt-bindings: i3c: renesas,i3c: Add binding for Renesas I3C controller
+
+Wolfram Sang (1):
+  i3c: master: Add basic driver for the Renesas I3C controller
+
+ .../devicetree/bindings/i3c/renesas,i3c.yaml  |  179 +++
+ MAINTAINERS                                   |    7 +
+ drivers/i3c/master/Kconfig                    |   10 +
+ drivers/i3c/master/Makefile                   |    1 +
+ drivers/i3c/master/renesas-i3c.c              | 1425 +++++++++++++++++
+ 5 files changed, 1622 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/i3c/renesas,i3c.yaml
+ create mode 100644 drivers/i3c/master/renesas-i3c.c
+
+-- 
+2.47.2
 
 
