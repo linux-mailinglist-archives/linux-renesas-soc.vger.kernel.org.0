@@ -1,121 +1,90 @@
-Return-Path: <linux-renesas-soc+bounces-19592-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19593-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFBDFB0B81E
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 20 Jul 2025 22:08:10 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86DA0B0B93B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Jul 2025 01:31:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8616B1895C73
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 20 Jul 2025 20:08:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E8A063A6466
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 20 Jul 2025 23:31:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA7C320D51C;
-	Sun, 20 Jul 2025 20:08:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A0891C245C;
+	Sun, 20 Jul 2025 23:31:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="UvTqpPD1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N8ihaHbg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C821198E9B;
-	Sun, 20 Jul 2025 20:08:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428B1AD24;
+	Sun, 20 Jul 2025 23:31:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753042085; cv=none; b=WyhztM4FdIF8tFBal7oDgBvhpCxr0/TUqY2XYtQydqBkCkd8vAP9Tk8KjY3OhGll/Ynd2eRWl3yAbRXdFZgPXR2qqrEyM9aByItqwDJB/FcHd2aH9317UtzQG/j2KNP9ujGbGS7O7LrrehY1HoNIUFbo/nB0/L/Tq6KOiceO6+o=
+	t=1753054309; cv=none; b=XJAU6qR+kuzUZ7r3CzJOqBHNud+S3rn4CyU6v+C1ppjSmJSq47QNnWnrfmoG6bYXkP7Iy7zHEiZls6sNUY7ATX/83fvhQhUwCqYByQkFQx1dyCevGC22RXzUIjZ0y1lvgM6sbv5LLrsG7ze6530z6KPNfaasna+9KgIYNauhMWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753042085; c=relaxed/simple;
-	bh=HE5XfTbqoBFUbJB80+/8sdW4W7hcnSgLwxV3XXsUcw8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oSwr4Qs0iJkApKWRObQlYHZuKWiT2oq0hoPss6dZboODq1P12guRX6c6eBw6zm9JBqRZnFNwSudXHRnqKf4uI61MSzsBvG2NJtWEtvGN7ASpWCOv+21mTzF4vmP3zStzUn12eD+rk2O1PMulvIxyjBwJGgALhe4TiZuEfngpPC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=UvTqpPD1; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4blZMh3GvHz9sjY;
-	Sun, 20 Jul 2025 22:08:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1753042080;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=f2mnKQ0A6cmyOjTY4uC1w0qQca4Edbna8BbLEyyk48c=;
-	b=UvTqpPD17fL7QiwSGNffDuWHFM1alqTcV7ulBZJ5x7levFeT5zhMBeVDu1BxlQyPqUM9fd
-	ec3XL+nE7uWwsy9HoSE//tfpSFIXmpCNBUmtAX+yKE4A5NbIDVvF7K/176pgbYvejeUBls
-	O/Rws2O/OqwfdsMgE/xjLgS8o1LQwnqY4PIUkmf8lja+l+6iZFqq9GCmNvH7WMXiUzPCJ2
-	UIOTNsIXhpdyBTC8fENyPEiPZLr8ROctIsem9uMY0wd0ogKLyzh53VVuUuphft90EqjTzK
-	+94MCqtUMdvnoTFXbZA/JLuI/9c+DSw8SU/pM1Qid8DakkMenS9SBNRU3qo2Hg==
-Message-ID: <9ba974d7-456d-4255-bb74-cfd1998a43ae@mailbox.org>
-Date: Sun, 20 Jul 2025 22:07:57 +0200
+	s=arc-20240116; t=1753054309; c=relaxed/simple;
+	bh=+hYXnYULbaJgyUVTwYKqdlYBEBB9051Tt0CMsxT1e0k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GhR8oglWu3xe4/4JzVe/VF9aKfR/pL12LjSocfmWnnPQ1Igv2G6qm06oTq6dVa6A6HoXGzMj+0QtnI+byuntC8XVZhKdX8gDrUKiqEcGA6zqQMM36cqUV/n9mt9jVbGv9mMccv2kAm979eiJLWwGjjL+6nPQXAPUUp92o5KHFhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N8ihaHbg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBE4DC4CEE7;
+	Sun, 20 Jul 2025 23:31:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753054308;
+	bh=+hYXnYULbaJgyUVTwYKqdlYBEBB9051Tt0CMsxT1e0k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=N8ihaHbgNN9lXZH7oAR2RgEGYmqoSVX3Qcoqs2HU4/POKDKcyNb59UA8n39d/s0DN
+	 CQkJ6H5j6Cb4zzXcNsL44hbJJWPD4SPsJ04kLRzmo9Y7nRL5itqTbgeztkzshk+LX4
+	 dpjX9bXLtqv5L9O4XZYTpmU61vtilpb/W3QbWbm8HHuNvLWRthD8PNManMLnlL1It0
+	 oPKCcFYjFglIdSw4+vSEtXLrvt43zzQ4wmYSgmaD03q/nOjw3BCd4qOJiBeL1a2vVd
+	 Ma9L6didwjxro5jX/cJi17WqB2ltPGFopYv1HDOMBHQ+/dx7UP0lSdkGdKel7JfBo1
+	 XDKiBU+GQeTXg==
+Date: Sun, 20 Jul 2025 18:31:47 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	linux-i3c@lists.infradead.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-renesas-soc@vger.kernel.org, Frank Li <Frank.Li@nxp.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Magnus Damm <magnus.damm@gmail.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: i3c: renesas,i3c: Add binding for
+ Renesas I3C controller
+Message-ID: <175305429252.3069370.16176862151205935873.robh@kernel.org>
+References: <20250717122455.9521-1-wsa+renesas@sang-engineering.com>
+ <20250717122455.9521-2-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] dt-bindings: hwmon: pwm-fan: Document after shutdown
- fan settings
-To: Rob Herring <robh@kernel.org>
-Cc: linux-hwmon@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Guenter Roeck <linux@roeck-us.net>, Jean Delvare <jdelvare@suse.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-References: <20250629220301.935515-1-marek.vasut+renesas@mailbox.org>
- <20250708155058.GA477029-robh@kernel.org>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <20250708155058.GA477029-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: am9qc1c5pjaufgrd1fewytyoucn99ho8
-X-MBO-RS-ID: 9153788d8f5d9aa425f
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250717122455.9521-2-wsa+renesas@sang-engineering.com>
 
-On 7/8/25 5:50 PM, Rob Herring wrote:
-> On Mon, Jun 30, 2025 at 12:02:08AM +0200, Marek Vasut wrote:
->> Document fan-shutdown-percent property, used to describe fan RPM in percent
->> set during shutdown. This is used to keep the fan running at fixed RPM after
->> the kernel shut down, which is useful on hardware that does keep heating
->> itself even after the kernel did shut down, for example from some sort of
->> management core.
+
+On Thu, 17 Jul 2025 14:24:52 +0200, Wolfram Sang wrote:
+> From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 > 
-> This sounds more like "don't ever let the fan go below this RPM" or
-> "don't ever turn off the fan". IOW, it is more than just shutdown.
+> Available in R9A08G045, R9A09G047 SoCs.
+> 
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+> 
+> Changes since v1:
+> * removed useless generic "renesas,i3c" compatible
+> 
+>  .../devicetree/bindings/i3c/renesas,i3c.yaml  | 179 ++++++++++++++++++
+>  1 file changed, 179 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/i3c/renesas,i3c.yaml
+> 
 
-This property is literally only used during/after shutdown , this does 
-not limit or affect fan RPM during runtime in any way.
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-Also, sorry for the late reply.
-
->> diff --git a/Documentation/devicetree/bindings/hwmon/pwm-fan.yaml b/Documentation/devicetree/bindings/hwmon/pwm-fan.yaml
->> index 8b4ed5ee962f..a84cc3a4cfdc 100644
->> --- a/Documentation/devicetree/bindings/hwmon/pwm-fan.yaml
->> +++ b/Documentation/devicetree/bindings/hwmon/pwm-fan.yaml
->> @@ -31,6 +31,15 @@ properties:
->>         it must be self resetting edge interrupts.
->>       maxItems: 1
->>   
->> +  fan-shutdown-percent:
->> +    description:
->> +      Fan RPM in percent set during shutdown. This is used to keep the fan
->> +      running at fixed RPM after the kernel shut down, which is useful on
->> +      hardware that does keep heating itself even after the kernel did shut
->> +      down, for example from some sort of management core.
->> +    minimum: 0
->> +    maximum: 100
->> +
->>     fan-stop-to-start-percent:
->>       description:
->>         Minimum fan RPM in percent to start when stopped.
->> -- 
->> 2.47.2
->>
-
-
--- 
-Best regards,
-Marek Vasut
 
