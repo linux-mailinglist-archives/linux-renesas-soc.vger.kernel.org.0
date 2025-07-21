@@ -1,113 +1,114 @@
-Return-Path: <linux-renesas-soc+bounces-19594-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19595-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5A62B0BB89
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Jul 2025 05:52:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93468B0C2DB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Jul 2025 13:26:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 05DEB7A5662
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Jul 2025 03:51:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D05E4189CE08
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Jul 2025 11:26:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A48521FDE3D;
-	Mon, 21 Jul 2025 03:52:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A0682BDC27;
+	Mon, 21 Jul 2025 11:25:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b="QnWEapU1"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Ct5Ud+96"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2C78F5A;
-	Mon, 21 Jul 2025 03:52:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.241.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8196B29E0F8
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Jul 2025 11:25:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753069947; cv=none; b=XeoPwLnuHhh4FA4MdWFP8PVCbjV2U0AW3PzG4L5twZyNUi66jBcD4n57t4ZCpMUOEghRVTzymT7dM97L3MtLj9hcgyoRTcmGa9DdGDvQJiAW3ir+5IcE7cEWItSj3pFR3xKWYQUmZo3GuhnygdBfUs2K2I5DK+V/njzvMl5uyn4=
+	t=1753097127; cv=none; b=L9BoT+oSrtgfEmZJFw/cRCIUHjTDqramf0K5+AoZHOgMebJLcMterVJBgu/CaSY/GeUQE3x+nju3mxzA+Pzd+4jDTCnMZv3aNFJAPHHPkcMde90jH8hhvxPiISAKnxgn4MghC6QNVDiuh0STEB+furPJ5gDWdeaguTjoKh2o8nI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753069947; c=relaxed/simple;
-	bh=Iu+5IVXA6pbzC+y9EyJIaWB0KxreFLrxpLXUy3Xbk7I=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=XaVMUisE1Cv8eXv5UKvgJxAXZJYuAVz2sKZAi7Bg/6HISHSYnPSKMdrM5dNWfoRMc2f+3rX+R9+Fluo56BKKeWExCcq+QKCt/iWrpnn2L9W41P0AnrqO2Ji91RLmupUxYy12oJsn4154QY/eXrUuSUQAmyvR1ASpHcQVFF/E9r0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; spf=pass smtp.mailfrom=codeconstruct.com.au; dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b=QnWEapU1; arc=none smtp.client-ip=203.29.241.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeconstruct.com.au
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1753069943;
-	bh=Iu+5IVXA6pbzC+y9EyJIaWB0KxreFLrxpLXUy3Xbk7I=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=QnWEapU1KJwFhPi0H8SqC7IGQ+rS4thZas19e+89eSgYus/fFo7Erw5lkQzWhGobp
-	 sEfzpXqR5pqjHveRlUktHBPgi7nCjeZMLX7QWc1Re9+yKWEAKLiOd7MZd45aj27zD9
-	 SpXgFop+4zsNrVblzmb6rJqd1Hambs4C8wy1GdX8RtGxkJ5wz/Z0TYG80bMMxPwGYH
-	 ZIdFYsYy5XVilJBjqjFME/lGXZrrrb9I9VuZ4UdN4MZ4Bdn23+sJDAC8rrbW9s+v7f
-	 LiMwLStxZOnNEQVxsvrRzWGMkbxy5LIYpQExqsR/sPzgWnGECjS6ComyetMO0oCTfK
-	 Xihalh19KCsaQ==
-Received: from [192.168.68.112] (unknown [180.150.112.70])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 7E777640A2;
-	Mon, 21 Jul 2025 11:52:20 +0800 (AWST)
-Message-ID: <c980c6c55f3a4914f1393498763bdf9cfb109ad2.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v8 2/2] ARM: dts: aspeed: clemente: add Meta Clemente BMC
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Leo Wang <leo.jt.wang@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, Kees Cook
- <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,  "Guilherme G. Piccoli"
- <gpiccoli@igalia.com>, Geert Uytterhoeven <geert+renesas@glider.be>, Magnus
- Damm <magnus.damm@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	leo.jt.wang@fii-foxconn.com, george.kw.lee@fii-foxconn.com, 
-	bruce.jy.hung@fii-foxconn.com
-Date: Mon, 21 Jul 2025 13:22:19 +0930
-In-Reply-To: <20250717-add-support-for-meta-clemente-bmc-v8-2-2ff6afb36b0e@fii-foxconn.com>
-References: 
-	<20250717-add-support-for-meta-clemente-bmc-v8-0-2ff6afb36b0e@fii-foxconn.com>
-	 <20250717-add-support-for-meta-clemente-bmc-v8-2-2ff6afb36b0e@fii-foxconn.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.46.4-2 
+	s=arc-20240116; t=1753097127; c=relaxed/simple;
+	bh=W0/z7OZ8d8m+/uECTv7I8WfYd0Bko5Re5wPMcOIO774=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jDzEtMr03sB23SWC5+ZzFB7B20uQncyg8kVJiffrzpgdyVwy4wgAFV83+VZdJz0x5/8z9Wq+h+xSyV74l+5j6ocju+JC6zeHroCEkhmPyNKv6LTxwRlR6I5NnUdboQFgN0SIv39G+5ZGRwyvSSeKA0JyB/ZXt8J/A9lNZXw/PLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Ct5Ud+96; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=W0/z
+	7OZ8d8m+/uECTv7I8WfYd0Bko5Re5wPMcOIO774=; b=Ct5Ud+96YlvDcm88ZiKC
+	/Oxeb62AzLjQEGtnwRDuSDlbR5Oz4BfdH3T8bdTMISaaBsk9mbKBgzX7MbXt88f9
+	851awrL8EKGoOHGjL84KaRiFvrk38V84YxTRF12ffbf6sC4bUvnrHOZruifVmj5H
+	lHE+G2l83EwMCHmBh3AZaoYkj+cVcOuUpBIjzNdS+MrC6+Y/cX2Ujvq39KuGoV0d
+	Kd3MVmrOi9IwIfHV97w6VBCCwokPwGmhWOprpt2kBownYwFFF45UXXfWPd/zKmIF
+	t+QxeuJT3yolfmDYmJxjLb0HFZT5u7QOz1Cb31vFK6xHXHv4n4/k7nSTsZB7fcs7
+	nQ==
+Received: (qmail 887508 invoked from network); 21 Jul 2025 13:25:19 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 21 Jul 2025 13:25:19 +0200
+X-UD-Smtp-Session: l3s3148p1@dT4Mu246UittKPBP
+Date: Mon, 21 Jul 2025 13:25:19 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: kernel test robot <lkp@intel.com>,
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH RFC/RFT 1/2] mmc: tmio: Add 64-bit read/write support for
+ SD_BUF0 in polling mode
+Message-ID: <aH4jnz0RPssZ7SfF@shikoro>
+References: <20250630081315.33288-2-biju.das.jz@bp.renesas.com>
+ <202507010308.KUbUR1fM-lkp@intel.com>
+ <TY3PR01MB1134662BDC486D781E5B263878641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hkKhgmnZWOSSLEQm"
+Content-Disposition: inline
+In-Reply-To: <TY3PR01MB1134662BDC486D781E5B263878641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 
-T24gVGh1LCAyMDI1LTA3LTE3IGF0IDIyOjU5ICswODAwLCBMZW8gV2FuZyB3cm90ZToKPiBGcm9t
-OiBMZW8gV2FuZyA8bGVvLmp0LndhbmdAZ21haWwuY29tPgo+IAo+IEFkZCBsaW51eCBkZXZpY2Ug
-dHJlZSBlbnRyeSBmb3IgTWV0YSBDbGVtZW50ZSBjb21wdXRlLXRyYXkKPiBCTUMgdXNpbmcgQVNU
-MjYwMCBTb0MuCj4gCj4gU2lnbmVkLW9mZi1ieTogTGVvIFdhbmcgPGxlby5qdC53YW5nQGdtYWls
-LmNvbT4KPiAKClsuLi5dCgo+ICvCoMKgwqDCoMKgwqDCoH07Cj4gKwo+ICsvLyBQREIgVEVNUCBT
-RU5TT1IKClRoaXMgY29tbWVudCBzaG91bGQgYmUgaW5kZW50ZWQgYXBwcm9wcmlhdGVseT8KCj4g
-K8KgwqDCoMKgwqDCoMKgdGVtcGVyYXR1cmUtc2Vuc29yQDRlIHsKPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgY29tcGF0aWJsZSA9ICJ0aSx0bXAxMDc1IjsKPiArwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgcmVnID0gPDB4NGU+Owo+ICvCoMKgwqDCoMKgwqDCoH07Cj4gCgpb
-Li4uXQoKPiArCj4gKyZpMmMxMSB7Cj4gK8KgwqDCoMKgwqDCoMKgc3RhdHVzID0gIm9rYXkiOwo+
-ICvCoMKgwqDCoMKgwqDCoGFzcGVlZCxlbmFibGUtYnl0ZTsKClRoaXMgaXMgbm90IGEgcHJvcGVy
-dHkgc3BlY2lmaWVkIGluIGFueSBhY2NlcHRlZCBiaW5kaW5nLCBwbGVhc2UgZHJvcAppdC4KCiAg
-IGFyY2gvYXJtL2Jvb3QvZHRzL2FzcGVlZC9hc3BlZWQtYm1jLWZhY2Vib29rLWNsZW1lbnRlLmR0
-YjogaTJjQDYwMCAoYXNwZWVkLGFzdDI2MDAtaTJjLWJ1cyk6IFVuZXZhbHVhdGVkIHByb3BlcnRp
-ZXMgYXJlIG5vdCBhbGxvd2VkICgnYXNwZWVkLGVuYWJsZS1ieXRlJyB3YXMgdW5leHBlY3RlZCkK
-ICAgCWZyb20gc2NoZW1hICRpZDogaHR0cDovL2RldmljZXRyZWUub3JnL3NjaGVtYXMvaTJjL2Fz
-cGVlZCxpMmMueWFtbCMKCj4gKwo+ICvCoMKgwqDCoMKgwqDCoHNzaWYtYm1jQDEwIHsKPiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgY29tcGF0aWJsZSA9ICJzc2lmLWJtYyI7Cj4gK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJlZyA9IDwweDEwPjsKPiArwqDCoMKgwqDCoMKg
-wqB9Owo+ICt9Owo+IAoKWy4uLl0KCj4gKwo+IGRpZmYgLS1naXQgYS9hcmNoL2FybS9ib290L2R0
-cy9hc3BlZWQvYXNwZWVkLWc2LXBpbmN0cmwuZHRzaSBiL2FyY2gvYXJtL2Jvb3QvZHRzL2FzcGVl
-ZC9hc3BlZWQtZzYtcGluY3RybC5kdHNpCj4gaW5kZXggMjg5NjY4ZjA1MWViNDI3MWFjNDhhZTNj
-ZTliODI1ODc5MTE1NDhlZS4uNjFiMWQxYzUwNDBjODIwZjhjOTk1MTMyNzM5YmVjZGU4MGUwNjli
-YiAxMDA2NDQKPiAtLS0gYS9hcmNoL2FybS9ib290L2R0cy9hc3BlZWQvYXNwZWVkLWc2LXBpbmN0
-cmwuZHRzaQo+ICsrKyBiL2FyY2gvYXJtL2Jvb3QvZHRzL2FzcGVlZC9hc3BlZWQtZzYtcGluY3Ry
-bC5kdHNpCj4gQEAgLTQxMiw2ICs0MTIsMTYgQEAgcGluY3RybF9tZGlvNF9kZWZhdWx0OiBtZGlv
-NF9kZWZhdWx0IHsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGdyb3VwcyA9ICJN
-RElPNCI7Cj4gwqDCoMKgwqDCoMKgwqDCoH07Cj4gwqAKPiArwqDCoMKgwqDCoMKgwqBwaW5jdHJs
-X25jc2kzX2RlZmF1bHQ6IG5jc2kzX2RlZmF1bHQgewo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqBmdW5jdGlvbiA9ICJSTUlJMyI7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoGdyb3VwcyA9ICJOQ1NJMyI7Cj4gK8KgwqDCoMKgwqDCoMKgfTsKPiArCj4gK8KgwqDCoMKg
-wqDCoMKgcGluY3RybF9uY3NpNF9kZWZhdWx0OiBuY3NpNF9kZWZhdWx0IHsKPiArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgZnVuY3Rpb24gPSAiUk1JSTQiOwo+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqBncm91cHMgPSAiTkNTSTQiOwo+ICvCoMKgwqDCoMKgwqDCoH07Cj4g
-KwoKQ2FuIHlvdSBwbGVhc2UgbWFrZSB0aGlzIGEgc2VwYXJhdGUgcGF0Y2g/CgpUaGFua3MsCgpB
-bmRyZXcK
 
+--hkKhgmnZWOSSLEQm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+
+> Maybe I can guard these functions/caller using CONFIG_ARM64 as it is appl=
+icable only to GEN3
+> Platforms. Similar issue seen on [1]??
+>=20
+> [1] https://lkml.iu.edu/hypermail/linux/kernel/2209.2/04657.html
+
+Maybe just use 64BIT as the guard? Seems a tad more precise to me.
+
+Other than that, looks good to me:
+
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+Wasn't able to test this yet, though, sorry. I hope for tomorrow, but no
+promises.
+
+
+--hkKhgmnZWOSSLEQm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmh+I5sACgkQFA3kzBSg
+KbY7Yw/7BB2c/4UPWEH+JCLuSG6oRoQzwD7ptrcphUF0TICA2Gk+Y6YXLIykJbJ0
+k3KH3RoQmS/Q6rgH8Dc3dda+8a5kGgKGqvvIH2ELoFqSlfqbMkjJmjbURRZS1VNW
+LFJfpO/PmZ56/SSO0uk/GtcachTNGmxww36T/LwEXLTs/53RQkjjlex/AZ13Xjkg
+llXNn8lu9pS8zFDCUWa4PTYz9q/tVErPhPQKYje3AHS19hWbywehviZGfvBaio2Y
+WOlQfWz+VQOPxWLr+s7HQ6TJIp9OD6cVwkI6uziEbnFJ5D0sGEJVY0CsUSZhCCHQ
+CNNeXsOZ3f/Sr31NLYnuZUMRsDZzdxPiYQHEdjKbgjt5lq3/uKqCeX+zcr8DUpmm
+Bw+hG1+TcCg7zwbqZs7PTxWT3xEDhyjjUM3utWxPtd4fjs+xTbIHOmC2rVXdiVua
+iodH+dnY+xi1MHnd1lcCJQL9rqd0pVkYN71gGjaP1SUgYWFNgWHH1VZnRVvnfKE1
+maT3BKvvD7cUaKotOERgIsMMyHSUd/Jwgs2d152E8+4v2ra3oRR3X/IEwf43NZ6D
+KX8k0rs+MsWmghGXsHDXNDWbmqb92uharOHt168Sk/mgKXaeK8bliNTKVOwMcyxC
+Ub8GpPBY0RwWZF4J8pC2VEYgfJ6aq2RI4YjoJFhbs61EIHGVdK0=
+=+8h+
+-----END PGP SIGNATURE-----
+
+--hkKhgmnZWOSSLEQm--
 
