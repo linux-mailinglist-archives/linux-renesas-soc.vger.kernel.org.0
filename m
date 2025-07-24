@@ -1,68 +1,62 @@
-Return-Path: <linux-renesas-soc+bounces-19655-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19653-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C99C7B106CF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Jul 2025 11:46:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1D4EB106BA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Jul 2025 11:44:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 30C6CAE5AEC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Jul 2025 09:41:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C924A16724C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Jul 2025 09:42:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9F2723C4F2;
-	Thu, 24 Jul 2025 09:41:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E19ED238166;
+	Thu, 24 Jul 2025 09:41:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="FcFcYXyz"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="PCriePmS"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7DCA238C08
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Jul 2025 09:41:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A610C23237B
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Jul 2025 09:41:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753350114; cv=none; b=SMpJBXnqeNzty4JZzWBTzr5SVWkK6kV3lNxyowReuZdpUVcN8jdH7al7Jort4pW+yQ6H4icPow70DrUaABYsfVeI1p9xB9aZRmsqVc8lv7KaopEIPtYX7C7GowjLKMkuhAmKXd0eoBewy2EY4L73XDMpnX833DexvBRtkskFlPI=
+	t=1753350112; cv=none; b=ctpBxpIB710HsmcHBDkGfPF38cw3/hLYo3VI5jxn2Ikva8Zwg8l43ZUEzZTCdJ6R5q5Xu4Q139y/3P0H6NikAARyE+0cFsanGpFbyIPSH+eOuznlaXy/m0mIZWa1R/xjWA/29ep9Ajw8Wo8xzt+a84cgZpR3wP53iEGtycj8UD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753350114; c=relaxed/simple;
-	bh=7uEbnJ2I42h1jINhiLxKuWZoTLhPAnfyJ1Vm/JSEYJ8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jAvuuTVIWxnl9t5TgLlPgvQdOP0NGXGh0YDtxoxhPSx/DS92EUyP1Gw7H7cXi/y1EpM1iqkTauZfePPTsSIMKNei4Xi3v3XJx1XkZnKlOD8WXzt0QxnD85PjMvQViBcS/1rmKVV9ay6I//B7i1OyLHuuHCfK3q/Vm8WZlxkJwGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=FcFcYXyz; arc=none smtp.client-ip=194.117.254.33
+	s=arc-20240116; t=1753350112; c=relaxed/simple;
+	bh=fj1HeOWR2eJzOk7lQon5RBeF0IrWTBPj+MgPg57UnO0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Qbpc/YS4r9Vb1rg27YIrkXwewfi4+BeRKhfm7CAsXZKSuMVgvIE/FvvY9KGx0naVIZzbD+8bMhG/B+4lTPScuoF+tdmbk0aMfK6oUEV2WY0ZFY/kgpxZl27wAXjo8kzsgkV4TfLv99T4iHwW+KHnT3LbnorlHZzhseng3NlKiCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=PCriePmS; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=pqi6scVX8AxwJ8
-	OR0QjkdOlPSeaMekWpfnI+8ituDOQ=; b=FcFcYXyz+oSuSl7RCQoDG57hHaGUYg
-	OdAFHD2SC8yRPUqKsSs59297kZclfyitAIPFeU5rf1p4VsWpx1lWHahTggUHD0Tt
-	V2W6uBuE2Qbktc3Adpdqm/K+9tD4AZaKQtqN7sURXuYmLFufAmPW9oBStVTZt0oN
-	JjN4BpV5bdyu7O1cMMYVdAwLCpW8wj6rwDWOOHoigabDNWcATGGQaeMo7nLlJEP+
-	yW2auhgP6IJYBXafNU06rwfzEP7ZEJI2SW4UnQiSQeBU28ZEi/tsjvCto6dP7nVC
-	uOvOJ6yOvqHYVowd/JEOS5tHX9opZ8tgbNV6CRyQFxCO/whouXXOpWdw==
-Received: (qmail 2016439 invoked from network); 24 Jul 2025 11:41:47 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 24 Jul 2025 11:41:47 +0200
-X-UD-Smtp-Session: l3s3148p1@I7ZOoqk6tNEgAwDPXyBWAATEinPyanBm
+	:in-reply-to:references:mime-version:content-transfer-encoding;
+	 s=k1; bh=WGLdxfLCsaV/UH0PpLc5CXVjyCbmUzAbRgCy+XdxbsM=; b=PCrieP
+	mSHIJxzPh8RTRSXnFMHuvPHx0kI0pgH3r8IBBZTjCVLVxtB/RBrTXOrnB8jtx7Y7
+	woPu6ZMJBh2gzrsxisZbeqT8IPlrFOBJKFAXMBOb0DihPWPadZ+FU+1c00qtIRIk
+	lZbBEhLdCMRNHsHtAQ87MXO5cxTjDDOKpcTaKAwQqQH4aPTqytWmrFcMO3Yj2Cqp
+	PoiYnIUjKMFuONFaE63AvpK0Uqd7iTyWBS5CmIc8kx6I74KOPJLVDVxNQkqpCYFg
+	JH6v7EChFV0SS1YQ9h6/8bX83jqVB9vWFPxzbh6FSCW/L7PIfxfOpNHEfLr+X0Z1
+	jM4uxVDbZEoIXYFw==
+Received: (qmail 2016526 invoked from network); 24 Jul 2025 11:41:48 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 24 Jul 2025 11:41:48 +0200
+X-UD-Smtp-Session: l3s3148p1@zYBfoqk6/JggAwDPXyBWAATEinPyanBm
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-renesas-soc@vger.kernel.org
 Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org,
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
 	Frank Li <Frank.Li@nxp.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-hardening@vger.kernel.org,
-	linux-i3c@lists.infradead.org,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Rob Herring <robh@kernel.org>,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Subject: [PATCH v5 0/4] i3c: add support for the Renesas controller
-Date: Thu, 24 Jul 2025 11:41:39 +0200
-Message-ID: <20250724094146.6443-1-wsa+renesas@sang-engineering.com>
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-i3c@lists.infradead.org
+Subject: [PATCH v5 1/4] i3c: Standardize defines for specification parameters
+Date: Thu, 24 Jul 2025 11:41:40 +0200
+Message-ID: <20250724094146.6443-2-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250724094146.6443-1-wsa+renesas@sang-engineering.com>
+References: <20250724094146.6443-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -71,49 +65,112 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Detailed changes since v4 are described in the individual patches. A
-branch with enablement patches for RZ/G3S+G3E can be found here:
+Align existing defines to follow the consistent pattern:
+I3C_BUS_<PARAM>_<MAX|MIN|TYP>_<UNIT>. Prepare the codebase for adding
+new parameters and help avoid duplication.
 
-git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/g3s/i3c
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Tested-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
+---
 
-Old coverletter:
+Changes since v4:
+* added tags, thanks Frank and Tommaso!
 
-Here is a basic driver for the I3C IP found in various Renesas SoCs like
-RZ/G3S and G3E. Missing features to be added incrementally are IBI,
-HotJoin and maybe target support. Other than that, this driver has been
-tested with I3C pure busses (2 targets) and mixed busses (2 I3C +
-various I2C targets). DAA and reading/writing to the temperature sensors
-worked reliably at different speeds. Scoping the bus, the output from
-the protocol analyzer seems reasonable, too. It was created by merging
-two versions of it from two different BSPs. Then, improved according to
-code analyzers, cleaned up with regard to coding style, and then
-refactored to hopefully match I3C subsystem standards.
+ drivers/i3c/master.c               | 12 ++++++------
+ drivers/i3c/master/dw-i3c-master.c |  4 ++--
+ include/linux/i3c/master.h         |  9 +++++----
+ 3 files changed, 13 insertions(+), 12 deletions(-)
 
-Looking forward to comments,
-
-   Wolfram
-
-
-Tommaso Merciai (1):
-  dt-bindings: i3c: Add Renesas I3C controller
-
-Wolfram Sang (3):
-  i3c: Standardize defines for specification parameters
-  i3c: Add more parameters for controllers to the header
-  i3c: master: Add basic driver for the Renesas I3C controller
-
- .../devicetree/bindings/i3c/renesas,i3c.yaml  |  179 +++
- MAINTAINERS                                   |    7 +
- drivers/i3c/master.c                          |   12 +-
- drivers/i3c/master/Kconfig                    |   10 +
- drivers/i3c/master/Makefile                   |    1 +
- drivers/i3c/master/dw-i3c-master.c            |    4 +-
- drivers/i3c/master/renesas-i3c.c              | 1404 +++++++++++++++++
- include/linux/i3c/master.h                    |   13 +-
- 8 files changed, 1618 insertions(+), 12 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/i3c/renesas,i3c.yaml
- create mode 100644 drivers/i3c/master/renesas-i3c.c
-
+diff --git a/drivers/i3c/master.c b/drivers/i3c/master.c
+index ffb734d378e2..6a2594dc29e6 100644
+--- a/drivers/i3c/master.c
++++ b/drivers/i3c/master.c
+@@ -728,12 +728,12 @@ static int i3c_bus_set_mode(struct i3c_bus *i3cbus, enum i3c_bus_mode mode,
+ 	switch (i3cbus->mode) {
+ 	case I3C_BUS_MODE_PURE:
+ 		if (!i3cbus->scl_rate.i3c)
+-			i3cbus->scl_rate.i3c = I3C_BUS_TYP_I3C_SCL_RATE;
++			i3cbus->scl_rate.i3c = I3C_BUS_I3C_SCL_TYP_RATE;
+ 		break;
+ 	case I3C_BUS_MODE_MIXED_FAST:
+ 	case I3C_BUS_MODE_MIXED_LIMITED:
+ 		if (!i3cbus->scl_rate.i3c)
+-			i3cbus->scl_rate.i3c = I3C_BUS_TYP_I3C_SCL_RATE;
++			i3cbus->scl_rate.i3c = I3C_BUS_I3C_SCL_TYP_RATE;
+ 		if (!i3cbus->scl_rate.i2c)
+ 			i3cbus->scl_rate.i2c = max_i2c_scl_rate;
+ 		break;
+@@ -755,8 +755,8 @@ static int i3c_bus_set_mode(struct i3c_bus *i3cbus, enum i3c_bus_mode mode,
+ 	 * I3C/I2C frequency may have been overridden, check that user-provided
+ 	 * values are not exceeding max possible frequency.
+ 	 */
+-	if (i3cbus->scl_rate.i3c > I3C_BUS_MAX_I3C_SCL_RATE ||
+-	    i3cbus->scl_rate.i2c > I3C_BUS_I2C_FM_PLUS_SCL_RATE)
++	if (i3cbus->scl_rate.i3c > I3C_BUS_I3C_SCL_MAX_RATE ||
++	    i3cbus->scl_rate.i2c > I3C_BUS_I2C_FM_PLUS_SCL_MAX_RATE)
+ 		return -EINVAL;
+ 
+ 	return 0;
+@@ -2786,7 +2786,7 @@ int i3c_master_register(struct i3c_master_controller *master,
+ 			const struct i3c_master_controller_ops *ops,
+ 			bool secondary)
+ {
+-	unsigned long i2c_scl_rate = I3C_BUS_I2C_FM_PLUS_SCL_RATE;
++	unsigned long i2c_scl_rate = I3C_BUS_I2C_FM_PLUS_SCL_MAX_RATE;
+ 	struct i3c_bus *i3cbus = i3c_master_get_bus(master);
+ 	enum i3c_bus_mode mode = I3C_BUS_MODE_PURE;
+ 	struct i2c_dev_boardinfo *i2cbi;
+@@ -2845,7 +2845,7 @@ int i3c_master_register(struct i3c_master_controller *master,
+ 		}
+ 
+ 		if (i2cbi->lvr & I3C_LVR_I2C_FM_MODE)
+-			i2c_scl_rate = I3C_BUS_I2C_FM_SCL_RATE;
++			i2c_scl_rate = I3C_BUS_I2C_FM_SCL_MAX_RATE;
+ 	}
+ 
+ 	ret = i3c_bus_set_mode(i3cbus, mode, i2c_scl_rate);
+diff --git a/drivers/i3c/master/dw-i3c-master.c b/drivers/i3c/master/dw-i3c-master.c
+index 91429d94a866..dc234efa046d 100644
+--- a/drivers/i3c/master/dw-i3c-master.c
++++ b/drivers/i3c/master/dw-i3c-master.c
+@@ -622,14 +622,14 @@ static int dw_i2c_clk_cfg(struct dw_i3c_master *master)
+ 	core_period = DIV_ROUND_UP(1000000000, core_rate);
+ 
+ 	lcnt = DIV_ROUND_UP(I3C_BUS_I2C_FMP_TLOW_MIN_NS, core_period);
+-	hcnt = DIV_ROUND_UP(core_rate, I3C_BUS_I2C_FM_PLUS_SCL_RATE) - lcnt;
++	hcnt = DIV_ROUND_UP(core_rate, I3C_BUS_I2C_FM_PLUS_SCL_MAX_RATE) - lcnt;
+ 	scl_timing = SCL_I2C_FMP_TIMING_HCNT(hcnt) |
+ 		     SCL_I2C_FMP_TIMING_LCNT(lcnt);
+ 	writel(scl_timing, master->regs + SCL_I2C_FMP_TIMING);
+ 	master->i2c_fmp_timing = scl_timing;
+ 
+ 	lcnt = DIV_ROUND_UP(I3C_BUS_I2C_FM_TLOW_MIN_NS, core_period);
+-	hcnt = DIV_ROUND_UP(core_rate, I3C_BUS_I2C_FM_SCL_RATE) - lcnt;
++	hcnt = DIV_ROUND_UP(core_rate, I3C_BUS_I2C_FM_SCL_MAX_RATE) - lcnt;
+ 	scl_timing = SCL_I2C_FM_TIMING_HCNT(hcnt) |
+ 		     SCL_I2C_FM_TIMING_LCNT(lcnt);
+ 	writel(scl_timing, master->regs + SCL_I2C_FM_TIMING);
+diff --git a/include/linux/i3c/master.h b/include/linux/i3c/master.h
+index c67922ece617..7dfcbe530515 100644
+--- a/include/linux/i3c/master.h
++++ b/include/linux/i3c/master.h
+@@ -249,10 +249,11 @@ struct i3c_device {
+  */
+ #define I3C_BUS_MAX_DEVS		11
+ 
+-#define I3C_BUS_MAX_I3C_SCL_RATE	12900000
+-#define I3C_BUS_TYP_I3C_SCL_RATE	12500000
+-#define I3C_BUS_I2C_FM_PLUS_SCL_RATE	1000000
+-#define I3C_BUS_I2C_FM_SCL_RATE		400000
++/* Taken from the I3C Spec V1.1.1, chapter 6.2. "Timing specification" */
++#define I3C_BUS_I2C_FM_PLUS_SCL_MAX_RATE	1000000
++#define I3C_BUS_I2C_FM_SCL_MAX_RATE		400000
++#define I3C_BUS_I3C_SCL_MAX_RATE	12900000
++#define I3C_BUS_I3C_SCL_TYP_RATE	12500000
+ #define I3C_BUS_TLOW_OD_MIN_NS		200
+ 
+ /**
 -- 
 2.47.2
 
