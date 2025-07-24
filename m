@@ -1,168 +1,120 @@
-Return-Path: <linux-renesas-soc+bounces-19651-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19655-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9245AB10613
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Jul 2025 11:28:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C99C7B106CF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Jul 2025 11:46:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 995115A0E25
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Jul 2025 09:28:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 30C6CAE5AEC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Jul 2025 09:41:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A58429C351;
-	Thu, 24 Jul 2025 09:25:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9F2723C4F2;
+	Thu, 24 Jul 2025 09:41:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="pZC6z7/L"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="FcFcYXyz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF9C3291C17
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Jul 2025 09:25:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7DCA238C08
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Jul 2025 09:41:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753349109; cv=none; b=kBD677IRiuUHL5qISsel6faBaI9lvouKamwgT4GbScLcbltu59gwS8egHITgDmkTiorgcXu8tMeHhx3r+Cz5cay9m8XVsYPgYDJZ8RdGjtaQcsG9LTdySJ7Q6Id+h7F6Hcqljbz0z4Gafv0DUibd9iTFifw8IhLqvCtK1TPM5Ko=
+	t=1753350114; cv=none; b=SMpJBXnqeNzty4JZzWBTzr5SVWkK6kV3lNxyowReuZdpUVcN8jdH7al7Jort4pW+yQ6H4icPow70DrUaABYsfVeI1p9xB9aZRmsqVc8lv7KaopEIPtYX7C7GowjLKMkuhAmKXd0eoBewy2EY4L73XDMpnX833DexvBRtkskFlPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753349109; c=relaxed/simple;
-	bh=j3hEB3uHMyfG6UC6xkEhr2jxijr1UzMwpOtvGPojo1c=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bMmawdlAw7Caw3JHO+Rxin7K48ovQAjXZ3PylXxmshFKeo+4GRnGblOcmLlYeYck65UZw3T1qWaq2ejS7pL6ulctuZ31ERXzAn3ByVO0I3tmtPMh1QSbY+ddy1QVJSbUHnQyzv6kINJoOIFvvct0bJirhiF/PCyGFjY6cRK3fB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=pZC6z7/L; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3b611665b96so449451f8f.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Jul 2025 02:25:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1753349103; x=1753953903; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=h4a+gzu7f3EwTZaPbk859mLIqTYIGZRRwraHyXMWvss=;
-        b=pZC6z7/LGtdQGVWRpYaTHqcqRGRzUPMXs5mzavTko1zC2wIanFvf9U0DddlnTl01By
-         l/sg4duxd9Q26ivVXRMiaT7Gp0V4wFOf40Sh8+RIQJPJM4jpUG8ltrQLCu5gF5FvD2mF
-         1C3xRF39UubD+CfRVByGnbT0Pgl2q3ySpHnufDVIWhq52ZmeTnfcFz0qb2CTN7DbZrIo
-         8WL8Cc7X584qxA+y/UFkNCfh1MduOYnBafRW/uMsR2xU7SoSN1Fe7bqKqGXcBsf6Ostl
-         DhWkoqlLqaFvaVAIT/poJa9ZwBo94qHYA2YbhD0aQstzDGRDdRomoIG02mV3uLit5+0b
-         pRxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753349103; x=1753953903;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=h4a+gzu7f3EwTZaPbk859mLIqTYIGZRRwraHyXMWvss=;
-        b=Iyvj0lBzEOaVpjkHa3FC9NSHFVlWKJ8FlIHkfcPJUVmCKxlzuDhpune/GAxa7AzMim
-         F4/X5PfbGyvwdpSyzKE5ZAhvnoSerJmIfBadKCxC6EGNGF7sLTHMuUjXYRBpqK+wj8gM
-         FCbPhf9rVpUspqa9zoLb11pUYc0hJMLvhRxO/yVjBOggglb9+Ccr9Z4U/YFr9+wX8HA6
-         7+wGvkwrXfaqi/k0BNDx31oLLyq77qox9Rc9eMQnmOeJ32IPeRSyPbJs+WKYdrtQugq+
-         2bH0pWpDk+uSgiUc7ePxQjxxtxZWVDoRp88oEWrf01+kUvH9baBSjvNBs3tdJcmA+7tg
-         AlLg==
-X-Forwarded-Encrypted: i=1; AJvYcCXioQWRuDDd9QSSjuSOjp85kMFPybHTlhm47dH8BuYrP3YeN2xupEIAtshuhRonPh4YOUNOmVb6brsvYWLjsyeeDQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxuQ4qELHm9QpzkR6ccR8q/XgUcgxkMMDxM9bZyW/x1EWXWshTo
-	eqlIsaVtd2dXckwLKO1RXTFNhdL8HOf1OAmQfiwWTZJVNbPVxApioMEgq6JfVyJ7gIg=
-X-Gm-Gg: ASbGncv7ZMXLU6N87HyuSZk094UpAgKMIlNbsuvXblnC+Zr8U+tVUGJ13lAP7Evpwqy
-	r4XUADLmMZwSrspHzl8rXP7jQVmIG3u78ZQtJrq7er7xrcpW0ZFoBnpTxpKTs5qqmrFzuN6L0by
-	YRU0tbh14hR2QyDBL59z/j184yCRnsnaebFXlGs67LClsuieID/W2jI6e2Ggb1WLT+uy149ocjU
-	ShbpC/jnwS8dJB56jOZRnNqjR+j/ukh+2mL4WRQrcGkAry9srFJ/4b4HK2hPkEMItmU4M+0BAlO
-	9LfxWLHekRbAD3IVWpbQufNJQoYU03YeGu+/8e3iqxiB4bqhjLnlJe2rYlVvjhbpznFPcXWmfTr
-	1HyYz3cFF4Av40juS
-X-Google-Smtp-Source: AGHT+IH0iAkuA6GzMHME9lyvaFVrb9WaSOmQdANpljoKy1DeZvDX7IaJl8X91dcX7f0LjUclpn3P5A==
-X-Received: by 2002:a05:6000:1447:b0:3a5:2b75:56cc with SMTP id ffacd0b85a97d-3b768cb3ac1mr4981697f8f.23.1753349103057;
-        Thu, 24 Jul 2025 02:25:03 -0700 (PDT)
-Received: from [127.0.1.1] ([2a01:cb1d:dc:7e00:f44c:20db:7ada:b556])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b76fc72548sm1600833f8f.30.2025.07.24.02.25.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Jul 2025 02:25:02 -0700 (PDT)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Thu, 24 Jul 2025 11:24:43 +0200
-Subject: [PATCH v3 15/15] pinctrl: qcom: make the pinmuxing strict
+	s=arc-20240116; t=1753350114; c=relaxed/simple;
+	bh=7uEbnJ2I42h1jINhiLxKuWZoTLhPAnfyJ1Vm/JSEYJ8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jAvuuTVIWxnl9t5TgLlPgvQdOP0NGXGh0YDtxoxhPSx/DS92EUyP1Gw7H7cXi/y1EpM1iqkTauZfePPTsSIMKNei4Xi3v3XJx1XkZnKlOD8WXzt0QxnD85PjMvQViBcS/1rmKVV9ay6I//B7i1OyLHuuHCfK3q/Vm8WZlxkJwGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=FcFcYXyz; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=pqi6scVX8AxwJ8
+	OR0QjkdOlPSeaMekWpfnI+8ituDOQ=; b=FcFcYXyz+oSuSl7RCQoDG57hHaGUYg
+	OdAFHD2SC8yRPUqKsSs59297kZclfyitAIPFeU5rf1p4VsWpx1lWHahTggUHD0Tt
+	V2W6uBuE2Qbktc3Adpdqm/K+9tD4AZaKQtqN7sURXuYmLFufAmPW9oBStVTZt0oN
+	JjN4BpV5bdyu7O1cMMYVdAwLCpW8wj6rwDWOOHoigabDNWcATGGQaeMo7nLlJEP+
+	yW2auhgP6IJYBXafNU06rwfzEP7ZEJI2SW4UnQiSQeBU28ZEi/tsjvCto6dP7nVC
+	uOvOJ6yOvqHYVowd/JEOS5tHX9opZ8tgbNV6CRyQFxCO/whouXXOpWdw==
+Received: (qmail 2016439 invoked from network); 24 Jul 2025 11:41:47 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 24 Jul 2025 11:41:47 +0200
+X-UD-Smtp-Session: l3s3148p1@I7ZOoqk6tNEgAwDPXyBWAATEinPyanBm
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	Frank Li <Frank.Li@nxp.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-hardening@vger.kernel.org,
+	linux-i3c@lists.infradead.org,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Rob Herring <robh@kernel.org>,
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Subject: [PATCH v5 0/4] i3c: add support for the Renesas controller
+Date: Thu, 24 Jul 2025 11:41:39 +0200
+Message-ID: <20250724094146.6443-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250724-pinctrl-gpio-pinfuncs-v3-15-af4db9302de4@linaro.org>
-References: <20250724-pinctrl-gpio-pinfuncs-v3-0-af4db9302de4@linaro.org>
-In-Reply-To: <20250724-pinctrl-gpio-pinfuncs-v3-0-af4db9302de4@linaro.org>
-To: Linus Walleij <linus.walleij@linaro.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Alexey Klimov <alexey.klimov@linaro.org>, 
- Lorenzo Bianconi <lorenzo@kernel.org>, Sean Wang <sean.wang@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Paul Cercueil <paul@crapouillou.net>, Kees Cook <kees@kernel.org>, 
- Andy Shevchenko <andy@kernel.org>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@redhat.com>, 
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
- Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- Dong Aisheng <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>, 
- Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- NXP S32 Linux Team <s32@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Tony Lindgren <tony@atomide.com>, 
- Haojian Zhuang <haojian.zhuang@linaro.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
- linux-hardening@vger.kernel.org, linux-mm@kvack.org, imx@lists.linux.dev, 
- linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1142;
- i=bartosz.golaszewski@linaro.org; h=from:subject:message-id;
- bh=M36QPREHYk2Y1Ol3wL/sT7z2U9JVD+MimNp7WJSOHU0=;
- b=owEBbQKS/ZANAwAKARGnLqAUcddyAcsmYgBogfvUuNqnvhBaTQ7E02dLbZ93XPdMix/+wojXR
- G62efWlN2eJAjMEAAEKAB0WIQQWnetsC8PEYBPSx58Rpy6gFHHXcgUCaIH71AAKCRARpy6gFHHX
- csIEEACcYzcalCunEHwwLc8fC351P1QZ0/EviGqXfAPEAKDWr3P+rwFdN2Ta12zzVjBkLzjyQ91
- Zv3Pyd8ByzwdIUsKqqnTCqQXU561HpvlpivEPwqQfk2Fv1/z8zXTLdhqLYeWc2DtYwXVL47+ep1
- hvPNS0sKjxZZSbhD2Cv0so7lDbU9TIvO8FfROCo+OUmJ+fNRIHwJdm3DZ3UCBbKrfqj0JKqwStC
- SmdBFpZg+RC6pqBdqVp2puRBkrX4kkPXma3WhGUgbQa/jdRrzeKTzhOecZSN78aF+JYuAOuEWas
- 9ZYmbC12bDFImUccK4LcZfdm6UKPE66KoyCTfbJSdLsUaafuNUop1v3HMU+T1Qr/Xjdxcfc1d72
- xDxNII3sKlNkkl6WGjDNi7bqM437VkY4D3MqKo2PdUpL8pWVacs90dpKk/TeHcMZqMlSPpWf6Ir
- w0BoC8kdAtDjE9Xmx8h4NgBJrMuqyRB+w2H/MkSVj85rAH3A8nrxlRd/vqL77bGkehXfVeY7coP
- hWnYxxxDdbXZTNWgEpW4pWcbFrtw2pyKmva81FwQzEbINBVc2nQJQb2Qpd68J7/3170a6GFWyeN
- MElcFiUfHMZhzI5U6MPEUSceL4b9e10SrngoFXdrORgydvHqnRID4/lq5Qv8dryavy2pK7C0AN1
- RovE1kMQsSfBwRA==
-X-Developer-Key: i=bartosz.golaszewski@linaro.org; a=openpgp;
- fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
+Content-Transfer-Encoding: 8bit
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Detailed changes since v4 are described in the individual patches. A
+branch with enablement patches for RZ/G3S+G3E can be found here:
 
-The strict flag in struct pinmux_ops disallows the usage of the same pin
-as a GPIO and for another function. Without it, a rouge user-space
-process with enough privileges (or even a buggy driver) can request a
-used pin as GPIO and drive it, potentially confusing devices or even
-crashing the system. Set it globally for all pinctrl-msm users.
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/g3s/i3c
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
----
- drivers/pinctrl/qcom/pinctrl-msm.c | 1 +
- 1 file changed, 1 insertion(+)
+Old coverletter:
 
-diff --git a/drivers/pinctrl/qcom/pinctrl-msm.c b/drivers/pinctrl/qcom/pinctrl-msm.c
-index 7010be8d1ace062fcf7743e539d2065d4aed856b..ad572c923e2ab8caed134207ec02c4107d4dc2bd 100644
---- a/drivers/pinctrl/qcom/pinctrl-msm.c
-+++ b/drivers/pinctrl/qcom/pinctrl-msm.c
-@@ -268,6 +268,7 @@ static const struct pinmux_ops msm_pinmux_ops = {
- 	.function_is_gpio	= pinmux_generic_function_is_gpio,
- 	.gpio_request_enable	= msm_pinmux_request_gpio,
- 	.set_mux		= msm_pinmux_set_mux,
-+	.strict			= true,
- };
- 
- static int msm_config_reg(struct msm_pinctrl *pctrl,
+Here is a basic driver for the I3C IP found in various Renesas SoCs like
+RZ/G3S and G3E. Missing features to be added incrementally are IBI,
+HotJoin and maybe target support. Other than that, this driver has been
+tested with I3C pure busses (2 targets) and mixed busses (2 I3C +
+various I2C targets). DAA and reading/writing to the temperature sensors
+worked reliably at different speeds. Scoping the bus, the output from
+the protocol analyzer seems reasonable, too. It was created by merging
+two versions of it from two different BSPs. Then, improved according to
+code analyzers, cleaned up with regard to coding style, and then
+refactored to hopefully match I3C subsystem standards.
+
+Looking forward to comments,
+
+   Wolfram
+
+
+Tommaso Merciai (1):
+  dt-bindings: i3c: Add Renesas I3C controller
+
+Wolfram Sang (3):
+  i3c: Standardize defines for specification parameters
+  i3c: Add more parameters for controllers to the header
+  i3c: master: Add basic driver for the Renesas I3C controller
+
+ .../devicetree/bindings/i3c/renesas,i3c.yaml  |  179 +++
+ MAINTAINERS                                   |    7 +
+ drivers/i3c/master.c                          |   12 +-
+ drivers/i3c/master/Kconfig                    |   10 +
+ drivers/i3c/master/Makefile                   |    1 +
+ drivers/i3c/master/dw-i3c-master.c            |    4 +-
+ drivers/i3c/master/renesas-i3c.c              | 1404 +++++++++++++++++
+ include/linux/i3c/master.h                    |   13 +-
+ 8 files changed, 1618 insertions(+), 12 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/i3c/renesas,i3c.yaml
+ create mode 100644 drivers/i3c/master/renesas-i3c.c
 
 -- 
-2.48.1
+2.47.2
 
 
