@@ -1,164 +1,124 @@
-Return-Path: <linux-renesas-soc+bounces-19707-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19708-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD16EB1339B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Jul 2025 06:18:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB9FAB13710
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Jul 2025 10:56:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E160316C358
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Jul 2025 04:18:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 043753B6D46
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Jul 2025 08:56:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 851B11E5710;
-	Mon, 28 Jul 2025 04:18:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Pob29YA9"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 727ED22D9F7;
+	Mon, 28 Jul 2025 08:56:33 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 435811C36;
-	Mon, 28 Jul 2025 04:18:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F6554C6C;
+	Mon, 28 Jul 2025 08:56:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753676320; cv=none; b=ANU1csrr6Pa6Q/HT8kWCfOmCOuzvrib1htNZQqbz0rW4AXzkYPeRYGOcHfhEvEsUHurHZGXiLlrSo97Fwj0Uzdw5zCxeF7v1uKBMDmnJ1F0GMORvv2LD2jdtIJ5tccwEiYFbdpqWHIWsIxj6J4CjwYz3eF9AItVl/cNTHb6u5ak=
+	t=1753692993; cv=none; b=hKXVkAnr7KxQuUjS9mZCK3JiMtowEYZTZFyMYmCoyObYDl9lHVAsHwk+BLPGUzWe75lvh65xxuOQPPRp/8+DIf+FJL4BdkXi9CxEZPIoO3hSeUTBJ8rsIzk8uMFZYGugws9tbTqlX8L3OpFKA5NbY8LNJDjvazgG0KxBqe7IVms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753676320; c=relaxed/simple;
-	bh=vEJb4o0t3khHJpgtG8gkcYUb1C8wJPZ4Z5J84HGPSRs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Or6Sulf6qA+VuHXSwuV5+0Qw1fP4p06fOtsatj8mKACJBpd7qM3eW+tIwX2x0MDCHFi3G+m6okjbrsTgn5F63WDyYxPNR8NKbcOf3685OTSjRg0UbzOIIxtVCWkfc91bYAv5YrLqXdIvh3HT6KsnaM2HnAND9R5TFxbHrCImEok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Pob29YA9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 559C4C4CEE7;
-	Mon, 28 Jul 2025 04:18:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1753676319;
-	bh=vEJb4o0t3khHJpgtG8gkcYUb1C8wJPZ4Z5J84HGPSRs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Pob29YA9dNfsOZRSQxrwdQxnICzwXI3+OzA6j1KOFZOtxEWDxSqfcKO+bvaEzJVyn
-	 WOIZZnjgamV28WzrwEBJPDesElZ4uvC7iMjvLojIXaQgk0WjCueVJVzilfHNHjOoio
-	 auiC+1uaHIw7uC81TE0oOZiWpF+wxKRxXEf50w7g=
-Date: Mon, 28 Jul 2025 06:18:36 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-usb@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
-	Mathias Nyman <mathias.nyman@intel.com>,
-	Vinod Koul <vkoul@kernel.org>, stable@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] usb: renesas-xhci: Fix External ROM access timeouts
-Message-ID: <2025072828-suspect-work-12ca@gregkh>
-References: <20250727154516.11599-1-marek.vasut+renesas@mailbox.org>
+	s=arc-20240116; t=1753692993; c=relaxed/simple;
+	bh=qN/u6PndEBo0zcprrAbjEabx1dNlsBZarLJkYS0zCDE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qbySThLLYtQItDk/bF1DOT28PPhI/zJhc4NXDyRRWiZBFeVSmTwpTHcDQPaJw7rYZ8C+yzREwcgCqiXsp3fFhEW+rplsJc4K7khxI6tOHYorAGg6WVeVj1ceP3inmWREDqNCQTkWmijyc3iDn3n09rxN1Lhghpak5/NmyMvCn8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-4e8135adfccso1315521137.1;
+        Mon, 28 Jul 2025 01:56:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753692990; x=1754297790;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2OXkPqeczMASzZj9IrcbhthBG0cCCHz+IouD66QuiFU=;
+        b=j460hDjYLpuB52W8sWHFU9d8JBjurcM7ZNsj6jvZfaHA+VEmWI76QEa4/nQOu5qboi
+         1uURTcCAYI+b5Huodag2FG17npO627uAWGG15jLGspfyHfKohejKIMrMUg1mNDCqMwm3
+         xyPjGURnRVV0SZI4KWTg+o9tgIyXEuR5Py35AgKSfmdDQU+xhejnDMWE1tRYiRohLa9P
+         z3f32L6CfCnyS+sNAWKghvqvl1kkuHQ9AEuwuyGopPSqAmaVfj3PwwnbWsc+uFPd1BmN
+         Aey0T8I0XPt8T20Ub48rxbx83KynUOrWS5uNz/Eaao4Od26WiiZ64sBBaQfd237N0BaR
+         nEbw==
+X-Forwarded-Encrypted: i=1; AJvYcCVCeKmzRJwjAVGKicCbj1y1Kci9pCvhD4ImZmDr/mQ5VqSgjGlhn/vnIz2xsRNE9sEv7QNBWGCHBbZQceld4ibZvxc=@vger.kernel.org, AJvYcCXpeQ9iz7bK3eeYX1GzwBq9OQgSHpmhMaJP2SoCkbra3lC6+rtPdkshN7tBrqAJ2zmu0eqnmT+c1Ix+gSw=@vger.kernel.org, AJvYcCXsr6hIMqsETq4+hUINPfczK+BmEbMeUp7TZXIZj5Kj/cjv4mtBNfvd7v0cM/BP1G/Z1rgcA4DbCvoW@vger.kernel.org
+X-Gm-Message-State: AOJu0YxHdpIGYpbh3gVqqEgy32qFrXYP3bA8g2uBD5m48i7Hi6CQPn4m
+	uSXnXSEHC4qDWb2CUX7bnetryPls9U4L8EXwzLcoaDJP3Vc9wrwy4X7zFRwn5gx4
+X-Gm-Gg: ASbGncvNCVNn6utWz4w60RUXsoAxQ25QPBcw8JntJZNNx3e5n9G6tZN82s/Fu4J9gXG
+	rkqwPo/p+oTQCW5tQHg1RXDaMdrDJsaXd+kNf6K6X5k4BuAXV/JU/UFPtF/JYGcKripY8P27461
+	dYd4b6wVC8KsiCKKyQdm152WD7qQnp7aYJg5EbsIOgcYiMp53+AMNrJu8rhjU4tyaMotqqKmrOx
+	w63DcGnpAH8N+GLZ32vYz9MPDNqMQnO3D7RqmnPwCD+kFBdVgs+LHmV6Osq6LZH8SzPtLjj3jlt
+	OawpElJDJOALD54/Y452hbA0utZ0L/p/s/6NPdylDyyTP7t5dVU70g/Wy9OLqvI+0yyopk4UtlX
+	JgFiubNSDkZZmULwzft18ondoOv+Nx+4l4cgb6xkRiHHSo8hpqzs9ppytmUpj
+X-Google-Smtp-Source: AGHT+IEkHNv0DO5DfC6qk4oX32RAlUqGhCVlG/4DQTl0VoNKU+8hB2h9w9YdEVoL2/4nwvqOm/2bXQ==
+X-Received: by 2002:a05:6102:160e:b0:4de:d08f:6727 with SMTP id ada2fe7eead31-4fa3fc4c897mr3768174137.13.1753692989967;
+        Mon, 28 Jul 2025 01:56:29 -0700 (PDT)
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com. [209.85.217.51])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-88b8dcf7645sm1241734241.20.2025.07.28.01.56.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Jul 2025 01:56:29 -0700 (PDT)
+Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-4e8135adfccso1315514137.1;
+        Mon, 28 Jul 2025 01:56:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVBurErtr4WfJb55cP6+POj2thSguEt/4Jz6giEcNI4aH8cMqEot+CJqgComti370JtwqVdU5hMpXCe@vger.kernel.org, AJvYcCWCi59m8ak2w7nMl3MctDz9UZEhenpJSoGnZmwypzAtKLMyU+0hSShvfelDnqc13eFBBdbI9eNwPxnsGB4=@vger.kernel.org, AJvYcCWHwqgfCeU+/6CGmmFDXA2WEkIHJIGszpk2IbXk/B1hePx54eMeX8HgKRiuDVclOy6yg+NO/6UjxBsVcw6RK//SaTc=@vger.kernel.org
+X-Received: by 2002:a05:6102:2b88:b0:4e2:c6e4:ab1e with SMTP id
+ ada2fe7eead31-4fa3fa713f6mr4025248137.7.1753692989166; Mon, 28 Jul 2025
+ 01:56:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250727154516.11599-1-marek.vasut+renesas@mailbox.org>
+References: <20250724092006.21216-1-johan@kernel.org>
+In-Reply-To: <20250724092006.21216-1-johan@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 28 Jul 2025 10:56:18 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU0E_d3XMj6sDeJy8P_UL7ua-_6CnTYqvf2-TD-WXiR3Q@mail.gmail.com>
+X-Gm-Features: Ac12FXzigXzLEEByExo9veTydL_Yz5MWFF66kC_gKPBrr86D05FC6p_RGKNNTnU
+Message-ID: <CAMuHMdU0E_d3XMj6sDeJy8P_UL7ua-_6CnTYqvf2-TD-WXiR3Q@mail.gmail.com>
+Subject: Re: [PATCH] usb: gadget: udc: renesas_usb3: drop unused module alias
+To: Johan Hovold <johan@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Jul 27, 2025 at 05:44:16PM +0200, Marek Vasut wrote:
-> Increase the External ROM access timeouts to prevent failures during
-> programming of External SPI EEPROM chips. The current timeouts are
-> too short for some SPI EEPROMs used with uPD720201 controllers.
-> 
-> The current timeout for Chip Erase in renesas_rom_erase() is 100 ms ,
-> the current timeout for Sector Erase issued by the controller before
-> Page Program in renesas_fw_download_image() is also 100 ms. Neither
-> timeout is sufficient for e.g. the Macronix MX25L5121E or MX25V5126F.
-> 
-> MX25L5121E reference manual [1] page 35 section "ERASE AND PROGRAMMING
-> PERFORMANCE" and page 23 section "Table 8. AC CHARACTERISTICS (Temperature
-> = 0°C to 70°C for Commercial grade, VCC = 2.7V ~ 3.6V)" row "tCE" indicate
-> that the maximum time required for Chip Erase opcode to complete is 2 s,
-> and for Sector Erase it is 300 ms .
-> 
-> MX25V5126F reference manual [2] page 47 section "13. ERASE AND PROGRAMMING
-> PERFORMANCE (2.3V - 3.6V)" and page 42 section "Table 8. AC CHARACTERISTICS
-> (Temperature = -40°C to 85°C for Industrial grade, VCC = 2.3V - 3.6V)" row
-> "tCE" indicate that the maximum time required for Chip Erase opcode to
-> complete is 3.2 s, and for Sector Erase it is 400 ms .
-> 
-> Update the timeouts such, that Chip Erase timeout is set to 5 seconds,
-> and Sector Erase timeout is set to 500 ms. Such lengthy timeouts ought
-> to be sufficient for majority of SPI EEPROM chips.
-> 
-> [1] https://www.macronix.com/Lists/Datasheet/Attachments/8634/MX25L5121E,%203V,%20512Kb,%20v1.3.pdf
-> [2] https://www.macronix.com/Lists/Datasheet/Attachments/8750/MX25V5126F,%202.5V,%20512Kb,%20v1.1.pdf
-> 
-> Fixes: 2478be82de44 ("usb: renesas-xhci: Add ROM loader for uPD720201")
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> ---
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Mathias Nyman <mathias.nyman@intel.com>
-> Cc: Vinod Koul <vkoul@kernel.org>
-> Cc: <stable@vger.kernel.org>
-> Cc: linux-renesas-soc@vger.kernel.org
-> Cc: linux-usb@vger.kernel.org
-> ---
->  drivers/usb/host/xhci-pci-renesas.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/usb/host/xhci-pci-renesas.c b/drivers/usb/host/xhci-pci-renesas.c
-> index 620f8f0febb8..86df80399c9f 100644
-> --- a/drivers/usb/host/xhci-pci-renesas.c
-> +++ b/drivers/usb/host/xhci-pci-renesas.c
-> @@ -47,8 +47,9 @@
->  #define RENESAS_ROM_ERASE_MAGIC				0x5A65726F
->  #define RENESAS_ROM_WRITE_MAGIC				0x53524F4D
->  
-> -#define RENESAS_RETRY	10000
-> -#define RENESAS_DELAY	10
-> +#define RENESAS_RETRY			50000	/* 50000 * RENESAS_DELAY ~= 500ms */
-> +#define RENESAS_CHIP_ERASE_RETRY	500000	/* 500000 * RENESAS_DELAY ~= 5s */
-> +#define RENESAS_DELAY			10
->  
->  #define RENESAS_FW_NAME	"renesas_usb_fw.mem"
->  
-> @@ -407,7 +408,7 @@ static void renesas_rom_erase(struct pci_dev *pdev)
->  	/* sleep a bit while ROM is erased */
->  	msleep(20);
->  
-> -	for (i = 0; i < RENESAS_RETRY; i++) {
-> +	for (i = 0; i < RENESAS_CHIP_ERASE_RETRY; i++) {
->  		retval = pci_read_config_byte(pdev, RENESAS_ROM_STATUS,
->  					      &status);
->  		status &= RENESAS_ROM_STATUS_ERASE;
-> -- 
-> 2.47.2
-> 
-> 
+Hi Johan,
 
-Hi,
+Thanks for your patch, which is now commit 7b4b5591d4551efe
+("usb: gadget: udc: renesas_usb3: drop unused module alias") in
+usb/usb-next.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+On Thu, 24 Jul 2025 at 11:21, Johan Hovold <johan@kernel.org> wrote:
+> Since commit f3323cd03e58 ("usb: gadget: udc: renesas_usb3: remove R-Car
+> H3 ES1.* handling") the driver only supports OF probe so drop the unused
+> platform module alias.
+>
+> Signed-off-by: Johan Hovold <johan@kernel.org>
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+While I don't debate the actual change, I would like to comment on
+the patch description.  The driver only ever supported OF probe.
+The call to soc_device_match() was just used to override the match
+data for quirk handling.
 
-- You have marked a patch with a "Fixes:" tag for a commit that is in an
-  older released kernel, yet you do not have a cc: stable line in the
-  signed-off-by area at all, which means that the patch will not be
-  applied to any older kernel releases.  To properly fix this, please
-  follow the documented rules in the
-  Documentation/process/stable-kernel-rules.rst file for how to resolve
-  this.
+> --- a/drivers/usb/gadget/udc/renesas_usb3.c
+> +++ b/drivers/usb/gadget/udc/renesas_usb3.c
+> @@ -3024,4 +3024,3 @@ module_platform_driver(renesas_usb3_driver);
+>  MODULE_DESCRIPTION("Renesas USB3.0 Peripheral driver");
+>  MODULE_LICENSE("GPL v2");
+>  MODULE_AUTHOR("Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>");
+> -MODULE_ALIAS("platform:renesas_usb3");
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+Gr{oetje,eeting}s,
 
-thanks,
+                        Geert
 
-greg k-h's patch email bot
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
