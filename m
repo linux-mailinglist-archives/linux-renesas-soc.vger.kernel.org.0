@@ -1,47 +1,47 @@
-Return-Path: <linux-renesas-soc+bounces-19750-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19751-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33E01B1527F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Jul 2025 20:11:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8634DB153F5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Jul 2025 21:52:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6AE20545895
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Jul 2025 18:11:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E2D8E4E6760
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Jul 2025 19:51:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 191AF298CA2;
-	Tue, 29 Jul 2025 18:11:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18D3423184F;
+	Tue, 29 Jul 2025 19:51:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pMrVZJMH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TNaHMVAV"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D833C2AE90;
-	Tue, 29 Jul 2025 18:11:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA33425DB1A;
+	Tue, 29 Jul 2025 19:51:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753812713; cv=none; b=txOA2MOCqX1XUINdvHfhU2vr1RQiMn6vwjZwADo6UDXugBZNoP7mOc68wmDYPRSNHmN7B8xyoruQ4WW1xFX+n2Cqlam+71rj3OoFJYw+umPG/5VkFl3A4qReabQSpqHZp89OR6hxmoa2E49U5TCZatTltde9EIB5d6UwSxlqrds=
+	t=1753818699; cv=none; b=CA4SaSd8Iv1VD+NskvM1Rj1MsPH0j9RDOXT5Wr6xRPm/dV0X0FxA7qWoYgpg/Y5sE+LgrE8Tj9/C/rWqKb1+QczRaKlF9HDppFFmsDZPWjuJ94LQJ7fxRBYg1CeLaw3oW9Vf2QbyKpdtu3OCpSbIIVWDxUsWTk4VAb28YsOfdRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753812713; c=relaxed/simple;
-	bh=Kp4/gvOCoF4j3IVDGkFHzTtSG45DUv0mvG8JEJIXRms=;
+	s=arc-20240116; t=1753818699; c=relaxed/simple;
+	bh=Ob6i4k+YDgHAyTugHatfau/eU2T8TXnMxmhtcURXq9o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bcejsFvnCLYLyrkomb4WHQNyXAHTF14h4rpj3e40jKL3pdfEzPc+wnGQb7gBVN9GHSX0W//v8v0SrzTG20BDGLPWFRKsB26XJfw6rxwXBhuWhjjwbe7YY4cm3WLXPYZnfBgN2nX3aaJFgHZ8RD2A8C29OS2FoFKB9vvWDiPv1us=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pMrVZJMH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 410CDC4CEEF;
-	Tue, 29 Jul 2025 18:11:52 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=V7dcQq3ssYTX9DdeYZZewGP/XZr/4o6amiuIinwn1shYVbI9XHv1IjhnEH0E2g+Ypd7q5Q6LIAjZY5LINIwwh3fzrLMtZ+ACGH1vW+TnQuZUXRYcJlxVXHr63N218I/XFEwtSXM0Qfe9344RaEMzqf5vQYJa7B4sTDrK7K5cX2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TNaHMVAV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D1C9C4CEEF;
+	Tue, 29 Jul 2025 19:51:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753812712;
-	bh=Kp4/gvOCoF4j3IVDGkFHzTtSG45DUv0mvG8JEJIXRms=;
+	s=k20201202; t=1753818698;
+	bh=Ob6i4k+YDgHAyTugHatfau/eU2T8TXnMxmhtcURXq9o=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pMrVZJMHglSkP2KaUUVuDJgQNM6nyfHH7e8kAtn1Ns6BWW3CK72lNvEYZQZO5FkaH
-	 qpWAE3/G6DactS67jtMhx64NbD/1fiQlscwmeLNJwgdn5KNm9BKSc1h1k0Ma3MTx/N
-	 qdbAfLGVvO5jkvIzfCnQ79VwOvy0NTaKCVq0dqULFI/2PbCabhHkGneGiP6614L6CN
-	 UWtQLnVeNmI3kjLYJS2Tffblp31stui3fYtHWLy0TbewtPCjfb+iA4874uuZJK9vZJ
-	 zag/d5Mbw/SCbv20juyZN9sar7lhUI9A4JsRcNy832a+fJ6oaFg/0fB/to2vhG47aV
-	 Ido0K7u1KyU/Q==
-Date: Tue, 29 Jul 2025 13:11:51 -0500
+	b=TNaHMVAVECdpygkVPkQF2Dj2MJy0/B53t8wZlvi+PZ0SZVcnm/IhEao7cT6adE+7W
+	 uQ0nj12NLKE7d/FV60g2VIVDGa6XBwqhlOvavCWv5FIVUbBWtNrI3KenDiduybbHJ1
+	 hTFPU4TOHTixfGptBHXmymfvo3Mgzd/nilPUMfAssrOtMXE21987E0A0wOrhV/gQvF
+	 vWvOsR7esbtNYMsAG0y3sVHXL//KZYHB+qT+k4pEJhg7/8xP/msX9eZ5yv+zxT19dX
+	 B3mYi6C1C18J6uTY5eIdMAZ7YUJEj5KwzUDvmA9gLoaTrtHpwZOJw0Au5sg8ZzjFS5
+	 0h9+LV2gnlwgg==
+Date: Tue, 29 Jul 2025 14:51:37 -0500
 From: Rob Herring <robh@kernel.org>
 To: Herve Codina <herve.codina@bootlin.com>
 Cc: Hoan Tran <hoan@os.amperecomputing.com>,
@@ -58,11 +58,11 @@ Cc: Hoan Tran <hoan@os.amperecomputing.com>,
 	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
 	Miquel Raynal <miquel.raynal@bootlin.com>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 1/6] dt-bindings: gpio: snps,dw-apb: Add support for
- Renesas RZ/N1
-Message-ID: <20250729181151.GA530390-robh@kernel.org>
+Subject: Re: [PATCH 5/6] soc: renesas: Add support for Renesas RZ/N1 GPIO
+ Interrupt Multiplexer
+Message-ID: <20250729195137.GA658914-robh@kernel.org>
 References: <20250725152618.32886-1-herve.codina@bootlin.com>
- <20250725152618.32886-2-herve.codina@bootlin.com>
+ <20250725152618.32886-6-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -71,42 +71,168 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250725152618.32886-2-herve.codina@bootlin.com>
+In-Reply-To: <20250725152618.32886-6-herve.codina@bootlin.com>
 
-On Fri, Jul 25, 2025 at 05:26:10PM +0200, Herve Codina wrote:
-> The RZ/N1 SoCs uses the Synopsys DesignWare IP to handle GPIO blocks.
+On Fri, Jul 25, 2025 at 05:26:14PM +0200, Herve Codina wrote:
+> On the Renesas RZ/N1 SoC, GPIOs can generate interruptions. Those
+> interruption lines are multiplexed by the GPIO Interrupt Multiplexer in
+> order to map 32 * 3 GPIO interrupt lines to 8 GIC interrupt lines.
 > 
-> Add RZ/N1 SoC and family compatible strings.
-
-Why? Yes, that's policy, but so far we avoided it on this IP. Perhaps 
-because it is simple enough. So what's different here?
-
+> The GPIO interrupt multiplexer IP does nothing but select 8 GPIO
+> IRQ lines out of the 96 available to wire them to the GIC input lines.
 > 
 > Signed-off-by: Herve Codina <herve.codina@bootlin.com>
 > ---
->  .../devicetree/bindings/gpio/snps,dw-apb-gpio.yaml        | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
+>  drivers/soc/renesas/Kconfig       |   4 +
+>  drivers/soc/renesas/Makefile      |   1 +
+>  drivers/soc/renesas/rzn1_irqmux.c | 169 ++++++++++++++++++++++++++++++
+>  3 files changed, 174 insertions(+)
+>  create mode 100644 drivers/soc/renesas/rzn1_irqmux.c
 > 
-> diff --git a/Documentation/devicetree/bindings/gpio/snps,dw-apb-gpio.yaml b/Documentation/devicetree/bindings/gpio/snps,dw-apb-gpio.yaml
-> index ab2afc0e4153..ceb71b5ac688 100644
-> --- a/Documentation/devicetree/bindings/gpio/snps,dw-apb-gpio.yaml
-> +++ b/Documentation/devicetree/bindings/gpio/snps,dw-apb-gpio.yaml
-> @@ -20,7 +20,13 @@ properties:
->      pattern: "^gpio@[0-9a-f]+$"
+> diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
+> index fbc3b69d21a7..9e8ac33052fb 100644
+> --- a/drivers/soc/renesas/Kconfig
+> +++ b/drivers/soc/renesas/Kconfig
+> @@ -58,6 +58,7 @@ config ARCH_RZN1
+>  	select PM
+>  	select PM_GENERIC_DOMAINS
+>  	select ARM_AMBA
+> +	select RZN1_IRQMUX
 >  
->    compatible:
-> -    const: snps,dw-apb-gpio
-> +    oneOf:
-> +      - const: snps,dw-apb-gpio
-> +      - items:
-> +          - enum:
-> +              - renesas,r9a06g032-gpio
-> +          - const: renesas,rzn1-gpio
-> +          - const: snps,dw-apb-gpio
+>  if ARM && ARCH_RENESAS
 >  
->    "#address-cells":
->      const: 1
-> -- 
-> 2.50.1
-> 
+> @@ -435,6 +436,9 @@ config PWC_RZV2M
+>  config RST_RCAR
+>  	bool "Reset Controller support for R-Car" if COMPILE_TEST
+>  
+> +config RZN1_IRQMUX
+> +	bool "Renesas RZ/N1 GPIO IRQ multiplexer support" if COMPILE_TEST
+> +
+>  config SYSC_RZ
+>  	bool "System controller for RZ SoCs" if COMPILE_TEST
+>  
+> diff --git a/drivers/soc/renesas/Makefile b/drivers/soc/renesas/Makefile
+> index 3bdcc6a395d5..daa932c7698d 100644
+> --- a/drivers/soc/renesas/Makefile
+> +++ b/drivers/soc/renesas/Makefile
+> @@ -14,4 +14,5 @@ obj-$(CONFIG_SYS_R9A09G057)	+= r9a09g057-sys.o
+>  # Family
+>  obj-$(CONFIG_PWC_RZV2M)		+= pwc-rzv2m.o
+>  obj-$(CONFIG_RST_RCAR)		+= rcar-rst.o
+> +obj-$(CONFIG_RZN1_IRQMUX)		+= rzn1_irqmux.o
+>  obj-$(CONFIG_SYSC_RZ)		+= rz-sysc.o
+> diff --git a/drivers/soc/renesas/rzn1_irqmux.c b/drivers/soc/renesas/rzn1_irqmux.c
+> new file mode 100644
+> index 000000000000..37e41c2b9104
+> --- /dev/null
+> +++ b/drivers/soc/renesas/rzn1_irqmux.c
+> @@ -0,0 +1,169 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * RZ/N1 GPIO Interrupt Multiplexer
+> + *
+> + * Copyright 2025 Schneider Electric
+> + * Author: Herve Codina <herve.codina@bootlin.com>
+> + */
+> +
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/of_irq.h>
+> +#include <linux/platform_device.h>
+> +
+> +#define IRQMUX_MAX_IRQS 8
+> +
+> +static int irqmux_is_phandle_args_equal(const struct of_phandle_args *a,
+> +					const struct of_phandle_args *b)
+> +{
+> +	int i;
+> +
+> +	if (a->np != b->np)
+> +		return false;
+> +
+> +	if (a->args_count != b->args_count)
+> +		return false;
+> +
+> +	for (i = 0; i < a->args_count; i++) {
+> +		if (a->args[i] != b->args[i])
+> +			return false;
+> +	}
+> +
+> +	return true;
+> +}
+> +
+> +static int irqmux_find_interrupt_index(struct device *dev, struct device_node *np,
+> +				       const struct of_phandle_args *expected_irq)
+> +{
+> +	struct of_phandle_args out_irq;
+> +	bool is_equal;
+> +	int ret;
+> +	int i;
+> +
+> +	for (i = 0; i < IRQMUX_MAX_IRQS; i++) {
+> +		ret = of_irq_parse_one(np, i, &out_irq);
+
+I don't really want more users of this... More below.
+
+> +		if (ret)
+> +			return ret;
+> +
+> +		is_equal = irqmux_is_phandle_args_equal(expected_irq, &out_irq);
+> +		of_node_put(out_irq.np);
+> +		if (is_equal)
+> +			return i;
+> +	}
+> +
+> +	return -ENOENT;
+> +}
+> +
+> +struct irqmux_cb_data {
+> +	struct device_node *np;
+> +	struct device *dev;
+> +	u32 __iomem *regs;
+> +};
+> +
+> +static int irqmux_imap_cb(void *data, const __be32 *imap,
+> +			  const struct of_phandle_args *parent_args)
+> +{
+> +	struct irqmux_cb_data *priv = data;
+> +	u32 src_hwirq;
+> +	int index;
+> +
+> +	/*
+> +	 * The child #address-cells is 0. Already checked in irqmux_setup().
+> +	 * The first value in imap is the src_hwirq
+> +	 */
+> +	src_hwirq = be32_to_cpu(*imap);
+
+The iterator should take care of the endianness conversion.
+
+> +
+> +	/*
+> +	 * Get the index in our interrupt array that matches the parent in the
+> +	 * interrupt-map
+> +	 */
+> +	index = irqmux_find_interrupt_index(priv->dev, priv->np, parent_args);
+> +	if (index < 0)
+> +		return dev_err_probe(priv->dev, index, "output interrupt not found\n");
+> +
+> +	dev_info(priv->dev, "interrupt %u mapped to output interrupt[%u]\n",
+> +		 src_hwirq, index);
+
+Do you even need "interrupts"? Just make the "interrupt-map" index 
+important and correspond to the hw index. That would greatly simplify 
+all this.
+
+> +
+> +	/*
+> +	 * Our interrupt array items matches 1:1 the interrupt lines that could
+> +	 * be configured by registers (same order, same number).
+> +	 * Configure the related register with the src hwirq retrieved from the
+> +	 * interrupt-map.
+> +	 */
+> +	writel(src_hwirq, priv->regs + index);
+> +
+> +	return 0;
+> +}
 
