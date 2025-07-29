@@ -1,58 +1,60 @@
-Return-Path: <linux-renesas-soc+bounces-19727-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19728-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE78B14995
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Jul 2025 09:55:54 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E685B14B28
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Jul 2025 11:23:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 739101642E1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Jul 2025 07:55:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C072C7A2E28
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Jul 2025 09:21:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62234269AFB;
-	Tue, 29 Jul 2025 07:55:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3042A276038;
+	Tue, 29 Jul 2025 09:23:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oufB7XRO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nUsR+dq8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C0D261573;
-	Tue, 29 Jul 2025 07:55:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0291214F98;
+	Tue, 29 Jul 2025 09:23:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753775745; cv=none; b=OvYe76m3HrOnDJByKcJ4FBc1by4gePKZ/dkPJkg6VsclYF6vcqOSrlO+J98YQG6Vm+wUjEz//Ma5Ipug79x1q5x7YXGap5logLJy2R/yHRd4U4hcYcBgU4Rd1h2DLCLwvCVz82Q/C9oh3ONzrpkNdZpBzrq0cclw0Q+m9Jpq53c=
+	t=1753781001; cv=none; b=PSSojUloDYWXbLim1lfBZapgt1/h8gsx37ODwhkiXhGy7oOaa/ol0f5B5PnJFn6hYCL355oIeRkqkbPJ9qI0PixWaao3YWpTspFncjz1d/qhkxsSD6aiJIDCg3osV86cpzKtcTlikG10M1ay87NsnUHOdSl8MWg/B8Ag/pWs99k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753775745; c=relaxed/simple;
-	bh=o/NBOQiS8XDe1sfH7OYpjbTZhzQLeRg1YZte/uRqo7Q=;
+	s=arc-20240116; t=1753781001; c=relaxed/simple;
+	bh=DTeOnZdMC3MfXRHjclumebjcnfJJ1n0Hu2E8xtaiyFI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gQocKcndSq1zm1ch2usgxsz13vLbBIEA/fgw4mR83Vg0ACdt2+sQE/8aT0fMWbtkSpz+VjVM6PGdBOD9m5ZLdgPHoz9d3gr8nkQBUtPUn6/XHWOarzdrcpfHeXDstbLLoBU/xrX0/miZCPqtsvZfY+SGsGQJsUBDVnC/J7WKKqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=oufB7XRO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 227E1C4CEF5;
-	Tue, 29 Jul 2025 07:55:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1753775744;
-	bh=o/NBOQiS8XDe1sfH7OYpjbTZhzQLeRg1YZte/uRqo7Q=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=SaPshSJ1gyLzNTKncKifwoSPrlMRnhZ2epwRRnA3ZrjPEevwPqHlqLhjLunxjM7z/yMzGYfLTNfGRtZUyTMq9FhMeMxCybFSjSwZjpFKb/UE+cLBW3WFEcbiD2K+KBjW/bdchbtpYZSLi92BTg4JEZCWP9ieAmfWyBTB8Pyv6hM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nUsR+dq8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7228BC4CEEF;
+	Tue, 29 Jul 2025 09:23:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753781000;
+	bh=DTeOnZdMC3MfXRHjclumebjcnfJJ1n0Hu2E8xtaiyFI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oufB7XRO69I73yphTRJFKUEvs5aF8eDymClrT4Tv5uONmTlDnxB6EPEQddYlOefIL
-	 WJqP/cZw3A4DkYQgAbCIg0lAoMUGdkDlsQYtbIXCFlHysNc4yF9rbu5z5sYgC2FvQf
-	 mFn9tw/qGBZge7NNHw0PeS/EK8RyU2yMllW4jzDQ=
-Date: Tue, 29 Jul 2025 09:55:41 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+	b=nUsR+dq8cm0MFVfSTKWuwUZBsDePzgL98fwFHgU1M4evFQ5cS8Fxul5QI1oZ7KxL6
+	 j/qKtHz+dWcsrBegHb/Qe53Syuuv6vRiz/hExL1MP2E0ngADZmfVFS3P6b1P3LrCfj
+	 9RoKTFUze6Xx/rZKOm7gtF4Z6lehp+T8VTeSWNAwCQRgGK/BETCnt63J+n2FZEbMF0
+	 qLsF0lZS2VVFZ45wyCHszBmIQAYaOtZ7EFlhfW/fpThXkIQpb15UQFXl0fRwKB0OOY
+	 H3Bv6K7PPI6HGYYTixYoQ7qIYUwWCasmRje/nSW7nRAHnnLmKXsCDZ9wBnH3Xc/BFX
+	 Or9D6MmsG9Zfg==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1uggYK-000000002ZZ-3d0o;
+	Tue, 29 Jul 2025 11:23:20 +0200
+Date: Tue, 29 Jul 2025 11:23:20 +0200
+From: Johan Hovold <johan@kernel.org>
 To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Marek Vasut <marek.vasut@mailbox.org>, linux-usb@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Mathias Nyman <mathias.nyman@intel.com>,
-	Vinod Koul <vkoul@kernel.org>, stable@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] usb: renesas-xhci: Fix External ROM access timeouts
-Message-ID: <2025072932-shale-morale-10af@gregkh>
-References: <20250727154516.11599-1-marek.vasut+renesas@mailbox.org>
- <2025072828-suspect-work-12ca@gregkh>
- <b9c9ba83-6da2-4295-b058-a0520c9df806@mailbox.org>
- <2025072931-bagful-jelly-ffa7@gregkh>
- <CAMuHMdWJQ2iUwNvH+APo0tFtbWfvoBvtFeH7Njej9sANMKtzZw@mail.gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH] usb: gadget: udc: renesas_usb3: drop unused module alias
+Message-ID: <aIiTCDy-_EjUt1zd@hovoldconsulting.com>
+References: <20250724092006.21216-1-johan@kernel.org>
+ <CAMuHMdU0E_d3XMj6sDeJy8P_UL7ua-_6CnTYqvf2-TD-WXiR3Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -61,57 +63,28 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdWJQ2iUwNvH+APo0tFtbWfvoBvtFeH7Njej9sANMKtzZw@mail.gmail.com>
+In-Reply-To: <CAMuHMdU0E_d3XMj6sDeJy8P_UL7ua-_6CnTYqvf2-TD-WXiR3Q@mail.gmail.com>
 
-On Tue, Jul 29, 2025 at 09:11:46AM +0200, Geert Uytterhoeven wrote:
-> Hi Greg,
-> 
-> On Tue, 29 Jul 2025 at 07:03, Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> > On Tue, Jul 29, 2025 at 05:09:55AM +0200, Marek Vasut wrote:
-> > > On 7/28/25 6:18 AM, Greg Kroah-Hartman wrote:
-> > >
-> > > [...]
-> > >
-> > > > > Fixes: 2478be82de44 ("usb: renesas-xhci: Add ROM loader for uPD720201")
-> > > > > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> > > > > ---
-> > > > > Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > > > Cc: Mathias Nyman <mathias.nyman@intel.com>
-> > > > > Cc: Vinod Koul <vkoul@kernel.org>
-> > > > > Cc: <stable@vger.kernel.org>
-> > >
-> > > [...]
-> > >
-> > > > - You have marked a patch with a "Fixes:" tag for a commit that is in an
-> > > >    older released kernel, yet you do not have a cc: stable line in the
-> > > >    signed-off-by area at all, which means that the patch will not be
-> > > >    applied to any older kernel releases.  To properly fix this, please
-> > > >    follow the documented rules in the
-> > > >    Documentation/process/stable-kernel-rules.rst file for how to resolve
-> > > >    this.
-> > >
-> > > Maybe the bot should take into consideration Cc: stable below the --- too ?
-> > > Or is that considered invalid ?
+Hi Geert,
+
+On Mon, Jul 28, 2025 at 10:56:18AM +0200, Geert Uytterhoeven wrote:
+
+> On Thu, 24 Jul 2025 at 11:21, Johan Hovold <johan@kernel.org> wrote:
+> > Since commit f3323cd03e58 ("usb: gadget: udc: renesas_usb3: remove R-Car
+> > H3 ES1.* handling") the driver only supports OF probe so drop the unused
+> > platform module alias.
 > >
-> > That is totally invalid, it gets cut off when the patch is applied and
-> > then is lost :(
+> > Signed-off-by: Johan Hovold <johan@kernel.org>
 > 
-> But the "Fix" keyword in the oneline-summary and the "Fixes" tag are
-> not, so your stable minions will still take it ;-)
+> While I don't debate the actual change, I would like to comment on
+> the patch description.  The driver only ever supported OF probe.
+> The call to soc_device_match() was just used to override the match
+> data for quirk handling.
 
-{sigh}
+The driver initially indeed only supported OF probe, but that changed
+with commit ca02a5af650c ("usb: gadget: udc: renesas_usb3: Use
+of_device_get_match_data() helper") after which the driver could at
+least theoretically also bind based on the platform device name.
 
-No, please NEVER rely on that.  Grabbing "Fixes:" only patches are a
-"best effort" thing that we do that is not reliable at all, AND you
-never get a FAILED notification if something does not actually apply
-properly.
-
-The documentation clearly states how to mark something for the stable
-tree, and that is NOT by only haveing a "Fixes:" tag in the commit.
-
-thanks,
-
-greg k-h
+Johan
 
