@@ -1,271 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-19766-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19767-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 016ADB15D87
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jul 2025 11:56:26 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DB3EB15D86
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jul 2025 11:56:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE8FC5A6363
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jul 2025 09:54:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 462A8564E2B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jul 2025 09:55:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDA6829344A;
-	Wed, 30 Jul 2025 09:54:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB44A266591;
+	Wed, 30 Jul 2025 09:54:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="KmXUO4Wq"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="y6v1Y+rP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9FBA442C;
-	Wed, 30 Jul 2025 09:54:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35D01255F5C
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Jul 2025 09:54:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753869267; cv=none; b=fnqaK0dnN0qVi7vM+tWYEv1Tgu+aoHhu53v2MVcTk7q5BFDOzrsj+Hy11N5Q13bNaGljaTC/JDaM/GZO7T5c4z0GVE9QutiNpmsffIdkWCpYrtzju5XR5yYR+BszGGmSyIL/o+J67GAZ0bX5vsQFFIj3o2wZOZxij2tI5iLk/iY=
+	t=1753869294; cv=none; b=WAWWQWbmSDysjxwOwfIORF/Yz+EXUQANmiTz/AaPyKsTkOBgilzycgrOooTCdQJJ4OBd+/i9RAtdyw9kTP/MFWy0LtQMNfZVwZivmJJTwuNeVFQokR0MVtZGykIPEZwqVw7W0ZK+ouAViSzbwW5GLDDxU6u54bVsP+OQ7JF0jsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753869267; c=relaxed/simple;
-	bh=JliacoCtK5j0DKn71ybgNXHHkJQzdyhYXbhX8z7fdos=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IduRJ5pE2u6wG70jwRW71Ntls1RS3E7zqj8hUNtsjP5/caQjiOqVJt75vrFaWhXB0vB68TFUORCMz/s8KMKS7to6B1U1wvmb5BDU77FtjeYey5zAgYFiLqrqKCOV0htMnvpA9842YuMNIbEK4lyZTh/gk2RoakuzSO5SSSJYlIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=KmXUO4Wq; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id BE35443173;
-	Wed, 30 Jul 2025 09:54:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1753869263;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1PP918sGSIPuq6wRtcjBer+cHyUovX7JvOYbDIDINdY=;
-	b=KmXUO4WqYJXYLmKtBQfhwAHlbEgZ2TdiIF7Qb+JSO7n0l5pVaztHfzq9YHqcE23OLAOPq0
-	Qw8znwEDRXY/XZtAh4FiB+GX+URemFb0+reXGUyM9rNp6zIsEXMdVXaeI0Q4P/Xzvtoizp
-	yEaSXPx7QLh6WnnJ5V+3G3VirJJDohkw7uxx/F+aUFoKWhVmZDZqEtBmA6euZoMas9Tk5P
-	Z9xPpcgeGdUBpBjNDJTaJpkDC0X55ux9d1g9SA6u1ksfg/xFM5rVsl5ECg+73CwleMpUgb
-	3sw9ZvwIZKUnUlnH4RMdd88JJk5KYClnNeTFmuycFVJyppgRW+5zqz93LCQw0w==
-Date: Wed, 30 Jul 2025 11:54:21 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Hoan Tran <hoan@os.amperecomputing.com>, Linus Walleij
- <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Magnus Damm
- <magnus.damm@gmail.com>, Saravana Kannan <saravanak@google.com>, Serge
- Semin <fancer.lancer@gmail.com>, Phil Edworthy <phil.edworthy@renesas.com>,
- linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Miquel
- Raynal <miquel.raynal@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 5/6] soc: renesas: Add support for Renesas RZ/N1 GPIO
- Interrupt Multiplexer
-Message-ID: <20250730115421.770d99bf@bootlin.com>
-In-Reply-To: <20250729195137.GA658914-robh@kernel.org>
-References: <20250725152618.32886-1-herve.codina@bootlin.com>
-	<20250725152618.32886-6-herve.codina@bootlin.com>
-	<20250729195137.GA658914-robh@kernel.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1753869294; c=relaxed/simple;
+	bh=hp7bAnlyWbMe0UagxjClRdoFhPBImgjJBDcHhbMOPBc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PGCWQn3bdYq4Rda/svzYftdh2yEPcgXmwM3fPSelXjBqFIY1oG8fn8GnEiZI4CTbQu422dtB7WTRhAF8KGh5ChlR7M1aRqja780JlcqTA+S+ctr1w6CkO5/9N7BVDmMddNWCMzL6IhsxzRzEJFMQkvuGz1TJFFjJC3xFam1UBmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=y6v1Y+rP; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-55b81b58eb7so517326e87.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Jul 2025 02:54:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1753869290; x=1754474090; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=b6vdhp2EWkPtq+IAr0ObGae8XoJd1fUV2G+NSQOgeB0=;
+        b=y6v1Y+rPEVDHOkrqc2KWOfhiugmQ47csz1p9+cPsKrBxMu6N++Lx7mDSVzJx9n6oqS
+         UB5hMz5e/MChLsSvAmzP82OKI7y6HHDsJkHIQqJ10ekWc9qTbZH4JevVzniY4W09B0A/
+         VbMUa0prk04D/p8/3TRqlWvGNSKC2kXTwf/bhns+HC7/CXVhXgBURVJR/9r87Bn9GlN0
+         gv/+LXG6hJV0a64I7ABkBgPr6iaKk6lKUYzENYZv0W+E8GgTmxZDjeJpjUQvzGsRYgUw
+         UIsm9yMb4dS4lePbwKM+ubqez2QY+tIytNFSDWF2gXWKi7MulASGNSolQFMpNoSrFq9C
+         RciA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753869290; x=1754474090;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=b6vdhp2EWkPtq+IAr0ObGae8XoJd1fUV2G+NSQOgeB0=;
+        b=cZ+RQooqEJFUqYAFS7fHw5LeYC+VEoOxSuda6f7t6y1y+Fl0G8ZGfnWIq8C/WsUPL5
+         xZYLZDNX0rvuvcWOAQiGLtgMI9jFMYmzciBAy/X8rLTSbjBpC43vkZQYIFd+37jJYOnv
+         dnrrdxMzcUYU67Rz2ObyMDxshLfhh9aS93CROsnGE6PK9gxV9i4waiWhFGf5DenivxJO
+         U0IT6U0OUF1w1xiD7EX7neUrKrdBFruTueA6fCbLX81pk0z+wWmXJTOwz84wq+++L7jl
+         jFlFwK+NtKnH+2cpmLRKtguJVzizYXAgYw7ALHRTxemd71xA8X9Gq5LRtkoQ6XUtoEDt
+         V49g==
+X-Forwarded-Encrypted: i=1; AJvYcCVfQ/qBAW1uUXWpM2rcE7TM6JJT6FOd384LU3ZFy+lDP8WkNSXaqSuEmvue2AkZcWev5fkqwSaYBn9hIDQob+Lh2Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyxm45TfI/z9sw5WE0UHq8RvOoAXwOFpJkjIZsaJ+Biw+V5SYRJ
+	9NUONRLXLXklSYJRQc+plNWzA3kNyhufAwSOlM/QjkJbQiq53dir8Hr5whp+hWx1yY0eHSsNdxI
+	3gJKXZMwsC5pQxjkJ4OpTdXbpUWs65ZttDm3Fo+zq4Q==
+X-Gm-Gg: ASbGncuXZg0q8RCMtFJetW4cmy0z6hntP3INSbXD4rkujL8aG6j0tsgL4JcckzgUXxg
+	coT0h2qAfQrl2mdWT2xEU2rI4lZOknrzKqwfNhWrWFxRARMmjCcks16EEoq1ernTEfBkSZz6quw
+	aeR5ky5Mt7F43Fu9mowZuZrqvUACuLgKHQLhS7NaKW0dyoB5YLw4yuov7nCv4jKI87FhsHbgUuC
+	tsO6MJ/QJ3azbnOQ0mgMPUNNpxxGD0q2lYUrdY=
+X-Google-Smtp-Source: AGHT+IFD0mC+adTu2tQIUqoYqi4YbEm6lb9KfHl4WlQUhUVwQ9owZPBnvnUOvhF+89ksRVwAv/r0YIR9B2aVVdKhoAo=
+X-Received: by 2002:a05:6512:33c7:b0:554:e7f2:d76b with SMTP id
+ 2adb3069b0e04-55b7c0b0f66mr939851e87.56.1753869289592; Wed, 30 Jul 2025
+ 02:54:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdeljeeivdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthekredtredtjeenucfhrhhomhepjfgvrhhvvgcuvehoughinhgruceohhgvrhhvvgdrtghoughinhgrsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeviefffeegiedtleelieeghfejleeuueevkeevteegffehledtkeegudeigffgvdenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudejpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehhohgrnhesohhsrdgrmhhpvghrvggtohhmphhuthhinhhgrdgtohhmpdhrtghpthhtoheplhhinhhushdrfigrlhhlvghijheslhhinhgrrhhordhorhhgpdhrtghpthhtohepsghrghhlsegsghguvghvrdhplhdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgut
- heskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihguvghrrdgsvgdprhgtphhtthhopehmrghgnhhushdruggrmhhmsehgmhgrihhlrdgtohhm
-X-GND-Sasl: herve.codina@bootlin.com
+References: <20250724-pinctrl-gpio-pinfuncs-v3-0-af4db9302de4@linaro.org>
+ <20250724-pinctrl-gpio-pinfuncs-v3-12-af4db9302de4@linaro.org> <CAHp75Vc4vsJh_-GbP+YO50veoGoGtfAPL4tjcF+73uophfmnGw@mail.gmail.com>
+In-Reply-To: <CAHp75Vc4vsJh_-GbP+YO50veoGoGtfAPL4tjcF+73uophfmnGw@mail.gmail.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Wed, 30 Jul 2025 11:54:38 +0200
+X-Gm-Features: Ac12FXyouWksKyGI1Z-cYawOTPPQ3IbuMxJxWat2oIDr-ST0nxIlLBCifNIDusI
+Message-ID: <CAMRc=Mc1ophkofB6MmtD4adBAi69C3JyovM-S9YD_y7UA3V1qA@mail.gmail.com>
+Subject: Re: [PATCH v3 12/15] pinctrl: allow to mark pin functions as
+ requestable GPIOs
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Alexey Klimov <alexey.klimov@linaro.org>, 
+	Lorenzo Bianconi <lorenzo@kernel.org>, Sean Wang <sean.wang@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Paul Cercueil <paul@crapouillou.net>, Kees Cook <kees@kernel.org>, 
+	Andy Shevchenko <andy@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@redhat.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Dong Aisheng <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, NXP S32 Linux Team <s32@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Tony Lindgren <tony@atomide.com>, 
+	Haojian Zhuang <haojian.zhuang@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
+	linux-hardening@vger.kernel.org, linux-mm@kvack.org, imx@lists.linux.dev, 
+	linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Rob,
+On Thu, Jul 24, 2025 at 2:22=E2=80=AFPM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> >  struct pinfunction {
+> >         const char *name;
+> >         const char * const *groups;
+> >         size_t ngroups;
+> > +       unsigned long flags;
+>
+> Not sure we need this. If the function is GPIO, pin control already
+> knows about this. The pin muxing has gpio request / release callbacks
+> that change the state. Why do we need an additional flag(s)?
+>
 
-On Tue, 29 Jul 2025 14:51:37 -0500
-Rob Herring <robh@kernel.org> wrote:
+I'm not following, how does the pin controller know that the function
+is GPIO exactly, other than by the bit set in this field?
 
-> On Fri, Jul 25, 2025 at 05:26:14PM +0200, Herve Codina wrote:
-> > On the Renesas RZ/N1 SoC, GPIOs can generate interruptions. Those
-> > interruption lines are multiplexed by the GPIO Interrupt Multiplexer in
-> > order to map 32 * 3 GPIO interrupt lines to 8 GIC interrupt lines.
-> > 
-> > The GPIO interrupt multiplexer IP does nothing but select 8 GPIO
-> > IRQ lines out of the 96 available to wire them to the GIC input lines.
-> > 
-> > Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-> > ---
-> >  drivers/soc/renesas/Kconfig       |   4 +
-> >  drivers/soc/renesas/Makefile      |   1 +
-> >  drivers/soc/renesas/rzn1_irqmux.c | 169 ++++++++++++++++++++++++++++++
-> >  3 files changed, 174 insertions(+)
-> >  create mode 100644 drivers/soc/renesas/rzn1_irqmux.c
-> > 
-> > diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
-> > index fbc3b69d21a7..9e8ac33052fb 100644
-> > --- a/drivers/soc/renesas/Kconfig
-> > +++ b/drivers/soc/renesas/Kconfig
-> > @@ -58,6 +58,7 @@ config ARCH_RZN1
-> >  	select PM
-> >  	select PM_GENERIC_DOMAINS
-> >  	select ARM_AMBA
-> > +	select RZN1_IRQMUX
-> >  
-> >  if ARM && ARCH_RENESAS
-> >  
-> > @@ -435,6 +436,9 @@ config PWC_RZV2M
-> >  config RST_RCAR
-> >  	bool "Reset Controller support for R-Car" if COMPILE_TEST
-> >  
-> > +config RZN1_IRQMUX
-> > +	bool "Renesas RZ/N1 GPIO IRQ multiplexer support" if COMPILE_TEST
-> > +
-> >  config SYSC_RZ
-> >  	bool "System controller for RZ SoCs" if COMPILE_TEST
-> >  
-> > diff --git a/drivers/soc/renesas/Makefile b/drivers/soc/renesas/Makefile
-> > index 3bdcc6a395d5..daa932c7698d 100644
-> > --- a/drivers/soc/renesas/Makefile
-> > +++ b/drivers/soc/renesas/Makefile
-> > @@ -14,4 +14,5 @@ obj-$(CONFIG_SYS_R9A09G057)	+= r9a09g057-sys.o
-> >  # Family
-> >  obj-$(CONFIG_PWC_RZV2M)		+= pwc-rzv2m.o
-> >  obj-$(CONFIG_RST_RCAR)		+= rcar-rst.o
-> > +obj-$(CONFIG_RZN1_IRQMUX)		+= rzn1_irqmux.o
-> >  obj-$(CONFIG_SYSC_RZ)		+= rz-sysc.o
-> > diff --git a/drivers/soc/renesas/rzn1_irqmux.c b/drivers/soc/renesas/rzn1_irqmux.c
-> > new file mode 100644
-> > index 000000000000..37e41c2b9104
-> > --- /dev/null
-> > +++ b/drivers/soc/renesas/rzn1_irqmux.c
-> > @@ -0,0 +1,169 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +/*
-> > + * RZ/N1 GPIO Interrupt Multiplexer
-> > + *
-> > + * Copyright 2025 Schneider Electric
-> > + * Author: Herve Codina <herve.codina@bootlin.com>
-> > + */
-> > +
-> > +#include <linux/mod_devicetable.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of.h>
-> > +#include <linux/of_irq.h>
-> > +#include <linux/platform_device.h>
-> > +
-> > +#define IRQMUX_MAX_IRQS 8
-> > +
-> > +static int irqmux_is_phandle_args_equal(const struct of_phandle_args *a,
-> > +					const struct of_phandle_args *b)
-> > +{
-> > +	int i;
-> > +
-> > +	if (a->np != b->np)
-> > +		return false;
-> > +
-> > +	if (a->args_count != b->args_count)
-> > +		return false;
-> > +
-> > +	for (i = 0; i < a->args_count; i++) {
-> > +		if (a->args[i] != b->args[i])
-> > +			return false;
-> > +	}
-> > +
-> > +	return true;
-> > +}
-> > +
-> > +static int irqmux_find_interrupt_index(struct device *dev, struct device_node *np,
-> > +				       const struct of_phandle_args *expected_irq)
-> > +{
-> > +	struct of_phandle_args out_irq;
-> > +	bool is_equal;
-> > +	int ret;
-> > +	int i;
-> > +
-> > +	for (i = 0; i < IRQMUX_MAX_IRQS; i++) {
-> > +		ret = of_irq_parse_one(np, i, &out_irq);  
-> 
-> I don't really want more users of this... More below.
-> 
-> > +		if (ret)
-> > +			return ret;
-> > +
-> > +		is_equal = irqmux_is_phandle_args_equal(expected_irq, &out_irq);
-> > +		of_node_put(out_irq.np);
-> > +		if (is_equal)
-> > +			return i;
-> > +	}
-> > +
-> > +	return -ENOENT;
-> > +}
-> > +
-> > +struct irqmux_cb_data {
-> > +	struct device_node *np;
-> > +	struct device *dev;
-> > +	u32 __iomem *regs;
-> > +};
-> > +
-> > +static int irqmux_imap_cb(void *data, const __be32 *imap,
-> > +			  const struct of_phandle_args *parent_args)
-> > +{
-> > +	struct irqmux_cb_data *priv = data;
-> > +	u32 src_hwirq;
-> > +	int index;
-> > +
-> > +	/*
-> > +	 * The child #address-cells is 0. Already checked in irqmux_setup().
-> > +	 * The first value in imap is the src_hwirq
-> > +	 */
-> > +	src_hwirq = be32_to_cpu(*imap);  
-> 
-> The iterator should take care of the endianness conversion.
-
-Ok, it will take care.
-
-> 
-> > +
-> > +	/*
-> > +	 * Get the index in our interrupt array that matches the parent in the
-> > +	 * interrupt-map
-> > +	 */
-> > +	index = irqmux_find_interrupt_index(priv->dev, priv->np, parent_args);
-> > +	if (index < 0)
-> > +		return dev_err_probe(priv->dev, index, "output interrupt not found\n");
-> > +
-> > +	dev_info(priv->dev, "interrupt %u mapped to output interrupt[%u]\n",
-> > +		 src_hwirq, index);  
-> 
-> Do you even need "interrupts"? Just make the "interrupt-map" index 
-> important and correspond to the hw index. That would greatly simplify 
-> all this.
-
-I would like to avoid to be based on the interrupt-map index.
-
-Indeed, IMHO, it is less robust. I don't thing that we can enforce the
-interrupt-map items order. Based on interrupt-map index, we need to ensure
-that the first item is related to GIC 103, the second one to GIC 104 and so
-on.
-
-Anyway, I can simplify the code relying on the interrupt-map index even if
-it is less robust.
-
-I will propose this rework in the next iteration.
-
-Best regards,
-Hervé
-
-
-> 
-> > +
-> > +	/*
-> > +	 * Our interrupt array items matches 1:1 the interrupt lines that could
-> > +	 * be configured by registers (same order, same number).
-> > +	 * Configure the related register with the src hwirq retrieved from the
-> > +	 * interrupt-map.
-> > +	 */
-> > +	writel(src_hwirq, priv->regs + index);
-> > +
-> > +	return 0;
-> > +}  
+Bartosz
 
