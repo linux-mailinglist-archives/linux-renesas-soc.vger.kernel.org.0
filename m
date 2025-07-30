@@ -1,177 +1,159 @@
-Return-Path: <linux-renesas-soc+bounces-19775-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19776-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3262EB16142
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jul 2025 15:18:14 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CA62B1615F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jul 2025 15:24:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 62498188FE2E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jul 2025 13:18:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AA7327AF490
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jul 2025 13:23:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 210ED14D70E;
-	Wed, 30 Jul 2025 13:18:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22D5F299A85;
+	Wed, 30 Jul 2025 13:24:33 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6ED15A848
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Jul 2025 13:18:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34843299923;
+	Wed, 30 Jul 2025 13:24:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753881491; cv=none; b=WVHn9A8RWLs9v/8MbuzWW6+Tb1fa0K1sPbVmznuqXWKwbkSHOK3umoaQono3JaS3aAldwso55XRIQaVcp/pKwrNkycthHmU6ExhCJTj6Tx8X4VKBvwNtONSFiyHyXKO+ergpVHlUi6CE5Dvq5OLGytQjPNy8BJopmvk7GslHqhE=
+	t=1753881873; cv=none; b=X0LGwHS3joS7zwCHoVJZyKyczcgSJwfzKiur1OSa9wVo+F7kdMQEXueaQZQJATAmlr0wRxBKe5/myErBriwfbO41VaqXRpZV3hnH2cR8G11OGUYyjWoDyQFnzy2R9m6I9FjsxeLAMYRuPVUHJN44Jey1VYA9JJ8ErYTLLlOCVPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753881491; c=relaxed/simple;
-	bh=uQmmXA1UOtrGcTl6vm+YRoYqk9+Fdq7m5UjNgw/jdGs=;
+	s=arc-20240116; t=1753881873; c=relaxed/simple;
+	bh=sy6jXiSqVidlpaVs1LdfUuEtywccpWrnapz2UqWdnhI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e2aupxzr55yyGhQv1kP9kpAZ6fC4jeeIz+m9StLzx3/PF6ju8DMllp+Lcpm9iM/uX8bbcl9ecMVVMTN2qEokFqwNnHQVRHNFYb1NrU1R2YQrEmA0Fate5nme0+GwcLbN/GSke7Usev5dBuJunfQ9xis1pTF/xl60g67hA6k4Pdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.44
+	 To:Cc:Content-Type; b=iM+EKyGTDFKMVprHTiQSt7tdhKxdDu92n+bmMO8YvnwJXCeWeFaFOdCz7cL8B7NYeRhopDk3mmE4sEA+OnpgE2Sste6nEabGPPHkEg3XnU7suTWJTdWaQDKCUyOzo4TjsVHp3IaaUgoUSx7jAUIEH5DQc1IwugAXRxp27STTgz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-4fa771716aeso1276256137.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Jul 2025 06:18:08 -0700 (PDT)
+Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-5313ea766d8so3132826e0c.0;
+        Wed, 30 Jul 2025 06:24:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753881487; x=1754486287;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=f6GXwB3HYRWontaCo/6T3jVhZmsf4JGBbKy++SiQk0w=;
-        b=dRH2nTcepVlzZOGyfx39cZfeRhsFi/OIben7pkMACSGbY7SJao/yNvGAVL2zuuXPEv
-         IVvVmYzymA/c+WH7rgeqfHqAMH1szMRKY95PZgySqGUOkXl9wUhETG2xq6F260Ux8eWu
-         FnmeTrE7KVMJITFa/mL/NUKZHzRkjC3O1hKmJRNUTl5VlQBD5UEibdo7+dicqIb2Idiq
-         29l9EGXV4bmJNyTv/2PrMiRhiWsA3X74uYNEZeMiMRmwTj0rk70L3lwwQRvprUvdAImX
-         /n7JQ0Z4u8JXWnAHpmXXTMYbg5hRx6hYsWILHWTn7UUgmyc/KPcqa2/8Xy0q8iCGztON
-         9aLA==
-X-Forwarded-Encrypted: i=1; AJvYcCVDRuwzUzF3V5ger2fFLk4h9qU8lqocF9hijaHREtvOcjkyz4fwXpPG8N8yj5Vw7iH/CNEnAojKqR53fnihbgQ2rA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywd2wio4RQZOq7fZebKITxA4EXxYbK9wW85ZPIipc3Ls/vya2re
-	ogYqwY/0XSwMcWJBu92kvi6m+fLIyeaT/zbNSUzJW1KyRMYp2XFPDS+Fo8hGSGCr
-X-Gm-Gg: ASbGncsSo44OVHs/hjOsqVoJ0kq3/ChiniY4MIDgRDU/BUquxl/aWCrTkcZgzjDsxiG
-	ZV3N19nT5C+PAs+HFOKaKhGs9EDtGx5wlpb89EpUuQrq1rwE+gndQu2aoTvf1lKsEIeVjylwU0j
-	u8FN9w3KpcZHx6eN+tEhOeLR/9V9uW4JVmvpyUZWL5/4LehrM9Leb/6ndBb8RGiEOP3UVtP5ecG
-	gizK5IRskto6S6DlRkIUKVh01TetND410ClE2R/D0W/EEggNR2rgIm1G6bUS3TvgDk9FNYz7Rbn
-	e2g01UKOCmkfmBQRgrKtBGB6bOJFKTN0UgdLWUN+DbA/ITvdvZFPSgiJiuWZ21A6338ILWumosK
-	a0K7MUdypQo3dDxz4PmSXqMGFHd7VJl5xGcoCMxKeqoyNK99GwXdZcdmORSzR
-X-Google-Smtp-Source: AGHT+IHZxeAURjrimR/u3W8Vb3Hl7wlAM5+hrgQe8iWyV8TTi7HUZSzTNsxOpjda4bfHhiAnrQ8Www==
-X-Received: by 2002:a05:6102:5686:b0:4e7:3e76:cd21 with SMTP id ada2fe7eead31-4fbe7f376f5mr1955561137.9.1753881486698;
-        Wed, 30 Jul 2025 06:18:06 -0700 (PDT)
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4fa46bb9020sm2138769137.0.2025.07.30.06.18.05
-        for <linux-renesas-soc@vger.kernel.org>
+        d=1e100.net; s=20230601; t=1753881870; x=1754486670;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6vlztp5H+NPIuavCVXzCzsul/fEjpvpAsQyc/El1tgg=;
+        b=e1u2tvUdWJ6wgrT0qkG5GgO79j1l3HcVwYf3tCVcm4l7x25ntlFD1dJyvdeEehC2RN
+         O+dPaEYesYi8sWn4jDIxXSaKyGDzdwwjKlIU5ec56Irsc46WhR8nKgKlVaOrRcUEo6x3
+         GdmbJoXmsWL+XIbuweziwGSOamZqWsqBB26bdnE1gUrwdImYzIQ7LEWadC3kafKQdNr9
+         GugZrVS+D5iJyGp3piz1g8OCBVEGjz26Y8ZoQs4eGsqyHz9fzCmppWLVQeedqN5tdjJX
+         LSBjZBHirzxUheWxqb9LGDQQiOpqjs8WCL/KrKWgXR/1hFQL/x1ty+7ROa/IxRIYv7TB
+         spBA==
+X-Forwarded-Encrypted: i=1; AJvYcCUq9qTyObP9bylzgPYV/qNQ09P9XstuHeKXLP9PG195Ccn+QPtgE+GByfw5fHqEK6gudFN6kgk2M5Vr@vger.kernel.org, AJvYcCVhrS7I2taEqY6Kym1Ek51q2++EL55xUTY6nonI75QeX/tTCGEbDzCnirI13JRk6cA2Ht0FcvKFU7g74bWb@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEO/a6hTpInf0VYjOXZwV9KQnhwadWYpl7sHAXfJOO2xd0A9JW
+	5NdvDkugf88THin1tKlUG+XrtnBYGkrNiYuSzHMCa5cU0TOFyqzbATjM153V8H9+
+X-Gm-Gg: ASbGncsFV7Ht+pqPZoraPznX/k5If+ka9nEl2o3CvUzsv1q4SsBIfI54fT4k22Tn5oa
+	ASZVCFCffyF4cULlJN5y89SCy7LARJzyLcT6w9Hps+RRAZ9kIeOXD5hx1jRmFr2SU4/yWJY+ewo
+	yq6b3NeQQ+DBpbHIuxikhPXn7UWVej4odrPnwIFRZNK0r+e+x7lF0btu/6KMpYXbJ10P2XOO3v4
+	M7XQ4QtwmCzQsGYHRBF3K88ZEpIMhLtuPOVBiUGqxdzVL0QIFoyh+JTEzugbfL+MX2eeQ+HuYgm
+	AmY6hLido3Y+1WIy7VO0RbfA4EjW0nM0AkL/uR0HUwsW45vYpkSz1nuN7P212bJ9DVa17a0d1TC
+	9IC4TGKtLmhATtn+KGbxu4r/S9USA1E78t/j16jUnrKlKlAJxWmZ6w+s5jGpkQEeL
+X-Google-Smtp-Source: AGHT+IF/cZ6xexi4cBoI+iPsbFekdRi6B1+wN45Md/gNyIpnqfnYySR/niNmAKA+W+LKfrR49Y4kLQ==
+X-Received: by 2002:a05:6122:d9e:b0:538:dd8b:666b with SMTP id 71dfb90a1353d-5391c9d0a70mr2067994e0c.0.1753881869651;
+        Wed, 30 Jul 2025 06:24:29 -0700 (PDT)
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com. [209.85.221.175])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-538e28c3ae3sm2712986e0c.35.2025.07.30.06.24.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Jul 2025 06:18:05 -0700 (PDT)
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-87f04817bf6so3607453241.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Jul 2025 06:18:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUsi4iuk5cODCnv3SIf29WANnr2jUJeV1KGwROaWMvCDGUMotmQJDGPwQBCunjDjouGlGagPFMeNZitRSQkvxlT0w==@vger.kernel.org
-X-Received: by 2002:a05:6102:80a5:b0:4fb:142:1ff5 with SMTP id
- ada2fe7eead31-4fbe87e7dcdmr2576568137.26.1753881484059; Wed, 30 Jul 2025
- 06:18:04 -0700 (PDT)
+        Wed, 30 Jul 2025 06:24:28 -0700 (PDT)
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5392bf8b590so170708e0c.3;
+        Wed, 30 Jul 2025 06:24:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUdO5yBUfHvMr4y6YuSV5HVYxL8r8pZVa+RJaDxExWzTqDX/+pgeOqacWv3qH6ffRiqJy+yl/Lx02Ft@vger.kernel.org, AJvYcCUmq4JXMpi8ub3l5Abypa5ltadH14OpPeU5aJKb5XpLhcQv7yEao90L66Rf/BAecUI9jXeC/z8vDL6wBQBM@vger.kernel.org
+X-Received: by 2002:a05:6102:3e86:b0:4f7:c5ed:209c with SMTP id
+ ada2fe7eead31-4fbe7f4e9ffmr2003997137.7.1753881867520; Wed, 30 Jul 2025
+ 06:24:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <175174252387.83411.17393827352291413834.sendpatchset@1.0.0.127.in-addr.arpa>
- <175174255437.83411.8624204632703877341.sendpatchset@1.0.0.127.in-addr.arpa>
- <CAMuHMdWxZGB4KD_L2scf97Af96TbhjMaS_b9WBoPu+usRYiKYQ@mail.gmail.com>
- <aG1_DpJy_VS-rK0s@shikoro> <CANqRtoSMzB3jME-S0EmwH8SdPdnoeBmsDR5_Y6+cBh+Oj+RkQw@mail.gmail.com>
-In-Reply-To: <CANqRtoSMzB3jME-S0EmwH8SdPdnoeBmsDR5_Y6+cBh+Oj+RkQw@mail.gmail.com>
+References: <175232755943.19062.8739774784256290646.sendpatchset@1.0.0.127.in-addr.arpa>
+ <175232759314.19062.13901247607746044271.sendpatchset@1.0.0.127.in-addr.arpa>
+In-Reply-To: <175232759314.19062.13901247607746044271.sendpatchset@1.0.0.127.in-addr.arpa>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 30 Jul 2025 15:17:53 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXtwbpH+mfEDCPz7+0tccBGAhs-iQAetmU-D_jEcGZ+Wg@mail.gmail.com>
-X-Gm-Features: Ac12FXxo_rhXOvPB03eVtIkuqHZ8F1BQuweWhRPYh5wg6bGaHBAUrxnmF7L6E2c
-Message-ID: <CAMuHMdXtwbpH+mfEDCPz7+0tccBGAhs-iQAetmU-D_jEcGZ+Wg@mail.gmail.com>
-Subject: Re: [PATCH 4/6] ARM: dts: renesas: genmai: add rpc-if SPI NOR flash
-To: Magnus Damm <magnus.damm@gmail.com>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-renesas-soc@vger.kernel.org
+Date: Wed, 30 Jul 2025 15:24:16 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUpKn8ByG_2+h+c=oSq_euCOdGvUaM2P1pa-VWDQrT7Kg@mail.gmail.com>
+X-Gm-Features: Ac12FXxhzlq35FsMSZHQohBFv9YKQP681byzw4XyIBQRdWgBYvzlVwmuc0Zg5QE
+Message-ID: <CAMuHMdUpKn8ByG_2+h+c=oSq_euCOdGvUaM2P1pa-VWDQrT7Kg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] memory: renesas-rpc-if: Add RZ/A1 and RZ/A2 support
+To: Magnus Damm <damm@opensource.se>
+Cc: linux-renesas-soc@vger.kernel.org, robh@kernel.org, 
+	geert+renesas@glider.be, devicetree@vger.kernel.org, conor+dt@kernel.org, 
+	krzk@kernel.org, linux-kernel@vger.kernel.org, 
+	wsa+renesas@sang-engineering.com, sergei.shtylyov@gmail.com, 
+	p.zabel@pengutronix.de
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
 Hi Magnus,
 
-On Thu, 10 Jul 2025 at 20:09, Magnus Damm <magnus.damm@gmail.com> wrote:
-> On Tue, Jul 8, 2025 at 10:27=E2=80=AFPM Wolfram Sang
-> <wsa+renesas@sang-engineering.com> wrote:
-> > > Removing this breaks the direct-mapped FLASH ROM, which may affect
-> > > userspace, and prevents using XIP (but I understand no one cares abou=
-t
-> > > the latter anymore).
-> >
-> > What is the gain of using rpc-if vs. memory-mapped?
+On Sat, 12 Jul 2025 at 15:39, Magnus Damm <damm@opensource.se> wrote:
+> From: Magnus Damm <damm@opensource.se>
 >
-> Correct me if I'm wrong, but I believe the "SPI Multi I/O Bus
-> Controller" on RZ/A1 is an on-chip device used to interface to the
-> on-board SPI flash memories, like Spansion S25FK512S-16 on the Genmai
-> board. Depending on the board design and the SoC variant there could
-> be a single or  two SPI memories in parallel and they may be used in
-> QSPI mode as well. There is also HyperFlash support in some newer
-> SoCs. This device may by the way often be used to boot the SoC using
-> some Mask ROM code.
+> Add RZ/A1 and RZ/A2 compat strings to the rpc-if driver. Also make the
+> reset controller optional. This is because RZ/A1 does not have any reset
+> bits assigned to the device so there is no reset controller available.
+>
+> Signed-off-by: Magnus Damm <damm@opensource.se>
 
-Indeed.
+Thanks for your patch!
 
-> The on-chip hardware device (driven by rpc-if under Linux) lets the
-> device driver programmer access the external memory either by setting
-> up SPI master transfers to read or write the memory, or setting up the
-> so-called memory mapped mode. In the memory mapped mode the SPI master
-> may be programmed with information such as which flash command
-> sequence that should be performed for read accesses. The memory mapped
-> mode also has a single physical memory window that automatically
-> translates read accesses by the CPU to statically initialized SPI
-> master read requests.
+> --- 0001/drivers/memory/renesas-rpc-if.c
+> +++ work/drivers/memory/renesas-rpc-if.c        2025-07-11 03:45:25.605098312 +0900
+> @@ -234,7 +234,7 @@ static int rpcif_hw_init_impl(struct rpc
+>         int ret;
+>
+>         if (rpc->info->type == RPCIF_RZ_G2L) {
+> -               ret = reset_control_reset(rpc->rstc);
+> +               ret = rpc->rstc ? reset_control_reset(rpc->rstc) : 0;
 
-True.
+No need for this, as reset_control_reset() does nothing in case
+an optional reset is not present.
 
-> What Geert refers to as direct-mapped FLASH ROM is probably Linux
-> performing read-only access to the memory window that is part of the
-> "SPI Multi I/O Bus Controller". The configuration has either been set
-> up by the Mask ROM (which happens in case the device boots from the
-> serial flash) or perhaps the boot loader.
+>                 if (ret)
+>                         return ret;
+>                 usleep_range(200, 300);
+> @@ -614,7 +614,7 @@ static int rpcif_manual_xfer_impl(struct
+>         return ret;
+>
+>  err_out:
+> -       if (reset_control_reset(rpc->rstc))
+> +       if (rpc->rstc && reset_control_reset(rpc->rstc))
 
-Also correct.
+Likewise.
 
-> While the memory mapped read-only mode is kind of cool, for my use
-> case the rpc-if driver (either in the kernel or in U-Boot) is used to
-> access the flash in various ways. Using MTD under Linux seems like a
-> pretty good standard way of for instance programming the flash memory.
+>                 dev_err(rpc->dev, "Failed to reset HW\n");
+>         rpcif_hw_init_impl(rpc, rpc->bus_size == 2);
+>         return ret;
+> @@ -1017,7 +1017,7 @@ static int rpcif_probe(struct platform_d
+>         rpc->size = resource_size(res);
+>         rpc->rstc = devm_reset_control_array_get_exclusive(dev);
+>         if (IS_ERR(rpc->rstc))
+> -               return PTR_ERR(rpc->rstc);
+> +               rpc->rstc = NULL;
 
-MTD is indeed the standard way to access FLASH via a file system...
-But to run kernel code from FLASH, it must be direct-mapped.
-With traditional NOR FLASH, this is easy.
-With FLASH behind an SPI bus, you need hardware support that translates
-address bus reads to SPI read commands, which is what the RPC-IF can
-do transparently, once configured.
+Errors should be propagated correctly, also for probe deferral.
+devm_reset_control_array_get_optional_exclusive() is what you are
+looking for. You can enforce the presence of the resets where needed
+through the DT bindings.
 
-> Also the memory-mapped region is fed into the rpc-if device driver as
-> part of the device resources but I don't know exactly how it is being
+>
+>         /*
+>          * The enabling/disabling of spi/spix2 clocks at runtime leading to
 
-You mean the "dirmap" register block? That is indeed used for reading
-from FLASH by the Linux rpc-if driver.  Note that it is limited in
-size, so on large FLASHes it serves as a small window to the full FLASH
-memory, and must be moved explicitly when needed.
-
-Obviously the window must be fixed for XIP mode.
-
-> utilized. And exactly how the "mtd-rom" device node works with XIP is
-> beyond me, but I would be happy to learn if someone could explain.
-
-"mtd-rom" is just simple glue for a direct-mapped memory device.
-
-If you want to combine XIP mode and MTD writing, the driver needs
-to be aware of that.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
                                 -- Linus Torvalds
 
