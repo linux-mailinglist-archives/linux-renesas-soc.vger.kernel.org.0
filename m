@@ -1,110 +1,105 @@
-Return-Path: <linux-renesas-soc+bounces-19755-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19756-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B82CFB15B51
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jul 2025 11:17:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C89A0B15B56
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jul 2025 11:18:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EF7BE560A48
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jul 2025 09:17:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0B658560D3E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jul 2025 09:18:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB43F2701CA;
-	Wed, 30 Jul 2025 09:17:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2C1426C3A6;
+	Wed, 30 Jul 2025 09:18:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Nkx9WmDw"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YiiO+s0d"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0102426FDA3
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Jul 2025 09:17:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F53E255F4C;
+	Wed, 30 Jul 2025 09:17:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753867035; cv=none; b=WiH0atCoiknlDWGyAi5KHWBALq7lYhJETAo3v+XddV4JTuBnwOERnVS1t2WUDULDyvqKjuwyzlEJ8tbV1qsWhOw/nnzgShmclQM73NvXnFBpVKYXjVNF7kPySkrxM3IoBohv3osS09OGAfiCS5rxZ25I/bZ8oLnj32+U61kdUlk=
+	t=1753867082; cv=none; b=OqBPoAa1E75ou+JHCHJ+Li8h+tWia3eWOntovsQIxhoF9TweQ0+9oLezdlf8UUMwJUFThqty2aSkvDC3KCT04ytX/T/9rDum2HDD6v6Q49Jb5NXyjeyUQwiyDaTDSw+uHzCp7BtJ1B/8acdGmF9VAJKR/8bfRAxVnotlYke8too=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753867035; c=relaxed/simple;
-	bh=Dpcd7l4PVdBUAu3dLde4TLawjV16LdfHLmoToUBiLfw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cxBk1w6YoK4755NtU39VLOgEo+BM5B9t/+zeMCmIEvbk+Z38fDcY3XQJhGFdO7Vc3ywAwQz9NzlOADhx6d9OeG7gkUgb8nD7m+O7ecI//3lvEs4OTHlC6nNlvq3kX9MW8ssRZ7PXBM6J5mp6hNGDBeAzdGN9C8Pa5vVPSTXlbGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Nkx9WmDw; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=z9s8
-	RUZxXi4y+NdXdO9wZSa3qlMNEu3jZh6gP4YDP0k=; b=Nkx9WmDwDDT8RiY/j4X/
-	gWHBfnqhxiHT79d6s8ImeSbvS5yTL8ft7G2Bpi7n2nkxDhfaI/LD/bsmp8d2Y2CG
-	nzYXb2I496R2NEnmmfOddZOkUzPWSQnH2DgsMZJ4EwdAqz3CuWVi/IURIpEU/6kg
-	/sv54CbFugA0B6Ccm/7XdiL2dGqfQhvUR2qcFKOEdNJ4UvbtkOhLLAyHrFWcBV1L
-	3el553WbzhOztVcPwRP8Ot+DRZ5Pj55H+qKchD2/XhdYgT1x48KMh9SGr62+uSWG
-	pjeltvdDAQvyWylRE9AQs5SOm0jYzawu0+dxNL0YdlpSgbzGtQgph+MZ/Bl92SzO
-	JA==
-Received: (qmail 4115907 invoked from network); 30 Jul 2025 11:17:08 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Jul 2025 11:17:08 +0200
-X-UD-Smtp-Session: l3s3148p1@vNAs/SE7cocgAwDPXyC3AG0QzsW8mHdp
-Date: Wed, 30 Jul 2025 11:17:07 +0200
-From: Wolfram Sang <wsa-dev@sang-engineering.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Biju <biju.das.au@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Biju Das <biju.das.jz@bp.renesas.com>, linux-mmc@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2 1/2] mmc: tmio: Add 64-bit read/write support for
- SD_BUF0 in polling mode
-Message-ID: <aInjE-sduVbBRmJx@shikoro>
-References: <20250727160731.106312-2-biju.das.jz@bp.renesas.com>
- <202507301421.AmWhOZBk-lkp@intel.com>
+	s=arc-20240116; t=1753867082; c=relaxed/simple;
+	bh=h6yGFTzSbbPIM+l71zfwBjl9gFp/4RDVYaLZu+XyfXY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GX8I3wTs2i+0nH32Q/KXiO3VjPbWW15Hk7iR6s2Ym7Y9YVJvsf54K/gUj5k+UW/j4KlPfy2Pe293Gg0Jxn493MoVz/KiuhT3XlsjnXlBc1oZhXb4U4y+iRL2GSmCJ5/nxpe2+np4Sw9kqaJ3TaBFyA1geGJZDfLgdYQLF4QQdzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=YiiO+s0d; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id AC5C21F6BE;
+	Wed, 30 Jul 2025 09:17:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1753867078;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Yjpl5P036SzcXdZApIpw3yupiX65ZpgCi/JEAYydfII=;
+	b=YiiO+s0d37LZ9m5y4kzMD1QTAn+DwVlPjGwKIHBc4N2yry3xKv7QSlfFBbzDpMQWJ0/KaI
+	9I74izbx3XPoxTdKtc+mKlEAMlJkoVrLiwgnCCPFBM4c37qmjOPwEJt3z+ENTvZ8yk+U+e
+	01DMMY2JTqGlpI3eqBVSuf8MDG4671+9+FWDqCsG8W+jLyh1mRiGBWH2vWoo4JPCfYnaLf
+	gSB2Hywk5IAtJl82BvQw2ctOjjGVETk4+cr5an67pKSjMctAv6N6b0oniLcSJ+TWlf7zGI
+	1bIqzVvWCk3NuKd8sHYTip5+CXeNopQy7ODoKPEqBI+ARcJxpZR+SEFiLMXwCA==
+Date: Wed, 30 Jul 2025 11:17:55 +0200
+From: Herve Codina <herve.codina@bootlin.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Hoan Tran <hoan@os.amperecomputing.com>, Linus Walleij
+ <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Magnus Damm
+ <magnus.damm@gmail.com>, Saravana Kannan <saravanak@google.com>, Serge
+ Semin <fancer.lancer@gmail.com>, Phil Edworthy <phil.edworthy@renesas.com>,
+ linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Miquel
+ Raynal <miquel.raynal@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 1/6] dt-bindings: gpio: snps,dw-apb: Add support for
+ Renesas RZ/N1
+Message-ID: <20250730111755.24aa16b2@bootlin.com>
+In-Reply-To: <20250729181151.GA530390-robh@kernel.org>
+References: <20250725152618.32886-1-herve.codina@bootlin.com>
+	<20250725152618.32886-2-herve.codina@bootlin.com>
+	<20250729181151.GA530390-robh@kernel.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="kmR0COAf0tpqolK7"
-Content-Disposition: inline
-In-Reply-To: <202507301421.AmWhOZBk-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdeljeehhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthekredtredtjeenucfhrhhomhepjfgvrhhvvgcuvehoughinhgruceohhgvrhhvvgdrtghoughinhgrsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeviefffeegiedtleelieeghfejleeuueevkeevteegffehledtkeegudeigffgvdenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudejpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehhohgrnhesohhsrdgrmhhpvghrvggtohhmphhuthhinhhgrdgtohhmpdhrtghpthhtoheplhhinhhushdrfigrlhhlvghijheslhhinhgrrhhordhorhhgpdhrtghpthhtohepsghrghhlsegsghguvghvrdhplhdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgut
+ heskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihguvghrrdgsvgdprhgtphhtthhopehmrghgnhhushdruggrmhhmsehgmhgrihhlrdgtohhm
+X-GND-Sasl: herve.codina@bootlin.com
 
+Hi Rob,
 
---kmR0COAf0tpqolK7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Tue, 29 Jul 2025 13:11:51 -0500
+Rob Herring <robh@kernel.org> wrote:
 
+> On Fri, Jul 25, 2025 at 05:26:10PM +0200, Herve Codina wrote:
+> > The RZ/N1 SoCs uses the Synopsys DesignWare IP to handle GPIO blocks.
+> > 
+> > Add RZ/N1 SoC and family compatible strings.  
+> 
+> Why? Yes, that's policy, but so far we avoided it on this IP. Perhaps 
+> because it is simple enough. So what's different here?
 
->    In file included from drivers/mmc/host/uniphier-sd.c:21:
-> >> drivers/mmc/host/tmio_mmc.h:249:2: error: call to undeclared function 'ioread64_rep'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->      249 |         ioread64_rep(host->ctl + (addr << host->bus_shift), buf, count);
->          |         ^
-> >> drivers/mmc/host/tmio_mmc.h:255:2: error: call to undeclared function 'iowrite64_rep'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->      255 |         iowrite64_rep(host->ctl + (addr << host->bus_shift), buf, count);
->          |         ^
+I've just followed Renesas policy.
 
-Sigh, then the guard seems to be ARM64 after all :(
+Nothing other than this policy justifies the change and so, I can remove
+the Renesas compatible strings. In other words, I can simply remove this
+patch.
 
-
---kmR0COAf0tpqolK7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmiJ4xAACgkQFA3kzBSg
-KbaeJA//X+uqDvUdKGGo3FOKu+/F1eXweWNZxFEmeubtke3lHodepW1cA105X33H
-oHHK/iVapFK9wT4K3aGqHQGAYhoRtv/pWurW7AZCbZuHiIEvSGr6C5f2yohTYhix
-+2+sy6DD1W05jLljxT95UIe2cGe4gq/dBxjuMPY7hBdZWz+JkHGFYpLeAwMwdOVA
-SmSrrneaFJG6oA27RNSUO1sB7eGuTIqtLQhTDWEz105GBYsW41qW6QMHDMedejBo
-qhTQ0wAgzMzxsGKCraM//3iFdcAbn2mVvMpjMqI9YnlpF/+FxCr9ljzZAlKi1P7x
-GQF0IIdofihdw9MXtFH8bStWlNb9nlGqE6ujMSFLViUWqQrBnOZPXHFS19QF9Rsl
-FfmMOT0oOTTFd4510V2/TK+q5csNM1rFEx6dTyZi3qu4xiCocZ3kdZ4jRO/qJSlQ
-PhYy9s9wOrPvJLUX7avcnBZ7vZodmo/IR7TuN8t38mBQzUGF3oPJhX7wKEC+yA09
-iWwj86WvdsaV8tif3CuDU1KlkFYDTtUX4PEG3hLFRuxQeesi9b9AKOtuuHd/8R+h
-EPPyK/LyJ/ZMKEvMNAkNWadZjGjne/IvoivkoneCQUTVhZFhIeNGQYZT2MJUDXE4
-OYIiKUik0iEhiN7ofwWgRiAJvZqlAswXNxVQKDQFNjRPBZ3Oq/c=
-=Wjuh
------END PGP SIGNATURE-----
-
---kmR0COAf0tpqolK7--
+Best regards,
+Hervé
 
