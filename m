@@ -1,251 +1,132 @@
-Return-Path: <linux-renesas-soc+bounces-19794-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19795-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65359B167BE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jul 2025 22:47:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 861C2B168F2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Jul 2025 00:14:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 79EA9581012
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jul 2025 20:47:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E4873AC6C6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jul 2025 22:13:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C09B21770A;
-	Wed, 30 Jul 2025 20:47:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 347B721FF4E;
+	Wed, 30 Jul 2025 22:14:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DXEF/9BQ"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="tGg7DklG";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Sz4EPmOZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E92A617BD3;
-	Wed, 30 Jul 2025 20:47:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258B41DED57;
+	Wed, 30 Jul 2025 22:14:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753908455; cv=none; b=ROWjouBRZSOMWkyRPhF/Ba8M9WRoSu2J2+VAndFyZT8sGjlSYKaviBV571LPnoXc8vfnpas2Q7LQEOZl1WkudsLMEwkt6NzfDohYQqvGnLKw9wpB+Ywg6XK3UtlHHKyA/hG66jAWh58oq6krhD+NcKp+a3PSjwgYe5iHPdmUA6s=
+	t=1753913664; cv=none; b=R/wbLwbJig1BRMWUvyGd6w0QSSxPyzSP2SVvs68lWWnL37dVmX5Akx24MnJQiLs6UdcVX8HHYLQBFwyKsOCFmDOZQ6GJpNyIgqNZM3QbNle4oI2aRVr8LoW4+syUa7CfIR+768fs77twkitiE9hKqMwCQ3LHGyV+SNjK7tprFlI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753908455; c=relaxed/simple;
-	bh=RI0ksHF6O152eL68aDJf82KbbpvphujgM5aWcGo3uNI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rRfxUcsfxebQ0SwLb+f/H17OYF2A1eS4qgI36FFBVxD++Si5HtSIrXw8VxnPSGuR7F7n2EYAXSsA5QJKw2vrf80wm8yu4XMzPMqw3Z834zj5UM8pwy0tLr76DNcb6Lc2zaG6BOAMp1vqaVzIZfUHUNhEVSVJ8uZRHWofyvXElxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DXEF/9BQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 542FDC4CEE3;
-	Wed, 30 Jul 2025 20:47:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753908454;
-	bh=RI0ksHF6O152eL68aDJf82KbbpvphujgM5aWcGo3uNI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DXEF/9BQY5gJWoTcj2QRalWAgOTQjN8Q09CwQJoIAUti4iZsi1eErMTyzhqe+YudV
-	 YBmToktDl7ADhktK08376xC2qPABezs52q7r8fc6Oclbqvm8ipsxMp1SWCYaQsI+Im
-	 vN+nXsRDI2MyKQKbS4NTwvNE0G+TfERjk/s6TChnIPkYJxgaKoVHaz+1ZEXjqEOjgs
-	 WOax7F6gUmcJbEcrZpukzZf6bS8HPtgSijnRkxRTHrv24S3V1zbU7pkE17brvIgFNw
-	 wgLWdh9Y4mnA0no/AVICZKOtD29B/yGVqiKGwL1pbLZGFrv5KdSU8pUj+4Ej9dxoqZ
-	 AuT1M4OwLWfow==
-Date: Wed, 30 Jul 2025 15:47:33 -0500
-From: Rob Herring <robh@kernel.org>
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Hoan Tran <hoan@os.amperecomputing.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Serge Semin <fancer.lancer@gmail.com>,
-	Phil Edworthy <phil.edworthy@renesas.com>,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 5/6] soc: renesas: Add support for Renesas RZ/N1 GPIO
- Interrupt Multiplexer
-Message-ID: <20250730204733.GA1717453-robh@kernel.org>
-References: <20250725152618.32886-1-herve.codina@bootlin.com>
- <20250725152618.32886-6-herve.codina@bootlin.com>
- <20250729195137.GA658914-robh@kernel.org>
- <20250730115421.770d99bf@bootlin.com>
+	s=arc-20240116; t=1753913664; c=relaxed/simple;
+	bh=VXNv1CY4rYlURx2Xvz87YYss0gcbJ71iawWXgQl0stM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uY6T5CJeJYjsIBiFJVcNrRTsq4J/1qE72EzV4E6h8NQCkIucX2YwFZxGE32p3flGo8MUCJaTHn5fOg3+bR9OAP6WWo8DXlTRd2J7csLZcmzrgZP4H1YSeAzL40NsOrYnAP5088upHSnssAV7xNKk4bTtmy7miY0/t5wDZFJZ/is=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=tGg7DklG; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Sz4EPmOZ; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4bsmhj68JDz9tSn;
+	Thu, 31 Jul 2025 00:14:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1753913653;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=d8CWksLx1mLapQnnOZN8xsm/x5QszWCNlZNE7nYusws=;
+	b=tGg7DklGHfnibTiA8zogOZHRCnPhCdaynBWmfyWR5i43yjaaxiiEq4X9pyDDyG2snRTfR3
+	yJ5dZi3/eyu5engM90AbY1C7RDREPozHFTSICFjkWdlnEDIqUrCb1IeJweGbyBizmjM+pZ
+	Pu9Ic0BEenxVcPMczSe2bWTgso8Za3lW/ViCMaxw8ElULuMuhw2ucab+UJISFS7BXmdkyS
+	992SrAXokMr7aNY000OBA1ndcr6ku0Dbd9ilvWRQu0EC7Y4u2Sd8XkRZ+/DPw5+y1Ay8qC
+	1Z8taueSetj7YfQ+An8egbsY1KZN+41Meovpjx1oG7tBewaOQ0HLpZ1e+JFWqA==
+Message-ID: <9187a38c-89d8-455e-a1b3-ee584d983064@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1753913651;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=d8CWksLx1mLapQnnOZN8xsm/x5QszWCNlZNE7nYusws=;
+	b=Sz4EPmOZ5v/HAw0vsMzZuyVFotFdOjBIc77C5ULBlRyVSsaWrqJkR8u2BQzoRJRU7PASZs
+	rdauLb43JrTFiVODz2zQJYPmXhtatK0+75oerTJg0fFTqxO7qeFi+abjKEkUVktdwBzQ7+
+	JhhcBLLhE1UJenc9jmX2xVJbWXmMhpSWsCAaOQrW8MxSYdNwDoWuOoow+L4JFvZHwvx8Yc
+	mG341NnwFErQkjW7dL8nTeijJOHY40bKU53wJQK7kKwxfXfPBqzo3DudLmNcNDVgo9I6Ik
+	ibkiAzRRMX1PtmtjwW5VEkvEfauQIopybzV76k+fLQdU15XWzdg6LtD96+Zbcw==
+Date: Thu, 31 Jul 2025 00:14:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250730115421.770d99bf@bootlin.com>
+Subject: Re: [PATCH] Input: goodix - add support for polling on devices
+ without IRQ line
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ linux-input@vger.kernel.org, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>, Hans de Goede <hdegoede@redhat.com>,
+ linux-renesas-soc@vger.kernel.org
+References: <20250610005458.126842-1-marek.vasut+renesas@mailbox.org>
+ <6kqp24t5c23vcvv7wuirkjz6a5s3daacifw37rb5554v4uqeit@jzsinkx6qb7r>
+ <cfa155f9-573a-479a-b8db-89c3bb077114@mailbox.org>
+ <csjblrulwqcmcjvyzbetng6o3ct4xedff26nvgwlb56fkqphew@rp63nsl7reuk>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <csjblrulwqcmcjvyzbetng6o3ct4xedff26nvgwlb56fkqphew@rp63nsl7reuk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: 9atjx5rzbxmrgbwbfdmr6u66famueosd
+X-MBO-RS-ID: 9ee2df0d5b4e547d427
 
-On Wed, Jul 30, 2025 at 11:54:21AM +0200, Herve Codina wrote:
-> Hi Rob,
+On 6/30/25 5:40 PM, Dmitry Torokhov wrote:
+> On Mon, Jun 30, 2025 at 11:44:03AM +0200, Marek Vasut wrote:
+>> On 6/30/25 3:32 AM, Dmitry Torokhov wrote:
+>>> Hi Marek,
+>>
+>> Hi,
+>>
+>>> On Tue, Jun 10, 2025 at 02:54:12AM +0200, Marek Vasut wrote:
+>>>> Add the capability of polling the touch controller for events every
+>>>> 16ms, which is useful on hardware that did integrate this touch
+>>>> controller, but did not integrate the IRQ line, like the RasPi .
+>>>>
+>>>> Make use of the generic input poller code. Factor out the code
+>>>> from goodix_ts_irq_handler() into generic goodix_ts_handler(), so
+>>>> it can be used both by the IRQ handler and poller callback.
+>>>>
+>>>> Use of_client->irq to find out whether the interrupt line is present
+>>>> or not, independent of whether this is OF or ACPI system. It is not
+>>>> possible to register poller in case request_irq() fails, because the
+>>>> request_irq() in this driver is deliberately called after the input
+>>>> device was registered, and registering the generic poller at that point
+>>>> is too late already.
+>>>>
+>>>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+>>>
+>>> There was another version of this patch that was submitted and reviewed
+>>> by Hans, so I merged it.
+>>
+>> Is it the following patch, with malformed commit message and some odd
+>> "LF-15225" subject tag ?
+>>
+>> https://patchwork.kernel.org/project/linux-input/patch/20250522020418.1963422-1-qijian.guo@nxp.com/
 > 
-> On Tue, 29 Jul 2025 14:51:37 -0500
-> Rob Herring <robh@kernel.org> wrote:
-> 
-> > On Fri, Jul 25, 2025 at 05:26:14PM +0200, Herve Codina wrote:
-> > > On the Renesas RZ/N1 SoC, GPIOs can generate interruptions. Those
-> > > interruption lines are multiplexed by the GPIO Interrupt Multiplexer in
-> > > order to map 32 * 3 GPIO interrupt lines to 8 GIC interrupt lines.
-> > > 
-> > > The GPIO interrupt multiplexer IP does nothing but select 8 GPIO
-> > > IRQ lines out of the 96 available to wire them to the GIC input lines.
-> > > 
-> > > Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-> > > ---
-> > >  drivers/soc/renesas/Kconfig       |   4 +
-> > >  drivers/soc/renesas/Makefile      |   1 +
-> > >  drivers/soc/renesas/rzn1_irqmux.c | 169 ++++++++++++++++++++++++++++++
-> > >  3 files changed, 174 insertions(+)
-> > >  create mode 100644 drivers/soc/renesas/rzn1_irqmux.c
-> > > 
-> > > diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
-> > > index fbc3b69d21a7..9e8ac33052fb 100644
-> > > --- a/drivers/soc/renesas/Kconfig
-> > > +++ b/drivers/soc/renesas/Kconfig
-> > > @@ -58,6 +58,7 @@ config ARCH_RZN1
-> > >  	select PM
-> > >  	select PM_GENERIC_DOMAINS
-> > >  	select ARM_AMBA
-> > > +	select RZN1_IRQMUX
-> > >  
-> > >  if ARM && ARCH_RENESAS
-> > >  
-> > > @@ -435,6 +436,9 @@ config PWC_RZV2M
-> > >  config RST_RCAR
-> > >  	bool "Reset Controller support for R-Car" if COMPILE_TEST
-> > >  
-> > > +config RZN1_IRQMUX
-> > > +	bool "Renesas RZ/N1 GPIO IRQ multiplexer support" if COMPILE_TEST
-> > > +
-> > >  config SYSC_RZ
-> > >  	bool "System controller for RZ SoCs" if COMPILE_TEST
-> > >  
-> > > diff --git a/drivers/soc/renesas/Makefile b/drivers/soc/renesas/Makefile
-> > > index 3bdcc6a395d5..daa932c7698d 100644
-> > > --- a/drivers/soc/renesas/Makefile
-> > > +++ b/drivers/soc/renesas/Makefile
-> > > @@ -14,4 +14,5 @@ obj-$(CONFIG_SYS_R9A09G057)	+= r9a09g057-sys.o
-> > >  # Family
-> > >  obj-$(CONFIG_PWC_RZV2M)		+= pwc-rzv2m.o
-> > >  obj-$(CONFIG_RST_RCAR)		+= rcar-rst.o
-> > > +obj-$(CONFIG_RZN1_IRQMUX)		+= rzn1_irqmux.o
-> > >  obj-$(CONFIG_SYSC_RZ)		+= rz-sysc.o
-> > > diff --git a/drivers/soc/renesas/rzn1_irqmux.c b/drivers/soc/renesas/rzn1_irqmux.c
-> > > new file mode 100644
-> > > index 000000000000..37e41c2b9104
-> > > --- /dev/null
-> > > +++ b/drivers/soc/renesas/rzn1_irqmux.c
-> > > @@ -0,0 +1,169 @@
-> > > +// SPDX-License-Identifier: GPL-2.0-only
-> > > +/*
-> > > + * RZ/N1 GPIO Interrupt Multiplexer
-> > > + *
-> > > + * Copyright 2025 Schneider Electric
-> > > + * Author: Herve Codina <herve.codina@bootlin.com>
-> > > + */
-> > > +
-> > > +#include <linux/mod_devicetable.h>
-> > > +#include <linux/module.h>
-> > > +#include <linux/of.h>
-> > > +#include <linux/of_irq.h>
-> > > +#include <linux/platform_device.h>
-> > > +
-> > > +#define IRQMUX_MAX_IRQS 8
-> > > +
-> > > +static int irqmux_is_phandle_args_equal(const struct of_phandle_args *a,
-> > > +					const struct of_phandle_args *b)
-> > > +{
-> > > +	int i;
-> > > +
-> > > +	if (a->np != b->np)
-> > > +		return false;
-> > > +
-> > > +	if (a->args_count != b->args_count)
-> > > +		return false;
-> > > +
-> > > +	for (i = 0; i < a->args_count; i++) {
-> > > +		if (a->args[i] != b->args[i])
-> > > +			return false;
-> > > +	}
-> > > +
-> > > +	return true;
-> > > +}
-> > > +
-> > > +static int irqmux_find_interrupt_index(struct device *dev, struct device_node *np,
-> > > +				       const struct of_phandle_args *expected_irq)
-> > > +{
-> > > +	struct of_phandle_args out_irq;
-> > > +	bool is_equal;
-> > > +	int ret;
-> > > +	int i;
-> > > +
-> > > +	for (i = 0; i < IRQMUX_MAX_IRQS; i++) {
-> > > +		ret = of_irq_parse_one(np, i, &out_irq);  
-> > 
-> > I don't really want more users of this... More below.
-> > 
-> > > +		if (ret)
-> > > +			return ret;
-> > > +
-> > > +		is_equal = irqmux_is_phandle_args_equal(expected_irq, &out_irq);
-> > > +		of_node_put(out_irq.np);
-> > > +		if (is_equal)
-> > > +			return i;
-> > > +	}
-> > > +
-> > > +	return -ENOENT;
-> > > +}
-> > > +
-> > > +struct irqmux_cb_data {
-> > > +	struct device_node *np;
-> > > +	struct device *dev;
-> > > +	u32 __iomem *regs;
-> > > +};
-> > > +
-> > > +static int irqmux_imap_cb(void *data, const __be32 *imap,
-> > > +			  const struct of_phandle_args *parent_args)
-> > > +{
-> > > +	struct irqmux_cb_data *priv = data;
-> > > +	u32 src_hwirq;
-> > > +	int index;
-> > > +
-> > > +	/*
-> > > +	 * The child #address-cells is 0. Already checked in irqmux_setup().
-> > > +	 * The first value in imap is the src_hwirq
-> > > +	 */
-> > > +	src_hwirq = be32_to_cpu(*imap);  
-> > 
-> > The iterator should take care of the endianness conversion.
-> 
-> Ok, it will take care.
-> 
-> > 
-> > > +
-> > > +	/*
-> > > +	 * Get the index in our interrupt array that matches the parent in the
-> > > +	 * interrupt-map
-> > > +	 */
-> > > +	index = irqmux_find_interrupt_index(priv->dev, priv->np, parent_args);
-> > > +	if (index < 0)
-> > > +		return dev_err_probe(priv->dev, index, "output interrupt not found\n");
-> > > +
-> > > +	dev_info(priv->dev, "interrupt %u mapped to output interrupt[%u]\n",
-> > > +		 src_hwirq, index);  
-> > 
-> > Do you even need "interrupts"? Just make the "interrupt-map" index 
-> > important and correspond to the hw index. That would greatly simplify 
-> > all this.
-> 
-> I would like to avoid to be based on the interrupt-map index.
-> 
-> Indeed, IMHO, it is less robust. I don't thing that we can enforce the
-> interrupt-map items order. Based on interrupt-map index, we need to ensure
-> that the first item is related to GIC 103, the second one to GIC 104 and so
-> on.
+> Yes, I cleaned the commit message.
 
-How exactly are you enforcing that order for "interrupts"? You can't. 
+OK. I just tested that patch and it does work on my hardware too.
 
-Aren't you just duplicating the information in "interrupts" in the 
-interrupt-map.
-
-Rob
+-- 
+Best regards,
+Marek Vasut
 
