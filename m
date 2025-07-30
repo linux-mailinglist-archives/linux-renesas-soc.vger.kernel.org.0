@@ -1,699 +1,217 @@
-Return-Path: <linux-renesas-soc+bounces-19763-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19764-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51DF1B15BFE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jul 2025 11:37:11 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3291AB15C08
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jul 2025 11:37:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BF6803A31F1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jul 2025 09:36:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6163818C25F8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jul 2025 09:37:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 331DE279DAD;
-	Wed, 30 Jul 2025 09:36:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57082293B4F;
+	Wed, 30 Jul 2025 09:36:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P3Cze1Sx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZrW+JLh0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE700275861;
-	Wed, 30 Jul 2025 09:36:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72BEF272E43
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Jul 2025 09:36:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753868173; cv=none; b=Eeulju9TaBm6ehnI4VhPHCCWyUwf1ryjX5dZqaunseb1B/HdIFb0JjZyuGTCrwiirLhtjzIFBxP8AqUJdR7qIoulATlCr7YJzxBo3zmLVYCkHAxMkyNa6sXV64Lh8oRaAJ7cgcsFtsDAobibWAiTqPZ2zRwSRzdc//IJULBhAOM=
+	t=1753868201; cv=none; b=NKme7lPqV5Khz3KhoxWyOypBkiTNsrkONNB4IZ+POKhuzQpMb+akmCaS8tM9TJKyjGUUY56g0Z1hdLffJ6MWJsk9ooEkEcdcEvUiTO3FQOcuavyvZCR6q7El4/XksnpogagNJkOQ3krdVFd8OuVo5NWnL2YWgKXHrjMYA4OAgV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753868173; c=relaxed/simple;
-	bh=U7eQoDwMZXfDwuwVea0w+jYJ1TMWNsXv/5d12PtqCK4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ubiH8ej7ul88+8CzDevhwZXDjOnzPYcv4m8+6+11+9TM3fo36D2cQe2GMX6LdVm+rKbaW3BGTKImsieJh668T8yRiwZFdc5BUkxDFMHn10Gwq8u3fuN8kbdY+3diuqzMbY8CJxG5Jc33kYhJMIYDu2jS8WHxqlIssakksdoK5HU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P3Cze1Sx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77134C4CEFB;
-	Wed, 30 Jul 2025 09:35:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753868172;
-	bh=U7eQoDwMZXfDwuwVea0w+jYJ1TMWNsXv/5d12PtqCK4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=P3Cze1SxwkLKbJLG1vfxsWJMSu7uughnp8h8z/jfcLSusC7y2lNnWpwXYSYKof/RI
-	 pgw5X2hvPr3vpshyjAg/8KUszmUzrSDqQyU2nzBL0pa8fd1NyQmM2vLnJDW0aiL+6+
-	 bGecyZDOoFtJ2sP0ZoYIV2SZYn5HV1MGiLAdUvBFgrO4m5dcRjK613/Cw+nWCimvDx
-	 FL44Q4jW691/RrI0rcDoXytLvMAiIpuARGWDUePZM4GKk2w3vu0gZLKGX4ko774PIW
-	 AhQJCP+JzuaiFfueMW+88Y5kZM0abgIUeY26ug1ZfW+RCf6O8hXTEnChataQmCOT3F
-	 UHPFgP1QhJTmg==
-From: Konrad Dybcio <konradybcio@kernel.org>
-Date: Wed, 30 Jul 2025 11:33:33 +0200
-Subject: [PATCH RFC 6/6] arm64: dts: qcom: x1e80100: Remove GENI protocol
- ID from DMA cells
+	s=arc-20240116; t=1753868201; c=relaxed/simple;
+	bh=v69hPigFys3ji97TLpE3jx1cN7xL5uW6ZfcBbmCyJGY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Gxul7qKPJ6q3hPDuD2QRxWMBAFkGR905X8z2PcngoeSFWSLJcK+S3AI+WIZHunjPzQzIZ+PA6n/zV8qB/jLH8+kDRSySn7ubU7tWouDZLS3g06V2BoHj49D6Av+oVA3ACFG6lwsXfMb9EMXLo7nhQuSvozQu9C9J7HKrmDZU+mo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZrW+JLh0; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753868200; x=1785404200;
+  h=date:from:to:cc:subject:message-id;
+  bh=v69hPigFys3ji97TLpE3jx1cN7xL5uW6ZfcBbmCyJGY=;
+  b=ZrW+JLh0AvhCS70uiIv1/E+UbN3nwC8Xh7u2My1V6BwhTGdkHleMijtX
+   ngdZs4bIEKPnnl28REivb0hOGr5xSIa0bcj3Vdp9vxoOowkkSatFLYh8y
+   XIgkbLf8w/sePxnv9W+Kz8GGd3YXhnepsLOE1mAXo2Ai3J0VbMKUi0Bzn
+   63dv2B2Ct5ptljxbAvUXW1HrlQFkn+0W8lPV1KfJmgzzC6/o9Z0yFcnrj
+   Y/MG45i7/RQKdrkM1lIJUfrTNXpIBVuFHwfhFQFkxL7ODDW7dVf1+4Oc2
+   Zvcl2uwmihVXJzVgxOMbO4+KxT5i0Q3wruYFs7Kj5xhrw37xjMK+iYf9g
+   g==;
+X-CSE-ConnectionGUID: oRWQrck4RxyQmx+jUkVB9g==
+X-CSE-MsgGUID: T4hU3oLiRSumrWcnT4lzJw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="56251128"
+X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
+   d="scan'208";a="56251128"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2025 02:36:40 -0700
+X-CSE-ConnectionGUID: yq18wK2vQCWlQgMqxI5InA==
+X-CSE-MsgGUID: GeJerHRWQBufkQxhTT9IMw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
+   d="scan'208";a="193785024"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 30 Jul 2025 02:36:38 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uh3Ei-0002Gg-0s;
+	Wed, 30 Jul 2025 09:36:36 +0000
+Date: Wed, 30 Jul 2025 17:35:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:master] BUILD SUCCESS
+ b88660ae681b1080087910087231fd6fe7900861
+Message-ID: <202507301735.DJmcSKte-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250730-topic-dma_genise_cookie-v1-6-b505c1238f9f@oss.qualcomm.com>
-References: <20250730-topic-dma_genise_cookie-v1-0-b505c1238f9f@oss.qualcomm.com>
-In-Reply-To: <20250730-topic-dma_genise_cookie-v1-0-b505c1238f9f@oss.qualcomm.com>
-To: Vinod Koul <vkoul@kernel.org>, Sven Peter <sven@kernel.org>, 
- Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Neal Gompa <neal@gompa.dev>, 
- Ludovic Desroches <ludovic.desroches@microchip.com>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
- Paul Cercueil <paul@crapouillou.net>, 
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, 
- Viresh Kumar <vireshk@kernel.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Frank Li <Frank.Li@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, 
- Taichi Sugaya <sugaya.taichi@socionext.com>, 
- Takao Orito <orito.takao@socionext.com>, 
- =?utf-8?q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
- Manivannan Sadhasivam <mani@kernel.org>, Daniel Mack <daniel@zonque.org>, 
- Haojian Zhuang <haojian.zhuang@gmail.com>, 
- Robert Jarzmik <robert.jarzmik@free.fr>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, 
- Patrice Chotard <patrice.chotard@foss.st.com>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- =?utf-8?q?Am=C3=A9lie_Delaunay?= <amelie.delaunay@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Laxman Dewangan <ldewangan@nvidia.com>, Jon Hunter <jonathanh@nvidia.com>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
- Masami Hiramatsu <mhiramat@kernel.org>, Michal Simek <michal.simek@amd.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>, 
- Viken Dadhaniya <quic_vdadhani@quicinc.com>, 
- Andi Shyti <andi.shyti@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>, 
- dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org, 
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
- imx@lists.linux.dev, linux-actions@lists.infradead.org, 
- linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
- linux-tegra@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-i2c@vger.kernel.org, 
- linux-spi@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1753868049; l=18562;
- i=konrad.dybcio@oss.qualcomm.com; s=20230215; h=from:subject:message-id;
- bh=eDOVFQ3sSBau28xDU0M0uPPUVN4g8jr8B0d8rvg5egs=;
- b=xH4jh5rJF8B145J7w0kFZHTYYTom25yvk5j1qw11KTCOGB0+ZcbC18dRuZ105iOgHDfhfDxBn
- cEAuRlJPY88DvQulmsLTFg0yEf8bqDuTx1ByVsle1gQfPH4q1Ggpi4H
-X-Developer-Key: i=konrad.dybcio@oss.qualcomm.com; a=ed25519;
- pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+branch HEAD: b88660ae681b1080087910087231fd6fe7900861  [LOCAL] riscv: rzfive: defconfig: Update for renesas-drivers
 
-In preparation for coalescing the duplicate nodes referring to the same
-GENI serial engines running different protocol firmware, remove the no
-longer necessary protocol IDs from each of the GPI DMA consumers.
+elapsed time: 1021m
 
-Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
----
- arch/arm64/boot/dts/qcom/x1e80100.dtsi | 198 ++++++++++++++++-----------------
- 1 file changed, 99 insertions(+), 99 deletions(-)
+configs tested: 124
+configs skipped: 12
 
-diff --git a/arch/arm64/boot/dts/qcom/x1e80100.dtsi b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-index 5e9a8fa3cf96468b12775f91192cbd779d5ce946..0dc055c9660501f3e5e3ba87e1560125eba67730 100644
---- a/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-+++ b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-@@ -844,7 +844,7 @@ gpi_dma2: dma-controller@800000 {
- 
- 			dma-channels = <12>;
- 			dma-channel-mask = <0x3e>;
--			#dma-cells = <3>;
-+			#dma-cells = <2>;
- 
- 			iommus = <&apps_smmu 0x436 0x0>;
- 
-@@ -890,8 +890,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma2 0 0 QCOM_GPI_I2C>,
--				       <&gpi_dma2 1 0 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma2 0 0>,
-+				       <&gpi_dma2 1 0>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -926,8 +926,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_120mhz>;
- 
--				dmas = <&gpi_dma2 0 0 QCOM_GPI_SPI>,
--				       <&gpi_dma2 1 0 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma2 0 0>,
-+				       <&gpi_dma2 1 0>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -962,8 +962,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma2 0 1 QCOM_GPI_I2C>,
--				       <&gpi_dma2 1 1 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma2 0 1>,
-+				       <&gpi_dma2 1 1>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -998,8 +998,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_120mhz>;
- 
--				dmas = <&gpi_dma2 0 1 QCOM_GPI_SPI>,
--				       <&gpi_dma2 1 1 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma2 0 1>,
-+				       <&gpi_dma2 1 1>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1034,8 +1034,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma2 0 2 QCOM_GPI_I2C>,
--				       <&gpi_dma2 1 2 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma2 0 2>,
-+				       <&gpi_dma2 1 2>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1070,8 +1070,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma2 0 2 QCOM_GPI_SPI>,
--				       <&gpi_dma2 1 2 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma2 0 2>,
-+				       <&gpi_dma2 1 2>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1106,8 +1106,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma2 0 3 QCOM_GPI_I2C>,
--				       <&gpi_dma2 1 3 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma2 0 3>,
-+				       <&gpi_dma2 1 3>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1142,8 +1142,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma2 0 3 QCOM_GPI_SPI>,
--				       <&gpi_dma2 1 3 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma2 0 3>,
-+				       <&gpi_dma2 1 3>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1178,8 +1178,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma2 0 4 QCOM_GPI_I2C>,
--				       <&gpi_dma2 1 4 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma2 0 4>,
-+				       <&gpi_dma2 1 4>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1214,8 +1214,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma2 0 4 QCOM_GPI_SPI>,
--				       <&gpi_dma2 1 4 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma2 0 4>,
-+				       <&gpi_dma2 1 4>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1250,8 +1250,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma2 0 5 QCOM_GPI_I2C>,
--				       <&gpi_dma2 1 5 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma2 0 5>,
-+				       <&gpi_dma2 1 5>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1286,8 +1286,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma2 0 5 QCOM_GPI_SPI>,
--				       <&gpi_dma2 1 5 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma2 0 5>,
-+				       <&gpi_dma2 1 5>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1347,8 +1347,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma2 0 6 QCOM_GPI_I2C>,
--				       <&gpi_dma2 1 6 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma2 0 6>,
-+				       <&gpi_dma2 1 6>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1383,8 +1383,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma2 0 6 QCOM_GPI_SPI>,
--				       <&gpi_dma2 1 6 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma2 0 6>,
-+				       <&gpi_dma2 1 6>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1419,8 +1419,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma2 0 7 QCOM_GPI_I2C>,
--				       <&gpi_dma2 1 7 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma2 0 7>,
-+				       <&gpi_dma2 1 7>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1455,8 +1455,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma2 0 7 QCOM_GPI_SPI>,
--				       <&gpi_dma2 1 7 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma2 0 7>,
-+				       <&gpi_dma2 1 7>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1489,7 +1489,7 @@ gpi_dma1: dma-controller@a00000 {
- 
- 			dma-channels = <12>;
- 			dma-channel-mask = <0x3e>;
--			#dma-cells = <3>;
-+			#dma-cells = <2>;
- 
- 			iommus = <&apps_smmu 0x136 0x0>;
- 
-@@ -1535,8 +1535,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma1 0 0 QCOM_GPI_I2C>,
--				       <&gpi_dma1 1 0 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma1 0 0>,
-+				       <&gpi_dma1 1 0>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1571,8 +1571,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_120mhz>;
- 
--				dmas = <&gpi_dma1 0 0 QCOM_GPI_SPI>,
--				       <&gpi_dma1 1 0 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma1 0 0>,
-+				       <&gpi_dma1 1 0>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1607,8 +1607,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma1 0 1 QCOM_GPI_I2C>,
--				       <&gpi_dma1 1 1 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma1 0 1>,
-+				       <&gpi_dma1 1 1>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1643,8 +1643,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_120mhz>;
- 
--				dmas = <&gpi_dma1 0 1 QCOM_GPI_SPI>,
--				       <&gpi_dma1 1 1 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma1 0 1>,
-+				       <&gpi_dma1 1 1>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1679,8 +1679,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma1 0 2 QCOM_GPI_I2C>,
--				       <&gpi_dma1 1 2 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma1 0 2>,
-+				       <&gpi_dma1 1 2>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1715,8 +1715,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma1 0 2 QCOM_GPI_SPI>,
--				       <&gpi_dma1 1 2 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma1 0 2>,
-+				       <&gpi_dma1 1 2>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1751,8 +1751,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma1 0 3 QCOM_GPI_I2C>,
--				       <&gpi_dma1 1 3 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma1 0 3>,
-+				       <&gpi_dma1 1 3>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1787,8 +1787,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma1 0 3 QCOM_GPI_SPI>,
--				       <&gpi_dma1 1 3 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma1 0 3>,
-+				       <&gpi_dma1 1 3>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1823,8 +1823,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma1 0 4 QCOM_GPI_I2C>,
--				       <&gpi_dma1 1 4 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma1 0 4>,
-+				       <&gpi_dma1 1 4>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1859,8 +1859,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma1 0 4 QCOM_GPI_SPI>,
--				       <&gpi_dma1 1 4 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma1 0 4>,
-+				       <&gpi_dma1 1 4>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1895,8 +1895,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma1 0 5 QCOM_GPI_I2C>,
--				       <&gpi_dma1 1 5 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma1 0 5>,
-+				       <&gpi_dma1 1 5>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1931,8 +1931,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma1 0 5 QCOM_GPI_SPI>,
--				       <&gpi_dma1 1 5 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma1 0 5>,
-+				       <&gpi_dma1 1 5>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1967,8 +1967,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma1 0 6 QCOM_GPI_I2C>,
--				       <&gpi_dma1 1 6 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma1 0 6>,
-+				       <&gpi_dma1 1 6>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2003,8 +2003,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma1 0 6 QCOM_GPI_SPI>,
--				       <&gpi_dma1 1 6 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma1 0 6>,
-+				       <&gpi_dma1 1 6>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2064,8 +2064,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma1 0 7 QCOM_GPI_I2C>,
--				       <&gpi_dma1 1 7 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma1 0 7>,
-+				       <&gpi_dma1 1 7>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2100,8 +2100,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma1 0 7 QCOM_GPI_SPI>,
--				       <&gpi_dma1 1 7 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma1 0 7>,
-+				       <&gpi_dma1 1 7>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2134,7 +2134,7 @@ gpi_dma0: dma-controller@b00000  {
- 
- 			dma-channels = <12>;
- 			dma-channel-mask = <0x3e>;
--			#dma-cells = <3>;
-+			#dma-cells = <2>;
- 
- 			iommus = <&apps_smmu 0x456 0x0>;
- 
-@@ -2179,8 +2179,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma0 0 0 QCOM_GPI_I2C>,
--				       <&gpi_dma0 1 0 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma0 0 0>,
-+				       <&gpi_dma0 1 0>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2215,8 +2215,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_120mhz>;
- 
--				dmas = <&gpi_dma0 0 0 QCOM_GPI_SPI>,
--				       <&gpi_dma0 1 0 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma0 0 0>,
-+				       <&gpi_dma0 1 0>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2251,8 +2251,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma0 0 1 QCOM_GPI_I2C>,
--				       <&gpi_dma0 1 1 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma0 0 1>,
-+				       <&gpi_dma0 1 1>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2287,8 +2287,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_120mhz>;
- 
--				dmas = <&gpi_dma0 0 1 QCOM_GPI_SPI>,
--				       <&gpi_dma0 1 1 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma0 0 1>,
-+				       <&gpi_dma0 1 1>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2323,8 +2323,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma0 0 2 QCOM_GPI_I2C>,
--				       <&gpi_dma0 1 2 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma0 0 2>,
-+				       <&gpi_dma0 1 2>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2384,8 +2384,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma0 0 2 QCOM_GPI_SPI>,
--				       <&gpi_dma0 1 2 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma0 0 2>,
-+				       <&gpi_dma0 1 2>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2420,8 +2420,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma0 0 3 QCOM_GPI_I2C>,
--				       <&gpi_dma0 1 3 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma0 0 3>,
-+				       <&gpi_dma0 1 3>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2456,8 +2456,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma0 0 3 QCOM_GPI_SPI>,
--				       <&gpi_dma0 1 3 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma0 0 3>,
-+				       <&gpi_dma0 1 3>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2492,8 +2492,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma0 0 4 QCOM_GPI_I2C>,
--				       <&gpi_dma0 1 4 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma0 0 4>,
-+				       <&gpi_dma0 1 4>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2528,8 +2528,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma0 0 4 QCOM_GPI_SPI>,
--				       <&gpi_dma0 1 4 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma0 0 4>,
-+				       <&gpi_dma0 1 4>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2564,8 +2564,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma0 0 5 QCOM_GPI_I2C>,
--				       <&gpi_dma0 1 5 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma0 0 5>,
-+				       <&gpi_dma0 1 5>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2600,8 +2600,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma0 0 5 QCOM_GPI_SPI>,
--				       <&gpi_dma0 1 5 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma0 0 5>,
-+				       <&gpi_dma0 1 5>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2636,8 +2636,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma0 0 6 QCOM_GPI_I2C>,
--				       <&gpi_dma0 1 6 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma0 0 6>,
-+				       <&gpi_dma0 1 6>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2672,8 +2672,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma0 0 6 QCOM_GPI_SPI>,
--				       <&gpi_dma0 1 6 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma0 0 6>,
-+				       <&gpi_dma0 1 6>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2708,8 +2708,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma0 0 7 QCOM_GPI_I2C>,
--				       <&gpi_dma0 1 7 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma0 0 7>,
-+				       <&gpi_dma0 1 7>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2744,8 +2744,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma0 0 7 QCOM_GPI_SPI>,
--				       <&gpi_dma0 1 7 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma0 0 7>,
-+				       <&gpi_dma0 1 7>;
- 				dma-names = "tx",
- 					    "rx";
- 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
--- 
-2.50.1
+tested configs:
+alpha                             allnoconfig    gcc-15.1.0
+alpha                            allyesconfig    gcc-15.1.0
+alpha                               defconfig    gcc-15.1.0
+arc                              allmodconfig    gcc-15.1.0
+arc                               allnoconfig    gcc-15.1.0
+arc                              allyesconfig    gcc-15.1.0
+arc                                 defconfig    gcc-15.1.0
+arc                   randconfig-001-20250730    gcc-8.5.0
+arc                   randconfig-002-20250730    gcc-14.3.0
+arm                              allmodconfig    gcc-15.1.0
+arm                               allnoconfig    clang-22
+arm                              allyesconfig    gcc-15.1.0
+arm                   randconfig-001-20250730    clang-22
+arm                   randconfig-002-20250730    clang-20
+arm                   randconfig-003-20250730    gcc-8.5.0
+arm                   randconfig-004-20250730    gcc-14.3.0
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-15.1.0
+arm64                 randconfig-001-20250730    clang-22
+arm64                 randconfig-002-20250730    clang-20
+arm64                 randconfig-003-20250730    clang-17
+arm64                 randconfig-004-20250730    clang-22
+csky                              allnoconfig    gcc-15.1.0
+csky                  randconfig-001-20250730    gcc-14.3.0
+csky                  randconfig-002-20250730    gcc-12.5.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-22
+hexagon                          allyesconfig    clang-22
+hexagon               randconfig-001-20250730    clang-20
+hexagon               randconfig-002-20250730    clang-22
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250730    clang-20
+i386        buildonly-randconfig-002-20250730    clang-20
+i386        buildonly-randconfig-003-20250730    gcc-12
+i386        buildonly-randconfig-004-20250730    gcc-12
+i386        buildonly-randconfig-005-20250730    clang-20
+i386        buildonly-randconfig-006-20250730    gcc-12
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    clang-19
+loongarch                         allnoconfig    clang-22
+loongarch             randconfig-001-20250730    clang-22
+loongarch             randconfig-002-20250730    clang-20
+m68k                             allmodconfig    gcc-15.1.0
+m68k                              allnoconfig    gcc-15.1.0
+m68k                             allyesconfig    gcc-15.1.0
+microblaze                       allmodconfig    gcc-15.1.0
+microblaze                        allnoconfig    gcc-15.1.0
+microblaze                       allyesconfig    gcc-15.1.0
+microblaze                          defconfig    gcc-15.1.0
+mips                              allnoconfig    gcc-15.1.0
+nios2                             allnoconfig    gcc-11.5.0
+nios2                               defconfig    gcc-11.5.0
+nios2                 randconfig-001-20250730    gcc-11.5.0
+nios2                 randconfig-002-20250730    gcc-9.5.0
+openrisc                          allnoconfig    gcc-15.1.0
+openrisc                         allyesconfig    gcc-15.1.0
+openrisc                            defconfig    gcc-15.1.0
+parisc                           allmodconfig    gcc-15.1.0
+parisc                            allnoconfig    gcc-15.1.0
+parisc                           allyesconfig    gcc-15.1.0
+parisc                              defconfig    gcc-15.1.0
+parisc                generic-32bit_defconfig    gcc-15.1.0
+parisc                randconfig-001-20250730    gcc-14.3.0
+parisc                randconfig-002-20250730    gcc-8.5.0
+parisc64                            defconfig    gcc-15.1.0
+powerpc                          allmodconfig    gcc-15.1.0
+powerpc                           allnoconfig    gcc-15.1.0
+powerpc                          allyesconfig    clang-22
+powerpc                   currituck_defconfig    clang-22
+powerpc               randconfig-001-20250730    gcc-8.5.0
+powerpc               randconfig-002-20250730    gcc-8.5.0
+powerpc               randconfig-003-20250730    clang-22
+powerpc64             randconfig-001-20250730    clang-22
+powerpc64             randconfig-002-20250730    clang-22
+powerpc64             randconfig-003-20250730    gcc-10.5.0
+riscv                            allmodconfig    clang-22
+riscv                             allnoconfig    gcc-15.1.0
+riscv                            allyesconfig    clang-16
+riscv                               defconfig    clang-22
+riscv                 randconfig-001-20250730    gcc-10.5.0
+riscv                 randconfig-002-20250730    gcc-8.5.0
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-22
+s390                             allyesconfig    gcc-15.1.0
+s390                                defconfig    clang-22
+s390                  randconfig-001-20250730    clang-20
+s390                  randconfig-002-20250730    gcc-15.1.0
+sh                               allmodconfig    gcc-15.1.0
+sh                                allnoconfig    gcc-15.1.0
+sh                               allyesconfig    gcc-15.1.0
+sh                                  defconfig    gcc-15.1.0
+sh                    randconfig-001-20250730    gcc-12.5.0
+sh                    randconfig-002-20250730    gcc-15.1.0
+sparc                            allmodconfig    gcc-15.1.0
+sparc                             allnoconfig    gcc-15.1.0
+sparc                               defconfig    gcc-15.1.0
+sparc                 randconfig-001-20250730    gcc-14.3.0
+sparc                 randconfig-002-20250730    gcc-14.3.0
+sparc64                             defconfig    clang-20
+sparc64               randconfig-001-20250730    clang-22
+sparc64               randconfig-002-20250730    clang-20
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-22
+um                               allyesconfig    gcc-12
+um                                  defconfig    clang-22
+um                             i386_defconfig    gcc-12
+um                    randconfig-001-20250730    gcc-11
+um                    randconfig-002-20250730    clang-22
+um                           x86_64_defconfig    clang-22
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250730    gcc-12
+x86_64      buildonly-randconfig-002-20250730    clang-20
+x86_64      buildonly-randconfig-003-20250730    clang-20
+x86_64      buildonly-randconfig-004-20250730    clang-20
+x86_64      buildonly-randconfig-005-20250730    clang-20
+x86_64      buildonly-randconfig-006-20250730    clang-20
+x86_64                              defconfig    gcc-11
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    gcc-15.1.0
+xtensa                randconfig-001-20250730    gcc-11.5.0
+xtensa                randconfig-002-20250730    gcc-12.5.0
 
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
