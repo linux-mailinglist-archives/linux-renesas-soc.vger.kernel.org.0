@@ -1,132 +1,107 @@
-Return-Path: <linux-renesas-soc+bounces-19795-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19796-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 861C2B168F2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Jul 2025 00:14:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DD68B16956
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Jul 2025 01:41:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E4873AC6C6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jul 2025 22:13:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BE5E21AA3FA7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jul 2025 23:41:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 347B721FF4E;
-	Wed, 30 Jul 2025 22:14:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 188ED2367A3;
+	Wed, 30 Jul 2025 23:40:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="tGg7DklG";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Sz4EPmOZ"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Ow5qj7gp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258B41DED57;
-	Wed, 30 Jul 2025 22:14:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E97239E62;
+	Wed, 30 Jul 2025 23:40:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753913664; cv=none; b=R/wbLwbJig1BRMWUvyGd6w0QSSxPyzSP2SVvs68lWWnL37dVmX5Akx24MnJQiLs6UdcVX8HHYLQBFwyKsOCFmDOZQ6GJpNyIgqNZM3QbNle4oI2aRVr8LoW4+syUa7CfIR+768fs77twkitiE9hKqMwCQ3LHGyV+SNjK7tprFlI=
+	t=1753918856; cv=none; b=Dt3Ee8Vil6Ov64EkGeMPDmy6uZOrC38CbEQCmDjaSB+R+b3S/Hw7CD4vrf1iAGdvlPxffH4zCB20qmOSY1oTWIsePHvgZQQIdh8MiQ+g4I8HFherOIVs3o3PJqIDm49D0xJT3lyBInQKcfTAMY1JkA3IiHRRDKRlUgkiJbvTawU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753913664; c=relaxed/simple;
-	bh=VXNv1CY4rYlURx2Xvz87YYss0gcbJ71iawWXgQl0stM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uY6T5CJeJYjsIBiFJVcNrRTsq4J/1qE72EzV4E6h8NQCkIucX2YwFZxGE32p3flGo8MUCJaTHn5fOg3+bR9OAP6WWo8DXlTRd2J7csLZcmzrgZP4H1YSeAzL40NsOrYnAP5088upHSnssAV7xNKk4bTtmy7miY0/t5wDZFJZ/is=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=tGg7DklG; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Sz4EPmOZ; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4bsmhj68JDz9tSn;
-	Thu, 31 Jul 2025 00:14:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1753913653;
+	s=arc-20240116; t=1753918856; c=relaxed/simple;
+	bh=33rNXXW9vYqYkokubantGjlKR/SIZGVYC+vRTBBOvng=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hK7lx/p3SINza+pgOYroaIruyNLqNdxbKvrZztabo+PSXss/++gLeaDl6Iu3W5pzeN+EAz1dpk7rt9fWMptCFV/kDe5niZ9OBG4DSitlvV+eThwBmDD0UeRMrhxXgixjYptlMUadEeCPm2mwwSCyFS1S27phw8ZHigyvCZ/yWPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Ow5qj7gp; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1410F43287;
+	Wed, 30 Jul 2025 23:40:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1753918852;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=d8CWksLx1mLapQnnOZN8xsm/x5QszWCNlZNE7nYusws=;
-	b=tGg7DklGHfnibTiA8zogOZHRCnPhCdaynBWmfyWR5i43yjaaxiiEq4X9pyDDyG2snRTfR3
-	yJ5dZi3/eyu5engM90AbY1C7RDREPozHFTSICFjkWdlnEDIqUrCb1IeJweGbyBizmjM+pZ
-	Pu9Ic0BEenxVcPMczSe2bWTgso8Za3lW/ViCMaxw8ElULuMuhw2ucab+UJISFS7BXmdkyS
-	992SrAXokMr7aNY000OBA1ndcr6ku0Dbd9ilvWRQu0EC7Y4u2Sd8XkRZ+/DPw5+y1Ay8qC
-	1Z8taueSetj7YfQ+An8egbsY1KZN+41Meovpjx1oG7tBewaOQ0HLpZ1e+JFWqA==
-Message-ID: <9187a38c-89d8-455e-a1b3-ee584d983064@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1753913651;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d8CWksLx1mLapQnnOZN8xsm/x5QszWCNlZNE7nYusws=;
-	b=Sz4EPmOZ5v/HAw0vsMzZuyVFotFdOjBIc77C5ULBlRyVSsaWrqJkR8u2BQzoRJRU7PASZs
-	rdauLb43JrTFiVODz2zQJYPmXhtatK0+75oerTJg0fFTqxO7qeFi+abjKEkUVktdwBzQ7+
-	JhhcBLLhE1UJenc9jmX2xVJbWXmMhpSWsCAaOQrW8MxSYdNwDoWuOoow+L4JFvZHwvx8Yc
-	mG341NnwFErQkjW7dL8nTeijJOHY40bKU53wJQK7kKwxfXfPBqzo3DudLmNcNDVgo9I6Ik
-	ibkiAzRRMX1PtmtjwW5VEkvEfauQIopybzV76k+fLQdU15XWzdg6LtD96+Zbcw==
-Date: Thu, 31 Jul 2025 00:14:09 +0200
+	bh=QqnwsuSVW+Zc6odCI1ubD6YTo4yiAv9G49pZqEdYqro=;
+	b=Ow5qj7gpCXgfzWi+zE2mEyfAc8GzysbWeACMEqdMthjF77PiQp55qhScEROQwA/Setn8qJ
+	nPK5QTCuQQCQzSdpfHmxz4lTI/sjrOrYYNI/w0Ysdhc93ZW/ZHgN+o0eIWO21R/PD3PxUY
+	NSzaDWrQ4K4Odx2HFaX1Damz07U6tNmDTatstkoY4S2Jzd/w0lefcJehhKbXyFazCHRWa9
+	6akoRD9+16kt/YPOefIOFAlSQ7y3JXAQ9jJkU1zwjivBjUGJFkUgbSCdDcoj4sHgGY035Q
+	reYYfMGDs0DZSZaTcrIraAJYartPIlmjSX0BUnoIfdmbXdpqmctnN9sfnq5TBg==
+Date: Thu, 31 Jul 2025 01:40:50 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: linux-renesas-soc@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	Frank Li <Frank.Li@nxp.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-hardening@vger.kernel.org, linux-i3c@lists.infradead.org,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Rob Herring <robh@kernel.org>,
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Subject: Re: [PATCH v5 0/4] i3c: add support for the Renesas controller
+Message-ID: <175391871299.1768453.15692596004990762400.b4-ty@bootlin.com>
+References: <20250724094146.6443-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] Input: goodix - add support for polling on devices
- without IRQ line
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- linux-input@vger.kernel.org, Dave Stevenson
- <dave.stevenson@raspberrypi.com>, Hans de Goede <hdegoede@redhat.com>,
- linux-renesas-soc@vger.kernel.org
-References: <20250610005458.126842-1-marek.vasut+renesas@mailbox.org>
- <6kqp24t5c23vcvv7wuirkjz6a5s3daacifw37rb5554v4uqeit@jzsinkx6qb7r>
- <cfa155f9-573a-479a-b8db-89c3bb077114@mailbox.org>
- <csjblrulwqcmcjvyzbetng6o3ct4xedff26nvgwlb56fkqphew@rp63nsl7reuk>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <csjblrulwqcmcjvyzbetng6o3ct4xedff26nvgwlb56fkqphew@rp63nsl7reuk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: 9atjx5rzbxmrgbwbfdmr6u66famueosd
-X-MBO-RS-ID: 9ee2df0d5b4e547d427
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250724094146.6443-1-wsa+renesas@sang-engineering.com>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdelledvkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomheptehlvgigrghnughrvgcuuegvlhhlohhnihcuoegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeijeefhfffkeejueehveeuveejvdelveejteduffehuedtffdufeejudffuedvtdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemvgdtrgemvdgumeeifeejtdemudgvfeefmehfledvleemhegvsgekmeduudegfeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepihhnvghtpedvrgdtudemvgdtrgemvdgumeeifeejtdemudgvfeefmehfledvleemhegvsgekmeduudegfedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomheprghlvgigrghnughrvgdrsggvlhhlohhnihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudehpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopeifshgrodhrvghnvghsrghssehsr
+ ghnghdqvghnghhinhgvvghrihhnghdrtghomhdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggvvhhitggvthhrvggvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohephfhrrghnkhdrnfhisehngihprdgtohhmpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihguvghrrdgsvgdprhgtphhtthhopehguhhsthgrvhhorghrsheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgvvghssehkvghrnhgvlhdrohhrgh
+X-GND-Sasl: alexandre.belloni@bootlin.com
 
-On 6/30/25 5:40 PM, Dmitry Torokhov wrote:
-> On Mon, Jun 30, 2025 at 11:44:03AM +0200, Marek Vasut wrote:
->> On 6/30/25 3:32 AM, Dmitry Torokhov wrote:
->>> Hi Marek,
->>
->> Hi,
->>
->>> On Tue, Jun 10, 2025 at 02:54:12AM +0200, Marek Vasut wrote:
->>>> Add the capability of polling the touch controller for events every
->>>> 16ms, which is useful on hardware that did integrate this touch
->>>> controller, but did not integrate the IRQ line, like the RasPi .
->>>>
->>>> Make use of the generic input poller code. Factor out the code
->>>> from goodix_ts_irq_handler() into generic goodix_ts_handler(), so
->>>> it can be used both by the IRQ handler and poller callback.
->>>>
->>>> Use of_client->irq to find out whether the interrupt line is present
->>>> or not, independent of whether this is OF or ACPI system. It is not
->>>> possible to register poller in case request_irq() fails, because the
->>>> request_irq() in this driver is deliberately called after the input
->>>> device was registered, and registering the generic poller at that point
->>>> is too late already.
->>>>
->>>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
->>>
->>> There was another version of this patch that was submitted and reviewed
->>> by Hans, so I merged it.
->>
->> Is it the following patch, with malformed commit message and some odd
->> "LF-15225" subject tag ?
->>
->> https://patchwork.kernel.org/project/linux-input/patch/20250522020418.1963422-1-qijian.guo@nxp.com/
+On Thu, 24 Jul 2025 11:41:39 +0200, Wolfram Sang wrote:
+> Detailed changes since v4 are described in the individual patches. A
+> branch with enablement patches for RZ/G3S+G3E can be found here:
 > 
-> Yes, I cleaned the commit message.
+> git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/g3s/i3c
+> 
+> Old coverletter:
+> 
+> [...]
 
-OK. I just tested that patch and it does work on my hardware too.
+Applied, thanks!
+
+[1/4] i3c: Standardize defines for specification parameters
+      https://git.kernel.org/abelloni/c/9c0609d685b2
+[2/4] i3c: Add more parameters for controllers to the header
+      https://git.kernel.org/abelloni/c/8acf1f3bae1e
+[3/4] dt-bindings: i3c: Add Renesas I3C controller
+      https://git.kernel.org/abelloni/c/94e611b5b9ef
+[4/4] i3c: master: Add basic driver for the Renesas I3C controller
+      https://git.kernel.org/abelloni/c/d028219a9f14
+
+Best regards,
 
 -- 
-Best regards,
-Marek Vasut
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
