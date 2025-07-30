@@ -1,154 +1,158 @@
-Return-Path: <linux-renesas-soc+bounces-19768-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19769-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FA0FB15DAB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jul 2025 11:57:47 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A2EDB15E02
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jul 2025 12:19:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C054565B41
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jul 2025 09:56:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EAC417A4214
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jul 2025 10:18:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9687226F461;
-	Wed, 30 Jul 2025 09:56:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EF032798E5;
+	Wed, 30 Jul 2025 10:19:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eyQOpxcV"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B654B1ACEDE;
-	Wed, 30 Jul 2025 09:56:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE402266B66;
+	Wed, 30 Jul 2025 10:19:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753869394; cv=none; b=eEc2l86Xe49WaKCYBwBYkhpfIWa+UoY5TxWYp5y7iGrU2J5O3Idt0RNnfWAXnghy5jU4Ch26Lye4nI4mtd0FHOT1D8Re1bhVLZnYxSlrZwYfGk6j1KJv+qR8aLyYiuKqRwTHskZolaHoPJLZWqQMlDOJicmpw8BcFkFefQq3W8s=
+	t=1753870772; cv=none; b=L+Ao2YRDUh0xIQWhsuVTcQ4+gynhrpCyBYWoA4Gs6XfvPL5ZPj4AjJP22wnoW3bRCG6c6dJqk7Ug5OudumeeZcw3nCZiuiivaCBL6mlC+MQI8zTT64qxBb/c+zf2//oM0MDUarod+NQIsYThgxl5eeDH9w4Vu09LlKRuDu1ODj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753869394; c=relaxed/simple;
-	bh=h4QE5Qik/eRs2qOkqSaWcqVaq+Ol8rYWj1Hq3bUKEG4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KoEVqBzwMlTihbKsdS3Ti2wyV+Q+1yCFgZ/isQfbfcwXvwDhDyk/AKqu3s2s7Tv9WrCX5BJ/nGflpjy5dGE6BFGDF9F40ziOkMD+PU/M3j7/bbohZylKzArIUZHUioEYT7jx4wgjobn7jmAcnlyhSM87YSbHKmBwlxJEl0Rrx2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-4e7fc3309f2so1908267137.2;
-        Wed, 30 Jul 2025 02:56:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753869391; x=1754474191;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AISXCkdyfWizizwGG/lMEnAGITAartWfZjVCOPp8Btc=;
-        b=rJGgMqQU2yYjuAo55Qp9Uzzzrwq6O6oBqqGZH8Q0IvzIaCjXW3f0DMmIMQ/8uNR89b
-         CjlzVEJo7KoWJYfGA71O2hSKpqvRCsrg4lKbbqafOAvD+zZlWISNrQjumNUDz5hpHoFo
-         18xnRDBoSGRnW9/lYgX1ShoIgRCUFgEvegDumFco27KJiXI5W1724ex/ZdmLW1tO00YB
-         OjMD6aJWKGVXIb9mvy6lVE/Ccp1RT3IOLw0Nh9AB1VVPQwY8arv0p2+VZDqmG6dHzYDI
-         hLsvFdWJCGxm3TXg7NhlBDiMOR21jo7MQctqywWwdBgwUvkJ2mvDHPIOTfYYVaGFfFJo
-         WSsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU1GQ69lyRE/s90o0YyP1G9M3OUWcKDnoOtOfQJMjugXPxbKv+vGmrp2hOd2ijb37peEqh0hNEIpetl1q+nl66a2uY=@vger.kernel.org, AJvYcCUKysKbI7caDBL3mC/A7QpUldWokY9InEfV+A3+tUeU/eLHp5ybgkc5YPFEqnq4hG4iklic0zFR89Q=@vger.kernel.org, AJvYcCXI8vPc/AjQUIIiH+TMysJlD+28p6NtEwFi46ywgsnzXc51BA3xBf5pV3xYc2IF+VN8plONOH7J9oprL/4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwyiAwHH1taDB0kdPhxqF6nMJl9DetEYRwBLIAkEGk5luYiIGOF
-	upFq0uP08gwEMSX5Y7g+xzMXppPjU4FY2rDDfrGPRye6TpDet2///17vHlfI159e
-X-Gm-Gg: ASbGncuiPRugzylunD9hxeRhzeWGm/DDH2Ob4AwxiPve6VfetZGuraybWSeROjuQ3EN
-	GnWwpCCkEGlG0BWyU9B4Zw+vBHNdx7HTSWX4Oe8Z+OVZKVeFhLZ/BHn7q/xt94hPWaeB5EZI7QX
-	Vkn7ON4l2pL0ufhEaAwtLB25ixkd0IJlwPdIAM86MJm48G43dZVAuxhvmeMO+tGskWOKl1jYRXO
-	cMVrczKGICsWzoh/nDy2yyKEfADSMS5qtJ/mlXoIj6P6QhaMitVWL6p89+uyPdifPR2dT85wSyG
-	n8r8Nks0RiZ0FTRuXY+ee/jWFi1x52Cn3pn5+TCxhu1tgR2skzASbg0W+/Y3CNfCm9ZnewqEGiV
-	O1wAsj90bliUV9AQNoNwi1jsVAtZtfwWgfhyi/M+oDcsZGKCX0fSSAGxCv7c9
-X-Google-Smtp-Source: AGHT+IGsULorRTe6vAGA4MMFatdhHfaW8cHQeGwpRlcYZeLlgexo++dF4pJnagGIhF1AdKEOdR89GA==
-X-Received: by 2002:a05:6102:3053:b0:4fb:142:f4d3 with SMTP id ada2fe7eead31-4fbe8910b7cmr1331479137.25.1753869391238;
-        Wed, 30 Jul 2025 02:56:31 -0700 (PDT)
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4fa46d08f92sm1978484137.3.2025.07.30.02.56.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Jul 2025 02:56:30 -0700 (PDT)
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-884f7d29b85so1516442241.1;
-        Wed, 30 Jul 2025 02:56:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVLeCJhb3tHQxpWwe0zksb8WT1tQmv6lctnsd6iFHcIShqkCHB6C00N93syneDna+296qbpvAQ4/5ZUfxU=@vger.kernel.org, AJvYcCWe22A4ZUxeigMvGaBMgAu4VUNfAVFZyTiolm8K8s8xIvVU/eVoJqLycfmXYtPzWlRZMJxfjG+dVTE=@vger.kernel.org, AJvYcCXsEkgbhbt35OncxVvP31l7t8FTfGaI8d8XG5/NjtacPLLV3wSe18IMwzf5e5HH8oqA0xEs8vr5XA0PmZLZsiF99WI=@vger.kernel.org
-X-Received: by 2002:a05:6102:6488:10b0:4fb:f31a:98ce with SMTP id
- ada2fe7eead31-4fbf31a9e23mr303837137.6.1753869389838; Wed, 30 Jul 2025
- 02:56:29 -0700 (PDT)
+	s=arc-20240116; t=1753870772; c=relaxed/simple;
+	bh=EAo1JwLwQmSVpdRh6bDezMwGkO6es9S03FxPuaNswug=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XbeqL9dy2oqF8GDT/+kVUw4S7fGhNSByiN/Qecrzd317OH5tao2u3Xbwq3ixgsFHwvlfFjOt0Fh8nY0UZKzCqtzqNVK9Pin+4DOo/P6joeaqpF+UhDZ/6WMaVk5UyUJtgE+BX2AQzCIh6OkSzR4y57uq44CWjMZPFskyQ1+NAfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eyQOpxcV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 582B1C4CEE7;
+	Wed, 30 Jul 2025 10:19:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753870771;
+	bh=EAo1JwLwQmSVpdRh6bDezMwGkO6es9S03FxPuaNswug=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eyQOpxcVcR1H63+BHWg/CFKigaLqUqMvNvXsUknLdHPeMkodeiZl5MPug/8DsVw/a
+	 giBEQoO6YJfc2IYMup/cB5/tzxUNdpq26OkCCKKEyijv3HeDTvTPB42bZ/LAWWap1W
+	 HSU9KVqt3jnCYHFHTDpwJjFf8xW2jB/JQQE+K88VmHLkDDwagXryM/B6XDesFEu6sE
+	 dSdDZ+j8pNDSjEmeF0IcFGmPg4/QvfL9hUVm6h9WtgU6dBsthpBa+4155dTYEuncfm
+	 LoudalTEKGq6b4IJRJAblOtrJzxaq8mDhKnhvwKxJ1GJAz0exZz3MffWB+GUVgM/Fm
+	 qi3d0rU9EWtOg==
+Date: Wed, 30 Jul 2025 11:19:07 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Konrad Dybcio <konradybcio@kernel.org>
+Cc: Vinod Koul <vkoul@kernel.org>, Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>,
+	Ludovic Desroches <ludovic.desroches@microchip.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Frank Li <Frank.Li@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Taichi Sugaya <sugaya.taichi@socionext.com>,
+	Takao Orito <orito.takao@socionext.com>,
+	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	=?iso-8859-1?Q?Am=E9lie?= Delaunay <amelie.delaunay@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Laxman Dewangan <ldewangan@nvidia.com>,
+	Jon Hunter <jonathanh@nvidia.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michal Simek <michal.simek@amd.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
+	Viken Dadhaniya <quic_vdadhani@quicinc.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	imx@lists.linux.dev, linux-actions@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-i2c@vger.kernel.org, linux-spi@vger.kernel.org,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH RFC 5/6] spi: geni-qcom: Hint GENI protocol ID to GPI DMA
+Message-ID: <490091ee-ba84-4f97-96b4-fe30ed082e17@sirena.org.uk>
+References: <20250730-topic-dma_genise_cookie-v1-0-b505c1238f9f@oss.qualcomm.com>
+ <20250730-topic-dma_genise_cookie-v1-5-b505c1238f9f@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250701114733.636510-1-ulf.hansson@linaro.org> <CAPDyKFr=u0u2ijczExkntHK1miWZ6hRrEWBMiyUwShS3m6c29g@mail.gmail.com>
-In-Reply-To: <CAPDyKFr=u0u2ijczExkntHK1miWZ6hRrEWBMiyUwShS3m6c29g@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 30 Jul 2025 11:56:18 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX1BacUfqtmV8g7NpRnY9aTdL=fh+jC7OryMLz4ijaOCg@mail.gmail.com>
-X-Gm-Features: Ac12FXyBxoyf0eZjZq4tsf22xBIlBFOx02dopJh05JbQN3Bvqm8lfaYDOjqls6g
-Message-ID: <CAMuHMdX1BacUfqtmV8g7NpRnY9aTdL=fh+jC7OryMLz4ijaOCg@mail.gmail.com>
-Subject: Re: [PATCH v3 00/24] pmdomain: Add generic ->sync_state() support to genpd
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Saravana Kannan <saravanak@google.com>, Stephen Boyd <sboyd@kernel.org>, linux-pm@vger.kernel.org, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Michael Grzeschik <m.grzeschik@pengutronix.de>, Bjorn Andersson <andersson@kernel.org>, 
-	Abel Vesa <abel.vesa@linaro.org>, Peng Fan <peng.fan@oss.nxp.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Johan Hovold <johan@kernel.org>, 
-	Maulik Shah <maulik.shah@oss.qualcomm.com>, Michal Simek <michal.simek@amd.com>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Hiago De Franco <hiago.franco@toradex.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bAEzP5efOXdEgXiD"
+Content-Disposition: inline
+In-Reply-To: <20250730-topic-dma_genise_cookie-v1-5-b505c1238f9f@oss.qualcomm.com>
+X-Cookie: Linux is obsolete
 
-Hi Ulf,
 
-On Wed, 9 Jul 2025 at 13:31, Ulf Hansson <ulf.hansson@linaro.org> wrote:
-> On Tue, 1 Jul 2025 at 13:47, Ulf Hansson <ulf.hansson@linaro.org> wrote:
-> > Changes in v3:
-> >         - Added a couple of patches to adress problems on some Renesas
-> >         platforms. Thanks Geert and Tomi for helping out!
-> >         - Adressed a few comments from Saravanna and Konrad.
-> >         - Added some tested-by tags.
->
-> I decided it was time to give this a try, so I have queued this up for
-> v6.17 via the next branch at my pmdomain tree.
->
-> If you encounter any issues, please let me know so I can help to fix them.
+--bAEzP5efOXdEgXiD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for your series!  Due to holidays, I only managed to test
-this very recently.
+On Wed, Jul 30, 2025 at 11:33:32AM +0200, Konrad Dybcio wrote:
+> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>=20
+> With the API in place, request the correct protocol ID with the GPI DMA
+> to avoid having to hardcode this obvious information in the device
+> tree.
 
-Unfortunately I have an issue with unused PM Domains no longer being
-disabled on R-Car:
-  - On R-Car Gen1/2/3, using rcar-sysc.c, unused PM Domains are never
-    disabled.
-  - On R-Car Gen4, using rcar-gen4-sysc.c, unused PM Domains are
-    sometimes not disabled.
-    At first, I noticed the IOMMU driver was not enabled in my config,
-    and enabling it did fix the issue.  However, after that I still
-    encountered the issue in a different config that does have the
-    IOMMU driver enabled...
+Acked-by: Mark Brown <broonie@kernel.org>
 
-FTR, unused PM Domains are still disabled correctly on R/SH-Mobile
-(using rmobile-sysc.c) and on BeagleBone Black. Note that these use
-of_genpd_add_provider_simple(), while all R-Car drivers use
-of_genpd_add_provider_onecell().  Perhaps there is an issue with
-the latter?  If you don't have a clue, I plan to do some more
-investigation later...
+--bAEzP5efOXdEgXiD
+Content-Type: application/pgp-signature; name="signature.asc"
 
-BTW, the "pending due to"-messages look weird to me.
-On R-Car M2-W (r8a7791.dtsi) I see e.g.:
+-----BEGIN PGP SIGNATURE-----
 
-    genpd_provider ca15-cpu0: sync_state() pending due to e6020000.watchdog
-    renesas-cpg-mssr e6150000.clock-controller: sync_state() pending
-due to e6020000.watchdog
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmiJ8ZoACgkQJNaLcl1U
+h9DnvAf+LbcTzds/hsfTeLtLPENpavgpdBbC/kj+eo3NQESPHZy9K7kiL8p7Xjbr
+hMSf6upQxsK7NZMFyKsLc0oAEP6LLyDU16ON/R+QDQiNYou0xOm9vYoJwtmhMvDY
+PDJaohO2ZSfEwodlxhodZ0HxhrSaPXLEiJt2tA/ASGUdRtCC15yUoXItcUf+b04C
+/A3TjgtsVE32Xz6HKLh2/Z6WkBWVgqpGswljAu7JkNAvKlp7BTviSUX645kuiQYz
+/o32yfxiCCO5LO/s2/wvMjiCgaKi2Kf8uLjifxymS8nOhqcw/yZjAZ70/lo6j8IO
+EmQkB6uCcv8iOoBmuo/fb2/ULFapvQ==
+=j7vN
+-----END PGP SIGNATURE-----
 
-ca15-cpu0 is the PM Domain holding the first CPU core, while
-the watchdog resides in the always-on Clock Domain, and uses the
-clock-controller for PM_CLK handling.
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--bAEzP5efOXdEgXiD--
 
