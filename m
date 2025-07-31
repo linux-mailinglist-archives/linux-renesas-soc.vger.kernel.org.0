@@ -1,126 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-19806-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19807-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12A3FB17184
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Jul 2025 14:51:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AAA9B17272
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Jul 2025 15:52:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 04CDEA809DA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Jul 2025 12:50:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4DB801C229F3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Jul 2025 13:52:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D42825B30D;
-	Thu, 31 Jul 2025 12:51:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C795F2D12E2;
+	Thu, 31 Jul 2025 13:50:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b7fmbn7N"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EEin94r9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFD521E50E;
-	Thu, 31 Jul 2025 12:51:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB812D3A70
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 31 Jul 2025 13:50:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753966276; cv=none; b=A6uYSZX4mwY11mT1ntsOlXS9NZ38EQwp7RmC4dBCwOTCfMAL0izyulAQGCdZmMbLykUeJ2k2gQt68sto52IzW0psWBvDCNCF6iI8jEl/tMxKJcbXdYmDzL5iDMMdtaFXKimUEYdKIAsxdADjCX3kyW7KGMCszH0Op9Z6JxhCYqo=
+	t=1753969834; cv=none; b=D/DW7fuvQJEmbxzXP+C2BUq8qFdvd1JoBD+VNqjODbIv3DXWWgRM9WLrNfiXy1oviuT5WJg5NeuWbWxtsdHlWQdezmg0lxxXsX/j2jW5DbXtzz6DUomfqw6ybMVI/jOluK6i+YDk8xsQHXuyNG7O+ukmoXD3LjHJ+BepzqSQRV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753966276; c=relaxed/simple;
-	bh=ZdzKQk8Cjgf3dwmmkTI777cKzfN7wzkNA2dlg6Ar404=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nD5KNU1hOIrua7SYX0C5m7H1aOR9QY5xhT++UewUJiYTOyHW/s6GR2IChZas8PGGh34fGOVnCn+ISR8LxNS9lBfmeDuZqMvDp6tyTiz0K9cet55ISkEtudn7C+Em/YAn2R7s0wxNJqA7KyyZKsLGJptUGN+vZtaaOWrHuYk5vDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b7fmbn7N; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-45600581226so9287925e9.1;
-        Thu, 31 Jul 2025 05:51:14 -0700 (PDT)
+	s=arc-20240116; t=1753969834; c=relaxed/simple;
+	bh=5lxg9xauO3MeUewoXkq0nnjCyipVEFYu1QiDLPz8HQw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=r/i1CY6XlmzoY/z6/8EPBJszNlYiUy1PuhYThHJu/Tdv+mrevBKHSXTKLL79HIaVleVv73/mDYPZNOuKu4lDfT+DMc4ewgc3r/L0TR10Uu3bHpzT2EfWh+Yw14CgQUNvK7h/1CaxURbhj67TureBkiH84afAOIViUtDnAoz3Kq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EEin94r9; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3b78d13bf10so395914f8f.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 31 Jul 2025 06:50:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753966273; x=1754571073; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sAusd1csE+JqzNXmIGkHQyt3KnqkABSFxq19868TVlE=;
-        b=b7fmbn7N/GFaQ+l804bs0RLzjhkSh/qiakTF58Zker6Lj3SYDhy9VPL1bGbiRyDv7x
-         h0VW7Ck6eAn6oHCoKHN2LVfuXPEGMB1e6fZdnyL2XC6YlTn/R/rl6lE5x9oF69drfA1L
-         3MP4RWVXqk+m8eBO/vi6gkCVkxAEBEeTPtoNZxGvdqdiBta9b8dUx0a1jTaE/RyFy/Vv
-         FliALcekGuMCxZz6LsAL3H1Y8PhE0W8URhmIZMp/t3SuNCoKGQh6q6GWH3bAcmoXH39E
-         BZlKqYkoPUUsVQam6vuyF5IetUmSQBGeVm0qV8VoscCoKeCssTQmbCh0WAho4E13XhCN
-         JgJw==
+        d=linaro.org; s=google; t=1753969831; x=1754574631; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ttbP0UASnXnUPdgY4WsQTV6ycnU/sxDT3VHkXEkJ2WI=;
+        b=EEin94r9Pn844Zyh73bk8QooVaAByAK/ZD/7zPUUo+j7284Sfrxmx30l9IGYkMmcSb
+         V/xHfU0EN0r1W0tX3NDWz9JMR4nHg63LYcY1B6ImfiwbxQIe/z0IURemAQb/gXI0CQZ8
+         qCJ01GRVsTdovMWPmd59wET10HDK++ut8KYh2DWNiAYZvyttrdak/Z1c5OOjXpxHzt7u
+         neru5XrEb/gK8iMxnNfzg1SGXss5o+Kpj8f6BrGJoreJf8YbDi4wCuNkzoK4RVC/KQvo
+         4YOCScHhGPPhJiAUlBQdgUBa2OADaVnXzIQGgS+TMyJspSAoPNoSfD+JZ8YCCxJopYjI
+         vMvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753966273; x=1754571073;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sAusd1csE+JqzNXmIGkHQyt3KnqkABSFxq19868TVlE=;
-        b=XpfBCD//kMuQuJFouh1yHnX2zWwyXRzRiSp/T9nCDB9u/ii8LRR7WHU9ta8MXHbRAy
-         QtC8nk5KI/wE1FZJgMPy3KyYzzhD+0ofrVO5mfzCz7+O0NnyN43AkS1YVB0fEEXtsf0F
-         8LWjetKvaexfSWq99HVmvyFLB2b8zGF+aV+dB73w00uZTp6BifWBzHaiucefajSNgOIK
-         2jFDBE/AE77UoqPw6B6s292gVksUpls9q6hpsxa8kL/IvdZ3aUPKNvMTjFkjLNaVek5G
-         1Ejy8BT0OilHJcdmSfLvmjumhnhCLM1aIy2yc6ET2YHMl8mTzyk/LP0aqKKYHMzkx7bM
-         2TOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV6gYztK6h7xY7E0tYg8wo4WaaXeC3xsDHj0UhyQ9hpOB4b0Aq9uDUkGua66UaPqTXs2Ns8ZrvD+IODyPjOjGvqmBo=@vger.kernel.org, AJvYcCWDZMHkceogniPSxuYNhoR/V/7psK0Sf8w4OmTKsjA0DiLWyNI58r3uFczHIj5/Eiqz8QYfqRGpL9EGadrj@vger.kernel.org, AJvYcCWVEQPxWrhyy1Zup+KEAzx+JerJxGapY3DlWBJeM0ZcgIUvPU3lVjnO5aNVHK+Qf6s5ke+KFbF5d8L5@vger.kernel.org
-X-Gm-Message-State: AOJu0YzYEOckrBFdlh6QGukqkNEYzuYk8IlEp4bbilFevm6mkl85gxz2
-	YYigdHdBkV5x08pmT+QznbTdVjFdv6YwmCTwOwngmzjaoPXwEagwe2X09gUVe5nL9JI=
-X-Gm-Gg: ASbGncsk3PPSuB0zbJaNEiyM+QWqRuHgE5lktUx+nZAvRHMv1+2p/ZetBsbUV1yzv+4
-	Y1PLbMtJVGvBneH2Zz8XtLnaAaCc4hOkbqn9r7kpf6Z5h4daR0Un21OfBWKkmwli6mtjL+52INn
-	e0v9p+BYFupKVj30aTI4uAUuf+W3SXCn1BR2y/+CGFrFnA9JcrwqR5Av96jHb9DNbtDl/PfcEsn
-	2wfWj8gItKp5rmzLjI/gZOkyHllrxzldZdA+L37XeOuwa4LamYdP0gEihhSs+ZovgoIDV2RlVLj
-	2EnO9uk907qth/AYmsbfFZkt5CEdyriFGrAqV8IhS3yaXmrexD5NrbQRu29qHlMWjskd6C++ESH
-	80oZbJjo5cYWf26maTfgIJN1Wg7SrLhhgwqXRW5FfrnOe5Vm7akdCpYlbXnkmgtam9P+PsLD/rg
-	==
-X-Google-Smtp-Source: AGHT+IHcdqw0v9ZH1z1fU73BJc7m7fJ4V11JJS73y3UghDSWJasPPE4d4uv5/+ckuMXOQEwrQZe3+Q==
-X-Received: by 2002:a05:600c:6299:b0:456:1442:854 with SMTP id 5b1f17b1804b1-4589c5e20aemr45592005e9.24.1753966272750;
-        Thu, 31 Jul 2025 05:51:12 -0700 (PDT)
-Received: from biju.lan (host31-53-6-191.range31-53.btcentralplus.com. [31.53.6.191])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4589536acc9sm66977645e9.6.2025.07.31.05.51.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Jul 2025 05:51:12 -0700 (PDT)
-From: Biju <biju.das.au@gmail.com>
-X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH] arm64: dts: renesas: rzg2lc-smarc: Fix typo for deleting node
-Date: Thu, 31 Jul 2025 13:51:06 +0100
-Message-ID: <20250731125109.147422-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1753969831; x=1754574631;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ttbP0UASnXnUPdgY4WsQTV6ycnU/sxDT3VHkXEkJ2WI=;
+        b=ej5svtHFR8pVEjVeo5LbtSRjLaOh2M4vYWlzZ4F0c6ZiJdYwwSbTTmY1ut8T6OAy64
+         GBH0oXatrDDa3IWBZ0sz+DohLsOKW6PPaB4JU4+/f751ed/qByj7h05yGg0x8Uv7YjmU
+         UWOu04zyNpivQ7XWoWfOBf3hnTXtb7GT7RIxFb1k7MJ12kXZlLey5RdjLKAGIp8ZqPtJ
+         03X+3J1oYPi4dxLX+s+US/xnW88UIG4TwH8W+/gnM3yPLXintdTsQlYLZShW/LN3pxe6
+         VAxFFJmZ5MaNjbV2F/A6v4Zm/s66Z/oc6ibE225P1Mpgi2VqgKxVtmlqniGrckQNak98
+         9KGw==
+X-Forwarded-Encrypted: i=1; AJvYcCWte7Q8yIngDZ3yhELOUWGkBkcrgDnxKnqHkkLHgwAg2b5XoxelS271iIKnWeg//p+32WpODnYKzeJ4I7UrPvszfg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQbe7sMJK4HXZmYb4NnKD4ZMSuUut6O26mIktmtW8OW4eITlrq
+	GROq8Oh9siQ3IxHYSyUDgMQl3AG8BTnAZAIARJ4oi1NgkZe1YhfwgrZutISqQiZSVpQ=
+X-Gm-Gg: ASbGncsjnM0SCZ1M5lRebDXzIUOCLrGOgweZyumrEgiFASvvHiHpdafzis6kvUSle2w
+	ruKlfkt3cuoT6UV01LFPDTFtV5MNkL907NaSq5kG6pa9dPF/sPMnl2PuHvV7l7SlADFvnsvxj8C
+	gu5iFu8f6OapQh3OC0oH57IYEuapRrKEKXnZu2NYMjUkAvLqbCaC2gC5fSPYzeQ9c/gb64vGGAF
+	WTTQZJwFCDmoMnuL0cGgVkdBh1T3NVl59c8Ky2DUyK53SzndAVfxdv1kAB/vjeF69I+lwp3wHLf
+	GsZI9Ouhxi3Ytw9a/oXJNwkQOc7tc8/thTDlVAHRelEBTCcdZ6FfszdB+hV9sT723O9/g+YLr+2
+	u787HFyuxchbYx9DUZD2hMyxpoK62En8YSwIwljrHRZki6bhAkc/q9QXAF5eRaQ==
+X-Google-Smtp-Source: AGHT+IHe5lAzWjWDvJCFogBIEALW5gpfBqEkMqvYFQycFRK8V9Sj7RWuB+XR82yqOPaZ8o9Y1wrxQA==
+X-Received: by 2002:a05:6000:290a:b0:3b8:d082:41e with SMTP id ffacd0b85a97d-3b8d082070amr978411f8f.57.1753969831203;
+        Thu, 31 Jul 2025 06:50:31 -0700 (PDT)
+Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3b79c453328sm2657408f8f.46.2025.07.31.06.50.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 31 Jul 2025 06:50:30 -0700 (PDT)
+Message-ID: <b9e7954b-442f-459c-860f-909decd87979@linaro.org>
+Date: Thu, 31 Jul 2025 15:50:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dt-bindings: timer: renesas,rz-mtu3: Use #pwm-cells = <3>
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, linux-iio@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20250527205823.377785-2-u.kleine-koenig@baylibre.com>
+ <fmn3mrcbih3oq6hgl45jipdofko46ur2sux5p4lf3nzlpahklr@3tm5molhdfdx>
+ <n4ivjvd6hq7phwkzbmvg2tqtejc6ufcybslnyh62kegjkhdvoj@cvfjwstrhlwh>
+Content-Language: en-US
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+In-Reply-To: <n4ivjvd6hq7phwkzbmvg2tqtejc6ufcybslnyh62kegjkhdvoj@cvfjwstrhlwh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
+On 31/07/2025 11:41, Uwe Kleine-König wrote:
+> Hello Daniel,
+> 
+> On Mon, Jun 16, 2025 at 03:08:41PM +0200, Uwe Kleine-König wrote:
+>> On Tue, May 27, 2025 at 10:58:22PM +0200, Uwe Kleine-König wrote:
+>>> With the goal to unify all PWM bindings to use #pwm-cells = <3> update
+>>> the renesas,rz-mtu3 binding accordingly. Keep <2> documented as a
+>>> deprecated value at least until the in-tree device trees are fixed
+>>> accordingly.
+>>>
+>>> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+>>
+>> I would expect that with the positive feedback by Biju Das and Rob
+>> Herring it's on you to pick up this patch. Or would you prefer that I
+>> take it via PWM?
+> 
+> I understood your silence as "Please pick that patch up via your PWM
+> tree" and did that now.
 
-Fix typo for deleting node 'channel@0'->'channel0'.
+Yep, sorry missed it.
 
-Fixes: 46da632734a5 ("arm64: dts: renesas: rzg2lc-smarc: Enable CANFD channel 1")
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
-index 345b779e4f60..382f6271cb29 100644
---- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
-@@ -48,7 +48,7 @@ sound_card {
- #if (SW_SCIF_CAN || SW_RSPI_CAN)
- &canfd {
- 	pinctrl-0 = <&can1_pins>;
--	/delete-node/ channel@0;
-+	/delete-node/ channel0;
- };
- #else
- &canfd {
 -- 
-2.43.0
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
 
