@@ -1,41 +1,41 @@
-Return-Path: <linux-renesas-soc+bounces-19800-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19801-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B37FCB16DA6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Jul 2025 10:37:10 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CA22B16DA9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Jul 2025 10:37:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1D7CD1AA7CCF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Jul 2025 08:37:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 75AD51AA7D33
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Jul 2025 08:38:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4C4E273801;
-	Thu, 31 Jul 2025 08:37:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 632B23597E;
+	Thu, 31 Jul 2025 08:37:52 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC06C21B9DB
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 31 Jul 2025 08:37:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4990CC13D
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 31 Jul 2025 08:37:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753951026; cv=none; b=VtBZRzBgU1qkdnHjPGs2ZdeBRZSJ8hesp2E+INTx2++4NJqqUGg/nXjEacieeiwffFO+Pf0+qUf7Pn7L4ZKzPa58l1V5/7Jb36RzSB7PlJziXe8XweCCwCVcBF7qFEYfCy7t7dQyZRQc4uywbEfpmhc89xdcoaMYqZX9CrXm55k=
+	t=1753951072; cv=none; b=gipRVLubXRkaWbt8kt3tvHDk9Z/4BbggQq7agihxuqSnOV1oV6ec/r+EMHEP+TB6y5NJX+nyhCyh0xD9XlhY9H88ISXy0H8PBDq8YWJjWezZ5MGu1aq1BT2F/V2SzUhqcvgRL7SLnTzXbw8LnvXNcSTXyvAD+R8u6ykvAG5RenM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753951026; c=relaxed/simple;
-	bh=z3TDhO2FWUnaAXostj600HH1JxG7wfJF4eLzVDY53DQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VkSrZMXaW2cX9ajWyfkrUYkbJ+hMQtLOwRXNx9EXmBvHl386xOlaGS0iV7K9EYK7NOCnkND3HMWIwkmyBFr1hwFBOwkJE6uzaMqiWBjpaWSi0wj8Zj6ia//vYlZCVDVE+PwW7n+HfBUhTaplg4dxkOT9u20LsFu9+3RH1pnNSOQ=
+	s=arc-20240116; t=1753951072; c=relaxed/simple;
+	bh=6Q7b1tmqedfp60LEfPZ5D9/uXnSFkyD+9Xdfyvu3G2s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n59/zshs0CfwYAhLeRPhL5soRmmZmAF1kspjoAhhJL2jlZMpAsZVlJ8jHfcyhGy/uyzBPBEEr7nOkM3IE+/vGkBqToqjCGOCw/nZhVba5WOChRgmw9Kf5aUYqJk6/YTBO7ORK1pOzr1FF6j35BbTHJmysMIY1z3nFLb1BX8KDk4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47D6DC4CEF5;
-	Thu, 31 Jul 2025 08:37:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA1E7C4CEEF;
+	Thu, 31 Jul 2025 08:37:50 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Magnus Damm <magnus.damm@gmail.com>
 Cc: linux-renesas-soc@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] arm64: dts: renesas: r9a09g057h48-kakip: Fix misplaced article
-Date: Thu, 31 Jul 2025 10:36:59 +0200
-Message-ID: <280176885acf46d117a0ab9a02c314e2b5cf250f.1753950938.git.geert+renesas@glider.be>
+Subject: [PATCH] ARM: shmobile: rcar-gen2: Use SZ_256K definition
+Date: Thu, 31 Jul 2025 10:37:45 +0200
+Message-ID: <c54097a263eb3e451e5e223609a3630d4409dcdd.1753951039.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -45,27 +45,28 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move the article "the" before the full name of the board.
+Use SZ_256K instead of calculating the same value.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 To be queued in renesas-devel for v6.18.
 
- arch/arm64/boot/dts/renesas/r9a09g057h48-kakip.dts | 2 +-
+ arch/arm/mach-shmobile/pm-rcar-gen2.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g057h48-kakip.dts b/arch/arm64/boot/dts/renesas/r9a09g057h48-kakip.dts
-index d2586d278769e279..f6f2cb7d2d25be5a 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g057h48-kakip.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a09g057h48-kakip.dts
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- /*
-- * Device Tree Source for Yuridenki-Shokai the Kakip board
-+ * Device Tree Source for the Yuridenki-Shokai Kakip board
-  *
-  * Copyright (C) 2024 Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
-  */
+diff --git a/arch/arm/mach-shmobile/pm-rcar-gen2.c b/arch/arm/mach-shmobile/pm-rcar-gen2.c
+index 907a4f8c5aedeeae..46654d196f8dc691 100644
+--- a/arch/arm/mach-shmobile/pm-rcar-gen2.c
++++ b/arch/arm/mach-shmobile/pm-rcar-gen2.c
+@@ -81,7 +81,7 @@ void __init rcar_gen2_pm_init(void)
+ 
+ map:
+ 	/* RAM for jump stub, because BAR requires 256KB aligned address */
+-	if (res.start & (256 * 1024 - 1) ||
++	if (res.start & (SZ_256K - 1) ||
+ 	    resource_size(&res) < shmobile_boot_size) {
+ 		pr_err("Invalid smp-sram region\n");
+ 		return;
 -- 
 2.43.0
 
