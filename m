@@ -1,156 +1,126 @@
-Return-Path: <linux-renesas-soc+bounces-19832-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19833-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1BE2B17F13
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 11:18:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37D12B17FD3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 12:00:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 02C787B3F6B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 09:16:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 68EF4585DEC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 10:00:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A5A621765E;
-	Fri,  1 Aug 2025 09:18:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A801236453;
+	Fri,  1 Aug 2025 09:59:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="AWEHDj9K"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="y/49zNGn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3E93C38;
-	Fri,  1 Aug 2025 09:18:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8352356C6
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Aug 2025 09:59:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754039886; cv=none; b=Io4x5bNt9l9xub4/tomzDPRhyyJ8PXuA0Un7klhGS7ugZDSbstqWYg/a0YKQXzS/Hla60A4F6i08kwQF1jXoFipWunJhwBosEMC8dBaRpZbLzyI9mvzmjF7qz2bSuQ1qD+FRe4hCPj/OTcNjPFLPoZvqjvAG1Vx2SdyfDuawFW8=
+	t=1754042353; cv=none; b=onA9MPr4havssXNyPlm2vS7qBKSm1NNpD4tfReuxhsCRI53Z4qPwkhTQMCydQz6+yp6dCmtpm8Bhkglr4TYHDrCCRUTQp5KSo4Kcfew4gbF3PWSz8lxRKyGvkJ9VQFs56Pz4cO+ed3VlaCxGaWQ1IHrJFcs7HRWi1viMN6TaHYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754039886; c=relaxed/simple;
-	bh=J1eEF10rhJAnQ13Hw21v83TTHqtVdgLTWvjL928gjzo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Qf1KwjUyfNMG/KraVEBzSFgSwMjqpIfUPoU4Mj+vbjpVS4I3F0/2Uw4sH9QsTm3JJJGd8B/qm1nV7bn9Uur2rr2wXABpTbR9tJgiAkRpkyYk/NC7lj1HfBY6ONBNLLyjNaderRPoXQf+5Ipaux8++6QWLAOnBgtQpVSBG+lYEMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=AWEHDj9K; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8AF3F4326F;
-	Fri,  1 Aug 2025 09:17:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1754039875;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FewFLMj+fQDz2hp2M+gKHcBCf6X6YGYBd1gKSrxKs0g=;
-	b=AWEHDj9KJ+miPFgXXzlgaTyOIImVkGkzHbYP+aHwKGM9PjqgcnK3TtRDL4sPb6dQdcllf9
-	kzeaw4DAF+Pcqay33L32HSvOkSGUHV98InrB8pscontn/77hbMvkPzozxjlZ4qpwII0ccX
-	PLlac8wupo/0rYU4la04VssrvOk85kMT6nsyLBByEdfj+d8ZmjHryIVd8OnOtgy2FNWrS5
-	QpTGBNCvedMkC2MWXiakTryK8gUdU6NJ+FzEdei2niHajG3GEDBgzE8e+iKgK5u8X7pwqf
-	Q7rfExdxNq/iOFXWReIq45iYfwWecaKuaWaPs/oiJHXmdAXqXaQmNPUg0AUywg==
-Date: Fri, 1 Aug 2025 11:17:53 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Hoan Tran <hoan@os.amperecomputing.com>, Linus Walleij
- <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Magnus Damm
- <magnus.damm@gmail.com>, Saravana Kannan <saravanak@google.com>, Serge
- Semin <fancer.lancer@gmail.com>, Phil Edworthy <phil.edworthy@renesas.com>,
- linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Miquel
- Raynal <miquel.raynal@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 5/6] soc: renesas: Add support for Renesas RZ/N1 GPIO
- Interrupt Multiplexer
-Message-ID: <20250801111753.382f52ac@bootlin.com>
-In-Reply-To: <20250730204733.GA1717453-robh@kernel.org>
-References: <20250725152618.32886-1-herve.codina@bootlin.com>
-	<20250725152618.32886-6-herve.codina@bootlin.com>
-	<20250729195137.GA658914-robh@kernel.org>
-	<20250730115421.770d99bf@bootlin.com>
-	<20250730204733.GA1717453-robh@kernel.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1754042353; c=relaxed/simple;
+	bh=6eCKSkwbpp+zEQC42TKus4PT6JVQvtzMaXWZQ1EfffM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mO7Nw+b2zH99K8zHfCdm57qltW8ADwmwtvSY67qp5oNR89d2oAkXxEnV7AOTdypzSS2074uWRWU6C3UDcVllTnEAVTosZrl8UbeWKz6iDocuU3UUn61O8oUAxEtt1zo3J+wUs4gCxm3Vv/nWslgWZwU0aG9CF7pdABoCDz8j23E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=y/49zNGn; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3b7862bd22bso1749301f8f.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 01 Aug 2025 02:59:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1754042350; x=1754647150; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=iAtNeeeBqfLUn+sT5Zk3U+6nRAWdfcW1/7E65kHu/Ac=;
+        b=y/49zNGnEHlMIDKhiGfxqyFgeETBooiruqg9vstFK8Pt98RiitTuiNOBdhDiQ59q5n
+         bxJ2xtd3hFdoAS9qRMyXV3ZU6yMIzDVI8UxrriseuNn52sP8Bq+KFMF5Bs9YxpwsMl8s
+         c2ygALQjtvV4VLQTI/qm9SezyKj0xTWkVtDaYrFpGSMrcNCTaRqk6SrkSF7z5HjgrW74
+         AwnAUbqgq/e7ISZrPdWeeIheHCbTFG4kEjHSzP42tBkVBpNvZ3D0Q3+MdFYV58+yfPIO
+         5ga3TVbffqI6Ni6VPoJcf2PidUdJJe4aRg/AKNUAidJNDCMY2bNaRozFPtKI2537a50A
+         gMBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754042350; x=1754647150;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iAtNeeeBqfLUn+sT5Zk3U+6nRAWdfcW1/7E65kHu/Ac=;
+        b=noMuruBbSQdtXUQkCPsNLGTXsfdZdDkp64jseT7+0XV2AgAfcnsGeHP0o4Tr8Sr1/m
+         rsfm75oayEvFvT9MBOxLwiGAPlwqikYUag9D0lkDYdEZkvOnQlKlZ0b3FMRqwfr8asXP
+         k6TUCbmnNh85+qt9IS9+mBwBI1vCDJ88qyobZU7Zs40+jRCzRYnCBwxfSmdSzM8EmExK
+         93SHfT1KeEWqkrWPAaLcdVtWGEhQtv2l12Rs8WPag8/yv9n47VP6zm+RB8Xe1xPA8GFP
+         o8blCS1tTgofuhkABicZhW7tzc+pTHPn3rW+U8+c2THQ2MrKjn7WQ3xGUUKwBCRn5GV9
+         VXLA==
+X-Forwarded-Encrypted: i=1; AJvYcCVO26kYu8l0zOkbYTW5a9YUhA/Ripk8HSpAmAQX/LsP1BdcQom4L/zCMxZmrcfFxcqpnSXQ7GmbnqmB9frHT64usg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwX/Hd9ZhQybXjLdnXdAkfIbim2ZBLhEL+/MPo5XcXmqfG1WJ0F
+	9ttBczVBePu03QVJ/sdD1itFkwfeMVeuJe06h+bXSwAMoQt/GvWTCRkq7/XV10E1BHM=
+X-Gm-Gg: ASbGnctNIn/0SL8+NO2Oe4gXbbMNZZJNJ+rJ+CKzQBRGNkQR4VtHJVuqJzZxFBtEqd4
+	/uegmYrKCE8/PzxYu+4Hl4Mo5gtMWyMCe4EweWMraWktD0WNO6LUNfz791yHZoQyiWNNIsanE2Q
+	Kt+k6SbA1mmAC1sfpewCA31cKkKNEIhP7tLw2EbrL9TPzpNAUu6gZOU5ylQyLZEt6iRfw+R9Qh7
+	ZiJJD7Iwnw94KoSpuZ1VTpPz0ZepPCLl9n9TFHbdlJdycHlqYGNg2ZhgvZIXoR5yUexrmbOZ9qU
+	shSLeGzRef38Oe0OgGNs4ZQwsLe2IJW7tUp+8FabNF+4XYUAQ/YyeI+A9jjpMIECiogGgS0Ozip
+	Q0AnLuOD9l7eDLTZzI3f3VYM8QaxkMjkCBb/Jv4MjyxSk+MYBpX5ig5vqPXy8zQ==
+X-Google-Smtp-Source: AGHT+IGSIhoRFdnMjpT8FEPv6ZdYsjdDrc9HAxmDYufhad1DYvy2LtbioIaodCfl4mJzruqCYZ3X7g==
+X-Received: by 2002:a05:6000:2c06:b0:3b7:7909:5b22 with SMTP id ffacd0b85a97d-3b79d43e4e4mr5658620f8f.8.1754042350328;
+        Fri, 01 Aug 2025 02:59:10 -0700 (PDT)
+Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3b79c453ca1sm5374537f8f.48.2025.08.01.02.59.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 Aug 2025 02:59:09 -0700 (PDT)
+Message-ID: <86f5260f-6625-4e2d-88a8-013143922fb9@linaro.org>
+Date: Fri, 1 Aug 2025 11:59:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] thermal: rcar_gen3: Add support for per-SoC
+ default trim values
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>, linux-pm@vger.kernel.org
+Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Lukasz Luba <lukasz.luba@arm.com>, Magnus Damm <magnus.damm@gmail.com>,
+ Zhang Rui <rui.zhang@intel.com>, linux-renesas-soc@vger.kernel.org
+References: <20250625181739.28391-1-marek.vasut+renesas@mailbox.org>
+Content-Language: en-US
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+In-Reply-To: <20250625181739.28391-1-marek.vasut+renesas@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddutdeffeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtkeertdertdejnecuhfhrohhmpefjvghrvhgvucevohguihhnrgcuoehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepveeiffefgeeitdelleeigefhjeelueeuveekveetgeffheeltdekgeduiefggfdvnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhephhgvrhhvvgdrtghoughinhgrsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedujedprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohephhhorghnsehoshdrrghmphgvrhgvtghomhhpuhhtihhnghdrtghomhdprhgtphhtthhopehlihhnuhhsrdifrghllhgvihhjsehlihhnrghrohdrohhrghdprhgtphhtthhopegsrhhglhessghguggvvhdrphhlpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdou
- ghtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghssehglhhiuggvrhdrsggvpdhrtghpthhtohepmhgrghhnuhhsrdgurghmmhesghhmrghilhdrtghomh
-X-GND-Sasl: herve.codina@bootlin.com
 
-Hi Rob,
-
-On Wed, 30 Jul 2025 15:47:33 -0500
-Rob Herring <robh@kernel.org> wrote:
-
-...
-> > > > +
-> > > > +static int irqmux_imap_cb(void *data, const __be32 *imap,
-> > > > +			  const struct of_phandle_args *parent_args)
-> > > > +{
-> > > > +	struct irqmux_cb_data *priv = data;
-> > > > +	u32 src_hwirq;
-> > > > +	int index;
-> > > > +
-> > > > +	/*
-> > > > +	 * The child #address-cells is 0. Already checked in irqmux_setup().
-> > > > +	 * The first value in imap is the src_hwirq
-> > > > +	 */
-> > > > +	src_hwirq = be32_to_cpu(*imap);    
-> > > 
-> > > The iterator should take care of the endianness conversion.  
-> > 
-> > Ok, it will take care.
-> >   
-> > >   
-> > > > +
-> > > > +	/*
-> > > > +	 * Get the index in our interrupt array that matches the parent in the
-> > > > +	 * interrupt-map
-> > > > +	 */
-> > > > +	index = irqmux_find_interrupt_index(priv->dev, priv->np, parent_args);
-> > > > +	if (index < 0)
-> > > > +		return dev_err_probe(priv->dev, index, "output interrupt not found\n");
-> > > > +
-> > > > +	dev_info(priv->dev, "interrupt %u mapped to output interrupt[%u]\n",
-> > > > +		 src_hwirq, index);    
-> > > 
-> > > Do you even need "interrupts"? Just make the "interrupt-map" index 
-> > > important and correspond to the hw index. That would greatly simplify 
-> > > all this.  
-> > 
-> > I would like to avoid to be based on the interrupt-map index.
-> > 
-> > Indeed, IMHO, it is less robust. I don't thing that we can enforce the
-> > interrupt-map items order. Based on interrupt-map index, we need to ensure
-> > that the first item is related to GIC 103, the second one to GIC 104 and so
-> > on.  
+On 25/06/2025 20:16, Marek Vasut wrote:
+> The Working Sample R-Car SoCs may not yet have thermal sensor trimming
+> values programmed into fuses, those fuses are blank instead. For such
+> SoCs, the driver includes fallback trimming values. Those values are
+> currently applied to all SoCs which use this driver.
 > 
-> How exactly are you enforcing that order for "interrupts"? You can't.
-
-I can impose interrupt-names property in the binding and at least, those
-names are to be in order (checked by dtbs_check).
-
-Based on that if a mismatch is present between interrupt-names and
-interrupts it is an issue in the dts used.
-
-With interrupt-map, nothing can be imposed and so nothing can be checked.
-
+> Introduce support for per-SoC fallback trimming values in preparation
+> for SoCs which do not use these current trimming values. No functional
+> change is intended here.
 > 
-> Aren't you just duplicating the information in "interrupts" in the 
-> interrupt-map.
-> 
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> ---
+> Cc: "Niklas Söderlund" <niklas.soderlund@ragnatech.se>
 
-I will remove 'interrupts' in the next iteration and use only 'interrupt-map'.
+Applied, thanks
 
-I will add some information related to the order of the interrup-map item in the
-binding (description of the interrupt-map property).
 
-Best regards,
-Hervé
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
 
