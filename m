@@ -1,90 +1,90 @@
-Return-Path: <linux-renesas-soc+bounces-19846-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19847-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1940B182E6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 15:52:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 180E4B182EB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 15:53:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 986B5A8187B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 13:52:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3B8333AAF38
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 13:53:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC06E26E719;
-	Fri,  1 Aug 2025 13:51:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7828A271443;
+	Fri,  1 Aug 2025 13:51:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ot71yDba"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="VjJ+wtta"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37B75262FC2
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Aug 2025 13:51:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B48D526FDB6
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Aug 2025 13:51:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754056287; cv=none; b=By68/X7J5QYVFENwk+bkOVQm09+Sdu/f9P5pNOwTzaHpfb11FJN0sqk95sGwS0RR3YEThYsmvXVdOFZXtqy8UMig3T8PYhx0ZnNuBiCgdJHp8Mc/ePw0syIuE7ROv4HzL9IDPRBiUXIP0NQV08elRWzzniGdaXL9dJ7Hl9spXdg=
+	t=1754056290; cv=none; b=Ip7ehI27J8XcyHh5Nogk8a+fyw9x1uxbgSHbgyCUnC5qYf8LuPnHzDxROHXdNymS1J6o46e+SleChIUvgpifkoKudCRIJcvnhm4oBB+mMafHeDNDgjPPslxu9WgsRa/+0dTmfTmhcJhFxL0diMiFWM5T77ST3MRZcd/Tz/RE1Ho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754056287; c=relaxed/simple;
-	bh=4v/UkWVUd2usRk11ttudKMK/GFE7oPMYIMlz0jnkFl4=;
+	s=arc-20240116; t=1754056290; c=relaxed/simple;
+	bh=p1vIn/pLBbJ5zOAwN/G9XdaGKb83FPkfI1f2HSftzDk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ye7oSVaJkC5DJDtW2lkCocipRygvCtuDsWB4DMKf5wRo4ZhuytKq2OoG3mpW4tqJ5RD3MfScuZ4bjcRxPE4i2CM9beOfTCYt2pquFnteJPvEMxIdykatWMFYjo2Bb6MpAvQGkJvBwOuF56RKFNiBuKclOMjp+e++O03f/DZBq74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ot71yDba; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:To:Cc; b=hH7HxASfH0kOt2XG4E0gazh39SOL9ENrGXsMzt2Gu64OAGwJk+FMh0EoEQaWJ1l5IjM/lUseVfeIXHYUx+q3ZWb5TUkX8z89aG0vdGptE+oxtGrBkedz5ucs8pqH20qCL297CZSwbIlRsZmKv122vJa/ag7U3hpgw8k8gU6scfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=VjJ+wtta; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5718jfHZ001430
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 1 Aug 2025 13:51:25 GMT
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57190kkN020314
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 1 Aug 2025 13:51:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	278QZ0lFfDm835VGauRYZsYszXs7O8BAZXSyOh2pTg4=; b=ot71yDba/AH2AD6I
-	Mj2dOXKQojk6IRbIcHcc2poCjsJKGX4bm8HdAdEldXhvifVAQe7sLwhUihEUpDxi
-	Pl1EpZu8O1We7/iLGosinar8YzZVZdqFxpd4LK2SyUoHWVYQJ4ci6M0px+NDMHhX
-	TWDrEjYRBeN3bW4rjWFBYqF04YLNWilWVI6WjXUBHVAGo6EpOUOyOG0lPHvjUaS7
-	FWyYNsJtUvWoilTT6LAhGtrPZp+uzfxD+fG908le2MPVxQLPA52G8WkI+6uoF7zS
-	t8Zf4KA8nqADiu5GRVoxg5//Jm3JaqPRCbGsBD7mSZj5Lxk/IQv1Bv9DHg9xF+nj
-	4FoyrQ==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484nyucg5d-1
+	W2UCi+malvB0ar8bb6DW9kSFC86prf8rvHe8q8tIWaw=; b=VjJ+wttaMaAyvo/w
+	Jp5kH6NjJ4kszVYIFnbCxOw0/E9yoW10FgZrcO5RLvi/Kbfr/mAtYEMhvVQumaXH
+	nQTyvuYeFYE+0nKGN5x35T1Nb4xPytiW8wf3Lu2PeYUrv4HItVqM69zKgjh33L9F
+	EhpSEqU6KVVLjpnCG1hPIWwE+uLMC/ZsecUYpYeCqOz+c1bwDjU/xJbFsFllXdIG
+	0ejkdZE7GPXkgWopZyMVGb9SKvOBA/zITP2odOuNECJ2nzvXfnCQBP9Cw4yUMUDx
+	C0VDjmMMHajjU7xu4hcazhSMOkazuUh/7L5TVGL52BG3mKjFngQ1sLrW2ff2r1GL
+	cTNtEg==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484p1auw3t-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 01 Aug 2025 13:51:25 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-707453b0307so26349906d6.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 01 Aug 2025 06:51:25 -0700 (PDT)
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 01 Aug 2025 13:51:27 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4ab55eb74bbso17519941cf.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 01 Aug 2025 06:51:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754056284; x=1754661084;
+        d=1e100.net; s=20230601; t=1754056286; x=1754661086;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=278QZ0lFfDm835VGauRYZsYszXs7O8BAZXSyOh2pTg4=;
-        b=xIpl3tcZSh3l9oaxIpsLMcFaMLKBMAjUbf0GT4L9uCbRkiOQcBkwNad68UWclBEntg
-         hN1/IfT3GaNba9svUlLz4FXMZ355M6Yzg1BJrjaCwgUtheDyrnuCAfVdsPEE+SwBYy93
-         6gD32KY9hiDEZW2aDXS5wVmrXblGXqx+OA0Gg9WWJwqOcX3JSsjkLEq1YAtGfURnCgfy
-         6Qr7etjS4b/0HNELJW97kRzLrpaNXGhvBr+BWvGytZQIGuILnMm9HzrSMF3QqtdPdCjZ
-         o/asjymvpZfFrJzaKLq4pvdmgFYf7EcNo4EdoXZJ4FKgwleinU2i0shHJA3izkqjBFb2
-         RJMw==
-X-Forwarded-Encrypted: i=1; AJvYcCU5/PCVa3MlNWT6FWbP8C+CntcF2gnK1gfQ77wZK3Bctt59eD5gDuczfirlaQodcO/I7fNb1FuTydJl5h2bhn/pMA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9dFnNMcRXb52xKd/7INc6gMJblLIq9/LFImKv8eo7TF3qoVXD
-	BzUIZRsswVCuLc4uCiFw5i5+Yz9oCgFzlUICBrTNHMhMFgdsD4xvWJP2kvOsHpKjWpiuxC3v06w
-	p+1n7mKopYqHbkWPtjHqJ5BwFOVLolMCv+lOmjg3seya8wgPj09BsHRIf3qE65scQQv+4AOyYRg
-	==
-X-Gm-Gg: ASbGncuXwpvwCQSr94InOXbejtXi15gYKpcv09avGhG56mJK4zLF0x5PXpgiq4yMDPT
-	p1NPoQEHQyqGPcECkGtS+c9MmY0rCtg0M3sWEhd8t0pL7n8dBtqD0oMNXjhuUj5vhsu3CqyysXl
-	bBvai4Cf+bxSZmDgX646l/ZxD8nNDcr25gzmH1+mqzC38EZBheEIOmcnVzwPSIYNoBbsLtuFqmq
-	h6gXk3gob/wwqSF3ssrli4QsBDZeFaPgWBCZ1ZDVOZWkT+odHbd4qr/ppKdGGh2NqTVqYGXN33n
-	RQfBoa1nDH5fcg8cnHHCxqDlM0LI6t0KH/ZZngP3XOQyqjFLBZBVBTAtK8FwMAeJE3GTrKAPmZO
-	fVG6jSOyuLCZvUj6rs9iwwJBrpJgV37mf5WwbjvV1T4lpqrxV3g3u
-X-Received: by 2002:a05:6214:226f:b0:707:4fec:c0ca with SMTP id 6a1803df08f44-70926508ddcmr38892256d6.4.1754056283775;
-        Fri, 01 Aug 2025 06:51:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGJom3kFAnf8JFuU2DiA4RfLsiaMRDn6FA+aJ51nDsVnUTvIGfyBP8DkrKWMMjE38R3E76PPQ==
-X-Received: by 2002:a05:6214:226f:b0:707:4fec:c0ca with SMTP id 6a1803df08f44-70926508ddcmr38891606d6.4.1754056283051;
-        Fri, 01 Aug 2025 06:51:23 -0700 (PDT)
+        bh=W2UCi+malvB0ar8bb6DW9kSFC86prf8rvHe8q8tIWaw=;
+        b=quvRAFfnAUkZMR+BQoMDZk2nf4dSoVXh/nq03N2l1tGN9eyQleyf6kC9yDB5SgfPF/
+         8VggrWjM36ZNIPVh5mfuxOwVONPsJpykSTxQ2+enlOvM/ETdusrOwtQj689CWqHe+EHr
+         z2KseJskLtaPRqGgaJilVM4YremD6Yrw2te+y0ibxm4hq/OBf18H4/RWoRDAVb6Vrpwu
+         MGzaN0lk2SLO46Z3lqNOHuoxdoPPOWwF2OTTkWZDJqzW1HHC7p2sRCyrDioes4LR81cC
+         4h3rhKzRMdWw4hmDm0EBJO9WUm6EyVRBWfzDRtC6LlJlX90dheXhqtI9CAvxpBYacawI
+         Cf/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCULrkCTGIVlvgxhrAmSETuj7EZh7W9NjU4nPO+5rpEw+zPNJvljtlvRhlkVKMffulHikux4apTfGStXzx6O148I6Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzlg+XHePFWu3ye2nxEJzrjxspodLEQ1DLzcvSPFfMr/ikOTYSr
+	aBxmldgRjbzJAqpFqNW8FbhYrrewmQeP7bCglSFRc4WPoqK/WO5vdiqwZWAamhCmWdx2Kyt2LAt
+	EVStt60KjnVkmfdRjW1uzsU7gLpJT3kn+8+rdrN1JsQXMO+EFXcNOiMFsOMsfh9TjwHlXENv7nP
+	FPvBo0GA==
+X-Gm-Gg: ASbGncuXCpqaLEn4y0V9QZ2V89f84xSC+xFnxhNfIJZKh8hNPfrT5XyDKIPow1a26Fc
+	OCPDV6e/wxJBLs9ADl6ObRaFnk6RGAtzFfcDNN6qulcBZv0qyz+ZkW5HXHk34hA59Mx342sLvZk
+	/MvQHdorubxkhhltvQaaiYVhDPUcC1mMD2hRBVuvT5ndIOiP8MPXIQBtCa4VLLQUKeMoJ2/ju4N
+	wzzQNaSy+wMIRnc7dupOnoBvEhhjY8mWtNE91OfIP66x0tZX6Be1MP5DrlSDNKHzCGKAXry/sXP
+	KlRYDBwGL6zipUuEmJzY2kpcpxFYgvEiHlGx2Pdonxd+t9WrFRhEt2Q7I+l4HP0QH7clKFxYNQ5
+	aVAP/o8M95FVKd3FNzKfJan1dBNr9SP6Z5XG81kQKwGxVOoLlq3bf
+X-Received: by 2002:a05:622a:4fcd:b0:4ae:f1c4:98fe with SMTP id d75a77b69052e-4aef1c49b02mr76647811cf.34.1754056285906;
+        Fri, 01 Aug 2025 06:51:25 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFAwqWqcrYsHbU0F2gj2xmMxu0CXmwPTRpB2ryFYEdGwGRHG1UFGg9MBUQvZBikakoqd/cRgw==
+X-Received: by 2002:a05:622a:4fcd:b0:4ae:f1c4:98fe with SMTP id d75a77b69052e-4aef1c49b02mr76647531cf.34.1754056285484;
+        Fri, 01 Aug 2025 06:51:25 -0700 (PDT)
 Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-33238273006sm5917801fa.9.2025.08.01.06.51.22
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-33238273006sm5917801fa.9.2025.08.01.06.51.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Aug 2025 06:51:22 -0700 (PDT)
+        Fri, 01 Aug 2025 06:51:23 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Fri, 01 Aug 2025 16:51:12 +0300
-Subject: [PATCH 4/8] drm/msm/dpu: use drmm_writeback_connector_init()
+Date: Fri, 01 Aug 2025 16:51:13 +0300
+Subject: [PATCH 5/8] drm/msm/dpu: use drmm_writeback_connector_init()
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -93,7 +93,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250801-wb-drop-encoder-v1-4-824646042f7d@oss.qualcomm.com>
+Message-Id: <20250801-wb-drop-encoder-v1-5-824646042f7d@oss.qualcomm.com>
 References: <20250801-wb-drop-encoder-v1-0-824646042f7d@oss.qualcomm.com>
 In-Reply-To: <20250801-wb-drop-encoder-v1-0-824646042f7d@oss.qualcomm.com>
 To: Jani Nikula <jani.nikula@linux.intel.com>,
@@ -125,40 +125,40 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
         linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         freedreno@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1817;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2200;
  i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=4v/UkWVUd2usRk11ttudKMK/GFE7oPMYIMlz0jnkFl4=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBojMZTDNkPGITvncNEDx/CNCeglk1Jp+f/ChpC0
- AXAHrPUnAeJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaIzGUwAKCRCLPIo+Aiko
- 1f8aCACjBXtlBxXcmFySHdDryhXuuyHrGFTLWoQAJYFbFPslFIRoxZSJT6mHErULJ228fcTw8Ww
- risQU9WSdjD7jV8ENl54qLAQNALPedsvbKGwten2/zVwwHND1/tHm62gE/zJVsv0AAxskybYyqX
- XgnflK5pL7cHdNq8kEqSnM8NrkQfgWCwS+NE00GVjlUOwvIM+Db4IxyZpw8ysGkKcOooYn0XV1j
- 4zVzcS/pLcAgTkHK6SEWIusjCrJuUX2qaE0MHEDMfL/vyb+buazqF8TLWkgP4XM94aJOKBQFcAC
- qr7avC1KLtKnUu4777zLxpSwk41rREYYp97VOlRBxnyQ5KCS
+ bh=p1vIn/pLBbJ5zOAwN/G9XdaGKb83FPkfI1f2HSftzDk=;
+ b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ0bPsWCx0yvsNgYcls5I+plW1j3Fjjm+X0px0rzqd0vs0
+ k3EioQ7GY1ZGBi5GGTFFFl8ClqmxmxKDvuwY2o9zCBWJpApDFycAjCRty0cDE2u3dqvkrq7bmfF
+ GxbJfBK+ZLJFuKaj26z4TYAFw/fJBZ2aYT3Gdf9/PWAxvbefn01Pz+WJmX4Nh7rCawmJhRy1706
+ af0ncqHWyLqckPz6+/8blWQf0tQ+x+89a5TX7S45x/TNzlh3qyeFRl37Ezzy08rXZJ8bL6ooyoV
+ EfHX5Ebo1krQ1gmbFK0crxnYXlZhXrdSGia/STswu9wpY82y07y9lQNGfJ8xOBFYyxVkrZOx+qb
+ Vw16+qNB63ze6WmWzmfX/E88/ZurZg1MdG+O4LnBeR9/WLr+eX0wq2SAr+u6EnEO5o6eYV8PfnA
+ vv3RupYU979rBV5UGpx5cvFAoH1d+/sSiX/KJit4UycDAA==
 X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-GUID: 2_wgd0Dr8104PVttWsO4xsYAzkQrykjx
-X-Proofpoint-ORIG-GUID: 2_wgd0Dr8104PVttWsO4xsYAzkQrykjx
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODAxMDEwNSBTYWx0ZWRfXwuyLXVOgWxYj
- Q5/X5oFofuGlXgWjwC6h+zftcdyut0/oO6UAt69WIfdIf7CMGK6DbstHCXtF6abNPQWCdc69MUS
- OFt7//sAQSXbutyUuKgIEAu5ZfRPr87Y/RQODsSvo/LR4VQSrekz8YwC1kqL4qE3Wcm5ceMcd3f
- AtpSlB0rzCR7D6C31Z9QvxcV5MHkJ6/pHTDaKVAyA+ZBjMPcJnutPAF8lS8LWhsQM5SAEmSQJHS
- 73fE6Ay52zadsr++g6s4jU8xlX2NBO+a20lqR5lib7a4V6mQjRmZKnerOsKqmBhrXBWFypAcjuS
- QlR/o3ZLv5KDsA6r5uC/lB8Jjh9bkYl/3lzPXphUxnNEhLt/2KudQw3xzu1BwUu3wEVq2jdxKmZ
- klGSMHBaCTMbcrB0kTpWePhGYW/nuqPFd4VngQGEQlM7UaBtGQUXPqIGEjaO5q3XVYFd3GTf
-X-Authority-Analysis: v=2.4 cv=CLoqXQrD c=1 sm=1 tr=0 ts=688cc65d cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=UqIHtJT1QCIVCAY24KsA:9 a=QEXdDO2ut3YA:10
- a=pJ04lnu7RYOZP9TFuWaZ:22
+X-Proofpoint-ORIG-GUID: hZlaQk4LjLyIwy_f_AQZk7RNiwP8whMV
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODAxMDEwNSBTYWx0ZWRfX2V2+iqV2Q8g+
+ 5iqAkxgh6A3yoHaAKr8Nqq/imU37E56xdV0jG5Tc8wCkVqUxoMaNxIL/8Q41DalS7X68LJYDOMX
+ gVUDC3cUNZMfeEQJOTuXK82Y/tGubzbOL22XplNo3jzNB3H2kDH0e6bpJaTz/tXnYBgDEAVZt5u
+ PSXYkwzAgX/qSp1nY4Z9jxLUB4wP3xxh/claM3OHkrht/EPd+T0/P3j3pVX8jswva/ZEPW1+e/e
+ QBMQAkV/hQQJaUoXxuOyoZUs11RF2HL6xNh1yESZJAOJwDWpsPAn8d98BXkkVdZaU69nF1lzU4t
+ GNFUwlDOlE7gUU0OIrEnpMNKbs26QB1HTeK5DGzBuGjM87XGsMeJVbliSCIn4/srh/y9PLhz6NF
+ 6jlzwMJWAeJQaDc+n0AlS8o3MaRhAmqH6Lvx+uuYZpfaz3qmPCUpWLNo+RnKyYeLcVLTfCXZ
+X-Proofpoint-GUID: hZlaQk4LjLyIwy_f_AQZk7RNiwP8whMV
+X-Authority-Analysis: v=2.4 cv=KtNN2XWN c=1 sm=1 tr=0 ts=688cc65f cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=mhD89yN676IZukTL2GQA:9 a=QEXdDO2ut3YA:10
+ a=kacYvNCVWA4VmyqE58fU:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-01_04,2025-08-01_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0 suspectscore=0 mlxlogscore=937 spamscore=0
- priorityscore=1501 phishscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0
- clxscore=1015 impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2508010105
+ clxscore=1015 priorityscore=1501 lowpriorityscore=0 suspectscore=0
+ adultscore=0 mlxlogscore=912 bulkscore=0 spamscore=0 impostorscore=0
+ mlxscore=0 malwarescore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2508010105
 
 Use drmm_plain_encoder_alloc() to allocate simple encoder and
 drmm_writeback_connector_init() in order to initialize writeback
@@ -166,37 +166,53 @@ connector instance.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ .../gpu/drm/renesas/rcar-du/rcar_du_writeback.c    | 23 +++++++++++++++-------
+ 1 file changed, 16 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-index 8ff496082902b1ee713e806140f39b4730ed256a..cd73468e369a93c50303db2a7d4499bcb17be5d1 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-@@ -80,7 +80,6 @@ static int dpu_wb_conn_atomic_check(struct drm_connector *connector,
- static const struct drm_connector_funcs dpu_wb_conn_funcs = {
- 	.reset = drm_atomic_helper_connector_reset,
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c
+index 8cd37d7b8ae281cbc1fd8cbb243c621174517e23..9986a10e8114680e9da48986f4ca3ce6ec66b8cb 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c
+@@ -134,7 +134,6 @@ static void rcar_du_wb_conn_reset(struct drm_connector *connector)
+ static const struct drm_connector_funcs rcar_du_wb_conn_funcs = {
+ 	.reset = rcar_du_wb_conn_reset,
  	.fill_modes = drm_helper_probe_single_connector_modes,
 -	.destroy = drm_connector_cleanup,
- 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+ 	.atomic_duplicate_state = rcar_du_wb_conn_duplicate_state,
+ 	.atomic_destroy_state = rcar_du_wb_conn_destroy_state,
  };
-@@ -131,12 +130,9 @@ int dpu_writeback_init(struct drm_device *dev, struct drm_encoder *enc,
+@@ -202,15 +201,25 @@ int rcar_du_writeback_init(struct rcar_du_device *rcdu,
+ {
+ 	struct drm_writeback_connector *wb_conn = &rcrtc->writeback;
  
- 	drm_connector_helper_add(&dpu_wb_conn->base.base, &dpu_wb_conn_helper_funcs);
++	struct drm_encoder *encoder;
++
++	encoder = drmm_plain_encoder_alloc(&rcdu->ddev, NULL,
++					   DRM_MODE_ENCODER_VIRTUAL, NULL);
++	if (IS_ERR(encoder))
++		return PTR_ERR(encoder);
++
++	drm_encoder_helper_add(encoder, &rcar_du_wb_enc_helper_funcs);
++
++	encoder->possible_crtcs = 1 << drm_crtc_index(&rcrtc->crtc);
++
+ 	drm_connector_helper_add(&wb_conn->base,
+ 				 &rcar_du_wb_conn_helper_funcs);
  
--	/* DPU initializes the encoder and sets it up completely for writeback
--	 * cases and hence should use the new API drm_writeback_connector_init_with_encoder
--	 * to initialize the writeback connector
--	 */
--	rc = drm_writeback_connector_init_with_encoder(dev, &dpu_wb_conn->base, enc,
--			&dpu_wb_conn_funcs, format_list, num_formats);
-+	rc = drmm_writeback_connector_init(dev, &dpu_wb_conn->base,
-+					   &dpu_wb_conn_funcs, enc,
-+					   format_list, num_formats);
+-	return drm_writeback_connector_init(&rcdu->ddev, wb_conn,
+-					    &rcar_du_wb_conn_funcs,
+-					    &rcar_du_wb_enc_helper_funcs,
+-					    writeback_formats,
+-					    ARRAY_SIZE(writeback_formats),
+-					    1 << drm_crtc_index(&rcrtc->crtc));
++	return drmm_writeback_connector_init(&rcdu->ddev, wb_conn,
++					     &rcar_du_wb_conn_funcs,
++					     encoder,
++					     writeback_formats,
++					     ARRAY_SIZE(writeback_formats));
+ }
  
- 	if (!rc)
- 		dpu_wb_conn->wb_enc = enc;
+ void rcar_du_writeback_setup(struct rcar_du_crtc *rcrtc,
 
 -- 
 2.39.5
