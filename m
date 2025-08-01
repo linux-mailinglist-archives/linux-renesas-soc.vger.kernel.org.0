@@ -1,158 +1,156 @@
-Return-Path: <linux-renesas-soc+bounces-19831-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19832-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58362B17F05
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 11:16:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1BE2B17F13
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 11:18:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5F7AF7B3351
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 09:14:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 02C787B3F6B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 09:16:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 162281FA859;
-	Fri,  1 Aug 2025 09:16:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A5A621765E;
+	Fri,  1 Aug 2025 09:18:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TaTG9UVo"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="AWEHDj9K"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA701E7C19;
-	Fri,  1 Aug 2025 09:16:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3E93C38;
+	Fri,  1 Aug 2025 09:18:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754039777; cv=none; b=GwrKKxkJ8F+7HziqWGpwZ/Nul2PFXhHg6ly3e3Geo3CYWXKIBiW1/ZF54FUbSxtdvaEkUtiZ4FW7TTPUv5CDnd7mjFcOuZPF5DZZ/uQPXkjwgy11vFiKVQq0S05aaTCGohCq9Lb+akPHDejrFX7wEHGR4vMryhJF01pZV1gyRtM=
+	t=1754039886; cv=none; b=Io4x5bNt9l9xub4/tomzDPRhyyJ8PXuA0Un7klhGS7ugZDSbstqWYg/a0YKQXzS/Hla60A4F6i08kwQF1jXoFipWunJhwBosEMC8dBaRpZbLzyI9mvzmjF7qz2bSuQ1qD+FRe4hCPj/OTcNjPFLPoZvqjvAG1Vx2SdyfDuawFW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754039777; c=relaxed/simple;
-	bh=HymzmLf2fmwqD3gyxEPyAoceiwxrUsiU1UA2nbmDVUg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=m7Qw3KHulcElbzOLUFnIpDbAfYIyQu4XerpcPhttiH2wmPKlPvFkwmIWhxQGDO4zStT/OLUtpER9diKs8SDVuxqC/C0jvGoyDEGAnq3PA0Jzqcfk74XMJVVY0n8xkfM3eIonD4xAxO26aCMhqkIfam+CkoV7fwkgtbFNFayqanc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TaTG9UVo; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2FCAC4CEE7;
-	Fri,  1 Aug 2025 09:16:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754039776;
-	bh=HymzmLf2fmwqD3gyxEPyAoceiwxrUsiU1UA2nbmDVUg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=TaTG9UVo7qMSdf8QtetkRpPQKP1fQllGUx/Z7QIEqPg+AtmBg6QLpegaGBqPITR6n
-	 6jbjDIvGHt4GXug7r8yqui+SIUNLgbPqYFshk8ElDx9EIHJC0F5K3is6lpekCrKmZU
-	 1xqcT00LRczedOMPo1JCDHKUdgS35c+ZDYQMfewVQCcbsOZ5/8JNkPEHMQwRn+NcTa
-	 mclDeBS66ApJ8u8ujWtB+V4zhaCKTSKqjvt4H9qwKGsoAGSg2fVjCvxPBdSGmBUnyo
-	 4LBjkUsFAlpWqc54ADXUkGiDW+zDsUDWr30CHbZzvW+Nm28TwPSzfcmxfW/87/VO5+
-	 ARHiWC1K/wWsQ==
-Message-ID: <4ba8a463-43bc-402c-9814-5ef811d4c715@kernel.org>
-Date: Fri, 1 Aug 2025 11:16:12 +0200
+	s=arc-20240116; t=1754039886; c=relaxed/simple;
+	bh=J1eEF10rhJAnQ13Hw21v83TTHqtVdgLTWvjL928gjzo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Qf1KwjUyfNMG/KraVEBzSFgSwMjqpIfUPoU4Mj+vbjpVS4I3F0/2Uw4sH9QsTm3JJJGd8B/qm1nV7bn9Uur2rr2wXABpTbR9tJgiAkRpkyYk/NC7lj1HfBY6ONBNLLyjNaderRPoXQf+5Ipaux8++6QWLAOnBgtQpVSBG+lYEMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=AWEHDj9K; arc=none smtp.client-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8AF3F4326F;
+	Fri,  1 Aug 2025 09:17:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1754039875;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FewFLMj+fQDz2hp2M+gKHcBCf6X6YGYBd1gKSrxKs0g=;
+	b=AWEHDj9KJ+miPFgXXzlgaTyOIImVkGkzHbYP+aHwKGM9PjqgcnK3TtRDL4sPb6dQdcllf9
+	kzeaw4DAF+Pcqay33L32HSvOkSGUHV98InrB8pscontn/77hbMvkPzozxjlZ4qpwII0ccX
+	PLlac8wupo/0rYU4la04VssrvOk85kMT6nsyLBByEdfj+d8ZmjHryIVd8OnOtgy2FNWrS5
+	QpTGBNCvedMkC2MWXiakTryK8gUdU6NJ+FzEdei2niHajG3GEDBgzE8e+iKgK5u8X7pwqf
+	Q7rfExdxNq/iOFXWReIq45iYfwWecaKuaWaPs/oiJHXmdAXqXaQmNPUg0AUywg==
+Date: Fri, 1 Aug 2025 11:17:53 +0200
+From: Herve Codina <herve.codina@bootlin.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Hoan Tran <hoan@os.amperecomputing.com>, Linus Walleij
+ <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Magnus Damm
+ <magnus.damm@gmail.com>, Saravana Kannan <saravanak@google.com>, Serge
+ Semin <fancer.lancer@gmail.com>, Phil Edworthy <phil.edworthy@renesas.com>,
+ linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Miquel
+ Raynal <miquel.raynal@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 5/6] soc: renesas: Add support for Renesas RZ/N1 GPIO
+ Interrupt Multiplexer
+Message-ID: <20250801111753.382f52ac@bootlin.com>
+In-Reply-To: <20250730204733.GA1717453-robh@kernel.org>
+References: <20250725152618.32886-1-herve.codina@bootlin.com>
+	<20250725152618.32886-6-herve.codina@bootlin.com>
+	<20250729195137.GA658914-robh@kernel.org>
+	<20250730115421.770d99bf@bootlin.com>
+	<20250730204733.GA1717453-robh@kernel.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] arm64: dts: renesas: rzg2lc-smarc: Fix typo for deleting
- node
-To: Biju Das <biju.das.jz@bp.renesas.com>, geert <geert@linux-m68k.org>,
- "biju.das.au" <biju.das.au@gmail.com>
-Cc: "magnus.damm" <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20250731125109.147422-1-biju.das.jz@bp.renesas.com>
- <CAMuHMdXTbOcYPrgHxpCNJEWNhcd8e5NBC0gyYQXn0KmQ8wqEMw@mail.gmail.com>
- <TY3PR01MB11346C00F991D3D718D16417A8626A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <TY3PR01MB11346C00F991D3D718D16417A8626A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddutdeffeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtkeertdertdejnecuhfhrohhmpefjvghrvhgvucevohguihhnrgcuoehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepveeiffefgeeitdelleeigefhjeelueeuveekveetgeffheeltdekgeduiefggfdvnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhephhgvrhhvvgdrtghoughinhgrsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedujedprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohephhhorghnsehoshdrrghmphgvrhgvtghomhhpuhhtihhnghdrtghomhdprhgtphhtthhopehlihhnuhhsrdifrghllhgvihhjsehlihhnrghrohdrohhrghdprhgtphhtthhopegsrhhglhessghguggvvhdrphhlpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdou
+ ghtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghssehglhhiuggvrhdrsggvpdhrtghpthhtohepmhgrghhnuhhsrdgurghmmhesghhmrghilhdrtghomh
+X-GND-Sasl: herve.codina@bootlin.com
 
-On 01/08/2025 10:11, Biju Das wrote:
-> Hi Geert,
-> 
-> Thanks for the feedback.
-> 
->> -----Original Message-----
->> From: Geert Uytterhoeven <geert@linux-m68k.org>
->> Sent: 01 August 2025 08:30
->> Subject: Re: [PATCH] arm64: dts: renesas: rzg2lc-smarc: Fix typo for deleting node
->>
->> Hi Biju,
->>
->> On Thu, 31 Jul 2025 at 14:51, Biju <biju.das.au@gmail.com> wrote:
->>> From: Biju Das <biju.das.jz@bp.renesas.com>
->>>
->>> Fix typo for deleting node 'channel@0'->'channel0'.
->>>
->>> Fixes: 46da632734a5 ("arm64: dts: renesas: rzg2lc-smarc: Enable CANFD
->>> channel 1")
->>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
->>
->> Thanks for your patch!
->>
->>> --- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
->>> +++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
->>> @@ -48,7 +48,7 @@ sound_card {
->>>  #if (SW_SCIF_CAN || SW_RSPI_CAN)
->>>  &canfd {
->>>         pinctrl-0 = <&can1_pins>;
->>> -       /delete-node/ channel@0;
->>> +       /delete-node/ channel0;
->>
->> As pointed out by Rob's bot, you must not delete this node.
->> Instead, set channel0's status to disabled.
-> 
-> OK. Will fix this in next version.
+Hi Rob,
 
-Please TEST your patch before sending it. This would avoid this entire
-discussion.
+On Wed, 30 Jul 2025 15:47:33 -0500
+Rob Herring <robh@kernel.org> wrote:
+
+...
+> > > > +
+> > > > +static int irqmux_imap_cb(void *data, const __be32 *imap,
+> > > > +			  const struct of_phandle_args *parent_args)
+> > > > +{
+> > > > +	struct irqmux_cb_data *priv = data;
+> > > > +	u32 src_hwirq;
+> > > > +	int index;
+> > > > +
+> > > > +	/*
+> > > > +	 * The child #address-cells is 0. Already checked in irqmux_setup().
+> > > > +	 * The first value in imap is the src_hwirq
+> > > > +	 */
+> > > > +	src_hwirq = be32_to_cpu(*imap);    
+> > > 
+> > > The iterator should take care of the endianness conversion.  
+> > 
+> > Ok, it will take care.
+> >   
+> > >   
+> > > > +
+> > > > +	/*
+> > > > +	 * Get the index in our interrupt array that matches the parent in the
+> > > > +	 * interrupt-map
+> > > > +	 */
+> > > > +	index = irqmux_find_interrupt_index(priv->dev, priv->np, parent_args);
+> > > > +	if (index < 0)
+> > > > +		return dev_err_probe(priv->dev, index, "output interrupt not found\n");
+> > > > +
+> > > > +	dev_info(priv->dev, "interrupt %u mapped to output interrupt[%u]\n",
+> > > > +		 src_hwirq, index);    
+> > > 
+> > > Do you even need "interrupts"? Just make the "interrupt-map" index 
+> > > important and correspond to the hw index. That would greatly simplify 
+> > > all this.  
+> > 
+> > I would like to avoid to be based on the interrupt-map index.
+> > 
+> > Indeed, IMHO, it is less robust. I don't thing that we can enforce the
+> > interrupt-map items order. Based on interrupt-map index, we need to ensure
+> > that the first item is related to GIC 103, the second one to GIC 104 and so
+> > on.  
+> 
+> How exactly are you enforcing that order for "interrupts"? You can't.
+
+I can impose interrupt-names property in the binding and at least, those
+names are to be in order (checked by dtbs_check).
+
+Based on that if a mismatch is present between interrupt-names and
+interrupts it is an issue in the dts used.
+
+With interrupt-map, nothing can be imposed and so nothing can be checked.
+
+> 
+> Aren't you just duplicating the information in "interrupts" in the 
+> interrupt-map.
+> 
+
+I will remove 'interrupts' in the next iteration and use only 'interrupt-map'.
+
+I will add some information related to the order of the interrup-map item in the
+binding (description of the interrupt-map property).
 
 Best regards,
-Krzysztof
+Hervé
 
