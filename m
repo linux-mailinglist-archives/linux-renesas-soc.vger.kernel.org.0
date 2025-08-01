@@ -1,206 +1,170 @@
-Return-Path: <linux-renesas-soc+bounces-19864-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19865-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29AD7B183B6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 16:26:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B06FB184FB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 17:31:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 822391C8374A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 14:26:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 802CC1C241ED
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 15:31:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24B8B2641E3;
-	Fri,  1 Aug 2025 14:26:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C5DB26F476;
+	Fri,  1 Aug 2025 15:31:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Mv0TcpOl"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H/LdQtDa"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B4E9267B02
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Aug 2025 14:26:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9832A1B7F4;
+	Fri,  1 Aug 2025 15:31:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754058376; cv=none; b=KLQTVkRxWlJng1hSob6c8OMBu2kUsFFdG4J6VHQzwTVl69nVhkmM9L/4JkFX03JTHVeK3FIPwPPdVtC+Eh58np+ZexH8IaG1W3vRDP4rN+/MC1WxkONhBki5oDZlmpQKL1gb986YeamGfbE5upO3jVUexLhNHSlBaRo8hlGfksI=
+	t=1754062283; cv=none; b=fmCDt0CIGHHgdxtpo/1sayiIbA5lDEQnM63CvLV2PKHrODO3DLpZXPdBf7YEysbVj4kYU1qwxcKOqg+SbD1TPLiQXFJpEkQ9OK2MC2ZmaxwlAWsW95jhU/4DQNy3RVySDl3u2opwkZo2ncjN1BMVJ45SThBgoP9KSNl/SKHPG0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754058376; c=relaxed/simple;
-	bh=7Cf1qA07q7PwBj+lCp1VPG920mv2XnQESOpVI60ySdA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qxT+o1FFgnTAsETUO/wefnMMbAQx3ucPk9nt3PDFO5597Pa6xxYGpX/H25+G/R+vPl304G9s+7q2JN567qZs7hRIVRS3HAtupcA0JUE9wgWkjK85bS7UBLL3eFFrfPhV3E37YCo6FSeRDpBwk8oG+wAXOup1ZLzhQ/fqjKAh2xE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Mv0TcpOl; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5718jfKi001430
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 1 Aug 2025 14:26:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	EzvS1jMX5x8+R7F+NrDMwwT/fTPAvaYvo4kcmEWAh8w=; b=Mv0TcpOlW2B6528l
-	q1fFdZ1HJ+9on7dRfi5X4/XNaFJsntPIpJbuj0G2513OWO2znFSjc+t6b7uC9o+1
-	VgWUXg9WvZZN5zxQjlg0gTcchFScz8cc50Dt+K6fXBUL1DWQe8SaQzTWZTus0YGi
-	R1qWeSYfHYHAirPrNlyE6VVp6RxqURJjpo+oKRp/rQI96e9dbpAuX212NleLRLP5
-	KXuCWlVaCRpuW7bOfFIIHcqS23A7Ustp4WgBL7ut775P+EUW7F2W4DKjVJkigvXW
-	OJMvoAuo1MT8bBv4Kw507RcOT9yjfguAMhUasvajj88LiKLnUvZGs+PziHVdqQCW
-	1r5ToA==
-Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com [209.85.217.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484nyuck83-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 01 Aug 2025 14:26:13 +0000 (GMT)
-Received: by mail-vs1-f69.google.com with SMTP id ada2fe7eead31-4fc078d2103so2458153137.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 01 Aug 2025 07:26:13 -0700 (PDT)
+	s=arc-20240116; t=1754062283; c=relaxed/simple;
+	bh=y6mkOrGwcWMo5LKjnRE7fq4giaHva3fen9P05JzBrBQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UDsNm+Spl9zalAv8nYBdtnFsb5TxXbjCwAFYrfQuHE2E+XZcQodBltG+JdPrkwNkk65fs6oDHfWM+MAW/3a9eDSJnb+KkLDXtA90s4VCyEMLsMq8DOvoMbH1lxnHdG+F/jiQAAGW2XVU8MQS3bJg7rb9r05typf6O9avN3G7AX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H/LdQtDa; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3b79bddd604so1339238f8f.0;
+        Fri, 01 Aug 2025 08:31:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754062280; x=1754667080; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=I4UHueSc9BAu6grTRDLcGU5I69yEzCQOkcHM/+5O8oc=;
+        b=H/LdQtDam3Yw01AsW6ya8OY+7HjidjuFXM9v/zTToyAfkIooTTMG6n3+7xF9YJuXZ4
+         N6NiVne0WQJ0OX6TXtMoSCKJ9MG11mnq0Ref5YK91n1yJDdGtN33X6UsuTwNNr70ycEx
+         W0FfB8qpUwNH20XGR4D/T+8My+VBah196rDO25jOFznmHi6mgu44BfkggkmKzx+Gq4ng
+         ckM2fobB6ld5tyPRKqpoRBXL4372stB/S8jx9Qhf7KtHycViarIWVSuCWJZjWTQnWv4h
+         ka/6psG3G/TukoZJGA/UAxAdp+zdQF9/DIX0BoGtPRvJ8Thv74W6D6y/RJM/Dr3oOoPb
+         tbTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754058372; x=1754663172;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EzvS1jMX5x8+R7F+NrDMwwT/fTPAvaYvo4kcmEWAh8w=;
-        b=ixg7RPnCXJdBniGktb8GmnRQrpTEYWJZOQN1hXNXGRoSFK6wMONAPT1X+Xqg2idSGT
-         D2sLBDz90ObQRzGHRDRPVE2f/Ku1Cmef8H4XLIRlYy4ZDVDDFF0lCp7lCY96G6iw66Ac
-         8UxRf0bmpnd34FoGR1D70SwnxJimhUtpG1DzyJLhznhSW2hXswLFi4bKJLcQkM4N2bOj
-         BqLZEMyGHB8jtal8YNDwP0tdvvu0U+grN+xK9VUDJwfqZU38jYtScOhBq+MJsRStAeOw
-         rndzcbkR9OV/pG5TeHCANXpseVgm6140Epu7N14smPy7TwJzcrUIIyaSBbW7D3WwKMz3
-         IfAw==
-X-Forwarded-Encrypted: i=1; AJvYcCUWGxUEsYsOs9rMzPPbdiORmLfxJVH14YOEe12ZNeTaWi9J67uYL4z6WoAIrKxDRMzunUHODKSvrrBYmGKNCenBdg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9WYXZ64hckd9AmwqrjhH+uBUzkkkWtj0LqGua0vl04/ZznqT1
-	QCV+rk3HxeBRp+cvyqB+35dGjXS2Wjsr35DMbGxklwXPJh0QgWJEQ8i88nPbeJmcBHVUFvH+sZj
-	YA0J1J3fT75HN0TA2m419X3i1lib+csR0s8pt+zf2OyTcRRQpkyK5UEjCiJrdGE9TDOeT/tRK4g
-	==
-X-Gm-Gg: ASbGncsn1TghQlV9pTsDhqvoZnKPyQUPdJtokSXhOvqC66Aofn2/pugivQIkHWHi7fK
-	stBsav8GMHxaHmOW7E5HzLOo0h+ONhFQCefP6IdrrLOQR9rJ8mJVvwEcRbd9siP7+B9OjM78quU
-	UpoeBYiQ9o76lkmbix8rigM1AlhHv51W+/XEMwNN39vTpv67sZ7/pRyV58motk8m7lDsHjeQyln
-	wcJI/QwFie1Srac6xonwzKz3TpahNMc5H3QRgRfJNzwYPokUKL42TBzUwu/IfEJK4T/EF01WWJE
-	szLaqFy47t5gXkzIHTeOebTjFGPwuUiM68uKaNerdobXHgQadNlhgU7otsoPC7BNkKqU13s93r3
-	ORPm+5kM8+3uNq+63We/Lt6qh30KojH1ze3k2pSrWkHGB8ghdi7srHyPNT7bisg2W27NBXY7qEr
-	g0o0WqC4FDbCIVseBZdrGOAg==
-X-Received: by 2002:a05:6102:3ca3:b0:4e5:9c06:39d8 with SMTP id ada2fe7eead31-4fbe7eede93mr8246375137.5.1754058372007;
-        Fri, 01 Aug 2025 07:26:12 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHtV8DSsj9RYUgiFZC2c162wgAzqi/wUqPBz85jhmoN0PI6WRYnMuJqyzF2EbQRO88PjZQP5g==
-X-Received: by 2002:a05:6102:3ca3:b0:4e5:9c06:39d8 with SMTP id ada2fe7eead31-4fbe7eede93mr8246299137.5.1754058371520;
-        Fri, 01 Aug 2025 07:26:11 -0700 (PDT)
-Received: from ?IPV6:2001:14bb:11f:12ba:7035:8684:db73:a472? (2001-14bb-11f-12ba-7035-8684-db73-a472.rev.dnainternet.fi. [2001:14bb:11f:12ba:7035:8684:db73:a472])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-33238272f35sm6403761fa.3.2025.08.01.07.26.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Aug 2025 07:26:10 -0700 (PDT)
-Message-ID: <7ea6294d-1958-4586-975b-beb3e5114a4b@oss.qualcomm.com>
-Date: Fri, 1 Aug 2025 17:26:08 +0300
+        d=1e100.net; s=20230601; t=1754062280; x=1754667080;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=I4UHueSc9BAu6grTRDLcGU5I69yEzCQOkcHM/+5O8oc=;
+        b=sKZfxka4gm9Udukxys8cQSKGo745I7HVmY/Xl0AwYdF6OiSfi+HFW6QSUqNstWFyX/
+         Q0xpX0fhuGgc5fnKzzdPUjgwsXHMvuqSrKbQ/49vgZOHvLjsNc7qjP5LWIoAbOFNJCli
+         0fYYMQ3jVpK8ggY9kFpY6bioou1YoYNAH5QL2NkTkqGZYCN42Cpl7h9AaRwNpCtLyxwJ
+         iyZMn+HPBv/4s9A02bisoQytnC9UTwTzB4O/X71cOj4S2xTn9CnNVF8GcW1cdm6ogEFM
+         qXOUsF85DShDWnTgT3riLEV1EdJq79brgaFpzAx0I9dHrW8riuPQb5BA6C1gIQgiatMA
+         cJag==
+X-Forwarded-Encrypted: i=1; AJvYcCUHusADv0SmBzRA7iC/TzacCjqSygKt0qZfnGh6ROO2RmMKxocrqdqb830yiS1qR6PqCzPGEh34UleDXBVKnkvwotc=@vger.kernel.org, AJvYcCVrhyFM7XcbDMPBqlKT4E1m9ujLWqYNwXUpVMpTqYqs+WDMMBpkmF5C6Cl5biXFCKCtUuxQ0qVHmtczSjMQDQs=@vger.kernel.org, AJvYcCW5bfJ+Ue1WVpT9vH4wZR0ZRBeAhspx93NusSL+aWGysOQLBHXJ2huApwUS+wo4yjGcNKQVf99Kov6O@vger.kernel.org, AJvYcCXeDlnDwLL+JYjzgQa1+QtZMJ7JF4Kw9m64is+EzGn2Af4nBTfM/sDlBO3oOT/rK9Nagygn95zfiyBENf59@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw1ROWQSIooIIkGKQjv2aUDOR9DxQ/KDG7Fdw/LiNBeVTDBCgq1
+	CcZJw+m3J34FGISU8mCS/HHwaoeMhHMhXggE5Dhu7TNl3ukp7TL/XrF+AfM9f0Jnyvx2McY31UP
+	Bt8FO9wNhxLNDHDglg1RFXBij56KBasTF+NSp
+X-Gm-Gg: ASbGncu3E8oUda1l9U+XyYfJ5y484QXOkvyWggH/sdbO6bzACjlYPfoFs/BAiP+nwtZ
+	9/fy/iLjd2eZkto8Lmm6fQd6QhP8Uf6kAPAMQHrNlk3sHpZZDwBCKrQWRE9cLP7w+QqjOsczM7b
+	AkizlLkAlpXsipxjBcHe47+Wy/o3X1QcV+Y2ReAqDQmD0NEEnpy5epfblG2AAxZVqObhR5ZbucB
+	bU63Ixi
+X-Google-Smtp-Source: AGHT+IG/PEclFnHnCQeI2QGLM29cWdJHKI1N8xyEXdcVOwzbQatLkiNjlXHy9Zk8mQM/o19QgqGiswZnW6NA2rQ+Lq0=
+X-Received: by 2002:a05:6000:1786:b0:3b7:8d2a:b33c with SMTP id
+ ffacd0b85a97d-3b8d94716bamr171723f8f.18.1754062279697; Fri, 01 Aug 2025
+ 08:31:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/8] drm: writeback: drop excess connector initialization
- functions
-To: "Kandpal, Suraj" <suraj.kandpal@intel.com>,
-        Louis Chauvet <louis.chauvet@bootlin.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
-        Rodrigo Siqueira <siqueira@igalia.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Rob Clark <robin.clark@oss.qualcomm.com>,
-        Dmitry Baryshkov
- <lumag@kernel.org>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
-        Sean Paul <sean@poorly.run>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
-        Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Cc: "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
-        "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-References: <20250801-wb-drop-encoder-v1-0-824646042f7d@oss.qualcomm.com>
- <20250801-wb-drop-encoder-v1-7-824646042f7d@oss.qualcomm.com>
- <b92e89d2-5bd8-4228-872e-6e5ae9b4b054@bootlin.com>
- <DM3PPF208195D8D03E1F9D3E7EB4D07C1D6E326A@DM3PPF208195D8D.namprd11.prod.outlook.com>
-Content-Language: en-US
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-In-Reply-To: <DM3PPF208195D8D03E1F9D3E7EB4D07C1D6E326A@DM3PPF208195D8D.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: Bz1vjbDfU8MnWJrIKtfbzJnluOYhP4Ht
-X-Proofpoint-ORIG-GUID: Bz1vjbDfU8MnWJrIKtfbzJnluOYhP4Ht
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODAxMDEwOSBTYWx0ZWRfX5wxjkSdYNe8k
- RNABazkB8LPU77DpxfhMMy1gviw2uQzoIe2Olo6VkYM1o84Ffd0s01qD1cpeyX+H041YSba/sHQ
- EmpzwnC28lmO+4ZPMGhsRMZe76cj8AklO26oZM19Ncjt/J+vznRFHKtSfm1Y9REt6oE+ubY3QDf
- vzdh4zAeBdQy4hwky3X+ucC+X7WXb8TFIN6e6A6Se1mWPEUGOpy72F186P7A/XZ9wqCkkxDk7Ft
- +2MJIzjD1hDplHEzkOfJxbccp77HnXrtUHe6hatp1e3AmCjShtiJ2wU9WpjII2uVlBkUcfGf1SF
- xZ1R3sKCVTe2NsBPbipPi1AJWmAaZuEffuYbHbAcVFpFHgnsfcIL0Cyk7fvpATlGY+l6SOwuVXx
- XSNGtl48sNNUhw9YKZpWna/X06HE02pi0Wd3hEYh8e2u6GNc9Nl0XZmlk9Gs4xxOdSJcOCew
-X-Authority-Analysis: v=2.4 cv=CLoqXQrD c=1 sm=1 tr=0 ts=688cce85 cx=c_pps
- a=5HAIKLe1ejAbszaTRHs9Ug==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=2OwXVqhp2XgA:10 a=CdbOqKgfPjM6tkZZvDYA:9 a=QEXdDO2ut3YA:10
- a=gYDTvv6II1OnSo0itH1n:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-01_04,2025-08-01_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0 suspectscore=0 mlxlogscore=999 spamscore=0
- priorityscore=1501 phishscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0
- clxscore=1015 impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2508010109
+References: <20250729155915.67758-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250729155915.67758-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <aIw-P6zkQSOhvYJW@shikoro> <CA+V-a8txrQoweVrd7uK4LLvDonqrEQGT_gV1r28RFhy8-m=9VQ@mail.gmail.com>
+ <c06bcde9-0aa5-46d1-a5bf-bae5a319565c@roeck-us.net>
+In-Reply-To: <c06bcde9-0aa5-46d1-a5bf-bae5a319565c@roeck-us.net>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Fri, 1 Aug 2025 16:30:53 +0100
+X-Gm-Features: Ac12FXyy_ISzry_ypkaPqy_BT3ZWEZfMu2muHoo9P9HSEXIjK4mKJRz5zn1zayk
+Message-ID: <CA+V-a8sDP7iir-bPetbCw0fakPRxua5F-F1hVvXUD8bGAMdhFA@mail.gmail.com>
+Subject: Re: [PATCH v2 7/9] watchdog: rzv2h: Set min_timeout based on max_hw_heartbeat_ms
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Wim Van Sebroeck <wim@linux-watchdog.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-watchdog@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 01/08/2025 17:22, Kandpal, Suraj wrote:
->> Subject: Re: [PATCH 7/8] drm: writeback: drop excess connector initialization
->> functions
-> 
-> This should be drm/writeback
+Hi Guenter,
 
-No:
+On Fri, Aug 1, 2025 at 2:52=E2=80=AFPM Guenter Roeck <linux@roeck-us.net> w=
+rote:
+>
+> On 8/1/25 04:05, Lad, Prabhakar wrote:
+> > Hi Wolfram,
+> >
+> > Thank you for the review.
+> >
+> > On Fri, Aug 1, 2025 at 5:10=E2=80=AFAM Wolfram Sang
+> > <wsa+renesas@sang-engineering.com> wrote:
+> >>
+> >> On Tue, Jul 29, 2025 at 04:59:13PM +0100, Prabhakar wrote:
+> >>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >>>
+> >>> Update the watchdog minimum timeout value to be derived from
+> >>> `max_hw_heartbeat_ms` using `DIV_ROUND_UP()` to ensure a valid and
+> >>> consistent minimum timeout in seconds.
+> >>
+> >> I don't understand this change. Why is the _minimum_ timeout based on
+> >> the _maximum_ heartbeat?
+> >>
+> > The reason for deriving min_timeout from max_hw_heartbeat_ms is to
+> > ensure the minimum watchdog period (in seconds) is compatible with the
+> > underlying hardware.
+> >
+> > max_hw_heartbeat_ms is calculated as:
+> > max_hw_heartbeat_ms =3D (1000 * 16384 * cks_div) / clk_rate;
+> >
+> > This value varies by SoC:
+> >   RZ/T2H: cks_div =3D 8192, clk =E2=89=88 62.5 MHz -> max_hw_heartbeat_=
+ms ~ 2147ms
+> >   RZ/V2H: cks_div =3D 256, clk =E2=89=88 240 MHz -> max_hw_heartbeat_ms=
+ ~ 174ms
+> >
+> > Since min_timeout is in seconds, setting it to:
+> > min_timeout =3D DIV_ROUND_UP(max_hw_heartbeat_ms, 1000);
+> >
+> > ensures:
+> > The minimum timeout period is never less than what the hardware can sup=
+port.
+> > - For T2H, this results in a min_timeout of 3s (2147ms -> 3s).
+> > - For V2H, it=E2=80=99s just 1s (174ms -> 1s).
+> >
+>
+> Sorry, I completely fail to understand the logic.
+>
+> If the maximum timeout is, say, 2 seconds, why would the hardware
+> not be able to support a timeout of 1 second ?
+>
+The watchdog timer on RZ/V2H (and RZ/T2H) is a 14 bit down counter. On
+initialization the down counters on the SoCs are configured to the max
+down counter. On RZ/V2H down counter value 4194304 (which evaluates to
+174ms) is and on RZ/T2H is 134217728 (which evaluates to 2147ms). The
+board will be reset when we get an underflow error.
 
-$ git log --oneline --no-merges next/master 
-drivers/gpu/drm/drm_writeback.c
-fb721b2c35b1 drm: writeback: Fix drm_writeback_connector_cleanup signature
-09cba36cc840 drm: Include <linux/export.h>
-ddd147d91d50 drm: writeback: Fix kernel doc name
-ff3881cc6a58 drm: writeback: Fix use after free in 
-drm_writeback_connector_cleanup()
-1914ba2b91ea drm: writeback: Create drmm variants for 
-drm_writeback_connector initialization
-2f3f4a73631b drm: writeback: Add missing cleanup in case of 
-initialization failure
-135d8fc7af44 drm: writeback: Create an helper for 
-drm_writeback_connector initialization
-02c50fa60ca5 drm/writeback: remove pointless enable_signaling implementation
-720cf96d8fec drm: Drop drm_framebuffer.h from drm_crtc.h
-7933aecffa28 drm: introduce drm_writeback_connector_init_with_encoder() API
-57b8280a0a41 drm: allow passing possible_crtcs to 
-drm_writeback_connector_init()
-38d6fd406aaa drm/writeback: don't set fence->ops to default
-b1066a123538 drm: Clear the fence pointer when writeback job signaled
-0500c04ea14a drm: drop use of drmP.h in drm/*
-9d2230dc1351 drm: writeback: Add job prepare and cleanup operations
-e482ae9b5fdc drm: writeback: Fix leak of writeback job
-97eb9eaeb95b drm: writeback: Cleanup job ownership handling when queuing job
-71a5cb3eb758 drm: writeback: Fix doc that says connector should be 
-disconnected
-cde4c44d8769 drm: drop _mode_ from drm_mode_connector_attach_encoder
-73915b2b1f25 drm/writeback: Fix the "overview" section of the doc
-b13cc8dd5884 drm: writeback: Add out-fences for writeback connectors
-935774cd71fe drm: Add writeback connector type
+So for example on T2H consider this example:
+- down counter is 134217728
+- min_timeout is set to 1 in the driver
+- When set  WDIOC_SETTIMEOUT to 1
+In this case the board will be reset after 2147ms, i.e. incorrect
+behaviour as we expect the board to be reset after 1 sec. Hence the
+min_timeout is set to 3s (2147ms -> 3s).
 
+Please let me know if my understanding of min_timeout is incorrect here.
 
-
--- 
-With best wishes
-Dmitry
+Cheers,
+Prabhakar
 
