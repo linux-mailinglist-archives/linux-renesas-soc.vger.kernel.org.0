@@ -1,196 +1,226 @@
-Return-Path: <linux-renesas-soc+bounces-19869-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19870-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB87CB18533
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 17:46:30 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50C9AB1871C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 20:04:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C1BCF1C82F94
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 15:46:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AE0DE188727F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 18:04:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6991827BF89;
-	Fri,  1 Aug 2025 15:46:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACB6520C004;
+	Fri,  1 Aug 2025 18:04:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mjbs6OA8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PuI8XG8X"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E68527AC4D;
-	Fri,  1 Aug 2025 15:46:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A3D1DC99C;
+	Fri,  1 Aug 2025 18:04:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754063167; cv=none; b=aPdRHC3NQ3R6Xv9yEEJmDFVtCWXlG6aAGXMEO5K+4j6Auon6A2NI6MrlVBOm9wYltc2RF+sIJtMxhDsloPJGE/sU/CBf2rD5rA3Zmcr44HimItICQB4FPqyNRnawRKkrENZK+61NNsCBmmEKP4l3jHg9rH++9lOBLVzi4OksMJU=
+	t=1754071465; cv=none; b=fLXlOPRKREOcd5C6yfHpDvCV0jcyU1j620aOlzjvr66BMt5A7phXu/gITXLN3yR160BC8lRAafn5vFnRi3xilgnEXA/1wCVmYMVlAbZsEI5759xv3lgxJqgHvrWwJiWBZIxcF1VRc4NSswCLVcbLOcA4jwU2Nqoiv8q6c4AbHcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754063167; c=relaxed/simple;
-	bh=4u/ERZo4s3oLx9uWszOTt0WmSC82PHA4dPnPCmk6B9A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=psokLcGpKZLA1snveLJMMq8/vPPG2mhEg3rd8F08rq/3/QvsVv2fDleY5akvWIZQxD19Na0OCFkEjaP+DIdns7sogC7NzFylvFCGqKVy6dpfeISlf85J2qeXLyR1qji9bMGWBO1+egoJThYFsA/ITQ0DEdeu57EkLdpw+60sW88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mjbs6OA8; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1754071465; c=relaxed/simple;
+	bh=jtVs4YM3HugwAbhWrHuORF3i3AWrbmHy7uCsJ4n4FSc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iVX/lkV2/6kyFUXu8yNZiNbxVDEnjX3m0nMvBX1/3AYNx3H2QANlk4cEN8BajE2pyhQRxrHgwMl83zaHoaFNnJIh1cxDDhkqiFNLV6TMHhz04hu6FkYQlXPaEAgz3cbXj26v1HcihNkeZZBA2rIGxZJ+Z9LhVU4D8NYWV7e4/0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PuI8XG8X; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-458a84e2917so12405585e9.1;
-        Fri, 01 Aug 2025 08:46:05 -0700 (PDT)
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-31effad130bso964713a91.3;
+        Fri, 01 Aug 2025 11:04:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754063164; x=1754667964; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vPa5bQCjhcQssZJBxoWXb+FRc52wbSzCoxCNyn60iwU=;
-        b=Mjbs6OA8tbx8NHA3a42d/c0pw3RGYmY2xY0lWDIzEOeM1cb7xvwSy4AEFLe6/GfWJn
-         DPh0oyVO5IKRIkhsGYXTzOGW9SrgLdJhm4QRrrQYNKYPe8bhH1/KNMOxOBohoxN/coCT
-         NQWiHoLMOD1kvVjK5VBL2nKi/JOTRFvBVGO3jP1XmYReseZkAUIaMFebF+MMh64WgaeB
-         BjS7MT+gI469pymSkrFvxc2VhUyRF5waoR4G4AXPjQ4i8pyIi2EGKkAlHiKHAl2LDuX5
-         JcfqdpUf3NNy0V1hUbaZg/Xi3Z1eSzmULoeZAiH0ZfuP8AQBsvGVgqqYj2Wk0kxOJfqB
-         ltjQ==
+        d=gmail.com; s=20230601; t=1754071463; x=1754676263; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=gn8QwK2PIACuutr4KjQ3PXKlXST9xlDrnNTcVggzZy4=;
+        b=PuI8XG8XrGU7Z0iyQmJVT4KeCPiEmk/eYxy1J1x1tbpuIc3InqLMnGX68hcygwS1s9
+         joNw8c4U5gm6pwI38MyoMxiDLtraE4Z49FSrEbhTVT7s716l+a6nNfSwQzp4n1TSX5W3
+         7nBxOdL6+MdPbGqXxaFq4D7cQaaLM+bob/yEFm6YegPpNCjyITCTAGPZsFN1qt5VewVw
+         lZCOmU6cFjEwLWsLx8VyJIoWc763LfDvCA8qysplFHAB5UY4jk3qSgZAzF+p2H2DjVNv
+         EmhZjng46bomij984lHRDqYwJHFWF8O/QMrMeyug0CMbLzu/ittS/oUUMewen+UCyBlo
+         gtzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754063164; x=1754667964;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vPa5bQCjhcQssZJBxoWXb+FRc52wbSzCoxCNyn60iwU=;
-        b=GG4tLZpjGHAZ27bDsaw2REamItMvse9j55QJlEplyhJ/QmMifrD5DrmAZUBNntehxN
-         qeqQb1GkRmy8lppbH+mqnxgvsX0FOxNfYfAhk/ZijaNc5UYUMNFK2vo5MVzptAx4NtgH
-         sdCb2b1D3zpAxgPspcpYXmPBzKW+aZT6veEV7YNPp8I8SY9Njraj8inbEaIn1Lb9JJwP
-         u0wAoxq7rMCRZfQ1zn9IR1z156P6mRdiPa+OepcRffMm6JweuFtuI48b3vPy+Oi4JsQ+
-         r+ALxiWkttVpPEW6MiPm3/tpDh03co8TWk9poOJf5OVYVIANNPxwjzJNizsnim9Axy57
-         cKDw==
-X-Forwarded-Encrypted: i=1; AJvYcCUcECUGRaXE58DSaB+dcF0xI8/yL56sHYuu79p00DWtAaeivcZgKpPWm9Bodqo8Nc8I7lKA+NYXrj5I@vger.kernel.org, AJvYcCVqQP2JsZCG/3zj9BWaImN7iJdOGEXluVGxw+bj7/j7TZ4bE3lX5/qzBOnq7Iyea3cr6O8K2tduudlvbXKS@vger.kernel.org, AJvYcCWc+CDbypJLvO7PM3MKcd1a3HkYjHTUtXId0fwKeMHvZQSzSpWkHp6avSFVj24N3yWL0r6TYaXGCTLuYQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9lPPNudK5WLRRbisNrf8ys0JxB13S13IlQlL0o05u+d9P6peD
-	T/Cs9jdaQ9ROp/QnpRa07lAO+b2J6uJMBm3VZbKs6kBMI5fTv1wC4+IfyEXwZw==
-X-Gm-Gg: ASbGncsOGVblkKr4FY5yy3mKCN67UutepAYsdWvcUVkCJNDo6cHESzNplsAjqKkpLCt
-	n4TiXZAsIx/Yzljwt/hGgxjA/CTLHg71wXrML7tZsxD3RFWRZJPO5XK8UuecMrbNNLedOvjcWtT
-	dPaZCkZQIuKY6VSecWCZQP+/XYoYPKxAWbzNCFcGq4F6cXpcWGq53YnsHqmYdXVURx60nJMYZ7p
-	j8i2aOFDSnGlkzjbozII7hxT4NdKacNhtySwDfXV2VSH62Z2uFnzeCVLnaKD4Cq4TGF20p4Pu55
-	GSGYskLE5v+bCPXW5wUpOCEmnSRXWCdh7+5J+KKMclPYEWZzdlbka3kcnbAWuPwz+VRi1PKOmWb
-	JDBhIsoutmcYIsHSAyZPpF/qex8+t92CL5QHO3P4heKLqsvIdIM2bhyCkZPyQSVhHbpUQ4hraoL
-	VlH9NBX54=
-X-Google-Smtp-Source: AGHT+IEy1d0OjMb4ZEYvw+mMcSASJHq1ZBcUQZZYLP9JZltpwwHzGAjuBq72r9RUWMLB4u9IEdwKOA==
-X-Received: by 2002:a05:600c:1388:b0:456:25e7:bed with SMTP id 5b1f17b1804b1-4589af5ba2fmr105484575e9.14.1754063163618;
-        Fri, 01 Aug 2025 08:46:03 -0700 (PDT)
-Received: from iku.example.org (97e54365.skybroadband.com. [151.229.67.101])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c469582sm6194406f8f.52.2025.08.01.08.46.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Aug 2025 08:46:02 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v4 3/3] pinctrl: renesas: rzt2h: Add support for RZ/N2H SoC
-Date: Fri,  1 Aug 2025 16:45:50 +0100
-Message-ID: <20250801154550.3898494-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250801154550.3898494-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20250801154550.3898494-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        d=1e100.net; s=20230601; t=1754071463; x=1754676263;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gn8QwK2PIACuutr4KjQ3PXKlXST9xlDrnNTcVggzZy4=;
+        b=pB0FX+4hp0jCeBaCbJ5pVVKasA0LzBDVcYuZ0RuuwjdMV6w6XuGly3OOZDB9WrcRz8
+         PZfflpB2sB7mrAzC3nKAJrYvzwlFeZV0ievviZGJPU0iokt+No1ruIo7wLXxevo5U0qM
+         c337CByOed4Nhxucb/WQh8a1iTikmTRra917gAEsmKwMkc6jy/6TIu1vN3sDLKJAxsQR
+         TmJyueVJXvjj/dcOZFpas0IRh4q6amB/OZ/iIpEoRIuW+R0hZcxdsLYZEq4CrgDkSqAS
+         A07IrKQsuG+20ztjdn2Ow+yLcFPKx2HimnWTlmp68gzWa4mmSEdXWY+GHp4komApxTce
+         9hTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV53KPhIY3rQhphn9McqpohEVyoCTcac8xfOWZ1YSlkMa7or1WxOddyxQE9wuZhOVmiSq5I2jwVPRYcvL9X@vger.kernel.org, AJvYcCW8SaihE1az9+1G63KolkLyENoUwoHApdL/UP27qxjVwBHsd5t4gIENv2YwFBK2SAZ9aM6plQo2pgePTTNcP5s=@vger.kernel.org, AJvYcCXDtqvbbObzOF65I1A9qYpGFmYVq8CHkVFbhtun2ZYaVpyvGyravMhp3g95RuKfHqeuYkW2dtkG6UrC/ILi+sIUnQ8=@vger.kernel.org, AJvYcCXdose+WxMYGXgqTZ0rl0YWVvaSdtgC3IP3wDVmgToCahZjM2jv1R1syy0MyBNdnSZlA2SVfy+AOOma@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNAPMV+sQ2IQARzaJBLS/aj7XaS4fhkQ9sMGRAw4yE0taz44DR
+	JHlRRYhK+lp3KJNRPj4K2kbFEpX+uaWo8RgtrvYo+HNSll2LDJxVpI3i
+X-Gm-Gg: ASbGncuNHHUSvsBFCIKjON3hovIDjvqOOP9E7VHo/JKPYmraxzf45QUFXYW+nnY5V3P
+	JgjAqmUN79tDZP6+MQ2wWSVul7ajvNUZxE+RfEYF6NjvaalohgJG76YjFJ4IIdRhWb/ri5sIAVl
+	CU/nHFP+4AQrlskPMaAOJE3Iys9tBhuWVXIp4XRnDcSYJ1XqpSHQ5u3aOUsNt7ggMhn4huTaypT
+	rd/K+lqggBEEwVA4sMs4kXjH8+0/lFjRfvlzsDvEhfkM+QiPSK0JvcOSahDBQrH7PX1L1Qxo0S6
+	HQhJyZfetVw9DrrERGdTg50aukAyZN/EpKOJoM2dmgM6JZ88s8/10wKE36K34DtTPZNCtD4/oSg
+	T11dmpny9fkfrMj1z4lwj/CwEKSdmYMBDuy06IJBRneWhrihOI+AoSa4h171qb65UkB09mkygFj
+	QfuyN+ArnIjXR+pnF5
+X-Google-Smtp-Source: AGHT+IF/Q5VicR3q+/5Ioe/gArLWmCx1gbjfP7yi6cWvPwNAjxEGFO3teqYgxHOSgy3WnTbbVxouqw==
+X-Received: by 2002:a17:90b:38c9:b0:311:ea13:2e61 with SMTP id 98e67ed59e1d1-32116306ccbmr737677a91.34.1754071462801;
+        Fri, 01 Aug 2025 11:04:22 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32106bab5ecsm1734437a91.19.2025.08.01.11.04.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 Aug 2025 11:04:22 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <cd0653d0-4a2f-4361-8eb2-c1937d988a8c@roeck-us.net>
+Date: Fri, 1 Aug 2025 11:04:20 -0700
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 7/9] watchdog: rzv2h: Set min_timeout based on
+ max_hw_heartbeat_ms
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, linux-watchdog@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250729155915.67758-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250729155915.67758-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <aIw-P6zkQSOhvYJW@shikoro>
+ <CA+V-a8txrQoweVrd7uK4LLvDonqrEQGT_gV1r28RFhy8-m=9VQ@mail.gmail.com>
+ <c06bcde9-0aa5-46d1-a5bf-bae5a319565c@roeck-us.net>
+ <CA+V-a8sDP7iir-bPetbCw0fakPRxua5F-F1hVvXUD8bGAMdhFA@mail.gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <CA+V-a8sDP7iir-bPetbCw0fakPRxua5F-F1hVvXUD8bGAMdhFA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On 8/1/25 08:30, Lad, Prabhakar wrote:
+> Hi Guenter,
+> 
+> On Fri, Aug 1, 2025 at 2:52 PM Guenter Roeck <linux@roeck-us.net> wrote:
+>>
+>> On 8/1/25 04:05, Lad, Prabhakar wrote:
+>>> Hi Wolfram,
+>>>
+>>> Thank you for the review.
+>>>
+>>> On Fri, Aug 1, 2025 at 5:10 AM Wolfram Sang
+>>> <wsa+renesas@sang-engineering.com> wrote:
+>>>>
+>>>> On Tue, Jul 29, 2025 at 04:59:13PM +0100, Prabhakar wrote:
+>>>>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>>>>>
+>>>>> Update the watchdog minimum timeout value to be derived from
+>>>>> `max_hw_heartbeat_ms` using `DIV_ROUND_UP()` to ensure a valid and
+>>>>> consistent minimum timeout in seconds.
+>>>>
+>>>> I don't understand this change. Why is the _minimum_ timeout based on
+>>>> the _maximum_ heartbeat?
+>>>>
+>>> The reason for deriving min_timeout from max_hw_heartbeat_ms is to
+>>> ensure the minimum watchdog period (in seconds) is compatible with the
+>>> underlying hardware.
+>>>
+>>> max_hw_heartbeat_ms is calculated as:
+>>> max_hw_heartbeat_ms = (1000 * 16384 * cks_div) / clk_rate;
+>>>
+>>> This value varies by SoC:
+>>>    RZ/T2H: cks_div = 8192, clk ≈ 62.5 MHz -> max_hw_heartbeat_ms ~ 2147ms
+>>>    RZ/V2H: cks_div = 256, clk ≈ 240 MHz -> max_hw_heartbeat_ms ~ 174ms
+>>>
+>>> Since min_timeout is in seconds, setting it to:
+>>> min_timeout = DIV_ROUND_UP(max_hw_heartbeat_ms, 1000);
+>>>
+>>> ensures:
+>>> The minimum timeout period is never less than what the hardware can support.
+>>> - For T2H, this results in a min_timeout of 3s (2147ms -> 3s).
+>>> - For V2H, it’s just 1s (174ms -> 1s).
+>>>
+>>
+>> Sorry, I completely fail to understand the logic.
+>>
+>> If the maximum timeout is, say, 2 seconds, why would the hardware
+>> not be able to support a timeout of 1 second ?
+>>
+> The watchdog timer on RZ/V2H (and RZ/T2H) is a 14 bit down counter. On
+> initialization the down counters on the SoCs are configured to the max
+> down counter. On RZ/V2H down counter value 4194304 (which evaluates to
+> 174ms) is and on RZ/T2H is 134217728 (which evaluates to 2147ms). The
+> board will be reset when we get an underflow error.
+> 
+> So for example on T2H consider this example:
+> - down counter is 134217728
+> - min_timeout is set to 1 in the driver
+> - When set  WDIOC_SETTIMEOUT to 1
+> In this case the board will be reset after 2147ms, i.e. incorrect
+> behaviour as we expect the board to be reset after 1 sec. Hence the
+> min_timeout is set to 3s (2147ms -> 3s).
+> 
+> Please let me know if my understanding of min_timeout is incorrect here.
+> 
 
-The RZ/N2H (R9A09G087) SoC from Renesas shares a similar pin controller
-architecture with the RZ/T2H (R9A09G077) SoC, differing primarily in the
-number of supported pins-576 on RZ/N2H versus 729 on RZ/T2H.
+The driver is missing a set_timeout function. It should set RZ/T2H
+to 62514079 if a timeout of 1 second is configured.
 
-Add the necessary pin configuration data and compatible string to enable
-support for the RZ/N2H SoC in the RZ/T2H pinctrl driver.
-
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v3->v4:
-- No changes.
-
-v2->v3:
-- No changes.
-
-v1->v2:
-- New patch.
----
- drivers/pinctrl/renesas/Kconfig         |  3 ++-
- drivers/pinctrl/renesas/pinctrl-rzt2h.c | 17 +++++++++++++++++
- 2 files changed, 19 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/pinctrl/renesas/Kconfig b/drivers/pinctrl/renesas/Kconfig
-index 0d0920f4678b..8cbd79a13414 100644
---- a/drivers/pinctrl/renesas/Kconfig
-+++ b/drivers/pinctrl/renesas/Kconfig
-@@ -45,6 +45,7 @@ config PINCTRL_RENESAS
- 	select PINCTRL_RZG2L if ARCH_R9A09G056
- 	select PINCTRL_RZG2L if ARCH_R9A09G057
- 	select PINCTRL_RZT2H if ARCH_R9A09G077
-+	select PINCTRL_RZT2H if ARCH_R9A09G087
- 	select PINCTRL_PFC_SH7203 if CPU_SUBTYPE_SH7203
- 	select PINCTRL_PFC_SH7264 if CPU_SUBTYPE_SH7264
- 	select PINCTRL_PFC_SH7269 if CPU_SUBTYPE_SH7269
-@@ -304,7 +305,7 @@ config PINCTRL_RZN1
- 	  This selects pinctrl driver for Renesas RZ/N1 devices.
- 
- config PINCTRL_RZT2H
--	bool "pin control support for RZ/T2H" if COMPILE_TEST
-+	bool "pin control support for RZ/N2H and RZ/T2H" if COMPILE_TEST
- 	depends on 64BIT && OF
- 	select GPIOLIB
- 	select GENERIC_PINCTRL_GROUPS
-diff --git a/drivers/pinctrl/renesas/pinctrl-rzt2h.c b/drivers/pinctrl/renesas/pinctrl-rzt2h.c
-index 877f6d00830f..55c64d74cb54 100644
---- a/drivers/pinctrl/renesas/pinctrl-rzt2h.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rzt2h.c
-@@ -764,6 +764,12 @@ static const u8 r9a09g077_gpio_configs[] = {
- 	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f,
- };
- 
-+static const u8 r9a09g087_gpio_configs[] = {
-+	0x1f, 0xff, 0xff, 0x1f, 0, 0xfe, 0xff, 0, 0x7e, 0xf0, 0xff, 0x1,
-+	0xff, 0xff, 0xff, 0, 0xe0, 0xff, 0xff, 0, 0xff, 0xff, 0xff, 0x1,
-+	0xe0, 0xff, 0xff, 0x7f, 0, 0xfe, 0xff, 0x7f, 0, 0xfc, 0x7f,
-+};
-+
- static struct rzt2h_pinctrl_data r9a09g077_data = {
- 	.port_pins = rzt2h_gpio_names,
- 	.n_port_pins = ARRAY_SIZE(r9a09g077_gpio_configs) * RZT2H_PINS_PER_PORT,
-@@ -771,11 +777,22 @@ static struct rzt2h_pinctrl_data r9a09g077_data = {
- 	.n_ports = ARRAY_SIZE(r9a09g077_gpio_configs),
- };
- 
-+static struct rzt2h_pinctrl_data r9a09g087_data = {
-+	.port_pins = rzt2h_gpio_names,
-+	.n_port_pins = ARRAY_SIZE(r9a09g087_gpio_configs) * RZT2H_PINS_PER_PORT,
-+	.port_pin_configs = r9a09g087_gpio_configs,
-+	.n_ports = ARRAY_SIZE(r9a09g087_gpio_configs),
-+};
-+
- static const struct of_device_id rzt2h_pinctrl_of_table[] = {
- 	{
- 		.compatible = "renesas,r9a09g077-pinctrl",
- 		.data = &r9a09g077_data,
- 	},
-+	{
-+		.compatible = "renesas,r9a09g087-pinctrl",
-+		.data = &r9a09g087_data,
-+	},
- 	{ /* sentinel */ }
- };
- 
--- 
-2.50.1
+Guenter
 
 
