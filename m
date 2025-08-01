@@ -1,52 +1,52 @@
-Return-Path: <linux-renesas-soc+bounces-19860-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19861-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF7D3B1835C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 16:09:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD32FB1835F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 16:09:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 94CA87A2057
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 14:08:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EAECD1C8332D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 14:10:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AADE26B75F;
-	Fri,  1 Aug 2025 14:09:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BCA326C3AA;
+	Fri,  1 Aug 2025 14:09:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="A3KOozPh"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="cZHcldpM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1109326A0C5;
-	Fri,  1 Aug 2025 14:08:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1224826C39E;
+	Fri,  1 Aug 2025 14:09:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754057341; cv=none; b=mRE+dAmSfdsaxek3rv968lXS1R5trR/eyv6GwJ9L4nIY0JnUq7GTNFDkomtU6ktsNeGL3+eFF1xGWKOxCHXe1EEetmcwRXYYdadAFMiKq5+vMiBFX35Mh6WbuWLffJnuupv4bUO/NXoh/BiFtkpfKB4m8u0VF7lBDP00dkIGAXc=
+	t=1754057349; cv=none; b=Q7pkga15FKZteER30UoDfkZE9lFLPccBgSH8K4IylWVKYL6Kmd7fUvlod0+eZOq8//OaJswfYPGqkp5FnDCSgyalUEumD9ywZZUC0VRO4+WhyzUIwK5U+wCBb0TpcgYw0jp4OQ2xM5KvWuscZWnhDHV+oheRuLh/ba16hfU66QU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754057341; c=relaxed/simple;
-	bh=TtHZfHTCQY1iuFbimMYchzGzOcjEA+U2QMa3EFh4twE=;
+	s=arc-20240116; t=1754057349; c=relaxed/simple;
+	bh=lRc9m8B3YFNeJUhLRAInJmLHf4ALq4sDFeTOHRTMwG0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QkxU4mtkmRWabgmcP1DS86iWFNNJsaWaUfusL5mwOFNlSBdOXalr9Vflcs4JzLxdEU2oCI9WxlrX4E4qlUMQc5W9rCoR1jmuNkS/N9NyhEJW6530kZHpj2E+EZ5/IR6Rc69fa3xY4R+tirrvrmoHWDc7yLCFT1aCKB2SXhTCqzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=A3KOozPh; arc=none smtp.client-ip=217.70.183.193
+	 In-Reply-To:Content-Type; b=OeL95R7bYsfNgz7UeSp9hTtODYANdFQWKyI2uBcORMD4pt9eBMeKbph39ikUHpnCxO1ngeleRZCwbq9F4+Ii6SlL2G5Vq7DTpD+YnwuSYP914wR5/9w956HQ6dJXyvjghQGMBh0cQ2AVOC4l/43hk4pLTAmN0XkG4aJOdJwpCWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=cZHcldpM; arc=none smtp.client-ip=217.70.183.193
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5E815442F8;
-	Fri,  1 Aug 2025 14:08:52 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 23704442F4;
+	Fri,  1 Aug 2025 14:09:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1754057336;
+	t=1754057345;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=SGgKv0Zx0PWTvIpmnFu7+mkJ7XV2nxo1qOPj+fR/vbQ=;
-	b=A3KOozPhjq/3obchs6VWTA1IAXAJwnP3pZw6BMADdxYxV/0JG6zI1igh9b4brBwOb4X/OX
-	0hzvXyieWifGTA1WtX+VOB14Bzm9FVPIr45cmVPZmY4j42UNcM3XElI6J+Tfx8dko7W7jh
-	KymN7CQTkXCN9C8Tkdw/oSa09pUtXolNdSRsKHGoTCGvwCVFO1eWBUFqaqLHI3mp5MWA5j
-	q1ATVQ/bCRatvr6javsBTEOxLT94IHTzXaOVMw/lx9acbkemh6xtZfSgnNoJBGMU6jOVav
-	Muo5S/23Nn+DzgAVGvxQIlkE2aBapAHG8zwmJMvTAoEcIelFH4oBGuOYq7J5gQ==
-Message-ID: <1e64ef64-cdfa-4ecc-af68-53fc69a1b6a2@bootlin.com>
-Date: Fri, 1 Aug 2025 16:08:51 +0200
+	bh=1eO26JKteHxuoy1a4A2nQ0PM4JCEHGZpVMXmkOKugo8=;
+	b=cZHcldpMfzXVrQHo+B8lfp/Nuq2Ys5uQaJPLBUzlBEmzmlnkwj3uvOUYnb9NiK4CgX5dwi
+	veszdP4Mwy+cHfar+TijKIBuor+xQf4qTF8PfdJ+Tx82dkL4+kfKO8/VctFzO3M5ixAUZg
+	LhNfUTSJ+tUXsJZrcUdCCgzC98pKRK+wsL1ESkP6IBhdP58U+hcmb+ZVzS8t0HiZH0EKyk
+	/chKpMSlhF3n639ltSSEfcRrzA7Bj4UvwuwYSSXLCnUKJx1ur0hbPJPCgHAVNlGk+uAk2s
+	kzv8BWJ7nqnp5iWF2VVGi4NfDcljptURLzrTb7H7FMV5HwDf4AKr6bhWO6FtAA==
+Message-ID: <b9e2dae7-6cd6-4fd2-b7e0-8869647bd72f@bootlin.com>
+Date: Fri, 1 Aug 2025 16:09:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -54,7 +54,7 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/8] drm/msm/dpu: use drmm_writeback_connector_init()
+Subject: Re: [PATCH 2/8] drm/komeda: use drmm_writeback_connector_init()
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
  Jani Nikula <jani.nikula@linux.intel.com>,
  "Kandpal, Suraj" <suraj.kandpal@intel.com>,
@@ -82,7 +82,7 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  freedreno@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
 References: <20250801-wb-drop-encoder-v1-0-824646042f7d@oss.qualcomm.com>
- <20250801-wb-drop-encoder-v1-4-824646042f7d@oss.qualcomm.com>
+ <20250801-wb-drop-encoder-v1-2-824646042f7d@oss.qualcomm.com>
 Content-Language: en-US
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
@@ -139,12 +139,12 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  wDN7ORknPndzxrq3CyB7b/Tk1e8Qx+6HU/pnMb4ZqwwMwZAMk24TZpsgg28o9MQiUNzad0h2
  gIszbeej9ryrtLHxMzyK8yKhHoI2i2ovxy5O+hsWeAoCPE9xwbqnAjLjOn4Jzd/pPovizrq/
  kUoX66YgvCuHfQMC/aBPLnVunZSP23J2CrkTrnsUzw==
-In-Reply-To: <20250801-wb-drop-encoder-v1-4-824646042f7d@oss.qualcomm.com>
+In-Reply-To: <20250801-wb-drop-encoder-v1-2-824646042f7d@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddutdefkeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeekieevtdefgedtkeehteehtddttdefhffhgeejleejjeeluddvhfdugedvkeehveenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfeegpdhrtghpthhtohepughmihhtrhihrdgsrghrhihshhhkohhvsehoshhsrdhquhgrlhgtohhmmhdrtghomhdprhgtphhtthhopehjrghnihdrnhhikhhulhgrsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepshhurhgrjhdrkhgrnhguphgrlhesihhnthgvlhdrtghomhdprhgtphhtthhopehhrghrrhihrdifvghnt
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddutdefkeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeekieevtdefgedtkeehteehtddttdefhffhgeejleejjeeluddvhfdugedvkeehveenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfeegpdhrtghpthhtohepughmihhtrhihrdgsrghrhihshhhkohhvsehoshhsrdhquhgrlhgtohhmmhdrtghomhdprhgtphhtthhopehjrghnihdrnhhikhhulhgrsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepshhurhgrjhdrkhgrnhguphgrlhesihhnthgvlhdrtghomhdprhgtphhtthhopehhrghrrhihrdifvghnt
  hhlrghnugesrghmugdrtghomhdprhgtphhtthhopehsuhhnphgvnhhgrdhlihesrghmugdrtghomhdprhgtphhtthhopehsihhquhgvihhrrgesihhgrghlihgrrdgtohhmpdhrtghpthhtoheprghlvgigrghnuggvrhdruggvuhgthhgvrhesrghmugdrtghomhdprhgtphhtthhopegthhhrihhsthhirghnrdhkohgvnhhighesrghmugdrtghomh
 X-GND-Sasl: louis.chauvet@bootlin.com
 
@@ -156,41 +156,89 @@ Le 01/08/2025 à 15:51, Dmitry Baryshkov a écrit :
 > connector instance.
 > 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+>   .../drm/arm/display/komeda/komeda_wb_connector.c   | 30 ++++++++++++----------
+>   1 file changed, 17 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c b/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
+> index 875cdbff18c9dc97e736049feaa8a1fe1bcc82ff..210841b4453abfe60cecc1cfc79a84298be3e684 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
+> @@ -5,6 +5,7 @@
+>    *
+>    */
+>   #include <drm/drm_framebuffer.h>
+> +#include <drm/drm_managed.h>
+>   #include "komeda_dev.h"
+>   #include "komeda_kms.h"
+>   
+> @@ -121,17 +122,10 @@ komeda_wb_connector_fill_modes(struct drm_connector *connector,
+>   	return 0;
+>   }
+>   
+> -static void komeda_wb_connector_destroy(struct drm_connector *connector)
+> -{
+> -	drm_connector_cleanup(connector);
+> -	kfree(to_kconn(to_wb_conn(connector)));
+> -}
+> -
+>   static const struct drm_connector_funcs komeda_wb_connector_funcs = {
+>   	.reset			= drm_atomic_helper_connector_reset,
+>   	.detect			= komeda_wb_connector_detect,
+>   	.fill_modes		= komeda_wb_connector_fill_modes,
+> -	.destroy		= komeda_wb_connector_destroy,
+>   	.atomic_duplicate_state	= drm_atomic_helper_connector_duplicate_state,
+>   	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
+>   };
+> @@ -143,13 +137,15 @@ static int komeda_wb_connector_add(struct komeda_kms_dev *kms,
+>   	struct komeda_wb_connector *kwb_conn;
+>   	struct drm_writeback_connector *wb_conn;
+>   	struct drm_display_info *info;
+> +	struct drm_encoder *encoder;
+> +
+>   	u32 *formats, n_formats = 0;
+>   	int err;
+>   
+>   	if (!kcrtc->master->wb_layer)
+>   		return 0;
+>   
+> -	kwb_conn = kzalloc(sizeof(*kwb_conn), GFP_KERNEL);
+> +	kwb_conn = drmm_kzalloc(&kms->base, sizeof(*kwb_conn), GFP_KERNEL);
+>   	if (!kwb_conn)
+>   		return -ENOMEM;
+>   
+> @@ -165,11 +161,19 @@ static int komeda_wb_connector_add(struct komeda_kms_dev *kms,
+>   		return -ENOMEM;
+>   	}
+>   
+> -	err = drm_writeback_connector_init(&kms->base, wb_conn,
+> -					   &komeda_wb_connector_funcs,
+> -					   &komeda_wb_encoder_helper_funcs,
+> -					   formats, n_formats,
+> -					   BIT(drm_crtc_index(&kcrtc->base)));
+> +	encoder = drmm_plain_encoder_alloc(&kms->base, NULL,
+> +					   DRM_MODE_ENCODER_VIRTUAL, NULL);
+> +	if (IS_ERR(encoder))
+> +		return PTR_ERR(encoder);
+> +
+> +	drm_encoder_helper_add(encoder, &komeda_wb_encoder_helper_funcs);
+> +
+> +	encoder->possible_crtcs = BIT(drm_crtc_index(&kcrtc->base));
+
+Maybe use drm_crtc_mask?
+
+With this:
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c | 10 +++-------
->   1 file changed, 3 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-> index 8ff496082902b1ee713e806140f39b4730ed256a..cd73468e369a93c50303db2a7d4499bcb17be5d1 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-> @@ -80,7 +80,6 @@ static int dpu_wb_conn_atomic_check(struct drm_connector *connector,
->   static const struct drm_connector_funcs dpu_wb_conn_funcs = {
->   	.reset = drm_atomic_helper_connector_reset,
->   	.fill_modes = drm_helper_probe_single_connector_modes,
-> -	.destroy = drm_connector_cleanup,
->   	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
->   	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
->   };
-> @@ -131,12 +130,9 @@ int dpu_writeback_init(struct drm_device *dev, struct drm_encoder *enc,
->   
->   	drm_connector_helper_add(&dpu_wb_conn->base.base, &dpu_wb_conn_helper_funcs);
->   
-> -	/* DPU initializes the encoder and sets it up completely for writeback
-> -	 * cases and hence should use the new API drm_writeback_connector_init_with_encoder
-> -	 * to initialize the writeback connector
-> -	 */
-> -	rc = drm_writeback_connector_init_with_encoder(dev, &dpu_wb_conn->base, enc,
-> -			&dpu_wb_conn_funcs, format_list, num_formats);
-> +	rc = drmm_writeback_connector_init(dev, &dpu_wb_conn->base,
-> +					   &dpu_wb_conn_funcs, enc,
-> +					   format_list, num_formats);
->   
->   	if (!rc)
->   		dpu_wb_conn->wb_enc = enc;
+> +
+> +	err = drmm_writeback_connector_init(&kms->base, wb_conn,
+> +					    &komeda_wb_connector_funcs,
+> +					    encoder,
+> +					    formats, n_formats);
+>   	komeda_put_fourcc_list(formats);
+>   	if (err) {
+>   		kfree(kwb_conn);
 > 
 
 -- 
