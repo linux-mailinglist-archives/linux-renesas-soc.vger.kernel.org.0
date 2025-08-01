@@ -1,217 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-19819-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19820-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BCF2B17C62
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 07:34:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 618C8B17D93
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 09:31:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C9948189BF21
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 05:34:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AA5F0189BEE6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Aug 2025 07:31:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F3BF1EB5E1;
-	Fri,  1 Aug 2025 05:34:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EofZYBgE"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D42D620D4E1;
+	Fri,  1 Aug 2025 07:30:16 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34F0672608;
-	Fri,  1 Aug 2025 05:34:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9691F20DD48;
+	Fri,  1 Aug 2025 07:30:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754026472; cv=none; b=e6h7TgYBtxQwuR3416r6yzNe1S3796PwZhguj+DpF53g2lg9DWDZXM9p2WGD8LDp/7ydIOGP0nf0JE8m9Ayc1pXCBO0XVDmCSULWW5SJYaj85LtTI1vxL1YtsM8EMju10QhWAloih4DfwqbqIP2+Z4Ec50ftyiBDnYnsBGow+cg=
+	t=1754033416; cv=none; b=PLLptFDBMVZqLRfDybjcLIC2tBZbdaM02bHQIaOfgMvigzBdtSCgfWhb2Mp191wQpQ33i9N0tpD9aUufBGWhBC6jzySzxx3fGPy4+c2FTIT3Cux0BOyUUCcGEYkCUWESE/S/LiXtrQzvjUvNZkajalqG8UiYD0OuJvDC4CZ1fUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754026472; c=relaxed/simple;
-	bh=lUEltV6OAtiyidgRHr/HCdDCnnAgasUSDgbkEO46Ilo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h+xHOyquOnTeZbE7xmNDCDdwby6PnD+rezRuzUSVBcTFpOFUUB6h112MsyGtlrN4Z/4ire2zLqzs5nifNqyZqxwMb1D8MctHsQv5BbxfWnlYD/BTG5hMyLclSCOwb2iiMON0yndDF+U3Hvkn34a1vSm3zKQaAgvCf48i6FCB9q8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EofZYBgE; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1754033416; c=relaxed/simple;
+	bh=iRTVadAHZKFXlthF/+BY/8ed4fZ+qx2tijOBhd3003A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=G/mkrlT8xPB1dhbb10K11sZ3MNGzWnt+qe2ZejG01dEpwBINPcXH7+k8xNHHex9qt+16IDqSr2VT71WerEYOcEMKg+eZ5WFuoKDk+FQMEsQf0WDcoY3Iu50hMi4o8+tk7KNQlilEaj9wo3Py4Tz2q0E3dbQQR6osp397eHaSrH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-45622a1829eso4348315e9.1;
-        Thu, 31 Jul 2025 22:34:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754026469; x=1754631269; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UnpAJsRbjz5iHGkErkzsTDAvzXrJNXwTeomVOzxagis=;
-        b=EofZYBgEEI2dVyqBZlRS15KIrNv0RHw2TgfesW5rXeBd3V1iNYIiK3BlH4vY08pWJI
-         VWBtn9mHl6A7uZQTptx/8ZcGSXdER7sh8Zqde87Wn3NxTttyYoIhOzZRVGmoEuzoQnyT
-         uYRSO6LNTpCMHghKDnrEiQg2UOvk+UglEZe4lxIF2w/TNAXGrxd0iRKs5FnDospQlub7
-         w/amcRrbgkAIJZptjJxn8Wn8SxmQ3ved1ilcvD/Y1RQ1T5dd7ppK0GC/WRgLSVxpkQsD
-         1AFBAR0TfNmhrN1zSPZvPtFZJbUgpvYL6WxL1XQDcUzeeYwAIXWt0ZOAGcXjV3BVSvpK
-         f6xg==
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-886c8de5d90so311517241.0;
+        Fri, 01 Aug 2025 00:30:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754026469; x=1754631269;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1754033413; x=1754638213;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=UnpAJsRbjz5iHGkErkzsTDAvzXrJNXwTeomVOzxagis=;
-        b=N1BuKLF1KHx2fGWe2GFpdUciV6RWoCdTDblIxH2BwhgrSHrVi4nGwCePJjr578DWfk
-         rmqCUpHtoteNGLkhZy4/XzGF9+q1zVIFfM2yWOp2DQWBngwxSmaG8PUo+H80XryXIufq
-         e4gxHyvs2UAJVKy0O0xxUyS2DXN2savOm4VHgszvMWWiph0lDvjABPEebgL6y6x3pzW3
-         CKR+XAZlGJkmFdkGBl9gYzh34hxlFfCdUmjb4gyotBB+9GGgQmUyhYF1P5kdZcl1iceF
-         gyrIe4gVhdKIMTzTiwZ3/xf34cm/O1EoxSdLQNBkBvMnCz+c/go4Sy8VaYDiDDMTgXsW
-         teYg==
-X-Forwarded-Encrypted: i=1; AJvYcCV8P2vV0goFtMfRhUZGG6IxeFRU1Woa2UO5ZRzo9dXAY7IGli1ndONMp0NsPIgWkHUzCfVsEt/9MhVb2sE=@vger.kernel.org, AJvYcCWS5RhzNuaRUMLYE/TNmnXLAVqioVwZNW5bctzRWeitOKm4iFR5+5UTRpuzofSgzp1pXAObOs7c8UzoBNw=@vger.kernel.org, AJvYcCXA7TXP4qSn3aSNCRahneDUp6sFJRTJUa+jGLcVrMTDOK2UlVfZ4cnmHqu8llsPRT9v1H+m/ZK1P8TmaTnIVvP1/Lo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwnSDjeZutRhr3xr1QBYP8vmzcLmG2GgaIj8cUhJVB0Vgu++PxO
-	ThwKz00T392485pAWoVg0A3OzKqxUDjorKXBIpgJxEiZVuNNOIcTcpMs
-X-Gm-Gg: ASbGnctOcMNwt5zmHVX4mSgWmJj5BM/TtqimqnRu4QTABu4Ne+wDjNHvdeEJw1OQkQQ
-	aXXE3KwHuTmyHQj3vljY7VceSV3UVtCQ3DpYCaE/aDJQU05ulMIjJnwqh5oUdzdTcijKh9rD9p8
-	Ip3f9t7RAz7+WtYBIELftmW7A9Z3RfEfelBVTD3KTafaak29IWbb+9QkcAk5th0Fzd/W+TrsxV+
-	EgDI+DG3HofPqZ0qoKb5Qpmhqbp8cw7a3vsCCBGC8FVBXSMe5fWMeSvH9A1o9UGfrTkGpJRIYO2
-	GP9zoviPYXDHNkUmkvFBLtEtiMcuQ4HlWUnJ5IZcZXqgFQGRQWAlkrPjjSq8CY88yCRefjYbRlA
-	Gc+cclMa5isPpHtH6LAYpGJh5k32RJvAYCM+B+u63aL6BRI71rb9yYoiw/WCcQbD0+8fCg53WIB
-	YTievErOhP
-X-Google-Smtp-Source: AGHT+IGFH/YPjJWqwHqXBIAgMvQbNywFxXEl9OBHGSm8hLbyg8ZUCBLzRVlELjJD4uf6BegtqoB3VA==
-X-Received: by 2002:a05:600c:4ecd:b0:456:43c:dcdc with SMTP id 5b1f17b1804b1-458af3b7b6dmr4251945e9.33.1754026469219;
-        Thu, 31 Jul 2025 22:34:29 -0700 (PDT)
-Received: from biju.lan (host31-53-6-191.range31-53.btcentralplus.com. [31.53.6.191])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4589edfcdf4sm51056875e9.11.2025.07.31.22.34.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Jul 2025 22:34:28 -0700 (PDT)
-From: Biju <biju.das.au@gmail.com>
-X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-	Daniel Scally <dan.scally+renesas@ideasonboard.com>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] media: rzg2l-cru: Drop function pointer to configure CSI
-Date: Fri,  1 Aug 2025 06:34:22 +0100
-Message-ID: <20250801053426.4273-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+        bh=aqkLvIoOIR9FUnEm/FEQ+kXJsZ2x0J1RmYajooCOTvc=;
+        b=SWHj00MZapyza3FB0y5LBLRhHOlr01Q67MlWHxujIPzHk9CsXZDKH7E0CTi8i+T5Qq
+         6/UNSCMJQik5Kg9qj6G7jBV02dIyXu4ic86NiZtMjFjI/cqC1TGUDNG2L3+/R26ZxaHf
+         /8+pzXuaPUyzirf2Dhw8VS4WAUrEddUEqO6NaWUIGuEYRQOO22CmruiKRQ5XKkvxQ3sc
+         tjIeaer2vRzemQ4yeyaqmTruSHInSH6o9GZ38ckr7vh0FYKVO4dJjJetEAFIMHyzYXyi
+         OVH7/WBQsu2jMnt2swl9wExB9s5PpUicy3fD1UochOh1vZJUDTAUIi/BRBJsYD1xtoX1
+         xqBA==
+X-Forwarded-Encrypted: i=1; AJvYcCU8TmdO48r8JCjOaXIQBu9lP3Vtx3tg2xRKLd+K2Ac26xnnliXR2oIRTk4a4M2nlmazBbf9iq9THgk0@vger.kernel.org, AJvYcCV1T070TnycdhepenYNeiWHyNZA7kEZlaKHClex95FmV1eQSy8zdvBS/PBUENI1cJNhrdp5qejE8zyhNtPw@vger.kernel.org, AJvYcCXCNancLfACboSQER2R14xASekIR2T2ANPGMrxCVbP5gq+6q1AHWY+uZRX6tvsrU+W/HbeLa6oEBSMuhjvoK4RUy3U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCU4dPoGUAP6WxjeojOfddt99AmbZeZmP3W7zl5Z9h4HpBTNGX
+	m5j2o/HsiyjobON1F4NVSlUrBDSF8InLHDeG1gigVeJtpA4zI8O3fS8TpMMEkm9s
+X-Gm-Gg: ASbGncsR+85G5I64Evz4B6pD6Q0hHNZGLLM9Yga9e8dg42pGxXNBCdsldxIdAIDZ95g
+	s9D66dfouTo8L6+ypHIxGyiWrBdppwntyQGhps3rSV93ykhfOj+2o4g9DMH0cexd5CVhMLER+7N
+	mMR7eMCoaDEE6J/9WS9fPuDZADIPGPTldmW4H4f1z8N8yeLIF1/HlGGH6hIdqZbLRSNJiT+SlJG
+	bOWF42UXHy1wULAmfydW/9RbkbMvEXvjYFSxVVJn4roTMLU+MFdBCsI1UxhvdGCz43BX3z+uyXP
+	QE61n6FxR4yFQzPzX1+nlD5qHDbHgolxbaZF5l+trXIZtD9rypj2AfubtKhWmbS5tTlK2LXsOo/
+	PUhpMN7dNtJKitCDVtCJPIwH2Z71yce/aG46kO7LYMbbt5XQTBV9JZvfUlZ1Z
+X-Google-Smtp-Source: AGHT+IHHSpuSQF2rI/x/SaRImeB5EWsw8ML2YU7F/xD0byBq+x8yIKRvtWtFP8e52Y/UtwSDOFjUeA==
+X-Received: by 2002:a05:6102:358e:b0:4fc:670:fbf with SMTP id ada2fe7eead31-4fc8ddc707dmr572234137.18.1754033413237;
+        Fri, 01 Aug 2025 00:30:13 -0700 (PDT)
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com. [209.85.217.53])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4fc14934bbesm608902137.23.2025.08.01.00.30.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 Aug 2025 00:30:12 -0700 (PDT)
+Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-4fc83dda10bso121062137.0;
+        Fri, 01 Aug 2025 00:30:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVz43uenmVMjPAxss+jcORkl+qMjGKaDuVatmkKtLKxTJLBXAnUbPa94DAGFsGblmFSSdbGYb4LUm07@vger.kernel.org, AJvYcCWYaeWslfDiKNyEKcIE1wm+OclIqaZSOkHR5Z82fwRYcP5ojxsK9CxVN3VdJJCxF+9Ic22F0cvBxypRsRAcAC2NvLM=@vger.kernel.org, AJvYcCWpijwnFg9sFtbv6ISUyd0xytXDaUqeKZyjtOfXxJ7tJEXwz8wJoZqOQPZFmSUpvkFgVSCOCzYxQP2AU+4s@vger.kernel.org
+X-Received: by 2002:a05:6102:148f:b0:4e9:add0:2816 with SMTP id
+ ada2fe7eead31-4fc8bf6d8f8mr603774137.5.1754033412670; Fri, 01 Aug 2025
+ 00:30:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250731125109.147422-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20250731125109.147422-1-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 1 Aug 2025 09:30:01 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXTbOcYPrgHxpCNJEWNhcd8e5NBC0gyYQXn0KmQ8wqEMw@mail.gmail.com>
+X-Gm-Features: Ac12FXy2OJ_6FgAPBwCOB1r8zYd0_R9sLX_ruyB3uzg1MOjqqe-yBUpDRJGBn2E
+Message-ID: <CAMuHMdXTbOcYPrgHxpCNJEWNhcd8e5NBC0gyYQXn0KmQ8wqEMw@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: rzg2lc-smarc: Fix typo for deleting node
+To: Biju <biju.das.au@gmail.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
+Hi Biju,
 
-Drop function pointer to configure CSI to avoid code duplication
-by checking the presence of vc select register in rzg2l_cru_info.
-After this change, limit the scope of the rzg2l_cru_csi2_setup()
-to static.
+On Thu, 31 Jul 2025 at 14:51, Biju <biju.das.au@gmail.com> wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+>
+> Fix typo for deleting node 'channel@0'->'channel0'.
+>
+> Fixes: 46da632734a5 ("arm64: dts: renesas: rzg2lc-smarc: Enable CANFD channel 1")
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- .../platform/renesas/rzg2l-cru/rzg2l-core.c   |  2 --
- .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |  9 ------
- .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 30 ++++++-------------
- 3 files changed, 9 insertions(+), 32 deletions(-)
+Thanks for your patch!
 
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-index 806acc8f9728..3c5fbd857371 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-@@ -367,7 +367,6 @@ static const struct rzg2l_cru_info rzg3e_cru_info = {
- 	.enable_interrupts = rzg3e_cru_enable_interrupts,
- 	.disable_interrupts = rzg3e_cru_disable_interrupts,
- 	.fifo_empty = rzg3e_fifo_empty,
--	.csi_setup = rzg3e_cru_csi2_setup,
- };
- 
- static const u16 rzg2l_cru_regs[] = {
-@@ -412,7 +411,6 @@ static const struct rzg2l_cru_info rzg2l_cru_info = {
- 	.enable_interrupts = rzg2l_cru_enable_interrupts,
- 	.disable_interrupts = rzg2l_cru_disable_interrupts,
- 	.fifo_empty = rzg2l_fifo_empty,
--	.csi_setup = rzg2l_cru_csi2_setup,
- };
- 
- static const struct of_device_id rzg2l_cru_of_id_table[] = {
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-index be95b41c37df..3a200db15730 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-@@ -92,9 +92,6 @@ struct rzg2l_cru_info {
- 	void (*enable_interrupts)(struct rzg2l_cru_dev *cru);
- 	void (*disable_interrupts)(struct rzg2l_cru_dev *cru);
- 	bool (*fifo_empty)(struct rzg2l_cru_dev *cru);
--	void (*csi_setup)(struct rzg2l_cru_dev *cru,
--			  const struct rzg2l_cru_ip_format *ip_fmt,
--			  u8 csi_vc);
- };
- 
- /**
-@@ -204,11 +201,5 @@ void rzg3e_cru_disable_interrupts(struct rzg2l_cru_dev *cru);
- 
- bool rzg2l_fifo_empty(struct rzg2l_cru_dev *cru);
- bool rzg3e_fifo_empty(struct rzg2l_cru_dev *cru);
--void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru,
--			  const struct rzg2l_cru_ip_format *ip_fmt,
--			  u8 csi_vc);
--void rzg3e_cru_csi2_setup(struct rzg2l_cru_dev *cru,
--			  const struct rzg2l_cru_ip_format *ip_fmt,
--			  u8 csi_vc);
- 
- #endif
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-index a8817a7066b2..d75cd5fa9f7c 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-@@ -257,30 +257,18 @@ static void rzg2l_cru_initialize_axi(struct rzg2l_cru_dev *cru)
- 	rzg2l_cru_write(cru, AMnAXIATTR, amnaxiattr);
- }
- 
--void rzg3e_cru_csi2_setup(struct rzg2l_cru_dev *cru,
--			  const struct rzg2l_cru_ip_format *ip_fmt,
--			  u8 csi_vc)
-+static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru,
-+				 const struct rzg2l_cru_ip_format *ip_fmt,
-+				 u8 csi_vc)
- {
- 	const struct rzg2l_cru_info *info = cru->info;
- 	u32 icnmc = ICnMC_INF(ip_fmt->datatype);
- 
--	icnmc |= rzg2l_cru_read(cru, info->image_conv) & ~ICnMC_INF_MASK;
--
--	/* Set virtual channel CSI2 */
--	icnmc |= ICnMC_VCSEL(csi_vc);
--
--	rzg2l_cru_write(cru, ICnSVCNUM, csi_vc);
--	rzg2l_cru_write(cru, ICnSVC, ICnSVC_SVC0(0) | ICnSVC_SVC1(1) |
--			ICnSVC_SVC2(2) | ICnSVC_SVC3(3));
--	rzg2l_cru_write(cru, info->image_conv, icnmc);
--}
--
--void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru,
--			  const struct rzg2l_cru_ip_format *ip_fmt,
--			  u8 csi_vc)
--{
--	const struct rzg2l_cru_info *info = cru->info;
--	u32 icnmc = ICnMC_INF(ip_fmt->datatype);
-+	if (cru->info->regs[ICnSVC]) {
-+		rzg2l_cru_write(cru, ICnSVCNUM, csi_vc);
-+		rzg2l_cru_write(cru, ICnSVC, ICnSVC_SVC0(0) | ICnSVC_SVC1(1) |
-+				ICnSVC_SVC2(2) | ICnSVC_SVC3(3));
-+	}
- 
- 	icnmc |= rzg2l_cru_read(cru, info->image_conv) & ~ICnMC_INF_MASK;
- 
-@@ -299,7 +287,7 @@ static int rzg2l_cru_initialize_image_conv(struct rzg2l_cru_dev *cru,
- 	const struct rzg2l_cru_ip_format *cru_ip_fmt;
- 
- 	cru_ip_fmt = rzg2l_cru_ip_code_to_fmt(ip_sd_fmt->code);
--	info->csi_setup(cru, cru_ip_fmt, csi_vc);
-+	rzg2l_cru_csi2_setup(cru, cru_ip_fmt, csi_vc);
- 
- 	/* Output format */
- 	cru_video_fmt = rzg2l_cru_ip_format_to_fmt(cru->format.pixelformat);
+> --- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
+> @@ -48,7 +48,7 @@ sound_card {
+>  #if (SW_SCIF_CAN || SW_RSPI_CAN)
+>  &canfd {
+>         pinctrl-0 = <&can1_pins>;
+> -       /delete-node/ channel@0;
+> +       /delete-node/ channel0;
+
+As pointed out by Rob's bot, you must not delete this node.
+Instead, set channel0's status to disabled.
+
+>  };
+>  #else
+>  &canfd {
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.43.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
