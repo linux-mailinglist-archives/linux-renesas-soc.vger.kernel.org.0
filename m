@@ -1,56 +1,56 @@
-Return-Path: <linux-renesas-soc+bounces-19945-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19946-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66732B19055
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Aug 2025 00:30:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32607B1905B
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Aug 2025 00:54:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E528C189AA71
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Aug 2025 22:30:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BBBD91888EAA
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Aug 2025 22:54:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA495255E23;
-	Sat,  2 Aug 2025 22:30:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE739202F71;
+	Sat,  2 Aug 2025 22:54:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="jBnw6MqO"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="eP6YUORl"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F368134A8;
-	Sat,  2 Aug 2025 22:30:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0E65273FD;
+	Sat,  2 Aug 2025 22:54:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754173829; cv=none; b=sGXDSyhaPW1SB5wFLxYPdAOw/OXZFLGLKvfpifUWIkJlIhU+GHpESQJhp9IMb9yGs2nE0GMB5wuUWCslZwsylkW3z8tESt+mJY3a6dM36ROx0hSt0EVymQNLCgKemm+6Z5o+tsleTQyBaHZ1ZoQGqr4d/qKNub7SLt8IBAXPDMc=
+	t=1754175268; cv=none; b=LA/rF6WbME9u3gbPxpIoeFavP9cnQhJmbrQXFJO2qdA4uKRSYfrMMb617/T15LW0K7LlU0dAoDBH3c4YeUBRaxsnE+IqVDKPjIOxpGLKZU/P36KaLmDUr57NBlfv2YpimnsFF6TPgjJnZZkzzWql7dzqS5983FvuriLA26gpUJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754173829; c=relaxed/simple;
-	bh=YuE0+6sLSxtJRgSKgy3PSeF5ac9It8JY3n8ltL3TB3g=;
+	s=arc-20240116; t=1754175268; c=relaxed/simple;
+	bh=dHfMxNwLvZKqHxWBvPHdiBmrt2rwCzmOZXJHQC2eGX4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=J+eOnj0ohbz0vxzu/84i8XNYLe4Gbfyt6PrwnDks3xIKMC75s+f4WesS2CujsVpiVZhnu6mE9G834zkUVBQ1OLUzdc7J92ETRoYOKCefFsJc+d8IVPXwCwlZX7EboP7Eg+5ScosbhcdQE9i0FSc1uHfSueRirdfxgnga8wOZ/p4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=jBnw6MqO; arc=none smtp.client-ip=80.241.56.172
+	 In-Reply-To:Content-Type; b=FfaUfXS+Wjp42+YUQ2VGcdw4Vnsib52XSiiICJRQJPecQmuqJw+KpzfkDxMjifQufNzcn23JVx02P4ij7uBz3g/oowf+Ia7XrN8w1vEXQ4k8kumC789jV/UUjsTHmWOiB1D180OtlR/jt5k/qRaLztFy2upwiv/YW1mhPdhiXp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=eP6YUORl; arc=none smtp.client-ip=80.241.56.161
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4bvcvt3qyvz9sV2;
-	Sun,  3 Aug 2025 00:30:18 +0200 (CEST)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4bvdRY4Pl1z9sRt;
+	Sun,  3 Aug 2025 00:54:17 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1754173818;
+	t=1754175257;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MC7QH3x5cJ7TXXDJLexu3TYY1J29xX385Fsn2GQ+DYc=;
-	b=jBnw6MqO7vN5bCcc7qK+TWtkOgsVBx+yk80BcAINTC++wHirYSeivps8+++RL7t4IdKfzq
-	J7R7Bg9C4s48uFey6z4sbmC6UmAm3yuG9xeGnQPSAjTwikHmAxLobMD9XEz83/40z+ggfE
-	r65Aw+BlbKqba7xHdxnf907gvDJfUWDCoPEyHYLhE3O0mLqmWtBEpUr51YkdBckEKK+Uha
-	v0wUSi1LDz7qyKUMLmJ3Y6+XjB8hC2jAlgDtcG9ZNO4YQNV7UjQ0vbCDStniYx0WtpT8Po
-	kr4qKiChMfbBjc0GN40mMYMsz6Y4C8vNSIA/qyjhnjFWJYWoDXpkdHWlyCOzow==
-Message-ID: <e542b685-4af4-4172-9b66-84db6443bc8b@mailbox.org>
-Date: Sun, 3 Aug 2025 00:30:15 +0200
+	bh=2jfsrY3vSUyFVNB0L9HWQ/g+F1LANmBj/Nfa0lnUfCM=;
+	b=eP6YUORlr7my7eP61pFw5TgHhq8QjzHFKUz7Xa3+WK8KV9RQ5mwfpwFlu31DLRxlZMOiBj
+	nHN3GuUcVt6b5wOMhMiXjWtz4TyCLT/YsDpC2Va8PQM+OYCKied4gh2FgMFstlW+Owj2o9
+	sRISssml04qlJKzarFCTF/5WNaxnrWYzDC2ciLEB3bM1bXkRfcs4BqFce7i+lzhtLT+VHc
+	tSqUGxdU2Q+iHeL+wSXhFt0+JIjYaPoQYIZSE0EziBTWJdH+vYN/3Mzh5QLaJcqa+m74a5
+	O7PE3d0KXMdYxTjCyXZzJQTYpA+htOn8eXEAv/TGd2XA+HcVTOfb8ISfPrWmMg==
+Message-ID: <7890ba1f-890e-45e5-b0cd-c96a84e3e6f2@mailbox.org>
+Date: Sun, 3 Aug 2025 00:54:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -58,53 +58,55 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Subject: Re: [PATCH] usb: renesas-xhci: Fix External ROM access timeouts
-To: =?UTF-8?Q?Micha=C5=82_Pecio?= <michal.pecio@gmail.com>
-Cc: linux-usb@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
+To: Mathias Nyman <mathias.nyman@linux.intel.com>, linux-usb@vger.kernel.org
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Mathias Nyman <mathias.nyman@intel.com>, Vinod Koul <vkoul@kernel.org>,
  stable@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 References: <20250727154516.11599-1-marek.vasut+renesas@mailbox.org>
- <20250729121759.0e9df735@foxbook>
+ <c47814bf-85f0-4bd1-bc33-63f06b44d9c9@linux.intel.com>
 Content-Language: en-US
 From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <20250729121759.0e9df735@foxbook>
+In-Reply-To: <c47814bf-85f0-4bd1-bc33-63f06b44d9c9@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: xpsocbaafnmbrm665azd3gu3ha33kqmb
-X-MBO-RS-ID: 0b0e93c5700dae42c65
+X-MBO-RS-META: e5rtgfbkrtnchtf5dj464tqny4dfi3aw
+X-MBO-RS-ID: 90fa7e317ce012994e2
 
-On 7/29/25 12:17 PM, Michał Pecio wrote:
-> Hi,
+On 7/29/25 5:20 PM, Mathias Nyman wrote:
 
 Hi,
 
-> On Sun, 27 Jul 2025 17:44:16 +0200, Marek Vasut wrote:
->> Increase the External ROM access timeouts to prevent failures during
->> programming of External SPI EEPROM chips. The current timeouts are
->> too short for some SPI EEPROMs used with uPD720201 controllers.
->>
->> The current timeout for Chip Erase in renesas_rom_erase() is 100 ms ,
->> the current timeout for Sector Erase issued by the controller before
->> Page Program in renesas_fw_download_image() is also 100 ms. Neither
->> timeout is sufficient for e.g. the Macronix MX25L5121E or MX25V5126F.
+>> diff --git a/drivers/usb/host/xhci-pci-renesas.c b/drivers/usb/host/ 
+>> xhci-pci-renesas.c
+>> index 620f8f0febb8..86df80399c9f 100644
+>> --- a/drivers/usb/host/xhci-pci-renesas.c
+>> +++ b/drivers/usb/host/xhci-pci-renesas.c
+>> @@ -47,8 +47,9 @@
+>>   #define RENESAS_ROM_ERASE_MAGIC                0x5A65726F
+>>   #define RENESAS_ROM_WRITE_MAGIC                0x53524F4D
+>> -#define RENESAS_RETRY    10000
+>> -#define RENESAS_DELAY    10
+>> +#define RENESAS_RETRY            50000    /* 50000 * RENESAS_DELAY ~= 
+>> 500ms */
+>> +#define RENESAS_CHIP_ERASE_RETRY    500000    /* 500000 * 
+>> RENESAS_DELAY ~= 5s */
+>> +#define RENESAS_DELAY            10
 > 
-> Out of curiosity, who uses this ROM update functionality and why?
+> No objection, just making sure author is aware that RENESAS_RETRY is 
+> used in
+> _seven_ for loops, and this change will increase the timeout five-fold for
+> all of them.
 
-arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
+Yes, I am aware this increases the timeout for all SPI EEPROM status 
+polling loops in this driver.
 
-The factory will likely use this code path to preload the SPI EEPROM 
-during board production and testing.
-
-> It seems weird to write nonvolatile memories in a PCI probe routine.
-> Boards or PCIe cards fitted with ROMs are programmed with working
-> firmware at the factory and there ought to be no need to touch that.
-
-See above.
-
-> And if you want to update this FW, dropping a file in /lib/firmware/
-> and loading a kernel module is not the usual (or convenient) UI...
-
-See above.
+The longer retry count would only have an impact in case something bad 
+happened during SPI EEPROM programming. On user system, that should 
+happen never -- user hardware should ship with already programmed SPI 
+EEPROM, so this programming code is skipped. In factory, this might 
+happen, but then it is likely a hardware defect and that hardware never 
+reaches users.
 
 -- 
 Best regards,
