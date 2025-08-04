@@ -1,233 +1,142 @@
-Return-Path: <linux-renesas-soc+bounces-19959-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19960-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B979DB19EFF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Aug 2025 11:49:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2E23B19F28
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Aug 2025 12:00:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 53554189CAED
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Aug 2025 09:49:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 66733189A15F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Aug 2025 10:01:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC21E23C4F2;
-	Mon,  4 Aug 2025 09:49:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LcUN3AOD"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13EB6246769;
+	Mon,  4 Aug 2025 10:00:24 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C05D21146C;
-	Mon,  4 Aug 2025 09:49:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544B01ACECE;
+	Mon,  4 Aug 2025 10:00:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754300968; cv=none; b=i9FTBER97Fh9PpsdoRYiPNDpYP053rlhqNwW6ZkMloHTvUelm8+EyG+BXzCAPz5c/M5s2frtqefOR4K82p4Fk1tNLFvV7uPq8HMbNSzRhYK+MjrDk8MA2A8vIsJe1hFfHZ4RfRKqn+zgM/A0YYKmadk8n/0CWfRkK6Nzlw9/ukk=
+	t=1754301624; cv=none; b=n7OB1k+7x0qTBxDpMKCwI4Y5kUn4vGCFKBs4BU0KRs/xtTPoi8giNxgt5vh603GGEYnydkSTw6XroX1TbBBewc/cBw2ThtUWTbzZ6xromJU3I4eFEhsEJwLYoJL6YoYlmR2D3fo/oyd4pu7ybo+q5PvklecsmNDVY9YQR6lbKOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754300968; c=relaxed/simple;
-	bh=+oZeq6uL2wnvNpTCtWynIAvOR4UUGedjXwb+gO5uRQ8=;
+	s=arc-20240116; t=1754301624; c=relaxed/simple;
+	bh=mpe7T74dmtR2fuAVUZ57VuLLcRGspxTnziRewsuDca8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ui7fP87KRdRXbnRYJ4VaPt9QEzdLZ5VR/rd/sB2RxKD0zGqP+lJOPd/b/XEyd2XLygAOU80VW+xthgX0vkm6LPOAa34rDxVmlq7lvKZ5ngSJLjSFDNsvfxtVpWDHa3J7KdC8+Cw08vVnH7kvRBwFoMQZqY0nq6/NYsJBah8oKWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LcUN3AOD; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 To:Cc:Content-Type; b=HUuq7HHAYrfsRFmUdyOTeICW+RWNtu2UOPsitEfzUe5PL5vXKVuBQWMdGLVx0SYs/ztkM4bn85s4OIaUsyJb818u7wO0zxt92yMH2m70owgiW9ZR+QC9IaS+Itfm2suo8qtrEtmAAjTSW9lR0S/+TNeexk7eJkOxqVlqkLirRmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3b7886bee77so3610588f8f.0;
-        Mon, 04 Aug 2025 02:49:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754300965; x=1754905765; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GOGBNaTAmzo8K3K7hJ7AZI+oUlfMeV4wGvIVjMCFBdU=;
-        b=LcUN3AODwqkTcoix1Cg7sSvopdzIyXvF+FtPBEHEE6kGFeCjZOod2aHilL2U+N8Wzx
-         QH5EWZ0JL8+onBhYQh0OpHizfY4wc/nMLy7GDOyCMJeTHhsXwQaGIGzqdOhi8kxRfqoY
-         n6q5kY8o5qznF28JfAmSbK5NEMuAb0mpr09D5smzvMifHrTsuHG3NpCWkcNjrRYcF+8D
-         cTnM3RG6cikUa8yunn9dY4guqEE1k2iO6rj+MvGHX26B1C/t78T82VRPi15uaTPPiQan
-         FZqiz6A0/Reivhwul0gDBQAV8Sk0pbKbP8J3WtmH5FjS0IhD7qLOv5jHQ/GQ7k2oF9ZN
-         2G5Q==
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-53987d78f0bso93784e0c.2;
+        Mon, 04 Aug 2025 03:00:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754300965; x=1754905765;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GOGBNaTAmzo8K3K7hJ7AZI+oUlfMeV4wGvIVjMCFBdU=;
-        b=P8kyGe2QMBSp5U2Z2NffidKa8uvFxuBfHfNNVTgKGNVlpTeIZDgTVVLhMAqOONY3tX
-         8+o3BHyjIspxvGDifMZIHMUq1HPaz+lKUuvC69BDT3J1f69DGHlU+t2Z5XsYMP9Ulz7Q
-         zChmzHw7ABKjwDZ7IkTa5p1FHQiC+Nl7pPrnBg/tZfQmjCPFsjIEIZynla2z4pDOrdfo
-         +tBNGXYRpVvS3YkHAsLsBX0dtbvuByqmFgBfDS08guZw5Sn8xHcuxvtfX5Ky8aAU9y4e
-         bi0M36u68z/c6EADDGlVdGB6Xhnv+rnH2BP37Rj4ZGJDR1/DSUkVb9sYl9k+41tOyUF0
-         6cOw==
-X-Forwarded-Encrypted: i=1; AJvYcCUcKXn6y9dtSjimpyXw8g6T63nEWGrLzwmI0d/i/0nqp8Le/3p8qIAZF+5Zu0EgFWl10w4OcU+j3IoZ3qc=@vger.kernel.org, AJvYcCV3aWobUpw65jdX+8FYr5UGjGRX8bsc16rSuKL29fNPgwK1wZbzTBE+vP+ToZVU5fH44KgcDKTikMFpFrxn6a3fT20=@vger.kernel.org, AJvYcCXv65xlFf1tIfP0+4Xl59j2CxBl2fJHoPnOd1nzXPcnSaTA57iO2IgQ8MiJysI9A7sv76gyaDExsBP3+I0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzE+pDBrfKxfMNEV30hAFjaTOwUP7vR1AOVko1iHSV6EbCFBIwH
-	PAEu0PfM5FvtPFoCW/yriZzivMHVoLfzefiaxpHDnJVRiOv4ojUXcFeZw8qOR1d9+WcTSNfJ1+6
-	nIr/FBcsAkrfoLLrAQ2L6DeE8RJwYygA=
-X-Gm-Gg: ASbGncuv7T9CKX+RQalxAiskR5VhaEKnFx3wLZnjkdJMLbBbhh/dHavH8vA5GaEERQ6
-	X7ZsReNIzrVur+uirVDodN1Zhh0WCxyOl8Zh+yHdnhTPAcdKjpokIehX9TH10FhjrPt4TF4AKfK
-	vlgU2gyfQ+jqQW0RZcdg0H6GaN8CJWYdJFokZbDsCAp/MBGdVKc2oMLAOm0RXLtdPpRuOkDTuzd
-	ZwW71g=
-X-Google-Smtp-Source: AGHT+IFXNUHlTSCwB3PdPV7NnEWNhQAxpVzt68GmIGUOW+bV/8ErpTUIwo/SLHgRlY4KApOmzPAbX0vy3puFFaUfSZU=
-X-Received: by 2002:a05:6000:2906:b0:3b7:bedd:d268 with SMTP id
- ffacd0b85a97d-3b8d94ce5b8mr6412183f8f.53.1754300965125; Mon, 04 Aug 2025
- 02:49:25 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1754301620; x=1754906420;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eS3bsjfBxf7Nb9K34UhVoW/iQd5gmVco36iifAHyUH4=;
+        b=QwKJaMQde2rW6Ch+bldUMckL7T7aXSLDQPe6hiXI+l2xlAm+olGXUvq0ZCISSci1sN
+         fW3IOwVKAkQlj1ZHNPuVrfz2PlUGjtwIMYXOhDivPpQmh5oKh/+oOIYAwGyzV/N+dVEi
+         pzHlHtfXRRnIyKtWEF4Fo+O5TtwCfdDFcVCQBMtt687EUYuQrR7iS3ywPrbe2xs5FaCi
+         JWde+CTA0wOYctBJ5yk2xqQLQ60z9d1Cmf9S9kTT61Eiemk5jAT/HQX1eCrj9O0oJyCS
+         75GkkwfxQAo6zDjbMkxaDBgbr6fq4PzuEZKfbT/RVTSgr+qN/NjkDZ5ZrjeYvwJSIq7H
+         yMiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUhqqfCKS/ltYuR7Ah9u6Qh4UDi+X7pArNlyVROfB+9jQd2iaV462B+uQiyo2wXZEaFW4RdbBXKWHY=@vger.kernel.org, AJvYcCUslQhpbKtk3GNLWQHzic6l3GkHhSL1GovuFDGxx0fF8KOZ8qXUz225le7fBb+HdtmnQHcDZ0fP77eOACJ3@vger.kernel.org, AJvYcCW4fYvVrWzvEV3e2hpGK8Dc2c6TVpMx29xNjmn5MxDk8fn/UNzYkd91x/+SGoCZVFaJ9EW5FxU04b/z+Wr1MyqTGIk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjabdmI2DCosl+2arMFPs+BCunXE9dSP4e232QHHYpjDF1BiG/
+	rLTOTqtyk6UMP/yLyPyVAFrF/Cg2m0/53GpUt5K1zfYttQcRiGtcCTG0u1377k8g
+X-Gm-Gg: ASbGncu8C/mVFJengRbCfkfnzQzsOAPMFiw24JKuRD6owEOK1A5dA/G+AxJfD4uDR1W
+	21gXO1NqFKQfpc5PErQxwy7qJAya71U4DbCHy5UyoDu72n2vOMHQbc8mkUPIkqMBwTbnXbvx3LS
+	USnsOKb3hYRmbrWiO/1rdEGHpjaogSz6y6MzV8M2OcCz8kBj2LEPktkk0cHy60abhbJsTrmV0f1
+	qLEnvoIdnDKwdDejfrIBOQ1C6YKP3rzBppBDDpwoPbtx9l5LfVDK09j2qDo2N40Wa1/ayfY0hAH
+	jVFpzGG8Yt9Uzxi1aSbiOVcQBN2ooDFMTEdI7y8JhYepXnwP1SJepzpToXJd9am3j2MIgr4PBvM
+	cQE6fcrODOg8scXWy6TIVnDE9k2jCDo4kw4cpO+0xxQ4ZmoJZbSvF6lpTw+vJ
+X-Google-Smtp-Source: AGHT+IENtw1Pl2XfXzdX5f/eq7kLU/oCjtOnKedw46nsNgdICvK8xN5ZPz+sxsbSSFUILJi8BcEYtQ==
+X-Received: by 2002:a05:6122:1697:b0:535:e789:6ccc with SMTP id 71dfb90a1353d-5395f1f80f0mr3360433e0c.3.1754301619863;
+        Mon, 04 Aug 2025 03:00:19 -0700 (PDT)
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-53936d4f0bdsm2709173e0c.36.2025.08.04.03.00.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Aug 2025 03:00:19 -0700 (PDT)
+Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-88bbfe763ecso920708241.3;
+        Mon, 04 Aug 2025 03:00:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWWRpxZTJrV5fJo/e8kx/ldMqzPArUSCBsUCdwtKi4n0G3PqejQ1HfrfLspnTyI5gsLyWXa9Cp4HtfRzx2F@vger.kernel.org, AJvYcCWuqvVOvNhZjvog5m69Uoo+6PIIg/rDDcZWWxgCf/34g6AkP3LXiIavkiq1xxkNFwKXfT+nL/v/vYKiaFVkkAZDRWE=@vger.kernel.org, AJvYcCXr+tQSaaxvtbuIy1x1d2mYECxbXET0ML7sZq2kWMtgp5ZH9uziSooLc6Dx96HzXNMbpkc7/D7TG+4=@vger.kernel.org
+X-Received: by 2002:a05:6102:c4b:b0:4e7:bf03:cd79 with SMTP id
+ ada2fe7eead31-4fdc1f3ba82mr2731697137.5.1754301618843; Mon, 04 Aug 2025
+ 03:00:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250801053426.4273-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20250801053426.4273-1-biju.das.jz@bp.renesas.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 4 Aug 2025 10:48:59 +0100
-X-Gm-Features: Ac12FXyw_mgJIKGIscr94v2AVgJ0sVI24pwsr-DSH6yE86MgAEab6YZApUCSN-g
-Message-ID: <CA+V-a8tZXTiYyXE_2+G86=yGx+=BxCs=CiZrdhuB9J4Nmg2-EA@mail.gmail.com>
-Subject: Re: [PATCH] media: rzg2l-cru: Drop function pointer to configure CSI
-To: Biju <biju.das.au@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Hans Verkuil <hverkuil@kernel.org>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
-	Daniel Scally <dan.scally+renesas@ideasonboard.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	linux-renesas-soc@vger.kernel.org
+References: <20250704134328.3614317-1-claudiu.beznea.uj@bp.renesas.com> <20250704134328.3614317-3-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20250704134328.3614317-3-claudiu.beznea.uj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 4 Aug 2025 12:00:07 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXGvNgv9hGhcr5MhTL+X_E2f-2kz2NEqhG1fw_dBC0uBA@mail.gmail.com>
+X-Gm-Features: Ac12FXxP7Z5IRMS9eyyB2n6CzdU8SZtDG8X1mpfYCayxF7CUSCgAeogY_9GSFEo
+Message-ID: <CAMuHMdXGvNgv9hGhcr5MhTL+X_E2f-2kz2NEqhG1fw_dBC0uBA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] clk: renesas: r9a07g044: Add MSTOP for RZ/G2L
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: mturquette@baylibre.com, sboyd@kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 1, 2025 at 6:34=E2=80=AFAM Biju <biju.das.au@gmail.com> wrote:
->
-> From: Biju Das <biju.das.jz@bp.renesas.com>
->
-> Drop function pointer to configure CSI to avoid code duplication
-> by checking the presence of vc select register in rzg2l_cru_info.
-> After this change, limit the scope of the rzg2l_cru_csi2_setup()
-> to static.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  .../platform/renesas/rzg2l-cru/rzg2l-core.c   |  2 --
->  .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |  9 ------
->  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 30 ++++++-------------
->  3 files changed, 9 insertions(+), 32 deletions(-)
->
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cheers,
-Prabhakar
+Hi Claudiu,
 
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c b/driv=
-ers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-> index 806acc8f9728..3c5fbd857371 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-> @@ -367,7 +367,6 @@ static const struct rzg2l_cru_info rzg3e_cru_info =3D=
- {
->         .enable_interrupts =3D rzg3e_cru_enable_interrupts,
->         .disable_interrupts =3D rzg3e_cru_disable_interrupts,
->         .fifo_empty =3D rzg3e_fifo_empty,
-> -       .csi_setup =3D rzg3e_cru_csi2_setup,
->  };
+On Fri, 4 Jul 2025 at 15:43, Claudiu <claudiu.beznea@tuxon.dev> wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >
->  static const u16 rzg2l_cru_regs[] =3D {
-> @@ -412,7 +411,6 @@ static const struct rzg2l_cru_info rzg2l_cru_info =3D=
- {
->         .enable_interrupts =3D rzg2l_cru_enable_interrupts,
->         .disable_interrupts =3D rzg2l_cru_disable_interrupts,
->         .fifo_empty =3D rzg2l_fifo_empty,
-> -       .csi_setup =3D rzg2l_cru_csi2_setup,
->  };
+> Add MSTOP configuration for all the module clocks on the RZ/G2L
+> based SoCs (RZ/G2L, RZ/G2LC).
 >
->  static const struct of_device_id rzg2l_cru_of_id_table[] =3D {
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drive=
-rs/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> index be95b41c37df..3a200db15730 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> @@ -92,9 +92,6 @@ struct rzg2l_cru_info {
->         void (*enable_interrupts)(struct rzg2l_cru_dev *cru);
->         void (*disable_interrupts)(struct rzg2l_cru_dev *cru);
->         bool (*fifo_empty)(struct rzg2l_cru_dev *cru);
-> -       void (*csi_setup)(struct rzg2l_cru_dev *cru,
-> -                         const struct rzg2l_cru_ip_format *ip_fmt,
-> -                         u8 csi_vc);
->  };
->
->  /**
-> @@ -204,11 +201,5 @@ void rzg3e_cru_disable_interrupts(struct rzg2l_cru_d=
-ev *cru);
->
->  bool rzg2l_fifo_empty(struct rzg2l_cru_dev *cru);
->  bool rzg3e_fifo_empty(struct rzg2l_cru_dev *cru);
-> -void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru,
-> -                         const struct rzg2l_cru_ip_format *ip_fmt,
-> -                         u8 csi_vc);
-> -void rzg3e_cru_csi2_setup(struct rzg2l_cru_dev *cru,
-> -                         const struct rzg2l_cru_ip_format *ip_fmt,
-> -                         u8 csi_vc);
->
->  #endif
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/dri=
-vers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> index a8817a7066b2..d75cd5fa9f7c 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> @@ -257,30 +257,18 @@ static void rzg2l_cru_initialize_axi(struct rzg2l_c=
-ru_dev *cru)
->         rzg2l_cru_write(cru, AMnAXIATTR, amnaxiattr);
->  }
->
-> -void rzg3e_cru_csi2_setup(struct rzg2l_cru_dev *cru,
-> -                         const struct rzg2l_cru_ip_format *ip_fmt,
-> -                         u8 csi_vc)
-> +static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru,
-> +                                const struct rzg2l_cru_ip_format *ip_fmt=
-,
-> +                                u8 csi_vc)
->  {
->         const struct rzg2l_cru_info *info =3D cru->info;
->         u32 icnmc =3D ICnMC_INF(ip_fmt->datatype);
->
-> -       icnmc |=3D rzg2l_cru_read(cru, info->image_conv) & ~ICnMC_INF_MAS=
-K;
-> -
-> -       /* Set virtual channel CSI2 */
-> -       icnmc |=3D ICnMC_VCSEL(csi_vc);
-> -
-> -       rzg2l_cru_write(cru, ICnSVCNUM, csi_vc);
-> -       rzg2l_cru_write(cru, ICnSVC, ICnSVC_SVC0(0) | ICnSVC_SVC1(1) |
-> -                       ICnSVC_SVC2(2) | ICnSVC_SVC3(3));
-> -       rzg2l_cru_write(cru, info->image_conv, icnmc);
-> -}
-> -
-> -void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru,
-> -                         const struct rzg2l_cru_ip_format *ip_fmt,
-> -                         u8 csi_vc)
-> -{
-> -       const struct rzg2l_cru_info *info =3D cru->info;
-> -       u32 icnmc =3D ICnMC_INF(ip_fmt->datatype);
-> +       if (cru->info->regs[ICnSVC]) {
-> +               rzg2l_cru_write(cru, ICnSVCNUM, csi_vc);
-> +               rzg2l_cru_write(cru, ICnSVC, ICnSVC_SVC0(0) | ICnSVC_SVC1=
-(1) |
-> +                               ICnSVC_SVC2(2) | ICnSVC_SVC3(3));
-> +       }
->
->         icnmc |=3D rzg2l_cru_read(cru, info->image_conv) & ~ICnMC_INF_MAS=
-K;
->
-> @@ -299,7 +287,7 @@ static int rzg2l_cru_initialize_image_conv(struct rzg=
-2l_cru_dev *cru,
->         const struct rzg2l_cru_ip_format *cru_ip_fmt;
->
->         cru_ip_fmt =3D rzg2l_cru_ip_code_to_fmt(ip_sd_fmt->code);
-> -       info->csi_setup(cru, cru_ip_fmt, csi_vc);
-> +       rzg2l_cru_csi2_setup(cru, cru_ip_fmt, csi_vc);
->
->         /* Output format */
->         cru_video_fmt =3D rzg2l_cru_ip_format_to_fmt(cru->format.pixelfor=
-mat);
-> --
-> 2.43.0
->
->
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+
+Thanks for your patch!
+
+> --- a/drivers/clk/renesas/r9a07g044-cpg.c
+> +++ b/drivers/clk/renesas/r9a07g044-cpg.c
+> @@ -242,163 +242,163 @@ static const struct {
+>  } mod_clks = {
+>         .common = {
+
+>                 DEF_MOD("gpu_clk",      R9A07G044_GPU_CLK, R9A07G044_CLK_G,
+> -                                       0x558, 0, 0),
+> +                                       0x558, 0, MSTOP(BUS_REG1, BIT(4))),
+>                 DEF_MOD("gpu_axi_clk",  R9A07G044_GPU_AXI_CLK, R9A07G044_CLK_P1,
+>                                         0x558, 1, 0),
+>                 DEF_MOD("gpu_ace_clk",  R9A07G044_GPU_ACE_CLK, R9A07G044_CLK_P1,
+>                                         0x558, 2, 0),
+
+Perhaps these two should have "MSTOP(BUS_REG1, BIT(4))", too?
+
+>                 DEF_MOD("canfd",        R9A07G044_CANFD_PCLK, R9A07G044_CLK_P0,
+> -                                       0x594, 0, 0),
+> +                                       0x594, 0, MSTOP(BUS_MCPU2, BIT(9))),
+>                 DEF_MOD("gpio",         R9A07G044_GPIO_HCLK, R9A07G044_OSCCLK,
+>                                         0x598, 0, 0),
+
+"MSTOP(BUS_PERI_CPU, BIT(6))"?
+
+>                 DEF_MOD("adc_adclk",    R9A07G044_ADC_ADCLK, R9A07G044_CLK_TSU,
+> -                                       0x5a8, 0, 0),
+> +                                       0x5a8, 0, MSTOP(BUS_MCPU2, BIT(14))),
+
+
+The rest LGTM.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
