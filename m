@@ -1,351 +1,256 @@
-Return-Path: <linux-renesas-soc+bounces-19981-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19982-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3380B1AAB0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Aug 2025 00:00:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCF6DB1AB91
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Aug 2025 01:52:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5BBEF18A0067
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Aug 2025 22:01:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E533117EDF3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Aug 2025 23:52:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7D82239086;
-	Mon,  4 Aug 2025 22:00:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ED73291C23;
+	Mon,  4 Aug 2025 23:52:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jKLfG1lq"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B54C1552FA;
-	Mon,  4 Aug 2025 22:00:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3279291C01;
+	Mon,  4 Aug 2025 23:51:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754344836; cv=none; b=uykE8BQPN8aephsshyXxgCuhbsToJextdpx/7tP5nSZdNmGoQQVtUTU0NQtQQacwxz1bne6LCbQO+tgKL0JlrtTnstRz05KunJmLSln2uIeYKyGy2awTI6611fwYCFv4BzIXQGauwzfSeB44PHLXp8/FLN1xAu3txvXatW2XBlg=
+	t=1754351522; cv=none; b=OnJXwmtOqTd+dJ0dqDtlPebSAeMkY6VYBo0fsQqysokb/anL8/eWlDz9aM7p9LNYpW+gGQ72XlMs9q/p8GsbAxVpLPPPub4ezkGsT5oWBHdU1NUlsyI2/Txvkh7weZdGcRPupZA4kf6ceGqZ2MGvgEHzuYCbe4phr7HI7hQ11g4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754344836; c=relaxed/simple;
-	bh=OkqY7SFjrArg66oQlEL4f7x/72BougKos8SuncqmGO0=;
+	s=arc-20240116; t=1754351522; c=relaxed/simple;
+	bh=zrpGKuWeQK0S9TRd2/Kg7CrpjpN0Af6Bc1LVC3rkfJw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eMvDuUviYz8tB2i6hOasdGobIdIkoaQuLygNV8lrP1qI69GGHGpXHQFcyu3H/n/8z1lTYn2nE3Y1GS1wuIN3tiaK9XaD7rriRtxYN+frEYItve2l1+y/UenY0oz0oiqZDFdHNHUKDe+tPQzoFCu6Dk9thGoyd6w85woDuKo+vEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 496D91F00078;
-	Mon,  4 Aug 2025 21:59:48 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id ACAE6B0118D; Mon,  4 Aug 2025 21:59:39 +0000 (UTC)
-X-Spam-Level: 
-Received: from shepard (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id 02B54B01170;
-	Mon,  4 Aug 2025 21:59:27 +0000 (UTC)
-Date: Mon, 4 Aug 2025 23:59:25 +0200
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Devarsh Thakkar <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
-	Hans Verkuil <hverkuil@kernel.org>, Mike Isely <isely@pobox.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Christian Gromm <christian.gromm@microchip.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
-	Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
-	Tomasz Figa <tfiga@chromium.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Andy Walls <awalls@md.metrocast.net>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Bin Liu <bin.liu@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=XFrh+IN3JghX9kPYFrP1+LkoPyPKrhNvnjmVl235OWbW+fp0KIThv3YrgWpHueGO6oGUIDVP8WhqmbVzjIXAZytl5+QuLK4hon5+1oPmg93bMBaotI2lWOwpE+7uh1SPuLf6nCNVsGg9CqIIiGRRwjFu8NiMhpmpfy3QCM5oPnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jKLfG1lq; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 2B72432FD;
+	Tue,  5 Aug 2025 01:51:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1754351467;
+	bh=zrpGKuWeQK0S9TRd2/Kg7CrpjpN0Af6Bc1LVC3rkfJw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jKLfG1lqK2PPXLjLJhZ/Wty2yVy9+P3BkRh+DykETDA4LCFTUf911rSaO6qT+QKO7
+	 wRdg/H2eRsEY6wy4MGWg5U57U5+Jrerp7zplL0nB707kdVUDUTwWAHa4Hphoow2+vz
+	 YoO9D6fRkIKHNccFuia9pEsNbAUn8jx2Kons6sjM=
+Date: Tue, 5 Aug 2025 02:51:40 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Frank Li <Frank.li@nxp.com>, Konrad Dybcio <konradybcio@kernel.org>,
+	Vinod Koul <vkoul@kernel.org>, Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>,
+	Ludovic Desroches <ludovic.desroches@microchip.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Shawn Guo <shawnguo@kernel.org>,
 	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
 	Fabio Estevam <festevam@gmail.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Michal Simek <michal.simek@amd.com>, Ming Qian <ming.qian@nxp.com>,
-	Zhou Peng <eagle.zhou@nxp.com>,
-	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Dikshita Agarwal <quic_dikshita@quicinc.com>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Nas Chung <nas.chung@chipsnmedia.com>,
-	Jackson Lee <jackson.lee@chipsnmedia.com>,
-	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-	Houlong Wei <houlong.wei@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Taichi Sugaya <sugaya.taichi@socionext.com>,
+	Takao Orito <orito.takao@socionext.com>,
+	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Magnus Damm <magnus.damm@gmail.com>,
-	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
-	Jacob Chen <jacob-chen@iotwrt.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Detlev Casanova <detlev.casanova@collabora.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	=?utf-8?Q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>,
-	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Fabien Dessenne <fabien.dessenne@foss.st.com>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	=?utf-8?Q?Am=C3=A9lie?= Delaunay <amelie.delaunay@foss.st.com>,
 	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
 	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Corentin Labbe <clabbe@baylibre.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Laxman Dewangan <ldewangan@nvidia.com>,
+	Jon Hunter <jonathanh@nvidia.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
+	Viken Dadhaniya <quic_vdadhani@quicinc.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	imx@lists.linux.dev, linux-actions@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
 	linux-stm32@st-md-mailman.stormreply.com,
-	mjpeg-users@lists.sourceforge.net
-Subject: Re: [PATCH 54/65] media: hantro: Access v4l2_fh from
- file->private_data
-Message-ID: <aJEtPd_-IzQZVBfl@shepard>
-References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
- <20250802-media-private-data-v1-54-eb140ddd6a9d@ideasonboard.com>
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-i2c@vger.kernel.org, linux-spi@vger.kernel.org
+Subject: Re: [PATCH RFC 2/6] dmaengine: Make of_dma_request_slave_channel
+ pass a cookie to of_xlate
+Message-ID: <20250804235140.GB12087@pendragon.ideasonboard.com>
+References: <20250730-topic-dma_genise_cookie-v1-0-b505c1238f9f@oss.qualcomm.com>
+ <20250730-topic-dma_genise_cookie-v1-2-b505c1238f9f@oss.qualcomm.com>
+ <aIpKz495WI1SJTeB@lizhi-Precision-Tower-5810>
+ <20250730180417.GC21430@pendragon.ideasonboard.com>
+ <aIpmgpXME1BmThxU@lizhi-Precision-Tower-5810>
+ <20250801120007.GB4906@pendragon.ideasonboard.com>
+ <0c2cc631-21fd-41fd-9293-fd86dd09a2d2@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="/6X2y1A/1uo421sv"
-Content-Disposition: inline
-In-Reply-To: <20250802-media-private-data-v1-54-eb140ddd6a9d@ideasonboard.com>
-
-
---/6X2y1A/1uo421sv
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <0c2cc631-21fd-41fd-9293-fd86dd09a2d2@oss.qualcomm.com>
 
-Hi,
+On Sat, Aug 02, 2025 at 02:37:54PM +0200, Konrad Dybcio wrote:
+> On 8/1/25 2:00 PM, Laurent Pinchart wrote:
+> > On Wed, Jul 30, 2025 at 02:37:54PM -0400, Frank Li wrote:
+> >> On Wed, Jul 30, 2025 at 09:04:17PM +0300, Laurent Pinchart wrote:
+> >>> On Wed, Jul 30, 2025 at 12:39:43PM -0400, Frank Li wrote:
+> >>>> On Wed, Jul 30, 2025 at 11:33:29AM +0200, Konrad Dybcio wrote:
+> >>>>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> >>>>>
+> >>>>> The DMA subsystem attempts to make it theoretically possible to pair
+> >>>>> any DMA block with any user. While that's convenient from a
+> >>>>> codebase sanity perspective, some blocks are more intertwined.
+> >>>>>
+> >>>>> One such case is the Qualcomm GENI, where each wrapper contains a
+> >>>>> number of Serial Engine instances, each one of which can be programmed
+> >>>>> to support a different protocol (such as I2C, I3C, SPI, UART, etc.).
+> >>>>>
+> >>>>> The GPI DMA it's designed together with, needs to receive the ID of the
+> >>>>> protocol that's in use, to adjust its behavior accordingly. Currently,
+> >>>>> that's done through passing that ID through device tree, with each
+> >>>>> Serial Engine expressed NUM_PROTOCOL times, resulting in terrible
+> >>>>> dt-bindings that are full of useless copypasta.
+> >>>>>
+> >>>>> In a step to cut down on that, let the DMA user give the engine driver
+> >>>>> a hint at request time.
+> >>>>>
+> >>>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> >>>>> ---
+> 
+> [...]
+> 
+> >>>>> diff --git a/include/linux/of_dma.h b/include/linux/of_dma.h
+> >>>>> index fd706cdf255c61c82ce30ef9a2c44930bef34bc8..9f9bc4207b85d48d73c25aad4b362e7c84c01756 100644
+> >>>>> --- a/include/linux/of_dma.h
+> >>>>> +++ b/include/linux/of_dma.h
+> >>>>> @@ -19,7 +19,7 @@ struct of_dma {
+> >>>>>  	struct list_head	of_dma_controllers;
+> >>>>>  	struct device_node	*of_node;
+> >>>>>  	struct dma_chan		*(*of_dma_xlate)
+> >>>>> -				(struct of_phandle_args *, struct of_dma *);
+> >>>>> +				(struct of_phandle_args *, struct of_dma *, void *);
+> >>>>
+> >>>> I suggest pass down more informaiton, like client's dev point. So we can
+> >>>> auto create device link between client's dev and dma chan's device.
+> >>>
+> >>> Is .of_dma_xlate() really the right place to do that ? If you want to
+> >>> create a device link for PM reasons, isn't it better created when the
+> >>> channel is requested ? It should also be removed when the channel is
+> >>> freed.
+> >>
+> >> I remember just need record client device pointer here.
+> >>
+> >>>>
+> >>>> DMA Engineer device
+> >>>>    DMA chan device
+> >>>>        consumer clients' device.
+> >>>>
+> >>>> If consumer device runtime pm suspend can auto trigger DMA chan's device's
+> >>>> runtime pm function.
+> >>>>
+> >>>> It will simplifly DMA engine's run time pm manage. Currently many DMA run
+> >>>> time pm implement as, runtime_pm_get() when alloc and runtime_pm_put() at
+> >>>> free channel.  But many devices request dma channel at probe, which make
+> >>>> dma engine work at always 'on' state.
+> >>>>
+> >>>> But ideally, dma chan should be resume only when it is used to transfer.
+> >>>
+> >>> This is exactly what I was going to mention after reading the last
+> >>> paragraph. Is there anything that prevents a DMA engine driver to
+> >>> perform a rutime PM get() when a transfer is submitted
+> >>
+> >> DMA description is a queue, It is hard to track each descriptor submit and
+> >> finished. espcially cycle buffer case.
+> >>
+> >> And according to dma engine API defination, submit a descriptor not
+> >> neccessary to turn on clock, maybe just pure software operation, such as
+> >> enqueue it to a software list.
+> >>
+> >> Many driver call dmaengine_submit() in irq context,  submit new descriptor
+> >> when previous descriptor finished. runtime_pm_get() can NOT be called in
+> >> atomic context.
+> >>
+> >> And some driver submit many descripor advance. Only issue_transfer() is
+> >> actually trigger hardware to start transfer.
+> >>
+> >> Some client use cycle descripor, such audio devices.  Some audio devices
+> >> have not free descriptor at their run time suspend function, just disable
+> >> audio devices's clocks.  Audio devices run time suspend, which means no
+> >> one use this dma channel, dma channel can auto suspend if built device link
+> >> between audio device and dma chan devices.
+> >>
+> >> Some DMA client have not devices, such as memory to memory. for this kind
+> >> case, it need keep chan always on.
+> >>
+> >> issue_transfer() can be call in atomic context. but trigger hardware transfer
+> >> need clock and runtime_pm_get() can't be called in atomic context.
+> >>
+> >> Most case issue_transfer() is call in irq handle, which means device should
+> >> already be in runtime resume statue.  DMA engine can safely access their
+> >> register if using device link.
+> > 
+> > You have good points there, in particular the fact the issue_transfer()
+> > can be called in interrupt context.
+> > 
+> > For me this calls for new DMA engine operations to "start/stop" the DMA
+> > engine (better names are likely needed) from a client perspective.
+> > 
+> >>> and a put() when
+> >>> it completes ? (Logically speaking, the actual implementation would
+> >>> likely be a bit different in drivers, but the result would be similar.)
+> 
+> So.. do you folks want me to alter the patch in any way?
 
-Very nice cleanup, glad to see this abstracted away from drivers!
+I think the runtime PM issue is orthogonal to the problem this series
+addresses. It can be addressed separately.
 
-Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
+That being said, I'm not a big fan of passing a void pointer to
+.of_xlate() to carry device-specific information, in a device-specific
+format. This seems prone to mismatch between clients and DMA engines.
+.of_xlate() also seems the wrong place to do this. It would be cleaner
+if we could use another operation, such as dmaengine_slave_config() for
+instance.
 
-All the best,
+-- 
+Regards,
 
-Paul
-
-On Sat 02 Aug 25, 11:23, Jacopo Mondi wrote:
-> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->=20
-> To prepare for the introduction of video_device_state as second argument
-> of the v4l2_ioctl_ops handler, access the v4l2_fh from
-> file->private_data instead of using void *priv.
->=20
-> The file->private_data is initialized to point to the v4l2_fh
-> by the usage of v4l2_fh_init() in the v4l2_file_operations.open()
-> handler.
->=20
-> While at it remove the only left user of fh_to_ctx() and remove
-> the macro completely.
->=20
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> ---
->  drivers/media/platform/verisilicon/hantro.h      |  5 -----
->  drivers/media/platform/verisilicon/hantro_v4l2.c | 22 +++++++++++-------=
-----
->  2 files changed, 11 insertions(+), 16 deletions(-)
->=20
-> diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/=
-platform/verisilicon/hantro.h
-> index 0f10714f1953945472e11d8c8ad87f8ec009b39f..e0fdc4535b2d73c5260057b0a=
-89aee67a4732dd2 100644
-> --- a/drivers/media/platform/verisilicon/hantro.h
-> +++ b/drivers/media/platform/verisilicon/hantro.h
-> @@ -382,11 +382,6 @@ extern int hantro_debug;
->  	pr_err("%s:%d: " fmt, __func__, __LINE__, ##args)
-> =20
->  /* Structure access helpers. */
-> -static __always_inline struct hantro_ctx *fh_to_ctx(struct v4l2_fh *fh)
-> -{
-> -	return container_of(fh, struct hantro_ctx, fh);
-> -}
-> -
->  static __always_inline struct hantro_ctx *file_to_ctx(struct file *filp)
->  {
->  	return container_of(file_to_v4l2_fh(filp), struct hantro_ctx, fh);
-> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/m=
-edia/platform/verisilicon/hantro_v4l2.c
-> index 7c3515cf7d64a090adfb8d8aff368f9a617f8c8a..6bcd892e7bb49c654aae58416=
-64d68c1692064bd 100644
-> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> @@ -185,7 +185,7 @@ static int vidioc_querycap(struct file *file, void *p=
-riv,
->  static int vidioc_enum_framesizes(struct file *file, void *priv,
->  				  struct v4l2_frmsizeenum *fsize)
->  {
-> -	struct hantro_ctx *ctx =3D fh_to_ctx(priv);
-> +	struct hantro_ctx *ctx =3D file_to_ctx(file);
->  	const struct hantro_fmt *fmt;
-> =20
->  	fmt =3D hantro_find_format(ctx, fsize->pixel_format);
-> @@ -217,7 +217,7 @@ static int vidioc_enum_fmt(struct file *file, void *p=
-riv,
->  			   struct v4l2_fmtdesc *f, bool capture)
-> =20
->  {
-> -	struct hantro_ctx *ctx =3D fh_to_ctx(priv);
-> +	struct hantro_ctx *ctx =3D file_to_ctx(file);
->  	const struct hantro_fmt *fmt, *formats;
->  	unsigned int num_fmts, i, j =3D 0;
->  	bool skip_mode_none, enum_all_formats;
-> @@ -297,7 +297,7 @@ static int vidioc_g_fmt_out_mplane(struct file *file,=
- void *priv,
->  				   struct v4l2_format *f)
->  {
->  	struct v4l2_pix_format_mplane *pix_mp =3D &f->fmt.pix_mp;
-> -	struct hantro_ctx *ctx =3D fh_to_ctx(priv);
-> +	struct hantro_ctx *ctx =3D file_to_ctx(file);
-> =20
->  	vpu_debug(4, "f->type =3D %d\n", f->type);
-> =20
-> @@ -310,7 +310,7 @@ static int vidioc_g_fmt_cap_mplane(struct file *file,=
- void *priv,
->  				   struct v4l2_format *f)
->  {
->  	struct v4l2_pix_format_mplane *pix_mp =3D &f->fmt.pix_mp;
-> -	struct hantro_ctx *ctx =3D fh_to_ctx(priv);
-> +	struct hantro_ctx *ctx =3D file_to_ctx(file);
-> =20
->  	vpu_debug(4, "f->type =3D %d\n", f->type);
-> =20
-> @@ -398,13 +398,13 @@ static int hantro_try_fmt(const struct hantro_ctx *=
-ctx,
->  static int vidioc_try_fmt_cap_mplane(struct file *file, void *priv,
->  				     struct v4l2_format *f)
->  {
-> -	return hantro_try_fmt(fh_to_ctx(priv), &f->fmt.pix_mp, f->type);
-> +	return hantro_try_fmt(file_to_ctx(file), &f->fmt.pix_mp, f->type);
->  }
-> =20
->  static int vidioc_try_fmt_out_mplane(struct file *file, void *priv,
->  				     struct v4l2_format *f)
->  {
-> -	return hantro_try_fmt(fh_to_ctx(priv), &f->fmt.pix_mp, f->type);
-> +	return hantro_try_fmt(file_to_ctx(file), &f->fmt.pix_mp, f->type);
->  }
-> =20
->  static void
-> @@ -648,19 +648,19 @@ static int hantro_set_fmt_cap(struct hantro_ctx *ct=
-x,
->  static int
->  vidioc_s_fmt_out_mplane(struct file *file, void *priv, struct v4l2_forma=
-t *f)
->  {
-> -	return hantro_set_fmt_out(fh_to_ctx(priv), &f->fmt.pix_mp, HANTRO_AUTO_=
-POSTPROC);
-> +	return hantro_set_fmt_out(file_to_ctx(file), &f->fmt.pix_mp, HANTRO_AUT=
-O_POSTPROC);
->  }
-> =20
->  static int
->  vidioc_s_fmt_cap_mplane(struct file *file, void *priv, struct v4l2_forma=
-t *f)
->  {
-> -	return hantro_set_fmt_cap(fh_to_ctx(priv), &f->fmt.pix_mp);
-> +	return hantro_set_fmt_cap(file_to_ctx(file), &f->fmt.pix_mp);
->  }
-> =20
->  static int vidioc_g_selection(struct file *file, void *priv,
->  			      struct v4l2_selection *sel)
->  {
-> -	struct hantro_ctx *ctx =3D fh_to_ctx(priv);
-> +	struct hantro_ctx *ctx =3D file_to_ctx(file);
-> =20
->  	/* Crop only supported on source. */
->  	if (!ctx->is_encoder ||
-> @@ -691,7 +691,7 @@ static int vidioc_g_selection(struct file *file, void=
- *priv,
->  static int vidioc_s_selection(struct file *file, void *priv,
->  			      struct v4l2_selection *sel)
->  {
-> -	struct hantro_ctx *ctx =3D fh_to_ctx(priv);
-> +	struct hantro_ctx *ctx =3D file_to_ctx(file);
->  	struct v4l2_rect *rect =3D &sel->r;
->  	struct vb2_queue *vq;
-> =20
-> @@ -738,7 +738,7 @@ static const struct v4l2_event hantro_eos_event =3D {
->  static int vidioc_encoder_cmd(struct file *file, void *priv,
->  			      struct v4l2_encoder_cmd *ec)
->  {
-> -	struct hantro_ctx *ctx =3D fh_to_ctx(priv);
-> +	struct hantro_ctx *ctx =3D file_to_ctx(file);
->  	int ret;
-> =20
->  	ret =3D v4l2_m2m_ioctl_try_encoder_cmd(file, priv, ec);
->=20
-> --=20
-> 2.49.0
->=20
-
---=20
-Paul Kocialkowski,
-
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---/6X2y1A/1uo421sv
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmiRLT0ACgkQhP3B6o/u
-lQzrNQ//exzkeWe4akWNjtSBn1Bl653EfO7v/aMS3Y3CCAKwErQrOulake7C7uWp
-FWmge5iMC9U/bJjnJn6lW9WfRnVUXmp5akqOeWHMSQNTJOKjpKKu2vbmpqvYuw8/
-EZ2UXBGtg72QjRVuzMJ+SE6pK4JPFM8d4TgJxzk49W5ABja+ipgEbdccHOOiSC6+
-uFVnPmJI1kOcxLhh4CLeJsq2rbT56LiAWFj/BcsoRnz0+2o3/E8FL3f2KG5T4/Hj
-6hZjsZySX3X+bwDVFBhMXv1d/ecgXPjUrdhj2kM+v50DMAu1jbz9aNM1kFzxA01q
-9uh4AeSC65gQ8YnjC8mUo9BH/9JWzvf8SsGLTqLfDxkaHZcs5dIfqvNkmTs+sAM9
-syJ2hplhAYUk20Pn/AAda2drxoqYYnUjt6R+UOaVcaJMLIr2z8CS60rWr2+Uwhpd
-njA1mv/Zih/rq8uNN8l+j4DAQabNh8g/LPeroTO0/eF5WsPTvZM/BKtKrJgoy3Rv
-E+C0EwaEiCNxZH9vUSmqw/DkWRX2CBe6NoDzUGwjWGJeSAjSCgbklwdyUuhKaJq0
-MTDz/VZ2xLIMFm8RRFfYBjKohUK+RXA2OHHst4bQGq0rvjqtJo9yd3UzIFz+ww+L
-VpD0vh+lndjqAQHcpftyzMcgB6AVADDZydaRUFdLGm9OHaeZA5k=
-=4/Uq
------END PGP SIGNATURE-----
-
---/6X2y1A/1uo421sv--
+Laurent Pinchart
 
