@@ -1,110 +1,159 @@
-Return-Path: <linux-renesas-soc+bounces-19967-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19968-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDBFAB1A2CD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Aug 2025 15:08:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7E22B1A52B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Aug 2025 16:44:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8E9053A5ADF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Aug 2025 13:07:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 69EF7189E066
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Aug 2025 14:44:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1DA32620E4;
-	Mon,  4 Aug 2025 13:05:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D2681FB3;
+	Mon,  4 Aug 2025 14:43:52 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA61236430;
-	Mon,  4 Aug 2025 13:05:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BDD5273803
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Aug 2025 14:43:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754312739; cv=none; b=shG3vgPalfRY+dWEvSbbUrNgC4XeE+LDgDnqISDA/xVyMh+Dp5Bsug+I8uM1pRHwdSd9jncPwudleTkxiTUFmQyXizu7fzabePFNPyrkBl5ssx2FwbhuuK4iubITF2S5FwXYLfji2KozqS7HsMDzclZpWP345kxkbAjAMq61nDo=
+	t=1754318631; cv=none; b=Y+2e3XCqBAkKtwK2TRGGTqmPJOJs5qso4x/7QOHIubq0oFygEUFAnH7vgKL8xdgehL3/9jUcMwh+pzgScnl3RmMMrSX8RFLr057R2KL/h7P3l2S+mohe2PGDfYgPZErujkIjZaCj/nuv3ZWjy1W6N/wV1f1yJMYyxuU2nGRB12U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754312739; c=relaxed/simple;
-	bh=0P5M1kx65QaAhhe2nssk8eLJHgDw/J88Uq8PW5qMvs8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VDVusXC38UShW4dTuJ+xM7UcsX1XXJYiUiJiCgs3cXj60BDjxQyKck8DK3XpQaRDSEwzIRNnfkzdcVT4E5VSm3byS8V6ciODNDelqEMpa7I9r5Ndmugui40h8r9+0srzZNj2yvfamxD77zFOQiukT53tJJRKwnEF4JxtT1U8M60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-2ebb468cbb4so2133351fac.2;
-        Mon, 04 Aug 2025 06:05:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754312737; x=1754917537;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7H2c83Dm5/3RiEg910uXwR0uEp2bBIYRUb95k5GL1u4=;
-        b=AoT7eAKThRbQfTBBVKDfVpHRCbr+G3bcTu2eugUxTN9TSIBI0VRONl90gjNdkGCFRH
-         XsffJUQLRachYh8A6lVqK1wLmTkxC8bJMuJHEw0iSwbxGMuS1cPm+JD7aBCNXcXkQddC
-         HCwB1xHIHfQGv+6/VLe2B6kG88HnItchFUnAHWldeLRVvK1inq9iN48p6jl6zXmTT0QK
-         s6UOtCkqg2jzrJZCAOY8PLuytyk8+DDBu5yS/UBNbH7X6HOiy4JdNCrY0Ia8xGTL4tvt
-         rMuVT8Yt8E9HjIKTu6GOwedcOCLsyzdJuxAF/ppS60NeKipzCUH+C43dn9KncMFlsbIY
-         2amw==
-X-Forwarded-Encrypted: i=1; AJvYcCU81oS/nFt6bvfx/TVC1zj+mjI4vj+BL3B+h6Aso/n2JlqJ+mGR8gui/niS9CkhlL01pFiiJhMy4n25Aafl@vger.kernel.org, AJvYcCUgeTN3WYPOV+6cQUEQT/7ZdqkglDWOSYrqIx0StC6U4ZmWoejh2r/KrTXlZz6UhIPwWN4IaKxWVSe2@vger.kernel.org, AJvYcCVYX13U9QwmSW52Q0/ntuKGtVSHtFfjqWmpuhhuEXUHNhRRJKB3g9QQxOPF2IxhBFtNg251QpV0XtYCJoZL5qGY+Ks=@vger.kernel.org, AJvYcCX2Dovk0sTXS2mGdqOgIwBrgEPXk08lvLCZK19z6LsakGFJ6Ce9Np0w2U/KfDM0GJYjCj3yAEDrQwvy@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUd7G3WOuRb+n3dR6S9iSk15ekjHK8do9N8tw9LVXNOgjKc4O9
-	pncYhMoPrJhYqNGaifuIXjJhjO0SIsBThwqQokRaw/ykLpyFfldIdtKJgjUk2Y1n
-X-Gm-Gg: ASbGncstlBBXjWq6uNP/lapZDNJym3JqVm1FUWfg/fytU9T9nR29JDaW5z+6bLEfCdp
-	wahCKJsKr5pofq6yXzEmpqMRCBVlp5jLoZ1O1rXjksPrbW083DcJBM2AiTJ1ugZI32nj5UPW/uP
-	I7QtBybaMPe61FJZrgrasMIu6bOv4y0LdPqLEXatuidsoYUVgSHIKfFRp15hvBap1ydkB5Ws5Zr
-	Z27I5oB7kAPHQaoiG4rJwF2TzT/umWONqpGIJh3P3PXsEfrrCF/o5R9+/BKuLwe4UdWpkVSx63l
-	ync6ESNMdwtE7I96hLxG6CWwzeEsq4jQUMGTM5pbHsdk6patNjs4WOZ0axRcdmaCtLmZuOtW8dj
-	0nSHviWeIXjdtVpRpsZNr4euQVsKdaq5L99r9GGt/jjw8A/cdKDp4kvrTqCbF
-X-Google-Smtp-Source: AGHT+IFM3sJzcM+7CHQjK5sWn0UXGNT5nb8OWoULRn9S8xA7r2VBlaE0vYAfnTxZbwouHPLt+u+9ig==
-X-Received: by 2002:a05:6870:b209:b0:2d5:4d2d:9525 with SMTP id 586e51a60fabf-30b675d8e0dmr4836914fac.8.1754312736936;
-        Mon, 04 Aug 2025 06:05:36 -0700 (PDT)
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com. [209.85.210.53])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-307a7172ac6sm2702697fac.9.2025.08.04.06.05.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Aug 2025 06:05:36 -0700 (PDT)
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-73e88bc38bbso1690601a34.3;
-        Mon, 04 Aug 2025 06:05:36 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUOcJhNXDRt8rmYpReGlamQBH5I3NwTKeV4h6Kv2h50sUtZ7DCjxr/U2KggJ5BAZaqf6p+EOQ6Qg58tbF2w@vger.kernel.org, AJvYcCW8nA7/a6pnkgIrueYFzO89+t8aaHEzJZUwmcaenAq8k6hH6xyGJiUT2r338VuuJA3EtNOVB5S/BhXG@vger.kernel.org, AJvYcCWJ7k1XbsS9OLQ2D7SlUe6c7cO6qlehH8t6SM0YgIFqCkd/JPbXqwaddLrQqoAXFc5QpQympt+Q++28H9T8dKcV8iE=@vger.kernel.org, AJvYcCXYOb2qxRv4X8wh3AivU0Kv5oQ2UFujjBBhnGaqAGx1yfTLFAUspmZd86gtmfSlFu/GaQqNYjworekM@vger.kernel.org
-X-Received: by 2002:a05:6830:2692:b0:741:9fb1:ad52 with SMTP id
- 46e09a7af769-7419fb1ae36mr5433566a34.5.1754312735742; Mon, 04 Aug 2025
- 06:05:35 -0700 (PDT)
+	s=arc-20240116; t=1754318631; c=relaxed/simple;
+	bh=d4n8FnV/L5ASC/KQP5eckHOAbv6VPJt6X8nRBabrSEQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fP0ZD9Yf6ZwtTHhWQdv2HKDQUauRuPc/P+ogp8aLwtRr09xBsdoMp0hMar1xcO00w62vY2HO/EiSdZAYPhVtFtv0H59NWFctY4Uw4WHyf5YYQUWGL4rpO3yAwZL2iTmZlkKxQD27ng32PKkfX8KgNOVgPkc0j8fyg0xuSFDhzfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2444F150C
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Aug 2025 07:43:42 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E8F193F738
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Aug 2025 07:43:49 -0700 (PDT)
+Date: Mon, 4 Aug 2025 15:43:12 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+	"Kandpal, Suraj" <suraj.kandpal@intel.com>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+	Sean Paul <sean@poorly.run>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 0/8] drm: writeback: clean up writeback connector
+ initialization
+Message-ID: <aJDHAF69VOEHwcKO@e110455-lin.cambridge.arm.com>
+References: <20250801-wb-drop-encoder-v1-0-824646042f7d@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250801084825.471011-1-tommaso.merciai.xr@bp.renesas.com> <20250801084825.471011-4-tommaso.merciai.xr@bp.renesas.com>
-In-Reply-To: <20250801084825.471011-4-tommaso.merciai.xr@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 4 Aug 2025 15:05:24 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUu5byJYcBq94ZHJCgXUy5CdeSxWsg9B2TB8XqeuNRKzg@mail.gmail.com>
-X-Gm-Features: Ac12FXzcbuyUbr2GhiCjz7Maf7fXxNgTpABFQdFEFxNlmMVWz3WSOHEZhuRDlNA
-Message-ID: <CAMuHMdUu5byJYcBq94ZHJCgXUy5CdeSxWsg9B2TB8XqeuNRKzg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] arm64: dts: renesas: r9a09g047: Add DMAC nodes
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
-	biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com, 
-	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250801-wb-drop-encoder-v1-0-824646042f7d@oss.qualcomm.com>
 
-On Fri, 1 Aug 2025 at 10:49, Tommaso Merciai
-<tommaso.merciai.xr@bp.renesas.com> wrote:
-> Add nodes for the DMAC IPs found on the Renesas RZ/G3E SoC.
->
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Hi,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.18.
+On Fri, Aug 01, 2025 at 04:51:08PM +0300, Dmitry Baryshkov wrote:
+> Drivers using drm_writeback_connector_init() / _with_encoder() don't
+> perform cleanup in a manner similar to drmm_writeback_connector_init()
+> (see drm_writeback_connector_cleanup()). Migrate all existing drivers
+> to use drmm_writeback_connector_init(), drop
+> drm_writeback_connector_init() and drm_writeback_connector::encoder
+> (it's unused afterwards).
+> 
+> This series leaves former drm_writeback_connector_init_with_encoder()
+> (renamed to drm_writeback_connector_init as a non-managed counterpart
+> for drmm_writeback_connector_init()). It is supposed to be used by
+> drivers which can not use drmm functions (like Intel). However I think
+> it would be better to drop it completely.
 
-Gr{oetje,eeting}s,
+The intent of _init_with_encoder() was to be a special case for drivers
+that use their own specific encoder and the rest use the generic function
+that creates the virtual encoder inside the call. The API for
+_init_with_encoder() was actually introduced 4 years after the original
+patch, so that should give a hint.
 
-                        Geert
+drmm_writeback_connector_init() is more like _init_with_encoder() and
+I don't remember reviewing it, so I'm not sure why that was considered
+to be the better behaviour for the managed version. Now you're moving
+all the drivers to the managed version and you have to duplicate code
+in each driver to create the ENCODER_VIRTUAL encoder.
+
+I'm not against the changes being made in the series, I just want to
+see a better justification on why _init_with_encoder() behaviour is
+better than the previous default that you're removing.
+
+Best regards,
+Liviu
+
+
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+> Dmitry Baryshkov (8):
+>       drm/amd/display: use drmm_writeback_connector_init()
+>       drm/komeda: use drmm_writeback_connector_init()
+>       drm/mali: use drmm_writeback_connector_init()
+>       drm/msm/dpu: use drmm_writeback_connector_init()
+>       drm/msm/dpu: use drmm_writeback_connector_init()
+>       drm/vc4: use drmm_writeback_connector_init()
+>       drm: writeback: drop excess connector initialization functions
+>       drm: writeback: rename drm_writeback_connector_init_with_encoder()
+> 
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  2 +-
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c   | 18 ++++--
+>  .../drm/arm/display/komeda/komeda_wb_connector.c   | 30 ++++++----
+>  drivers/gpu/drm/arm/malidp_mw.c                    | 25 ++++----
+>  drivers/gpu/drm/drm_writeback.c                    | 69 +++-------------------
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c      | 10 +---
+>  .../gpu/drm/renesas/rcar-du/rcar_du_writeback.c    | 23 +++++---
+>  drivers/gpu/drm/vc4/vc4_txp.c                      |  9 ++-
+>  include/drm/drm_writeback.h                        | 22 +------
+>  9 files changed, 77 insertions(+), 131 deletions(-)
+> ---
+> base-commit: 94f208ff622b09309358abaf26d7acca0c318fae
+> change-id: 20250801-wb-drop-encoder-97a0c75bd5d7
+> 
+> Best regards,
+> -- 
+> With best wishes
+> Dmitry
+> 
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
 
