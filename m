@@ -1,215 +1,147 @@
-Return-Path: <linux-renesas-soc+bounces-19969-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19970-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CD3BB1A70D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Aug 2025 18:08:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3A35B1A9D9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Aug 2025 21:57:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ACC0F18A4337
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Aug 2025 16:08:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 76DC73BA440
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Aug 2025 19:57:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71011256C6C;
-	Mon,  4 Aug 2025 16:08:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F15623D294;
+	Mon,  4 Aug 2025 19:57:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JdKd3iN0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NCgQL3Ey"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FC3220E717
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Aug 2025 16:08:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E598EEB2;
+	Mon,  4 Aug 2025 19:57:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754323690; cv=none; b=HeNnolCu2MhbwQEoj5yQJJ0ZxXfRsxiHkTjMAa217ew6MneurTtOHZ1AxuRkZEdhe1Gk3bIZsUfCemWP4N3K0FbJHgg29znmVQvoFwUGMCIo05JLWgpEhUIy6T9IpleXSRBtfVz6XGkquI6U3jclTc+TQRnmNYLHJ8q/WWN9z4U=
+	t=1754337451; cv=none; b=EFCKg+yf9nYcXgC5MfsCMyYPBwn9c/JRZkriCcJ943J6lJIYq55m6mqihFIjLM7MkpUHmPLrdXwtkvl89Mgxu9V3Pl0jSunSPMK+a9IqYoIMmmBp3p+YFrqoqJpyBthSN+f3qYJJYH6FaoX5nV5TXByC9/iIhKWJOd9Av/cCRAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754323690; c=relaxed/simple;
-	bh=S9yuT+weSY5miLU3AyaItyOypGFL+jNnY+GzO8Hq2NM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mWSfg03o/ZoW+yqSzwW4rHiInmSsy9sRlh37ri/X80D8q4DVSGqI5Nxg5OzPNpiOYG6aP9bKI5fD+c6mVebS5Co8Ahjpu/dbQr2AhsjmaNlNhL5KDujupgfTcGZuFkGBDLGJRn8hCU3lu3jSoN/iPBGCkgMpzG+V28mwmuKZw84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JdKd3iN0; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3b8db5e9b35so1622041f8f.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 04 Aug 2025 09:08:06 -0700 (PDT)
+	s=arc-20240116; t=1754337451; c=relaxed/simple;
+	bh=Ls1I6xnwjKB9nxx4YVwaD8SDpqVui6e9YgwpysNbbIA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AtDPtB9T3Of/VOVGO8d0YNXpo5m4lbDqadtLGdH7oxK//uKblXsH1hXnN0Xt29lJHMaJXb5Ucb6/skJDto7kh4nwsZOyc4QQAgBT5WC9DoHsgsF1d2N/ITT0WzXmcU7/0DM9oXyiicNPtRAnU6bi6UXLFcnUM2zIUf3gFp87mrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NCgQL3Ey; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3b790dbb112so2632958f8f.3;
+        Mon, 04 Aug 2025 12:57:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1754323685; x=1754928485; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2Aaib/NaydwLH1J4xHrdqxdoR2E0SlQgXrBILFXZ4d4=;
-        b=JdKd3iN0F98ojpAUOxP6F5XK7x5kAzRZbnev+LQE7f3kHCpw2Kdegg5OYV29nC0h60
-         i/BGqcUYJQdldCEw9EcsZGwTTQALi0xq/sImYvFqejqwoGSTosHRd7Sal6Ab7MMN4XHr
-         CnRlM9Ylu9URzQQsNoZQHI5T8gkd6CRGBPaVQDahA0XmND8enikY83Uqdbh2x9E95ZhB
-         by4zDjpxqSJD/0UX6kN+2UNbO/8nM/cFTu7lODy2Uo/mzoRzZl6mRXH4ueRQQsna+Cf0
-         q8P3CGeLN5ybNKGFWhJKFeULNv6Ifb/gj2yN+Py76yExr739oGB41lmNaMDCZlqibiXi
-         xjXw==
+        d=gmail.com; s=20230601; t=1754337448; x=1754942248; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=x/MyHblJ7uyowUrCYk/Yn8tFlGh2tU0BHZTDwTmz4Yc=;
+        b=NCgQL3EyYTwo+tuLqGwIBmZb02UqpF4YwZuNQLRCKsZ+Dze7j0i9EI0K0H8nGdryAI
+         FPjaUCrbGXkaNagosT2tB4fpZW5gbnjgo7yUkTWkXNHMgRouV/ostsTO2r2rdSh6sGpZ
+         jF8Lk5xo7Md3eXxY4uI2QsoJAsiF+CaTvUxbQwhQ6klw3jGFL82Xo/jjf6t+rcBoOQf3
+         DypswV5ZPesla3O6RkBpr0RU/o6tpPPTdywzIzObZKUlmudGpc/b1KQKKeD2lTJRSEhS
+         3fTd5iGm7+6C5uKz8t0xFAX1nqpB5ZBqq+kFqzirmARz3kb6c0W97Fmnl1zEPjB0x1Ae
+         U6jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754323685; x=1754928485;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2Aaib/NaydwLH1J4xHrdqxdoR2E0SlQgXrBILFXZ4d4=;
-        b=X/KIsNmW/dSuRkR0gPrNxdmtHtMIcdcwIyjOUAzQ90zNi3jU4K42ozUA6GyafnDNRV
-         UDww7w0EkUpRsFBS3Ap1fYC0JKqPfZmbabIr+Z5cd8kYz2B9Vm07ZuBlpyJDUqer1AqY
-         a0Jx8TIehnSXtZDcCmp8DyjZ/jV/6MA6yq/wm9+0gS/ctWCOGhj1q4mxty8R5t6ziKIR
-         0F2/Uv0sOQs5o57Gjz2CBpZgxZQRpgrdCUyom3tfpt+0KnOsqIcw9UV0DA4p/YQYXvlE
-         8jpgiMTW/ggH3rNI8GN1P92A8fcj/CP4RH3NZFM6yWWhyrZlPm/YX1wiCZxFeUm/LbYS
-         OLHg==
-X-Forwarded-Encrypted: i=1; AJvYcCXmx4xdFyH1EdA6pMlLHrsK24qOgP1AzrgNAd9LvM1Pn323I3JzNKvkeB0XOnSpyK+YNqE6Z3sjHXLSH2EvSD3+3g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwcbSPo7Ht6Ztb8/GnfR68G9tdhd5W0yzEDBWNcDAmn0yNCfvvN
-	0YYA3EgwPvcai+HmiWKltIaF6g/D2aUj+pPXyvWfsszGcOR2mLPZdCG/dEmbKcvQnIE=
-X-Gm-Gg: ASbGncv4GINh4SlgMNb8SfnHYQrAYmnCYI/ou0G/rYxBqHPqnR2B/Er60VWjZ17Fpej
-	uNdchJjOdOhAgfIT+3SY5RqdAP2wV2W4NyVHcgiblB52byh2Bo5fpgNHRH0S9LqDVmW2ZX8G7gp
-	HGzMzpaVwCk8EU2jB1QGrJzT9vjJIJhqnTixWhgxa4l6WGR+cX9EcBQkGTZGDayRzzQhacF2c50
-	BzfL1eoT6yXtimm9Or+DQkK2Oyv0S4jBQdP1oqeDe26TWSZ4m3Akje0GmqByXxDrNj+GM9Yk7xx
-	Cf+3vWb/CZPIDNStMuiOTBsPR/NUns5eLKHamGascpRGQPPlnT1Hafs9pNpT0SXArPeEIkeMXAn
-	/wZf+9QLwjvFUnpPFu63TBxfSOPspsJ2izpTRb1XmYdRshDievLQYZQ7jgotXPcqPlL++2RiT
-X-Google-Smtp-Source: AGHT+IEohChU750lDHoZ0kT83zI/nxMNcmkkIL5wgE8PiBZtIvHt4vP9RiqS9PltkOKHSOsX9HxMyw==
-X-Received: by 2002:a05:6000:2f85:b0:3b7:9c28:f856 with SMTP id ffacd0b85a97d-3b8d94c3f4bmr6867167f8f.48.1754323685345;
-        Mon, 04 Aug 2025 09:08:05 -0700 (PDT)
-Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-459a1c79b0asm39287285e9.3.2025.08.04.09.08.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Aug 2025 09:08:04 -0700 (PDT)
-Message-ID: <64622ffd-05d1-43c3-85d0-cf98f3012477@linaro.org>
-Date: Mon, 4 Aug 2025 18:08:03 +0200
+        d=1e100.net; s=20230601; t=1754337448; x=1754942248;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=x/MyHblJ7uyowUrCYk/Yn8tFlGh2tU0BHZTDwTmz4Yc=;
+        b=fjqANI+Prwgx8XSbLBt+dAiJty+w33M6CxTiK7xCQcvjUZTJ68Kd3+kENas5a0/zc8
+         AGg4HAwwN78QO104fpuSCDipGtOxGPuuerelm0VN+pXxUYoEU/r7wxmjMDHNTdippoCa
+         eQZBTHoR13QvmMHlBDDN9znVzm2PBPjmyWNYmKO029cU0WnEfD85V0ZQIVVtU0/Qa9VT
+         hrI2yx0v9ccg8z0515W9AlA1Fr52zDH42x55Ubl02TJWqcna8NUYDzfkwIW2vBo78thu
+         MQ5829LR6DRa1t5ha4ge6mZXF1VRToQZi5ZtO6Zn0vbFCnYuxqqSqbfdwX9zZO9zg6If
+         uQWw==
+X-Forwarded-Encrypted: i=1; AJvYcCVf2XarO2V1xS2ClBOuI569ZCm6qRJx+LU5LLSWX6lPrA7bSOQTFZaMxQGxmZz5NuW7+CtmsayS6g73@vger.kernel.org, AJvYcCWzf7LsTuzlzWpwF5i/DW9eVbJ0HdqgdTsTaUEbV5VspcK3SrmAHoqCCVeJKkltT9w1yAmZEM+yajOVUagqlPncnk8=@vger.kernel.org, AJvYcCXIg6VYKZkEaKt2W2eUFVp7HOlNTCiOJMDZj1MMw4jeIQbrnZtT9vOYpnBXChTS18jBSHbr2QqdtWU0t7ec@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEB+EI7YaR6Q/EnvutjaE2Nmae1OSYE+IF+CE9qaDNv32pN8wr
+	P1eJOnR0TXGlAxiOajI+oG8+Cqk42K/0/jqSSmy1tdIGmb0DqfjN/Qnq
+X-Gm-Gg: ASbGncsh5B+2uB9BrC2ErbxoZKSteeLnI1+7x3Xk/TFlo3IMiGoo8hueJKTH86qT7y7
+	gCNNONFe8XxJBOK3pR17GKH085Dsf5UXqW70+lOblpvfI4ZbvZpuX7sRegRsJY23pSTTdgiS4OX
+	mJ14idC1zHCp+NyI2SDn9b1DRw1Qo6lU5jGG8uVMTiUQbQcTWz9iQXDjB72f90gLMG129sxWDr4
+	0Wyj3NMFFi8pYt0NXdTRriBNOIuwzu7tzwuCxios6ep7jFIOQaWcgDvLGr4fKOTH5/tZvfwl1RT
+	CJ+SF2bCs26/uIb7tV/0Wl3uBmKg6qQSq23p4vQKnYGEd0zrKacKplfaAiHnOWCg1Q7ee8SZmU8
+	pWHrRyWXjRGOAHTpmJXPmXznGZklTzjK1qOKctuduCaVv4fd1EUls7rizXO7okR9TgprVptQprQ
+	==
+X-Google-Smtp-Source: AGHT+IHKjHoSmJl6K3x29t/xHimifONWBZQqAL6qPDzkRebqVVmffzoLpnolqmH405PnzLib2DShvA==
+X-Received: by 2002:a05:6000:2388:b0:3b8:d15e:ed35 with SMTP id ffacd0b85a97d-3b8d947296emr6440136f8f.23.1754337448241;
+        Mon, 04 Aug 2025 12:57:28 -0700 (PDT)
+Received: from iku.Home (97e54365.skybroadband.com. [151.229.67.101])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c3b9074sm16293840f8f.17.2025.08.04.12.57.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Aug 2025 12:57:27 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-watchdog@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v3 0/6] Add watchdog driver support for RZ/T2H and RZ/N2H SoCs
+Date: Mon,  4 Aug 2025 20:57:17 +0100
+Message-ID: <20250804195723.3963524-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/5] thermal: renesas: rzg3e: Add thermal driver for
- the Renesas RZ/G3E SoC
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "geert+renesas@glider.be" <geert+renesas@glider.be>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "rafael@kernel.org" <rafael@kernel.org>,
- Biju Das <biju.das.jz@bp.renesas.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "john.madieu@gmail.com" <john.madieu@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "lukasz.luba@arm.com" <lukasz.luba@arm.com>,
- "magnus.damm" <magnus.damm@gmail.com>, "robh@kernel.org" <robh@kernel.org>,
- "rui.zhang@intel.com" <rui.zhang@intel.com>,
- "sboyd@kernel.org" <sboyd@kernel.org>,
- "niklas.soderlund+renesas@ragnatech.se"
- <niklas.soderlund+renesas@ragnatech.se>
-References: <20250522182252.1593159-1-john.madieu.xa@bp.renesas.com>
- <20250522182252.1593159-4-john.madieu.xa@bp.renesas.com>
- <aHgVe0YwPWapIYed@mai.linaro.org>
- <OSCPR01MB14647DE009925C982AE6BB5D2FF27A@OSCPR01MB14647.jpnprd01.prod.outlook.com>
-Content-Language: en-US
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <OSCPR01MB14647DE009925C982AE6BB5D2FF27A@OSCPR01MB14647.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 31/07/2025 19:19, John Madieu wrote:
-> Hi Daniel,
-> 
-> Thanks for your review.
-> 
->> -----Original Message-----
->> From: Daniel Lezcano <daniel.lezcano@linaro.org>
->> Sent: Wednesday, July 16, 2025 11:11 PM
->> To: John Madieu <john.madieu.xa@bp.renesas.com>
->> Subject: Re: [PATCH v6 3/5] thermal: renesas: rzg3e: Add thermal driver
->> for the Renesas RZ/G3E SoC
->>
->> On Thu, May 22, 2025 at 08:22:46PM +0200, John Madieu wrote:
->>> The RZ/G3E SoC integrates a Temperature Sensor Unit (TSU) block
->>> designed to monitor the chip's junction temperature. This sensor is
->>> connected to channel 1 of the APB port clock/reset and provides
->> temperature measurements.
->>>
->>> It also requires calibration values stored in the system controller
->>> registers for accurate temperature measurement. Add a driver for the
->> Renesas RZ/G3E TSU.
->>>
->>> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
->>> ---
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-[ ... ]
+Hi All,
 
->>> +static int rzg3e_thermal_get_temp(struct thermal_zone_device *zone,
->>> +int *temp) {
->>> +	struct rzg3e_thermal_priv *priv = thermal_zone_device_priv(zone);
->>> +	u32 val;
->>> +	int ret;
->>> +
->>> +	if (priv->mode == THERMAL_DEVICE_DISABLED)
->>> +		return -EBUSY;
+This patch series adds watchdog driver support for the Renesas RZ/T2H
+(R9A09G077) and RZ/N2H (R9A09G087) SoCs. The necessary device tree
+bindings and driver modifications are included.
 
-[ ... ]
+v2->v3:
+- Fixed commit header for the patches rzv2h_wdt->rzv2h
+- Added reviewed-by from Wolfram
+- Merged "watchdog: rzv2h_wdt: Make reset controller optional"
+  patch with "watchdog: rzv2h: Make "oscclk" and reset controller optional"
+- Dropped patch "watchdog: rzv2h: Set min_timeout based on
+  max_hw_heartbeat_ms" instead updated the period for RZ/T2H.
+- Updated rzv2h_of_data structure to include tops and timeout_cycles
+  for RZ/T2H.
 
->>> +	reinit_completion(&priv->conv_complete);
->>> +
->>> +	/* Enable ADC interrupt */
->>> +	writel(TSU_SIER_ADIE, priv->base + TSU_SIER);
->>
->> Why enable irq here ?
->>
-> 
-> I did it this way because, in 'set_trips' callback, the
-> driver does trigger conversion to check whether the current
-> temperature is part of the window or not, and triggers the
-> comparison interrupt accordingly. Because of that, I did not
-> want the conversion-complete interrupt to also be triggered.
-> 
-> That's the reason why I enable conversion-complete interrupt
-> in 'get_temp', to make sure its interrupt is being triggered
-> only when the thermal core calls it.
-> 
-> Should I do it another way ?
+v1->v2:
+- Dropped items from clock-names and instead added maxItems: 1.
+- Added reviewed-by from Rob.
 
-I don't ATM, the approach is very unusual so I'm still trying to figure 
-out what is this completion approach and readl_poll_timeout_atomic. At 
-the first glance I would say it is wrong.
+Cheers,
+Prabhakar
 
+Lad Prabhakar (6):
+  dt-bindings: watchdog: renesas,wdt: Add support for RZ/T2H and RZ/N2H
+  watchdog: rzv2h: Obtain clock-divider and timeout values from OF match
+    data
+  watchdog: rzv2h: Make "oscclk" and reset controller optional
+  watchdog: rzv2h: Add support for configurable count clock source
+  watchdog: rzv2h: Add support for RZ/T2H
+  watchdog: rzv2h: Improve error strings and add newlines
 
->>> +	/* Verify no ongoing conversion */
->>> +	ret = readl_poll_timeout_atomic(priv->base + TSU_SSR, val,
->>> +					!(val & TSU_SSR_CONV_RUNNING),
->>> +					TSU_POLL_DELAY_US, TSU_TIMEOUT_US);
->>> +	if (ret) {
->>> +		dev_err(priv->dev, "ADC conversion timed out\n");
->>> +		return ret;
->>> +	}
->>> +
->>> +	/* Start conversion */
->>> +	writel(TSU_STRGR_ADST, priv->base + TSU_STRGR);
->>> +
->>> +	if (!wait_for_completion_timeout(&priv->conv_complete,
->>> +					 msecs_to_jiffies(100))) {
->>> +		dev_err(priv->dev, "ADC conversion completion timeout\n");
->>> +		return -ETIMEDOUT;
->>> +	}
->>
->> Can you explain what is happening here ?
->>
-> 
-> I might not get what you are asking, but since I compute the
-> temperature in the hard IRQ handler, I just wait for it to complete
-> and notify the completion so I can grab the processed value to notify
-> the thermal core.
-> 
-> Please let me know if this does not answer your question.
-
-Can you describe how the sensor works ? And perhaps if you have a 
-pointer to some documentation ?
-  [ ... ]
+ .../bindings/watchdog/renesas,wdt.yaml        |  36 ++++-
+ drivers/watchdog/rzv2h_wdt.c                  | 148 ++++++++++++++++--
+ 2 files changed, 164 insertions(+), 20 deletions(-)
 
 -- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+2.50.1
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
 
