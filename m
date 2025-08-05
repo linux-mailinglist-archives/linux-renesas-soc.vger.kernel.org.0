@@ -1,201 +1,369 @@
-Return-Path: <linux-renesas-soc+bounces-19986-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-19987-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 243E0B1AD57
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Aug 2025 06:58:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68FB5B1AEB5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Aug 2025 08:50:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 89121621180
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Aug 2025 04:58:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 23EB63A29BD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Aug 2025 06:50:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 392CE219A81;
-	Tue,  5 Aug 2025 04:58:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DB6821C9E5;
+	Tue,  5 Aug 2025 06:50:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Kzt5V+6x"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WMv6k4+R"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A72B421883F
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Aug 2025 04:58:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 881171C861A;
+	Tue,  5 Aug 2025 06:50:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754369897; cv=none; b=Yp/nkSzTCM+5TsuVqFtJy6AvR6vaDO1j0U+v+XhiJzn18Da7Si0h0SFBfwzif4DpqfaadbV/3uvmEh7EPFAdwg6GiCecQxdoOlXFNUF4NWi/N4zmexpAC8uWvBnVAw2FqIdWk3p1yN4iGl9lX8dfMk5Op2e6r6b5JPGDUYzPjVU=
+	t=1754376638; cv=none; b=frmeHPRdBNOzQsfExjv5pfpYdXXEbmU0NapIpTjeabLRFPrA0eaT2Qg2JQBII6lpnVOHCJvmlZPKhlRzbBmaIrnb0G+RJ0uciogDl4uSwf/WG83yZF10w0hu7mZJJHHdd0u+AJVZoH1ET7XseuFNtiB3SGtwiDgsSrmhCzH4i3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754369897; c=relaxed/simple;
-	bh=lJYhkL+QX40YpeFwEk9gu0WQ9NBis32tZcCmGmXy6i0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qnnUImwDztq6cdwDjGCnWD+A0g/a5s9VEzMgprCs5hugD/varnq6nZzF4+o1snzTL2tA+aoe+ajKvVVAy1Y10HQ8+9jkpJODTNUiyaSWVHkXKw+KyUceHM+HMsFad9XM0zm3uniCT255+AH/z0mRG/MPsdoWTrT1AM6lPPkUhfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Kzt5V+6x; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 574Gmwmg011524
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 5 Aug 2025 04:58:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=ZJk8ZPcKnOpx2SNNbdPGbHCx
-	Lccj6TZBqXskHVjiVyc=; b=Kzt5V+6xQ4sPGQZHZZzOITFZ/wk0ZUSxsrZL0Vnp
-	Xx1l01K2Gu43cr0/LJFnlvqqBsMZVzzkKApUXwa+gkvaZyfRb+LckZUXlnS2xeaa
-	gc/UB7HiQAMs0jcn35W7ZNKSvcBqC5D8Zp+uQY50gOwxMCyxWylqdHi/tw3PlD0/
-	6nm/gR0Az9SnA620lLuc3hPNoySvKw54dIVv9M2lSBDJYEK/qwWd+ngG4jL75hL+
-	u0qjloA8qwCPjIkElxnwGXW4gnzohY/0A2PdtmqjoE/Aii48Ik0TGNxr1tonRnNB
-	pLAkMIuntt06gt4WqMEXjC7JW5w3W8VkvRnUnkVbU+OinQ==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 489buqq75t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 05 Aug 2025 04:58:12 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7e6857795eeso1100640385a.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 04 Aug 2025 21:58:10 -0700 (PDT)
+	s=arc-20240116; t=1754376638; c=relaxed/simple;
+	bh=RZzlgIO+JE/YFit6aIGokGuiJRZOXnKLXopnjx3NpEE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mGslF66yxYyXAUjS+eO96c5RS0RHCcJ74+JwiXjLJwQtch2oFLPKK+NtxafyB1C5C+bzgUJIcNmretMrmbffqBavXAEg7bPubvOoJCMKXVhqcesDbTirpby7KynYSxnick0H8aGhe3GZLOtlxSvnufihWQyxm8tVvwt1FTsSGUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WMv6k4+R; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3b782cca9a0so2917181f8f.1;
+        Mon, 04 Aug 2025 23:50:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754376635; x=1754981435; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=N6ynWmoIA9ihbPYhi5mb1DyN9mzcjr5p37HseCckTHU=;
+        b=WMv6k4+RbnqNNogL3//N0uXWAbUyFmxj7rhzMtBHTk+al2WzEmYNYQRV5UYeiI1Bds
+         r+nB+w3itO00Z8jDlUSUAP1N5cub93vX0R2WeL5mQunm2ML1sHuUayxPWdStvq4n63WW
+         r+ljFdFou8r1jTtelRE3ZjPx9wHsiLdq4crFAkfWzOvXGJYxaED2dqRPMZq4suctQFaq
+         D1aXHvlArBR61DFP0LL3XMMiE6JG1E5p8SuiXV/5IFW3K+O2LBohFTeKLbN8DtAZdAqL
+         9vEaQA1gUiNgVk4qtJg7JLTknlXLA9zAE70nk3NEqX7K2NwCgmx57SGmA1SPZMAjtkLK
+         3fMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754369889; x=1754974689;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZJk8ZPcKnOpx2SNNbdPGbHCxLccj6TZBqXskHVjiVyc=;
-        b=bpWyhqQAhU4VeTSYcHA7xvEMvSijpXUhTQWKDla0w64N02tGn4VTPoRFuyZqrvt6Ol
-         JzDyvnaJu8es9HUQqJ+lVDw+eEDjjvhrZdj9unXfvFj/ZCtvG8jGBBsNsb9HINLtorLL
-         gFZ3s6feYdBtU7cXRjMptJJcdG3Cto5Gqw1tMNJWa4tqdCkEmcJkSpmsqgRBLW121bxi
-         Aif/2MjiJQn50OAdI4iQMIf32SIV1n0Xz1UeLyGdRNV+UUOTBesfqNcvg4WTUTGdGDSs
-         pRW8iFgsJOYolO0Sfm1hK3t0eYGMmSvt6gC01VzcXl6zDGORzAsqKjckmvgc9xs6pcVP
-         W8Gw==
-X-Forwarded-Encrypted: i=1; AJvYcCWkBT4sLK0fDWev7nl+V+bd2zOk651SktruQNtPbN8dLatN3ibZhrr+n+t0r8Hf8lDA5eSp7R7nZAgn1dSPS69elg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy1rt89eNXk27c3JBgBTfcx5qtqJ9WOvBQK8tVlDExXWvJ4Gkp5
-	IeCxz/w7YGrij97Gj3gCae/5/Mtj4KS16ZnfbUvTb55uZNxbT1CHiK9SQgrrc3OOCjra027U2QB
-	Ifyh18CUrRAnYnKFcXLkvibN0m0wU/eBrePY5JrqWVAQwBrhmBllmV3yqlUkmDBTBdcTvRYsANA
+        d=1e100.net; s=20230601; t=1754376635; x=1754981435;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=N6ynWmoIA9ihbPYhi5mb1DyN9mzcjr5p37HseCckTHU=;
+        b=TTrMk6sYC1lul9GSmxL0z87c4iWAm0yxiMygtngzmUSaRRBPg447BZipyNrnjCR/s8
+         G+RWGyoxrQl90Mc34wG2o1R5FGdODLeIJTXSTuXlSqvZ11xoXVy94dGgJqXm1UZYaRpk
+         Xe80p0C7eYBEYvuznEoD1j4khM1MSO2VITVHHGTkws6RRD41mIoB+YFfkxbmAUerSYfI
+         y/7HLuGkVWMnv2YzSUu9W8drr6qyrxaAY/l2PAuAypzFOb8dXhfeZXUeD9MMliMLarFH
+         mNwWMv1dhGGkRT87zHUbn8wYb8RgR3ODiO2e4XDWzLTgX68cePj/l2lyS4k3SaRd44G4
+         Ql1w==
+X-Forwarded-Encrypted: i=1; AJvYcCUwriWn2c+Vt/k6ArAv2P2//US9sAW8wuM6FYF3MRQ8gCk7h1uj6CYEJf1mKjxtbIhquYzuR5C4bsj6cNI=@vger.kernel.org, AJvYcCWIYjF3+ExYhL21lEfhM4LAP+t3mw+brshE45Wbax3zlQxNNpzo8ZaLPovHqvp5TSoFrcLg6348oyl+4jM0CveO95U=@vger.kernel.org, AJvYcCWQE9ne3MCWezWmoOOS0CBj9O8wOFe4cu5+OFEVKRcXoBn9rKVl7NGJPCldrLAT1iuMnGhjPI1J7Voa@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9bS1TIsglVkKgFyVmCTDB/udM++4Q1FiUIGi0RY6CQDEht+1K
+	f5WgmKB3o0t0sxQXL1qvV2U/xdxAqMascAtzNU1xzDWG8vkS8gExdQms
+X-Gm-Gg: ASbGncvHa3eJbpQCw4kiZq8AwSnmvRgbtVDpSSZjjFvAtGDFAczChzAmPVn67eoK0L/
+	qOd5B+JyYs3b9XOXJkcfwpcilJP6U0S6uKBagU9viwFne9I8cf4A+OCktQIHsgUGg4OoxmcplCm
+	EN5kK2d9SG/A90ubcNDKkCfo2ok0HIr4EBIQ/l9kwN6pxmk4FrCgHHquaWJdiZE4Tyz+wevRVmK
+	vPMCZGPl5vdsOguT1QUj70FRJV6UsCkPrYRh64dG1T3oKC5Rq4Qi+YqyJzWDjWfj9XUxZmoFVFL
+	TrvfSSLP3NNeiYqg1zEDkQcs8fU+YsW0FUg77n/Qtq6Y+HifrX+tOwYL3VpyQLGQh9ZUihUc8Ud
+	jyScwoOdi2fjI8FhCGnt8cDcCBnlwEcdmgbcnXtCTa36ZVeGezVUcH2hnf5bfOx6PC0JcU2zyUw
 	==
-X-Gm-Gg: ASbGncsGeDPtefMXdlix/WaPSnbT15b71uG9NahLclwbbt3j4Dq5XC1uO77Rw06asz+
-	nPW6dW/bIVmXRwm+NSmYpsCJvKqVdV/SuvtKH65a8v82m8s5cU5Aqg06QNsIgz2sSfLkyDl6qTn
-	iSTVHff87PWDhrTbNXxzQWu1qvZLnPwDSq+PygSPdXd3HHZpmShcib7vfLIRzVGDBWrznzNpC9K
-	mm8Sq6MNgfE5A4l2uhgieX+peaSe4wO/lwb92FclM3oj+TWrRWTJBA0pAeMzXq1oNOdzFl1vyDx
-	mtg6RObyDGTgi42Uz6tpz+VG77R2tZ52FupscKNkG95AQOJB/MrHoBhlI3/8jQyOnuwcEwxJqa1
-	7fD+2fBfRTo6wV8kz+cE0jaPr807kai7RbIkXoSUo/tADKnBMkEBS
-X-Received: by 2002:a05:620a:a512:b0:7e6:5ef5:846b with SMTP id af79cd13be357-7e6963b8367mr1194542185a.65.1754369888926;
-        Mon, 04 Aug 2025 21:58:08 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHsXtKxDheFJG11QuYaCVPiIu+728m5NKJMdNbg0+TAMsOq+9gDo86NZhO5c8LUFYsWbjmH9Q==
-X-Received: by 2002:a05:620a:a512:b0:7e6:5ef5:846b with SMTP id af79cd13be357-7e6963b8367mr1194538285a.65.1754369888391;
-        Mon, 04 Aug 2025 21:58:08 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55b889ac54fsm1866911e87.62.2025.08.04.21.58.06
+X-Google-Smtp-Source: AGHT+IG53rfelXQMCgJOa+PFjMzcmfDjqOPDF6v9Nz1EsaQG+btuwM9TGcw+gfH2eNi0w2ygKzMZVA==
+X-Received: by 2002:a5d:4110:0:b0:3b7:9b4d:710e with SMTP id ffacd0b85a97d-3b8d94aae54mr7701353f8f.38.1754376634518;
+        Mon, 04 Aug 2025 23:50:34 -0700 (PDT)
+Received: from biju.lan (host31-53-6-191.range31-53.btcentralplus.com. [31.53.6.191])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-458b9159e00sm120410945e9.9.2025.08.04.23.50.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Aug 2025 21:58:06 -0700 (PDT)
-Date: Tue, 5 Aug 2025 07:58:04 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Liviu Dudau <liviu.dudau@arm.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
-        "Kandpal, Suraj" <suraj.kandpal@intel.com>,
-        Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
-        Rodrigo Siqueira <siqueira@igalia.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Rob Clark <robin.clark@oss.qualcomm.com>,
-        Dmitry Baryshkov <lumag@kernel.org>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
-        Sean Paul <sean@poorly.run>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
-        Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 0/8] drm: writeback: clean up writeback connector
- initialization
-Message-ID: <pwnrvebmf77p77z3pn53kzivy5t5qglh3ngdmj33f7i7v5r4jg@sseokeuqindn>
-References: <20250801-wb-drop-encoder-v1-0-824646042f7d@oss.qualcomm.com>
- <aJDHAF69VOEHwcKO@e110455-lin.cambridge.arm.com>
+        Mon, 04 Aug 2025 23:50:34 -0700 (PDT)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	linux-pwm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] pwm: rzg2l-gpt: Implementation of the waveform callbacks
+Date: Tue,  5 Aug 2025 07:50:23 +0100
+Message-ID: <20250805065032.193766-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aJDHAF69VOEHwcKO@e110455-lin.cambridge.arm.com>
-X-Proofpoint-GUID: KlgyG5-HnXOtSPF2lpNYVdW23HK3jyol
-X-Authority-Analysis: v=2.4 cv=VZT3PEp9 c=1 sm=1 tr=0 ts=68918f66 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=QyXUC8HyAAAA:8 a=DSBK3S_xfJQIu1nZ6GAA:9
- a=CjuIK1q_8ugA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA1MDAzNCBTYWx0ZWRfXyja5YVHjSubV
- T0umFlX7oLpqVv51sVKV8mylPecyiRL+S8gDMQy5YvYQZYIdNevyrMpdb1aSQlpmjioPcV35cTC
- L0LC7cpeiVttO4swmU7ZZC2+oV2wDROzQFWBpmcd5Tc1hdvSxv8R9CdDvCsmxsKarlJXLSIu/1m
- Ne02VIcVcdySLXHuCBf872Z2KgBgh0sOqGGXS22ucW/MvAAb1m+mC/LZMj3zjyVpkd0sFjajc+F
- CLGDLxWuIgUHdgz56aQJ6HLF6AXqDkZ1xehEw88CLAVi/KzT0/wgD8AYqctwnPpjTy3PurTgaem
- OOAU31Qn2TDKjYvBMqp8FqJ2j7IYBvrqqfYery4q7XhjEmkCB8UwvkYKAZ+jx8Rb4NVFkWdXXUK
- vX4Qkk2inqGbb0sqkX2s2mto/2oixE4Zx2h4jCvxEPdLuVhXTHUa1TCL0pibcWZSzfzTxplW
-X-Proofpoint-ORIG-GUID: KlgyG5-HnXOtSPF2lpNYVdW23HK3jyol
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-05_01,2025-08-04_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxlogscore=999 malwarescore=0 bulkscore=0 phishscore=0
- spamscore=0 mlxscore=0 clxscore=1015 priorityscore=1501 suspectscore=0
- lowpriorityscore=0 impostorscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2508050034
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 04, 2025 at 03:43:12PM +0100, Liviu Dudau wrote:
-> Hi,
-> 
-> On Fri, Aug 01, 2025 at 04:51:08PM +0300, Dmitry Baryshkov wrote:
-> > Drivers using drm_writeback_connector_init() / _with_encoder() don't
-> > perform cleanup in a manner similar to drmm_writeback_connector_init()
-> > (see drm_writeback_connector_cleanup()). Migrate all existing drivers
-> > to use drmm_writeback_connector_init(), drop
-> > drm_writeback_connector_init() and drm_writeback_connector::encoder
-> > (it's unused afterwards).
-> > 
-> > This series leaves former drm_writeback_connector_init_with_encoder()
-> > (renamed to drm_writeback_connector_init as a non-managed counterpart
-> > for drmm_writeback_connector_init()). It is supposed to be used by
-> > drivers which can not use drmm functions (like Intel). However I think
-> > it would be better to drop it completely.
-> 
-> The intent of _init_with_encoder() was to be a special case for drivers
-> that use their own specific encoder and the rest use the generic function
-> that creates the virtual encoder inside the call. The API for
-> _init_with_encoder() was actually introduced 4 years after the original
-> patch, so that should give a hint.
-> 
-> drmm_writeback_connector_init() is more like _init_with_encoder() and
-> I don't remember reviewing it, so I'm not sure why that was considered
-> to be the better behaviour for the managed version. Now you're moving
-> all the drivers to the managed version and you have to duplicate code
-> in each driver to create the ENCODER_VIRTUAL encoder.
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
-This follows e.g. the process of deprecating drm_simple_* /
-drm_simple_encoder. The drivers are expected to open code empty encoder
-handling on their own.
+Convert the rzg2l-gpt driver to use the new callbacks for hardware
+programming.
 
-> I'm not against the changes being made in the series, I just want to
-> see a better justification on why _init_with_encoder() behaviour is
-> better than the previous default that you're removing.
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ drivers/pwm/pwm-rzg2l-gpt.c | 174 +++++++++++++++++++++---------------
+ 1 file changed, 101 insertions(+), 73 deletions(-)
 
-This was triggered by the discussion of Intel writeback patchset, see
-the threads for first three patches of [1]. We have an optional
-non-pointer field inside drm_writeback_connector, which can be left
-uninitialized (or zero-filled). I have checked and the drivers are not
-actually using the embedded connector for anything after linking it to
-the drm_connector. So, by removing the encoder from the
-drm_writeback_connector structure we are tying a loose end.
+diff --git a/drivers/pwm/pwm-rzg2l-gpt.c b/drivers/pwm/pwm-rzg2l-gpt.c
+index 360c8bf3b190..a34a541da8c3 100644
+--- a/drivers/pwm/pwm-rzg2l-gpt.c
++++ b/drivers/pwm/pwm-rzg2l-gpt.c
+@@ -86,6 +86,13 @@ struct rzg2l_gpt_chip {
+ 	u32 channel_enable_count[RZG2L_MAX_HW_CHANNELS];
+ };
+ 
++/* This represents a hardware configuration for one channel */
++struct rzg2l_gpt_waveform {
++	u32 gtpr;
++	u32 gtccr;
++	u8 prescale;
++};
++
+ static inline struct rzg2l_gpt_chip *to_rzg2l_gpt_chip(struct pwm_chip *chip)
+ {
+ 	return pwmchip_get_drvdata(chip);
+@@ -190,8 +197,10 @@ static void rzg2l_gpt_disable(struct rzg2l_gpt_chip *rzg2l_gpt,
+ 	/* Stop count, Output low on GTIOCx pin when counting stops */
+ 	rzg2l_gpt->channel_enable_count[ch]--;
+ 
+-	if (!rzg2l_gpt->channel_enable_count[ch])
++	if (!rzg2l_gpt->channel_enable_count[ch]) {
+ 		rzg2l_gpt_modify(rzg2l_gpt, RZG2L_GTCR(ch), RZG2L_GTCR_CST, 0);
++		rzg2l_gpt->period_ticks[ch] = 0;
++	}
+ 
+ 	/* Disable pin output */
+ 	rzg2l_gpt_modify(rzg2l_gpt, RZG2L_GTIOR(ch), RZG2L_GTIOR_OxE(sub_ch), 0);
+@@ -215,54 +224,38 @@ static u64 rzg2l_gpt_calculate_period_or_duty(struct rzg2l_gpt_chip *rzg2l_gpt,
+ 	return DIV64_U64_ROUND_UP(tmp, rzg2l_gpt->rate_khz);
+ }
+ 
+-static int rzg2l_gpt_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
+-			       struct pwm_state *state)
+-{
+-	struct rzg2l_gpt_chip *rzg2l_gpt = to_rzg2l_gpt_chip(chip);
+-
+-	state->enabled = rzg2l_gpt_is_ch_enabled(rzg2l_gpt, pwm->hwpwm);
+-	if (state->enabled) {
+-		u32 sub_ch = rzg2l_gpt_subchannel(pwm->hwpwm);
+-		u32 ch = RZG2L_GET_CH(pwm->hwpwm);
+-		u8 prescale;
+-		u32 val;
+-
+-		val = rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTCR(ch));
+-		prescale = FIELD_GET(RZG2L_GTCR_TPCS, val);
+-
+-		val = rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTPR(ch));
+-		state->period = rzg2l_gpt_calculate_period_or_duty(rzg2l_gpt, val, prescale);
+-
+-		val = rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTCCR(ch, sub_ch));
+-		state->duty_cycle = rzg2l_gpt_calculate_period_or_duty(rzg2l_gpt, val, prescale);
+-		if (state->duty_cycle > state->period)
+-			state->duty_cycle = state->period;
+-	}
+-
+-	state->polarity = PWM_POLARITY_NORMAL;
+-
+-	return 0;
+-}
+-
+ static u32 rzg2l_gpt_calculate_pv_or_dc(u64 period_or_duty_cycle, u8 prescale)
+ {
+ 	return min_t(u64, DIV_ROUND_DOWN_ULL(period_or_duty_cycle, 1 << (2 * prescale)),
+ 		     U32_MAX);
+ }
+ 
+-/* Caller holds the lock while calling rzg2l_gpt_config() */
+-static int rzg2l_gpt_config(struct pwm_chip *chip, struct pwm_device *pwm,
+-			    const struct pwm_state *state)
++static int rzg2l_gpt_round_waveform_tohw(struct pwm_chip *chip,
++					 struct pwm_device *pwm,
++					 const struct pwm_waveform *wf,
++					 void *_wfhw)
++
+ {
+ 	struct rzg2l_gpt_chip *rzg2l_gpt = to_rzg2l_gpt_chip(chip);
+-	u8 sub_ch = rzg2l_gpt_subchannel(pwm->hwpwm);
++	struct rzg2l_gpt_waveform *wfhw = _wfhw;
+ 	u8 ch = RZG2L_GET_CH(pwm->hwpwm);
+ 	u64 period_ticks, duty_ticks;
+ 	unsigned long pv, dc;
+-	u8 prescale;
++
++	guard(mutex)(&rzg2l_gpt->lock);
++	if (wf->period_length_ns == 0) {
++		*wfhw = (struct rzg2l_gpt_waveform){
++			.gtpr = 0,
++			.gtccr = 0,
++		};
++
++		if (rzg2l_gpt_is_ch_enabled(rzg2l_gpt, pwm->hwpwm))
++			rzg2l_gpt_disable(rzg2l_gpt, pwm);
++		return 0;
++	}
+ 
+ 	/* Limit period/duty cycle to max value supported by the HW */
+-	period_ticks = mul_u64_u64_div_u64(state->period, rzg2l_gpt->rate_khz, USEC_PER_SEC);
++	period_ticks = mul_u64_u64_div_u64(wf->period_length_ns, rzg2l_gpt->rate_khz, USEC_PER_SEC);
+ 	if (period_ticks > RZG2L_MAX_TICKS)
+ 		period_ticks = RZG2L_MAX_TICKS;
+ 	/*
+@@ -277,13 +270,14 @@ static int rzg2l_gpt_config(struct pwm_chip *chip, struct pwm_device *pwm,
+ 			period_ticks = rzg2l_gpt->period_ticks[ch];
+ 	}
+ 
+-	prescale = rzg2l_gpt_calculate_prescale(rzg2l_gpt, period_ticks);
+-	pv = rzg2l_gpt_calculate_pv_or_dc(period_ticks, prescale);
+-
+-	duty_ticks = mul_u64_u64_div_u64(state->duty_cycle, rzg2l_gpt->rate_khz, USEC_PER_SEC);
++	wfhw->prescale = rzg2l_gpt_calculate_prescale(rzg2l_gpt, period_ticks);
++	pv = rzg2l_gpt_calculate_pv_or_dc(period_ticks, wfhw->prescale);
++	wfhw->gtpr = pv;
++	duty_ticks = mul_u64_u64_div_u64(wf->duty_length_ns, rzg2l_gpt->rate_khz, USEC_PER_SEC);
+ 	if (duty_ticks > period_ticks)
+ 		duty_ticks = period_ticks;
+-	dc = rzg2l_gpt_calculate_pv_or_dc(duty_ticks, prescale);
++	dc = rzg2l_gpt_calculate_pv_or_dc(duty_ticks, wfhw->prescale);
++	wfhw->gtccr = dc;
+ 
+ 	/*
+ 	 * GPT counter is shared by multiple channels, we cache the period ticks
+@@ -292,6 +286,58 @@ static int rzg2l_gpt_config(struct pwm_chip *chip, struct pwm_device *pwm,
+ 	 */
+ 	rzg2l_gpt->period_ticks[ch] = period_ticks;
+ 
++	return 0;
++}
++
++static int rzg2l_gpt_round_waveform_fromhw(struct pwm_chip *chip,
++					   struct pwm_device *pwm,
++					   const void *_wfhw,
++					   struct pwm_waveform *wf)
++{
++	struct rzg2l_gpt_chip *rzg2l_gpt = to_rzg2l_gpt_chip(chip);
++	const struct rzg2l_gpt_waveform *wfhw = _wfhw;
++
++	wf->period_length_ns = rzg2l_gpt_calculate_period_or_duty(rzg2l_gpt, wfhw->gtpr,
++								  wfhw->prescale);
++	wf->duty_length_ns = rzg2l_gpt_calculate_period_or_duty(rzg2l_gpt, wfhw->gtccr,
++								wfhw->prescale);
++	wf->duty_offset_ns = 0;
++
++	return 0;
++}
++
++static int rzg2l_gpt_read_waveform(struct pwm_chip *chip,
++				   struct pwm_device *pwm,
++				   void *_wfhw)
++{
++	struct rzg2l_gpt_chip *rzg2l_gpt = to_rzg2l_gpt_chip(chip);
++	struct rzg2l_gpt_waveform *wfhw = _wfhw;
++	u32 sub_ch = rzg2l_gpt_subchannel(pwm->hwpwm);
++	u32 ch = RZG2L_GET_CH(pwm->hwpwm);
++	u32 gtcr;
++
++	if (rzg2l_gpt_is_ch_enabled(rzg2l_gpt, pwm->hwpwm)) {
++		gtcr = rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTCR(ch));
++		wfhw->prescale = FIELD_GET(RZG2L_GTCR_TPCS, gtcr);
++		wfhw->gtpr = rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTPR(ch));
++		wfhw->gtccr = rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTCCR(ch, sub_ch));
++		if (wfhw->gtccr > wfhw->gtpr)
++			wfhw->gtccr = wfhw->gtpr;
++	}
++
++	return 0;
++}
++
++static int rzg2l_gpt_write_waveform(struct pwm_chip *chip,
++				    struct pwm_device *pwm,
++				    const void *_wfhw)
++{
++	struct rzg2l_gpt_chip *rzg2l_gpt = to_rzg2l_gpt_chip(chip);
++	const struct rzg2l_gpt_waveform *wfhw = _wfhw;
++	u8 sub_ch = rzg2l_gpt_subchannel(pwm->hwpwm);
++	u8 ch = RZG2L_GET_CH(pwm->hwpwm);
++
++	guard(mutex)(&rzg2l_gpt->lock);
+ 	/*
+ 	 * Counter must be stopped before modifying mode, prescaler, timer
+ 	 * counter and buffer enable registers. These registers are shared
+@@ -310,14 +356,14 @@ static int rzg2l_gpt_config(struct pwm_chip *chip, struct pwm_device *pwm,
+ 
+ 		/* Select count clock */
+ 		rzg2l_gpt_modify(rzg2l_gpt, RZG2L_GTCR(ch), RZG2L_GTCR_TPCS,
+-				 FIELD_PREP(RZG2L_GTCR_TPCS, prescale));
++				 FIELD_PREP(RZG2L_GTCR_TPCS, wfhw->prescale));
+ 
+ 		/* Set period */
+-		rzg2l_gpt_write(rzg2l_gpt, RZG2L_GTPR(ch), pv);
++		rzg2l_gpt_write(rzg2l_gpt, RZG2L_GTPR(ch), wfhw->gtpr);
+ 	}
+ 
+ 	/* Set duty cycle */
+-	rzg2l_gpt_write(rzg2l_gpt, RZG2L_GTCCR(ch, sub_ch), dc);
++	rzg2l_gpt_write(rzg2l_gpt, RZG2L_GTCCR(ch, sub_ch), wfhw->gtccr);
+ 
+ 	if (rzg2l_gpt->channel_enable_count[ch] <= 1) {
+ 		/* Set initial value for counter */
+@@ -326,44 +372,26 @@ static int rzg2l_gpt_config(struct pwm_chip *chip, struct pwm_device *pwm,
+ 		/* Set no buffer operation */
+ 		rzg2l_gpt_write(rzg2l_gpt, RZG2L_GTBER(ch), 0);
+ 
+-		/* Restart the counter after updating the registers */
+-		rzg2l_gpt_modify(rzg2l_gpt, RZG2L_GTCR(ch),
+-				 RZG2L_GTCR_CST, RZG2L_GTCR_CST);
+-	}
+-
+-	return 0;
+-}
+-
+-static int rzg2l_gpt_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+-			   const struct pwm_state *state)
+-{
+-	struct rzg2l_gpt_chip *rzg2l_gpt = to_rzg2l_gpt_chip(chip);
+-	bool enabled = pwm->state.enabled;
+-	int ret;
+-
+-	if (state->polarity != PWM_POLARITY_NORMAL)
+-		return -EINVAL;
+-
+-	guard(mutex)(&rzg2l_gpt->lock);
+-	if (!state->enabled) {
+-		if (enabled)
+-			rzg2l_gpt_disable(rzg2l_gpt, pwm);
+-
+-		return 0;
++		if (wfhw->gtpr)
++			/* Restart the counter after updating the registers */
++			rzg2l_gpt_modify(rzg2l_gpt, RZG2L_GTCR(ch),
++					 RZG2L_GTCR_CST, RZG2L_GTCR_CST);
+ 	}
+ 
+-	ret = rzg2l_gpt_config(chip, pwm, state);
+-	if (!ret && !enabled)
++	if (wfhw->gtpr && !rzg2l_gpt_is_ch_enabled(rzg2l_gpt, pwm->hwpwm))
+ 		rzg2l_gpt_enable(rzg2l_gpt, pwm);
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ static const struct pwm_ops rzg2l_gpt_ops = {
+ 	.request = rzg2l_gpt_request,
+ 	.free = rzg2l_gpt_free,
+-	.get_state = rzg2l_gpt_get_state,
+-	.apply = rzg2l_gpt_apply,
++	.sizeof_wfhw = sizeof(struct rzg2l_gpt_waveform),
++	.round_waveform_tohw = rzg2l_gpt_round_waveform_tohw,
++	.round_waveform_fromhw = rzg2l_gpt_round_waveform_fromhw,
++	.read_waveform = rzg2l_gpt_read_waveform,
++	.write_waveform = rzg2l_gpt_write_waveform,
+ };
+ 
+ static int rzg2l_gpt_probe(struct platform_device *pdev)
 
-[1] https://lore.kernel.org/dri-devel/20250725050409.2687242-1-suraj.kandpal@intel.com/
-
+base-commit: 4b53f8d76cbedfd7c2a2eccb5f1cd85ec6c5a8d3
 -- 
-With best wishes
-Dmitry
+2.43.0
+
 
