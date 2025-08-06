@@ -1,83 +1,83 @@
-Return-Path: <linux-renesas-soc+bounces-20042-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20043-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ABC5B1C749
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 16:06:19 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6654B1C750
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 16:07:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 837EC18C38BA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 14:06:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CAE5D166357
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 14:07:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8228228CF40;
-	Wed,  6 Aug 2025 14:06:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29EE628C87E;
+	Wed,  6 Aug 2025 14:07:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hkNFVg4n"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UbIjdm0N"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE6828C2BD
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Aug 2025 14:06:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6434628C5C6
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Aug 2025 14:07:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754489169; cv=none; b=LygoV1kJvBzhDEwne06xow1sFOokOS9KQbrUNPHl1iLLJLydZRUjInnBwj2K3KHP4SZFZcY2/eBcZAtgGcVXNlhYZOnaXcDAhRlHYT6ocscDCljR12Pg/iJ/IEVPsmtCX9oDd3qob/AZfkqdO4AahVW8p7yjRdEUIx49TK7fSkY=
+	t=1754489239; cv=none; b=ijMr/OtIydCKZAzzrd771zAk9CQHSZqQ+OvQ0gfqMWTOXyhNdZ54fFKk9RUUUwUZhi99ROtNXFptHb6eff7CwNjSTpAQ1bpbRMBlbq1Aewb/8ZU4e/XEq+/T9rwL1j/6hxstDQZvNHDFuFZaTX2TtPd82+Ji5Xzk3L7qCE63abA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754489169; c=relaxed/simple;
-	bh=L04d4IapOgDjcR2F2e70HlTNO3KjcP85rrCovUQ0cgI=;
+	s=arc-20240116; t=1754489239; c=relaxed/simple;
+	bh=2ygqqxsmHHFmnLmk5lallRQIazl1vUOWQZ+uN7OQMfE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MvezRiNaecMhkS7IZQYDSFM/3DujOdTJwW0ElrguoXNb1F+VjOyW4t7rocTiFevNJssgSQpLMuOH+YSkYX9WdhiaqML5Nj5iM65wV+SaFTiYEapKVEwa/QijThInFWMVRoMU5q0IYJMZtd9A81OiwZtA9/9rLkqbGCLQJIEYrng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hkNFVg4n; arc=none smtp.client-ip=209.85.221.48
+	 In-Reply-To:Content-Type; b=SrHg2fzMQPlTf+eWC3R6rvB+ykjA46noprPIdlQU2el2Olsbes1djknDakciAGaVKODdKymL/2OviFS+Job25qr9g9JYaJToOrtjoTDdYD9xo1dCcifv0XOkYUtGDICcr8nlonEvZ2B9MupTgRNfmOQiJRHT34rA8u4AQYb4yUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UbIjdm0N; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3b77b8750acso736087f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 06 Aug 2025 07:06:06 -0700 (PDT)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-458ba079338so7696745e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 06 Aug 2025 07:07:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1754489164; x=1755093964; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1754489236; x=1755094036; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:reply-to:user-agent
          :mime-version:date:message-id:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=x0bYBE5Rc8e/M69cHJLVxN5LPW+suPMaRJRi77jUT+M=;
-        b=hkNFVg4nDmJWVq1IlcofceeyaIYYLtJ4z/mjMIiGaBSFvwdBBhVxLGQ3vUdraPjWpw
-         OxuZoN9Gtx5Wj6WQFSQtKz9+KjCUvOzxz6/yaLgGy0qnq0hJ2+pToRoNqiw5xqvF+/OU
-         raDbPA+LGfgj0uogOUOWCC2FvCjP8t14NJuGEhMZoFlvnMhgzmH0LRARom7vBeVR9KjO
-         MTDuonct5hVc9ErndlRuRK++bTJ+E+DQxa+g+kPRvd7CKUacbj7SODoaL6b+nyBBebsp
-         qEQgTU9oDdp7CwHyS47rcTTNSs4gsOjJAznUVCrux/002kHq3AzYXnsZz7WTcjTE2z/5
-         0ZIA==
+        bh=ZhOuthvlT0MlIMDwPnmOSf/FcPP9fX8kIIgrDxRdY5c=;
+        b=UbIjdm0NA2hTcPKkMgGZtRVn+EoigKhcsaXOM/8yBtGUf+Xqfi1ANojVFR5htjp5EM
+         +9ibwgo9WsHfsyCQ5qdp6lvkHy6Vuzca7bkfdPjN+A9oS8oIvDdTV4jcjUz9GF2/OI1t
+         atwmzOt2+aGdabS2Lt/MuFQNyc7i/GBEphX6Iyk7z89GczuqJCKVV8JSfrXDXlDeKY48
+         qbQpojaiKrY/+WomvDJ5D2x0pb5SZ7z9GToxtH0fXlyJf4dkrnFh/MZ0epwiLOP+UufX
+         AVNmDBSyQFHezFdvKXkcOgNbYaTx8OsYqh+hWMw/WKK0oqUMLAvdY1dS4aZg+IoHogd7
+         tbLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754489164; x=1755093964;
+        d=1e100.net; s=20230601; t=1754489236; x=1755094036;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:reply-to:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=x0bYBE5Rc8e/M69cHJLVxN5LPW+suPMaRJRi77jUT+M=;
-        b=cIPlxYxlAqFYEam/7TEo9dM89q5Ql0AjDB2zOmLpncDzxzKpVogb+/oDulKVgfpOZb
-         Gbq5ZSLU4lCc/xVFwSfdT8uvhp+gQjcHE5Z5zu478e0+MK8IwdQqjPKPuViauBanZVWh
-         gsNTy1sDOPKj9HOgHxzY+feWiGXQfJG24zgaTT/Qz/yl9NI1t7QGs/pfsS67zOHC95Ej
-         nqCrgENDoeBbVeAmUREupk7RMNFSees89lh1LIWL5K9us0vl/hJUqfWdP838A1hG5h58
-         UxRL3r0iAStskDKZ4cOedFBvB5t6fgiq8ct8vS8lgfSmgDMwjDxOpnFkDwK77tJKqqCH
-         DlTA==
-X-Forwarded-Encrypted: i=1; AJvYcCWQ2mJNgJLKmkySkP3MgEgMcmHFKSU12N9myUf73uEeJUvW/P/jA4e/+1utsos0nM1MImWlAUzqMbybVqknDxHi1w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywg6JS4mFTjJVZDIk74qXUvUWA581U3Mqx6rwVKdlTCdMH4JJbr
-	VCMHVSp/4ewCo88nYlmikmauPb7t3t1gHf7Zi6kuFXYJtVzit8Lhc8HCc7jTR6zUhvw=
-X-Gm-Gg: ASbGncsQwccJa8CkNs7ZVi4X2XZaTN6YsyfdI/ofpG/1eGsKwnHBxGF/LugA4VcggDr
-	Vxsyp+pFwd/USft6ygYWwxZgwgcXPODW/HXDaVGH1KAIYAIcy2luSydDL9j6L+pCoaBftpSjnZw
-	p6ZSsYxd1gHtg4C9XRGdvPSKuta+TTjVknjsCpfEZwA7ehhkTmrlO26cnPNIeJTBofWvmQkqjbS
-	ev+/cSh707kZRUI4XW6fJgyXpPG/RgXoaBzlhHz/69z9iNr0yBtznsmUbRz9UjHFa3PQ3h6zjsE
-	UzOMwFYW8pN66ZW0HgQWM/F1eZn45EQHDs/kTyQS3qDqqHRWIh39Zd7e4wKm42eVE0rtl+8Y1di
-	4uzhcHx91JA6rYTj37jWfmLksh1xojxmR8YCYdV8qpOJ4xvXRPJslz41ZI0oeHKrdP0C2RESY2P
-	4=
-X-Google-Smtp-Source: AGHT+IFNsliaM3HeXRT/UHT5m1XgR5iHXWuzq/oQl+/FUCSRikpLg+toUiaSdpLaWfkqAlyBTDQVWQ==
-X-Received: by 2002:a5d:5f8b:0:b0:3b7:8f49:94e4 with SMTP id ffacd0b85a97d-3b8f4316157mr2597397f8f.7.1754489164429;
-        Wed, 06 Aug 2025 07:06:04 -0700 (PDT)
+        bh=ZhOuthvlT0MlIMDwPnmOSf/FcPP9fX8kIIgrDxRdY5c=;
+        b=lf5zd0F+9jcpXjFOShjetGeJd1yWzYCtKdkuwXENPpxbtLxf1h6AfOpwdK2kEKJoMk
+         lXWJrsyHutk03+OuETL6iJbmMQfHfdPw+ZcgTMc8F1xtcRs4RUfT3WVOl3BzPZAqwDDc
+         97849roE3q03ThKOrdFJJXg6OggGa5HLaEAFmyNDF4P8O/NTt10bV5vtohEyCf3Up+ad
+         nCvkIYc+nYR78UmLKHZMQo/t9TsqcJ1V7syuGwVvjjBV7ZoE0dYipjVNzNRuNdRHwMLD
+         XWhTOFQQ4gjSQIb+1AEnRA6NadiDTY3SNIQc5kcxGNhCUL+ddyZeBs+vV7ggcwJxCklh
+         xjxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXVVzzEjRW76FrPfSZ9r0wwXaXQpA0WuecL9GcXtAjYcZdOoGGmu2KNm54BKfBwUzNLDj60eSEViHlsihTG6vOGZQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxegIlfPXs3AMfGgPnUjTLcB19XqcGNM2kAqS0Qp0TBdtdrA5Bi
+	v2iZ39fQskpmzCs5yhxQ7gDPcn3b7z85sLNwU2/nA3bRJ70pQbx30IoZJQzjAWPc3DU=
+X-Gm-Gg: ASbGncsxzIp0hp5yZwsilRkQHaBQu755js7c8zNZknbm3vf+KW4B31MtvqgIkGVwXCM
+	gMC45tO78aCgeoNdNGenBMFGaO6NcN+WPERLCg/9eNHnUqD6MplXzYxbwx1DZ41/9hfWCIywZrn
+	ixFeQMtKswSg/M7LG4U0Za6LqZ2fTaq7iFPmXyX6YMbeLhiGiqzcNmXLHhz4EoCk4OLyFz+hmXW
+	cp+xA2eDA3KZSxv5QAIPz9eYAV+Rtb2XxtHKpy+qgscUJOOgMxN6Cj5pTUWDqkgwuRge7gThuHx
+	FazfsLDRBFEm/Kh5bW2o79eipbbc4ep8KziLyxBYUMl2/VF+rrsM5LDZptZ7g1sCCCSqzDtSgyU
+	yy8mE7eT2762Fki9GHJmfl/KQ/NjbsyUjRymYtzG85PaEYuv4y3qJoKQypW7QAyKjZ77xHDZq4o
+	M=
+X-Google-Smtp-Source: AGHT+IElAVJ4olKnFDIvp4sfDLerMVOE9QoG+knt1/9TjLViLhJO38zvYugIqzTyvf938YTDn2OM1g==
+X-Received: by 2002:a05:600c:1382:b0:456:2139:456a with SMTP id 5b1f17b1804b1-459e70e8ad8mr30258465e9.15.1754489235576;
+        Wed, 06 Aug 2025 07:07:15 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:3d9:2080:96df:e381:55b8:1990? ([2a01:e0a:3d9:2080:96df:e381:55b8:1990])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-458bd5a11d3sm94964895e9.0.2025.08.06.07.06.03
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-459e583ff76sm50087565e9.5.2025.08.06.07.07.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Aug 2025 07:06:04 -0700 (PDT)
-Message-ID: <9549b800-2205-428a-8056-cfc6b5255850@linaro.org>
-Date: Wed, 6 Aug 2025 16:06:02 +0200
+        Wed, 06 Aug 2025 07:07:14 -0700 (PDT)
+Message-ID: <313c8333-3a02-439f-825f-35ebe0592a4d@linaro.org>
+Date: Wed, 6 Aug 2025 16:07:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -86,8 +86,8 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 2/5] phy: renesas: rcar-gen3-usb2: Store drvdata pointer
- in channel
+Subject: Re: [PATCH 3/5] phy: renesas: rcar-gen3-usb2: Allow SoC-specific
+ OBINT bits via phy_data
 To: Prabhakar <prabhakar.csengg@gmail.com>, Vinod Koul <vkoul@kernel.org>,
  Kishon Vijay Abraham I <kishon@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
@@ -100,7 +100,7 @@ Cc: linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
  Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20250805122529.2566580-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250805122529.2566580-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250805122529.2566580-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Neil Armstrong <neil.armstrong@linaro.org>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
@@ -128,127 +128,25 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20250805122529.2566580-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250805122529.2566580-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 05/08/2025 14:25, Prabhakar wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> Store the SoC-specific driver data pointer (struct rcar_gen3_phy_drv_data)
-> directly in struct rcar_gen3_chan instead of copying individual flags
-> into separate fields. Update all references to use channel->drvdata->flags,
-> removing the redundant soc_no_adp_ctrl and utmi_ctrl members from the
-> channel structure.
+> Update the PHY driver to support SoC-specific OBINT enable bits by
+> introducing the `obint_enable_bits` field in the `rcar_gen3_phy_drv_data`
+> structure. This allows each SoC to specify bits required.
 > 
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
->   drivers/phy/renesas/phy-rcar-gen3-usb2.c | 17 +++++++----------
->   1 file changed, 7 insertions(+), 10 deletions(-)
+>   drivers/phy/renesas/phy-rcar-gen3-usb2.c | 27 ++++++++++++------------
+>   1 file changed, 14 insertions(+), 13 deletions(-)
 > 
-> diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-> index 47beb94cd424..cfa9667c7680 100644
-> --- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-> +++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-> @@ -122,6 +122,7 @@ struct rcar_gen3_phy {
->   struct rcar_gen3_chan {
->   	void __iomem *base;
->   	struct device *dev;	/* platform_device's device */
-> +	const struct rcar_gen3_phy_drv_data *drvdata;
 
-Why not phy_data ?
+<snip>
 
->   	struct extcon_dev *extcon;
->   	struct rcar_gen3_phy rphys[NUM_OF_PHYS];
->   	struct regulator *vbus;
-> @@ -133,8 +134,6 @@ struct rcar_gen3_chan {
->   	bool extcon_host;
->   	bool is_otg_channel;
->   	bool uses_otg_pins;
-> -	bool soc_no_adp_ctrl;
-> -	bool utmi_ctrl;
->   };
->   
->   struct rcar_gen3_phy_drv_data {
-> @@ -204,7 +203,7 @@ static void rcar_gen3_enable_vbus_ctrl(struct rcar_gen3_chan *ch, int vbus)
->   	u32 val;
->   
->   	dev_vdbg(ch->dev, "%s: %08x, %d\n", __func__, val, vbus);
-> -	if (ch->soc_no_adp_ctrl) {
-> +	if (ch->drvdata->no_adp_ctrl) {
->   		if (ch->vbus)
->   			regulator_hardware_enable(ch->vbus, vbus);
->   
-> @@ -290,7 +289,7 @@ static bool rcar_gen3_check_id(struct rcar_gen3_chan *ch)
->   	if (!ch->uses_otg_pins)
->   		return (ch->dr_mode == USB_DR_MODE_HOST) ? false : true;
->   
-> -	if (ch->soc_no_adp_ctrl)
-> +	if (ch->drvdata->no_adp_ctrl)
->   		return !!(readl(ch->base + USB2_LINECTRL1) & USB2_LINECTRL1_USB2_IDMON);
->   
->   	return !!(readl(ch->base + USB2_ADPCTRL) & USB2_ADPCTRL_IDDIG);
-> @@ -421,7 +420,7 @@ static void rcar_gen3_init_otg(struct rcar_gen3_chan *ch)
->   	      USB2_LINECTRL1_DMRPD_EN | USB2_LINECTRL1_DM_RPD;
->   	writel(val, usb2_base + USB2_LINECTRL1);
->   
-> -	if (!ch->soc_no_adp_ctrl) {
-> +	if (!ch->drvdata->no_adp_ctrl) {
->   		val = readl(usb2_base + USB2_VBCTRL);
->   		val &= ~USB2_VBCTRL_OCCLREN;
->   		writel(val | USB2_VBCTRL_DRVVBUSSEL, usb2_base + USB2_VBCTRL);
-> @@ -487,7 +486,7 @@ static int rcar_gen3_phy_usb2_init(struct phy *p)
->   	if (rphy->int_enable_bits)
->   		rcar_gen3_init_otg(channel);
->   
-> -	if (channel->utmi_ctrl) {
-> +	if (channel->drvdata->utmi_ctrl) {
->   		val = readl(usb2_base + USB2_REGEN_CG_CTRL) | USB2_REGEN_CG_CTRL_UPHY_WEN;
->   		writel(val, usb2_base + USB2_REGEN_CG_CTRL);
->   
-> @@ -778,6 +777,7 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
->   		ret = -EINVAL;
->   		goto error;
->   	}
-> +	channel->drvdata = phy_data;
-
-Replace the whole block with:
-	
-	channel->drvdata = device_get_match_data(dev);
-	if (!channel->drvdata) {
-		ret = -EINVAL;
-		goto error;
-	}
-
-and drop the local phy_data.
-
->   
->   	platform_set_drvdata(pdev, channel);
->   	channel->dev = dev;
-> @@ -788,12 +788,9 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
->   			goto error;
->   	}
->   
-> -	channel->soc_no_adp_ctrl = phy_data->no_adp_ctrl;
->   	if (phy_data->no_adp_ctrl)
->   		channel->obint_enable_bits = USB2_OBINT_IDCHG_EN;
->   
-> -	channel->utmi_ctrl = phy_data->utmi_ctrl;
-> -
->   	spin_lock_init(&channel->lock);
->   	for (i = 0; i < NUM_OF_PHYS; i++) {
->   		channel->rphys[i].phy = devm_phy_create(dev, NULL,
-> @@ -808,7 +805,7 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
->   		phy_set_drvdata(channel->rphys[i].phy, &channel->rphys[i]);
->   	}
->   
-
-Thanks,
-Neil
-> -	if (channel->soc_no_adp_ctrl && channel->is_otg_channel)
-> +	if (channel->drvdata->no_adp_ctrl && channel->is_otg_channel)
->   		channel->vbus = devm_regulator_get_exclusive(dev, "vbus");
->   	else
->   		channel->vbus = devm_regulator_get_optional(dev, "vbus");
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 
 
