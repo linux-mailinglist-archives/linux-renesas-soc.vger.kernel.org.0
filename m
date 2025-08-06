@@ -1,109 +1,111 @@
-Return-Path: <linux-renesas-soc+bounces-20052-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20053-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57C7BB1C86E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 17:12:50 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD5BFB1C875
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 17:13:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7939D1686F0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 15:12:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D9E4B3B3AA2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 15:13:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F191528FA84;
-	Wed,  6 Aug 2025 15:12:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77D3B28FAB5;
+	Wed,  6 Aug 2025 15:13:29 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3613AC1C;
-	Wed,  6 Aug 2025 15:12:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E90521D5146;
+	Wed,  6 Aug 2025 15:13:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754493163; cv=none; b=OMRsRas6uDGYxU5P+5hAgtxbrJiiv3DRdw9ilFZ8EAtbTBqaxTEQVV6lqNCf+e+Xb0fzvUz+nrbch9pOREni24kFgzvIXtT/1O4M//tszvlTEpRenu2/4SCa0ikFM/06VI+j9qMmAJqHnDIxhMUORjLZLjfUNMi81jQUa+ZUnbA=
+	t=1754493209; cv=none; b=YpHoRWc66H/ZbKi2FoSAD7b1Y5hvIQTwyp2VhnMXAkum/0zp/SgsamCv7GEtFGNpEak9mlPZPEH6wMcxvom0ltTXtxNlF6/aOSwVL46+HDN3pioSZpUUuUMQ7j6jINjwvRZ2Jq5yHLvD5Nagdzw6DzpJtz0spm1bZjJVVoo71Qg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754493163; c=relaxed/simple;
-	bh=84ZjDEvpUnPWXscyd+askxffizzYTapWmVAhSR6l6Qw=;
+	s=arc-20240116; t=1754493209; c=relaxed/simple;
+	bh=KQ6T1tqJTAFmw+hALCPyyDbSp/c3MEZxUWqEZgIRMIs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=U/2wXGvck2rbacAuNCXgvc+BjMkVkogZXGZZEElZYfDEJjqFjUBCaEmq2rHNm7ONyZwqQ7HA/EF4RRd0QuN8n6r/56DC3wcWVk6TXm43W+jy96/Ucsf80xxDastUpR4L6FzWvvLt6nj1uZyfSfmExjElc8mJ7Ka0lhPfSWNdPU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.175
+	 To:Cc:Content-Type; b=T4yjA2S48zAvUSTf6JsdIf7LSpOHVKYf+zNsc0tl/bf7ksm5wpcrf2mL0snAzCFDcYN/Di9I2ApiV8ULSxnebvrlPCUMQb6/LUtHPXPzVcDQB42y7RgBI7qvZmnX5Z0f/PeOfQd8LZlq+Yy1kYTSGW9AGqKSvCH2YLt7HQDEiV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-539360cc274so3508103e0c.3;
-        Wed, 06 Aug 2025 08:12:41 -0700 (PDT)
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-539425e3719so20072e0c.0;
+        Wed, 06 Aug 2025 08:13:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754493160; x=1755097960;
+        d=1e100.net; s=20230601; t=1754493206; x=1755098006;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=8idSeLj0k9V+7xL+wl7mu5nbsyyJQs8y+AkCxOVjYl8=;
-        b=Z150O4QuP+G8q2YBtsFyiueTmzbo3bEmOXVvd4BDUcxB2PMEPVwr2sqQJlXKmmGwNM
-         4Yb2lKDVGxXI16zsgAEWcJN7wubyUpgCao0vnyn+HMJ1bgIHm5MCkWiU6USP4nleGi27
-         a4RLe6meVmeoesmhWlIyqJvQQyY3Tbcsn+6fcY+vCe6qTtSCC6v6CQwkePbjTAA+Lnyu
-         ewQl3wfmlb4M3S1XEH8OQ4ul7UJPdMMK4VmecmkIicqWyJ3fpUuBzJaWE8EDw61xqe22
-         2UInBDfLz6F71uxt/13onj+0KPGichqlpqmCJXvllIBPrnpM48kdYGtIsPy6g2aUKyVc
-         mixw==
-X-Forwarded-Encrypted: i=1; AJvYcCU/M9KuF9NA8SLBdFjKb32lTYARPt/2cv3Ftlk4frZ+uox/mU9z21p6uJencQToKlCPn5OF0YdF1R9LgsWOiuntc8o=@vger.kernel.org, AJvYcCVt4hjpTFCm8NYuAeRC6P8uYGaPxnGpa57iG4SvD7o2DRyNKYA8t1SA3xxVHoEftHu/6tAire8eN9AT@vger.kernel.org, AJvYcCXyXZcv102Xv3V/P4xuHBcCr6cekLdnyOVQHhZdEQ4llzhJURAJLj/FmN9WDvnajJ/mg8YJTvtJpPB7Gh7F@vger.kernel.org
-X-Gm-Message-State: AOJu0YxHiDe7W0RuNjX7hAStguSq+jFyLK+yMq1iBoM8SIAFXsFfp8Zd
-	14eN6OpmhSgC12vN/Y45zi7pUEqsnD/MVKloSJ8Q349Bm/ppkuuBjs7mpUtNbOLM96g=
-X-Gm-Gg: ASbGncvWnog//gu4rUZTJmPD7sMIu7OuPmSl4cuhGUknG9DDWAZExRQzJH3Ee4u4+7S
-	qC+a0REXseyB/rz/HcC35J66t/OMI6LLZpCysiclBftacyBsAdWpK8NeUsiniM8XbgPLXyUx1GW
-	MGkSDAjoggJ8Re7Y5TMa8sSnhUep/Ir0eX6k9OUK8P8jFdykSpEURzefmtzHu11hzyB8A/qsOCU
-	/qvTuCqRZ/0K/5Y9jpAiPGL8FjYl2K6Bw/k6Fz7u1w9f/WfCN8A5l++cUhH7Yt+a86nuzh2pmvl
-	vZNqpX45Ux2RkCpNou80r/C0ahH71pLOA6DmBV+eVVc0hFb9d3YxC7NijtH8z2BMMHik7d/0AJ8
-	IzFMk2Il3+OzhjiEhDf7k3z9fdlzHZ/U2tBeThWAZTo4oXflQc948fAyEJ5rT
-X-Google-Smtp-Source: AGHT+IHDj7n7dchNp/V15uqZkW0nb+WRcaGCQYAbhePs3WC4xG8W6mCpKWts00ilpFGzzZSk5hyS7A==
-X-Received: by 2002:a05:6122:65a3:b0:539:38a4:3bc2 with SMTP id 71dfb90a1353d-539a03a61c3mr1762071e0c.3.1754493160087;
-        Wed, 06 Aug 2025 08:12:40 -0700 (PDT)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-53936b718e2sm4294855e0c.10.2025.08.06.08.12.39
+        bh=ob+wZFgLLDZJ43IatvkYFPa2ZO5eiOMoVFYqdV+7TU0=;
+        b=cYjYRUNoWbKsPxfiymXlgM1luasm4vdeltCMzvxCYxWRz0a4FMpdTSTS0zRFPp3Y9r
+         Eug5/6jaaZ4sdkwq3QKQwIsx93Bl71ZJkZCha1AwPhIfOrKJRnreS+yl0mEXFNajz+lW
+         ga1u4SJsPrp4OrhZG6psiC1OvCqc1Leg59ti6BeIwIUbYA7F3BopHq/gr49BNVso2fH2
+         ihuCMN8Ij+0bgZxQHnSCzzPNl//vr95eqTzn2LtlYaEQxaf4emleLKmBwkFDrKsUcNna
+         oKnc1v0fOIyUn1ccyq4fwkOFe5srX3sDSZ9PclgXc385eBxucSPtLPiqJtuAFBifMdK/
+         gvZA==
+X-Forwarded-Encrypted: i=1; AJvYcCW55yAIDqKQyaYd6zNlUK0NsibxskbJN9YQYOLaLPWCrtdrS0ynioxxhwt2Y1pqc988U6PpYBIG1qED@vger.kernel.org, AJvYcCWoGyFhNWyRVX62D+AORVa2L0B1ZY57drCsM7/ufms95F30PNBUagyseJ51sJb74mnGcDcK6UsYEWrMXZ1ibBQa5dA=@vger.kernel.org, AJvYcCXdwkoiyJBb09Hd3IAXdASOLXh1F9QoInorUdImBglR6dJBe1Qkns4RijWCsHSmEPTg+C4AcSOHcpKDZyRd@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw73VL+xCidhC9feb2jmKi6MZ8whWCf9bOInaNvcOk77oEtAYzh
+	t6HOjDmlYy1z/bdFqwWZduSarQX7j2/S+3rpEhsl1ZnyWXkMkIs+ETuWd4p9PLV+ap0=
+X-Gm-Gg: ASbGncsI4TEJ+DX31ApZqnAjSfmwkXbS+NaQ2kkuYJ55wnEzj8MZnXyOyngW3WNMpTn
+	i2pZ4IVlDGFPFCXYmI7Gi7Jy0p3R3gFnm4RpuPN6bNIe55n+Z16K5pPlymx3lUKxj+/hEuOcoMm
+	e5+7J4TYhKYiirLz28EoLdan9a0wqKl5DpaXUhderuqvbIzGpMuqKaE5S8hnPVAueWD5e0oYn5V
+	wB6C16IVwe8R1cuWpLUry5MUTXkdP2HbonJNobHZaVnstakQaYXDJ7Uhv0oCVreaaYO8uKUggjJ
+	KUkEOkBAzwOY/ZuCBcwblvTkNSN6bmpk89JdvorHD9/wXjFhGZfDos82AUDFWoRJWgw264Dvo3A
+	UIsY9f5kkvbquG7IhcutuoKGNeWmPstpd2MGcbAR7fM0CJXwxU6lQbUWBiaIE
+X-Google-Smtp-Source: AGHT+IH7/bxOaH3EUtB1IWTa9qc0jzHV0w115HdqBS7KN5Xhu1xUH+jRLqBZo5BGchLHFNoPoLiBzQ==
+X-Received: by 2002:a05:6122:920:b0:520:4806:a422 with SMTP id 71dfb90a1353d-539a04d8246mr1637619e0c.3.1754493206483;
+        Wed, 06 Aug 2025 08:13:26 -0700 (PDT)
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com. [209.85.217.43])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-53936b5909asm4265423e0c.8.2025.08.06.08.13.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Aug 2025 08:12:39 -0700 (PDT)
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-88dc40608c1so1808942241.2;
-        Wed, 06 Aug 2025 08:12:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV7djSt2GcFJ6YLvnXicj51LH1CvLP2HY5EF4zHzUQxShQ50j6e5Uec+mBXIIpNj0WW/7/RlWoVj2XuCFY/AbR7ZNc=@vger.kernel.org, AJvYcCVkcwMVON5iJLLzZMYrisCeidM0Ayp6miwgzPdVaGXo2xKYTDv6cfALFJ1nspFesTujSp0KZZTRyXYA@vger.kernel.org, AJvYcCW6w6K9Xu4R+dNhcKgHIXwvSp17STSU4HwLmJ8SMQxF+7hJpm2fdugPAgrNHg8NOdVw5oFtYpJ9WZ0aGuM5@vger.kernel.org
-X-Received: by 2002:a05:6102:1620:b0:4e5:9c40:824d with SMTP id
- ada2fe7eead31-50373e1e391mr1744378137.16.1754493159652; Wed, 06 Aug 2025
- 08:12:39 -0700 (PDT)
+        Wed, 06 Aug 2025 08:13:25 -0700 (PDT)
+Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-4fe2e89d055so1037000137.0;
+        Wed, 06 Aug 2025 08:13:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUZn5lrC14HQCHWrnL2oPqW3jd+1Z4JrplPF379KLnGA5k2+WzgAaECkztYGjUWfGhxUqDvsaU+LC9i@vger.kernel.org, AJvYcCUp9HhKrF2C7pVlOHjub8bhVCVGY3pV9SrHraaiWNbHGHqu6rIH4G5OVBPMQHllI7Zy9u7GKZ/KrGAMZokH@vger.kernel.org, AJvYcCVg/boyKvgknHH9W9qf6gORbXPnP0IETGi7Q8g9u/ErHtthm8o+gM1ckw4QT5AFmIQShboGIaRqw1167F/whmEInA8=@vger.kernel.org
+X-Received: by 2002:a05:6102:b10:b0:4f4:af8f:589b with SMTP id
+ ada2fe7eead31-50369c4b172mr1682169137.10.1754493204657; Wed, 06 Aug 2025
+ 08:13:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250629220502.935717-1-marek.vasut+renesas@mailbox.org>
- <CAMuHMdVUscsQEOiVUdwszM8LsiSx4FScHC+MY8hH7B_xtQHcUA@mail.gmail.com> <99ffa8fd-d2b5-402f-8a59-59d60ab49afd@mailbox.org>
-In-Reply-To: <99ffa8fd-d2b5-402f-8a59-59d60ab49afd@mailbox.org>
+References: <20250806150448.9669-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20250806150448.9669-1-marek.vasut+renesas@mailbox.org>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 6 Aug 2025 17:12:27 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWJDBVJHGruL_kCssVC9n44pbYGDiZK3ks2D00NCp87Vw@mail.gmail.com>
-X-Gm-Features: Ac12FXxwMUfhcnL6gXfoRu0Fr2bYb2TG-DcGkDV_8GtDXgKEbO9nbJMpzliWA74
-Message-ID: <CAMuHMdWJDBVJHGruL_kCssVC9n44pbYGDiZK3ks2D00NCp87Vw@mail.gmail.com>
-Subject: Re: [PATCH] ARM: dts: renesas: Add boot phase tags marking to Renesas RZ/A1
-To: Marek Vasut <marek.vasut@mailbox.org>
+Date: Wed, 6 Aug 2025 17:13:13 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXgEXmT4S8Xo_FE3QeBiBHvG4VmnfPGK461=Asj+ov+0w@mail.gmail.com>
+X-Gm-Features: Ac12FXwQoExk4huWs_17rN7WL6louaDbB_hlfPguV1KepD9kIFWu1LusOmMdzc4
+Message-ID: <CAMuHMdXgEXmT4S8Xo_FE3QeBiBHvG4VmnfPGK461=Asj+ov+0w@mail.gmail.com>
+Subject: Re: [PATCH v2] ARM: dts: renesas: Add boot phase tags marking to
+ Renesas RZ/A1
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
 Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
 	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Marek,
+On Wed, 6 Aug 2025 at 17:05, Marek Vasut
+<marek.vasut+renesas@mailbox.org> wrote:
+> bootph-all as phase tag was added to dt-schema (dtschema/schemas/bootph.yaml)
+> to describe various node usage during boot phases with DT. Add bootph-all for
+> all nodes that are used in the bootloader on Renesas RZ/A1 SoC.
+>
+> All SoC require BSC bus, PFC pin control and OSTM0 timer access during all
+> stages of the boot process, those are marked using bootph-all property, and
+> so is the SoC bus node which contains the PFC and OSTM IPs.
+>
+> Each board console UART is also marked as bootph-all to make it available in
+> all stages of the boot process.
+>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-On Wed, 6 Aug 2025 at 17:06, Marek Vasut <marek.vasut@mailbox.org> wrote:
-> On 8/6/25 11:11 AM, Geert Uytterhoeven wrote:
-> >> @@ -639,6 +643,7 @@ ostm0: timer@fcfec000 {
-> >>                          interrupts = <GIC_SPI 102 IRQ_TYPE_EDGE_RISING>;
-> >>                          clocks = <&mstp5_clks R7S72100_CLK_OSTM0>;
-> >>                          power-domains = <&cpg_clocks>;
-> >> +                       bootph-all;
-> >
-> > Please move this to the board-specific .dts files, where this node
-> > is enabled.
-> Shouldn't we rather enable OSTM0 by default , it is enabled in all RZA1
-> upstream board DTs it seems.
+> V2: Drop blank newline arount bootph-all , move ostm bootph-all to board DTs
 
-Perhaps.  We used to have issues with enabling all timers by default,
-as some may be used by (secure) firmware or another OS.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.18.
 
 Gr{oetje,eeting}s,
 
