@@ -1,140 +1,148 @@
-Return-Path: <linux-renesas-soc+bounces-20056-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20057-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 503C5B1C897
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 17:21:41 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E67AAB1C89D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 17:23:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EFD603BF473
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 15:21:34 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0E5387A70C5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 15:22:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F92628F53F;
-	Wed,  6 Aug 2025 15:21:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 041B628FFD8;
+	Wed,  6 Aug 2025 15:23:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VMttFlnu"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="rINUDcKI"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98671DAC95;
-	Wed,  6 Aug 2025 15:21:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BC5128F53F;
+	Wed,  6 Aug 2025 15:23:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754493692; cv=none; b=fOi9y6KrXTjfAN2znqKw2OIYOKcv7QqdG5zbiEk2CvXvnkMVfyN1Hi2fRoUhjF4Akqy6IVurI4wSkgyWQfrZqw3ZD9D9fAFoJK1Ldl7vpyTLy4iWiy0ruka6QnelNvfPX5xcSEKLZUN6RnEFhjhGkU/u7hnd976aYFbfthRyxLs=
+	t=1754493819; cv=none; b=XRL15dnd8PGz5I2BTzPEY140U8KChdwQUVuqukOVLyYjUiyqUb/sV1tXaSdS9o03XJRkT9y4H0RXrHROiVeWGY4uUTPmaIvEJTR1aWDp4cJ+CbRf9GADViBAPqn2OVXFKuj6T4V+g1xTNevVVryHtFxTFt6M3I9n2XdMb3gEUeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754493692; c=relaxed/simple;
-	bh=m0IhUDbwnwIxXj8HGR/C1DGN2Ji4DzA0FRtmgjoHkZE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DR3l7ki9FN4dmGvPDbV+V25bC6UvLUCln/W//q1+L4MAxRl0ye3N5p8MP5cEHc0ZuQmaR8V7seSGSBrFjNFO5Ox/pANgSusZ27pXhF7eemy0yvwNh+2ex8a2AUVGoHt0Y73FqrG5P2CKHwK4w81qWXle5lES5NRUHcNQeRLC/JQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VMttFlnu; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3b788feab29so4022077f8f.2;
-        Wed, 06 Aug 2025 08:21:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754493689; x=1755098489; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ovq5ZYrsQr6oqXSFU4+ux4eS8vVD1VZuE6lNskCnLCU=;
-        b=VMttFlnu6NF+H7R15ftYMDjz7uyyBJPN4qVuoKS2Yz4frqG2UMgB2ylmRqhwtGf639
-         /JUOcFMmGDK8K7Rz6idszm/WFOsafhrO7NGWsXtUk5Ptv73rcRFa66l9bdJEv1mu+O2f
-         W4TFjmxyFoM36AcavJYfgLMTsP47379c7CK5M+UVtAjfIyltM+t9st70CNrBt5d+1EXC
-         r+7nRRZIoh0wWT+d3O0KxqYOjFqJZyJvorjQP1tUvNhUcygRxldBnF5cHcaMsZLltbIn
-         FdRALm6N/NTJrnuBFz8oYutDBsyLI6JAVdvPJKw/fRvJhKK/rphUHoyjhx0B4sygp3Ck
-         +EJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754493689; x=1755098489;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ovq5ZYrsQr6oqXSFU4+ux4eS8vVD1VZuE6lNskCnLCU=;
-        b=YTN56A9JI9nYYdw6pg1+hQ5uZHgxo9skNGPIL7f8HukMn1jFoyPF3G15IIWO+GBc+t
-         iK5BbRF9N6SOwdzFmEshVIg2rPRYwk2k7OVz7iIau625OsdrbdFam/STmKcmQaAWZpAb
-         Urygcrlwg85SAcm+TOAQU5VghorS/Pm447oGX/WIML/hGF1Wh2mxX/d1pMbg8+r7l8/6
-         R49Y6LYBfGgoR+XSZMCksCEF2lC8f50LEDLJ+Wo6inLPAgduwK/g8ZZ2TeNjqRGG2znW
-         3uFyRvWwvXDo5ctdKGjfc/lsF+lcBwR9FEr8Rhq5YnA/I894pBSCApJPBsEb6y+6fbyH
-         R/Vw==
-X-Forwarded-Encrypted: i=1; AJvYcCU0zTyy6HRvAMcq60UOr7dc0+G1FNJlbLNhCyUNaLAkNePRoPw1J8vLVHkmfOUaQLWXSfoTyAklwvKW@vger.kernel.org, AJvYcCVKbNl1p1dJUHHeUwTbYko7Bmmzr0L7yxiMUgeOlIGjbD5QCrE2Xi9AE0tIECgHwjYqqJQkXiXQ5Sb7qsBNRvWjeJ0=@vger.kernel.org, AJvYcCVO+y5/vUn4cZC3nvwvFeXDpuo+IjAi084BNDD7jLzPedsH2BIHU5cdl/cRaGqblsKRrNhXsyXPpZcaDRF2@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQN8ap3WoTFA3G+u1z8Yzui80+oMnyjDWz6aL8IC7SN9NTpDGs
-	MGAU8fTzuJ+okDLqhwxtAzIwVvl+WceV4bnpnQE2oeBMhtavqvcggufEMtJ0ICGvH4jbkMF+YjC
-	anoxRGKxOrWlpWsnYWUD2ZsuaxIrFnFx4ZyEs
-X-Gm-Gg: ASbGncvXnCnfoyVgaIjHYv2f9vfzpQ/pVyxv1FgnIgBNEoCGa5tUNrD2XRNHHwzd+gT
-	Ps641TeL+Ky+xXCOqXPHUPvOLMa67Y81RxQo13PFcA/V/Fvqn8UUBwjFOggUS3X8ZLwIR6w7MoT
-	lAsSZBG3Trn6hbzekK5yPHT1Ny9/mGHyvWRkjRVkxty8P/sccHFYHSXNbXRluSERE/Qo9IYvOKn
-	AWXBA==
-X-Google-Smtp-Source: AGHT+IHrZhqPwn/cmzcp5cTvZfKufWUmScOM5Ycy0tWU/yMacmzrQvOiORCMOcY73Blvy+g8BiLxCzZXmUDqdhXVzk8=
-X-Received: by 2002:a05:6000:290b:b0:3a6:d7ec:c701 with SMTP id
- ffacd0b85a97d-3b8f41c8278mr2015575f8f.30.1754493688799; Wed, 06 Aug 2025
- 08:21:28 -0700 (PDT)
+	s=arc-20240116; t=1754493819; c=relaxed/simple;
+	bh=kH8Q5MNOzZyI5HYMIOzlq0YxriVL0nLIBAICthPf1vY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=akUBcJtCgoJUa+OwO0LwnsLWFiMPfNg55/oFA9hGPfGfO81mHKWhTG9J3+RHZQkGjeYKaIKE41n/HOlvn0EB5XqTd4Of+Mh1mf9yaByqo2jKdFGTLDFIBlfNquL6aCjushipPI+EsfOpMpmPDzoYKn5rSv1HlXaG/N6TlSvoOGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=rINUDcKI; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4bxvFf4ZzLz9t1D;
+	Wed,  6 Aug 2025 17:23:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1754493814;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ptD7RqG2Wfwe8QvHULRB9jljjN5BIARVY3LM/DAzOSM=;
+	b=rINUDcKIArXUARYoVU8YTwFTGj6+5V7Wja6notBfGvVBFgdJPGZUoRKKNqv2AX00eR22MG
+	HBrK/1y+6/MO/nuqE/PumgQKLzRJ3rdtqmbTlR4Q+SOpfDxcHQrwRF2ItT8ubDRcT96Eu1
+	0JMzWe8H8aXIik/IrF4yuMmtaFXD08WxmpHc06zsSda7Ddym+cQCK6w9Kon2yX9vn3Lqaf
+	xMw1jbKz+JhwBf3pKSmocCVHP2ZWC1ZF6gdEx3kxfNK1c9EeEBuN+PPbARvILHUP6eAVnG
+	MwUE2Gbr6TcZD9QykA1Pv1A0QexP/376JN20RP5CoW3T3HFwZw4a/U9clUp2Kg==
+Message-ID: <e1d465f7-43d7-471b-b8a7-7d24428bac4c@mailbox.org>
+Date: Wed, 6 Aug 2025 17:23:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250709160819.306875-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250709160819.306875-6-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXu+sYNO2=QU+9e7E1pMFpgWBPEh_VoWgVPb-5aDG6D_w@mail.gmail.com>
-In-Reply-To: <CAMuHMdXu+sYNO2=QU+9e7E1pMFpgWBPEh_VoWgVPb-5aDG6D_w@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 6 Aug 2025 16:21:02 +0100
-X-Gm-Features: Ac12FXyHRNqw2UamgGxbwVkgbuVIjj0ApqTYSanctqwRDOOgjNgu4YdixwkGDNs
-Message-ID: <CA+V-a8tkPVoe1Q0cSdzjTMKyrdkVsJnUzXBRvb0DO1s-h5zrxw@mail.gmail.com>
-Subject: Re: [PATCH v2 5/7] pinctrl: renesas: rzg2l: Unify OEN handling across RZ/{G2L,V2H,V2N}
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>, linux-renesas-soc@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	John Madieu <john.madieu.xa@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] arm64: dts: renesas: r8a779g3: Update thermal trip points
+ on V4H Sparrow Hawk
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Magnus Damm
+ <magnus.damm@gmail.com>, =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+ <niklas.soderlund@ragnatech.se>, Rob Herring <robh@kernel.org>,
+ devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20250625100330.7629-1-marek.vasut+renesas@mailbox.org>
+ <CAMuHMdV3=c24KxO_Sbt50FGsFnNVYNnHAUhk-yoa+nM1f+7+kA@mail.gmail.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <CAMuHMdV3=c24KxO_Sbt50FGsFnNVYNnHAUhk-yoa+nM1f+7+kA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: a0bef3196f4fbcb220b
+X-MBO-RS-META: ahbupiudatrs3ous6js5scw7o1xdhufs
 
-Hi Geert,
+On 8/6/25 11:35 AM, Geert Uytterhoeven wrote:
+> Hi Marek,
 
-Thank you for the review.
+Hi,
 
-On Wed, Aug 6, 2025 at 1:57=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68k=
-.org> wrote:
->
-> Hi Prabhakar,
->
-> On Wed, 9 Jul 2025 at 18:08, Prabhakar <prabhakar.csengg@gmail.com> wrote=
-:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Unify the OEN handling on RZ/V2H(P) and RZ/V2N SoCs by reusing the exis=
-ting
-> > rzg2l_read_oen and rzg2l_write_oen functions from RZ/G2L. Add a
-> > pin_to_oen_bit callback in rzg2l_pinctrl_data to look up per-pin OEN bi=
-t
-> > positions, and introduce an oen_pwpr_lock flag in the hwcfg to manage P=
-WPR
-> > locking on SoCs that require it (RZ/V2H(P) family). Remove the hardcode=
-d
-> > PFC_OEN define and obsolete per-SoC OEN helpers.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Thanks for your patch!
->
-> > --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> > +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
->
-> > @@ -270,6 +270,7 @@ struct rzg2l_hwcfg {
-> >         u8 func_base;
-> >         u8 oen_max_pin;
-> >         u8 oen_max_port;
-> > +       bool oen_pwpr_lock;
->
-> While u8 and bool do have the same size, please keep the bools grouped
-> ogether.
->
-Ok, I will move it above `func_base` member.
+>> +       #cooling-cells = <2>;
+> 
+> This is only present for the first CPU core, and map{0,1,3} refer
+> only to a76_0, because all four CPU cores are driven by a single clock
+> (Z0), right?
 
-Cheers,
-Prabhakar
+That seems correct.
+
+>> +
+>> +       a76_0_thermal_idle: thermal-idle {
+>> +               #cooling-cells = <2>;
+>> +               duration-us = <10000>;
+>> +               exit-latency-us = <500>;
+>> +       };
+>> +};
+> 
+>> +/* THS sensor in SoC near CA76 cores does more progressive cooling. */
+>> +&sensor_thermal_ca76 {
+>> +       critical-action = "shutdown";
+>> +
+>> +       cooling-maps {
+>> +               /*
+>> +                * The cooling-device minimum and maximum parameters inversely
+>> +                * match opp-table-0 {} node entries in r8a779g0.dtsi, in other
+>> +                * words, 0 refers to 1.8 GHz OPP and 4 refers to 500 MHz OPP.
+>> +                * This is because they refer to cooling levels, where maximum
+>> +                * cooling level happens at 500 MHz OPP, when the CPU core is
+>> +                * running slowly and therefore generates least heat.
+> 
+> That applies to cooling-device = <&a76_[0-3] ...>...
+
+Do you want me to add this line into the comment ?
+
+>> +                */
+>> +               map0 {
+>> +                       /* At 68C, inhibit 1.7 GHz and 1.8 GHz modes */
+>> +                       trip = <&sensor3_passive_low>;
+>> +                       cooling-device = <&a76_0 2 4>;
+>> +                       contribution = <128>;
+>> +               };
+>> +
+>> +               map1 {
+>> +                       /* At 72C, inhibit 1.5 GHz mode */
+>> +                       trip = <&sensor3_passive_mid>;
+>> +                       cooling-device = <&a76_0 3 4>;
+>> +                       contribution = <256>;
+>> +               };
+>> +
+>> +               map2 {
+>> +                       /* At 76C, start injecting idle states */
+>> +                       trip = <&sensor3_passive_hi>;
+>> +                       cooling-device = <&a76_0_thermal_idle 0 80>,
+>> +                                        <&a76_1_thermal_idle 0 80>,
+>> +                                        <&a76_2_thermal_idle 0 80>,
+>> +                                        <&a76_3_thermal_idle 0 80>;
+> 
+> ... but what do "0 80" refer to? I couldn't find in the thermal-idle
+> bindings what exactly are the minimum and maximum cooling states here.
+The comments in drivers/thermal/cpuidle_cooling.c clarify that, it is 
+the idle injection rate in percent, in this case the cooling can inject 
+idle states up to 80% of time.
+
++CC Daniel in case they want to chime in on that.
 
