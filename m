@@ -1,83 +1,83 @@
-Return-Path: <linux-renesas-soc+bounces-20043-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20044-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6654B1C750
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 16:07:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8198FB1C755
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 16:08:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CAE5D166357
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 14:07:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1998B18C3917
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 14:08:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29EE628C87E;
-	Wed,  6 Aug 2025 14:07:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3A6B28CF58;
+	Wed,  6 Aug 2025 14:07:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UbIjdm0N"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Delc9JxC"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6434628C5C6
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Aug 2025 14:07:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F346728934D
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Aug 2025 14:07:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754489239; cv=none; b=ijMr/OtIydCKZAzzrd771zAk9CQHSZqQ+OvQ0gfqMWTOXyhNdZ54fFKk9RUUUwUZhi99ROtNXFptHb6eff7CwNjSTpAQ1bpbRMBlbq1Aewb/8ZU4e/XEq+/T9rwL1j/6hxstDQZvNHDFuFZaTX2TtPd82+Ji5Xzk3L7qCE63abA=
+	t=1754489279; cv=none; b=GiTl1xlVuxXCkpiuiEtPqgt1Xy5sAn1UFsL+ylmGoSMfxahHB6ioG17ZoCgbHnYeKdoGqz7pQCuDpuBs6a28a63mE6dChsXIkcF4dUQlfLMRREqxqGc6TuPSUnF7A8rWiB9WU8EBIPncrF4p2Ynm+tRxLcUxbXoDvADIKWDktn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754489239; c=relaxed/simple;
-	bh=2ygqqxsmHHFmnLmk5lallRQIazl1vUOWQZ+uN7OQMfE=;
+	s=arc-20240116; t=1754489279; c=relaxed/simple;
+	bh=5ClgcGgo+fcnd+8D57GTJTfiQF9syoEA+kAp4PAKd/M=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SrHg2fzMQPlTf+eWC3R6rvB+ykjA46noprPIdlQU2el2Olsbes1djknDakciAGaVKODdKymL/2OviFS+Job25qr9g9JYaJToOrtjoTDdYD9xo1dCcifv0XOkYUtGDICcr8nlonEvZ2B9MupTgRNfmOQiJRHT34rA8u4AQYb4yUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UbIjdm0N; arc=none smtp.client-ip=209.85.128.46
+	 In-Reply-To:Content-Type; b=P7392a2fB/VOK8vP2qkEZE2SF0rEKsZlAj81lYIGqaAPjZRKGhxWNBxpODLDqdO76lIcMWmRQiXRJAY7ydF2n7EqwQOj/eWeYYNBRHq5o19Apqa4YF9dzmFsswONxmNEOGVrvNXJUEqyOZLBZ8QK504L+6xKKT2uRdW1Ic4ynQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Delc9JxC; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-458ba079338so7696745e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 06 Aug 2025 07:07:17 -0700 (PDT)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-458baf449cbso41638325e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 06 Aug 2025 07:07:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1754489236; x=1755094036; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1754489275; x=1755094075; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:reply-to:user-agent
          :mime-version:date:message-id:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZhOuthvlT0MlIMDwPnmOSf/FcPP9fX8kIIgrDxRdY5c=;
-        b=UbIjdm0NA2hTcPKkMgGZtRVn+EoigKhcsaXOM/8yBtGUf+Xqfi1ANojVFR5htjp5EM
-         +9ibwgo9WsHfsyCQ5qdp6lvkHy6Vuzca7bkfdPjN+A9oS8oIvDdTV4jcjUz9GF2/OI1t
-         atwmzOt2+aGdabS2Lt/MuFQNyc7i/GBEphX6Iyk7z89GczuqJCKVV8JSfrXDXlDeKY48
-         qbQpojaiKrY/+WomvDJ5D2x0pb5SZ7z9GToxtH0fXlyJf4dkrnFh/MZ0epwiLOP+UufX
-         AVNmDBSyQFHezFdvKXkcOgNbYaTx8OsYqh+hWMw/WKK0oqUMLAvdY1dS4aZg+IoHogd7
-         tbLA==
+        bh=q8Pm5cYrQInMJGl5+hX9jruWqynnloC64HQ1dkE8Byo=;
+        b=Delc9JxCsY5eTnL5rNllonFu1BMz9wDykIBaYyBDWyRTMIUsnqWC4HoTyBs1vo0f0e
+         WGe1RBieQeT89x8MWTo90Xz1DfgM3Xs7FvnhI2DJ0Amu9yzAVb9eZG6CEmgGEPccJ+ir
+         ilwkMHvVBovhhoPLNvI7lS9krjNZNJByKZQwJzLFzK3piBp267c0k8vy40AY1Ig28W2p
+         cdCAReIjSg0Geyn2Gr6uMwKv1cSMLgvbbjSGnVzLWk1ZUGqdFg110cYNI54e3fTk1UP+
+         GqA4bmnkYLmaGzd/5dAD/mNb6A/fS87tM/lk/sw3LeERlmIxqmp6nZOyu9/YBKlJfyVU
+         pO+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754489236; x=1755094036;
+        d=1e100.net; s=20230601; t=1754489275; x=1755094075;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:reply-to:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=ZhOuthvlT0MlIMDwPnmOSf/FcPP9fX8kIIgrDxRdY5c=;
-        b=lf5zd0F+9jcpXjFOShjetGeJd1yWzYCtKdkuwXENPpxbtLxf1h6AfOpwdK2kEKJoMk
-         lXWJrsyHutk03+OuETL6iJbmMQfHfdPw+ZcgTMc8F1xtcRs4RUfT3WVOl3BzPZAqwDDc
-         97849roE3q03ThKOrdFJJXg6OggGa5HLaEAFmyNDF4P8O/NTt10bV5vtohEyCf3Up+ad
-         nCvkIYc+nYR78UmLKHZMQo/t9TsqcJ1V7syuGwVvjjBV7ZoE0dYipjVNzNRuNdRHwMLD
-         XWhTOFQQ4gjSQIb+1AEnRA6NadiDTY3SNIQc5kcxGNhCUL+ddyZeBs+vV7ggcwJxCklh
-         xjxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXVVzzEjRW76FrPfSZ9r0wwXaXQpA0WuecL9GcXtAjYcZdOoGGmu2KNm54BKfBwUzNLDj60eSEViHlsihTG6vOGZQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxegIlfPXs3AMfGgPnUjTLcB19XqcGNM2kAqS0Qp0TBdtdrA5Bi
-	v2iZ39fQskpmzCs5yhxQ7gDPcn3b7z85sLNwU2/nA3bRJ70pQbx30IoZJQzjAWPc3DU=
-X-Gm-Gg: ASbGncsxzIp0hp5yZwsilRkQHaBQu755js7c8zNZknbm3vf+KW4B31MtvqgIkGVwXCM
-	gMC45tO78aCgeoNdNGenBMFGaO6NcN+WPERLCg/9eNHnUqD6MplXzYxbwx1DZ41/9hfWCIywZrn
-	ixFeQMtKswSg/M7LG4U0Za6LqZ2fTaq7iFPmXyX6YMbeLhiGiqzcNmXLHhz4EoCk4OLyFz+hmXW
-	cp+xA2eDA3KZSxv5QAIPz9eYAV+Rtb2XxtHKpy+qgscUJOOgMxN6Cj5pTUWDqkgwuRge7gThuHx
-	FazfsLDRBFEm/Kh5bW2o79eipbbc4ep8KziLyxBYUMl2/VF+rrsM5LDZptZ7g1sCCCSqzDtSgyU
-	yy8mE7eT2762Fki9GHJmfl/KQ/NjbsyUjRymYtzG85PaEYuv4y3qJoKQypW7QAyKjZ77xHDZq4o
-	M=
-X-Google-Smtp-Source: AGHT+IElAVJ4olKnFDIvp4sfDLerMVOE9QoG+knt1/9TjLViLhJO38zvYugIqzTyvf938YTDn2OM1g==
-X-Received: by 2002:a05:600c:1382:b0:456:2139:456a with SMTP id 5b1f17b1804b1-459e70e8ad8mr30258465e9.15.1754489235576;
-        Wed, 06 Aug 2025 07:07:15 -0700 (PDT)
+        bh=q8Pm5cYrQInMJGl5+hX9jruWqynnloC64HQ1dkE8Byo=;
+        b=qSvq3j3wkiXbLNCiO5q2cGyOZ/wpdWJ8bYzMZ1Jt7Pkdwubxj7ohcNyaUBDUMH5cjh
+         P9aWQBmsgWYOxXbdCMaGjAJpdw66w8haXQoiFormH1ZhLT2EvtD2lYwM2gQQtDVXcg05
+         F2Urksc4VJ4JcwW/HFWFqH056ErehuWoqZZWExiIQJDDH6OGd8MAAMfbdlvJhbATkdzB
+         QEJPGVgYm/kK7YMa8d8RYD0/nBOCm1HTWkLuukXaHbhc+zpt8qy6e/43arbToUjnxq8a
+         /OzKQn1KNkM+i0xrgq0ETlqHJUq8iFzsEkzuCQNWnmKOklGxUa0hJpHAO5nNyINtzWtl
+         k6PQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUWDtC+IW7ey/sKppPM7x6+N+IaMMNE/GUmcpXMqS5Wu5YI5hGG3idM8oTkOGBIgql1or4/aqMOYhWdrFWWzFYyTQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YweWxXoCaJZYQlJy/Wa9Y6+Ubv4xNbIRtM3lTfbmR48zVm2hE59
+	lvzz/WhSAe3ayoMgItXydciOlWqJsQG6sAB/pBfaBEVp8LOy3ZOXn+WkQ/uoJFxrLwY=
+X-Gm-Gg: ASbGnct4dRsOhSMAeysHdwe4dwUJzA7KI1dg8HihxbYP5OemsNdgd9G9lFLTXv8umWt
+	7lcJ8iTaxtWNqls6Koi/EVPuyA7QTQz+gOvW1a9LvEvZG1NjKUXPTOxt3kE9rdELLTHcMYDp1lb
+	T809xEH/okWtMvmy+Njm9CoVAIPs9xNLFjqYjAYMSXdKkkS3AByuJttlJpsCT+tiAD/Rw60RJX0
+	t+ezW3ivSV8sGoFm6mpx1eD0JvmlyCJ8mILZfx/XEHBGgQd/7/7k2sDsL0ZnT6Ed1MEIsV62p7Q
+	ZIjiMnmmiNaBpN1PjI+FDkeNGReSjHK01Fl68DmcbgI0zNEf5JVPrArjP1R2Tc6+Q18ToI20wXi
+	/+YP7bVGEmjWT+44gxmIALJ1jv83M6ZqZPjSOJBWzpJW3ZK8UOnLh1a/L42dIHET4Cbh/XNsZ26
+	9dtR4RBoyCEw==
+X-Google-Smtp-Source: AGHT+IHyy3f0kKEfQMWCY8d3Nqb03JJf0GPhRnQICd+XwnofzSDkX6gRuK7WSpYOcTRPtt5zNiAXUg==
+X-Received: by 2002:a05:600c:a03:b0:458:b068:777a with SMTP id 5b1f17b1804b1-459e9ee8b3bmr23272885e9.30.1754489275136;
+        Wed, 06 Aug 2025 07:07:55 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:3d9:2080:96df:e381:55b8:1990? ([2a01:e0a:3d9:2080:96df:e381:55b8:1990])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-459e583ff76sm50087565e9.5.2025.08.06.07.07.14
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-459e5862fd9sm54780515e9.16.2025.08.06.07.07.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Aug 2025 07:07:14 -0700 (PDT)
-Message-ID: <313c8333-3a02-439f-825f-35ebe0592a4d@linaro.org>
-Date: Wed, 6 Aug 2025 16:07:14 +0200
+        Wed, 06 Aug 2025 07:07:54 -0700 (PDT)
+Message-ID: <6ecd2cac-87cb-4921-8c8c-0f04112dff2d@linaro.org>
+Date: Wed, 6 Aug 2025 16:07:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -86,8 +86,8 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 3/5] phy: renesas: rcar-gen3-usb2: Allow SoC-specific
- OBINT bits via phy_data
+Subject: Re: [PATCH 4/5] phy: renesas: rcar-gen3-usb2: Add support for RZ/T2H
+ SoC
 To: Prabhakar <prabhakar.csengg@gmail.com>, Vinod Koul <vkoul@kernel.org>,
  Kishon Vijay Abraham I <kishon@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
@@ -100,7 +100,7 @@ Cc: linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
  Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20250805122529.2566580-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250805122529.2566580-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250805122529.2566580-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Neil Armstrong <neil.armstrong@linaro.org>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
@@ -128,25 +128,28 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20250805122529.2566580-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250805122529.2566580-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 05/08/2025 14:25, Prabhakar wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> Update the PHY driver to support SoC-specific OBINT enable bits by
-> introducing the `obint_enable_bits` field in the `rcar_gen3_phy_drv_data`
-> structure. This allows each SoC to specify bits required.
+> Add initial support for the Renesas RZ/T2H SoC to the R-Car Gen3 USB2 PHY
+> driver. The RZ/T2H SoC requires configuration of additional
+> hardware-specific bits for proper VBUS level control and OTG operation.
+> 
+> Introduce the `vblvl_ctrl` flag in the SoC-specific driver data to enable
+> handling of VBUS level selection logic using `VBCTRL.VBLVL` bits. This is
+> required for managing the VBUS status detection and drive logic based on
+> SoC-specific needs.
 > 
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
->   drivers/phy/renesas/phy-rcar-gen3-usb2.c | 27 ++++++++++++------------
->   1 file changed, 14 insertions(+), 13 deletions(-)
+>   drivers/phy/renesas/phy-rcar-gen3-usb2.c | 85 ++++++++++++++++++++++--
+>   1 file changed, 78 insertions(+), 7 deletions(-)
 > 
-
 <snip>
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-
 
