@@ -1,153 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-20059-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20060-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4149EB1CC2F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 20:52:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C7F5B1CC7C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 21:26:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F3FAB3A6801
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 18:51:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 73071169E2D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 19:26:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA16E29DB88;
-	Wed,  6 Aug 2025 18:51:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C730029E0F2;
+	Wed,  6 Aug 2025 19:26:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="CiR7E7ps"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Tl/7GjR+";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="hUj63bUM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A8F299A8E
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Aug 2025 18:51:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E52917A2FC;
+	Wed,  6 Aug 2025 19:26:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754506314; cv=none; b=W2Bljg7inGEWJ73MQUt4nBudE8TM1tUWlRtN3AwoG9O1CvShzV/W3wb32XWe/gMvLHRDpVdkmeKjLslQnbOqsFcy4kgz80eoFIOeeqNmGudKJovzaYsuPhhEk/qcIde6CXQy07T/H+n9chKqesXQr5YqQowU1xeM0bkn/EG4jLc=
+	t=1754508376; cv=none; b=aBTSttItWc8p2DZeUbDZeI2nlw4ZQwhfEdz9+5XEVMQt7hfh7KvVsishlt5bTClUuixSmXVcMgpIL3TfBYIYJtkPz2OiTE+0U9jOCo5EPcXcgUmiTo3v1rz1k+4IRCwDak/q9465QFf80SBsSQmMpzGwNl5UyqlcP+56qAywsn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754506314; c=relaxed/simple;
-	bh=+EhwwtxYPc7v/u4AVLSYUkKAy2fAdAJZcDGjAd/sjDA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lJYY9BJ0DqXnxZKnxDA62qIgkFe18ViuLTq07S6W6U4uRT5plTGrBs70uV266Zt01fFi8M0kFdN32zX73uFEGF4Cr9JKQIYpbpfuW0OS86HbudKcVUimf0+Hk5qYBjK/esoftQZkucUFG/r9IGUNQfDi0uGdDfXyZD3tD+JQweI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=CiR7E7ps; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=emoX
-	e+ntt4IHp6TYxPQJN9PAuaTUVIXfyd2K9C+euKU=; b=CiR7E7psTlvoF8W+FHkn
-	kvjCo/+782vssTMp3OjvRjEygEuBdvorTGaaOcICZPUiybr3aMXTo5y1kbeYwSak
-	dT7ejorEUPlLLby++vXSsZ2+GgSN2wjRZ/TE4wCdCZTSpaTJtUn0EfO5708dPZcT
-	NhbvNoTbPH4VZnSV0NrDtlucMW4GSsKupZYXnWVq5sVUorfXwvmnBnl7ofYXcxbu
-	oSlghigZ7BKrdVwSEp7H8xGJb7euG5XwPUiXCKAJf+3yUjDbfLsNWVs6kkGj4RPM
-	9jkCOhy6qyG5b95UE9dYMw4Wg4Hb3muTcB3xk8CYk6qSTKkmdoHUj7LvF9A/1cyu
-	9Q==
-Received: (qmail 818759 invoked from network); 6 Aug 2025 20:51:41 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Aug 2025 20:51:41 +0200
-X-UD-Smtp-Session: l3s3148p1@GHHV1LY76KwujntI
-Date: Wed, 6 Aug 2025 20:51:39 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Hoan Tran <hoan@os.amperecomputing.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	s=arc-20240116; t=1754508376; c=relaxed/simple;
+	bh=xvc5hFNS7Z6zcrxdcrA4tcs5ZEaUntpwt8lO6+LsrQU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PIdW22Gw0E1GgJepMIdX/BTFs3UIX+ikhilNAO+9oL4qRI1spAMX0Nu0ardcL5Q6K9IDpO7QWPyVCVyzhbw0I1xRCKCbdc4AWLMnYtFBlsBF3CU9vhcaCgWgsKXOfRX1wxm8UD41njdqk5fuBK+pb54nGCLy1J7rpMnAO5azRsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Tl/7GjR+; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=hUj63bUM; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4by0db6yyZz9ssJ;
+	Wed,  6 Aug 2025 21:26:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1754508372;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=okpq16wZJ1PBT8jtFsjAhOLKucRrdW9hV+i5Zl3AUDc=;
+	b=Tl/7GjR+xG1+VL2RjuxxvvkINXGfxKfJ/3i+Vom7qYPZ/SwD9ML+jyixS+KKWHVxi01ySe
+	5m/BsmGYTuqb1udVxi2muJKZll++LycHQDP8pX4k1FdyJrejSYvMGNIhdOmn5sKMFH0amF
+	TIwsIn+k1gR5H34hg58JQFRS7CzStxCBQUGFzL+VWIkVYja3u4c0lJAw3FV07a0k+cyRGQ
+	esvUQYQl5Tbl0UBMPV1uRupX90Sjg+CUhUCK8eMeNZZ7P607L8jCVZT1JorB2fwr6nVqtM
+	ODsV4V8G10no+c8ayTuC+84IJwQPJUVjOl6cn+lCwjv7NMXG3edO7eI8yTINpQ==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=hUj63bUM;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1754508370;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=okpq16wZJ1PBT8jtFsjAhOLKucRrdW9hV+i5Zl3AUDc=;
+	b=hUj63bUM3Gm8UPVlzBD7oOsge3ENy9BNTQYEliZ89YdfPvFACNNZfRQx+ztPyH7uxXtp6T
+	RUi/Jgv6WGZZxMAwyiR9/Jv0+SLrpakhpzn4O8HvLbNJIyzZdehXOGaGtrK6m+0pblTThH
+	2KGjE8Q52k0qeSTy+ZiCOHfLStlDBXe42pYZpHvhuFBANmzSEuZMXfgKIFm1SbrfIKbU9y
+	5hdf4+Jue5+wP61DQd+PG/IaTfxEnJS0WTgtBftBIe7Ly2ikb8QDlVsIMV9Cl+1Bx2lMLE
+	0Ov2YgoLap73zmISkA1SKypXujPHgRxWGzBOmkzvDTM9SD4bf+ywa/DvF7Ga8A==
+To: linux-pci@vger.kernel.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	stable@vger.kernel.org,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
 	Magnus Damm <magnus.damm@gmail.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Serge Semin <fancer.lancer@gmail.com>,
-	Phil Edworthy <phil.edworthy@renesas.com>,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 0/6] gpio: renesas: Add support for GPIO and related
- interrupts in RZ/N1 SoC
-Message-ID: <aJOkO0A3oQ4ZT2W0@shikoro>
-References: <20250725152618.32886-1-herve.codina@bootlin.com>
- <aIYHD5SEAqQNfDjD@ninjato>
- <20250730101007.314d88ce@bootlin.com>
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] PCI: rcar-gen4: Fix PHY initialization
+Date: Wed,  6 Aug 2025 21:25:18 +0200
+Message-ID: <20250806192548.133140-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="1ntdpsNfdM13eVXj"
-Content-Disposition: inline
-In-Reply-To: <20250730101007.314d88ce@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: d7f6342ca1b98e28eff
+X-MBO-RS-META: bkpk5xe59a6e33qtrgseuctgge79j7wk
+X-Rspamd-Queue-Id: 4by0db6yyZz9ssJ
 
+R-Car V4H Reference Manual R19UH0186EJ0130 Rev.1.30 Apr. 21, 2025
+page 4581 Figure 104.3b Initial Setting of PCIEC(example) middle
+of the figure indicates that fourth write into register 0x148 [2:0]
+is 0x3 or GENMASK(1, 0). The current code writes GENMASK(11, 0)
+which is a typo. Fix the typo.
 
---1ntdpsNfdM13eVXj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes: faf5a975ee3b ("PCI: rcar-gen4: Add support for R-Car V4H")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: linux-pci@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hi Herve,
+diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+index f256ba12b84f..0ef95005b0f5 100644
+--- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
++++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+@@ -703,7 +703,7 @@ static int rcar_gen4_pcie_ltssm_control(struct rcar_gen4_pcie *rcar, bool enable
+ 	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x148, GENMASK(23, 22), BIT(22));
+ 	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x148, GENMASK(18, 16), GENMASK(17, 16));
+ 	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x148, GENMASK(7, 6), BIT(6));
+-	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x148, GENMASK(2, 0), GENMASK(11, 0));
++	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x148, GENMASK(2, 0), GENMASK(1, 0));
+ 	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x1d4, GENMASK(16, 15), GENMASK(16, 15));
+ 	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x514, BIT(26), BIT(26));
+ 	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x0f8, BIT(16), 0);
+-- 
+2.47.2
 
-> 			drive-strength =3D <6>;
-> 			bias-disable;
-
-So, I missed those but sadly it didn't make a difference.
-
->=20
-> I have checked /sys/kernel/debug/pinctrl/40067000.pinctrl/pinmux-pins and
-> I have also the "(GPIO UNCLAIMED)":
-
-Still looks wrong. But is unrelated to my problem.
-
-> When you described the LED on your side, did you reference the GPIO using=
- &gpio1b
-> for instance gpios =3D <&gpio1b 23 GPIO_ACTIVE_HIGH>;
-
-Yes.
-
-> For GPIO accesses from user space I used gpioget/gpioset tools from libgp=
-iod
-> without any issues to read/write a GPIO.
-
-I use the sysfs interface. Also tried without the LED subsystem by
-directly using the GPIO sysfs interface. The 'gpio' file in debugfs
-reflects my changes, alas the LED does not glow :(
-
-I tried a little bit here and there to no avail. I also tried to build
-the BSP kernel to see if the LEDs light up there. Couldn't get that
-kernel to boot even.
-
-Conclusion: My gut feeling tells me that your patches are okay and I am
-doing something stupidly wrong. But I need to tackle this with focus and
-not as a side-task. Sadly, I can't do this before my holidays (starting
-tomorrow), so I can only do this at the end of this month. I will make
-this a priority thing for 6.18, though. Finally GPIO on this SoC would
-be awesome and allows me to enable way more devices on my board.
-
-Sorry for no better news...
-
-All the best,
-
-   Wolfram
-
-
---1ntdpsNfdM13eVXj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmiTpDcACgkQFA3kzBSg
-KbYPIRAAhoNlsCuzkf8BmL/ZqmbhFlaJiQEvpq4KndJT353zqWQELMv/rw91wqNJ
-dO3XHTOCaFze5pRdHKGkJcqbclwjCMQf/O+M6gV+i6wUACfbtW9opnJUyQrbMPXP
-A/4Kn0heG3txMQlsYTbLYJFgOgUvbbU2/aojJ8SjpPXbrq76YOhxS/HpWEW/SvEw
-2+CPY9IveGIqceUq3wkWWdCMAuffLzq34MAWL6hV5RwIM/N4HyyXMCHCEebhVZkX
-p16n8pBafFZY0Jli6k2fNV7/C2SM8VYrFe3BIkFWJmSUYYkd0MqWwJE+W9J3Xl8+
-ov4qORfgpzGOPIGBWWd5kM/iK4V9ocNHN0xWTYa0YnqkAUZ8erEtiFzxnEozEquM
-51aPtODYd7LpYiWRt6A+zWlvOCsswASSBQxxYRGh9EEtV3oZGLLxrCiro93FuPsC
-ta7ZOL9tXUY5kp15/75ct0IxKk+PrR47fSU9WWxJYQc656fuBLfByXD4C+XVvMHz
-iPnUfnYTR3PEAWOKBjB9FPk0AL22Mfpo3I1xNmjQ8BcVqXec/+oF4X+7Jwlvc1w6
-nmaypT3JUH7IWYZP6AQ6u2SZK4RbrRn071kUL0xCGyv0RoJ/hJPtx9Xngs9JrUwl
-lM99cnzbS81slTCW8l5xdq7guUXlQjTlWjsfhld654WIH40D9B0=
-=TfGp
------END PGP SIGNATURE-----
-
---1ntdpsNfdM13eVXj--
 
