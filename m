@@ -1,120 +1,144 @@
-Return-Path: <linux-renesas-soc+bounces-20053-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20054-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD5BFB1C875
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 17:13:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1809BB1C878
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 17:14:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D9E4B3B3AA2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 15:13:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3567916B1B5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 15:14:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77D3B28FAB5;
-	Wed,  6 Aug 2025 15:13:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1654290BA2;
+	Wed,  6 Aug 2025 15:14:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TqNcQ64H"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E90521D5146;
-	Wed,  6 Aug 2025 15:13:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D791DB125;
+	Wed,  6 Aug 2025 15:14:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754493209; cv=none; b=YpHoRWc66H/ZbKi2FoSAD7b1Y5hvIQTwyp2VhnMXAkum/0zp/SgsamCv7GEtFGNpEak9mlPZPEH6wMcxvom0ltTXtxNlF6/aOSwVL46+HDN3pioSZpUUuUMQ7j6jINjwvRZ2Jq5yHLvD5Nagdzw6DzpJtz0spm1bZjJVVoo71Qg=
+	t=1754493243; cv=none; b=Bwm8vhM6RMBV10lCZIehEwtK5K+HV9TcrPGHNyJiEWqEZ0mKNRakapb6BsbWjCEzZ9tRP2j9Z3shvqR6W+Yi3DJq4ZeV39UoUAREiMz/mN07MvCcNjow0rAPAac+0ttWlXyGTKyiGtJ+pTsTik6zzxMaqmUiIhBDEcQg6afDdVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754493209; c=relaxed/simple;
-	bh=KQ6T1tqJTAFmw+hALCPyyDbSp/c3MEZxUWqEZgIRMIs=;
+	s=arc-20240116; t=1754493243; c=relaxed/simple;
+	bh=9ERol8VdA/XQ7xbJUduOEd56Sme57asyPVQgVtoHoxc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T4yjA2S48zAvUSTf6JsdIf7LSpOHVKYf+zNsc0tl/bf7ksm5wpcrf2mL0snAzCFDcYN/Di9I2ApiV8ULSxnebvrlPCUMQb6/LUtHPXPzVcDQB42y7RgBI7qvZmnX5Z0f/PeOfQd8LZlq+Yy1kYTSGW9AGqKSvCH2YLt7HQDEiV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=cvgYxUqp/M0t/8038UWextzNJucsdnnKcsb1C6ZCCYHf+wg2p86TyxIC0sS4Zrf+i6W5Ibhf3CWQt2FefGiq2yyt7J/c++MrrHV/LOWkBNI6+2JINEBwlSYnJQtp49tVxdkNjQ9S1fwK9PL8TmLjFVzN8udUDZrJQTBmwjyrmf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TqNcQ64H; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-539425e3719so20072e0c.0;
-        Wed, 06 Aug 2025 08:13:27 -0700 (PDT)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3b790dbb112so3842248f8f.3;
+        Wed, 06 Aug 2025 08:14:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754493240; x=1755098040; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QvJPvdgfRcVChw2kImar7s1Fo8bzb7WBM+Qe+kX4BGI=;
+        b=TqNcQ64Hr/wWQTTWirmgIZ2JemIGwauWoNigqaX/QVzs7OI59pHTql0QBGR8fHRXrO
+         LjRzF19jGfogxd8g1AOOdKCOytPWvC129py9hMARmviK5Tx7RhXEoDuTMXuaSaK05WkR
+         fE4gBc3+WoV7U2elK5wrmyD8A3iOpapUz81m8A6FlceTgo+l5eLaq2OXqwdDYH85Mq+k
+         xPH1ejGUUqEKcw57khewq9wuciBKXlK3FJ7UNPEYN17ayGLQmUMKNRQeLCGqIspy82+N
+         7DirmhcnkpGc6hrDM+syo4cB5xPwK3Xyskc54qnndXLnnjvaE897ToVxJrIcKE7me2Eu
+         Pe7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754493206; x=1755098006;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ob+wZFgLLDZJ43IatvkYFPa2ZO5eiOMoVFYqdV+7TU0=;
-        b=cYjYRUNoWbKsPxfiymXlgM1luasm4vdeltCMzvxCYxWRz0a4FMpdTSTS0zRFPp3Y9r
-         Eug5/6jaaZ4sdkwq3QKQwIsx93Bl71ZJkZCha1AwPhIfOrKJRnreS+yl0mEXFNajz+lW
-         ga1u4SJsPrp4OrhZG6psiC1OvCqc1Leg59ti6BeIwIUbYA7F3BopHq/gr49BNVso2fH2
-         ihuCMN8Ij+0bgZxQHnSCzzPNl//vr95eqTzn2LtlYaEQxaf4emleLKmBwkFDrKsUcNna
-         oKnc1v0fOIyUn1ccyq4fwkOFe5srX3sDSZ9PclgXc385eBxucSPtLPiqJtuAFBifMdK/
-         gvZA==
-X-Forwarded-Encrypted: i=1; AJvYcCW55yAIDqKQyaYd6zNlUK0NsibxskbJN9YQYOLaLPWCrtdrS0ynioxxhwt2Y1pqc988U6PpYBIG1qED@vger.kernel.org, AJvYcCWoGyFhNWyRVX62D+AORVa2L0B1ZY57drCsM7/ufms95F30PNBUagyseJ51sJb74mnGcDcK6UsYEWrMXZ1ibBQa5dA=@vger.kernel.org, AJvYcCXdwkoiyJBb09Hd3IAXdASOLXh1F9QoInorUdImBglR6dJBe1Qkns4RijWCsHSmEPTg+C4AcSOHcpKDZyRd@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw73VL+xCidhC9feb2jmKi6MZ8whWCf9bOInaNvcOk77oEtAYzh
-	t6HOjDmlYy1z/bdFqwWZduSarQX7j2/S+3rpEhsl1ZnyWXkMkIs+ETuWd4p9PLV+ap0=
-X-Gm-Gg: ASbGncsI4TEJ+DX31ApZqnAjSfmwkXbS+NaQ2kkuYJ55wnEzj8MZnXyOyngW3WNMpTn
-	i2pZ4IVlDGFPFCXYmI7Gi7Jy0p3R3gFnm4RpuPN6bNIe55n+Z16K5pPlymx3lUKxj+/hEuOcoMm
-	e5+7J4TYhKYiirLz28EoLdan9a0wqKl5DpaXUhderuqvbIzGpMuqKaE5S8hnPVAueWD5e0oYn5V
-	wB6C16IVwe8R1cuWpLUry5MUTXkdP2HbonJNobHZaVnstakQaYXDJ7Uhv0oCVreaaYO8uKUggjJ
-	KUkEOkBAzwOY/ZuCBcwblvTkNSN6bmpk89JdvorHD9/wXjFhGZfDos82AUDFWoRJWgw264Dvo3A
-	UIsY9f5kkvbquG7IhcutuoKGNeWmPstpd2MGcbAR7fM0CJXwxU6lQbUWBiaIE
-X-Google-Smtp-Source: AGHT+IH7/bxOaH3EUtB1IWTa9qc0jzHV0w115HdqBS7KN5Xhu1xUH+jRLqBZo5BGchLHFNoPoLiBzQ==
-X-Received: by 2002:a05:6122:920:b0:520:4806:a422 with SMTP id 71dfb90a1353d-539a04d8246mr1637619e0c.3.1754493206483;
-        Wed, 06 Aug 2025 08:13:26 -0700 (PDT)
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com. [209.85.217.43])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-53936b5909asm4265423e0c.8.2025.08.06.08.13.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Aug 2025 08:13:25 -0700 (PDT)
-Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-4fe2e89d055so1037000137.0;
-        Wed, 06 Aug 2025 08:13:25 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUZn5lrC14HQCHWrnL2oPqW3jd+1Z4JrplPF379KLnGA5k2+WzgAaECkztYGjUWfGhxUqDvsaU+LC9i@vger.kernel.org, AJvYcCUp9HhKrF2C7pVlOHjub8bhVCVGY3pV9SrHraaiWNbHGHqu6rIH4G5OVBPMQHllI7Zy9u7GKZ/KrGAMZokH@vger.kernel.org, AJvYcCVg/boyKvgknHH9W9qf6gORbXPnP0IETGi7Q8g9u/ErHtthm8o+gM1ckw4QT5AFmIQShboGIaRqw1167F/whmEInA8=@vger.kernel.org
-X-Received: by 2002:a05:6102:b10:b0:4f4:af8f:589b with SMTP id
- ada2fe7eead31-50369c4b172mr1682169137.10.1754493204657; Wed, 06 Aug 2025
- 08:13:24 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1754493240; x=1755098040;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QvJPvdgfRcVChw2kImar7s1Fo8bzb7WBM+Qe+kX4BGI=;
+        b=BIzjLs2G0/DSR9ovc5qO7Ut5nGg8I1AVpdX8hfVpyDhDQdDLOjfCPz2UJGeSHuXqqn
+         xIkIaOG/geNWsAHOegvRdin/48nxnI2uVO9SHN9I/9ljIdUBB+FtoKYFzQYWkYqLOdY5
+         3B/fq50pQx6xLO/E4YwcSor4PavIouhYy17Qjp9i/tX8SGONT/xmGm8mqw+u5A7zmHLp
+         j3EFok1F8xUdtNRC5NAhANXqKwz0g0fGY4Qi6nz07nNa+HKrKDqoWRhutkK6VkxkmdyH
+         HTtCs8W7FlEm8vM7q7znCxCxlp32QiszOtJICqWkApS66PMZXFpEIQwtF6TFt3pvnrsj
+         MlzA==
+X-Forwarded-Encrypted: i=1; AJvYcCUUcx84goJSZVAff1J8aNObMo+ArEctYFHCZckB8dqln485R4OUP80lwUMo28nPNfbfKW1fZSZqeKF2D2rcq9Ab6qs=@vger.kernel.org, AJvYcCWRcbUBWg/rn9C6YJsIBYPO6O6/y2SXC7zMSdjYI7YxqIgOUPlV8gSxHX4fjSBVwDAeWVSMmr/1nQY3yh+J@vger.kernel.org, AJvYcCWRiErJXb+zHTpwL4la/XrULUlqrU1kajtxiX70r6D+nh4mmHzC4lkJBv99tLDrslF1KHCDLPHEjEFD@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywq2tsyIQ2Gp65MXrO4Xx9lJ6IL1Wn5Z/KauUP0W28tm/Br29Rn
+	vLOB9kMRYf90nPpBnlTE4MuUqnkgxroZQFLpzJ+PtMpJnHoQtwOn/AH8jN3SxtA/P/aPu4yweVh
+	1cqy9xIwoTgQdN3GG2aTL5p4cYgGfiSEKBA==
+X-Gm-Gg: ASbGncvdc0+8ObUYPHd9JlDV4N6eURtDCkKrXHnIZ0BPJRKII3f3KwwOZncGH9vYEUM
+	8T6XZAA8bnSwMCMFMdD6REVZ5gTOW3JY66WhjAqoWOtKLGH3WCHoBCKpWzZf6xEObBZ3gaioW/P
+	Nc8Y1sZR5r6h3NTs29wuJUcUV/sE5mbHGckLSNYBXfy7W/oeoGySIzuVgyu4LWLreFk3lucd14R
+	DH9qQ==
+X-Google-Smtp-Source: AGHT+IHnkUocwrhOP5a252hhVoh+2rVNWQu9TGkLdl8izlvkc28Zzj5XsLklolyVAQzmgEPJfiYPKkYbg9BsOModMb0=
+X-Received: by 2002:a05:6000:2c0a:b0:3b8:d15e:ed35 with SMTP id
+ ffacd0b85a97d-3b8f4198e56mr2932111f8f.23.1754493239886; Wed, 06 Aug 2025
+ 08:13:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250806150448.9669-1-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20250806150448.9669-1-marek.vasut+renesas@mailbox.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 6 Aug 2025 17:13:13 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXgEXmT4S8Xo_FE3QeBiBHvG4VmnfPGK461=Asj+ov+0w@mail.gmail.com>
-X-Gm-Features: Ac12FXwQoExk4huWs_17rN7WL6louaDbB_hlfPguV1KepD9kIFWu1LusOmMdzc4
-Message-ID: <CAMuHMdXgEXmT4S8Xo_FE3QeBiBHvG4VmnfPGK461=Asj+ov+0w@mail.gmail.com>
-Subject: Re: [PATCH v2] ARM: dts: renesas: Add boot phase tags marking to
- Renesas RZ/A1
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
-	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
+References: <20250709160819.306875-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250709160819.306875-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdUGY6tVb-WayHL1c=HUNgnnHA_UHWLr7=oYV9Ah2F2HFA@mail.gmail.com>
+In-Reply-To: <CAMuHMdUGY6tVb-WayHL1c=HUNgnnHA_UHWLr7=oYV9Ah2F2HFA@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Wed, 6 Aug 2025 16:13:33 +0100
+X-Gm-Features: Ac12FXyArZ97mtraOrLoJ0JSdJ9r-WMLcqL1uyvaDjz1_-ewx6v5cP1R7N0SODI
+Message-ID: <CA+V-a8v8VQ_wBv2zHKS+LTrAM1oeyNWauqda2W-Ahvsco257GA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/7] pinctrl: renesas: rzg2l: parameterize OEN register offset
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>, linux-renesas-soc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	John Madieu <john.madieu.xa@bp.renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 6 Aug 2025 at 17:05, Marek Vasut
-<marek.vasut+renesas@mailbox.org> wrote:
-> bootph-all as phase tag was added to dt-schema (dtschema/schemas/bootph.yaml)
-> to describe various node usage during boot phases with DT. Add bootph-all for
-> all nodes that are used in the bootloader on Renesas RZ/A1 SoC.
+Hi Geert,
+
+Thank you for the review.
+
+On Wed, Aug 6, 2025 at 1:53=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68k=
+.org> wrote:
 >
-> All SoC require BSC bus, PFC pin control and OSTM0 timer access during all
-> stages of the boot process, those are marked using bootph-all property, and
-> so is the SoC bus node which contains the PFC and OSTM IPs.
+> Hi Prabhakar,
 >
-> Each board console UART is also marked as bootph-all to make it available in
-> all stages of the boot process.
+> On Wed, 9 Jul 2025 at 18:08, Prabhakar <prabhakar.csengg@gmail.com> wrote=
+:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Prepare for supporting SoCs with varying OEN register locations by
+> > parameterizing the OEN offset in the rzg2l driver. Introduce an `oen`
+> > field in the rzg2l_register_offsets structure and update rzg2l_read_oen=
+(),
+> > rzg2l_write_oen(), suspend/resume caching, and SoC hwcfg entries to use
+> > this offset instead of the hard-coded ETH_MODE value.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> Thanks for your patch!
+>
+> > --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> > +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+>
+> > @@ -3164,7 +3167,7 @@ static int rzg2l_pinctrl_suspend_noirq(struct dev=
+ice *dev)
+> >         }
+> >
+> >         cache->qspi =3D readb(pctrl->base + QSPI);
+> > -       cache->eth_mode =3D readb(pctrl->base + ETH_MODE);
+> > +       cache->eth_mode =3D readb(pctrl->base + pctrl->data->hwcfg->reg=
+s.oen);
+>
+> You still have the eth_mode name in the rzg2l_pinctrl_reg_cache
+> structure; probably you want to rename that as well.
+Agreed, I will rename it to oen.
 
-> V2: Drop blank newline arount bootph-all , move ostm bootph-all to board DTs
+> In addition, it is saved/restored unconditionally, even if regs.oen
+> is zero, which is the case for RZ/V2H, RZ/V2N, and RZ/G3E until
+> [PATCH v2 5/7].
+>
+Ahh right, I will add a check in this patch and later drop it in 5/7.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.18.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
 
