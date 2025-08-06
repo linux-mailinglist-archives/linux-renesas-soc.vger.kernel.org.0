@@ -1,132 +1,124 @@
-Return-Path: <linux-renesas-soc+bounces-20060-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20061-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C7F5B1CC7C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 21:26:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 695FAB1CC8C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 21:28:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 73071169E2D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 19:26:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 43732188BE33
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Aug 2025 19:29:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C730029E0F2;
-	Wed,  6 Aug 2025 19:26:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C97C72BD588;
+	Wed,  6 Aug 2025 19:28:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Tl/7GjR+";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="hUj63bUM"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="tWYVcs2Z";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="kLnS8gYz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E52917A2FC;
-	Wed,  6 Aug 2025 19:26:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D59302BD025;
+	Wed,  6 Aug 2025 19:28:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754508376; cv=none; b=aBTSttItWc8p2DZeUbDZeI2nlw4ZQwhfEdz9+5XEVMQt7hfh7KvVsishlt5bTClUuixSmXVcMgpIL3TfBYIYJtkPz2OiTE+0U9jOCo5EPcXcgUmiTo3v1rz1k+4IRCwDak/q9465QFf80SBsSQmMpzGwNl5UyqlcP+56qAywsn4=
+	t=1754508524; cv=none; b=sOawJAH2N9W+pqWGkFWHINYucvXBELOdJ2FsuGTO7z4aeuSHNCSuBnOWgocsYXUO7I60OjpYcGmyxYthTE3+tfUiDKUAcRANSc6W+akodUu+P+q+I2GsGKdDTpWeEvWMRxv3Q0g68NAqKTQMdkGX7CJt/+8WmBrSdKcBxzwmggI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754508376; c=relaxed/simple;
-	bh=xvc5hFNS7Z6zcrxdcrA4tcs5ZEaUntpwt8lO6+LsrQU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PIdW22Gw0E1GgJepMIdX/BTFs3UIX+ikhilNAO+9oL4qRI1spAMX0Nu0ardcL5Q6K9IDpO7QWPyVCVyzhbw0I1xRCKCbdc4AWLMnYtFBlsBF3CU9vhcaCgWgsKXOfRX1wxm8UD41njdqk5fuBK+pb54nGCLy1J7rpMnAO5azRsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Tl/7GjR+; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=hUj63bUM; arc=none smtp.client-ip=80.241.56.172
+	s=arc-20240116; t=1754508524; c=relaxed/simple;
+	bh=9BHnF++kYa+XG6BaFLWvcpVxkEBg/rHpmekYrw9B3kg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jmjCiODTvYmRxF+bxkacom/n+dwrgFEuPwiVILIIM1pooR6sq7nPr39Y1iyuj0eo5Hs4h7RFqff/DbmjAiuEdEc2RdVWwoG8g3ESVL8IaPDWjLb+qm9jk0USp7XYK1m7KuhumIIw/nw8lrn0GCZpQqcGNATUWdmptgGof2TE9fA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=tWYVcs2Z; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=kLnS8gYz; arc=none smtp.client-ip=80.241.56.161
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4by0db6yyZz9ssJ;
-	Wed,  6 Aug 2025 21:26:11 +0200 (CEST)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4by0hS5KyRz9tFV;
+	Wed,  6 Aug 2025 21:28:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1754508372;
+	t=1754508520;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=okpq16wZJ1PBT8jtFsjAhOLKucRrdW9hV+i5Zl3AUDc=;
-	b=Tl/7GjR+xG1+VL2RjuxxvvkINXGfxKfJ/3i+Vom7qYPZ/SwD9ML+jyixS+KKWHVxi01ySe
-	5m/BsmGYTuqb1udVxi2muJKZll++LycHQDP8pX4k1FdyJrejSYvMGNIhdOmn5sKMFH0amF
-	TIwsIn+k1gR5H34hg58JQFRS7CzStxCBQUGFzL+VWIkVYja3u4c0lJAw3FV07a0k+cyRGQ
-	esvUQYQl5Tbl0UBMPV1uRupX90Sjg+CUhUCK8eMeNZZ7P607L8jCVZT1JorB2fwr6nVqtM
-	ODsV4V8G10no+c8ayTuC+84IJwQPJUVjOl6cn+lCwjv7NMXG3edO7eI8yTINpQ==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=hUj63bUM;
-	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
+	bh=UKUlbuMXZtDdoyQopCc2zS0fKR8B7Ban5zcHHOI4cg0=;
+	b=tWYVcs2ZxJ9M/O+SCCEw1KgkdmAT/w9ws32Sx8lgOC1kUi8F9l+AuvWd0Q9qkI1/RiKCO1
+	3F5L3QR+Jfmy2TvhmdlAQ7LIoVg7RonoL89md4+K2qvH+5m0YTXv2kJdVln3lb6rdmcG6k
+	wDqqXvwGZhyJ6AmsILIC4AQGf91lmCBNwditKW1y17CpMcMzwvEyy6n4sgr/srbtJH2aQR
+	hToe6BCiG9uElIoRwJkCBNWOCfdOJvNzv2Xp+6AApHpUhhWOMrDITI5egzPrGyY2xCU65c
+	0Zf+72wlbMVBBi6I3itoSR6Iq2he/KRSdsgLHw4n7sSsgZsZQ7ANNxFVsk5mfQ==
 From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1754508370;
+	t=1754508518;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=okpq16wZJ1PBT8jtFsjAhOLKucRrdW9hV+i5Zl3AUDc=;
-	b=hUj63bUM3Gm8UPVlzBD7oOsge3ENy9BNTQYEliZ89YdfPvFACNNZfRQx+ztPyH7uxXtp6T
-	RUi/Jgv6WGZZxMAwyiR9/Jv0+SLrpakhpzn4O8HvLbNJIyzZdehXOGaGtrK6m+0pblTThH
-	2KGjE8Q52k0qeSTy+ZiCOHfLStlDBXe42pYZpHvhuFBANmzSEuZMXfgKIFm1SbrfIKbU9y
-	5hdf4+Jue5+wP61DQd+PG/IaTfxEnJS0WTgtBftBIe7Ly2ikb8QDlVsIMV9Cl+1Bx2lMLE
-	0Ov2YgoLap73zmISkA1SKypXujPHgRxWGzBOmkzvDTM9SD4bf+ywa/DvF7Ga8A==
-To: linux-pci@vger.kernel.org
+	bh=UKUlbuMXZtDdoyQopCc2zS0fKR8B7Ban5zcHHOI4cg0=;
+	b=kLnS8gYzAuzRiMLnRGF4qTmmQzDlr4Xy76yPhK50f/SVeJxtysVfzRdq1Wwz9FBnCvxARk
+	sdVIChoe+WgYqoldp1Pjca4NcQKczDmOkIm1O20JXcbfUyQ2ZWdq0xE25eXyA/FWyzpUGP
+	3pFNA66xd6vNriAj/jXTNhFg0uZ8lDaQU6yciid03uiVqanr84BNqmV93//Xf1Mt7UqPaJ
+	x1g0l+kFJ+eK8TT+zKYrH5biBSF1JMLfSsbMCNe94R2r4pHYMy1gTN1T/Oy9jfEHnLDZP1
+	3B7KsTrLrxAJUH8+4HJXWmXEqGjTjNI2aO3Kf0Tjdeqy6bTnq53+v+aY8BMGHg==
+To: linux-arm-kernel@lists.infradead.org
 Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	stable@vger.kernel.org,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Magnus Damm <magnus.damm@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
 	Rob Herring <robh@kernel.org>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	devicetree@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] PCI: rcar-gen4: Fix PHY initialization
-Date: Wed,  6 Aug 2025 21:25:18 +0200
-Message-ID: <20250806192548.133140-1-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH] arm64: dts: renesas: r8a779g3: Set VDDQ18_25_AVB voltage on Retronix R-Car V4H Sparrow Hawk EVTB1
+Date: Wed,  6 Aug 2025 21:28:04 +0200
+Message-ID: <20250806192821.133302-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: d7f6342ca1b98e28eff
-X-MBO-RS-META: bkpk5xe59a6e33qtrgseuctgge79j7wk
-X-Rspamd-Queue-Id: 4by0db6yyZz9ssJ
+X-MBO-RS-ID: 312b43adfc86edc3ab6
+X-MBO-RS-META: yi6fh4jktfys8o3wk4e7todpkn5d79pd
 
-R-Car V4H Reference Manual R19UH0186EJ0130 Rev.1.30 Apr. 21, 2025
-page 4581 Figure 104.3b Initial Setting of PCIEC(example) middle
-of the figure indicates that fourth write into register 0x148 [2:0]
-is 0x3 or GENMASK(1, 0). The current code writes GENMASK(11, 0)
-which is a typo. Fix the typo.
+The Retronix R-Car V4H Sparrow Hawk EVTB1 uses 1V8 IO voltage supply
+for VDDQ18_25_AVB power rail. Update the AVB0 pinmux to reflect the
+change in IO voltage. Since the VDDQ18_25_AVB power rail is shared,
+all four AVB0, AVB1, AVB2, TSN0 PFC/GPIO POC[7..4] registers have to
+be configured the same way. As the EVTA1 boards are from a limited run
+and generally not available, update the DT to make it compatible with
+EVTB1 IO voltage settings.
 
-Fixes: faf5a975ee3b ("PCI: rcar-gen4: Add support for R-Car V4H")
-Cc: <stable@vger.kernel.org>
+Fixes: a719915e76f2 ("arm64: dts: renesas: r8a779g3: Add Retronix R-Car V4H Sparrow Hawk board support")
 Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
-Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Conor Dooley <conor+dt@kernel.org>
 Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
 Cc: Magnus Damm <magnus.damm@gmail.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>
 Cc: Rob Herring <robh@kernel.org>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: linux-pci@vger.kernel.org
+Cc: devicetree@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org
 ---
- drivers/pci/controller/dwc/pcie-rcar-gen4.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-index f256ba12b84f..0ef95005b0f5 100644
---- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-+++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-@@ -703,7 +703,7 @@ static int rcar_gen4_pcie_ltssm_control(struct rcar_gen4_pcie *rcar, bool enable
- 	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x148, GENMASK(23, 22), BIT(22));
- 	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x148, GENMASK(18, 16), GENMASK(17, 16));
- 	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x148, GENMASK(7, 6), BIT(6));
--	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x148, GENMASK(2, 0), GENMASK(11, 0));
-+	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x148, GENMASK(2, 0), GENMASK(1, 0));
- 	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x1d4, GENMASK(16, 15), GENMASK(16, 15));
- 	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x514, BIT(26), BIT(26));
- 	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x0f8, BIT(16), 0);
+diff --git a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
+index 89c61ba0e206..f4f845801ac9 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
++++ b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
+@@ -608,6 +608,10 @@ pins-mii {
+ 			drive-strength = <21>;
+ 		};
+ 
++		pins-vddq18-25-avb {
++			pins = "PIN_VDDQ_AVB0", "PIN_VDDQ_AVB1", "PIN_VDDQ_AVB2", "PIN_VDDQ_TSN0";
++			power-source = <1800>;
++		};
+ 	};
+ 
+ 	/* Page 28 / CANFD_IF */
 -- 
 2.47.2
 
