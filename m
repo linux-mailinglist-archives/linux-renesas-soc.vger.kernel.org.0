@@ -1,189 +1,203 @@
-Return-Path: <linux-renesas-soc+bounces-20089-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20090-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 424A8B1D488
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Aug 2025 11:07:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 118F3B1D4F9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Aug 2025 11:38:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 56C90582FF5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Aug 2025 09:07:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CE4981887631
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Aug 2025 09:38:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 234D525485F;
-	Thu,  7 Aug 2025 09:07:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kjmTs2hr"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9996F24678A;
+	Thu,  7 Aug 2025 09:38:30 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ABFB81741;
-	Thu,  7 Aug 2025 09:07:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31DDB2264A7;
+	Thu,  7 Aug 2025 09:38:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754557640; cv=none; b=X4/aN7On+kZ6jBLeWZirjwZAo42I6oK7Jup90KkfooOUbOBClmhhRHlQfp6wfWsWawz3wl6JrM1W6/riZbT/zPrEzk/uLWga1vnLqf8+NZg9fFcRQGAL9qBwaaVGkBcUDL17MYLQ2+YfEsFc6BCIXAvCZ0rknmPXNYpk6OjPSks=
+	t=1754559510; cv=none; b=D38a605gKl73+90ia/Ifctxp71U0FzCx6Wv49tPmmR13DRokYpB3Jfp1tC/NaATuOnSRnbrE2FuGZxjSeq8Ur/v/BlKyEiCl3ItD5ncKcevTyOC51fI2oR2F+Z3LMiYiVsX5zw35i2X4hJ+cXDJttRhV9ncQZXXMSzxibDsj4bM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754557640; c=relaxed/simple;
-	bh=LdyIokBuO7Un8obo21ibvQiKDOlr/VJXcK2c42DetEE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IAuTnyMSZa6uBiCln+Xn2bgZ6bZX/l5IRGZ1wjCPYF3kBVWU2gUN/UTFduCQc1DTaWAFgLRZvIwBJvJROu0h/9svifXfhD6kRBx72WJcWTzmtZeCvm67UkNziIciJMI6D7yhaYKhqKr/Trjdio7WaLY0tApVO30XWKDAb4T7Usw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kjmTs2hr; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754557639; x=1786093639;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LdyIokBuO7Un8obo21ibvQiKDOlr/VJXcK2c42DetEE=;
-  b=kjmTs2hrhIohhPkn7/Zh7W3VrxWVLCX4npJaHOwq2B8WruZ6C/hallJu
-   YnVkY/oN2lZ3rGuDEWBVIx4ROpDbvToXV0qmK4b9nRzmw3ZIzPX+eBaIg
-   NGcIh/qKtodzR2yHivYhGsHLnNiCeU86O3QZ8NDWraDHwdveHk4iAWmhK
-   VDOZ+pTMKBKouyqZab9O1t4Oj2IQYrEogfmVDG38ro2X7ai7b5STnHYeq
-   uG6ji3Is4P1Ahj3RNn353QA0zqgtfaHSktrrwP36M/jqrxEAWEbClsvRP
-   3kaPj5vF1e21/DgeaclmLs9/loRUrFu77dYpbkpbiwNoPR+rNumBjzTS3
-   Q==;
-X-CSE-ConnectionGUID: 4teRfpiwSPKkcKrhqFWpaQ==
-X-CSE-MsgGUID: ZWfcwNPRQ6CaCIg55QLPIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="68340071"
-X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="68340071"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 02:07:18 -0700
-X-CSE-ConnectionGUID: aqDUmy8SRu+br3OGdJ9mBw==
-X-CSE-MsgGUID: sawpwupxQIuoCN6lIPNl9A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="169473133"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.255])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 02:07:16 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 79BBB11FC45;
-	Thu,  7 Aug 2025 12:07:13 +0300 (EEST)
-Date: Thu, 7 Aug 2025 09:07:13 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Devarsh Thakkar <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
-	Hans Verkuil <hverkuil@kernel.org>, Mike Isely <isely@pobox.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Christian Gromm <christian.gromm@microchip.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
-	Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
-	Tomasz Figa <tfiga@chromium.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Andy Walls <awalls@md.metrocast.net>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Bin Liu <bin.liu@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Michal Simek <michal.simek@amd.com>, Ming Qian <ming.qian@nxp.com>,
-	Zhou Peng <eagle.zhou@nxp.com>,
-	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Dikshita Agarwal <quic_dikshita@quicinc.com>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Nas Chung <nas.chung@chipsnmedia.com>,
-	Jackson Lee <jackson.lee@chipsnmedia.com>,
-	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-	Houlong Wei <houlong.wei@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
-	Jacob Chen <jacob-chen@iotwrt.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Detlev Casanova <detlev.casanova@collabora.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	=?utf-8?Q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>,
-	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Fabien Dessenne <fabien.dessenne@foss.st.com>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Corentin Labbe <clabbe@baylibre.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	mjpeg-users@lists.sourceforge.net
-Subject: Re: [PATCH 64/65] media: staging: ipu7: isys: Don't set
- V4L2_FL_USES_V4L2_FH manually
-Message-ID: <aJRswZIVKCuzqCpr@kekkonen.localdomain>
-References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
- <20250802-media-private-data-v1-64-eb140ddd6a9d@ideasonboard.com>
+	s=arc-20240116; t=1754559510; c=relaxed/simple;
+	bh=HY6zT8/BDEjGGXWZNg+FplBqUklqVaKsTKOVXero19I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OPbvbp/cO07EJC5c7cTxa01shdxxS98+oGE0nsZbIUEGLSORRNQtfP36vMYzritQtHPIfYKhdEiJXKKWNcSVi4h1nhsQ8W9DL/YGgfq+QB6I4e4keH4N9k1FCABRsTsaYL679r7AjGJ80P5Ffg0cQ6RQIcSgEI8KskLvCmuhLa8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-539512e3c3aso207831e0c.3;
+        Thu, 07 Aug 2025 02:38:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754559507; x=1755164307;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kg4yVMonzvoboWXkN1zzSwUBk/T53kVazB7EUBcPsmw=;
+        b=qiiPIJK7O0jD63wY1eGLKCQStfI/FPTynZ/ua893P07m2IA6V2AqZuFFo4dWxUSwnw
+         ICserb5oqNhsHrh+rw332I/w7JBjptLPUp+VuFuxIilA+I8YD1Iz5BaFseAWi3b3i2uE
+         QXGNNNWsvG/mUnFPfLg++1kXypIZcOBySHyHMGnz23fYyDaAM4p/z0Ioq4hlzNzei0Mz
+         g862Nyz5rSuu9lWDHm3y0rXo7FIfIM70y9o5M+/VbWzOZhsJ8l8gWf2SPbhMsmGigHN1
+         w+VXyrHdzDZhP6Q7xU+S00ALKC9RcCJoBVY3QmcQKCd4CbEzhzwQhNde0XZcVQ5cJkQx
+         ozIg==
+X-Forwarded-Encrypted: i=1; AJvYcCUhFBdkC1Nf5Sf7889INK2mnSKgEzyWaaniZUg4LTH9y3pmXS6shR2qk5WC4RFWM55RnUsr37BLcVwrsLs=@vger.kernel.org, AJvYcCVKWh0oKtMdCNBZ1eBah34T9/0oqd2MEBatdcOzmUf58/G5q03I+rAUJY5io1v9khw1jmugLQq688E=@vger.kernel.org, AJvYcCXEhWDrpLrnU/3EVNW6phEn9XdKoiZQ77U09nawYeA7f+WJXly4qlJ1c9QUMV9UIkrd5GtcHsTCfQ1yDquwBrJGI9k=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8WsYRcZq0tiCMTcey84AWX3FaFUbpAY0MZ6xl6eh+opuM3Tok
+	X02r0IzKlXpMjtcyw3KN94EoHyL/NeiQyN0iH7tPbTOF3/CRNnTRz9m+kty1GMZ7QqU=
+X-Gm-Gg: ASbGncs/KaKavyhaywKp7rNNDKMlFuO8QDCe7nWsPhD3cPgpIDj3gJ4t+Gl6OVldw9H
+	n34UHCr7ExOV6gM+FO0K3pwuTn+tuLhehZ0mdtYv/PG0sPOcELAxBjp+pSZ32ABAuPyfVnr8pqz
+	vJCyX/stql/MWEEGr+w95MbvR5VrblD830C8g3+SBH517Z1+iBQ1OeXA1ToBleNdT+XWZpHmFto
+	Q3uhuqDRdzZXZXHMXdl04hQU3e625qiJM4eEpAVjGAoFgMCqdFdmGP9/Jye39HoIyBnOZwhzUPO
+	1BWhL/alkW/6PA+8Uh84fgyL6H4pDmINGzBY80uJ44dDVovxqa8MkmGQazQC4TDCVT03si6Tr9J
+	GG6dE+9YTlaWf4L0C6q6B6rLVb/bPa+9DoBTGP1EDn12AAX0DGH1llqO4vsRFiErD
+X-Google-Smtp-Source: AGHT+IEkFixhE5X6a9Va2nyQEtUPAJHqEEr1qga+5QljWiD4G2ghe+CHrGVrvTYZVR/5UD6VKWXD3Q==
+X-Received: by 2002:a05:6122:d9c:b0:535:aea0:7a2f with SMTP id 71dfb90a1353d-539ade239ccmr877249e0c.4.1754559506748;
+        Thu, 07 Aug 2025 02:38:26 -0700 (PDT)
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com. [209.85.221.175])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-88e0268d423sm234046241.2.2025.08.07.02.38.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Aug 2025 02:38:26 -0700 (PDT)
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-539613258e8so257064e0c.1;
+        Thu, 07 Aug 2025 02:38:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUoKyGBoFigQpsoFfDTgeJG0LfbMfm4rXuNtBOL6Q+Iim+1XVOPaKZZmobaf1k5gaKhfZIcafoX7mQ=@vger.kernel.org, AJvYcCWFlHN2zwK3xru2PgArgL5u0rI8UKxWQVgwVS/SztKzMCyJQA6uJZyQsjMr5CwoVCwLeD3400N7Zl9XBHU=@vger.kernel.org, AJvYcCWFrDalQXSpdxtcmLCkSg2LE2zvalx11BrDUG4ReO5sb4xHjg6JNLs2S2qrcRMBiuKxqTwgBpICnJP1ZH+rXEC2dKY=@vger.kernel.org
+X-Received: by 2002:a67:e715:0:b0:4fc:d0e5:23fe with SMTP id
+ ada2fe7eead31-504b889fb24mr993877137.15.1754559506070; Thu, 07 Aug 2025
+ 02:38:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250802-media-private-data-v1-64-eb140ddd6a9d@ideasonboard.com>
+References: <20250701114733.636510-1-ulf.hansson@linaro.org>
+ <CAPDyKFr=u0u2ijczExkntHK1miWZ6hRrEWBMiyUwShS3m6c29g@mail.gmail.com>
+ <CAMuHMdX1BacUfqtmV8g7NpRnY9aTdL=fh+jC7OryMLz4ijaOCg@mail.gmail.com> <CAPDyKFqANQZmGXd8ccA5qWiGrCor2N=W_7dmV+OK8hMd_+zmmw@mail.gmail.com>
+In-Reply-To: <CAPDyKFqANQZmGXd8ccA5qWiGrCor2N=W_7dmV+OK8hMd_+zmmw@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 7 Aug 2025 11:38:14 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVrkr56XsRsbG7H-tLHVzmP+g-7=5Nrv9asC25ismwiYA@mail.gmail.com>
+X-Gm-Features: Ac12FXz_Wf7VThW0eyyjvLdjQbW2gc7dwXYQXV43OPnnHHrM4sUfbNQtDD8n2Ug
+Message-ID: <CAMuHMdVrkr56XsRsbG7H-tLHVzmP+g-7=5Nrv9asC25ismwiYA@mail.gmail.com>
+Subject: Re: [PATCH v3 00/24] pmdomain: Add generic ->sync_state() support to genpd
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Saravana Kannan <saravanak@google.com>, Stephen Boyd <sboyd@kernel.org>, linux-pm@vger.kernel.org, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Michael Grzeschik <m.grzeschik@pengutronix.de>, Bjorn Andersson <andersson@kernel.org>, 
+	Abel Vesa <abel.vesa@linaro.org>, Peng Fan <peng.fan@oss.nxp.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Johan Hovold <johan@kernel.org>, 
+	Maulik Shah <maulik.shah@oss.qualcomm.com>, Michal Simek <michal.simek@amd.com>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Hiago De Franco <hiago.franco@toradex.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Aug 02, 2025 at 11:23:26AM +0200, Jacopo Mondi wrote:
-> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> The V4L2_FL_USES_V4L2_FH flag is set by v4l2_fh_init(). It is not meant
-> to be set manually by drivers. Drop it from the ipu7-isys driver.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Hi Ulf,
 
-Thanks, Jacopo!
+On Wed, 30 Jul 2025 at 12:29, Ulf Hansson <ulf.hansson@linaro.org> wrote:
+> On Wed, 30 Jul 2025 at 11:56, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Wed, 9 Jul 2025 at 13:31, Ulf Hansson <ulf.hansson@linaro.org> wrote:
+> > > On Tue, 1 Jul 2025 at 13:47, Ulf Hansson <ulf.hansson@linaro.org> wrote:
+> > > > Changes in v3:
+> > > >         - Added a couple of patches to adress problems on some Renesas
+> > > >         platforms. Thanks Geert and Tomi for helping out!
+> > > >         - Adressed a few comments from Saravanna and Konrad.
+> > > >         - Added some tested-by tags.
+> > >
+> > > I decided it was time to give this a try, so I have queued this up for
+> > > v6.17 via the next branch at my pmdomain tree.
+> > >
+> > > If you encounter any issues, please let me know so I can help to fix them.
+> >
+> > Thanks for your series!  Due to holidays, I only managed to test
+> > this very recently.
+> >
+> > Unfortunately I have an issue with unused PM Domains no longer being
+> > disabled on R-Car:
+> >   - On R-Car Gen1/2/3, using rcar-sysc.c, unused PM Domains are never
+> >     disabled.
+> >   - On R-Car Gen4, using rcar-gen4-sysc.c, unused PM Domains are
+> >     sometimes not disabled.
+> >     At first, I noticed the IOMMU driver was not enabled in my config,
+> >     and enabling it did fix the issue.  However, after that I still
+> >     encountered the issue in a different config that does have the
+> >     IOMMU driver enabled...
+> >
+> > FTR, unused PM Domains are still disabled correctly on R/SH-Mobile
+> > (using rmobile-sysc.c) and on BeagleBone Black. Note that these use
+> > of_genpd_add_provider_simple(), while all R-Car drivers use
+> > of_genpd_add_provider_onecell().  Perhaps there is an issue with
+> > the latter?  If you don't have a clue, I plan to do some more
+> > investigation later...
 
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+of_genpd_add_provider_onecell() has:
+
+    if (!dev)
+            sync_state = true;
+    else
+            dev_set_drv_sync_state(dev, genpd_sync_state);
+
+    for (i = 0; i < data->num_domains; i++) {
+            ...
+            if (sync_state && !genpd_is_no_sync_state(genpd)) {
+                    genpd->sync_state = GENPD_SYNC_STATE_ONECELL;
+                    device_set_node(&genpd->dev, fwnode);
+                    sync_state = false;
+                    ^^^^^^^^^^^^^^^^^^^
+            }
+            ...
+    }
+
+As the R-Car SYSC drivers are not platform drivers, dev is NULL, and
+genpd->sync_state is set to GENPD_SYNC_STATE_ONECELL for the first PM
+Domain only.  All other domains have the default value of sync_state
+(0 = GENPD_SYNC_STATE_OFF).  Hence when genpd_provider_sync_state()
+is called later, it ignores all but the first domain.
+Apparently this is intentional, as of_genpd_sync_state() tries to
+power off all domains handled by the same controller anyway (see below)?
+
+> > BTW, the "pending due to"-messages look weird to me.
+> > On R-Car M2-W (r8a7791.dtsi) I see e.g.:
+> >
+> >     genpd_provider ca15-cpu0: sync_state() pending due to e6020000.watchdog
+> >     renesas-cpg-mssr e6150000.clock-controller: sync_state() pending
+> > due to e6020000.watchdog
+> >
+> > ca15-cpu0 is the PM Domain holding the first CPU core, while
+> > the watchdog resides in the always-on Clock Domain, and uses the
+> > clock-controller for PM_CLK handling.
+
+Unfortunately the first PM Domain is "ca15-cpu0", which is blocked on
+these bogus pending states, and no PM Domain is powered off.
+
+If I remove the "sync_state = false" above, genpd_provider_sync_state()
+considers all domains, and does power down all unused domains (even
+multiple times, as expected).
+
+Upon closer look, all "pending due to" messages I see claim that the
+first (index 0) PM Domain is pending on some devices, while all of
+these devices are part of a different domain (usually the always-on
+domain, which is always the last (32 or 64) on R-Car).
+
+So I think there are two issues:
+  1. Devices are not attributed to the correct PM Domain using
+     fw_devlink sync_state,
+  2. One PM Domain of a multi-domain controller being blocked should
+     not block all other domains handled by the same controller.
+
+Does that make sense?
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Sakari Ailus
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
