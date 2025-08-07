@@ -1,222 +1,106 @@
-Return-Path: <linux-renesas-soc+bounces-20101-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20102-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B33E7B1DBE7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Aug 2025 18:44:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F65EB1DC10
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Aug 2025 19:00:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AAC66583451
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Aug 2025 16:44:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A9D11561543
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Aug 2025 17:00:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C10E22701D9;
-	Thu,  7 Aug 2025 16:44:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D55FE2737F0;
+	Thu,  7 Aug 2025 17:00:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VUj8qhwI"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="EYZkSGpq"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07335695;
-	Thu,  7 Aug 2025 16:44:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD8EE273816
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Aug 2025 17:00:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754585046; cv=none; b=eYun8g7RuGR1/kAveUv9uww7MtwTXI1XoaIqC1iIjE2yaniLqUpRdgffhcsxA81yphZaP8lzj++livhz0x2reA+gqIHCNcP5lhFTKucUJExaapRaknVT5z32lenAxbqJRFFOpj/NEi7EJHe4O9ckkKCB4QlfrWJwWWRhLP+6F1M=
+	t=1754586013; cv=none; b=Ho+GPr8snjbZOPU9dsFKHqYTbYlBiXU9p0D5LShdVWkGV8ipcoM+VJgFQXvrSXzHVAtxRgAXA6d6yijyNhtPEl3zJCnxKPs2YjwiUwn2xs2B6Kn02EreftGaZejhokiBLVwraH+zDulMMf+Jn14ESbdScn2+Ap1KSENgW0xW3hA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754585046; c=relaxed/simple;
-	bh=aRVTg3NkA2j/+MLhyrI8o9+95qc57OCvEyQf/f9fKbs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=runlfIGkNhWTxM6MLUJNEEze8LBudsj1ahAPxlh72u/SJyuBfXnDaFORHgsVhrb0fVeY4GCy+ore/c1ClmebmX2NB+eKt6Ot5a6wejGXvfIfa8SPtLkzd2iYXjGZ8P+iy5H7QJBsmJhamTTi83wQBkcCt4ODWSEcyLgYZwuB+pU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VUj8qhwI; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4563cfac2d2so10357145e9.3;
-        Thu, 07 Aug 2025 09:44:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754585043; x=1755189843; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UeFcbpNlz4XFli2IHS15ciDVbC4CdcWNGh3GZoGiWtI=;
-        b=VUj8qhwIR4t8/IbDtWAT9QinqO1RMq3wI2e/Z23ZREVLEuZuH9Y0hopPf42dIpl4rE
-         tPCX1aeyryPdKaSsg8EbA5KtX1+IpGfUSAdl7YDgfWb6l9E9z3vGnZX07pNd8ZFSp5Ns
-         c/40AOovPiUfYZjgXvS5OT4UrYRfQAwUBRBvSDU5bxZLhOwqwPprLPhwFJDpNPRDwnAq
-         yTI2eudpXP9Wyc79OxF67JsqoY8O0+wV8W4eQvoKG7Qf+NVrE92NREdsWWDiqhhTPS5v
-         wmJmWpCqDTd/0D8qD9L7SQtppxammgtN448PcI1Plnpsnw590PLZ7bZAn+0Rr36U8ycd
-         Iw5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754585043; x=1755189843;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UeFcbpNlz4XFli2IHS15ciDVbC4CdcWNGh3GZoGiWtI=;
-        b=LgZiqbfevYlDm+iKAbVn8EnlwXYpKt9oCDB+oEJLaBE8ypbPjyhwwI8u8eLddDp8Ei
-         +vsaj4/hrL6g/vEhpK5qKMFncfTFKqYZTATVZLGheIhB7R+5Ytivbgk2f4TAHcNV2UiZ
-         J+W1WzLIgyrbEL5EYbAB/LNUYOxd8QCjiEjAYUmmXnxVwApaE7UasgwQ48I2XKQXSY+X
-         GjiGAIsi9aWHUZ7zhAJ53VRWZXc7JbSemLnH8LRm9T3KDCoTX7WyqQcC17kcF+Vrtev3
-         KrV9X2al+HtmgWgBbNnQYY/IiNI26ZAxEh9WNK8HimYaBW/PInYFR5HZ0k22yqYtxQDu
-         93Vw==
-X-Forwarded-Encrypted: i=1; AJvYcCXE3Jbu4XVNZi4QkDZ4QbQU5AW7tIxvFfSOKvinDiOGTJkoqcK0SmGTZuochf1qeL5GQ+XpcRP2/aU=@vger.kernel.org, AJvYcCXwIOZVayNnoWRtqm8qICt8oywRAcTF4vcfQa3Cw8B/Pax5bcXXG67ZweEOvkhrbTS0VAYR77MdOEqmEB26@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKHsy1kWljVD+up5kOlS+P/grv6KWF2gp9FNp1/5yOHidseCh5
-	9EDmDB3AtgQb5/dX+klONwC4DSpd5D2yJAUjWe96zf+zBHAGzgU7d6UJ
-X-Gm-Gg: ASbGnctT0bWpRDaOas24zlrLilgKEo8h5fUWsZFJNeR2M0TXxTQao5CVWJbjyZhx/2U
-	hjPNOwZEuQ1zBL4VWtG71GvMNC+GeEZ5996MEjuuTNi1E3q6nfhNAIG8YGFxkXRHZruitrjqZlj
-	Zyo+XkAI4OOia5/+i2NwbootJvJIpHcrWrTN9F+6Z9H9ITeYBEi3sMjcK5AS6KhIShJO4578oT9
-	2o8WybI1XOvyghr0TlsHBugsORenYXiWqHWnd3FXeTFaJDXPtfRX5OU/hGwObr3kT5ydo1nDapL
-	nVa6FDFUCZ+a6PHziPpdltHrzz8G6b1Ss/BLi/VDW2Oagpt74XSfBFKwAJt/uiHS0IJSRxqrj9P
-	Ix4B2IzCJ6nrTgS+jtS51N9HH4pq17jnvhlE/o6fMsHL7hcSFi2a7fG6SvynxufAEmDzNZwWBHg
-	==
-X-Google-Smtp-Source: AGHT+IG6Kiu2mNQJUtBj2vCOU6NxM356lFEZdStFI5+TwQwAFVXc5X/Hdkuj1V92HQMigv3a08Q2KA==
-X-Received: by 2002:a05:600c:4706:b0:459:d667:1842 with SMTP id 5b1f17b1804b1-459e744f6bfmr64869875e9.12.1754585042290;
-        Thu, 07 Aug 2025 09:44:02 -0700 (PDT)
-Received: from iku.Home (97e54365.skybroadband.com. [151.229.67.101])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c3b9074sm26786942f8f.17.2025.08.07.09.44.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Aug 2025 09:44:01 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] clk: renesas: cpg-mssr: Add module reset support for RZ/T2H
-Date: Thu,  7 Aug 2025 17:43:53 +0100
-Message-ID: <20250807164353.1543461-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1754586013; c=relaxed/simple;
+	bh=rRMpC/WIh/XATi5A8/vl4uXGO1/nAMpEgW6dEHv4VQM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kcAaR1CVAaN4lUTPI8YXd94pQxggqXhe+P+awmy90J9oUpJDVx5Jcjs07OFOINipIQ4zG7y65t1rzt8SrFcuVgDi6C1vkeCmd4/6NtB0g5Nih/faKE3YYAxNjdZrvmRZ9RGspVD5T4ql79rZXX7AiYP3Wy5iU3kqzQvOCMpbiqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=EYZkSGpq; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=rRMp
+	C/WIh/XATi5A8/vl4uXGO1/nAMpEgW6dEHv4VQM=; b=EYZkSGpqoBJ1+VFUAVqx
+	219a3csW6GERQTeAS1nB8Yd0p2G2O3RnwFsQX2PbpB62NIKNR46F6RPhmZqZ07ks
+	fkNOuV3cgoSWeKXdH5SUnqise2Nr8H5lnnPwxDUULmk+I3fd6SniT5stORNCc3h1
+	rSXmfjzQ23v0txkWhtfZ7YiAlV8kXBrVvuHQZk8IP2/e1EkBqNLJqLEfs21CH5Ef
+	PNIEy0mNFOr2PYU+evNxuLtZq1ub0D30kWPoxouCn6lrV9nKDGsXfQ90xBYaahiu
+	GUAMqnfUjOq17xyctaRDuyFx6rD6/Eri0eX9WH9+2yCxfDUQYPUdT1Nx5KkLYWJh
+	ew==
+Received: (qmail 1318772 invoked from network); 7 Aug 2025 19:00:06 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 7 Aug 2025 19:00:06 +0200
+X-UD-Smtp-Session: l3s3148p1@OQyfY8k7kL6S97a6
+Date: Thu, 7 Aug 2025 19:00:04 +0200
+From: wsa+renesas <wsa+renesas@sang-engineering.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	"magnus.damm" <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: Re: [PATCH 4/4] arm64: dts: renesas: rzg3e-smarc-som: Enable I3C
+Message-ID: <aJTblGZwYSBqzavm@shikoro>
+References: <20250807151434.5241-6-wsa+renesas@sang-engineering.com>
+ <20250807151434.5241-10-wsa+renesas@sang-engineering.com>
+ <TY3PR01MB1134633EEEB64A0F24711E522862CA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="qlQYkzDjMaec/XX2"
+Content-Disposition: inline
+In-Reply-To: <TY3PR01MB1134633EEEB64A0F24711E522862CA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Add support for module reset handling on the RZ/T2H SoC. Unlike earlier
-CPG/MSSR variants, RZ/T2H uses a unified set of Module Reset Control
-Registers (MRCR) where both reset and deassert actions are done via
-read-modify-write (RMW) to the same register.
+--qlQYkzDjMaec/XX2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Introduce a new MRCR offset table (mrcr_for_rzt2h) for RZ/T2H and assign
-it to both reset_regs and reset_clear_regs. For RZ/T2H, set
-rcdev.nr_resets based on the number of MRCR registers rather than the
-number of module clocks.
 
-Update the reset/assert/deassert/status operations to perform RMW when
-handling RZ/T2H-specific layout. This enables proper reset sequencing for
-modules on RZ/T2H without affecting the behavior of other supported SoCs.
+> What about pinctrl settings here?
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/clk/renesas/renesas-cpg-mssr.c | 40 ++++++++++++++++++++++++--
- 1 file changed, 37 insertions(+), 3 deletions(-)
+I overlooked them :( I will let Tommaso handle this because it is not
+as trivial as on G3S.
 
-diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/renesas/renesas-cpg-mssr.c
-index 5ff6ee1f7d4b..d299c2bb6100 100644
---- a/drivers/clk/renesas/renesas-cpg-mssr.c
-+++ b/drivers/clk/renesas/renesas-cpg-mssr.c
-@@ -137,6 +137,22 @@ static const u16 srcr_for_gen4[] = {
- 	0x2C60, 0x2C64, 0x2C68, 0x2C6C, 0x2C70, 0x2C74,
- };
- 
-+static const u16 mrcr_for_rzt2h[] = {
-+	0x240,	/* MRCTLA */
-+	0x244,	/* Reserved */
-+	0x248,	/* Reserved */
-+	0x24C,	/* Reserved */
-+	0x250,	/* MRCTLE */
-+	0x254,	/* Reserved */
-+	0x258,	/* Reserved */
-+	0x25C,	/* Reserved */
-+	0x260,	/* MRCTLI */
-+	0x264,	/* Reserved */
-+	0x268,	/* Reserved */
-+	0x26C,	/* Reserved */
-+	0x270,	/* MRCTLM */
-+};
-+
- /*
-  * Software Reset Clearing Register offsets
-  */
-@@ -686,12 +702,16 @@ static int cpg_mssr_reset(struct reset_controller_dev *rcdev,
- 
- 	dev_dbg(priv->dev, "reset %u%02u\n", reg, bit);
- 
-+	if (priv->reg_layout == CLK_REG_LAYOUT_RZ_T2H)
-+		bitmask = readl(priv->pub.base0 + priv->reset_regs[reg]) | bitmask;
- 	/* Reset module */
- 	writel(bitmask, priv->pub.base0 + priv->reset_regs[reg]);
- 
- 	/* Wait for at least one cycle of the RCLK clock (@ ca. 32 kHz) */
- 	udelay(35);
- 
-+	if (priv->reg_layout == CLK_REG_LAYOUT_RZ_T2H)
-+		bitmask = readl(priv->pub.base0 + priv->reset_clear_regs[reg]) & ~bitmask;
- 	/* Release module from reset state */
- 	writel(bitmask, priv->pub.base0 + priv->reset_clear_regs[reg]);
- 
-@@ -707,6 +727,8 @@ static int cpg_mssr_assert(struct reset_controller_dev *rcdev, unsigned long id)
- 
- 	dev_dbg(priv->dev, "assert %u%02u\n", reg, bit);
- 
-+	if (priv->reg_layout == CLK_REG_LAYOUT_RZ_T2H)
-+		bitmask = readl(priv->pub.base0 + priv->reset_regs[reg]) | bitmask;
- 	writel(bitmask, priv->pub.base0 + priv->reset_regs[reg]);
- 	return 0;
- }
-@@ -721,6 +743,8 @@ static int cpg_mssr_deassert(struct reset_controller_dev *rcdev,
- 
- 	dev_dbg(priv->dev, "deassert %u%02u\n", reg, bit);
- 
-+	if (priv->reg_layout == CLK_REG_LAYOUT_RZ_T2H)
-+		bitmask = readl(priv->pub.base0 + priv->reset_regs[reg]) & ~bitmask;
- 	writel(bitmask, priv->pub.base0 + priv->reset_clear_regs[reg]);
- 	return 0;
- }
-@@ -764,7 +788,16 @@ static int cpg_mssr_reset_controller_register(struct cpg_mssr_priv *priv)
- 	priv->rcdev.of_node = priv->dev->of_node;
- 	priv->rcdev.of_reset_n_cells = 1;
- 	priv->rcdev.of_xlate = cpg_mssr_reset_xlate;
--	priv->rcdev.nr_resets = priv->num_mod_clks;
-+
-+	/*
-+	 * RZ/T2H (and family) has the Module Reset Control Registers
-+	 * which allows control resets of certain modules.
-+	 * The number of resets is not equal to the number of module clocks.
-+	 */
-+	if (priv->reg_layout == CLK_REG_LAYOUT_RZ_T2H)
-+		priv->rcdev.nr_resets = ARRAY_SIZE(mrcr_for_rzt2h) * 32;
-+	else
-+		priv->rcdev.nr_resets = priv->num_mod_clks;
- 	return devm_reset_controller_register(priv->dev, &priv->rcdev);
- }
- 
-@@ -1166,6 +1199,8 @@ static int __init cpg_mssr_common_init(struct device *dev,
- 		priv->control_regs = stbcr;
- 	} else if (priv->reg_layout == CLK_REG_LAYOUT_RZ_T2H) {
- 		priv->control_regs = mstpcr_for_rzt2h;
-+		priv->reset_regs = mrcr_for_rzt2h;
-+		priv->reset_clear_regs = mrcr_for_rzt2h;
- 	} else if (priv->reg_layout == CLK_REG_LAYOUT_RCAR_GEN4) {
- 		priv->status_regs = mstpsr_for_gen4;
- 		priv->control_regs = mstpcr_for_gen4;
-@@ -1262,8 +1297,7 @@ static int __init cpg_mssr_probe(struct platform_device *pdev)
- 		goto reserve_exit;
- 
- 	/* Reset Controller not supported for Standby Control SoCs */
--	if (priv->reg_layout == CLK_REG_LAYOUT_RZ_A ||
--	    priv->reg_layout == CLK_REG_LAYOUT_RZ_T2H)
-+	if (priv->reg_layout == CLK_REG_LAYOUT_RZ_A)
- 		goto reserve_exit;
- 
- 	error = cpg_mssr_reset_controller_register(priv);
--- 
-2.50.1
 
+--qlQYkzDjMaec/XX2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmiU25AACgkQFA3kzBSg
+KbZbxA//dH4+LXBirXDgZYhh8+ihULXNbqk4cFCOtEDbZM+EGZfGFRkPrW5yGrv2
+riY4hZBQrFa1u+qt8qVjZ3VgD/5uoWe6OqeKFMAC5M/IeMnreShqYr9a37nqLp30
+BM5vjvaqFRxbRclU5A0dYxx1EHQbrdLyIyxtuCogy0trOGZbWHdBC+TiANeiFEAX
+mpes8fnn1QRHB5BhVtV119QikmK33lVNQBVbunhRmI4NqrWnmniwZ60GlzvUkR8c
+bGu/+koRhbkzGCftjIJjfro37XeFewrkZo4vAm69gxgVgkZuOszMr8sGY1X1TxlQ
+8go25CvCx0/78+0tvb41uYoVrFmzicDsWpcq/3N7nmHkkiNZHCE/ylL+czeO1B0I
+4GYDAybgzatDT2VShUavVQIcgQW9WXEmVxHdZ07W682tpvZHoYVP8y9epbkLtzGE
+0K41yeZefJjVASznDGvWbmIFddlgZgv+nRyMEPWbd4Wijqqgf1G4n+VwYm3x5673
+CZWlByVUFbtvWFm9nTvqeOJdiSr8A9RsV7xMabQqv3kNC2uiVdFfIEKAcwnSqFgP
+sSZWn2gaS/xOaQbCzvJqIgSc6FpWLczeWvpAh3++qJRSgkLiQUe1z+qrlOIyRc8B
+Thj9HSc5TfFyweuy3jsZh37vIYpycxAkxYgA0ZU+LMv5J7s/5Gg=
+=aZXg
+-----END PGP SIGNATURE-----
+
+--qlQYkzDjMaec/XX2--
 
