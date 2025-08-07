@@ -1,332 +1,237 @@
-Return-Path: <linux-renesas-soc+bounces-20091-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20092-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D42FB1D61C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Aug 2025 12:54:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 374FFB1D7E7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Aug 2025 14:32:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CF27A1AA2343
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Aug 2025 10:54:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E3D1F3B54D2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Aug 2025 12:32:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A80E92797AC;
-	Thu,  7 Aug 2025 10:53:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 098A9242D8A;
+	Thu,  7 Aug 2025 12:32:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KLcy7hrY"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LACv+uFT"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C05C27603C
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Aug 2025 10:53:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 020241EB36;
+	Thu,  7 Aug 2025 12:32:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754564024; cv=none; b=VsZJaoy2eGMdz3KFGvlJedk5YZAnrqQxQprHs+UBp0LlEwJ02ARi7rWZOskpGnOP1b3Mhb6WFLYi//nZGGYIf6T4SrYNguPAxzCEx0zMjJWAeVb1b4rNYdU0SwOtecZOXomp7bAKcOcQ7AA48k2NhOQUUtTESO2J/xbuVrLKULA=
+	t=1754569939; cv=none; b=eQG+NSEZ3bdLcPKWlR4qxY9LZYd/S46bP/asDJF4Or/E+uc8eE0ooB0ema+bDlLGOL0cZzJ4q4qqecDNCuPwACE3xV5am2rdkY2FvStdC+8P5zzwly6kd2g4CxxFMkpoSpStfgOfG4u22sNT6Nwave9KFeSuVcp5yGpx1CGe+TA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754564024; c=relaxed/simple;
-	bh=YKvCN5nlknYkJXvDBqxf3rSWujDsDLvkEVJv9x6Lqvo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=afYmVabs79mt6aPb3NnNIKj0zO5nB14DZPjUyjVEPqG4wRN47XG1k2TZCGjK0wfXkj68hsdAhlYIzcPxTFhHwrTWvZduukaRsJD16keOntVIZbF/XPzZfSmaMq1S4xvBYd3uFTRjZVOPoSelLSGsUgblzQYNf+O8hS6O4lwn4jI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KLcy7hrY; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754564023; x=1786100023;
-  h=date:from:to:cc:subject:message-id;
-  bh=YKvCN5nlknYkJXvDBqxf3rSWujDsDLvkEVJv9x6Lqvo=;
-  b=KLcy7hrYaJREWgpfJz7jMltDK38SeRN/W01Hw53daZylz1S8+UFqVpeJ
-   eBfvik0mxpJpZ+sJh2vA+qSmU/I4a1BAj/zN743BmLeO1fpdug8M46sWD
-   mOuhhtq9GtsgW7g02h19Z4ZyfSdkV39RwxKpC+f+rZjlLpHwxwKLNkCm4
-   ZIDeXRRNONtnJRrzaOuPVAmK3jIasXCRC7LejIThCHyC4yVq3LbQzu9LH
-   VJ/dTrsJscGlNwQK3hSzzlwnszM663Mqs01qzV9VQtng/8HWcobG0E8RL
-   LvQZS4KANUHL+txcvtPLWtdJynRK9dzTrsQDFMk+U1jEm1aQdUx8FHzeC
-   A==;
-X-CSE-ConnectionGUID: pnRDmr60RcGEyTatvEdd5g==
-X-CSE-MsgGUID: fpsoumKaQ56We7CsTEZR2Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="67973475"
-X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="67973475"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 03:53:42 -0700
-X-CSE-ConnectionGUID: D1m4+BMTQz+beowINtomng==
-X-CSE-MsgGUID: j0cFok52Qmmla92mGyzu3A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="188710049"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 07 Aug 2025 03:53:40 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ujyFe-0002he-1Z;
-	Thu, 07 Aug 2025 10:53:38 +0000
-Date: Thu, 07 Aug 2025 18:53:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-pinctrl-for-v6.18] BUILD
- SUCCESS 4453c0e83fcbdb3ad1f3002d995dc482f33db596
-Message-ID: <202508071824.aPZLUQaG-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1754569939; c=relaxed/simple;
+	bh=mDLUQyipon3TC8s7Xe5hlhtx/kxMnlzT8INeN44SBME=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NIhqw8cLTe9KHk96o4DHnMi+Y0lc3lWSDq2Df2+c69OxiAOJf3EH/2Vlg68Y3881UUCbh5rLrL/AwjjRLcojVQnsiOi3lF5m+W6JmbJ8JDXJJ3n+16ln25MnSm/ApJLG6M638YZenQ2k2KGgn6KC/MA7r0WS1XoRmuwOn8ZTsDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LACv+uFT; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id EDCB18FA;
+	Thu,  7 Aug 2025 14:31:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1754569883;
+	bh=mDLUQyipon3TC8s7Xe5hlhtx/kxMnlzT8INeN44SBME=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LACv+uFTAOqCoVr6y4n8xhP/phvZ2YaIqX4nfPzsq8htw1/33Ig2joQ5o1c7g1TI/
+	 sm6fQdyxttR4+gfZN8u7QpF8EcmmN4qBOEZ1BO6Gpa7oo5sCerPApF06+UQkNeTbXv
+	 CoAosKL4r64nC+r6TFuPhQz7Lyc1Gdn1yLFrA/Yc=
+Date: Thu, 7 Aug 2025 15:31:57 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Devarsh Thakkar <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
+	Hans Verkuil <hverkuil@kernel.org>, Mike Isely <isely@pobox.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+	Christian Gromm <christian.gromm@microchip.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+	Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andy Walls <awalls@md.metrocast.net>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Bin Liu <bin.liu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Michal Simek <michal.simek@amd.com>, Ming Qian <ming.qian@nxp.com>,
+	Zhou Peng <eagle.zhou@nxp.com>,
+	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Dikshita Agarwal <quic_dikshita@quicinc.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Nas Chung <nas.chung@chipsnmedia.com>,
+	Jackson Lee <jackson.lee@chipsnmedia.com>,
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+	Jacob Chen <jacob-chen@iotwrt.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Detlev Casanova <detlev.casanova@collabora.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	=?utf-8?Q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Fabien Dessenne <fabien.dessenne@foss.st.com>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Corentin Labbe <clabbe@baylibre.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
+	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	mjpeg-users@lists.sourceforge.net
+Subject: Re: [PATCH 58/65] media: zoran: Remove access to __fh
+Message-ID: <20250807123157.GF11583@pendragon.ideasonboard.com>
+References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
+ <20250802-media-private-data-v1-58-eb140ddd6a9d@ideasonboard.com>
+ <d8875dea-aa04-41fc-b1b4-519d06ed6cba@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <d8875dea-aa04-41fc-b1b4-519d06ed6cba@kernel.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl-for-v6.18
-branch HEAD: 4453c0e83fcbdb3ad1f3002d995dc482f33db596  pinctrl: renesas: rzg2l: Fix invalid unsigned return in rzg3s_oen_read()
+On Thu, Aug 07, 2025 at 08:58:01AM +0200, Hans Verkuil wrote:
+> On 02/08/2025 11:23, Jacopo Mondi wrote:
+> > The __fh parameter is assigned to an unsued variable. Remove it
+> > and remove the unused struct zoran_fh type.
+> > 
+> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > ---
+> >  drivers/media/pci/zoran/zoran.h        | 6 ------
+> >  drivers/media/pci/zoran/zoran_driver.c | 3 +--
+> >  2 files changed, 1 insertion(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/media/pci/zoran/zoran.h b/drivers/media/pci/zoran/zoran.h
+> > index 1cd990468d3de9db8b14b72483972041c57bfee2..d05e222b392156bf1b3b4c83c6591db642c3c377 100644
+> > --- a/drivers/media/pci/zoran/zoran.h
+> > +++ b/drivers/media/pci/zoran/zoran.h
+> > @@ -154,12 +154,6 @@ struct zoran_jpg_settings {
+> >  
+> >  struct zoran;
+> >  
+> > -/* zoran_fh contains per-open() settings */
+> > -struct zoran_fh {
+> > -	struct v4l2_fh fh;
+> > -	struct zoran *zr;
+> > -};
+> > -
+> >  struct card_info {
+> >  	enum card_type type;
+> >  	char name[32];
+> > diff --git a/drivers/media/pci/zoran/zoran_driver.c b/drivers/media/pci/zoran/zoran_driver.c
+> > index f42f596d3e6295e31e3b33cd83c5f7243911bd30..ec7fc1da4cc02f5a344cb49bb9a783c41c758195 100644
+> > --- a/drivers/media/pci/zoran/zoran_driver.c
+> > +++ b/drivers/media/pci/zoran/zoran_driver.c
+> > @@ -511,12 +511,11 @@ static int zoran_s_fmt_vid_cap(struct file *file, void *__fh,
+> 
+> This driver uses __fh as the name for the second argument of the ioctl
+> callbacks. Can you take this opportunity to rename it to either 'fh' or 'priv'?
 
-elapsed time: 1111m
+It's a bit of yak shaving, but not too difficult so it will be addressed
+in the next version (Jacopo already wrote the patches, thanks).
 
-configs tested: 239
-configs skipped: 5
+> Generally it's not a good idea to prefix variables with __ for no good reason.
+> 
+> Grepping for __fh also shows two other drivers:
+> 
+> drivers/media/platform/chips-media/coda/coda-common.c:#define fh_to_ctx(__fh)   container_of(__fh, struct coda_ctx, fh)
+> drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h:#define fh_to_ctx(__fh) container_of(__fh, struct s5p_mfc_ctx, fh)
+> 
+> I think it is a good idea to rename __fh to fh there as well.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+That can't be done, otherwise things like
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    clang-19
-alpha                            allyesconfig    gcc-15.1.0
-alpha                               defconfig    clang-19
-arc                              allmodconfig    clang-19
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    clang-19
-arc                              allyesconfig    gcc-15.1.0
-arc                                 defconfig    clang-19
-arc                   randconfig-001-20250807    clang-22
-arc                   randconfig-001-20250807    gcc-13.4.0
-arc                   randconfig-002-20250807    clang-22
-arc                   randconfig-002-20250807    gcc-12.5.0
-arm                              allmodconfig    clang-19
-arm                              allmodconfig    gcc-15.1.0
-arm                               allnoconfig    clang-22
-arm                              allyesconfig    clang-19
-arm                              allyesconfig    gcc-15.1.0
-arm                         axm55xx_defconfig    clang-22
-arm                                 defconfig    clang-19
-arm                      jornada720_defconfig    clang-22
-arm                   randconfig-001-20250807    clang-22
-arm                   randconfig-002-20250807    clang-22
-arm                   randconfig-002-20250807    gcc-10.5.0
-arm                   randconfig-003-20250807    clang-22
-arm                   randconfig-004-20250807    clang-22
-arm                   randconfig-004-20250807    gcc-8.5.0
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.1.0
-arm64                               defconfig    clang-19
-arm64                 randconfig-001-20250807    clang-22
-arm64                 randconfig-001-20250807    gcc-8.5.0
-arm64                 randconfig-002-20250807    clang-22
-arm64                 randconfig-002-20250807    gcc-8.5.0
-arm64                 randconfig-003-20250807    clang-22
-arm64                 randconfig-004-20250807    clang-22
-arm64                 randconfig-004-20250807    gcc-14.3.0
-csky                              allnoconfig    gcc-15.1.0
-csky                                defconfig    clang-19
-csky                                defconfig    clang-22
-csky                  randconfig-001-20250807    gcc-15.1.0
-csky                  randconfig-002-20250807    gcc-15.1.0
-hexagon                          allmodconfig    clang-17
-hexagon                          allmodconfig    clang-19
-hexagon                           allnoconfig    clang-22
-hexagon                          allyesconfig    clang-19
-hexagon                          allyesconfig    clang-22
-hexagon                             defconfig    clang-19
-hexagon               randconfig-001-20250807    clang-22
-hexagon               randconfig-001-20250807    gcc-15.1.0
-hexagon               randconfig-002-20250807    clang-22
-hexagon               randconfig-002-20250807    gcc-15.1.0
-i386                             allmodconfig    clang-20
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    clang-20
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    clang-20
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250807    clang-20
-i386        buildonly-randconfig-001-20250807    gcc-12
-i386        buildonly-randconfig-002-20250807    clang-20
-i386        buildonly-randconfig-002-20250807    gcc-12
-i386        buildonly-randconfig-003-20250807    gcc-12
-i386        buildonly-randconfig-004-20250807    gcc-11
-i386        buildonly-randconfig-004-20250807    gcc-12
-i386        buildonly-randconfig-005-20250807    gcc-12
-i386        buildonly-randconfig-006-20250807    gcc-12
-i386                                defconfig    clang-20
-i386                  randconfig-001-20250807    gcc-12
-i386                  randconfig-002-20250807    gcc-12
-i386                  randconfig-003-20250807    gcc-12
-i386                  randconfig-004-20250807    gcc-12
-i386                  randconfig-005-20250807    gcc-12
-i386                  randconfig-006-20250807    gcc-12
-i386                  randconfig-007-20250807    gcc-12
-i386                  randconfig-011-20250807    clang-20
-i386                  randconfig-012-20250807    clang-20
-i386                  randconfig-013-20250807    clang-20
-i386                  randconfig-014-20250807    clang-20
-i386                  randconfig-015-20250807    clang-20
-i386                  randconfig-016-20250807    clang-20
-i386                  randconfig-017-20250807    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-22
-loongarch                           defconfig    clang-19
-loongarch             randconfig-001-20250807    clang-22
-loongarch             randconfig-001-20250807    gcc-15.1.0
-loongarch             randconfig-002-20250807    gcc-15.1.0
-m68k                             allmodconfig    clang-19
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    clang-19
-m68k                             allyesconfig    gcc-15.1.0
-m68k                                defconfig    clang-19
-microblaze                       allmodconfig    clang-19
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    clang-19
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-nios2                            alldefconfig    clang-22
-nios2                             allnoconfig    gcc-11.5.0
-nios2                             allnoconfig    gcc-15.1.0
-nios2                               defconfig    gcc-15.1.0
-nios2                 randconfig-001-20250807    gcc-11.5.0
-nios2                 randconfig-001-20250807    gcc-15.1.0
-nios2                 randconfig-002-20250807    gcc-15.1.0
-nios2                 randconfig-002-20250807    gcc-8.5.0
-openrisc                          allnoconfig    clang-22
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-12
-parisc                           allmodconfig    gcc-15.1.0
-parisc                            allnoconfig    clang-22
-parisc                            allnoconfig    gcc-15.1.0
-parisc                           allyesconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250807    gcc-15.1.0
-parisc                randconfig-001-20250807    gcc-8.5.0
-parisc                randconfig-002-20250807    gcc-11.5.0
-parisc                randconfig-002-20250807    gcc-15.1.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                          allmodconfig    gcc-15.1.0
-powerpc                           allnoconfig    clang-22
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                          allyesconfig    clang-22
-powerpc                          allyesconfig    gcc-15.1.0
-powerpc                    amigaone_defconfig    clang-22
-powerpc                       ppc64_defconfig    clang-22
-powerpc               randconfig-001-20250807    gcc-12.5.0
-powerpc               randconfig-001-20250807    gcc-15.1.0
-powerpc               randconfig-002-20250807    gcc-10.5.0
-powerpc               randconfig-002-20250807    gcc-15.1.0
-powerpc               randconfig-003-20250807    gcc-11.5.0
-powerpc               randconfig-003-20250807    gcc-15.1.0
-powerpc64             randconfig-001-20250807    gcc-11.5.0
-powerpc64             randconfig-001-20250807    gcc-15.1.0
-powerpc64             randconfig-002-20250807    clang-22
-powerpc64             randconfig-002-20250807    gcc-15.1.0
-powerpc64             randconfig-003-20250807    gcc-13.4.0
-powerpc64             randconfig-003-20250807    gcc-15.1.0
-riscv                            allmodconfig    clang-22
-riscv                            allmodconfig    gcc-15.1.0
-riscv                             allnoconfig    clang-22
-riscv                             allnoconfig    gcc-15.1.0
-riscv                            allyesconfig    clang-16
-riscv                            allyesconfig    gcc-15.1.0
-riscv                               defconfig    gcc-12
-riscv                    nommu_virt_defconfig    clang-22
-riscv                 randconfig-001-20250807    gcc-12.5.0
-riscv                 randconfig-002-20250807    gcc-12.5.0
-riscv                 randconfig-002-20250807    gcc-8.5.0
-s390                             allmodconfig    clang-18
-s390                             allmodconfig    gcc-15.1.0
-s390                              allnoconfig    clang-22
-s390                             allyesconfig    gcc-15.1.0
-s390                                defconfig    gcc-12
-s390                  randconfig-001-20250807    clang-22
-s390                  randconfig-001-20250807    gcc-12.5.0
-s390                  randconfig-002-20250807    clang-22
-s390                  randconfig-002-20250807    gcc-12.5.0
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                                  defconfig    gcc-12
-sh                    randconfig-001-20250807    gcc-12.5.0
-sh                    randconfig-001-20250807    gcc-14.3.0
-sh                    randconfig-002-20250807    gcc-12.5.0
-sh                    randconfig-002-20250807    gcc-9.5.0
-sh                           se7721_defconfig    clang-22
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20250807    gcc-12.5.0
-sparc                 randconfig-001-20250807    gcc-14.3.0
-sparc                 randconfig-002-20250807    gcc-12.5.0
-sparc                 randconfig-002-20250807    gcc-15.1.0
-sparc64                             defconfig    gcc-12
-sparc64               randconfig-001-20250807    clang-22
-sparc64               randconfig-001-20250807    gcc-12.5.0
-sparc64               randconfig-002-20250807    clang-22
-sparc64               randconfig-002-20250807    gcc-12.5.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-22
-um                               allyesconfig    clang-19
-um                               allyesconfig    gcc-12
-um                                  defconfig    gcc-12
-um                             i386_defconfig    gcc-12
-um                    randconfig-001-20250807    gcc-12
-um                    randconfig-001-20250807    gcc-12.5.0
-um                    randconfig-002-20250807    gcc-11
-um                    randconfig-002-20250807    gcc-12.5.0
-um                           x86_64_defconfig    gcc-12
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250807    clang-20
-x86_64      buildonly-randconfig-001-20250807    gcc-11
-x86_64      buildonly-randconfig-002-20250807    gcc-11
-x86_64      buildonly-randconfig-002-20250807    gcc-12
-x86_64      buildonly-randconfig-003-20250807    clang-20
-x86_64      buildonly-randconfig-003-20250807    gcc-11
-x86_64      buildonly-randconfig-004-20250807    clang-20
-x86_64      buildonly-randconfig-004-20250807    gcc-11
-x86_64      buildonly-randconfig-005-20250807    gcc-11
-x86_64      buildonly-randconfig-006-20250807    gcc-11
-x86_64      buildonly-randconfig-006-20250807    gcc-12
-x86_64                              defconfig    clang-20
-x86_64                              defconfig    gcc-11
-x86_64                                  kexec    clang-20
-x86_64                randconfig-001-20250807    gcc-12
-x86_64                randconfig-002-20250807    gcc-12
-x86_64                randconfig-003-20250807    gcc-12
-x86_64                randconfig-004-20250807    gcc-12
-x86_64                randconfig-005-20250807    gcc-12
-x86_64                randconfig-006-20250807    gcc-12
-x86_64                randconfig-007-20250807    gcc-12
-x86_64                randconfig-008-20250807    gcc-12
-x86_64                randconfig-071-20250807    clang-20
-x86_64                randconfig-072-20250807    clang-20
-x86_64                randconfig-073-20250807    clang-20
-x86_64                randconfig-074-20250807    clang-20
-x86_64                randconfig-075-20250807    clang-20
-x86_64                randconfig-076-20250807    clang-20
-x86_64                randconfig-077-20250807    clang-20
-x86_64                randconfig-078-20250807    clang-20
-x86_64                               rhel-9.4    clang-20
-x86_64                           rhel-9.4-bpf    gcc-12
-x86_64                          rhel-9.4-func    clang-20
-x86_64                    rhel-9.4-kselftests    clang-20
-x86_64                         rhel-9.4-kunit    gcc-12
-x86_64                           rhel-9.4-ltp    gcc-12
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250807    gcc-12.5.0
-xtensa                randconfig-001-20250807    gcc-15.1.0
-xtensa                randconfig-002-20250807    gcc-12.5.0
-xtensa                randconfig-002-20250807    gcc-8.5.0
+#define fh_to_ctx(fh)	container_of(fh, struct coda_ctx, fh)
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+static inline struct coda_ctx *file_to_ctx(struct file *filp)
+{
+	return fh_to_ctx(file_to_v4l2_fh(filp));
+}
+
+will expand in the file_to_ctx() function to
+
+	return container_of(file_to_v4l2_fh(filp), struct coda_ctx, file_to_v4l2_fh(filp))
+
+We could rename the __fh argument to vfh or v4l2fh, but I think __fh is
+equally good there. It's just the macro argument name.
+
+> >  			       struct v4l2_format *fmt)
+> >  {
+> >  	struct zoran *zr = video_drvdata(file);
+> > -	struct zoran_fh *fh = __fh;
+> >  	int i;
+> >  	int res = 0;
+> >  
+> >  	if (fmt->fmt.pix.pixelformat == V4L2_PIX_FMT_MJPEG)
+> > -		return zoran_s_fmt_vid_out(file, fh, fmt);
+> > +		return zoran_s_fmt_vid_out(file, __fh, fmt);
+> >  
+> >  	for (i = 0; i < NUM_FORMATS; i++)
+> >  		if (fmt->fmt.pix.pixelformat == zoran_formats[i].fourcc)
+
+-- 
+Regards,
+
+Laurent Pinchart
 
