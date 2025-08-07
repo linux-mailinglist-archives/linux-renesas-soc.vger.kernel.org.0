@@ -1,207 +1,126 @@
-Return-Path: <linux-renesas-soc+bounces-20077-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20078-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09C1BB1D2C5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Aug 2025 08:58:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8702AB1D2CE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Aug 2025 08:59:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 264E316527C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Aug 2025 06:58:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 46D8B3A47AF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Aug 2025 06:59:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B6D2223DF5;
-	Thu,  7 Aug 2025 06:58:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FiIz5oVg"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07568223705;
+	Thu,  7 Aug 2025 06:59:35 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024244A06;
-	Thu,  7 Aug 2025 06:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4514A06;
+	Thu,  7 Aug 2025 06:59:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754549905; cv=none; b=sE3dnLbyk7aeGo8V/P2JoH2/phZPobMtAabpt4Dvque/goCrZw7d4vJJmbR6/t26S1Sl746F+krMZR2FVADxRJYp2VqIjZZdGCd/4HgEkJgKFQo/ZOOG93u/V6M+t5S77JDhWLC21n+6v6NZAbImRygwMi482Gro/bEYVKzmZxI=
+	t=1754549974; cv=none; b=cp0lUH2TzetqKtrnynv1mHBsmissEcKyL0/BSTT6vUdlCzD0dt8mH6Wvay8U15ZZFz6Fd0MRVtAUBs5u8Rqe4hPeo1y08ggRC4zEat1oesNLaod8aKLrGNUqcIxl9E/tIbTyddKS4aX778eTXsgBC3gNzunvzDJ4nFBX1L3BRS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754549905; c=relaxed/simple;
-	bh=tNf8yXWpoqOnHiYWPw3fqpNsTnL+1s/P0u4Xeao7oac=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Qfitpwl2/m9T5CLc5/dE22fHuvZEwOedX6ZVkgvao2cb50cFWwyBGk/4eWkNgd6Cz8g72vrKOweaxcXkAWDYXmlBVoDz2ADsQGlY3wigo/gDVKQfdWIpqB732zMD2XHIiY+W5UoOqT3CwNaexnxc4cQ8fMRJ1ZAd9wGKO5rtATI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FiIz5oVg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3474EC4CEEB;
-	Thu,  7 Aug 2025 06:58:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754549903;
-	bh=tNf8yXWpoqOnHiYWPw3fqpNsTnL+1s/P0u4Xeao7oac=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=FiIz5oVgOYMO6q4869RWcOtlVdu9nL+0h0TxLPttL1GsnNHj8WeGZvdTa0hQ9g2IF
-	 b2wpXZEdscZwcYTFUfD3Vak7J29IVobTHxanKkkz14AEYU/ukIZ++vsVvVAw99umRg
-	 fszGhSjaHM5r+e6TZDl+fqCQot/inXgAQ76e8uSvp7C7I/EYbVds7D778J5GQxDrvP
-	 K/8R8NLvCgWzWtfarV/vXEHBez0mayIYSmeKfaDsccXFY1Pe71Jfa20pHWGtm9MUgF
-	 6fVTDAxHrEq3NGzLwa0Z2/p/Q8or6h4Ic4LhSq8VFOMX6ph8bptUk/1SV7iMmp4cMZ
-	 528aoa8dBtCjQ==
-Message-ID: <d8875dea-aa04-41fc-b1b4-519d06ed6cba@kernel.org>
-Date: Thu, 7 Aug 2025 08:58:01 +0200
+	s=arc-20240116; t=1754549974; c=relaxed/simple;
+	bh=2efjV245aS2HfMO1LYgjzxjjsBHErmQGZJM0AeI/lhg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jH9a8HrHn4UJ7tTqbV9pz/63ceTYsT4FlAkrfm1ixErT7W1Q7ihvp+/PbuQJ4zVmpJl5IFYiWEEYfHROUCM8mGS7eAzgKCc/MTFUDYDrgARMgS7MNB3wFJBx1ktUizrb1yNHqZSs/pZUYC/er+fcdanpGi3EgoTH8seOtqUSkz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-5394a7aae5dso122166e0c.1;
+        Wed, 06 Aug 2025 23:59:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754549971; x=1755154771;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mcG1a630yEasFC8qX8kcY/+feKes4gS7GIzlRYpQ9Mc=;
+        b=iGTr6ptHHaSJ+MJjJA1H1k0Q9/2ZOHnR3sDiGmZueTP9Rv7Zz5WEXQkR/o5eC5MdtY
+         4oELKdXwhf/0094Nkpl1hVele2n+TSw8qTcKPNl7RS2Egxm8m57xfRg8Lg66fFw8l++Y
+         arMBShZY6Nfcgm3W63I8ZxULTgZJ12MTWdnvno7Ki/jb88/arShrX3EKzK/ES741lmaA
+         eFDkf2jnkoRS383MdplSNYGaPo0SAHyoXXK374dnYqs1eQ8OlnYM4csSJM+LQdYW87jA
+         oSo8eYZTODt3IL7MBc05dBYSPzLMejQD2T/TToxQcEAbf2e3A03Y0z3JcRy8JY6bqYTM
+         eyqw==
+X-Forwarded-Encrypted: i=1; AJvYcCW45iSvhEM2R5bBe1Zo9zkJoX87ZfYsZOoQvuezczlh+uMv5o2sjv/hOPvjyuLrDrUbRAiybpQjrm9UoATGTIzcfDw=@vger.kernel.org, AJvYcCWS7e4IlH+T26s/dhIZvNNnkak2LRFo8L+/LLsnwbUMLy/mzgZ3Vy9snhTOvFDcnsoM9dgn2NcaEp2mfkja@vger.kernel.org, AJvYcCWaoH/NzcExZNH74kJCntM+DU4GcApu3pz+T7TsaiMNauDDPk8Y4tpyFyCibA3JcS10h3ZFgMkS+xYN@vger.kernel.org
+X-Gm-Message-State: AOJu0YyeVDN/ZNHOUPzPlDmQctDfbpFzZypfbCwswq75KG8AhuI3TCRg
+	kAYfWkJ0HcEJrAiHLIZpsHiImPBsW9LHEcja9vDKJc0hY2bFEDIai5ew4qNgnlGcI8k=
+X-Gm-Gg: ASbGncvftc8BFklha4ncd+WRr4iADpSMw+IgIltj5pjzAueKttZC6xcFKviVJOMhjdS
+	fVfd0/07JabS6M+ZM6keqjkFoOS4um3OgC6pGzUxTuJZNXpttjDuJHlo1jl+/6U9QnhurLedHvv
+	5xY9BtljEoGzsla9odGTenRPl+E1ThA4BdVSyFXRpfT78DRRojhyfffoGFzBes/LgszghNSASfQ
+	J0xnZJ+L8QR3gM+oSGlHYXZ0xgBP12ohGmIx4AeKIMpjYxeXQCK3I/H6AP7E7KmsBN8Tn4imC+E
+	bLa9Fvp78VABefYSaK0DZmMfP1+IKJFOd4S4k0h9x57KQduKjCpifSQoKID9e0XmjnD0RnKXRvK
+	ChOt7Ycjzt8jwZlTqqW7cG8Gb1d69ZBUpY8hksQ9pzeylqZPawhPQc/2/4+3B
+X-Google-Smtp-Source: AGHT+IFIB4nUAbH4ZiHHb5Hzzq0zbu03bYBaGZgWET+6yjiRTmNo6HxIdKmHQyFipVdDmvczcAD3sA==
+X-Received: by 2002:a05:6122:2a15:b0:539:3bb5:e4c8 with SMTP id 71dfb90a1353d-539a153628dmr2511226e0c.12.1754549971245;
+        Wed, 06 Aug 2025 23:59:31 -0700 (PDT)
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-539b02a39f5sm257564e0c.27.2025.08.06.23.59.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Aug 2025 23:59:31 -0700 (PDT)
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-88db7a27cdcso187601241.1;
+        Wed, 06 Aug 2025 23:59:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUhtT2aup0SYQeiKlnH7y44accfYiphGmmfSkF9QNh9SxWBkpL1bap/mvFdsTPUb+gZd0Q24pWD3AzmOJmJ@vger.kernel.org, AJvYcCVRKxTvwK8sphOXbsf67XBP6+juC474zysMcm2mAefM2rgMhcRw/V2dU0fegFZVptCwNVlmoWW0VaN0c3tlKyucXm0=@vger.kernel.org, AJvYcCW+TRZKPB5p+bSchORYzIvyaHF+POZSV1vbU5bRiSZ8AaLHstvd4hKsY+f6VspCU+RmvO/bqH/KKtWq@vger.kernel.org
+X-Received: by 2002:a05:6102:6899:b0:4e7:bf31:2f68 with SMTP id
+ ada2fe7eead31-5037b5d2b3emr2460256137.25.1754549970847; Wed, 06 Aug 2025
+ 23:59:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH 58/65] media: zoran: Remove access to __fh
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Devarsh Thakkar
- <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
- Hans Verkuil <hverkuil@kernel.org>, Mike Isely <isely@pobox.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans de Goede <hansg@kernel.org>,
- Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
- Christian Gromm <christian.gromm@microchip.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Shi
- <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
- Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
- Tomasz Figa <tfiga@chromium.org>, Marek Szyprowski
- <m.szyprowski@samsung.com>, Andy Walls <awalls@md.metrocast.net>,
- Michael Tretter <m.tretter@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Bin Liu <bin.liu@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
- <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Mirela Rabulea <mirela.rabulea@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Michal Simek <michal.simek@amd.com>, Ming Qian <ming.qian@nxp.com>,
- Zhou Peng <eagle.zhou@nxp.com>, Xavier Roumegue
- <xavier.roumegue@oss.nxp.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Nas Chung <nas.chung@chipsnmedia.com>,
- Jackson Lee <jackson.lee@chipsnmedia.com>,
- Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
- Houlong Wei <houlong.wei@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Tiffany Lin <tiffany.lin@mediatek.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
- Jacob Chen <jacob-chen@iotwrt.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Heiko Stuebner <heiko@sntech.de>,
- Detlev Casanova <detlev.casanova@collabora.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
- <alim.akhtar@samsung.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>,
- =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
- Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Fabien Dessenne <fabien.dessenne@foss.st.com>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Steve Longerbeam <slongerbeam@gmail.com>, Maxime Ripard
- <mripard@kernel.org>, Paul Kocialkowski <paulk@sys-base.io>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Corentin Labbe <clabbe@baylibre.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>,
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-tegra@vger.kernel.org, imx@lists.linux.dev,
- linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-usb@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, mjpeg-users@lists.sourceforge.net
-References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
- <20250802-media-private-data-v1-58-eb140ddd6a9d@ideasonboard.com>
-Content-Language: en-US, nl
-In-Reply-To: <20250802-media-private-data-v1-58-eb140ddd6a9d@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250806195555.1372317-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250806195555.1372317-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250806195555.1372317-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 7 Aug 2025 08:59:19 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXjWaAU=E8g1uQf95eYUPyVnOnxJKK=u4tj+rpTNO+0oA@mail.gmail.com>
+X-Gm-Features: Ac12FXyLucdaeoa5K4SZ0_Ax4t20ZnqOnLyEYb7FaQFYOqEtDFnUOqfh_g4P9EU
+Message-ID: <CAMuHMdXjWaAU=E8g1uQf95eYUPyVnOnxJKK=u4tj+rpTNO+0oA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/7] pinctrl: renesas: rzg2l: Fix invalid unsigned
+ return in rzg3s_oen_read()
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, linux-renesas-soc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 02/08/2025 11:23, Jacopo Mondi wrote:
-> The __fh parameter is assigned to an unsued variable. Remove it
-> and remove the unused struct zoran_fh type.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+On Wed, 6 Aug 2025 at 21:56, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> rzg3s_oen_read() returns a u32 value, but previously propagated a negative
+> error code from rzg3s_pin_to_oen_bit(), resulting in an unintended large
+> positive value due to unsigned conversion. This caused incorrect
+> output-enable reporting for certain pins.
+>
+> Without this patch, pins P1_0-P1_4 and P7_0-P7_4 are incorrectly reported
+> as "output enabled" in the pinconf-pins debugfs file. With this fix, only
+> P1_0-P1_1 and P7_0-P7_1 are shown as "output enabled", which matches the
+> hardware manual.
+>
+> Fix this by returning 0 when the OEN bit lookup fails, treating the pin
+> as output-disabled by default.
+>
+> Fixes: a9024a323af2 ("pinctrl: renesas: rzg2l: Clean up and refactor OEN read/write functions")
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->  drivers/media/pci/zoran/zoran.h        | 6 ------
->  drivers/media/pci/zoran/zoran_driver.c | 3 +--
->  2 files changed, 1 insertion(+), 8 deletions(-)
-> 
-> diff --git a/drivers/media/pci/zoran/zoran.h b/drivers/media/pci/zoran/zoran.h
-> index 1cd990468d3de9db8b14b72483972041c57bfee2..d05e222b392156bf1b3b4c83c6591db642c3c377 100644
-> --- a/drivers/media/pci/zoran/zoran.h
-> +++ b/drivers/media/pci/zoran/zoran.h
-> @@ -154,12 +154,6 @@ struct zoran_jpg_settings {
->  
->  struct zoran;
->  
-> -/* zoran_fh contains per-open() settings */
-> -struct zoran_fh {
-> -	struct v4l2_fh fh;
-> -	struct zoran *zr;
-> -};
-> -
->  struct card_info {
->  	enum card_type type;
->  	char name[32];
-> diff --git a/drivers/media/pci/zoran/zoran_driver.c b/drivers/media/pci/zoran/zoran_driver.c
-> index f42f596d3e6295e31e3b33cd83c5f7243911bd30..ec7fc1da4cc02f5a344cb49bb9a783c41c758195 100644
-> --- a/drivers/media/pci/zoran/zoran_driver.c
-> +++ b/drivers/media/pci/zoran/zoran_driver.c
-> @@ -511,12 +511,11 @@ static int zoran_s_fmt_vid_cap(struct file *file, void *__fh,
+> v2->v3:
+> - Added Reviewed-by tag from Geert.
 
-This driver uses __fh as the name for the second argument of the ioctl
-callbacks. Can you take this opportunity to rename it to either 'fh' or 'priv'?
+Thanks, but v2 is already queued.
 
-Generally it's not a good idea to prefix variables with __ for no good reason.
+Gr{oetje,eeting}s,
 
-Grepping for __fh also shows two other drivers:
+                        Geert
 
-drivers/media/platform/chips-media/coda/coda-common.c:#define fh_to_ctx(__fh)   container_of(__fh, struct coda_ctx, fh)
-drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h:#define fh_to_ctx(__fh) container_of(__fh, struct s5p_mfc_ctx, fh)
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-I think it is a good idea to rename __fh to fh there as well.
-
-Regards,
-
-	Hans
-
->  			       struct v4l2_format *fmt)
->  {
->  	struct zoran *zr = video_drvdata(file);
-> -	struct zoran_fh *fh = __fh;
->  	int i;
->  	int res = 0;
->  
->  	if (fmt->fmt.pix.pixelformat == V4L2_PIX_FMT_MJPEG)
-> -		return zoran_s_fmt_vid_out(file, fh, fmt);
-> +		return zoran_s_fmt_vid_out(file, __fh, fmt);
->  
->  	for (i = 0; i < NUM_FORMATS; i++)
->  		if (fmt->fmt.pix.pixelformat == zoran_formats[i].fourcc)
-> 
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
