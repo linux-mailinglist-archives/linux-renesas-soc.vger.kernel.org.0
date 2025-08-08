@@ -1,80 +1,62 @@
-Return-Path: <linux-renesas-soc+bounces-20162-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20163-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0DA4B1EB19
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Aug 2025 17:05:40 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58CF5B1ECEF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Aug 2025 18:23:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8F2F418C1C0B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Aug 2025 15:01:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 70AFF586530
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Aug 2025 16:23:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93ED4283FFA;
-	Fri,  8 Aug 2025 14:56:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01644287260;
+	Fri,  8 Aug 2025 16:23:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PdJvEX6A"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XF90Y6YB"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C06B828134F;
-	Fri,  8 Aug 2025 14:56:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B13286D5C;
+	Fri,  8 Aug 2025 16:23:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754664970; cv=none; b=duHKMqGHmUAX3TcDskNWuFyk7EutDLs6Gl60WjLe6oK7awrG9OVNI8gnZQW/8a6TZwYzOzl7LTMPVc3i1xUV4LPrLYBYlomRuTIg/Ib5S78vSBm1PZ5vDEhWLGOdUv9iYiX3zMYLB44z/YDalscY0T+/mm8NxU8jCwyJXz4FW98=
+	t=1754670191; cv=none; b=XN7E/p7NsxtUTa2+SiwtJQtAsItQ8BaUgilZ8RYLUoaBqe5Fyb4eoIYzdNV+SAZVwScFZ+/I+qpAJ+WlNUOZh8YrcQKRbdA6vvxbsEfoRlM0wFlw56+MKX/nC2Y4Ds8RyQehjIl1VroLEaxrOCHYOr3Rmb3WTB7G191BXr+/cKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754664970; c=relaxed/simple;
-	bh=9cmQQnt+5Vh9t9k0T6ZjOC/Hqj03S1Kl6bmJEzpiMNY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uOBzPSr65rA7pvOXRKgqBn0VFAFqYtnAgP2CiiNazsiNS6q2p/9ccFbFpYFJ2C1UfBY+jBsXDq0BqtdXEAtACCEALlukmubGRtqTfudhpiKQXlCP+6aR6qj8rPBuxfYUbfv3LXQiIKeWlVVZgxIyqMC4F+hCS4vA8wJDNYLHeEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PdJvEX6A; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754664969; x=1786200969;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9cmQQnt+5Vh9t9k0T6ZjOC/Hqj03S1Kl6bmJEzpiMNY=;
-  b=PdJvEX6AU1BcP2vlKtY/mBjbb+YhaVBwQ8ZC3zJsSHA8fr9xzcnxb7+V
-   AQ0bgqLeB/qZPx7Q+EcYtNGW6o4yQPGoxUFRUp+QaRXg6UrehT6nRttDO
-   AzYlkhaeP/HvFUHPSuBFDaup9BOalfjq9byGu8VdAZ3VWuQMnlz4qQGIa
-   J2mIF20AG7Ttb5aEQqqQdaLGWDRi23xiQ8hBC2vmrz+SvMyylLvpHrkzK
-   Jk+0JsPoQJi3vjs1d/6cDG2BiCeg9ixVTOLhQkxiiJZBLR8x4Yh7c5esk
-   DznsRSmsyW5I5zkz4dqhUIIPYbSWz+2NoVbQtCn1XlKAqbLORkUP/8js+
-   w==;
-X-CSE-ConnectionGUID: bm1N5uvVQaWr75REM5l8cg==
-X-CSE-MsgGUID: EghfGIO6Sd22M+fh4tlLXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11515"; a="68379123"
-X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="68379123"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 07:56:08 -0700
-X-CSE-ConnectionGUID: X6Yod+yjSSeDE8W/x5Ojgg==
-X-CSE-MsgGUID: VWgRjysaSEilNZcCFOMK9Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="164583186"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 08 Aug 2025 07:56:06 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ukOVn-000420-0B;
-	Fri, 08 Aug 2025 14:56:03 +0000
-Date: Fri, 8 Aug 2025 22:55:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Wolfram Sang <wsa-dev@sang-engineering.com>,
-	linux-renesas-soc@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH 4/4] arm64: dts: renesas: rzg3e-smarc-som: Enable I3C
-Message-ID: <202508082259.wdaPWdYV-lkp@intel.com>
-References: <20250807151434.5241-10-wsa+renesas@sang-engineering.com>
+	s=arc-20240116; t=1754670191; c=relaxed/simple;
+	bh=iBBShj+kZsRTtO2PKybZxG3EHNwRqduCpGMyk73b6/w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=WtdVNZ7DLJT9XKf+KL/ND+aaZx3OTtr410QWkHC63Q8FjY/KPt8wpAUtvNcRtcx3dWEX8EFa+ygUhveZGR7RqyCH4KTfPGHrFOUkO4KwXycqUsV2Bu1Fd4KIjzhhmZ0SoAAEsLyRpoCLgyofbSZ9WTb5uQkUGU6wNCDRP/f+J3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XF90Y6YB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D68CC4CEED;
+	Fri,  8 Aug 2025 16:23:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754670191;
+	bh=iBBShj+kZsRTtO2PKybZxG3EHNwRqduCpGMyk73b6/w=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=XF90Y6YBtOHMrMWFtvVMPMjrlIPH9OCiu6I9jwKmgiryJUklB6n5n8haO86ChYETg
+	 RVFT/dCEyS81iOEmaT1bbvHuoVoAQwPvB6ZTq01EjUqsS+bo6NJqW9UIXKZzSBLFRj
+	 ox6jVPQXTDNBSIvLu5DwlghT6Cny8OM2oRx6d1tupOrQzu2tk7yIKFaKSj0Kg9UKMR
+	 A8aT9qSq4O6MOJ/v/AQtxiJCxeeJMi9Dat4G6XW6okDfrDzz5hFtMSeU+rDhRYvV8u
+	 HnzdeOa7Z6uLpU17/SsIGmVwrGXc+bqcxXLlW32JGqqAI9Nf7OeQtJF8Pi9p5cVAFG
+	 JWtWOvr5V8lzQ==
+Date: Fri, 8 Aug 2025 11:23:09 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Cc: bhelgaas@google.com, lpieralisi@kernel.org, kwilczynski@kernel.org,
+	mani@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com,
+	catalin.marinas@arm.com, will@kernel.org, mturquette@baylibre.com,
+	sboyd@kernel.org, p.zabel@pengutronix.de, lizhi.hou@amd.com,
+	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH v3 4/9] dt-bindings: PCI: renesas,r9a08g045s33-pcie: Add
+ documentation for the PCIe IP on Renesas RZ/G3S
+Message-ID: <20250808162309.GA91528@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -83,38 +65,77 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250807151434.5241-10-wsa+renesas@sang-engineering.com>
+In-Reply-To: <71d109a1-211a-45ee-8525-03f1859b789a@tuxon.dev>
 
-Hi Wolfram,
+On Fri, Aug 08, 2025 at 02:25:42PM +0300, Claudiu Beznea wrote:
+> On 08.07.2025 19:34, Bjorn Helgaas wrote:
+> > On Fri, Jul 04, 2025 at 07:14:04PM +0300, Claudiu wrote:
+> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >>
+> >> The PCIe IP available on the Renesas RZ/G3S complies with the PCI Express
+> >> Base Specification 4.0. It is designed for root complex applications and
+> >> features a single-lane (x1) implementation. Add documentation for it.
+> > 
+> >> +++ b/Documentation/devicetree/bindings/pci/renesas,r9a08g045s33-pcie.yaml
 
-kernel test robot noticed the following build errors:
+> >> +        pcie@11e40000 {
+> >> +            compatible = "renesas,r9a08g045s33-pcie";
+> >> +            reg = <0 0x11e40000 0 0x10000>;
+> >> +            ranges = <0x02000000 0 0x30000000 0 0x30000000 0 0x8000000>;
+> >> +            dma-ranges = <0x42000000 0 0x48000000 0 0x48000000 0 0x38000000>;
+> >> +            bus-range = <0x0 0xff>;
+> ...
 
-[auto build test ERROR on geert-renesas-devel/next]
-[also build test ERROR on linus/master next-20250808]
-[cannot apply to v6.16]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >> +            device_type = "pci";
+> >> +            num-lanes = <1>;
+> >> +            #address-cells = <3>;
+> >> +            #size-cells = <2>;
+> >> +            power-domains = <&cpg>;
+> >> +            vendor-id = <0x1912>;
+> >> +            device-id = <0x0033>;
+> > 
+> > Some of this is specific to a Root Port, not to the Root Complex
+> > as a whole.  E.g., device-type = "pci", num-lanes, vendor-id,
+> > device-id, are Root Port properties.  Some of the resets, clocks,
+> > and interrupts might be as well.
+> > 
+> > I really want to separate those out because even though this
+> > particular version of this PCIe controller only supports a single
+> > Root Port, there are other controllers (and possibly future
+> > iterations of this controller) that support multiple Root Ports,
+> > and it makes maintenance easier if the DT bindings and the driver
+> > structures are similar.
+> 
+> I'll ask the Renesas HW team about the resets and clocks as the HW
+> manual don't offer any information about this.
+> 
+> If they will confirm some of the clocks and/or resets could be
+> controlled as part of a port then patch 3/9 "PCI: of_property:
+> Restore the arguments of the next level parent" in this series will
+> not be needed anymore. Would you prefer me to abandon it or post it
+> as individual patch, if any?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Wolfram-Sang/arm64-dts-renesas-r9a08g045-Add-I3C-node/20250807-231733
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-patch link:    https://lore.kernel.org/r/20250807151434.5241-10-wsa%2Brenesas%40sang-engineering.com
-patch subject: [PATCH 4/4] arm64: dts: renesas: rzg3e-smarc-som: Enable I3C
-config: arm64-randconfig-001-20250808 (https://download.01.org/0day-ci/archive/20250808/202508082259.wdaPWdYV-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250808/202508082259.wdaPWdYV-lkp@intel.com/reproduce)
+[PATCH v3 3/9] ("PCI: of_property: Restore the arguments of the next
+level parent") isn't specific to Renesas RZ/G3S and it doesn't look
+like it has anything to do with clocks or resets.  I don't understand
+the patch well enough to know whether you should keep it, but it does
+look like you should post it separate from the RZ/G3S driver.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508082259.wdaPWdYV-lkp@intel.com/
+When the devicetree contains required information specific to Root
+Ports, I would prefer that to be in a separate "pcie@x,y" stanza, even
+if there are clocks or resets that apply to all Root Ports.
 
-All errors (new ones prefixed by >>):
+"num-lanes" is obviously specific to an individual Root Port because
+a Root Complex doesn't have lanes at all.  But in the case of RZ/G3S,
+I'm not sure "num-lanes" is required in the devicetree; I don't see it
+being used in the driver.  If it's not needed, I would just omit it.
 
->> Error: arch/arm64/boot/dts/renesas/rzg3e-smarc-som.dtsi:127.1-5 Label or path i3c not found
-   FATAL ERROR: Syntax error parsing input tree
+It looks like the driver *does* need "vendor-id" and "device-id"
+though, and those also are specific to a Root Port because a Root
+Complex is not a PCI device and doesn't have its own Vendor or Device
+ID.  So I would like them to be in a per-Root Port stanza.  If there
+are resets or clocks that affect a Root Port but not the Root Complex
+as a whole, they should also be in the Root Port stanza.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Bjorn
 
