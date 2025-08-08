@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-20139-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20140-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E61FB1E69C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Aug 2025 12:43:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7C97B1E6A9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Aug 2025 12:44:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 366843A13B2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Aug 2025 10:43:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 89FD3189831C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Aug 2025 10:45:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 741502749C1;
-	Fri,  8 Aug 2025 10:43:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EAB02749D2;
+	Fri,  8 Aug 2025 10:44:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gmw+egsw"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Na62xKvL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D169321B8E7;
-	Fri,  8 Aug 2025 10:43:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFDF6231855;
+	Fri,  8 Aug 2025 10:44:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754649814; cv=none; b=lBfKbopJXbBxFJDCiW6vRuV4x4SgB9nRNDnxobU12KqJGW5ktVpENOVqEYU0p7FVJM8NU4Lssa5Fv5xEWIcb5fzJaxI6YXd9euvUs40m9qGuSrkfy8qHrHRnMlRfPLHuiE84f+dTfhL8+lL5NyDXXhyMuoQaAgxCHCQRJJ4Np9s=
+	t=1754649884; cv=none; b=LQN8Ty8rg0gaC0KvxNiVrXZofBF65BYw4C4v0LFbqObcrnSEYkxJ2z4vkfcE76A/RTfp4Myw2ywbfHH9k2y1v5LGweBAZxV3eGFVVmekH+y8GGqUjlxKPvp9yzC8G3dEOMh37ZL5Hc2epyNV4Dzw3XSDIm60K2bbuE+CaXM99uE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754649814; c=relaxed/simple;
-	bh=CO/fvxXdKYelSk5S5fAYN0XS8+AAuk2srS4DoLT3ZxM=;
+	s=arc-20240116; t=1754649884; c=relaxed/simple;
+	bh=1uVulE40X4A2dJjstqLNnHit5pUAxqYUenS5oB3Qshc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QawdBoNncJo1UFiJ79P6wXvlNRCkkaymawdwDa81hutTYY4SIh20a03exiE38qsueihW9vFjwLfa9eY2yPhY7sAv6zIfl/xhkipUAKcWzyqP564acomSUmsi+WPwyyWFNskD8yEe0ToSWptMmaC7E3I5S1fm8Al2lv3JnysRVJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gmw+egsw; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=sI8Qk0xa45M0yRIpABGKelrqqzpyijyAIvrtT6gaTZVUtsQ28aZxXWwiykeN61fbKrVVYFs88pol6iI1w57Kwhug8OXIE2DtjMcx33Eb/MONPPMehEiKZhuB+tti/hGrFhiyuO5uIQyYmeDA88rbUE1G3Vw21O8IufZzWmRF6p0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Na62xKvL; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8DD69185B;
-	Fri,  8 Aug 2025 12:42:40 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E822C185B;
+	Fri,  8 Aug 2025 12:43:50 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754649761;
-	bh=CO/fvxXdKYelSk5S5fAYN0XS8+AAuk2srS4DoLT3ZxM=;
+	s=mail; t=1754649831;
+	bh=1uVulE40X4A2dJjstqLNnHit5pUAxqYUenS5oB3Qshc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=gmw+egswFeELA4hrEgb/gv6AnnuHPDpLKEaeIB6/fk/2O9nUlvYYatSDjAwEXj/Ji
-	 PZ6qJC94/wghfA7P0erc6aW5f8PYvf1NjL6Eoy6vro58JfA7g7zkJzP7EiDoApj54S
-	 Fea8twCe/sZIRdtDy5B1s4rc9z9k1UtPtpr4rcZs=
-Message-ID: <c07ff778-3d5d-448f-95ba-1c770c388fcc@ideasonboard.com>
-Date: Fri, 8 Aug 2025 13:43:27 +0300
+	b=Na62xKvLb7i4tgr4FK8HULEj00O/gbqHgF1NdnNweCcID9WZux7UGeurwH82Y58uP
+	 oKRwkTfn+fpMOivDVGso/cHD2WFNzuxmtQe+4whQsY2YchPCsOzwvF14BNaQtCh8h1
+	 /zAR7f7UvaWEK9x8X34b/o8W/EXw3mB5NoNN78P8=
+Message-ID: <88b35dcb-70cb-4be1-9d6d-3cfb0920ecb5@ideasonboard.com>
+Date: Fri, 8 Aug 2025 13:44:37 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 03/25] drm/gem-dma: Compute dumb-buffer sizes with
+Subject: Re: [PATCH v5 04/25] drm/gem-shmem: Compute dumb-buffer sizes with
  drm_mode_size_dumb()
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
@@ -63,7 +63,7 @@ Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  simona@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com, geert@linux-m68k.org
 References: <20250613090431.127087-1-tzimmermann@suse.de>
- <20250613090431.127087-4-tzimmermann@suse.de>
+ <20250613090431.127087-5-tzimmermann@suse.de>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -109,7 +109,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20250613090431.127087-4-tzimmermann@suse.de>
+In-Reply-To: <20250613090431.127087-5-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
@@ -117,69 +117,46 @@ On 13/06/2025 12:00, Thomas Zimmermann wrote:
 > Call drm_mode_size_dumb() to compute dumb-buffer scanline pitch and
 > buffer size. Align the pitch to a multiple of 8.
 > 
-> Push the current calculation into the only direct caller imx. Imx's
-> hardware requires the framebuffer width to be aligned to 8. The
-> driver's current approach is actually incorrect, as it only guarantees
-> this implicitly and requires bpp to be a multiple of 8 already. A
-> later commit will fix this problem by aligning the scanline pitch
-> such that an aligned width still fits into each scanline's memory.
-> 
-> A number of other drivers are build on top of gem-dma helpers and
-> implement their own dumb-buffer allocation. These drivers invoke
-> drm_gem_dma_dumb_create_internal(), which is not affected by this
-> commit.
-> 
-> v5:
-> - avoid reset of arguments (Tomi)
-> 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/gpu/drm/drm_gem_dma_helper.c     | 7 +++++--
->  drivers/gpu/drm/imx/ipuv3/imx-drm-core.c | 4 +++-
->  2 files changed, 8 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/drm_gem_shmem_helper.c | 16 +++++-----------
+>  1 file changed, 5 insertions(+), 11 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/drm_gem_dma_helper.c
-> index b7f033d4352a..49be9b033610 100644
-> --- a/drivers/gpu/drm/drm_gem_dma_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_dma_helper.c
-> @@ -20,6 +20,7 @@
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index 8ac0b1fa5287..0fc09484dfa6 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -18,6 +18,7 @@
 >  #include <drm/drm.h>
 >  #include <drm/drm_device.h>
 >  #include <drm/drm_drv.h>
 > +#include <drm/drm_dumb_buffers.h>
->  #include <drm/drm_gem_dma_helper.h>
->  #include <drm/drm_vma_manager.h>
->  
-> @@ -304,9 +305,11 @@ int drm_gem_dma_dumb_create(struct drm_file *file_priv,
->  			    struct drm_mode_create_dumb *args)
+>  #include <drm/drm_gem_shmem_helper.h>
+>  #include <drm/drm_prime.h>
+>  #include <drm/drm_print.h>
+> @@ -518,18 +519,11 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_purge_locked);
+>  int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
+>  			      struct drm_mode_create_dumb *args)
 >  {
->  	struct drm_gem_dma_object *dma_obj;
+> -	u32 min_pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
 > +	int ret;
 >  
-> -	args->pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
-> -	args->size = args->pitch * args->height;
-> +	ret = drm_mode_size_dumb(drm, args, SZ_8, 0);
+> -	if (!args->pitch || !args->size) {
+> -		args->pitch = min_pitch;
+> -		args->size = PAGE_ALIGN(args->pitch * args->height);
+> -	} else {
+> -		/* ensure sane minimum values */
+> -		if (args->pitch < min_pitch)
+> -			args->pitch = min_pitch;
+> -		if (args->size < args->pitch * args->height)
+> -			args->size = PAGE_ALIGN(args->pitch * args->height);
+> -	}
+> +	ret = drm_mode_size_dumb(dev, args, SZ_8, 0);
 > +	if (ret)
 > +		return ret;
 >  
->  	dma_obj = drm_gem_dma_create_with_handle(file_priv, drm, args->size,
->  						 &args->handle);
-> diff --git a/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c b/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
-> index ec5fd9a01f1e..af4a30311e18 100644
-> --- a/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
-> +++ b/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
-> @@ -145,8 +145,10 @@ static int imx_drm_dumb_create(struct drm_file *file_priv,
->  	int ret;
->  
->  	args->width = ALIGN(width, 8);
-> +	args->pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
-> +	args->size = args->pitch * args->height;
->  
-> -	ret = drm_gem_dma_dumb_create(file_priv, drm, args);
-> +	ret = drm_gem_dma_dumb_create_internal(file_priv, drm, args);
->  	if (ret)
->  		return ret;
->  
+>  	return drm_gem_shmem_create_with_handle(file, dev, args->size, &args->handle);
+>  }
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
