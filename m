@@ -1,141 +1,324 @@
-Return-Path: <linux-renesas-soc+bounces-20163-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20164-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58CF5B1ECEF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Aug 2025 18:23:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87E81B1EF05
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Aug 2025 21:52:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 70AFF586530
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Aug 2025 16:23:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7D8505877B7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Aug 2025 19:52:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01644287260;
-	Fri,  8 Aug 2025 16:23:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XF90Y6YB"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A3012882A7;
+	Fri,  8 Aug 2025 19:51:56 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B13286D5C;
-	Fri,  8 Aug 2025 16:23:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A62F27F74C;
+	Fri,  8 Aug 2025 19:51:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754670191; cv=none; b=XN7E/p7NsxtUTa2+SiwtJQtAsItQ8BaUgilZ8RYLUoaBqe5Fyb4eoIYzdNV+SAZVwScFZ+/I+qpAJ+WlNUOZh8YrcQKRbdA6vvxbsEfoRlM0wFlw56+MKX/nC2Y4Ds8RyQehjIl1VroLEaxrOCHYOr3Rmb3WTB7G191BXr+/cKU=
+	t=1754682716; cv=none; b=f3yc2UhbvPltBKgjRgGrwiti5hPO+rBD++5nO7/n3vtloL/c7Iuio742j0xUtlwdvbnvKD7CeV5I1/tWYtQrLyHfkB5B1rij50kJG4nvQ+ElYUBzw8YfPDr3wHp7+rNqBGZW4UogtnYLL1bk5ZqaOveXns0v9YATDKo0b30rx3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754670191; c=relaxed/simple;
-	bh=iBBShj+kZsRTtO2PKybZxG3EHNwRqduCpGMyk73b6/w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=WtdVNZ7DLJT9XKf+KL/ND+aaZx3OTtr410QWkHC63Q8FjY/KPt8wpAUtvNcRtcx3dWEX8EFa+ygUhveZGR7RqyCH4KTfPGHrFOUkO4KwXycqUsV2Bu1Fd4KIjzhhmZ0SoAAEsLyRpoCLgyofbSZ9WTb5uQkUGU6wNCDRP/f+J3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XF90Y6YB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D68CC4CEED;
-	Fri,  8 Aug 2025 16:23:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754670191;
-	bh=iBBShj+kZsRTtO2PKybZxG3EHNwRqduCpGMyk73b6/w=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=XF90Y6YBtOHMrMWFtvVMPMjrlIPH9OCiu6I9jwKmgiryJUklB6n5n8haO86ChYETg
-	 RVFT/dCEyS81iOEmaT1bbvHuoVoAQwPvB6ZTq01EjUqsS+bo6NJqW9UIXKZzSBLFRj
-	 ox6jVPQXTDNBSIvLu5DwlghT6Cny8OM2oRx6d1tupOrQzu2tk7yIKFaKSj0Kg9UKMR
-	 A8aT9qSq4O6MOJ/v/AQtxiJCxeeJMi9Dat4G6XW6okDfrDzz5hFtMSeU+rDhRYvV8u
-	 HnzdeOa7Z6uLpU17/SsIGmVwrGXc+bqcxXLlW32JGqqAI9Nf7OeQtJF8Pi9p5cVAFG
-	 JWtWOvr5V8lzQ==
-Date: Fri, 8 Aug 2025 11:23:09 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: bhelgaas@google.com, lpieralisi@kernel.org, kwilczynski@kernel.org,
-	mani@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com,
-	catalin.marinas@arm.com, will@kernel.org, mturquette@baylibre.com,
-	sboyd@kernel.org, p.zabel@pengutronix.de, lizhi.hou@amd.com,
-	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH v3 4/9] dt-bindings: PCI: renesas,r9a08g045s33-pcie: Add
- documentation for the PCIe IP on Renesas RZ/G3S
-Message-ID: <20250808162309.GA91528@bhelgaas>
+	s=arc-20240116; t=1754682716; c=relaxed/simple;
+	bh=0ob90HkETYRkq7ul01bifcYwg7rjfKChsYDYQSF85ts=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=t/iVIVqDZpZDwZO7G5MtXtP+Lh1uuaL1mx7suX5ZO6uFrvpjOCr0WGMy/kWP6hF2fT7UeRd3HNzP1yL1uscP+zJX5Uuypu09ElRrBPLh0x2rj8gSi6bGXniMMADNTguWO3qc5AYCIvMSkJ+MaY44uH09L0q2ONu/lQiBM2lcO4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-53945ba7f2aso1850937e0c.0;
+        Fri, 08 Aug 2025 12:51:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754682712; x=1755287512;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DZ+8vy22VRRFcvaUqDwj58cikikxo4XqdD5alIqAgQc=;
+        b=W9ZFCClzNgHXvkd5zSXc+yXcHfK0Zk/aZgNfs5ajJPHINB7VxQCc8k5Ygrh0LFq63D
+         9Ktkjs9lfbfZiu7RqxTJ+Ffy7qmYiElSiiaeccX26nRQ9UGq0oRXrPd4gbNjPdzzdlyq
+         MjqnBPqcuNYnIINP9OsK/1Bgfj0nCxwGTb2m6Nb2kCgKbjZzoyo4N9yaP8EtB+g8r5oL
+         +N/LLCUWi8vOgY0KaPIPzyM/ICJsUApz5PFu6gBp5cJk2t6dDo2Vyc2gYcdWz1XLLG0p
+         zjkdH04zwcnIycFbwPRh5GcQdUDkxXeq11ciSn8Jw+q9LMqMlG2jNiC00IXevFRe+19T
+         5TgQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUJPAHGMtPM7yKuTQNnK4qZjpyjPI0WsUlqf0GsXFYBGx4Oyziu9vk2J7kunnSgnfMcAL+HvLphKwnVuQOu@vger.kernel.org, AJvYcCVKk/eFN1XCY2arpAMJU3B0RXKkooXkcq8ItyB64fIX8bRF0iegQrwgXdeg3CF5YgY+nK8FkzDqTObW@vger.kernel.org, AJvYcCWE5giOwIGz/rccjd57XZjRwVqgW4we7vzpJEATH04AbhYVtjpfEG87jLnPYKFYdhwrD1KfuHEN5R4GlDS5eCMpVZw=@vger.kernel.org, AJvYcCWSrJK/cSs8WPSpkaWn/qI/+R+l2Jsfiyi36wU4IRuwfHc+Czfh++x1PfKLHvcS3l7XmqYUJ5SjdBhYbA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwaUad4hi2EKrDLZ7aLi6IrfEbrGXmHCDmZjV/YfCdOAhXCoAwT
+	MRv8qFHnWUqdaD4S3rCythd8CBHzN9isExb+QE7GEkGN9acN/mx8bMKIkio/fhFg
+X-Gm-Gg: ASbGnctaip0RIVG2GjBBpI3d2x+Fl+lpvPVK1qf4t79Igl/i3MS+7zf8QSmzrJqE1oI
+	LCbJZCZi0xukuW7QUaDjElEqrqQvLe9IxrfG1DCqamKBJ0jAyGItQJalOG31MRRnvALwOEeThWo
+	K9sCNUOlTmKNt8gPj3a4kaj2ZavhdDOLpBHwwpqtsPFzmoAypLzpJnziYASeMM9kL/oMU1BAkpW
+	TrN8ix2yUTDaEipTaYgPrk5q7QDbyEoDQ1AzxjorPbzR64VY1MLPsIP4QgOEMsHXF5kz6gohWzz
+	k+Zj0OpbI5lk2LN6+ySWV0ZKNIcS21DPnniVx/fq9EgsWd52+0VlNIDSPT2jSbnsl1vJ+fC6Irn
+	kzYP6BvBN8L/c0EBCAD6aStiPCgJ5lWzVkBGL+uG2MdH7YrPtKCGHe1c6qSOU
+X-Google-Smtp-Source: AGHT+IHNxrP/kvsT7aQC5lpPW/Du1Jpqg1d/0ZYPwAvf1ucEays3UqfGR72IUlOZqI/Ifcr3wSyHBw==
+X-Received: by 2002:a05:6122:16a9:b0:520:64ea:c479 with SMTP id 71dfb90a1353d-53a52ef25a1mr1869213e0c.10.1754682712088;
+        Fri, 08 Aug 2025 12:51:52 -0700 (PDT)
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-539b01b6352sm1267570e0c.14.2025.08.08.12.51.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 Aug 2025 12:51:51 -0700 (PDT)
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4dfa2aeec86so2471904137.1;
+        Fri, 08 Aug 2025 12:51:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUcAbzBAqNVFdsYjJ9exVFdhJxgsAx4mb0FYmUSVRZ/X7LKZxislF7OFCd+YuiTgtP3pvSL7SOdLuIE@vger.kernel.org, AJvYcCUcQ2ubeGe+FyOLrXJ4UIhuisRlZ0HWSJS1wFBQAWGkDjQ6zYdfBcyNcdFKaw8Wl6kdet02BQXf457NdKuf9OqMVqg=@vger.kernel.org, AJvYcCVCOZjg1nOhtVfpc3YXYxE2uTqCcYSOHLDdo1R8JT/NIcu+xkxsuWcM8gBxuiR7897+pQJu3Pg/dtnNHst+@vger.kernel.org, AJvYcCXvOmqJSimS8vPn7resU5/eJvi3HhKnPs94bMSklVmgfAShpHTd6bIMZnprf4ZJsI2gtl3dLbL492zycg==@vger.kernel.org
+X-Received: by 2002:a05:6102:449a:b0:4eb:efc6:740 with SMTP id
+ ada2fe7eead31-5060eae45cemr2009743137.18.1754682711540; Fri, 08 Aug 2025
+ 12:51:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <71d109a1-211a-45ee-8525-03f1859b789a@tuxon.dev>
+References: <20250801154550.3898494-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250801154550.3898494-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250801154550.3898494-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 8 Aug 2025 21:51:40 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWApWhAzjJ9K9-SFvZYtPArZ9aFQJvMdMyW=ke+1sj5CA@mail.gmail.com>
+X-Gm-Features: Ac12FXxBdYKoBx_i-NuBt6HhynyXU3rROCx603sVBa_T7YqZkl29ac6x4lP9cAU
+Message-ID: <CAMuHMdWApWhAzjJ9K9-SFvZYtPArZ9aFQJvMdMyW=ke+1sj5CA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] dt-bindings: pinctrl: renesas: document RZ/T2H and
+ RZ/N2H SoCs
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Bartosz Golaszewski <brgl@bgdev.pl>, linux-renesas-soc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Aug 08, 2025 at 02:25:42PM +0300, Claudiu Beznea wrote:
-> On 08.07.2025 19:34, Bjorn Helgaas wrote:
-> > On Fri, Jul 04, 2025 at 07:14:04PM +0300, Claudiu wrote:
-> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>
-> >> The PCIe IP available on the Renesas RZ/G3S complies with the PCI Express
-> >> Base Specification 4.0. It is designed for root complex applications and
-> >> features a single-lane (x1) implementation. Add documentation for it.
-> > 
-> >> +++ b/Documentation/devicetree/bindings/pci/renesas,r9a08g045s33-pcie.yaml
+Hi Prabhakar,
 
-> >> +        pcie@11e40000 {
-> >> +            compatible = "renesas,r9a08g045s33-pcie";
-> >> +            reg = <0 0x11e40000 0 0x10000>;
-> >> +            ranges = <0x02000000 0 0x30000000 0 0x30000000 0 0x8000000>;
-> >> +            dma-ranges = <0x42000000 0 0x48000000 0 0x48000000 0 0x38000000>;
-> >> +            bus-range = <0x0 0xff>;
-> ...
+On Fri, 1 Aug 2025 at 17:46, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Document the pin and GPIO controller IP for the Renesas RZ/T2H
+> (R9A09G077) and RZ/N2H (R9A09G087) SoCs, and add the shared DTSI
+> header file used by both the bindings and the driver.
+>
+> The RZ/T2H SoC supports 729 pins, while the RZ/N2H supports 576 pins.
+> Both share the same controller architecture; separate compatible
+> strings are added for each SoC to distinguish them.
+>
+> Co-developed-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+> Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v3->v4:
+> - Used patternProperties for pin configuration nodes
+> - Expanded example nodes
 
-> >> +            device_type = "pci";
-> >> +            num-lanes = <1>;
-> >> +            #address-cells = <3>;
-> >> +            #size-cells = <2>;
-> >> +            power-domains = <&cpg>;
-> >> +            vendor-id = <0x1912>;
-> >> +            device-id = <0x0033>;
-> > 
-> > Some of this is specific to a Root Port, not to the Root Complex
-> > as a whole.  E.g., device-type = "pci", num-lanes, vendor-id,
-> > device-id, are Root Port properties.  Some of the resets, clocks,
-> > and interrupts might be as well.
-> > 
-> > I really want to separate those out because even though this
-> > particular version of this PCIe controller only supports a single
-> > Root Port, there are other controllers (and possibly future
-> > iterations of this controller) that support multiple Root Ports,
-> > and it makes maintenance easier if the DT bindings and the driver
-> > structures are similar.
-> 
-> I'll ask the Renesas HW team about the resets and clocks as the HW
-> manual don't offer any information about this.
-> 
-> If they will confirm some of the clocks and/or resets could be
-> controlled as part of a port then patch 3/9 "PCI: of_property:
-> Restore the arguments of the next level parent" in this series will
-> not be needed anymore. Would you prefer me to abandon it or post it
-> as individual patch, if any?
+Thanks for the update!
 
-[PATCH v3 3/9] ("PCI: of_property: Restore the arguments of the next
-level parent") isn't specific to Renesas RZ/G3S and it doesn't look
-like it has anything to do with clocks or resets.  I don't understand
-the patch well enough to know whether you should keep it, but it does
-look like you should post it separate from the RZ/G3S driver.
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/pinctrl/renesas,rzt2h-pinctrl.yaml
+> @@ -0,0 +1,177 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/pinctrl/renesas,rzt2h-pinctrl.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas RZ/T2H Pin and GPIO controller
+> +
+> +maintainers:
+> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> +
+> +description:
+> +  The Renesas RZ/T2H SoC features a combined Pin and GPIO controller.
+> +  Pin multiplexing and GPIO configuration is performed on a per-pin basis.
+> +  Each port features up to 8 pins, each of them configurable for GPIO function
+> +  (port mode) or in alternate function mode.
+> +  Up to 8 different alternate function modes exist for each single pin.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - renesas,r9a09g077-pinctrl # RZ/T2H
+> +      - renesas,r9a09g087-pinctrl # RZ/N2H
+> +
+> +  reg:
+> +    minItems: 1
+> +    items:
+> +      - description: Non-safety I/O Port base
+> +      - description: Safety I/O Port safety region base
+> +      - description: Safety I/O Port Non-safety region base
+> +
+> +  reg-names:
+> +    minItems: 1
+> +    items:
+> +      - const: nsr
+> +      - const: srs
+> +      - const: srn
+> +
+> +  gpio-controller: true
+> +
+> +  '#gpio-cells':
+> +    const: 2
+> +    description:
+> +      The first cell contains the global GPIO port index, constructed using the
+> +      RZT2H_GPIO() helper macro from <dt-bindings/pinctrl/renesas,r9a09g077-pinctrl.h>
+> +      (e.g. "RZT2H_GPIO(3, 0)" for P03_0). The second cell represents the consumer
+> +      flag. Use the macros defined in include/dt-bindings/gpio/gpio.h.
+> +
+> +  gpio-ranges:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +definitions:
+> +  renesas-rzt2h-n2h-pins-node:
+> +    type: object
+> +    allOf:
+> +      - $ref: pincfg-node.yaml#
+> +      - $ref: pinmux-node.yaml#
+> +    properties:
+> +      pinmux:
+> +        description:
+> +          Values are constructed from I/O port number, pin number, and
+> +          alternate function configuration number using the RZT2H_PORT_PINMUX()
+> +          helper macro from <dt-bindings/pinctrl/renesas,r9a09g077-pinctrl.h>.
+> +      pins: true
+> +      phandle: true
+> +      input: true
+> +      input-enable: true
+> +      output-enable: true
+> +    oneOf:
+> +      - required: [pinmux]
+> +      - required: [pins]
+> +    additionalProperties: false
+> +
+> +patternProperties:
+> +  # Grouping nodes: allow multiple "-pins" subnodes within a "-group"
+> +  '.*-group$':
+> +    type: object
+> +    description:
+> +      Pin controller client devices can organize pin configuration entries into
+> +      grouping nodes ending in "-group". These group nodes may contain multiple
+> +      child nodes each ending in "-pins" to configure distinct sets of pins.
+> +    additionalProperties: false
+> +    patternProperties:
+> +      '-pins$':
+> +        $ref: '#/definitions/renesas-rzt2h-n2h-pins-node'
+> +
+> +  # Standalone "-pins" nodes under client devices or groups
+> +  '-pins$':
+> +    $ref: '#/definitions/renesas-rzt2h-n2h-pins-node'
+> +
+> +  '-hog$':
+> +    type: object
+> +    description: GPIO hog node
+> +    properties:
+> +      gpio-hog: true
+> +      gpios: true
+> +      input: true
+> +      output-high: true
+> +      output-low: true
+> +      line-name: true
+> +    required:
+> +      - gpio-hog
+> +      - gpios
+> +    additionalProperties: false
+> +
+> +allOf:
+> +  - $ref: pinctrl.yaml#
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - gpio-controller
+> +  - '#gpio-cells'
+> +  - gpio-ranges
+> +  - clocks
+> +  - power-domains
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h>
+> +    #include <dt-bindings/pinctrl/renesas,r9a09g077-pinctrl.h>
+> +
+> +    pinctrl@802c0000 {
+> +        compatible = "renesas,r9a09g077-pinctrl";
+> +        reg = <0x802c0000 0x2000>,
+> +              <0x812c0000 0x2000>,
+> +              <0x802b0000 0x2000>;
+> +        reg-names = "nsr", "srs", "srn";
+> +        clocks = <&cpg CPG_CORE R9A09G077_CLK_PCLKM>;
+> +        gpio-controller;
+> +        #gpio-cells = <2>;
+> +        gpio-ranges = <&pinctrl 0 0 288>;
+> +        power-domains = <&cpg>;
+> +
+> +        serial0-pins {
+> +            pinmux = <RZT2H_PORT_PINMUX(38, 0, 1)>, /* Tx */
+> +                     <RZT2H_PORT_PINMUX(38, 1, 1)>; /* Rx */
+> +        };
+> +
+> +        sd1-pwr-en-hog {
+> +            gpio-hog;
+> +            gpios = <RZT2H_GPIO(39, 2) 0>;
+> +            output-high;
+> +            line-name = "sd1_pwr_en";
+> +        };
+> +
+> +        i2c0-pins {
+> +            pins = "RIIC0_SDA", "RIIC0_SCL";
+> +            input-enable;
+> +        };
+> +
+> +        sdhi0_sd_pins: sd0-sd-group {
 
-When the devicetree contains required information specific to Root
-Ports, I would prefer that to be in a separate "pcie@x,y" stanza, even
-if there are clocks or resets that apply to all Root Ports.
+No need for unused labels in examples.
 
-"num-lanes" is obviously specific to an individual Root Port because
-a Root Complex doesn't have lanes at all.  But in the case of RZ/G3S,
-I'm not sure "num-lanes" is required in the devicetree; I don't see it
-being used in the driver.  If it's not needed, I would just omit it.
+> +            sd0-sd-ctrl-pins {
 
-It looks like the driver *does* need "vendor-id" and "device-id"
-though, and those also are specific to a Root Port because a Root
-Complex is not a PCI device and doesn't have its own Vendor or Device
-ID.  So I would like them to be in a per-Root Port stanza.  If there
-are resets or clocks that affect a Root Port but not the Root Complex
-as a whole, they should also be in the Root Port stanza.
+Drop the "sd0-sd-" prefix?
 
-Bjorn
+> +                pinmux = <RZT2H_PORT_PINMUX(12, 0, 0x29)>, /* SD0_CLK */
+> +                         <RZT2H_PORT_PINMUX(12, 1, 0x29)>; /* SD0_CMD */
+> +            };
+> +
+> +            sd0-sd-data-pins {
+
+Likewise.
+
+> +                pinmux = <RZT2H_PORT_PINMUX(12, 0, 0x29)>, /* SD0_CLK */
+> +                         <RZT2H_PORT_PINMUX(12, 1, 0x29)>; /* SD0_CMD */
+> +            };
+> +
+> +            sd0-sd-tmp-pins {
+> +                pins = "RIIC0_SDA", "RIIC0_SCL";
+> +                input-enable;
+> +            };
+
+Please drop this subnode? It totally confuses me ;-)
+
+> +        };
+> +    };
+
+The rest LGTM, so with the above fixed:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
