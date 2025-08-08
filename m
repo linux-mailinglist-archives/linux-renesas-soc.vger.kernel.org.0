@@ -1,160 +1,444 @@
-Return-Path: <linux-renesas-soc+bounces-20142-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20143-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDF4EB1E6BB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Aug 2025 12:46:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87977B1E6F4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Aug 2025 13:07:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B953E1AA690D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Aug 2025 10:47:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 412843BC863
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Aug 2025 11:07:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49F8C2253A0;
-	Fri,  8 Aug 2025 10:46:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4959A22D4F1;
+	Fri,  8 Aug 2025 11:07:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wZUMfrjy"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fQdxHtxB"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4D981741;
-	Fri,  8 Aug 2025 10:46:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C9B1FBE9B;
+	Fri,  8 Aug 2025 11:07:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754650014; cv=none; b=Y17kF8k2V3WL9Oyrvl4vT5g63b2AgHXns6K2wUArIUcZJh0FpL7PJ9+Deuty90iGvzdWeakwHK1BtJ14MAHQ+BEzI9Rt+5iCAicn63h1W6OuJkZuES/PHJOJy+WVkZju8sKVpEtacWHbutHB1qeGYMvY0hqV4MmYSUizcpkeujE=
+	t=1754651244; cv=none; b=FXfyxYd3a1WlkpK6EIWfWE0ZCXBT9foK1h+nEXQl5NdsEfxk/CYi0tATY7G864XC0HXmcwU+UZ+ff34yn2EzfPrxhl1HFuAn+XpbzKnK30fBFB7j1Uf6o4X2LipEbb1RuwFsHjXJy90vxvTvy1Co391rEzWIG165icINdv/BKIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754650014; c=relaxed/simple;
-	bh=aQZJ/ACAteL1Xe/fs+a56dnUeh7YIhfVoFkhEVZ11OI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pMtpcfSvjv+D4VLI/rN3yIQDUF0eqieJqDos+1e3sntqrQPbQh/GJI1aeFRGhuA5IHJjr5Bn5fzMd6Tp1el1NNTpSx7WkjAcJWnjqdmZxS/BS4D3rXfMDG6suXqgGAQZ1iso9XnNcs+jO5M/Uj4hDoUIik7qyOIy/IR0KWN7kYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wZUMfrjy; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A9F54185B;
-	Fri,  8 Aug 2025 12:46:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754649961;
-	bh=aQZJ/ACAteL1Xe/fs+a56dnUeh7YIhfVoFkhEVZ11OI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=wZUMfrjyCRUxfFQYD2A6qF3ZH6eFLp8DLnCkLjR1H5yIUW8fWHy0BO+JVzjmrQfkA
-	 TPRktYsf0e/oWVJtiBcF/INX79qdjT+sK4Yi+HtJoigCiC95TT5u7jtd0ziBzxu29v
-	 Q4LLAsWDuHGyhnkeyE3UicJEnQv6TJJcXZjtGT2k=
-Message-ID: <1aaa3b42-a80e-48cf-b5ba-a4cece86b620@ideasonboard.com>
-Date: Fri, 8 Aug 2025 13:46:47 +0300
+	s=arc-20240116; t=1754651244; c=relaxed/simple;
+	bh=0wcnvJdBzRXHRBfFbTBXzEb6Off2jCZrooo1uDvoghs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rZTDRHU6KHqWRUrjVU6GVNW1tJmd/TmS5kn8Vl7U7pirh3fh38kEm0x2LwmPKSm93n0Sq7mO74iz8ONBnOw1BqLO71dhMpEishQWuhHp7YlIW2hKC3PFHwnyikaZW6vZSW8PWovwWXTYxYE3GVZShsXhzcvhYkusJQvS71AFdFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fQdxHtxB; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3b78310b296so978833f8f.2;
+        Fri, 08 Aug 2025 04:07:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754651240; x=1755256040; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Cpk6F//e5HnFlH/LYppdciud82iEdk8diNe7dGvpzB8=;
+        b=fQdxHtxB30Yaz1NbSuHvjStavFkvCAifZX1HuFUfouaYxFh/lprMwsfpjJ0hzEK/z8
+         nNZ2tgw6zPhu20tjYhnshtULA/vAP3mWFvHXJSiiBhxdlgeO5Hy37+lW9DqIr6vI8+mh
+         BnxiGuDJCF1PKQ2gv5h9zZAQ/KrbGQKR2t/p7gPyCX9B7QSPT0mCMjWuPW0YqHKGNFk/
+         4Xgfd48u3olCqO/UCohzMYDGwdHHt8bynaEIx4LzGs/y0a4oh3iIZmMbD3VjCyAa8vYs
+         3MNMDL87PAcVuvD1aXuazetrhzO6yn1H/xAmVQgOhbkns9QHeTwOAW6I8L2S6ThJMTKZ
+         TjYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754651240; x=1755256040;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Cpk6F//e5HnFlH/LYppdciud82iEdk8diNe7dGvpzB8=;
+        b=WrBuHWdw/ZUiPZ4evp8RSr9eq8GwctvJ71bnz0gRgwXt3Gb6+nQB10NerP/t3db/Q9
+         rLWqJwvGPAWFLFLBd8yNgF8l4MYPiwoLRlCuFuenBmrzVvtgB19D5JG/MyCR+/enhJmD
+         61+mq9Oe8kYWR61/eNUBIV7fL9c4VfNT/83jDtESJ8235snytdi5OY6YZCHiWBcgbKcn
+         ufmcJtEZ0WPrpsYkBHoO5Dxq5VquYS23UYxjtnvZRkvKDW/t59rEOjnx0td2QWEL1Cvb
+         f8TCA5GCWQ9w2YkYNlwkoCWAGJr+FqxsOG4Mhj51FBAIovMNFm6zajvZuGs5m8C/bqd7
+         wQYg==
+X-Forwarded-Encrypted: i=1; AJvYcCU0wVXI6s4umHPQCHNCJA9rI4CEvpxDrNN/xvxuYPw1Pi9DWSmN6guIFZ1b3U8wdNt9JX7RpGyYYiEfZA==@vger.kernel.org, AJvYcCU6J9MXr7Nk6aOIsCvIiJMSqNWMA40ra5kvGCFHbGqH0GnvxOeKdZPCiDSkzulsG8nLwfy10WkCPUqwpX6+@vger.kernel.org, AJvYcCV7QDIvq/qxcuO8khkFWbdwUwziERo1Slj8rmw/1CkJ54QkMjiYSRRxfNfm4C0apvfvmO740jkp/8zHInL8vAizh8M=@vger.kernel.org, AJvYcCXcqtaoIynSzKBLm7chAJ5QWvu8NMj57OYj6FT+Q1nIlKJi71Vlzhq1yrMHXRz8fX4Dt+ayr5OOjxl3@vger.kernel.org
+X-Gm-Message-State: AOJu0YzBer09RP6Cd2IvWb91TiGw2WT/M3sSBgXUqNYF68p4Q0dHvuDK
+	XGFkwJQfi2gWyOBBZPHvDS0BA6c8GWW06ILF03ExGmFj2Z3pGDKtjPlG8jFgiwbvyEfrjGTwKZa
+	QJqPLXa4reKMvktSFl7c0gDCjpOUT74w=
+X-Gm-Gg: ASbGncsehzh+bSDiL6MrtCPg/lq9hKtctxUVfPjM30Y0Ysze4+hVggKQOmC7p3ASRB1
+	VjWgTXwhmx6bY9ChZHgsK4YeNGJKp2ViwbPqc02Pw+GRjgmkxHDh3Sl/HroZ6BHpXsFbjXM7xgu
+	S3vIkMyjXXiqSDAaFSEiiGIkUIkFCS076jls/PhHTC1be/H51vjcWRAW5GPiwJv9VcLQ2EzwkA6
+	qHS4Q==
+X-Google-Smtp-Source: AGHT+IGMIVVF3VMxa0toFXStD+1Fni9aH/a2WoTovgwS4uo3mnLYJqoFve3Z6x7lD6nACewr/LTAhGvoozgN8bH5mO0=
+X-Received: by 2002:a5d:5d88:0:b0:3a6:d95e:f38c with SMTP id
+ ffacd0b85a97d-3b900b4d414mr2352572f8f.33.1754651240271; Fri, 08 Aug 2025
+ 04:07:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 25/25] drm/xlnx: Compute dumb-buffer sizes with
- drm_mode_size_dumb()
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
- nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
- spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
- intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, simona@ffwll.ch,
- airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- geert@linux-m68k.org
-References: <20250613090431.127087-1-tzimmermann@suse.de>
- <20250613090431.127087-26-tzimmermann@suse.de>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20250613090431.127087-26-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250801154550.3898494-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250801154550.3898494-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdVhxxJprKSr3-QmO-8+ue+guqErW5e1tj3yEHRMZhdeiQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdVhxxJprKSr3-QmO-8+ue+guqErW5e1tj3yEHRMZhdeiQ@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Fri, 8 Aug 2025 12:06:53 +0100
+X-Gm-Features: Ac12FXy8n6U2JBYK0locMxmJWM3bxYij6RxqYH7bHzdjOlfFwKXTVwLNfjPbrUs
+Message-ID: <CA+V-a8vo2F1yFMZErg6GPwcWS+ENoafg8-AfnHHq=SMaxn4ZBw@mail.gmail.com>
+Subject: Re: [PATCH v4 2/3] pinctrl: renesas: Add support for RZ/T2H
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Bartosz Golaszewski <brgl@bgdev.pl>, linux-renesas-soc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 13/06/2025 12:00, Thomas Zimmermann wrote:
-> Call drm_mode_size_dumb() to compute dumb-buffer scanline pitch and
-> buffer size. Align the pitch according to hardware requirements.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  drivers/gpu/drm/xlnx/zynqmp_kms.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> index b47463473472..7ea0cd4f71d3 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> @@ -19,6 +19,7 @@
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_device.h>
->  #include <drm/drm_drv.h>
-> +#include <drm/drm_dumb_buffers.h>
->  #include <drm/drm_encoder.h>
->  #include <drm/drm_fbdev_dma.h>
->  #include <drm/drm_fourcc.h>
-> @@ -363,10 +364,12 @@ static int zynqmp_dpsub_dumb_create(struct drm_file *file_priv,
->  				    struct drm_mode_create_dumb *args)
->  {
->  	struct zynqmp_dpsub *dpsub = to_zynqmp_dpsub(drm);
-> -	unsigned int pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
-> +	int ret;
->  
->  	/* Enforce the alignment constraints of the DMA engine. */
-> -	args->pitch = ALIGN(pitch, dpsub->dma_align);
-> +	ret = drm_mode_size_dumb(drm, args, dpsub->dma_align, 0);
-> +	if (ret)
-> +		return ret;
->  
->  	return drm_gem_dma_dumb_create_internal(file_priv, drm, args);
->  }
+Hi Geert,
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Thank you for the review.
 
- Tomi
+On Wed, Aug 6, 2025 at 3:48=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68k=
+.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Fri, 1 Aug 2025 at 17:46, Prabhakar <prabhakar.csengg@gmail.com> wrote=
+:
+> > From: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+> >
+> > Add the pinctrl and gpio driver for RZ/T2H
+> >
+> > Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+> > Co-developed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
+>
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > v3->v4:
+> > - No changes
+> >
+> > v2->v3:
+> > - Fixed Kconfig dependency.
+> > - Added dependency for 64bit to avoid build errors on 32bit systems.
+> > - Included bitfield.h
+>
+> Thanks for the update!
+>
+> Seems like several of my review comments on v1 were missed.
+>
+Sorry for the oversight. I'll go through and fix it in the next version.
 
+> > --- /dev/null
+> > +++ b/drivers/pinctrl/renesas/pinctrl-rzt2h.c
+>
+> > +#define PM_MASK                        GENMASK(1, 0)
+> > +#define PM_PIN_MASK(pin)       (PM_MASK << ((pin) * 2))
+>
+> Please move PM_INPUT and PM_OUTPUT here, and insert a blank line
+> between the PM_* and PFC_* definitions.
+>
+OK.
+
+> > +#define PFC_MASK               GENMASK_ULL(5, 0)
+> > +#define PFC_PIN_MASK(pin)      (PFC_MASK << ((pin) * 8))
+> > +
+> > +#define PM_INPUT       0x01
+>
+> BIT(0)
+>
+> > +#define PM_OUTPUT      0x02
+>
+> BIT(1)
+>
+OK, I'll make use of BIT macros.
+
+> > +struct rzt2h_pinctrl_data {
+> > +       const char * const *port_pins;
+>
+> Do you need this? It always points rzt2h_gpio_names[].
+>
+Agreed, this can be dropped and we can make use of rzt2h_gpio_names directl=
+y.
+
+> > +       unsigned int n_port_pins;
+> > +       const u8 *port_pin_configs;
+> > +       unsigned int n_ports;
+> > +};
+> > +
+> > +struct rzt2h_pinctrl {
+> > +       struct pinctrl_dev              *pctl;
+> > +       struct pinctrl_desc             desc;
+> > +       struct pinctrl_pin_desc         *pins;
+> > +       const struct rzt2h_pinctrl_data *data;
+> > +       void __iomem                    *base0, *base1;
+> > +       struct device                   *dev;
+> > +       struct gpio_chip                gpio_chip;
+> > +       struct pinctrl_gpio_range       gpio_range;
+> > +       spinlock_t                      lock;
+> > +       struct mutex                    mutex;
+>
+> Please add comments to these two locks, to clarify what they are
+> protecting against.
+>
+Ok, I will add comments for clarification.
+
+spinlock_t lock; /* lock read/write registers */
+struct mutex mutex; /* serialize adding groups and functions */
+
+
+> > +       bool                            safety_port_enabled;
+> > +};
+> > +
+> > +#define RZT2H_PINCTRL_REG_ACCESS(size, type) \
+> > +static inline void rzt2h_pinctrl_write##size(struct rzt2h_pinctrl *pct=
+rl, u8 port, \
+> > +                                            type val, u16 offset) \
+>
+> unsigned int offset?
+>
+Agreed.
+
+> > +{ \
+> > +       if (port > RZT2H_MAX_SAFETY_PORTS) \
+> > +               write##size(val, pctrl->base0 + offset); \
+> > +       else \
+> > +               write##size(val, pctrl->base1 + offset); \
+> > +} \
+> > +\
+> > +static inline type rzt2h_pinctrl_read##size(struct rzt2h_pinctrl *pctr=
+l, u8 port, u16 offset) \
+>
+> Likewise
+>
+OK.
+
+> > +{ \
+> > +       if (port > RZT2H_MAX_SAFETY_PORTS) \
+> > +               return read##size(pctrl->base0 + offset); \
+> > +       else \
+> > +               return read##size(pctrl->base1 + offset); \
+> > +}
+>
+> > +static int rzt2h_validate_pin(struct rzt2h_pinctrl *pctrl, unsigned in=
+t offset)
+> > +{
+> > +       u8 port =3D RZT2H_PIN_ID_TO_PORT(offset);
+> > +       u8 pin =3D RZT2H_PIN_ID_TO_PIN(offset);
+> > +       u8 pincfg;
+> > +
+> > +       if (offset >=3D pctrl->data->n_port_pins || port >=3D pctrl->da=
+ta->n_ports)
+> > +               return -EINVAL;
+> > +
+> > +       if (!pctrl->safety_port_enabled && port <=3D RZT2H_MAX_SAFETY_P=
+ORTS)
+> > +               return -EINVAL;
+> > +
+> > +       pincfg =3D pctrl->data->port_pin_configs[port];
+> > +       return (pincfg & (1 << pin)) ? 0 : -EINVAL;
+>
+> BIT(pin)
+>
+Agreed, I will rewrite as `return (pincfg & BIT(pin)) ? 0 : -EINVAL;`
+
+> > +}
+> > +
+>
+> > +static int rzt2h_pinctrl_set_mux(struct pinctrl_dev *pctldev,
+> > +                                unsigned int func_selector,
+> > +                                unsigned int group_selector)
+> > +{
+> > +       struct rzt2h_pinctrl *pctrl =3D pinctrl_dev_get_drvdata(pctldev=
+);
+> > +       struct function_desc *func;
+> > +       struct group_desc *group;
+> > +       const unsigned int *pins;
+> > +       unsigned int i;
+> > +       u8 *psel_val;
+> > +       int ret;
+> > +
+> > +       func =3D pinmux_generic_get_function(pctldev, func_selector);
+> > +       if (!func)
+> > +               return -EINVAL;
+> > +       group =3D pinctrl_generic_get_group(pctldev, group_selector);
+> > +       if (!group)
+> > +               return -EINVAL;
+> > +
+> > +       psel_val =3D func->data;
+> > +       pins =3D group->grp.pins;
+> > +
+> > +       for (i =3D 0; i < group->grp.npins; i++) {
+> > +               dev_dbg(pctrl->dev, "port:%u pin: %u PSEL:%u\n",
+>
+> Please use consistent spacing around colons.
+>
+OK.
+
+> > +                       RZT2H_PIN_ID_TO_PORT(pins[i]), RZT2H_PIN_ID_TO_=
+PIN(pins[i]),
+> > +                       psel_val[i]);
+> > +               ret =3D rzt2h_validate_pin(pctrl, pins[i]);
+> > +               if (ret)
+> > +                       return ret;
+>
+> Please insert a blank line.
+>
+OK.
+
+> > +               rzt2h_pinctrl_set_pfc_mode(pctrl, RZT2H_PIN_ID_TO_PORT(=
+pins[i]),
+> > +                                          RZT2H_PIN_ID_TO_PIN(pins[i])=
+, psel_val[i]);
+> > +       }
+> > +
+> > +       return 0;
+> > +};
+>
+> > +static int rzt2h_gpio_get_direction(struct gpio_chip *chip, unsigned i=
+nt offset)
+> > +{
+> > +       struct rzt2h_pinctrl *pctrl =3D gpiochip_get_data(chip);
+> > +       u8 port =3D RZT2H_PIN_ID_TO_PORT(offset);
+> > +       u8 bit =3D RZT2H_PIN_ID_TO_PIN(offset);
+> > +       int ret;
+> > +
+> > +       ret =3D rzt2h_validate_pin(pctrl, offset);
+> > +       if (ret)
+> > +               return ret;
+> > +
+> > +       if (!(rzt2h_pinctrl_readb(pctrl, port, PMC(port)) & BIT(bit))) =
+{
+>
+> Invert the logic and return early, to reduce indentation?
+>
+Agreed, I will invert the logic.
+
+> > +               u16 reg;
+> > +
+> > +               reg =3D rzt2h_pinctrl_readw(pctrl, port, PM(port));
+> > +               reg =3D (reg >> (bit * 2)) & PM_MASK;
+> > +               if (reg =3D=3D PM_OUTPUT)
+>
+> The hardware supports enabling both input and output, so I think you
+> better check for "reg & PM_OUTPUT".
+>
+OK, I'll  check for "reg & PM_OUTPUT"/"reg & PM_INPUT"
+
+> > +                       return GPIO_LINE_DIRECTION_OUT;
+> > +               if (reg =3D=3D PM_INPUT)
+> > +                       return GPIO_LINE_DIRECTION_IN;
+> > +       }
+> > +
+> > +       return -EINVAL;
+> > +}
+>
+> > +static int rzt2h_gpio_get(struct gpio_chip *chip, unsigned int offset)
+> > +{
+> > +       struct rzt2h_pinctrl *pctrl =3D gpiochip_get_data(chip);
+> > +       u8 port =3D RZT2H_PIN_ID_TO_PORT(offset);
+> > +       u8 bit =3D RZT2H_PIN_ID_TO_PIN(offset);
+> > +       u16 reg;
+> > +
+> > +       reg =3D rzt2h_pinctrl_readw(pctrl, port, PM(port));
+> > +       reg =3D (reg >> (bit * 2)) & PM_MASK;
+> > +
+> > +       if (reg =3D=3D PM_INPUT)
+>
+> "if (reg & PM_INPUT)", to handle both PM_INPUT and PM_OUTPUT set?
+>
+ditto.
+
+> > +               return !!(rzt2h_pinctrl_readb(pctrl, port, PIN(port)) &=
+ BIT(bit));
+> > +       if (reg =3D=3D PM_OUTPUT)
+> > +               return !!(rzt2h_pinctrl_readb(pctrl, port, P(port)) & B=
+IT(bit));
+> > +       return -EINVAL;
+> > +}
+>
+> > +static int rzt2h_pinctrl_register(struct rzt2h_pinctrl *pctrl)
+> > +{
+> > +       struct pinctrl_desc *desc =3D &pctrl->desc;
+> > +       struct device *dev =3D pctrl->dev;
+> > +       struct pinctrl_pin_desc *pins;
+> > +       unsigned int i, j;
+> > +       u8 *pin_data;
+> > +       int ret;
+> > +
+> > +       desc->name =3D DRV_NAME;
+> > +       desc->npins =3D pctrl->data->n_port_pins;
+> > +       desc->pctlops =3D &rzt2h_pinctrl_pctlops;
+> > +       desc->pmxops =3D &rzt2h_pinctrl_pmxops;
+> > +       desc->owner =3D THIS_MODULE;
+> > +
+> > +       pins =3D devm_kcalloc(dev, desc->npins, sizeof(*pins), GFP_KERN=
+EL);
+> > +       if (!pins)
+> > +               return -ENOMEM;
+> > +
+> > +       pin_data =3D devm_kcalloc(dev, desc->npins,
+> > +                               sizeof(*pin_data), GFP_KERNEL);
+>
+> Fits on a single line.
+>
+Agreed.
+
+> > +       if (!pin_data)
+> > +               return -ENOMEM;
+> > +
+> > +       pctrl->pins =3D pins;
+> > +       desc->pins =3D pins;
+> > +
+> > +       for (i =3D 0, j =3D 0; i < pctrl->data->n_port_pins; i++) {
+> > +               pins[i].number =3D i;
+> > +               pins[i].name =3D pctrl->data->port_pins[i];
+> > +               if (i && !(i % RZT2H_PINS_PER_PORT))
+> > +                       j++;
+> > +               pin_data[i] =3D pctrl->data->port_pin_configs[j];
+> > +               pins[i].drv_data =3D &pin_data[i];
+>
+> Where is this used?
+>
+Good point, this isn't required.
+
+> > +       }
+> > +
+> > +       ret =3D devm_pinctrl_register_and_init(dev, desc, pctrl, &pctrl=
+->pctl);
+> > +       if (ret)
+> > +               return dev_err_probe(dev, ret, "pinctrl registration fa=
+iled\n");
+> > +
+> > +       ret =3D pinctrl_enable(pctrl->pctl);
+> > +       if (ret)
+> > +               return dev_err_probe(dev, ret, "pinctrl enable failed\n=
+");
+> > +
+> > +       return rzt2h_gpio_register(pctrl);
+> > +}
+> > +
+> > +static int rzt2h_pinctrl_cfg_regions(struct platform_device *pdev,
+> > +                                    struct rzt2h_pinctrl *pctrl)
+> > +{
+> > +       pctrl->base0 =3D devm_platform_ioremap_resource_byname(pdev, "n=
+sr");
+> > +       if (IS_ERR(pctrl->base0))
+> > +               return PTR_ERR(pctrl->base0);
+> > +
+> > +       pctrl->base1 =3D devm_platform_ioremap_resource_byname(pdev, "s=
+rs");
+>
+> When the optional "srs" region is missing, it is ignored by the
+> code below, but __devm_ioremap_resource() will still have printed
+> an error message.  So you either have to open-code this using
+> platform_get_resource_byname() and devm_ioremap_resource() here, or
+> create a static devm_platform_ioremap_resource_byname_optional()
+> helper that does the same, or go for a public helper directly.
+>
+Ahh right, I'll open code this for now (as there several patches
+depending on the pinctrl driver)
+
+Cheers,
+Prabhakar
 
