@@ -1,140 +1,205 @@
-Return-Path: <linux-renesas-soc+bounces-20135-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20136-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17F13B1E5C7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Aug 2025 11:43:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04C4EB1E64F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Aug 2025 12:16:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2EA9817EDCC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Aug 2025 09:43:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9DEDF189A9F5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Aug 2025 10:16:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DBCA26F477;
-	Fri,  8 Aug 2025 09:43:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E33E3274B4F;
+	Fri,  8 Aug 2025 10:14:40 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C5A26A1A8;
-	Fri,  8 Aug 2025 09:43:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBC1926563F;
+	Fri,  8 Aug 2025 10:14:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754646211; cv=none; b=hBj91xEtxb8eqB+SHgIvodCmfl93tg4LoBuU7aYAKHrqF7ZfYg0qTayKOsvh0FkzFbMZ4yLBarTBFfREkZIa8L0lkLcznqaZ1ROYBc9uzUpQR/XdmGz8rvo7wap1FcJliN008ZdReap5ff86OwqOnM29LRVTD+PoAUFMHaHFUd8=
+	t=1754648080; cv=none; b=TepAr+t/nKNrXMz/pH0wAMBXl2Is/Wl8XEkd7OsmP/DeCHzLBglbn+CuOLD2UXDENDf+/A99jELsaKXuBNPTtogQ/cSLZrDYk0NKqru9PPWJ/DcUJHI624wbloubDzsbnSmV6Wye3n21jFRL+AMl2sP7FmbTABOIZQ/aH6xU6cE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754646211; c=relaxed/simple;
-	bh=oeEwC4ZDaAQgoo6SqMA1EuL7WIKD8dRERWoDKgxJRt4=;
+	s=arc-20240116; t=1754648080; c=relaxed/simple;
+	bh=w/qdwjVHNDDZLzDsuDbzSZxr4tkdnan/L4SP6s1ArI4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DNIaRLI/qK9fRCKYwrzuhJPObNwXThG/Vqmtyv0lNw2g0K1mFj3tL+DzIHQSr0y6kRvIc1fhyudtzlSlsOzrK65Glj1CMfTKceodZzKdEwblZPteBR//JFzg/kI+qQxIyFV3tVRro+1Sw+aN6cHdtv5MJBJ0J9lpljBg12Ze8hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.53
+	 To:Cc:Content-Type; b=F48nGcVx4faX/3SI7YZX1wo5pDEAdMHgtfCrgD8edOM17zmAVA9rNQgjRnJDTQRTO1YJ/z07/XygGGWpMmSr97YImRdJ37TEJ/mjWM55Ioq+n9zqZwa4JVvQxbIH/rulJomglb+nDyj8r+H4PlgCEjfrCs0Pd3tXhN+YI+Hgvrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-504dd871d70so614612137.0;
-        Fri, 08 Aug 2025 02:43:29 -0700 (PDT)
+Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-539345ebfc8so576957e0c.2;
+        Fri, 08 Aug 2025 03:14:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754646208; x=1755251008;
+        d=1e100.net; s=20230601; t=1754648076; x=1755252876;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=FHWNDK3s9P7e7V2iAmBr/rqn1vtS3VyQHGTysnO++tw=;
-        b=Lx1UC0CGh5vAePtsi31gTnOozo/nuOOtb9HfyyuE1do1XT3UlHLftJtRyE1cTJQVqm
-         IpsWxvksj8xqg4Klc8tX7CWXeh5HRQ/Y8HcUa3Vbued6A33ZVjyDqgAOCKidCgMsEWct
-         if8UzIDunuJvz+yQYQQcybHcrF7z9hcPv41XT5rzosh7NRr+AdUT4qHPPuMvgDzGInPM
-         +nL7kWy0kbflwLd36J9g4jo/ITEofyIR+Fy08q/JH8eO7gDdSwRyZ4v015A9Q8lSfggu
-         ilOEqVJ/22dWlKa0zkAl26Y+vGV4uJ7dNK0en3m8sCyFYXMBSK04eQBaF6B5wxJmmM9M
-         JKoA==
-X-Forwarded-Encrypted: i=1; AJvYcCUWo46jdc1upAKUWSN24OB6GicdOVRQ3HVQx0JLbd7ibCZrExyr47zKBNTKEmQENcdS1vy3Hn9xtNkStyU=@vger.kernel.org, AJvYcCWd6Sn2tbKmNe1gXm0UUaCdoiM/IfiMHl5PFqCop3/tndrjwcLs2qO8XQoXS3mqLcJTG9bn9uUCMGJoPw==@vger.kernel.org, AJvYcCXY0lYeL+o8UEqFb08TUgvMcy80KXniwS3gcezGvUSOArLTP8GmnqUCFJC2j9NlzEgFtf1owOi73ykn/WequqZqGJw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxloX//3CdVK9x5sOAWYOTzncf2Y9C4ZMjhqarrXYDI0/0lP37n
-	egMqr/SDi5xgWpGsnUmBR/UMyq3kg6Ujtj41AOC0v57rfMQgZu8SVk/+mNcvUiop
-X-Gm-Gg: ASbGncvOEJtwQqIG/UvuVH72ztAV4/M7KXLdpwS+UjycWpWZJ5GJoiC7vYmx5DBVOu/
-	fFqFtCQWOaKNuYbBxuFD3ZsFGhseMvxSPAefC0ML4VKo3uDjXUHuo+IC+15D5qADDptAzNVEY7x
-	/fm7ZrPLKuFCJv6GsyYiy7Fjd9n4PRanYDrgy8y8juaMQ0CzVWfzrlakwOlTuuWdXlAgMT8dR4T
-	ADugCJ+p7z5gXWoQH/+ZZw91aWz24O36bzY6qmAfT4HHi8qOaslPew1/7UWeDVbOkUNC2/nxy53
-	0onEQ5dNLclCtEDiItLt0cUVJtyNS1VaaRBQGyoX621h115V0/BAd5fLL2eykpzfU7NATvUSl7k
-	9V9kOnSXx8iAoylA4nm4zGChDyUIIXXRDWzlHbE4cuaCXhjTgFbvXLE3sSVU/
-X-Google-Smtp-Source: AGHT+IH3kknl0Ndhe1PRTZCDkJS4dC15IakYyDFKi5Ct400Do5t2d7MQkFk9aFG8jmjIc3p9CnwUig==
-X-Received: by 2002:a05:6102:dc6:b0:4fc:1484:5500 with SMTP id ada2fe7eead31-5060f0cccf0mr743441137.21.1754646208038;
-        Fri, 08 Aug 2025 02:43:28 -0700 (PDT)
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com. [209.85.217.44])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5062bd4c2f1sm296320137.18.2025.08.08.02.43.27
+        bh=+X/CNJY/y+tjuDsD+fIjck3ajvT+Qgzz/ied6wiOqeI=;
+        b=hwFVOAAKa8R7en6mpFypIMTqMtsF7cmmKC6OPOUSOaY7BS3Z4eJ+shs7VXpB9+dO4t
+         i/1vvgUb+Ykt9V+gBObG7nJU1hkjkjeStcBQAhh8O+E1+gtv39GM0BqGZSJM6mtnYMlL
+         BrKE9CIWak5wzu5Il/soglGrPD98OTtyWsYMhFQ2Y2u48cY085w3dygHAlQVIAxx9Ple
+         F35D9Zq0A4lgrIX29XYH55oWp2umuGmjiJ/pzGnuEeois4bF3QMY+dgUkGM3LbTI02eR
+         7btfmxM6SKZdCRKZQ/nHS+aVg0hjwGSlREqtbpaH8pYWzbikRKPiNJG7uiBoGhc/rpS1
+         XR+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVX3VtQ1ilcdDabK4Y87TbW+7GpBw94g3uGQ7qlnJtZA2y1s97gefYKSBE5elN1OmpmRjey5j9KEe8W+gQA@vger.kernel.org, AJvYcCVgXQFkU44myJvYBbfjBfcectez6yDQ0WV+Wo6gYuIRopUB0/IcWlgAVHSRXYpaSZcVpRKIMPpMGnM=@vger.kernel.org, AJvYcCWRUKhEDRkIqXDZkInXItEl4z8TrXIUEoj/zla3+kRUubjfZbqGsm2aKnEAgJ5K4x4ygcVjO4t/wb26Pfnrf9O6ZSQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxziBXEfDRxnp3PmOJI6z+vLKKRrEzT7BTj6wJL0bl/rPTDUkqD
+	yEkzUTm4s6JUbwKC3Cwo3EWCBElwL69hEbVKYw24JrrkoYjW74oMvNnNK74XH0ra
+X-Gm-Gg: ASbGnctlNeGWysQq7x8vI2HmUguPEkehQ3k9BHEkzJqpGsFigTDPSN1hX6u49so4eFN
+	90jVWxUU5Sc51oqgCg+RWWbc64w7s9O4M9rEQ6eGgFD+WnkzsKblVDUWOO7dt+UbwgY8c9mE1GG
+	XvGweKJ+MnBlW/oX4fhplTcaq2LT17kQFMGpXPR1jSAWZupWdkG5NI8A3tqVWyV/8smIqLYznXJ
+	tN0oRpVcV4jaRL3PDjyGyu495bICc3+pom3TXhnOQ+z7YEVOcba4q8S9pkx5Js9ONS1Ad3BhPHn
+	v1/yW3+HQsxVIdqBmVvTd7OnxuxVmd2gfFRS+KXsJ/BbZlC16qKc/sP/rg+DHmkS+X+T5RfiI7H
+	QP6ZFuKDrA7yGJa70Pgb6zPiB0nsmTPUpzMvaJAsBrprhxhxoRmBKEACYk8sL
+X-Google-Smtp-Source: AGHT+IGyf7c8vpJVbbTV813K3r2dn8r1ipoyvMxvS+clsTp6jK1AQkYIP1MojOmR8fZPKcG2LkRDvA==
+X-Received: by 2002:a05:6122:3188:b0:534:8213:af78 with SMTP id 71dfb90a1353d-53a52edd2fbmr818727e0c.8.1754648076301;
+        Fri, 08 Aug 2025 03:14:36 -0700 (PDT)
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com. [209.85.217.51])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-539b01ae75fsm967335e0c.10.2025.08.08.03.14.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Aug 2025 02:43:27 -0700 (PDT)
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-4fbfbda957fso650368137.2;
-        Fri, 08 Aug 2025 02:43:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUN4f+cr39mbe39epuGS4r6038dBHxJNzsVmuQMH3LUX5mQQ0udnyh5qH2pA7W1dA7nbHVKgzTBzspTHB4mfddig8A=@vger.kernel.org, AJvYcCUaYW66pPiwEEtPXaaJSoqVeoCMhFp8FJIWpGytcyMe+nWRR+ZvgeQA5Oiwk9XtBBJTaNiHOkP6WtsdpFE=@vger.kernel.org, AJvYcCWuvoq5Xl89gRBkefb6gkt3IRHCjgFtjD2QsysNgMSfoR3aIpjwiW+VCAY9ujUj9Q7oyuzpV50Rn8A3Cg==@vger.kernel.org
-X-Received: by 2002:a05:6102:32cb:b0:4e5:8b76:44c5 with SMTP id
- ada2fe7eead31-5060f0cc794mr693639137.22.1754646207387; Fri, 08 Aug 2025
- 02:43:27 -0700 (PDT)
+        Fri, 08 Aug 2025 03:14:36 -0700 (PDT)
+Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-4fe234cf176so902001137.2;
+        Fri, 08 Aug 2025 03:14:35 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWA+/Tue0u6gZE8ojCGcJBaYCKylgfB1fwh9q6ZDFz4Z2BIrdXYdkEWmKa2Pe26EmFJYnDDDyBSmbn31HVjfqOIrj8=@vger.kernel.org, AJvYcCX3hWTLM3lKRw1BKMP/4Z3YZtx5YUTYLG6y6VWF3L1Ea3L/DuOgUaHxi3VUX1vgOg8+61ABgF/pKSA=@vger.kernel.org, AJvYcCXYF/jUbRHWfoEY/doRim5Qg0j1btvd6e/9maAJYv8FFb2PLGbHu5FUrUQ+uoE4CNqqJlmm20jMacisBrT2@vger.kernel.org
+X-Received: by 2002:a67:e7c6:0:b0:4fb:142:f4d3 with SMTP id
+ ada2fe7eead31-506106dff09mr754537137.25.1754648075474; Fri, 08 Aug 2025
+ 03:14:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250807043456.1624-2-wsa+renesas@sang-engineering.com> <2025080720214218750df5@mail.local>
-In-Reply-To: <2025080720214218750df5@mail.local>
+References: <20250807164353.1543461-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250807164353.1543461-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 8 Aug 2025 11:43:15 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUwC=TNvvwf0_sgSSYTBGeq8UX5kRFN5kg3mFJ7wVA3kw@mail.gmail.com>
-X-Gm-Features: Ac12FXzrLiEtwQSwABN_PovuC7CdyhBuG0HPwAa8_g9H9GakHs5gEOATJhO9jEM
-Message-ID: <CAMuHMdUwC=TNvvwf0_sgSSYTBGeq8UX5kRFN5kg3mFJ7wVA3kw@mail.gmail.com>
-Subject: Re: [PATCH] i3c: remove 'const' from FIFO helpers
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>, Frank Li <Frank.Li@nxp.com>, 
-	Jorge Marques <jorge.marques@analog.com>, linux-i3c@lists.infradead.org, 
-	sparclinux <sparclinux@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>
+Date: Fri, 8 Aug 2025 12:14:23 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVJT3+dnikgULm7FXFwussc-9o9h8eoDP-Np9Y6JZNHYg@mail.gmail.com>
+X-Gm-Features: Ac12FXzLjHvfiWdxpbcJMwCTtxegBmK5u0avy7Dc0PmNxHeD6juiVvnmd9LOZ84
+Message-ID: <CAMuHMdVJT3+dnikgULm7FXFwussc-9o9h8eoDP-Np9Y6JZNHYg@mail.gmail.com>
+Subject: Re: [PATCH] clk: renesas: cpg-mssr: Add module reset support for RZ/T2H
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 
-CC sparclinux, arnd
+Hi Prabhakar,
 
-On Fri, 8 Aug 2025 at 01:09, Alexandre Belloni
-<alexandre.belloni@bootlin.com> wrote:
-> On 07/08/2025 06:31:24+0200, Wolfram Sang wrote:
-> > As buildbot reports, some architectures do not want const pointers.
-> >
-> > Fixes: 733b439375b4 ("i3c: master: Add inline i3c_readl_fifo() and i3c_writel_fifo()")
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Closes: https://lore.kernel.org/oe-kbuild-all/202508070438.TZZA3f2S-lkp@intel.com/
-> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> > ---
-> >
-> > I still wonder why SPARC discards the const but since nobody seems to be
-> > commenting on that, I guess the fastest way to get the build error out
-> > of Linus' tree is to adapt the usage in I3C.
+On Thu, 7 Aug 2025 at 18:44, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> My plan was to let sparc people handle their mess, there is no reason
-> const should be discarded.
+> Add support for module reset handling on the RZ/T2H SoC. Unlike earlier
+> CPG/MSSR variants, RZ/T2H uses a unified set of Module Reset Control
+> Registers (MRCR) where both reset and deassert actions are done via
+> read-modify-write (RMW) to the same register.
+>
+> Introduce a new MRCR offset table (mrcr_for_rzt2h) for RZ/T2H and assign
+> it to both reset_regs and reset_clear_regs. For RZ/T2H, set
+> rcdev.nr_resets based on the number of MRCR registers rather than the
+> number of module clocks.
+>
+> Update the reset/assert/deassert/status operations to perform RMW when
+> handling RZ/T2H-specific layout. This enables proper reset sequencing for
+> modules on RZ/T2H without affecting the behavior of other supported SoCs.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Fully agreed.
+Thanks for your patch!
 
-Note that it is not just the const keyword that is missing from the
-SPARC implementation, but also the volatile keyword.
+> --- a/drivers/clk/renesas/renesas-cpg-mssr.c
+> +++ b/drivers/clk/renesas/renesas-cpg-mssr.c
+> @@ -137,6 +137,22 @@ static const u16 srcr_for_gen4[] = {
+>         0x2C60, 0x2C64, 0x2C68, 0x2C6C, 0x2C70, 0x2C74,
+>  };
+>
+> +static const u16 mrcr_for_rzt2h[] = {
+> +       0x240,  /* MRCTLA */
+> +       0x244,  /* Reserved */
+> +       0x248,  /* Reserved */
+> +       0x24C,  /* Reserved */
+> +       0x250,  /* MRCTLE */
+> +       0x254,  /* Reserved */
+> +       0x258,  /* Reserved */
+> +       0x25C,  /* Reserved */
+> +       0x260,  /* MRCTLI */
+> +       0x264,  /* Reserved */
+> +       0x268,  /* Reserved */
+> +       0x26C,  /* Reserved */
+> +       0x270,  /* MRCTLM */
+> +};
+> +
+>  /*
+>   * Software Reset Clearing Register offsets
+>   */
+> @@ -686,12 +702,16 @@ static int cpg_mssr_reset(struct reset_controller_dev *rcdev,
+>
+>         dev_dbg(priv->dev, "reset %u%02u\n", reg, bit);
+>
+> +       if (priv->reg_layout == CLK_REG_LAYOUT_RZ_T2H)
+> +               bitmask = readl(priv->pub.base0 + priv->reset_regs[reg]) | bitmask;
 
-> > --- a/drivers/i3c/internals.h
-> > +++ b/drivers/i3c/internals.h
-> > @@ -30,8 +30,7 @@ void i3c_dev_free_ibi_locked(struct i3c_dev_desc *dev);
-> >   * @buf: Pointer to the data bytes to write
-> >   * @nbytes: Number of bytes to write
-> >   */
-> > -static inline void i3c_writel_fifo(void __iomem *addr, const void *buf,
-> > -                                int nbytes)
-> > +static inline void i3c_writel_fifo(void __iomem *addr, void *buf, int nbytes)
-> >  {
-> >       writesl(addr, buf, nbytes / 4);
-> >       if (nbytes & 3) {
-> > @@ -48,8 +47,7 @@ static inline void i3c_writel_fifo(void __iomem *addr, const void *buf,
-> >   * @buf: Pointer to the buffer to store read bytes
-> >   * @nbytes: Number of bytes to read
-> >   */
-> > -static inline void i3c_readl_fifo(const void __iomem *addr, void *buf,
-> > -                               int nbytes)
-> > +static inline void i3c_readl_fifo(void __iomem *addr, void *buf, int nbytes)
-> >  {
-> >       readsl(addr, buf, nbytes / 4);
-> >       if (nbytes & 3) {
-> > --
-> > 2.47.2
+bitmask |= ...
+
+>         /* Reset module */
+>         writel(bitmask, priv->pub.base0 + priv->reset_regs[reg]);
+
+However, you should hold the &priv->pub.rmw_lock spinlock everywhere
+you do an RMW operation.
+
+>         /* Wait for at least one cycle of the RCLK clock (@ ca. 32 kHz) */
+>         udelay(35);
+
+Please read "6.5.1 Notes on Module Reset Control Register Operation"...
+
+> +       if (priv->reg_layout == CLK_REG_LAYOUT_RZ_T2H)
+> +               bitmask = readl(priv->pub.base0 + priv->reset_clear_regs[reg]) & ~bitmask;
+>         /* Release module from reset state */
+>         writel(bitmask, priv->pub.base0 + priv->reset_clear_regs[reg]);
+
+Hence I think it would be worthwhile to have your own struct
+reset_control_ops mrcr_reset_ops with its own set of callbacks.
+
+> @@ -764,7 +788,16 @@ static int cpg_mssr_reset_controller_register(struct cpg_mssr_priv *priv)
+>         priv->rcdev.of_node = priv->dev->of_node;
+>         priv->rcdev.of_reset_n_cells = 1;
+>         priv->rcdev.of_xlate = cpg_mssr_reset_xlate;
+> -       priv->rcdev.nr_resets = priv->num_mod_clks;
+> +
+> +       /*
+> +        * RZ/T2H (and family) has the Module Reset Control Registers
+> +        * which allows control resets of certain modules.
+> +        * The number of resets is not equal to the number of module clocks.
+> +        */
+> +       if (priv->reg_layout == CLK_REG_LAYOUT_RZ_T2H)
+> +               priv->rcdev.nr_resets = ARRAY_SIZE(mrcr_for_rzt2h) * 32;
+> +       else
+> +               priv->rcdev.nr_resets = priv->num_mod_clks;
+
+I guess this is fine for now, but probably we will have to introduce
+a proper nr_resets field when the next RZ/T* SoC is introduced...
+
+>         return devm_reset_controller_register(priv->dev, &priv->rcdev);
+>  }
+>
+> @@ -1166,6 +1199,8 @@ static int __init cpg_mssr_common_init(struct device *dev,
+>                 priv->control_regs = stbcr;
+>         } else if (priv->reg_layout == CLK_REG_LAYOUT_RZ_T2H) {
+>                 priv->control_regs = mstpcr_for_rzt2h;
+> +               priv->reset_regs = mrcr_for_rzt2h;
+> +               priv->reset_clear_regs = mrcr_for_rzt2h;
+
+With its own set of reset callbacks directly accessing mrcr_for_rzt2h,
+this could be dropped.  However, if you want to keep on using
+cpg_mssr_status(), you do have to keep the assignment to
+priv->reset_regs.
+
+>         } else if (priv->reg_layout == CLK_REG_LAYOUT_RCAR_GEN4) {
+>                 priv->status_regs = mstpsr_for_gen4;
+>                 priv->control_regs = mstpcr_for_gen4;
 
 Gr{oetje,eeting}s,
 
