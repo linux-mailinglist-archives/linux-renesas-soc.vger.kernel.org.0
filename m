@@ -1,147 +1,140 @@
-Return-Path: <linux-renesas-soc+bounces-20134-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20135-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71144B1E59C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Aug 2025 11:29:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17F13B1E5C7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Aug 2025 11:43:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 27DE73BB5A9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Aug 2025 09:29:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2EA9817EDCC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Aug 2025 09:43:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88DA826E16E;
-	Fri,  8 Aug 2025 09:29:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DBCA26F477;
+	Fri,  8 Aug 2025 09:43:31 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B42D2C181;
-	Fri,  8 Aug 2025 09:29:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C5A26A1A8;
+	Fri,  8 Aug 2025 09:43:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754645362; cv=none; b=oy8fIHsQFk6BH7SVBeZGw5N/auAwNI+cbKR61FpM32m59mKvBdCTMKrgJYxmNrQ+jUSxiLW4VnwsfoVhi0WNzRxbm0KfKYGQn75zeOb2eg/ACzLEUNjA0NQtWo2p3lTp0sT6RYRB6nG5jAwj4FdaYWdWwe6EvjbJJ3+d6KhnnmY=
+	t=1754646211; cv=none; b=hBj91xEtxb8eqB+SHgIvodCmfl93tg4LoBuU7aYAKHrqF7ZfYg0qTayKOsvh0FkzFbMZ4yLBarTBFfREkZIa8L0lkLcznqaZ1ROYBc9uzUpQR/XdmGz8rvo7wap1FcJliN008ZdReap5ff86OwqOnM29LRVTD+PoAUFMHaHFUd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754645362; c=relaxed/simple;
-	bh=IiJTQErPW5NICX7cRxQTeWwtpyUdxFcaFOuxYeBGaXw=;
+	s=arc-20240116; t=1754646211; c=relaxed/simple;
+	bh=oeEwC4ZDaAQgoo6SqMA1EuL7WIKD8dRERWoDKgxJRt4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Iiiy4i79CmyqW1GCcXbezhcLm24bdic+ln7VWseL5wAlvl9hFVpBqkpIrHyq9huKEpuadV4Gwr4cNCZ4t/BQRLLrBFVfFanS1I1ptJkVguCCGi9Cav8rxds4njV3fwQYsYnXqCB0R5NZ8ur26ES/lawECvyXpJHoHn+lGzPIlpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.50
+	 To:Cc:Content-Type; b=DNIaRLI/qK9fRCKYwrzuhJPObNwXThG/Vqmtyv0lNw2g0K1mFj3tL+DzIHQSr0y6kRvIc1fhyudtzlSlsOzrK65Glj1CMfTKceodZzKdEwblZPteBR//JFzg/kI+qQxIyFV3tVRro+1Sw+aN6cHdtv5MJBJ0J9lpljBg12Ze8hs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-4fd210f8448so2563970137.2;
-        Fri, 08 Aug 2025 02:29:19 -0700 (PDT)
+Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-504dd871d70so614612137.0;
+        Fri, 08 Aug 2025 02:43:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754645358; x=1755250158;
+        d=1e100.net; s=20230601; t=1754646208; x=1755251008;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ONUQQjbxoiIGrp2xGll/nfaLwIlt2Mqw8O1vqEtflFg=;
-        b=rkYfFgxMzD+xlD6xD3/sPjROVf3X4cdukKsy8sbK7PbcDME3J5GNKcXqLxN4l4J3XL
-         4kQFZ13oeRiYrmCLosAAHaX157ML/QJY9QwJ4PettEP+eXYugeSYeyA2FIit5kkHGftX
-         k1X7Ty676ciaTekcqWDk52Ij+K7q3D2ln2sHqbIbrEocQOEYsXIDrv037ogciq2MqzPd
-         PBwIp3bf/t7XUgPyR22ixaRXKptf9/iWDxi0O3W1cI5ewt2othUbzZjv8kXHLYSk8hvo
-         t+y13+RCiLd7O0y/6wbk9l3CIUcwo9OXyXcVpDf0p7skBcrl/WZ2WBMUgsPAX0O4IB9d
-         WfoA==
-X-Forwarded-Encrypted: i=1; AJvYcCWUJcZIQttHw5u3UsYBrqKc+qG2bNgb35OSnJmR0O8dO4GoIBrsWa9jAi2vID9B1rhh3DZM8Xm8NnhqYdm6gztWA3o=@vger.kernel.org, AJvYcCX34Tw9vXZ+Pepy6c6FIWyCq5JZpZ5Bm1pDty8LsrHIWCdLrv6FBTy0g8zXrdUqc512nM4wCYdUL9p82KmB@vger.kernel.org, AJvYcCX3J8TxmvkU3gwVyK05I2w7y33MzELmkTTjCH9lneozqulja0tKWikJMYt12wdIRWI1FjklAbpREU89@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxxy9iyJh61b4fOJXe1Qls9L2wFT7a5cS+qQw75cXQWZ2pbaBg3
-	SLNcx9erf+sTk/fEuY4mgnNUfucNRb8sjjWZuuprGkEIjsLVXUkSScX9/7wzFLcN
-X-Gm-Gg: ASbGnctd0M7kzZaip6svPpDONeBtVMYGTYQv9IsSu+9LuNI/ChTITuslgXyYTfk3uuU
-	6YInm0+6yDlphMrJ6rm3dncAdQpb8kf4Axf4B2TAVmfrQfza+lUNsK/hJ5cpBxSJjJ0Nb0kHKlm
-	deF4lf5YR2HtmxmqbAOY4QcomuzePjF4vtxEUUxWHo8xtKNoUDwAH2A+eu52Fz5QbAB9eaN6Ju+
-	5U1EcOhL61lLbs9C2Mgo6DaNlRmUo4GFvksoULB2YQIGXh55qdJx+4saewZXNee3qXfS4qvJyOd
-	jxEagCntMhyJfskvWOn6dHgOf/ElGDB+vj9gX8W731ak+6o8PvNO6Hq+DyNOttBMBoKGchGcERv
-	N0LiAZDrnlAeqZ6ycF4bpNUE7byj6/EM+x2pSGInaimOqV2ZfN6offaVzjP/07jHb
-X-Google-Smtp-Source: AGHT+IF/aDwRW36hiwVcAsW6nYorGluS6UK+xnJp4ngBdOkL/zMfNoYywa9i/8z7M7YvJy3I/+YBKA==
-X-Received: by 2002:a05:6102:d93:b0:4fc:1987:fc5b with SMTP id ada2fe7eead31-5060e9e6216mr834969137.15.1754645358138;
-        Fri, 08 Aug 2025 02:29:18 -0700 (PDT)
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com. [209.85.221.180])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-88e0296af29sm711462241.20.2025.08.08.02.29.17
+        bh=FHWNDK3s9P7e7V2iAmBr/rqn1vtS3VyQHGTysnO++tw=;
+        b=Lx1UC0CGh5vAePtsi31gTnOozo/nuOOtb9HfyyuE1do1XT3UlHLftJtRyE1cTJQVqm
+         IpsWxvksj8xqg4Klc8tX7CWXeh5HRQ/Y8HcUa3Vbued6A33ZVjyDqgAOCKidCgMsEWct
+         if8UzIDunuJvz+yQYQQcybHcrF7z9hcPv41XT5rzosh7NRr+AdUT4qHPPuMvgDzGInPM
+         +nL7kWy0kbflwLd36J9g4jo/ITEofyIR+Fy08q/JH8eO7gDdSwRyZ4v015A9Q8lSfggu
+         ilOEqVJ/22dWlKa0zkAl26Y+vGV4uJ7dNK0en3m8sCyFYXMBSK04eQBaF6B5wxJmmM9M
+         JKoA==
+X-Forwarded-Encrypted: i=1; AJvYcCUWo46jdc1upAKUWSN24OB6GicdOVRQ3HVQx0JLbd7ibCZrExyr47zKBNTKEmQENcdS1vy3Hn9xtNkStyU=@vger.kernel.org, AJvYcCWd6Sn2tbKmNe1gXm0UUaCdoiM/IfiMHl5PFqCop3/tndrjwcLs2qO8XQoXS3mqLcJTG9bn9uUCMGJoPw==@vger.kernel.org, AJvYcCXY0lYeL+o8UEqFb08TUgvMcy80KXniwS3gcezGvUSOArLTP8GmnqUCFJC2j9NlzEgFtf1owOi73ykn/WequqZqGJw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxloX//3CdVK9x5sOAWYOTzncf2Y9C4ZMjhqarrXYDI0/0lP37n
+	egMqr/SDi5xgWpGsnUmBR/UMyq3kg6Ujtj41AOC0v57rfMQgZu8SVk/+mNcvUiop
+X-Gm-Gg: ASbGncvOEJtwQqIG/UvuVH72ztAV4/M7KXLdpwS+UjycWpWZJ5GJoiC7vYmx5DBVOu/
+	fFqFtCQWOaKNuYbBxuFD3ZsFGhseMvxSPAefC0ML4VKo3uDjXUHuo+IC+15D5qADDptAzNVEY7x
+	/fm7ZrPLKuFCJv6GsyYiy7Fjd9n4PRanYDrgy8y8juaMQ0CzVWfzrlakwOlTuuWdXlAgMT8dR4T
+	ADugCJ+p7z5gXWoQH/+ZZw91aWz24O36bzY6qmAfT4HHi8qOaslPew1/7UWeDVbOkUNC2/nxy53
+	0onEQ5dNLclCtEDiItLt0cUVJtyNS1VaaRBQGyoX621h115V0/BAd5fLL2eykpzfU7NATvUSl7k
+	9V9kOnSXx8iAoylA4nm4zGChDyUIIXXRDWzlHbE4cuaCXhjTgFbvXLE3sSVU/
+X-Google-Smtp-Source: AGHT+IH3kknl0Ndhe1PRTZCDkJS4dC15IakYyDFKi5Ct400Do5t2d7MQkFk9aFG8jmjIc3p9CnwUig==
+X-Received: by 2002:a05:6102:dc6:b0:4fc:1484:5500 with SMTP id ada2fe7eead31-5060f0cccf0mr743441137.21.1754646208038;
+        Fri, 08 Aug 2025 02:43:28 -0700 (PDT)
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com. [209.85.217.44])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5062bd4c2f1sm296320137.18.2025.08.08.02.43.27
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Aug 2025 02:29:17 -0700 (PDT)
-Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-5393cfc2e77so1249450e0c.3;
-        Fri, 08 Aug 2025 02:29:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCURQiZIxk9OElVfjvsDXb9zVvn31n/thrF17QnTN5trIB0xIe7ouBTLktgMaJEDpGi9o5JlWjRWL9QO@vger.kernel.org, AJvYcCX/kTi9kgzeSABHqbzqSG6rZ9TCdo+RaUmCXco7bWztDUEuuZAicpk2uu3iOLYaU4iTtE1p/pShIgCmgpknGCtt9H8=@vger.kernel.org, AJvYcCXp4U92R+70mJjqrtslJftFS0yH6q30kO3ekKy5q+zfiU7thogEpiSjxMRnMCmj+T1lPBUdeEMZ1G+hZrDR@vger.kernel.org
-X-Received: by 2002:a05:6122:8285:b0:535:e35d:49f4 with SMTP id
- 71dfb90a1353d-53a52f1316bmr853973e0c.11.1754645357385; Fri, 08 Aug 2025
- 02:29:17 -0700 (PDT)
+        Fri, 08 Aug 2025 02:43:27 -0700 (PDT)
+Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-4fbfbda957fso650368137.2;
+        Fri, 08 Aug 2025 02:43:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUN4f+cr39mbe39epuGS4r6038dBHxJNzsVmuQMH3LUX5mQQ0udnyh5qH2pA7W1dA7nbHVKgzTBzspTHB4mfddig8A=@vger.kernel.org, AJvYcCUaYW66pPiwEEtPXaaJSoqVeoCMhFp8FJIWpGytcyMe+nWRR+ZvgeQA5Oiwk9XtBBJTaNiHOkP6WtsdpFE=@vger.kernel.org, AJvYcCWuvoq5Xl89gRBkefb6gkt3IRHCjgFtjD2QsysNgMSfoR3aIpjwiW+VCAY9ujUj9Q7oyuzpV50Rn8A3Cg==@vger.kernel.org
+X-Received: by 2002:a05:6102:32cb:b0:4e5:8b76:44c5 with SMTP id
+ ada2fe7eead31-5060f0cc794mr693639137.22.1754646207387; Fri, 08 Aug 2025
+ 02:43:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250808061806.2729274-1-claudiu.beznea.uj@bp.renesas.com> <20250808061806.2729274-2-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20250808061806.2729274-2-claudiu.beznea.uj@bp.renesas.com>
+References: <20250807043456.1624-2-wsa+renesas@sang-engineering.com> <2025080720214218750df5@mail.local>
+In-Reply-To: <2025080720214218750df5@mail.local>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 8 Aug 2025 11:29:06 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUsFFd+orb17oQqoEidzYWMRjPoqMyzpgrdnicc=MRSYQ@mail.gmail.com>
-X-Gm-Features: Ac12FXx8i1QT-zXz7J1iKPWv5wh3EdWdZPqRg8Ft3ReMHz9bkxHLJxwo8ny7LqM
-Message-ID: <CAMuHMdUsFFd+orb17oQqoEidzYWMRjPoqMyzpgrdnicc=MRSYQ@mail.gmail.com>
-Subject: Re: [PATCH v4 1/8] soc: renesas: rz-sysc: Add syscon/regmap support
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: vkoul@kernel.org, kishon@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, p.zabel@pengutronix.de, magnus.damm@gmail.com, 
-	yoshihiro.shimoda.uh@renesas.com, biju.das.jz@bp.renesas.com, 
-	linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	John Madieu <john.madieu.xa@bp.renesas.com>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Date: Fri, 8 Aug 2025 11:43:15 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUwC=TNvvwf0_sgSSYTBGeq8UX5kRFN5kg3mFJ7wVA3kw@mail.gmail.com>
+X-Gm-Features: Ac12FXzrLiEtwQSwABN_PovuC7CdyhBuG0HPwAa8_g9H9GakHs5gEOATJhO9jEM
+Message-ID: <CAMuHMdUwC=TNvvwf0_sgSSYTBGeq8UX5kRFN5kg3mFJ7wVA3kw@mail.gmail.com>
+Subject: Re: [PATCH] i3c: remove 'const' from FIFO helpers
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>, Frank Li <Frank.Li@nxp.com>, 
+	Jorge Marques <jorge.marques@analog.com>, linux-i3c@lists.infradead.org, 
+	sparclinux <sparclinux@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Claudiu,
+CC sparclinux, arnd
 
-On Fri, 8 Aug 2025 at 08:18, Claudiu <claudiu.beznea@tuxon.dev> wrote:
-> From: John Madieu <john.madieu.xa@bp.renesas.com>
+On Fri, 8 Aug 2025 at 01:09, Alexandre Belloni
+<alexandre.belloni@bootlin.com> wrote:
+> On 07/08/2025 06:31:24+0200, Wolfram Sang wrote:
+> > As buildbot reports, some architectures do not want const pointers.
+> >
+> > Fixes: 733b439375b4 ("i3c: master: Add inline i3c_readl_fifo() and i3c_writel_fifo()")
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202508070438.TZZA3f2S-lkp@intel.com/
+> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> > ---
+> >
+> > I still wonder why SPARC discards the const but since nobody seems to be
+> > commenting on that, I guess the fastest way to get the build error out
+> > of Linus' tree is to adapt the usage in I3C.
 >
-> The RZ/G3E system controller has various registers that control or report
-> some properties specific to individual IPs. The regmap is registered as a
-> syscon device to allow these IP drivers to access the registers through the
-> regmap API.
->
-> As other RZ SoCs might have custom read/write callbacks or max-offsets,
-> register a custom regmap configuration.
->
-> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
-> [claudiu.beznea:
->  - do not check the match->data validity in rz_sysc_probe() as it is
->    always valid
->  - dinamically allocate regmap_cfg]
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> ---
->
-> Changes in v4:
-> - adjusted the patch description by dropping "add" from
->   "add register a custom regmap configuration"
-> - updated the list of changes from Claudiu Beznea
-> - dynamically allocate the regmap_config as proposed at [2]
-> - this patch is needed for proper function of USB (as proposed in this
->   series) that being the reason it is introduced here, as well
->
-> [2] https://lore.kernel.org/all/CAMuHMdVyf3Xtpw=LWHrnD2CVQX4xYm=FBHvY_dx9OesHDz5zNg@mail.gmail.com/
+> My plan was to let sparc people handle their mess, there is no reason
+> const should be discarded.
 
-Thanks for the update!
+Fully agreed.
 
-> --- a/drivers/soc/renesas/rz-sysc.c
-> +++ b/drivers/soc/renesas/rz-sysc.c
-=
-> @@ -117,7 +125,26 @@ static int rz_sysc_probe(struct platform_device *pdev)
->                 return PTR_ERR(sysc->base);
->
->         sysc->dev = dev;
-> -       return rz_sysc_soc_init(sysc, match);
-> +       ret = rz_sysc_soc_init(sysc, match);
-> +       if (ret)
-> +               return ret;
-> +
-> +       regmap_cfg = devm_kzalloc(dev, sizeof(*regmap_cfg), GFP_KERNEL);
-> +       if (!regmap_cfg)
-> +               return -ENOMEM;
+Note that it is not just the const keyword that is missing from the
+SPARC implementation, but also the volatile keyword.
 
-Is there any specific reason you decided to allocate regmap_cfg
-separately, instead of embedding it into struct rz_sysc?
-
-The rest LGTM.
+> > --- a/drivers/i3c/internals.h
+> > +++ b/drivers/i3c/internals.h
+> > @@ -30,8 +30,7 @@ void i3c_dev_free_ibi_locked(struct i3c_dev_desc *dev);
+> >   * @buf: Pointer to the data bytes to write
+> >   * @nbytes: Number of bytes to write
+> >   */
+> > -static inline void i3c_writel_fifo(void __iomem *addr, const void *buf,
+> > -                                int nbytes)
+> > +static inline void i3c_writel_fifo(void __iomem *addr, void *buf, int nbytes)
+> >  {
+> >       writesl(addr, buf, nbytes / 4);
+> >       if (nbytes & 3) {
+> > @@ -48,8 +47,7 @@ static inline void i3c_writel_fifo(void __iomem *addr, const void *buf,
+> >   * @buf: Pointer to the buffer to store read bytes
+> >   * @nbytes: Number of bytes to read
+> >   */
+> > -static inline void i3c_readl_fifo(const void __iomem *addr, void *buf,
+> > -                               int nbytes)
+> > +static inline void i3c_readl_fifo(void __iomem *addr, void *buf, int nbytes)
+> >  {
+> >       readsl(addr, buf, nbytes / 4);
+> >       if (nbytes & 3) {
+> > --
+> > 2.47.2
 
 Gr{oetje,eeting}s,
 
