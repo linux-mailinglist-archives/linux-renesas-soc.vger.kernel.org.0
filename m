@@ -1,80 +1,80 @@
-Return-Path: <linux-renesas-soc+bounces-20172-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20173-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D08DCB1F22A
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Aug 2025 07:05:58 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C083B1F236
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Aug 2025 07:09:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8D28CA03631
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Aug 2025 05:05:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3A45D566F59
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Aug 2025 05:09:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8440D157E6B;
-	Sat,  9 Aug 2025 05:05:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE61C1DC994;
+	Sat,  9 Aug 2025 05:09:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="FKaAf2pR"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="dkBQsZDd"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159721DA3D
-	for <linux-renesas-soc@vger.kernel.org>; Sat,  9 Aug 2025 05:05:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034A9125D6
+	for <linux-renesas-soc@vger.kernel.org>; Sat,  9 Aug 2025 05:09:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754715954; cv=none; b=CZi0LPjtW6LtDPivmB9ZD+LfgoykGEU+nImuiUe71nMmMbP68Jp0W2MAoZ705vfK6mSjxqbREeP7qzEUO8QKBpiDSl24e2NmZgo1mC3pQ7rxV9iXoVqm0EtJVm6G1Vdwn9/H9QjVNUuMN0gf7LbKQs1lyJseqweoXslE1BCDRv4=
+	t=1754716178; cv=none; b=RRsSa0PezVzV03a7E9NooA81eHv0Cb4s/J/z9xwdCfIki7iPc12Ov78wTxIexP/ik90vQ+KcK9dJQPTro4Kd23Hi0bcrFtazIrdQFoEpspUXOtkgZ782CAR8JAdf0SaSkuvctCfXSyPr1n4Cn/3SAna/EJnjR4Niri+m6iQMrh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754715954; c=relaxed/simple;
-	bh=nD2fUCFl1N8RjzRUmG5cM0B4T+0OEZT2hR1uuKjG3hI=;
+	s=arc-20240116; t=1754716178; c=relaxed/simple;
+	bh=GrglcO3xsVXh3AY4plzNCBO4+hdYcu/Lkn4GpTjSkck=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LrV7cfY0/uWk5btPvLxo3U4qlBlr5mAk2QUUHh5EUmO5KAJmHR3yVtdxAGtTPeTy3r/YvhvZup2JkWDB1X1twToENHo2E9lCsflos9zWL1RFgZenwEIuJqkDJkV6F/pUfCFWmQ/vRRj6cvvgvjfF6tryyX0ptSP93oXt4gKjKZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=FKaAf2pR; arc=none smtp.client-ip=209.85.218.47
+	 In-Reply-To:Content-Type; b=o9GpN0KVs2Ip5Bp4CYk5wHh/jWojTkfwcCsHb3vULSjHF/Tt4bV5gydi4LbqWLswr8GqK0+QbZrlqyQzYnBC58vnBfkf2cSl4TK6Qd/CpPbYEuXeS+EVsULHDhg0pb60S8mF4sF27cfHTuRfvyhsWrBWjk372+sDgJwgBnJxsU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=dkBQsZDd; arc=none smtp.client-ip=209.85.208.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-af910372ab3so650233466b.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 08 Aug 2025 22:05:51 -0700 (PDT)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-615622ed70fso4580640a12.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 08 Aug 2025 22:09:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1754715950; x=1755320750; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1754716174; x=1755320974; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=2oZNLMTxnI0TDk551cIxYEAZPe1K5Q6nT+3NiB2kPJk=;
-        b=FKaAf2pR4+kiKIu9UoRXkbcBiYdoNbtjXzGYo50O9zXYpiynC5bM3YZ++8/g6Qaszw
-         VfpizB7tkwH4Hm56skzHjhofJ+Cw+VCtZbxBIqq7I3zMNN6DdeZMkCcdLqy/8MTpLIJs
-         0M4tQWRh+g1vas/6tZWxErbtW52P61n3u9yvI0eSCkVKbFZBbmbFKlj2wc0XlC5liDaq
-         SV+ygU7o5JAUwEePbY8T0T3oZCn5BelSOEOfoD5n6XAvqi3Hsr5rBK9RWlN7r+9qCWfu
-         sX7ib4H0UbvxyfbovmaKC1OLGJNI4XMg0ZzUnGMhsZzE2sN6gN/tcOxeGvr02FNrDqtX
-         wY/g==
+        bh=6HTTOxi4bBvMFIB876AaeWrN83+qUAp0MN7BaBm7MTs=;
+        b=dkBQsZDdPJ7iI9FX8dr8/HoxXSSIKFfK2WVvt2hpnzIaLF2wu3JsumnpZR7Xte+rRM
+         uzmEJOT1FX2VrPNGfjAVlIy6Pnjy3Z8mOksA1jFHEj1ZxzGKpyAEcbSngYKpFZ6HAw7z
+         GARU+9It6aOQCvIXogbMTMQ0g5ozENxDE0T3OiFhGR3nMaae+KzoeI/F0yAimvj2Pdzc
+         sQPFnZp6idR1Rq9Jdu9vLju98KiTYWOfz6G7DcdJRCSSJTVUJVMWvC5G9YzysSKlOFFl
+         UYIbxtZW5riypcns2QjvG/am7IYj/W+af5VH04szsEB92FiWOdrKKARinvLpUdBBAtDO
+         dh4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754715950; x=1755320750;
+        d=1e100.net; s=20230601; t=1754716174; x=1755320974;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2oZNLMTxnI0TDk551cIxYEAZPe1K5Q6nT+3NiB2kPJk=;
-        b=doY7LlaozwwwTPj8NtpJDNGp4u/wFZboL8bMEzZkZFm2u9TgSQV6S4/CO+SaBuyL4a
-         Li2M67xuD6O7eyy95ejFIZHKJixFbR9EGCK6qfqBNkAcsHOBtD3rfKQGFLbN5CYIzU1T
-         K866uDCDHaA6pAQOmts7NP/wyDKfWDosDwreHZDJLOppMSsiK9AnffLawtE6zZp033av
-         JqgmHRwwB2m1EkPC7H3kP7VXk3+kei6x+yEI5vz+A5t5jPLJLjxp/wrjZaNNXT8pmDJE
-         0bnwObMZ5776hPG32iboxEpLye9mo00MiU7o8xM4sBxfMY1F4cm5MahprhidTePzdjkD
-         I/dg==
-X-Forwarded-Encrypted: i=1; AJvYcCXe3RgkoJRYXy09pJqQJmcJR5kDea4m5gTmA5nu3BB9YVF6waOdNrS6fv4wu3FKgFlyEh8z/J6TnoZB00+8+L834A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLo57kNm4+2fQkqiYLXIv8Bej2OpjP8PMDIBP6U4FJkQvsp+u1
-	97m1q49woSoxfGrZD0SJCLvvR78JbAED67xIIf1sciT8Mq8Z9+Sqoj6geakPFud5xt4=
-X-Gm-Gg: ASbGncvIriKeAMtj8ouQtNBHOiPFQtaEaU6D70ZuIjo1v++4QZzSjIF2rWQ/bXmnM+t
-	lOxiq3+QECVrrrwcRbdMp8gQGdbN9w93Bi5H2muhbUnGoOTMGo5heeh8/bqt9ZUNvFftYY5gjNA
-	Z5p9b0UnOMZ7D0Jp0+5rphU2+eeDWEzEzqRVMLzXXkSpGttZZMvU1BqfVbJRoFn7j2SosaxOB07
-	0YgjHpECrUcnem6nP8SZZOemxIJlI9LIfsSVmMBmWx0CE8DXTkZc321SbtuWGR085l6S6PyxL3B
-	Ge+rMBY8V79w4cP6lGmUoPBf5Y84c1LqA+iq21vzwGXKbwrx9mTvwR7fJQWEyo0KMOQT9eQqc7k
-	26Z+9I7aiwS3OiT4GM6gMteg2VgVMoZE=
-X-Google-Smtp-Source: AGHT+IFDTVyrR6p3CClA1GWj423Oh6dA8XrJf1oBRsxw+7d+yEEQJwlPV2AJiVzwHAknQVJuKnTVNA==
-X-Received: by 2002:a17:907:3ccb:b0:af1:69e3:c074 with SMTP id a640c23a62f3a-af9a3c9c1ddmr1004588666b.8.1754715950241;
-        Fri, 08 Aug 2025 22:05:50 -0700 (PDT)
+        bh=6HTTOxi4bBvMFIB876AaeWrN83+qUAp0MN7BaBm7MTs=;
+        b=Hbev4mX4vkwfPTndWRpMt/FhFqAQ6hgzvNOKpFSLOBXYSg6Aybpi50BL6xRsqOt4yA
+         cR4IvfHDYJYrDHO1s27AkhFn9IUtRLmGESprFevyYBku9kEMyu0r6TtqNU11sBs5EVWA
+         ThCJNXt+/7dF/y3DVrrJTqAMjBGpH7HfQb/ivKFXWnCFN2e0R9fxqeNokBz7Qt3reTYO
+         +XzmlhE0sOafhzLKK6RXrCd4nxwQ/wBATs7wAa3sNhOx716nTi4S+1xvZ2SOT3e6i3kx
+         9utViaosYIyfQX24eyPhL+Kyr3jWz7b8QUsw/Wpbm/4YMP9ro7styqlWPWGRCm/vy9tA
+         Fxgw==
+X-Forwarded-Encrypted: i=1; AJvYcCWjiiT92WXRZx1EUtszdbaS+YOny8zbuw3Hs+8QKdkiMEnDwmWToLk50j6GzjprcXsa3ApyGNj1crktYk0v1YsTlg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpCzP60LbDVqQz7/DambV5/CiLBifMDx0AmbsYq9rxaiSrmB5s
+	ewV+TXDBqQBJZAyDiqlGKuIzNzMNoyUTdbg1MYehdyDcvbs7z5N1FCLdaUoRXZ2A7eQ=
+X-Gm-Gg: ASbGncsF14cHcFLrnGq6ubZ5oumWMCwfENK9mhmXX20qjZP5XxERklZWLcQsaf4BQJp
+	h+tefWCTa2MHT+WZ3Cp05UVFn98hXw81csquz5KuPFcj85x+leCqAuQX9fM1FZPFVnyJQsSHyva
+	pr/FtzLwuvpboybyz3tpo6bdEQjbybwrZ3YXmkzU0mf07kIxjdRgMkj0jwmDcEWZ+oC3lRV5xog
+	T7mzxjIahkV19FjE/CCt7AIWnEtXaQYIra+EyVbt+8Wjk+eds5oD0oRp3qUCbj0utboFlU6r3Fe
+	p2rBrA/29C1I+6BySjAafUr92ekyPDPolqUPEC0Hr4BYx7IPZ+AqLmB5SjHlqM0cIvPsf0B1wVE
+	Oi8ix79+nL1WOPft2FSoaPD/mxZpyC0Q=
+X-Google-Smtp-Source: AGHT+IGXiORpQR5niIwIvpzn+wXs17bnFKeDy0GZ6K5qdZHPo1qcip11Y668BHB3y+3WMDJ6ZtPaMw==
+X-Received: by 2002:a05:6402:2101:b0:617:b3e8:97aa with SMTP id 4fb4d7f45d1cf-617e2bf8706mr4793505a12.3.1754716174120;
+        Fri, 08 Aug 2025 22:09:34 -0700 (PDT)
 Received: from [192.168.50.4] ([82.78.167.188])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af99518bfacsm629142066b.72.2025.08.08.22.05.49
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-615a8f16062sm14421123a12.18.2025.08.08.22.09.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Aug 2025 22:05:49 -0700 (PDT)
-Message-ID: <18e948c8-96ed-4520-b25d-32ed1c845aff@tuxon.dev>
-Date: Sat, 9 Aug 2025 08:05:48 +0300
+        Fri, 08 Aug 2025 22:09:33 -0700 (PDT)
+Message-ID: <7737de72-701a-43ce-88a4-90d2d17c48f8@tuxon.dev>
+Date: Sat, 9 Aug 2025 08:09:32 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -82,90 +82,70 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] arm64: dts: renesas: r9a08g045: Add I3C node
+Subject: Re: [PATCH 3/4] arm64: dts: renesas: rzg3s-smarc-som: Enable I3C
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
  linux-renesas-soc@vger.kernel.org
-Cc: Quynh Nguyen <quynh.nguyen.xb@renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
  Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, devicetree@vger.kernel.org
 References: <20250807151434.5241-6-wsa+renesas@sang-engineering.com>
- <20250807151434.5241-7-wsa+renesas@sang-engineering.com>
+ <20250807151434.5241-9-wsa+renesas@sang-engineering.com>
 From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
 Content-Language: en-US
-In-Reply-To: <20250807151434.5241-7-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20250807151434.5241-9-wsa+renesas@sang-engineering.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi, Wolfram,
 
 On 07.08.2025 18:14, Wolfram Sang wrote:
-> From: Quynh Nguyen <quynh.nguyen.xb@renesas.com>
+> Enable I3C on the dedicated connector of the RZ/G3S module. Provide
+> safe defaults allowing to connect even to slow I2C devices.
 > 
-> Add the I3C node to RZ/G3S SoC DTSI.
-> 
-> Signed-off-by: Quynh Nguyen <quynh.nguyen.xb@renesas.com>
-> [wsa: adapted to upstream driver, moved bus frequencies to board file]
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > ---
->  arch/arm64/boot/dts/renesas/r9a08g045.dtsi | 35 ++++++++++++++++++++++
->  1 file changed, 35 insertions(+)
+>  arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
-> diff --git a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-> index 0364f89776e6..6e372e222557 100644
-> --- a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-> @@ -272,6 +272,41 @@ channel@8 {
->  			};
->  		};
+> diff --git a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
+> index 39845faec894..17fd30df3432 100644
+> --- a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
+> @@ -7,6 +7,7 @@
 >  
-> +		i3c: i3c@1005b000 {
-> +			compatible = "renesas,r9a08g045-i3c";
-> +			reg = <0 0x1005b000 0 0x1000>;
-> +			clocks = <&cpg CPG_MOD R9A08G045_I3C_PCLK>,
-> +				 <&cpg CPG_MOD R9A08G045_I3C_TCLK>;
-> +			clock-names = "pclk", "tclk";
-> +			interrupts = <GIC_SPI 289 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 290 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 293 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 294 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 295 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 296 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 297 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 298 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 299 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 307 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 308 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 309 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 310 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 311 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>;
-> +			interrupt-names = "ierr", "terr", "abort", "resp", "cmd",
-> +					  "ibi", "rx", "tx", "rcv","st", "sp",
+>  #include <dt-bindings/clock/renesas,r9a08g045-vbattb.h>
+>  #include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/i3c/i3c.h>
+>  #include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
+>  
+>  #include "rzg3s-smarc-switches.h"
+> @@ -172,6 +173,12 @@ a0 80 30 30 9c
+>  	};
+>  };
+>  
+> +&i3c {
+> +	i2c-scl-hz = <100000>;
+> +	i3c-scl-hz = <12500000>;
 
-Missing a space before "st".
+I'm not familiar with I3C but from the HW manual it seems there is some
+level of control for I3C in pin controller:
+- on Input Enable Control Register (IEN_m) there is this note: Note 1. 1b:
+  applies to terminals of TMS_SWDIO, I3C_SCL, I3C_SDA, P1_0, P7_0
 
-Other than this:
-Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+- there is I3C_SET register (bit POC) which controls the I3C voltage, so, I
+  presume, depending on the SW_I3C_VIO_SEL switch on the board (which
+  selects the output of VDD_I3C regulator)  the pins would have to be
+  configured with proper power-source = <1800> or power-source = <1200>
 
 Thank you,
 Claudiu
 
-> +					  "tend", "nack", "al", "tmo", "wu", "exit";
-> +			resets = <&cpg R9A08G045_I3C_PRESETN>,
-> +				 <&cpg R9A08G045_I3C_TRESETN>;
-> +			reset-names = "presetn", "tresetn";
-> +			power-domains = <&cpg>;
-> +			#address-cells = <3>;
-> +			#size-cells = <0>;
-> +			status = "disabled";
-> +		};
+> +	status = "okay";
+> +};
 > +
->  		vbattb: clock-controller@1005c000 {
->  			compatible = "renesas,r9a08g045-vbattb";
->  			reg = <0 0x1005c000 0 0x1000>;
+>  #if SW_CONFIG2 == SW_ON
+>  /* SD0 slot */
+>  &sdhi0 {
 
 
