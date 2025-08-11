@@ -1,236 +1,154 @@
-Return-Path: <linux-renesas-soc+bounces-20236-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20237-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BFB8B20A2D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Aug 2025 15:28:36 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 106ADB20A47
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Aug 2025 15:34:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8959F2A1F66
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Aug 2025 13:28:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 166411891246
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Aug 2025 13:34:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26D242E11DD;
-	Mon, 11 Aug 2025 13:26:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="p8f6b7Kw"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24BEF2D94A2;
+	Mon, 11 Aug 2025 13:34:08 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B01D2DEA72
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Aug 2025 13:26:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F19002DE6E4;
+	Mon, 11 Aug 2025 13:34:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754918785; cv=none; b=Qs77R/yvDRvohIj2eduvtS8X9ZUf7oHN2HcMyOt9bnMcjbbnWJ4lusXps6Lj8NDeVqfH7VIbV/GpYBDevDH/46MRI9WVBpfSWPfPiqIGaTWvQ5wjx1jQzBP0FP9w85v0OQPGFwf32LCSpTPXQ+Dte+CfO+uY0Cz8LVVyhyA/GC8=
+	t=1754919248; cv=none; b=sTFhrhoes2dyxzuYapK2t8WrOieqfUPYb1uRD5LoIY5KR5abWSt7oOacrH8nfTURaGsSnhHNKisXxr6IJcPJpk9hl1rH5CWkBR6hx5wQNGhc2MQZPtAnO3HeC8PULuQmsU0ETv+UWnutJdafJcek0lYt4PYw7/tije4JP0bDC7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754918785; c=relaxed/simple;
-	bh=OTq73ODXf6BmvMGuOO/3rCMmGqcdD7/49PfTkqLOHOs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oKjhESAJJy+1Kc6f1RZfgGbimbDPFN15w73AV1sS/2u8gAztyy0MWP3X9Dz7zLud1y+Rjdnyv8IkhU6I5ReCUIQ9t9O0/u12K4tjPXybB4AB3zD06DYzS+f+oSDkfTW8HZ9ucaBc1nnJ4vsw9KIQKlj7ClZm+bQSpriZVInqLds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=p8f6b7Kw; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57B9d9LN028799
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Aug 2025 13:26:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=vRikIynOffv5hukm3CKQ6SgT
-	vsP8Ryyr+lMrwvSQIzY=; b=p8f6b7KwJiYJ1X2hf94LyRPBUQyawbhk9VSvJzGE
-	DcS0zOtYY2HjC5TEq5XRYFGd5ZmWt2OniURI87DtmkMygR94tLhXxzwXev1O7sGM
-	wsnL8Uct1JMYVLGowrnGkSpgkpzztPyGRQ/l6RrB4EQ/ZU87Pfn4saIFdqqWNQvw
-	0jmZ9nrljs7UUKQDs3hC5RJ71aqmfRcMwozM5IlDwOWBowpH9tKj/JmmgZrhQyqg
-	CutdLldAKoUXN5szorjHp7uTnYgn3AFufDl9qK7gZs3Cu+KcQp7ZWP+bD+kY3qHg
-	Xom/m64tqGBryAwEH7hMeuLe2b9WBcvSctNuyWxldJyHdQ==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dw9smp2k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Aug 2025 13:26:22 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-478f78ff9beso162807641cf.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Aug 2025 06:26:22 -0700 (PDT)
+	s=arc-20240116; t=1754919248; c=relaxed/simple;
+	bh=asXgn3f7q2ix6N10I9+1Wdp/MSmoQq/6YkQqyvGRNS4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cOrENoThlbbTWbSlH2B4qTn/AUw4vUhvl8P3GXNo+0icUBSOO1qihNswSVLx3PFqeMb4KLCIygq8VnClwIdLSEg06EA5IdXaLIDgaCpWNcdzc0L0SZuKeHJanoeiZoS4sFio9uput+X13nxbolySIDdINgRNMAlAhBe8040a9Vs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-500006b3efdso4077232137.1;
+        Mon, 11 Aug 2025 06:34:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754918781; x=1755523581;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vRikIynOffv5hukm3CKQ6SgTvsP8Ryyr+lMrwvSQIzY=;
-        b=mQ+MucYBdpJBYo0j0P2ZSRt3iSyao/sdPpW9veE+Tv46cqcIskndPjaMHNu4b7tv00
-         4dY6pODSTBACAvJ8Ov3/ALf2g99pbRv0P3NNC2CXw5tyLBY5WGobhdJZ3VwpcwWmPRaP
-         p5flA0JjcmzEy5Y7uKzuUGKAPf0/CcsCDaWDRyjmQmGJBjEpnobs9rUlcWIYvPd9fr2s
-         oSaiE6XmBSD0dlWr5eJzUTj0us0dCz8QAHE6Ix6xY1FEMpODfbNGyvw9sGBg8E/Y7kz7
-         JBH3mBEVJ/FQa93b+lfR9SW+PViqF9RA021OcCf5ADbkdM4/pjuHhn0LevLpwA9DiOlC
-         nkZg==
-X-Forwarded-Encrypted: i=1; AJvYcCVXXEEdSOUE3rV2goKlpraFi0upaOe1OXU9Wak6nrr0OyNLzQOkAlmlvd2kNpHdWN1msZnqz5tyFyY1dRVLTbP64Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTV0RlaU7e6fqrXl7rOlY2DtxlNt0bcX4oBgFBLA5SRccHw/zz
-	DQwFQPtVyuLuXjqpUo2bKPFDEnIZuyYDDK2p63GO+FaSK/0bVJni73oM0b3fjJGDJ+Mv7pYmPFm
-	VIoAuJuGifPge4o0vWCp8akxK4udGvzu7T8WmsmNzNFTg6Vh4PN4Op2Wte8Qfiow0a+jZ06wmlw
-	==
-X-Gm-Gg: ASbGncs17raqsiOPaK8ofB9BAUb0tvyRNyXn59JlQi0CmQR0ZymRjEjCFaGvbSixFu3
-	0wmYigEaE2+3tkfNA9FDlEkJG8HSaLAmAzPKapxXX1UaKbJOGVzOHSCI4TVt7SgZHeu3qBF3BNB
-	6kDtv4ZBVV7jcUb+WqO/4h7erCbEEFggucBOEklmYLF1MHaKQWWXz+trDSOC/tHDVmg6SIJrjLT
-	qP3EDUXKWk9OWldFy72QvmQuUQKOGY5Dn9uIDUniC6xI+A7PKiZc7/chz3Q//yq4vY2fymKHaFw
-	cq4qOEK50EthS8dNAoyHWvMGAPSZDGuHJ8qJtevI/hcwcA9cURRN2I+kmmm1mlVN46FKLXxfIa/
-	e+xM5mDhmmbuWGm+PJoU1yJeNWKMq0G/t/Gk+PlkFM6Xsre/5UPf0
-X-Received: by 2002:a05:622a:58c6:b0:4b0:75f1:4cd5 with SMTP id d75a77b69052e-4b0aed5ec14mr139029271cf.44.1754918780896;
-        Mon, 11 Aug 2025 06:26:20 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH0wKTLCLx4/yIBgQvD8Ue94ZiVJ7wpTEfZ89QbuRpyBiuJsOKla4drlyaZDIdLWLJCAt0VIQ==
-X-Received: by 2002:a05:622a:58c6:b0:4b0:75f1:4cd5 with SMTP id d75a77b69052e-4b0aed5ec14mr139028901cf.44.1754918780301;
-        Mon, 11 Aug 2025 06:26:20 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55cc7c67a5asm1192051e87.77.2025.08.11.06.26.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Aug 2025 06:26:19 -0700 (PDT)
-Date: Mon, 11 Aug 2025 16:26:17 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Suraj Kandpal <suraj.kandpal@intel.com>, kernel-list@raspberrypi.com,
-        amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        ankit.k.nautiyal@intel.com, arun.r.murthy@intel.com,
-        uma.shankar@intel.com, jani.nikula@intel.com, harry.wentland@amd.com,
-        siqueira@igalia.com, alexander.deucher@amd.com,
-        christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
-        liviu.dudau@arm.com, maarten.lankhorst@linux.intel.com,
-        mripard@kernel.org, robin.clark@oss.qualcomm.com,
-        abhinav.kumar@linux.dev, tzimmermann@suse.de,
-        jessica.zhang@oss.qualcomm.com, sean@poorly.run,
-        marijn.suijten@somainline.org, mcanal@igalia.com,
-        dave.stevenson@raspberrypi.com,
-        tomi.valkeinen+renesas@ideasonboard.com,
-        kieran.bingham+renesas@ideasonboard.com, louis.chauvet@bootlin.com
-Subject: Re: [RFC PATCH 1/8] drm: writeback: Refactor drm_writeback_connector
- structure
-Message-ID: <2ah3pau7p7brgw7huoxznvej3djct76vgfwtc72n6uub7sjojd@zzaebjdcpdwf>
-References: <20250811092707.3986802-1-suraj.kandpal@intel.com>
- <20250811092707.3986802-2-suraj.kandpal@intel.com>
- <20250811094429.GE21313@pendragon.ideasonboard.com>
- <awtqznhquyn7etojonmjn7karznefsb7fdudawcjsj5g2bok3u@2iqcdviuiz2s>
- <20250811111546.GA30760@pendragon.ideasonboard.com>
+        d=1e100.net; s=20230601; t=1754919244; x=1755524044;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RjQkspi4MLubyyjI0/WFDwsqdNcqXCarE9lDU/gnxqA=;
+        b=wfzicitlPIwlyuIYf0PZqvG6BhSV3u0YTaznsYkkBemKqUFfFhNKhsrOIjLPx3LgYw
+         o7n8QYu/+51S6MQjZ+2CnxUpVxFyeJJWf+ehDWIKvSE1t0Dv5lMVzhUnxemcjLDbQ5rT
+         uoHIzoAnIwL2XrtCxO4TkXCx6BKNmBQhz7NJviHTF2PQo2pIUrwAT9d7JdeTsh/WhzL+
+         f76QwdvULU2p37W5RTv97OFzsOW1/c1xT6OFvMFEQhJftyTI18XxF8Dxe9SckNG5u6eg
+         vxUFX05HsbNlm8ovsLwWtGpZMS5UKGNWuUi4w4lWBvg6MiW0DTdCuNm4IuDwzTK9vRKh
+         32IQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUp8m9/15ijmAr1dn2ilb8T78QxnlTMDii0kcqDMB/ZkQ21DaWI3IouHFZK167rgOWJXoCCLG78NStmF+cT@vger.kernel.org, AJvYcCWs36Yk3ej4OPRceGvpoimCKK2SmJxaqxoui3LD0FGqh/PvT618qStZwzCUxRXBG6vEDIQpG62s7zSg@vger.kernel.org, AJvYcCX/0jyoBn6zolwdOO2QtjRqBp4aRk3LgE/m3ZQcHwCBy3pm3uFi3JMVsQNs7ZRr96bSk6/bH+bxteukNVMy26Pdztc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7s+vLKG6GnWQfRmvQOFVZEEz0nXff592O9cmvOkJAHhpscYHZ
+	wjG2SFpnaadUBoiU/OYb5tK8e07snfm613iqNFjkIHHRlJf8ZZW6AY4jdrzbwGg/
+X-Gm-Gg: ASbGncu5yBbvkFcK/poF9wcBjXzsOuQlpZJOiFs7Wqyal3irDch28O7hneoepa8g/AL
+	bNbanNqC8MBDT9B5PfhG0wisiB40LMexE+JsZAyrUuKuZ/KytcDDUVBZcz3gXcw4/OU2yE0CW57
+	at3kyYfyOCA1CKX2cZPAwjWLDhX0OPH0+kdyeGHfyLoTMLJS149DxMDYMN56AlgtfCTlE2yHuGL
+	AHGlzMFYgjwc4NtnhxQhlkYoN2OKYa5+yLiU1XVYlggwkhKL5iWHsgy5W/94iTk8V114d/aMlbx
+	C5RfCJHPABG3kATrp+Y+ONJJ0gGvW4ds6p+R3Hx8cksf+XRRgXmwvqcqM6nZd1eShzGMCrhfrMS
+	1tDbf42ueXT/NMR8QEN8//f5cn7nusj/UYL6GIkKMO9UBjYp1zGbqo01JkFYf
+X-Google-Smtp-Source: AGHT+IFQ3+nZAnLa7h4sNIKyQ4ihQAZVPwiSZAFySeIYGNo2MFXJ6XPL9h4b9UViE5QOEOy/naB8Ew==
+X-Received: by 2002:a67:e7c8:0:b0:4fb:fa84:2e64 with SMTP id ada2fe7eead31-5060eed12ffmr4970402137.14.1754919244461;
+        Mon, 11 Aug 2025 06:34:04 -0700 (PDT)
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com. [209.85.217.54])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-88e0268c86dsm1850713241.1.2025.08.11.06.34.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Aug 2025 06:34:04 -0700 (PDT)
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-4fc0716d942so3064638137.3;
+        Mon, 11 Aug 2025 06:34:04 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU1uhV5+VXUzs/oWBoI1E7UzUh9EKFeXeUVZr/uo566xVPZfFJXJCn4+5t7yr4Sr13UR6OX2ezQaQ1/HoQg@vger.kernel.org, AJvYcCXffNY6H0OVaHJ1Mvi8FVSyG8Gu9XNLUWeWYRl/COEGG3JkADBQ/Pj4Sb048z1DggizxY6bup2QffvwbaDgn0Azzug=@vger.kernel.org, AJvYcCXo7/jfQUm701PtUSTvuY7qWRP4L8YIR0g6BrYxrmjtGf7Zi12RCTDGgPDA0cWghuW2nECI0d9ireey@vger.kernel.org
+X-Received: by 2002:a05:6102:5109:b0:4fc:1631:cdd1 with SMTP id
+ ada2fe7eead31-5060eed10aamr4511549137.15.1754919243985; Mon, 11 Aug 2025
+ 06:34:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250811111546.GA30760@pendragon.ideasonboard.com>
-X-Authority-Analysis: v=2.4 cv=J+Wq7BnS c=1 sm=1 tr=0 ts=6899ef7e cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=QyXUC8HyAAAA:8 a=4yu1Or5Oec3-_3BIJ7kA:9 a=CjuIK1q_8ugA:10
- a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-ORIG-GUID: gp3qAf5dh_ejjNPFjcGmhP01CYUVxzI2
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAxNSBTYWx0ZWRfX5PZh6Yi0l4Wf
- xSLdHxEytcR4uugjZSVPVs/GjUWOBr+pl1klXoQ7ipMkjShpcVfqn/K/suOPBSZvCLR89Lew/dU
- 5vmNCarStXQ8Cb08blTMGY1TR11eXL9fG8CAU9rVILk7vKjGXo4zIKCoHPdbavbyrt41TUro0HO
- isvPFj4lu6nyhee1zvB3672yjsH+kc6yXFRp0Fpwswg9ZL7kkQD7YkL0zw9QN1fk3CzoGesfpLD
- 3IivIEKGteri9F8x/SO2bCz+c2UKD+HNtjGOlhVjqPJgT4TthNOYC7y/2YmQyNDqO9CxV1YSKzl
- +HfuGJTYn95ypEi3TU5skv0dkFN8rZ+zjFYZTD3sZAohnukBBIsuE6ZsXkCDMaToYCr4eo5k1LT
- BF5VVEsW
-X-Proofpoint-GUID: gp3qAf5dh_ejjNPFjcGmhP01CYUVxzI2
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-11_02,2025-08-11_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 adultscore=0 malwarescore=0 impostorscore=0 bulkscore=0
- phishscore=0 suspectscore=0 spamscore=0 clxscore=1015 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508090015
+References: <20250808215209.3692744-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250808215209.3692744-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250808215209.3692744-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 11 Aug 2025 15:33:51 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUWo=hYPWPrweoYn5rFC50aV5EV1xqwFHmLp27GRjEADw@mail.gmail.com>
+X-Gm-Features: Ac12FXyaruwz2KkVarRF9RjlDkdsU830kR7SxQSLDrclAsRoH40uxlU_2WKaBv8
+Message-ID: <CAMuHMdUWo=hYPWPrweoYn5rFC50aV5EV1xqwFHmLp27GRjEADw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] dt-bindings: phy: renesas,usb2-phy: Add RZ/T2H and
+ RZ/N2H support
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Magnus Damm <magnus.damm@gmail.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, linux-phy@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Conor Dooley <conor.dooley@microchip.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Aug 11, 2025 at 02:15:46PM +0300, Laurent Pinchart wrote:
-> On Mon, Aug 11, 2025 at 01:22:30PM +0300, Dmitry Baryshkov wrote:
-> > On Mon, Aug 11, 2025 at 12:44:29PM +0300, Laurent Pinchart wrote:
-> > > On Mon, Aug 11, 2025 at 02:57:00PM +0530, Suraj Kandpal wrote:
-> > > > Some drivers cannot work with the current design where the connector
-> > > > is embedded within the drm_writeback_connector such as intel and
-> > > > some drivers that can get it working end up adding a lot of checks
-> > > > all around the code to check if it's a writeback conenctor or not.
-> > > > To solve this we move the drm_writeback_connector within the
-> > > > drm_connector and remove the drm_connector base which was in
-> > > > drm_writeback_connector. We do all other required
-> > > > modifications that come with these changes along with addition
-> > > > of new function which returns the drm_connector when
-> > > > drm_writeback_connector is present.
-> > > > All drivers will be expected to allocate the drm_connector.
-> > > > 
-> > > > Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
-> > > > ---
-> > > >  drivers/gpu/drm/drm_writeback.c | 33 ++++++++++------
-> > > >  include/drm/drm_connector.h     | 60 +++++++++++++++++++++++++++++
-> > > >  include/drm/drm_writeback.h     | 68 ++++-----------------------------
-> > > >  3 files changed, 89 insertions(+), 72 deletions(-)
-> > > > 
-> > > > @@ -2305,6 +2360,11 @@ struct drm_connector {
-> > > >  	 * @cec: CEC-related data.
-> > > >  	 */
-> > > >  	struct drm_connector_cec cec;
-> > > > +
-> > > > +	/**
-> > > > +	 * @writeback: Writeback related valriables.
-> > > > +	 */
-> > > > +	struct drm_writeback_connector writeback;
-> > > 
-> > > No, sorry, that's a bad idea. Most connectors have nothing to do with
-> > > writeback, you shouldn't introduce writeback-specific fields here.
-> > > drm_writeback_connector happens to be a drm_connector because of
-> > > historical reasons (it was decided to reuse the connector API exposed to
-> > > userspace instead of exposing a completely separate API in order to
-> > > simplify the implementation), but that does not mean that every
-> > > connector is related to writeback.
-> > > 
-> > > I don't know what issues the Intel driver(s) have with
-> > > drm_writeback_connector, but you shouldn't make things worse for
-> > > everybody due to a driver problem.
-> > 
-> > Suraj is trying to solve a problem that in Intel code every drm_connector
-> > must be an intel_connector too. His previous attempt resulted in a loose
-> > abstraction where drm_writeback_connector.base wasn't initialized in
-> > some cases (which is a bad idea IMO).
-> > 
-> > I know the historical reasons for drm_writeback_connector, but I think
-> > we can do better now.
-> > 
-> > So, I think, a proper approach would be:
-> > 
-> > struct drm_connector {
-> >     // other fields
-> > 
-> >     union {
-> >         struct drm_connector_hdmi hdmi; // we already have it
-> >         struct drm_connector_wb wb;  // this is new
-> >     };
-> > 
-> >     // rest of the fields.
-> > };
-> 
-> I still don't like that. This really doesn't belong here. If anything,
-> the drm_connector for writeback belongs to drm_crtc.
+Hi Prabhakar,
 
-Why? We already have generic HDMI field inside drm_connector. I am
-really hoping to be able to land DP parts next to it. In theory we can
-have a DVI-specific entry there (e.g. with the subconnector type).
-The idea is not to limit how the drivers subclass those structures.
+On Fri, 8 Aug 2025 at 23:52, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Document the USB2 PHY controller for the Renesas RZ/T2H (r9a09g077) and
+> RZ/N2H (r9a09g087) SoCs. These SoCs share the same PHY block, which is
+> similar to the one on RZ/G2L but differs in clocks, resets, and register
+> bits. To account for these differences, a new compatible string
+> `renesas,usb2-phy-r9a09g077` is introduced.
+>
+> The RZ/N2H SoC uses the same PHY as RZ/T2H, so it reuses the RZ/T2H
+> compatible string as a fallback.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-I don't see a good case why WB should deviate from that design.
+Thanks for your patch!
 
-> If the issue is that some drivers need a custom drm_connector subclass,
-> then I'd rather turn the connector field of drm_writeback_connector into
-> a pointer.
+> --- a/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+> +++ b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
 
-Having a pointer requires additional ops in order to get drm_connector
-from WB code and vice versa. Having drm_connector_wb inside
-drm_connector saves us from those ops (which don't manifest for any
-other kind of structure). Nor will it take any more space since union
-will reuse space already taken up by HDMI part.
+> @@ -120,6 +126,17 @@ allOf:
+>        required:
+>          - resets
+>
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,usb2-phy-r9a09g077
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 2
+> +        resets: false
 
-> 
-> > I plan to add drm_connector_dp in a similar way, covering DP needs
-> > (currently WIP).
+By the time this hits upstream, you will probably have reset support
+for RZ/T2H and RZ/N2H, so you just add renesas,usb2-phy-r9a09g077
+to the conditional section above?
 
--- 
-With best wishes
-Dmitry
+> +
+>  additionalProperties: false
+>
+>  examples:
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
