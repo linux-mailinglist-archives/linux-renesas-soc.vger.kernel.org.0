@@ -1,122 +1,208 @@
-Return-Path: <linux-renesas-soc+bounces-20234-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20235-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ACF6B20962
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Aug 2025 14:54:02 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EC10B209A0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Aug 2025 15:08:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BE5D87A3779
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Aug 2025 12:52:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D6BA4425CD1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Aug 2025 13:08:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9BE02D3A71;
-	Mon, 11 Aug 2025 12:53:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BB972D46A9;
+	Mon, 11 Aug 2025 13:08:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lX/QAk+0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E93D72D321A;
-	Mon, 11 Aug 2025 12:53:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B1F72D3A69;
+	Mon, 11 Aug 2025 13:08:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754916825; cv=none; b=cr/a3czBg9dwXT8f+axyv4/+zq1jTsVWH2c6MVEofeZc8hEpL5oztlklF44RAgu5apFr6IsSqc2FhjXYkXgO5WiWf5bO496jlUGOVNDnQr205NkkQKJnNYxMBMq1r51DBM9smt4O7TK6CMimRUOn0YM6Ijn4de7SJHS9wglcZJk=
+	t=1754917699; cv=none; b=FM+0kmOZDLnK1cuyLQvM0LqhDQQayedOQqzgfflIDzkn4ILgdAE5LJOSLnmTPMoCmMD/JEVsDqGB5Evp37ZZnZemY/z0D+p952A+W8Co2F1fT+L1ipkomGO4Sb71hy7ZKWKI0q6NYMmccTEjHIvBX33Es4Ck9cgCBnOhyXNhgmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754916825; c=relaxed/simple;
-	bh=6gJCnzt50sC9lbYEQQcu8vR317q723kXajZDpuhcZZ8=;
+	s=arc-20240116; t=1754917699; c=relaxed/simple;
+	bh=DPK58L1OvoRC8gFPv+jYnVCoAPKAptX6supP1tIwMSM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=na7DELozJD4WY/MUlHC0q2cH8Qbs3wGnABc5z4G7OitZmf2dK7WvH6DV5bApPTmtvDpnU7xI99/dHJ4CkQPoDXAGMZFrKQ2L5B6ohodnR7E2Tl84cE/akawXxeuUED1x83/6MUScZ26BPO+/eRGwMxRdwLQmyJnvhRKYZFIltEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=XsPh/f/1rwW0RDCZbYXYEuCo4ngeQ/ht2R0BnbPKtPvRgpAlbX2tlVXHRwVkjN0NdTlkNkDB9aD8s5WS4AO8nXvZ3dfd99hMx+tnnhxdEfoyh6DIvIJYqI3y8r88HQnRB1NszbPfozD3L+Lqoab4Xx/e78kw2mmw063T/ViBzHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lX/QAk+0; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-5393aa55adbso1178021e0c.0;
-        Mon, 11 Aug 2025 05:53:43 -0700 (PDT)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3b78d337dd9so2661213f8f.3;
+        Mon, 11 Aug 2025 06:08:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754917696; x=1755522496; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=q0jZqH0YzwVwMNkNf0iJO2HEg98XWKpoKoM3gmGzW0k=;
+        b=lX/QAk+0fotinMtvuzPzMgEhNlut2+2VoijAXSKbn9iFI/WlekBiLPL/f/jrwnSMzm
+         BllrWQDAwz3B9WcLIBqoOQqGg0xdByBQSnBVeffq6aOfs0f8EvXqY3ZTp80ctaLjjuVI
+         tQelX8spHFNR6EWl3A79HHfv2IOTpolErA2QdfPdtLZJ+NTGtFFDwL6/IWcxxho50Ex1
+         PZQnjGXIAJrmtD52nWHeLhYIU0R/7df5Up7hrJllgbF/1ugRRPUrMfIBFEs8iz5h05wZ
+         EzNXxddS2oCLrxjnrNI1jYtjrZivkhoXLfHhaq1nT3VJeF4xVNihM8XJmJts0ub/aQEn
+         EvUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754916822; x=1755521622;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bVfa9+o8d/e4LJg7jUuXVKejNlgLMqMD7ZabWaonjTI=;
-        b=rftQSqis8nGeQmVm+YxBif7Urzfd5z+WWp1YY/9tJMfHBeR0SwikH7MTMF8UJsJr4/
-         UxHCUYClSN1lvCs6HQr1fzsx8GfHDP/A+2DxRkEU78vZVBkJb1cR7ltVy49wRnyyBNQX
-         N0oGST0SlZPQDWVDIlzg4W9h0zUbe55BWdyxJ2sTzi2gOEgz0yl5GViFKrUcKIHNrMcW
-         s4mJ/PDjdyRLSPaMVSajU65orY8efxyKD0N2qp9RfTYH3qqVymmX0qvklrc0k8LtZCc6
-         bPJeSKQ+yF13tlpMuw8fpIiHNHt/1cziYmqwk+g4uxxWTMSKoTwyHDYELUd9LiOy4djx
-         /5cQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUM1dXRu5A+2/09RbHgoepoTGqOW5eSTDTkqcTRdzaZ11saOxqEIfxsagq6j5xT02FyCs66cmdyDC+Q0R31ys0c+94=@vger.kernel.org, AJvYcCVMtWobfrmYJHv1/RXw/6R2nJN+cFGWciU5XWwrppbSYxZmO7/0sSeAAnl1scOFlJhNcwfrfFMcs4LwAqRV@vger.kernel.org, AJvYcCWzD9xosiA5aPoj/ca0asoOFKTXt9Hbez6eSy8zamKOnQNbtxyHdxVEtDRZT7YQjgz8GifeXDOBnWxOQw==@vger.kernel.org, AJvYcCXYHkx7v0mIOVrE3z8JvyIm7/wEDH1WkttGQtDTk8qLIuifx7wR5jW6IDSIAcb7KDBlSa5wXfhbcViE@vger.kernel.org
-X-Gm-Message-State: AOJu0YwbiHfMWndEYJqCnU24VD7P5lqfAxM3Wn9U6/bGpu92RJiavHob
-	kV1oEWxo3sArUimCdHkkeVa6BcMTkAxDJKezbyn1Qp7YIrauq3+J4xW1dX4wpjWA
-X-Gm-Gg: ASbGncsFcLCveitWdj+LTiB1WnAPG5gfvGBuPZR12YjB3sas/asJm6GRi8JrZqwjRQ7
-	XtLCtHqNrs88yCn7mNiBGFeyEp5Bk7UkwHaKoYfLADtrJn3CdrEoWq1IKgG3L6gufyJUrfguQ+o
-	aEjsS1vJAU1nj9wMIOGZigPrrPR7xeL6miCwrir2YnTXs6kUj2KITfdtPjoXPNG0Y7d5hy+zk30
-	EoP8ODle0FJAE0v9mQFAF134gGkV5u9hJqX/R+wCW1NVJYLaNvft4f1DkVMCROgclJK8jH9Kw8f
-	yDQBm8NrBsFK7h3AAQ2hl48c6FsnnzNzySd//hPKjObw/07VSOmJcb8ZFZez1kG+SZci0zH7X3Y
-	lfPOnZevBKLdX8wG4AVXfJeRBm7IjB/QXjtM0YNuznu+lWUinu7dF1QNfPE1d/40MOEk+2H8=
-X-Google-Smtp-Source: AGHT+IEr1k7+KKjX105FnKjGUBeevHdDH/r3AFJfvkAFFwL2qsv/y5mTqNh6hhmviaTWGBkHhA6NCw==
-X-Received: by 2002:a05:6122:1d42:b0:539:3bb5:e4c8 with SMTP id 71dfb90a1353d-53a52ede0f5mr3980644e0c.12.1754916822482;
-        Mon, 11 Aug 2025 05:53:42 -0700 (PDT)
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com. [209.85.217.47])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-539b0189327sm2672193e0c.7.2025.08.11.05.53.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Aug 2025 05:53:42 -0700 (PDT)
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-4fc9db52e02so1275244137.2;
-        Mon, 11 Aug 2025 05:53:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU+PfL2TJwz4Fwe4dZ1dJ6DA4FXwZiorZ4OwDcLT25ApR0ZmPe6/cabpuVGmTNaBGMYthuDuSvdh9w6sQ==@vger.kernel.org, AJvYcCX8iE9gptcLPMx9GvRRDfBcOpy4gIgh9TFWv5bPnNnA0q8tV7fpx1yevuWk/7TB3athndqtsXn7YUdc@vger.kernel.org, AJvYcCXHJFsAqOyj7hBICgovJLU2N9YIBrmjKcEZY8hUy8SH9HpHzl2rl0p9h5poZttI59lUuiXDNtWZbEdmZbLjLw8bsVQ=@vger.kernel.org, AJvYcCXbjJ3/cWTSTTJ8YNE9hmYzWmht1iF0tCh26Hg49QNQgmXCZvaQn6mupQVK0a9D875tejty3tW75bFnFWuw@vger.kernel.org
-X-Received: by 2002:a05:6102:3749:b0:4e7:bf31:2f68 with SMTP id
- ada2fe7eead31-5060f6aaa6emr4030322137.25.1754916821916; Mon, 11 Aug 2025
- 05:53:41 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1754917696; x=1755522496;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=q0jZqH0YzwVwMNkNf0iJO2HEg98XWKpoKoM3gmGzW0k=;
+        b=AOGXVfYrullhgnHruQVK1Yzyik1XXPeSzN76LopIcq2hyPPsZtsK1+FNpcr+DrlXjg
+         RKRnlMRFu0k+5ZvsqNQWljGOmE2KraVbsPYce4t+p/gsQcIrJJlwXy1ZANxu3bKxn/w9
+         3ziqUGsVeyfwIqWN8q0aKbCFGA4HTZzzvxPAAuhPDo7KwKjQU0GNfhMDmv5kUkjbX4g7
+         3Boqh0jq0z6nIGpArXeI9EyVI267Pe92R0QYIw+Z5Pfg0SFskKnYVwDV4WRt6tl3i/D5
+         P66E5iUC8TcdekVjTOu6NZ1rm240mE4t6B2NhLhjIPTjW3ZgeVUNBLWhiXPfhdLNgYl1
+         R8sw==
+X-Forwarded-Encrypted: i=1; AJvYcCUxnT7tfHq97snKrV90jzbn2V3za/v4txM5NAIL8fpt/vHYsuk6vtER2zShgCdycUrra4TBxLeLY/CE@vger.kernel.org, AJvYcCWg1QDQKKJQmfJvfR/9Une0Hs0tS/52OlMQZjVfL8SKuVyVRLqy/gekrqmxy2RcHw6I9CQrQYEXu0hO9A==@vger.kernel.org, AJvYcCWqpC9X04LYEVPsXQDMWMqeEC9LC23wJ2kTNb9zZHLtavNzkLAGMVZd285lwhPETBw1uQ+nQRp+UdTtUhvd@vger.kernel.org, AJvYcCXLhIaKsNOJ38VakG7XjwfL/dhoQBeOAEQIgpV/mvuaGfoHDyq1Zg2KYSiju25j14MGcVRtkbJ+6mBHRk+uE0iECDM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHxIu850tOp82azTSBi1C+iCg4JEpqOBkpddSU5kD47oBYPwZr
+	tvXdKQ0DHYRhPa90cj5hVcpLimJDyg7FKNOAko+QKBLwyh7HHqcA2ezIRo5wDcXBgWLQkcuwLNh
+	M/LHnTvxEnEuL9ek0ayKvMkEbtFV45wI=
+X-Gm-Gg: ASbGncvfxMrvrk++v/1YiNuaLAjQ6n8o6JiabP+tOXzn5j9E8bsoAl6ohC4hj3wmyCi
+	Dq84kdk0KIb5+20h1ipxiBQfrumhrQ6dTaWSaysfaQfBwldn/WEiFM5xv1rjTXnbLy6NzCA7Mzm
+	au0bY30sRkyZTPmHnkGScMlC2eddgaTtHdb4GFwWIyFJxDucehCJYOtTTs3ULZSblJqI10tHXdB
+	VZHyRLM
+X-Google-Smtp-Source: AGHT+IHyKbkQ9g5e/EWJeQxSZVY+tEHej+AaEZdP67ntYrRbY1Z5JXFZBYpS1hatwp7Pa+41tU+yc6eBFmTyVOh6pp4=
+X-Received: by 2002:a05:6000:144f:b0:3b7:8362:fed8 with SMTP id
+ ffacd0b85a97d-3b90092cc57mr10109826f8f.2.1754917695542; Mon, 11 Aug 2025
+ 06:08:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250808133017.2053637-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250808133017.2053637-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250808133017.2053637-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 11 Aug 2025 14:53:30 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWYbArM1Lg0+CHeko8VnbACVUCgi5UQRphZtfXP-D1uJQ@mail.gmail.com>
-X-Gm-Features: Ac12FXwi356IvBKmdB9NeHN4sVhZlK73PoL7uK5k44KdN7L2UOrqrdNRPIuLIo8
-Message-ID: <CAMuHMdWYbArM1Lg0+CHeko8VnbACVUCgi5UQRphZtfXP-D1uJQ@mail.gmail.com>
-Subject: Re: [PATCH v5 3/3] pinctrl: renesas: rzt2h: Add support for RZ/N2H SoC
-To: Prabhakar <prabhakar.csengg@gmail.com>
+References: <20250808133017.2053637-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250808133017.2053637-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdVexDsBVqgF2Gn4hJAZbyv3wcsa=X=6E_52ufOWmvZd9Q@mail.gmail.com>
+In-Reply-To: <CAMuHMdVexDsBVqgF2Gn4hJAZbyv3wcsa=X=6E_52ufOWmvZd9Q@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 11 Aug 2025 14:07:49 +0100
+X-Gm-Features: Ac12FXwJ7ps-FoXz7jx5UPbsvs-g2xoZwhuxLmSU3iDHU8gvOb9CKWToZ_bZL5M
+Message-ID: <CA+V-a8s-UAAP157zMRD0aqs+N_a7Avk19QYyzOyqkKq4TKpGBw@mail.gmail.com>
+Subject: Re: [PATCH v5 1/3] dt-bindings: pinctrl: renesas: document RZ/T2H and
+ RZ/N2H SoCs
+To: Geert Uytterhoeven <geert@linux-m68k.org>
 Cc: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Magnus Damm <magnus.damm@gmail.com>, Bartosz Golaszewski <brgl@bgdev.pl>, linux-renesas-soc@vger.kernel.org, 
 	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 8 Aug 2025 at 15:30, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi Geert,
+
+On Mon, Aug 11, 2025 at 1:47=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
 >
-> The RZ/N2H (R9A09G087) SoC from Renesas shares a similar pin controller
-> architecture with the RZ/T2H (R9A09G077) SoC, differing primarily in the
-> number of supported pins-576 on RZ/N2H versus 729 on RZ/T2H.
+> Hi Prabhakar,
 >
-> Add the necessary pin configuration data and compatible string to enable
-> support for the RZ/N2H SoC in the RZ/T2H pinctrl driver.
+> On Fri, 8 Aug 2025 at 15:30, Prabhakar <prabhakar.csengg@gmail.com> wrote=
+:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Document the pin and GPIO controller IP for the Renesas RZ/T2H
+> > (R9A09G077) and RZ/N2H (R9A09G087) SoCs, and add the shared DTSI
+> > header file used by both the bindings and the driver.
+> >
+> > The RZ/T2H SoC supports 729 pins, while the RZ/N2H supports 576 pins.
+> > Both share the same controller architecture; separate compatible
+> > strings are added for each SoC to distinguish them.
+> >
+> > Co-developed-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+> > Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> > ---
+> > v3->v4:
+> > - Renamed DT binding file from renesas,rzt2h-pinctrl.yaml to
+> >   renesas,r9a09g077-pinctrl.yaml
+> > - Updated the title and description to include RZ/N2H SoC
+> > - Updated description, fixing the information about mux functions
+> > - Dropped sd0-sd-tmp-pins sub node from sdhi0_sd_pins in the example no=
+de
+> > - Added reviewed-by tag from Rob
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v4->v5:
-> - Dropped updating Kconfig help string as that was done in patch 2/3
-> - Used 0xXX for consistent formatting in r9a09g087_gpio_configs
-> - Added reviewed-by tag from Geert
+> Thanks for the update!
+>
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/pinctrl/renesas,r9a09g077-pinct=
+rl.yaml
+>
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h>
+> > +    #include <dt-bindings/pinctrl/renesas,r9a09g077-pinctrl.h>
+> > +
+> > +    pinctrl@802c0000 {
+> > +        compatible =3D "renesas,r9a09g077-pinctrl";
+> > +        reg =3D <0x802c0000 0x2000>,
+> > +              <0x812c0000 0x2000>,
+> > +              <0x802b0000 0x2000>;
+> > +        reg-names =3D "nsr", "srs", "srn";
+> > +        clocks =3D <&cpg CPG_CORE R9A09G077_CLK_PCLKM>;
+> > +        gpio-controller;
+> > +        #gpio-cells =3D <2>;
+> > +        gpio-ranges =3D <&pinctrl 0 0 288>;
+> > +        power-domains =3D <&cpg>;
+> > +
+> > +        serial0-pins {
+> > +            pinmux =3D <RZT2H_PORT_PINMUX(38, 0, 1)>, /* Tx */
+> > +                     <RZT2H_PORT_PINMUX(38, 1, 1)>; /* Rx */
+> > +        };
+> > +
+> > +        sd1-pwr-en-hog {
+> > +            gpio-hog;
+> > +            gpios =3D <RZT2H_GPIO(39, 2) 0>;
+> > +            output-high;
+> > +            line-name =3D "sd1_pwr_en";
+> > +        };
+> > +
+> > +        i2c0-pins {
+> > +            pins =3D "RIIC0_SDA", "RIIC0_SCL";
+> > +            input-enable;
+> > +        };
+> > +
+> > +        sdhi0_sd_pins: sd0-sd-group {
+>
+> As per my belated comments on v4, I will drop the sdhi0_sd_pins label...
+>
+Thank you for taking care of this, I was preparing a v6 for this.
 
-Thanks, will queue in renesas-pinctrl for v6.18.
+> > +            sd0-sd-ctrl-pins {
+> > +                pinmux =3D <RZT2H_PORT_PINMUX(12, 0, 0x29)>, /* SD0_CL=
+K */
+> > +                         <RZT2H_PORT_PINMUX(12, 1, 0x29)>; /* SD0_CMD =
+*/
+> > +            };
+> > +
+> > +            sd0-sd-data-pins {
+>
+> ... and the "sd0-sd-" prefixes.
+>
+> > +                pinmux =3D <RZT2H_PORT_PINMUX(12, 0, 0x29)>, /* SD0_CL=
+K */
+> > +                         <RZT2H_PORT_PINMUX(12, 1, 0x29)>; /* SD0_CMD =
+*/
+> > +            };
+> > +        };
+> > +    };
+>
+> > --- /dev/null
+> > +++ b/include/dt-bindings/pinctrl/renesas,r9a09g077-pinctrl.h
+>
+> > +#endif /* __DT_BINDINGS_PINCTRL_RENESAS_R9A09G057_PINCTRL_H__ */
+>
+> G077
+>
+Ouch.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
 
