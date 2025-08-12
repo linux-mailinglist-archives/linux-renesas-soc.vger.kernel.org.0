@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-20406-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20407-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBD99B22847
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Aug 2025 15:23:33 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C13FB2289D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Aug 2025 15:34:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6CAFB3A8A56
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Aug 2025 13:18:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B15E7165EE9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Aug 2025 13:26:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EC43276022;
-	Tue, 12 Aug 2025 13:18:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE64A27F171;
+	Tue, 12 Aug 2025 13:26:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XotDFpj8"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="RCFcR9DU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F2E6275B19
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Aug 2025 13:18:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A9227E1C3
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Aug 2025 13:26:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755004701; cv=none; b=WUt56CFvlTn/5CHw6LABaYd0XGUkz2jxmSb5A3abdgzr+QUwuQvxQJSYGHOX+wArTH+giIvU13HSGEfML0fD0QugGelz8xeIFKAvUM/lxDeb1wsX9aye49D6KqHkwp2lNMSPBpGBGn0gVcjWaBdwQyyP2Sdaz53oxQCxjcgZsT4=
+	t=1755005195; cv=none; b=PqDg+Culsi59EwfgjZOWUoW87nvAmphhdn5TggPbwhU+rZExHzuCJ+qeesb9M8Uk7GbF09uvn2m9tSmahHGhBiQStWOEmV4+fmYo7mW6DSaOGw6WpQI47zCgYizbMbb9feA4ItsZzkMuc3R/AnqsXO1JB5CQ5cH5FPPof1x3uDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755004701; c=relaxed/simple;
-	bh=0qQHOlkougQ4fBmXW9qVusGrHDCSGa3hVR2itJ/ouJg=;
+	s=arc-20240116; t=1755005195; c=relaxed/simple;
+	bh=HKTIzEbm9VZ611BJuW1cZTV2wSjQpH8ngXfCgbt7xA0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p3Zijc3t/ON7UQJXPgszURlEnOz93JnpAMFqfJzRt9ByAlQgLqUz/3OJ4tpKktMBzSDcXyn1tq4VFM8LokliIJ3FzybtpTtxL6IAgVRbzXIKxJS+jyWjNWS+uOLDgVkDNNQA6PpjqjjuncP0OlWyIEgNkqMxNdjV46/W6oco4k4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XotDFpj8; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=KXRBMjncrW28enTTWkPx3X7Laywv+F69xSpufTuPU/eNkQbvVlG0ugm3PSKuavZyXKH1AceBgIwXhA5Zbqb13gsxo4YPMOmMd/tL0TwtMmpo+lW6LKN+f7/PDr0q1XJOGV1Phg61l7KONKBbT6/IDEyukn55kxlfhId/69gURuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=RCFcR9DU; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 427073DC;
-	Tue, 12 Aug 2025 15:17:22 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F07AA4A4;
+	Tue, 12 Aug 2025 15:25:37 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755004642;
-	bh=0qQHOlkougQ4fBmXW9qVusGrHDCSGa3hVR2itJ/ouJg=;
+	s=mail; t=1755005138;
+	bh=HKTIzEbm9VZ611BJuW1cZTV2wSjQpH8ngXfCgbt7xA0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=XotDFpj8qPJK/REqY+LBeR7zC3T1wXpXEG96zjUQzBS4tLmaK93SdBQXQiRIHk/Dl
-	 Y2ay9Xuw3Bk3Z4orTSNj+4mOe2jGFm1rsDJFgixLx5GnFub721I2neK3oRzL6k1Kfg
-	 iKRt4TXg8nuABeer+lJIS8XquaSX1J/GuZPVtfuw=
-Message-ID: <64b49da6-15ae-45e1-a4af-c1f08f80cf3a@ideasonboard.com>
-Date: Tue, 12 Aug 2025 16:18:12 +0300
+	b=RCFcR9DUL7Q4S3Q4CmWLz/cdPGVIamPKLmguDcDQmPyEhrVbdrHuR4mQBfy55zBk4
+	 YqcJ5mnCBp9wbxZeBsRI1Im/GNFXfaqjn8zqtrxCad0T+Hs5gow9f8TIKMm6SLeYjL
+	 WLLkOMxaMymNGk5mPzMPAbjmP96xRdXDtlgPhBfg=
+Message-ID: <bc31d938-847d-46a5-af1e-29de3ac21504@ideasonboard.com>
+Date: Tue, 12 Aug 2025 16:26:28 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,7 +50,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] drm/rcar-du: dsi: Remove fixed PPI lane count setup
+Subject: Re: [PATCH 1/4] drm/rcar-du: dsi: Convert register bits to BIT()
+ macro
 To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
  dri-devel@lists.freedesktop.org
 Cc: David Airlie <airlied@gmail.com>,
@@ -62,20 +63,20 @@ Cc: David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
  linux-renesas-soc@vger.kernel.org
 References: <20250608142636.54033-1-marek.vasut+renesas@mailbox.org>
- <20250608142636.54033-3-marek.vasut+renesas@mailbox.org>
+ <20250608142636.54033-2-marek.vasut+renesas@mailbox.org>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <20250608142636.54033-3-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20250608142636.54033-2-marek.vasut+renesas@mailbox.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
 On 08/06/2025 17:24, Marek Vasut wrote:
-> The R-Car DSI host is capable of operating in 1..4 DSI lane mode.
-> Remove hard-coded 4-lane configuration from PPI register settings
-> and instead configure the PPI lane count according to lane count
-> information already obtained by this driver instance.
+> Convert register bits to BIT() macro where applicable. This is done
+> automatically using regex 's@(1 << \([0-9]\+\))@BIT(\1)', except for
+> two BPP_18 macros which are not bits, but bitfields, and which are
+> not modified.
 > 
 > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 > ---
@@ -92,44 +93,207 @@ On 08/06/2025 17:24, Marek Vasut wrote:
 > Cc: dri-devel@lists.freedesktop.org
 > Cc: linux-renesas-soc@vger.kernel.org
 > ---
->  drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c      | 2 +-
->  drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h | 5 +----
->  2 files changed, 2 insertions(+), 5 deletions(-)
+>  .../drm/renesas/rcar-du/rcar_mipi_dsi_regs.h  | 92 +++++++++----------
+>  1 file changed, 46 insertions(+), 46 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> index 7ab8be46c7f6..373bd0040a46 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> @@ -576,7 +576,7 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
->  	udelay(10);
->  	rcar_mipi_dsi_clr(dsi, CLOCKSET1, CLOCKSET1_UPDATEPLL);
->  
-> -	ppisetr = PPISETR_DLEN_3 | PPISETR_CLEN;
-> +	ppisetr = ((BIT(dsi->lanes) - 1) & PPISETR_DLEN_MASK) | PPISETR_CLEN;
->  	rcar_mipi_dsi_write(dsi, PPISETR, ppisetr);
->  
->  	rcar_mipi_dsi_set(dsi, PHYSETUP, PHYSETUP_SHUTDOWNZ);
 > diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> index b3e57217ae63..cefa7e92b5b8 100644
+> index a6b276f1d6ee..b3e57217ae63 100644
 > --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
 > +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> @@ -80,10 +80,7 @@
->   * PHY-Protocol Interface (PPI) Registers
+> @@ -9,38 +9,38 @@
+>  #define __RCAR_MIPI_DSI_REGS_H__
+>  
+>  #define LINKSR				0x010
+> -#define LINKSR_LPBUSY			(1 << 1)
+> -#define LINKSR_HSBUSY			(1 << 0)
+> +#define LINKSR_LPBUSY			BIT(1)
+> +#define LINKSR_HSBUSY			BIT(0)
+>  
+>  /*
+>   * Video Mode Register
 >   */
->  #define PPISETR				0x700
-> -#define PPISETR_DLEN_0			(0x1 << 0)
-> -#define PPISETR_DLEN_1			(0x3 << 0)
-> -#define PPISETR_DLEN_2			(0x7 << 0)
-> -#define PPISETR_DLEN_3			(0xf << 0)
-> +#define PPISETR_DLEN_MASK		(0xf << 0)
->  #define PPISETR_CLEN			BIT(8)
+>  #define TXVMSETR			0x180
+>  #define TXVMSETR_SYNSEQ_PULSES		(0 << 16)
+> -#define TXVMSETR_SYNSEQ_EVENTS		(1 << 16)
+> -#define TXVMSETR_VSTPM			(1 << 15)
+> -#define TXVMSETR_PIXWDTH		(1 << 8)
+> -#define TXVMSETR_VSEN_EN		(1 << 4)
+> +#define TXVMSETR_SYNSEQ_EVENTS		BIT(16)
+> +#define TXVMSETR_VSTPM			BIT(15)
+> +#define TXVMSETR_PIXWDTH		BIT(8)
+> +#define TXVMSETR_VSEN_EN		BIT(4)
+>  #define TXVMSETR_VSEN_DIS		(0 << 4)
+> -#define TXVMSETR_HFPBPEN_EN		(1 << 2)
+> +#define TXVMSETR_HFPBPEN_EN		BIT(2)
+>  #define TXVMSETR_HFPBPEN_DIS		(0 << 2)
+> -#define TXVMSETR_HBPBPEN_EN		(1 << 1)
+> +#define TXVMSETR_HBPBPEN_EN		BIT(1)
+>  #define TXVMSETR_HBPBPEN_DIS		(0 << 1)
+> -#define TXVMSETR_HSABPEN_EN		(1 << 0)
+> +#define TXVMSETR_HSABPEN_EN		BIT(0)
+>  #define TXVMSETR_HSABPEN_DIS		(0 << 0)
+>  
+>  #define TXVMCR				0x190
+> -#define TXVMCR_VFCLR			(1 << 12)
+> -#define TXVMCR_EN_VIDEO			(1 << 0)
+> +#define TXVMCR_VFCLR			BIT(12)
+> +#define TXVMCR_EN_VIDEO			BIT(0)
+>  
+>  #define TXVMSR				0x1a0
+> -#define TXVMSR_STR			(1 << 16)
+> -#define TXVMSR_VFRDY			(1 << 12)
+> -#define TXVMSR_ACT			(1 << 8)
+> -#define TXVMSR_RDY			(1 << 0)
+> +#define TXVMSR_STR			BIT(16)
+> +#define TXVMSR_VFRDY			BIT(12)
+> +#define TXVMSR_ACT			BIT(8)
+> +#define TXVMSR_RDY			BIT(0)
+>  
+>  #define TXVMSCR				0x1a4
+> -#define TXVMSCR_STR			(1 << 16)
+> +#define TXVMSCR_STR			BIT(16)
+>  
+>  #define TXVMPSPHSETR			0x1c0
+>  #define TXVMPSPHSETR_DT_RGB16		(0x0e << 16)
+> @@ -51,11 +51,11 @@
+>  
+>  #define TXVMVPRMSET0R			0x1d0
+>  #define TXVMVPRMSET0R_HSPOL_HIG		(0 << 17)
+> -#define TXVMVPRMSET0R_HSPOL_LOW		(1 << 17)
+> +#define TXVMVPRMSET0R_HSPOL_LOW		BIT(17)
 
-Looks fine, but do you know what the TXSETR register does? It also has
-LANECNT, but I don't see the driver touching that register at all.
-TXSETR:LANECNT default value is 3 (4 lanes), which matches with the old
-hardcoded behavior for PPISETR... So I wonder if that register should
-also be set?
+I'm not sure about this (and below). We have two defines for the HSPOL,
+high and low. If one of them is (x << y), shouldn't the other one be of
+that style too?
 
- Tomi
+>  #define TXVMVPRMSET0R_VSPOL_HIG		(0 << 16)
+> -#define TXVMVPRMSET0R_VSPOL_LOW		(1 << 16)
+> +#define TXVMVPRMSET0R_VSPOL_LOW		BIT(16)
+>  #define TXVMVPRMSET0R_CSPC_RGB		(0 << 4)
+> -#define TXVMVPRMSET0R_CSPC_YCbCr	(1 << 4)
+> +#define TXVMVPRMSET0R_CSPC_YCbCr	BIT(4)
+
+This looks like a value, not a bit.
+
+>  #define TXVMVPRMSET0R_BPP_16		(0 << 0)
+>  #define TXVMVPRMSET0R_BPP_18		(1 << 0)
+>  #define TXVMVPRMSET0R_BPP_24		(2 << 0)
+> @@ -84,21 +84,21 @@
+>  #define PPISETR_DLEN_1			(0x3 << 0)
+>  #define PPISETR_DLEN_2			(0x7 << 0)
+>  #define PPISETR_DLEN_3			(0xf << 0)
+> -#define PPISETR_CLEN			(1 << 8)
+> +#define PPISETR_CLEN			BIT(8)
+>  
+>  #define PPICLCR				0x710
+> -#define PPICLCR_TXREQHS			(1 << 8)
+> -#define PPICLCR_TXULPSEXT		(1 << 1)
+> -#define PPICLCR_TXULPSCLK		(1 << 0)
+> +#define PPICLCR_TXREQHS			BIT(8)
+> +#define PPICLCR_TXULPSEXT		BIT(1)
+> +#define PPICLCR_TXULPSCLK		BIT(0)
+>  
+>  #define PPICLSR				0x720
+> -#define PPICLSR_HSTOLP			(1 << 27)
+> -#define PPICLSR_TOHS			(1 << 26)
+> -#define PPICLSR_STPST			(1 << 0)
+> +#define PPICLSR_HSTOLP			BIT(27)
+> +#define PPICLSR_TOHS			BIT(26)
+> +#define PPICLSR_STPST			BIT(0)
+>  
+>  #define PPICLSCR			0x724
+> -#define PPICLSCR_HSTOLP			(1 << 27)
+> -#define PPICLSCR_TOHS			(1 << 26)
+> +#define PPICLSCR_HSTOLP			BIT(27)
+> +#define PPICLSCR_TOHS			BIT(26)
+>  
+>  #define PPIDLSR				0x760
+>  #define PPIDLSR_STPST			(0xf << 0)
+> @@ -107,21 +107,21 @@
+>   * Clocks registers
+>   */
+>  #define LPCLKSET			0x1000
+> -#define LPCLKSET_CKEN			(1 << 8)
+> +#define LPCLKSET_CKEN			BIT(8)
+>  #define LPCLKSET_LPCLKDIV(x)		(((x) & 0x3f) << 0)
+>  
+>  #define CFGCLKSET			0x1004
+> -#define CFGCLKSET_CKEN			(1 << 8)
+> +#define CFGCLKSET_CKEN			BIT(8)
+>  #define CFGCLKSET_CFGCLKDIV(x)		(((x) & 0x3f) << 0)
+>  
+>  #define DOTCLKDIV			0x1008
+> -#define DOTCLKDIV_CKEN			(1 << 8)
+> +#define DOTCLKDIV_CKEN			BIT(8)
+>  #define DOTCLKDIV_DOTCLKDIV(x)		(((x) & 0x3f) << 0)
+>  
+>  #define VCLKSET				0x100c
+> -#define VCLKSET_CKEN			(1 << 16)
+> +#define VCLKSET_CKEN			BIT(16)
+>  #define VCLKSET_COLOR_RGB		(0 << 8)
+> -#define VCLKSET_COLOR_YCC		(1 << 8)
+> +#define VCLKSET_COLOR_YCC		BIT(8)
+
+And this.
+
+>  #define VCLKSET_DIV_V3U(x)		(((x) & 0x3) << 4)
+>  #define VCLKSET_DIV_V4H(x)		(((x) & 0x7) << 4)
+>  #define VCLKSET_BPP_16			(0 << 2)
+> @@ -131,23 +131,23 @@
+>  #define VCLKSET_LANE(x)			(((x) & 0x3) << 0)
+>  
+>  #define VCLKEN				0x1010
+> -#define VCLKEN_CKEN			(1 << 0)
+> +#define VCLKEN_CKEN			BIT(0)
+>  
+>  #define PHYSETUP			0x1014
+>  #define PHYSETUP_HSFREQRANGE(x)		(((x) & 0x7f) << 16)
+>  #define PHYSETUP_HSFREQRANGE_MASK	(0x7f << 16)
+>  #define PHYSETUP_CFGCLKFREQRANGE(x)	(((x) & 0x3f) << 8)
+> -#define PHYSETUP_SHUTDOWNZ		(1 << 1)
+> -#define PHYSETUP_RSTZ			(1 << 0)
+> +#define PHYSETUP_SHUTDOWNZ		BIT(1)
+> +#define PHYSETUP_RSTZ			BIT(0)
+>  
+>  #define CLOCKSET1			0x101c
+> -#define CLOCKSET1_LOCK_PHY		(1 << 17)
+> -#define CLOCKSET1_CLKSEL		(1 << 8)
+> +#define CLOCKSET1_LOCK_PHY		BIT(17)
+> +#define CLOCKSET1_CLKSEL		BIT(8)
+>  #define CLOCKSET1_CLKINSEL_EXTAL	(0 << 2)
+> -#define CLOCKSET1_CLKINSEL_DIG		(1 << 2)
+> -#define CLOCKSET1_CLKINSEL_DU		(1 << 3)
+
+And this (although the shift by 3 is confusing with CLOCKSET1_CLKINSEL_DU).
+
+> -#define CLOCKSET1_SHADOW_CLEAR		(1 << 1)
+> -#define CLOCKSET1_UPDATEPLL		(1 << 0)
+> +#define CLOCKSET1_CLKINSEL_DIG		BIT(2)
+> +#define CLOCKSET1_CLKINSEL_DU		BIT(3)
+> +#define CLOCKSET1_SHADOW_CLEAR		BIT(1)
+> +#define CLOCKSET1_UPDATEPLL		BIT(0)
+>  
+>  #define CLOCKSET2			0x1020
+>  #define CLOCKSET2_M(x)			(((x) & 0xfff) << 16)
+> @@ -161,15 +161,15 @@
+>  #define CLOCKSET3_GMP_CNTRL(x)		(((x) & 0x3) << 0)
+>  
+>  #define PHTW				0x1034
+> -#define PHTW_DWEN			(1 << 24)
+> +#define PHTW_DWEN			BIT(24)
+>  #define PHTW_TESTDIN_DATA(x)		(((x) & 0xff) << 16)
+> -#define PHTW_CWEN			(1 << 8)
+> +#define PHTW_CWEN			BIT(8)
+>  #define PHTW_TESTDIN_CODE(x)		(((x) & 0xff) << 0)
+>  
+>  #define PHTR				0x1038
+> -#define PHTR_TEST			(1 << 16)
+> +#define PHTR_TEST			BIT(16)
+>  
+>  #define PHTC				0x103c
+> -#define PHTC_TESTCLR			(1 << 0)
+> +#define PHTC_TESTCLR			BIT(0)
+>  
+>  #endif /* __RCAR_MIPI_DSI_REGS_H__ */
 
 
