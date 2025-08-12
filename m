@@ -1,146 +1,124 @@
-Return-Path: <linux-renesas-soc+bounces-20374-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20375-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 741A3B2193B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Aug 2025 01:29:24 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 663FEB21F78
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Aug 2025 09:26:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A439A1908909
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Aug 2025 23:29:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5BE7B5022C3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Aug 2025 07:26:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D20127FD74;
-	Mon, 11 Aug 2025 23:27:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S48kvZrX"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E4B52147F5;
+	Tue, 12 Aug 2025 07:26:54 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10FEE20FAA4;
-	Mon, 11 Aug 2025 23:27:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C521EA6F;
+	Tue, 12 Aug 2025 07:26:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754954848; cv=none; b=Ci0oFfhSKFY0VeH0N3LFtMCUtHZlN9Wo6X9z9KPlvxV53OpmLUgV87PnWhouJMGOdH/owK48OvGWoGgT4KgycDwMsvbVUvcp+gGfNNeG1d70sQHnVpE9n2VW8UBKammWh+QEV91LSPy0mkLxwrwN8ZdOEymv/pIbszC30ZVmeho=
+	t=1754983614; cv=none; b=bcOGjkU5sROo/F5Vt0MaTC6CmHh5MzBYLFjiEVpoMwZA84wvqyFFiHWqFoMNz5OJQdsssVwg2e5Ii5uvENw3UjgH+chbFv4j+4yngtstI4h7C2Q2qo3bVZg/hi6sCzHXZbQdYGkSsQgJBK3egueSVWWbWAQDkODlIBDZ9hGitR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754954848; c=relaxed/simple;
-	bh=4F0GRrehYPOcCThNRJA3iC3eYSb/ULzVTrykDE/yncE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qPnITE7pN1s//qaWdt+Sfdf1D6nebrk/fiATZ2L4nvMUlpp+k8SGbL6Q35k2pKFIedkC8hYzdsdZvoCZtdzyTc89roBQphyvADHu7kVfD1OxZSYf5OXHQeOkKtma5NoEi7i7m7mbQDnRHMurE0CBMvEpvrthx/cy9wlcNyn2ELs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S48kvZrX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22BC9C4CEF7;
-	Mon, 11 Aug 2025 23:27:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754954847;
-	bh=4F0GRrehYPOcCThNRJA3iC3eYSb/ULzVTrykDE/yncE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=S48kvZrXP9VG4CTt7zBeg/XgN0GTF0GdFwM4hjSAC9fJOFSMSEMM6GSLa/sj1MXBT
-	 BrXJnP6polHMUDD1GFXtHQ7LPx5df1S73bSjNUYxKOUcwrbU07tn05FVm5uXGiiwtz
-	 rFXk9sqdkIOhbj60mhNMpHdU4XiJoSMiOtEnRDENIui2baifWG4XayjC+1ljtbZJB6
-	 6EREINkAwoY5slez1UqMiBrcVDTtiBECIuKEg6nsdqhsfSIdAxZ0w5GACJVe4WlKtV
-	 bivlYiUkBOWRLjJA2M+IuT7ke34uVXbmnF7Eh7ZqjGBL4Qzps/G9DlWUJYoadCdKlH
-	 oWccBbYIg68Lg==
-From: Bjorn Andersson <andersson@kernel.org>
-To: linux-media@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	=?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Arec Kao <arec.kao@intel.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Bryan O'Donoghue <bod@kernel.org>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Dongcheng Yan <dongcheng.yan@intel.com>,
-	Dongchun Zhu <dongchun.zhu@mediatek.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Hans de Goede <hansg@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Hao Yao <hao.yao@intel.com>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Jacopo Mondi <jacopo@jmondi.org>,
-	Jason Chen <jason.z.chen@intel.com>,
-	Jimmy Su <jimmy.su@intel.com>,
-	Jingjing Xiong <jingjing.xiong@intel.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Leon Luo <leonl@leopardimaging.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Matthew Majewski <mattwmajewski@gmail.com>,
-	Matthias Fend <matthias.fend@emfend.at>,
-	Mikhail Rudenko <mike.rudenko@gmail.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Pavel Machek <pavel@kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Rob Herring <robh@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Shunqian Zheng <zhengsq@rock-chips.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Tarang Raval <tarang.raval@siliconsignals.io>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Todor Tomov <todor.too@gmail.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Tony Lindgren <tony@atomide.com>,
-	Zhi Mao <zhi.mao@mediatek.com>,
-	devicetree@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-omap@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org
-Subject: Re: (subset) [PATCH 00/72] media: i2c: Reduce cargo-cult
-Date: Mon, 11 Aug 2025 18:27:01 -0500
-Message-ID: <175495482477.157244.17354544707184168458.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250710174808.5361-1-laurent.pinchart@ideasonboard.com>
-References: <20250710174808.5361-1-laurent.pinchart@ideasonboard.com>
+	s=arc-20240116; t=1754983614; c=relaxed/simple;
+	bh=Vqmz4Jw0h0u2J3d7NBz6dmsiJpUrhlWS2utaBKtVoaQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=o0PaReLP/tsxRI3ymLAI0xVDT3FgDPJfji6ktPJJobktOSazISgH/vGYrnzsGVtIAIYEDXUg24TEL/XEiA8DdJj/lTXqSkAlGd+NZhOip+X2Q8LrH3imFrypSJE0fcm8ofxnjiHVXAVp1phL9j2gxq5aJere/SzCxIaRqhMVSME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-4fd6c638f20so2413157137.1;
+        Tue, 12 Aug 2025 00:26:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754983610; x=1755588410;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tubJ8aSgE8vcuuPwPLt5w3ARkPG8t9vfdZ1hEMEKVGQ=;
+        b=vDp6tIS348gvUrF2vqAkON6126hdA2UWZQ9EVDvoenWZ84Z/78K9r6WUYbYaMJ6WoR
+         XH+Uup6lsrzkkZD/B8Ur2JqPZx7H/dyuL39tqyfOsx8KnVOL2OL2dq1ZoAGRlzeH7Xya
+         r38e51ELtHMKsOvnNZfW6JcPOM4c6DZ0Yj5CD/k7eQj8InT69RbQsFlVMAzMDanCfc9G
+         beQi/K9TmGcwnVZJIeB2hsLAh6KxvDFvCoPlmjF7x/w/8P0+w7BFagKkMb67T403p1+T
+         BUWQOP7MQVYkLpPP+rfZh3Ne+OhdENBCuI7YvmboXiThjKeN5/D6dB+QXJ5I4K1ZeAuk
+         teJw==
+X-Forwarded-Encrypted: i=1; AJvYcCXPBTDgNNzwtp7HKghnm5rKU/pkX+kEGwfvyCzE2Na0eCfD2mCFy9fsv794ERlP1FFut17h2v3ozBFZ@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3K+Su1L8ig9tUra7wXkqxMPH05elk7jaFbAI0e7r/VV0xsVFr
+	mbVvvNm5kj/4O27KTs99QUmKYXsVTEU5a2Fm9DJHNV6CGIJluaIL5ubCd840zmoU
+X-Gm-Gg: ASbGnctTTQm04L+01KtgNNj2NwJaQfSZQMS1yOZHZbnxDO9ZPHXI7hD9bHZriXJLxI2
+	+VmzbYFH0qmBOcO+9thCWUPgwL34Gd1RpfjyZoDVfClYt+azvdbu2HzSIumIIuFr7EWQlJv+d+U
+	8egG2TNSHq9ouXvbUwsk3bfPUmbzYLa1LgV1HeqInpwikPybaqfZAyPAHI2VpTIhsK6B1QUeNLs
+	c9TzzrN/5FybJPp2t76KbEQPiBl3/htOXC6XDZ7b1JO7YYTWyegMJ9v1KZzl4Uh2DO7GAkMvuP4
+	04TvS7cwc5xjuFkJfaBLEmlDzlrbGl/rSeBZzMysplG2uWkwWGjYzTcrLjrZmvjFBA92vS3ICG5
+	1SAPPt7o8J33PC0mU4eALkCMpDyuFBmlL9h6NFHBLU3vyPonT679QbNNHIBZx
+X-Google-Smtp-Source: AGHT+IE22c65IAqmAEBBiyx5UNTVwIb9UdTxUgZmlYDo1WVoBBRBBmWad/ekEk0+kA06X7FKKV9UsA==
+X-Received: by 2002:a05:6102:80a0:b0:4e7:db33:5725 with SMTP id ada2fe7eead31-50cbd1e1ed6mr1322552137.3.1754983610166;
+        Tue, 12 Aug 2025 00:26:50 -0700 (PDT)
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com. [209.85.217.48])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-539b0289e25sm3103107e0c.20.2025.08.12.00.26.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Aug 2025 00:26:49 -0700 (PDT)
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-504dd871d70so1670997137.0;
+        Tue, 12 Aug 2025 00:26:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVuFJ93IRW+ECN+KY6BOfSz7DE5i1reKzly4n+aXnWpEwaMuVsAWciZRDooepQfX0IsG8G8+7p08umO@vger.kernel.org
+X-Received: by 2002:a05:6102:5816:b0:4eb:f003:a636 with SMTP id
+ ada2fe7eead31-50cba614752mr1261657137.0.1754983609717; Tue, 12 Aug 2025
+ 00:26:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20250807151434.5241-6-wsa+renesas@sang-engineering.com> <20250807151434.5241-8-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20250807151434.5241-8-wsa+renesas@sang-engineering.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 12 Aug 2025 09:26:38 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVatod_9rSdBHxztW0trXmJF5C9tGW33zYBevxeUyXYsA@mail.gmail.com>
+X-Gm-Features: Ac12FXylnsZq7t6uqey2mzRB4JFnSxk8U-Ju9uG0HddHV1XHh6B9JPR1itdAbtg
+Message-ID: <CAMuHMdVatod_9rSdBHxztW0trXmJF5C9tGW33zYBevxeUyXYsA@mail.gmail.com>
+Subject: Re: [PATCH 2/4] arm64: dts: renesas: r9a09g047: Add I3C node
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, 
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Wolfram,
 
-On Thu, 10 Jul 2025 20:46:56 +0300, Laurent Pinchart wrote:
-> This patch series build on top of Mehdi's introduction of the
-> devm_v4l2_sensor_clk_get() helper (see [1]) to drastically reduce
-> cargo-cult in camera sensor drivers.
-> 
-> A large number of camera sensor drivers directly use the
-> "clock-frequency" property to retrieve the effective or desired external
-> clock rate. This is standard behaviour on ACPI platforms that don't
-> implement MIPI DisCo for Imaging, but usage of the property has leaked
-> to OF-based platforms, due to a combination of historical reasons (using
-> "clock-frequency" was initially considered right until before the
-> introduction of "assigned-clock-rates") and plain cargo-cult.
-> 
-> [...]
+On Thu, 7 Aug 2025 at 17:14, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+>
+> Add the I3C node to RZ/G3E SoC DTSI.
+>
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Applied, thanks!
+Thanks for your patch!
 
-[12/72] arm64: dts: qcom: sdm845-db845c-navigation-mezzanine: Replace clock-frequency in camera sensor node
-        commit: 5433560caa5e7e677a8d4310bbec08312be765b4
+> --- a/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
+> @@ -601,6 +601,41 @@ i2c8: i2c@11c01000 {
+>                         status = "disabled";
+>                 };
+>
+> +               i3c0: i3c@12400000 {
 
-Best regards,
+Do you want to change this to "i3c", or the "i3c0" in [PATCH 4/4]?
+I guess the former, as there is only one instance.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-Bjorn Andersson <andersson@kernel.org>
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
