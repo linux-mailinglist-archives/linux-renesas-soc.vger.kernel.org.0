@@ -1,352 +1,179 @@
-Return-Path: <linux-renesas-soc+bounces-20412-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20413-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5301B22AD2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Aug 2025 16:40:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE863B22BDD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Aug 2025 17:39:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D9C053B4476
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Aug 2025 14:36:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CC614503A54
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Aug 2025 15:39:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECDA329B78F;
-	Tue, 12 Aug 2025 14:36:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 899C42F5493;
+	Tue, 12 Aug 2025 15:39:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lf5gqM5b"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LiZpRdpD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5ED52D6405
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Aug 2025 14:36:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB6D10E3;
+	Tue, 12 Aug 2025 15:39:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755009404; cv=none; b=jqA22LGJI4ai8cQr47TE3IGU4k0SwXiwQ4JbI0mKES8HNBH6EUTNk71izIVSCYgxOqaHlDuRI5tNn6AT5Kdqwflne6aTFTbh8CM4ffEOfkEIivY+H7duiHNUP8GPRGuchbiG8HKrp5mV1fLOLiI6NjV2UwaSXDLezgCMn1j5i84=
+	t=1755013154; cv=none; b=ntMjPdejpXvBHRb9CgK+nrv+aUsAXRWGjH7qVbwjRpqsS21NJVa78OlUT2hBGNj/8stVyZJQlhHh67pzP043piPR3frKBNaLxgQy8zIqd/tYbBrZrXA7vBqmpomBZM0FDExUTUGTehlUp5vRw4i/frx4+gZVOjNIAprxqm1XXEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755009404; c=relaxed/simple;
-	bh=9kPKJxDxF4FeVkznZ+rTY+RlNqCAymjOiZ81dLkk1Vc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oj3MYeKSVKari0B7LwPqE/raqUaiV5KBaKuR/jBmU7yG4wf5XAtJR9mgMdA/LP0KAqPFhben33QGjxjJvNH/ecW+J6vHpHeUO3RD0bDpdSUT9+5HZC9WTH89T4axsBig9NwBnqMRCxiVs8/XBhncC7gFfyFRjKy7gVFuDFYSXJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lf5gqM5b; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6972F4A4;
-	Tue, 12 Aug 2025 16:35:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755009347;
-	bh=9kPKJxDxF4FeVkznZ+rTY+RlNqCAymjOiZ81dLkk1Vc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=lf5gqM5bDlZGsjshlBXndrbFnSRg3LwCVMQgbt+Nbdzh9m2X3sEwvz6UeOBzGRcHX
-	 3CRtn0HLzCb9K+pBLF9yl3bkJhDE4PA8tt+zDCiuTpVLIOycT+WHKA+EXqTavcb9LS
-	 FUmylUe6DiKgsUVcU3jRUGzhj0iY+7ZlYbZD6jXs=
-Message-ID: <4d0f2b7c-d44c-4dc2-9996-3cbbf3bf68b0@ideasonboard.com>
-Date: Tue, 12 Aug 2025 17:36:36 +0300
+	s=arc-20240116; t=1755013154; c=relaxed/simple;
+	bh=iGUpF1C71k7qo9/61ohvQv5Z7z5laJQcZjUsXmHz/vc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pt2CUML2WU0StiS8ogpgc9qfX0Fd/ncK9vppdttRzoQukRSvb7erxtgeupniJ7J5n+H4uJR8jsDmdpV8YMTg9LjtINh59L1whArUysy/XEc7lyMv5Qlc1aOTzJgC4qH8kuc7ZXV3K5wLw7Eijh/hITeBCEuRwr8eYH6LzSrR5vo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LiZpRdpD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 284FDC4CEF0;
+	Tue, 12 Aug 2025 15:38:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755013153;
+	bh=iGUpF1C71k7qo9/61ohvQv5Z7z5laJQcZjUsXmHz/vc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LiZpRdpDhra8HQLi6oTJvzINkJJSuv23n4QKhmL0GdIDFfOjMCDM1OqYhcWHHq3TI
+	 L28O5b3iPN5wVc9EXSMe1wiMP/NajukL3ql7pF4a85lv1fNAUZsV+TlMAAvN2rrzmr
+	 wRMnMSseO6nd8/EPTJY79HOmJ9zeY5vY0LS0u24hUa3icUGD8uDqDLMHMPTvWLEQv1
+	 l7Tw7lcXGU5Rs7ZD4eklupowdOLUecuU8uOFa6RlUoRtZfGlD+/8Ge0Ca3RaSQaoYZ
+	 h2ClWJH1Q8I12fZ++utjNSDaO59Bx51zYgkj3Rxo8YY8S6cPtFbxYBa0hRIu+GN5Me
+	 k5jWalHFpopnQ==
+Date: Tue, 12 Aug 2025 21:08:28 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: bmasney@redhat.com
+Cc: Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>, 
+	Cristian Marussi <cristian.marussi@arm.com>, Chen Wang <unicorn_wang@outlook.com>, 
+	Inochi Amaoto <inochiama@gmail.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Paul Cercueil <paul@crapouillou.net>, Keguang Zhang <keguang.zhang@gmail.com>, 
+	Taichi Sugaya <sugaya.taichi@socionext.com>, Takao Orito <orito.takao@socionext.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Samuel Holland <samuel.holland@sifive.com>, 
+	Yixun Lan <dlan@gentoo.org>, Steen Hegelund <Steen.Hegelund@microchip.com>, 
+	Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com, Orson Zhai <orsonzhai@gmail.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Michal Simek <michal.simek@amd.com>, Maxime Ripard <mripard@kernel.org>, 
+	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>, Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
+	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Max Filippov <jcmvbkbc@gmail.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Daniel Palmer <daniel@thingy.jp>, 
+	Romain Perier <romain.perier@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Gregory Clement <gregory.clement@bootlin.com>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Heiko Stuebner <heiko@sntech.de>, Andrea della Porta <andrea.porta@suse.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+	Chanwoo Choi <cw00.choi@samsung.com>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Qin Jian <qinjian@cqplus1.com>, Viresh Kumar <vireshk@kernel.org>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Alex Helms <alexander.helms.jy@renesas.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Liviu Dudau <liviu.dudau@arm.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, sophgo@lists.linux.dev, 
+	linux-mips@vger.kernel.org, imx@lists.linux.dev, linux-riscv@lists.infradead.org, 
+	spacemit@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
+	patches@opensource.cirrus.com, linux-actions@lists.infradead.org, asahi@lists.linux.dev, 
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev
+Subject: Re: [PATCH 079/114] clk: bm1880: convert from round_rate() to
+ determine_rate()
+Message-ID: <tcl4eqicuqcptnbo4mcvjhacxkh2gh344k2bdrwfjbqflxspy7@x24np6pxjacf>
+References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
+ <20250811-clk-for-stephen-round-rate-v1-79-b3bf97b038dc@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] drm/rcar-du: dsi: Implement DSI command support
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- dri-devel@lists.freedesktop.org
-Cc: David Airlie <airlied@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-renesas-soc@vger.kernel.org
-References: <20250608142636.54033-1-marek.vasut+renesas@mailbox.org>
- <20250608142636.54033-5-marek.vasut+renesas@mailbox.org>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <20250608142636.54033-5-marek.vasut+renesas@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-79-b3bf97b038dc@redhat.com>
 
-Hi,
-
-On 08/06/2025 17:24, Marek Vasut wrote:
-> Implement support for DSI command transfer mode. Transmission of both Short
-
-I constantly kept reading "DSI command mode support". So I was quite
-confused for a bit =). Maybe avoid the use of "mode" with "DSI command".
-
-> Packet and Long Packet is implemented, so is command transmission to request
-> response from peripheral device and transmission of non-read command with BTA.
+On Mon, Aug 11, 2025 at 11:19:11AM GMT, Brian Masney via B4 Relay wrote:
+> From: Brian Masney <bmasney@redhat.com>
 > 
-> The AXI memory access mode is currently not implemented, each transfer is
-> performed purely using controller register interface. Short Packet transfer
-> can transfer up to 2 Bytes of data, Long Packet transfer can transfer up to
-> 16 Bytes of data.
+> The round_rate() clk ops is deprecated, so migrate this driver from
+> round_rate() to determine_rate() using the Coccinelle semantic patch
+> on the cover letter of this series.
 > 
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+
+Once this patch gets merged, the 'Coccinelle semantic patch on the cover letter
+of this series' becomes irrelevant. I'd suggest to either include the script
+here or do not mention it at all.
+
+- Mani
+
+> Signed-off-by: Brian Masney <bmasney@redhat.com>
 > ---
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Magnus Damm <magnus.damm@gmail.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
->  .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c   | 215 ++++++++++++++++++
->  .../drm/renesas/rcar-du/rcar_mipi_dsi_regs.h  | 125 ++++++++++
->  2 files changed, 340 insertions(+)
+>  drivers/clk/clk-bm1880.c | 21 +++++++++++++--------
+>  1 file changed, 13 insertions(+), 8 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> index c31e0d8f3ff9..bc1151c3ce90 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> @@ -938,9 +938,224 @@ static int rcar_mipi_dsi_host_detach(struct mipi_dsi_host *host,
->  	return 0;
+> diff --git a/drivers/clk/clk-bm1880.c b/drivers/clk/clk-bm1880.c
+> index 002f7360b1c6c6e3058606a0808115b48fd3147a..dac190bc6e19a6dd4be413ea52d41f74934a1aa9 100644
+> --- a/drivers/clk/clk-bm1880.c
+> +++ b/drivers/clk/clk-bm1880.c
+> @@ -608,8 +608,8 @@ static unsigned long bm1880_clk_div_recalc_rate(struct clk_hw *hw,
+>  	return rate;
 >  }
 >  
-> +static ssize_t rcar_mipi_dsi_host_tx_transfer(struct mipi_dsi_host *host,
-> +					      const struct mipi_dsi_msg *msg,
-> +					      bool is_rx_xfer)
-> +{
-> +	const bool is_tx_long = mipi_dsi_packet_format_is_long(msg->type);
-> +	struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
-> +	struct mipi_dsi_packet packet;
-> +	u8 payload[16] = { 0 };
-> +	u32 status;
-> +	int ret;
+> -static long bm1880_clk_div_round_rate(struct clk_hw *hw, unsigned long rate,
+> -				      unsigned long *prate)
+> +static int bm1880_clk_div_determine_rate(struct clk_hw *hw,
+> +					 struct clk_rate_request *req)
+>  {
+>  	struct bm1880_div_hw_clock *div_hw = to_bm1880_div_clk(hw);
+>  	struct bm1880_div_clock *div = &div_hw->div;
+> @@ -621,13 +621,18 @@ static long bm1880_clk_div_round_rate(struct clk_hw *hw, unsigned long rate,
+>  		val = readl(reg_addr) >> div->shift;
+>  		val &= clk_div_mask(div->width);
+>  
+> -		return divider_ro_round_rate(hw, rate, prate, div->table,
+> -					     div->width, div->flags,
+> -					     val);
+> +		req->rate = divider_ro_round_rate(hw, req->rate,
+> +						  &req->best_parent_rate,
+> +						  div->table,
+> +						  div->width, div->flags, val);
 > +
-> +	ret = mipi_dsi_create_packet(&packet, msg);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Configure LP or HS command transfer. */
-> +	rcar_mipi_dsi_write(dsi, TXCMSETR, (msg->flags & MIPI_DSI_MSG_USE_LPM) ?
-> +					   TXCMSETR_SPDTYP : 0);
-
-There's no runtime PM in the driver, and the clocks are enabled
-externally... So I think we just assume that the IP is running here?
-It's not a few times (on other platforms) I've hit an issue with
-dsi_host tx being called when the video output is not yet enabled, and
-thus the whole IP is off. So, maybe this works, but just a note.
-
-> +	/* Register access mode for RX transfer. */
-> +	if (is_rx_xfer)
-> +		rcar_mipi_dsi_write(dsi, RXPSETR, 0);
-> +
-> +	/* Do not use IRQ, poll for completion, the completion is quick. */
-> +	rcar_mipi_dsi_write(dsi, TXCMIER, 0);
-> +
-> +	/*
-> +	 * Send the header:
-> +	 * header[0] = Virtual Channel + Data Type
-> +	 * header[1] = Word Count LSB (LP) or first param (SP)
-> +	 * header[2] = Word Count MSB (LP) or second param (SP)
-> +	 */
-> +	rcar_mipi_dsi_write(dsi, TXCMPHDR,
-> +			    (is_tx_long ? TXCMPHDR_FMT : 0) |
-> +			    TXCMPHDR_VC(msg->channel) |
-> +			    TXCMPHDR_DT(msg->type) |
-> +			    TXCMPHDR_DATA1(packet.header[2]) |
-> +			    TXCMPHDR_DATA0(packet.header[1]));
-> +
-> +	if (is_tx_long) {
-> +		memcpy(payload, packet.payload,
-> +		       min(msg->tx_len, sizeof(payload)));
-> +
-> +		rcar_mipi_dsi_write(dsi, TXCMPPD0R,
-> +				    (payload[3] << 24) | (payload[2] << 16) |
-> +				    (payload[1] << 8) | payload[0]);
-> +		rcar_mipi_dsi_write(dsi, TXCMPPD1R,
-> +				    (payload[7] << 24) | (payload[6] << 16) |
-> +				    (payload[5] << 8) | payload[4]);
-> +		rcar_mipi_dsi_write(dsi, TXCMPPD2R,
-> +				    (payload[11] << 24) | (payload[10] << 16) |
-> +				    (payload[9] << 8) | payload[8]);
-> +		rcar_mipi_dsi_write(dsi, TXCMPPD3R,
-> +				    (payload[15] << 24) | (payload[14] << 16) |
-> +				    (payload[13] << 8) | payload[12]);
-> +	}
-> +
-> +	/* Start the transfer, RX with BTA, TX without BTA */
-> +	if (is_rx_xfer) {
-> +		rcar_mipi_dsi_write(dsi, TXCMCR, TXCMCR_BTAREQ);
-> +
-> +		ret = read_poll_timeout(rcar_mipi_dsi_read, status,
-> +					(status & RXPSR_BTAREQEND),
-> +					2000, 10000, false, dsi, RXPSR);
-> +	} else {
-> +		rcar_mipi_dsi_write(dsi, TXCMCR, TXCMCR_TXREQ);
-> +
-> +		ret = read_poll_timeout(rcar_mipi_dsi_read, status,
-> +					(status & TXCMSR_TXREQEND),
-> +					2000, 10000, false, dsi, TXCMSR);
-> +	}
-
-Did you check the timeout is big enough? With LP and BTA... Well, it's
-only 16 bytes at max. Maybe it's fine. Again, just a note. =)
-
-Does this work when the video stream is on? If yes, then it might take
-much longer until the command can be transferred. If not maybe the
-function should return an error if the video stream is enabled.
-
-What do these read_poll_timeouts wait, exactly? The first one waits
-until the data is sent, and BTA has been done? And the latter waits only
-for the data to be sent? Hmm, no... The first must wait until the
-peripheral has replied, as there's no wait in the
-rcar_mipi_dsi_host_rx_transfer()...
-
-It would be nice to have a short comment what the wait is for.
-
-> +
-> +	if (ret < 0) {
-> +		dev_err(dsi->dev, "Command transfer timeout (0x%08x)\n",
-> +			status);
-> +		return ret;
-> +	}
-> +
-> +	return packet.size;
-> +}
-> +
-> +static ssize_t rcar_mipi_dsi_host_rx_transfer(struct mipi_dsi_host *host,
-> +					      const struct mipi_dsi_msg *msg)
-> +{
-> +	struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
-> +	u8 *rx_buf = (u8 *)(msg->rx_buf);
-> +	u32 reg, data, status, wc;
-> +	int i, ret;
-> +
-> +	/* RX transfer received data validation and parsing starts here. */
-> +	reg = rcar_mipi_dsi_read(dsi, TOSR);
-> +	if (reg & TOSR_TATO) {	/* Turn-Around TimeOut. */
-> +		/* Clear TATO Turn-Around TimeOut bit. */
-> +		rcar_mipi_dsi_write(dsi, TOSR, TOSR_TATO);
-> +		return -ETIMEDOUT;
-> +	}
-> +
-> +	reg = rcar_mipi_dsi_read(dsi, RXPSR);
-> +
-> +	if (msg->flags & MIPI_DSI_MSG_REQ_ACK) {
-> +		/* Transfer with zero-length RX */
-> +		if (!(reg & RXPSR_RCVACK)) {
-> +			/* No ACK on RX response received */
-> +			return -EINVAL;
-> +		}
-> +	} else {
-> +		/* Transfer with non-zero-length RX */
-> +		if (!(reg & RXPSR_RCVRESP)) {
-> +			/* No packet header of RX response received */
-> +			return -EINVAL;
-> +		}
-> +
-> +		if (reg & (RXPSR_CRCERR | RXPSR_WCERR | RXPSR_AXIERR | RXPSR_OVRERR)) {
-> +			/* Incorrect response payload */
-> +			return -ENODATA;
-> +		}
-> +
-> +		data = rcar_mipi_dsi_read(dsi, RXPHDR);
-> +		if (data & RXPHDR_FMT) {	/* Long Packet Response */
-> +			/* Read Long Packet Response length from packet header. */
-> +			wc = data & 0xffff;
-> +			if (wc > msg->rx_len) {
-> +				dev_warn(dsi->dev,
-> +					 "Long Packet Response longer than RX buffer (%d), limited to %ld Bytes\n",
-> +					 wc, msg->rx_len);
-> +				wc = msg->rx_len;
-> +			}
-> +
-> +			if (wc > 16) {
-> +				dev_warn(dsi->dev,
-> +					 "Long Packet Response too long (%d), limited to 16 Bytes\n",
-> +					 wc);
-> +				wc = 16;
-> +			}
-> +
-> +			for (i = 0; i < msg->rx_len; i++) {
-> +				if (!(i % 4))
-> +					data = rcar_mipi_dsi_read(dsi, RXPPD0R + i);
-> +
-> +				rx_buf[i] = data & 0xff;
-> +				data >>= 8;
-> +			}
-> +		} else {	/* Short Packet Response */
-> +			if (msg->rx_len >= 1)
-> +				rx_buf[0] = data & 0xff;
-> +			if (msg->rx_len >= 2)
-> +				rx_buf[1] = (data >> 8) & 0xff;
-> +			if (msg->rx_len >= 3) {
-> +				dev_warn(dsi->dev,
-> +					 "Expected Short Packet Response too long (%ld), limited to 2 Bytes\n",
-> +					 msg->rx_len);
-> +			}
-> +		}
-> +	}
-> +
-> +	if (reg & RXPSR_RCVAKE) {
-> +		/* Acknowledge and Error report received */
-> +		return -EFAULT;
-> +	}
-> +
-> +	ret = read_poll_timeout(rcar_mipi_dsi_read, status,
-> +				!(status & PPIDL0SR_DIR),
-> +				2000, 10000, false, dsi, PPIDL0SR);
-> +	if (ret < 0) {
-> +		dev_err(dsi->dev, "Command RX DIR timeout (0x%08x)\n", status);
-> +		return ret;
-> +	}
-> +
-> +	ret = read_poll_timeout(rcar_mipi_dsi_read, status,
-> +				status & PPIDL0SR_STPST,
-> +				2000, 10000, false, dsi, PPIDL0SR);
-> +	if (ret < 0) {
-> +		dev_err(dsi->dev, "Command RX STPST timeout (0x%08x)\n", status);
-> +		return ret;
-> +	}
-
-Same here, it's not very clear what the waits are for. Aren't we done
-already after the tx function finished?
-
+> +		return 0;
+>  	}
+>  
+> -	return divider_round_rate(hw, rate, prate, div->table,
+> -				  div->width, div->flags);
+> +	req->rate = divider_round_rate(hw, req->rate, &req->best_parent_rate,
+> +				       div->table, div->width, div->flags);
 > +
 > +	return 0;
-> +}
-> +
-> +static ssize_t rcar_mipi_dsi_host_transfer(struct mipi_dsi_host *host,
-> +					   const struct mipi_dsi_msg *msg)
-> +{
-> +	const bool is_rx_xfer = (msg->flags & MIPI_DSI_MSG_REQ_ACK) || msg->rx_len;
-> +	struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
-> +	int ret;
-> +
-> +	if (msg->tx_len > 16 || msg->rx_len > 16) {
-> +		/* ToDo: Implement Memory on AXI bus command mode. */
-> +		dev_warn(dsi->dev,
-> +			 "Register-based command mode supports only up to 16 Bytes long payload\n");
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	ret = rcar_mipi_dsi_host_tx_transfer(host, msg, is_rx_xfer);
-> +
-> +	/* If TX transfer succeeded and this transfer has RX part. */
-> +	if (ret >= 0 && is_rx_xfer) {
-> +		ret = rcar_mipi_dsi_host_rx_transfer(host, msg);
-> +		if (ret)
-> +			return ret;
-> +
-> +		ret = msg->rx_len;
-> +	}
-> +
-> +	/* Wait a bit between commands */
-> +	usleep_range(1000, 2000);
+>  }
+>  
+>  static int bm1880_clk_div_set_rate(struct clk_hw *hw, unsigned long rate,
+> @@ -665,7 +670,7 @@ static int bm1880_clk_div_set_rate(struct clk_hw *hw, unsigned long rate,
+>  
+>  static const struct clk_ops bm1880_clk_div_ops = {
+>  	.recalc_rate = bm1880_clk_div_recalc_rate,
+> -	.round_rate = bm1880_clk_div_round_rate,
+> +	.determine_rate = bm1880_clk_div_determine_rate,
+>  	.set_rate = bm1880_clk_div_set_rate,
+>  };
+>  
+> 
+> -- 
+> 2.50.1
+> 
+> 
 
-Why wait and wait a bit between what?
-
- Tomi
-
+-- 
+மணிவண்ணன் சதாசிவம்
 
