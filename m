@@ -1,121 +1,124 @@
-Return-Path: <linux-renesas-soc+bounces-20443-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20444-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C0DBB242F8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Aug 2025 09:42:53 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 277BBB2443C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Aug 2025 10:24:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DFFD27AFEA1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Aug 2025 07:40:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EB0C67BC2AB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Aug 2025 08:19:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 368672DEA7D;
-	Wed, 13 Aug 2025 07:42:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NIZnSNeG"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89D482EA158;
+	Wed, 13 Aug 2025 08:20:30 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD0242D060A
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Aug 2025 07:42:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673F11E0DE2;
+	Wed, 13 Aug 2025 08:20:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755070931; cv=none; b=IB3Cu42uip7qnuZyMHEfvFfEUxf23jQg8ORp1UK5MZGI6demxItmoQb93R9sQy53HqjxvMEYE3+nhJpfTeb+GJMpZZAByTmiH933PoQQ0WK0D54wwcC5Kgnf0eBSH3Q9OyhHF/yB0taXpt2oAnx8zOVMWUyRAWzvUQI0kBMMawM=
+	t=1755073230; cv=none; b=JFu8JJbueSBsQUxbHhFmPChwJvhNwK+O+KYl8CzGBJ6+Z057qDsJr1nMatPohhrcwRdTxESggYh5nruSK8977RDAOm2XE5EE5CIkFsBxZzgLaDg8toAL+fNgTuWOWgit+9w3lw3e+RDRFrl9Q67QeaLU1sBNRAb3EAY5jTWu5ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755070931; c=relaxed/simple;
-	bh=pfi0Nlnyj6XBvdl1brm/RguLb44hlUQLAHoSNeBRh+I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BjiVPrzL15RIS6XIiXQYuTChVp68tboFday3HEHnxS8RDhdNiAxgShlLLSHEbrLQIIyB75yN45lekIgFRKI/UwkRe4AGCYCeJNelC5Fmgg+PBWdlWTkQ0NmNWgjuJuXf4lB0sKpPpslqy6wiXnUag8Hm5S0Kuv7S5MXDL02zDYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=NIZnSNeG; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B8AA4379;
-	Wed, 13 Aug 2025 09:41:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755070874;
-	bh=pfi0Nlnyj6XBvdl1brm/RguLb44hlUQLAHoSNeBRh+I=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=NIZnSNeG/y3zjJlbx/lMMBnPESEZaNigQzVv6D2zAT3FBctXVbwq4hacpAzsMiOTd
-	 Qi1/3fMefr/nF/ZMVjsjnPo3dtF6Ro/yZzS6FVfrv0Kur9LhktlTfSFAql84O1WhtM
-	 KFRrnagr1C+uYvTpFMgGDFxFjp4ooFUCEGEAaZgw=
-Message-ID: <205c11a3-4794-416b-b287-76c853ca4fd2@ideasonboard.com>
-Date: Wed, 13 Aug 2025 10:42:03 +0300
+	s=arc-20240116; t=1755073230; c=relaxed/simple;
+	bh=6ayZlO2PSXhtLjxbAr30198jx2UL7fDJVteF34QqTfw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VyPJnxKp5JmkwPsCkhHHs1VZGHkv/a9MLg+eXbd89+oJqXf82EQvscXXuUo1DImQkHCdCPpEKd3udqudjAWzca9cRJ44bBDy7lo6o9JMBReHJ3PDUCEqsCRbKjtK2UhTbMK5JJ/lU0jOQfEcfUelLo8HaFUpT+2KZrXhrScGAeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2526C4CEEB;
+	Wed, 13 Aug 2025 08:20:27 +0000 (UTC)
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Lubomir Rintel <lkundrak@v3.sk>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] clk: renesas: mstp: Add genpd OF provider at postcore_initcall()
+Date: Wed, 13 Aug 2025 10:20:22 +0200
+Message-ID: <81ef5f8d5d31374b7852b05453c52d2f735062a2.1755073087.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] drm/rcar-du: dsi: Convert register bits to BIT()
- macro
-To: Marek Vasut <marek.vasut@mailbox.org>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>,
- dri-devel@lists.freedesktop.org
-Cc: David Airlie <airlied@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-renesas-soc@vger.kernel.org
-References: <20250608142636.54033-1-marek.vasut+renesas@mailbox.org>
- <20250608142636.54033-2-marek.vasut+renesas@mailbox.org>
- <bc31d938-847d-46a5-af1e-29de3ac21504@ideasonboard.com>
- <7dc2c17d-9879-41c8-b90d-19f92a2d9c1e@mailbox.org>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <7dc2c17d-9879-41c8-b90d-19f92a2d9c1e@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi,
+Genpd OF providers must now be registered after genpd bus registration.
+However, cpg_mstp_add_clk_domain() is only called from CLK_OF_DECLARE(),
+which is too early.  Hence on R-Car M1A, R-Car H1, and RZ/A1, the
+CPG/MSTP Clock Domain fails to register, and any devices residing in
+that clock domain fail to probe.
 
-On 12/08/2025 22:32, Marek Vasut wrote:
-> On 8/12/25 3:26 PM, Tomi Valkeinen wrote:
-> 
-> Hi,
-> 
->>> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/
->>> drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
->>> index a6b276f1d6ee..b3e57217ae63 100644
->>> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
->>> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> 
-> [...]
-> 
->>> @@ -51,11 +51,11 @@
->>>     #define TXVMVPRMSET0R            0x1d0
->>>   #define TXVMVPRMSET0R_HSPOL_HIG        (0 << 17)
->>> -#define TXVMVPRMSET0R_HSPOL_LOW        (1 << 17)
->>> +#define TXVMVPRMSET0R_HSPOL_LOW        BIT(17)
->>
->> I'm not sure about this (and below). We have two defines for the HSPOL,
->> high and low. If one of them is (x << y), shouldn't the other one be of
->> that style too?
-> It is inconsistent, but one macro describes bit set to 0 and the other
-> bit set to 1 (i.e. the actual bit) which is converted to BIT(n) macro. I
-> would be tempted to remove the bits set to 0, that's probably the real
-> discussion that should happen here. But that would also be a much bigger
-> patch. What do you think ?
+Fix this by splitting initialization into two steps:
+  - The first part keeps on registering the PM domain with genpd at
+    CLK_OF_DECLARE(),
+  - The second and new part moves the registration of the genpd OF
+    provider to a postcore_initcall().
 
-In my mind if you have defines for both HIGH and LOW, you have a
-bitfield with a value, the values being 0 and 1, and for values you use
-(0 << 17) and (1 << 17). It just happens here that the bitfield value is
-only one bit long.
+See also commit c5ae5a0c61120d0c ("pmdomain: renesas: rcar-sysc: Add
+genpd OF provider at postcore_initcall").
 
-But I'm also fine with having only "TXVMVPRMSET0R_HSPOL_LOW
-BIT(17)", and then the interpretation is that we have a enable/disable
-style bit.
+Fixes: 18a3a510ecfd0e50 ("pmdomain: core: Add the genpd->dev to the genpd provider bus")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+To be queued as a fix in renesas-clk-for-v6.17.
 
-In the end, I'm fine with any of these, or the current one in the patch.
-Although the current one does rub me the wrong way just enough for me to
-comment about it =).
+drivers/clk/mmp/clk-of-mmp2.c:mmp2_pm_domain_init() has the same issue.
 
- Tomi
+Note that R-Car H1 still booted fine, as the CPG/MSTP Clock Domain is no
+longer used directly on that SoC: all devices were moved to the R-Car
+SYSC PM Domain in commits 751e29bbb64ad091 ("ARM: dts: r8a7779: Use SYSC
+"always-on" PM Domain") and commit a03fa77d85a736d3 ("ARM: dts: r8a7779:
+Use SYSC "always-on" PM Domain for HSCIF"), and use the clock domain
+only indirectly from rcar-sysc through cpg_mstp_{at,de}tach_dev()).
+---
+ drivers/clk/renesas/clk-mstp.c | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/clk/renesas/clk-mstp.c b/drivers/clk/renesas/clk-mstp.c
+index 6b47bb5eee45f75b..5fcc81b92a973771 100644
+--- a/drivers/clk/renesas/clk-mstp.c
++++ b/drivers/clk/renesas/clk-mstp.c
+@@ -305,6 +305,9 @@ void cpg_mstp_detach_dev(struct generic_pm_domain *unused, struct device *dev)
+ 		pm_clk_destroy(dev);
+ }
+ 
++static struct device_node *cpg_mstp_pd_np __initdata = NULL;
++static struct generic_pm_domain *cpg_mstp_pd_genpd __initdata = NULL;
++
+ void __init cpg_mstp_add_clk_domain(struct device_node *np)
+ {
+ 	struct generic_pm_domain *pd;
+@@ -326,5 +329,20 @@ void __init cpg_mstp_add_clk_domain(struct device_node *np)
+ 	pd->detach_dev = cpg_mstp_detach_dev;
+ 	pm_genpd_init(pd, &pm_domain_always_on_gov, false);
+ 
+-	of_genpd_add_provider_simple(np, pd);
++	cpg_mstp_pd_np = of_node_get(np);
++	cpg_mstp_pd_genpd = pd;
++}
++
++static int __init cpg_mstp_pd_init_provider(void)
++{
++	int error;
++
++	if (!cpg_mstp_pd_np)
++		return -ENODEV;
++
++	error = of_genpd_add_provider_simple(cpg_mstp_pd_np, cpg_mstp_pd_genpd);
++
++	of_node_put(cpg_mstp_pd_np);
++	return error;
+ }
++postcore_initcall(cpg_mstp_pd_init_provider);
+-- 
+2.43.0
 
 
