@@ -1,132 +1,103 @@
-Return-Path: <linux-renesas-soc+bounces-20468-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20469-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3E2FB253FE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Aug 2025 21:35:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01215B25493
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Aug 2025 22:37:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA5E97288B5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Aug 2025 19:35:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 279C688730E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Aug 2025 20:37:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57D2922083;
-	Wed, 13 Aug 2025 19:35:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A109A1F582E;
+	Wed, 13 Aug 2025 20:37:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tRboU3La"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="IkVqDVMi"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25E7E15A87C;
-	Wed, 13 Aug 2025 19:35:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 615F5219E0;
+	Wed, 13 Aug 2025 20:37:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755113712; cv=none; b=b1PnGM/GLI6HA/0NuyIFwVrWh1TEfcgCONlvvOmHnXD1adIMMpLwgVdh+1WMF1gTf7zqf5AXUKXwTBJ5Mdb8fsygUP7Qpwyea0T5SdFu6jsNnfjweV6M33a/GctSAB8E+Jh1rizSFI5f/Auu2XlPP1S7ysVk8/Zqn4cerbfA12g=
+	t=1755117469; cv=none; b=def8BwQrXWm2bCn0zjBVwYG5DCSFBRmynFtMfNvvUI4qolUhJlPEq1bMUNXinGrWryoh1Bh14XMPmw0N1jJium+8ZVyknuoqOznraSV8scn8Ji4yXGuolha9Hd15qm21ck/VHv15O8bqmIoIb+SzwNUVrNBTsH/4fHNE7XJb5FE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755113712; c=relaxed/simple;
-	bh=UqocbTcw5EDwtib0jYrghJffrDmxf3zJ7rq/CvASetg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=jO7u0oQkH2HADsAUu/AtrWFhrG2urq2HT41nlPoAU+PXsoihvSjduHGxLyway83z7M81/9r9v//a9yfU1j4ixTMRtIERtRqrRdZC66MGBdpbDIfeywyIucXDZ5UM1dQpzP5bLPvTYoUbdBk7gAaGgEI7Pj1h5NSVIUGKquX8iHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tRboU3La; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90F09C4CEEB;
-	Wed, 13 Aug 2025 19:35:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755113711;
-	bh=UqocbTcw5EDwtib0jYrghJffrDmxf3zJ7rq/CvASetg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=tRboU3LajjYr7ecWWsCZW4QpYioFi4ept65n2reoXnivoH05RRaVJgS94TB/TDshj
-	 r69eSKB5y94BDHLWDNpcolPSDNXbDkgf3PykLD8SRBgEvEEZgR1XkAMJLryp9XEQCn
-	 A2uqdvusjehlEmrv5zIRUrzuJEJzZXkpHGitui5Kb4puC1bgYfGdMyuN4Wbd9v1MBe
-	 84/2+hCCFH3Qw2kOZ5g8+fz6TsTt9SWMZ4h1hTevQj6smyLBqzZ/dA+A9gNTg/Zpq4
-	 8Nn2EhRnSF1Fk9lNHw5cZwv0PrthUWYWXqMMvYuBSw+OeQ6i1OcpH6VdZzCm1MSsOp
-	 hIHvN4iljYMwg==
-Date: Wed, 13 Aug 2025 14:35:10 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH v2] PCI/pwrctrl: Fix double cleanup on
- devm_add_action_or_reset() failure
-Message-ID: <20250813193510.GA287916@bhelgaas>
+	s=arc-20240116; t=1755117469; c=relaxed/simple;
+	bh=DD80uZigFGoWjYYQJAlIt9iBMcYmTn80hyT8Mou7Cis=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ItA7444kfrzfqjCzvJk4q6Qhj7mVE4tftTIMD3qgsqNv0LZw4RVkkIisRyhyUN0abxT0jwbgNMGQOOx3Ye3+poo851Z38KwVjwHa8pLEslxE8+wy60YCDZB7AHeminSyMhgZSwYyDCA1ndEi8eQkNYRs4VN3+RXQbuQ6AOvvuZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=IkVqDVMi; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4c2Ktv4x49z9t0l;
+	Wed, 13 Aug 2025 22:37:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1755117463;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X5bfK1XdvApI/A/c1fHvINCL/7vPk40POQzsE1OOqjg=;
+	b=IkVqDVMiQ3e3dJ6HdWCTYlUoyKpcwFtokQ10zTXihKhaiCdBOhYgF7s9Q8PQkxRVw0K0oF
+	Ez+dCxp2DoULFYlAsf49OMvGvxzXNN/m5qG1x8Fllm6H+GrWgGLeoAQEizdJEWODZ4aRy3
+	gcm7o/tmLvzNrEf0FA8UuuOskEO/NK6rTEIGtjzROaTirqLPcQyTrkugjawdgTSdLry0+5
+	Pr4u9J0yrSVSMKOMhftj8D5bYGzqFemGL8U5rg/rVF2HRhujB0RmGta3d9cKCH+qqvCHzX
+	pCnLE6FCLip5x85RlolIiGbXSfoojqJX0eoEF0Qw3o5xMvgk/janStaaW9oJjA==
+Message-ID: <a65ae3e9-8970-46b4-a80f-3654daa7a0c2@mailbox.org>
+Date: Wed, 13 Aug 2025 22:37:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7b1386e6162e70e6d631c87f6323d2ab971bc1c5.1755100324.git.geert+renesas@glider.be>
+Subject: Re: [PATCH v2 1/2] thermal: rcar_gen3: Add support for per-SoC
+ default trim values
+To: Daniel Lezcano <daniel.lezcano@linaro.org>, linux-pm@vger.kernel.org
+Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Lukasz Luba <lukasz.luba@arm.com>, Magnus Damm <magnus.damm@gmail.com>,
+ Zhang Rui <rui.zhang@intel.com>, linux-renesas-soc@vger.kernel.org
+References: <20250625181739.28391-1-marek.vasut+renesas@mailbox.org>
+ <86f5260f-6625-4e2d-88a8-013143922fb9@linaro.org>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <86f5260f-6625-4e2d-88a8-013143922fb9@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: k65orsr5yd3xkertdceg9twcr9dowx3d
+X-MBO-RS-ID: ea6407a4c68f7ecd21d
 
-On Wed, Aug 13, 2025 at 05:56:25PM +0200, Geert Uytterhoeven wrote:
-> When devm_add_action_or_reset() fails, it calls the passed cleanup
-> function.  Hence the caller must not repeat that cleanup.
+On 8/1/25 11:59 AM, Daniel Lezcano wrote:
+> On 25/06/2025 20:16, Marek Vasut wrote:
+>> The Working Sample R-Car SoCs may not yet have thermal sensor trimming
+>> values programmed into fuses, those fuses are blank instead. For such
+>> SoCs, the driver includes fallback trimming values. Those values are
+>> currently applied to all SoCs which use this driver.
+>>
+>> Introduce support for per-SoC fallback trimming values in preparation
+>> for SoCs which do not use these current trimming values. No functional
+>> change is intended here.
+>>
+>> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+>> ---
+>> Cc: "Niklas Söderlund" <niklas.soderlund@ragnatech.se>
 > 
-> Replace the "goto err_regulator_free" by the actual freeing, as there
-> will never be a need again for a second user of this label.
-> 
-> Fixes: 75996c92f4de309f ("PCI/pwrctrl: Add pwrctrl driver for PCI slots")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> Reviewed-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> Tested-by: Marek Vasut <marek.vasut+renesas@mailbox.org> # V4H Sparrow Hawk
-> Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> Applied, thanks
+Is this series supposed to be in linux-next by now ?
 
-Applied to pci/pwrctrl for v6.18, thanks!
+I don't see it either on git.kernel.org thermal group tree or your tree, 
+where was the series applied to ?
 
-> ---
-> Compile-tested only.
-> 
-> v2:
->   - Add Reviewed-by, Tested-by, Acked-by.
-> ---
->  drivers/pci/pwrctrl/slot.c | 12 +++---------
->  1 file changed, 3 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/pci/pwrctrl/slot.c b/drivers/pci/pwrctrl/slot.c
-> index 6e138310b45b9f7e..3320494b62d890ff 100644
-> --- a/drivers/pci/pwrctrl/slot.c
-> +++ b/drivers/pci/pwrctrl/slot.c
-> @@ -49,13 +49,14 @@ static int pci_pwrctrl_slot_probe(struct platform_device *pdev)
->  	ret = regulator_bulk_enable(slot->num_supplies, slot->supplies);
->  	if (ret < 0) {
->  		dev_err_probe(dev, ret, "Failed to enable slot regulators\n");
-> -		goto err_regulator_free;
-> +		regulator_bulk_free(slot->num_supplies, slot->supplies);
-> +		return ret;
->  	}
->  
->  	ret = devm_add_action_or_reset(dev, devm_pci_pwrctrl_slot_power_off,
->  				       slot);
->  	if (ret)
-> -		goto err_regulator_disable;
-> +		return ret;
->  
->  	clk = devm_clk_get_optional_enabled(dev, NULL);
->  	if (IS_ERR(clk)) {
-> @@ -70,13 +71,6 @@ static int pci_pwrctrl_slot_probe(struct platform_device *pdev)
->  		return dev_err_probe(dev, ret, "Failed to register pwrctrl driver\n");
->  
->  	return 0;
-> -
-> -err_regulator_disable:
-> -	regulator_bulk_disable(slot->num_supplies, slot->supplies);
-> -err_regulator_free:
-> -	regulator_bulk_free(slot->num_supplies, slot->supplies);
-> -
-> -	return ret;
->  }
->  
->  static const struct of_device_id pci_pwrctrl_slot_of_match[] = {
-> -- 
-> 2.43.0
-> 
+Thank you
 
