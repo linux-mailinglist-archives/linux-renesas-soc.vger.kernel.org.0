@@ -1,146 +1,125 @@
-Return-Path: <linux-renesas-soc+bounces-20441-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20442-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3970AB2421A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Aug 2025 09:00:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04606B242DA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Aug 2025 09:36:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 043261B63CDF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Aug 2025 07:00:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 810D8164EBD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Aug 2025 07:34:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D7712D63FA;
-	Wed, 13 Aug 2025 07:00:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B782C20E023;
+	Wed, 13 Aug 2025 07:34:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UywO0ouM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D3EE2D3731
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Aug 2025 07:00:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323161F237A
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Aug 2025 07:34:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755068403; cv=none; b=kxoST8z96pkZZqQzOhikhMlUOEEpZ4+ck+Yv0JQZsvhik+PSCwcnCKSV3XL/Vx4to4g6ApCAOY4BXz1eyy/ZTJZMSBGMihSQq3RUBVUvczjz3NlIVH001Wb5UdtiJvyQnSWNe9INuKlhyyATfVgvnqSgUEwcxSsAngIPtkF4h58=
+	t=1755070455; cv=none; b=nn+HDt47x8fBcWFxPfLpZoHwzA5gqF7ycdT5EgwKcXYf3UHrIw8Nx3DmXFX/LlHdxY1/GzqgKvGGeEqPVTmDLVoS2m3w+mASt8PjIW0nH+HEYH0Ve9Ghl3JE5wncg0jc0A1t9TzUs4Iv/uAe37Zykn2SobF/Ajv87pUBhT/FAXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755068403; c=relaxed/simple;
-	bh=3qmYnK4zkN249FRX4nTplYFHUksNRkaLTNgCMYlz7EM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kADgli1O1i5IRZfBIYt4jjMsyw9OCrjn14hSeo67as0vSL0PBzf/yr6hH6z0mSPt/ZXxlED+9ubGb21GvtoJwzs2eW1r25Gl0SsZVFVcStuv0BlW04Iva36w27vzpUWHGs/Jsg1LaDEd1PbWJs83uOUbKgn3Yjs4apP+CbG0Dhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-539613258e8so1781265e0c.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Aug 2025 00:00:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755068400; x=1755673200;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3kHnvCAVwfQ4q/T0cjVxNPyYyL60fB4Xq07rENVSySo=;
-        b=s7ub6LEvzDSbtdVUY6/XvggcqpQq1zAth5XrsWOgRaGkRnwGHwBrE99qgBevJ9xwDy
-         h8iwZHJ8TuBYYqz3lizeo5BV7jfvdLxMxFaGHo6q52sYHwAdxpd6+GI4mxvs3IKpI0Gw
-         RUNV9QtW6kbmHr4aBJv96Cb7cWCpmjiuNcI2+uf0jkX9kJEHmSqdJOvOrSn6xyP9tO4t
-         /1RKDO6tEKAMSysqpiY/vshlIUkNfPjdS4Qe7ye7d0tD4xD/jBlvjlo+4Iggxy02ZNd2
-         HAZBv18KGfCofHlNoaw6A1x8/cAE6zwJVk4WPLRzfI5YgV73HL+TIcL1VEFsEEn6RzXM
-         tvsA==
-X-Forwarded-Encrypted: i=1; AJvYcCVoLpnKiTrS7a8refhEnJjjrAWtTD4f7L+WsPiTSLBy4dAYAQTLEdmRch7tVIDBqIklaKChXacJ7oaoyn6NgPcqjA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAD7lG+b7e/I/SJrYia4OBowkgd42EXsf7+VRoyih3BZHlEQnT
-	Nsj9kBHEwp2LAmzTHcqH0CNM7gGPmIYklOo1YBSKBEoC1FgsCAsHRrXvCkm+PC1p
-X-Gm-Gg: ASbGncv1V57veq/qAdpmeLUsi/bHKX7vMl8qIJWi+cddhedRJB6mxqSplDGK+IGCtH6
-	YRHsGiLWfFYfrB5vBFs2aY9DgroaonCGv7YvYjg6+8vOcdwqZ2R7OpIzqqWumLr3FyDaoffobPX
-	mDRBtz8zdfdxnplXTlGS6S5f8TApqEFLIfRqVQDK9qi9C8X1LF2ftjnKTEHI0+4vYbFer+xFZ4o
-	0mGZBOaRgWI1QCeqp5faYfi1q/lXcF0qPuF9v9S8JTFLHWIPqS6Yq/6txW0s52CuJS6f/nx7xH5
-	aH53aCRoS3Bpb1B23aFGJGz1fNYeShfVqNdgw1GUncoftp0//vZja7jB75dNFXj4igESPJdEBvL
-	TNmfbwqsH/593yRQuSM1Qwea32cbcaMXJpbUNwawm5GatOUWUDR2Jyq0/dKer
-X-Google-Smtp-Source: AGHT+IFU8TjQjXayed1NjdIfG3DrwYlSciKpiPciHewatIg1dvBXSmfYflxtFv+2BojAFqIHneCZfg==
-X-Received: by 2002:a05:6122:3c55:b0:539:1dbf:3148 with SMTP id 71dfb90a1353d-53b0b486d1amr586520e0c.2.1755068400090;
-        Wed, 13 Aug 2025 00:00:00 -0700 (PDT)
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com. [209.85.217.53])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-539b01ce43dsm3739215e0c.15.2025.08.12.23.59.59
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Aug 2025 23:59:59 -0700 (PDT)
-Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-4fc1a5e600aso2236713137.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Aug 2025 23:59:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXwdHY3hAgD2X0E0/A+mEq9ySVhk9VKoMxREb2Qh+lahzlkkW8D4cERavGEwFl52uCFSxZ3TMhJOq2BZSlayacbuA==@vger.kernel.org
-X-Received: by 2002:a05:6102:e0e:b0:4e7:bf03:cd79 with SMTP id
- ada2fe7eead31-50e4e5d2141mr640353137.5.1755068399534; Tue, 12 Aug 2025
- 23:59:59 -0700 (PDT)
+	s=arc-20240116; t=1755070455; c=relaxed/simple;
+	bh=PxPVoMTlq0rs3lJQFj6O8U8lDN5CWjHjpen9nYqLLrw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PpNF8sFYtEnk93btpi5vegMlnEDbLLWIFfB0UQKRLIGz36t+JXty+Rxu6hMCFpFowG2MO7TdnzCKC5lIUh6jwDSmfiR+jKH46uhfjXd4rp92puN7FBMefait11V0LQkCGMEWh1PUDLngmoS9TxdJPTV8BwUzkfLXvmR/sTs1EE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UywO0ouM; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8C6E9351;
+	Wed, 13 Aug 2025 09:33:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1755070399;
+	bh=PxPVoMTlq0rs3lJQFj6O8U8lDN5CWjHjpen9nYqLLrw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=UywO0ouMlDqqQNOXLIwOE5nFJfIMZf++99G0XFZOOkFyFbbEhA5qkgg2HZG3kFhKH
+	 Aii1FHuAjgoB31J+lNfFM6dJ0iiTRwYQtANJYMy1QD4o+wPn05yjTaqUfQWXj3e5cA
+	 3MOmTrfu2tabpAg/eQqoe/ZEP3vYXGikpuT4v8o0=
+Message-ID: <c83317d5-53f1-440e-b854-c75d283ed746@ideasonboard.com>
+Date: Wed, 13 Aug 2025 10:34:08 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] drm/rcar-du: dsi: Remove fixed PPI lane count setup
+To: Marek Vasut <marek.vasut@mailbox.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-renesas-soc@vger.kernel.org
 References: <20250608142636.54033-1-marek.vasut+renesas@mailbox.org>
- <20250608142636.54033-2-marek.vasut+renesas@mailbox.org> <bc31d938-847d-46a5-af1e-29de3ac21504@ideasonboard.com>
- <7dc2c17d-9879-41c8-b90d-19f92a2d9c1e@mailbox.org> <20250812200526.GA12797@pendragon.ideasonboard.com>
-In-Reply-To: <20250812200526.GA12797@pendragon.ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 13 Aug 2025 08:59:48 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVQxEpxgpedHHZguncCjaapLo9t9+OQN0o8CVe774PQnw@mail.gmail.com>
-X-Gm-Features: Ac12FXzYHD6o7Zu0xKI2LGENopDTqNbsO1HrRxXM3S-o6SplmdapAJBtZ0w8rDA
-Message-ID: <CAMuHMdVQxEpxgpedHHZguncCjaapLo9t9+OQN0o8CVe774PQnw@mail.gmail.com>
-Subject: Re: [PATCH 1/4] drm/rcar-du: dsi: Convert register bits to BIT() macro
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Marek Vasut <marek.vasut@mailbox.org>, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
-	Marek Vasut <marek.vasut+renesas@mailbox.org>, dri-devel@lists.freedesktop.org, 
-	David Airlie <airlied@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Magnus Damm <magnus.damm@gmail.com>, 
-	Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+ <20250608142636.54033-3-marek.vasut+renesas@mailbox.org>
+ <64b49da6-15ae-45e1-a4af-c1f08f80cf3a@ideasonboard.com>
+ <87cc32a7-fe1d-4d8d-b793-e3bb7e12fb7d@ideasonboard.com>
+ <1ae735be-3d07-4520-8013-c4b7a1b1c26a@mailbox.org>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <1ae735be-3d07-4520-8013-c4b7a1b1c26a@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 12 Aug 2025 at 22:05, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Tue, Aug 12, 2025 at 09:32:36PM +0200, Marek Vasut wrote:
-> > On 8/12/25 3:26 PM, Tomi Valkeinen wrote:
-> > >> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> > >> index a6b276f1d6ee..b3e57217ae63 100644
-> > >> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> > >> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> >
-> > [...]
-> >
-> > >> @@ -51,11 +51,11 @@
-> > >>
-> > >>   #define TXVMVPRMSET0R                    0x1d0
-> > >>   #define TXVMVPRMSET0R_HSPOL_HIG          (0 << 17)
-> > >> -#define TXVMVPRMSET0R_HSPOL_LOW           (1 << 17)
-> > >> +#define TXVMVPRMSET0R_HSPOL_LOW           BIT(17)
-> > >
-> > > I'm not sure about this (and below). We have two defines for the HSPOL,
-> > > high and low. If one of them is (x << y), shouldn't the other one be of
-> > > that style too?
-> >
-> > It is inconsistent, but one macro describes bit set to 0 and the other
-> > bit set to 1 (i.e. the actual bit) which is converted to BIT(n) macro. I
-> > would be tempted to remove the bits set to 0, that's probably the real
-> > discussion that should happen here. But that would also be a much bigger
-> > patch. What do you think ?
->
-> For what it's worth, for single-bit register fields, I usually define a
-> single macro. I understand it's usually a coding style preference.
+Hi,
 
-An alternative would be to define 3 macros:
+On 12/08/2025 22:35, Marek Vasut wrote:
+> On 8/12/25 3:30 PM, Tomi Valkeinen wrote:
+> 
+> Hi,
+> 
+>>>> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/
+>>>> drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+>>>> index b3e57217ae63..cefa7e92b5b8 100644
+>>>> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+>>>> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+>>>> @@ -80,10 +80,7 @@
+>>>>    * PHY-Protocol Interface (PPI) Registers
+>>>>    */
+>>>>   #define PPISETR                0x700
+>>>> -#define PPISETR_DLEN_0            (0x1 << 0)
+>>>> -#define PPISETR_DLEN_1            (0x3 << 0)
+>>>> -#define PPISETR_DLEN_2            (0x7 << 0)
+>>>> -#define PPISETR_DLEN_3            (0xf << 0)
+>>>> +#define PPISETR_DLEN_MASK        (0xf << 0)
+>>>>   #define PPISETR_CLEN            BIT(8)
+>>>
+>>> Looks fine, but do you know what the TXSETR register does? It also has
+>>> LANECNT, but I don't see the driver touching that register at all.
+>>> TXSETR:LANECNT default value is 3 (4 lanes), which matches with the old
+>>> hardcoded behavior for PPISETR... So I wonder if that register should
+>>> also be set?
+>>
+>> Ah, never mind, I now saw the patch 3 =). But should it be before patch
+>> 2? Hmm, I guess that ordering is no better. Should they be combined into
+>> "support 1,2,3 datalanes" patch?
+> I think each patch fixes slighly different issue, even if the issues are
+> related. I tried to keep the issue description in each patch commit
+> message for posterity. I can squash them if you think that's better, I
+> don't mind either way.
 
-    #define TXVMVPRMSET0R_HSPOL        BIT(17)
-    #define TXVMVPRMSET0R_HSPOL_HIG    0
-    #define TXVMVPRMSET0R_HSPOL_LOW    1
+I was thinking about this the user's or backporting point of view.
+Neither of the commits (clearly) say that they add support for 1/2/3
+lane modes. You say they "fix", but they're not quite fixes either. The
+patch 3 could be considered a fix, but at the moment it just writes the
+default value to the register, so no point in marking it as a fix to be
+backported.
 
-and use FIELD_PREP(TXVMVPRMSET0R_HSPOL, TXVMVPRMSET0R_HSPOL_{HIG,LOW}).
-But I agree a single definition is fine for a single-bit register field.
+So... I don't have a strong opinion, but I think a single patch that
+adds support to 1, 2,3 lanes makes most sense.
 
-Gr{oetje,eeting}s,
+ Tomi
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
