@@ -1,320 +1,259 @@
-Return-Path: <linux-renesas-soc+bounces-20455-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20456-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 471A2B248F3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Aug 2025 13:58:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84A90B248F5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Aug 2025 13:59:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3A7C73BB9B2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Aug 2025 11:57:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A7A16189D5FB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Aug 2025 11:59:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 914B525C80D;
-	Wed, 13 Aug 2025 11:57:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nx7rmjcH"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFCED2F83A0;
+	Wed, 13 Aug 2025 11:58:56 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A6C2F83A0
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Aug 2025 11:57:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A83E42BD5AB;
+	Wed, 13 Aug 2025 11:58:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755086250; cv=none; b=OGiSI7zFRi10uNer+iVd4vDqkAYqwd4cWom1hJJYG3Pjthz82FtZBft3O8DMPachgnjE6caqKwq7ci85RTIg0hnSlXavF01HKS+nRCOmr7mmtmJnB4GbfhVFoJZZqdF72+q5jPlMlZM0p2tmi1UfzgPFp3PRk21taIjnc9L3B9E=
+	t=1755086336; cv=none; b=PunhmgEK8vztSJA8VEuIKW3kil/mVKeDNeDbGJu0V8PJ+FYCpT1EOlIK65hnkd5bbT5HEV8YTBJ5aA7ixxsPX9ifka2c1ys6PrAxPMsEhd0b01isJGMuPYMRf1+hJQ24qj6d/ZwMPZpJeUBBC4FTHmMxOY0GWR8lRkQyXnOOGYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755086250; c=relaxed/simple;
-	bh=FN13EbeZGKb0q6FH6PtPFCHlqAN89uYI7UL8br2l9Z8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NiW1L8bPb+Jf2zvOJsvTntf1TjhFwrNEq85WIcpMH+cpeJffyRiA0dCWSMQFi+QcStqdvumvQuMKu/upRVrjzP9d1whBdJWkUOvo3uwJct39AJKbne/4nsK6B1z5UdOlDnfyJ5D1R2EiE26AeWsDmGiR6DsFKKwCpKpH/d8Jj1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nx7rmjcH; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755086249; x=1786622249;
-  h=date:from:to:cc:subject:message-id;
-  bh=FN13EbeZGKb0q6FH6PtPFCHlqAN89uYI7UL8br2l9Z8=;
-  b=Nx7rmjcHCOpVrIciAyM6ukU/jTvBlTUyagP9dpbW36jbbiuEdwPy4iCu
-   rOSiVoHFLh9itlc2FljDs3sURlfo2E+tEU/DfRD6646b/KqIXpgVE8vhx
-   lMCKL04fWWaWuIUPVTW1UnlAuCD/f4uoaZTR9iT8hLM7YQxUR/eLGfCzb
-   21UCmZFb7Oo1PNDPczB9lrN1dBova+RRj2YJ9l0PSdJ8zNnzKJZCOb5TH
-   7R1SZFa7/uPxzKvSVVjX7BcAiKxHITfxV7PpPwy2J/Y2nLTnlJNhKE0M0
-   Zx7TtYw8ikCUjfwSGl9M3hKwfBl41p5rVDV38ojaKJVtelabJpT/riczi
-   Q==;
-X-CSE-ConnectionGUID: Xb1IekyQRdWFN6Ezal6PPg==
-X-CSE-MsgGUID: wGgD28tnQR6klP/u+ZDf6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="57335733"
-X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="57335733"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2025 04:57:28 -0700
-X-CSE-ConnectionGUID: Is5hu43+QDGeKRcuFSbXcg==
-X-CSE-MsgGUID: pZcPhG1DSkSVOZM27N48fA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="166822891"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 13 Aug 2025 04:57:27 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1umA6W-0009qS-2D;
-	Wed, 13 Aug 2025 11:57:18 +0000
-Date: Wed, 13 Aug 2025 19:57:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-clk-for-v6.18] BUILD SUCCESS
- 09f025b1d9487f73de187fc91f1fce1ba9d18f62
-Message-ID: <202508131952.rTcLbs4s-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1755086336; c=relaxed/simple;
+	bh=mx/Vyi5Fx1iuPdxl9ty0h3Ekc+IxjOPe2cCOFI7AK1g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rk3Es75HMAiyUPvpGQ8K2qU4XbkUHJpwhyiMxVBwI3JQkqzHCglYisIHrGvhj1O1p9ZxrBtP2nz3ioT9+TnLHLefVHn8NyoYZL/RzS6ExkD+9oG48TauoZVD9UwUIcEaaoPEqDko3qIr+Jpluzru0rQEwYlGm8lLooJV4aD20zw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-88dbc90853cso2029083241.2;
+        Wed, 13 Aug 2025 04:58:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755086333; x=1755691133;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LXaVARntTj5rstYFk0DVZoF1grl45M/iHSv+inIZnl0=;
+        b=RH2vRRv1f2FP1tJL3aHi6CGprbvPGQ+tivfGSfWHp2d6P5MWEVvRDFLCzdl/fSbtrd
+         dlVy/efRlp76iCakqM2eY8He03gm9dhnXU0IZGcFCP51cJKEP86XaUyOyI4BuCqbiYXM
+         IXGi0fsKgE8Vf7uWUGNjUhhpneaxCU1/3D2i4tEyH2miijEjk6sztlxlJuKV0zdvmTyw
+         aUNoK5bh+ELyFNCjGENVBxRS0pBQ8qRiVIrL2UQ4GeDzo0aK1LadOt6zPvSG98i6dVlZ
+         jqk4Ba5X9FQ8MMH5hhwNzcD1ueaamCxKAoJjcZASMlo8JBfBe2V2ieyqFcraOEgXC873
+         jTHg==
+X-Forwarded-Encrypted: i=1; AJvYcCVFaFXwmTyiPmCsVRFaXG/1tzriKK5o2lQWvylL2q8nGvIUUZkfhvywT2E56UU0RvmpY/xCGJHA0BENMibyW6ujoKY=@vger.kernel.org, AJvYcCWCXIg2/bky4J1HLugUqAn2GmenMpiAuyD+tgV/EuFmvkLjG+23Cbk8CcL4vAGxiSruV+UgNM7587Y=@vger.kernel.org, AJvYcCWf8BkHSK4Ywcangqbj5tmiCbQHLnEArUHgXvCdBxDbasSJfbEG6B39iDFZlk+YP8SPcwTXgL9JaLgNhAU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZvV6oG6u7uYUfwoOMv3ShToJGUgtNfPNvBMq48VOC3NwVnRFn
+	XhzR7cVGesZTU9GY43UzyJ0/CtTygV76Yu4UvgJIZjo4QRNM1idZt/SJrzLHCfFM
+X-Gm-Gg: ASbGncs0oqiDX7n+N6tF8C0Hb0Lcl3ZGg5w1KSGV5OoQuALYRl5NX1zQrpPyU2enOcH
+	AYhAcBONb+xjRxi6yUR7qTLUKFTkPnSWNnZ941H5e9B3F2lEON7UftAm7tR0/aRbV9CsIhpF2XG
+	53BTmdWPfjbTqIjouh3F0tGhp2mw9b+S08jon7E4eUYy/WxUokUeXH81AIcC89yH+b/KEgZXcP8
+	Hbb6S3v28DhEMLuLoB5igxA59OrLzp29+Pm1TzRsF+rgvBSHq7G0vM7oorgUHZGJC9dvAwyKnVF
+	dRc4Uo1Cqp7AeVYQn3l90rh5/IZZjXW1nHhfYxP579nGEtfxLwMwTZeyFaIYOWwvY/bfRlAaK4e
+	plcMDbAQ5f3gaBDIHFtLU6W5CbYSZ2CNOFkQ5CaFSTtslJLlIJn4nY2KjW5bxYR1UpeLQyvw=
+X-Google-Smtp-Source: AGHT+IGQEIj1UsQ55vIFvWQifdDJoJ+K0Nx7MGvC38cD88eyY8S5QS7be30pF9GpgYGqg3E2hM+cYw==
+X-Received: by 2002:a05:6102:441b:b0:4e6:ddd0:96ff with SMTP id ada2fe7eead31-50e507a5fcamr798538137.16.1755086333469;
+        Wed, 13 Aug 2025 04:58:53 -0700 (PDT)
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com. [209.85.217.50])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-506290ef39asm2683838137.4.2025.08.13.04.58.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Aug 2025 04:58:53 -0700 (PDT)
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-4fd6c638f20so3031893137.1;
+        Wed, 13 Aug 2025 04:58:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUyOXSry0zNhlT8wQ9TizrBcQz3GkZz8X5PasF70ffnZuNEfV3s5rPG1H7GnszfJzkkno8gvGz8Hl7lDuk=@vger.kernel.org, AJvYcCW3F2PGj8UIAXMsOD9SNXZ6LpztGhV4PVknp9jiSjAHODNoTuxUtCnDv6KsNUd1247hjsJ1bhS/8/ilTMKiZh2Kpo0=@vger.kernel.org, AJvYcCXKzhZklCzpd0ZsTLbnKn7os2tn6lLik7m11GPedqg8RQDVS9+fvHUoZ9hyJnFSRUvMvBv/OQDa/ZA=@vger.kernel.org
+X-Received: by 2002:a05:6102:1487:b0:4e5:9cf0:4eb6 with SMTP id
+ ada2fe7eead31-50e4e5d7c88mr994820137.5.1755086332601; Wed, 13 Aug 2025
+ 04:58:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20250701114733.636510-1-ulf.hansson@linaro.org>
+ <CAPDyKFr=u0u2ijczExkntHK1miWZ6hRrEWBMiyUwShS3m6c29g@mail.gmail.com>
+ <CAMuHMdX1BacUfqtmV8g7NpRnY9aTdL=fh+jC7OryMLz4ijaOCg@mail.gmail.com>
+ <CAPDyKFqANQZmGXd8ccA5qWiGrCor2N=W_7dmV+OK8hMd_+zmmw@mail.gmail.com>
+ <CAMuHMdVrkr56XsRsbG7H-tLHVzmP+g-7=5Nrv9asC25ismwiYA@mail.gmail.com> <CAPDyKFq7z9e9hEC9QWiYcaU=t+Gs_GgRurmK-+cNYp4xkhr5Ow@mail.gmail.com>
+In-Reply-To: <CAPDyKFq7z9e9hEC9QWiYcaU=t+Gs_GgRurmK-+cNYp4xkhr5Ow@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 13 Aug 2025 13:58:40 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU7W+f3nZ_ckHOFsmmK6V9HzK0-fNtcu8kgjTSeU89AqQ@mail.gmail.com>
+X-Gm-Features: Ac12FXy_QPIbJQtFhWwoeC5qDQfggpsR7MDF7zj_crLn7Nv8scpATkvcHMh0lNM
+Message-ID: <CAMuHMdU7W+f3nZ_ckHOFsmmK6V9HzK0-fNtcu8kgjTSeU89AqQ@mail.gmail.com>
+Subject: Re: [PATCH v3 00/24] pmdomain: Add generic ->sync_state() support to genpd
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Saravana Kannan <saravanak@google.com>, Stephen Boyd <sboyd@kernel.org>, linux-pm@vger.kernel.org, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Michael Grzeschik <m.grzeschik@pengutronix.de>, Bjorn Andersson <andersson@kernel.org>, 
+	Abel Vesa <abel.vesa@linaro.org>, Peng Fan <peng.fan@oss.nxp.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Johan Hovold <johan@kernel.org>, 
+	Maulik Shah <maulik.shah@oss.qualcomm.com>, Michal Simek <michal.simek@amd.com>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Hiago De Franco <hiago.franco@toradex.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v6.18
-branch HEAD: 09f025b1d9487f73de187fc91f1fce1ba9d18f62  clk: renesas: r9a07g04[34]: Use tabs instead of spaces
+Hi Ulf,
 
-elapsed time: 1284m
+On Tue, 12 Aug 2025 at 12:01, Ulf Hansson <ulf.hansson@linaro.org> wrote:
+> On Thu, 7 Aug 2025 at 11:38, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Wed, 30 Jul 2025 at 12:29, Ulf Hansson <ulf.hansson@linaro.org> wrote:
+> > > On Wed, 30 Jul 2025 at 11:56, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > > On Wed, 9 Jul 2025 at 13:31, Ulf Hansson <ulf.hansson@linaro.org> wrote:
+> > > > > On Tue, 1 Jul 2025 at 13:47, Ulf Hansson <ulf.hansson@linaro.org> wrote:
+> > > > > > Changes in v3:
+> > > > > >         - Added a couple of patches to adress problems on some Renesas
+> > > > > >         platforms. Thanks Geert and Tomi for helping out!
+> > > > > >         - Adressed a few comments from Saravanna and Konrad.
+> > > > > >         - Added some tested-by tags.
+> > > > >
+> > > > > I decided it was time to give this a try, so I have queued this up for
+> > > > > v6.17 via the next branch at my pmdomain tree.
+> > > > >
+> > > > > If you encounter any issues, please let me know so I can help to fix them.
+> > > >
+> > > > Thanks for your series!  Due to holidays, I only managed to test
+> > > > this very recently.
+> > > >
+> > > > Unfortunately I have an issue with unused PM Domains no longer being
+> > > > disabled on R-Car:
+> > > >   - On R-Car Gen1/2/3, using rcar-sysc.c, unused PM Domains are never
+> > > >     disabled.
+> > > >   - On R-Car Gen4, using rcar-gen4-sysc.c, unused PM Domains are
+> > > >     sometimes not disabled.
+> > > >     At first, I noticed the IOMMU driver was not enabled in my config,
+> > > >     and enabling it did fix the issue.  However, after that I still
+> > > >     encountered the issue in a different config that does have the
+> > > >     IOMMU driver enabled...
+> > > >
+> > > > FTR, unused PM Domains are still disabled correctly on R/SH-Mobile
+> > > > (using rmobile-sysc.c) and on BeagleBone Black. Note that these use
+> > > > of_genpd_add_provider_simple(), while all R-Car drivers use
+> > > > of_genpd_add_provider_onecell().  Perhaps there is an issue with
+> > > > the latter?  If you don't have a clue, I plan to do some more
+> > > > investigation later...
+> >
+> > of_genpd_add_provider_onecell() has:
+> >
+> >     if (!dev)
+> >             sync_state = true;
+> >     else
+> >             dev_set_drv_sync_state(dev, genpd_sync_state);
+> >
+> >     for (i = 0; i < data->num_domains; i++) {
+> >             ...
+> >             if (sync_state && !genpd_is_no_sync_state(genpd)) {
+> >                     genpd->sync_state = GENPD_SYNC_STATE_ONECELL;
+> >                     device_set_node(&genpd->dev, fwnode);
+> >                     sync_state = false;
+> >                     ^^^^^^^^^^^^^^^^^^^
+> >             }
+> >             ...
+> >     }
+> >
+> > As the R-Car SYSC drivers are not platform drivers, dev is NULL, and
+> > genpd->sync_state is set to GENPD_SYNC_STATE_ONECELL for the first PM
+> > Domain only.  All other domains have the default value of sync_state
+> > (0 = GENPD_SYNC_STATE_OFF).  Hence when genpd_provider_sync_state()
+> > is called later, it ignores all but the first domain.
+> > Apparently this is intentional, as of_genpd_sync_state() tries to
+> > power off all domains handled by the same controller anyway (see below)?
+>
+> Right, this is intentional and mainly because of how fw_devlink works.
+>
+> fw_devlink is limited to use only the first device - if multiple
+> devices share the same fwnode. In principle, we could have picked any
+> of the devices in the array of genpds here - and reached the same
+> result.
 
-configs tested: 227
-configs skipped: 6
+OK, just like I already assumed...
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> > > > BTW, the "pending due to"-messages look weird to me.
+> > > > On R-Car M2-W (r8a7791.dtsi) I see e.g.:
+> > > >
+> > > >     genpd_provider ca15-cpu0: sync_state() pending due to e6020000.watchdog
+> > > >     renesas-cpg-mssr e6150000.clock-controller: sync_state() pending
+> > > > due to e6020000.watchdog
+> > > >
+> > > > ca15-cpu0 is the PM Domain holding the first CPU core, while
+> > > > the watchdog resides in the always-on Clock Domain, and uses the
+> > > > clock-controller for PM_CLK handling.
+> >
+> > Unfortunately the first PM Domain is "ca15-cpu0", which is blocked on
+> > these bogus pending states, and no PM Domain is powered off.
+>
+> I see, thanks for the details. I am looking closer at this.
+>
+> In any case, this is the main issue, as it prevents the ->sync_state()
+> callback to be called. Hence the "genpd->stay_on" will also *not* be
+> cleared for any of the genpd's for the genpd-provider.
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    clang-19
-alpha                            allyesconfig    gcc-15.1.0
-alpha                               defconfig    clang-19
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    gcc-15.1.0
-arc                                 defconfig    clang-19
-arc                   randconfig-001-20250813    clang-22
-arc                   randconfig-001-20250813    gcc-11.5.0
-arc                   randconfig-002-20250813    clang-22
-arc                   randconfig-002-20250813    gcc-8.5.0
-arm                              allmodconfig    gcc-15.1.0
-arm                               allnoconfig    clang-22
-arm                              allyesconfig    gcc-15.1.0
-arm                                 defconfig    clang-19
-arm                   randconfig-001-20250813    clang-22
-arm                   randconfig-002-20250813    clang-22
-arm                   randconfig-002-20250813    gcc-8.5.0
-arm                   randconfig-003-20250813    clang-22
-arm                   randconfig-004-20250813    clang-22
-arm                   randconfig-004-20250813    gcc-8.5.0
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.1.0
-arm64                               defconfig    clang-19
-arm64                 randconfig-001-20250813    clang-22
-arm64                 randconfig-002-20250813    clang-22
-arm64                 randconfig-002-20250813    gcc-12.5.0
-arm64                 randconfig-003-20250813    clang-22
-arm64                 randconfig-004-20250813    clang-22
-csky                              allnoconfig    gcc-15.1.0
-csky                                defconfig    clang-19
-csky                  randconfig-001-20250813    clang-20
-csky                  randconfig-001-20250813    gcc-14.3.0
-csky                  randconfig-002-20250813    clang-20
-csky                  randconfig-002-20250813    gcc-13.4.0
-hexagon                          allmodconfig    clang-17
-hexagon                          allmodconfig    clang-19
-hexagon                           allnoconfig    clang-22
-hexagon                          allyesconfig    clang-19
-hexagon                          allyesconfig    clang-22
-hexagon                             defconfig    clang-19
-hexagon               randconfig-001-20250813    clang-20
-hexagon               randconfig-001-20250813    clang-22
-hexagon               randconfig-002-20250813    clang-20
-hexagon               randconfig-002-20250813    clang-22
-i386                             allmodconfig    clang-20
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    clang-20
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    clang-20
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250812    gcc-12
-i386        buildonly-randconfig-001-20250813    gcc-11
-i386        buildonly-randconfig-002-20250812    gcc-12
-i386        buildonly-randconfig-002-20250813    gcc-11
-i386        buildonly-randconfig-003-20250812    gcc-12
-i386        buildonly-randconfig-003-20250813    gcc-11
-i386        buildonly-randconfig-004-20250812    clang-20
-i386        buildonly-randconfig-004-20250813    gcc-11
-i386        buildonly-randconfig-005-20250812    clang-20
-i386        buildonly-randconfig-005-20250813    gcc-11
-i386        buildonly-randconfig-006-20250812    gcc-12
-i386        buildonly-randconfig-006-20250813    gcc-11
-i386                                defconfig    clang-20
-i386                  randconfig-001-20250813    clang-20
-i386                  randconfig-002-20250813    clang-20
-i386                  randconfig-003-20250813    clang-20
-i386                  randconfig-004-20250813    clang-20
-i386                  randconfig-005-20250813    clang-20
-i386                  randconfig-006-20250813    clang-20
-i386                  randconfig-007-20250813    clang-20
-i386                  randconfig-011-20250813    gcc-11
-i386                  randconfig-012-20250813    gcc-11
-i386                  randconfig-013-20250813    gcc-11
-i386                  randconfig-014-20250813    gcc-11
-i386                  randconfig-015-20250813    gcc-11
-i386                  randconfig-016-20250813    gcc-11
-i386                  randconfig-017-20250813    gcc-11
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-22
-loongarch                           defconfig    clang-19
-loongarch             randconfig-001-20250813    clang-19
-loongarch             randconfig-001-20250813    clang-20
-loongarch             randconfig-002-20250813    clang-20
-loongarch             randconfig-002-20250813    gcc-15.1.0
-m68k                             allmodconfig    clang-19
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    clang-19
-m68k                             allyesconfig    gcc-15.1.0
-m68k                                defconfig    clang-19
-m68k                          multi_defconfig    gcc-15.1.0
-microblaze                       allmodconfig    clang-19
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    clang-19
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-mips                          ath25_defconfig    gcc-15.1.0
-mips                         bigsur_defconfig    gcc-15.1.0
-mips                           ci20_defconfig    gcc-15.1.0
-nios2                             allnoconfig    gcc-11.5.0
-nios2                               defconfig    gcc-15.1.0
-nios2                 randconfig-001-20250813    clang-20
-nios2                 randconfig-001-20250813    gcc-11.5.0
-nios2                 randconfig-002-20250813    clang-20
-nios2                 randconfig-002-20250813    gcc-8.5.0
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-12
-parisc                           allmodconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                           allyesconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250813    clang-20
-parisc                randconfig-001-20250813    gcc-14.3.0
-parisc                randconfig-002-20250813    clang-20
-parisc                randconfig-002-20250813    gcc-8.5.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                          allmodconfig    gcc-15.1.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                          allyesconfig    gcc-15.1.0
-powerpc               randconfig-001-20250813    clang-18
-powerpc               randconfig-001-20250813    clang-20
-powerpc               randconfig-002-20250813    clang-20
-powerpc               randconfig-002-20250813    clang-22
-powerpc               randconfig-003-20250813    clang-20
-powerpc                         wii_defconfig    gcc-15.1.0
-powerpc64             randconfig-001-20250813    clang-20
-powerpc64             randconfig-001-20250813    clang-22
-powerpc64             randconfig-002-20250813    clang-20
-powerpc64             randconfig-002-20250813    gcc-8.5.0
-powerpc64             randconfig-003-20250813    clang-17
-powerpc64             randconfig-003-20250813    clang-20
-riscv                            allmodconfig    gcc-15.1.0
-riscv                             allnoconfig    gcc-15.1.0
-riscv                            allyesconfig    gcc-15.1.0
-riscv                               defconfig    gcc-12
-riscv                 randconfig-001-20250812    gcc-9.5.0
-riscv                 randconfig-001-20250813    clang-22
-riscv                 randconfig-002-20250812    gcc-8.5.0
-riscv                 randconfig-002-20250813    clang-22
-s390                             allmodconfig    clang-18
-s390                             allmodconfig    gcc-15.1.0
-s390                              allnoconfig    clang-22
-s390                             allyesconfig    gcc-15.1.0
-s390                                defconfig    gcc-12
-s390                  randconfig-001-20250812    clang-18
-s390                  randconfig-001-20250813    clang-22
-s390                  randconfig-002-20250812    clang-22
-s390                  randconfig-002-20250813    clang-22
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                                  defconfig    gcc-12
-sh                    randconfig-001-20250812    gcc-15.1.0
-sh                    randconfig-001-20250813    clang-22
-sh                    randconfig-002-20250812    gcc-15.1.0
-sh                    randconfig-002-20250813    clang-22
-sh                             shx3_defconfig    gcc-15.1.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20250812    gcc-8.5.0
-sparc                 randconfig-001-20250813    clang-22
-sparc                 randconfig-002-20250812    gcc-8.5.0
-sparc                 randconfig-002-20250813    clang-22
-sparc64                             defconfig    gcc-12
-sparc64               randconfig-001-20250812    clang-22
-sparc64               randconfig-001-20250813    clang-22
-sparc64               randconfig-002-20250812    clang-22
-sparc64               randconfig-002-20250813    clang-22
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-22
-um                               allyesconfig    clang-19
-um                               allyesconfig    gcc-12
-um                                  defconfig    gcc-12
-um                             i386_defconfig    gcc-12
-um                    randconfig-001-20250812    gcc-11
-um                    randconfig-001-20250813    clang-22
-um                    randconfig-002-20250812    gcc-12
-um                    randconfig-002-20250813    clang-22
-um                           x86_64_defconfig    gcc-12
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250812    clang-20
-x86_64      buildonly-randconfig-001-20250813    clang-20
-x86_64      buildonly-randconfig-002-20250812    gcc-12
-x86_64      buildonly-randconfig-002-20250813    clang-20
-x86_64      buildonly-randconfig-003-20250812    gcc-12
-x86_64      buildonly-randconfig-003-20250813    clang-20
-x86_64      buildonly-randconfig-004-20250812    gcc-12
-x86_64      buildonly-randconfig-004-20250813    clang-20
-x86_64      buildonly-randconfig-005-20250812    clang-20
-x86_64      buildonly-randconfig-005-20250813    clang-20
-x86_64      buildonly-randconfig-006-20250812    gcc-12
-x86_64      buildonly-randconfig-006-20250813    clang-20
-x86_64                              defconfig    clang-20
-x86_64                              defconfig    gcc-11
-x86_64                                  kexec    clang-20
-x86_64                randconfig-001-20250813    gcc-12
-x86_64                randconfig-002-20250813    gcc-12
-x86_64                randconfig-003-20250813    gcc-12
-x86_64                randconfig-004-20250813    gcc-12
-x86_64                randconfig-005-20250813    gcc-12
-x86_64                randconfig-006-20250813    gcc-12
-x86_64                randconfig-007-20250813    gcc-12
-x86_64                randconfig-008-20250813    gcc-12
-x86_64                randconfig-071-20250813    clang-20
-x86_64                randconfig-072-20250813    clang-20
-x86_64                randconfig-073-20250813    clang-20
-x86_64                randconfig-074-20250813    clang-20
-x86_64                randconfig-075-20250813    clang-20
-x86_64                randconfig-076-20250813    clang-20
-x86_64                randconfig-077-20250813    clang-20
-x86_64                randconfig-078-20250813    clang-20
-x86_64                               rhel-9.4    clang-20
-x86_64                          rhel-9.4-func    clang-20
-x86_64                    rhel-9.4-kselftests    clang-20
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250812    gcc-10.5.0
-xtensa                randconfig-001-20250813    clang-22
-xtensa                randconfig-002-20250812    gcc-12.5.0
-xtensa                randconfig-002-20250813    clang-22
+I was under the impression there is a time-out, after which the
+.sync_state() callback would be called anyway, just like for probe
+deferral due to missing optional providers like DMACs and IOMMUs.
+Apparently that is not the case?
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> > If I remove the "sync_state = false" above, genpd_provider_sync_state()
+> > considers all domains, and does power down all unused domains (even
+> > multiple times, as expected).
+>
+> I think those are getting called because with the change above, there
+> is no device_link being tracked. As stated above, fw_devlink is
+> limited to use only one device - if multiple devices share the same
+> fwnode.
+
+Indeed.
+
+> In other words, the ->sync_state() callbacks are called even if the
+> corresponding consumer devices have not been probed yet.
+
+Hence shouldn't there be a timeout, as the kernel may not even have
+a driver for one or more consumer devices?
+
+> > Upon closer look, all "pending due to" messages I see claim that the
+> > first (index 0) PM Domain is pending on some devices, while all of
+> > these devices are part of a different domain (usually the always-on
+> > domain, which is always the last (32 or 64) on R-Car).
+> >
+> > So I think there are two issues:
+> >   1. Devices are not attributed to the correct PM Domain using
+> >      fw_devlink sync_state,
+> >   2. One PM Domain of a multi-domain controller being blocked should
+> >      not block all other domains handled by the same controller.
+>
+> Right, that's a current limitation with fw_devlink. To cope with this,
+> it's possible to enforce the ->sync_state() callback to be invoked
+> from user-space (timeout or explicitly) for a device.
+>
+> Another option would be to allow an opt-out behavior for some genpd's
+> that are powered-on at initialization. Something along the lines of
+> the below.
+>
+> From: Ulf Hansson <ulf.hansson@linaro.org>
+> Date: Tue, 29 Jul 2025 14:27:22 +0200
+> Subject: [PATCH] pmdomain: core: Allow powered-on PM domains to be powered-off
+>  during boot
+
+[...]
+
+I gave this a try (i.e. "| GENPD_FLAG_NO_STAY_ON" in rcar-sysc.c), but
+this doesn't make any difference.  I assume this would only work when
+actively calling genpd_power_off() (i.e. not from of_genpd_sync_state()
+or genpd_provider_sync_state())?
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
