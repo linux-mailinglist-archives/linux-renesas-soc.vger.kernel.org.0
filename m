@@ -1,252 +1,146 @@
-Return-Path: <linux-renesas-soc+bounces-20440-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20441-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E8D2B23F7B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Aug 2025 06:24:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3970AB2421A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Aug 2025 09:00:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7E05E1B60D25
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Aug 2025 04:24:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 043261B63CDF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Aug 2025 07:00:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A0B72505A5;
-	Wed, 13 Aug 2025 04:24:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YtctWUK2"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D7712D63FA;
+	Wed, 13 Aug 2025 07:00:03 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 527EBB661
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Aug 2025 04:24:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D3EE2D3731
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Aug 2025 07:00:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755059052; cv=none; b=Yy2rvgxWTRxqipYCC/oEbAiEAOMzCRzaDt/oQIMzRUtz9bTG1WbPxxqgKx4KXsF5PepbnABvualGHhNhPgrnbgPeyQy2wAM92dqOfMoug7el2TnxvxpnEzJEIebUlpODW2WqJwh45kQfHGWgp2i/PKiYd0wRQwKsrTXjzOXgvUU=
+	t=1755068403; cv=none; b=kxoST8z96pkZZqQzOhikhMlUOEEpZ4+ck+Yv0JQZsvhik+PSCwcnCKSV3XL/Vx4to4g6ApCAOY4BXz1eyy/ZTJZMSBGMihSQq3RUBVUvczjz3NlIVH001Wb5UdtiJvyQnSWNe9INuKlhyyATfVgvnqSgUEwcxSsAngIPtkF4h58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755059052; c=relaxed/simple;
-	bh=5VeoEiQVAMThhJpBs0E7hxESFuMg1N63aHv22tHmV6s=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=iHv0D7E31c89VRwRFuvr2TlZVNdSa+/k++3fcEKHIZjK/zqbByh1hzXk6z/2l6sXnbFPgYU4ZTBjCPJFXOVZ4UXL+EVzY/zsHakLzBag9iZ/6Kf1viCo5w9quWr8URPgEVXWI7IYg7JHhzrTVjNIcI5Z171XXuBN0McxJiszVnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YtctWUK2; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755059050; x=1786595050;
-  h=date:from:to:cc:subject:message-id;
-  bh=5VeoEiQVAMThhJpBs0E7hxESFuMg1N63aHv22tHmV6s=;
-  b=YtctWUK2n8ZBFLvRS8V4CSurSiupHowBLJnZi/CSaunAsi6CqiilPFvt
-   dzk4FwcNQAixH236hEb3H94gVP0ARKP9739PhT+Kk4WVYYyV73OAmJqSh
-   9Q3vg8a+v6ekJ1Jv9VHg8ibX6CtGxnrDDHQkAP0tLsX95SX+Lxqt1voIU
-   dPaS6c6u0gq4yMoU7Z5Mko1wifVA76vtoWJbzPA9ga/mquSsUAE2sUpbY
-   Fiux/CcrmDd6286jCM6Xg8iTvz9LCNdYed6RYNhxwqEvgMMpF59GLvoGv
-   Pzst6wXNyFuDjDPByMcWMjU1QexaRhNckcf1owiKuWbFJl7duUkX2bOeb
-   A==;
-X-CSE-ConnectionGUID: 7gbC8EsFQ/WxpyrR0nmjng==
-X-CSE-MsgGUID: 9/FVWkevSr+r2hmr8Z8oAQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="61146210"
-X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="61146210"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 21:24:09 -0700
-X-CSE-ConnectionGUID: h7MykZ+hRuG0DiuNcDOTOw==
-X-CSE-MsgGUID: jmcWUPmWShGc3OlCBvKIuQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="166250607"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 12 Aug 2025 21:24:08 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1um31w-0009Wq-1I;
-	Wed, 13 Aug 2025 04:24:04 +0000
-Date: Wed, 13 Aug 2025 12:23:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:next] BUILD SUCCESS
- 7be902501ea49828202684d531401ce138ad793f
-Message-ID: <202508131219.9n0QwuVF-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1755068403; c=relaxed/simple;
+	bh=3qmYnK4zkN249FRX4nTplYFHUksNRkaLTNgCMYlz7EM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kADgli1O1i5IRZfBIYt4jjMsyw9OCrjn14hSeo67as0vSL0PBzf/yr6hH6z0mSPt/ZXxlED+9ubGb21GvtoJwzs2eW1r25Gl0SsZVFVcStuv0BlW04Iva36w27vzpUWHGs/Jsg1LaDEd1PbWJs83uOUbKgn3Yjs4apP+CbG0Dhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-539613258e8so1781265e0c.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Aug 2025 00:00:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755068400; x=1755673200;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3kHnvCAVwfQ4q/T0cjVxNPyYyL60fB4Xq07rENVSySo=;
+        b=s7ub6LEvzDSbtdVUY6/XvggcqpQq1zAth5XrsWOgRaGkRnwGHwBrE99qgBevJ9xwDy
+         h8iwZHJ8TuBYYqz3lizeo5BV7jfvdLxMxFaGHo6q52sYHwAdxpd6+GI4mxvs3IKpI0Gw
+         RUNV9QtW6kbmHr4aBJv96Cb7cWCpmjiuNcI2+uf0jkX9kJEHmSqdJOvOrSn6xyP9tO4t
+         /1RKDO6tEKAMSysqpiY/vshlIUkNfPjdS4Qe7ye7d0tD4xD/jBlvjlo+4Iggxy02ZNd2
+         HAZBv18KGfCofHlNoaw6A1x8/cAE6zwJVk4WPLRzfI5YgV73HL+TIcL1VEFsEEn6RzXM
+         tvsA==
+X-Forwarded-Encrypted: i=1; AJvYcCVoLpnKiTrS7a8refhEnJjjrAWtTD4f7L+WsPiTSLBy4dAYAQTLEdmRch7tVIDBqIklaKChXacJ7oaoyn6NgPcqjA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAD7lG+b7e/I/SJrYia4OBowkgd42EXsf7+VRoyih3BZHlEQnT
+	Nsj9kBHEwp2LAmzTHcqH0CNM7gGPmIYklOo1YBSKBEoC1FgsCAsHRrXvCkm+PC1p
+X-Gm-Gg: ASbGncv1V57veq/qAdpmeLUsi/bHKX7vMl8qIJWi+cddhedRJB6mxqSplDGK+IGCtH6
+	YRHsGiLWfFYfrB5vBFs2aY9DgroaonCGv7YvYjg6+8vOcdwqZ2R7OpIzqqWumLr3FyDaoffobPX
+	mDRBtz8zdfdxnplXTlGS6S5f8TApqEFLIfRqVQDK9qi9C8X1LF2ftjnKTEHI0+4vYbFer+xFZ4o
+	0mGZBOaRgWI1QCeqp5faYfi1q/lXcF0qPuF9v9S8JTFLHWIPqS6Yq/6txW0s52CuJS6f/nx7xH5
+	aH53aCRoS3Bpb1B23aFGJGz1fNYeShfVqNdgw1GUncoftp0//vZja7jB75dNFXj4igESPJdEBvL
+	TNmfbwqsH/593yRQuSM1Qwea32cbcaMXJpbUNwawm5GatOUWUDR2Jyq0/dKer
+X-Google-Smtp-Source: AGHT+IFU8TjQjXayed1NjdIfG3DrwYlSciKpiPciHewatIg1dvBXSmfYflxtFv+2BojAFqIHneCZfg==
+X-Received: by 2002:a05:6122:3c55:b0:539:1dbf:3148 with SMTP id 71dfb90a1353d-53b0b486d1amr586520e0c.2.1755068400090;
+        Wed, 13 Aug 2025 00:00:00 -0700 (PDT)
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com. [209.85.217.53])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-539b01ce43dsm3739215e0c.15.2025.08.12.23.59.59
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Aug 2025 23:59:59 -0700 (PDT)
+Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-4fc1a5e600aso2236713137.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Aug 2025 23:59:59 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXwdHY3hAgD2X0E0/A+mEq9ySVhk9VKoMxREb2Qh+lahzlkkW8D4cERavGEwFl52uCFSxZ3TMhJOq2BZSlayacbuA==@vger.kernel.org
+X-Received: by 2002:a05:6102:e0e:b0:4e7:bf03:cd79 with SMTP id
+ ada2fe7eead31-50e4e5d2141mr640353137.5.1755068399534; Tue, 12 Aug 2025
+ 23:59:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20250608142636.54033-1-marek.vasut+renesas@mailbox.org>
+ <20250608142636.54033-2-marek.vasut+renesas@mailbox.org> <bc31d938-847d-46a5-af1e-29de3ac21504@ideasonboard.com>
+ <7dc2c17d-9879-41c8-b90d-19f92a2d9c1e@mailbox.org> <20250812200526.GA12797@pendragon.ideasonboard.com>
+In-Reply-To: <20250812200526.GA12797@pendragon.ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 13 Aug 2025 08:59:48 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVQxEpxgpedHHZguncCjaapLo9t9+OQN0o8CVe774PQnw@mail.gmail.com>
+X-Gm-Features: Ac12FXzYHD6o7Zu0xKI2LGENopDTqNbsO1HrRxXM3S-o6SplmdapAJBtZ0w8rDA
+Message-ID: <CAMuHMdVQxEpxgpedHHZguncCjaapLo9t9+OQN0o8CVe774PQnw@mail.gmail.com>
+Subject: Re: [PATCH 1/4] drm/rcar-du: dsi: Convert register bits to BIT() macro
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Marek Vasut <marek.vasut@mailbox.org>, 
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+	Marek Vasut <marek.vasut+renesas@mailbox.org>, dri-devel@lists.freedesktop.org, 
+	David Airlie <airlied@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Magnus Damm <magnus.damm@gmail.com>, 
+	Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-branch HEAD: 7be902501ea49828202684d531401ce138ad793f  Merge branches 'renesas-arm-defconfig-for-v6.18', 'renesas-arm-soc-for-v6.18' and 'renesas-dts-for-v6.18' into renesas-next
+On Tue, 12 Aug 2025 at 22:05, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Tue, Aug 12, 2025 at 09:32:36PM +0200, Marek Vasut wrote:
+> > On 8/12/25 3:26 PM, Tomi Valkeinen wrote:
+> > >> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+> > >> index a6b276f1d6ee..b3e57217ae63 100644
+> > >> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+> > >> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+> >
+> > [...]
+> >
+> > >> @@ -51,11 +51,11 @@
+> > >>
+> > >>   #define TXVMVPRMSET0R                    0x1d0
+> > >>   #define TXVMVPRMSET0R_HSPOL_HIG          (0 << 17)
+> > >> -#define TXVMVPRMSET0R_HSPOL_LOW           (1 << 17)
+> > >> +#define TXVMVPRMSET0R_HSPOL_LOW           BIT(17)
+> > >
+> > > I'm not sure about this (and below). We have two defines for the HSPOL,
+> > > high and low. If one of them is (x << y), shouldn't the other one be of
+> > > that style too?
+> >
+> > It is inconsistent, but one macro describes bit set to 0 and the other
+> > bit set to 1 (i.e. the actual bit) which is converted to BIT(n) macro. I
+> > would be tempted to remove the bits set to 0, that's probably the real
+> > discussion that should happen here. But that would also be a much bigger
+> > patch. What do you think ?
+>
+> For what it's worth, for single-bit register fields, I usually define a
+> single macro. I understand it's usually a coding style preference.
 
-elapsed time: 1208m
+An alternative would be to define 3 macros:
 
-configs tested: 159
-configs skipped: 120
+    #define TXVMVPRMSET0R_HSPOL        BIT(17)
+    #define TXVMVPRMSET0R_HSPOL_HIG    0
+    #define TXVMVPRMSET0R_HSPOL_LOW    1
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+and use FIELD_PREP(TXVMVPRMSET0R_HSPOL, TXVMVPRMSET0R_HSPOL_{HIG,LOW}).
+But I agree a single definition is fine for a single-bit register field.
 
-tested configs:
-alpha                             allnoconfig    clang-22
-alpha                            allyesconfig    clang-19
-alpha                               defconfig    clang-19
-arc                              allmodconfig    clang-19
-arc                               allnoconfig    clang-22
-arc                              allyesconfig    clang-19
-arc                                 defconfig    clang-19
-arc                   randconfig-001-20250813    clang-22
-arc                   randconfig-002-20250813    clang-22
-arm                              allmodconfig    clang-19
-arm                              allmodconfig    gcc-15.1.0
-arm                               allnoconfig    clang-22
-arm                              allyesconfig    clang-19
-arm                              allyesconfig    gcc-15.1.0
-arm                                 defconfig    clang-19
-arm                   randconfig-001-20250812    clang-22
-arm                   randconfig-001-20250813    clang-22
-arm                   randconfig-002-20250812    clang-22
-arm                   randconfig-002-20250813    clang-22
-arm                   randconfig-003-20250812    gcc-14.3.0
-arm                   randconfig-003-20250813    clang-22
-arm                   randconfig-004-20250812    gcc-10.5.0
-arm                   randconfig-004-20250813    clang-22
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    clang-22
-arm64                             allnoconfig    gcc-15.1.0
-arm64                               defconfig    clang-19
-arm64                 randconfig-001-20250812    gcc-8.5.0
-arm64                 randconfig-001-20250813    clang-22
-arm64                 randconfig-002-20250812    gcc-8.5.0
-arm64                 randconfig-002-20250813    clang-22
-arm64                 randconfig-003-20250812    gcc-14.3.0
-arm64                 randconfig-003-20250813    clang-22
-arm64                 randconfig-004-20250812    gcc-8.5.0
-arm64                 randconfig-004-20250813    clang-22
-csky                              allnoconfig    clang-22
-csky                                defconfig    clang-19
-csky                  randconfig-001-20250813    clang-20
-csky                  randconfig-002-20250813    clang-20
-hexagon                          allmodconfig    clang-19
-hexagon                           allnoconfig    clang-22
-hexagon                          allyesconfig    clang-19
-hexagon                             defconfig    clang-19
-hexagon               randconfig-001-20250813    clang-20
-hexagon               randconfig-002-20250813    clang-20
-i386                             allmodconfig    clang-20
-i386                              allnoconfig    clang-20
-i386                             allyesconfig    clang-20
-i386        buildonly-randconfig-001-20250813    gcc-11
-i386        buildonly-randconfig-002-20250813    gcc-11
-i386        buildonly-randconfig-003-20250813    gcc-11
-i386        buildonly-randconfig-004-20250813    gcc-11
-i386        buildonly-randconfig-005-20250813    gcc-11
-i386        buildonly-randconfig-006-20250813    gcc-11
-i386                                defconfig    clang-20
-i386                  randconfig-001-20250813    clang-20
-i386                  randconfig-002-20250813    clang-20
-i386                  randconfig-003-20250813    clang-20
-i386                  randconfig-004-20250813    clang-20
-i386                  randconfig-005-20250813    clang-20
-i386                  randconfig-006-20250813    clang-20
-i386                  randconfig-007-20250813    clang-20
-i386                  randconfig-011-20250813    gcc-11
-i386                  randconfig-012-20250813    gcc-11
-i386                  randconfig-013-20250813    gcc-11
-i386                  randconfig-014-20250813    gcc-11
-i386                  randconfig-015-20250813    gcc-11
-i386                  randconfig-016-20250813    gcc-11
-i386                  randconfig-017-20250813    gcc-11
-loongarch                         allnoconfig    clang-22
-loongarch                           defconfig    clang-19
-loongarch             randconfig-001-20250813    clang-20
-loongarch             randconfig-002-20250813    clang-20
-m68k                              allnoconfig    gcc-15.1.0
-m68k                                defconfig    clang-19
-m68k                          multi_defconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-mips                          ath25_defconfig    gcc-15.1.0
-mips                         bigsur_defconfig    gcc-15.1.0
-mips                           ci20_defconfig    gcc-15.1.0
-nios2                             allnoconfig    gcc-15.1.0
-nios2                               defconfig    gcc-15.1.0
-nios2                 randconfig-001-20250813    clang-20
-nios2                 randconfig-002-20250813    clang-20
-openrisc                          allnoconfig    clang-22
-parisc                            allnoconfig    clang-22
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250813    clang-20
-parisc                randconfig-002-20250813    clang-20
-parisc64                            defconfig    gcc-15.1.0
-powerpc                           allnoconfig    clang-22
-powerpc               randconfig-001-20250813    clang-20
-powerpc               randconfig-002-20250813    clang-20
-powerpc               randconfig-003-20250813    clang-20
-powerpc                         wii_defconfig    gcc-15.1.0
-powerpc64             randconfig-001-20250813    clang-20
-powerpc64             randconfig-002-20250813    clang-20
-powerpc64             randconfig-003-20250813    clang-20
-riscv                             allnoconfig    clang-22
-riscv                 randconfig-001-20250813    clang-22
-riscv                 randconfig-002-20250813    clang-22
-s390                             allmodconfig    gcc-15.1.0
-s390                              allnoconfig    clang-22
-s390                             allyesconfig    gcc-15.1.0
-s390                  randconfig-001-20250813    clang-22
-s390                  randconfig-002-20250813    clang-22
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                    randconfig-001-20250813    clang-22
-sh                    randconfig-002-20250813    clang-22
-sh                             shx3_defconfig    gcc-15.1.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20250813    clang-22
-sparc                 randconfig-002-20250813    clang-22
-sparc64               randconfig-001-20250813    clang-22
-sparc64               randconfig-002-20250813    clang-22
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-22
-um                               allyesconfig    clang-19
-um                    randconfig-001-20250813    clang-22
-um                    randconfig-002-20250813    clang-22
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250813    clang-20
-x86_64      buildonly-randconfig-002-20250813    clang-20
-x86_64      buildonly-randconfig-003-20250813    clang-20
-x86_64      buildonly-randconfig-004-20250813    clang-20
-x86_64      buildonly-randconfig-005-20250813    clang-20
-x86_64      buildonly-randconfig-006-20250813    clang-20
-x86_64                              defconfig    clang-20
-x86_64                                  kexec    clang-20
-x86_64                randconfig-001-20250813    gcc-12
-x86_64                randconfig-002-20250813    gcc-12
-x86_64                randconfig-003-20250813    gcc-12
-x86_64                randconfig-004-20250813    gcc-12
-x86_64                randconfig-005-20250813    gcc-12
-x86_64                randconfig-006-20250813    gcc-12
-x86_64                randconfig-007-20250813    gcc-12
-x86_64                randconfig-008-20250813    gcc-12
-x86_64                randconfig-071-20250813    clang-20
-x86_64                randconfig-072-20250813    clang-20
-x86_64                randconfig-073-20250813    clang-20
-x86_64                randconfig-074-20250813    clang-20
-x86_64                randconfig-075-20250813    clang-20
-x86_64                randconfig-076-20250813    clang-20
-x86_64                randconfig-077-20250813    clang-20
-x86_64                randconfig-078-20250813    clang-20
-x86_64                               rhel-9.4    clang-20
-x86_64                          rhel-9.4-func    clang-20
-x86_64                    rhel-9.4-kselftests    clang-20
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250813    clang-22
-xtensa                randconfig-002-20250813    clang-22
+Gr{oetje,eeting}s,
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
