@@ -1,136 +1,165 @@
-Return-Path: <linux-renesas-soc+bounces-20533-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20536-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 826F6B26B99
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 17:55:15 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id B490DB26C38
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 18:14:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 888793AF7B4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 15:50:28 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 63F694E207F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 16:14:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F43F23BD1F;
-	Thu, 14 Aug 2025 15:50:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hABxWo7/"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE859253F15;
+	Thu, 14 Aug 2025 16:14:05 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B8832142C;
-	Thu, 14 Aug 2025 15:50:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCAC4220F55
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Aug 2025 16:14:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755186625; cv=none; b=lY7uoC/MTJV5SKtYUqHZnIgjPcIIDnOpOf1hYh5rEI4Ud0ZMOMTxmaSlSlBfoyPMAMoEJt2MSD/guECcnQw919GZZd1QDiOArAFdQH9bwGwVYEpsm5XGNmh9iPnE/wG+YbO4LNYBPcEvjHUj9HUuH6G6on27X/yUfg5TJ+Hdzuk=
+	t=1755188045; cv=none; b=Whs/peAlHkLEKaV9GTSZELE8FbYU+h1J78MSGZY83Zfn+qhG8MLBVFxvigDw2pb7Xr4rLXgX/kXrAWqmtsYa95vppu4pouPQFA6oO+olj9GS3do1mXOYvWdjvgh5QgMbAEPOXoy9T7XKGkr5xELEmYXRivEH7lMOho2SCxwmmp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755186625; c=relaxed/simple;
-	bh=o/MgtG1g9Rt5y/lAK6YBxZs06Pfqhy/MN+PlW0TT6zY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=JBsse9H/YuUqXvzRgTiTaMIVU0qxMQg0P8/Jtt8FJ+peV0bDhY+mZAt93BoO18NiMIa1f+ibeUwiRdS+tuoNgEGZguj2ZZCR4pXER8CDQ+ttxAASfHXBAAgxWm1gssQRTJhEivWsWy1ChinOLZO7j8Q4am0vdkp+HPqSj3was8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hABxWo7/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E2B0C4CEED;
-	Thu, 14 Aug 2025 15:50:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755186624;
-	bh=o/MgtG1g9Rt5y/lAK6YBxZs06Pfqhy/MN+PlW0TT6zY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=hABxWo7/m8RV9cAcTZtZaUIEUqgl9tHzY7MAGXzXDi1h0HabiSaR90DAXzp67TWmF
-	 U3o8bL2bFI98VWHbFSMyxlAy5TQYdtR2G++O6l0KliRJs2EbeJld/7OKWkDfcUrOIl
-	 0xfAtz3yLkvtpi30XW37DeWsUbSGKgPUVUF1P58XR0gVgs+MNLqpsZkmYgs1ejou9W
-	 tY4ezf6uWOrDwNRmSPTAgviF31BJxxVYx8W6JUSiBTOxeiGycaYA1eFU5Svy0kBjRr
-	 wz6cEmKiiWTFycFptGV5EwGACSMjHnViMm8H+4C69Ai0v2gBl7/LC2WW2nqaMiqePg
-	 NuaZILW4rT3jg==
-Date: Thu, 14 Aug 2025 10:50:23 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Niklas Cassel <cassel@kernel.org>
-Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Siddharth Vadapalli <s-vadapalli@ti.com>,
-	Richard Zhu <hongxing.zhu@nxp.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Jesper Nilsson <jesper.nilsson@axis.com>,
-	Jingoo Han <jingoohan1@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
-	Srikanth Thokala <srikanth.thokala@intel.com>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Shawn Lin <shawn.lin@rock-chips.com>, linux-pci@vger.kernel.org,
-	linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	imx@lists.linux.dev, linux-arm-kernel@axis.com,
-	linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 00/13] PCI: Drop superfluous pci_epc_features
- initialization
-Message-ID: <20250814155023.GA330705@bhelgaas>
+	s=arc-20240116; t=1755188045; c=relaxed/simple;
+	bh=Fr6xTqn+YFAKntbls3pZMJ3VQKpDZwrzY1H8n1hFwDk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JsaTTXXdJXbqYVi8BF2fnl+phieHEbsCq8GlwletJrDK0MvIpwKRvCVmfT4PqEFzfcdQ4cex+e9kEV4jja+UsakfbFVj/s0ZVuQgN6TGfx2gGsNA0EuSTbY1bUf8mpevYR8PSA5L4VDsagHkHww3aqgD80v9yGc5EBh9ihmeLrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DE799169C
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Aug 2025 09:13:54 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B23003F738
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Aug 2025 09:14:02 -0700 (PDT)
+Date: Thu, 14 Aug 2025 17:13:54 +0100
+From: "liviu.dudau@arm.com" <liviu.dudau@arm.com>
+To: "Kandpal, Suraj" <suraj.kandpal@intel.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	"kernel-list@raspberrypi.com" <kernel-list@raspberrypi.com>,
+	"amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+	"freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+	"intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+	"Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>,
+	"Murthy, Arun R" <arun.r.murthy@intel.com>,
+	"Shankar, Uma" <uma.shankar@intel.com>,
+	"Nikula, Jani" <jani.nikula@intel.com>,
+	"harry.wentland@amd.com" <harry.wentland@amd.com>,
+	"siqueira@igalia.com" <siqueira@igalia.com>,
+	"alexander.deucher@amd.com" <alexander.deucher@amd.com>,
+	"christian.koenig@amd.com" <christian.koenig@amd.com>,
+	"airlied@gmail.com" <airlied@gmail.com>,
+	"simona@ffwll.ch" <simona@ffwll.ch>,
+	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+	"mripard@kernel.org" <mripard@kernel.org>,
+	"robin.clark@oss.qualcomm.com" <robin.clark@oss.qualcomm.com>,
+	"abhinav.kumar@linux.dev" <abhinav.kumar@linux.dev>,
+	"tzimmermann@suse.de" <tzimmermann@suse.de>,
+	"jessica.zhang@oss.qualcomm.com" <jessica.zhang@oss.qualcomm.com>,
+	"sean@poorly.run" <sean@poorly.run>,
+	"marijn.suijten@somainline.org" <marijn.suijten@somainline.org>,
+	"mcanal@igalia.com" <mcanal@igalia.com>,
+	"dave.stevenson@raspberrypi.com" <dave.stevenson@raspberrypi.com>,
+	"tomi.valkeinen+renesas@ideasonboard.com" <tomi.valkeinen+renesas@ideasonboard.com>,
+	"kieran.bingham+renesas@ideasonboard.com" <kieran.bingham+renesas@ideasonboard.com>,
+	"louis.chauvet@bootlin.com" <louis.chauvet@bootlin.com>
+Subject: Re: [RFC PATCH 1/8] drm: writeback: Refactor drm_writeback_connector
+ structure
+Message-ID: <aJ4LQvqli36TlETu@e110455-lin.cambridge.arm.com>
+References: <20250811092707.3986802-1-suraj.kandpal@intel.com>
+ <20250811092707.3986802-2-suraj.kandpal@intel.com>
+ <20250811094429.GE21313@pendragon.ideasonboard.com>
+ <awtqznhquyn7etojonmjn7karznefsb7fdudawcjsj5g2bok3u@2iqcdviuiz2s>
+ <20250811111546.GA30760@pendragon.ideasonboard.com>
+ <2ah3pau7p7brgw7huoxznvej3djct76vgfwtc72n6uub7sjojd@zzaebjdcpdwf>
+ <DM3PPF208195D8D0E55A761A3C16B87BAEEE32AA@DM3PPF208195D8D.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250814152119.1562063-15-cassel@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <DM3PPF208195D8D0E55A761A3C16B87BAEEE32AA@DM3PPF208195D8D.namprd11.prod.outlook.com>
 
-On Thu, Aug 14, 2025 at 05:21:19PM +0200, Niklas Cassel wrote:
-> Hello all,
-> 
-> struct pci_epc_features has static storage duration, so all struct members
-> are zero initialized implicitly. Thus, remove explicit zero initialization
-> of struct members.
-> 
-> Series is based on pci/next.
-> 
-> Feel free to squash to a single commit if that is preferable.
-> 
-> Kind regards,
-> Niklas
-> 
-> 
-> Niklas Cassel (13):
->   PCI: cadence-ep: Drop superfluous pci_epc_features initialization
->   PCI: rcar-ep: Drop superfluous pci_epc_features initialization
->   PCI: rockchip-ep: Drop superfluous pci_epc_features initialization
->   PCI: dra7xx: Drop superfluous pci_epc_features initialization
->   PCI: imx6: Drop superfluous pci_epc_features initialization
->   PCI: keystone: Drop superfluous pci_epc_features initialization
->   PCI: artpec6: Drop superfluous pci_epc_features initialization
->   PCI: designware-plat: Drop superfluous pci_epc_features initialization
->   PCI: dw-rockchip: Drop superfluous pci_epc_features initialization
->   PCI: keembay: Drop superfluous pci_epc_features initialization
->   PCI: qcom-ep: Drop superfluous pci_epc_features initialization
->   PCI: rcar-gen4: Drop superfluous pci_epc_features initialization
->   PCI: tegra194: Drop superfluous pci_epc_features initialization
-> 
->  drivers/pci/controller/cadence/pcie-cadence-ep.c  | 2 --
->  drivers/pci/controller/dwc/pci-dra7xx.c           | 1 -
->  drivers/pci/controller/dwc/pci-imx6.c             | 4 ----
->  drivers/pci/controller/dwc/pci-keystone.c         | 1 -
->  drivers/pci/controller/dwc/pcie-artpec6.c         | 2 --
->  drivers/pci/controller/dwc/pcie-designware-plat.c | 1 -
->  drivers/pci/controller/dwc/pcie-dw-rockchip.c     | 2 --
->  drivers/pci/controller/dwc/pcie-keembay.c         | 1 -
->  drivers/pci/controller/dwc/pcie-qcom-ep.c         | 1 -
->  drivers/pci/controller/dwc/pcie-rcar-gen4.c       | 2 --
->  drivers/pci/controller/dwc/pcie-tegra194.c        | 2 --
->  drivers/pci/controller/pcie-rcar-ep.c             | 2 --
->  drivers/pci/controller/pcie-rockchip-ep.c         | 1 -
->  13 files changed, 22 deletions(-)
+Hi,
 
-Squashed into one, added "remove explicit zero initialization for
-features that are *not* supported so we don't have to touch existing
-drivers as new features are added" to commit log, and applied to
-pci/endpoint for v6.18, thanks, Niklas!
+On Wed, Aug 13, 2025 at 10:04:22AM +0000, Kandpal, Suraj wrote:
+> > > > };
+> > >
+> > > I still don't like that. This really doesn't belong here. If anything,
+> > > the drm_connector for writeback belongs to drm_crtc.
+> > 
+> > Why? We already have generic HDMI field inside drm_connector. I am really
+> > hoping to be able to land DP parts next to it. In theory we can have a DVI-
+> > specific entry there (e.g. with the subconnector type).
+> > The idea is not to limit how the drivers subclass those structures.
+> > 
+> > I don't see a good case why WB should deviate from that design.
+> > 
+> > > If the issue is that some drivers need a custom drm_connector
+> > > subclass, then I'd rather turn the connector field of
+> > > drm_writeback_connector into a pointer.
+> > 
+> > Having a pointer requires additional ops in order to get drm_connector from
+> > WB code and vice versa. Having drm_connector_wb inside drm_connector
+> > saves us from those ops (which don't manifest for any other kind of structure).
+> > Nor will it take any more space since union will reuse space already taken up by
+> > HDMI part.
+> > 
+> > >
+> 
+> Seems like this thread has died. We need to get a conclusion on the design.
+> Laurent do you have any issue with the design given Dmitry's explanation as to why this
+> Design is good for drm_writeback_connector.
 
+I'm with Laurent here. The idea for drm_connector (and a lot of drm structures) are to
+be used as base "classes" for extended structures. I don't know why HDMI connector ended
+up inside drm_connector as not all connectors have HDMI functionality, but that's a cleanup
+for another day.
+
+drm_writeback_connector uses the 'base' drm_connector only for a few things, mostly in
+__drm_writeback_connector_init() and prepare_job()/cleanup_job(). In _init() we just setup
+the properties and the encoder after we disable interlacing. prepare_job()/cleanup_job()
+is another workaround to be to some custom ops some drivers might want for signalling. So
+we should be able to convert the 'base' drm_connector to a pointer relatively easy. We shouldn't
+need to get to the drm_connector from a drm_writeback_connector() outside drm_writeback.c.
+
+Then it looks like what we need is a __drm_writeback_connector_init_with_connector() where we
+can pass a base pointer and remember it. Maybe an extra parameter to existing init functions,
+or a new one that skips the encoder initialisation entirely.
+
+Best regards,
+Liviu
+
+
+> 
+> Regards,
+> Suraj Kandpal
+> 
+> > > > I plan to add drm_connector_dp in a similar way, covering DP needs
+> > > > (currently WIP).
+> > 
+> > --
+> > With best wishes
+> > Dmitry
+
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
 
