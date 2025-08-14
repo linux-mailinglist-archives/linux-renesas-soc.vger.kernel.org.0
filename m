@@ -1,203 +1,163 @@
-Return-Path: <linux-renesas-soc+bounces-20480-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20481-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0E8EB25A84
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 06:35:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2A68B25AE3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 07:40:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EC03B1C20858
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 04:36:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 91D89684F77
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 05:39:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25F7920AF87;
-	Thu, 14 Aug 2025 04:35:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0D642222CA;
+	Thu, 14 Aug 2025 05:39:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b="kfBrl5m3"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ffmlZpE2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40EC51FF7D7
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Aug 2025 04:35:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F788220F4F
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Aug 2025 05:39:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755146151; cv=none; b=abJ8EM1ue1PBTuf4apYnq4XDvZwG758h6XyM/f2ntqMd4LDXAzGeqoeV1mQtHMSU8NGgZNMMR2R1lFYaDl5Dly9xqcBT8091tt4Xb5oaSp8/QGmzfdvxiwEYPEv2hDNaEVBuLkDPGhNmqXXdGxg4IqWuP/bynScaFDziVH+WUuk=
+	t=1755149973; cv=none; b=eiGRQ++ef57SbFaNfFBoagikDL2Q/wZU7nv+9PoRh7ZR4nuN/4GcHgwQ1ZZ0cR15J10NzN01QAA1UDgzPXMDnSQd4VnqSuYZoXsW9aWAa8pLVs5yC8Wo99TQ+ID0pkrWji0dBXvci1zV8S3z8PmCgc3m7Fx/zTI6YJoNY+4h/lc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755146151; c=relaxed/simple;
-	bh=QGb/WSxQrkoalS0PQR6chjMqXIC8l1e9Dtd3KAUUo7U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mOv8ib7zNdOoKYPy4bMf4ZMgLWJs9UZDiBrA18lwA198kQ/7lY1GMgkqFYJBGseooYjBwYmd4rRwDKm5bF4SinMIzXOHuQMf1wplKkMrI1OEJthTW80VkKCuiJC/Yr1/0aNdQbIGUpiGXPpqqBNuUDqBlwPKVi6fQ8/9u/+rd1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp; spf=pass smtp.mailfrom=0x0f.com; dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b=kfBrl5m3; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0x0f.com
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-32326e71c31so520744a91.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Aug 2025 21:35:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thingy.jp; s=google; t=1755146148; x=1755750948; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=W68wJmIpwZKYrhZj9rQMZlkUfiQu51PmIXBdt9PMw2k=;
-        b=kfBrl5m3X3pUKzeASIa5uThvSEb/zB82C2JruDgTOivhhSjhUjMBmcPL8IhJVxAjVG
-         6qON9Ajt9fHHBWQKEfYsoV1u4jSeEE0qNkZh6VuTz41gtP/7s1I8dBc/NuAwLu/lt9KT
-         CKKBnN/q50LzlMJEeWPS0cO85J+8t6tbmlZGQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755146148; x=1755750948;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=W68wJmIpwZKYrhZj9rQMZlkUfiQu51PmIXBdt9PMw2k=;
-        b=u0MBJNMaoEvLUocXei5M4csiTUJKuKv4A/TeFye013egpAzzP+5ZCAZPtfXhDUj41F
-         YuM7vLEPkw/Vxx6ZMaNYS2PP/h+IXkyM66vqXqTn6nhB9dL0gwdsxILoJZ2uT7jOAq2n
-         62c1t9bRdQZCS8OFhA0nljfJtuDUhiQLAKlVTjqTHVmUlOBjFOS661Ed5x0y3QyQKa27
-         r7r//pLg6p3JbM7mDHWl6HATvadiTr2JSaoGYRK4RRiBTAcIDuv3PR8kcNGULV1GHKEY
-         k50iAu15iw043fElOYOmEExKtABi+Nk6eVIwfugy0X+RpM/pVw5c63v45oahc2ytDXzX
-         jpdQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWCW/SDwO31a9XhBXuPPlcvgDAZaHsQjVypFJus7/jxeuDlrT46BTWnXrQjKNpsGxHFlYws3i0wXeSTmtxLqnS8bg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzcHyYCuyDBY28IRXIscmy7vuF2OqsHDDqPkWAFBFKnI1rGh1bf
-	9OLNavHm+TUzVjjYLSNs+m1qFeFKTd3Y09r61CPlBpeUrO4bcPJOhhipbIrg9W36k0HI9ilth1V
-	0CpjQWJavsHSTKdLCXujLIJ31vAgLJExf3g3SfSbCbw==
-X-Gm-Gg: ASbGnct2RkjfzadANJL9Jk4+hDRNlW0k95VRQeT6gBsIyWKsiJxWjYprqpkI5fbyddI
-	I9h0tjciQ8fufnWJS+QqR3SToHlBq9CgC/EPeLa9lNH5fS+C82GwCgS/JAW2s7/PkMZGK2jVfX/
-	XGxa1GIvrFO9+PeLK0zHwFsrf6B05wBYRBd6ifkBffeHxwkYiENazhtCmOHM9SeEnM+sbNFDDlZ
-	trPok5tVMST
-X-Google-Smtp-Source: AGHT+IFjwIWeQGe9GR6r4b2M90JJvm8sY4wwHgdbP9dAwNnEibxW+RtNYUEdWU1EXNpbiBYlhjSbLxcOxiikHu61EP4=
-X-Received: by 2002:a17:90b:58e7:b0:31f:6682:bd28 with SMTP id
- 98e67ed59e1d1-32327a52880mr2616043a91.16.1755146147789; Wed, 13 Aug 2025
- 21:35:47 -0700 (PDT)
+	s=arc-20240116; t=1755149973; c=relaxed/simple;
+	bh=zzyLMYb+/GSeAGpdZe6nYcCoHf6i1PqZizfwR4H7H58=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=raBdS144J0EaZH5VDj7r1rN7pyxozcAL8vieDRdjY1FT8+FpGCvvjFBDpZ0En0bxCKAREP0dklACd+aytcqu345EpYDzO3kh4CgV+4LUVQ6xO2viIjpWZ9PkDWKbxgZENnvLC/rTj+S/pmzY/g73IPl0iwxllhh7eN66VlsO4bM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ffmlZpE2; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2745A15B2;
+	Thu, 14 Aug 2025 07:38:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1755149913;
+	bh=zzyLMYb+/GSeAGpdZe6nYcCoHf6i1PqZizfwR4H7H58=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ffmlZpE2Rmkrfx5OfRa0jGcp/L0sIprylhGlIHvG7ybgh8vSElGVOVyilEiqJVOaN
+	 gsK83J3TJ2QO3omOnN5hV6+0wL3eFzIhlPQt6CCR/OWogX89oNibYmbdlInFrL5t5i
+	 7awEoQeFP2GXn2xskWRJdcYi7sNysMTWoqKCOL60=
+Message-ID: <7c92c10b-bfe0-4782-9fbf-272c9616f5ca@ideasonboard.com>
+Date: Thu, 14 Aug 2025 08:39:23 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com> <20250811-clk-for-stephen-round-rate-v1-84-b3bf97b038dc@redhat.com>
-In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-84-b3bf97b038dc@redhat.com>
-From: Daniel Palmer <daniel@thingy.jp>
-Date: Thu, 14 Aug 2025 13:35:36 +0900
-X-Gm-Features: Ac12FXxr3rvVXpJVntmlzZatJLppeB52b6KjThcDVumW6l6FaIvxvyr3Ex-UBYM
-Message-ID: <CAFr9PXn=jJPKzMcTa-TJSNuNQknauEttNZg=jV3sBwkTYqxLcw@mail.gmail.com>
-Subject: Re: [PATCH 084/114] clk: mstar: msc313-cpupll: convert from
- round_rate() to determine_rate()
-To: bmasney@redhat.com
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Sudeep Holla <sudeep.holla@arm.com>, Cristian Marussi <cristian.marussi@arm.com>, 
-	Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Paul Cercueil <paul@crapouillou.net>, Keguang Zhang <keguang.zhang@gmail.com>, 
-	Taichi Sugaya <sugaya.taichi@socionext.com>, Takao Orito <orito.takao@socionext.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Samuel Holland <samuel.holland@sifive.com>, 
-	Yixun Lan <dlan@gentoo.org>, Steen Hegelund <Steen.Hegelund@microchip.com>, 
-	Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com, 
-	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Michal Simek <michal.simek@amd.com>, 
-	Maxime Ripard <mripard@kernel.org>, =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Max Filippov <jcmvbkbc@gmail.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Romain Perier <romain.perier@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
-	Gregory Clement <gregory.clement@bootlin.com>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Heiko Stuebner <heiko@sntech.de>, 
-	Andrea della Porta <andrea.porta@suse.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Sylwester Nawrocki <s.nawrocki@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Qin Jian <qinjian@cqplus1.com>, 
-	Viresh Kumar <vireshk@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, Alex Helms <alexander.helms.jy@renesas.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, Liviu Dudau <liviu.dudau@arm.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, sophgo@lists.linux.dev, 
-	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
-	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
-	linux-stm32@st-md-mailman.stormreply.com, patches@opensource.cirrus.com, 
-	linux-actions@lists.infradead.org, asahi@lists.linux.dev, 
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] drm/rcar-du: dsi: Remove fixed PPI lane count setup
+To: Marek Vasut <marek.vasut@mailbox.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-renesas-soc@vger.kernel.org
+References: <20250608142636.54033-1-marek.vasut+renesas@mailbox.org>
+ <20250608142636.54033-3-marek.vasut+renesas@mailbox.org>
+ <64b49da6-15ae-45e1-a4af-c1f08f80cf3a@ideasonboard.com>
+ <87cc32a7-fe1d-4d8d-b793-e3bb7e12fb7d@ideasonboard.com>
+ <1ae735be-3d07-4520-8013-c4b7a1b1c26a@mailbox.org>
+ <c83317d5-53f1-440e-b854-c75d283ed746@ideasonboard.com>
+ <58109767-145b-414f-a20e-aee651e9e4d5@mailbox.org>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <58109767-145b-414f-a20e-aee651e9e4d5@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Brian,
+Hi,
 
-On Tue, 12 Aug 2025 at 00:18, Brian Masney via B4 Relay
-<devnull+bmasney.redhat.com@kernel.org> wrote:
->
-> From: Brian Masney <bmasney@redhat.com>
->
-> The round_rate() clk ops is deprecated, so migrate this driver from
-> round_rate() to determine_rate() using the Coccinelle semantic patch
-> on the cover letter of this series.
->
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
-> ---
->  drivers/clk/mstar/clk-msc313-cpupll.c | 18 ++++++++++--------
->  1 file changed, 10 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/clk/mstar/clk-msc313-cpupll.c b/drivers/clk/mstar/clk-msc313-cpupll.c
-> index a93e2dba09d3523199263494efd2bf6987bb4156..3e643be02fe2a79c043c1b79a5e95c869b757ba1 100644
-> --- a/drivers/clk/mstar/clk-msc313-cpupll.c
-> +++ b/drivers/clk/mstar/clk-msc313-cpupll.c
-> @@ -140,20 +140,22 @@ static unsigned long msc313_cpupll_recalc_rate(struct clk_hw *hw, unsigned long
->                                              parent_rate);
->  }
->
-> -static long msc313_cpupll_round_rate(struct clk_hw *hw, unsigned long rate,
-> -                                    unsigned long *parent_rate)
-> +static int msc313_cpupll_determine_rate(struct clk_hw *hw,
-> +                                       struct clk_rate_request *req)
->  {
-> -       u32 reg = msc313_cpupll_regforfrequecy(rate, *parent_rate);
-> -       long rounded = msc313_cpupll_frequencyforreg(reg, *parent_rate);
-> +       u32 reg = msc313_cpupll_regforfrequecy(req->rate, req->best_parent_rate);
-> +       long rounded = msc313_cpupll_frequencyforreg(reg, req->best_parent_rate);
->
->         /*
->          * This is my poor attempt at making sure the resulting
->          * rate doesn't overshoot the requested rate.
->          */
-> -       for (; rounded >= rate && reg > 0; reg--)
-> -               rounded = msc313_cpupll_frequencyforreg(reg, *parent_rate);
-> +       for (; rounded >= req->rate && reg > 0; reg--)
-> +               rounded = msc313_cpupll_frequencyforreg(reg, req->best_parent_rate);
->
-> -       return rounded;
-> +       req->rate = rounded;
-> +
-> +       return 0;
->  }
->
->  static int msc313_cpupll_set_rate(struct clk_hw *hw, unsigned long rate, unsigned long parent_rate)
-> @@ -168,7 +170,7 @@ static int msc313_cpupll_set_rate(struct clk_hw *hw, unsigned long rate, unsigne
->
->  static const struct clk_ops msc313_cpupll_ops = {
->         .recalc_rate    = msc313_cpupll_recalc_rate,
-> -       .round_rate     = msc313_cpupll_round_rate,
-> +       .determine_rate = msc313_cpupll_determine_rate,
->         .set_rate       = msc313_cpupll_set_rate,
->  };
->
->
-> --
-> 2.50.1
->
->
+On 14/08/2025 00:06, Marek Vasut wrote:
+> On 8/13/25 9:34 AM, Tomi Valkeinen wrote:
+> 
+> Hi,
+> 
+>>>>>> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/
+>>>>>> drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+>>>>>> index b3e57217ae63..cefa7e92b5b8 100644
+>>>>>> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+>>>>>> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+>>>>>> @@ -80,10 +80,7 @@
+>>>>>>     * PHY-Protocol Interface (PPI) Registers
+>>>>>>     */
+>>>>>>    #define PPISETR                0x700
+>>>>>> -#define PPISETR_DLEN_0            (0x1 << 0)
+>>>>>> -#define PPISETR_DLEN_1            (0x3 << 0)
+>>>>>> -#define PPISETR_DLEN_2            (0x7 << 0)
+>>>>>> -#define PPISETR_DLEN_3            (0xf << 0)
+>>>>>> +#define PPISETR_DLEN_MASK        (0xf << 0)
+>>>>>>    #define PPISETR_CLEN            BIT(8)
+>>>>>
+>>>>> Looks fine, but do you know what the TXSETR register does? It also has
+>>>>> LANECNT, but I don't see the driver touching that register at all.
+>>>>> TXSETR:LANECNT default value is 3 (4 lanes), which matches with the
+>>>>> old
+>>>>> hardcoded behavior for PPISETR... So I wonder if that register should
+>>>>> also be set?
+>>>>
+>>>> Ah, never mind, I now saw the patch 3 =). But should it be before patch
+>>>> 2? Hmm, I guess that ordering is no better. Should they be combined
+>>>> into
+>>>> "support 1,2,3 datalanes" patch?
+>>> I think each patch fixes slighly different issue, even if the issues are
+>>> related. I tried to keep the issue description in each patch commit
+>>> message for posterity. I can squash them if you think that's better, I
+>>> don't mind either way.
+>>
+>> I was thinking about this the user's or backporting point of view.
+>> Neither of the commits (clearly) say that they add support for 1/2/3
+>> lane modes.
+> 
+> The 1/2/3 lane mode was already implemented in the driver, except it was
+> broken.
 
-Only visually inspected but seems correct.
+If it never worked, was it broken or not implemented? How much code the
+original driver must have for the feature to have the feature
+"implemented, just broken"? If it reads the num lanes from the DT, and
+allows the driver to probe with 1-4 lanes, is it then "implemented, but
+broken"? Or does the driver have to have a clear intent on having the
+feature (even if it doesn't work) for it to be implemented?
 
-Reviewed-by: Daniel Palmer <daniel@thingy.jp>
+I'm not trying to be annoying here, and I'm fine with the new patch you
+sent. I bring this topic up as I just had a similar discussion in a
+thread for another patch series, and the answer is not clear to me.
 
-Thanks,
+stable-kernel-rules.rst doesn't really cover this case, so, afaics,
+someone could argue that this (well, the new one you sent) is not valid
+stable patch: it doesn't fix a crash/hang/etc, it adds support for more
+lane setups.
 
-Daniel
+In this particular case I'm fine calling this a fix, and backporting to
+stable, as the patch is such a small one and "obviously correct" (as
+stable-kernel-rules.rst says) because with the only working lane setup,
+4-lanes, we can easily see that the values written to registers are
+identical to default/old values.
+
+Still, if someone has feedback on how to approach this question, I
+wouldn't mind hearing the thoughts =).
+
+>> You say they "fix", but they're not quite fixes either. The
+>> patch 3 could be considered a fix, but at the moment it just writes the
+>> default value to the register, so no point in marking it as a fix to be
+>> backported.
+> 
+> 3/4 does write the DSI lane count into TXSETR , not the default value.
+
+I meant that as only the 4-lane mode works, I must assume all the users
+use 4-lane mode. Thus with patch 3, a value identical to the default
+value gets written, as everyone uses 4 lanes. So, if it's backported to
+kernels where everyone uses 4 lanes, it won't change anything.
+
+ Tomi
+
 
