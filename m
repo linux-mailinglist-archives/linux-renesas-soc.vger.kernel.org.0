@@ -1,112 +1,125 @@
-Return-Path: <linux-renesas-soc+bounces-20477-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20478-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95534B259BE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 05:14:26 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1E6EB25A28
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 05:57:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ECB801C25B05
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 03:14:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DB11E176453
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 03:56:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DE671DD877;
-	Thu, 14 Aug 2025 03:14:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D2EE188A3A;
+	Thu, 14 Aug 2025 03:56:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="QRWt+HcY"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EvInC0dP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A41723234;
-	Thu, 14 Aug 2025 03:14:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6548E15624B
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Aug 2025 03:56:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755141262; cv=none; b=qEpsrxtQ6rR6kyqZcGZZWBr2IbN+L8zJDHeOneymDBc5jU29YaKCkKy95HmnFQ/UExPqKx3qojJzocfXuOrzZx0TDa+UFXYU0EXW0vKcxnaecQSNFK2Ru5x86k5AR+qqVJjiDbwdgOrLOkOWdR7evB1qfuqLDsjfqwbNnbTxGxM=
+	t=1755143767; cv=none; b=s0akyLLmX7eBuLSmVvCtLFs5fsMY3p2rn45liBGrGGOjNpqA87KRslvAxBFgswr0o5Wsa3rIhZD2A6HFbhnrJjLSHQQM+5ImbHaVAVmtRlyYO29DUkGSNbVTTE6YxGw822oGoOwdjnVLPwW43d36amC8lNfTGw1J3OzSG2jnICU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755141262; c=relaxed/simple;
-	bh=S+mDtH3a7GZVI6PI7WfqUUtB/fen0VDRqapFmW5O4LA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YIwAZjD+UY0mxWJTsliFREXoauXPeXpHZ14id8fnOdbwGemfwJllN5+ABJLcUPlNqRWPzM4iNVgY2wAqt+tugSzYH6DexcIw3FQy3ZANGgRtmhGsL+aEqDQcJk+eF919PLKstX83+5PdfSwf/8ikLmWgQIoJB++4G5H8cqzf4cM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=QRWt+HcY; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4c2VhS5zZWz9sRc;
-	Thu, 14 Aug 2025 05:14:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1755141256;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pkqq7e1ThN32hUKBUrJr8poP7PhUWYYFk5fFFdUqYjg=;
-	b=QRWt+HcYBIqHEkzHNygG1zmigwKE5063xKHJjIFoxWRKv+UJ/m+HpkHYoLoWnIuRaTUgPS
-	1cclCYAwEskdOFMw+sMzVYfLEtLHGzMIgSTAfzV59PE6tUyT/37QZ2Xe4gmKxyJxEToao5
-	XVqnBAi7AgUupdkixVqqBzj8SDttN9qYWgLtgwDem9fYIzBYrDrijFwF0y+ynLd/czv5R5
-	BOsEelkb4GYBXictp1RLl5JpxJklmUhEZVAvBDxB7CQexIEmPd245b05U+9PIeASqJnT2H
-	VbECsykcH4H4noOx7VyILLLbhReL68sLt//gIRCYZ2t7GDsQ+0acyRVfNMDgow==
-Message-ID: <519cd75a-50f2-4c9e-8a53-82ffb9cc0a8d@mailbox.org>
-Date: Thu, 14 Aug 2025 05:14:13 +0200
+	s=arc-20240116; t=1755143767; c=relaxed/simple;
+	bh=QPXgL5JA1NadViWzO3at4LaILf4SB9CfhgF57NmFOj0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=B5Fj3TBv8XnKLwHDotovM1MMkrvIuiOPdmU/r6AxWqQ7WkozkDwQBz6beh/Ceu2HGCpbr6BySyVvUqB/QW9DqpqHVg8NHge+G6skV3YnsV7cKwiBykXppNCdpk89lIupZyt8n7L7dhl+9kwnVLNjgzcDA3naIyDvUnEJjmUXIKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=EvInC0dP; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-55ce5243f6dso522642e87.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Aug 2025 20:56:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1755143762; x=1755748562; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QPXgL5JA1NadViWzO3at4LaILf4SB9CfhgF57NmFOj0=;
+        b=EvInC0dPxLsxOgrcXaABeghM/4bT5PLVmE6f2aI+gEfPRh5bcJCK3IFSzB//2toRIW
+         qsHUSOgJq+PQj9Yw8ZwlWorNd/cPgDsXGTxs3D1Q4OZCWZN3kL9Xhmrk8WyxYsHAGyHm
+         e/jNSSc8EsiSs9zykXjkkGMzt/KMzDxyZTVOs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755143762; x=1755748562;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QPXgL5JA1NadViWzO3at4LaILf4SB9CfhgF57NmFOj0=;
+        b=iy96yLWnOwtmyCT3p3UjGx00B8SZXAsZ97Ddbji7hLK8K6CmdDmuJGBBezucz1bGNR
+         SbwnrzJm/l3epQ3VhroBMKqTb3S3cQybQp9CCTjj3yd7pbAG4Jw3bjVTxv4fCHe8mwS5
+         /tCA8UIwosjKzvnoKbmxdHwvHDXUq8Za+8jE1fnYzyxCc50WTx8QbpWvlqTvXj3w6iPm
+         /ZQpkOadz7EKAn/BoIyiAIPR5hTX2vzF0gYVR+szn9xQOgsmyROk8b06UuEF4zJaench
+         RnCevzZF1WnsvGv7tJUOywyHb7GAVRf2ueomr8Dc85Bduo5RLDpLVJvvAPXF/tS0xFz/
+         wRpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUGTJ5vxCQjhAaGsLTw4HjFd1jfI/Av8aHMILlwm1NIpPxxMD/8nPbBnWE8gCBvZxG2rehUYWgUxmt4MMx90ByFKA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPIfespO6RaprdjdPfVN5gxE/3LKxMMm5lp5lF4ZYHF48X5lsl
+	19Et1llZafhe2Wjb9msPNanOBOORUsNIeAoVZGc5/yim4fWXD5AlLRk2tZLJzyxDpXcn7VewY2p
+	UA0VwH8dQBZdkNaHO/Niod/VFyPWEghoqG+lHx0Be
+X-Gm-Gg: ASbGnctvsa/nMe0wnu5PZQaHlsRamVgaJ3azl5zdQ3t8FmKhBEpvHT44Yc9g/BKaQkG
+	ToGvmoNc4D1oP0mNLOZYs3r5f4FAumAoxlGxOIJ4JGNZS4k+tykVRYpqxkVd3kymSGWYrCQdh9Q
+	BpjCdlKU+22MKpqQ91n5koJT1qliMezhW5+RTyUAfIXrsshCHyOnpcncu4XS2EJEIqqtNB1t39t
+	pW8pNAMm1AyZOhngbq6tojpprm0qqIeUnkwz3Fb6gQQKw==
+X-Google-Smtp-Source: AGHT+IHQMv69+04AP9otNVcxhwI8uWKlLmUkdvXFQ1PCUQkCenB9LDrLy/Vl+cHfeBSUvo7zV0jpH3UAnLNxpErRIuE=
+X-Received: by 2002:a05:6512:4406:b0:553:2868:6355 with SMTP id
+ 2adb3069b0e04-55ce4ffa5f7mr485589e87.18.1755143762579; Wed, 13 Aug 2025
+ 20:56:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 1/2] thermal: rcar_gen3: Add support for per-SoC
- default trim values
-To: Daniel Lezcano <daniel.lezcano@linaro.org>, linux-pm@vger.kernel.org
-Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Lukasz Luba <lukasz.luba@arm.com>, Magnus Damm <magnus.damm@gmail.com>,
- Zhang Rui <rui.zhang@intel.com>, linux-renesas-soc@vger.kernel.org
-References: <20250625181739.28391-1-marek.vasut+renesas@mailbox.org>
- <86f5260f-6625-4e2d-88a8-013143922fb9@linaro.org>
- <a65ae3e9-8970-46b4-a80f-3654daa7a0c2@mailbox.org>
- <5ffb67b8-cded-412b-881c-14179c2ba3b8@linaro.org>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <5ffb67b8-cded-412b-881c-14179c2ba3b8@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: roumbnqnzywoyppt6zsahrcn53u8ghxe
-X-MBO-RS-ID: c7ca27327942fdd45a6
+References: <20250812-pinctrl-gpio-pinfuncs-v4-0-bb3906c55e64@linaro.org> <20250812-pinctrl-gpio-pinfuncs-v4-5-bb3906c55e64@linaro.org>
+In-Reply-To: <20250812-pinctrl-gpio-pinfuncs-v4-5-bb3906c55e64@linaro.org>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Thu, 14 Aug 2025 11:55:50 +0800
+X-Gm-Features: Ac12FXwQl-cvQ51JsCsvzfEY1EzqeHLXUhAtiyz4lnmgFYbrRneNtPbyaTw1wc8
+Message-ID: <CAGXv+5GE4eUjMhewRm9oa+GbJWt8tMC0RXvT0R5FEfVOAsJ3fQ@mail.gmail.com>
+Subject: Re: [PATCH v4 05/15] pinctrl: mediatek: moore: replace struct
+ function_desc with struct pinfunction
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Alexey Klimov <alexey.klimov@linaro.org>, 
+	Lorenzo Bianconi <lorenzo@kernel.org>, Sean Wang <sean.wang@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Paul Cercueil <paul@crapouillou.net>, Kees Cook <kees@kernel.org>, 
+	Andy Shevchenko <andy@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@redhat.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Dong Aisheng <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, NXP S32 Linux Team <s32@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Tony Lindgren <tony@atomide.com>, 
+	Haojian Zhuang <haojian.zhuang@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
+	linux-hardening@vger.kernel.org, linux-mm@kvack.org, imx@lists.linux.dev, 
+	linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 8/14/25 12:00 AM, Daniel Lezcano wrote:
-> On 13/08/2025 22:37, Marek Vasut wrote:
->> On 8/1/25 11:59 AM, Daniel Lezcano wrote:
->>> On 25/06/2025 20:16, Marek Vasut wrote:
->>>> The Working Sample R-Car SoCs may not yet have thermal sensor trimming
->>>> values programmed into fuses, those fuses are blank instead. For such
->>>> SoCs, the driver includes fallback trimming values. Those values are
->>>> currently applied to all SoCs which use this driver.
->>>>
->>>> Introduce support for per-SoC fallback trimming values in preparation
->>>> for SoCs which do not use these current trimming values. No functional
->>>> change is intended here.
->>>>
->>>> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
->>>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
->>>> ---
->>>> Cc: "Niklas Söderlund" <niklas.soderlund@ragnatech.se>
->>>
->>> Applied, thanks
->> Is this series supposed to be in linux-next by now ?
->>
->> I don't see it either on git.kernel.org thermal group tree or your 
->> tree, where was the series applied to ?
-> 
-> 
-> Sorry I did push the branch.
-> 
-> It is in the thermal bleeding-edge branch now and will go to linux-next 
-> in a couple of days
-Nice, thank you !
+On Tue, Aug 12, 2025 at 8:36=E2=80=AFPM Bartosz Golaszewski <brgl@bgdev.pl>=
+ wrote:
+>
+> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+>
+> struct function_desc is a wrapper around struct pinfunction with an
+> additional void *data pointer. This driver doesn't use the data pointer.
+> We're also working towards reducing the usage of struct function_desc in
+> pinctrl drivers - they should only be created by pinmux core and
+> accessed by drivers using pinmux_generic_get_function(). Replace the
+> struct function_desc objects in this driver with smaller struct
+> pinfunction instances.
+>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
 
