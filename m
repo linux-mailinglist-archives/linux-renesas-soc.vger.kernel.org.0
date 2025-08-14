@@ -1,129 +1,184 @@
-Return-Path: <linux-renesas-soc+bounces-20487-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20488-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABC31B25DCC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 09:43:52 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABAB7B25E0E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 09:54:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0BB953B1ACE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 07:39:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 09088162A59
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 07:53:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88F7526C3AA;
-	Thu, 14 Aug 2025 07:39:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E2F6274B35;
+	Thu, 14 Aug 2025 07:53:00 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F23265CBE;
-	Thu, 14 Aug 2025 07:39:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC19C205ABA;
+	Thu, 14 Aug 2025 07:52:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755157150; cv=none; b=f3Hmlhefc7FDVoyYftrut0rbTwWwmUBpzcDOS9eyWtlR632nguANkY6QM5hrIp3zxCnf/1Wc89/tSEo3IsRiMuxq6evx4flI55UFFtxGVwKkcPzyVXZxSn6ZLsqhl6IFwX4Uo3PeeszVnI5dpwKP1ziCpBJ/FoS7OefCAAnVnVA=
+	t=1755157980; cv=none; b=ZZS3vJA6am27lQb5+WHfOA9utkQev9/UfpR2pHXOyVf2ULPMD5dzjz+8KyN6J9mb+v45olVakCNhdLpvZi0alSzNdrvPrTG8KS2IGJoVr11R1zVE+gH9dj08ceOL8EalqhlOYfzI/BSuGY3l1uFZLQafA+X7CqzFO5EpA+U5pKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755157150; c=relaxed/simple;
-	bh=y51OHDLzDKU13LPqqI5U6nrlXyFWgPt9Mwz0jkbX6ZI=;
+	s=arc-20240116; t=1755157980; c=relaxed/simple;
+	bh=Uzzj93Rq8ZnwcjdfSHcSIR8zGuEDTE4U/dOBn+K+4rE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MCGPojJZnn5NX0VMIpPsZjhd1giLGLs3yyOQh6gO8sXeEvA0GOcN4MdmoKhJHpJRShyAP1sHQcXqG+dYzlOYrTBi3rTIMFCh26d+PkmhAIeVWAEkmiMeOU2caWkHE4hpAndgQ5No2OORyYAufFKLHGmOoNiurvC3w9mJ030mE54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
+	 To:Cc:Content-Type; b=o78Nn/GRx1pPk2Z6HEv0sFOczS96p/tJ/dX/rcZIhNdWXOLen6TF1RS6ZPDz3W2YAPm68YaCYei7jrWJ4XIK1vO+/nb+zFjOKrGGIegO0eSB2pKnOyIwLJmVxAHvfzzsYvQNa/IEEuXe4Yo2aM3JI1NLqn9sHUilUfi1Q4GkQVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-53b17193865so244163e0c.0;
-        Thu, 14 Aug 2025 00:39:07 -0700 (PDT)
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-89018fa6f6dso174578241.1;
+        Thu, 14 Aug 2025 00:52:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755157147; x=1755761947;
+        d=1e100.net; s=20230601; t=1755157977; x=1755762777;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=8CSISlgZ7w2Pha7sxJ62ESuLVR/2x+3b3rgz2ITxoi4=;
-        b=jAAslWWKIo+kpl2k8QoLrT0x5ykuxFDSWo1Z7xBnBdArUQ1abmtht6c8ROv6RPMRGg
-         NULD121jSip0HcYAiUrkK8lV2OQguam25lvO4ONqqQ2gC05sItTZOU8pwt7OjScFh+a1
-         s4lDoYQOBJkHF61o9z1AAlcTXWFGYNhgtsqkCrrU153OequAAl2pv6PpOy1duG9rSHF4
-         sihiog1ffhxRs4Md76q6letJlPAPRpIgmgswNvD6bO27oUR5lNoNrGJ76l/laMwrtMGZ
-         fK4z3WQREOpGDP85zzCIHbSHe32o5SplQNUAlzKrxVRZndN04R43Cm3fdhib9T5ZRepU
-         nmtw==
-X-Forwarded-Encrypted: i=1; AJvYcCUQ7D47MVa/ejlkP4a7p8OOcH8pYVLhTNTjUiA0zlPjvkmmd2Gx1XitdDFX/MvU1wSDVQ/tzgsXsGw=@vger.kernel.org, AJvYcCVtGr0PCQ01g8cz8NDmhOsGbkBGY1pzCZW8v5j+E8ftCK7R+dnFRjsBYLpTZOpxbVzUCb1n8e5mXTa+nTNlsm5zVkU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyVX34PC1x+SlVAngB5k+FbqyOZ+mm/p/1ltdTU9QDTyiW1VNjZ
-	lSdSISRhIDUAQEhB8mTv0bKV2+gnac9rz7BZG6WCnsGlELKRz8ZUcXfV2gT0abGJ
-X-Gm-Gg: ASbGncuaqI0NerYY4THqIFzsmGucnrrcD4xO5IjRAaLOtZ9P9leYSMxKhVC6VgBCbCi
-	ufd7Ml0bm7i7d8Eb1Bd3TO6Ipr7YAD1oVurW7hcjbqna6JqKGPXzUiJ2mXmAYo6xzvgou8WM6TW
-	hsUabcWDt6bHuMGMXT9aD4XMQ9p4z6wZxOvHfJmeBvdFQITBwlAb+OR57DI0w15dhOToOxLld9o
-	CF1yPPnSuEMIvC5GRCDVV9NtyfiD05H6GcxOI7qv7ggAsUrvYN7sbOKM3nF77w17SQ41LaC4W/0
-	X8z2+09s4T1YdjwfoCPoi2Dga2OtJ2tq8kftTxlcqEtpq2tQu8hWRfheYW0q4qheHGG8HFmCN0A
-	y1WK6qO+Nb7WsY/bxCQe6H1yJbS71oIC27YJuDn3fqn7yPSug13ROBL6z1YV2h0n7
-X-Google-Smtp-Source: AGHT+IHFNqVR20akOJ6zI+zraI2c/n/KvWsf5prEd66q3Ck4g/yiMZsRAB8mVGFYxRZT2dVG5hpDnQ==
-X-Received: by 2002:a05:6122:3089:b0:534:7f57:8e30 with SMTP id 71dfb90a1353d-53b190d150emr456457e0c.10.1755157146664;
-        Thu, 14 Aug 2025 00:39:06 -0700 (PDT)
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com. [209.85.221.169])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-539b0284633sm4387110e0c.21.2025.08.14.00.39.05
+        bh=r1Ih+GxrJlx9WnOtqCehCJ3Lo5kUOBdBINzHA4pU3lA=;
+        b=ojim77m7rhpNVuX24KI8KIDI/FAs4t3hYS2HEWs58X4+NVWW4DkBUjAqASVR6B3yH0
+         6wKPWZ7ClXa539KOUOGSAe+WZB8aSNWrOPoKGdmNitO64g4hLE1PVibuN4b7EqNhL618
+         Va4IZSCEMJJHSjjfrwt8zQU8h7Ij9ayh88pDxCDHVJYyu/iaMnL4psryDNnI7LsDqlE/
+         e5HsJ1GZMRA8rro38R2sSaLBJH29zVnkoWK5loRFGFS/WlY9DNv4GzUOFkNNFUilMz6R
+         uIJKlyyIpTLM1EGy6gZx58VAfXHGH04U+I9y8zhXQ5pm1A+FmA8lAI5vf/abLLN/YJFe
+         Kbjw==
+X-Forwarded-Encrypted: i=1; AJvYcCU/RwkyfwH8YuM7rALagnahzCXTBHh5gnU42GsnhwhZ1JwxFjFrHpf/gEG+Tg66mcXq+oBmq2gMQZ+NKb0krTisqW4=@vger.kernel.org, AJvYcCVic6EJII0aygq22tc3Fyh8p9/csAii6JG4lXuhz80PeqPjkAgxkjDbKLPbdUg9gDHTJIxc2vtaFs3XvuD39OAwig==@vger.kernel.org, AJvYcCVxRgNBkArILfFIddsTkQpgCQpipS7pvcF4RARGAC5jXcMaMIFtvLYG2MwosdLu2DYDknVE8RD6y6Zsxnz9@vger.kernel.org, AJvYcCXa8GC2MiwmwgEkpEbi6Y+53muyne9UmJYPwxoFxdt+USBroYPQYuroIeYia+yZ8pbSyBvOu66QjT+Qv2f/@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDoR9jEqyhGvkybdV32Ugyd+3QmMWEXXESjEysXy3hZVWxc6dU
+	ponfNn0MVJ1/2U7mHypIvIZcp+gfBURZaDGqQe3KI0f8sSqpFJkQRWriuIexYLiI
+X-Gm-Gg: ASbGnct/fq5506uRC+8BTjUo1WYhKPUxE9OilwMGNDR339x8hX3w50mLSDRTwoTA1dO
+	MRohWR8WSmtIykerQCRf0mYNeQnKjz2Zmqkruf0XfmshZukL5nji4ns4dKdb7796/7Q/Kv609xI
+	pLc8D3IsEZYGZo3MS8U+5xKR8iqZ8Fp1kDiHoW8mxbO9bIt8VwO7sirfUkbq1tynY6ge3XXvzth
+	Ly4wOLD1g+fvcHEgJMMXrCsqNAnkX44mtdjw85m6spSSnE3i+cjss23NqYivPD7atsAlI7WU5zE
+	GA99tAKI8J8aU3SkqPoy3p/9xeNhmJuEtG13N9RkNWN34ohGrKK1M6m5mzR71GX3Y6/RY9uXocU
+	+6uE8asdqVo7hVspCE3f86qEvKxj+6rf6TtcAOKHBbVoZPEtmi+Pkx1tgB19c
+X-Google-Smtp-Source: AGHT+IGP1gm5l/2/INlr0OCHoLcA6bNQ2oI/YWRqy39reh06MIrg7hoYqRuKjeov+bVs2lkTUsHpQA==
+X-Received: by 2002:a05:6102:6441:b0:4e9:b0d4:1133 with SMTP id ada2fe7eead31-50fea4aa7c1mr723320137.20.1755157977185;
+        Thu, 14 Aug 2025 00:52:57 -0700 (PDT)
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com. [209.85.217.51])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-507dcae5200sm2670979137.0.2025.08.14.00.52.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Aug 2025 00:39:06 -0700 (PDT)
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-53b17552198so226698e0c.3;
-        Thu, 14 Aug 2025 00:39:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUDTS9rHjc1pn8PRa+Iypq2IOKI58nXkQkiUp6qEU5erOfJJh9m+JZy4lduzRR0pAKaJnqNMHseT1i0yzSbxeKUawA=@vger.kernel.org, AJvYcCVcAq8C15O6Syy7aEMxZ3cQfm3S592SvUacMtiN/swmWrd45oAjhPBrTXK6MbbOTiXKVYDdEttUiz0=@vger.kernel.org
-X-Received: by 2002:a05:6102:54a2:b0:4d7:11d1:c24e with SMTP id
- ada2fe7eead31-51002815a30mr587814137.21.1755157145213; Thu, 14 Aug 2025
- 00:39:05 -0700 (PDT)
+        Thu, 14 Aug 2025 00:52:57 -0700 (PDT)
+Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-50f8ac28305so220836137.2;
+        Thu, 14 Aug 2025 00:52:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWDuYX40/PdvQZBsC+RXywG1GXXLnooTFx1HAotf/h4/JownkVZvb10eIyvu8FqEwYK2T39cNH3LtFGXk2QFlzkKYc=@vger.kernel.org, AJvYcCWJFG0Mfe9KXYFjgtOIvEUFyNw/lF/HCM99ogLl+0GTFSRFQtquQp5HC68c/eYgO/+mCv+eJljDfpUhvwZJL6VQIA==@vger.kernel.org, AJvYcCXcUba1oe9Cqwv/g52AMwUXWGaTeYaFW8Af8a9OPVQCmWvpn7l7WapCKdd+vQ4YA4ZqA/NwPvMEpfTUh2Me@vger.kernel.org, AJvYcCXosDcM/FJqAuCcQxijqJnDxe3SkSu+KB3Ja5UdFbH31u6Gmo1izqPZipNSRSoFASx++1nTAooBEuRLjwr2@vger.kernel.org
+X-Received: by 2002:a05:6102:8011:b0:4fb:def3:d27c with SMTP id
+ ada2fe7eead31-50fea4aa249mr676943137.22.1755157976795; Thu, 14 Aug 2025
+ 00:52:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250709205532.747596-1-chris.brandt@renesas.com>
- <20250709205532.747596-2-chris.brandt@renesas.com> <TY3PR01MB1134628601112EF2B32F3358D8648A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <OS3PR01MB8319CD026C1E27CD7FB736F28A48A@OS3PR01MB8319.jpnprd01.prod.outlook.com>
- <TY3PR01MB113468C7F195036B28A70E9508635A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY3PR01MB113468C7F195036B28A70E9508635A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20250813214808.895654-1-robh@kernel.org>
+In-Reply-To: <20250813214808.895654-1-robh@kernel.org>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 14 Aug 2025 09:38:54 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVEJO1rNACo_LMLUC=NFAZJzsY5zwR0a6to=sf2QBNw9g@mail.gmail.com>
-X-Gm-Features: Ac12FXybgjD-wOo6w-nOUQ17Up2NerJuWgpZO8qF-cSYQtQTjRDQ90qu61zjutQ
-Message-ID: <CAMuHMdVEJO1rNACo_LMLUC=NFAZJzsY5zwR0a6to=sf2QBNw9g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] clk: renesas: rzg2l: Remove DSI clock rate restrictions
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Chris Brandt <Chris.Brandt@renesas.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Hien Huynh <hien.huynh.px@renesas.com>, Nghia Vo <nghia.vo.zn@renesas.com>, 
-	Hugo Villeneuve <hugo@hugovil.com>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, 
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Date: Thu, 14 Aug 2025 09:52:45 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXk4rsv5YEj5kJ4+tu-n_11rXOHe1zJiy7KYnvBwJZ=eQ@mail.gmail.com>
+X-Gm-Features: Ac12FXx9pwnYSd00OxlZFeC1ex7P8HZ3DAupd0C5lnYndVT3t4qqLZV8fVUeU-Q
+Message-ID: <CAMuHMdXk4rsv5YEj5kJ4+tu-n_11rXOHe1zJiy7KYnvBwJZ=eQ@mail.gmail.com>
+Subject: Re: [PATCH v4] remoteproc: Use of_reserved_mem_region_* functions for "memory-region"
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Bjorn Andersson <andersson@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Magnus Damm <magnus.damm@gmail.com>, Patrice Chotard <patrice.chotard@foss.st.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, Peng Fan <peng.fan@nxp.com>, 
+	linux-remoteproc@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Biju,
+Hi Rob,
 
-On Thu, 14 Aug 2025 at 08:08, Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > From: Chris Brandt <Chris.Brandt@renesas.com>
-
-> > > > + /* If foutvco is above 1.5GHz, change parent and recalculate */
-> > > > + if (priv->mux_dsi_div_params.clksrc && (foutvco_rate >
-> > > > +1500000000)) {
-> > >
-> > > Check patch is complaining:
-> > >
-> > > CHECK: Unnecessary parentheses around 'foutvco_rate > 1500000000'
-> > > #146: FILE: drivers/clk/renesas/rzg2l-cpg.c:648:
-> > > +   if (priv->mux_dsi_div_params.clksrc && (foutvco_rate > 1500000000))
-> > > +{
-> >
-> > I saw that...but I thought the ( ) makes it a little easier to read.
-> >
-> > But, what's the general rule here? Make checkpatch come out perfect?
-> > What's your thoughts?
+On Wed, 13 Aug 2025 at 23:48, Rob Herring (Arm) <robh@kernel.org> wrote:
+> Use the newly added of_reserved_mem_region_to_resource() and
+> of_reserved_mem_region_count() functions to handle "memory-region"
+> properties.
 >
-> I just ran check patch and it complained this.
-> I am leaving Geert to comment on this.
+> The error handling is a bit different in some cases. Often
+> "memory-region" is optional, so failed lookup is not an error. But then
+> an error in of_reserved_mem_lookup() is treated as an error. However,
+> that distinction is not really important. Either the region is available
+> and usable or it is not. So now, it is just
+> of_reserved_mem_region_to_resource() which is checked for an error.
+>
+> Acked-by: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
+> Tested-by: Peng Fan <peng.fan@nxp.com> # i.MX93-11x11-EVK for imx_rproc.c
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 
-/me chimes in ;-)
+Thanks for your patch!
 
-You are not required to fix checkpatch warnings or errors if you have a
-good reason to do so.  In this case, I see no reason for the parentheses
-(it is not a very complex expression), so please drop them.
-Thanks!
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be> # rcar
+
+One nit below (which applies to most drivers).
+
+> --- a/drivers/remoteproc/rcar_rproc.c
+> +++ b/drivers/remoteproc/rcar_rproc.c
+> @@ -52,41 +52,33 @@ static int rcar_rproc_prepare(struct rproc *rproc)
+>  {
+>         struct device *dev = rproc->dev.parent;
+>         struct device_node *np = dev->of_node;
+> -       struct of_phandle_iterator it;
+>         struct rproc_mem_entry *mem;
+> -       struct reserved_mem *rmem;
+> +       int i = 0;
+>         u32 da;
+>
+>         /* Register associated reserved memory regions */
+> -       of_phandle_iterator_init(&it, np, "memory-region", NULL, 0);
+> -       while (of_phandle_iterator_next(&it) == 0) {
+> -
+> -               rmem = of_reserved_mem_lookup(it.node);
+> -               if (!rmem) {
+> -                       of_node_put(it.node);
+> -                       dev_err(&rproc->dev,
+> -                               "unable to acquire memory-region\n");
+> -                       return -EINVAL;
+> -               }
+> +       while (1) {
+> +               struct resource res;
+> +               int ret;
+> +
+> +               ret = of_reserved_mem_region_to_resource(np, i++, &res);
+> +               if (ret)
+> +                       return 0;
+>
+> -               if (rmem->base > U32_MAX) {
+> -                       of_node_put(it.node);
+> +               if (res.start > U32_MAX)
+>                         return -EINVAL;
+> -               }
+>
+>                 /* No need to translate pa to da, R-Car use same map */
+> -               da = rmem->base;
+> +               da = res.start;
+>                 mem = rproc_mem_entry_init(dev, NULL,
+> -                                          rmem->base,
+> -                                          rmem->size, da,
+> +                                          res.start,
+> +                                          resource_size(&res), da,
+>                                            rcar_rproc_mem_alloc,
+>                                            rcar_rproc_mem_release,
+> -                                          it.node->name);
+> +                                          res.name);
+>
+> -               if (!mem) {
+> -                       of_node_put(it.node);
+> +               if (!mem)
+>                         return -ENOMEM;
+> -               }
+>
+>                 rproc_add_carveout(rproc, mem);
+>         }
+
+The "return 0;" below (out of context) is now unreachable.
+It may be wise to remove it, so the compiler will complain when someone
+ever adds a break statement, and people are forced to consider what
+is the proper value to return.
 
 Gr{oetje,eeting}s,
 
