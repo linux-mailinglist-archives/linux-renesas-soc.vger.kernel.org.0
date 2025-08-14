@@ -1,119 +1,203 @@
-Return-Path: <linux-renesas-soc+bounces-20479-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20480-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D095BB25A32
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 05:59:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0E8EB25A84
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 06:35:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EC45862400B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 03:58:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EC03B1C20858
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 04:36:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74BD71E9B3F;
-	Thu, 14 Aug 2025 03:57:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25F7920AF87;
+	Thu, 14 Aug 2025 04:35:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EKHSha6q"
+	dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b="kfBrl5m3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E1B15855E
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Aug 2025 03:57:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40EC51FF7D7
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Aug 2025 04:35:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755143875; cv=none; b=Pe0jewURvQcfapzRUPhUNyql36iW+NSz9hHDx7avqehgIB8ABdBcl3U4Y9+8LQJSt5oOnIxWlgmKfjnz2bVIcRU42Wox09fHeFIrl0+vkZ6WxetZ809CQIhjZXF+1zEmUMfcbWSTDyjwFAbLB2tANoJsJE4HLVjHo11Yrry26Bw=
+	t=1755146151; cv=none; b=abJ8EM1ue1PBTuf4apYnq4XDvZwG758h6XyM/f2ntqMd4LDXAzGeqoeV1mQtHMSU8NGgZNMMR2R1lFYaDl5Dly9xqcBT8091tt4Xb5oaSp8/QGmzfdvxiwEYPEv2hDNaEVBuLkDPGhNmqXXdGxg4IqWuP/bynScaFDziVH+WUuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755143875; c=relaxed/simple;
-	bh=KuAzkdu+nBeW4XQJu6RSp1V8OBm3suYsUZfkIRqSD68=;
+	s=arc-20240116; t=1755146151; c=relaxed/simple;
+	bh=QGb/WSxQrkoalS0PQR6chjMqXIC8l1e9Dtd3KAUUo7U=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YQzT3pzo4obvRlaKGqYu9r4x38eVvQuxaaZG8A7qFUcfWZ6pGXxQykUE4ZnY9TZGcdQeWczcoT8kstJ7C9FloJFsh75CPh+iFOpcVG05dyRommACbeS6foXh/OJT+PcCmNaeIrASCrxO5WbqUjiKPL3+vcbsXlJr7a3uzvmOKik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=EKHSha6q; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-55ce528022eso505035e87.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Aug 2025 20:57:52 -0700 (PDT)
+	 To:Cc:Content-Type; b=mOv8ib7zNdOoKYPy4bMf4ZMgLWJs9UZDiBrA18lwA198kQ/7lY1GMgkqFYJBGseooYjBwYmd4rRwDKm5bF4SinMIzXOHuQMf1wplKkMrI1OEJthTW80VkKCuiJC/Yr1/0aNdQbIGUpiGXPpqqBNuUDqBlwPKVi6fQ8/9u/+rd1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp; spf=pass smtp.mailfrom=0x0f.com; dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b=kfBrl5m3; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0x0f.com
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-32326e71c31so520744a91.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Aug 2025 21:35:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1755143871; x=1755748671; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KuAzkdu+nBeW4XQJu6RSp1V8OBm3suYsUZfkIRqSD68=;
-        b=EKHSha6qdcBlsS3gXN4Cw+T6fWwdA1YCyfFc5q8C+8u6tYxjS3yl3WEbF+GocUde6a
-         Yr4akzI6BV7tlc0LbiOXzgB/ACP7W21rMCxsdytPp7bq7N3Oot9ZRftp5aDUg4ZN4OKs
-         loF7b7jyJYM9Acbf/YX0K99D2wwAo400Usa/0=
+        d=thingy.jp; s=google; t=1755146148; x=1755750948; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=W68wJmIpwZKYrhZj9rQMZlkUfiQu51PmIXBdt9PMw2k=;
+        b=kfBrl5m3X3pUKzeASIa5uThvSEb/zB82C2JruDgTOivhhSjhUjMBmcPL8IhJVxAjVG
+         6qON9Ajt9fHHBWQKEfYsoV1u4jSeEE0qNkZh6VuTz41gtP/7s1I8dBc/NuAwLu/lt9KT
+         CKKBnN/q50LzlMJEeWPS0cO85J+8t6tbmlZGQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755143871; x=1755748671;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KuAzkdu+nBeW4XQJu6RSp1V8OBm3suYsUZfkIRqSD68=;
-        b=pvQ5nJE40qqsOkZ4/e+7c6zGYexAv/BKyCKwFEhtTBfIXLy2CyA4JWIZUdHIQTdy26
-         HCxqdbGOiqHsuKy50ADxRjadVKc9hvcZ47KxPx8nE3LISQVozZqbc0QCTZfwj09byU4A
-         AethhDr1811ZAvk6Mxlt5LjU3OQamidUZbgPwsH0wBLRTG1jJ3YugAr8PwF1gp/YG2lH
-         GX9gs31j+l/yxT6/Ubz5RgfUIB13rjDuYsRFZGt/FpdfxG1/zQudgIukJ7fUJakgunxC
-         uDTxhu9sdk4UDXfkmRVNnXXhorihQ5AZpF2nx/LTCqeBuuAD5wt5JsUd38VxT7mQkDOw
-         0yUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUlHq5k3QgGxkQNTg52oMux3ujgURg6JxzP03LP5P5anAnHTZgRMWDtX4KqK2g5JdbSRFsBS2J+TwiNNUOSD/bvYw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNVMGGYgWSGmjlJ8Volo3Czu0xPj4gbUalZoMPEYw30bRjPM5S
-	w8YWu8v6Ke64V/VPVD1+ibB4eD4YqSD9ItMWgh3tKgfcpWUqd81FPh42cOXjYvGAI+YbIV/9wlN
-	dMGHEvNI8cYBnsAJP3GKSRfa/PSRV/D9PPguGlUop
-X-Gm-Gg: ASbGnct0bb6zgf/C8SrzRFwkJCVmYyG05ov0Kz2kJlUsLP11ioghuNkciXLqIL4JRPf
-	IqrVz7OEzelsa0hMpkhYOek7HlIKwKZdpHPr76NjQuIr64hzD8pEi3F82ewTezBt4lBsnHOJ69G
-	8cfmFQSKIOQPgfMoyZi+j16xT23y0hg0lb0U1ZgnnE0vxPOimE38YoyeXo8kEdtLp10+kpCdvo+
-	tIkXxDgJTsT6RhgGrtXzdXatUdbJSO2nzZPmAogWQRClg==
-X-Google-Smtp-Source: AGHT+IF+5iKv8rMK9YHb6myK/q855kRCdUIsQfOlyE7uVil4m3zuwOKJ3gr0xAyECxLHg6Jl7SqsZkrMsfX9UPSHH2s=
-X-Received: by 2002:a05:6512:b8a:b0:55b:8211:cc88 with SMTP id
- 2adb3069b0e04-55ce508ddefmr488807e87.51.1755143871084; Wed, 13 Aug 2025
- 20:57:51 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1755146148; x=1755750948;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=W68wJmIpwZKYrhZj9rQMZlkUfiQu51PmIXBdt9PMw2k=;
+        b=u0MBJNMaoEvLUocXei5M4csiTUJKuKv4A/TeFye013egpAzzP+5ZCAZPtfXhDUj41F
+         YuM7vLEPkw/Vxx6ZMaNYS2PP/h+IXkyM66vqXqTn6nhB9dL0gwdsxILoJZ2uT7jOAq2n
+         62c1t9bRdQZCS8OFhA0nljfJtuDUhiQLAKlVTjqTHVmUlOBjFOS661Ed5x0y3QyQKa27
+         r7r//pLg6p3JbM7mDHWl6HATvadiTr2JSaoGYRK4RRiBTAcIDuv3PR8kcNGULV1GHKEY
+         k50iAu15iw043fElOYOmEExKtABi+Nk6eVIwfugy0X+RpM/pVw5c63v45oahc2ytDXzX
+         jpdQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWCW/SDwO31a9XhBXuPPlcvgDAZaHsQjVypFJus7/jxeuDlrT46BTWnXrQjKNpsGxHFlYws3i0wXeSTmtxLqnS8bg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzcHyYCuyDBY28IRXIscmy7vuF2OqsHDDqPkWAFBFKnI1rGh1bf
+	9OLNavHm+TUzVjjYLSNs+m1qFeFKTd3Y09r61CPlBpeUrO4bcPJOhhipbIrg9W36k0HI9ilth1V
+	0CpjQWJavsHSTKdLCXujLIJ31vAgLJExf3g3SfSbCbw==
+X-Gm-Gg: ASbGnct2RkjfzadANJL9Jk4+hDRNlW0k95VRQeT6gBsIyWKsiJxWjYprqpkI5fbyddI
+	I9h0tjciQ8fufnWJS+QqR3SToHlBq9CgC/EPeLa9lNH5fS+C82GwCgS/JAW2s7/PkMZGK2jVfX/
+	XGxa1GIvrFO9+PeLK0zHwFsrf6B05wBYRBd6ifkBffeHxwkYiENazhtCmOHM9SeEnM+sbNFDDlZ
+	trPok5tVMST
+X-Google-Smtp-Source: AGHT+IFjwIWeQGe9GR6r4b2M90JJvm8sY4wwHgdbP9dAwNnEibxW+RtNYUEdWU1EXNpbiBYlhjSbLxcOxiikHu61EP4=
+X-Received: by 2002:a17:90b:58e7:b0:31f:6682:bd28 with SMTP id
+ 98e67ed59e1d1-32327a52880mr2616043a91.16.1755146147789; Wed, 13 Aug 2025
+ 21:35:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250812-pinctrl-gpio-pinfuncs-v4-0-bb3906c55e64@linaro.org> <20250812-pinctrl-gpio-pinfuncs-v4-4-bb3906c55e64@linaro.org>
-In-Reply-To: <20250812-pinctrl-gpio-pinfuncs-v4-4-bb3906c55e64@linaro.org>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Thu, 14 Aug 2025 11:57:40 +0800
-X-Gm-Features: Ac12FXwH4SzGC_raZvHd6w5DhOOOwcWIZ0DYC3dWkFgv22xak8lk2qDrshBunvY
-Message-ID: <CAGXv+5EDj4JEKAFC-Sv8kyiBNy8SViEXaepdssG5QTu_HtYQHw@mail.gmail.com>
-Subject: Re: [PATCH v4 04/15] pinctrl: mediatek: mt7988: use PINCTRL_PIN_FUNCTION()
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Alexey Klimov <alexey.klimov@linaro.org>, 
-	Lorenzo Bianconi <lorenzo@kernel.org>, Sean Wang <sean.wang@kernel.org>, 
+References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com> <20250811-clk-for-stephen-round-rate-v1-84-b3bf97b038dc@redhat.com>
+In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-84-b3bf97b038dc@redhat.com>
+From: Daniel Palmer <daniel@thingy.jp>
+Date: Thu, 14 Aug 2025 13:35:36 +0900
+X-Gm-Features: Ac12FXxr3rvVXpJVntmlzZatJLppeB52b6KjThcDVumW6l6FaIvxvyr3Ex-UBYM
+Message-ID: <CAFr9PXn=jJPKzMcTa-TJSNuNQknauEttNZg=jV3sBwkTYqxLcw@mail.gmail.com>
+Subject: Re: [PATCH 084/114] clk: mstar: msc313-cpupll: convert from
+ round_rate() to determine_rate()
+To: bmasney@redhat.com
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Sudeep Holla <sudeep.holla@arm.com>, Cristian Marussi <cristian.marussi@arm.com>, 
+	Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Paul Cercueil <paul@crapouillou.net>, Keguang Zhang <keguang.zhang@gmail.com>, 
+	Taichi Sugaya <sugaya.taichi@socionext.com>, Takao Orito <orito.takao@socionext.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Samuel Holland <samuel.holland@sifive.com>, 
+	Yixun Lan <dlan@gentoo.org>, Steen Hegelund <Steen.Hegelund@microchip.com>, 
+	Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Michal Simek <michal.simek@amd.com>, 
+	Maxime Ripard <mripard@kernel.org>, =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
+	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Max Filippov <jcmvbkbc@gmail.com>, 
 	Matthias Brugger <matthias.bgg@gmail.com>, 
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Paul Cercueil <paul@crapouillou.net>, Kees Cook <kees@kernel.org>, 
-	Andy Shevchenko <andy@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@redhat.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Dong Aisheng <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, NXP S32 Linux Team <s32@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Tony Lindgren <tony@atomide.com>, 
-	Haojian Zhuang <haojian.zhuang@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, linux-mm@kvack.org, imx@lists.linux.dev, 
-	linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+	Romain Perier <romain.perier@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Gregory Clement <gregory.clement@bootlin.com>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Heiko Stuebner <heiko@sntech.de>, 
+	Andrea della Porta <andrea.porta@suse.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Sylwester Nawrocki <s.nawrocki@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Qin Jian <qinjian@cqplus1.com>, 
+	Viresh Kumar <vireshk@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
+	Luca Ceresoli <luca.ceresoli@bootlin.com>, Alex Helms <alexander.helms.jy@renesas.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Liviu Dudau <liviu.dudau@arm.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, linux-clk@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, sophgo@lists.linux.dev, 
+	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
+	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
+	linux-stm32@st-md-mailman.stormreply.com, patches@opensource.cirrus.com, 
+	linux-actions@lists.infradead.org, asahi@lists.linux.dev, 
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 12, 2025 at 8:36=E2=80=AFPM Bartosz Golaszewski <brgl@bgdev.pl>=
- wrote:
->
-> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
->
-> We have a dedicated initializer macro for defining pin functions for
-> mediatek drivers so use it here.
->
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Hi Brian,
 
-Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+On Tue, 12 Aug 2025 at 00:18, Brian Masney via B4 Relay
+<devnull+bmasney.redhat.com@kernel.org> wrote:
+>
+> From: Brian Masney <bmasney@redhat.com>
+>
+> The round_rate() clk ops is deprecated, so migrate this driver from
+> round_rate() to determine_rate() using the Coccinelle semantic patch
+> on the cover letter of this series.
+>
+> Signed-off-by: Brian Masney <bmasney@redhat.com>
+> ---
+>  drivers/clk/mstar/clk-msc313-cpupll.c | 18 ++++++++++--------
+>  1 file changed, 10 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/clk/mstar/clk-msc313-cpupll.c b/drivers/clk/mstar/clk-msc313-cpupll.c
+> index a93e2dba09d3523199263494efd2bf6987bb4156..3e643be02fe2a79c043c1b79a5e95c869b757ba1 100644
+> --- a/drivers/clk/mstar/clk-msc313-cpupll.c
+> +++ b/drivers/clk/mstar/clk-msc313-cpupll.c
+> @@ -140,20 +140,22 @@ static unsigned long msc313_cpupll_recalc_rate(struct clk_hw *hw, unsigned long
+>                                              parent_rate);
+>  }
+>
+> -static long msc313_cpupll_round_rate(struct clk_hw *hw, unsigned long rate,
+> -                                    unsigned long *parent_rate)
+> +static int msc313_cpupll_determine_rate(struct clk_hw *hw,
+> +                                       struct clk_rate_request *req)
+>  {
+> -       u32 reg = msc313_cpupll_regforfrequecy(rate, *parent_rate);
+> -       long rounded = msc313_cpupll_frequencyforreg(reg, *parent_rate);
+> +       u32 reg = msc313_cpupll_regforfrequecy(req->rate, req->best_parent_rate);
+> +       long rounded = msc313_cpupll_frequencyforreg(reg, req->best_parent_rate);
+>
+>         /*
+>          * This is my poor attempt at making sure the resulting
+>          * rate doesn't overshoot the requested rate.
+>          */
+> -       for (; rounded >= rate && reg > 0; reg--)
+> -               rounded = msc313_cpupll_frequencyforreg(reg, *parent_rate);
+> +       for (; rounded >= req->rate && reg > 0; reg--)
+> +               rounded = msc313_cpupll_frequencyforreg(reg, req->best_parent_rate);
+>
+> -       return rounded;
+> +       req->rate = rounded;
+> +
+> +       return 0;
+>  }
+>
+>  static int msc313_cpupll_set_rate(struct clk_hw *hw, unsigned long rate, unsigned long parent_rate)
+> @@ -168,7 +170,7 @@ static int msc313_cpupll_set_rate(struct clk_hw *hw, unsigned long rate, unsigne
+>
+>  static const struct clk_ops msc313_cpupll_ops = {
+>         .recalc_rate    = msc313_cpupll_recalc_rate,
+> -       .round_rate     = msc313_cpupll_round_rate,
+> +       .determine_rate = msc313_cpupll_determine_rate,
+>         .set_rate       = msc313_cpupll_set_rate,
+>  };
+>
+>
+> --
+> 2.50.1
+>
+>
+
+Only visually inspected but seems correct.
+
+Reviewed-by: Daniel Palmer <daniel@thingy.jp>
+
+Thanks,
+
+Daniel
 
