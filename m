@@ -1,159 +1,136 @@
-Return-Path: <linux-renesas-soc+bounces-20534-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20533-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9F5DB26B9C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 17:55:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 826F6B26B99
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 17:55:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 49AC26857AF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 15:50:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 888793AF7B4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 15:50:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2738524167F;
-	Thu, 14 Aug 2025 15:50:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F43F23BD1F;
+	Thu, 14 Aug 2025 15:50:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hABxWo7/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21A94233710;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B8832142C;
 	Thu, 14 Aug 2025 15:50:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755186627; cv=none; b=WXhUesGeYiAhjHuCIf6Ln8ujIH/tEpHT93CGeEq/gcYF5R5XYGH1MCeXGRxEd5H/3oMjz4vo3FQ/LL5zxoMcDNO46uAZMc31zv/cXrrugwhrhigLz2PDGPDrbfro2GWJokTrvVbM4ARQDvsOXxgcbznvZXo9dpJsmwXZmXvhw8o=
+	t=1755186625; cv=none; b=lY7uoC/MTJV5SKtYUqHZnIgjPcIIDnOpOf1hYh5rEI4Ud0ZMOMTxmaSlSlBfoyPMAMoEJt2MSD/guECcnQw919GZZd1QDiOArAFdQH9bwGwVYEpsm5XGNmh9iPnE/wG+YbO4LNYBPcEvjHUj9HUuH6G6on27X/yUfg5TJ+Hdzuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755186627; c=relaxed/simple;
-	bh=Z8bEQI00NkbwUdIv/vhnAFw33hHBlPVS4Ot/H8rFDX0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hRuC7ZcK5L8LoHnkpiLwb6rKxZuCDGx1fpngN1oFI+Z3qtN8NJYC2OYTvzRZiysx8D+A0FCtm7oXBsHFAa0Jsa36KJ6Nnx3xa7ioZDBMr0DAObtg3R149OpYRUKYfrj146gOTt4aVdbmxvC8+vffERuPRn6BPlrIIWIJ8q69ayk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-50f890e9054so670829137.1;
-        Thu, 14 Aug 2025 08:50:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755186624; x=1755791424;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PPxPc5gSPfbsdKnAKMvHjWJ+7kwSju+xPbLU6ci9bXI=;
-        b=ndqAdnqeqj7R6w+OH36IkI9E3vh3N4uMeVF3/TwZCdwyglahufIRYbA/wqbr01P418
-         3DF1lumkO4f+RjGBoUDo4Q3sm4u0NOzeOFyQcNGfv6t63jOeSggqYTuIHf8QRZ2Ijyvw
-         29BWsgnGUy9MtmYdoVxRrIxZcbrmAaGpbuxpfFcpFwiCUE1Z7tefzuVevSGFEslsOOtd
-         5vubfz+RCUqc+oxBX/gCZESNFXmbkYrUiE9V0HfYMUezKViIPqSWKX2m3j4KVXf2UPdO
-         DR42Nat4bxCzC3PKAaS0X7CiyXyqu8giozgC23kD58z8g7iQ11jgR8ozSxCYM1HeuytH
-         xvxw==
-X-Forwarded-Encrypted: i=1; AJvYcCVHxZf1LhnKdzrCgnsmNB0PmZrFLP0yI83pLMrlNmPRk+fvt8eROzqEVjfjL64yejPXX0vGFPjNZRvBRYd+qXhYyww=@vger.kernel.org, AJvYcCX1TtezLZtDR3FCRuEelVd8/4UrI+/Ht3Qpt2HKTJcRagy9TYdWSDvhDtEdXXKCkY1Bg442ad0Xmeoy@vger.kernel.org
-X-Gm-Message-State: AOJu0YxiCu9VeLiyt4vHBFCTlSKB9vE4yPUsFUIznUcfvD2eX8ne617F
-	SfoO8fjSYC9n3dFJFi95UzytH7IsEAuYC3qGZmgwqR101r2lyp3NHcbWF864fTvm
-X-Gm-Gg: ASbGncvpUpLR9rWmv8aJDm5KAVt+zv6LH5vTbzeAC1R7XyIhdbA+xaeLgFbMS1UehtZ
-	eJHkyDM/826pHoh+fbuOX0gwqWeQIXYfbuqoiy4XSx+xxJuFEJZJQgNV361thWJ5O7huWoe73Kl
-	7rS0Trz0AdaOZcZGw639epPlnJrxdp4YgqHCxOZWDm2vHFULX8B8GOBuZJVObp6h02yq1JHsA1T
-	O0OWFkYwlZNVILi0FNZEYJaKWUMkS56WMduxnOrGvOU4g4nSr5OeeJUeyktICDQ/OdeYp8ywzFE
-	B9xyJqIcXfLx+qFCoLPGfgL9WjVbuXY2DgsEIg7VGgmSGhDZifBb541K3st0Hz6GibE2VeI72mz
-	XxzWsKsI/7IZVKauZh+jRLvWg6nkW19AXj15ny0At/P9arPQymik4lTUQHoahI3DHEsxdQJI=
-X-Google-Smtp-Source: AGHT+IGbC6O9pnhUIODkWNTe8O4zW3OeWDg6dGpEYrD5ocj+VR6CZwaraSr+g992dClkTbqsxXj6yg==
-X-Received: by 2002:a05:6102:30ca:10b0:511:db31:acc2 with SMTP id ada2fe7eead31-511db41e87cmr181400137.4.1755186623733;
-        Thu, 14 Aug 2025 08:50:23 -0700 (PDT)
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com. [209.85.222.50])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-88e0268d423sm3083400241.2.2025.08.14.08.50.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Aug 2025 08:50:23 -0700 (PDT)
-Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-89018ec3597so602313241.0;
-        Thu, 14 Aug 2025 08:50:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU7VZjyh+fAarSo9Rml2hNxpd59nmMEWmIHcgr7wHCdm/bwvo/6JIsW8TXQB8gG0GXVCnHzT8/nQ7LEX9MWaf9e/NQ=@vger.kernel.org, AJvYcCVqfT9ka3gf4bKPD5YyQ9bYcpbACr7Wx6Xn/q3yUa9yme42vFDwgFfRwcSJDWNIs0xyQv2IaOjwVgvW@vger.kernel.org
-X-Received: by 2002:a05:6102:e09:b0:4fc:b033:cdc5 with SMTP id
- ada2fe7eead31-50fe9974df5mr1403773137.22.1755186623090; Thu, 14 Aug 2025
- 08:50:23 -0700 (PDT)
+	s=arc-20240116; t=1755186625; c=relaxed/simple;
+	bh=o/MgtG1g9Rt5y/lAK6YBxZs06Pfqhy/MN+PlW0TT6zY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=JBsse9H/YuUqXvzRgTiTaMIVU0qxMQg0P8/Jtt8FJ+peV0bDhY+mZAt93BoO18NiMIa1f+ibeUwiRdS+tuoNgEGZguj2ZZCR4pXER8CDQ+ttxAASfHXBAAgxWm1gssQRTJhEivWsWy1ChinOLZO7j8Q4am0vdkp+HPqSj3was8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hABxWo7/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E2B0C4CEED;
+	Thu, 14 Aug 2025 15:50:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755186624;
+	bh=o/MgtG1g9Rt5y/lAK6YBxZs06Pfqhy/MN+PlW0TT6zY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=hABxWo7/m8RV9cAcTZtZaUIEUqgl9tHzY7MAGXzXDi1h0HabiSaR90DAXzp67TWmF
+	 U3o8bL2bFI98VWHbFSMyxlAy5TQYdtR2G++O6l0KliRJs2EbeJld/7OKWkDfcUrOIl
+	 0xfAtz3yLkvtpi30XW37DeWsUbSGKgPUVUF1P58XR0gVgs+MNLqpsZkmYgs1ejou9W
+	 tY4ezf6uWOrDwNRmSPTAgviF31BJxxVYx8W6JUSiBTOxeiGycaYA1eFU5Svy0kBjRr
+	 wz6cEmKiiWTFycFptGV5EwGACSMjHnViMm8H+4C69Ai0v2gBl7/LC2WW2nqaMiqePg
+	 NuaZILW4rT3jg==
+Date: Thu, 14 Aug 2025 10:50:23 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Niklas Cassel <cassel@kernel.org>
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Siddharth Vadapalli <s-vadapalli@ti.com>,
+	Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Jesper Nilsson <jesper.nilsson@axis.com>,
+	Jingoo Han <jingoohan1@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
+	Srikanth Thokala <srikanth.thokala@intel.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Shawn Lin <shawn.lin@rock-chips.com>, linux-pci@vger.kernel.org,
+	linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	imx@lists.linux.dev, linux-arm-kernel@axis.com,
+	linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 00/13] PCI: Drop superfluous pci_epc_features
+ initialization
+Message-ID: <20250814155023.GA330705@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250625100330.7629-1-marek.vasut+renesas@mailbox.org>
- <CAMuHMdV3=c24KxO_Sbt50FGsFnNVYNnHAUhk-yoa+nM1f+7+kA@mail.gmail.com> <e1d465f7-43d7-471b-b8a7-7d24428bac4c@mailbox.org>
-In-Reply-To: <e1d465f7-43d7-471b-b8a7-7d24428bac4c@mailbox.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 14 Aug 2025 17:50:11 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX6naFbq-5LyuC4n+JRPTXGSSohKDTf95=MS_SMyHqfng@mail.gmail.com>
-X-Gm-Features: Ac12FXzUlAeFho5ry-hkAttyLSDTpbx1Nmmf3I2qDfLxTUJAEpDknPJ7TslWclQ
-Message-ID: <CAMuHMdX6naFbq-5LyuC4n+JRPTXGSSohKDTf95=MS_SMyHqfng@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r8a779g3: Update thermal trip points
- on V4H Sparrow Hawk
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, linux-arm-kernel@lists.infradead.org, 
-	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
-	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250814152119.1562063-15-cassel@kernel.org>
 
-Hi Marek,
+On Thu, Aug 14, 2025 at 05:21:19PM +0200, Niklas Cassel wrote:
+> Hello all,
+> 
+> struct pci_epc_features has static storage duration, so all struct members
+> are zero initialized implicitly. Thus, remove explicit zero initialization
+> of struct members.
+> 
+> Series is based on pci/next.
+> 
+> Feel free to squash to a single commit if that is preferable.
+> 
+> Kind regards,
+> Niklas
+> 
+> 
+> Niklas Cassel (13):
+>   PCI: cadence-ep: Drop superfluous pci_epc_features initialization
+>   PCI: rcar-ep: Drop superfluous pci_epc_features initialization
+>   PCI: rockchip-ep: Drop superfluous pci_epc_features initialization
+>   PCI: dra7xx: Drop superfluous pci_epc_features initialization
+>   PCI: imx6: Drop superfluous pci_epc_features initialization
+>   PCI: keystone: Drop superfluous pci_epc_features initialization
+>   PCI: artpec6: Drop superfluous pci_epc_features initialization
+>   PCI: designware-plat: Drop superfluous pci_epc_features initialization
+>   PCI: dw-rockchip: Drop superfluous pci_epc_features initialization
+>   PCI: keembay: Drop superfluous pci_epc_features initialization
+>   PCI: qcom-ep: Drop superfluous pci_epc_features initialization
+>   PCI: rcar-gen4: Drop superfluous pci_epc_features initialization
+>   PCI: tegra194: Drop superfluous pci_epc_features initialization
+> 
+>  drivers/pci/controller/cadence/pcie-cadence-ep.c  | 2 --
+>  drivers/pci/controller/dwc/pci-dra7xx.c           | 1 -
+>  drivers/pci/controller/dwc/pci-imx6.c             | 4 ----
+>  drivers/pci/controller/dwc/pci-keystone.c         | 1 -
+>  drivers/pci/controller/dwc/pcie-artpec6.c         | 2 --
+>  drivers/pci/controller/dwc/pcie-designware-plat.c | 1 -
+>  drivers/pci/controller/dwc/pcie-dw-rockchip.c     | 2 --
+>  drivers/pci/controller/dwc/pcie-keembay.c         | 1 -
+>  drivers/pci/controller/dwc/pcie-qcom-ep.c         | 1 -
+>  drivers/pci/controller/dwc/pcie-rcar-gen4.c       | 2 --
+>  drivers/pci/controller/dwc/pcie-tegra194.c        | 2 --
+>  drivers/pci/controller/pcie-rcar-ep.c             | 2 --
+>  drivers/pci/controller/pcie-rockchip-ep.c         | 1 -
+>  13 files changed, 22 deletions(-)
 
-On Wed, 6 Aug 2025 at 17:23, Marek Vasut <marek.vasut@mailbox.org> wrote:
-> On 8/6/25 11:35 AM, Geert Uytterhoeven wrote:
-> >> +/* THS sensor in SoC near CA76 cores does more progressive cooling. */
-> >> +&sensor_thermal_ca76 {
-> >> +       critical-action = "shutdown";
-> >> +
-> >> +       cooling-maps {
-> >> +               /*
-> >> +                * The cooling-device minimum and maximum parameters inversely
-> >> +                * match opp-table-0 {} node entries in r8a779g0.dtsi, in other
-> >> +                * words, 0 refers to 1.8 GHz OPP and 4 refers to 500 MHz OPP.
-> >> +                * This is because they refer to cooling levels, where maximum
-> >> +                * cooling level happens at 500 MHz OPP, when the CPU core is
-> >> +                * running slowly and therefore generates least heat.
-> >
-> > That applies to cooling-device = <&a76_[0-3] ...>...
->
-> Do you want me to add this line into the comment ?
+Squashed into one, added "remove explicit zero initialization for
+features that are *not* supported so we don't have to touch existing
+drivers as new features are added" to commit log, and applied to
+pci/endpoint for v6.18, thanks, Niklas!
 
-I don't think that is really needed (see below)
-
-> >> +                */
-> >> +               map0 {
-> >> +                       /* At 68C, inhibit 1.7 GHz and 1.8 GHz modes */
-> >> +                       trip = <&sensor3_passive_low>;
-> >> +                       cooling-device = <&a76_0 2 4>;
-> >> +                       contribution = <128>;
-> >> +               };
-> >> +
-> >> +               map1 {
-> >> +                       /* At 72C, inhibit 1.5 GHz mode */
-> >> +                       trip = <&sensor3_passive_mid>;
-> >> +                       cooling-device = <&a76_0 3 4>;
-> >> +                       contribution = <256>;
-> >> +               };
-> >> +
-> >> +               map2 {
-> >> +                       /* At 76C, start injecting idle states */
-> >> +                       trip = <&sensor3_passive_hi>;
-> >> +                       cooling-device = <&a76_0_thermal_idle 0 80>,
-> >> +                                        <&a76_1_thermal_idle 0 80>,
-> >> +                                        <&a76_2_thermal_idle 0 80>,
-> >> +                                        <&a76_3_thermal_idle 0 80>;
-> >
-> > ... but what do "0 80" refer to? I couldn't find in the thermal-idle
-> > bindings what exactly are the minimum and maximum cooling states here.
->
-> The comments in drivers/thermal/cpuidle_cooling.c clarify that, it is
-> the idle injection rate in percent, in this case the cooling can inject
-> idle states up to 80% of time.
-
-OK, so I will add "(0-80%)" to the idle states comment, and sort
-the nodes while queuing in renesas-devel for v6.18.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
