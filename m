@@ -1,118 +1,188 @@
-Return-Path: <linux-renesas-soc+bounces-20482-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20483-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6FFB25B57
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 07:55:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70EA7B25B8A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 08:04:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E8ADE8853C5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 05:55:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 78A865C4989
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 06:04:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD80222836C;
-	Thu, 14 Aug 2025 05:55:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80F1D2367AC;
+	Thu, 14 Aug 2025 06:04:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wBUdpOaP"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="HIt5glWy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010001.outbound.protection.outlook.com [52.101.228.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C827225791;
-	Thu, 14 Aug 2025 05:55:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755150905; cv=none; b=XEuiL+mVf6WNNGKhHEOGVKBvM4J2qwUIWqtf9wyVJ/wXzZdvjOc9YlYEbbqbWw+0Td/OSyjuzSFKmfBaEt7mcapUGhKwTUELyjWOQhv+BWtTwYQVJTTkhqwOa3yJhpqBSm+FJzl+HWAT99wnHgrWP09Ia2Rwj+XGhkUY67jbTxw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755150905; c=relaxed/simple;
-	bh=G6Z0ufc5WNkKpCSEZu+QYMKhZukGjdwDhLd3PZ7XxTc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FyhCj5YSE4piOQx1vYkEeme3ubI5Pg5Fr5FdD3hUVX88yZEXP8Tp/rFqNRHAHiXNqMwK9orzoc9npD6Ol5ZNaf3yUu2sIlKQYSDf1TQk91BQr2Ekhbzt1rK6sCyYJk92xVRGQ4LnIwD4vvJ0ZhtfRzgMCUAXQiSLV2ZzNbOE2UQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wBUdpOaP; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DD11C15B2;
-	Thu, 14 Aug 2025 07:54:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755150846;
-	bh=G6Z0ufc5WNkKpCSEZu+QYMKhZukGjdwDhLd3PZ7XxTc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=wBUdpOaPkUUQ5CjsWLre9KZuRRMfF5jEprVlnem0TnRBU3Y4fQ7br1nOV0HkcSqVx
-	 V6tiDaIetQqh5CEpcRrunZOwPcmCfUawtZEvqjW7M7wP9+/Y3D/5dwiqT+xc2g6LSb
-	 M7OKzjyz/Uu5G0WZJFNgmoPUE8Y2vXbedLAezECw=
-Message-ID: <d1354951-cbd3-4216-970b-e1e130f58522@ideasonboard.com>
-Date: Thu, 14 Aug 2025 08:54:57 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8425F226D16
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Aug 2025 06:04:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.1
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755151472; cv=fail; b=LWMesi1f0uIRf5eChTM7JQsnLwOEPjoUQ6kbhkPx8hzCAHI1/3WqkK7F++IQWWHAGyAngRrJqTcLRRJXDyBkJx1KXq/MA5k+wAtD9B28rP1bxCCSbrk/YNpnQTuEDVhlpo4cLGUkMgLoaT9b3Lv0TjQH++ny/B1IsdssZZsARI4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755151472; c=relaxed/simple;
+	bh=JzA9PILq8SJwAd/QBT/TaCDygcrjWxuYwDMy9n2o6rc=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Au8m+qVaPPTsWCpTxaaRf2oV2Bul5geoVwc+IYNEoSKuoKnHo/EbK6aeO1/Au/PGy7M5nIc6dyNhIhQCRedyYH95AKzqETrnyRd0YFoSGIDm+absgW986dIb9UDOqMEKWC3nr2yek45UA+mJANLT/pTKXSKj0JcHkKfHBTI5dew=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=HIt5glWy; arc=fail smtp.client-ip=52.101.228.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aimdxuRBqsfs7O9pRoIb+ARYMULXbSe/LqXLBNy/LV/WuOFaPq4ytXszKjUxWFJZn9NCiHE9oZ4U9XKTg9EKXVwWpyJl+ooz/BcdW7tvr/rIDdDij1BUiAQJ26HuqGYOZqQBk35xW0uMJsLzCi3Xt+N8Kh9PvHOYCsVIQU2OHExZ5cNl0q3qrVIU497ZpGP8e8SOG2ZZC8tyuF93+ux1gqjuewMxZyLof20JAoCXSPzIlr8j9JtZsG2dfsbDCDozcs3je65SR/HTHFETPd/FcJdbR1zT8E3cLYSMiW2jLOd5fJDJCejk+TCO2hH1YFTYDmb+Z2DRAgSCD8fPeg6Faw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EH03MKiTdODG6l4SfzYgf5MxpuaCCZpGCxSj+cFbsh4=;
+ b=EyqvMHM8tY8MPPMrmSOzlwq1pn8hpaTx80QHr21lTKlsFLvzKWLLmvSHnz94P7TXLATLvQ5+fbZYJliKDVFlCJy9B/AHoQYqRlV9SGhVh17aVEURWQne6zACPk0mjmvlnmlq+eUOMpEX8u0fG6+FpuGQQHLyqkIGfpwkfPQNJpZS5UVvgJdDbBvDMThtbxuyFTOeTbPmF0Ixmm1elt6QAXw57LxzFRQykXQjGdDMIBqB6ZdCyD7E9qFeieZnvVIE8TXu3XczJ+MeaRhoZsNZPhVxJKkB1qK650nLNDwOUmnd8YAqwCrSFUkVG2qe8HdGsf07U2nw1ftvakT+fB1teQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EH03MKiTdODG6l4SfzYgf5MxpuaCCZpGCxSj+cFbsh4=;
+ b=HIt5glWy49uyvfiUQ5veJTbyZRJqkwG3hpNfQXZA/Lc7uAMnSnriPIvSWCd7TYL2y4rEbHhnfhYcRyIrKxb0Rism3ITmEG0gLOSmNLncIFWkXDySClhGd6ZD7OxsY77uJ+WfrPnAyKRYiKWguZRzTeZMsud1Uyr38Q5VCkzdseQ=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TYCPR01MB9909.jpnprd01.prod.outlook.com (2603:1096:400:20f::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.16; Thu, 14 Aug
+ 2025 06:04:26 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%7]) with mapi id 15.20.9031.014; Thu, 14 Aug 2025
+ 06:04:26 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Maarten Lankhorst
+	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH] drm: renesas: rz-du: mipi_dsi: Convert to
+ RUNTIME_PM_OPS()
+Thread-Topic: [PATCH] drm: renesas: rz-du: mipi_dsi: Convert to
+ RUNTIME_PM_OPS()
+Thread-Index: AQHb8QFhNutWp9A0X06pg/ebOf+IWLRh3xWw
+Date: Thu, 14 Aug 2025 06:04:26 +0000
+Message-ID:
+ <TY3PR01MB11346A6EADCCCA3C7E510CB7A8635A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References:
+ <cdfc1b8ec9e62553654639b9e9026bfed8dd07d1.1752086582.git.geert+renesas@glider.be>
+In-Reply-To:
+ <cdfc1b8ec9e62553654639b9e9026bfed8dd07d1.1752086582.git.geert+renesas@glider.be>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYCPR01MB9909:EE_
+x-ms-office365-filtering-correlation-id: 3fd43556-9c43-4ef5-a367-08dddaf86c88
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?42WgpWGvxUsipz40lJcyP9O98QUv+sVpV3AYm10/KDHFOsFGod/Xi5I53cLQ?=
+ =?us-ascii?Q?lyzzSbLzei0gR8HpgcPudrq7W+cDEAUMQCZgDHqbYLRyLsKH7hQ/A2N6C98+?=
+ =?us-ascii?Q?+x8js1bcHuCtiuL6NBlJMI4RCHql0SwjVJeDLSNFAtIjlP3r8v4CfiO1pWh+?=
+ =?us-ascii?Q?eJR+TG3wlQeL14wBGt3JSsWCx2uQEy6O17rA1Aa+nDtUHTU6PwqxI9zSVV2l?=
+ =?us-ascii?Q?3poSJJqqWEIWN1q9Xcy4RaP9u2ejSLkFoC6z9ENi27RiuUw38ODVvVH9+cAF?=
+ =?us-ascii?Q?7c86AdswuNRdrTutVmDKr9Js1LWdJ68JW5NnHCfhKRXM6EO/bpjCfgjpR/YL?=
+ =?us-ascii?Q?X6nmybpzcnCFssyMESrYNPPbgi/2GE9ESkMQcYBKQ08n6gSMNDOeDxH054QC?=
+ =?us-ascii?Q?psL3GJBmVHUxReeF0Jfz3seRlPQIApaitxC/kExAkT9VGScwmLJOKFFTDU8r?=
+ =?us-ascii?Q?6KZvSjZxWOVlEuYVlTaHZHfbGZU1AWbG5bOcJn/LO0p0lHM3VDPa1/0hgpWa?=
+ =?us-ascii?Q?PZUF2lx+aO39tC7KLmKD3cd047EiQdJNCPtfhhh3ZLb3hkL/g/JeffOZIT3T?=
+ =?us-ascii?Q?jZ5MuNuL/+5CCO56oyqcyig3W12X18z84UufFGjx5R/sflHfqvCexFYoRRvW?=
+ =?us-ascii?Q?HJBLSCZ93ubeF64LWRDdA7L7AVMsrKHTwTpFrHucTr4+m2mXL8FZj6Vt0qdt?=
+ =?us-ascii?Q?iAqXr880SkPO9JbKaOhVo0aszqiEGbSbapsYglijIoTKgpWJYc0E0Qig6wv9?=
+ =?us-ascii?Q?s7NHGXVO/96nlbJ2GFCNjjJ3wl3u0Lfa2QWWMwhS15yOWvZDR0ZBE1IdAlIB?=
+ =?us-ascii?Q?OpDjyP8LFthaQdalTYO9aK+Jb8m5DYtWPQqQ6I8vnp3EJGlpC3HyvF/0anAh?=
+ =?us-ascii?Q?uDRFOTDemcFeQjB2SEHASc91aTZIGX0tMCFH+DgzixOXNNFF+M/LP4mfUw/q?=
+ =?us-ascii?Q?A0ZaqlUBW+MgXH+lrDA5svL4wstWasmRW36JDCmJJsKdwdWYf10MTddPl4mc?=
+ =?us-ascii?Q?VWxLgfjQXC/QgCeOVudzHIQY7fm8TBZUhoR9NI7AM+ag5FWx0d7etD+7trHr?=
+ =?us-ascii?Q?yN59zB5fLricg+g/xA8eSDu5JnMjU9JBCYCjD6p+7PULIjynk0v8GArXKtW1?=
+ =?us-ascii?Q?GY9/dA2y7NLtozkGyVBt9wRKW/Us8x7yxKxPdame9xrcT2U7/kfiqdkKzhUQ?=
+ =?us-ascii?Q?QDP4ZYVDZg65z7qDMoLBYia4UvPiR4h7IZaII8R//JakNK1V299MdlMfSI+g?=
+ =?us-ascii?Q?5mNVGYIitUWtR9jO0br8F8htSpCQa0H7W4fI4rnhAAE+1sbXkinodN1C1F8G?=
+ =?us-ascii?Q?2E4xCPypH8YCyXbulniRDufiiHwbgyqLe4Ovxle2Fw4e+c6CoxkwrNuUfdtB?=
+ =?us-ascii?Q?4FEkjWkGzsKsePqi18L+7EhOZEOe0RwNtAhYCcVlrNn5n68yCOviLtSPmZKa?=
+ =?us-ascii?Q?wAIxH/KUrtOS3nyFoxoH+Joh2fP1Z/gIDqZ3xqmM5okIPsWGklYt1g=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?BmhlDIYNvHZ7On+j9I9bQumoFafUUAZ7BRJrpyAgq/t7rHg90wQ4gNDvAVKY?=
+ =?us-ascii?Q?pOVh396FAV6ziMJj66MQfYRjYGR2GpQJlXGJoGYZCC2IGnwsBvQvaLSres/n?=
+ =?us-ascii?Q?K2/Nvd5ZhgXcBLSj0cpAUddQluWpIEifkRr1/T2JX8NzlG5ODmBTVsGkc34a?=
+ =?us-ascii?Q?lUqxXf54C9PxyFiz/4lk9GfSYxDsFvGtKLd/gCToK9Lb/nDjGSTBlb8Nhgkx?=
+ =?us-ascii?Q?XPRdhCswd1WqQ8Q/FiaNDHrHvYpnqzFPO5kU28kyIH22Vu31uRB/M+WfPyWY?=
+ =?us-ascii?Q?gR03x3r0oQLKmEhYi4ELRMQHHu0j4VdyyEBKyIYTdsWI/Q7326nYZ8e9IDJC?=
+ =?us-ascii?Q?H+K5TwJbEQZz1CU4kJYKTeSJznZam0/6BH86YCUT6+p7eZ7koHA1lvZzt2xz?=
+ =?us-ascii?Q?zQnb8Td9owBZpTCHvRv1QIpJDS2xJVz8mcFS6t5sjAP1FKXoGLbpHA/LwSkC?=
+ =?us-ascii?Q?QOPT/XDQNd2zK3SUuEZJRDfYX4056my9qP1EERcR8A+1AlY3ZkKDsIDXF0Ga?=
+ =?us-ascii?Q?Jj9vZ3HVluD+3ZxIqWsfKHUj3v9e4yC4cBPsiZbEiPLc7Cfezyy0VaDAGfX7?=
+ =?us-ascii?Q?I6I9fada4zxYqeRUiNJ71rwGJjSNgcg8mqqwnu/81pu7z3ES/weZagPA0xN2?=
+ =?us-ascii?Q?n6NKR7Jggp1h2WhSR3CMy+22pWGpJXHAgKJC5Pak9kEcPVT7Z/TpVfvkx1xj?=
+ =?us-ascii?Q?qLcdItbnlDhXJen1S8+Dq9Bk8HvBeQgM8vpPkNlNDYcGSPz3+M8UwLnkW/up?=
+ =?us-ascii?Q?s9u+UVhkykhgG396bAqWfGpzzKq0H4Mgu7sDrtudG6Nuzgr6u2tzg8hhPiaZ?=
+ =?us-ascii?Q?4O2iJCmKctoZkSAAP8YJ5qYd2bMxey0vSkz+WR+BH4+Jq53820j1aS1MRJ/x?=
+ =?us-ascii?Q?XbUfnt7z1w4JKAF2q1sIBiEgvLGfJUMBzdlXZu2m5rO/R1B7gxUrRStItWQG?=
+ =?us-ascii?Q?kopx99UBDUEV+6FYBvYglXgITHs2o5xHrhxCbZO97b9hs9Yqc2JaKUKe5IXy?=
+ =?us-ascii?Q?IkM+E2wdZ2/eW22mz8TOWW4m/PCiG/V80e/RE08n7hC6UnThFllOJmaA+vDC?=
+ =?us-ascii?Q?kBXVmAWgDjK2zG/2eoUDDKyEmeD9h9DrODg052J2tkYsxJ/0elhYi6Ccs2MC?=
+ =?us-ascii?Q?PN0kOmgY8AEQRWHUAwxMpunHXzAksR3/as5efhFXcWZXlOtQ6YwM3OpJtcgD?=
+ =?us-ascii?Q?AN2Bh2CEtSxZFV0rEX3pVv7GAwXSQHjyDyRe2eultHBzizYM4x4wCl46dhQa?=
+ =?us-ascii?Q?Vi2pWAUHAkCtJ6sbNTziK/RQlUaOoAxCpjHTjYqGQtkt5TkkjN5G4Su0149C?=
+ =?us-ascii?Q?dEmsg/gGpCzN2O3aEqML18diqK8xidUvNLOQrfnodhzA7uGQr4HN1d44fszI?=
+ =?us-ascii?Q?6+AuIvDjtTGHH6bQVQFIfd48BHDiEDXJMGQwDcK5QUaSS8xcaO4wX1VZdT1q?=
+ =?us-ascii?Q?18YBN5gWTVVS6SQ5vm8g9m81h+aO2xbnF49VakhM/BE8hey7kWtvBjGKfjgm?=
+ =?us-ascii?Q?AFsZqJzyC/JXZZO9HRwCznBlwDEsInn2ePcBNiErCyH67j4Bw6OnZbhwGkwn?=
+ =?us-ascii?Q?TSHbWm++n5NG9W07YYAbqTXthli4h9ARn+MT49I8sbIjy9kRK/bvKkz0CAmH?=
+ =?us-ascii?Q?ew=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/rcar-du: dsi: Fix 1/2/3 lane support
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- dri-devel@lists.freedesktop.org
-Cc: stable@vger.kernel.org, David Airlie <airlied@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-renesas-soc@vger.kernel.org
-References: <20250813210840.97621-1-marek.vasut+renesas@mailbox.org>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <20250813210840.97621-1-marek.vasut+renesas@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3fd43556-9c43-4ef5-a367-08dddaf86c88
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Aug 2025 06:04:26.3626
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fIDEW5jKlkszw7+eGN600yEWm2TyYaGmazNdw9Nx+0cOosY9j8cu4Kch1CFmRRfiz38I0X3uRjZM02c/OGgRuXjYL8y/sMVZVYE5JLUgtM0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB9909
 
-Hi,
 
-On 14/08/2025 00:08, Marek Vasut wrote:
-> Remove fixed PPI lane count setup. The R-Car DSI host is capable
-> of operating in 1..4 DSI lane mode. Remove the hard-coded 4-lane
-> configuration from PPI register settings and instead configure
-> the PPI lane count according to lane count information already
-> obtained by this driver instance.
-> 
-> Configure TXSETR register to match PPI lane count. The R-Car V4H
-> Reference Manual R19UH0186EJ0121 Rev.1.21 section 67.2.2.3 Tx Set
-> Register (TXSETR), field LANECNT description indicates that the
-> TXSETR register LANECNT bitfield lane count must be configured
-> such, that it matches lane count configuration in PPISETR register
-> DLEN bitfield. Make sure the LANECNT and DLEN bitfields are
-> configured to match.
-> 
-> Fixes: 155358310f01 ("drm: rcar-du: Add R-Car DSI driver")
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> ---
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Magnus Damm <magnus.damm@gmail.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
-> V2: - Split this out of a series, update commit message, combine from
->       drm/rcar-du: dsi: Remove fixed PPI lane count setup
->       drm/rcar-du: dsi: Configure TXSETR register to match PPI lane count
->     - add Fixes tag, CC stable
-> ---
->  drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c      | 5 ++++-
->  drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h | 8 ++++----
->  2 files changed, 8 insertions(+), 5 deletions(-)
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> -----Original Message-----
+> From: Geert Uytterhoeven <geert+renesas@glider.be>
+> Sent: 09 July 2025 19:43
+> Subject: [PATCH] drm: renesas: rz-du: mipi_dsi: Convert to RUNTIME_PM_OPS=
+()
+>=20
+> Convert the Renesas RZ/G2L MIPI DSI Encoder driver from
+> SET_RUNTIME_PM_OPS() to RUNTIME_PM_OPS() and pm_ptr().  This lets us drop=
+ the __maybe_unused
+> annotations from its runtime suspend and resume callbacks, and reduces ke=
+rnel size in case CONFIG_PM is
+> disabled.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
- Tomi
+Applied to drm-misc-next.
 
+Thanks,
+Biju
 
