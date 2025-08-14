@@ -1,98 +1,93 @@
-Return-Path: <linux-renesas-soc+bounces-20518-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20519-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 078A6B265DE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 14:50:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A605B265D9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 14:50:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A83945C310C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 12:49:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9F35BA01E83
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 12:49:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 690E52FFDF1;
-	Thu, 14 Aug 2025 12:48:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E3903002C0;
+	Thu, 14 Aug 2025 12:48:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RDG7koxY"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DwcOjotx"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B67C12FCC1E;
-	Thu, 14 Aug 2025 12:48:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A5374C14;
+	Thu, 14 Aug 2025 12:48:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755175721; cv=none; b=S5CmMQpFMYwWFNxVHe9VYZRhrVRWvBqb9rVWedbbmEztNL91afrfuDjlmxQeuBlbutOn/uAdNPGszf+IHRCZ/d4lrPFZ32OR/A4U3TT8fuWONk1/QCgxmHbMY99bVVgFu5dAs7MTvp+5ZZDTW6KtFSd/c8prheuFW9aLSBQyDh4=
+	t=1755175722; cv=none; b=J52mrNUjhguwbun8fW8WxynifYYzy7VWpJ/JwagTB+bnnBuCljhSBuk2Wv+fJaYIj82nePGW7i7GKcR7QH8JgiUOEyNkkQEoTeA0si5dIMXNGEN4/Ayr7i5q75NrKyFKN33pe6cCI/A6DrDYpquUn5rdUNcwiqzmX1RejIUpttk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755175721; c=relaxed/simple;
-	bh=xIpnvcRgK6keN8SsZajP7QOWVROT//xhLjdQ8gtBmC8=;
+	s=arc-20240116; t=1755175722; c=relaxed/simple;
+	bh=7oPBRsyUdVA2yIOkcUl7sQozN59McESlMod2g7jVOC8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LPdD4tI8TsejL2RBBNHi0pittUHDclznTP1m9sa3xvIiUTPxfsryH/vtGuUljF9ItAU3yKTHSzHmaq/+K7Oi9PjxotBu1hGQrIoUKCyTNckpvEo49OLTTxaTASpZtOuBLh9BKgtyW1h0fbfgqqJyBMHALqzqhrPZteUtaX0FwRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RDG7koxY; arc=none smtp.client-ip=209.85.128.52
+	 MIME-Version; b=F4/n3XQpbosenkk6ZQv7NqOuB/lobtUfpZTy9/T+VazlUQzBJb7E7k2+XEoaxmwYbJHm993geWuefh0KR8Lg1sFRUSP5DEwX/GVoHkvNafvbyrOJbCfNA+//MmmlCsZL/+KPpYgBQ75abOWT+S4ZIldPR+SpxmbAkgb/pAe7EgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DwcOjotx; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-45a1b281d25so3596945e9.3;
-        Thu, 14 Aug 2025 05:48:38 -0700 (PDT)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3b9e4106460so756922f8f.2;
+        Thu, 14 Aug 2025 05:48:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755175717; x=1755780517; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1755175718; x=1755780518; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=seSepI1SwkhcWo2g+eNikbmkOSgFCIfDJqBCVLKBGfQ=;
-        b=RDG7koxYCd8QvtybiWPlpP5QC+Y3hASlKGq0bg/4cPDeoM2uFwMCwkS9ycMvrK+U4h
-         THit8GDrz0eSPo+OaeTQ7SIUw5Ez2pc2IwExRXElXqyoyyYWiAA33XOSK0cAXUaR078A
-         8ocwo+wqti0KtPSIQ+o+nx8h9cxsLDAsTDCXNMunsNlHferd9BYNWk/wsAn+VBVr3xA0
-         xANUVTaaI3K6Do19SJNuSIQSKsJQp9N9Q0Mj4oLLv7+3+l0WJl7K9BKd6MmNsPjuDnep
-         BvZSC18vJNzXw1ncUI+z0vgLDSN63QVVaF0l2/y/J5JlyD8flf0UJFS5YS6obUhp2a8/
-         GQHg==
+        bh=LpCSYYS4AbTFByWM6JITFXYd4/KbRTwKBb9AZtM76Is=;
+        b=DwcOjotxN7ZR+CYo2KyTvkUc3UFSJiqAqqkdZOsTtAmmAVgFxztmVCeW5vvgz8qr/R
+         Rhm9VWRho89XgJpChgp4IR4Fk1X3tQqr6TrdrHWC1JARSNFZysWI6hyrnDj7n86ymBOj
+         QbjeUayQAYwBPudzfkttMJPyCvjBYecIKadqwROx1Ng1NJLbwv8GAwbX5wSs98OKbCcO
+         1WAOhQmTEhkOGooxdOR4ShFou1Zsi0C/M+eSHD6V5OuKV3P/v0KNalww4jWt0369Luh4
+         F2uFsfnh24USZBR50eLZaoK/ziJ+rGkPjG5VrMzsJGTREg8x7vChitOfEOAVBGiH/9cu
+         RUrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755175717; x=1755780517;
+        d=1e100.net; s=20230601; t=1755175718; x=1755780518;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=seSepI1SwkhcWo2g+eNikbmkOSgFCIfDJqBCVLKBGfQ=;
-        b=i2NwG3FW5pHZD0SaSLM6/kVpx4k/AmVH0lUqmtdS062U0zIxyRPQbciRKsl7OQbNiZ
-         P05TNljC3YfrEeri/ijditSECFExhR5yCl68DJJyldnNmly3byym0NzM5CeamgYKGkjn
-         F4f0FbZ+vwbXFzMEQ3zp6G+c7sCVT5dKeZui1X4t7TgoKNEZFQ47T2YJapziEIGCad00
-         KMuvUi67bhay5R2WS1e68LR6kqJ3zNdXKlaDeSK9yZCyizJSlLtHgRFJ7pYYa1I/5My2
-         SBZyP4t4RdBQa0xk6ZCRLOraTmfyP+ZdRw069Odhx2ZbBIbBH6vHWnc+iN1VrLsXvstk
-         ojbg==
-X-Forwarded-Encrypted: i=1; AJvYcCUDz4Os9uY8pYi5IIIgE6K5NToXXm/RCHOqxkMD1NK+0TvYm+z0clGMB06pYCfWK23D+qTxjlfaY5n1Bo8I@vger.kernel.org, AJvYcCVQkKLAxS1nm7smkQFoSZ7kZwbv//eBcSopuGdmMTUBnOL23bs/Mv+MrZz0d2wLE9hFuK/uYZnU1ReyZSDtmc5Ou+o=@vger.kernel.org, AJvYcCVYXNx18SKgbdGW6MCAEMiK3Y+gbFoOjMRfbyuThd6JPln4OgZX0MwOcqOXtny75bRxuECDwZt7xTuG@vger.kernel.org, AJvYcCWof5UJRI/4xUapZdlXy/b2CEeXmsJKgUQqd4FBVTC9iVvmQLD3OvdwSiJ63QDiDKFcPXPjT2RzxyC5@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMZ7KHDbmXYUkXIDVnAChd5ic2As6Gju7gbCartf7mHMJzvM8B
-	LbvO5XlBPEpAwTSNbjks6GWnuEt5axcsy1w1c6KacwlDs/ClOqz0bbDS
-X-Gm-Gg: ASbGncvkqheLPY1WEn+4suVfjDvEkLUmqc5fOBt6nQ+zy7rs362X5/eKfQmcbQV4HRw
-	cZfcHzetijOe81L5K7CT0xMdWAXkmWIpipd8MlzVlOVeY37mnzbJG2aL4qitoFZTZsWXp+Qq7nX
-	vzZs1VjfTvaEirrw9iJKlUsXqy/V3nsvQO40JLhU4PN5X7rCGEnM7L0c34VVsYrNcTPvuLIN1sR
-	+7T+CWM3JnWmTCGxRgPxsfYMnOk6a6UVfB0st3TvdmK/37lEBOph2vTejzbayjgvwoYj40mKFq9
-	ySAYv309HgEL8jpjAE0hWVHS8wwh/LQGi4blPN5ki6BXvP69egLglkw5RKOZkw5QfCB3P/WWspa
-	7oBAb/y6vgcVCD5ncGXmM6xsn10AivWJYa6LuGa5hXfEmc9Vrwo4HLhofl+Eyoh31SJjDkVw/eA
+        bh=LpCSYYS4AbTFByWM6JITFXYd4/KbRTwKBb9AZtM76Is=;
+        b=DRRc+duk/b10FkAqIGMJqHVv3hdA5CCtofVOZW1iUoIT4QGDQVe96Jd30YdNgKmzSF
+         mRctwoZ4PukR+obM2X5CP8d5MruA1h3UUXP6Q88zc/ro7l/b7syDOBJQHyXY7FMWag8B
+         zYSLn7Cn0lsvVqwiw5BdYg+H8SlcZsoo0c6K7wLjgym1a57H2APZShnw4W+Qy05P8d+2
+         PHCrP7ZBbIVtw9oS4qRV68Qx14A3DgiI4iVLatwJbJv/2eCmTWhURkYiOKh6/AOhEtHY
+         Pn2IyT7bw8fvGdXRB+JX8PYbuW4yziVU5j3igP/e3E8IEAM7BojqRfAigJH+pgN70BCf
+         9rmg==
+X-Forwarded-Encrypted: i=1; AJvYcCW9TzPRi20gEVk/dCUhSJnVGv3wfebrhhFBBbpDdyviI0LGLX/gVc7y+Ee+BJIflPaXAwzsR5v844roippPenvYHJU=@vger.kernel.org, AJvYcCWBJhdzSrxsEfTeBumUnYE1RuOVO45rkg7UmaA20wJgQ+VJUlx+vaP1lfxtmfvoBugkZujIxXeAl6MQ23e4@vger.kernel.org, AJvYcCX6AfWN9P5m40YqQmY+Giol7ITvy935W8+vNhrfjXP+XmIQgMO24RtfnOZGG1fBokAl3QMyhIAlXIs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxYim8LxciSADRZEo3XYX2iyYLMCOlg+gOaK4rF6Yn/aWOq0r3o
+	rICvCs55LchbcG9CHy+NeNl7FJZtWYEdMW+Dz7CEr3zAgw7RNhjL90Ki
+X-Gm-Gg: ASbGncta04h/oJGmWhOpAaoKTo4WU/IccZnx1HkJzBw/K1O+y7581DX62aVF7PWRGet
+	mKUDJX7LB3Zy1B+h7eF59RstujC3oZCm1AZIjr3as+n8gFXJPUhfo9pRf3gEs5nAR0uHp8uBfbc
+	QB1VjubNSKyLnici6i0ahZLS1P4mzyqKMQViVVEUohnS0JrARFQkzfJ4X/VEqnL+S78ZMxUC5Uf
+	zsLV26gcINl3U5OJNQiA08MJQMBYQB6oHd8TVYOoqbbc2TORdUAZ0yjchc4fF1HoDn+9bh+M8FH
+	xZaLER/F/PC4EPmkQ9hPgX5mN81chb4DtGIayocX2ZdsW8Rro39I3KK8PITr+VRNfMax/TAaB67
+	Zax4H06HF5wN+ufBSacAC5YGvFM+zLssZS12O3UwpvjJcxXKIWOFAx9BYy8CzO+G0HjDRenUcYg
 	==
-X-Google-Smtp-Source: AGHT+IEGBrAqnbKDrFlHCELSCCSoKRb2Rg3v895ZlS72+IiRKX8VvMgQWb86WzhOot9cadZzZgyLgg==
-X-Received: by 2002:a05:600c:6383:b0:456:133f:a02d with SMTP id 5b1f17b1804b1-45a1b73f808mr27550495e9.17.1755175716912;
-        Thu, 14 Aug 2025 05:48:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHBnnYwR2Lw2GBx5C557dqk0zxsVE2WQZxAs+Au4nkv2cII5k6QQdsJu66cDueqpxczalx32w==
+X-Received: by 2002:a5d:5d0c:0:b0:3a5:57b7:cd7b with SMTP id ffacd0b85a97d-3b9e417d3c4mr2441825f8f.22.1755175717411;
+        Thu, 14 Aug 2025 05:48:37 -0700 (PDT)
 Received: from biju.lan (host31-53-6-191.range31-53.btcentralplus.com. [31.53.6.191])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c466838sm53497380f8f.49.2025.08.14.05.48.36
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c466838sm53497380f8f.49.2025.08.14.05.48.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Aug 2025 05:48:36 -0700 (PDT)
+        Thu, 14 Aug 2025 05:48:37 -0700 (PDT)
 From: Biju <biju.das.au@gmail.com>
 X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH 3/4] dt-bindings: clock: renesas,r9a09g047-cpg: Add GPT core clocks
-Date: Thu, 14 Aug 2025 13:48:26 +0100
-Message-ID: <20250814124832.76266-4-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 4/4] clk: renesas: r9a09g047: Add GPT clocks and resets
+Date: Thu, 14 Aug 2025 13:48:27 +0100
+Message-ID: <20250814124832.76266-5-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250814124832.76266-1-biju.das.jz@bp.renesas.com>
 References: <20250814124832.76266-1-biju.das.jz@bp.renesas.com>
@@ -106,26 +101,48 @@ Content-Transfer-Encoding: 8bit
 
 From: Biju Das <biju.das.jz@bp.renesas.com>
 
-Add definitions for GPT core clocks in the R9A09G047 CPG DT bindings
-header file.
+Add clock and reset entries for the Renesas RZ/G3E GPT{0,1} IPs.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- include/dt-bindings/clock/renesas,r9a09g047-cpg.h | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/clk/renesas/r9a09g047-cpg.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/include/dt-bindings/clock/renesas,r9a09g047-cpg.h b/include/dt-bindings/clock/renesas,r9a09g047-cpg.h
-index a27132f9a6c8..ac0f1ce3c752 100644
---- a/include/dt-bindings/clock/renesas,r9a09g047-cpg.h
-+++ b/include/dt-bindings/clock/renesas,r9a09g047-cpg.h
-@@ -20,5 +20,7 @@
- #define R9A09G047_SPI_CLK_SPI			9
- #define R9A09G047_GBETH_0_CLK_PTP_REF_I		10
- #define R9A09G047_GBETH_1_CLK_PTP_REF_I		11
-+#define R9A09G047_GPT_0_CLKS_GPT		12
-+#define R9A09G047_GPT_1_CLKS_GPT		13
+diff --git a/drivers/clk/renesas/r9a09g047-cpg.c b/drivers/clk/renesas/r9a09g047-cpg.c
+index 4e8881e0006b..583a2ca116fd 100644
+--- a/drivers/clk/renesas/r9a09g047-cpg.c
++++ b/drivers/clk/renesas/r9a09g047-cpg.c
+@@ -16,7 +16,7 @@
  
- #endif /* __DT_BINDINGS_CLOCK_RENESAS_R9A09G047_CPG_H__ */
+ enum clk_ids {
+ 	/* Core Clock Outputs exported to DT */
+-	LAST_DT_CORE_CLK = R9A09G047_GBETH_1_CLK_PTP_REF_I,
++	LAST_DT_CORE_CLK = R9A09G047_GPT_1_CLKS_GPT,
+ 
+ 	/* External Input Clocks */
+ 	CLK_AUDIO_EXTAL,
+@@ -198,6 +198,10 @@ static const struct rzv2h_mod_clk r9a09g047_mod_clks[] __initconst = {
+ 						BUS_MSTOP_NONE),
+ 	DEF_MOD_CRITICAL("gic_0_gicclk",	CLK_PLLDTY_ACPU_DIV4, 1, 3, 0, 19,
+ 						BUS_MSTOP(3, BIT(5))),
++	DEF_MOD_PARENT("gpt_0_pclk_sfr",	CLK_PLLCLN_DIV8, 3, 1, 1, 17,
++						BUS_MSTOP(6, BIT(11)), "gpt_0_clks_gpt", R9A09G047_GPT_0_CLKS_GPT),
++	DEF_MOD_PARENT("gpt_1_pclk_sfr",	CLK_PLLCLN_DIV8, 3, 2, 1, 18,
++						BUS_MSTOP(6, BIT(12)), "gpt_1_clks_gpt", R9A09G047_GPT_1_CLKS_GPT),
+ 	DEF_MOD("wdt_1_clkp",			CLK_PLLCLN_DIV16, 4, 13, 2, 13,
+ 						BUS_MSTOP(1, BIT(0))),
+ 	DEF_MOD("wdt_1_clk_loco",		CLK_QEXTAL, 4, 14, 2, 14,
+@@ -322,6 +326,10 @@ static const struct rzv2h_reset r9a09g047_resets[] __initconst = {
+ 	DEF_RST(3, 6, 1, 7),		/* ICU_0_PRESETN_I */
+ 	DEF_RST(3, 8, 1, 9),		/* GIC_0_GICRESET_N */
+ 	DEF_RST(3, 9, 1, 10),		/* GIC_0_DBG_GICRESET_N */
++	DEF_RST(5, 9, 2, 10),		/* GPT_0_RST_P_REG */
++	DEF_RST(5, 10, 2, 11),		/* GPT_0_RST_S_REG */
++	DEF_RST(5, 11, 2, 12),		/* GPT_1_RST_P_REG */
++	DEF_RST(5, 12, 2, 13),		/* GPT_1_RST_S_REG */
+ 	DEF_RST(7, 6, 3, 7),		/* WDT_1_RESET */
+ 	DEF_RST(7, 7, 3, 8),		/* WDT_2_RESET */
+ 	DEF_RST(7, 8, 3, 9),		/* WDT_3_RESET */
 -- 
 2.43.0
 
