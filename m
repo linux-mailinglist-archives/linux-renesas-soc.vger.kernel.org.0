@@ -1,252 +1,372 @@
-Return-Path: <linux-renesas-soc+bounces-20484-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20485-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E6B0B25B96
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 08:08:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0238B25C3E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 08:53:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 95374587C55
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 06:08:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CF242162BB2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 06:52:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24597235362;
-	Thu, 14 Aug 2025 06:08:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E16FA25A354;
+	Thu, 14 Aug 2025 06:52:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="DlfGACu3"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="HWf9WJA4"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011043.outbound.protection.outlook.com [40.107.74.43])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B48C1BCA0E;
-	Thu, 14 Aug 2025 06:08:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755151684; cv=fail; b=lb2s5YVSa4vD7GEFOeo8jviMVyeVvDPEOwISnFpQSJjQ0qdkwT91sxce3sF0vkrSe2LH1r3SPpzLR7V9JwOQt8tlhrvLou7+Zo0V7g2jhwC0nR4vcEd1aKXfGYz0+aKekPKwn6jv7Vxa0XbRV/ypB/Cp00VxT6+vns0Y/8KM0xE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755151684; c=relaxed/simple;
-	bh=dSNGBSsREDDc/FZrLIqzgOw1FF6fZZ+6Fws9eKKQgTM=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=baD0SznEhGyZDzzi4qx275lzoxI3sRf2o51csQRCaw0YmSix/TdPL2L5M7FmI+eTYb8kLfAHbsD/XNjP1gj5KxNLRQEj7qeavu91L5RRvAK0xoPkEIoSfjewGYYIScT+SyhcW0YNOYM9YMsSXl19hETTLwVnXD5r///lrEvMgeg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=DlfGACu3; arc=fail smtp.client-ip=40.107.74.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KxsEVQfaEbVGyruOjEmXl2P5+cZqOHkBOqhbsA/nhV139RVpwIdixrma6R281TKbj6+DuWEBGtkDb7lqJnBLmumjDOBazT8UP13lmQhtqrosQ1QN9NhMy/QlfVB/ugijyEsTL4xUavXwhs1UUM/iM3pIrhe49+xCKG6vQnMq1m62VIiBWRz5tNUYjFW/OBoKvCPYPxb3DWaZtaBpfAVMHUyBL0XcW+EW7ORF/yz4pMItSo2j4kGT9tKwyLoZkDK6PnQQ2N9D2NgRiBdgI3kX2CGlPQRnxkL2uBzjsmuwwFtqX0kKdOU0yf4hFXBe72UubneEWLmBmStIejh6xoVjww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=17IjWCPqFEFK+FUtPrhwYPzOlXAXjA06/QJg5J0sQ+o=;
- b=BsYIoCVusPTNQbA8GiHObDz6V3o+/iMjKnhxg8ZgOgqRAc+eMni70V+DS0K/OEQV8DIX7rGjH/KtGjLA1mwBXyLv4Tg57NR6dBFT5cWeuG9XC6Ce5gXz81lm4ESFM8euaLwio1exD824a6dkLWdckFL9j9yMyEwV8jmmhYCP1AmVXIWtl7XhMPiM+0ow5+Lt+RCc23fOV0maq6Z/0WnSqn0oxdAicbIy79SujIZrcJGAZR/gklPaliT3X0h9EYtsp2lLKTq1e13c67vH5WKEYztb6LmE7jE4aY8USKe8owqI7zs/SMw6IjjZlJQ/qzxIGFI94hMU2UkiFaI06eexbw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=17IjWCPqFEFK+FUtPrhwYPzOlXAXjA06/QJg5J0sQ+o=;
- b=DlfGACu3qmRHvbpgDwqCkllPm4OAHYg9aKUWAhQHe1KC3kIKJkRB0sl8VrIf4xn6nVfReXkOH+RtC5YD/zXO/yvCgy+MDskorQmebZ7dh738TOCzU1eGtrAq3t2pBnk0ang9LWoDyqwEANDDZFXSSEoVIPxilW5WDfDp3q1vn5I=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TYCPR01MB9909.jpnprd01.prod.outlook.com (2603:1096:400:20f::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.16; Thu, 14 Aug
- 2025 06:07:58 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%7]) with mapi id 15.20.9031.014; Thu, 14 Aug 2025
- 06:07:58 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Chris Brandt <Chris.Brandt@renesas.com>, Geert Uytterhoeven
-	<geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
-	Nghia Vo <nghia.vo.zn@renesas.com>, Hugo Villeneuve <hugo@hugovil.com>
-CC: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH 1/2] clk: renesas: rzg2l: Remove DSI clock rate
- restrictions
-Thread-Topic: [PATCH 1/2] clk: renesas: rzg2l: Remove DSI clock rate
- restrictions
-Thread-Index: AQHb8RPt3idI+6NLCEqifbue2Fo4mLQrF4hwgAB8ggCANkypUA==
-Date: Thu, 14 Aug 2025 06:07:58 +0000
-Message-ID:
- <TY3PR01MB113468C7F195036B28A70E9508635A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20250709205532.747596-1-chris.brandt@renesas.com>
- <20250709205532.747596-2-chris.brandt@renesas.com>
- <TY3PR01MB1134628601112EF2B32F3358D8648A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <OS3PR01MB8319CD026C1E27CD7FB736F28A48A@OS3PR01MB8319.jpnprd01.prod.outlook.com>
-In-Reply-To:
- <OS3PR01MB8319CD026C1E27CD7FB736F28A48A@OS3PR01MB8319.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYCPR01MB9909:EE_
-x-ms-office365-filtering-correlation-id: 1e5b932f-6966-4c08-8252-08dddaf8eaf4
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|7416014|366016|376014|921020|38070700018;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?c4uKroFVEObSUu+8fxewIHJm2I1TmnoTfeN5RuMZJF92+XYScgMOOb6iI4Wr?=
- =?us-ascii?Q?IXy6oqRWqYeqTgyaBqNRECK0Y/r/gPBgCmQqFQT9ni/PJob2avecbrHBzcvr?=
- =?us-ascii?Q?VCDdkZqFMdzScG+8nyXyr/SdP7fs0IcHhq/VcpuZrg3zx2X3t1QCMwoTQMWa?=
- =?us-ascii?Q?9rw7PbhhnX217iH5w7IQI83PqOCMLX01AlMOKgBTCDNzqLoIcxi6r49WC6G9?=
- =?us-ascii?Q?rfzy2GGEp80JJTDNYoWUBOk4Zkq2yXKjKkFXMRSJf76Ddgy63tvpcJRB68lJ?=
- =?us-ascii?Q?Dd8Y5E4odjJuP6Pm9CH7YGFsezKWg2cOTTZBOkiB0fSRymFsdbTMxJVCn5jp?=
- =?us-ascii?Q?+g+UKwbQicqFyp/t3Co1kLz9LYnflQAi9OYJ7NYwLKGuoeySEI9zV3IO2UiP?=
- =?us-ascii?Q?DxOj4yKDK9B+5qgHDEw/Lq8gOYLvJKKoHi3PrOfnIxZ/hfU8Bu/UU0bKZc0/?=
- =?us-ascii?Q?rzVGgE1VOzrmos1UmlsSETBO++5epEi6grwVaYrnr1cx2SCwjnJZwMgpK7Ga?=
- =?us-ascii?Q?Py9LbmXCMw5iBP48p0/+k04wvfW8ws2I5BeyrgAsBfZy2TBU+T+eGhFnG9w5?=
- =?us-ascii?Q?7qjxH1q13zWgTlVMaOPVlAvTpVyzyEvikUF0RhhIJjyOUS57C5TodUcdFbE6?=
- =?us-ascii?Q?3gqwQnFY00jiiKRZ13oYX7Rrb2dSUV6jNGyajah1QtgRKfvUHDeAmIvcDFr8?=
- =?us-ascii?Q?2nJLvZ+ziKm2XQF2vaPFk5WyK6NdcvBQW0oCa88RUu7n7S2WcbyuLWmAkau+?=
- =?us-ascii?Q?OjWrDVQNxAyy5EXF3PAKMmiLBSU9ow0wAFJqkgwFPbMKY6oS0fspE3kU/3TH?=
- =?us-ascii?Q?mQCKgbZf/4inyDPwNNUDpsRQoA5knWf8AxTb8853WSWpmKQx5uywUap0KKGy?=
- =?us-ascii?Q?0En9nD3QfYW9cSQEEWPNXsRc9CHtLke0jJBRaO2WWtYaLjKvXsLejSPOU3a5?=
- =?us-ascii?Q?6Nr/86yTfoW6DdM6GhdAv8cy1QX/iIm9JopAFovB+LqNNlkwA0ZPIZlG1H8Q?=
- =?us-ascii?Q?fCC6iHg46tRaRDS+4jjpPeeSsMG399vmJ9oK2KDZLWALwB3HvXMPneFqZuVF?=
- =?us-ascii?Q?YAR8sY3iTB5qU1EC4uLAgg+R4Ad4nVLFaJsesGgcE5gqVCF1gLVXqiJq2f+Z?=
- =?us-ascii?Q?TIRdevip3BNiWieRSQvet6OZaljay35QooLkl0lX2+NMqjehsiAZhfpT0EzF?=
- =?us-ascii?Q?YS9l5AkCcbN3ayif93PolEQpVqIh1P7JRxsJBuf+/wCqGORSW2/irexE786p?=
- =?us-ascii?Q?14MHvJSH1JhEINr1Teqk8xF6EIzceRdOCzLdlSS/+IsCVM1dq4/nCU2yszFI?=
- =?us-ascii?Q?SEm85H86HHZEe0OGox0VcpkUtj06WcFgxGVxOXrCkE9uvAyqYK2XLUdnBF2/?=
- =?us-ascii?Q?ZeSFJY2KsicU9M+mYNqnDF67EuqfoZsWhEAuWxHinJIMUUfwGeRVbVCfiq0l?=
- =?us-ascii?Q?S+VE9jyYGCrGuO96dVk+6c0xZ0OONuGqZeoJ7psvM+PKT64YYz9Vb5SuDFQJ?=
- =?us-ascii?Q?Duujc+zoWEhuGQQ=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(366016)(376014)(921020)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?ebr9z4xMs4uX5QqOXxc87e0q9zJvMDKFt3CFAUnhRCu+jBiNfWpy36V/chmn?=
- =?us-ascii?Q?1Qs1Rwt4BXc/snlHdLgRdIIGQ+b9hj6E/M3X6ZIfHW4AowfJtsuowvIQKH1F?=
- =?us-ascii?Q?T7Gwmf9l5nQu9H63DhaTDKWXua5sWxhmfP6Gy8e/XvK4F08klltT2PGrP2y3?=
- =?us-ascii?Q?fsy2Dks6xr+Yc7cOAmmlJUkTIRrLlEpObggPaxfFqybZ7hCk0Bd/1+ISdcDY?=
- =?us-ascii?Q?KzZVzwJHtKZsd7kJwGcVaLYcT3+c4Jk5TozhMUXjGuWkqmdv2KaJBn0b1e3u?=
- =?us-ascii?Q?Z8uxfNKWOoAqsxK25gsUsih+66mYyEKRwCElr0wSdsA/KhLuup7GIXWSTDLz?=
- =?us-ascii?Q?RlbnDMBsUOf1pmNNcETIPLk7d8gFOmUhzwTzXoIw/xdQ6OT5fBhT7NgUZvK3?=
- =?us-ascii?Q?jFr1eFk/fAwaHsWQp6zRaGbRQC0Bs9Ynt6EePRnd1AFWA2OzYba5m5DpKGz9?=
- =?us-ascii?Q?eSQIYz2xwxyyQjAWsh6yjo8h1UVkipaMgkEXm+pNSMajRakI0rdDEdeKVawZ?=
- =?us-ascii?Q?xQIC2tUnwXSoAi++BD+sa0aPc4CS7x9XwLC0Bb1IiliO3hthY87grBtxbaEq?=
- =?us-ascii?Q?q7VaBrEoW6vEbr03JjJ7c0nyqvhWzA9xQX0hlBI/RLRrd9DaQQNN5t4vseqA?=
- =?us-ascii?Q?9ipclkjq3gGpds0XTuk/dZVVkHLOVC5p4a2BsiOza96HBL8IJ3102crGn56p?=
- =?us-ascii?Q?l+tNeNdvXMdfreR20reYoMHpaE0WILthsYEcQ/0vD0Zhu+PIP2gy0Jp4hbb+?=
- =?us-ascii?Q?SnmIG5jo5rverxPRfnr+8WR87jvlq5Inh/MP9rOTMwDLSrPhEtmc/OGKBQ5y?=
- =?us-ascii?Q?XV9JzGG36WbLqFjmD3l+2rn6z/LXSmAc/dJOr936tvvKQevzYrEaXrU2b7aZ?=
- =?us-ascii?Q?CiPu2Kxk1E264pGRQ5KBjJk43QkGC93iqIcByNBmSjX4Uy5hCUEuhX7Or7LQ?=
- =?us-ascii?Q?iuXZSuInIdnDzjZSotFbFbhX9ZDM/Dxrtlp2X77tp2a1gNlN4a8KAW/Y1fST?=
- =?us-ascii?Q?F2GYFKUctU5xKpkIT2NN0NDZbZ6z2+jinnQjcqfLDJjR/W+SOD4WXf0mZF7p?=
- =?us-ascii?Q?B2SpbwFV4E4JZyyXC5oe3VxYopBjcXd98hMTF92PXGbL10m1dDR8DUivobg0?=
- =?us-ascii?Q?yzHERuj702XPaJX0d2YHUgpSQCgvR8vFuTtBdIuUmmro92UnTpspqxRzkjry?=
- =?us-ascii?Q?4Ar4ouS3UgiNmoj26lYI34Sw1T6uFdT5Bpp4t1+NizOOlrrHBMxEiCENktuz?=
- =?us-ascii?Q?gjoKJ2lMOYHqBRrip8lwxjn1FY5G7yfMptBjJztP5ZNZgWEo2u6IYfQzZ1zq?=
- =?us-ascii?Q?6PZzKdCOyhqJy4qXzQ6sUtCkaRSaxAeEp8bG8P8PZlGdDFJkABHi/R+4B089?=
- =?us-ascii?Q?Ly5xSfOD40Ty+8a1GRTbm32WXeqNJk8qFrNqT0Fw4gRLQOFOY/4Q3AsCuwnN?=
- =?us-ascii?Q?+An2Af0rT+8Mh7w02t0MUHv5bWGjnsvBuUg2BAwjPeN6zDTl2R7vWhtmnT9Z?=
- =?us-ascii?Q?mmCKD2D7cZPuBawFcTETzhwZYXRKwPeRNrXoP1GP8sN5M3+jBZsS2nrpiNh9?=
- =?us-ascii?Q?4Qfnb7iI6cSE6IU6jZ+wm+4IPgNeI0pbCcDlhl2cWGiSAk1NNRzcfP5nCkt7?=
- =?us-ascii?Q?jA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F378425A333
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Aug 2025 06:52:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755154332; cv=none; b=gwjtDazHxWmF39myww6VdGCRNYu3uThFu3PEOaKKYp7SSTQ6WswEg0b1OLDlwd6mBggYu52IsVbGBhTx0VNiDkyRIf/yfPYk/13ASfY2dKhkuv89E/sQ2+MhzeYPhoOAblQhruZGBgRMmHArEprn4h/Akdz1TWIjrxD6xrvwuoo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755154332; c=relaxed/simple;
+	bh=735zI8v6gCWPco16jb2nXsuda3pPS6+dALJsF6E93Iw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XPilf92rQYM6BshTx6PmGgBhahpZgn34Ey971nHWtNBTgumCaBkMBBiUCABeVJXi9ow7RkFYwp0QaJHdOBvj3Kup5KFvnTYRoTZ8K9uU2PA0Eup1R6HZXS807Xx73pkLA07pvIvZFNzxVRntE9tqzYMg/Ia3u13qSeSl6GyykXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=HWf9WJA4; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57DNKxji012988
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Aug 2025 06:52:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=owhi08C/M/NN6d0s604Ju+m1
+	uDGPJY3DmSHO26z2ljg=; b=HWf9WJA4YNEMkKYqHshBP/5z3OILqxFW/kix8dkM
+	vK7hhkcNIW6Z6wLB0qzaxVobXrjPpm0oHj/cf+9I8ekd/7n6sCapHX0xL+7OYFUO
+	tlphFb/YO+WjWPA77qQo9NyWmiIzZp///U1dSDaniiwTO6+HOLofNpXqS4UvXm21
+	Rrmxj9m4pUAlhrZTpRYAKGiZKP5U/t4mOcJbUA+Y079iS3GQtjJJKDeJEgvgH3vf
+	FlbrLIP2J2Cb6dW/swQDMycluZponh4VUfKH4zGf0g6i5KqdVxtVwF5ZQ048dOXu
+	mTkeCQF3aFCfHT8WLdIVG7NGqsmIaVT9u2ToswO/rwA4Jg==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ffq6th3b-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Aug 2025 06:52:10 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4b109919a51so28553921cf.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Aug 2025 23:52:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755154329; x=1755759129;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=owhi08C/M/NN6d0s604Ju+m1uDGPJY3DmSHO26z2ljg=;
+        b=USqSp+KeJD16Vg3uTNk9k9aorKDGVm78RcnWtjXOfO+2BvOFnwcLOMlkAjoDyFDuy0
+         w5la4ZO71ZaZDEFgAXGdHnc+KA0e/YLh0gDWX5zLBejgJk/QYh8giYm+tFUnPf675T0P
+         mplnj9/nYyXIDaTCP7IiEVr+xm760ZQ7+pzXxDb1s14X4OBYfZjBqqHNlwQUcyB6+R4S
+         ZWYFVLRsFU3BpGxr9jfleM6aXA2R1s40EjLM2YKq5i80NQN/qSyf7CYLR1JbwbpYAABe
+         9r6TDBWUWkagFN0PBasxHSQj24lTm47pWqgmMDFXnSh5Q2FoEPQxuCbLSsx2OcTBi1AB
+         JgIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXt56mEux8Vrm6BoQeHbuz7YijznGIphChXZtI7BSm0K8cx2keKYzyGc10ewEq1aEki1eNPyDhjUR2xM2kosflBRQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+23zo1iIHy0UuH3pKAFqqzqt8k9qADwwdg6GPfhp/EdT50biz
+	TAMVyr/9NPKu9KPyjDEaSX1vdt2YZBV65hl7BQyDfovlPboc5Qsqt4kgj8L96NiZ7wtfpJ/qUW+
+	JudZldAVazSx5Rpo92jE5XlsY6yF0XsJcLE96Ljy94mlaY9km5+WctPDwZtwwrDaUYRyPpeG1Og
+	==
+X-Gm-Gg: ASbGncvRvhZ9GzwT5V0NrzdhEHhl0qWV0xZCVTp1FrpFmgaVyEsFxaG9IJkvhKloVNm
+	TrZpDPGzlZIIFub6OjgRlnTnOlF+NImQCelcg2aYaX6Hp+sSQI0bFEXwx1Px+UnLjI/FOCyYdSq
+	U18cq0PhqprsxZCK2TEzrCxFRgh3DeeOTkpynbk+A2hYT9UrJ3NfUZ2Iwyyz1wtbGi0NtD0vdWC
+	ZijwFhRtby0DJY2bjrCIyhBr14WNqmahpwmdwha5nXVkS/i2Blq06M4kgadWJ/Yb7Z6876qABns
+	c71dwWCOvYljgS2d0dls+P3zvumSkuxg2v6+pC0n1b7FbEQE7kMJaOwCQJlY4cFz5BLGedZzTrA
+	kiVeCNpjKCnfnWNOWh7fOUr86BzaacvgkOcqNlSGg5Zq5+JE0XnLy
+X-Received: by 2002:ac8:5808:0:b0:4b0:7f93:3cdb with SMTP id d75a77b69052e-4b10ab647c5mr31568071cf.43.1755154328728;
+        Wed, 13 Aug 2025 23:52:08 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEM0qr1LVcYRMByeamQSKE14P39HiE+Ci5RWjhuXSylU1tRHSO3/y8Hd3syjoumZhxu28HzQw==
+X-Received: by 2002:ac8:5808:0:b0:4b0:7f93:3cdb with SMTP id d75a77b69052e-4b10ab647c5mr31567601cf.43.1755154328087;
+        Wed, 13 Aug 2025 23:52:08 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55b8898bdcfsm5494037e87.32.2025.08.13.23.52.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Aug 2025 23:52:07 -0700 (PDT)
+Date: Thu, 14 Aug 2025 09:52:05 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+        Peng Fan <peng.fan@nxp.com>, linux-remoteproc@vger.kernel.org,
+        imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [PATCH v4] remoteproc: Use of_reserved_mem_region_* functions
+ for "memory-region"
+Message-ID: <te2o47dxihjsckaigfdhbrbyqxaeqmchmtx5xbx5y2smu6yaja@t7uccvfsxmay>
+References: <20250813214808.895654-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1e5b932f-6966-4c08-8252-08dddaf8eaf4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Aug 2025 06:07:58.4577
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: tuWav3SW6uOykpWJFLya3/TMKZXmIUYLQr0AKqQT6ia/Wfi5joyfSQOqeBw3F4CHSwXNrpF6LyRQhMEWAJkfpyoiSgWyThhn/mN8JgrBCJM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB9909
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250813214808.895654-1-robh@kernel.org>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODExMDA3NSBTYWx0ZWRfXzSHSfqefSydO
+ 83B+Hv6p/Qs2lImd0hY/s53Gk5+tDUAoGA5VJ6+7tWwRNBmUIKGR4oR+gAqe4wLVcRs9MOKUJLh
+ kdSUWUzdHPqLOOcpTf7QJS8QDb9jhcoHac9GijC6WWqPd0EPMSFdzIH0CxxJ4oCrlRz0ON3EuH7
+ c6FCR3+s9XhZWFntJl66deHr74IfmAbPMQE46Dcv3AgdP6YahKVn1nwg02kJivtJ95NRTrhdxIq
+ CEWsE3BigFFDyrnzlQyOqNlUPcrqLEyTag/vvDlmv4le2mECj2T6buPZnA1MWV6HZ39qvfEOnQA
+ 1lOl68lvFeUPz+kZOGDKIaPE6T2w2eFGMzf5g/+F6vmH41FMAISMZ3MHxEZ9KgV4jFmAY0JqDBg
+ Wdo/51kZ
+X-Authority-Analysis: v=2.4 cv=TLZFS0la c=1 sm=1 tr=0 ts=689d879a cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=8b9GpE9nAAAA:8 a=8AirrxEcAAAA:8 a=VwQbUJbxAAAA:8
+ a=3NaVR53663puj-g3OQgA:9 a=CjuIK1q_8ugA:10 a=a_PwQJl-kcHnX1M80qC6:22
+ a=T3LWEMljR5ZiDmsYVIUa:22 a=ST-jHhOKWsTCqRlWije3:22
+X-Proofpoint-GUID: ZYzoPb6F1i9rEZq6tIWedgxcQUhJRntq
+X-Proofpoint-ORIG-GUID: ZYzoPb6F1i9rEZq6tIWedgxcQUhJRntq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-13_02,2025-08-11_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 phishscore=0 malwarescore=0 spamscore=0 priorityscore=1501
+ bulkscore=0 adultscore=0 impostorscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508110075
 
-Hi Chris,
+On Wed, Aug 13, 2025 at 04:48:03PM -0500, Rob Herring (Arm) wrote:
+> Use the newly added of_reserved_mem_region_to_resource() and
+> of_reserved_mem_region_count() functions to handle "memory-region"
+> properties.
+> 
+> The error handling is a bit different in some cases. Often
+> "memory-region" is optional, so failed lookup is not an error. But then
+> an error in of_reserved_mem_lookup() is treated as an error. However,
+> that distinction is not really important. Either the region is available
+> and usable or it is not. So now, it is just
+> of_reserved_mem_region_to_resource() which is checked for an error.
+> 
+> Acked-by: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
+> Tested-by: Peng Fan <peng.fan@nxp.com> # i.MX93-11x11-EVK for imx_rproc.c
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> ---
+> v4:
+>  - Rebase on v6.17-rc1. qcom_q6v5_pas.c conflicted needing s/adsp/pas/
+> 
+> v3:
+>  - Rebase on v6.16-rc1. Move TI K3 changes to new common file.
+>  - Fix double increment of "i" in xlnx_r5
+> 
+> v2:
+>  - Use strstarts instead of strcmp for resource names as they include
+>    the unit-address.
+>  - Drop the unit-address from resource name for imx and st drivers
+> ---
+>  drivers/remoteproc/imx_dsp_rproc.c        | 45 ++++++--------
+>  drivers/remoteproc/imx_rproc.c            | 68 ++++++++------------
+>  drivers/remoteproc/qcom_q6v5_adsp.c       | 24 +++-----
+>  drivers/remoteproc/qcom_q6v5_mss.c        | 60 ++++++------------
+>  drivers/remoteproc/qcom_q6v5_pas.c        | 75 +++++++++--------------
+>  drivers/remoteproc/qcom_q6v5_wcss.c       | 25 +++-----
+>  drivers/remoteproc/qcom_wcnss.c           | 23 +++----
+>  drivers/remoteproc/rcar_rproc.c           | 36 +++++------
+>  drivers/remoteproc/st_remoteproc.c        | 41 ++++++-------
+>  drivers/remoteproc/stm32_rproc.c          | 44 ++++++-------
+>  drivers/remoteproc/ti_k3_common.c         | 28 ++++-----
+>  drivers/remoteproc/ti_k3_dsp_remoteproc.c |  2 +-
+>  drivers/remoteproc/ti_k3_r5_remoteproc.c  |  2 +-
+>  drivers/remoteproc/xlnx_r5_remoteproc.c   | 51 ++++++---------
+>  14 files changed, 204 insertions(+), 320 deletions(-)
+> 
+> diff --git a/drivers/remoteproc/qcom_q6v5_adsp.c b/drivers/remoteproc/qcom_q6v5_adsp.c
+> index 94af77baa7a1..a5b7cbb8fe07 100644
+> --- a/drivers/remoteproc/qcom_q6v5_adsp.c
+> +++ b/drivers/remoteproc/qcom_q6v5_adsp.c
+> @@ -625,26 +625,20 @@ static int adsp_init_mmio(struct qcom_adsp *adsp,
+>  
+>  static int adsp_alloc_memory_region(struct qcom_adsp *adsp)
+>  {
+> -	struct reserved_mem *rmem = NULL;
+> -	struct device_node *node;
+> -
+> -	node = of_parse_phandle(adsp->dev->of_node, "memory-region", 0);
+> -	if (node)
+> -		rmem = of_reserved_mem_lookup(node);
+> -	of_node_put(node);
+> +	int ret;
+> +	struct resource res;
+>  
+> -	if (!rmem) {
+> +	ret = of_reserved_mem_region_to_resource(adsp->dev->of_node, 0, &res);
+> +	if (!ret) {
+>  		dev_err(adsp->dev, "unable to resolve memory-region\n");
+> -		return -EINVAL;
+> +		return ret;
 
-> -----Original Message-----
-> From: Chris Brandt <Chris.Brandt@renesas.com>
-> Sent: 10 July 2025 17:53
-> Subject: RE: [PATCH 1/2] clk: renesas: rzg2l: Remove DSI clock rate restr=
-ictions
->=20
-> Hi Biju,
->=20
-> Thank you for your review!
->=20
->=20
-> > > +/* Required division ratio for the MIPI clock */ int dsi_div_ab;
-> >
-> > static int dsi_div_ab;
->=20
-> Good catch.
->=20
->=20
-> > for the DPI, DIV_DSI_B =3D 1 and DIV_DSI_A =3D{2, 4, 8}
-> >
-> > So, you need to adjust the below calculation for DPI as well??
->=20
-> You bring up a good point.
->=20
-> And looking at the hardware manual again, there are other restrictions wh=
-en using FOUTPOSTDIV (straight
-> PLL) compared to FOUT1PH0 (PLL/2).
->=20
-> From a chip design standpoint, they just expect to have 'one big driver t=
-hat configures everything at
-> once'.
->=20
-> > Not sure do we need DSI driver registering a callback with CPG driver a=
-nd CPG driver uses the
-> callback to get DSI divider value and this callback can be used to distin=
-guish DPI from DSI??
->=20
-> Ya, you can't just tell the CPG driver to 'give me this rate'. There is s=
-o much other information that
-> it needs to have before it can set up the registers.
-> Hmm....
->=20
->=20
-> > > +found_clk:
-> > > +	if (!found) {
-> >
-> > Can we add a dev_dbg statement here for !found clock?
->=20
-> Yes, good idea.
-> That was in the original driver before I started pulling out all the prin=
-tk statements.
->=20
->=20
-> > > +	/* If foutvco is above 1.5GHz, change parent and recalculate */
-> > > +	if (priv->mux_dsi_div_params.clksrc && (foutvco_rate >
-> > > +1500000000)) {
-> >
-> > Check patch is complaining:
-> >
-> > CHECK: Unnecessary parentheses around 'foutvco_rate > 1500000000'
-> > #146: FILE: drivers/clk/renesas/rzg2l-cpg.c:648:
-> > +	if (priv->mux_dsi_div_params.clksrc && (foutvco_rate > 1500000000))
-> > +{
->=20
-> I saw that...but I thought the ( ) makes it a little easier to read.
->=20
-> But, what's the general rule here? Make checkpatch come out perfect?
-> What's your thoughts?
+This looks strange. Shouldn't it be `if (ret) {` ?
 
-I just ran check patch and it complained this.=20
-I am leaving Geert to comment on this.
+>  	}
+>  
+> -	adsp->mem_phys = adsp->mem_reloc = rmem->base;
+> -	adsp->mem_size = rmem->size;
+> -	adsp->mem_region = devm_ioremap_wc(adsp->dev,
+> -				adsp->mem_phys, adsp->mem_size);
+> +	adsp->mem_phys = adsp->mem_reloc = res.start;
+> +	adsp->mem_size = resource_size(&res);
+> +	adsp->mem_region = devm_ioremap_resource_wc(adsp->dev, &res);
+>  	if (!adsp->mem_region) {
+> -		dev_err(adsp->dev, "unable to map memory region: %pa+%zx\n",
+> -			&rmem->base, adsp->mem_size);
+> +		dev_err(adsp->dev, "unable to map memory region: %pR\n", &res);
+>  		return -EBUSY;
+>  	}
+>  
+> diff --git a/drivers/remoteproc/qcom_q6v5_mss.c b/drivers/remoteproc/qcom_q6v5_mss.c
+> index 0c0199fb0e68..0fea5f91dd1c 100644
+> --- a/drivers/remoteproc/qcom_q6v5_mss.c
+> +++ b/drivers/remoteproc/qcom_q6v5_mss.c
+> @@ -1961,8 +1961,8 @@ static int q6v5_init_reset(struct q6v5 *qproc)
+>  static int q6v5_alloc_memory_region(struct q6v5 *qproc)
+>  {
+>  	struct device_node *child;
+> -	struct reserved_mem *rmem;
+> -	struct device_node *node;
+> +	struct resource res;
+> +	int ret;
+>  
+>  	/*
+>  	 * In the absence of mba/mpss sub-child, extract the mba and mpss
+> @@ -1970,71 +1970,49 @@ static int q6v5_alloc_memory_region(struct q6v5 *qproc)
+>  	 */
+>  	child = of_get_child_by_name(qproc->dev->of_node, "mba");
+>  	if (!child) {
+> -		node = of_parse_phandle(qproc->dev->of_node,
+> -					"memory-region", 0);
+> +		ret = of_reserved_mem_region_to_resource(qproc->dev->of_node, 0, &res);
+>  	} else {
+> -		node = of_parse_phandle(child, "memory-region", 0);
+> +		ret = of_reserved_mem_region_to_resource(child, 0, &res);
+>  		of_node_put(child);
+>  	}
+>  
+> -	if (!node) {
+> -		dev_err(qproc->dev, "no mba memory-region specified\n");
+> -		return -EINVAL;
+> -	}
+> -
+> -	rmem = of_reserved_mem_lookup(node);
+> -	of_node_put(node);
+> -	if (!rmem) {
+> +	if (ret) {
+>  		dev_err(qproc->dev, "unable to resolve mba region\n");
+> -		return -EINVAL;
+> +		return ret;
+>  	}
+>  
+> -	qproc->mba_phys = rmem->base;
+> -	qproc->mba_size = rmem->size;
+> +	qproc->mba_phys = res.start;
+> +	qproc->mba_size = resource_size(&res);
+>  
+>  	if (!child) {
+> -		node = of_parse_phandle(qproc->dev->of_node,
+> -					"memory-region", 1);
+> +		ret = of_reserved_mem_region_to_resource(qproc->dev->of_node, 1, &res);
+>  	} else {
+>  		child = of_get_child_by_name(qproc->dev->of_node, "mpss");
+> -		node = of_parse_phandle(child, "memory-region", 0);
+> +		ret = of_reserved_mem_region_to_resource(child, 0, &res);
+>  		of_node_put(child);
+>  	}
+>  
+> -	if (!node) {
+> -		dev_err(qproc->dev, "no mpss memory-region specified\n");
+> -		return -EINVAL;
+> -	}
+> -
+> -	rmem = of_reserved_mem_lookup(node);
+> -	of_node_put(node);
+> -	if (!rmem) {
+> +	if (ret) {
+>  		dev_err(qproc->dev, "unable to resolve mpss region\n");
+> -		return -EINVAL;
+> +		return ret;
+>  	}
+>  
+> -	qproc->mpss_phys = qproc->mpss_reloc = rmem->base;
+> -	qproc->mpss_size = rmem->size;
+> +	qproc->mpss_phys = qproc->mpss_reloc = res.start;
+> +	qproc->mpss_size = resource_size(&res);
+>  
+>  	if (!child) {
+> -		node = of_parse_phandle(qproc->dev->of_node, "memory-region", 2);
+> +		ret = of_reserved_mem_region_to_resource(qproc->dev->of_node, 2, &res);
+>  	} else {
+>  		child = of_get_child_by_name(qproc->dev->of_node, "metadata");
+> -		node = of_parse_phandle(child, "memory-region", 0);
+> +		ret = of_reserved_mem_region_to_resource(child, 0, &res);
+>  		of_node_put(child);
+>  	}
+>  
+> -	if (!node)
+> +	if (ret)
+>  		return 0;
 
-Cheers,
-Biju
+Shouldn't we differentiate between an absent region (OK) and an error
+during parse.
 
+>  
+> -	rmem = of_reserved_mem_lookup(node);
+> -	if (!rmem) {
+> -		dev_err(qproc->dev, "unable to resolve metadata region\n");
+> -		return -EINVAL;
+> -	}
+> -
+> -	qproc->mdata_phys = rmem->base;
+> -	qproc->mdata_size = rmem->size;
+> +	qproc->mdata_phys = res.start;
+> +	qproc->mdata_size = resource_size(&res);
+>  
+>  	return 0;
+>  }
+> diff --git a/drivers/remoteproc/qcom_q6v5_pas.c b/drivers/remoteproc/qcom_q6v5_pas.c
+> index 02e29171cbbe..b3f7209289a6 100644
+> --- a/drivers/remoteproc/qcom_q6v5_pas.c
+> +++ b/drivers/remoteproc/qcom_q6v5_pas.c
+> @@ -121,7 +121,7 @@ struct qcom_pas {
+>  
+>  static void qcom_pas_segment_dump(struct rproc *rproc,
+>  				  struct rproc_dump_segment *segment,
+> -				  void *dest, size_t offset, size_t size)
+> +		       void *dest, size_t offset, size_t size)
+
+Irrelevant? (and two next chunks)
+
+>  {
+>  	struct qcom_pas *pas = rproc->priv;
+>  	int total_offset;
+> @@ -149,7 +149,7 @@ static void qcom_pas_minidump(struct rproc *rproc)
+>  }
+>  
+>  static int qcom_pas_pds_enable(struct qcom_pas *pas, struct device **pds,
+> -			       size_t pd_count)
+> +			   size_t pd_count)
+>  {
+>  	int ret;
+>  	int i;
+> @@ -176,7 +176,7 @@ static int qcom_pas_pds_enable(struct qcom_pas *pas, struct device **pds,
+>  };
+>  
+>  static void qcom_pas_pds_disable(struct qcom_pas *pas, struct device **pds,
+> -				 size_t pd_count)
+> +			     size_t pd_count)
+>  {
+>  	int i;
+>  
+
+-- 
+With best wishes
+Dmitry
 
