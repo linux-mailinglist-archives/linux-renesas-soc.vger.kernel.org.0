@@ -1,140 +1,204 @@
-Return-Path: <linux-renesas-soc+bounces-20547-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20548-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D4EFB2730E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Aug 2025 01:36:53 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28933B27824
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Aug 2025 07:13:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4B0C03B8B52
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Aug 2025 23:36:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D4DF05C4B0A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Aug 2025 05:12:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACE0A283153;
-	Thu, 14 Aug 2025 23:36:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DC0D23CEE5;
+	Fri, 15 Aug 2025 05:12:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="cVhC8Yal"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="a0oCzR7y"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010037.outbound.protection.outlook.com [52.101.228.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5245286D45;
-	Thu, 14 Aug 2025 23:36:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755214610; cv=none; b=fQ8zRb/jYKqdmM9knHKNaGhHUq5mvYB9FjV/l11VBmth2/7P+AqevpliZcq7F49hKVSZN+ZV43BJ6MCYSeOC1OpaMWNCJ1AhqZnnqhy/ueARuwR9SF5QTuZ8bQQSb123tAwLyaTQ4+i5NEk/Yc+LtNEGgoOSFK0GNng5A01QmWc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755214610; c=relaxed/simple;
-	bh=AE60F+cqx7RSGivCpaV+28XBgSFW4rmOhJnupVM3mWY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PsWacio7sqFZ8x/qxaVtNhyz0zs4dDlwwhnru9ceY+cEdegOYpUN4tcSmWFnJizJG55C2cL4OaWlFziaT9FjRwn0XoH6iaXf+rpGocWHKmROkRojWpPLZUVfvxKEuo8ZQ5kdg9kHSQUuzcbK9lgqAi+CWiiMKNFERM4FNXLEd7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=cVhC8Yal; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4c31pv3G1Yz9sbr;
-	Fri, 15 Aug 2025 01:36:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1755214599;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jLcUtChQNeqX91cxE0uXaI6akDBGlKrYhcY7GuHkEws=;
-	b=cVhC8YaliGKAVGyuYSo1b+nwL9uQNr3SVnT81Pc9vV68X0tpfUJdFukIZmmLk8PVXOzTfz
-	9rwhFOV7QkutUOEZyUEJmz57A2Bing+cRvpgnfmreDmxfiLCr00UJb914kJVsv1sfihO6p
-	HbsgtE6DAKg/UGVs9dQ//0gnzJ8kAxBp0ZPzukq+WZ/n6Gm79mcbCB23e+1daBLzpeCYVl
-	PNk+ceAfA9ZVJX4CbMWcCXlG4W8ZSBfe+90DAfm0U7tnArq7+oTTnZ5EBrQJ37c6nFRQhX
-	ME7TOd7nN93daqIjAE/uDkc1Uo32IU17jgSMYqyTewhfU/vhC97dHnnlPzBmpA==
-Message-ID: <154ea688-8e06-40c6-944c-084fb9d5ce26@mailbox.org>
-Date: Fri, 15 Aug 2025 01:36:37 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003E922DFB1;
+	Fri, 15 Aug 2025 05:11:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755234722; cv=fail; b=kvWoPHF2Sl00CUcMWhU5EVX7SOlnkm8kStc9j/F0Gh05u/A72JuyL4UncdOInUb0blu7RGHLcfmbgEn6jcsPLq9/MWDEj5tmDrwn5FIlI/kXu3aAn68FjsEjX3s/ZnyY17RHzNPE+nJ6myNsLXkSb8ptTH3i+/hqceCVUjMVGz0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755234722; c=relaxed/simple;
+	bh=F0cRJjhxszLdoOlNrNG86LsvuT9S2Sfw6HvnOBQm80c=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=iKbKE0ylRxuXp/7XKh82kILy3sURpCoxOhZPsAKmLh2oQYQgd7lePddq1QWz8luzZPkD5az29r8D8Yl0plL5bpKU/6CtCC4aPMlrZrJZojPahBKIQidujVRno9onCG8EY09U7A8Y/SgjcWqJP3nvURU547yt1HS6/8/wYhTfJM4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=a0oCzR7y; arc=fail smtp.client-ip=52.101.228.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RjETwrEsC/JGUmkiv7KMq5sdp7MfQyV8AWb8DP4pE+UhaaTR1CsX4paZRJWBm6iJHRSJ4mbuKZgQ02R+NQ01WAhnqEBjFImcZbHblF9tcuO1VCzrqLon3wyrXw2zrCv6FbaiUw8PouDBaA+I1R18oURDgUMcDfVSgxVLqLhVfIkd9Vwi9v8tvKeap/+XmoAOG00J/OxC8RYeYxj3wy5nPnqZv6UT9KXWfWII9E+d7BhzwLctykicX6OYxsmLDvPNoB57alkmquiMBABNuz8K/UM2nbF4BTccGK8897wMgjuDLKMlLKz01aBIQa/QzOwG7PkR6214DGHi2aCceKbyPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YeJHP59/ZAAPxHz0h1MXJ89wtDKxCj3xJdtPkm8jie8=;
+ b=jdpzIZ3mjMvW7x730nP/apiGFXYX1i254a5WkJFAiugj903jntEAwmEzqQG6ERDSD3gYORmP5aEOxf+VykOnfmL+kboNtZxnCr0ELWBq89kBliBTqDeRjtwOSfzvKmOhhUk4JtV5rdK3Rxf2bpvIoX2njBIrOfBdu+h/FbWTDL2V7DySxv/7RM3qDDY/L6C258cc9/YcIwlVu5uAoHDaC/E6U3RF6z02BOU2Q1rZ7WKMR5kOjXd8BqOCbXjkp6fBViEEf3aY57SKgqg4hqDEHN5MwgmakPHVfviPT/SXgB62QHC3a/odqNVPszkHKnWv7k0g7C9KCdHrgx4v4Jajxw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YeJHP59/ZAAPxHz0h1MXJ89wtDKxCj3xJdtPkm8jie8=;
+ b=a0oCzR7yMtpS1CUSMcAzU6LOrifHQU/VYhiQpnWOnEG+WlbNXWQMQYc+BuMoIgyx6QAs5poFlhnQdpN9DGUt+4X5960+otXO44WgSiInNi+H7wg5NSWfMlqDY4Sbw/kPfQMdWID56wnlu7AL7e0n8aVs1lIJMe3wQRg8d9vHW58=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by OSZPR01MB9312.jpnprd01.prod.outlook.com (2603:1096:604:1d3::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.18; Fri, 15 Aug
+ 2025 05:11:53 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%7]) with mapi id 15.20.9031.014; Fri, 15 Aug 2025
+ 05:11:48 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
+ Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+	laurent.pinchart <laurent.pinchart@ideasonboard.com>, Jonas Karlman
+	<jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie
+	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
+	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
+	magnus.damm <magnus.damm@gmail.com>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, Fabrizio Castro
+	<fabrizio.castro.jz@renesas.com>, Tommaso Merciai
+	<tommaso.merciai.xr@bp.renesas.com>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [PATCH v7 1/6] clk: renesas: rzv2h-cpg: Add instance field to
+ struct pll
+Thread-Topic: [PATCH v7 1/6] clk: renesas: rzv2h-cpg: Add instance field to
+ struct pll
+Thread-Index: AQHb//xCPQ7OVBG3XkOLTjLLPmGBtLRjRfaw
+Date: Fri, 15 Aug 2025 05:11:48 +0000
+Message-ID:
+ <TY3PR01MB1134626ED06D305D6CB03A37E8634A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20250728201435.3505594-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250728201435.3505594-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To:
+ <20250728201435.3505594-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OSZPR01MB9312:EE_
+x-ms-office365-filtering-correlation-id: 102cee40-3e1a-4a45-cd4f-08dddbba3cd4
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|366016|7416014|376014|38070700018|921020;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?m997yPtMcwiwT24BTZIrvs8D8mtpnseG525n74OZXRUtqYpxKgus0BGdbg/B?=
+ =?us-ascii?Q?2nlqXS8g0En5zkKnnrF4ZK9kmpBdqJ2F3uZAk9atcYliX/RgrXj3nhBjj79O?=
+ =?us-ascii?Q?5fvvQuq8RJbXiyYBoFvrnNKCj7rYDQIEwzHkWPclhobED5uImC9evkMrFert?=
+ =?us-ascii?Q?TQdA7q07CdnNRDp1MzNKK6Q/HumseiGxcuPC+slUykRo/jed1JDyqlZ+lCof?=
+ =?us-ascii?Q?wZNEAttKks28zSwo5YtKq/9iU+h0VmA5m60g8LLWryVQXIo3L6MOUJ6K5O0y?=
+ =?us-ascii?Q?SmYxPbKYH4esgIrWuaZOM2C3uOUh8YJhhmdHYmjM5gbNxFTES0BW58DGG9Or?=
+ =?us-ascii?Q?tsoUXOOwDn5J07+h4GZhEKnr7FU86YdtmutnBuCURiiela5zK4WtJg5jAZBt?=
+ =?us-ascii?Q?99HoAuYlhEAlCqonoKC6RruEcjl6u/LF0anEq1B6dAWueSbvaPydbCHRFRXR?=
+ =?us-ascii?Q?fpzSv1urNm0JG9eUTPjjiMJr5jsZEZ8z+zwCKnsW89xKbKjdFnQv4VTPTKkb?=
+ =?us-ascii?Q?o1Vrkf8nn1+EufTLFj5nyx0YhngdgzlfpjSK68AInVuc1mqRWL/5mVOv729Y?=
+ =?us-ascii?Q?VCsx8VQzD/XZiODyhVSLM5L0dSCA6iu1pibOcXch82UvX3+Lph2nPxM84cgj?=
+ =?us-ascii?Q?2WfrcZ0GtcJzmY8dlAST7RhqOC2m5IXU4XpWX78e6fkZflUfGy9B71l24V1m?=
+ =?us-ascii?Q?N8qtWnkOaxAu74igJQOd57jB4F8ojLUHQDqkJv7sqLXjvF6ab89Q4NCiAmkW?=
+ =?us-ascii?Q?aK7aWzY0KReJ0z2eDqoTba9gR8oP90zDSkJcFKpTYV7Ecsxjwsuy7sEvS0au?=
+ =?us-ascii?Q?Ek5alXhccA8xj49A1YDS0O9k8rpB7k4OWboKw+Kfn5uESqZb6coWiq8ExheE?=
+ =?us-ascii?Q?LJLDStfIfR0iq5nx6rXngxDtd5GR0mRPW1V6JyA1Ji2ebwJWWfYFRDVJ3f5u?=
+ =?us-ascii?Q?MB5ETypCFbAqG+oui/IVtmQ5eLtlSo1M5HY48VKqOOihG9JQzH033xVRqSsU?=
+ =?us-ascii?Q?LCio4TYxM7mrcnZ2M7QX0gtD+tsOYzvs7/w3585iIdtmgmcG0tTjNjI8gV4a?=
+ =?us-ascii?Q?Tuatffcz5rsj8tQjhbjtMco2Qaf2XJbllNWnJxF5VGWOEHyqov0/K0yVbGKb?=
+ =?us-ascii?Q?WsMmPq5/c+XGXwqNHG4ctMQ9FMG+FTt3XTi6ynPdo4lriWZNjBu9WNvxZucg?=
+ =?us-ascii?Q?pOPHyyl369ZOiSh7wg3s7n7P2AdwZdOgo0QnRYz3CTablg19gQtQfGBUOIQ3?=
+ =?us-ascii?Q?iKI3CUEeZiqN0Npu3K42fmfnDmeeMr+XwIHeB8w6lecoYDBzw5qDEBcJ6W+C?=
+ =?us-ascii?Q?IadnrN1dRI4ETEPr59ZF2ai7xfAdVOmO6kyJWfFoz3VUSsH9mzISsWjiQSLD?=
+ =?us-ascii?Q?IOJGgbR+mRAwpy6GH5vUbJH0/+EiMAcQWzY8PlnyHM9u36bYO47uk60BBa6a?=
+ =?us-ascii?Q?4Bv7y3Ss70bgsLj0HM5IiwxiEpGtuNCZfgwkmCP970CG+Uz1s/NNzE+BPpfg?=
+ =?us-ascii?Q?B5FQuupVgO4kqVQ=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(38070700018)(921020);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?99F0et0yLXJOremE+NtkLHD+b7hK/KLImq0unAmeZQvlTc2QCVtjk8dfyM7T?=
+ =?us-ascii?Q?uybpauzc7OqOPqRWeuqSbfWpZZLTtJTtF6uDjerBHqwMcjybFJGI0S69d2tD?=
+ =?us-ascii?Q?Rwepe3FOW6P0NwasFUr30hG3gF+WuBMBXKvgV4XlQAcV+Ua+U0k6HiSSrUOO?=
+ =?us-ascii?Q?5qsONCGD+MnzphDDEE8rAqDfLICAzB4sIE5LBdjtLtqdq4+GgmdzDw33NL8F?=
+ =?us-ascii?Q?zqaKUmRNFkrlGaYZHNYRzJOQdO/J9lz/3mzb0Dkwj3Rfgh8Ismjvhs0tZrYe?=
+ =?us-ascii?Q?gBeMZDDNsbazdrVo282Ido1XX+O+JjTTmCCw636KaAzcI+9cwPv6uFCDhWAA?=
+ =?us-ascii?Q?qhuvsgxcb4KvIaPG7X4s5W//j039wOUZxMv7ao/4bhAAgI5wP2Ru9bXVdE24?=
+ =?us-ascii?Q?lvGV7HZ9z7B9f3etNq8u/1RZjYpxiJaq3S12on+cxi9VerelZMT8vLU/FzO5?=
+ =?us-ascii?Q?80B6vAucrNkd2X8fh/0/QbS1poBnMWhJo0+USLoUNMSTu9kdeff2JXOrs0p2?=
+ =?us-ascii?Q?nCEExn7P5IwbAnZAn7lEk8Mz9X5mHbzS9YNGSgganjYQmgS020tehQPak8rl?=
+ =?us-ascii?Q?loscX+KWIp97gslAT0NaAgrQm3tNRoE9eapXjEfMW19p4uOv88aL2yWytrT2?=
+ =?us-ascii?Q?6e+Tr53gAiZgefvsJqXKqeWK5rWKcmwTJPWC1Jol7UFjHZSZet5eXFYNcHpC?=
+ =?us-ascii?Q?q7klwaVXg3ZvLodwtRbdSa7lqWBnqx1bqGZGZApdbZ6b3d3OxXEIUXIywpSq?=
+ =?us-ascii?Q?BXG4SR+7TbvTqgKVUN13LCDeNGafXVqEQBDhYThR3zET0Bgobt562xo3QVu/?=
+ =?us-ascii?Q?0KdbLm0ifP/oRvcfzEyAQD9gDBOwpn/aoeAjZtKZl+QNC6LVfbOyORb3XaJ+?=
+ =?us-ascii?Q?RzYmu+7Loy0Zm3GSadsUXRzC5vB8WWxP8vkhRtDHg8NBs0SHnzWFI4Sz75Rf?=
+ =?us-ascii?Q?BHsS+5MJKHQqrFairbiGYbQir5Pm0mBTw6nKdSHOU0ObqHOD29dppQ276s13?=
+ =?us-ascii?Q?02cMVR2xqLEAR4lmvNU80LCw2mXKoj7gTbXBX3yPjrlfbcprOtIqJJe+hi57?=
+ =?us-ascii?Q?eKE+ogVxAFiCefuUXatgLEpShJUH3OKDKJE+3edo3UQmMcQRmbu3lRjTkXlh?=
+ =?us-ascii?Q?Fw/K4mudpGBVBMfkBrEW6bYZDEvlXTraJLpxkgbMFeuu8t6LIXmZ6ohDbya0?=
+ =?us-ascii?Q?8D4sXZasxvIvGChgEi8S8qV8m12pTLOxVgog7E2v0zVIHN+MdJOoEgZxk8TY?=
+ =?us-ascii?Q?bHyazmVJEYiV2cymeTBFNuSLaECUseWRzikVaD9rbGbkLbLNjVzQ14oZ8TPM?=
+ =?us-ascii?Q?xBHMr8/rPO1B1+u62w+qRkyW2iLwcnGUNxdIQASDcqz+6XsB1cBdtmVMP1DF?=
+ =?us-ascii?Q?gifeqWfrIVPzzz9kWeUPm2AZIlw5IO1HfL3reUCIpyxLpX2SOyZ7EVJMMX1Q?=
+ =?us-ascii?Q?OZzgH+GurUksnNFdCzkZeFFSQ2j+RS0VYycsHGYIRAm/O2fB50LOPK8J1FMg?=
+ =?us-ascii?Q?OpcLVjVbzI/ZbaxpUoLBfmQ2DRgxpSiYYiDHYeyefZgJ4kbWFWToTCiBZNsb?=
+ =?us-ascii?Q?HH+HishHF+l/p7znTBOtwNfapmgorkkWJPWWQtiRQqcySUI7ap0CpPokchMo?=
+ =?us-ascii?Q?JA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] arm64: dts: renesas: r8a779g3: Update thermal trip points
- on V4H Sparrow Hawk
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>,
- linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Magnus Damm
- <magnus.damm@gmail.com>, =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund@ragnatech.se>, Rob Herring <robh@kernel.org>,
- devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20250625100330.7629-1-marek.vasut+renesas@mailbox.org>
- <CAMuHMdV3=c24KxO_Sbt50FGsFnNVYNnHAUhk-yoa+nM1f+7+kA@mail.gmail.com>
- <e1d465f7-43d7-471b-b8a7-7d24428bac4c@mailbox.org>
- <CAMuHMdX6naFbq-5LyuC4n+JRPTXGSSohKDTf95=MS_SMyHqfng@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <CAMuHMdX6naFbq-5LyuC4n+JRPTXGSSohKDTf95=MS_SMyHqfng@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 8d1a3baf1c9c4ecf455
-X-MBO-RS-META: qdwhxenzai6ikruzbe44w87c83rtfmo3
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 102cee40-3e1a-4a45-cd4f-08dddbba3cd4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Aug 2025 05:11:48.7102
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yIg3TcOUWe1ScsTnDkpIOJuzo9v+VJC+39ndls9WQE+peWZcDJphSfnB7y/RGVzrtiOXiw9Ecdyr+USLDM+CWekoQfq9b462N36GUeJOLkM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB9312
 
-On 8/14/25 5:50 PM, Geert Uytterhoeven wrote:
 
-Hello Geert,
 
-> On Wed, 6 Aug 2025 at 17:23, Marek Vasut <marek.vasut@mailbox.org> wrote:
->> On 8/6/25 11:35 AM, Geert Uytterhoeven wrote:
->>>> +/* THS sensor in SoC near CA76 cores does more progressive cooling. */
->>>> +&sensor_thermal_ca76 {
->>>> +       critical-action = "shutdown";
->>>> +
->>>> +       cooling-maps {
->>>> +               /*
->>>> +                * The cooling-device minimum and maximum parameters inversely
->>>> +                * match opp-table-0 {} node entries in r8a779g0.dtsi, in other
->>>> +                * words, 0 refers to 1.8 GHz OPP and 4 refers to 500 MHz OPP.
->>>> +                * This is because they refer to cooling levels, where maximum
->>>> +                * cooling level happens at 500 MHz OPP, when the CPU core is
->>>> +                * running slowly and therefore generates least heat.
->>>
->>> That applies to cooling-device = <&a76_[0-3] ...>...
->>
->> Do you want me to add this line into the comment ?
-> 
-> I don't think that is really needed (see below)
-> 
->>>> +                */
->>>> +               map0 {
->>>> +                       /* At 68C, inhibit 1.7 GHz and 1.8 GHz modes */
->>>> +                       trip = <&sensor3_passive_low>;
->>>> +                       cooling-device = <&a76_0 2 4>;
->>>> +                       contribution = <128>;
->>>> +               };
->>>> +
->>>> +               map1 {
->>>> +                       /* At 72C, inhibit 1.5 GHz mode */
->>>> +                       trip = <&sensor3_passive_mid>;
->>>> +                       cooling-device = <&a76_0 3 4>;
->>>> +                       contribution = <256>;
->>>> +               };
->>>> +
->>>> +               map2 {
->>>> +                       /* At 76C, start injecting idle states */
->>>> +                       trip = <&sensor3_passive_hi>;
->>>> +                       cooling-device = <&a76_0_thermal_idle 0 80>,
->>>> +                                        <&a76_1_thermal_idle 0 80>,
->>>> +                                        <&a76_2_thermal_idle 0 80>,
->>>> +                                        <&a76_3_thermal_idle 0 80>;
->>>
->>> ... but what do "0 80" refer to? I couldn't find in the thermal-idle
->>> bindings what exactly are the minimum and maximum cooling states here.
->>
->> The comments in drivers/thermal/cpuidle_cooling.c clarify that, it is
->> the idle injection rate in percent, in this case the cooling can inject
->> idle states up to 80% of time.
-> 
-> OK, so I will add "(0-80%)" to the idle states comment, and sort
-> the nodes while queuing in renesas-devel for v6.18.
-I sent a V3 to make this more official. I hope that helps.
+> -----Original Message-----
+> From: Prabhakar <prabhakar.csengg@gmail.com>
+> Sent: 28 July 2025 21:15
+> Subject: [PATCH v7 1/6] clk: renesas: rzv2h-cpg: Add instance field to st=
+ruct pll
+>=20
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>=20
+> Add a two-bit "instance" member to struct pll and extend the PLL_PACK() m=
+acro to accept an instance
+> parameter.  Initialize all existing PLL definitions with instance 0 to pr=
+eserve legacy behavior. This
+> change enables support for SoCs with multiple PLL instances (for example,=
+ RZ/G3E we have two PLL DSIs).
+>=20
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+
 
