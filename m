@@ -1,214 +1,246 @@
-Return-Path: <linux-renesas-soc+bounces-20573-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20574-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6568EB28A96
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Aug 2025 06:54:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4724CB28CD9
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Aug 2025 12:28:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 03A88728D0C
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Aug 2025 04:54:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 938331CC5129
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Aug 2025 10:29:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF8CE1DC9B5;
-	Sat, 16 Aug 2025 04:54:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A9A1291C09;
+	Sat, 16 Aug 2025 10:28:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gibson.dropbear.id.au header.i=@gibson.dropbear.id.au header.b="uwuHC8yR"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CfL6pN4Z"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6883379EA;
-	Sat, 16 Aug 2025 04:54:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4849628FFC2
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 16 Aug 2025 10:28:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755320091; cv=none; b=mf5eV5do79+uYU1Ndu5qgJG8tY9oN6WVGlCslEfp74p52bPqSE6vkxrqFhvzG82tofzHkmx8zpYZK2iGNgW3MoTF3Rdx3dGf7oQe3Thl0fbPn95bdSkSZNXm1Ru19rO5391Vruwe4q1wUiTi5c19A4Bk+X8/qcCCN1F/vtv3gHs=
+	t=1755340115; cv=none; b=e0IN1Am0uHhMTy27Dh3c9YcDj33yBERMOpCCcmT1GxT/D9FGWhhngDAseSORmycoOAwljr+5kce7oEt3LJ5AorYubqtfIb2BwrZR4Jiv8g4UzMuK0QyhTYbNqcPPspiCTu0D0DHrUmfhcfvOsJ4Wyz1iGbquazkajZfDnf4dltU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755320091; c=relaxed/simple;
-	bh=vL8iwBxTfU6WNY9aunw21eL/2ihfqisRuoU65aCYGeQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IcAhCGnSrqxHCYct5HUkVcIqiNQC404bwzausWL+BRPI52VBUJ12PQaUCfNBinT4h5O4rDe7aaCFanVPsQpiVY7JdUHl/bV2ODGO/a32jkZNw90bdDsepyJYT3eEkOzwDYZk0u/E0S70O1jHZj5bAD/+F0F3aSPIPIR4b/zxDPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gibson.dropbear.id.au; spf=pass smtp.mailfrom=gandalf.ozlabs.org; dkim=pass (2048-bit key) header.d=gibson.dropbear.id.au header.i=@gibson.dropbear.id.au header.b=uwuHC8yR; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gibson.dropbear.id.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gandalf.ozlabs.org
+	s=arc-20240116; t=1755340115; c=relaxed/simple;
+	bh=M27dDn9ubdQQdmD+XfPR8sXcJOZh8/obVDeIaeOJP/U=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=dCRRojiZ1J/R4Ke3Iee8IEwWtfe5jt4kPv6xOafxbG+f2W1wbTyJsFwJfo56o0w2V6AOp+9OYEFMRbaJuUCURGs2k01y+RHs8TSJ5reh/I9QauTmeVUNC7SCz4tcPO5nnB6vE1rey/lZSwVMMjZbQUDsPHKydseRLCPA4nNype8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CfL6pN4Z; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3b9170db547so1579693f8f.1
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 16 Aug 2025 03:28:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=gibson.dropbear.id.au; s=202508; t=1755320081;
-	bh=fKKyN07Us7tLjivv7bQwpDstkfz/GlcUVjwFyzonJOo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uwuHC8yR6pPsChbESVirHDJa8pp4dtrXLzZRoDA9pkkuE7SdHK39vYGYFtN3S0ICW
-	 jXfsq7jG+kcld9fVBh7pBcOSQzCwySVkrIaL2SXf+SO6kXODqUpN86TBPMlO354Ihr
-	 ZZ1oP3C8OK++U6bbgUq7uS7v4Watx/5ZJuPprkW/RSGEeQvCOSGRoo1x63iI2BtR4C
-	 xQbVnVIjSf3gNN8oUhVrezZwXgr9QJ6gas6yprAUm05Rtxt/3vjLecGQr9Qq3AqakS
-	 xBxzW07gC1pEC9/jKRvGdvvt+aPAvs1CYXb9WYvbJqti/woRfC+HRrz8ueEvlHIpMJ
-	 8PFz7htghfQqg==
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
-	id 4c3mqP0QrNz4xdW; Sat, 16 Aug 2025 14:54:41 +1000 (AEST)
-Date: Sat, 16 Aug 2025 14:45:58 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
+        d=linaro.org; s=google; t=1755340111; x=1755944911; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=oXh81VKf/4Dbcz4RJiYvjkoUvnAUmKw8U6C7gKFu26o=;
+        b=CfL6pN4Z97zlxaWSAEIIkUAi4Q7aehjNll5ZIxE9PbdP89iaNrOTE7KrQoR9iovf3r
+         heJHrQN3MnMIWgi4XwsgBmWpS8i6guPJiu7RDKx4ol81PYurMEXCAdjwSKfpXmlMRo7b
+         IDLYp5NeTC5DL6b1Ob//ALcqRMGAHG52wmejYxUBiCYisIznz7SpGKQ1lZa3OVEEdwZj
+         L2EZFTAhF9cfMlUOnbOxc6u6KTe21L4TfIdu/aikuTs14AyuoUTF4zpGn+ACt7t2FOtx
+         aAqDIkBfy8pB/eWNwFG0bIhQK698WSqVn5vRAIwUjPFzE7kFQndgGH05DAibVTisbMcI
+         eOxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755340111; x=1755944911;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oXh81VKf/4Dbcz4RJiYvjkoUvnAUmKw8U6C7gKFu26o=;
+        b=tvHPHRPm724L8FBO54yHwQvMasmSZXkUMZ1WGx7SiNaKHJ6F7WBgUjzSHIbEET0FjJ
+         Y4/OqejTFt8xxPCLjAgwqOOarzm7OI5qu6da5g2s6VQKtTlIvfRXqh8zE3bfgWVqD6z9
+         fvo7P1Ll637qpReEsqyNO+FK2uRjWBfgIh2kLnBdSprPXujZcfqJR8rd1HU0Bh5ZWOaU
+         qUB1ETDJEYgvk9NnqJlNl91aR8Ge+yYCeWuKY78wNpxp3y3spLM4auAA+0V4mQeSXjZn
+         XD1dbZGCTGsh3XfZrTWBAbaN083rbobtt3JNQ9ZU3d8w7twN65K/nbbPo9KGV5JimJlN
+         FZGg==
+X-Forwarded-Encrypted: i=1; AJvYcCV62AR/RV72zaY1JiPNUD1WpQ1g5rH5WPx/BEGhiizqwgiVDKpuRoTqCktuJ1hJKLtwKnbKipQtQeygzOU+dK+C1g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzl9eWpthMVrWiiEPPt5v8IGU107R3/8hGEAiza5W6x6k501MWQ
+	te/XuyDdrSC7zVcJwcEcX1+CWN0E16asyL2T+gkxrMHefG99zcG43GSajc8b7w/dqlw=
+X-Gm-Gg: ASbGncuSu7uI2gdQzKdtexgRQDoddC1LNFLBhUuWjmFbkg+aVMZlqK9ai3k7r5xRqMC
+	giBeAu0DJ7SEWo5NnXL2o5Jnlywkmnh0ExHt6ahKemb8XNVopcibTRQS4Ome4G/3AFSXezhfrQR
+	n676UXGHKe8JEtmx18kDMh4MLV+8HunPX4zYWAOVnJE9KNTV2GkfUUPCqcICqJyUmhGT1hqpeoJ
+	ZHegHAmWCaHNoggS1SvY3ffLMpLuChgC89ZfPcpDJml7PggSJBE27dwBF8fppvJpOwREtnl/p9c
+	KpVw82Mrvv5NolONJflUkuotSqXPp5VTSftGIDsyz7pPJDKOLwAoYO3zo0seZB+3ZdevJ3WLy2u
+	sOpGa3ZyczYZL4muBys85gjMG64s5dyC9ye07+z986/M=
+X-Google-Smtp-Source: AGHT+IGficK1F5saavRVPWTAr0TpxR29hX57+5MvmQ1Uy0vcX036uC8t1FcIRPlsb5Lhb78Ct3ryAg==
+X-Received: by 2002:a05:6000:2f84:b0:3b8:d337:cc2d with SMTP id ffacd0b85a97d-3ba508eb0b2mr7593550f8f.18.1755340111506;
+        Sat, 16 Aug 2025 03:28:31 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3bb676c971bsm5185226f8f.32.2025.08.16.03.28.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Aug 2025 03:28:31 -0700 (PDT)
+Date: Sat, 16 Aug 2025 13:28:27 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Biju <biju.das.au@gmail.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	devicetree-compiler@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2] checks: Remove check for graph child addresses
-Message-ID: <aKANBt7QzzMWhIaJ@zatzit>
-References: <20250812165122.313382-1-niklas.soderlund+renesas@ragnatech.se>
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 2/4] clk: renesas: rzv2h: Add support for parent mod
+ clocks
+Message-ID: <202508160958.ounSAlER-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="dRcwK7KI9kDaqcAz"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250812165122.313382-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20250814124832.76266-3-biju.das.jz@bp.renesas.com>
 
+Hi Biju,
 
---dRcwK7KI9kDaqcAz
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+kernel test robot noticed the following build warnings:
 
-On Tue, Aug 12, 2025 at 06:51:22PM +0200, Niklas S=F6derlund wrote:
-> The dtc graph_child_address check can't distinguish between bindings
-> where there can only be a single endpoint, and cases where there can be
-> multiple endpoints.
->=20
-> In cases where the bindings allow for multiple endpoints but only one is
-> described false warnings about unnecessary #address-cells/#size-cells
-> can be generated, but only if the endpoint described have an address of
-> 0 (A), for single endpoints with a non-zero address (B) no warnings are
-> generated.
->=20
-> A)
->     ports {
-> 	#address-cells =3D <1>;
-> 	#size-cells =3D <0>;
->=20
-> 	port@0 {
-> 	    #address-cells =3D <1>;
-> 	    #size-cells =3D <0>;
->=20
-> 	    sourceA: endpoint@0 {
-> 		reg =3D <0>
-> 	    };
-> 	};
->     };
->=20
-> B)
->     ports {
-> 	#address-cells =3D <1>;
-> 	#size-cells =3D <0>;
->=20
-> 	port@0 {
-> 	    #address-cells =3D <1>;
-> 	    #size-cells =3D <0>;
->=20
-> 	    sourceB: endpoint@1 {
-> 		reg =3D <1>
-> 	    };
-> 	};
->     };
->=20
-> Remove the check as it is somewhat redundant now that we can use schemas
-> to validate the full node.
->=20
-> Signed-off-by: Niklas S=F6derlund
-> <niklas.soderlund+renesas@ragnatech.se>
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-This causes test suite failures.  You'll need to also remove the
-explicit graph_child_address test from the testsuite.
+url:    https://github.com/intel-lab-lkp/linux/commits/Biju/clk-renesas-rzv2h-Refactor-rzv2h_cpg_fixed_mod_status_clk_register/20250814-205111
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk
+patch link:    https://lore.kernel.org/r/20250814124832.76266-3-biju.das.jz%40bp.renesas.com
+patch subject: [PATCH 2/4] clk: renesas: rzv2h: Add support for parent mod clocks
+config: hexagon-randconfig-r072-20250815 (https://download.01.org/0day-ci/archive/20250816/202508160958.ounSAlER-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
 
-Note that this patch does technically cause an incompatible change:
-when I suggested removing this I hadn't realised this was a single
-check, rather than a piece of a larger check.  That means that anyone
-configuring this test in their scripts will be broken by removing it.
-This is probably an obscure enough case that I'm prepared to accept
-it, though.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202508160958.ounSAlER-lkp@intel.com/
 
-> ---
-> Changes since v2
-> - Rebase after 6.17-rc1 merge window closed.
-> ---
->  checks.c | 27 +--------------------------
->  1 file changed, 1 insertion(+), 26 deletions(-)
->=20
-> diff --git a/checks.c b/checks.c
-> index 7e3fed5005b3..2072e1ea82dc 100644
-> --- a/checks.c
-> +++ b/checks.c
-> @@ -1894,31 +1894,6 @@ static void check_graph_endpoint(struct check *c, =
-struct dt_info *dti,
->  }
->  WARNING(graph_endpoint, check_graph_endpoint, NULL, &graph_nodes);
-> =20
-> -static void check_graph_child_address(struct check *c, struct dt_info *d=
-ti,
-> -				      struct node *node)
-> -{
-> -	int cnt =3D 0;
-> -	struct node *child;
-> -
-> -	if (node->bus !=3D &graph_ports_bus && node->bus !=3D &graph_port_bus)
-> -		return;
-> -
-> -	for_each_child(node, child) {
-> -		struct property *prop =3D get_property(child, "reg");
-> -
-> -		/* No error if we have any non-zero unit address */
-> -                if (prop && propval_cell(prop) !=3D 0 )
-> -			return;
-> -
-> -		cnt++;
-> -	}
-> -
-> -	if (cnt =3D=3D 1 && node->addr_cells !=3D -1)
-> -		FAIL(c, dti, node, "graph node has single child node '%s', #address-ce=
-lls/#size-cells are not necessary",
-> -		     node->children->name);
-> -}
-> -WARNING(graph_child_address, check_graph_child_address, NULL, &graph_nod=
-es, &graph_port, &graph_endpoint);
-> -
->  static struct check *check_table[] =3D {
->  	&duplicate_node_names, &duplicate_property_names,
->  	&node_name_chars, &node_name_format, &property_name_chars,
-> @@ -2005,7 +1980,7 @@ static struct check *check_table[] =3D {
-> =20
->  	&alias_paths,
-> =20
-> -	&graph_nodes, &graph_child_address, &graph_port, &graph_endpoint,
-> +	&graph_nodes, &graph_port, &graph_endpoint,
-> =20
->  	&always_fail,
->  };
+New smatch warnings:
+drivers/clk/renesas/rzv2h-cpg.c:875 rzv2h_cpg_register_mod_clk() warn: passing zero to 'PTR_ERR'
 
---=20
-David Gibson (he or they)	| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you, not the other way
-				| around.
-http://www.ozlabs.org/~dgibson
+vim +/PTR_ERR +875 drivers/clk/renesas/rzv2h-cpg.c
 
---dRcwK7KI9kDaqcAz
-Content-Type: application/pgp-signature; name=signature.asc
+dd22e56217495e Lad Prabhakar 2024-07-29  770  static void __init
+dd22e56217495e Lad Prabhakar 2024-07-29  771  rzv2h_cpg_register_mod_clk(const struct rzv2h_mod_clk *mod,
+dd22e56217495e Lad Prabhakar 2024-07-29  772  			   struct rzv2h_cpg_priv *priv)
+dd22e56217495e Lad Prabhakar 2024-07-29  773  {
+dd22e56217495e Lad Prabhakar 2024-07-29  774  	struct mod_clock *clock = NULL;
+dd22e56217495e Lad Prabhakar 2024-07-29  775  	struct device *dev = priv->dev;
+dd22e56217495e Lad Prabhakar 2024-07-29  776  	struct clk_init_data init;
+dd22e56217495e Lad Prabhakar 2024-07-29  777  	struct clk *parent, *clk;
+dd22e56217495e Lad Prabhakar 2024-07-29  778  	const char *parent_name;
+dd22e56217495e Lad Prabhakar 2024-07-29  779  	unsigned int id;
+dd22e56217495e Lad Prabhakar 2024-07-29  780  	int ret;
+dd22e56217495e Lad Prabhakar 2024-07-29  781  
+dd22e56217495e Lad Prabhakar 2024-07-29  782  	id = GET_MOD_CLK_ID(priv->num_core_clks, mod->on_index, mod->on_bit);
+dd22e56217495e Lad Prabhakar 2024-07-29  783  	WARN_DEBUG(id >= priv->num_core_clks + priv->num_mod_clks);
+dd22e56217495e Lad Prabhakar 2024-07-29  784  	WARN_DEBUG(mod->parent >= priv->num_core_clks + priv->num_mod_clks);
+dd22e56217495e Lad Prabhakar 2024-07-29  785  	WARN_DEBUG(PTR_ERR(priv->clks[id]) != -ENOENT);
+dd22e56217495e Lad Prabhakar 2024-07-29  786  
+dd22e56217495e Lad Prabhakar 2024-07-29  787  	parent = priv->clks[mod->parent];
+dd22e56217495e Lad Prabhakar 2024-07-29  788  	if (IS_ERR(parent)) {
+dd22e56217495e Lad Prabhakar 2024-07-29  789  		clk = parent;
+dd22e56217495e Lad Prabhakar 2024-07-29  790  		goto fail;
+dd22e56217495e Lad Prabhakar 2024-07-29  791  	}
+dd22e56217495e Lad Prabhakar 2024-07-29  792  
+dd22e56217495e Lad Prabhakar 2024-07-29  793  	clock = devm_kzalloc(dev, sizeof(*clock), GFP_KERNEL);
+dd22e56217495e Lad Prabhakar 2024-07-29  794  	if (!clock) {
+dd22e56217495e Lad Prabhakar 2024-07-29  795  		clk = ERR_PTR(-ENOMEM);
+dd22e56217495e Lad Prabhakar 2024-07-29  796  		goto fail;
+dd22e56217495e Lad Prabhakar 2024-07-29  797  	}
+dd22e56217495e Lad Prabhakar 2024-07-29  798  
+dd22e56217495e Lad Prabhakar 2024-07-29  799  	init.name = mod->name;
+dd22e56217495e Lad Prabhakar 2024-07-29  800  	init.ops = &rzv2h_mod_clock_ops;
+dd22e56217495e Lad Prabhakar 2024-07-29  801  	init.flags = CLK_SET_RATE_PARENT;
+dd22e56217495e Lad Prabhakar 2024-07-29  802  	if (mod->critical)
+dd22e56217495e Lad Prabhakar 2024-07-29  803  		init.flags |= CLK_IS_CRITICAL;
+dd22e56217495e Lad Prabhakar 2024-07-29  804  
+dd22e56217495e Lad Prabhakar 2024-07-29  805  	parent_name = __clk_get_name(parent);
+dd22e56217495e Lad Prabhakar 2024-07-29  806  	init.parent_names = &parent_name;
+dd22e56217495e Lad Prabhakar 2024-07-29  807  	init.num_parents = 1;
+dd22e56217495e Lad Prabhakar 2024-07-29  808  
+dd22e56217495e Lad Prabhakar 2024-07-29  809  	clock->on_index = mod->on_index;
+dd22e56217495e Lad Prabhakar 2024-07-29  810  	clock->on_bit = mod->on_bit;
+dd22e56217495e Lad Prabhakar 2024-07-29  811  	clock->mon_index = mod->mon_index;
+dd22e56217495e Lad Prabhakar 2024-07-29  812  	clock->mon_bit = mod->mon_bit;
+03108a2614ecab Lad Prabhakar 2024-12-02  813  	clock->no_pm = mod->no_pm;
+899e7ede4c19c6 Lad Prabhakar 2025-05-09  814  	clock->ext_clk_mux_index = mod->ext_clk_mux_index;
+dd22e56217495e Lad Prabhakar 2024-07-29  815  	clock->priv = priv;
+dd22e56217495e Lad Prabhakar 2024-07-29  816  	clock->hw.init = &init;
+9b6e63a777ea5f Biju Das      2024-12-13  817  	clock->mstop_data = mod->mstop_data;
+dd22e56217495e Lad Prabhakar 2024-07-29  818  
+dd22e56217495e Lad Prabhakar 2024-07-29  819  	ret = devm_clk_hw_register(dev, &clock->hw);
+dd22e56217495e Lad Prabhakar 2024-07-29  820  	if (ret) {
+dd22e56217495e Lad Prabhakar 2024-07-29  821  		clk = ERR_PTR(ret);
+dd22e56217495e Lad Prabhakar 2024-07-29  822  		goto fail;
+dd22e56217495e Lad Prabhakar 2024-07-29  823  	}
+dd22e56217495e Lad Prabhakar 2024-07-29  824  
+dd22e56217495e Lad Prabhakar 2024-07-29  825  	priv->clks[id] = clock->hw.clk;
+18610e6bf54faa Biju Das      2025-08-14  826  	if (mod->child_name) {
+18610e6bf54faa Biju Das      2025-08-14  827  		WARN_DEBUG(mod->child >= priv->num_core_clks);
+18610e6bf54faa Biju Das      2025-08-14  828  		WARN_DEBUG(PTR_ERR(priv->clks[mod->child]) != -ENOENT);
+18610e6bf54faa Biju Das      2025-08-14  829  
+18610e6bf54faa Biju Das      2025-08-14  830  		clk = rzv2h_cpg_mod_status_clk_register(priv, mod->child_name, mod->name, 1, 1,
+18610e6bf54faa Biju Das      2025-08-14  831  							FIXED_MOD_CONF_PACK(mod->mon_index,
+18610e6bf54faa Biju Das      2025-08-14  832  									    mod->mon_bit));
+18610e6bf54faa Biju Das      2025-08-14  833  		if (IS_ERR_OR_NULL(clk))
+18610e6bf54faa Biju Das      2025-08-14  834  			goto fail;
 
------BEGIN PGP SIGNATURE-----
+This isn't how IS_ERR_OR_NULL() is supposed to work...  :(  The NULL should
+be treated like success, it shouldn't print an error message, unless it's
+something like:
 
-iQIzBAEBCgAdFiEEO+dNsU4E3yXUXRK2zQJF27ox2GcFAmigDPsACgkQzQJF27ox
-2GdY/A/+IdO9iesTEISDKregQbWkMOIm6GBpPffSazV7CH3PZe3X0yWDf7Cu1PAB
-nMkn1QMtW0aaRteAC+L461ksw96FZouPG5milXvyxDh0B8O5W+xW6F/SnVRzu7At
-fb3P8oyw+Iuh8H5kq7E9eyAnGD+EsfJPoPkYc3/SH/yIpkDwp2ojQ8N6J5VMbj/6
-4p3RSQ4tVo+dRkGLV1Vx/aL+H3NsvE3quUoEJbsklUwRn7JKzjc8E87zceQsmwxX
-cdFqLJzJGvSH9tTMsGQzkERe995AXYxfUPWW4YMcOhwZbD6f0QLe7ts5WfPDC0xm
-MGQP/fNwvujuq+Bw11YJ+mkXYyOrYpFpqjj6qEn6V2d8Sx6auJbgpW5CesB/ZI90
-nocg2Y7TtwmcRITlkdnFnHDCzy8q1DBshxntMlOcfQdKTy9vQz4R3uBaTD3LqtrE
-9gTakxsmxyQlZtGnE+Ho17a/4C7lFYhcT2E+nlnXpJRz0PjNedHqGYvS+nM68ZMN
-zFKjktuj2hu/uxW2lGIriP9ElUFzpNUfaVHPfcT3BLz9k4QQqU+9K9mESEqpPMJi
-S9M/Mzh8KEjcd/12qer1SkLB83r59PXCuk1kTPhK4/8ITI7D+X7JXI9pi/jIhFaI
-9WEVAibw6XlUTDLoHTqZWMg5Ko+GE1EXvQpixX9p5iG0gUZc68Y=
-=iSUW
------END PGP SIGNATURE-----
+	WARN_ON_ONCE(!clk); // rzv2h_cpg_mod_status_clk_register() is buggy
 
---dRcwK7KI9kDaqcAz--
+I have written a blog about how how IS_ERR_OR_NULL() is supposed to work:
+https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
+
+18610e6bf54faa Biju Das      2025-08-14  835  		priv->clks[mod->child] = clk;
+18610e6bf54faa Biju Das      2025-08-14  836  	}
+dd22e56217495e Lad Prabhakar 2024-07-29  837  
+9b6e63a777ea5f Biju Das      2024-12-13  838  	/*
+9b6e63a777ea5f Biju Das      2024-12-13  839  	 * Ensure the module clocks and MSTOP bits are synchronized when they are
+9b6e63a777ea5f Biju Das      2024-12-13  840  	 * turned ON by the bootloader. Enable MSTOP bits for module clocks that were
+9b6e63a777ea5f Biju Das      2024-12-13  841  	 * turned ON in an earlier boot stage.
+9b6e63a777ea5f Biju Das      2024-12-13  842  	 */
+9b6e63a777ea5f Biju Das      2024-12-13  843  	if (clock->mstop_data != BUS_MSTOP_NONE &&
+9b6e63a777ea5f Biju Das      2024-12-13  844  	    !mod->critical && rzv2h_mod_clock_is_enabled(&clock->hw)) {
+9b6e63a777ea5f Biju Das      2024-12-13  845  		rzv2h_mod_clock_mstop_enable(priv, clock->mstop_data);
+9b6e63a777ea5f Biju Das      2024-12-13  846  	} else if (clock->mstop_data != BUS_MSTOP_NONE && mod->critical) {
+9b6e63a777ea5f Biju Das      2024-12-13  847  		unsigned long mstop_mask = FIELD_GET(BUS_MSTOP_BITS_MASK, clock->mstop_data);
+9b6e63a777ea5f Biju Das      2024-12-13  848  		u16 mstop_index = FIELD_GET(BUS_MSTOP_IDX_MASK, clock->mstop_data);
+69ac2acd209a15 Biju Das      2025-02-22  849  		atomic_t *mstop = &priv->mstop_count[mstop_index * 16];
+9b6e63a777ea5f Biju Das      2024-12-13  850  		unsigned long flags;
+9b6e63a777ea5f Biju Das      2024-12-13  851  		unsigned int i;
+9b6e63a777ea5f Biju Das      2024-12-13  852  		u32 val = 0;
+9b6e63a777ea5f Biju Das      2024-12-13  853  
+9b6e63a777ea5f Biju Das      2024-12-13  854  		/*
+9b6e63a777ea5f Biju Das      2024-12-13  855  		 * Critical clocks are turned ON immediately upon registration, and the
+9b6e63a777ea5f Biju Das      2024-12-13  856  		 * MSTOP counter is updated through the rzv2h_mod_clock_enable() path.
+9b6e63a777ea5f Biju Das      2024-12-13  857  		 * However, if the critical clocks were already turned ON by the initial
+9b6e63a777ea5f Biju Das      2024-12-13  858  		 * bootloader, synchronize the atomic counter here and clear the MSTOP bit.
+9b6e63a777ea5f Biju Das      2024-12-13  859  		 */
+9b6e63a777ea5f Biju Das      2024-12-13  860  		spin_lock_irqsave(&priv->rmw_lock, flags);
+9b6e63a777ea5f Biju Das      2024-12-13  861  		for_each_set_bit(i, &mstop_mask, 16) {
+9b6e63a777ea5f Biju Das      2024-12-13  862  			if (atomic_read(&mstop[i]))
+9b6e63a777ea5f Biju Das      2024-12-13  863  				continue;
+9b6e63a777ea5f Biju Das      2024-12-13  864  			val |= BIT(i) << 16;
+9b6e63a777ea5f Biju Das      2024-12-13  865  			atomic_inc(&mstop[i]);
+9b6e63a777ea5f Biju Das      2024-12-13  866  		}
+9b6e63a777ea5f Biju Das      2024-12-13  867  		if (val)
+9b6e63a777ea5f Biju Das      2024-12-13  868  			writel(val, priv->base + CPG_BUS_MSTOP(mstop_index));
+9b6e63a777ea5f Biju Das      2024-12-13  869  		spin_unlock_irqrestore(&priv->rmw_lock, flags);
+9b6e63a777ea5f Biju Das      2024-12-13  870  	}
+9b6e63a777ea5f Biju Das      2024-12-13  871  
+dd22e56217495e Lad Prabhakar 2024-07-29  872  	return;
+dd22e56217495e Lad Prabhakar 2024-07-29  873  
+dd22e56217495e Lad Prabhakar 2024-07-29  874  fail:
+dd22e56217495e Lad Prabhakar 2024-07-29 @875  	dev_err(dev, "Failed to register module clock %s: %ld\n",
+dd22e56217495e Lad Prabhakar 2024-07-29  876  		mod->name, PTR_ERR(clk));
+dd22e56217495e Lad Prabhakar 2024-07-29  877  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
 
