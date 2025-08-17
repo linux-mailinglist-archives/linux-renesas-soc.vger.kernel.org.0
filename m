@@ -1,237 +1,179 @@
-Return-Path: <linux-renesas-soc+bounces-20589-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20590-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72E2FB2934A
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Aug 2025 15:37:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01600B29373
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Aug 2025 16:30:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5B074173C63
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Aug 2025 13:37:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A90594E6F70
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Aug 2025 14:30:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9351C289E04;
-	Sun, 17 Aug 2025 13:37:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 464BC2D7D29;
+	Sun, 17 Aug 2025 14:30:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="iqCljAEl";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ZWxs+Wt7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DlQ65HXr"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F8E22256C;
-	Sun, 17 Aug 2025 13:37:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6793A17A30F;
+	Sun, 17 Aug 2025 14:30:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755437877; cv=none; b=Xh5uxAWvz+yXB+mG8K+P0E5kQRLyJcR2L7wLFn55Aq5kUHnVt2UWY8M1MvU3Dkvez8YOps/yWN1e/59YFCbFq7tSOlX/9HaW0EJJOdSga01v6B10VfGktmitkCpi9nag0VAWo+vXTpBvO0kHxwZ/ob6/NvZwNSat/LIUyi5dQ+I=
+	t=1755441030; cv=none; b=gz/4CLu7HcUVLB8X0lMiffaHQF2GKLccn6tw2Q8RHzV17NxlXvedlU6UAk/GC5HgXR+yDSn/lU2pfWzOJej51SihFEIsylxW6IUUcS58oEbuenqiUMybr6jhLn1W5+HfmCP855+kKplV/0Xzad2HpwN2u/r8pQKI/CoxUOlkhMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755437877; c=relaxed/simple;
-	bh=WdL9XpX+i0GfOTkMihOCh9h/2rnqf1PQnSx46NuNFk8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ThWcCI/hArqKwubS++kNrN1BuM9Pk9RaApNu0NN6Hi0N5yR6b53BvkRRhNro1TxPr0qvUDA4PTqgX52/UVx8TFo74IIkr63QFb/YNU7u93nAxFesLFH7VW1pd17cQTkgTpHvuyMkZxwodGMyaPHsDsudw4EByIRfMOJrs9LsGHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=iqCljAEl; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ZWxs+Wt7; arc=none smtp.client-ip=103.168.172.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.phl.internal (Postfix) with ESMTP id 22CCEEC00D9;
-	Sun, 17 Aug 2025 09:37:54 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Sun, 17 Aug 2025 09:37:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm2; t=1755437874; x=1755524274; bh=Ma
-	Uy2lEpuGQlV4ndnd3PoIxprSZGypoElsvDwj0RVU0=; b=iqCljAElhz95iNXaUa
-	a5Hj7b0uIRyFwUv20afll8EqwsHSxRFn9W/sGd2zWnLnpMGeunqkz370L0k9y35i
-	3NHdD7YsEga2ajrsRnrgXnqYA26c6DWRJwW8cxPSeD0377+cEPHqyjVYSjEWfhEB
-	ktj7t7ZoyOiSorewhHdmeJzhfFaCA3UANSKLJhhX8YXkXw/gs/mLdT90Bro/Wsso
-	tk3s596whF8hvk2WiDzRtKQMqPmJvQHl30vwL6Pnbn/adwEP/Trh2bLP3VM70MlJ
-	ALAKqkrkg8yO28GrM27TtviMdxYSzoxBj5PC88Bq6dL6tktN+bpU3a7p24ml/BCA
-	tphQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1755437874; x=1755524274; bh=MaUy2lEpuGQlV4ndnd3PoIxprSZG
-	ypoElsvDwj0RVU0=; b=ZWxs+Wt7OwV4dMomRWL1DJz67UohYwe6QvdVgWh7ntVT
-	UmiXCYuVTJe0djbgW9ZIQi9sJlPNJ6WvaQ6FDdSy0ens8Qjdc/mZyibTDeVtnMhC
-	AEZvyx7+C6LHCsO2V96VqTRc4ptWQmSwWaYuo0PhUBNhi/zjMFpCuAVzzrCV/1Dn
-	LKwOAhdJFwbAQK0TO9FJ1SOjKtD0KdfWgK9Ibtas6ypvbEcDTydz0gGB7F/XtuQE
-	MN7CobZVOowUaRFEen39YsdymIFy+VVhrl9YUM2o3WTbOFDSYdVLojwvXCB5efj5
-	aWfZV7hsUQf/wGLPeGMqkD6XH3OgCDWRxZohyvnm3g==
-X-ME-Sender: <xms:MduhaO4tnqcYauo9EmsD1jbBVZLBWXnG6W4AOwEQg_BA9Qu-P0vpSw>
-    <xme:MduhaE0gksrun7QVITyg4EpBC3t19hEhbJ5PDLtLfEEcQYcmJhCEewUemTgdtjhr0
-    h9aWSXxGaYYiYzweC0>
-X-ME-Received: <xmr:MduhaJEMIovXJuz6l7Mu6QcosKHT8E6KlgiMV7mzz2Ca7afJlpsyrlguC1KJyY3LfFB3pl74mzT7Ir3_Ug2K1-AFAA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddugeelkeejucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgrshcu
-    ufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrsh
-    esrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehudelteetkefgffef
-    udefuedvjeeivdekhfevieefgeffheeltddvvefhfeetgeenucevlhhushhtvghrufhiii
-    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhn
-    ugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeejpdhmohguvgepshhmth
-    hpohhuthdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohep
-    uggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruhdprhgtphhtthhope
-    hsrghrrghvrghnrghksehgohhoghhlvgdrtghomhdprhgtphhtthhopehgvggvrhhtodhr
-    vghnvghsrghssehglhhiuggvrhdrsggvpdhrtghpthhtohepuggvvhhitggvthhrvggvqd
-    gtohhmphhilhgvrhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhn
-    uhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpth
-    htohepnhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgv
-    tghhrdhsvg
-X-ME-Proxy: <xmx:MduhaDgutFBcrorupIfIbA0xDaAWER3dUaR0km9R2rvlnEDwW60CBg>
-    <xmx:MduhaMD7lUpby8LRUgtKCmOGZ-H78MPPYXGzsr7X7cu2EVq_X-UTCQ>
-    <xmx:MduhaFQBzpm4ik5mNyAZFUrv-wjIxqEHR072MexIjgfEe_E8yw5cjw>
-    <xmx:MduhaBXpC9bgYsEHynXd_M0wjbF1MNxImlSLc0vuDpJVr90Udv4XFQ>
-    <xmx:MtuhaJY2iyL_iqN_XezIVpHz1lpOwf5rKfqPn287kQEuGDG1ZnLwbzKr>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 17 Aug 2025 09:37:53 -0400 (EDT)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Rob Herring <robh@kernel.org>,
-	David Gibson <david@gibson.dropbear.id.au>,
-	Saravana Kannan <saravanak@google.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	devicetree-compiler@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v3] checks: Remove check for graph child addresses
-Date: Sun, 17 Aug 2025 15:37:33 +0200
-Message-ID: <20250817133733.3483922-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1755441030; c=relaxed/simple;
+	bh=yyL+H0dsloXKazlsaVm9/CD3K1VYBupg7Oo7jh9Jkz8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Rcv8rf8kSMJE/7qxYJZ6zCB4cd2eTfTHQI4jL/eOshSYqB/gB40ha1AxSkL0P2WG3/qCYuxQMRbMsiGu5wpywzr/leNsWY2iLs9/Ga/IlioO06NT4TvDnHIV2OFHxp011Cjx4mrDv/rKhMRilmspGKXnAzxJJn+iBMfEYL8Xa/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DlQ65HXr; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-45a1b0b2d21so14524065e9.2;
+        Sun, 17 Aug 2025 07:30:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755441027; x=1756045827; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bWZAyJ0poja9NuGESj2BVQie59PBMjBq9MMyHHpd5cg=;
+        b=DlQ65HXr4dMW0L4M0CJA6Vir55TeskF51kMVmYfW+9+bdBF4DLy2fvS6sQoM+jU9Eh
+         oESZZfVV/X1TI/BPZwQnladsYU58FWwK0kZPqWUwglqSzJBX1ZRAzCiPrVkFmzvrar4k
+         sQtbvB2rcsryYyPTbQ3fXjPTEb7FwI29f/4e+1SaRcAkkSV/4ngMx0uM7DM/ZrXjD4yf
+         udZwG7/lAdFEtlyUUHE36Po73pDfvvI+177xpMY2++d/XunwfuZ1e1jmvRsWdcf8y3/c
+         2womgRttkPNbsDsZXNEu9TB78IdPCODaB02onssXzVZmiZxeZGvEUdMGPmf6Qm063u1h
+         qfCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755441027; x=1756045827;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bWZAyJ0poja9NuGESj2BVQie59PBMjBq9MMyHHpd5cg=;
+        b=N4k/7h0JvqHBX/ZVneY8RKGxd4oiE1NivpQEmR0qRva/yaN82RNcIm+ngUbB+E0Bdi
+         YPRqeLF/PtvpfSVw3QF2E5rtL9aLYPNa8MvPwqZkxUXRLMCwRTOtNYhyg64mWXdyUT8m
+         FU9xnoqm2zgotZQhe/sCfDJSLOXTxodd+ZPNUfA61CQnoX3lbNGJYelypB59HOryTrlZ
+         YOi5veY0uz3T3TAYhRZY46ALN6wu+5p03tH/V+ypjZvteH0C4t5n25EA+AUtOWvf9B1m
+         kdtqNXznzNG6hLrlWTs29bU0y4pOFVELYH++xyVdd/tMLiP5MZnxxi5hPPbN6F5rUaR5
+         niDA==
+X-Forwarded-Encrypted: i=1; AJvYcCUMtDaoR3vLY8NjYHZTTBeAj0OMhV5gCuV6QnQqiO2RucZ7kaYQxHFT+nbmjK3d7X4fHhAn92ab9BZK@vger.kernel.org, AJvYcCW/hw3Qkkma0GdxH7RWWXKiQ5yJG65fkCm5gQ0J4Wv/e0StY+VaWCVU6H2FWW3lmyP1sYER+i09bV9y3L7RLAYnuJU=@vger.kernel.org, AJvYcCXlIproCeOUi8EqxujsGvPgIUGT4TmGQWDOtuEJisWYN4fYCYy5Gs6GErMMarpTmG1T21TtT+ir6FHZy0jW@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjuxKPhwEsw0bwt+OTtPhpAKxXW2xn3R6+T4Cpbc/rQrO2MntV
+	BQZpD4mil5KtG84aiuX6rP+hnuedvdQdtI9WoABHMgD5DSZHWDocNZwf
+X-Gm-Gg: ASbGnctUlphSZRRf/rI+rX2NUOyrvlGbS068O0ZpslLHO+yaBYKb47C0XqKBv2Bb7ME
+	dDscv6cknRAEfYUr2oHy+JWQKzPQ+wT1F6gVSVnKJEAQ36JK5+hYhatblF/ZFJBfuXzqnJq5EVU
+	gN9C1NWSiYmK2D+T1fI7lfHwjb6SWzUPuyUi+jDr/4p73FQHi34P8iQb/+Zz1QiiTQYmWYM727r
+	vxcJAB3zkgvvNJWMQ9pmw8ePU3Tsjcgp84TV+sab69HxpxroETVxWuqqKBfKFO7R149IGR67cvr
+	0UYS+Rjn4Fus6IBh27nKQmwVhCcr4Sc5B2Egx/7+ttRtHzgWWZcPp0zksIXMjg/GEC6EutNXf3W
+	BpycAeg9VkWl0LNqx2Zzv78hEIuPNDLiwReXVQZcUj8olJcyVh2ZE3g+WPu3SnHMXXCADXQaeVA
+	==
+X-Google-Smtp-Source: AGHT+IEqvwzuCOtPLfr9txiXXR3uHX74MKd3lv1nqPy5iqhko0tUuyafF6VNtZuysYeBJOlFtd+wbw==
+X-Received: by 2002:a05:600c:154d:b0:458:b7d1:99f9 with SMTP id 5b1f17b1804b1-45a217fd4e8mr70777275e9.11.1755441026392;
+        Sun, 17 Aug 2025 07:30:26 -0700 (PDT)
+Received: from biju.lan (host31-53-6-191.range31-53.btcentralplus.com. [31.53.6.191])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1c6cfed5sm129938485e9.7.2025.08.17.07.30.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Aug 2025 07:30:26 -0700 (PDT)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Linus Walleij <linus.walleij@linaro.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v2 0/2] RZ/G2L pinctrl improvements
+Date: Sun, 17 Aug 2025 15:30:18 +0100
+Message-ID: <20250817143024.165471-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The dtc graph_child_address check can't distinguish between bindings
-where there can only be a single endpoint, and cases where there can be
-multiple endpoints.
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
-In cases where the bindings allow for multiple endpoints but only one is
-described false warnings about unnecessary #address-cells/#size-cells
-can be generated, but only if the endpoint described have an address of
-0 (A), for single endpoints with a non-zero address (B) no warnings are
-generated.
+The write to PFC_OEN register is controlled by the write protect register
+(PWPR). Currently we are setting OEN register in resume() without enabling
+the write access in PWPR leading to incorrect operation.
 
-A)
-    ports {
-	#address-cells = <1>;
-	#size-cells = <0>;
+Also drop unnecessary configuration of the pin function if the pin's
+configuration values are same as reset values.
 
-	port@0 {
-	    #address-cells = <1>;
-	    #size-cells = <0>;
+v1->v2:
+ * Updated cover letter description.
+ * Updated commit description for patch#1 and #2.
+ * Updated commit header for patch#2.
+ * Added check in rzg2l_pinctrl_set_pfc_mode() to avoid unnecessary
+   configuration
+ * Updated rzg2l_pinctrl_pm_setup_pfc() to make changes minimal.
 
-	    sourceA: endpoint@0 {
-		reg = <0>
-	    };
-	};
-    };
+Logs:
+root@smarc-rzg3e:~# cat /proc/interrupts | grep SLEEP
+127:          0          0          0          0 rzv2h-icu   0 Edge      SLEEP
+root@smarc-rzg3e:~# [   68.710624] PM: suspend entry (deep)
+[   68.714523] Filesystems sync: 0.000 seconds
+[   68.720402] Freezing user space processes
+[   68.726527] Freezing user space processes completed (elapsed 0.001 seconds)
+[   68.733563] OOM killer disabled.
+[   68.736839] Freezing remaining freezable tasks
+[   68.742749] Freezing remaining freezable tasks completed (elapsed 0.001 seconds)
+[   68.750233] printk: Suspending console(s) (use no_console_suspend to debug)
+NOTICE:  BL2: v2.10.5(release):2.10.5/rz_soc_dev-169-g1410189b0
+NOTICE:  BL2: Built : 12:53:12, Jul 15 2025
+NOTICE:  BL2: SYS_LSI_MODE: 0x13e06
+NOTICE:  BL2: SYS_LSI_DEVID: 0x8679447
+NOTICE:  BL2: SYS_LSI_PRR: 0x0
+NOTICE:  BL2: Booting BL31
+[   68.800343] renesas-gbeth 15c30000.ethernet end0: Link is Down
+[   68.812953] Disabling non-boot CPUs ...
+[   68.817380] psci: CPU3 killed (polled 0 ms)
+[   68.823030] psci: CPU2 killed (polled 4 ms)
+[   68.829144] psci: CPU1 killed (polled 0 ms)
+[   68.833581] Enabling non-boot CPUs ...
+[   68.833789] Detected VIPT I-cache on CPU1
+[   68.833836] GICv3: CPU1: found redistributor 100 region 0:0x0000000014960000
+[   68.833875] CPU1: Booted secondary processor 0x0000000100 [0x412fd050]
+[   68.834651] CPU1 is up
+[   68.834748] Detected VIPT I-cache on CPU2
+[   68.834770] GICv3: CPU2: found redistributor 200 region 0:0x0000000014980000
+[   68.834790] CPU2: Booted secondary processor 0x0000000200 [0x412fd050]
+[   68.835438] CPU2 is up
+[   68.835533] Detected VIPT I-cache on CPU3
+[   68.835555] GICv3: CPU3: found redistributor 300 region 0:0x00000000149a0000
+[   68.835576] CPU3: Booted secondary processor 0x0000000300 [0x412fd050]
+[   68.836210] CPU3 is up
+[   68.862815] dwmac4: Master AXI performs fixed burst length
+[   68.863715] renesas-gbeth 15c30000.ethernet end0: No Safety Features support found
+[   68.863736] renesas-gbeth 15c30000.ethernet end0: IEEE 1588-2008 Advanced Timestamp supported
+[   68.867251] renesas-gbeth 15c30000.ethernet end0: configuring for phy/rgmii-id link mode
+[   68.882826] dwmac4: Master AXI performs fixed burst length
+[   68.883716] renesas-gbeth 15c40000.ethernet end1: No Safety Features support found
+[   68.883731] renesas-gbeth 15c40000.ethernet end1: IEEE 1588-2008 Advanced Timestamp supported
+[   68.887264] renesas-gbeth 15c40000.ethernet end1: configuring for phy/rgmii-id link mode
+[   69.083883] OOM killer enabled.
+[   69.087021] Restarting tasks: Starting
+[   69.091764] Restarting tasks: Done
+[   69.095229] random: crng reseeded on system resumption
+[   69.100457] PM: suspend exit
+[   71.436765] renesas-gbeth 15c30000.ethernet end0: Link is Up - 1Gbps/Full - flow control rx/tx
+[   72.868712] Process accounting resumed
 
-B)
-    ports {
-	#address-cells = <1>;
-	#size-cells = <0>;
+root@smarc-rzg3e:~# cat /proc/interrupts | grep SLEEP
+127:          1          0          0          0 rzv2h-icu   0 Edge      SLEEP
+root@smarc-rzg3e:~#
 
-	port@0 {
-	    #address-cells = <1>;
-	    #size-cells = <0>;
+Biju Das (2):
+  pinctrl: renesas: rzg2l: Fix OEN resume
+  pinctrl: renesas: rzg2l: Drop the unnecessary pin configurations
 
-	    sourceB: endpoint@1 {
-		reg = <1>
-	    };
-	};
-    };
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c | 32 ++++++++++++++++++++-----
+ 1 file changed, 26 insertions(+), 6 deletions(-)
 
-Remove the check as it is somewhat redundant now that we can use schemas
-to validate the full node.
-
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
----
-Changes since v3
-- Update test suite in tests/run_tests.sh.
-- Add Rb from Rob.
-
-Changes since v2
-- Rebase after 6.17-rc1 merge window closed.
----
- checks.c           | 27 +--------------------------
- tests/run_tests.sh |  2 --
- 2 files changed, 1 insertion(+), 28 deletions(-)
-
-diff --git a/checks.c b/checks.c
-index 7e3fed5005b3..2072e1ea82dc 100644
---- a/checks.c
-+++ b/checks.c
-@@ -1894,31 +1894,6 @@ static void check_graph_endpoint(struct check *c, struct dt_info *dti,
- }
- WARNING(graph_endpoint, check_graph_endpoint, NULL, &graph_nodes);
- 
--static void check_graph_child_address(struct check *c, struct dt_info *dti,
--				      struct node *node)
--{
--	int cnt = 0;
--	struct node *child;
--
--	if (node->bus != &graph_ports_bus && node->bus != &graph_port_bus)
--		return;
--
--	for_each_child(node, child) {
--		struct property *prop = get_property(child, "reg");
--
--		/* No error if we have any non-zero unit address */
--                if (prop && propval_cell(prop) != 0 )
--			return;
--
--		cnt++;
--	}
--
--	if (cnt == 1 && node->addr_cells != -1)
--		FAIL(c, dti, node, "graph node has single child node '%s', #address-cells/#size-cells are not necessary",
--		     node->children->name);
--}
--WARNING(graph_child_address, check_graph_child_address, NULL, &graph_nodes, &graph_port, &graph_endpoint);
--
- static struct check *check_table[] = {
- 	&duplicate_node_names, &duplicate_property_names,
- 	&node_name_chars, &node_name_format, &property_name_chars,
-@@ -2005,7 +1980,7 @@ static struct check *check_table[] = {
- 
- 	&alias_paths,
- 
--	&graph_nodes, &graph_child_address, &graph_port, &graph_endpoint,
-+	&graph_nodes, &graph_port, &graph_endpoint,
- 
- 	&always_fail,
- };
-diff --git a/tests/run_tests.sh b/tests/run_tests.sh
-index 2e172d7a2fd0..6c604888791f 100755
---- a/tests/run_tests.sh
-+++ b/tests/run_tests.sh
-@@ -749,7 +749,6 @@ dtc_tests () {
-     check_tests "$SRCDIR/bad-phandle-cells.dts" interrupts_extended_property
-     check_tests "$SRCDIR/bad-gpio.dts" gpios_property
-     check_tests "$SRCDIR/good-gpio.dts" -n gpios_property
--    check_tests "$SRCDIR/bad-graph.dts" graph_child_address
-     check_tests "$SRCDIR/bad-graph.dts" graph_port
-     check_tests "$SRCDIR/bad-graph.dts" graph_endpoint
-     check_tests "$SRCDIR/bad-graph-root1.dts" graph_nodes
-@@ -758,7 +757,6 @@ dtc_tests () {
-     check_tests "$SRCDIR/bad-graph-root4.dts" graph_nodes
-     check_tests "$SRCDIR/bad-graph-reg-cells.dts" graph_endpoint
-     check_tests "$SRCDIR/bad-graph-reg-cells.dts" graph_port
--    check_tests "$SRCDIR/bad-graph-child-address.dts" graph_child_address
-     run_sh_test "$SRCDIR/dtc-checkfails.sh" deprecated_gpio_property -- -Wdeprecated_gpio_property -I dts -O dtb "$SRCDIR/bad-gpio.dts"
-     run_sh_test "$SRCDIR/dtc-checkfails.sh" -n deprecated_gpio_property -- -Wdeprecated_gpio_property -I dts -O dtb "$SRCDIR/good-gpio.dts"
-     check_tests "$SRCDIR/bad-interrupt-cells.dts" interrupts_property
 -- 
-2.50.1
+2.43.0
 
 
