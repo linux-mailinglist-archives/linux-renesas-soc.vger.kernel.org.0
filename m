@@ -1,75 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-20596-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20595-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FB99B293A5
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Aug 2025 16:51:50 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 539A0B293A2
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Aug 2025 16:51:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 079C47AA8D5
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Aug 2025 14:50:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F0C413AF5EA
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Aug 2025 14:51:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 608B01C4A17;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B8131B423C;
 	Sun, 17 Aug 2025 14:51:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FfqD3EEg"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aMQMQd42"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B494E14B086;
-	Sun, 17 Aug 2025 14:51:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A637713AD26;
+	Sun, 17 Aug 2025 14:51:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755442301; cv=none; b=dK7YQfzkUyI/zBCKRALYpJLLGfTJk1MG6r1/rGrHTup8h8srTGq/EJdusZuKViDj8nWkymbXQs6XYVCMkgXgbqAp1ZMnjrUrj97wiBVOK13YRl9zKa4/k6+La8AfXSOEdlsgO027ckeBTmyqZSxqXkpSUHt2vAMWuNcmeZ6ZGu0=
+	t=1755442301; cv=none; b=hfch5jC1wBOa0oDFdoR49YeJUMrGFo3YyjZm3T+QyXwkhV0MiQNJV45tDYBSd7QVX6ABROM9NbKM4aXzoP+6Fgq3sA25pGqj1vfoXmy8Q3Nvt66YgWvPEwA9pPAOzoeDZx1DwyJSfoRPUYEK8TrKreAgteoJ1cL1AlTidIib6Fs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755442301; c=relaxed/simple;
-	bh=5TTkF6oHixSGI7qMQ0SJNVote1T2AWnDW9/4iyFRL6Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h42hLbmRcgLn6eupdpe5lncONrjACvYFRTZCrhd0BEqbYcdnxVb8hJKxhKTD3OS8iby1go5x4mx/OgYQ7Gpk4qRA+ylauDoOw7v5EjX0nxX0nxUDrXhi2SO/OcE6B0tjYYzreMmKeecWU9lSCvKHFMC+QoWNUlC7zzQr4ltUlME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FfqD3EEg; arc=none smtp.client-ip=209.85.128.53
+	bh=awK/M2dhN/9SUXl7AiD4jrIJERqZs2ku+Xu5c2T7a/g=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=eYr/crQUw3lBcdue2AEaQwkVsdrAQeK8mDK1mm42Er95v/RPDQGbusSl7bT9coimfie1qXTbIJd08rLpp3PURzWcoD7GoPrPFuABgoTAU+z9Zg4rSp6IQkmVVWaEi2UCSHW0ZH+0fCEoTq9s83ZlokS5Yh+cXE1LmLhdzR4weEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aMQMQd42; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-45a1b05a59fso24107905e9.1;
-        Sun, 17 Aug 2025 07:51:38 -0700 (PDT)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-45a1abf5466so17750175e9.0;
+        Sun, 17 Aug 2025 07:51:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755442297; x=1756047097; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KcoeDB9zQ9MJNXPgD7LIAzqfPCH8wYV+5xheA0rYfOo=;
-        b=FfqD3EEgIcScyWVCbzolDSJPMWQ3UIQOhwA7Kd2c3SVmwbPHP8d9xGl0gkxixqCn7f
-         H03kI2+I3Sz4VBRICCykcVGx308opO/ZBEP+q4MNDrHgOzUKy5gGCH4+CQZqekJX7jOJ
-         NdBgcr1fEvVTUZK4BPzGg1Dh9fDpa8dG6sybpr8D9iBYjGpjAYAYcGPn9DpC5g3ujAM8
-         Vz91/kikIm9rORih0VAgDQIotPeC5PBPG2qOtveON6QNwir8SEEzFVQIN+aKUPJsjeir
-         VbZ6ijIUORWQeujXdY2TwvQFqKfWAR5ZMnhh9mjxhoB6GNZZz5uEXHwSMFBFZNYZq4op
-         yzCw==
+        d=gmail.com; s=20230601; t=1755442298; x=1756047098; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KIH6VHVWkPH8Lp7DYNNft6vh64yO0lgWZEuMmVXdlRw=;
+        b=aMQMQd42aQc2/onYW+PbZdLxBJ/v255b8WogsuuLVr7E5wpQ7JUIzA41PtId+R4tPB
+         92ZN2hVXB4WtppGNqkmpwZusDXQVW7A3GdD0UUHVHEfNgVYgM3LQktJ6Uv9yXV7vegKI
+         mT9H3A6h8VKUgPLDrA+mz9TF+Tg1xBtVkmCH3Rq3axyrGNPDcAdbVnGqNOkP0KNwQOPY
+         g6pR/bj8ECrFhOA/6G+6fEUmmYrHD1TlmOvg62YDYCRHzzftBSa2A4xj6PtYZGPUp/m/
+         mjoa24KRVjCVfTnN49DKPJTmc0L32bknZmz/SJkcrX6paoqcBBTMfubXJGXBkhcrkFCb
+         vCwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755442297; x=1756047097;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KcoeDB9zQ9MJNXPgD7LIAzqfPCH8wYV+5xheA0rYfOo=;
-        b=nX786KmohT792Wx79TIhk4gCrQq/6XlCsz1AAZb2/PNO0KNbxIbJ5hNonBUrK3MPZ6
-         duu8na85lk2kh4VroMssGM6CFppqNyJISS5uF8yYnqqee+eq6l4Ld5xOEn2bcQP/c6Wj
-         Trw6ALwbEoFzB3frEHMgiJ7JKCVFf09eAzo6SdHI/Ll8FCiV+IKSw17NET3CnX1iZ4Pv
-         WeDUDB5F5wCrtDrWtAqvqSoi9GztR29SECtO51rGw9TGEJ1ND+jc1Fo2fibik8BpE0+3
-         s/v0gmg1WO9RSh8928lO4teBl++rTJyadqf8FwcqMlp6tmPFaeVxoZQmEv4NcNBrx9+8
-         iDsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUHHOs0/bPrlCo2hx/kSqGzBxEDXb6f2SvGaThoQgU4MBrSuH16na26TufoX+KxAE8n2avBgPk8+fAv@vger.kernel.org, AJvYcCWp0ZIACqNXWABOwRNzhFaQY2GVBRPg4e2YnmnSCmv446BgMYUAHzqHn4BxQLwa5kQgKrHpAD3wZKHKb+waI8J81qU=@vger.kernel.org, AJvYcCX3uTYBKcTUnZ7eWV6irCwrJ0sWAxXDBh4kf+vUusUbQvuLhtZKoH4qkSYytuJGKrL+IqI6HW0p8ADpjHbX@vger.kernel.org
-X-Gm-Message-State: AOJu0YwabXiXuyq9L8gqY041GKVjLVbO3sAiWBttb5Oe4j/uYy9ilrQ0
-	JZ/lE5JX8IeuTNgiQzQauIq1yBIm1ECvYZsqGoVaDPeqmETBbEmBvYuO
-X-Gm-Gg: ASbGnctkXyIiwWLRj0cuuEpHlB0ow4IzhiYGBOMzKc0thTk8nkIcMMUlBtDiOEg0CBP
-	dGn6G7ZBQf4OsB0XkK+QdEokgx0kVKhrLOuGAwQd9wKs04l2/PIf7Y3m4EDZI0sn89hni2J7xvz
-	3KoPYLa4tYQoEb0Yk3dIWR2GDYv6e7IkHTfIA6dgpSU/C5KZE+eq0Y0zrqOpI7MV2hJj28ojfbJ
-	u10nqz+5SLrOi87CYDahotx3HDgLEgxZH54sK3l0Cq+Q/OutkkzeF21Fju9oc69GOuk16LhukSc
-	g+Lvhg9i7iHLwjE/RCLCDljTUi/avE7IpHx/2mROeLeOgiB8v/V3IAN15xZ3zsYB0odR4GRPhCb
-	k76VA8ZerKbir7JLr1BP2l8cMXSwpGi0UapJAwX1jhH8VX1eDB+C2dM02sC5SHvKvVy3/r9Dbrw
+        d=1e100.net; s=20230601; t=1755442298; x=1756047098;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KIH6VHVWkPH8Lp7DYNNft6vh64yO0lgWZEuMmVXdlRw=;
+        b=hEFCq9qN63DmI4yjMxFEZvudUYkUOEt56llpPoOH0L5RDVKWOnJBAci2EYhT+geoD8
+         5t61yEXPUYvgmewBQyt3ial5nhZt0i56GwExBuwCClTYOKheMWfETmYNMt59lamBCPpq
+         9lZ4rRLliMpIgNCZXjcvReK9FTJrOjV/HrrPB3tNOoVkzX2491LpwJ92y9t7TyIKTOeS
+         w2zc51t5DmP570qt311e8no9AGXPx/TcaI7wstAtzLZaniLv7W/pJtOz/zC6ttLai6J7
+         Xl0iBrbCUeCGVfsO4Ehl8Dzuiufv4Jr+aP6fU0O0q4nYlCOPdzmiuWcrOrrNJbmvI//I
+         1bsA==
+X-Forwarded-Encrypted: i=1; AJvYcCUn07A1GnZo6haSMR6oS23f13IHCQu5mWU4UvB8luR/Icv3UUo+ciTohhVES0HFqH+rggV4NqRswRx9@vger.kernel.org, AJvYcCV6PSiTrURDxU6gdb8QGMCytDftz4x6xjMwdJ/3XGbtjxm/F7KOzxy/X9pWV2FuxfGLjxL/bjK0h16aEsz1@vger.kernel.org, AJvYcCW2s3SUf/Y9Nqxf0rxHxD9biMsiOanJ4g9luqrlsxIgYFLHG4r5A/77IsdWS89G9lXuYuGpDdmfEq9jsP5caZj/hr4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzzvUSDm5kzzkcayH8H1AP6wmklTO2LO4AAJQnBqKA0tc+uNRUH
+	U9YmR+cV/XBz/dbDgiM6FQQd7yQFqDMzo7pyO6XI8sNlLr026Q6JgFRQ
+X-Gm-Gg: ASbGncvRpLYT0MQZzPZHtxy6+D9TEbVFk29Tu3J5LaujAuy/VvVnoZbjzD2bwrQtB57
+	y+/uVuYkeUWK57GiyvF55p925hPt25g7B/dEOpuACLftikP6KrD2rX82y3uPOyuilnNYGc4KemE
+	k15m1yuCq9oesxJX2Im0eeGRiU+ut4E/Nhcr3R0Cfro+AQj3Pj73Js/wwcMKrZLltHIZ3HpLikG
+	698dh1Z7N/1H9mTTbQvylKx9AosFH1iD+5Erfa7e567K3JXnaCQ7keLpNikIUqXjOxPu3+wwMAX
+	+a824umy1fbC/O6svIrUlxPP2SVKrWD0aK1pYrMLUMt/BNpzRJQrKUIc0IoeNRpBZp57Cc4o0N/
+	Elm1cA3sX+HfczbSqJmExRK0l3YXU1I73So6xLNE1L5hK0Fi/VstEBCu7i2TLi2NuVXRi9X9UGA
 	==
-X-Google-Smtp-Source: AGHT+IH4tCVgAFYEstGC5tL6bEfuWkCdmoT9cOSHEImj9VXypR0kMzJkaRRhhVwq1B3+HZ+9Wq3wiw==
-X-Received: by 2002:a05:600c:4755:b0:450:d01f:de6f with SMTP id 5b1f17b1804b1-45a2674e40amr51352865e9.15.1755442297289;
+X-Google-Smtp-Source: AGHT+IFbLWK3N8MnH+t01Z2k2Kppk2001ZopH0j+SbrCMPU6qQ97+xUd5EDU8kq3F0uwcUCO5Js5Eg==
+X-Received: by 2002:a05:600c:35d3:b0:458:bf15:689c with SMTP id 5b1f17b1804b1-45a1b65c6c6mr98837995e9.2.1755442297764;
         Sun, 17 Aug 2025 07:51:37 -0700 (PDT)
 Received: from biju.lan (host31-53-6-191.range31-53.btcentralplus.com. [31.53.6.191])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3bb676c99dbsm9917352f8f.36.2025.08.17.07.51.36
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3bb676c99dbsm9917352f8f.36.2025.08.17.07.51.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 17 Aug 2025 07:51:37 -0700 (PDT)
 From: Biju <biju.das.au@gmail.com>
@@ -85,10 +87,12 @@ Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	linux-kernel@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH 0/2] Add Schmitt input for NMI function
-Date: Sun, 17 Aug 2025 15:51:29 +0100
-Message-ID: <20250817145135.166591-1-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 1/2] arm64: dts: renesas: r9a09g047e57-smarc: Fix gpio key's pin control node
+Date: Sun, 17 Aug 2025 15:51:30 +0100
+Message-ID: <20250817145135.166591-2-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250817145135.166591-1-biju.das.jz@bp.renesas.com>
+References: <20250817145135.166591-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -99,20 +103,37 @@ Content-Transfer-Encoding: 8bit
 
 From: Biju Das <biju.das.jz@bp.renesas.com>
 
-The latest RZ/G3E pin control document (rev 1.2) recommends using Schmitt
-input when PS0 pin used as NMI function. Enable Schmitt input for PS0 pin.
+Adding pin control node to the child won't parse the pins during driver
+bind. Fix the issue by moving it to parent node.
 
-Also fix the gpio key's pin control node.
+This issue is observed while adding Schmitt input enable for PS0 pin on
+later patch. Currently the reset value of the PIN is set to NMI function
+and hence there is no breakage.
 
-Biju Das (2):
-  arm64: dts: renesas: r9a09g047e57-smarc: Fix gpio key's pin control
-    node
-  arm64: dts: renesas: r9a09g047e57-smarc: Use schmitt input for NMI
-    function
+Fixes: 9e95446b0cf9 ("arm64: dts: renesas: r9a09g047e57-smarc: Add gpio keys")
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
- arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
+diff --git a/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts b/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
+index 1e67f0a2a945..9f6716fa1086 100644
+--- a/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
++++ b/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
+@@ -90,10 +90,10 @@ &i2c0 {
+ };
+ 
+ &keys {
+-	key-sleep {
+-		pinctrl-0 = <&nmi_pins>;
+-		pinctrl-names = "default";
++	pinctrl-0 = <&nmi_pins>;
++	pinctrl-names = "default";
+ 
++	key-sleep {
+ 		interrupts-extended = <&icu 0 IRQ_TYPE_EDGE_FALLING>;
+ 		linux,code = <KEY_SLEEP>;
+ 		label = "SLEEP";
 -- 
 2.43.0
 
