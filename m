@@ -1,160 +1,125 @@
-Return-Path: <linux-renesas-soc+bounces-20638-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20639-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20B65B2AD30
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Aug 2025 17:48:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61481B2ADB7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Aug 2025 18:05:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C4D9F6254CB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Aug 2025 15:43:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 61CEA3ACEB1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Aug 2025 16:00:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE6D727875C;
-	Mon, 18 Aug 2025 15:42:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D23483375CB;
+	Mon, 18 Aug 2025 15:59:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QPab/nMh"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ln4dXllP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A7026F2A0;
-	Mon, 18 Aug 2025 15:42:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3569132A3DF
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Aug 2025 15:59:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755531778; cv=none; b=p8pA4MpOOeILTB7tkLWpeFw/gqKjls9l834QppRQubkju6kEHTyQYoPorUYo1KEULuh/jGOnGWpqpxFRc7G8uqwlfhTJANSWc/q32yNRasivw92ziptUtoA8Ca3OHiFwTJjDqA4WH5l8uQX97bU2JPXQTmHSpHa1loTte17xwZI=
+	t=1755532747; cv=none; b=CwdJPPPJIsYQ0SOU5Tc1k+8U9x+dUQggr9GfAmeZ1NREQk8o1lmS2nokjZjhw72rWzqdZ3BqI17thVrnQih1ATnH2Zggu3K+w6lXPkMPMVImmn5AIZw084+iOnEUhGIN2ef6jvWOZQ+tDT55k+saGpwJFNi7TFv+BMNjy4ztLDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755531778; c=relaxed/simple;
-	bh=ywxn1I3UFav5YpSH6HiZZsgW4lu/1x9L2oITTIpfdSM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IfotIgsTwov5+GQ5mixev3pRIwP16c6t4XvJKlhSeDvDTwgKf82xPTS8j2A1gV/TANvx8YwUJPHCEFg2bbMP5DM7sHX4wpQ32rYK1wpUN+TR7G4IODbwwox1zhEo/e2AQTLMRxgvrzGSbg/X8s3G5681o2vbsWOQW7KtXQbJ674=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QPab/nMh; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45a286135c8so8602575e9.0;
-        Mon, 18 Aug 2025 08:42:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755531775; x=1756136575; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4gyvbgaSN+DdftJLQegwXsb0dx1vRQ+9T7q/7QFLbTM=;
-        b=QPab/nMhLAXjtO+H4r4np1+L2J3rkT/dz0EPKOMSMybDAQIE6+oq7RVILlzboZZW8a
-         zJz63rBAGW7LF1FY+E6E+UbeXhTBNL7zey+a1ityb/2dbwQFSK51/12Kwgc65YB6cu/K
-         Of2JGHydWbad67bNuo/iHJa6Gtywc6AEOpKmcodJOk67O3v4z8nyWxr0bJ3WoUM3MdHJ
-         K9G/ZI+AgP/4sHfON+2y6WbtRrzrppM0R/LCXYRNPrt00JtxJBQKPg/ji8IsWvEE5iUM
-         zEWdmub9TqowlH6HM1No45fRlpD5Bz2k1VZEQIzDK5Sz6cPxBqeNx0uj3pyoP0Jr2wpj
-         XU2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755531775; x=1756136575;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4gyvbgaSN+DdftJLQegwXsb0dx1vRQ+9T7q/7QFLbTM=;
-        b=mRAtRUjGYjfCJ7I2SNe7TOODxFc3LnRqdkJ54CTozzop+DjviJZ7zviAbc0QCKrxXA
-         a8HMipNmw5x2E93B2qvO7PdrgyKe44OyZSMmbwHwBq0ph1J+g36BU9MBgE/8p35pVz1R
-         9tDG7EuDq/PNsyHE+pA+Pm6+9kEQcylpYb4KtFquIEyEzaglOl3w4Qxp1l/h/5AvNT14
-         YECNKHz4vDpTjKyfCrRjdffbcHMiYg5Pzm9Z1Va/l4i/5XkD6Ha1T8FCRDbdP4LhziRs
-         UR1gS6bWFHSKIbw1fEzwSpLFkVMfuLsUQmlbT4RNUtK4kH74Z4nGzv1dBY0r29sgniLl
-         eg7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUuxHhYUJEw47OPfZDrn29tvflyzNXmE+pBDCUReYgYeUQzMvvriCqM91m4+58Zi5+7CZ4xsmrM7xP6NINm@vger.kernel.org, AJvYcCXJ98G163Bn8y5YG3dCOfkCkV87y09mg0+mSvowJrbMc+sTiwMyj87P+NWXFuBMm6QG7QApdsO+bmxA@vger.kernel.org, AJvYcCXeVbmNZ0bZ8qLW/fSxredS7hhDJAc1/LdqNmviUOakyag41UCIT2YnDPPUwBtQdv1ssdL67t7uXU71FIvNvVrNlVU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxV804qv51fmjNfzkyZJk/u5EVtDi4ZMoJanEDm/bEryBfq/Jkw
-	YtDub9Rwiw6NkvM4mrY1hP/SzO5GTVET2MH/uKF1VkV4fyH5xWKtwB+JfwRyCOIblb5XDJVgWVl
-	jUpR4FGoGMyWx1r6TuYkSMbr2NGs/49M=
-X-Gm-Gg: ASbGnctCr5TYiW//FQGSzaNDCQnALjlBQFMN+bnPeRQW0A1SPIRYUzuF8isxYtsIUpR
-	OGZlN8qMj6Uko10YiQOdqUtAjELLnKzxCWkhsTc/OzUA1vjwjI6iHDzpYA49fJq+cpM5CmQyDSi
-	IW7JGPngw/vAmhLQkZ2gEXycPgibAe1vRfdNlLmOm3hm2V7QBPaYCBUoOxvJT8rrzb7CcxRMZGg
-	w73mQN8
-X-Google-Smtp-Source: AGHT+IHQxy71eKVswqjSB+EWt0jvak8QLroDu9U+V2MUxGuUazy9fqZ1XyPoThe6gHHo4dc/jyIiM1bKrCh+LvruC6I=
-X-Received: by 2002:adf:a294:0:b0:3a4:e231:8632 with SMTP id
- ffacd0b85a97d-3c0717875c8mr44401f8f.12.1755531775254; Mon, 18 Aug 2025
- 08:42:55 -0700 (PDT)
+	s=arc-20240116; t=1755532747; c=relaxed/simple;
+	bh=bDgAox1aA/1Z5TbMBFoy9PpahJa5ubn8NvBpzYB69Ao=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NnhhPJJiA9ZG79vaE0WjByrPAZIu3ux5rOdrqLjOGQ8Pi+L+OqE1jfTVT2hQifjmNjLQKdxacTIipKCgtuNkFoJtztOJBjl+ihjzWbx6NDMuPdbfZzxbTv/E/qinYnUxE2ikdNa4AivZBK7aylfzxif6AcpZeqbsUVk2FJ0i2S8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ln4dXllP; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=bDgA
+	ox1aA/1Z5TbMBFoy9PpahJa5ubn8NvBpzYB69Ao=; b=ln4dXllPrbhpjdsx/FkG
+	PIszRwleiAD32PKSsO93WhXBNd9on2tJq6omXM+cxVgqHQv2Sgd2kEZWOZ7fFs1h
+	PhubR6Wx3Xp3Xkv91e3e5RRq428Sz5kd/VLDxeLTglXXoUrT8MI4eaj3ox13fIlz
+	E5GN+CFNxB/4lQyLiHB6kAhugQ4LA/0IzBniSSQgk/c1gEWwyP8nB5otIeaNF8ma
+	c6G9WAAjs2+Cy+ynyecygC89/o0DRx4JMx78Y6ev0LH3Dyb65spOjDc+9NyrV7dw
+	xiURhTAHGwy1thcrb+C8XpmWE4hVhnWL64VFEzbUj2VWaDOFaFbLt5dFZ0OcSTcr
+	lw==
+Received: (qmail 2452409 invoked from network); 18 Aug 2025 17:58:54 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Aug 2025 17:58:54 +0200
+X-UD-Smtp-Session: l3s3148p1@cy710KU8uNVtKDDl
+Date: Mon, 18 Aug 2025 17:58:52 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	stable@kernel.org
+Subject: Re: [PATCH] net: pcs-rzn1-miic: Correct MODCTRL register offset
+Message-ID: <aKNNvDwkehoit1eZ@shikoro>
+References: <20250818150757.3977908-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250812200344.3253781-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250812200344.3253781-10-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdVRwZ6PNt6LDi-NZWiUH_eNtw026UscwF9pZTjObVU6fA@mail.gmail.com>
-In-Reply-To: <CAMuHMdVRwZ6PNt6LDi-NZWiUH_eNtw026UscwF9pZTjObVU6fA@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 18 Aug 2025 16:42:28 +0100
-X-Gm-Features: Ac12FXwvD1Y2I1zcj77wMk2tnlBtbcSQpP4J6u7-3UVfTZIal_2quD9wJyYlw6g
-Message-ID: <CA+V-a8sNAnZnmn-Gwx_Kn98G6RR+4Qsy6ag+9cef922bUtcAyQ@mail.gmail.com>
-Subject: Re: [PATCH 09/13] arm64: dts: renesas: r9a09g087m44-rzt2h-evk: Enable
- I2C0 and I2C1 support
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="R6lb8l05OCNcTM8G"
+Content-Disposition: inline
+In-Reply-To: <20250818150757.3977908-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+
+--R6lb8l05OCNcTM8G
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
+On Mon, Aug 18, 2025 at 04:07:57PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>=20
+> Correct the Mode Control Register (MODCTRL) offset for RZ/N MIIC.
+> According to the R-IN Engine and Ethernet Peripherals Manual (Rev.1.30)
+> [0], Table 10.1 "Ethernet Accessory Register List", MODCTRL is at offset
+> 0x8, not 0x20 as previously defined.
+>=20
+> [0] https://www.renesas.com/en/document/mah/rzn1d-group-rzn1s-group-rzn1l=
+-group-users-manual-r-engine-and-ethernet-peripherals?r=3D1054571
+>=20
+> Fixes: 7dc54d3b8d91 ("net: pcs: add Renesas MII converter driver")
+> Cc: stable@kernel.org
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Thank you for the review.
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-On Mon, Aug 18, 2025 at 3:00=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Tue, 12 Aug 2025 at 22:03, Prabhakar <prabhakar.csengg@gmail.com> wrot=
-e:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Enable I2C0 and I2C1 on the RZ/N2H evaluation board.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Thanks for your patch!
->
-> > --- a/arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dts
-> > +++ b/arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dts
->
-> > +       /*
-> > +        * I2C1 Pin Configuration:
-> > +        * ------------------------
-> > +        * Signal | Pin     | DSW7
-> > +        * -------|---------|--------------
-> > +        * SCL    | P03_3   | 3: ON, 4: OFF
->
-> 1: ON, 2: OFF
->
-> > +        * SDA    | P03_4   | 1: ON, 2: OFF
->
-> 3: ON, 4: OFF
->
-Agreed, I will fix it in v2.
+I can also test it on my N1D board next week.
 
-Cheers,
-Prabhakar
 
-> > +        */
-> > +       i2c1_pins: i2c1-pins {
-> > +               pinmux =3D <RZN2H_PORT_PINMUX(3, 3, 0x17)>,
-> > +                        <RZN2H_PORT_PINMUX(3, 4, 0x17)>;
-> > +       };
-> > +};
->
-> The rest LGTM.
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
->
+--R6lb8l05OCNcTM8G
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmijTbkACgkQFA3kzBSg
+KbabzA//b7l0e50rYMI1vWkipFbHB2lmpOrjAxvOizvQg9Rz+wFtJReysJMiEXy4
+/OiB6BdV7T9ES93ENGpSElIKpBXfcHxbGkda7n47Vhr8M+ptdEAUc85XJU+pSbys
+6Upda18MS9x+o1Ov0lUYDMp+gBlphT3ZbADLb2Y5hjqw/KFUQwTknLMmO7MSzSR1
+EgAI7f6zGKhloAigGpPvXtBpPrgGhSZX0Z21sderpHYlTeY3egnvy+4HlavnitwS
+TSZhLfPsI3t6E2G8d5GMJBYYC4sv6kxb9mZ8GRKfhyRFbi0RZu08jLlrvknQyWky
+drqpcCsZ+k0o6/1SCocjI5dglthTBq3vHa/y9JS7BxrEAWHN92Xcdk2XApCtUdUH
+kR2E17RfCwm77JwYioqyT0GRwPNQnHUTN+OHrdf4HPdXcp/Pq0hI1GsSelsiAZ96
+Xb/gI+rRskPeeJLRjeT3PpJO8Z7B4G/Rc4rlz6cvxuUyvAK53hl3iT2fkDVEW6KQ
+TzrQsgWIsJkqI2zcsz/gz9VAedN+EO0bgGZXZ9/4gpi7etkk89kjS7sY+xrf1RKB
+xdKg0syfcqNH+CGBDRAnOdsUDR90P9tilFqpl5Fmmyap8ySBsg6WbipSstuH+2Wq
+dHTwAbap8aOnU0a9e2MRB7GiS1T2+v4mvJ8X10DZmTYNbolLGLw=
+=v2w7
+-----END PGP SIGNATURE-----
+
+--R6lb8l05OCNcTM8G--
 
