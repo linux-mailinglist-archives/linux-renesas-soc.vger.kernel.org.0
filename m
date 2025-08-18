@@ -1,156 +1,150 @@
-Return-Path: <linux-renesas-soc+bounces-20606-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20607-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76D5FB29D01
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Aug 2025 11:02:43 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63442B29EBF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Aug 2025 12:03:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E19021881F3C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Aug 2025 09:00:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 543CF2A10B3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Aug 2025 10:02:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A5F7308F0C;
-	Mon, 18 Aug 2025 08:59:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C265310622;
+	Mon, 18 Aug 2025 10:01:16 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5FA308F16;
-	Mon, 18 Aug 2025 08:59:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C689B310775;
+	Mon, 18 Aug 2025 10:01:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755507587; cv=none; b=YcpdFtCGSkvcY73yZhJoBQAXv6jJVmQIbDAhk4Bv5S3j5II/IWylNFhkQ/HRMZrIUDGWrR3f5fgWp6dr2IrokcXzcuBLrx/bRfl6jW8t1btdeZpAtErPLg8UHCHMx11H4ONnPK2CqEwmphmNE3sU0XYl//R3S+PVdU/9VCYinvU=
+	t=1755511276; cv=none; b=NiSevBLfOt0zy4vIk4LH/ibXUcXm8FGkrnhVf82khFNipxp4Mr2KZPsIDUzTcV+CytXmZo8hrSpJ6BuXApIemfcaH8N0a/uO7cyjbOj4GX6T0VfSZskDjhuhpMO8OIfTfqve2pY/MoEtPeoxD2XMlRCI+H5tqqhKpBaRHiVv6u4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755507587; c=relaxed/simple;
-	bh=/8M5gc583ps8VanNEYTOj7Uh5cuD5fcXII5KPf8sHIg=;
+	s=arc-20240116; t=1755511276; c=relaxed/simple;
+	bh=fOJf2bOIilayjpDytPMrDIar+EryOHtOhrMI5yLZNW4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PfoDXQfbL4xIBzl12qd7FjdN2iLcmrT+MWQk+pR/0S/u/nmiiizECBeoPkeO69gw04KRyWum4xg2C8UHiwOhiv9ayLDqvAoOAbqLdjEC7jbfoRTpmRSI4f+xdcRZH7leDaUDy0c4cFelfLzBUBlQYcY0AL0afAY+9w+JMEvkgcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.180
+	 To:Cc:Content-Type; b=Gy5b2C22K/jTPuBI0lmyMvzs5cKy63fOYJHAQqdqO4mhwtjGwVsGaiTA9e/kaseKeEFsqz12plMUvsJZVe7RFL47KGtcz8COvO07PZNG8KEl9bYjC2Vpmv7gzaXgcIjSAYa6o71LpL+5Yoj+snD5Z8b5lupbkIK1v3WtEf6j4eQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-53b174f7cf0so2789735e0c.2;
-        Mon, 18 Aug 2025 01:59:44 -0700 (PDT)
+Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-53b1719b717so3418206e0c.0;
+        Mon, 18 Aug 2025 03:01:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755507584; x=1756112384;
+        d=1e100.net; s=20230601; t=1755511271; x=1756116071;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GuhsFBr0hPDOjSQgDopWNJ7fxxqkAvU6UwE4E9csdXw=;
-        b=r6IAC91n/I2cS6w7pOzbauego4MZAdPPI9NRomIB+arOM2cyN/o4ENJEW8H0nvcJMX
-         Y1GIZcSgM0QoaVfC39ClnBzYM7t8UPckpg0hdHLzl/gS9u9+JlOrqyaJtVz/YhuBHtJE
-         HHDaT17S7c3496iTASj7sDmX0l253GmFT1e2BeRgrXpZxfWXJ1XHtEkg+PB3Vc5PFOJn
-         X+2s3fg01sSYEzHnhxy3V8aev8/3SI2khctG8TQNU8Mt5VKCp+FlqLBBPhvhVOWcyemw
-         EouJ9Nt8Go1ybal255xJRzbINpgbuKYMtcSzINdQ5EEaGtiUl8BUnk72UtdW8+dBCHFD
-         18pw==
-X-Forwarded-Encrypted: i=1; AJvYcCU7W9N2+DM7nY5X0QNV0kbCcLkPRGpHvqfpFGOhwcHBFUgMOp0npLl8271UmAOSfjpnTdnyvqu3Wqj6isQsMi0zaNg=@vger.kernel.org, AJvYcCVPMotB+2pt5TonGHm55qi+dkDEDtmNR532/dE0Y9TeWgsb+rOjRfaR5ZBqKHvD3hp94ZsgVlxA9/o/@vger.kernel.org
-X-Gm-Message-State: AOJu0YzC+Ci4bTIW0+k51q93bes0yJ/HtYUE8nGd2PzOws32atJZkJBb
-	Q60Lsv8KRgZHxOhPK3LxaPEnVNWESPv1XMHLAcLBZEbF/qEwzUp5iRbkQ1medFC6
-X-Gm-Gg: ASbGncuuHViMYqQ7cFarkIaJ0gb/9aowuvvdEn3Z+v7VgnvtmRdMQbPLxfe9diUSzIA
-	Ao8Uc7NqAjRIGptzcmoNu3EsERqbzGBpcZ6OyXDrGvx4Q8dJZlJVlTgncrbEVHBDjv4X43KoSs5
-	oYWsWcEx5p2NnZWt9TClrxn0db95tDmEsg3kasODXNEoTLvKlhbyUBVl27MWkscyRNZbAWJNfg0
-	iotWmYZ1o4BEjUwd/D16lgTs2Lw5vhvZBkHNsnP/jInsUK+ZYrR4xO9SQn1Lc2yKlMiYwf6a1H7
-	sJ2fB1xe4TXlnGOIOXRKLMwx5hrxCpVZsZRSZ/81JDbDC4uWJ8214cL8ULspWyZQQmfaSz56ito
-	GGVDWcVtuWCw7+WdKqWWhmriBWmDAFKxULH4SligYG3h4RFyPY8WwF6D+md9kwhRwGbYttOY=
-X-Google-Smtp-Source: AGHT+IEV+3tIsRgcu6/CFuFD1p7ka8g/J70DwKQqLMQr/NenlYNGkxHqnkGMY8EmJI5Mc2cA8Do+ZQ==
-X-Received: by 2002:a05:6122:328f:b0:539:320d:314a with SMTP id 71dfb90a1353d-53b2b8b42d4mr4132854e0c.12.1755507583886;
-        Mon, 18 Aug 2025 01:59:43 -0700 (PDT)
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-53b2ba75b1esm1851464e0c.0.2025.08.18.01.59.43
+        bh=dvQvdw3uTYy/ciL49LpZilhYd3aWULCwK/kQDMwzYTQ=;
+        b=Bc5rNI3wo/34tsN8MC7xidJjqSmrDd8YJ13QBzekeeeW6QsPudN2gCfdu5SMjIn8OZ
+         HIujgEfSebLiqcxo6cIcxKsdnlU1oBqfCOmMt91N0JPb9sa2bYB5sDPSHzvSOLrbgwsO
+         GCg4HHyu2z2Q3A7a6Yl3YMlnUDC8kS5oSuKlcE2nAFk171hKG7YjcXEwlzjnOTPhMii7
+         Upyp6CkOgKn8b36xU9DoS2llyb9tWfgnmVvvcY2gluCjhPstKcDpEmX9txQZDOGa5oV8
+         rtd+eMbffcGW4hz7QMs/zXtbxzxXYLmQYO2O5uGP0PJxdjLwPkomEYR9K5bMfk3hP2uW
+         SThA==
+X-Forwarded-Encrypted: i=1; AJvYcCU2znL0ojDLNKewitN3ImOSJcYEwO1yOmIUJk/w0KSl5WTcolVZm45AEjdZUGR0b+c7UHZbML6XOOjqqbuRxXstUNI=@vger.kernel.org, AJvYcCWwqUP7s6/VJo2VNScpd46CX/lkaFI81Bkg4VkdQdttR9gzpy6ndSgYJHB7cz+Yf9b9KqsPzN2CTo0C@vger.kernel.org, AJvYcCXqsOsxlQKb/Ry8XdP9B8+X+htAG2yXl9athfJtjflk9FkDLwx3UVhXPwdGQjCmT7cEkqm6cau8Lgd2YUIa@vger.kernel.org, AJvYcCXw/kiGOpooLFVU/ffwYN/mApPi3eegOF5gEM3DhNYxCtN/OWUYz0beMhdIEnrZxoxPzQoBfiQFH4CBicmpmXY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHAYdcL/L85bZYEoUABP3MB1Hz1Fs3twKIT0j/fJj1sgg+oKUZ
+	gDg90eN2dDuACC+ffdmdKEtfK94s19O5nxxskEQp8rUtZwwBV/BvVod5pxg1aeKV
+X-Gm-Gg: ASbGnctDanCxA33Qv64lLHVqPxCsD9MKWhZ0plOtD3DY7ba4l9Z7H3Hz04sz8XPRoxq
+	Lu++HksyeopwR7Q7f0tGH8qnuNsiOx9cNILnQM0Vd979UKHKHafk4JI0cJ/cwYe1W68nUcrfb0n
+	n0peToUcknhQlV/VjDx1qJNs4geFM9ApxJhPahYbGrnZm1TyRCG5fsAkeUBdD5jnfiee2GiL0++
+	IwaIwJHS6RqNfl0kUEEFz76iwQKCtwrvDM21uhlDYfmuUtSvFDslkCKIFvE+mNE+pagVhrGYOM+
+	jN3HT5rS11wSV8dbOmszqGx2+bcVsBY2af5e9BlKkDXqgSXyr9qXo/EjEorKsAEgLhcgZXyvUpo
+	KPV+3Vjpn8e/Q17MnB9DKf9d5NI3s8m/cysiYSz8FlV9j5r3iooleOogLhbELf91k6YSARjI=
+X-Google-Smtp-Source: AGHT+IG9V9NEAWX/V2VuaMCHR3NOGzzBoOe2JCJWBlv0PcUli/Q8ip7KBYjmEAyR05KqT9NwypcdjA==
+X-Received: by 2002:a67:e710:0:b0:4eb:efc6:740 with SMTP id ada2fe7eead31-5126cb4dca2mr4303008137.18.1755511271279;
+        Mon, 18 Aug 2025 03:01:11 -0700 (PDT)
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5127f80546fsm2016420137.14.2025.08.18.03.01.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Aug 2025 01:59:43 -0700 (PDT)
-Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-890190d9f89so2100860241.2;
-        Mon, 18 Aug 2025 01:59:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV3L+rE1vGKqXT/6IxXvhWTqyjKZ9jTdiLpuiOn7I6q8Av70qs2XIBr3FEb6tc/5nuKobTiw/SCXPRS@vger.kernel.org, AJvYcCVnHkzIpZmT9VUcBNJ7ZKJjOTft4pawE09OuJ/iI3DmapHGTtgM24yF+O3cfG+MUJP+ohWtwDN/xWDwv8/5VTisMDI=@vger.kernel.org
-X-Received: by 2002:a05:6102:5e89:b0:4f1:37f4:8c32 with SMTP id
- ada2fe7eead31-5126b112645mr4150542137.11.1755507582868; Mon, 18 Aug 2025
- 01:59:42 -0700 (PDT)
+        Mon, 18 Aug 2025 03:01:10 -0700 (PDT)
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-89018e9f902so2674919241.0;
+        Mon, 18 Aug 2025 03:01:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVLDKsAklDonwlbQUzlzURT8FjxY9wByDqE3+wfaVsG1oAe9oQF0nyaZwgr/UUGe/E+fxEaYXlO2ZFBkRUwwP4fEoM=@vger.kernel.org, AJvYcCViBlJS83o98d9V2L1mRNaz2AMgUm8p7ur/udmufeEhnKVBmyFoC1oq2NPf6vN5tY9uP10yGqVXBqLr/vs7@vger.kernel.org, AJvYcCVo0WP1yc4Y4gksTO2p5kc9tU3tCGwY169JNUGrxSaeN2KW8ropHCMXs+e8bw+OFqcP+UPCHw0XzZ6B@vger.kernel.org, AJvYcCW+6b0pN3dr20wpUeOad8wTHk5Cl6AZZJ06mF1dRuPDk68JnORCJX14wZk/RDZPoTD8aHOzvc1Fhm3ll0OcVhA=@vger.kernel.org
+X-Received: by 2002:a05:6102:5086:b0:4e9:9281:85ba with SMTP id
+ ada2fe7eead31-5126cc42049mr5010118137.13.1755511270019; Mon, 18 Aug 2025
+ 03:01:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250625100330.7629-1-marek.vasut+renesas@mailbox.org>
- <CAMuHMdV3=c24KxO_Sbt50FGsFnNVYNnHAUhk-yoa+nM1f+7+kA@mail.gmail.com>
- <e1d465f7-43d7-471b-b8a7-7d24428bac4c@mailbox.org> <CAMuHMdX6naFbq-5LyuC4n+JRPTXGSSohKDTf95=MS_SMyHqfng@mail.gmail.com>
- <154ea688-8e06-40c6-944c-084fb9d5ce26@mailbox.org>
-In-Reply-To: <154ea688-8e06-40c6-944c-084fb9d5ce26@mailbox.org>
+References: <20250804195723.3963524-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250804195723.3963524-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250804195723.3963524-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 18 Aug 2025 10:59:31 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXHhwWyzKN7LrVFhyiQQSOpCa_MjJMUH5tOqiDdEwM2fg@mail.gmail.com>
-X-Gm-Features: Ac12FXwusi8Q50H9ko56aKmi_551zQte_LhN-_Eru5-Jf3vH6_rggjPNmkPCoHw
-Message-ID: <CAMuHMdXHhwWyzKN7LrVFhyiQQSOpCa_MjJMUH5tOqiDdEwM2fg@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r8a779g3: Update thermal trip points
- on V4H Sparrow Hawk
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, linux-arm-kernel@lists.infradead.org, 
-	Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
-	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
+Date: Mon, 18 Aug 2025 12:00:58 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUtG6Sb1WCAGBzyzxrS7rNBvyMa1NZdRiJuysUsYJMKfg@mail.gmail.com>
+X-Gm-Features: Ac12FXzuBoEIZeUE5wSrCNZjz8blJ3-ac2uBvs_iRsPgErX3dhF1q9q8CePNpJQ
+Message-ID: <CAMuHMdUtG6Sb1WCAGBzyzxrS7rNBvyMa1NZdRiJuysUsYJMKfg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/6] dt-bindings: watchdog: renesas,wdt: Add support
+ for RZ/T2H and RZ/N2H
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
+	linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Marek,
+Hi Prabhakar,
 
-On Fri, 15 Aug 2025 at 01:36, Marek Vasut <marek.vasut@mailbox.org> wrote:
-> On 8/14/25 5:50 PM, Geert Uytterhoeven wrote:
-> > On Wed, 6 Aug 2025 at 17:23, Marek Vasut <marek.vasut@mailbox.org> wrote:
-> >> On 8/6/25 11:35 AM, Geert Uytterhoeven wrote:
-> >>>> +/* THS sensor in SoC near CA76 cores does more progressive cooling. */
-> >>>> +&sensor_thermal_ca76 {
-> >>>> +       critical-action = "shutdown";
-> >>>> +
-> >>>> +       cooling-maps {
-> >>>> +               /*
-> >>>> +                * The cooling-device minimum and maximum parameters inversely
-> >>>> +                * match opp-table-0 {} node entries in r8a779g0.dtsi, in other
-> >>>> +                * words, 0 refers to 1.8 GHz OPP and 4 refers to 500 MHz OPP.
-> >>>> +                * This is because they refer to cooling levels, where maximum
-> >>>> +                * cooling level happens at 500 MHz OPP, when the CPU core is
-> >>>> +                * running slowly and therefore generates least heat.
-> >>>
-> >>> That applies to cooling-device = <&a76_[0-3] ...>...
-> >>
-> >> Do you want me to add this line into the comment ?
-> >
-> > I don't think that is really needed (see below)
-> >
-> >>>> +                */
-> >>>> +               map0 {
-> >>>> +                       /* At 68C, inhibit 1.7 GHz and 1.8 GHz modes */
-> >>>> +                       trip = <&sensor3_passive_low>;
-> >>>> +                       cooling-device = <&a76_0 2 4>;
-> >>>> +                       contribution = <128>;
-> >>>> +               };
-> >>>> +
-> >>>> +               map1 {
-> >>>> +                       /* At 72C, inhibit 1.5 GHz mode */
-> >>>> +                       trip = <&sensor3_passive_mid>;
-> >>>> +                       cooling-device = <&a76_0 3 4>;
-> >>>> +                       contribution = <256>;
-> >>>> +               };
-> >>>> +
-> >>>> +               map2 {
-> >>>> +                       /* At 76C, start injecting idle states */
-> >>>> +                       trip = <&sensor3_passive_hi>;
-> >>>> +                       cooling-device = <&a76_0_thermal_idle 0 80>,
-> >>>> +                                        <&a76_1_thermal_idle 0 80>,
-> >>>> +                                        <&a76_2_thermal_idle 0 80>,
-> >>>> +                                        <&a76_3_thermal_idle 0 80>;
-> >>>
-> >>> ... but what do "0 80" refer to? I couldn't find in the thermal-idle
-> >>> bindings what exactly are the minimum and maximum cooling states here.
-> >>
-> >> The comments in drivers/thermal/cpuidle_cooling.c clarify that, it is
-> >> the idle injection rate in percent, in this case the cooling can inject
-> >> idle states up to 80% of time.
-> >
-> > OK, so I will add "(0-80%)" to the idle states comment, and sort
-> > the nodes while queuing in renesas-devel for v6.18.
-> I sent a V3 to make this more official. I hope that helps.
+On Mon, 4 Aug 2025 at 21:57, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Extend the Renesas WDT device tree bindings to support the watchdog timer
+> found on the RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs.
+>
+> The RZ/T2H WDT is mostly compatible with the one found on the RZ/V2H(P),
+> but includes an additional register and differs in the clock division
+> ratio settings for the WDTCR[CKS] field. To reflect these differences,
+> introduce a new compatible string, "renesas,r9a09g077-wdt".
+>
+> The binding schema is updated accordingly. On RZ/T2H, the WDT does not
+> require the "resets" property. It also requires two register regions and
+> the presence of a "power-domains" property. The "clock-names" property is
+> limited to a single entry, "pclk", for this SoC.
+>
+> The RZ/N2H SoC uses the same WDT IP as the RZ/T2H. It is supported by
+> using "renesas,r9a09g087-wdt" as the primary compatible string, with
+> "renesas,r9a09g077-wdt" listed as a fallback to describe the shared
+> hardware features.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-Thanks, I took v3 instead.
+Thanks for your patch!
+
+> --- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> @@ -81,10 +81,17 @@ properties:
+>                - renesas,r9a09g056-wdt # RZ/V2N
+>            - const: renesas,r9a09g057-wdt # RZ/V2H(P)
+>
+> -      - const: renesas,r9a09g057-wdt       # RZ/V2H(P)
+> +      - enum:
+> +          - renesas,r9a09g057-wdt    # RZ/V2H(P)
+> +          - renesas,r9a09g077-wdt    # RZ/T2H
+> +
+> +      - items:
+> +          - const: renesas,r9a09g087-wdt # RZ/N2H
+> +          - const: renesas,r9a09g077-wdt # RZ/T2H
+>
+>    reg:
+> -    maxItems: 1
+> +    minItems: 1
+> +    maxItems: 2
+
+The second register block is just a single register, right?
+Showing an (early) example of the device node would make such
+details easier to notice...
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
