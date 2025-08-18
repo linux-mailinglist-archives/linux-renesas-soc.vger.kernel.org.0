@@ -1,239 +1,186 @@
-Return-Path: <linux-renesas-soc+bounces-20620-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20621-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28547B2A4CA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Aug 2025 15:25:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBA1EB2A642
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Aug 2025 15:42:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C72575E7B7B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Aug 2025 13:19:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 30C031B67DE1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Aug 2025 13:36:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 546F43375CC;
-	Mon, 18 Aug 2025 13:15:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1690C321455;
+	Mon, 18 Aug 2025 13:31:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kj+nNV7m"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 920A93375AE;
-	Mon, 18 Aug 2025 13:15:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5DC31AF15;
+	Mon, 18 Aug 2025 13:31:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755522943; cv=none; b=hcY1VoLUSap1f9qBHNDHZEDRaCwepgnUq0kxAn18KTuopqJGmEsd6nzs5b4ZOSiELTLDa0UzY5BKRUM+ctJ5N2kMT6xN081HD91zfvxCP1Wcc73uBJwaymcffO3z3CiW2V+hlsuYnuL5oYZ/+CyIj53pn5qPenbsbEp3qDh7HPg=
+	t=1755523882; cv=none; b=GGVb032ZwUK989msXMAHoJ8VNp8p5a2euv6nl/Fxzee0pdYXursG3yiW8I6Iz+mXEsOVVlGhc1nb14iTeO2N2Titp/gX/e449eqF+1WJZ9An2HZ8ZCCPaNwQit/2aM1TGgWQ6hC0sWGW82cHNh7sQxSTJP1nbVXr73bgXFcIsGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755522943; c=relaxed/simple;
-	bh=eZGvUeGw+fPtc8+ouIsGvEN/exUL+cRr1q5bKRNvYOQ=;
+	s=arc-20240116; t=1755523882; c=relaxed/simple;
+	bh=GXIKmHfNeJgLdupYy7oBHA4mmU8qKo5cPTOi9EPu/Tc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rRyXl7fOSfU+sZ7XeH8gz0s61w+qFYe/J1ClmU1DDvGqZs0uikVCl5PITrJgZhzGdeR5miZFYmzqTZGqq5Usf8AqGsgRiLJpbVEZDZzXCd02XOtfm4UqebWfyAvuDVqbmNTvqDPKIq7dlf06PXXm58XyLIUgB4dFGO5I0pVqPm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=ExK95RcEe1SHZx2QlTiN3go5HjaVhX8IpcrTzxmtwuotgEy/qA9VHpHXZGmQzHHfRY8NcZHV6sO6UtM9ACzejPSwTa5EGZoJUe5o5jqV+u863FeDDy6wLQGNJGR00dvnuRARuTBFUrWa425IEY9XBbK0gmNRL6ijjkah2gppcLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kj+nNV7m; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-50f88cd722bso1178721137.1;
-        Mon, 18 Aug 2025 06:15:41 -0700 (PDT)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3b9e414252dso1960387f8f.3;
+        Mon, 18 Aug 2025 06:31:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755523878; x=1756128678; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ON9o8DC/r8O1HoJIVtc/mFrDX+9Ao0HbkG/SK7DWW6o=;
+        b=Kj+nNV7mOyq4eLfqtRoEiSj5FwjIAIobVuazqLbwoNqm/4GFiA5T2eZMtP7PWRUsbg
+         Z+37Ep9mByu9j735BNKqDxksnu+nlznIyZCepyWs06Ams70jwHcR4Og+WfRSxyxWt8d7
+         NcNSDYRsX/w1gOIwZ947q3w/KXtc9XL/0HG/3BWnbe/mEJKqD1G2hUDolXqs2HKWzB93
+         3qKl2BdTD7SFrH0GqZW7PsPJcH4swhDX6cmvjWv7A9jx1Hus9KN4f4iC2/TrUplxxfbD
+         zTC+/m/rTMCB0xv+A/Qpgsm4GpxDScp3B3MiCPNJ93ot+rYP+qjlosiMIRjUJCfSv5DY
+         QgGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755522940; x=1756127740;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=k5pJEjXNDPDJzPITNSF2Cy+agebN0/imHucjVPw+eAg=;
-        b=BY/x+Rn12+a1dzjvYeklyW0VyleNK5roGK8gU5QB+rLvWB1AMNS90V/N12HCGzyyMG
-         YWkIV8fQ0mpGRlifZFFrqwLaiy9+aor/pxv20HB8RY3eXCEO1OErrB4wMexDvaLUVYYZ
-         esYi3b9igvTF49VN0z64Iio7QULEDrgm0EtPPIo0YcFhasTyyt59IgIIuoDtfm9y9dWC
-         OpudjC3A0KgcQpvvGtsk+4sHjdWTKRNVWQEy5k/8PcA5qKCdXiPyVWJZ+uuz8YyFDZd8
-         xTHgwgo4rLgD7n7MDpz6frS/MI9mVKbd7kHkaxMbO4TrmF+IJlWNAP42d2AijshyYivF
-         72zw==
-X-Forwarded-Encrypted: i=1; AJvYcCUaExJbtIFeNpvVU6ivbg4QNKbpem1BH0EmkllvdTC60ldha6g5+1TDemuAE9fHf48QZLp6l9AJJzmG@vger.kernel.org, AJvYcCXe7tS1sRxjJQqT/4kxKWpvVwleL7xs5Tr82i0ad0K0d+uOc3Rf0q+6N8E6x1L+1qOSOs8YUhoVKcrScZCq@vger.kernel.org, AJvYcCXtLAYGwM/tV94sOsBhR/tUqqSJXaqtEHu6WDEWC+wDUnIXPQK9Z3C8cGh3IpGAOIVdnpJNChaMnvY0XgtCM8aUitA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwaalGR9JhZwR1aZ9fCCSvqmYgkT8he4DHxtWv98P3WKcSA4US1
-	tcfvf4Rl+BC6Y/heepvOhAUVP99VFGlQcZc9WjUuXgnEBCXY3wDv1c3eZcls0s3+
-X-Gm-Gg: ASbGncuNQiBuum78fUbT2zkolbpzFSCqTmx7kb1iR8bIN6+0j7mivsKcOJXeM2vt/iF
-	8sM5U+0rfzCnwjaJE8KFkzkU4jQVti8bUmyEgFKfadjRNLmKrGVI3e4Ly4BEDGI7uhR1TY+d2qc
-	ELIsfa94L16ZU2qoc5wzmyblzZKfeiMJ8Jv1eXj6Sx94dTW4SNhxEyzoB+2TIAZVjuCA0oa11Zv
-	CCG1CHVepVVMC94M7xecmNG5xTYQj9ZHI2l5tsLA4m0YLbV3r2fg3aYAxhe1D7eE0Lt5ZJ1Cmeb
-	R4kJF8pomaFPiUHePpOSriGzrYOTMNewhhJzHjnBeEWlVsowX6Bo0SjUwaOPTkzuYdWaTM7NACB
-	n4PyoqFHRs8ncPsG0KzYVUYMh41R43vJv3xbEnld33kq1jM6b4JMQg8VvB5u2
-X-Google-Smtp-Source: AGHT+IEL/I13AxSgETqSfXM8k+ZAf1L6zU8Qw4hF4wk5UA+zAhxTyB+K6nDu48cEjZ2lboh7yrybVg==
-X-Received: by 2002:a05:6102:dce:b0:518:9c6a:2c01 with SMTP id ada2fe7eead31-5189c6a33afmr136483137.28.1755522939811;
-        Mon, 18 Aug 2025 06:15:39 -0700 (PDT)
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-890277e2c70sm1751311241.6.2025.08.18.06.15.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Aug 2025 06:15:39 -0700 (PDT)
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-89018fa6f6dso1204634241.1;
-        Mon, 18 Aug 2025 06:15:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVwQx+47AJPElmZ91UbXuiRJ/WM3rQd6nW9mlutGANHt+4Powy0FRyb5CrIZcdqFOHrEBnV1DYgbEaP@vger.kernel.org, AJvYcCWunSkNYNIQMo9FbVEp2j8emZ6yHZedgac1s+cKthlXmt1KnyntO+A0pUsAnNFqo4MskNsHSrjuNmqZ9+tt@vger.kernel.org, AJvYcCX9PWEoAyHvt7tJIU4w2gsnJrmfFVhXBo4n/qr2ERZDw5HkDPblRxu9u5dGQi955LmUBIsqYyYCgswmSkuAgNr8AZY=@vger.kernel.org
-X-Received: by 2002:a05:6102:1627:b0:4e6:ddd0:96f7 with SMTP id
- ada2fe7eead31-5126cd388e8mr4319794137.13.1755522939084; Mon, 18 Aug 2025
- 06:15:39 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1755523878; x=1756128678;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ON9o8DC/r8O1HoJIVtc/mFrDX+9Ao0HbkG/SK7DWW6o=;
+        b=S5iFdNI+Qtwgrp0gopfbHpRiLDCjlu7W5cTUM1GhBk3CyHwS5dJC64EeYOw+zEIWSM
+         7NMd4K25xmja7HZTE9Q8lV5sfMvotmh4oKA6kl/SGdDNmcuKSFfacFynZjTV7ZTfc8C4
+         gg59xK0WhLnB9wdz3+q00pNnfg9se1wIHtQ/Pm/Lrl8ZZey0BJUKLIvJuB94zFKngrr6
+         ZOCwZg+k2WnBLnanZifXsQ58KVmruIddgtEhuSjpd/hNmTnl4Wg/nSyb+zWXamwDsNeh
+         RlfaJZCeszXAIMtjPZ8MyuvMRfM0oyXjG3P2B4QHDqkt7XGLiufsxh3p1zRib0khmH6R
+         OdOA==
+X-Forwarded-Encrypted: i=1; AJvYcCU2nJIQ6J+o8rJDKOva9Ga1rrUHAXB2HGijFNqmXO2oWSQA56lj1HcdMs6JiNvgp8JBtd2rdg+P+/+7YVAigY8=@vger.kernel.org, AJvYcCUJjen3Bi7IfSEJLUPwVZh0Jo333HjXbxTOPN+WSCThYOrCmO2rOlOKtcgCsBGAP2qZ5toSLTSj+jVJ6RPl@vger.kernel.org, AJvYcCV8mU0wL6Dm9cNiMEZJyhB2xnVgTxNH/I/sPoGY/WBqbg/sWuyIP6zJHbAsI0+qFqiCdrD1/9YtZseC@vger.kernel.org, AJvYcCX35FdthuFEPVeRfSzMhJ/UF0rlvHSK7CkEOX+2O+y32UI5EJzVMZelmq0oVpVcvckLLh6ayC6yB4yvf/zkdY6yzKo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxcgeo8goAl4AIING2Ci0Jbji0zJufiiY+Kbi6oT8H5SLcZ8Evr
+	EGMUO3ZPIPGn72ioJBTY6a2Qo+p4yKCnydYr0sD6Kkhz7UUMfLfVZa30xCDWX4JSDvnKC/0ZZOv
+	3XPGGFtSJgWrbgAQU9qXKXI7GH6raA4U=
+X-Gm-Gg: ASbGncueF4Ldx1NY3YspUOqQSMhkNGgTf0tmkPCOUGlJfry0rEGGZ75/deuLxIJ2mZy
+	nR68Fnn+1NnTUY4RTiGFiV8WdWJR+ncthR+1mE+XIC8xFqHPvK8VGNWs7Sidb8Vh8Oev6wyyFD8
+	hOFEZiPlm028e29PmNij1sDdDfUoiVn7l+KwQmNYnLZ9WkeCjNi9G0l21J7pBn2Ett+FUAWDhG7
+	EUiYk92
+X-Google-Smtp-Source: AGHT+IHyIe2aZodzz7Da137QbUuwfG00VdpY2MHscAOGpwolYywyp/u7sLO8kiP9MMSyGPBcB+2rCNv7mvV7/saSBos=
+X-Received: by 2002:a05:6000:1447:b0:3b7:7749:aa92 with SMTP id
+ ffacd0b85a97d-3bb69a82f9emr9258509f8f.58.1755523877567; Mon, 18 Aug 2025
+ 06:31:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250812200344.3253781-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250812200344.3253781-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250812200344.3253781-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 18 Aug 2025 15:15:28 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVi26AXwQJDtxSp8hSsmZ1Lx4_GYFsbtmq_gxJyddkqTg@mail.gmail.com>
-X-Gm-Features: Ac12FXyX3G3j02_gxxBGNzChIx62VgPdJgiJgMtXXMqM8tO2f3w3kfm4CppbZcU
-Message-ID: <CAMuHMdVi26AXwQJDtxSp8hSsmZ1Lx4_GYFsbtmq_gxJyddkqTg@mail.gmail.com>
-Subject: Re: [PATCH 05/13] arm64: dts: renesas: r9a09g077m44-rzt2h-evk: Add
- user LEDs
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+References: <20250804195723.3963524-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250804195723.3963524-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdUtG6Sb1WCAGBzyzxrS7rNBvyMa1NZdRiJuysUsYJMKfg@mail.gmail.com>
+In-Reply-To: <CAMuHMdUtG6Sb1WCAGBzyzxrS7rNBvyMa1NZdRiJuysUsYJMKfg@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 18 Aug 2025 14:30:50 +0100
+X-Gm-Features: Ac12FXw1JKgerlmhNA-3eXk1VvdnlvIq9C7AJKYBeDhFL_z3Eic56nvX2_0Q5C0
+Message-ID: <CA+V-a8sop9mwGCr4RkB_kG5gkLi3QxqhyFzP8Uy9oKfKMa4B4g@mail.gmail.com>
+Subject: Re: [PATCH v3 1/6] dt-bindings: watchdog: renesas,wdt: Add support
+ for RZ/T2H and RZ/N2H
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
+	linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Prabhakar,
+Hi Geert,
 
-Thanks for your patch!
+Thank you for the review.
 
-On Tue, 12 Aug 2025 at 22:03, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Mon, Aug 18, 2025 at 11:01=E2=80=AFAM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
 >
-> Add USER LED0-LED8, which are available on RZ/T2H EVK.
-
-According to the schematics, only the first four are user LEDs?
-
+> Hi Prabhakar,
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-> --- a/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
-> +++ b/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
-> @@ -7,10 +7,61 @@
+> On Mon, 4 Aug 2025 at 21:57, Prabhakar <prabhakar.csengg@gmail.com> wrote=
+:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Extend the Renesas WDT device tree bindings to support the watchdog tim=
+er
+> > found on the RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs.
+> >
+> > The RZ/T2H WDT is mostly compatible with the one found on the RZ/V2H(P)=
+,
+> > but includes an additional register and differs in the clock division
+> > ratio settings for the WDTCR[CKS] field. To reflect these differences,
+> > introduce a new compatible string, "renesas,r9a09g077-wdt".
+> >
+> > The binding schema is updated accordingly. On RZ/T2H, the WDT does not
+> > require the "resets" property. It also requires two register regions an=
+d
+> > the presence of a "power-domains" property. The "clock-names" property =
+is
+> > limited to a single entry, "pclk", for this SoC.
+> >
+> > The RZ/N2H SoC uses the same WDT IP as the RZ/T2H. It is supported by
+> > using "renesas,r9a09g087-wdt" as the primary compatible string, with
+> > "renesas,r9a09g077-wdt" listed as a fallback to describe the shared
+> > hardware features.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 >
->  /dts-v1/;
+> Thanks for your patch!
 >
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/pinctrl/renesas,r9a09g077-pinctrl.h>
-> +
->  #include "r9a09g077m44.dtsi"
->  #include "rzt2h-n2h-evk-common.dtsi"
+> > --- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> > +++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> > @@ -81,10 +81,17 @@ properties:
+> >                - renesas,r9a09g056-wdt # RZ/V2N
+> >            - const: renesas,r9a09g057-wdt # RZ/V2H(P)
+> >
+> > -      - const: renesas,r9a09g057-wdt       # RZ/V2H(P)
+> > +      - enum:
+> > +          - renesas,r9a09g057-wdt    # RZ/V2H(P)
+> > +          - renesas,r9a09g077-wdt    # RZ/T2H
+> > +
+> > +      - items:
+> > +          - const: renesas,r9a09g087-wdt # RZ/N2H
+> > +          - const: renesas,r9a09g077-wdt # RZ/T2H
+> >
+> >    reg:
+> > -    maxItems: 1
+> > +    minItems: 1
+> > +    maxItems: 2
 >
->  / {
->         model = "Renesas RZ/T2H EVK Board based on r9a09g077m44";
->         compatible = "renesas,rzt2h-evk", "renesas,r9a09g077m44", "renesas,r9a09g077";
-> +
-> +       leds {
-> +               compatible = "gpio-leds";
-> +
-> +               led0 {
+> The second register block is just a single register, right?
+Yes, the second register block is just a single register.
 
-led-0
+> Showing an (early) example of the device node would make such
+> details easier to notice...
+>
+Ok, I'll update the commit message to include an example node for clarity.
 
-Cfr. Documentation/devicetree/bindings/leds/leds-gpio.yaml:
+Cheers,
+Prabhakar
 
-    # The first form is preferred, but fall back to just 'led' anywhere in the
-    # node name to at least catch some child nodes.
-    "(^led-[0-9a-f]$|led)":
-
-> +                       /* SW8-9: ON, SW8-10: OFF */
-> +                       gpios = <&pinctrl RZT2H_GPIO(23, 1) GPIO_ACTIVE_LOW>;
-
-color = <LED_COLOR_ID_GREEN>;
-function = LED_FUNCTION_DEBUG;
-function-enumerator = <0>;
-
-> +               };
-> +
-> +               led1 {
-> +                       /* SW5-1: OFF, SW5-2: ON */
-> +                       gpios = <&pinctrl RZT2H_GPIO(32, 2) GPIO_ACTIVE_LOW>;
-
-color = <LED_COLOR_ID_GREEN>;
-function = LED_FUNCTION_DEBUG;
-function-enumerator = <1>;
-
-> +               };
-> +
-> +               led2 {
-> +                       gpios = <&pinctrl RZT2H_GPIO(6, 7) GPIO_ACTIVE_LOW>;
-
-color = <LED_COLOR_ID_YELLOW>;
-function = LED_FUNCTION_DEBUG;
-function-enumerator = <2>;
-
-> +               };
-> +
-> +               led3 {
-> +                       /* SW2-3: OFF */
-> +                       gpios = <&pinctrl RZT2H_GPIO(8, 5) GPIO_ACTIVE_LOW>;
-
-color = <LED_COLOR_ID_RED>;
-function = LED_FUNCTION_DEBUG;
-function-enumerator = <3>;
-
-> +               };
-> +
-> +               led4 {
-> +                       /* SW8-3: ON, SW8-4: OFF */
-> +                       gpios = <&pinctrl RZT2H_GPIO(18, 0) GPIO_ACTIVE_LOW>;
-
-Schematics say "run", so perhaps LED_FUNCTION_ACTIVITY?
-
-    color = <LED_COLOR_ID_GREEN>;
-    function = LED_FUNCTION_ACTIVITY;
-
-> +               };
-> +
-> +               led5 {
-> +                       /* SW8-1: ON, SW8-2: OFF */
-> +                       gpios = <&pinctrl RZT2H_GPIO(18, 1) GPIO_ACTIVE_LOW>;
-
-Schematics say "error", so
-
-    color = <LED_COLOR_ID_RED>;
-    function = LED_FUNCTION_FAULT;
-
-> +               };
-> +
-> +               led6 {
-> +                       /* SW5-9: OFF, SW5-10: ON */
-> +                       gpios = <&pinctrl RZT2H_GPIO(22, 7) GPIO_ACTIVE_LOW>;
-
-Schematics says Ether-Cat link-activity, so LED_FUNCTION_LAN?
-
-    color = <LED_COLOR_ID_GREEN>;
-    function = LED_FUNCTION_LAN;
-    function-enumerator = <0>;
-
-> +               };
-> +
-> +               led7 {
-> +                       /* SW5-7: OFF, SW5-8: ON */
-> +                       gpios = <&pinctrl RZT2H_GPIO(23, 0) GPIO_ACTIVE_LOW>;
-
-color = <LED_COLOR_ID_GREEN>;
-function = LED_FUNCTION_LAN;
-function-enumerator = <1>;
-
-> +               };
-> +
-> +               led8 {
-> +                       /* SW7-5: OFF, SW7-6: ON */
-> +                       gpios = <&pinctrl RZT2H_GPIO(23, 5) GPIO_ACTIVE_LOW>;
-
-color = <LED_COLOR_ID_GREEN>;
-function = LED_FUNCTION_LAN;
-function-enumerator = <2>;
-
-> +               };
-> +       };
->  };
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
 
