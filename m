@@ -1,109 +1,117 @@
-Return-Path: <linux-renesas-soc+bounces-20708-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20709-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D92C6B2C5D1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 15:40:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 808C5B2C5E8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 15:42:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AE801188EBAD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 13:35:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A2CDB3AA0A3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 13:37:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6343732BF53;
-	Tue, 19 Aug 2025 13:35:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E217732BF27;
+	Tue, 19 Aug 2025 13:37:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lcrfizb6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEC1C1DE89B;
-	Tue, 19 Aug 2025 13:35:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B653827877F;
+	Tue, 19 Aug 2025 13:37:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755610533; cv=none; b=Y/ms27VDMfK6RKrXm0k2Uyk6dcfqwdoR5KBoEwOKOCrpSrCcoMuWQ/p6ORTw6fSanDNxQ+LaKd61DosatCG+l8dgjYaDzMDDFOVKgrKCNpeaHgHHaVbEpEbDzYiYvsmclG/qfMF/dUz87hbk4XYzNCxyTlxzBp2TRRwUYrGhjfw=
+	t=1755610667; cv=none; b=RzjiWtEaMYr7xoxRiBLOCXv5my40V7xKzb34rNGecK270Mbel8r7LT8u4PetmibWxz0lUu2sa+c8izX+wPFIxirelF8QmCgTC3ebFBpStHVoy3q7U73RLoBXlOpx/BoIXJcj7LZFJZ3v/kI6fZjiOGpSzBKwNo9+cy5EbFGGO3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755610533; c=relaxed/simple;
-	bh=Tyi+9xAvn7s603CkCspL7WeonMXBBF4+oUpFz03xEFY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bxqfJ7ktglPe4E3VfMEtbK16zDf4weAE64mOga2Vjb/D4/i2cybaVzruT+GpZqpWQhWTkh2DuYLR8ivQS0Vwgk/4+E502g3/u5AbjY9w6nAITvDy1HguijPsoGs7JALZDJVWLj6+eWvNXIQD4cnrOWiKN/upw9iHkJpiUXtQhW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-53b1737b9c8so1872137e0c.1;
-        Tue, 19 Aug 2025 06:35:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755610530; x=1756215330;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=D1ytin5hrxcri6pw5X6iglo9ZKpWYXx35SDdHDKMJW4=;
-        b=UDcFMOML/nkvusHy0InbVlQAw9Q+ytTiIT/eAMtXancxSC97NxW7QnLSRd2xhTK8zv
-         KpCaBOJKwwqbTnbaONF7Y6+o1FDiZUwSIm01zN8tvaYGdfJGyQi7xQDaGoNOZk3/kIwC
-         4JUVZlGFKJ3pQUXFlv57fhtckdLndFzMwBzSZ82fQIeq9PqD0WAh/rxNkCiDYbYOb4KF
-         xV9i8beDZcpn9F64sJUVXh2rCcka9RsYQkWkXbq20NB1mEd4Yl2F1XkW37o/aEA2C1f5
-         HBeDj8P5beHNY+WUFHvyyf4+zwsDVkmibSZhSEWFR2JXfH3N6U6ht0cW0WFnAp2Qp3ld
-         LVAg==
-X-Forwarded-Encrypted: i=1; AJvYcCVAWq4x5FFcdM8xgNM7tSIXFDK/mBXwL5MX7TJhssqRjGqc+zjLRJ+KePB51PB+huPIKRlZvKlJ8Q3/@vger.kernel.org, AJvYcCVstBluuM4RRz57LolJNIwQPOCNUMfAmbWijjuRZbwSk5C9ObXuxZvgYnD47ghqGE2C2o8MGNODXwuODFz1wFvDLDc=@vger.kernel.org, AJvYcCXyMTjLEVViYMLCBUt2TZk8ju/QxgCpkPY3V3Qw4XHNLqlho9Pv/Spd+b3ZWuO3qU+T9vdgKS4Fk0EMWby0@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz63zyENIMpT90vvgbidE6WaLj9JWG2wEVpkDqnyxFRVyXDD7aC
-	/YN4joIi/FhMp2ML0lCdSSe7xFu0Rjz/4PtSUDV0KDkd7gA88KxUDkFvaSY97JG5
-X-Gm-Gg: ASbGnctSxqRzyM5+C2BC7AU6U2IigDi/iPzqemo0ZOoFjAyTHIY28WkDBbye4pT1cJ0
-	vqsz9ZnSoWW/hVqKrObnfe8Pi3XQ/9oPHOnoD8LSp9nTnLa0MVTj+FNzkIfNn/4ZRzEfN1z/tRx
-	C3nJHbt1r4NZSc12aJDIBTGk4UvZMi2ncPkNJJh37XP3ECfxEQIudX59bARDnru+q1PVy2Ddqw8
-	F3v802BDOZm+J5unz4+ebXsPER61p6d4qAlBrRB8J0owIDzSd6+7Nn7UGwYnWOy/wRw0FU9opOX
-	DI+6EZVt+lH7cNopPisBFDX+S1l1hXaW2QJo7NADDIsY1kB6ou1/PYnlBy70pnoF2jQQ0mp1yN+
-	go2UIkh2LbzJL0zuP0GGRcJ9yUFl6Z+2EQ2EebrKqJdARANBHNVT/FgP8ecAeMb2di+2unCk=
-X-Google-Smtp-Source: AGHT+IGWyfDwQ+96wKxTQr9utqVdQCN2iJmx1eYyW3YRbf5uvslyHGw9mu0DlKyDe4q1YfryX8LCNw==
-X-Received: by 2002:a05:6122:90f:b0:531:3af8:b177 with SMTP id 71dfb90a1353d-53b5d48183cmr998129e0c.11.1755610530362;
-        Tue, 19 Aug 2025 06:35:30 -0700 (PDT)
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-53b2bd5514csm2558205e0c.6.2025.08.19.06.35.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Aug 2025 06:35:29 -0700 (PDT)
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-890190c6165so1634883241.2;
-        Tue, 19 Aug 2025 06:35:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUD2Uw05Icnkc7StcQuffuYw4a+Wqccx34yquxcdaLrxc2u3M8e/EuzYAOI/QdeKSxd6xUBpp2Nn2po05qUavipdJA=@vger.kernel.org, AJvYcCVReUkRZFNndwXRcNSIX8REDiPBDk0pv9ZSrodgdcrSnkgv45rQFiC27ZYMUpTbJnG2r9gFwLiqxD26JNKB@vger.kernel.org, AJvYcCWHo7kJ03EizdMKNuNLCf918wg1+c1gkadOQ6eSVnu3b0NSjdjE07dQ4A9CuXmiitjjSL2SVZEeF5CC@vger.kernel.org
-X-Received: by 2002:a05:6102:1449:10b0:51a:44a:95c4 with SMTP id
- ada2fe7eead31-51a045a26admr93014137.21.1755610529255; Tue, 19 Aug 2025
- 06:35:29 -0700 (PDT)
+	s=arc-20240116; t=1755610667; c=relaxed/simple;
+	bh=IjvO8MRPzpUeuM8/2D//N63PWS1LI+f/m9iVVe4v5Oc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rg3i/AgotmaCLzOnkoOyOshssYmKEuC+GW16j5K+5nk2DAyVCxsKpkuBWBcIZbC5VrpTGSeawpD09hl1QX5GESsGUxOl8auZMG62TIJ+3hMoM0Vnaa37D6SEioolhoD7Ae/2TMIj1w9S4uXdQ8jrC1ihO04YjIqX4FBkVEc48iE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lcrfizb6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10A07C4CEF1;
+	Tue, 19 Aug 2025 13:37:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755610667;
+	bh=IjvO8MRPzpUeuM8/2D//N63PWS1LI+f/m9iVVe4v5Oc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Lcrfizb6x3EAFuHF/ZyIxcnEpwCVW2+Rf5wsQtYm8b5qELGl3DTKAPZUQmTHb9eA1
+	 IRM1AKifssli+ROh4Rkdypj2HKqBhVR1nFolAk8/StheFcjJFFLEQwgxEM4hhCB7/5
+	 bN9q3bzp9jlL+/YQakpWH99L5ze9eSMgKl94hgXpW8ftw2HgwkEK1I7G7wCzqSDRRD
+	 MbtBmV9L1chTn7YYTguvKYSs1cIFjcy5V8ZYz9tpyYmUKY5PTHzhISfAosW5NoOX1V
+	 nbO14HhZ22a2FioOZg8SUq6Ps+Suq01CQmdCSbVSfxvI11sjZgFunVmJsSmviDXS58
+	 0GeSUR2RY8cbw==
+Date: Tue, 19 Aug 2025 08:37:44 -0500
+From: Rob Herring <robh@kernel.org>
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: devicetree@vger.kernel.org, biju.das.jz@bp.renesas.com,
+	krzk+dt@kernel.org, geert+renesas@glider.be, kishon@kernel.org,
+	linux-phy@lists.infradead.org, yoshihiro.shimoda.uh@renesas.com,
+	conor+dt@kernel.org, magnus.damm@gmail.com,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	p.zabel@pengutronix.de, vkoul@kernel.org
+Subject: Re: [PATCH v5 1/7] dt-bindings: phy: renesas,usb2-phy: Mark resets
+ as required for RZ/G3S
+Message-ID: <20250819133744.GA87211-robh@kernel.org>
+References: <20250819054212.486426-1-claudiu.beznea.uj@bp.renesas.com>
+ <20250819054212.486426-2-claudiu.beznea.uj@bp.renesas.com>
+ <175558495459.3265640.2032619822487575179.robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250819131619.86396-2-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20250819131619.86396-2-krzysztof.kozlowski@linaro.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 19 Aug 2025 15:35:17 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXNig2sVKQ5SdLMDjtog-PxUh+tscMqOF_K-iNSgoWgOg@mail.gmail.com>
-X-Gm-Features: Ac12FXx9MbvFi1UoawwCV3F-hJ1gP4_2ncCWbFcegaVoU6xZisrREmDwKB6IPGo
-Message-ID: <CAMuHMdXNig2sVKQ5SdLMDjtog-PxUh+tscMqOF_K-iNSgoWgOg@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: Minor whitespace cleanup
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <175558495459.3265640.2032619822487575179.robh@kernel.org>
 
-On Tue, 19 Aug 2025 at 15:16, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> The DTS code coding style expects exactly one space around '='
-> character.
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On Tue, Aug 19, 2025 at 01:29:17AM -0500, Rob Herring (Arm) wrote:
+> 
+> On Tue, 19 Aug 2025 08:42:06 +0300, Claudiu wrote:
+> > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> > 
+> > The reset lines are mandatory for the Renesas RZ/G3S platform and must be
+> > explicitly defined in device tree.
+> > 
+> > Fixes: f3c849855114 ("dt-bindings: phy: renesas,usb2-phy: Document RZ/G3S phy bindings")
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> > ---
+> > 
+> > Changes in v5:
+> > - none
+> > 
+> > Changes in v4:
+> > - none
+> > 
+> > Changes in v3:
+> > - collected tags
+> > - rebased on top of latest version of renesas,usb2-phy.yaml;
+> >   Conor, Geert: I kept your tags; please let me know if you consider it
+> >   otherwise
+> > 
+> > Changes in v2:
+> > - none; this patch is new
+> > 
+> >  Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> 
+> My bot found errors running 'make dt_binding_check' on your patch:
+> 
+> yamllint warnings/errors:
+> 
+> dtschema/dtc warnings/errors:
+> 
+> 
+> doc reference errors (make refcheckdocs):
+> 
+> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250819054212.486426-2-claudiu.beznea.uj@bp.renesas.com
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.18.
+No issue here. The QCom folks have broken "make dt_binding_check" in 
+linux-next...
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Rob
 
