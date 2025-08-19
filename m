@@ -1,117 +1,132 @@
-Return-Path: <linux-renesas-soc+bounces-20715-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20716-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD997B2C7AD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 16:56:12 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2A84B2C82A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 17:14:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E98CD5218A8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 14:54:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B3C523A3970
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 15:11:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CABFA27E1AC;
-	Tue, 19 Aug 2025 14:54:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IpOPUuCe"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A43B27FB32;
+	Tue, 19 Aug 2025 15:11:00 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9FB727D780;
-	Tue, 19 Aug 2025 14:54:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B7E027E074;
+	Tue, 19 Aug 2025 15:10:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755615268; cv=none; b=G0zFYn9m6GpLXu5uscaB+MfAXtCMXwJBaguqHhe47gIFu76MxF8n6elFgEIFE0E4V/Nc/NgrXsKWaZjZxh7yJC8kHLJut0XApYRs/Ax+JjcvuAFXel4c8ACINxFpEQvx3+vAb+5P6W6+prNT2YEKvGp4ugXIge1EZ0vmNp8Gnv4=
+	t=1755616260; cv=none; b=uxHqzqym3kbVkaJN6kKQ9I52+0kLqI+b5kpFRl3DMli/tpLam0ntbY0yjA4xAsLnwMg0yXpfypbgVwGkftH2pnXDLgV9gXuMIEc6U+wtVDrXyKj5DcoVFoOjze6i3uz+Q802UyLjTj201zDjICwwJvPw+bsT9uHpxNo4X0FWd3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755615268; c=relaxed/simple;
-	bh=bS73IBP0XgIpvrcjYBqF+tR9I5LvIwqpJWovbWz/tmA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bw+jNSwl0WDDEYoEYHQ1uAEytfeSmPoYH7dxftFkeieef+IZi1cL78b5odWgNIb0a7io/xvAOOX4fP+y5WP5IvbJEK9fJpVTKkXhsHV1Z6om7H3ztahbWa95Uj2hgrLL62RZxf6OkBu1UvG3I06YkC/FUhP2t3P4cCq2f383i9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=IpOPUuCe; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id EC5EC2391;
-	Tue, 19 Aug 2025 16:53:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755615206;
-	bh=bS73IBP0XgIpvrcjYBqF+tR9I5LvIwqpJWovbWz/tmA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IpOPUuCetwEVA81ICn/utvxBQhlUR2gVMI9g/f2wvAMD3w42pyVdWKFY6N8yNZyb0
-	 BJ4bXtW5O0j3L8KK41XKSllgBdJ1dvPohgGe6LHE/am2TNml44k1OfXlk6UXxmMl6Q
-	 GwYz6dqIKHnkU7duJfsMjH6a9vqfFUe3wQmhfTBU=
-Date: Tue, 19 Aug 2025 17:54:01 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Prabhakar <prabhakar.csengg@gmail.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v7 0/6] Add support for DU/DSI clocks and DSI driver
- support for the Renesas RZ/V2H(P) SoC
-Message-ID: <20250819145401.GW5862@pendragon.ideasonboard.com>
-References: <20250728201435.3505594-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdXSJO1MOoNS5M2M1Zs=iWmiBbmc8Xc9tMDsXd_kM6bj=Q@mail.gmail.com>
+	s=arc-20240116; t=1755616260; c=relaxed/simple;
+	bh=OZMEdhP+NHwht6AbKMmHkMK0vMbV6WrxDlng36BQY7g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dmpDZ1oZWFBn9TBIMtY1GQsevF9mSAT5Y8dTNzwHbaIULfnkVN8OF6Vw2MxP96txjC7xbNHNJHLbVw05kgMiu9YZpKUnPMw6bKaPB4dzBwemc4fU7mieG/bpqlPdPp+sR6yU7IpAI7CDP2ch13sdZadbtzf8/VvjrRtG6fbRzK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-53b173aa4a9so3567944e0c.1;
+        Tue, 19 Aug 2025 08:10:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755616257; x=1756221057;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=w3NQNV5+BMzTrUVoePYKb9VKcFqO0DuhTEn/Kg6ptTk=;
+        b=ZdiJDAE7QTN7QgoOPD+LoZLchKKeCPwnqmyKMWkP7GmIYUh1mue5HddWVlUXCuIB8X
+         PTYyN4+3ratMKm7tgKEuGJSVpJKxnYutCDSINJnlhKkOsPx+rI9YssYotWr9jsGamUWV
+         kuN++yFzn4C+Y1tXNobwyvr980aAswv3v0GKD9g5sB31wOhNNfEg24Es5zX9bQ0uTjhw
+         UI3RTiU/5RrMDEW9TzufFPfSGpmoDCmJDs3Cdr7GpWe548ifvxbUK6IpWpwSmjZESLKC
+         6ox1Je79WLJRHH91IjDgDGVgaqhM+llQTox8RUNDtjF5QR02+N+jX7+vWH7WtAQLNNHY
+         WfmA==
+X-Forwarded-Encrypted: i=1; AJvYcCU4rUM2W7aNWK8Ys5tG8nl6KlLzfEvweAKlrzPJ1Nal/cwLl/xZmd0b6eh+a4H9CA5EEkx/IB+qEPFC@vger.kernel.org, AJvYcCUVHKj3aZcMPHjPjSbFtIfHb5GhAsn8eMHz+SjPugYm4oeb8uSquYrOvwvKiAIOMBUyu75p6KZiNSAgQI++xPrFxNg=@vger.kernel.org, AJvYcCXIGmJHrySdRLJv8cFKXKu4TQ00P3cWBy5j70/njmCUIeP2bv9lsIk+ZyV7v3iYcu4Hm/3MfS/go0Jq1iw6@vger.kernel.org, AJvYcCXK8z9Q1n8mUkYJ7kVWV072BuspKjTpJzylfqiMM5THnFcGy2uWdkzsrsCeitYiKW9ZenTpa+P3Zzlv@vger.kernel.org
+X-Gm-Message-State: AOJu0YwpftwN0PVuP+9Pdz/Q46PzEAbp5rmOH9dbm49iNV4/qVvC1BdQ
+	8a8K++WzTgJ5gM9DrBrXZGdwVb8k+gLSIW+GfrwsyHBAsIWajJtEhVnd21nMv4Qt
+X-Gm-Gg: ASbGnctrySPouzu1dzuyK54rkSbgIzRE9ACjxsPz6mIxSCO/vDk2bSd2u7g6T6qz6hD
+	WfRNnL/AkqETwpXQydjV1K+7/XWdSJol51rKqmiROoNzV3LBQmUfrNTrA2dkhI5RherRE/Pp1Bz
+	1aMUVQUZBid96JrwGv0LEOpx2Rg+RoF0II7R9TrUWR/UdYP2BAR5KaoHPG0S+Mp5ZayzsgEIBMz
+	MvjZhv+G7hYedaewCugatooZf76Lqs4XwfTA21LxxZCHNLtjg3reGPhcGK+tBoF/lbP7Hz4SUWk
+	B+tkfGWN1scIQRApa3dQjXwGDJF1GtCWo1wiur3PJgy2v1/Of2EjLTc+YuYfI48o3438GErxvCJ
+	TJWaCRW5fqAeWCd5NSvNrysOVrhpKawSYgYbHIRjGRKjFRIgR2csISOV7pAPQ
+X-Google-Smtp-Source: AGHT+IHUoo9cSISYwOuuyZmvYYMRuchWW3BeH+/e6cj4dWGomJWE3w/OzpMKdjaM5zaysBxqzCoNFA==
+X-Received: by 2002:a05:6122:7ca:b0:534:765a:8c3c with SMTP id 71dfb90a1353d-53b5d1acd20mr1265971e0c.5.1755616256687;
+        Tue, 19 Aug 2025 08:10:56 -0700 (PDT)
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-53b2beff365sm2637617e0c.23.2025.08.19.08.10.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Aug 2025 08:10:56 -0700 (PDT)
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-50f8b14cdb8so4266483137.2;
+        Tue, 19 Aug 2025 08:10:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUc4O+wg1wJNcmlzoShdfNTXNPkgf/DPjtgyzXgTBsBxnm26QDiHI8lVD2CUkAMs6tXdVBjvTuvm7t7rM9UxY7or0k=@vger.kernel.org, AJvYcCVPORkK3ecW3gI4R8WdQQhQ1tzFJjluzooJ6kYGcmX0igUm+rCAOEkxvFna3aF2VGJAddlGUrs2fAN0@vger.kernel.org, AJvYcCWrXWWHIOHDZS4LZL016BdjB7GY4EirAOReQ3X4N6KhAQ4HH3xcCdr49Q2oELQgqvS/bt940/tkhlQu@vger.kernel.org, AJvYcCX+s0XQPehBnAXoW3+F1NbgeB8a2srzRZhhA2QeaW+E8HzkbxMwx9zxa42gnyvPtZehb7srt63Weyd1jdh4@vger.kernel.org
+X-Received: by 2002:a05:6102:5f04:b0:4fb:fc47:e8c2 with SMTP id
+ ada2fe7eead31-519228111f3mr1000386137.9.1755616255726; Tue, 19 Aug 2025
+ 08:10:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXSJO1MOoNS5M2M1Zs=iWmiBbmc8Xc9tMDsXd_kM6bj=Q@mail.gmail.com>
+References: <20250814124832.76266-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20250814124832.76266-1-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 19 Aug 2025 17:10:44 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXJBL_uJ=2v0aKJaSf45070yP=Z_kPe-9uSyE1P0QeiJQ@mail.gmail.com>
+X-Gm-Features: Ac12FXztSIbRfGM6ft2_clmtiqn-w5zb7j5z52Ilgtf_wXQ8foyw6kTPUGThxEs
+Message-ID: <CAMuHMdXJBL_uJ=2v0aKJaSf45070yP=Z_kPe-9uSyE1P0QeiJQ@mail.gmail.com>
+Subject: Re: [PATCH 0/4] Add RZ/G3E GPT clocks and resets
+To: Biju <biju.das.au@gmail.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Aug 19, 2025 at 03:48:08PM +0200, Geert Uytterhoeven wrote:
-> On Mon, 28 Jul 2025 at 22:14, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > This patch series adds DU/DSI clocks and provides support for the
-> > MIPI DSI interface on the RZ/V2H(P) SoC. It was originally part of
-> > series [0], but has now been split into 6 patches due to dependencies
-> > on the clock driver, making it easier to review and merge.
-> 
-> Thanks for your series!
-> 
-> > Lad Prabhakar (6):
-> >   clk: renesas: rzv2h-cpg: Add instance field to struct pll
-> >   clk: renesas: rzv2h-cpg: Add support for DSI clocks
-> >   clk: renesas: r9a09g057: Add clock and reset entries for DSI and LCDC
-> >   dt-bindings: display: bridge: renesas,dsi: Document RZ/V2H(P) and
-> >     RZ/V2N
-> >   drm: renesas: rz-du: mipi_dsi: Add support for LPCLK clock handling
-> >   drm: renesas: rz-du: mipi_dsi: Add support for RZ/V2H(P) SoC
-> 
-> On the renesas-clk side, I am (almost) totally happy with this.
-> Any feedback from the renesas-drm side?
+Hi Biju,
 
-Tomi told me he added the patches on this review list.
+On Thu, 14 Aug 2025 at 14:48, Biju <biju.das.au@gmail.com> wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+>
+> The RZ/G3E GPT IP has multiple clocks and resets. It has bus and core
+> clocks. The bus clock is module clock and core clock is sourced from
+> the bus clock. So add support for module clock as parent reusing the
+> existing rzv2h_cpg_fixed_mod_status_clk_register().
 
-> The last patch depends on a header file introduced by the second patch,
-> so I will need to provide an immutable branch containing the first
-> two patches (probably/hopefully based on v8).
+Thanks for your series!
 
--- 
-Regards,
+> Biju Das (4):
+>   clk: renesas: rzv2h: Refactor
+>     rzv2h_cpg_fixed_mod_status_clk_register()
+>   clk: renesas: rzv2h: Add support for parent mod clocks
+>   dt-bindings: clock: renesas,r9a09g047-cpg: Add GPT core clocks
+>   clk: renesas: r9a09g047: Add GPT clocks and resets
 
-Laurent Pinchart
+I think you are overcomplicating: according to the clock system diagram
+and clock list sheets, gpt_[01]_pclk_sfr and gpt_[01]_clks_gpt_sfr
+are really the same clocks (the same is true for rsci_[0-9]_pclk and
+rsci_[0-9]_pclk_sfr).
+So you can just describe gpt_[01]_pclk_sfr as normal module clocks,
+and use them for both the core and bus blocks in DT, e.g.
+
+    clocks = <&cpg CPG_MOD 0x31>, <&cpg CPG_MOD 0x31>;
+    clock-names = "core", "bus";
+
+Do you agree?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
