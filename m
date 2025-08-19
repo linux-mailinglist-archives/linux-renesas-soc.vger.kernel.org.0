@@ -1,169 +1,188 @@
-Return-Path: <linux-renesas-soc+bounces-20683-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20684-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FFACB2BB5A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 10:05:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04AEDB2BB67
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 10:10:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1BBCB62070C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 08:05:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B19FB3AE267
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 08:10:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D81DA30F812;
-	Tue, 19 Aug 2025 08:05:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D9923101AD;
+	Tue, 19 Aug 2025 08:10:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PWIdL6dI"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kSgD3JZ8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21BDC1F0E53;
-	Tue, 19 Aug 2025 08:05:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE9D10957;
+	Tue, 19 Aug 2025 08:10:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755590712; cv=none; b=RGdj1mOecy7YRDwah2eKSwDRtKVGzyQ3hduD+6Cg7aZgMM6wNp91q52crMeMLhhulvXbEL3ZS+Xd6ptdV8D08/YbptZGBv1xwXmb6y5f0VyNCuTs1DAxVIt78hrLMTiFwsARGSdLUgUq1FfPalHBW6FfK5+yCJXMDJXsb2YcZSw=
+	t=1755591028; cv=none; b=GIa0HZjjMuJUpXlTW6+razHFQdu3HvhMEROuz2P00r0Vl8GYlcO2xEc+ElXIdHzI9Lw3gndU6fTUvM/mpt0DkBJmtKNF4HZQjMwTJuvS7rHi3pnGcv8+L0sO6r6X0oyMMEeP2F1tBIPXG9UJEhlmdkivfU8tgeXI7a9tG1N1wn0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755590712; c=relaxed/simple;
-	bh=7D2lu1XiIJLgkqOJxhZAOvejc3pJcyHHWN6n/QZKSeA=;
+	s=arc-20240116; t=1755591028; c=relaxed/simple;
+	bh=ccaNPquQtaEDdPDJ9bYg/zrw3qmQgXKFRo7Cn3yGdMs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g6P0+GLuVzBuBKBkTVhDh0JcQBxRBdSiCn2g4rRsMyYpWFYXzR6a4vO0oQKjta1XxkeVqyvJDO0bYEQIDFTVL67bNS8sSVC/5TKKbGA4hm+R70WUceeC89wobU21OTI28mlBB8b0L6Bc7G09rK37i93PAaaB6dZyTfSmnDrHObs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PWIdL6dI; arc=none smtp.client-ip=209.85.221.52
+	 To:Cc:Content-Type; b=oyxd9dUXK9BT5y1IWb4IDxzSx1Fl96LEHjay8p+Ty5KI7ZnV0+Q+sYqfVaYRM7dyciorDt47mVY49HlOSwL1+/aYykc7/ssK4MbE6Mjlq4w7wZTzYAm/thtXsGWV5pySaYitzasXV8jydOyNPaarYZXGYuX7jVac9leEQV8RKaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kSgD3JZ8; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3b9d41bea3cso5309148f8f.0;
-        Tue, 19 Aug 2025 01:05:10 -0700 (PDT)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3b9e4106460so3964193f8f.2;
+        Tue, 19 Aug 2025 01:10:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755590709; x=1756195509; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1755591025; x=1756195825; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ANL4eqc4c2Z6/VW3UjUZpN2VLn82HdG6n4R8Y98/RD4=;
-        b=PWIdL6dIkWiqN2HucFlw3vjuZDz4FRqnKBJovThuE6xcJDOpIuL9jNcDu2csGGLexZ
-         imN1yJj04/LAvl2S/0PbufGm7RkC9DcXfkfs92li9k8bZxSseawZDr+YCC+EDLwceIGH
-         KCQXSSpw6Q+ISMvtcqPDZFtQOpgscESekPF9SC50/8sMi9FfgidyPrbqncjU0DCsAblh
-         OH8s6lGX+AREl8c8D0++AoQcNVPr9GRCWlzit5o2EzsPhEGSdjvEzyhAcrRchixLF0DG
-         ASAtYBhpH9P1j9VeWG+yqZlWg8zrr/1nS/8iu8s19BOwFmW5k5JO1yu8sDwm2A86g7NN
-         3DOg==
+        bh=Nlm+pLswC77Rj/PqedlkaZ5MapOUa3oMOyyBpLq2NBA=;
+        b=kSgD3JZ8FricXPesoxYC0ojX86kf8y9xujxY3GJfbyLDSFMK8/HupI2fAD4b5T3F2L
+         3X6Og27oaW2CW1TRYPBB98nbN10lzt9xuRKs0SyoWOiE67udSUiZbuwCfGb6qoJE5LAh
+         /kFFgj0ARvdwqMPjwMsf20torx0udsHgKJl4TL9KVPv6iK/4SyGPliedEeKYxSKb3kAl
+         QtRU8h2bHKvDVJjS5/2uk5y7kuMEGG2cCbuC8k0UelCfFZns5lFewgJCTpMrScvH9TYy
+         YS7bAy5mxrxkZ8avOLSfPvSxsJhdNhgMdaQDNv5tHMj/KS4UNBto/PwMtXHHyIq+ewr8
+         fPOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755590709; x=1756195509;
+        d=1e100.net; s=20230601; t=1755591025; x=1756195825;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ANL4eqc4c2Z6/VW3UjUZpN2VLn82HdG6n4R8Y98/RD4=;
-        b=N4yk17eK8cE5JhxW2rVx3lTEQYeOA1mC9OsEmB08RuCWNPdd50wg1gkE/e0GDmQRVu
-         BSiUCbsMYFW3A6Ar6ffW5zKdDyS4UX8UsssMxl1uVlJ5DV25rprHdQot8Td8TIMkKp3p
-         sVkAvJJdykI50P6C7jbDOGk8Mv8dDOXmHiYqrmlDp7zZb9c2lf7zO55Hs/pbLyhp+sMq
-         1WFFTveNOVnS/T9W/Nw+Wg2LZtgrMWihIJ5CK8IoJlZ7PSw+/5qswG2El1O+6qbLY/Va
-         ipJ2CJVP1ORaB5DBszUghSlXjq+V0FgP1B57V+9e4scBFVdShoKkE7pc+Er1XBEel/4W
-         SgyA==
-X-Forwarded-Encrypted: i=1; AJvYcCU8El20JkUkLnCRFfJh48gemIBmVSuliCdU8enAiGl8MbFJOQ5wRS+uziPNzlVbYnBRT+eoLP+lv7NS@vger.kernel.org, AJvYcCVXJsjgbw5ZbHLq2ldwu7BsLCs0uITUQAblc5TXCyZfv59PTQMDv+BLpB4CnyQVIDLwfZ0lzrx7JKr8CqMic/74U5k=@vger.kernel.org, AJvYcCVyaLJxYpZOQKgIJmyqjp87Wkbd4pL0Xzz205mX98JYqTdqtgz5oj86QhXU7YbTsgPV6n2DcdoPtmztM1oq@vger.kernel.org, AJvYcCXqTXudHwkHJyZ7DqZbkC7H6dzObf72Xe0AlTQwaK8AI3+ggffUcLSpUTkdT45h/nvdIE3FodlMcJQ3iDE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwYuQm3pba8rgHjlGb8Jf8Ed55JPU2gQnsweUo9UXwczvwQ8O7q
-	jAUUclZEx/kPaj3QFAn1xM0/iel4phEZ/36pKOsIwztr+Qy8xN6Eo+9nVdBMUZ4nO0WV+6m7xcn
-	3eOzCt+wx+VSzH/2fbYKI3KGCw3ThXnk=
-X-Gm-Gg: ASbGncsBXwS6Yat0l6nvn0jCAbJYf7erjNR8Ojcxv/tiNBStnXv0KQlmusRo4yZr8ZR
-	ET2LWkFs+6L8xvFA2CMUjQufKcN+sjMxRaS+1bK22uN9Us71t/1EIQgcFhhvd3P6zWDadx4vTyZ
-	AmMBqVEtybFHKaYdBvMaAMlgRAmJy7qcVpfwFL/C12bnlD+sWFZGJC94MSFuQdw53soPiywtT1W
-	V0lThcnAz2x6OYcLSo=
-X-Google-Smtp-Source: AGHT+IGtOQDNg3kF5jiIef48AJmJAKtuzf05XKGxWscWdQEmBb78iJLtbMb6FhejPIP3ViLY8d9EByCDVYhxmgiO+wM=
-X-Received: by 2002:a05:6000:24c3:b0:3a4:d64a:3df6 with SMTP id
- ffacd0b85a97d-3c0ea3cf081mr1243907f8f.3.1755590709246; Tue, 19 Aug 2025
- 01:05:09 -0700 (PDT)
+        bh=Nlm+pLswC77Rj/PqedlkaZ5MapOUa3oMOyyBpLq2NBA=;
+        b=Tv5hqmEIgKqnvNohyCeWUduGeWEbefP70aSqyPIgjtJ819En+JS2wO0mxjle+31an9
+         TkK/RmjCCdfAGTWJcNKB0w4fmkBNXpv24ynnzRwrdbOyBFSYWg5ngjTlZ3FvELsIPQdl
+         LPLeN+TI1L1WXYZhA308S2CfzOuo9r4XMz/728pi1RwCK9g/JmIMOTcaUspw/nhr4304
+         gLUxeSOJf4489LvDF3FUw558mzkBhDta/zoLv/pzEkqdkkStTkIHC7FMbaOhxlT0yfVt
+         EZHum9Dc241LIUbPyT+HHaUIFwaGDexzsulB5MHs49TRY54+ZTfyFBFqxDQAY4abEYhl
+         dAzA==
+X-Forwarded-Encrypted: i=1; AJvYcCWHqwlxzirFnjo3hoLNt91xNxhLlknM0LUmlctGR45YavfeA28JXl3FHPjB5RDC30Bf1xaUGC89+tod@vger.kernel.org, AJvYcCX9zXE6Lc0i84eqr0rOe/U8lFQiH3CEk5cvU+fKbFElpU7ZLzunu9x0S45EXlIGJcgI22jw+2Dvy3J+VuWa@vger.kernel.org, AJvYcCXa9jtcPf5Vfba2EQdOfOae7V++vQFZEQBbuwJDLIvMFvGJyTnaXcb0hu189aTJ4kmRjytzCNPcQQfjbJMGYUoR4CY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyy9XOino/0dFJx7LgBN7qOaoF2eDHBowhOdvfRzClYl+21SNv4
+	pk55OpEquVdleO5AVpoCdHA+15Mr7RkFSvJLmEEjARcBW5Pc156V13aA5Z7lHWiPjghZHzVpigY
+	X03o+ab2U1VECnnm4yMFd4jFGUVLNltI=
+X-Gm-Gg: ASbGncsLkDrVZ/fckncw2mgsKwA+pq62Tcn/slAQwOWagAfG+rCId/IILqb7vnONMPS
+	eHf4hO7IqCBXmzrjSkhy5F+AiXEqkwXZJMyBH/hMX+IaKdd9xFi4TU+mONt65KSYjp6nDrG8ZOF
+	5ilZS2sOWCSTngxGxzgrKeTwY1+R97iWGkr+GqM6QfcLfIzpmTXNJgsLgP3etmIKuiZ3AN57tB0
+	QS7k22yV6KeDM+gytk=
+X-Google-Smtp-Source: AGHT+IHa+dGvAzT5SVbKPPYFsRBuMiv52pGDSy25l4XRs4btwk0rdhRw2oTiICv7QYT9DPwg9TM9zx9pLikpbdHE9ZA=
+X-Received: by 2002:a05:6000:2387:b0:3b7:9aff:ef22 with SMTP id
+ ffacd0b85a97d-3c0ecc3206dmr1261410f8f.27.1755591024942; Tue, 19 Aug 2025
+ 01:10:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250819074849.18696-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20250819074849.18696-1-biju.das.jz@bp.renesas.com>
+References: <20250812200344.3253781-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250812200344.3253781-13-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXt9O==nuO7e+iWP7Efx=yy=TPakmSxC6BhPsWGw_hG_A@mail.gmail.com>
+In-Reply-To: <CAMuHMdXt9O==nuO7e+iWP7Efx=yy=TPakmSxC6BhPsWGw_hG_A@mail.gmail.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 19 Aug 2025 09:04:43 +0100
-X-Gm-Features: Ac12FXwP6aAzckbYtKHTXYsVgG7EEJVdj8641v3LJru05N6R22v4gGUTmjytJPA
-Message-ID: <CA+V-a8t3PD0Ev7OpSRpHeOx0TLd=XqVe=rLUnzrJ=fVRbiWWyQ@mail.gmail.com>
-Subject: Re: [PATCH v2] media: dt-bindings: renesas,rzg2l-cru: Improve documentation
-To: Biju <biju.das.au@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+Date: Tue, 19 Aug 2025 09:09:58 +0100
+X-Gm-Features: Ac12FXy-Krk7WAxy4eBjA42e2fD1S8Ium1CVXP_oouTnK4CtkGjPsXCpttnBih8
+Message-ID: <CA+V-a8tjK8tx5BsZGySuo-hO5AQk8oJs-WeY83gsxFexw=oGMA@mail.gmail.com>
+Subject: Re: [PATCH 12/13] arm64: dts: renesas: rzt2h/rzn2h: Enable MicroSD
+ card slot
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-media@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 19, 2025 at 8:49=E2=80=AFAM Biju <biju.das.au@gmail.com> wrote:
+Hi Geert,
+
+Thank you for the review.
+
+On Mon, Aug 18, 2025 at 5:03=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
 >
-> From: Biju Das <biju.das.jz@bp.renesas.com>
+> Hi Prabhakar,
 >
-> Drop CRU prefix from clocks and interrupts description.
+> On Tue, 12 Aug 2025 at 22:04, Prabhakar <prabhakar.csengg@gmail.com> wrot=
+e:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Enable MicroSD card slot which is connected to SDHI1 on the RZ/T2H and
+> > RZ/N2H EVKs.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> Ref: https://lore.kernel.org/all/20240909143358.GA2013-robh@kernel.org/
-> v1->v2:
->  * Updated commit description
->  * Dropped CRU prefixes from clocks and interrupts description.
-> ---
->  .../bindings/media/renesas,rzg2l-cru.yaml     | 22 +++++++++----------
->  1 file changed, 11 insertions(+), 11 deletions(-)
+> Thanks for your patch!
 >
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > --- a/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
+> > +++ b/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
+>
+> No mmc1 alias?
+>
+Ouch missed it.
+
+> > @@ -91,6 +103,30 @@ sd0-emmc-ctrl-pins {
+> >                                  <RZT2H_PORT_PINMUX(13, 2, 0x29)>; /* S=
+D0_RST# */
+> >                 };
+> >         };
+> > +
+> > +#if SD1_MICRO_SD
+> > +       sdhi1-pwen-hog {
+> > +               gpio-hog;
+> > +               gpios =3D <RZT2H_GPIO(8, 5) GPIO_ACTIVE_HIGH>;
+> > +               output-high;
+> > +               line-name =3D "SD1_PWEN";
+> > +       };
+> > +#endif
+> > +
+> > +       sdhi1_pins: sd1-group {
+> > +               sd1-data-pins {
+>
+> No need for repeated sd1-prefixes in the subnodes.
+>
+Ok, I will drop them in v2.
 
 Cheers,
 Prabhakar
 
-> diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.ya=
-ml b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> index 47e18690fa57..0a57b9d15318 100644
-> --- a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> @@ -32,15 +32,15 @@ properties:
->    interrupts:
->      oneOf:
->        - items:
-> -          - description: CRU Interrupt for image_conv
-> -          - description: CRU Interrupt for image_conv_err
-> -          - description: CRU AXI master error interrupt
-> +          - description: Interrupt for image_conv
-> +          - description: Interrupt for image_conv_err
-> +          - description: AXI master error interrupt
->        - items:
-> -          - description: CRU Interrupt for image_conv
-> -          - description: CRU AXI master error interrupt
-> -          - description: CRU Video Data AXI Master Address 0 Write End i=
-nterrupt
-> -          - description: CRU Statistics data AXI master addr 0 write end=
- interrupt
-> -          - description: CRU Video statistics data AXI master addr 0 wri=
-te end interrupt
-> +          - description: Interrupt for image_conv
-> +          - description: AXI master error interrupt
-> +          - description: Video Data AXI Master Address 0 Write End inter=
-rupt
-> +          - description: Statistics data AXI master addr 0 write end int=
-errupt
-> +          - description: Video statistics data AXI master addr 0 write e=
-nd interrupt
 >
->    interrupt-names:
->      oneOf:
-> @@ -57,9 +57,9 @@ properties:
+> > +                       pinmux =3D <RZT2H_PORT_PINMUX(16, 7, 0x29)>, /*=
+ SD1_DATA0 */
+> > +                                <RZT2H_PORT_PINMUX(17, 0, 0x29)>, /* S=
+D1_DATA1 */
+> > +                                <RZT2H_PORT_PINMUX(17, 1, 0x29)>, /* S=
+D1_DATA2 */
+> > +                                <RZT2H_PORT_PINMUX(17, 2, 0x29)>; /* S=
+D1_DATA3 */
+> > +               };
+> > +
+> > +               sd1-ctrl-pins {
+> > +                       pinmux =3D <RZT2H_PORT_PINMUX(16, 5, 0x29)>, /*=
+ SD1_CLK */
+> > +                                <RZT2H_PORT_PINMUX(16, 6, 0x29)>, /* S=
+D1_CMD */
+> > +                                <RZT2H_PORT_PINMUX(17, 4, 0x29)>; /* S=
+D1_CD */
+> > +               };
+> > +       };
+> >  };
+> >
+> >  &sci0 {
 >
->    clocks:
->      items:
-> -      - description: CRU Main clock
-> -      - description: CRU Register access clock
-> -      - description: CRU image transfer clock
-> +      - description: Main clock
-> +      - description: Register access clock
-> +      - description: Image transfer clock
+> The rest LGTM.
 >
->    clock-names:
->      items:
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
 > --
-> 2.43.0
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
 >
->
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
 
