@@ -1,167 +1,202 @@
-Return-Path: <linux-renesas-soc+bounces-20679-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20680-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E745B2BB19
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 09:51:23 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35D85B2BB20
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 09:52:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3809F189046F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 07:50:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 36FDA3BBC65
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 07:52:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FC47304BC6;
-	Tue, 19 Aug 2025 07:50:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A67E226F443;
+	Tue, 19 Aug 2025 07:52:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hD2syNpm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B6C02264CA;
-	Tue, 19 Aug 2025 07:50:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF6030FF30;
+	Tue, 19 Aug 2025 07:52:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755589812; cv=none; b=PzRfJfe1o5egAD7Gp6Z0yQfQXRJNl3vfWAdQN6grUZcdyZqn4NwUiSJcqzImaBMwciejn9UdF4FSAw5JimBEj3eu48p2cLffRIfxuu1cWfs+VA4WEqSrAyZNm28v824mG04yZSAA1JTQ+P/L9GH1msxCYBe2alRnVEUsqrDUp2Q=
+	t=1755589956; cv=none; b=jfu5luZJne1E4G7wEA1uYILQp9fuBRGExqZeYkcllX616whDxdSEfIHIrPugO6GuNhNM4weBbafTIv5Wi4IPlNa1MG3OwjnPu4orMKXecfQjQ26hhWrAZ5pjyfWYckee50+qBTXEtWbdu64T9paxcit2oNkN1ucdE6Q5dDeCstw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755589812; c=relaxed/simple;
-	bh=Ee2ObxfbUVPNh/3Zn9sXgxV5tzIeW55PDABLP8PSNvc=;
+	s=arc-20240116; t=1755589956; c=relaxed/simple;
+	bh=DsfFtmt3wmuJ3j+r8NcfvrQdq0EFrTj3knyUIaHpdoE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iZXjVF5kKAYja2K/dmUKRfy2hvUdKaoznEuyGDmMgU0pxIKK5+slBBDFNRC39qi6LP2xkcNO9v/zZbiwP5fxcOG9/ukn4HX9aKMS7hpSjtjC3uDFHs6ZiMYXr0J1ht+oyNbDV7EU0+v323xmeISqDo+aEwIqyFvvF/AHmoxA5R4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=TcW9IIEG9lh65iLePXP+WbkTn8unSsyuOuLMns14gK+q+CelZvV4nXVQncHGtnwm6mLCBnihJrfmFXA/dtYf+vAP0bWRA8TSwG90bCKeIC5XaxuE6wZ05pGUS7scHEZ3CM54fVR9J6o5Svc5XafpC0wGOz6dFvufXTqE0taGSqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hD2syNpm; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-890190a3579so1158604241.2;
-        Tue, 19 Aug 2025 00:50:09 -0700 (PDT)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3b9e411c820so2662688f8f.1;
+        Tue, 19 Aug 2025 00:52:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755589953; x=1756194753; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=exV62fJ4Rt1/zZkpZFJx2Rp5O65lafXRelUo82tE27s=;
+        b=hD2syNpmGnSqmdmpyL7VhWwUzZoYxPhoM8fqF/tlJoCVCUfD5WQ2X7/sPOAk1sR7b2
+         wYZQ6Aq6klMNi5Sx+QqpuPS7nlq9EPI8xTz6lYfkAXs/mFKkTNoZKAy4TkvwteWxW5CW
+         /Dco2QNyW51SwhJyIxqJfkmoJ0s2EFnDNECpbAfUT7VP/BhjHK59ps6QLcAQ90Tb5/VE
+         XCAxNLHuVsEQT1rJtGi/R2y7CBmHwjdDGcj/NgDw6/pSBogJubhHvjjT/SD0yEdReI/R
+         WgbKXBzlk2uzI7pDmsKrhCaxlrf01dDrpTbh7D0X/Xs552Wm6MIwfmDJbe38lIeUtnCD
+         EL1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755589808; x=1756194608;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cDMewuo9x/cu2BhGLPhUvUnCverX/+1L6wQ/8F1rHP8=;
-        b=csx9p4zbmKnbUWc3QLeqoeVJPiF6kAtAQGxYy6aAu6ZqF26RtUW0UtOpHxCld+vcB0
-         Iou1zdJ8XrSSVVZCm7vAmrDFlltTLelSaw4s4/RO0yyLvJ621fvssQk262yb2oJ+UGhk
-         Apixl1kwh+/4Y54Iuze74zviOX+1ww2+fGyCaTzvcTzBeAjeInxlcZ4xVBG9AoG9y61e
-         DJDapfx/8VhSk82JSBmDC3AJ6HOxNu43qAjSWNka/6fE/fRfF3v0jN5Dc5lY/AossOxB
-         K6b1R0752c+43/fOFsqY962AMa3jPR6bUtG+0vj+xmkKQOD9Mooq4Df7OarqkW+/yqnt
-         U3jQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVu4bic3StEZHlcEh1h+AUuHxgTABkzLTscsetLDcbythAWJScsGO7ugTYWXfN0I2z+64/f6dYFU8SX@vger.kernel.org, AJvYcCWE3fadI8JfVHZTAx7d3TjpL4sf3P3ZzmsBgpahQMNBz41WuNkQUegGG4Xwsio+HvnXl4ycnHF3GBZkAMh3m5liW6M=@vger.kernel.org, AJvYcCWTNX/TvMi2D0GOV2LtJDX/Ft6VuccWycBmC+xichw8RCJsBiJ3cdQbx0sdUn3umDc0/Q8nnFa3ZH4=@vger.kernel.org, AJvYcCWiCOfyxq+Bv5tzoCSsQduH/X1IlXS6nKXpUl6bOB5ajM4KH41godp2XSU7fADFu5nCItCeNwOAFS3k3/c3@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyuiz3RR0yC6TRHVQct5AYchE1BHNKQKrnNkrhvGBGpkUFcy9Zt
-	0q65LmrrLkIB1DnkQJpx2I6yNdCBXdhfeXcr86+9gVT6V4kmwL2UWpJJ7r5E5miK
-X-Gm-Gg: ASbGncuivd45jOucdZVWx3lNlL7x5XgTPL3LgSk5Nr2z4r9u8m4upSEBrSlA6Gxvv08
-	dLboLo1Snm3ZyhnrpANiN8WUFwo1dNdlWn7tHJHTrlR79B8amoFOt+SppdYuw/U2TYMZX4ZEpM5
-	1VZ3PmjCewQ5n6HrVQrV3ksXfAQHBtMkeJipXoR3H9N2ZDW0mNeI2rLvXJMH/QBclAt6xYVl8P1
-	hPhIa1A28091zQUjqh9HPiqxPjg4BYBV/kGu8HuvARs9Q+/5aLdGqVQBIy0OK/JREA79BAckJ9S
-	xRQjONkiNXDjAUq0PXilvvq9i2AebzV8X/wfqifo5Hx2v5m7W4wc18oPYe4oDXNj9unBcI1vHcF
-	h81UXmbjJD80NeSnp9nTnAxZYote5uvbMJSLzWTu2sLO38EB85hUyXpQnZjgF
-X-Google-Smtp-Source: AGHT+IFKq4T0NeEevXORUaCDXBpcYjO5cKqFjxNCJVDpy+7CvkxOvJPTjkbFWl1QZhRAjhdwSmrguQ==
-X-Received: by 2002:a05:6102:3050:b0:4fc:1a18:aaa2 with SMTP id ada2fe7eead31-51922115df7mr394414137.5.1755589808538;
-        Tue, 19 Aug 2025 00:50:08 -0700 (PDT)
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com. [209.85.217.48])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-53b2bf26276sm2717519e0c.32.2025.08.19.00.50.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Aug 2025 00:50:08 -0700 (PDT)
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-50f88eea7f0so1587239137.1;
-        Tue, 19 Aug 2025 00:50:07 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUC+k5OQVctYWGsQGRN3xO13cDy0qpja63+zUFg0Ga3eYyVWHJt8LkbtcoNtMpN+HjWUN/2GlYN4JI9kuBJQW49eU0=@vger.kernel.org, AJvYcCUypm2/ifwOi7qskursdGQxtqso2Oamfa6hwQsKZee77hcDd9M6aJiAgcQExiLTMy1r7p9d+BYSpB8K@vger.kernel.org, AJvYcCVYuDSMVHA1gZa5y5zFRXy+y/btEcVd48kuDcLZF4ZLooqO3jyI+7hSlyhCmkS+Ik60YMMvPy+rtxY=@vger.kernel.org, AJvYcCXq7Ky4etFGEz3zP0TLNaCk4sWZzvl3vaH4FJtuhUUS+1ZihuiaKDCEhxE3VSEWFGiEx6fIMdA69/001cHS@vger.kernel.org
-X-Received: by 2002:a05:6102:26d3:b0:4f9:a927:d9f8 with SMTP id
- ada2fe7eead31-51922708edbmr391773137.8.1755589807543; Tue, 19 Aug 2025
- 00:50:07 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1755589953; x=1756194753;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=exV62fJ4Rt1/zZkpZFJx2Rp5O65lafXRelUo82tE27s=;
+        b=Ew3mQCRVbFrad7RdBjxU50u2M2yjRkwwiTQe1OCZybtI755enxCdX/XfVrbAm6OEm/
+         FBOt+3dy+A8sVNQKgi5yBXQ2v9d9RqYFB7qrtcTLf/mZl52pAFRsNivfeYq7GjoRBosI
+         in6iyANZa6efRK4zWXZvPRcZiT4Ci1DP1SFErMQDtE1kD6se2QiAUXGMg3J8jb3VAJ3O
+         ZFwjdp1yWUJ4msE2bp8yDMOSu6pnvvXEFfaQrzpVOXj/G19KOcQfrntvp/ZXRLxmAolw
+         74r2SZkBIO5WYjdzY60D3FP8jSODbdby+ZMg41yiQde1Xyr1gx3WFVLZP2Em1hLsgOM7
+         LXzw==
+X-Forwarded-Encrypted: i=1; AJvYcCUGpVwg3bPkL5Aplj2lpbW3ipqNlotxEkNZTaKFT/qO+Z1zGD2IlAIcoz+swYzkGrmKM0D8EQs4jvgI@vger.kernel.org, AJvYcCUwSIZ6TTgiT75XSaEPpsIr5fR+ohTeyFKiXD/DB4l4qirIL3Ae7tZHf3zPpIC3fx0gqdOXUj1puao5yH+Yu5CvM4c=@vger.kernel.org, AJvYcCVNp2wgaSnXXtNtpmnoViwRi6g+hf/3e6u6tOMqKVUPCZPzK0t9VkL/56c+kke8TpJkvelfFpMcoiUfqVej@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQyeMdhZ7o7yDl2ofRfHeOYw7M7BgEbF/IKioCeaL1ZRIGvKAd
+	hvavyngX1+FrOfxGeejYltQGxaLeJEvuC6E6OmrOlQrY8EIigtGKa9R7YxCd36EtTJJLCbNuIzR
+	9VOUr593eYYzF/0iKFDSuH+lFPaW3UmU=
+X-Gm-Gg: ASbGncsx0LjpuzO9trRJB6t+GO8XbqgAEaFF9UqltT0kD+pcxPIijg5EZl+rCFNn4yu
+	qyz9EsDOBFRKsd5dAra5q8bWzuSI6Vm8Bygwk/pl7arJdVvzFfOBa5BBHQINASkn7+ul0bTNfjl
+	I/AEbXkAzt6+4VOXpF4SFRiPeEX1fOHl7Ae/9lBJq2Fg9IdXkLxCGRttyfsAxGWbknROKJzRKmF
+	M7T2QBt
+X-Google-Smtp-Source: AGHT+IE1Q/HllAyYjBpXG0xtdDBFd6TYF/9JwtZbEk9GOnYIqZvZ66KlieA8QsAc2QV5FSqE2PXVWigdYaWLTnvwEZs=
+X-Received: by 2002:a05:6000:250a:b0:3a4:d9fa:f1ed with SMTP id
+ ffacd0b85a97d-3c0ea6ae52emr1162847f8f.13.1755589952838; Tue, 19 Aug 2025
+ 00:52:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250818162859.9661-1-john.madieu.xa@bp.renesas.com> <20250818162859.9661-4-john.madieu.xa@bp.renesas.com>
-In-Reply-To: <20250818162859.9661-4-john.madieu.xa@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 19 Aug 2025 09:49:56 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUGmbn1H2JV17+9gTYBbnEOmoR9vUevWVx5BTX973MfoQ@mail.gmail.com>
-X-Gm-Features: Ac12FXxVEIoEldC7Y_cxbfmRxaBIBcU2E7FFzwjWz0bJ3Q0eWxEWXbpo_Rtft2U
-Message-ID: <CAMuHMdUGmbn1H2JV17+9gTYBbnEOmoR9vUevWVx5BTX973MfoQ@mail.gmail.com>
-Subject: Re: [PATCH v7 3/6] thermal: renesas: rzg3e: Add thermal driver for
- the Renesas RZ/G3E SoC
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: magnus.damm@gmail.com, mturquette@baylibre.com, sboyd@kernel.org, 
-	rafael@kernel.org, daniel.lezcano@linaro.org, rui.zhang@intel.com, 
-	lukasz.luba@arm.com, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	p.zabel@pengutronix.de, catalin.marinas@arm.com, will@kernel.org, 
-	john.madieu@gmail.com, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	devicetree@vger.kernel.org, biju.das.jz@bp.renesas.com, 
-	linux-arm-kernel@lists.infradead.org
+References: <20250812200344.3253781-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250812200344.3253781-7-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXsQ7pne45+56f_nO0VA8LeUpZhxXFKPMqOKR4GSsdG4Q@mail.gmail.com>
+In-Reply-To: <CAMuHMdXsQ7pne45+56f_nO0VA8LeUpZhxXFKPMqOKR4GSsdG4Q@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Tue, 19 Aug 2025 08:52:06 +0100
+X-Gm-Features: Ac12FXwH-7ownFa6HdUwDbiGp09axXU1a6vPESMk_GzA_NAl1wbmmuK0NuYu5Ec
+Message-ID: <CA+V-a8tT16aSiAdH6NUc7bfAb71_Bu3q-Ttp7Lw5A8z0y-3Avw@mail.gmail.com>
+Subject: Re: [PATCH 06/13] arm64: dts: renesas: r9a09g087m44-rzn2h-evk: Add
+ user LEDs
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi John,
+Hi Geert,
 
-On Mon, 18 Aug 2025 at 18:29, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
-> The RZ/G3E SoC integrates a Temperature Sensor Unit (TSU) block designed
-> to monitor the chip's junction temperature. This sensor is connected to
-> channel 1 of the APB port clock/reset and provides temperature measurements.
+Thank you for the review.
+
+On Mon, Aug 18, 2025 at 3:15=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
 >
-> It also requires calibration values stored in the system controller registers
-> for accurate temperature measurement. Add a driver for the Renesas RZ/G3E TSU.
+> Hi Prabhakar,
 >
-> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+> On Tue, 12 Aug 2025 at 22:03, Prabhakar <prabhakar.csengg@gmail.com> wrot=
+e:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Add USER LED0-LED8, which are available on RZ/N2H EVK.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Thanks for your patch!
+>
+> > --- a/arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dts
+> > +++ b/arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dts
+> > @@ -7,10 +7,64 @@
+> >
+> >  /dts-v1/;
+> >
+> > +#include <dt-bindings/gpio/gpio.h>
+> > +
+> >  #include "r9a09g087m44.dtsi"
+> >  #include "rzt2h-n2h-evk-common.dtsi"
+> >
+> >  / {
+> >         model =3D "Renesas RZ/N2H EVK Board based on r9a09g087m44";
+> >         compatible =3D "renesas,rzn2h-evk", "renesas,r9a09g087m44", "re=
+nesas,r9a09g087";
+> > +
+> > +       leds {
+> > +               compatible =3D "gpio-leds";
+> > +
+> > +               led3 {
+> > +                       /* DSW18-7: ON, DSW18-8: OFF */
+> > +                       gpios =3D <&pinctrl RZN2H_GPIO(31, 6) GPIO_ACTI=
+VE_LOW>;
+>
+> Similar comments like for the RZ/T2H EVB, e.g.
+>
+>     led-3 {
+>             /* DSW18-7: ON, DSW18-8: OFF */
+>             gpios =3D <&pinctrl RZN2H_GPIO(31, 6) GPIO_ACTIVE_LOW>;
+>             color =3D <LED_COLOR_ID_GREEN>;
+>             function =3D LED_FUNCTION_DEBUG;
+>             function-enumerator =3D <4>;
+>     };
+>
+Agreed.
 
-> v7: Refactored driver structure:
->   - removes splinlock usage
->   - updates polling timeout as per the datasheet
->   - uses average mode to be more accurate
->   - uses polling (faster than irq mode) for get_temp() while keeping IRQ for hw
->   trip-point cross detection.
->   - adds both runtime and sleep PM support
+> > +               };
+> > +
+> > +               led4 {
+> > +                       /* DSW18-9: ON, DSW18-10: OFF */
+> > +                       gpios =3D <&pinctrl RZN2H_GPIO(18, 1) GPIO_ACTI=
+VE_LOW>;
+> > +               };
+> > +
+> > +               led5 {
+> > +                       /* DSW18-1: ON, DSW18-2: OFF */
+> > +                       gpios =3D <&pinctrl RZN2H_GPIO(22, 7) GPIO_ACTI=
+VE_LOW>;
+> > +               };
+> > +
+> > +               led6 {
+> > +                       /* DSW18-3: ON, DSW18-4: OFF */
+> > +                       gpios =3D <&pinctrl RZN2H_GPIO(23, 0) GPIO_ACTI=
+VE_LOW>;
+> > +               };
+> > +
+> > +               led7 {
+> > +                       /*
+> > +                        * DSW18-5: ON, DSW18-6: OFF
+> > +                        * DSW19-3: ON, DSW19-4: OFF
+>
+> Shouldn't that be "DSW19-3: OFF, DSW19-4: ON"?
+>
+Agreed.
 
-Thanks for the update!
+> > +                        */
+> > +                       gpios =3D <&pinctrl RZN2H_GPIO(14, 3) GPIO_ACTI=
+VE_LOW>;
+> > +               };
+> > +
+> > +               led8 {
+> > +                       /* DSW15-8: OFF, DSW15-9: OFF, DSW15-10: ON */
+> > +                       gpios =3D <&pinctrl RZN2H_GPIO(14, 6) GPIO_ACTI=
+VE_LOW>;
+> > +               };
+> > +
+> > +               led9 {
+> > +                       /* DSW15-5: OFF, DSW16-6: ON */
+>
+> s/DSW16/DSW15/
+>
+Agreed, (Ive also notified to update the user manual).
 
-I only looked at the code to obtain the trim register offsets.
 
-> --- /dev/null
-> +++ b/drivers/thermal/renesas/rzg3e_thermal.c
-
-> +static int rzg3e_thermal_parse_dt(struct rzg3e_thermal_priv *priv)
-> +{
-> +       struct device_node *np = priv->dev->of_node;
-> +       struct of_phandle_args args;
-> +       int ret;
-> +
-> +       ret = of_parse_phandle_with_args(np, "renesas,tsu-trim",
-> +                                        "#address-cells", 0, &args);
-
-of_parse_phandle_with_fixed_args(np, "renesas,tsu-trim", 1, 0, &args)
-
-> +       if (ret)
-> +               return dev_err_probe(priv->dev, ret,
-> +                                    "Failed to parse renesas,tsu-trim\n");
-> +
-> +       if (args.args_count < 1) {
-
-"!= 1", however, I think this test is no longer needed after moving
-to of_parse_phandle_with_fixed_args().
-
-> +               dev_err(priv->dev, "Invalid renesas,tsu-trim property\n");
-> +               of_node_put(args.np);
-> +               return -EINVAL;
-> +       }
-> +
-> +       priv->trim_offset = args.args[0];
-> +
-> +       priv->syscon = syscon_node_to_regmap(args.np);
-> +       of_node_put(args.np);
-> +
-> +       if (IS_ERR(priv->syscon))
-> +               return dev_err_probe(priv->dev, PTR_ERR(priv->syscon),
-> +                                    "Failed to get syscon regmap\n");
-> +
-> +       return 0;
-> +}
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
 
