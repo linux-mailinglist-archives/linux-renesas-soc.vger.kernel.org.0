@@ -1,150 +1,83 @@
-Return-Path: <linux-renesas-soc+bounces-20695-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20696-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0308FB2BDF9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 11:50:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C72E3B2BE01
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 11:50:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D84F2566906
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 09:50:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B034E3A9F71
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 09:50:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E224531E0EC;
-	Tue, 19 Aug 2025 09:49:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4C5831B13C;
+	Tue, 19 Aug 2025 09:49:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xUGfaqai"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ARXZMRhw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC9831E0F5
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Aug 2025 09:49:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C091531B138
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Aug 2025 09:49:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755596994; cv=none; b=dnf9Ns6h7bkQY22vF+eNHj4vkQNPwaVy0J4bfu6hEgLJbcT2z6TeHrFlsRPIiDmhx3kNrmAGuLAyaigJ/ArkaVVWsyxTe7dsx6pnLA5X3JIHbB2sPp1Hcxz0HN1CczCpHcAuNJhSyBUX0Ug6d7jLbyrNYA1pSjvjA/VCJsNC4eA=
+	t=1755596997; cv=none; b=LfqlQSI/9cXZ9Uy2AK8klr7KN3MXvnVfc2DjqNM9UrrQcVZI3AMDdm1DTvvd9sKKSnWaQjqowW5UJH/+gFiRLZLx+MEGzRn0cFo9cSEcq7iODUQ5arICeLno0XK7ZIrynzlqD0H1Qs47vb2M0iwxgo+NKdSLIG5tAcZgzL1P1Nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755596994; c=relaxed/simple;
-	bh=tV6Flkuo2P/+55L7Kh0T7daOZ9uv2yK47XAxZBt9LOQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EmYbCaEqw5JXwIkPZKJwRaPcgmGoNOrj/oYtxYO0qzcKGkNTFWHh0C8AGXYPcFM8DGO1uQbdmN7lBd81+WOTsHj5Kz/g1YxfNMLoKGOH6hA+dBu4OAtnW+1AvfplgIXxJ0rXKT+GfMGOp5a9cANyC0lG4sg7yMhiqt+wNiC5AfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xUGfaqai; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-55ce5243f6dso5543719e87.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Aug 2025 02:49:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755596990; x=1756201790; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tV6Flkuo2P/+55L7Kh0T7daOZ9uv2yK47XAxZBt9LOQ=;
-        b=xUGfaqailfILgnn9twlZVvknsFLdaaDvd0vqvVv3J2OlV1wmvU4DB0M/sM11KDa2xe
-         i8YagmU7rgfupxhwmH+NBPI4s9Vy/uFYXiXNocNTdb+er7NFgOK8bIpnx0DGn9jhhYV+
-         iqoLOLHkNqu/hMI2X+KiHL/6IJ7eTiJR3DmkRidipAG7dnS3oyjcpyF6/rW3du8ZMFKR
-         dhCSQYm1/LFv+CMJiBBA6OFpM3NfciPZPNmd8f0/u0Qs2dh+1GajWVxUMdsl3UQAcjeN
-         G2699YMNi3HziBPSD/pLEVDhCNo0nEaddDRxLpkI2T5pa4zsATVAXEzgm7aNhn1uAL4h
-         yJiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755596990; x=1756201790;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tV6Flkuo2P/+55L7Kh0T7daOZ9uv2yK47XAxZBt9LOQ=;
-        b=Ixy3WsRbjGxwt43+AO8A9Usy/y5/ukY1J4ZzqSOowCGSpoCTSAJshsoPQ92LWE+Ok6
-         iw2ABYFiNn/0AnLI+PnkHGrr1m3d2jGl+qYUUghcyttmQKFh1iZMuIZTxHB/a6cnwt04
-         QGXsiu96VmUdmpRwO6Vfzjk6+pp9Frd+xD/bxBQEHEoUy011otcaegnh90jAO9NnPlb8
-         Mh5nAiE3mfdi+RFYp50H3FVmHbkS0ynRtKVWtK9zGiqLIkgY2j1uQCnP1L4bCccpMOjS
-         ydaE6JWIB8d6AlYSWhRN91C5vMJL+EQcMYYumPRzF8XEJtyNNsPc/JJkAGJc4ZOokoJr
-         c3rw==
-X-Forwarded-Encrypted: i=1; AJvYcCWyHczBi6kitDCazEr92IdxYHFNgOISLhat4RqTZcFDFiqa0ERFadqmTeoS7YYon4gIUSqFIhQ7wQiEk5CKIFN/qg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZLFTgA58zP5HCwKQWoqEsZIXdCp+6xS/QYvBWpU25bnYmGD9M
-	d4vtbMx3z9lEYoI1OrqrdmQ5nLiNwbvmWP0ykcml3q3sfX+QKaDH3VJkS0LDaOfjFsn1shxuXod
-	+rX+9VnnoocmMF6E/n7VrcedXWNJj4sCRpPE7c6F8Vw==
-X-Gm-Gg: ASbGncvPBAWUJPSOo7NejNLOsXIE8Nqj5yi7t3lR4ePPgcF1GePhFrPTZQcsCNINNcl
-	PuMR14L0bK4nwhgTlqAmeZUCMl3Yv9MVzpfsMYC/9EvXq2lVcovOpQe4GvzwMh7GK9j0ForOSor
-	TeFOwAyyp27Ew5QH7jCgYV3z02sCPOW/xPBvzJ20lJ91ZseIojtjWpBfmFNHnXp4xqzK4FhEdaM
-	MeWNDqVY3aC
-X-Google-Smtp-Source: AGHT+IEt8RlqWWvwC2uqrmb7EU75OBtpQ0q0kJ1zr3PFW1jsKW7QqgA/pBKXOLyxKfth/q0XXJuPhRlLhC58Y7ZaIjE=
-X-Received: by 2002:a05:6512:ac9:b0:553:51a2:4405 with SMTP id
- 2adb3069b0e04-55e00850835mr590681e87.45.1755596989499; Tue, 19 Aug 2025
- 02:49:49 -0700 (PDT)
+	s=arc-20240116; t=1755596997; c=relaxed/simple;
+	bh=rfYwpIN+FIJ8AowWbiEveVVrI1C0PXLdK5aACMJk9mg=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=GVZ107tdlYkfhcfKJTptmlOoT1sf1WGXYXZ5xCt2yqZOn28D5z7mJnfYIAEaHD0XbtFV2qraAWbk0WglN7oP8Qa2YXjqN8wHvq3AfA+JMvEvX9VJjTLgjPPOM2y7io7cHrcBv3OoZs6UfFHea7DVMtTEoC/YBWo2oDObfzBc8+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ARXZMRhw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32F96C4CEF1
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Aug 2025 09:49:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755596997;
+	bh=rfYwpIN+FIJ8AowWbiEveVVrI1C0PXLdK5aACMJk9mg=;
+	h=Subject:From:Date:To:From;
+	b=ARXZMRhwRtxKf4Acf1rwnFFfBlfg81fT1l0VlxvIuB+rQBYn4Fte1lB8MiiSBJr9s
+	 c+L5mNXjbw+Q3kH9HS/urTtV03j1IQT5No1sN3KzdEB2d9ulxRZxhXBIJd8GdNABdJ
+	 LCIztAsoi9RHgQv3Ld72fECwrYjLEVnX7JGSxcZNfwIsxuwL3MVTUI2+O7i1aEEvFN
+	 Fe3T8JlkGtOg9bfROrKYtl7QTSjMLeBJVIy9iziogc+6CD40+/QySJ1ECRfoXkJ0TC
+	 1IgjHBqaz6LFBQJWQ5r8Q/PS9leJn6HFV0MTy3mcQtRaByQu1RYlHJbmHCIywGMhw9
+	 d/xveE4Sb4zlg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3B774383BF58
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Aug 2025 09:50:08 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com> <20250811-clk-for-stephen-round-rate-v1-109-b3bf97b038dc@redhat.com>
-In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-109-b3bf97b038dc@redhat.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 19 Aug 2025 11:49:38 +0200
-X-Gm-Features: Ac12FXyEOw7KCbkbFT2OqCP4TngpQPKLbvy9M6n90z-zmlM7tVP9PQNq8vVGJnI
-Message-ID: <CACRpkdaW=f7xm+rsD8XUUx-qhuh8sk1mCU-erve-_9S4uUpHbA@mail.gmail.com>
-Subject: Re: [PATCH 109/114] clk: versatile: vexpress-osc: convert from
- round_rate() to determine_rate()
-To: bmasney@redhat.com
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Sudeep Holla <sudeep.holla@arm.com>, Cristian Marussi <cristian.marussi@arm.com>, 
-	Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Paul Cercueil <paul@crapouillou.net>, Keguang Zhang <keguang.zhang@gmail.com>, 
-	Taichi Sugaya <sugaya.taichi@socionext.com>, Takao Orito <orito.takao@socionext.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Samuel Holland <samuel.holland@sifive.com>, 
-	Yixun Lan <dlan@gentoo.org>, Steen Hegelund <Steen.Hegelund@microchip.com>, 
-	Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com, 
-	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Michal Simek <michal.simek@amd.com>, 
-	Maxime Ripard <mripard@kernel.org>, =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Max Filippov <jcmvbkbc@gmail.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Daniel Palmer <daniel@thingy.jp>, 
-	Romain Perier <romain.perier@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
-	Gregory Clement <gregory.clement@bootlin.com>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Heiko Stuebner <heiko@sntech.de>, 
-	Andrea della Porta <andrea.porta@suse.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Sylwester Nawrocki <s.nawrocki@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Qin Jian <qinjian@cqplus1.com>, 
-	Viresh Kumar <vireshk@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, Alex Helms <alexander.helms.jy@renesas.com>, 
-	Liviu Dudau <liviu.dudau@arm.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, sophgo@lists.linux.dev, 
-	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
-	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
-	linux-stm32@st-md-mailman.stormreply.com, patches@opensource.cirrus.com, 
-	linux-actions@lists.infradead.org, asahi@lists.linux.dev, 
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From: patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: 
+ <175559700669.3472455.10671051661214385090.git-patchwork-summary@kernel.org>
+Date: Tue, 19 Aug 2025 09:50:06 +0000
+To: linux-renesas-soc@vger.kernel.org
 
-On Mon, Aug 11, 2025 at 5:21=E2=80=AFPM Brian Masney via B4 Relay
-<devnull+bmasney.redhat.com@kernel.org> wrote:
+Hello:
 
-> From: Brian Masney <bmasney@redhat.com>
->
-> The round_rate() clk ops is deprecated, so migrate this driver from
-> round_rate() to determine_rate() using the Coccinelle semantic patch
-> on the cover letter of this series.
->
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Series: arm64: dts: renesas: Add support for SCI/LEDs/I2C/MMC on RZ/{T2H,RZ/N2H} SoCs and boards
+  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=990711
+  Lore link: https://lore.kernel.org/r/20250812200344.3253781-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+    Patches: [01/13] arm64: dts: renesas: r9a09g077: Add DT nodes for SCI channels 1-5
+             [02/13] arm64: dts: renesas: r9a09g087: Add DT nodes for SCI channels 1-5
+             [03/13] arm64: dts: renesas: r9a09g077: Add pinctrl node
 
-Yours,
-Linus Walleij
+
+Total patches: 3
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
 
