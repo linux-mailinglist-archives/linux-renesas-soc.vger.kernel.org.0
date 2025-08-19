@@ -1,81 +1,81 @@
-Return-Path: <linux-renesas-soc+bounces-20661-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20662-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C8F2B2B87B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 07:07:29 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A47DB2B892
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 07:22:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E63FC196666A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 05:07:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 804AD167D06
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 05:21:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2488214210;
-	Tue, 19 Aug 2025 05:07:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FDD630DEC6;
+	Tue, 19 Aug 2025 05:21:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="SoXSkFxL"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="b3yN+1pW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 341291A294
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Aug 2025 05:07:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF32119F121
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Aug 2025 05:21:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755580043; cv=none; b=IeA9fCyhiFrH0VqL2vJWQk3VJQ1Sb+uJkcAzhcthPObf3z7tqY/En5tMg67k1XNlKaOc2Wlo+wHPcPW9gZurUyIk6D0+P3g5UuEED/GsKOv3GXqm5hh1EUBJiQJT3W96m4UvaHT99z5kywI+tbRFBsfFamlTa6ih6tdSH/ag4Fc=
+	t=1755580880; cv=none; b=TlsFJ11c6dEo6x0ahdFIkqzJA9+0avrK0oRaY5gUbeqacXcJr9fjr+IXtkJkBZTIB7mB4tom+SscktJfhgF7MwZfH7PF5chFeBwFqKKpAV5FDhoBogt04/eCOapdWZHIvNTd6MlDYadOfbAfKAbnBEkvuV2OefsAUPgXbNPbSTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755580043; c=relaxed/simple;
-	bh=ltXNHRhOhUUl4xR8T4+Ojndq1rFeuYUH2BMxeu0RtmM=;
+	s=arc-20240116; t=1755580880; c=relaxed/simple;
+	bh=PgvQFu3lh9/SIXVDJ5Lm+vEL+WGlLSbSCW8w78xleqc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cZaZpD4H+BptctMe0o0CgeHm1t67f2jqp3Yg6NzzGLYmKA/kETl/u0UMpG8+qihE/n4srMbkIfo3dRiXi0RtSKa760ebp019C/Wi0/gA8bVos0Ue+thwLCVkOs31hHx1b2YTJFjYJmeWqvXJZ66zaaqbi2p8eggi+qGV1iqFIe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=SoXSkFxL; arc=none smtp.client-ip=209.85.221.46
+	 In-Reply-To:Content-Type; b=XoOR6/oxc9NAnWBMiX76P2U2csLPyheqMKQgKoq2yAGinYSONqyGQF7RGkkXKMbmF6OxczqQ7KA1wJR407E5koeB0sFT8jh4foWtpshDaokqfmeh54mqT1mHPM/JF8FhXUizdQ0w6URljLyr6ZjbrgMeHUxtwrgQPiseN1NhaZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=b3yN+1pW; arc=none smtp.client-ip=209.85.208.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3b9edf0e4efso3371970f8f.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Aug 2025 22:07:20 -0700 (PDT)
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-619487c8865so4019450a12.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Aug 2025 22:21:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1755580039; x=1756184839; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1755580877; x=1756185677; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=fga+lbodUmPAZazOf43yy1bTgzdU2LByeFqojuOQ83w=;
-        b=SoXSkFxLAXwWKCM+ck4BQyG3Kz10Cs5HOEmcjcltNTbDIwHOC2NcX6ZR2ICOcmUNST
-         7xGqEImExFpdAq/UFWqdegH0yflXjYvP+BgczT6shJ+am5rgG2vEtDimk9T+y46sqCWA
-         tQwnxvxw63Mz37Pi2WtjyNSLe0Glwo6y1SsQtbA7Nns9qM9RfzYEy/Ghsca28B3oeTxi
-         /CCHU6aHXS6A11DwC1s47+bAYeQKTTJ3f4tffSwJnt0ADdABgAum5xOjTSqo9pLf0G8l
-         /DfrLBj/wSiVcgHPHfX2ZVnlwGdGeOp3mHl+cT4L28njTrhX95MSNL+G6N057lcG17yT
-         MOGQ==
+        bh=dEbBJBOCsv8FoKMcsZux3iuZl2krc57rvNsAxShKVFs=;
+        b=b3yN+1pW+O9gP/jkNC2oIlTIhbqGVfeEU0YkdeFX0oMf/d4/sfFIdNfP+orjPm1yzE
+         krYH2mgTPCKHVoXIGz7Yh48XTcRsSICmPO5buEc/UWyc1WLbmvyWMPzb3Pxc/d5ENZ6l
+         bwzq1QB9yKT6Sq3uJY8NG8ffMxgUIB+aB/WdSJY55qzeN8ZVqpYZQ9V01hmCCrajngRA
+         4ZFAc1sZqfkpsFfNYNYQ6i803b01fj4eDY/HfnYoRjiGYlFQ1gj8xHmCefHTucRIvWHb
+         to9LLzuPOcuI/egqSVe0+kLWLuBd8MA/HGe68V3qLhjNQc8SQw8CjdzV/VeTXIWG2yVm
+         YEHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755580039; x=1756184839;
+        d=1e100.net; s=20230601; t=1755580877; x=1756185677;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fga+lbodUmPAZazOf43yy1bTgzdU2LByeFqojuOQ83w=;
-        b=KSuQD40WtRJFltdPluG4oXeXKc9bcWlYRzykt8QW8A9iYpqoEwEX/TnK1nZK/InGMH
-         zKyh3uRhk8AAPEY4FGYvfBp9pr0aqtUnypqkVnDJts+ShFgfXIz2JHpnvkGpoejKNLCw
-         FOnI0UU/iwDwn3mRKdg8MEnXTtmDoc+g3wAD0/w96L+eMu31SIqcOftXxCafvpEI46Ta
-         UbyoVcMStO/a5vwbfeePc3SEfYk8Vw/QQZqptBcfhmORAxA/BWWfdfIb9YUw4mL7RQkF
-         h3h1Lzg9usRI9xPDmf7VAvBDUWkf12GJg9pH5RbecIIlX+rzZ54Zeq5wP9kQA8czPhJi
-         H1xQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW80rTLT5F8l9+5GlI+5bmgSUvSFRiQjMAHs9V+yfIA7P/quATR5fG89v8txy8664vDUarIhGBFtKIEePXzKPdZfw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvZocDFZmILhm2whNZtrVbD65Khl+NAHxUkkXy3mLqSJwvyba/
-	X8K63rR2hfbTOgPzrJMikt0l5ryGklsAFtVz3TjvROaSKJuqaWLc1dSOhYG03ZK9urI=
-X-Gm-Gg: ASbGncui9KKqUT7U+D+nGSXMxeYs0uuw9zs2tuyRN2hzdypY0Oq/WrTzQgJxRFwTcMn
-	IhGHmL1RE7cjw90VIKFIGfzJuxhsIrBfDgiB0JZxygWQfGC38tH7lmTPuvGpjoofaY4xvAPEe0Y
-	w61fKBSpynDh+ZgSsnGZotyOQXKXAbor3/F/yi1+bkRIBzFe+ypaBDLT9IcFCoCoMSE0iVj+QR2
-	zubrNk/I0Um/6pfRLqLgZyfslBMiA7454i2atYlllaSIcyPqkMuILAn0vKkFc4wE1a2ndRexlXu
-	l0lvBzRPksCqN0p5DoE+IETm0fwH/aVvVW1Vkk7fwsATvYKjHADZY/nYcxSaCds8BCCziTG1HB7
-	4tO619ICQ2UbBZgBqAcaTP3XKf550MTQY9rM/L51hf1q6OHFtfG41DLtf3efw0MHk7K1KcyZdEL
-	dBkQ==
-X-Google-Smtp-Source: AGHT+IEGAIFSV01YojFxZG6ti+gZSOdnTisUwlACnGc8HPzYTSLd/Yrx6ey+bzDVw52KF6DYn9VA+A==
-X-Received: by 2002:a05:6000:2485:b0:3aa:34f4:d437 with SMTP id ffacd0b85a97d-3c0ecc31e8fmr784959f8f.37.1755580039233;
-        Mon, 18 Aug 2025 22:07:19 -0700 (PDT)
+        bh=dEbBJBOCsv8FoKMcsZux3iuZl2krc57rvNsAxShKVFs=;
+        b=v4ii2DPRPSTSdb58jtbdRJHqKghJxFIYGRzhaL9jqZeEafrPPcQ9zc1md/KfpYwzc6
+         JN5T14tUDKgJCGk34nH0txK/YC9IUCF1Atypelk+WUmTKf0TcELFScnkbODF8nn/p6Hv
+         JISSDBVLDR0EfCjGL6XVGx1WFvYR16I5NwSmvwocNc5UNG/cPQHDOPOp4TwU8iiBcoZr
+         y4sw6nuMV/aoEddDkwG8EPGDyCt0PYXqEEGOOi5+N4JHNVS/JwaEQeNSMqNvLRBUWw5H
+         +wB84qUb9ea6Hde41aEHmwYqRrT3JEevedkwR6H7EFCbCjTZp8NaS/nP5XH6J9yWHjgs
+         OH7g==
+X-Forwarded-Encrypted: i=1; AJvYcCVjhCguEiLnDqTq1JAOXzHyg/UeDh5+SaRVuKiyH93ugxwEIoatqV6jT5EJi32Gh/ywnd6fXhGTLJVqh4k6sVO+tg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzfDJm5HMg6y4ton78icL/tH3gMXs9tsu3m2A6IoKXpbgDsQlMA
+	WUICGh+3bxpQmeW2FpgPI9tW5qfpitUUIOGK1xyAaGQJU5+26Tgzz/xF0nv1+5tqEiM=
+X-Gm-Gg: ASbGncvNrbyAa2fBKArc9TkC43VwIstIMxPtaLNBrvckWQk+y1SIJ6SXeIpINThqIm6
+	AW5J8Fsfe9EKGWKx4pmQvnXdZ+GtiISk97O6t/lnPHvs6GJ5QQ1ctU719KddHW+AGkFFD1Gn0Xu
+	mFF5/SNjgZw35sp4TXJ78wke+fjmQL/QXi0Xs96s5x+pDgPiWBaNAozD14URWB7KYj5gVcJNnTQ
+	6wiOI+fk1BiAzzDgsgoJnYc/ZtZTRjaarnu05TqW6UVEghJYmDAt46S95ZkisC4J3oNWsQbro/l
+	Lkn4s11pNvlUNgmgiratDNT29hsONdZ8KCkhfu68Xr9tqrA3ZSetjEU9Zixx8KLSdjiG8F6Xulx
+	tzBME4SgWlY1v4BDtEl/pxb/28NXb1c3EClWFxZMCz8NO3DcSeFJhsF3KFwo1+SAJdDrBhCkvDy
+	W2PA==
+X-Google-Smtp-Source: AGHT+IEsAxLjtuxFrd5xwHWqn7m4ZVS5u3/PVQsGkPC7Jx1JsTOvbmLGxcEv8DcPfcOnvXJsChzMvA==
+X-Received: by 2002:a17:906:6a1d:b0:ae3:ee3a:56ee with SMTP id a640c23a62f3a-afddf019718mr100922166b.3.1755580877167;
+        Mon, 18 Aug 2025 22:21:17 -0700 (PDT)
 Received: from ?IPV6:2a02:2f04:620a:8b00:4343:2ee6:dba1:7917? ([2a02:2f04:620a:8b00:4343:2ee6:dba1:7917])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c074879fe5sm2018512f8f.2.2025.08.18.22.07.17
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afcdd0107ecsm915013566b.86.2025.08.18.22.21.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Aug 2025 22:07:18 -0700 (PDT)
-Message-ID: <d00ce701-2ddd-485e-8bfd-12cddec62fef@tuxon.dev>
-Date: Tue, 19 Aug 2025 08:07:16 +0300
+        Mon, 18 Aug 2025 22:21:16 -0700 (PDT)
+Message-ID: <f71ba698-6c8e-42c7-ac04-3b67cd774784@tuxon.dev>
+Date: Tue, 19 Aug 2025 08:21:14 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -83,45 +83,159 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/6] soc: renesas: rz-sysc: Add syscon/regmap support
-To: John Madieu <john.madieu.xa@bp.renesas.com>, geert+renesas@glider.be,
- magnus.damm@gmail.com, mturquette@baylibre.com, sboyd@kernel.org,
- rafael@kernel.org, daniel.lezcano@linaro.org, rui.zhang@intel.com,
- lukasz.luba@arm.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, p.zabel@pengutronix.de, catalin.marinas@arm.com,
- will@kernel.org
-Cc: john.madieu@gmail.com, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- devicetree@vger.kernel.org, biju.das.jz@bp.renesas.com,
- linux-arm-kernel@lists.infradead.org,
+Subject: Re: [PATCH v4 4/8] dt-bindings: reset: renesas,rzg2l-usbphy-ctrl:
+ Document RZ/G3S support
+To: Rob Herring <robh@kernel.org>
+Cc: vkoul@kernel.org, kishon@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, p.zabel@pengutronix.de, geert+renesas@glider.be,
+ magnus.damm@gmail.com, yoshihiro.shimoda.uh@renesas.com,
+ biju.das.jz@bp.renesas.com, linux-phy@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org,
  Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20250818162859.9661-1-john.madieu.xa@bp.renesas.com>
- <20250818162859.9661-2-john.madieu.xa@bp.renesas.com>
+References: <20250808061806.2729274-1-claudiu.beznea.uj@bp.renesas.com>
+ <20250808061806.2729274-5-claudiu.beznea.uj@bp.renesas.com>
+ <20250813232100.GA950521-robh@kernel.org>
 Content-Language: en-US
 From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20250818162859.9661-2-john.madieu.xa@bp.renesas.com>
+In-Reply-To: <20250813232100.GA950521-robh@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
+Hi, Rob,
 
-
-On 8/18/25 19:28, John Madieu wrote:
-> The RZ/G3E system controller has various registers that control or report
-> some properties specific to individual IPs. The regmap is registered as a
-> syscon device to allow these IP drivers to access the registers through the
-> regmap API.
+On 8/14/25 02:21, Rob Herring wrote:
+> On Fri, Aug 08, 2025 at 09:18:02AM +0300, Claudiu wrote:
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>> The Renesas USB PHY hardware block needs to have the PWRRDY bit in the
+>> system controller set before applying any other settings. The PWRRDY bit
+>> must be controlled during power-on, power-off, and system suspend/resume
+>> sequences as follows:
+>> - during power-on/resume, it must be set to zero before enabling clocks and
+>>    modules
+>> - during power-off/suspend, it must be set to one after disabling clocks
+>>    and modules
+>>
+>> Add the renesas,sysc-pwrrdy device tree property, which allows the
+>> reset-rzg2l-usbphy-ctrl driver to parse, map, and control the system
+>> controller PWRRDY bit at the appropriate time. Along with it add a new
+>> compatible for the RZ/G3S SoC.
+>>
+>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>> ---
+>>
+>> Changes in v4:
+>> - dropped blank line from compatible section
+>> - s/renesas,sysc-signals/renesas,sysc-pwrrdy/g
+>> - dropped description from renesas,sysc-pwrrdy
+>> - updated description of renesas,sysc-pwrrdy items
+>> - updated patch description
+>>
+>> Changes in v3:
+>> - none; this patch is new
+>>
+>>   .../reset/renesas,rzg2l-usbphy-ctrl.yaml      | 40 ++++++++++++++++---
+>>   1 file changed, 34 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/reset/renesas,rzg2l-usbphy-ctrl.yaml b/Documentation/devicetree/bindings/reset/renesas,rzg2l-usbphy-ctrl.yaml
+>> index b0b20af15313..c1d5f3228aa9 100644
+>> --- a/Documentation/devicetree/bindings/reset/renesas,rzg2l-usbphy-ctrl.yaml
+>> +++ b/Documentation/devicetree/bindings/reset/renesas,rzg2l-usbphy-ctrl.yaml
+>> @@ -15,12 +15,14 @@ description:
+>>   
+>>   properties:
+>>     compatible:
+>> -    items:
+>> -      - enum:
+>> -          - renesas,r9a07g043-usbphy-ctrl # RZ/G2UL and RZ/Five
+>> -          - renesas,r9a07g044-usbphy-ctrl # RZ/G2{L,LC}
+>> -          - renesas,r9a07g054-usbphy-ctrl # RZ/V2L
+>> -      - const: renesas,rzg2l-usbphy-ctrl
+>> +    oneOf:
+>> +      - items:
+>> +          - enum:
+>> +              - renesas,r9a07g043-usbphy-ctrl # RZ/G2UL and RZ/Five
+>> +              - renesas,r9a07g044-usbphy-ctrl # RZ/G2{L,LC}
+>> +              - renesas,r9a07g054-usbphy-ctrl # RZ/V2L
+>> +          - const: renesas,rzg2l-usbphy-ctrl
+>> +      - const: renesas,r9a08g045-usbphy-ctrl # RZ/G3S
+>>   
+>>     reg:
+>>       maxItems: 1
+>> @@ -48,6 +50,19 @@ properties:
+>>       $ref: /schemas/regulator/regulator.yaml#
+>>       unevaluatedProperties: false
+>>   
+>> +  renesas,sysc-pwrrdy:
+>> +    description: The system controller PWRRDY indicates to the USB PHY if the
+>> +                 power supply is ready. PWRRDY needs to be set during power-on
+>> +                 before applying any other settings. It also needs to
+>> +                 be set before powering off the USB.
 > 
-> As other RZ SoCs might have custom read/write callbacks or max-offsets,
-> register a custom regmap configuration.
-> 
-> Signed-off-by: John Madieu<john.madieu.xa@bp.renesas.com>
-> [claudiu.beznea:
->   - do not check the match->data validity in rz_sysc_probe() as it is
->     always valid
->   - dinamically allocate regmap_cfg]
-> Signed-off-by: Claudiu Beznea<claudiu.beznea.uj@bp.renesas.com>
+> Where did this odd formatting come from?
 
-Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com> # on RZ/G3S
+I formatted it like this by mistake.
+
+> If copied from somewhere else,
+> patches reformatting them welcome.
+> 
+>      description:
+>        The system controller PWRRDY indicates to the USB PHY if the power
+>        supply is ready. PWRRDY needs to be set during power-on before applying
+>        any other settings. It also needs to be set before powering off the USB.
+
+OK
+
+> 
+> 
+>> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+>> +    items:
+>> +      - items:
+>> +          - description: System controller phandle required by USB PHY CTRL
+>> +                         driver to set PWRRDY
+> 
+> Indent by 2 more than 'description'
+
+OK
+
+
+Thank you,
+Claudiu
+
+> 
+> With that,
+> 
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> 
+>> +          - description: Register offset associated with PWRRDY
+>> +          - description: Register bitmask associated with PWRRDY
+>> +
+>>   required:
+>>     - compatible
+>>     - reg
+>> @@ -57,6 +72,19 @@ required:
+>>     - '#reset-cells'
+>>     - regulator-vbus
+>>   
+>> +allOf:
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            const: renesas,r9a08g045-usbphy-ctrl
+>> +    then:
+>> +      required:
+>> +        - renesas,sysc-pwrrdy
+>> +    else:
+>> +      properties:
+>> +        renesas,sysc-pwrrdy: false
+>> +
+>>   additionalProperties: false
+>>   
+>>   examples:
+>> -- 
+>> 2.43.0
+>>
 
 
