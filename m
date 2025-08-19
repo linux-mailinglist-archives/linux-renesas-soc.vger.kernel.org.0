@@ -1,188 +1,222 @@
-Return-Path: <linux-renesas-soc+bounces-20690-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20691-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ED35B2BC87
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 11:04:43 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 611E8B2BDBC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 11:43:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4167E1889A50
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 09:04:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 542B317B8C7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 09:43:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79B5D26D4EF;
-	Tue, 19 Aug 2025 09:03:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D776F26560A;
+	Tue, 19 Aug 2025 09:43:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aEgxQ2C6"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SWB82A4P"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EE1523E34C;
-	Tue, 19 Aug 2025 09:03:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1099311958
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Aug 2025 09:43:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755594236; cv=none; b=AWR8vg+VOJS8GU0zmLSsXuLAsnDyQ1zReK9x1I9hIrvbQgoJM3ipSTMUibWxEOwbbYf4dDmOcqAK/pOFe5pJNU8W9OuF3eWT2cqK+g6DkHA+8INZQa34f7Dmdz1GypECFgpcB/fnodTdJXxUt2OvH0MdojvChxFPrPTiIA4IuDQ=
+	t=1755596610; cv=none; b=eiSlyin9LayMQIxc5WRssZ2e+3OeGOlaFXZvsbE465IqqmdX9bn0KagsxLm2Q+MZfQxB5OU/156+fshmOHuAq/WSKo0YNXjGm60CHqyVy+Hdb6o0ie5M8NpVFBYRDCW460je4MDebWgrUANtGLS59jdUsyTQfK+oZnl3GUpXlVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755594236; c=relaxed/simple;
-	bh=U81+p77c0JQOTqk7IOzyd3hR2gXqfCNzh6rYyurZ5Eg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G8Py3kOLecB0TUoYA4MhrtLgYGYmpIPb0UVQjxtH3OPL6UqRAmpfQQhEsqp1xzftzfbYLT0rxuJuIwsFQjtRm5WIzdMInkBwrVetMoy7DIb8+GB7VilFaVfjri9cbvmUjgr1LxZRgEL5lE46PHwTEr/QuQ5s6jAuvUtjH0Ggazs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aEgxQ2C6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 314B1C113D0;
-	Tue, 19 Aug 2025 09:03:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755594235;
-	bh=U81+p77c0JQOTqk7IOzyd3hR2gXqfCNzh6rYyurZ5Eg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aEgxQ2C69qgc/E3qFBtTnEN5YhZhnpiBwiTtNRk3f7rG92qb2o4dGHM/zWPGz5sib
-	 qjOaifilW0lTtkcatgbMzeYCdiM3ORf3w62gUV7u/ou37VxECoP+mZ2M8Ww1BG5H+v
-	 VLwGwUzE6Xn1qp4MFbo9BhBzu23V94p8GqHdMo0BfieN/4lrU8zsDoOh/lii49ndxg
-	 t3h7P5PnNiew4XBQXz2qbKD6Ibq4ASeT0tdPcx31QNZBsQaKCBYfqRk2OkWO/Gv/Pk
-	 j6e4Jy6LP/lG2SMUcJK5L/2Nqmoi9sLBSiqG/nUXu8F7Ai1wrAVBHbIYRpfSLFJuUP
-	 L9W5Qw7/hz5eg==
-Date: Tue, 19 Aug 2025 11:03:52 +0200
-From: "mripard@kernel.org" <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: "liviu.dudau@arm.com" <liviu.dudau@arm.com>, 
-	"Kandpal, Suraj" <suraj.kandpal@intel.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	"kernel-list@raspberrypi.com" <kernel-list@raspberrypi.com>, "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>, 
-	"freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>, 
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
-	"intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, 
-	"intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>, 
-	"Murthy, Arun R" <arun.r.murthy@intel.com>, "Shankar, Uma" <uma.shankar@intel.com>, 
-	"Nikula, Jani" <jani.nikula@intel.com>, "harry.wentland@amd.com" <harry.wentland@amd.com>, 
-	"siqueira@igalia.com" <siqueira@igalia.com>, "alexander.deucher@amd.com" <alexander.deucher@amd.com>, 
-	"christian.koenig@amd.com" <christian.koenig@amd.com>, "airlied@gmail.com" <airlied@gmail.com>, 
-	"simona@ffwll.ch" <simona@ffwll.ch>, 
-	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>, "robin.clark@oss.qualcomm.com" <robin.clark@oss.qualcomm.com>, 
-	"abhinav.kumar@linux.dev" <abhinav.kumar@linux.dev>, "tzimmermann@suse.de" <tzimmermann@suse.de>, 
-	"jessica.zhang@oss.qualcomm.com" <jessica.zhang@oss.qualcomm.com>, "sean@poorly.run" <sean@poorly.run>, 
-	"marijn.suijten@somainline.org" <marijn.suijten@somainline.org>, "mcanal@igalia.com" <mcanal@igalia.com>, 
-	"dave.stevenson@raspberrypi.com" <dave.stevenson@raspberrypi.com>, 
-	"tomi.valkeinen+renesas@ideasonboard.com" <tomi.valkeinen+renesas@ideasonboard.com>, 
-	"kieran.bingham+renesas@ideasonboard.com" <kieran.bingham+renesas@ideasonboard.com>, "louis.chauvet@bootlin.com" <louis.chauvet@bootlin.com>
-Subject: Re: [RFC PATCH 1/8] drm: writeback: Refactor drm_writeback_connector
- structure
-Message-ID: <wr76vyag2osox2xf7ducnkiaanzk2k5ehd2ahnoyqdm5qiywlk@penf4v5bvg5z>
-References: <20250811092707.3986802-1-suraj.kandpal@intel.com>
- <20250811092707.3986802-2-suraj.kandpal@intel.com>
- <20250811094429.GE21313@pendragon.ideasonboard.com>
- <awtqznhquyn7etojonmjn7karznefsb7fdudawcjsj5g2bok3u@2iqcdviuiz2s>
- <20250811111546.GA30760@pendragon.ideasonboard.com>
- <2ah3pau7p7brgw7huoxznvej3djct76vgfwtc72n6uub7sjojd@zzaebjdcpdwf>
- <DM3PPF208195D8D0E55A761A3C16B87BAEEE32AA@DM3PPF208195D8D.namprd11.prod.outlook.com>
- <aJ4LQvqli36TlETu@e110455-lin.cambridge.arm.com>
- <hc6f6wgsnauh72cowocpm55tikejhiha5z4mgufeq7v6gb2qml@kmgfd26bigos>
+	s=arc-20240116; t=1755596610; c=relaxed/simple;
+	bh=g0ZQSSDWjXeANXVszXFg5R1z+7y+0W+C8DYO/dgRiQo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JZL+iNSL34FXqGlMDP2JRV1qAP1rawdRgHPO/HScqGMMQZkMXkpDFCTfQV9tWBargWl8QeOiPiHOpYrzTSTPxJOXO8Coh63F881bQ+sSPMtZJMZ5ZiShdHAEFY6E03CYvxSzQ1+LdMv00mrilFK8IeMw1A6hndfpWmCTj4hE66w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SWB82A4P; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3b9d41c1963so2521227f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Aug 2025 02:43:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755596607; x=1756201407; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:reply-to:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rRnvcJ2f2fPQ8sZ2OC8GktyRnLPTrLj3Sq7t/FTrOnE=;
+        b=SWB82A4PajiefsD9Tx7lUW/xs2sUP7FUOQ7J+U+tcUhGFjiFwQlOZcYyQ4DLoIEQnt
+         2HnLu2rrBz9Iw0sWU+ZIc/yKQ4qjlTNHNWBlUbegbBLoAez758xoH0JhCao7MTZ9S21E
+         VcLUlhAu/6CjZ7OOz4Zahu9rRhSY7vsLDyOrEf1eK/oQj6tYLp1mU0cNwIQav3XN8lyW
+         CocfNDauboAKkfWFAhS2fQ1fyQSmuaDNmdN9Ip2Rn0uak2rwb2kvl/22YUJ7bB4+QDoG
+         8wKSl8nLG8COKaUzdcLsjmPfVumsLQWMt1M3Ryhg6JbEXUwnrZ+7wdwIVuKORGs2DcoN
+         VcbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755596607; x=1756201407;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:reply-to:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=rRnvcJ2f2fPQ8sZ2OC8GktyRnLPTrLj3Sq7t/FTrOnE=;
+        b=mTe7K4la3t0DF5fzxIBig2ZekRIz+joJp2T+DGHSUD1Hi+P2DWiueifbsVUlpB9dAr
+         uADzKnofckhCtdkvkESHU0zbnu5uwGecmn10CemEX7k6iAoMVczDG3ipYljC3jSiqK3g
+         9Ulco/Mi7HG3U+25B/x+0lz0ayitrQjIIZTFtXP3fedtaWSSboT1JK6Y35RkVRMEbcQx
+         eHtPpfyYt3ZtWAVRS8kH4lKsOlr67F0crZ4QNB6MjEGeUo6IzOBlryy8Xt3IlG7VwlC6
+         ftV/238LvlfEv/bPnD70xmvIle0GiDfObVo4RZvealKQewf72XsOcDM6vEnbCu+G65c8
+         Fwew==
+X-Forwarded-Encrypted: i=1; AJvYcCVYGVw5HU/v9SzP2Z8qlRCWP6pX5i3SVrCKmkECE3TVTKxks3RAupzIcygEoCrfaRTZQRJgfrfwOZWAU414XbyVyQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxbqyGN9mVdnN4cc/acvQK4xkZeQ8roeieqQDfQCzTlepd9Bd+4
+	eG11x2NcwQTcONNLKIG5gXyx24x5SytQRrXs+WCnbxjfy/xg3ho7HeuPxHzIwO250no=
+X-Gm-Gg: ASbGncsUXZjStjkParMlaSTUGxq8Chb899iOc8ocVaj2+N/HxXuAlEFNgXIuxfrPcm/
+	sMw4T/DdyGcWxp/NU9rsPcv+Ka8iZMJO9xqYHW43TVbe65v1NH2oZ/9KizPVswkXwRJhDpM2tof
+	v2GqL9PSSoAWsIUkeDJsUjbtwXZKMph+pZ8cQjAGirgU2eD1Fd/x3qYp4J/eKDD5rLkZGDBaM9Q
+	hJpuGsqGiyGFamw7HfFT03JC23+8JJGXTeaNooBvJFvC97gl8slM5h3QnAC3CxPIx4U3/+g9679
+	UmrKT2cvBsMowmIdegtrH1ntUHJ3fIiNIUDZAShGppSPnzuefTDLfRDewDXZlFtCcGwXNqUoSlg
+	BxP1DK+1LGtYBWL21OBifrBKgDpVxLxhd4kBU7aBTn4zqngC4tLFcS6hLbMZtX7txei20OJ+H05
+	jsj4Hlr3E=
+X-Google-Smtp-Source: AGHT+IHJcbfoHziYmKYumTTSzX3HBo05hfHJRAHATRASlvGKTD+Scv9wCOw89lV3HUAzWsOF4xrNaw==
+X-Received: by 2002:a05:6000:2909:b0:3b7:92ca:2831 with SMTP id ffacd0b85a97d-3c0e028d43amr1435457f8f.12.1755596606910;
+        Tue, 19 Aug 2025 02:43:26 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:3d9:2080:e7a:79e6:53ed:ce35? ([2a01:e0a:3d9:2080:e7a:79e6:53ed:ce35])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b437862afsm11782925e9.2.2025.08.19.02.43.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Aug 2025 02:43:26 -0700 (PDT)
+Message-ID: <2d576dac-0f9d-4f04-8aef-b3df5f88c926@linaro.org>
+Date: Tue, 19 Aug 2025 11:43:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="skbefrsfocmocpeu"
-Content-Disposition: inline
-In-Reply-To: <hc6f6wgsnauh72cowocpm55tikejhiha5z4mgufeq7v6gb2qml@kmgfd26bigos>
+User-Agent: Mozilla Thunderbird
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v5 15/15] pinctrl: qcom: make the pinmuxing strict
+To: Bartosz Golaszewski <brgl@bgdev.pl>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Alexey Klimov <alexey.klimov@linaro.org>,
+ Lorenzo Bianconi <lorenzo@kernel.org>, Sean Wang <sean.wang@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Paul Cercueil <paul@crapouillou.net>, Kees Cook <kees@kernel.org>,
+ Andy Shevchenko <andy@kernel.org>, Andrew Morton
+ <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Dong Aisheng <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>,
+ Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ NXP S32 Linux Team <s32@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Tony Lindgren <tony@atomide.com>, Haojian Zhuang
+ <haojian.zhuang@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+ linux-hardening@vger.kernel.org, linux-mm@kvack.org, imx@lists.linux.dev,
+ linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+References: <20250815-pinctrl-gpio-pinfuncs-v5-0-955de9fd91db@linaro.org>
+ <20250815-pinctrl-gpio-pinfuncs-v5-15-955de9fd91db@linaro.org>
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20250815-pinctrl-gpio-pinfuncs-v5-15-955de9fd91db@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 15/08/2025 11:09, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> 
+> The strict flag in struct pinmux_ops disallows the usage of the same pin
+> as a GPIO and for another function. Without it, a rouge user-space
+> process with enough privileges (or even a buggy driver) can request a
+> used pin as GPIO and drive it, potentially confusing devices or even
+> crashing the system. Set it globally for all pinctrl-msm users.
+> 
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> ---
+>   drivers/pinctrl/qcom/pinctrl-msm.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/pinctrl/qcom/pinctrl-msm.c b/drivers/pinctrl/qcom/pinctrl-msm.c
+> index a5f69464827119dfe2a7781b558094b283fca215..1751d838ce95d6138c824b90098f74891dec7656 100644
+> --- a/drivers/pinctrl/qcom/pinctrl-msm.c
+> +++ b/drivers/pinctrl/qcom/pinctrl-msm.c
+> @@ -268,6 +268,7 @@ static const struct pinmux_ops msm_pinmux_ops = {
+>   	.function_is_gpio	= pinmux_generic_function_is_gpio,
+>   	.gpio_request_enable	= msm_pinmux_request_gpio,
+>   	.set_mux		= msm_pinmux_set_mux,
+> +	.strict			= true,
+>   };
+>   
+>   static int msm_config_reg(struct msm_pinctrl *pctrl,
+> 
 
---skbefrsfocmocpeu
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [RFC PATCH 1/8] drm: writeback: Refactor drm_writeback_connector
- structure
-MIME-Version: 1.0
+I tested the patchset on CI, and I got the following errors:
 
-Hi,
+db410c:
+https://git.codelinaro.org/linaro/qcomlt/ci/staging/cdba-tester/-/jobs/253304#L537
+[    4.056081] msm8916-pinctrl 1000000.pinctrl: pin GPIO_38 already requested by 1000000.pinctrl:550; cannot claim for 7864900.mmc
+[    4.061402] msm8916-pinctrl 1000000.pinctrl: error -EINVAL: pin-38 (7864900.mmc)
+[    4.077245] msm8916-pinctrl 1000000.pinctrl: error -EINVAL: could not request pin 38 (GPIO_38) from group gpio38 on device 1000000.pinctrl
+[    4.088430] sdhci_msm 7864900.mmc: Error applying setting, reverse things back
+[    4.100751] msm8916-pinctrl 1000000.pinctrl: pin GPIO_38 already requested by 1000000.pinctrl:550; cannot claim for 7864900.mmc
+[    4.107960] msm8916-pinctrl 1000000.pinctrl: error -EINVAL: pin-38 (7864900.mmc)
+[    4.107970] msm8916-pinctrl 1000000.pinctrl: error -EINVAL: could not request pin 38 (GPIO_38) from group gpio38 on device 1000000.pinctrl
+[    4.126971] sdhci_msm 7864900.mmc: Error applying setting, reverse things back
+[    4.139203] sdhci_msm 7864900.mmc: failed to activate pinctrl state sleep
 
-On Sat, Aug 16, 2025 at 01:20:53AM +0300, Dmitry Baryshkov wrote:
-> On Thu, Aug 14, 2025 at 05:13:54PM +0100, liviu.dudau@arm.com wrote:
-> > Hi,
-> >=20
-> > On Wed, Aug 13, 2025 at 10:04:22AM +0000, Kandpal, Suraj wrote:
-> > > > > > };
-> > > > >
-> > > > > I still don't like that. This really doesn't belong here. If anyt=
-hing,
-> > > > > the drm_connector for writeback belongs to drm_crtc.
-> > > >=20
-> > > > Why? We already have generic HDMI field inside drm_connector. I am =
-really
-> > > > hoping to be able to land DP parts next to it. In theory we can hav=
-e a DVI-
-> > > > specific entry there (e.g. with the subconnector type).
-> > > > The idea is not to limit how the drivers subclass those structures.
-> > > >=20
-> > > > I don't see a good case why WB should deviate from that design.
-> > > >=20
-> > > > > If the issue is that some drivers need a custom drm_connector
-> > > > > subclass, then I'd rather turn the connector field of
-> > > > > drm_writeback_connector into a pointer.
-> > > >=20
-> > > > Having a pointer requires additional ops in order to get drm_connec=
-tor from
-> > > > WB code and vice versa. Having drm_connector_wb inside drm_connector
-> > > > saves us from those ops (which don't manifest for any other kind of=
- structure).
-> > > > Nor will it take any more space since union will reuse space alread=
-y taken up by
-> > > > HDMI part.
-> > > >=20
-> > > > >
-> > >=20
-> > > Seems like this thread has died. We need to get a conclusion on the d=
-esign.
-> > > Laurent do you have any issue with the design given Dmitry's explanat=
-ion as to why this
-> > > Design is good for drm_writeback_connector.
-> >=20
-> > I'm with Laurent here. The idea for drm_connector (and a lot of drm str=
-uctures) are to
-> > be used as base "classes" for extended structures. I don't know why HDM=
-I connector ended
-> > up inside drm_connector as not all connectors have HDMI functionality, =
-but that's a cleanup
-> > for another day.
->=20
-> Maybe Maxime can better comment on it, but I think it was made exactly
-> for the purpose of not limiting the driver's design. For example, a lot
-> of drivers subclass drm_connector via drm_bridge_connector. If
-> struct drm_connector_hdmi was a wrapper around struct drm_connector,
-> then it would have been impossible to use HDMI helpers for bridge
-> drivers, while current design freely allows any driver to utilize
-> corresponding library code.
+rb3gen2:
+https://git.codelinaro.org/linaro/qcomlt/ci/staging/cdba-tester/-/jobs/253305#L1120
+[    4.155880] sc7280-pinctrl f100000.pinctrl: pin GPIO_91 already requested by f100000.pinctrl:638; cannot claim for 8804000.mmc
+[    4.167636] sc7280-pinctrl f100000.pinctrl: error -EINVAL: pin-91 (8804000.mmc)
+[    4.179817] sc7280-pinctrl f100000.pinctrl: error -EINVAL: could not request pin 91 (GPIO_91) from group gpio91 on device f100000.pinctrl
+[    4.196265] sdhci_msm 8804000.mmc: Error applying setting, reverse things back
+[    4.196293] sc7280-pinctrl f100000.pinctrl: pin GPIO_91 already requested by f100000.pinctrl:638; cannot claim for 8804000.mmc
+[    4.203735] sc7280-pinctrl f100000.pinctrl: error -EINVAL: pin-91 (8804000.mmc)
+[    4.203743] sc7280-pinctrl f100000.pinctrl: error -EINVAL: could not request pin 91 (GPIO_91) from group gpio91 on device f100000.pinctrl
+[    4.235716] sdhci_msm 8804000.mmc: Error applying setting, reverse things back
+[    4.235722] sdhci_msm 8804000.mmc: failed to activate pinctrl state sleep
 
-That's exactly why we ended up like this. With that design, we wouldn't
-have been able to "inherit" two connector "classes": bridge_connector is
-one, intel_connector another one.
+x1-qcp:
+https://git.codelinaro.org/linaro/qcomlt/ci/staging/cdba-tester/-/jobs/253310#L1776
+[    5.881549] mmc0: SDHCI controller on 8804000.mmc [8804000.mmc] using ADMA 64-bit
+[    5.889494] x1e80100-tlmm f100000.pinctrl: pin GPIO_71 already requested by f100000.pinctrl:665; cannot claim for 8804000.mmc
+[    5.901103] x1e80100-tlmm f100000.pinctrl: error -EINVAL: pin-71 (8804000.mmc)
+[    5.913184] x1e80100-tlmm f100000.pinctrl: error -EINVAL: could not request pin 71 (GPIO_71) from group gpio71 on device f100000.pinctrl
+[    5.913186] sdhci_msm 8804000.mmc: Error applying setting, reverse things back
+[    5.913188] x1e80100-tlmm f100000.pinctrl: pin GPIO_71 already requested by f100000.pinctrl:665; cannot claim for 8804000.mmc
+[    5.929538] x1e80100-tlmm f100000.pinctrl: error -EINVAL: pin-71 (8804000.mmc)
+[    5.948557] x1e80100-tlmm f100000.pinctrl: error -EINVAL: could not request pin 71 (GPIO_71) from group gpio71 on device f100000.pinctrl
+[    5.955983] sdhci_msm 8804000.mmc: Error applying setting, reverse things back
+[    5.975984] sdhci_msm 8804000.mmc: failed to activate pinctrl state sleep
 
-See here for the rationale:
-https://lore.kernel.org/dri-devel/ZOTDKHxn2bOg+Xmg@phenom.ffwll.local/
-
-I don't think the "but we'll bloat drm_connector" makes sense either.
-There's already a *lot* of things that aren't useful to every connector
-(fwnode, display_info, edid in general, scaling, vrr, etc.)
-
-And it's not like we allocate more than a handful of them during a
-system's life.
-
-Maxime
-
---skbefrsfocmocpeu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaKQ99AAKCRAnX84Zoj2+
-dss/AYCDsxLbReOhvxm2/ItnX1NwLBeplh9X5QtqlMFGtACSlJY1IY0m/StI+3f5
-mo8yNFoBgN6HXqzLYYWhMVbxXRVEQKIXD0+CH717KpLuEe2LfvOxFR4OrVqtC0CA
-RG5v2F7KYw==
-=NIHR
------END PGP SIGNATURE-----
-
---skbefrsfocmocpeu--
+Neil
 
