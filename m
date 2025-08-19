@@ -1,192 +1,123 @@
-Return-Path: <linux-renesas-soc+bounces-20702-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20703-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C771B2C4BF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 15:10:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2978EB2C4E3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 15:13:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 50CE2242319
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 13:04:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 83C0E244185
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 13:07:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33AE6342CAC;
-	Tue, 19 Aug 2025 13:02:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rIFGX3Rc"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78E38341ABF;
+	Tue, 19 Aug 2025 13:06:11 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F049A340DA0
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Aug 2025 13:02:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791B532BF46;
+	Tue, 19 Aug 2025 13:06:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755608523; cv=none; b=SFTObbQ5tXlEcS0JC+Ao52jM0XywjqE6Hop00CysJP6UZo47VOB3uQbFuHNdBQJZQvCBMMlTa59AM+hhdHn7GIJb4RESuZTVXfw+MetNm5nFSTllEsHk8IzQ66IUD/mxC20ayhDh2c2AJ3Iao9yYLSPo9iOCeshzf40zewGo6TA=
+	t=1755608771; cv=none; b=GRoMfolABe0C352KykQcjLfRJiYJ6aiw9pWapn3ZHNBpcBAko+W3Ql7X703jT6ruSHEmO0JB+sdaFU+Ly98NPo6Y8tDGP8EukqbL/brFY/8ayQusLY+nlWLSfzU2h1yEaL68MT3pXyVrb7Exx8XORJ77sYWebNiTNkKKu+sus04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755608523; c=relaxed/simple;
-	bh=xDml88sPMX5R8HY2YfDw7tFyskzPjxRWQr7bMllRWeg=;
+	s=arc-20240116; t=1755608771; c=relaxed/simple;
+	bh=cRFojcPNllV40ehqCehsEpGuU/MxDG/dFERecHjiEUw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WYo4ygA1KiCS+lYaD8dzbsEj0S2cCuUFe6Lt6LTObWNrauPTeCnUw3jpunBpb7fVQb6fNY/rNkG4Q1G+sohaMiBLp9TdNoYONCTziQrOet/hZ7g5MRvEF/j/yYsCQe29Y8zLdLck/RHuXLbl1AQH2tXtKObTQMbqMLtoJrXyNsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rIFGX3Rc; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-333f7ebc44dso46531601fa.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Aug 2025 06:02:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755608519; x=1756213319; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qxb1RM5Ht9n1r5SEfzEp8KCVi3ssjTbIBjJD7cNdVUs=;
-        b=rIFGX3Rca8BQbotWBuyjMi53L/jSLyggBdIK9QeWUWOf6ZFMfHN3rD9brhbAOpt+A+
-         Nfb0R8GK4F+so43kB7dvW+mYl7mBOiWc8Q7arNcLhM7gC/wWVQPiOigCzLIg2BwNe/ZD
-         xf3ExINAKjlFjkwMu8HJyXEFVCd5cGsBd2T0IZhG7pUsANV0hDKZuWRH5KclCm5I87GX
-         8mFll2ksFAgQ+ey/nQrLq0/oVX3zO6n1bPJkVUrv7D182fnnFWZgBKqzrVoEE4FXvMZa
-         lRA3YTirIsuosT3ZYCSOxq9oePQa8HJR4n5ED0eQq+L13d9qmg190A8XLaNDv/lX8iZM
-         aEoQ==
+	 To:Cc:Content-Type; b=TP8n45xi/PmadwEUQtszw14y4gP6wgeK4WNA40lDmFJXIIHUIq8+En4mMFT3G7wKikIA10+XqbeNi5zEZ3Hux1VJSdVo26ZlYu+t3BtXm4myyfC1ydHgJ/dLr724rUEmwGclroQzcYkG8YeUavhBF6bylAyLceNVGx1D7Vsz3fU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-53b1740154dso3673537e0c.1;
+        Tue, 19 Aug 2025 06:06:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755608519; x=1756213319;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qxb1RM5Ht9n1r5SEfzEp8KCVi3ssjTbIBjJD7cNdVUs=;
-        b=eSYCKf8KMCMm/ZXA0nmHcAkZvcVJGowMPDRPkOG5Llk7cLifPmLd32tXsTK4dSlUyh
-         XwAgW0n3Vw6SACxl24mtsT7yTZyL1jdFA+EsN6fHI16V71BvyPnMmHa1wA2MPg+P44K1
-         lFR+aASCqe50H0x8RtAjRTxL+KU+ESLwg49zHGGJ3UTEJYmvkrx65YM8niyJUa+YJSeS
-         OjkcP0DfkQuVWj6bOETDtgwBbuTgMkS2SVIryzf5gb80nMcsoAkBClHS2sKVHugggDZl
-         LDyIEQzRWZDy4f+Udh2H7ABOpM9ETYMLecjB0VTpxTgAtXqthRNGXfmrHwJFuwCsmE8A
-         khUg==
-X-Forwarded-Encrypted: i=1; AJvYcCXabR74MhQga58Mij3bnrPoP67Oh6xqmUbrstzCFF4pwBicnXxzfMmwk/7n3go3DDgfBLQQHDmVEuxVfd6k6m0iWQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyj+7SzyTt9voT7WWdxIBRq99EhYR8bZBFIGIPXk3Lc0GGwsWOz
-	p/EhHSu+fcY/BHtyV9tFIB29WiATGeqfxU4bR0InK+V4TRw7kyqs1sL39R2oEC6C0YM4xV4sdcz
-	X0K4JMvX5AhLyd+qMLLarf+pUsj2xXwqxRogWOUSAHQ==
-X-Gm-Gg: ASbGncvioCKtiwukyfFnnVSovAbUyk0Op7TMovjGO1prKSs+46wKsBs4yI5b9uX8qgY
-	VNOqi7zs8e4LSwquWjYXmj98xYgOLuseTuoAB3T+A5sQxO3u7bUSV98Q7xGAxTuvnZIBmSP4ZQl
-	xnwMlquNGGKfc3XvAMkHfBLIDCLCfee5v0cT88SFEuqbkhqrJJyIWI8d+sLsWesD9SiX0SoxPM3
-	pdIVes=
-X-Google-Smtp-Source: AGHT+IE7bjsIxvb3/p90/iX8lbM0JfYfSlfdYQ83gKcwpD46fl2MWv7BXJs8CRajKFvUVpb0cf1UMxfJ5zwUc8D1bZs=
-X-Received: by 2002:a2e:a490:0:b0:332:20c7:2820 with SMTP id
- 38308e7fff4ca-33531348988mr4833881fa.5.1755608518741; Tue, 19 Aug 2025
- 06:01:58 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1755608768; x=1756213568;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8XOdfZsHoyTBBC5eTa1c4VcrP/Xh4XLwdxd8CP9jAi0=;
+        b=K3cB106PQu1tYqJET32dmDR1ed1dzh99fQ5yEjUDsx5Eoc1xdmuRYpI7FYyt99+pSS
+         rHU6cObniE7bqgugP7OHBu3cvSHcGYq8dBRD83IRF1jJWN1ivSd/WbeLAqIbnqFtySus
+         Q9FIJFxIHl+Z7MHVM3UpWXFoEe1eJ6BOVgoibQ8IXPEjoo4lXIDk1o6fsBCD/R/nNnq9
+         6KDKqLgqOcw+cZ5hpeA5WUIgCHkwLw8nhdNdS24WR8yOqPhBvDP4v7h8bjyyOwJ8VWCc
+         zyYWVuoG4DgFli9+SfKL2xfSmc2x4WLxv3PLgnFFyFiLUi0igkLQ/r2ySZXPoRyUKB7+
+         o2UQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV5uombveublmyXy1mucq7SouQsu9NB5GhT1gro+7TVd3nhwqie6E4BYl18L8Xl950u5F/Ig5kAJuU+@vger.kernel.org, AJvYcCVftBj0o4wGyLaHVZ/JDaDlkMKqLaYds9fxa0Ru5G1ta8mc8QyJ42QlYxsXkd7gCkDMRRyi2vghbn66l3qggaZYNu4=@vger.kernel.org, AJvYcCW40lRZ/jaSCMqYwC75Ce6T6GCc9r5V0vnpbmaq95ntrH8WJwQGboyeHcH1kPyAhrNukEpxVAExXWs3@vger.kernel.org, AJvYcCWnHWjKSka4rIfG8S2E9qi6FBWJs1M9qBHqKsSYypK23mgBKZ20Tggl1gjgu7PtvDapzWl2Qn6ZgSIPADRu@vger.kernel.org
+X-Gm-Message-State: AOJu0YxlzHFWy2QxooLMyO1J14DfLjWSJkL4OC5/qHAozndKY+TaAQrm
+	N3w95RjKBhgQL9dA1okqCyfqrVHnOfgB4iLKQYVrAXNXcjOuUuTClRpIz4gHPmPH
+X-Gm-Gg: ASbGncuNNonHo1xlCnvBsskcqldZfipMtQSoLt1/7PBPBjjeXq0wK01UAE+lbg5b/kL
+	u6AriorjonvgQdBsYCXjbOE240Zqz3vM29uFUfQReQLudGFzfN93tnmk4WK6yBroVM9wVYGL5v/
+	4MJNhUd4lZP1k/dN0Bp067ZY02lcPfju7dOhzrRU55mQ7vbLxCdCS1blD4JESzi0FlLXcA8LueN
+	INfjO++pcwSjyq1KrVx1ARzIjzR2emMJBP7dUXWmATZ1NcCiJwNC3dz+U/FV2GYMrh/zovllZSB
+	DBo0X1g8zu91AYIDyC+cOdJfAXRC2Vm6H3InvLduUxZiMePibEoEGJzZcinvd4ryIY31M7i3u2z
+	KlilupF+RdGIbtrilNhI5n1M1Sqrdfs7vNnadqzZkYrQuOZ/Enq8sG2oUvlTNwOSpGi3Eacc=
+X-Google-Smtp-Source: AGHT+IH8JI5kcbwxb0nmuwhaK0Vfx4/7mxZOTMEcvqZanF3GYNy9KpIkQyd3iaYTg/8U3zjX8MbXdQ==
+X-Received: by 2002:a05:6122:921:b0:535:ed79:2aed with SMTP id 71dfb90a1353d-53b5e5955b7mr872314e0c.2.1755608767803;
+        Tue, 19 Aug 2025 06:06:07 -0700 (PDT)
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com. [209.85.217.45])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-53b2bed931esm2528042e0c.20.2025.08.19.06.06.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Aug 2025 06:06:07 -0700 (PDT)
+Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-50f7e78cc12so3672173137.0;
+        Tue, 19 Aug 2025 06:06:06 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWPdJ4H7LjsfJNs3Xz+0911sApXx3mzWeu47ekRKs5SV/bLxCn+NXsDRPVnZJU02lE45cqH65Yp1ouo8emsQuI/Qk4=@vger.kernel.org, AJvYcCWvKegN/ef58vjWojEiVqjWSrh/M/5x7SRS9xuYuCtfuKJNrQRGYp0pmyAq5rMOfYfKnh1Gkz/wMFMq@vger.kernel.org, AJvYcCWxW+eACyb87ChQfU0J2GaabJ+DOAIaylvbNFzTGxbDC46awa0wsAkvL68Q3WrH873HvU5mUXFOiqzB8oCq@vger.kernel.org, AJvYcCXpWcbZ1Mm8RlRquAxL9DLPDJJiwighAF5DyjmIYkGjEGfjO85mLwbJ1nBus7kjHfHe5XuYBoO7xLnJ@vger.kernel.org
+X-Received: by 2002:a05:6102:4a97:b0:4e5:5c14:5937 with SMTP id
+ ada2fe7eead31-51929a19afbmr863928137.1.1755608766525; Tue, 19 Aug 2025
+ 06:06:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250815-pinctrl-gpio-pinfuncs-v5-0-955de9fd91db@linaro.org>
-In-Reply-To: <20250815-pinctrl-gpio-pinfuncs-v5-0-955de9fd91db@linaro.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 19 Aug 2025 15:01:47 +0200
-X-Gm-Features: Ac12FXyC72fjsmfBKj8qknXL2IcZGnP7oQB_by_QmlQnlUNrEkhpI-BF0K24mIM
-Message-ID: <CACRpkdaDGmdhaik+1saRv7Ts4myQ+tg1aQqGU3xQyT7ma8dJFw@mail.gmail.com>
-Subject: Re: [PATCH v5 00/15] pinctrl: introduce the concept of a GPIO pin
- function category
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Alexey Klimov <alexey.klimov@linaro.org>, Lorenzo Bianconi <lorenzo@kernel.org>, 
-	Sean Wang <sean.wang@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Paul Cercueil <paul@crapouillou.net>, Kees Cook <kees@kernel.org>, 
-	Andy Shevchenko <andy@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@redhat.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Dong Aisheng <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, NXP S32 Linux Team <s32@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Tony Lindgren <tony@atomide.com>, 
-	Haojian Zhuang <haojian.zhuang@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, linux-mm@kvack.org, imx@lists.linux.dev, 
-	linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Chen-Yu Tsai <wenst@chromium.org>, 
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+References: <20250728201435.3505594-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250728201435.3505594-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250728201435.3505594-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 19 Aug 2025 15:05:54 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXTfz5mBNLNTwGjzuuVV5L726a2x_penD85524X5GsXjA@mail.gmail.com>
+X-Gm-Features: Ac12FXzFxo0dVvYfSvWWErtn55ptRVL7u8GTkaX8Cq25P7cD0mfdKfGkkT3ZV4I
+Message-ID: <CAMuHMdXTfz5mBNLNTwGjzuuVV5L726a2x_penD85524X5GsXjA@mail.gmail.com>
+Subject: Re: [PATCH v7 1/6] clk: renesas: rzv2h-cpg: Add instance field to
+ struct pll
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Magnus Damm <magnus.damm@gmail.com>, 
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-clk@vger.kernel.org, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 15, 2025 at 11:09=E2=80=AFAM Bartosz Golaszewski <brgl@bgdev.pl=
-> wrote:
+On Mon, 28 Jul 2025 at 22:14, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Add a two-bit "instance" member to struct pll and extend the PLL_PACK()
+> macro to accept an instance parameter.  Initialize all existing PLL
+> definitions with instance 0 to preserve legacy behavior. This change
+> enables support for SoCs with multiple PLL instances (for example,
+> RZ/G3E we have two PLL DSIs).
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-> Problem: when pinctrl core binds pins to a consumer device and the
-> pinmux ops of the underlying driver are marked as strict, the pin in
-> question can no longer be requested as a GPIO using the GPIO descriptor
-> API. It will result in the following error:
->
-> [    5.095688] sc8280xp-tlmm f100000.pinctrl: pin GPIO_25 already request=
-ed by regulator-edp-3p3; cannot claim for f100000.pinctrl:570
-> [    5.107822] sc8280xp-tlmm f100000.pinctrl: error -EINVAL: pin-25 (f100=
-000.pinctrl:570)
->
-> This typically makes sense except when the pins are muxed to a function
-> that actually says "GPIO". Of course, the function name is just a string
-> so it has no meaning to the pinctrl subsystem.
->
-> We have many Qualcomm SoCs (and I can imagine it's a common pattern in
-> other platforms as well) where we mux a pin to "gpio" function using the
-> `pinctrl-X` property in order to configure bias or drive-strength and
-> then access it using the gpiod API. This makes it impossible to mark the
-> pin controller module as "strict".
->
-> This series proposes to introduce a concept of a sub-category of
-> pinfunctions: GPIO functions where the above is not true and the pin
-> muxed as a GPIO can still be accessed via the GPIO consumer API even for
-> strict pinmuxers.
->
-> To that end: we first clean up the drivers that use struct function_desc
-> and make them use the smaller struct pinfunction instead - which is the
-> correct structure for drivers to describe their pin functions with. We
-> also rework pinmux core to not duplicate memory used to store the
-> pinfunctions unless they're allocated dynamically.
->
-> First: provide the kmemdup_const() helper which only duplicates memory
-> if it's not in the .rodata section. Then rework all pinctrl drivers that
-> instantiate objects of type struct function_desc as they should only be
-> created by pinmux core. Next constify the return value of the accessor
-> used to expose these structures to users and finally convert the
-> pinfunction object within struct function_desc to a pointer and use
-> kmemdup_const() to assign it. With this done proceed to add
-> infrastructure for the GPIO pin function category and use it in Qualcomm
-> drivers. At the very end: make the Qualcomm pinmuxer strict.
->
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-(...)
-> Bartosz Golaszewski (15):
->       devres: provide devm_kmemdup_const()
->       pinctrl: ingenic: use struct pinfunction instead of struct function=
-_desc
->       pinctrl: airoha: replace struct function_desc with struct pinfuncti=
-on
->       pinctrl: mediatek: mt7988: use PINCTRL_PIN_FUNCTION()
->       pinctrl: mediatek: moore: replace struct function_desc with struct =
-pinfunction
->       pinctrl: imx: don't access the pin function radix tree directly
->       pinctrl: keembay: release allocated memory in detach path
->       pinctrl: keembay: use a dedicated structure for the pinfunction des=
-cription
->       pinctrl: constify pinmux_generic_get_function()
->       pinctrl: make struct pinfunction a pointer in struct function_desc
->       pinctrl: qcom: use generic pin function helpers
->       pinctrl: allow to mark pin functions as requestable GPIOs
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-I applied these 12 patches as a starter so they can
-stabilize in linux-next.
+Gr{oetje,eeting}s,
 
->       pinctrl: qcom: add infrastructure for marking pin functions as GPIO=
-s
->       pinctrl: qcom: mark the `gpio` and `egpio` pins function as non-str=
-ict functions
->       pinctrl: qcom: make the pinmuxing strict
+                        Geert
 
-Neil reports of regressions on qcom platforms so I assume it's something
-in the last three patches that's causing it and I hold these three off
-until you have time to look at it (and focus at just the final qcom pieces)=
-.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Yours,
-Linus Walleij
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
