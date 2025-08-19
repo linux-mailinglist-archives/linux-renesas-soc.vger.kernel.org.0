@@ -1,138 +1,160 @@
-Return-Path: <linux-renesas-soc+bounces-20677-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20678-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3192B2BAFC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 09:44:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7290B2BB10
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 09:49:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A36A95E294E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 07:44:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 94AE11BA6519
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Aug 2025 07:49:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A492D3101AB;
-	Tue, 19 Aug 2025 07:44:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 079E031076E;
+	Tue, 19 Aug 2025 07:49:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mp3JamPX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A6C220B80D;
-	Tue, 19 Aug 2025 07:44:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4366C310655;
+	Tue, 19 Aug 2025 07:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755589467; cv=none; b=tGTsU9jKnsJcJ+7yGe1MHOa0skVJsorrgPQLgh/+tErRxVYMhCyuXAx2UOkw0N7QA+uDLlwnXDDGmU+tUOjfqSp4XIFjxS2FDdFc3aIgVfdlgHw0eFZipGVxm1Ck5rf6Ncm54uNeHxA/PNC38DVo6WHBpzeN4ErP+QqE/FmhAoo=
+	t=1755589769; cv=none; b=fjnGAAtgrJ8sebTYwPXFt7VbH8gXVw6LBfOZoNCC1zOuAC1eUvJ+mZXL6AaqdpLMfJMsBmFSzb160VOLUN+D0vRB3EeFUVR290z6KZKbS/abl+CeKwLlohCsxBwMpQsRx7qD8I2NTH3uYYNPSA8zslTjm2Dcp07uhA+iAkz8AFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755589467; c=relaxed/simple;
-	bh=hwDi8sI4pb6ewHpH/UxAP+aBsRc4EAsj/SVHWYMpqcc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BPClGOpBNFErDM1LBfFSWAkU0RAZgX3l74aRNBnJatJ2WrukoZyn+9HpmrhKBfUIrnliGkmlK3WOZHWvKoJ7aNCl8MeDlaoKNb3wWqoEYecKlDNOWwwSXIdlQBpOKvpG9pkH4mBiDrk9jSpTHPvlHg6EgQIAdptA9liinMVYrQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1755589769; c=relaxed/simple;
+	bh=o9TySSLEBxV1vBVKUolgwGhPErtzbRBzHso3BUuOW6I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pSvlEQDB0TjFxu7hJeCF/Nyb3mv+PErsdCJhIVGt0wroo5RRXKUP1pqjVx8DBmN4Nn0FW7xsHjQWDgdPY9vliJHJssxeMKSq/Pcgz57xDCSS0uyGWqMMeBlVTty2DGmpNjG/qJ7VSYcApKRtCKbstV4/zB8Oam258rLZ4FzBjcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mp3JamPX; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-53b1737b9c8so1762740e0c.1;
-        Tue, 19 Aug 2025 00:44:24 -0700 (PDT)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3b9e41101d4so2599598f8f.2;
+        Tue, 19 Aug 2025 00:49:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755589766; x=1756194566; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Tktl11pfy3/Yp1aBg2B/XJPwdXr6OR9NrbROhrLFKOA=;
+        b=mp3JamPXTzZiP7m1Sa3TepFMZzt7i/GO3TBiH0aoHgJ5vzIh/YOtoAw1j1X3M9DgMb
+         BzccNJy69w86Ccy7Q+Cvz0zxrKeYKTla1BjsbxIyBdynsMXCuYGwnkMP3LX81Jfe2wvY
+         Laqd8zG1R00N8uDMtKWm+m7JVR/iBHTYg97uy2JjNfdq+C2xzBgt8pvsiRYB8FZCyEJW
+         y+ZAsMArarcOWi6iu+tgPscxIhi3Q4cqNexbAQuCKF8d7Vl4lx1878MsIjcIIGjUTa+p
+         DdE9+3O2Nht1S/JTNl0IJ8jaNuAdBbX1xEfd369BmwT+qgOo4Cj8k8EMUvdRes1UZe3n
+         R2pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755589464; x=1756194264;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1755589766; x=1756194566;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5gxhxdF3vQ/iqynK82+PoG7FIJTLcJKLDWKPn4QyzC8=;
-        b=HqTj2lVzt+HrDAhFmzUz6BaCbqRP63mI/neMkKDZ4FcVjrElXHSSHOIMx4GqweceTd
-         Ubvuiqyo86lLp3l5WDe8xfB7A4yJIwk9SZrG4hQu4Ym9SrNjunBoNngwm+QK4qycSIUi
-         Da4hHLrQJcErm/5gOEcTI82iQ4UbIWo6UOZE460Y7uwz0O5vSPxSn95Bp0c5DFV2DFW+
-         JITGMabkPK37xnhE3bCIj1Ntl+b5NKigrAKkbartAAsmdzlN3zsg7Kh/iLERGGR1IJfY
-         zOrhtjowgfFpYuLsaK7atQbD90taToeSP1SqaP0S5/aB3XpSVcwAi4lD2YjWO2Oebn75
-         98LQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUmlH4h6Qhc9h5jSuv4OJ38MQub0TGMAS+Q178AetiKqDF7amjT9x89koMa8TzOFAXlyuSuuoSWyvo=@vger.kernel.org, AJvYcCVG42JPFJYVTfNajLGOEZbn+u2nqHjOsnFvCtsVSDhmpUbk9uwe2DrhoKj9sS5os4khf1L+hmK23NnqmxbjjQT1VlM=@vger.kernel.org, AJvYcCVwC6lzgtruvivjB/9dBx8IDIIpf+zjZz67izbTMx51aJ67jb0yl1biFgbM3NG+komlPw/VA23LIvl+C1+A@vger.kernel.org, AJvYcCWv+e8O+j4r557EbiC9g2JoKJuQtFGqVHxjIvYtpRCfLZLNzSmSOaYNUzBk8f8Qxi2heuXqGhVyn9Ek@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7tbrSauhYeJcdwSWp8hSRqUV7weoUE78O+YdwDuSjQUi3uPzi
-	WKTkDAnasXoWYj1JrUfjt3ZHpi52+CA8uPCTxuBhgJO4yt+Zdx6b/tpd/lQ34df9
-X-Gm-Gg: ASbGncuRvTQnsJslOz83FmH2g0b2Y1E1uVKMAsp64O4KB/ptEdY2WKo3X6WTcySawts
-	GBY0NqM9yPZmp99jp+oaGQI0DDG/wnyyi9N1THA/a0ym4dgqFGR2HX3kEei8xyUpNidatIS2zNT
-	qJ0OMJ9oWnmkn7/eZUw6dJzXtoSDQQuIyjdhKcefpdKf9jz/OeD7o4Umbchz0/++dHlkf6CoEiR
-	VENhqIOHfYrPqeIwqbMEa3kg3QsZoLsafFjRs7EB6T9Bvlkk2wPYSOnKCinVWkA/On7GBH0YgSK
-	B1F+0aoAncR2Vv6hvtkvGsCeA7KqhPXNQN3ybc6mYNZ+cnGEoPgkIQ4n8zuInwhoDPnT/XmL/wd
-	smizZnB/9mJfaUO6gxiNUAVmTy8BqyLlpI+Zvw8xDvdKjosnZGd9ulsqUKGjOqmy3d5fsGyInUl
-	U=
-X-Google-Smtp-Source: AGHT+IGOVZ0Ffu4V1wu6gVhB4jpb0NsPaRBrR6jp7IM6Q+jX0jvdVMk5x0Zt6h35uHF3tonowGaRNQ==
-X-Received: by 2002:a05:6102:4425:b0:4e5:9426:f9e6 with SMTP id ada2fe7eead31-51923d38b59mr452656137.23.1755589463775;
-        Tue, 19 Aug 2025 00:44:23 -0700 (PDT)
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com. [209.85.221.172])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-53b2bd552c1sm2431853e0c.3.2025.08.19.00.44.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Aug 2025 00:44:23 -0700 (PDT)
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-53b1737b9c8so1762737e0c.1;
-        Tue, 19 Aug 2025 00:44:22 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV01zDgHHKSEou+tqqsuaUQrdr3zxMNs5hUVpoASLfq7HzsF2JC3LkuqhnZ9i6a7DAXt2aVE2FY6tk=@vger.kernel.org, AJvYcCVZTWjk7WPproEy21NKNvxgfVb2dPORaGrEdhpu6U629iMLRRXE1DTq3Rl/zqsgLNzpNYuYfVSMrYwE/lgR@vger.kernel.org, AJvYcCVt4Wqh4UhI+sSToV2aZYyH2sCCbvzyV0Qp1RZ30kgVUpmN7iEqjTi/jrKfmNdDxto7Rl6E5ZGhnPiY@vger.kernel.org, AJvYcCWS1iorb+1J8GEMi6Vv11sk6eIeoareeDPkHSsNXcBjKU0/nRMvBXXMtjhmC0CgPyfco+zKvPiZ3B1h3Be3A67wnQI=@vger.kernel.org
-X-Received: by 2002:a05:6102:1608:b0:4e6:edce:4b55 with SMTP id
- ada2fe7eead31-519b27c870emr28164137.4.1755589462392; Tue, 19 Aug 2025
- 00:44:22 -0700 (PDT)
+        bh=Tktl11pfy3/Yp1aBg2B/XJPwdXr6OR9NrbROhrLFKOA=;
+        b=n9R9E70kUslf9Y43vwHnCLjHXit+iiztcLivD6ClAsZAKNkDH/UnK7qked9vXZOTs+
+         OjmeZW0nRMGojG4kmnPmUKlaRzZEghYR5oUAYJQjwGZcCyf3bJjjgQCMK4vl1Q47EKJp
+         siPeI2JhnBL64+RGKoJmwWjVnrDlHUzXMzRSglTaVSPNRpruYdp9WmKNDLp1ZicydeFj
+         7OemhmxZvshEv3FP/eUNQFgmuW8d267llGW8JxuO0XmEHhht+KWFPeJ2EApqsYtCvnVm
+         miyABJJs26f+vUgrIHjabco4T61DC0LPJEOJuzO+85lCAu0KlhjaTZDj8Gwu0HQKKxJm
+         Kjdg==
+X-Forwarded-Encrypted: i=1; AJvYcCU3uiQlzsxUS3O/L3gdxDs0VMtf9DFn+sfc51p33Aeajxm5eBfZB4IZ2rYxA7w/t1S5VMIRU41l8yQwkH4=@vger.kernel.org, AJvYcCUrHBLM64WKVdTo7ErCWQy87Gn8zhSMKVskFgHiiM3QNg5SmIH5sVY4RffGVZpcq2ZSRtcgX6gb76AsFT2s@vger.kernel.org, AJvYcCVxfj0hkAvaAJfS/UQit82cwdpPEldBQpqwoX+OBBHPfTD+ADCkNghkIy81SuU+BrkM0R5L/Z7DdUTX@vger.kernel.org, AJvYcCWgl7ZGZx/keJSQ7fmFkpI3O5qwV4r4/ToVssJOTSEHIEOZDm29dP5kz7p3rcqdM2iSI7CCcTWpu8txVx4WYe7IDTc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9Or3whlchQSgFv5omOxlODgwKqExTVleFj9Nl08VF0LJNeVzf
+	rFlWhtfBaPK/7bl+DqkLId+/BXOi9XBJucYuvB9hcX9fQ0GME1sCD8s5
+X-Gm-Gg: ASbGnctfliA9hmLHQwt1vjHjxR/AiL+dzPQesxvf63lvUZ+mNsadotUXaJmvP4QcmcN
+	Cjad2ell43L/aCp+ugYa6BiiRHnr6cpp09YHwdepTTq1rjQSM/TXvT1AzMEE5O5Cg1Htw73A0Fa
+	mc51iU0GgeyO/JS82mAqe4l/s9giQcrsFvyzC1irTYRVBpLgIXvWYgtrTHRwrOaAIlfLdmwE6hW
+	7FA/hGxhhaI5Stnp/aAhWodYAkRabfnLuQcVm7AYsROpF+jCmWMvB1Lo7fDzBQtnt3psnOE2/Q7
+	xgGFzZBp4DcYMnlVwVcliXJ4lm7xFADHGIVgLl+dOvxjTJaugSowYPNdOHQKCrNaW797UxM0npC
+	8ET8Jf3SrY1coylKojUB+rWQPGF/PmFsC9gUf7RMvpL06HGSTLv43eSAhlG5aKUwE47xtcZCvjg
+	==
+X-Google-Smtp-Source: AGHT+IHUAZmruvo89s8w/TDHSQbTq0A+T1xiSAxrWAoBmrBQ1XVkEezpiCS1g5v9Gm3xgk+kjze3nw==
+X-Received: by 2002:a05:6000:188f:b0:3b9:2960:bf92 with SMTP id ffacd0b85a97d-3c0ddd0f2e2mr1097338f8f.0.1755589766111;
+        Tue, 19 Aug 2025 00:49:26 -0700 (PDT)
+Received: from biju.lan (host31-53-6-191.range31-53.btcentralplus.com. [31.53.6.191])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b42a6d59dsm29351215e9.2.2025.08.19.00.49.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Aug 2025 00:49:25 -0700 (PDT)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v2] media: dt-bindings: renesas,rzg2l-cru: Improve documentation
+Date: Tue, 19 Aug 2025 08:48:42 +0100
+Message-ID: <20250819074849.18696-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250818162859.9661-1-john.madieu.xa@bp.renesas.com> <20250818162859.9661-5-john.madieu.xa@bp.renesas.com>
-In-Reply-To: <20250818162859.9661-5-john.madieu.xa@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 19 Aug 2025 09:44:11 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVV3tH-Mnkb4z=_3Fu9_zaB+ysuFQYni-ss+Sm_JmZFng@mail.gmail.com>
-X-Gm-Features: Ac12FXxuuCpFvi4bwIVSlqKVwnnWvAMNW-GEJwHYH1WcsCL9Lbq44q3fnYgjfHs
-Message-ID: <CAMuHMdVV3tH-Mnkb4z=_3Fu9_zaB+ysuFQYni-ss+Sm_JmZFng@mail.gmail.com>
-Subject: Re: [PATCH v7 4/6] arm64: dts: renesas: r9a09g047: Add #address-cells
- property in sys node
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: magnus.damm@gmail.com, mturquette@baylibre.com, sboyd@kernel.org, 
-	rafael@kernel.org, daniel.lezcano@linaro.org, rui.zhang@intel.com, 
-	lukasz.luba@arm.com, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	p.zabel@pengutronix.de, catalin.marinas@arm.com, will@kernel.org, 
-	john.madieu@gmail.com, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	devicetree@vger.kernel.org, biju.das.jz@bp.renesas.com, 
-	linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi John,
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
-On Mon, 18 Aug 2025 at 18:29, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
-> A couple of registers of the system controller (sys) are shared with the TSU
-> device. Add #address-cells property to sys node to allow proper parsing a
-> access to these registers from the TSU driver.
->
-> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+Drop CRU prefix from clocks and interrupts description.
 
-Thanks for your patch!
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+Ref: https://lore.kernel.org/all/20240909143358.GA2013-robh@kernel.org/
+v1->v2:
+ * Updated commit description
+ * Dropped CRU prefixes from clocks and interrupts description.
+---
+ .../bindings/media/renesas,rzg2l-cru.yaml     | 22 +++++++++----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-> --- a/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
-> @@ -278,6 +278,7 @@ sys: system-controller@10430000 {
->                         reg = <0 0x10430000 0 0x10000>;
->                         clocks = <&cpg CPG_CORE R9A09G047_SYS_0_PCLK>;
->                         resets = <&cpg 0x30>;
-> +                       #address-cells = <1>;
-
-Iff you need this, you need to update the DT bindings first, as reported
-by Rob's bot.
-
-However, looking at Claudiu's USB series [1], I think you can do
-without, by calling of_parse_phandle_with_fixed_args() instead of
-of_parse_phandle_with_args() in the driver.
-
->                 };
->
->                 xspi: spi@11030000 {
-
-[1] "[PATCH v5 0/7] Add initial USB support for the Renesas RZ/G3S SoC"
-    https://lore.kernel.org/20250819054212.486426-1-claudiu.beznea.uj@bp.renesas.com
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
+index 47e18690fa57..0a57b9d15318 100644
+--- a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
++++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
+@@ -32,15 +32,15 @@ properties:
+   interrupts:
+     oneOf:
+       - items:
+-          - description: CRU Interrupt for image_conv
+-          - description: CRU Interrupt for image_conv_err
+-          - description: CRU AXI master error interrupt
++          - description: Interrupt for image_conv
++          - description: Interrupt for image_conv_err
++          - description: AXI master error interrupt
+       - items:
+-          - description: CRU Interrupt for image_conv
+-          - description: CRU AXI master error interrupt
+-          - description: CRU Video Data AXI Master Address 0 Write End interrupt
+-          - description: CRU Statistics data AXI master addr 0 write end interrupt
+-          - description: CRU Video statistics data AXI master addr 0 write end interrupt
++          - description: Interrupt for image_conv
++          - description: AXI master error interrupt
++          - description: Video Data AXI Master Address 0 Write End interrupt
++          - description: Statistics data AXI master addr 0 write end interrupt
++          - description: Video statistics data AXI master addr 0 write end interrupt
+ 
+   interrupt-names:
+     oneOf:
+@@ -57,9 +57,9 @@ properties:
+ 
+   clocks:
+     items:
+-      - description: CRU Main clock
+-      - description: CRU Register access clock
+-      - description: CRU image transfer clock
++      - description: Main clock
++      - description: Register access clock
++      - description: Image transfer clock
+ 
+   clock-names:
+     items:
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.43.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
