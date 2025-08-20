@@ -1,124 +1,109 @@
-Return-Path: <linux-renesas-soc+bounces-20760-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20761-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 055BDB2DA52
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Aug 2025 12:48:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4BD7B2DBCD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Aug 2025 13:54:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D3FBC1766D3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Aug 2025 10:48:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 94B701884D45
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Aug 2025 11:54:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 051892DEA9E;
-	Wed, 20 Aug 2025 10:48:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="edcLM9Vh"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1CBE2E5423;
+	Wed, 20 Aug 2025 11:54:01 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E33C1C3F0C;
-	Wed, 20 Aug 2025 10:48:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7EB1ACED7;
+	Wed, 20 Aug 2025 11:53:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755686893; cv=none; b=eth/tLAV6webGbX649ZrZD/undCbokf5BC71dJkz7xCCRHTFJZdLdEGN9eNNo5hIdVB9cMlDSUhXGp0qJM7acKv6XBFfZIzIrPUrgu0HCvLVJ1d6677BlE1zCa2Vnx126sPcuvVKOXUxoMpcxmknKOidc6Hb/S2dQO0InV5pFf4=
+	t=1755690841; cv=none; b=AlLCcSAD/1QZCH/i1YsqF5DZWikjxM56GoXsi9CMapZtvFIwhxRw9MLIdHvTCpSU1+KnpLM1O+/04QA5T44+AMf0DtlJb0U5Hnr0yUA9PWj58rKC/9gEJ2HhQXMvp21KfdLGD/kse8xBSGeOC1Z2jKfvel5hMyhlGIn4S5DIGJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755686893; c=relaxed/simple;
-	bh=06I8wOWj8pTVQaz3NYobbvkRZcil7PTfs2i4Ioc5Ylw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oSfNye4dcg/B2HXjSrBmFPRlq+j/jQK0GBnUEys0wA8gZGaJufMxEGb+CGNEiaseDtAmK7NiydIYuoxtCD1iKVTMyXf1Wa/x8gk1TBmckkiLay/fuaDJZxSHKNSmvxEI/k0UWgFScIiJuBjVEE0VJGtxhu+XEqnErl2gEm2n4iY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=edcLM9Vh; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1755690841; c=relaxed/simple;
+	bh=QB2MQQNMFoetjcWtVJa01/TbjbCGv33M0NSGAkUVdDY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jdz1BJqUuMhFK1ndMiJcvHaH84UItnDgoWIBJdOXsVykrBmJpeYU9un8Hr5+3wVKCutSN79ifozjTEjisOw3uwh7ephzPrSB4KvFwVQEjGe0QaO4D8pFooNHCamdtA4gEg4BLDELQUeh+/JCRpkZ80gAkq2NWxXync8oPwGVQaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3b9e415a68fso5323706f8f.2;
-        Wed, 20 Aug 2025 03:48:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755686891; x=1756291691; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ugw0ULulvqBLjZz++Jmmr98N3KajcLtn1e5l/Fm8a8A=;
-        b=edcLM9VhAMVm4EDMXyfHKQ9yyjYlcJ14E4AlAs3a/drbSl20dxtruhg7lHgSgyxqCH
-         8f9ke3jATCyH8gRCkL9mShWyAZyYkkupBZs8cjQT7102Df4ZzhRbR4oDORO5uly4837k
-         kUO+JxLBsgcyHgu01A7jQ0lXGC7dFbD6YZZc/kuPo4A7GLht8eWcXyg6mWx/dHGVVg9D
-         VuK+TgILl+eJ8qxZj96gmUj83M8JqmxyN4wUXGz9um39x4QDikU8zWnQ6dVdOSOmdH04
-         PDs5nk+uMHipyI0AteqPemnf1IlTA1wSE7fZ3coMFr8P3/F1iLhUaIrgeC2XEPWPkn48
-         EKKA==
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-53b175498beso2038322e0c.3;
+        Wed, 20 Aug 2025 04:53:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755686891; x=1756291691;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1755690838; x=1756295638;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ugw0ULulvqBLjZz++Jmmr98N3KajcLtn1e5l/Fm8a8A=;
-        b=k0aXxox1BEAHzMU2EjbuZbQAyU0mfHfHQjGdpKDA1yjL3kVicUbH1f2Q347P1nsHnx
-         YjaQ9iMTf067i0h5mIq49RUm6lm2Iq2bl7yzDWOEtduD+i/+sLnr3TXPxzgqaBczPbI7
-         VU2Xfd7/1zo2mMrjMNfejC6vXrzX3od+R+IHeCsNGgDyOjbL4wipHtQfEIUp6AYZ10Rr
-         XS5uUeNuXWS3eammSdgWE5BNOzkXQv/7xJngs5Ph6MDS15Xb3/zbcdCOg4CjMtDZb/KM
-         s7yvWBVLmKPIGH4AqxaVQptmWcPFAszeHL8Zb8U2yc+o6fAvgOmtblcvh377hN3OEKPz
-         12tA==
-X-Forwarded-Encrypted: i=1; AJvYcCUG30F924qsXvC+ThmZcIS7vWG29KU3uAnFgU4+YqkXVCKcE57a7PJY97Gue7fHeBHHaRDihxKhlqjT@vger.kernel.org, AJvYcCWLpwufQIM9B3MyBUtAIl6LzufQGeR6sTWXSzbszL1kVb8hrMZouNd54/gC4yEyxrziMhBb+nALx0OObHJtcLr5yro=@vger.kernel.org, AJvYcCX4v4IG77Xg7N902HOVPh9xYiL7klShEykTOEyp55YvZCK0bL0EmjNzD1FarWZ9HwzbehkYMSqRCZuhMUw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YylF7rG1OPDKG5L1bPDUSzQpX25KsdCEz0UWJgTlDXuQtaqxeIq
-	HfTl5WIvOcenIhR0qb1V4vLMaJr9ZuG8r2zEA8vJyA3PjVdsWheCMSiUVyqJ2w==
-X-Gm-Gg: ASbGncuBWp0cp4d0stty0Bdwe8inf8K1KhkeAyjbRgxe1AsWMAQZ9xZSbzMfaRN8GzV
-	ZpglDLrOLt+Oo8oZgQtFhNVJMqpBVEl8h9evK7aTmsIKAwhH0MQbB/9XpzpQK2A+fhbaGmjbHS1
-	iG4vcsQcb+s2dv++mSjtDJeG0u8UopGF7LUlvHY6pgAvzLu6lOK2X2xudAVEAbqzmzjEQ7SN0TQ
-	7HVNEIDJD6YWPXf+9t12L7BtE4IGU/VhpuGB9lSTse3LvwwIRA9VHhqgAVClnuRBN6DToz54VaY
-	bKVttV/fGUNI8IBUKJ0pW3aIWO1Z+roBylviblVjoRXGwbWrqULJkw+7FavfgfjK0C/Pf4ObB7u
-	pzJ8MkuQ2nF8uQuyHAW0gKXv2AR/9o6ljz83mmunVCgTGadrGw22P85/FZtVM6KgreGsTjkbyEA
-	==
-X-Google-Smtp-Source: AGHT+IGfGsZyk96binRgObBnTsy8mAeeaClDaows7q5RSfNe0Rh2yEOdGptLJk4ECILMrHl9VE6Pcg==
-X-Received: by 2002:a05:6000:2011:b0:3b7:9c79:3293 with SMTP id ffacd0b85a97d-3c32eccde31mr1790353f8f.58.1755686890519;
-        Wed, 20 Aug 2025 03:48:10 -0700 (PDT)
-Received: from biju.lan (host31-53-6-191.range31-53.btcentralplus.com. [31.53.6.191])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b47c431c4sm26854275e9.11.2025.08.20.03.48.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Aug 2025 03:48:10 -0700 (PDT)
-From: Biju <biju.das.au@gmail.com>
-X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-mmc@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH] mmc: host: renesas_sdhi: Replace magic number '0xff' in renesas_sdhi_set_clock()
-Date: Wed, 20 Aug 2025 11:48:01 +0100
-Message-ID: <20250820104808.94562-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+        bh=m3cC7wTIi41/+V4NnXvdgtBZ4b3AkkW1EoT+UJ7kYNI=;
+        b=jb5c2RRAUAiMdPfW1mQCsh7t9Hhu3zAPnYd5lIZ+aZfKUTnpEAhqMVy/6Idf2qvo+U
+         htONKwsPzUAyTRN0Y+Sn/XCck8c5Zwf3HUia0ShVu7nhsmDMjdCCU+wXM7fZnRDHCaIp
+         iOYqBfGL8hVPZSRFFS7MJ5pBVwIyNVzkZshWfVM8Dq9K7SQMSQyfiRXbLivmrXrIrxCV
+         JWIhPzY3rpfw3MNeBqbqmgpYW5jQBv4Siu4IXCGP0AerUJbT4k9TQGdnSV64bkO2X3DL
+         FF/50JelLcPFHEbEmKGQP+n+PgWCWrdj9x1iyVv7fNqWlgOzDAHPpccWB/4+HO+8Cf8S
+         jdPg==
+X-Forwarded-Encrypted: i=1; AJvYcCV0capFRkvrRYQaMzUfMSmaoCUWtW4TXSVYl3EghOaT440sSHmbPGvup2bB7CCDWxikEmj+Zn89vHHc@vger.kernel.org, AJvYcCVNb6p7rTgIjBTAvHMbh9cfsB8kWTwPq3IMoaNMQSPt9qBuit5UYnaILgd7oOahfX6hj6xxwuJoFtYCd3/HLQopu4E=@vger.kernel.org, AJvYcCWx4FKcAPGxVvAliakvlvp5LjTTE8mNuXOBWTDlTcm1zhzyRrklLtCvTZ0YGMoR64x1npgCqh+3Pj0z3ws=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxR2hYS4jT9VokknkP64QxxR6mhAJsqQguhkLz7zalU3muydomX
+	hkVl3ra1ogV5H9yFtrOMOXnF0buEiWLYVh306/qn19Ky2G6lPJiF4WnTN/2ywvk6
+X-Gm-Gg: ASbGncs8PD7AgLn8YHjOtGbIeWq2J1j9iPIvXrSl/gLP5Cej3MJy2ZkEOJN81yykcxF
+	K1kPe98dfWbYuFmI7s/COPphNHVAPj/0OB6XsgohHZ4TxX6f3hsMmWzuysLIUPXJs8xEq/ZS9KO
+	Atq8BBcDBsE2CiZaAlDYsB6NDFOntRMdkuCLZ7qtNlTLyqyn4cEVZtuMpvvueUuPeptR7Huak2U
+	ShZPmBtb0e4sos2O2gC04Gip1yrkKzcFGbVF2BnGIQZZa+d7hJlcHQVjZ1HqSXlC3pop5ovT9p6
+	pSsLRDROl/EXZu7bcVCrF0pC14bgk8yU15yceILKeA/JmwOLIt/5LolykJ9j+y6iP0w2VjkLC4P
+	C6Kt30RgTSHpKnZhtSG36LDausHJ15FW1fRuAXz5yGQhFoVM5fqDZM3eFGG4y
+X-Google-Smtp-Source: AGHT+IHMJyUY1FE8eduW+KGDPzAoJndiJKgiMe2Q9+9Q34rmkDoRgfPsZ5ToKmlm1zIOjhnzBBZBWA==
+X-Received: by 2002:a05:6122:319f:b0:539:3b3c:617a with SMTP id 71dfb90a1353d-53c6d60edacmr747604e0c.8.1755690837665;
+        Wed, 20 Aug 2025 04:53:57 -0700 (PDT)
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com. [209.85.217.54])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-53b2beff365sm3141144e0c.23.2025.08.20.04.53.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Aug 2025 04:53:57 -0700 (PDT)
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-50f88cd722bso1909834137.1;
+        Wed, 20 Aug 2025 04:53:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV2XVIVI6ERWjLAIyFhAD9TqTQ0/rg93LwfViwYDxMm4nKjAtT4RVw0vzjvkuEd8HgddilPzpxH2xQpIPM=@vger.kernel.org, AJvYcCWvCaUBAJXjD0UV06ig8Mw0ozFrYai/wlDqSFWKtIKYvRfgGSySLGVj+fQ2moCouM1BazgT5uBnq8MCqmG4k/dBkic=@vger.kernel.org, AJvYcCXXM/CyBpNRWP5hjcLbNDr+YCrMHGS55XmWZ3zSnEDleBCmy83nSGYwbDMOf1G6JS2vLc00oNHY2LZ+@vger.kernel.org
+X-Received: by 2002:a05:6102:290e:b0:518:9c6a:2c03 with SMTP id
+ ada2fe7eead31-51a52a18e04mr605179137.30.1755690836961; Wed, 20 Aug 2025
+ 04:53:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250820104808.94562-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20250820104808.94562-1-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 20 Aug 2025 13:53:46 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWeB2z6eax8gm2oO_X35Qm0+cg8NjoFutWMdfHKW-1DBQ@mail.gmail.com>
+X-Gm-Features: Ac12FXy_1UNUF7-0Y5wL5N-u8MrFdhGcL9qUsuwrmyT27ZsRX-Q_yUiNcVYzW1o
+Message-ID: <CAMuHMdWeB2z6eax8gm2oO_X35Qm0+cg8NjoFutWMdfHKW-1DBQ@mail.gmail.com>
+Subject: Re: [PATCH] mmc: host: renesas_sdhi: Replace magic number '0xff' in renesas_sdhi_set_clock()
+To: Biju <biju.das.au@gmail.com>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, linux-mmc@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
+On Wed, 20 Aug 2025 at 12:48, Biju <biju.das.au@gmail.com> wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+>
+> Replace the magic number '0xff' with CLK_CTL_DIV_MASK macro for finding
+> actual clock in renesas_sdhi_set_clock().
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Replace the magic number '0xff' with CLK_CTL_DIV_MASK macro for finding
-actual clock in renesas_sdhi_set_clock().
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/mmc/host/renesas_sdhi_core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Gr{oetje,eeting}s,
 
-diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-index a41291a28e9b..f56fa2cd208d 100644
---- a/drivers/mmc/host/renesas_sdhi_core.c
-+++ b/drivers/mmc/host/renesas_sdhi_core.c
-@@ -223,7 +223,7 @@ static void renesas_sdhi_set_clock(struct tmio_mmc_host *host,
- 	}
- 
- 	clock = clk & CLK_CTL_DIV_MASK;
--	if (clock != 0xff)
-+	if (clock != CLK_CTL_DIV_MASK)
- 		host->mmc->actual_clock /= (1 << (ffs(clock) + 1));
- 
- 	sd_ctrl_write16(host, CTL_SD_CARD_CLK_CTL, clock);
+                        Geert
+
 -- 
-2.43.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
