@@ -1,100 +1,105 @@
-Return-Path: <linux-renesas-soc+bounces-20765-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20768-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 868F9B2E2FE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Aug 2025 19:09:29 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D28C2B2E3B3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Aug 2025 19:26:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 09EE31C27149
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Aug 2025 17:09:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2BD40586794
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Aug 2025 17:21:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74D84334390;
-	Wed, 20 Aug 2025 17:09:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68CE634AB1A;
+	Wed, 20 Aug 2025 17:18:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V8JHUcri"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XfiVLPU0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F82B33438D;
-	Wed, 20 Aug 2025 17:09:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD0B23F291;
+	Wed, 20 Aug 2025 17:18:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755709763; cv=none; b=sTwRbvOPTgfvbkN00302h9dOKYR4iXlh08qOIzhbITWJnc6OPRagVTGjSPfXCDMc4gOBBjk9qMUkMPNmPzX4pZL48XWKcHjdPehZtYQ9wN849Ulk6c/vQVLn/0ZHJ8ri/xLNeS7QPSw9/SBpHM5YJ64aEOGI/DebQLVz6LyVnTs=
+	t=1755710300; cv=none; b=csaIpcgm9aa6Yf+J2TkGNSTD73qsXYjRa4q/hpvofVNzl8ZNwnByzWqLEnyGlvs2x5hhv3FY8Cyc/whl1TKY3o4BJjbprhwQyyPpp7wmtFI6fZ5bh7l02sORD3MVJjmJ0OyR5B2kViAyntRUi+j0HhAOWNdd/LWuYKXuEbXAmpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755709763; c=relaxed/simple;
-	bh=onCZhWEZv0sN7Coawqrn23/OzfNd3gropWTNiiami5c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gcBeMT9Stl3qVE/EmYn6AiZk9WNuC4ONUNNuKny5UTO2Qc5H3R/B371SEiWb1FycXWJ8SoPCBSPY3HKhVu3A+fMYKi3EIh/7XWMlaWmf4s5Zaug2O417R9xqCLAc8zBPN9VGxf8cD1stK3OfQThdrEd79To5C2hC49rGDDCcxcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V8JHUcri; arc=none smtp.client-ip=209.85.128.54
+	s=arc-20240116; t=1755710300; c=relaxed/simple;
+	bh=PZlnTE4OxDhXiMdhi6XOZqY16nd2E693m3bmYm7ur/k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C/X70l2kTZJFSdWBboFA1TbO8InetZUxz4OiYDnftROk6Hf4Q16VYwb3NpJ8grp2MZSYhJ/KEw7XyoyX8m9rNfSMpDItQlq1V9aE3Tm+OZWNF6Zl4ENEo7w9uijo9k6/w3l2l013XbLCwie/cnonAjEA+dCpOlZ7P3tEmgwR5uI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XfiVLPU0; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-45a15fd04d9so8213295e9.1;
-        Wed, 20 Aug 2025 10:09:21 -0700 (PDT)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3b9d41c1963so110735f8f.0;
+        Wed, 20 Aug 2025 10:18:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755709760; x=1756314560; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1755710295; x=1756315095; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MPScU1ItNsuVBAeO87+rFDAEOXNN+q4yVoKKRyKs/Y8=;
-        b=V8JHUcriW90da/vU6KZXDlJ9GE0hjG6J4p1pjE37Co1JvPN3pEHQAE0fviNjZeCeyk
-         bk59hEEBdm1fHvYT46T6H0tuYZEe12hUKat2AxUzi+SinCDQg8akEylCo0k5FfGl7+C5
-         Y9UhF+NKImQiWxinDopKSj+fe29babNSf9R5iOJY20vLs3qHEeB7u3C8DcdatAhflCfj
-         eJu3tvwG8eNX5Kf9tgvqJ7U6JlzCtF1f2k7gH4MEa1jSHE/yz16Zx+PvLP1PMbVzT2XL
-         Tos345Q73M8Na50BwLAlMt/ONEpFimK2Y+d5I45izw9HgutLeyg43d2C+hPPDsCAvABG
-         JXHw==
+        bh=y6eiwry4yNjMS2EnLyC1PO1PH1RUJzWiKmADaSQUZe4=;
+        b=XfiVLPU0p99Fvhcq3SqVy7czMBT6JWRpqImpbJdMabLfsmYZBTdITwbcIfujx+iPij
+         n5EWepyyOu/i4MppyQzlYNpvgE4G34hJv6ikpy2+7oHQEiibJl9LTkZlZKmONKFw6LJ2
+         f1S78/kLWRIGwVRJV3jdInCQCcRyyAbu7WhlJJP4XNaXcMM3yhUE84BNXKPjBQa7+zd9
+         EUkHEud6/ssC+ujSuLCGiJ5oQx558umEveol41YOc/mk7fKVfztmvSz1y1vv7788rRR+
+         6/NcYsetWtychqKGatlHV0bUH/y9qQvH+8Ot6SrhBun3/esO0EqSifNOy5xAx6wqrdj1
+         RqRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755709760; x=1756314560;
+        d=1e100.net; s=20230601; t=1755710295; x=1756315095;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MPScU1ItNsuVBAeO87+rFDAEOXNN+q4yVoKKRyKs/Y8=;
-        b=mRHbkj3vSeObU5lzlSrxG48DcUryg+cEGTd7CN3CMuzJEKOO3/0Jb6hE+4o9gFwYn3
-         V3Uww6CsRcZl5ltT0yVxYnEAhKjDqEs0FG0mG0pjaGnpQ3gaEaE1/IVqxYJB2721Unpq
-         Ng+AgRRJF8UlxHUrOeWNlk2Sk7T2CEQf3LDExd6dUWZFi2+aq28+H0pCEqbQyASqaidG
-         hrJP2NClDrWZWdjP3wsmvJJNe9N6pz8yzvptZI6SoWVm472PNidu7/WUSq18eETRNru0
-         JkAJYq/ciDbpnTo3yhUG71FvsVRYAdnxm7EKqGXa4KAHuuO6orvPVNKWu+0IjrHGduut
-         liCA==
-X-Forwarded-Encrypted: i=1; AJvYcCU/YKyzLx3/eva2UVJMb/ZpPvmY1bWI49l9orb3w+2Gzc7WgR02e3idXiSxJab8eTPARhPR4Ms6FOQozRY=@vger.kernel.org, AJvYcCWKA5v0PSlhRG7OXhNmD63K3Z83vGv3+3kwUhYnIeMQEZim//LIIVFICdgxwW+EfHcEYAc1Pzl9@vger.kernel.org
-X-Gm-Message-State: AOJu0YzuVpXdznGYQHP4RzsVriLr38I6dgAsrRBmhhQThtd5Lco2zzW6
-	GiNs5FIEHh6e8nukksFB9OYquUesmGfAhCsfQnldZvePcD4mKOXtUFLp
-X-Gm-Gg: ASbGncu90X3Y/Zs3W3s2t7RJQphBDK/AmnHm7vuhUlc5HcvT0fdR6/DmtUh/Q9vbB6C
-	2aC3JR8RVWXwEWnD/leLEquXSJFPYnsisD7jK53zAjmiO8MwrtgLSIYhfJEdOaQ2CRZUab+f2Zl
-	oWMV9aEaqc7emrMEfWb/2Q6/QsUnSn3qVQyR++OXmSZ9Bn7wklD2xb/s7zL+XlfQLNEbPlNNj8A
-	Ut/XDyYpp9f21ZPTkGqFu/j63Spf8rIlUWrrlAbiCwu+PSNRA6iegLsX/R40Lp2/nyq34FvSecs
-	Nb08iB+ZIVqjI0vhoOCQIP4r1JT65EPQa37OjaEzQuGplnaUY65RNp252MDjqhxDb5MrnEEkLHf
-	XIgcnxmE98jBCO0tsuLRcPkxff7G11hotS+Q7IlZ0RE+IFWIFg4oqL260
-X-Google-Smtp-Source: AGHT+IGMp/og93GJnnQsP8vZ8w4JEv8g3mF3aEsNkXrBBZYqPOCbIxmFaI1dS0QKUMPOwONj0CxqSQ==
-X-Received: by 2002:a05:600c:64c8:b0:45b:47e1:f603 with SMTP id 5b1f17b1804b1-45b4c6449dfmr2721875e9.18.1755709759349;
-        Wed, 20 Aug 2025 10:09:19 -0700 (PDT)
-Received: from iku.Home ([2a06:5906:61b:2d00:9b1:f84b:89f6:b00e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b47c605e8sm38532445e9.20.2025.08.20.10.09.18
+        bh=y6eiwry4yNjMS2EnLyC1PO1PH1RUJzWiKmADaSQUZe4=;
+        b=w0yhTfViXwn9CKetPyKvNTKsWWnXlOCy27w0ulfhebGczWNGDVj1Ij5W1pwShTQqoO
+         MMew2KpAlwEzlLOHHlCOcmTj84kIIH+3HgodGEeTKd3GN9ilfSQ4/xCamUgfUoA3mjvg
+         nvoPoQsCNSEBkOqZhiv/oWXPmZdn+Qtt6ZACy5w/L2gxPfl9LtCdukgfbQWfWh0LkEbk
+         LwL0hsDDjIWqyT0JwppJXcRwNv3Nc2E9xhB59eIacctjqgu26pFtGXuNumGQcaHVxkVq
+         cIV1/OUxr3+c3dSRn0bkV6qGSqbIQB19E/AxsdvUJ9Vg7cTM0FWXHTG46JxcAX070XhX
+         n6NQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUPqlm5yZ1Alapn/O/FY6DuetIpqyb1eYjaRsYvZunlQgSz7k1gq6+e0OkvaSZYN0DlArdWo4Pbe6oW@vger.kernel.org, AJvYcCUQ6QulUS+/0znviFKC+5NhAtH/7rK4VEODTqxM/sHXsaW23B8DVM9Aqu+CS57UeWPh76HVRkXWhMo+iKsgynurvqM=@vger.kernel.org, AJvYcCVZJT9K7w19yYZzTCR4zbEFJzV91TdB1x2FxqKN4d/mebCJPZJIj10VCBcbsiaLne2ZcYwM1PMXLwmj@vger.kernel.org, AJvYcCVt6x1VWPtWgETYjdNG3szNy+Gmr+hlQvm8ASZgqJIQNrdnels6oQ+K2D25n2AE+5MCyuAbtXOKd7EV@vger.kernel.org, AJvYcCW/uYpQGoNj/P7Tz+EJJ4Qrb+fe5FTnpM7vvNGSohsvwxXZRInsdbuy9x2TZFgTzxKWYf5VaWEr8ESYyUqK@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxo82jkL2Dd4FDrN+Rl4/btsJT6mexEHMTW++GpPLCaKB29Ddqn
+	haRlXoh7OOofKGMEMy86l0KzKC/4zsI8eTTP0dAZWlowv3ZphlnVTmUHgK+ogJUw
+X-Gm-Gg: ASbGncskZWQhLJI9R0YlrZjKsvQ8fDmlOttBMcHW2Fk1SgMBPYWZIvu/SsKyLX0MabU
+	Pd54ke2WYBP53ybcCLTnHD0ex4qK8Drc2QQXGYwwpLKysou2Sw2cPmtQnzwFh0wwdsOBRncEnfg
+	3wCRcVdaAzrNrs/DXhwRew7ATx4msJ9rkZq4u7qI/iF7mtWFMZZ3U0OfyK/rPLE92e6VYIgUr+z
+	MQJh85vZ7a6xhKqESS1O6MRo7dJK4xnKohtRu28Qm+xK1mCdVwE0iIIbvGBJ5YxHdNmW7MmQ//F
+	fQMCOwqcFeL54y+EZk0xeqtrSiIYzfFEaAWgErOwzjwoq2WF4CTgKzr0WOe1z7df4VamkIYVZ+I
+	IK1cZTi/74pK9n/hKDPHZhFqwjB7EQOucO4E8kMyNZxgF3ahvOpRyi0u5f56gb0zzxXUIfDEAKQ
+	==
+X-Google-Smtp-Source: AGHT+IHAzw9Tb//dHCV1SUgEIlrfejXuuE6OLtUtwQVU9JGdDqzb/YHaQYf+2dRfIWaqPfe+zZOltw==
+X-Received: by 2002:a05:6000:4011:b0:3b7:792c:e8d9 with SMTP id ffacd0b85a97d-3c32c529609mr2661092f8f.14.1755710295076;
+        Wed, 20 Aug 2025 10:18:15 -0700 (PDT)
+Received: from biju.lan (host31-53-6-191.range31-53.btcentralplus.com. [31.53.6.191])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b47c2865dsm40319815e9.2.2025.08.20.10.18.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Aug 2025 10:09:18 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
+        Wed, 20 Aug 2025 10:18:14 -0700 (PDT)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mathias Nyman <mathias.nyman@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	netdev@vger.kernel.org,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	linux-clk@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Wesley Cheng <quic_wcheng@quicinc.com>,
 	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	stable@kernel.org
-Subject: [PATCH net-next v2] net: pcs: rzn1-miic: Correct MODCTRL register offset
-Date: Wed, 20 Aug 2025 18:09:13 +0100
-Message-ID: <20250820170913.2037049-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.51.0
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH 00/11] Add RZ/G3E USB3.2 Gen1 Host Controller support
+Date: Wed, 20 Aug 2025 18:17:47 +0100
+Message-ID: <20250820171812.402519-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -103,57 +108,57 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
-Correct the Mode Control Register (MODCTRL) offset for RZ/N MIIC.
-According to the R-IN Engine and Ethernet Peripherals Manual (Rev.1.30)
-[0], Table 10.1 "Ethernet Accessory Register List", MODCTRL is at offset
-0x8, not 0x20 as previously defined.
+Add RZ/G3E USB3.2 Gen1 Host Controller and PHY support. The USB3HOST
+is compliant with the Universal Serial Bus 3.2 Specification Revision 1.0.
+ - Supports 1 downstream USB receptacles
+     - Number of SSP Gen2 or SS ports: 1
+     - Number of HS or FS or LS ports: 1
+ - Supports Super Speed Plus Gen2x1 (10 Gbps), Super Speed (5 Gbps),
+   High Speed (480 Mbps), Full Speed (12Mbps), and Low Speed (1.5 Mbps).
+ - Supports all transfer-types: Control, Bulk, Interrupt, Isochronous, and
+   these split-transactions.
+ - Supports Power Control and Over Current Detection.
 
-Offset 0x20 actually maps to the Port Trigger Control Register (PTCTRL),
-which controls PTP_MODE[3:0] and RGMII_CLKSEL[4]. Using this incorrect
-definition prevented the driver from configuring the SW_MODE[4:0] bits
-in MODCTRL, which control the internal connection of Ethernet ports. As
-a result, the MIIC could not be switched into the correct mode, leading
-to link setup failures and non-functional Ethernet ports on affected
-systems.
+Biju Das (11):
+  dt-bindings: clock: renesas,r9a09g047-cpg: Add USB3.0 core clocks
+  clk: renesas: r9a09g047: Add USB3.0 clocks/resets
+  dt-bindings: phy: renesas: Document Renesas RZ/G3E USB3.0 PHY
+  phy: renesas: Add Renesas RZ/G3E USB3.0 PHY driver
+  usb: host: xhci-rcar: Move R-Car reg definitions
+  dt-bindings: usb: Document Renesas RZ/G3E USB3HOST
+  usb: host: xhci-plat: Add .post_resume_quirk for struct xhci_plat_priv
+  usb: host: xhci-rcar: Add Renesas RZ/G3E USB3 Host driver support
+  arm64: dts: renesas: r9a09g047: Add USB3 PHY/Host nodes
+  arm64: dts: renesas: r9a09g047e57-smarc: Enable USB3HOST
+  arm64: defconfig: Enable RZ/G3E USB3 PHY driver
 
-[0] https://www.renesas.com/en/document/mah/rzn1d-group-rzn1s-group-rzn1l-group-users-manual-r-engine-and-ethernet-peripherals?r=1054571
+ .../bindings/phy/renesas,rzg3e-usb3-phy.yaml  |  63 +++++
+ .../bindings/usb/renesas,rzg3e-xhci.yaml      |  84 ++++++
+ arch/arm64/boot/dts/renesas/r9a09g047.dtsi    |  30 +++
+ .../boot/dts/renesas/r9a09g047e57-smarc.dts   |  10 +
+ .../boot/dts/renesas/renesas-smarc2.dtsi      |   8 +
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/clk/renesas/r9a09g047-cpg.c           |   9 +-
+ drivers/phy/renesas/Kconfig                   |   7 +
+ drivers/phy/renesas/Makefile                  |   1 +
+ drivers/phy/renesas/phy-rzg3e-usb3.c          | 249 ++++++++++++++++++
+ drivers/usb/host/Kconfig                      |   2 +-
+ drivers/usb/host/xhci-plat.c                  |  14 +
+ drivers/usb/host/xhci-plat.h                  |   1 +
+ drivers/usb/host/xhci-rcar-regs.h             |  49 ++++
+ drivers/usb/host/xhci-rcar.c                  | 100 +++----
+ drivers/usb/host/xhci-rzg3e-regs.h            |  12 +
+ .../dt-bindings/clock/renesas,r9a09g047-cpg.h |   2 +
+ 17 files changed, 596 insertions(+), 46 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/phy/renesas,rzg3e-usb3-phy.yaml
+ create mode 100644 Documentation/devicetree/bindings/usb/renesas,rzg3e-xhci.yaml
+ create mode 100644 drivers/phy/renesas/phy-rzg3e-usb3.c
+ create mode 100644 drivers/usb/host/xhci-rcar-regs.h
+ create mode 100644 drivers/usb/host/xhci-rzg3e-regs.h
 
-Fixes: 7dc54d3b8d91 ("net: pcs: add Renesas MII converter driver")
-Cc: stable@kernel.org
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
-v1->v2:
-- Used correct subject prefix
-- Updated commit message to clarify the issue.
-
-Hi All,
-
-I've just build-tested this patch and found this issue while working
-on a similar IP on the Renesas RZ/T2H SoC where the MODCTRL register
-offset is also at offset 0x8.
-
-Cheers, Prabhakar
----
- drivers/net/pcs/pcs-rzn1-miic.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/net/pcs/pcs-rzn1-miic.c b/drivers/net/pcs/pcs-rzn1-miic.c
-index d79bb9b06cd2..ce73d9474d5b 100644
---- a/drivers/net/pcs/pcs-rzn1-miic.c
-+++ b/drivers/net/pcs/pcs-rzn1-miic.c
-@@ -19,7 +19,7 @@
- #define MIIC_PRCMD			0x0
- #define MIIC_ESID_CODE			0x4
- 
--#define MIIC_MODCTRL			0x20
-+#define MIIC_MODCTRL			0x8
- #define MIIC_MODCTRL_SW_MODE		GENMASK(4, 0)
- 
- #define MIIC_CONVCTRL(port)		(0x100 + (port) * 4)
 -- 
-2.51.0
+2.43.0
 
 
