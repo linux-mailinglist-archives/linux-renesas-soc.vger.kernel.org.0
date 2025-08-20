@@ -1,142 +1,162 @@
-Return-Path: <linux-renesas-soc+bounces-20782-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20783-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68314B2E5A0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Aug 2025 21:32:05 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6C61B2E60D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Aug 2025 22:07:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2F1401C87294
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Aug 2025 19:31:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 28F2C7BA684
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Aug 2025 20:05:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7609C28466A;
-	Wed, 20 Aug 2025 19:31:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 279D22765ED;
+	Wed, 20 Aug 2025 20:07:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RGhHMttE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jh3vppxj"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43A602741C9;
-	Wed, 20 Aug 2025 19:31:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D03936CE19;
+	Wed, 20 Aug 2025 20:07:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755718280; cv=none; b=PT5bviGdZdS7373Qd5ebgXc+9MBWsP2ZjC7cyPFEjLy0yYzfl6JtbFjawEbPjqirBK9+CLdKRdeK4ZUnYOsdiFb4/5evdELl3zTFj7/SGQ1arrzF97+LvGqgOJL89xP5u5jKFD1x3P8OP5saaUNCTciEDp3xxMYlFecEMhzcvsI=
+	t=1755720427; cv=none; b=SQi1OldE2hiLCfyZvDS4L+IFoHWV9vMyGp0/YW7tDIdjXztm+UB/8nDCkTt1+suo34BoZ6UvG3MFQCopgurFOKc+KpPrX3RriRr8v+sXjESYwn1A6p7CPLqZBZgDthVBT0kbuTN/qT9vMlcveeSvNqZ47XCUtQl9nhagMe71h10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755718280; c=relaxed/simple;
-	bh=JdMnN/QvHNdC14uZpSWSeOLbLF7avgHXV6bfeFE314E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=d8AFtRJh0WCv9geguixlNJMeQE51X8LXqMywsTFDUvFqM7GjARCusGp0d7E1IiQzP7wlM0FTnwxgyDsxvYB+6X3IIzaVLaIq4wq9iOjUB5cm+gkQVRijugdT3cu/DpBzyhASixnm+At6gowx1s/6NwILUnykOlsCOBjjsAgosc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RGhHMttE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E28CBC116C6;
-	Wed, 20 Aug 2025 19:31:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755718279;
-	bh=JdMnN/QvHNdC14uZpSWSeOLbLF7avgHXV6bfeFE314E=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=RGhHMttEkXppx0xIcllcHsXLmLQQzOdjxYuV/xm82W+tSpLj5siXsGatCtlz88msg
-	 2kBwqKy5UBeiVfHuLZmptxFi73Zpxv/U9awFSIry45ieagzEsDibzMG1wAP3gxnkhW
-	 raADuSVol+35H9SGVkQgHnkq5ZvoxRqgzaJ5nqp8/IExM7a4xIdtlcK3QcBxNxqBtm
-	 KK/V1xpMYSVAS7R01YfN+CYcrvBHMjdmhrWPW+JZTdHhCYbshF/pY90CjAsTW4ka3t
-	 Rd/tFqZozHdiLnaXYd+is6lZXoeiYPHaynU5+quh2DQJRYYBKUUeAlmyR3mDi8VG5s
-	 b2OoQldEU+zEA==
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-619487c8865so2241265a12.1;
-        Wed, 20 Aug 2025 12:31:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU56bj/Sd1e1zqvcCvKO7fdlt7hccKBIAbdmYstRaIqCEeqV3AIyjaLBQ2njCOIYDg8BLgtUdhvw6JbscNH@vger.kernel.org, AJvYcCWRROIguOUlE5hiwEKrba46Um+NfFc9XPA+g9IoseaUnwgdM4srD9JMY9wGS0q2Yuf1VmXAgiMcQxPC/UFv8jpEdWY=@vger.kernel.org, AJvYcCWzvXbxHm6aXTSVDDtPUTUJl5EIhTd6cREYzuqQ77qsTgC5yDl8tBlaDuquQ3FgUSPmIghsX08mppJ2V/Pf@vger.kernel.org, AJvYcCXrnUN+Ny8dI7Lah0xQ98ejhfON83JtzNhaMXl+bWEQ5HUj5i8v2WtMPmmvZswnqe/nO4/E8+0CmuRN1u2NtjMlYg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2QkFK6C+60XMnGhNe0haKQGoy3dr1EdI9I0hA4nWwHthjQK1J
-	tkhKGygXhSRxQZN7x/dnMM+/IxI5M3ykAu3vsHXQee5krTvfNG6CAhtPu2Wq7DoXt8ZGEJwDj8U
-	173tb3YKkBlZZ9BNGge+dxfAbHDIZ3g==
-X-Google-Smtp-Source: AGHT+IHMduLqupXwUu5+wGeCnTMcG3KEnZjSMqXY8A1R3KzTvJxS2yEXoVkoMeeJWEbKS/NfptZmMJOd2EyU0/q6v2E=
-X-Received: by 2002:a17:907:6e8b:b0:afc:aac3:6d2 with SMTP id
- a640c23a62f3a-afe02b475a2mr72725966b.2.1755718278469; Wed, 20 Aug 2025
- 12:31:18 -0700 (PDT)
+	s=arc-20240116; t=1755720427; c=relaxed/simple;
+	bh=3gXciDHf96cHfHxBRvrLeajqxwFXAc6ddN57y0LB4IU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tHC79XDnPpmjVLUCnuhySVayagH2CMv4q4BwXWUzf2CDW7OSadoIQPKgvhx+xl9IJPxZ3NXkdp6harvWH3OZWQ0zybbpwj+j4g4X8zwx9KqsaVEgqAGv3mko+UkstWLW4xHgK1jO5+P+cRhSVhmBm9ulN6zThkWCGM71Yffb5To=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jh3vppxj; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-45b49f7aaf5so1536505e9.2;
+        Wed, 20 Aug 2025 13:07:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755720424; x=1756325224; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hGdx81zu8mbzTejHRuI0a0QsTgQl5GSh7deJkiKL8ZE=;
+        b=jh3vppxjl89TB2Cg0GAsCVz1D1x9dN70EE4yvyT7/B4T9c6y5iyv+bigmidghEy8e5
+         j2MPMOOnRr9aZZbFFJY3oOb+DXng4bOj7uSiiHfyXaxH0oAKq+bYX9E8k1spPNZtVodI
+         Yn/U84dRR7M9UxqPbAh+SpLhppnYjVz/gHevehwN+VVwEnRQNb/3Nec2fpEowzDtSkm5
+         bPM3u01PYa8D/jFIHy0ndqvbEnuqyL395AulQfnfNxDoLCUT3uO/XRxE6hS/pre4oorm
+         BiQHo/Bq0HzZek67/GaD8v934+JlZPI0auV4cS8pTLAURyPTlfAKFJqDe1UjBA8z/HfT
+         gGug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755720424; x=1756325224;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hGdx81zu8mbzTejHRuI0a0QsTgQl5GSh7deJkiKL8ZE=;
+        b=w+X9+wxMQOK/YoBMR6gXuM4wL3da/VnShPiEpuilBF+EAIOJ7FYlcJTD7jFy7s0AoQ
+         KEuvzLZLy6Ooa7I0guhROIwBxnyZM4hSTxqTH+bnznoh8gRFSbmm9QwFtA862kEeFnxA
+         13Ip4kJmsHQZUeAnEKQvcyBsx47lu03xMdxHSPN1olKtZ/7KyOdjm82bAt03Oqma7Okm
+         tz0BAQidQq4kqNanjokZSezISNnWqhISYQublyq/YAV4eYU91zD7sFGAjdbzitHXich9
+         +kqjnmRHsXmtE+pciu4ps2BOLKL6acBwfEFiCZ6flQ/5ehUhafD3sLYZN5mNU6NcrhlV
+         r8ng==
+X-Forwarded-Encrypted: i=1; AJvYcCUzSbZj4UZ41+MfnbgbRvR7GpDhBo7MNZF5MLtaUuy5LQSw+2x8320zoU+MnNKkElPpPYRSf+jRJKiX@vger.kernel.org, AJvYcCXYXPIc7XA0LVQpxO8sAZCByLMRz/TB5xtihSIQaG+iXx1H4RTbyD4SCos9OjfbgT5ivrL2q6ffo+YGli90@vger.kernel.org
+X-Gm-Message-State: AOJu0YyFJnQ0jStNnOYHLk5PhYaJQzXkzzPdaRx/l2ojip2CxiWiqB2e
+	8NfqJxYEub7QDj389jJ7YsLWqoCorx+Ya0rVVFWuOfvigyZGytAqmAkbzarfErCS
+X-Gm-Gg: ASbGncvkYKNZ+NxY9TjTJU7eJQJd6INB5A4beZ1wMBBIzjLLcU/73DSNo81BTfvu+Lb
+	nwsCMiR996B39m0ypbQs+HKtLIw0jOOqRkfmtEIFWmR+wYWBxJ2f54VunTrLCEU54tlmcOVrgtw
+	AI8Dh1GmdY5IGQKtTnGDifApKy7BxBbwp4fS+oBT0rWunx1YT7UC55UbhE1LSm5WE8zmeqqGQfF
+	xchtUqDzl91W8EBE5lFozcBykEx1CWPp+JfOusQcEA83qnsTJr29sr7BdojOKQvnGmhE/F8+LW3
+	qqZbGDKCmHITv3tBlIlk7kctJdJ08BXAUhXMgex1OcRRcHtDCYvsPJhx5AN4WjmM4B180Sxq0Gv
+	nG7oQsj8j8l+8vzvgCRWCnKJqIoZKxXBeUe1kvBJAgEv4P2jSvDVssRlm
+X-Google-Smtp-Source: AGHT+IGF454H9VjRobp+KMDijyGma0XwVoVBh0JzN4Wob/gUgYZuREoyBNxCM15hNZYowyXttLZUCQ==
+X-Received: by 2002:a5d:5f8c:0:b0:3b8:f318:dc61 with SMTP id ffacd0b85a97d-3c495d47a4fmr63838f8f.40.1755720423546;
+        Wed, 20 Aug 2025 13:07:03 -0700 (PDT)
+Received: from iku.Home ([2a06:5906:61b:2d00:9b1:f84b:89f6:b00e])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c077789c92sm8810302f8f.52.2025.08.20.13.07.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Aug 2025 13:07:03 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 0/9] arm64: dts: renesas: Add support for LEDs/I2C/MMC on RZ/{T2H,RZ/N2H} SoCs and boards
+Date: Wed, 20 Aug 2025 21:06:50 +0100
+Message-ID: <20250820200659.2048755-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250819213831.1368296-1-robh@kernel.org> <CAEnQRZDga2cX=YPY5Z9NDyro94bxFjK9k5Xm5Vt2vVzf4ysKyA@mail.gmail.com>
-In-Reply-To: <CAEnQRZDga2cX=YPY5Z9NDyro94bxFjK9k5Xm5Vt2vVzf4ysKyA@mail.gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 20 Aug 2025 14:31:07 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJ1btLjZO_Z7H+qYZhWwTn0Wpq4Ji=deKdUxTwLHw-pTA@mail.gmail.com>
-X-Gm-Features: Ac12FXyzu14Kh1oSkN3MJaRVyez-SIK2NK1snFRbS1U4LOUdSfMmoXWd92DoGYw
-Message-ID: <CAL_JsqJ1btLjZO_Z7H+qYZhWwTn0Wpq4Ji=deKdUxTwLHw-pTA@mail.gmail.com>
-Subject: Re: [PATCH v5] remoteproc: Use of_reserved_mem_region_* functions for "memory-region"
-To: Daniel Baluta <daniel.baluta@gmail.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Patrice Chotard <patrice.chotard@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, Peng Fan <peng.fan@nxp.com>, 
-	linux-remoteproc@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	Iuliana Prodan <iuliana.prodan@nxp.com>, Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>, 
-	Aisheng Dong <aisheng.dong@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 20, 2025 at 3:19=E2=80=AFAM Daniel Baluta <daniel.baluta@gmail.=
-com> wrote:
->
-> Hi Rob,
->
-> This patch will break IMX RPROC support.
-> <snip>
->
-> > --- a/drivers/remoteproc/imx_rproc.c
-> > +++ b/drivers/remoteproc/imx_rproc.c
->
-> <snip>
-> >  static int imx_rproc_parse_fw(struct rproc *rproc, const struct firmwa=
-re *fw)
-> <snip>
->
-> > -               priv->mem[b].cpu_addr =3D devm_ioremap_wc(&pdev->dev, r=
-es.start, resource_size(&res));
-> > +               priv->mem[b].cpu_addr =3D devm_ioremap_resource_wc(&pde=
-v->dev, &res);
->
-> devm_ioremap_resource_wc works only for IORESOURCE_MEM resources:
->
-> lib/devres.c:124
-> static void __iomem *
-> __devm_ioremap_resource(struct device *dev, const struct resource *res,
->
-> =C2=BB       if (!res || resource_type(res) !=3D IORESOURCE_MEM) {
-> =C2=BB       =C2=BB       ret =3D dev_err_probe(dev, -EINVAL, "invalid re=
-source
-> %pR\n", res);
-> =C2=BB       =C2=BB       return IOMEM_ERR_PTR(ret);
-> =C2=BB       }
->
-> while the devm_ioremap_wc doesn't care about this.
->
-> So we cannot use devm_ioremap_resource_wc here unless you add
-> IORESOURCE_MEM flags
-> to  of_reserved_mem_region_to_resource as discussed here:
->
-> https://lkml.org/lkml/2025/4/28/759
->
-> The same issue we are already experiencing with Sound Open Firmware
-> where the change was already merged
-> and we have a bug already reported.
->
-> How should we fix this:
->
-> 1) Add  res->flags =3D IORESOURCE_MEM; in  of_reserved_mem_region_to_reso=
-urce
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Sigh. I thought I rolled that change into it. I just sent a fix[1].
+Hi All,
 
-Rob
+Extend hardware support on Renesas RZ/T2H and RZ/N2H SoCs and evaluation
+boards. Below are the features added for the RZ/T2H and RZ/N2H SoCs and
+EVKs:
+- Enable I2C0 and I2C1 support
+- Enable EEPROM on I2C0
+- Enable LEDs on RZ/T2H and RZ/N2H EVKs.
+- Enable MMC on RZ/T2H and RZ/N2H EVKs.
+- Enable MicroSD card slot on RZ/T2H and RZ/N2H EVKs.
+- Enable SD card slot on RZ/T2H and RZ/N2H EVKs.
 
-[1] https://lore.kernel.org/all/20250820192805.565568-1-robh@kernel.org/
+Note, patches apply on top of [0]
+[0] https://web.git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/log/?h=renesas-dts-for-v6.18
+
+v1->v2:
+- Dropped patches which are already applied from v1 in
+  the renesas-dts-for-v6.18 branch
+- Dropped RZN2H_PORT_PINMUX and RZN2H_GPIO macros
+- Added Reviewed-by tag from Geert
+- Changed led node names
+- Added color/function/function-enumerator properties
+- Replaced GPIO_ACTIVE_LOW with GPIO_ACTIVE_HIGH
+- Moved header file inclusions to common dtsi
+- Updated switch settings for led-9
+- Replaced RZN2H_PORT_PINMUX with RZT2H_PORT_PINMUX
+- Corrected switch settings for I2C1
+- Added comment regarding DSW17 settings
+- Dropped sd0-emmc-prefixes
+- Added alias for mmc1
+- Dropped sd1-prefixes
+- Dropped sd0-sd-prefixes
+- Dropped DATA4-7 from data-pins
+
+v1: https://lore.kernel.org/all/20250812200344.3253781-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (9):
+  arm64: dts: renesas: r9a09g087: Add pinctrl node
+  arm64: dts: renesas: r9a09g077m44-rzt2h-evk: Add user LEDs
+  arm64: dts: renesas: r9a09g087m44-rzn2h-evk: Add user LEDs
+  arm64: dts: renesas: rzt2h-evk-common: Add pinctrl for SCI0 node
+  arm64: dts: renesas: r9a09g087m44-rzt2h-evk: Enable I2C0 and I2C1
+    support
+  arm64: dts: renesas: rzt2h-evk-common: Enable EEPROM on I2C0
+  arm64: dts: renesas: rzt2h/rzn2h: Enable eMMC
+  arm64: dts: renesas: rzt2h/rzn2h: Enable MicroSD card slot
+  arm64: dts: renesas: rzt2h/rzn2h: Enable SD card slot
+
+ .../dts/renesas/r9a09g077m44-rzt2h-evk.dts    | 100 ++++++++-
+ arch/arm64/boot/dts/renesas/r9a09g087.dtsi    |  13 ++
+ .../dts/renesas/r9a09g087m44-rzn2h-evk.dts    | 172 ++++++++++++++++
+ .../dts/renesas/rzt2h-n2h-evk-common.dtsi     | 193 ++++++++++++++++++
+ 4 files changed, 476 insertions(+), 2 deletions(-)
+
+-- 
+2.51.0
+
 
