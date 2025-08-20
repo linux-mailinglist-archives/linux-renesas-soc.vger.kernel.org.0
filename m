@@ -1,65 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-20778-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20779-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 643D8B2E40E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Aug 2025 19:37:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83394B2E44B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Aug 2025 19:46:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 26CFD163011
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Aug 2025 17:33:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5E42B5C7E57
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Aug 2025 17:46:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B2DA248F70;
-	Wed, 20 Aug 2025 17:33:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5396126B2D7;
+	Wed, 20 Aug 2025 17:46:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qB3404rn"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="cQiIzGxd"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 040051FE471;
-	Wed, 20 Aug 2025 17:33:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9CAB259C93;
+	Wed, 20 Aug 2025 17:46:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755711231; cv=none; b=AMtXrbAeea9zsXRgVVMD1QRSLApKDg/UoDY1H3vrcm80Dg7+qTsFEYmp/UCeG8/FiT+FGn+oKMYRHuFmW3KFJ92wdofzZq2Ha9nJt9ezbm4oxzN3oR0DvxCm70m1wXj57SdqdpKYDNdooTXMM0JT1sKNKeLwws1oqvU2tyoTXDY=
+	t=1755712014; cv=none; b=Lp1xMVnS2V0FPrmntrr9KLxdGZjapeUWucoVa6bOc+lFBAeV+3zdu0xsp02lSbv1L2eBUvLLufL+P72Jp7lCOWe+JS43dfp41o4+q+tv5b1yhejmUWbhiQ5nQzgBWsfThz1dmXPY/Hn1bV1Lc92inAVHuNSmtkZ5XHrbPMANH/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755711231; c=relaxed/simple;
-	bh=IZLhfWlR8l29O/Rs+y/vbyQIxjgqFr1RK3zhxpfWq9Y=;
+	s=arc-20240116; t=1755712014; c=relaxed/simple;
+	bh=jgJSWGXo6CZ+lCD/doF+gwZ91JG6VSTUICKNOcge20o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qkxle7CKRHy6W6DYnL1wSJPPy9mWRyyzJNXWY1lq8XfX5pX1XtXo+7yiFu2gvDsKd4t3d9I3OQKY9fjttDni8JAAcfoGvSxT3CmVFXmLCnVzsA/FxOzvqjiCRobWm4P5iZVYLpequp9UyVthgDWf4NRijaP1JdW7qrRXtkCZ+tc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qB3404rn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD8DBC4CEE7;
-	Wed, 20 Aug 2025 17:33:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755711230;
-	bh=IZLhfWlR8l29O/Rs+y/vbyQIxjgqFr1RK3zhxpfWq9Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qB3404rnN0wFbDUiVHboYVAJPfSJyh0mlizGnsPAKDEQrliwNVkpMrdOir+7wq9sM
-	 NQBZTujNSdd6t94u4k7Zi9u4/O8cMIN31yWoHhw1RcG4gTPiuotcSoPZjjQsU4Njvj
-	 IenBRIZFhOAYv71dBbWYGT059/71eYmLHhAKIlxnQK7D4EHvKH6tx1e+f7tJtixwS3
-	 xdmCZo9v+cDpbbWdVCij+PlYYxV7eI7YiHeSa0PRLpbxmGUHaAN6bETGM1vtVm9w2+
-	 UDPN7J3qFeEQkTAMyYerfRIp/Mu+qi2uye7orz+gRGa86cT0u7Z7nwcKr1v5GRpaHc
-	 moLSENnPxdyZw==
-Date: Wed, 20 Aug 2025 23:03:46 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
-	biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=htM6tTnVHkLgtW1O75Ofw3Ceb/E3r5LOBxIt8rIWUqrHzg9W517WLAwqxicSnQsTavg81QUN1caiqL5csdQNpeYkwlMwJo5YkhCezC6RCRBiOD+KDNOEKhPndyRiRvqU3VlgEe0VGitiOiNoRBbdTy1aA2PO01COO0vCX7kXqU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=cQiIzGxd; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=+kZ4lkixRDn9IjHCTHI8jOI8o7eMwRKPi5/Bfyz0HXM=; b=cQiIzGxd47kM58KRcmpGsNzqKy
+	oD+M3p1G7sBrh7zxBLipbebJIyJ0nY6hCCZ/+8I0iK4phyOUiaaXk5lolbCJb/J+1N1M2uyHNW3L1
+	FkmfgywUr+DTv1LekOsYaJhhOOimPrpM1lV9EbhA68wb3IzmCPfuESh7NXocfasMkzBgJ8uckZxGz
+	+XNgRLvp16X4sYKxv8XE8zZAKwt4ZD7rt6gcKyJJ3unWNRxncn+DWlYN2+wRgTYw4Nfvy+F9FOZXM
+	L2SOnk2mY761FLa+cxMlK+Oy+LUlSQxUuFKidfErPE7Tb5l+9/8wLmdskZrDMyo0+T0oznfgrzr0N
+	rr43rdzg==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:36078)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1uomtU-00058L-1t;
+	Wed, 20 Aug 2025 18:46:41 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1uomtR-000000001Mt-0Dbq;
+	Wed, 20 Aug 2025 18:46:37 +0100
+Date: Wed, 20 Aug 2025 18:46:36 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>, dmaengine@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-clk@vger.kernel.org
-Subject: Re: [PATCH 2/3] dt-bindings: dma: rz-dmac: Document RZ/G3E family of
- SoCs
-Message-ID: <aKYG-ph43pjgiHF_@vaman>
-References: <20250801084825.471011-1-tommaso.merciai.xr@bp.renesas.com>
- <20250801084825.471011-3-tommaso.merciai.xr@bp.renesas.com>
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	stable@kernel.org
+Subject: Re: [PATCH net-next v2] net: pcs: rzn1-miic: Correct MODCTRL
+ register offset
+Message-ID: <aKYJ_OOOFcNeDp_u@shell.armlinux.org.uk>
+References: <20250820170913.2037049-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -68,42 +81,37 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250801084825.471011-3-tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <20250820170913.2037049-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On 01-08-25, 10:48, Tommaso Merciai wrote:
-> The DMAC block on the RZ/G3E SoC is identical to the one found on the
-> RZ/V2H(P) SoC.
+On Wed, Aug 20, 2025 at 06:09:13PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> No driver changes are required, as `renesas,r9a09g057-dmac` will be used
-> as a fallback compatible string on the RZ/G3E SoC.
+> Correct the Mode Control Register (MODCTRL) offset for RZ/N MIIC.
+> According to the R-IN Engine and Ethernet Peripherals Manual (Rev.1.30)
+> [0], Table 10.1 "Ethernet Accessory Register List", MODCTRL is at offset
+> 0x8, not 0x20 as previously defined.
+> 
+> Offset 0x20 actually maps to the Port Trigger Control Register (PTCTRL),
+> which controls PTP_MODE[3:0] and RGMII_CLKSEL[4]. Using this incorrect
+> definition prevented the driver from configuring the SW_MODE[4:0] bits
+> in MODCTRL, which control the internal connection of Ethernet ports. As
+> a result, the MIIC could not be switched into the correct mode, leading
+> to link setup failures and non-functional Ethernet ports on affected
+> systems.
+> 
+> [0] https://www.renesas.com/en/document/mah/rzn1d-group-rzn1s-group-rzn1l-group-users-manual-r-engine-and-ethernet-peripherals?r=1054571
+> 
+> Fixes: 7dc54d3b8d91 ("net: pcs: add Renesas MII converter driver")
+> Cc: stable@kernel.org
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-I seem to have only 2/3 w.o cover, nothing in pw too...?
+Reviewed-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 
-> 
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> ---
->  Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
-> index 92b12762c472..f891cfcc48c7 100644
-> --- a/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
-> +++ b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
-> @@ -21,6 +21,11 @@ properties:
->                - renesas,r9a08g045-dmac # RZ/G3S
->            - const: renesas,rz-dmac
->  
-> +      - items:
-> +          - enum:
-> +              - renesas,r9a09g047-dmac # RZ/G3E
-> +          - const: renesas,r9a09g057-dmac
-> +
->        - const: renesas,r9a09g057-dmac # RZ/V2H(P)
->  
->    reg:
-> -- 
-> 2.43.0
+Thanks!
 
 -- 
-~Vinod
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
 
