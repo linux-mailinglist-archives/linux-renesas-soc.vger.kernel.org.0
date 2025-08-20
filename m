@@ -1,125 +1,111 @@
-Return-Path: <linux-renesas-soc+bounces-20763-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20764-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EAABB2E29C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Aug 2025 18:44:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EA68B2E2DC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Aug 2025 19:03:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 070CE3B0705
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Aug 2025 16:43:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C8F551895501
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Aug 2025 17:04:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3B9B3314B1;
-	Wed, 20 Aug 2025 16:43:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9C62334709;
+	Wed, 20 Aug 2025 17:03:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="d8Oq1XSA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nO2FsqLm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3726032A3FA
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Aug 2025 16:43:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF9DE23E33D;
+	Wed, 20 Aug 2025 17:03:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755708230; cv=none; b=HbpedUh+1cPoaO20KKBUgOesglIjiy2h3Kx+J+yV/1XbqlEZq6xxur0/IjCOR8mNk6Bym179q+15odS7aCTligK96jjWmYbeZxvjOpKdmN3w+RS4gRkDOKSRqPiruvVMrSjeOoPp0/knnp7uagIt1CX1vCJ9cv5hXBmsN6URTwc=
+	t=1755709394; cv=none; b=QEM0/Ftprjp/qeRJnXqLsjVGsQGGOe4IpC0vej9GV9cx5yDcdLkj6t8teXxaM3DKkt8NXf9/ydUQDViW7Sx+WKSR5JG1Ujd9weP5Sf0oJZLE8vT3yiloPNl3f84n8f4kC804Ft2gpOBFhYsgi4E8JecicsnBDap2kYyYxifcGuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755708230; c=relaxed/simple;
-	bh=WzdI1oYR8phntwLqYeaeesclKsoSMLbv6invCVoupTs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hBBn1sqXcelJYaXn/qAB0S1d8yB0p0GVGG9YbmDOGlfVTcqhDYrMwdp9qjSDoL8IiddEXFrV/FXZDPA9vk+jeMxpPfRflWxI7f5JygwTN4BAsH7dGG7LeL861lJ6VThoRtXirkbC+GFuety5lA0BcvtfSX62WiCteveY07uN17Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=d8Oq1XSA; arc=none smtp.client-ip=209.85.128.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-71d6083cc69so106707b3.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Aug 2025 09:43:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755708228; x=1756313028; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=iQkujuB9vAN8hQhansFuXhh+VaQyrPhFjEbmZzXzSUg=;
-        b=d8Oq1XSADB9peoTNPzST92bNBvOHz4O/SNw91zXmMQI52huCoUHHpYB6nhdh+NzsEi
-         9VNTQtkJ3nc0fMifYFgdiWeqtPNGsmgaIHp/h4hxiPSrMCVx5k//MfwlszunXMicRhJ3
-         8Ekt4wJRsDfrxlTlWk1Th2dkpc6Bp1vmogfgB7McT+3ZIdj0iABEb6AYyWno8AV3IjL+
-         Uw/aACyYvDJ6l/I2NM1draQrPbKE89GS4VEIg33trLGq8HhxucePG5J6fYaZirI4ftC4
-         zt1VPIUwbDjbOBOZD91/Sn5qwSoCOo4EHUYzXT3zNW+z/0KZl07khfbfyWTiciGczeHH
-         JdzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755708228; x=1756313028;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iQkujuB9vAN8hQhansFuXhh+VaQyrPhFjEbmZzXzSUg=;
-        b=k6qpSqR4LSgZzJWDGBeI0GdVkTagk/USJqGstCx1FbPTCijyvdiR7tj1BtjmJ4Rlk+
-         2okZ0pA5X0J2jfSHFgxFCIPCuBxA4BEdjVOOeQAUJffMw/wB7Yh1Mf+xzSLDSRyNrCOV
-         swCf/DduOz9zQyjIETXfysv01oOCs4WL+S72CzAOMuTbV+6QK/6ojrQuiYgQ3zL6ifRJ
-         5RgeAFCuy6O3nm2n23i77mNBDOC/sGZoYPNH2FXwhapxk2vX9iQQNTC6xtkp6mpzsUId
-         fEfSY2EUankW0lxV37igDtPq/qtGXZgnfIYbDJqyWO3OIdYP/4WedDgFF67i3ySgajkt
-         2hgA==
-X-Forwarded-Encrypted: i=1; AJvYcCVpFxEkSPWT6HPLa0JPs7zlMU7VqphPwkh4H5+cFTjic/iBwyWDfaMCHSZqyCrFUNsILxyJ2+WypSISVfP00JAvjg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyoipriyOPQsCnfzFEAj2XKGOAEXj77mYFViEL5Y3p0cgc7fO12
-	g+hA278gDRvRbYtNq2WVIGB4Zc5PtvQbCCGHIq/Ww6TFTdpPH+k/YCZLM7cpA6r6BLkjaqQTzIU
-	EO5cLukWq2kmKKaLrNaCaXKCPf4vesVK6qQqxSRcHPg==
-X-Gm-Gg: ASbGncszZ93U+tS6URo8eSQjO9iCL5Cw5NFj3LCYw3mQLOO929tk3Je4Z7hqwwREeQS
-	+n2Q/a1Q7YaPgWcSBpRGU7ChL8SusUdONzuKTLlzAoT3MkvzeQyhvCdFQo9nuF5IMdnIKfAQg2N
-	JNgBFrdaF/w+xNajeoEBQEI4BfvgHI9Nc2L0/N+6dB21hAdXRmBia78zY0n/g+Xu4ZkkO5lrxrj
-	kRia2LCYLDLLELtwXw=
-X-Google-Smtp-Source: AGHT+IE+Wt0j9bfvOyDxK4S5Sk+LF+v0ZkAtLY2D0aSLiBwAJ5C8bcVtX4TZmLbwWs4GZF94qJmrCp4P6UaXDpFQvm8=
-X-Received: by 2002:a05:690c:f89:b0:71f:9c53:bac6 with SMTP id
- 00721157ae682-71fb322b56fmr47409967b3.36.1755708228116; Wed, 20 Aug 2025
- 09:43:48 -0700 (PDT)
+	s=arc-20240116; t=1755709394; c=relaxed/simple;
+	bh=8h5swraijlkugF4NxQe+E8fB0bxjOHS1fwKTn+gkooY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=N25Z9JdXJrRY519krOAdM5+jGGSzdwhaNXFcw5Wh9aoG6BBxPo78AHMHHGobMaU5tyCInqlO5zHTJxi32KPohOo1aBPhVdy/dl+3/nIoQtYr61bfz8AnCjwr1lI6jlw62+9uacELMl9/bebzvTKhAMbq8fYqNqfPj+TU24vKCHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nO2FsqLm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FA18C113CF;
+	Wed, 20 Aug 2025 17:03:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755709394;
+	bh=8h5swraijlkugF4NxQe+E8fB0bxjOHS1fwKTn+gkooY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=nO2FsqLmDAAbCYg9zp0td9LFAODit7CNnYis/Xj5s0d4JdrlAZRqyDSkulhaIhAC5
+	 wO8M5G7uG8nObAjX30ESnFHxvBdLyik+O+EOuL4FOjtwC9qW5ZBbZ376hoIytyr92S
+	 sLEVJsCse4zbrdAKwW2/bOry1REwG3h5EMN2PXL6j8NEO9kfaXP52PirZmFQbCLGon
+	 w5/OwqVAFpF3ApHeDlIz9xChP0IQ4hTFfqNguySHvgpkGIpjpmJuBEo5hFUMrO1rcE
+	 iqahtLl4BAFg9kccYauO4n9FLQYfT7txuVx0fNY+YvawUR3tS+HvkBXs7d4PtbzHhf
+	 iX1bUf0N9ItEA==
+From: Vinod Koul <vkoul@kernel.org>
+To: Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Prabhakar <prabhakar.csengg@gmail.com>
+Cc: linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ Biju Das <biju.das.jz@bp.renesas.com>, 
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250808215209.3692744-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250808215209.3692744-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2 0/5] Add USB2 PHY support for RZ/T2H and RZ/N2H SoCs
+Message-Id: <175570938875.66459.17504688667907589630.b4-ty@kernel.org>
+Date: Wed, 20 Aug 2025 22:33:08 +0530
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250820104808.94562-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20250820104808.94562-1-biju.das.jz@bp.renesas.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 20 Aug 2025 18:43:11 +0200
-X-Gm-Features: Ac12FXzu7BIyKdX6LwKtLISsnZF2ODfTKPqrr4vIhUqGLfAqz8wea0u8ZAdXy40
-Message-ID: <CAPDyKFqvbWVxGU4mvffSJq_QgY33TXi=ezXxbvKyXe5eUFbqqQ@mail.gmail.com>
-Subject: Re: [PATCH] mmc: host: renesas_sdhi: Replace magic number '0xff' in renesas_sdhi_set_clock()
-To: Biju <biju.das.au@gmail.com>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-On Wed, 20 Aug 2025 at 12:48, Biju <biju.das.au@gmail.com> wrote:
->
-> From: Biju Das <biju.das.jz@bp.renesas.com>
->
-> Replace the magic number '0xff' with CLK_CTL_DIV_MASK macro for finding
-> actual clock in renesas_sdhi_set_clock().
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Applied for next, thanks!
+On Fri, 08 Aug 2025 22:52:04 +0100, Prabhakar wrote:
+> This patch series adds support for the USB2 PHY on the Renesas RZ/T2H
+> and RZ/N2H SoCs. The USB2 PHY driver has been updated to handle
+> differences in clocking, reset handling, and register configurations
+> specific to these SoCs.
+> 
+> v1->v2:
+> - Added Acked-by from Conor for the DT bindings.
+> - Renamed drvdata to phy_data.
+> - Updated commit message to clarify the change.
+> - Dropped local phy_data variable in probe, using channel->phy_data
+>   directly.
+> - Included the necessary header files.
+> - Simplified device/host detection in rcar_gen3_check_id() as suggested
+>   by Geert.
+> - Added Reviewed-by from Neil.
+> 
+> [...]
 
-Kind regards
-Uffe
+Applied, thanks!
 
-> ---
->  drivers/mmc/host/renesas_sdhi_core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-> index a41291a28e9b..f56fa2cd208d 100644
-> --- a/drivers/mmc/host/renesas_sdhi_core.c
-> +++ b/drivers/mmc/host/renesas_sdhi_core.c
-> @@ -223,7 +223,7 @@ static void renesas_sdhi_set_clock(struct tmio_mmc_host *host,
->         }
->
->         clock = clk & CLK_CTL_DIV_MASK;
-> -       if (clock != 0xff)
-> +       if (clock != CLK_CTL_DIV_MASK)
->                 host->mmc->actual_clock /= (1 << (ffs(clock) + 1));
->
->         sd_ctrl_write16(host, CTL_SD_CARD_CLK_CTL, clock);
-> --
-> 2.43.0
->
+[1/5] dt-bindings: phy: renesas,usb2-phy: Add RZ/T2H and RZ/N2H support
+      commit: ab9c8aeb2d208381a7c948ea2f753cbe8a451502
+[2/5] phy: renesas: rcar-gen3-usb2: store drvdata pointer in channel
+      commit: f75806d26318c08ddb79652cce89086e4da17257
+[3/5] phy: renesas: rcar-gen3-usb2: Allow SoC-specific OBINT bits via phy_data
+      commit: 4b7aa47e4c2c921b9511389bf42a4e30d64373e6
+[4/5] phy: renesas: rcar-gen3-usb2: Add support for RZ/T2H SoC
+      commit: b725741f1c21e8507a58ae86c5a80ca383f96852
+[5/5] phy: renesas: rcar-gen3-usb2: Move debug print after register value is updated
+      commit: 5f54134428b48261151c725c64b40be54e373345
+
+Best regards,
+-- 
+~Vinod
+
+
 
