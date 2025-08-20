@@ -1,49 +1,43 @@
-Return-Path: <linux-renesas-soc+bounces-20746-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20747-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFFECB2D4B8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Aug 2025 09:19:59 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 676D6B2D4D5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Aug 2025 09:28:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A1A471BA66EF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Aug 2025 07:20:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 758FD2A04A4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Aug 2025 07:27:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B5C72D3EC2;
-	Wed, 20 Aug 2025 07:19:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xug1Qf+o"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C26202D661C;
+	Wed, 20 Aug 2025 07:27:30 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 178182C3757
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Aug 2025 07:19:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6ACF2D4800;
+	Wed, 20 Aug 2025 07:27:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755674396; cv=none; b=aW0mFqRM5HjWhqzSv6TQfajorQU4aE623eyBKez4v0x3Mf3aSfca+w/wfpVQvfJGH9Sh7SDDEymF3KIGR+aovKkv/+RR2CE4joTDYI7zAc0QIyPQuwGaLaZfyFXS/UwZzY209HAO2aHtTiF6aSPZsSsPbu0G8nBQqTaNXkhuZ7c=
+	t=1755674850; cv=none; b=ueVXD//g20bTUTiBZxCubJD++IKNkeGCR3hXtyNm2G5ZntyluFa0RBoRxpGyvsGZYLyZnMVpkYNRdTZM+ufTvt0vQyH2R9/APlopq6EAz8ZurtLigZyeHQ8FgjNDXaHbiEd+MZbIO0aHv0NJ0sdN1HSMVSL0ohijzAebpVwzqd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755674396; c=relaxed/simple;
-	bh=Ilu42AWHxUEBJ1kU3M5h3ZaN6FDNChCDAlsUsalBnQw=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=oBO4HvnDFxcf1cxzG3nOIV2wYb4IHN2t+edxUUtrKbyNxpi+9vKGk5YAEt1TNeIrEemGEWuMFOCzzI8VBJDchR17ABJ/uST/s9kxHyvffLmxIreMOLnazs0wluJ2Rd/y+FDyjJNX7/JM3l7SWsmUSAggFr2BDGt3PZtcNhLiZYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xug1Qf+o; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3F09C113CF
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Aug 2025 07:19:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755674395;
-	bh=Ilu42AWHxUEBJ1kU3M5h3ZaN6FDNChCDAlsUsalBnQw=;
-	h=Subject:From:Date:To:From;
-	b=Xug1Qf+oc7UU4pUvJjf4YlzEztiEVgtt3S0OrVbIndjxUVu0C7dnltTaltc4+jjLH
-	 dmSB0sxVcfMfvecsAf2oKSbE1Q1K6N3vtf54C8TSJBtcPW5FkVLPT9jzVJR9ePAMFm
-	 p2FWjP+ccSBCuINbOgr73UzOgiK2KEPQu2qC6MtbmZKXnlvqb1EEPxUA9QFM/rkZ+o
-	 G9+BOhHprY/xGbtThGynweY9mEjd+Yz5blL4KRULZuAG4i5+HZzK8DEwJ14/Sg2PiD
-	 9MhC5ew9NKeWTy9ydoUdwmxQQmIcKhl11ey8tRmaxKOka1IM+F2W/XpaHgE2lF44JA
-	 6Mvu6/VhMbGew==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id B278D383BF4E
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Aug 2025 07:20:06 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1755674850; c=relaxed/simple;
+	bh=3YA0zlExOjLGVONLVWemSlzBOdmQGNkPpFwlDFO+184=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VdzPgPcm6e2Qqm8qawYiiewLCEMlr1GLWzs72Ll3nt4SwnEGs/e+0guq327BJ+HiCjvYQwoRgSrfw5sQYQ9N7EBruSqsZolzg1ZIIaptHN3sAFxITJMvqbanEQ02c4nN5GFqHBmBVu267Q52WFGD0ec0tgyHFwa00OlEikrzFmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8039C4CEEB;
+	Wed, 20 Aug 2025 07:27:28 +0000 (UTC)
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: linux-clk@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [GIT PULL] clk: renesas: Fixes for v6.17
+Date: Wed, 20 Aug 2025 09:27:18 +0200
+Message-ID: <f63aaf6e71de897954fbde4e4a17a9dcdbe5e7e1.1755674703.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -51,42 +45,43 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From: patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: 
- <175567440532.122725.6251531758853404186.git-patchwork-summary@kernel.org>
-Date: Wed, 20 Aug 2025 07:20:05 +0000
-To: linux-renesas-soc@vger.kernel.org
 
-Hello:
+	Hi Mike, Stephen,
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+The following changes since commit 8f5ae30d69d7543eee0d70083daf4de8fe15d585:
 
-Patch: arm64: dts: renesas: Minor whitespace cleanup
-  Submitter: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=993054
-  Lore link: https://lore.kernel.org/r/20250819131619.86396-2-krzysztof.kozlowski@linaro.org
+  Linux 6.17-rc1 (2025-08-10 19:41:16 +0300)
 
-Patch: arm64: dts: renesas: r8a779g3: Invert microSD voltage selector on Retronix R-Car V4H Sparrow Hawk EVTB1
-  Submitter: Marek Vasut <marek.vasut+renesas@mailbox.org>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=986259
-  Lore link: https://lore.kernel.org/r/20250727235905.290427-1-marek.vasut+renesas@mailbox.org
+are available in the Git repository at:
 
-Patch: arm64: dts: renesas: r8a779g3: Set VDDQ18_25_AVB voltage on Retronix R-Car V4H Sparrow Hawk EVTB1
-  Submitter: Marek Vasut <marek.vasut+renesas@mailbox.org>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=988872
-  Lore link: https://lore.kernel.org/r/20250806192821.133302-1-marek.vasut+renesas@mailbox.org
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-clk-fixes-for-v6.17-tag1
 
+for you to fetch changes up to f63aaf6e71de897954fbde4e4a17a9dcdbe5e7e1:
 
-Total patches: 3
+  clk: renesas: mstp: Add genpd OF provider at postcore_initcall() (2025-08-18 09:36:55 +0200)
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+----------------------------------------------------------------
+clk: renesas: Fixes for v6.17
 
+Fix a Clock Domain regression on R-Car M1A, R-Car H1, and RZ/A1.
 
+Thanks for pulling!
+
+----------------------------------------------------------------
+Geert Uytterhoeven (1):
+      clk: renesas: mstp: Add genpd OF provider at postcore_initcall()
+
+ drivers/clk/renesas/clk-mstp.c | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
