@@ -1,72 +1,72 @@
-Return-Path: <linux-renesas-soc+bounces-20823-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20824-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D4B3B2F017
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Aug 2025 09:50:39 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91BB3B2F029
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Aug 2025 09:54:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 29AD5175D50
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Aug 2025 07:50:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AE5247AC564
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Aug 2025 07:53:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA321283FF4;
-	Thu, 21 Aug 2025 07:50:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB9EC28312B;
+	Thu, 21 Aug 2025 07:54:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a5lInhEL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bms0Ga6b"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4469621FF28
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Aug 2025 07:50:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 082E3188906
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Aug 2025 07:54:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755762632; cv=none; b=cEjo3+79GzGMgeYdSj9EYjcnxWMUctQwUSemUUjf+FYaNnU3by56HjjgmNM19GhBuIVY1rIvpwIXxCLuUy27xGsezE/213fP5xjeIz+9dfvMJ1/LMK8auQUZ83rqNzHOqCl1SaxrLWq+QVLFHL7w960t27os2paJ5+o3GY0fJuo=
+	t=1755762879; cv=none; b=CNpV7JLxyQ53sH/qNx6tT23Kc1OloilBUdFs8hTp7LdiSiGZ7MUCE1WWYjGWoPWLsEJxoxYGnKRPGWIhxnw/UQy2Z8+8b4UbFGzJAqy0P2q5pUyAx046W2DiYaZ73bZRS7deO+G2wv7KsJmeb5KAXZ0JVVcD55ME89IeDCo2Jl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755762632; c=relaxed/simple;
-	bh=ZYlamgkljtQUIQQFpD/g+XTc1mdCK1+zuSq7cZZcsCI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Ukw+1cLXuRsgW03zK1JoYwj/2W3asbyZG58ODAiAoSIInixZaRoSl3hXjhOskxzjAHG51NoLhpwqTzmDljvacNL2AmqOwDlU6P4sP3+IlzWd0hFaXY+r1O0oEEACY3fUFeb9do6fNbu2lXNOoB3MJZac8U56VVxz/iRtVnqhaPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a5lInhEL; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1755762879; c=relaxed/simple;
+	bh=vdX17xZy6+ODWdR3+BNbFIdPeIZLqsRajsxtolcPOuo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=OjaGZuhBI9/BCQL8aCYL0U/4YnD16DHNH8mKisiCJ+WWMqJLRMZBiHa0mJoxmA7MzLgrj68ZhZf8JaGuwtHZgRABTTsZeglzivMOiHoeys54WgVcjM8d1i7wKSjm0FH9f8qbo7VPogquHSEeYR1glSjRknp9miWOIZX9oKuJODE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bms0Ga6b; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755762631; x=1787298631;
+  t=1755762878; x=1787298878;
   h=date:from:to:cc:subject:message-id;
-  bh=ZYlamgkljtQUIQQFpD/g+XTc1mdCK1+zuSq7cZZcsCI=;
-  b=a5lInhELHxk3fopxgMUnr9N3IUKyzd+IKjK7Q0ll5foPJsRt+JCwoZb5
-   xWW4RFeNtYPjbu50aEVaulvjJe9VWYNAkdnVQsPKHIS6GByPGQAU5vhjS
-   uu3UeMX5o/n++g/471xATTIJpa5CTXnGjkOTqy0tEUsPgHntgYQ1qWCHn
-   byw6qYaHoIdABHW4JWGyPguY+luZi/wCPcoYQqzFA4h5luFmHfArkHvVB
-   eX6sHbUzX2p/xofRV3BMAvUXBbVGDOaaanJbkkKrrm66oWhmgLJhXU1K6
-   EysKQ14CkHCNj9mZ5EFdOjcNryhR7wRs0H6YEPYOwNBObfrgoYhgGGI9j
-   A==;
-X-CSE-ConnectionGUID: OxRTeivCSeOOnuPSq+SOeA==
-X-CSE-MsgGUID: n/9B1fwHTUWWSN/fTT/Puw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="60672624"
+  bh=vdX17xZy6+ODWdR3+BNbFIdPeIZLqsRajsxtolcPOuo=;
+  b=Bms0Ga6blJx7SIxdHkgYjARf3cq/UrVZzxjKZe2tyTMXRxczMTz5ZvV4
+   UHXUW7hrujBRBps2xy6/T9pOt0mz2TqDJxH8oJHkoyKwGvrSKT47UiW6k
+   rqUI75GHbbdSJ0aEZqPvSquGb/AkOKebsqWpdZnMImLsupXG1psWpAVcH
+   UGykkjbpO30uCM+EU/S1dnOS0xvajOw7nK8zAu1JbBsQHooHCGNaQVW6r
+   gZuaeVWMEv9wTtpgPLONDeepMA6oSkgfcBOzV7QOYToaWws3a2UPKbAE1
+   OnprejXpM+EsGDC5Fsle1mAcubcnJFjqV+ExKlnOc8C6EMnZurXO2QJe8
+   Q==;
+X-CSE-ConnectionGUID: E/gRMgfaSu+bE5jT6RI1Yw==
+X-CSE-MsgGUID: NFx3G6v6R9qV2sJ9Mit6xA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="69144309"
 X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
-   d="scan'208";a="60672624"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 00:50:30 -0700
-X-CSE-ConnectionGUID: oe6oilHvRDeMlkcvAc5RVA==
-X-CSE-MsgGUID: aI23J/TDSQ+VZ/g2o26M/A==
+   d="scan'208";a="69144309"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 00:54:31 -0700
+X-CSE-ConnectionGUID: rUUFuOteRCyOFeGWfSsn3w==
+X-CSE-MsgGUID: 0NFWKi3oTJ+k78v4GMF8Pw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
-   d="scan'208";a="168265795"
+   d="scan'208";a="167572674"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 21 Aug 2025 00:50:29 -0700
+  by orviesa010.jf.intel.com with ESMTP; 21 Aug 2025 00:54:30 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1up043-000K3R-0c;
-	Thu, 21 Aug 2025 07:50:27 +0000
-Date: Thu, 21 Aug 2025 15:50:03 +0800
+	id 1up07v-000K3f-1b;
+	Thu, 21 Aug 2025 07:54:27 +0000
+Date: Thu, 21 Aug 2025 15:53:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
 Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-clk-for-v6.18] BUILD SUCCESS
- 07e7ccd804dc2aac6f3f96129a86b02391b5002d
-Message-ID: <202508211558.wqbVTess-lkp@intel.com>
+Subject: [geert-renesas-drivers:renesas-pinctrl] BUILD SUCCESS
+ d1d31e2739ff063da1e85cd9b44316ca5cccdba8
+Message-ID: <202508211528.HLkoRwFR-lkp@intel.com>
 User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -74,10 +74,10 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v6.18
-branch HEAD: 07e7ccd804dc2aac6f3f96129a86b02391b5002d  clk: renesas: r9a09g077: Add module clocks for SCI1-SCI5
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl
+branch HEAD: d1d31e2739ff063da1e85cd9b44316ca5cccdba8  pinctrl: renesas: rzt2h: Add support for RZ/N2H
 
-elapsed time: 1460m
+elapsed time: 1463m
 
 configs tested: 112
 configs skipped: 3
