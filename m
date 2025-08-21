@@ -1,78 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-20879-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20880-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 318A1B2FFE4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Aug 2025 18:23:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0F87B2FFE9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Aug 2025 18:23:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 480121890A67
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Aug 2025 16:21:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 295731898310
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Aug 2025 16:21:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E563E2E03FD;
-	Thu, 21 Aug 2025 16:19:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78A942E0921;
+	Thu, 21 Aug 2025 16:20:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cMtAF+Nz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BQjoKhXp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15CA92DC337;
-	Thu, 21 Aug 2025 16:19:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 898B92E03F1;
+	Thu, 21 Aug 2025 16:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755793199; cv=none; b=NTdgkx+QEAD0BgTn/IQU1huxdyh/5HmMU7fFKiUGnex2s4zlw+fVd3bTQwlwfNL5XxWtIpbiMdg2zuVnef/Hn9ncTcYxXu+Cvum9rLhc/Uz7x4NLfdqzfIpp+7JYMbWmskDYImhV00ttSPaAIg1ibE3fc2/i+0z1lUCAFoBy6LA=
+	t=1755793201; cv=none; b=jayApoPXIpgO1XLjuXnbXXjRDpshn8l4blDasz9PdI8ZBdrpziUNgKj1q6ODg2CqVT3bsuj36fcM0OmORQqRSlr5vDJc+9K+iqsr4NfMx1FHctUpxVvzH1l0Kdw8VqMwnH75Mqwzf2ySvWdJQ323mnS7lwGxH3wQLCqR1ZFhB8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755793199; c=relaxed/simple;
-	bh=9yiui0Q4lpXvKAtym+b2XSMg5RjpTKpw2I8300uv5KY=;
+	s=arc-20240116; t=1755793201; c=relaxed/simple;
+	bh=ZfDfAV0fw+CxOSYaDy2UJtAi01sCWQXxJ3dBO1z+mY0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JGWD4le8olEmcQqfcg4iC5u3OiXLpCkm/lFHK7X3fDV098TpZ3TArZeY9UPBkuVZ1Dz7HJuyRfqEoxR/djGmhfvGsPan57p9hIGr/5gf1WLnGFO8AjlbgTh/AXOBVALyJ8KSQyoVShCyzlQvxvS8UwJy7J+gfz4Z6MKg1ha58Uk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cMtAF+Nz; arc=none smtp.client-ip=209.85.128.46
+	 MIME-Version; b=Om0c+055y3JxRupry/UQumWq6zN49W1YUUyWpqrkHjWIPQEYybL1CKO1tU24vcYrTN9W7eWLgdPXZd7MZVN78U6Fjk0aV3d1jlVOrQlRDfJeqBAJn9erfN0t1uv6c86xow0XQxQrMNkKcVMcsqxEAZmqXcu2GrPDpb1fFWw6PTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BQjoKhXp; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-45a1b065d58so9759295e9.1;
-        Thu, 21 Aug 2025 09:19:57 -0700 (PDT)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-45a15fd04d9so15446825e9.1;
+        Thu, 21 Aug 2025 09:19:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755793196; x=1756397996; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1755793198; x=1756397998; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=B0sb7hYPmSQ29oIFrSTcxDagmzo1R07NK3WhmtdjoLQ=;
-        b=cMtAF+NzfxziDvydi5IrJlJNcdqEbXzRi49GmzdQdLD9x6JmLVFqHp0vs+R5NfZKA5
-         u1yvRv14+zRPUy5SuGwz1FBa0Rv2+Xk2SwJl96WWOZlNl7lfdE3q3M96goxGo7Mhsd9c
-         2CoVA2K1eKgJU8/ENQCQ4qtATq2PIZD3KLb523MUizNsO+tSjkyKEIr7x8sVX73CqAca
-         m56lFAs4fZRsqcR6kBItYAtYQ73bS884jy28kL3UGsrocgAzJwj3eF185FY+Me9oY5mz
-         k9dt0qngChUF3rjVs48F3+DV5FMk61K0SJsFW/8RsT2JF64Jtgn5d+p5k3dj/TYpN3Lm
-         JyIQ==
+        bh=fUwl4lHULbuFZyTdNB8HgG3miIV3jmFvUoA4fTcloX8=;
+        b=BQjoKhXpFE7OtPRuj9VZaNojb8NT4hNVUFjBbukgzlIxfiYINGE8TW9zVMPlpm9RLL
+         rwF+9e1DCMdR5iktIecF341GyuuRlLj5BtspL9LSXV+JBpMIsXTL5OCwOXwpznjXn2Bm
+         Ap1ftnEQfzoSaHdeqnOFb5m1Pk2Aii/N57GhusKU0RbEKKKHuVf9nG2CRCKUlP3poK6q
+         hDtwvqOiqpsIb4CtXK7HkCibzwvz1tvt7mTSYhNdNTzSioxsNz3ZoJ2Fg8/HMOKHPbGJ
+         H3sBUX8sh1CxCVgXVJbGEVNQT5Sg/0IleH3lHUYOpL+oQy6mD8kB214rPnwOaxAcpZDq
+         FGgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755793196; x=1756397996;
+        d=1e100.net; s=20230601; t=1755793198; x=1756397998;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=B0sb7hYPmSQ29oIFrSTcxDagmzo1R07NK3WhmtdjoLQ=;
-        b=Z3y2ThojUjAFKiscjUEp8AnRw8Ecj8WS0uVZ5FFqOfn1A/x4A7tkFFDdtmzJ2RShX/
-         dfEcwBlNDRu2FQq8P0plHB4TxPdmIzrT+EYMLaBuBuIFpHgayK0EfAR4D0ORSiBUcEkh
-         xwhCPeReUPHmP8rzNQyzq/vfzZPgue1Q26RmNSGIps6UAoopOYvuL3ChhrGvuWVN16JY
-         0tLXfDbsnU8JPubsUlK6LU58ei2pMWEc1rbZK7JuunZrobTb9YFDCJBy4fMY9/7Gzy1P
-         H++QrTJAJSb2uKr49ejDdwMSHhR1/GrhYXNLjcpl8PazHA8S/p+lgZZu6h+hhydgS7UR
-         2dQA==
-X-Forwarded-Encrypted: i=1; AJvYcCV3/6LRwvR3K4+vOdOexIWvMfhFXN1HPzAyKmCSrp46ROVHaP4ZBe+fRlRGc5KevCN3VtQIcct18TDn@vger.kernel.org, AJvYcCWb0NTp/z4GE+rpM1Qx3kOBemOe2jEQinzEJg1tVCROfa6cEx/1yLqLdZdugn3H3J+kRjVi2wes5isNYNOQ@vger.kernel.org
-X-Gm-Message-State: AOJu0YwkBSBkkTN4pIN0UKA7j1Vw5MZgZelUPcPW47gO5DsPHitTMdAn
-	fz+JZF+GwFYvL1hd6gkoTIGoZmwEyIiL/TWRWJ8LHVdrCzBJhdwntC4L
-X-Gm-Gg: ASbGnctC7rtBsUj9C0RHFGdzmbhLuq0nvQsi1B2WyCDM0KsvVMM2fxIF1Vft2lxsrQ3
-	NzjUUncvsLQyMXve1AO+qcsD3VRDQowPU/1oE7WLoHxSc9mIRgARBGMHBJpRG+TOcSfar/ElJVA
-	aldffudTOyouD0ICZPoYTUJn66vNGHxPt7MEkQXCsz8mN15FiGhVfk3GsIBPXnGyh7o6ZRx3uzk
-	gw5kkpTVqYJe97G4tkwcDKRMs5/t+8P2wbcACy51ge//eWBqPneZx6v4PBJjsVkPKozH0PY4D3h
-	EVPVLtWyC2G1SdDt6lPmGw2X7+EuS4naBby+EAgdAkHpoIA+fGtFlgpc5YHvRyo5FNojhyG9BRx
-	a5bVb8xL5uQrTZH+/5FSoOgvP2vp0jMx9y78KVXVB3pInJCQlXnBBWhwo
-X-Google-Smtp-Source: AGHT+IGqCC0qjWf/t34DI0eKesPxh/X254apYMPWuzdySpeINa3HEOE0hqIKHQ0bCsB2PON6x4t80Q==
-X-Received: by 2002:a5d:5f47:0:b0:3b7:735f:25c9 with SMTP id ffacd0b85a97d-3c49549e24cmr2427801f8f.21.1755793196273;
-        Thu, 21 Aug 2025 09:19:56 -0700 (PDT)
+        bh=fUwl4lHULbuFZyTdNB8HgG3miIV3jmFvUoA4fTcloX8=;
+        b=JHJNvtutftEnYRfJheYcxtdfsa9LQ0tYoPiCPx0iYfUaGuodXcfX4KRMjv4lewzFBp
+         ShSXivhJ4ZLOlzXtfsF2Adk8z+s0LvE7zRf4QsAnuLj/HbzqpX56f8JMwNuIE3N0KPzM
+         Xou5FL6ZXep8rxnUI8b/H2cuV0jW/+/LFAlNnTXwBB0lbLrKzdbNkZNZzYeaklMtFfQm
+         HoDRGWW3A8Tdrj1I0NFD/6Gj+PS8qqhi4m4aCPMj6fPkQVr6buOtP9OmQr0LIk9Vjgnf
+         twafH27ExB7AYIiZfkk1zlBsk6HjvySybJnmmNHf7gm7DjJTOoW3emFYlmmW1DUhAs07
+         Rk0w==
+X-Forwarded-Encrypted: i=1; AJvYcCVcWQdbqPm3wJarDxiIjtupb3bOevnk+XPSQOmHSUibhTJPQxSxuf6ZOUqQ/kKe32v9iggsS1du6KKU9D0/@vger.kernel.org, AJvYcCXz4ZU8eCGRduXloGy+pZZ9Qq/SvmzomU632pmTpOmm9Rib3DFLcsR5gzkYm4zU2LVomeE2QTYYKil1@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9WovGxa4pchZjka7F+X7CXnZUG8LV16G6EsYQbk5B4FKHPlRu
+	w3NWla+F+FOcL7F+Yjvlpmith6d1ByQZFJ2zmJm4w1hLjY/c7snedSDL
+X-Gm-Gg: ASbGncv2VDTNW7oUmzULVMsRvB+Zu5VZgCb8zsC06Vut4LHnMqFNCICaUs/a0r9/Xpb
+	zpWmsagKh/F0rjb6KjkL9keqbfsnRwLWZI/XMtLM7iErtcAavWMxUfKrU82m+8Dy5ZB0kIWLnpg
+	QlrA++D2JUs2RsbXTPEulae2rLA8qvAqfm/d4eNdyxv0a58OTD2eTFJAgxGRdk361H9aF8dLEBs
+	k/ppJLvjMIVBZXUoaIolyDTKUKCqJURJ0spHICbiYsCVM9nBQNFvou4yM7nBuFpf2ZaUF0fC1s1
+	5gUHaQwv8TDGlGda5EUkrGkhyYqt6CFBquLRega6lBKxoIxyvBD5FPAdfLoQ2SzsucCs/q1k6ys
+	jSer2KWm/J3DRSVRoq+mFl84QRt/SZri65WL41QFIkTCF31LTnhzrjMdY
+X-Google-Smtp-Source: AGHT+IEGayJpj9nTFFyGvSf6RL68PjeNxrg5hrK0DqjA3ihENtnuj5/kASPFF0jPAQxpDnDVD0y1tQ==
+X-Received: by 2002:a05:6000:24c3:b0:3b7:590d:ac7d with SMTP id ffacd0b85a97d-3c4b4256002mr2058205f8f.1.1755793197600;
+        Thu, 21 Aug 2025 09:19:57 -0700 (PDT)
 Received: from iku.Home ([2a06:5906:61b:2d00:9ed2:95cd:69a:8d10])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c4f77e969asm2316464f8f.20.2025.08.21.09.19.55
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c4f77e969asm2316464f8f.20.2025.08.21.09.19.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Aug 2025 09:19:55 -0700 (PDT)
+        Thu, 21 Aug 2025 09:19:56 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -87,9 +87,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 5/6] arm64: dts: renesas: r9a09g087: Add USB2.0 support
-Date: Thu, 21 Aug 2025 17:19:45 +0100
-Message-ID: <20250821161946.1096033-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 6/6] arm64: dts: renesas: rzt2h-n2h-evk: Enable USB2.0 support
+Date: Thu, 21 Aug 2025 17:19:46 +0100
+Message-ID: <20250821161946.1096033-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250821161946.1096033-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20250821161946.1096033-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -103,71 +103,175 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Add EHCI, OHCI, PHY and HSUSB nodes to RZ/N2H (R9A09G087) SoC DTSI.
+Enable USB2.0 support on RZ/T2H and RZ/N2H EVKs.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- arch/arm64/boot/dts/renesas/r9a09g087.dtsi | 47 ++++++++++++++++++++++
- 1 file changed, 47 insertions(+)
+ .../dts/renesas/r9a09g077m44-rzt2h-evk.dts    | 36 ++++++++++++++++
+ .../dts/renesas/r9a09g087m44-rzn2h-evk.dts    | 41 +++++++++++++++++++
+ .../dts/renesas/rzt2h-n2h-evk-common.dtsi     | 22 ++++++++++
+ 3 files changed, 99 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g087.dtsi b/arch/arm64/boot/dts/renesas/r9a09g087.dtsi
-index b669c1a506d3..cd8e409b8db8 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g087.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a09g087.dtsi
-@@ -299,6 +299,53 @@ gic: interrupt-controller@83000000 {
- 			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_LOW>;
- 		};
+diff --git a/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts b/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
+index 264f7ddb8cc5..bcd779cd51a2 100644
+--- a/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
++++ b/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
+@@ -29,6 +29,28 @@
+  */
+ #define SD1_MICRO_SD	1
  
-+		ohci: usb@92040000 {
-+			compatible = "generic-ohci";
-+			reg = <0 0x92040000 0 0x100>;
-+			interrupts = <GIC_SPI 586 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 408>;
-+			phys = <&usb2_phy 1>;
-+			phy-names = "usb";
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+		};
++/*
++ * USB Pin Configuration:
++ *
++ * This board is equipped with three USB connectors: Type-A (CN80), Mini-B (CN79),
++ * and Micro-AB (CN33). The RZ/T2H SoC has a single USB channel, so either the USB
++ * host interface or the USB function interface can be used, but not both at the
++ * same time.
++ *
++ * By default, the Type-A (CN80) and Mini-B (CN79) connectors are enabled.
++ * Configure the switches as follows:
++ *   - P00_0 - P00_2 (control signals for USB power supply): SW1[5] = ON
++ *   - USB_VBUSIN (used for USB function): SW7[7] = OFF; SW7[8] = ON
++ *   - USB_VBUSEN (used for USB_HF_VBUSEN): SW7[9] = OFF; SW7[10] = ON
++ *
++ * To enable the Micro-AB (CN33) USB OTG connector, set the following macro to 1
++ * and configure the switches as follows:
++ *   - P00_0 - P00_2 (control signals for USB power supply): SW1[5] = ON
++ *   - USB_VBUSIN (used for USB OTG): SW7[7] = ON; SW7[8] = OFF
++ *   - USB_VBUSEN (used for USB_OTG_VBUSEN): SW7[9] = ON; SW7[10] = OFF
++ */
++#define USB_OTG		0
 +
-+		ehci: usb@92040100 {
-+			compatible = "generic-ehci";
-+			reg = <0 0x92040100 0 0x100>;
-+			interrupts = <GIC_SPI 586 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 408>;
-+			phys = <&usb2_phy 2>;
-+			phy-names = "usb";
-+			companion = <&ohci>;
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+		};
+ #include "rzt2h-n2h-evk-common.dtsi"
+ 
+ / {
+@@ -145,4 +167,18 @@ i2c1_pins: i2c1-pins {
+ 		pinmux = <RZT2H_PORT_PINMUX(5, 0, 0x17)>, /* SDA */
+ 			 <RZT2H_PORT_PINMUX(4, 7, 0x17)>; /* SCL */
+ 	};
 +
-+		usb2_phy: usb-phy@92040200 {
-+			compatible = "renesas,usb2-phy-r9a09g087", "renesas,usb2-phy-r9a09g077";
-+			reg = <0 0x92040200 0 0x700>;
-+			interrupts = <GIC_SPI 586 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 408>,
-+				 <&cpg CPG_CORE R9A09G087_USB_CLK>;
-+			#phy-cells = <1>;
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+		};
++#if USB_OTG
++	usb-exicen-hog {
++		gpio-hog;
++		gpios = <RZT2H_GPIO(0, 2) GPIO_ACTIVE_HIGH>;
++		output-high;
++		line-name = "usb_exicen_a";
++	};
++#endif
 +
-+		hsusb: usb@92041000 {
-+			compatible = "renesas,usbhs-r9a09g087", "renesas,usbhs-r9a09g077";
-+			reg = <0 0x92041000 0 0x10000>;
-+			interrupts = <GIC_SPI 587 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 588 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 589 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 408>;
-+			phys = <&usb2_phy 3>;
-+			phy-names = "usb";
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+		};
++	usb_pins: usb-pins {
++		pinmux = <RZT2H_PORT_PINMUX(0, 0, 0x13)>, /* VBUS */
++			 <RZT2H_PORT_PINMUX(0, 1, 0x13)>; /* OVRCUR */
++	};
+ };
+diff --git a/arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dts b/arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dts
+index 80f358fb2d74..b98b0f7c1128 100644
+--- a/arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dts
++++ b/arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dts
+@@ -33,6 +33,33 @@
+  */
+ #define SD1_MICRO_SD	1
+ 
++/*
++ * USB Pin Configuration:
++ *
++ * This board is equipped with three USB connectors: Type-A (CN7), Mini-B (CN8),
++ * and Micro-AB (CN9). The RZ/N2H SoC has a single USB channel, so either the USB
++ * host interface or the USB function interface can be used, but not both at the
++ * same time.
++ *
++ * By default, the Type-A (CN7) and Mini-B (CN8) connectors are enabled.
++ * Configure the switches as follows:
++ *   - P02_2 - P02_3 (control signals for USB power supply): DSW2[6] = OFF;
++ *     - P02_2 (used for VBUSEN): DSW14[5] = OFF; DSW14[6] = ON
++ *     - P02_3 (used for USB_OVRCUR): DSW14[1] = OFF; DSW14[2] = ON
++ *   - USB_VBUSIN (used for VBUS of CN8 for function): DSW16[1] = OFF; DSW16[2] = ON
++ *   - USB_VBUSEN (used for USB_HF_VBUSEN): DSW16[3] = OFF; DSW16[4] = ON
++ *
++ * To enable the Micro-AB (CN9) USB OTG connector, set the following macro to 1
++ * and configure the switches as follows:
++ *   - P02_2 - P02_3 (control signals for USB power supply): DSW2[6] = OFF;
++ *     - P02_2 (used for VBUSEN): DSW14[5] = OFF; DSW14[6] = ON
++ *     - P02_3 (used for USB_OVRCUR): DSW14[1] = OFF; DSW14[2] = ON
++ *   - USB_VBUSIN (used for VBUS of CN9 for OTG): DSW16[1] = ON; DSW16[2] = OFF
++ *   - USB_VBUSEN (used for USB_OTG_VBUSEN): DSW16[3] = ON; DSW16[4] = OFF
++ *   - USB_EXICEN (used for USB OTG EXICEN): DSW14[3] = OFF; DSW14[4] = ON
++ */
++#define USB_OTG		0
 +
- 		sdhi0: mmc@92080000  {
- 			compatible = "renesas,sdhi-r9a09g087",
- 				     "renesas,sdhi-r9a09g057";
+ #include "rzt2h-n2h-evk-common.dtsi"
+ 
+ /*
+@@ -185,4 +212,18 @@ i2c1_pins: i2c1-pins {
+ 		pinmux = <RZT2H_PORT_PINMUX(3, 3, 0x17)>,
+ 			 <RZT2H_PORT_PINMUX(3, 4, 0x17)>;
+ 	};
++
++#if USB_OTG
++	usb-exicen-hog {
++		gpio-hog;
++		gpios = <RZT2H_GPIO(2, 4) GPIO_ACTIVE_HIGH>;
++		output-high;
++		line-name = "usb_exicen_a";
++	};
++#endif
++
++	usb_pins: usb-pins {
++		pinmux = <RZT2H_PORT_PINMUX(2, 2, 0x13)>, /* VBUS */
++			 <RZT2H_PORT_PINMUX(2, 3, 0x13)>; /* OVRCUR */
++	};
+ };
+diff --git a/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi b/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
+index 91068042bec0..5c91002c99c4 100644
+--- a/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
++++ b/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
+@@ -65,10 +65,20 @@ vccq_sdhi1: regulator-vccq-sdhi1 {
+ #endif
+ };
+ 
++&ehci {
++	dr_mode = "otg";
++	status = "okay";
++};
++
+ &extal_clk {
+ 	clock-frequency = <25000000>;
+ };
+ 
++&hsusb {
++	dr_mode = "otg";
++	status = "okay";
++};
++
+ &i2c0 {
+ 	eeprom: eeprom@50 {
+ 		compatible = "renesas,r1ex24016", "atmel,24c16";
+@@ -77,6 +87,11 @@ eeprom: eeprom@50 {
+ 	};
+ };
+ 
++&ohci {
++	dr_mode = "otg";
++	status = "okay";
++};
++
+ &pinctrl {
+ 	/*
+ 	 * SCI0 Pin Configuration:
+@@ -218,6 +233,13 @@ &sdhi1 {
+ };
+ #endif
+ 
++&usb2_phy {
++	pinctrl-0 = <&usb_pins>;
++	pinctrl-names = "default";
++
++	status = "okay";
++};
++
+ &wdt2 {
+ 	status = "okay";
+ 	timeout-sec = <60>;
 -- 
 2.51.0
 
