@@ -1,218 +1,472 @@
-Return-Path: <linux-renesas-soc+bounces-20911-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20912-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55C21B318F2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Aug 2025 15:13:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F948B31A17
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Aug 2025 15:47:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6D7D11CE666A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Aug 2025 13:09:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2FA23AC2595
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Aug 2025 13:41:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A86C2FDC27;
-	Fri, 22 Aug 2025 13:09:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 059AA284B4E;
+	Fri, 22 Aug 2025 13:39:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NGU4XoFP"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="OEfXfAu8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011053.outbound.protection.outlook.com [52.101.125.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF96E2FD1D2
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Aug 2025 13:09:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755868160; cv=none; b=q7cJuMbcVJQ+XV02iQ2/ktGluiPSyQEM60nzmpUZrGqAtC0KsqYWe8I7KWEkWnSEzPqsTeN2z2+XfamYRKozMwrn2Vr9dK4WYD+O7FgVJD2cFwoqIQ4DKjGFkVPj+aYOSxepnS8Rkvx/re7VU8MkOkHO9v5b53FHJ3Pu/00Q/o0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755868160; c=relaxed/simple;
-	bh=O0asdK8SeOVtorPLNtX9IHFVw5PwpWz+Y/IXMS4KmCU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dKrlk35sd25MzdsNZLPKDOebaDZX7uoTr6S5fboBOCNl7qO2Gi6dJtYGBB+0JDPYuMxOn+NShX+iPdQV+VJj1e27ajtShpe9OHyn/sjHAjBVcnBeNngnCTC7sY0vrOP+MwI7REMKIMB5HMrhcC1X4g0G2aw2N9cHwByFdB2M/tA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NGU4XoFP; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1755868158;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=a26YwWriI/cAZNSFk7MZK1EJDFmLtTh5uMUvUQRBu1c=;
-	b=NGU4XoFPcUn/FYBTT3eYEnSlVELYHrNCmnw4d1HqWhChZfuUJ7jAnbJL+rL5Y64EwTscPJ
-	PFVo+YDieLsckGO4Awv/KJ1q/SVNPthaLgizqxV4cWwp3yqN5Z68+d3tn6XM5jkpdb9k4Q
-	+OpxbvvEHcWTEJMnIofODycDY8u6gJQ=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-67-v7z5_8xiNxqQI97pM50hmw-1; Fri, 22 Aug 2025 09:09:13 -0400
-X-MC-Unique: v7z5_8xiNxqQI97pM50hmw-1
-X-Mimecast-MFC-AGG-ID: v7z5_8xiNxqQI97pM50hmw_1755868153
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7e870623cdaso488437685a.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Aug 2025 06:09:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755868153; x=1756472953;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=a26YwWriI/cAZNSFk7MZK1EJDFmLtTh5uMUvUQRBu1c=;
-        b=agg27sKRRkBykcFZPJcSL7cu3+LD1+55QRirecmQRFMztYQRc60ERhFHbLPEuc+dS0
-         f+ecoRiBDbL1dSswsIpNM9QfOOd4JniYFNEtgOISY4h80U2tTLpn4WdqISVcyfoS3P8a
-         wcIK7nhsqDQ7YuPEAaeoXnGdVi0F8h9Zwzhk0FkklC+kH/SitpPXtFmPpRGodomxV7TM
-         97etmykxmvjkOZui9wfZdPNVc7yQKqWBFUDZUqjFMDqzSktjl5/gOkpk4MHsvfs+XyXX
-         YxC8j+zRVsuySipg7chPWCvM5ACBl1oSgnS1JILosRmNkfGiSlweNM63k/zJQuJwpWGa
-         bzGA==
-X-Forwarded-Encrypted: i=1; AJvYcCU/QTgNJBTs0j5y+/kujuiW351whHSbl2P1nmHfmo9b5/QF4g/S9P4I4IiRdSSS6nybYvHdZawub0JkzPghHKf1UQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwN3/U1T0DyOlb5zeh28/1OUmEm/QAqs3UF6H/MRvz0jA/kKtpb
-	Tm3TIyAkCdTfUel4ifLWrLpvbT7f5I9TREohBi5cDenODFkO7ZIItcNnwfXQde8pTo9hYOmbhCz
-	X6HPwIHukqcG49bHzoYsDjnjnuA3kyGZS7kC1Xc+2ou2/U/6y16OXm/uiupe77Kc3KRvJ0dhB
-X-Gm-Gg: ASbGncvwqbY+/KgeGdk1weCUIIS3gfBgQJHeEIcDYU7Z7VngAbGp8OZ7nnW1Yy0aorT
-	KF08g9+Yjm3ei9yrumz4Rc9hMCjU67NtyzWsrO20Qk++wm1HNAyyRk1Yxj4GcyHBs13tLzTaj6I
-	2eLR8XC7ArO2nU71qu5zlMM8FGkhkL7LEpKB4nKUTaGO0OCrye1dOKNp7PWtqcLK6s1/TYYGFcT
-	cTWdV9Imt5HdFFKr/kd4RGyKsqq+AirJ1Gd+HIt45vQnboOTjg94vuXUeIGlhfNGvYJ2mNT6U0N
-	wdnJjLC0K8LMA5OeoKVsztA7dEs1pBQQ36VEBkkMuUso7huYP3jBhKX4SgZQe6Gz2k0seA1LWPd
-	Oj5J61aPOR3To2FbbkXw=
-X-Received: by 2002:a05:620a:6cc2:b0:7e3:6a01:e6ba with SMTP id af79cd13be357-7ea10f538ddmr299224685a.8.1755868152270;
-        Fri, 22 Aug 2025 06:09:12 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEW1uvjDvOlgb0eZoGZSzJHV+ZTat1aB9dEJTqNDB/h4VuJNJ3Q109+V4G1CkIe7Ilb4zQPqA==
-X-Received: by 2002:a05:620a:6cc2:b0:7e3:6a01:e6ba with SMTP id af79cd13be357-7ea10f538ddmr299210885a.8.1755868151398;
-        Fri, 22 Aug 2025 06:09:11 -0700 (PDT)
-Received: from x1 (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e87e1c9b9dsm1332247685a.70.2025.08.22.06.09.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Aug 2025 06:09:10 -0700 (PDT)
-Date: Fri, 22 Aug 2025 09:09:04 -0400
-From: Brian Masney <bmasney@redhat.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Chen Wang <unicorn_wang@outlook.com>,
-	Inochi Amaoto <inochiama@gmail.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Keguang Zhang <keguang.zhang@gmail.com>,
-	Taichi Sugaya <sugaya.taichi@socionext.com>,
-	Takao Orito <orito.takao@socionext.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Jacky Huang <ychuang3@nuvoton.com>,
-	Shan-Chun Hung <schung@nuvoton.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Yixun Lan <dlan@gentoo.org>,
-	Steen Hegelund <Steen.Hegelund@microchip.com>,
-	Daniel Machon <daniel.machon@microchip.com>,
-	UNGLinuxDriver@microchip.com, Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Daniel Palmer <daniel@thingy.jp>,
-	Romain Perier <romain.perier@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Andrea della Porta <andrea.porta@suse.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Qin Jian <qinjian@cqplus1.com>, Viresh Kumar <vireshk@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Alex Helms <alexander.helms.jy@renesas.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	sophgo@lists.linux.dev, linux-mips@vger.kernel.org,
-	imx@lists.linux.dev, linux-riscv@lists.infradead.org,
-	spacemit@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
-	patches@opensource.cirrus.com, linux-actions@lists.infradead.org,
-	asahi@lists.linux.dev, linux-mediatek@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev
-Subject: Re: [PATCH 000/114] clk: convert drivers from deprecated
- round_rate() to determine_rate()
-Message-ID: <aKhr8NYhei59At0s@x1>
-References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
- <1907e1c7-2b15-4729-8497-a7e6f0526366@kernel.org>
- <aKhVVJPEPxCoKKjI@x1>
- <4d31df9e-62c9-4988-9301-2911ff7de229@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C61127462;
+	Fri, 22 Aug 2025 13:39:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755869983; cv=fail; b=rwBu0OyZUMzKDksCmURlWxYVbyvdXnYgi+aLozRg8Z8kjmMsyaUDCQXPLOCZmGnhmMlS2dJe/HT7fX03pn8R22DKcXcThabfktYcQ7pxJWcjDBNGSJJTNSfVPi3EEuPBAAa0/1Q6fug+krkuSjMZn6EQ66KStZSE1yn4/WVkwII=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755869983; c=relaxed/simple;
+	bh=rQdgr4Zh22dUYNTAf/0Q/m4t3WE2lH8fc9PmbUxLcAY=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=mZzMNi9fzym7Xocp2YyyaWH7FPr9XrTdtClN0lBmgSS514/FDOsxiIT1pjheWhkQ5N2pLT87lDJMpjpBjD8mPDjJR50fCtowHaVc57zZECGjjRD8tdcKMgMhLQ7PGW46TRLBYI9N26uc66GyRDRzxSxGCBNKSd2DxAOeH0f9Fy8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=OEfXfAu8; arc=fail smtp.client-ip=52.101.125.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NIU8L7GuI5ElHywSI3UMTEKIEbKDwAI4nS/CBemU2gyPqxj/hJYYG1rnF8PZN+jlsPE/XE098k3TlklZIf05hWtqzoQ5iNqt8+cqU3gmp4lq1dy4jik3WUL0pc0xKe6L4d7oHMfveWX4qko8706P3a2kabvLLlFl8kEImVg6HZqUTiEjI0djIxc04DKb9zo7rWXw1rvxTygXVWJCa4PwGSqe0UwA31KNwj4WduNd4Ouia5gOdZ2Sh3nhhAw2rMbqcb9uirMfWbVQfhKa+J24ORfrHGnGYy8EXKnI+JLnETfTIfYCJa3c7QS78Z1/Bq7xEfiFzjZCE8z5jrCvqmYp0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LZxN6BWnlfZd6g0z6QPFFUKEIe6Lzxqmje08q9B1yEA=;
+ b=bh2YWGeNT703S1e0KGs88mnDJ39fbYrNPg4VHxV4SsEPqBeiIigteyipg8x+8/A0OU04Q1T6z3DwYDK4xrNEKixhpVUHW7F2K00uj8tvC6bIJiPgsOuuxum+arSZ53V358O9XaqDdi9RzoRU/Qoy1Lyd+JSEJaJipvbahVzAKZBEDaoXA46vmPfDdMtI53BddvxjLnvqclSw5vbDVBRhDD5vY/pk8gsvl+eqdfPKdl1tiFa3Uf5or5nLsEbD3dJUy8EUyjU2TjkSJfvj8xR5BY8mmQtAKLCsem2D/Ot3S01CgbOvu0IKxYKSRtLou/vN7DjWfTdKMfq1oIvE8xV2VA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LZxN6BWnlfZd6g0z6QPFFUKEIe6Lzxqmje08q9B1yEA=;
+ b=OEfXfAu83Bvx+E8U8g8IKqzChRqotYbv0DCsbzvUnMeVWsmYlQ4raUFrWpX73H1Q0R+ogGQXulyc/LSN81kt6u5omhrnS4p1VZ8qR/wOviWxOsIHW0G9HOdeUrnxhi/44UxR1iyOLz/x1oCjwC2vkFSahlRBDzLdCPWMBlqqLw0=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by OS3PR01MB8844.jpnprd01.prod.outlook.com (2603:1096:604:17e::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.19; Fri, 22 Aug
+ 2025 13:39:37 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%7]) with mapi id 15.20.9052.013; Fri, 22 Aug 2025
+ 13:39:36 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Marc Kleine-Budde
+	<mkl@pengutronix.de>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+CC: "linux-can@vger.kernel.org" <linux-can@vger.kernel.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH/RFC 6/6] can: rcar_canfd: Add suspend/resume support
+Thread-Topic: [PATCH/RFC 6/6] can: rcar_canfd: Add suspend/resume support
+Thread-Index: AQHcE0pKZp7DWIl5uU6P5IZbLCRQZ7Ruq/zQ
+Date: Fri, 22 Aug 2025 13:39:36 +0000
+Message-ID:
+ <TY3PR01MB113463B58C2110A8BC108072A863DA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <cover.1755855779.git.geert+renesas@glider.be>
+ <f9198ea3be46f1eb2e27d046e51293df7fb67f46.1755855779.git.geert+renesas@glider.be>
+In-Reply-To:
+ <f9198ea3be46f1eb2e27d046e51293df7fb67f46.1755855779.git.geert+renesas@glider.be>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OS3PR01MB8844:EE_
+x-ms-office365-filtering-correlation-id: b50888f8-5988-4f0c-bdc2-08dde1815624
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?+Km+arszT9Jr1bonbC683HW7hNqahKUkTpk51o5YlF8eqBit6T0Rf112a53S?=
+ =?us-ascii?Q?R4kdSaE8wmFgmR6PTbdoeNiJyuJ3PxtkjMPCGj06FXg8ITGfpsAec3BKno34?=
+ =?us-ascii?Q?FMo6EyB2fdN+dFkqfhAaHzo2CguwbjXhg7RpkmF+arUXqCFGZX0UXw7PiCbd?=
+ =?us-ascii?Q?42irYQoPxngc1WmkaTRKHXINvORDc/hE1teAO1tlrHBbiK0n2QtI++r0MOAj?=
+ =?us-ascii?Q?QovJrlHK3KlyplHkdxVVTvYDQ7MWSiv2Gj132NiPs4q0EzB49ZgLg3eERUJT?=
+ =?us-ascii?Q?/iv/+J0TDEzxITOH7QhETvxe8THK/E2DcwxMFy+XwK502Z+1Sqhoz2ORjJnJ?=
+ =?us-ascii?Q?YxWKviUzGwfVmJi3LyEm2Jw7iKLBDkFNT9m4UJWRjIytqJgPQwmN2F6GeJSr?=
+ =?us-ascii?Q?rR1l4n64J55k6wBu9wzRxft9eZOM+8J+uuonOjgOaP2suknF1I/QM3lqrhmv?=
+ =?us-ascii?Q?htumEG9wQdw08smGJL3R6+qWMqBYf9PeyA+M31ZO+GQbefl6xUkEKTX0ZPGM?=
+ =?us-ascii?Q?iv/YnbHFMiHjVNLaMRxlVscUHFxTPTe1Uhl5DNdXSO2j/3kgbbkTMI3lr+Z2?=
+ =?us-ascii?Q?mDsnvI2pm53mwR+Uk1xCFQI/JTjp2S763xm5iqr5B0PYPa2feogG628nQdpE?=
+ =?us-ascii?Q?oP3YGJhm4DetG/GQ+oFJt8rmrODQPeaQ1CrRJ/W6U0Ip4jGBBN0EQqgaXddf?=
+ =?us-ascii?Q?dVGuR4YYfJqIRVBdZbs/jwBmbmhF7wrJLUL2HpPIG0DHOL9QWYshoSQdLwPl?=
+ =?us-ascii?Q?MLl87MrQM5aev6+Om/YCMYoWUU1L1KNsg2iu2BvnCeYT+rE4ut3w+RmrhE0q?=
+ =?us-ascii?Q?dK1AAfEtooGmPa8XewGJ7DRQVJxowGj6tSuJNxuzF7OTpawTdLr9G0CP+h1F?=
+ =?us-ascii?Q?/FYejyqORqZa/cWrFW2ikPZnr6w7j5vRgmKPM4G9mp95yaNLOzKMsyhSBSgU?=
+ =?us-ascii?Q?WRG++pIRMj6Ip3pVbtRD8p2cRxkep4OH5gKZ4yPBPLYFnknBxGsBQohGEbvR?=
+ =?us-ascii?Q?nI1reglG+fhTYOOgxgIww8+u9uBLPT3UPYtMso98kdXDWT6EgwStk7ryF/F8?=
+ =?us-ascii?Q?QaGODq2f6hEwiG+HbCwMumeT5oFE5yKBlIkkoPVaNXaM16EnxbQofM3f9Zp3?=
+ =?us-ascii?Q?cKvLaiQWtszonMZBGGlUuv6ATG28iB6bcrksYNqfneVBIgm2VUXHl9cIYvWw?=
+ =?us-ascii?Q?nx6sFOlLTVbWHFz6aOTD/j8eI6BWuzTLpHfewD2J/IHPtpAMHbwyCMKq7+sJ?=
+ =?us-ascii?Q?ExOANewrDhEKjB4EPywp8nePVtAGaYRwY+VcRDrnuwrr1pKOQZ+12/c+adMD?=
+ =?us-ascii?Q?uKXKkDWE2bfZsgD87kWPXYD614VuPgWet1CG9gvrRxKDv/DfLpVOhD3Yrjt9?=
+ =?us-ascii?Q?iorxcNW6FIcpNM/+hwdOy7nVoJSBnyrDGNYb8BG0aRdAglZgeLDOUPNUrtIq?=
+ =?us-ascii?Q?s7D1tk5UWKKNpjCtqKLjyq9QvKm8jxv0EOj9Qas7ZaTm2BJoG2opaxj2RVpp?=
+ =?us-ascii?Q?LIbJFJh4yzySgII=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?EzWMkPje6Wvt5zkNIQjCZPdtByw3D5PZi3nI+SaK8Rm0u1Jxr2Te0NJW4JoW?=
+ =?us-ascii?Q?6+sYrsSLpjqd/UhopR+igAE0xsJSLb7OIf1ZntXXr+SX66vINfcqWLeWUCGk?=
+ =?us-ascii?Q?U8yM7rj9Jqe4C9TgPZoi6DWA90IBMeVnifzkStHBn8rZ8RWrxNFQgnZh5no0?=
+ =?us-ascii?Q?di/Mi5IibOR/frDaUpJgTiPQ/5tWYeXp1NFz/AGdkMtkmChwqKvn8zynep0n?=
+ =?us-ascii?Q?T6WCwzq633mGxdiMrjhtWCWBqP2dTzIeGq9G/QL2EBYG9bRrwU+aDWrTdXfX?=
+ =?us-ascii?Q?fXZ69npUMwf4S3sa5aWfsig5n3uISOrcAWZSN7N1Vd+tt6EQx0U+YRZtF1tw?=
+ =?us-ascii?Q?0ZgcexfXKzpl3/NZfX6iCDE+/VlZKShKrEGaZPZ8LFS4Z0Fx7qsUSFlzyXjH?=
+ =?us-ascii?Q?pUvTSWHRAyQlWtJaGOqotPqUOEdJQRZDdByal1mlIAQNocoNLr1e+ClmEl5F?=
+ =?us-ascii?Q?PgaLTAwIetDAIszQaWjNHaG7sq41rlGWsTL2xOAeShzlsv0yTDpQGQNLfDws?=
+ =?us-ascii?Q?IeAJH39sBHS2CVOxT4R8iIpRMHyzlXnqtt8gayujKmFS6TBgFpoYT/AAkPIe?=
+ =?us-ascii?Q?1wMRb+LH8Aiv9NttlXqrDTtHRxGrFQ0LMohoZkN8pfTQYbIg0tTGWQgNoYAx?=
+ =?us-ascii?Q?a0rs6rZAAAO/qyd3pTUojWHeQ8nLe7aJLor1znlEB0CgpH8CUkZjPJvuQ1AQ?=
+ =?us-ascii?Q?j8kEBf9sLbWQR4nhnWNbLw/EPVvRiiqR53tQ4VUk05F7cYSQN43VF89Pxr8Z?=
+ =?us-ascii?Q?TUbjt8Rhg7IyYgogJlMDBVa1FrykC/nPX5CDhWsBX35O3DYE0kt9GPIR6o52?=
+ =?us-ascii?Q?V29Y9N4985RGm34bmyzSrQHWO6RrzvRY4T/g3ueMmqjZX0u8kh+04V7GUFXf?=
+ =?us-ascii?Q?n+bPG5e1NeH6NMt0+VRofePTgiF0G7dVTwTYx9egCN25g79WWFk4Us40FzTH?=
+ =?us-ascii?Q?uZ/diDIbNwfvNQeLmoSAEw7N8I8k2LJuUicsLLqVWAdBlF5NPjfnsyHrq4IO?=
+ =?us-ascii?Q?jc794IjI1dnqSTWR5whJg6djMaWWZ5qx2Lv0qKvKM9SOOzhloPFu1kOy18rw?=
+ =?us-ascii?Q?dnsKB4mGLj/74HkGVebCBZcTw7Rw02YaH1JaIeUVpeCPquykVLT+IlhvegOf?=
+ =?us-ascii?Q?9KtudYIjcua2Ry+okM+7K53ZOtNFkpHvoNS56VuCRXVI2wZDAyqsKomMJfvw?=
+ =?us-ascii?Q?k/0jblcJ1F8qqfEsqEq+RKz4LDhOMs1LtEIIvkW7jT6m6fBM+piWyDsQVF4t?=
+ =?us-ascii?Q?Ad228MXu8aGfArhoaUv/ZVYcEpamF2P/8rHWmc6J0Z8btqzUlTIje4wKGwKS?=
+ =?us-ascii?Q?KDOQQ8Azvm/NX19wgtetqL52zAOOF1DuzXzYFwxYf8x1nk/FXnpu/F/psFKv?=
+ =?us-ascii?Q?A+Cym/mtVEa/JouSoRxM7gAhWUsFQcoC+t7yYpVQlA05p+PYnkotUsnITcx+?=
+ =?us-ascii?Q?/aUilfeFQQiwF/zVamno4Kbp2GJiaOK+k8lusNQ5D2wnTVJIy3wS+shMyKaG?=
+ =?us-ascii?Q?uB4QJmoTLxcRbwAAp5uMtunh5R8AT/8Abx80DazdvTBWAwUHBG9rlILe1QQr?=
+ =?us-ascii?Q?EcaOSRQd5xE1IfZiRt5LVxLauKaE0gOHVE86rKg0BvkzLuPAa+DrUO7Rk3q9?=
+ =?us-ascii?Q?eA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4d31df9e-62c9-4988-9301-2911ff7de229@kernel.org>
-User-Agent: Mutt/2.2.14 (2025-02-20)
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b50888f8-5988-4f0c-bdc2-08dde1815624
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Aug 2025 13:39:36.8135
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Foe0KYRVb76uVewaPdxY/z9pzIsChZU4yQGDoMofXAbLS3n5/q6B+oYsuvEXRqFgISqIriXYzUecFvjX3uNiCa5kFG1LOlCLOoLV9DLHT7E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB8844
 
-On Fri, Aug 22, 2025 at 02:23:50PM +0200, Krzysztof Kozlowski wrote:
-> On 22/08/2025 13:32, Brian Masney wrote:
-> > 7 of the 114 patches in this series needs a v2 with a minor fix. I see
-> > several paths forward to merging this. It's ultimately up to Stephen how
-> > he wants to proceed.
-> > 
-> > - I send Stephen a PULL request with all of these patches with the minor
-> >   cleanups to the 7 patches. Depending on the timing, Stephen can merge
-> >   the other work first, and I deal with cleaning up the merge conflicts.
-> >   Or he can if he prefers to instead.
-> > 
-> > - Stephen applies everyone else's work first to his tree, and then the
-> >   good 107 patches in this series. He skips anything that doesn't apply
-> >   due to other people's work and I follow up with a smaller series.
-> 
-> Both cause cross tree merge conflicts. Anyway, please document clearly
-> the dependencies between patches.
+Hi Geert,
 
-This series only touches drivers/clk, so it shouldn't cause any issues
-with other subsystems, unless there's a topic branch somewhere, or I'm
-missing something?
 
-There are some drivers under drivers/clk/ where there is an entry in the
-MAINTAINERS file that's not Stephen, although it wasn't clear to me if
-all of those people will send PULL requests to Stephen. I described on
-the cover how how the series was broken up.
+> -----Original Message-----
+> From: Geert Uytterhoeven <geert+renesas@glider.be>
+> Sent: 22 August 2025 10:51
+> To: Marc Kleine-Budde <mkl@pengutronix.de>; Vincent Mailhol <mailhol.vinc=
+ent@wanadoo.fr>; Biju Das
+> <biju.das.jz@bp.renesas.com>
+> Cc: linux-can@vger.kernel.org; linux-renesas-soc@vger.kernel.org; Geert U=
+ytterhoeven
+> <geert+renesas@glider.be>
+> Subject: [PATCH/RFC 6/6] can: rcar_canfd: Add suspend/resume support
+>=20
+> On R-Car Gen3 using PSCI, s2ram powers down the SoC.  After resume, the C=
+AN-FD interface no longer
+> works.  Trying to bring it up again fails:
+>=20
+>     # ip link set can0 up
+>     RTNETLINK answers: Connection timed out
+>=20
+>     # dmesg
+>     ...
+>     channel 0 communication state failed
+>=20
+> Fix this by populating the (currently empty) suspend and resume callbacks=
+, to stop/start the individual
+> CAN-FD channels, and (de)initialize the CAN-FD controller.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> While this fixes CAN-FD after resume from s2ram on R-Car E3 (Ebisu-4D), i=
+t does introduce a regression
+> on R-Car V4H (White Hawk): after resume from s2idle (White Hawk does not =
+support s2ram), CAN frames
+> sent by other devices are no longer received, and the other side sometime=
+s reports a "bus-off".
+>=20
+> However, the underlying issue is pre-existing, and can be reproduced with=
+out this patch: the CAN-FD
+> controller fails in the same way after driver unbind/rebind.  So somethin=
+g must be missing in the
+> (de)initialization sequence for the R-Car Gen4 CAN-FD register layout.
+> Note that it keeps on working after ifdown/ifup, which does not reinitial=
+ize the full controller.
+> ---
+>  drivers/net/can/rcar/rcar_canfd.c | 53 +++++++++++++++++++++++++++++++
+>  1 file changed, 53 insertions(+)
+>=20
+> diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rca=
+r_canfd.c
+> index eedce83b91414c57..6b0c563e894f74b3 100644
+> --- a/drivers/net/can/rcar/rcar_canfd.c
+> +++ b/drivers/net/can/rcar/rcar_canfd.c
+> @@ -2236,11 +2236,64 @@ static void rcar_canfd_remove(struct platform_dev=
+ice *pdev)
+>=20
+>  static int rcar_canfd_suspend(struct device *dev)  {
+> +	struct rcar_canfd_global *gpriv =3D dev_get_drvdata(dev);
+> +	int err;
+> +	u32 ch;
+> +
+> +	for_each_set_bit(ch, &gpriv->channels_mask, gpriv->info->max_channels) =
+{
+> +		struct rcar_canfd_channel *priv =3D gpriv->ch[ch];
+> +		struct net_device *ndev =3D priv->ndev;
+> +
+> +		if (!netif_running(ndev))
+> +			continue;
+> +
+> +		netif_device_detach(ndev);
+> +
+> +		err =3D rcar_canfd_close(ndev);
+> +		if (err) {
+> +			netdev_err(ndev, "rcar_canfd_close() failed %pe\n",
+> +				   ERR_PTR(err));
+> +			return err;
+> +		}
+> +
+> +		priv->can.state =3D CAN_STATE_SLEEPING;
+> +	}
+> +
+> +	/* TODO Skip if wake-up (which is not yet supported) is enabled */
+> +	rcar_canfd_global_deinit(gpriv, false);
+> +
+>  	return 0;
+>  }
+>=20
+>  static int rcar_canfd_resume(struct device *dev)  {
+> +	struct rcar_canfd_global *gpriv =3D dev_get_drvdata(dev);
+> +	int err;
+> +	u32 ch;
+> +
+> +	err =3D rcar_canfd_global_init(gpriv);
+> +	if (err) {
+> +		dev_err(dev, "rcar_canfd_open() failed %pe\n", ERR_PTR(err));
+> +		return err;
+> +	}
+> +
+> +	for_each_set_bit(ch, &gpriv->channels_mask, gpriv->info->max_channels) =
+{
+> +		struct rcar_canfd_channel *priv =3D gpriv->ch[ch];
+> +		struct net_device *ndev =3D priv->ndev;
+> +
+> +		if (!netif_running(ndev))
+> +			continue;
+> +
+> +		err =3D rcar_canfd_open(ndev);
+> +		if (err) {
+> +			netdev_err(ndev, "rcar_canfd_open() failed %pe\n",
+> +				   ERR_PTR(err));
+> +			return err;
+> +		}
+> +
+> +		netif_device_attach(ndev);
+> +	}
+> +
+>  	return 0;
+>  }
+>=20
 
-  - Patches 4-70 are for drivers where there is no clk submaintainer
-  - Patches 71-110 are for drivers where this is an entry in MAINTAINERS
-    (for drivers/clk)
+This patch does not work on RZ/G3E, please see the logs
 
-For the clk subdirectories that had say more than 3 patches, I sent
-those off as separate patch series. The ones in this series have an
-entry in MAINTAINERS only have a few patches for each maintainer.
+Bind/Unbind:
+-------------
+root@smarc-rzg3e:/cip-test-scripts# cd /sys/bus/platform/drivers/rcar_canfd
+n > unbindroot@smarc-rzg3e:/sys/bus/platform/drivers/rcar_canfd# echo 12440=
+000.can > unbind
+root@smarc-rzg3e:/sys/bus/platform/drivers/rcar_canfd# echo 12440000.can > =
+bind
+[   67.645615] rcar_canfd 12440000.can: can_clk rate is 80000000
+[   67.655044] rcar_canfd 12440000.can: device registered (channel 1)
+[   67.661788] rcar_canfd 12440000.can: can_clk rate is 80000000
+[   67.671258] rcar_canfd 12440000.can: device registered (channel 4)
+[   67.677603] rcar_canfd 12440000.can: global operational state (canfd clk=
+, fd mode)
 
-As for patch dependencies, patches 111 (clk/divider) and
-114 (clk/fixed-factor) should go in last. It doesn't matter the order
-everything else goes in.
+root@smarc-rzg3e:/sys/bus/platform/drivers/rcar_canfd# /cip-test-scripts/ca=
+nfd_t_003.sh
+ [INFO] Testing can0<->can1 with bitrate 1000000 and dbitrate 4000000
+ [INFO] Bringing down can0 can1
+ [INFO] Bringing up can0 can1
+ [INFO] Testing can1 as producer and can0 as consumer
+ [INFO] Testing can0 as producer and can1 as consumer
+ [INFO] Testing can0<->can1 with bitrate 500000 and dbitrate 2000000
+ [INFO] Bringing down can0 can1
+ [INFO] Bringing up can0 can1
+ [INFO] Testing can1 as producer and can0 as consumer
+ [INFO] Testing can0 as producer and can1 as consumer
+ [INFO] Testing can0<->can1 with bitrate 250000 and dbitrate 1000000
+ [INFO] Bringing down can0 can1
+ [INFO] Bringing up can0 can1
+ [INFO] Testing can1 as producer and can0 as consumer
+ [INFO] Testing can0 as producer and can1 as consumer
 
-Brian
+EXIT|PASS|canfd_t_003.sh|[00:00:25] ||
 
+G3E S2Idle:
+------------
+root@smarc-rzg3e:/sys/bus/platform/drivers/rcar_canfd# echo s2idle > /sys/p=
+ower/mem_sleep
+root@smarc-rzg3e:/sys/bus/platform/drivers/rcar_canfd# echo mem > /sys/powe=
+r/state
+[  160.231921] PM: suspend entry (s2idle)
+[  160.236099] Filesystems sync: 0.000 seconds
+[  160.248409] Freezing user space processes
+[  160.255200] Freezing user space processes completed (elapsed 0.002 secon=
+ds)
+[  160.262354] OOM killer disabled.
+[  160.265681] Freezing remaining freezable tasks
+[  160.271723] Freezing remaining freezable tasks completed (elapsed 0.001 =
+seconds)
+[  160.279253] printk: Suspending console(s) (use no_console_suspend to deb=
+ug)
+[  160.311505] sd 0:0:0:0: [sda] Synchronizing SCSI cache
+[  160.377382] renesas-gbeth 15c30000.ethernet end0: Link is Down
+[  162.226309] dwmac4: Master AXI performs fixed burst length
+[  162.227718] renesas-gbeth 15c30000.ethernet end0: No Safety Features sup=
+port found
+[  162.227788] renesas-gbeth 15c30000.ethernet end0: IEEE 1588-2008 Advance=
+d Timestamp supported
+[  162.232919] renesas-gbeth 15c30000.ethernet end0: configuring for phy/rg=
+mii-id link mode
+[  162.252982] dwmac4: Master AXI performs fixed burst length
+[  162.254258] renesas-gbeth 15c40000.ethernet end1: No Safety Features sup=
+port found
+[  162.254321] renesas-gbeth 15c40000.ethernet end1: IEEE 1588-2008 Advance=
+d Timestamp supported
+[  162.259706] renesas-gbeth 15c40000.ethernet end1: configuring for phy/rg=
+mii-id link mode
+[  162.307564] usb usb1: root hub lost power or was reset
+[  162.307607] usb usb2: root hub lost power or was reset
+[  164.471610] usb 2-1: reset SuperSpeed Plus Gen 2x1 USB device number 2 u=
+sing xhci-renesas-hcd
+[  164.584382] OOM killer enabled.
+[  164.587540] Restarting tasks: Starting
+[  164.593757] Restarting tasks: Done
+[  164.597263] random: crng reseeded on system resumption
+[  164.602497] PM: suspend exit
+root@smarc-rzg3e:/sys/bus/platform/drivers/rcar_canfd# [  164.959424] renes=
+as-gbeth 15c30000.ethernet end0: Link is Up - 1Gbps/Full - flow control rx/=
+tx
+
+root@smarc-rzg3e:/sys/bus/platform/drivers/rcar_canfd# /cip-test-scripts/ca=
+nfd_t_003.sh
+ [INFO] Testing can0<->can1 with bitrate 1000000 and dbitrate 4000000
+ [INFO] Bringing down can0 can1
+ [INFO] Bringing up can0 can1
+ [INFO] Testing can1 as producer and can0 as consumer
+ [INFO] Testing can0 as producer and can1 as consumer
+ [INFO] Testing can0<->can1 with bitrate 500000 and dbitrate 2000000
+ [INFO] Bringing down can0 can1
+ [INFO] Bringing up can0 can1
+ [INFO] Testing can1 as producer and can0 as consumer
+ [INFO] Testing can0 as producer and can1 as consumer
+ [INFO] Testing can0<->can1 with bitrate 250000 and dbitrate 1000000
+ [INFO] Bringing down can0 can1
+ [INFO] Bringing up can0 can1
+ [INFO] Testing can1 as producer and can0 as consumer
+ [INFO] Testing can0 as producer and can1 as consumer
+
+EXIT|PASS|canfd_t_003.sh|[00:00:25] ||
+
+G3E STR:
+--------
+
+root@smarc-rzg3e:/sys/bus/platform/drivers/rcar_canfd# echo deep > /sys/pow=
+er/mem_sleep
+root@smarc-rzg3e:/sys/bus/platform/drivers/rcar_canfd# echo mem > /sys/powe=
+r/state
+[  237.863858] PM: suspend entry (deep)
+[  237.867860] Filesystems sync: 0.000 seconds
+[  237.878623] Freezing user space processes
+[  237.885330] Freezing user space processes completed (elapsed 0.002 secon=
+ds)
+[  237.892455] OOM killer disabled.
+[  237.895804] Freezing remaining freezable tasks
+[  237.902064] Freezing remaining freezable tasks completed (elapsed 0.001 =
+seconds)
+[  237.909648] printk: Suspending console(s) (use no_console_suspend to deb=
+ug)
+NOTICE:  BL2: v2.10.5(release):2.10.5/rz_soc_dev-169-g1410189b0
+NOTICE:  BL2: Built : 12:53:12, Jul 15 2025
+NOTICE:  BL2: SYS_LSI_MODE: 0x13e06
+NOTICE:  BL2: SYS_LSI_DEVID: 0x8679447
+NOTICE:  BL2: SYS_LSI_PRR: 0x0
+NOTICE:  BL2: Booting BL31
+[  237.943571] sd 0:0:0:0: [sda] Synchronizing SCSI cache
+[  237.992789] renesas-gbeth 15c30000.ethernet end0: Link is Down
+[  238.006388] Disabling non-boot CPUs ...
+[  238.011104] psci: CPU3 killed (polled 0 ms)
+[  238.017799] psci: CPU2 killed (polled 0 ms)
+[  238.023704] psci: CPU1 killed (polled 4 ms)
+[  238.028259] Enabling non-boot CPUs ...
+[  238.028474] Detected VIPT I-cache on CPU1
+[  238.028521] GICv3: CPU1: found redistributor 100 region 0:0x000000001496=
+0000
+[  238.028558] CPU1: Booted secondary processor 0x0000000100 [0x412fd050]
+[  238.029374] CPU1 is up
+[  238.029470] Detected VIPT I-cache on CPU2
+[  238.029492] GICv3: CPU2: found redistributor 200 region 0:0x000000001498=
+0000
+[  238.029513] CPU2: Booted secondary processor 0x0000000200 [0x412fd050]
+[  238.030046] CPU2 is up
+[  238.030145] Detected VIPT I-cache on CPU3
+[  238.030167] GICv3: CPU3: found redistributor 300 region 0:0x00000000149a=
+0000
+[  238.030189] CPU3: Booted secondary processor 0x0000000300 [0x412fd050]
+[  238.030873] CPU3 is up
+[  238.047257] dwmac4: Master AXI performs fixed burst length
+[  238.048165] renesas-gbeth 15c30000.ethernet end0: No Safety Features sup=
+port found
+[  238.048185] renesas-gbeth 15c30000.ethernet end0: IEEE 1588-2008 Advance=
+d Timestamp supported
+[  238.051680] renesas-gbeth 15c30000.ethernet end0: configuring for phy/rg=
+mii-id link mode
+[  238.069106] dwmac4: Master AXI performs fixed burst length
+[  238.070002] renesas-gbeth 15c40000.ethernet end1: No Safety Features sup=
+port found
+[  238.070018] renesas-gbeth 15c40000.ethernet end1: IEEE 1588-2008 Advance=
+d Timestamp supported
+[  238.073613] renesas-gbeth 15c40000.ethernet end1: configuring for phy/rg=
+mii-id link mode
+[  238.119909] usb usb1: root hub lost power or was reset
+[  238.119918] usb usb2: root hub lost power or was reset
+[  240.279309] usb 2-1: reset SuperSpeed Plus Gen 2x1 USB device number 2 u=
+sing xhci-renesas-hcd
+[  240.468214] OOM killer enabled.
+[  240.471358] Restarting tasks: Starting
+[  240.475721] Restarting tasks: Done
+[  240.479171] random: crng reseeded on system resumption
+[  240.484426] PM: suspend exit
+root@smarc-rzg3e:/sys/bus/platform/drivers/rcar_canfd# [  240.692426] renes=
+as-gbeth 15c30000.ethernet end0: Link is Up - 1Gbps/Full - flow control rx/=
+tx
+
+root@smarc-rzg3e:/sys/bus/platform/drivers/rcar_canfd#
+root@smarc-rzg3e:/sys/bus/platform/drivers/rcar_canfd# /cip-test-scripts/ca=
+nfd_t_003.sh
+ [INFO] Testing can0<->can1 with bitrate 1000000 and dbitrate 4000000
+ [INFO] Bringing down can0 can1
+ [INFO] Bringing up can0 can1
+ [INFO] Testing can1 as producer and can0 as consumer
+
+EXIT|FAIL|canfd_t_003.sh|[00:00:04] Problems while producing data from can1=
+ and consuming from can0||
+
+root@smarc-rzg3e:/sys/bus/platform/drivers/rcar_canfd#
 
