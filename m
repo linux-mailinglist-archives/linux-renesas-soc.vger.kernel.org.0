@@ -1,96 +1,137 @@
-Return-Path: <linux-renesas-soc+bounces-20968-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20969-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB10DB34834
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Aug 2025 19:06:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C4F8B34BC4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Aug 2025 22:27:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9BD477B1E70
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Aug 2025 17:04:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 26ABB3A8A84
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Aug 2025 20:27:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5826F3002B6;
-	Mon, 25 Aug 2025 17:05:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B84E928C84F;
+	Mon, 25 Aug 2025 20:27:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cYazCprx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n8drdjpb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99FA1286D75
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Aug 2025 17:05:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A67288511;
+	Mon, 25 Aug 2025 20:27:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756141546; cv=none; b=F3f09kmRuT3iIwb7bQURIBIUYVzfZ33ujFJsC8siq8GixfbE4vDJlQzC68+q08Fye1D2ndu5gHdqtDyDGBZhtHAf0mRqaEC9bOp4i2hadxH782HcX2zYhF9F649u375Ynk5i3j8gyrNqNowPP9NZim1JWO4PbPDna/mbnguy7og=
+	t=1756153640; cv=none; b=Nm/4JXJhIOq+cb+GpnBGP4LPOHiJP1ieRaEIJIR1v2oG7AX7WsuGYG36T9kXY74YUK+axb/jTMDnMlLLd5Sk/2HKCghcAQKB454Sfb/bmeJpQGbov9InSOCnrhWH5O+3fdScou93cWKLyb9fX+N6blUzv0dKJzGdWtdeK/PralM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756141546; c=relaxed/simple;
-	bh=a9DEbmQDFs1ppjiAWwlvOY2MAO6FzDy9K1E/Pyjmmhc=;
+	s=arc-20240116; t=1756153640; c=relaxed/simple;
+	bh=FHQO1qIi2frWsYih6E50v+BhkfadCKotC8hnJWvlN0w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NQnSVMQdUxeAC0puc6BjE8jTdepLcYUduWUm6ACJTc6b7hAJy4S2p4jakAyw7oVrb4sH42LgUzEkbQSnbCIjcWEBJyTUSt8nkJJ1XZVePBMGK0262cEQv4PqxYXpjol6rB7iRgXOGqYMlPQYKUQv5qTxoUL72ntElRbYnMU27zA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cYazCprx; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1756141543;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bvfYaRBOsqgg9T3AWRsCKLpVkMgeI8wkL7WYk9/VCmQ=;
-	b=cYazCprx42BX0fEeZkwW84GGNgUABkLY1mDCwnmi253D9t9OhCu+kgPea/SbLVCWXht3+G
-	+B/ERt/f/80P1uDYefXYkaaCWETy33DrQDqrZ717K/vx8xXomOzEPBwgudPgU+a3Y+eYj2
-	CC5+Vb1Lr/VtSJbgImMNn09aCvC7MIc=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-573-nXy9oWUcOSOV7Oc2QjqxCw-1; Mon, 25 Aug 2025 13:05:42 -0400
-X-MC-Unique: nXy9oWUcOSOV7Oc2QjqxCw-1
-X-Mimecast-MFC-AGG-ID: nXy9oWUcOSOV7Oc2QjqxCw_1756141541
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-70d93f57930so118428356d6.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Aug 2025 10:05:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756141541; x=1756746341;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bvfYaRBOsqgg9T3AWRsCKLpVkMgeI8wkL7WYk9/VCmQ=;
-        b=n0vO5D0pR997dhA3MxGDGlHCH8Kvp+sBOnZPJ9rWxEvWshJt7BT2KSJDL1v2XZRgqh
-         Q/A+rXK2PKwJBX0vZjf7QQ2nG1isE7yJJX0GHLIGCSWfOI2gS6JWIk3edi5gr2R5TkNH
-         N8kNQmXMAIgzy1QUzHrj+53qRo5F0qzcIn85XLHEv5nfPpfY9/i45iIz24RRqvWD3lRe
-         +f//1AcrbydivyLsLnZAgi7T3KoBgE77qaTFAVLYaYVp7bNG3JiTJjslrlP0BvdPRDNi
-         2+48zq2siJZ4YgZFiXaWdNlQb2sysnrjbUlSXfrK6QYW1n0gxaovnrSNT4Wpp8tpOHOj
-         sRNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV9cqBsRq0lGTzbgV9ns2nlmjkgd3UY5LT+lEsSprja/ukJy4ZYzpzWZt6NIK+kNCCp4EUOvHPRL+1tcRFo3+8vVQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbODE560cgUE+URbO3eXcKsAGdtenSCiIs6IlpCiC4pulrENO8
-	pZfOpVqXEkLtJmHK2ha8smge6lSMHZvLKWP0tL9BjmFPmHShqXw/fUTSbVjSwl15hf+8ex3mZHx
-	ql+ojW1sJZSKzb9E0MeJpb2W493PUovhheSjuv+0Bu298PzXocKB7tcti6W9TrxLBSkqm3vJx
-X-Gm-Gg: ASbGncv0nWbincpyVw0p8PbIKNTAJFj6URAgWcRBqyCa5eI4H3pD8NMPSk2+nexhI7J
-	q6jhEUtGV2Ot73d0r5FIonSzJt7PPZcrYscwk9bIV03VVsm0vmD19wt6/vhuBchiDCLMwabiDMB
-	npO+aNQvMyZKA125qAQ3EJ6d5zPclZNCgFQbIuivQMTfFfh4lf9OpQonD/sF3kniD+ZQ9Om179/
-	Iet8VaeDy54ksVCKa0MFQZjxBAnMOrQWGTJ72bjIVFUop4PYHXVnNkRYEvbw5ZdwxE1QoW5N+Vn
-	RYYIF31z/z5Vvr4mThNMi5bCngIoQFnPtwJtXv7t6QEf4QU4BDinWxCi9+HL87L3wunJe6smqTi
-	QPDQdtB57JJ/d9VOyWlE=
-X-Received: by 2002:ad4:5ec5:0:b0:70d:ad2e:cedb with SMTP id 6a1803df08f44-70dad2ed081mr83964606d6.43.1756141541424;
-        Mon, 25 Aug 2025 10:05:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGnj7pgLgYj0gnzZFl+kk2EVSGRa08xMAzv363arIwLdssNid6xlYMbYTH85va++EtXnTmBAA==
-X-Received: by 2002:ad4:5ec5:0:b0:70d:ad2e:cedb with SMTP id 6a1803df08f44-70dad2ed081mr83963686d6.43.1756141540665;
-        Mon, 25 Aug 2025 10:05:40 -0700 (PDT)
-Received: from x1 (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-70da714727csm48194826d6.13.2025.08.25.10.05.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Aug 2025 10:05:39 -0700 (PDT)
-Date: Mon, 25 Aug 2025 13:05:37 -0400
-From: Brian Masney <bmasney@redhat.com>
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: mturquette@baylibre.com, sboyd@kernel.org, geert+renesas@glider.be,
-	linux@armlinux.org.uk, linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH 0/2] clk: renesas: rzg2l: Disable unused clocks after
- resume
-Message-ID: <aKyX4YJswZLuqA6Y@x1>
-References: <20250821080333.27049-1-claudiu.beznea.uj@bp.renesas.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=RHZb4+6VHP4S4X2I3rxNEW0m2y+fXYTAScvmku45G4j/mle0lehnd+Lwp9o2gKMzzhjrD6tIPDlYbxTrWEk1dEBtVN3m9mf7ce0iH77pCccSGjP/Lh9fVDrT57IKZyGCipSpLBfQD19KHVi3yOrIMUpO82YAdzi7jDppk+iW6YA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n8drdjpb; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756153639; x=1787689639;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FHQO1qIi2frWsYih6E50v+BhkfadCKotC8hnJWvlN0w=;
+  b=n8drdjpb4uMmbQ+KxjpJhehmTUKDxsZkQhR0w8r4I2bh3mkC0UoZ4kmd
+   n9S0X6d6Meu21eoqtB/VJEmI1vO8OFU7kno+Gu0Ch8bkPbua1eWuz6Re0
+   Maw4H0UyVV6dV6NMecFCgrSrCa7YwzD5aMj1ox/8P1TK6ZbGAHhhy3GPk
+   23iAmhKSLVlHslmboQeKah3n83/0Pk4m3bKUvvmrX1F9RAPGDHjdNdcDF
+   1uMjJCqXFVY24UojsE/1D99KfPFAnjhj2/ruFA+eJJsBcYFywTjm+8ENs
+   dyaRYxdWzdLQ+0AK921qPH7besjeN7PwP3fW6qJuUqldn0S6ZBaiWc1K4
+   g==;
+X-CSE-ConnectionGUID: ai81sbUcSC2DMonIqPc2Iw==
+X-CSE-MsgGUID: zpGTrXN2QGuaAcQgKvqp1A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="69091746"
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
+   d="scan'208";a="69091746"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 13:27:16 -0700
+X-CSE-ConnectionGUID: iDzMD0+3RzuknIvgTvKpUw==
+X-CSE-MsgGUID: a76LdALuQ12+ndxXL/Zziw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
+   d="scan'208";a="200282209"
+Received: from rvuia-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.157])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 13:27:12 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 2961711FB0F;
+	Mon, 25 Aug 2025 23:27:09 +0300 (EEST)
+Date: Mon, 25 Aug 2025 23:27:09 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Eugen Hristev <eugen.hristev@linaro.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Cai Huoqing <cai.huoqing@linux.dev>,
+	Haibo Chen <haibo.chen@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Marek Vasut <marek.vasut@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Francesco Dolcini <francesco@dolcini.it>,
+	=?iso-8859-1?Q?Jo=E3o_Paulo_Gon=E7alves?= <jpaulo.silvagoncalves@gmail.com>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Jean-Baptiste Maneyrol <jean-baptiste.maneyrol@tdk.com>,
+	Subhajit Ghosh <subhajit.ghosh@tweaklogic.com>,
+	Gerald Loacker <gerald.loacker@wolfvision.net>,
+	Andreas Klinger <ak@it-klinger.de>, Crt Mori <cmo@melexis.com>,
+	Waqar Hameed <waqar.hameed@axis.com>,
+	Julien Stephan <jstephan@baylibre.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Greg KH <gregkh@linuxfoundation.org>, Bo Liu <liubo03@inspur.com>,
+	Al Viro <viro@zeniv.linux.org.uk>, Sean Nyekjaer <sean@geanix.com>,
+	Frank Li <Frank.Li@nxp.com>, Han Xu <han.xu@nxp.com>,
+	Rayyan Ansari <rayyan@ansari.sh>, Gustavo Vaz <gustavo.vaz@usp.br>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Alexandru Ardelean <aardelean@baylibre.com>,
+	"Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
+	"Rob Herring (Arm)" <robh@kernel.org>,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Marcelo Schmitt <marcelo.schmitt1@gmail.com>,
+	Vasileios Amoiridis <vassilisamir@gmail.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	Abhash Jha <abhashkumarjha123@gmail.com>,
+	chuguangqing <chuguangqing@inspur.com>,
+	Shreeya Patel <shreeya.patel@collabora.com>,
+	Per-Daniel Olsson <perdaniel.olsson@axis.com>,
+	=?iso-8859-1?B?QmFybmFi4XMgQ3rpbeFu?= <barnabas.czeman@mainlining.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	David Laight <david.laight@aculab.com>,
+	Jakob Hauser <jahau@rocketmail.com>, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v3 05/12] iio: dac: Remove redundant
+ pm_runtime_mark_last_busy() calls
+Message-ID: <aKzHHZ4y-lA-b5YW@kekkonen.localdomain>
+References: <20250825135401.1765847-1-sakari.ailus@linux.intel.com>
+ <20250825135401.1765847-6-sakari.ailus@linux.intel.com>
+ <20250825160023.4070bbc1@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -99,39 +140,37 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250821080333.27049-1-claudiu.beznea.uj@bp.renesas.com>
-User-Agent: Mutt/2.2.14 (2025-02-20)
+In-Reply-To: <20250825160023.4070bbc1@jic23-huawei>
 
-Hi Claudiu,
+Hi Jonathan,
 
-On Thu, Aug 21, 2025 at 11:03:30AM +0300, Claudiu wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+On Mon, Aug 25, 2025 at 04:00:23PM +0100, Jonathan Cameron wrote:
+> > @@ -95,18 +95,8 @@ static int stm32_dac_set_enable_state(struct iio_dev *indio_dev, int ch,
+> >  	if (en && dac->common->hfsel)
+> >  		udelay(1);
+> >  
+> > -	if (!enable) {
+> > -		pm_runtime_mark_last_busy(dev);
+> > -		pm_runtime_put_autosuspend(dev);
+> > -	}
+> > -
+> > -	return 0;
+> > -
+> > -err_put_pm:
+> > -	if (enable) {
+> > -		pm_runtime_mark_last_busy(dev);
+> > -		pm_runtime_put_autosuspend(dev);
+> > -	}
+> > +err_pm_put:
+> > +	pm_runtime_put_autosuspend(dev);
 > 
-> Hi,
-> 
-> This series disables clocks that remain unused after resume.
-> This is necessary when the resume process is done with the help of the
-> bootloader, as the bootloader enables various clocks when returning from
-> resume.
-> 
-> On the RZ/G3S SoC (where this series was tested), the bootloader enables
-> the SDHI clocks (for all SDHI modules, of which 2 are used by Linux and
-> 1 is unused) and the clocks for a serial IP (unused by Linux).
-> 
-> Testing was done on the RZ/G3S SMARC Carrier II board.
+> now the put is here, whether or not there was ever a get as the get is
+> gated on enable()
 
-Do you think that other boards would also benefit from this change? If
-so, what do you think about putting the call to register_pm_notifier()
-inside an __init block in clk.c so that this same change doesn't have to
-be implemented across various clk drivers?
+Oops. I'll fix this in v4, with just this patch as the rest are merged.
 
-Alternatively, if this is board specific, could this be fixed in the
-boot loader so that the clock that's not used by Linus is properly shut
-down on resume?
+-- 
+Regards,
 
-I'm not the subsystem maintainer, so I'm not asking you to make any of
-these changes.
-
-Brian
-
+Sakari Ailus
 
