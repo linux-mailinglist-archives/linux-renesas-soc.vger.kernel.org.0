@@ -1,122 +1,132 @@
-Return-Path: <linux-renesas-soc+bounces-20979-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20980-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21BC9B371BD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Aug 2025 19:52:42 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4727FB3720C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Aug 2025 20:19:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DFDF3205BC7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Aug 2025 17:52:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CF7633665AE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Aug 2025 18:19:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C03E92C15A0;
-	Tue, 26 Aug 2025 17:52:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 016C235208F;
+	Tue, 26 Aug 2025 18:19:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CQkC/elY"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="ydmJeZUw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D1C267B12;
-	Tue, 26 Aug 2025 17:52:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2352C3148D5
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Aug 2025 18:19:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756230759; cv=none; b=u6+82JKhXr8XkYyjEHq5YYvJmTO1yva/Ny7uAGhxt9dIa+FByxLldCUUdpHOcN7puREQLJi+XMA7hv1ORb9LILQTdNdDj4mZBOLT6IVlYXhDVqa0KD9IdUEBEl0CzvHdYirz/7odLsKGd1UKrzONPXBUBjsFcCLUxFRpM5EpL6g=
+	t=1756232391; cv=none; b=ieeyBUWF2DVZs8KqJv54aUhUu328x/acJzWF3/lr8SddHJuRqlugRsIRqD7iBqjC68alLNtdBDMRizM+B4fpCcUu7umHc540ZJveRZOTsFfzcsfOV3W94weurS4vgv/y8LzzYGb+UPUY7RJXXiPorEGSVBB53Rv9270SePKCX2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756230759; c=relaxed/simple;
-	bh=oizSEEq/z+YVTXVEzLfBBRowKU+lLpUg/uomNVtoSWc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mylKxbWT1oJ4wJkx2gYAUS4zYHxU6fGq6jfk6HO0QAOueg65s/nkdjyG0qdN1OkBZsKiUpnrOt8ZX5sV0r1sSjqWGTSGvNnTko2pFnWmIfLah7g3s5FYAVRBcYREh20g1U/JuEF8hHirNZx32WjK0q0e2H27oVaGJyl28wjX298=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CQkC/elY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B250DC4CEF1;
-	Tue, 26 Aug 2025 17:52:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756230759;
-	bh=oizSEEq/z+YVTXVEzLfBBRowKU+lLpUg/uomNVtoSWc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CQkC/elY2ev8wajchnqboeJ7vgpaUB2PEb7sx78CJQ/Jp+E5MldHOwsM6fvRnQEP8
-	 mNuJ6jTjT6xo/A+BnCvlJFtCsChPcAJJV/oSDaHyUM3dy21Vpp/Wmbx9dMHYGFR8/6
-	 cWvmIRNrsqct5THX2aF8jr893qF5x8mp84Xr5sPKEPbmT0bG75O6/7EfkVLFyUl/Sz
-	 pIwxyXv7tQpBtm5NoicxGgnKtM132kmy2v9FTTXbidqZSL9obZx/+RKqI9ftIXBJvL
-	 kt0CfH3jE5p2JR/TYw+nprmoKKvCtol0DZUjv6blVHhWvBnLhjLSccTCvzI0H4eOdR
-	 K+C9IAr7MPYMA==
-Date: Tue, 26 Aug 2025 18:52:35 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: soc: renesas: Document R-Car X5H
-Message-ID: <20250826-pelican-facing-971a7bac1cf1@spud>
-References: <87cy8jx7yd.wl-kuninori.morimoto.gx@renesas.com>
+	s=arc-20240116; t=1756232391; c=relaxed/simple;
+	bh=XQz/VrYK3cwCtAlJzmwCDIZSeNenI6Rm8ZKZbd4vuEk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GX2AUmGtVrNSUEJWXy7qRQtmPdr/y/7UOrG6aWiz9rYQ20szC88z3+LdKUowXRLWyTEPydIbhvuMwmZJaog7lzEHQ29VDgGQRyE74ZEbC87yYiQ2cicvwhdnsHNDNLQG2aslzRS3dqS4QqocYTjWEeIpZd99Fmh9IjVKqKgvupM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=ydmJeZUw; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-55f48d62057so2291896e87.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Aug 2025 11:19:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1756232388; x=1756837188; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XQz/VrYK3cwCtAlJzmwCDIZSeNenI6Rm8ZKZbd4vuEk=;
+        b=ydmJeZUwk65YNZNu/QlcHmZJjyvB7rwhDCI8hO9AxkeyxmXy4LrXAuRaLxz75GF+y2
+         +7b6//9ACJiy0CI2AMoXV8k3QgqLL5qA5uzGncNdN6kQMoV8l7oSRBq99YgDUUMGumz0
+         7RhwTtN2Wr6CfDOq2FH9ZUF2cxxh2JOwTuT60ddjMgBxtQAAi4QJGYUrPhP+im0IFdLn
+         wFhte6LTGGCQbSw1cTM4vKJRS8OgEGZwWUW7cH76qKeioOx0sUbXzsijBsQV5efTmC7p
+         wQJo+Lp1oW5heIE7m7jxqGga2PB3xOBumQf+HlFN9E/rDnACXY6nhsKLwCTWq8BuSSeN
+         B/cA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756232388; x=1756837188;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XQz/VrYK3cwCtAlJzmwCDIZSeNenI6Rm8ZKZbd4vuEk=;
+        b=XeCCO03XxLJJ84FRmdPoz8uu/sXGAQuB9OLtQnkZ5ompSet7Xka+7LC2HzPWHilaXS
+         dOikkAiUUT6UvxElhCMSfDx6EEF3EDLyE8StzQyOfwdOU7C2oEDYzmLQrh6ZYBvaOujE
+         5MvpQwVHHY7OlKR4szFTKCBnDRXPtG6G0LyuTiLN6E+NG7HfuR/eJwIcahRs+QCoAix3
+         a7oiBWMhZwwZx2EgWGC48yKuAiTprQd6ajOhNidN5apT6k87c/GXJZPzfDuyTZrmM8MG
+         tCTWV96ghkZnDIE+XomHLuglpcHLAhRXPta2TK0cHhb45PrOCR5gj55+X/JgMCQyg862
+         oi+w==
+X-Forwarded-Encrypted: i=1; AJvYcCVvKhm1sRfrqul0ly2DFZOJNqNgBWk4yvlcdbT5SF6eIFLrQm/ez52KIwKjkaaojSY8FkpeCyc6Oa8pbfsx6G+B2A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YytbjZr+DLI8GmvcymIk3WgkfS2gBht3n0xXy97V7lHve7TD6Ae
+	LcJqklc8PUsH2ZAjDIGbg1mOHWkSfSiOlomGICF6nFHHz9+ekJz2it/jrPyje4qsY7sVQB30z5y
+	k9vtDov5VO39k9F1p9Ql31Jv7I/j+n6u6IaE0VlQfQQ==
+X-Gm-Gg: ASbGncvqGxOf5rqnUrMaPtie+jXzNmRQOGLAqVvMbAnBfjR+Xx3cRP8DdhTheHyaRTV
+	VwwVAJS31+OTvgt117GFazBYRcdhYKkF2524UEhw/2h8HOGaJdk6qxv2EsTIRWjpRC46oh2Lpa0
+	FdAeoBodRrg5GSpfp1qp3K1+2wn4AnXRKHc807KMgLhKxaI7nSlWru72IlkNdZceqmE8z9eEmay
+	exWYpbp0EnOZvWrM5t7DqderTZhVwrvvce3YRIC4/g9oyNo3pXPMcxAfcpw
+X-Google-Smtp-Source: AGHT+IH9/wDD1C5c1pzIo5M6703fhe2Ju79J3Cg57MCbuHB+kMzD9Ry2MpuHtwyxY9EgNTzhw0WfnDm8emGE0JQOveU=
+X-Received: by 2002:a05:6512:3d87:b0:55f:3d7c:387b with SMTP id
+ 2adb3069b0e04-55f3d7c3badmr3365498e87.12.1756232388100; Tue, 26 Aug 2025
+ 11:19:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="/jvQFSyTk2/xUZbq"
-Content-Disposition: inline
-In-Reply-To: <87cy8jx7yd.wl-kuninori.morimoto.gx@renesas.com>
-
-
---/jvQFSyTk2/xUZbq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20250815-pinctrl-gpio-pinfuncs-v5-0-955de9fd91db@linaro.org>
+ <CACRpkdaDGmdhaik+1saRv7Ts4myQ+tg1aQqGU3xQyT7ma8dJFw@mail.gmail.com>
+ <CAHp75VephepLq61HrVy=PX2oKUQd5NK2qS-vOC5h_NR65td3Uw@mail.gmail.com>
+ <CACRpkda4soRCLF5=W=6R4wnwT3pjk743j022XfJxjTTQzuarAA@mail.gmail.com> <534ad082-08fa-42c0-9c24-f0c11af7d5b2@sirena.org.uk>
+In-Reply-To: <534ad082-08fa-42c0-9c24-f0c11af7d5b2@sirena.org.uk>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Tue, 26 Aug 2025 20:19:37 +0200
+X-Gm-Features: Ac12FXxAYIw0w_2T1YaN-IyY2JYcpKwwddZS_ZNL3wGJGwAsl60-M2w6oLQOL30
+Message-ID: <CAMRc=Mdn0_yPXyYq4sbvH4P9-h71vEc4arLPBfSk1PiEFaB7jQ@mail.gmail.com>
+Subject: Re: [PATCH v5 00/15] pinctrl: introduce the concept of a GPIO pin
+ function category
+To: Mark Brown <broonie@kernel.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Andy Shevchenko <andy.shevchenko@gmail.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Alexey Klimov <alexey.klimov@linaro.org>, Lorenzo Bianconi <lorenzo@kernel.org>, 
+	Sean Wang <sean.wang@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Paul Cercueil <paul@crapouillou.net>, Kees Cook <kees@kernel.org>, 
+	Andy Shevchenko <andy@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@redhat.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Dong Aisheng <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, NXP S32 Linux Team <s32@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Tony Lindgren <tony@atomide.com>, 
+	Haojian Zhuang <haojian.zhuang@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
+	linux-hardening@vger.kernel.org, linux-mm@kvack.org, imx@lists.linux.dev, 
+	linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Chen-Yu Tsai <wenst@chromium.org>, 
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 26, 2025 at 12:06:18AM +0000, Kuninori Morimoto wrote:
-> Document the compatible values for the Renesas R-Car X5H (R8A78000) SoC
->=20
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
-> Hi Geert
->=20
-> I have been mentioned that I will post DT-Doc when I post board
-> support patch, but I think it will be postponeed.
-> So I will post SoC part now.
+On Wed, Aug 20, 2025 at 8:41=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
+te:
+>
+> On Wed, Aug 20, 2025 at 09:12:49AM +0200, Linus Walleij wrote:
+>
+> > The qualcomm 32bit platforms fail in next anyway so I dropped the patch=
+es
+> > for now.
+>
+> FWIW the i.MX8MP also seems to have been broken by this:
+>
 
-What's the value in posting it alone, if it requires a board to be
-actually used?
+I can't test it unfortunately - would you mind sharing some info on
+what's failing exactly?
 
->=20
->  Documentation/devicetree/bindings/soc/renesas/renesas.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml b=
-/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
-> index 5f9d541d177a4..6838070369791 100644
-> --- a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
-> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
-> @@ -473,6 +473,10 @@ properties:
->            - const: renesas,r8a779mb
->            - const: renesas,r8a7795
-> =20
-> +      - description: R-Car X5H (R8A78000)
-> +        items:
-> +          - const: renesas,r8a78000
-> +
->        - description: RZ/N1D (R9A06G032)
->          items:
->            - enum:
-> --=20
-> 2.43.0
->=20
->=20
-
---/jvQFSyTk2/xUZbq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaK30YwAKCRB4tDGHoIJi
-0mcdAP4gFMPXkOwciNPU/BNFNxJ05Vk7/Yqb7VOGh0i4+TPCswEA32yKOFw8NE/a
-sshZMJ4Z8U+cnao13ajv6TtCH/8/SwQ=
-=ghbs
------END PGP SIGNATURE-----
-
---/jvQFSyTk2/xUZbq--
+Bartosz
 
