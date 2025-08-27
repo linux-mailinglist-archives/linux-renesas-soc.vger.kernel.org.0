@@ -1,71 +1,71 @@
-Return-Path: <linux-renesas-soc+bounces-20998-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-20999-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1835FB38E41
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Aug 2025 00:23:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBD54B38E47
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Aug 2025 00:23:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BD341189852A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Aug 2025 22:22:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E3E003A26D0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Aug 2025 22:22:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8CF13128A4;
-	Wed, 27 Aug 2025 22:15:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19DEE30F92D;
+	Wed, 27 Aug 2025 22:15:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="dV539vhe";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hYwBjM+3"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="J48xI5VY";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Wig5osrg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D56D62D323E;
-	Wed, 27 Aug 2025 22:15:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 416F73128AF;
+	Wed, 27 Aug 2025 22:15:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756332906; cv=none; b=dukYepntuVNGwARseTnpT+Z866dlPb4+I37DS8OExiOXB8+xyiREi2625Kcm4afiEiQA59++AdRF9u9fIhqKa//3lPsvMYrj/avobGC1iW0gCrHlEm5J2NJ7AGALs4d4T7Z2pQ4xwxf6zLm3bBVdTBi22k8SbtzccundNxg5BrE=
+	t=1756332909; cv=none; b=kE93ht5SBr1PYrcluZAJQ9VP65pV6R3dP6mnPxz9tb+Pue/ShRo+RjbD/+yvpuGW6VZZk/mFu5zmFvOMitRF7PsEG4k9yAHT8bb5b/Hs9DSBLSpW2ksJ0ckHBotSIxZ5OPzJuWxprqKuFpzQcITTCTk+Qb3Rp1zg+4oPt+u+pZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756332906; c=relaxed/simple;
-	bh=ksDD+nVc3LNe85Cgk23/0YXt8TN16jeAG7/y69J7q4k=;
+	s=arc-20240116; t=1756332909; c=relaxed/simple;
+	bh=7R9b3FtivWF2XS11UU6X7ESv7JN1s77AzbAnFuzZKS4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CHWLiyw7CTm83WcAZK9mtNFHrHet+u8N9kJnl67FRXgfdQOPTzPlA7JeRXcj3ZeMwge6yAlBiDG32tDsMld5MlGcq/RzlSTYCzi+Am1WfA5966mLTEzg3B4rhnj2ARV08unSCkAt71eiw7/RutMqqEEAvkWkbuYRfJ9tQZ2i2nI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=dV539vhe; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=hYwBjM+3; arc=none smtp.client-ip=202.12.124.159
+	 MIME-Version:Content-Type; b=Jnmxt3sDdvMuY5ni8tsMRd+4EHCA++QBz5peDAQ6EKVQg86LQjL9lS0FsmV4xPx+vT7iVuInxXolt6YzNfGclPEP3E1pszkTmDBwwoEXUWWwcKFW1JYupk7dprfyzAs9rQxUE8uxq2NvuxQe8vCmWUV1fXyagK1NeXk57sYMF2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=J48xI5VY; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Wig5osrg; arc=none smtp.client-ip=202.12.124.159
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id C0FF67A01E8;
-	Wed, 27 Aug 2025 18:15:03 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Wed, 27 Aug 2025 18:15:04 -0400
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 2F64F7A01A9;
+	Wed, 27 Aug 2025 18:15:06 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Wed, 27 Aug 2025 18:15:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1756332903;
-	 x=1756419303; bh=DiAKXHXW+jbj7r4KrafgPJKejRFcqhEkZ4wvLp/a2zc=; b=
-	dV539vheo9zzIoqQBvmLsmwWpKQrp6vY83BW25RBNs0DYHukmIsR8d2zdAFbILvc
-	7XI7Rd6Ffx3xUDM+JiVWrH06tHPw4VoBwiH7AOad2jlumJUVylwzrD4JnNelAyEc
-	bZDsMftQikIg80+LjNISNuWe6yiDqXqJzG8gvK7xLOHwTtSu3JtagZuimqY48RAN
-	o2r0BGfxcdEQ6ScZTvmepd7FqlZNLmCrVBOhNUPk9sGQSTH8ouiUlEQqtqUwMB9M
-	v1giZVJWS7gUNW51w+SC05D+lqDoIdo5S9X0Wi9H2LQNBLac/VR/YKQnhOzByxGq
-	76dREgTWIRDkitD4K8Reow==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1756332906;
+	 x=1756419306; bh=i/oN/KG49ykNSUq6qGiaLpOoD6vFD0O9MjLpcRovb98=; b=
+	J48xI5VYHkY6mwc/uZp2PaslHP/vZ0XRIJOORbnSQen5PkhZlRmYCLRegx67igOP
+	qQtsEQOuozyTRGktozF2xyUAd1YGUhIDAm973QZdovmcqOR3k8uZrFCLuBkTWaGd
+	ggGqUYZW8G5yEOyf1hb1FP/HXleekzpT68KfbKhaFYvx8nBXNWC2JEMb9D2kvVcP
+	BZnHgiY3zcy4b4RID2rz/zS+Kmx8RXj6BwdLvcwSF0i5YLYG5V2podczUDZeuQxw
+	yYJLdPD5n49Y4UcCVqUUNCV7yTRSRN3lipXj+Q/SqWCkRSMsxoc5b/sGZRr5Pspp
+	q6qflx7SpNpxsTaCrWDZGA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756332903; x=
-	1756419303; bh=DiAKXHXW+jbj7r4KrafgPJKejRFcqhEkZ4wvLp/a2zc=; b=h
-	YwBjM+3pA5aQhQo8QehIqpEl0yUzPFqLdmRwKxZANEKdnqT1W+zBZrdawS4qf2qB
-	ecDMwEidJqpXa8iH81vAXH18B3wezPdCW3fV/MY8iOAFLv+Hf9na2EMzW0TAJGTD
-	b1DIp5mmccgCuxPlz0Q6rGUSNyYIrCgh7WXDhEZ1dXGCD2aIhYVjI/dkIs3xmuqn
-	WWwRlwi9rl0mrNKeGdGDzQV82YXuJrXpUolnG9L7waSWPNN80n2Jlo5Nb9B/BeAS
-	DobSDmNIVGh6q43tCc0tQqgJIxL4pOUwDUpFTRqB+dctCi0XZQH0fyX9Q57297bP
-	/1aCryDJavUZGk0qtWS3g==
-X-ME-Sender: <xms:Z4OvaEv4DJwuOMtSp-dm98FNbYqnt_2Yab-n1xkxpBLn6fuJSpi8kw>
-    <xme:Z4OvaMFJPYkrQc2k6Ealeb5PwfDNurkLm2c3Yz-_mTIiS4V1Ih48Km0cKtkuMzemm
-    gRY-BQmjX0ATYkfmLs>
-X-ME-Received: <xmr:Z4OvaFyD6eybNf6565w0OueHNSxl5NWDr0OFbmBklvdGKfz8eHuaTViYCLIsWgfCCctSo9s8uCJePIDUS1gCprLbSQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddujeelfeefucetufdoteggodetrf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756332906; x=
+	1756419306; bh=i/oN/KG49ykNSUq6qGiaLpOoD6vFD0O9MjLpcRovb98=; b=W
+	ig5osrgdyaMlyHYt1B9MbT3DoHWAL5rfG4lg86Mcd5eVB61xP1LAanqxKOiMJXO+
+	XJXT4LTgicF83NwfkYXoeVEjZDyh0UGucSq1TcsMmGZ6QwlQjtZq9qOuExjdGTTl
+	eMfiE0MAQKSv80jEYNKwM79QXC52T5DrWbZfJyXZIMCrT43xMSZsn0w7SG1iiP+S
+	usT468Mws9kgiey/1y5dyyMd3Muv1e6/K2eWDwKjn6ljOYtxw4AeyxXuqW/aDVq4
+	/chWBm776jouxMVz+cNbnK2BieFDjfkuby7pfdHXxF1zc2NTI9N538FyJntZlFGZ
+	rNtZvSpm3y6W2hJRGWnwA==
+X-ME-Sender: <xms:aYOvaG_gxiNc-wqOddgVlW2gCiJKrxRPLxDPwRP0r3h4zOfIBPdnrg>
+    <xme:aYOvaBV5JZNtzY6K1WvqlJSDYEoC-m71zyyWW4BTSefOUaS-6QvcAr2IS-pUUdmtz
+    X-ev6a2Oc7fy-SKPUc>
+X-ME-Received: <xmr:aYOvaCAiuzhLsqRYlNhGPwpiTbO-GbBgrcrubOqNNDKd8RIw4xrzm7quY7DT6DzpDbmU-YhCdr6mQXt-IzDQ1Jb7mQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddujeelfedvucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgr
@@ -83,14 +83,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddujeelfeefucetufdote
     gvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopeguvghv
     ihgtvghtrhgvvgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehnihhklh
     grshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:Z4OvaG2SSFX_ukIFcJCkZXqklBvizQLgM5WCAPYM_xVUzek4DvWr2A>
-    <xmx:Z4OvaFotvH1ITRwbAuCOH0qsGTO8bXMH_X9_d6FAmDP0fMCJ9d9shg>
-    <xmx:Z4OvaDVkfOgIHB5SBNzzu2ZWx6ENsFEX2FBscvjOA57r3Vk71rKCxg>
-    <xmx:Z4OvaOpJT0Z6y4x0dU-Fc1xB2uU-I0JvGP_is69ufFGqHsBRxDG3fA>
-    <xmx:Z4OvaEEFWEz1QSPIh1a8L5nG-dg3PJZwVrhBkwZTlfWDHPDzNNivQ_Pz>
+X-ME-Proxy: <xmx:aYOvaOFD3UZiACu86ObrLPSol9_jEE-YXBNkH6qODv8j8Ka46aqLgg>
+    <xmx:aYOvaL7zaSD5naHCG8_Ehm2Qgj8Y8oTklXkyZQ0MaEVvS9jiFKaQfQ>
+    <xmx:aYOvaMm05-iUYlZl4QJUUrgjfKJX7tB3fX-yZmaQdyC39V2HCN7OlQ>
+    <xmx:aYOvaO6Q1X76u6WO2bGuBpeXV9p9yjTXiHHmxaoRi4iiCUBRIPG9Gg>
+    <xmx:aoOvaPUXfql_qRSTy0V7kW0lwu6T6E16WNbUK_039mUb4mh23sVR-qjF>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 27 Aug 2025 18:15:02 -0400 (EDT)
+ 27 Aug 2025 18:15:05 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
 	Rob Herring <robh@kernel.org>,
@@ -101,9 +101,9 @@ To: Geert Uytterhoeven <geert+renesas@glider.be>,
 	linux-renesas-soc@vger.kernel.org,
 	devicetree@vger.kernel.org
 Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v4 2/4] arm64: dts: renesas: sparrow-hawk: Add overlay for IMX219 on J2
-Date: Thu, 28 Aug 2025 00:14:22 +0200
-Message-ID: <20250827221424.640770-3-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v4 3/4] arm64: dts: renesas: sparrow-hawk: Add overlay for IMX462 on J1
+Date: Thu, 28 Aug 2025 00:14:23 +0200
+Message-ID: <20250827221424.640770-4-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250827221424.640770-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20250827221424.640770-1-niklas.soderlund+renesas@ragnatech.se>
@@ -116,15 +116,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add an overlay to connect an IMX219 camera sensor to the J2 connector.
-The IMX219 utilizes 2 CSI-2 D-PHY lanes. This enables the video capture
-pipeline behind the CSI41 Rx to be enabled to process images from the
+Add an overlay to connect an IMX462 camera sensor to the J1 connector.
+The IMX462 utilizes 4 CSI-2 D-PHY lanes. This enables the video capture
+pipeline behind the CSI40 Rx to be enabled to process images from the
 sensor.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
 * Changes since v3
 - Use correct port@0 instead of port.
+- Fix incorrect clock in clock node.
 
 * Changes since v2
 - Use the same regulator for all three supplies.
@@ -136,36 +137,37 @@ Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 - Drop 'status = "okay"' property for the fixed regulators.
 ---
  arch/arm64/boot/dts/renesas/Makefile          |   3 +
- ...8a779g3-sparrow-hawk-camera-j2-imx219.dtso | 116 ++++++++++++++++++
- 2 files changed, 119 insertions(+)
- create mode 100644 arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-camera-j2-imx219.dtso
+ ...8a779g3-sparrow-hawk-camera-j1-imx462.dtso | 117 ++++++++++++++++++
+ 2 files changed, 120 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-camera-j1-imx462.dtso
 
 diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-index 37ed7194e500..914f8ae8381d 100644
+index 914f8ae8381d..30a57e904d0a 100644
 --- a/arch/arm64/boot/dts/renesas/Makefile
 +++ b/arch/arm64/boot/dts/renesas/Makefile
-@@ -97,9 +97,12 @@ dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g2-white-hawk-single-ard-audio-da7212.dtb
+@@ -97,10 +97,13 @@ dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g2-white-hawk-single-ard-audio-da7212.dtb
  DTC_FLAGS_r8a779g3-sparrow-hawk += -Wno-spi_bus_bridge
  dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk.dtb
  dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-camera-j1-imx219.dtbo
-+dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-camera-j2-imx219.dtbo
++dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-camera-j1-imx462.dtbo
+ dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-camera-j2-imx219.dtbo
  dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-fan-pwm.dtbo
  r8a779g3-sparrow-hawk-camera-j1-imx219-dtbs := r8a779g3-sparrow-hawk.dtb r8a779g3-sparrow-hawk-camera-j1-imx219.dtbo
  dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-camera-j1-imx219.dtb
-+r8a779g3-sparrow-hawk-camera-j2-imx219-dtbs := r8a779g3-sparrow-hawk.dtb r8a779g3-sparrow-hawk-camera-j2-imx219.dtbo
-+dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-camera-j2-imx219.dtb
++r8a779g3-sparrow-hawk-camera-j1-imx462-dtbs := r8a779g3-sparrow-hawk.dtb r8a779g3-sparrow-hawk-camera-j1-imx462.dtbo
++dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-camera-j1-imx462.dtb
+ r8a779g3-sparrow-hawk-camera-j2-imx219-dtbs := r8a779g3-sparrow-hawk.dtb r8a779g3-sparrow-hawk-camera-j2-imx219.dtbo
+ dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-camera-j2-imx219.dtb
  r8a779g3-sparrow-hawk-fan-pwm-dtbs := r8a779g3-sparrow-hawk.dtb r8a779g3-sparrow-hawk-fan-pwm.dtbo
- dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-fan-pwm.dtb
- 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-camera-j2-imx219.dtso b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-camera-j2-imx219.dtso
+diff --git a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-camera-j1-imx462.dtso b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-camera-j1-imx462.dtso
 new file mode 100644
-index 000000000000..7f828fa81923
+index 000000000000..c710dc0c10b9
 --- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-camera-j2-imx219.dtso
-@@ -0,0 +1,116 @@
++++ b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-camera-j1-imx462.dtso
+@@ -0,0 +1,117 @@
 +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +/*
-+ * Device Tree Overlay for an IMX219 camera sensor in connector J2 on R-Car V4H
++ * Device Tree Overlay for an IMX462 camera sensor in connector J1 on R-Car V4H
 + * ES3.0 Sparrow Hawk board.
 + *
 + * Copyright 2025 Renesas Electronics Corp.
@@ -179,52 +181,53 @@ index 000000000000..7f828fa81923
 +#include <dt-bindings/media/video-interfaces.h>
 +
 +&{/} {
-+	clk_cam_j2: clk_cam_j2 {
++	clk_cam_j1: clk_cam_j1 {
 +		compatible = "fixed-clock";
 +		#clock-cells = <0>;
-+		clock-frequency = <24000000>;
++		clock-frequency = <37125000>;
 +	};
 +
-+	/* Page 29 / CSI_IF_CN / J2 */
-+	reg_cam_j2: reg_cam_j2 {
++	/* Page 29 / CSI_IF_CN / J1 */
++	reg_cam_j1: reg_cam_j1 {
 +		compatible = "regulator-fixed";
-+		regulator-name = "reg_cam_j2";
++		regulator-name = "reg_cam_j1";
 +		enable-active-high;
-+		gpios = <&gpio0 2 GPIO_ACTIVE_HIGH>;
++		gpios = <&gpio0 1 GPIO_ACTIVE_HIGH>;
 +	};
 +};
 +
-+&i2c2 {
++&i2c1 {
 +	#address-cells = <1>;
 +	#size-cells = <0>;
 +	status = "okay";
 +
-+	cam@10 {
-+		compatible = "sony,imx219";
-+		reg = <0x10>;
++	cam@1a {
++		compatible = "sony,imx462lqr";
++		reg = <0x1a>;
 +
-+		clocks = <&clk_cam_j2>;
++		clocks = <&clk_cam_j1>;
++		clock-names = "xclk";
++		clock-frequency = <37125000>;
 +
-+		VANA-supply = <&reg_cam_j2>;
-+		VDIG-supply = <&reg_cam_j2>;
-+		VDDL-supply = <&reg_cam_j2>;
++		vdddo-supply = <&reg_cam_j1>;
++		vdda-supply = <&reg_cam_j1>;
++		vddd-supply = <&reg_cam_j1>;
 +
 +		orientation = <2>;
 +		rotation = <0>;
 +
 +		port {
-+			imx219_j2_out: endpoint {
-+				clock-noncontinuous;
-+				link-frequencies = /bits/ 64 <456000000>;
-+				data-lanes = <1 2>;
-+				remote-endpoint = <&csi41_in>;
++			imx462_j1_out: endpoint {
++				link-frequencies = /bits/ 64 <222750000 148500000>;
++				data-lanes = <1 2 3 4>;
++				remote-endpoint = <&csi40_in>;
 +			};
 +		};
 +	};
 +};
 +
 +/* Page 29 / CSI_IF_CN */
-+&csi41 {
++&csi40 {
 +	status = "okay";
 +
 +	ports {
@@ -234,49 +237,49 @@ index 000000000000..7f828fa81923
 +		port@0 {
 +			reg = <0>;
 +
-+			csi41_in: endpoint {
++			csi40_in: endpoint {
 +				bus-type = <MEDIA_BUS_TYPE_CSI2_DPHY>;
 +				clock-lanes = <0>;
-+				data-lanes = <1 2>;
-+				remote-endpoint = <&imx219_j2_out>;
++				data-lanes = <1 2 3 4>;
++				remote-endpoint = <&imx462_j1_out>;
 +			};
 +		};
 +	};
 +};
 +
-+&isp1 {
++&isp0 {
 +	status = "okay";
 +};
 +
-+&vin08 {
++&vin00 {
 +	status = "okay";
 +};
 +
-+&vin09 {
++&vin01 {
 +	status = "okay";
 +};
 +
-+&vin10 {
++&vin02 {
 +	status = "okay";
 +};
 +
-+&vin11 {
++&vin03 {
 +	status = "okay";
 +};
 +
-+&vin12 {
++&vin04 {
 +	status = "okay";
 +};
 +
-+&vin13 {
++&vin05 {
 +	status = "okay";
 +};
 +
-+&vin14 {
++&vin06 {
 +	status = "okay";
 +};
 +
-+&vin15 {
++&vin07 {
 +	status = "okay";
 +};
 -- 
