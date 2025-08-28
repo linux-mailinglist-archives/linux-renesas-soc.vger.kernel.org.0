@@ -1,144 +1,145 @@
-Return-Path: <linux-renesas-soc+bounces-21016-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21017-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81892B39F1A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Aug 2025 15:37:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AD54B39F20
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Aug 2025 15:37:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E126B3A6E08
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Aug 2025 13:37:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 42586166204
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Aug 2025 13:37:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B817220F2A;
-	Thu, 28 Aug 2025 13:36:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F4841E25F2;
+	Thu, 28 Aug 2025 13:37:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="anyIY6bq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F9Q4yJ2P"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 202972D29C7
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Aug 2025 13:36:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD10F18EFD1;
+	Thu, 28 Aug 2025 13:37:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756388218; cv=none; b=gmS9gyKjkheIYkKZuXunkiLAs39RO4cKV2zhuGhFeKq8E3OJZr96yg9wa9IloFac7OLpzwFYWDR3t16fbTNp1i43T/pJ43BdZC3p2ivrpT9kt/2DjwLv0iWJ34bIOv1BjsZk6ZcTGpLc9cNTzYjFc3ANLCisXllbuQ7gr4J6+aQ=
+	t=1756388268; cv=none; b=dYKg4Sqs5d7vowzyCI18w+OpWt3QbAhO1fuxekMoV/u5mnGQOanm2Zm1/H4JoGrZR3xKcyoLLpoWXzldSmdJpaNSS1lON3WSRdxdFvaD/6BqIi2Jw9A3tNRbpv//XnAOJrQZp8376Ra7n5k+rqH/0TGKdTkAcwalyb5BfuwNwXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756388218; c=relaxed/simple;
-	bh=Dhz0H3gxyGM+rtfeLPQ0WqeuSnXhqTSw/EjNYLEea7o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PyCNXgXO3WchuJ3gGH3TxHdtI4R242UisBulJMdP6cP+cq8xvxYVpXHiH2PVzxTF/Zt6Yj+/HNi8m8LW6wYxu4Bu4iRofe9VA6hhXjOuD9tIjpRA8J5WEWRA37d7dbwjrhpRO4ZxYLGQHaHKXxHB5sjjixYqiSNMr3ablFI3WfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=anyIY6bq; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-55f39c0a22dso1087447e87.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Aug 2025 06:36:55 -0700 (PDT)
+	s=arc-20240116; t=1756388268; c=relaxed/simple;
+	bh=9Ce/W35oWvelfmkxhoyjQLrtez3p+dryObvreb+8eQA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jJe5r6hxKyg8KODCctGCL63F97VHgTL5WSdxCynesThziMP/JRkp0DnhCL/PkKtxQtw7gLV6acF8dNwKi/tMl2Kl8R8fgd9UhfI2vF75MEd06b7QBRpcCWlZsgc/2WczgHRUlbmLjIH7pkEgk3cFSrOszv6pUcnTT9s7QEjdmpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F9Q4yJ2P; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-55ce508d4d6so927611e87.0;
+        Thu, 28 Aug 2025 06:37:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1756388214; x=1756993014; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vO3s8KTMvJZFdHoHnp5Qdx1sAV4PfJarnSm1ctLLZ3E=;
-        b=anyIY6bqVld6bKz8zoUj4u6nWSrlXYXFKJEP89W77u18bB/2lG+RYlILX7aQPRPShc
-         nJl6ZKM2A4uOlfQ16kJb/njGo8qy4IkWcTgx2TLc4dyU63llworYglBgTaLn3owQZ4L0
-         imd5Vd2uYCxy23QscTs3SksqZWsN/oAfvVeVXfQtFM9pZLTxL1/Qw2fEncFn4cIXDx71
-         zgsGax3Zka2RpeEv/ElE2kOz37Z0i6dUtst5MwCzMX3X6hjjQz/PDMQHE9HW4VXvW4Dk
-         vrfoSYCc8aGrcEU5TXPVPrm7hzs9clPI/vinO7Fvu9cWxTaTUgUEwyEXZ/gx/tpIC9+m
-         C3Mw==
+        d=gmail.com; s=20230601; t=1756388265; x=1756993065; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=stnYH4y/xplcMQcZfyhGCy9GfHgrdS4G/f0xvUxV7ZI=;
+        b=F9Q4yJ2PsEzp+vwtSUJOpF1Dqd3FANOtZRg9RekIEvMB5mTYd0R1ylM3HW3vnOH6XN
+         aXf8fGOW23C8qt0B6c7WmAl+vrtJ277E2xHqqNGVFO5d4aA+CTdBnS2MDedOtzDvG1dj
+         aEXaIf3INRiaZICZos/z3oHgTCS3FvcjL97ohhb/OAJ7yQJswUyIOqKapd88twzEDOCT
+         hIOeZtP1X3TzoCnfgmyp3Vcyl0UVpq+HLCw/JjMEXSuO7GHi85uZGfLLMewbLQPO8vHb
+         ga0zI2eGVvqJEpAXvn6fujJmPbcRLmBHqLbaZpkuMTMJdUuVV/GBtLwPlP/OgM8MyhBI
+         V+AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756388214; x=1756993014;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vO3s8KTMvJZFdHoHnp5Qdx1sAV4PfJarnSm1ctLLZ3E=;
-        b=nUjqgRYFPxycbxFPBjDNPd2S5hTA7Zc71b/+cuUUgg/mpBRlpeXszNN4tHHM6XOM8J
-         VDrsRlNuOfwarCBZTLmHp/th7j6a8rSPK1aSDFdGBIXJprVqNIlSEUlHYxIze0ldJnCz
-         ymnVn6MxZYqX2trpvuQx4WzEckiHgo45QXNVVIl143VnqWMuEhLTnJq0Sn8+AiSY9dJ9
-         XYOZM6b/9KueWZ3kCi7SFgt6IhzmCFZt9Vr4aEDMcXnQxN1TzIPeg+w8t7YNqHlBFELv
-         dLEWijvUJ/9xvU3stdZw3fpgda6zZoyPjVIPKrfHxWUHsMSQN4IsSos1gJ+94L+XE2kT
-         z7tQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXq2RUMFY5Yz9Of1AObaesknyKfK1fkBINnsD7sl+A+83sKncxMtKX0UL0lOkCZKzcu6XnbrsSvHAJD5mmMAMt0Qw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyrXjBG34FkdHsEQK6tWzUSarM28XNTw2cTHdCCg44lADW9hMrW
-	xBrKsUrnPVWuWdmem5QvEnG8QCvYWEYwh4krSyX7V/9pQdOme8qK355kX9grag4wGo9NwLZCGrj
-	ZpvgnxrTjBz+visYH8x0fsK8UDr9v16R6mK+QMneDWg==
-X-Gm-Gg: ASbGncsqRx7yHEUhpGRieCKsckiGUZz4CDLxUHEgEz87bWJQK2KYAh9Ds8qi32Qd4KR
-	M3vQwNYSjV+NEVMn3aIdHSz9LCwYDWLn4o5Wp1w08NeQPdhNpJwS8lygb996oZ6HqB97A5B6Cgj
-	Fqd13Nj28IOFFYMK3Qd5nUaPfvlJCRCzUWscAglIoN+vCQ9w1n2NXN7qxiTYIPqF6B2qDkaQ07M
-	+gSuaiw9xv0lY5W6gvHncSqugUfh1LiTEb9eI8=
-X-Google-Smtp-Source: AGHT+IGjT2OYHV9mzILkObbuSFLpi9Xf+oP+6Uws6rzp7smTv5kAfs8i0u8RIWSnII9gINWFQq3zddWVjDxSq4eH8MM=
-X-Received: by 2002:a05:6512:245b:b0:55f:51b3:9419 with SMTP id
- 2adb3069b0e04-55f51b39621mr1791521e87.50.1756388214118; Thu, 28 Aug 2025
- 06:36:54 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756388265; x=1756993065;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=stnYH4y/xplcMQcZfyhGCy9GfHgrdS4G/f0xvUxV7ZI=;
+        b=YL3zslYercF4DWwlPjlsgLmVxwpVFkERNFoPmG9SMNGPXKdvcEdLPujdjWx3W/Z+IJ
+         CtnGgpvqW2GePIELjt2hqegVbx0wlGnjz61U+uVym0W6qmDIaTrCkYcJLvaZxapdujV3
+         W6HMm/IsbXuWk0N8gwB3G3YHjI43Kov0oIqQ671twXRdV53GgxB0VJ+xLaxH12uHbRe/
+         /MO0YZNQ5zCYv0vmLQOdqI0t1f6onfg5BywdslaVIawhSTL/HZzWlAoUIgetaXwqYq5i
+         5aRdIbtxI0DlcPEYhrUupmhW6hXvU7xawyyOfPjOgBwsaTh/K1IOiZtX3gw0m/cH+eyq
+         HU4A==
+X-Forwarded-Encrypted: i=1; AJvYcCUCxGFkV/QrmMvCQXZoM9TbvO0gdzdz8a+97hgqf6VGHSKIW4fIbwEQKOT8yQ6oZ+9RUkRsHAOXvMBuK/AEx+PjcFM=@vger.kernel.org, AJvYcCXqTcjcq33O5fO38Qkv9w96ZhZCm8/VKz1pTKEmpqdbEEqugRgHw6PBrxs5eOq/J/0etu77VSzb/WuHEik=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVYwUv88L825U2z6ve5vSPNkiSNRf7ngJS/zaX6e8wvKFu8FkX
+	h8r26QOW7fCJE3RK8EgPxEw8cN9aXqksJ296EzIY1+d80EYRqQ6ohdN6
+X-Gm-Gg: ASbGncs1RHi+sm0ljUtojFW6EavOkxctRA80iMPcZO6gGG5dVPn6pFPIYV/+8Tu/Aal
+	0+HVqri+2j6kWW6LPTLPcpj3gX6irFgrBeDZHyDiDn+A/sV+6KNjZhPRJ2GFIAlrlMdnrhV9VZ0
+	YUD7YYiEPppiEV/zfrd2Eeb5848ZzHDwEJG3g7TVZmfJZE19R4XCoHXG/KHEDnnMfiD2dzY7Pgk
+	wP6M+rT0zYynzoWbi4PMpq5AOOtfOT5EjhBPDZtn8dKNTLMZ7EZPfBq7RcCy+YHxL+88HsJY0UG
+	w2EZrf8ruhf1uWQrZatOsYL5OngM6RZBzrxgwu3fHcJSLslzF3fg3sf4i2LiKQ4Th2XTdpPAmvb
+	5X3DElL3uz7WbWCSY+JDp3A0Z3/7+hEPECo7YhtNDqRy0FRjDwRlQlbdBHOYQJKGjWbqy8wucuP
+	zMEWAk
+X-Google-Smtp-Source: AGHT+IGcNhbfn1Bc8fASS6eSKk4e0Xop0qfGCIwRE1/k0Yqvx634N1auYXoEa1j/HIApoPOin1IaiQ==
+X-Received: by 2002:a05:6512:6410:b0:55b:7582:28d0 with SMTP id 2adb3069b0e04-55f0c6b4ed3mr6221401e87.21.1756388264699;
+        Thu, 28 Aug 2025 06:37:44 -0700 (PDT)
+Received: from ?IPV6:2a00:1fa0:4609:e730:cf85:492f:8236:ddbf? ([2a00:1fa0:4609:e730:cf85:492f:8236:ddbf])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55f3f260c7asm2852684e87.126.2025.08.28.06.37.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Aug 2025 06:37:44 -0700 (PDT)
+Message-ID: <638d337a-6485-4eb3-a53c-c6fd7dadafbc@gmail.com>
+Date: Thu, 28 Aug 2025 16:37:42 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250815-pinctrl-gpio-pinfuncs-v5-0-955de9fd91db@linaro.org>
- <CACRpkdaDGmdhaik+1saRv7Ts4myQ+tg1aQqGU3xQyT7ma8dJFw@mail.gmail.com>
- <CAHp75VephepLq61HrVy=PX2oKUQd5NK2qS-vOC5h_NR65td3Uw@mail.gmail.com>
- <CACRpkda4soRCLF5=W=6R4wnwT3pjk743j022XfJxjTTQzuarAA@mail.gmail.com>
- <534ad082-08fa-42c0-9c24-f0c11af7d5b2@sirena.org.uk> <CAMRc=Mdn0_yPXyYq4sbvH4P9-h71vEc4arLPBfSk1PiEFaB7jQ@mail.gmail.com>
- <1804d9dc-8814-47d4-af88-c819c3f17bc0@sirena.org.uk> <CAMRc=MdKgqa+vjhHvD2+Tjw5NwBtFv-0aUivi5UuEQd+n4KxmA@mail.gmail.com>
- <aLAYoDyz8Xie4Dhb@finisterre.sirena.org.uk>
-In-Reply-To: <aLAYoDyz8Xie4Dhb@finisterre.sirena.org.uk>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Thu, 28 Aug 2025 15:36:43 +0200
-X-Gm-Features: Ac12FXwlaqUs0TeuR0_lKNQwkWNyJ4q4Po7liyAa4ioyozolnG0jRU9pqqtYG0I
-Message-ID: <CAMRc=Mdd3fmKjFAfbUB-AAhx-5_CR+c7f36pePkF1k_2LDoORw@mail.gmail.com>
-Subject: Re: [PATCH v5 00/15] pinctrl: introduce the concept of a GPIO pin
- function category
-To: Mark Brown <broonie@kernel.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Andy Shevchenko <andy.shevchenko@gmail.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Alexey Klimov <alexey.klimov@linaro.org>, Lorenzo Bianconi <lorenzo@kernel.org>, 
-	Sean Wang <sean.wang@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Paul Cercueil <paul@crapouillou.net>, Kees Cook <kees@kernel.org>, 
-	Andy Shevchenko <andy@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@redhat.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Dong Aisheng <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, NXP S32 Linux Team <s32@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Tony Lindgren <tony@atomide.com>, 
-	Haojian Zhuang <haojian.zhuang@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, linux-mm@kvack.org, imx@lists.linux.dev, 
-	linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Chen-Yu Tsai <wenst@chromium.org>, 
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v4 4/4] net: renesas: rswitch: add modifiable
+ ageing time
+To: Michael Dege <michael.dege@renesas.com>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Paul Barker <paul@pbarker.dev>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+References: <20250828-add_l2_switching-v4-0-89d7108c8592@renesas.com>
+ <20250828-add_l2_switching-v4-4-89d7108c8592@renesas.com>
+Content-Language: en-US
+From: Sergey Shtylyov <sergei.shtylyov@gmail.com>
+In-Reply-To: <20250828-add_l2_switching-v4-4-89d7108c8592@renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Aug 28, 2025 at 10:51=E2=80=AFAM Mark Brown <broonie@kernel.org> wr=
-ote:
->
-> On Wed, Aug 27, 2025 at 06:46:28PM +0200, Bartosz Golaszewski wrote:
-> > On Wed, Aug 27, 2025 at 12:22=E2=80=AFPM Mark Brown <broonie@kernel.org=
-> wrote:
->
-> > > I've just got the log I linked above.
->
-> > So, I've been looking at this bisect email and clicking the links to
-> > LAVA jobs and I can't find anything. Does it fail to build? Fail at
-> > run-time? I'm not sure how to read this.
->
-> It's failing prior to putting any output on the console.  I was also
-> seeing an issue on i.MX6 so it might be all i.MX boards, same issue:
->
->    https://lava.sirena.org.uk/scheduler/job/1697667
->
-> so it's possibly all the i.MX platforms failing.
+On 8/28/25 1:23 PM, Michael Dege wrote:
 
-Not even with earlycon? That's weird. There are no smatch warnings on
-this patch and I can't see anything obviously wrong upon visual
-inspection. I fixed all other issues but this one I can't test. :(
+> This commit allows the setting of the MAC table aging in the R-Car S4
 
-Bartosz
+    Please just use the imperative mood: Allow the setting...
+
+> Rswitch using the SWITCHDEV_ATTR_ID_BRIDGE_AGEING_TIME attribute.
+> 
+> Signed-off-by: Michael Dege <michael.dege@renesas.com>
+> ---
+>  drivers/net/ethernet/renesas/rswitch_l2.c | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+> 
+> diff --git a/drivers/net/ethernet/renesas/rswitch_l2.c b/drivers/net/ethernet/renesas/rswitch_l2.c
+> index 49a24464dbb0cf3f3219a0699fc4671ddd71ef03..c57396af70a4b291746d6451eae7cf60b3f89721 100644
+> --- a/drivers/net/ethernet/renesas/rswitch_l2.c
+> +++ b/drivers/net/ethernet/renesas/rswitch_l2.c
+> @@ -193,6 +193,25 @@ static int rswitch_netdevice_event(struct notifier_block *nb,
+>  	return NOTIFY_OK;
+>  }
+>  
+> +static int rswitch_update_ageing_time(struct net_device *ndev, clock_t time)
+> +{
+> +	struct rswitch_device *rdev = netdev_priv(ndev);
+> +	u32 reg_val;
+> +
+> +	if (!is_rdev(ndev))
+> +		return -ENODEV;
+> +
+> +	if (!FIELD_FIT(FWMACAGC_MACAGT, time))
+> +		return -EINVAL;
+> +
+> +	rdev = netdev_priv(ndev);
+
+   Haven't you already initialized rdev to the same value above?
+
+[...]
+
+MBR, Sergey
+
 
