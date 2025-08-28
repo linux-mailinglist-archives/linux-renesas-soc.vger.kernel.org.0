@@ -1,101 +1,105 @@
-Return-Path: <linux-renesas-soc+bounces-21056-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21057-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 451BFB3ACE3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Aug 2025 23:45:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36E42B3ACE8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Aug 2025 23:45:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 579C818970A3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Aug 2025 21:45:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 050FE68572B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Aug 2025 21:45:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFA2629ACC0;
-	Thu, 28 Aug 2025 21:45:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 639CB2C08D6;
+	Thu, 28 Aug 2025 21:45:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="OMb/RBF8";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="iChRG2Rh"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Nbu7fz3X";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nmZkY9q+"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81A6821146C;
-	Thu, 28 Aug 2025 21:45:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8641718FDDB;
+	Thu, 28 Aug 2025 21:45:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756417523; cv=none; b=eaahDFOvhFfvG/SaTSw4vIgazPJOnQrL3UEIXDSFi2Qlh7xfF5cQHqCHCGrUPGRwOnZR1u7njaz4QOf7T1ftHfWeu85xBhlEQM7YaHPWFvk+NJFdE6r758VKhqpeFM6HfWmi41yd8SwUWxZDQLyw7C7HtGc5mXzkPbEv9KdnLvI=
+	t=1756417526; cv=none; b=KKEi5LSulC7KjbTzJrmScpgPYowFHydHcGIoUWKKSMWA7P8Pu2mVOkzVQ87DJ8cvGQpsUEEYi+mdv+FRLWmJxjNJakI18SxqFnJVkVI48EPU7PThSZh3DkAioMXq3c/Crf65OXuGIsMzVYNu5N/BJM+Xp+g/gXdd2oY+fJCOthc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756417523; c=relaxed/simple;
-	bh=ZXJTOAm/nmwEhwpO7qQm/q/mfhZbmiMOOiwtA73w5JU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=U8pQLSZCnUHv5hCz1Wlela4/tlCMWok4F7lCnBS+6bHZ2tQBSChf8KZ68ZOKL0iLp7yyoe4Hhlma7v0XegVCTj85gLDXUVW9wvdtqwGIwClvxrBAP0WsGjZlzY8ZoqtMIVack/II5RVyb/BExdrRRLBMtShH/f7mvkQK7z2kWXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=OMb/RBF8; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=iChRG2Rh; arc=none smtp.client-ip=103.168.172.147
+	s=arc-20240116; t=1756417526; c=relaxed/simple;
+	bh=v+cxwuPu/+b+5/r8kmCkXdPsvr04h6eyGwDiTpoi2WE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UU3doumipHGO3GvbfmcTCvGXNj4nGH/L7+ZrQFy0HvDu1zbRb1NeUIv1+SXpLz9uFrtQGrb+BUZUMjiAHZmH35ttuX7KiTOSpcpjT/dS1ICH45c0w08kOJO8ZNIeo34I0EX9WGZmSuy/zQaVx0px+9R7bOzyuFbCnOrpJ1Bvjjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Nbu7fz3X; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nmZkY9q+; arc=none smtp.client-ip=103.168.172.147
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.phl.internal (Postfix) with ESMTP id 8D61AEC00FC;
-	Thu, 28 Aug 2025 17:45:19 -0400 (EDT)
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.phl.internal (Postfix) with ESMTP id 96CEBEC00A5;
+	Thu, 28 Aug 2025 17:45:21 -0400 (EDT)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Thu, 28 Aug 2025 17:45:19 -0400
+  by phl-compute-06.internal (MEProxy); Thu, 28 Aug 2025 17:45:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm3; t=1756417519; x=1756503919; bh=3J
-	WcWzeNEvw0Y42QKd/eYrFW/ZmgqWxOHEP9xWTe/ys=; b=OMb/RBF89p1KKhSppd
-	5smDqqWJUgwTWKEVHfgTXwYwMVIM9KQGUCJlc9/fPgWn5yNMBcs8oKCV4Jf+vXQS
-	rPCY4Kb0LLmXdJ17bQ7GVCI5jeLz/ONX8QE1QjccuNkPmrLte3ib02S0+3FjOyX+
-	QNkMfQg1K0wAd68COm9F0Or/vi2RaNHeJ9oznxSGmPS4QJTPsbiK+vK+Eb94lq3v
-	Azf8cbjnNZK0KVpSlCwOQWD+2gmNW92s5CQeAGAz+wCqZ4cIYVgIfU9kO2nUqhC2
-	gmenHvauk13nUIhwt21XSwtU7BWRZ/ZaNaA9RgrVK3Dje4KB7fwBPQEYYnvaokUa
-	QpoA==
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1756417521;
+	 x=1756503921; bh=V5M1xhIb8PZcf2L7bH9L3u0qjKJeog8JWRzYd4FrVLs=; b=
+	Nbu7fz3XO4kIix66lgPogehxMGs13URhm6yk08dyIY9p1l/OnBLHg/CjRIdV34YR
+	3AKri2oSfTToccfNv1q0uZsHWzMUuChMlOLlhctlTWXAR2HGQlwOjJ/4a6s0QxZL
+	Ll/BjAUJ/BfwIkQs/kCAjS3y5kCU9QtWcOLKWJSSUS8T+DyGsKK3RRJ3CO4ZpINU
+	MWdZUb/QNdfbA9mSu2scoesn0EF4nc7F3bIG/cJwE/Uqt7+3wnFvkoNU6busC6bV
+	ChttYqizkNjBo6f2gphmDnT2/sgIZg1AuaY3ByRIvI9+KCJP+44if7Y2HG28b+IH
+	CTgwrcpdiLlcBxIHL1EhKA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1756417519; x=1756503919; bh=3JWcWzeNEvw0Y42QKd/eYrFW/Zmg
-	qWxOHEP9xWTe/ys=; b=iChRG2RhCmP8mSmIo8WHNPj9id/wiQ+0GlKvA/sOHnU1
-	Kw0o29KyfNldA9AGeaETwOyvqKfpnCyYsdxT/GegS1PA0wE6muKHxDH1o/htWA9y
-	+FqEvCShFweR0CI4mMa4VUUK4JmepA1rWh3giU+a2fNWRSujIsn0adXaZxlM2jsU
-	Cnauf1w1yVNx6xMqqFG45zMfI1MRucRY5O19nJxxkB6h4aey6AOSI3/bB08g7fed
-	BsIlyDr9xhoZG0kNAfC0G0v09Z44xp5FJzyTmLnqCmlms9pJTQMgYzBAwksaf/ce
-	2f4ZABs+rPzu0udBzYEh8ohKcH7I8tQp4//kbHtlsg==
-X-ME-Sender: <xms:782waLTPQom-xUMjL1bDAmE0_d89XwPVtRrlSLL7OZ-spCFxSfCzLg>
-    <xme:782waFuB-g1IxPSySVMOZrjrP4s1PnTAN8bNf90eM972NzfKDdjig_5Frb7fSVPNt
-    eYGDZsLhEajKZTFJLI>
-X-ME-Received: <xmr:782waMYd_oNP5UxnXHWRHZ2At1kWpmQxBT6HLyozkZn69-vG3MkGN_q2TL5epGIxjXzZgrFks-yXVeGbN9TROxi6rQ>
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756417521; x=
+	1756503921; bh=V5M1xhIb8PZcf2L7bH9L3u0qjKJeog8JWRzYd4FrVLs=; b=n
+	mZkY9q+0Q8OM3zaLjWKDTvWfBhTVGQncT6kNxX1Mjbpp+pAEmSVh12/JjvfCfLxy
+	3uOoGwjE6tPeuH7AW6H3a+JOnYX/eNcLo/THcpkwpXl/CfvXDvSsfGwijaWgFP2S
+	d2TsCB7o9pFDKDI4IxkqU60TrEeeI3RQ6r2WBd/YYdVIMU3lI1j1pKnLOcRwhIpz
+	1NSMWyTOzpPhwFY8f4DKWl9qneGOr0sa//JDxdvcX1sJ1PuepGV1GIKgvr/6SVFc
+	S2QuXEjJri6k6FBrUVtQ0J8vkXSceLGo2hZM+1iLSygcEEdxrBYDPNqYCN77Tvwz
+	glr6JTaiBTuFzfq7AY0Tg==
+X-ME-Sender: <xms:8c2waFOzWlyv15Tmpzx4D5RYg2q_TFz03uEMplqVKWxL-T0koDz_uA>
+    <xme:8c2waFGpVE-Zfe7pFQmpCBsInjhTQXxJjV5BfMAQXb8W8PS7xU6L5Yo3-8PaCCJvl
+    TuG-EG8rcC328tswxE>
+X-ME-Received: <xmr:8c2waDQ30y8USpCvEZPTbQSWYlnozc4nL1QD5YAy_kYKIWDzZEf-r-k2rSFrWPuBQLZ3_qae1Zz_98aQ2du886D26w>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukedvudduucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgrshcu
-    ufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrsh
-    esrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehudelteetkefgffef
-    udefuedvjeeivdekhfevieefgeffheeltddvvefhfeetgeenucevlhhushhtvghrufhiii
-    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhn
-    ugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeehpdhmohguvgepshhmth
-    hpohhuthdprhgtphhtthhopegurghnihgvlhdrlhgviigtrghnoheslhhinhgrrhhordho
-    rhhgpdhrtghpthhtohepthhglhigsehlihhnuhhtrhhonhhigidruggvpdhrtghpthhtoh
-    eplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthht
-    oheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-    dprhgtphhtthhopehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgr
-    ghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:782waLHS659Qp_AiboeSKZ2mb4mCidoaGlrfAAXcM5S-FEOD2ldQFA>
-    <xmx:782waAwWo_jxTvl5Y6vDT5rJW7iYrXUunNKoPEPFrrQFsQVA-evE-g>
-    <xmx:782waNmaPAIj7EKKYt0qOPQvLwm_pf9-ZAHP1IXkPSk-ntUqx8XEdw>
-    <xmx:782waJmzbrsISo8xWuww0CNrlm9EhG0hrpvnV6SNk9-aUKqWhhqAIQ>
-    <xmx:782waHt-jcUAlk0N2QHcb2n19oJiZS4j9_lrESvafyDoFQycG-xiO4sr>
+    gurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgr
+    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
+    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehiefgueevuedt
+    fefhheegkeevtdelueeukeevfeduhefhhfejfffggeffleefgeenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhl
+    uhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeehpdhmohguvgepsh
+    hmthhpohhuthdprhgtphhtthhopegurghnihgvlhdrlhgviigtrghnoheslhhinhgrrhho
+    rdhorhhgpdhrtghpthhtohepthhglhigsehlihhnuhhtrhhonhhigidruggvpdhrtghpth
+    htoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghp
+    thhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdroh
+    hrghdprhgtphhtthhopehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshes
+    rhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:8c2waCuBsHKaAE6dDxrROWeE5rz0FinxaNCPS-DchqHQWU-CeiUQzQ>
+    <xmx:8c2waLLiSL5_t-a5OfgPv23BOBpbkwovJJtK9lScS9Lpo53s2Me67Q>
+    <xmx:8c2waHnMjyE0VnN2ELc5txJyIkyOp1bQ_eDXqrEPuurB5vHYQAJRaA>
+    <xmx:8c2waEI1aM0b1_06nMjzFSsL8nmYs-iyvOuzN5U3Mk9Bp7RexvQ0Jg>
+    <xmx:8c2waBZ-33JwqdGdJfiwaSG7unQj98dKAgcWGXusDC--m5ssUMe5fr5w>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 28 Aug 2025 17:45:18 -0400 (EDT)
+ 28 Aug 2025 17:45:20 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Daniel Lezcano <daniel.lezcano@linaro.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
 Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [RFC/PATCH 0/2] clocksource/drivers/sh_cmt: Improve clock event design
-Date: Thu, 28 Aug 2025 23:44:01 +0200
-Message-ID: <20250828214403.1765311-1-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 1/2] clocksource/drivers/sh_cmt: Split start/stop of clock source and events
+Date: Thu, 28 Aug 2025 23:44:02 +0200
+Message-ID: <20250828214403.1765311-2-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20250828214403.1765311-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20250828214403.1765311-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -105,72 +109,212 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hello,
+The CMT do a housekeeping such as dealing with runtime PM and
+enable/disable clocks when either a clock source is enabled, or when a
+new clock event is registered.
 
-This RFC/PATCH tries to address an issue with the Renesas CMT driver 
-design. The driver do PM and clock handling in struct clock_event_device 
-callbacks. This leads to LOCKDEP warnings and I think hints at a larger 
-issue.
+Doing this type of housekeeping for when a clock event is registered is
+not always possible as it can happen in contexts where holding spinlocks
+is not possible. However doing it when registering a clock source is
+possible.
 
-    =============================
-    [ BUG: Invalid wait context ]
-    6.17.0-rc3-arm64-renesas-03071-gb3c4f4122b28-dirty #21 Not tainted
-    -----------------------------
-    swapper/1/0 is trying to lock:
-    ffff00000898d180 (&dev->power.lock){-...}-{3:3}, at: __pm_runtime_resume+0x38/0x88
-    ccree e6601000.crypto: ARM CryptoCell 630P Driver: HW version 0xAF400001/0xDCC63000, Driver version 5.0
-    other info that might help us debug this:
-    ccree e6601000.crypto: ARM ccree device initialized
-    context-{5:5}
-    2 locks held by swapper/1/0:
-     #0: ffff80008173c298 (tick_broadcast_lock){-...}-{2:2}, at: __tick_broadcast_oneshot_control+0xa4/0x3a8
-     #1: ffff0000089a5858 (&ch->lock){....}-{2:2}
-    usbcore: registered new interface driver usbhid
-    , at: sh_cmt_start+0x30/0x364
-    stack backtrace:
-    CPU: 1 UID: 0 PID: 0 Comm: swapper/1 Not tainted 6.17.0-rc3-arm64-renesas-03071-gb3c4f4122b28-dirty #21 PREEMPT
-    Hardware name: Renesas Salvator-X 2nd version board based on r8a77965 (DT)
-    Call trace:
-     show_stack+0x14/0x1c (C)
-     dump_stack_lvl+0x6c/0x90
-     dump_stack+0x14/0x1c
-     __lock_acquire+0x904/0x1584
-     lock_acquire+0x220/0x34c
-     _raw_spin_lock_irqsave+0x58/0x80
-     __pm_runtime_resume+0x38/0x88
-     sh_cmt_start+0x54/0x364
-     sh_cmt_clock_event_set_oneshot+0x64/0xb8
-     clockevents_switch_state+0xfc/0x13c
-     tick_broadcast_set_event+0x30/0xa4
-     __tick_broadcast_oneshot_control+0x1e0/0x3a8
-     tick_broadcast_oneshot_control+0x30/0x40
-     cpuidle_enter_state+0x40c/0x680
-     cpuidle_enter+0x30/0x40
-     do_idle+0x1f4/0x26c
-     cpu_startup_entry+0x34/0x40
-     secondary_start_kernel+0x11c/0x13c
-     __secondary_switched+0x74/0x78
+As a first step to address this design break apart the CMT start and
+stop functions. The path for clock sources need not change, while the
+one for clock events need to be reworked in future work.
 
-This series tries to address this by instead doing PM and clock 
-management at probe time, and leaving them on for the CMT channels that 
-are used as clock events. The CMT design is a bit messy as channels can 
-be used both as clock sources and events. And the design to do the 
-housekeeping for clock sources seems to be valid and is kept.
+There is no indented functional change, just breaking the two use-cases
+controlled by a flag into two distinct functions.
 
-This is posted as an RFC as there is one other driver in-tree that 
-suffers form similar issues. I intend to try and refactor that away too, 
-but would like to try and get some feedback first.
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ drivers/clocksource/sh_cmt.c | 94 ++++++++++++++++++++++++------------
+ 1 file changed, 64 insertions(+), 30 deletions(-)
 
-The work is tested on R-Car M3N.
-
-Niklas Söderlund (2):
-  clocksource/drivers/sh_cmt: Split start/stop of clock source and
-    events
-  clocksource/drivers/sh_cmt: Do not power down channels used for events
-
- drivers/clocksource/sh_cmt.c | 85 +++++++++++++++++++++++-------------
- 1 file changed, 54 insertions(+), 31 deletions(-)
-
+diff --git a/drivers/clocksource/sh_cmt.c b/drivers/clocksource/sh_cmt.c
+index b72b36e0abed..385eb94bbe7c 100644
+--- a/drivers/clocksource/sh_cmt.c
++++ b/drivers/clocksource/sh_cmt.c
+@@ -578,37 +578,74 @@ static irqreturn_t sh_cmt_interrupt(int irq, void *dev_id)
+ 	return IRQ_HANDLED;
+ }
+ 
+-static int sh_cmt_start(struct sh_cmt_channel *ch, unsigned long flag)
++static int sh_cmt_start_clocksource(struct sh_cmt_channel *ch)
+ {
+ 	int ret = 0;
+ 	unsigned long flags;
+ 
+-	if (flag & FLAG_CLOCKSOURCE)
+-		pm_runtime_get_sync(&ch->cmt->pdev->dev);
++	pm_runtime_get_sync(&ch->cmt->pdev->dev);
+ 
+ 	raw_spin_lock_irqsave(&ch->lock, flags);
+ 
+-	if (!(ch->flags & (FLAG_CLOCKEVENT | FLAG_CLOCKSOURCE))) {
+-		if (flag & FLAG_CLOCKEVENT)
+-			pm_runtime_get_sync(&ch->cmt->pdev->dev);
++	if (!(ch->flags & (FLAG_CLOCKEVENT | FLAG_CLOCKSOURCE)))
+ 		ret = sh_cmt_enable(ch);
+-	}
+ 
+ 	if (ret)
+ 		goto out;
+-	ch->flags |= flag;
++
++	ch->flags |= FLAG_CLOCKSOURCE;
+ 
+ 	/* setup timeout if no clockevent */
+-	if (ch->cmt->num_channels == 1 &&
+-	    flag == FLAG_CLOCKSOURCE && (!(ch->flags & FLAG_CLOCKEVENT)))
++	if (ch->cmt->num_channels == 1 && !(ch->flags & FLAG_CLOCKEVENT))
+ 		__sh_cmt_set_next(ch, ch->max_match_value);
++out:
++	raw_spin_unlock_irqrestore(&ch->lock, flags);
++
++	return ret;
++}
++
++static void sh_cmt_stop_clocksource(struct sh_cmt_channel *ch)
++{
++	unsigned long flags;
++	unsigned long f;
++
++	raw_spin_lock_irqsave(&ch->lock, flags);
++
++	f = ch->flags & (FLAG_CLOCKEVENT | FLAG_CLOCKSOURCE);
++
++	ch->flags &= ~FLAG_CLOCKSOURCE;
++
++	if (f && !(ch->flags & (FLAG_CLOCKEVENT | FLAG_CLOCKSOURCE)))
++		sh_cmt_disable(ch);
++
++	raw_spin_unlock_irqrestore(&ch->lock, flags);
++
++	pm_runtime_put(&ch->cmt->pdev->dev);
++}
++
++static int sh_cmt_start_clockevent(struct sh_cmt_channel *ch)
++{
++	int ret = 0;
++	unsigned long flags;
++
++	raw_spin_lock_irqsave(&ch->lock, flags);
++
++	if (!(ch->flags & (FLAG_CLOCKEVENT | FLAG_CLOCKSOURCE))) {
++		pm_runtime_get_sync(&ch->cmt->pdev->dev);
++		ret = sh_cmt_enable(ch);
++	}
++
++	if (ret)
++		goto out;
++
++	ch->flags |= FLAG_CLOCKEVENT;
+  out:
+ 	raw_spin_unlock_irqrestore(&ch->lock, flags);
+ 
+ 	return ret;
+ }
+ 
+-static void sh_cmt_stop(struct sh_cmt_channel *ch, unsigned long flag)
++static void sh_cmt_stop_clockevent(struct sh_cmt_channel *ch)
+ {
+ 	unsigned long flags;
+ 	unsigned long f;
+@@ -616,22 +653,19 @@ static void sh_cmt_stop(struct sh_cmt_channel *ch, unsigned long flag)
+ 	raw_spin_lock_irqsave(&ch->lock, flags);
+ 
+ 	f = ch->flags & (FLAG_CLOCKEVENT | FLAG_CLOCKSOURCE);
+-	ch->flags &= ~flag;
++
++	ch->flags &= ~FLAG_CLOCKEVENT;
+ 
+ 	if (f && !(ch->flags & (FLAG_CLOCKEVENT | FLAG_CLOCKSOURCE))) {
+ 		sh_cmt_disable(ch);
+-		if (flag & FLAG_CLOCKEVENT)
+-			pm_runtime_put(&ch->cmt->pdev->dev);
+-	}
+-
+-	/* adjust the timeout to maximum if only clocksource left */
+-	if ((flag == FLAG_CLOCKEVENT) && (ch->flags & FLAG_CLOCKSOURCE))
+-		__sh_cmt_set_next(ch, ch->max_match_value);
+-
+-	raw_spin_unlock_irqrestore(&ch->lock, flags);
+-
+-	if (flag & FLAG_CLOCKSOURCE)
+ 		pm_runtime_put(&ch->cmt->pdev->dev);
++	}
++
++	/* adjust the timeout to maximum if only clocksource left */
++	if (ch->flags & FLAG_CLOCKSOURCE)
++		__sh_cmt_set_next(ch, ch->max_match_value);
++
++	raw_spin_unlock_irqrestore(&ch->lock, flags);
+ }
+ 
+ static struct sh_cmt_channel *cs_to_sh_cmt(struct clocksource *cs)
+@@ -672,7 +706,7 @@ static int sh_cmt_clocksource_enable(struct clocksource *cs)
+ 
+ 	ch->total_cycles = 0;
+ 
+-	ret = sh_cmt_start(ch, FLAG_CLOCKSOURCE);
++	ret = sh_cmt_start_clocksource(ch);
+ 	if (!ret)
+ 		ch->cs_enabled = true;
+ 
+@@ -685,7 +719,7 @@ static void sh_cmt_clocksource_disable(struct clocksource *cs)
+ 
+ 	WARN_ON(!ch->cs_enabled);
+ 
+-	sh_cmt_stop(ch, FLAG_CLOCKSOURCE);
++	sh_cmt_stop_clocksource(ch);
+ 	ch->cs_enabled = false;
+ }
+ 
+@@ -696,7 +730,7 @@ static void sh_cmt_clocksource_suspend(struct clocksource *cs)
+ 	if (!ch->cs_enabled)
+ 		return;
+ 
+-	sh_cmt_stop(ch, FLAG_CLOCKSOURCE);
++	sh_cmt_stop_clocksource(ch);
+ 	dev_pm_genpd_suspend(&ch->cmt->pdev->dev);
+ }
+ 
+@@ -708,7 +742,7 @@ static void sh_cmt_clocksource_resume(struct clocksource *cs)
+ 		return;
+ 
+ 	dev_pm_genpd_resume(&ch->cmt->pdev->dev);
+-	sh_cmt_start(ch, FLAG_CLOCKSOURCE);
++	sh_cmt_start_clocksource(ch);
+ }
+ 
+ static int sh_cmt_register_clocksource(struct sh_cmt_channel *ch,
+@@ -740,7 +774,7 @@ static struct sh_cmt_channel *ced_to_sh_cmt(struct clock_event_device *ced)
+ 
+ static void sh_cmt_clock_event_start(struct sh_cmt_channel *ch, int periodic)
+ {
+-	sh_cmt_start(ch, FLAG_CLOCKEVENT);
++	sh_cmt_start_clockevent(ch);
+ 
+ 	if (periodic)
+ 		sh_cmt_set_next(ch, ((ch->cmt->rate + HZ/2) / HZ) - 1);
+@@ -752,7 +786,7 @@ static int sh_cmt_clock_event_shutdown(struct clock_event_device *ced)
+ {
+ 	struct sh_cmt_channel *ch = ced_to_sh_cmt(ced);
+ 
+-	sh_cmt_stop(ch, FLAG_CLOCKEVENT);
++	sh_cmt_stop_clockevent(ch);
+ 	return 0;
+ }
+ 
+@@ -763,7 +797,7 @@ static int sh_cmt_clock_event_set_state(struct clock_event_device *ced,
+ 
+ 	/* deal with old setting first */
+ 	if (clockevent_state_oneshot(ced) || clockevent_state_periodic(ced))
+-		sh_cmt_stop(ch, FLAG_CLOCKEVENT);
++		sh_cmt_stop_clockevent(ch);
+ 
+ 	dev_info(&ch->cmt->pdev->dev, "ch%u: used for %s clock events\n",
+ 		 ch->index, periodic ? "periodic" : "oneshot");
 -- 
 2.51.0
 
