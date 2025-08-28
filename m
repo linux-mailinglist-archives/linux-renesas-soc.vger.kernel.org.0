@@ -1,186 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-21048-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21049-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AABCB3A5B7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Aug 2025 18:10:06 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94795B3A6AE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Aug 2025 18:42:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 23DE468419F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Aug 2025 16:09:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C9A9C188C939
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Aug 2025 16:42:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E4E928724A;
-	Thu, 28 Aug 2025 16:08:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C84A0322C7A;
+	Thu, 28 Aug 2025 16:41:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="YSdu8507";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gKB7u7xo"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EqOWYKbc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68E72C2374;
-	Thu, 28 Aug 2025 16:08:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DCDC3148C1;
+	Thu, 28 Aug 2025 16:41:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756397310; cv=none; b=Af91Ph4ToCYg4QmeZX6po+nl9oZPLSrzNrsGahkiELHS2j3x5wvxYVLOVOGamdbJDy2yrIYq/D+HrRBluz0KXAM+usYhZ10dPgeEZjEdXaLqLpItYQZs881xxNfNEk51MjKxpo41CXPfG6zec1l91CdNDtZa/UvTgbOEoL25Lyc=
+	t=1756399273; cv=none; b=fMEBrTtk2sKhxKkqBLUUIp7X1dRLpprr6FA6MShbAraScpqy02LWMfacaY/mIgh/2JhFWIQWrQajZF+yzqQQNQnC0x9xa6iY6iczvoWAwuQ51otlcGc8GPjiCuZ653kI/iNuZnH0vdCRRdBamgsx/uym+fP2CIHB08sDWUSIYQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756397310; c=relaxed/simple;
-	bh=VJfn+oYYSy4ZA3gD/v34MccuM8z6wCCXGEg2ktmhxn4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iikfyxUBb3DSCg62ezOBh95B1GY6ECYEEsRrRX3wqLDiHcWMNfDaocHLmpbWL8Vxn22uODZSomrQpb5SI51qkVh9xUWxtBP5Tvg+RjRWKmqWMzUl2BRtMIne3Yaw0iap2cnD6nkKjzTibXY7OMgnvYaJvfZez0TrKtcVV+totFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=YSdu8507; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gKB7u7xo; arc=none smtp.client-ip=202.12.124.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfout.stl.internal (Postfix) with ESMTP id B640D1D0017C;
-	Thu, 28 Aug 2025 12:08:27 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-09.internal (MEProxy); Thu, 28 Aug 2025 12:08:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1756397307;
-	 x=1756483707; bh=y5BVgo3OvyYLOab0BxHeSijM5P7vg3KbiuQ4Gr8Z3eU=; b=
-	YSdu8507rv++pX1Qiyr2f5ng9/tlWhyxIiTvbutc3IMJdZ5ldan792/mD3vjfIFM
-	Y+oVCSwG+SdUObBY7TuFBHQ1XZ1zOoBb/BnDu5eCZHmjmDgjMdT7tAWIaK9TdcvO
-	RptzEQXIg38VTdOBRUXR25tW2rSxrTgXyivwazZ8GY6BZnni5TIeJgnZenEDMdEo
-	lLRyeIhcTPX+xtYU5Bct/qVb4CSqUEFhmVTs2FYGXGChoJOjjygkVkgr3NFtdnt4
-	DxSneWtCQjYjmFByT9bPkwfcMemfbSKwDx1iVrCQp5dUI1xnKRVKI2FD8sHAWR5p
-	sAHPtxunsDzO6ALWAQpT3g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756397307; x=
-	1756483707; bh=y5BVgo3OvyYLOab0BxHeSijM5P7vg3KbiuQ4Gr8Z3eU=; b=g
-	KB7u7xoBO26MH8kn3CX5kHnBlf9XWKfO06ilGikkQaUkAZn6G69rS6e6nrHGgGz5
-	mf73sk2zhiqjR+1qEJ8zLrjTPuXAsQ2blHWnRzzajnWeAVY+DU8V28gkSIjLsz9e
-	qaCHacYwulO9+IaOz9VJsMSmWmtLq5+f+5+TMwKYl9/c9btVS4psV+56kH7G8wYs
-	1qAG6UoYTElP+sz3Vp+c1+e6WwOARp42aflujxmMgdnk7On7lIPw4uigWencG5VA
-	AzoWlDYAZjCj3drW5NiY51188g32GolnkZnHx1Ozp13OR9PEHQdVfDZDMuZ7Bcsn
-	ky14RRKySgNdins0WWQgw==
-X-ME-Sender: <xms:-36waN6KMHi9kphkQWW_3hA8GYpH2RjTRv-SMeJ4ThBMzPPnxXg6jg>
-    <xme:-36waOtoy5l7WG8N3ikSzBnmwNSkYRZ6l2lFaIhKD2y4ahnuF30cbENBdP-d2LUOU
-    TmYnLSfHjzwF7gxCwQ>
-X-ME-Received: <xmr:-36waNgt0BCua9w695w1Ms4GarpFR08YU8hDrYY22Dg4yLafoN4-m6d99GAu8ZzrQM5OO4K8jqcw4WB_9i4finWUfw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukedugeeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgr
-    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
-    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehiefgueevuedt
-    fefhheegkeevtdelueeukeevfeduhefhhfejfffggeffleefgeenucevlhhushhtvghruf
-    hiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhl
-    uhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeejpdhmohguvgepsh
-    hmthhpohhuthdprhgtphhtthhopehlrghrshesmhgvthgrfhhoohdruggvpdhrtghpthht
-    ohepmhgthhgvhhgrsgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohephhhvvghrkhhuih
-    hlseigshegrghllhdrnhhlpdhrtghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhht
-    sehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguih
-    grsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgv
-    shgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehnihhklh
-    grshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:-36waJrwzTji2JOwgSPKGZ1exMFbeLO4oMJt076NN89_tPlp_TYkaQ>
-    <xmx:-36waKvIOh599zNhEy7FrdHu4RLxvLA6nYWo0_zizq2san3NzJhQFQ>
-    <xmx:-36waMbQgYo9SlMCNci43oz0EqLDkQWDGcKENny0KN5s9W8CtlULYw>
-    <xmx:-36waBbmSDp4dsT7OkxLQRtTwdUUoZNMsrmw3gW9xz06atImbWk_PA>
-    <xmx:-36waHtdqaDubB9UxdeO4oTw4Dp0dDGFFnw9uiL-3mmy3RiRLmz_AS0u>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 28 Aug 2025 12:08:26 -0400 (EDT)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Lars-Peter Clausen <lars@metafoo.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2 11/11] media: adv7180: Only validate format in querystd
-Date: Thu, 28 Aug 2025 18:06:54 +0200
-Message-ID: <20250828160654.1467762-12-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250828160654.1467762-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20250828160654.1467762-1-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1756399273; c=relaxed/simple;
+	bh=O5WGilvJjn98UwZmdL7/0cFkZ2MvpINIIDYO3zyCnJ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gAhbW6wKVrMJHDJX0ocWiZO8fUqSR4d/FDZX8xc5UtE7EhA0vqVRCZpQiOlauu1SerC+XPU0LGsk4en2hZsdVaC1JDMg/W8hIFyruauTOM+w7OLM3kGYsOWVnR/6nGHwTqnXdMDtgGZagtmtlLn1l0NNfKZQCrC8907DIKnqlDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EqOWYKbc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA3B7C4CEEB;
+	Thu, 28 Aug 2025 16:41:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756399273;
+	bh=O5WGilvJjn98UwZmdL7/0cFkZ2MvpINIIDYO3zyCnJ8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EqOWYKbcXoM8srDe6+iGs3WRik2ouU0WYh4TRBgpE0bM+mCS8CgFL6nCpN3wAieyv
+	 4Pcmq6n1ehzOS9ZZG6JrrPfz2owy1NUzxJGeqIN0gS42Mg4UWWjB4Yo3EHaKGWs27S
+	 EpUtlYN6a/1nKOtN8jdZloxVHs7iSdtQblrQnNctH5GdHLYRHsCWjnZr3SmAkB+Yil
+	 lW9mU6rV3fHfvz8w1wZ2yQuzs68zmzJ+i2XAZIZEf7upEybJzOdsEnLBWbmuJMhb/s
+	 W2sQWgEA/jF3jAJv2sayOJG8i0wnAxHi6Y6kWTR1d0gkhQTbEcyKVlZwtfFkS2jzCT
+	 ovV0HroKWt9gw==
+Date: Thu, 28 Aug 2025 17:41:09 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2] dt-bindings: soc: renesas: Document R-Car X5H
+Message-ID: <20250828-platform-counting-6578d06e3526@spud>
+References: <87ldn4uyof.wl-kuninori.morimoto.gx@renesas.com>
+ <20250828-esoteric-vivid-raccoon-a86c9a@kuoka>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="z0zlR1hZGpsRTJZB"
+Content-Disposition: inline
+In-Reply-To: <20250828-esoteric-vivid-raccoon-a86c9a@kuoka>
 
-The .querystd callback should not program the device with the detected
-standard, it should only report the standard to user-space. User-space
-may then use .s_std to set the standard, if it wants to use it.
 
-All that is required of .querystd is to setup the auto detection of
-standards and report its findings.
+--z0zlR1hZGpsRTJZB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-While at it add some documentation on why this can't happen while
-streaming and improve the error handling using a scoped guard.
+On Thu, Aug 28, 2025 at 09:27:19AM +0200, Krzysztof Kozlowski wrote:
+> On Wed, Aug 27, 2025 at 11:34:09PM +0000, Kuninori Morimoto wrote:
+> > Document the compatible values for the Renesas R-Car X5H (R8A78000) SoC
+> >=20
+> > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> > ---
+> > v1 -> v2
+> > 	- add empty enum to avoid allowing invalid use.
+>=20
+> I don't understand why do you need this. Where is any user of it? There
+> is no such in this patchset, so this must be explicitly explained in the
+> commit msg.
+>=20
+> >=20
+> >  Documentation/devicetree/bindings/soc/renesas/renesas.yaml | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml=
+ b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
+> > index 5f9d541d177a..e2fec2afbc6d 100644
+> > --- a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
+> > +++ b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
+> > @@ -473,6 +473,12 @@ properties:
+> >            - const: renesas,r8a779mb
+> >            - const: renesas,r8a7795
+> > =20
+> > +      - description: R-Car X5H (R8A78000)
+> > +        items:
+> > +          - enum:
+> > +              - {}               # avoid allowing invalid use. will be=
+ replaced to actual board name
+>=20
+> We don't allow such cases because it is pointless.
+>=20
+> Otherwise explain in the commit msg why this is needed, why exception is
+> justified.
+>=20
+> You have entire commit msg to explain anything unusual and if you look
+> at source code you will not notice such syntax for boards, so clearly
+> this is unusual.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/media/i2c/adv7180.c | 37 ++++++++++++++++---------------------
- 1 file changed, 16 insertions(+), 21 deletions(-)
+They have a soc driver that binds to the compatible, which is why I
+suggested this rather than refusing the patch. I do agree it should be
+mentioned though.
 
-diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-index 47112b43769d..ca0bdfa9dcda 100644
---- a/drivers/media/i2c/adv7180.c
-+++ b/drivers/media/i2c/adv7180.c
-@@ -388,32 +388,27 @@ static inline struct adv7180_state *to_state(struct v4l2_subdev *sd)
- static int adv7180_querystd(struct v4l2_subdev *sd, v4l2_std_id *std)
- {
- 	struct adv7180_state *state = to_state(sd);
--	int err = mutex_lock_interruptible(&state->mutex);
--	if (err)
--		return err;
-+	int ret;
- 
--	if (state->streaming) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	guard(mutex)(&state->mutex);
- 
--	err = adv7180_set_video_standard(state,
--			ADV7180_STD_AD_PAL_BG_NTSC_J_SECAM);
--	if (err)
--		goto unlock;
-+	/*
-+	 * We can't sample the standard if the device is streaming as that would
-+	 * interfere with the capture session as the VID_SEL reg is touched.
-+	 */
-+	if (state->streaming)
-+		return -EBUSY;
- 
-+	/* Set the standard to autodetect PAL B/G/H/I/D, NTSC J or SECAM */
-+	ret = adv7180_set_video_standard(state,
-+					 ADV7180_STD_AD_PAL_BG_NTSC_J_SECAM);
-+	if (ret)
-+		return ret;
-+
-+	/* Allow some time for the autodetection to run. */
- 	msleep(100);
--	__adv7180_status(state, NULL, std);
- 
--	err = v4l2_std_to_adv7180(state->curr_norm);
--	if (err < 0)
--		goto unlock;
--
--	err = adv7180_set_video_standard(state, err);
--
--unlock:
--	mutex_unlock(&state->mutex);
--	return err;
-+	return __adv7180_status(state, NULL, std);
- }
- 
- static int adv7180_s_routing(struct v4l2_subdev *sd, u32 input,
--- 
-2.51.0
+--z0zlR1hZGpsRTJZB
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaLCGpQAKCRB4tDGHoIJi
+0l+eAQCmwZHZN1FP89RnOkKGhXv7LLa3ems4DN/7vYFc1uMr9gD8CzhRYbfDRTf3
+YwnJrw/lU8Ig6QGOPutJynJfuMjjAgQ=
+=OeLm
+-----END PGP SIGNATURE-----
+
+--z0zlR1hZGpsRTJZB--
 
