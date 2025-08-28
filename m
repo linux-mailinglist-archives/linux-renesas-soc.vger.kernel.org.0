@@ -1,147 +1,91 @@
-Return-Path: <linux-renesas-soc+bounces-21004-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21005-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B16C0B39781
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Aug 2025 10:51:55 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4845B39792
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Aug 2025 10:56:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E74AD1C26AF0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Aug 2025 08:52:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9B694167844
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Aug 2025 08:56:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55F912EA498;
-	Thu, 28 Aug 2025 08:51:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20ECA2EBBA2;
+	Thu, 28 Aug 2025 08:56:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CxUz4OE7"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="CLndv3CP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C0430CD89;
-	Thu, 28 Aug 2025 08:51:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D992459E1
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Aug 2025 08:56:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756371111; cv=none; b=CF1a4N1/A0WlYKH4O2WfhYeLjcOvy57cx8ISulJJBeeVnq/Rkb3GLRm+WDdTv3DOwLPbULPRtszQ6GVRpBPdbgSQwUNvQ7RGYwKeO1FU1o99t/dRoM5hUXYDWE32xRTHOQF2WTma24uSlpn5EiKad2fJu1a4ytT2LaC9Dm7AoHQ=
+	t=1756371371; cv=none; b=TZrnM/A8VthSLRmmqpC9bcBlvyj4vi9+djv9WatCNfDPOHGPtzY1y3wgqTBmSsHwMCZjAmo8VNOkZvYzDg1yg6VJ+dR7Rf8V2elA7rLrPtTRbqL0WnBgtbuMaX5dUk90gkRFcHekb9LXGVPB6MdAZsCw7xFdtwa/rqPCJ++vKj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756371111; c=relaxed/simple;
-	bh=3YzdMt4Qw41h9On9I6WWC7I2bIUYtljay6e0dtrlQB0=;
+	s=arc-20240116; t=1756371371; c=relaxed/simple;
+	bh=mdOJV1sdZK45vBFP0mM0b+v0n9JxKYturrTwXISROE8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N9NnpuXbBnwSXIcIu2u23R/XRyrjdiogzPrL5rpKpTYtdQEDM30Bn123ZmbgZuqNh8tDZSivVJmd2ZwAPi1D036B5qDEUApKX9GHCydqvzIuBQ5/4SdWp73OGbFp/aqwrb9LJ6WjQIAbm+3B/m2CEeUlCgwAmL0Ye8bc9TCUm0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CxUz4OE7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAA74C4CEEB;
-	Thu, 28 Aug 2025 08:51:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756371110;
-	bh=3YzdMt4Qw41h9On9I6WWC7I2bIUYtljay6e0dtrlQB0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CxUz4OE7D1NGKWLHEwzYtKgtTZECCDgFwxLLFeEJiE5hR7TF/HdMp0veLk2o6qfDv
-	 KrmFmQeAKMvmoCGTsN2QEpErm2Z/n46G4CUgdan/vOqQ9+XQ8CHs5YjX+RarjPGWNt
-	 4fgJOJt8RG0sXbgl0kwnayykHV1vIbocYp6VitOqSIqH+RSsoJuBA8wtGEelQ3uPo5
-	 xCNZZZqIFBHNQnmi6rQHhugNHWi8N0tBMVwx+A651+DQ29n0lH/uQg909DvdKUppWS
-	 TcZgiGOplL37u0h/PshdhvyJVU8d5z8Os53O2PwwUjdkj2x+Ik0u8cPM+8bvR7rx0x
-	 zclGiA7ZwYXog==
-Date: Thu, 28 Aug 2025 10:51:44 +0200
-From: Mark Brown <broonie@kernel.org>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Alexey Klimov <alexey.klimov@linaro.org>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Sean Wang <sean.wang@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Paul Cercueil <paul@crapouillou.net>, Kees Cook <kees@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Dong Aisheng <aisheng.dong@nxp.com>,
-	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
-	Jacky Bai <ping.bai@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	NXP S32 Linux Team <s32@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Tony Lindgren <tony@atomide.com>,
-	Haojian Zhuang <haojian.zhuang@linaro.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-mm@kvack.org,
-	imx@lists.linux.dev, linux-omap@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Chen-Yu Tsai <wenst@chromium.org>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v5 00/15] pinctrl: introduce the concept of a GPIO pin
- function category
-Message-ID: <aLAYoDyz8Xie4Dhb@finisterre.sirena.org.uk>
-References: <20250815-pinctrl-gpio-pinfuncs-v5-0-955de9fd91db@linaro.org>
- <CACRpkdaDGmdhaik+1saRv7Ts4myQ+tg1aQqGU3xQyT7ma8dJFw@mail.gmail.com>
- <CAHp75VephepLq61HrVy=PX2oKUQd5NK2qS-vOC5h_NR65td3Uw@mail.gmail.com>
- <CACRpkda4soRCLF5=W=6R4wnwT3pjk743j022XfJxjTTQzuarAA@mail.gmail.com>
- <534ad082-08fa-42c0-9c24-f0c11af7d5b2@sirena.org.uk>
- <CAMRc=Mdn0_yPXyYq4sbvH4P9-h71vEc4arLPBfSk1PiEFaB7jQ@mail.gmail.com>
- <1804d9dc-8814-47d4-af88-c819c3f17bc0@sirena.org.uk>
- <CAMRc=MdKgqa+vjhHvD2+Tjw5NwBtFv-0aUivi5UuEQd+n4KxmA@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=sg99SS7Ql3bOh0e9jE8ZmhtaliWZN+uYcLhGG0yE8xlAlLXntB2kT9ouN5eNWMd9v/t4ap0tFpx8ntmTVsnKKWd+RYN4U/zZxmWGonPmb+Pe8h/3ltabZDEG2C6pUsARmYpgKFtBZG1pMKsLp61eYXwCOX2zOk99KtN51txNbkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=CLndv3CP; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=QvdA
+	hUEUNTpDtAXlWcb9EeodbUuKdqI/q/I9vC/c2Lo=; b=CLndv3CPXnHjjWw+u0g6
+	mXJfrYgOtmsFGbcNoFFPx7H4gDEM92hYG2miokV3ABS1GrsKiB/PKrNdMj8+V+Wn
+	ysxbTF65S84fYUfpEZTrIsEzolth0RTHcbbutSHnu9Lwbkn4zSp+Z1MFq4wFBzGc
+	ZXukRjIWdsnA+VZiNSRZG3Z4PzDLnhRyeGNI5nDzSHp8hcg6qHONERlfzcoGbGeW
+	cLwrxhC2Wrnd4Oo7mPu0iteNi13PT390TAvSlSxTen5d6C0QlZWurz3HAG5No4ja
+	itGOfodGX1+93mePPfOZH2qLnQf6Iz+G4X4mW0dqgCgLY9Vxvi6q5lBr4pvTzD46
+	lQ==
+Received: (qmail 935638 invoked from network); 28 Aug 2025 10:56:07 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 Aug 2025 10:56:07 +0200
+X-UD-Smtp-Session: l3s3148p1@HmRpE2k98OwgAwDPXw2iAG43AYdOknD3
+Date: Thu, 28 Aug 2025 10:56:06 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: vkoul@kernel.org, kishon@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, p.zabel@pengutronix.de,
+	geert+renesas@glider.be, magnus.damm@gmail.com,
+	yoshihiro.shimoda.uh@renesas.com, biju.das.jz@bp.renesas.com,
+	linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v5 0/7] Add initial USB support for the Renesas RZ/G3S SoC
+Message-ID: <aLAZprjeKtk4pusw@shikoro>
+References: <20250819054212.486426-1-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="CMe5mpL7NfxBkMEj"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMRc=MdKgqa+vjhHvD2+Tjw5NwBtFv-0aUivi5UuEQd+n4KxmA@mail.gmail.com>
-X-Cookie: Filmed before a live audience.
+In-Reply-To: <20250819054212.486426-1-claudiu.beznea.uj@bp.renesas.com>
 
+Hi Claudiu,
 
---CMe5mpL7NfxBkMEj
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Series adds initial USB support for the Renesas RZ/G3S SoC.
+> 
+> Series is split as follows:
+> - patches 1-2/7		- fixes on bindings and driver for USB PHY
+> - patches 3-5/7		- updates the rzg2l-usbphy-ctrl driver and documentation
+> 			  with support for setting PWRRDY though SYSC
+> - patches 6-7/7		- add device tree support
 
-On Wed, Aug 27, 2025 at 06:46:28PM +0200, Bartosz Golaszewski wrote:
-> On Wed, Aug 27, 2025 at 12:22=E2=80=AFPM Mark Brown <broonie@kernel.org> =
-wrote:
+Can you kindly send me a working config (privately will do). I think I
+enabled all the necessary config options but still get:
 
-> > I've just got the log I linked above.
+[    0.271024] rzg2l_usbphy_ctrl 11e00000.usbphy-ctrl: probe with driver rzg2l_usbphy_ctrl failed with error -22
+...
+[   10.981612] platform 11e20000.usb: deferred probe pending: platform: supplier 11e10200.usb-phy not ready
+[   10.984103] platform 11e10200.usb-phy: deferred probe pending: platform: wait for supplier /soc/usbphy-ctrl@11e00000/regulator-vbus
 
-> So, I've been looking at this bisect email and clicking the links to
-> LAVA jobs and I can't find anything. Does it fail to build? Fail at
-> run-time? I'm not sure how to read this.
+Thanks,
 
-It's failing prior to putting any output on the console.  I was also
-seeing an issue on i.MX6 so it might be all i.MX boards, same issue:
+   Wolfram
 
-   https://lava.sirena.org.uk/scheduler/job/1697667
-
-so it's possibly all the i.MX platforms failing.
-
---CMe5mpL7NfxBkMEj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmiwGJ8ACgkQJNaLcl1U
-h9Dgwgf/cCYgHVux4WcIOpHZVKvbhmDSDtzns435zt8WkkHs0HTefX6c8qkduloE
-AKCQvlOXq4w9mLYUJB73eu5lR2UZ9F/crY4Skm4QKJSl7xbmcTrUKkDh4anAgPCr
-TzCuAz0wBXpZDV6rbgGsv50bHpga2TkeYe4ILfO9i5WsXq884j6qH3q37x3LK9nk
-lbgltpZaBfzXdFk8ofMDg7QZQI/JDl0cR+6rsMZ60fSoehdmCHlO3Yk1ce8K2PMt
-jeC24eNQXFrAPZojnEdcSiHf7+AGirU7we0+4EPcomJRcfJDrf5lr4Mj/c5ofgNV
-ElALxe39ERW5FGeRn5q9m5nQ+3/dMQ==
-=cP5U
------END PGP SIGNATURE-----
-
---CMe5mpL7NfxBkMEj--
 
