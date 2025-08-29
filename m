@@ -1,123 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-21069-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21070-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB45CB3B9A8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Aug 2025 13:05:16 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D46FB3B9E2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Aug 2025 13:24:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 632C5188C2A4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Aug 2025 11:05:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 372CF467375
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Aug 2025 11:24:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92A9E313E23;
-	Fri, 29 Aug 2025 11:04:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1EC9311587;
+	Fri, 29 Aug 2025 11:24:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="QRu0kv63"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C43E311944;
-	Fri, 29 Aug 2025 11:04:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02F62288CA3
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 29 Aug 2025 11:24:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756465481; cv=none; b=q8pQYhldf8j+WERVWUsoldHTbd3qZvdixRBNpNU9I4ukV6n/LGhe8PPYHOydyyxM0l4LxSGRvYp89utXQMSYLUOZKsyAvjpBDpV+5pKz5sBuI1LHVQ+XlbrOtWGfJbTb2/xj9XGfELKBKKSs5c/XWPbyMah/qtwsfR90en2WptM=
+	t=1756466674; cv=none; b=ML+MLQ5aUyTXwbxD9H4QLZwV9pz3rf9Y2MVvB2Zlz93oaGEax1g+fOoUGDxDmp9IMi8WjMFfHSzhoLGjyT/Lp60TZ0pbdz8H6HE7vdz0QVswalY7+LGI3dQg+g9Mwutl6d6bVn5M6tNv2LpNqsJymzw2rEtW8tEJiuIp/or5INw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756465481; c=relaxed/simple;
-	bh=sSiBNyDXXS7RcuduRZ2UoWnH2RKrGy8/4c9TL9DXg44=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lJ/6mbbtsQhMzxaRJLnN6uFKu2XGXQ1kGhuLNGGh0QY+GNl7KLsdpjJeSkEkbvvQNWcD9jUWV50KUHHuVZwHDZfmbHs9yWQyy1yekcWXf/7NShtDzrJEUtdbeB+y5yWZHZJdfBuxP19oNoYPhBkT1kWkvLkMr60YAJPu2SohOVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-89018e97232so633681241.0;
-        Fri, 29 Aug 2025 04:04:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756465478; x=1757070278;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VhYfBahQ/meOeiWo39IyKitIfgj5nE9X9TMEpjrNtVM=;
-        b=sSUkwLx5rZcXZyI6bi+PbAOPM9ZKyiEtfJPhKnossauejY9DQslPZKJdxlfC0LwKdv
-         IWyUTE4RkAuDrocpPwCGiR5RcroAOPYmQVc7j/X5F49Y8SJkVxcFXnwgaFg78exlRzJ9
-         I7MXL6D+rkcM4LNPbqQTqRO495s+E1qIYKVg7xMRzBSMq1+6mHjdX6PvYSTaCIJ2fbXt
-         aFFxtjhmawSfWDjLnUZVW7WJv5GNTS3NFCw93p0ys7VkTtNQL8uMYLxeNlWCpjehaHUu
-         hdUx/LOjCf+/E1dSmxne+twPgSjFHfZUGntRUctVB/urC3mkL1ErHqwEe1GtXnayterw
-         hsZA==
-X-Forwarded-Encrypted: i=1; AJvYcCUi5cpubYf1CwPIVRsusfxRs9Rbt1NpUxdAkQ7Zi6yMDRlBXsD9fq2oivZf8iUTQOBU9ox0WPHWpZw6i0o=@vger.kernel.org, AJvYcCVQBENCcBncT7UusNWkngijlELMSOgyGTVRT0xi5WLCLx72TOrFPO20h8iDPB9LHagm6/wiGHDVMgCTEIxcfLvk4z0=@vger.kernel.org, AJvYcCXAvbb2EBpcyCp9+3NROnFkvP6BNcbdoI7w75CwBRug3RwWqIJEf4wNkd/iYiurA3pEALveTO4ig2VY@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4k5bZoZStGLfmDEM0oLbAA30lhff2GjJu6B8pkIB6ZSeRswyY
-	VgtdQ307perN1Q0IUNfvqYAVpLyVXKIEqNUPmtefJExTL4Ls6eWqsjZCt8OBpZLo
-X-Gm-Gg: ASbGncsfSYQKgh9d1xsrcza6ppq6QQhLWpnE1s0gKfOJSWX0YDBJXJQ9OAZNJ2G31Jd
-	8XynZeqVC5xeiJNvN++GiOW2eP5jPcIJGb3i3MBZawFi+opVWzyw5op6vEwpuK6MAbDqdJqERCv
-	HOv4/9W1NfDNryGFnbL/+ocTv4JfdwqscBfu2sr6TExBHPK3OqAK1fCWzflnzYvfL3OWkwf5Okq
-	8ytQvsCfuDIINk52Gn5qdeiXGIhIkLTsBvuBS84L3Ra3q38r8QdFHeY/M87Ko8MbYeUBUIYiwQI
-	B+5fYCwUbhePGehM9pCVYsFDtz2pXsFf49S7aan+jNeNLhS4x7vT4IhS5CAdiGoVK6AoCPMwztM
-	GVMTgY7a5KNf4dCNky98eOwEnLxO5MVI7d2NO5J9+ZW9TvYDjpVTOsEPaQaOUZsHQqX3Yi+4=
-X-Google-Smtp-Source: AGHT+IHqM1DbbNlG1XUZrlnumvw/iGxU9s3f9lMzwHqoLp688AK+Ws2CW7atvE6grTTal2hog4i9SQ==
-X-Received: by 2002:a05:6102:358e:b0:528:2527:6420 with SMTP id ada2fe7eead31-5282536b215mr2192446137.4.1756465477779;
-        Fri, 29 Aug 2025 04:04:37 -0700 (PDT)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-529aee96099sm830117137.2.2025.08.29.04.04.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 Aug 2025 04:04:37 -0700 (PDT)
-Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-89018e97232so633677241.0;
-        Fri, 29 Aug 2025 04:04:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUJaqh9iW8qeIscxj4iuCHv+X2b2LzX5HhaSMB9bY2sLxWPXspWw8CrDu4Tv2knGzl5MspZm8W/b7bmm1aC6Ib7TaA=@vger.kernel.org, AJvYcCUPvnp1SjpEfLbNi1TvQcvbEDfI5PfRVZ7BEX6ZJ+oDQ7ehR7VtPqDD93qita2CXKR1lCCtNbuLtbwG@vger.kernel.org, AJvYcCVUDXFJT5FLeLpyhIyvx1NuYeNLkCEC6ofYiS0q6e7/D2piNfQ2eCH1i27nGA4F5Gcd2N4TFUikcAwDE3Q=@vger.kernel.org
-X-Received: by 2002:a05:6102:dd0:b0:525:42d2:790a with SMTP id
- ada2fe7eead31-52542d282b5mr3681556137.12.1756465476910; Fri, 29 Aug 2025
- 04:04:36 -0700 (PDT)
+	s=arc-20240116; t=1756466674; c=relaxed/simple;
+	bh=M1XUOz8ZuwEoVQ3iEZsYPE6aj3HEGwKeJI3p+vmW7uc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hI/Wr5IZgnTxIfeEsodItjj/eMXhjv2p8n9zDOavH0Ra0u0ISGEKzoSvHkSrmSGhd3Qv8DEfQGtZmfbFq3ZxYXmEkw3N4AH/Vq1x2eTWi/S5P3BJgxH1kwFlsWpVSIg7qpFxQljgJK4tgeGLw90oT5IdLE7075aXMiLLM5wwcu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=QRu0kv63; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=M1XU
+	Oz8ZuwEoVQ3iEZsYPE6aj3HEGwKeJI3p+vmW7uc=; b=QRu0kv63jK2xAGj+g2EX
+	Zcb+TzpScIYimGk2DF6JQV8rjB6oHu5/rnU7uxMzb7eNcet2a6pXilR/dzxNK97w
+	s7GCriCdJaHnjSR6s2USwGzkJQbLQBA1sBPPEV3Etepi79uT7cnJQpqGUwAQv5gE
+	83q4SNg4YvQHqECOfnB8R14lCEe/32aYbIK7Oo1BIps9W6mzxw4Cr3FSSZixfggn
+	HMBRyiPuU7likrcfr+WXjdAY9hKINTUMwKobF95ZhbJbzGVK8GTWCSdlbdycB9yJ
+	pZqAoyC7YXO2ifeiMKQ9/ZLeOVg9NgopwCph5cEsoUXvZaGe8HEnRhlKCh27aFc0
+	Qw==
+Received: (qmail 1433455 invoked from network); 29 Aug 2025 13:24:30 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Aug 2025 13:24:30 +0200
+X-UD-Smtp-Session: l3s3148p1@XOb3Q389suAgAwDPXwOZADQgI+b4m0Li
+Date: Fri, 29 Aug 2025 13:24:30 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Biju <biju.das.au@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+	Biju Das <biju.das.jz@bp.renesas.com>, linux-mmc@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v3 0/2] Enable 64-bit polling mode for R-Car Gen3 and
+ RZ/G2+ family
+Message-ID: <aLGN7ohswQ5FYdk1@shikoro>
+References: <20250730164618.233117-1-biju.das.jz@bp.renesas.com>
+ <CAMuHMdWOMpZo0fVASyDV+XTLmh-o0ozqfF4Za_sPiydsh6LOfw@mail.gmail.com>
+ <aLGAaKYucaW1vPCg@shikoro>
+ <CAMuHMdX9HjP09R2p-PS4KgHKB6UcAQB+zKqN6QYwsboxtJCkPg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250730164618.233117-1-biju.das.jz@bp.renesas.com>
- <CAMuHMdWOMpZo0fVASyDV+XTLmh-o0ozqfF4Za_sPiydsh6LOfw@mail.gmail.com> <aLGAaKYucaW1vPCg@shikoro>
-In-Reply-To: <aLGAaKYucaW1vPCg@shikoro>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 29 Aug 2025 13:04:25 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX9HjP09R2p-PS4KgHKB6UcAQB+zKqN6QYwsboxtJCkPg@mail.gmail.com>
-X-Gm-Features: Ac12FXw1eepLRsTfT94A3x9t1CbrGEZZsnpnLyFxjZUhOEIkqQ-bPQ0_fe6I5_Q
-Message-ID: <CAMuHMdX9HjP09R2p-PS4KgHKB6UcAQB+zKqN6QYwsboxtJCkPg@mail.gmail.com>
-Subject: Re: [PATCH v3 0/2] Enable 64-bit polling mode for R-Car Gen3 and
- RZ/G2+ family
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Biju <biju.das.au@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, linux-mmc@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdX9HjP09R2p-PS4KgHKB6UcAQB+zKqN6QYwsboxtJCkPg@mail.gmail.com>
 
-Hi Wolfram,
 
-On Fri, 29 Aug 2025 at 12:26, Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> > I believe some of the SoCs that do not support 64-bit accesses, do
-> > support 32-bit accesses. Do you think it would be worthwhile adding
-> > support for that, too?
->
-> We have that already? Check the context after the chunk added to
-> tmio_mmc_core.c:
->
->         if (host->pdata->flags & TMIO_MMC_32BIT_DATA_PORT) {
->                 u32 data = 0;
->                 u32 *buf32 = (u32 *)buf;
->         ...
+> But this is set only on RZ/A1, so my question should be: are there
+> any other SoCs where TMIO_MMC_32BIT_DATA_PORT should be set?
 
-OK, thanks, then I misremembered what exactly is supported and what
-is not...
-But this is set only on RZ/A1, so my question should be: are there
-any other SoCs where TMIO_MMC_32BIT_DATA_PORT should be set?
+I can check if it makes a difference on R-Car boards I have.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
