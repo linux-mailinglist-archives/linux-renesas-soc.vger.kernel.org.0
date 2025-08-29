@@ -1,43 +1,43 @@
-Return-Path: <linux-renesas-soc+bounces-21077-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21078-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8504AB3BAF8
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BEA1B3BAF9
 	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Aug 2025 14:18:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 449A0A01A3C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Aug 2025 12:18:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5D7D520235A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Aug 2025 12:18:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42289314A9F;
-	Fri, 29 Aug 2025 12:18:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E59913128BA;
+	Fri, 29 Aug 2025 12:18:29 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24F2642056;
-	Fri, 29 Aug 2025 12:18:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA29630EF8F;
+	Fri, 29 Aug 2025 12:18:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756469907; cv=none; b=b57fvRT9vGs1LhZt0eOheb1chpe162ITGUiX8bNJb9mxZJggKCqQ0wUDwZjDzEWddU2EGYhF6hS+03tsPa7p1TtvgmBfsZd5SLlQWwLZtbjtjGpTj/jVWDSjwuuNf/SWwM8/+i6+pCeUg2LL4V4RfePHj1KOY4WM/24yEgYDpRA=
+	t=1756469909; cv=none; b=OLVA/wv7UtczCC459PJGnWd8kNT2v0kC2gyehkFVtnONRFrdMgu9nMYDpkFKQXKkN9OskjlFzcAg9Pr1Qp5DKOIBx0GfNtbkHTvCmIb+vmYZFqAsOpDhhbLvKtUvGCyQbK4u7EMPvfuni7x+4/Yd1ZYRgMkFhvk/MtsDbUr/JzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756469907; c=relaxed/simple;
-	bh=cGsyOXUHbHzwd553ins7FkPlbhYAOnt095FxNCT2qP0=;
+	s=arc-20240116; t=1756469909; c=relaxed/simple;
+	bh=842B2iTnfFYTQFnxqdQhYDbIZzUh4UUnyhmZipv79W0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dSaGBiGSKSu+mgNODp6h26Bqm0hfWSq63uVOtAQ2g+oCnG1rl6om7ONVQ2O6llwdRmSV10UkO9ro8n7HFecNkJAqAvCF6b865iWMSsfEsJHugiiQbwzxt06FG7H2ORXTfi/3erEqknPLnY4LmeAet1JnzlN82+fJz77Xi0rMwxQ=
+	 MIME-Version; b=GAkPLNGJQA3F5XwIbzfUjgTAuMOJEEqb5HjKJR1xSQwsCdpUMJJCUWigA83dm7qLjmELrLVz6Q3v4UaB3A07XvU/lCQciHLA0kcylqsHG5JgymD0sCLG3/zDcNioy4PV4486sailww0HmjHfy0c2qHPaU0I5XtcUZbV31gKmInk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6BBAC4CEF0;
-	Fri, 29 Aug 2025 12:18:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33DE7C4CEF1;
+	Fri, 29 Aug 2025 12:18:27 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: soc@lists.linux.dev
 Cc: Magnus Damm <magnus.damm@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL 2/4] Renesas ARM SoC updates for v6.18
-Date: Fri, 29 Aug 2025 14:18:13 +0200
-Message-ID: <cover.1756468045.git.geert+renesas@glider.be>
+Subject: [GIT PULL 3/4] Renesas driver updates for v6.18
+Date: Fri, 29 Aug 2025 14:18:14 +0200
+Message-ID: <cover.1756468046.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1756468041.git.geert+renesas@glider.be>
 References: <cover.1756468041.git.geert+renesas@glider.be>
@@ -55,21 +55,26 @@ The following changes since commit 8f5ae30d69d7543eee0d70083daf4de8fe15d585:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-arm-soc-for-v6.18-tag1
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-drivers-for-v6.18-tag1
 
-for you to fetch changes up to ad38ea266b8dc6e15e0d2a14a9d8543345fdba44:
+for you to fetch changes up to 2da2740fb9c8e26b6b5e20d74f2ed1d49824236d:
 
-  ARM: shmobile: rcar-gen2: Use SZ_256K definition (2025-08-11 16:23:35 +0200)
-
-----------------------------------------------------------------
-Renesas ARM SoC updates for v6.18
-
-  - Use the SZ_256K definition.
+  soc: renesas: rz-sysc: Add syscon/regmap support (2025-08-20 08:35:55 +0200)
 
 ----------------------------------------------------------------
-Geert Uytterhoeven (1):
-      ARM: shmobile: rcar-gen2: Use SZ_256K definition
+Renesas driver updates for v6.18
 
- arch/arm/mach-shmobile/pm-rcar-gen2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  - Add syscon/regmap support to the RZ System Controller driver.
+
+----------------------------------------------------------------
+John Madieu (1):
+      soc: renesas: rz-sysc: Add syscon/regmap support
+
+ drivers/soc/renesas/Kconfig          |  1 +
+ drivers/soc/renesas/r9a08g045-sysc.c |  1 +
+ drivers/soc/renesas/r9a09g047-sys.c  |  1 +
+ drivers/soc/renesas/r9a09g057-sys.c  |  1 +
+ drivers/soc/renesas/rz-sysc.c        | 30 +++++++++++++++++++++++++++++-
+ drivers/soc/renesas/rz-sysc.h        |  2 ++
+ 6 files changed, 35 insertions(+), 1 deletion(-)
 
