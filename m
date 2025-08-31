@@ -1,370 +1,186 @@
-Return-Path: <linux-renesas-soc+bounces-21091-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21092-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83D41B3D0E0
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 31 Aug 2025 06:07:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67070B3D172
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 31 Aug 2025 10:50:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BFCAA189896A
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 31 Aug 2025 04:07:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 00569178D49
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 31 Aug 2025 08:50:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0ACE213E9C;
-	Sun, 31 Aug 2025 04:07:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E65F922FDE6;
+	Sun, 31 Aug 2025 08:50:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LbFk+MFW"
+	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="fpnU48h9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11012003.outbound.protection.outlook.com [40.107.75.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61965433B3;
-	Sun, 31 Aug 2025 04:07:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756613248; cv=none; b=PiJT/8RqrGv8gHo+FouVUMIJKJw/bPP9GBB34v64TyX+5vsGSdh3QmxAnzkbM+w+Ci6NF6ihsgQoplwXvVRHlJnAE2HOqi9w/S5P6bqfokiadl7/jFYlmRirvAWlm52uE1Da781RzeJb2FWfsUjc+c1vLGgDHXvj7nkhi66ubds=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756613248; c=relaxed/simple;
-	bh=LptXLD1zwFlWZSHFVxFcX1U/UXwMN65+JMNh3/oeSoI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ju2AaBttehZSOk1AbzSfGVJMK1Lt88bx1SpRACNhjtkqbg6X6gRBzM3YbC4d5FMpKYOc5BVAktRakKX7OlHQqX+iXij5qEEd6Lga5BuWEIr+r444X8kzR2JCizk6TP4m+8jNVY5jnxSRIRSaoAiyVEUvc5V0v1sWnD57UojqBRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LbFk+MFW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BFE8C4CEED;
-	Sun, 31 Aug 2025 04:07:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756613247;
-	bh=LptXLD1zwFlWZSHFVxFcX1U/UXwMN65+JMNh3/oeSoI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LbFk+MFWyECQgwWN/R2B7l0hcZN7hA2vUQVDt1Z3vI+4xJ3whKk9FXHuOSLrhh68P
-	 HgDKzytxI9JEgGTqLShXuxO5gzSXveAhj/0L+tAk3KhXz+RWTt4YyXJeDE3WTswKVQ
-	 AqyW+cv2P79nBkjorkKxY8lhHwuLTsXTNYrIOvJWNTT8hLKaVaG/JT0Buj1ZluwEGZ
-	 0T9Z0g99KxMdPVAJcY7C+z1Oy0MCGyqXkXjNLTAsLMbeJ2bxsyknjvLi81LciN82+c
-	 uFx/JoVnTWTTtlvAqGEvpG+08cvISOMgCy7Y7MTumCDyV7Fg+QKPdRJyqiN3KXtr1Q
-	 QzC86xUv46DfQ==
-Date: Sun, 31 Aug 2025 09:37:17 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: bhelgaas@google.com, lpieralisi@kernel.org, kwilczynski@kernel.org, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, geert+renesas@glider.be, 
-	magnus.damm@gmail.com, catalin.marinas@arm.com, will@kernel.org, 
-	mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de, lizhi.hou@amd.com, 
-	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH v3 5/9] PCI: rzg3s-host: Add Initial PCIe Host Driver for
- Renesas RZ/G3S SoC
-Message-ID: <zsgncwvhykw4ja3bbqaxwupppjsqq4pcrdgrsduahokmt72xsm@twekpse6uzzh>
-References: <20250704161410.3931884-1-claudiu.beznea.uj@bp.renesas.com>
- <20250704161410.3931884-6-claudiu.beznea.uj@bp.renesas.com>
- <ddxayjj5wcuuish4kvyluzrujkes5seo7zlusmomyjfjcgzcyj@xe3zzzmy2zaj>
- <8ef466aa-b470-4dcb-9024-0a9c36eb9a6a@tuxon.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB951BC58;
+	Sun, 31 Aug 2025 08:50:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.3
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756630215; cv=fail; b=iTeayMx8h4laIpZ6oWT+2muOibCGglVVQIV6z/iENhTcFc0/24ywtmMce7E1Ef9Y0BTMvZkjrKfIsMddM3EoKzrtdzArnTZKLneGmEaTx1P8cnU8bZ+08DD5jvIQyRSxz1brwgqTUPNeGsP8tFYeMURRQg29cwiLKW+0FKsc8yA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756630215; c=relaxed/simple;
+	bh=GsH1TxjEmnagTubaIfJ+loN4kD5XRA8rWE+J/t7hD4c=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=ZuaPMJxxrm88uG9O2mL4k7+ix6Sz2/Ibjmj5bzagEo4Mb+pl0juzJ0i9khlRkcj9h6lI6e3ZIh9DFZsEaysVIo+qAhP/MJw9y8xXcP7EuYwkhUddtjDgwPewh6+6FZAXwRHxNGe5ZeEG2evvNsBJJXCYFmY24kI36rVCJPh4mmE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=fpnU48h9; arc=fail smtp.client-ip=40.107.75.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=t4+AO0QN6ZC7hZWJPBow+6ks67REKE6h1lfiSvCNB3bgoTnnCuFZFf+oYP/wE0lRCIFIdyw50wAqsgp/d7vErprkW1RtFD+MbmhwuEoIWg0FRc9F/Ytvo64B/XgGT5Pi3UDozm7AnqVGuLE/c9lQtraJzEEQUi0GOC+Yu5hDg5fdNsCj99Jv7bMmqgn0XHVqlVAA6XX6dLhTZO4ILg3MJ+SCqgd72PLKRFE8PPQKFT56+Y0ToRypDxbsJQ3J1aOu19K2xb+ZGryHpX8gyPQIyJSSBKm3UX2oSbd/l3qbaeBqecn3Mu9F4q1QTqFl3JhvaTr+x1W5/YAKtoaN73o9kQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+QMGBwd8OzwIAQ/woeuDDu1JuY9LN0v/DsA5w4b09Jg=;
+ b=DqQ1rGSUOMBmeKoq71UucmxFooFeOWf72mRcbaDVZirmKRWEn1f4IEBvaiwd3A5tVFU5AVk8DNwYJsU64eKZ1nsgpfEgP7A3tMw+1KSZ1qLQSkCiCrYgAj4z84hZ9GtOz1TGAQcNfJ/fZqNDE9+whsXKYJRZrcvx2aDZuBZkoaoPCRqM1N62BALyRV006NooZYJ5a/ng71MawpjdkwwbOc2p1GAuq6H8u1qCM5YuZnXYiGzrOWv67kLWllUpKNBIw6VVRk3PZpIL22Ucr2NGwtzymAP5MBKGcn+h28KCIFuuliMJU7DQsGyryDbNPAWhxPXg/KExLAzLdqttTkc9kQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+QMGBwd8OzwIAQ/woeuDDu1JuY9LN0v/DsA5w4b09Jg=;
+ b=fpnU48h9754CXcnEw6Z57stQb19WmJdktaq364u8EfXH9VHKtbi5grssSEXhDRHhWClDQNqCOp3BWM+ljbV7cFWr9mSgAcV//kpruMsLtKzZUgGOxzKhQSzOxAjzBegKvrSAsuXayeE2zjvusM3WTWzr0MgsnRW/znmFwa4+HIWq8LHHzi+BydRsk64wOI5pOpMdDwLCEmfDKhRxCeMeEDgnbtvzolHbhFZ9mExynXepKUg2ipPSX7KyXTl3Z1XZP5qVbkHCBIpueH0p62tWHUGpPTqBDe50OOIK4zJ5fbbzQEkqsLuikEZZ2UaG6WCG9Oq81UFFb5b/Z2Fp2xqhtg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SI2PR06MB5140.apcprd06.prod.outlook.com (2603:1096:4:1af::9) by
+ KL1PR06MB6372.apcprd06.prod.outlook.com (2603:1096:820:99::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9073.26; Sun, 31 Aug 2025 08:50:09 +0000
+Received: from SI2PR06MB5140.apcprd06.prod.outlook.com
+ ([fe80::468a:88be:bec:666]) by SI2PR06MB5140.apcprd06.prod.outlook.com
+ ([fe80::468a:88be:bec:666%5]) with mapi id 15.20.9073.021; Sun, 31 Aug 2025
+ 08:50:09 +0000
+From: Qianfeng Rong <rongqianfeng@vivo.com>
+To: Andrew Lunn <andrew@lunn.ch>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Jacky Huang <ychuang3@nuvoton.com>,
+	Shan-Chun Hung <schung@nuvoton.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Marvell Kirkwood and Armada 370, 375, 38x,...),
+	linux-gpio@vger.kernel.org (open list:PIN CONTROL SUBSYSTEM),
+	linux-kernel@vger.kernel.org (open list),
+	linux-renesas-soc@vger.kernel.org (open list:PIN CONTROLLER - RENESAS)
+Cc: Qianfeng Rong <rongqianfeng@vivo.com>
+Subject: [PATCH 0/3] pinctrl: Use int type to store negative error codes
+Date: Sun, 31 Aug 2025 16:49:55 +0800
+Message-Id: <20250831084958.431913-1-rongqianfeng@vivo.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR04CA0196.apcprd04.prod.outlook.com
+ (2603:1096:4:14::34) To SI2PR06MB5140.apcprd06.prod.outlook.com
+ (2603:1096:4:1af::9)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8ef466aa-b470-4dcb-9024-0a9c36eb9a6a@tuxon.dev>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SI2PR06MB5140:EE_|KL1PR06MB6372:EE_
+X-MS-Office365-Filtering-Correlation-Id: f5876109-4606-4b97-c7cf-08dde86b63cf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|52116014|1800799024|366016|921020|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?8EMcVsn7OvOJMWGQnEKj8cSBO6oe+JEDSaCLrDukf+3oQGkPHjjO9kpEQJ3W?=
+ =?us-ascii?Q?n1WNBsq+cU3CnijJS67SApkIkEX/95psVYf3zvvK1eEv7SY4WvmXLsKWMxVa?=
+ =?us-ascii?Q?5ubkW8Lm1+owvBuB1e4z4fETUm13L/vhQTWRoB85r2DP22KVSjpNrw36+GGx?=
+ =?us-ascii?Q?6FZEkIFlAoddEATxIYSGhtY2AwIxuW0eYUPzpsx3SSn+jduhZTVi8MX794ao?=
+ =?us-ascii?Q?Zif8EqcW4RVuIJT9KG1XnfKcc10IiH1YhPa1qNjN4sQ1rr7/FQhvZ7LZFIqp?=
+ =?us-ascii?Q?PUpq9cyDkHDu5A+ElynJ69szW9p0B8NBa1t4f8yZs5Wjp3vv7DTWm7j6X0S8?=
+ =?us-ascii?Q?KVxsT2whfEWlxrJ3wROLMlvgHH7Y2Wll08yZfsiWLitxabife4R6ydqU/OXe?=
+ =?us-ascii?Q?7l9jNZ0kF5UR79Dp+WFMwpTm2il/vE87ft5dN2ofH05QGQVwREKV9nRLjEV4?=
+ =?us-ascii?Q?4y/7RIoKLl2sUvxXNTrvZViHn6qFkcY+Wle3q7e32PzByDrgp3Jspjf9Mv6t?=
+ =?us-ascii?Q?+4+nnGBwskLrOfpnqTT2U25j7g64bgVvS609gSQ036Y0x2rET62B7LAO7YEB?=
+ =?us-ascii?Q?YEOyOVrjPuSMci+Np1anQ7SRBTk5Y0q5xbwel6tGXgIa3cJuk67lKTiAecTy?=
+ =?us-ascii?Q?P1SwMFYb2v3fh1CXS348eAhY0gI6FzWqlVJz/blDYwkh4AJ5KhfrQIZeksnL?=
+ =?us-ascii?Q?h3hGA8DKrRsaZeol5VqilNrXYqdYK9Z/C2uh2VYUsU2D05IQMDPiHVVmbt6b?=
+ =?us-ascii?Q?+mPlsVRD/BLUGnFHujJU4ScWs/HOxzY9F9/phyZeuJiQGwEv50KdTVIR9nK2?=
+ =?us-ascii?Q?iOMVLmvUlIra+2tcdCcKNcV7GFqF0+I+FvSAt0mwYbQJGv8IBnrCrVcLXA3N?=
+ =?us-ascii?Q?97Ghb5+7NHWmndjMEvthJJVKwwxk71fr8QxtV1miYewNsKeCoogrUIRer7mC?=
+ =?us-ascii?Q?G0ZNK/t2RXF2DIAzxLvNWRfFa1fEt4zvXXdB9lB+k0f6/gdU8U5PqrwVYMqj?=
+ =?us-ascii?Q?pDkvv6E1pppGubgLXUdnrFysp0s38/AloYYaUw47atvJYC38Exuc3c22/7bj?=
+ =?us-ascii?Q?0CnZaQkUfvWtfGqNHel+GSUoS7z/3c4uoePjAjbnpbuQiPnaRSD/Y0RHQ+dC?=
+ =?us-ascii?Q?TT+jFpHkCu9FDXXavXhWIvTpAaLRRyvGEP8kLhCSdzFtb/PBmUCXLlPBEATI?=
+ =?us-ascii?Q?0GO/fGwzmmP0VYyTMINkrmBQR7SPTrox46WfU6O8P2C/wn5+iy6ky1BoyDlu?=
+ =?us-ascii?Q?ip/qdBf9y3d9Q2OuT1zrt8Db1hkRoDG7BOz4c9P23ICxX5oY3uyXda+ZFKWL?=
+ =?us-ascii?Q?R6U7ibpihwYOWB2yAj/is+vwYJZYlD+8pRiG3OVMmjYrlo2v9As511KV/oMD?=
+ =?us-ascii?Q?MRv7bSRG+y2Av+xXNLEDtcti+peth4MIpOGXc/Cg4SuR+K8OpmKMumfwU8Pd?=
+ =?us-ascii?Q?qBBMH/Sr5Bk4qNI0+TV2EfmZhn015qxhm4quhlJl4xU98h9Zlei59p7LYKCD?=
+ =?us-ascii?Q?pqrZbSw4adUsitY=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SI2PR06MB5140.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(52116014)(1800799024)(366016)(921020)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?a7GPzChEBo8cQYrnr6gtnfGMlSz3JG3uyVQURO0zyZ3xn+l5eziVo8M9+y6Q?=
+ =?us-ascii?Q?T/fYYuqdcIO1HSlx0Qbv/ceMoIGFwNOrbM95IFMjPtSwHggG/OrifEtEI0V+?=
+ =?us-ascii?Q?rlC0CYWCJzV4MxEWCkAg3ZIL1Jsk9piA8W6kKF3D4tzXaQ0DOD2mV1/rmCu5?=
+ =?us-ascii?Q?kJ+kwUIWN/LeyxPMuqzS9XqVliqA6oTEze0cNBfRDQzieYX/IoAnkASveCuE?=
+ =?us-ascii?Q?ss5u5aOjJvHkWZ+mk/6s7F3xXImXrS3iLX4iZZQ/Y+Z0SbvakDY9//+JPNF0?=
+ =?us-ascii?Q?YzzNwBC0Iu9WbyvuFpiOGUATBuK3/fBWsnxLN67Bkwfteiu7E4Lfdm04OrLJ?=
+ =?us-ascii?Q?hjjD+QqJ82Ko1ghU7dLP9x5ijZh0xO/YuiMxga3U86P7zXqSIMVvQNjPwWBK?=
+ =?us-ascii?Q?FJ6D6p1WXggqzVSspLPmW4I4IgCHGllgDuVrVEqFpEwB0P5HFPzj5bH9W1p0?=
+ =?us-ascii?Q?AbuvJnqf+kwSpGSGwK4rmKjPA2IXQPe7fXkhcPvWdF7dKa8z0Fdq2uuHg1tn?=
+ =?us-ascii?Q?lfGT/g5WvYECawq38naZmEBld6bzyRlCkfTBYo8+ILnYIUabGsPrQZIhUSSq?=
+ =?us-ascii?Q?db8+l18D7eMMGlBDgP6520vi852AgYNFwX9DBLlgTE5fYx0qpqEZ0I7phZ5P?=
+ =?us-ascii?Q?eOnrto1iqQzkoJ1yjv+4+UOZMDVVQqLiqbo21yCVEQ8KerrbDPZTkXe6u27h?=
+ =?us-ascii?Q?d44pqNpKTNP6jTjYmwMaIEk60ikgH6F1vD8oJaxeVqfew1DxyOno6xmB+kHr?=
+ =?us-ascii?Q?QpNv3YC3mQkuC5Wag2pniUxiJmCEGsNNi4qMjcfRzKHHndJECyyykY3HNhsH?=
+ =?us-ascii?Q?Zgj2rNOGnfLXaiLLjymXEf5Eo8OP2b59Iq3mjUzMtkgMWYRSRc9YFdO4rJbf?=
+ =?us-ascii?Q?v5dbMdUUiqEH6Ht43a896E/DWUyclZpsBAbZvlZI/2MVowvPZCz/g6cAMVjn?=
+ =?us-ascii?Q?GG5l3xQrjUJgWBxKZun1bN7tCdgciGuKQYzD0pjsyjAftd0RRqF6AQIh/KPz?=
+ =?us-ascii?Q?MlN4xA8b5Rt2buJClkSSQKu0K69DsHbtX9tSfpvWi4P8vE4JRTxZxGgp9DMp?=
+ =?us-ascii?Q?tDlM8L88O6xIGsrHSCce16eIpJnKPB/oefoEPLsmYHbZJXKKqAf4UshGPCUR?=
+ =?us-ascii?Q?2afrfkDmcPglY5cJYEdUw2jrAEQ4PcKi6T0E3DjbdTcr38K8QQtYvC+IF4js?=
+ =?us-ascii?Q?BNNPA0ldLfivfxA1/S3/FVpbq2X1gI5NWXnQUwWqc9oz72oI/dsxzR19tAsH?=
+ =?us-ascii?Q?F8TtSfg1oJMz0rEw8kGwPHtM1/GS8neQL5/m1K+nhiW4reLkmV83Z4BZDLvd?=
+ =?us-ascii?Q?R7IwC6cHOMCKtUDX9wLqIKrG8t5QA6WKP1HoIAR+kAZPzUMK7tLUbbzi5B0I?=
+ =?us-ascii?Q?Y+FScc/wXPtIB3fRmCJXchD1DG9RclAmf/cGSI+TmgFlTxwOZyykTT3aHeeX?=
+ =?us-ascii?Q?1//lCo0gD/oIzjusgKqyMt0JATEUdaZdi1rc3mjNISuBnihnSxec5+Ci4HEK?=
+ =?us-ascii?Q?yasZhNqDacIoz7qMLTfwb3JK8YQMuox13gW7kZplC0H2PZPikQHzCvPNfp3a?=
+ =?us-ascii?Q?miuPNII9mm0dz7cWTQxiLzh9eDQ/l2MivbBrzCHe?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f5876109-4606-4b97-c7cf-08dde86b63cf
+X-MS-Exchange-CrossTenant-AuthSource: SI2PR06MB5140.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2025 08:50:09.2360
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YjEBDylWQTBw+py8guAHHZHurnKGvwJbfHTcMSQkvkNVG59dlyHwvUV9Vo6HdjREeLHLp5u81HNIR7B7KhKcjA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR06MB6372
 
-On Sat, Aug 30, 2025 at 02:22:45PM GMT, Claudiu Beznea wrote:
-> 
-> 
-> On 30.08.2025 09:59, Manivannan Sadhasivam wrote:
-> > On Fri, Jul 04, 2025 at 07:14:05PM GMT, Claudiu wrote:
-> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>
-> >> The Renesas RZ/G3S features a PCIe IP that complies with the PCI Express
-> >> Base Specification 4.0 and supports speeds of up to 5 GT/s. It functions
-> >> only as a root complex, with a single-lane (x1) configuration. The
-> >> controller includes Type 1 configuration registers, as well as IP
-> >> specific registers (called AXI registers) required for various adjustments.
-> >>
-> >> Hardware manual can be downloaded from the address in the "Link" section.
-> >> The following steps should be followed to access the manual:
-> >> 1/ Click the "User Manual" button
-> >> 2/ Click "Confirm"; this will start downloading an archive
-> >> 3/ Open the downloaded archive
-> >> 4/ Navigate to r01uh1014ej*-rzg3s-users-manual-hardware -> Deliverables
-> >> 5/ Open the file r01uh1014ej*-rzg3s.pdf
-> >>
-> >> Link: https://www.renesas.com/en/products/rz-g3s?queryID=695cc067c2d89e3f271d43656ede4d12
-> >> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >> ---
-> >>
-> > 
-> > [...]
-> > 
-> >> +static bool rzg3s_pcie_child_issue_request(struct rzg3s_pcie_host *host)
-> >> +{
-> >> +	u32 val;
-> >> +	int ret;
-> >> +
-> >> +	rzg3s_pcie_update_bits(host->axi, RZG3S_PCI_REQISS,
-> >> +			       RZG3S_PCI_REQISS_REQ_ISSUE,
-> >> +			       RZG3S_PCI_REQISS_REQ_ISSUE);
-> >> +	ret = readl_poll_timeout_atomic(host->axi + RZG3S_PCI_REQISS, val,
-> >> +					!(val & RZG3S_PCI_REQISS_REQ_ISSUE),
-> >> +					5, RZG3S_REQ_ISSUE_TIMEOUT_US);
-> >> +
-> >> +	return !!ret || (val & RZG3S_PCI_REQISS_MOR_STATUS);
-> > 
-> > You don't need to do !!ret as the C11 standard guarantees that any scalar type
-> > stored as bool will have the value of 0 or 1.
-> 
-> OK, will drop it anyway as suggested in another thread.
-> 
-> > 
-> >> +}
-> >> +
-> > 
-> > [...]
-> > 
-> >> +static void __iomem *rzg3s_pcie_root_map_bus(struct pci_bus *bus,
-> >> +					     unsigned int devfn,
-> >> +					     int where)
-> >> +{
-> >> +	struct rzg3s_pcie_host *host = bus->sysdata;
-> >> +
-> >> +	if (devfn)
-> >> +		return NULL;
-> > 
-> > Is it really possible to have devfn as non-zero for a root bus?
-> 
-> I will drop it.
-> 
-> > 
-> >> +
-> >> +	return host->pcie + where;
-> >> +}
-> >> +
-> > 
-> > [...]
-> > 
-> >> +static int rzg3s_pcie_msi_setup(struct rzg3s_pcie_host *host)
-> >> +{
-> >> +	size_t size = RZG3S_PCI_MSI_INT_NR * sizeof(u32);
-> >> +	struct rzg3s_pcie_msi *msi = &host->msi;
-> >> +	struct device *dev = host->dev;
-> >> +	int id, ret;
-> >> +
-> >> +	msi->pages = __get_free_pages(GFP_KERNEL | GFP_DMA, 0);
-> >> +	if (!msi->pages)
-> >> +		return -ENOMEM;
-> >> +
-> >> +	msi->dma_addr = dma_map_single(dev, (void *)msi->pages, size * 2,
-> >> +				       DMA_BIDIRECTIONAL);
-> >> +	if (dma_mapping_error(dev, msi->dma_addr)) {
-> >> +		ret = -ENOMEM;
-> >> +		goto free_pages;
-> >> +	}
-> >> +
-> >> +	/*
-> >> +	 * According to the RZ/G3S HW manual (Rev.1.10, section 34.4.5.2 Setting
-> >> +	 * the MSI Window) the MSI window need to be within any AXI window. Find
-> >> +	 * an AXI window to setup the MSI window.
-> > 
-> > Are you really finding the AXI window or just making sure that the MSI window
-> > falls into one of the AXI window?
-> 
-> I'm making sure the MSI windows falls into one of the enabled AXI windows.
-> 
+The 'ret' variable usually is used to store returns from some functions,
+which return either zero on success or negative error codes on failure.
 
-Then you need to reword the comment as such. Currently, it is not clear.
+Storing the negative error codes in unsigned type, doesn't cause an issue
+at runtime but can be confusing.  Additionally, assigning negative error
+codes to unsigned type may trigger a GCC warning when the -Wsign-conversion
+flag is enabled.
 
-> > 
-> > And I believe it is OK to have more than one MSI window within an AXI window.
-> 
-> This IP supports a single MSI window that need to fit into one of the
-> enabled AXI windows.
-> 
+Change "ret" from u32/unsigned int to int type.  No effect on runtime.
 
-[...]
+Qianfeng Rong (3):
+  pinctrl: armada-37xx: Use int type to store negative error codes
+  pinctrl: ma35: Use int type to store negative error codes
+  pinctrl: renesas: Use int type to store negative error codes
 
-> >> +
-> >> +	/* Update vendor ID and device ID */
-> > 
-> > Are you really updating it or setting it? If you are updating it, are the
-> > default IDs invalid?
-> 
-> Default IDs are valid (at least on RZ/G3S) but Renesas specific. Renesas
-> wants to let individual users to set their own IDs.
-> 
-
-So they are optional then? But the binding treats them as required, which should
-be changed if the default IDs are valid.
-
-> > 
-> >> +	writew(host->vendor_id, host->pcie + PCI_VENDOR_ID);
-> >> +	writew(host->device_id, host->pcie + PCI_DEVICE_ID);
-> >> +
-> >> +	/* HW manual recommends to write 0xffffffff on initialization */
-> >> +	writel(0xffffffff, host->pcie + RZG3S_PCI_CFG_BARMSK00L);
-> >> +	writel(0xffffffff, host->pcie + RZG3S_PCI_CFG_BARMSK00U);
-> >> +
-> >> +	/* Update bus info. */
-> >> +	writeb(primary_bus, host->pcie + PCI_PRIMARY_BUS);
-> >> +	writeb(secondary_bus, host->pcie + PCI_SECONDARY_BUS);
-> >> +	writeb(subordinate_bus, host->pcie + PCI_SUBORDINATE_BUS);
-> >> +
-> >> +	/* Disable access control to the CFGU */
-> >> +	writel(0, host->axi + RZG3S_PCI_PERM);
-> >> +
-> >> +	return 0;
-> >> +}
-> >> +
-> > 
-> > [...]
-> > 
-> >> +static int rzg3s_pcie_host_init(struct rzg3s_pcie_host *host, bool probe)
-> >> +{
-> >> +	u32 val;
-> >> +	int ret;
-> >> +
-> >> +	/* Initialize the PCIe related registers */
-> >> +	ret = rzg3s_pcie_config_init(host);
-> >> +	if (ret)
-> >> +		return ret;
-> >> +
-> >> +	/* Initialize the interrupts */
-> >> +	rzg3s_pcie_irq_init(host);
-> >> +
-> >> +	ret = reset_control_bulk_deassert(host->data->num_cfg_resets,
-> >> +					  host->cfg_resets);
-> >> +	if (ret)
-> >> +		return ret;
-> >> +
-> >> +	/* Wait for link up */
-> >> +	ret = readl_poll_timeout(host->axi + RZG3S_PCI_PCSTAT1, val,
-> >> +				 !(val & RZG3S_PCI_PCSTAT1_DL_DOWN_STS),
-> >> +				 PCIE_LINK_WAIT_SLEEP_MS,
-> >> +				 PCIE_LINK_WAIT_SLEEP_MS *
-> >> +				 PCIE_LINK_WAIT_MAX_RETRIES * MILLI);
-> >> +	if (ret) {
-> >> +		reset_control_bulk_assert(host->data->num_cfg_resets,
-> >> +					  host->cfg_resets);
-> >> +		return ret;
-> >> +	}
-> >> +
-> >> +	val = readl(host->axi + RZG3S_PCI_PCSTAT2);
-> >> +	dev_info(host->dev, "PCIe link status [0x%x]\n", val);
-> >> +
-> >> +	val = FIELD_GET(RZG3S_PCI_PCSTAT2_STATE_RX_DETECT, val);
-> >> +	dev_info(host->dev, "PCIe x%d: link up\n", hweight32(val));
-> >> +
-> >> +	if (probe) {
-> >> +		ret = devm_add_action_or_reset(host->dev,
-> >> +					       rzg3s_pcie_cfg_resets_action,
-> >> +					       host);
-> > 
-> > Oh well, this gets ugly. Now the devm_add_action_or_reset() is sprinkled
-> > throughout the driver :/
-> > 
-> > As I said earlier, there are concerns in unloading the driver if it implements
-> > an irqchip. So if you change the module_platform_driver() to
-> > builtin_platform_driver() for this driver, these devm_add_action_or_reset()
-> > calls become unused.
-> 
-> They can still be useful in case the probe fails. As the initialization
-> path is complicated, having actions or resets looks to me that makes the
-> code cleaner as the rest of devm_* helpers.
-> 
-> I can drop it and replace with gotos and dedicated functions but this will
-> complicate the code, AFAICT.
-> 
-> Please let me know how would you like me to proceed.
-> 
-
-It is generally preferred to cleanup the resources in err path using goto
-labels.
-
-> > 
-> >> +	}
-> >> +
-> >> +	return ret;
-> >> +}
-> >> +
-
-[...]
-
-> >> +	ret = pm_runtime_resume_and_get(dev);
-> >> +	if (ret)
-> >> +		return ret;
-> >> +
-> > 
-> > Do you really need to do resume_and_get()? If not, you should do:
-> 
-> It it's needed to enable the clock PM domain the device is part of.
-> 
-
-I've replied below.
-
-> > 
-> > 	pm_runtime_set_active()
-> > 	pm_runtime_no_callbacks()
-> > 	devm_pm_runtime_enable()
-> > 
-> >> +	ret = devm_add_action_or_reset(dev, rzg3s_pcie_pm_runtime_put, dev);
-> >> +	if (ret)
-> >> +		return ret;
-> >> +
-> >> +	raw_spin_lock_init(&host->hw_lock);
-> >> +
-> >> +	ret = rzg3s_pcie_host_setup(host, rzg3s_pcie_intx_setup,
-> >> +				    rzg3s_pcie_msi_enable, true);
-> >> +	if (ret)
-> >> +		return ret;
-> >> +
-> >> +	msleep(PCIE_RESET_CONFIG_WAIT_MS);
-> >> +
-> >> +	bridge->sysdata = host;
-> >> +	bridge->ops = &rzg3s_pcie_root_ops;
-> >> +	bridge->child_ops = &rzg3s_pcie_child_ops;
-> >> +	ret = pci_host_probe(bridge);
-> >> +	if (ret)
-> >> +		return ret;
-> >> +
-> >> +	return devm_add_action_or_reset(dev, rzg3s_pcie_host_remove_action,
-> >> +					host);
-> >> +}
-> >> +
-> >> +static int rzg3s_pcie_suspend_noirq(struct device *dev)
-> >> +{
-> >> +	struct rzg3s_pcie_host *host = dev_get_drvdata(dev);
-> >> +	const struct rzg3s_pcie_soc_data *data = host->data;
-> >> +	struct regmap *sysc = host->sysc;
-> >> +	int ret;
-> >> +
-> >> +	ret = pm_runtime_put_sync(dev);
-> >> +	if (ret)
-> >> +		return ret;
-> > 
-> > Since there are no runtime callbacks present, managing runtime PM in the driver
-> > makes no sense.
-> 
-> The PCIe device is part of a clock power domain. Dropping
-> pm_runtime_enable()/pm_runtime_put_sync() in this driver will lead to this
-> IP failing to work as its clocks will not be enabled/disabled. If you don't
-> like the pm_runtime_* approach that could be replaced with:
-> 
-> devm_clk_get_enabled() in probe and clk_disable()/clk_enable() on
-> suspend/resume. W/o clocks the IP can't work.
-> 
-
-Yes, you should explicitly handle clocks in the driver. Runtime PM makes sense
-if you have a power domain attached to the IP, which you also do as I see now.
-So to conclude, you should enable/disable the clocks explicitly for managing
-clocks and use runtime PM APIs for managing the power domain associated with
-clock controller.
-
-But please add a comment above pm_runtime_resume_and_get() to make it clear as
-most of the controller drivers are calling it for no reason.
-
-- Mani
+ drivers/pinctrl/mvebu/pinctrl-armada-37xx.c | 6 ++++--
+ drivers/pinctrl/nuvoton/pinctrl-ma35.c      | 3 ++-
+ drivers/pinctrl/renesas/pinctrl.c           | 3 ++-
+ 3 files changed, 8 insertions(+), 4 deletions(-)
 
 -- 
-மணிவண்ணன் சதாசிவம்
+2.34.1
+
 
