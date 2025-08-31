@@ -1,339 +1,370 @@
-Return-Path: <linux-renesas-soc+bounces-21090-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21091-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7827B3CACF
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 30 Aug 2025 14:39:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83D41B3D0E0
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 31 Aug 2025 06:07:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 029541892D8F
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 30 Aug 2025 12:40:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BFCAA189896A
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 31 Aug 2025 04:07:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 721F62727E3;
-	Sat, 30 Aug 2025 12:39:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0ACE213E9C;
+	Sun, 31 Aug 2025 04:07:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="rFK51Grz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LbFk+MFW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 640D82641C3
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 30 Aug 2025 12:39:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61965433B3;
+	Sun, 31 Aug 2025 04:07:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756557582; cv=none; b=RWPLOPi2IB0XLJsBgOgpNMd0kkJMZ6ClfS5RQLrzIcAi8P6UHAMNK5T1/Gx32T+gAokMb6VcT7t/xRHkXX4Q3haQrHcXbpkwqXeszhlVwKKukxqn0H7kjJb45eSACYR7RA8RBeztD2MZSs0TCSbxvG4dTpPJ2UZKRh2fFXXMC28=
+	t=1756613248; cv=none; b=PiJT/8RqrGv8gHo+FouVUMIJKJw/bPP9GBB34v64TyX+5vsGSdh3QmxAnzkbM+w+Ci6NF6ihsgQoplwXvVRHlJnAE2HOqi9w/S5P6bqfokiadl7/jFYlmRirvAWlm52uE1Da781RzeJb2FWfsUjc+c1vLGgDHXvj7nkhi66ubds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756557582; c=relaxed/simple;
-	bh=hoDa/3/QtGQtggrIjZwVy/iE6leVL2+LzkTUHzAoKDU=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=ndq3hoQnu//1JZKJxIAMC2IisEBj77p/V+ceHRHYn9oOhRfiOuIphx56GT77czZxLchhValpofw4g6ssXSWvDkK7x4zB6bZkXcVoc0DtkcTLdrueP8buFLsJhhOWcT1NisY52sFEKCW3GrxHCDVlmQmmx9O20QhH9lI72yhAfOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=rFK51Grz; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3cdc54cabb1so1108464f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 30 Aug 2025 05:39:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1756557579; x=1757162379; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=20be7LxlHZS/TfDHvRrUbWwFo2dLHszKiltGX5N2eNg=;
-        b=rFK51GrzuY6NNu4A08dzr/44QdcSCm3n0825tal/6nfxDDLiQ7Kbb/w0gJDpSVstwA
-         rDwSSKPYahJqxqH826LcHPFD3+bf9daOIcIuLr1tDevXtnd546QMI2nlHVbVc8ijT1LP
-         gKEjBY1B6lHeFB3ZNQAzrbhucXe9v0f75p4LU/w85d+43LQpAfv/Z9eE2r9n7cormpzk
-         iWl0DZeUugHRFwCJhyiWOmJ9C2VOWgT/atZ89tdxlxFcqeRASInTxAw3YlLz1d2wDH78
-         QupV0RMYDj/IeHl52PZ85kSOQ0g0TgS8tok4Roiy37e/50dUgHSE8VnfyFY/TDgHg/ZB
-         vxYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756557579; x=1757162379;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=20be7LxlHZS/TfDHvRrUbWwFo2dLHszKiltGX5N2eNg=;
-        b=LHUKpPLQwe5rhYeO6eRbL9PI/9B27T5tAt/zoK+D1nW8H7GGd0dFwx5IxjLAemmXON
-         NLf5/hQcR9+couq13Ac2isByr9rQdEHAQvqnEIqbnURwS5YdnI4RJNVoK5d279ZFVf0W
-         l3g82ezmnerP1i3hoFx89IRuGk2dJIE/zRwemr4S4oJfvU2dDoEPCJyl8ZQnWq/6EPgX
-         d281FjgY9kwibDgq8wr4k/KznRNm8jTkuVo9vWE1KiO0gl67c9b7eueI7i4owCPtkzC+
-         3R8ty20W5Y8N6IbEBX+NtaDiTC2tw6luCsJZBCgaqoLZ4MuVvyeTGEMHeGbQVe3ZR+gW
-         wlfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXpjSlgGQu/VBTJ2v0xUUmI8zRquTev4hmV5Igr0xSI1shmJcppdwJ7r0oVPsuAGcXtWN5kijnAgthgcMX9obzlmg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUeI9gyAueakoqXb5xVQq/hwDHPmBtuSYXinFdzWPzxkSnh7Hv
-	2sPkyYfYCSDHeWTBDTB8RgurPsKj04Oh2ujyyNfUXc9B/rNghwAn6+B745kFZUieQq0=
-X-Gm-Gg: ASbGnctgMPmV2tIs+LFJ/hJdRuGJFxeGoN/UkqkVA8PcEuDmajQuw42dYb384tfgPKX
-	ZVJ8Ztj1VnpNl7baaENXT81Ic4nmaVIeymWu3DivbLsx+SipPTe0ZEPBZH1ZUD35ZwxwrlInZsw
-	l4sUeVV5gco85wqZUq4Cg8dWyl+HhVxvRW1FsDT2HYeNqitB2QxFd6KWEEG6xWKlCAomshUWuxV
-	SS9AbcmAPfhEn6qI1St9tFDWu0V31mrlco0n6vtKlowJ/EOw+4QF40iMrc/S1fbxo/D+dBQADar
-	F396M0u1uEejWVf2MG86ztiYqKEEtm5EHmCCD/IDgLZXCx+cO7LYL51dQazQs2IoVSi4HI6l2mJ
-	ZrBOz3pOGr+yuHdMAg8yXF+DAe+D1768=
-X-Google-Smtp-Source: AGHT+IGKkE6cnTA2T9YBQwa/Qeamu7DQ0EQ692z25ggyQOzjLkICVbtUjYY9SsUAQGsVhw5drZzJrA==
-X-Received: by 2002:a05:6000:1884:b0:3cb:285f:8da9 with SMTP id ffacd0b85a97d-3d1e05bb61fmr1279177f8f.51.1756557578628;
-        Sat, 30 Aug 2025 05:39:38 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.139])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b6f30fe02sm153940835e9.18.2025.08.30.05.39.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 30 Aug 2025 05:39:38 -0700 (PDT)
-Message-ID: <99d7dddb-d240-4906-9c53-0f487084cff5@tuxon.dev>
-Date: Sat, 30 Aug 2025 15:39:36 +0300
+	s=arc-20240116; t=1756613248; c=relaxed/simple;
+	bh=LptXLD1zwFlWZSHFVxFcX1U/UXwMN65+JMNh3/oeSoI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ju2AaBttehZSOk1AbzSfGVJMK1Lt88bx1SpRACNhjtkqbg6X6gRBzM3YbC4d5FMpKYOc5BVAktRakKX7OlHQqX+iXij5qEEd6Lga5BuWEIr+r444X8kzR2JCizk6TP4m+8jNVY5jnxSRIRSaoAiyVEUvc5V0v1sWnD57UojqBRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LbFk+MFW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BFE8C4CEED;
+	Sun, 31 Aug 2025 04:07:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756613247;
+	bh=LptXLD1zwFlWZSHFVxFcX1U/UXwMN65+JMNh3/oeSoI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LbFk+MFWyECQgwWN/R2B7l0hcZN7hA2vUQVDt1Z3vI+4xJ3whKk9FXHuOSLrhh68P
+	 HgDKzytxI9JEgGTqLShXuxO5gzSXveAhj/0L+tAk3KhXz+RWTt4YyXJeDE3WTswKVQ
+	 AqyW+cv2P79nBkjorkKxY8lhHwuLTsXTNYrIOvJWNTT8hLKaVaG/JT0Buj1ZluwEGZ
+	 0T9Z0g99KxMdPVAJcY7C+z1Oy0MCGyqXkXjNLTAsLMbeJ2bxsyknjvLi81LciN82+c
+	 uFx/JoVnTWTTtlvAqGEvpG+08cvISOMgCy7Y7MTumCDyV7Fg+QKPdRJyqiN3KXtr1Q
+	 QzC86xUv46DfQ==
+Date: Sun, 31 Aug 2025 09:37:17 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Cc: bhelgaas@google.com, lpieralisi@kernel.org, kwilczynski@kernel.org, 
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, geert+renesas@glider.be, 
+	magnus.damm@gmail.com, catalin.marinas@arm.com, will@kernel.org, 
+	mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de, lizhi.hou@amd.com, 
+	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH v3 5/9] PCI: rzg3s-host: Add Initial PCIe Host Driver for
+ Renesas RZ/G3S SoC
+Message-ID: <zsgncwvhykw4ja3bbqaxwupppjsqq4pcrdgrsduahokmt72xsm@twekpse6uzzh>
+References: <20250704161410.3931884-1-claudiu.beznea.uj@bp.renesas.com>
+ <20250704161410.3931884-6-claudiu.beznea.uj@bp.renesas.com>
+ <ddxayjj5wcuuish4kvyluzrujkes5seo7zlusmomyjfjcgzcyj@xe3zzzmy2zaj>
+ <8ef466aa-b470-4dcb-9024-0a9c36eb9a6a@tuxon.dev>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/7] reset: rzg2l-usbphy-ctrl: Add support for USB
- PWRRDY
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-To: vkoul@kernel.org, kishon@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, p.zabel@pengutronix.de, geert+renesas@glider.be,
- magnus.damm@gmail.com, yoshihiro.shimoda.uh@renesas.com,
- biju.das.jz@bp.renesas.com
-Cc: linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20250819054212.486426-1-claudiu.beznea.uj@bp.renesas.com>
- <20250819054212.486426-5-claudiu.beznea.uj@bp.renesas.com>
-Content-Language: en-US
-In-Reply-To: <20250819054212.486426-5-claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <8ef466aa-b470-4dcb-9024-0a9c36eb9a6a@tuxon.dev>
 
-Hi,
+On Sat, Aug 30, 2025 at 02:22:45PM GMT, Claudiu Beznea wrote:
+> 
+> 
+> On 30.08.2025 09:59, Manivannan Sadhasivam wrote:
+> > On Fri, Jul 04, 2025 at 07:14:05PM GMT, Claudiu wrote:
+> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >>
+> >> The Renesas RZ/G3S features a PCIe IP that complies with the PCI Express
+> >> Base Specification 4.0 and supports speeds of up to 5 GT/s. It functions
+> >> only as a root complex, with a single-lane (x1) configuration. The
+> >> controller includes Type 1 configuration registers, as well as IP
+> >> specific registers (called AXI registers) required for various adjustments.
+> >>
+> >> Hardware manual can be downloaded from the address in the "Link" section.
+> >> The following steps should be followed to access the manual:
+> >> 1/ Click the "User Manual" button
+> >> 2/ Click "Confirm"; this will start downloading an archive
+> >> 3/ Open the downloaded archive
+> >> 4/ Navigate to r01uh1014ej*-rzg3s-users-manual-hardware -> Deliverables
+> >> 5/ Open the file r01uh1014ej*-rzg3s.pdf
+> >>
+> >> Link: https://www.renesas.com/en/products/rz-g3s?queryID=695cc067c2d89e3f271d43656ede4d12
+> >> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >> ---
+> >>
+> > 
+> > [...]
+> > 
+> >> +static bool rzg3s_pcie_child_issue_request(struct rzg3s_pcie_host *host)
+> >> +{
+> >> +	u32 val;
+> >> +	int ret;
+> >> +
+> >> +	rzg3s_pcie_update_bits(host->axi, RZG3S_PCI_REQISS,
+> >> +			       RZG3S_PCI_REQISS_REQ_ISSUE,
+> >> +			       RZG3S_PCI_REQISS_REQ_ISSUE);
+> >> +	ret = readl_poll_timeout_atomic(host->axi + RZG3S_PCI_REQISS, val,
+> >> +					!(val & RZG3S_PCI_REQISS_REQ_ISSUE),
+> >> +					5, RZG3S_REQ_ISSUE_TIMEOUT_US);
+> >> +
+> >> +	return !!ret || (val & RZG3S_PCI_REQISS_MOR_STATUS);
+> > 
+> > You don't need to do !!ret as the C11 standard guarantees that any scalar type
+> > stored as bool will have the value of 0 or 1.
+> 
+> OK, will drop it anyway as suggested in another thread.
+> 
+> > 
+> >> +}
+> >> +
+> > 
+> > [...]
+> > 
+> >> +static void __iomem *rzg3s_pcie_root_map_bus(struct pci_bus *bus,
+> >> +					     unsigned int devfn,
+> >> +					     int where)
+> >> +{
+> >> +	struct rzg3s_pcie_host *host = bus->sysdata;
+> >> +
+> >> +	if (devfn)
+> >> +		return NULL;
+> > 
+> > Is it really possible to have devfn as non-zero for a root bus?
+> 
+> I will drop it.
+> 
+> > 
+> >> +
+> >> +	return host->pcie + where;
+> >> +}
+> >> +
+> > 
+> > [...]
+> > 
+> >> +static int rzg3s_pcie_msi_setup(struct rzg3s_pcie_host *host)
+> >> +{
+> >> +	size_t size = RZG3S_PCI_MSI_INT_NR * sizeof(u32);
+> >> +	struct rzg3s_pcie_msi *msi = &host->msi;
+> >> +	struct device *dev = host->dev;
+> >> +	int id, ret;
+> >> +
+> >> +	msi->pages = __get_free_pages(GFP_KERNEL | GFP_DMA, 0);
+> >> +	if (!msi->pages)
+> >> +		return -ENOMEM;
+> >> +
+> >> +	msi->dma_addr = dma_map_single(dev, (void *)msi->pages, size * 2,
+> >> +				       DMA_BIDIRECTIONAL);
+> >> +	if (dma_mapping_error(dev, msi->dma_addr)) {
+> >> +		ret = -ENOMEM;
+> >> +		goto free_pages;
+> >> +	}
+> >> +
+> >> +	/*
+> >> +	 * According to the RZ/G3S HW manual (Rev.1.10, section 34.4.5.2 Setting
+> >> +	 * the MSI Window) the MSI window need to be within any AXI window. Find
+> >> +	 * an AXI window to setup the MSI window.
+> > 
+> > Are you really finding the AXI window or just making sure that the MSI window
+> > falls into one of the AXI window?
+> 
+> I'm making sure the MSI windows falls into one of the enabled AXI windows.
+> 
 
-Just a gentle ping for this patch and the series in general.
+Then you need to reword the comment as such. Currently, it is not clear.
 
-(For whatever reason the cover letter didn't land in my inbox so I replied
-to this patch. Appologies for any inconvenience).
+> > 
+> > And I believe it is OK to have more than one MSI window within an AXI window.
+> 
+> This IP supports a single MSI window that need to fit into one of the
+> enabled AXI windows.
+> 
 
-Thank you,
-Claudiu
+[...]
 
-On 19.08.2025 08:42, Claudiu wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >> +
+> >> +	/* Update vendor ID and device ID */
+> > 
+> > Are you really updating it or setting it? If you are updating it, are the
+> > default IDs invalid?
 > 
-> On the Renesas RZ/G3S SoC, the USB PHY block has an input signal called
-> PWRRDY. This signal is managed by the system controller and must be
-> de-asserted after powering on the area where USB PHY resides and asserted
-> before powering it off.
+> Default IDs are valid (at least on RZ/G3S) but Renesas specific. Renesas
+> wants to let individual users to set their own IDs.
 > 
-> On power-on the USB PWRRDY signal need to be de-asserted before enabling
-> clock and switching the module to normal state (through MSTOP support). The
-> power-on configuration sequence must be:
-> 
-> 1/ PWRRDY=0
-> 2/ CLK_ON=1
-> 3/ MSTOP=0
-> 
-> On power-off the configuration sequence should be:
-> 
-> 1/ MSTOP=1
-> 2/ CLK_ON=0
-> 3/ PWRRDY=1
-> 
-> The CLK_ON and MSTOP functionalities are controlled by clock drivers.
-> 
-> After long discussions with the internal HW team, it has been confirmed
-> that the HW connection b/w USB PHY block, the USB channels, the system
-> controller, clock, MSTOP, PWRRDY signal is as follows:
-> 
->                                ┌──────────────────────────────┐
->                                │                              │◄── CPG_CLKON_USB.CLK0_ON
->                                │     USB CH0                  │
-> ┌──────────────────────────┐   │┌───────────────────────────┐ │◄── CPG_CLKON_USB.CLK2_ON
-> │                 ┌────────┐   ││host controller registers  │ │
-> │                 │        │   ││function controller registers│
-> │                 │ PHY0   │◄──┤└───────────────────────────┘ │
-> │     USB PHY     │        │   └────────────▲─────────────────┘
-> │                 └────────┘                │
-> │                          │    CPG_BUS_PERI_COM_MSTOP.MSTOP{6, 5}_ON
-> │┌──────────────┐ ┌────────┐
-> ││USHPHY control│ │        │
-> ││  registers   │ │ PHY1   │   ┌──────────────────────────────┐
-> │└──────────────┘ │        │◄──┤     USB CH1                  │
-> │                 └────────┘   │┌───────────────────────────┐ │◄── CPG_CLKON_USB.CLK1_ON
-> └─▲───────▲─────────▲──────┘   ││ host controller registers │ │
->   │       │         │          │└───────────────────────────┘ │
->   │       │         │          └────────────▲─────────────────┘
->   │       │         │                       │
->   │       │         │           CPG_BUS_PERI_COM_MSTOP.MSTOP7_ON
->   │PWRRDY │         │
->   │       │   CPG_CLK_ON_USB.CLK3_ON
->   │       │
->   │  CPG_BUS_PERI_COM_MSTOP.MSTOP4_ON
->   │
-> ┌────┐
-> │SYSC│
-> └────┘
-> 
-> where:
-> - CPG_CLKON_USB.CLK.CLKX_ON is the register bit controlling the clock X
->   of different USB blocks, X in {0, 1, 2, 3}
-> - CPG_BUS_PERI_COM_MSTOP.MSTOPX_ON is the register bit controlling the
->   MSTOP of different USB blocks, X in {4, 5, 6, 7}
-> - USB PHY is the USB PHY block exposing 2 ports, port0 and port1, used
->   by the USB CH0, USB CH1
-> - SYSC is the system controller block controlling the PWRRDY signal
-> - USB CHx are individual USB block with host and function capabilities
->   (USB CH0 have both host and function capabilities, USB CH1 has only
->   host capabilities)
-> 
-> The USBPHY control registers are controlled though the
-> reset-rzg2l-usbphy-ctrl driver. The USB PHY ports are controlled by
-> phy_rcar_gen3_usb2 (drivers/phy/renesas/phy-rcar-gen3-usb2.c file). The
-> USB PHY ports request resets from the reset-rzg2l-usbphy-ctrl driver.
-> 
-> The connection b/w the system controller and the USB PHY CTRL driver is
-> implemented through the renesas,sysc-pwrrdy device tree property
-> proposed in this patch. This property specifies the register offset and the
-> bitmask required to control the PWRRDY signal.
-> 
-> Since the USB PHY CTRL driver needs to be probed before any other
-> USB-specific driver on RZ/G3S, control of PWRRDY is passed exclusively
-> to it. This guarantees the correct configuration sequence between clocks,
-> MSTOP bits, and the PWRRDY bit. At the same time, changes are kept minimal
-> by avoiding modifications to the USB PHY driver to also handle the PWRRDY
-> itself.
-> 
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> ---
-> 
-> Changes in v5:
-> - none
-> 
-> Changes in v4:
-> - updated patch description
-> - updated rzg2l_usbphy_ctrl_pwrrdy_init() to map directly the
->   "renesas,sysc-pwrrdy" as the SYSC signal abstraction was dropped
->   in this version, along with rz_sysc_get_signal_map()
-> - dropped priv member of rzg2l_usbphy_ctrl_pwrrdy_init() as it is
->   not needed in this version
-> - shift left !power_on with pwrrdy->mask as this is how the
->   regmap_update_bits() needs the last member to be
-> - selected MFD_SYSCON
-> 
-> Changes in v3:
-> - none; this patch is new
-> 
->  drivers/reset/Kconfig                   |  1 +
->  drivers/reset/reset-rzg2l-usbphy-ctrl.c | 66 +++++++++++++++++++++++++
->  2 files changed, 67 insertions(+)
-> 
-> diff --git a/drivers/reset/Kconfig b/drivers/reset/Kconfig
-> index 78b7078478d4..329730cbcfb9 100644
-> --- a/drivers/reset/Kconfig
-> +++ b/drivers/reset/Kconfig
-> @@ -237,6 +237,7 @@ config RESET_RASPBERRYPI
->  config RESET_RZG2L_USBPHY_CTRL
->  	tristate "Renesas RZ/G2L USBPHY control driver"
->  	depends on ARCH_RZG2L || COMPILE_TEST
-> +	select MFD_SYSCON
->  	help
->  	  Support for USBPHY Control found on RZ/G2L family. It mainly
->  	  controls reset and power down of the USB/PHY.
-> diff --git a/drivers/reset/reset-rzg2l-usbphy-ctrl.c b/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-> index 8a7f167e405e..3856072b23a3 100644
-> --- a/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-> +++ b/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-> @@ -13,6 +13,7 @@
->  #include <linux/regmap.h>
->  #include <linux/reset.h>
->  #include <linux/reset-controller.h>
-> +#include <linux/mfd/syscon.h>
->  
->  #define RESET			0x000
->  #define VBENCTL			0x03c
-> @@ -41,6 +42,18 @@ struct rzg2l_usbphy_ctrl_priv {
->  
->  #define rcdev_to_priv(x)	container_of(x, struct rzg2l_usbphy_ctrl_priv, rcdev)
->  
-> +/**
-> + * struct rzg2l_usbphy_ctrl_pwrrdy - SYSC PWRRDY signal descriptor
-> + * @regmap: SYSC regmap
-> + * @offset: offset into the SYSC address space for accessing PWRRDY
-> + * @mask: mask into the register at offset for accessing PWRRDY
-> + */
-> +struct rzg2l_usbphy_ctrl_pwrrdy {
-> +	struct regmap *regmap;
-> +	u32 offset;
-> +	u32 mask;
-> +};
-> +
->  static int rzg2l_usbphy_ctrl_assert(struct reset_controller_dev *rcdev,
->  				    unsigned long id)
->  {
-> @@ -91,6 +104,8 @@ static int rzg2l_usbphy_ctrl_status(struct reset_controller_dev *rcdev,
->  	return !!(readl(priv->base + RESET) & port_mask);
->  }
->  
-> +#define RZG2L_USBPHY_CTRL_PWRRDY	1
-> +
->  static const struct of_device_id rzg2l_usbphy_ctrl_match_table[] = {
->  	{ .compatible = "renesas,rzg2l-usbphy-ctrl" },
->  	{ /* Sentinel */ }
-> @@ -110,6 +125,53 @@ static const struct regmap_config rzg2l_usb_regconf = {
->  	.max_register = 1,
->  };
->  
-> +static void rzg2l_usbphy_ctrl_set_pwrrdy(struct rzg2l_usbphy_ctrl_pwrrdy *pwrrdy,
-> +					 bool power_on)
-> +{
-> +	regmap_update_bits(pwrrdy->regmap, pwrrdy->offset, pwrrdy->mask,
-> +			   !power_on << pwrrdy->mask);
-> +}
-> +
-> +static void rzg2l_usbphy_ctrl_pwrrdy_off(void *data)
-> +{
-> +	rzg2l_usbphy_ctrl_set_pwrrdy(data, false);
-> +}
-> +
-> +static int rzg2l_usbphy_ctrl_pwrrdy_init(struct device *dev)
-> +{
-> +	struct rzg2l_usbphy_ctrl_pwrrdy *pwrrdy;
-> +	struct of_phandle_args args;
-> +	struct regmap *regmap;
-> +	const int *data;
-> +	int ret;
-> +
-> +	data = device_get_match_data(dev);
-> +	if (data != (int *)RZG2L_USBPHY_CTRL_PWRRDY)
-> +		return 0;
-> +
-> +	ret = of_parse_phandle_with_fixed_args(dev->of_node, "renesas,sysc-pwrrdy", 2,
-> +					       0, &args);
-> +	if (ret)
-> +		return ret;
-> +
-> +	regmap = syscon_node_to_regmap(args.np);
-> +	of_node_put(args.np);
-> +	if (IS_ERR(regmap))
-> +		return PTR_ERR(regmap);
-> +
-> +	pwrrdy = devm_kzalloc(dev, sizeof(*pwrrdy), GFP_KERNEL);
-> +	if (!pwrrdy)
-> +		return -ENOMEM;
-> +
-> +	pwrrdy->regmap = regmap;
-> +	pwrrdy->offset = args.args[0];
-> +	pwrrdy->mask = args.args[1];
-> +
-> +	rzg2l_usbphy_ctrl_set_pwrrdy(pwrrdy, true);
-> +
-> +	return devm_add_action_or_reset(dev, rzg2l_usbphy_ctrl_pwrrdy_off, pwrrdy);
-> +}
-> +
->  static int rzg2l_usbphy_ctrl_probe(struct platform_device *pdev)
->  {
->  	struct device *dev = &pdev->dev;
-> @@ -132,6 +194,10 @@ static int rzg2l_usbphy_ctrl_probe(struct platform_device *pdev)
->  	if (IS_ERR(regmap))
->  		return PTR_ERR(regmap);
->  
-> +	error = rzg2l_usbphy_ctrl_pwrrdy_init(dev);
-> +	if (error)
-> +		return error;
-> +
->  	priv->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
->  	if (IS_ERR(priv->rstc))
->  		return dev_err_probe(dev, PTR_ERR(priv->rstc),
 
+So they are optional then? But the binding treats them as required, which should
+be changed if the default IDs are valid.
+
+> > 
+> >> +	writew(host->vendor_id, host->pcie + PCI_VENDOR_ID);
+> >> +	writew(host->device_id, host->pcie + PCI_DEVICE_ID);
+> >> +
+> >> +	/* HW manual recommends to write 0xffffffff on initialization */
+> >> +	writel(0xffffffff, host->pcie + RZG3S_PCI_CFG_BARMSK00L);
+> >> +	writel(0xffffffff, host->pcie + RZG3S_PCI_CFG_BARMSK00U);
+> >> +
+> >> +	/* Update bus info. */
+> >> +	writeb(primary_bus, host->pcie + PCI_PRIMARY_BUS);
+> >> +	writeb(secondary_bus, host->pcie + PCI_SECONDARY_BUS);
+> >> +	writeb(subordinate_bus, host->pcie + PCI_SUBORDINATE_BUS);
+> >> +
+> >> +	/* Disable access control to the CFGU */
+> >> +	writel(0, host->axi + RZG3S_PCI_PERM);
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> > 
+> > [...]
+> > 
+> >> +static int rzg3s_pcie_host_init(struct rzg3s_pcie_host *host, bool probe)
+> >> +{
+> >> +	u32 val;
+> >> +	int ret;
+> >> +
+> >> +	/* Initialize the PCIe related registers */
+> >> +	ret = rzg3s_pcie_config_init(host);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	/* Initialize the interrupts */
+> >> +	rzg3s_pcie_irq_init(host);
+> >> +
+> >> +	ret = reset_control_bulk_deassert(host->data->num_cfg_resets,
+> >> +					  host->cfg_resets);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	/* Wait for link up */
+> >> +	ret = readl_poll_timeout(host->axi + RZG3S_PCI_PCSTAT1, val,
+> >> +				 !(val & RZG3S_PCI_PCSTAT1_DL_DOWN_STS),
+> >> +				 PCIE_LINK_WAIT_SLEEP_MS,
+> >> +				 PCIE_LINK_WAIT_SLEEP_MS *
+> >> +				 PCIE_LINK_WAIT_MAX_RETRIES * MILLI);
+> >> +	if (ret) {
+> >> +		reset_control_bulk_assert(host->data->num_cfg_resets,
+> >> +					  host->cfg_resets);
+> >> +		return ret;
+> >> +	}
+> >> +
+> >> +	val = readl(host->axi + RZG3S_PCI_PCSTAT2);
+> >> +	dev_info(host->dev, "PCIe link status [0x%x]\n", val);
+> >> +
+> >> +	val = FIELD_GET(RZG3S_PCI_PCSTAT2_STATE_RX_DETECT, val);
+> >> +	dev_info(host->dev, "PCIe x%d: link up\n", hweight32(val));
+> >> +
+> >> +	if (probe) {
+> >> +		ret = devm_add_action_or_reset(host->dev,
+> >> +					       rzg3s_pcie_cfg_resets_action,
+> >> +					       host);
+> > 
+> > Oh well, this gets ugly. Now the devm_add_action_or_reset() is sprinkled
+> > throughout the driver :/
+> > 
+> > As I said earlier, there are concerns in unloading the driver if it implements
+> > an irqchip. So if you change the module_platform_driver() to
+> > builtin_platform_driver() for this driver, these devm_add_action_or_reset()
+> > calls become unused.
+> 
+> They can still be useful in case the probe fails. As the initialization
+> path is complicated, having actions or resets looks to me that makes the
+> code cleaner as the rest of devm_* helpers.
+> 
+> I can drop it and replace with gotos and dedicated functions but this will
+> complicate the code, AFAICT.
+> 
+> Please let me know how would you like me to proceed.
+> 
+
+It is generally preferred to cleanup the resources in err path using goto
+labels.
+
+> > 
+> >> +	}
+> >> +
+> >> +	return ret;
+> >> +}
+> >> +
+
+[...]
+
+> >> +	ret = pm_runtime_resume_and_get(dev);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> > 
+> > Do you really need to do resume_and_get()? If not, you should do:
+> 
+> It it's needed to enable the clock PM domain the device is part of.
+> 
+
+I've replied below.
+
+> > 
+> > 	pm_runtime_set_active()
+> > 	pm_runtime_no_callbacks()
+> > 	devm_pm_runtime_enable()
+> > 
+> >> +	ret = devm_add_action_or_reset(dev, rzg3s_pcie_pm_runtime_put, dev);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	raw_spin_lock_init(&host->hw_lock);
+> >> +
+> >> +	ret = rzg3s_pcie_host_setup(host, rzg3s_pcie_intx_setup,
+> >> +				    rzg3s_pcie_msi_enable, true);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	msleep(PCIE_RESET_CONFIG_WAIT_MS);
+> >> +
+> >> +	bridge->sysdata = host;
+> >> +	bridge->ops = &rzg3s_pcie_root_ops;
+> >> +	bridge->child_ops = &rzg3s_pcie_child_ops;
+> >> +	ret = pci_host_probe(bridge);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	return devm_add_action_or_reset(dev, rzg3s_pcie_host_remove_action,
+> >> +					host);
+> >> +}
+> >> +
+> >> +static int rzg3s_pcie_suspend_noirq(struct device *dev)
+> >> +{
+> >> +	struct rzg3s_pcie_host *host = dev_get_drvdata(dev);
+> >> +	const struct rzg3s_pcie_soc_data *data = host->data;
+> >> +	struct regmap *sysc = host->sysc;
+> >> +	int ret;
+> >> +
+> >> +	ret = pm_runtime_put_sync(dev);
+> >> +	if (ret)
+> >> +		return ret;
+> > 
+> > Since there are no runtime callbacks present, managing runtime PM in the driver
+> > makes no sense.
+> 
+> The PCIe device is part of a clock power domain. Dropping
+> pm_runtime_enable()/pm_runtime_put_sync() in this driver will lead to this
+> IP failing to work as its clocks will not be enabled/disabled. If you don't
+> like the pm_runtime_* approach that could be replaced with:
+> 
+> devm_clk_get_enabled() in probe and clk_disable()/clk_enable() on
+> suspend/resume. W/o clocks the IP can't work.
+> 
+
+Yes, you should explicitly handle clocks in the driver. Runtime PM makes sense
+if you have a power domain attached to the IP, which you also do as I see now.
+So to conclude, you should enable/disable the clocks explicitly for managing
+clocks and use runtime PM APIs for managing the power domain associated with
+clock controller.
+
+But please add a comment above pm_runtime_resume_and_get() to make it clear as
+most of the controller drivers are calling it for no reason.
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
 
