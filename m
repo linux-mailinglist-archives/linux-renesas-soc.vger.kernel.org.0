@@ -1,122 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-21106-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21107-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AFA2B3DD96
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Sep 2025 11:07:25 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4785B3DE6A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Sep 2025 11:28:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A6C4918812E3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Sep 2025 09:07:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F189B1A80AD9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Sep 2025 09:28:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4935C3043A0;
-	Mon,  1 Sep 2025 09:07:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A06052E0417;
+	Mon,  1 Sep 2025 09:23:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="o0Dm4phU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F3C2FFDDA;
-	Mon,  1 Sep 2025 09:07:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70432303C8D;
+	Mon,  1 Sep 2025 09:22:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756717642; cv=none; b=snL1onxpDMWfm4mr7AfsYsidThkMmK2mpA3WQ+4fxrnaj15E4080o4KqkrkBpokYjcwXcAbHkMonxVxJWwMo+76CMR3uVkz+z5PM25Aw//srlHxWmWdQLoUxV+s7xbAcNPVRemUO/3HEUp9nszyyTx2LlG17ZXE1vcLaHenp3IE=
+	t=1756718581; cv=none; b=OxmmNYkYBIFXCtrsqbySlbOwHb4KsLihhsxSSbItJpHvR/7dXYp0dOz7pzi7s0LKrewwPMfyoijaTCbXCbfFm5eFr7bYo5RM4VhX/MQj+mRrrnDRcZQyZpyTmai0aTU/IgAl7+nowLNAYhvCAWTIMq0Yy0Tc20by464r0tqRhfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756717642; c=relaxed/simple;
-	bh=4louLJJOzJhxu6zjpPIXL9y3h+3vAlp3znwMuSledfc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=K4qLFuedhXM7ZJAzePvpv5BcdDPplLniQWZvsQNkrJsFP9jMT8dzilO5QwsSRVmtCuNBnYBj586OJskfJUV5dP4/tgkklChs/TibcSmSpyWPk9j411CIVmLWKYENqzrt6eWMuBpB5IcMhln0p1Jn+YAlBg5LM/pY2HmRyTls9m0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-544ad727e87so974900e0c.2;
-        Mon, 01 Sep 2025 02:07:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756717639; x=1757322439;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=O/6qibXdccLhkRefKcDNLTkjbePZYUAXP9xdU8ZvMfY=;
-        b=Nc8wLri1rzaeTsD0M+d1l9/JRPLcDlrE1pNTSOD9/bvoTL/sIdhBjXb8rMbjGfBNAE
-         Cm1j3BwCq42x9jipWn2ubVDnJx4IEjqPMHwGnGbRhRBgg4wTQEi3OjX6blZT+nmkp4lm
-         jKr87NK7IMg9VgdwkwJVkDm9XgQvvh+cOn5+6jBZRQhY1i02vpED7EAxfc7omzoWPnAc
-         vFcq5A4oBrVIE7T3kNQDKVFe7hBMRUhfQxjWB4v/uvjwKuI4NVDItg6Jjcbw4wbU8B7A
-         xzgiu7g6qdmjwLjxbZAkFEK68eLGdFI2djagDSt0FIjHl+vBo7/gVE+ORFBPhM2LzCju
-         Wkng==
-X-Forwarded-Encrypted: i=1; AJvYcCUe/gt09QTyRxDt10ifqFkE8wkttlUmjmIQeMCaqxSatFEs2LDmcmleN/tg0iGEPURVP5mp5clq8iGP93BtiTWOfu4=@vger.kernel.org, AJvYcCUe6oSg5dQ9KWcw7xFKeRKChgKfUjZaBJWLyyMc1rb2iQzrOnIvbxw6JYQhSHjau2L39mPCuGCGXFQV@vger.kernel.org, AJvYcCXpNgo69XVjb3ZI2cpnlPXi7mNZ0lNvEnJ9DhMA1Rd9JnfH1P+MR5jMBKtRJ7chOgug/0OaM1rDtV77JMsu@vger.kernel.org
-X-Gm-Message-State: AOJu0YzQGC4+Vz/Q+08Rp3YQBAtmC9kAtURDA1ySOHn03A4l/djkO5/2
-	l/McNM7ktlir3MA515g29WcaWnK4sVxAoY8CdAQ/EaS8xnkM+I08avw2wfwpOfLQ
-X-Gm-Gg: ASbGncsp3XPWu6OgSTeZRre7oprjz7aubgd6W4m9wpahCNsmTPtbjZs81yWLmQKGmHA
-	6oWxO3Rb5B4G6+V63kETt4qwSG7/kCmuXPrPi2jnAaSionDLDMC42g0vFfTKxRqj5fwTVr5zkaF
-	Uso6uMwlUOaJzvN41hcgq5Q5MUnGAT3lQfJaxaDJl9FjcS8CtKPddKyjUmZmnuu2wVPL94I5pAF
-	aiyqmG3b0Ts3Gpg388FOzwoXA9w726zeTRsIozVvvus+/7gSoQfDm69NyEoIjGyGbJkMzwHctsa
-	2URVOf7U6YYWIbiayUZBQT1X5ENn6lSDiVv888pcv4hC/sX/geh47ZoA7vJkIP3aeBJD2DDml1u
-	bnmRgxGPueehi3Eez+cp+9ZKGVoI3v1H3E1vcNkLn2jdVhmssXvd+ozeeGkdOwu2S
-X-Google-Smtp-Source: AGHT+IHIkFp1Ugrfh61Y2mx6taynQTCPNPJDbch1404K0Eh1A47H8WTi8MJftBgdyxLYlejtCvBnbg==
-X-Received: by 2002:a05:6122:1805:b0:544:7949:d36b with SMTP id 71dfb90a1353d-544a018ef4fmr1802304e0c.7.1756717639217;
-        Mon, 01 Sep 2025 02:07:19 -0700 (PDT)
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com. [209.85.221.179])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-54491464b0csm4045524e0c.18.2025.09.01.02.07.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Sep 2025 02:07:18 -0700 (PDT)
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5448514543eso2729008e0c.3;
-        Mon, 01 Sep 2025 02:07:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUHrPQR0dYDzmkR7N52UkNifBmRd139nuiX4PNiFxRdPHmbE5ZApQNZD9/9LRsteTpHflSfvrIUlRCNNPBE@vger.kernel.org, AJvYcCWdv6hS8y+Zw97+XsovMruoJ+sRca9XXLDlEnIGbFCFOPHqE6NHB/qoZVei2LvYjdf1S/K0+NFPocZ0gtf0o6Kq/Nk=@vger.kernel.org, AJvYcCX7ezzEzS3Aqn2XL7rWM3yHulG0XnIIGWahRXZNPy0uqy+rO77PFd6nWIme/V1XHi+VUzBkXzStZkvB@vger.kernel.org
-X-Received: by 2002:a05:6122:1da6:b0:541:bf69:17ac with SMTP id
- 71dfb90a1353d-544a02a9314mr2365467e0c.16.1756717638729; Mon, 01 Sep 2025
- 02:07:18 -0700 (PDT)
+	s=arc-20240116; t=1756718581; c=relaxed/simple;
+	bh=inHRaS4Kg5KmM8x2x1WVTksGZ37CfV4NG8BOkOKDvC4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=te/KSrUGio8zee+/yAr9zSlITM9kJJ5VTwx8EGhreJW8UhMf5MEnaZrxIU2pQ60Axq9adrSrQhgWB5FIsCwxPmUTaJjaIJYsUro+g8bhNaNWDU/HWzkDExTcu7U/2aF/bbveKZLI5W5CJ5EgFS+8IIGCQ8yPa/lEhRqnvsq4USQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=o0Dm4phU; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 05167EFE;
+	Mon,  1 Sep 2025 11:21:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1756718509;
+	bh=inHRaS4Kg5KmM8x2x1WVTksGZ37CfV4NG8BOkOKDvC4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=o0Dm4phUp+R3cxtxsrWrEoOL97EwFPH2RUt4L1B7oo4QhScvIJJuiT++F3xtf2FuZ
+	 3VmKk3COtouhjK/V3fkKJbQ3Hld3SW7rHc8XNOcyNOmlQ8NdCff1SMoNBHnl71eVDg
+	 qWDx9M6YMkhdPxZfaNXr3ApnQxksqesrqa/7qf24=
+Message-ID: <e03c3fcb-7392-4ddc-80f1-8c104cd04e3c@ideasonboard.com>
+Date: Mon, 1 Sep 2025 12:22:52 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250831084958.431913-1-rongqianfeng@vivo.com> <20250831084958.431913-4-rongqianfeng@vivo.com>
-In-Reply-To: <20250831084958.431913-4-rongqianfeng@vivo.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 1 Sep 2025 11:07:07 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW59wJCKq8nQ-SZHXVsX2kSCF0zg_gTP2vi3ApwH_SXAg@mail.gmail.com>
-X-Gm-Features: Ac12FXwO8wq2u6ULO3-Vl2OwTpneRHhZ04n5O9NWF39kE3BxtUeYnqLIvpIXoPw
-Message-ID: <CAMuHMdW59wJCKq8nQ-SZHXVsX2kSCF0zg_gTP2vi3ApwH_SXAg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] pinctrl: renesas: Use int type to store negative
- error codes
-To: Qianfeng Rong <rongqianfeng@vivo.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, 
-	"open list:PIN CONTROLLER - RENESAS" <linux-renesas-soc@vger.kernel.org>, 
-	"open list:PIN CONTROL SUBSYSTEM" <linux-gpio@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/rcar-du: dsi: Fix 1/2/3 lane support
+To: Marek Vasut <marek.vasut@mailbox.org>, dri-devel@lists.freedesktop.org
+Cc: stable@vger.kernel.org, David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-renesas-soc@vger.kernel.org
+References: <20250813210840.97621-1-marek.vasut+renesas@mailbox.org>
+ <d1354951-cbd3-4216-970b-e1e130f58522@ideasonboard.com>
+ <fa0d9882-aadd-49e4-8a39-e0d0c321ecc1@mailbox.org>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <fa0d9882-aadd-49e4-8a39-e0d0c321ecc1@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Qianfeng,
+Hi,
 
-Thanks for your patch!
+On 31/08/2025 20:01, Marek Vasut wrote:
+> On 8/14/25 7:54 AM, Tomi Valkeinen wrote:
+> 
+> Hello Tomi,
+> 
+>> On 14/08/2025 00:08, Marek Vasut wrote:
+>>> Remove fixed PPI lane count setup. The R-Car DSI host is capable
+>>> of operating in 1..4 DSI lane mode. Remove the hard-coded 4-lane
+>>> configuration from PPI register settings and instead configure
+>>> the PPI lane count according to lane count information already
+>>> obtained by this driver instance.
+>>>
+>>> Configure TXSETR register to match PPI lane count. The R-Car V4H
+>>> Reference Manual R19UH0186EJ0121 Rev.1.21 section 67.2.2.3 Tx Set
+>>> Register (TXSETR), field LANECNT description indicates that the
+>>> TXSETR register LANECNT bitfield lane count must be configured
+>>> such, that it matches lane count configuration in PPISETR register
+>>> DLEN bitfield. Make sure the LANECNT and DLEN bitfields are
+>>> configured to match.
+>>>
+>>> Fixes: 155358310f01 ("drm: rcar-du: Add R-Car DSI driver")
+>>> Cc: <stable@vger.kernel.org>
+>>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+>>> ---
+>>> Cc: David Airlie <airlied@gmail.com>
+>>> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+>>> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>>> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>>> Cc: Magnus Damm <magnus.damm@gmail.com>
+>>> Cc: Maxime Ripard <mripard@kernel.org>
+>>> Cc: Simona Vetter <simona@ffwll.ch>
+>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>>> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>>> Cc: dri-devel@lists.freedesktop.org
+>>> Cc: linux-renesas-soc@vger.kernel.org
+>>> ---
+>>> V2: - Split this out of a series, update commit message, combine from
+>>>        drm/rcar-du: dsi: Remove fixed PPI lane count setup
+>>>        drm/rcar-du: dsi: Configure TXSETR register to match PPI lane
+>>> count
+>>>      - add Fixes tag, CC stable
+>>> ---
+>>>   drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c      | 5 ++++-
+>>>   drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h | 8 ++++----
+>>>   2 files changed, 8 insertions(+), 5 deletions(-)
+>>
+>> Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> Would you like to pick this up via drm-misc , or shall I ?
 
-On Sun, 31 Aug 2025 at 10:50, Qianfeng Rong <rongqianfeng@vivo.com> wrote:
-> Change the 'ret' variable in ma35_pinctrl_parse_functions() from unsigned
+I'll push to drm-misc. Thanks!
 
-sh_pfc_pinconf_group_set
+ Tomi
 
-> int to int, as it needs to store either negative error codes or zero
-> returned by sh_pfc_pinconf_set().
->
-> No effect on runtime.
-
-Fortunately the issue was indeed harmless.
-
->
-> Signed-off-by: Qianfeng Rong <rongqianfeng@vivo.com>
-
-Fixes: d0593c363f04ccc4 ("pinctrl: sh-pfc: Propagate errors on group config")
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-pinctrl for v6.18, with the above fixed.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
