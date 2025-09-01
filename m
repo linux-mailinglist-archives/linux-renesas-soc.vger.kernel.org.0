@@ -1,134 +1,202 @@
-Return-Path: <linux-renesas-soc+bounces-21128-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21129-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C324B3E755
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Sep 2025 16:37:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65C36B3EB99
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Sep 2025 17:56:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 274A61888D7D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Sep 2025 14:38:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 07F4B1883FD1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Sep 2025 15:55:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AB7D33EB03;
-	Mon,  1 Sep 2025 14:37:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F31B12D5932;
+	Mon,  1 Sep 2025 15:54:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DJgb866O"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VDsaAdUj"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF21B2EFD83;
-	Mon,  1 Sep 2025 14:37:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE32E2D5924;
+	Mon,  1 Sep 2025 15:54:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756737464; cv=none; b=tLAbKRb+UcvN9wbVV6f6MjhEug+Vp+vlThsF5Rq18BxzdTdGs52uBDDAbZY0Rc4UryKdzyKF0KkM7t14sVL4xcQmjYpsAT28jWhb93+A/3wFCE258tea+C/XDW3TjVxWxwbCaKsMGRzuYvIbNxusSIlaoz5CjlRn9IR80xwFs3c=
+	t=1756742076; cv=none; b=lZ7n0dYDkf53JNbKCrHZKcTWBTt9pUenoeH8PyG7l9JuzZnl+vFA0eYutqPDinOjYuDvTvRGAsPlwGhYYRgM4K4zvJbABLYe5Sb9BH/7odoNUKlpb6Xm4D6GhnY0QateAOYgj1B49JdhmN+zmRAPPmADrAfoaKWNo/AlBp4jk+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756737464; c=relaxed/simple;
-	bh=gIvp8Vp/E1swy4wyBXx3jb2SoCxt+LuCiS4lw6AuyVU=;
+	s=arc-20240116; t=1756742076; c=relaxed/simple;
+	bh=zbaUuwR137ygPnpQ0YzRAfrhZCcuUrJu1SPf+nLYCsI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LC+TXcTCtI2pZAQGJSfbbIsllVCVmJQ7pvJDXNcxGASp7VyifoyO/LeylLgRYPDaH0RITVdqz0PCkzQ5y1lUCqQa/P8k9EB4XPHfkAVdsa9JDy+p8M5hJSYkG7XROIgK2DugP83gQ9/Eexx9o5GHUi2YVQHHtGbiWLcKR4ziV+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DJgb866O; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91158C4CEF0;
-	Mon,  1 Sep 2025 14:37:36 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=g07qFA6FIso2Agu+WDoo950XJeGX6GyxHzymnpd2A/+pAKgYFrg2qCMrxW5TMud+vn8AcYNMuf4eVb7fEFWe0FOFk6IOH3L5hJqEFqT/0XPFCdJaiBSTndu22scOR74Z9HYt9dfKH6H2+ZiTXVoJhuO9wV7R+UvcJTJTypSbo1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VDsaAdUj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B14BC4CEF0;
+	Mon,  1 Sep 2025 15:54:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756737464;
-	bh=gIvp8Vp/E1swy4wyBXx3jb2SoCxt+LuCiS4lw6AuyVU=;
+	s=k20201202; t=1756742076;
+	bh=zbaUuwR137ygPnpQ0YzRAfrhZCcuUrJu1SPf+nLYCsI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DJgb866OavVlQXKjEcSDRgX01RL+TgYXMilYRhox1DG2A4pbmL/EMuUOSPQkhKm9y
-	 ZvbgzuWzlkHcKChIVmdcfSamTbXnIcObi8vEvl5/9muDCgJpxid02CByyOsACIh1yU
-	 OKX98+D8HARzpuduhCAuxsNQWh5qbLNOOQS83t6frONv3iLVNfsFrehXLjwvOHBqVS
-	 gJYuwaea4P7AtESKCzphgnRjeu3/3j4HbVoPTYqH34hpPGEiqkEowrs9BdVtPLHybV
-	 TE95H7tVbki8s9jUEg4vMUHVN4eZ+ZaHfW6KZvrIPhItfOg2iPgxsvk5RylWjzgxwD
-	 tuJt2jvYGPKOQ==
-Date: Mon, 1 Sep 2025 15:37:33 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Alexey Klimov <alexey.klimov@linaro.org>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Sean Wang <sean.wang@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Paul Cercueil <paul@crapouillou.net>, Kees Cook <kees@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Dong Aisheng <aisheng.dong@nxp.com>,
-	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
-	Jacky Bai <ping.bai@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	NXP S32 Linux Team <s32@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Tony Lindgren <tony@atomide.com>,
-	Haojian Zhuang <haojian.zhuang@linaro.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-mm@kvack.org,
-	imx@lists.linux.dev, linux-omap@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH v6 06/15] pinctrl: imx: don't access the pin function
- radix tree directly
-Message-ID: <4a633387-08a9-43c8-81d7-488e7222aeda@sirena.org.uk>
-References: <20250828-pinctrl-gpio-pinfuncs-v6-0-c9abb6bdb689@linaro.org>
- <20250828-pinctrl-gpio-pinfuncs-v6-6-c9abb6bdb689@linaro.org>
- <61bad868-d976-4f49-805c-8d14d4d8b3e4@sirena.org.uk>
- <CAMRc=MfB_3e0sjCpV+XaKcKvit7Opk5LczH2wsxO=RftrAabjg@mail.gmail.com>
+	b=VDsaAdUjDt21AAz1YuepphxiXMwMEqxbceRWO1eDFCn3hMyTS0P1AIdUaMqjd9LaY
+	 w4UYGZg7mlCI1TfIxr73JZ4GUGJmOZAv8B0LamR11GLZSQZ99JmN3kwYnbn79q668f
+	 +xy2lfiIDihfknyZ0KSJCXvKeOoWoloviYzJkK3zlAg3++z2h4I4LDqCL113xr9ORu
+	 TrNNLs3a5QVAYlsSPLGOs/oLWL7G2++Qr6o0Zf+LSESwfXV92gYCO8t2zWyoVEy8sp
+	 Wt7ejild3mAw1jXg8Pa8V9BNc2/j0KJcP+ldmmtYXzIGj/EMgFnwE4RMTSwqRNxnoX
+	 5N7daNBwPszmw==
+Date: Mon, 1 Sep 2025 21:24:25 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>, bhelgaas@google.com, 
+	lpieralisi@kernel.org, kwilczynski@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, magnus.damm@gmail.com, catalin.marinas@arm.com, will@kernel.org, 
+	mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de, lizhi.hou@amd.com, 
+	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH v3 5/9] PCI: rzg3s-host: Add Initial PCIe Host Driver for
+ Renesas RZ/G3S SoC
+Message-ID: <vdn4lomtgr6htab7uodgm75iphju6yyimhlnfonysxxdpudib7@qm4yettsvsrs>
+References: <20250704161410.3931884-1-claudiu.beznea.uj@bp.renesas.com>
+ <20250704161410.3931884-6-claudiu.beznea.uj@bp.renesas.com>
+ <ddxayjj5wcuuish4kvyluzrujkes5seo7zlusmomyjfjcgzcyj@xe3zzzmy2zaj>
+ <8ef466aa-b470-4dcb-9024-0a9c36eb9a6a@tuxon.dev>
+ <zsgncwvhykw4ja3bbqaxwupppjsqq4pcrdgrsduahokmt72xsm@twekpse6uzzh>
+ <CAMuHMdUu0uXBJndcwWoZp8NNyBJox5dZw4aoB8Ex50vBDDtP7g@mail.gmail.com>
+ <6f2hpdkonomgrfzqoupcex2rpqtlhql4lmsqm7hqk25qakp7ax@bfrzflghmnev>
+ <CAMuHMdUEqKc+qtRXiPzgjhWaer5KLroZ+hCSVLCQ497h3BtOAw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="j8LdXSlZH7SdW4XI"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAMRc=MfB_3e0sjCpV+XaKcKvit7Opk5LczH2wsxO=RftrAabjg@mail.gmail.com>
-X-Cookie: Auction:
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdUEqKc+qtRXiPzgjhWaer5KLroZ+hCSVLCQ497h3BtOAw@mail.gmail.com>
 
+On Mon, Sep 01, 2025 at 04:22:16PM GMT, Geert Uytterhoeven wrote:
+> Hi Mani,
+> 
+> On Mon, 1 Sept 2025 at 16:04, Manivannan Sadhasivam <mani@kernel.org> wrote:
+> > On Mon, Sep 01, 2025 at 11:25:30AM GMT, Geert Uytterhoeven wrote:
+> > > On Sun, 31 Aug 2025 at 06:07, Manivannan Sadhasivam <mani@kernel.org> wrote:
+> > > > On Sat, Aug 30, 2025 at 02:22:45PM GMT, Claudiu Beznea wrote:
+> > > > > On 30.08.2025 09:59, Manivannan Sadhasivam wrote:
+> > > > > > On Fri, Jul 04, 2025 at 07:14:05PM GMT, Claudiu wrote:
+> > > > > >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> > > > > >>
+> > > > > >> The Renesas RZ/G3S features a PCIe IP that complies with the PCI Express
+> > > > > >> Base Specification 4.0 and supports speeds of up to 5 GT/s. It functions
+> > > > > >> only as a root complex, with a single-lane (x1) configuration. The
+> > > > > >> controller includes Type 1 configuration registers, as well as IP
+> > > > > >> specific registers (called AXI registers) required for various adjustments.
+> > > > > >>
+> > > > > >> Hardware manual can be downloaded from the address in the "Link" section.
+> > > > > >> The following steps should be followed to access the manual:
+> > > > > >> 1/ Click the "User Manual" button
+> > > > > >> 2/ Click "Confirm"; this will start downloading an archive
+> > > > > >> 3/ Open the downloaded archive
+> > > > > >> 4/ Navigate to r01uh1014ej*-rzg3s-users-manual-hardware -> Deliverables
+> > > > > >> 5/ Open the file r01uh1014ej*-rzg3s.pdf
+> > > > > >>
+> > > > > >> Link: https://www.renesas.com/en/products/rz-g3s?queryID=695cc067c2d89e3f271d43656ede4d12
+> > > > > >> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> > > > > >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> > >
+> > > > > >> +  ret = pm_runtime_resume_and_get(dev);
+> > > > > >> +  if (ret)
+> > > > > >> +          return ret;
+> > > > > >> +
+> > > > > >
+> > > > > > Do you really need to do resume_and_get()? If not, you should do:
+> > > > >
+> > > > > It it's needed to enable the clock PM domain the device is part of.
+> > > > >
+> > > >
+> > > > I've replied below.
+> > > >
+> > > > > >
+> > > > > >     pm_runtime_set_active()
+> > > > > >     pm_runtime_no_callbacks()
+> > > > > >     devm_pm_runtime_enable()
+> > >
+> > > > > >> +static int rzg3s_pcie_suspend_noirq(struct device *dev)
+> > > > > >> +{
+> > > > > >> +  struct rzg3s_pcie_host *host = dev_get_drvdata(dev);
+> > > > > >> +  const struct rzg3s_pcie_soc_data *data = host->data;
+> > > > > >> +  struct regmap *sysc = host->sysc;
+> > > > > >> +  int ret;
+> > > > > >> +
+> > > > > >> +  ret = pm_runtime_put_sync(dev);
+> > > > > >> +  if (ret)
+> > > > > >> +          return ret;
+> > > > > >
+> > > > > > Since there are no runtime callbacks present, managing runtime PM in the driver
+> > > > > > makes no sense.
+> > > > >
+> > > > > The PCIe device is part of a clock power domain. Dropping
+> > > > > pm_runtime_enable()/pm_runtime_put_sync() in this driver will lead to this
+> > > > > IP failing to work as its clocks will not be enabled/disabled. If you don't
+> > > > > like the pm_runtime_* approach that could be replaced with:
+> > > > >
+> > > > > devm_clk_get_enabled() in probe and clk_disable()/clk_enable() on
+> > > > > suspend/resume. W/o clocks the IP can't work.
+> > > >
+> > > > Yes, you should explicitly handle clocks in the driver. Runtime PM makes sense
+> > > > if you have a power domain attached to the IP, which you also do as I see now.
+> > > > So to conclude, you should enable/disable the clocks explicitly for managing
+> > > > clocks and use runtime PM APIs for managing the power domain associated with
+> > > > clock controller.
+> > >
+> > > Why? For the past decade, we've been trying to get rid of explicit
+> > > module clock handling for all devices that are always part of a
+> > > clock domain.
+> > >
+> > > The Linux PM Domain abstraction is meant for both power and clock
+> > > domains.  This is especially useful when a device is present on multiple
+> > > SoCs, on some also part of a power domain,  and the number of module
+> > > clocks that needs to be enabled for it to function is not the same on
+> > > all SoCs.  In such cases, the PM Domain abstraction takes care of many
+> > > of the integration-specific differences.
+> >
+> > Hmm, my understanding was that we need to explicitly handle clocks from the
+> > consumer drivers. But that maybe because, the client drivers I've dealt with
+> > requires configuring the clocks (like setting the rate, re-parenting etc...) on
+> > their own. But if there is no such requirement, then I guess it is OK to rely on
+> > the PM core and clock controller drivers.
+> 
+> When you need to know the actual clock rate, or change it, you
+> indeed have to handle the clock explicitly.  But it still may be enabled
+> automatically through the clock domain.
+> 
 
---j8LdXSlZH7SdW4XI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Yeah!
 
-On Mon, Sep 01, 2025 at 03:20:44PM +0200, Bartosz Golaszewski wrote:
+> > > > But please add a comment above pm_runtime_resume_and_get() to make it clear as
+> > > > most of the controller drivers are calling it for no reason.
+> > >
+> > > Note that any child device that uses Runtime PM depends on all
+> > > its parents in the hierarchy to call pm_runtime_enable() and
+> > > pm_runtime_resume_and_get().
+> >
+> > Two things to note from your statement:
+> >
+> > 1. 'child device that uses runtime PM' - Not all child drivers are doing
+> > runtime PM on their own. So there is no need to do pm_runtime_resume_and_get()
+> > unless they depend on the parent for resource enablement as below.
+> 
+> It indeed depends on the child device, and on the bus.  For e.g. an
+> Ethernet controller connected to a simple SoC expansion bus, the bus must
+> be powered and clock, which is what "simple-pm-bus" takes care of
+> ("simple-bus" does not).
+> 
 
-> That's not a lot of info but it fails in strcmp() which - I suppose -
-> is the one in pinmux_func_name_to_selector(). Any chance you could
-> check what the value of np->name is in imx_pinctrl_parse_functions()?
-> Is it NULL for some reason?
+Right. But most of the PCI controller drivers call pm_runtime_resume_and_get()
+for no good reasons. They might have just copied the code from a driver that did
+it on purpose. So I tend to scrutinize these calls whenever they get added for a
+driver.
 
-[    0.628245] imx8mp-pinctrl 30330000.pinctrl: np->name pinctrl
+- Mani
 
-https://lava.sirena.org.uk/scheduler/job/1758947#L705
-
---j8LdXSlZH7SdW4XI
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmi1r60ACgkQJNaLcl1U
-h9BW/wf/VkjCjvE+ktBljc+ZJ9dT0UQZrXYUDHUyuCETxomTnFA+SILt5aJ5bGe/
-iD8AWBpbbDsJH4vnF0ozS/kwuILQKFDettcRtaH7dIBsn/izkOQipQk8GdpbQ8WM
-hWYcC4httv6HQ2rMJMgKMjRxy7L5L6xf+VRzgPc8X+0GfzYeCig6jLv6tX80PLkO
-kOxJn1iP3VVHkXsDCw2fENaiXRuUOaSlrbwkkvBihKNbrM0499j/uQ4hwqAT8bTa
-9ubBJhS8X9FGO12dl2qkEJPtjal2M0Vf4H4PoJilobNInq/WByIDsQANxJC8XDhG
-4/h5vZiPNAzd8Qj8VQAkfeNquySq2Q==
-=Lt5F
------END PGP SIGNATURE-----
-
---j8LdXSlZH7SdW4XI--
+-- 
+மணிவண்ணன் சதாசிவம்
 
