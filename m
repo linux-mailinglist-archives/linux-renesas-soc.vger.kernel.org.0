@@ -1,78 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-21141-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21142-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30A33B3F122
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 00:44:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B76B6B3F127
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 00:45:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E7DCB2C069E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Sep 2025 22:44:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DA3A91B2192C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Sep 2025 22:45:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D0EE2882B2;
-	Mon,  1 Sep 2025 22:43:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E20128A1D5;
+	Mon,  1 Sep 2025 22:43:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N7kZ4bT6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NufEPrnG"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17180286897;
-	Mon,  1 Sep 2025 22:43:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D452874F9;
+	Mon,  1 Sep 2025 22:43:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756766630; cv=none; b=jnCAOmWKRppwGSPUpiYiupGCKLvX/wVaULQbsl1OFZc7kFUk7ivNQvGto8Lk5ajNjG+fiVWHxB/Pkhvx6HPI3qE1zRJxLf81JsrDmQ/Diq/9BtHtGS99ehT1M2CJtv4tjTz7BpXB2hy3NLVcGT3Z/CzoxQxbqhKr7j2DZ0EqHB8=
+	t=1756766631; cv=none; b=IWEMZFrMENgEWRUAlaNVuOoX51X6PNnMsLqMOJ0WoVjiw6iNKhUdgadxUK8lkl0Unv5NzObNq8d9cTAnlB0BYWrzNa1rhBOC9vltNMPsXNAIlpqFDnuDDg/nNDBjfB26G2d8c5b5gDTRndnsULl9lHO3/sP1DdQ6UGfjX5I4098=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756766630; c=relaxed/simple;
-	bh=VFrfmfLM6ot8NnsD6XJ9M+cxB3rtEQHdLVqe3yeCg6c=;
+	s=arc-20240116; t=1756766631; c=relaxed/simple;
+	bh=HKzlJfBwtYMiPWoKVvJXrcSUcjr8IuCkD7uXCY6Rq6Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SUYPPI4UvvYyLGlVyTC+X4RcL0Fh/+Nna3XpZyxSJv2YDwmbmAXgRxxyOeiviJamwhxS2NYyxwIIgS1HqHvDsuka8ys+eqN/Ver0cmkzQ0RllX0O44KPc0FnOr9ptepDGFhExmqo+2JgA/1lMNt7Z20dFxuq4JbmoK0m+vWUz38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N7kZ4bT6; arc=none smtp.client-ip=209.85.128.42
+	 MIME-Version; b=C52bz+QVAM7Cw44+sBwSoMwEbM9OcYpbZJUpSfZz8m0zdirC4IJXtWhKsblI+0Y16ziRYo77StKyW9Ij5UjZ7/JLEMX/x9np2xGG1GWKACMJgVIsPg6yZrE6LwV7cxoujCzcmJmPFKsBPIX0ghq8tOv4Khpct7GNyo9NKf0fW2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NufEPrnG; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45b627ea685so40775385e9.1;
-        Mon, 01 Sep 2025 15:43:47 -0700 (PDT)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3cf48ec9fa4so2459563f8f.0;
+        Mon, 01 Sep 2025 15:43:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756766626; x=1757371426; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1756766628; x=1757371428; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ngY+Jnprj5GUpvEIlbRysZTvfanFErZK6rGStM8x9Cw=;
-        b=N7kZ4bT6+hmX28Pp9nbdJiVVh/k210k76tzHM/E+2o1RZdidepoYacui8iedVInGHs
-         UtY9EUOKmqxYf2dnY7o7BOlz+l3/xG1DrzD+ZhBYL55atcxWXBRpu/kH20PtY0izrMcy
-         EcBOzZHim0Rx2jRxNaVPahpBSq1Knn7Qr+/5kJcSVDgjr6XhGTy5LIUdwsiVKxphC8lF
-         GCtCRkcYemg/aR3gAMTGjz+XoiVGanipgTs33ZWSa9DHHCHuZMi+fDyqsKWsUyExPi/h
-         UpDX9tH64REEWfzOL3qY2AP+G/ROAstq0GNBB42m62JUmXBst1e73AXWhHrhcdEux5Ng
-         6oiQ==
+        bh=aPcl2S44WD8tgUmGsmxJ2F4rL8Qbeu2knIPNC9oF8oQ=;
+        b=NufEPrnGaom0ITl4W7smHuTvTMr+hCd+sgy9zj/Rp/gDd6IVqqO5jEdE4xOeNsn05s
+         Jyq5vCWxCpy/nfmJ6HqTbD5HpB/NRmtMdHRV7Zz3sPdTw0Ypviwj1R19TLQMdE0T+nuY
+         kGjwaodkc6LA9fbfNCLVpEBMtlI7mX2Yz3+e24cAixM18zWlmM23R0BXTLSM8svQKiHe
+         0ImMJp2Oh8ihb7hQHxPl77b2z0FHFGvfexunjZHc750Cq/bmXzbXODSQnDlYES2RZ89x
+         C83ATQoPneOS1cxQSANeFngFCvOmKRLxpm4+iqIZ+iQqgyPu7iQ3BZT6uJRHBHRgdoji
+         8UrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756766626; x=1757371426;
+        d=1e100.net; s=20230601; t=1756766628; x=1757371428;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ngY+Jnprj5GUpvEIlbRysZTvfanFErZK6rGStM8x9Cw=;
-        b=jssUntWX4W8VmCQzLFdZA80xhzEHTjIbMiN2mfQ/uPxW16cjJNH3VHICSefKF1/TOw
-         r3tuL0Fzp5JSWzDJnqotgoX8xBJp2GxzHK5xrPxXLGVXX2vl8YFhe2Ru4dunjW+RfHtI
-         RzHUKEofM6Ht+7t4dRckzieL5d67caHSumRX2zrpxHa/FBQVFjLcQc5X7hLg2c/Q3fc3
-         Tl4XWxvJt80dzq7ALdG2IQCofo/fo+L//eSPzzRtWxNGqcf7MB+jEO3a80RCBDWMqmEh
-         F+3QQY5dkLWvPBjX4wLbXcgs6wU36hoVai74tQ8DWalGP7ldfOkfYw//MopAB4mTrvgZ
-         CgMg==
-X-Forwarded-Encrypted: i=1; AJvYcCUAeJXehJcQdC8Xky3s11jfmc+29Qlww8RN7fJCaRcEbqOmF9q1bA5C6o6VYDm3h5leJbq1hGTp@vger.kernel.org, AJvYcCWkj7+tyKn29BMUzrGhcKbmjBKhfP7NBvkUFMYy3Gx3GmOXGbrm1KDcYP9Fl9Yhls0QcPifBh9lAMQprKSv@vger.kernel.org, AJvYcCX5kVrYLVVsTkSCtP5457X5yWYcOf63Vk2DbDvKEW/jxvjnSMHgsUft8CkCPtrn5JfNoSdLgHkztcx5@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+56N24igaS6Y6NKcKNNQISS9L/Tdtq+tOODwtGF+Lz4f09C28
-	YJ4UIM74W5N6CZcZru1Irx0+yNCXa+oXJrDYJAfcfV95qLcrYMf8pE4r
-X-Gm-Gg: ASbGncuk0OfiTPjVDMUOAjkv2M2h1lC2N5wYhb+TUwqesgm16cnFID/VM8q3Wz+EI15
-	JJPvte7XRJTQShWkduw46y20tVcbWqUr4LlIBCI4aTveyKpidfnT5O48Q13Twt1rJjaa3Rm2ixO
-	Tt5oHT68e88j/Rh6Mu9xqPzlScnvtR8LhwYNDUlx8/ZkneMiOku7NK1pOmQ547EtqYfMT5jwdcv
-	9jgVqA4Yf5LzUEzw5XbaQujE/WbB4a6S3onKDJpKvXLlokPZiY9tDnChBS3+vclgRiTildLF1KC
-	owwXEhEGY1L762ypgDTCSVxMFyfk/weUHDOLvKNhscJag6olrVPNwHfUtoahJQAD5KsjNjish7p
-	e3PUOhr7PG16KpCroBWp20Q+sTiVRt4I8T8gWF8hkoBCPiw==
-X-Google-Smtp-Source: AGHT+IHI7+e/rkZCbsgNzg3OTnNCgNvM2bCxCtvd98W8laZf/MY26gULIy4PaLlV19mrC9arM0Vrgw==
-X-Received: by 2002:a05:600c:5303:b0:45b:86ee:415f with SMTP id 5b1f17b1804b1-45b86ee43ebmr73599705e9.6.1756766626239;
-        Mon, 01 Sep 2025 15:43:46 -0700 (PDT)
+        bh=aPcl2S44WD8tgUmGsmxJ2F4rL8Qbeu2knIPNC9oF8oQ=;
+        b=cWiCPITs0PE7OlOxSUAQCJXctXGejKUvWDjUbfpvzkSpcngQ0vG0JuXN/u+l4bncrk
+         Wyf4sd/ZluVrw9GEleJlu/ij1Z3BwjD3dWELNXw67ZRzvqEZzXDRxDKdT2KS4rcUHZ3c
+         Ot0BIZSkOOJ8hRO5uDtgV+VN9S57WX8nkT6dbJ0Z4kT65Asjk//rk6ftjx6SxEJ8hYFC
+         WSk6kxLrHcmI5q/tVbdRlrEiV5dXmcqNx9pMl/WV7orvDRhK2OA7SOGDf7R7yJON2RE8
+         Z5j+A8PeYfLIOmv28oWiC/q3nOOqyShEA4tnhMkBslUnkNkkwcBlbWMDBiKIcNb5aWic
+         aItw==
+X-Forwarded-Encrypted: i=1; AJvYcCUzkOZfBm/Ss1SOWwKnsSfsHpiVNfdh4ahxUED9qzg72qJ5iJQLrwU/gXSFf3RR9YTTpvAV5YpZp9q/@vger.kernel.org, AJvYcCV0ruZA8dORZo2Ihd/DGC5b2zUBH+jXMPxJ41ravfZDfXwRC388W2+E2pYzTGB4iTUmoYbAkJSr5g/4Xodk@vger.kernel.org, AJvYcCV76k0a/O8UITsnhhEstHLjXggzmEzbqSvkQj8tpdCAqHqNFi7WKozx1ne3SqP2NJ/X0LK0ykNm@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1hYNIOAREvLcaQdI9mTNp3wbr4K7i0jrSRx4vYFjr9s9jvkh2
+	s8Vzqx0Zp28x28xg33tFE+gYkR1JK+3n/bp+/RuCa9PnHcGZ8SIlRdtg04FtfL+N
+X-Gm-Gg: ASbGncu4j7Z93a09J6F0/hTzDvaV7EclawpWDu1xgNgC0Zdj1JrWIzGCm7qyKNKmfkz
+	GWNQO/yisn7VbI0Zqxj5lgZCqiRxFRs803f16GShIlRS+jZCBwgdwHZDDup8Fy3hw1hN7ys6YHr
+	H4B/mVxKy0R9mzFXYLPHyVuQ52mioM1EdvuXzTxX9t3Psw5NRp9FsTmKI5NlQC02GYNk/jqHtc0
+	zO88X+leSVUMTtilphMRSEP/j5jMH6U2V6b2NmeDK/F5I9WbIyymTRM6Tb7MU7THo4TVUiUHONu
+	JXJQxZUYg2z7jwk/zXwPjGOJkpwTpQwe3cJWYckxYwstutERFuPB4lZo6YF1SQ3wVvAKzlMTkqe
+	dctrPoHFfQN18O1QuCfZDqbUr1dbp98khyafWCw+dw6A8ivemkm9encB8
+X-Google-Smtp-Source: AGHT+IHWRxSFD5WV54k9OOb2rpOfeI4MHEy08wVe5dfiwl68eztWh4lagC9+eIKkm0ucFoeBJgrO9w==
+X-Received: by 2002:a5d:5889:0:b0:3b8:dabe:bd78 with SMTP id ffacd0b85a97d-3d1df156527mr6757599f8f.54.1756766627778;
+        Mon, 01 Sep 2025 15:43:47 -0700 (PDT)
 Received: from iku.Home ([2a06:5906:61b:2d00:ca6c:86b2:c8f:84d6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3d2250115fdsm11532607f8f.40.2025.09.01.15.43.45
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3d2250115fdsm11532607f8f.40.2025.09.01.15.43.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Sep 2025 15:43:45 -0700 (PDT)
+        Mon, 01 Sep 2025 15:43:46 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
@@ -98,9 +98,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH net-next 04/10] net: pcs: rzn1-miic: Move configuration data to SoC-specific struct
-Date: Mon,  1 Sep 2025 23:43:17 +0100
-Message-ID: <20250901224327.3429099-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH net-next 05/10] net: pcs: rzn1-miic: move port range handling into SoC data
+Date: Mon,  1 Sep 2025 23:43:18 +0100
+Message-ID: <20250901224327.3429099-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250901224327.3429099-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20250901224327.3429099-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -114,248 +114,128 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Move configuration data such as the modctrl matching table, converter
-count, and string lookup tables into the SoC-specific miic_of_data
-structure. Update the helper functions to use the per-SoC configuration
-instead of relying on fixed-size arrays or global tables, and allocate
-DT configuration memory dynamically.
+Define per-SoC miic_port_start and miic_port_max fields in struct
+miic_of_data and use them to validate the device-tree "reg" port number
+and to compute the driver's internal zero-based port index as
+(port - miic_port_start). Replace uses of the hard-coded MIIC_MAX_NR_PORTS
+with the SoC-provided miic_port_max when iterating over ports.
 
-This refactoring keeps the existing RZ/N1 support intact while preparing
-the driver to handle the different configuration requirements of the
-RZ/T2H SoC.
+On RZ/N1 the MIIC ports are numbered 1..5, whereas RZ/T2H numbers its MIIC
+ports 0..3. By making the port base and range part of the OF data the
+driver no longer assumes a fixed numbering scheme and can support SoCs that
+enumerate ports from either zero or one and that expose different numbers
+of ports.
+
+This change is preparatory work for adding RZ/T2H support.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- drivers/net/pcs/pcs-rzn1-miic.c | 107 ++++++++++++++++++++++----------
- 1 file changed, 75 insertions(+), 32 deletions(-)
+ drivers/net/pcs/pcs-rzn1-miic.c | 26 ++++++++++++++++++--------
+ 1 file changed, 18 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/net/pcs/pcs-rzn1-miic.c b/drivers/net/pcs/pcs-rzn1-miic.c
-index adf4b5e4741c..724bac86cf8c 100644
+index 724bac86cf8c..c119ec66fe95 100644
 --- a/drivers/net/pcs/pcs-rzn1-miic.c
 +++ b/drivers/net/pcs/pcs-rzn1-miic.c
-@@ -16,6 +16,7 @@
- #include <linux/phylink.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-+#include <linux/slab.h>
- #include <dt-bindings/net/pcs-rzn1-miic.h>
+@@ -49,8 +49,6 @@
+ #define MIIC_SWCTRL			0x304
+ #define MIIC_SWDUPC			0x308
  
- #define MIIC_PRCMD			0x0
-@@ -50,7 +51,7 @@
- 
- #define MIIC_MAX_NR_PORTS		5
- 
--#define MIIC_MODCTRL_CONF_CONV_NUM	6
-+#define MIIC_MODCTRL_CONF_CONV_MAX	6
+-#define MIIC_MAX_NR_PORTS		5
+-
+ #define MIIC_MODCTRL_CONF_CONV_MAX	6
  #define MIIC_MODCTRL_CONF_NONE		-1
  
- /**
-@@ -58,11 +59,13 @@
-  *			  See section 8.2.1 of manual.
-  * @mode_cfg: Configuration value for convctrl
-  * @conv: Configuration of ethernet port muxes. First index is SWITCH_PORTIN,
-- *	  then index 1 - 5 are CONV1 - CONV5.
-+ *	  then index 1 - 5 are CONV1 - CONV5 for RZ/N1 SoCs. In case
-+ *	  of RZ/T2H and RZ/N2H SoCs, the first index is SWITCH_PORTIN then
-+ *	  index 0 - 3 are CONV0 - CONV3.
+@@ -146,6 +144,8 @@ struct miic {
+  * @conf_to_string_count: Number of entries in the conf_to_string array
+  * @index_to_string: String representations of the index values
+  * @index_to_string_count: Number of entries in the index_to_string array
++ * @miic_port_start: MIIC port start number
++ * @miic_port_max: Maximum MIIC supported
   */
- struct modctrl_match {
- 	u32 mode_cfg;
--	u8 conv[MIIC_MODCTRL_CONF_CONV_NUM];
-+	u8 conv[MIIC_MODCTRL_CONF_CONV_MAX];
- };
- 
- static struct modctrl_match modctrl_match_table[] = {
-@@ -111,7 +114,7 @@ static const char * const conf_to_string[] = {
- 	[MIIC_HSR_PORTB]	= "HSR_PORTB",
- };
- 
--static const char *index_to_string[MIIC_MODCTRL_CONF_CONV_NUM] = {
-+static const char * const index_to_string[] = {
- 	"SWITCH_PORTIN",
- 	"CONV1",
- 	"CONV2",
-@@ -125,11 +128,33 @@ static const char *index_to_string[MIIC_MODCTRL_CONF_CONV_NUM] = {
-  * @base: base address of the MII converter
-  * @dev: Device associated to the MII converter
-  * @lock: Lock used for read-modify-write access
-+ * @of_data: Pointer to OF data
-  */
- struct miic {
- 	void __iomem *base;
- 	struct device *dev;
- 	spinlock_t lock;
-+	const struct miic_of_data *of_data;
-+};
-+
-+/**
-+ * struct miic_of_data - OF data for MII converter
-+ * @match_table: Matching table for convctrl configuration
-+ * @match_table_count: Number of entries in the matching table
-+ * @conf_conv_count: Number of entries in the conf_conv array
-+ * @conf_to_string: String representations of the configuration values
-+ * @conf_to_string_count: Number of entries in the conf_to_string array
-+ * @index_to_string: String representations of the index values
-+ * @index_to_string_count: Number of entries in the index_to_string array
-+ */
-+struct miic_of_data {
-+	struct modctrl_match *match_table;
-+	u8 match_table_count;
-+	u8 conf_conv_count;
-+	const char * const *conf_to_string;
-+	u8 conf_to_string_count;
-+	const char * const *index_to_string;
-+	u8 index_to_string_count;
+ struct miic_of_data {
+ 	struct modctrl_match *match_table;
+@@ -155,6 +155,8 @@ struct miic_of_data {
+ 	u8 conf_to_string_count;
+ 	const char * const *index_to_string;
+ 	u8 index_to_string_count;
++	u8 miic_port_start;
++	u8 miic_port_max;
  };
  
  /**
-@@ -398,12 +423,11 @@ static int miic_init_hw(struct miic *miic, u32 cfg_mode)
- 	return 0;
- }
+@@ -330,6 +332,7 @@ static const struct phylink_pcs_ops miic_phylink_ops = {
  
--static bool miic_modctrl_match(s8 table_val[MIIC_MODCTRL_CONF_CONV_NUM],
--			       s8 dt_val[MIIC_MODCTRL_CONF_CONV_NUM])
-+static bool miic_modctrl_match(s8 *table_val, s8 *dt_val, u8 count)
+ struct phylink_pcs *miic_create(struct device *dev, struct device_node *np)
  {
- 	int i;
++	const struct miic_of_data *of_data;
+ 	struct platform_device *pdev;
+ 	struct miic_port *miic_port;
+ 	struct device_node *pcs_np;
+@@ -342,9 +345,6 @@ struct phylink_pcs *miic_create(struct device *dev, struct device_node *np)
+ 	if (of_property_read_u32(np, "reg", &port))
+ 		return ERR_PTR(-EINVAL);
  
--	for (i = 0; i < MIIC_MODCTRL_CONF_CONV_NUM; i++) {
-+	for (i = 0; i < count; i++) {
- 		if (dt_val[i] == MIIC_MODCTRL_CONF_NONE)
+-	if (port > MIIC_MAX_NR_PORTS || port < 1)
+-		return ERR_PTR(-EINVAL);
+-
+ 	/* The PCS pdev is attached to the parent node */
+ 	pcs_np = of_get_parent(np);
+ 	if (!pcs_np)
+@@ -363,18 +363,24 @@ struct phylink_pcs *miic_create(struct device *dev, struct device_node *np)
+ 		return ERR_PTR(-EPROBE_DEFER);
+ 	}
+ 
++	miic = platform_get_drvdata(pdev);
++	of_data = miic->of_data;
++	if (port > of_data->miic_port_max || port < of_data->miic_port_start) {
++		put_device(&pdev->dev);
++		return ERR_PTR(-EINVAL);
++	}
++
+ 	miic_port = kzalloc(sizeof(*miic_port), GFP_KERNEL);
+ 	if (!miic_port) {
+ 		put_device(&pdev->dev);
+ 		return ERR_PTR(-ENOMEM);
+ 	}
+ 
+-	miic = platform_get_drvdata(pdev);
+ 	device_link_add(dev, miic->dev, DL_FLAG_AUTOREMOVE_CONSUMER);
+ 	put_device(&pdev->dev);
+ 
+ 	miic_port->miic = miic;
+-	miic_port->port = port - 1;
++	miic_port->port = port - of_data->miic_port_start;
+ 	miic_port->pcs.ops = &miic_phylink_ops;
+ 
+ 	phy_interface_set_rgmii(miic_port->pcs.supported_interfaces);
+@@ -410,7 +416,7 @@ static int miic_init_hw(struct miic *miic, u32 cfg_mode)
+ 	miic_reg_writel(miic, MIIC_MODCTRL,
+ 			FIELD_PREP(MIIC_MODCTRL_SW_MODE, cfg_mode));
+ 
+-	for (port = 0; port < MIIC_MAX_NR_PORTS; port++) {
++	for (port = 0; port < miic->of_data->miic_port_max; port++) {
+ 		miic_converter_enable(miic, port, 0);
+ 		/* Disable speed/duplex control from these registers, datasheet
+ 		 * says switch registers should be used to setup switch port
+@@ -497,6 +503,8 @@ static int miic_parse_dt(struct miic *miic, u32 *mode_cfg)
+ 		if (of_property_read_u32(conv, "reg", &port))
  			continue;
  
-@@ -414,53 +438,57 @@ static bool miic_modctrl_match(s8 table_val[MIIC_MODCTRL_CONF_CONV_NUM],
- 	return true;
- }
- 
--static void miic_dump_conf(struct device *dev,
--			   s8 conf[MIIC_MODCTRL_CONF_CONV_NUM])
-+static void miic_dump_conf(struct miic *miic, s8 *conf)
- {
-+	const struct miic_of_data *of_data = miic->of_data;
- 	const char *conf_name;
- 	int i;
- 
--	for (i = 0; i < MIIC_MODCTRL_CONF_CONV_NUM; i++) {
-+	for (i = 0; i < of_data->conf_conv_count; i++) {
- 		if (conf[i] != MIIC_MODCTRL_CONF_NONE)
--			conf_name = conf_to_string[conf[i]];
-+			conf_name = of_data->conf_to_string[conf[i]];
- 		else
- 			conf_name = "NONE";
- 
--		dev_err(dev, "%s: %s\n", index_to_string[i], conf_name);
-+		dev_err(miic->dev, "%s: %s\n", of_data->index_to_string[i], conf_name);
- 	}
- }
- 
--static int miic_match_dt_conf(struct device *dev,
--			      s8 dt_val[MIIC_MODCTRL_CONF_CONV_NUM],
--			      u32 *mode_cfg)
-+static int miic_match_dt_conf(struct miic *miic, s8 *dt_val, u32 *mode_cfg)
- {
-+	const struct miic_of_data *of_data = miic->of_data;
- 	struct modctrl_match *table_entry;
- 	int i;
- 
--	for (i = 0; i < ARRAY_SIZE(modctrl_match_table); i++) {
--		table_entry = &modctrl_match_table[i];
-+	for (i = 0; i < of_data->match_table_count; i++) {
-+		table_entry = &of_data->match_table[i];
- 
--		if (miic_modctrl_match(table_entry->conv, dt_val)) {
-+		if (miic_modctrl_match(table_entry->conv, dt_val,
-+				       miic->of_data->conf_conv_count)) {
- 			*mode_cfg = table_entry->mode_cfg;
- 			return 0;
- 		}
- 	}
- 
--	dev_err(dev, "Failed to apply requested configuration\n");
--	miic_dump_conf(dev, dt_val);
-+	dev_err(miic->dev, "Failed to apply requested configuration\n");
-+	miic_dump_conf(miic, dt_val);
- 
- 	return -EINVAL;
- }
- 
--static int miic_parse_dt(struct device *dev, u32 *mode_cfg)
-+static int miic_parse_dt(struct miic *miic, u32 *mode_cfg)
- {
--	s8 dt_val[MIIC_MODCTRL_CONF_CONV_NUM];
--	struct device_node *np = dev->of_node;
-+	struct device_node *np = miic->dev->of_node;
- 	struct device_node *conv;
-+	int port, ret;
-+	s8 *dt_val;
- 	u32 conf;
--	int port;
- 
--	memset(dt_val, MIIC_MODCTRL_CONF_NONE, sizeof(dt_val));
-+	dt_val = kmalloc_array(miic->of_data->conf_conv_count, sizeof(*dt_val), GFP_KERNEL);
-+	if (!dt_val)
-+		return -ENOMEM;
-+
-+	memset(dt_val, MIIC_MODCTRL_CONF_NONE, sizeof(*dt_val));
- 
- 	if (of_property_read_u32(np, "renesas,miic-switch-portin", &conf) == 0)
- 		dt_val[0] = conf;
-@@ -473,7 +501,10 @@ static int miic_parse_dt(struct device *dev, u32 *mode_cfg)
++		/* Adjust for 0 based index */
++		port += !miic->of_data->miic_port_start;
+ 		if (of_property_read_u32(conv, "renesas,miic-input", &conf) == 0)
  			dt_val[port] = conf;
  	}
- 
--	return miic_match_dt_conf(dev, dt_val, mode_cfg);
-+	ret = miic_match_dt_conf(miic, dt_val, mode_cfg);
-+	kfree(dt_val);
-+
-+	return ret;
- }
- 
- static int miic_probe(struct platform_device *pdev)
-@@ -483,16 +514,18 @@ static int miic_probe(struct platform_device *pdev)
- 	u32 mode_cfg;
- 	int ret;
- 
--	ret = miic_parse_dt(dev, &mode_cfg);
--	if (ret < 0)
--		return ret;
--
- 	miic = devm_kzalloc(dev, sizeof(*miic), GFP_KERNEL);
- 	if (!miic)
- 		return -ENOMEM;
- 
--	spin_lock_init(&miic->lock);
-+	miic->of_data = of_device_get_match_data(dev);
- 	miic->dev = dev;
-+
-+	ret = miic_parse_dt(miic, &mode_cfg);
-+	if (ret < 0)
-+		return ret;
-+
-+	spin_lock_init(&miic->lock);
- 	miic->base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(miic->base))
- 		return PTR_ERR(miic->base);
-@@ -529,8 +562,18 @@ static void miic_remove(struct platform_device *pdev)
- 	pm_runtime_put(&pdev->dev);
- }
- 
-+static struct miic_of_data rzn1_miic_of_data = {
-+	.match_table = modctrl_match_table,
-+	.match_table_count = ARRAY_SIZE(modctrl_match_table),
-+	.conf_conv_count = MIIC_MODCTRL_CONF_CONV_MAX,
-+	.conf_to_string = conf_to_string,
-+	.conf_to_string_count = ARRAY_SIZE(conf_to_string),
-+	.index_to_string = index_to_string,
-+	.index_to_string_count = ARRAY_SIZE(index_to_string),
-+};
-+
- static const struct of_device_id miic_of_mtable[] = {
--	{ .compatible = "renesas,rzn1-miic" },
-+	{ .compatible = "renesas,rzn1-miic", .data = &rzn1_miic_of_data },
- 	{ /* sentinel */ }
+@@ -570,6 +578,8 @@ static struct miic_of_data rzn1_miic_of_data = {
+ 	.conf_to_string_count = ARRAY_SIZE(conf_to_string),
+ 	.index_to_string = index_to_string,
+ 	.index_to_string_count = ARRAY_SIZE(index_to_string),
++	.miic_port_start = 1,
++	.miic_port_max = 5,
  };
- MODULE_DEVICE_TABLE(of, miic_of_mtable);
+ 
+ static const struct of_device_id miic_of_mtable[] = {
 -- 
 2.51.0
 
