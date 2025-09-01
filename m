@@ -1,139 +1,188 @@
-Return-Path: <linux-renesas-soc+bounces-21109-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21110-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C21D8B3DEF7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Sep 2025 11:46:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5C97B3DF18
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Sep 2025 11:55:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 26D26189D420
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Sep 2025 09:47:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 88D4A3AE848
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Sep 2025 09:55:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 618A02FF16F;
-	Mon,  1 Sep 2025 09:46:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C211030DD0B;
+	Mon,  1 Sep 2025 09:55:38 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5DED25A2A4;
-	Mon,  1 Sep 2025 09:46:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21872277813;
+	Mon,  1 Sep 2025 09:55:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756720009; cv=none; b=I27D9KUUgRCBB1q9t+109Cvvq6D4vWA22bmIhvqXkOaXvC6j5eG37Q2WkxeKuxzpc5/h1slmECuxUY8U50jiCq3TzqHReCnax3is4QGQ8HVOtDOWKmjDXEwL/JtUovhG2Gtgdmsh/NcBfj/KYLF2d3N9sCyg6AMAe4EYkClwOVM=
+	t=1756720538; cv=none; b=Tsliqz45cZjkZgGGpSU8HVZIUxPFf7ZVpn/h1yBd21SymK7hztyJndE9PBzIPXxR8gOOLKv9UAq96vuQ4Vt+q4AY0IJkGqNoerjv5WOuglB/2huVIs9Vbg0306xOYZaQWgCeRTNCAoFNmQYacpIL9X+rLxAIShGytVxyQF2hphk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756720009; c=relaxed/simple;
-	bh=WhbgLgAfQTMGPDcA6stiNJasQDKU/EBukH2kJsAsKe8=;
+	s=arc-20240116; t=1756720538; c=relaxed/simple;
+	bh=ZHCWs4HH+c5lN4IlE9gqTWg9pmmhgAFoeTj2IWPQWHQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LsPnIgFvdxeBQJEra00liAMbxFD8uyL+S1wd25pNXxVmSwsSI0io561nOtUEe+iCV2ZOWOgYGiKYk31nbJgDCJXJK359NzXgHzlYF9/38AbuXgm4N1Gwpq4RSHjCJWt0Ie4a+4RPtMlnjSaoZbN3AZvLpuqr9zeqKaLCZD2jQuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
+	 To:Cc:Content-Type; b=gP3rpIjhpMrjmvgT8TeP5SiSIUxN04fAcwYIRwuhiTtwe95wEIkJ9cZbquW/1OsWlzJZ+XhKH1Kvoneq8gSmzX+i5csHp+l9WsKpEF2ZNyTUcGkLBJfzJvjO/MfvRcfrFEErUn+b2ju5TBHv9tRYQj5qHhaSOb2wn8qawr/Fdhk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-5449432a854so1269278e0c.3;
-        Mon, 01 Sep 2025 02:46:47 -0700 (PDT)
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7e86faa158fso433481885a.1;
+        Mon, 01 Sep 2025 02:55:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756720006; x=1757324806;
+        d=1e100.net; s=20230601; t=1756720536; x=1757325336;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=bPKwAyL9UdPz2i3tqzNIzvOjss5rG+rqIGyHJh5GmGE=;
-        b=tLgI+xm8gv6S6sPQbtbAphG6FhE0M4NIYr+oEwofq1mgt/C4QFpdytBns6aA02iEf6
-         oL4E17emRS9FZohS3rEcK064XFLSXxkSk68FPPY070CrUCo83VNQPDmTULSe0u9lp+Hh
-         YTwf922qf+Ph/s+NHZjQIArC/deIijX/L9ky3IchKi54kf2w/GtJmjmmF3f6mnPxB2K9
-         cXCS/QqQsMxlC6yFPwG6rSQQl8mmNyYcoTAsLvdbMVN7cVVBebFP4Gc79D6nPAK5hURq
-         2iJKERmugaLrF8fvVsbo5CS1BvBxhd0p0bZ47ewdvNRu5hZ4rS9HpjQkQQXkIyFLv7v5
-         UnzA==
-X-Forwarded-Encrypted: i=1; AJvYcCUQducaANzHE2B6+iGFRjVLHikp6kZJU5PpWpTp9vfXFvFOLwKUU8hGr/AkE0JRHBKDrr/1A0TOwXk=@vger.kernel.org, AJvYcCVkK9zXSRYYA8pEfhMDK0ZCRZpGlIOXBjbGwUCBbqFmOb5HqtPOFCUujLNj2Mo9a7MMc6jFYZE9vhSg9jAlzRoEOrw=@vger.kernel.org, AJvYcCVx+dKtkNlw8886NZAJn0qkb4L35SAmv+XBeUZe9jfMGv/FCz+PLmv/j+KU/YtU4t/e8zPb3Bq1EvrJrUt9@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyr9Z2L9tNmag5Ug3MYlNwvJ0j00VJi392imZ8kMuwVDbiGueQI
-	7OMGlohko1e6QkfCxaPP0QWauuSiPGrJhPWtCsIF87AI4uh9ruVFk0vHUoDQXsiX
-X-Gm-Gg: ASbGnctxPPxrJiT5rmxkW9uEYWTeJIkTywcsmmNAqfWjUMwTKHs5X7UrIQVl/GchREs
-	B7raRClGq5WX6cwlEyBPKd+Dhq41LgfxZLeL6K4f77d1gDZC6HI2L/cWHC+g6X9s3GXr2IehCl4
-	ADM1cTjtw2Jk3xJi41nMfdqAeFYSghZp/Ni464Qg4utDZKva/D9I0qKFE3k4L76BvISnsjZpSVX
-	RruNwXItELC0Uazcksfe2gX/vr49mi/TulJ3tkoLuKcjOvazQwvxPiUoRiNLJ29u2jjyj56/ONZ
-	oImyZAIjb1F3u+oFqVyggxGfHVUEPRkieBrHW5C5BXUbpA0xQoNcsbScE3Rb8hvAeSoUofzddR9
-	xuZV/U2d2PxFPckeETIgKLIAW4CakAgFkF7V/swSWpMQHpTkEv18rLtGN4zYeHAN9
-X-Google-Smtp-Source: AGHT+IFnwm59SobkBkr62kCz4jSM/DyjEiIMexUaKM7PaozJx3i98J7pntaQGXNuXj75D98fgYiiIA==
-X-Received: by 2002:a05:6122:4687:b0:544:7d55:78d6 with SMTP id 71dfb90a1353d-544a017154cmr1745053e0c.2.1756720006269;
-        Mon, 01 Sep 2025 02:46:46 -0700 (PDT)
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com. [209.85.221.169])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-544914c10c7sm4170074e0c.30.2025.09.01.02.46.46
+        bh=5tFy+S32zcH8SOQI+WY2rqVzMFSU7CQi//EUuweLF5I=;
+        b=gkgVRwmTvrHY8QjA24Ae5C0EU6BTXQJ4h83NWkwEJv3qr7ZdZrzvKtrdxEJqQJy8Op
+         y6DgfdGRSQBoMfTkfyJxfqoVrUfBCG2hLXKq8YhJorvSPrhgaHeARofrUxHmSxRPqzWm
+         VuWGjx9dUVzde0HzHmnR7vVJzJtAmfLEoyKDPgk1YNOYUdTifQ3RZ40LOLdShW0dyhtL
+         ayU0eR76FlL6baN1derAx20KU5vkrddPZ4FWQlSzma7r1bfpJBoWh1JzVRuquwzmUjjF
+         sJzpRQfoJCL51DIvr9fOkduFpkhkLOqIJn0xQvsG7mb+SgBen7eaLY0bm8pm4aJK5cE0
+         dlsA==
+X-Forwarded-Encrypted: i=1; AJvYcCVM69MgPxyoR5Ut5aeWygoHr2XUIaQDJwu1fyTWaibj5wv3J0XXzx7sim4+tW69urS9w2kcpJkq8A==@vger.kernel.org, AJvYcCVbL6OrZIOvBxOjnR+pyPDujq/LoDpLxHhzNZ9oD/DY7jng2U9a8i37TUz8/BYT7beZOHT2EmL5UPAaXQ==@vger.kernel.org, AJvYcCVdop25MYNDUoYyn0qe2IPO/jihXUygnuWkDkWkMq5JD62Wl029HYSBB6cg+A9EVkjdu68ZsFZ80+CCHbMSiAP/qyI=@vger.kernel.org, AJvYcCVeqjHQ21KWXaPYHKnsy/aryWgyEAfHB8rWCG3j38KgkuJvKcoht4IkRS8fC7fby/+h/9MTLfFeXfgnFUTvJA==@vger.kernel.org, AJvYcCWaHvinxtxPdxoeffoboUjY4hchGV/xRfqRPc6USd0Op9t0swuHYuuI955q07VPWXH1OuGRaByyjdBPbH3g@vger.kernel.org, AJvYcCXSVMZ7HMvDMxhqmun1tiiRk9p8fp7hXonWnCXu9vXJAGIOMHbXQpSz2MayBL6w2M1/jCGfK1+lpjaRDexarHk4K70=@vger.kernel.org, AJvYcCXot2odj62uBzP9nx/PMNOiRePPiFxnvNANdVQVRz8kMJBtZBXqH7sTJUaBJZxYkUnwV3l70OKLZM9N@vger.kernel.org
+X-Gm-Message-State: AOJu0YwiWOitpcdaO9ZiOGO1JFv1SDQ3Da8V1V6FvQgxtCo+iwWvtksw
+	UrNjJIWy5w6UkJ45fRVkeXKRkDNizN1vnUK2QtYMJdRZkPcXjhFTwOlj2UWANFcR
+X-Gm-Gg: ASbGnctTlLPATc09KAlNjicABySP6ryuDvuUDlOlvSOc3gNXPynQvjTlaN01aabJy9p
+	l7Bn0OCZGVCtNRN5mOxmi0XdM6jWYAdblhQlwJ9QWP8WZR0TUDXZkHSMstxgBr8I6RmZBcRIFBp
+	cxT+Niw8ADiVKobPVbQuCRZ4ZkUVRaONb7p5RojucufCT31jBSfr8YLWRueYqdqKhEVh4uYRE+O
+	T6COdIlMjXpGdFseIQxUDXohyXdfqVPyFXn1q+e+ZE6kaktAbOT/lsMK7Idimd//aFwDmFuERc3
+	wo6Fl1Nwby6OKNDHeX7hXDklTWPZQE8Cen1aiuhBEgNBx2E1Wp3MCV02/ZYfbowMt6wzZMqJW93
+	kAunp35i02klmrThHDPFPeRUoIQfrzXFjpmr2h7wJNQvFQJNbFX69Mj4HC7sU9uN1
+X-Google-Smtp-Source: AGHT+IF8wII5eWZgQBadnO5DQfaiFS5/z1JMcEs8d28tEnWe/M9RrAxpKwKDZsxBK/TMzbXJ9H2a6w==
+X-Received: by 2002:a05:620a:46a5:b0:7e6:81cc:6999 with SMTP id af79cd13be357-7fed6bab7f7mr818725185a.32.1756720535666;
+        Mon, 01 Sep 2025 02:55:35 -0700 (PDT)
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com. [209.85.222.181])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7fc1654744csm641029085a.70.2025.09.01.02.55.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Sep 2025 02:46:46 -0700 (PDT)
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-5432dfa5e8eso3148669e0c.0;
-        Mon, 01 Sep 2025 02:46:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVlf/RE8aRKlGYDl4lJOuddEBMSZuHSvo/GmBW9GIeHdWT+XpIyiLhfnNxPM0u7FvkRsdFMSXWwcZ4=@vger.kernel.org, AJvYcCWSOb7kuYNqjlQpsNd4zaxuZjFit0+3sfckuNUJxpZozl3/dzH4XLjO1lYJIUDjPwP9/6J6MJ5vh0sLkFqo@vger.kernel.org, AJvYcCX+Z8uo+umv7xTw1XYMp7y2/xQJe1tFQ+cIsJqVpc7gwPXIJaSSY6Zn2E/f5ozhZDNqY2xKMYsGitbU7ITvS/aqTDM=@vger.kernel.org
-X-Received: by 2002:a05:6122:2219:b0:531:2906:7525 with SMTP id
- 71dfb90a1353d-544a01c856bmr1903553e0c.6.1756720005789; Mon, 01 Sep 2025
- 02:46:45 -0700 (PDT)
+        Mon, 01 Sep 2025 02:55:35 -0700 (PDT)
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-7e86faa158fso433481385a.1;
+        Mon, 01 Sep 2025 02:55:35 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUXw615kq5XrGvYFkU1BLhtLw4rGwyHzEv7Z2H3SDkwpe43pjhT1RoyPC+thz/DSHqKsfDStgLYH15WArsUpisQZhM=@vger.kernel.org, AJvYcCV5VrtR3uT/x1JzzMIDprdcFs+obhmjjUdj3elf9JcRU1W183Gqu5gkFqUcQqUC/6SAZb62InEUgIgvoQ==@vger.kernel.org, AJvYcCVoIuidq2GYFe0raAPkO6C3zClF02UgpIj/4qPAeZS3K9JKMq9b0JnjQlIXXPQfPYZFS2sjjo+6k3kgG+CEdg==@vger.kernel.org, AJvYcCWF3dvjLB2rAkX28vi0foTXvMYvCBz+56BvqDHySa5EchIKDcjFC3bAy8eX1QwFOZijNt4/KBwMsuKa6a1O@vger.kernel.org, AJvYcCWIYremoaJEEbaaotkhJhxiTdgpTdsfQ33n6yRqVwUsh0i3FKKrW1RblL2LBZxVVQt8j2u+FzfnFw==@vger.kernel.org, AJvYcCWM62SW2FvpqbErLI00vjtChxU5iFI+2NeKrUPoWU/RhLuSS/zraz7DTci1AN6hGUabgfl1V+XycdKZ@vger.kernel.org, AJvYcCWxlejoKbpjStSOSvBW076S1QroRHDeTDl5sWwhSR+Goz3va+z4XuPlHcF2HZUzASRDPGH+4QErwLfbyx40rRchMdg=@vger.kernel.org
+X-Received: by 2002:a05:6102:5e8e:b0:50d:feb0:316e with SMTP id
+ ada2fe7eead31-52aeb7798e1mr2104974137.2.1756720196368; Mon, 01 Sep 2025
+ 02:49:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250821080333.27049-1-claudiu.beznea.uj@bp.renesas.com>
- <aKyX4YJswZLuqA6Y@x1> <0d71269f-1c78-4732-8235-5640bf340d00@tuxon.dev> <aK2gE0CysSWisFwB@x1>
-In-Reply-To: <aK2gE0CysSWisFwB@x1>
+References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
+ <1907e1c7-2b15-4729-8497-a7e6f0526366@kernel.org> <aKhVVJPEPxCoKKjI@x1>
+ <4d31df9e-62c9-4988-9301-2911ff7de229@kernel.org> <aKhr8NYhei59At0s@x1> <7c6cc42c-fc76-4300-b0d2-8dabf54cf337@kernel.org>
+In-Reply-To: <7c6cc42c-fc76-4300-b0d2-8dabf54cf337@kernel.org>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 1 Sep 2025 11:46:34 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXNnGg0rEcM1hvvjBUJXFFAx4oiX=qVb3nKfmd4YBxhGw@mail.gmail.com>
-X-Gm-Features: Ac12FXySlzljzJBVQIh8T5D4LvHlbiTfXVHCTZ-xPjSYu4UAWotdvWAobnJMb5k
-Message-ID: <CAMuHMdXNnGg0rEcM1hvvjBUJXFFAx4oiX=qVb3nKfmd4YBxhGw@mail.gmail.com>
-Subject: Re: [PATCH 0/2] clk: renesas: rzg2l: Disable unused clocks after resume
-To: Brian Masney <bmasney@redhat.com>
-Cc: claudiu beznea <claudiu.beznea@tuxon.dev>, mturquette@baylibre.com, sboyd@kernel.org, 
-	geert+renesas@glider.be, linux@armlinux.org.uk, 
-	linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Date: Mon, 1 Sep 2025 11:49:45 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUB4QGBaMk5r5eNRCPriUWAY+LBE2C7kVEkE9eCNE1TUA@mail.gmail.com>
+X-Gm-Features: Ac12FXwQn8nZWuX__OUteos14KQ8Ceq7TOY9AfEwCR3rwgzCn6YxJiejdZ6ywp8
+Message-ID: <CAMuHMdUB4QGBaMk5r5eNRCPriUWAY+LBE2C7kVEkE9eCNE1TUA@mail.gmail.com>
+Subject: Re: [PATCH 000/114] clk: convert drivers from deprecated round_rate()
+ to determine_rate()
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Brian Masney <bmasney@redhat.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>, 
+	Cristian Marussi <cristian.marussi@arm.com>, Chen Wang <unicorn_wang@outlook.com>, 
+	Inochi Amaoto <inochiama@gmail.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Paul Cercueil <paul@crapouillou.net>, Keguang Zhang <keguang.zhang@gmail.com>, 
+	Taichi Sugaya <sugaya.taichi@socionext.com>, Takao Orito <orito.takao@socionext.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Samuel Holland <samuel.holland@sifive.com>, 
+	Yixun Lan <dlan@gentoo.org>, Steen Hegelund <Steen.Hegelund@microchip.com>, 
+	Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Michal Simek <michal.simek@amd.com>, 
+	Maxime Ripard <mripard@kernel.org>, =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
+	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Max Filippov <jcmvbkbc@gmail.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Daniel Palmer <daniel@thingy.jp>, 
+	Romain Perier <romain.perier@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Gregory Clement <gregory.clement@bootlin.com>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Heiko Stuebner <heiko@sntech.de>, 
+	Andrea della Porta <andrea.porta@suse.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+	Chanwoo Choi <cw00.choi@samsung.com>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Qin Jian <qinjian@cqplus1.com>, Viresh Kumar <vireshk@kernel.org>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Alex Helms <alexander.helms.jy@renesas.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Liviu Dudau <liviu.dudau@arm.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, linux-clk@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, sophgo@lists.linux.dev, 
+	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
+	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
+	linux-stm32@st-md-mailman.stormreply.com, patches@opensource.cirrus.com, 
+	linux-actions@lists.infradead.org, asahi@lists.linux.dev, 
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Brian,
-
-On Tue, 26 Aug 2025 at 13:52, Brian Masney <bmasney@redhat.com> wrote:
-> On Tue, Aug 26, 2025 at 02:01:56PM +0300, claudiu beznea wrote:
-> > On 8/25/25 20:05, Brian Masney wrote:
-> > > On Thu, Aug 21, 2025 at 11:03:30AM +0300, Claudiu wrote:
-> > > > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> > > > This series disables clocks that remain unused after resume.
-> > > > This is necessary when the resume process is done with the help of the
-> > > > bootloader, as the bootloader enables various clocks when returning from
-> > > > resume.
-> > > >
-> > > > On the RZ/G3S SoC (where this series was tested), the bootloader enables
-> > > > the SDHI clocks (for all SDHI modules, of which 2 are used by Linux and
-> > > > 1 is unused) and the clocks for a serial IP (unused by Linux).
-> > > >
-> > > > Testing was done on the RZ/G3S SMARC Carrier II board.
-> > >
-> > > Do you think that other boards would also benefit from this change? If
-> > > so, what do you think about putting the call to register_pm_notifier()
-> > > inside an __init block in clk.c so that this same change doesn't have to
-> > > be implemented across various clk drivers?
+On Sat, 23 Aug 2025 at 18:43, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> On 22/08/2025 15:09, Brian Masney wrote:
+> > On Fri, Aug 22, 2025 at 02:23:50PM +0200, Krzysztof Kozlowski wrote:
+> >> On 22/08/2025 13:32, Brian Masney wrote:
+> >>> 7 of the 114 patches in this series needs a v2 with a minor fix. I see
+> >>> several paths forward to merging this. It's ultimately up to Stephen how
+> >>> he wants to proceed.
+> >>>
+> >>> - I send Stephen a PULL request with all of these patches with the minor
+> >>>   cleanups to the 7 patches. Depending on the timing, Stephen can merge
+> >>>   the other work first, and I deal with cleaning up the merge conflicts.
+> >>>   Or he can if he prefers to instead.
+> >>>
+> >>> - Stephen applies everyone else's work first to his tree, and then the
+> >>>   good 107 patches in this series. He skips anything that doesn't apply
+> >>>   due to other people's work and I follow up with a smaller series.
+> >>
+> >> Both cause cross tree merge conflicts. Anyway, please document clearly
+> >> the dependencies between patches.
 > >
-> > Yes, that was my other approach I was thinking about. I wanted to see how
-> > other people consider this version.
-> >
-> > > Alternatively, if this is board specific, could this be fixed in the
-> > > boot loader so that the clock that's not used by Linus is properly shut
-> > > down on resume?
-> >
-> > As a result of your request I did some more investigations on my side, I can
-> > say that, yes, in theory that could be also handled by bootloader.
-> >
-> > I can drop this and try to do it in bootloader, if any. Please let me know
-> > if you still consider this (or the variant that implements it in a generic
-> > way) necessary.
+> > This series only touches drivers/clk, so it shouldn't cause any issues
+> > with other subsystems, unless there's a topic branch somewhere, or I'm
+> > missing something?
 >
-> Personally I would go the route of fixing this in the bootloader for
-> this particular platform.
->
-> If this issue affects other platforms, particularly across multiple
-> SoC vendors, then I think it would be worthwhile to have a discussion
-> about adding this functionality to the clk core.
+> Individual maintainers handle subdirectories.
 
-How would the bootloader know which clocks are not used by Linux?
-And why to offload this to the bootloader for resume, but not for boot?
+FWI(still)W, I have taken the Renesas SoC-specific patches through
+the renesas-clk tree...
+
+> > There are some drivers under drivers/clk/ where there is an entry in the
+> > MAINTAINERS file that's not Stephen, although it wasn't clear to me if
+> > all of those people will send PULL requests to Stephen. I described on
+> > the cover how how the series was broken up.
+> >
+> >   - Patches 4-70 are for drivers where there is no clk submaintainer
+> >   - Patches 71-110 are for drivers where this is an entry in MAINTAINERS
+> >     (for drivers/clk)
+>
+> It's hidden between multiple other descriptions of patches, so I really
+> would not think that this means that it is okay by individual maintainer
+> to take the patch.
+>
+> This really should be the one most important part of the cover letter
+> for something like this.
+> ..
+
+It was indeed rather implicit:
+
+   "Once all of my conversion patches across the various trees in the kernel
+    have been merged, I will post a small series that removes the
+    round_rate() op from the clk core and the documentation. Here's the
+    other patch series that are currently in flight that need to be merged
+    before we can remove round_rate() from the core. [...]"
 
 Gr{oetje,eeting}s,
 
