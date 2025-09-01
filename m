@@ -1,148 +1,180 @@
-Return-Path: <linux-renesas-soc+bounces-21117-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21118-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99642B3E235
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Sep 2025 14:07:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09D87B3E472
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Sep 2025 15:17:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 231EA189E347
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Sep 2025 12:07:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 40D0217B5E6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Sep 2025 13:16:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70303263C8E;
-	Mon,  1 Sep 2025 12:07:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="subnAYt3"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C5E119F424;
+	Mon,  1 Sep 2025 13:16:41 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283F2254B09;
-	Mon,  1 Sep 2025 12:06:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D2661531E8;
+	Mon,  1 Sep 2025 13:16:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756728420; cv=none; b=IE2cMFZjf1UQQvMZeiGckhKoTftTKt8VJ5tVebrpgle7EyPDy8eRGY6Wds25tYMzjg3vs7gJ01oYxdyvpdVJW9HHd7id9sEwUlfSzXU+eCHlta5Mj4sRJb7wKe8si8gw5RiaUfjlaCfuvN49lQF6N/Gcmp+mrSd9fGAn4ZKeMiQ=
+	t=1756732601; cv=none; b=WWmL1QPaIJcR6NHdYP710GYxQ/8BoJhu0aMGtiYFGVjEvvPyIAl9+C1r4Pe4YdxNFCR6yZ9nyKRf7bEYGdCXNdg9IlmAqqxm9ayPTkx3p+zLNUTVZcYvr/bv/6umQBm/Opp4ZgOP+LWwGLVVAg19YFPdGIC74Nc9gvdRMe63gWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756728420; c=relaxed/simple;
-	bh=KLozvW2/PZEE4MLEPg7Ckr+Jd7gWELOn6bfbOk7IAwQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EUT9oqMqyXpIFydXbq+pD/vAqZKgIdnTH2LYCUxuaUvSH4IMe5wSgvMBolr3zwCxzlse/xGP18jXnAld2zc57zRmQAyfvQwjJ9a6+G3wkfQEAYVegFvGVFbX4+FVGtYBhOMmF+6jBsEG4q+u92kX2H+UEmpVOUCZONt7rO5LF+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=subnAYt3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 750A4C4CEF0;
-	Mon,  1 Sep 2025 12:06:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756728419;
-	bh=KLozvW2/PZEE4MLEPg7Ckr+Jd7gWELOn6bfbOk7IAwQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=subnAYt3W6iRYWiLe4R1hyk02hHWugF12CkdwNtfWO6oweESVzkr4HHQSgrGdK/hQ
-	 8F1KuLkxbirhX9eTa+UlHzROt6oVHRMDVtFWN5s14w38M5Is6TmFeJ5JJ8je4krspg
-	 pBRIf5eDDzE+sPD131SIUvsN9YtFG8xjdavT9OTqqYxDYZRUulC8RH0fZzQh+efv6M
-	 zm0xO5wdKFGcsgmWDEVbNVw84C2PinGI3Z8RXMoIob2mUpV8kkm7QMdnJyTfUcaJ1e
-	 cCDoP5GnBM8z+lPd7plFSP8PsGAkGVMDl6cqmwfcIkGDifWC/YBbKkp9x6hig/ZOBh
-	 elTOdLAEWl7eQ==
-Date: Mon, 1 Sep 2025 13:06:48 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Alexey Klimov <alexey.klimov@linaro.org>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Sean Wang <sean.wang@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Paul Cercueil <paul@crapouillou.net>, Kees Cook <kees@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Dong Aisheng <aisheng.dong@nxp.com>,
-	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
-	Jacky Bai <ping.bai@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	NXP S32 Linux Team <s32@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Tony Lindgren <tony@atomide.com>,
-	Haojian Zhuang <haojian.zhuang@linaro.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-mm@kvack.org,
-	imx@lists.linux.dev, linux-omap@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH v6 06/15] pinctrl: imx: don't access the pin function
- radix tree directly
-Message-ID: <61bad868-d976-4f49-805c-8d14d4d8b3e4@sirena.org.uk>
-References: <20250828-pinctrl-gpio-pinfuncs-v6-0-c9abb6bdb689@linaro.org>
- <20250828-pinctrl-gpio-pinfuncs-v6-6-c9abb6bdb689@linaro.org>
+	s=arc-20240116; t=1756732601; c=relaxed/simple;
+	bh=EXkMw+rfDaY/b3W8q8CYiOJOTW2nC12iUWMId+zXff4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S7yhGJKGfQyXF4O2CttJ/CI004hHopNTGwNrYxMzc+LKzqglvefc5Fbfe9H3FWwqZ/apcXO4sEmTxBHOCw602cWagSwzqnxbV2PLQ3l6K8BplRgEML+PbuSu2fB/M5PSj0O1B74Rsw47y/LLMLFTi2uDwZdIpyH8LjJhg4p84xA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-544af5b745cso853166e0c.0;
+        Mon, 01 Sep 2025 06:16:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756732598; x=1757337398;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=M4vm21dS0tITKOYITi0Vz3OqhwroxN/24zqHGcaryPc=;
+        b=k64ThNftCCUIgIDE2PmlFLmEFOqK21rn0IS+Cxr4T5el7hKMp4fh8gwbOfoOm1Ffhm
+         WuL/FVY0l3nFMNmuGZPq7/N4McIH8d5IA39EiNPHPWvGAzA3Jovq8gbnB9KNdszJYBvi
+         EREaQBq5xZ0CUYZDah+L6r+axyDTxIDdTvpWYjfar6D/4LELMY/c4c23lS2Up9Vm5sR/
+         CJVApL7JLMyAjmqiHC7TvqLjyoDukRaEKS9i2/z7scQzcMCO1OSLU5qlkaymnI1j8Dbi
+         aIzelyso1zptubX7fOhacG3ESo3tfd+Xlwpw0XtiPc89+XrlVpwQ0kh3LKFqMUtQ8BZh
+         Y39g==
+X-Forwarded-Encrypted: i=1; AJvYcCU1DbioPdAqWoZuesOdgTwLFspTEZKBCXZPzsBZBDwPesLRCNDVgjGAEFHWInYiKFRuyjIozxIP3AErSAny0PFKrVA=@vger.kernel.org, AJvYcCUwlxjus+schurw1Valbut3o8iyX26CT3P+Z9ItZiJHyaFRh/jtro4Uv2bF7jGovxW33sgX3bZGmzE=@vger.kernel.org, AJvYcCVy9PX60ewdWsudIyjAkgxkNHcCa08bl/733uI9o0x4XT9fpiPP68VI6txpC4cHIuiva9yit7zrbWn+QDSP@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8kYvlQj09PZqi4PV7MeredmgOtOMUtbFB71SmGDEJJBsKggMP
+	LRBNXnF0cSCxkP2LdIh1c4bLIpfkIgJ6FdLvaLsBj8Qb8AKb+RCmSKMnzizq4J7l
+X-Gm-Gg: ASbGncu7UZIKsC3X7MyjLnwVjNFFGyEKzdHFpTk9iPSog/LKSfRREvlXtJY6ALih7KZ
+	4gqxN1urlp6OH+gr8TeLkhMyxgchpdsZH3CsIifwG9kxTOrPilykl0fFhjiYQXB5YXIrKC8pqZi
+	4U4Xn5FwQjCNq9Ng15GQ6LpYUuzQd991t6hNcbvNFfWXCWhEP8kmE0a+8pq7s7nJUZRhSi3uUKD
+	zV2KYpefaiDJ1y1YgogDER9qtIrZYK1LeN0beJz/WSK0OPNOCv0v2n6szt9fGTCUCbrfqzxPpOB
+	qMflrechupgwjFtt78N/+IbOHzWHBBEexn+ECvmDhXBUawBpLPnl8LJgIlpo3G55UCZDBy1JOin
+	UmqiB4qyJL8Ryl39OL/KDbLRLQ/JaY4/XorCzcDprezd3S3KpmUW8pYEy66aDJpKfa9EnCDIgt+
+	epZ/+lKQ==
+X-Google-Smtp-Source: AGHT+IE0Y+GTISSI3oX/aDAzwHXEUcbYM0fOes0m/HsvgRH+60XBHCsrnPj3r9QFUMHrvfAteWbaEw==
+X-Received: by 2002:a05:6122:4f82:b0:531:236f:1283 with SMTP id 71dfb90a1353d-544a024826cmr2332119e0c.10.1756732597766;
+        Mon, 01 Sep 2025 06:16:37 -0700 (PDT)
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com. [209.85.217.42])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-544914bcb39sm4233164e0c.27.2025.09.01.06.16.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 Sep 2025 06:16:37 -0700 (PDT)
+Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-52b2f964888so470542137.2;
+        Mon, 01 Sep 2025 06:16:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVIfb/kue+lKX+q6V1TC3W08HOCQG4TjfHyokWYmyZRYEiEo2CbduGJ+IEZsq47zhiDIvZTFCn0Iag=@vger.kernel.org, AJvYcCVR1z/4quRC6cy/lMK3IEHvX50qxh/CflOae86KdOk/hPYTd0yrJ+DGUYZIJw+cN3smG7PuSKmaRrSFlzMDGyUryVo=@vger.kernel.org, AJvYcCViub9OUrwNJH+cHD5G8p+hKl+nE6vibtzgq2OGF2iFTV1A+/cze0GG2GY+UWBCDpqqjnKYsMjrL2y2CG8E@vger.kernel.org
+X-Received: by 2002:a05:6102:5e94:b0:529:bfd2:382a with SMTP id
+ ada2fe7eead31-52b1bf3b89fmr2476923137.32.1756732597303; Mon, 01 Sep 2025
+ 06:16:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ck2hWlO4+9LtMqEh"
-Content-Disposition: inline
-In-Reply-To: <20250828-pinctrl-gpio-pinfuncs-v6-6-c9abb6bdb689@linaro.org>
-X-Cookie: Auction:
+References: <20250821141429.298324-1-biju.das.jz@bp.renesas.com> <20250821141429.298324-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20250821141429.298324-2-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 1 Sep 2025 15:16:26 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUhR1PgfY28uVCN6hQjO9sMRJFiTEUAnAqPX+px6Wp1QQ@mail.gmail.com>
+X-Gm-Features: Ac12FXz5MMFkh0UeurQJEvIWlmmprvC8x6xknXxamo0u7vEFGXvDqdSp6trm93E
+Message-ID: <CAMuHMdUhR1PgfY28uVCN6hQjO9sMRJFiTEUAnAqPX+px6Wp1QQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] can: rcar_canfd: Add shared_bittiming variable to
+ struct rcar_canfd_hw_info
+To: Biju <biju.das.au@gmail.com>
+Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
+	Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	linux-can@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Biju,
 
---ck2hWlO4+9LtMqEh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, 21 Aug 2025 at 16:14, Biju <biju.das.au@gmail.com> wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+>
+> The calculation formula for nominal bit rate of classical CAN is same as
+> that of nominal bit rate of CANFD on the RZ/G3E SoC compared to other SoCs.
+> Add shared_bittiming variable to struct rcar_canfd_hw_info to handle this
+> difference.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 
-On Thu, Aug 28, 2025 at 06:00:14PM +0200, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
->=20
-> The radix tree containing pin function descriptors should not be
-> accessed directly by drivers. There are dedicated functions for it. I
-> suppose this driver does it so that the memory containing the function
-> description is not duplicated but we're going to address that shortly so
-> convert it to using generic pinctrl APIs.
+Thanks for your patch!
 
-This is still failing for me:
+> --- a/drivers/net/can/rcar/rcar_canfd.c
+> +++ b/drivers/net/can/rcar/rcar_canfd.c
+> @@ -461,6 +461,7 @@ struct rcar_canfd_hw_info {
+>         unsigned ch_interface_mode:1;   /* Has channel interface mode */
+>         unsigned shared_can_regs:1;     /* Has shared classical can registers */
+>         unsigned external_clk:1;        /* Has external clock */
+> +       unsigned shared_bittiming:1;    /* Has shared nominal bittiming constants */
+>  };
+>
+>  /* Channel priv data */
+> @@ -632,6 +633,7 @@ static const struct rcar_canfd_hw_info rcar_gen3_hw_info = {
+>         .ch_interface_mode = 0,
+>         .shared_can_regs = 0,
+>         .external_clk = 1,
+> +       .shared_bittiming = 0,
+>  };
+>
+>  static const struct rcar_canfd_hw_info rcar_gen4_hw_info = {
+> @@ -649,6 +651,7 @@ static const struct rcar_canfd_hw_info rcar_gen4_hw_info = {
+>         .ch_interface_mode = 1,
+>         .shared_can_regs = 1,
+>         .external_clk = 1,
+> +       .shared_bittiming = 0,
 
-[    0.628221] Unable to handle kernel NULL pointer dereference at virtual =
-address 0000000000000000
-[    0.636506] Mem abort info:
+I could find no stricter limitation of the bit timings in classical
+CAN mode on R-Car Gen4, so it looks like this should be 1, too...
 
-=2E..
+>  };
+>
+>  static const struct rcar_canfd_hw_info rzg2l_hw_info = {
+> @@ -666,6 +669,7 @@ static const struct rcar_canfd_hw_info rzg2l_hw_info = {
+>         .ch_interface_mode = 0,
+>         .shared_can_regs = 0,
+>         .external_clk = 1,
+> +       .shared_bittiming = 0,
+>  };
+>
+>  static const struct rcar_canfd_hw_info r9a09g047_hw_info = {
+> @@ -683,6 +687,7 @@ static const struct rcar_canfd_hw_info r9a09g047_hw_info = {
+>         .ch_interface_mode = 1,
+>         .shared_can_regs = 1,
+>         .external_clk = 0,
+> +       .shared_bittiming = 1,
+>  };
+>
+>  /* Helper functions */
+> @@ -1912,7 +1917,10 @@ static int rcar_canfd_channel_probe(struct rcar_canfd_global *gpriv, u32 ch,
+>                 priv->can.fd.do_get_auto_tdcv = rcar_canfd_get_auto_tdcv;
+>         } else {
+>                 /* Controller starts in Classical CAN only mode */
+> -               priv->can.bittiming_const = &rcar_canfd_bittiming_const;
+> +               if (gpriv->info->shared_bittiming)
 
-[    0.801855]  __pi_strcmp+0x20/0x140 (P)
-[    0.805704]  pinmux_generic_add_pinfunction+0x28/0xe0
-[    0.810777]  imx_pinctrl_parse_functions.isra.0+0xf8/0x4a0
-[    0.816289]  imx_pinctrl_probe+0x404/0x520
+... hence you can just check the existing shared_can_regs flag here,
+and don't need to introduce a new flag for shared bittimings?
 
-Full log:
+> +                       priv->can.bittiming_const = gpriv->info->nom_bittiming;
+> +               else
+> +                       priv->can.bittiming_const = &rcar_canfd_bittiming_const;
+>                 priv->can.ctrlmode_supported = CAN_CTRLMODE_BERR_REPORTING;
+>         }
 
-   https://lava.sirena.org.uk/scheduler/job/1758025#L704
+Gr{oetje,eeting}s,
 
---ck2hWlO4+9LtMqEh
-Content-Type: application/pgp-signature; name="signature.asc"
+                        Geert
 
------BEGIN PGP SIGNATURE-----
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmi1jFcACgkQJNaLcl1U
-h9BGhwf/dS46HMJilXSgdHmEKJbp5ioFAwW8a4pof2TF7vY7Jpo/qiFqnKkvqhYC
-tZO4exJFROsDCUKlVPp+Qawyyhy3CCU2p+vHcuz8p07gmzIEOw9QkjMf8IMlPGyA
-UKEr+nQae21YF/iNRFDQGH9hqHAT76YwExslci+ilyDzaJeWu6ACPhVMFMNO9a/q
-BjCieo2alJTBGdLUFgFDoMmVmqebVqIBYO0m966vo/efy8UG1BTlGE++FYa1OVnt
-bVDlzyyNsdl94L6s8pxhABsajGCsOXj0inSK7SXdnJ4XusoEfuSIKKSieCGsjMEG
-qkdS6DTMFfXrzPQZI5S3dgsmyVchug==
-=JXXf
------END PGP SIGNATURE-----
-
---ck2hWlO4+9LtMqEh--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
