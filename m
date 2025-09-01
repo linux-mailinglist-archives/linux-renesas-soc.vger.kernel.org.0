@@ -1,189 +1,139 @@
-Return-Path: <linux-renesas-soc+bounces-21108-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21109-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0097B3DE80
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Sep 2025 11:30:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C21D8B3DEF7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Sep 2025 11:46:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2025E201CBE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Sep 2025 09:29:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 26D26189D420
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Sep 2025 09:47:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3132830DEB5;
-	Mon,  1 Sep 2025 09:25:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 618A02FF16F;
+	Mon,  1 Sep 2025 09:46:49 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1370A30DD08;
-	Mon,  1 Sep 2025 09:25:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5DED25A2A4;
+	Mon,  1 Sep 2025 09:46:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756718747; cv=none; b=RMZ20SvivNOTKLNOKJhuxQ4wzm/WC5hgtOrkf/OD7RrKUMYx2vJgs6G0/1Qy52So2AHjlJo1eiYZWL+U60+MD3mgAb6cZnje+ZpwK4XXHyTT2fM4pLpC0XAT5SbKsp83S8bvI85BCxCXq0yKONimrfxjW9tfv+CtS90Pj56jpQE=
+	t=1756720009; cv=none; b=I27D9KUUgRCBB1q9t+109Cvvq6D4vWA22bmIhvqXkOaXvC6j5eG37Q2WkxeKuxzpc5/h1slmECuxUY8U50jiCq3TzqHReCnax3is4QGQ8HVOtDOWKmjDXEwL/JtUovhG2Gtgdmsh/NcBfj/KYLF2d3N9sCyg6AMAe4EYkClwOVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756718747; c=relaxed/simple;
-	bh=FtS6/YGhG772uhtJjhh1cI6qQRFds88d9VVWLUCe/LU=;
+	s=arc-20240116; t=1756720009; c=relaxed/simple;
+	bh=WhbgLgAfQTMGPDcA6stiNJasQDKU/EBukH2kJsAsKe8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZTuCxbUbWgK5PWZ7/n1wlTrhhYPhcsWVYaHPeRRxe1wbgYzsR6+fBZbwbAVKtWhACk6wNqdPnaUbaeTWXD+rgJpMx4v+fNfCeiSlf4Lvc1ytbZCgCst3O2YB4/ng4zzH0KjstTnqr89E58dCj9McJbInUAUbK/ArR7bvzrkv3YI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.49
+	 To:Cc:Content-Type; b=LsPnIgFvdxeBQJEra00liAMbxFD8uyL+S1wd25pNXxVmSwsSI0io561nOtUEe+iCV2ZOWOgYGiKYk31nbJgDCJXJK359NzXgHzlYF9/38AbuXgm4N1Gwpq4RSHjCJWt0Ie4a+4RPtMlnjSaoZbN3AZvLpuqr9zeqKaLCZD2jQuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-890190c7912so792272241.2;
-        Mon, 01 Sep 2025 02:25:44 -0700 (PDT)
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-5449432a854so1269278e0c.3;
+        Mon, 01 Sep 2025 02:46:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756718743; x=1757323543;
+        d=1e100.net; s=20230601; t=1756720006; x=1757324806;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=srcQe2QCCiAwB7DGCqKHSCUVph+K4Lh5idtVMweUwUM=;
-        b=TdokbKKrYamwXTcDb6r/+LvRc6XC7hbHenl5949FejxF7rBKD6ap4kE/V9x+ePe1Ao
-         LIW4oqOSjEexrFZc2fO10WIb5hdZu5Q7PUR4JrNQ/0jKnHhidGZhwQoPH+a2QA3kRaql
-         2AkBRnd/Mv/YWd9EbInOzwfUWnqZoqcuv7F2BlM9mTLwJCmKVJrCLM7YeOuTP+r4BenF
-         fc10hnC/WuzK59dw43/xgWVvP+86gBRyw+NleOeSt4cEDDFKXLvcXBA28NCBaTxTtamh
-         moKdJzyjf9Iyfzxn0tyjM+KQwh1gThIdQb5VNnyl+kMeXrMnzT973LkDqa86RMs0CnRZ
-         x0XA==
-X-Forwarded-Encrypted: i=1; AJvYcCUHcvlXyVqzcKsAAJvFfyWwnEdD/KTJg/M2HHiKRQz2dIh3jYv0rsbMNwNhY2EY7qS2n1nlreK9YZpLfH4w@vger.kernel.org, AJvYcCUTiq+vRCpods4J/0bB4jzeh5GjDdDSYq1PJnlKXKGWq1Bft1XYa3mQhpYwEnlJBvIIOosQy9fN080Q@vger.kernel.org, AJvYcCVs4Fcm/JpYN2JiLhVCBTNTjIXfzbQ6KhXbfyVvyPV+WEElnB7nwTBN/+MNFViugXENL9Wg1+IPJrIC@vger.kernel.org, AJvYcCWktEZ8KgkuBn9+X1sr/jAQMamxQ7VmCdCHkWLx3wFlmpHYTSDGkpMPzfVsWIe+nOpYqZ2k6tf3WG+y@vger.kernel.org, AJvYcCXNpyaFAfcfbTkSo6FBMtsQgx+DFsnvu9hTjAsQ1p54xfwqrQ5mdoH2tNT2EvanEl6xXGQEY+ayE0iGCbIhAscSzmY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzP2tDEMuhZzD/nIsRwtqSyyzJmTbnd4aJrWqaH8bHnNnWXIAvz
-	H3rduQ7JxKcVRcBubM2f1nnXXfmcvjYdP1EHCxJ0aQbhz5x7Ax8nZOZR+zL0cn4f
-X-Gm-Gg: ASbGncshGOnonQgJ2ChXoz0hlQ5hizS2zNPcF8M0YEXphWNKgF2kILH2faxQP/TVm91
-	uIStSqOIwnY23WwTWduCMLZgFAd/xxNRY33HRAJQPvPiUrlrbS+8cjQYDXpGPGdQQ0GBz6ISWcR
-	ZVLFnON1vhY4/ikS6G7fHu5eAx3mzgu3ZRAA/2hdyLBN1tXKm3rovj4IebZOvWRZphS+uLSK3Ze
-	O42NHEqgguoBJGmhN7HFGFHp6Q0/luIFZt1DqeaDMqflawbx1t6Mye0fopH5roLWPUNLqKTf1yy
-	AvV/2WXNnYedbv+blw254hTpijzMRg6CP2ADkuIMf+XyOGFH1rZg9TrZSAVSyGdG3Yohszri8IN
-	47bd2OqxXrF5BZGkgMQldG+uSmtOxhQV353/ZVKEfasl7fz0wPb0Qa54rUuR9Z9a94fpF3u4=
-X-Google-Smtp-Source: AGHT+IGqf6EtLyLcAcpjD1/RLp1f7DTHd9E5zyZ1/lm08oNAsUeVcprQH1/n7LqtiHVqxWRM4AC9Bg==
-X-Received: by 2002:a05:6102:5809:b0:527:8b63:78e1 with SMTP id ada2fe7eead31-52b19532b98mr1679443137.1.1756718743326;
-        Mon, 01 Sep 2025 02:25:43 -0700 (PDT)
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com. [209.85.217.53])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-52af1e3381asm2968389137.13.2025.09.01.02.25.42
+        bh=bPKwAyL9UdPz2i3tqzNIzvOjss5rG+rqIGyHJh5GmGE=;
+        b=tLgI+xm8gv6S6sPQbtbAphG6FhE0M4NIYr+oEwofq1mgt/C4QFpdytBns6aA02iEf6
+         oL4E17emRS9FZohS3rEcK064XFLSXxkSk68FPPY070CrUCo83VNQPDmTULSe0u9lp+Hh
+         YTwf922qf+Ph/s+NHZjQIArC/deIijX/L9ky3IchKi54kf2w/GtJmjmmF3f6mnPxB2K9
+         cXCS/QqQsMxlC6yFPwG6rSQQl8mmNyYcoTAsLvdbMVN7cVVBebFP4Gc79D6nPAK5hURq
+         2iJKERmugaLrF8fvVsbo5CS1BvBxhd0p0bZ47ewdvNRu5hZ4rS9HpjQkQQXkIyFLv7v5
+         UnzA==
+X-Forwarded-Encrypted: i=1; AJvYcCUQducaANzHE2B6+iGFRjVLHikp6kZJU5PpWpTp9vfXFvFOLwKUU8hGr/AkE0JRHBKDrr/1A0TOwXk=@vger.kernel.org, AJvYcCVkK9zXSRYYA8pEfhMDK0ZCRZpGlIOXBjbGwUCBbqFmOb5HqtPOFCUujLNj2Mo9a7MMc6jFYZE9vhSg9jAlzRoEOrw=@vger.kernel.org, AJvYcCVx+dKtkNlw8886NZAJn0qkb4L35SAmv+XBeUZe9jfMGv/FCz+PLmv/j+KU/YtU4t/e8zPb3Bq1EvrJrUt9@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyr9Z2L9tNmag5Ug3MYlNwvJ0j00VJi392imZ8kMuwVDbiGueQI
+	7OMGlohko1e6QkfCxaPP0QWauuSiPGrJhPWtCsIF87AI4uh9ruVFk0vHUoDQXsiX
+X-Gm-Gg: ASbGnctxPPxrJiT5rmxkW9uEYWTeJIkTywcsmmNAqfWjUMwTKHs5X7UrIQVl/GchREs
+	B7raRClGq5WX6cwlEyBPKd+Dhq41LgfxZLeL6K4f77d1gDZC6HI2L/cWHC+g6X9s3GXr2IehCl4
+	ADM1cTjtw2Jk3xJi41nMfdqAeFYSghZp/Ni464Qg4utDZKva/D9I0qKFE3k4L76BvISnsjZpSVX
+	RruNwXItELC0Uazcksfe2gX/vr49mi/TulJ3tkoLuKcjOvazQwvxPiUoRiNLJ29u2jjyj56/ONZ
+	oImyZAIjb1F3u+oFqVyggxGfHVUEPRkieBrHW5C5BXUbpA0xQoNcsbScE3Rb8hvAeSoUofzddR9
+	xuZV/U2d2PxFPckeETIgKLIAW4CakAgFkF7V/swSWpMQHpTkEv18rLtGN4zYeHAN9
+X-Google-Smtp-Source: AGHT+IFnwm59SobkBkr62kCz4jSM/DyjEiIMexUaKM7PaozJx3i98J7pntaQGXNuXj75D98fgYiiIA==
+X-Received: by 2002:a05:6122:4687:b0:544:7d55:78d6 with SMTP id 71dfb90a1353d-544a017154cmr1745053e0c.2.1756720006269;
+        Mon, 01 Sep 2025 02:46:46 -0700 (PDT)
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com. [209.85.221.169])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-544914c10c7sm4170074e0c.30.2025.09.01.02.46.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Sep 2025 02:25:42 -0700 (PDT)
-Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-52a80b778e7so615912137.1;
-        Mon, 01 Sep 2025 02:25:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU+8JqyQX8IeAkP4gQHH5ciJbdGbZoDvJDS6Rde5ma8x7wzvVunfFB20ksdRX5pMRd2BWLFCMfj9ZkCGOrA@vger.kernel.org, AJvYcCU+YVh72qa05ETnfQP7trxXfWAyuYx88GL0Xt3e5337gyi2EFbYSvOfk+/J/VcCFiMRERw7bkvV9x1C@vger.kernel.org, AJvYcCUom1rjLcSO0mqEX56L8FGyl4paoKG/TZp9wuPhgu3JHIiUjBIWWnrVa8URF33Ikfl7J4/OnTM/o54lcESyGwSURuA=@vger.kernel.org, AJvYcCVbcgZN0opcSdtQ07Xr2KFoZtYZwjdtiEylovrJfROpP8dg4mcGDBS1B1vdCBrWiYJf+wF0Cb6pT+Lt@vger.kernel.org, AJvYcCXrte3oOBN99iW1nxkj2pxHuBKOIIhgMMSOIxAV23Lh1UxTXztN/CbkYCDoyx1UUJ+JpDszGkY3Z/rK@vger.kernel.org
-X-Received: by 2002:a05:6102:c51:b0:527:4113:6ad6 with SMTP id
- ada2fe7eead31-52b19a54877mr1662294137.9.1756718741912; Mon, 01 Sep 2025
- 02:25:41 -0700 (PDT)
+        Mon, 01 Sep 2025 02:46:46 -0700 (PDT)
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-5432dfa5e8eso3148669e0c.0;
+        Mon, 01 Sep 2025 02:46:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVlf/RE8aRKlGYDl4lJOuddEBMSZuHSvo/GmBW9GIeHdWT+XpIyiLhfnNxPM0u7FvkRsdFMSXWwcZ4=@vger.kernel.org, AJvYcCWSOb7kuYNqjlQpsNd4zaxuZjFit0+3sfckuNUJxpZozl3/dzH4XLjO1lYJIUDjPwP9/6J6MJ5vh0sLkFqo@vger.kernel.org, AJvYcCX+Z8uo+umv7xTw1XYMp7y2/xQJe1tFQ+cIsJqVpc7gwPXIJaSSY6Zn2E/f5ozhZDNqY2xKMYsGitbU7ITvS/aqTDM=@vger.kernel.org
+X-Received: by 2002:a05:6122:2219:b0:531:2906:7525 with SMTP id
+ 71dfb90a1353d-544a01c856bmr1903553e0c.6.1756720005789; Mon, 01 Sep 2025
+ 02:46:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250704161410.3931884-1-claudiu.beznea.uj@bp.renesas.com>
- <20250704161410.3931884-6-claudiu.beznea.uj@bp.renesas.com>
- <ddxayjj5wcuuish4kvyluzrujkes5seo7zlusmomyjfjcgzcyj@xe3zzzmy2zaj>
- <8ef466aa-b470-4dcb-9024-0a9c36eb9a6a@tuxon.dev> <zsgncwvhykw4ja3bbqaxwupppjsqq4pcrdgrsduahokmt72xsm@twekpse6uzzh>
-In-Reply-To: <zsgncwvhykw4ja3bbqaxwupppjsqq4pcrdgrsduahokmt72xsm@twekpse6uzzh>
+References: <20250821080333.27049-1-claudiu.beznea.uj@bp.renesas.com>
+ <aKyX4YJswZLuqA6Y@x1> <0d71269f-1c78-4732-8235-5640bf340d00@tuxon.dev> <aK2gE0CysSWisFwB@x1>
+In-Reply-To: <aK2gE0CysSWisFwB@x1>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 1 Sep 2025 11:25:30 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUu0uXBJndcwWoZp8NNyBJox5dZw4aoB8Ex50vBDDtP7g@mail.gmail.com>
-X-Gm-Features: Ac12FXz8RcNX144qqXwdTyVaOdBuKNMLkMT1y2uQFu-Wa0Ecb0dTxg5TkCmB8Xs
-Message-ID: <CAMuHMdUu0uXBJndcwWoZp8NNyBJox5dZw4aoB8Ex50vBDDtP7g@mail.gmail.com>
-Subject: Re: [PATCH v3 5/9] PCI: rzg3s-host: Add Initial PCIe Host Driver for
- Renesas RZ/G3S SoC
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>, bhelgaas@google.com, lpieralisi@kernel.org, 
-	kwilczynski@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com, 
-	catalin.marinas@arm.com, will@kernel.org, mturquette@baylibre.com, 
-	sboyd@kernel.org, p.zabel@pengutronix.de, lizhi.hou@amd.com, 
-	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Date: Mon, 1 Sep 2025 11:46:34 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXNnGg0rEcM1hvvjBUJXFFAx4oiX=qVb3nKfmd4YBxhGw@mail.gmail.com>
+X-Gm-Features: Ac12FXySlzljzJBVQIh8T5D4LvHlbiTfXVHCTZ-xPjSYu4UAWotdvWAobnJMb5k
+Message-ID: <CAMuHMdXNnGg0rEcM1hvvjBUJXFFAx4oiX=qVb3nKfmd4YBxhGw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] clk: renesas: rzg2l: Disable unused clocks after resume
+To: Brian Masney <bmasney@redhat.com>
+Cc: claudiu beznea <claudiu.beznea@tuxon.dev>, mturquette@baylibre.com, sboyd@kernel.org, 
+	geert+renesas@glider.be, linux@armlinux.org.uk, 
+	linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Mani,
+Hi Brian,
 
-On Sun, 31 Aug 2025 at 06:07, Manivannan Sadhasivam <mani@kernel.org> wrote:
-> On Sat, Aug 30, 2025 at 02:22:45PM GMT, Claudiu Beznea wrote:
-> > On 30.08.2025 09:59, Manivannan Sadhasivam wrote:
-> > > On Fri, Jul 04, 2025 at 07:14:05PM GMT, Claudiu wrote:
-> > >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> > >>
-> > >> The Renesas RZ/G3S features a PCIe IP that complies with the PCI Express
-> > >> Base Specification 4.0 and supports speeds of up to 5 GT/s. It functions
-> > >> only as a root complex, with a single-lane (x1) configuration. The
-> > >> controller includes Type 1 configuration registers, as well as IP
-> > >> specific registers (called AXI registers) required for various adjustments.
-> > >>
-> > >> Hardware manual can be downloaded from the address in the "Link" section.
-> > >> The following steps should be followed to access the manual:
-> > >> 1/ Click the "User Manual" button
-> > >> 2/ Click "Confirm"; this will start downloading an archive
-> > >> 3/ Open the downloaded archive
-> > >> 4/ Navigate to r01uh1014ej*-rzg3s-users-manual-hardware -> Deliverables
-> > >> 5/ Open the file r01uh1014ej*-rzg3s.pdf
-> > >>
-> > >> Link: https://www.renesas.com/en/products/rz-g3s?queryID=695cc067c2d89e3f271d43656ede4d12
-> > >> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> > >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-
-> > >> +  ret = pm_runtime_resume_and_get(dev);
-> > >> +  if (ret)
-> > >> +          return ret;
-> > >> +
+On Tue, 26 Aug 2025 at 13:52, Brian Masney <bmasney@redhat.com> wrote:
+> On Tue, Aug 26, 2025 at 02:01:56PM +0300, claudiu beznea wrote:
+> > On 8/25/25 20:05, Brian Masney wrote:
+> > > On Thu, Aug 21, 2025 at 11:03:30AM +0300, Claudiu wrote:
+> > > > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> > > > This series disables clocks that remain unused after resume.
+> > > > This is necessary when the resume process is done with the help of the
+> > > > bootloader, as the bootloader enables various clocks when returning from
+> > > > resume.
+> > > >
+> > > > On the RZ/G3S SoC (where this series was tested), the bootloader enables
+> > > > the SDHI clocks (for all SDHI modules, of which 2 are used by Linux and
+> > > > 1 is unused) and the clocks for a serial IP (unused by Linux).
+> > > >
+> > > > Testing was done on the RZ/G3S SMARC Carrier II board.
 > > >
-> > > Do you really need to do resume_and_get()? If not, you should do:
+> > > Do you think that other boards would also benefit from this change? If
+> > > so, what do you think about putting the call to register_pm_notifier()
+> > > inside an __init block in clk.c so that this same change doesn't have to
+> > > be implemented across various clk drivers?
 > >
-> > It it's needed to enable the clock PM domain the device is part of.
+> > Yes, that was my other approach I was thinking about. I wanted to see how
+> > other people consider this version.
 > >
+> > > Alternatively, if this is board specific, could this be fixed in the
+> > > boot loader so that the clock that's not used by Linus is properly shut
+> > > down on resume?
+> >
+> > As a result of your request I did some more investigations on my side, I can
+> > say that, yes, in theory that could be also handled by bootloader.
+> >
+> > I can drop this and try to do it in bootloader, if any. Please let me know
+> > if you still consider this (or the variant that implements it in a generic
+> > way) necessary.
 >
-> I've replied below.
+> Personally I would go the route of fixing this in the bootloader for
+> this particular platform.
 >
-> > >
-> > >     pm_runtime_set_active()
-> > >     pm_runtime_no_callbacks()
-> > >     devm_pm_runtime_enable()
+> If this issue affects other platforms, particularly across multiple
+> SoC vendors, then I think it would be worthwhile to have a discussion
+> about adding this functionality to the clk core.
 
-> > >> +static int rzg3s_pcie_suspend_noirq(struct device *dev)
-> > >> +{
-> > >> +  struct rzg3s_pcie_host *host = dev_get_drvdata(dev);
-> > >> +  const struct rzg3s_pcie_soc_data *data = host->data;
-> > >> +  struct regmap *sysc = host->sysc;
-> > >> +  int ret;
-> > >> +
-> > >> +  ret = pm_runtime_put_sync(dev);
-> > >> +  if (ret)
-> > >> +          return ret;
-> > >
-> > > Since there are no runtime callbacks present, managing runtime PM in the driver
-> > > makes no sense.
-> >
-> > The PCIe device is part of a clock power domain. Dropping
-> > pm_runtime_enable()/pm_runtime_put_sync() in this driver will lead to this
-> > IP failing to work as its clocks will not be enabled/disabled. If you don't
-> > like the pm_runtime_* approach that could be replaced with:
-> >
-> > devm_clk_get_enabled() in probe and clk_disable()/clk_enable() on
-> > suspend/resume. W/o clocks the IP can't work.
->
-> Yes, you should explicitly handle clocks in the driver. Runtime PM makes sense
-> if you have a power domain attached to the IP, which you also do as I see now.
-> So to conclude, you should enable/disable the clocks explicitly for managing
-> clocks and use runtime PM APIs for managing the power domain associated with
-> clock controller.
-
-Why? For the past decade, we've been trying to get rid of explicit
-module clock handling for all devices that are always part of a
-clock domain.
-
-The Linux PM Domain abstraction is meant for both power and clock
-domains.  This is especially useful when a device is present on multiple
-SoCs, on some also part of a power domain,  and the number of module
-clocks that needs to be enabled for it to function is not the same on
-all SoCs.  In such cases, the PM Domain abstraction takes care of many
-of the integration-specific differences.
-
-> But please add a comment above pm_runtime_resume_and_get() to make it clear as
-> most of the controller drivers are calling it for no reason.
-
-Note that any child device that uses Runtime PM depends on all
-its parents in the hierarchy to call pm_runtime_enable() and
-pm_runtime_resume_and_get().
+How would the bootloader know which clocks are not used by Linux?
+And why to offload this to the bootloader for resume, but not for boot?
 
 Gr{oetje,eeting}s,
 
