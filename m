@@ -1,150 +1,116 @@
-Return-Path: <linux-renesas-soc+bounces-21119-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21120-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DC1BB3E4A2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Sep 2025 15:21:09 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09971B3E4AC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Sep 2025 15:22:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 676627A7049
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Sep 2025 13:19:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5F1C81A8133E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Sep 2025 13:22:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80A032FF167;
-	Mon,  1 Sep 2025 13:20:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="NXqh/pNg"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AA132522B4;
+	Mon,  1 Sep 2025 13:22:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57003276038
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  1 Sep 2025 13:20:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4507D1DF25C;
+	Mon,  1 Sep 2025 13:22:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756732859; cv=none; b=PJGbJWOEtkltTqtfDcPA9VVLMQa+0/iYzSoam9DEG2Xr15vfQC7/XsXwd3mbcBbV5jc9fYOe72mMBMJIkVTbJktJl6NEcEGpoxTUaxK9Fj2skO1FaCFuG+N/cRmtbwfRwzaI+2jhwzSf+uDNke+lBpCTECWQ+ba0G3vM9Sz5ZgA=
+	t=1756732929; cv=none; b=n4PDnNzrZ17lBDtZVpGmH6LAXDB+ccBlpeqC1v730qlZl6miD56Age3nhrC19j6/11Jf2j8H756ghcGMjVXfQsFjZoKwkYlr2ws1A5fHsTRqCyG9x2YDppjaDiS1gkiXN77Hjwg7XyDct1ZPZe8ATuw13H/jcQAp9yfYLzWIjM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756732859; c=relaxed/simple;
-	bh=+FzHD6P3GIG+WbvurBqu4eNuHXM1ihNGPdVL0Rl46EY=;
+	s=arc-20240116; t=1756732929; c=relaxed/simple;
+	bh=1g/A4Wv5mKf+v7+/QCStqvAm704nvGmVmNhs+BbGCT8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PYr0+VPU+G37r+xMs7ArdU1X3b43c2KOipxEcSrxqqua5THUwzOAyIob0dWFXElKe7lwEcMDrf0jKkjwY1LeI+XOXLemICrlLTIudEFzq2xLP4i3zZoMbiNdhdOopcqbKdPuHEFeSRFLnccWpkJcilALgdVFfMPWjndKo5yUkiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=NXqh/pNg; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-55f78f32580so908628e87.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 01 Sep 2025 06:20:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1756732855; x=1757337655; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/ApJifxHePLgmXB9tTWAWedH0XfL5fOO8paxsOA3xkw=;
-        b=NXqh/pNgFvdh9534gdG5el6/ZagbcM4qdqFZr+bWDTOqlYOI7PzxLWNJpKAk0Jgw1o
-         s0tv+sMZ1fZfMi3cl0T8CdMrzwyvldKPomK1W+l9cLLBhtRBFqMYxk+MIhqu352PH1FT
-         PBoChcd91xX7UCHGjfj9JfHSxJGjH+w1vA2E39gFTUVFDLhItLGeT/Pfj5lTzSy+u+L+
-         OZz2VDGzuqaMeTUlrGP0aZEP6BDnjizjkuyz4hPpPspV1+PUkkfcCcSBLyrjgJDaT80r
-         /+xEWKIfUPKJMg4uwzkVzJBqSKLL4VEHXvCwu4IaATXnNwATlNbZ01/S335v8zUvalv5
-         AMYg==
+	 To:Cc:Content-Type; b=KM1hufKzVi7HzKHa+vNzaUjDtUKsJYyt32lMYhKoqMqrIN+VdS6ScNgTMP3sKawu7YbjSwlvZ2LccQ6tNzjFAHhNa5X51N0YYN9wAl5CbfUU8OMx7oP3fVp94pZDIFtk6mlkTZLvyVwVv8/s8Z/COzQ13QeD/MUU+9ppi/JY8HA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-541f5f63bc9so3248647e0c.1;
+        Mon, 01 Sep 2025 06:22:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756732855; x=1757337655;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/ApJifxHePLgmXB9tTWAWedH0XfL5fOO8paxsOA3xkw=;
-        b=HPrEj5omfH1VzYm8tK9OZaXximfv1YkZqUeYKzOJ/gk5dwFz8gToIqpWDbzfjm2nk6
-         DZzpdw6lFMzzAOJ7AxZ68j9PCRFe99FSzgSA1j6eBHrBDw0KFDaGqVQ/Ucx+YgAcY7XF
-         /Mjw/wWlxcvCvdjvK1vWXNATdDf58vZwVALuHv4iyOV6AUJ9z+pQzR9YNq5eVZia3QC5
-         /C2tOUA0/rvBFlqwtR91d7ZrohMrt3L1fokZc0XONXDDW1ZvrO0Pq1FhK4ijlUl5UzF5
-         5DcUn3Jdsc5YbloHrw10aQrDkF+cRjEbIlXR2koFdwtJZLbbkoXCJeqWBcUwnzOeaWID
-         cuNg==
-X-Forwarded-Encrypted: i=1; AJvYcCVPxfrslQVRwtqi42X5wSgogl7NC84AozFKrHEJmziiksPBYV2P+Gv61GnyE8QmNclv9W84J8XpkV9+y5yvoLh3FA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywl5we1hyKpwQ3ygaOH4fPRrplbBXtR2wdDjFABTK/Nt8kdl2zT
-	lRpm5eFuloVI9Yhk8KdBTCJKqQ8ky0ffjaS0EIOSAHvNqYbc+kZihkpMEcyZHMaMc0qHxh9V23G
-	aYuWJYodOgW5vg65+A6uIX7RllZj9PJncNiH9Kb8nWQ==
-X-Gm-Gg: ASbGnctaW/sqgXCXKf4qysQYNXQK1T3fN+z5pVgvfVx/aOMaBI1bysBbWXivzVl5CPN
-	tPujUiAL9YBDQgOLpry9ePCe0xNzJHtL4XQm0bffdJvNNPAk20L3kyl8/6Jxn4+Mrg676hFXEum
-	c+WktU/VERn2gcxfN95gzxsoDViGpCBW1AJVsrDpkGuJJ/W9T3oL1q4rSSl2r3YgwgSsd6NJXci
-	WrTnSbKY88DVaSxBkYMnQpwKs8JHOgirHbBXDY=
-X-Google-Smtp-Source: AGHT+IH912XrSXzjBk2qT9512Zc2BnDvh2hCyUh1tIL/e/b5XAWzm9U6VOUb2k8kMnjWcaLf9C4w4UWLuNtsABXzYyY=
-X-Received: by 2002:a05:6512:2513:b0:55f:4016:ad2b with SMTP id
- 2adb3069b0e04-55f708eae52mr2361617e87.30.1756732855435; Mon, 01 Sep 2025
- 06:20:55 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756732926; x=1757337726;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FkAvxCU70HoXuWxVwlgIiFldPk5hO8ZyOEAVQLM5S0g=;
+        b=fBPDiwT2NHksLr+T2QeB0G6XjULi2tBzBGbJIkx1nvlEPhwR8k7Mq/fTvFyxhrKp9L
+         aQlz4AGhlubP4XZZa+FF7vPanFG7w1MxKQTm3vmsgOHmZ0fnXiASIJMyK1TO9zrn2k4I
+         uGJGgLObTLcheXhHNcsmtHINoXvlKGN+4ngp5BOrSkXAiRbtj45v7w/n8MgyBJZYNda/
+         0FVfMTCwUfhzXu+0GWydJm9kSsMO2X6cUzu/nYiOl8fiP29S9z0bTnOGeLGQEILKLACE
+         DNfqrRAHu2tFDuZdhlVcrwQF2c8RPQmf7V+fMlHSXCu5XRq+xrsCfFOyqAVKprcmWxcd
+         lAlw==
+X-Forwarded-Encrypted: i=1; AJvYcCW6iqfVSM+/1wmFa08Fckpd1JJvMCpeQtDy9E6bv6nOCGHc7lKOI0uy/efJFS1H2heZI/ARJIKKxlk=@vger.kernel.org, AJvYcCXPSpmOfFs8RJgw8K+lAsM7pc4+kVlrkTnbt88EborMjhn8WZIlSJPgXzTzy7cn9xcdKu/pqtgbrnrpC6rK@vger.kernel.org, AJvYcCXy2yhYJnckrd2w68y0XsmoCT0dkYU/dznEQhYGfP725yHU7IRItEM/7UpK71KSgKU18e7/z3RSa6x8C4WAgEqX5nw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YywMN3T92iqIToW4vuZJkqdV0WpAcaesO7GBwSJElOcwer3Vl1/
+	0FDOeHgV3tWm3QVK+5lEcUtyB3Uu/F1EbBk1OJtXsjf5GTDCFNMPTDjwR8Da1msN
+X-Gm-Gg: ASbGnct60btjQMBGejsKMhB2vyRRAg7wfCqzIy/jmKu9ON70OvYbmahiC7A1mMm82vg
+	lRjHfzdMQDoFRQskydZx140NHCyDlwr4zYW+WUceRuUI932wqMoWYtJyP45siYYyYWfj4PXLBbJ
+	+cbTZEai2yRivZ1AiTSzRydojn3ptBS94IeJP0eQPwaryT88Brn6ThFZ3QFo7S+wF19+Y8i1bx5
+	nkcgdkO27NFObK3nMYSMmqV7/hGRXu614O85PewGwfUyofTCIAndOl9GRksN6yoMPIPbXbpjApW
+	ozI0jHNSyUUmK1wSEp8fSfRaSLzcxFmme4oT+YEg5lsPJdELEx4ByO66EcUTHPjsm8IHRmJ9xrd
+	giRZNVUnbwv2xhVl6p+IzNRXBTyP0tJ5tpFucFCGdm48AAE4cjpti+Tzw4eSI2jqlTG+21ZM=
+X-Google-Smtp-Source: AGHT+IGt9PiuJmy9AcoxZRYsMv/5bqvzujf8fg2iSjmaO3YkfJ0s6Cr31PgV4V0JCEE/ug7Vv1138Q==
+X-Received: by 2002:a05:6122:1350:b0:539:3bb5:e4d6 with SMTP id 71dfb90a1353d-544a0196ec5mr1998907e0c.1.1756732926046;
+        Mon, 01 Sep 2025 06:22:06 -0700 (PDT)
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-544912c6d3bsm4380059e0c.6.2025.09.01.06.22.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 Sep 2025 06:22:05 -0700 (PDT)
+Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-8988b982245so266566241.1;
+        Mon, 01 Sep 2025 06:22:05 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUK6kc7SpPsrD+xuaqgwA5NsXE4sDIMe5nFKRHqobsdzRmGDhMr6xUeY15KASkJspwRUD702WOwOlY528TXLnyiZjw=@vger.kernel.org, AJvYcCVgDKrMR+s+c/9tsVIXjoGwEMl3utyx7y2mgZCy0g4RD5bjVfhDtTIwA8WRNJ4VMQpHCN7Vg3w2nuNjT8TP@vger.kernel.org, AJvYcCWhczDfOkxMKd/dqKta/RWPrBDD9FQm90oSLMnzF6q3HPO5LfQNhk5UGqz5WmWOUB4IalNgnN+bGnM=@vger.kernel.org
+X-Received: by 2002:a67:e702:0:b0:52a:f806:3545 with SMTP id
+ ada2fe7eead31-52b19846044mr2352761137.5.1756732925245; Mon, 01 Sep 2025
+ 06:22:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250828-pinctrl-gpio-pinfuncs-v6-0-c9abb6bdb689@linaro.org>
- <20250828-pinctrl-gpio-pinfuncs-v6-6-c9abb6bdb689@linaro.org> <61bad868-d976-4f49-805c-8d14d4d8b3e4@sirena.org.uk>
-In-Reply-To: <61bad868-d976-4f49-805c-8d14d4d8b3e4@sirena.org.uk>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Mon, 1 Sep 2025 15:20:44 +0200
-X-Gm-Features: Ac12FXxw4k3UY5TBARAefSnKyhMDuDCBaUNs2qyNKYW8yrbkHP8etuyQPhIAuGM
-Message-ID: <CAMRc=MfB_3e0sjCpV+XaKcKvit7Opk5LczH2wsxO=RftrAabjg@mail.gmail.com>
-Subject: Re: [PATCH v6 06/15] pinctrl: imx: don't access the pin function
- radix tree directly
-To: Mark Brown <broonie@kernel.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Alexey Klimov <alexey.klimov@linaro.org>, 
-	Lorenzo Bianconi <lorenzo@kernel.org>, Sean Wang <sean.wang@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Paul Cercueil <paul@crapouillou.net>, Kees Cook <kees@kernel.org>, 
-	Andy Shevchenko <andy@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@redhat.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Dong Aisheng <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, NXP S32 Linux Team <s32@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Tony Lindgren <tony@atomide.com>, 
-	Haojian Zhuang <haojian.zhuang@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mips@vger.kernel.org, linux-hardening@vger.kernel.org, 
-	linux-mm@kvack.org, imx@lists.linux.dev, linux-omap@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+References: <20250821141429.298324-1-biju.das.jz@bp.renesas.com> <20250821141429.298324-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20250821141429.298324-3-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 1 Sep 2025 15:21:54 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdULwzW94LFbs2o=RU-BSrJpdLcuhmrNqeJN4t29JNUSXA@mail.gmail.com>
+X-Gm-Features: Ac12FXwd5dQpKam-6dEqwPDDrkcEmWNCW-XhjykSMpHV-sl6MdP1QUHHQA_7lwo
+Message-ID: <CAMuHMdULwzW94LFbs2o=RU-BSrJpdLcuhmrNqeJN4t29JNUSXA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] can: rcar_canfd: Update RCANFD_CFG_* macros
+To: Biju <biju.das.au@gmail.com>
+Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
+	Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	linux-can@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 1, 2025 at 2:07=E2=80=AFPM Mark Brown <broonie@kernel.org> wrot=
-e:
+On Thu, 21 Aug 2025 at 16:14, Biju <biju.das.au@gmail.com> wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
 >
-> On Thu, Aug 28, 2025 at 06:00:14PM +0200, Bartosz Golaszewski wrote:
-> > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> >
-> > The radix tree containing pin function descriptors should not be
-> > accessed directly by drivers. There are dedicated functions for it. I
-> > suppose this driver does it so that the memory containing the function
-> > description is not duplicated but we're going to address that shortly s=
-o
-> > convert it to using generic pinctrl APIs.
+> Update RCANFD_CFG_* macros to give a meaning to the magic number using
+> GENMASK macro and extract the values using FIELD_PREP macro.
 >
-> This is still failing for me:
->
-> [    0.628221] Unable to handle kernel NULL pointer dereference at virtua=
-l address 0000000000000000
-> [    0.636506] Mem abort info:
->
-> ...
->
-> [    0.801855]  __pi_strcmp+0x20/0x140 (P)
-> [    0.805704]  pinmux_generic_add_pinfunction+0x28/0xe0
-> [    0.810777]  imx_pinctrl_parse_functions.isra.0+0xf8/0x4a0
-> [    0.816289]  imx_pinctrl_probe+0x404/0x520
->
-> Full log:
->
->    https://lava.sirena.org.uk/scheduler/job/1758025#L704
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v1->v2:
+>  * Moved from patch#4 to patch#2.
+>  * Updated commit header and description.
+>  * Kept RCANFD_CFG* macro definitions to give a meaning to the magic
+>    number using GENMASK macro and used FIELD_PREP to extract value.
 
-That's not a lot of info but it fails in strcmp() which - I suppose -
-is the one in pinmux_func_name_to_selector(). Any chance you could
-check what the value of np->name is in imx_pinctrl_parse_functions()?
-Is it NULL for some reason?
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Bart
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
