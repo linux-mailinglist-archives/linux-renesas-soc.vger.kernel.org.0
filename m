@@ -1,92 +1,140 @@
-Return-Path: <linux-renesas-soc+bounces-21160-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21161-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC2A0B3FB40
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 11:52:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F416B3FBE9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 12:11:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 657411B23BBA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 09:52:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 70CDD1B23F5B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 10:11:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75C252F5322;
-	Tue,  2 Sep 2025 09:50:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6BC82F3625;
+	Tue,  2 Sep 2025 10:11:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KNxoblO5"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qZrp67rN"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BF2E2EDD75;
-	Tue,  2 Sep 2025 09:50:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 718122F3608
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Sep 2025 10:11:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756806618; cv=none; b=sgD07QZkId2ZD674kP1lQnxVLsBJluDODNhRMpqgqOLCCqcpTXs9l6eq9NGhXWuhRR3wGtuAZws/mCzMck/MBrlFxZvFbDIDeTnXoXA//LOcJk9gT0DwXdInr7XBXTrdYYxTSR0a+lsMG9vhykfCZeDJZW7CLtVTHgpQIQvqatc=
+	t=1756807865; cv=none; b=YRtIIKKvYGo4ByaoEALNLNKGfFygFsLRcJszFKxAOxdcgMx0asxrVp2Dx26YzDILEaasPu91YZuaM3VkDnPoFzkU9wgYv0Z6CSKRQWdwAT90Ce1FHDp02JRE/1s+p9VYl26dWbozdURVOjst90bqfX8Zft71JnsbLEx6kkdnu70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756806618; c=relaxed/simple;
-	bh=ezKvsUrfP+7bg4ys751Ino9ZSoBxTPU7y+g2rK+k9u0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=X2qe/yKs4mnwt14WdPeVR5W90mNI4nB5dMjjHV+YGqBigNzDfpSaos07J2mmHg9kcquZsMzq1+84frhOZoec1xN/hn3RcuzdBpTUne8S2f4IxjdmNsvSNr+4h1+TeZviWjgw4t3tP9F+ngGc8/8FZThOltoOyJbZXQcsCtYG5Yw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KNxoblO5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 132EAC4CEF7;
-	Tue,  2 Sep 2025 09:50:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756806616;
-	bh=ezKvsUrfP+7bg4ys751Ino9ZSoBxTPU7y+g2rK+k9u0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=KNxoblO5Sx/ehSK0U2W9GiqHuVOzhJSb7kD3vaI70GyGceuKbG+KvE6ruqCgFklMw
-	 8zZyf1nfyYFw5LmN56iceCDpfS8d4Y67IG4IbTucGwV8MARhd0o1XIbZItCjhuaHi2
-	 OlgirLVDV8xX5UODlNDbwRuzgw66YoN0Da056zvV8wH1kISVDt9jAlbwYxXc1AhClo
-	 lgGkAi/2+IUGfiHn/mgKtIy7YaXUYDuweeBbwkmUb2efseyOgL1OfdY0yxUE00OMiO
-	 9XfPoyCDzoZ+8Bt4PmZcZKz5IjQW2LxFc9RErKY07NhfJA9pUao0U1+fnVtii/uHn2
-	 CziRlVHmKITAA==
-From: Vinod Koul <vkoul@kernel.org>
-To: tomm.merciai@gmail.com, 
- Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com, 
- prabhakar.mahadev-lad.rj@bp.renesas.com, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
- linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250801084825.471011-1-tommaso.merciai.xr@bp.renesas.com>
-References: <20250801084825.471011-1-tommaso.merciai.xr@bp.renesas.com>
-Subject: Re: (subset) [PATCH 0/3] Add DMAC support to the RZ/G3E
-Message-Id: <175680661258.246694.16970472340052106378.b4-ty@kernel.org>
-Date: Tue, 02 Sep 2025 15:20:12 +0530
+	s=arc-20240116; t=1756807865; c=relaxed/simple;
+	bh=f4FSCQOOsa/4OCBJBGTowZPZFe3uwXyHE8EAIbJ1KzA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nZHGNoXyWgQJ9iZ9We3iT+ofqyNhIkbZd/iw3vk2Icbk4/Yy5AHTjIuaCNm32swmdQ/zkckhIbghPGFYzXWPoBKybCHjAr9s8PU6AkB4nm4m8IYGJlek44SxM/yCzuBN3qunkJzUBSGO3Qxw8bqySZHsqYpLyJg5gY8VVvyR2hk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qZrp67rN; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-55f7ad815ceso2159654e87.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 Sep 2025 03:11:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1756807862; x=1757412662; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=S9/dg3rMdImtSDs9qVPDpc7idBTBiPszJRQRzWERi5Y=;
+        b=qZrp67rN8XplLKcepeAzOZpBM2vkxbddlAxns88NOS75WkWMp5a7tftIC5j31G/gZN
+         vpDQ/U8CedvYpuOl5mU5/0UiKJntFTiucGBTT5etoEDlCR/Cw768+vOUWL0oR7rtsg3X
+         ILfUyWmomFtemqMgb8+kwfc9WWGvbm507EDkPbJ0m5OrQdn4fM4jn2AXsdLIb2sROcX2
+         BMb4IDp1xaSol6aVBAs6D13/rZGFPjqgbd1ItJD6mxwj8K+XE4uoADFV/FZqioEopMwF
+         I3ojUVK6h5kNN0XS7Ib9AxJwDLyUyhe6adhZFeg2Eyo8CDhG8DFl/jFORKWPrWXxVsPf
+         dBWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756807862; x=1757412662;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=S9/dg3rMdImtSDs9qVPDpc7idBTBiPszJRQRzWERi5Y=;
+        b=MpRqi7rXn1wP00dzTFlivHSa/Su8CXd5OV7VB1VCkhGA9ybGEXgJJx4hwoD/uSXckR
+         RUwPT8xqli6mfG0WM/ZMFTnwHLLCqFKqd27agudZuZOGLiws6JY+SanfiQuOH4TwFIJx
+         Mh3kgdFlqHkNjlJl5uXsZACpJrPecuU8u+hL3n9Y1hnWYqAwqgngYAVMbkC65oRKnrcL
+         dk/m1+mt/uh5AfODyK2n5V/WnWuZJTvfKfHQjt+iFcIh+QG5zXN++CyqDSGjWQSXCGfw
+         HOb8NKr5xl7SHCie42En1ENDEVk7TPC1Lzri9HZNyP0fs4wU657pVaS3BJoHOiPD/qW5
+         pykw==
+X-Forwarded-Encrypted: i=1; AJvYcCUsaV45eQL+cFwcSGaUJL4ASgBjVh7+xy3LJhaUjgVggd/TjF/g9Prduq87JTXMvo7Xy3t2HvxuGKMbAd1JXr7uzw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfX9nuWNPfOc51/hYMtT7Ljs7/DoAA0Op61J/xzBxPgxseayDn
+	niyMDo5sFob6sAi/bZYuIphK6lu48NbyRXdA1qFccCt3brLPS7xhtNEoiZJ8M6tKr8BVG9EcqNk
+	ARXIpQWUyvkAOQiwt8ZVl1MOGSAd6/yz0qz81C6I6hg==
+X-Gm-Gg: ASbGncsKZ/kaDhx+7sfqZjqgfRRycwEGQrUKM/bQwrAQ5u1NsP1A4LsStUAtHVkTRKL
+	WmCBnt/qlZA7NkbhD2VZ19csdopYReN0oVGmOz44PFn9cYyRzUO7dWnVnFxXtpwJXHUkElxLJQo
+	Om03OcXN19L+m3KyjqxSoTcKFF4HcFxLpSvMLYNe0hC0T4qfuU5fOLeC/ZyPKvUD9GxY+SWuUO3
+	YvNbwY=
+X-Google-Smtp-Source: AGHT+IGvJOVNe+LUFvOCbgL5wgN/h/Cjvl043KlTfsb1COy3EuiSQw/TerVuRTUEwrGuUBs+VE/GG3RycL486iAnqi4=
+X-Received: by 2002:a05:6512:250d:b0:55f:34e8:b1a4 with SMTP id
+ 2adb3069b0e04-55f709dda1amr3184317e87.56.1756807861583; Tue, 02 Sep 2025
+ 03:11:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+References: <20250828-pinctrl-gpio-pinfuncs-v6-0-c9abb6bdb689@linaro.org>
+ <20250828-pinctrl-gpio-pinfuncs-v6-6-c9abb6bdb689@linaro.org>
+ <61bad868-d976-4f49-805c-8d14d4d8b3e4@sirena.org.uk> <CAMRc=MfB_3e0sjCpV+XaKcKvit7Opk5LczH2wsxO=RftrAabjg@mail.gmail.com>
+ <4a633387-08a9-43c8-81d7-488e7222aeda@sirena.org.uk> <CAMRc=Mf0dOvwsWb6uraCQXeauLYP0TqY6xsQnV3fM0w=wROW+Q@mail.gmail.com>
+In-Reply-To: <CAMRc=Mf0dOvwsWb6uraCQXeauLYP0TqY6xsQnV3fM0w=wROW+Q@mail.gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 2 Sep 2025 12:10:50 +0200
+X-Gm-Features: Ac12FXw4LKCvHHNtKGBjLfwABtGCHq93WPj_v3YPD6EUsw9OMGyVKBEoUj5pgYE
+Message-ID: <CACRpkdbrRc6E5idzkdN53QPDCSGpPUfdjmFmEFsS3g+v=cB6LA@mail.gmail.com>
+Subject: Re: [PATCH v6 06/15] pinctrl: imx: don't access the pin function
+ radix tree directly
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Alexey Klimov <alexey.klimov@linaro.org>, Lorenzo Bianconi <lorenzo@kernel.org>, 
+	Mark Brown <broonie@kernel.org>, Sean Wang <sean.wang@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Paul Cercueil <paul@crapouillou.net>, Kees Cook <kees@kernel.org>, 
+	Andy Shevchenko <andy@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@redhat.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Dong Aisheng <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, NXP S32 Linux Team <s32@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Tony Lindgren <tony@atomide.com>, 
+	Haojian Zhuang <haojian.zhuang@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mips@vger.kernel.org, linux-hardening@vger.kernel.org, 
+	linux-mm@kvack.org, imx@lists.linux.dev, linux-omap@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Sep 1, 2025 at 9:22=E2=80=AFPM Bartosz Golaszewski <brgl@bgdev.pl> =
+wrote:
+> On Mon, Sep 1, 2025 at 4:37=E2=80=AFPM Mark Brown <broonie@kernel.org> wr=
+ote:
+> > On Mon, Sep 01, 2025 at 03:20:44PM +0200, Bartosz Golaszewski wrote:
+> >
+> > > That's not a lot of info but it fails in strcmp() which - I suppose -
+> > > is the one in pinmux_func_name_to_selector(). Any chance you could
+> > > check what the value of np->name is in imx_pinctrl_parse_functions()?
+> > > Is it NULL for some reason?
+> >
+> > [    0.628245] imx8mp-pinctrl 30330000.pinctrl: np->name pinctrl
+> >
+> > https://lava.sirena.org.uk/scheduler/job/1758947#L705
+>
+> Linus,
+>
+> FYI: I reproduced the bug on qemu with an older ARMv7 IMX SoC. Should
+> be able to debug it and figure it out shortly.
 
-On Fri, 01 Aug 2025 10:48:20 +0200, Tommaso Merciai wrote:
-> This series adds DMAC support to the Renesas RZ/G3E SoC.
-> 
-> Thanks & Regards,
-> Tommaso
-> 
-> Tommaso Merciai (3):
->   clk: renesas: r9a09g047: Add entries for the DMACs
->   dt-bindings: dma: rz-dmac: Document RZ/G3E family of SoCs
->   arm64: dts: renesas: r9a09g047: Add DMAC nodes
-> 
-> [...]
+Awesome, thanks a lot for your perseverance on this important
+patch series.
 
-Applied, thanks!
-
-[2/3] dt-bindings: dma: rz-dmac: Document RZ/G3E family of SoCs
-      commit: cc0bacac6de7763a038550cf43cb94634d8be9cd
-
-Best regards,
--- 
-~Vinod
-
-
+Linus
 
