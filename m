@@ -1,180 +1,220 @@
-Return-Path: <linux-renesas-soc+bounces-21208-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21209-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 087E4B4077C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 16:48:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0B1FB40880
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 17:06:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4773F4836EF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 14:46:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BF3FB48115C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 15:06:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E26831282C;
-	Tue,  2 Sep 2025 14:46:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C6FF314B6C;
+	Tue,  2 Sep 2025 15:06:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MFGskFyj"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PPIUQq/Q"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C30631158C;
-	Tue,  2 Sep 2025 14:46:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CFB8313558;
+	Tue,  2 Sep 2025 15:06:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756824402; cv=none; b=RmtHvFMD8iFqp5Ys3W1E8oRB0UHRGbEVGfVlQ09BS3aBnFczQJBMi6causccLtAG45RGs30UCNl1sNGLSdclds7ER4kD9zB/ZiQqQJaXLo3iQzXH8G54IAw+nwgVZTsHjUuQ5+M2UR+ljURIhS/mxcXXTDgLyulmiXF+Q4KP0sQ=
+	t=1756825575; cv=none; b=apGQiKAAkFktuKgbCg1L+reon3s2G5y4gTDCym5KGNxj7421XH9paXdGlasBo8+rD6/1Jz5RO6iRx5upQuOmhNKM66NFWkGDVBHfPOKhOUWZdnc5mElNDfZgJqeQvR6UgWcoNLcktQBKDyMuayCDd7skAnIdtbuE121RirSycfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756824402; c=relaxed/simple;
-	bh=Wx5EU3ck/BxVVGxoCPPqG0+FAlUpEvvPwJtcEzKjaII=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pPyoqADUpf6vqOZUM7yFCVfumKTlwZrG0yr/cOugjUSk2v1Fksp7mTZS4+aIe7vCOF219lqKF0azfrimKKfkuhCMRl9rfWOw06jCSm89ISUyX144qt+vWDZ1PMrTo24yCtQUjx0fKhRspK9Po4O+WmifHlGloxE4cpR6PRYGi0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MFGskFyj; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756824401; x=1788360401;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Wx5EU3ck/BxVVGxoCPPqG0+FAlUpEvvPwJtcEzKjaII=;
-  b=MFGskFyjsH15aNbS6dY1N4MLFe5sztvKqv3LZzw3uPRMt0+432xXJ6kc
-   G0tcOzCQpdFrbvYFoQRcywZjXq5nK+W6Pr2i/XTw4TpNUTsYoWq01eGqD
-   ngU8m21J34F28/aG4dx2G2hUnokG3l00i3V8IwX6b4cQLwWaabfDWVUsk
-   dk2SvviMH1Nn4mO8bsLEvmQFQ4hJELprvMUICB/aj7f1igd3d6M0Xlf1/
-   iM1MuEKcflAdgqdooCX+ulEPvrAlXSQwHPhSjbJZQ1IVspwzPoG3m+GDh
-   dPpLBaVKxjhGDh9Rqe4Dyp3v81BOoA/aJZHf4HIlDyqMqACEAhR20OYPI
-   g==;
-X-CSE-ConnectionGUID: 3UJPX/zYSsmXVWLjb73AHg==
-X-CSE-MsgGUID: xVyJbmWQQq6gD9raPcpb9w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="76545788"
-X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="76545788"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 07:46:40 -0700
-X-CSE-ConnectionGUID: USnIJsbFRhyH+qHMzQmVsQ==
-X-CSE-MsgGUID: 2OVUpl5DTIeZGPOdwEp2Zw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="171189727"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 07:46:28 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1utSHA-0000000Aig8-04Qa;
-	Tue, 02 Sep 2025 17:46:24 +0300
-Date: Tue, 2 Sep 2025 17:46:23 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Alexey Klimov <alexey.klimov@linaro.org>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Sean Wang <sean.wang@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Paul Cercueil <paul@crapouillou.net>, Kees Cook <kees@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Dong Aisheng <aisheng.dong@nxp.com>,
-	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
-	Jacky Bai <ping.bai@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	NXP S32 Linux Team <s32@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Tony Lindgren <tony@atomide.com>,
-	Haojian Zhuang <haojian.zhuang@linaro.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Mark Brown <broonie@kernel.org>, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-mm@kvack.org,
-	imx@lists.linux.dev, linux-omap@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	stable@vger.kernel.org, Chen-Yu Tsai <wenst@chromium.org>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v7 00/16] pinctrl: introduce the concept of a GPIO pin
- function category
-Message-ID: <aLcDP36eEIZ_tqFv@smile.fi.intel.com>
-References: <20250902-pinctrl-gpio-pinfuncs-v7-0-bb091daedc52@linaro.org>
+	s=arc-20240116; t=1756825575; c=relaxed/simple;
+	bh=KaWopFh3G3Ute3M/+mCT3RtU/jaEiwXVKes2viZVV3M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XewZ67nmr6KWiU4uHZEv8gPQclubKEt/0vkfZe6T6HCS1mfVrH1QNrks2ccfPh+9sk4rFbbIjgfOiF4rMJJb30V/hyCMvIj3lVzngISOJ8eig7ixnBS9Em/ysME5OGbEZeHi8Ap83pMx9HjENV+F8sZ/bDfD+qppmrl2zLjVdcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PPIUQq/Q; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-afcb7ae6ed0so821723066b.3;
+        Tue, 02 Sep 2025 08:06:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756825571; x=1757430371; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0NCG6V1OgZuEp/3w3OM2cgGYGg9eJuDQh4/kEQfZckU=;
+        b=PPIUQq/Qk+ERWuTjiqLoT9aknn34Sj321B98gxtNE28XuzZZ5bWewA9brX08UIkV0c
+         Fxl10sXC2cXnNmnYh/GdncR+U/nkwIUJXGWIBoKQRSt4jodnAPxF4mrMh3njBINE2gxA
+         1L6hmuslvH+dl/WhjpjXyyvBjJhydyEXMprgTp6iEI4YR5XE81hcqKXOhhFMckg6mUjt
+         YMipAcmdUJ7olf69ubj132BWRKUAaAeoHlWaG56rKZjPk5H5eADItMg6yXR00j2CM+jb
+         Al5GNW2kJLg3UQv47iP+GGsfBAUN+rOLm2p70lthVAAKkf7b2wdY63xQ+C6Lu2OF6ESE
+         WT7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756825571; x=1757430371;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0NCG6V1OgZuEp/3w3OM2cgGYGg9eJuDQh4/kEQfZckU=;
+        b=o4GiU2fKjvjZzEkGnm0SUNKZSsDwsHqQDy/EMukEhnt1etlf3qQYDNRjcnT16bkUdZ
+         px8FrBfNttQTECgThhBv1cUCjwCOc7PKvRlehIug9uEuQn7sLkkejALNDzsF8DZ5FetZ
+         hQHPHgV1AlBy8AxsNllA8BlLM5bx9Spr1VLPD8aaQmtB2//WFxpFL0/wraK50ncIQHip
+         58NfHYyPcBmUeVRD1yIsV+CfgPly4pM+jAiugcuXR812+i3tMp643Ss6xGYUl9b16cFf
+         w2DAQrdd5kGuhRhjyHaouqmC0aHJTGAnvJxz68OxEzoplUy/3uVogLEpXffbEm36NF7o
+         xZ+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVSNXW1mO1k/kqhcxx+itySxkcVwsblV36gXLPZT/IaS9fBRZEmDw+vihXqoLjBNwztrknx1AtgIJgC@vger.kernel.org, AJvYcCWX8yTvIIVodhZNPSrJ0fdtyYhCRuX3RDw1m3oaKHZGoO548+Us2QFZYgCvHA2b6u2VsbiGa1Mp2j1yhIxi@vger.kernel.org, AJvYcCWchvQz/L70jsNuuE5VKaA7DRVZimTNzgnBJdYWRqjkeStfGnqZB275TMuorCY/akAP+YKcE/KPZfmdDvufqpiR5S4=@vger.kernel.org, AJvYcCWxS+gzwyIX1pR8SKtNC85PgJhosnJg2u83Jj9yPL67vdyECpMbMedMw10fHaLaNzryDJqwCY4aRVYA@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+xUHHkj6v40XzktFdL+yK/qRP/fOgCyReaWHHJ+UyIA/Oc1fR
+	9pvSArgoQp+jt9c4ED2VnkObktjtAuGrfIFPaYHYUlhBOkTuGhT9I+J6Oeo/iuqB+RVQdIUMhOk
+	+nae6I/fgFVfPaVXahdbV+8GsUNeK73A=
+X-Gm-Gg: ASbGncs3qQmiPtXQS982qOkJgy9kn46W+Bedtv+ZFfB0TyZqnk9Uo9D/hzTxNJMK9iU
+	iTOYnaCGT+UYRpTHpP22wMXN9BYyQIg4QG08U6ejj6meh1b/46OEsKxzIOY7SqbP/pwKnfk9BaP
+	IluqRN3rW1oqlEaKOmi1aQZTykpq4PT/3GzRFsXZ7n9II1r3X9YFHmwZ6QYQKdGNhM73W9N5sv7
+	GSNW/Xf4iHWdNQVMlOklsslz0bd5zzbvWGyNP5t
+X-Google-Smtp-Source: AGHT+IHguZjKKQpFgGBpEEZVhDrXk7hGpOY5dXVvoNorkpEWWGQ2lapDQQSna02A2GKMR90XdVnQaTddKjZuWppnqeg=
+X-Received: by 2002:a17:907:3f96:b0:ae3:5e70:32fb with SMTP id
+ a640c23a62f3a-b01d8a277f3mr1333364166b.4.1756825571160; Tue, 02 Sep 2025
+ 08:06:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250902-pinctrl-gpio-pinfuncs-v7-0-bb091daedc52@linaro.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20250901183000.1357758-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250901183000.1357758-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWARu=9__pqcHXUq92LYuxAQPZNJ6Fn_b7Z6x78i4twDw@mail.gmail.com>
+In-Reply-To: <CAMuHMdWARu=9__pqcHXUq92LYuxAQPZNJ6Fn_b7Z6x78i4twDw@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Tue, 2 Sep 2025 16:05:44 +0100
+X-Gm-Features: Ac12FXxzvbsiyDdyR1GBbboEmEPc8JYS2vptgHxISPySqH13BqLFpjPt2hwkG4A
+Message-ID: <CA+V-a8t1PDpqqMAdWxPeQfH6MWQe0GHsuBSzRbaRFRPPMf_iQA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] clk: renesas: r9a09g077: Add Ethernet Subsystem
+ core and module clocks
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 02, 2025 at 01:59:09PM +0200, Bartosz Golaszewski wrote:
-> Problem: when pinctrl core binds pins to a consumer device and the
-> pinmux ops of the underlying driver are marked as strict, the pin in
-> question can no longer be requested as a GPIO using the GPIO descriptor
-> API. It will result in the following error:
-> 
-> [    5.095688] sc8280xp-tlmm f100000.pinctrl: pin GPIO_25 already requested by regulator-edp-3p3; cannot claim for f100000.pinctrl:570
-> [    5.107822] sc8280xp-tlmm f100000.pinctrl: error -EINVAL: pin-25 (f100000.pinctrl:570)
-> 
-> This typically makes sense except when the pins are muxed to a function
-> that actually says "GPIO". Of course, the function name is just a string
-> so it has no meaning to the pinctrl subsystem.
-> 
-> We have many Qualcomm SoCs (and I can imagine it's a common pattern in
-> other platforms as well) where we mux a pin to "gpio" function using the
-> `pinctrl-X` property in order to configure bias or drive-strength and
-> then access it using the gpiod API. This makes it impossible to mark the
-> pin controller module as "strict".
-> 
-> This series proposes to introduce a concept of a sub-category of
-> pinfunctions: GPIO functions where the above is not true and the pin
-> muxed as a GPIO can still be accessed via the GPIO consumer API even for
-> strict pinmuxers.
-> 
-> To that end: we first clean up the drivers that use struct function_desc
-> and make them use the smaller struct pinfunction instead - which is the
-> correct structure for drivers to describe their pin functions with. We
-> also rework pinmux core to not duplicate memory used to store the
-> pinfunctions unless they're allocated dynamically.
-> 
-> First: provide the kmemdup_const() helper which only duplicates memory
-> if it's not in the .rodata section. Then rework all pinctrl drivers that
-> instantiate objects of type struct function_desc as they should only be
-> created by pinmux core. Next constify the return value of the accessor
-> used to expose these structures to users and finally convert the
-> pinfunction object within struct function_desc to a pointer and use
-> kmemdup_const() to assign it. With this done proceed to add
-> infrastructure for the GPIO pin function category and use it in Qualcomm
-> drivers. At the very end: make the Qualcomm pinmuxer strict.
+Hi Geert,
 
-I read all this and do not understand why we take all this way,
-Esp. see my Q in patch 16. Can we rather limit this to the controller
-driver to decide and have it handle all the possible configurations,
-muxing, etc?
+Thank you for the review.
 
-I think what we are trying to do here is to delegate part of the
-driver's work pin mux / pin control core. While it sounds like right
-direction the implementation (design wise) seems to me unscalable.
+On Tue, Sep 2, 2025 at 2:01=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68k=
+.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Mon, 1 Sept 2025 at 20:30, Prabhakar <prabhakar.csengg@gmail.com> wrot=
+e:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Add module and core clocks used by Ethernet Subsystem (Ethernet_SS),
+> > Ethernet MAC (GMAC), Ethernet Switch (ETHSW).
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Thanks for your patch!
+>
+> > --- a/drivers/clk/renesas/r9a09g077-cpg.c
+> > +++ b/drivers/clk/renesas/r9a09g077-cpg.c
+> > @@ -72,7 +72,7 @@ enum rzt2h_clk_types {
+> >
+> >  enum clk_ids {
+> >         /* Core Clock Outputs exported to DT */
+> > -       LAST_DT_CORE_CLK =3D R9A09G077_USB_CLK,
+> > +       LAST_DT_CORE_CLK =3D R9A09G077_GMAC2_PCLKAH,
+> >
+> >         /* External Input Clocks */
+> >         CLK_EXTAL,
+> > @@ -166,11 +166,21 @@ static const struct cpg_core_clk r9a09g077_core_c=
+lks[] __initconst =3D {
+> >         DEF_DIV("CA55S", R9A09G077_CLK_CA55S, CLK_SEL_CLK_PLL0, DIVCA55=
+S,
+> >                 dtable_1_2),
+> >         DEF_FIXED("PCLKGPTL", R9A09G077_CLK_PCLKGPTL, CLK_SEL_CLK_PLL1,=
+ 2, 1),
+> > +       DEF_FIXED("PCLKH", R9A09G077_CLK_PCLKH, CLK_SEL_CLK_PLL1, 4, 1)=
+,
+> >         DEF_FIXED("PCLKM", R9A09G077_CLK_PCLKM, CLK_SEL_CLK_PLL1, 8, 1)=
+,
+> >         DEF_FIXED("PCLKL", R9A09G077_CLK_PCLKL, CLK_SEL_CLK_PLL1, 16, 1=
+),
+> > +       DEF_FIXED("PCLKAH", R9A09G077_CLK_PCLKAH, CLK_PLL4D1, 6, 1),
+> >         DEF_FIXED("PCLKAM", R9A09G077_CLK_PCLKAM, CLK_PLL4D1, 12, 1),
+> >         DEF_FIXED("SDHI_CLKHS", R9A09G077_SDHI_CLKHS, CLK_SEL_CLK_PLL2,=
+ 1, 1),
+> >         DEF_FIXED("USB_CLK", R9A09G077_USB_CLK, CLK_PLL4D1, 48, 1),
+> > +       DEF_FIXED("ETCLKA", R9A09G077_ETCLKA, CLK_SEL_CLK_PLL1, 5, 1),
+> > +       DEF_FIXED("ETCLKB", R9A09G077_ETCLKB, CLK_SEL_CLK_PLL1, 8, 1),
+> > +       DEF_FIXED("ETCLKC", R9A09G077_ETCLKC, CLK_SEL_CLK_PLL1, 10, 1),
+> > +       DEF_FIXED("ETCLKD", R9A09G077_ETCLKD, CLK_SEL_CLK_PLL1, 20, 1),
+> > +       DEF_FIXED("ETCLKE", R9A09G077_ETCLKE, CLK_SEL_CLK_PLL1, 40, 1),
+> > +       DEF_FIXED("GMAC0_PCLKH", R9A09G077_GMAC0_PCLKH, R9A09G077_CLK_P=
+CLKH, 1, 1),
+> > +       DEF_FIXED("GMAC1_PCLKH", R9A09G077_GMAC1_PCLKAH, R9A09G077_CLK_=
+PCLKAH, 1, 1),
+> > +       DEF_FIXED("GMAC2_PCLKH", R9A09G077_GMAC2_PCLKAH, R9A09G077_CLK_=
+PCLKAH, 1, 1),
+>
+> Do you need these? I can't seem to find them in the documentation,
+> so they are not just for aiding the casual reader.  As their
+> multipliers/dividers are 1/1, you can just use R9A09G077_CLK_PCLKH
+> resp. R9A09G077_CLK_PCLKAH in the DTS?
+>
+Agreed, we can get rid of these and just use R9A09G077_CLK_PCLK{A}H in
+the SoC DTSI.
 
-In any case first 12 patch (in case they are not regressing) are good
-to go as soon as they can. I like the part of constification.
+> >  };
+> >
+> >  static const struct mssr_mod_clk r9a09g077_mod_clks[] __initconst =3D =
+{
+> > @@ -181,7 +191,12 @@ static const struct mssr_mod_clk r9a09g077_mod_clk=
+s[] __initconst =3D {
+> >         DEF_MOD("sci4fck", 12, CLK_SCI4ASYNC),
+> >         DEF_MOD("iic0", 100, R9A09G077_CLK_PCLKL),
+> >         DEF_MOD("iic1", 101, R9A09G077_CLK_PCLKL),
+> > +       DEF_MOD("gmac0", 400, R9A09G077_CLK_PCLKM),
+> > +       DEF_MOD("ethsw", 401, R9A09G077_CLK_PCLKM),
+>
+> According to Table 7.13 ("Overview of Clock Generation Circuit
+> Specifications (Internal Clock)"), ETCLKA is used as the operating
+> clock for ETHSW?
+>
+There are 3 clock inputs to ETHSW,
+- PCLKM -  bus clock
+- ETCLKA - operating clock
+- ETCLKB - Ts clock
 
--- 
-With Best Regards,
-Andy Shevchenko
+Based on Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml
+we have two clocks for RZ/N1 (Ts clock is missing)
+- description: AHB clock used for the switch register interface
+- description: Switch system clock
 
+- const: hclk
+- const: clk
 
+So I was treating,
+- hclk -> PCLKM,
+- clk   -> ETCLKA
+- ts    -> ETCLKB
+
+Since pclkm is used for register access, I added this entry to the
+r9a09g077_mod_clks array as I was under the impression the clocks used
+for reg access need to go into this array.
+
+> > +       DEF_MOD("ethss", 403, R9A09G077_CLK_PCLKM),
+> >         DEF_MOD("usb", 408, R9A09G077_CLK_PCLKAM),
+> > +       DEF_MOD("gmac1", 416, R9A09G077_CLK_PCLKAM),
+> > +       DEF_MOD("gmac2", 417, R9A09G077_CLK_PCLKAM),
+> >         DEF_MOD("sci5fck", 600, CLK_SCI5ASYNC),
+> >         DEF_MOD("iic2", 601, R9A09G077_CLK_PCLKL),
+> >         DEF_MOD("sdhi0", 1212, R9A09G077_CLK_PCLKAM),
+>
+> The rest LGTM.  But as the full wiring is not clear to me, I guess
+> I'll have to wait for the DTS...
+>
+I'll soon post the Ethernet enabling patches.
+
+Cheers,
+Prabhakar
 
