@@ -1,78 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-21151-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21152-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0AC1B3F188
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 02:14:01 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A609DB3F18B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 02:14:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E5F0D3BE43F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 00:13:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A11C97A3FBA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 00:12:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 034BF2C11EC;
-	Tue,  2 Sep 2025 00:13:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CB962C21C9;
+	Tue,  2 Sep 2025 00:13:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BEKVNL3R"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gN0UsaAM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 138D22C028B;
-	Tue,  2 Sep 2025 00:13:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E542C11D2;
+	Tue,  2 Sep 2025 00:13:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756771992; cv=none; b=EG9V3Bkx3ojv29y6MpNGWmWNugJZE01Q9dmm2+IkamF398xebbxdddQB7iyHsn5hI8dMhQWVVySmvqHLrgf+7hP/nuObUlJBH+68F3OhOCPJv/sEVF5Znyw55a2LuYnluc4ScZHl28Mlb3uu0q2wOIY65/H/Ugc1hzCOEdlIF8s=
+	t=1756771994; cv=none; b=u4kzRHgd8wCB9HCyga21GZTL0fzVmW9bOE9j4ElkZJA5oNDhj/mX+GogWaQKcDqb+qSGFRMiWLrZWWB5msU03O4LOZtPA9AaQqbG9S/UHsY7B+zPB76IoyK79Jzk6TyjW9B5npT3xxNGC9oV7NZJnyXpwozhQcHUX2dGDB/QJbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756771992; c=relaxed/simple;
-	bh=zekx91f+hmWCWtRE0jqVktFYVvzjJ9zRlqXFKxYsR00=;
+	s=arc-20240116; t=1756771994; c=relaxed/simple;
+	bh=rYSJndT6hXCXD8jlYBfbdSRTF0KIs6xPzFEVUOaarJ4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JrETiM5Xfp7PnjTlvm4DFloPUo+g9lJTD4q1Vi3RtQ+XTLxUwabM/7URZ9OBdZJ5n3L4CFdAIeV1u1JzQrtpRbwHzMPWan5+a3jFg0rfLLCL1rRtoV37G+8ovD3PgUACfVDmDi6ZHHeJs8iOBZfeAFThI51cm8eCJfu0arXoZJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BEKVNL3R; arc=none smtp.client-ip=209.85.128.41
+	 MIME-Version; b=TTorBGgTwVy7q05zK+S1Z22XtWQx0jwDE/kA1AWVi/G4NSDnzUEMqA+SaG3LRi8v3OX46GETojWcSlluQZuYsbTl78Peg+GXuABEUD52Nn/szVGjW2X4yO5MeDORxAsrOXcKoQ+ckH6lPJ8B0rgGhJx0e4Z753ceNulWrzwNoeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gN0UsaAM; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-45a1b065d59so33048345e9.1;
-        Mon, 01 Sep 2025 17:13:10 -0700 (PDT)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45b8b7ac427so9532315e9.2;
+        Mon, 01 Sep 2025 17:13:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756771989; x=1757376789; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1756771990; x=1757376790; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IW7wLUGlmaYQP6Tz0Pa2N3CEqKrBMcmhwzaDX5OOnZ8=;
-        b=BEKVNL3Rd40vphF5jlsgvDjrr2GD1rc8q557k8xNWv5yWEd3d66EaIa58Wpf/pON2G
-         Rfp0HAWr9CAimP3xVlbB7reyEZjyEVZMaUgU6V8LJw8EbImhB+hp2sBx1DgG8RW20qcM
-         xnWYwn7dcCxAZmuZ6paaq9/MGPZb9zrVYGXJqMrEsoMbfF4ac2jMj5QcILuq+DkZQkh3
-         DB0PJGghCUFkqQ3WIc0R5LelAaj5gHJvwgs7GDf5qBmkF5ublBB5t3leyeOCz7b0eqDy
-         cmar6S6qe/XoVZ5U2QZjjuitRIt3nmAQtlSNAG+6f+6L2PK70r1gbNAwEdYxHWwcaGpY
-         cd8A==
+        bh=yYNmQYHvpUW9ygwaADrHIo+U++1cqaaqBXRIk4cWf5E=;
+        b=gN0UsaAMCpIxfXQKYNsvpwI1rHEXHvwd+ej41+DQDW6uMC65H/B+DotWJ5jEGuV907
+         f0tBE08q5BxgNPgkqBTq4iVIrf50/ENYLtFpGL8krHI9uDwqqGIG0ncVwKRFZVIlYMjR
+         BdtoU/YufSkjezVdc46pLiBB0mkezOaf9qTYlXtV8BFThcp0bbQcsHZiQYdDEmGnG0w6
+         HbOPHB5qILYtlv9gOG1Dkl7nXCwD7W+WhfJtAWNPyN0m+ZlKeOrXeye+79mHU4NQ/hDZ
+         jbtQB9sxGF/HHuiX6ipy82DVJvB1qVynBhEOP0RFSFDfxiI0LF1a+kznA0vEcln0Xicj
+         gZVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756771989; x=1757376789;
+        d=1e100.net; s=20230601; t=1756771990; x=1757376790;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IW7wLUGlmaYQP6Tz0Pa2N3CEqKrBMcmhwzaDX5OOnZ8=;
-        b=Bbed6sh2Ecv64ekuhfF/USC9FJKmtWC4FUa9eGqxBoHFzNOXH9L1FOaeEKzMJZge1Q
-         DOBVhihCCNkkw48suJho9yMGFvUB7ANZ91h6sDV/uwW39G3DhHGoB6vbMuIyH0g0A+Kt
-         7bA+UAjeLKywOVSVB03m/JReim03mkcQPh29c+TCM42wn7PjBLkn2QeH8jkNdTe4uaaD
-         ZhwFJD62L2xRFcxap8hW7MkZdBGKLF3PFwtQaUPnotPjUMYY+zoawSNJb8gz1ywVFqUE
-         9lKv+lzx8R6zMlkUQSoYYP88wllhr0MUaJq0GSQqXT1jHMvsA6cdTt2E0ickM2GP3t49
-         aO8A==
-X-Forwarded-Encrypted: i=1; AJvYcCUlpKUEwiVzVzgpWFPAp+o0nk0xBz2IQD4Q40PUuOAdjNQ84nDW8Y6rNGSuC8TYQEjp7b1amyQF@vger.kernel.org, AJvYcCVuDERu0lN8dcuC4REE/o01F1X0BgdQZ+zp8u2kKqavDRatGT+puW3xR2fBo7z5aEEf04wEEoMpmJVKi1EO@vger.kernel.org, AJvYcCWyLRUAPHu5X1qjulINBewc9jf3IkYiMLKoU7iPPiu9AhFnPjRxp/Oxe5d26UCmjNYiesOjwiDERjFI@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4/VaO+32M5jRcFPfhSs8c2NaxQJ9Mv5D9m6NyYWxIa9Sk7wD3
-	o4oJnZavrVDezPop7CSiLxw4D0qTIvKyzF41VMZoDVZb9EmgdCtpFkvV
-X-Gm-Gg: ASbGncvtgrH5nfgQCb4gQVlb6tbbFZx4dQZ5VPQHpZoTNwErp2Rv6G9vNuR6GYTaMQC
-	NmhbT/nvu3LKQFbyIf4gXdngII5uFh8UTfdcr2ehBp1lEfUhRJLKsxBGB1eOYuB7nLlXRVNuHrB
-	xfTfftOWsJy0TWm6c3cDj4wMet0hmno69y7pPUbc6/lCvx0l5oeAgylNq3NsofEVv424D67lFA2
-	VcQZfrcEWJ+0xcQhDmyjF7ws3+bwnXj1z4iLWlCjRmcokq8y6ihiA2YrrT6iYA5CE5k9WKmaSrk
-	sepMhUDiyCVYeVDAwMtRUE7hq7jFfi+B1C8ShqvNJygHjp3y2WgM3gOxkWw+hVvfXjiUyvAg77j
-	jHDX2R8Pap8B+oG4LARoeKnCoILY6ghLdeUp5U5SxtFe1kr7TbdLTlrrl
-X-Google-Smtp-Source: AGHT+IHuS7QRUr21Kdtxu2CuDcnTrvddR0z5zY3NevQTs8JFkmoZuliR3bAbwjIkq43ebLCLnjTS7Q==
-X-Received: by 2002:a05:600c:a0a:b0:456:1824:4808 with SMTP id 5b1f17b1804b1-45b855aeb67mr71158435e9.32.1756771989248;
-        Mon, 01 Sep 2025 17:13:09 -0700 (PDT)
+        bh=yYNmQYHvpUW9ygwaADrHIo+U++1cqaaqBXRIk4cWf5E=;
+        b=N5eSZeB9L3hEQwWmcq0S4YUustvciC2Od7e+Jq1+iJzzanlxwdOVNkXgYRcd2BIHH5
+         tqKtBH4vuUfwzClrf+NLMUH7zgFTtZ1eLLIW+j+PEOzh6w56WXZ+R4/hn4hCHvNtilNy
+         aF6vv7iGfcHzQ/E4cdy7wvOPBM9Orbfv4BzXPbN5TcQrLOUernLFUkKfeuT8dthzQZZm
+         mpwR1Z9cLicEkTRZArvb2EFLB1d5okPxvjG28PDcLOOzgWaRVrIQlG0sGzMOEOFcoWG5
+         c8T3UHms1lURVNcNudJVr6F/fEYQsKTRDzH5vpPO+Rwo6QiAFcLLN9MGHiGDQ+f2NtMP
+         jOgQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUYAy1yaZb319gsigJuPZjuEoxidBecLG6IhsygFbrkAWMxtOXqeuOl0b3VSrxGsRyK/EamM5Za@vger.kernel.org, AJvYcCUZpfIHO6inERwDpVVvKhHO3MUSmwqpoIUPPTudkwK74TOgf+saf4ZkRR25saLakmzdfW0T5MooWBV08PrN@vger.kernel.org, AJvYcCXjiYXuEHYD7y+0YKpziLoVtPLNYbKc6dIJdZxG2ReKsHJJ985j3Ip6p3z8vZgh6HVrAF1utr/MFCY3@vger.kernel.org
+X-Gm-Message-State: AOJu0YzN9rhw0ZnwBixsA1zlc4D4ebg6Kj59zrOm3hJmpqCC8zW7Lpy1
+	xZwVTvamoR6QGQYCJGgJItyB+rIzgFPOwq9YBKVhm5qM61M7TcyKKLTp
+X-Gm-Gg: ASbGncsg/Ndwp7jJ9waHXi90s78YDMn81lVF86ZP7P3RcDG/gcpIlJu3ULTj5XzueEL
+	5JN2iPpQZi4byk80ACRGk2XwghsDdbTsizbFwwB/izU28iMA8X54cGTH6SalrL7FteSEmtdC65q
+	khBbOJhaVLtYV13yyHznzBpvoBCHZPKiqMUKVOJhDr6LVWqBPavVAJf+nfN3VNbcm6yh7+MjYpx
+	4r8UbE14h1Wm7wjw/HWShlxzBgI7SQs8h9kS+ZDX5P+MJcGlXMCptNA/h6c4UaVWLbwAxOIO+Y8
+	+H1v9aJhw0WrJ+TLoVFyOh7FezIelTGHlKBIlza93DlCu6g17EFIMTuCPJAS+3/hKPvBbrW/ZOy
+	+aS/E1Ylfi5RpZOOLc8274Bx21OWFqXTbuK2HJVhIe5U+9Q==
+X-Google-Smtp-Source: AGHT+IFGGuLbjih6Gj+w7x0wLgIFZo1ltt4HE5wOWmB54nwG1DjvGnz2BT6uviOKTC8YNommrrKJIQ==
+X-Received: by 2002:a05:600c:4fcd:b0:45b:7185:9e5 with SMTP id 5b1f17b1804b1-45b85525cddmr83857055e9.5.1756771990377;
+        Mon, 01 Sep 2025 17:13:10 -0700 (PDT)
 Received: from iku.Home ([2a06:5906:61b:2d00:ca6c:86b2:c8f:84d6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3d92d51982bsm2138153f8f.21.2025.09.01.17.13.07
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3d92d51982bsm2138153f8f.21.2025.09.01.17.13.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Sep 2025 17:13:08 -0700 (PDT)
+        Mon, 01 Sep 2025 17:13:09 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Andrew Lunn <andrew+netdev@lunn.ch>,
@@ -101,9 +101,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH net-next 3/4] net: stmmac: dwmac-renesas-gbeth: Use OF data for configuration
-Date: Tue,  2 Sep 2025 01:13:01 +0100
-Message-ID: <20250902001302.3823418-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH net-next 4/4] net: stmmac: dwmac-renesas-gbeth: Add support for RZ/T2H SoC
+Date: Tue,  2 Sep 2025 01:13:02 +0100
+Message-ID: <20250902001302.3823418-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250902001302.3823418-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20250902001302.3823418-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -117,128 +117,134 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Prepare for adding RZ/T2H SoC support by making the driver configuration
-selectable via OF match data. While the RZ/V2H(P) and RZ/T2H use the same
-version of the Synopsys DesignWare MAC (version 5.20), the hardware is
-synthesized with different options. To accommodate these differences,
-introduce a struct holding per-SoC configuration such as clock list,
-number of clocks, TX clock rate control, and STMMAC flags, and retrieve
-it from the device tree match entry during probe.
+Extend the Renesas GBETH stmmac glue driver to support the RZ/T2H SoC,
+where the GMAC is connected through a MIIC PCS. Introduce a new
+`has_pcs` flag in `struct renesas_gbeth_of_data` to indicate when PCS
+handling is required.
+
+When enabled, the driver parses the `pcs-handle` phandle, creates a PCS
+instance with `miic_create()`, and wires it into phylink. Proper cleanup
+is done with `miic_destroy()`. New init/exit/select hooks are added to
+`plat_stmmacenet_data` for PCS integration.
+
+Update Kconfig to select `PCS_RZN1_MIIC` when building the Renesas GBETH
+driver so the PCS support is always available.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- .../stmicro/stmmac/dwmac-renesas-gbeth.c      | 57 +++++++++++++++----
- 1 file changed, 47 insertions(+), 10 deletions(-)
+ drivers/net/ethernet/stmicro/stmmac/Kconfig   |  1 +
+ .../stmicro/stmmac/dwmac-renesas-gbeth.c      | 52 +++++++++++++++++++
+ 2 files changed, 53 insertions(+)
 
+diff --git a/drivers/net/ethernet/stmicro/stmmac/Kconfig b/drivers/net/ethernet/stmicro/stmmac/Kconfig
+index 67fa879b1e52..a01c83b109f9 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/Kconfig
++++ b/drivers/net/ethernet/stmicro/stmmac/Kconfig
+@@ -136,6 +136,7 @@ config DWMAC_RENESAS_GBETH
+ 	tristate "Renesas RZ/V2H(P) GBETH support"
+ 	default ARCH_RENESAS
+ 	depends on OF && (ARCH_RENESAS || COMPILE_TEST)
++	select PCS_RZN1_MIIC
+ 	help
+ 	  Support for Gigabit Ethernet Interface (GBETH) on Renesas
+ 	  RZ/V2H(P) SoCs.
 diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c
-index df4ca897a60c..022e595a9e1b 100644
+index 022e595a9e1b..ad89f7b8f279 100644
 --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c
 +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c
-@@ -16,12 +16,34 @@
- #include <linux/clk.h>
+@@ -17,6 +17,7 @@
  #include <linux/device.h>
  #include <linux/module.h>
-+#include <linux/of.h>
+ #include <linux/of.h>
++#include <linux/pcs-rzn1-miic.h>
  #include <linux/platform_device.h>
  #include <linux/reset.h>
-+#include <linux/types.h>
+ #include <linux/types.h>
+@@ -33,6 +34,7 @@
+  *                handled by the glue driver or core driver.
+  * @set_clk_tx_rate: Flag to indicate if Tx clock is fixed or
+  *                   set_clk_tx_rate is needed.
++ * @has_pcs: Flag to indicate if the MAC has a PCS
+  */
+ struct renesas_gbeth_of_data {
+ 	const char * const *clks;
+@@ -40,6 +42,7 @@ struct renesas_gbeth_of_data {
+ 	u32 stmmac_flags;
+ 	bool handle_reset;
+ 	bool set_clk_tx_rate;
++	bool has_pcs;
+ };
  
- #include "stmmac_platform.h"
+ struct renesas_gbeth {
+@@ -53,6 +56,41 @@ static const char *const renesas_gbeth_clks[] = {
+ 	"tx", "tx-180", "rx", "rx-180",
+ };
  
-+/**
-+ * struct renesas_gbeth_of_data - OF data for Renesas GBETH
-+ *
-+ * @clks: Array of clock names
-+ * @num_clks: Number of clocks
-+ * @stmmac_flags: Flags for the stmmac driver
-+ * @handle_reset: Flag to indicate if reset control is
-+ *                handled by the glue driver or core driver.
-+ * @set_clk_tx_rate: Flag to indicate if Tx clock is fixed or
-+ *                   set_clk_tx_rate is needed.
-+ */
-+struct renesas_gbeth_of_data {
-+	const char * const *clks;
-+	u8 num_clks;
-+	u32 stmmac_flags;
-+	bool handle_reset;
-+	bool set_clk_tx_rate;
++static const char *const renesas_gmac_clks[] = {
++	"tx",
 +};
 +
- struct renesas_gbeth {
-+	const struct renesas_gbeth_of_data *of_data;
- 	struct plat_stmmacenet_data *plat_dat;
- 	struct reset_control *rstc;
- 	struct device *dev;
-@@ -70,6 +92,7 @@ static void renesas_gbeth_exit(struct platform_device *pdev, void *priv)
- 
- static int renesas_gbeth_probe(struct platform_device *pdev)
- {
-+	const struct renesas_gbeth_of_data *of_data;
- 	struct plat_stmmacenet_data *plat_dat;
- 	struct stmmac_resources stmmac_res;
- 	struct device *dev = &pdev->dev;
-@@ -91,14 +114,17 @@ static int renesas_gbeth_probe(struct platform_device *pdev)
- 	if (!gbeth)
- 		return -ENOMEM;
- 
--	plat_dat->num_clks = ARRAY_SIZE(renesas_gbeth_clks);
-+	of_data = of_device_get_match_data(&pdev->dev);
-+	gbeth->of_data = of_data;
++static int renesas_gmac_pcs_init(struct stmmac_priv *priv)
++{
++	struct device_node *np = priv->device->of_node;
++	struct device_node *pcs_node;
++	struct phylink_pcs *pcs;
 +
-+	plat_dat->num_clks = of_data->num_clks;
- 	plat_dat->clks = devm_kcalloc(dev, plat_dat->num_clks,
- 				      sizeof(*plat_dat->clks), GFP_KERNEL);
- 	if (!plat_dat->clks)
- 		return -ENOMEM;
- 
- 	for (i = 0; i < plat_dat->num_clks; i++)
--		plat_dat->clks[i].id = renesas_gbeth_clks[i];
-+		plat_dat->clks[i].id = of_data->clks[i];
- 
- 	err = devm_clk_bulk_get(dev, plat_dat->num_clks, plat_dat->clks);
- 	if (err < 0)
-@@ -109,25 +135,36 @@ static int renesas_gbeth_probe(struct platform_device *pdev)
- 		return dev_err_probe(dev, -EINVAL,
- 				     "error finding tx clock\n");
- 
--	gbeth->rstc = devm_reset_control_get_exclusive(dev, NULL);
--	if (IS_ERR(gbeth->rstc))
--		return PTR_ERR(gbeth->rstc);
-+	if (of_data->handle_reset) {
-+		gbeth->rstc = devm_reset_control_get_exclusive(dev, NULL);
-+		if (IS_ERR(gbeth->rstc))
-+			return PTR_ERR(gbeth->rstc);
++	pcs_node = of_parse_phandle(np, "pcs-handle", 0);
++	if (pcs_node) {
++		pcs = miic_create(priv->device, pcs_node);
++		of_node_put(pcs_node);
++		if (IS_ERR(pcs))
++			return PTR_ERR(pcs);
++
++		priv->hw->phylink_pcs = pcs;
 +	}
- 
- 	gbeth->dev = dev;
- 	gbeth->plat_dat = plat_dat;
- 	plat_dat->bsp_priv = gbeth;
--	plat_dat->set_clk_tx_rate = stmmac_set_clk_tx_rate;
-+	if (of_data->set_clk_tx_rate)
-+		plat_dat->set_clk_tx_rate = stmmac_set_clk_tx_rate;
++
++	return 0;
++}
++
++static void renesas_gmac_pcs_exit(struct stmmac_priv *priv)
++{
++	if (priv->hw->phylink_pcs)
++		miic_destroy(priv->hw->phylink_pcs);
++}
++
++static struct phylink_pcs *renesas_gmac_select_pcs(struct stmmac_priv *priv,
++						   phy_interface_t interface)
++{
++	return priv->hw->phylink_pcs;
++}
++
+ static int renesas_gbeth_init(struct platform_device *pdev, void *priv)
+ {
+ 	struct plat_stmmacenet_data *plat_dat;
+@@ -149,6 +187,11 @@ static int renesas_gbeth_probe(struct platform_device *pdev)
  	plat_dat->init = renesas_gbeth_init;
  	plat_dat->exit = renesas_gbeth_exit;
--	plat_dat->flags |= STMMAC_FLAG_HWTSTAMP_CORRECT_LATENCY |
--			   STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP |
--			   STMMAC_FLAG_SPH_DISABLE;
-+	plat_dat->flags |= gbeth->of_data->stmmac_flags;
+ 	plat_dat->flags |= gbeth->of_data->stmmac_flags;
++	if (of_data->has_pcs) {
++		plat_dat->pcs_init = renesas_gmac_pcs_init;
++		plat_dat->pcs_exit = renesas_gmac_pcs_exit;
++		plat_dat->select_pcs = renesas_gmac_select_pcs;
++	}
  
  	return devm_stmmac_pltfr_probe(pdev, plat_dat, &stmmac_res);
  }
+@@ -163,8 +206,17 @@ static const struct renesas_gbeth_of_data renesas_gbeth_of_data = {
+ 			STMMAC_FLAG_SPH_DISABLE,
+ };
  
-+static const struct renesas_gbeth_of_data renesas_gbeth_of_data = {
-+	.clks = renesas_gbeth_clks,
-+	.num_clks = ARRAY_SIZE(renesas_gbeth_clks),
-+	.handle_reset = true,
-+	.set_clk_tx_rate = true,
++static const struct renesas_gbeth_of_data renesas_gmac_of_data = {
++	.clks = renesas_gmac_clks,
++	.num_clks = ARRAY_SIZE(renesas_gmac_clks),
 +	.stmmac_flags = STMMAC_FLAG_HWTSTAMP_CORRECT_LATENCY |
-+			STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP |
-+			STMMAC_FLAG_SPH_DISABLE,
++			STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP,
++	.has_pcs = true,
 +};
 +
  static const struct of_device_id renesas_gbeth_match[] = {
--	{ .compatible = "renesas,rzv2h-gbeth", },
-+	{ .compatible = "renesas,rzv2h-gbeth", .data = &renesas_gbeth_of_data },
+ 	{ .compatible = "renesas,rzv2h-gbeth", .data = &renesas_gbeth_of_data },
++	{ .compatible = "renesas,rzt2h-gbeth", .data = &renesas_gmac_of_data },
  	{ /* Sentinel */ }
  };
  MODULE_DEVICE_TABLE(of, renesas_gbeth_match);
