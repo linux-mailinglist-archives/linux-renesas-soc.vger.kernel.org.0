@@ -1,145 +1,176 @@
-Return-Path: <linux-renesas-soc+bounces-21213-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21214-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91319B40915
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 17:38:09 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B98FB40919
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 17:38:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B2846202A95
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 15:38:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9329E1B614A9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 15:39:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F3E5322DA1;
-	Tue,  2 Sep 2025 15:37:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4166320A13;
+	Tue,  2 Sep 2025 15:38:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q7jQM8xy"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zh70MZgO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CCBA2FD1CA;
-	Tue,  2 Sep 2025 15:37:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75BB825EFBF;
+	Tue,  2 Sep 2025 15:38:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756827477; cv=none; b=tUScePcUwCB5idSF+JrecuLwKu6lKl6x3nJ8F51TSEQNwxvuo1xHfV/pLbvm0sRoKFCtLp3lk71ghwwbjd/+gviDfjEvRDFnmy1INjAScVFpBM1HnHD5+dLoljLkkcTrM0o1Fx1YZ7XfojxEN0cG02fHaWuyM759N2zkqHkm5nM=
+	t=1756827518; cv=none; b=daAJtnJvr5z/X7bllSGTeDcE24DPdHUJ71brlnWJaYzsDrv+j8+/xpeHmXrmpQ1nHM3C9x6ZGcOul7YYVy5fXxRcnnJrKoW701RH27+5OjvkdCgf69XgkGWVKXHpZVpjOQEuevBbkAxiEy9jWQZK1AyKbRTdOEVVKAlMINTe6qw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756827477; c=relaxed/simple;
-	bh=Q0V0+8/9cQhFYhyJ10VGhON8RF6qKxEQag6+/cJWUfE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cinsdwP6Iwamz7LYWSjq+6njp/BwjmZ85Ckwqa20RLy0Pb6dJ4qbOSc0J7j4CbNIEvQDvQtLtFLFfqQjyjYDPRmEGHtziIYRcgbCaWzBgR9OWgTYE45uqItmBDhRhilEelxAHawEu1/ugFl4uuLN8Helz7IWHwabv7wTl5JN/Zc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q7jQM8xy; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b040df389easo509580166b.3;
-        Tue, 02 Sep 2025 08:37:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756827474; x=1757432274; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ToovZG8SQtuUFFknVRkxm5fUqcSGP9vu7/1Fx5ABo6s=;
-        b=Q7jQM8xyQD5Cq4+HfFezvIrf8qGKs2443M5lO2nFF0oCyUdLfSeG7hIWNYZn0FMbBE
-         FxlursyWC9t9t9MnN/S/CkqUC3A68DfmJEQJ/7UNfrH78zRXUpDFZGxiGgHZnudGEibu
-         f2b4CvCfrXrE+1kVroC7ZZbQt7fG8Wl0EEqn2tKIjUHLuVmIBjtPdVCmC1jbd62t4u1N
-         9G78MQDF9DPxzcFlDg/9zgb9jW8hZr5DX0b5+nJWM1nBiRLzQH9X/qeuvbqft4dPrM2l
-         PcKy/cOk+41hEcShX2ZfPg3SyAcKctEgbL1b8evm4qTGQQEobz/WnzGcWcIQ0B4IM/B0
-         1dhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756827474; x=1757432274;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ToovZG8SQtuUFFknVRkxm5fUqcSGP9vu7/1Fx5ABo6s=;
-        b=fUgyUPYbJqOzgAg1p0qBxfoaPTWC3dOOtob5ZThgqTmlrSSUacmg/hhKEsLlV1n1om
-         LvSNlzy04OEOp5dBCn1Sy8CI7H2/cLcggv7g8lK8PIhFzpPsaRUtVZmeh17y4PqA82TX
-         XVeSZVDW2RouG9RPejZOkOD1gm6g0xPr0XntujdVMPIRUuLU2jj4WBtKzoaxf3nuVkCN
-         +qG3Kf2AOr6W9TDrhzanQkWmGPVSemwF+etisZihnscpOYDYWgxka9HYYgAVkpXwv878
-         rgwWsXQkFn+3zABQAsrPrBq3NYabKhGSVU4pCN+mStnSpPj+6vKFe6k4GfWDDyLK3flq
-         0OTw==
-X-Forwarded-Encrypted: i=1; AJvYcCW4k14tk1UwfR//ROAAolzErZqX7FVzzwWEofvsniOa24NzB1bZZDZwQicqNRKAgWKwa7BuGGUWfsTBbGoX@vger.kernel.org, AJvYcCX99qajrD8d0ocsnh3iIJfsG+9x6Vi1FUsRUSt2Pn6aHtxJUwxegHnDc8GMPhdlXLxv/0fIZIzrOMgN@vger.kernel.org, AJvYcCXKCbZDho7GeosTLV19ujAAxT3pbDwUkR8sk4JMxqck9k+lC+iKmQYOUd7sc1MAi4QEH+TwaeGgBdtSTp54b2wSFVY=@vger.kernel.org, AJvYcCXosOOVbyQT1T9MOzjJYEq7F0604yhEgbx9I6jWs6km37Sr5/hF8Ed/3ETAW5OnLVEHYsC7YVNIxpA0@vger.kernel.org
-X-Gm-Message-State: AOJu0YxP3DiwI4rJG0Aj7qBATdXUNA+gecZBkpw3/ZNXkAd9IU2q+8cL
-	vr8QzQbqtXTFf3vKixGtGo3CMnBw/83agC3HTfw0vO40CNMh6VGKqs3TCzytB0I0SXP7xt8Kbd9
-	n7knfHN7rHNkautE51kAOJ8iiSLVDSxU=
-X-Gm-Gg: ASbGncvoxip/W+KlxzHOtVCQkKIG09yIAV3A42mxScmhFzNizWercxjCMNGWewSv0BZ
-	vuBLpu/MV2/hLnMSVkSt/yQHVGkvVTusiMtlKlSBWdwS2U35Lq2nAX2ihPkiFe1rBR2UQSeILFr
-	vorz7qXrOHxIWVWXMyvtkETb/d9dSFikz6PViAnntXWqvHhHI1Evjroakzl7I0RjszEhJo8GIiT
-	yokD4jBBbKzkRdDG7fm+r3FP0nf2/gWLnvLSLsf
-X-Google-Smtp-Source: AGHT+IFAIdNO+1gO9Ilx8n6K907nn54bmjXBWyPpLuVOa8774PJjRCJs7SoLDLYXImHEg2v2acrnfsYECCp+2+KrFLA=
-X-Received: by 2002:a17:907:86a3:b0:afe:d3b2:8b2c with SMTP id
- a640c23a62f3a-b01d979e9b2mr1145170166b.52.1756827473256; Tue, 02 Sep 2025
- 08:37:53 -0700 (PDT)
+	s=arc-20240116; t=1756827518; c=relaxed/simple;
+	bh=v+DuYfBUiGbE23dCrrZocBSYiEeU9i6PmQBrfDGbt+c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ou0TzRA4lX6dB1qFaYy02kTJO24tBLrVfdgoSpztcPVtaiAmofWb50ubIHxDCZhJM7LnFFSeHUgPpQrPVcYHInY4Gws3eB7uoFxn9bKnF60IWzeO8vhGFZlfSpAMywAAg2rcEChgMwYG4mlzRkQCMMMzb/YStALLr1mX18rBFq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zh70MZgO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9DD3C4CEED;
+	Tue,  2 Sep 2025 15:38:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756827517;
+	bh=v+DuYfBUiGbE23dCrrZocBSYiEeU9i6PmQBrfDGbt+c=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Zh70MZgOxvxIxj6UMkzT706dj4grAuw+KArw+LrHivUyAmevwHRbmzsy8tdhtqckQ
+	 ctnQW14LrxH7lpGTWRcPysIxgPyheRuMy9Tnoya1qMd019iqz8ogyz/ZzskmCsRTY4
+	 F6vO7VOs9YxEPQ4KZXd48LQZlpVHk12uvjES7uMNnLSDH8kOAWc5bmmaMvxzgl8PYT
+	 QFuBANh8pcFrndFTx8KlSmz3GDHmSM2T49B2D/EK+RnKYtzD4IBBt8MHQCCaSTZdMa
+	 hyyllZ2BaEg7ss7qp0XMJFqiosZEUGgYOmQQXbvtOguQ5wDzIV/4TdwKF//sOzHuI/
+	 Cne8GehwJZyYw==
+Message-ID: <5c9f8c2e-6785-4464-b2cf-f8a6aeec42ea@kernel.org>
+Date: Tue, 2 Sep 2025 17:38:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250901183000.1357758-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250901183000.1357758-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdV+-WK3KQNfwrN30LFCGaWgRuRH4QOpMMC_6cko1bz3uQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdV+-WK3KQNfwrN30LFCGaWgRuRH4QOpMMC_6cko1bz3uQ@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 2 Sep 2025 16:37:26 +0100
-X-Gm-Features: Ac12FXwcT0gz1a6x2-m6fCf1bNV0IkrlzXdNyK7bJFVkGSwJN082tnh18fq-a8A
-Message-ID: <CA+V-a8v9SBF7zkCq4zgZJV=B-=t6Dea7dG=whA0YjwOrPrO5Hg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: clock: renesas,r9a09g077/87: Add
- Ethernet and GMAC clocks
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Conor Dooley <conor.dooley@microchip.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 12/16] pinctrl: qcom: use generic pin function helpers
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Alexey Klimov <alexey.klimov@linaro.org>,
+ Lorenzo Bianconi <lorenzo@kernel.org>, Sean Wang <sean.wang@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Paul Cercueil <paul@crapouillou.net>, Kees Cook <kees@kernel.org>,
+ Andy Shevchenko <andy@kernel.org>, Andrew Morton
+ <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Dong Aisheng <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>,
+ Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ NXP S32 Linux Team <s32@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Tony Lindgren <tony@atomide.com>, Haojian Zhuang
+ <haojian.zhuang@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Mark Brown <broonie@kernel.org>,
+ linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+ linux-hardening@vger.kernel.org, linux-mm@kvack.org, imx@lists.linux.dev,
+ linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+References: <20250902-pinctrl-gpio-pinfuncs-v7-0-bb091daedc52@linaro.org>
+ <20250902-pinctrl-gpio-pinfuncs-v7-12-bb091daedc52@linaro.org>
+ <aLbt2euqYQM5xXuZ@smile.fi.intel.com>
+ <1034c70a-da67-4914-b23c-8d006b7611bf@kernel.org>
+ <aLcM58IEH8hGYLnx@smile.fi.intel.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <aLcM58IEH8hGYLnx@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Geert,
+On 02/09/2025 17:27, Andy Shevchenko wrote:
+> On Tue, Sep 02, 2025 at 05:12:24PM +0200, Krzysztof Kozlowski wrote:
+>> On 02/09/2025 15:15, Andy Shevchenko wrote:
+>>> On Tue, Sep 02, 2025 at 01:59:21PM +0200, Bartosz Golaszewski wrote:
+> 
+> ...
+> 
+>>>> +	for (i = 0; i < soc_data->nfunctions; i++) {
+>>>> +		func = &soc_data->functions[i];
+>>>> +
+>>>> +		ret = pinmux_generic_add_pinfunction(pctrl->pctrl, func, NULL);
+>>>> +		if (ret < 0)
+>>>
+>>> Why not simply
+>>>
+>>> 		if (ret)
+>>
+>> Because existing code is as readable?
+> 
+> I don't agree on this. And Bart explained why. So, it's an API requirement
+> after all.
 
-Thank you for the review.
+If pinmux_generic_add_pinfunction() was returning 0 or error code, which
+I assume you thought this function is doing, then your suggestion was
+nitpicking and existing code would be readable. Requesting (ret) for
+such case is really not helping.
 
-On Tue, Sep 2, 2025 at 2:02=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68k=
-.org> wrote:
->
-> Hi Prabhakar,
->
-> On Mon, 1 Sept 2025 at 20:30, Prabhakar <prabhakar.csengg@gmail.com> wrot=
-e:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Add clock definitions for Ethernet (ETCLK A-E) and GMAC (GMAC0-2)
-> > peripherals to both R9A09G077 and R9A09G087 SoCs. These definitions
-> > are required for describing Ethernet and GMAC devices in device trees.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Acked-by: Conor Dooley <conor.dooley@microchip.com>
->
-> Thanks for your patch!
->
-> > --- a/include/dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h
-> > +++ b/include/dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h
-> > @@ -26,5 +26,14 @@
-> >  #define R9A09G077_CLK_PCLKL            14
-> >  #define R9A09G077_SDHI_CLKHS           15
-> >  #define R9A09G077_USB_CLK              16
-> > +#define R9A09G077_ETCLKA               17
-> > +#define R9A09G077_ETCLKB               18
-> > +#define R9A09G077_ETCLKC               19
-> > +#define R9A09G077_ETCLKD               20
-> > +#define R9A09G077_ETCLKE               21
->
-> These five LGTM.
->
-> > +#define R9A09G077_GMAC0_PCLKH          22
-> > +#define R9A09G077_GMAC1_PCLKAH         23
-> > +#define R9A09G077_GMAC2_PCLKAH         24
->
-> I doubt you really need these, cfr. my comments on [PATCH v2 2/2].
->
-As agreed on patch 2/2, I will drop these macros in v3.
+If, as it turns out if you looked at the code,
+pinmux_generic_add_pinfunction() returns non-error for success, your
+comment was even wrong.
 
-Cheers,
-Prabhakar
+So either you are nitpicking which is not helpful or you are finding
+fake issues which is counter productive.
+
+Best regards,
+Krzysztof
 
