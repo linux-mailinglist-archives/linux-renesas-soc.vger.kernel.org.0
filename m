@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-21214-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21215-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B98FB40919
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 17:38:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA9FFB40923
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 17:39:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9329E1B614A9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 15:39:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3F1F4560E73
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 15:39:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4166320A13;
-	Tue,  2 Sep 2025 15:38:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C41E31E0EE;
+	Tue,  2 Sep 2025 15:39:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zh70MZgO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aIoeOZK6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75BB825EFBF;
-	Tue,  2 Sep 2025 15:38:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D103F3054E8;
+	Tue,  2 Sep 2025 15:39:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756827518; cv=none; b=daAJtnJvr5z/X7bllSGTeDcE24DPdHUJ71brlnWJaYzsDrv+j8+/xpeHmXrmpQ1nHM3C9x6ZGcOul7YYVy5fXxRcnnJrKoW701RH27+5OjvkdCgf69XgkGWVKXHpZVpjOQEuevBbkAxiEy9jWQZK1AyKbRTdOEVVKAlMINTe6qw=
+	t=1756827548; cv=none; b=kL3kvkDmccn44YOh65VZVZGzAWoTDe55rPCDWoRPd/DWGn7g9Td1zqt3ZjSzyyf8QtDE2MRj1k9oiHGkdOd0O0TeEUDdbhK+uWW01Zjv+USPPUBkFO4vHnVGoTT0k2T0Vav2N7ELaFIkkJcK5gwG+SfsxX5t+FKcZPL5QjZGDC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756827518; c=relaxed/simple;
-	bh=v+DuYfBUiGbE23dCrrZocBSYiEeU9i6PmQBrfDGbt+c=;
+	s=arc-20240116; t=1756827548; c=relaxed/simple;
+	bh=idL1g8ryFMDBro5Lx09Mx5xS8dwjhi8Yq+ST74AzSiM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ou0TzRA4lX6dB1qFaYy02kTJO24tBLrVfdgoSpztcPVtaiAmofWb50ubIHxDCZhJM7LnFFSeHUgPpQrPVcYHInY4Gws3eB7uoFxn9bKnF60IWzeO8vhGFZlfSpAMywAAg2rcEChgMwYG4mlzRkQCMMMzb/YStALLr1mX18rBFq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zh70MZgO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9DD3C4CEED;
-	Tue,  2 Sep 2025 15:38:26 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=UsoOBJ1x6Mt6OPpeNrRdnHFdYZxsG92B0foxMfnT1JKBLSWBFOGvw3daMtn/cKJmA1wIX8rCy8xAumAu505bKP/7EjTY0HolFjJ8Nux7dHcxjYrMWcSRjiN2cQvl2s11Q75l+fQjcGTsyBzTP63uIC2soJZ9+r4KzFD73Tzt71k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aIoeOZK6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52429C4CEED;
+	Tue,  2 Sep 2025 15:39:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756827517;
-	bh=v+DuYfBUiGbE23dCrrZocBSYiEeU9i6PmQBrfDGbt+c=;
+	s=k20201202; t=1756827548;
+	bh=idL1g8ryFMDBro5Lx09Mx5xS8dwjhi8Yq+ST74AzSiM=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Zh70MZgOxvxIxj6UMkzT706dj4grAuw+KArw+LrHivUyAmevwHRbmzsy8tdhtqckQ
-	 ctnQW14LrxH7lpGTWRcPysIxgPyheRuMy9Tnoya1qMd019iqz8ogyz/ZzskmCsRTY4
-	 F6vO7VOs9YxEPQ4KZXd48LQZlpVHk12uvjES7uMNnLSDH8kOAWc5bmmaMvxzgl8PYT
-	 QFuBANh8pcFrndFTx8KlSmz3GDHmSM2T49B2D/EK+RnKYtzD4IBBt8MHQCCaSTZdMa
-	 hyyllZ2BaEg7ss7qp0XMJFqiosZEUGgYOmQQXbvtOguQ5wDzIV/4TdwKF//sOzHuI/
-	 Cne8GehwJZyYw==
-Message-ID: <5c9f8c2e-6785-4464-b2cf-f8a6aeec42ea@kernel.org>
-Date: Tue, 2 Sep 2025 17:38:24 +0200
+	b=aIoeOZK6RxXuUzdEbQJdIMafxQj+XlRXsiArHsvlVF7d66IAcRf+9zfnh8cTb8jut
+	 /R2LEm4nHP5+6YXPXchvjzNe7FQklq4riSIB+AFfQQK651+URiZxPCNB54sRtsdPpU
+	 kpQ42h3UzKPJl49NN9TfrM1z9dGzfiBRrq1zQ65yGlRvat0SnTCzRQXkAyiThzyW6m
+	 qxOouATfGpYmdAYlEtJB+HtyBgZBNq3HF3/sz7/QriWBjEVzLfzhidzOyE9xfont3R
+	 kkD/r5na2ekN4efFet85DYIbSLRh7wqzdGXSWng4yIrvzykSnJjYGBoYC+Z6U58Xnb
+	 vDvHg9Z3ohrdg==
+Message-ID: <e6b47074-70b8-4cca-abf4-f3104a5d0e36@kernel.org>
+Date: Tue, 2 Sep 2025 17:39:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,44 +50,27 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 12/16] pinctrl: qcom: use generic pin function helpers
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>,
- Linus Walleij <linus.walleij@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Alexey Klimov <alexey.klimov@linaro.org>,
- Lorenzo Bianconi <lorenzo@kernel.org>, Sean Wang <sean.wang@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Paul Cercueil <paul@crapouillou.net>, Kees Cook <kees@kernel.org>,
- Andy Shevchenko <andy@kernel.org>, Andrew Morton
- <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
- <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Dong Aisheng <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>,
- Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- NXP S32 Linux Team <s32@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Tony Lindgren <tony@atomide.com>, Haojian Zhuang
- <haojian.zhuang@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Mark Brown <broonie@kernel.org>,
- linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
- linux-hardening@vger.kernel.org, linux-mm@kvack.org, imx@lists.linux.dev,
- linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-References: <20250902-pinctrl-gpio-pinfuncs-v7-0-bb091daedc52@linaro.org>
- <20250902-pinctrl-gpio-pinfuncs-v7-12-bb091daedc52@linaro.org>
- <aLbt2euqYQM5xXuZ@smile.fi.intel.com>
- <1034c70a-da67-4914-b23c-8d006b7611bf@kernel.org>
- <aLcM58IEH8hGYLnx@smile.fi.intel.com>
+Subject: Re: [PATCH net-next 2/2] dt-bindings: net: renesas,rzn1-gmac:
+ Constrain interrupts
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Matthew Gerlach <matthew.gerlach@altera.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Romain Gantois <romain.gantois@bootlin.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, netdev@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20250902091526.105905-3-krzysztof.kozlowski@linaro.org>
+ <20250902091526.105905-4-krzysztof.kozlowski@linaro.org>
+ <CA+V-a8s2H4UzovMqYJ15nWu1X55dL+7qJWifHxMEkqjtTzigzg@mail.gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -133,43 +116,22 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <aLcM58IEH8hGYLnx@smile.fi.intel.com>
+In-Reply-To: <CA+V-a8s2H4UzovMqYJ15nWu1X55dL+7qJWifHxMEkqjtTzigzg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 02/09/2025 17:27, Andy Shevchenko wrote:
-> On Tue, Sep 02, 2025 at 05:12:24PM +0200, Krzysztof Kozlowski wrote:
->> On 02/09/2025 15:15, Andy Shevchenko wrote:
->>> On Tue, Sep 02, 2025 at 01:59:21PM +0200, Bartosz Golaszewski wrote:
+On 02/09/2025 17:35, Lad, Prabhakar wrote:
+> Hi Krzysztof,
 > 
-> ...
+> Thank you for the patch.
 > 
->>>> +	for (i = 0; i < soc_data->nfunctions; i++) {
->>>> +		func = &soc_data->functions[i];
->>>> +
->>>> +		ret = pinmux_generic_add_pinfunction(pctrl->pctrl, func, NULL);
->>>> +		if (ret < 0)
->>>
->>> Why not simply
->>>
->>> 		if (ret)
+> On Tue, Sep 2, 2025 at 10:16 AM Krzysztof Kozlowski
+> <krzysztof.kozlowski@linaro.org> wrote:
 >>
->> Because existing code is as readable?
-> 
-> I don't agree on this. And Bart explained why. So, it's an API requirement
-> after all.
+>> Renesas RZN1 GMAC uses exactly one interrupt in in-kernel DTS and common
+> commit message needs updating as we are describing 3 interrupts.
 
-If pinmux_generic_add_pinfunction() was returning 0 or error code, which
-I assume you thought this function is doing, then your suggestion was
-nitpicking and existing code would be readable. Requesting (ret) for
-such case is really not helping.
-
-If, as it turns out if you looked at the code,
-pinmux_generic_add_pinfunction() returns non-error for success, your
-comment was even wrong.
-
-So either you are nitpicking which is not helpful or you are finding
-fake issues which is counter productive.
+Indeed, thanks.
 
 Best regards,
 Krzysztof
