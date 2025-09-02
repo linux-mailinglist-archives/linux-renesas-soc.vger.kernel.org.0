@@ -1,219 +1,369 @@
-Return-Path: <linux-renesas-soc+bounces-21153-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21154-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1528FB3F5E6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 08:49:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED032B3F8F7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 10:45:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7A7C71889EC1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 06:50:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CB023480D41
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 08:45:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28E042690D5;
-	Tue,  2 Sep 2025 06:49:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C93B22E8DF6;
+	Tue,  2 Sep 2025 08:45:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IA8d8AxC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hGT2FOX2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C8B52AF1B
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Sep 2025 06:49:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8591E2E36F4;
+	Tue,  2 Sep 2025 08:45:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756795784; cv=none; b=tAG6klyNhLsDn8uRu2K+AWrYxjsbA6VpJPf+YdD0rfHi1hX7NRiy3dJlQwsc/DDa6OfYLwZ/7CMgrqH+U+vEGRTqFNwi4YljE2MbKbanK2TsKFwMU9x5IlZ+3RIM5BcQ6YKAAjLXFRJ9MxQIk1woawF4AWTk0YdrWsvP4Xwzw2E=
+	t=1756802705; cv=none; b=EGjGtlwCA+4/690KlMITKVYzlSpYCHYuxuwdqZhQTKOMwkKWO4wLPWjLg9bMt/PfYQTVBfpWoURaF1fC+gfT7AAUWTHwncBa4CC3wMJBAB9AwmDIig4Tvzz4qIQNhs9xwj5qnBeI86drinWyjNqQBlhBvfVF45SZ+M7X+fsADZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756795784; c=relaxed/simple;
-	bh=5CLtSKHXQnbTtBdUtRqkbjPIbVnGS/lQSoekC779mMo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=IPFD9v8WZ4UXBFJN3teHzZW/pQjMjOVABgdVV0ZP+H3cmnffXi2D1idlYPC+SDbUscksfZxhGsPbOpmBdpxPloV6eE7Ches6oo/89s4d9BHNyR/mIsgsTe7bVquov0NYu+NKGL0+TI/T4vJ68ycraTh4g3wDk/1KMcvdnqaLbiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IA8d8AxC; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756795783; x=1788331783;
-  h=date:from:to:cc:subject:message-id;
-  bh=5CLtSKHXQnbTtBdUtRqkbjPIbVnGS/lQSoekC779mMo=;
-  b=IA8d8AxCcdOsRAQ66tos6VyCglsY/5m0+Xa/RyfzNglH0zSjWORo1H0D
-   zXf6hzgpNgKnmH/rWsfsXfd/Uf7WhQ9sOfd4I8sp9Uay7ROkh8a02OW+T
-   00DlQ9W2ySgss06/U5M5XwtaTga3pwjzGD8pZIdg2RUtw9d9sO/3y8V+y
-   xAGLIgb8klZf35gosTK5Q0xPKXFzUOYANDtRjAKnNDdUHrM70XGa9lvlV
-   2coySZ62YQqnMUDRhWgkDSCPBwM6cUNOMvtOmShsXvC+i/Mu/rz/PVh9P
-   pKZBFq2ISQy8BiL0u8gWjC7Vc17hjy89yDruxwHjbMtSYd5/5icxlegvS
-   Q==;
-X-CSE-ConnectionGUID: 5F4wNQ5nRWq3mwb09ud9DQ==
-X-CSE-MsgGUID: vLofaiKjTymy4PggmHj71w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="58909615"
-X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="58909615"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 23:49:42 -0700
-X-CSE-ConnectionGUID: Hk6S186ORt2mO7iA5IWjlA==
-X-CSE-MsgGUID: fd8KMDHhRRC8+QwNoaTT3Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="175318507"
-Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 01 Sep 2025 23:49:41 -0700
-Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1utKpL-0001XF-20;
-	Tue, 02 Sep 2025 06:49:18 +0000
-Date: Tue, 02 Sep 2025 14:46:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- cb0e22185744523136e0172fe58eb1f7fa1759c2
-Message-ID: <202509021409.Mlo8zmgo-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1756802705; c=relaxed/simple;
+	bh=2HMvFldIf4W22/qAW2cax0Qg6e91/8xocc74yW5+qaE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y+px3JGnkL5dEBFTRazkLuLdF5iv++gmNx2xbMCitsF/aK274jjMN47N5JX0JcDJNb2A67w/vJNPHlE7mfwbcPoJNapZW/esVgjqn1swlwehz2/EpLC11QSps+p5upvGwyDGvSIq536kMP6LiMkuQmtoiedq2EUvZbtA99SltaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hGT2FOX2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9FA7C4CEF5;
+	Tue,  2 Sep 2025 08:45:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756802705;
+	bh=2HMvFldIf4W22/qAW2cax0Qg6e91/8xocc74yW5+qaE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hGT2FOX21NCjI8lkfzPXhHvSw7MIMEcTvxczG7rJQFZQdKXm8+ACeNRTSbZQdWKdl
+	 aHb0rt2APIB8rPvQsOh4YSP1RHgP57qsnYSIDv/O5RWDmfIJ5MFVrzVXqnMujKuH37
+	 4uqqnl14CVIe/TVRsXAxN4BQKHZKhJpNRjyIhDl3R4g+2Qttu61y5mEQguSSOKFeD3
+	 aUh5lT1eaeEvVVd0aDZAEMmU9Xe7/EeJY74x3B1BqQwNHhQZSxLQEsagJUksJTnezx
+	 sIRZryCr/K9gR8WStKe8OuBtLzv5d4MsOaIOmdzQPfWco8I/NTPEf5N02rIq9UjbfO
+	 9CD6TfR1fCdIg==
+Date: Tue, 2 Sep 2025 10:45:02 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH net-next 01/10] dt-bindings: net: pcs: renesas,rzn1-miic:
+ Document RZ/T2H and RZ/N2H SoCs
+Message-ID: <20250902-enlightened-hidden-copperhead-4eefdf@kuoka>
+References: <20250901224327.3429099-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250901224327.3429099-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250901224327.3429099-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: cb0e22185744523136e0172fe58eb1f7fa1759c2  Merge tag 'v6.17-rc4' into renesas-devel
+On Mon, Sep 01, 2025 at 11:43:14PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>=20
+> Extend the RZN1 MIIC device-tree binding schema to cover the RZ/T2H
+> and RZ/N2H SoCs. These SoCs have a MIIC converter similar to RZ/N1, but
+> with some differences:
+>=20
+> - RZ/T2H has two reset lines; RZ/N1 has none.
+> - RZ/N1 supports 5 MIIC ports, whereas RZ/T2H supports 4 ports.
+> - On RZ/N1, MIIC ports can be mapped to various endpoints such as RTOS
+>   MAC ports, switch ports, EtherCAT ports, SERCOS ports, HSR ports, or
+>   fixed PHY ports (covering PHY input indices 0-13). On RZ/T2H, ports
+>   can connect to EtherCAT slave ports, Ethernet switch ports, or GMAC
+>   ports (mapped to PHY input indices 0-8).
+> - There are register bit differences between the SoCs, and RZ/N1 has
+>   additional registers currently unused by the driver.
+> - On RZ/T2H, the switch is connected to GMAC0 whereas on RZ/N1 the
+>   switch can be connected to GMAC2/HW-RTOS GMAC.
+>=20
+> To accommodate these differences, a new generic compatible string
+> `renesas,rzt2h-miic` is introduced for both RZ/T2H and RZ/N2H variants.
+>=20
+> The DT schema is updated to validate these differences and ensure proper
+> port and reset configurations per SoC.
+>=20
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  .../bindings/net/pcs/renesas,rzn1-miic.yaml   | 171 +++++++++++++-----
+>  include/dt-bindings/net/pcs-rzt2h-miic.h      |  23 +++
+>  2 files changed, 148 insertions(+), 46 deletions(-)
+>  create mode 100644 include/dt-bindings/net/pcs-rzt2h-miic.h
+>=20
+> diff --git a/Documentation/devicetree/bindings/net/pcs/renesas,rzn1-miic.=
+yaml b/Documentation/devicetree/bindings/net/pcs/renesas,rzn1-miic.yaml
+> index 2d33bbab7163..832a49877a29 100644
+> --- a/Documentation/devicetree/bindings/net/pcs/renesas,rzn1-miic.yaml
+> +++ b/Documentation/devicetree/bindings/net/pcs/renesas,rzn1-miic.yaml
+> @@ -4,13 +4,14 @@
+>  $id: http://devicetree.org/schemas/net/pcs/renesas,rzn1-miic.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+> =20
+> -title: Renesas RZ/N1 MII converter
+> +title: Renesas RZ/{N1, N2H, T2H} MII converter
 
-elapsed time: 1321m
+Don't use regex here. RZ/N1, RZ/N2H and TZ/T2H....
 
-configs tested: 126
-configs skipped: 4
+> =20
+>  maintainers:
+>    - Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>
+> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> =20
+>  description: |
+> -  This MII converter is present on the Renesas RZ/N1 SoC family. It is
+> +  This MII converter is present on the Renesas RZ/{N1, N2H, T2H} SoC fam=
+ilies. It is
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Just list the soc families, so people can grep for it.
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    gcc-15.1.0
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    gcc-15.1.0
-arc                   randconfig-001-20250902    gcc-11.5.0
-arc                   randconfig-002-20250902    gcc-9.5.0
-arm                              allmodconfig    gcc-15.1.0
-arm                               allnoconfig    clang-22
-arm                              allyesconfig    gcc-15.1.0
-arm                        neponset_defconfig    gcc-15.1.0
-arm                   randconfig-001-20250902    gcc-15.1.0
-arm                   randconfig-002-20250902    gcc-8.5.0
-arm                   randconfig-003-20250902    clang-22
-arm                   randconfig-004-20250902    clang-22
-arm                           stm32_defconfig    gcc-15.1.0
-arm                    vt8500_v6_v7_defconfig    gcc-15.1.0
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.1.0
-arm64                 randconfig-001-20250902    gcc-8.5.0
-arm64                 randconfig-002-20250902    clang-22
-arm64                 randconfig-003-20250902    gcc-12.5.0
-arm64                 randconfig-004-20250902    clang-22
-csky                              allnoconfig    gcc-15.1.0
-csky                  randconfig-001-20250902    gcc-14.3.0
-csky                  randconfig-002-20250902    gcc-12.5.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-22
-hexagon                          allyesconfig    clang-22
-hexagon               randconfig-001-20250902    clang-18
-hexagon               randconfig-002-20250902    clang-22
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250902    clang-20
-i386        buildonly-randconfig-002-20250902    clang-20
-i386        buildonly-randconfig-003-20250902    gcc-12
-i386        buildonly-randconfig-004-20250902    clang-20
-i386        buildonly-randconfig-005-20250902    gcc-12
-i386        buildonly-randconfig-006-20250902    clang-20
-i386                                defconfig    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-22
-loongarch             randconfig-001-20250902    clang-22
-loongarch             randconfig-002-20250902    clang-22
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-m68k                        mvme147_defconfig    gcc-15.1.0
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-mips                        bcm63xx_defconfig    clang-22
-nios2                             allnoconfig    gcc-11.5.0
-nios2                               defconfig    gcc-11.5.0
-nios2                 randconfig-001-20250902    gcc-9.5.0
-nios2                 randconfig-002-20250902    gcc-11.5.0
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-15.1.0
-parisc                           allmodconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                           allyesconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250902    gcc-8.5.0
-parisc                randconfig-002-20250902    gcc-11.5.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                          allmodconfig    gcc-15.1.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                          allyesconfig    clang-22
-powerpc               randconfig-001-20250902    gcc-9.5.0
-powerpc               randconfig-002-20250902    gcc-8.5.0
-powerpc               randconfig-003-20250902    gcc-11.5.0
-powerpc                        warp_defconfig    gcc-15.1.0
-powerpc64             randconfig-001-20250902    gcc-12.5.0
-powerpc64             randconfig-002-20250902    clang-22
-powerpc64             randconfig-003-20250902    clang-22
-riscv                            allmodconfig    clang-22
-riscv                             allnoconfig    gcc-15.1.0
-riscv                            allyesconfig    clang-16
-riscv                               defconfig    clang-22
-riscv                 randconfig-001-20250902    gcc-13.4.0
-riscv                 randconfig-002-20250902    clang-22
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-22
-s390                             allyesconfig    gcc-15.1.0
-s390                                defconfig    clang-22
-s390                  randconfig-001-20250902    clang-22
-s390                  randconfig-002-20250902    gcc-10.5.0
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                                  defconfig    gcc-15.1.0
-sh                    randconfig-001-20250902    gcc-12.5.0
-sh                    randconfig-002-20250902    gcc-12.5.0
-sh                        sh7757lcr_defconfig    gcc-15.1.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20250902    gcc-14.3.0
-sparc                 randconfig-002-20250902    gcc-8.5.0
-sparc64                             defconfig    clang-20
-sparc64               randconfig-001-20250902    clang-20
-sparc64               randconfig-002-20250902    gcc-9.5.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-22
-um                               allyesconfig    gcc-12
-um                                  defconfig    clang-22
-um                             i386_defconfig    gcc-12
-um                    randconfig-001-20250902    gcc-12
-um                    randconfig-002-20250902    gcc-12
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250902    clang-20
-x86_64      buildonly-randconfig-002-20250902    clang-20
-x86_64      buildonly-randconfig-003-20250902    clang-20
-x86_64      buildonly-randconfig-004-20250902    gcc-12
-x86_64      buildonly-randconfig-005-20250902    gcc-12
-x86_64      buildonly-randconfig-006-20250902    gcc-12
-x86_64                              defconfig    gcc-11
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250902    gcc-9.5.0
-xtensa                randconfig-002-20250902    gcc-10.5.0
+>    responsible to do MII passthrough or convert it to RMII/RGMII.
+> =20
+>  properties:
+> @@ -21,10 +22,17 @@ properties:
+>      const: 0
+> =20
+>    compatible:
+> -    items:
+> -      - enum:
+> -          - renesas,r9a06g032-miic
+> -      - const: renesas,rzn1-miic
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - renesas,r9a06g032-miic
+> +          - const: renesas,rzn1-miic
+> +
+> +      - items:
+> +          - enum:
+> +              - renesas,r9a09g077-miic # RZ/T2H
+> +              - renesas,r9a09g087-miic # RZ/N2H
+> +          - const: renesas,rzt2h-miic
+> =20
+>    reg:
+>      maxItems: 1
+> @@ -43,11 +51,20 @@ properties:
+>        - const: rmii_ref
+>        - const: hclk
+> =20
+> +  resets:
+> +    items:
+> +      - description: Converter register reset
+> +      - description: Converter reset
+> +
+> +  reset-names:
+> +    items:
+> +      - const: rst
+> +      - const: crst
+> +
+>    renesas,miic-switch-portin:
+>      description: MII Switch PORTIN configuration. This value should use =
+one of
+>        the values defined in dt-bindings/net/pcs-rzn1-miic.h.
+>      $ref: /schemas/types.yaml#/definitions/uint32
+> -    enum: [1, 2]
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Why? Widest constraints should be here.
+
+> =20
+>    power-domains:
+>      maxItems: 1
+> @@ -60,11 +77,11 @@ patternProperties:
+>      properties:
+>        reg:
+>          description: MII Converter port number.
+> -        enum: [1, 2, 3, 4, 5]
+
+Why?
+
+> =20
+>        renesas,miic-input:
+>          description: Converter input port configuration. This value shou=
+ld use
+> -          one of the values defined in dt-bindings/net/pcs-rzn1-miic.h.
+> +          one of the values defined in dt-bindings/net/pcs-rzn1-miic.h f=
+or RZ/N1 SoC
+> +          and include/dt-bindings/net/pcs-rzt2h-miic.h for RZ/{T2H, N2H}=
+ SoCs.
+>          $ref: /schemas/types.yaml#/definitions/uint32
+> =20
+>      required:
+> @@ -73,47 +90,109 @@ patternProperties:
+> =20
+>      additionalProperties: false
+> =20
+> -    allOf:
+> -      - if:
+> -          properties:
+> -            reg:
+> -              const: 1
+> -        then:
+> -          properties:
+> -            renesas,miic-input:
+> -              const: 0
+> -      - if:
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,rzn1-miic
+> +    then:
+> +      properties:
+> +        renesas,miic-switch-portin:
+> +          enum: [1, 2]
+> +      patternProperties:
+> +        "^mii-conv@[0-5]$":
+>            properties:
+>              reg:
+> -              const: 2
+> -        then:
+> -          properties:
+> -            renesas,miic-input:
+> -              enum: [1, 11]
+> -      - if:
+> -          properties:
+> -            reg:
+> -              const: 3
+> -        then:
+> -          properties:
+> -            renesas,miic-input:
+> -              enum: [7, 10]
+> -      - if:
+> +              enum: [1, 2, 3, 4, 5]
+> +            resets: false
+> +            reset-names: false
+> +          allOf:
+> +            - if:
+> +                properties:
+> +                  reg:
+> +                    const: 1
+> +              then:
+> +                properties:
+> +                  renesas,miic-input:
+> +                    const: 0
+> +            - if:
+> +                properties:
+> +                  reg:
+> +                    const: 2
+> +              then:
+> +                properties:
+> +                  renesas,miic-input:
+> +                    enum: [1, 11]
+> +            - if:
+> +                properties:
+> +                  reg:
+> +                    const: 3
+> +              then:
+> +                properties:
+> +                  renesas,miic-input:
+> +                    enum: [7, 10]
+> +            - if:
+> +                properties:
+> +                  reg:
+> +                    const: 4
+> +              then:
+> +                properties:
+> +                  renesas,miic-input:
+> +                    enum: [4, 6, 9, 13]
+> +            - if:
+> +                properties:
+> +                  reg:
+> +                    const: 5
+> +              then:
+> +                properties:
+> +                  renesas,miic-input:
+> +                    enum: [3, 5, 8, 12]
+> +    else:
+> +      properties:
+> +        renesas,miic-switch-portin:
+> +          const: 0
+> +      required:
+> +        - resets
+> +        - reset-names
+> +      patternProperties:
+> +        "^mii-conv@[0-5]$":
+>            properties:
+>              reg:
+> -              const: 4
+> -        then:
+> -          properties:
+> -            renesas,miic-input:
+> -              enum: [4, 6, 9, 13]
+> -      - if:
+> -          properties:
+> -            reg:
+> -              const: 5
+> -        then:
+> -          properties:
+> -            renesas,miic-input:
+> -              enum: [3, 5, 8, 12]
+> +              enum: [0, 1, 2, 3]
+> +          allOf:
+> +            - if:
+> +                properties:
+> +                  reg:
+> +                    const: 0
+> +              then:
+> +                properties:
+> +                  renesas,miic-input:
+> +                    enum: [0, 3, 6]
+> +            - if:
+> +                properties:
+> +                  reg:
+> +                    const: 1
+> +              then:
+> +                properties:
+> +                  renesas,miic-input:
+> +                    enum: [1, 4, 7]
+> +            - if:
+> +                properties:
+> +                  reg:
+> +                    const: 2
+> +              then:
+> +                properties:
+> +                  renesas,miic-input:
+> +                    enum: [2, 5, 8]
+> +            - if:
+> +                properties:
+> +                  reg:
+> +                    const: 3
+> +              then:
+> +                properties:
+> +                  renesas,miic-input:
+> +                    const: 1
+> =20
+>  required:
+>    - '#address-cells'
+> diff --git a/include/dt-bindings/net/pcs-rzt2h-miic.h b/include/dt-bindin=
+gs/net/pcs-rzt2h-miic.h
+> new file mode 100644
+> index 000000000000..c1f35fc0f1cd
+> --- /dev/null
+> +++ b/include/dt-bindings/net/pcs-rzt2h-miic.h
+
+Missing vendor prefix. Filename based on compatible, unless this is not
+for Renesas?
+
+> @@ -0,0 +1,23 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
+> +/*
+> + * Copyright (C) 2025 Renesas Electronics Corporation.
+> + */
+
+Best regards,
+Krzysztof
+
 
