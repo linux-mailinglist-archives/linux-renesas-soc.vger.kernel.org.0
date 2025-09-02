@@ -1,112 +1,175 @@
-Return-Path: <linux-renesas-soc+bounces-21191-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21192-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D32CB402C5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 15:23:42 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8414B40318
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 15:28:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6AF2E3BD4A9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 13:21:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 63D84169F81
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 13:27:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C60EE3019C5;
-	Tue,  2 Sep 2025 13:19:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33F152EA73D;
+	Tue,  2 Sep 2025 13:24:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="A3mFPCMw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4190378F43;
-	Tue,  2 Sep 2025 13:19:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28E483090D2
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Sep 2025 13:24:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756819180; cv=none; b=BApqIhQZ82FpiAi8wtCdk7Xj2Oe5dxYn/rnRukPwudDH/wdxK+BeAzqLOLU3NYNHgMO6zC5kVifCUIrGQmoXw9M+qDLEE8JeVeZck509wAooZ1Sdjp8fwCVblpM2RLOzcmdTJPSLpTO/gh0lbD+QtahYBYrnLsfYD/Nc1lygQ4w=
+	t=1756819463; cv=none; b=JpVzbesNbjxxesv5jVus0Yn7P4pbvn8MbQhzr4WOhE/PxjZdvvxl8tTKHuKPFmx+sZwCzOdR7oqFh+nTqmKjxxBtMe9JDz+dtX+ZcWCVAi/2CA2Asgg6KZR20aDSYj6wWFRbqVf1NSsxbtgnrCRVEVwQEdqOAxCuqiF7DoKWNes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756819180; c=relaxed/simple;
-	bh=7ezCBtEzEDCfWMrIuBk2RX4WBzGukb9PoA+nthRFEJ8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RkcJcvd4wtYe4r4kLHrcPguYfdRi2fqg/f28by3DvRYiRdHAYHNu0fTx0PrpKNEaDf1fexZNCIuUyARjtBBEXoTTQeGYCA7UrxSkeDQYDGRCDFur0mdmbXurV7XR58+z+HC8I2cBuypqQgDpcwsWQJPdiQWsY+FCRSmPeAa5vns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-529858dc690so1272254137.0;
-        Tue, 02 Sep 2025 06:19:39 -0700 (PDT)
+	s=arc-20240116; t=1756819463; c=relaxed/simple;
+	bh=OH2KPRJdRKeC88rqgAwfnEjC2ko5FrnD5JbjS71ojBA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ivmOI9cOH+gBuqhCgswnlCYUWrWp+HAgOCtPss6lZaCIEHCVAJEx3TTse8yseYErncNK8cM2FDOXuIltY6NF/CiGTBBjQOOriRZGJVewqjVI73wJwOAWkHH7WNHpXH5PUpqBeVAYD2msgxK2YGZaw9cvlHrhdD48FRRL6As7030=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=A3mFPCMw; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1756819460;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DhYHhdpq3o9OaEYWMGamjRW3AE6EMxkRxl/8TQh1o2g=;
+	b=A3mFPCMwMMlT2R5+LSlhtM0I3jJ+M0HwqeeYbo+K72HiPx7iInnaZnhhQAnLK4NqTDhfd9
+	vxFhvty47BvGd0JXKerENTam3LnwruWD7grlv5O1W9Aq9J0TGbYSU5RLBoewCClMCNZjIB
+	DPTO8obfQK8HglfnRH0Uci3wQ8j7ByE=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-60-5sGo_KBROvSteVAYcZa_pA-1; Tue, 02 Sep 2025 09:24:18 -0400
+X-MC-Unique: 5sGo_KBROvSteVAYcZa_pA-1
+X-Mimecast-MFC-AGG-ID: 5sGo_KBROvSteVAYcZa_pA_1756819458
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-70dfcc58904so80592626d6.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 Sep 2025 06:24:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756819178; x=1757423978;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qw26R79NODPbly0gxpCIdsEY0s00Sf9I+4m6dANRMwY=;
-        b=IfPhpsRCLsScHHtbEGxf88bo0E7vNIuR/ezr//jjVrtfR4OZfTTOPSjSCNWh+6EXnG
-         1pPx8YOcj0JZgHSvRmCtS39ph+43jRK7PLVmm6HflTHPOdgFX3SboajSJsvMbnU3RWSL
-         1+fry91R75s0KReydgMFSOlDKBS/BwpWckORlgecHs5zA2RTCItulY6bCQSV20Ua1CO2
-         NNJpkuubiZlhe5Shi962Iv0xG0SSWB1DuWzRxcLLDMKH+BJAKzsbmblSRVfdyWEeY5bf
-         T5MVgcidflpjMvMBSbex7u3X6lulZnd1aozOOnajx84BzUmEItSog6/gwiKY5jjX/cY3
-         1Zzw==
-X-Forwarded-Encrypted: i=1; AJvYcCUep/aFKnAiELjONH4GHOZsE4JMdOTqA6kDs1YT09R0HV+J6WQddzbMvMW0ouaCHrAPsVbwCdRoCHysf0EjYlRarT4=@vger.kernel.org, AJvYcCW8h//3l6fQR4u+kXUOKStFPOmlvxqO3fYOfK6luBnk7GYGtFqaH9Hr6mKQAzGyFrbQVbGg97G/82xn@vger.kernel.org, AJvYcCXQ+fGvM91MJyv9hLbSr3oK8z1rRSbI5HJiCRWVIw6oC9bC1fwJoR9ovm6jBMDM20PwTsYiDvonv0LJ+Ait@vger.kernel.org, AJvYcCXbQeW2d+8tFyvL1ZQhr5eDqUXP/q1uklR7E5K5ZqyEIEsopM0737ectXISJa6KKZU9pvRpOi7WYMaO@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQcWIFKvcqqR68E9I2Evjc6p3KxvE0hHyIe1qJ1HPtE/YXCMr1
-	/AC/zB+CEEYhL4Q+aJjQO7w8/uGB1yF8Q8lZXvoAyf9HTBWt7pv/lQOCWa9xgQyd
-X-Gm-Gg: ASbGncsDzYWtr5EOZkEoz0scmwt6wq8Vs/iJcRXSLKnWd7xQV9ZSAeNoEYKf4M7Xa0a
-	spzBPJOe/FflIaQiyMw6BvFffOsSaLjYOqQinbKbgzh6Q5Fplj23HOtIGHGXMUrPIGgXEf04nng
-	rQjqF5Z+jqvPg1GY+nIsHUenemxaBo6ZLOg/NfeCd3dfvluPDr/L79vBVP/12SUzMzsMKFayemH
-	R65rXnjZ9ww52UEupreWQtsrsE1LoEUNFHVRzNZTLDZjHgzLQpYD07ZofNAHmO/4ej30pXaw5p8
-	J2hOgbIKUDZmgugiKMUaefS+QsPk+e0F4XUhu2YW+XsaRsdZTIrFJet/pqIMxlGDRQpnZeMDiFW
-	LiwTHsxUy2gjFnY4v6w6VCzXqFPOdO3/H+aTB40rlk5spgooqlBzoRCUv6ILflCXdKzUE62k=
-X-Google-Smtp-Source: AGHT+IGPzEDyHxkB8d2ck8y1zQ2pzOwX20cHA+kb7StIQPajrTfFNKTtmPO5aEkXI1xGjdFurhEYAA==
-X-Received: by 2002:a05:6102:510e:b0:524:b344:748d with SMTP id ada2fe7eead31-52b1b2ea2a7mr3940416137.17.1756819176583;
-        Tue, 02 Sep 2025 06:19:36 -0700 (PDT)
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8943ba549d2sm4511162241.12.2025.09.02.06.19.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Sep 2025 06:19:36 -0700 (PDT)
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-890190c6165so1714618241.2;
-        Tue, 02 Sep 2025 06:19:36 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW53Ht1nUKjk8Z08geyN665gZ5J0NGM4k5BAtLWh2olGuFocvIaPHv1l1bpOjB8MquXg4jtK1juDOko@vger.kernel.org, AJvYcCWVIb+HJSR4pVYCGySQcn8y4Gmd2VbnCsWrXntflp6H3+WDigB+DzCG0RsemjjYOA+Vm++ET6q1NviG@vger.kernel.org, AJvYcCXNAZa86NN/tBP1zEBaFj4kqtqMkZ72WKav0iNRckiT3/dcdlbV78KkpXxUzN4wUHKWo4wvMDwJZa6JlRm0@vger.kernel.org, AJvYcCXPe7mg+n64t8waWopRAjIGm0InbaoKInbqRd2Fjlm/wBBL+KTrllhI59+aqIBO6yR33jlBNN2gSojT2Yz1ziw0Pfc=@vger.kernel.org
-X-Received: by 2002:a05:6102:2ac9:b0:520:a44f:3dd6 with SMTP id
- ada2fe7eead31-52b19950e41mr3178704137.8.1756819175942; Tue, 02 Sep 2025
- 06:19:35 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756819457; x=1757424257;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DhYHhdpq3o9OaEYWMGamjRW3AE6EMxkRxl/8TQh1o2g=;
+        b=ivKvAGi/r8vmO1cRXUCJRcQpVuj5aWNlqb1vIzZcJ4pjqvjijBz1zUs8o3mv8mhxY0
+         K6foqXTNO6XvNh7UKxwfdMJCxZhdH7UeMkgdD5bzr6NFQeSaEnOhjvVZ5DzfWY7rf61Y
+         1cgpGYTLOljU00jwYJ3mAjR/GLoNDUn6vukprX48X/90c19JzYOpoQQyRS0qFnXOVP52
+         XBBX0V6Xhvj/i4+UWfsbq3QdjHpOLtJRWrJbBy85QtLtr1nbnBLqBXMGKXoO7gsTLuKX
+         qljwOX62XZFfDuH99XHnHQOgsdeS80icC39+Ctx7ko2VYkp2MvF7Umorw8BH1u7mt2pl
+         Rq3A==
+X-Forwarded-Encrypted: i=1; AJvYcCWNIKK1xEPu5QNKXsTkB8Xd1lu+/fOq6QmdFSXsfO/brpVxIjpRa2A12+z3MQEdKChCxYBAbo9aZrA5vZ5PoRjyOg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAwDEqVQqE/YuMADt+fOHecR4eICGB2l3PbaqxwP6QWo8gw/ir
+	EI2cCaEc1TlN/+XUtQRsIR+EWfz6Zg8IfT3FZWn7nk4RzlQSkBN/bCIwqkHWxcKfRt3EQ4U0tuv
+	4FqRWjNAvalaPyIi+Rts1bAMmaT5Vasrq7e8uCzSeZQihnjXknan/1vsFuDaYzZFQzV1VjMPL
+X-Gm-Gg: ASbGncs/EdTxX6RB0lapwZdsI+b/HHghLxUvvI3f9kvS2Ve7FHNYyX5vrrhaYs6/rdA
+	8Urf9wiLNeinNZs6847WTP6bpjJldXGjqaEnTYHxnHUNxnI/9tDBYIy5Ll4Yb7s+zUMsv1A6QcZ
+	AxPB8/qC91lRr/ZHzR0cC2smzQXbOSgEYxpVwR3qnB/YNvoTM/9ELCgq6nx1m+1yCOGxHPrjGzO
+	ptuYgNQnBalfJnCYx7xwWTHS/TOab4l0S05FNSEFWQpraRVoASebb8b3C1TvJ9ciqdob/wIW7Hj
+	zux5RWSPV2PMeLZwWEEsPUCf7hmgy/M1kXZQ6wE65/ZAdWsOboZ6AMWjZn4=
+X-Received: by 2002:ad4:5bcb:0:b0:71f:238c:1495 with SMTP id 6a1803df08f44-71f238c1812mr45372476d6.12.1756819456907;
+        Tue, 02 Sep 2025 06:24:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH2gpj5sDjHqMalc6nLErCXydSa307HuH4gEcNe0djbjrEuBMYzkPHUoJgDAmOWEyhdUzjogg==
+X-Received: by 2002:ad4:5bcb:0:b0:71f:238c:1495 with SMTP id 6a1803df08f44-71f238c1812mr45371836d6.12.1756819456245;
+        Tue, 02 Sep 2025 06:24:16 -0700 (PDT)
+Received: from x1 ([2600:382:7727:a6e4:b49a:a295:b546:7faf])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-720acdff0dbsm11654266d6.18.2025.09.02.06.24.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Sep 2025 06:24:15 -0700 (PDT)
+Date: Tue, 2 Sep 2025 09:24:12 -0400
+From: Brian Masney <bmasney@redhat.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: claudiu beznea <claudiu.beznea@tuxon.dev>, mturquette@baylibre.com,
+	sboyd@kernel.org, geert+renesas@glider.be, linux@armlinux.org.uk,
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH 0/2] clk: renesas: rzg2l: Disable unused clocks after
+ resume
+Message-ID: <aLbv_FmJV8xV8hpR@x1>
+References: <20250821080333.27049-1-claudiu.beznea.uj@bp.renesas.com>
+ <aKyX4YJswZLuqA6Y@x1>
+ <0d71269f-1c78-4732-8235-5640bf340d00@tuxon.dev>
+ <aK2gE0CysSWisFwB@x1>
+ <CAMuHMdXNnGg0rEcM1hvvjBUJXFFAx4oiX=qVb3nKfmd4YBxhGw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250820171812.402519-1-biju.das.jz@bp.renesas.com> <20250820171812.402519-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20250820171812.402519-2-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 2 Sep 2025 15:19:24 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVrMJEpM4T6YjSbttmkezPRhVGCeDGHTf2EAbDGR4bbxQ@mail.gmail.com>
-X-Gm-Features: Ac12FXwR38KEkRhbr2Q1mg-SFhan459xmkTa4MvT02eo-vKbPi6G21ViQysuQCg
-Message-ID: <CAMuHMdVrMJEpM4T6YjSbttmkezPRhVGCeDGHTf2EAbDGR4bbxQ@mail.gmail.com>
-Subject: Re: [PATCH 01/11] dt-bindings: clock: renesas,r9a09g047-cpg: Add
- USB3.0 core clocks
-To: Biju <biju.das.au@gmail.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXNnGg0rEcM1hvvjBUJXFFAx4oiX=qVb3nKfmd4YBxhGw@mail.gmail.com>
+User-Agent: Mutt/2.2.14 (2025-02-20)
 
-On Wed, 20 Aug 2025 at 19:18, Biju <biju.das.au@gmail.com> wrote:
-> From: Biju Das <biju.das.jz@bp.renesas.com>
->
-> Add definitions for USB3.0 core clocks in the R9A09G047 CPG DT bindings
-> header file.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Hi Geert,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Mon, Sep 01, 2025 at 11:46:34AM +0200, Geert Uytterhoeven wrote:
+> On Tue, 26 Aug 2025 at 13:52, Brian Masney <bmasney@redhat.com> wrote:
+> > On Tue, Aug 26, 2025 at 02:01:56PM +0300, claudiu beznea wrote:
+> > > On 8/25/25 20:05, Brian Masney wrote:
+> > > > On Thu, Aug 21, 2025 at 11:03:30AM +0300, Claudiu wrote:
+> > > > > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> > > > > This series disables clocks that remain unused after resume.
+> > > > > This is necessary when the resume process is done with the help of the
+> > > > > bootloader, as the bootloader enables various clocks when returning from
+> > > > > resume.
+> > > > >
+> > > > > On the RZ/G3S SoC (where this series was tested), the bootloader enables
+> > > > > the SDHI clocks (for all SDHI modules, of which 2 are used by Linux and
+> > > > > 1 is unused) and the clocks for a serial IP (unused by Linux).
+> > > > >
+> > > > > Testing was done on the RZ/G3S SMARC Carrier II board.
+> > > >
+> > > > Do you think that other boards would also benefit from this change? If
+> > > > so, what do you think about putting the call to register_pm_notifier()
+> > > > inside an __init block in clk.c so that this same change doesn't have to
+> > > > be implemented across various clk drivers?
+> > >
+> > > Yes, that was my other approach I was thinking about. I wanted to see how
+> > > other people consider this version.
+> > >
+> > > > Alternatively, if this is board specific, could this be fixed in the
+> > > > boot loader so that the clock that's not used by Linus is properly shut
+> > > > down on resume?
+> > >
+> > > As a result of your request I did some more investigations on my side, I can
+> > > say that, yes, in theory that could be also handled by bootloader.
+> > >
+> > > I can drop this and try to do it in bootloader, if any. Please let me know
+> > > if you still consider this (or the variant that implements it in a generic
+> > > way) necessary.
+> >
+> > Personally I would go the route of fixing this in the bootloader for
+> > this particular platform.
+> >
+> > If this issue affects other platforms, particularly across multiple
+> > SoC vendors, then I think it would be worthwhile to have a discussion
+> > about adding this functionality to the clk core.
+> 
+> How would the bootloader know which clocks are not used by Linux?
+> And why to offload this to the bootloader for resume, but not for boot?
 
-Gr{oetje,eeting}s,
+If the bootloader is involved with resume, then I assume that it's also
+involved with suspend as well? If so, could the boot loader save the
+state of the 3 clocks on suspend, and set them back to that same state
+on resume?
 
-                        Geert
+How widespread is this issue? Does it just affect this board, or is it
+common across other boards?
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+There are some longstanding issues with clk_disable_unused that Stephen
+talked about at Linux Plumbers almost two years ago [1]. We'll have to
+wait to hear back from him, however I suspect he may be reluctant to
+expand the scope of clk_disable_unused even further given the existing
+issues.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+[1] https://www.youtube.com/watch?v=tXYzM8yLIQA
+
+Brian
+
 
