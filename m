@@ -1,74 +1,74 @@
-Return-Path: <linux-renesas-soc+bounces-21223-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21224-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 648F6B40C4C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 19:42:08 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 292FAB40C74
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 19:50:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BBC241896818
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 17:42:28 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D91764E476A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 17:50:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8B9D34573D;
-	Tue,  2 Sep 2025 17:42:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1C073469F9;
+	Tue,  2 Sep 2025 17:50:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="052kC5kU"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="0Eer1kR0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA2BC21B9F5
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Sep 2025 17:41:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E2C3451A6
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Sep 2025 17:50:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756834921; cv=none; b=IDozSI7e2xaLLxoWJrEnUzH65wApu/7lA9UQhaDaGLLlWvUIyaXTu4crDoUD7UJaKPdFBLTIwwzif9WXVK6jY5Wari90EJrnx3lyKZI2GIqi7bReplP6tRJAKb2lXaCY9gsU63crxftaHE7QQ10YseAvZ9xUOzKkDuo6q9nhyPE=
+	t=1756835415; cv=none; b=iCXYUub9mJo3/57EAy0svXW7xg/H0WjGSLaS3sP7w7bZH19RY4BJ60mhZA/SJhbB70e7VpA3w1uOlOyPStYAoQvm0TkYVYFsOFARpWXApSFyg33lQEEjbgISyoHyWd6vUmKc/dSWMu/nDZmKU8RgpYpjJV4iDgcHSbvu5PSNUcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756834921; c=relaxed/simple;
-	bh=HY/P1wmmQ5CXIAhE0M3q1QG3EUDBLGeGAVW5/TOHSa0=;
+	s=arc-20240116; t=1756835415; c=relaxed/simple;
+	bh=Qq79ok73NgzUNSPN3ElH84ehBnROIulXyA0yyA4cddE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dWz0qFDReJk4O6kvHn2VlwkaqVYV0eImEPGOMlo1FRVQp+evFbUM1WEfnoj8fzQ19NzL43C6b9A9/8IlXrMDiYXszt5Ci3xJKvog4IeIGpeiWhshhirGWUODv8iFPkf02MHaujJ47UXo2bitJ9JH2tT/NsgiMeSpo4yqlCufzf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=052kC5kU; arc=none smtp.client-ip=209.85.167.45
+	 To:Cc:Content-Type; b=fq9cOjirY6G8SNSrJoRmFtaxWAjzw5LCJC0GO16Y1Q6dXME7iJoWQQ8EiUpQR9pIyr2ax37Bq0XwJLzHMKTKqbhekXyLzIzxqLUrWNGJl7s2hX3L276yvRSrVcWlTbW7m/33rIMwvLlkhncP+GlyEch2M4vmlx6UptjYs62hjFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=0Eer1kR0; arc=none smtp.client-ip=209.85.167.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-55f7cd8ec2cso2560169e87.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 Sep 2025 10:41:59 -0700 (PDT)
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-55f74c6d316so3100837e87.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 Sep 2025 10:50:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1756834918; x=1757439718; darn=vger.kernel.org;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1756835412; x=1757440212; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HY/P1wmmQ5CXIAhE0M3q1QG3EUDBLGeGAVW5/TOHSa0=;
-        b=052kC5kUrN2lLVVfPRcbxYKEvakX+9A7x5MhmKE0Sz4C2+uxx/jOoim6DZIaHQKMPa
-         GDhtrl9dcFVs2lFsgyiQjtkd4kWLa+6WSAuYDQsio8916UO4NufV8PSWtwEJ51+Hdnbj
-         3JhkLhMfCXXgxHB4oInFKhJrj++PmB4AV+7DG4z5K1gPaMP8fY80gfK9nfh9cXGU+AVt
-         KKEEkuMiGE9OJpwCucHwtfwNRXTKx+ajjAoS8K2zzgar0WltDFY2AwoTvVg+9UFNzy7w
-         HawcpobEx2ZR9nvorl9w92hMY5uxtwzxDeb+Omby/7oUXO5VS5pnht7wpxzaJFTDjeVG
-         vT0Q==
+        bh=Qq79ok73NgzUNSPN3ElH84ehBnROIulXyA0yyA4cddE=;
+        b=0Eer1kR0WtKHGcMrO/7bSVfIYNsu9xRoEmIbCIYaLosSLtg3My9vqxz4PdqlxF/Zzj
+         kuODRv4VrTZHkI3/u6S4R6dt9yQCPoq+YJECvzOxCg2kt2AptOw0Gpvlfo12pNFzsFUw
+         9MhxOXd+T6H9pYGg5IsVSx4Ss6ITrM4IYzVTISKEZVS0JLZKIcVtY7v+G8drgmExGN1d
+         ZKd3T1Fp7aKLIoCy0CtI+Ga2rEbKU7RGRPMoQ5xv4vw+kYO0hPRN6FJp0Cb+XvS9hDEM
+         uWqkGH1aI8qktgfDq8cKwa6GTRBj57l+MuEnbAINhsQdgMfis1qIHkz6rFsiHqzFU2a9
+         Jxhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756834918; x=1757439718;
+        d=1e100.net; s=20230601; t=1756835412; x=1757440212;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HY/P1wmmQ5CXIAhE0M3q1QG3EUDBLGeGAVW5/TOHSa0=;
-        b=YOPQWFm99zz4rUTIbOlFiSJTFB+yxC9P+8KATAoQjDqR86HaJbHX6ek6OOyTougdQ5
-         558QQH/Q5W3uLk9AyxdkUx4iPY3WS3gLfrbBhkh9a/h6vQnqRx8oOKky0KJX8C8G+i9w
-         x5qq6ZFtO1/HoqK4SWl/72APNq8nlGl3E0RyKeFDnZc6yD5oi2cNRvj7c5Y6yw/qwKcc
-         Gjf/TP1R1vSKVmiXc3ohItCbo2AKGZxW32MMJh3DgSHISU2ugJFCU0d1cLV/hNq3GU9C
-         Xkwk3pReXlDPH3Y0ImRB27B5IdK0VdsBIVfKZZo5hak2bIwf8f/fkZt8rK6dCyJvrdai
-         HpVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUskmo3i1vuOo8zMvjpktfnHGwW9h4AXzYzGXWBviGOyDLypmt40CUuEI5bXelB3/RPp67MbiV2XDyOHIy9ImP2PQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7SbVleR90O7oNhhUaEGycX5V593+2JQ7h/wdH5YeS+0NymxQj
-	FxEXQdZ4wCMPC+bD3kevAdwz5/z1DZKKeqLbT2OK0+r0ndBnhrFy/BtTD/xaZ0MqCBGCQzPlsTq
-	zd3DbfZyBqom75bU6zKT0DclU5Mrj67m5EUkKaCHV9w==
-X-Gm-Gg: ASbGncsvNBeHfcfSyO6RoqItdzByo7mXJaAtm2fVZVnmSpUGXcCfVXNcKilniCKcdCa
-	vvwbl+A4xS5MmTIQJ1IIrEXM/McO25CaF/LkbVbvHDdM1vUPBWrjqYAq+hBAeHyEAZ73v/jL0Tb
-	uczLMvouEaQCEnSe4xGazEk4O4x/KsZQGAAuneEtLeJRb2N4dXAJl3dee9CeHhoqWCRVFTJkcTw
-	I6MZutDTS4Vif6iy+qj6IWELcINi2GG1UkTJnmRCyclo3M1iw==
-X-Google-Smtp-Source: AGHT+IEj8d7P3cFn9WHSMlcQJco2rutroHWRWEZV/BsdBzW10JlelDxpX/d5bcqoiRzS4+dxD5+bg22V2Ltijnn3kOg=
-X-Received: by 2002:a05:6512:61d5:20b0:55f:727d:408c with SMTP id
- 2adb3069b0e04-55f727d46c3mr3142298e87.50.1756834918139; Tue, 02 Sep 2025
- 10:41:58 -0700 (PDT)
+        bh=Qq79ok73NgzUNSPN3ElH84ehBnROIulXyA0yyA4cddE=;
+        b=Lbe/StWCjcgsCcxsUnn1b4tDVsKWh6lCy7vF67I0VkQuPXXRISqHlLrlibLZbNRc6E
+         q8gdzxh+TIEW4G8osqYp2ax7zCvIOEv/eiigG7I7ITu6r3t3HUhYbJRBfnCrlOkhJnbZ
+         ak8pVwLdzj7gECWgm+AG3OVHbyGWRTTHG5+dO37SLLmgVjxMgaX1yrlk4EwpwOmpdAU8
+         LkBCU2n26PhLqjnPH6qCyBini3aT5ukezwzi5ZHZGJU5OhQA9cYw21sEc/YYCg0jQBug
+         fq6nr1fNdjAvOxnAwHt01u7P6yH0l6is47fZNBZqmKvobDqOb7oqhhLck1g9iTH1uyMg
+         OyPw==
+X-Forwarded-Encrypted: i=1; AJvYcCWuDnk4jZgjYjLPEsJGQFLamjasyDCuaYeVfqXhzBDdwNJPn2OqdPcCqYatDFNNcgCvQZl1iSfSDWvBtSyqnHUk4Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YycTbTSwFEb3BOjbT8HL45F3aVRO9OpAJJx7Lnx6Ol/VXnIohO9
+	RWy+brgZFTpsnXdeR/iAZagAKmYoQbkgHLuq0Tv4R2iwtexGE/Q+SqUQ2DmA6Seo8V7kRSCzHa9
+	a9i19+GraVlfePPbPtSBFOyuFD0q79ZQO+4xTzDuEWQ==
+X-Gm-Gg: ASbGnctc+ululTQTwOs96dr+8cGPzy8LRuf6UAEqP2PhdArWpSU/etnuqgcOoombBkk
+	1QSgU74+lWgz42EvZHeuPJAEnxCzKScHLsgT2OIyNEwUo/rY6rcMa0xv78mVGfo7qREtSv32fPM
+	8pjeHu9Udu4EqM9EHMx7Wv3AwU7oL48ekEKJu65+mNe1LHToqthipk5xmvDer9PYny1oFgyKZJh
+	/zTiJ4+3lzRy5io+GX2mXmexWptVXUV4aEyjmWA9ReIJjesEQ==
+X-Google-Smtp-Source: AGHT+IHWxMY/UX5pahdxyPomER2R5wCG7WJNOYIC76WLDnRgZXryLWeY1Ce628zgGwqGftmJqN1QawcJ1KuqTk6lVI8=
+X-Received: by 2002:a05:6512:3b12:b0:55f:4f99:f3c9 with SMTP id
+ 2adb3069b0e04-55f708ec830mr4334057e87.32.1756835411674; Tue, 02 Sep 2025
+ 10:50:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -76,13 +76,14 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250902-pinctrl-gpio-pinfuncs-v7-0-bb091daedc52@linaro.org>
- <20250902-pinctrl-gpio-pinfuncs-v7-16-bb091daedc52@linaro.org> <aLcBcjvMbrxoDYoC@smile.fi.intel.com>
-In-Reply-To: <aLcBcjvMbrxoDYoC@smile.fi.intel.com>
+ <20250902-pinctrl-gpio-pinfuncs-v7-13-bb091daedc52@linaro.org> <aLb_pOG-yc-CHoiY@smile.fi.intel.com>
+In-Reply-To: <aLb_pOG-yc-CHoiY@smile.fi.intel.com>
 From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Tue, 2 Sep 2025 19:41:47 +0200
-X-Gm-Features: Ac12FXz-Ict8QGMZawDnah9byaE6SYSj17yQF92en6o4smsRWpZmv8sya_ULoRc
-Message-ID: <CAMRc=MfcFMgkNqWNZV5o0NxkAvxBTjC3vv56Cr98n0R2CkxuPw@mail.gmail.com>
-Subject: Re: [PATCH v7 16/16] pinctrl: qcom: make the pinmuxing strict
+Date: Tue, 2 Sep 2025 19:50:00 +0200
+X-Gm-Features: Ac12FXzmJRg8_mGsvbk9kTYEAk6i5wfrx-8rp8gdl4L5LHxLn-6rA1BsDeyDmdo
+Message-ID: <CAMRc=Mc-NEFawz11Lr5JGStoe=PU7b91E-MVB3xkdBr_JoiStQ@mail.gmail.com>
+Subject: Re: [PATCH v7 13/16] pinctrl: allow to mark pin functions as
+ requestable GPIOs
 To: Andy Shevchenko <andriy.shevchenko@intel.com>
 Cc: Linus Walleij <linus.walleij@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
 	Konrad Dybcio <konradybcio@kernel.org>, Alexey Klimov <alexey.klimov@linaro.org>, 
@@ -107,30 +108,68 @@ Cc: Linus Walleij <linus.walleij@linaro.org>, Bjorn Andersson <andersson@kernel.
 	linux-mips@vger.kernel.org, linux-hardening@vger.kernel.org, 
 	linux-mm@kvack.org, imx@lists.linux.dev, linux-omap@vger.kernel.org, 
 	linux-renesas-soc@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 2, 2025 at 4:38=E2=80=AFPM Andy Shevchenko
+On Tue, Sep 2, 2025 at 4:31=E2=80=AFPM Andy Shevchenko
 <andriy.shevchenko@intel.com> wrote:
 >
-> On Tue, Sep 02, 2025 at 01:59:25PM +0200, Bartosz Golaszewski wrote:
-> > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> On Tue, Sep 02, 2025 at 01:59:22PM +0200, Bartosz Golaszewski wrote:
 > >
-> > The strict flag in struct pinmux_ops disallows the usage of the same pi=
-n
-> > as a GPIO and for another function. Without it, a rouge user-space
-> > process with enough privileges (or even a buggy driver) can request a
-> > used pin as GPIO and drive it, potentially confusing devices or even
-> > crashing the system. Set it globally for all pinctrl-msm users.
+> > The name of the pin function has no real meaning to pinctrl core and is
+> > there only for human readability of device properties. Some pins are
+> > muxed as GPIOs but for "strict" pinmuxers it's impossible to request
+> > them as GPIOs if they're bound to a devide - even if their function nam=
+e
+> > explicitly says "gpio". Add a new field to struct pinfunction that
+> > allows to pass additional flags to pinctrl core.
 >
-> How does this keep (or allow) I=E6=B6=8E generic recovery mechanism to wo=
-rk?
+> Which I disagree with. The pin control _knows_ about itself. If one needs
+> to request a pin as GPIO it can be done differently (perhaps with a new,
+> special callback or with the existing ones, I need to dive to this).
+
+What? Why? Makes no sense, there already is a function for requesting
+a pin as GPIO, it's called pinctrl_gpio_request(). And it's affected
+by this series because otherwise we fail as explained in the cover
+letter.
+
+> On a brief view this can be done in the same way as valid_mask in GPIO,
+> actually this is exactly what should be (re-)used in my opinion here.
 >
 
-What even is the "generic recovery mechanism"? That's the first time
-I'm hearing this name.
+Except that the valid_mask is very unclear and IMO it's much cleaner
+to have a flag for that.
+
+> > While we could go with
+> > a boolean "is_gpio" field, a flags field is more future-proof.
+>
+> This sentence is probably extra in the commit message and can be omitted.
+>
+> > If the PINFUNCTION_FLAG_GPIO is set for a given function, the pin muxed
+> > to it can be requested as GPIO even on strict pin controllers.
+>
+> So. this changes the contract between pin control (mux) core and drivers.
+
+Yes, that's allowed in the kernel. The current contract is wrong and
+the reason why we can for instance confuse debug UARTs by requesting
+its pins as GPIOs from user-space whereas a strict pinmuxer will not
+allow it. But to convert pinmuxers to "strict" we need to change the
+behavior.
+
+> Why? How is it supposed to work on the really strict controllers, please?
+>
+
+Like what I explained several times? You have pins used by a device.
+User-space comes around and requests them and fiddles with them and
+now the state of your device is undefined/broken. With a strict
+pinmuxer user-space will fail to request the pins muxed to a non-GPIO
+function.
+
+> > Add a new callback to struct pinmux_ops - function_is_gpio() - that all=
+ows
+> > pinmux core to inspect a function and see if it's a GPIO one. Provide a
+> > generic implementation of this callback.
 
 Bartosz
 
