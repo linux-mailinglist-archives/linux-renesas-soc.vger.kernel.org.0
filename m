@@ -1,220 +1,165 @@
-Return-Path: <linux-renesas-soc+bounces-21209-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21210-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B1FB40880
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 17:06:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60193B408A3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 17:12:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BF3FB48115C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 15:06:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A40603A765F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 15:12:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C6FF314B6C;
-	Tue,  2 Sep 2025 15:06:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA498315761;
+	Tue,  2 Sep 2025 15:12:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PPIUQq/Q"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fha+upIT"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CFB8313558;
-	Tue,  2 Sep 2025 15:06:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55EF5279DDD;
+	Tue,  2 Sep 2025 15:12:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756825575; cv=none; b=apGQiKAAkFktuKgbCg1L+reon3s2G5y4gTDCym5KGNxj7421XH9paXdGlasBo8+rD6/1Jz5RO6iRx5upQuOmhNKM66NFWkGDVBHfPOKhOUWZdnc5mElNDfZgJqeQvR6UgWcoNLcktQBKDyMuayCDd7skAnIdtbuE121RirSycfA=
+	t=1756825958; cv=none; b=Ptvdn4z4sQPZiX2tp1Ei8QeYtQWL1jG4SVt+DvAWX6GAnHL4Nr/f3xr5EYnethHE0ia/u1dO3oTarYTXDmfdNtiO7Hy/XbtmgEEVgUeFIAoeVV716F5WWsQ4R0G/jpAw+8X/Xwelq8G4YJ1CnSjdtsgdH40iFLowVBMW4z7WpV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756825575; c=relaxed/simple;
-	bh=KaWopFh3G3Ute3M/+mCT3RtU/jaEiwXVKes2viZVV3M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XewZ67nmr6KWiU4uHZEv8gPQclubKEt/0vkfZe6T6HCS1mfVrH1QNrks2ccfPh+9sk4rFbbIjgfOiF4rMJJb30V/hyCMvIj3lVzngISOJ8eig7ixnBS9Em/ysME5OGbEZeHi8Ap83pMx9HjENV+F8sZ/bDfD+qppmrl2zLjVdcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PPIUQq/Q; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-afcb7ae6ed0so821723066b.3;
-        Tue, 02 Sep 2025 08:06:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756825571; x=1757430371; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0NCG6V1OgZuEp/3w3OM2cgGYGg9eJuDQh4/kEQfZckU=;
-        b=PPIUQq/Qk+ERWuTjiqLoT9aknn34Sj321B98gxtNE28XuzZZ5bWewA9brX08UIkV0c
-         Fxl10sXC2cXnNmnYh/GdncR+U/nkwIUJXGWIBoKQRSt4jodnAPxF4mrMh3njBINE2gxA
-         1L6hmuslvH+dl/WhjpjXyyvBjJhydyEXMprgTp6iEI4YR5XE81hcqKXOhhFMckg6mUjt
-         YMipAcmdUJ7olf69ubj132BWRKUAaAeoHlWaG56rKZjPk5H5eADItMg6yXR00j2CM+jb
-         Al5GNW2kJLg3UQv47iP+GGsfBAUN+rOLm2p70lthVAAKkf7b2wdY63xQ+C6Lu2OF6ESE
-         WT7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756825571; x=1757430371;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0NCG6V1OgZuEp/3w3OM2cgGYGg9eJuDQh4/kEQfZckU=;
-        b=o4GiU2fKjvjZzEkGnm0SUNKZSsDwsHqQDy/EMukEhnt1etlf3qQYDNRjcnT16bkUdZ
-         px8FrBfNttQTECgThhBv1cUCjwCOc7PKvRlehIug9uEuQn7sLkkejALNDzsF8DZ5FetZ
-         hQHPHgV1AlBy8AxsNllA8BlLM5bx9Spr1VLPD8aaQmtB2//WFxpFL0/wraK50ncIQHip
-         58NfHYyPcBmUeVRD1yIsV+CfgPly4pM+jAiugcuXR812+i3tMp643Ss6xGYUl9b16cFf
-         w2DAQrdd5kGuhRhjyHaouqmC0aHJTGAnvJxz68OxEzoplUy/3uVogLEpXffbEm36NF7o
-         xZ+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVSNXW1mO1k/kqhcxx+itySxkcVwsblV36gXLPZT/IaS9fBRZEmDw+vihXqoLjBNwztrknx1AtgIJgC@vger.kernel.org, AJvYcCWX8yTvIIVodhZNPSrJ0fdtyYhCRuX3RDw1m3oaKHZGoO548+Us2QFZYgCvHA2b6u2VsbiGa1Mp2j1yhIxi@vger.kernel.org, AJvYcCWchvQz/L70jsNuuE5VKaA7DRVZimTNzgnBJdYWRqjkeStfGnqZB275TMuorCY/akAP+YKcE/KPZfmdDvufqpiR5S4=@vger.kernel.org, AJvYcCWxS+gzwyIX1pR8SKtNC85PgJhosnJg2u83Jj9yPL67vdyECpMbMedMw10fHaLaNzryDJqwCY4aRVYA@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+xUHHkj6v40XzktFdL+yK/qRP/fOgCyReaWHHJ+UyIA/Oc1fR
-	9pvSArgoQp+jt9c4ED2VnkObktjtAuGrfIFPaYHYUlhBOkTuGhT9I+J6Oeo/iuqB+RVQdIUMhOk
-	+nae6I/fgFVfPaVXahdbV+8GsUNeK73A=
-X-Gm-Gg: ASbGncs3qQmiPtXQS982qOkJgy9kn46W+Bedtv+ZFfB0TyZqnk9Uo9D/hzTxNJMK9iU
-	iTOYnaCGT+UYRpTHpP22wMXN9BYyQIg4QG08U6ejj6meh1b/46OEsKxzIOY7SqbP/pwKnfk9BaP
-	IluqRN3rW1oqlEaKOmi1aQZTykpq4PT/3GzRFsXZ7n9II1r3X9YFHmwZ6QYQKdGNhM73W9N5sv7
-	GSNW/Xf4iHWdNQVMlOklsslz0bd5zzbvWGyNP5t
-X-Google-Smtp-Source: AGHT+IHguZjKKQpFgGBpEEZVhDrXk7hGpOY5dXVvoNorkpEWWGQ2lapDQQSna02A2GKMR90XdVnQaTddKjZuWppnqeg=
-X-Received: by 2002:a17:907:3f96:b0:ae3:5e70:32fb with SMTP id
- a640c23a62f3a-b01d8a277f3mr1333364166b.4.1756825571160; Tue, 02 Sep 2025
- 08:06:11 -0700 (PDT)
+	s=arc-20240116; t=1756825958; c=relaxed/simple;
+	bh=Qm0MENDGoBpJreb7usssnkk4Erhkc9mDyI1kYmenU/k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fnVME+YCRqmN9/6VQiCXCg2/43LkAZbCdrolclxuurwliIcPlUX68uPQp0qMZAo8nbvK9BRQ/Dz3wT8m/lQpwVgnl7B16ZTK/ufYJi6+JBXTcLQInZqvfjjeWj78WYE95xyF/+K7v3ngCGX2egeJnIHfqg/02gQAYEgN54C8IXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fha+upIT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB76CC4CEED;
+	Tue,  2 Sep 2025 15:12:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756825957;
+	bh=Qm0MENDGoBpJreb7usssnkk4Erhkc9mDyI1kYmenU/k=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=fha+upITUjR1W0/UPbGo5pqDEYYHq2VFch/hzfP45Cc4DUFZMu/U1HZBKmEZDtzCu
+	 iBDx0UtAvG1Se/1xc+9eCfwZyjV/3B8QlHOzcSsDpxMRslOobnPh84NMMkD/x0Dv/g
+	 xRaeCkokcz/HiStL81OWybnmfeke8xbUFORD+3qh2QF881mhkN4aMXU+IZJA96/1Sp
+	 GT7K7ZaoP9kdQDHPvQM6s9ZrnoBcNhmkS02rGDVOVe7xI1V4vOYoP+D+XPHVNyGzze
+	 eB8+jAUjKEOBQZvHIRChGOBN8u5j/+qtdlLin+slLI13vbKI95OGhjjit3j4/QyXxt
+	 xBDYlmqE/1jCA==
+Message-ID: <1034c70a-da67-4914-b23c-8d006b7611bf@kernel.org>
+Date: Tue, 2 Sep 2025 17:12:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250901183000.1357758-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250901183000.1357758-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWARu=9__pqcHXUq92LYuxAQPZNJ6Fn_b7Z6x78i4twDw@mail.gmail.com>
-In-Reply-To: <CAMuHMdWARu=9__pqcHXUq92LYuxAQPZNJ6Fn_b7Z6x78i4twDw@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 2 Sep 2025 16:05:44 +0100
-X-Gm-Features: Ac12FXxzvbsiyDdyR1GBbboEmEPc8JYS2vptgHxISPySqH13BqLFpjPt2hwkG4A
-Message-ID: <CA+V-a8t1PDpqqMAdWxPeQfH6MWQe0GHsuBSzRbaRFRPPMf_iQA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] clk: renesas: r9a09g077: Add Ethernet Subsystem
- core and module clocks
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 12/16] pinctrl: qcom: use generic pin function helpers
+To: Andy Shevchenko <andriy.shevchenko@intel.com>,
+ Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Alexey Klimov <alexey.klimov@linaro.org>,
+ Lorenzo Bianconi <lorenzo@kernel.org>, Sean Wang <sean.wang@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Paul Cercueil <paul@crapouillou.net>, Kees Cook <kees@kernel.org>,
+ Andy Shevchenko <andy@kernel.org>, Andrew Morton
+ <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Dong Aisheng <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>,
+ Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ NXP S32 Linux Team <s32@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Tony Lindgren <tony@atomide.com>, Haojian Zhuang
+ <haojian.zhuang@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Mark Brown <broonie@kernel.org>,
+ linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+ linux-hardening@vger.kernel.org, linux-mm@kvack.org, imx@lists.linux.dev,
+ linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+References: <20250902-pinctrl-gpio-pinfuncs-v7-0-bb091daedc52@linaro.org>
+ <20250902-pinctrl-gpio-pinfuncs-v7-12-bb091daedc52@linaro.org>
+ <aLbt2euqYQM5xXuZ@smile.fi.intel.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <aLbt2euqYQM5xXuZ@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Geert,
+On 02/09/2025 15:15, Andy Shevchenko wrote:
+> On Tue, Sep 02, 2025 at 01:59:21PM +0200, Bartosz Golaszewski wrote:
+>>
+>> With the pinmux core no longer duplicating memory used to store the
+>> struct pinfunction objects in .rodata, we can now use the existing
+>> infrastructure for storing and looking up pin functions in qualcomm
+>> drivers. Remove hand-crafted callbacks.
+> 
+> ...
+> 
+>> +	for (i = 0; i < soc_data->nfunctions; i++) {
+>> +		func = &soc_data->functions[i];
+>> +
+>> +		ret = pinmux_generic_add_pinfunction(pctrl->pctrl, func, NULL);
+>> +		if (ret < 0)
+> 
+> Why not simply
+> 
+> 		if (ret)
 
-Thank you for the review.
 
-On Tue, Sep 2, 2025 at 2:01=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68k=
-.org> wrote:
->
-> Hi Prabhakar,
->
-> On Mon, 1 Sept 2025 at 20:30, Prabhakar <prabhakar.csengg@gmail.com> wrot=
-e:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Add module and core clocks used by Ethernet Subsystem (Ethernet_SS),
-> > Ethernet MAC (GMAC), Ethernet Switch (ETHSW).
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Thanks for your patch!
->
-> > --- a/drivers/clk/renesas/r9a09g077-cpg.c
-> > +++ b/drivers/clk/renesas/r9a09g077-cpg.c
-> > @@ -72,7 +72,7 @@ enum rzt2h_clk_types {
-> >
-> >  enum clk_ids {
-> >         /* Core Clock Outputs exported to DT */
-> > -       LAST_DT_CORE_CLK =3D R9A09G077_USB_CLK,
-> > +       LAST_DT_CORE_CLK =3D R9A09G077_GMAC2_PCLKAH,
-> >
-> >         /* External Input Clocks */
-> >         CLK_EXTAL,
-> > @@ -166,11 +166,21 @@ static const struct cpg_core_clk r9a09g077_core_c=
-lks[] __initconst =3D {
-> >         DEF_DIV("CA55S", R9A09G077_CLK_CA55S, CLK_SEL_CLK_PLL0, DIVCA55=
-S,
-> >                 dtable_1_2),
-> >         DEF_FIXED("PCLKGPTL", R9A09G077_CLK_PCLKGPTL, CLK_SEL_CLK_PLL1,=
- 2, 1),
-> > +       DEF_FIXED("PCLKH", R9A09G077_CLK_PCLKH, CLK_SEL_CLK_PLL1, 4, 1)=
-,
-> >         DEF_FIXED("PCLKM", R9A09G077_CLK_PCLKM, CLK_SEL_CLK_PLL1, 8, 1)=
-,
-> >         DEF_FIXED("PCLKL", R9A09G077_CLK_PCLKL, CLK_SEL_CLK_PLL1, 16, 1=
-),
-> > +       DEF_FIXED("PCLKAH", R9A09G077_CLK_PCLKAH, CLK_PLL4D1, 6, 1),
-> >         DEF_FIXED("PCLKAM", R9A09G077_CLK_PCLKAM, CLK_PLL4D1, 12, 1),
-> >         DEF_FIXED("SDHI_CLKHS", R9A09G077_SDHI_CLKHS, CLK_SEL_CLK_PLL2,=
- 1, 1),
-> >         DEF_FIXED("USB_CLK", R9A09G077_USB_CLK, CLK_PLL4D1, 48, 1),
-> > +       DEF_FIXED("ETCLKA", R9A09G077_ETCLKA, CLK_SEL_CLK_PLL1, 5, 1),
-> > +       DEF_FIXED("ETCLKB", R9A09G077_ETCLKB, CLK_SEL_CLK_PLL1, 8, 1),
-> > +       DEF_FIXED("ETCLKC", R9A09G077_ETCLKC, CLK_SEL_CLK_PLL1, 10, 1),
-> > +       DEF_FIXED("ETCLKD", R9A09G077_ETCLKD, CLK_SEL_CLK_PLL1, 20, 1),
-> > +       DEF_FIXED("ETCLKE", R9A09G077_ETCLKE, CLK_SEL_CLK_PLL1, 40, 1),
-> > +       DEF_FIXED("GMAC0_PCLKH", R9A09G077_GMAC0_PCLKH, R9A09G077_CLK_P=
-CLKH, 1, 1),
-> > +       DEF_FIXED("GMAC1_PCLKH", R9A09G077_GMAC1_PCLKAH, R9A09G077_CLK_=
-PCLKAH, 1, 1),
-> > +       DEF_FIXED("GMAC2_PCLKH", R9A09G077_GMAC2_PCLKAH, R9A09G077_CLK_=
-PCLKAH, 1, 1),
->
-> Do you need these? I can't seem to find them in the documentation,
-> so they are not just for aiding the casual reader.  As their
-> multipliers/dividers are 1/1, you can just use R9A09G077_CLK_PCLKH
-> resp. R9A09G077_CLK_PCLKAH in the DTS?
->
-Agreed, we can get rid of these and just use R9A09G077_CLK_PCLK{A}H in
-the SoC DTSI.
+Because existing code is as readable? This is just some serious
+nitpicking which is not actually helping at all at v7.
 
-> >  };
-> >
-> >  static const struct mssr_mod_clk r9a09g077_mod_clks[] __initconst =3D =
-{
-> > @@ -181,7 +191,12 @@ static const struct mssr_mod_clk r9a09g077_mod_clk=
-s[] __initconst =3D {
-> >         DEF_MOD("sci4fck", 12, CLK_SCI4ASYNC),
-> >         DEF_MOD("iic0", 100, R9A09G077_CLK_PCLKL),
-> >         DEF_MOD("iic1", 101, R9A09G077_CLK_PCLKL),
-> > +       DEF_MOD("gmac0", 400, R9A09G077_CLK_PCLKM),
-> > +       DEF_MOD("ethsw", 401, R9A09G077_CLK_PCLKM),
->
-> According to Table 7.13 ("Overview of Clock Generation Circuit
-> Specifications (Internal Clock)"), ETCLKA is used as the operating
-> clock for ETHSW?
->
-There are 3 clock inputs to ETHSW,
-- PCLKM -  bus clock
-- ETCLKA - operating clock
-- ETCLKB - Ts clock
+Best regards,
+Krzysztof
 
-Based on Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml
-we have two clocks for RZ/N1 (Ts clock is missing)
-- description: AHB clock used for the switch register interface
-- description: Switch system clock
-
-- const: hclk
-- const: clk
-
-So I was treating,
-- hclk -> PCLKM,
-- clk   -> ETCLKA
-- ts    -> ETCLKB
-
-Since pclkm is used for register access, I added this entry to the
-r9a09g077_mod_clks array as I was under the impression the clocks used
-for reg access need to go into this array.
-
-> > +       DEF_MOD("ethss", 403, R9A09G077_CLK_PCLKM),
-> >         DEF_MOD("usb", 408, R9A09G077_CLK_PCLKAM),
-> > +       DEF_MOD("gmac1", 416, R9A09G077_CLK_PCLKAM),
-> > +       DEF_MOD("gmac2", 417, R9A09G077_CLK_PCLKAM),
-> >         DEF_MOD("sci5fck", 600, CLK_SCI5ASYNC),
-> >         DEF_MOD("iic2", 601, R9A09G077_CLK_PCLKL),
-> >         DEF_MOD("sdhi0", 1212, R9A09G077_CLK_PCLKAM),
->
-> The rest LGTM.  But as the full wiring is not clear to me, I guess
-> I'll have to wait for the DTS...
->
-I'll soon post the Ethernet enabling patches.
-
-Cheers,
-Prabhakar
 
