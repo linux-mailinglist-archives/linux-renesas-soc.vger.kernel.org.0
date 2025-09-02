@@ -1,142 +1,175 @@
-Return-Path: <linux-renesas-soc+bounces-21183-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21184-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86F66B4007F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 14:29:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77D58B40077
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 14:28:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0150E5E5EB5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 12:21:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0FA075472E0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 12:22:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40E792F8BCB;
-	Tue,  2 Sep 2025 12:19:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5026E2C0269;
+	Tue,  2 Sep 2025 12:21:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XGb78nSj"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4D342FABF0;
-	Tue,  2 Sep 2025 12:19:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A452288C13;
+	Tue,  2 Sep 2025 12:21:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756815572; cv=none; b=gtLLZGVa9BLQbSrQD0rWjaf1TAJ16fTVtneRnr3C0fclaw/e7Hdp1Et9OIrJ2a0t0RqXSQTCE/dLSHSsn2iGoS+A5JAphHTUs5ESmzgJPMaHL9tMpcm89kA0nbKo9MF45V/qDuc5KiomUcxvUdCCy2X0yT5xqrZRHEuY9l4yLzU=
+	t=1756815705; cv=none; b=C0UM7gIWKTgVmi0qsDTYJ9P8ntQWLC8zYBMMGlYBe4ZY1DYAtxnVQnC+MVZT4kDkODOI0N+m1qLOoAsfgAOkv4Y/hLIfv209tUl8BHx02+MeimpS5+te0WiMfZFB+9Q+euJtOeLr2p7i1ZcWRuOLg3oCt6NKrkNfyGE+AaEDTAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756815572; c=relaxed/simple;
-	bh=5QW1vVB7wIcQZDDIi2h39/hzIcZpzRDcJJZKI3fypSY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=O+2qJ0KCiEgZXXKRXrRdd+z5P7XjHAtHBzdCGoDPDmYR53rQkvh8exqWsOw5JxUjFufhtVd3euTW0a0EOxTM9ZDm1HhUv0/y/NKLQvfdO1t5tn4/M2IX2W48IYSzTRn+3sEirwdb9D1tfGrwfN2oisDY74dcMXlKWAMckN4ZQhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-52dec008261so754716137.0;
-        Tue, 02 Sep 2025 05:19:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756815568; x=1757420368;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=n3tc57+yFZ+p+Z1Lew5VurHJFrkSlagYN8YS2+jEgGE=;
-        b=N/neI/zCD9IEQV0iTApLzJz2X2Le3kOsujXezd6n6n6xgU+ewDCIpCYuBuTW8cOO3W
-         mn68mHx4Nh+bglfJQvpRSz+86AV/1yTTjbx4W+l+VEIVDTidu4lpNdMPnFiX5OlQsxLE
-         BUplbEif2DhD+4qSwgmJEt/BzJWxt/QHkf0pxsFapTZV+3gHJgmCaWPKzxl3FBpxtfQ4
-         OcWtKaqa4IpFguGDOhIIGE8GAHEFPmwAxwQ1oPd9ZVu7h0l+YN71L/zY4uOeV1OPfMJG
-         jd3jV286KPu5pbtjKxtwj/Wrd7Q6On++lqJCONw61LMpCwMOXICy9C88c5oq4xgOFvtK
-         95qQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVI8Gxxwf8O2mNoDfc035ScqFSRPtwNOX0ZmmLk+7ZyKhpAFo1okX6vbGS2sAvqqIeWpv9YiMBKDvY=@vger.kernel.org, AJvYcCVbLTckwtzRL8ehLFQzt0H0VR+coO7CdjUEADdAJFPV730a7EREOIFmpDACTbZ953Zrb0RejhnTcmqNuM+y@vger.kernel.org, AJvYcCXtvp7vNKRbG6QY6cuFJvtR58BC/Cvcvh/XuwvNw+tq9NSAlcBp4kO9Y3Zg51OBp3iLNJ16TDpd6JvSooP3iSCXQEk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5ULpJ8lmXcz9SD7QLS++t8LQeZwi5XpiQF65UrAplbc3Bmlm8
-	GVh1+F1fYBwSaEScCZIGrTVT+LmQPXn2TOQaHDqzGnSrbRRAvSV2m6wjIVZxqnZ5
-X-Gm-Gg: ASbGncs2zknVWly4kt0b3sCFsy6vZC0pQWPm5VMgQwxdlt59nlIY5n28tvzgUfhLS0n
-	zIX8Erm/N5aEwaI1CEcsoHOgj6/wu+F+Kta9XCriqCVRuOxnzopJ4MMzAqbONzFFzqoco0zSabO
-	x45lKBx6A9eWK3Ov7d6jeBx3Nh6KcO95BtF1ZSexdledrLpfe+9B+i3M6VYzpF+6BuuMTZKv8lQ
-	QwqKZzIJpEc0G91fnSJpwVfYKwTNVrbNtljDQ290wN51acGLVbFek6NgIrdar6pnRdJY7KxkFaN
-	HDRb3/ic82iUqfcNgd3fLujYlaoIvVALj/yzZrRc4rsfLSAj47/ggz0Pt0+mw8v0RhlYz8Ns+M2
-	/b/49z4v9CtM9K9q2kkh4ZrYzEDU57Ql0nxNpGTLN1TE6fHliM5Z7cOOPDz01P1Kc
-X-Google-Smtp-Source: AGHT+IGiGzzjNyKvRiu0dRDmd2pMKiJsxAE01B9Q2X5U3apIaqe2Vv2LMEDFlPddqZ3hY5ajB6c8CQ==
-X-Received: by 2002:a05:6102:5a92:b0:522:3cef:80bb with SMTP id ada2fe7eead31-52b1b3f1060mr2471134137.19.1756815568090;
-        Tue, 02 Sep 2025 05:19:28 -0700 (PDT)
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com. [209.85.221.181])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-89601b67070sm2807933241.20.2025.09.02.05.19.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Sep 2025 05:19:27 -0700 (PDT)
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-54494c3f7e3so1323660e0c.3;
-        Tue, 02 Sep 2025 05:19:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUNGecrBiw586FRQRJzYVOZFLISb+r/gmpJQDJCprfkfXJYVZ5V5CpQK/jeV8hMJMoOCeGyLWA6HVI=@vger.kernel.org, AJvYcCUkk1k0AFwm+K168r1wrKtjFHWSrMYsGGKY2356ZIXM55k08BH23jf/b4wEHyPhaSjIFVLCAgMWAh8xGcQc@vger.kernel.org, AJvYcCX3gX4In1LehofvVRwlhdhe57oRFzJPOPB46ztQ5n/rgyJt3AybO7aCR6OnmmJEKKjvOSWV/XIkmHPI0wD7OH6wViI=@vger.kernel.org
-X-Received: by 2002:a05:6122:6d0e:b0:544:c84f:ad4d with SMTP id
- 71dfb90a1353d-544c84fb13fmr627712e0c.16.1756815567527; Tue, 02 Sep 2025
- 05:19:27 -0700 (PDT)
+	s=arc-20240116; t=1756815705; c=relaxed/simple;
+	bh=Xi9w2U0e+LihW+mNY3AWJK5Jdc9jrdixQXdotyzWyfU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Druf9bHLNux3ja6TM0MNtl76EFj9F1hs8tMLx4wzMSWG7lGEpxYrr+EFIahQ+2EC3nlez0HVpS8OUID6JGpNP5u9oXMjgu1aNrHYwwXteTs26+qvZUS5gLAQ8v2WsrzcFPOhmAayaDpQSCQMB6WKCW2hLAOHwa6iuOCNItPYSP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XGb78nSj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BEFFC4CEED;
+	Tue,  2 Sep 2025 12:21:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756815703;
+	bh=Xi9w2U0e+LihW+mNY3AWJK5Jdc9jrdixQXdotyzWyfU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=XGb78nSjyqEwWDPtWYjqcuclZAEgum8p0u/VNY8w+i1KpaD0C2eU7R3e3kJDoLmTE
+	 S2YjLdMMJ4xTracw8gkXaLrAVR+TCc7oO4LRXch9bQSZCH4jsuIF7g8bU0ARaxS4Hv
+	 V3ISsocEs9Q1EgNSpeMgwTO54MqHAo8nNpCRm3xjZouc2O/HAeoVeLQx58SHx9oDxB
+	 uFoOgmRFV56FKCQKmhMnmid5CLs86dRvcPDXK2d0S6Qik2HWJoCF1SSFDStWw/WkVe
+	 DIJKf8j7eM4vj0bjLQIWgB7OVTqAb6ILFoq/y+5Rv4C01N+e6UkUe49NFX+tFzpOBS
+	 N/hz2Fqgph2mA==
+Message-ID: <5ec3efce-653c-46c5-977f-5a46391e675f@kernel.org>
+Date: Tue, 2 Sep 2025 14:21:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250820100428.233913-1-tommaso.merciai.xr@bp.renesas.com> <20250820100428.233913-4-tommaso.merciai.xr@bp.renesas.com>
-In-Reply-To: <20250820100428.233913-4-tommaso.merciai.xr@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 2 Sep 2025 14:19:16 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUC2w_EjBt1D8dqDkASo6xB6TUiu2FpX9tbx=zz+tN=Ow@mail.gmail.com>
-X-Gm-Features: Ac12FXyrM7wcI-Dz8Ib92qbZ92YNl4tw6LtCS4YiWEVUIJCVkxhJD1TRcqa787c
-Message-ID: <CAMuHMdUC2w_EjBt1D8dqDkASo6xB6TUiu2FpX9tbx=zz+tN=Ow@mail.gmail.com>
-Subject: Re: [PATCH 3/4] clk: renesas: rzv2h: Re-assert reset on deassert timeout
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
-	biju.das.jz@bp.renesas.com, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 01/10] dt-bindings: net: pcs: renesas,rzn1-miic:
+ Document RZ/T2H and RZ/N2H SoCs
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Biju Das <biju.das.jz@bp.renesas.com>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250901224327.3429099-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250901224327.3429099-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250902-enlightened-hidden-copperhead-4eefdf@kuoka>
+ <CA+V-a8sSiNQ6W-ggmL8PP_G1sFq170DS1LJLFJs_WW0RC+XVEw@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <CA+V-a8sSiNQ6W-ggmL8PP_G1sFq170DS1LJLFJs_WW0RC+XVEw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Tommaso,
+On 02/09/2025 14:17, Lad, Prabhakar wrote:
+>>>    power-domains:
+>>>      maxItems: 1
+>>> @@ -60,11 +77,11 @@ patternProperties:
+>>>      properties:
+>>>        reg:
+>>>          description: MII Converter port number.
+>>> -        enum: [1, 2, 3, 4, 5]
+>>
+>> Why?
+>>
+> If I keep this here and just adjust the below for RZ/T2H case I do get errors:
+> 
+> reg:
+>   enum: [0, 1, 2, 3]
+> 
+> 
+> arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: ethss@80110000
+> (renesas,r9a09g077-miic): mii-conv@0:reg:0:0: 0 is not one of [1, 2,
+> 3, 4, 5]
+>     from schema $id:
+> http://devicetree.org/schemas/net/pcs/renesas,rzn1-miic.yaml#
+> 
+> Any pointers on how to handle this case?
 
-On Wed, 20 Aug 2025 at 12:05, Tommaso Merciai
-<tommaso.merciai.xr@bp.renesas.com> wrote:
-> Prevent issues during reset deassertion by re-asserting the reset if a
-> timeout occurs when trying to deassert. This ensures the reset line is in a
-> known state and improves reliability for hardware that may not immediately
-> clear the reset monitor bit.
->
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+So please grow this with '0' to cover the widest choices, which you then
+narrow in individual if:then:.
 
-Thanks for your patch!
+The trouble with your if:then: is that they are huge and they also nest
+patterns and if:then:.
 
-> --- a/drivers/clk/renesas/rzv2h-cpg.c
-> +++ b/drivers/clk/renesas/rzv2h-cpg.c
-> @@ -865,9 +866,16 @@ static int __rzv2h_cpg_assert(struct reset_controller_dev *rcdev,
->         reg = GET_RST_MON_OFFSET(priv->resets[id].mon_index);
->         mask = BIT(monbit);
->
-> -       return readl_poll_timeout_atomic(priv->base + reg, value,
-> -                                        assert ? (value & mask) : !(value & mask),
-> -                                        10, 200);
-> +       ret = readl_poll_timeout_atomic(priv->base + reg, value,
-> +                                       assert ? (value & mask) : !(value & mask),
-> +                                       10, 200);
-> +       if (ret && !assert) {
-> +               dev_warn(rcdev->dev, "deassert timeout, re-asserting reset id %ld\n", id);
-> +               value = mask << 16;
-> +               writel(value, priv->base + GET_RST_OFFSET(priv->resets[id].reset_index));
-> +       }
+This often is less maintainable, so maybe you should consider having two
+separate binding files? You can have also common-shared properties.
+Anyway, I am fine with current approach of one binding as well, so up to
+you folks.
 
-Same questions as for the previous patch:
-Is this an issue you've seen during actual use?
-Would it make sense to print warnings on assertion timeouts, too?
 
-> +
-> +       return ret;
->  }
->
->  static int rzv2h_cpg_assert(struct reset_controller_dev *rcdev,
+> 
+>>>
+>>>        renesas,miic-input:
+>>>          description: Converter input port configuration. This value should use
+>>> -          one of the values defined in dt-bindings/net/pcs-rzn1-miic.h.
+>>> +          one of the values defined in dt-bindings/net/pcs-rzn1-miic.h for RZ/N1 SoC
+>>> +          and include/dt-bindings/net/pcs-rzt2h-miic.h for RZ/{T2H, N2H} SoCs.
+>>>          $ref: /schemas/types.yaml#/definitions/uint32
+>>>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Gr{oetje,eeting}s,
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best regards,
+Krzysztof
 
