@@ -1,158 +1,109 @@
-Return-Path: <linux-renesas-soc+bounces-21158-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21159-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E773B3F9FB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 11:16:06 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EAC1B3FA7F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 11:34:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C08DC3B43C7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 09:16:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7D6B216F8FE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Sep 2025 09:34:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AE0E2E9EA9;
-	Tue,  2 Sep 2025 09:15:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2310F2EB862;
+	Tue,  2 Sep 2025 09:34:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AZ26lbrb"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="FqRiGX+2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459C226B76D
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Sep 2025 09:15:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E68E71D2F42;
+	Tue,  2 Sep 2025 09:34:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756804545; cv=none; b=EpOv1fBrdJqmHcFuE7uwfixTWsrDUElJETsZEAA4mSJ3lO98YIojpj39yIsScfm/W8dhuhsJPz03RcXx25hyP8Jj5yeki82E729V731G2Zi5K+8QZQL0x7aVbqamJTwNrZK1nT78Hsa/k1mrml88xQxhEA/Xo2r31HXY6kZGigs=
+	t=1756805690; cv=none; b=F8siuzINTUk8Sal0uBf/lD3McnkEKWX3bEzsBswd3SJi2L05Vz/r4K4Q5IQBOoUUKnRHsDpHerT+ttqQBL4zSbwi2MEAkt3mwtJhV++KvZ4GiTEXE8M/jZtA56VGqBNVmDLYF2eQRynUOme/wLYnNxDRRjINFb3/xSFxgVGINqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756804545; c=relaxed/simple;
-	bh=pK9+ijRl2j6HN0tN4nwtWsdeKYO080hTPBOS7dCkey8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nHozxVwAr4KdFqmr0h2eQIy7o9WPtI+4Nyzd4ixAqhDEOlGmMt4iIBlzaNRZfRLYErfliFe1g1N9i6p7YuBdv6ceEwsybBUmBEr7uXVOh+BPf30YKSz0CWfUHMzOalyT3ygWTQvnHhMW9a8/MsPNutK0HKDYJXSE51wheVlKOuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AZ26lbrb; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b041264542eso23610266b.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 Sep 2025 02:15:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756804541; x=1757409341; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d8XZj58AfuffXLo74Vy8aYlA//3fYOnrLNQd7UOnLAM=;
-        b=AZ26lbrbl5dk4OfPnHBjV8pIrlSy8zK7cVzE9RYZBhmlndYQepLUi8x3NlgjKhPoUG
-         I/dkqQl34uVWRXOYiZWgfHLeWM4VSM1bbHVRs/LVMTIdPBDKk8HMb+4RrtyrTsQeDXVT
-         cXS/cwLxFRaYcAzHEn9UkRma1SlQlTDRhbS4QlSIYGE4TBCS0pzi+SN/nZoJ7Zo2lrh0
-         PT3ZUddwF70dNy9RUKNFb48zA6QG8Zhp9/Pi+QDf17GEmL4nj9D8m4oYO+ItcvFuZ0cc
-         ZP487mF2MdBW8+G0FYt40zllOiqmRpnGVs934IHtyANfVdHXqXs4lfpYp5BsaBVEe4cd
-         /ZJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756804541; x=1757409341;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=d8XZj58AfuffXLo74Vy8aYlA//3fYOnrLNQd7UOnLAM=;
-        b=gYDEvh2h8dcTrXgqkQckuG4QZPQiWkknhtuuS2riuCtjtcUG47KfsRM6+WVpWpqoUm
-         6qtlBRWSvTA7lc3VA5CvUMqQrbbcqu4Npez54+t7/K3LphwI6lxrQtenjUZhK9g8P+2A
-         gGzQ67LIGjvAhjsjqlcw3Zk0VFzfT2dbCrVZ4yxysYKDXt3XRKYlM7OD6YfN99YZZ2hr
-         Q6tMDwgPWSAQh8uSZXbxgngac0p3+zK2HuE4IWz5Mfg5Tf5/xgXCRgnrtsSxmg+MzsW0
-         aD8uTpl2CxyOUBKk/3P4qdO30Kz77BF2ahNNsBER08zz6Xhr4Av1cDqat4WGTLhTFe91
-         M7MA==
-X-Forwarded-Encrypted: i=1; AJvYcCXCsfKQMUz3xxXKV7/XsS0iCvHKg77cnrogXB6yHJVBOdndH2qnxwjZG0SGjiQHo+Gro+RJjt5PZPVjUDGWolZflw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7ecSOk2/TKUSuKVSLGdmqpygHobYhlcEN1y55OKQDbTmTM91O
-	WTOhWGS7Ygy8DbQp6B6bksmVDesAPoVPV0SP1YPkSnQInZ/DkXNepQaj2PGJT1g6i/I=
-X-Gm-Gg: ASbGncthJkNhTe9hTpwhwVwaXeIIEE1v5Stek9i62Pt8m1DxdW1K2qn5pO2R83lpcCR
-	UUVlJis0v5XDZRjCnz5Lc2oSpD3dztS+4F8WWXhE5gVjgwr8dHc4h6mBj76KUzup4eUUxTnsExS
-	yqaROWrWTZ3LSIh915d4qdwp95JycfvMzffvJMS4NtSGFXlvVBfHmXkQDJXxjQLmBbwkovSw28I
-	yYt8VetGh79HqLX72QOVC8qBnBZlYBXhI8xzbF7y/xNIMUNlVddmp0Br6Re135JP7yei3TFJmTq
-	Gmd/I3RWI6p8JH5eHFQ89+2iXuNdwAhBalKVWvOAjbvWqaPTFRCCbanM0gv1hxG+4mbPPBtXbK9
-	zmmR5k2d92SkZklZAtx6Js5Q8OuCa4Oocyw==
-X-Google-Smtp-Source: AGHT+IH7ISdvmk9LdLXUfb47YUHhoUHT34kW8bHgs46FMafpaBt9DhVN+MYvqleNA7oVddSWHu0KMg==
-X-Received: by 2002:a17:906:ef05:b0:afe:872a:aa5d with SMTP id a640c23a62f3a-aff0f022fa9mr729067566b.8.1756804541416;
-        Tue, 02 Sep 2025 02:15:41 -0700 (PDT)
-Received: from kuoka.. ([178.197.219.123])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aff15fccb15sm877008866b.98.2025.09.02.02.15.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Sep 2025 02:15:40 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Matthew Gerlach <matthew.gerlach@altera.com>,
+	s=arc-20240116; t=1756805690; c=relaxed/simple;
+	bh=uAi427Qs5KRU3DRKNgGQmaELYcEJOUtVuLXg53CQ5rg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XYjHMAR7o8bCw/7qgjP18HxMlRdWSnLuBVJBFmbUOG1qRUvC2giQaCKPA0AD1eut1O6UcDJGjGbborQJQn3ftpHz5m2tJzUAo+c4pi3IW8VVak3E9Ed8ZEJcmTVa4kkX0whET/EktFlRvz5DblBZvSHmjoS4JUNc8q55LEc8XmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=FqRiGX+2; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=34Y1yLTep9znhYAIr+QK6BAuH5EBj7CVYSKq7UCZVAg=; b=FqRiGX+2mcHMQezRGa4nCBeXK9
+	FMLkqusifE8FDz5tiLl8OtJQtaS7vKnQvTGtzMv7MBaAJcO6SNq5OtzSGnqsS5ue7cXObHVN9GtU0
+	v9tdsGe/zuAKovBV6VXTklUOEUJAImGXKyHefs2ARy+msK4STGX/WNVDFZazJxhybiEePMG7yWBQ0
+	5tRGD7sJXnCFE1C0hrGVu4Ev+GuKw/9EMjMqMO3bWcoUMRcZBHxsfKfPoQ1tCYwM6tJdtEKa9m2i1
+	myQYJ/Sg59Jq48Z/t1MoZJIlF55BFlbKXJ6Ya99D3DxFHYjFcKFVfDKdxKNNYSJIAbOKg5m/uWvBJ
+	eryGAOsQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:43538)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1utNPK-000000007S7-06GK;
+	Tue, 02 Sep 2025 10:34:30 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1utNPF-000000007sF-2o3H;
+	Tue, 02 Sep 2025 10:34:25 +0100
+Date: Tue, 2 Sep 2025 10:34:25 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
 	Andrew Lunn <andrew+netdev@lunn.ch>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Romain Gantois <romain.gantois@bootlin.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Magnus Damm <magnus.damm@gmail.com>,
-	netdev@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH net-next 2/2] dt-bindings: net: renesas,rzn1-gmac: Constrain interrupts
-Date: Tue,  2 Sep 2025 11:15:28 +0200
-Message-ID: <20250902091526.105905-4-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250902091526.105905-3-krzysztof.kozlowski@linaro.org>
-References: <20250902091526.105905-3-krzysztof.kozlowski@linaro.org>
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH net-next 10/10] net: pcs: rzn1-miic: Add PCS validate
+ callback for RZ/T2H MIIC
+Message-ID: <aLa6IeZsGeESpMKQ@shell.armlinux.org.uk>
+References: <20250901224327.3429099-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250901224327.3429099-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1016; i=krzysztof.kozlowski@linaro.org;
- h=from:subject; bh=pK9+ijRl2j6HN0tN4nwtWsdeKYO080hTPBOS7dCkey8=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBotrWxaTzC0t9SB2cO/DTD22p3u2YbOPnNDsqYC
- JeNdd+LesuJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaLa1sQAKCRDBN2bmhouD
- 1/h2D/9Sc3syBi5afN5lHFwOrNyVsaCUZeb7toIaCPz5fDF/nnBxaDdqMiyBKHv+oWOPmQJcWXl
- J5Q7rx9JPyBEC3B2rKaONy95EOxJaAFqrC2rGq1OL8BlgWGSnl5MUK1xX9pFC6oqM4rSoAxbpUI
- LCikfUeSYsAK+9M9Ej0b59qoAjb3fXf3pK9s/WY118krSdhyuWzfXLWchmkPxsrSSubHCYncveI
- O1qKtkRVG8+hrDE3h5Q0AAQ709zYOi7sh2kcDOxsX1EVdnkuCotvvJy6Hs0nDsxb9NrQ/gQj0fv
- L+2Zq9YiQrrv3XYDZsGx9C5eb1ZT6EhIbqXTCL1s6cECGTHXwANAQa4k5nqe5B/QV7WMyayJ6zu
- iQEiNDEhurJ0corFkb8SQJeov67WpP5pR4+1AOHxcABobdrHitKZ6HkNFivVjRuPEZ/hrk5Ls8H
- 97EzieU88wgVgrnZ1l9BDz0xvjQcQELkttmXFIUBSagjLbdvX8074/XpxaelVnEhYtX68CRmpci
- 2XBOhGrWS9sSd9ftltSwznhq9BBTVL/taAp4hZdq3uZXfoEEGahSihXA98O0n/oiMOaJJn7Yuoo
- +zS0+m38Zk6zbpnex4B8FJsk2zB2accitUUwpoHH/AtazIZAcxo44rYPPKKLJvBcZR4+GwPQFQX GubCOLzxqThca5w==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250901224327.3429099-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-Renesas RZN1 GMAC uses exactly one interrupt in in-kernel DTS and common
-snps,dwmac.yaml binding is flexible, so define precise constrain for
-this device.
+On Mon, Sep 01, 2025 at 11:43:23PM +0100, Prabhakar wrote:
+> Add a SoC-specific `pcs_ops` pointer in `miic_of_data` to allow
+> custom phylink PCS callbacks. For RZ/T2H MIIC, implement
+> `rzt2h_miic_validate` to restrict valid interfaces to RGMII, RMII,
+> and MII. Assign `rzt2h_miic_phylink_ops` with the new validate
+> callback to the RZ/T2H MIIC SoC data structure, keeping existing
+> PCS support intact for other SoCs.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../devicetree/bindings/net/renesas,rzn1-gmac.yaml       | 9 +++++++++
- 1 file changed, 9 insertions(+)
+This seems completely pointless. Please review commit 508df2de7b3e
+("net: pcs: rzn1-miic: fill in PCS supported_interfaces") to find
+out why.
 
-diff --git a/Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml b/Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml
-index d9a8d586e260..16dd7a2631ab 100644
---- a/Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml
-+++ b/Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml
-@@ -30,6 +30,15 @@ properties:
-       - const: renesas,rzn1-gmac
-       - const: snps,dwmac
- 
-+  interrupts:
-+    maxItems: 3
-+
-+  interrupt-names:
-+    items:
-+      - const: macirq
-+      - const: eth_wake_irq
-+      - const: eth_lpi
-+
-   pcs-handle:
-     description:
-       phandle pointing to a PCS sub-node compatible with
+Thanks.
 -- 
-2.48.1
-
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
 
