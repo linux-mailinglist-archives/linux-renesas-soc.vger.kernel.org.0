@@ -1,212 +1,117 @@
-Return-Path: <linux-renesas-soc+bounces-21267-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21266-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 610D9B41DB3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 13:55:06 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 903A9B41DB8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 13:55:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 534BB3A1BDF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 11:54:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B8C031BA6701
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 11:55:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50C522FF174;
-	Wed,  3 Sep 2025 11:51:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WwwQj+ZQ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 020172FC860;
+	Wed,  3 Sep 2025 11:51:21 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82CF82FC874;
-	Wed,  3 Sep 2025 11:51:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A0E62FC018;
+	Wed,  3 Sep 2025 11:51:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756900283; cv=none; b=TS9ygs5naXv2AyojqHIm3c3pbx17u3eRNasTbQ5ENMMaNeq+hzizAJH1RuKlgx2lswhqoM2YsWlXVoMki0onOhZWjzuXcnCjG4IYSeMw4dNpsijJU1jvrifHqWvxylbfhLeTzgXIeXqTh7PtMrUqfUx3ZOQrluAdvXrrh5BUqJc=
+	t=1756900280; cv=none; b=uDDFvrpKZsDQzgvD7YrYBa0PgGua7oQ2mSjbjaTi5l+YVKnTZEdm/VpT9IwdIwog3mF2NresvAbYo0sl4pNQSgmk/jMLfLeqaf22GEQvQ9cU1EdYR20m8MOYPhjsIMHU2iS3UMNwwBKBAKdJlSc9DlN46ZmiWPNpKJQ1zxVp5Bw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756900283; c=relaxed/simple;
-	bh=nDvbAiY6rHd3SKV/DYo7HnX4lUjAZdHwuJei+GGsRW8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u1DbPP2WGFUSLNSDO6h4efG+WSOfOc7mKqEz1pflQFtyieGV0H4KPDUaNCp4Y3WyHssX2GRESmTRyzHGT7s35YiOs/Zs9qUvtmyi6/DPFTpuoCwvK3HyK6MJW4HDm6Mupvk3H7bTI1qwXUinGscMm4AOij/6fJP/FXXbXrQpd74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WwwQj+ZQ; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756900281; x=1788436281;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=nDvbAiY6rHd3SKV/DYo7HnX4lUjAZdHwuJei+GGsRW8=;
-  b=WwwQj+ZQYt/6BqYvYcHz7lWjbLg26wheztfaS2gTmdYfpxM5/MgwvfII
-   BmBMFbCNBcsh5Kaz8VDNYj0d6DKUYdeoTgPIJF59OT97w0hNdf6OJCy+W
-   Pm3y1faZw5lyBEJNILax+qF7ro175aFBhLXz3Xiq4j+hik6TNgODxwJCR
-   v1tEek+nGSDaFEq73+53KqX9N/TV/bCocuy+74h+pIcloDSoU/uOc1zSe
-   J2xfobxUZr6sjyb8IVIz/m622/2hadnvpNc+D9ZSuDiHC5ghUXlhrZqjt
-   /e631TOHFuerOOohDB/7jIdZxxzlOJ1Q2l6ZGLnqsDYZe+IMmXz1TcwiE
-   g==;
-X-CSE-ConnectionGUID: cpzLltgHSHCTGRqOo9j6CQ==
-X-CSE-MsgGUID: Sqg7Ly4pR+awcUjJMbSaIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="69822588"
-X-IronPort-AV: E=Sophos;i="6.18,235,1751266800"; 
-   d="scan'208";a="69822588"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 04:51:19 -0700
-X-CSE-ConnectionGUID: IwmxuAerSUCIeLGnj4/KSA==
-X-CSE-MsgGUID: exSghXJzT32WBa3jKCspRQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,235,1751266800"; 
-   d="scan'208";a="195199401"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 04:51:09 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1utm13-0000000AyQC-2iW1;
-	Wed, 03 Sep 2025 14:51:05 +0300
-Date: Wed, 3 Sep 2025 14:51:05 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Alexey Klimov <alexey.klimov@linaro.org>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Sean Wang <sean.wang@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Paul Cercueil <paul@crapouillou.net>, Kees Cook <kees@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Dong Aisheng <aisheng.dong@nxp.com>,
-	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
-	Jacky Bai <ping.bai@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	NXP S32 Linux Team <s32@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Tony Lindgren <tony@atomide.com>,
-	Haojian Zhuang <haojian.zhuang@linaro.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Mark Brown <broonie@kernel.org>, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-mm@kvack.org,
-	imx@lists.linux.dev, linux-omap@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v7 16/16] pinctrl: qcom: make the pinmuxing strict
-Message-ID: <aLgrqZETNLmuMHhv@smile.fi.intel.com>
-References: <aLcBcjvMbrxoDYoC@smile.fi.intel.com>
- <CAMRc=MfcFMgkNqWNZV5o0NxkAvxBTjC3vv56Cr98n0R2CkxuPw@mail.gmail.com>
- <CAHp75VcgaqnDrPH27wxfgyK6zz4RAKJQB0r7G2vbTONTxkEzTw@mail.gmail.com>
- <CAMRc=MfhhX2NJ0fhhX8u+7=sdyUy0G27n7caGf9=TpHxUDJVxg@mail.gmail.com>
- <aLgW7J-j4nn0u8uo@smile.fi.intel.com>
- <CAMRc=MdA21fwnamymG6YhqBjKDso_nJs_4xefPNONQNfEcPHXA@mail.gmail.com>
- <aLgaoivmBUgoeO6B@smile.fi.intel.com>
- <CAMRc=Me84OX=UEmAXxmwE8oOH=1UBsyHe-7XmU0c8a2gG9JnCA@mail.gmail.com>
- <aLgeDNLABpmkShIU@smile.fi.intel.com>
- <CAMRc=MdD9g4WiBCP0qYGuy5e3pnQf5MUHTqkUOnrUvcWUYK27A@mail.gmail.com>
+	s=arc-20240116; t=1756900280; c=relaxed/simple;
+	bh=Wyk5sA2sXyOIPeVHD8BL/VWjpiTsHXk4M9LgjYT0Gc8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OlTS3mt74m6OxxybpOs63NWwORAZuSJhvvoKnBxCYxUqstSIg8Jcr8FOr6sOxpPTa9RgA7V9TwQP+c0xQAsPIEd2NTpJjDahQA8SV4xzcTAj973eopu/+WGa+MJ7bnnbTmNDttpBfYhModbPnnJKz3wftB57dzJ2MRYCe/dGdN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-544a2cf582dso2634791e0c.3;
+        Wed, 03 Sep 2025 04:51:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756900277; x=1757505077;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DhSwVQefKqWWG7DZhhLRRWYrWb1UmqLFFnhmMl4MkFM=;
+        b=hA4l1vlDduiqyWQI4aFtnxoHbRa+5l2MWFZCG+4EBRADMc/ALMV7+ETzRhGU78XOBF
+         bDmzB1WscXZC+IEuMNQGdKg0TxhVlaYBPaHa3X3C6gYgB4e+Wmm7DqvPGb8TZBSO7Wxe
+         0OefHSh55owYdf17OYw/AOgkq2jahnWLCPWZUZy1wXoROxOe8nVquCc7yXO1gO636H1T
+         Ml39tz4tyWY9/jcmpADDiYNm1NFmrpzPp4bqQjjPzbmof53Ma8QRpuIRwa/7Gf+OC1F/
+         VuBa1kOhYYYafgA3PDe8W42wsWafp+a3imXza8rnSy/EwI3UCMCIF2odvQnG73i61fsQ
+         i+Sw==
+X-Forwarded-Encrypted: i=1; AJvYcCUsnibFvZZ6HMTEkxyeGgOH8a6BUcK0R87l7DwrzkfcIecF3oKh3Aw8kJwfQI+nXO22B+kYH9zFblskihRpUPY8T8E=@vger.kernel.org, AJvYcCWlt2gZKHrnBmbjr41eOWA6IwiinSBjKz5DFcpDuj62Ler9ta+QEtWfU6ytnsIOK/c2LqB72Je4d58/2Z1g@vger.kernel.org, AJvYcCXsxRcLIiUCSC5/lFgQhTfitM6RrA/XH0/NEJU9z8iQHfNe0ZYJ6pFHfJ3NOZs5Trcav/vKONGma+r9@vger.kernel.org
+X-Gm-Message-State: AOJu0YyitnrUOv8jMIaxC8Obe6MO9rY60nW2RDOQzeGtEHNma7nrulYo
+	nV1PuMGZy+QwZswu8sKV1fjWG+odKH1JGFDBgMXt/yCnCeb7u0IzJffVKOgBmGyp
+X-Gm-Gg: ASbGncv8S0uxgnhm9nVbo20HRr1gtcV6+Kx8WGZwOOCSI/1m4C3a0VV9cpi+ex/i02E
+	i3m1qq8x4FDSe6RT4OftM1xzIFMWf/4xqh8YTwzQFlmRiP1RTfcs7rVQVncaSHABfIsNthZiJmp
+	Bym+gXTV0YKiPG96jgdaf91HdkmPGmH3O4g1FaUVS1oBdwijeCzNWJCUhhnm+kNDpgS0vW38lre
+	OhOupREnqjNWhx/EFqoIIKhmBBgM4b/tN1s7sj14iAai7Vox+RUllpkgw14DS2sAmb/nNNks+p2
+	x9ldyxVnzE57hO9uc48fJwtP1z7wx0xpDZ36kgs1FO8kGBoX6TBd3eEYnkFXDNL628w96kShjZW
+	dqvNc0kaIq2qUY9EZsJAAdTHj6cT/3bzPongHob9YwbjqpK90HE0eW+4yEuDFUa01
+X-Google-Smtp-Source: AGHT+IEcYRdot439kHITSpp2OwLDAUEUTwoZiLfvLk8u9ade86RZrJT+2dhdKnWA3hk9Jgbk5sHcUg==
+X-Received: by 2002:a05:6122:21a5:b0:544:71fb:f49b with SMTP id 71dfb90a1353d-544a0252659mr5317899e0c.10.1756900277038;
+        Wed, 03 Sep 2025 04:51:17 -0700 (PDT)
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com. [209.85.221.170])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5449131c808sm6567380e0c.13.2025.09.03.04.51.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Sep 2025 04:51:16 -0700 (PDT)
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-544ba28ae58so1743708e0c.1;
+        Wed, 03 Sep 2025 04:51:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUCevqfED+8TBPfVXCZrz6MnV9s5Bt9EEmQGRrW1u2wZiD/EIFAMMgO6rDnP/n6ALc+iTAA4E5QQ8CWJtq/@vger.kernel.org, AJvYcCUJInncuAg7Y2HLemYraCLLdWu1vsLi2x7psEvfJeNi+5ey1rdL7W6X0oBRBmuvOHmF9HqUi/Hurv1/@vger.kernel.org, AJvYcCVVMSY/PdiKV4B6y/KAHIDkloUn8J3mnonropHzS/fjnelhZ2O2QJn6i/nHYnCe6KUV3PBzriob0oV5F4ctN+Z6jHg=@vger.kernel.org
+X-Received: by 2002:a05:6122:ca0:b0:542:9c0b:c5be with SMTP id
+ 71dfb90a1353d-544a0196adamr4606512e0c.7.1756900276554; Wed, 03 Sep 2025
+ 04:51:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMRc=MdD9g4WiBCP0qYGuy5e3pnQf5MUHTqkUOnrUvcWUYK27A@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20250820200659.2048755-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250820200659.2048755-9-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250820200659.2048755-9-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 3 Sep 2025 13:51:05 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXMEBpB=Ce2dFoCUXwPKJndtajO=LR2Hn+Zxitj3jJQoQ@mail.gmail.com>
+X-Gm-Features: Ac12FXzCduQXyrfmknkU-Po7HDGr1QrNHPA1AtEV_L_DawBnVFY3tlBed97Du28
+Message-ID: <CAMuHMdXMEBpB=Ce2dFoCUXwPKJndtajO=LR2Hn+Zxitj3jJQoQ@mail.gmail.com>
+Subject: Re: [PATCH v2 8/9] arm64: dts: renesas: rzt2h/rzn2h: Enable MicroSD
+ card slot
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Sep 03, 2025 at 01:05:27PM +0200, Bartosz Golaszewski wrote:
-> On Wed, Sep 3, 2025 at 12:53 PM Andy Shevchenko
-> <andriy.shevchenko@intel.com> wrote:
-> > On Wed, Sep 03, 2025 at 12:41:48PM +0200, Bartosz Golaszewski wrote:
-> > > On Wed, Sep 3, 2025 at 12:38 PM Andy Shevchenko
-> > > <andriy.shevchenko@intel.com> wrote:
-> > > > On Wed, Sep 03, 2025 at 12:34:00PM +0200, Bartosz Golaszewski wrote:
-> > > > > On Wed, Sep 3, 2025 at 12:22 PM Andy Shevchenko
-> > > > > <andriy.shevchenko@intel.com> wrote:
-> > > > > > On Wed, Sep 03, 2025 at 09:33:34AM +0200, Bartosz Golaszewski wrote:
-> > > > > > > On Tue, Sep 2, 2025 at 10:46 PM Andy Shevchenko
-> > > > > > > <andy.shevchenko@gmail.com> wrote:
-> > > > > > > > On Tue, Sep 2, 2025 at 8:42 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-> > > > > > > > > On Tue, Sep 2, 2025 at 4:38 PM Andy Shevchenko
-> > > > > > > > > <andriy.shevchenko@intel.com> wrote:
-> > > > > > > > > > On Tue, Sep 02, 2025 at 01:59:25PM +0200, Bartosz Golaszewski wrote:
+On Wed, 20 Aug 2025 at 22:07, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Enable MicroSD card slot which is connected to SDHI1 on the RZ/T2H and
+> RZ/N2H EVKs.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v1->v2:
+> - Added alias for mmc1
+> - Dropped sd1-prefixes
 
-...
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.18.
 
-> > > > > > > > > > > The strict flag in struct pinmux_ops disallows the usage of the same pin
-> > > > > > > > > > > as a GPIO and for another function. Without it, a rouge user-space
-> > > > > > > > > > > process with enough privileges (or even a buggy driver) can request a
-> > > > > > > > > > > used pin as GPIO and drive it, potentially confusing devices or even
-> > > > > > > > > > > crashing the system. Set it globally for all pinctrl-msm users.
-> > > > > > > > > >
-> > > > > > > > > > How does this keep (or allow) I²C generic recovery mechanism to work?
-> > > > > > >
-> > > > > > > Anyway, what is your point? I don't think it has any impact on this.
-> > > > > >
-> > > > > > If we have a group of pins that are marked as I²C, and we want to use recovery
-> > > > > > via GPIOs, would it be still possible to request as GPIO when controller driver
-> > > > > > is in the strict mode?
-> > > > >
-> > > > > Yes, if you mark that function as a "GPIO" function in the pin
-> > > > > controller driver.
-> > > >
-> > > > How would it prevent from requesting from user space?
-> > >
-> > > It wouldn't, we don't discriminate between user-space and in-kernel
-> > > GPIO users. A function either is a GPIO or isn't. Can you point me to
-> > > the driver you're thinking about or is this a purely speculative
-> > > question?
-> >
-> > The recovery mechanism is in I²C core and many drivers use that.
-> > I'm not aware of Qualcomm drivers in particular. But mechanism is
-> > in use in I²C DesignWare which is distributed a lot among platforms,
-> > so using word 'purely' is incorrect, and word 'speculative' is a bit
-> > strong, but you can think of the issue coming later on when somebody
-> > does something like this.
-> >
-> > The same applies to the in-band wakeup UART mechanism.
-> >
-> > Which means that with this series we will relax it back anyway for
-> > the above mentioned cases.
-> >
-> > (Not sure, but SPI DesignWare requires programming SPI native chip selects even
-> >  if the GPIO is used for that, this might have also some implications, but here
-> >  it's for real 'purely speculative'.)
-> 
-> The high-level answer is: yes, a pin that will be used by GPIOLIB
-> needs the function it's muxed to, to be marked as "GPIOable" in its
-> parent pin controller if it's strict. That's still better than the
-> current situation.
-> 
-> I can imagine we could differentiate between in-kernel and user-space
-> users of GPIOs and then make it impossible for the latter to request
-> certain pins while they could still be requested in the kernel but
-> that's outside of the scope of this series.
-> 
-> I don't see why this would stop these patches though, as they don't
-> break anything unless you decide to make your pin controller strict in
-> which situation you'd need to verify which functions can GPIOs anyway.
+Gr{oetje,eeting}s,
 
-It can't anyway, Linus already applied :-)
+                        Geert
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
