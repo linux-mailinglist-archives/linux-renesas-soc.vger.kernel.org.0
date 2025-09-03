@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-21243-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21244-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 164D4B41897
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 10:31:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CF09B418F8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 10:46:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C81B51BA4544
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 08:31:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A1E111B27C33
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 08:46:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FF262E7BBD;
-	Wed,  3 Sep 2025 08:30:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7744226A1D8;
+	Wed,  3 Sep 2025 08:46:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rkHwxNEB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FZtyEQRL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8B832BF016;
-	Wed,  3 Sep 2025 08:30:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 422E9EADC;
+	Wed,  3 Sep 2025 08:46:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756888246; cv=none; b=YKsMUvQVhz78LeuDtT2OISIqzjjvS2pspk9HJ7KXKzFILu+MyHp6Uw5AM+N1KHh/+TJrBekq5hOnhaIqJr2nwqjGqHe+xp7iogPLDiEFlr+q3IR874oaDsN7laaqGJ4qfcT4Tg81OseTrzM67x3HltLAWZVsoLVtKBLXr0mWmSs=
+	t=1756889175; cv=none; b=eFYuAxypAcK/6AuUwR6SzOSKur843EHyl6IYTaEl3TiJSFO1hwHb3c0CyH797eJoV2d2njed0P2yKjDT9iy1HprhrYBGoDQI3HrmP3rCZRbhVO13H7yYRTyHLfhifxF6FCA+X8FeXEmehjdRhtfTx8tDGcYyqbJBYvyYvWIwjLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756888246; c=relaxed/simple;
-	bh=JnLCWgleF+XfwxH0bSsslWnZ3ZJEuDsQf0CGnQyLAXQ=;
+	s=arc-20240116; t=1756889175; c=relaxed/simple;
+	bh=hA6nv3V0St9sV51zkoxf8dFrQzk/UPwxeuIELYQPAvg=;
 	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=tg6aPkQW0MJK3DHKp1p2mSuXilv9DYuwmrCrIK8JAGXo9HeHy0OMNF3aIHA5d8p4NFxhmGoJStHuOwhULAuGaX36ezuW8gl7zsI1i6lHp7QBas/m0klS2b78hyWQuv4Rkj2Ta8FRpUauO6IuHA4Z2xw+Mv9b22VXQRHvbir0Yx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rkHwxNEB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D90FBC4CEF0;
-	Wed,  3 Sep 2025 08:30:43 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=VufKHSRRScmZ8g+choyzBK/u/CEwVRmF0fzfRV03IxXryBfpFlZ1bYYKCmRC9z5+VWrdK0ADBi6ILRaMk8+F/npu5qd+byYuKzPcxKmwennc2pChVLXiv5UaNhHbI5W62kqdBOpRnuWyOxz2Ysy8cpIc3zsrnSuvuN0c043V5RI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FZtyEQRL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C561C4CEF0;
+	Wed,  3 Sep 2025 08:46:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756888245;
-	bh=JnLCWgleF+XfwxH0bSsslWnZ3ZJEuDsQf0CGnQyLAXQ=;
+	s=k20201202; t=1756889174;
+	bh=hA6nv3V0St9sV51zkoxf8dFrQzk/UPwxeuIELYQPAvg=;
 	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=rkHwxNEBdY9nM0qOptEdyfty/qbTlm2SgPMfRThSY6lQLtX2QKzksnfv4W8fhq3YW
-	 sltjS2U13K9QkcYxwWiO3oTHyoSXt9kGn8M+wQPkJAPpsuAHu6YaIUxDBwf3yVA5bW
-	 6Jh6lviQcbfZh4VzEnOmbXiwhZhBIHwvFtF4nhyKf4Es8Be7p0WhHOjFRScUy0SkF2
-	 Jz1RtznBIKqO8Hf3ze61/9zNs88JPOuo4GdbnelMgtRRhRa/PrQ/K6dngsAYA0MHeG
-	 BSGs1FlrjcEJAXqVn27/VMfRyQ7i6QxsAKz8/RbB/zdMSaDVmrhnp3F+509uaidKaB
-	 6xnJGEjEvFTPg==
-Message-ID: <a8ca5ff0-17df-4330-a05b-ab892fdf2e6f@kernel.org>
-Date: Wed, 3 Sep 2025 10:30:42 +0200
+	b=FZtyEQRLr/qCAQGuakfkc5FTOmoD8ENgk3vTzpGqLgyxnxVnpEaIWdkOWu4oLSUWn
+	 7pFpjFIE/QYC33ibe8ZihBUACPIs5S3eD+kl4lWl+M7/rwRgY7tKSgvQqOHkb6fx5H
+	 yE4Mx/y/WO+yjraCbqtnBhYqvN10Mv17SwkS9VZ6uRj8RgKqQkArAu5ZP534CD6V52
+	 8dCfmr7lTnPLUbLSN4VUfe2gtLk0RN9+GXf9B7fbukq08R/oEcD2neiY16lOID5leW
+	 HOKLVze8xsbFPMJWy3aq1cTWa5IA/ZQcSCQxO959Q3ai5XEaX2DLxuqCbKMbpbt2NU
+	 ywQb7i6loX0OQ==
+Message-ID: <80d191a0-d978-4909-a0f2-d25cd9757d55@kernel.org>
+Date: Wed, 3 Sep 2025 10:46:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -51,8 +51,8 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v2 06/11] media: adv7180: Power down decoder when
- configuring the device
+Subject: Re: [PATCH v2 00/11] media: adv7180: Improve the control over decoder
+ power
 To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
  <niklas.soderlund+renesas@ragnatech.se>, Lars-Peter Clausen
  <lars@metafoo.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -61,130 +61,100 @@ To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
  linux-media@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org
 References: <20250828160654.1467762-1-niklas.soderlund+renesas@ragnatech.se>
- <20250828160654.1467762-7-niklas.soderlund+renesas@ragnatech.se>
 Content-Language: en-US, nl
-In-Reply-To: <20250828160654.1467762-7-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20250828160654.1467762-1-niklas.soderlund+renesas@ragnatech.se>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 On 28/08/2025 18:06, Niklas Söderlund wrote:
-> Some variants of the chip (ADV7180) have it's decoder powered up after
-> reset, while others (ADV7280, ADV7281, ADV7282, ADV7283) have it powered
-> down.
+> Hello,
 > 
-> This is tracked by the feature flag ADV7180_FLAG_RESET_POWERED. At probe
-> this flag is used to initialize the state variable powered which keeps
-> track of if the decoder is powered on, or off, for the resume callback.
+> This series started as an effort to fix issues with querystd. To do that
+> it turned out the whole drivers design around how it controls the power
+> to the video decoder block inside the chip had to be reworked. As a
+> bonus this works removes the now deprecated .s_power callback from
+> adv7180.
 > 
-> This however misses that the decoder needs to be powered off for some
-> configuration of the device to take hold. So for devices where it's left
-> on (ADV7180) the format configuration at probe time have little effect.
-> This worked as the .set_fmt callback powers down the decoder, updates
-> the format, and powers back on the decoder.
+> The adv7180 drivers comes from a time before media controller and all
+> operation callbacks are, more or less, designed around the concept that
+> a video device is the only user-space facing API. In that world a vdev
+> would attached the subdevice, call .s_power and then perform format
+> configuration using the other operation callbacks and then start
+> streaming with .s_stream. Needles to say this mode of operation don't
+> work well with media controller where the subdevices itself have a
+> user-space API exposed thru a subdev device.
 > 
-> Before moving all configuration to .s_stream this needs to be fixed.
-> Instead of tracking if the decoder is powered on or off, use the
-> flag to determine if needs to be powered down after a reset to do the
-> configuration.
+> The initial problem I tried to solve (querystd) was that it stopped
+> functioning as expected after the subdev had been used to stream once
+> (.s_power(1), .s_power(0)). As it turns out different variants of the
+> adv7180 device have different reset beaver for if its video decoder
+> block is left running or powered off. On my device it was left running
+> so querystd functioned the first time, but not after the video decoder
+> had been switched off once by .s_power(0).
 > 
-> To keep the behavior consistent with the currents implementation switch
-> the decoder back on for devices where this is the reset behavior. The
-> primary reason for this is that if not done the first 35+ frames or so
-> of the capture session is garbage.
+> I first tried to fix this by introducing proper PM handling in the
+> driver to be able to remove the .s_power callback. I quickly learnt the
+> power on/off logic happening in the driver had noting to do with
+> controlling power to the chip itself, but to control if the chips video
+> decoder block was turned off.
 > 
-> To keep the support of starting the decoder when resuming from sleep on
-> devices where the reset behavior is to start with the decoder powered
-> off, use the state variable streaming. If it is set the decoder was
-> powered on when the system suspended so we know to start it again when
-> resuming.
+> When this block is powered on the device process video data, if there is
+> a video source else it free runs. However when the block is turned off
+> the device can still be configured, in fact some configuration requires
+> it to be off.
 > 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->  drivers/media/i2c/adv7180.c | 34 ++++++++++++++++++++++------------
->  1 file changed, 22 insertions(+), 12 deletions(-)
+> For this reason I dropped the effort to add proper PM handling and
+> treated the decoder power as a stream on/off switch. I still think
+> proper PM handling would be beneficial for this driver but to not
+> explode this already large series I left that for another time. Solving
+> the issue around .s_power will make that work easier as well as other
+> task such as converting to the v4l2_subdev active state API.
 > 
-> diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-> index 8409ee9acc4f..0bc608291df7 100644
-> --- a/drivers/media/i2c/adv7180.c
-> +++ b/drivers/media/i2c/adv7180.c
-> @@ -214,7 +214,6 @@ struct adv7180_state {
->  	struct gpio_desc	*pwdn_gpio;
->  	struct gpio_desc	*rst_gpio;
->  	v4l2_std_id		curr_norm;
-> -	bool			powered;
->  	bool			streaming;
->  	u8			input;
->  
-> @@ -556,8 +555,6 @@ static int adv7180_s_power(struct v4l2_subdev *sd, int on)
->  		return ret;
->  
->  	ret = adv7180_set_power(state, on);
-> -	if (ret == 0)
-> -		state->powered = on;
->  
->  	mutex_unlock(&state->mutex);
->  	return ret;
-> @@ -887,6 +884,13 @@ static int init_device(struct adv7180_state *state)
->  	adv7180_write(state, ADV7180_REG_PWR_MAN, ADV7180_PWR_MAN_RES);
->  	usleep_range(5000, 10000);
->  
-> +	/*
-> +	 * If the devices decoder is power on after reset, power off so the
-> +	 * device can be configured.
-> +	 */
-> +	if (state->chip_info->flags & ADV7180_FLAG_RESET_POWERED)
-> +		adv7180_set_power(state, false);
-> +
->  	ret = state->chip_info->init(state);
->  	if (ret)
->  		return ret;
-> @@ -927,6 +931,14 @@ static int init_device(struct adv7180_state *state)
->  			return ret;
->  	}
->  
-> +	/*
-> +	 * If the devices decoder is power on after reset, restore the power
-> +	 * after configuration. This is to preserve the behavior of the driver,
-> +	 * not doing this result in the first 35+ frames captured being garbage.
-> +	 */
-> +	if (state->chip_info->flags & ADV7180_FLAG_RESET_POWERED)
-> +		adv7180_set_power(state, true);
-> +
->  	return 0;
->  }
->  
-> @@ -1457,10 +1469,7 @@ static int adv7180_probe(struct i2c_client *client)
->  	state->irq = client->irq;
->  	mutex_init(&state->mutex);
->  	state->curr_norm = V4L2_STD_NTSC;
-> -	if (state->chip_info->flags & ADV7180_FLAG_RESET_POWERED)
-> -		state->powered = true;
-> -	else
-> -		state->powered = false;
-> +
->  	state->input = 0;
->  	sd = &state->sd;
->  	v4l2_i2c_subdev_init(sd, client, &adv7180_ops);
-> @@ -1568,11 +1577,12 @@ static int adv7180_resume(struct device *dev)
->  	if (ret < 0)
->  		return ret;
->  
-> -	guard(mutex)(&state->mutex);
-> -
-> -	ret = adv7180_set_power(state, state->powered);
-> -	if (ret)
-> -		return ret;
-> +	/* If we where streaming when suspending, start decoder. */
+> Patch 1/11 just moves code around to make the consecutive changes easier
+> to read. Patch 2/11 fix a locking issues when suspending the device.
+> Patch 3/11 and 4/11 improves the locking design to prepare to improve
+> the driver.
+> 
+> Patch 5/11 make sure the device controls are always programmed after the
+> device have been reset, fixing a possible issue when the device where
+> resumed from system sleep.
+> 
+> Patches 6/11, 7/11 and 8/11 is the real change where the .s_power
+> callback is reworked to fit the design of .s_stream instead.
+> 
+> And finally patch 9/11, 10/11 and 11/11 removes programming of the
+> device from operation callbacks and solves the issue with querystd.
+> 
+> The work is tested on R-Car M2 together with a ADV7180 device.
+> 
+> See individual patches for changelog.
 
-where -> were
+This series looks good to me, other than the one typo and the
+control handler kAPI issue, but that can be done in a follow-up
+series.
 
-> +	if (state->streaming) {
-> +		ret = adv7180_set_power(state, true);
-> +		if (ret)
-> +			return ret;
-> +	}
->  
->  	return 0;
->  }
+If you want I can take this series, let me know.
+
+Regards,
+
+	Hans
+
+> 
+> Niklas Söderlund (11):
+>   media: adv7180: Move adv7180_set_power() and init_device()
+>   media: adv7180: Add missing lock in suspend callback
+>   media: adv7180: Move state mutex handling outside init_device()
+>   media: adv7180: Use v4l2-ctrls core to handle s_ctrl locking
+>   media: adv7180: Setup controls every time the device is reset
+>   media: adv7180: Power down decoder when configuring the device
+>   media: adv7180: Split device initialization and reset
+>   media: adv7180: Remove the s_power callback
+>   media: adv7180: Do not write format to device in set_fmt
+>   media: adv7180: Only validate format in s_std
+>   media: adv7180: Only validate format in querystd
+> 
+>  drivers/media/i2c/adv7180.c | 338 +++++++++++++++++++-----------------
+>  1 file changed, 174 insertions(+), 164 deletions(-)
+> 
 
 
