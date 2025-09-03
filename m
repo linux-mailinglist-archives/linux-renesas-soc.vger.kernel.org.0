@@ -1,76 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-21290-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21291-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10937B42682
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 18:17:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24AC2B42687
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 18:17:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BA0FF3BCF60
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 16:17:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A20AE1BA2B50
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 16:18:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC77D2C0F62;
-	Wed,  3 Sep 2025 16:17:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A5322C0F89;
+	Wed,  3 Sep 2025 16:17:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i69K8/fH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gjhvSAT9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE5E2C027F;
-	Wed,  3 Sep 2025 16:17:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D0A228F948;
+	Wed,  3 Sep 2025 16:17:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756916250; cv=none; b=Kj3aNFrAehllUcZ5hyy7c3Mnrc5jBUlhHpdVpKWPjpNqu2louBKkFgkt07M2/JRRiXVpyptYMICAv5UsXMfSF7IdN4rLXro5cRDhP2Kf+h00cYE9OHFTAICpX4ayWijrfRAgCm+pc2MfhNXO+xjBmw4yzODkepZVqvNgAJdnAf0=
+	t=1756916252; cv=none; b=R5781CaFF9DRxNZEQTv8ZNZZWKQuXgAbx3OaKqH4DNOf4xy+i6OskiYYylPrRQNrEqCBotHfSmGhoAY+L3CzmXjPib60XAdswAC+7PdF/FzcqxZwJ6MSAOPd0glu6jQ80vz9H8yQwKjKFDXGoNgDWLEHkGxkYK9smUolN2TDNhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756916250; c=relaxed/simple;
-	bh=CCln4rPb3P+0/6GwoT/lBnSgMtAhhtryaHSoqSLxhb8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iD8AZTkWTjFShoQA+ttBG/U0SDhD172vgDRo03lKfUVae3jkLy7Khxwt6yPAUmuQrMffO2OBtUw9xElcnOhqVVKsQZbsolD3ulr2XoLLjcWQlvp7a3jSYtAd8wcugb8bq2tmbBfNvUaeqKKEaznNTQ89GZ2Tf54r1Rcg5p9/sZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i69K8/fH; arc=none smtp.client-ip=209.85.221.47
+	s=arc-20240116; t=1756916252; c=relaxed/simple;
+	bh=FjSJsFmFmtQxgmj8+P+bZR5mX5R+vL/ZZpr6mTIkgGA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=aeAWXUSkeiI9QELUW0KwDvbbOneIbVoTRlcloIZmaU3vXn1eQRSh+XjV1DAyCTpLb9bBDZphwGi5Xj66oxGiV5ixjF71ElzBYb+MTtg37hTpYgaQ7fLf46YMrpGIBSpExzDmAkGaoS/UBj96Fyn50B1buXMy+AqPknnu84NUk+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gjhvSAT9; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3dea538b826so74751f8f.2;
-        Wed, 03 Sep 2025 09:17:28 -0700 (PDT)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-45b7c01a708so493455e9.3;
+        Wed, 03 Sep 2025 09:17:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756916247; x=1757521047; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zhI3DRe5+X+SOWNKbXoFOHpSP7IEamKPQO7YKwNjIhM=;
-        b=i69K8/fHUgbvRh7BwpHUYknmLVnuMpT3Qo+bFZyphm1gSN8zdDs/aUijOlpgM9t9+w
-         6H6cb4VlNzAo5ki1Qh2hogoFrKPKdJcgCVe80Bil7JCcWtYYeB7vhvoODyFLFTzVE+aN
-         oVnXBJAGNzJOY4pRfjouCswG6plv/rG8ZXgeMT6rgUk7eRPVts1XAJ3J+MrDDr7UD6R8
-         y5g6Re6rm32EDIrSFxCjmfCJRT01/zahUy0invWbTu4GmPK5s7asgexLc6nDHL/xaK0i
-         2h62SPZVPlDtz+2mTaLGl7YrDOW0wGghbhVDJIDM4J/P+lb2M45TfU90vop+jgM2xboO
-         ylVg==
+        d=gmail.com; s=20230601; t=1756916248; x=1757521048; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=g/okqN9bKCpoU9t2/g49V1bui3QD4VMJiIMsCcD14P8=;
+        b=gjhvSAT94OGwsDfPo06aYQtU2YF2sWu/isD/ESNYHRYctQZeBl3VNChH4RmBcjul72
+         BrXuXqMnsr5p7GZUjkEF5iVe1XKtbKNOGe+aAC7vJfMM4ig5r1s9NjpMDotx95Ni6cad
+         7E2Fz4M5HhpEXfc6YykQCQwkFQAd1cbF0uBdXneHv6kPlWcOJnedrJUiIJBxD+vUiHw2
+         OqcuRsaD0HzQ4LiTucLLgRq6EOhBwoAIULDLxKPVtdqoefjMvdoW3vukaYnsV2MWPdJP
+         qhTui2c2GvhmMD+xmyLGSd3TVl8odCihWKxbX8H7ePexGLCurtHoIOo2nlvPeKysxyaq
+         yFuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756916247; x=1757521047;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zhI3DRe5+X+SOWNKbXoFOHpSP7IEamKPQO7YKwNjIhM=;
-        b=d4KmlHR7MF9kmXuNqjP2/wZqdOLiXesOycSSRPm3tRuxyC9OgedegwUPP7IIzyr79I
-         ExCabcrlUXBRrQu3JdoGxGF3X3sQmQ6TanmyYh8bQ+R3jafwYJ3sLMuTtNcuSzkm4xGW
-         tNb56Dw7nIq2v45Wm8OnFuTyl7xabyJBcVq0/34HTAqmK9lgqJersGL/ybDdE1eoYu/j
-         2LiWs5gIhhXnztYvMoJmjE6SLGoWrq3JBDu5S6RPOi/SwBE1Vy+/s+7d6qjAeCoZVKUY
-         DngkWAMoC38YQ3DY427TJ09EHAx5A/btplewsbX+8dA2BwHnGYB+M7LYQTrCtQT0psks
-         Gmcg==
-X-Forwarded-Encrypted: i=1; AJvYcCUc04AVYcrKd9HC7oMu47NHlDuO3tVkobT08vr5tWHlZW1iTr4u2MpG+KPgclGPJpSLbV5vpEr5mahMwIQ3@vger.kernel.org, AJvYcCVEptEmbX8daBH6tBOaWWJ+p41hdHChF44K4dIvevHMzlQR7eTCBVxa47r7ZyPmsGeCSxOcNl7SAVLP@vger.kernel.org, AJvYcCW2atzLL5o/n/j8rvdu5kYD1twy/bAvQuFdBjQtjfrAvSOce0DqQ9VrDMst0RwdMLkJSQTeZD1gDwg8@vger.kernel.org, AJvYcCWaN228wDiaY+So8Hir77PE4zAdPXUBpvE4HCU0X9Vls9jRdimcPRdYssgdkNvvMCm9FuXg2a5JIINlqmVG9S5hD4k=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy8yQB1ZJ3mpGXvRIAYeHBszTv6iBbNC969Dq44Ja6y1UhDmorQ
-	H+ApGaCVqfj/CGG2ZGBs4dJtA4nrb3R71uLAdneU/jAqVoC4unH8Y9nU
-X-Gm-Gg: ASbGncsuzZW/ZLi2oxMI5Wy+ySV805aCe3/NMWoXOK4xK4Qr4/68xsvL8Fggf9dV7Az
-	SB65KPHZZVnVVAB8LhXOwi5Du2LaxItu74d5TTmoBvbWhQxiY4Hsj3+rtvJVFqM+cfeFG4M0og1
-	5n08n9Qv4Erl+QkphrUkf5SgbBRwEWJo9kApezDy797C9qIeVpuGIbcx6nL6dZFAi3Rp/sdCMta
-	GPSIWC4qSU+Y/7AMpgMQI2tD/uLXn+1bREBK8p1J5UPZw806yXnTi3wvFcJvGW2PsQwh91SvzoE
-	ZQZzz/uSJOuWNdOMPqnarAam5ymt6zxSwDfCdqAMlsEEc4gtvUV/PaVNKaPXUxVxc5OZ682hxzw
-	7bZpJ+uiYz4r5Iqp4MwaudVuCm1SGK+iiW/ud9FMqFQrpDnquiw06ojt+BeZ/2KmiWww=
-X-Google-Smtp-Source: AGHT+IGQvSyrqgXepsg7T3rt6MRb4D5lOt6u9g5K86HhZIiJtDR8DJpMha1fmoke+OZcXHmTNn9xUg==
-X-Received: by 2002:a05:6000:40d9:b0:3dc:1473:18bb with SMTP id ffacd0b85a97d-3dc14731910mr4074650f8f.39.1756916246607;
-        Wed, 03 Sep 2025 09:17:26 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756916248; x=1757521048;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=g/okqN9bKCpoU9t2/g49V1bui3QD4VMJiIMsCcD14P8=;
+        b=nbHseJEDpeIzecGGVorY1TOv1TMl88Chz4eKwwfDI+Y6FunCnK01zXS1UyMFUx49pM
+         bIII3th7ARerodG6yhuJnUsyk4SU8wsy9RfkKTMlrSl3JXHGO189O4+3xuQFuwfVgcee
+         WCYKtc/RAVv+Y8Mk+a8D1RedvvOvAi0E/N7zKxeUUYxCZaclV9t8aLoDeisBhOmLQ8dk
+         70rwk7RrpbMu0BcraDgM5GdHcdrRlcvFkmDASsd2yLgV+I8QCuSmB39hppyuoRWDbD5w
+         ziKON2sHvM0wO3Pwotm1WQG/GtX945MThRl9MEVaj8epUMX7x5yCJAgLC15XJsEiAeIw
+         QJIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVXiLcDxxbdShEqAndT6ZKcs8/gLdYUe1RO61gNfetnXIiwi78Z6IJdFz5+66nxxWDjg1tFTZXEXx8Q@vger.kernel.org, AJvYcCW7NU0jgxIVO1fymoruiPbtOoxOxWu+NIxbCwxQMWRQFRCd/eWfYyMEFUJAkE4Ad/dZuwsGZoYauQpTWtoh@vger.kernel.org, AJvYcCW8mkbzZLQ0C0Ojnitae1/yhCI+lJ7agtcnzHUjUXPnLzNxqAPT6iT5eu/0sWuIz83Rt9gFCdJZbaCd9Xo17GnXQdk=@vger.kernel.org, AJvYcCXTsEyiMCTRkrWq0CY6QWG1CMeRIkpOVLTX0/hWrND65XQQNVoIxyKnBZ1spY9pAT3pvYugi34KuqZn@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxhw2x9r5VDr/vGJWTN8xIkI24rpGH7GR9TOMHg/T47NCF3+kWm
+	LPcqKN323/v0JcgTfnMdvWZls3THmw55hPo2cjqstgANkVoav5scsnCw
+X-Gm-Gg: ASbGncuXME1cpjs+NgTpTowXAxN8WW/fuKQeuhH3agxigpBqUi5SbTqEfII8YeBAzG6
+	QoNmKG+AC9zV+tBk4OnoTkeCPsT8NL3qTu2nfYHVLUqeQFTLEWSCfqYOpEB34XulVicoPN/LnwJ
+	rk+vdKfc3p0OdqW3zLCRTov/myOuRHmzEPjj1584KOYzltOdvyLDblEVd5jhLav03e4FoOl2szx
+	dI67ReC1rfVKAHD8rgumtWpw/qwB4gRdiMTTo6g42fgl0Xyib8o+Vx7G+nYqvoDwAQ+ks+smNAe
+	PdA1XzQyQSVhqtM59xft7RQl2zbd9FJdS6Jm4xBNsutBntHulKCFoePoaPBtpWQiZVtoXVUJNvl
+	CpbkKry8ryvZ7oldPH5qYNItnqNWDCdlEyYmHvAi4VIFhfUFCXgttTUGK
+X-Google-Smtp-Source: AGHT+IG5fCsD9RpqHsN6fdU1xDs5FlEGumpRU6I9wG0qe9GQCj5TyawUM1xwIAow1pLMVJ+8FN259w==
+X-Received: by 2002:a05:6000:2486:b0:3de:b99d:d43 with SMTP id ffacd0b85a97d-3deb99d10camr2123919f8f.19.1756916248033;
+        Wed, 03 Sep 2025 09:17:28 -0700 (PDT)
 Received: from iku.example.org ([2a06:5906:61b:2d00:9019:aa0f:b6e4:7952])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3db72983560sm5645734f8f.1.2025.09.03.09.17.25
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3db72983560sm5645734f8f.1.2025.09.03.09.17.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Sep 2025 09:17:26 -0700 (PDT)
+        Wed, 03 Sep 2025 09:17:27 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -102,10 +104,12 @@ Cc: dri-devel@lists.freedesktop.org,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v8 0/6] Add support for DU/DSI clocks and DSI driver support for the Renesas RZ/V2H(P) SoC
-Date: Wed,  3 Sep 2025 17:17:12 +0100
-Message-ID: <20250903161718.180488-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v8 1/6] clk: renesas: rzv2h-cpg: Add instance field to struct pll
+Date: Wed,  3 Sep 2025 17:17:13 +0100
+Message-ID: <20250903161718.180488-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20250903161718.180488-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250903161718.180488-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -116,97 +120,57 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hi All,
+Add a two-bit "instance" member to struct pll and extend the PLL_PACK()
+macro to accept an instance parameter.  Initialize all existing PLL
+definitions with instance 0 to preserve legacy behavior. This change
+enables support for SoCs with multiple PLL instances (for example,
+RZ/G3E we have two PLL DSIs).
 
-This patch series adds DU/DSI clocks and provides support for the
-MIPI DSI interface on the RZ/V2H(P) SoC. It was originally part of
-series [0], but has now been split into 6 patches due to dependencies
-on the clock driver, making it easier to review and merge.
-
-[0] https://lore.kernel.org/all/20250430204112.342123-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
-
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
 v7->v8:
-- Added reviewed-by tags from Tomi, Geert and Biju
-- Dropped rzv2h_get_pll_dsi_info() helper and opencoded instead.
-- Dropped is_plldsi parameter from rzv2h_cpg_pll_clk_register()
-- Updated commit message for patch 5/6 and 6/6
-- Switched to use devm_clk_get() instead of devm_clk_get_optional()
-  as lpclk clock is available on all SoCs.
-- Simplified check in rzv2h_mipi_dsi_dphy_init() for PLL parameters
-- Renamed start_index member to base_value in struct rzv2h_mipi_dsi_timings
-- Added comments in the code for DSI arrays and their usage
-- Added comments in the code for sleeps
-- Rebased the changes on next-20250902
+- Added reviewed-by tags from Geert and Biju
 
 v6->v7:
-- Renamed pllclk to pllrefclk in DT binding
-- Added a new patch to add instance field to struct pll
-- Renamed rzv2h_pll_div_limits to rzv2h_pll_limits
-- Included fout_min and fout_max in the rzv2h_pll_limits structure
-- Renamed rzv2h_plldsi_parameters to rzv2h_pll_div_pars and re-structured
-  for readability
-- Dropped rzv2h_dsi_get_pll_parameters_values() instead added modular apis
-  to calculate the PLL parameters ie rzv2h_get_pll_pars/rzv2h_get_pll_div_pars/
-  rzv2h_get_pll_dtable_pars
-- Dropped plldsi_limits from rzv2h_cpg_info structure
-- Updated the DSI driver to use the new PLL APIs
-- Included the LPCLK patch
-- Rebased the changes on next-20250728
+- New patch
+---
+ drivers/clk/renesas/rzv2h-cpg.h | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-v5-> v6:
-- Renamed CPG_PLL_STBY_SSCGEN_WEN to CPG_PLL_STBY_SSC_EN_WEN
-- Updated CPG_PLL_CLK1_DIV_K, CPG_PLL_CLK1_DIV_M, and
-  CPG_PLL_CLK1_DIV_P macros to use GENMASK
-- Updated req->rate in rzv2h_cpg_plldsi_div_determine_rate()
-- Dropped the cast in rzv2h_cpg_plldsi_div_set_rate()
-- Dropped rzv2h_cpg_plldsi_round_rate() and implemented
-  rzv2h_cpg_plldsi_determine_rate() instead
-- Made use of FIELD_PREP()
-- Moved CPG_CSDIV1 macro in patch 2/4
-- Dropped two_pow_s in rzv2h_dsi_get_pll_parameters_values()
-- Used mul_u32_u32() while calculating output_m and output_k_range
-- Used div_s64() instead of div64_s64() while calculating
-  pll_k
-- Used mul_u32_u32() while calculating fvco and fvco checks
-- Rounded the final output using DIV_U64_ROUND_CLOSEST()
-- Renamed CLK_DIV_PLLETH_LPCLK to CLK_CDIV4_PLLETH_LPCLK
-- Renamed CLK_CSDIV_PLLETH_LPCLK to CLK_PLLETH_LPCLK_GEAR
-- Renamed CLK_PLLDSI_SDIV2 to CLK_PLLDSI_GEAR
-- Renamed plldsi_sdiv2 to plldsi_gear
-- Preserved the sort order (by part number).
-- Added reviewed tag from Geert.
-- Made use of GENMASK() macro for PLLCLKSET0R_PLL_*,
-  PHYTCLKSETR_* and PHYTHSSETR_* macros.
-- Replaced 10000000UL with 10 * MEGA
-- Renamed mode_freq_hz to mode_freq_khz in rzv2h_dsi_mode_calc
-- Replaced `i -= 1;` with `i--;`
-- Renamed RZV2H_MIPI_DPHY_FOUT_MIN_IN_MEGA to
-  RZV2H_MIPI_DPHY_FOUT_MIN_IN_MHZ and
-  RZV2H_MIPI_DPHY_FOUT_MAX_IN_MEGA to
-  RZV2H_MIPI_DPHY_FOUT_MAX_IN_MHZ.
-
-Cheers,
-Prabhakar
-
-Lad Prabhakar (6):
-  clk: renesas: rzv2h-cpg: Add instance field to struct pll
-  clk: renesas: rzv2h-cpg: Add support for DSI clocks
-  clk: renesas: r9a09g057: Add clock and reset entries for DSI and LCDC
-  dt-bindings: display: bridge: renesas,dsi: Document RZ/V2H(P) and
-    RZ/V2N
-  drm: renesas: rz-du: mipi_dsi: Add LPCLK clock support
-  drm: renesas: rz-du: mipi_dsi: Add support for RZ/V2H(P) SoC
-
- .../bindings/display/bridge/renesas,dsi.yaml  | 120 +++--
- drivers/clk/renesas/r9a09g057-cpg.c           |  62 +++
- drivers/clk/renesas/rzv2h-cpg.c               | 298 +++++++++++-
- drivers/clk/renesas/rzv2h-cpg.h               |  29 +-
- .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 451 ++++++++++++++++++
- .../drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h   |  34 ++
- include/linux/clk/renesas-rzv2h-cpg-pll.h     | 395 +++++++++++++++
- 7 files changed, 1349 insertions(+), 40 deletions(-)
- create mode 100644 include/linux/clk/renesas-rzv2h-cpg-pll.h
-
+diff --git a/drivers/clk/renesas/rzv2h-cpg.h b/drivers/clk/renesas/rzv2h-cpg.h
+index 840eed25aeda..e2053049c299 100644
+--- a/drivers/clk/renesas/rzv2h-cpg.h
++++ b/drivers/clk/renesas/rzv2h-cpg.h
+@@ -16,20 +16,23 @@
+  *
+  * @offset: STBY register offset
+  * @has_clkn: Flag to indicate if CLK1/2 are accessible or not
++ * @instance: PLL instance number
+  */
+ struct pll {
+ 	unsigned int offset:9;
+ 	unsigned int has_clkn:1;
++	unsigned int instance:2;
+ };
+ 
+-#define PLL_PACK(_offset, _has_clkn) \
++#define PLL_PACK(_offset, _has_clkn, _instance) \
+ 	((struct pll){ \
+ 		.offset = _offset, \
+-		.has_clkn = _has_clkn \
++		.has_clkn = _has_clkn, \
++		.instance = _instance \
+ 	})
+ 
+-#define PLLCA55		PLL_PACK(0x60, 1)
+-#define PLLGPU		PLL_PACK(0x120, 1)
++#define PLLCA55		PLL_PACK(0x60, 1, 0)
++#define PLLGPU		PLL_PACK(0x120, 1, 0)
+ 
+ /**
+  * struct ddiv - Structure for dynamic switching divider
 -- 
 2.51.0
 
