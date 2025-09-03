@@ -1,128 +1,138 @@
-Return-Path: <linux-renesas-soc+bounces-21283-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21284-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8767AB42308
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 16:06:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6DDAB42317
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 16:08:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2F75B1BA36BD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 14:06:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F1D86162399
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 14:06:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F2D0312837;
-	Wed,  3 Sep 2025 14:05:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GarjbhYP"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 613E2311C3D;
+	Wed,  3 Sep 2025 14:05:37 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2140C3112D5;
-	Wed,  3 Sep 2025 14:05:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A958F3112D5;
+	Wed,  3 Sep 2025 14:05:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756908322; cv=none; b=b5q9RnOlL6AyTDJNQzTJHBV0GYPpk19gjjWHLfhJnfIzsZYekE81Nqdar0+WALXaJpPFVf98aFAVIqiAdPFDxR6XYqHz6xMAR8C8SXHnsTb9D+ez+Sbnb6DJqJvX1uFl/GyhFF9kZfSGQYtpr/u/uev6sY3zchin7zxPeaodxYY=
+	t=1756908337; cv=none; b=iQTdlqgHTuh2kOSr6gfDiGDENoYinLrFz7lUQVbtc4hWPhNGHlD14cNGwP6j6GJ7COrItsxjE+AgGpfA5lP+vNDlvf/Y4ZkjIv95pubSKaz0I8RSeAUWnAP98AC45WyCM+rTxbzRMFXtm1Tataweyk3PL5PAnhL9HaSKK8KGByQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756908322; c=relaxed/simple;
-	bh=eKNu0P169Q3NEmF9/2kn88R7etBh4b2ftcRq7KbNGzg=;
+	s=arc-20240116; t=1756908337; c=relaxed/simple;
+	bh=iXp8HSDTdwY5DmqRI+0Mxlc4cmzuOiwvHRGosXlakII=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jIMAziFXwlgLB/yIlVUD6X/NitI2mvqQZrUb/y7GzFOYgrIU8YB7qc5D/BbEASEEOqpIOMkbq7L4XTRi/FVRe3LxPjI76lIOBiRr1JM5yqH4R3oGmwnQQFAW+1szBlClczN0m9xdg9iDApIJDwr8wjbgiqZMNI3JpDnoMfYFn2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GarjbhYP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4051C4AF0B;
-	Wed,  3 Sep 2025 14:05:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756908321;
-	bh=eKNu0P169Q3NEmF9/2kn88R7etBh4b2ftcRq7KbNGzg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=GarjbhYPuBwzN4LKvw70mu25trun6v2gsNZoMS79qq5b6fFdnkIvAU84g+t/ZNTuA
-	 qItjKLs65j8DmS5uRuHG/tkDx9bXVhY6n/sDUArtE3jYBFiDdbCBST3QfRGBlrIjZZ
-	 0EOijnVmbkyGgntMKf9LztVwMTAF3BXSFTiQIhxDLLh5BAaXagqUwEBIB/EXoG4eUl
-	 281whCCc5omD9u36zHFpRpeOaOwok4ld/LprRIQlPor080oofNvmT9lX50gaNYeXn4
-	 27f6a9fUVkD0fJtu6rpxsExGEGI8IjbPgMEwoK885Yu8kqSJZ31Y78BR6mvEm74tEa
-	 BkIhFCAL3LF5Q==
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-61cf8280f02so7799382a12.0;
-        Wed, 03 Sep 2025 07:05:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUweAgXSAStG54oksHYuhWvDYGsA9PgqasTLbzRjcKwFMZz4VKpoAhuc+lAvYCWGQqUOssUBJyRwWFgnB7HhJyXmJc=@vger.kernel.org, AJvYcCWtROtbVXvr8XHs8AHHyNmoEkUHcGSVuaDCRaF6u51yRYdxQ1nUMiQaPCGka7KbjEed1omzQxBRPcJpUm7A@vger.kernel.org, AJvYcCXAmjIthkplsWQN6B8HGyC60NiicM5lZNA6yCujfv/3OWQi6gyHDrgPQhM8BlqCRuPX2zesC6hK/2pF@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9kXdrXrllp5y3tT3fGR9e68RSC/6qE95bCcvf+BcMYHu+4oS7
-	ZCkhpMv5y3aIYlWG538ouJMKIzRJvqYkkxalFyHOPxuMnKqWjwSB3gnHe+hcDBOzirdNGZIy9RP
-	LYjjEpz8O1MhV62gKsX9dqkC8YHyWoA==
-X-Google-Smtp-Source: AGHT+IHhgqqdWQtLgJ3n4i+fkorAw1PLf/dG7GMkfPu1VyhaFYexbX0Opd6FI4UepF1zq8MJg0/D/0FlKAcuRTaWSho=
-X-Received: by 2002:a05:6402:1ed6:b0:61e:9ebf:d340 with SMTP id
- 4fb4d7f45d1cf-61e9ebfd58cmr10082183a12.32.1756908320220; Wed, 03 Sep 2025
- 07:05:20 -0700 (PDT)
+	 To:Cc:Content-Type; b=aiqD2QPS2+Oq6kjKr8na0cDmUxIvQA8NUXQftfjxLjd/9EmgulDx+us332pbrIpxFh6fJv333T/Imgyb57kyX+N71VDfjrmAtaTF2gi9hMZV7E6HkjzrdX8FM++TMi41L3mSZXJncYyz9ABDQLgQSvkwxVfJ9R//0FR3LHDCp+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-52a73cc9f97so1609997137.3;
+        Wed, 03 Sep 2025 07:05:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756908334; x=1757513134;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7+cvu6EvGlNcLjycyZdd2oEZU0V7LAk2mk1teEIGf4s=;
+        b=lRZjI+NpGt0ASSzxrGg4UPJ08bndUtbZ+RJ0yhuXjalCaCgA+zBYSZwoQyqHSaPKcE
+         ltkf4DwNDitsEeHl/l9iWKOQ4bpm8ZENI4rCRuddUcfYG5XE52rzmcWYW+nJMyVE5zu4
+         hzk3MPNS5duDD9Lc1s9mO4wzTIWU8lWDLxuUTSNkye8CNQV687ih6PFJNKp8troAWLUX
+         SFW1g99m5RQ4H8YHeXT9yfjUd2YB2KhtWZtIsn8YE2O36sVqWq6zLrT1kSShdA0vl2D7
+         mrWKzkGyhMAXRB6yqMh5nbBqbuwkj4D45zf31WmVAEHT/CfCae52S/z3hW28AudnZ55n
+         2MWA==
+X-Forwarded-Encrypted: i=1; AJvYcCWOQaZgxcMXGJaiimyuQjxtE4QZGPCCZbtKIq5icbkliDElryJJlj3K3TMIn+BmIME59z9YyUeW0PNf7UC9fTtqZEE=@vger.kernel.org, AJvYcCXmdXnuZIjWTa3hBY6geezyoR/nFxlJ4LIQD9N5BrpiCwuef9a4ZBjR7fOYVogpEuXqrzOuZu+I7CR4yfzI@vger.kernel.org, AJvYcCXzOQswoNPhMHZokvzeeVkF2SzM46SAl+z9uqxl+0dpoH5pRM7Jj5hfZZwIXgPRR7DqxV/8nF7CJByo@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQBxdPrDX275RZEyE0PcvmzlpzzySm7vL37LnAdMBqfJjhsGR7
+	1pXChTTQHpmWt6UN4XMSzP6tqe/koQiDmz6o4OU+m1Z/uUzf+jSL2FH7rpXuMZ51
+X-Gm-Gg: ASbGncvc9javZDM+LHn8wj/poqwl+yBoLCXpbXwtPbHK3P7OnnZjIyjJ6J0tNnN50r4
+	ukT+PqUkYP2G44giQGvnrAUo7CCNgdo9x+N3WYEWahnIGklBsnGlQU8aFArlcLpJTrHmcHemxFR
+	K39UaYCmO8AediFAu2vNhX7ckU94/Oe5Fhz5nGiYWiN9yzWqmM/9BDMbm1+cIGddCDFA9SdjcmE
+	gTJNiTeryYhzydXxqWFmXdkLnbKxG+aDifIZSv586/Le6VoKv2hZGBO/aUCzDlCJsGlgi3F4MTM
+	bhlJ2yEhF0uWhT6B5blbtCQUAMinzNIHkSYomAuK50NMieEemOyyMQ2U4z0EaWBj4qk9lBNwg7P
+	JI3damk4oQUxZHvkc3PFEVUOr558zUs985Cw+QZwJ7b8cqkNhTk72kkPFjAhO
+X-Google-Smtp-Source: AGHT+IEwLDVO0pMUZ7AE7H7hPHl9DghGWCfRKTy7MT7DIDM728fXV2Unw50e8zEJ2gRQqU3RXel/dQ==
+X-Received: by 2002:a05:6102:6446:b0:51e:92cc:6e6a with SMTP id ada2fe7eead31-52b1c359d84mr4338205137.33.1756908334203;
+        Wed, 03 Sep 2025 07:05:34 -0700 (PDT)
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com. [209.85.217.42])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-898364cdf79sm2519183241.1.2025.09.03.07.05.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Sep 2025 07:05:33 -0700 (PDT)
+Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-52a73cc9f97so1609965137.3;
+        Wed, 03 Sep 2025 07:05:33 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUBM7Qmio9ExWM0ZDRY6XIFWaVJXgfY3NUDGGjEIPfFpf/9UycXgEcpYtRfjgU8TobzOralAlAv6VEqvnIV@vger.kernel.org, AJvYcCUk3Bu0h8QDp/uvw9cb1+TpBFCfrvJGO+83hk52/noqer9a9m8PsTQg+kRcqoABqBiRMjQXDVeo/BUb@vger.kernel.org, AJvYcCWhOydeRMH6FBu+djpYS2agWn7O3VIG7rYNu4pjIrzMXeWeW05lSeieZcDem6c5OM7ylfeq4JiGXwlugIBEOBbHv3g=@vger.kernel.org
+X-Received: by 2002:a05:6102:5809:b0:527:8b63:78e1 with SMTP id
+ ada2fe7eead31-52b19532b98mr4817203137.1.1756908333491; Wed, 03 Sep 2025
+ 07:05:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250815230841.3487764-1-robh@kernel.org> <307fa87eb552ac4a1f6dd6139450786195e3892a.camel@codeconstruct.com.au>
- <360776d4dd765dc2c98f0c1b718fe63d4a8a70d4.camel@codeconstruct.com.au>
-In-Reply-To: <360776d4dd765dc2c98f0c1b718fe63d4a8a70d4.camel@codeconstruct.com.au>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 3 Sep 2025 09:05:06 -0500
-X-Gmail-Original-Message-ID: <CAL_Jsq+TcACG=vGp__tT8RE6kOjchoUSq59i=H_+qSRn-ucMkw@mail.gmail.com>
-X-Gm-Features: Ac12FXwkg-WgIKnHEs8UoaeM3TBl6YtocnO-RvpeXFYLKucgpiCnVNz9w-PqANM
-Message-ID: <CAL_Jsq+TcACG=vGp__tT8RE6kOjchoUSq59i=H_+qSRn-ucMkw@mail.gmail.com>
-Subject: Re: [PATCH] ARM: dts: aspeed: Fix/add I2C device vendor prefixes
-To: Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Joel Stanley <joel@jms.id.au>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20250821161946.1096033-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250821161946.1096033-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250821161946.1096033-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 3 Sep 2025 16:05:21 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWPst=JAbyL43SZAHTrCR=wajs15JZXCH4kmM41cdAh5w@mail.gmail.com>
+X-Gm-Features: Ac12FXyZrnxtSY-6RsRk8_dv6d3svCQcb4w0x1zUw1epH97KQsL6SFr4wzNGRoU
+Message-ID: <CAMuHMdWPst=JAbyL43SZAHTrCR=wajs15JZXCH4kmM41cdAh5w@mail.gmail.com>
+Subject: Re: [PATCH 4/6] arm64: dts: renesas: r9a09g077: Add USB2.0 support
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 3, 2025 at 1:52=E2=80=AFAM Andrew Jeffery
-<andrew@codeconstruct.com.au> wrote:
+Hi Prabhakar,
+
+On Thu, 21 Aug 2025 at 18:19, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> On Wed, 2025-09-03 at 15:01 +0930, Andrew Jeffery wrote:
-> > Hi Rob,
-> >
-> > On Fri, 2025-08-15 at 18:08 -0500, Rob Herring (Arm) wrote:
-> > > The ASpeed DTS files have various I2C devices with missing or incorre=
-ct
-> > > vendor prefixes in their compatible strings. This hasn't really matte=
-red
-> > > and doesn't impact ABI compatibility as I2C devices get matched with =
-their
-> > > vendor prefix stripped.
-> > >
-> > > With this, the "maxim,max31790" nodes now validate and have some
-> > > warnings. Remove the spurious "#address-cells" and "#size-cells"
-> > > properties to fix the warnings.
-> > >
-> > > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> > > ---
-> > >  .../aspeed-bmc-arm-stardragon4800-rep2.dts    |  2 +-
-> > >  .../dts/aspeed/aspeed-bmc-facebook-harma.dts  |  8 ++-----
-> > >  .../aspeed/aspeed-bmc-facebook-minerva.dts    | 24 +++++------------=
+> Add EHCI, OHCI, PHY and HSUSB nodes to RZ/T2H (R9A09G077) SoC DTSI.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+Thanks for your patch!
+
+> --- a/arch/arm64/boot/dts/renesas/r9a09g077.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r9a09g077.dtsi
+
+> +               hsusb: usb@92041000 {
+> +                       compatible = "renesas,usbhs-r9a09g077";
+> +                       reg = <0 0x92041000 0 0x10000>;
+
+"0x1000", as the region starting at 0x92043000 is marked reserved?
+I can fix that while applying.
+
+> +                       interrupts = <GIC_SPI 587 IRQ_TYPE_LEVEL_HIGH>,
+> +                                    <GIC_SPI 588 IRQ_TYPE_LEVEL_HIGH>,
+> +                                    <GIC_SPI 589 IRQ_TYPE_LEVEL_HIGH>;
+> +                       clocks = <&cpg CPG_MOD 408>;
+> +                       phys = <&usb2_phy 3>;
+> +                       phy-names = "usb";
+> +                       power-domains = <&cpg>;
+> +                       status = "disabled";
+> +               };
+> +
+>                 sdhi0: mmc@92080000  {
+>                         compatible = "renesas,sdhi-r9a09g077",
+>                                      "renesas,sdhi-r9a09g057";
+
+The rest LGTM.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 --
-> > >  .../aspeed/aspeed-bmc-facebook-tiogapass.dts  |  2 +-
-> > >  .../dts/aspeed/aspeed-bmc-lenovo-hr855xg2.dts |  2 +-
-> > >  .../dts/aspeed/aspeed-bmc-opp-palmetto.dts    |  2 +-
-> > >  .../boot/dts/aspeed/aspeed-bmc-quanta-s6q.dts |  4 ++--
-> > >  7 files changed, 14 insertions(+), 30 deletions(-)
-> > >
-> >
-> > I see you've applied this to your tree. Sorry for being slow on the up-
-> > take, I've been focusing on other things recently. Happy to take it
-> > though, if you're happy to drop it?
->
-> Actually, do you mind dropping it from your tree? It conflicts with
-> Krzysztof's patch that I'd already applied:
->
-> https://lore.kernel.org/all/20250819131743.86905-2-krzysztof.kozlowski@li=
-naro.org/
->
-> I've applied your patch here with a note in the trailer:
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/bmc/linux.git/commit/?h=
-=3Daspeed/dt&id=3D61a913644a8c5b6c8bd9da09f78f88e50edfaeb
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-I've dropped it. That was inadvertent.
-
-Rob
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
