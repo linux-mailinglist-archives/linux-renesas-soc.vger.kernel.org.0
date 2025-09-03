@@ -1,132 +1,113 @@
-Return-Path: <linux-renesas-soc+bounces-21278-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21279-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9BADB421EF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 15:37:54 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id C14BCB42261
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 15:47:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id DC37A4E2F5C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 13:37:53 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B533B4E4FBB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 13:47:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB0013093CD;
-	Wed,  3 Sep 2025 13:37:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DfKs6bwJ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D440F30BF74;
+	Wed,  3 Sep 2025 13:47:47 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC092EACE2;
-	Wed,  3 Sep 2025 13:37:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC7F30ACEA;
+	Wed,  3 Sep 2025 13:47:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756906661; cv=none; b=CMKS8k080mqm+O8nZXrLqLCDNcsoLKfohAtB4ZR/JinYuun5vFrsY8LXu9TLDxQL2vt7UMUf8N6B5AQZ2oaiHT1Htp/urzbUhZyanIgt4A55yk963ehK5FGZkWQbn0ookDIhFHNDEHKV7dfk6BSQcP2YncQhYZY3Jpwal7WkP8w=
+	t=1756907267; cv=none; b=FjSPsRjatrb1aY9pT4DDpx1kNW3fRnmB1XRfU68+/sTgO/XW6uOjyGvWb/UpKbpjKFziopW6LJsM8ocoIvG/1Uxez4KI4Wn3+ZwMMf4UgAvdDHENlKV8xTX8iRAAyZegSn5csiob+XJY2q6Z0tuRPPIzDr9uamJo1XO8ovdnMoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756906661; c=relaxed/simple;
-	bh=4Pv/lZEmRfsRDnM/wSl9bsAh9CeiyqAEPN2KUA1IfR8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=knFOwwrS/18T/zJIkOO4u/78uKBlgllsW8bPLP5gKxt7T/TNEsKLx9acMov/1VJEVyAUzASxGxEywMbLrx7QbrKFe8uS2UXRtY6kua8tQpPtlglJj5087AbzjuVqTiKGptQWx7QrRJ0Z593fmiw1yRewdmrMcA2mgYFZCxvCRhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DfKs6bwJ; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1756907267; c=relaxed/simple;
+	bh=+aIEvRz96pG/rWgZPTWZU8F4KJkk2PAPAif7c1zrzKU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ik1qM52jVoAVa3rGFA6Faz5QDJQ4dhbl6f9UdntjBQv9q+s2+bUGo/QiLTEtTjs33AQnY3ol2Y52mAE/w8ykul0nKbSk65fkKoApSvThFrcdAw6aVCEoWtfazZFgnGCUIsz8YwzaksbUL21ZQ5+PBoZUNSTBspb8MpAHYdvez0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-24a9cc916b3so36962525ad.0;
-        Wed, 03 Sep 2025 06:37:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756906659; x=1757511459; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=j0IPIvNKxRX3PZ8lrrWw+UHXMJcK73G3kVKGuC4cM1o=;
-        b=DfKs6bwJkfyX+MH4pxXtcjOG53XUyaKhXkoq9lExEPK6Kf2FI/PsuGdZSw3lSEUhCg
-         Is2pe459S1kKCHjqYuK6RHmqsw0S6hXNWtHIwls9Rjvg18dfF7VxSnirJUL2eECnO0u2
-         ZCZENTJD8K79PaIzSXRqbnDvCDcuiPx1xbsj7pnIlSULhQt6Paq088JbbTpg6EhVTXDn
-         QiYlijyKfWhdGemMf9NGX1lgA7i2KzDcF5NaTOvSosDwMfBlZaVM2kR02xMFq6BWI0Kr
-         ZxlC+Q1iepgRmJ0uJZM96rDdhpZHYW5B3WmFi4z64gmCW6LZ7rX51czXLyYVvGIsWT2O
-         /fBg==
+Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-544bac3caf2so660333e0c.0;
+        Wed, 03 Sep 2025 06:47:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756906659; x=1757511459;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1756907264; x=1757512064;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=j0IPIvNKxRX3PZ8lrrWw+UHXMJcK73G3kVKGuC4cM1o=;
-        b=trUOZnFcuRkEjxvSs2MN5Q8138MFGF0esZd1oUq8fibvFeOWXfsOhAOGrkaAS8Lrrf
-         L4duJgv4S2BOKKXyA6I/H+QpV25VUAQt/PmZ79I/JSsEk9bxstN24cqf9ex0FjJRmkVP
-         wQJQJB9uzzvpwU4cg/9+3VqJKMLCGqpdDnQ3zAf4zxm1EnBBAOcDkkWjoBWBo61Rlkv7
-         RMVLukIxqZT9NPgVMRC3RZAnRR4A2i6sOcf2OcjJVMhB/b1FKoH/6GAlTVOJ//oAm7JB
-         F0KcBXOkeqNUPOcl/HUmwjIV+47ZREwQIMzFZ0FJutQ7iMN3b2AtUrYngkZboHyG3wHA
-         mTPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV9ENQ9QAfF0Ehz/UX7zIAWBg5+XW076YzBRjUJjHbdHPncS9tIDwC+Qkzgk7bN44MDSRTTd2xTFrnE3uDmxe1l07A=@vger.kernel.org, AJvYcCVZv815wdiT8roUtwQSVHVWjm2QZ5w4VP2KLlEJATTS5Frs4xUI7XYVcO1M3FlE0/SxZsivXYq2c9znEnk=@vger.kernel.org, AJvYcCXP/p5DTFQNJMWw1BiND/C9RVxawkQBxCCLtVTi9AkU8SQLY0nxvvKQVknGfLxZlHXcSNb63bf6@vger.kernel.org, AJvYcCXnW0qmWGL+HCahHpbLhnWmUryEqdnhp4jI+7cL1c/cbDBb9CYWg/N/pMZpVvdhVatxAitPHGq87Ybf9KU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9qio5D86UdaLbo21knMfeMGT9BOVbyJTLQ4/c/njYhPH/L0NT
-	jhs7hhT5ENGPqKBDR8gydyL34kUTkE4tqClqi9Zie0xkBdDKCJNr//6K
-X-Gm-Gg: ASbGncuTYmZGoInsLESgTT+yB9gtz5bU1jorVzdhIJ75ZWX5UFuap/uqsKEe52VNrRV
-	fyTWJ9xCWuXIrR4LYiPfO4d4/otZ8q4h+xWelPWQoIMCd6smFTSHREsh43e5P94K6U8qv2P+QJq
-	hjvR4V5K4i07wP+VUuzpEGc0J36KS/00Vtgt7gcjNiohAQglKITYL4CdHSEGp8hXv6HD7YUwC68
-	aV7i0pkVF5z1+FglronqUMflLb4BFbqtW/pM6F1R0E4mHJ2DCNpG9wDqefLgjxKGG4yv3tzQSDG
-	AXu0iUVxpdV1Lfi/gFjUAz5IOgzlMXD/GS7YLZ7e9v1hzBsLMkgfZb1X8gFYQsCCXmA9k4bT1vv
-	p0dM3Y1xKeKZIE+feCDKVvJNHbvAtgI0LhwNBe5C24hUJVmgvN/hyWCvbKMhHUTj5gDpfWwd1K0
-	c3B+pEvEpQLpQEmfNnb2t+ovXqrTpxbiPqOjeM28Sv6ojJ/i4l4rm27KxU
-X-Google-Smtp-Source: AGHT+IE3ddf9hK7F0KaN7V3DmayhHVnNCIX3cwwbaTIxo3HIL3JNiS8r9JtynDMZISXdX38A9mDSzA==
-X-Received: by 2002:a17:902:d4d2:b0:24a:8d33:96da with SMTP id d9443c01a7336-24a8d339826mr201854925ad.40.1756906658477;
-        Wed, 03 Sep 2025 06:37:38 -0700 (PDT)
-Received: from vickymqlin-1vvu545oca.codev-2.svc.cluster.local ([14.116.239.35])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-24c9e39094dsm16152645ad.84.2025.09.03.06.37.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Sep 2025 06:37:38 -0700 (PDT)
-From: Miaoqian Lin <linmq006@gmail.com>
-To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Ramesh Shanmugasundaram <ramesh.shanmugasundaram@bp.renesas.com>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: linmq006@gmail.com,
-	stable@vger.kernel.org
-Subject: [PATCH] media: renesas: rcar_drif: fix device node reference leak in rcar_drif_bond_enabled
-Date: Wed,  3 Sep 2025 21:37:29 +0800
-Message-Id: <20250903133729.2523130-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        bh=c1BtAlNfdBNrmtyMejkFRvl8J4TdOP8bGgfOa98i5TY=;
+        b=AGM787fHBCxHTxXRhra3HE5kuuGfWYt+sVUtYoz6zIcRi51Zv3THYBDq3fHs36dg32
+         DkLg/NiO5KOyXCDIu8PQFVwzhMYe1UOfDu86xTRjEdqo3rWgVvKZGxQiVDPJmPEhozlf
+         22Ahw7MfIiO6oZP6Bvfw0B0pMDi0bfyR1rvf5I1JBrVMEmUBG2KwWXa0V3LMcRAEQzL8
+         My6EUgZLV9GS1DZ15OfVRhdViQTW6adLOYFEdQ0T/j+dL41J23sYRehkew4u3lROxnL/
+         KNtIb5nm0GZReGxNwJYgOrpIPbUVfy4e73f8fSFj9CzBOSZGi3cLsanMOfjIqekFQXLy
+         Aaiw==
+X-Forwarded-Encrypted: i=1; AJvYcCUa8aFvKzTwiouZ4/w6BbaKbgpvLhIbQUhT8dMgFNTPsHTC1LOLs9Nu1m2fZPgDJsl08YgUbR8nwDzSQKUceWNKE78=@vger.kernel.org, AJvYcCVctnEypXZfDtJE33pzwVW45TS/+9uMzQAkRDWSLvLmzYcXqBCZaFn3omdJazxo/JppP0dgWnCz4gY+u2hm@vger.kernel.org, AJvYcCXiMJY5DFfY9qrlTmnvv+CPXWLRJubvzik71Nwr36QtIQuHeFsm9NkFbU9AthWpP+F4fU+xqmJIM+lJ@vger.kernel.org
+X-Gm-Message-State: AOJu0YzO5NOyki5XpE2Dk5w1WEKy6THA/BU+Ct4duu3MOqJAvexdRzEA
+	LvYGLKscf/12tR8YmrYhAT2rUzK3haRCh01gFnyR2yrwiHbvvQ+7tM8+wEnEZgK7
+X-Gm-Gg: ASbGnctjX08MnBLbpReYrAcr0YviICV2oaU1sR15k+bqIxE4JJbxGN4kBT5slbC6xt1
+	zG4Q8O8EIHVrzpLGyLZ8lzqUQuOfdb5DTfGZMLmgRBprxk4vJTdRhp1iasH4RdFihqCivQGYP3o
+	leGVYIHE/7+mH5stypOtu1tJFHJ6trWw4dGCId9McYLhI0+YIyjMrXKnwsI8JU6yj3kns/L0Voy
+	w+1PN6VJE+vq2IRlujqDW5H9pH+Oa0ENqB/QjhXsHDEdVo2psRYd3buTd/K9kQBbLLhF60vphZd
+	HORlQsy0Uw1Wk50SoxGexYRiSatvXEAq1L+/QBkdyAkRpErXPzqUD/s/vRamzuJtJmu48fFmSMr
+	a6zlsi9Z+xw+1e+zr3ikwLIa8vFz+LTGGxqdjgbOX/Wmkt3124/pGAhA+qssv
+X-Google-Smtp-Source: AGHT+IG+skzSwblB/onKuoHMB3txsR2536BKMAlUXQzjtsNdZJMdE1paQsqe+m8znqBub/SRMfm9CA==
+X-Received: by 2002:a05:6122:3b08:b0:539:237c:f95d with SMTP id 71dfb90a1353d-5449e5efd11mr5126398e0c.0.1756907264571;
+        Wed, 03 Sep 2025 06:47:44 -0700 (PDT)
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com. [209.85.217.41])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-544912c7cbcsm6947701e0c.2.2025.09.03.06.47.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Sep 2025 06:47:44 -0700 (PDT)
+Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-528d157a48cso531126137.0;
+        Wed, 03 Sep 2025 06:47:43 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUkS4OGH7YVkYmNcJBKPcVLmsB0e+FBoiDmPNSal5axqUt/MTVNApnSKYRi+/XmkMZPolD5bV3IgGnKSZX0@vger.kernel.org, AJvYcCV7Cf4SJAmNz6ClN7H78bfddiga+fEBphys1KNc10Iy3vrZ1sajfbuYuM2mVuxEy+XN+OIIXuBAyyaQrBFl3qwCpFQ=@vger.kernel.org, AJvYcCVOGYaV+ivCon+Nbl/g5D19VWRvmIxL0xNKa89cXoydWogCgAoTI/Et0B6wYzW3DCSCwnX+A91n4uFk@vger.kernel.org
+X-Received: by 2002:a05:6102:6213:20b0:4fb:fbdb:283c with SMTP id
+ ada2fe7eead31-52aedbfdacemr5177326137.13.1756907263484; Wed, 03 Sep 2025
+ 06:47:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250821161946.1096033-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250821161946.1096033-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250821161946.1096033-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 3 Sep 2025 15:47:31 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWC8LMvihq-t=+YEfaUNJyfUK0NXsr+rCe1W7Os6ymQdA@mail.gmail.com>
+X-Gm-Features: Ac12FXxUHRqb268-w_80icrYBatNkcf2nXjOZMLs8qj1YY0RroAd_gw6UC6VZBw
+Message-ID: <CAMuHMdWC8LMvihq-t=+YEfaUNJyfUK0NXsr+rCe1W7Os6ymQdA@mail.gmail.com>
+Subject: Re: [PATCH 1/6] arm64: dts: renesas: r9a09g077: Add WDT nodes
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
-The function calls of_parse_phandle() which returns
-a device node with an incremented reference count. When the bonded device
-is not available, the function
-returns NULL without releasing the reference, causing a reference leak.
+Hi Prabhakar,
 
-Add of_node_put(np) to release the device node reference.
-The of_node_put function handles NULL pointers.
+On Thu, 21 Aug 2025 at 18:19, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Add WDT0-5 nodes to RZ/T2H (R9A09G077) SoC DTSI.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Found through static analysis by reviewing the doc of of_parse_phandle()
-and cross-checking its usage patterns across the codebase.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.18.
 
-Fixes: 7625ee981af1 ("[media] media: platform: rcar_drif: Add DRIF support")
-Cc: stable@vger.kernel.org
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
- drivers/media/platform/renesas/rcar_drif.c | 1 +
- 1 file changed, 1 insertion(+)
+Gr{oetje,eeting}s,
 
-diff --git a/drivers/media/platform/renesas/rcar_drif.c b/drivers/media/platform/renesas/rcar_drif.c
-index fc8b6bbef793..c5d676eb1091 100644
---- a/drivers/media/platform/renesas/rcar_drif.c
-+++ b/drivers/media/platform/renesas/rcar_drif.c
-@@ -1246,6 +1246,7 @@ static struct device_node *rcar_drif_bond_enabled(struct platform_device *p)
- 	if (np && of_device_is_available(np))
- 		return np;
- 
-+	of_node_put(np);
- 	return NULL;
- }
- 
+                        Geert
+
 -- 
-2.35.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
