@@ -1,67 +1,62 @@
-Return-Path: <linux-renesas-soc+bounces-21230-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21231-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A63EFB41418
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 07:05:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA029B4145E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 07:31:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4E4E01B271FC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 05:05:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1E8D71A85211
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 05:31:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48CB42D0C9C;
-	Wed,  3 Sep 2025 05:05:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5030F2D12E3;
+	Wed,  3 Sep 2025 05:31:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b="TFWlqiIu"
+	dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b="fACK4iWC"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBDCC32F775;
-	Wed,  3 Sep 2025 05:05:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F16198A11;
+	Wed,  3 Sep 2025 05:31:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.241.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756875916; cv=none; b=dzn7zqKzswIDMl+ON1JfZIOvgwjh600mnAD5NI+C7ENVP7zMcPNbe4tUwJp5ZUBT+cPeW+77zyTvpXThtohNQb49QPqBV2dKgiWh9HhudHqcegId9dCM/nniVRLPy0rcsqMYSEWSGS2cuxh5T379M5hlganexX3oVDdvdanxXQI=
+	t=1756877485; cv=none; b=VR2QtWM4TEkoXzubpXvJwaMneCKA1prxUx4of/uHTim0Hjo7yUYDHRI/XiqKAm/D8w9VmWe+ufvMef/L49b45mnwTR3A45fG6+VL7pKyciWb3iQx3ID6nXWH7juFlOpzVUyVLHd94v97Oj/9KLlGE6ImssiDy7cGafbpCRcjF/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756875916; c=relaxed/simple;
-	bh=z/aNFcuI5ER/zUmHNbZkEITb8B+mXfHQs+aVMjxDIgQ=;
+	s=arc-20240116; t=1756877485; c=relaxed/simple;
+	bh=JnGCK1lahw6eKRr1X7LuKjE36AI6nTTs35DYpWRjgPc=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=KW40dAdHeaS8ythcgwziX5RtdSpj5E4DIvA4CxR5mTndV+4XjMujtyy0W0BuH2rNl9fxJ5NjhhwUghsZMb4so+636PC1xIpL1RjTY7uHaPDnhPywGvGgN4F3Dysqy19/m2/r+501DCgJhLF0EodFV3ag46XrL3d1ESyho/g8HsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; spf=pass smtp.mailfrom=codeconstruct.com.au; dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b=TFWlqiIu; arc=none smtp.client-ip=203.29.241.158
+	 Content-Type:MIME-Version; b=OseoByuFlk7uGnvk614N3gCf2q1ypG4rafnFFrrJlCfdeghYzYpYXcpvx3scoaZ+1PC5LgRh6xXYFRjwYK4M7UePq6kkoISWXzeZ8HkYRiCZYBXT87QGOzQg7G6Qq41dANwyPcU5MMvfmurW3R1RzcLtdaeGlkFJkWkTyVHH6+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; spf=pass smtp.mailfrom=codeconstruct.com.au; dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b=fACK4iWC; arc=none smtp.client-ip=203.29.241.158
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeconstruct.com.au
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1756875911;
-	bh=z/aNFcuI5ER/zUmHNbZkEITb8B+mXfHQs+aVMjxDIgQ=;
+	d=codeconstruct.com.au; s=2022a; t=1756877481;
+	bh=JnGCK1lahw6eKRr1X7LuKjE36AI6nTTs35DYpWRjgPc=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=TFWlqiIuq/EgRqWg5UZI7aD6HRJWbNSWozu+PymRFHSv2k6UeOld6m0jYPcxjava0
-	 Vugz8yzOCBq02zTe/CBiKirpQyvEce/jcBYOO24thW8g/Dly1TIVEUXM2RqY6JHy0y
-	 EKKRfbTP67sSiWeSptiKYQFGu7qTMz1ve1+9LKY4lnx0K4HjcPG+c24cRag9nM9FBC
-	 g4djJ97GqjQm3aYAFwVlN42Owr329lTtiWBGHQXg9dJDoXHmfyo4+SwbxR07FLtbjf
-	 g2guGt2m4+Rg7dpn+eFMvcpn98t3W6Ki/oo39zxVt0+LCFmVZhAqecTXmacPRl31Vt
-	 k9fwlk2bwV7Ew==
+	b=fACK4iWCaKo+xngoM6xHxCzq0XPdutG9X6hPIigvvWVSmK74s7mhro+frrRzWJf8X
+	 OOYOjzr4AOdyVtWojQJJE9cQfqj7xvXWFZpR3a+PY+wIfKrOKt55gO4N+8L09S8Tof
+	 nA+VmVkuO2mOzgy7lo0knxxgHC7hsYG92ijBNNs2CMCqkTVcQk9KEMdD0UFul/dnju
+	 ISXtX1w929DiSsKtz9ZKAGunLxnoeB4VbtTHYubhHvG677FF4F4W32PwzSXte0UPDK
+	 KHrFXLX0JS5qVR35s/NXnjkWfUMyz/fjnuHj+h68ZgA6PWkdyMzMCOoyfOD4CGbljF
+	 9jSktTJKjFDYg==
 Received: from [192.168.68.113] (unknown [180.150.112.213])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 45A266E02C;
-	Wed,  3 Sep 2025 13:05:03 +0800 (AWST)
-Message-ID: <9e3d52078b0ad9da6015229d6f39cb013a4cffbd.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v11 0/3] ARM: dts: Add support for Meta Clemente BMC
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id D93F56E02C;
+	Wed,  3 Sep 2025 13:31:20 +0800 (AWST)
+Message-ID: <307fa87eb552ac4a1f6dd6139450786195e3892a.camel@codeconstruct.com.au>
+Subject: Re: [PATCH] ARM: dts: aspeed: Fix/add I2C device vendor prefixes
 From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Leo Wang <leo.jt.wang@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, Kees Cook
- <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,  "Guilherme G. Piccoli"
- <gpiccoli@igalia.com>, Geert Uytterhoeven <geert+renesas@glider.be>, Magnus
- Damm <magnus.damm@gmail.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel Stanley
+ <joel@jms.id.au>, Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm
+ <magnus.damm@gmail.com>
 Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
 	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	leo.jt.wang@fii-foxconn.com, george.kw.lee@fii-foxconn.com, 
-	bruce.jy.hung@fii-foxconn.com, Conor Dooley <conor.dooley@microchip.com>
-Date: Wed, 03 Sep 2025 14:35:02 +0930
-In-Reply-To: <20250813-add-support-for-meta-clemente-bmc-v11-0-8970d41f88b0@fii-foxconn.com>
-References: 
-	<20250813-add-support-for-meta-clemente-bmc-v11-0-8970d41f88b0@fii-foxconn.com>
+	linux-renesas-soc@vger.kernel.org
+Date: Wed, 03 Sep 2025 15:01:20 +0930
+In-Reply-To: <20250815230841.3487764-1-robh@kernel.org>
+References: <20250815230841.3487764-1-robh@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.4-2 
@@ -72,29 +67,38 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-Hi Leo,
+Hi Rob,
 
-On Wed, 2025-08-13 at 18:04 +0800, Leo Wang wrote:
-> This series adds initial support for the Meta Clemente BMC based on
-> the
-> ASPEED AST2600 SoC.
+On Fri, 2025-08-15 at 18:08 -0500, Rob Herring (Arm) wrote:
+> The ASpeed DTS files have various I2C devices with missing or incorrect
+> vendor prefixes in their compatible strings. This hasn't really mattered
+> and doesn't impact ABI compatibility as I2C devices get matched with thei=
+r
+> vendor prefix stripped.
 >=20
-> Patch 1 documents the compatible string.
-> Patch 2 Add pinctrl nodes for NCSI3 and NCSI4.
-> Patch 3 adds the device tree for the board.
+> With this, the "maxim,max31790" nodes now validate and have some
+> warnings. Remove the spurious "#address-cells" and "#size-cells"
+> properties to fix the warnings.
 >=20
-> Signed-off-by: Leo Wang <leo.jt.wang@gmail.com>
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 > ---
-> Changes in v11:
-> - Rebased on bmc/aspeed/dt as requested.
-> - Link to v10:
-> https://lore.kernel.org/r/20250801-add-support-for-meta-clemente-bmc-v10-=
-0-c1c27082583d@fii-foxconn.com
+> =C2=A0.../aspeed-bmc-arm-stardragon4800-rep2.dts=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 2 +-
+> =C2=A0.../dts/aspeed/aspeed-bmc-facebook-harma.dts=C2=A0 |=C2=A0 8 ++----=
+-
+> =C2=A0.../aspeed/aspeed-bmc-facebook-minerva.dts=C2=A0=C2=A0=C2=A0 | 24 +=
+++++--------------
+> =C2=A0.../aspeed/aspeed-bmc-facebook-tiogapass.dts=C2=A0 |=C2=A0 2 +-
+> =C2=A0.../dts/aspeed/aspeed-bmc-lenovo-hr855xg2.dts |=C2=A0 2 +-
+> =C2=A0.../dts/aspeed/aspeed-bmc-opp-palmetto.dts=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 2 +-
+> =C2=A0.../boot/dts/aspeed/aspeed-bmc-quanta-s6q.dts |=C2=A0 4 ++--
+> =C2=A07 files changed, 14 insertions(+), 30 deletions(-)
+>=20
 
-I've applied v11, after tidying up some whitespace and the subject of
-patch 2/3.
-
-Thanks,
+I see you've applied this to your tree. Sorry for being slow on the up-
+take, I've been focusing on other things recently. Happy to take it
+though, if you're happy to drop it?
 
 Andrew
 
