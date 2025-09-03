@@ -1,222 +1,160 @@
-Return-Path: <linux-renesas-soc+bounces-21286-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21287-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD9A5B423D6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 16:35:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BDD9B42409
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 16:51:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 574EB1BC2D8E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 14:36:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0768D167333
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 14:51:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5FB920010C;
-	Wed,  3 Sep 2025 14:35:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D686D2DAFDD;
+	Wed,  3 Sep 2025 14:51:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="bPxC5ePM";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="D5rJZeau"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hlVI0jyW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA89F1F1921;
-	Wed,  3 Sep 2025 14:35:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FEF2212569;
+	Wed,  3 Sep 2025 14:51:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756910147; cv=none; b=W1yMe7/Sg/NCIlaPGJkHR+KvBlfKHTIOOy6QOPPMT/OD6jptStJQyYqmHyYYF3ZRy67WpkUcXdDgiTG4qeQuCuxFjB6NmNB6Bb8Ki5IK1RficPNLXbiAMBH69G4/xLVYHbSIZumDJ/tK5NtxTIRsQOVoDjPSlS77lXw9FYZ4O1Q=
+	t=1756911101; cv=none; b=TiYnIDE5MX0Zo6jSwhhq40BP32P6IyFrbmOwtCxiYEK8VoOAdWnFSwAKjJ/VLM8ooiSnUvSuUQHv/fItlN+4xvD3EWFJezMvb1Yjl5QW6pcJGScvOXPUN79pOztCfeoj9gigo7psIjlwzfqhtpRFcEEZRaDf6HGacz1U1FXeqcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756910147; c=relaxed/simple;
-	bh=qh06aM/D1zEAo5SMTFqvDu3eMrZnBJcz0WhukWIuW/Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ssi6YWc9OhtRe67W2PedlD6yA3CdZ55Pg8fDVW1lEqZK1a6bj9qsYnAFhl9yBYT12075UhpcYIdp0MEjmQ9sjHkGGSpOFcc6k9uDZeYyr9LJ7Wj1hmE2CIdduRpNn+9BR6vp8r0vOErC70smbTFU4p6/DtU6/383ribPOy9jLCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=bPxC5ePM; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=D5rJZeau; arc=none smtp.client-ip=202.12.124.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.stl.internal (Postfix) with ESMTP id 9756E1D00367;
-	Wed,  3 Sep 2025 10:35:43 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Wed, 03 Sep 2025 10:35:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1756910143;
-	 x=1756996543; bh=z+hK2FP2aheJNxk80O7ie5ji+zK7A/NzM8F5e45IKzw=; b=
-	bPxC5ePMU3fkUzjWf80lKsZVUNoRTiEsBIeNGNF0z7XJtb03qabLd3h3/2xFY1eU
-	C7531Ljoh9gP5ejaWj0pkmPJLFOQDun91FEID36TGj5KeJI3ubwJpKuM2e1UHOXu
-	4xFl3BE+yZ5Rlo2bocMkprtSngjTTT5UCwLV/3IR/H1H27Z2Yr88FeAv4ZIiEVAp
-	RaP2ApOZQw3OoFGuiwZfFvcTWbVzcCwsan3q+pPpPpDqRxeJs0cIVsNnY514HdTQ
-	W29fdJgNzQX5pCJb63FxcZSfCRiVt1yeoTqJA6JZ27wd68WcteOHfMrCwDghhBZg
-	nJKNhEln8R8PVjqJ39kEkg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756910143; x=
-	1756996543; bh=z+hK2FP2aheJNxk80O7ie5ji+zK7A/NzM8F5e45IKzw=; b=D
-	5rJZeaurQyhkRvWU1V8b+C1uuDqbwStpW2hCEL7nMWjtVeNdajrAk8FizRKkvpTR
-	c+rWej8fUVs+tzaKpHLOHB5FO0st4jX6cqDkJpj3Mzh15R0kvANjmRWpMCPhU8Fh
-	lgdGPBg4A6vkPNhKeuWUuevF4OWXDdVcb377HRkyhw5FhwDYUjdCoeZV/daytwjs
-	z/9u8loStoMkfq+ka0X2e1WJ50EhaD4st2ThpCZTiXV3dO4gfIXAGk1WpBnKSs16
-	AVqLc1KVZ+NaZwVpmq25cEcPsIUhWOeoKB3Gq09VCqo+sbUNeaDMDIWykbSk3EW0
-	/878LBoJuY5/UrlyDA7oQ==
-X-ME-Sender: <xms:P1K4aK2LrB2GrgiokMXjoat6MHqsSC7XPi_8BHo9PhSPY3c_ZgL0Yg>
-    <xme:P1K4aA67Jbnlf81XyLU17C8kbsC9VjVMCxZMbrM_EDO5qhlcIy4evb5Lb7mWFVN8n
-    I8LQ9T_ZT4gWHHqvLc>
-X-ME-Received: <xmr:P1K4aL-YVKJDzWdC65T1TdHlK9LNG4t5fPehe8Re5lIO6eS1gj4AAJmye08UIcIroDTWowKQDPFefCduaJB2qOk6_7Lui_0eFQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdefgedtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
-    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
-    epfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgrshcu
-    ufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrsh
-    esrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeefhfellefhffejgfef
-    udfggeejlefhveehieekhfeulefgtdefueehffdtvdelieenucevlhhushhtvghrufhiii
-    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhn
-    ugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeejpd
-    hmohguvgepshhmthhpohhuthdprhgtphhtthhopehhvhgvrhhkuhhilhdotghishgtohes
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhgrrhhssehmvghtrghfohhordguvgdprh
-    gtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehhvhgv
-    rhhkuhhilhesgihsgegrlhhlrdhnlhdprhgtphhtthhopehlrghurhgvnhhtrdhpihhntg
-    hhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinhhugidq
-    mhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqd
-    hrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:P1K4aPX-LgW7IR0kVaysa1-gyRXGKT9INkUONy04PnBrMur8I-L1aA>
-    <xmx:P1K4aGqnV3xbgS1JoOxo7NIrF2M3UnOARpi_qySI06vjfH14yH0rSA>
-    <xmx:P1K4aBlCAIerOytAOSdcZDcI4kpFeQWX9_K_6VPBUT_iTD84hIH8Ew>
-    <xmx:P1K4aG24c8jyOCecCQUlD8APdi9esfedkTO4Q2q2Zgh1ngyXXl7PDQ>
-    <xmx:P1K4aNYdOG5ee62GACrOrFUnSAncJ9T97DBV1M34x27ohP75LdqPEHQb>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 3 Sep 2025 10:35:42 -0400 (EDT)
-Date: Wed, 3 Sep 2025 16:35:39 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 00/11] media: adv7180: Improve the control over
- decoder power
-Message-ID: <20250903143539.GA1207681@ragnatech.se>
-References: <20250828160654.1467762-1-niklas.soderlund+renesas@ragnatech.se>
- <80d191a0-d978-4909-a0f2-d25cd9757d55@kernel.org>
+	s=arc-20240116; t=1756911101; c=relaxed/simple;
+	bh=ViULookCR7D8mwqL/cpGeW24wX8pHVj4M5klm/jS3Jc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Zphzy1rizRjmm3DHrVrB/72/D2MFO1leSu4kpGoxpFRzWwuitsY7jG89vKWM31BagIhRdm0YHsR7sb1YPC0C4fEkWuUYsJCASuCxfAVB3uckan0LZHMDhYKuSV1fSW3rrkW4u9ocAU5PJNGMLIEnyOMevveaQQ82melVTN3e3S8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hlVI0jyW; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-45b7d497ab9so392065e9.0;
+        Wed, 03 Sep 2025 07:51:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756911098; x=1757515898; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ONQCd5mtEfll1aSXZi1ZT7BJjKeR37O5uZEXbkjmGkU=;
+        b=hlVI0jyW4hknJQ8OIvPazTFDfBpxnW95f27ybAw6lwNngLwH7tqTnmvBnTGO65nqqv
+         7z2q4Jb7JHBNofqZghzeFmZndYAHsE9LQ6FsyiAKQQmsX0Fy6A5uAYxG6f3xHMqr52gL
+         Fcjpqq88Je6vzpoKOL9j+vOgmkpoTVyLaVeV/RbK4C0yjE+1ywplPoBm17Em1OBTy3x9
+         EJSHDtmfUZG9/Vs1Ox+QzhIRBr5P/hAqLHnJrYoqtL5ScAypsoPnTIZ79bTiGvUgKjMt
+         ad1fonRWn6pKOi9Z5RuaL1n6uq9T55P4GZV+hLZHlehirdIEAIjh2FAw9IgCYnLwX8hP
+         cyYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756911098; x=1757515898;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ONQCd5mtEfll1aSXZi1ZT7BJjKeR37O5uZEXbkjmGkU=;
+        b=hUQt2yvzr0TOorBGmL4sA85odD/HDzI89iYuCVoDwaGDD/LFwoP65N+I05P/f6ueZR
+         TmWsE8sr50rNxZIOJepj4FxJ/25ekQwqg7FG402Nri9atV+tjaAuFF1L5qjy2FP7pdn/
+         TcdT5apV4KEANB2BWg0snlm6RDOh1hJ7coV24YFI9TBLHor6udf37Cvr6p3OgdgdTMds
+         hFglBULlGkTPFDI1M863JoOZOrDDwzj5vdaQHjcQUjVwDbhYwy2/njeA5vxxlu714rS+
+         bUV6ft7qObspBBk0P4yzu5+zw3mg7765du7ymPFcvpoCLUWpz1Mefhlk5CYNW9WNBMRl
+         bvoA==
+X-Forwarded-Encrypted: i=1; AJvYcCVmu1f4Y+RkroND72H9BHz5mjhKiiGvp4resK4hjA3WL61Z7xxi/ojDsVFAq5PzRRWQR+bWwE5bgApG@vger.kernel.org, AJvYcCVrl4ZqS56farTcg60lxPsw/WOTxO56BLo86v3bXehoioDt9k552K0PP4s3cMUjk5ZOQKkwDjfLKN0pNRUf@vger.kernel.org, AJvYcCWvQGE3SwKN5UxQe6/YadUh6iudr9bVm277KBxs0f3dq2bGzPJKy8f9m75whKRv9/BrkFfdFP6EfHViMF7DyW2ePYI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3OQjB8sYliTHn8TL18kX6i28c1TD2reBfOhIhPQJ7BStrFz/P
+	CQX+icQrID5mZYNFi+7srkDR0sAYDkpXBCJgAYLYGPx/HgYrV53hbq5Qr2GlnVT9Y9NBtfWCKCM
+	Hg1LVyP3tyG1ODs64ZOom2dwkxcKKfMU=
+X-Gm-Gg: ASbGncswC/Ju6apEQILB1dSVBBf0cFQsAz71BySFiD5Wd871IroZoHT3GGfWQ83mHMf
+	8327OXcTuwn5dBGE+RRKxSqywNsn9gswxNwCwdtQY6AYLoq1xTB6d1iqpjxa7hIGWEBAcLuWhOq
+	IscD8q/eZMyOsztgM7DRNkxgqHmL5QwpG/8PBowZVNHV0OVWQOKUzBcN0SoRLMjirlNEyZB/Sdu
+	++ElRxvHlfoFKbFlKhbWMZgCZ80fkFpk8CThScyj36XbMP5PFA=
+X-Google-Smtp-Source: AGHT+IF942RsmZBPmgo3FojGihUawL7grgyK/Ea4c2cI/k4EUPA4isjdB4usMDdFUmdW6V7rpqqRgP7HQl8mgKVDfHY=
+X-Received: by 2002:a05:600c:45cb:b0:45b:8aa0:c7a with SMTP id
+ 5b1f17b1804b1-45b8aa00fa4mr135726905e9.30.1756911098143; Wed, 03 Sep 2025
+ 07:51:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <80d191a0-d978-4909-a0f2-d25cd9757d55@kernel.org>
+References: <20250821161946.1096033-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250821161946.1096033-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWPst=JAbyL43SZAHTrCR=wajs15JZXCH4kmM41cdAh5w@mail.gmail.com>
+In-Reply-To: <CAMuHMdWPst=JAbyL43SZAHTrCR=wajs15JZXCH4kmM41cdAh5w@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Wed, 3 Sep 2025 15:51:11 +0100
+X-Gm-Features: Ac12FXx3aixEQx6DWLJgwyjIlNe0YkYiwZL27VPA_flFqJGI6Hnl0U1LpWsC-Vg
+Message-ID: <CA+V-a8thD8ALr+tzyBC9kjuTw4iLbSn2UBLJC+zgo+HCa6yN+A@mail.gmail.com>
+Subject: Re: [PATCH 4/6] arm64: dts: renesas: r9a09g077: Add USB2.0 support
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Hans,
+Hi Geert,
 
-Thanks for your review effort!
+Thank you for the review.
 
-On 2025-09-03 10:46:11 +0200, Hans Verkuil wrote:
-> On 28/08/2025 18:06, Niklas Söderlund wrote:
-> > Hello,
-> > 
-> > This series started as an effort to fix issues with querystd. To do that
-> > it turned out the whole drivers design around how it controls the power
-> > to the video decoder block inside the chip had to be reworked. As a
-> > bonus this works removes the now deprecated .s_power callback from
-> > adv7180.
-> > 
-> > The adv7180 drivers comes from a time before media controller and all
-> > operation callbacks are, more or less, designed around the concept that
-> > a video device is the only user-space facing API. In that world a vdev
-> > would attached the subdevice, call .s_power and then perform format
-> > configuration using the other operation callbacks and then start
-> > streaming with .s_stream. Needles to say this mode of operation don't
-> > work well with media controller where the subdevices itself have a
-> > user-space API exposed thru a subdev device.
-> > 
-> > The initial problem I tried to solve (querystd) was that it stopped
-> > functioning as expected after the subdev had been used to stream once
-> > (.s_power(1), .s_power(0)). As it turns out different variants of the
-> > adv7180 device have different reset beaver for if its video decoder
-> > block is left running or powered off. On my device it was left running
-> > so querystd functioned the first time, but not after the video decoder
-> > had been switched off once by .s_power(0).
-> > 
-> > I first tried to fix this by introducing proper PM handling in the
-> > driver to be able to remove the .s_power callback. I quickly learnt the
-> > power on/off logic happening in the driver had noting to do with
-> > controlling power to the chip itself, but to control if the chips video
-> > decoder block was turned off.
-> > 
-> > When this block is powered on the device process video data, if there is
-> > a video source else it free runs. However when the block is turned off
-> > the device can still be configured, in fact some configuration requires
-> > it to be off.
-> > 
-> > For this reason I dropped the effort to add proper PM handling and
-> > treated the decoder power as a stream on/off switch. I still think
-> > proper PM handling would be beneficial for this driver but to not
-> > explode this already large series I left that for another time. Solving
-> > the issue around .s_power will make that work easier as well as other
-> > task such as converting to the v4l2_subdev active state API.
-> > 
-> > Patch 1/11 just moves code around to make the consecutive changes easier
-> > to read. Patch 2/11 fix a locking issues when suspending the device.
-> > Patch 3/11 and 4/11 improves the locking design to prepare to improve
-> > the driver.
-> > 
-> > Patch 5/11 make sure the device controls are always programmed after the
-> > device have been reset, fixing a possible issue when the device where
-> > resumed from system sleep.
-> > 
-> > Patches 6/11, 7/11 and 8/11 is the real change where the .s_power
-> > callback is reworked to fit the design of .s_stream instead.
-> > 
-> > And finally patch 9/11, 10/11 and 11/11 removes programming of the
-> > device from operation callbacks and solves the issue with querystd.
-> > 
-> > The work is tested on R-Car M2 together with a ADV7180 device.
-> > 
-> > See individual patches for changelog.
-> 
-> This series looks good to me, other than the one typo and the
-> control handler kAPI issue, but that can be done in a follow-up
-> series.
-> 
-> If you want I can take this series, let me know.
+On Wed, Sep 3, 2025 at 3:05=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68k=
+.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Thu, 21 Aug 2025 at 18:19, Prabhakar <prabhakar.csengg@gmail.com> wrot=
+e:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Add EHCI, OHCI, PHY and HSUSB nodes to RZ/T2H (R9A09G077) SoC DTSI.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Thanks for your patch!
+>
+> > --- a/arch/arm64/boot/dts/renesas/r9a09g077.dtsi
+> > +++ b/arch/arm64/boot/dts/renesas/r9a09g077.dtsi
+>
+> > +               hsusb: usb@92041000 {
+> > +                       compatible =3D "renesas,usbhs-r9a09g077";
+> > +                       reg =3D <0 0x92041000 0 0x10000>;
+>
+> "0x1000", as the region starting at 0x92043000 is marked reserved?
+> I can fix that while applying.
+>
+Ouch agreed, thank you for taking care of this (also for RZ/N2H patch).
 
-Thanks for pointing out the improvement in the kAPI, I agree with it.  
-But as you point out I can do that in follow up work so I would be happy 
-if you would take this series. Can you correct the typo while applying, 
-or would you prefer I send an undated series?
+Cheers,
+Prabhakar
 
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> > 
-> > Niklas Söderlund (11):
-> >   media: adv7180: Move adv7180_set_power() and init_device()
-> >   media: adv7180: Add missing lock in suspend callback
-> >   media: adv7180: Move state mutex handling outside init_device()
-> >   media: adv7180: Use v4l2-ctrls core to handle s_ctrl locking
-> >   media: adv7180: Setup controls every time the device is reset
-> >   media: adv7180: Power down decoder when configuring the device
-> >   media: adv7180: Split device initialization and reset
-> >   media: adv7180: Remove the s_power callback
-> >   media: adv7180: Do not write format to device in set_fmt
-> >   media: adv7180: Only validate format in s_std
-> >   media: adv7180: Only validate format in querystd
-> > 
-> >  drivers/media/i2c/adv7180.c | 338 +++++++++++++++++++-----------------
-> >  1 file changed, 174 insertions(+), 164 deletions(-)
-> > 
-> 
-
--- 
-Kind Regards,
-Niklas Söderlund
+> > +                       interrupts =3D <GIC_SPI 587 IRQ_TYPE_LEVEL_HIGH=
+>,
+> > +                                    <GIC_SPI 588 IRQ_TYPE_LEVEL_HIGH>,
+> > +                                    <GIC_SPI 589 IRQ_TYPE_LEVEL_HIGH>;
+> > +                       clocks =3D <&cpg CPG_MOD 408>;
+> > +                       phys =3D <&usb2_phy 3>;
+> > +                       phy-names =3D "usb";
+> > +                       power-domains =3D <&cpg>;
+> > +                       status =3D "disabled";
+> > +               };
+> > +
+> >                 sdhi0: mmc@92080000  {
+> >                         compatible =3D "renesas,sdhi-r9a09g077",
+> >                                      "renesas,sdhi-r9a09g057";
+>
+> The rest LGTM.
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
 
