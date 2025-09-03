@@ -1,757 +1,97 @@
-Return-Path: <linux-renesas-soc+bounces-21296-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21297-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3F88B42699
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 18:18:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 114D2B42718
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 18:41:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AD88F3AE31A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 16:18:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 81F941BC2E13
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 16:41:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C3AC2D063C;
-	Wed,  3 Sep 2025 16:17:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD54230100F;
+	Wed,  3 Sep 2025 16:40:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tlodw0RM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hZOZ8YC6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB1662C21F7;
-	Wed,  3 Sep 2025 16:17:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8883229B77C;
+	Wed,  3 Sep 2025 16:40:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756916259; cv=none; b=q3IFA5vV+SP4dHAkiHtHRQJANcWBuxt2XGXAWZyZt3fhGx4EfswxYHh2ftpC3zq1T6aawMQ6ifW3dF9iOTpfZJWy6JNUTJMvAJuotB30lgfVSRnivk7vXF70aLOVzAdQXrrr90g809Tyq19tSEcTKMesO8aamnYBb0K19wfd13g=
+	t=1756917659; cv=none; b=XwEs9JhzpDNUE8STZr6j/yCt+n7SYq6bs+nE0l9/FSDBZgvvu2pX4VkxKrolU8zqqXbL7Ukjhrfxz/Mre9Cm2+64wCeL6Wye++6SB+ekZhje6+Q/7+QhCN4yo+JSgrqOJjX1wLhjgo7Kd81Vh4W1bHjiwETqK2E3NmMwkG91Ee4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756916259; c=relaxed/simple;
-	bh=tMRwuCP6+qbTxZotVNThPWpgRaSNqmDfGbQ1LQ0djAs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OvoA/4Cf4U32/z9ZxZXGqd48bkV5CeEbD1bfIQzEU5UYGdPihL+fKjYiDJKXetN4cLh0NEinaXXPCZEodqRKQvu7B2oV8OulMBwXd+YQj6y09KLqgjvXgd+TcQGfmu6b2m6KN+m9mW4NWQul3LIcbqOUXMFZTSpRXbkZjzXKZTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tlodw0RM; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3d17f24d42fso125134f8f.1;
-        Wed, 03 Sep 2025 09:17:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756916255; x=1757521055; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q4HS16WWDh1ChbEkUIBdyeolgXj3/TLZPwNWVcgs6dY=;
-        b=Tlodw0RMKS1NAPS1kC5xY29B3An3fkN82pNHN4eenLnM+QMwh0uPaxsoCvR+W6Y8l3
-         ttZRAxr9VWowLpLI1fe3nrsiwewHFm+rUwTPS6KVO7EMFBiz+pLQhr1joCiIW2zqdrMJ
-         GirFil0kW4sS9UP3n6ANRIc+MFuZSTGDoJ/xDBiq0cAZKd+6LeD0XtdQkWVB3sEOu7PJ
-         7RbvlibyUbQgBRIUwpTAvqR8cYjy2M1u4u9+dwq6Z/TQhKFZ5/A845yUHTG0QELrgaG+
-         dCRsVEpux3uQ9kMivWbcqK+JXEEf1tCAR7GYsvh1hM/NfViZYQiLP0WYDQByAwQUfU1B
-         VLQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756916255; x=1757521055;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=q4HS16WWDh1ChbEkUIBdyeolgXj3/TLZPwNWVcgs6dY=;
-        b=dD+pHCZ147qR3JXRVLONk4ijnY6uo3jh0PiA/OtT6Ao83fERkOWZ8ZqlsCJIpqQE5T
-         NjihrDxGXfUshPY7QDagnvdIpSid7swjx5a04O2gyk39GVAYqpHyppli8S9pvzasjQFX
-         aekltwLYU9c04lXN7uJ8kzWXy2q3EML10jAFbDGQGMxKXf+8EVGsOxFEzibSn7CJM0CX
-         nrsp86URgKL+XTpGqoZN7rbtflKLemy6ouv9ETjHAP3i1fORMNlmP4kC4yJXIj90DHfP
-         8R1coqeynCbZnEA1rHapU+i78ycoxKm8jyKJB+wUAgebOQWLseFZHEpM4zRe2ZOvoFLn
-         qt7w==
-X-Forwarded-Encrypted: i=1; AJvYcCU/+LXHiv+ZhdI6w+r2PbjqSS6rCr7cFSHCzsGZq6lkTryFmmAa8Y3DWozKkjifgsTe31+XgzuWIV1g/Ml7utQmcK0=@vger.kernel.org, AJvYcCW97Vlu44snBzp2B5woI6+WjDJ3Ss5kit/5Dc8YMoqwEqKY3E4Lwi4+39yajsXb7OlPRXMRIuV7TWGu@vger.kernel.org, AJvYcCWDHuNfTzytIoVVj2bCsR/XNovji64A7eK+9TqwyCaztdwYFchHcqN37VRYeA354xFwdLb1e87mWqHoD4/r@vger.kernel.org, AJvYcCWiBJ+jmlaXFzcxVSApWL3kYnF5HFw8sFZwZYxMFdBx/YhO/Z5w9XlLlgZ7HlxYJ2kGIPGKrgA85dKf@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzh8B01zMhkCg/ADLWpUIh1GzXlUpQycWmOJvmU2rmFpP0n9MqI
-	3mjy3JoqlzZa5B9UPNMTdn3RmRjmhuvWRDkVQvUJExWLwxQ5z58idf6L
-X-Gm-Gg: ASbGncuT2tzNUxTPfgCz+4nU1T+a++aIPH96J1C0CbeLqAhRy14BlpyG71UFYMhJ5aP
-	kTtwZAgmoj+8SpE/M6Ug2j/A2IkHq48cJQC+iqFi/krHn54eaJJtDCUGi/FHEfSpqyoQVsFTQc9
-	IjPoMJrMgw75VMERAwZGLfuA0U6jhLhEFsmC/YTFmpJ7W7nPv8r99HilElsJp1la2LTSMNN8HG6
-	nFl0ihas2fpOltQAdRDPJAc/C8y1DyFYPrAG/sgy5Tlwla2cutJzs3PaWwQJi6hbWOvVoRzGSoO
-	/0arWPXXKfu8dDJxFX+p7oh1AXel2kLoIOfvZ9pItDSRMH188yAsi9QTgimNgYdBu/F0CimK6iR
-	DXpKuE4yVFC9wRsf9ViuhjKFjW8QJYbqz8NKuxyHataAIaGLG+rd93/Oo
-X-Google-Smtp-Source: AGHT+IG1lukqOxm8Spz471yZJ3IkhJ2oXGOlcsk+qwQ5oc2vC1O6X6Qe32OoyA9UJdjlbjQmA3MKWQ==
-X-Received: by 2002:a05:6000:144e:b0:3d4:eac4:9db2 with SMTP id ffacd0b85a97d-3d4eac4a063mr11453007f8f.5.1756916254647;
-        Wed, 03 Sep 2025 09:17:34 -0700 (PDT)
-Received: from iku.example.org ([2a06:5906:61b:2d00:9019:aa0f:b6e4:7952])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3db72983560sm5645734f8f.1.2025.09.03.09.17.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Sep 2025 09:17:34 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+	s=arc-20240116; t=1756917659; c=relaxed/simple;
+	bh=SsiclISk443zkOK/H3wMBLBs3D4jxyQEPB6xGixEaKM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LL/Wxzq7bmrygSVwyO/P/BFBTp+zOy4+Dv77R/LPKJNoGQ05vlXfpNiKAWzfUFlxhDJbx5IRvo7uITrFpHoCZw57VTGMJMgjxV5ys3s8sVFkMCTSkNlshEnRmsRdnFx5p11NfTvBDvCE1j1B7kqsuDLteGmF694c3UAETtGGGJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hZOZ8YC6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4A0BC4CEE7;
+	Wed,  3 Sep 2025 16:40:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756917658;
+	bh=SsiclISk443zkOK/H3wMBLBs3D4jxyQEPB6xGixEaKM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hZOZ8YC6UQdFrcZMTGlBg7kafdrpx+RnTT8cCfWGSESuJ8j4KdS0rbRM+1MCroxyU
+	 Z4pooXVOYQ8SHc0uWLKMQBmNq/Pr6E3VF+1zWS/bdtgxEidW2zi1wzC6/DSqrtNHKl
+	 5W9c4/IDSCOJ5fPusqW3HNNq1GdDRy/MjIFfFNIxzfDrWbdy8C36fkTDsQPSHYqXBD
+	 X7864DmEJ9Pq6D3WHYk9yxwcIGZEJyd4xh+EUuyrYS/h6Ivq732V22jN+9or3bvJ6F
+	 3T8eahvr8M7uHRyKBnNUxggnNLoE2mBbIupVTvjsIdzF2EWQZm/3Db4Z4127t0lEfw
+	 6SERT7dpGm/fQ==
+Date: Wed, 3 Sep 2025 11:40:57 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Matthew Gerlach <matthew.gerlach@altera.com>, netdev@vger.kernel.org,
+	Eric Dumazet <edumazet@google.com>,
 	linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v8 6/6] drm: renesas: rz-du: mipi_dsi: Add support for RZ/V2H(P) SoC
-Date: Wed,  3 Sep 2025 17:17:18 +0100
-Message-ID: <20250903161718.180488-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250903161718.180488-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20250903161718.180488-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Romain Gantois <romain.gantois@bootlin.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	linux-kernel@vger.kernel.org,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, devicetree@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	Conor Dooley <conor+dt@kernel.org>
+Subject: Re: [PATCH v2 1/2] dt-bindings: net: altr,socfpga-stmmac: Constrain
+ interrupts
+Message-ID: <175691765626.2450401.13914030815174267647.robh@kernel.org>
+References: <20250902154051.263156-3-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250902154051.263156-3-krzysztof.kozlowski@linaro.org>
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Add MIPI DSI support for the Renesas RZ/V2H(P) SoC. Compared to the
-RZ/G2L family, the RZ/V2H(P) requires dedicated D-PHY PLL programming,
-different clock configuration, and additional timing parameter handling.
-The driver introduces lookup tables and helpers for D-PHY timings
-(TCLK*, THS*, TLPX, and ULPS exit) as specified in the RZ/V2H(P) hardware
-manual. ULPS exit timing depends on the LPCLK rate and is now handled
-explicitly.
+On Tue, 02 Sep 2025 17:40:52 +0200, Krzysztof Kozlowski wrote:
+> STMMAC on SoCFPGA uses exactly one interrupt in in-kernel DTS and common
+> snps,dwmac.yaml binding is flexible, so define precise constraint for
+> this device.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> ---
+> 
+> Changes in v2:
+> 1. Minor typo in commit msg.
+> ---
+>  .../devicetree/bindings/net/altr,socfpga-stmmac.yaml       | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
 
-The implementation also adds support for 16 bpp RGB format, updates the
-clock setup path to use the RZ/V2H PLL divider limits, and provides new
-.dphy_init, .dphy_conf_clks, and .dphy_startup_late_init callbacks to
-match the RZ/V2H sequence.
-
-With these changes, the RZ/V2H(P) can operate the MIPI DSI interface in
-compliance with its hardware specification while retaining support for
-existing RZ/G2L platforms.
-
-Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v7->v8:
-- Updated commit message
-- Simplified check in rzv2h_mipi_dsi_dphy_init() for PLL parameters
-- Renamed start_index member to base_value in struct rzv2h_mipi_dsi_timings
-- Added comments in the code for DSI arrays and their usage
-- Added comments in the code for sleeps
-
-v6->v7:
-- Used the new apis for calculating the PLLDSI
-  parameters in the DSI driver.
-
-v5->v6:
-- Made use of GENMASK() macro for PLLCLKSET0R_PLL_*,
-  PHYTCLKSETR_* and PHYTHSSETR_* macros.
-- Replaced 10000000UL with 10 * MEGA
-- Renamed mode_freq_hz to mode_freq_khz in rzv2h_dsi_mode_calc
-- Replaced `i -= 1;` with `i--;`
-- Renamed RZV2H_MIPI_DPHY_FOUT_MIN_IN_MEGA to
-  RZV2H_MIPI_DPHY_FOUT_MIN_IN_MHZ and
-  RZV2H_MIPI_DPHY_FOUT_MAX_IN_MEGA to
-  RZV2H_MIPI_DPHY_FOUT_MAX_IN_MHZ.
-
-v4->v5:
-- No changes
-
-v3->v4
-- In rzv2h_dphy_find_ulpsexit() made the array static const.
-
-v2->v3:
-- Simplifed V2H DSI timings array to save space
-- Switched to use fsleep() instead of udelay()
-
-v1->v2:
-- Dropped unused macros
-- Added missing LPCLK flag to rzv2h_info
----
- .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 446 ++++++++++++++++++
- .../drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h   |  34 ++
- 2 files changed, 480 insertions(+)
-
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-index bb03b49b1e85..ed7ee5883c00 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-@@ -7,6 +7,7 @@
- 
- #include <linux/bitfield.h>
- #include <linux/clk.h>
-+#include <linux/clk/renesas-rzv2h-cpg-pll.h>
- #include <linux/delay.h>
- #include <linux/dma-mapping.h>
- #include <linux/io.h>
-@@ -46,6 +47,11 @@ struct rzg2l_mipi_dsi_hw_info {
- 			      u64 *hsfreq_millihz);
- 	unsigned int (*dphy_mode_clk_check)(struct rzg2l_mipi_dsi *dsi,
- 					    unsigned long mode_freq);
-+	struct {
-+		const struct rzv2h_pll_limits **limits;
-+		const u8 *table;
-+		const u8 table_size;
-+	} cpg_plldsi;
- 	u32 phy_reg_offset;
- 	u32 link_reg_offset;
- 	unsigned long min_dclk;
-@@ -53,6 +59,11 @@ struct rzg2l_mipi_dsi_hw_info {
- 	u8 features;
- };
- 
-+struct rzv2h_dsi_mode_calc {
-+	unsigned long mode_freq_khz;
-+	struct rzv2h_pll_pars dsi_parameters;
-+};
-+
- struct rzg2l_mipi_dsi {
- 	struct device *dev;
- 	void __iomem *mmio;
-@@ -75,11 +86,22 @@ struct rzg2l_mipi_dsi {
- 	unsigned int lanes;
- 	unsigned long mode_flags;
- 
-+	struct rzv2h_dsi_mode_calc mode_calc;
-+
- 	/* DCS buffer pointers when using external memory. */
- 	dma_addr_t dcs_buf_phys;
- 	u8 *dcs_buf_virt;
- };
- 
-+static const struct rzv2h_pll_limits rzv2h_plldsi_div_limits = {
-+	.fout = { .min = 80 * MEGA, .max = 1500 * MEGA },
-+	.fvco = { .min = 1050 * MEGA, .max = 2100 * MEGA },
-+	.m = { .min = 64, .max = 1023 },
-+	.p = { .min = 1, .max = 4 },
-+	.s = { .min = 0, .max = 5 },
-+	.k = { .min = -32768, .max = 32767 },
-+};
-+
- static inline struct rzg2l_mipi_dsi *
- bridge_to_rzg2l_mipi_dsi(struct drm_bridge *bridge)
- {
-@@ -194,6 +216,237 @@ static const struct rzg2l_mipi_dsi_timings rzg2l_mipi_dsi_global_timings[] = {
- 	},
- };
- 
-+/**
-+ * struct rzv2h_mipi_dsi_timings - Timing parameter table structure
-+ *
-+ * @hsfreq: Pointer to frequency threshold array
-+ * @len: Number of entries in the hsfreq array
-+ * @base_value: Base register value offset for this timing parameter
-+ *
-+ * Each timing parameter (TCLK*, THS*, etc.) has its own table with
-+ * frequency thresholds and corresponding base register values.
-+ */
-+struct rzv2h_mipi_dsi_timings {
-+	const u8 *hsfreq;
-+	u8 len;
-+	u8 base_value;
-+};
-+
-+/*
-+ * enum rzv2h_dsi_timing_idx - MIPI DSI timing parameter indices
-+ *
-+ * These enums correspond to different MIPI DSI PHY timing parameters.
-+ */
-+enum rzv2h_dsi_timing_idx {
-+	TCLKPRPRCTL,
-+	TCLKZEROCTL,
-+	TCLKPOSTCTL,
-+	TCLKTRAILCTL,
-+	THSPRPRCTL,
-+	THSZEROCTL,
-+	THSTRAILCTL,
-+	TLPXCTL,
-+	THSEXITCTL,
-+};
-+
-+/*
-+ * RZ/V2H(P) Frequency threshold lookup tables for D-PHY timing parameters
-+ *
-+ * - Each array contains frequency thresholds (in units of 10 Mbps),
-+ *   taken directly from the table 9.5-4 hardware manual.
-+ * - These thresholds define the frequency ranges for which timing
-+ *   register values must be programmed.
-+ * - The actual register value is calculated in
-+ *   rzv2h_dphy_find_timings_val():
-+ *
-+ *       register_value = timings->base_value + table_index
-+ *
-+ * Example (TCLKPRPRCTL, from HW manual):
-+ *   0-150 Mbps   -> index 0 -> register_value = base + 0 = 0 + 0 = 0
-+ *   151-260 Mbps -> index 1 -> register_value = base + 1 = 0 + 1 = 1
-+ *   261-370 Mbps -> index 2 -> register_value = base + 2 = 0 + 2 = 2
-+ *
-+ * Each of the following arrays corresponds to a specific timing
-+ * parameter (TCLKPRPRCTL, TCLKZEROCTL, TCLKPOSTCTL, etc.).
-+ */
-+static const u8 tclkprprctl[] = {
-+	15, 26, 37, 47, 58, 69, 79, 90, 101, 111, 122, 133, 143, 150,
-+};
-+
-+static const u8 tclkzeroctl[] = {
-+	9, 11, 13, 15, 18, 21, 23, 24, 25, 27, 29, 31, 34, 36, 38,
-+	41, 43, 45, 47, 50, 52, 54, 57, 59, 61, 63, 66, 68, 70, 73,
-+	75, 77, 79, 82, 84, 86, 89, 91, 93, 95, 98, 100, 102, 105,
-+	107, 109, 111, 114, 116, 118, 121, 123, 125, 127, 130, 132,
-+	134, 137, 139, 141, 143, 146, 148, 150,
-+};
-+
-+static const u8 tclkpostctl[] = {
-+	8, 21, 34, 48, 61, 74, 88, 101, 114, 128, 141, 150,
-+};
-+
-+static const u8 tclktrailctl[] = {
-+	14, 25, 37, 48, 59, 71, 82, 94, 105, 117, 128, 139, 150,
-+};
-+
-+static const u8 thsprprctl[] = {
-+	11, 19, 29, 40, 50, 61, 72, 82, 93, 103, 114, 125, 135, 146, 150,
-+};
-+
-+static const u8 thszeroctl[] = {
-+	18, 24, 29, 35, 40, 46, 51, 57, 62, 68, 73, 79, 84, 90,
-+	95, 101, 106, 112, 117, 123, 128, 134, 139, 145, 150,
-+};
-+
-+static const u8 thstrailctl[] = {
-+	10, 21, 32, 42, 53, 64, 75, 85, 96, 107, 118, 128, 139, 150,
-+};
-+
-+static const u8 tlpxctl[] = {
-+	13, 26, 39, 53, 66, 79, 93, 106, 119, 133, 146,	150,
-+};
-+
-+static const u8 thsexitctl[] = {
-+	15, 23, 31, 39, 47, 55, 63, 71, 79, 87,
-+	95, 103, 111, 119, 127, 135, 143, 150,
-+};
-+
-+/*
-+ * rzv2h_dsi_timings_tables - main timing parameter lookup table
-+ * Maps timing parameter enum to its frequency table, array length and
-+ * base register offset value.
-+ */
-+static const struct rzv2h_mipi_dsi_timings rzv2h_dsi_timings_tables[] = {
-+	[TCLKPRPRCTL] = {
-+		.hsfreq = tclkprprctl,
-+		.len = ARRAY_SIZE(tclkprprctl),
-+		.base_value = 0,
-+	},
-+	[TCLKZEROCTL] = {
-+		.hsfreq = tclkzeroctl,
-+		.len = ARRAY_SIZE(tclkzeroctl),
-+		.base_value = 2,
-+	},
-+	[TCLKPOSTCTL] = {
-+		.hsfreq = tclkpostctl,
-+		.len = ARRAY_SIZE(tclkpostctl),
-+		.base_value = 6,
-+	},
-+	[TCLKTRAILCTL] = {
-+		.hsfreq = tclktrailctl,
-+		.len = ARRAY_SIZE(tclktrailctl),
-+		.base_value = 1,
-+	},
-+	[THSPRPRCTL] = {
-+		.hsfreq = thsprprctl,
-+		.len = ARRAY_SIZE(thsprprctl),
-+		.base_value = 0,
-+	},
-+	[THSZEROCTL] = {
-+		.hsfreq = thszeroctl,
-+		.len = ARRAY_SIZE(thszeroctl),
-+		.base_value = 0,
-+	},
-+	[THSTRAILCTL] = {
-+		.hsfreq = thstrailctl,
-+		.len = ARRAY_SIZE(thstrailctl),
-+		.base_value = 3,
-+	},
-+	[TLPXCTL] = {
-+		.hsfreq = tlpxctl,
-+		.len = ARRAY_SIZE(tlpxctl),
-+		.base_value = 0,
-+	},
-+	[THSEXITCTL] = {
-+		.hsfreq = thsexitctl,
-+		.len = ARRAY_SIZE(thsexitctl),
-+		.base_value = 1,
-+	},
-+};
-+
-+/**
-+ * rzv2h_dphy_find_ulpsexit - Find ULP Exit timing value based on frequency
-+ * The function maps frequency ranges to ULP exit timing values.
-+ * Thresholds in the local hsfreq[] are expressed in Hz already.
-+ *
-+ * @freq: Input frequency in Hz
-+ *
-+ * Return: ULP exit timing value
-+ */
-+static u16 rzv2h_dphy_find_ulpsexit(unsigned long freq)
-+{
-+	/* Frequency thresholds in Hz for ULP exit timing selection */
-+	static const unsigned long hsfreq[] = {
-+		1953125UL,
-+		3906250UL,
-+		7812500UL,
-+		15625000UL,
-+	};
-+	/* Corresponding ULP exit timing values for each frequency range */
-+	static const u16 ulpsexit[] = {49, 98, 195, 391};
-+	unsigned int i;
-+
-+	/* Find the appropriate frequency range */
-+	for (i = 0; i < ARRAY_SIZE(hsfreq); i++) {
-+		if (freq <= hsfreq[i])
-+			break;
-+	}
-+
-+	 /* If frequency exceeds all thresholds, use the highest range */
-+	if (i == ARRAY_SIZE(hsfreq))
-+		i--;
-+
-+	return ulpsexit[i];
-+}
-+
-+/**
-+ * rzv2h_dphy_find_timings_val - Find timing parameter value from lookup tables
-+ * @freq: Input frequency in Hz
-+ * @index: Index to select timing parameter table (see enum rzv2h_dsi_timing_idx)
-+ *
-+ * Selects the timing table for the requested parameter, finds the
-+ * frequency range entry and returns the register value to program:
-+ *
-+ *   register_value = timings->base_value + table_index
-+ *
-+ * Note: frequency table entries are stored as small integers (units of 10):
-+ *       threshold_in_hz = (unsigned long)table_entry * 10 * MEGA
-+ *
-+ * Return: timing register value to be programmed into hardware
-+ */
-+static u16 rzv2h_dphy_find_timings_val(unsigned long freq, u8 index)
-+{
-+	const struct rzv2h_mipi_dsi_timings *timings;
-+	u16 i;
-+
-+	/* Get the timing table structure for the requested parameter */
-+	timings = &rzv2h_dsi_timings_tables[index];
-+
-+	/*
-+	 * Search through frequency table to find appropriate range
-+	 * timings->hsfreq[i] contains frequency values from HW manual
-+	 * Convert to Hz by multiplying by 10 * MEGA.
-+	 */
-+	for (i = 0; i < timings->len; i++) {
-+		unsigned long hsfreq = timings->hsfreq[i] * 10 * MEGA;
-+
-+		if (freq <= hsfreq)
-+			break;
-+	}
-+
-+	/* If frequency exceeds table range, use the last entry */
-+	if (i == timings->len)
-+		i--;
-+
-+	/*
-+	 * Calculate final register value:
-+	 * - timings->base_value: base value for this timing parameter
-+	 * - i: index into frequency table (0-based)
-+	 * Combined they give the exact register value to program
-+	 */
-+	return timings->base_value + i;
-+};
-+
- static void rzg2l_mipi_dsi_phy_write(struct rzg2l_mipi_dsi *dsi, u32 reg, u32 data)
- {
- 	iowrite32(data, dsi->mmio + dsi->info->phy_reg_offset + reg);
-@@ -318,6 +571,169 @@ static int rzg2l_dphy_conf_clks(struct rzg2l_mipi_dsi *dsi, unsigned long mode_f
- 	return 0;
- }
- 
-+static unsigned int rzv2h_dphy_mode_clk_check(struct rzg2l_mipi_dsi *dsi,
-+					      unsigned long mode_freq)
-+{
-+	u64 hsfreq_millihz, mode_freq_hz, mode_freq_millihz;
-+	struct rzv2h_pll_div_pars cpg_dsi_parameters;
-+	struct rzv2h_pll_pars dsi_parameters;
-+	bool parameters_found;
-+	unsigned int bpp;
-+
-+	bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
-+	mode_freq_hz = mul_u32_u32(mode_freq, KILO);
-+	mode_freq_millihz = mode_freq_hz * MILLI;
-+	parameters_found =
-+		rzv2h_get_pll_divs_pars(dsi->info->cpg_plldsi.limits[0],
-+					&cpg_dsi_parameters,
-+					dsi->info->cpg_plldsi.table,
-+					dsi->info->cpg_plldsi.table_size,
-+					mode_freq_millihz);
-+	if (!parameters_found)
-+		return MODE_CLOCK_RANGE;
-+
-+	hsfreq_millihz = DIV_ROUND_CLOSEST_ULL(cpg_dsi_parameters.div.freq_millihz * bpp,
-+					       dsi->lanes);
-+	parameters_found = rzv2h_get_pll_pars(&rzv2h_plldsi_div_limits,
-+					      &dsi_parameters, hsfreq_millihz);
-+	if (!parameters_found)
-+		return MODE_CLOCK_RANGE;
-+
-+	if (abs(dsi_parameters.error_millihz) >= 500)
-+		return MODE_CLOCK_RANGE;
-+
-+	memcpy(&dsi->mode_calc.dsi_parameters, &dsi_parameters, sizeof(dsi_parameters));
-+	dsi->mode_calc.mode_freq_khz = mode_freq;
-+
-+	return MODE_OK;
-+}
-+
-+static int rzv2h_dphy_conf_clks(struct rzg2l_mipi_dsi *dsi, unsigned long mode_freq,
-+				u64 *hsfreq_millihz)
-+{
-+	struct rzv2h_pll_pars *dsi_parameters = &dsi->mode_calc.dsi_parameters;
-+	unsigned long status;
-+
-+	if (dsi->mode_calc.mode_freq_khz != mode_freq) {
-+		status = rzv2h_dphy_mode_clk_check(dsi, mode_freq);
-+		if (status != MODE_OK) {
-+			dev_err(dsi->dev, "No PLL parameters found for mode clk %lu\n",
-+				mode_freq);
-+			return -EINVAL;
-+		}
-+	}
-+
-+	*hsfreq_millihz = dsi_parameters->freq_millihz;
-+
-+	return 0;
-+}
-+
-+static int rzv2h_mipi_dsi_dphy_init(struct rzg2l_mipi_dsi *dsi,
-+				    u64 hsfreq_millihz)
-+{
-+	struct rzv2h_pll_pars *dsi_parameters = &dsi->mode_calc.dsi_parameters;
-+	unsigned long lpclk_rate = clk_get_rate(dsi->lpclk);
-+	u32 phytclksetr, phythssetr, phytlpxsetr, phycr;
-+	struct rzg2l_mipi_dsi_timings dphy_timings;
-+	u16 ulpsexit;
-+	u64 hsfreq;
-+
-+	hsfreq = DIV_ROUND_CLOSEST_ULL(hsfreq_millihz, MILLI);
-+
-+	if (dsi_parameters->freq_millihz != hsfreq_millihz &&
-+	    !rzv2h_get_pll_pars(&rzv2h_plldsi_div_limits, dsi_parameters,
-+				hsfreq_millihz)) {
-+		dev_err(dsi->dev, "No PLL parameters found for HSFREQ %lluHz\n", hsfreq);
-+		return -EINVAL;
-+	}
-+
-+	dphy_timings.tclk_trail =
-+		rzv2h_dphy_find_timings_val(hsfreq, TCLKTRAILCTL);
-+	dphy_timings.tclk_post =
-+		rzv2h_dphy_find_timings_val(hsfreq, TCLKPOSTCTL);
-+	dphy_timings.tclk_zero =
-+		rzv2h_dphy_find_timings_val(hsfreq, TCLKZEROCTL);
-+	dphy_timings.tclk_prepare =
-+		rzv2h_dphy_find_timings_val(hsfreq, TCLKPRPRCTL);
-+	dphy_timings.ths_exit =
-+		rzv2h_dphy_find_timings_val(hsfreq, THSEXITCTL);
-+	dphy_timings.ths_trail =
-+		rzv2h_dphy_find_timings_val(hsfreq, THSTRAILCTL);
-+	dphy_timings.ths_zero =
-+		rzv2h_dphy_find_timings_val(hsfreq, THSZEROCTL);
-+	dphy_timings.ths_prepare =
-+		rzv2h_dphy_find_timings_val(hsfreq, THSPRPRCTL);
-+	dphy_timings.tlpx =
-+		rzv2h_dphy_find_timings_val(hsfreq, TLPXCTL);
-+	ulpsexit = rzv2h_dphy_find_ulpsexit(lpclk_rate);
-+
-+	phytclksetr = FIELD_PREP(PHYTCLKSETR_TCLKTRAILCTL, dphy_timings.tclk_trail) |
-+		      FIELD_PREP(PHYTCLKSETR_TCLKPOSTCTL, dphy_timings.tclk_post) |
-+		      FIELD_PREP(PHYTCLKSETR_TCLKZEROCTL, dphy_timings.tclk_zero) |
-+		      FIELD_PREP(PHYTCLKSETR_TCLKPRPRCTL, dphy_timings.tclk_prepare);
-+	phythssetr = FIELD_PREP(PHYTHSSETR_THSEXITCTL, dphy_timings.ths_exit) |
-+		     FIELD_PREP(PHYTHSSETR_THSTRAILCTL, dphy_timings.ths_trail) |
-+		     FIELD_PREP(PHYTHSSETR_THSZEROCTL, dphy_timings.ths_zero) |
-+		     FIELD_PREP(PHYTHSSETR_THSPRPRCTL, dphy_timings.ths_prepare);
-+	phytlpxsetr = rzg2l_mipi_dsi_phy_read(dsi, PHYTLPXSETR) & ~PHYTLPXSETR_TLPXCTL;
-+	phytlpxsetr |= FIELD_PREP(PHYTLPXSETR_TLPXCTL, dphy_timings.tlpx);
-+	phycr = rzg2l_mipi_dsi_phy_read(dsi, PHYCR) & ~GENMASK(9, 0);
-+	phycr |= FIELD_PREP(PHYCR_ULPSEXIT, ulpsexit);
-+
-+	/* Setting all D-PHY Timings Registers */
-+	rzg2l_mipi_dsi_phy_write(dsi, PHYTCLKSETR, phytclksetr);
-+	rzg2l_mipi_dsi_phy_write(dsi, PHYTHSSETR, phythssetr);
-+	rzg2l_mipi_dsi_phy_write(dsi, PHYTLPXSETR, phytlpxsetr);
-+	rzg2l_mipi_dsi_phy_write(dsi, PHYCR, phycr);
-+
-+	rzg2l_mipi_dsi_phy_write(dsi, PLLCLKSET0R,
-+				 FIELD_PREP(PLLCLKSET0R_PLL_S, dsi_parameters->s) |
-+				 FIELD_PREP(PLLCLKSET0R_PLL_P, dsi_parameters->p) |
-+				 FIELD_PREP(PLLCLKSET0R_PLL_M, dsi_parameters->m));
-+	rzg2l_mipi_dsi_phy_write(dsi, PLLCLKSET1R,
-+				 FIELD_PREP(PLLCLKSET1R_PLL_K, dsi_parameters->k));
-+
-+	/*
-+	 * From RZ/V2H HW manual (Rev.1.20) section 9.5.3 Operation,
-+	 * (C) After write to D-PHY registers we need to wait for more than 1 x tp
-+	 *
-+	 * tp = 1 / (PLLREFCLK / PLLCLKSET0R.PLL_P)
-+	 * PLLREFCLK = 24MHz
-+	 * PLLCLKSET0R.PLL_P = {1, 2, 3, 4}
-+	 *
-+	 * To handle all the cases lets use PLLCLKSET0R.PLL_P = 4
-+	 * tp = 1 / (24MHz / 4) = 1 / 6MHz = 166.67ns
-+	 */
-+	ndelay(200);
-+
-+	rzg2l_mipi_dsi_phy_write(dsi, PLLENR, PLLENR_PLLEN);
-+	/*
-+	 * From RZ/V2H HW manual (Rev.1.20) section 9.5.3 Operation,
-+	 * (D) After write to PLLENR.PLLEN we need to wait for more than 3000 x tp
-+	 *
-+	 * 3000 x tp = 3000 x 0.16667 ns = 500.01 microseconds
-+	 */
-+	usleep_range(510, 520);
-+
-+	return 0;
-+}
-+
-+static void rzv2h_mipi_dsi_dphy_startup_late_init(struct rzg2l_mipi_dsi *dsi)
-+{
-+	/*
-+	 * From RZ/V2H HW manual (Rev.1.20) section 9.5.3 Operation,
-+	 * (E) After write to TXSETR we need to wait for more than 200 microseconds
-+	 * and then write to PHYRSTR
-+	 */
-+	usleep_range(210, 220);
-+	rzg2l_mipi_dsi_phy_write(dsi, PHYRSTR, PHYRSTR_PHYMRSTN);
-+}
-+
-+static void rzv2h_mipi_dsi_dphy_exit(struct rzg2l_mipi_dsi *dsi)
-+{
-+	rzg2l_mipi_dsi_phy_write(dsi, PLLENR, 0);
-+}
-+
- static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
- 				  const struct drm_display_mode *mode)
- {
-@@ -430,6 +846,9 @@ static void rzg2l_mipi_dsi_set_display_timing(struct rzg2l_mipi_dsi *dsi,
- 	case 18:
- 		vich1ppsetr = VICH1PPSETR_DT_RGB18;
- 		break;
-+	case 16:
-+		vich1ppsetr = VICH1PPSETR_DT_RGB16;
-+		break;
- 	}
- 
- 	if ((dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE) &&
-@@ -1056,6 +1475,32 @@ static void rzg2l_mipi_dsi_remove(struct platform_device *pdev)
- 	pm_runtime_disable(&pdev->dev);
- }
- 
-+RZV2H_CPG_PLL_DSI_LIMITS(rzv2h_cpg_pll_dsi_limits);
-+
-+static const struct rzv2h_pll_limits *rzv2h_plldsi_limits[] = {
-+	&rzv2h_cpg_pll_dsi_limits,
-+};
-+
-+static const u8 rzv2h_cpg_div_table[] = {
-+	2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32,
-+};
-+
-+static const struct rzg2l_mipi_dsi_hw_info rzv2h_mipi_dsi_info = {
-+	.dphy_init = rzv2h_mipi_dsi_dphy_init,
-+	.dphy_startup_late_init = rzv2h_mipi_dsi_dphy_startup_late_init,
-+	.dphy_exit = rzv2h_mipi_dsi_dphy_exit,
-+	.dphy_mode_clk_check = rzv2h_dphy_mode_clk_check,
-+	.dphy_conf_clks = rzv2h_dphy_conf_clks,
-+	.cpg_plldsi.limits = rzv2h_plldsi_limits,
-+	.cpg_plldsi.table = rzv2h_cpg_div_table,
-+	.cpg_plldsi.table_size = ARRAY_SIZE(rzv2h_cpg_div_table),
-+	.phy_reg_offset = 0x10000,
-+	.link_reg_offset = 0,
-+	.min_dclk = 5440,
-+	.max_dclk = 187500,
-+	.features = RZ_MIPI_DSI_FEATURE_16BPP,
-+};
-+
- static const struct rzg2l_mipi_dsi_hw_info rzg2l_mipi_dsi_info = {
- 	.dphy_init = rzg2l_mipi_dsi_dphy_init,
- 	.dphy_exit = rzg2l_mipi_dsi_dphy_exit,
-@@ -1066,6 +1511,7 @@ static const struct rzg2l_mipi_dsi_hw_info rzg2l_mipi_dsi_info = {
- };
- 
- static const struct of_device_id rzg2l_mipi_dsi_of_table[] = {
-+	{ .compatible = "renesas,r9a09g057-mipi-dsi", .data = &rzv2h_mipi_dsi_info, },
- 	{ .compatible = "renesas,rzg2l-mipi-dsi", .data = &rzg2l_mipi_dsi_info, },
- 	{ /* sentinel */ }
- };
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
-index d8082a87d874..2bef20566648 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
-@@ -40,6 +40,39 @@
- #define DSIDPHYTIM3_THS_TRAIL(x)	((x) << 8)
- #define DSIDPHYTIM3_THS_ZERO(x)		((x) << 0)
- 
-+/* RZ/V2H DPHY Registers */
-+#define PLLENR				0x000
-+#define PLLENR_PLLEN			BIT(0)
-+
-+#define PHYRSTR				0x004
-+#define PHYRSTR_PHYMRSTN		BIT(0)
-+
-+#define PLLCLKSET0R			0x010
-+#define PLLCLKSET0R_PLL_S		GENMASK(2, 0)
-+#define PLLCLKSET0R_PLL_P		GENMASK(13, 8)
-+#define PLLCLKSET0R_PLL_M		GENMASK(25, 16)
-+
-+#define PLLCLKSET1R			0x014
-+#define PLLCLKSET1R_PLL_K		GENMASK(15, 0)
-+
-+#define PHYTCLKSETR			0x020
-+#define PHYTCLKSETR_TCLKTRAILCTL        GENMASK(7, 0)
-+#define PHYTCLKSETR_TCLKPOSTCTL         GENMASK(15, 8)
-+#define PHYTCLKSETR_TCLKZEROCTL         GENMASK(23, 16)
-+#define PHYTCLKSETR_TCLKPRPRCTL         GENMASK(31, 24)
-+
-+#define PHYTHSSETR			0x024
-+#define PHYTHSSETR_THSEXITCTL           GENMASK(7, 0)
-+#define PHYTHSSETR_THSTRAILCTL          GENMASK(15, 8)
-+#define PHYTHSSETR_THSZEROCTL           GENMASK(23, 16)
-+#define PHYTHSSETR_THSPRPRCTL           GENMASK(31, 24)
-+
-+#define PHYTLPXSETR			0x028
-+#define PHYTLPXSETR_TLPXCTL             GENMASK(7, 0)
-+
-+#define PHYCR				0x030
-+#define PHYCR_ULPSEXIT                  GENMASK(9, 0)
-+
- /* --------------------------------------------------------*/
- 
- /* Link Status Register */
-@@ -130,6 +163,7 @@
- 
- /* Video-Input Channel 1 Pixel Packet Set Register */
- #define VICH1PPSETR			0x420
-+#define VICH1PPSETR_DT_RGB16		(0x0e << 16)
- #define VICH1PPSETR_DT_RGB18		(0x1e << 16)
- #define VICH1PPSETR_DT_RGB18_LS		(0x2e << 16)
- #define VICH1PPSETR_DT_RGB24		(0x3e << 16)
--- 
-2.51.0
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
 
