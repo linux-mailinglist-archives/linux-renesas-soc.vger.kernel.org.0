@@ -1,204 +1,132 @@
-Return-Path: <linux-renesas-soc+bounces-21277-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21278-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4E8AB4215A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 15:26:05 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9BADB421EF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 15:37:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 52CD03A4FCC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 13:25:40 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id DC37A4E2F5C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 13:37:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58E78302779;
-	Wed,  3 Sep 2025 13:25:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB0013093CD;
+	Wed,  3 Sep 2025 13:37:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fppeuxr2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DfKs6bwJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF6930100A;
-	Wed,  3 Sep 2025 13:25:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC092EACE2;
+	Wed,  3 Sep 2025 13:37:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756905936; cv=none; b=sq0RyJsnf4UnvQ0aLJYjsYXBAyX528o20iI/lGIT3cdsO3NdzCtZKljP/MgQHr0JzFWONTnGFLpfYzIwEUktu9KhOPvZiJZM+LCWmZWCZwfSE981h4/+N6IRYrzREYvzu8XmTufG7CRnEydyKBG/j0iWdYlW5LGnEzK1UcpYwYI=
+	t=1756906661; cv=none; b=CMKS8k080mqm+O8nZXrLqLCDNcsoLKfohAtB4ZR/JinYuun5vFrsY8LXu9TLDxQL2vt7UMUf8N6B5AQZ2oaiHT1Htp/urzbUhZyanIgt4A55yk963ehK5FGZkWQbn0ookDIhFHNDEHKV7dfk6BSQcP2YncQhYZY3Jpwal7WkP8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756905936; c=relaxed/simple;
-	bh=LahPxxsFg6l59qbeOzrTE1d/6xGMndEUs1/iv+M2mpA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G10cb2mxduVLZXnKmhl+zq9h38ke1qmSNbAB8HV4jRD0BDbrcVJhzxEDxgsxDPRWETDauguhZreKHeZO6u031I5vQa5KqUixhYnZk8AiSxApSXyFUYNrAO4uq9zO3SNydZ9T61F/NoUAhWQU0rjYq6+h7VTX1luj5WfF1UMkJkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fppeuxr2; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756905934; x=1788441934;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LahPxxsFg6l59qbeOzrTE1d/6xGMndEUs1/iv+M2mpA=;
-  b=Fppeuxr25Ur/Z86f2B3WugWG/a9vqhM6uvfRHXNCVETvWuj2c1PrxP/X
-   FhRQZNigdx/JacuH5W0C1ScU2k7yDDjUwATX49Xv1S+kA8xT+GuDhqaMW
-   h5iiHc3Vfwna6EmsDZ3UZQKUuGD+A0nZGi+j+bEZ8mnbcyga/New4VrPd
-   yVqtFBY9xQ8yrerEfzXkl/RJ/37NNucRVBT0VCQJeImoveyiw7HIE8Znw
-   Y87BM+BsLOMkUe/FbnijKWIgZx9ETFZV2K8HMMlriPqtkTv9ZtQx3nqyQ
-   wwu6H7LOeiCE/kGnVDythBzTV4tMw66Vxx3n2stJ8V5eGgGsidkPGi/Oo
-   g==;
-X-CSE-ConnectionGUID: TJoSgmhTRq2o2hIPytUdiA==
-X-CSE-MsgGUID: hsJDom0/TQ2YMiF43BhqsA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="70647392"
-X-IronPort-AV: E=Sophos;i="6.18,235,1751266800"; 
-   d="scan'208";a="70647392"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 06:25:33 -0700
-X-CSE-ConnectionGUID: Ma4BX8/rSESlgghxFULMkw==
-X-CSE-MsgGUID: QBju9m/qQcWUy7qJM1NEGg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,235,1751266800"; 
-   d="scan'208";a="195226899"
-Received: from cpetruta-mobl1.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.244.22])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 06:25:20 -0700
-Date: Wed, 3 Sep 2025 15:25:12 +0200
-From: Mehdi Djait <mehdi.djait@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Andi Shyti <andi.shyti@kernel.org>, =?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Arec Kao <arec.kao@intel.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
-	Bingbu Cao <bingbu.cao@intel.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Bryan O'Donoghue <bod@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Daniel Scally <djrscally@gmail.com>, devicetree@vger.kernel.org, 
-	Dongcheng Yan <dongcheng.yan@intel.com>, Dongchun Zhu <dongchun.zhu@mediatek.com>, 
-	Fabio Estevam <festevam@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Hans de Goede <hansg@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, imx@lists.linux.dev, Jacopo Mondi <jacopo@jmondi.org>, 
-	Jason Chen <jason.z.chen@intel.com>, Jimmy Su <jimmy.su@intel.com>, 
-	Jingjing Xiong <jingjing.xiong@intel.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Leon Luo <leonl@leopardimaging.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org, linux-omap@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
-	Loic Poulain <loic.poulain@oss.qualcomm.com>, Magnus Damm <magnus.damm@gmail.com>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Mark Brown <broonie@kernel.org>, Matthew Majewski <mattwmajewski@gmail.com>, 
-	Mikhail Rudenko <mike.rudenko@gmail.com>, Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, Pavel Machek <pavel@kernel.org>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Robert Foss <rfoss@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Shawn Guo <shawnguo@kernel.org>, Shunqian Zheng <zhengsq@rock-chips.com>, 
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
-	Tarang Raval <tarang.raval@siliconsignals.io>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
-	Todor Tomov <todor.too@gmail.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Tony Lindgren <tony@atomide.com>, Zhi Mao <zhi.mao@mediatek.com>
-Subject: Re: [PATCH v2 00/72] media: i2c: Reduce cargo-cult
-Message-ID: <64alk4uwvdw6cejheukim7pfz7pabccuaqxlerr7mul6mqi5lf@feuimtlm4vxe>
-References: <20250812214620.30425-1-laurent.pinchart@ideasonboard.com>
+	s=arc-20240116; t=1756906661; c=relaxed/simple;
+	bh=4Pv/lZEmRfsRDnM/wSl9bsAh9CeiyqAEPN2KUA1IfR8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=knFOwwrS/18T/zJIkOO4u/78uKBlgllsW8bPLP5gKxt7T/TNEsKLx9acMov/1VJEVyAUzASxGxEywMbLrx7QbrKFe8uS2UXRtY6kua8tQpPtlglJj5087AbzjuVqTiKGptQWx7QrRJ0Z593fmiw1yRewdmrMcA2mgYFZCxvCRhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DfKs6bwJ; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-24a9cc916b3so36962525ad.0;
+        Wed, 03 Sep 2025 06:37:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756906659; x=1757511459; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=j0IPIvNKxRX3PZ8lrrWw+UHXMJcK73G3kVKGuC4cM1o=;
+        b=DfKs6bwJkfyX+MH4pxXtcjOG53XUyaKhXkoq9lExEPK6Kf2FI/PsuGdZSw3lSEUhCg
+         Is2pe459S1kKCHjqYuK6RHmqsw0S6hXNWtHIwls9Rjvg18dfF7VxSnirJUL2eECnO0u2
+         ZCZENTJD8K79PaIzSXRqbnDvCDcuiPx1xbsj7pnIlSULhQt6Paq088JbbTpg6EhVTXDn
+         QiYlijyKfWhdGemMf9NGX1lgA7i2KzDcF5NaTOvSosDwMfBlZaVM2kR02xMFq6BWI0Kr
+         ZxlC+Q1iepgRmJ0uJZM96rDdhpZHYW5B3WmFi4z64gmCW6LZ7rX51czXLyYVvGIsWT2O
+         /fBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756906659; x=1757511459;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=j0IPIvNKxRX3PZ8lrrWw+UHXMJcK73G3kVKGuC4cM1o=;
+        b=trUOZnFcuRkEjxvSs2MN5Q8138MFGF0esZd1oUq8fibvFeOWXfsOhAOGrkaAS8Lrrf
+         L4duJgv4S2BOKKXyA6I/H+QpV25VUAQt/PmZ79I/JSsEk9bxstN24cqf9ex0FjJRmkVP
+         wQJQJB9uzzvpwU4cg/9+3VqJKMLCGqpdDnQ3zAf4zxm1EnBBAOcDkkWjoBWBo61Rlkv7
+         RMVLukIxqZT9NPgVMRC3RZAnRR4A2i6sOcf2OcjJVMhB/b1FKoH/6GAlTVOJ//oAm7JB
+         F0KcBXOkeqNUPOcl/HUmwjIV+47ZREwQIMzFZ0FJutQ7iMN3b2AtUrYngkZboHyG3wHA
+         mTPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV9ENQ9QAfF0Ehz/UX7zIAWBg5+XW076YzBRjUJjHbdHPncS9tIDwC+Qkzgk7bN44MDSRTTd2xTFrnE3uDmxe1l07A=@vger.kernel.org, AJvYcCVZv815wdiT8roUtwQSVHVWjm2QZ5w4VP2KLlEJATTS5Frs4xUI7XYVcO1M3FlE0/SxZsivXYq2c9znEnk=@vger.kernel.org, AJvYcCXP/p5DTFQNJMWw1BiND/C9RVxawkQBxCCLtVTi9AkU8SQLY0nxvvKQVknGfLxZlHXcSNb63bf6@vger.kernel.org, AJvYcCXnW0qmWGL+HCahHpbLhnWmUryEqdnhp4jI+7cL1c/cbDBb9CYWg/N/pMZpVvdhVatxAitPHGq87Ybf9KU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9qio5D86UdaLbo21knMfeMGT9BOVbyJTLQ4/c/njYhPH/L0NT
+	jhs7hhT5ENGPqKBDR8gydyL34kUTkE4tqClqi9Zie0xkBdDKCJNr//6K
+X-Gm-Gg: ASbGncuTYmZGoInsLESgTT+yB9gtz5bU1jorVzdhIJ75ZWX5UFuap/uqsKEe52VNrRV
+	fyTWJ9xCWuXIrR4LYiPfO4d4/otZ8q4h+xWelPWQoIMCd6smFTSHREsh43e5P94K6U8qv2P+QJq
+	hjvR4V5K4i07wP+VUuzpEGc0J36KS/00Vtgt7gcjNiohAQglKITYL4CdHSEGp8hXv6HD7YUwC68
+	aV7i0pkVF5z1+FglronqUMflLb4BFbqtW/pM6F1R0E4mHJ2DCNpG9wDqefLgjxKGG4yv3tzQSDG
+	AXu0iUVxpdV1Lfi/gFjUAz5IOgzlMXD/GS7YLZ7e9v1hzBsLMkgfZb1X8gFYQsCCXmA9k4bT1vv
+	p0dM3Y1xKeKZIE+feCDKVvJNHbvAtgI0LhwNBe5C24hUJVmgvN/hyWCvbKMhHUTj5gDpfWwd1K0
+	c3B+pEvEpQLpQEmfNnb2t+ovXqrTpxbiPqOjeM28Sv6ojJ/i4l4rm27KxU
+X-Google-Smtp-Source: AGHT+IE3ddf9hK7F0KaN7V3DmayhHVnNCIX3cwwbaTIxo3HIL3JNiS8r9JtynDMZISXdX38A9mDSzA==
+X-Received: by 2002:a17:902:d4d2:b0:24a:8d33:96da with SMTP id d9443c01a7336-24a8d339826mr201854925ad.40.1756906658477;
+        Wed, 03 Sep 2025 06:37:38 -0700 (PDT)
+Received: from vickymqlin-1vvu545oca.codev-2.svc.cluster.local ([14.116.239.35])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-24c9e39094dsm16152645ad.84.2025.09.03.06.37.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Sep 2025 06:37:38 -0700 (PDT)
+From: Miaoqian Lin <linmq006@gmail.com>
+To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Ramesh Shanmugasundaram <ramesh.shanmugasundaram@bp.renesas.com>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: linmq006@gmail.com,
+	stable@vger.kernel.org
+Subject: [PATCH] media: renesas: rcar_drif: fix device node reference leak in rcar_drif_bond_enabled
+Date: Wed,  3 Sep 2025 21:37:29 +0800
+Message-Id: <20250903133729.2523130-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250812214620.30425-1-laurent.pinchart@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 
-Hello Laurent,
+The function calls of_parse_phandle() which returns
+a device node with an incremented reference count. When the bonded device
+is not available, the function
+returns NULL without releasing the reference, causing a reference leak.
 
-Thank you for the patches!
+Add of_node_put(np) to release the device node reference.
+The of_node_put function handles NULL pointers.
 
-On Wed, Aug 13, 2025 at 12:45:08AM +0300, Laurent Pinchart wrote:
+Found through static analysis by reviewing the doc of of_parse_phandle()
+and cross-checking its usage patterns across the codebase.
 
-[..]
+Fixes: 7625ee981af1 ("[media] media: platform: rcar_drif: Add DRIF support")
+Cc: stable@vger.kernel.org
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+ drivers/media/platform/renesas/rcar_drif.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-> Laurent Pinchart (72):
->   dt-bindings: media: Deprecate clock-frequency property for camera
->     sensors
->   dt-bindings: media: et8ek8: Deprecate clock-frequency property
->   dt-bindings: media: imx258: Make clocks property required
->   dt-bindings: media: imx274: Make clocks property required
->   media: i2c: mt9v022: Drop unused mt9v022.h header
->   media: i2c: mt9v032: Replace client->dev usage
->   media: i2c: mt9v032: Drop support for platform data
->   media: i2c: mt9v111: Do not set clock rate manually
->   media: i2c: ov6650: Drop unused driver
->   media: i2c: hi556: Replace client->dev usage
->   media: i2c: hi556: Use V4L2 sensor clock helper
->   media: i2c: hi847: Replace client->dev usage
->   media: i2c: hi847: Use V4L2 sensor clock helper
->   media: i2c: imx208: Replace client->dev usage
->   media: i2c: imx208: Use V4L2 sensor clock helper
->   media: i2c: imx319: Replace client->dev usage
->   media: i2c: imx319: Use V4L2 sensor clock helper
->   media: i2c: imx355: Replace client->dev usage
->   media: i2c: imx335: Use V4L2 sensor clock helper
->   media: i2c: og01a1b: Replace client->dev usage
->   media: i2c: og01a1b: Use V4L2 sensor clock helper
->   media: i2c: ov02c10: Replace client->dev usage
->   media: i2c: ov02c10: Use V4L2 sensor clock helper
->   media: i2c: ov02e10: Replace client->dev usage
->   media: i2c: ov02e10: Use V4L2 sensor clock helper
->   media: i2c: ov08d10: Replace client->dev usage
->   media: i2c: ov08d10: Use V4L2 sensor clock helper
->   media: i2c: ov08x40: Replace client->dev usage
->   media: i2c: ov08x40: Use V4L2 sensor clock helper
->   media: i2c: ov13858: Replace client->dev usage
->   media: i2c: ov13858: Use V4L2 sensor clock helper
->   media: i2c: ov13b10: Replace client->dev usage
->   media: i2c: ov13b10: Use V4L2 sensor clock helper
->   media: i2c: ov2740: Replace client->dev usage
->   media: i2c: ov2740: Use V4L2 sensor clock helper
->   media: i2c: ov4689: Use V4L2 sensor clock helper
->   media: i2c: ov5670: Replace client->dev usage
->   media: i2c: ov5670: Use V4L2 sensor clock helper
->   media: i2c: ov5675: Replace client->dev usage
->   media: i2c: ov5675: Use V4L2 sensor clock helper
->   media: i2c: ov5693: Use V4L2 sensor clock helper
->   media: i2c: ov7251: Use V4L2 sensor clock helper
->   media: i2c: ov9734: Replace client->dev usage
->   media: i2c: ov9734: Use V4L2 sensor clock helper
->   media: v4l2-common: Add legacy camera sensor clock helper
->   media: i2c: et8ek8: Drop support for per-mode external clock frequency
->   media: i2c: et8ek8: Use V4L2 legacy sensor clock helper
->   media: i2c: gc05a2: Use V4L2 legacy sensor clock helper
->   media: i2c: gc08a3: Use V4L2 legacy sensor clock helper
->   media: i2c: imx258: Replace client->dev usage
->   media: i2c: imx258: Use V4L2 legacy sensor clock helper
->   media: i2c: imx290: Use V4L2 legacy sensor clock helper
->   media: i2c: ov02a10: Replace client->dev usage
->   media: i2c: ov02a10: Use V4L2 legacy sensor clock helper
->   media: i2c: ov2685: Use V4L2 legacy sensor clock helper
->   media: i2c: ov5645: Use V4L2 legacy sensor clock helper
->   media: i2c: ov5695: Use V4L2 legacy sensor clock helper
->   media: i2c: ov8856: Replace client->dev usage
->   media: i2c: ov8856: Use V4L2 legacy sensor clock helper
->   media: i2c: s5c73m3: Use V4L2 legacy sensor clock helper
->   media: i2c: s5k5baf: Use V4L2 legacy sensor clock helper
->   media: i2c: s5k6a3: Use V4L2 legacy sensor clock helper
->   ARM: dts: samsung: exynos4210-i9100: Replace clock-frequency in camera
->     sensor node
->   ARM: dts: samsung: exynos4412-midas: Replace clock-frequency in camera
->     sensor node
->   ARM: dts: ti: omap3-n950: Replace clock-frequency in camera sensor
->     node
->   ARM: dts: ti: omap3-n9: Replace clock-frequency in camera sensor node
->   ARM: dts: ti: omap3-n900: Replace clock-frequency in camera sensor
->     node
->   ARM: dts: nxp: imx6qdl-pico: Replace clock-frequency in camera sensor
->     node
->   ARM: dts: nxp: imx6qdl-wandboard: Replace clock-frequency in camera
->     sensor node
->   arm64: dts: qcom: sdm845-db845c-navigation-mezzanine: Replace
->     clock-frequency in camera sensor node
->   arm64: dts: renesas: aistarvision-mipi-adapter-2.1: Drop
->     clock-frequency from camera sensor node
->   arm64: dts: renesas: rzg2l-smarc: Drop clock-frequency from camera
->     sensor node
+diff --git a/drivers/media/platform/renesas/rcar_drif.c b/drivers/media/platform/renesas/rcar_drif.c
+index fc8b6bbef793..c5d676eb1091 100644
+--- a/drivers/media/platform/renesas/rcar_drif.c
++++ b/drivers/media/platform/renesas/rcar_drif.c
+@@ -1246,6 +1246,7 @@ static struct device_node *rcar_drif_bond_enabled(struct platform_device *p)
+ 	if (np && of_device_is_available(np))
+ 		return np;
+ 
++	of_node_put(np);
+ 	return NULL;
+ }
+ 
+-- 
+2.35.1
 
-Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com>
-
---
-Kind Regards
-Mehdi Djait
 
