@@ -1,47 +1,43 @@
-Return-Path: <linux-renesas-soc+bounces-21348-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21349-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44D9FB4408F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 17:26:52 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99A16B440A3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 17:30:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA8973B0583
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 15:25:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0ED51B603D5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 15:28:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C019247283;
-	Thu,  4 Sep 2025 15:25:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0822C19F461;
+	Thu,  4 Sep 2025 15:30:16 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6584521CC44;
-	Thu,  4 Sep 2025 15:25:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E140A1A288;
+	Thu,  4 Sep 2025 15:30:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756999520; cv=none; b=AO/9EzKLMQN2ZSGxZivKNVSPfG/m1BILHNXOa5bhxDwKMLgrwTp4ywBFP/QQwwNg8EHwH8us3VMKGiznFiSv76/E9MMgJQBkgc7iIS+/Zm5QOQCSl3GQFNZOPSTUaKtqdNAJFLzK60Hnet3ly8l4KpCb3Bq5dWgRZcUEFrM2t+E=
+	t=1756999815; cv=none; b=FqesoLXUpHlaPrChbGZg1oUXjxAAIt4Y0XlSC58cbj+nIu/oJbXhxLzqvSDmDc9e4lE4IouDsw/3elS8AgwtoaYzxrjQ788f1bKlQyOc+rHlkWPDaE0PmXzgI3Q4VY2XJFjPNWwqTvGdhH5uyZEtBBMBwKdYiV2uQaL9Es9zBQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756999520; c=relaxed/simple;
-	bh=/lh5dv0kjsOBpFk3AFUs/SfkJP1vvKYKfGJDOyWqMn8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TVwJ1D7SYlDFGfwVoS7tl+ujSK+nWxAvlC/kbaK5QoposmGbr8Jj5ELxrT0M9R2IykMchkN7NYNw3OruO9vliEZhuywfb7uOGeFYBZqH+juw2cRC7a/jCDSN2nRb3RTxTg3zGU29hoO6TdjxOys1zzMu5xHGFhSM/cuG9hmmBio=
+	s=arc-20240116; t=1756999815; c=relaxed/simple;
+	bh=LshMpuJ/WWW1PZtS6QMbKpsOqsD23JypN7dKT/OmCaM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZGC9o90QZXXQGoU8aU4KurcXPp9FCEwmdpu7aV4h61gqsDxt73oyw5GveJCJ28seYRqNM2OLUacSGuhHMM0ids6oCNFEF2e3LO4BkJfNI+E8AGX3HJImBe2D2+A1b0KUB8T/ZyxxTDg+xJraPyn8dHCvdywGEtHv0RUoVZ6fHBg=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09668C4CEF0;
-	Thu,  4 Sep 2025 15:25:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABD3AC4CEF0;
+	Thu,  4 Sep 2025 15:30:14 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Vinod Koul <vkoul@kernel.org>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Magnus Damm <magnus.damm@gmail.com>
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Cc: dmaengine@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 2/2] dmaengine: rcar-dmac: Convert to NOIRQ_SYSTEM_SLEEP/RUNTIME_PM_OPS()
-Date: Thu,  4 Sep 2025 17:25:10 +0200
-Message-ID: <0dc29f693d40fb4004f21ac816b2d005bd350675.1756999325.git.geert+renesas@glider.be>
+Subject: [PATCH] dmaengine: sh: usb-dmac: Convert to NOIRQ_SYSTEM_SLEEP/RUNTIME_PM_OPS()
+Date: Thu,  4 Sep 2025 17:30:08 +0200
+Message-ID: <f456411acfab95f8a4213156fbbabfb90e220a59.1756999732.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1756999325.git.geert+renesas@glider.be>
-References: <cover.1756999325.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,7 +46,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert the Renesas R-Car DMA Controller driver from
+Convert the Renesas USB-DMA Controller driver from
 SET_NOIRQ_SYSTEM_SLEEP_PM_OPS() and SET_RUNTIME_PM_OPS() to
 NOIRQ_SYSTEM_SLEEP_PM_OPS(), RUNTIME_PM_OPS(), and pm_ptr().  This lets
 us drop the check for CONFIG_PM, and reduces kernel size in case
@@ -58,49 +54,46 @@ CONFIG_PM is disabled, while increasing build coverage.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/dma/sh/rcar-dmac.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ drivers/dma/sh/usb-dmac.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/dma/sh/rcar-dmac.c b/drivers/dma/sh/rcar-dmac.c
-index 6a6c3234702c648e..78dafa24c112ef3a 100644
---- a/drivers/dma/sh/rcar-dmac.c
-+++ b/drivers/dma/sh/rcar-dmac.c
-@@ -1728,14 +1728,12 @@ static struct dma_chan *rcar_dmac_of_xlate(struct of_phandle_args *dma_spec,
+diff --git a/drivers/dma/sh/usb-dmac.c b/drivers/dma/sh/usb-dmac.c
+index 7e2b6c97fa2f97f2..b42e5a66fd95759e 100644
+--- a/drivers/dma/sh/usb-dmac.c
++++ b/drivers/dma/sh/usb-dmac.c
+@@ -670,7 +670,6 @@ static struct dma_chan *usb_dmac_of_xlate(struct of_phandle_args *dma_spec,
   * Power management
   */
  
 -#ifdef CONFIG_PM
- static int rcar_dmac_runtime_resume(struct device *dev)
+ static int usb_dmac_runtime_suspend(struct device *dev)
  {
- 	struct rcar_dmac *dmac = dev_get_drvdata(dev);
+ 	struct usb_dmac *dmac = dev_get_drvdata(dev);
+@@ -691,13 +690,11 @@ static int usb_dmac_runtime_resume(struct device *dev)
  
- 	return rcar_dmac_init(dmac);
+ 	return usb_dmac_init(dmac);
  }
--#endif
+-#endif /* CONFIG_PM */
  
- static const struct dev_pm_ops rcar_dmac_pm = {
- 	/*
-@@ -1743,9 +1741,9 @@ static const struct dev_pm_ops rcar_dmac_pm = {
- 	 *   - Wait for the current transfer to complete and stop the device,
- 	 *   - Resume transfers, if any.
- 	 */
+ static const struct dev_pm_ops usb_dmac_pm = {
 -	SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
 -				      pm_runtime_force_resume)
--	SET_RUNTIME_PM_OPS(NULL, rcar_dmac_runtime_resume, NULL)
+-	SET_RUNTIME_PM_OPS(usb_dmac_runtime_suspend, usb_dmac_runtime_resume,
+-			   NULL)
 +	NOIRQ_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
 +				  pm_runtime_force_resume)
-+	RUNTIME_PM_OPS(NULL, rcar_dmac_runtime_resume, NULL)
++	RUNTIME_PM_OPS(usb_dmac_runtime_suspend, usb_dmac_runtime_resume, NULL)
  };
  
  /* -----------------------------------------------------------------------------
-@@ -2030,7 +2028,7 @@ MODULE_DEVICE_TABLE(of, rcar_dmac_of_ids);
+@@ -894,7 +891,7 @@ MODULE_DEVICE_TABLE(of, usb_dmac_of_ids);
  
- static struct platform_driver rcar_dmac_driver = {
+ static struct platform_driver usb_dmac_driver = {
  	.driver		= {
--		.pm	= &rcar_dmac_pm,
-+		.pm	= pm_ptr(&rcar_dmac_pm),
- 		.name	= "rcar-dmac",
- 		.of_match_table = rcar_dmac_of_ids,
+-		.pm	= &usb_dmac_pm,
++		.pm	= pm_ptr(&usb_dmac_pm),
+ 		.name	= "usb-dmac",
+ 		.of_match_table = usb_dmac_of_ids,
  	},
 -- 
 2.43.0
