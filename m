@@ -1,101 +1,155 @@
-Return-Path: <linux-renesas-soc+bounces-21306-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21307-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90EF5B42DAA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 01:50:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29C74B42FD3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 04:38:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4F489567C16
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Sep 2025 23:50:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AAECC1BC67E2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 02:38:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9ADD32FC01C;
-	Wed,  3 Sep 2025 23:50:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 263C51F63D9;
+	Thu,  4 Sep 2025 02:38:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RlrlTNZK"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="sS4tqdLc";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="U/e93ogn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C07D2F39A7;
-	Wed,  3 Sep 2025 23:50:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1BD42628D;
+	Thu,  4 Sep 2025 02:38:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756943443; cv=none; b=iXrAarz96B5h9mMS+bYog+Rig/EWqvT9niW8/VvauZWs1yZzX5yr2STazIkUorhWEujjPbL5+eKT25y0kOWu8Zi4mC22YKhdvifKSHwCOO54Rv9SepUNeFPZykfNXhpm1lu22e6nrrSVZo1kdehQvPssdlS4x+vJfgIqEGC9FUQ=
+	t=1756953510; cv=none; b=gu2hVbg4rIRXB2iNkzZgoUbpfuIj528KzCClj50x8TccPJCZGDGArHXwCiMDxWRfB1eaUpkIQnPvPMn8MjRPmS/sO8qCCa7jR2MH6rVJsOnk3aiy57YjFbCCQCixGiE1uOfSqI+oln0nG7vtk/RlLRf7Q4IgOzy3mzvGPEqtKfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756943443; c=relaxed/simple;
-	bh=l3vVpriO0KOnTZZdfYxactIQ65YTIxLHE42+6lRCFqw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pLJRTI15TQYKf+HCi+Q4RiVsAloOSN/TMUxcnr8tJZlTP2h/inUVBMSpKMBUwFWfodF9g/DTryRh3nwFOdOVdZMVGy75nIcw1mIfc4x9BclKTkxrCeP28/T6ycS4IDmkPzb2q/b1mWNJBTD5BCE+gDub2hdhpa1AN0wmerCz7IM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RlrlTNZK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89784C4CEE7;
-	Wed,  3 Sep 2025 23:50:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756943443;
-	bh=l3vVpriO0KOnTZZdfYxactIQ65YTIxLHE42+6lRCFqw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=RlrlTNZKWqRIczf7xQLkONedV6OnqAVP99+wuonDfArxvxxtk/G97wthshEi7qoWP
-	 OSYXerhHkDY1ZyRUp/KVT3HCpgONRUNRd7QLYd/RWLah5jjsZ8zMjR9im/Z+fg2PPD
-	 k3SrA0HGjQJsIjXvV46HFuiv4aaT/TW5zahcVbBo3YBoxiAek17wCRTF8+4j857I49
-	 JXOZDXT2bhFyf+NHSEV1Q4Q92aTusvYZMf6YR5CJbLWdW215aEyBXSjadZzlFAwf3F
-	 x0+pgLJFvok0pNXzMxDErdxD2cmv9X+4Q/tLzW/oOO6vw9FSsi1qf3/Zz7l7+IL2ij
-	 QWm9sNBb/tKQA==
-Date: Wed, 3 Sep 2025 16:50:41 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Michael Dege <michael.dege@renesas.com>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Niklas
- =?UTF-8?B?U8O2ZGVybHVuZA==?= <niklas.soderlund@ragnatech.se>, Paul Barker
- <paul@pbarker.dev>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
- <pabeni@redhat.com>, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, Nikita
- Yushchenko <nikita.yoush@cogentembedded.com>, Andrew Lunn <andrew@lunn.ch>,
- Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?=
- <niklas.soderlund+renesas@ragnatech.se>, Jiri Pirko <jiri@resnulli.us>,
- Ivan Vecera <ivecera@redhat.com>
-Subject: Re: [net-next PATCH v5 0/4] net: renesas: rswitch: R-Car S4 add HW
- offloading for layer 2 switching
-Message-ID: <20250903165041.20b3c05e@kernel.org>
-In-Reply-To: <20250901-add_l2_switching-v5-0-5f13e46860d5@renesas.com>
-References: <20250901-add_l2_switching-v5-0-5f13e46860d5@renesas.com>
+	s=arc-20240116; t=1756953510; c=relaxed/simple;
+	bh=FdbeB+yV5/C5kxBua8uMen1dPsCyQQKz7pW1D60oLSs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ZBanICEgeQ7qlrLedlxdLxHPdmMosaSMQ/iEfmBdYzfw/0EbG6BvVTYkdfnMOehiTmuAOGRnvnJI/gVjg5wGJAE6oilH2RObtv/n2dPcXzK4pZLi5t6qBIk7xiSM/f9R2hqztfkCyURXN//t0pEdToaNdxEWOAEGRXZvmZl83AQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=sS4tqdLc; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=U/e93ogn; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4cHNvN4nBrz9srJ;
+	Thu,  4 Sep 2025 04:38:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1756953504;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=7Avc2qjUFUbqIM0SvA74SfMpAPpoaNpwHHVCU9A6Trc=;
+	b=sS4tqdLcv+7ouTuTra9c+WTMdY0zY15kmf3vsZwDEQ8+g4acYHHS7H+xu7EuEvj9HsCWOU
+	LurUPa50lRyvR3fVj15YQZeliAmqp9js1hCAfAAD5vh+NUtELHAgIiDMTKKz8xj+7cuOA4
+	DCUbOR5Ec1xpzIUuyV7e7H56336m6Af7YPDwwcEPDbixRlbLwkgjkOLQxycqbe08+6Acsr
+	m1ePCGZWslF9/oCKlNV8aggcRTyohtTMf0cWkqyoxw/y/RYgSQ9kX/MvTHBzmUn5Fj9EGC
+	yLxQ/IJV0yH/WIsK2uai835nbouP4IDrXPniXYTWqYpUc0xvgmW70iZxhOkg7w==
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1756953502;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=7Avc2qjUFUbqIM0SvA74SfMpAPpoaNpwHHVCU9A6Trc=;
+	b=U/e93ognuVVrfaawXGDYkNx5uyoeBH2ynAR9Jql4MsYVl0KWzHzeaFZI94ewyIMjyvVmzT
+	OkPFyQD37C+cpBkocHxdzLoB2SITf+Lrdp1NJQrLQU4R1fsoZtWwoK2nWnjh++fDciG7vG
+	p8J5feVSqew3tKl2hUyT0mP5YkE9ls9jNVIAUDqMBXEr0T8Yt/oFr5k0lOAzTnfRTdtW/n
+	dLmOySqwiWd+B3qo5jAfREdkPnrKIQ9td5CYa1W4oMoW53rfeS31pN24VOEQ+oZUNeEDjL
+	DWYCvRSg08OzifnMGdHtxIQbz17WipUyqy2CpajYCcA9YRVsIo2nZbhky1B05A==
+To: linux-pci@vger.kernel.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Frank Li <Frank.Li@nxp.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
+	Wang Jiang <jiangwang@kylinos.cn>,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] PCI: endpoint: pci-epf-test: Limit PCIe BAR size for fixed BARs
+Date: Thu,  4 Sep 2025 04:37:39 +0200
+Message-ID: <20250904023753.494147-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 7ba099bd9488c476be4
+X-MBO-RS-META: um6ezw575iyqc6idttayuar7n9fmxtpx
 
-On Mon, 01 Sep 2025 06:58:04 +0200 Michael Dege wrote:
-> The current R-Car S4 rswitch driver only supports port based fowarding.
-> This patch set adds HW offloading for L2 switching/bridgeing. The driver
-> hooks into switchdev.
-> 
-> 1. Rename the base driver file to keep the driver name (rswitch.ko)
-> 
-> 2. Add setting of default MAC ageing time in hardware.
-> 
-> 3. Add the L2 driver extension in a separate file. The HW offloading
-> is automatically configured when a port is added to the bridge device.
-> 
-> Usage example:
-> ip link add name br0 type bridge
-> ip link set dev tsn0 master br0
-> ip link set dev tsn1 master br0
-> ip link set dev br0 up
-> ip link set dev tsn0 up
-> ip link set dev tsn1 up
-> 
-> Layer 2 traffic is now fowarded by HW from port TSN0 to port TSN1.
-> 
-> 4. Provides the functionality to set the MAC table ageing time in the
-> Rswitch.
+Currently, the test allocates BAR sizes according to fixed table
+bar_size[] = { 512, 512, 1024, 16384, 131072, 1048576 } . This
+does not work with controllers which have fixed size BARs, like
+Renesas R-Car V4H PCIe controller, which has BAR4 size limited
+to 256 Bytes, which is much less than 131072 currently requested
+by this test.
 
-Is anyone with bride offload expertise willing to provide a review here?
+Adjust the test such, that in case a fixed size BAR is detected
+on a controller, minimum of requested size and fixed size BAR
+size is used during the test instead.
 
+This helps with test failures reported as follows:
+"
+pci_epf_test pci_epf_test.0: requested BAR size is larger than fixed size
+pci_epf_test pci_epf_test.0: Failed to allocate space for BAR4
+"
 
-Jiri, Ivan, the switchdev MAINTAINERS entry only covers "core" switchdev
-which is rather fallow. Is it okay to extend it to driver review?
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Damien Le Moal <dlemoal@kernel.org>
+Cc: Frank Li <Frank.Li@nxp.com>
+Cc: Kishon Vijay Abraham I <kishon@kernel.org>
+Cc: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Niklas Cassel <cassel@kernel.org>
+Cc: Wang Jiang <jiangwang@kylinos.cn>
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-pci@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+ drivers/pci/endpoint/functions/pci-epf-test.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
+index e091193bd8a8a..d9c950d4c9a9e 100644
+--- a/drivers/pci/endpoint/functions/pci-epf-test.c
++++ b/drivers/pci/endpoint/functions/pci-epf-test.c
+@@ -1022,7 +1022,8 @@ static int pci_epf_test_alloc_space(struct pci_epf *epf)
+ 	enum pci_barno test_reg_bar = epf_test->test_reg_bar;
+ 	enum pci_barno bar;
+ 	const struct pci_epc_features *epc_features = epf_test->epc_features;
+-	size_t test_reg_size;
++	size_t test_reg_size, test_bar_size;
++	u64 bar_fixed_size;
+ 
+ 	test_reg_bar_size = ALIGN(sizeof(struct pci_epf_test_reg), 128);
+ 
+@@ -1050,7 +1051,13 @@ static int pci_epf_test_alloc_space(struct pci_epf *epf)
+ 		if (bar == test_reg_bar)
+ 			continue;
+ 
+-		base = pci_epf_alloc_space(epf, bar_size[bar], bar,
++		test_bar_size = bar_size[bar];
++
++		bar_fixed_size = epc_features->bar[bar].fixed_size;
++		if (epc_features->bar[bar].type == BAR_FIXED && bar_fixed_size)
++			test_bar_size = min(bar_size[bar], bar_fixed_size);
++
++		base = pci_epf_alloc_space(epf, test_bar_size, bar,
+ 					   epc_features, PRIMARY_INTERFACE);
+ 		if (!base)
+ 			dev_err(dev, "Failed to allocate space for BAR%d\n",
+-- 
+2.50.1
+
 
