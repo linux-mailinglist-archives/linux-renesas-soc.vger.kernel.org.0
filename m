@@ -1,260 +1,93 @@
-Return-Path: <linux-renesas-soc+bounces-21380-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21381-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC1CDB44707
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 22:10:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B65ABB44713
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 22:16:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D9CDD7ABA2E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 20:08:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 70B04A079F3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 20:16:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96C0A26CE2A;
-	Thu,  4 Sep 2025 20:09:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE2A527875C;
+	Thu,  4 Sep 2025 20:16:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="OyolouOB";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="kxOJxQ4M"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="bFJ6flGK"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4C327A935;
-	Thu,  4 Sep 2025 20:09:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB3A264A8E;
+	Thu,  4 Sep 2025 20:16:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757016597; cv=none; b=TzYW+t/mtZMkQzvmiUqtfxzUYaHdU/K6Db4DpK4EhU3JePawcJ5u5rKR62tNHKHrBt4S/gByiQIdZWFYqVWArTSFBUXqNatAHtryu//R8Rg2jouVWscdwACX0qt6hFwyo93s6UEAEV0Dn2oHlcMyFIfWizWr3OkNxz8F5b+z+jI=
+	t=1757016987; cv=none; b=nPGmrnNDL3wfu6yR1/9iEtGBsjbmer1hRFUGMNWLRJcCizarz2nFLSdmdtGk+HF2gMBnTRy9y8O2HtZ6EzojfhPjbpPAIS9WgpK8jfq4qAAn8KNiinAuAW5fWGAR7MUiAFeve+NaRwK7ZH6Vg0hpKOJu6oSLbDmhkoEh9W3Pc1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757016597; c=relaxed/simple;
-	bh=6dqd5FG36PTqRQAZsR92AdI57AHXeY+nM63A2PVhE9A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ugTvqfiFSscXu9EzgmFlZMvYwoourrKEeJL7mAaE5FeRJqdEAEXweNp7f3az7BGRHjBUMFuC7UE8GwinSiJ+USMfITHpz96CImr9tUCwhIvMKwQEaNqX/o+vdunbIZceEHVM4pcbFdFetA0YWEbo599zJDqs5rZZpjJFPAP8o6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=OyolouOB; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=kxOJxQ4M; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cHrDd6QP2z9t4g;
-	Thu,  4 Sep 2025 22:09:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1757016593;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=zaPX6a2XP24QH8XGDpm467JsAtQlTjzzd9/VhkvqWLM=;
-	b=OyolouOBhjt1Ra9UxMyipJCvaaA3fjpjroea4wRtZBR2H0atiGwvALSTi+x8XBoHOxhc6y
-	GSFfPhid/FvVfddDwBvIxB+3Dh0dk2sxuM41mOpD7FLvLVkZGMKb5c9eYdxpHEch/1C0+V
-	nmGu6Aq+5J+3XQO5zuAFAD0VcE+gxeDue8xHuQk+NvvA1w7W8F7Euc+ZpmjAVLBwtal7ro
-	tvV5Lben4sA7RpidHbd8REX3xE+tpJsakaz0UDP6z6Ck5inooDYuhP8XsZG2jZqXyvqKC5
-	s89I56gPmLS+lk873qwB+a/z7xUnpJzJ2IJJlmOl/wngf73scWiRnr3h3+53KQ==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1757016592;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=zaPX6a2XP24QH8XGDpm467JsAtQlTjzzd9/VhkvqWLM=;
-	b=kxOJxQ4MagOA5jmrm6eaqKmwV/yEzsaurFwcHidAWXTpVv9YlkZS2XB8P4xV7LV79UQrXt
-	yLvWj7K11zdSOg+ztikkxu82NILhBsiT8pvygTslZbEo4hskRgvLl4c/PXQNEoSV4TdYj9
-	GM9zsVSvi+q20jV7Igv6b1mbSLjnm0ebShaGwfBRyJTQ1hfz6B1+QPpRV8FmzW/XBnE0Yg
-	W2x8CUJ5DFNqgIYtCO/w+ny/AEC4dPUtHqmSVMJCjfUErVKwWo7H3xqpoO10V86qZo/2Qo
-	hSvtTJA+lniuNIn8HNyb7ikVIxQ2+C2rthmti4QrWQfy8zZwB0d7qaAqSwnOjg==
-To: linux-arm-kernel@lists.infradead.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
+	s=arc-20240116; t=1757016987; c=relaxed/simple;
+	bh=MHaY1C40/+Jq2DQvFH80kcW82U4tjH4j2jV3lW9ww54=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oMEWlCdP0OThZibkv7igscWfbe4t6OYnQSuO6fQS9JyijbLMu0exk88CVsMwv6u5A+t34kM/oTy7/1ecuLnnZQze2HAfiNWB3JzpZrmBfJrSism3LLpvEwAQJQeYM4N0IUNgzQy+NkgPjRg9zzV8a7/hxdhjWllLdvfwzP3Pc64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=bFJ6flGK; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=JhLuBPzuzJgNoY9RYve6SyCzVJfZ5HtsC3TCT1JPgHo=; b=bFJ6flGK6d8xUZniycfDLdV5ji
+	sUG6MnVvy94Ax3yTwdQBELJpNaErj05PNye0NZ1e3mBLEtVxJ7O2JbZAMlQBMgx9Qamede9C1+6Hy
+	bSygcKoJ8armozZWbEhbihTQEDzUdP0ke6g8+t756ZqAL0OU2XlGovvrxjaBEbKXkzLc=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1uuGNL-007GYK-2l; Thu, 04 Sep 2025 22:16:07 +0200
+Date: Thu, 4 Sep 2025 22:16:07 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Rob Herring <robh@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] arm64: dts: renesas: r8a779g3: Add RPi Display 2 DTO to Retronix R-Car V4H Sparrow Hawk
-Date: Thu,  4 Sep 2025 22:08:58 +0200
-Message-ID: <20250904200936.169536-1-marek.vasut+renesas@mailbox.org>
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH net-next v2 2/9] net: pcs: rzn1-miic: Drop trailing comma
+ from of_device_id table
+Message-ID: <8f96f8d7-e2eb-47ee-abf8-4f9c96c74a3d@lunn.ch>
+References: <20250904114204.4148520-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250904114204.4148520-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: uih434k9z81o4cqh5zuhnkg3dxqg5qe8
-X-MBO-RS-ID: 5b59558fbdbd584eb1e
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250904114204.4148520-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Add DT overlay to bind RPi Display 2, both 5" and 7" variant, on
-Retronix R-Car V4H Sparrow Hawk board. All of display output, the
-touch controller, and backlight control have been tested.
+On Thu, Sep 04, 2025 at 12:41:56PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> Remove the trailing comma after the sentinel entry in the
+> of_device_id match table.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Magnus Damm <magnus.damm@gmail.com>
-Cc: Rob Herring <robh@kernel.org>
-Cc: devicetree@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
----
- arch/arm64/boot/dts/renesas/Makefile          |  4 +
- ...a779g3-sparrow-hawk-rpi-display-2-5in.dtso | 13 +++
- ...a779g3-sparrow-hawk-rpi-display-2-7in.dtso | 13 +++
- .../r8a779g3-sparrow-hawk-rpi-display-2.dtsi  | 90 +++++++++++++++++++
- 4 files changed, 120 insertions(+)
- create mode 100644 arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2-5in.dtso
- create mode 100644 arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2-7in.dtso
- create mode 100644 arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2.dtsi
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-index d8c9237624664..b14e593208758 100644
---- a/arch/arm64/boot/dts/renesas/Makefile
-+++ b/arch/arm64/boot/dts/renesas/Makefile
-@@ -99,6 +99,10 @@ dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk.dtb
- dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-fan-pwm.dtbo
- r8a779g3-sparrow-hawk-fan-pwm-dtbs := r8a779g3-sparrow-hawk.dtb r8a779g3-sparrow-hawk-fan-pwm.dtbo
- dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-fan-pwm.dtb
-+r8a779g3-sparrow-hawk-rpi-display-2-5in-dtbs := r8a779g3-sparrow-hawk.dtb r8a779g3-sparrow-hawk-rpi-display-2-5in.dtbo
-+dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-rpi-display-2-5in.dtb
-+r8a779g3-sparrow-hawk-rpi-display-2-7in-dtbs := r8a779g3-sparrow-hawk.dtb r8a779g3-sparrow-hawk-rpi-display-2-7in.dtbo
-+dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-rpi-display-2-7in.dtb
- 
- dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-white-hawk-single.dtb
- r8a779g3-white-hawk-single-ard-audio-da7212-dtbs := r8a779g3-white-hawk-single.dtb white-hawk-ard-audio-da7212.dtbo
-diff --git a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2-5in.dtso b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2-5in.dtso
-new file mode 100644
-index 0000000000000..bf7b531ae9d9b
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2-5in.dtso
-@@ -0,0 +1,13 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+/*
-+ * Device Tree Overlay for the RPi Display 2 5" MIPI DSI panel connected
-+ * to J4:DSI on R-Car V4H ES3.0 Sparrow Hawk board
-+ *
-+ * Copyright (C) 2025 Marek Vasut <marek.vasut+renesas@mailbox.org>
-+ */
-+
-+#include "r8a779g3-sparrow-hawk-rpi-display-2.dtsi"
-+
-+&panel {
-+	compatible = "raspberrypi,dsi-5inch", "ilitek,ili9881c";
-+};
-diff --git a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2-7in.dtso b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2-7in.dtso
-new file mode 100644
-index 0000000000000..6ec47f213c0ff
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2-7in.dtso
-@@ -0,0 +1,13 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+/*
-+ * Device Tree Overlay for the RPi Display 2 7" MIPI DSI panel connected
-+ * to J4:DSI on R-Car V4H ES3.0 Sparrow Hawk board
-+ *
-+ * Copyright (C) 2025 Marek Vasut <marek.vasut+renesas@mailbox.org>
-+ */
-+
-+#include "r8a779g3-sparrow-hawk-rpi-display-2.dtsi"
-+
-+&panel {
-+	compatible = "raspberrypi,dsi-7inch", "ilitek,ili9881c";
-+};
-diff --git a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2.dtsi b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2.dtsi
-new file mode 100644
-index 0000000000000..733333b85a9d2
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2.dtsi
-@@ -0,0 +1,90 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+/*
-+ * Device Tree Overlay for the RPi Display 2 MIPI DSI panel connected
-+ * to J4:DSI on R-Car V4H ES3.0 Sparrow Hawk board
-+ *
-+ * Copyright (C) 2025 Marek Vasut <marek.vasut+renesas@mailbox.org>
-+ */
-+
-+/dts-v1/;
-+/plugin/;
-+
-+#include <dt-bindings/gpio/gpio.h>
-+
-+&{/} {
-+	display_bl: backlight {
-+		compatible = "pwm-backlight";
-+		pwms = <&mcu 0 255 0>;
-+	};
-+
-+	reg_display: regulator-display {
-+		compatible = "regulator-fixed";
-+		regulator-name = "rpi-display";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+	};
-+
-+	reg_dsi_touch: regulator-dsi-touch {
-+		compatible = "regulator-fixed";
-+		gpio = <&mcu 1 GPIO_ACTIVE_HIGH>;
-+		regulator-name = "rpi-touch";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		startup-delay-us = <50000>;
-+		enable-active-high;
-+	};
-+};
-+
-+&i2c0_mux3 {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	mcu: gpio@45 {
-+		compatible = "raspberrypi,touchscreen-panel-regulator-v2";
-+		reg = <0x45>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+		#pwm-cells = <3>;
-+	};
-+
-+	touchscreen@5d {
-+		compatible = "goodix,gt911";
-+		reg = <0x5d>;
-+		AVDD28-supply = <&reg_dsi_touch>;
-+		touchscreen-size-x = <720>;
-+		touchscreen-size-y = <1280>;
-+	};
-+};
-+
-+&dsi0 {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+	status = "okay";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@1 {
-+			reg = <1>;
-+
-+			dsi0_out: endpoint {
-+				remote-endpoint = <&panel_in>;
-+				data-lanes = <1 2>;
-+			};
-+		};
-+	};
-+
-+	panel: panel@0 {
-+		reg = <0>;
-+		backlight = <&display_bl>;
-+		power-supply = <&reg_display>;
-+		reset-gpios = <&mcu 0 GPIO_ACTIVE_LOW>;
-+
-+		port {
-+			panel_in: endpoint {
-+				remote-endpoint = <&dsi0_out>;
-+			};
-+		};
-+	};
-+};
--- 
-2.50.1
-
+    Andrew
 
