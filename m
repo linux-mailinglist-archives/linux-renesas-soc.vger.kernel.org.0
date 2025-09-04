@@ -1,124 +1,134 @@
-Return-Path: <linux-renesas-soc+bounces-21413-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21414-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1052AB44880
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 23:29:38 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 156ACB44885
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 23:31:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D79711C86A22
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 21:29:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BA141487AE8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 21:31:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AFAE2C0278;
-	Thu,  4 Sep 2025 21:29:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5A0129A30E;
+	Thu,  4 Sep 2025 21:31:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="vqKCdK6O";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Agrt92AC"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="KkMgZWe+"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B7F52BEFF9;
-	Thu,  4 Sep 2025 21:29:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2038621FF44;
+	Thu,  4 Sep 2025 21:31:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757021364; cv=none; b=td3MOGb9ay8x4Nly4m/SO6EreApQ8UVbQhWvUTGv8HwiJkB+xKa06NnEe2KiSjTcaz5+4cm5XAmwhdHuZvOqVhY5+CvQu7m+ibUfJ7CNgZDJjlcPQ7sJKgboa3d4CqBiqY2ymWdcIwZxDo0VFy1zUcYycMAcNk2pN3FEm4Y/FEQ=
+	t=1757021495; cv=none; b=NhDGUguzKw/ZJ2nfM+aayTtWhKwdldwx39G+DUvhUlSAf+fwvy9QqTo4IRw1i48wudUsJaA6u5QZNsgA7/OWPypPihln4snvf9xPYRP/EiTGvAFPfCTlxuSsmNRcyBwR9lPrpn9o4DVSjq3m/rLNOcsIZPfGXflHsAMgAe9FnpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757021364; c=relaxed/simple;
-	bh=fScXVv76m2mKBKx4ebn1H7Q/CThhzFVySUmCsTiVyHU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ESE/j71ZCDDLSAOmbe3pPWS4yfqDDEMEPTCpdVpFPlDP1AZYJ3qXYgFEmk2JSoJCQE21BAus0IdQ5OGzMC/h3KqPHgnlu/g2dyzhmqm4L1xS5NFNIIjxL5F+fN12mTzi+nnks+NAsABrUJLUAXIdVX2/WxCUxti2Ci12a4jBG2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=vqKCdK6O; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Agrt92AC; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cHt0J2Yj9z9t6m;
-	Thu,  4 Sep 2025 23:29:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1757021360;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9qgCy5hEX6SEax4DnBF030MM5fVg7BhEB4QGlPjHTqY=;
-	b=vqKCdK6Oij1e2VHcDOdExh+kVg98BbdqxdJ8pMB0klfCOCtzkzxXh9e/0P5YIF7YlX3JS0
-	TgMlLg7GoQ9NfcDE6qUiLrJvp6Jul8+//luRVAIIABu8AwYtZKkqLJNXCLgm8wo2hGUZny
-	fKARcKEVIweMhdt4hHn3mjpAzbZWbKsOzSAxPKiIxEr/4ECFg7MDJjutngrCanmY7imaQ1
-	sNZulTQN5JT/d5z8MrgpzXX5vh21P2/OqopjrAyffU7Co0cdFiqU9tVICy4hYhnO2J5gm5
-	5xGB5htYs8FhqkEEOsHKabAf1gAa+8LFGEd+P8unp1J0gZ9wRUf0Q22Y3HWj2w==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=Agrt92AC;
-	spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=marek.vasut@mailbox.org
-Message-ID: <62584e30-72ab-49df-bfaa-9730679b2dbe@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1757021358;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9qgCy5hEX6SEax4DnBF030MM5fVg7BhEB4QGlPjHTqY=;
-	b=Agrt92ACPZ25Mi0vxCNLxulxcG0BbutZvVHHhJhOt7XgPK1scax+L6Nmna4vl6h7JAh+x+
-	PysFC4nowHUeTK0IUGtAmNrudExosikyQt+FqILNLvIFt6+o7VxpVkrrRqPGMTKkS2/hXM
-	I8tmqF4ml8Ko0H7dmfstY7dEvX2fujyx+cfXoiy825H7diGBEQVcQmn2lcQyWIRbbnuvRH
-	DzZDmZKPtY039Mj28OQnsmJKqwnhQUQsxfwb6H3DPsFZxroCMNwpOzG8Ik2kF2vviEspuv
-	nAfK8prPAVBqSdMxxrEkC2grvRMJ7AFZouFAIn/DmzD68ZWuozB7gVrp31F5tg==
-Date: Thu, 4 Sep 2025 23:29:15 +0200
+	s=arc-20240116; t=1757021495; c=relaxed/simple;
+	bh=+sm4UcxA0vSUoTY8xGWPKzfLP4Q5abU5CRVblQJLvNA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W2WQ7T9PkECehLtBcPrxbP3h1WxSKhnwbx9Qg4rWJJTSrw13FkzUYkaIYvlRC1EtA4FNhdrGPZG9T5pwxCGaBV1SooL7TKoZSlg3dKKXTHKNOctapRedd4kqc74h/W9e++I+5JdeWkpq10kWbbJGFmKTddx32idAwimk05hXRro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=KkMgZWe+; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=6H1pSOS0tE8x4+w4j5sSTNSvLpOtXpis8kCsGfo1lcM=; b=KkMgZWe+XVf2JxNzPK4es8X5Pk
+	08NY++duiwnRg15poUU2Xa53D+o5nE3vzxllBZdeJDRLTejJKchTMJIf3qjK5EyxV6ZpE1AZMFQR2
+	UE2uvX8UmgWim2jW90temcr6HpOXtagXU9OIu3+sHOzxalUz5zBukXlR6r6H1zvPR+qfS4/waOn65
+	Cm44rA5rJDq3iWf2cA6Fyv3Pz861y67zugaUaa6T+ZysZGg7YzULl5Mh4WcqmC0xWj3dR/fT0uffh
+	tDEbUQc+fjqUV060l0CY6vBVs0P1i08ZCg04FpwjwQqJ13b8upZlbpdrUlgvX102c42IFL33cBIRk
+	twajxq3A==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35846)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1uuHY7-000000002ZH-0ZPb;
+	Thu, 04 Sep 2025 22:31:19 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1uuHY2-000000001sE-2wEY;
+	Thu, 04 Sep 2025 22:31:14 +0100
+Date: Thu, 4 Sep 2025 22:31:14 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Jose Abreu <joabreu@synopsys.com>, netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH net-next v2 2/3] net: stmmac: dwmac-renesas-gbeth: Use OF
+ data for configuration
+Message-ID: <aLoFIoqT2A2RmrfR@shell.armlinux.org.uk>
+References: <20250904203949.292066-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250904203949.292066-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <aLn7XVnWmHv1Bfe2@shell.armlinux.org.uk>
+ <CA+V-a8umpEzwO5XnFVNB-TkDtEh9K48OKqaDE_SwzGfXk+9qEA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] PCI: endpoint: pci-epf-test: Limit PCIe BAR size for
- fixed BARs
-To: Niklas Cassel <cassel@kernel.org>, Damien Le Moal <dlemoal@kernel.org>
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>, linux-pci@vger.kernel.org,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Frank Li <Frank.Li@nxp.com>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Wang Jiang <jiangwang@kylinos.cn>,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Jerome Brunet <jbrunet@baylibre.com>
-References: <20250904023753.494147-1-marek.vasut+renesas@mailbox.org>
- <b3d5773d-c573-4491-b799-90405a8af6a9@kernel.org> <aLmGBYOVevP5hH0X@ryzen>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <aLmGBYOVevP5hH0X@ryzen>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 13dcbb0edfde5df60c7
-X-MBO-RS-META: sewnssyio4q88ui38z5rntywakq5zocz
-X-Rspamd-Queue-Id: 4cHt0J2Yj9z9t6m
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+V-a8umpEzwO5XnFVNB-TkDtEh9K48OKqaDE_SwzGfXk+9qEA@mail.gmail.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On 9/4/25 2:28 PM, Niklas Cassel wrote:
-
-Hello Niklas,
-
-[...]
-
-> pci_epf_alloc_space() works like this:
-> If the user requests a BAR size that is smaller than the fixed-size BAR,
-> it will allocate space matching the fixed-size.
+On Thu, Sep 04, 2025 at 10:10:32PM +0100, Lad, Prabhakar wrote:
+> Hi Russell,
 > 
-> As in most cases, having a BAR larger than needed by an EPF driver is
-> still acceptable.
-> 
-> However, if the user requests a size larger than the fixed-size BAR,
-> as in your case, we will return an error, as we cannot fulfill the
-> user's request.
-> 
-> I don't see any alternative other than your/Damien's proposal above.
-> 
-> Unfortunately, all EPF drivers would probably need this same change.
+> On Thu, Sep 4, 2025 at 9:49 PM Russell King (Oracle)
+> <linux@armlinux.org.uk> wrote:
+> >
+> > On Thu, Sep 04, 2025 at 09:39:48PM +0100, Prabhakar wrote:
+> > >       plat_dat->init = renesas_gbeth_init;
+> > >       plat_dat->exit = renesas_gbeth_exit;
+> > > -     plat_dat->flags |= STMMAC_FLAG_HWTSTAMP_CORRECT_LATENCY |
+> > > -                        STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP |
+> > > -                        STMMAC_FLAG_SPH_DISABLE;
+> > > +     plat_dat->flags |= gbeth->of_data->stmmac_flags;
+> >
+> > You include the first two flags in your new device. I would like to see
+> > at least STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP always being set. The only
+> > reason we have the STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP flag is to avoid
+> > changing existing behaviour and causing regressions. New stuff should
+> > always set this.
+> >
+> Me confused, STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP flag is set in the new
+> device [0]. The reason STMMAC_FLAG_SPH_DISABLE flag being dropped in
+> the new device is SPHEN=1 in MAC HW feature reg for the new device.
 
-It seems that pci-epf-ntb and pci-epf-vntb only use BAR0 (BAR_CONFIG) 
-and BAR0+BAR1 (BAR_CONFIG and BAR_DB) , so those should be OK on this 
-controller. NVMe EPF also seems to use only BAR0 and it specifically 
-handles fixed size BAR. It seems everything that is in the tree so far 
-managed to sidestep hitting fixed-size BAR4 problems on this hardware, 
-except for the test driver.
+What I'm saying is I'd like to see:
+
+	plat_dat->flags |= STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP |
+			   gbeth->of_data->stmmac_flags;
+
+iow, it is set unconditionally, even if forgotten in a future patch.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
 
