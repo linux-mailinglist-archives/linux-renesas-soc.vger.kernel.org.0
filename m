@@ -1,76 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-21311-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21312-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF74CB4339B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 09:20:04 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4DB6B4339E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 09:20:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4AAB7162F53
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 07:20:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0F99D7A7F53
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 07:18:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68B0829AB00;
-	Thu,  4 Sep 2025 07:20:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9717529B78D;
+	Thu,  4 Sep 2025 07:20:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aQ0rVSan"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hKYZDvG5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6FDE15B0EC;
-	Thu,  4 Sep 2025 07:19:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0A9D299922;
+	Thu,  4 Sep 2025 07:20:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756970401; cv=none; b=mNrkOvJAM40v7/V34+wkUJR1DtvmmYlyBZUcToCemI5I2ZUgcGzFqKlZp5GyY+nlDyfxcUkJ0BsachajXSrqTWJO/xicgO1G9csiLiEeleltsFRJ/BgGWFT0QJ7aFCGWYDCtyNjKFxFOJQ3EPdWQld7tRm3vKIEYLapkdSeEerk=
+	t=1756970402; cv=none; b=hTXH33DIUWN0dHF4JiLLjxAuZicFnQKJtoGUeB8M4GRKQZ8FZ5lFc2lnt2iK09TtKNppAi4SON0tVxeCAkxgGnurxOEVbf1q26BYhFOdLnWZ3bs+sqIhvnXGKTV8tz0/BI/+bboOgL+zy5AhetnvZwi0kNS3dpL2nJYdqt7BSfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756970401; c=relaxed/simple;
-	bh=N1hEroYahXcvZDybLVB1PH5/l+zfKXkvjB/MsAIA4Ls=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RIkZLSObpu3l2WOfEtwE/L9YHMna4qiMlL5LD8Za+dqpvmTPTI8v9IkZgAEcLxejOHVccb0VIrNh4XbTekIqU/JrW1ovphJOfyEQ4EWb5A75YDHgLA4p0JdcbUQn/WFGlwmyJYid0wVrpUSr1PjxPqo2zG1lXwgfMMNlF5sp2PQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aQ0rVSan; arc=none smtp.client-ip=209.85.128.45
+	s=arc-20240116; t=1756970402; c=relaxed/simple;
+	bh=csfOS9fRfXixeanrTSuZs9yHZGC8qF31m0682PmjxP4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Aq705S4Xs3kx3p8gzKjexcgnkGG1bzedJyqqod/Jwx3LJPEam9Xax0BKoo/YIcC0FQlgZ0Rr/cUsGhKAyDFSqZnkrw1grAPx3KqZ66fl06S/hIS0qpreCbRdxs88FDM0oO8lqC+lA6DKIZy2vIrdoIhzieGio23SBEeR92lsIkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hKYZDvG5; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-45b4d89217aso4835685e9.2;
-        Thu, 04 Sep 2025 00:19:59 -0700 (PDT)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-45b8b25296fso4445275e9.2;
+        Thu, 04 Sep 2025 00:20:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756970398; x=1757575198; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=l6YJ3FZXGdOIX37/2j48sam3mgIUZWYgwwUWPeyUVSo=;
-        b=aQ0rVSanhMbep0PYqaySEyNp/RHd5wcDOP7uNosyE1PtDsaNMlObO9JecDmhpouxgw
-         MT9Z7LRX/tove1PSc0YcAidF4x7P3rlKOB1vAi8HrOM6Z7Uo7Yd9rUIDmFwcnm1aRDL9
-         xj2DSr0mcW4aYBeSGOO7Jf1k/OEMdKtIXMr8DnobqgEuhwWkAcEY1p1zPU8AuZeqs1ji
-         mQlYGDcWthI6NsJn3vL02FNgbYkSylnQ/A+gvIQedSyUmWRYN8b0S89nuo9EFZwB/yIo
-         Hv7usW31daKCNhY/t50Cgn5cU0bmzqErmf7LbHiMnc/Zl36XuaUUhm1J7pNTRYN4K2ZY
-         NbNw==
+        d=gmail.com; s=20230601; t=1756970399; x=1757575199; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qKqYPqEbjNWduF755anfejuQKrD7KxRh0yGNq3pFv7o=;
+        b=hKYZDvG5VfgOr50LfZLz7xI8AaZlFiUKf7IKxOOgETEdECDRZKXQ+PzsYsuVBd4q6s
+         /WrMy0fDvN0aN1sc7yyWX6eQXmICJy78RqPRZGioezFzaBLl6UpAQSLCjs8Mdf57cYZ6
+         EdPc8ZHeWF1pefZUc2TzBEaUIRVov5KtSalb4fnWUV0R2y2jl4qXpOnCv21Dpp0kVMbk
+         PfwT+k07xy9INJ7+LkMN3zmIWnP50r5o0R3jl7bmApcTa3YtdlxJyKtRVxzJ2Z5v1P8m
+         1Jxl2+mESpklCPX2U71rEGnFFC6lnNqVgywdXVm6cbJrImgyiLy0W7r0HI4snpcACfE4
+         E6Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756970398; x=1757575198;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=l6YJ3FZXGdOIX37/2j48sam3mgIUZWYgwwUWPeyUVSo=;
-        b=iWvYIumifRBpeCtE9lx0Uw2/GdUWEKCJ8RmyWImaU5KgXeMrlNxeMqK9tTbypDDQkK
-         5cA3DguhMl9b1itYTlUDJIcejAe7341OzlqWPTVDYtj0n//gVgGI/iVCd7/ivJAHdKWz
-         cItLPmNztSlzKPdfJjTopID604QjwkC1B/D7NrVIcvLpbFZwUqkPyusT8e7jCwhptftN
-         bTGqRLZzbCek9PkScNJYDy4YBVk6rpoN+5PmPIrWx8SrpJGuP9UpYPxpsGkEA6wzxgPF
-         6AZdY+Js9N1DUNhnQCbk59jyIKzCkUY1ihJTW3fToWngs0i0YGzY/fOzfXwVvm7WLxBf
-         aKxg==
-X-Forwarded-Encrypted: i=1; AJvYcCU/fOKiNPkPPXGw1fXNjiaqoG/uJYNE8XEGGo/lKgp2nqmJ1gWmJ0Fj+yh4/2Z+3448TjcgVf2a41QF@vger.kernel.org, AJvYcCU6jU3fwUyx7e4e1k91eSO8SA01qxP+DTdkaRi8j0tc+wlHNT0dC+prP7SwsBHpbE72r76Z7Hgvriex@vger.kernel.org, AJvYcCV+Xi7wlaD7n8HLq6KaR8zrt4PGOARrgOH/RvIuOz9yoaTRy5OvtQt8XVCnxQZGA2JYlR1sETf0i0TEMLPt@vger.kernel.org
-X-Gm-Message-State: AOJu0YzC83ICCA09Q9UUkNoNHShMf3BZv2bT6KWPnuWFwV05wrGfVxMd
-	9NzZ9ePeQXhqVgKE5ON69Rnw9o1EI3RdQzp9CK5mOK3et/gsGmYoFDMH
-X-Gm-Gg: ASbGncv0tJ+vdmPkG5paNOgWN8UpO72LuOnwoljuDJuX5exlQZkUVbRST/iPTusi+Hz
-	C3MuCuDdr9F4zJetjez2ogF+u5m95wLd4Br7MxpxTzb0obYbBts32nCYCSljOmzhySh5romcvWJ
-	aCVeefWzW+cwbtkLd5bG7NnijP3iB+UENqfrMH+UFUIwUvlGUfmDCEnlvbfX79zfSZguUy73tYP
-	9E8VuZlu3YMB1rhs7zsa1+kkLhxvVJA8426eXCLlcN1w6PRtYMERFbw9ra4fSFRsftYV5/H36zq
-	u6tGunylp2ad7Qymwb5Yoef1Ko+58XTDunNvjQb76Rdyh3nn1qTttoiwi/qWj6kdh2mtIhICKvc
-	0KeXOZo2ykKj8xDeCjKXlLHmM5xC+sN62A7KyN7E8AWWGEF/TSAYC1/Lhcg==
-X-Google-Smtp-Source: AGHT+IFwJxHUVnTIpgXcMVc59o+XXZunTSVa3QsIFCUK5s7cJ40vKv4LIASwhuomREu/d5Y1eFiBmw==
-X-Received: by 2002:a05:600c:4694:b0:453:66f:b96e with SMTP id 5b1f17b1804b1-45c8e6d4cd9mr51497995e9.11.1756970397761;
-        Thu, 04 Sep 2025 00:19:57 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756970399; x=1757575199;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qKqYPqEbjNWduF755anfejuQKrD7KxRh0yGNq3pFv7o=;
+        b=Qa7e33qCANXZ7matEXD0TU+r0ymsZ7eFLdrUns8f65Lf0tOpVSLHImHgzaeAIvX449
+         GcCl7FanO0yhhNQtY8nVaY5oeoQVoA17cs65L53K1ex856DVjzubytcBgzRsKnImD1NI
+         lQNfr1ysxWRT1THrTCb+paPwRs9sM8wZsrcqxVRxI7p0hrnTrN2ahyMO0o7fAJSCiGmX
+         /tUA0j9LMp4PbKSzGJWoiG3smtxYmm5Q+QIr2iYG9Hxod3Ls1JAiHjNChQavNaYanhoY
+         n6uaFMkbshGdnY+lCG1f80Mam44NrJLdusnAAiogdavehVw1pOwFQiAMvIPAfUUjP7dO
+         lcKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUAxRrFMtPOwBmp4YKiXV3e/GdhR9z9IJH5e70MI1GpRShUGYXVGtuNshc6OBBFk4wUMrdqaeuioFLI@vger.kernel.org, AJvYcCVCW3vc3G7mZsKFL1FabLBQ7E61fgwShgf7aquasL3nwWo+BTjdP2T5CuvouUFkZ5yOf9+Gaeo2PpXr@vger.kernel.org, AJvYcCXFDJoNgc6Ycp35UScYQST34TVOl4HJq1AqGdN8Q0uzfKsi9bQasq2miLYvUefPn2f1ysbsXCRhAzG2pVpz@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyzh+M/YPX2BZZFAT/JvkgPATFM1ZoaZLkv0ddw0nwBONJHugMU
+	LkfApEZbgxRVGqMUlx+U8YOtOwxG7m8Uak0nsRvvecqA40YzQmS/VitG
+X-Gm-Gg: ASbGncuVyp/P1KOJo1cdpWdWMQAaqUI+1+hprGH0dYUqAxmu/nhmlbfQtH/7WUumypu
+	dj0Hao5GCijUlAkBWuif8J9U7hyaY3UINZC38OwxMgH0aceYb+0xJSA4f5anVB2Pa8SXUYVMwcn
+	QMe9RHObWwpFhpfvRfasTOiBtXxPNUaA2SRu0ZQLnPfdL6/h8lSNZmZWLdnyAGJRRCSOa8HqR3Y
+	s61Y9yq/x1Fpb+Y84lPXcBiFqswhE3+4bp32f9KaFbjv7x1pZFc9OIGpjsdEVu9/gV9SDtgYxV/
+	dsJRmzFbLIK9gTWjrcrMiQULK0gkf3BolI2X9BA8wz34xUl3vcwiEyY0WyVR15GtAGCjKiDzwu4
+	5xD4vgBqKXeH3qdS8iBU0EoKDbsD1Qe7bUhxb/cGas6AyKJUbUdF6BKTp8w==
+X-Google-Smtp-Source: AGHT+IHrj7IIQe7Zeil2YlYnI+2zpvvVEt1Y62sFe4t3fYFeyR9DTn3vu54KlWEiIuIazrxWcw8pWg==
+X-Received: by 2002:a05:600c:548a:b0:45c:b5f7:c6e4 with SMTP id 5b1f17b1804b1-45cb5f7c9fcmr42591635e9.35.1756970399008;
+        Thu, 04 Sep 2025 00:19:59 -0700 (PDT)
 Received: from iku.Home ([2a06:5906:61b:2d00:904e:70c8:edf3:59a4])
         by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b7e8ab832sm270962835e9.23.2025.09.04.00.19.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Sep 2025 00:19:57 -0700 (PDT)
+        Thu, 04 Sep 2025 00:19:58 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -87,11 +89,14 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Prabhakar <prabhakar.csengg@gmail.com>,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v3 0/2] Add Ethernet and GMAC clocks for Renesas RZ/{T2H, N2H} SoCs
-Date: Thu,  4 Sep 2025 08:19:52 +0100
-Message-ID: <20250904071954.3176806-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH v3 1/2] dt-bindings: clock: renesas,r9a09g077/87: Add Ethernet clocks
+Date: Thu,  4 Sep 2025 08:19:53 +0100
+Message-ID: <20250904071954.3176806-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20250904071954.3176806-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250904071954.3176806-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -102,34 +107,54 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hi All,
+Add clock definitions for Ethernet (ETCLK A-E) to both R9A09G077 and
+R9A09G087 SoCs. These definitions are required for describing Ethernet
+devices in DT.
 
-This patch series aims to add Ethernet and GMAC clocks for Renesas
-RZ/{T2H, N2H} SoCs. The first patch adds the core clock definitions
-and the second patch adds the entries to modules and core clocks.
-
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+---
 v2->v3:
 - Dropped R9A09G077_GMAC* clock definitions.
-- Updated commit message for patch 1/2 to reflect changes.
-- Dropped adding GMAC core clocks.
+- Updated commit message to reflect changes.
 
 v1->v2:
-- Added Acked-by tag from Conor
-- Dropped an unnecessary extra line in core clocks
-- Sorted the module clocks in ascending order of their IDs
+- Added Acked-by tag from Conor.
+---
+ include/dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h | 5 +++++
+ include/dt-bindings/clock/renesas,r9a09g087-cpg-mssr.h | 5 +++++
+ 2 files changed, 10 insertions(+)
 
-Cheers,
-Prabhakar
-
-Lad Prabhakar (2):
-  dt-bindings: clock: renesas,r9a09g077/87: Add Ethernet clocks
-  clk: renesas: r9a09g077: Add Ethernet Subsystem core and module clocks
-
- drivers/clk/renesas/r9a09g077-cpg.c                | 14 +++++++++++++-
- .../dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h |  5 +++++
- .../dt-bindings/clock/renesas,r9a09g087-cpg-mssr.h |  5 +++++
- 3 files changed, 23 insertions(+), 1 deletion(-)
-
+diff --git a/include/dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h b/include/dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h
+index 0c2ce81a8744..2a805e06487b 100644
+--- a/include/dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h
++++ b/include/dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h
+@@ -26,5 +26,10 @@
+ #define R9A09G077_CLK_PCLKL		14
+ #define R9A09G077_SDHI_CLKHS		15
+ #define R9A09G077_USB_CLK		16
++#define R9A09G077_ETCLKA		17
++#define R9A09G077_ETCLKB		18
++#define R9A09G077_ETCLKC		19
++#define R9A09G077_ETCLKD		20
++#define R9A09G077_ETCLKE		21
+ 
+ #endif /* __DT_BINDINGS_CLOCK_RENESAS_R9A09G077_CPG_H__ */
+diff --git a/include/dt-bindings/clock/renesas,r9a09g087-cpg-mssr.h b/include/dt-bindings/clock/renesas,r9a09g087-cpg-mssr.h
+index 70ee883f2386..09da0ad33be6 100644
+--- a/include/dt-bindings/clock/renesas,r9a09g087-cpg-mssr.h
++++ b/include/dt-bindings/clock/renesas,r9a09g087-cpg-mssr.h
+@@ -26,5 +26,10 @@
+ #define R9A09G087_CLK_PCLKL		14
+ #define R9A09G087_SDHI_CLKHS		15
+ #define R9A09G087_USB_CLK		16
++#define R9A09G087_ETCLKA		17
++#define R9A09G087_ETCLKB		18
++#define R9A09G087_ETCLKC		19
++#define R9A09G087_ETCLKD		20
++#define R9A09G087_ETCLKE		21
+ 
+ #endif /* __DT_BINDINGS_CLOCK_RENESAS_R9A09G087_CPG_H__ */
 -- 
 2.51.0
 
