@@ -1,116 +1,136 @@
-Return-Path: <linux-renesas-soc+bounces-21310-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21311-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32038B43087
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 05:42:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF74CB4339B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 09:20:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DE70F207F29
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 03:42:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4AAB7162F53
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 07:20:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54EB528689B;
-	Thu,  4 Sep 2025 03:42:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68B0829AB00;
+	Thu,  4 Sep 2025 07:20:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zgv1JQSd"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aQ0rVSan"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E6481CBEB9;
-	Thu,  4 Sep 2025 03:42:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6FDE15B0EC;
+	Thu,  4 Sep 2025 07:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756957369; cv=none; b=QSGVs1RSs+U4gxHt3APCH5lRS91tHrBw8n5K9FOA/fURH/Hd8FbWGHxVWikyNJchN9aR4w4lXbrY/4rtXt0BuDnAkAxRjyoaqvcdwG7YiJQMMG2jESDKpJd20/ZMyKl+XucdHVbarH/R745uPIyBkMDebLVuQZoujwpgqBftRB8=
+	t=1756970401; cv=none; b=mNrkOvJAM40v7/V34+wkUJR1DtvmmYlyBZUcToCemI5I2ZUgcGzFqKlZp5GyY+nlDyfxcUkJ0BsachajXSrqTWJO/xicgO1G9csiLiEeleltsFRJ/BgGWFT0QJ7aFCGWYDCtyNjKFxFOJQ3EPdWQld7tRm3vKIEYLapkdSeEerk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756957369; c=relaxed/simple;
-	bh=K0JrEhJK//gSOD3e3hCCpFFjeNprd+OX8hXlrerK1yQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NNGfeTFTJNu2egB35IF0/PttlWXlaUA8M4J3kDihSPlE5pULZykJHwNpBcckm5M8u518QfozAhDDHB7dTuZRzDRLQJQ3qYWCbibXrsvRDtJplJv4SBppJrx+GMFNmak3K+4odj0wuILLlxclzBjjiuKYm6ZJiPXZl4Gn6/ergmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zgv1JQSd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F3AFC4CEF0;
-	Thu,  4 Sep 2025 03:42:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756957368;
-	bh=K0JrEhJK//gSOD3e3hCCpFFjeNprd+OX8hXlrerK1yQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Zgv1JQSd39vfeef/fpzYQtGQL7z6PVFDTxro9c+JvAeCUqGg5d0H+FcfPqrUiq47P
-	 kjjMMr60Z3y4WKPSu7+0mlHZlQGPcvXOq/b6GrDTlEcGkGA3boWgIOLgTR0WkCsja2
-	 dxQRBITCkRtZOtR8Ms9xDEWUMO5DwNiPubtX6d4edwHyFBgSZ0+TSKuf7sQ0EbaoZ+
-	 qu06/g4PNXAs/yWEmDfbpsdYTiYf0ZVliqSGXnC8WHpFqNQBVC/bCtOA+YSWPn7Ok5
-	 2dIfPeQHIqWwKdNIWIedQauVJ6GLFrxwfeoOuatcbEmsNEl43PuEVQdngAxO/so44l
-	 y0mL+qWrINgBA==
-Message-ID: <d7bf992f-0342-450d-8830-f0523ac11e2a@kernel.org>
-Date: Thu, 4 Sep 2025 12:39:47 +0900
+	s=arc-20240116; t=1756970401; c=relaxed/simple;
+	bh=N1hEroYahXcvZDybLVB1PH5/l+zfKXkvjB/MsAIA4Ls=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RIkZLSObpu3l2WOfEtwE/L9YHMna4qiMlL5LD8Za+dqpvmTPTI8v9IkZgAEcLxejOHVccb0VIrNh4XbTekIqU/JrW1ovphJOfyEQ4EWb5A75YDHgLA4p0JdcbUQn/WFGlwmyJYid0wVrpUSr1PjxPqo2zG1lXwgfMMNlF5sp2PQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aQ0rVSan; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-45b4d89217aso4835685e9.2;
+        Thu, 04 Sep 2025 00:19:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756970398; x=1757575198; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=l6YJ3FZXGdOIX37/2j48sam3mgIUZWYgwwUWPeyUVSo=;
+        b=aQ0rVSanhMbep0PYqaySEyNp/RHd5wcDOP7uNosyE1PtDsaNMlObO9JecDmhpouxgw
+         MT9Z7LRX/tove1PSc0YcAidF4x7P3rlKOB1vAi8HrOM6Z7Uo7Yd9rUIDmFwcnm1aRDL9
+         xj2DSr0mcW4aYBeSGOO7Jf1k/OEMdKtIXMr8DnobqgEuhwWkAcEY1p1zPU8AuZeqs1ji
+         mQlYGDcWthI6NsJn3vL02FNgbYkSylnQ/A+gvIQedSyUmWRYN8b0S89nuo9EFZwB/yIo
+         Hv7usW31daKCNhY/t50Cgn5cU0bmzqErmf7LbHiMnc/Zl36XuaUUhm1J7pNTRYN4K2ZY
+         NbNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756970398; x=1757575198;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=l6YJ3FZXGdOIX37/2j48sam3mgIUZWYgwwUWPeyUVSo=;
+        b=iWvYIumifRBpeCtE9lx0Uw2/GdUWEKCJ8RmyWImaU5KgXeMrlNxeMqK9tTbypDDQkK
+         5cA3DguhMl9b1itYTlUDJIcejAe7341OzlqWPTVDYtj0n//gVgGI/iVCd7/ivJAHdKWz
+         cItLPmNztSlzKPdfJjTopID604QjwkC1B/D7NrVIcvLpbFZwUqkPyusT8e7jCwhptftN
+         bTGqRLZzbCek9PkScNJYDy4YBVk6rpoN+5PmPIrWx8SrpJGuP9UpYPxpsGkEA6wzxgPF
+         6AZdY+Js9N1DUNhnQCbk59jyIKzCkUY1ihJTW3fToWngs0i0YGzY/fOzfXwVvm7WLxBf
+         aKxg==
+X-Forwarded-Encrypted: i=1; AJvYcCU/fOKiNPkPPXGw1fXNjiaqoG/uJYNE8XEGGo/lKgp2nqmJ1gWmJ0Fj+yh4/2Z+3448TjcgVf2a41QF@vger.kernel.org, AJvYcCU6jU3fwUyx7e4e1k91eSO8SA01qxP+DTdkaRi8j0tc+wlHNT0dC+prP7SwsBHpbE72r76Z7Hgvriex@vger.kernel.org, AJvYcCV+Xi7wlaD7n8HLq6KaR8zrt4PGOARrgOH/RvIuOz9yoaTRy5OvtQt8XVCnxQZGA2JYlR1sETf0i0TEMLPt@vger.kernel.org
+X-Gm-Message-State: AOJu0YzC83ICCA09Q9UUkNoNHShMf3BZv2bT6KWPnuWFwV05wrGfVxMd
+	9NzZ9ePeQXhqVgKE5ON69Rnw9o1EI3RdQzp9CK5mOK3et/gsGmYoFDMH
+X-Gm-Gg: ASbGncv0tJ+vdmPkG5paNOgWN8UpO72LuOnwoljuDJuX5exlQZkUVbRST/iPTusi+Hz
+	C3MuCuDdr9F4zJetjez2ogF+u5m95wLd4Br7MxpxTzb0obYbBts32nCYCSljOmzhySh5romcvWJ
+	aCVeefWzW+cwbtkLd5bG7NnijP3iB+UENqfrMH+UFUIwUvlGUfmDCEnlvbfX79zfSZguUy73tYP
+	9E8VuZlu3YMB1rhs7zsa1+kkLhxvVJA8426eXCLlcN1w6PRtYMERFbw9ra4fSFRsftYV5/H36zq
+	u6tGunylp2ad7Qymwb5Yoef1Ko+58XTDunNvjQb76Rdyh3nn1qTttoiwi/qWj6kdh2mtIhICKvc
+	0KeXOZo2ykKj8xDeCjKXlLHmM5xC+sN62A7KyN7E8AWWGEF/TSAYC1/Lhcg==
+X-Google-Smtp-Source: AGHT+IFwJxHUVnTIpgXcMVc59o+XXZunTSVa3QsIFCUK5s7cJ40vKv4LIASwhuomREu/d5Y1eFiBmw==
+X-Received: by 2002:a05:600c:4694:b0:453:66f:b96e with SMTP id 5b1f17b1804b1-45c8e6d4cd9mr51497995e9.11.1756970397761;
+        Thu, 04 Sep 2025 00:19:57 -0700 (PDT)
+Received: from iku.Home ([2a06:5906:61b:2d00:904e:70c8:edf3:59a4])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b7e8ab832sm270962835e9.23.2025.09.04.00.19.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Sep 2025 00:19:57 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v3 0/2] Add Ethernet and GMAC clocks for Renesas RZ/{T2H, N2H} SoCs
+Date: Thu,  4 Sep 2025 08:19:52 +0100
+Message-ID: <20250904071954.3176806-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] PCI: endpoint: pci-epf-test: Limit PCIe BAR size for
- fixed BARs
-To: Marek Vasut <marek.vasut@mailbox.org>, linux-pci@vger.kernel.org
-Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Frank Li <Frank.Li@nxp.com>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Niklas Cassel <cassel@kernel.org>,
- Wang Jiang <jiangwang@kylinos.cn>, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-References: <20250904023753.494147-1-marek.vasut+renesas@mailbox.org>
- <b3d5773d-c573-4491-b799-90405a8af6a9@kernel.org>
- <4b8ee973-5201-4936-a248-6f145b958f45@mailbox.org>
-From: Damien Le Moal <dlemoal@kernel.org>
-Content-Language: en-US
-Organization: Western Digital Research
-In-Reply-To: <4b8ee973-5201-4936-a248-6f145b958f45@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 9/4/25 12:32 PM, Marek Vasut wrote:
-> On 9/4/25 4:40 AM, Damien Le Moal wrote:
-> 
-> Hello Damien,
-> 
->>> @@ -1050,7 +1051,13 @@ static int pci_epf_test_alloc_space(struct pci_epf *epf)
->>>           if (bar == test_reg_bar)
->>>               continue;
->>>   -        base = pci_epf_alloc_space(epf, bar_size[bar], bar,
->>> +        test_bar_size = bar_size[bar];
->>> +
->>> +        bar_fixed_size = epc_features->bar[bar].fixed_size;
->>> +        if (epc_features->bar[bar].type == BAR_FIXED && bar_fixed_size)
->>> +            test_bar_size = min(bar_size[bar], bar_fixed_size);
->>
->> I think this can be simplified to:
->>
->>         if (epc_features->bar[bar].type == BAR_FIXED)
->>             test_bar_size = epc_features->bar[bar].fixed_size;
->>         else
->>             test_bar_size = bar_size[bar];
->>
->> because if the bar type is BAR_FIXED, then the size of the bar can only be its
->> fixed size.
-> That is correct, however, please consider the following case:
-> 
-> - The BAR under test is BAR4 , therefore the size requested by this driver is
-> bar_size[4] = 131072 Bytes
-> - The BAR4 on a hypothetical hardware is a fixed size BAR , 262144 Bytes large
-> 
-> With your proposed change, the "test_bar_size" would end up being 262144
-> Bytes , instead of 131072 Bytes without your proposed change , which I think is
-> not the desired behavior.
-> 
-> What do you think ?
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-The bar size for the test is arbitrary. If the bar being tested is not a fixed
-bar, anything is OK. But in the case of a fixed bar, you can only use the fixed
-bar size so we should force that.
+Hi All,
 
+This patch series aims to add Ethernet and GMAC clocks for Renesas
+RZ/{T2H, N2H} SoCs. The first patch adds the core clock definitions
+and the second patch adds the entries to modules and core clocks.
+
+v2->v3:
+- Dropped R9A09G077_GMAC* clock definitions.
+- Updated commit message for patch 1/2 to reflect changes.
+- Dropped adding GMAC core clocks.
+
+v1->v2:
+- Added Acked-by tag from Conor
+- Dropped an unnecessary extra line in core clocks
+- Sorted the module clocks in ascending order of their IDs
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (2):
+  dt-bindings: clock: renesas,r9a09g077/87: Add Ethernet clocks
+  clk: renesas: r9a09g077: Add Ethernet Subsystem core and module clocks
+
+ drivers/clk/renesas/r9a09g077-cpg.c                | 14 +++++++++++++-
+ .../dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h |  5 +++++
+ .../dt-bindings/clock/renesas,r9a09g087-cpg-mssr.h |  5 +++++
+ 3 files changed, 23 insertions(+), 1 deletion(-)
 
 -- 
-Damien Le Moal
-Western Digital Research
+2.51.0
+
 
