@@ -1,81 +1,83 @@
-Return-Path: <linux-renesas-soc+bounces-21372-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21373-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D7F6B446D2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 22:01:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56D16B446D5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 22:01:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D33201C28102
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 20:01:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 29EFF1C2817E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 20:02:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85DD5228CB0;
-	Thu,  4 Sep 2025 20:00:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3959524503B;
+	Thu,  4 Sep 2025 20:01:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="dqZDuI2S";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="LmBfcudH"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="xB5yQC+g";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="PGcRzfcO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC928129E6E;
-	Thu,  4 Sep 2025 20:00:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80E8129E6E;
+	Thu,  4 Sep 2025 20:01:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757016057; cv=none; b=rodeQrgzgy+0sVwGyC/jmYbBfO87tdAn8tu6qfD1gc1ucD+f72/GEHPcr4IKtiFTCm4Udc7In/6FgYFtWIJXlbqrIOP5uVf9TKmvkR5WEHuYcqpX77+MCATO7xOmvNtLn3/I8MHSBMnKOVM03yOUk3axasgZ4jdczNaeBFmAR44=
+	t=1757016110; cv=none; b=U1QwTZNNsyIPZp3y9PKq96a9mrGw2mlbMCsF7ixx6FQ4tolOCPOqWTdf/cIoSNKloyfBp/vj2egItXovQgjPQRYsFEJekHmLB3JGqvkqRq1ygeQXFDe8iZebSTqbZTCnIjbrAHJfouZL50Ht/GphIZai0tYYUEE2rBNbcoOlM0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757016057; c=relaxed/simple;
-	bh=8p5XYh4KqV8QV0FTLXFoBu9+TMWQnlO58Xa9v8IxRos=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Z3xbnb3B5KJkIPKLMHAsB1nuyXzfn/gGWqnrHMspbbQ/QEMOdm733O+7sHK5HTEcaBmXO+mNVPiMWFaW8baqrW3gC1JPk/vwNLv4ZK0Wd0vfOuZ4JqUqG6WQ3VvfneuODq1fCg+jjcAYFPc00+Ohb9qA3L/sw3QYoFcKTKp/O78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=dqZDuI2S; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=LmBfcudH; arc=none smtp.client-ip=80.241.56.172
+	s=arc-20240116; t=1757016110; c=relaxed/simple;
+	bh=/yHJWDhivFi2U5ADtYlVTXKSC3W275xDh5sKWx+erjs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tNp5kOSWxxQ3UOSZtpYY24uvRvcyZrjgdujOcpYUopfGv9upLORw8mMVqMmN8SwSH+jZHqJgpn9Ibu2oM0N7cr2N/63/AhfZY1rK3ZJ1hs69N7ipWhFnlrhpPufVHbwZJl+mi3Hog+g7ZTp/CuZ2c1jIEXGT0a5VuDz5/eFnHjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=xB5yQC+g; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=PGcRzfcO; arc=none smtp.client-ip=80.241.56.152
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cHr2F4cDhz9spZ;
-	Thu,  4 Sep 2025 22:00:53 +0200 (CEST)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cHr3F6rt9z9t3f;
+	Thu,  4 Sep 2025 22:01:45 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1757016053;
+	t=1757016106;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=BqZ1XmFUt/xzyYk/wX7NCuk9uo6ckDaycK0e8faI0Ss=;
-	b=dqZDuI2S8GZkr3bl0/3ab2Kpccyr+8/YTndb2WHtDWdw6XoKyYKS4rn9svcCiPLG94edzP
-	6wyWs/tl+a3CLwDOKtfsJHPXPtlQSiL6IYPkdwWTbKdaEc3WJBrp3vg6r4CxUfwXbtZTp2
-	SxxZ8Twl4lfgIWfTBEX6E40vvp50u+9e44qrO4rJasw+T5xi6/4HYtffa0vVVUWW99CGiV
-	aRz5tUXO0tZVnKYJKZtEZk/pc7f01nS78cqoQwR7FKnrOOfwcbFQ4kKd/wATPwQMIU3eS7
-	N5OzmR0kR6VJWD2OSKMi/KQ0H7Avg4Xo5sYgmebvR2QFMC15gyLffBEhIa0TUQ==
+	bh=0Umhovcau/YqRorev3Ev6aBhjaNGXWMdzGC74D6Sf68=;
+	b=xB5yQC+gLAs/Ca00D/OMu2oZxi2Tu19fFMzbUUnE/AHV4ASg9oTHGzIdWo2vNwPm5GAIx2
+	gvkEzwlBvPFA0YVfzFKjYVHsMHLQgflEnzO7EPTMT5eQi2ymR/GBIRyPLA53ROEFayASCm
+	UxIDlBWKWQ7HycDvOLfTofZ785GpilJVw+J5HHbwMA3p1V/lqMiVyfRjfk6RB7NPL32To7
+	Wh6BVFm9TrkVDv8yYsd+jlWv2Ie0B7u4/+bkOHjr7MURz06LC6+PDdIOTmZZlG3/XmuWRU
+	UvAlpHwqg7h6D9tPg81P+sTNt/py/jOUA62cgiTfhGT33VlrI/vBmQLH+mY28w==
 From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1757016051;
+	t=1757016104;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=BqZ1XmFUt/xzyYk/wX7NCuk9uo6ckDaycK0e8faI0Ss=;
-	b=LmBfcudHz5D8daXdqVkUFpNyG+KArCs6QvjYLZE77lezOiTjHTs1oDxnur56NuQPKml3wv
-	9upjjbVr7nXqJnSBROSGF28wb4K44XQ8ADiqZGvu90u4mn26hK/DG6BVldr3IRUhTTSp7O
-	MjtnhEZ/1oyAsvVWp8ZKcd/H7YBBtuGDLhX/WLYjbHa7nVYH3FrYGvRwUy7sBrBFbRg7FT
-	bPvCYElwdJzfOJqrEJEgTS8NvVhlZ8YlsgeuBXYLlxzOIfSkQ65BVkrX4fDI9lJwvETnMa
-	CxbgI0uLFGPt/tjUwVCRKSLM3s4Gdw1zmxbA3SszZlJ0D8xWiBC2KWMCtqMutw==
-To: linux-arm-kernel@lists.infradead.org
+	bh=0Umhovcau/YqRorev3Ev6aBhjaNGXWMdzGC74D6Sf68=;
+	b=PGcRzfcO89dfpdg4vTU5D296q5hb/j3j7dKL7ipTg+RwXasTFFKVxkwAvs/0ss4ub9z9uo
+	6qywlKOG/6qVwP13e1o4LfrLA8T0OT+cq4mD+EraBKzQUZTQ+G+xQvJ0asGUGIInqX5v2S
+	EqfUzF161xobHIBKlM85wrSqHjWG6z3EchMlbr2vvMY1ad+z0T9R/FxTAjSjKjbWvCafGe
+	X3ZQEtUTaR1c7HiLRw7uNb2o4fu938hAK0G6qg1pClPEJvEw2edb131xGA0EyYW3rJOPBS
+	Oq6LPV9wnYqJs6fsvnhCibwRx8zI5mR8p7QUSvuXvKWdfkYwUfOcYEoOXXvdgw==
+To: dri-devel@lists.freedesktop.org
 Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
+	David Airlie <airlied@gmail.com>,
+	Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
 	Rob Herring <robh@kernel.org>,
+	Simona Vetter <simona@ffwll.ch>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
 	devicetree@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] regulator: dt-bindings: rpi-panel: Split 7" Raspberry Pi 720x1280 v2 binding
-Date: Thu,  4 Sep 2025 21:58:26 +0200
-Message-ID: <20250904200036.168222-1-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH] dt-bindings: ili9881c: Allow port subnode
+Date: Thu,  4 Sep 2025 22:01:08 +0200
+Message-ID: <20250904200130.168263-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -83,129 +85,44 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 2d87d269ba95a788730
-X-MBO-RS-META: y5mfi1zxmpkaxpaxjbs8gahu5c69ye1i
+X-MBO-RS-ID: 755f89b141a440e5f99
+X-MBO-RS-META: hkjeud4gg6a7prpocn71mp77f56oh519
 
-The 5" and 7" Raspberry Pi 720x1280 Display 2 MCU is a bit more
-complex than the original Display 1 ATTINY88 and the binding is
-also a bit more demanding. Split the binding into separate file
-and fill in required gpio-controller, #gpio-cells and #pwm-cells
-which must be present for the V2 MCU. Include mention of the 5"
-panel in the description of Display 2, as the 5" panel uses the
-same MCU.
+The ILI9881C is a DSI panel, which can be tied to a DSI controller
+using OF graph port/endpoint. Allow the port subnode in the binding.
 
-Fixes: 6d09c6e474bd ("regulator: dt-bindings: rpi-panel: Add regulator for 7" Raspberry Pi 720x1280")
 Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
-Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
 Cc: Conor Dooley <conor+dt@kernel.org>
 Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
 Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
 Cc: Rob Herring <robh@kernel.org>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: devicetree@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-rpi-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org
 Cc: linux-renesas-soc@vger.kernel.org
 ---
- ...,7inch-touchscreen-panel-regulator-v2.yaml | 61 +++++++++++++++++++
- ...ypi,7inch-touchscreen-panel-regulator.yaml |  7 +--
- 2 files changed, 63 insertions(+), 5 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/regulator/raspberrypi,7inch-touchscreen-panel-regulator-v2.yaml
+ .../devicetree/bindings/display/panel/ilitek,ili9881c.yaml       | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/regulator/raspberrypi,7inch-touchscreen-panel-regulator-v2.yaml b/Documentation/devicetree/bindings/regulator/raspberrypi,7inch-touchscreen-panel-regulator-v2.yaml
-new file mode 100644
-index 0000000000000..efc7815a136b4
---- /dev/null
-+++ b/Documentation/devicetree/bindings/regulator/raspberrypi,7inch-touchscreen-panel-regulator-v2.yaml
-@@ -0,0 +1,61 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/regulator/raspberrypi,7inch-touchscreen-panel-regulator-v2.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: RaspberryPi 5" and 7" display V2 MCU-based regulator/backlight controller
-+
-+maintainers:
-+  - Marek Vasut <marek.vasut+renesas@mailbox.org>
-+
-+description: |
-+  The RaspberryPi 5" and 7" display 2 has an MCU-based regulator, PWM
-+  backlight and GPIO controller on the PCB, which is used to turn the
-+  display unit on/off and control the backlight.
-+
-+allOf:
-+  - $ref: regulator.yaml#
-+
-+properties:
-+  compatible:
-+    const: raspberrypi,touchscreen-panel-regulator-v2
-+
-+  reg:
-+    maxItems: 1
-+
-+  gpio-controller: true
-+  "#gpio-cells":
-+    const: 2
-+    description:
-+      The first cell is the pin number, and the second cell is used to
-+      specify the gpio polarity (GPIO_ACTIVE_HIGH or GPIO_ACTIVE_LOW).
-+
-+  "#pwm-cells":
-+    const: 3
-+    description: See ../../pwm/pwm.yaml for description of the cell formats.
-+
-+additionalProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - gpio-controller
-+  - "#gpio-cells"
-+  - "#pwm-cells"
-+
-+examples:
-+  - |
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+      gpio@45 {
-+        compatible = "raspberrypi,touchscreen-panel-regulator-v2";
-+        reg = <0x45>;
-+        gpio-controller;
-+        #gpio-cells = <2>;
-+        #pwm-cells = <3>;
-+      };
-+    };
-+
-+...
-diff --git a/Documentation/devicetree/bindings/regulator/raspberrypi,7inch-touchscreen-panel-regulator.yaml b/Documentation/devicetree/bindings/regulator/raspberrypi,7inch-touchscreen-panel-regulator.yaml
-index 18944d39d08fc..41678400e63fa 100644
---- a/Documentation/devicetree/bindings/regulator/raspberrypi,7inch-touchscreen-panel-regulator.yaml
-+++ b/Documentation/devicetree/bindings/regulator/raspberrypi,7inch-touchscreen-panel-regulator.yaml
-@@ -12,17 +12,14 @@ maintainers:
- description: |
-   The RaspberryPi 7" display has an ATTINY88-based regulator/backlight
-   controller on the PCB, which is used to turn the display unit on/off
--  and control the backlight. The V2 supports 5" and 7" panels and also
--  offers PWM backlight control.
-+  and control the backlight.
- 
- allOf:
-   - $ref: regulator.yaml#
- 
- properties:
-   compatible:
--    enum:
--      - raspberrypi,7inch-touchscreen-panel-regulator
--      - raspberrypi,touchscreen-panel-regulator-v2
-+    const: raspberrypi,7inch-touchscreen-panel-regulator
- 
-   reg:
+diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
+index 434cc6af9c954..cf0aa996e072d 100644
+--- a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
++++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
+@@ -30,6 +30,7 @@ properties:
      maxItems: 1
+ 
+   backlight: true
++  port: true
+   power-supply: true
+   reset-gpios: true
+   rotation: true
 -- 
 2.50.1
 
