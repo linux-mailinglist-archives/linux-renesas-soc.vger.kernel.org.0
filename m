@@ -1,103 +1,190 @@
-Return-Path: <linux-renesas-soc+bounces-21396-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21397-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92BD1B44797
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 22:43:29 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8F03B447A6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 22:46:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 6B85A4E12D3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 20:43:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9777F1894696
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 20:46:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71FE9284686;
-	Thu,  4 Sep 2025 20:43:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C463823817E;
+	Thu,  4 Sep 2025 20:45:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="qY/1p+ir"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="jIfxdcwK";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="kFZ6fULo"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E569D271475;
-	Thu,  4 Sep 2025 20:43:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 922311F4168;
+	Thu,  4 Sep 2025 20:45:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757018606; cv=none; b=U4Xjs4lJcG6HTuRy2xKxg0RACdokt6piOp99/GQ6l2tBrmr5PKUS6eJ5Smurvs+W1K3MZE7HAtXranqFbrXkAZswPJKPhUus5kVwfD0QfC51ssevixwe4VUTOFqd2/2nOW1GwrbrC47Gm7mgfsKTbVrkPriYTrFhbMej++KEhqY=
+	t=1757018750; cv=none; b=AcFOm/WIbRZPQ3B5cw8urCGp6nXSLzI6ity5R0oS5CuPkBWe/XLXDsCaXxp48vcIpjJWBOvtMjC4arUXStnDhY1TxTiYy57QqAm0SHvO9+f8CH3mSOApb0A8OjxNDcT5zUevtnvxCyoa5SnCKJlcC9JlvFb2+l62P5MGbXMHUoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757018606; c=relaxed/simple;
-	bh=NzH5f6y970hhv0kh6FwfAIeMgXKfPv4dAoq/Y/zQ/0A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B9bWper+iUf1zJ44DcsMIx6Gt6KvBZWaqiORHBFxiGKh6g5jPtlEFbq30BEhEsFEaTsMGNP0rq5HpmumUkscMk8XurMonWZwue+uJgZEvh5AL+XBEkw83g9WfvmUfeGsT/L1GVpKV7pFWiQT4+5u3+HGBdtGgHEdka9UuXwleiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=qY/1p+ir; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=2zGbgW/cDgXPG1zOwlu2oL2V6JgF6ORfLuZCn2FbO7o=; b=qY/1p+ir1YlJHB57jjuWNokeH5
-	NbfgM4VdUW5OJMgZnZ8326YcQ2uPlgdmW0cqOiNZTwIn49/+gQxyzXp1VJ8XTN1ni1UKbWl6D6QDk
-	UBrB3EXFNsALXJDpmVMJkASMiaivvhYs6BUjAQrKzc2tF3cNy7cGGVAEJYBSkiVJc+ws=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1uuGna-007Gpp-Q0; Thu, 04 Sep 2025 22:43:14 +0200
-Date: Thu, 4 Sep 2025 22:43:14 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	s=arc-20240116; t=1757018750; c=relaxed/simple;
+	bh=05i5KKzlsbT/8I79/AsjlFkfQC/HDtaYEWwTXvjLtSc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jfmPDrvodTK1nxl0oPJMCaOqF/e5RjZF8pqgUrn6vl395OFRbS3/8Ujz/pKxtX19OmIS6MdfkTsbGCU3LA90beM6woC4Goz2e36hThyoXGe+Mw2u/RyEUbVPT+iMPnsgg0TzrpVvmOU+/go4jD4axgm8t1Zw5uk8GOaU2BIR/zY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=jIfxdcwK; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=kFZ6fULo; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cHs223M9sz9t9t;
+	Thu,  4 Sep 2025 22:45:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1757018746;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Gu9QfSR06q9gQse2ZBICxJa2UFCZpC56QqcslqucwuE=;
+	b=jIfxdcwKB+041GOrNihkdrUbdB6SkGFw3SbztFhDhSLSJUuAML7CYPCYUit2HJ8hOiWIGU
+	4/kRY5JDoKnljd4oG66MWWiCWVdTiBSBX2kZDdg1JUDNgpF+AXskBlyUeg04/YerW1uErK
+	lyPgNd3mgNayTVD/nMEmnD3FFanTzrGzHmWNfHqZS5mX294TW5bl+CrLGjYBNwF4iSb85S
+	b8joR/ojgf0Dz+VUJdj7FSBRgiqdXkf1oqQz/ciHFIJ7oVYjtxJX8yy7zKUPEWBt6U7FR0
+	2DFTrK1bXeIOqhli5vzI5+BkWBcpSQ94FrxnP3GrrknvnRnfvnwF05ySBq45Sg==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=kFZ6fULo;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1757018744;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Gu9QfSR06q9gQse2ZBICxJa2UFCZpC56QqcslqucwuE=;
+	b=kFZ6fULolcuNmXOd+8DAb3Rgtphasmqs2mkaZM+AN+iSWWizXzRwC4GLRflBDq2JQtNmKm
+	I02AYhkyfG+DAs6ue/62esVrXWkVUB3gLbtyyO8Ag2jn3M4aHc/iIqsGe0ehFYpW+V1+iD
+	E7OR24FDKcX2sB5yK0U49FVAc7RO3Yb/qU79MoZTgAt2hvk3u/xrQo8mT7GJJEJPB091AU
+	hUqq++vzjudawhGxNO9nyl0Rpi/z1G8o7L2gn6ZwR3LW5x675Ksq3s5ixf+GVZcsLonBOa
+	BpTHI0zefb+l7iJfJ/QLI7qY2zWhB4Zk6UAqWOw+/tTr7d1s8gqCB3VnF4tMWA==
+To: linux-arm-kernel@lists.infradead.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Magnus Damm <magnus.damm@gmail.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH net-next v2 7/9] net: pcs: rzn1-miic: Add support to
- handle resets
-Message-ID: <9ad6ec03-bd01-463f-b076-e537bb7eada4@lunn.ch>
-References: <20250904114204.4148520-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250904114204.4148520-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Rob Herring <robh@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] arm64: dts: renesas: r8a779g3: Add Argon40 fan HAT DTO to Retronix R-Car V4H Sparrow Hawk
+Date: Thu,  4 Sep 2025 22:44:56 +0200
+Message-ID: <20250904204522.180439-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250904114204.4148520-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: c5fb2a05ee80b534582
+X-MBO-RS-META: w3o1ifttorfcjdp54tt1zupytisdirwx
+X-Rspamd-Queue-Id: 4cHs223M9sz9t9t
 
-On Thu, Sep 04, 2025 at 12:42:01PM +0100, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> Add reset-line handling to the RZN1 MIIC driver and move reset
-> configuration into the SoC/OF data. Introduce MIIC_MAX_NUM_RSTS (= 2),
-> add storage for reset_control_bulk_data in struct miic and add
-> reset_ids and reset_count fields to miic_of_data.
-> 
-> When reset_ids are present in the OF data, the driver obtains the reset
-> lines with devm_reset_control_bulk_get_exclusive(), deasserts them during
-> probe and registers a devres action to assert them on remove or on error.
-> 
-> This change is preparatory work to support the RZ/T2H SoC, which exposes
-> two reset lines for the ETHSS IP. The driver remains backward compatible
-> for platforms that do not provide reset lines.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Add DT overlay to bind Argon40 fan HAT, on Retronix R-Car V4H
+Sparrow Hawk board. Fan RPM control and full RPM on reboot has
+been tested.
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>
+Cc: Rob Herring <robh@kernel.org>
+Cc: devicetree@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+NOTE: Depends on series:
+      https://lore.kernel.org/linux-hwmon/20250904202157.170600-1-marek.vasut+renesas@mailbox.org/
+---
+ arch/arm64/boot/dts/renesas/Makefile          |  3 +
+ .../r8a779g3-sparrow-hawk-fan-argon40.dtso    | 56 +++++++++++++++++++
+ 2 files changed, 59 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-fan-argon40.dtso
 
-    Andrew
+diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
+index bef624636d58b..b2325d1ddf9d3 100644
+--- a/arch/arm64/boot/dts/renesas/Makefile
++++ b/arch/arm64/boot/dts/renesas/Makefile
+@@ -96,6 +96,9 @@ dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g2-white-hawk-single-ard-audio-da7212.dtb
+ 
+ DTC_FLAGS_r8a779g3-sparrow-hawk += -Wno-spi_bus_bridge
+ dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk.dtb
++dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-fan-argon40.dtbo
++r8a779g3-sparrow-hawk-fan-argon40-dtbs := r8a779g3-sparrow-hawk.dtb r8a779g3-sparrow-hawk-fan-argon40.dtbo
++dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-fan-argon40.dtb
+ dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-fan-pwm.dtbo
+ r8a779g3-sparrow-hawk-fan-pwm-dtbs := r8a779g3-sparrow-hawk.dtb r8a779g3-sparrow-hawk-fan-pwm.dtbo
+ dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-fan-pwm.dtb
+diff --git a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-fan-argon40.dtso b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-fan-argon40.dtso
+new file mode 100644
+index 0000000000000..e63fd3e18b2a1
+--- /dev/null
++++ b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-fan-argon40.dtso
+@@ -0,0 +1,56 @@
++// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++/*
++ * Device Tree Overlay for the Argon40 HAT blower fan in connector CN7
++ * on R-Car V4H ES3.0 Sparrow Hawk board
++ *
++ * Copyright (C) 2025 Marek Vasut <marek.vasut+renesas@mailbox.org>
++ *
++ * Example usage:
++ *
++ * # Localize hwmon sysfs directory that matches the PWM fan,
++ * # enable the PWM fan, and configure the fan speed manually.
++ * r8a779g3-sparrow-hawk$ grep -H . /sys/class/hwmon/hwmon?/name
++ * /sys/class/hwmon/hwmon0/name:sensor1_thermal
++ * /sys/class/hwmon/hwmon1/name:sensor2_thermal
++ * /sys/class/hwmon/hwmon2/name:sensor3_thermal
++ * /sys/class/hwmon/hwmon3/name:sensor4_thermal
++ * /sys/class/hwmon/hwmon4/name:pwmfan
++ *                       ^      ^^^^^^
++ *
++ * # Select mode 2 , enable fan PWM and regulator and keep them enabled.
++ * # For details, see Linux Documentation/hwmon/pwm-fan.rst
++ * r8a779g3-sparrow-hawk$ echo 2 > /sys/class/hwmon/hwmon4/pwm1_enable
++ *
++ * # Configure PWM fan speed in range 0..255 , 0 is stopped , 255 is full speed .
++ * # Fan speed 101 is about 2/5 of the PWM fan speed:
++ * r8a779g3-sparrow-hawk$ echo 101 > /sys/class/hwmon/hwmon4/pwm1
++ */
++
++/dts-v1/;
++/plugin/;
++
++&{/} {
++	pwm-fan {
++		compatible = "pwm-fan";
++		#cooling-cells = <2>;
++		/* PWM period: 33us ~= 30 kHz */
++		pwms = <&pwmhat 0 33334 0>;
++		/* Available cooling levels */
++		cooling-levels = <0 50 100 150 200 255>;
++		fan-shutdown-percent = <100>;
++	};
++};
++
++/* Page 31 / IO_CN */
++&i2c3 {
++	#address-cells = <1>;
++	#size-cells = <0>;
++	clock-frequency = <400000>;
++	status = "okay";
++
++	pwmhat: pwm@1a {
++		compatible = "argon40,fan-hat";
++		reg = <0x1a>;
++		#pwm-cells = <3>;
++	};
++};
+-- 
+2.50.1
+
 
