@@ -1,121 +1,1326 @@
-Return-Path: <linux-renesas-soc+bounces-21398-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21400-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8BA2B447AA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 22:50:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 636E4B447D4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 22:56:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6B0371BC3CEC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 20:50:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C552F1BC5254
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 20:56:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47A79284B33;
-	Thu,  4 Sep 2025 20:49:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4230288522;
+	Thu,  4 Sep 2025 20:56:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="cafd0cQl"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="cLOA8Yj2";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="sOX2RF20"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A521B4223;
-	Thu,  4 Sep 2025 20:49:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A520F277035;
+	Thu,  4 Sep 2025 20:55:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757018996; cv=none; b=Zp7aX1rG5Cx2xyFQZG9XnKJQ0fiCh2i6adL7FoOLXJNcRB10ejivKnGElunSWafGP1JH7nqfjuxRTK8Ff0qw4G8+V5hfXkMfvZGNZPUTGw4KVyUdKrLSnLHF75MI/E1R8xLu8zxZrD4q9oUfWEUtJXTyTB+j60VjumCAgfwiGPE=
+	t=1757019363; cv=none; b=HbXC9jPeUp1cZN3NcfSSVbtWOB7NrwXc1i3dUEPoxBsTIxmk2JX38D99wjCc/fs2oC0yinebCm29d9PwlXheX+uIH1fYYw7aESqiE09igo4MRwfqhgtLv+3sWrLsXDkS2yoEL/DR2rTXq+Hkjt+SSi6hJV4yodxz1ZI0w6pwb8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757018996; c=relaxed/simple;
-	bh=0Ia6nloHQ0Ff9r1ulZPnl3Zod+d/yZqUp95nBs/ncxI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JxszOGD5CdJiZJ8wINM0FM/eyC3iYtEuoM4lrmknkhMAjBoiI1qKWv+8HJ79vhp1l2IqgE1iDQAPHEWMatSDNzdNPnQFmUDY7mnj32MxWaydzoDDEsGzzJ6FZcOCnpXzANjUiqYyEJfhnEZj1V/Dc45V8pTuSNZJ7UtynT22+JE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=cafd0cQl; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=MgQkSL1KPd31q0yGx1YBfBg/BNXTL/hwsPCMI8L4USk=; b=cafd0cQl9t9SZ6QiVZLpIxJfk1
-	nSGxl+L3uTgjh2c26Pg8GivhTLKLI9rB5WC2JhFEvZ7VO5rU3HCGFQ3pXcyRAsXbYnLDPllgZoYYg
-	LtpX1A890+XJGATjLiJUfNfqo7RM9SxLuDg7hLT1XWKLURmspGmuSxCpnPdCz0odRK8XbWovJdMDx
-	yDLtxick2P47burx74WmW4HcMGAQpWah/L4XyGHN7QVmhVZ6rexPUR0bIwvPXGsGTVfJ4HTAa+5Wt
-	XIMg0VOvEWPuugPUjlQHfafL0bRsgUj7xEhA+K61CnKQHtq6OuXyyNsZo+GRwZRf6cTzhFubCO29n
-	XeiF82Kg==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:57380)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1uuGtn-000000002X1-2IMh;
-	Thu, 04 Sep 2025 21:49:39 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1uuGth-000000001qx-3mKy;
-	Thu, 04 Sep 2025 21:49:33 +0100
-Date: Thu, 4 Sep 2025 21:49:33 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	s=arc-20240116; t=1757019363; c=relaxed/simple;
+	bh=vyz0AXd+GUBNRQ/m58dujxtQQAxhEKAhHNnS4C1wpO0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OxotIl8pVINGKIV2zLQS8p4gei7NLOZsNGi26UEQp+LYPN+AQmR3FFC94RAaPzE7B1qHbu1ld1l15ydRp+SSlZERW2dPTFNgCag8bvDtasFlRXO3Gleep41PIC6Qm/2me+IvtaxJGdT6oobNEcE0Dtl77X6JA6TG543wtesEMrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=cLOA8Yj2; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=sOX2RF20; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4cHsFn4TRKz9tHG;
+	Thu,  4 Sep 2025 22:55:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1757019357;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=WeEJB0JedscVEBxFr0cOUMeVUlfgO6D7+tNA77bGW5s=;
+	b=cLOA8Yj2KNmyIxSsc9nEZXl9T7opB9cL01aV3sc+zLOm16xhcYJJjzum3nMZwq9i1pgbo6
+	RSzPp3E79iNi5Bt+ymsLmSh7oVLZjq6oI/4iYGU4QbZZ7dkE9It/SfqyxzWUZJ3ahsLER0
+	qkmEF9ejKTMy0wXMTTwIrDXxRPDv4Xd3IiycxrVUtAD5aUoy17mESJUTIscWClrsxytE0v
+	pEX4mTmvAMRbIRxVz4bqtDKdwk72oRXV9/QG0LExmGP8a0O5yxNvh9jK8uQBtnLaHmudFj
+	3IKilpfBA+VAIj/oWjzQaQhyS3AGbovmGMu1jaiDyoMmjY3ALnuSwIBok4Ri/g==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=sOX2RF20;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1757019355;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=WeEJB0JedscVEBxFr0cOUMeVUlfgO6D7+tNA77bGW5s=;
+	b=sOX2RF20RHMoSijheOrVtuemAffdmXFmHz4aEy0nB6t8VALleDhPqImAf02qbOJL+q1ksZ
+	Zb6kUnpX6NoOH8ysFrIOk5fXo6RTptVDRAe/1B2LjskQhGgWgprreI0SAW1tjsBJQWTR0w
+	/STPn9y4L/FrOZRPr89//UAbsSz3pkBE7vEOB5PR54QpEw2Gn71nZmEZs1xxQGAv+jaIRx
+	F9uVNNz2Q9PDu0Z7j42IVsjPY2QoMbSU2ue+TJhYRpoCkuoZX+dJtj51qWcufdjHeJ7s4Y
+	AC0x/1ciBe3lw1vKrjjk5I94O0Bmw/S9xNXVIszpjXv8tgJjrc3s0jwZDKM35w==
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Jose Abreu <joabreu@synopsys.com>, netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH net-next v2 2/3] net: stmmac: dwmac-renesas-gbeth: Use OF
- data for configuration
-Message-ID: <aLn7XVnWmHv1Bfe2@shell.armlinux.org.uk>
-References: <20250904203949.292066-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250904203949.292066-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	David Airlie <airlied@gmail.com>,
+	Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Simona Vetter <simona@ffwll.ch>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] drm/panel: ilitek-ili9881c: Turn ILI9881C_COMMAND_INSTR() parameters lowercase
+Date: Thu,  4 Sep 2025 22:55:15 +0200
+Message-ID: <20250904205541.186001-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250904203949.292066-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: bw8jqbsinb9rieq47pcxhumky6ocqdb4
+X-MBO-RS-ID: ca8c1421881337ef817
+X-Rspamd-Queue-Id: 4cHsFn4TRKz9tHG
 
-On Thu, Sep 04, 2025 at 09:39:48PM +0100, Prabhakar wrote:
->  	plat_dat->init = renesas_gbeth_init;
->  	plat_dat->exit = renesas_gbeth_exit;
-> -	plat_dat->flags |= STMMAC_FLAG_HWTSTAMP_CORRECT_LATENCY |
-> -			   STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP |
-> -			   STMMAC_FLAG_SPH_DISABLE;
-> +	plat_dat->flags |= gbeth->of_data->stmmac_flags;
+Make all ILI9881C_COMMAND_INSTR() parameters consistently lowercase.
+No functional change.
 
-You include the first two flags in your new device. I would like to see
-at least STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP always being set. The only
-reason we have the STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP flag is to avoid
-changing existing behaviour and causing regressions. New stuff should
-always set this.
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: devicetree@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+NOTE: Use vim :%s@ILI9881C_COMMAND_INSTR\(.0x.*\)),@ILI9881C_COMMAND_INSTR\L\1),
+---
+ drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 888 +++++++++---------
+ 1 file changed, 444 insertions(+), 444 deletions(-)
 
-If there is a reason not to have this set (e.g., PCS doesn't support
-it) then we need to make that a PCS property and extend phylink's EEE
-support. If there's something wrong in the setup that stmmac does for
-EEE, then I'd like to hear about it as well.
-
-Thanks.
-
+diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
+index 39929c6ebdad9..fee10546c7c7f 100644
+--- a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
++++ b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
+@@ -100,7 +100,7 @@ static const struct ili9881c_instr lhr050h41_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x13, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x14, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x15, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x16, 0x0C),
++	ILI9881C_COMMAND_INSTR(0x16, 0x0c),
+ 	ILI9881C_COMMAND_INSTR(0x17, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x18, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x19, 0x00),
+@@ -108,7 +108,7 @@ static const struct ili9881c_instr lhr050h41_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x1b, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x1c, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x1d, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x1e, 0xC0),
++	ILI9881C_COMMAND_INSTR(0x1e, 0xc0),
+ 	ILI9881C_COMMAND_INSTR(0x1f, 0x80),
+ 	ILI9881C_COMMAND_INSTR(0x20, 0x04),
+ 	ILI9881C_COMMAND_INSTR(0x21, 0x01),
+@@ -134,7 +134,7 @@ static const struct ili9881c_instr lhr050h41_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x35, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x36, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x37, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x38, 0x3C),
++	ILI9881C_COMMAND_INSTR(0x38, 0x3c),
+ 	ILI9881C_COMMAND_INSTR(0x39, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x3a, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x3b, 0x00),
+@@ -173,11 +173,11 @@ static const struct ili9881c_instr lhr050h41_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x67, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x68, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x69, 0x02),
+-	ILI9881C_COMMAND_INSTR(0x6a, 0x0C),
++	ILI9881C_COMMAND_INSTR(0x6a, 0x0c),
+ 	ILI9881C_COMMAND_INSTR(0x6b, 0x02),
+-	ILI9881C_COMMAND_INSTR(0x6c, 0x0F),
+-	ILI9881C_COMMAND_INSTR(0x6d, 0x0E),
+-	ILI9881C_COMMAND_INSTR(0x6e, 0x0D),
++	ILI9881C_COMMAND_INSTR(0x6c, 0x0f),
++	ILI9881C_COMMAND_INSTR(0x6d, 0x0e),
++	ILI9881C_COMMAND_INSTR(0x6e, 0x0d),
+ 	ILI9881C_COMMAND_INSTR(0x6f, 0x06),
+ 	ILI9881C_COMMAND_INSTR(0x70, 0x07),
+ 	ILI9881C_COMMAND_INSTR(0x71, 0x02),
+@@ -195,74 +195,74 @@ static const struct ili9881c_instr lhr050h41_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x7d, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x7e, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x7f, 0x02),
+-	ILI9881C_COMMAND_INSTR(0x80, 0x0C),
++	ILI9881C_COMMAND_INSTR(0x80, 0x0c),
+ 	ILI9881C_COMMAND_INSTR(0x81, 0x02),
+-	ILI9881C_COMMAND_INSTR(0x82, 0x0F),
+-	ILI9881C_COMMAND_INSTR(0x83, 0x0E),
+-	ILI9881C_COMMAND_INSTR(0x84, 0x0D),
++	ILI9881C_COMMAND_INSTR(0x82, 0x0f),
++	ILI9881C_COMMAND_INSTR(0x83, 0x0e),
++	ILI9881C_COMMAND_INSTR(0x84, 0x0d),
+ 	ILI9881C_COMMAND_INSTR(0x85, 0x06),
+ 	ILI9881C_COMMAND_INSTR(0x86, 0x07),
+ 	ILI9881C_COMMAND_INSTR(0x87, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x88, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x89, 0x02),
+-	ILI9881C_COMMAND_INSTR(0x8A, 0x02),
++	ILI9881C_COMMAND_INSTR(0x8a, 0x02),
+ 	ILI9881C_SWITCH_PAGE_INSTR(4),
+-	ILI9881C_COMMAND_INSTR(0x6C, 0x15),
+-	ILI9881C_COMMAND_INSTR(0x6E, 0x22),
+-	ILI9881C_COMMAND_INSTR(0x6F, 0x33),
+-	ILI9881C_COMMAND_INSTR(0x3A, 0xA4),
+-	ILI9881C_COMMAND_INSTR(0x8D, 0x0D),
+-	ILI9881C_COMMAND_INSTR(0x87, 0xBA),
++	ILI9881C_COMMAND_INSTR(0x6c, 0x15),
++	ILI9881C_COMMAND_INSTR(0x6e, 0x22),
++	ILI9881C_COMMAND_INSTR(0x6f, 0x33),
++	ILI9881C_COMMAND_INSTR(0x3a, 0xa4),
++	ILI9881C_COMMAND_INSTR(0x8d, 0x0d),
++	ILI9881C_COMMAND_INSTR(0x87, 0xba),
+ 	ILI9881C_COMMAND_INSTR(0x26, 0x76),
+-	ILI9881C_COMMAND_INSTR(0xB2, 0xD1),
++	ILI9881C_COMMAND_INSTR(0xb2, 0xd1),
+ 	ILI9881C_SWITCH_PAGE_INSTR(1),
+-	ILI9881C_COMMAND_INSTR(0x22, 0x0A),
+-	ILI9881C_COMMAND_INSTR(0x53, 0xDC),
+-	ILI9881C_COMMAND_INSTR(0x55, 0xA7),
++	ILI9881C_COMMAND_INSTR(0x22, 0x0a),
++	ILI9881C_COMMAND_INSTR(0x53, 0xdc),
++	ILI9881C_COMMAND_INSTR(0x55, 0xa7),
+ 	ILI9881C_COMMAND_INSTR(0x50, 0x78),
+ 	ILI9881C_COMMAND_INSTR(0x51, 0x78),
+ 	ILI9881C_COMMAND_INSTR(0x31, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x60, 0x14),
+-	ILI9881C_COMMAND_INSTR(0xA0, 0x2A),
+-	ILI9881C_COMMAND_INSTR(0xA1, 0x39),
+-	ILI9881C_COMMAND_INSTR(0xA2, 0x46),
+-	ILI9881C_COMMAND_INSTR(0xA3, 0x0e),
+-	ILI9881C_COMMAND_INSTR(0xA4, 0x12),
+-	ILI9881C_COMMAND_INSTR(0xA5, 0x25),
+-	ILI9881C_COMMAND_INSTR(0xA6, 0x19),
+-	ILI9881C_COMMAND_INSTR(0xA7, 0x1d),
+-	ILI9881C_COMMAND_INSTR(0xA8, 0xa6),
+-	ILI9881C_COMMAND_INSTR(0xA9, 0x1C),
+-	ILI9881C_COMMAND_INSTR(0xAA, 0x29),
+-	ILI9881C_COMMAND_INSTR(0xAB, 0x85),
+-	ILI9881C_COMMAND_INSTR(0xAC, 0x1C),
+-	ILI9881C_COMMAND_INSTR(0xAD, 0x1B),
+-	ILI9881C_COMMAND_INSTR(0xAE, 0x51),
+-	ILI9881C_COMMAND_INSTR(0xAF, 0x22),
+-	ILI9881C_COMMAND_INSTR(0xB0, 0x2d),
+-	ILI9881C_COMMAND_INSTR(0xB1, 0x4f),
+-	ILI9881C_COMMAND_INSTR(0xB2, 0x59),
+-	ILI9881C_COMMAND_INSTR(0xB3, 0x3F),
+-	ILI9881C_COMMAND_INSTR(0xC0, 0x2A),
+-	ILI9881C_COMMAND_INSTR(0xC1, 0x3a),
+-	ILI9881C_COMMAND_INSTR(0xC2, 0x45),
+-	ILI9881C_COMMAND_INSTR(0xC3, 0x0e),
+-	ILI9881C_COMMAND_INSTR(0xC4, 0x11),
+-	ILI9881C_COMMAND_INSTR(0xC5, 0x24),
+-	ILI9881C_COMMAND_INSTR(0xC6, 0x1a),
+-	ILI9881C_COMMAND_INSTR(0xC7, 0x1c),
+-	ILI9881C_COMMAND_INSTR(0xC8, 0xaa),
+-	ILI9881C_COMMAND_INSTR(0xC9, 0x1C),
+-	ILI9881C_COMMAND_INSTR(0xCA, 0x29),
+-	ILI9881C_COMMAND_INSTR(0xCB, 0x96),
+-	ILI9881C_COMMAND_INSTR(0xCC, 0x1C),
+-	ILI9881C_COMMAND_INSTR(0xCD, 0x1B),
+-	ILI9881C_COMMAND_INSTR(0xCE, 0x51),
+-	ILI9881C_COMMAND_INSTR(0xCF, 0x22),
+-	ILI9881C_COMMAND_INSTR(0xD0, 0x2b),
+-	ILI9881C_COMMAND_INSTR(0xD1, 0x4b),
+-	ILI9881C_COMMAND_INSTR(0xD2, 0x59),
+-	ILI9881C_COMMAND_INSTR(0xD3, 0x3F),
++	ILI9881C_COMMAND_INSTR(0xa0, 0x2a),
++	ILI9881C_COMMAND_INSTR(0xa1, 0x39),
++	ILI9881C_COMMAND_INSTR(0xa2, 0x46),
++	ILI9881C_COMMAND_INSTR(0xa3, 0x0e),
++	ILI9881C_COMMAND_INSTR(0xa4, 0x12),
++	ILI9881C_COMMAND_INSTR(0xa5, 0x25),
++	ILI9881C_COMMAND_INSTR(0xa6, 0x19),
++	ILI9881C_COMMAND_INSTR(0xa7, 0x1d),
++	ILI9881C_COMMAND_INSTR(0xa8, 0xa6),
++	ILI9881C_COMMAND_INSTR(0xa9, 0x1c),
++	ILI9881C_COMMAND_INSTR(0xaa, 0x29),
++	ILI9881C_COMMAND_INSTR(0xab, 0x85),
++	ILI9881C_COMMAND_INSTR(0xac, 0x1c),
++	ILI9881C_COMMAND_INSTR(0xad, 0x1b),
++	ILI9881C_COMMAND_INSTR(0xae, 0x51),
++	ILI9881C_COMMAND_INSTR(0xaf, 0x22),
++	ILI9881C_COMMAND_INSTR(0xb0, 0x2d),
++	ILI9881C_COMMAND_INSTR(0xb1, 0x4f),
++	ILI9881C_COMMAND_INSTR(0xb2, 0x59),
++	ILI9881C_COMMAND_INSTR(0xb3, 0x3f),
++	ILI9881C_COMMAND_INSTR(0xc0, 0x2a),
++	ILI9881C_COMMAND_INSTR(0xc1, 0x3a),
++	ILI9881C_COMMAND_INSTR(0xc2, 0x45),
++	ILI9881C_COMMAND_INSTR(0xc3, 0x0e),
++	ILI9881C_COMMAND_INSTR(0xc4, 0x11),
++	ILI9881C_COMMAND_INSTR(0xc5, 0x24),
++	ILI9881C_COMMAND_INSTR(0xc6, 0x1a),
++	ILI9881C_COMMAND_INSTR(0xc7, 0x1c),
++	ILI9881C_COMMAND_INSTR(0xc8, 0xaa),
++	ILI9881C_COMMAND_INSTR(0xc9, 0x1c),
++	ILI9881C_COMMAND_INSTR(0xca, 0x29),
++	ILI9881C_COMMAND_INSTR(0xcb, 0x96),
++	ILI9881C_COMMAND_INSTR(0xcc, 0x1c),
++	ILI9881C_COMMAND_INSTR(0xcd, 0x1b),
++	ILI9881C_COMMAND_INSTR(0xce, 0x51),
++	ILI9881C_COMMAND_INSTR(0xcf, 0x22),
++	ILI9881C_COMMAND_INSTR(0xd0, 0x2b),
++	ILI9881C_COMMAND_INSTR(0xd1, 0x4b),
++	ILI9881C_COMMAND_INSTR(0xd2, 0x59),
++	ILI9881C_COMMAND_INSTR(0xd3, 0x3f),
+ };
+ 
+ static const struct ili9881c_instr k101_im2byl02_init[] = {
+@@ -276,12 +276,12 @@ static const struct ili9881c_instr k101_im2byl02_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x07, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x08, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x09, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x0A, 0x01),
+-	ILI9881C_COMMAND_INSTR(0x0B, 0x01),
+-	ILI9881C_COMMAND_INSTR(0x0C, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x0D, 0x01),
+-	ILI9881C_COMMAND_INSTR(0x0E, 0x01),
+-	ILI9881C_COMMAND_INSTR(0x0F, 0x00),
++	ILI9881C_COMMAND_INSTR(0x0a, 0x01),
++	ILI9881C_COMMAND_INSTR(0x0b, 0x01),
++	ILI9881C_COMMAND_INSTR(0x0c, 0x00),
++	ILI9881C_COMMAND_INSTR(0x0d, 0x01),
++	ILI9881C_COMMAND_INSTR(0x0e, 0x01),
++	ILI9881C_COMMAND_INSTR(0x0f, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x10, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x11, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x12, 0x00),
+@@ -292,12 +292,12 @@ static const struct ili9881c_instr k101_im2byl02_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x17, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x18, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x19, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x1A, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x1B, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x1C, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x1D, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x1E, 0x40),
+-	ILI9881C_COMMAND_INSTR(0x1F, 0xC0),
++	ILI9881C_COMMAND_INSTR(0x1a, 0x00),
++	ILI9881C_COMMAND_INSTR(0x1b, 0x00),
++	ILI9881C_COMMAND_INSTR(0x1c, 0x00),
++	ILI9881C_COMMAND_INSTR(0x1d, 0x00),
++	ILI9881C_COMMAND_INSTR(0x1e, 0x40),
++	ILI9881C_COMMAND_INSTR(0x1f, 0xc0),
+ 	ILI9881C_COMMAND_INSTR(0x20, 0x06),
+ 	ILI9881C_COMMAND_INSTR(0x21, 0x01),
+ 	ILI9881C_COMMAND_INSTR(0x22, 0x06),
+@@ -306,14 +306,14 @@ static const struct ili9881c_instr k101_im2byl02_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x25, 0x88),
+ 	ILI9881C_COMMAND_INSTR(0x26, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x27, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x28, 0x3B),
++	ILI9881C_COMMAND_INSTR(0x28, 0x3b),
+ 	ILI9881C_COMMAND_INSTR(0x29, 0x03),
+-	ILI9881C_COMMAND_INSTR(0x2A, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x2B, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x2C, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x2D, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x2E, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x2F, 0x00),
++	ILI9881C_COMMAND_INSTR(0x2a, 0x00),
++	ILI9881C_COMMAND_INSTR(0x2b, 0x00),
++	ILI9881C_COMMAND_INSTR(0x2c, 0x00),
++	ILI9881C_COMMAND_INSTR(0x2d, 0x00),
++	ILI9881C_COMMAND_INSTR(0x2e, 0x00),
++	ILI9881C_COMMAND_INSTR(0x2f, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x30, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x31, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x32, 0x00),
+@@ -324,12 +324,12 @@ static const struct ili9881c_instr k101_im2byl02_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x37, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x38, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x39, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x3A, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x3B, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x3C, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x3D, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x3E, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x3F, 0x00),
++	ILI9881C_COMMAND_INSTR(0x3a, 0x00),
++	ILI9881C_COMMAND_INSTR(0x3b, 0x00),
++	ILI9881C_COMMAND_INSTR(0x3c, 0x00),
++	ILI9881C_COMMAND_INSTR(0x3d, 0x00),
++	ILI9881C_COMMAND_INSTR(0x3e, 0x00),
++	ILI9881C_COMMAND_INSTR(0x3f, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x40, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x41, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x42, 0x00),
+@@ -340,17 +340,17 @@ static const struct ili9881c_instr k101_im2byl02_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x52, 0x45),
+ 	ILI9881C_COMMAND_INSTR(0x53, 0x67),
+ 	ILI9881C_COMMAND_INSTR(0x54, 0x89),
+-	ILI9881C_COMMAND_INSTR(0x55, 0xAB),
++	ILI9881C_COMMAND_INSTR(0x55, 0xab),
+ 	ILI9881C_COMMAND_INSTR(0x56, 0x01),
+ 	ILI9881C_COMMAND_INSTR(0x57, 0x23),
+ 	ILI9881C_COMMAND_INSTR(0x58, 0x45),
+ 	ILI9881C_COMMAND_INSTR(0x59, 0x67),
+-	ILI9881C_COMMAND_INSTR(0x5A, 0x89),
+-	ILI9881C_COMMAND_INSTR(0x5B, 0xAB),
+-	ILI9881C_COMMAND_INSTR(0x5C, 0xCD),
+-	ILI9881C_COMMAND_INSTR(0x5D, 0xEF),
+-	ILI9881C_COMMAND_INSTR(0x5E, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x5F, 0x01),
++	ILI9881C_COMMAND_INSTR(0x5a, 0x89),
++	ILI9881C_COMMAND_INSTR(0x5b, 0xab),
++	ILI9881C_COMMAND_INSTR(0x5c, 0xcd),
++	ILI9881C_COMMAND_INSTR(0x5d, 0xef),
++	ILI9881C_COMMAND_INSTR(0x5e, 0x00),
++	ILI9881C_COMMAND_INSTR(0x5f, 0x01),
+ 	ILI9881C_COMMAND_INSTR(0x60, 0x01),
+ 	ILI9881C_COMMAND_INSTR(0x61, 0x06),
+ 	ILI9881C_COMMAND_INSTR(0x62, 0x06),
+@@ -361,101 +361,101 @@ static const struct ili9881c_instr k101_im2byl02_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x67, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x68, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x69, 0x05),
+-	ILI9881C_COMMAND_INSTR(0x6A, 0x05),
+-	ILI9881C_COMMAND_INSTR(0x6B, 0x02),
+-	ILI9881C_COMMAND_INSTR(0x6C, 0x0D),
+-	ILI9881C_COMMAND_INSTR(0x6D, 0x0D),
+-	ILI9881C_COMMAND_INSTR(0x6E, 0x0C),
+-	ILI9881C_COMMAND_INSTR(0x6F, 0x0C),
+-	ILI9881C_COMMAND_INSTR(0x70, 0x0F),
+-	ILI9881C_COMMAND_INSTR(0x71, 0x0F),
+-	ILI9881C_COMMAND_INSTR(0x72, 0x0E),
+-	ILI9881C_COMMAND_INSTR(0x73, 0x0E),
++	ILI9881C_COMMAND_INSTR(0x6a, 0x05),
++	ILI9881C_COMMAND_INSTR(0x6b, 0x02),
++	ILI9881C_COMMAND_INSTR(0x6c, 0x0d),
++	ILI9881C_COMMAND_INSTR(0x6d, 0x0d),
++	ILI9881C_COMMAND_INSTR(0x6e, 0x0c),
++	ILI9881C_COMMAND_INSTR(0x6f, 0x0c),
++	ILI9881C_COMMAND_INSTR(0x70, 0x0f),
++	ILI9881C_COMMAND_INSTR(0x71, 0x0f),
++	ILI9881C_COMMAND_INSTR(0x72, 0x0e),
++	ILI9881C_COMMAND_INSTR(0x73, 0x0e),
+ 	ILI9881C_COMMAND_INSTR(0x74, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x75, 0x01),
+ 	ILI9881C_COMMAND_INSTR(0x76, 0x01),
+ 	ILI9881C_COMMAND_INSTR(0x77, 0x06),
+ 	ILI9881C_COMMAND_INSTR(0x78, 0x06),
+ 	ILI9881C_COMMAND_INSTR(0x79, 0x07),
+-	ILI9881C_COMMAND_INSTR(0x7A, 0x07),
+-	ILI9881C_COMMAND_INSTR(0x7B, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x7C, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x7D, 0x02),
+-	ILI9881C_COMMAND_INSTR(0x7E, 0x02),
+-	ILI9881C_COMMAND_INSTR(0x7F, 0x05),
++	ILI9881C_COMMAND_INSTR(0x7a, 0x07),
++	ILI9881C_COMMAND_INSTR(0x7b, 0x00),
++	ILI9881C_COMMAND_INSTR(0x7c, 0x00),
++	ILI9881C_COMMAND_INSTR(0x7d, 0x02),
++	ILI9881C_COMMAND_INSTR(0x7e, 0x02),
++	ILI9881C_COMMAND_INSTR(0x7f, 0x05),
+ 	ILI9881C_COMMAND_INSTR(0x80, 0x05),
+ 	ILI9881C_COMMAND_INSTR(0x81, 0x02),
+-	ILI9881C_COMMAND_INSTR(0x82, 0x0D),
+-	ILI9881C_COMMAND_INSTR(0x83, 0x0D),
+-	ILI9881C_COMMAND_INSTR(0x84, 0x0C),
+-	ILI9881C_COMMAND_INSTR(0x85, 0x0C),
+-	ILI9881C_COMMAND_INSTR(0x86, 0x0F),
+-	ILI9881C_COMMAND_INSTR(0x87, 0x0F),
+-	ILI9881C_COMMAND_INSTR(0x88, 0x0E),
+-	ILI9881C_COMMAND_INSTR(0x89, 0x0E),
+-	ILI9881C_COMMAND_INSTR(0x8A, 0x02),
++	ILI9881C_COMMAND_INSTR(0x82, 0x0d),
++	ILI9881C_COMMAND_INSTR(0x83, 0x0d),
++	ILI9881C_COMMAND_INSTR(0x84, 0x0c),
++	ILI9881C_COMMAND_INSTR(0x85, 0x0c),
++	ILI9881C_COMMAND_INSTR(0x86, 0x0f),
++	ILI9881C_COMMAND_INSTR(0x87, 0x0f),
++	ILI9881C_COMMAND_INSTR(0x88, 0x0e),
++	ILI9881C_COMMAND_INSTR(0x89, 0x0e),
++	ILI9881C_COMMAND_INSTR(0x8a, 0x02),
+ 	ILI9881C_SWITCH_PAGE_INSTR(4),
+-	ILI9881C_COMMAND_INSTR(0x3B, 0xC0), /* ILI4003D sel */
+-	ILI9881C_COMMAND_INSTR(0x6C, 0x15), /* Set VCORE voltage = 1.5V */
+-	ILI9881C_COMMAND_INSTR(0x6E, 0x2A), /* di_pwr_reg=0 for power mode 2A, VGH clamp 18V */
+-	ILI9881C_COMMAND_INSTR(0x6F, 0x33), /* pumping ratio VGH=5x VGL=-3x */
+-	ILI9881C_COMMAND_INSTR(0x8D, 0x1B), /* VGL clamp -10V */
+-	ILI9881C_COMMAND_INSTR(0x87, 0xBA), /* ESD */
+-	ILI9881C_COMMAND_INSTR(0x3A, 0x24), /* POWER SAVING */
++	ILI9881C_COMMAND_INSTR(0x3b, 0xc0), /* ILI4003D sel */
++	ILI9881C_COMMAND_INSTR(0x6c, 0x15), /* Set VCORE voltage = 1.5V */
++	ILI9881C_COMMAND_INSTR(0x6e, 0x2a), /* di_pwr_reg=0 for power mode 2A, VGH clamp 18V */
++	ILI9881C_COMMAND_INSTR(0x6f, 0x33), /* pumping ratio VGH=5x VGL=-3x */
++	ILI9881C_COMMAND_INSTR(0x8d, 0x1b), /* VGL clamp -10V */
++	ILI9881C_COMMAND_INSTR(0x87, 0xba), /* ESD */
++	ILI9881C_COMMAND_INSTR(0x3a, 0x24), /* POWER SAVING */
+ 	ILI9881C_COMMAND_INSTR(0x26, 0x76),
+-	ILI9881C_COMMAND_INSTR(0xB2, 0xD1),
++	ILI9881C_COMMAND_INSTR(0xb2, 0xd1),
+ 	ILI9881C_SWITCH_PAGE_INSTR(1),
+-	ILI9881C_COMMAND_INSTR(0x22, 0x0A), /* BGR, SS */
++	ILI9881C_COMMAND_INSTR(0x22, 0x0a), /* BGR, SS */
+ 	ILI9881C_COMMAND_INSTR(0x31, 0x00), /* Zigzag type3 inversion */
+ 	ILI9881C_COMMAND_INSTR(0x40, 0x53), /* ILI4003D sel */
+ 	ILI9881C_COMMAND_INSTR(0x43, 0x66),
+-	ILI9881C_COMMAND_INSTR(0x53, 0x4C),
++	ILI9881C_COMMAND_INSTR(0x53, 0x4c),
+ 	ILI9881C_COMMAND_INSTR(0x50, 0x87),
+ 	ILI9881C_COMMAND_INSTR(0x51, 0x82),
+ 	ILI9881C_COMMAND_INSTR(0x60, 0x15),
+ 	ILI9881C_COMMAND_INSTR(0x61, 0x01),
+-	ILI9881C_COMMAND_INSTR(0x62, 0x0C),
++	ILI9881C_COMMAND_INSTR(0x62, 0x0c),
+ 	ILI9881C_COMMAND_INSTR(0x63, 0x00),
+-	ILI9881C_COMMAND_INSTR(0xA0, 0x00),
+-	ILI9881C_COMMAND_INSTR(0xA1, 0x13), /* VP251 */
+-	ILI9881C_COMMAND_INSTR(0xA2, 0x23), /* VP247 */
+-	ILI9881C_COMMAND_INSTR(0xA3, 0x14), /* VP243 */
+-	ILI9881C_COMMAND_INSTR(0xA4, 0x16), /* VP239 */
+-	ILI9881C_COMMAND_INSTR(0xA5, 0x29), /* VP231 */
+-	ILI9881C_COMMAND_INSTR(0xA6, 0x1E), /* VP219 */
+-	ILI9881C_COMMAND_INSTR(0xA7, 0x1D), /* VP203 */
+-	ILI9881C_COMMAND_INSTR(0xA8, 0x86), /* VP175 */
+-	ILI9881C_COMMAND_INSTR(0xA9, 0x1E), /* VP144 */
+-	ILI9881C_COMMAND_INSTR(0xAA, 0x29), /* VP111 */
+-	ILI9881C_COMMAND_INSTR(0xAB, 0x74), /* VP80 */
+-	ILI9881C_COMMAND_INSTR(0xAC, 0x19), /* VP52 */
+-	ILI9881C_COMMAND_INSTR(0xAD, 0x17), /* VP36 */
+-	ILI9881C_COMMAND_INSTR(0xAE, 0x4B), /* VP24 */
+-	ILI9881C_COMMAND_INSTR(0xAF, 0x20), /* VP16 */
+-	ILI9881C_COMMAND_INSTR(0xB0, 0x26), /* VP12 */
+-	ILI9881C_COMMAND_INSTR(0xB1, 0x4C), /* VP8 */
+-	ILI9881C_COMMAND_INSTR(0xB2, 0x5D), /* VP4 */
+-	ILI9881C_COMMAND_INSTR(0xB3, 0x3F), /* VP0 */
+-	ILI9881C_COMMAND_INSTR(0xC0, 0x00), /* VN255 GAMMA N */
+-	ILI9881C_COMMAND_INSTR(0xC1, 0x13), /* VN251 */
+-	ILI9881C_COMMAND_INSTR(0xC2, 0x23), /* VN247 */
+-	ILI9881C_COMMAND_INSTR(0xC3, 0x14), /* VN243 */
+-	ILI9881C_COMMAND_INSTR(0xC4, 0x16), /* VN239 */
+-	ILI9881C_COMMAND_INSTR(0xC5, 0x29), /* VN231 */
+-	ILI9881C_COMMAND_INSTR(0xC6, 0x1E), /* VN219 */
+-	ILI9881C_COMMAND_INSTR(0xC7, 0x1D), /* VN203 */
+-	ILI9881C_COMMAND_INSTR(0xC8, 0x86), /* VN175 */
+-	ILI9881C_COMMAND_INSTR(0xC9, 0x1E), /* VN144 */
+-	ILI9881C_COMMAND_INSTR(0xCA, 0x29), /* VN111 */
+-	ILI9881C_COMMAND_INSTR(0xCB, 0x74), /* VN80 */
+-	ILI9881C_COMMAND_INSTR(0xCC, 0x19), /* VN52 */
+-	ILI9881C_COMMAND_INSTR(0xCD, 0x17), /* VN36 */
+-	ILI9881C_COMMAND_INSTR(0xCE, 0x4B), /* VN24 */
+-	ILI9881C_COMMAND_INSTR(0xCF, 0x20), /* VN16 */
+-	ILI9881C_COMMAND_INSTR(0xD0, 0x26), /* VN12 */
+-	ILI9881C_COMMAND_INSTR(0xD1, 0x4C), /* VN8 */
+-	ILI9881C_COMMAND_INSTR(0xD2, 0x5D), /* VN4 */
+-	ILI9881C_COMMAND_INSTR(0xD3, 0x3F), /* VN0 */
++	ILI9881C_COMMAND_INSTR(0xa0, 0x00),
++	ILI9881C_COMMAND_INSTR(0xa1, 0x13), /* VP251 */
++	ILI9881C_COMMAND_INSTR(0xa2, 0x23), /* VP247 */
++	ILI9881C_COMMAND_INSTR(0xa3, 0x14), /* VP243 */
++	ILI9881C_COMMAND_INSTR(0xa4, 0x16), /* VP239 */
++	ILI9881C_COMMAND_INSTR(0xa5, 0x29), /* VP231 */
++	ILI9881C_COMMAND_INSTR(0xa6, 0x1e), /* VP219 */
++	ILI9881C_COMMAND_INSTR(0xa7, 0x1d), /* VP203 */
++	ILI9881C_COMMAND_INSTR(0xa8, 0x86), /* VP175 */
++	ILI9881C_COMMAND_INSTR(0xa9, 0x1e), /* VP144 */
++	ILI9881C_COMMAND_INSTR(0xaa, 0x29), /* VP111 */
++	ILI9881C_COMMAND_INSTR(0xab, 0x74), /* VP80 */
++	ILI9881C_COMMAND_INSTR(0xac, 0x19), /* VP52 */
++	ILI9881C_COMMAND_INSTR(0xad, 0x17), /* VP36 */
++	ILI9881C_COMMAND_INSTR(0xae, 0x4b), /* VP24 */
++	ILI9881C_COMMAND_INSTR(0xaf, 0x20), /* VP16 */
++	ILI9881C_COMMAND_INSTR(0xb0, 0x26), /* VP12 */
++	ILI9881C_COMMAND_INSTR(0xb1, 0x4c), /* VP8 */
++	ILI9881C_COMMAND_INSTR(0xb2, 0x5d), /* VP4 */
++	ILI9881C_COMMAND_INSTR(0xb3, 0x3f), /* VP0 */
++	ILI9881C_COMMAND_INSTR(0xc0, 0x00), /* VN255 GAMMA N */
++	ILI9881C_COMMAND_INSTR(0xc1, 0x13), /* VN251 */
++	ILI9881C_COMMAND_INSTR(0xc2, 0x23), /* VN247 */
++	ILI9881C_COMMAND_INSTR(0xc3, 0x14), /* VN243 */
++	ILI9881C_COMMAND_INSTR(0xc4, 0x16), /* VN239 */
++	ILI9881C_COMMAND_INSTR(0xc5, 0x29), /* VN231 */
++	ILI9881C_COMMAND_INSTR(0xc6, 0x1e), /* VN219 */
++	ILI9881C_COMMAND_INSTR(0xc7, 0x1d), /* VN203 */
++	ILI9881C_COMMAND_INSTR(0xc8, 0x86), /* VN175 */
++	ILI9881C_COMMAND_INSTR(0xc9, 0x1e), /* VN144 */
++	ILI9881C_COMMAND_INSTR(0xca, 0x29), /* VN111 */
++	ILI9881C_COMMAND_INSTR(0xcb, 0x74), /* VN80 */
++	ILI9881C_COMMAND_INSTR(0xcc, 0x19), /* VN52 */
++	ILI9881C_COMMAND_INSTR(0xcd, 0x17), /* VN36 */
++	ILI9881C_COMMAND_INSTR(0xce, 0x4b), /* VN24 */
++	ILI9881C_COMMAND_INSTR(0xcf, 0x20), /* VN16 */
++	ILI9881C_COMMAND_INSTR(0xd0, 0x26), /* VN12 */
++	ILI9881C_COMMAND_INSTR(0xd1, 0x4c), /* VN8 */
++	ILI9881C_COMMAND_INSTR(0xd2, 0x5d), /* VN4 */
++	ILI9881C_COMMAND_INSTR(0xd3, 0x3f), /* VN0 */
+ };
+ 
+ static const struct ili9881c_instr kd050hdfia020_init[] = {
+@@ -517,7 +517,7 @@ static const struct ili9881c_instr kd050hdfia020_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x35, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x36, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x37, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x38, 0x3C),
++	ILI9881C_COMMAND_INSTR(0x38, 0x3c),
+ 	ILI9881C_COMMAND_INSTR(0x39, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x3a, 0x40),
+ 	ILI9881C_COMMAND_INSTR(0x3b, 0x40),
+@@ -549,10 +549,10 @@ static const struct ili9881c_instr kd050hdfia020_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x60, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x61, 0x15),
+ 	ILI9881C_COMMAND_INSTR(0x62, 0x14),
+-	ILI9881C_COMMAND_INSTR(0x63, 0x0E),
+-	ILI9881C_COMMAND_INSTR(0x64, 0x0F),
+-	ILI9881C_COMMAND_INSTR(0x65, 0x0C),
+-	ILI9881C_COMMAND_INSTR(0x66, 0x0D),
++	ILI9881C_COMMAND_INSTR(0x63, 0x0e),
++	ILI9881C_COMMAND_INSTR(0x64, 0x0f),
++	ILI9881C_COMMAND_INSTR(0x65, 0x0c),
++	ILI9881C_COMMAND_INSTR(0x66, 0x0d),
+ 	ILI9881C_COMMAND_INSTR(0x67, 0x06),
+ 	ILI9881C_COMMAND_INSTR(0x68, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x69, 0x07),
+@@ -571,10 +571,10 @@ static const struct ili9881c_instr kd050hdfia020_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x76, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x77, 0x14),
+ 	ILI9881C_COMMAND_INSTR(0x78, 0x15),
+-	ILI9881C_COMMAND_INSTR(0x79, 0x0E),
+-	ILI9881C_COMMAND_INSTR(0x7a, 0x0F),
+-	ILI9881C_COMMAND_INSTR(0x7b, 0x0C),
+-	ILI9881C_COMMAND_INSTR(0x7c, 0x0D),
++	ILI9881C_COMMAND_INSTR(0x79, 0x0e),
++	ILI9881C_COMMAND_INSTR(0x7a, 0x0f),
++	ILI9881C_COMMAND_INSTR(0x7b, 0x0c),
++	ILI9881C_COMMAND_INSTR(0x7c, 0x0d),
+ 	ILI9881C_COMMAND_INSTR(0x7d, 0x06),
+ 	ILI9881C_COMMAND_INSTR(0x7e, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x7f, 0x07),
+@@ -587,71 +587,71 @@ static const struct ili9881c_instr kd050hdfia020_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x87, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x88, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x89, 0x02),
+-	ILI9881C_COMMAND_INSTR(0x8A, 0x02),
++	ILI9881C_COMMAND_INSTR(0x8a, 0x02),
+ 	ILI9881C_SWITCH_PAGE_INSTR(0x4),
+-	ILI9881C_COMMAND_INSTR(0x6C, 0x15),
+-	ILI9881C_COMMAND_INSTR(0x6E, 0x2A),
+-	ILI9881C_COMMAND_INSTR(0x6F, 0x33),
+-	ILI9881C_COMMAND_INSTR(0x3A, 0x94),
+-	ILI9881C_COMMAND_INSTR(0x8D, 0x15),
+-	ILI9881C_COMMAND_INSTR(0x87, 0xBA),
++	ILI9881C_COMMAND_INSTR(0x6c, 0x15),
++	ILI9881C_COMMAND_INSTR(0x6e, 0x2a),
++	ILI9881C_COMMAND_INSTR(0x6f, 0x33),
++	ILI9881C_COMMAND_INSTR(0x3a, 0x94),
++	ILI9881C_COMMAND_INSTR(0x8d, 0x15),
++	ILI9881C_COMMAND_INSTR(0x87, 0xba),
+ 	ILI9881C_COMMAND_INSTR(0x26, 0x76),
+-	ILI9881C_COMMAND_INSTR(0xB2, 0xD1),
+-	ILI9881C_COMMAND_INSTR(0xB5, 0x06),
++	ILI9881C_COMMAND_INSTR(0xb2, 0xd1),
++	ILI9881C_COMMAND_INSTR(0xb5, 0x06),
+ 	ILI9881C_SWITCH_PAGE_INSTR(0x1),
+-	ILI9881C_COMMAND_INSTR(0x22, 0x0A),
++	ILI9881C_COMMAND_INSTR(0x22, 0x0a),
+ 	ILI9881C_COMMAND_INSTR(0x31, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x53, 0x90),
+-	ILI9881C_COMMAND_INSTR(0x55, 0xA2),
+-	ILI9881C_COMMAND_INSTR(0x50, 0xB7),
+-	ILI9881C_COMMAND_INSTR(0x51, 0xB7),
++	ILI9881C_COMMAND_INSTR(0x55, 0xa2),
++	ILI9881C_COMMAND_INSTR(0x50, 0xb7),
++	ILI9881C_COMMAND_INSTR(0x51, 0xb7),
+ 	ILI9881C_COMMAND_INSTR(0x60, 0x22),
+ 	ILI9881C_COMMAND_INSTR(0x61, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x62, 0x19),
+ 	ILI9881C_COMMAND_INSTR(0x63, 0x10),
+-	ILI9881C_COMMAND_INSTR(0xA0, 0x08),
+-	ILI9881C_COMMAND_INSTR(0xA1, 0x1A),
+-	ILI9881C_COMMAND_INSTR(0xA2, 0x27),
+-	ILI9881C_COMMAND_INSTR(0xA3, 0x15),
+-	ILI9881C_COMMAND_INSTR(0xA4, 0x17),
+-	ILI9881C_COMMAND_INSTR(0xA5, 0x2A),
+-	ILI9881C_COMMAND_INSTR(0xA6, 0x1E),
+-	ILI9881C_COMMAND_INSTR(0xA7, 0x1F),
+-	ILI9881C_COMMAND_INSTR(0xA8, 0x8B),
+-	ILI9881C_COMMAND_INSTR(0xA9, 0x1B),
+-	ILI9881C_COMMAND_INSTR(0xAA, 0x27),
+-	ILI9881C_COMMAND_INSTR(0xAB, 0x78),
+-	ILI9881C_COMMAND_INSTR(0xAC, 0x18),
+-	ILI9881C_COMMAND_INSTR(0xAD, 0x18),
+-	ILI9881C_COMMAND_INSTR(0xAE, 0x4C),
+-	ILI9881C_COMMAND_INSTR(0xAF, 0x21),
+-	ILI9881C_COMMAND_INSTR(0xB0, 0x27),
+-	ILI9881C_COMMAND_INSTR(0xB1, 0x54),
+-	ILI9881C_COMMAND_INSTR(0xB2, 0x67),
+-	ILI9881C_COMMAND_INSTR(0xB3, 0x39),
+-	ILI9881C_COMMAND_INSTR(0xC0, 0x08),
+-	ILI9881C_COMMAND_INSTR(0xC1, 0x1A),
+-	ILI9881C_COMMAND_INSTR(0xC2, 0x27),
+-	ILI9881C_COMMAND_INSTR(0xC3, 0x15),
+-	ILI9881C_COMMAND_INSTR(0xC4, 0x17),
+-	ILI9881C_COMMAND_INSTR(0xC5, 0x2A),
+-	ILI9881C_COMMAND_INSTR(0xC6, 0x1E),
+-	ILI9881C_COMMAND_INSTR(0xC7, 0x1F),
+-	ILI9881C_COMMAND_INSTR(0xC8, 0x8B),
+-	ILI9881C_COMMAND_INSTR(0xC9, 0x1B),
+-	ILI9881C_COMMAND_INSTR(0xCA, 0x27),
+-	ILI9881C_COMMAND_INSTR(0xCB, 0x78),
+-	ILI9881C_COMMAND_INSTR(0xCC, 0x18),
+-	ILI9881C_COMMAND_INSTR(0xCD, 0x18),
+-	ILI9881C_COMMAND_INSTR(0xCE, 0x4C),
+-	ILI9881C_COMMAND_INSTR(0xCF, 0x21),
+-	ILI9881C_COMMAND_INSTR(0xD0, 0x27),
+-	ILI9881C_COMMAND_INSTR(0xD1, 0x54),
+-	ILI9881C_COMMAND_INSTR(0xD2, 0x67),
+-	ILI9881C_COMMAND_INSTR(0xD3, 0x39),
++	ILI9881C_COMMAND_INSTR(0xa0, 0x08),
++	ILI9881C_COMMAND_INSTR(0xa1, 0x1a),
++	ILI9881C_COMMAND_INSTR(0xa2, 0x27),
++	ILI9881C_COMMAND_INSTR(0xa3, 0x15),
++	ILI9881C_COMMAND_INSTR(0xa4, 0x17),
++	ILI9881C_COMMAND_INSTR(0xa5, 0x2a),
++	ILI9881C_COMMAND_INSTR(0xa6, 0x1e),
++	ILI9881C_COMMAND_INSTR(0xa7, 0x1f),
++	ILI9881C_COMMAND_INSTR(0xa8, 0x8b),
++	ILI9881C_COMMAND_INSTR(0xa9, 0x1b),
++	ILI9881C_COMMAND_INSTR(0xaa, 0x27),
++	ILI9881C_COMMAND_INSTR(0xab, 0x78),
++	ILI9881C_COMMAND_INSTR(0xac, 0x18),
++	ILI9881C_COMMAND_INSTR(0xad, 0x18),
++	ILI9881C_COMMAND_INSTR(0xae, 0x4c),
++	ILI9881C_COMMAND_INSTR(0xaf, 0x21),
++	ILI9881C_COMMAND_INSTR(0xb0, 0x27),
++	ILI9881C_COMMAND_INSTR(0xb1, 0x54),
++	ILI9881C_COMMAND_INSTR(0xb2, 0x67),
++	ILI9881C_COMMAND_INSTR(0xb3, 0x39),
++	ILI9881C_COMMAND_INSTR(0xc0, 0x08),
++	ILI9881C_COMMAND_INSTR(0xc1, 0x1a),
++	ILI9881C_COMMAND_INSTR(0xc2, 0x27),
++	ILI9881C_COMMAND_INSTR(0xc3, 0x15),
++	ILI9881C_COMMAND_INSTR(0xc4, 0x17),
++	ILI9881C_COMMAND_INSTR(0xc5, 0x2a),
++	ILI9881C_COMMAND_INSTR(0xc6, 0x1e),
++	ILI9881C_COMMAND_INSTR(0xc7, 0x1f),
++	ILI9881C_COMMAND_INSTR(0xc8, 0x8b),
++	ILI9881C_COMMAND_INSTR(0xc9, 0x1b),
++	ILI9881C_COMMAND_INSTR(0xca, 0x27),
++	ILI9881C_COMMAND_INSTR(0xcb, 0x78),
++	ILI9881C_COMMAND_INSTR(0xcc, 0x18),
++	ILI9881C_COMMAND_INSTR(0xcd, 0x18),
++	ILI9881C_COMMAND_INSTR(0xce, 0x4c),
++	ILI9881C_COMMAND_INSTR(0xcf, 0x21),
++	ILI9881C_COMMAND_INSTR(0xd0, 0x27),
++	ILI9881C_COMMAND_INSTR(0xd1, 0x54),
++	ILI9881C_COMMAND_INSTR(0xd2, 0x67),
++	ILI9881C_COMMAND_INSTR(0xd3, 0x39),
+ 	ILI9881C_SWITCH_PAGE_INSTR(0),
+ 	ILI9881C_COMMAND_INSTR(0x35, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x3A, 0x7),
++	ILI9881C_COMMAND_INSTR(0x3a, 0x7),
+ };
+ 
+ static const struct ili9881c_instr tl050hdv35_init[] = {
+@@ -696,7 +696,7 @@ static const struct ili9881c_instr tl050hdv35_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x35, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x36, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x37, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x38, 0x3C),
++	ILI9881C_COMMAND_INSTR(0x38, 0x3c),
+ 	ILI9881C_COMMAND_INSTR(0x39, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x3a, 0x40),
+ 	ILI9881C_COMMAND_INSTR(0x3b, 0x40),
+@@ -750,7 +750,7 @@ static const struct ili9881c_instr tl050hdv35_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x7f, 0x07),
+ 	ILI9881C_COMMAND_INSTR(0x88, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x89, 0x02),
+-	ILI9881C_COMMAND_INSTR(0x8A, 0x02),
++	ILI9881C_COMMAND_INSTR(0x8a, 0x02),
+ 	ILI9881C_SWITCH_PAGE_INSTR(4),
+ 	ILI9881C_COMMAND_INSTR(0x38, 0x01),
+ 	ILI9881C_COMMAND_INSTR(0x39, 0x00),
+@@ -831,12 +831,12 @@ static const struct ili9881c_instr w552946ab_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x07, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x08, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x09, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x0A, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x0B, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x0C, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x0D, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x0E, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x0F, 0x00),
++	ILI9881C_COMMAND_INSTR(0x0a, 0x00),
++	ILI9881C_COMMAND_INSTR(0x0b, 0x00),
++	ILI9881C_COMMAND_INSTR(0x0c, 0x00),
++	ILI9881C_COMMAND_INSTR(0x0d, 0x00),
++	ILI9881C_COMMAND_INSTR(0x0e, 0x00),
++	ILI9881C_COMMAND_INSTR(0x0f, 0x00),
+ 
+ 	ILI9881C_COMMAND_INSTR(0x10, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x11, 0x00),
+@@ -848,12 +848,12 @@ static const struct ili9881c_instr w552946ab_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x17, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x18, 0x08),
+ 	ILI9881C_COMMAND_INSTR(0x19, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x1A, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x1B, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x1C, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x1D, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x1E, 0xC0),
+-	ILI9881C_COMMAND_INSTR(0x1F, 0x80),
++	ILI9881C_COMMAND_INSTR(0x1a, 0x00),
++	ILI9881C_COMMAND_INSTR(0x1b, 0x00),
++	ILI9881C_COMMAND_INSTR(0x1c, 0x00),
++	ILI9881C_COMMAND_INSTR(0x1d, 0x00),
++	ILI9881C_COMMAND_INSTR(0x1e, 0xc0),
++	ILI9881C_COMMAND_INSTR(0x1f, 0x80),
+ 
+ 	ILI9881C_COMMAND_INSTR(0x20, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x21, 0x09),
+@@ -865,12 +865,12 @@ static const struct ili9881c_instr w552946ab_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x27, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x28, 0x55),
+ 	ILI9881C_COMMAND_INSTR(0x29, 0x03),
+-	ILI9881C_COMMAND_INSTR(0x2A, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x2B, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x2C, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x2D, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x2E, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x2F, 0x00),
++	ILI9881C_COMMAND_INSTR(0x2a, 0x00),
++	ILI9881C_COMMAND_INSTR(0x2b, 0x00),
++	ILI9881C_COMMAND_INSTR(0x2c, 0x00),
++	ILI9881C_COMMAND_INSTR(0x2d, 0x00),
++	ILI9881C_COMMAND_INSTR(0x2e, 0x00),
++	ILI9881C_COMMAND_INSTR(0x2f, 0x00),
+ 
+ 	ILI9881C_COMMAND_INSTR(0x30, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x31, 0x00),
+@@ -880,54 +880,54 @@ static const struct ili9881c_instr w552946ab_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x35, 0x05),
+ 	ILI9881C_COMMAND_INSTR(0x36, 0x05),
+ 	ILI9881C_COMMAND_INSTR(0x37, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x38, 0x3C),
++	ILI9881C_COMMAND_INSTR(0x38, 0x3c),
+ 	ILI9881C_COMMAND_INSTR(0x39, 0x35),
+-	ILI9881C_COMMAND_INSTR(0x3A, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x3B, 0x40),
+-	ILI9881C_COMMAND_INSTR(0x3C, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x3D, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x3E, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x3F, 0x00),
++	ILI9881C_COMMAND_INSTR(0x3a, 0x00),
++	ILI9881C_COMMAND_INSTR(0x3b, 0x40),
++	ILI9881C_COMMAND_INSTR(0x3c, 0x00),
++	ILI9881C_COMMAND_INSTR(0x3d, 0x00),
++	ILI9881C_COMMAND_INSTR(0x3e, 0x00),
++	ILI9881C_COMMAND_INSTR(0x3f, 0x00),
+ 
+ 	ILI9881C_COMMAND_INSTR(0x40, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x41, 0x88),
+ 	ILI9881C_COMMAND_INSTR(0x42, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x43, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x44, 0x1F),
++	ILI9881C_COMMAND_INSTR(0x44, 0x1f),
+ 
+ 	ILI9881C_COMMAND_INSTR(0x50, 0x01),
+ 	ILI9881C_COMMAND_INSTR(0x51, 0x23),
+ 	ILI9881C_COMMAND_INSTR(0x52, 0x45),
+ 	ILI9881C_COMMAND_INSTR(0x53, 0x67),
+ 	ILI9881C_COMMAND_INSTR(0x54, 0x89),
+-	ILI9881C_COMMAND_INSTR(0x55, 0xaB),
++	ILI9881C_COMMAND_INSTR(0x55, 0xab),
+ 	ILI9881C_COMMAND_INSTR(0x56, 0x01),
+ 	ILI9881C_COMMAND_INSTR(0x57, 0x23),
+ 	ILI9881C_COMMAND_INSTR(0x58, 0x45),
+ 	ILI9881C_COMMAND_INSTR(0x59, 0x67),
+-	ILI9881C_COMMAND_INSTR(0x5A, 0x89),
+-	ILI9881C_COMMAND_INSTR(0x5B, 0xAB),
+-	ILI9881C_COMMAND_INSTR(0x5C, 0xCD),
+-	ILI9881C_COMMAND_INSTR(0x5D, 0xEF),
+-	ILI9881C_COMMAND_INSTR(0x5E, 0x03),
+-	ILI9881C_COMMAND_INSTR(0x5F, 0x14),
++	ILI9881C_COMMAND_INSTR(0x5a, 0x89),
++	ILI9881C_COMMAND_INSTR(0x5b, 0xab),
++	ILI9881C_COMMAND_INSTR(0x5c, 0xcd),
++	ILI9881C_COMMAND_INSTR(0x5d, 0xef),
++	ILI9881C_COMMAND_INSTR(0x5e, 0x03),
++	ILI9881C_COMMAND_INSTR(0x5f, 0x14),
+ 
+ 	ILI9881C_COMMAND_INSTR(0x60, 0x15),
+-	ILI9881C_COMMAND_INSTR(0x61, 0x0C),
+-	ILI9881C_COMMAND_INSTR(0x62, 0x0D),
+-	ILI9881C_COMMAND_INSTR(0x63, 0x0E),
+-	ILI9881C_COMMAND_INSTR(0x64, 0x0F),
++	ILI9881C_COMMAND_INSTR(0x61, 0x0c),
++	ILI9881C_COMMAND_INSTR(0x62, 0x0d),
++	ILI9881C_COMMAND_INSTR(0x63, 0x0e),
++	ILI9881C_COMMAND_INSTR(0x64, 0x0f),
+ 	ILI9881C_COMMAND_INSTR(0x65, 0x10),
+ 	ILI9881C_COMMAND_INSTR(0x66, 0x11),
+ 	ILI9881C_COMMAND_INSTR(0x67, 0x08),
+ 	ILI9881C_COMMAND_INSTR(0x68, 0x02),
+-	ILI9881C_COMMAND_INSTR(0x69, 0x0A),
+-	ILI9881C_COMMAND_INSTR(0x6A, 0x02),
+-	ILI9881C_COMMAND_INSTR(0x6B, 0x02),
+-	ILI9881C_COMMAND_INSTR(0x6C, 0x02),
+-	ILI9881C_COMMAND_INSTR(0x6D, 0x02),
+-	ILI9881C_COMMAND_INSTR(0x6E, 0x02),
+-	ILI9881C_COMMAND_INSTR(0x6F, 0x02),
++	ILI9881C_COMMAND_INSTR(0x69, 0x0a),
++	ILI9881C_COMMAND_INSTR(0x6a, 0x02),
++	ILI9881C_COMMAND_INSTR(0x6b, 0x02),
++	ILI9881C_COMMAND_INSTR(0x6c, 0x02),
++	ILI9881C_COMMAND_INSTR(0x6d, 0x02),
++	ILI9881C_COMMAND_INSTR(0x6e, 0x02),
++	ILI9881C_COMMAND_INSTR(0x6f, 0x02),
+ 
+ 	ILI9881C_COMMAND_INSTR(0x70, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x71, 0x02),
+@@ -936,15 +936,15 @@ static const struct ili9881c_instr w552946ab_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x74, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x75, 0x14),
+ 	ILI9881C_COMMAND_INSTR(0x76, 0x15),
+-	ILI9881C_COMMAND_INSTR(0x77, 0x0F),
+-	ILI9881C_COMMAND_INSTR(0x78, 0x0E),
+-	ILI9881C_COMMAND_INSTR(0x79, 0x0D),
+-	ILI9881C_COMMAND_INSTR(0x7A, 0x0C),
+-	ILI9881C_COMMAND_INSTR(0x7B, 0x11),
+-	ILI9881C_COMMAND_INSTR(0x7C, 0x10),
+-	ILI9881C_COMMAND_INSTR(0x7D, 0x06),
+-	ILI9881C_COMMAND_INSTR(0x7E, 0x02),
+-	ILI9881C_COMMAND_INSTR(0x7F, 0x0A),
++	ILI9881C_COMMAND_INSTR(0x77, 0x0f),
++	ILI9881C_COMMAND_INSTR(0x78, 0x0e),
++	ILI9881C_COMMAND_INSTR(0x79, 0x0d),
++	ILI9881C_COMMAND_INSTR(0x7a, 0x0c),
++	ILI9881C_COMMAND_INSTR(0x7b, 0x11),
++	ILI9881C_COMMAND_INSTR(0x7c, 0x10),
++	ILI9881C_COMMAND_INSTR(0x7d, 0x06),
++	ILI9881C_COMMAND_INSTR(0x7e, 0x02),
++	ILI9881C_COMMAND_INSTR(0x7f, 0x0a),
+ 
+ 	ILI9881C_COMMAND_INSTR(0x80, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x81, 0x02),
+@@ -956,74 +956,74 @@ static const struct ili9881c_instr w552946ab_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x87, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x88, 0x08),
+ 	ILI9881C_COMMAND_INSTR(0x89, 0x02),
+-	ILI9881C_COMMAND_INSTR(0x8A, 0x02),
++	ILI9881C_COMMAND_INSTR(0x8a, 0x02),
+ 
+ 	ILI9881C_SWITCH_PAGE_INSTR(4),
+ 	ILI9881C_COMMAND_INSTR(0x00, 0x80),
+ 	ILI9881C_COMMAND_INSTR(0x70, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x71, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x66, 0xFE),
++	ILI9881C_COMMAND_INSTR(0x66, 0xfe),
+ 	ILI9881C_COMMAND_INSTR(0x82, 0x15),
+ 	ILI9881C_COMMAND_INSTR(0x84, 0x15),
+ 	ILI9881C_COMMAND_INSTR(0x85, 0x15),
+ 	ILI9881C_COMMAND_INSTR(0x3a, 0x24),
+-	ILI9881C_COMMAND_INSTR(0x32, 0xAC),
+-	ILI9881C_COMMAND_INSTR(0x8C, 0x80),
+-	ILI9881C_COMMAND_INSTR(0x3C, 0xF5),
++	ILI9881C_COMMAND_INSTR(0x32, 0xac),
++	ILI9881C_COMMAND_INSTR(0x8c, 0x80),
++	ILI9881C_COMMAND_INSTR(0x3c, 0xf5),
+ 	ILI9881C_COMMAND_INSTR(0x88, 0x33),
+ 
+ 	ILI9881C_SWITCH_PAGE_INSTR(1),
+-	ILI9881C_COMMAND_INSTR(0x22, 0x0A),
++	ILI9881C_COMMAND_INSTR(0x22, 0x0a),
+ 	ILI9881C_COMMAND_INSTR(0x31, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x53, 0x78),
+-	ILI9881C_COMMAND_INSTR(0x50, 0x5B),
+-	ILI9881C_COMMAND_INSTR(0x51, 0x5B),
++	ILI9881C_COMMAND_INSTR(0x50, 0x5b),
++	ILI9881C_COMMAND_INSTR(0x51, 0x5b),
+ 	ILI9881C_COMMAND_INSTR(0x60, 0x20),
+ 	ILI9881C_COMMAND_INSTR(0x61, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x62, 0x0D),
++	ILI9881C_COMMAND_INSTR(0x62, 0x0d),
+ 	ILI9881C_COMMAND_INSTR(0x63, 0x00),
+ 
+-	ILI9881C_COMMAND_INSTR(0xA0, 0x00),
+-	ILI9881C_COMMAND_INSTR(0xA1, 0x10),
+-	ILI9881C_COMMAND_INSTR(0xA2, 0x1C),
+-	ILI9881C_COMMAND_INSTR(0xA3, 0x13),
+-	ILI9881C_COMMAND_INSTR(0xA4, 0x15),
+-	ILI9881C_COMMAND_INSTR(0xA5, 0x26),
+-	ILI9881C_COMMAND_INSTR(0xA6, 0x1A),
+-	ILI9881C_COMMAND_INSTR(0xA7, 0x1D),
+-	ILI9881C_COMMAND_INSTR(0xA8, 0x67),
+-	ILI9881C_COMMAND_INSTR(0xA9, 0x1C),
+-	ILI9881C_COMMAND_INSTR(0xAA, 0x29),
+-	ILI9881C_COMMAND_INSTR(0xAB, 0x5B),
+-	ILI9881C_COMMAND_INSTR(0xAC, 0x26),
+-	ILI9881C_COMMAND_INSTR(0xAD, 0x28),
+-	ILI9881C_COMMAND_INSTR(0xAE, 0x5C),
+-	ILI9881C_COMMAND_INSTR(0xAF, 0x30),
+-	ILI9881C_COMMAND_INSTR(0xB0, 0x31),
+-	ILI9881C_COMMAND_INSTR(0xB1, 0x2E),
+-	ILI9881C_COMMAND_INSTR(0xB2, 0x32),
+-	ILI9881C_COMMAND_INSTR(0xB3, 0x00),
+-
+-	ILI9881C_COMMAND_INSTR(0xC0, 0x00),
+-	ILI9881C_COMMAND_INSTR(0xC1, 0x10),
+-	ILI9881C_COMMAND_INSTR(0xC2, 0x1C),
+-	ILI9881C_COMMAND_INSTR(0xC3, 0x13),
+-	ILI9881C_COMMAND_INSTR(0xC4, 0x15),
+-	ILI9881C_COMMAND_INSTR(0xC5, 0x26),
+-	ILI9881C_COMMAND_INSTR(0xC6, 0x1A),
+-	ILI9881C_COMMAND_INSTR(0xC7, 0x1D),
+-	ILI9881C_COMMAND_INSTR(0xC8, 0x67),
+-	ILI9881C_COMMAND_INSTR(0xC9, 0x1C),
+-	ILI9881C_COMMAND_INSTR(0xCA, 0x29),
+-	ILI9881C_COMMAND_INSTR(0xCB, 0x5B),
+-	ILI9881C_COMMAND_INSTR(0xCC, 0x26),
+-	ILI9881C_COMMAND_INSTR(0xCD, 0x28),
+-	ILI9881C_COMMAND_INSTR(0xCE, 0x5C),
+-	ILI9881C_COMMAND_INSTR(0xCF, 0x30),
+-	ILI9881C_COMMAND_INSTR(0xD0, 0x31),
+-	ILI9881C_COMMAND_INSTR(0xD1, 0x2E),
+-	ILI9881C_COMMAND_INSTR(0xD2, 0x32),
+-	ILI9881C_COMMAND_INSTR(0xD3, 0x00),
++	ILI9881C_COMMAND_INSTR(0xa0, 0x00),
++	ILI9881C_COMMAND_INSTR(0xa1, 0x10),
++	ILI9881C_COMMAND_INSTR(0xa2, 0x1c),
++	ILI9881C_COMMAND_INSTR(0xa3, 0x13),
++	ILI9881C_COMMAND_INSTR(0xa4, 0x15),
++	ILI9881C_COMMAND_INSTR(0xa5, 0x26),
++	ILI9881C_COMMAND_INSTR(0xa6, 0x1a),
++	ILI9881C_COMMAND_INSTR(0xa7, 0x1d),
++	ILI9881C_COMMAND_INSTR(0xa8, 0x67),
++	ILI9881C_COMMAND_INSTR(0xa9, 0x1c),
++	ILI9881C_COMMAND_INSTR(0xaa, 0x29),
++	ILI9881C_COMMAND_INSTR(0xab, 0x5b),
++	ILI9881C_COMMAND_INSTR(0xac, 0x26),
++	ILI9881C_COMMAND_INSTR(0xad, 0x28),
++	ILI9881C_COMMAND_INSTR(0xae, 0x5c),
++	ILI9881C_COMMAND_INSTR(0xaf, 0x30),
++	ILI9881C_COMMAND_INSTR(0xb0, 0x31),
++	ILI9881C_COMMAND_INSTR(0xb1, 0x2e),
++	ILI9881C_COMMAND_INSTR(0xb2, 0x32),
++	ILI9881C_COMMAND_INSTR(0xb3, 0x00),
++
++	ILI9881C_COMMAND_INSTR(0xc0, 0x00),
++	ILI9881C_COMMAND_INSTR(0xc1, 0x10),
++	ILI9881C_COMMAND_INSTR(0xc2, 0x1c),
++	ILI9881C_COMMAND_INSTR(0xc3, 0x13),
++	ILI9881C_COMMAND_INSTR(0xc4, 0x15),
++	ILI9881C_COMMAND_INSTR(0xc5, 0x26),
++	ILI9881C_COMMAND_INSTR(0xc6, 0x1a),
++	ILI9881C_COMMAND_INSTR(0xc7, 0x1d),
++	ILI9881C_COMMAND_INSTR(0xc8, 0x67),
++	ILI9881C_COMMAND_INSTR(0xc9, 0x1c),
++	ILI9881C_COMMAND_INSTR(0xca, 0x29),
++	ILI9881C_COMMAND_INSTR(0xcb, 0x5b),
++	ILI9881C_COMMAND_INSTR(0xcc, 0x26),
++	ILI9881C_COMMAND_INSTR(0xcd, 0x28),
++	ILI9881C_COMMAND_INSTR(0xce, 0x5c),
++	ILI9881C_COMMAND_INSTR(0xcf, 0x30),
++	ILI9881C_COMMAND_INSTR(0xd0, 0x31),
++	ILI9881C_COMMAND_INSTR(0xd1, 0x2e),
++	ILI9881C_COMMAND_INSTR(0xd2, 0x32),
++	ILI9881C_COMMAND_INSTR(0xd3, 0x00),
+ 	ILI9881C_SWITCH_PAGE_INSTR(0),
+ };
+ 
+@@ -1032,10 +1032,10 @@ static const struct ili9881c_instr am8001280g_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x01, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x02, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x03, 0x73),
+-	ILI9881C_COMMAND_INSTR(0x04, 0xD3),
++	ILI9881C_COMMAND_INSTR(0x04, 0xd3),
+ 	ILI9881C_COMMAND_INSTR(0x05, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x06, 0x0A),
+-	ILI9881C_COMMAND_INSTR(0x07, 0x0E),
++	ILI9881C_COMMAND_INSTR(0x06, 0x0a),
++	ILI9881C_COMMAND_INSTR(0x07, 0x0e),
+ 	ILI9881C_COMMAND_INSTR(0x08, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x09, 0x01),
+ 	ILI9881C_COMMAND_INSTR(0x0a, 0x01),
+@@ -1117,10 +1117,10 @@ static const struct ili9881c_instr am8001280g_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x5f, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x60, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x61, 0x01),
+-	ILI9881C_COMMAND_INSTR(0x62, 0x0D),
+-	ILI9881C_COMMAND_INSTR(0x63, 0x0C),
+-	ILI9881C_COMMAND_INSTR(0x64, 0x0F),
+-	ILI9881C_COMMAND_INSTR(0x65, 0x0E),
++	ILI9881C_COMMAND_INSTR(0x62, 0x0d),
++	ILI9881C_COMMAND_INSTR(0x63, 0x0c),
++	ILI9881C_COMMAND_INSTR(0x64, 0x0f),
++	ILI9881C_COMMAND_INSTR(0x65, 0x0e),
+ 	ILI9881C_COMMAND_INSTR(0x66, 0x06),
+ 	ILI9881C_COMMAND_INSTR(0x67, 0x07),
+ 	ILI9881C_COMMAND_INSTR(0x68, 0x02),
+@@ -1139,10 +1139,10 @@ static const struct ili9881c_instr am8001280g_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x75, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x76, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x77, 0x01),
+-	ILI9881C_COMMAND_INSTR(0x78, 0x0D),
+-	ILI9881C_COMMAND_INSTR(0x79, 0x0C),
+-	ILI9881C_COMMAND_INSTR(0x7a, 0x0F),
+-	ILI9881C_COMMAND_INSTR(0x7b, 0x0E),
++	ILI9881C_COMMAND_INSTR(0x78, 0x0d),
++	ILI9881C_COMMAND_INSTR(0x79, 0x0c),
++	ILI9881C_COMMAND_INSTR(0x7a, 0x0f),
++	ILI9881C_COMMAND_INSTR(0x7b, 0x0e),
+ 	ILI9881C_COMMAND_INSTR(0x7c, 0x06),
+ 	ILI9881C_COMMAND_INSTR(0x7d, 0x07),
+ 	ILI9881C_COMMAND_INSTR(0x7e, 0x02),
+@@ -1157,7 +1157,7 @@ static const struct ili9881c_instr am8001280g_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x87, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x88, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x89, 0x02),
+-	ILI9881C_COMMAND_INSTR(0x8A, 0x02),
++	ILI9881C_COMMAND_INSTR(0x8a, 0x02),
+ 
+ 	ILI9881C_SWITCH_PAGE_INSTR(4),
+ 	ILI9881C_COMMAND_INSTR(0x6c, 0x15),
+@@ -1170,55 +1170,55 @@ static const struct ili9881c_instr am8001280g_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0xb2, 0xd1),
+ 
+ 	ILI9881C_SWITCH_PAGE_INSTR(1),
+-	ILI9881C_COMMAND_INSTR(0x22, 0x0A),
+-	ILI9881C_COMMAND_INSTR(0x31, 0x0B),
++	ILI9881C_COMMAND_INSTR(0x22, 0x0a),
++	ILI9881C_COMMAND_INSTR(0x31, 0x0b),
+ 	ILI9881C_COMMAND_INSTR(0x50, 0xa5),
+ 	ILI9881C_COMMAND_INSTR(0x51, 0xa0),
+ 	ILI9881C_COMMAND_INSTR(0x53, 0x70),
+-	ILI9881C_COMMAND_INSTR(0x55, 0x7A),
++	ILI9881C_COMMAND_INSTR(0x55, 0x7a),
+ 	ILI9881C_COMMAND_INSTR(0x60, 0x14),
+ 
+-	ILI9881C_COMMAND_INSTR(0xA0, 0x00),
+-	ILI9881C_COMMAND_INSTR(0xA1, 0x53),
+-	ILI9881C_COMMAND_INSTR(0xA2, 0x50),
+-	ILI9881C_COMMAND_INSTR(0xA3, 0x20),
+-	ILI9881C_COMMAND_INSTR(0xA4, 0x27),
+-	ILI9881C_COMMAND_INSTR(0xA5, 0x33),
+-	ILI9881C_COMMAND_INSTR(0xA6, 0x25),
+-	ILI9881C_COMMAND_INSTR(0xA7, 0x25),
+-	ILI9881C_COMMAND_INSTR(0xA8, 0xD4),
+-	ILI9881C_COMMAND_INSTR(0xA9, 0x1A),
+-	ILI9881C_COMMAND_INSTR(0xAA, 0x2B),
+-	ILI9881C_COMMAND_INSTR(0xAB, 0xB5),
+-	ILI9881C_COMMAND_INSTR(0xAC, 0x19),
+-	ILI9881C_COMMAND_INSTR(0xAD, 0x18),
+-	ILI9881C_COMMAND_INSTR(0xAE, 0x53),
+-	ILI9881C_COMMAND_INSTR(0xAF, 0x1A),
+-	ILI9881C_COMMAND_INSTR(0xB0, 0x25),
+-	ILI9881C_COMMAND_INSTR(0xB1, 0x62),
+-	ILI9881C_COMMAND_INSTR(0xB2, 0x6A),
+-	ILI9881C_COMMAND_INSTR(0xB3, 0x31),
+-
+-	ILI9881C_COMMAND_INSTR(0xC0, 0x00),
+-	ILI9881C_COMMAND_INSTR(0xC1, 0x53),
+-	ILI9881C_COMMAND_INSTR(0xC2, 0x50),
+-	ILI9881C_COMMAND_INSTR(0xC3, 0x20),
+-	ILI9881C_COMMAND_INSTR(0xC4, 0x27),
+-	ILI9881C_COMMAND_INSTR(0xC5, 0x33),
+-	ILI9881C_COMMAND_INSTR(0xC6, 0x25),
+-	ILI9881C_COMMAND_INSTR(0xC7, 0x25),
+-	ILI9881C_COMMAND_INSTR(0xC8, 0xD4),
+-	ILI9881C_COMMAND_INSTR(0xC9, 0x1A),
+-	ILI9881C_COMMAND_INSTR(0xCA, 0x2B),
+-	ILI9881C_COMMAND_INSTR(0xCB, 0xB5),
+-	ILI9881C_COMMAND_INSTR(0xCC, 0x19),
+-	ILI9881C_COMMAND_INSTR(0xCD, 0x18),
+-	ILI9881C_COMMAND_INSTR(0xCE, 0x53),
+-	ILI9881C_COMMAND_INSTR(0xCF, 0x1A),
+-	ILI9881C_COMMAND_INSTR(0xD0, 0x25),
+-	ILI9881C_COMMAND_INSTR(0xD1, 0x62),
+-	ILI9881C_COMMAND_INSTR(0xD2, 0x6A),
+-	ILI9881C_COMMAND_INSTR(0xD3, 0x31),
++	ILI9881C_COMMAND_INSTR(0xa0, 0x00),
++	ILI9881C_COMMAND_INSTR(0xa1, 0x53),
++	ILI9881C_COMMAND_INSTR(0xa2, 0x50),
++	ILI9881C_COMMAND_INSTR(0xa3, 0x20),
++	ILI9881C_COMMAND_INSTR(0xa4, 0x27),
++	ILI9881C_COMMAND_INSTR(0xa5, 0x33),
++	ILI9881C_COMMAND_INSTR(0xa6, 0x25),
++	ILI9881C_COMMAND_INSTR(0xa7, 0x25),
++	ILI9881C_COMMAND_INSTR(0xa8, 0xd4),
++	ILI9881C_COMMAND_INSTR(0xa9, 0x1a),
++	ILI9881C_COMMAND_INSTR(0xaa, 0x2b),
++	ILI9881C_COMMAND_INSTR(0xab, 0xb5),
++	ILI9881C_COMMAND_INSTR(0xac, 0x19),
++	ILI9881C_COMMAND_INSTR(0xad, 0x18),
++	ILI9881C_COMMAND_INSTR(0xae, 0x53),
++	ILI9881C_COMMAND_INSTR(0xaf, 0x1a),
++	ILI9881C_COMMAND_INSTR(0xb0, 0x25),
++	ILI9881C_COMMAND_INSTR(0xb1, 0x62),
++	ILI9881C_COMMAND_INSTR(0xb2, 0x6a),
++	ILI9881C_COMMAND_INSTR(0xb3, 0x31),
++
++	ILI9881C_COMMAND_INSTR(0xc0, 0x00),
++	ILI9881C_COMMAND_INSTR(0xc1, 0x53),
++	ILI9881C_COMMAND_INSTR(0xc2, 0x50),
++	ILI9881C_COMMAND_INSTR(0xc3, 0x20),
++	ILI9881C_COMMAND_INSTR(0xc4, 0x27),
++	ILI9881C_COMMAND_INSTR(0xc5, 0x33),
++	ILI9881C_COMMAND_INSTR(0xc6, 0x25),
++	ILI9881C_COMMAND_INSTR(0xc7, 0x25),
++	ILI9881C_COMMAND_INSTR(0xc8, 0xd4),
++	ILI9881C_COMMAND_INSTR(0xc9, 0x1a),
++	ILI9881C_COMMAND_INSTR(0xca, 0x2b),
++	ILI9881C_COMMAND_INSTR(0xcb, 0xb5),
++	ILI9881C_COMMAND_INSTR(0xcc, 0x19),
++	ILI9881C_COMMAND_INSTR(0xcd, 0x18),
++	ILI9881C_COMMAND_INSTR(0xce, 0x53),
++	ILI9881C_COMMAND_INSTR(0xcf, 0x1a),
++	ILI9881C_COMMAND_INSTR(0xd0, 0x25),
++	ILI9881C_COMMAND_INSTR(0xd1, 0x62),
++	ILI9881C_COMMAND_INSTR(0xd2, 0x6a),
++	ILI9881C_COMMAND_INSTR(0xd3, 0x31),
+ 	ILI9881C_SWITCH_PAGE_INSTR(0),
+ 	ILI9881C_COMMAND_INSTR(MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x2c),
+ 	ILI9881C_COMMAND_INSTR(MIPI_DCS_WRITE_POWER_SAVE, 0x00),
+@@ -1352,22 +1352,22 @@ static const struct ili9881c_instr rpi_7inch_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x87, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x88, 0x02),
+ 	ILI9881C_COMMAND_INSTR(0x89, 0x02),
+-	ILI9881C_COMMAND_INSTR(0x8A, 0x02),
++	ILI9881C_COMMAND_INSTR(0x8a, 0x02),
+ 	ILI9881C_SWITCH_PAGE_INSTR(4),
+-	ILI9881C_COMMAND_INSTR(0x6C, 0x15),
+-	ILI9881C_COMMAND_INSTR(0x6E, 0x2A),
+-	ILI9881C_COMMAND_INSTR(0x6F, 0x33),
+-	ILI9881C_COMMAND_INSTR(0x3B, 0x98),
++	ILI9881C_COMMAND_INSTR(0x6c, 0x15),
++	ILI9881C_COMMAND_INSTR(0x6e, 0x2a),
++	ILI9881C_COMMAND_INSTR(0x6f, 0x33),
++	ILI9881C_COMMAND_INSTR(0x3b, 0x98),
+ 	ILI9881C_COMMAND_INSTR(0x3a, 0x94),
+-	ILI9881C_COMMAND_INSTR(0x8D, 0x14),
+-	ILI9881C_COMMAND_INSTR(0x87, 0xBA),
++	ILI9881C_COMMAND_INSTR(0x8d, 0x14),
++	ILI9881C_COMMAND_INSTR(0x87, 0xba),
+ 	ILI9881C_COMMAND_INSTR(0x26, 0x76),
+-	ILI9881C_COMMAND_INSTR(0xB2, 0xD1),
+-	ILI9881C_COMMAND_INSTR(0xB5, 0x06),
++	ILI9881C_COMMAND_INSTR(0xb2, 0xd1),
++	ILI9881C_COMMAND_INSTR(0xb5, 0x06),
+ 	ILI9881C_COMMAND_INSTR(0x38, 0x01),
+ 	ILI9881C_COMMAND_INSTR(0x39, 0x00),
+ 	ILI9881C_SWITCH_PAGE_INSTR(1),
+-	ILI9881C_COMMAND_INSTR(0x22, 0x0A),
++	ILI9881C_COMMAND_INSTR(0x22, 0x0a),
+ 	ILI9881C_COMMAND_INSTR(0x31, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x53, 0x7d),
+ 	ILI9881C_COMMAND_INSTR(0x55, 0x8f),
+@@ -1375,46 +1375,46 @@ static const struct ili9881c_instr rpi_7inch_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x50, 0x96),
+ 	ILI9881C_COMMAND_INSTR(0x51, 0x96),
+ 	ILI9881C_COMMAND_INSTR(0x60, 0x23),
+-	ILI9881C_COMMAND_INSTR(0xA0, 0x08),
+-	ILI9881C_COMMAND_INSTR(0xA1, 0x1d),
+-	ILI9881C_COMMAND_INSTR(0xA2, 0x2a),
+-	ILI9881C_COMMAND_INSTR(0xA3, 0x10),
+-	ILI9881C_COMMAND_INSTR(0xA4, 0x15),
+-	ILI9881C_COMMAND_INSTR(0xA5, 0x28),
+-	ILI9881C_COMMAND_INSTR(0xA6, 0x1c),
+-	ILI9881C_COMMAND_INSTR(0xA7, 0x1d),
+-	ILI9881C_COMMAND_INSTR(0xA8, 0x7e),
+-	ILI9881C_COMMAND_INSTR(0xA9, 0x1d),
+-	ILI9881C_COMMAND_INSTR(0xAA, 0x29),
+-	ILI9881C_COMMAND_INSTR(0xAB, 0x6b),
+-	ILI9881C_COMMAND_INSTR(0xAC, 0x1a),
+-	ILI9881C_COMMAND_INSTR(0xAD, 0x18),
+-	ILI9881C_COMMAND_INSTR(0xAE, 0x4b),
+-	ILI9881C_COMMAND_INSTR(0xAF, 0x20),
+-	ILI9881C_COMMAND_INSTR(0xB0, 0x27),
+-	ILI9881C_COMMAND_INSTR(0xB1, 0x50),
+-	ILI9881C_COMMAND_INSTR(0xB2, 0x64),
+-	ILI9881C_COMMAND_INSTR(0xB3, 0x39),
+-	ILI9881C_COMMAND_INSTR(0xC0, 0x08),
+-	ILI9881C_COMMAND_INSTR(0xC1, 0x1d),
+-	ILI9881C_COMMAND_INSTR(0xC2, 0x2a),
+-	ILI9881C_COMMAND_INSTR(0xC3, 0x10),
+-	ILI9881C_COMMAND_INSTR(0xC4, 0x15),
+-	ILI9881C_COMMAND_INSTR(0xC5, 0x28),
+-	ILI9881C_COMMAND_INSTR(0xC6, 0x1c),
+-	ILI9881C_COMMAND_INSTR(0xC7, 0x1d),
+-	ILI9881C_COMMAND_INSTR(0xC8, 0x7e),
+-	ILI9881C_COMMAND_INSTR(0xC9, 0x1d),
+-	ILI9881C_COMMAND_INSTR(0xCA, 0x29),
+-	ILI9881C_COMMAND_INSTR(0xCB, 0x6b),
+-	ILI9881C_COMMAND_INSTR(0xCC, 0x1a),
+-	ILI9881C_COMMAND_INSTR(0xCD, 0x18),
+-	ILI9881C_COMMAND_INSTR(0xCE, 0x4b),
+-	ILI9881C_COMMAND_INSTR(0xCF, 0x20),
+-	ILI9881C_COMMAND_INSTR(0xD0, 0x27),
+-	ILI9881C_COMMAND_INSTR(0xD1, 0x50),
+-	ILI9881C_COMMAND_INSTR(0xD2, 0x64),
+-	ILI9881C_COMMAND_INSTR(0xD3, 0x39),
++	ILI9881C_COMMAND_INSTR(0xa0, 0x08),
++	ILI9881C_COMMAND_INSTR(0xa1, 0x1d),
++	ILI9881C_COMMAND_INSTR(0xa2, 0x2a),
++	ILI9881C_COMMAND_INSTR(0xa3, 0x10),
++	ILI9881C_COMMAND_INSTR(0xa4, 0x15),
++	ILI9881C_COMMAND_INSTR(0xa5, 0x28),
++	ILI9881C_COMMAND_INSTR(0xa6, 0x1c),
++	ILI9881C_COMMAND_INSTR(0xa7, 0x1d),
++	ILI9881C_COMMAND_INSTR(0xa8, 0x7e),
++	ILI9881C_COMMAND_INSTR(0xa9, 0x1d),
++	ILI9881C_COMMAND_INSTR(0xaa, 0x29),
++	ILI9881C_COMMAND_INSTR(0xab, 0x6b),
++	ILI9881C_COMMAND_INSTR(0xac, 0x1a),
++	ILI9881C_COMMAND_INSTR(0xad, 0x18),
++	ILI9881C_COMMAND_INSTR(0xae, 0x4b),
++	ILI9881C_COMMAND_INSTR(0xaf, 0x20),
++	ILI9881C_COMMAND_INSTR(0xb0, 0x27),
++	ILI9881C_COMMAND_INSTR(0xb1, 0x50),
++	ILI9881C_COMMAND_INSTR(0xb2, 0x64),
++	ILI9881C_COMMAND_INSTR(0xb3, 0x39),
++	ILI9881C_COMMAND_INSTR(0xc0, 0x08),
++	ILI9881C_COMMAND_INSTR(0xc1, 0x1d),
++	ILI9881C_COMMAND_INSTR(0xc2, 0x2a),
++	ILI9881C_COMMAND_INSTR(0xc3, 0x10),
++	ILI9881C_COMMAND_INSTR(0xc4, 0x15),
++	ILI9881C_COMMAND_INSTR(0xc5, 0x28),
++	ILI9881C_COMMAND_INSTR(0xc6, 0x1c),
++	ILI9881C_COMMAND_INSTR(0xc7, 0x1d),
++	ILI9881C_COMMAND_INSTR(0xc8, 0x7e),
++	ILI9881C_COMMAND_INSTR(0xc9, 0x1d),
++	ILI9881C_COMMAND_INSTR(0xca, 0x29),
++	ILI9881C_COMMAND_INSTR(0xcb, 0x6b),
++	ILI9881C_COMMAND_INSTR(0xcc, 0x1a),
++	ILI9881C_COMMAND_INSTR(0xcd, 0x18),
++	ILI9881C_COMMAND_INSTR(0xce, 0x4b),
++	ILI9881C_COMMAND_INSTR(0xcf, 0x20),
++	ILI9881C_COMMAND_INSTR(0xd0, 0x27),
++	ILI9881C_COMMAND_INSTR(0xd1, 0x50),
++	ILI9881C_COMMAND_INSTR(0xd2, 0x64),
++	ILI9881C_COMMAND_INSTR(0xd3, 0x39),
+ };
+ 
+ static const struct ili9881c_instr bsd1218_a101kl68_init[] = {
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+2.50.1
+
 
