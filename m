@@ -1,65 +1,68 @@
-Return-Path: <linux-renesas-soc+bounces-21373-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21374-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56D16B446D5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 22:01:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DD20B446E2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 22:03:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 29EFF1C2817E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 20:02:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1545B1C28164
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 20:03:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3959524503B;
-	Thu,  4 Sep 2025 20:01:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1993A279DA6;
+	Thu,  4 Sep 2025 20:02:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="xB5yQC+g";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="PGcRzfcO"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="k3D8n0+b";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="DIATLXcS"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80E8129E6E;
-	Thu,  4 Sep 2025 20:01:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E3FA2AE8E;
+	Thu,  4 Sep 2025 20:02:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757016110; cv=none; b=U1QwTZNNsyIPZp3y9PKq96a9mrGw2mlbMCsF7ixx6FQ4tolOCPOqWTdf/cIoSNKloyfBp/vj2egItXovQgjPQRYsFEJekHmLB3JGqvkqRq1ygeQXFDe8iZebSTqbZTCnIjbrAHJfouZL50Ht/GphIZai0tYYUEE2rBNbcoOlM0I=
+	t=1757016177; cv=none; b=fY8u/ZdtzGUs1H504jsFO4ku0sul9nKlmn7TZqfm0GrnAs3ymEtZd6/8YKRHm7dDgcP5XmgqEtFJeC0HoYdnTDLuc+yJQJpsmmg2qsiUhAA6dDz6nqU/T1b4NO9HynovxxyL+fKNEUIzm1JYGHG5QUKEZobBfJRyc7W/TxO0lJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757016110; c=relaxed/simple;
-	bh=/yHJWDhivFi2U5ADtYlVTXKSC3W275xDh5sKWx+erjs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tNp5kOSWxxQ3UOSZtpYY24uvRvcyZrjgdujOcpYUopfGv9upLORw8mMVqMmN8SwSH+jZHqJgpn9Ibu2oM0N7cr2N/63/AhfZY1rK3ZJ1hs69N7ipWhFnlrhpPufVHbwZJl+mi3Hog+g7ZTp/CuZ2c1jIEXGT0a5VuDz5/eFnHjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=xB5yQC+g; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=PGcRzfcO; arc=none smtp.client-ip=80.241.56.152
+	s=arc-20240116; t=1757016177; c=relaxed/simple;
+	bh=5mNVGetZd3iEp+B45E4bwqX/Fnz5a1LX4T01wRg2q58=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kFB/eptNkGAqlZ6546W0XduoDcXvLxWBwbGdop8cpIt5MYnVLIykUArN6IlDzZWt/KuNFJW2XohjJsOoFBBKYua5RSPwjueCvvZStBczHEq7dJ98vd/ei9EG6KpKw9A/+uW/1EnlXecOud4YPbVZ6l9KwSJ4xLbPKdOLp0gKDgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=k3D8n0+b; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=DIATLXcS; arc=none smtp.client-ip=80.241.56.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cHr3F6rt9z9t3f;
-	Thu,  4 Sep 2025 22:01:45 +0200 (CEST)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cHr4Y5B27z9spd;
+	Thu,  4 Sep 2025 22:02:53 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1757016106;
+	t=1757016173;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=0Umhovcau/YqRorev3Ev6aBhjaNGXWMdzGC74D6Sf68=;
-	b=xB5yQC+gLAs/Ca00D/OMu2oZxi2Tu19fFMzbUUnE/AHV4ASg9oTHGzIdWo2vNwPm5GAIx2
-	gvkEzwlBvPFA0YVfzFKjYVHsMHLQgflEnzO7EPTMT5eQi2ymR/GBIRyPLA53ROEFayASCm
-	UxIDlBWKWQ7HycDvOLfTofZ785GpilJVw+J5HHbwMA3p1V/lqMiVyfRjfk6RB7NPL32To7
-	Wh6BVFm9TrkVDv8yYsd+jlWv2Ie0B7u4/+bkOHjr7MURz06LC6+PDdIOTmZZlG3/XmuWRU
-	UvAlpHwqg7h6D9tPg81P+sTNt/py/jOUA62cgiTfhGT33VlrI/vBmQLH+mY28w==
+	bh=u0RpGGWqV5NASl/QJDnqetU+45dX5R5bWdYvRTzXBgw=;
+	b=k3D8n0+bEsuU2Ukh+75IzedVHGB0G/C017eZG2RDXTkRAQpI1YITj4lmnabAtPKO0BYcCO
+	8xttSN/hWmJDLJREEEgqMDyA9Zv4nDlc4apVH9kfqU6mCgYdwzVt31tsOLYraCRxGGI6Zx
+	5GmxdjN5UDKAT1w6TyNG5l5vqOAcN+uH6ecXpmvx57ZKcBNnMMoorcba+JdOlndhaJT4A4
+	zLq5rtRH7Nz2SnN95IiZVzOQwbhEDwX+Lc/yIu8XrqrI4yA+51Mq3ZkyUd8q1C1zJEm4dj
+	luMavJz2p4b5vS5OvvqGARKORayXTi9ZtUrrIkmNDABRn901fGNaRAgKYOz3nQ==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=DIATLXcS;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
 From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1757016104;
+	t=1757016171;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=0Umhovcau/YqRorev3Ev6aBhjaNGXWMdzGC74D6Sf68=;
-	b=PGcRzfcO89dfpdg4vTU5D296q5hb/j3j7dKL7ipTg+RwXasTFFKVxkwAvs/0ss4ub9z9uo
-	6qywlKOG/6qVwP13e1o4LfrLA8T0OT+cq4mD+EraBKzQUZTQ+G+xQvJ0asGUGIInqX5v2S
-	EqfUzF161xobHIBKlM85wrSqHjWG6z3EchMlbr2vvMY1ad+z0T9R/FxTAjSjKjbWvCafGe
-	X3ZQEtUTaR1c7HiLRw7uNb2o4fu938hAK0G6qg1pClPEJvEw2edb131xGA0EyYW3rJOPBS
-	Oq6LPV9wnYqJs6fsvnhCibwRx8zI5mR8p7QUSvuXvKWdfkYwUfOcYEoOXXvdgw==
+	bh=u0RpGGWqV5NASl/QJDnqetU+45dX5R5bWdYvRTzXBgw=;
+	b=DIATLXcSvcXcOWZQc8l0dwJEYOve7ySE4+Qp41tOEpt8e6P6AdEFd7P3bN3FI6r7aGDmeI
+	AV4M7XXxxwO9uniubbfYO7kL0shrSBXUwAUZZ+1P8fkQ1bvdFYfgBd/FYfmYMH0bm9m0kz
+	Y4rZqwnM5/hhUNeG8KFrrVVJ2fPjaw94BoIfuyRWB9npwjbFByUlAvFnAMDWqMv3aMYKnq
+	7HlNYZxRTG5cbcTkegm2YBaNsKnTfjXyMyEvppIL4iH0vsGtW3rZg4Bbah8R7idbnE2uzt
+	MWuCpJL6j83Z6+2uWaTIQ2PF45Toaj3JmM/IijRlThrthpSS8cVfS2BxDD293g==
 To: dri-devel@lists.freedesktop.org
 Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	Conor Dooley <conor+dt@kernel.org>,
@@ -75,9 +78,9 @@ Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	devicetree@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] dt-bindings: ili9881c: Allow port subnode
-Date: Thu,  4 Sep 2025 22:01:08 +0200
-Message-ID: <20250904200130.168263-1-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH 1/2] dt-bindings: ili9881c: Document 5" Raspberry Pi 720x1280
+Date: Thu,  4 Sep 2025 22:01:54 +0200
+Message-ID: <20250904200238.168307-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -85,11 +88,11 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 755f89b141a440e5f99
-X-MBO-RS-META: hkjeud4gg6a7prpocn71mp77f56oh519
+X-MBO-RS-ID: 0bbc404cd03b4fe38b7
+X-MBO-RS-META: w34czd1w43fce5e6qt4kzeo8d4dkmx3w
+X-Rspamd-Queue-Id: 4cHr4Y5B27z9spd
 
-The ILI9881C is a DSI panel, which can be tied to a DSI controller
-using OF graph port/endpoint. Allow the port subnode in the binding.
+Document the 5" Raspberry Pi 720x1280 DSI panel based on ili9881.
 
 Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
@@ -112,17 +115,17 @@ Cc: linux-renesas-soc@vger.kernel.org
  1 file changed, 1 insertion(+)
 
 diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
-index 434cc6af9c954..cf0aa996e072d 100644
+index cf0aa996e072d..34a612705e8c4 100644
 --- a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
 +++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
-@@ -30,6 +30,7 @@ properties:
-     maxItems: 1
- 
-   backlight: true
-+  port: true
-   power-supply: true
-   reset-gpios: true
-   rotation: true
+@@ -20,6 +20,7 @@ properties:
+           - bananapi,lhr050h41
+           - bestar,bsd1218-a101kl68
+           - feixin,k101-im2byl02
++          - raspberrypi,dsi-5inch
+           - raspberrypi,dsi-7inch
+           - startek,kd050hdfia020
+           - tdo,tl050hdv35
 -- 
 2.50.1
 
