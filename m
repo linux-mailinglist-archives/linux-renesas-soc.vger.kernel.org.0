@@ -1,179 +1,142 @@
-Return-Path: <linux-renesas-soc+bounces-21410-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21411-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45A82B4480C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 23:06:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A98AB4481D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 23:11:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 03A6717148F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 21:06:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 21C525A7A9F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 21:11:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA8F9291C13;
-	Thu,  4 Sep 2025 21:06:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BB09299A84;
+	Thu,  4 Sep 2025 21:11:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="dtE+EwhA";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="J/tRw8Gi"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XKeOx47B"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18371285CB2;
-	Thu,  4 Sep 2025 21:06:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38BFA2951B3;
+	Thu,  4 Sep 2025 21:11:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757019991; cv=none; b=uXlccpUZ6GDRhtP/e0u6Htrf5JB5reFD8PfZs6A1k2NmjsnFoQNNN8ALNchGfcqNhX5SqosPJudNvrDah3Q2ZpkKRmrOuUzOpJSA1tNQllrM9Ra4N75tablhUKUQ8U9YSys8lZRR1sKTvnGtjnZFmsyFtCfnq1VGr8HQLft9bsE=
+	t=1757020262; cv=none; b=eDOnVIVMpAURwQlHeUMeViWhHpzCJgKQoBx0GgtLnyK70eyipU/6rRu5LhsgpipbtshzQ2bjsA9tevzjsBNhx2F3cJntgjq3hkNW/CRlhoCasIz+5F9gx7mg6iiv4yC9s3E7DrSfT+PYI58Ro46HEvlWcS5OeQTedsO4EZjJGR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757019991; c=relaxed/simple;
-	bh=nyU7+lGQwCRieqtSL+lpyu2HNP+Tk/ReBcmS7Z5N4WY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NnhJ8ybnafzKH86Y+8he0lLxSU/CrIkDuhgn5ZVzHuHRhYY9Tp+rt51fUM7IjZmZeGFG40As+RxfQkLlwbUXkYRgs4gI1s5J97Lr696N6bYjFpf97E7YsoY0zqxS5Cy+V99EeFW3T4qCovuc1hBV0+AdVDBUys03SrZ+rTxlrtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=dtE+EwhA; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=J/tRw8Gi; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cHsTt6B09z9t1V;
-	Thu,  4 Sep 2025 23:06:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1757019986;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=z4tAV2a7c/vV1Y3jhutyUas+YMo3CMGhRMVMXiHHS4k=;
-	b=dtE+EwhA8JUV9LpWhV9I/OfkXaLM55Te+prX0GxewkczWjRSE7g/GIvoFIoAeukoOtFP+S
-	kSKSgaLXpNhUb2l+cuuFVIEZmp+6J0H0qVKzm08BYg5WkikDo0sgVaxNzkZYt7Eb87G2VJ
-	yIosYQV9RfPkIEyaHfYcHtwtqklgZ1TTmfIdyf3+WmO+T1rwpWZUz/w/aqD3+xnMyZPESJ
-	hSuAWYqfoaCRlMs2sB8h1+tWT1YfYVQyLIHjMeJlVngu01zS3WVHLNp3+ZRd4GAdnlNKpi
-	l2EFoqoyjTUAANVsZIJqXiD4jTp/7vDuyof6xJVZmG8sx2bdlut6QUINnMB/4A==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b="J/tRw8Gi";
-	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1757019984;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=z4tAV2a7c/vV1Y3jhutyUas+YMo3CMGhRMVMXiHHS4k=;
-	b=J/tRw8GiInWydz8EFd1FRRu7uN6YFMy+AUgE8dUX4KIs9AXLCA/BnB/6YsgHZShKkdASaI
-	2zAlJIIr/yLbubCC+/mwJe8yS8GqTmutFkoIdK3QZQptYbwH4lvoZ1nGNQ2X3QlxYxkjQp
-	DrdwJ1RSj0AvvvsCGGJpULNQZCMyrCc+8/wM0XmaKgCIhmho/r0gMoXSXPNcO5qVIAJ8gR
-	I4/e56B9nKMeaDmdVx12+Vw78Hex2snmipX4qlOsQE0dMiP24om0oXfR4uP+BsoL/eH1fs
-	BnE0eZ5r+xaWLGvfM8VKV04IRTArMiVbLYw/TOa8gDKUt4n+/rw+nKK+O/BCig==
-To: linux-pwm@vger.kernel.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2] regulator: rpi-panel-v2: Convert to new PWM waveform ops
-Date: Thu,  4 Sep 2025 23:05:28 +0200
-Message-ID: <20250904210604.186893-1-marek.vasut+renesas@mailbox.org>
+	s=arc-20240116; t=1757020262; c=relaxed/simple;
+	bh=s41t3tEClIPqImf14G5Umj0Ijc8KfxZHCW8WvoXEJ7A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Bogd53BTnU9ieT8Gl+l7RkTUAYGbGSe6v+k7qsd1Ao+K2HpBLCzP4P2tkWefmXEhIh4e6+TEw/OCAJqP2NQEHQOnoIyz0VXJH3cLzPPAapbMeDdT+1DQfHC8yCojD1x4jhkh6nEF1FI87meNwgEbL/YPYF89A3LR+6BH/icsaMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XKeOx47B; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3df2f4aedc7so889363f8f.2;
+        Thu, 04 Sep 2025 14:11:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757020259; x=1757625059; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jAUp29zeM6Eea+iEGcle/fQhECh+9aNVpzcpnyZ4uZ4=;
+        b=XKeOx47Bcie1rv4SiX4rsu8N8tTKopKElz/Z8HA8lIQ9J2fYLB0xGLypVtIM2K3t+y
+         28vgc69PELwuraxGZXYwOpVwOEeZ6QlwR45q2kdjwclX+hnLS9UHEKhFq5Ashs1TYR0l
+         mVhCCXTqMbHsOLwct9uR6G3gBBNOqP0nhG9exKnh4QML7ZzpIytmHnfgWOvOZnCODCtl
+         GGwsflF9rATEwkYlpqPGbDAYfGGOfESwg4A0RmO9YP4P4F5LVua9fMzPr+S2D10BZKvV
+         cDPTWCBsCJ8kitYGLrgXAkCrkp1g7+mSo0K1AvopSEoj5xQP8NKZBAJb131gAcYFe0ZC
+         R9Cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757020259; x=1757625059;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jAUp29zeM6Eea+iEGcle/fQhECh+9aNVpzcpnyZ4uZ4=;
+        b=cOAWW2U4cIeR4dHfCQLe8iCfJEvsTW52WVwmOMGZMFmspjeBTQ6MikJv3NjqjWjG9y
+         Vbw7CeCJqoV7We+Y/SeFpf5dHSuqvQ2tXbSkPSDNO+1RK9VJIHFylrHj+rUJF3Vf6wjV
+         rkvgJ5Zkqy3ujSWvnoqnqELGk+oJcJfljqT4rDzDFhFmAEcZ5XngVde4JqZ6q+dT04k2
+         TqdzYZx9B4JC9G9zH1ILJjt68tMYVcFjVCywa0k/VoKKCWk99hGQ+KKnja4/Nh6h2Qd2
+         RpjF7sr6ABVoMdfrgoBpx2WTD1i9VnOBB3Cyu3nUW8uE9t1GMb8+CzOf6TSXzck997H5
+         YAVw==
+X-Forwarded-Encrypted: i=1; AJvYcCV03P9Ly2MeP81a3yQbGRuweTVmxXxZ9irgm8I/2UepLad7hiTLpL6lz/i5yKTOlgIuHykVnwo5jyL3A/bM@vger.kernel.org, AJvYcCWTXw23PVOFjOEJlP75WRoHDkX2mxsMPUPgA8LsRA6geCMMxkLgVAPFRaAa3MmQPPbA6qsn1eRkbH8JgzpX6mBvpN8=@vger.kernel.org, AJvYcCWof7gexC7cdyOFnA3yq1NKZfYrJNkN00rXFpvgsLLEEovS7GoJwNCyUgagxpBDvLSCKq2mSDRawcia@vger.kernel.org, AJvYcCXSQ3ooeu2Wb0XgZnGlln8gw2UzLGIOCnrPqtKzDmcp/aoPoqWix3whIN1TSHc+mlUeA8EGDfIw@vger.kernel.org
+X-Gm-Message-State: AOJu0YxqwmL0pMDco39x2kbix0Bf0CtlOQbPRGuhKytRqBJfGFPDWv2x
+	n6IE8W+WVMxWts+iKPwlY/7yqgcbGCkRI+zhBoHFqmHXsm8shIBhD80JOqoL6KqYd28wkH5Bbyu
+	kpC9BljClKCnTTeFzcIICv0dlkXBzL3I=
+X-Gm-Gg: ASbGncvvg6YbKwmAPHKvHmfea3nA2lYSND2WxL/EGjszdKqkHzTqUeWujiP2KYIsEYO
+	YjYkXJE0gsMh6/4wpVbdkWsQBXPsJXXLNWG19mQG0AdXryz5icA/zaZyN+gwfl19XP9NAWqYOfw
+	6eMHVboJ8JE6KlvJzWBEl/OwfocLibLw9hgiR0o5A6V4z07DBQ2DeDmfCh4iXR8Pu9k0JhB77dp
+	GSMEagfgcr/2YwLL6hUigDzqmJzgm216t9JwJAW
+X-Google-Smtp-Source: AGHT+IFl5pt+oDPr0Ohssl2A7YuW3oT77c4wgZ9dmvatNAp/vfqg8+n2yH7G5lllCD1SADyzzMeQZBHdc0g8MZ6xLVk=
+X-Received: by 2002:a05:6000:2889:b0:3e3:f89:ea31 with SMTP id
+ ffacd0b85a97d-3e30f89f5f4mr720584f8f.61.1757020259089; Thu, 04 Sep 2025
+ 14:10:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: pyet1wbbighin5f9o3pjuz3e6io6odkk
-X-MBO-RS-ID: e39fd8850014df4df79
-X-Rspamd-Queue-Id: 4cHsTt6B09z9t1V
+References: <20250904203949.292066-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250904203949.292066-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <aLn7XVnWmHv1Bfe2@shell.armlinux.org.uk>
+In-Reply-To: <aLn7XVnWmHv1Bfe2@shell.armlinux.org.uk>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 4 Sep 2025 22:10:32 +0100
+X-Gm-Features: Ac12FXzTh_QwLSBZNVL4Qmae4bCfLKKdSn-hnwmDHrHtfF7DVr842_KM4NBa2lw
+Message-ID: <CA+V-a8umpEzwO5XnFVNB-TkDtEh9K48OKqaDE_SwzGfXk+9qEA@mail.gmail.com>
+Subject: Re: [PATCH net-next v2 2/3] net: stmmac: dwmac-renesas-gbeth: Use OF
+ data for configuration
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Richard Cochran <richardcochran@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>, Jose Abreu <joabreu@synopsys.com>, netdev@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Convert the driver from legacy PWM apply ops to modern waveform ops.
-There is no functional change.
+Hi Russell,
 
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: "Uwe Kleine-König" <ukleinek@kernel.org>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: linux-pwm@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
----
-V2: - Safeguard against wf->duty_length_ns > wf->period_length_ns
----
- drivers/regulator/rpi-panel-v2-regulator.c | 53 +++++++++++++++++-----
- 1 file changed, 42 insertions(+), 11 deletions(-)
+On Thu, Sep 4, 2025 at 9:49=E2=80=AFPM Russell King (Oracle)
+<linux@armlinux.org.uk> wrote:
+>
+> On Thu, Sep 04, 2025 at 09:39:48PM +0100, Prabhakar wrote:
+> >       plat_dat->init =3D renesas_gbeth_init;
+> >       plat_dat->exit =3D renesas_gbeth_exit;
+> > -     plat_dat->flags |=3D STMMAC_FLAG_HWTSTAMP_CORRECT_LATENCY |
+> > -                        STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP |
+> > -                        STMMAC_FLAG_SPH_DISABLE;
+> > +     plat_dat->flags |=3D gbeth->of_data->stmmac_flags;
+>
+> You include the first two flags in your new device. I would like to see
+> at least STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP always being set. The only
+> reason we have the STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP flag is to avoid
+> changing existing behaviour and causing regressions. New stuff should
+> always set this.
+>
+Me confused, STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP flag is set in the new
+device [0]. The reason STMMAC_FLAG_SPH_DISABLE flag being dropped in
+the new device is SPHEN=3D1 in MAC HW feature reg for the new device.
 
-diff --git a/drivers/regulator/rpi-panel-v2-regulator.c b/drivers/regulator/rpi-panel-v2-regulator.c
-index 30b78aa75ee38..eb4c4e3ead364 100644
---- a/drivers/regulator/rpi-panel-v2-regulator.c
-+++ b/drivers/regulator/rpi-panel-v2-regulator.c
-@@ -35,24 +35,55 @@ static const struct regmap_config rpi_panel_regmap_config = {
- 	.can_sleep = true,
- };
- 
--static int rpi_panel_v2_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
--				  const struct pwm_state *state)
-+static int rpi_panel_v2_pwm_round_waveform_tohw(struct pwm_chip *chip,
-+						struct pwm_device *pwm,
-+						const struct pwm_waveform *wf,
-+						void *_wfhw)
- {
--	struct regmap *regmap = pwmchip_get_drvdata(chip);
--	unsigned int duty;
-+	u8 *wfhw = _wfhw;
-+
-+	if (wf->duty_length_ns > wf->period_length_ns)
-+		*wfhw = 100;
-+	else
-+		*wfhw = mul_u64_u64_div_u64(wf->duty_length_ns, 100, wf->period_length_ns);
-+
-+	return 0;
-+}
- 
--	if (state->polarity != PWM_POLARITY_NORMAL)
--		return -EINVAL;
-+static int rpi_panel_v2_pwm_round_waveform_fromhw(struct pwm_chip *chip,
-+						  struct pwm_device *pwm,
-+						  const void *_wfhw,
-+						  struct pwm_waveform *wf)
-+{
-+	const u8 *wfhw = _wfhw;
-+
-+	/*
-+	 * These numbers here are utter fabrications, the device is sealed
-+	 * in metal casing and difficult to take apart and measure, so we
-+	 * pick some arbitrary values here, values which fit nicely.
-+	 */
-+	wf->period_length_ns = 100 * 1000;	/* 100 us ~= 10 kHz */
-+	wf->duty_length_ns = *wfhw * 1000;	/* 0..100us */
-+	wf->duty_offset_ns = 0;
-+
-+	return 0;
-+}
- 
--	if (!state->enabled)
--		return regmap_write(regmap, REG_PWM, 0);
-+static int rpi_panel_v2_pwm_write_waveform(struct pwm_chip *chip,
-+					   struct pwm_device *pwm,
-+					   const void *_wfhw)
-+{
-+	struct regmap *regmap = pwmchip_get_drvdata(chip);
-+	const u8 *wfhw = _wfhw;
- 
--	duty = pwm_get_relative_duty_cycle(state, PWM_BL_MASK);
--	return regmap_write(regmap, REG_PWM, duty | PWM_BL_ENABLE);
-+	return regmap_write(regmap, REG_PWM, *wfhw | (*wfhw ? PWM_BL_ENABLE : 0));
- }
- 
- static const struct pwm_ops rpi_panel_v2_pwm_ops = {
--	.apply = rpi_panel_v2_pwm_apply,
-+	.sizeof_wfhw		= sizeof(u8),
-+	.round_waveform_fromhw	= rpi_panel_v2_pwm_round_waveform_fromhw,
-+	.round_waveform_tohw	= rpi_panel_v2_pwm_round_waveform_tohw,
-+	.write_waveform		= rpi_panel_v2_pwm_write_waveform,
- };
- 
- /*
--- 
-2.50.1
+[0] https://lore.kernel.org/all/20250904203949.292066-4-prabhakar.mahadev-l=
+ad.rj@bp.renesas.com/
 
+Cheers,
+Prabhakar
+
+> If there is a reason not to have this set (e.g., PCS doesn't support
+> it) then we need to make that a PCS property and extend phylink's EEE
+> support. If there's something wrong in the setup that stmmac does for
+> EEE, then I'd like to hear about it as well.
+>
+> Thanks.
+>
+> --
+> RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+> FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
 
