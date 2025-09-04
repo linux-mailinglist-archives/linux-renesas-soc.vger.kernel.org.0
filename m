@@ -1,142 +1,171 @@
-Return-Path: <linux-renesas-soc+bounces-21411-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21412-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A98AB4481D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 23:11:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B48DEB44859
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 23:17:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 21C525A7A9F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 21:11:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 75210188E68A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 21:17:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BB09299A84;
-	Thu,  4 Sep 2025 21:11:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E62229BDB1;
+	Thu,  4 Sep 2025 21:16:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XKeOx47B"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="FQH2Fxz6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38BFA2951B3;
-	Thu,  4 Sep 2025 21:11:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE0328934F
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  4 Sep 2025 21:16:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757020262; cv=none; b=eDOnVIVMpAURwQlHeUMeViWhHpzCJgKQoBx0GgtLnyK70eyipU/6rRu5LhsgpipbtshzQ2bjsA9tevzjsBNhx2F3cJntgjq3hkNW/CRlhoCasIz+5F9gx7mg6iiv4yC9s3E7DrSfT+PYI58Ro46HEvlWcS5OeQTedsO4EZjJGR0=
+	t=1757020617; cv=none; b=eq8xaiP8l8+FnUsl2altRCfYbilNYYJ5xA06yFF/eJvt+Eg6SDp3wcbbYQUysbmFYV7oxKs5SSy8cwsZoqLRVIpNxyJ+IuH2YtWsinKJ8sAfTmFUcIvHyS58HiV7rQrX0PmCu/bOuJJ09ru3n6kyXtwqG4cVoFZR2KQWVH1rDO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757020262; c=relaxed/simple;
-	bh=s41t3tEClIPqImf14G5Umj0Ijc8KfxZHCW8WvoXEJ7A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Bogd53BTnU9ieT8Gl+l7RkTUAYGbGSe6v+k7qsd1Ao+K2HpBLCzP4P2tkWefmXEhIh4e6+TEw/OCAJqP2NQEHQOnoIyz0VXJH3cLzPPAapbMeDdT+1DQfHC8yCojD1x4jhkh6nEF1FI87meNwgEbL/YPYF89A3LR+6BH/icsaMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XKeOx47B; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3df2f4aedc7so889363f8f.2;
-        Thu, 04 Sep 2025 14:11:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757020259; x=1757625059; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jAUp29zeM6Eea+iEGcle/fQhECh+9aNVpzcpnyZ4uZ4=;
-        b=XKeOx47Bcie1rv4SiX4rsu8N8tTKopKElz/Z8HA8lIQ9J2fYLB0xGLypVtIM2K3t+y
-         28vgc69PELwuraxGZXYwOpVwOEeZ6QlwR45q2kdjwclX+hnLS9UHEKhFq5Ashs1TYR0l
-         mVhCCXTqMbHsOLwct9uR6G3gBBNOqP0nhG9exKnh4QML7ZzpIytmHnfgWOvOZnCODCtl
-         GGwsflF9rATEwkYlpqPGbDAYfGGOfESwg4A0RmO9YP4P4F5LVua9fMzPr+S2D10BZKvV
-         cDPTWCBsCJ8kitYGLrgXAkCrkp1g7+mSo0K1AvopSEoj5xQP8NKZBAJb131gAcYFe0ZC
-         R9Cg==
+	s=arc-20240116; t=1757020617; c=relaxed/simple;
+	bh=5jElI79aTeUe/J69ij3K0O9HaHlhMaLrW3syJ0LieHM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tsDfKvWR+NRXsVftMwkBJY6bzlq86a7tNtHYxGgkUGwcr4KF9LJHrN5wxrhMlR1CU6BHvKDIpCJ0I/BCJ8LK5EVgy3u6gnITpZ+Wwk9NstdaA3rz1aMH7eeG8MemNhT4JH9SQCqXpm8tZznUNfPLGxHbf2ZsV3Y9ytufL/dbXOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=FQH2Fxz6; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 584IJs0u023074
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 4 Sep 2025 21:16:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=Mh8AMrdW/g+ZTiJBMaP3XjJz
+	yon1YTwT1+baWuYxfZ4=; b=FQH2Fxz6fog71vdvkBS4rxNYjUGXV7+eG01OaBsm
+	yMLaThMXmXuStGfvH7SlNCZcTUY3N3mxN3SP96ZvFtCpl3V+kAL+2gKrqafbdKFP
+	6h+IMRGKFLs552kncQiW2Vj812qgGGXKaKqHRie2b10QC/ZL9qNVBHXFqh0fYqRp
+	S04WQ63ktqO15nxPE+ieUpJfYsLPQjODDxWYw9EaJ5ZSfIFZVswUuOxorYWXJwLY
+	ww3BGPrxCccGuJ+9XBeVgqxFqNvVIteihAWFtZ3bcituFquZqzIg6XTNCoUYbB98
+	XnrxeeMDjZ6gWmA711DhdTNJ01pnuynxy7+fXAZ4hy2tsw==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48uq0es261-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 04 Sep 2025 21:16:54 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-70edbfb260fso21634156d6.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 04 Sep 2025 14:16:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757020259; x=1757625059;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jAUp29zeM6Eea+iEGcle/fQhECh+9aNVpzcpnyZ4uZ4=;
-        b=cOAWW2U4cIeR4dHfCQLe8iCfJEvsTW52WVwmOMGZMFmspjeBTQ6MikJv3NjqjWjG9y
-         Vbw7CeCJqoV7We+Y/SeFpf5dHSuqvQ2tXbSkPSDNO+1RK9VJIHFylrHj+rUJF3Vf6wjV
-         rkvgJ5Zkqy3ujSWvnoqnqELGk+oJcJfljqT4rDzDFhFmAEcZ5XngVde4JqZ6q+dT04k2
-         TqdzYZx9B4JC9G9zH1ILJjt68tMYVcFjVCywa0k/VoKKCWk99hGQ+KKnja4/Nh6h2Qd2
-         RpjF7sr6ABVoMdfrgoBpx2WTD1i9VnOBB3Cyu3nUW8uE9t1GMb8+CzOf6TSXzck997H5
-         YAVw==
-X-Forwarded-Encrypted: i=1; AJvYcCV03P9Ly2MeP81a3yQbGRuweTVmxXxZ9irgm8I/2UepLad7hiTLpL6lz/i5yKTOlgIuHykVnwo5jyL3A/bM@vger.kernel.org, AJvYcCWTXw23PVOFjOEJlP75WRoHDkX2mxsMPUPgA8LsRA6geCMMxkLgVAPFRaAa3MmQPPbA6qsn1eRkbH8JgzpX6mBvpN8=@vger.kernel.org, AJvYcCWof7gexC7cdyOFnA3yq1NKZfYrJNkN00rXFpvgsLLEEovS7GoJwNCyUgagxpBDvLSCKq2mSDRawcia@vger.kernel.org, AJvYcCXSQ3ooeu2Wb0XgZnGlln8gw2UzLGIOCnrPqtKzDmcp/aoPoqWix3whIN1TSHc+mlUeA8EGDfIw@vger.kernel.org
-X-Gm-Message-State: AOJu0YxqwmL0pMDco39x2kbix0Bf0CtlOQbPRGuhKytRqBJfGFPDWv2x
-	n6IE8W+WVMxWts+iKPwlY/7yqgcbGCkRI+zhBoHFqmHXsm8shIBhD80JOqoL6KqYd28wkH5Bbyu
-	kpC9BljClKCnTTeFzcIICv0dlkXBzL3I=
-X-Gm-Gg: ASbGncvvg6YbKwmAPHKvHmfea3nA2lYSND2WxL/EGjszdKqkHzTqUeWujiP2KYIsEYO
-	YjYkXJE0gsMh6/4wpVbdkWsQBXPsJXXLNWG19mQG0AdXryz5icA/zaZyN+gwfl19XP9NAWqYOfw
-	6eMHVboJ8JE6KlvJzWBEl/OwfocLibLw9hgiR0o5A6V4z07DBQ2DeDmfCh4iXR8Pu9k0JhB77dp
-	GSMEagfgcr/2YwLL6hUigDzqmJzgm216t9JwJAW
-X-Google-Smtp-Source: AGHT+IFl5pt+oDPr0Ohssl2A7YuW3oT77c4wgZ9dmvatNAp/vfqg8+n2yH7G5lllCD1SADyzzMeQZBHdc0g8MZ6xLVk=
-X-Received: by 2002:a05:6000:2889:b0:3e3:f89:ea31 with SMTP id
- ffacd0b85a97d-3e30f89f5f4mr720584f8f.61.1757020259089; Thu, 04 Sep 2025
- 14:10:59 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1757020613; x=1757625413;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Mh8AMrdW/g+ZTiJBMaP3XjJzyon1YTwT1+baWuYxfZ4=;
+        b=uaNYS55Qnv8qC/wPQm7Cqmz3tHqIh5yG7HKkRWfC4eghc9FdfhX3cjwELGv5RIeuQI
+         JrBE1EnFbXKJ9UWK9hmcSwyUKNhK+QbpIUXhsrVrqMi6dBJJWV6CUZk9Gj2SdLAeTT+V
+         R/4FKpzLPOsyR3JoXyz0HJu8Q5jxdOKloN+aSzx8xq7ZUkEJDlmPm9u0YB9vdXekEhRt
+         gc/kKuvlLc0sjqrhFze1RwgzbGGKeV1xXhokiyovmh5+N3FRuVEhdMNYHZGdTrFFTOJm
+         ko+e1ZrPycOQxsG/dhgxz57dkDWEl6/SYqGqumzBC9svHu5mVdsI74N+9uPptKHGC9oG
+         5CCw==
+X-Forwarded-Encrypted: i=1; AJvYcCXXqlawdDfB94+ZU0N6r/h80LRDDO1rG+/jLPRMF+vUQDwpQGhPj1jSCMHOB2LBReGOI81bV3esVd565mIP0qddHw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxwAl2G/AZGL00+Qk3O8obrYY7bRAhYlwHgb/mHu/fKW0PQf5l
+	I19FT8oIDsdpUOfwXgjae5jqOWdDtl3au7H9B8D/1rGPGfj6wB+8iBQJkKuwQe32rsxk7vN+cHK
+	mEkglVMor3blXyaKHp1lGRkuZ+4Bw/X/UoaPdMze8zatM2xHuU5qB0DD5qW/mVik9jsRV6En32A
+	==
+X-Gm-Gg: ASbGncunrJMzwtn5DR7SoAP+UDdDr9cJ7YX/J/xFCibSx3zc8Og0gwNYb7rwBuR7ulZ
+	8pjbrhXFK7Qz0stMGP7g4++uxPhRoFDGeY5foOpwnY4SPhO1Ewu4wjtHS6z1rRF7SgxWS10seDT
+	n+wGOLVI62TQ9EygDw6qxGZR8F40UjluNRlAZ7jPRed0t/d/cJiGAhTb31V8bOqTX3l4u7PKIJ2
+	qLtVdJtfoOIxSbH21K0BURdfz6YzP37iMliXNjuyYfQm/KJdW9ybQTSPr058QELpKnIw3Qz5bfv
+	VTWpqjEWxm/m0nsxpZbmU1wfsqEy5U1DszF8emyamytC7GmXQLfdo7jRUt1R3+H2/NXhg2QzY6l
+	B8WqFi/o0PC6/DvYoK3fLZ9FKRfb4WdSJDT515ahMBk8ImL6SiEHq
+X-Received: by 2002:a05:6214:4002:b0:70f:a9a3:251 with SMTP id 6a1803df08f44-70fac7877bemr229450116d6.24.1757020613075;
+        Thu, 04 Sep 2025 14:16:53 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG2H1du5auKnvQbtV9SHrDXiNbYxgk+GtJPZ9m4TugfdymzyxBYc9+tnOTS22ROkQ9dqLXTOw==
+X-Received: by 2002:a05:6214:4002:b0:70f:a9a3:251 with SMTP id 6a1803df08f44-70fac7877bemr229449596d6.24.1757020612516;
+        Thu, 04 Sep 2025 14:16:52 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5608ab5c226sm1447746e87.22.2025.09.04.14.16.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Sep 2025 14:16:51 -0700 (PDT)
+Date: Fri, 5 Sep 2025 00:16:49 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: dri-devel@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        David Airlie <airlied@gmail.com>,
+        Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+        Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] drm/panel: ilitek-ili9881c: Add configuration for
+ 5" Raspberry Pi 720x1280
+Message-ID: <ojrgzagempsmmlpm44kp623zltzynkdcatq42necy5a25pvfoq@ntkb5gaknszy>
+References: <20250904205743.186177-1-marek.vasut+renesas@mailbox.org>
+ <20250904205743.186177-2-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250904203949.292066-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250904203949.292066-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <aLn7XVnWmHv1Bfe2@shell.armlinux.org.uk>
-In-Reply-To: <aLn7XVnWmHv1Bfe2@shell.armlinux.org.uk>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 4 Sep 2025 22:10:32 +0100
-X-Gm-Features: Ac12FXzTh_QwLSBZNVL4Qmae4bCfLKKdSn-hnwmDHrHtfF7DVr842_KM4NBa2lw
-Message-ID: <CA+V-a8umpEzwO5XnFVNB-TkDtEh9K48OKqaDE_SwzGfXk+9qEA@mail.gmail.com>
-Subject: Re: [PATCH net-next v2 2/3] net: stmmac: dwmac-renesas-gbeth: Use OF
- data for configuration
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Richard Cochran <richardcochran@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>, Jose Abreu <joabreu@synopsys.com>, netdev@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250904205743.186177-2-marek.vasut+renesas@mailbox.org>
+X-Proofpoint-GUID: 76gNxSJXu-UNjAAS02my19x1cI2fqmOs
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAwNCBTYWx0ZWRfX7LXyBtM9Eo2Z
+ mbN7rUOYGObdc2AAWTAqZXxp8D1WikN7sHXd2iDnjRYFHv9/X2aZTWfStUo1fdIy3OQbWkkXf8d
+ P66gzvrZEjzXXZ8AX+Sg4/ILjDg1KinXFkCiXsdiKyGZICWLrqi3VsWrzif/SQ7zZFV4ym6uSaP
+ DLSOtiW5jAcJ/fARoHAjnuH9TWBN5uRb/WdMrB5DJypgb5WrTVaR1Lo/rrbmG4VzFrtYRex3rzQ
+ qBv0wVIQjaK7OD9lyrfhu2s2mesjSwM9AtdqWytaUIi9QAItmF4IQy/2l9qolioxlHLWrqTapns
+ K2iiCY3WpBziqFRK8RvzWS+bYNuOCp4GTeDca9Rhh3JiZj8wsBsSsSWorBuF+oXT6tXzNiOZBIm
+ CK6jMpUr
+X-Proofpoint-ORIG-GUID: 76gNxSJXu-UNjAAS02my19x1cI2fqmOs
+X-Authority-Analysis: v=2.4 cv=ea09f6EH c=1 sm=1 tr=0 ts=68ba01c6 cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=b3CbU_ItAAAA:8 a=VwQbUJbxAAAA:8 a=RF00TdSWAAAA:8
+ a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=QyXUC8HyAAAA:8 a=KKAkSRfTAAAA:8
+ a=e5mUnYsNAAAA:8 a=dCZUmJHuHaGrPOQQW1IA:9 a=CjuIK1q_8ugA:10
+ a=OIgjcC2v60KrkQgK7BGD:22 a=Rv2g8BkzVjQTVhhssdqe:22 a=_nx8FpPT0le-2JWwMI5O:22
+ a=cvBusfyB2V15izCimMoJ:22 a=Vxmtnl_E_bksehYqCbjh:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-04_07,2025-09-04_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 suspectscore=0 clxscore=1015 malwarescore=0 phishscore=0
+ bulkscore=0 spamscore=0 priorityscore=1501 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300004
 
-Hi Russell,
+On Thu, Sep 04, 2025 at 10:56:57PM +0200, Marek Vasut wrote:
+> Add configuration for the 5" Raspberry Pi 720x1280 DSI panel
+> based on ili9881. This uses 10px longer horizontal sync pulse
+> and 10px shorter HBP to avoid very short hsync pulse.
+> 
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> ---
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: devicetree@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+> V2: Turn ILI9881C_COMMAND_INSTR() params lowercase
+> ---
+>  drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 214 ++++++++++++++++++
+>  1 file changed, 214 insertions(+)
+> 
 
-On Thu, Sep 4, 2025 at 9:49=E2=80=AFPM Russell King (Oracle)
-<linux@armlinux.org.uk> wrote:
->
-> On Thu, Sep 04, 2025 at 09:39:48PM +0100, Prabhakar wrote:
-> >       plat_dat->init =3D renesas_gbeth_init;
-> >       plat_dat->exit =3D renesas_gbeth_exit;
-> > -     plat_dat->flags |=3D STMMAC_FLAG_HWTSTAMP_CORRECT_LATENCY |
-> > -                        STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP |
-> > -                        STMMAC_FLAG_SPH_DISABLE;
-> > +     plat_dat->flags |=3D gbeth->of_data->stmmac_flags;
->
-> You include the first two flags in your new device. I would like to see
-> at least STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP always being set. The only
-> reason we have the STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP flag is to avoid
-> changing existing behaviour and causing regressions. New stuff should
-> always set this.
->
-Me confused, STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP flag is set in the new
-device [0]. The reason STMMAC_FLAG_SPH_DISABLE flag being dropped in
-the new device is SPHEN=3D1 in MAC HW feature reg for the new device.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-[0] https://lore.kernel.org/all/20250904203949.292066-4-prabhakar.mahadev-l=
-ad.rj@bp.renesas.com/
 
-Cheers,
-Prabhakar
-
-> If there is a reason not to have this set (e.g., PCS doesn't support
-> it) then we need to make that a PCS property and extend phylink's EEE
-> support. If there's something wrong in the setup that stmmac does for
-> EEE, then I'd like to hear about it as well.
->
-> Thanks.
->
-> --
-> RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-> FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+-- 
+With best wishes
+Dmitry
 
