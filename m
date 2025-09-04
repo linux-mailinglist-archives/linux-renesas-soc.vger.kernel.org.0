@@ -1,134 +1,112 @@
-Return-Path: <linux-renesas-soc+bounces-21414-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21415-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 156ACB44885
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 23:31:40 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58B2FB449A3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 00:29:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BA141487AE8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 21:31:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 17CDB7BF8EB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Sep 2025 22:27:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5A0129A30E;
-	Thu,  4 Sep 2025 21:31:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D3A82EAD0C;
+	Thu,  4 Sep 2025 22:28:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="KkMgZWe+"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="e0ZRpMNR";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Y0gx2hsF"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2038621FF44;
-	Thu,  4 Sep 2025 21:31:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0EFB28C5B8;
+	Thu,  4 Sep 2025 22:28:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757021495; cv=none; b=NhDGUguzKw/ZJ2nfM+aayTtWhKwdldwx39G+DUvhUlSAf+fwvy9QqTo4IRw1i48wudUsJaA6u5QZNsgA7/OWPypPihln4snvf9xPYRP/EiTGvAFPfCTlxuSsmNRcyBwR9lPrpn9o4DVSjq3m/rLNOcsIZPfGXflHsAMgAe9FnpA=
+	t=1757024911; cv=none; b=L0pYGJA4VuBY8vPh0OnsatqUDhGxdPYDHt7sAFXmHu6NQp1qS1O0oWk3jv2MBhLRjH8OHw3XQVen9pmL9p53PFtWur7eUQvrf/5tvnmyZa1v2a4nvEuxYDESWa747xzuGw+XTP9GkNZAt9RcozIcDSxEfMrVSAzQrdcsIVSnKWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757021495; c=relaxed/simple;
-	bh=+sm4UcxA0vSUoTY8xGWPKzfLP4Q5abU5CRVblQJLvNA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W2WQ7T9PkECehLtBcPrxbP3h1WxSKhnwbx9Qg4rWJJTSrw13FkzUYkaIYvlRC1EtA4FNhdrGPZG9T5pwxCGaBV1SooL7TKoZSlg3dKKXTHKNOctapRedd4kqc74h/W9e++I+5JdeWkpq10kWbbJGFmKTddx32idAwimk05hXRro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=KkMgZWe+; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=6H1pSOS0tE8x4+w4j5sSTNSvLpOtXpis8kCsGfo1lcM=; b=KkMgZWe+XVf2JxNzPK4es8X5Pk
-	08NY++duiwnRg15poUU2Xa53D+o5nE3vzxllBZdeJDRLTejJKchTMJIf3qjK5EyxV6ZpE1AZMFQR2
-	UE2uvX8UmgWim2jW90temcr6HpOXtagXU9OIu3+sHOzxalUz5zBukXlR6r6H1zvPR+qfS4/waOn65
-	Cm44rA5rJDq3iWf2cA6Fyv3Pz861y67zugaUaa6T+ZysZGg7YzULl5Mh4WcqmC0xWj3dR/fT0uffh
-	tDEbUQc+fjqUV060l0CY6vBVs0P1i08ZCg04FpwjwQqJ13b8upZlbpdrUlgvX102c42IFL33cBIRk
-	twajxq3A==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35846)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1uuHY7-000000002ZH-0ZPb;
-	Thu, 04 Sep 2025 22:31:19 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1uuHY2-000000001sE-2wEY;
-	Thu, 04 Sep 2025 22:31:14 +0100
-Date: Thu, 4 Sep 2025 22:31:14 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
+	s=arc-20240116; t=1757024911; c=relaxed/simple;
+	bh=VxaipZE/W9XDe7UN0GNULCEQrSK6FRSQCfMldl/qMCU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XPkUn4FdX2/14Oo3FQIAD2UFQynJjrmTCyF71VaI1teGrpyERBCDZb84EeE+djcLmdlK0ndzmPOJYEUB8hKsZP7sVi2N9WyGY1VT2OIAv8N9AQ0r2MNxN32bMQaZ5x6A0JE/DyfLtZHNUgnftgxDQ+MH6vvzDLNey13g5XBF1dE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=e0ZRpMNR; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Y0gx2hsF; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4cHvJP30QXz9tVN;
+	Fri,  5 Sep 2025 00:28:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1757024901;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=JCfZDqOW3xYUnS4qfRX3DC2JgwtDWIhIkGDWmHc2PpA=;
+	b=e0ZRpMNRQGLryewqCpS/3+JvA4D/B76+kiY62TbaQSEtIdzxeLh2h+L8AxGfXWGDRLjWmF
+	G89G8/IurSpsEWUpnRNDuUDgrGyQeNyutJ/IQcgm8EYqkV9IEstP8W3PzEyeETAmxndt/s
+	fjZ20uwJuLRLd8xTagw/wwl9JBo69/yUZbTI+xq7+oaUyqWDk4X40AObNsmJT+cQ5oszO7
+	K96EMAUhJtaU0Ihdqp9gmrScU63ksE8a3qP3dS7mN7d9EdgOxonAVJL64PUA0mscddinMd
+	sADb6Kv28ucvA1Q+9+9begb2RB2FrES3V/ykve6eaB9wzem2pQef6vONbrgVoA==
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1757024899;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=JCfZDqOW3xYUnS4qfRX3DC2JgwtDWIhIkGDWmHc2PpA=;
+	b=Y0gx2hsFq+4s/uYCQxW/jpI5/1KPUQbGGRMcfJwvzmywREFGxImjit8pGMVyPJPOBc2wYv
+	DzUgx0acsiLf48xZWHcy84RGx5DJutoT/YCIa3H4/FqAbh9oHzOI1cS/HKx8xeBMBTA0Fb
+	6RNCIc3FdVqzwFtCUQeHG4gFNeRXbEv82+XqGb1G/pLt05aquC9gBY5dhMuK/Q+pJMp6Vy
+	dY8pYlZQ547oAhcQD2HGX/U8achT67f8tL9hjx14m2N7CQR5213tRgosKzKrzaCcgyESaQ
+	glzYmR/4V9QyQqmVllMnlEZ+8mDiKr/SLD0A7dGeURqy9uOozvHWfJojwEsZuA==
+To: linux-arm-kernel@lists.infradead.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Jose Abreu <joabreu@synopsys.com>, netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-gpio@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH net-next v2 2/3] net: stmmac: dwmac-renesas-gbeth: Use OF
- data for configuration
-Message-ID: <aLoFIoqT2A2RmrfR@shell.armlinux.org.uk>
-References: <20250904203949.292066-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250904203949.292066-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <aLn7XVnWmHv1Bfe2@shell.armlinux.org.uk>
- <CA+V-a8umpEzwO5XnFVNB-TkDtEh9K48OKqaDE_SwzGfXk+9qEA@mail.gmail.com>
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] pinctrl: renesas: r8a779g0: Fix trivial typo in SoC type comment
+Date: Fri,  5 Sep 2025 00:27:44 +0200
+Message-ID: <20250904222806.193260-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+V-a8umpEzwO5XnFVNB-TkDtEh9K48OKqaDE_SwzGfXk+9qEA@mail.gmail.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+X-MBO-RS-META: mfes1j688q8wf3wu6ec8ger8k67kyhis
+X-MBO-RS-ID: 139fc08f7d3b6ce8f2e
 
-On Thu, Sep 04, 2025 at 10:10:32PM +0100, Lad, Prabhakar wrote:
-> Hi Russell,
-> 
-> On Thu, Sep 4, 2025 at 9:49 PM Russell King (Oracle)
-> <linux@armlinux.org.uk> wrote:
-> >
-> > On Thu, Sep 04, 2025 at 09:39:48PM +0100, Prabhakar wrote:
-> > >       plat_dat->init = renesas_gbeth_init;
-> > >       plat_dat->exit = renesas_gbeth_exit;
-> > > -     plat_dat->flags |= STMMAC_FLAG_HWTSTAMP_CORRECT_LATENCY |
-> > > -                        STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP |
-> > > -                        STMMAC_FLAG_SPH_DISABLE;
-> > > +     plat_dat->flags |= gbeth->of_data->stmmac_flags;
-> >
-> > You include the first two flags in your new device. I would like to see
-> > at least STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP always being set. The only
-> > reason we have the STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP flag is to avoid
-> > changing existing behaviour and causing regressions. New stuff should
-> > always set this.
-> >
-> Me confused, STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP flag is set in the new
-> device [0]. The reason STMMAC_FLAG_SPH_DISABLE flag being dropped in
-> the new device is SPHEN=1 in MAC HW feature reg for the new device.
+Fix SoC type comment in the PFC table file, replace R8A779A0
+likely copy-paste error with R8A779G0. No functional change.
 
-What I'm saying is I'd like to see:
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-gpio@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+ drivers/pinctrl/renesas/pfc-r8a779g0.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-	plat_dat->flags |= STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP |
-			   gbeth->of_data->stmmac_flags;
-
-iow, it is set unconditionally, even if forgotten in a future patch.
-
+diff --git a/drivers/pinctrl/renesas/pfc-r8a779g0.c b/drivers/pinctrl/renesas/pfc-r8a779g0.c
+index cae3e65534997..218c5eff9b67f 100644
+--- a/drivers/pinctrl/renesas/pfc-r8a779g0.c
++++ b/drivers/pinctrl/renesas/pfc-r8a779g0.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /*
+- * R8A779A0 processor support - PFC hardware block.
++ * R8A779G0 processor support - PFC hardware block.
+  *
+  * Copyright (C) 2021 Renesas Electronics Corp.
+  *
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+2.50.1
+
 
