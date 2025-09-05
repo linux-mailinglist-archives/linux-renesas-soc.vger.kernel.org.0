@@ -1,131 +1,100 @@
-Return-Path: <linux-renesas-soc+bounces-21515-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21516-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4042B46256
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 20:36:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E346B46269
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 20:40:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 845E7B64C7F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 18:34:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F06B31CC000A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 18:41:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C12DF235354;
-	Fri,  5 Sep 2025 18:35:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C7B1273D68;
+	Fri,  5 Sep 2025 18:40:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="wSA1qxOQ";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="x0QyrUWO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oLdZuogb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC16261B91;
-	Fri,  5 Sep 2025 18:35:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6056BA42;
+	Fri,  5 Sep 2025 18:40:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757097334; cv=none; b=BISCdlnsAirKlcpySuqJyQUy8VbCCvIbJlK5EvzO1UMK3eeXdbUHVDXvhDpHiehnSROVYYlQ+KgebE5W2hMThOypcNTqLIi1tfmomA62BQgNmbs3jf78NYOIVlhhchFteTnvaVFnhyo+Qs1qqxy/1qBF6f1TMUkqMbgXpk9EIIQ=
+	t=1757097640; cv=none; b=K4XlrGIAPv72kXPSqsL4HinZ4VvvG+23GaIoXCPoRnY8CenNfmAX9kaK4OGprrkjmgoICMSydEVdY0Cd0eJLQCneR8YhxVwwv2B/0KOzN2/8DDGqOrb3AkqQBD3fDQU4bQog8qp3SX5c609UvbSCIeLLQTRa+Bo0laVv2ibKoqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757097334; c=relaxed/simple;
-	bh=cjEgaCsGMSqtIGWJ0USxp0TNTFQx8VP7nst0jTanjJ0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mp6+dh2wFZZ+dLlD6f3nYMMxsZY7cKNsN+XkfEsyJxdKK0/RCRi9jkZlGD9nFYJAYHLhpT/rLHl8uw9AZ1NRW+sz1JzNdjya0xwc2DsI98l+Q6rFvFigHcb9kVfwEzWcrXZIJ/hUxzoG5qg7PTkNAGt6jT+zY/5ZohTtpE7+6vU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=wSA1qxOQ; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=x0QyrUWO; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cJQ5G0lxkz9sq0;
-	Fri,  5 Sep 2025 20:35:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1757097330;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JZsROv5dMPlTRseUFed2DQIQDmI+zmlM+eHGw/139pU=;
-	b=wSA1qxOQ+B5OJr41dcgkZmuhOTiychl0t9gOaUn7ogSa8gIUiH9dW6JZ8B162DXzy3ILvd
-	0Xhp9WuEtlgSXYRAOytyyVYl8T2RqB4oqTqlw/vyGgIQcn/bJC1uVas7YP26Q+3tUlTdH9
-	H7TBlwpONHAUlTMGOghGNumalKlSQC3DnKZMnjTFAEewldEA1LN31OAIM3cycG1fIlcTnX
-	Glx8mK6rnJ7jn5VE3qGM6DiDHn23EiQxnF8WtfUA5Sl+lqKQFsz/YzwSxSbaesug68cDQh
-	91Hwj1GSW3NFaC9RLkYv27W1QQVmvrpC/JI53g3bREd9lyupZ4X4Zvi/+j9vtA==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=x0QyrUWO;
-	spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=marek.vasut@mailbox.org
-Message-ID: <273d5067-4c9d-4c8c-8633-7f2d7c708216@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1757097328;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JZsROv5dMPlTRseUFed2DQIQDmI+zmlM+eHGw/139pU=;
-	b=x0QyrUWOzMPakvYxi/Zbh5R5bygqUzCDTJYvPKP8/FqgDkYQCCzFp4EXHsOu9quW+x4/5z
-	wdivkVL2ZkVk1m1mpFlfjkJOfwRqR/Qu3bfmnH6QEEol6An0CT1tskwG5X/h6VLQforpc1
-	NU92T1MSc2SeEo89qi1UpFDiSERlqoedGE/RJCl1ykcw7WXnWpVgpR0uWUp/fThPlbz+jQ
-	3wuTN7U3UwyA/Rlv6zmRcHpxpcDxuI/wqYwvjh8VxJhQwAJv0JpSRzSiD2VPbRbAzH6p+z
-	Ly/lSrveoFofuNyYYfIm3qikjSsVGg0I2DOsRK5QXEV68eZM4Or9qrQcK5AUxA==
-Date: Fri, 5 Sep 2025 20:35:25 +0200
+	s=arc-20240116; t=1757097640; c=relaxed/simple;
+	bh=zazs765EiAP1YNPFy8VgVtG1NsucovDF0NOtXp5Rdp0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uhRw5VQjXdJlGmow53tRGJXfPSM9MOPyiFDIaLx44RZMX4gklOomq+zXfuGins8b/Sgb7owyp9A/C4fRyz3tjZC47qagQoQksRPVFNMSPE0GaL4zbdoJyciAvxJGnep8/LIefwVrfpLasonvDw0ZKD+sQLrhIaNTR4ECvwpifF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oLdZuogb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3F64C4CEF1;
+	Fri,  5 Sep 2025 18:40:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757097639;
+	bh=zazs765EiAP1YNPFy8VgVtG1NsucovDF0NOtXp5Rdp0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oLdZuogbEo/GI3zkymcBdtOez26VckC1jeHLR4xTgimm2jqpoPHK9EckuTB6mOtGW
+	 FMHsjQe4QdQZ8Y2bIL5NAj827F7MAZJUilvgU+wmVNILE0zfQviyGeMfedFjGzIsz5
+	 hOCjXUG9gGWKTaVvVe6q6tEW28AxP5vC6gVMwheM25W7KuQLreX5RzgrpqU3DQcWok
+	 TIqOzQf2gLuc/wS+zGUyWDn1iikjPHSSJ92wX51Ju3UtqpLpLDQVKDqncm9WRLJ9hl
+	 wOtVvtbSZrTuDtSxekrits4HOyCldeUy/KZ0iaMoUwAO1ohBvsvr+ViexJGrd9+jKx
+	 t+UujbdsObRrA==
+Date: Fri, 5 Sep 2025 19:40:35 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-hwmon@vger.kernel.org, Akinobu Mita <akinobu.mita@gmail.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jean Delvare <jdelvare@suse.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [RESEND PATCH 1/2] dt-bindings: hwmon: pwm-fan: Document after
+ shutdown fan settings
+Message-ID: <20250905-attention-unmoral-89d934074bf6@spud>
+References: <20250904202157.170600-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] arm64: dts: renesas: r8a779g3: Add Argon40 fan HAT DTO
- to Retronix R-Car V4H Sparrow Hawk
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Magnus Damm
- <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
- devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20250905020149.257459-1-marek.vasut+renesas@mailbox.org>
- <aLrXzl38OUhTJgxP@shikoro>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <aLrXzl38OUhTJgxP@shikoro>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 16010d7b6e6bae5f7f9
-X-MBO-RS-META: s9b7313iouson6bdjrfi5inu7cjzpbyt
-X-Rspamd-Queue-Id: 4cJQ5G0lxkz9sq0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="QxZVX/RcT9k3KTuQ"
+Content-Disposition: inline
+In-Reply-To: <20250904202157.170600-1-marek.vasut+renesas@mailbox.org>
 
-On 9/5/25 2:30 PM, Wolfram Sang wrote:
-> Hi Marek,
 
-Hello Wolfram,
+--QxZVX/RcT9k3KTuQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->> + * r8a779g3-sparrow-hawk$ grep -H . /sys/class/hwmon/hwmon?/name
->> + * /sys/class/hwmon/hwmon0/name:sensor1_thermal
->> + * /sys/class/hwmon/hwmon1/name:sensor2_thermal
->> + * /sys/class/hwmon/hwmon2/name:sensor3_thermal
->> + * /sys/class/hwmon/hwmon3/name:sensor4_thermal
->> + * /sys/class/hwmon/hwmon4/name:pwmfan
->> + *                       ^      ^^^^^^
-> 
-> For me, the output looks different, though:
-> 
-> /sys/class/hwmon/hwmon0/name:pwmfan
-> /sys/class/hwmon/hwmon1/name:sensor1_thermal
-> /sys/class/hwmon/hwmon2/name:sensor2_thermal
-> /sys/class/hwmon/hwmon3/name:sensor3_thermal
-> /sys/class/hwmon/hwmon4/name:sensor4_thermal
-> /sys/class/hwmon/hwmon5/name:pwmfan
-> 
-> hwmon0 is the Argon, hwmon5 the (unpopulated) on board connector.
-> 
-> I hope the naming is stable, but in any case, the docs need to be
-> reworked a little, I guess?
+On Thu, Sep 04, 2025 at 10:21:09PM +0200, Marek Vasut wrote:
+> Document fan-shutdown-percent property, used to describe fan RPM in perce=
+nt
+> set during shutdown. This is used to keep the fan running at fixed RPM af=
+ter
+> the kernel shut down, which is useful on hardware that does keep heating
+> itself even after the kernel did shut down, for example from some sort of
+> management core.
+>=20
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-The hwmon devices are allocated first come first served, so the list can 
-look different for you. You need to look up the fan you want to control, 
-of course. Look up by name is simplest, if there are more fans, it might 
-be a bit more involved to find the right one.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
--- 
-Best regards,
-Marek Vasut
+--QxZVX/RcT9k3KTuQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaLsuowAKCRB4tDGHoIJi
+0qfTAQDg1gtz7eMk9y+wSB8sMq81EkdkMLWjLCXFqTbFxxYrzwEAxgoRUmVDJTc4
+jOVOsE9yiEIsYDz16a8YWnAawoQvcQQ=
+=TMpf
+-----END PGP SIGNATURE-----
+
+--QxZVX/RcT9k3KTuQ--
 
