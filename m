@@ -1,171 +1,122 @@
-Return-Path: <linux-renesas-soc+bounces-21530-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21531-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F77B4640B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 21:59:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26BBDB4644C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 22:06:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BB60A7A2339
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 19:57:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ECE1C1CC5701
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 20:06:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FB17283FD8;
-	Fri,  5 Sep 2025 19:59:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84BC92D12EF;
+	Fri,  5 Sep 2025 20:04:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="aJEUvpQm";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PRZ7ZsQ5"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="cDgw8gAm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40861E55A;
-	Fri,  5 Sep 2025 19:59:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A4EE2C21D5
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Sep 2025 20:04:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757102351; cv=none; b=WBfZspVF1EFOsAfhFUD9y/V9+Y9yWc9H1f4GV0gmarExm66i3Hysd6j8nWbLg0Zv/fSi5dSjHWNGrMkVLzlElJI+Ao3X5MgtY5Dvj5y+6MrdVUJbKDTQOwTsehYT84lmkVkzGG7jG8kItZL41uk0w+EjUoTIz15xSNQ283XJsAA=
+	t=1757102682; cv=none; b=VSxGkj0SeQcHW7FgGIoCxP1t0rb933KQ0s25CjssvLXaSamnU/eakDG8+fkA8cDjXVKLKrHudeoGqs1h1TUvBbzskKvaEX9q1jb4+jTWbdxbKe5Z9YPap5yankXP2fqXqQs/IYnfJCsOEKMgo5OW33XBM+g47asMiyeykaAkfnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757102351; c=relaxed/simple;
-	bh=P69v0RjJ/1HhflldI2zS//OsaLLhmdwzpEbl3SC1MoM=;
+	s=arc-20240116; t=1757102682; c=relaxed/simple;
+	bh=11GbqDXssApiU9y+vomJ1VHqHgmumr3HAlGd4PLdhNY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q8soS2bSz2VuGAnf4/ryukfMmsRJho1pCyU8gs4z2N9l+g/ksukixNsgSfOIpIvGlKWI/7PDYEi6yIspb1JGkTw/BlomHKlmJPUEHiDlZssWCJeS9uGlwdOWSQbYsZ9+FITAdORwflbHJR/C/J6jb8Tn84HC4v4iU3eepoUvldU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=aJEUvpQm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PRZ7ZsQ5; arc=none smtp.client-ip=103.168.172.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.phl.internal (Postfix) with ESMTP id 6034DEC0369;
-	Fri,  5 Sep 2025 15:59:08 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Fri, 05 Sep 2025 15:59:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1757102348;
-	 x=1757188748; bh=Ihr2nGMrA7SrxtqaATN/qj9edQvgu9qlvw8CXfM7AHg=; b=
-	aJEUvpQm0fTZOAWzprgDF3Vk5XXmdejTjBuZVB4F4o5OXNN54d12ZOz9tgEa5SRk
-	+TV+6WQ63HVNfurO8OjUyIiWuO257j6NdIo1FwAJnlu7lzQ2ASziPXuboMozTv/4
-	t3hIvOtO5xywwTH1Hsxqi6iNCEaz0HgRMWr1t3zEs3LdM9l3g9OJKWgsBoziMcLC
-	sU0PYd0Mi42ihP6pl3f2JWPDmrcsuW/KfbkDZtySyzTsWVsFxENpKxud/MVAzYR0
-	fZB4bChMvVPgXWkjrftM+EP8vO0TUteifZj9ETnHhhfQh4GIcOB7oaRzdr0+QaIX
-	9N5D/N3zPn6ahGqDNQY4NQ==
+	 Content-Type:Content-Disposition:In-Reply-To; b=RrqMuhBAYOOMNmixSchiUUMr4yuiuel2XDSWUuejgGwACVWj/I/Nzc4cJ7tYXSTk4Krsl7RnpH2YAs7rdj3RCjLuwgUkjYkOCpnPOCTFJW1Epl9r6+b/p0XvNAfws/jPovcDzk0E72yuH1Y4Ym4jhiuDbtvuPsHDWr8TnvlD7/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=cDgw8gAm; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1757102348; x=
-	1757188748; bh=Ihr2nGMrA7SrxtqaATN/qj9edQvgu9qlvw8CXfM7AHg=; b=P
-	RZ7ZsQ50MVu+Xpc1TRra0H7put71OygcTmoyi2KAorv4nq5py+KfE3oP7xN23KSH
-	nK5Wmp88YT1myDxXjBDN5Jv+bK6CJmGpq286RXjoBvUYO347YVhBamFtJaf/S0U6
-	lNmps/NU6twsdzjRKKgnqQXCg7vCBacoMumQrXwL3IcSvFQBPBuDNyOAGTo6cVt9
-	2Umgoj6w5DRY43Z0wuPig9P5iPVVaeliTSy+hqpsjrhQK50IptlK/3uP9+9H+FXE
-	YpBbFV6mZXBiR0kX1L61RHVXBGVAcrkPz7anfbge9MApCXTjDFSIz8QD2a6Zv8cW
-	fS6Na+OFhPkr8r+TpDgdA==
-X-ME-Sender: <xms:C0G7aGvA-9VnF09n4T4T6oDo61ULzUXUMyvMOoO3nyVIiZKBbvIMdQ>
-    <xme:C0G7aGE_NfmHzPIIJ0Nj3lAYTRYqBHPkyWLWmkvOmsqwLo2MI81mvs5-Ko206Sl0a
-    oTJvijw5uM3tvE7MG8>
-X-ME-Received: <xmr:C0G7aHzYqo-gfeEeuF5x1xqz3iJf8a5ZES9dTPxwMSxi-d2b9yKOlSGt9Mr6EuymYfyNyEzq6VU4DseXxdS7Vf5QWgO2jNNk2g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdeljeelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
-    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
-    epfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgrshcu
-    ufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvg
-    gthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeefheetheek
-    keegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
-    grmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrght
-    vggthhdrshgvpdhnsggprhgtphhtthhopeelpdhmohguvgepshhmthhpohhuthdprhgtph
-    htthhopehmrghrvghkrdhvrghsuhhtodhrvghnvghsrghssehmrghilhgsohigrdhorhhg
-    pdhrtghpthhtoheplhhinhhugidqphhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtoheprhgrfhgrvghlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegurghnihgv
-    lhdrlhgviigtrghnoheslhhinhgrrhhordhorhhgpdhrtghpthhtohepghgvvghrthdorh
-    gvnhgvshgrshesghhlihguvghrrdgsvgdprhgtphhtthhopehluhhkrghsiidrlhhusggr
-    segrrhhmrdgtohhmpdhrtghpthhtohepmhgrghhnuhhsrdgurghmmhesghhmrghilhdrtg
-    homhdprhgtphhtthhopehruhhirdiihhgrnhhgsehinhhtvghlrdgtohhmpdhrtghpthht
-    oheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:C0G7aA2RlI1LXPe5W92YM4PaBXtrusDCM5Ichdv_BpS8X7Iai_HBxA>
-    <xmx:C0G7aHpXWzged01duQ2rar9iZcQ_M9b3rHeKL4zJ42Xo-TUf49Uz9Q>
-    <xmx:C0G7aNUTmvNE701JTvr_Fj6Y36bLbPlOnAsxbkxsgKZDPvrBYaW2Bw>
-    <xmx:C0G7aArRPFUdwShFj8U86DxNtYMOYwh06AqDD3c54q0GfgH0qKNv4Q>
-    <xmx:DEG7aDiKY1y7g7ibaACkiyaylctgFz47WOa_N8NUPEvJOuQG4ez-4L48>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 5 Sep 2025 15:59:06 -0400 (EDT)
-Date: Fri, 5 Sep 2025 21:59:04 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=xj+d
+	VF/YryccXvlypmfMjf5O3cBWAm2GjD0ww5V4SRc=; b=cDgw8gAm6HQuL4qnbhvl
+	3V6qT3ETttXViq6E5ZyRDIYxChs5GwPHsWTHbtNVW67zgU4/3k1pEKUYAbBNd3Qq
+	2scnAxM/L4uNOofMQ/qeBfxqRodiA710te/seFHfPtU6aB1QIN0JLhjmv4Mq+R5d
+	2dulOOJ4AqfWSoufO+bdRIAlHkTyladuFqFxktJdASuIs34AZ5vN8knCjGuqTXWh
+	DfBBI6YZr5tyWZy0UrbnqQjd/CbzM2F9btK69XrxlICIJR376sA2sVi00BXg4cw5
+	JIg5BO13UOlxoy2JROtFVUuTEsFR0BvKxFXGpu6SWvOLJcQb98ggG7Cf+/c7l+qL
+	eA==
+Received: (qmail 4158411 invoked from network); 5 Sep 2025 22:04:35 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Sep 2025 22:04:35 +0200
+X-UD-Smtp-Session: l3s3148p1@CwbEWBM+JqsgAQnoAEvNAIPWyJz1dhzG
+Date: Fri, 5 Sep 2025 22:04:34 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Conor Dooley <conor+dt@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Lukasz Luba <lukasz.luba@arm.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Zhang Rui <rui.zhang@intel.com>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] thermal/drivers/rcar_gen3: Document Gen4 support in
- Kconfig entry
-Message-ID: <20250905195904.GA2033628@ragnatech.se>
-References: <20250905193322.148115-1-marek.vasut+renesas@mailbox.org>
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2] arm64: dts: renesas: r8a779g3: Add Argon40 fan HAT
+ DTO to Retronix R-Car V4H Sparrow Hawk
+Message-ID: <aLtCUoIPSFfYb-k7@shikoro>
+References: <20250905020149.257459-1-marek.vasut+renesas@mailbox.org>
+ <aLrXzl38OUhTJgxP@shikoro>
+ <273d5067-4c9d-4c8c-8633-7f2d7c708216@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250905193322.148115-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <273d5067-4c9d-4c8c-8633-7f2d7c708216@mailbox.org>
 
 Hi Marek,
 
-Thanks for your patch.
-
-On 2025-09-05 21:32:56 +0200, Marek Vasut wrote:
-> The R-Car Gen3 thermal driver supports both R-Car Gen3 and Gen4 SoCs.
-> Update the Kconfig entry.
+> > > + * r8a779g3-sparrow-hawk$ grep -H . /sys/class/hwmon/hwmon?/name
+> > > + * /sys/class/hwmon/hwmon0/name:sensor1_thermal
+> > > + * /sys/class/hwmon/hwmon1/name:sensor2_thermal
+> > > + * /sys/class/hwmon/hwmon2/name:sensor3_thermal
+> > > + * /sys/class/hwmon/hwmon3/name:sensor4_thermal
+> > > + * /sys/class/hwmon/hwmon4/name:pwmfan
+> > > + *                       ^      ^^^^^^
+> > 
+> > For me, the output looks different, though:
+> > 
+> > /sys/class/hwmon/hwmon0/name:pwmfan
+> > /sys/class/hwmon/hwmon1/name:sensor1_thermal
+> > /sys/class/hwmon/hwmon2/name:sensor2_thermal
+> > /sys/class/hwmon/hwmon3/name:sensor3_thermal
+> > /sys/class/hwmon/hwmon4/name:sensor4_thermal
+> > /sys/class/hwmon/hwmon5/name:pwmfan
+> > 
+> > hwmon0 is the Argon, hwmon5 the (unpopulated) on board connector.
+> > 
+> > I hope the naming is stable, but in any case, the docs need to be
+> > reworked a little, I guess?
 > 
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> The hwmon devices are allocated first come first served, so the list can
+> look different for you. You need to look up the fan you want to control, of
+> course. Look up by name is simplest, if there are more fans, it might be a
+> bit more involved to find the right one.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Exactly. This is why I would suggest to drop the '^^^^^' line from
+above. We definitely have two pwmfans with the above dtso. So finding
+the right one needs a second look anyhow. And while I think it is quite
+likely that the list of hwmon devices will look the same (I don't see a
+race condition which would make hwmon0 and hwmon5 swap), I agree we
+shouldn't rely on it. I would also think that we then maybe should
+change
 
-> ---
-> Cc: "Niklas Söderlund" <niklas.soderlund@ragnatech.se>
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Lukasz Luba <lukasz.luba@arm.com>
-> Cc: Magnus Damm <magnus.damm@gmail.com>
-> Cc: Zhang Rui <rui.zhang@intel.com>
-> Cc: linux-pm@vger.kernel.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
->  drivers/thermal/renesas/Kconfig | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/thermal/renesas/Kconfig b/drivers/thermal/renesas/Kconfig
-> index dcf5fc5ae08e4..f4af8c7f28b05 100644
-> --- a/drivers/thermal/renesas/Kconfig
-> +++ b/drivers/thermal/renesas/Kconfig
-> @@ -10,13 +10,13 @@ config RCAR_THERMAL
->  	  thermal framework.
->  
->  config RCAR_GEN3_THERMAL
-> -	tristate "Renesas R-Car Gen3 and RZ/G2 thermal driver"
-> +	tristate "Renesas R-Car Gen3/Gen4 and RZ/G2 thermal driver"
->  	depends on ARCH_RENESAS || COMPILE_TEST
->  	depends on HAS_IOMEM
->  	depends on OF
->  	help
-> -	  Enable this to plug the R-Car Gen3 or RZ/G2 thermal sensor driver into
-> -	  the Linux thermal framework.
-> +	  Enable this to plug the R-Car Gen3/Gen4 or RZ/G2 thermal sensor
-> +	  driver into the Linux thermal framework.
->  
->  config RZG2L_THERMAL
->  	tristate "Renesas RZ/G2L thermal driver"
-> -- 
-> 2.50.1
-> 
+	echo 2 > /sys/class/hwmon/hwmon4/pwm1_enable
 
--- 
-Kind Regards,
-Niklas Söderlund
+to
+
+	echo 2 > /sys/class/hwmon/hwmon<X>/pwm1_enable
+
+or something? What do you think? Just suggestions, I am not really
+insisting. Well, maybe, about dropping the "^^^^" line ;)
+
+Happy hacking,
+
+   Wolfram
 
