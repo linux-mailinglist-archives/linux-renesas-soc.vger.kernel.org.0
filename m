@@ -1,148 +1,148 @@
-Return-Path: <linux-renesas-soc+bounces-21478-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21479-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B111FB4572A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 14:02:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EE27B45768
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 14:13:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6D7AD162A56
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 12:02:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3646B5C11EB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 12:13:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F1F22F5307;
-	Fri,  5 Sep 2025 12:02:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8636434A333;
+	Fri,  5 Sep 2025 12:13:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lr1TrZr9"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="nyhJmFF6";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="XxedlOd2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C253319E7F8;
-	Fri,  5 Sep 2025 12:02:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F3192D595B;
+	Fri,  5 Sep 2025 12:13:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757073771; cv=none; b=sgKFQYEq8MwH13kGbU8YI5zlRx8r3gTp/O/MZQWVdcvH6k7yD2BN+PhQ3YIPf+sPWhVaJQIixonOPCJOxWAoth8dE7/SozGPrF8KCN5MmGCq1/sJ/425YFjKfT4iv1ORV1alxGRxoSV0T2J73BNVdpnHa+0HR5TuCNva6E++7+8=
+	t=1757074404; cv=none; b=OlbwwGV4t8SFTXiX6Q21J4sdwnHWIB8/ESovW51wx2VW8SRMuDA56xMzN7ap/8282bceTaa7XNo4N1IQjsFMS6sknhXv39HPo3RsQ4tMvP0OHaqcnETy1+JtrTbP5qM90V2GEX5Hy8BnYC6DABVQ3HeEo9vl35DMnuRm5qqRfxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757073771; c=relaxed/simple;
-	bh=xnlQwHesXOP2dDDQ+aWTnF4TrrBacXBh9qTURWV7gwQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=q4DbYBCiXcSi/onB7rNa0IY4Wlvvie6JzSPraPjnD388fnmAqyzJByX2hHUWjbdl+iFelbsx+5lEoMtKDzXVj8JQIxbnFCxFVs+NPG6AFU3+vdE3mvXLza9BN54BXLb/oETJofMhPyDh3RkU2x5JMaa1NEIE0KTvSGOxifj7ok4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lr1TrZr9; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-45cb5e5e71eso11785295e9.2;
-        Fri, 05 Sep 2025 05:02:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757073768; x=1757678568; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2p9jOJsI9vaYor/gi7quDFPvwuxPBD5F0qxTD9otNVs=;
-        b=lr1TrZr9q5rxHfBoEGDh/LIL7xwuUJ87TdUpSTvJKD/Idzz4ixalH0rDKMfV9LQpUf
-         teCMieTFbyz7SYMWN6oGMTTE8DTiwaUqE+Bf1uvR6gHAw69ifr51AfEzW4MPqZctydr/
-         edTn2DROOxxhmMSvG21JYQuIn0viPyH9RqPtKToHZTM0+xd8dnmc1LlUzxNcNcUFdcJj
-         hOLYsU4lAL//CH1/fA8UVUndsWK10DpjMnYwjyoAvQh7wSM+zx5opCRPsaPJ0ETe2o5N
-         PSacupNmYSHlpH1nAp1c06WhxeKsv1TC8o12BmSIWCuGSRz5cwcgCEXJVTTDPr4nS2lB
-         HKKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757073768; x=1757678568;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2p9jOJsI9vaYor/gi7quDFPvwuxPBD5F0qxTD9otNVs=;
-        b=K6XWGe6QPp/wNAKmd0jlh4BBjJ8pQDzkBSll/dKsgoyZB/bv8SgAG/qVJsrYTbLcxF
-         aEbtcWIE6TZDDZ7Sv5B2oUvEkEW0D95Bu3Mwz3sHYqxeT2MVTIiWv56gNg4DD4ZFciqQ
-         Eqz9kZe8rMPxig+B54VZ2LP7eKhKkIUX+pEOksddYzThr18Gw9bUxrNSb9aAXwk/Fa1o
-         oEouS9MT5IZrWmG2N+swjDeZqoe3v+/7fCsMI+5HUE8QN9FLxJk25YTwz3zdF2mdXkOM
-         NsO88xyPzQWd70QjvYcTWhvtLw0mnXrJzotkLkFXUBCHPAzkpC7ckKS8M4mj53e9NR4K
-         Te3w==
-X-Forwarded-Encrypted: i=1; AJvYcCVULaNfNEXdwklhwRfzTJ6Ktn/jAo/2hVoyvmReMElOHwlPnNfsy7VMQUBoGTYG7T/WswSVUCKeia8n@vger.kernel.org, AJvYcCWDyUZIwZxp6MDguLjJnX3eWrVzOTzNQUE/46KiFesXLZoumT00A2GhzpPewODJIyRnDPlUrCsWpIM5kpK0@vger.kernel.org, AJvYcCWR3IMZm/nkdqAx5IsWPA3JJZfUP3lVs2oTa9UKpsIXJ8BBNlEtEL3isCupIGznlKo6xJt9nT59OK7m5+EwUEii5MM=@vger.kernel.org, AJvYcCWdzRK0gKkluXJaKL4dtgDr8uKQKiGL/oaaemlHBgkXzW059qNRPo2N0g6wiY2/ILL2DohBM45V@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/bQz5zhIV+hF0+WQBXTM9fMYV7OiCY5C9Cd5tuD2jxGHDScUG
-	aaQbfrVZUiCv/dLIqbn+ONZ6lOJfPK06R9JusHf39fE6oVtnR6KSMC+0gFbODcS0nJLf56kRqnq
-	RkyrNzVNUL62rJDVy9jRAfXmg7J2SLGQ=
-X-Gm-Gg: ASbGncs48aITaWUmOhoUKwCVsZbzEdzFfHTS7u3JB97N7E2HxPnwf7OC38IzUJ0Xwiy
-	nSP2X2Xvon/PsDxLANaJm5i4LsGOiwsWwIs7XrBqXnbBH7aCymqIzpxIhvjVjjsQiwdqSqkRNq5
-	NcvfYOkbWbrcG2ESyqG0LFU9bUn3RFURpI2F1afrv/fbrXtCzsyfwZtzlCz8LVhRXg5K8zSJDHi
-	BKW/UnzAR0cI+ocawzIESMSFD1qtRYqDVcIQ/4PnVpk5KzkPlg=
-X-Google-Smtp-Source: AGHT+IFdNbes9YOJazZ/jkcC7CpYUmvjmyTzctIHw8JngzIufBAJDltcfI9aEkGQ17kqK8mcwsYN3FEysIuAXVo08Ec=
-X-Received: by 2002:a05:6000:26c4:b0:3ca:4e3:6ea6 with SMTP id
- ffacd0b85a97d-3d1dee6d7e9mr19290849f8f.46.1757073767683; Fri, 05 Sep 2025
- 05:02:47 -0700 (PDT)
+	s=arc-20240116; t=1757074404; c=relaxed/simple;
+	bh=csjHK8PoOisMbnu7P8iLdFCxGu9TmO9YhQI56Bglkl8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nv5D0xid8NYCDI7HAUKSxvikmyD+r0tZps1cMgXW78aIeaj6kyDEwkgXnwdTnE27ddFbzvt3cLZKiT1JHRvdzIqa81Isq6K5T9J7namtHE1Ut9KWY5/A5KwA4anclY2xz2Ss74CPh2HeySJ792vMigaWBX6RTAlgMUNDw+GygUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=nyhJmFF6; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=XxedlOd2; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cJFcH3CmPz9sbL;
+	Fri,  5 Sep 2025 14:13:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1757074399;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=oEMdT5xWzO1hbI9Xaxw82eQEzXMf3KhV/c5Xfg9jCXc=;
+	b=nyhJmFF6Tv0nyJNL7QJJepUc+Z1xvIm8YpoG1PlQsSM/fhUtAh6fqBPv+F946IkLdNxVid
+	E1wZdUr7fuKcLYHYXfiY5Lkh+c8/s0+3O6bw04RunDP2YXCKW/bpp2dSm6Hkyul2FKbOnE
+	nCigxaM4CvhdokD9KPfAkwswRdnlCoYxkzMe4C5sZ3jmPV6Tl00WB4iCEHac2RwWhw6p+6
+	xMHYkxYd6t+bvMqo90YvymtdqBojwTkjtJpVgCcgXrUAE+FJDfim/CGhy5dVjXAXzNEHAx
+	ZjcxcKIBQNswch+0YJQ6+Ibg8In9VtP1Ru18Bv9HeHRLqUwOim3t3bvwfkwS/g==
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1757074397;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=oEMdT5xWzO1hbI9Xaxw82eQEzXMf3KhV/c5Xfg9jCXc=;
+	b=XxedlOd2EHqPvf5TagP2AgPnKHEyT9zuW3kVHkSuEuGAXnwZ50GnE3/sgFZ0pQBSR24uDC
+	YggclyS4dVkGoLW7FUdzrixyPPdBKASqMluVUg8ylV0ZDmvdBKDgzyGM6ko3ayWSiVM++y
+	/Z8x1IPua8PwYmPiAqbFgulv/AxANn3zJjeFy0TEpst9Uv5vJ6KXDVLqDAaWH0/QvJaIEk
+	h0UA+7tABZKRznL3OsD8N5inJFwI7wIfk4ihf8JDkJNe8vTTyOlQ9LllUKFBXvQ/0O7fDF
+	Lo/VKY9x8W0y2j5rggwT6rvGW5CflNss/qvmIDXW76J46sPFHLjSCMp+vSAlmw==
+To: linux-pci@vger.kernel.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Frank Li <Frank.Li@nxp.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
+	Wang Jiang <jiangwang@kylinos.cn>,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2] PCI: endpoint: pci-epf-test: Limit PCIe BAR size for fixed BARs
+Date: Fri,  5 Sep 2025 14:12:43 +0200
+Message-ID: <20250905121259.9378-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250904114204.4148520-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250904114204.4148520-7-prabhakar.mahadev-lad.rj@bp.renesas.com> <021e970a-f606-4702-9f0e-b4b0576bc5d6@lunn.ch>
-In-Reply-To: <021e970a-f606-4702-9f0e-b4b0576bc5d6@lunn.ch>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 5 Sep 2025 13:02:21 +0100
-X-Gm-Features: Ac12FXzxz3naqLRqdbTKPufgNXpGKRJOQO-Ub4jeyjydA7gw1aMStbQP7vFttuI
-Message-ID: <CA+V-a8vudqkkdZDyvsBeuKCgGBYCeA4ydMgN5b-+1nkWcQe_0w@mail.gmail.com>
-Subject: Re: [PATCH net-next v2 6/9] net: pcs: rzn1-miic: Make switch mode
- mask SoC-specific
-To: Andrew Lunn <andrew@lunn.ch>, Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-renesas-soc@vger.kernel.org, 
-	netdev@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: 4eis68otftdeswfckfrm4yza3shqrujy
+X-MBO-RS-ID: 3ee001c26907758ab67
 
-Hi Andrew and Geert,
+Currently, the test allocates BAR sizes according to fixed table
+bar_size[] = { 512, 512, 1024, 16384, 131072, 1048576 } . This
+does not work with controllers which have fixed size BARs, like
+Renesas R-Car V4H PCIe controller, which has BAR4 size limited
+to 256 Bytes, which is much less than 131072 currently requested
+by this test.
 
-Thank you for the review.
+Adjust the test such, that in case a fixed size BAR is detected
+on a controller, minimum of requested size and fixed size BAR
+size is used during the test instead.
 
-On Thu, Sep 4, 2025 at 9:37=E2=80=AFPM Andrew Lunn <andrew@lunn.ch> wrote:
->
-> On Thu, Sep 04, 2025 at 12:42:00PM +0100, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Move the hardcoded switch mode mask definition into the SoC-specific
-> > miic_of_data structure. This allows each SoC to define its own mask
-> > value rather than relying on a single fixed constant. For RZ/N1 the
-> > mask remains GENMASK(4, 0).
-> >
-> > This is in preparation for adding support for RZ/T2H, where the
-> > switch mode mask is GENMASK(2, 0).
->
-> > -#define MIIC_MODCTRL_SW_MODE         GENMASK(4, 0)
->
-> >       miic_reg_writel(miic, MIIC_MODCTRL,
-> > -                     FIELD_PREP(MIIC_MODCTRL_SW_MODE, cfg_mode));
-> > +                     ((cfg_mode << __ffs(sw_mode_mask)) & sw_mode_mask=
-));
->
-> _ffs() should return 0 for both GENMASK(2,0) and GENMASK(4, 0). So
-> this __ffs() is pointless.
->
-Agreed.
+This helps with test failures reported as follows:
+"
+pci_epf_test pci_epf_test.0: requested BAR size is larger than fixed size
+pci_epf_test pci_epf_test.0: Failed to allocate space for BAR4
+"
 
-> You might however want to add a comment that this assumption is being
-> made.
->
-I will add the below comment for this, so that once Geert's series [0]
-hits in it can be easily searched and replaced.
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Damien Le Moal <dlemoal@kernel.org>
+Cc: Frank Li <Frank.Li@nxp.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Kishon Vijay Abraham I <kishon@kernel.org>
+Cc: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Niklas Cassel <cassel@kernel.org>
+Cc: Wang Jiang <jiangwang@kylinos.cn>
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-pci@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+V2: Simplify the conditional to always use fixed size BAR size for test
+---
+ drivers/pci/endpoint/functions/pci-epf-test.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-/*
-* TODO: Replace with FIELD_PREP() when compile-time
-* constant restriction is lifted. Currently __ffs() returns 0 for sw_mode_m=
-ask.
-*/
+diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
+index e091193bd8a8a..2418add64104a 100644
+--- a/drivers/pci/endpoint/functions/pci-epf-test.c
++++ b/drivers/pci/endpoint/functions/pci-epf-test.c
+@@ -1050,7 +1050,12 @@ static int pci_epf_test_alloc_space(struct pci_epf *epf)
+ 		if (bar == test_reg_bar)
+ 			continue;
+ 
+-		base = pci_epf_alloc_space(epf, bar_size[bar], bar,
++		if (epc_features->bar[bar].type == BAR_FIXED)
++			test_reg_size = epc_features->bar[bar].fixed_size;
++		else
++			test_reg_size = bar_size[bar];
++
++		base = pci_epf_alloc_space(epf, test_reg_size, bar,
+ 					   epc_features, PRIMARY_INTERFACE);
+ 		if (!base)
+ 			dev_err(dev, "Failed to allocate space for BAR%d\n",
+-- 
+2.50.1
 
-[0] https://lore.kernel.org/all/cover.1739540679.git.geert+renesas@glider.b=
-e
-
-Cheers,
-Prabhakar
 
