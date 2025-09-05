@@ -1,128 +1,131 @@
-Return-Path: <linux-renesas-soc+bounces-21514-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21515-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF33B46235
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 20:25:23 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4042B46256
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 20:36:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6CB8B5E0158
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 18:25:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 845E7B64C7F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 18:34:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A791271468;
-	Fri,  5 Sep 2025 18:25:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C12DF235354;
+	Fri,  5 Sep 2025 18:35:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="dqkjjCxy";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="qiH5lh+T"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="wSA1qxOQ";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="x0QyrUWO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F142226FA5E;
-	Fri,  5 Sep 2025 18:25:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC16261B91;
+	Fri,  5 Sep 2025 18:35:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757096709; cv=none; b=outQ9Caoo7n0jzlsh9CbkRlfd343pUuzmYh0qoy3yvVTF3yJgkvq7TzxuzQ0OTVQrz+5bYFM4YSBTXPeKSKcw6Zb4NBkB0fHFE7iBA12IOCfgiu+QKWnzb5szpTA7DBj4ZeFKqh1Yr7QWBXQ9dgE25USx6VUPrLUeKM+Y9hUaTg=
+	t=1757097334; cv=none; b=BISCdlnsAirKlcpySuqJyQUy8VbCCvIbJlK5EvzO1UMK3eeXdbUHVDXvhDpHiehnSROVYYlQ+KgebE5W2hMThOypcNTqLIi1tfmomA62BQgNmbs3jf78NYOIVlhhchFteTnvaVFnhyo+Qs1qqxy/1qBF6f1TMUkqMbgXpk9EIIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757096709; c=relaxed/simple;
-	bh=OFQ/nAmHxenTNd4gIUlItbzWOwUP/FPr2psmSslZO6M=;
+	s=arc-20240116; t=1757097334; c=relaxed/simple;
+	bh=cjEgaCsGMSqtIGWJ0USxp0TNTFQx8VP7nst0jTanjJ0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pCFEWwomG6sVNfrlZEIRc+aQIrVRn3ZjdNrnixJ5VPAhWKATezm9PqNjVkeE4RMREQVYPejJf5n8X9NDrLXebXRf1AbLsK+NpJK9EwUA3Z/xI5EzoBC0fz1gMJ7HKRcHCVZWqOYmwiuDWiuX7W+nusA5ph8PZD5LzcGOSG8zSsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=dqkjjCxy; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=qiH5lh+T; arc=none smtp.client-ip=80.241.56.172
+	 In-Reply-To:Content-Type; b=mp6+dh2wFZZ+dLlD6f3nYMMxsZY7cKNsN+XkfEsyJxdKK0/RCRi9jkZlGD9nFYJAYHLhpT/rLHl8uw9AZ1NRW+sz1JzNdjya0xwc2DsI98l+Q6rFvFigHcb9kVfwEzWcrXZIJ/hUxzoG5qg7PTkNAGt6jT+zY/5ZohTtpE7+6vU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=wSA1qxOQ; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=x0QyrUWO; arc=none smtp.client-ip=80.241.56.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cJPsD5ym5z9tB4;
-	Fri,  5 Sep 2025 20:25:04 +0200 (CEST)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cJQ5G0lxkz9sq0;
+	Fri,  5 Sep 2025 20:35:30 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1757096704;
+	t=1757097330;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Gp4f3eHdfQ1nienqUYYJxpFqMyiWaotva3r4C/g2Mes=;
-	b=dqkjjCxy5M18oj/8YlULNAcY9Djrf0XhsHzlm8/AQO7x03YtarRqEHj/ajVkl13JXF2Djh
-	9iBw1dGQOtcr3yM+TATSdFQeLSr/TuSoIetiPxtV6Bj7ttw2PZHfAwabwi/aXGDledshcl
-	7tC9Zx1c9kusFAF3Bv/iOpL9Z2P/o3RhoNfJd2Rzbv+iHSDRVNgGCCw6MR1zf3u/Vb2888
-	jWfx3EU1HZn9zsdpNXIKxBR9mmEmqgwvTWLCVapaOlae0SZ3Aq37wrr4lpIn7uyaoiIcfy
-	+bgH6GvRpX0vBeb1KXW97T3H50w6uyjIFjCDEC6IOS1IOsjg24Iv+L8RMeoVbw==
+	bh=JZsROv5dMPlTRseUFed2DQIQDmI+zmlM+eHGw/139pU=;
+	b=wSA1qxOQ+B5OJr41dcgkZmuhOTiychl0t9gOaUn7ogSa8gIUiH9dW6JZ8B162DXzy3ILvd
+	0Xhp9WuEtlgSXYRAOytyyVYl8T2RqB4oqTqlw/vyGgIQcn/bJC1uVas7YP26Q+3tUlTdH9
+	H7TBlwpONHAUlTMGOghGNumalKlSQC3DnKZMnjTFAEewldEA1LN31OAIM3cycG1fIlcTnX
+	Glx8mK6rnJ7jn5VE3qGM6DiDHn23EiQxnF8WtfUA5Sl+lqKQFsz/YzwSxSbaesug68cDQh
+	91Hwj1GSW3NFaC9RLkYv27W1QQVmvrpC/JI53g3bREd9lyupZ4X4Zvi/+j9vtA==
 Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=qiH5lh+T;
-	spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=marek.vasut@mailbox.org
-Message-ID: <67648dce-379a-427e-8ea2-3eda7cefa024@mailbox.org>
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=x0QyrUWO;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=marek.vasut@mailbox.org
+Message-ID: <273d5067-4c9d-4c8c-8633-7f2d7c708216@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1757096703;
+	t=1757097328;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Gp4f3eHdfQ1nienqUYYJxpFqMyiWaotva3r4C/g2Mes=;
-	b=qiH5lh+TWr6uM3iR1xxhdiFV8E+h2/9MT0PUmexX+VuJ8qylgADLdm7A8W7WtMI9wOgBPM
-	vc3JFRcNlSibj3u2fceQbCspsFaR1R3a0DyD/91D3dAAcqKgOwu87FMeMMtSRJR/ogau+z
-	E5Kw0HoWSwCupIy931AXI0XmRG5EoaruP6CAIj6JZ7kAlW+xyT3SmXs8ycIk9ZkAuSN57C
-	0lueYKbC5B8YYhHF6fZmdtxgPWNGtS/IKnGwchMQ6N/xYPVLb0tELJLydhwylTHR3YJbE6
-	zbQj2sJ/mHC8zYLx4/XnVZ75xIO4LVjAo9aoWVjR4DU4Cit2RSGP6edTTFwawQ==
-Date: Fri, 5 Sep 2025 20:24:58 +0200
+	bh=JZsROv5dMPlTRseUFed2DQIQDmI+zmlM+eHGw/139pU=;
+	b=x0QyrUWOzMPakvYxi/Zbh5R5bygqUzCDTJYvPKP8/FqgDkYQCCzFp4EXHsOu9quW+x4/5z
+	wdivkVL2ZkVk1m1mpFlfjkJOfwRqR/Qu3bfmnH6QEEol6An0CT1tskwG5X/h6VLQforpc1
+	NU92T1MSc2SeEo89qi1UpFDiSERlqoedGE/RJCl1ykcw7WXnWpVgpR0uWUp/fThPlbz+jQ
+	3wuTN7U3UwyA/Rlv6zmRcHpxpcDxuI/wqYwvjh8VxJhQwAJv0JpSRzSiD2VPbRbAzH6p+z
+	Ly/lSrveoFofuNyYYfIm3qikjSsVGg0I2DOsRK5QXEV68eZM4Or9qrQcK5AUxA==
+Date: Fri, 5 Sep 2025 20:35:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 2/2] drm/panel: ilitek-ili9881c: Add configuration for
- 5" Raspberry Pi 720x1280
-To: Devarsh Thakkar <devarsht@ti.com>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>,
- dri-devel@lists.freedesktop.org
-Cc: Conor Dooley <conor+dt@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@gmail.com>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+Subject: Re: [PATCH v2] arm64: dts: renesas: r8a779g3: Add Argon40 fan HAT DTO
+ to Retronix R-Car V4H Sparrow Hawk
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Magnus Damm
+ <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
  devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20250904205743.186177-1-marek.vasut+renesas@mailbox.org>
- <20250904205743.186177-2-marek.vasut+renesas@mailbox.org>
- <c98e017d-5aa0-4b40-8ee1-5f58901b6c07@ti.com>
+References: <20250905020149.257459-1-marek.vasut+renesas@mailbox.org>
+ <aLrXzl38OUhTJgxP@shikoro>
 Content-Language: en-US
 From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <c98e017d-5aa0-4b40-8ee1-5f58901b6c07@ti.com>
+In-Reply-To: <aLrXzl38OUhTJgxP@shikoro>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 6add872de2e58f6446b
-X-MBO-RS-META: rcqs7mmjq3ohca6dme9cmfznm3ut8g6c
-X-Rspamd-Queue-Id: 4cJPsD5ym5z9tB4
+X-MBO-RS-ID: 16010d7b6e6bae5f7f9
+X-MBO-RS-META: s9b7313iouson6bdjrfi5inu7cjzpbyt
+X-Rspamd-Queue-Id: 4cJQ5G0lxkz9sq0
 
-On 9/5/25 3:18 PM, Devarsh Thakkar wrote:
+On 9/5/25 2:30 PM, Wolfram Sang wrote:
 > Hi Marek,
 
-Hi,
+Hello Wolfram,
 
-> Thanks for the patch.
+>> + * r8a779g3-sparrow-hawk$ grep -H . /sys/class/hwmon/hwmon?/name
+>> + * /sys/class/hwmon/hwmon0/name:sensor1_thermal
+>> + * /sys/class/hwmon/hwmon1/name:sensor2_thermal
+>> + * /sys/class/hwmon/hwmon2/name:sensor3_thermal
+>> + * /sys/class/hwmon/hwmon3/name:sensor4_thermal
+>> + * /sys/class/hwmon/hwmon4/name:pwmfan
+>> + *                       ^      ^^^^^^
 > 
-> On 05/09/25 02:26, Marek Vasut wrote:
->> Add configuration for the 5" Raspberry Pi 720x1280 DSI panel
->> based on ili9881. This uses 10px longer horizontal sync pulse
->> and 10px shorter HBP to avoid very short hsync pulse.
+> For me, the output looks different, though:
 > 
-> Is there a publicly available datasheet for the aforementioned ilitek 
-> controller used in the panel, also does the same document also mention 
-> the manufacturer specific DSC commands used in rpi_5inch_init[] ?
+> /sys/class/hwmon/hwmon0/name:pwmfan
+> /sys/class/hwmon/hwmon1/name:sensor1_thermal
+> /sys/class/hwmon/hwmon2/name:sensor2_thermal
+> /sys/class/hwmon/hwmon3/name:sensor3_thermal
+> /sys/class/hwmon/hwmon4/name:sensor4_thermal
+> /sys/class/hwmon/hwmon5/name:pwmfan
+> 
+> hwmon0 is the Argon, hwmon5 the (unpopulated) on board connector.
+> 
+> I hope the naming is stable, but in any case, the docs need to be
+> reworked a little, I guess?
 
-Maybe internet search engine produces some results from some display 
-manufacturers ?
+The hwmon devices are allocated first come first served, so the list can 
+look different for you. You need to look up the fan you want to control, 
+of course. Look up by name is simplest, if there are more fans, it might 
+be a bit more involved to find the right one.
 
-> Also is there a separate document mentioning timing parameters for porch 
-> values and sync pulse widths that you are using here for Raspberry Pi 
-> 720x1280 DSI panel ?
-Nope, like most of those panel init sequences, this comes from display 
-vendor or downstream kernel forks, in this case the rpi linux kernel 
-fork. The timings are slightly adjusted to avoid this very narrow hsync.
+-- 
+Best regards,
+Marek Vasut
 
