@@ -1,141 +1,120 @@
-Return-Path: <linux-renesas-soc+bounces-21471-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21472-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D510B4568A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 13:38:52 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47E8FB456C0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 13:44:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3BA075A579E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 11:38:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 49AA67A7870
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 11:42:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56EEE3469E0;
-	Fri,  5 Sep 2025 11:38:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C0D634573D;
+	Fri,  5 Sep 2025 11:44:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="tjMHMEP5";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="fd6PWDUK"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="hDtYt328";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="QRISs8Vq"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D20534575B;
-	Fri,  5 Sep 2025 11:38:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7429E29B8F5;
+	Fri,  5 Sep 2025 11:44:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757072302; cv=none; b=oM8w0+WWX25Zq3CSauWXwe168D6uMRk8lTgLak3VHdm4Dyjq2z59oeczfqGWqDzGBdeXGwkflHFeob5xNvJivhTAPrYtUwkbzz5XU83fVg776zI4LMTOHTMtD3EaKMl91ntp1UOCIKapWsKGTx4bPcpJXZnXbPqqGeLo+ptvrlg=
+	t=1757072646; cv=none; b=WbHBsFhLEo86u9CW9kl6WiOE4Y5SJLvbQ4wuDoZO2ikHmgnvHeYWHzcBNQR6VgmtmG31eOorNA1n4bCPQssIiKVD4aC1IlxZ9+nLTwTZG9CqZaPwfEMXBT5Yw76BlFeR39RrMs6xEgN8ur/fU+BGpXeCMGLKTK0Qs0c1Jkq31lI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757072302; c=relaxed/simple;
-	bh=ZPns/E0T+dL+fbNArdsQk5euEzuxkfVAOLBxozxBLY0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ffAmlwkByYVObMkx8rUdqpv4XEvPfa5tq4Q7xzgYqmce184emx3pNGd7qQflHZ2Smc53sUGsouC3A0CAKCJ9HAbo1K2T7uvZ12rFQb8o0Q9kzujzjAYWQHQ2wCHWnKzKE/w83RkeLTe2690fje8X5CP6BW8Q9rL/0GID9yxf3hY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=tjMHMEP5; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=fd6PWDUK; arc=none smtp.client-ip=80.241.56.151
+	s=arc-20240116; t=1757072646; c=relaxed/simple;
+	bh=YL6zKpPJxCVYaZ/oCgyC13gWf+2ueXc8Wnx9s5GwqNg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=W5J68/MbuyplUoJ3a9a2RzdZBg0Ak4WCQ3In0SAgklIyT2Wtd9c0YLv19GJLkHI4hqgvLnZvuZdVruxnd2eLrgkf3NYwsR6ek9RIkexc+zo/ipGT42hHNnRNNQzNHckQoV2kieLxg6vvxQ8OMT0WoGFCjc9XGmbpRZ1VQ36C08U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=hDtYt328; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=QRISs8Vq; arc=none smtp.client-ip=80.241.56.152
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cJDqt1s2Pz9tQX;
-	Fri,  5 Sep 2025 13:38:18 +0200 (CEST)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cJDyN5zBbz9ttf;
+	Fri,  5 Sep 2025 13:43:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1757072298;
+	t=1757072636;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MO0EsRZEsZcP3glGTAz2xEr89JP4xqyMOHjX8yMhfU8=;
-	b=tjMHMEP5jtD7Y7v1SWnelqbrqikZaazajTVqtUBLfrSuD3na08IoA4uevPStplw4+R3Dxh
-	Ce+zCDD+0meTF7A28bXdnvh82zzKaePNXfv+7GmWTZ6Jwstq9GympmleEiL+E55A2m4M00
-	bR1kKrirbS9n/p8d+rxfvqhfBH0s3m5sDavFUTXn9y4WDx8OXhAjOEGZr+aXhNKEKCjZj5
-	FoJoHG/cdo3jpAXJykL0fGWZVI1Ts8+JHXWm3GfnmMsFoq1BKr8FCOloMJKP4hXtCFsTR6
-	X+CC+QGrHesTC4K5X4sTmlPSx62+o88Ah8/sJTkeJuYJt8dEnrKKfFrlm6MyKQ==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=fd6PWDUK;
-	spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=marek.vasut@mailbox.org
-Message-ID: <a63db205-ca63-436e-a63a-871bb527f5b7@mailbox.org>
+	bh=m2Dk4rL1vEqekVW1M8NvOkpFPyRNDxfwkBtohMi9iV8=;
+	b=hDtYt328Cp2I4nZ6kjdeQcmCPSRQZk2GSp2Shg7HuTdOGYNEvJVeoQCWf7py/A4e3QuGZS
+	95OW60JmBtsH5xGfLrX2FZaIrAYCJPFEKPZrUDb0ueWiScogsIozkUbAEzzpNAp4HSXasy
+	j3EGE1BfNFcOoZwsFlDjzNChwKqgsV3KonlWenVmlYtQYNDVoSj7ljy5v015MxeliJ7Nwt
+	GW5WsnvgNTpxXyjwk6soO5XuGsoefjJk4rhCtND+4oybSK8YyeT2Aym5qwx68YUS97s0Wc
+	5fSiBCVZeLrpR+z0iyjU9HMRKkrH+m08kpezA5vTb2RoagpOCNLcWlSfJTu21A==
+Message-ID: <0c45d71f-d187-47b7-bdc9-f146bf740330@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1757072296;
+	t=1757072634;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MO0EsRZEsZcP3glGTAz2xEr89JP4xqyMOHjX8yMhfU8=;
-	b=fd6PWDUKhkiEQPjTH4128iuIO1lbba42e041TZxj7wsffkJxYzPzhFTYjnCihr67gSm0Oo
-	Dr6eKkM593P/wendrOeboFCwc01+LzCFoPVEycHBpMHeHWZhRhC8v+cxX6Anmbnlk0Hs9n
-	btBpVkERjxRl+hVVISewP3QMxzF69SI29qf46myEEwyYXqug6jXrYjjjCnEgrT/1fui+hD
-	1D81Q2rONy0m5qEBW8JiWRK5SfOBeXwxTN0ruTjW6AU7egh1l6XbuHP2QYalWY6bP9PkGl
-	XP5HJb5DgUSYTbQ820CrVCkkVLXQ+LzpqjEvjG5mtU0SUQ7Dk3sVvZBcXQzKrQ==
-Date: Fri, 5 Sep 2025 13:38:12 +0200
+	bh=m2Dk4rL1vEqekVW1M8NvOkpFPyRNDxfwkBtohMi9iV8=;
+	b=QRISs8Vq+IWIeJEJsW4Gmc2+Qbi+/h03SBpcZWneJ5hvJaJN9STF1XVLavbEhRrgPHaAS2
+	ZKJnoFFi6HF68Gyrz6Lu4xD9AvESYdPmvz+dSE/iaeMsHt3wawqhu9kOXhexW2kzT/Whti
+	gY0xFKOD/Euj0b8S0cFLdwdDmnMpRQMHiND/3MLR1qdCgV97PLOBBxpD3ZwvCsce4DUFPe
+	pWU//LwHD5QPjY3YAO9uV82rvKOg7smle787kR33R5MUfedFjEA1MKxkc2KO/mtwwgc1CI
+	fgSCOxzkUfC971lQOSoGoTTXszSf3/kdgXz/8yLwj0z9qZaYrNtmq7zhMRWtzg==
+Date: Fri, 5 Sep 2025 13:43:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] PCI: endpoint: pci-epf-test: Limit PCIe BAR size for
- fixed BARs
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Niklas Cassel <cassel@kernel.org>, Damien Le Moal <dlemoal@kernel.org>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>, linux-pci@vger.kernel.org,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Frank Li <Frank.Li@nxp.com>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Wang Jiang <jiangwang@kylinos.cn>,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20250904023753.494147-1-marek.vasut+renesas@mailbox.org>
- <b3d5773d-c573-4491-b799-90405a8af6a9@kernel.org> <aLmGBYOVevP5hH0X@ryzen>
- <62584e30-72ab-49df-bfaa-9730679b2dbe@mailbox.org>
- <1jjz2d4a5f.fsf@starbuckisacylon.baylibre.com>
+Subject: Re: [PATCH v5 0/4] arm64: dts: renesas: sparrow-hawk: Add overlays
+ for camera sensors
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+References: <20250905084050.310651-1-niklas.soderlund+renesas@ragnatech.se>
 Content-Language: en-US
 From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <1jjz2d4a5f.fsf@starbuckisacylon.baylibre.com>
+In-Reply-To: <20250905084050.310651-1-niklas.soderlund+renesas@ragnatech.se>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: 57dep6m3kpc71wh6mtfwmq93y3wuf7rz
-X-MBO-RS-ID: eec7c26669da71c3eb0
-X-Rspamd-Queue-Id: 4cJDqt1s2Pz9tQX
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: hnk6dy4otdj5woua96a87iusce94d3ik
+X-MBO-RS-ID: 24efc126920a7df24bc
 
-On 9/5/25 9:43 AM, Jerome Brunet wrote:
-
-Hello Jerome,
-
->>> pci_epf_alloc_space() works like this:
->>> If the user requests a BAR size that is smaller than the fixed-size BAR,
->>> it will allocate space matching the fixed-size.
->>> As in most cases, having a BAR larger than needed by an EPF driver is
->>> still acceptable.
->>> However, if the user requests a size larger than the fixed-size BAR,
->>> as in your case, we will return an error, as we cannot fulfill the
->>> user's request.
->>> I don't see any alternative other than your/Damien's proposal above.
->>> Unfortunately, all EPF drivers would probably need this same change.
->>
->> It seems that pci-epf-ntb and pci-epf-vntb only use BAR0 (BAR_CONFIG) and
->> BAR0+BAR1 (BAR_CONFIG and BAR_DB) , so those should be OK on this
->> controller. NVMe EPF also seems to use only BAR0 and it specifically
->> handles fixed size BAR. It seems everything that is in the tree so far
->> managed to sidestep hitting fixed-size BAR4 problems on this hardware,
->> except for the test driver.
+On 9/5/25 10:40 AM, Niklas Söderlund wrote:
+> Hello,
 > 
-> As it stands, a vNTB device needs 3 BARs minimum (CFG, DB and MW). The
-> NTB one may get away with with 2 BARs, with DB and MW sharing one.
-
-I clearly missed the MW, thanks for pointing this out.
-
-> If you referring to Renesas about that BAR4, I did use it for vNTB.
-> It is indeed not upstream ... yet [1]
+> This series adds a couple of overlays to verify the two CSI-2 busses
+> exposed on the V4H Sparrow Hawk board. The two busses are exposed on two
+> connectors labeled J1 and J2 on the board.
 > 
-> I think it is possible to have vNTB on 2 BARs with some tweaks, putting
-> CFG and DB on the same one.
+> The first set adds overlays for the IMX219 camera sensor, one for each
+> connector (patch 1/4 and 2/4). A Raspberry Pi Camera Module 2 have been
+> used to verify the proper operation of the overlays.
 > 
-> [1]: https://lore.kernel.org/r/20250702-ntb-rcar-support-v3-2-4268d9c85eb7@baylibre.com
+> The second sets adds overlays for the IMX462 camera sensors, also one
+> for each connector (patch 4/5 and 4/4). A DFM 36SX462-ML camera module
+> have been used to verify the proper operation of the overlays.
+> 
+> The reason two sets of overlays are needed is that the IMX219 uses
+> 2-lanes CSI-2 D-PHY bus, while the IMX462 uses a 4-lane CSI-2 D-PHY bus.
+> To be able to properly test both situations on the board each sensor
+> needs to be able to connected to each of the two external busses.
+> 
+> Obviously only one sensor can be connected to J1, and one to J2 at any
+> given time.
+> 
+> See individual patches for changelog.
+Series
 
-Nitpick, commit message, "Renesas R-Car Gen4" (Gen3 has a different PCIe 
-controller) . Please CC linux-renesas-soc@vger.kernel.org on V3 , thank 
-you !
+Reviewed-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
--- 
-Best regards,
-Marek Vasut
+Thanks !
 
