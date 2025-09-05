@@ -1,150 +1,166 @@
-Return-Path: <linux-renesas-soc+bounces-21422-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21423-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B12DB44ECB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 09:12:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2C45B44F5A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 09:27:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0664117D395
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 07:12:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5E5F4587237
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 07:27:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD2DA2D249D;
-	Fri,  5 Sep 2025 07:12:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B07CC2F49EE;
+	Fri,  5 Sep 2025 07:20:05 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A291B85F8;
-	Fri,  5 Sep 2025 07:12:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE582F3C30;
+	Fri,  5 Sep 2025 07:20:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757056347; cv=none; b=UnT5toJxGltZr6J+BSuvfE1tmuthw2Ui9Yivri3VH6f2sGvljHpppOjQP/9ctY5jvRD8soUY0xMLRyh0IwwoT3PguS5SxKQ1WmoNMxyxXFVtpgpjmOBcKilympQjtrYNtynss2rRw2s5YjMHMfdFnlzg8RNe/DjkieQwRmLY20M=
+	t=1757056805; cv=none; b=KF3tviHxOWDRgMTZUW9A/VhTtHk8fBkwgTvztBAgWUADy5L9usbrna0E7JKYxQuRA1Es36+Ek+C5jHqUVt3lCw2QvMx86lPB4j/v0Vz/6BY2yc8Nbf2N9n3Z/Mwv9YyowffJywNsmfunecQm6jch3VpWR2O+66cW8dfzOk5b52w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757056347; c=relaxed/simple;
-	bh=0SPKyS2NdCo/kwVkUkhJNMd186ifgWtnmQVJO7cSles=;
+	s=arc-20240116; t=1757056805; c=relaxed/simple;
+	bh=N++eadfkfJW2nzJArr59FTeDAtpppxwfAWjqFbYClSg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=O2GK2FCm8U5hjUCl4siZz4tDjRgCboDNXA/o3tuBQL9o0TjPpF3KYdt5I454Ice5qSxcYH8f66qmm8xUBvP/7gfdsc4Ep1/U3ZawzW8i03e+4kMw/H5Y9fd09ZeXdb8usiZ9sUajcsnmL6Niobp3yI78BfsNgKC3lAug/0KqID8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.44
+	 To:Cc:Content-Type; b=pd8E2GiChgc6ny87XY1KX9Ovq8AJpo+sUQsqQI1Zw0z77BfNHxVXdpk+bdLm4n9CJ39u3L8cihgcMFF8CmD1LBAA7Ekt2fIRbF6MVGjZ+xCapAzizfe87bU7PE3ZW0Ht5H1Div3X3ZE5gnxIjWsp5ZeBxbkmnlASRf6jlBez5b4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-5300b29615cso1304881137.0;
-        Fri, 05 Sep 2025 00:12:25 -0700 (PDT)
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-52b2f964888so473498137.2;
+        Fri, 05 Sep 2025 00:20:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757056344; x=1757661144;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Fy7aFzwo8aiVtVpiFccy89wrWv0RXag55wY/aFFDl7w=;
-        b=BQ/ptIxqVSKoSORDavZ4hhtmEBZ9DJO3PUR9VWIDZCB72ggw43tE82QzV3hyION8u4
-         ZhLR5QeZdTsGzCj2OWxm0bLNRGDuf6oSLENgIbMGqrVYv+Lma+5a7P/6NezQF7XPDlB2
-         /pRk5uslZYa5p5UBT4FjQl0h99RNBKjsECIAcL1ypnudurLByjhevfQQCJR7QMftxI70
-         +WnCk2nEcydHx/s67worPy9RlPp+7S1cMUh0oF2aYuchmWpwoQtOOyBkkmOVWNiGgtpB
-         yZsYcvXw302c3pxiKa6Eaa9dzFpf1qhYpzFoP2bvcrWXJPU9/5cHvIGMxh2D8hWAUl9J
-         nOTA==
-X-Forwarded-Encrypted: i=1; AJvYcCU/p3cBDsEHBfDKAnBxyBiujnV6//cleN1JLaq0jxZJa8rz4mkatroLb0iNH+ibauIh08l9gpytPJ8BfqbipbbvjQ==@vger.kernel.org, AJvYcCWMLlrDNnublK2dahZzpGRjChv2oqfdWUiIHZUhu/O8UqbrlFo+CFDTRYBztYG0X7vcf+bEw4Yh@vger.kernel.org, AJvYcCXKVPQhPifa8DjrqcHGugSSXKhRkUavM1CNBaDufQuf71iEdsW/s1eCFst1rKP3/fXQq+pqMGYcTN4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxqVoGJTmQoa6QBeJgwP/RUEC675zFyYUxc5KDcD2tJdlEOvN5U
-	7J0MVYhTxfCM9LT88HDyezojPZWGyCLgdLDy4Znk2RQONemO6dC6XxDvNS55PgYM
-X-Gm-Gg: ASbGncsQGNcV/oQa6Z2ZYSh1VtaVawdoilYObOLRnx5j+aQvoCvdg9ksjmauCJCyK+F
-	KswS15lHCtNES9kJzXvbWD9aKyEFBo9Bys2ZUtw8WZQUFD+bL+BA70MLw0CtB4bA6kPHXpkY90V
-	xHaojOVJVVxEd47NvEZsjdnQ/MRP9rICm/z4CBSMA6R+f+aua+JAt9XdC7WR+GYEJUz9xHT+D59
-	l1uK5JC3RZxwbhF0b3Jsvcj7YD2oGZ/kVMPX2JWxPLcvqzWf0AYKEh5mvXXbtZ4xgFgrmoOlNXs
-	U41/JwIvjIkaXdxbUDRxkDVDiRr4YhS3KahyDo2O74LhWgkRfJ9EvrBk1rLd+5fefFq2SDsh/hB
-	HctLCbEiB39VV0TMoiqizk4gxaESrJvU+Q+4WWaS2YgLFgp5HZ0/5wbEY9hZvgrrOj+oHkbRwOJ
-	cscXaVyg==
-X-Google-Smtp-Source: AGHT+IE/QfSTOzvtDZAMVKT1FUNOlogatCo67oik6jA4hyXjJxBSMEwUt2VmmOnSwe0JOfT0pA4zQg==
-X-Received: by 2002:a05:6102:5cc2:b0:522:826e:7bfe with SMTP id ada2fe7eead31-52b19430092mr7754010137.5.1757056344645;
-        Fri, 05 Sep 2025 00:12:24 -0700 (PDT)
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com. [209.85.217.44])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8960ab19f6csm5319352241.8.2025.09.05.00.12.24
+        d=1e100.net; s=20230601; t=1757056802; x=1757661602;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Byl6NC1iFQNQ5ldYE1dwWoAbz5NWngh+C4DCc8+uxP8=;
+        b=VFFtEDQVL52Rbg1bAMwoGT8PgTSvYFo4AtAoPnTTY9OKVa2bapXfgimZ3ARAKOGgKM
+         xTSzKCtSu0PHwuzg/EwJUz3jxUrs7IzYkpOkY6m3dbvq0+PUmvFqdwj2jr8WhGa7jIQy
+         AEvfwpmPJMHYRQCbeZhqSOThqXVVW+qw19Ahr+HJiDs5qcfYYaFId70OnIOQMtj/avSj
+         jdWQDaw0VV3jxKjKbCo+aEABTkD6pgs12FxkQM5vykePEPwayfVtev/H/4s4QMn9etw+
+         8Ra+uiNbGYdD267hspt+fpZDQMhYQcZsi9dgokjRbqhEgIrVn7J8Rix/dvf3lz3SkO3R
+         fPfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWbEV1e+ui664Cfh2ApePS37RpCRn9z+fMFZsg2z8IFlx7BKH09OZ0E0YhlFexkQ10/y/x4LqqyyjfuEfv9RkB/4ZE=@vger.kernel.org, AJvYcCXyiXHl+SUtfYcXMPL+BIrKzm9/pHGCRl7n/q9iTcBzr0hEAfWIDqAuU4TJVHV1tpV5YG79hqTL1ryJ@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQZZjDGxYfZ3bzzX7hiRS1NnaBZJDCh+MTEszLOklzmN5r1qvH
+	IK1mewODWxUnRnjPySEtC7vU9jodIJ1M/mVJxOJ06MmlLVeKBm4YSWI6jhXp/1PI
+X-Gm-Gg: ASbGnctPsJAlaKOc0SDklzifgwleFG4IkMArlVMdyr/Ec4+h05ljYpcYSNkXdSrcu/U
+	dUUu/xNI2LSMRd03J4UG6gEmJzjZhc9ZPK8Q4n7K2dM13lt2xzAbdbXGugyoppuOFQTzAnP6AWq
+	hjTZlbRSuZx9HiK0invDVl3Gp738U9Wg3Q8i4GfSXLYYF/g0q/II7+2wUYamTUNvNdEsZKuUZe9
+	22Vx66kAztd0Un4B4gP7WPb1/3XN6jYUMiIaH1k+pIaMCMghAQKzI3EjuswbhiRDNon/xPRhYvX
+	+rRs1VwApnmE28uvYM08QqbcqX0Tg7t5oZYZ/bMLIcHSP2NjuvsDAt2eMcTWZg2gZF2S5csTAQ1
+	Xr1g3sPLH0erF/rz7AF11tCBQiudYu/PqJKSJ8nTJJdo99cCOMraeJqOvAudR
+X-Google-Smtp-Source: AGHT+IGFoCOXKhQHE4a+5ec/4WYwX908tfmZ/DvKPAHazoPOBAk5FgtcmC1j8tqplkb3hN+7qlqYgQ==
+X-Received: by 2002:a05:6102:510e:b0:521:f2f5:e444 with SMTP id ada2fe7eead31-52b1b2ea2bemr9390791137.17.1757056802415;
+        Fri, 05 Sep 2025 00:20:02 -0700 (PDT)
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com. [209.85.217.51])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-52aef7890d2sm7673658137.7.2025.09.05.00.20.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Sep 2025 00:12:24 -0700 (PDT)
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-53042807be7so1385831137.3;
-        Fri, 05 Sep 2025 00:12:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUivQndrJGjpOZT+zrtTO8Z4fIi8gGnhu/cNhHlPZ7nCug57aAHZmZWKdbLeCqe3zz+gH3TDDQ0@vger.kernel.org, AJvYcCUji6LhjagEVkueewvluFTHGaKZZ3HGko/A1jufjuk4ZhpNSL1ML8+sgBP/xV2s4mSMC6o3fQ7CYoY=@vger.kernel.org, AJvYcCX8ADYU23D02AeZQrdZObVIykGneRp6v0+HCTCJWdC4joySnoRlI/elsCdh/0L2LS3H6BWqsqCrzo0HxwL/xFSz8A==@vger.kernel.org
-X-Received: by 2002:a05:6102:4a96:b0:521:615:fc24 with SMTP id
- ada2fe7eead31-52b1b918601mr8277231137.26.1757056344096; Fri, 05 Sep 2025
- 00:12:24 -0700 (PDT)
+        Fri, 05 Sep 2025 00:20:02 -0700 (PDT)
+Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-53410d0f4e7so1641859137.0;
+        Fri, 05 Sep 2025 00:20:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVRz6T1ohd7hrJQaoJcLbs0jhq8HRQyt8XiXOS0HYd7SJvKn4MePrP22xHVy1vJU2OSj2qAWntFPriZ@vger.kernel.org, AJvYcCX9U6y3+BdQRHHlVyrCZU6oB3tCvtB8cnKNT9FsXxd+1rLu/hQM83GN0vwQXcCM1QoW7UznheOhIlB2y680/SpbYgs=@vger.kernel.org
+X-Received: by 2002:a05:6102:5e94:b0:529:bfd2:382a with SMTP id
+ ada2fe7eead31-52b1bf3b89fmr8726031137.32.1757056802005; Fri, 05 Sep 2025
+ 00:20:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1756998732.git.geert+renesas@glider.be> <ee4def57eb68dd2c32969c678ea916d2233636ed.1756998732.git.geert+renesas@glider.be>
- <082d5554-7dae-4ff4-bbbe-853268865025@lunn.ch>
-In-Reply-To: <082d5554-7dae-4ff4-bbbe-853268865025@lunn.ch>
+References: <20250827221424.640770-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250827221424.640770-2-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdUOKJXjk78Bgmazd4prGX21SDk_h=37ewEOwgdf9iAfcA@mail.gmail.com>
+ <20250901140657.GA481255@ragnatech.se> <20250904152452.GD6174@pendragon.ideasonboard.com>
+In-Reply-To: <20250904152452.GD6174@pendragon.ideasonboard.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 5 Sep 2025 09:12:12 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU96u41ESayKOa9Z+fy2EvLCbKSNg256N5XZMJMB+9W6A@mail.gmail.com>
-X-Gm-Features: Ac12FXzoJ7CS8SZ1H0nixTnIHsWRKCLQwJJn4_9l2hKhyJ6tJrWpja58kgx-R7I
-Message-ID: <CAMuHMdU96u41ESayKOa9Z+fy2EvLCbKSNg256N5XZMJMB+9W6A@mail.gmail.com>
-Subject: Re: [PATCH net-next 2/3] sh_eth: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-sh@vger.kernel.org
+Date: Fri, 5 Sep 2025 09:19:51 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU3vO0bY41Kcna66W2Xwrjp5ZktR0-N7-N0qj8aFNG_QA@mail.gmail.com>
+X-Gm-Features: Ac12FXx63yI1uuhBQ_zIQe_JTcSt34dJnT4raxbBi6-_H7GVHvbWOrJEz4lpnB4
+Message-ID: <CAMuHMdU3vO0bY41Kcna66W2Xwrjp5ZktR0-N7-N0qj8aFNG_QA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/4] arm64: dts: renesas: sparrow-hawk: Add overlay for
+ IMX219 on J1
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Marek Vasut <marek.vasut+renesas@mailbox.org>, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Andrew,
+Hi Laurent,
 
-Thanks for your comments!
-
-On Thu, 4 Sept 2025 at 20:37, Andrew Lunn <andrew@lunn.ch> wrote:
-> On Thu, Sep 04, 2025 at 05:18:57PM +0200, Geert Uytterhoeven wrote:
-> > Convert the Renesas SuperH Ethernet driver from an open-coded dev_pm_ops
-> > structure to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr().  This lets
-> > us drop the checks for CONFIG_PM and CONFIG_PM_SLEEP without impacting
-> > code size, while increasing build coverage.
+On Thu, 4 Sept 2025 at 17:25, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Mon, Sep 01, 2025 at 04:06:57PM +0200, Niklas S=C3=B6derlund wrote:
+> > On 2025-09-01 16:03:49 +0200, Geert Uytterhoeven wrote:
+> > > On Thu, 28 Aug 2025 at 00:15, Niklas S=C3=B6derlund wrote:
+> > > > Add an overlay to connect an IMX219 camera sensor to the J1 connect=
+or.
+> > > > The IMX219 utilizes 2 CSI-2 D-PHY lanes. This enables the video cap=
+ture
+> > > > pipeline behind the CSI40 Rx to be enabled to process images from t=
+he
+> > > > sensor.
+> > > >
+> > > > Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragn=
+atech.se>
+> > > > ---
+> > > > * Changes since v3
+> > > > - Use correct port@0 instead of port.
+> > >
+> > > Thanks for the update!
+> > >
+> > > > --- a/arch/arm64/boot/dts/renesas/Makefile
+> > > > +++ b/arch/arm64/boot/dts/renesas/Makefile
+> > > > @@ -96,7 +96,10 @@ dtb-$(CONFIG_ARCH_R8A779G0) +=3D r8a779g2-white-=
+hawk-single-ard-audio-da7212.dtb
+> > > >
+> > > >  DTC_FLAGS_r8a779g3-sparrow-hawk +=3D -Wno-spi_bus_bridge
+> > > >  dtb-$(CONFIG_ARCH_R8A779G0) +=3D r8a779g3-sparrow-hawk.dtb
+> > > > +dtb-$(CONFIG_ARCH_R8A779G0) +=3D r8a779g3-sparrow-hawk-camera-j1-i=
+mx219.dtbo
+> > > >  dtb-$(CONFIG_ARCH_R8A779G0) +=3D r8a779g3-sparrow-hawk-fan-pwm.dtb=
+o
+> > > > +r8a779g3-sparrow-hawk-camera-j1-imx219-dtbs :=3D r8a779g3-sparrow-=
+hawk.dtb r8a779g3-sparrow-hawk-camera-j1-imx219.dtbo
+> > > > +dtb-$(CONFIG_ARCH_R8A779G0) +=3D r8a779g3-sparrow-hawk-camera-j1-i=
+mx219.dtb
+> > > >  r8a779g3-sparrow-hawk-fan-pwm-dtbs :=3D r8a779g3-sparrow-hawk.dtb =
+r8a779g3-sparrow-hawk-fan-pwm.dtbo
+> > > >  dtb-$(CONFIG_ARCH_R8A779G0) +=3D r8a779g3-sparrow-hawk-fan-pwm.dtb
+> > >
+> > > Usually we keep the related parts together, but we indeed already hav=
+e
+> > > one case of interleaving.  I am not sure which style is best...
 > >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> >  drivers/net/ethernet/renesas/sh_eth.c | 13 ++-----------
-> >  1 file changed, 2 insertions(+), 11 deletions(-)
-> >
-> > diff --git a/drivers/net/ethernet/renesas/sh_eth.c b/drivers/net/ethernet/renesas/sh_eth.c
-> > index 0516db9dc946fcdb..f16a350736e1aa04 100644
-> > --- a/drivers/net/ethernet/renesas/sh_eth.c
-> > +++ b/drivers/net/ethernet/renesas/sh_eth.c
-> > @@ -3443,8 +3443,6 @@ static void sh_eth_drv_remove(struct platform_device *pdev)
-> >       free_netdev(ndev);
-> >  }
-> >
-> > -#ifdef CONFIG_PM
-> > -#ifdef CONFIG_PM_SLEEP
-> >  static int sh_eth_wol_setup(struct net_device *ndev)
+> > I have no real preference. The style here is only me trying to mimic
+> > what I seen elsewhere in the file. Want me to switch to the other style=
+?
 >
-> Humm, sh_eth_wol_setup() went from conditional to always available.
+> I don't mind much either way either. The patch series looks good to me,
+> I think it can be merged once we decide on a style.
 
-Its sole caller is sh_eth_suspend().  If the compiler optimizes away
-the latter, it should optimize away the former, too (verified with an
-m68k allmodconfig build).
+Let's settle on the prevalent existing style? Keeping things together
+reduces conflicts when multiple patches adding overlays are in-flight.
 
-> Can WoL work without PM? Is the current get_wol() and set_wol()
-> broken?
->
-> Maybe you can take a look at this, do some testing?
-
-You cannot enter system sleep without CONFIG_PM_SLEEP, so enabling
-WoL would be pointless.
-
-> It is however not strictly related to this patch, so:
->
-> Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-
-Thanks!
+And of course we have Marek's outstanding comments (no underscores in
+node names, no need for "reg_"-prefixes in regulator names).
 
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
                                 -- Linus Torvalds
 
