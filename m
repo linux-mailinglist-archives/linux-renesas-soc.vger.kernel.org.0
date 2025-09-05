@@ -1,110 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-21446-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21447-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DCE4B4508B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 09:57:52 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2C84B45120
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 10:18:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 325E4188A0F8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 07:58:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9703517C32D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 08:18:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E5A62F657C;
-	Fri,  5 Sep 2025 07:57:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7838D25C81B;
+	Fri,  5 Sep 2025 08:18:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GjPcgtFl"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A0E25B1FF;
-	Fri,  5 Sep 2025 07:57:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5045B13E898;
+	Fri,  5 Sep 2025 08:18:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757059069; cv=none; b=Tyr8tkf4Y1LENNJKEtj4sTbotm3eTujpHzN+PnBByYI6EcCI7MbGU2Ge1mD1Yb3edIrHrmiDV2oegLWabUK+O6fdsx0/oa26qAkhl2p+qdFlQaTkrJmedYyuI7UV7SPCxJ60X1z5IZwryfXMmBNGQhb14xauJIQrwftb8KVvfV4=
+	t=1757060317; cv=none; b=dHbwJAYRYUVjuJKx7igHajEKGjyyQb4DfZYRNpaKFTdrxqS+uTup3WzxqdDfxkROEygYJoe4pNCh3D2SA1tnOVQKYjhAZjnc5VBz5i6Pbjfk3RctSJd/zD2EtjtHLzEp99wU19v1qCHUb3z3GYaNl334qZaO26LfrfKj5jXVbeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757059069; c=relaxed/simple;
-	bh=DAubCHcXcP/MDA4gDcViJapkOOeGhI9rKCdWgQ/LVfA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tlZXrb8zDoj6ONclp/qoKRmEk5wtW6DGXUfDPWK/ZPSgIVq9CH/uy2RSXb+ysxckl3vrInnPmjRqBaspyfWcf2npSV4zMMGBPQbVHirUEYzHLcxJUBFnkWP0+m3p75KStUfCNKxpRaST6zI5wQ0WBqmMDnkjCGOBqzr+VErASOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-544ba28ae58so1278884e0c.1;
-        Fri, 05 Sep 2025 00:57:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757059065; x=1757663865;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GAOcXlAx6DPgP9UtLfIGxuYVjzOl0tNzCcNLPQpFRRo=;
-        b=EJfYp2lfOY4N6ZusnzY4LheFggr+NQGY12OximvuFdk+tldOQirezM0rkbYIlBI7gU
-         /Np5JZ1QzCPAf+pGJ84loU/JnN3Ho+7q1oytOj+WSZugLjqflaiLyCJqodLO8z0i29Ca
-         KFoKLi3IYx1jcQugrF3CDEJpr3zQiFX0Fip12ZF5Mp3BV9ZfvU7lyzLB0fLkZBBmKlz0
-         eGuC1zQsDPmSSck8sRaz3NnA6eP8XNOsZEUu+xSfB1kpmB6mwYIYCZ/5xdy+XU97s95K
-         swSYZ87G1b3nwV9dH6GHWRPBwIsItp2ZHZgrZhk/o3QOJT5c9koL6kMpXYvL0G7RiPhd
-         7KRw==
-X-Forwarded-Encrypted: i=1; AJvYcCW66o2eePnXWsBSHeCUpjBMbkmmCurSosBazc5bw+2SFvHy/MkaDkJuNxK7O4iWcVwLzHbhZaoccc/j6aph9wQ3Y0k=@vger.kernel.org, AJvYcCXI/XQq9FBPhlfPTYBDx9LrxeojqaYW0pQuii1sQvKRZ1EgRgQRvOvHjWGD9u47d8fDgQBMPonwQLQ+@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+mWXy/fPKcMt1XspzIFVIgJWe3cnEj3LSdVFkm3vEH6mS22OQ
-	uSyHDU3pk2glywYPHN9VlRPhC24FMT80Alar4ntN6CYaM5rsHY2lOb6WWrspBr/Y
-X-Gm-Gg: ASbGnctKRh37z4Q/SqfPg7UWML1gjoyWMrqs/8vT/8oZFXgevfN549+1Xh1OEJDWtAv
-	a87L4L1ZPJt33I7Zoumzr25/wpTp51KpHTI9lVbmBXD2P3a/Z1ZHvB3O5dxgxivRqYsobWLJrjL
-	JSR3mpIgF7/QXiBTD4VfLNiKAxAaF9j/k02v2FFOXAWMZj1W02Ss9A3F4lIdOQ2ItzjqIr3Cxmm
-	6c7mRSLbArujbip5Bnw1mtcBOy+bECM71R+dfUj317X/tgHmsnuxgQ19wXkU3iRv2ERupdVoxAD
-	KAfSa9N5Ti/0C7zhf6FRU3e6nHMg5SOqUPaQKRVUkFjENnOHYFGW2pQPxoCWHOgYsn9btT33SMP
-	T132+HMlq3OhlgoY54jgCA8+mcnxdJP/qPoPORQ0P7XY0HzfTM5vEUpCIkKek
-X-Google-Smtp-Source: AGHT+IEarSLR0Vjh2ZnJ+yWp4cb4RC4L2pnm5/tg/66sLN8ePCrnueVi0F1fKMlAZrXxf6mdcjuh6w==
-X-Received: by 2002:a05:6122:a1f:b0:539:5cff:8070 with SMTP id 71dfb90a1353d-544a0254443mr7868913e0c.9.1757059065598;
-        Fri, 05 Sep 2025 00:57:45 -0700 (PDT)
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com. [209.85.217.50])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-544afcfe32dsm6642533e0c.23.2025.09.05.00.57.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Sep 2025 00:57:45 -0700 (PDT)
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-53042807be7so1408876137.3;
-        Fri, 05 Sep 2025 00:57:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUVcYW7MCE633bwa2XU6vs955yEZW3GOnclRMdBuhBd4mSVBDI5x7v8YNDqMzWwVXr2qdqATN96P/lu@vger.kernel.org, AJvYcCUsokMLD9J0p7BSXcmBV8NOhUthnyEXYapKxRDmpNc4QePXRbjgcqEAxtc9yA/arvvxAPFsiOoDrWi91g+wTEAFz20=@vger.kernel.org
-X-Received: by 2002:a05:6102:b09:b0:527:8b63:78fb with SMTP id
- ada2fe7eead31-52b1c353160mr8528081137.34.1757059065276; Fri, 05 Sep 2025
- 00:57:45 -0700 (PDT)
+	s=arc-20240116; t=1757060317; c=relaxed/simple;
+	bh=3wk8a+bIggfZCsBMSScJxPqeod2bkxkOOu/xeePXKrk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O1ZTT/ozfcVcy+T1hLbJXkiwkXxA7sq1Zp4ux1+vgYS02ypPiFCYOfbMB2xU/wGTNzoFqZWHKXZdkNegZra0BcDTIYZHtO60keUcejzvkOdshOAep1gIyjVvnxc6nIONUuxT00cIeRgw8v2qrhw+y25ex+c0er56M9JTSDKgw4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GjPcgtFl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B3B4C4CEF1;
+	Fri,  5 Sep 2025 08:18:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757060316;
+	bh=3wk8a+bIggfZCsBMSScJxPqeod2bkxkOOu/xeePXKrk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GjPcgtFlOi6WtfNtIwSvFSk3c9z+w8/0Hc4MJivYNhfDzDC+eYLrIv4ZNo34k4eY8
+	 5ht4IKTV8iv7YfK0eT683kvOapKkdyk7djEUhkNMevsDv9Y4t2nCP1R5zrd9/585RZ
+	 HPdZljbk7Ooa+upSTmWDKlxRgdN662Bwss0Exr1NGPiJwHoFs/Jj9B45oqKiUZqVtD
+	 HPlfL0Ojy7I1D5LAlzkYBh32nWFinRdqysw/svAAZHvFeNSyehuV3iDAqDLhPPAPjO
+	 a8eTfO4D5XuHFOTdeuQHRfWl+sc2EiFqKJX8aiZ7gtrZsX+M0k96b9LRON6jWRyB/2
+	 +19v4q8ARIfqA==
+Date: Fri, 5 Sep 2025 10:18:34 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: dri-devel@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, David Airlie <airlied@gmail.com>, 
+	Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: ili9881c: Document 5" Raspberry Pi
+ 720x1280
+Message-ID: <20250905-classic-hairy-camel-44847f@kuoka>
+References: <20250904205743.186177-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250904195727.168152-1-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20250904195727.168152-1-marek.vasut+renesas@mailbox.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 5 Sep 2025 09:57:34 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU7CNfXVNZqAq+_uZG0gxYSumYj8hO1H2dRw1jYJS4-0g@mail.gmail.com>
-X-Gm-Features: Ac12FXw_Ku-KRzX3YE4QLpzkx8QtNsTO6NA18d43MEyq2rfpjgEI02y8lXhUxNw
-Message-ID: <CAMuHMdU7CNfXVNZqAq+_uZG0gxYSumYj8hO1H2dRw1jYJS4-0g@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: input: touchscreen: goodix: Drop
- 'interrupts' requirement
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-input@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250904205743.186177-1-marek.vasut+renesas@mailbox.org>
 
-On Fri, 5 Sept 2025 at 02:44, Marek Vasut
-<marek.vasut+renesas@mailbox.org> wrote:
-> Since commit 409fe0cea366 ("Input: goodix - add support for polling mode")
-> the interrupts property is optional, since at least the Linux kernel driver
-> supports also polling mode.
->
+On Thu, Sep 04, 2025 at 10:56:56PM +0200, Marek Vasut wrote:
+> Document the 5" Raspberry Pi 720x1280 DSI panel based on ili9881.
+> 
 > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Gr{oetje,eeting}s,
+Best regards,
+Krzysztof
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
