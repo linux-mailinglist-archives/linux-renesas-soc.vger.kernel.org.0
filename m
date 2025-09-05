@@ -1,118 +1,166 @@
-Return-Path: <linux-renesas-soc+bounces-21448-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21449-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 790A3B451B6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 10:39:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9926BB451A8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 10:37:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CBD727AAC32
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 08:34:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 39F223AB168
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 08:37:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D07A27814A;
-	Fri,  5 Sep 2025 08:36:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A63A4273804;
+	Fri,  5 Sep 2025 08:37:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uxtdLKbO"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="eCNHR8eD";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="g8wtgikn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23C827703A;
-	Fri,  5 Sep 2025 08:36:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FED51E487;
+	Fri,  5 Sep 2025 08:37:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757061373; cv=none; b=TuNvYwBhXPwga2wO33qH4PfK2KegtMfFDdHmefDgsG2k7Eg4vTixWWikbnacN96dHLdY3xA+fMsyiICZsv538A1GfVs4TheD4iptd4cIrFpYhaP87ci1DGn9Scgd1oYxsVyulrISLnxeu8RcBNVtPgq9S2Fq/UhlZ4sAUJzDZUE=
+	t=1757061446; cv=none; b=rRRrSK5WYK8Sv2cf0kEPpDw5elJUwRfO8aeJliWJvsFr5sek7uIuRvyMNZ6iw9gqI+ULXpq3wDq/tyTm8p9digatEzxiAneJfiPOyqg3cXBxmxKpj6KJ82m4AxpFALLLZMWg4cjI8lSUREm8EcEJlSQwCYhpn9bsQsjDe6gPn3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757061373; c=relaxed/simple;
-	bh=V7/EAn8jaMlmHdrA05TRUPE7bsaZ2a3gZv/phaAV6/E=;
+	s=arc-20240116; t=1757061446; c=relaxed/simple;
+	bh=hCguAcetvhFz1SNlWGPiAidJwl128fo0VPPkstB+foA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sIXXlwZQL7bB/4vxI3obnEim4cYgB+mGi8NRAKBp4LEdcUt0bP7JREF7J8uIHChPQa1teCjs8+JvzI37t7NCAH5ht9YxiATzw6yx709qrioQVwVOprXDaTlPznmD01IFrLB7oeeYSoruX5z6GzhLnztS0hKNV3+ZjRJzMgNelgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uxtdLKbO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5515C4CEF1;
-	Fri,  5 Sep 2025 08:36:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757061372;
-	bh=V7/EAn8jaMlmHdrA05TRUPE7bsaZ2a3gZv/phaAV6/E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uxtdLKbOm6gQA5dxJLUkyMcvjH57/zuNzj3SwEsHIq1i8Ygga51zXTqw5xlAbABvz
-	 E1LO9WlGA6fu1ez6XSdMhCpCxVT3nfL4b3Pfi2pXIjHPphyWf6IPj4ZvTX0P6xMWO3
-	 dIRl8q1DSp3JBaBdmP7VIA+9hptrtMKTIlzBOLk8AYuPEaxBGGuAHhPuKhmXTUn2Gp
-	 MVFPtURnqHIjvxVHBBig9frV9lQ6FFCMKaWkjrBWOwbHz0iaMpnqMn1z+x2OEQZX7/
-	 QsF8dwY3gHyV5jFVDjivP7RCOa4ulSlHW4bHAmeRQ6J7Xz1u2lrsJkJubwNrwiqFdP
-	 bOojNUre39uxA==
-Date: Fri, 5 Sep 2025 10:36:07 +0200
-From: Niklas Cassel <cassel@kernel.org>
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Damien Le Moal <dlemoal@kernel.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=S/mhNgEHUqHBfU0QgZFlNwNtMxoq4K0mifrS+msAfdG+7OqT8b4Lrw6415xqlSp3DJrpy/zIj8Q06NHvePvF3aT/Ujy4A+CNU73NZvyogi8HEintIuLRvjrbGBkcD8fCzOD1cqld2rn4noqLh0QwFOgr2D5MMqsgejutBRMk4cE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=eCNHR8eD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=g8wtgikn; arc=none smtp.client-ip=103.168.172.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id A15781400399;
+	Fri,  5 Sep 2025 04:37:23 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Fri, 05 Sep 2025 04:37:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1757061443;
+	 x=1757147843; bh=8uzuwAnUFlVy3lOJTZLC1u8CaKsRBOCuqEdrpOr9r9M=; b=
+	eCNHR8eDNP53S4bSpqDOWqsfdj/LU+JRsAOw7ifBnWXpLSnealIG9YAPiDeHapQK
+	mqFLNaxtCisrL3x6YpQeov+nDaaqy076LTPXcQ3+GiISJZ8sBkmx94781RR06lfD
+	VVELh4ODbJO0YEQ5hIDa3hvyRtTCh3T7+XqyyjeLfBjfUcB18suTWrKZY5CNokAw
+	tJkVzg+nXQM4dcvTijXWyI6702FGWk5RWJ1kF7+M5Xw7nR0HboIa7VmHG+yhnVAL
+	KgqymI8mW8fXfoY66ftwdf3rPkIAeDkClUTCtX4qBA0wya2/+3B6kAN244YDwGU6
+	KBMub4HI7MviezBvUXLafg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1757061443; x=
+	1757147843; bh=8uzuwAnUFlVy3lOJTZLC1u8CaKsRBOCuqEdrpOr9r9M=; b=g
+	8wtgiknNsaPoVm1SEjbA86A+vfF29+Jz7LD5lUb+WypQ0lnQFuwkJZWLMApIrmox
+	OYt5gysibrDbYG4CN0p8g+0lZXjgOLhC6C7ieht51Gi9X1FzJUeEJaP6/4t/qupe
+	Vavcq2g4QmonVysMfeaurD89qT+z8/PFiilzdbGIS6FMfcci9HwBPIsvgmCdDD6y
+	sMHsVYuXBqfYN3Ol0847Gc3ZTipY33CkgrjqDM7zqDuDdH0qXIe0uwYHenKYrExx
+	sv079aUJw1OJUmwQa5zwKbqKmCH8JQvIv5SUIvq6u0a4jvJm8qikn81yOc/COGWt
+	9DJB0F1VK6cCMj24QCyDQ==
+X-ME-Sender: <xms:Q6G6aEuR0yKflpppwxvBeI1MNba2IMOhk2sd-AtABXuDSMV18rXEpA>
+    <xme:Q6G6aMFuQmXS3D_D3K3CKK-FTBL7ncp0pJXu1joYpms8T1Blg9caofO8DscpKMfGJ
+    9yIIQ0Syr1E1Huc058>
+X-ME-Received: <xmr:Q6G6aFxEWFbAE8k_1k7vMIW9JpImyoDlc_WnlP9yEFqipeenm0MPpDSgRlmGGXIWJoXzsmSTzySUiYVOzKuHeyo7fwr3IjrGdQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdekgedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
+    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
+    epfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgrshcu
+    ufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrsh
+    esrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeefhfellefhffejgfef
+    udfggeejlefhveehieekhfeulefgtdefueehffdtvdelieenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhn
+    ugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeelpd
+    hmohguvgepshhmthhpohhuthdprhgtphhtthhopehmrghrvghkrdhvrghsuhhtsehmrghi
+    lhgsohigrdhorhhgpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihguvg
+    hrrdgsvgdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohep
+    khhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtse
+    hkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrghrvghkrdhvrghsuhhtodhrvghnvghs
+    rghssehmrghilhgsohigrdhorhhgpdhrtghpthhtoheplhgruhhrvghnthdrphhinhgthh
+    grrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehlihhnuhigqdhr
+    vghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepug
+    gvvhhitggvthhrvggvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:Q6G6aG2_1qZFpG7vbNH7aS8SPBdEw9mR7jkpqOAqBFFcbgdH0TIdUQ>
+    <xmx:Q6G6aFpWs2-PS1tgQrj0n2nl1tx2g0GJheJndKc0T2GIwsjHNOcz4w>
+    <xmx:Q6G6aDXZjsl54spmnFEMltTkz_LF7P9UjfFeQt--AOZ7Pxm71Yu25w>
+    <xmx:Q6G6aOoaSYxW3l24dZPoF2J7KauogdwdqcVqU1LaZTuJNYt5I5Rg9Q>
+    <xmx:Q6G6aJ6OwoyfH2fQrgo7EhhTJjMVkMZCzcaMpEm-61NmFFU2G-CXbg3x>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 5 Sep 2025 04:37:22 -0400 (EDT)
+Date: Fri, 5 Sep 2025 10:37:21 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	linux-pci@vger.kernel.org,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Frank Li <Frank.Li@nxp.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Wang Jiang <jiangwang@kylinos.cn>, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] PCI: endpoint: pci-epf-test: Limit PCIe BAR size for
- fixed BARs
-Message-ID: <aLqg90KqEJ8wSEPi@ryzen>
-References: <20250904023753.494147-1-marek.vasut+renesas@mailbox.org>
- <b3d5773d-c573-4491-b799-90405a8af6a9@kernel.org>
- <aLmGBYOVevP5hH0X@ryzen>
- <1jplc54aoc.fsf@starbuckisacylon.baylibre.com>
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 1/4] arm64: dts: renesas: sparrow-hawk: Add overlay
+ for IMX219 on J1
+Message-ID: <20250905083721.GB1560783@ragnatech.se>
+References: <20250827221424.640770-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250827221424.640770-2-niklas.soderlund+renesas@ragnatech.se>
+ <3ace8875-3288-4498-bac7-0fab1769a248@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1jplc54aoc.fsf@starbuckisacylon.baylibre.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3ace8875-3288-4498-bac7-0fab1769a248@mailbox.org>
 
-On Fri, Sep 05, 2025 at 09:32:03AM +0200, Jerome Brunet wrote:
-> On Thu 04 Sep 2025 at 14:28, Niklas Cassel <cassel@kernel.org> wrote:
-> >> 
-> >> I think this can be simplified to:
-> >> 
-> >> 		if (epc_features->bar[bar].type == BAR_FIXED)
-> >> 			test_bar_size = epc_features->bar[bar].fixed_size;
-> >> 		else
-> >> 			test_bar_size = bar_size[bar];
-> >
-> > +1
+Hi Marek,
+
+On 2025-08-28 17:31:08 +0200, Marek Vasut wrote:
+> On 8/28/25 12:14 AM, Niklas Söderlund wrote:
 > 
-> It's what pci_epf_alloc_space() does too. so it makes sense but it also
-> means the side must stay aligned.
+> Nitpicks only, see below.
 
-Not really, pci_epf_alloc_space() will give you 'fixed_size'
-if you request size < fixed_size.
-
-If you request more, it will give you an error.
+Thanks for your nitpicks, will fix for next version.
 
 > 
-> If a rework is needed, maybe it would be better to get size from
-> pci_epf_alloc_space() instead of recomputing it ?
+> [...]
+> 
+> > +&{/} {
+> > +	clk_cam_j1: clk_cam_j1 {
+> 
+> -clk_cam_j1: clk_cam_j1
+> +clk_cam_j1: clk-cam-j1
+>                 ^   ^
+> 
+> The nodes in Sparrow Hawk root node use - instead of _ in their node names.
+> 
+> > +		compatible = "fixed-clock";
+> > +		#clock-cells = <0>;
+> > +		clock-frequency = <24000000>;
+> > +	};
+> > +
+> > +	/* Page 29 / CSI_IF_CN / J1 */
+> > +	reg_cam_j1: reg_cam_j1 {
+> 
+> Here as well.
+> 
+> > +		compatible = "regulator-fixed";
+> > +		regulator-name = "reg_cam_j1";
+> 
+> Is the "reg_" prefix needed ? Maybe "cam-J1" would be better ?
+> 
+> > +		enable-active-high;
+> > +		gpios = <&gpio0 1 GPIO_ACTIVE_HIGH>;
+> > +	};
+> > +};
+> [...]
 
-The pci-epf-test driver is just a test driver and we can use whatever
-BAR size we want for each BAR.
-
-However, I don't think that pci_epf_alloc_space() can always give us
-a BAR size. Sure, for fixed_size BARs, there is only a single size
-that is possible. But for Programmable and Resizable BARs, there are
-many possible sizes, so which size should pci_epf_alloc_space() then
-return?
-
-And not all EPF drivers might be happy with an aribitrary BAR size
-(which is the case for pci-epf-test), some EPF drivers might have
-strict minimum sizes for a BAR.
-
-So, I still think this proposal is the best thing we can do.
-
-At least it appears that we only need to patch pci-epf-test.
-
-
-
-Kind regards,
-Niklas
+-- 
+Kind Regards,
+Niklas Söderlund
 
