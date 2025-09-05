@@ -1,82 +1,82 @@
-Return-Path: <linux-renesas-soc+bounces-21442-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21443-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39CCEB45040
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 09:51:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F042B45045
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 09:51:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2BA9C7A5BFA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 07:49:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E0A151C82B4F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 07:52:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46DC7244668;
-	Fri,  5 Sep 2025 07:51:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFCBF2ECE89;
+	Fri,  5 Sep 2025 07:51:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TYs6mVA8"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ySngPM/a"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4AB26B951
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Sep 2025 07:51:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00D92E8B9F
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Sep 2025 07:51:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757058674; cv=none; b=ej/B5jCDY5UH3t6XH+WiRQhmnvvd/JD2UwLJtOxVXeOCvv55Dd+wLNeDCCqZq/hQK9hZUzI4KOpYoBC8UCFQySIjTMSIyRN72z1wuLm/e3FoDsS9tmwKu2lINmNbCSxTRhtDxjHkc523aQs02gPnREgXTF5v5F3j7j5Dh/XI0ZI=
+	t=1757058706; cv=none; b=P1uyiozCysuM8VhGmtO7jmdIvldzL5a0WyVYKSgZyRHvYAsCfFiMyTKSDqbEr/K7uF582pCnKijlK/9OoR2qJjxmwH34MrtXcBebJnGtdg9GGFgwqJqINHVJfNtZL/zLsIWfNzno7tG9f2pUjHFTBpQiKytS0Bkm0FoUWXNJFK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757058674; c=relaxed/simple;
-	bh=HpBW9ztCphu9D+zh6vwg7+g+3DgPn5GvwtPmpzJhpi8=;
+	s=arc-20240116; t=1757058706; c=relaxed/simple;
+	bh=HHQKWlCq6Dv4lsBAVhaaR9oi96TGkmsPJCtNcK04Ges=;
 	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=OPVzUPXKKttNvPi1+RORVUn4rgVn+mxyjJRfCshiQKeThYndaUCRrUW2Q8SVMB+fc+6yUWVNWnZr/mKFFLzOeU22jJghCuhjkNMnwjebYs7TuEATboCKw8QrxMTIUU61W1v+9NPuNk0gG3VVAr+oIBh+Rv0PlSJF6K79GVkt5Z0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TYs6mVA8; arc=none smtp.client-ip=209.85.218.46
+	 In-Reply-To:Content-Type; b=bAsS1O3UG8HxaZ0Ct1jBDpbnBwev1m3j0wFaQUx9UZd5Y5jBkND7rGfxtp+UeTlBgYk2DAYdJeOMwKQ8PJP1UPy/Iolq8qhslLgA3+/J6cvzyDGm9u25RPMeEIlBpQYt1l5i/Hk0lRnQ/DRnRhdueWbAnaBwVaoTBXdSgrFHsSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ySngPM/a; arc=none smtp.client-ip=209.85.218.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b0449b1b56eso284144266b.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 05 Sep 2025 00:51:11 -0700 (PDT)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-aff0775410eso382919866b.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 05 Sep 2025 00:51:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757058670; x=1757663470; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1757058702; x=1757663502; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:references:cc:to:subject:reply-to:from:user-agent
          :mime-version:date:message-id:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=8Fek3hgFv14ByAC4ENYyA/aKvGhAef+q+BWE8UMW+V8=;
-        b=TYs6mVA8qUAOJDcjx1oFJDB9+voGqoTiYCWyYpGHpUqShLSELu4YduRGUjg5J7tN16
-         OoJtIkCjFNFbC7P9JvGkUgFo3a2mNz5lsYFbT3XqucbHAJeSy7zYYuXJH6NL5MRsoCdy
-         jksNw9gq0SLS1JRvApINjgb1/k9RMuhPt0uxrVbjxHo6cExDg0YyCQFX9Z8s6kfQC74G
-         7yxHKnRfAHmWIYLAmNTgKqkXaCkL+NGElBgwqJw9ZjXtkM2uRSlDeEt0Twe/OIOpFaS1
-         lzXN4TTqK+nI+T0YpW56Q33CC+1AjCag8Iy4FCeeOuQlmc9KcRIbCAhgNOBShhaxbqaP
-         e04Q==
+        bh=OTkMukFvFRGpUIaR3bcrLvyQUvlizTeZ6D8ftQ6ewB8=;
+        b=ySngPM/aFaCg6JUoSlKF516b9KaU2rUZFNv/UL7owjuvmF0b19u0VA97Y0MQUoehSn
+         hIu5HzJ1IXcZQowOrJLT+/vpvC0fKRtPyhmWi/eXWClGIH4q4z+jjRgJVS8QCNb2mWbb
+         S5UFkQlkb2tLYP0pxlD/ZJBCAvdx97GxRWeYAtB5+rIRrKV46n73nAaPMDodGDfQ1Qen
+         LHXLTR/W30FJSSGPP2/2yhEqLCuHWApOQdBu0t4D3yU8kD/dE+lL8gjgwRb2r61DxaCy
+         kKeR8HjeDdMKRBQSdsjb3XDQfJdzRfio8ucguAKcwKEK7341uHIX0WEabBznJgKmQbRb
+         /WDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757058670; x=1757663470;
+        d=1e100.net; s=20230601; t=1757058702; x=1757663502;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:references:cc:to:subject:reply-to:from:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=8Fek3hgFv14ByAC4ENYyA/aKvGhAef+q+BWE8UMW+V8=;
-        b=WqYPYwJVQgz6To8j+rK24B6yE2KHpayo07X4PxKC6hfq8SwAGgr3+dIBmpq3uoQmLV
-         Snfm7WqruCCe5LE+WVI8rORAy96vays+VSjXHknys7LxwFpStSuVf0NGlSMmbn0KpYd/
-         UORp4PlvI37UabEvRzZJ1KF+Eb+tT7kq+fJM/k7yzcWdk7BBR/+MN6OQwP+zwCH6ALk8
-         /0D5r6sXvjw1EPgdcY17To4uhkZKmbS/ixoSRhqCD10gnqHmvZrrlnvqvwYul9yNK4As
-         U6WYMhbTKO5k+jzHUICuz7d7M15ZVTwUxZjjOYog+WAA/gXVj1rHtx7d+GL3/ZgQNlt6
-         Z3NQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWfBvUETfEu6jDZ0+ht5f2bbwDdfD2dl0vsLvbIDOVSauEWE1u68UY3fKTw8ll5V4ZEveHCYAoAp+x3pemyDnMLOQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZeLTrtKTvH6uniwj9Fs2tswyFukUZmI8vhJgdMY0eoYTXDFh0
-	+Cao3rCWn/hNOQtGKZSRIpaXMksSeyVCVe/QUVogCbr9bkNkE/bQP3WpdW5AGlJPqMQ=
-X-Gm-Gg: ASbGncthIfjFLVid2Yr95gj7T0R20ia/EbKcLpq8d2ejICcz/tZspTygK9AgkxXKEPf
-	oMNag33fr4jMeo7C//+qLw6ALskjkPFg8h9jEUUuabv9SNQr54wPkN7Zis4GOFrjOSLLb+x0Vso
-	yliC8l8/h0xnE726jr5jLqtJGht43dgc1u5+hTpii0w8bsDA4+rX9CGWnCaHrljwQPQ27jaTI5Q
-	bG+c5fDJdOaBYbhJu1aEQTuqiAHDOZCYSQsJTH6m+b/hBk9BrSJCoCuWiv32gFOx3ZuScc0Y/9U
-	dP4i7rECdY/cViLCo+lUY3rMXkJFbMJBk9FJMqCqy9OpYqnEIrrEormcPCeL+sJy2nOGsc1fHU+
-	XEI8KQEURscNKpmX6s1h9j3xagsXBnroTvLpe1PDfjSt7
-X-Google-Smtp-Source: AGHT+IFgzgqr54lyZk759VB+wCuCumNakupjTyV8q7KH49ewQeYz3V4LPh1SGAWQQZu32+3dH/7N+w==
-X-Received: by 2002:a17:907:da9:b0:b04:7880:3e88 with SMTP id a640c23a62f3a-b04788056a3mr725297266b.18.1757058669532;
-        Fri, 05 Sep 2025 00:51:09 -0700 (PDT)
+        bh=OTkMukFvFRGpUIaR3bcrLvyQUvlizTeZ6D8ftQ6ewB8=;
+        b=pSbXiOWOpG2svFIl1W0BTQ/lQ3PhyXQHy1HV+e4gwU61AumSbDAR0icC/MaIKyI3Rr
+         SX2ZiE/ClvEIVI4vFgovkcWrtS+pUbW0BDFznjGNYmiXW1C0r/z8EfRsm4Y72lqFGLY0
+         +2H4bSBSxpZNZu6KUuV2X4ze5Z1no3uU5QBVlLAgcVjxBoJAA78yf3/GKHLnhLOkOmN+
+         YJBpL6UFV1hUZhdjyYJcb//v7GMYS9OFc5ER4B58kPEvOtFnN7QYOhfbqAb/ERd9Y81i
+         G9/Ji05b4yn92ZdFdl30bhsNVp2Bu5hyqTeK2SZ9nq21Ao71SyyU7oEbSz7n2psPuVjx
+         8jNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUJV6/EaWe34d9tK2mdKbhv3SrucF+M+dqOuHdOsDmTyQr60OLG0gjw5D+MA85g7hdLhLPmV3Pz/kawckMS71buEg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEQsquA3LeB3Q0SrxBoR9wEHJLDH4jCdP1Y7ukTLKv59L7Itq7
+	pSMjSxbUjx78GwqOVws9AbgXEsc5lmMiKjI7fcgfb7wvREbx56oyahH8uVx0CuZj7gc=
+X-Gm-Gg: ASbGncuOdsK2LAhtPCZ3MK4VnODwRlOr8+lk7N7szcv6ymiLWbPpMjX0YluaDMDs7sz
+	505IoWtfKYhgGIlND7stcK4rJ8Drj9+x68miuM2kiDqvab69H19tqmmJtlWvVljcdX1Va1YiJXb
+	L4FgCNAwt5vP6nCMVlJE50Xjk9KHInMzJuOr+fJIEtX4wPVEBdR3g0aV+nHUhtxA+djn6IMy3dI
+	oLHyE5ML0JPecJ6lUU2lUY3RwBSVX5VIN0CmZox3jzL4TpxfDqC9zeMXbckE51WyELKYJPGfMy1
+	gRlzr/rK5TPQm3FK/U4gCKpji1t/b1iN5xwtKxZ6Xxtogzb2rTf8v3Rl+0aGRqjuXSjnS47LCma
+	7f0upSaU9bX0Y0TLd269cb1ubbR4oyQLnqB6NjoZO0vAMCU/xqJEOxpw=
+X-Google-Smtp-Source: AGHT+IE9ONGaCVuMDUsDk5AMP12J/m85KDluThMZ0nObk2fo54w+Ym2od7+l60KIMrqn55YK25utpQ==
+X-Received: by 2002:a17:906:eec3:b0:b04:3cd2:265b with SMTP id a640c23a62f3a-b0493084d84mr250335766b.5.1757058701824;
+        Fri, 05 Sep 2025 00:51:41 -0700 (PDT)
 Received: from [192.168.7.190] ([212.114.21.58])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b042fcae867sm1132057866b.58.2025.09.05.00.51.08
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b01af44a01fsm1479647366b.23.2025.09.05.00.51.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Sep 2025 00:51:09 -0700 (PDT)
-Message-ID: <a0d85f06-a87b-40f6-a74a-27b148f309fd@linaro.org>
-Date: Fri, 5 Sep 2025 09:51:08 +0200
+        Fri, 05 Sep 2025 00:51:41 -0700 (PDT)
+Message-ID: <25d043fa-a600-46df-b1e4-f24f715d9887@linaro.org>
+Date: Fri, 5 Sep 2025 09:51:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -86,19 +86,21 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
 Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] dt-bindings: ili9881c: Allow port subnode
+Subject: Re: [PATCH v2 4/4] dt-bindings: display: bridge: renesas,dsi-csi2-tx:
+ Allow panel@ subnode
 To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
  dri-devel@lists.freedesktop.org
-Cc: Conor Dooley <conor+dt@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@gmail.com>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+Cc: Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Rob Herring <robh@kernel.org>, Robert Foss <rfoss@kernel.org>,
  Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
  devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20250904200130.168263-1-marek.vasut+renesas@mailbox.org>
+References: <20250904210147.186728-1-marek.vasut+renesas@mailbox.org>
+ <20250904210147.186728-4-marek.vasut+renesas@mailbox.org>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -125,46 +127,121 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20250904200130.168263-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20250904210147.186728-4-marek.vasut+renesas@mailbox.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 04/09/2025 22:01, Marek Vasut wrote:
-> The ILI9881C is a DSI panel, which can be tied to a DSI controller
-> using OF graph port/endpoint. Allow the port subnode in the binding.
+On 04/09/2025 23:01, Marek Vasut wrote:
+> This controller can have both bridges and panels connected to it. In
+> order to describe panels properly in DT, pull in dsi-controller.yaml
+> and disallow only unevaluatedProperties, because the panel node is
+> optional. Include example binding with panel.
 > 
 > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 > ---
 > Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > Cc: David Airlie <airlied@gmail.com>
-> Cc: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 > Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > Cc: Neil Armstrong <neil.armstrong@linaro.org>
 > Cc: Rob Herring <robh@kernel.org>
+> Cc: Robert Foss <rfoss@kernel.org>
 > Cc: Simona Vetter <simona@ffwll.ch>
 > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 > Cc: devicetree@vger.kernel.org
 > Cc: dri-devel@lists.freedesktop.org
 > Cc: linux-renesas-soc@vger.kernel.org
 > ---
->   .../devicetree/bindings/display/panel/ilitek,ili9881c.yaml       | 1 +
->   1 file changed, 1 insertion(+)
+> V2: Drop the dsi0: and dsi1: controller labels
+> ---
+>   .../display/bridge/renesas,dsi-csi2-tx.yaml   | 53 ++++++++++++++++++-
+>   1 file changed, 51 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
-> index 434cc6af9c954..cf0aa996e072d 100644
-> --- a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
-> @@ -30,6 +30,7 @@ properties:
->       maxItems: 1
+> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+> index c167795c63f64..51d685ed82891 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+> @@ -14,6 +14,9 @@ description: |
+>     R-Car Gen4 SoCs. The encoder can operate in either DSI or CSI-2 mode, with up
+>     to four data lanes.
 >   
->     backlight: true
-> +  port: true
->     power-supply: true
->     reset-gpios: true
->     rotation: true
+> +allOf:
+> +  - $ref: /schemas/display/dsi-controller.yaml#
+> +
+>   properties:
+>     compatible:
+>       enum:
+> @@ -80,14 +83,14 @@ required:
+>     - resets
+>     - ports
+>   
+> -additionalProperties: false
+> +unevaluatedProperties: false
+>   
+>   examples:
+>     - |
+>       #include <dt-bindings/clock/r8a779a0-cpg-mssr.h>
+>       #include <dt-bindings/power/r8a779a0-sysc.h>
+>   
+> -    dsi0: dsi-encoder@fed80000 {
+> +    dsi@fed80000 {
+>           compatible = "renesas,r8a779a0-dsi-csi2-tx";
+>           reg = <0xfed80000 0x10000>;
+>           power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
+> @@ -117,4 +120,50 @@ examples:
+>               };
+>           };
+>       };
+> +
+> +  - |
+> +    #include <dt-bindings/clock/r8a779g0-cpg-mssr.h>
+> +    #include <dt-bindings/power/r8a779g0-sysc.h>
+> +
+> +    dsi@fed80000 {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +        compatible = "renesas,r8a779g0-dsi-csi2-tx";
+> +        reg = <0xfed80000 0x10000>;
+> +        clocks = <&cpg CPG_MOD 415>,
+> +                 <&cpg CPG_CORE R8A779G0_CLK_DSIEXT>,
+> +                 <&cpg CPG_CORE R8A779G0_CLK_DSIREF>;
+> +        clock-names = "fck", "dsi", "pll";
+> +        power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
+> +        resets = <&cpg 415>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +            };
+> +
+> +            port@1 {
+> +                reg = <1>;
+> +
+> +                dsi0port1_out: endpoint {
+> +                    remote-endpoint = <&panel_in>;
+> +                    data-lanes = <1 2>;
+> +                };
+> +            };
+> +        };
+> +
+> +        panel@0 {
+> +            reg = <0>;
+> +            compatible = "raspberrypi,dsi-7inch";
+> +
+> +            port {
+> +                panel_in: endpoint {
+> +                    remote-endpoint = <&dsi0port1_out>;
+> +                };
+> +            };
+> +        };
+> +    };
+>   ...
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 
