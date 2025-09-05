@@ -1,237 +1,171 @@
-Return-Path: <linux-renesas-soc+bounces-21437-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21438-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FBD4B44FE5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 09:33:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA050B45004
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 09:37:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 137C1173CE2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 07:33:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 764B8166257
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 07:37:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B04D572618;
-	Fri,  5 Sep 2025 07:32:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="J9wFGA5K"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7137625C818;
+	Fri,  5 Sep 2025 07:37:45 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21AEC2D6603
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Sep 2025 07:32:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111ADDF71;
+	Fri,  5 Sep 2025 07:37:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757057529; cv=none; b=A8v7AcY3UlSpB6uoyugDfwAzFpnTeLHbuBe+p6+KVUiQ+AHWMh77x4a9issVLCEcNGeyNctzktYPm0YRRGMrwHnIgZFis45sX9KERtg/u+uvYjBkZaqDsuBI5Zq7Rxt7AkN8aUyMqPRDBCSXnZEO9BSQP5aUHWangAV616Esc1M=
+	t=1757057865; cv=none; b=t0G15BWvg/3X2/kBtqQeX1eOyQHaCsgU2Vb8xEQ3G0TcgVex/p4NdVpOBy7bs3pLwFlDcoP5JpJyWXaiiTlsQBXG2bbZLcp5B56FyhpJPWoT2+B+8nLM5kfE4AEzaw7ernE7DbIBsO7fAP+WDrAijtIVrz0GYKJmFI11lhVWA4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757057529; c=relaxed/simple;
-	bh=xvwXm3Pv9vYvSSWIuT+Z3MQ1o5JDE7sFfcsSDOx2q9M=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=uHXqdzKz1iKgBxH9jd7n8H1yhIKSQsA2nxkL564X+D4XzuFDIGpm0fKWSaU4XY3OYZajw3a1niWi0ceRoXrWim1CarMQLXJCGDnV42hyCVrukgcLzyBSU8kJTjDImCmz3kfvqMxaLRh0+H+Az/gyNqljiu+o3LVIfgUzUscE5UE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=J9wFGA5K; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3ceb9c3d98cso1103963f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 05 Sep 2025 00:32:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1757057524; x=1757662324; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:user-agent
-         :references:in-reply-to:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=r+x/G5OyWmx9S1N11lvbbbjr7uTWa/HEiipZ5biWNJA=;
-        b=J9wFGA5KtDV31XM+ieh8kQdvmrz8LUk/itaJLbOsbYThlp9w4j5ZHf4NbnzhddXNB8
-         IqKVsoJNEzakXWn2+MCmu0J52X8FH2nJWG3s7oxAnc4+RJps2GnsX4HWfSNzXvQ3rHSJ
-         BNEk1Mm/GJRfm8uJOHnw/xkUbq0w8W6D2CNvEJtLpYV5j09bLrAKT5aH2HdL1yH0CLHJ
-         kxue972sVbuzLm34daAhHf5DV2ao7cWFCXuShuNjsqUtd5zw8frGNtIBfZplhpu1w0T+
-         D4XKTirZ62EVdQXg+EBajKThMaqe6tT3/9TiF3gvku7vhLSKol0g2Xc2P2LKKfppRLIi
-         19ww==
+	s=arc-20240116; t=1757057865; c=relaxed/simple;
+	bh=zZ6OUkF3arMN0uqPqWBlucr5q8ZUtJb/8hJRQOLxenY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RjSUtvCW32rnTnUkK0oNk/YcZqQJvaiAg+NL7Jd8nAr6Ni+7iY6DSVWOIhkyZXhroHSp/E+Eca9qXc13LC1vMM/oy4gYCdTddrB9ncskjmtPQQDDJWej1ZKo31EMAOQkBY6HHOCG46geHd+YHPe77rOM/72VnMrAwV2Cp+gJjXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-55f7cd8ec2cso2466811e87.2;
+        Fri, 05 Sep 2025 00:37:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757057524; x=1757662324;
-        h=content-transfer-encoding:mime-version:message-id:date:user-agent
-         :references:in-reply-to:subject:cc:to:from:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=r+x/G5OyWmx9S1N11lvbbbjr7uTWa/HEiipZ5biWNJA=;
-        b=SgIXN9Dp2yWhQDNlIAsTG5oiyOSYQtpqUdKWX2c04zAklpAOFMdn3pWJJX8x3B1Y4o
-         el0YfbUE3EJLkF1YtDO+xzZHv2pSP9kg9lQ4QZmzvQXYcjLzQGmQfKgqOev4Dk2wNIQE
-         3y4n0CdvTzv1lgq/ZRJKULUctzncSksi/wQQEscJqomwKQSLB0PIqLEtxyKj/mzHSlds
-         gQz4kVft75ninV/+HisTlPXHBqVJj5wcoZ6VO26FtVi1KXOzU+7eyUvH+Heyl6SG+snL
-         KW9MklM60chD6mBkqKqwx/WXmDInz2yz/l9LWFbp3xoNkSUDkIU2lHKEhYJ9KKZTgYHc
-         LD5g==
-X-Forwarded-Encrypted: i=1; AJvYcCXWrq5UZp02N3MrNWIi15EscgtI0GovE9K6KkkkMusEZkuan3Ql9ieYw7XNr7wlVim6Eo6elv5/g5QfMT+d2UTm1Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSndsWEmBjqhXOXuhhSrtZdBPa+91CiXVYBHhS+BrSJT7GhX+Y
-	XJkGrJO2DIHwv9JnHolqfs4A21LN2di6IxjjyEMN8xAzul2Qi798Lpb689KGyv9uX7E=
-X-Gm-Gg: ASbGnctRMTqVj1LWuUGVWW5re1lrRkZ7DNW6DRxEIvrgMUz1M6TN+V6ZS+9nblIgmnQ
-	O47LgOpbNv9uiFoVXy8++APWWg5VEQxFoOhW5cfgNtWP3mF2GMXFnvnRpy06EC82HgfNw9sUf01
-	HMtm/z32wGlsgtHPt1+2iVY4wrqTyJWZ9udsnK64Uiv5QUaO+sauqJdAvmn/RDMHrBJspaaAICX
-	d2FaqFJQ7dSih5oYF1x/nZVlbqwUlHNbaejxzpGOyAyaF1yTJvCG64nQIhUlFm35hCbfh/WavS0
-	6NfcpvsNATBIRmpxXYIyx7sCqEjwrafCQaOKhBQZQctG+4vx/l/ZhNpvx9U4ZdE5odxoOKbGUPz
-	RWeTADCdsWonRUQKxFchEMA==
-X-Google-Smtp-Source: AGHT+IE/edIEyJSVF31RWvvWzi7ImsiFPZN9hfcyP5rc42uQs8rb9WrkD+dUKuAD84MRpef6VXJY2w==
-X-Received: by 2002:adf:8b8a:0:b0:3d2:eea2:f483 with SMTP id ffacd0b85a97d-3d2eea2f990mr12656102f8f.43.1757057524391;
-        Fri, 05 Sep 2025 00:32:04 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:f203:7a74:e497:6da7])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3d53fda847dsm21207010f8f.0.2025.09.05.00.32.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Sep 2025 00:32:03 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Niklas Cassel <cassel@kernel.org>
-Cc: Damien Le Moal <dlemoal@kernel.org>,  Marek Vasut
- <marek.vasut+renesas@mailbox.org>,  linux-pci@vger.kernel.org,  Krzysztof
- =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,  Bjorn Helgaas
- <bhelgaas@google.com>,
-  Frank Li <Frank.Li@nxp.com>,  Kishon Vijay Abraham I <kishon@kernel.org>,
-  Manivannan Sadhasivam <mani@kernel.org>,  Wang Jiang
- <jiangwang@kylinos.cn>,  linux-kernel@vger.kernel.org,
-  linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] PCI: endpoint: pci-epf-test: Limit PCIe BAR size for
- fixed BARs
-In-Reply-To: <aLmGBYOVevP5hH0X@ryzen> (Niklas Cassel's message of "Thu, 4 Sep
-	2025 14:28:53 +0200")
-References: <20250904023753.494147-1-marek.vasut+renesas@mailbox.org>
-	<b3d5773d-c573-4491-b799-90405a8af6a9@kernel.org>
-	<aLmGBYOVevP5hH0X@ryzen>
-User-Agent: mu4e 1.12.9; emacs 30.1
-Date: Fri, 05 Sep 2025 09:32:03 +0200
-Message-ID: <1jplc54aoc.fsf@starbuckisacylon.baylibre.com>
+        d=1e100.net; s=20230601; t=1757057860; x=1757662660;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HUDpg8P80ENhLzXkkjoWR5Wm8BjOXjAXH7uDrrOc9Oo=;
+        b=LOE7cCr2RxKoCuPPrF8D0glrfCg6RPRoGCVCKvvX8WTQND0c+fijccFlTqXlWO25mq
+         qyQC7yUT9bAs92Ej9I4Feu6V9Ai4BMaoXfkRvh79Pyq34aHHE3YK0cf1Jd7LYea2tgfS
+         e3c9/FHO8iscXJ2XA9vtxAEgO9ZNo7VdvnDYyW1sriC8tqao+ZdmQn036nW2HK4E9oe8
+         fx2L2nRndoSu8mprN/KEC2fRJAFKxKDTOQmVHZEchwHCEEydhQvuCQZuPHxTYESDy3lv
+         VbkGKet4Mo4oPSjI+SgO8ZVbshD8FEPeLhrPBXLK88W8TUK7KGHSBTTTqWDJgujpSUEj
+         pddA==
+X-Forwarded-Encrypted: i=1; AJvYcCU1V/551cJx65uUU/DpowNf+bLJgfk7iTMd8irgqf31MEUGDT4H+DWIznoSBig0jhiW6CR0RdMhFbvAsOzzpDafa00=@vger.kernel.org, AJvYcCU8hN7sDYIFmwl/uePH8PyidqL4T+akwuEHvXSadtRBZ96Dj72kWqKbHfMMkh5uOQMsaGgbIosVc7kOm5A=@vger.kernel.org, AJvYcCUAqhaAFUy9QzDm0vattSvyB5owpodIJ4mdJaRIHto3mgwN6NG8PoX/EX+vt6eSAYgE/OFfcAOlnGa2Pomr@vger.kernel.org, AJvYcCV2lmxovrh0qA9exCk0OVe7mI7GYLMuBhESCB58pw87ad/DgOJe77cyzQyB3f/c3uGoxABHp8DIXZgsXQ==@vger.kernel.org, AJvYcCV4st7OMORSz5LvW/Wv+cifCo7KmeGJM4TXJ51rZcnB2jXiJnB8HigUYUn0pwFaGlHo0/IAw7W95QsBQNs=@vger.kernel.org, AJvYcCW9DaBhzaHrNw1IOfy78ereRvZUcX9K/RfqcnlcpQFKvLflz0sW3gSK3Zi0k9edZnWlHjArTitH5Kaxl/17LbTWVGA=@vger.kernel.org, AJvYcCWNMUQwCC5VRqewf112IgLV2U9OiIIMDIzQ3sMWwYdhneDGlP1TWyVCTYXnCJ+huxF36sma4o8AizhFW4L3@vger.kernel.org, AJvYcCWQ5GNjv6g3ixLSR/lqrxSEvbj4BZE9xMjYKz+yahNEtz/q5woa888OasMGfRLnb6U1Z1hJCzD/TI0=@vger.kernel.org, AJvYcCWQdS6Ng1FuYlBU5cqvAowfTiTg3C6jHTa4qDOcU/oBf9E4yTBirt5zaS7fhm4SiHVTRXw2HjWcyUkG@vger.kernel.org
+X-Gm-Message-State: AOJu0Yztqb7IUw/G3xKnehMynnr6EQoB6n86wPpyq9A8cVcnJV3rKCfz
+	rS1ASsYzAk1ZDAH89BkU3bA8JEXQgs/HHt2UKQ9AZk7aZKhvKkdAhPGg6tGAxx0tbaU=
+X-Gm-Gg: ASbGncuMp/6FIrMOSPNgEAtXctw3ALwnSI8S9TxiURDrJ/hltO2OG/w/tWKHjhLoR4+
+	6fdrLyRgblJXzrvn2zkl0hdGjcU/pJwnCtvu720SgzPLnAJhpQr5uv7XdXoTSgPawKAVo2KxTsS
+	oqYlITG4NNLctjkk3rCotAU4aNCZdRaS+lQvQO9HhqEECOMUerQ66hc2ZP0sw9E9KOk04F7sosD
+	7Hjq/4uCgFvosbJ4DevYwSDWssPjRAoTwCEqtcAz2LStzz+mfP2ZDDDGTJY9DcbjccL05JR2LRO
+	atcu/t2yeRUzr7yMRmA9UWkDde7T9czXzmFModEz2uUcDnPSAiva2/GBXFaVU1Tqf/vakSbTT1A
+	ndeiqRCGwqcSSL6/FA+crB2sYjdftV8HSz49ovEiBkwupwVux9tmoSN1PaYjddXUjoA==
+X-Google-Smtp-Source: AGHT+IHBtSZMNHBX1uo73P5ryqj6fm/7Hpnx+HhyZwvLhOl8/3G5FqLUMCdCiLJBHYUzZ68kYMZRBw==
+X-Received: by 2002:a05:6512:baa:b0:55f:48db:8139 with SMTP id 2adb3069b0e04-55f70969724mr7139045e87.47.1757057859716;
+        Fri, 05 Sep 2025 00:37:39 -0700 (PDT)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com. [209.85.208.169])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5608ab90ce8sm1633581e87.35.2025.09.05.00.37.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Sep 2025 00:37:37 -0700 (PDT)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-337cc414358so17081071fa.3;
+        Fri, 05 Sep 2025 00:37:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU1Jk1IWJjFJlc2ZZanOg5rCVkFKt7hW1Gr9nHBTnocJtn5+CRwqnzcUfC5WgQE3HXRTp4ebCAFAh/vnWrI7TxKN48=@vger.kernel.org, AJvYcCUDon54N64/3dLjqha9XReZi4IUFrqx/q4DyuQXDjl/GvvVyt8gi0i8Hp+kNnPWcIUlqjDv3cNjpwwR52o=@vger.kernel.org, AJvYcCULIdNnqQ9nDg1q/GvUnLzPGzDrmXoKmedHTjWCeWzoLn7qM0M3lfo0f007VibJiXt0xb8Si9eo0qY=@vger.kernel.org, AJvYcCVOHb9FjvX8GBqd2LGuAoVmIxDfMzE/z/UJSRg+DKlgvmIDWqJhUQQR2fcWtVe6LXbeA55T2Kf8o81PxT9A@vger.kernel.org, AJvYcCVPNznhEBC4fdTRuwhYdhh3EnJcl9yBHYOGy4dlKP/Xy2Vn4b9ofaxENiKJ7CuEexp1wCxZmxouKwZINFI=@vger.kernel.org, AJvYcCWFCIGDHJnigmAwrumiXplu61NKJs84PeoFZ9aiBRdU1JQk9H5CgA84c05XJrW8hiHpc49ILNMns3R1R5vkUbNoWL0=@vger.kernel.org, AJvYcCWLPKiCOsS4AVqK2NoGPiDduY+fBOPZgol1mxtyH2jOgENOM6dqnLY6Cya9Fd96JnqN6EldYGSsRC6B@vger.kernel.org, AJvYcCWkVIm1l2bylmo60ADdLo8IwiFSN/eUpNqWC23TNUidVaaOCk0x4CEUGi6nvg2vlpPhptvTWAuE/Zb1sBcA@vger.kernel.org, AJvYcCXj2XurCg1m26VIb5PLoyTASKpKVe7GcvhKr87Q6X6CHkSH/t2HN23jrhipHDhaHtPnV68nUewibr0IEw==@vger.kernel.org
+X-Received: by 2002:a05:651c:1545:b0:337:ed76:7212 with SMTP id
+ 38308e7fff4ca-337ed767a08mr38641871fa.40.1757057857304; Fri, 05 Sep 2025
+ 00:37:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20250905072423.368123-1-zhao.xichao@vivo.com> <20250905072423.368123-4-zhao.xichao@vivo.com>
+In-Reply-To: <20250905072423.368123-4-zhao.xichao@vivo.com>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Fri, 5 Sep 2025 15:37:24 +0800
+X-Gmail-Original-Message-ID: <CAGb2v665Ukqdy2dxH7d=WKuLnWNz=Qwp3U+QxnrdfEPpwVL5mg@mail.gmail.com>
+X-Gm-Features: Ac12FXwDAvrTIRtRT03_-9LcU10SU7B9zXfyLBZJD9DODV-PWNu2aOFrKkfI70k
+Message-ID: <CAGb2v665Ukqdy2dxH7d=WKuLnWNz=Qwp3U+QxnrdfEPpwVL5mg@mail.gmail.com>
+Subject: Re: [PATCH 03/12] iio: adc: Remove redundant error log prints
+To: Xichao Zhao <zhao.xichao@vivo.com>
+Cc: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
+	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
+	Lukasz Luba <lukasz.luba@arm.com>, Guillaume La Roque <glaroque@baylibre.com>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, Markus Mayer <mmayer@broadcom.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	zhanghongchen <zhanghongchen@loongson.cn>, Yinbo Zhu <zhuyinbo@loongson.cn>, 
+	Amit Kucheria <amitk@kernel.org>, Thara Gopinath <thara.gopinath@gmail.com>, 
+	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Heiko Stuebner <heiko@sntech.de>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Talel Shenhar <talel@amazon.com>, 
+	Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>, 
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	"open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
+	"open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>, 
+	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>, 
+	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>, 
+	"open list:THERMAL" <linux-pm@vger.kernel.org>, 
+	"open list:THERMAL DRIVER FOR AMLOGIC SOCS" <linux-amlogic@lists.infradead.org>, 
+	"moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" <linux-rpi-kernel@lists.infradead.org>, 
+	"open list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <imx@lists.linux.dev>, 
+	"open list:QUALCOMM TSENS THERMAL DRIVER" <linux-arm-msm@vger.kernel.org>, 
+	"open list:RENESAS R-CAR THERMAL DRIVERS" <linux-renesas-soc@vger.kernel.org>, 
+	"open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>, 
+	"open list:SAMSUNG THERMAL DRIVER" <linux-samsung-soc@vger.kernel.org>, 
+	"moderated list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>, 
+	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>, 
+	"open list:TI BANDGAP AND THERMAL DRIVER" <linux-omap@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu 04 Sep 2025 at 14:28, Niklas Cassel <cassel@kernel.org> wrote:
+On Fri, Sep 5, 2025 at 3:26=E2=80=AFPM Xichao Zhao <zhao.xichao@vivo.com> w=
+rote:
+>
+> devm_thermal_of_zone_register() prints error log messages when
+> it fails, so there is no need to print error log messages again.
+>
+> Signed-off-by: Xichao Zhao <zhao.xichao@vivo.com>
+> ---
+>  drivers/iio/adc/sun4i-gpadc-iio.c | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
+>
+> diff --git a/drivers/iio/adc/sun4i-gpadc-iio.c b/drivers/iio/adc/sun4i-gp=
+adc-iio.c
+> index 6b8d6bee1873..3b33480813fe 100644
+> --- a/drivers/iio/adc/sun4i-gpadc-iio.c
+> +++ b/drivers/iio/adc/sun4i-gpadc-iio.c
+> @@ -640,12 +640,8 @@ static int sun4i_gpadc_probe(struct platform_device =
+*pdev)
+>                  * Do not fail driver probing when failing to register in
+>                  * thermal because no thermal DT node is found.
+>                  */
+> -               if (IS_ERR(info->tzd) && PTR_ERR(info->tzd) !=3D -ENODEV)=
+ {
+> -                       dev_err(&pdev->dev,
+> -                               "could not register thermal sensor: %ld\n=
+",
+> -                               PTR_ERR(info->tzd));
+> +               if (IS_ERR(info->tzd) && PTR_ERR(info->tzd) !=3D -ENODEV)
 
-> On Thu, Sep 04, 2025 at 11:40:15AM +0900, Damien Le Moal wrote:
->> On 9/4/25 11:37 AM, Marek Vasut wrote:
->> > Currently, the test allocates BAR sizes according to fixed table
->> > bar_size[] =3D { 512, 512, 1024, 16384, 131072, 1048576 } . This
->> > does not work with controllers which have fixed size BARs, like
->> > Renesas R-Car V4H PCIe controller, which has BAR4 size limited
->> > to 256 Bytes, which is much less than 131072 currently requested
->> > by this test.
->> >=20
->> > Adjust the test such, that in case a fixed size BAR is detected
->> > on a controller, minimum of requested size and fixed size BAR
->> > size is used during the test instead.
->> >=20
->> > This helps with test failures reported as follows:
->> > "
->> > pci_epf_test pci_epf_test.0: requested BAR size is larger than fixed s=
-ize
->> > pci_epf_test pci_epf_test.0: Failed to allocate space for BAR4
->> > "
->> >=20
->> > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
->> > ---
->> > Cc: "Krzysztof Wilczy=C5=84ski" <kwilczynski@kernel.org>
->> > Cc: Bjorn Helgaas <bhelgaas@google.com>
->> > Cc: Damien Le Moal <dlemoal@kernel.org>
->> > Cc: Frank Li <Frank.Li@nxp.com>
->> > Cc: Kishon Vijay Abraham I <kishon@kernel.org>
->> > Cc: Manivannan Sadhasivam <mani@kernel.org>
->> > Cc: Niklas Cassel <cassel@kernel.org>
->> > Cc: Wang Jiang <jiangwang@kylinos.cn>
->> > Cc: linux-kernel@vger.kernel.org
->> > Cc: linux-pci@vger.kernel.org
->> > Cc: linux-renesas-soc@vger.kernel.org
->> > ---
->> >  drivers/pci/endpoint/functions/pci-epf-test.c | 11 +++++++++--
->> >  1 file changed, 9 insertions(+), 2 deletions(-)
->> >=20
->> > diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/p=
-ci/endpoint/functions/pci-epf-test.c
->> > index e091193bd8a8a..d9c950d4c9a9e 100644
->> > --- a/drivers/pci/endpoint/functions/pci-epf-test.c
->> > +++ b/drivers/pci/endpoint/functions/pci-epf-test.c
->> > @@ -1022,7 +1022,8 @@ static int pci_epf_test_alloc_space(struct pci_e=
-pf *epf)
->> >  	enum pci_barno test_reg_bar =3D epf_test->test_reg_bar;
->> >  	enum pci_barno bar;
->> >  	const struct pci_epc_features *epc_features =3D epf_test->epc_featur=
-es;
->> > -	size_t test_reg_size;
->> > +	size_t test_reg_size, test_bar_size;
->> > +	u64 bar_fixed_size;
->> >=20=20
->> >  	test_reg_bar_size =3D ALIGN(sizeof(struct pci_epf_test_reg), 128);
->> >=20=20
->> > @@ -1050,7 +1051,13 @@ static int pci_epf_test_alloc_space(struct pci_=
-epf *epf)
->> >  		if (bar =3D=3D test_reg_bar)
->> >  			continue;
->> >=20=20
->> > -		base =3D pci_epf_alloc_space(epf, bar_size[bar], bar,
->> > +		test_bar_size =3D bar_size[bar];
->> > +
->> > +		bar_fixed_size =3D epc_features->bar[bar].fixed_size;
->> > +		if (epc_features->bar[bar].type =3D=3D BAR_FIXED && bar_fixed_size)
->> > +			test_bar_size =3D min(bar_size[bar], bar_fixed_size);
->>=20
->> I think this can be simplified to:
->>=20
->> 		if (epc_features->bar[bar].type =3D=3D BAR_FIXED)
->> 			test_bar_size =3D epc_features->bar[bar].fixed_size;
->> 		else
->> 			test_bar_size =3D bar_size[bar];
->
-> +1
+I think the comment above is pretty clear that we don't want a failure
+or an error message when it is failing just because the DT is missing
+thermal zones.
 
-It's what pci_epf_alloc_space() does too. so it makes sense but it also
-means the side must stay aligned.
+ChenYu
 
-If a rework is needed, maybe it would be better to get size from
-pci_epf_alloc_space() instead of recomputing it ?
-
+>                         return PTR_ERR(info->tzd);
+> -               }
+>         }
 >
->>=20
->> because if the bar type is BAR_FIXED, then the size of the bar can only =
-be its
->> fixed size.
+>         ret =3D devm_iio_device_register(&pdev->dev, indio_dev);
+> --
+> 2.34.1
 >
-> Correct, see:
-> f015b53d634a ("PCI: endpoint: Add size check for fixed size BARs in pci_e=
-pc_set_bar()")
->
-> Actually, Jerome Brunet was also using this weird Renesas R-Car V4H PCIe
-> controller where BAR4 is a really small fixed-size BAR.
->
-> (Even smaller than the iATU minimum alignment requirement for that same
-> controller.)
->
-> See:
-> 793908d60b87 ("PCI: endpoint: Retain fixed-size BAR size as well as align=
-ed size")
->
-> But he only appears to have used the vntb epf driver.
->
-> Jerome, I suppose that you never ran with the pci-epf-test driver?
->
-
-Indeed no. I've gone with with ntb-test driver on top or ntb-netdev
-
->
-> pci_epf_alloc_space() works like this:
-> If the user requests a BAR size that is smaller than the fixed-size BAR,
-> it will allocate space matching the fixed-size.
->
-> As in most cases, having a BAR larger than needed by an EPF driver is
-> still acceptable.
->
-> However, if the user requests a size larger than the fixed-size BAR,
-> as in your case, we will return an error, as we cannot fulfill the
-> user's request.
->
-> I don't see any alternative other than your/Damien's proposal above.
->
-> Unfortunately, all EPF drivers would probably need this same change.
->
->
-> Kind regards,
-> Niklas
-
---=20
-Jerome
 
