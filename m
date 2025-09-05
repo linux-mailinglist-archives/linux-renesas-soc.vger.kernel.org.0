@@ -1,378 +1,235 @@
-Return-Path: <linux-renesas-soc+bounces-21466-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21467-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1690B455C1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 13:10:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3956B455DD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 13:13:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 058395C33FE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 11:10:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 27D5F5C3C34
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 11:12:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BA3B342C8A;
-	Fri,  5 Sep 2025 11:09:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE5E334A337;
+	Fri,  5 Sep 2025 11:10:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EY3P8DkF"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="gP4EubNa"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011057.outbound.protection.outlook.com [52.101.125.57])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B9F834166C
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Sep 2025 11:09:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757070599; cv=none; b=gNxkkXf2w9y2pAeA49ocOyskPBC6Vk8EbiQCPRmuovpKdhp3Q+o7Pm62pMANaWby8yC03aW6mXf4HZUpgRcC6y9duarwzLcBHmURGuiQ+Ls3nGs4cHrUyI3RxFbfO4JXb/V4AYe8SvI+zhkHE0loDqM4M0CBFZvzlKiFVtzTq/k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757070599; c=relaxed/simple;
-	bh=7ALH7IJrp4A6nmOz1p/n3wXjhY7VUyQresBwcjSPj14=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NvOTsP7/celcHT0RGCye4IvnRJqiuxnZsqHgiyj7NCjLpReurKQSBeoxfJ+b7EDDFLp7a9Mlyv7XbJk9pjmkYrch/ZdrdHiqVOxO1FHbM9v27HfQop485N+5tHNPXRaKUlZxndnQikd3zrnwB9W0jEW/3J6i4qKUYX3AXXcZ8yI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EY3P8DkF; arc=none smtp.client-ip=209.85.219.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e931c858dbbso2016349276.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 05 Sep 2025 04:09:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757070596; x=1757675396; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2JdXw4Qv1njBlO6xmYzVUcXa+L4DKBA78RJzciCH6Gs=;
-        b=EY3P8DkFtoh53lUFqYoX/8zs9jbHFtCA3qmiqlBBjda3XXRs5ND5afjFfKsKkNZAtX
-         vJ3dcIoyVeqC06YtOd3wKZlrlkcoZlZ89xcNX/h0hS+kK4z0OrVeJlSp6SH3RsMF4xkF
-         mUetwiWRGzIMhIT6AhD3Yb5FRnS1jzqoRFt7vy5EMCHiAfR0ydtPTTc9yv0fSHlfMDC+
-         A3yfDxSvv1FzkFxahy3XHWaO8HnUqWGqdLVgWvBwZyuar8FEcsXgeiChwYATj84W42tE
-         7o64XKJUkB/aoASrrKcHvWSFWNRHxzkY5866P9XZ8XICqzjkFhQG4rBgJgMax1usFPyG
-         IPhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757070596; x=1757675396;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2JdXw4Qv1njBlO6xmYzVUcXa+L4DKBA78RJzciCH6Gs=;
-        b=nicSgEfh4JrWGr68Am7SgHrCku9SzBjvYPLI7QQPMvtLYzV5oVYXmRtDiazdZKv4YQ
-         fqzYl54HCoRziyO+19qn7Wfxs7IesHS77kXfeiQs9GkjsDUyeHSc/lxce1bp9rrbH/PP
-         cza+KSDZpIyuE367nlJl659UBguyxna5N/iZydDFbxaNcOuYw38cGTWxObnqVlFyfPey
-         bpJblqtdxbwIJQ5qiS8TEnXxOWDCc3DYJ6J8K10nhbqI559Vs7pvM78UaH+9iUSbv/u+
-         VIDUIQ0nfKc1k7lSCAqrmaZioqOm9d6cq78Ci4AajmBXEs3Vv4yFziLuVZrBYvo7P9on
-         9slg==
-X-Forwarded-Encrypted: i=1; AJvYcCUtRIVyz61PUrPcrr7a/69+XVsEhb6OHeVq6qC4aHZ/LwjiiRvy3Rluq+mqgv/laO8ewZgb7KJ+W0/RxdLxhVDVfg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwykXO+I0CKM24XiNwgUey1eAyKyV2+5J59DBwH2XQHspQH3QPE
-	cmt6v0CxikipDIY970YCa/dn967sHtXNr/9Ng2dG82YKLGZ5nb7XHUHed4GoBQtmtrrVMGR39hn
-	lCiB3bOuaCv/+Dp30YJVhC/3/zZN6+CsnXzVfSYmD6A==
-X-Gm-Gg: ASbGncs/CJIlP5+J9f7ka2a80eVxCPc8pi5tVsthucq6F+TFz35nugx7XYYDVzVeEaG
-	NyVt+Vr6JylOYYlnztvLvMEFe//ia/NsFA5OtcTraJ1pcQiFSKEIvsxPRaxPb9liPDU0ow5ibmB
-	ljcSY8rk4YJKUc2luNZ1JyuYyJKN6BhVoYg1PX2yZ/beJudkvwohXtPm4frGJ4DAk42f3RmQFh6
-	emBn9bk2EFvbms+O0U=
-X-Google-Smtp-Source: AGHT+IGJvbbIlAC6F/9Nh1B+6nqGQfT+amUgoRJzoU9Ah54iDfe6pod7IY2Mz9W1QhgN1npg8B3ZwJzDinFuk2aB9V8=
-X-Received: by 2002:a05:690e:15c7:b0:5f5:5d5:b1f5 with SMTP id
- 956f58d0204a3-601774c10f2mr4510800d50.20.1757070596115; Fri, 05 Sep 2025
- 04:09:56 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E40B0342C9A;
+	Fri,  5 Sep 2025 11:10:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.57
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757070656; cv=fail; b=IMbsh32di5SKjinTO1xJKVE4kJ1bFB8hIJ2+tV+Gnzwgo0r8NeTB+8qXBLQiauJZd/R+9ZhpE7n7U8J0rEhyz+XVKFKf4ZzsCqFunM4Ds0wQcU7RTxBD3/KEVOAHJOejtCvKT4eM0Su3tyQ2BmgvwMmDpUD5T7A4mkApqEGr9bc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757070656; c=relaxed/simple;
+	bh=FzbxXXfXpcUKjXkg65z5LAfivouyyYBHdgSsgRn6N1Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=fS5cHWSy2rZrJbaEE3apzIjWgdVYA1QlsIuhNc/HTidYP+92FEf5WQ14VXIUOBFp9g3dQjlbS8RkisjEPS5IHs9l0vB7wtMKgnY4Ygmu3bxGtZLvugmwwp0j8RD5iV6hzVoSRAxA9faGvO8mlPZr0xN7DFraPBRB3HDsfd0QYCQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=gP4EubNa; arc=fail smtp.client-ip=52.101.125.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gN2EFwNJK9g1ZySH+Dqxiw2MYnEGm7XvRQia6NaX1xzIZ2z/NCtXR8QlQ9CRnUfGcLE+1uyOKWbjeHWUt8POXSWtLVExuWDEEgKV3aZcrBuEjjcYgAr47xFgfn2cPx/l+QNykBnN+V5KlX1HgihOtGNCXw+ZJk46acw8C3+gHNoGuNZbRaGgeKxTSsFN+hSGXbEAMIVGxHhF7jZv8gEjv0lZkxWuQQ5JrVpoo5PCuJnxnTM5HjEvkhlCfOGWUebbR5CFYIJQEmlvTIHoncnOnRDwXjr7h4zlJRYJqFvNTwjEi60WOwEk48Hw9p6BWceYt2rD9Y5gO1U/5VYLb8NBjQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PDz7OkQq/vyqQ7SasPVt2qTQOPWx+/lQmfRaX0oIsME=;
+ b=crccgeQWP69dAbBwausGHibFrpj5Dis66rhYLghM8fnKGTPXjZLytOVd8Z8zC4iYiT9v0WrYTy3+rDb0J20JuF0Jj5W12kmkqgrB08pjgTZQ7SUJsP/op0lFvg6hL++Yurg2UXgK3gF/w0iD8bVUfzy97msl3BoDs4xjy7nQ8GgyYgmd+pnpMaGWkgSve8avWhewZWQMLPodoGrBHaLY+lAFCab2X05k26YJuFkc7BELnwXzBwNTVXAVAxaixEWp2OTtDzD5fLeUuLMOi22kb7uGA5UercruGteuLQcIdIugGhRCnSMTEWY4NT44ZM8COkI0mWLXq+94MxGR2jPQSQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PDz7OkQq/vyqQ7SasPVt2qTQOPWx+/lQmfRaX0oIsME=;
+ b=gP4EubNaJwWVJMuPwPm3+R7vJmCbpw63Aj76yk8Oa/uu34VYnhl/+dNHy+GJCFDk9+xKVzk04/k9CJmjvtayfSTrWnSnkStaxCsEUSjLyZgCE/2AHJmlmwczIOSYYWR8F0AXjHUfnMajVFLLP7zlKeaqGq3zk5DbWARdkEMQ2AI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com (2603:1096:400:3e1::6)
+ by OS3PR01MB6950.jpnprd01.prod.outlook.com (2603:1096:604:12d::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.18; Fri, 5 Sep
+ 2025 11:10:48 +0000
+Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com
+ ([fe80::63d8:fff3:8390:8d31]) by TYCPR01MB11947.jpnprd01.prod.outlook.com
+ ([fe80::63d8:fff3:8390:8d31%5]) with mapi id 15.20.9073.026; Fri, 5 Sep 2025
+ 11:10:48 +0000
+Date: Fri, 5 Sep 2025 13:10:33 +0200
+From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Frank Li <Frank.Li@nxp.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-i3c@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH] dt-bindings: i3c: renesas,i3c: Add RZ/V2H(P) and RZ/V2N
+ support
+Message-ID: <aLrFKb27MFPFhDHt@tom-desktop>
+References: <20250904160305.247618-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250904160305.247618-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-ClientProxiedBy: MR1P264CA0009.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:501:2e::14) To TYCPR01MB11947.jpnprd01.prod.outlook.com
+ (2603:1096:400:3e1::6)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250701114733.636510-1-ulf.hansson@linaro.org>
- <CAPDyKFr=u0u2ijczExkntHK1miWZ6hRrEWBMiyUwShS3m6c29g@mail.gmail.com>
- <CAMuHMdX1BacUfqtmV8g7NpRnY9aTdL=fh+jC7OryMLz4ijaOCg@mail.gmail.com>
- <CAPDyKFqANQZmGXd8ccA5qWiGrCor2N=W_7dmV+OK8hMd_+zmmw@mail.gmail.com>
- <CAMuHMdVrkr56XsRsbG7H-tLHVzmP+g-7=5Nrv9asC25ismwiYA@mail.gmail.com>
- <CAPDyKFq7z9e9hEC9QWiYcaU=t+Gs_GgRurmK-+cNYp4xkhr5Ow@mail.gmail.com>
- <CAMuHMdU7W+f3nZ_ckHOFsmmK6V9HzK0-fNtcu8kgjTSeU89AqQ@mail.gmail.com>
- <CAPDyKFr-mVbGo62Wp+othcs+cWR6Wn9bz==ZB5hSpyKgkGtqHg@mail.gmail.com>
- <CAMuHMdUAhsZMbkUzwb=XnCNyvA3aOvuhkKL4=1nOPQ0w0if-HA@mail.gmail.com>
- <CAPDyKFrWv3ObciCtrb4YE_K6to5xxx79DGcPv0=nP9LR60=xYA@mail.gmail.com> <CAMuHMdXoLnQR_hB-jXeGxAudwwpFRcQjrQcCb8iYCOz32yHinw@mail.gmail.com>
-In-Reply-To: <CAMuHMdXoLnQR_hB-jXeGxAudwwpFRcQjrQcCb8iYCOz32yHinw@mail.gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Fri, 5 Sep 2025 13:09:20 +0200
-X-Gm-Features: Ac12FXxAyk0DgxeOLPurHUdA5X-JyzT3WI7knde2ma8Q4W4KgpMj8w1PmU3YQLs
-Message-ID: <CAPDyKFqvjeuXhk7H4nH80RY63QfKwGO_61UW=MJaU8Qiahbt3g@mail.gmail.com>
-Subject: Re: [PATCH v3 00/24] pmdomain: Add generic ->sync_state() support to genpd
-To: Saravana Kannan <saravanak@google.com>, Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Stephen Boyd <sboyd@kernel.org>, linux-pm@vger.kernel.org, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Michael Grzeschik <m.grzeschik@pengutronix.de>, Bjorn Andersson <andersson@kernel.org>, 
-	Abel Vesa <abel.vesa@linaro.org>, Peng Fan <peng.fan@oss.nxp.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Johan Hovold <johan@kernel.org>, 
-	Maulik Shah <maulik.shah@oss.qualcomm.com>, Michal Simek <michal.simek@amd.com>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Hiago De Franco <hiago.franco@toradex.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB11947:EE_|OS3PR01MB6950:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2b1a2d92-7061-4681-28fc-08ddec6cde17
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|52116014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?7YDruee77oNGVWv6wDhBXET+7D7u7ag8QGQeuvxCzD9KPL6zp5YgsqBQNV6X?=
+ =?us-ascii?Q?1MRW1WvX/YwTUvmIjNaRU7S2vay3H5mu0rEPToEAqvLuKHmwoDKoosEtgYGo?=
+ =?us-ascii?Q?IeIuJRIJFVC6X+Ug/VF4ODbCyOPxmR66+fch+D6LMPtc8uIrLs3eqmf9n8/Z?=
+ =?us-ascii?Q?FAuU9ooeAyh+FdFLAFAKU1t2/xnzdD/pAsCWZwrKdtieF1ZrluaJulLs0z3u?=
+ =?us-ascii?Q?B/fyfEG59EzuA1FeYzW62MJt8ZFn8hJwILZ73LCQHsNpktR7y2bc3YjJZ37I?=
+ =?us-ascii?Q?CGmxYWjJbClDlKlH4KDe3APxVdRNQDtgjeeVG+cwv9KodON8JNVSClOAznv9?=
+ =?us-ascii?Q?/WPQTCMv+iNzNlDxKHBVTB34TWu+X4WadY8iZ5J/Y7GW0XWZXvAK/Oyxd17T?=
+ =?us-ascii?Q?ruMTsnART0UUxnIP3xf9jM2k6GLXicsVODnQj8SSC0rUCF8ICZJ7oSPcJeO6?=
+ =?us-ascii?Q?zXQ43W03auvEj5bpswem0CuibI6z+YvK5R99/eCex8ZOisI+WZnx5XY+EO4t?=
+ =?us-ascii?Q?1k6XrY5+dOPLqaMvNm2uyEw40cf/7aohtCqLbmYdlpKoyA86KvhTiMn9NQzk?=
+ =?us-ascii?Q?TW5Nq+QmrRYewehc+3tUYnA5G3E1ZyAfz+hijpoq6CKhS2l+/1JEfRqEkp6Y?=
+ =?us-ascii?Q?qb5VWUW2/IIF7SquxajJhVwuAHH25zy8AVuTar+YEd2XIEd3KbfjQ/wv0giB?=
+ =?us-ascii?Q?3nKvUfo/pfOqEVudV2mhlKCi94zU/LH10VAo0kbP31il73UNf9ZtR5x7xZVz?=
+ =?us-ascii?Q?JsYhUNbzfQiCDTUUI0vOHY723vSUmAeN8Vh1xlyOdQTh+qbdxoG9u2yQOYS0?=
+ =?us-ascii?Q?mCVOvvmiOuwjmFDgK7cHlXCHZ6umst5cmaab0wg4j534XLVpm1prifP9lSD2?=
+ =?us-ascii?Q?Bo+Ctx0WFpZ0O7UiDsZuV1Hse6C/PkZ4SYh1DrlaCyA3S8vsF/okFoXWf4lS?=
+ =?us-ascii?Q?Wy3Dj8zzFuW2wMM++DdOlrqe2xgh6+qByyRB+tVxHMaXh2KM5Y7wqdCRyjaJ?=
+ =?us-ascii?Q?JVPE6PPatuIys3oJP1MxC3JeOK3Cwcb3u2+PHPlLhOfp2zhoQDwCKxn2k2+x?=
+ =?us-ascii?Q?kIy4rH0/ONcb3QK4/8qYNlPP6x1vp41C+Oo5VXZF+5PJu//6bajgGmPLgaJ0?=
+ =?us-ascii?Q?/Mol4mX2JJbZEhx3XFvCtomGY0QhWsF0283zMogYn9Xq1qwcoNS/l5JNcoAF?=
+ =?us-ascii?Q?x6cxK+0lPfBR9RKassJjARBz8Zp844lYC5XotIzB/0TF64gK9XqqezMC545I?=
+ =?us-ascii?Q?uK3818I9u5Adf4FAac+YmnlbX3wHOd0JsCZvya352JOj2VeqwjNw33AN+6O2?=
+ =?us-ascii?Q?CirtY9wvyrac2cMpY8SFe58ORzscwJC+mBaJmTqpvhSrSpm8mwet9ByiipLg?=
+ =?us-ascii?Q?T33f6qWXgVQcZEsk68looh8wEA4bh+biaCaBUp1JluwY2KdqiwyMlN0Ykhwm?=
+ =?us-ascii?Q?dUOBF9alsQA=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11947.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?0KL9WwaiGFRW69n/N+J+D9DpxxU4vMfm02yG7pJuMmxP8ZhVyc3Zelq3ybff?=
+ =?us-ascii?Q?7cWdHQFLvu9Ri9fq17T82u77M9nRru42416WE+FNqfWWEHTUYBECXMS/oJBZ?=
+ =?us-ascii?Q?myeiFC7u57Dwd6+yZwJ+sznZ59Ogg/QbnmOUjW+fnfSJIDAzQpndEbjFzusc?=
+ =?us-ascii?Q?kvj7iSxR8BdE3uwsCBFsKB61b0SaEjXM2hcbbw5uU1jEtTfDXAthSFTL2DcU?=
+ =?us-ascii?Q?iig1U7j36QjgFTSjh/YuMoeNkAUs6wjJaP0OqM4G4aPdGRPNj5B62NiYx6UK?=
+ =?us-ascii?Q?sDjR1D00HAT0vrzTWcNg6FoZUDuGnCzDbIvlJVYxFFAoNo51UxqChwjKVrSR?=
+ =?us-ascii?Q?9XDzwnOG2AKoGZfAFeCPvnD0HrLpdxUcqfXj77x6Fhx4YHgixlZ/Qe1l8krE?=
+ =?us-ascii?Q?83IlyHY90LlD2Mcd/ID6nyO9/9YzeD2L6R94Pvx+B1TGhLDz2uKDojY/2rGE?=
+ =?us-ascii?Q?a9EMHX/G2YtOgjPCsyEMmnyYstP07fp5wR98ARjYVMG+RPh5XkA0NkXTXJ2i?=
+ =?us-ascii?Q?ovnSHaPKYD3S+Zax8HsM1BE4MEL25+2Bh9UkqiijxXyRwUa4aKR+09UaPDSO?=
+ =?us-ascii?Q?/9rtbGS5k84d4KWJ50ISzmxRzXzN61F1loqB7IB97Vy4K1yOWguabgtdXAoS?=
+ =?us-ascii?Q?Q/J+gCZ5FDO8BhzdC7YP5ndy1Huf5trccClGB7RLdqXTrSB4neCHBv0oPREe?=
+ =?us-ascii?Q?rzMvXZH7MQrAjF4uVdPLyHUF0wmB5lV2K0vKZx2fvU9k10SgkmKfoEdlnou8?=
+ =?us-ascii?Q?nFEtCOp7tvojBfML8s/cWR1NOGv+FenSWtLzfkO/rWzVFMMxu4YaMh+RgOwj?=
+ =?us-ascii?Q?iHAhobVWhNV54WfCH0KwMeoZdReCR5pcV0dbjyPrtn08mgGjuj+rx5Eo5TB4?=
+ =?us-ascii?Q?kWxFHcHNk3O/K5RzQU7VVRrhS3Ue+R8yx2PMBVMZMGlo47MY4NTQqEaO2uzx?=
+ =?us-ascii?Q?zgfCQF+VqpnyQckKDS7GduaSH0lF4SJ2aE2KTJOw4A5RAp8eUWNlGR+wHZUo?=
+ =?us-ascii?Q?Fd75ZlnovkpF5R2CPl/670+bu3E4QKN8PtD4hgjZ28j9rkyCA5ERpn4m6rDq?=
+ =?us-ascii?Q?MCuxFXfb6EZu3geye1WT1sEABbeICuWS4AGtyk+pJMShhgCIjJGyxWMrsHUz?=
+ =?us-ascii?Q?2eimaMP6gdpm0cVya+nTycw2aeAvYm6wSOTWgfkhas0L7UUXUykzXAxh1VBS?=
+ =?us-ascii?Q?8hHox7OJ0MeDaSWdLfoUrOulDdU5bSTMZHmsOtX4d3QdN/82SAaFlQPu4m2a?=
+ =?us-ascii?Q?mtpnhbC1gPy2eXThgt5kVt8kWId/wZteubZf6BcT6h+cZbhbb/FFoHWRS3Dp?=
+ =?us-ascii?Q?w7vOmn2ZZgOl9q0YpSDAEW0zgXwJ2AeqL7sp2VZpMrDtXnkfcBSk68xcjR7z?=
+ =?us-ascii?Q?BjvAANu+3hUUblg8VKHH34C/qw7wYcPx6W6C65zx8xMogfxlZHN6ORRcTgv6?=
+ =?us-ascii?Q?pNPUP4xqdjhSy8n+XADaCdKiFAqWjQUC/nQ7+z5qKD+5rhi/urgk6R1k537i?=
+ =?us-ascii?Q?XMhj/8+SX2X2pstJiGWQqEVldJEZlc1NyGqCtkN6hekDJk/X3jDvIz8Fe4GV?=
+ =?us-ascii?Q?DJey3Rb0ZKKJakCD+CGm/7X5jG6p1uD5+Ky2m4JNXBJX5fr793YSaEMKaRAC?=
+ =?us-ascii?Q?2qKyd+LjY+bikDvNfD9uFMo=3D?=
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2b1a2d92-7061-4681-28fc-08ddec6cde17
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11947.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2025 11:10:48.7902
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4ODlAJEKxRLd+Zd1UCNPtiqrlahxYWUBrCVRRH1lpDqPP7L0IBpErjV882iSxiSWi9RX/fQC5oA1asYldf5/YHpcDGV7vRiAfIj2nRdrBYkKpACUNwu8LBz0/mUYFG3S
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB6950
 
-[...]
+Hi Prabhakar,
+Thank you for your patch!
 
-> > > > > > > > > BTW, the "pending due to"-messages look weird to me.
-> > > > > > > > > On R-Car M2-W (r8a7791.dtsi) I see e.g.:
-> > > > > > > > >
-> > > > > > > > >     genpd_provider ca15-cpu0: sync_state() pending due to e6020000.watchdog
-> > > > > > > > >     renesas-cpg-mssr e6150000.clock-controller: sync_state() pending
-> > > > > > > > > due to e6020000.watchdog
-> > > > > > > > >
-> > > > > > > > > ca15-cpu0 is the PM Domain holding the first CPU core, while
-> > > > > > > > > the watchdog resides in the always-on Clock Domain, and uses the
-> > > > > > > > > clock-controller for PM_CLK handling.
-> > > > > > >
-> > > > > > > Unfortunately the first PM Domain is "ca15-cpu0", which is blocked on
-> > > > > > > these bogus pending states, and no PM Domain is powered off.
-> > > > > >
-> > > > > > I see, thanks for the details. I am looking closer at this.
-> > > > > >
-> > > > > > In any case, this is the main issue, as it prevents the ->sync_state()
-> > > > > > callback to be called. Hence the "genpd->stay_on" will also *not* be
-> > > > > > cleared for any of the genpd's for the genpd-provider.
-> > > > >
-> > > > > I was under the impression there is a time-out, after which the
-> > > > > .sync_state() callback would be called anyway, just like for probe
-> > > > > deferral due to missing optional providers like DMACs and IOMMUs.
-> > > > > Apparently that is not the case?
-> > > >
-> > > > The behaviour is configurable, so it depends. The current default
-> > > > behaviour does *not* enforce the ->sync_state() callbacks to be
-> > > > called, even after a time-out.
-> > > >
-> > > > You may set CONFIG_FW_DEVLINK_SYNC_STATE_TIMEOUT to achieve the above
-> > > > behavior or use the fw_devlink command line parameters to change it.
-> > > > Like setting "fw_devlink.sync_state=timeout".
-> > > >
-> > > > I guess it can be debated what the default behaviour should be.
-> > > > Perhaps we should even allow the default behaviour to be dynamically
-> > > > tweaked on a per provider device/driver basis?
-> > >
-> > > The domains are indeed powered off like before when passing
-> > > "fw_devlink.sync_state=timeout", so that fixes the regression.
-> > > But it was not needed before...
-> >
-> > Right, the default behavior in genpd has changed. The approach was
-> > taken as we believed that original behavior was not correct.
-> >
-> > Although, the current situation isn't good as it causes lot of churns for us.
->
-> I did some more testing, and there seems to be a similar issue with
-> DMA controllers, which I hadn't really noticed before, as I have
-> DMAC drivers built-in in all my kernel configs.  If the (optional)
-> DMAC driver is not available, you need "fw_devlink=permissive" to make
-> drivers probe devices that have (optional) DMA support.
+On Thu, Sep 04, 2025 at 05:03:05PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> Add device tree binding support for the I3C Bus Interface on Renesas
+> RZ/V2H(P) and RZ/V2N SoCs. The I3C IP on these SoCs is identical to
+> that found on the RZ/G3E SoC.
+> 
+> Add new compatible strings "renesas,r9a09g056-i3c" for RZ/V2N and
+> "renesas,r9a09g057-i3c" for RZ/V2H(P). Both variants use
+> "renesas,r9a09g047-i3c" as a fallback compatible to indicate hardware
+> compatibility with the RZ/G3E implementation.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  .../devicetree/bindings/i3c/renesas,i3c.yaml     | 16 +++++++++++-----
+>  1 file changed, 11 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/i3c/renesas,i3c.yaml b/Documentation/devicetree/bindings/i3c/renesas,i3c.yaml
+> index fe2e9633c46f..e41ba3ba4b58 100644
+> --- a/Documentation/devicetree/bindings/i3c/renesas,i3c.yaml
+> +++ b/Documentation/devicetree/bindings/i3c/renesas,i3c.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/i3c/renesas,i3c.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: Renesas RZ/G3S and RZ/G3E I3C Bus Interface
+> +title: Renesas RZ/G3S, RZ/G3E, RZ/V2H(P) and RZ/V2N I3C Bus Interface
+>  
+>  maintainers:
+>    - Wolfram Sang <wsa+renesas@sang-engineering.com>
+> @@ -12,10 +12,16 @@ maintainers:
+>  
+>  properties:
+>    compatible:
+> -    items:
+> -      - enum:
+> -          - renesas,r9a08g045-i3c # RZ/G3S
+> -          - renesas,r9a09g047-i3c # RZ/G3E
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - renesas,r9a08g045-i3c # RZ/G3S
+> +              - renesas,r9a09g047-i3c # RZ/G3E
+> +      - items:
+> +          - enum:
+> +              - renesas,r9a09g056-i3c # RZ/V2N
+> +              - renesas,r9a09g057-i3c # RZ/V2H(P)
+> +          - const: renesas,r9a09g047-i3c
+>  
+>    reg:
+>      maxItems: 1
+> -- 
+> 2.51.0
+> 
 
-Well, after the deferred probe timeout, the missing supplier depency
-should be ignored even if you don't have "permissive".
+Looks good to me.
 
-Typically we get a print in the log that could say:
-"pm-test-drv pm_test24: deferred probe timeout, ignoring dependency"
+Reviewed-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 
-... and then the driver-core tries probing the device anyway. It's
-then up to the consumer driver to allow probing to succeed, even if
-the DMA setup procedure fails.
 
-> Interestingly, that is not the case with (optional) IOMMU support:
-> drivers do probe devices that have (optional) DMA support when the
-> latter is not available.
+Kind Regards,
+Tommaso
 
-Okay, so some special treatments are already in place for IOMMUs, to
-allow them to probe sooner, I guess. I don't know in detail how this
-works, maybe Saravana can help to fill in?
-
-Although my guess is that, by allowing IOMMUs to probe like this,
-means that these drivers need to manage the DMA setup quite
-differently.
-
-The DMA driver (supplier) may probe and become available *after* the
-IOMMU driver has probed. In other words, the IOMMU drivers then need
-to manage the DMA setup even beyond probing.
-
->
-> > > I could add "select FW_DEVLINK_SYNC_STATE_TIMEOUT" to the SYSC_RCAR
-> > > and SYSC_RCAR_GEN4 Kconfig options, but that would play badly with
-> > > multi-platform kernels.  As the fw_devlink_sync_state flag is static,
-> > > the R-Car SYSC drivers can't just auto-enable the flag at runtime.
-> > >
-> > > Any other options? Perhaps a device-specific flag to be set by the PM
-> > > Domain driver, and to be checked by fw_devlink_dev_sync_state()?
-> >
-> > Something along those lines seems reasonable to me too.
-> >
-> > However, the remaining question though, is what should be the default
-> > behavior in genpd for this. Due to all the churns, we may want
-> > something that is closer to what we had *before*, which means to
-> > always use the timeout option, unless the genpd provider driver
-> > explicitly requests to not to (an opt-out genpd config flag).
-> >
-> > Saravana, it would be nice to get some thoughts from you are around
-> > this? Does it make sense?
-> >
-> > >
-> > > > > > > If I remove the "sync_state = false" above, genpd_provider_sync_state()
-> > > > > > > considers all domains, and does power down all unused domains (even
-> > > > > > > multiple times, as expected).
-> > > > > >
-> > > > > > I think those are getting called because with the change above, there
-> > > > > > is no device_link being tracked. As stated above, fw_devlink is
-> > > > > > limited to use only one device - if multiple devices share the same
-> > > > > > fwnode.
-> > > > >
-> > > > > Indeed.
-> > > > >
-> > > > > > In other words, the ->sync_state() callbacks are called even if the
-> > > > > > corresponding consumer devices have not been probed yet.
-> > > > >
-> > > > > Hence shouldn't there be a timeout, as the kernel may not even have
-> > > > > a driver for one or more consumer devices?
-> > > >
-> > > > See above.
-> > > >
-> > > > > > > Upon closer look, all "pending due to" messages I see claim that the
-> > > > > > > first (index 0) PM Domain is pending on some devices, while all of
-> > > > > > > these devices are part of a different domain (usually the always-on
-> > > > > > > domain, which is always the last (32 or 64) on R-Car).
-> > > > > > >
-> > > > > > > So I think there are two issues:
-> > > > > > >   1. Devices are not attributed to the correct PM Domain using
-> > > > > > >      fw_devlink sync_state,
-> > > > > > >   2. One PM Domain of a multi-domain controller being blocked should
-> > > > > > >      not block all other domains handled by the same controller.
-> > > > > >
-> > > > > > Right, that's a current limitation with fw_devlink. To cope with this,
-> > > > > > it's possible to enforce the ->sync_state() callback to be invoked
-> > > > > > from user-space (timeout or explicitly) for a device.
-> > >
-> > > That needs explicit handling, which was not needed before.
-> > >
-> > > Perhaps the fw_devlink creation should be removed again from
-> > > of_genpd_add_provider_onecell(), as it is not correct, except for
-> > > the first domain?
-> >
-> > There is nothing wrong with it, the behavior is correct, unless I
-> > failed to understand your problem. To me the problem is that it is
->
-> It does print wrong and confusing warnings indicating the problem:
->
->     genpd_provider ca57-cpu0: sync_state() pending due to fe000000.pcie
->
-> (no, the PCIe controller is not part of the CPU PM Domain)
-
-That's a good point. We should fix this to avoid confusion.
-
->
-> > just less fine grained, compared to using
-> > of_genpd_add_provider_simple(). All PM domains that is provided by a
-> > single power-domain controller that uses #power-domain-cells = <1>,
-> > requires all consumers of them to be probed, to allow the sync_state
-> > callback to be invoked.
->
-> if it would be just coarse-grained, the link should be created to a
-> device representing the controller, not to the device representing
-> the first PM domain.
->
-> > If we could teach fw_devlink to take into account the
-> > power-domain-*id* that is specified by the consumer node, when the
-> > provider is using #power-domain-cells = <1>, this could potentially
-> > become as fine-grained as of_genpd_add_provider_simple().
-> >
-> > Saravana, do think we can extend fw_devlink to take this into account somehow?
->
-> Doesn't the pmdomain core create a device for each PM domain, so the
-> index could be used to link to the correct domain?
-
-Correct, we have a device associated for each PM domain - and when
-of_genpd_add_provider_onecell() is called, we get the index associated
-for each of them.
-
-If I understand your proposal, you are suggesting that genpd itself
-creates the device_link between its corresponding device (supplier)
-and the upcoming consumer device(s), at the point when
-of_genpd_add_provider_onecell() is called, right?
-
-It's an interesting idea, but I am not sure it will work. To create
-the device_link at this point, assumes that all the consumer OF-nodes
-have been populated (to have devices available for them). Maybe there
-is an intermediate step we can take to instruct fw_devlink to treat
-these "links" differently?
-
-Saravana, any thoughts around this?
-
->
-> > > > > > Another option would be to allow an opt-out behavior for some genpd's
-> > > > > > that are powered-on at initialization. Something along the lines of
-> > > > > > the below.
-> > > > > >
-> > > > > > From: Ulf Hansson <ulf.hansson@linaro.org>
-> > > > > > Date: Tue, 29 Jul 2025 14:27:22 +0200
-> > > > > > Subject: [PATCH] pmdomain: core: Allow powered-on PM domains to be powered-off
-> > > > > >  during boot
-> > > > >
-> > > > > [...]
-> > > > >
-> > > > > I gave this a try (i.e. "| GENPD_FLAG_NO_STAY_ON" in rcar-sysc.c), but
-> > > > > this doesn't make any difference.  I assume this would only work when
-> > > > > actively calling genpd_power_off() (i.e. not from of_genpd_sync_state()
-> > > > > or genpd_provider_sync_state())?
-> > > >
-> > > > Right. Thanks for testing!
-> > > >
-> > > > So, we may need to restore some part of the genpd_power_off_unused()
-> > > > when CONFIG_PM_GENERIC_DOMAINS_OF is set. Without clearing
-> > > > "genpd->stay_on".
-> > > >
-> > > > I can extend the patch, if you think it would make sense for you?
-> > >
-> > > I would applaud anything that would fix these regressions.
-> > > Thanks!
-> >
-> > While being mostly silent from my side for a while, I have been
-> > continuing to evolve my test suite for sync_state tests. Wanted to
-> > make sure I cover additional new corner cases that you have pointed
-> > out for Renesas platforms.
-> >
-> > That said, I have not observed any issues on my side, so it looks like
-> > we are simply facing new behaviors that you have pointed out to be a
-> > problem. In this regards, I think it's important to note that we are
-> > currently only seeing problems for those genpds that are powered-on
-> > when the provider driver calls pm_genpd_init(). Another simple option
-> > is to power-off those PM domains that we know is not really needed to
-> > be powered-on. Also not perfect, but an option.
-> >
-> > Another option is something along the lines of what I posted, but
-> > perhaps extending it to let the late_initcall_sync to try to power-off
-> > the unused PM domains.
->
-> Yep, like before.
-
-Okay!
-
->
-> > I will work on updating the patch so we can try it out - or perhaps
-> > what you suggested above with a device-specific flag taken into
-> > account by fw_devlink_dev_sync_state() would be better/sufficient you
-> > think?
->
-> I also had a closer look at the few pending sync_state() pending
-> warnings I do see on SH/R-Mobile SoCs.  Their PM Domain driver uses
-> of_genpd_add_provider_simple() instead of of_genpd_add_provider_onecell().
-> E.g. on R-Mobile A1:
->
->     genpd_provider a3sm: sync_state() pending due to f0100000.cache-controller
->     genpd_provider a4s: sync_state() pending due to fe400000.memory-controller
->     genpd_provider d4: sync_state() pending due to ptm
->
-> All three domains were already handled specially in the PM Domain
-> driver, as they must not be turned off, so these platforms didn't
-> regress due to this series.
-
-Okay!
-
-Again the prints are confusing and annoying, but in principle we are
-fine. Thanks for clarifying!
-
-This also makes me wonder if we should skip enabling the fw_devlink
-support for those genpds with "simple" providers that are special
-(GENPD_FLAG_ALWAYS_ON and GENPD_FLAG_RPM_ALWAYS_ON). It doesn't make
-sense to track consumers for them, I think.
-
-[...]
-
-Kind regards
-Uffe
 
