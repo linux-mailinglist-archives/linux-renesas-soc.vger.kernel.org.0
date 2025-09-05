@@ -1,65 +1,92 @@
-Return-Path: <linux-renesas-soc+bounces-21531-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21532-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26BBDB4644C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 22:06:10 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 207E2B4652C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 23:07:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ECE1C1CC5701
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 20:06:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BBABA3AC19F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 21:07:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84BC92D12EF;
-	Fri,  5 Sep 2025 20:04:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51F9B2EB84B;
+	Fri,  5 Sep 2025 21:07:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="cDgw8gAm"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ec9Z9Z+L"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A4EE2C21D5
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Sep 2025 20:04:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84E826B764;
+	Fri,  5 Sep 2025 21:07:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757102682; cv=none; b=VSxGkj0SeQcHW7FgGIoCxP1t0rb933KQ0s25CjssvLXaSamnU/eakDG8+fkA8cDjXVKLKrHudeoGqs1h1TUvBbzskKvaEX9q1jb4+jTWbdxbKe5Z9YPap5yankXP2fqXqQs/IYnfJCsOEKMgo5OW33XBM+g47asMiyeykaAkfnE=
+	t=1757106468; cv=none; b=VigFRnzloMyC4FSanf4tWIKnOnwlxvLSjLCQSCHSyvQS69GYf86HljPjKtKBVrkrr6cd7DDDHXGFPpuP2nhQvQ4739nAjsyrDJ+vql8+sUuRRSGSmyLGzRSykv0tO9mNT2aLVjwGl28o5nn4JL4rt1tpoR+cSi+rbkG38tPXWGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757102682; c=relaxed/simple;
-	bh=11GbqDXssApiU9y+vomJ1VHqHgmumr3HAlGd4PLdhNY=;
+	s=arc-20240116; t=1757106468; c=relaxed/simple;
+	bh=3843Vv8j3E5LWD3oStta9RcM6gyBK20cJn58+zi7pbA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RrqMuhBAYOOMNmixSchiUUMr4yuiuel2XDSWUuejgGwACVWj/I/Nzc4cJ7tYXSTk4Krsl7RnpH2YAs7rdj3RCjLuwgUkjYkOCpnPOCTFJW1Epl9r6+b/p0XvNAfws/jPovcDzk0E72yuH1Y4Ym4jhiuDbtvuPsHDWr8TnvlD7/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=cDgw8gAm; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=xj+d
-	VF/YryccXvlypmfMjf5O3cBWAm2GjD0ww5V4SRc=; b=cDgw8gAm6HQuL4qnbhvl
-	3V6qT3ETttXViq6E5ZyRDIYxChs5GwPHsWTHbtNVW67zgU4/3k1pEKUYAbBNd3Qq
-	2scnAxM/L4uNOofMQ/qeBfxqRodiA710te/seFHfPtU6aB1QIN0JLhjmv4Mq+R5d
-	2dulOOJ4AqfWSoufO+bdRIAlHkTyladuFqFxktJdASuIs34AZ5vN8knCjGuqTXWh
-	DfBBI6YZr5tyWZy0UrbnqQjd/CbzM2F9btK69XrxlICIJR376sA2sVi00BXg4cw5
-	JIg5BO13UOlxoy2JROtFVUuTEsFR0BvKxFXGpu6SWvOLJcQb98ggG7Cf+/c7l+qL
-	eA==
-Received: (qmail 4158411 invoked from network); 5 Sep 2025 22:04:35 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Sep 2025 22:04:35 +0200
-X-UD-Smtp-Session: l3s3148p1@CwbEWBM+JqsgAQnoAEvNAIPWyJz1dhzG
-Date: Fri, 5 Sep 2025 22:04:34 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	linux-arm-kernel@lists.infradead.org,
+	 Content-Type:Content-Disposition:In-Reply-To; b=WE/KPAaIsQUtL39+r9cODrCS/NfgBiVrt7vSuY3fQBsvHTD6KmS1uCKHMdhQowfXiIV02M1qgvaXz19DoQvFbXafo4WUxhWTykgi7omaGpiTE/TRfXaI0sR/XQM7c5hR/TpIj8Ea6/qN2+SVsm4R2wZluakE1H10GQsdyxNICWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ec9Z9Z+L; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-24af8cd99ddso33271255ad.0;
+        Fri, 05 Sep 2025 14:07:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757106466; x=1757711266; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1OraY1KDXG5tLpby1/MhWp3WoQzDbT9BWKJqTltJE2A=;
+        b=Ec9Z9Z+LbuapUdDoYXfnqUM6p0W9JlcMSre+8MnlE1jdagKpb9qpJNFW4FezL63k6h
+         OSpni9nUXMJAw+d0ZhdfDEmpQsBFyRdWzEx650Ajp8HFslSso7YBEtkY1GU+nNan5jHK
+         ZZtsMZ30hDo67QYC/f2oTBk1d0DeajEP/fk/ATJAk4iVKjjQLWi2+wpfehKKIQEefzhw
+         5cEwnhVEcCD39r0oiAPglqxIyMz+dkLBA9w1hKaewrOFZTN1wyrEJ65XIG5CS/6r1IL7
+         zX2gp4fC2H3HCmFOXw2iNQahRd7G37qR1kWIDF/S110fMLgSUwaz43EWcGQSlyB/HMh/
+         jBdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757106466; x=1757711266;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1OraY1KDXG5tLpby1/MhWp3WoQzDbT9BWKJqTltJE2A=;
+        b=pkucLRK1/rV3LDJW2CbIIqeWlRAtL9jLCIAiuyyEc3cKUl5vfibg8NRhLj95mOiZ0j
+         cnts6j9j/qPkkvQpVjyWtFsRViqT2EcvNyL+r0AiH0ug8DiCnFpm02elY5c4bjHlUIq0
+         aHnJtYBeyhGj6o+kun6Zsu4ivAoaNTtg5QeSbve2ZOBO6+Jo/dR9WRCsGQysYwTekPU6
+         BwHJ80yn9ao8IwJXgM7mIYCxaEEUDRDcDWFxotRqgKBNj+CVycZUIrY11Xnhj7oxtnIA
+         Slg37PFjJnnqfdZDytGkBmE4m2O5E1bqtnkPf/4wsU2576O2BUsV48vpZnvlCie3iu8p
+         FTSg==
+X-Forwarded-Encrypted: i=1; AJvYcCW1zbpT9OB9Dmsb+d+6o6rDxAEFwzUxV/apy6YuNvFwDeLgezk2nwkBhP/sEHgn0x4ITKBKeaPST++6@vger.kernel.org, AJvYcCWjPcmR9IzDouoiyY1DnnSqq0XCzPCQjyXjF8k3qKMh13/QHSFG6WnjAu4ONr5pwAv/QafWGg2ngKw15jmYdY0YDik=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyFpcmLmsDOa0LAXmfn+KqPM1Vp7JB9sVwynVg8z0kQX68o7eFT
+	hggb0AozE7jHnSLqDEGIl1ta9r4OuWo00Voj7uXDJ7jVJmSxjsYAAPAZ
+X-Gm-Gg: ASbGncsSLVQapmbWIGW2WO18jq6jak1JS81EMKeZW5kH6/DQV7TWCItCkH8a/97CBjh
+	iuJ4aupUwU7EVLYrXHfUiqOyfB1P3oa2nuJUeNPYuJ0TVZF8hhumihDKjejmELU39ysGXeZxiE1
+	0HX2pNPEL8M6MzvAuTi0uTkP3/1f4iO9+WvwXfl0/bEOLcwfqD/34dheLaD7YW/3AuhFggbncY0
+	Zqu2tShYXpwfj+JDD+s0Kj1S4plM/itnrnjGXcAMiZXUPqdVtO6Cwx0o+LbOe5P2y693PtPwGqT
+	5OdLzh6z/aqhhpMPxLqk2KmJGMq9ZJaGC3tYF3/HBCUcI8RL4B48al1AFzixq9QwaKrK1SBRhnN
+	eONMev8YAkIJRnbok0dwTuCJDMm7Jhv89Hxn8UgTdWa8UPA==
+X-Google-Smtp-Source: AGHT+IGS+ZDno32/glJ5EVArsVb5yN5iCNRV9PGoMVaxuwRlAOth3oklD9GFJuwyHCCgQsE7qY0Ysg==
+X-Received: by 2002:a17:903:2b03:b0:234:b743:c7a4 with SMTP id d9443c01a7336-25171cbfd83mr916675ad.38.1757106466161;
+        Fri, 05 Sep 2025 14:07:46 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24ccfc56e7esm46452545ad.58.2025.09.05.14.07.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Sep 2025 14:07:45 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Fri, 5 Sep 2025 14:07:44 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-hwmon@vger.kernel.org, Akinobu Mita <akinobu.mita@gmail.com>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Jean Delvare <jdelvare@suse.com>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2] arm64: dts: renesas: r8a779g3: Add Argon40 fan HAT
- DTO to Retronix R-Car V4H Sparrow Hawk
-Message-ID: <aLtCUoIPSFfYb-k7@shikoro>
-References: <20250905020149.257459-1-marek.vasut+renesas@mailbox.org>
- <aLrXzl38OUhTJgxP@shikoro>
- <273d5067-4c9d-4c8c-8633-7f2d7c708216@mailbox.org>
+	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [RESEND PATCH 1/2] dt-bindings: hwmon: pwm-fan: Document after
+ shutdown fan settings
+Message-ID: <7c2b7c73-1955-497b-81f3-3b31c1f1f2f7@roeck-us.net>
+References: <20250904202157.170600-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -68,55 +95,19 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <273d5067-4c9d-4c8c-8633-7f2d7c708216@mailbox.org>
+In-Reply-To: <20250904202157.170600-1-marek.vasut+renesas@mailbox.org>
 
-Hi Marek,
-
-> > > + * r8a779g3-sparrow-hawk$ grep -H . /sys/class/hwmon/hwmon?/name
-> > > + * /sys/class/hwmon/hwmon0/name:sensor1_thermal
-> > > + * /sys/class/hwmon/hwmon1/name:sensor2_thermal
-> > > + * /sys/class/hwmon/hwmon2/name:sensor3_thermal
-> > > + * /sys/class/hwmon/hwmon3/name:sensor4_thermal
-> > > + * /sys/class/hwmon/hwmon4/name:pwmfan
-> > > + *                       ^      ^^^^^^
-> > 
-> > For me, the output looks different, though:
-> > 
-> > /sys/class/hwmon/hwmon0/name:pwmfan
-> > /sys/class/hwmon/hwmon1/name:sensor1_thermal
-> > /sys/class/hwmon/hwmon2/name:sensor2_thermal
-> > /sys/class/hwmon/hwmon3/name:sensor3_thermal
-> > /sys/class/hwmon/hwmon4/name:sensor4_thermal
-> > /sys/class/hwmon/hwmon5/name:pwmfan
-> > 
-> > hwmon0 is the Argon, hwmon5 the (unpopulated) on board connector.
-> > 
-> > I hope the naming is stable, but in any case, the docs need to be
-> > reworked a little, I guess?
+On Thu, Sep 04, 2025 at 10:21:09PM +0200, Marek Vasut wrote:
+> Document fan-shutdown-percent property, used to describe fan RPM in percent
+> set during shutdown. This is used to keep the fan running at fixed RPM after
+> the kernel shut down, which is useful on hardware that does keep heating
+> itself even after the kernel did shut down, for example from some sort of
+> management core.
 > 
-> The hwmon devices are allocated first come first served, so the list can
-> look different for you. You need to look up the fan you want to control, of
-> course. Look up by name is simplest, if there are more fans, it might be a
-> bit more involved to find the right one.
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-Exactly. This is why I would suggest to drop the '^^^^^' line from
-above. We definitely have two pwmfans with the above dtso. So finding
-the right one needs a second look anyhow. And while I think it is quite
-likely that the list of hwmon devices will look the same (I don't see a
-race condition which would make hwmon0 and hwmon5 swap), I agree we
-shouldn't rely on it. I would also think that we then maybe should
-change
+Applied.
 
-	echo 2 > /sys/class/hwmon/hwmon4/pwm1_enable
-
-to
-
-	echo 2 > /sys/class/hwmon/hwmon<X>/pwm1_enable
-
-or something? What do you think? Just suggestions, I am not really
-insisting. Well, maybe, about dropping the "^^^^" line ;)
-
-Happy hacking,
-
-   Wolfram
+Guenter
 
