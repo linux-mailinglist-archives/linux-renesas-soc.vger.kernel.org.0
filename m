@@ -1,125 +1,79 @@
-Return-Path: <linux-renesas-soc+bounces-21476-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21477-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FAB0B456DC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 13:50:55 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 546AFB456FF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 13:57:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4CFA6188CB76
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 11:51:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 48FE07AADDF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 11:55:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95154346A07;
-	Fri,  5 Sep 2025 11:50:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC11334A31F;
+	Fri,  5 Sep 2025 11:57:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="r62uWWWh";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="W6wzAmKE"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="sD2hx1nX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCF3F32275E;
-	Fri,  5 Sep 2025 11:50:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D91220F37;
+	Fri,  5 Sep 2025 11:57:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757073053; cv=none; b=ij6xlVY0zEsDM1HXFGNGrH4xILtekP1v5NWsZCSwNcJPnV3ZYiVtHl/AjX5ood/hLL9zsWZqTenF1bm/W5XhsU2IJR3GEQ/zcLoGDRKpisnx4Gzc+BybnYInZ6ZeGl7MofFm1IQbuOygrY3WNcqKXi1J2asKNZOeSgGJLkpedDU=
+	t=1757073441; cv=none; b=RG9YFwOByMalIL/Wo1Dt9JK01jyaiC8P3u++uzcL59n+3/dUiIvNMJ+FLleRFBfZVltb8Lv2LyOG7baR/T4CiHRfhPgzJAAqewiNQCYYqJwzL9bHX5N1LVcVCeyE/oT8BAqXXo8QuktOBLc0X7MMu1JwKtfPxvxQkC1n9712Boc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757073053; c=relaxed/simple;
-	bh=tcSEN58BXjNM5vZbAs0QFk1JcSFB+ZzKPWZNLOR4fuQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=u+5C0XKnXc+jcKIXXFrBGLDsSROrTKwWnkUIC9HQJi3tlLi840OuxlrqY2buFM0bInMwQFGlmesrc4hhQ6y5JcKNPikUwwY1u+7pGyw8TVq4dwtPeJyDsNCGc1JsIBOu9dDiwL1eFJ4iUpKyeVwgr8UmUrnnDm7RBsimJoH4YeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=r62uWWWh; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=W6wzAmKE; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cJF6K5HQ3z9sps;
-	Fri,  5 Sep 2025 13:50:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1757073049;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZGW/ungxqDBJW9YXMQpQD4nhCcnvrpn3JZwjvrh6Cg0=;
-	b=r62uWWWhiP+/TNFM9ojD9hGOynWoFijOzN0tq8G8HZ+DH/2n3Pw/zLcSbKG1tuQh15S/4U
-	vYHUt9u0M4vxS4Lq7D8jIFgpMuguuMGAPnhJw8KSZ+G6B9xywnWbwIDYMK/6KZxCREjcaD
-	MKufHBi/U2WL0I1I3TjEoiiyl94sFHp+EVJVYSZ2JklUhf8m7dZ13fEFrFRyeaf1CPAvE+
-	MHbJOB2FZd/rW3nFItO7Y9ArvnRYCanrtJD8CEwe8fmifsMQjjVJcFYJHcwcr/AjTRG7bp
-	VPeACTxdXHSuSPuRELq2FzUw2tlmD4Gn76UvfqMVzpFVG8KyW+c3s8lg+RJGKA==
-Message-ID: <82c9133b-050d-443f-afa5-31cb31c9e858@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1757073047;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZGW/ungxqDBJW9YXMQpQD4nhCcnvrpn3JZwjvrh6Cg0=;
-	b=W6wzAmKEzXq3BtGTj/djFy2owFTO21A6RLHkXJCc369J1pED64e2IMAZ2sgP7OuQuRnt5r
-	WHHY5XizfwW1eW/pLMK86HCW2NduJZtzCbja5jq8dHi5sggtmtnxsqYU/8D3Y32h89/f9O
-	wB1widfF2KK8Tqvc82m2OEvFrVAat8IkoDTKtfAktnAFmxOvH9Hmwyjw7Hc2D2BBFeg3JP
-	eLMFpRXPa4YDeq/QB4uYG2U0y8zq64tcIc+E3DmbbL/tWwN7EqTd00Ee6HMJ5AYnMSTzOZ
-	cYOc13vzgnETEEBeLQIKQZPdrTtWV0z8y4JhvqwlPWw+sKx9fLkYujfpzG2f7g==
-Date: Fri, 5 Sep 2025 13:50:45 +0200
+	s=arc-20240116; t=1757073441; c=relaxed/simple;
+	bh=pcLcfsenlsbQqyhif/rjlPxcd+aY9qObPnN6hxaX3+8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BzTA6B/D8bcvsB+Wxk8Tycn4pIkNbEClesiP3WkD0TyLDj/NJd5+fci6kx/uYZ1x+f+USF+B0o3keGvMTeuap5HYnmgFQqreRkcK9bpCCnuAk5QwRt0T9AVwGNF3u7L6UTPK/NuwtfzsLe6iMGqpLLiu2bKFNrmzNINtCkCy4Wo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=sD2hx1nX; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=FFWcbo36EERWGu8vswNHfEQ8IMpnr4yCjxikNwrrxkU=; b=sD2hx1nXdpQDVjqgkQoKm7gLQh
+	tbEvMBt7LbupdavnczvTWofauFXCQ6FTXt53TAas+nCgIUWLIcLSInwdd22lSP5ldr4fkmQkTeojg
+	N4eTtNuuEPutf4TX47znd0bCcMDPUSiVyYJeRlk7wpypIXTzC9164QZQZm67ph5e12as=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1uuV3x-007LMM-61; Fri, 05 Sep 2025 13:57:05 +0200
+Date: Fri, 5 Sep 2025 13:57:05 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-sh@vger.kernel.org
+Subject: Re: [PATCH net-next 2/3] sh_eth: Convert to
+ DEFINE_SIMPLE_DEV_PM_OPS()
+Message-ID: <c1f6fb82-9188-48ed-9763-712afa71c481@lunn.ch>
+References: <cover.1756998732.git.geert+renesas@glider.be>
+ <ee4def57eb68dd2c32969c678ea916d2233636ed.1756998732.git.geert+renesas@glider.be>
+ <082d5554-7dae-4ff4-bbbe-853268865025@lunn.ch>
+ <CAMuHMdU96u41ESayKOa9Z+fy2EvLCbKSNg256N5XZMJMB+9W6A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] arm64: dts: renesas: r8a779g3: Add RPi Display 2 DTO
- to Retronix R-Car V4H Sparrow Hawk
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Magnus Damm
- <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
- devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20250904202838.172579-1-marek.vasut+renesas@mailbox.org>
- <CAMuHMdWnusjKE8FNQWX-0arcdbV-18KTCHKZmhs5r5kRXn46ZA@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <CAMuHMdWnusjKE8FNQWX-0arcdbV-18KTCHKZmhs5r5kRXn46ZA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: 3wqf1r8wd9xns1m3kdf8exxcee66ncs1
-X-MBO-RS-ID: 82a828f7ef46ba3f18d
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdU96u41ESayKOa9Z+fy2EvLCbKSNg256N5XZMJMB+9W6A@mail.gmail.com>
 
-On 9/5/25 11:25 AM, Geert Uytterhoeven wrote:
+> You cannot enter system sleep without CONFIG_PM_SLEEP, so enabling
+> WoL would be pointless.
 
-Hello Geert,
+Yet get_wol will return WoL can be used, and set_wol will allow you to
+configure it. It seems like EOPNOTSUPP would be better.
 
->> +++ b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2-7in.dtso
-> 
->> +&i2c0_mux3 {
->> +       #address-cells = <1>;
->> +       #size-cells = <0>;
->> +
->> +       mcu: gpio@45 {
->> +               compatible = "raspberrypi,touchscreen-panel-regulator-v2";
->> +               reg = <0x45>;
->> +               gpio-controller;
->> +               #gpio-cells = <2>;
->> +               #pwm-cells = <3>;
-> 
-> make dtbs_check:
-> 
->      arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2-5in.dtb:
-> gpio@45 (raspberrypi,touchscreen-panel-regulator-v2): '#gpio-cells',
-> '#pwm-cells', 'gpio-controller' do not match any of the regexes:
-> '^pinctrl-[0-9]+$'
->              from schema $id:
-> http://devicetree.org/schemas/regulator/raspberrypi,7inch-touchscreen-panel-regulator.yaml#
-> 
-> I noticed you posted patches to fix all other issues in DT bindings
-> triggered by this series, so I assume you just forgot to post the
-> fixes for this one (which you authored ;-)?
-I think the following patch handles this:
-
-[PATCH] regulator: dt-bindings: rpi-panel: Split 7" Raspberry Pi 
-720x1280 v2 binding
+	  Andrew
 
