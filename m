@@ -1,127 +1,116 @@
-Return-Path: <linux-renesas-soc+bounces-21496-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21497-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B39D8B45B53
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 16:59:29 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC984B45B63
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 17:01:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9B2943B8745
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 14:57:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 61DCF5E0087
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 14:58:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA544306B0C;
-	Fri,  5 Sep 2025 14:56:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82E2F2F7AB8;
+	Fri,  5 Sep 2025 14:58:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hPPiVFth"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gNy9tD/9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28805306B09;
-	Fri,  5 Sep 2025 14:56:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5AD01DDA24
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Sep 2025 14:58:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757084212; cv=none; b=Hftx3IpUGD4wkFvjsCP58GbL3Pr+8WuP7NuiR2LTLmFKBRF8AQ8hCJWXkyvmKf3DSw50W3eSPlIE6noWpmVQ+8WidCrwV8AMUGrXVkIe+5OEQ2G2dj/Xw+uot2yBmE1xO94HQIslcKwlDly3q14a27ERos66CHv0b/AjggeDT+A=
+	t=1757084307; cv=none; b=HexQpZef8gywAMgHka/1/724LvBKExLlq8YZJiIWJ3o+of0YqkSuo3Qt8IarGUx7gYE4JPVD/loKpNlOjibYjfUAa0gJtr8BvWu2hbzpUzWWvUKz0/mIf/DqCYlZKuhruv3KvFgnW+NqjssblQD/5ooHBj/az6ytX6OmHMHWLGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757084212; c=relaxed/simple;
-	bh=JlwXV/L/hClHvD7YWhLZeiEniwCDQZ1JCrzhPBP/dIk=;
+	s=arc-20240116; t=1757084307; c=relaxed/simple;
+	bh=G56oMzOjsYVrjlf9HgLRUbAv1aA5ITWzZQDv2p0HDok=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=emXaJ7K3Za4/M/jf98t7qMw7SuvQHs+9+6ijvit/Cb6GQKvBuPgfAWcHuumQf7FpD0uBrCR1p3io+2XjplfBK0hdsHXjJHR4FbMKCxWkwEVRWuQyPsWgKNw6CzmWCZ6/gJa7vLfNb2s5cSfJXnpj8olEhHuYiiZEHcEqqgKCgJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hPPiVFth; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 3D2D682A;
-	Fri,  5 Sep 2025 16:55:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1757084138;
-	bh=JlwXV/L/hClHvD7YWhLZeiEniwCDQZ1JCrzhPBP/dIk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hPPiVFthoXMl9ggsG3F5UCziYypUHP4z1sOmbV/9PPoUtQFzHXbWgBLavL2wIc/zd
-	 kxdTorcTQPmKVLLbpUy5CpPoTBXcq5N/ev9Bn4IiNHS+uA2RgUn1rPBJlrU2FT3OHA
-	 WnjL/MOTZqtLU8umJ72Ol2JGgdfvSOEkJcW9cO+g=
-Date: Fri, 5 Sep 2025 16:56:27 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+	 Content-Type:Content-Disposition:In-Reply-To; b=neM5MRB5NONQGtAB2pyOSNwyJfQSWHT02PU+04VBIZNcS4pJscRW9CqdppCxNOs76mb+n+LwuG3uAPxd5oNUhkhBs93sKOqg5SlP/Otr95k6/CEQ+DWGCyCVHFAa4BH7p0EAuPNtLQf2Nop2pDZ68FvTjXYJ2qbgaVZecMLR5V8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gNy9tD/9; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1757084304;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8sWmtjiwnBLMCNvHDa+POELZazfSy48Vst2ZjiMCgD8=;
+	b=gNy9tD/9qoZn5TGsep5PLHjr6Uo99AJZypF4HbLE3cve3rM+7RX0iLHeJsEULg4oowCHqv
+	vhY/z59Whka20eNbp8U5FmXyEzubNvL7fn0xEzluN0YAd1gVJGup/cyGjl1DAzh9R3hnW0
+	EbPNPMYIWm11n44hFNVXyLuX35v9fu0=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-681-ZUrjb5mCNRG926gVA5WLFQ-1; Fri, 05 Sep 2025 10:58:23 -0400
+X-MC-Unique: ZUrjb5mCNRG926gVA5WLFQ-1
+X-Mimecast-MFC-AGG-ID: ZUrjb5mCNRG926gVA5WLFQ_1757084303
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-804512c4373so456742185a.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 05 Sep 2025 07:58:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757084302; x=1757689102;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8sWmtjiwnBLMCNvHDa+POELZazfSy48Vst2ZjiMCgD8=;
+        b=SQtmotgxfd5nR5KUYzhNDJuvVAYOVre60itHgTxttdcRO9CYyTSfC8cSF0oO4jHgdA
+         /ywnix3EV3KOrxFKgnf6zjUZ36ToYY7VaznawNaox/dyMtuQlsKBuVIxDgFcv7FqlU9c
+         kxV9B7K1KgbfNS/SPYU/qPIzc67sAKi7KfomfuEcqtT2AIdiwjs86j1wgRdlalTMQcMP
+         6s+I6Vo0yM1jin8igP0SLTKmJhWtH3dOX3eO2eocAHso3sNHo6jk00CguHHYLmTJOGxz
+         ebU6l/Qgh+AjPpDdFgTfpeXtQLo8HtckyHARJI2qfvhFwIUX9KdwO/SAt1KvBc6kLlWW
+         1Jdg==
+X-Forwarded-Encrypted: i=1; AJvYcCV68B9QZJ/R53MV7Z1/wSoMg/C+vTiKsfyx2k41oL51QPc57frmSeYUyVzCI17NTi2uTVJDiugdBnQ4Rj4807cXGQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWxn8SDjlZ6WTWHbp6uMg8qro+nxL08AVCLmBCoM+tQQYCJ/Qq
+	Y9aNH+jqnfq7Ha5AIxUOX2ugelUlJTG9d6rj1cI6bgARjW/HZ1HEmlVTNXYMMOSiyIE07GK8nOV
+	2PZYJBK3srJ330h2OmH5E/63draihOYar7jiCD5VlHPlj3n275Vlg+1GeH94wROCKZgAJwNvd
+X-Gm-Gg: ASbGncscjI9fckvAhpRHwrRHG+tRwlJnvxGzYSgOihkD/c4CePCe70/+5/MDViGuBbf
+	sWQTqPJrtQ2Nm8NJiv0hEkq5MPXSKTypX9dB4z9o/eiPiJXQieP7nlos1liRhIV2OzW4g5nqzXK
+	yMLUA3fFq7fVqCwzj3wG9greC05gUBjpR29TB/7ShqgBvf++wPLG1J88VueX7P+IoQFIutggg6y
+	59tND8HgezObvsDbh6w+2RHfpXevP2pIGIX4PZWokwlrr3iK+x81vqy+h4twFjGNWe6ZkuVU0Te
+	7Ghu4444drgA+xOCA5/aR71uH304gx8H5z9VW2YCdtoHOI6L6ds9mXacfwtsky39S77Rf/A+ZQV
+	Ppp/Otlx5lKj3c3sB/tQ=
+X-Received: by 2002:a05:620a:2585:b0:7f2:d9d3:f5da with SMTP id af79cd13be357-7ff284b1c36mr2949666385a.33.1757084302588;
+        Fri, 05 Sep 2025 07:58:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHRAz5VwtsVUROYHU2rQWET40PGS5RQKqxfBOTI59DzOUvzzQv/XtrECGGTQvfuYUXLNygGQQ==
+X-Received: by 2002:a05:620a:2585:b0:7f2:d9d3:f5da with SMTP id af79cd13be357-7ff284b1c36mr2949663185a.33.1757084302145;
+        Fri, 05 Sep 2025 07:58:22 -0700 (PDT)
+Received: from x1 (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-80b65dea673sm436066085a.71.2025.09.05.07.58.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Sep 2025 07:58:21 -0700 (PDT)
+Date: Fri, 5 Sep 2025 10:58:19 -0400
+From: Brian Masney <bmasney@redhat.com>
+To: Biju <biju.das.au@gmail.com>
 Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v5 0/4] arm64: dts: renesas: sparrow-hawk: Add overlays
- for camera sensors
-Message-ID: <20250905145627.GC6549@pendragon.ideasonboard.com>
-References: <20250905084050.310651-1-niklas.soderlund+renesas@ragnatech.se>
+	Magnus Damm <magnus.damm@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH] MAINTAINERS: Add entries for Renesas Versaclock {3,7}
+ clock drivers
+Message-ID: <aLr6ixZr4Lek5p9X@x1>
+References: <20250905143441.7082-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250905084050.310651-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20250905143441.7082-1-biju.das.jz@bp.renesas.com>
+User-Agent: Mutt/2.2.14 (2025-02-20)
 
-Hi Niklas,
+On Fri, Sep 05, 2025 at 03:34:38PM +0100, Biju wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+> 
+> Add entries for Renesas versaclock 3 clock driver. While at it
+> add myself as maintainer for versaclock 7 clock driver as Alex's
+> email address bounces.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-On Fri, Sep 05, 2025 at 10:40:46AM +0200, Niklas Söderlund wrote:
-> Hello,
-> 
-> This series adds a couple of overlays to verify the two CSI-2 busses
-> exposed on the V4H Sparrow Hawk board. The two busses are exposed on two
-> connectors labeled J1 and J2 on the board.
-> 
-> The first set adds overlays for the IMX219 camera sensor, one for each
-> connector (patch 1/4 and 2/4). A Raspberry Pi Camera Module 2 have been
-> used to verify the proper operation of the overlays.
-> 
-> The second sets adds overlays for the IMX462 camera sensors, also one
-> for each connector (patch 4/5 and 4/4). A DFM 36SX462-ML camera module
-> have been used to verify the proper operation of the overlays.
-> 
-> The reason two sets of overlays are needed is that the IMX219 uses
-> 2-lanes CSI-2 D-PHY bus, while the IMX462 uses a 4-lane CSI-2 D-PHY bus.
-> To be able to properly test both situations on the board each sensor
-> needs to be able to connected to each of the two external busses.
-> 
-> Obviously only one sensor can be connected to J1, and one to J2 at any
-> given time.
-> 
-> See individual patches for changelog.
-> 
-> Niklas Söderlund (4):
->   arm64: dts: renesas: sparrow-hawk: Add overlay for IMX219 on J1
->   arm64: dts: renesas: sparrow-hawk: Add overlay for IMX219 on J2
->   arm64: dts: renesas: sparrow-hawk: Add overlay for IMX462 on J1
->   arm64: dts: renesas: sparrow-hawk: Add overlay for IMX462 on J2
+Reviewed-by: Brian Masney <bmasney@redhat.com>
 
-For the whole series,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-Luca Ceresoli gave a talk at ELCE about DT connectors. You can find the
-slides at https://static.sched.com/hosted_files/osseu2025/7f/ceresoli-elce-2025-hotplug-status.pdf.
-Once that lands, camera overlays could be greatly simplified. The
-overlays will need to be split in two though, with the part that enables
-the SoC IP cores separate from the camera module overlay itself.
-
-> 
->  arch/arm64/boot/dts/renesas/Makefile          |  12 ++
->  ...8a779g3-sparrow-hawk-camera-j1-imx219.dtso | 116 +++++++++++++++++
->  ...8a779g3-sparrow-hawk-camera-j1-imx462.dtso | 117 ++++++++++++++++++
->  ...8a779g3-sparrow-hawk-camera-j2-imx219.dtso | 116 +++++++++++++++++
->  ...8a779g3-sparrow-hawk-camera-j2-imx462.dtso | 117 ++++++++++++++++++
->  5 files changed, 478 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-camera-j1-imx219.dtso
->  create mode 100644 arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-camera-j1-imx462.dtso
->  create mode 100644 arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-camera-j2-imx219.dtso
->  create mode 100644 arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-camera-j2-imx462.dtso
-
--- 
-Regards,
-
-Laurent Pinchart
 
