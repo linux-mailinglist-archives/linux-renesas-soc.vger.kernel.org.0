@@ -1,77 +1,118 @@
-Return-Path: <linux-renesas-soc+bounces-21447-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21448-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2C84B45120
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 10:18:39 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 790A3B451B6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 10:39:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9703517C32D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 08:18:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CBD727AAC32
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 08:34:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7838D25C81B;
-	Fri,  5 Sep 2025 08:18:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D07A27814A;
+	Fri,  5 Sep 2025 08:36:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GjPcgtFl"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uxtdLKbO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5045B13E898;
-	Fri,  5 Sep 2025 08:18:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23C827703A;
+	Fri,  5 Sep 2025 08:36:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757060317; cv=none; b=dHbwJAYRYUVjuJKx7igHajEKGjyyQb4DfZYRNpaKFTdrxqS+uTup3WzxqdDfxkROEygYJoe4pNCh3D2SA1tnOVQKYjhAZjnc5VBz5i6Pbjfk3RctSJd/zD2EtjtHLzEp99wU19v1qCHUb3z3GYaNl334qZaO26LfrfKj5jXVbeY=
+	t=1757061373; cv=none; b=TuNvYwBhXPwga2wO33qH4PfK2KegtMfFDdHmefDgsG2k7Eg4vTixWWikbnacN96dHLdY3xA+fMsyiICZsv538A1GfVs4TheD4iptd4cIrFpYhaP87ci1DGn9Scgd1oYxsVyulrISLnxeu8RcBNVtPgq9S2Fq/UhlZ4sAUJzDZUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757060317; c=relaxed/simple;
-	bh=3wk8a+bIggfZCsBMSScJxPqeod2bkxkOOu/xeePXKrk=;
+	s=arc-20240116; t=1757061373; c=relaxed/simple;
+	bh=V7/EAn8jaMlmHdrA05TRUPE7bsaZ2a3gZv/phaAV6/E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O1ZTT/ozfcVcy+T1hLbJXkiwkXxA7sq1Zp4ux1+vgYS02ypPiFCYOfbMB2xU/wGTNzoFqZWHKXZdkNegZra0BcDTIYZHtO60keUcejzvkOdshOAep1gIyjVvnxc6nIONUuxT00cIeRgw8v2qrhw+y25ex+c0er56M9JTSDKgw4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GjPcgtFl; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B3B4C4CEF1;
-	Fri,  5 Sep 2025 08:18:36 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=sIXXlwZQL7bB/4vxI3obnEim4cYgB+mGi8NRAKBp4LEdcUt0bP7JREF7J8uIHChPQa1teCjs8+JvzI37t7NCAH5ht9YxiATzw6yx709qrioQVwVOprXDaTlPznmD01IFrLB7oeeYSoruX5z6GzhLnztS0hKNV3+ZjRJzMgNelgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uxtdLKbO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5515C4CEF1;
+	Fri,  5 Sep 2025 08:36:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757060316;
-	bh=3wk8a+bIggfZCsBMSScJxPqeod2bkxkOOu/xeePXKrk=;
+	s=k20201202; t=1757061372;
+	bh=V7/EAn8jaMlmHdrA05TRUPE7bsaZ2a3gZv/phaAV6/E=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GjPcgtFlOi6WtfNtIwSvFSk3c9z+w8/0Hc4MJivYNhfDzDC+eYLrIv4ZNo34k4eY8
-	 5ht4IKTV8iv7YfK0eT683kvOapKkdyk7djEUhkNMevsDv9Y4t2nCP1R5zrd9/585RZ
-	 HPdZljbk7Ooa+upSTmWDKlxRgdN662Bwss0Exr1NGPiJwHoFs/Jj9B45oqKiUZqVtD
-	 HPlfL0Ojy7I1D5LAlzkYBh32nWFinRdqysw/svAAZHvFeNSyehuV3iDAqDLhPPAPjO
-	 a8eTfO4D5XuHFOTdeuQHRfWl+sc2EiFqKJX8aiZ7gtrZsX+M0k96b9LRON6jWRyB/2
-	 +19v4q8ARIfqA==
-Date: Fri, 5 Sep 2025 10:18:34 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: dri-devel@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, David Airlie <airlied@gmail.com>, 
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: ili9881c: Document 5" Raspberry Pi
- 720x1280
-Message-ID: <20250905-classic-hairy-camel-44847f@kuoka>
-References: <20250904205743.186177-1-marek.vasut+renesas@mailbox.org>
+	b=uxtdLKbOm6gQA5dxJLUkyMcvjH57/zuNzj3SwEsHIq1i8Ygga51zXTqw5xlAbABvz
+	 E1LO9WlGA6fu1ez6XSdMhCpCxVT3nfL4b3Pfi2pXIjHPphyWf6IPj4ZvTX0P6xMWO3
+	 dIRl8q1DSp3JBaBdmP7VIA+9hptrtMKTIlzBOLk8AYuPEaxBGGuAHhPuKhmXTUn2Gp
+	 MVFPtURnqHIjvxVHBBig9frV9lQ6FFCMKaWkjrBWOwbHz0iaMpnqMn1z+x2OEQZX7/
+	 QsF8dwY3gHyV5jFVDjivP7RCOa4ulSlHW4bHAmeRQ6J7Xz1u2lrsJkJubwNrwiqFdP
+	 bOojNUre39uxA==
+Date: Fri, 5 Sep 2025 10:36:07 +0200
+From: Niklas Cassel <cassel@kernel.org>
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Damien Le Moal <dlemoal@kernel.org>,
+	Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	linux-pci@vger.kernel.org,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>, Frank Li <Frank.Li@nxp.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Wang Jiang <jiangwang@kylinos.cn>, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] PCI: endpoint: pci-epf-test: Limit PCIe BAR size for
+ fixed BARs
+Message-ID: <aLqg90KqEJ8wSEPi@ryzen>
+References: <20250904023753.494147-1-marek.vasut+renesas@mailbox.org>
+ <b3d5773d-c573-4491-b799-90405a8af6a9@kernel.org>
+ <aLmGBYOVevP5hH0X@ryzen>
+ <1jplc54aoc.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250904205743.186177-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <1jplc54aoc.fsf@starbuckisacylon.baylibre.com>
 
-On Thu, Sep 04, 2025 at 10:56:56PM +0200, Marek Vasut wrote:
-> Document the 5" Raspberry Pi 720x1280 DSI panel based on ili9881.
+On Fri, Sep 05, 2025 at 09:32:03AM +0200, Jerome Brunet wrote:
+> On Thu 04 Sep 2025 at 14:28, Niklas Cassel <cassel@kernel.org> wrote:
+> >> 
+> >> I think this can be simplified to:
+> >> 
+> >> 		if (epc_features->bar[bar].type == BAR_FIXED)
+> >> 			test_bar_size = epc_features->bar[bar].fixed_size;
+> >> 		else
+> >> 			test_bar_size = bar_size[bar];
+> >
+> > +1
 > 
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> It's what pci_epf_alloc_space() does too. so it makes sense but it also
+> means the side must stay aligned.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Not really, pci_epf_alloc_space() will give you 'fixed_size'
+if you request size < fixed_size.
 
-Best regards,
-Krzysztof
+If you request more, it will give you an error.
 
+> 
+> If a rework is needed, maybe it would be better to get size from
+> pci_epf_alloc_space() instead of recomputing it ?
+
+The pci-epf-test driver is just a test driver and we can use whatever
+BAR size we want for each BAR.
+
+However, I don't think that pci_epf_alloc_space() can always give us
+a BAR size. Sure, for fixed_size BARs, there is only a single size
+that is possible. But for Programmable and Resizable BARs, there are
+many possible sizes, so which size should pci_epf_alloc_space() then
+return?
+
+And not all EPF drivers might be happy with an aribitrary BAR size
+(which is the case for pci-epf-test), some EPF drivers might have
+strict minimum sizes for a BAR.
+
+So, I still think this proposal is the best thing we can do.
+
+At least it appears that we only need to patch pci-epf-test.
+
+
+
+Kind regards,
+Niklas
 
