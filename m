@@ -1,186 +1,150 @@
-Return-Path: <linux-renesas-soc+bounces-21460-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21461-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E01D2B453F0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 12:00:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3314B453F5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 12:01:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F3C527A20C7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 09:59:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6F28DA60F4B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 10:01:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8F481E2823;
-	Fri,  5 Sep 2025 10:00:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC01828031D;
+	Fri,  5 Sep 2025 10:01:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MFxi6xLM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6C042A82;
-	Fri,  5 Sep 2025 10:00:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AABD3FF1;
+	Fri,  5 Sep 2025 10:01:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757066443; cv=none; b=SJToDhJUsthFBF66SOPIAYc04yFdz3/Txa6wra3sBTQf2ImJoZrTcCoons3JaGKgE9nsisoQABmcpwgfF/9sUBgGtRq1PQxeGT71Bvh/mGn88RBjHUULiLQI/YWp4q7CnJjnGbCLw7nzC2i/5KkDVL7RtuHhB8C85Ttq9ixpjow=
+	t=1757066496; cv=none; b=bvmeQrOi7ufd73WxvSjQ6NNqHBtFLcJUOL0VLQjyFEUBp1W2GXDBbKXlTDuiW35IRxzFabitEpQmb0L/zGF2RMHPT+fm8WzP29YSLh6DlMAIpVyK7a8sPQ6HSjPRcHv3QCaVa5BP9/TUHaQ6acTT6A0Pk1LrblgQ3NBxLfsbR+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757066443; c=relaxed/simple;
-	bh=fVhvQVGTOq1A/MBmXlxoc/2fLddkjNqzHFz1c1M4YfY=;
+	s=arc-20240116; t=1757066496; c=relaxed/simple;
+	bh=MI++7xSl6D0d/tvMOVR8S7KiVropv9tJ4R/VEjlTswc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GQLoE5ltOu5SGjSkwUjC1tL//O8t6WzBa77zVN/w6QivvNpGXnkPMrGE/CFcIWRscmtxKT/n0GyHF9Q9M5zjJBQVHbG/tEn4RfqUIDQX+AsYcu81vBJe9t6jetpnWv4IFLv/3m7CsYtN6cTmiYTxE/jOqbOjOeeo2MBtuHZS3CA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=Y8kIqibjSEcTNTkqgvkZpGI6TMTGzhR8swqqL5jb23J/PICYcWkJAqQ45VT+o6rPmVTryKtQemK3Yju5AZmyVUiGjBbMoPl7O4e6f9U3Xqn/ac/dCKex9eDRsbFKIO9eWk9faKMoKA/ZdMkW4Oi6J3Le2wdho9CTAbehNYcphvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MFxi6xLM; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-544c598b9a4so656632e0c.1;
-        Fri, 05 Sep 2025 03:00:41 -0700 (PDT)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3df35a67434so1097434f8f.3;
+        Fri, 05 Sep 2025 03:01:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757066493; x=1757671293; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZEQHjjB0tYa1N8cGqzOlMz/FwpV1lIEE+NTIQ2azOHo=;
+        b=MFxi6xLMluKxY3AWeLBVWv/03CFKPLqZ73AE5riExwYq5+9AdrBJ1nBPWd2pMCs21h
+         71OoMpqEfCmTNXI7z64LZsapHeqYl9CJ0v2YXAk+QjIpwtilDYd2A57etV2WhJGkZW9J
+         KwfU0aT28Yuo0e6yiSztEGyKGAjrunvllFQ3ewYnH2Fko34CpC/VqG82CDw7aaBEoS0h
+         P7tz5c0XTBJ88X4dxJf9PSOICnLuywlTMeU0bZBslqmzRBiZ00bURJltrFkmKcNlDn6T
+         B6Wnd9F/lZro477fffcSEOiBd8dqr2HByBLGnOgO1WE+aNPRANEPwwd0pv2X+4yXjjDh
+         usNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757066440; x=1757671240;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0UuxKQaYqkVCEKDR66TBlglNbbViMirsUqJ4RUaDj8U=;
-        b=xBIWtg/fclzcb5mZQ+WR6z61z2PsNyeKc1DOvrz7jFkfL8EH1bhrL9eGAsSk2D2m5e
-         qsTHswJJkPKIbC2AhN9n/Tdlf+t4n1T0s5nfnxg4+VVCi4Bxd+9ZNyhWeZ+GEFrVPxRh
-         dyHCOiPzJDM+CsQ1sHyc0sZSWTMUtuBGKJZDTZ5IGB+oaeX1mAGWUzOB4zDbaRLLJ0OY
-         MFEexHjLI/5zVF4Wk9WGA3YrbKFDdvvOWKkLACW+to9JL6+4fqQPoEM/eMHDouvmcsIE
-         gDb78q86UuVlsK2Swhtnoa9B/4yihkOZbd+n7dlgaAlj1pvlsnS4H/KdXnbgGIHZkCk0
-         gIKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVGP6kJGQrhxeipyOkHIbelBUFD5AP+4KyJTvT9N+5NJygyhWaNfLTwn5Uf8XqyBug/G0YtdCNRcygy@vger.kernel.org, AJvYcCVqYKMGzlknwaL1khRDm5zJ+DflV4vnR4f6ca3j+zeZ4BQRMEaz7MwicVCmYqGGu0WuygB1wf/VXlUgMo3Y7bkESQ8=@vger.kernel.org, AJvYcCX5YH8Rh45orDWEXqmDHUKv6w8ICtrf2k+T+wdDaq19z8E7mADKT636uuFZRX3sfY5mmlLIZ2N/5ltuFpZT@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3RZar0wSkmOwyle/ZYLEmM3F5PhpP5vJd8q/LW006LB18W9a3
-	VECkZM8LArkRpGCRWtaJpfD/PFAveE/tHh40FnxPuYGBlL1JBsRy6KDVefPEMfqP
-X-Gm-Gg: ASbGncvyNQRXM00AF4uIK3F2SsI43gy8bYlVkZbZ21MZqLCsGni1mR3MpJMwlSKQKR3
-	6k1v1HRS3ooNHylqsGU5XO+En123N/FGgMnaXfduSnFluvTXuJohNOj9wXzai+RAmmeY8MkueDp
-	yuIRTxYvlRqR+X3Q0VqO2SUhEdNoZhKlcJellWpHOTKmwQiasik4emvy5fLvifS2DSVQk/LM0W8
-	/UmrZUjTuxt3BOaEN0nlpyabozd1DWz99CEl0jGUPSvG7iV9iFKl8EU+ZEm3AKijquMhiG4mNS1
-	Az0yqRupKnOBiebrDKE21xtsH4lWyQc0mb6fYku8nmb03f4JxufxGuIleb0k0rg9GAi3EFMf1GH
-	9zm6+sy3AEWkQku++SLBuVIzrRDIMZxtLtRZEQG5h+UGn2B6r8CTnHF4EAP3M72L/0nvi7ik=
-X-Google-Smtp-Source: AGHT+IGZ+z94Csz+ZP4WtdLZ2Na95oYvSVK4TfhJie7x2bvY4uHcDoWI01iJFYjggGN8CrjGR0wDbg==
-X-Received: by 2002:a05:6122:3c95:b0:53c:6d68:1cd6 with SMTP id 71dfb90a1353d-544a02b3eccmr8128166e0c.16.1757066439726;
-        Fri, 05 Sep 2025 03:00:39 -0700 (PDT)
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-544a123e024sm7832209e0c.24.2025.09.05.03.00.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Sep 2025 03:00:39 -0700 (PDT)
-Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-89ea3532bfbso557430241.2;
-        Fri, 05 Sep 2025 03:00:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVcfURUtVgMyLM4SfgemXHelFEjB+WIY+Dtj3du4Lez8Pp7R7Ew4RuKoMDvf5e/khfNmr3kIjXwmQ74@vger.kernel.org, AJvYcCW9W2E5xCMdCwthYGMtrma5e5T5dHdObjyVSnOvu+Yq9G7OSUXan8JBxvNWH+wN9Hsn0KxjGEV7EPYsiDxzec2lREE=@vger.kernel.org, AJvYcCWmXpwDTZzUrK1yFCK/++E4GYXx0zs0QyjZvsxSYKGANnUCAj0mCmVCcwgemFC9fNfnf/Z57109rNw5bKKD@vger.kernel.org
-X-Received: by 2002:a05:6102:6ca:b0:523:863d:ecd1 with SMTP id
- ada2fe7eead31-52b19858b87mr7074466137.9.1757066439289; Fri, 05 Sep 2025
- 03:00:39 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1757066493; x=1757671293;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZEQHjjB0tYa1N8cGqzOlMz/FwpV1lIEE+NTIQ2azOHo=;
+        b=pJbgciep+1SAxmSQygJLZv3YDPcI5dHm2sS77Jpn0E37c/+fKbY2AwXHdg5fggLheY
+         zdzT9wR88dJh2IjGY1ogYGOsRWJMofo1uC14N8LsEYXShx5lO9S2bst154IotxPMlC4i
+         xEiPBsBRbP5ZrxNJUPKDnKwgZiKSLL6n325ctH1EGwmsZn4k8tPpv59OoTygleL+aMPn
+         dt7WP08aOQme+9KL44Z9WMPFxe+T7wTrmlcIVjUhD9vfDMBeJojokdYadHKvniRtsIVt
+         pFrW8pu4/y7RRUw0dhJ8IelihV3KVkGR8snoww3qYvsaA2npLIV7pXvlKv5CC94D0U5e
+         l7kg==
+X-Forwarded-Encrypted: i=1; AJvYcCUITINBq1fW5O5ZrgLGCiY/NnsaQ2ksT1Jq1fBKjE2zFHJmCc2buvYqU2lI7fHIyBxB1aHLekgR@vger.kernel.org, AJvYcCUPP1Yph9Yr+0TWs9qAT9GmYi8u+vx9rcfHIvr/wsArU+CPpPjZFmH5uBMJR07HYd+hzyFNWW6dhaMC03ci@vger.kernel.org, AJvYcCURvPxZyF8LmeNWr4B1kkQb+pkAOv/PsR84ls51B3yHx5admBEEq6N0Vx3EronXlkvjaid5ndIE6xsi@vger.kernel.org, AJvYcCXDelpUeUog4cy7Lfk3gu0v13WaFh2HFLYvh4UyiOewxa/cLIpXR7ubI/cTJH/MGCIgdsyEN8hbxsSrUq5B1jmhQOQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMNZxzMKfVnvhHpHbl0GSLvng4KHNBV6Bko9pHrzUhmwppGJNK
+	jLI9evPCAmXZ9TqyNmcjTd3QvuMnBrA8K7hxwqsMlwdH3t9yyJJkyMIJZ+XZCll5EtC5HsWcF+J
+	+ofr+iL9DddGRdIxMfMj92W4k7SubZtc=
+X-Gm-Gg: ASbGncvpeThzhS5hU8jSGnq6b4oK2pk5TPR4Keic1JkUYOb2ZrVKP3WMOFYRZuzairv
+	zFTOmSBzmAjjMh92MA0nVwIkvr2BPPsAyCNIcdCAdUYASiQV0oGgiw06Ggnksk5onZdxWg6CZma
+	AwmPFLGYu6ndvasTkfoVbIXzXQuZU+H8kHGN+RPPWqhjRMUsFaP75hMX5IYsQI4ONFlakpPFaFc
+	Yns44YvkDnEgZc1EPQbIisrZt6zTg==
+X-Google-Smtp-Source: AGHT+IENwDNnaA7LX8QdpGvHVZvc2cHkW8LLzE7YEDl4gIph1nAnHPcvvqrHhi6z/bmYC4D7PBM8OEiEwUc40Anwygw=
+X-Received: by 2002:a05:6000:2383:b0:3e2:6d96:b4da with SMTP id
+ ffacd0b85a97d-3e26d96bc68mr3684568f8f.38.1757066493047; Fri, 05 Sep 2025
+ 03:01:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250817143024.165471-1-biju.das.jz@bp.renesas.com> <20250817143024.165471-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20250817143024.165471-3-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 5 Sep 2025 12:00:28 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVxQ_Mm0qNwDfBM=L7juHzkXsWAW=r-Ff1T5BtyMNP7mA@mail.gmail.com>
-X-Gm-Features: Ac12FXxkAwwOeSZJNU4cPCmcn4B09o_jWUQpkRocOi7WZOFfnlX4yVY0x4yRRHA
-Message-ID: <CAMuHMdVxQ_Mm0qNwDfBM=L7juHzkXsWAW=r-Ff1T5BtyMNP7mA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] pinctrl: renesas: rzg2l: Drop the unnecessary pin configurations
-To: Biju <biju.das.au@gmail.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250904114204.4148520-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250904114204.4148520-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <021e970a-f606-4702-9f0e-b4b0576bc5d6@lunn.ch> <CAMuHMdVnhjA0xi+wojMc40Zmv_JBZpOm04GO_ewBSzFndbtegQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdVnhjA0xi+wojMc40Zmv_JBZpOm04GO_ewBSzFndbtegQ@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Fri, 5 Sep 2025 11:01:06 +0100
+X-Gm-Features: Ac12FXxIWUyvkEfUz4q5orurH6BJWRXeslXNcn11rYAmFLfl-aoQgiX5uzP0Hng
+Message-ID: <CA+V-a8unTSqBottT7uDGkSxDYpRAYnpZvRC2RKsm9M0rw09iFQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v2 6/9] net: pcs: rzn1-miic: Make switch mode
+ mask SoC-specific
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Andrew Lunn <andrew@lunn.ch>, =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Biju,
+Hi Geert,
 
-On Sun, 17 Aug 2025 at 16:30, Biju <biju.das.au@gmail.com> wrote:
-> From: Biju Das <biju.das.jz@bp.renesas.com>
+On Fri, Sep 5, 2025 at 8:02=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68k=
+.org> wrote:
 >
-> There is no need to reconfigure the pin if the pin's configuration values
-> are same as the reset values. E.g.: PS0 pin configuration for NMI function
-> is PMC = 1 and PFC = 0 and is same as that of reset values. Currently the
-> code is first setting it to GPIO HI-Z state and then again reconfiguring
-> to NMI function leading to spurious IRQ. Drop the unnecessary pin
-> configurations from the driver.
+> Hi Andrew,
 >
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-
-Thanks for your patch!
-
-> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> @@ -539,7 +539,11 @@ static void rzg2l_pinctrl_set_pfc_mode(struct rzg2l_pinctrl *pctrl,
->                                        u8 pin, u8 off, u8 func)
->  {
->         unsigned long flags;
-> -       u32 reg;
-> +       u32 reg, pfc;
-> +
-> +       pfc = readl(pctrl->base + PFC(off));
-
-As the read value may be used later, shouldn't it be read while holding
-the spinlock below?
-
-> +       if (((pfc >> (pin * 4)) & PFC_MASK)  == func)
-
-Please drop the second space before the == operator.
-
-> +               return;
-
-What if the pin is currently configured for GPIO in the PMC register?
-According to the documentation, that is even the initial state after reset.
-
+> On Thu, 4 Sept 2025 at 22:37, Andrew Lunn <andrew@lunn.ch> wrote:
+> > On Thu, Sep 04, 2025 at 12:42:00PM +0100, Prabhakar wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > Move the hardcoded switch mode mask definition into the SoC-specific
+> > > miic_of_data structure. This allows each SoC to define its own mask
+> > > value rather than relying on a single fixed constant. For RZ/N1 the
+> > > mask remains GENMASK(4, 0).
+> > >
+> > > This is in preparation for adding support for RZ/T2H, where the
+> > > switch mode mask is GENMASK(2, 0).
+> >
+> > > -#define MIIC_MODCTRL_SW_MODE         GENMASK(4, 0)
+> >
+> > >       miic_reg_writel(miic, MIIC_MODCTRL,
+> > > -                     FIELD_PREP(MIIC_MODCTRL_SW_MODE, cfg_mode));
+> > > +                     ((cfg_mode << __ffs(sw_mode_mask)) & sw_mode_ma=
+sk));
+> >
+> > _ffs() should return 0 for both GENMASK(2,0) and GENMASK(4, 0). So
+> > this __ffs() is pointless.
+> >
+> > You might however want to add a comment that this assumption is being
+> > made.
 >
->         spin_lock_irqsave(&pctrl->lock, flags);
+> I guess Prabhakar did it this way to make it easier to find
+> candidates for a future conversion to field_prep(), if this ever becomes
+> available[1].
 >
-> @@ -555,9 +559,8 @@ static void rzg2l_pinctrl_set_pfc_mode(struct rzg2l_pinctrl *pctrl,
->         writeb(reg & ~BIT(pin), pctrl->base + PMC(off));
+> [1] "[PATCH v3 0/4] Non-const bitfield helpers"
+>     https://lore.kernel.org/all/cover.1739540679.git.geert+renesas@glider=
+.be
 >
->         /* Select Pin function mode with PFC register */
-> -       reg = readl(pctrl->base + PFC(off));
-> -       reg &= ~(PFC_MASK << (pin * 4));
-> -       writel(reg | (func << (pin * 4)), pctrl->base + PFC(off));
-> +       pfc &= ~(PFC_MASK << (pin * 4));
-> +       writel(pfc | (func << (pin * 4)), pctrl->base + PFC(off));
->
->         /* Switch to Peripheral pin function with PMC register */
->         reg = readb(pctrl->base + PMC(off));
-> @@ -3103,11 +3106,18 @@ static void rzg2l_pinctrl_pm_setup_pfc(struct rzg2l_pinctrl *pctrl)
->                 pm = readw(pctrl->base + PM(off));
->                 for_each_set_bit(pin, &pinmap, max_pin) {
->                         struct rzg2l_pinctrl_reg_cache *cache = pctrl->cache;
-> +                       u32 pfc_val, pfc_mask;
->
->                         /* Nothing to do if PFC was not configured before. */
->                         if (!(cache->pmc[port] & BIT(pin)))
->                                 continue;
->
-> +                       pfc_val = readl(pctrl->base + PFC(off));
-> +                       pfc_mask = PFC_MASK << (pin * 4);
-> +                       /* Nothing to do if reset value of the pin is same as cached value */
-> +                       if ((cache->pfc[port] & pfc_mask) == (pfc_val & pfc_mask))
-> +                               continue;
+Ah thanks, I wanted to explore this and add a new macro but I thought
+it might delay this series so I dropped it. Hopefully your series will
+get in soon.
 
-What if the pin is currently configured for GPIO in the PMC register?
-
-> +
->                         /* Set pin to 'Non-use (Hi-Z input protection)' */
->                         pm &= ~(PM_MASK << (pin * 2));
->                         writew(pm, pctrl->base + PM(off));
-> @@ -3117,8 +3127,8 @@ static void rzg2l_pinctrl_pm_setup_pfc(struct rzg2l_pinctrl *pctrl)
->                         writeb(pmc, pctrl->base + PMC(off));
->
->                         /* Select Pin function mode. */
-> -                       pfc &= ~(PFC_MASK << (pin * 4));
-> -                       pfc |= (cache->pfc[port] & (PFC_MASK << (pin * 4)));
-> +                       pfc &= ~pfc_mask;
-> +                       pfc |= (cache->pfc[port] & pfc_mask);
->                         writel(pfc, pctrl->base + PFC(off));
->
->                         /* Switch to Peripheral pin function. */
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
 
