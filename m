@@ -1,153 +1,188 @@
-Return-Path: <linux-renesas-soc+bounces-21455-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21456-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E82FBB4531A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 11:26:06 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2FCCB45337
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 11:34:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9EE7F160E06
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 09:26:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C1DDF7A33A0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 09:33:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F1D427932D;
-	Fri,  5 Sep 2025 09:26:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 716902264B1;
+	Fri,  5 Sep 2025 09:34:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CrYRj6Ih"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFEAACA5A;
-	Fri,  5 Sep 2025 09:26:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A63B21E487;
+	Fri,  5 Sep 2025 09:34:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757064364; cv=none; b=u4bP85Opse9ytgcwDD2iwjhAWChtTS6tbR7+JEZjIoSSSeALYaVlS753wYEZSzAtEgPqwAAQBiNYFg98pNaj+Upux05f/1Mx4jSG9OFCcoW9hziawSltLZrgOtc8nBUS+wluqBsHibTRspULkWuwl2l0VDM3JSw7Fx8mI3tAOow=
+	t=1757064873; cv=none; b=XUBNycb0EK8keuzKItQMTxS0XT064M8phz/IYtQfxm6CVFz/CDFUpyXLkvvXli3FEn9X8WOYymgDhR7ndmrpksRdlDQurN07nFlHggFZSvOVF0DA3HksMagJscV89IKyt39mRnSWYInC08tJggIg7YHKn2VDNhQJPBcR1h8OlyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757064364; c=relaxed/simple;
-	bh=WZlVQW0wFEAPllA7nimICp6msX9IpUADYDmFHA1nNQs=;
+	s=arc-20240116; t=1757064873; c=relaxed/simple;
+	bh=fxW6po38fpa+VnoP8FiDQdHk6gPNDw4WKNm1oy92zAc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XCRiaNqiiOQ5fiNAS8A+ggbBsKofdIkuwNxoELoC5fyad4+82o7jvgygwZc8tc4tZtandIyoaBfnSr3ISm4uQE+DJroIQzuKLH4hP/OyAaR6DZgdPugFnK3ExLHAI6GCP3iyz5H0UWSUCI1I1WkJAQULSABrtCs9qYxNtIz7xQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=CBK0rMxCbzHnt5xIMXO92xWHVVkQ+pOS1wOdifkNeh/QaCEmYbEalc7MLUA0QudFh8Ci0/OZ1IOZluFOontlzXXJp6pIDhKfCBo9ddkEcriacxiAUQgyD2wREVsCJBHp4KwDmchq2lBGUw0F5TvS589UI7UhCCpZ57Wcjcw6caw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CrYRj6Ih; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5448514543eso1403889e0c.3;
-        Fri, 05 Sep 2025 02:26:02 -0700 (PDT)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b0415e03e25so280465466b.0;
+        Fri, 05 Sep 2025 02:34:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757064870; x=1757669670; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5ZXKC69S7By8Ya1ZMREMZuen7JwS2/FHlmhonyDWpnQ=;
+        b=CrYRj6IhCe9KtIQdmHHYgkjdQYfG4uBemTw3/P4ae1kVl3KwoYvcoWQ6px/wJ4QD3W
+         Jwmqle5Ywhp/Sw/HW53nPA3RJQAkvnli6p3OuB95vreFxw1OspSfNRyuZTtc69ni6GUC
+         5XuklFMOjHF+AWS40y+R9rj8ZJy2hQxqQqFiFH6ljfKBSSdhYPvIJBvzf8Zawzx/w0t1
+         oJvw+w0WPDuflgpfYnlVNcJSz096kqGU/gMZo+YuOsiA7YYaRLrR7FoyGsqv+GoPdIRt
+         5lDWSeFwjlxTCLUAUpCRZi39bZIjFyNV0omyAo6IcvabaP6Wxb1ZILpQeiOC1kswhSFp
+         aLIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757064362; x=1757669162;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=y2r+MVGxsvpDAeyHZHUlx7hLWMPN7OTvRNOzrF7TMbU=;
-        b=PF2Ik5AfDntiQRV3w5Aevxqkn+ypstXVCu6oVLQHq445AORpk/dKERg2vClqR/iN4H
-         3C8I5A5XV42oFfntBTSDh7L+nqbg3+qe2jAgy7k2g+Y+UzUmYbmDkC5ty6YLu0eEAeO2
-         eOPD6AhQ9WbbVuIAGbZu5IXbWq/6odpweCVXBxnyeaCVllxZOV1QdQlN0ppBSmJHQrgD
-         bi5vIMIO7QIF2WEFPAOtEVKgvvHmqJca0Dk9G1kUeug3QHzrGsSqPhL0RlS86zkyzCnu
-         dKsx+QG246RGnYhBqDY7odTxK3qYrbtkqA3GjfRAxzShvLS9NuAtv9Itfp4ELAWOiY+e
-         TFBA==
-X-Forwarded-Encrypted: i=1; AJvYcCXGsGhDwzjc9FXfEAXRL9Jan6Riei6+Lc6qGC3iWY8KDL2LHX9p0czFOzB7UAgRWeOmVxU/c4DAfW/s@vger.kernel.org, AJvYcCXLIgtcW/8YBtt3sBFzD6Ai+jjSUw5PBVnOhh9JRlQHHARwxz2CxCocGQhYyTYfKK+6B1heaI2Zgp6s8QUjc9ASmnM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzBae/g5NEfYWbBeXqINpw7smpak/dzn3o5mRm63lMeBAo0DeTE
-	RrFftBob03k5hoY9Sd9xXcD1SClwKt02kvyz0Me6T6BjE3tkQNEcCa6JNXDwnetW
-X-Gm-Gg: ASbGncv3ab2UQ/wQqrfByXk1jjPZ53mhfX6akcPVn2rXGmKuQ7ixI32nGSWOicPcM3O
-	62AZ5ZkAXqIClnOSDFodIfJXrEf1AaIIgdQkv4AvRsd/E9VWeJZ9gOA/cSWvoDcWEYa0udHKTrf
-	OQePl2pPQICRJ2MzJubMPi9+F7f9+FgbyBURxGe010ZdZkt98X4O/ye2sdr1Xo/8rrjEJqviHFH
-	3w8RTgObJKsKsB90hCaU1yCW4W0GJDdPU1Bqyv0oeSBHCYr2ybH44WIxVEsN6bMAg/H7BOaUN4x
-	mPy/oBgUOS9PHJNxhRDSiAFfbViUJyay94j60jTn1nvPT3eOKTrckzl5BSGfehzAGcSNghfDjoO
-	57U8BuxsrQ9C78x4zYGR2yfdgPa+J6AJeQl90cJxCwyoKmmputXGkof2fxRqBLvek
-X-Google-Smtp-Source: AGHT+IGjeXEroH5T3nHxw3JHQEopa1nA/zgLhoMNfVzs/tMI/1CqVVCUdZku62kr4fQBqJk4RBr06Q==
-X-Received: by 2002:a05:6122:1805:b0:544:7949:d36b with SMTP id 71dfb90a1353d-544a018ef4fmr7280510e0c.7.1757064361569;
-        Fri, 05 Sep 2025 02:26:01 -0700 (PDT)
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com. [209.85.221.173])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-895fcca1250sm6104581241.13.2025.09.05.02.26.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Sep 2025 02:26:01 -0700 (PDT)
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-544af5b745cso1306356e0c.0;
-        Fri, 05 Sep 2025 02:26:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV3970gKD3DAYcpA1czTBNrhE8CnCDS9xWc9mDmHVLJfYy9VU5Xc3tEQ1PK0X8kOGeezvnCtqJHLZcu2SqTtNUyz/M=@vger.kernel.org, AJvYcCVdkfppPWJV8HpgIYqNY27Vcm0U3CPYdXNuBpK30UVkj8u3x5C738knzdQUk/zfAK7Wg8FC1A0d+MmO@vger.kernel.org
-X-Received: by 2002:a05:6102:41a8:b0:53a:fb09:5eb1 with SMTP id
- ada2fe7eead31-53afb0962c2mr13472137.13.1757064360704; Fri, 05 Sep 2025
- 02:26:00 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1757064870; x=1757669670;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5ZXKC69S7By8Ya1ZMREMZuen7JwS2/FHlmhonyDWpnQ=;
+        b=VXxKhhVe3ucTCgOwNX5WTE/425RIL3C/tJUvgjzBc+3q7OJkP/BN3f6LGCUSWj95yq
+         h6LBDjttVupwOSd+A2sAWsqNOnhOFesz3lyB4mC51tOZ2CZw4ji9agwDapYWUFLAsOoS
+         8dFqOUJ9FFI4mZKQjc8obQ8gOAYg0CrWM8U2oKFYuft0iNA+KI9KU6/T+ggHKi3YPRlp
+         iSfuDtujLHOwsFeB9XGZxzmp1joMaSUVG9C//8tqDqJLh2ZbB/ozRwDKnLpo/5zNlrnG
+         G727iiW67zZJrQmpnGZgvVSniou+zy7s8JszSaBhE08aqHQ/j+vwp5j1b41jRGOng/uG
+         S8vA==
+X-Forwarded-Encrypted: i=1; AJvYcCUasFWLteE+ZtgExUAlYUg0tSCCnz3272pLvNaco2Vf0UL+MZuQfIDnOeW7ySVxrGxFMBo33EHhkBWitA==@vger.kernel.org, AJvYcCUb5TGnJlyP9yHElYemQr+lbQHEKRgiQHC04aMvR5CoMD2M/H2soaoZJV7QnvRUXuABIL2KGn8guqq1BVx3jXzXcbs=@vger.kernel.org, AJvYcCUiYxI0kXVshUOVT4uyl8RZT99e0emtzH0TjlbxZsbwxI0YTDPn4QzSWlU3fThaCrxq6A/cHaifFSA=@vger.kernel.org, AJvYcCVPv6zv3oOAzkA8ezkkYYMQeM4oP71CFHyJU46ec3Lm+q8VnuP2MkQAcr3j755JIAGwIzQ7Rjojbf96OPc=@vger.kernel.org, AJvYcCW3x+HygORLmbFG3bUPDaa3Pj9Fm9FEuUAC19HniiBWUeG5VxJurE1Jt3JHCNhk9gHEKOEavl5K5iktPmM=@vger.kernel.org, AJvYcCWZ6tegJYq4VUj7IrzBIyQ2InSKcqR5mG6YVOQLI5V77WK2VYZYuN6fwemYVyPZvAkaH8KYIhpPXZtAo8uJnmdnvGs=@vger.kernel.org, AJvYcCXhckLESZaXDgJ3DwEo+rOY7PbPpMNb6/Shivvsznc3/09wxV9TULBqV9JyvmXeMK0TALSZ5l4IyJSokCoT@vger.kernel.org, AJvYcCXiDajjlA3H+CMZ20wvKwBGhOrSazCniOC988gBAVn2Cn39xQe/WrHjhH3UlboROjvz+FsbIwgTfuE57gSD@vger.kernel.org, AJvYcCXqyJSU6+pMhbyCcf1EreU3stmDacjvbVuVyr354WfUuCJfL/CsSWXGKPYcnbsqBbn6fbFSyrBCyd8w@vger.kernel.org
+X-Gm-Message-State: AOJu0YwINcKARE4xHg5qYdGCUGx2Ua+8M2XVmAv2YVBMJJxBv8iravMm
+	yPhoYLPamQM1OuCYMAHy4Kt3Frj21yIIjbrFqk+XpV/KR4QetqnFzta75lVw6Hs9vIUHqjOxG2s
+	G1IsVirGZSDlDGFluI/a9CIVj9KZ+XoE=
+X-Gm-Gg: ASbGncsuJy0d0Tp3t7B7B1hb6E7zSqoYWug6yVYIGEvisBHzyJ8RDztWChlOzmMhn1J
+	KMsgqRBier6QKiQUFIVfjG9c1zTNWVtoBW9aevICccA990adfPboNgOLDotO/EKoW2C58FDD0Fo
+	Cmi/ZRtNulcdWRPD9R6uzGOMZcmEJRQ1/XTeX3rPvbU5IJ/LG9iDhR+GYMl15S9T4JY05FZYCqI
+	AK/PYYUOSaWxCJbhJGi
+X-Google-Smtp-Source: AGHT+IFNrkynh+/Ymp/HCHyA5XGYRylr5jF6GjIL2qDKGYyZpbM+uW2yDfuf4gc8lpHjzkwCg5YwNrLoynQjYkyhMFI=
+X-Received: by 2002:a17:907:928a:b0:b04:5b3d:c31f with SMTP id
+ a640c23a62f3a-b045b3dc692mr1195506366b.49.1757064869658; Fri, 05 Sep 2025
+ 02:34:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250904202838.172579-1-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20250904202838.172579-1-marek.vasut+renesas@mailbox.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 5 Sep 2025 11:25:48 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWnusjKE8FNQWX-0arcdbV-18KTCHKZmhs5r5kRXn46ZA@mail.gmail.com>
-X-Gm-Features: Ac12FXzdkPSCVU6vCiC34INdkoMu_EvqBwzp3vW9OTF994jOdqdC1bw5gHNe8Ps
-Message-ID: <CAMuHMdWnusjKE8FNQWX-0arcdbV-18KTCHKZmhs5r5kRXn46ZA@mail.gmail.com>
-Subject: Re: [PATCH v2] arm64: dts: renesas: r8a779g3: Add RPi Display 2 DTO
- to Retronix R-Car V4H Sparrow Hawk
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
+References: <20250905072423.368123-1-zhao.xichao@vivo.com> <20250905072423.368123-2-zhao.xichao@vivo.com>
+In-Reply-To: <20250905072423.368123-2-zhao.xichao@vivo.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 5 Sep 2025 12:33:53 +0300
+X-Gm-Features: Ac12FXxbms9z4N7jI4jHPwNjVwlV8d4OiE5hmfmL25yynmREhxdRP_mz9jzg-_c
+Message-ID: <CAHp75VforxjsHWzxrxfD_YOshvg0Y=KwrpmAPWwhyarNm2wNjQ@mail.gmail.com>
+Subject: Re: [PATCH 01/12] thermal: of: Add error handling in devm_thermal_*_register()
+To: Xichao Zhao <zhao.xichao@vivo.com>
+Cc: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
+	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
+	Guillaume La Roque <glaroque@baylibre.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, Markus Mayer <mmayer@broadcom.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	zhanghongchen <zhanghongchen@loongson.cn>, Yinbo Zhu <zhuyinbo@loongson.cn>, 
+	Amit Kucheria <amitk@kernel.org>, Thara Gopinath <thara.gopinath@gmail.com>, 
+	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Heiko Stuebner <heiko@sntech.de>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Talel Shenhar <talel@amazon.com>, 
+	Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>, 
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	"open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
+	"open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>, 
+	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>, 
+	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>, 
+	"open list:THERMAL" <linux-pm@vger.kernel.org>, 
+	"open list:THERMAL DRIVER FOR AMLOGIC SOCS" <linux-amlogic@lists.infradead.org>, 
+	"moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" <linux-rpi-kernel@lists.infradead.org>, 
+	"open list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <imx@lists.linux.dev>, 
+	"open list:QUALCOMM TSENS THERMAL DRIVER" <linux-arm-msm@vger.kernel.org>, 
+	"open list:RENESAS R-CAR THERMAL DRIVERS" <linux-renesas-soc@vger.kernel.org>, 
+	"open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>, 
+	"open list:SAMSUNG THERMAL DRIVER" <linux-samsung-soc@vger.kernel.org>, 
+	"moderated list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>, 
+	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>, 
+	"open list:TI BANDGAP AND THERMAL DRIVER" <linux-omap@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Marek,
-
-On Thu, 4 Sept 2025 at 22:28, Marek Vasut
-<marek.vasut+renesas@mailbox.org> wrote:
-> Add DT overlay to bind RPi Display 2, both 5" and 7" variant, on
-> Retronix R-Car V4H Sparrow Hawk board. All of display output, the
-> touch controller, and backlight control have been tested.
+On Fri, Sep 5, 2025 at 10:25=E2=80=AFAM Xichao Zhao <zhao.xichao@vivo.com> =
+wrote:
 >
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> ---
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Magnus Damm <magnus.damm@gmail.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
-> V2: Build also the plain DTBO for each DTO. Each new DTO entry in the
->     Makefile has three lines, the DTBO, combined and DTB targets. This
->     is easy to miss, so note this down for myself.
+> devm_thermal_of_zone_register() does not print any error message
+> when registering a thermal zone with a device node sensor fails
+> and allocating device resource data fails.
+>
+> This forces each driver to implement redundant error logging.
+> Additionally, when upper-layer functions propagate these errors
+> without logging, critical debugging information is lost.
+>
+> Add dev_err_probe() in devm_thermal_of_zone_register() to unify
+> error reporting.
 
-Thanks for the update!
+...
 
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2-7in.dtso
+>         ptr =3D devres_alloc(devm_thermal_of_zone_release, sizeof(*ptr),
+>                            GFP_KERNEL);
+> -       if (!ptr)
+> +       if (!ptr) {
 
-> +&i2c0_mux3 {
-> +       #address-cells = <1>;
-> +       #size-cells = <0>;
-> +
-> +       mcu: gpio@45 {
-> +               compatible = "raspberrypi,touchscreen-panel-regulator-v2";
-> +               reg = <0x45>;
-> +               gpio-controller;
-> +               #gpio-cells = <2>;
-> +               #pwm-cells = <3>;
+> +               dev_err(dev, "Failed to allocate device resource data\n")=
+;
 
-make dtbs_check:
+We do not add error messages for ENOMEM.
 
-    arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2-5in.dtb:
-gpio@45 (raspberrypi,touchscreen-panel-regulator-v2): '#gpio-cells',
-'#pwm-cells', 'gpio-controller' do not match any of the regexes:
-'^pinctrl-[0-9]+$'
-            from schema $id:
-http://devicetree.org/schemas/regulator/raspberrypi,7inch-touchscreen-panel-regulator.yaml#
+>                 return ERR_PTR(-ENOMEM);
 
-I noticed you posted patches to fix all other issues in DT bindings
-triggered by this series, so I assume you just forgot to post the
-fixes for this one (which you authored ;-)?
+Even if you want so eagerly to do that, it should be
 
-> +       };
+   return dev_err_probe();
 
-Gr{oetje,eeting}s,
+But, it will ignore the ENOMEM error code for printing.
 
-                        Geert
+> +       }
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+So, the bottom line, no need to add this message here.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+...
+
+>         tzd =3D thermal_of_zone_register(dev->of_node, sensor_id, data, o=
+ps);
+>         if (IS_ERR(tzd)) {
+> +               dev_err_probe(dev, PTR_ERR(tzd),
+> +                             "Failed to register thermal zone sensor[%d]=
+\n", sensor_id);
+>                 devres_free(ptr);
+>                 return tzd;
+
+I don't see how ptr is related to the mesasge. Can't we use
+
+  return dev_err_probe(dev, PTR_ERR(...), ...);
+
+instead?
+
+--=20
+With Best Regards,
+Andy Shevchenko
 
