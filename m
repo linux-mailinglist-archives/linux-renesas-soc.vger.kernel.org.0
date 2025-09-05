@@ -1,62 +1,62 @@
-Return-Path: <linux-renesas-soc+bounces-21482-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21483-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24F97B457DE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 14:29:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D090B457EA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 14:31:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5C5AB164D93
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 12:27:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3B9593A468A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 12:30:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBF8134DCFF;
-	Fri,  5 Sep 2025 12:27:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEFDA350845;
+	Fri,  5 Sep 2025 12:30:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S0BtVcNo"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="FITpli11"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C45296BA6;
-	Fri,  5 Sep 2025 12:27:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8490325557
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Sep 2025 12:30:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757075270; cv=none; b=Wi2kxHCxgl1OZI3/5XRb7Xrl6HZ4+Grz+/+vRmBgNGRn4V4A0D4n+R/vJ2ZIFmsDYpjtvTg83EkZNaOE1s16MOjPPTMsDW/StPa3RFk0GFE9Odhp0aKjAGdS3cZSD+56ypOmcngp+6niLROR5Ii10+sO9tWJ5LzJf5IcBYASheg=
+	t=1757075413; cv=none; b=JekxHc0t56MbPl3QptI845GYY6xc6I8oHy3X+kTWvJv3LPC49ZiClkb5QCp+dxAGGnX8kMU+2CQkJ2Dk7qNS1VXbOHk3usRozJzKClrYdHsbsPN77d/uX6T/hOPPv4HrfJe6WTOVJNi4EQkZbaywZlGOIrXNYYmaVlvuw4jC2VM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757075270; c=relaxed/simple;
-	bh=hs2wGhylTyIy0X36FRj9qqYUOR3jDXcVE8sGtRSOJ5o=;
+	s=arc-20240116; t=1757075413; c=relaxed/simple;
+	bh=QnlGz4SE8SGva9QHMYtLnC6DHXlUV9RlaLGRDycgt8Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tw6dZ4E1/9PJoPfzUzN28Z+ff6RN7YhPeVHQIZvN0G9Or+NaeM4hBEQm/M4Bl2lrnlv0rLi4NLotaR+yn/wpanrmrbWK06A0qTg9NNRjn4/HKaFIhksmS3JcEVdj2IMOvxwFnB1LGeQ51iGvQnVxyVDmBFYYWywRsTVBUGqvxLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S0BtVcNo; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66157C4CEF1;
-	Fri,  5 Sep 2025 12:27:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757075270;
-	bh=hs2wGhylTyIy0X36FRj9qqYUOR3jDXcVE8sGtRSOJ5o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=S0BtVcNoioES+xZ0HEiEQfNrSLx7dEEmVvwbCk7hVetNfv6Wud4hyfn7fYSaiwsSb
-	 WCl+3Y+uQb9MY9sCNsO3Rz79SSDkEe+Qn6055GkwU8bYeq3IEockSyGwroYcbYyRff
-	 QCbnSjCbL9aOkTSvJoqMEUASa7qQnuZN5BwL4/Xs95+zeEd+DQ9sl9A3OKCZjuWdZd
-	 myNOr7Cni5wGulkU+j+AazFcaG5I9ELIrKz65GbdV4Jv7gLS+eYBh0/LSrqJAhnIh2
-	 AS2785REvycLTlG4sYrm1P0kbSbz2xBT9uqkFzqOx8epgpelT06jlTzvCG76q+PC8F
-	 ZbtNGChYM5V0w==
-Date: Fri, 5 Sep 2025 14:27:44 +0200
-From: Niklas Cassel <cassel@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=X692JsETmDVDfFaSS4ur0iZQmY2UfQ/JPEfhCP3PXH5cY/krSSAeJj0FZ/a4XyoOsh5WKod5c8YNsAdK30MVABN1uuHxx8y/PSIDC9WL26GVSbNBIHx5Gbz5iQR4aVee4JviQJ9QkqTks9e3XiOFkInChoJqVUKA8tv5tKQpJmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=FITpli11; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=PTsO
+	6mHmSDWEul6mnh764nhyZdJRTGDuIEcsdYTIvD4=; b=FITpli11m6qi37TNv+pY
+	izqc0WnQsSaXmNVnXvwD1/HuGX9a2Ozv7Bnqutm0O38s/PRMlT+h3IwL9XM4vDrV
+	2Yq3TXZLghUSlBfJXtPaQZ5Js5nZHTeBkVcBN8aX5JbA7eGqW6gjT6jGQGn7Ym3B
+	VvLkITNAOhbqwkw/gSmqWpZB5zc3mzqaz5NEIuBh+8eCXnq3BZrK79dK3akGAFi7
+	VKv0GvmQFpK7wcmE8NqU8YdARQUTJGEbe7VJ5vZaRjL5RJH03MdsWk3kIYJ2Gro3
+	6GfgHq+l1Ni6NTsmLvdeLNRuaeLahWzFLjR91vke/Fzuk5WalmgBu8+rAmAaT6Ka
+	6A==
+Received: (qmail 4044840 invoked from network); 5 Sep 2025 14:30:07 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Sep 2025 14:30:07 +0200
+X-UD-Smtp-Session: l3s3148p1@44x7/ww+MMogAwDPXxPDAOCjMSL5jkIv
+Date: Fri, 5 Sep 2025 14:30:06 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-pci@vger.kernel.org,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Damien Le Moal <dlemoal@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Wang Jiang <jiangwang@kylinos.cn>, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2] PCI: endpoint: pci-epf-test: Limit PCIe BAR size for
- fixed BARs
-Message-ID: <aLrXQGzYBB8JVE0Z@ryzen>
-References: <20250905121259.9378-1-marek.vasut+renesas@mailbox.org>
+Cc: linux-arm-kernel@lists.infradead.org,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2] arm64: dts: renesas: r8a779g3: Add Argon40 fan HAT
+ DTO to Retronix R-Car V4H Sparrow Hawk
+Message-ID: <aLrXzl38OUhTJgxP@shikoro>
+References: <20250905020149.257459-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -65,65 +65,45 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250905121259.9378-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20250905020149.257459-1-marek.vasut+renesas@mailbox.org>
 
-On Fri, Sep 05, 2025 at 02:12:43PM +0200, Marek Vasut wrote:
-> Currently, the test allocates BAR sizes according to fixed table
-> bar_size[] = { 512, 512, 1024, 16384, 131072, 1048576 } . This
-> does not work with controllers which have fixed size BARs, like
-> Renesas R-Car V4H PCIe controller, which has BAR4 size limited
-> to 256 Bytes, which is much less than 131072 currently requested
-> by this test.
+Hi Marek,
 
-Perhaps rephase this to more clearly state that:
-This does not work with controllers with have fixed size BARs that is
-smaller than the requested BAR size.
-
-(Since a lot of controllers drivers in-tree have fixed size BARs,
-and they do work perfectly fine, but it is only because their fixed
-size is larger than the size requested by pci-epf-test.c)
-
-
+On Fri, Sep 05, 2025 at 04:00:57AM +0200, Marek Vasut wrote:
+> Add DT overlay to bind Argon40 fan HAT, on Retronix R-Car V4H
+> Sparrow Hawk board. Fan RPM control and full RPM on reboot has
+> been tested.
 > 
-> Adjust the test such, that in case a fixed size BAR is detected
-> on a controller, minimum of requested size and fixed size BAR
-> size is used during the test instead.
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-This sentence needs to be updated, since you no longer take the minimum
-of requested size and fixed size BAR.
+Basically works for me as well, so:
 
-Perhaps simply:
-"Adjust the test such that in case a fixed size BAR is detected,
-the fixed BAR size is used, as that is the only possibly option."
+Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
+> + * r8a779g3-sparrow-hawk$ grep -H . /sys/class/hwmon/hwmon?/name
+> + * /sys/class/hwmon/hwmon0/name:sensor1_thermal
+> + * /sys/class/hwmon/hwmon1/name:sensor2_thermal
+> + * /sys/class/hwmon/hwmon2/name:sensor3_thermal
+> + * /sys/class/hwmon/hwmon3/name:sensor4_thermal
+> + * /sys/class/hwmon/hwmon4/name:pwmfan
+> + *                       ^      ^^^^^^
 
-With that:
-Reviewed-by: Niklas Cassel <cassel@kernel.org>
+For me, the output looks different, though:
 
+/sys/class/hwmon/hwmon0/name:pwmfan
+/sys/class/hwmon/hwmon1/name:sensor1_thermal
+/sys/class/hwmon/hwmon2/name:sensor2_thermal
+/sys/class/hwmon/hwmon3/name:sensor3_thermal
+/sys/class/hwmon/hwmon4/name:sensor4_thermal
+/sys/class/hwmon/hwmon5/name:pwmfan
 
-> ---
->  drivers/pci/endpoint/functions/pci-epf-test.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
-> index e091193bd8a8a..2418add64104a 100644
-> --- a/drivers/pci/endpoint/functions/pci-epf-test.c
-> +++ b/drivers/pci/endpoint/functions/pci-epf-test.c
-> @@ -1050,7 +1050,12 @@ static int pci_epf_test_alloc_space(struct pci_epf *epf)
->  		if (bar == test_reg_bar)
->  			continue;
->  
-> -		base = pci_epf_alloc_space(epf, bar_size[bar], bar,
-> +		if (epc_features->bar[bar].type == BAR_FIXED)
-> +			test_reg_size = epc_features->bar[bar].fixed_size;
-> +		else
-> +			test_reg_size = bar_size[bar];
-> +
-> +		base = pci_epf_alloc_space(epf, test_reg_size, bar,
->  					   epc_features, PRIMARY_INTERFACE);
->  		if (!base)
->  			dev_err(dev, "Failed to allocate space for BAR%d\n",
-> -- 
-> 2.50.1
-> 
+hwmon0 is the Argon, hwmon5 the (unpopulated) on board connector.
+
+I hope the naming is stable, but in any case, the docs need to be
+reworked a little, I guess?
+
+Thanks for your work!
+
+   Wolfram
+
 
