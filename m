@@ -1,254 +1,318 @@
-Return-Path: <linux-renesas-soc+bounces-21493-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21494-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D490B45AD7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 16:46:11 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29C43B45AE0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 16:47:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 385355C5F4C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 14:46:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AF7CB1BC2722
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 14:47:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEC29374266;
-	Fri,  5 Sep 2025 14:45:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="wMg6SZGm"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D84872633;
+	Fri,  5 Sep 2025 14:47:01 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010010.outbound.protection.outlook.com [52.101.228.10])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB5C2371EAA;
-	Fri,  5 Sep 2025 14:45:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757083522; cv=fail; b=nRyceT24Lge8nJHSyoK4BzvS43BhDvXUsIlTxM59gYGUoJ9EEl9Xih0pAxGNvrIkX9TxFyslX0r16EQPvuWXw31ciqcN0OTNQIoujavBcUPK1OClTPsPH6NPfP0I6MEAtZGaikVt6gdgQeLZWMN5jfu1XvD0WgIASsy2VmlcP0g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757083522; c=relaxed/simple;
-	bh=ZKgAwpKQCCIs0opkW07MfdZajeoof0x0+8MuoFF8eFw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Me98J3vp/YgIbs9lVlYMDh6DW3GrblBtOT9XOALSMWxs3+jf4m70JES2+EdeETdYtQXOv8l919D1zOc+t+wQFRVyPmdLZEBJ9tskJiOkQ8zgIgmTNmWQMZW/oAiMdgQHpdIEJfh+wiqIcGEsrUSp4ceV8RlroUDadMNTY62tKaU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=wMg6SZGm; arc=fail smtp.client-ip=52.101.228.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Mh4HCZTmCudDKq8LI6wRxNGOcfF5zXDjS7e6z9QRcRmRCYcjkl/S9i09ztpsZRKylqZcnc7QCSUGB5tS0EfseFEd1xzP6uEIDUbnTMc9E8+a1TaQx1HVLEfcFLIymHiedPS5oX7DmircXc+2fKNla0Oea6JD3B2LbUDevoPoyM4k5a3FPVs8Pps9+1Fk2czycRyN6RkojdqNjIF2QXDU2hvDc2bpsdw31tXcFovX8UjjZJ88h3SYYMNnNl/k+dTlJX5I+VdWYOIqpeFoz5tVXwqwTaqXQ9li4efWUmtISUfyZIjz5c1GaCss5gqPkZ+dEFDiKEKzyLX648LWs+/wuQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8SQKWIim/2yRuYWuuItOqo8SC+Qj/P/82LI4F0OcoI4=;
- b=o3MDfhiWZZgvpK/fZ1criAP9D2zSZm4cevUjsoK/i0sqwuWb+TkLTtpsGnl5CvYskGIVqP/A6VuYaNl8scR1MK8Sf4wHe171vOCjcM9gsv2n6UE6dhKadZFQZ5tSQjnIdN9stjczOO21JR+lyvgGuPEY5HO+oZwJ1W7r5o2v7TDZxiXxzprM++AUb8ZKnqdZSj/1WuFX4MYaS5akkhZs8apgi/icVrCaPDin6wsR6TasJ5ySJKOzYGWUhcCdNSz4OFIZvRBOc1yG6lyqHKLXskUKYiYWM4GMRpDt4avFVSxqMGMEbch5tjRgUwn/F45ftmyleSlYkn+uFndby2uJmg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8SQKWIim/2yRuYWuuItOqo8SC+Qj/P/82LI4F0OcoI4=;
- b=wMg6SZGmJUM1kVx4Jr1s/cUJU1P4WNtxyRH5sn9N98MY6U7lgCemHWKvV9Bu7gOBXoxAIn/H7xYCtTBGmQYgtRkXFCEWFsPUYgW9bigebMHZYnU1jo3oMeBiARsR31EOyBl9VhfxvSvMgErwuUpPqyCtYg1cCUwq2nz0wZCcwuc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com (2603:1096:400:3e1::6)
- by OS9PR01MB14067.jpnprd01.prod.outlook.com (2603:1096:604:364::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.19; Fri, 5 Sep
- 2025 14:45:17 +0000
-Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com
- ([fe80::63d8:fff3:8390:8d31]) by TYCPR01MB11947.jpnprd01.prod.outlook.com
- ([fe80::63d8:fff3:8390:8d31%5]) with mapi id 15.20.9094.016; Fri, 5 Sep 2025
- 14:45:17 +0000
-From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-To: tomm.merciai@gmail.com
-Cc: linux-renesas-soc@vger.kernel.org,
-	biju.das.jz@bp.renesas.com,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-	dmaengine@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] dmaengine: sh: rz-dmac: Add system sleep power management
-Date: Fri,  5 Sep 2025 16:44:20 +0200
-Message-ID: <20250905144427.1840684-5-tommaso.merciai.xr@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250905144427.1840684-1-tommaso.merciai.xr@bp.renesas.com>
-References: <20250905144427.1840684-1-tommaso.merciai.xr@bp.renesas.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: FR4P281CA0420.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:d0::17) To TYCPR01MB11947.jpnprd01.prod.outlook.com
- (2603:1096:400:3e1::6)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD6C1FBCB5
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Sep 2025 14:46:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757083621; cv=none; b=upJvqLmVhPwNbFsJTjNESD4mxJQ1h8eTEIcK0NYBjy4dM8gIVBAgVKKkIELqfsAk0cWtt/WZMyy2raokxx4S4wM3h7Kyl1MfZoMIfWxoLnrkSLEc/2+3wIbjkC4rhsRK7b7UZHsGoBlL9WesNJOhrIWUtsuJXq/OVdunsdEYheU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757083621; c=relaxed/simple;
+	bh=Im/IqSga0VX8if3jRMI6CR7wezG+E3xzjH7LjCIh4ko=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=QFkArfEYJGojt4Ng4yzT6TUM79qTKdnbEi/T0m6mlU+HK/rXbQU4cIr6T0w1qEsRDK0OkRE7JXtRvsylRMDQ7RiEZZv9Nj8gei4gMtctotvVk+ORynDR5RhcgF5DCIx0yTabxed+U+iAbeofCg8wdRZ/PGLaAhLRljzXcqDWB3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1uuXiI-00055C-Hs; Fri, 05 Sep 2025 16:46:54 +0200
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1uuXiH-004O9q-1m;
+	Fri, 05 Sep 2025 16:46:53 +0200
+Received: from pza by lupine with local (Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1uuXiH-000VgX-1W;
+	Fri, 05 Sep 2025 16:46:53 +0200
+Message-ID: <b48fafecc821d2099ff7e84477f36161bae13293.camel@pengutronix.de>
+Subject: Re: [PATCH v3] clk: renesas: cpg-mssr: Add module reset support for
+ RZ/T2H
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Prabhakar <prabhakar.csengg@gmail.com>, Geert Uytterhoeven
+	 <geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Lad Prabhakar
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date: Fri, 05 Sep 2025 16:46:53 +0200
+In-Reply-To: <20250905114558.1602756-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: 
+	<20250905114558.1602756-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB11947:EE_|OS9PR01MB14067:EE_
-X-MS-Office365-Filtering-Correlation-Id: e630f729-db02-4e41-d501-08ddec8ad477
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|52116014|376014|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?p1vbohIcIyGPSLzqk+wIZV++/CwX3Oj9fKEwRmDxVVW4PahxSh+MPjjf0P6V?=
- =?us-ascii?Q?jo1Vpe43PtwAWY+CgpPb5IaFrEv0XQIL9DDu4ba4hZDQmvZ4V5Ijuh4kqm7N?=
- =?us-ascii?Q?3qRW39HUmSlvVdJ92009EB6zLajwAU0odihHHA1DfA+GQ7+2yI90rx7C1OTF?=
- =?us-ascii?Q?kNW+Xsm7mVofC87K8qPPt58ysdRW2izO2SnI5fgCugEMwWntXhu+8HQXf6BK?=
- =?us-ascii?Q?/IBrNOkorGFEwycY5smaCIxNzOz4n7THE2waZPqDTDkahUnsU7pqMDIJvg3M?=
- =?us-ascii?Q?f5QgNLdg/wwxnOv+tDUU5A8RLIdtiFR64Um5cJNJ/qBHmQ/j7cZyBDUpAzkV?=
- =?us-ascii?Q?MW839F+B3pwIPQplwcGIhGpjvkClQBpGDpMSzj8ReG5N0CKRAX0Ol0MlkvLK?=
- =?us-ascii?Q?sv4x9d5y9XrHDuxR8wiuLB4HQye4me4MwB7L5UrNZZU/GL3gCYd705Dg+W1K?=
- =?us-ascii?Q?F8p3mXGR9V460lTYExautlRsWdsK/XLNNKTWvf73LnU32zZYBj4dhXjozDjq?=
- =?us-ascii?Q?aSrfIz7X4eRrnjXM/HX4bkE3b959bd32Xc75k2WwOs92WGG3twieO/nNpRIF?=
- =?us-ascii?Q?TzKT9w5EUka251E5xqGJZQOVYA09yHFtJR5GmzObEpBCECJNSRgrgIWBXDry?=
- =?us-ascii?Q?kGtQg+XxxfB5WU4GxqG9v9ekqNpSuXOZzZh6lsQam6k5NtcQywz4NoMUGZug?=
- =?us-ascii?Q?Ucs68K31n4QenbkZAldaJb/hCG2LR/2BxL9eNNtdixckH5Zpf4xQErYwWKG9?=
- =?us-ascii?Q?tY/shdFGN1WobhV5dwbNjNcYR6vif3bc2JgTRa6ophS3vHVKcHNsR4gKBNEh?=
- =?us-ascii?Q?jVufYnjdYxSNJQ12pBVl7aC+cKgE0XZNWak0alTzOMe02Y3j1xZWgk9mDHMf?=
- =?us-ascii?Q?evDwWHarEoSQ+IWIfgkVJFn1H7ykjAxU6I1xponBxAOlqV2aKdapE2/yxvNU?=
- =?us-ascii?Q?tAmymcIRISwI5miVlMpN1SfkgJaL1r8m8YMK/WUCpDjoNRnWiyaYb3XClD9O?=
- =?us-ascii?Q?E02EuMg85qYEyBMaB+YFAadn/5nKDaTp5QotATIE8jroV+SlJgOIdxp4bIU1?=
- =?us-ascii?Q?L5vFXkGS2Vz8ClftnHmGw997QsHHN6o5fXVCGAl6KqEZy6cmT/85v90qNt5S?=
- =?us-ascii?Q?RmYX8+D/7iFdhwxZ/NzfY1THqlVEXLqjhYS5zJ3R9jkOBArOoDJpiMQq/H47?=
- =?us-ascii?Q?k0N42OACQ++Ww5UIzPgxWmrrd/9kLnnx+IlIQrRPimPYDwTsEEyAOgYl0icb?=
- =?us-ascii?Q?/AiUEWWbQ33yeKdbINkFaoiYAcr+Ui2baXqAA+CtCynoQUTaHtOl9Ypybjxm?=
- =?us-ascii?Q?lTkEckE2/xoShSMTUz8lORCfqEJCtdZABx50fpj/Zl7dM2DYcLfVbp0V0sV6?=
- =?us-ascii?Q?bg7sbqw4coP6Y9sTlmOFhD/UTQWUFS3kZZjsM/Ro6Xk8BXmvBvR+qXrJa1HP?=
- =?us-ascii?Q?F4/Mx0avnZr/hnSY8Nzdd1M4k/XBSCAJQHVH979gt7yU7RYUHloG/A=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11947.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(376014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?jfE5GfwWNm3q6XVAfkH4/kV4iE+2g/+NwBQBwGUrnlPNKyYhcMRJeEkMRnEM?=
- =?us-ascii?Q?z68nRAcUoHYwKfS8fZwkLfwVfu9FS1De0kvYnI2Un+6MVd9/SjX9To6cQ+bI?=
- =?us-ascii?Q?kWf8mJ5KKKk5Js/PG6p9I5hyomFQoOrftUHDgy/DMF2eo5q7HR3jNJU79E16?=
- =?us-ascii?Q?FBWf1mfl3X4xfyIsSdc3/CSrCjncZzLU2Eb/HqyYfLIv65O3dtIFcvIJuC6W?=
- =?us-ascii?Q?BPYEx+ULOc/bY8mS4/8/MPDOZWMhVmda5WcWouW9Hr/XCl2QNg4Z94WfiB38?=
- =?us-ascii?Q?GBjMsLdjxYvSHiQPgDjj+tXkfiibIN8QH13Mr/6EdnHXhYE4y3pm5X4JbAdZ?=
- =?us-ascii?Q?XauURr3SadU5rCS1MjP1wMYWeHOiEreeJfpCSfttCLoPc1rsE0jXYBSZNXrG?=
- =?us-ascii?Q?7+yRx1XLal1WaPCNHiu1IvdGn213DtWK2H8wm5WVbQtHF+vubl5PeWVQlJZ3?=
- =?us-ascii?Q?+cXGad8LE7LFBpwxgfu54X6kIUDI3R7PDMYofIumYEsgSJW57LSQ7nb+RY4l?=
- =?us-ascii?Q?gswrXyafhUCltetVYCUx3AH+qLBSLCN/i66Pd5PqdEqd//hNPw5I9A+IPLjG?=
- =?us-ascii?Q?DKDkZ82rnLGHv4JFrj2/hrM0+o5vkL9tnE7F8BXSXtmG8J2xGPUm66unoz73?=
- =?us-ascii?Q?bX/iED9klhl6XVzhyTa9oW4Sb8spdvCuRy9kIuttxJyQhhNYbrDuKa8ZGsqr?=
- =?us-ascii?Q?7KS5rCHtWt719uvsTTJblky+Ej3tub2iUARg0oQj5d9qjOz8VKeO1RNpHVT9?=
- =?us-ascii?Q?WQHb+glFPYq41P3nqxTDB3sI1u91wyCAtXNeCP4nHuzKHIbwYW3PXsl0WGjE?=
- =?us-ascii?Q?diAm31WdqmD8zaMYPW3loL/KNPa942gXr8zD7LvoaFfPYL+Qb9J0DW2UPNIn?=
- =?us-ascii?Q?OKJJMnALEX8GDRkAMgtz2PEJEfz0xMd91t/CQwBc6tmR9U9P9WbpNCuBQpeG?=
- =?us-ascii?Q?UDyMqwPq1Sa002Iw8HyvjHti+jP5G6IkcizVPU8LUjxbg+5QytGrTvKtLyIF?=
- =?us-ascii?Q?sZXRnN3g6pgAJ1UGEHKFsODQyTd6IaLyCRkW6GzuabUJ3QwHMEzJvhB0B1CR?=
- =?us-ascii?Q?PC+gugRgUWpMxmAQCxFhz2VmKRDnNgMR+DyXjPWpywgmf1MMtLA787rsaHRu?=
- =?us-ascii?Q?4QM7dDDkwbDcYTmq9Wxg3/040JL4JI3RpXoWY3Mk7qv1NMLnc1aozjB1cJar?=
- =?us-ascii?Q?TSLI7T/TkIOfyYqpCey8dBvrlpK8N8RWklpV5/ObIgmRK7j+ddUVc0TzC/go?=
- =?us-ascii?Q?pejEkC8wWN/+eAtNJPj+xNpPZHm+r8D7MfMvsIe0PEMz1RrTdCliuP4uoXog?=
- =?us-ascii?Q?MBxrlfXXTEDpVt4zYjnfk6QKkk+GWBYswkUD/GYu6yCGZ/LhnxUVwKGmGmkP?=
- =?us-ascii?Q?Wyj1DzxXR4m0GOujhjdn+hL/PRH62VfL3L10K7/wEuc/XA0oMtJV3O40rhrb?=
- =?us-ascii?Q?sow9WJvWImbcmqJSDtvxucn2eF5p1yIMd4gn/6lwl6mgnDEklFytuvTVwyIL?=
- =?us-ascii?Q?O1es4OwL2rOsryADNzkKJwl1uK4aFolbNRmqJhAJxwku9daRT8iKQhcUv/7V?=
- =?us-ascii?Q?yedvV9b90rdkl+dyjogmUmdlT36Ya07Vsyb6hCo8GjhwAnTejsouV9HlKMEc?=
- =?us-ascii?Q?ualBMKzUb12ZqfGU4OarJNI=3D?=
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e630f729-db02-4e41-d501-08ddec8ad477
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11947.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2025 14:45:17.3898
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ba1zRAB0xhPHxGNfDtGf6vLmdpMLEFzJM0BSOIokxkOCANpr8kyYR7ZWbKYdfF3/j6MiL37NhqhbOUyzK+3pqW3tApupnQgQVeoVowpZNjLRm05z/53L/6g0FcgoVyTr
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9PR01MB14067
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
-Add runtime and system sleep power management operations to the RZ DMAC
-driver. This enables proper handling of suspend and resume sequences,
-including device reset and channel re-initialization, preparing the driver
-for power state transitions.
+On Fr, 2025-09-05 at 12:45 +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>=20
+> Add support for module reset handling on the RZ/T2H SoC. Unlike earlier
+> CPG/MSSR variants, RZ/T2H uses a unified set of Module Reset Control
+> Registers (MRCR) where both reset and deassert actions are done via
+> read-modify-write (RMW) to the same register.
+>=20
+> Introduce a new MRCR offset table (mrcr_for_rzt2h) for RZ/T2H and assign
+> it to reset_regs. For this SoC, the number of resets is based on the
+> number of MRCR registers rather than the number of module clocks. Also
+> add cpg_mrcr_reset_ops to implement reset, assert, and deassert using RMW
+> while holding the spinlock. This follows the RZ/T2H requirements, where
+> processing after releasing a module reset must be secured by performing
+> seven dummy reads of the same register, and where a module that is reset
+> and released again must ensure the target bit in the Module Reset Control
+> Register is set to 1.
+>=20
+> Update the reset controller registration to select cpg_mrcr_reset_ops for
+> RZ/T2H, while keeping the existing cpg_mssr_reset_ops for other SoCs.
+>=20
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v2->v3:
+> - Simplifed the code by adding a common function cpg_mrcr_set_bit() to ha=
+ndle
+>   set/clear of bits with options for verify and dummy reads.
+> - Added a macro for the number of dummy reads required.
+>  =20
+> v1->v2:
+> - Added cpg_mrcr_reset_ops for RZ/T2H specific handling
+> - Updated commit message
+> ---
+>  drivers/clk/renesas/renesas-cpg-mssr.c | 112 ++++++++++++++++++++++++-
+>  1 file changed, 108 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/renesas=
+/renesas-cpg-mssr.c
+> index 5ff6ee1f7d4b..81206db2b873 100644
+> --- a/drivers/clk/renesas/renesas-cpg-mssr.c
+> +++ b/drivers/clk/renesas/renesas-cpg-mssr.c
+> @@ -40,6 +40,8 @@
+>  #define WARN_DEBUG(x)	do { } while (0)
+>  #endif
+> =20
+> +#define RZT2H_RESET_REG_READ_COUNT	7
+> +
+>  /*
+>   * Module Standby and Software Reset register offets.
+>   *
+> @@ -137,6 +139,22 @@ static const u16 srcr_for_gen4[] =3D {
+>  	0x2C60, 0x2C64, 0x2C68, 0x2C6C, 0x2C70, 0x2C74,
+>  };
+> =20
+> +static const u16 mrcr_for_rzt2h[] =3D {
+> +	0x240,	/* MRCTLA */
+> +	0x244,	/* Reserved */
+> +	0x248,	/* Reserved */
+> +	0x24C,	/* Reserved */
+> +	0x250,	/* MRCTLE */
+> +	0x254,	/* Reserved */
+> +	0x258,	/* Reserved */
+> +	0x25C,	/* Reserved */
+> +	0x260,	/* MRCTLI */
+> +	0x264,	/* Reserved */
+> +	0x268,	/* Reserved */
+> +	0x26C,	/* Reserved */
+> +	0x270,	/* MRCTLM */
+> +};
+> +
+>  /*
+>   * Software Reset Clearing Register offsets
+>   */
+> @@ -736,6 +754,73 @@ static int cpg_mssr_status(struct reset_controller_d=
+ev *rcdev,
+>  	return !!(readl(priv->pub.base0 + priv->reset_regs[reg]) & bitmask);
+>  }
+> =20
+> +static int cpg_mrcr_set_bit(struct reset_controller_dev *rcdev, unsigned=
+ long id,
+> +			    bool set, bool verify, bool dummy_reads, const char *op_name)
 
-Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
----
- drivers/dma/sh/rz-dmac.c | 47 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 47 insertions(+)
+This function is inappropriately named, it does more than just set a
+bit.
 
-diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
-index 4ab6076f5499e..d849e313a7f79 100644
---- a/drivers/dma/sh/rz-dmac.c
-+++ b/drivers/dma/sh/rz-dmac.c
-@@ -437,6 +437,24 @@ static int rz_dmac_xfer_desc(struct rz_dmac_chan *chan)
-  * DMA engine operations
-  */
- 
-+static int rz_dmac_chan_init_all(struct rz_dmac *dmac)
-+{
-+	unsigned int i;
-+	int ret;
-+
-+	ret = pm_runtime_resume_and_get(dmac->dev);
-+	if (ret < 0)
-+		return ret;
-+
-+	rz_dmac_writel(dmac, DCTRL_DEFAULT, CHANNEL_0_7_COMMON_BASE + DCTRL);
-+	rz_dmac_writel(dmac, DCTRL_DEFAULT, CHANNEL_8_15_COMMON_BASE + DCTRL);
-+
-+	for (i = 0; i < dmac->n_channels; i++)
-+		rz_dmac_ch_writel(&dmac->channels[i], CHCTRL_DEFAULT, CHCTRL, 1);
-+
-+	return pm_runtime_put_sync(dmac->dev);
-+}
-+
- static int rz_dmac_alloc_chan_resources(struct dma_chan *chan)
- {
- 	struct rz_dmac_chan *channel = to_rz_dmac_chan(chan);
-@@ -1070,6 +1088,34 @@ static void rz_dmac_remove(struct platform_device *pdev)
- 	platform_device_put(dmac->icu.pdev);
- }
- 
-+static int rz_dmac_suspend(struct device *dev)
-+{
-+	struct rz_dmac *dmac = dev_get_drvdata(dev);
-+
-+	return reset_control_assert(dmac->rstc);
-+}
-+
-+static int rz_dmac_resume(struct device *dev)
-+{
-+	struct rz_dmac *dmac = dev_get_drvdata(dev);
-+	int ret;
-+
-+	ret = reset_control_deassert(dmac->rstc);
-+	if (ret)
-+		return ret;
-+
-+	return rz_dmac_chan_init_all(dmac);
-+}
-+
-+static const struct dev_pm_ops rz_dmac_pm_ops = {
-+	/*
-+	 * TODO for system sleep/resume:
-+	 *   - Wait for the current transfer to complete and stop the device,
-+	 *   - Resume transfers, if any.
-+	 */
-+	SYSTEM_SLEEP_PM_OPS(rz_dmac_suspend, rz_dmac_resume)
-+};
-+
- static const struct of_device_id of_rz_dmac_match[] = {
- 	{ .compatible = "renesas,r9a09g057-dmac", },
- 	{ .compatible = "renesas,rz-dmac", },
-@@ -1079,6 +1125,7 @@ MODULE_DEVICE_TABLE(of, of_rz_dmac_match);
- 
- static struct platform_driver rz_dmac_driver = {
- 	.driver		= {
-+		.pm	= pm_sleep_ptr(&rz_dmac_pm_ops),
- 		.name	= "rz-dmac",
- 		.of_match_table = of_rz_dmac_match,
- 	},
--- 
-2.43.0
+Why are there three boolean parameters if there are only ever two
+combinations of them used? Just have a single bool assert.
 
+Drop the op_name parameter.
+
+> +{
+> +	struct cpg_mssr_priv *priv =3D rcdev_to_priv(rcdev);
+> +	unsigned int reg =3D id / 32;
+> +	unsigned int bit =3D id % 32;
+> +	u32 bitmask =3D BIT(bit);
+> +	void __iomem *reg_addr;
+> +	unsigned long flags;
+> +	unsigned int i;
+> +	u32 val;
+> +
+> +	dev_dbg(priv->dev, "%s %u%02u\n", op_name, reg, bit);
+
+Replace op_name with set ? "assert" : "deassert".
+
+You could later add a str_assert_deassert() helper in string_choices.h.
+
+> +
+> +	spin_lock_irqsave(&priv->pub.rmw_lock, flags);
+> +
+> +	reg_addr =3D priv->pub.base0 + priv->reset_regs[reg];
+> +	/* Read current value and modify */
+> +	val =3D readl(reg_addr);
+> +	if (set)
+> +		val |=3D bitmask;
+> +	else
+> +		val &=3D ~bitmask;
+> +	writel(val, reg_addr);
+> +
+> +	/* Verify the operation if requested */
+> +	if (verify) {
+> +		val =3D readl(reg_addr);
+> +		if ((set && !(bitmask & val)) || (!set && (bitmask & val))) {
+> +			dev_err(priv->dev, "Reset register %u%02u operation failed\n", reg, b=
+it);
+> +			spin_unlock_irqrestore(&priv->pub.rmw_lock, flags);
+> +			return -EIO;
+> +		}
+> +	}
+> +
+> +	/* Perform dummy reads if required */
+> +	for (i =3D 0; dummy_reads && i < RZT2H_RESET_REG_READ_COUNT; i++)
+> +		readl(reg_addr);
+
+Both verify and dummy reads could just live in a single if (!assert) {}
+block.
+
+> +
+> +	spin_unlock_irqrestore(&priv->pub.rmw_lock, flags);
+> +
+> +	return 0;
+> +}
+> +
+> +static int cpg_mrcr_reset(struct reset_controller_dev *rcdev, unsigned l=
+ong id)
+> +{
+> +	int ret;
+> +
+> +	/* Assert reset */
+> +	ret =3D cpg_mrcr_set_bit(rcdev, id, true, true, false, "reset");
+> +	if (ret)
+> +		return ret;
+
+No delay necessary for any of the modules that can be reset?
+
+> +	/* Deassert reset with dummy reads */
+> +	return cpg_mrcr_set_bit(rcdev, id, false, false, true, "reset");
+
+Copy & paste error in op_name, but that is fixed if you drop it.
+
+> +}
+> +
+> +static int cpg_mrcr_assert(struct reset_controller_dev *rcdev, unsigned =
+long id)
+> +{
+> +	return cpg_mrcr_set_bit(rcdev, id, true, true, false, "assert");
+> +}
+> +
+> +static int cpg_mrcr_deassert(struct reset_controller_dev *rcdev, unsigne=
+d long id)
+> +{
+> +	return cpg_mrcr_set_bit(rcdev, id, false, false, true, "deassert");
+> +}
+> +
+>  static const struct reset_control_ops cpg_mssr_reset_ops =3D {
+>  	.reset =3D cpg_mssr_reset,
+>  	.assert =3D cpg_mssr_assert,
+> @@ -743,6 +828,13 @@ static const struct reset_control_ops cpg_mssr_reset=
+_ops =3D {
+>  	.status =3D cpg_mssr_status,
+>  };
+> =20
+> +static const struct reset_control_ops cpg_mrcr_reset_ops =3D {
+> +	.reset =3D cpg_mrcr_reset,
+> +	.assert =3D cpg_mrcr_assert,
+> +	.deassert =3D cpg_mrcr_deassert,
+> +	.status =3D cpg_mssr_status,
+> +};
+> +
+>  static int cpg_mssr_reset_xlate(struct reset_controller_dev *rcdev,
+>  				const struct of_phandle_args *reset_spec)
+>  {
+> @@ -760,11 +852,23 @@ static int cpg_mssr_reset_xlate(struct reset_contro=
+ller_dev *rcdev,
+> =20
+>  static int cpg_mssr_reset_controller_register(struct cpg_mssr_priv *priv=
+)
+>  {
+> -	priv->rcdev.ops =3D &cpg_mssr_reset_ops;
+> +	/*
+> +	 * RZ/T2H (and family) has the Module Reset Control Registers
+> +	 * which allows control resets of certain modules.
+> +	 * The number of resets is not equal to the number of module clocks.
+> +	 */
+> +	if (priv->reg_layout =3D=3D CLK_REG_LAYOUT_RZ_T2H) {
+> +		priv->rcdev.ops =3D &cpg_mrcr_reset_ops;
+> +		priv->rcdev.nr_resets =3D ARRAY_SIZE(mrcr_for_rzt2h) * 32;
+> +	} else {
+> +		priv->rcdev.ops =3D &cpg_mssr_reset_ops;
+> +		priv->rcdev.nr_resets =3D priv->num_mod_clks;
+> +	}
+> +
+>  	priv->rcdev.of_node =3D priv->dev->of_node;
+>  	priv->rcdev.of_reset_n_cells =3D 1;
+>  	priv->rcdev.of_xlate =3D cpg_mssr_reset_xlate;
+> -	priv->rcdev.nr_resets =3D priv->num_mod_clks;
+> +
+>  	return devm_reset_controller_register(priv->dev, &priv->rcdev);
+>  }
+> =20
+> @@ -1166,6 +1270,7 @@ static int __init cpg_mssr_common_init(struct devic=
+e *dev,
+>  		priv->control_regs =3D stbcr;
+>  	} else if (priv->reg_layout =3D=3D CLK_REG_LAYOUT_RZ_T2H) {
+>  		priv->control_regs =3D mstpcr_for_rzt2h;
+> +		priv->reset_regs =3D mrcr_for_rzt2h;
+>  	} else if (priv->reg_layout =3D=3D CLK_REG_LAYOUT_RCAR_GEN4) {
+>  		priv->status_regs =3D mstpsr_for_gen4;
+>  		priv->control_regs =3D mstpcr_for_gen4;
+> @@ -1262,8 +1367,7 @@ static int __init cpg_mssr_probe(struct platform_de=
+vice *pdev)
+>  		goto reserve_exit;
+> =20
+>  	/* Reset Controller not supported for Standby Control SoCs */
+> -	if (priv->reg_layout =3D=3D CLK_REG_LAYOUT_RZ_A ||
+> -	    priv->reg_layout =3D=3D CLK_REG_LAYOUT_RZ_T2H)
+> +	if (priv->reg_layout =3D=3D CLK_REG_LAYOUT_RZ_A)
+>  		goto reserve_exit;
+> =20
+>  	error =3D cpg_mssr_reset_controller_register(priv);
+
+regards
+Philipp
 
