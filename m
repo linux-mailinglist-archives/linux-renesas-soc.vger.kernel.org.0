@@ -1,172 +1,229 @@
-Return-Path: <linux-renesas-soc+bounces-21444-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21445-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AD74B45050
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 09:52:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B566DB45075
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 09:56:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 94C2C3B0546
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 07:52:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5D27A1895F86
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Sep 2025 07:57:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 063C72F0693;
-	Fri,  5 Sep 2025 07:52:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1BE02F744B;
+	Fri,  5 Sep 2025 07:56:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="My8EBo2Y"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="QaTEQEmj";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Y0cf+H8i"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-a4-smtp.messagingengine.com (flow-a4-smtp.messagingengine.com [103.168.172.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E44F2F067F
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Sep 2025 07:52:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75EEE2F60CD;
+	Fri,  5 Sep 2025 07:56:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757058724; cv=none; b=KzcwJLCVLP5ZinFvOKEKUsCpwMiFxvEURhes09H3EsLTaHPFQ7YQb006wkodkAaNcNDlGJnjiSTkSk0F+14EALXvvD9lgtSBHDxyYWTaSCvUH4FfSq4G7GNDiZNqkQ8GchMQmHRsqSyWLmpPofDug8zPqLDXt0pOzqNUYbkwhb8=
+	t=1757058996; cv=none; b=PbABLUAIg5WqHT3UW6lzL9GvbEeZV68KtHgNg8lNA8e82zSpWR0W8ZCkiYkZZJ1t4GpdyxEcdDhQJAHWfmPv6nKdOoAQMpOQ8/S/YGlXyKfHG5ea0peuJYqQdZ4CIWoP38pk4fKD/mNWuzNZpCqr6KhF4cAdgcO8djAgqUGGwxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757058724; c=relaxed/simple;
-	bh=CQTjoj2wDBHsmJlZ9culuqFawL04TkeYQljnebcEgUs=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=LNZpNh+44nk/09ZixIPWEWXT6qzqPQDl0nd+4FfygM5OEXS5g00FA0bu/yTvO+eZF87EYHC+qZkVBb1m8/gwIs0I+f2jD0Kx0yxXsHAXImuWPlECJ23sVoUn4TNkjNeNPFYG2yc6VxKcr6U0oQM+/ipTeK+u5lH/jFt784ySJg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=My8EBo2Y; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b0473327e70so318432566b.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 05 Sep 2025 00:52:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757058721; x=1757663521; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=j4E83VLTbZuo4TED6hhJNmBQMvXhzoltxNMk8h1UZoM=;
-        b=My8EBo2YR9wyD+cjTlQLejN5yW9QhUJIItqCBCSmkhQzlog9tJ2XjaBvr94cJKtfj9
-         dTYk7NlEDzGBlp3ZXLdjggtvDVKl/3OCjf2SMHUrpCrmOekBghubc9Q/SK+Rb2H362gP
-         TqPspFO1weGGeeUW0RTr66km5kAchvMlpcmqD+kqqCx95T/R0Fb8Zvbnsn7hnPhc+/1p
-         E2LiY1VEAcG5tW4oh0mprpLf702cB0BD01dQ/sDtAt0DCcKbETTaTcEOtz8UT+XP3Tq4
-         ZGY3ndf017b6+sA7+hDT0hUIx6Ra/r5oSg7Z9Gje561G09SglL03+DOJMb+JUCTusMhY
-         DaiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757058721; x=1757663521;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=j4E83VLTbZuo4TED6hhJNmBQMvXhzoltxNMk8h1UZoM=;
-        b=hnYzmInUhbRykhBazQInOuYl+Lucquxg3hmwrPGan+/Tio2focFS7mqpTbVwQZ9plY
-         v4aqCZgyP8cr0tiVTObM3eK9XB2HWOIGaCnd9Hi5yV4PRsWZKIIMHk6PqycMaUH7pHdL
-         UuKt6MWmsPiYw2RahC/KLrPpVVaV2OnSJJ8vtG0w5YT7OfXl2bD2P07jvkZip8SZUvRF
-         xBtU4yXRrCZ2s3LaUekkrCz6MzA7xXbZmsgrHAg6SYI9jXleZMa7dnQS0srYJQAjPJ9q
-         mel4zTF377OTIfboDeG0igzZ/AkP7K8IcnRvPcHAcbRkAoftbzcNDfwaQckL/SpSuyLX
-         KYqA==
-X-Forwarded-Encrypted: i=1; AJvYcCVEsC9mUuEKg/0viNkT0WfLeMSFz5pxiKtRA/IK2udoK8gdTazD/8BRmI+n3k30TlPX2kWtLBiYKGPGQXhG+9y6KQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzw9B0SG6Iha4xpEkQzcTFwhsKY8ZHnRuN0kZAGyhyONBy8T4u+
-	e56cr4IgVMvba11NSXhtJvavcYFy9xiSLq8lyz5mAqwxMrvDQG6Or8dl6yHJkHx+UVE=
-X-Gm-Gg: ASbGncsDKdNf7DwvrAqQ/oEbB9hqIKZTShr1lIzWkobINa12E01MDJEr8Ogc9jpPQdN
-	BEwx+k5y8teBVbZn4qv8hC8wBLC5XhL3uQgvyp2Chb8Zj7bjjO2/rHcK2U2kgJuWCpxY1SFVWws
-	CTiB5ia5jUmneMMomyOfofbXkkfTo3vcWWnfAbIcjqlUrQP0ovHnR810hCJoPGEWdX17mgaH7SZ
-	5ySzV7jBKNzFJxnrNwyDWcnvvM5EL92Udf3bKNMIREQIFQtWBme5T6QfYqh1SeWwt1E+MQ5hVjc
-	HhrDeaf8x1MeKg8I99wyv5pmmLl5KslXWisocvh83o2RXYWgI/uVPFWLw5UMfFQkNE60nbVo5lw
-	u0jPqV03jnl46gaTClISPN5Q5nz2aKG57sVCcsjGWtWbF
-X-Google-Smtp-Source: AGHT+IHsHBWDnFjesrZD6VYm2HqLWgZJEdj/4+1B9i/v95Owxo2vQm0P5+OMAD6AEwvVb81pp3XbuA==
-X-Received: by 2002:a17:907:7fa0:b0:b04:3a9c:33ac with SMTP id a640c23a62f3a-b043a9c3bb5mr1567058366b.50.1757058721357;
-        Fri, 05 Sep 2025 00:52:01 -0700 (PDT)
-Received: from [192.168.7.190] ([212.114.21.58])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b047b61cf00sm383193466b.15.2025.09.05.00.52.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Sep 2025 00:52:01 -0700 (PDT)
-Message-ID: <d7553808-7713-4ee2-8a4d-10102c01e297@linaro.org>
-Date: Fri, 5 Sep 2025 09:52:00 +0200
+	s=arc-20240116; t=1757058996; c=relaxed/simple;
+	bh=DCIyd4J3pbvUjw8wlbL34A1o0IPs27eqjyKuOZAMvOA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ViW5tY6pTMR/CliMHA/3AZd15+lEB34bZvnBVzVlHfeWJNeI3WX5V8syMQmUJPII1ySlPspe91DOKyPWMAVd1sUDD+cf1VGjc6/O4LUgI9hDrRZ+oKQdSYrjT5bQIURWR36ifwhyVzI7Afgjxcpsz8JZkC/ZLqVmT8afsf4OpF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=QaTEQEmj; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Y0cf+H8i; arc=none smtp.client-ip=103.168.172.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailflow.phl.internal (Postfix) with ESMTP id 820DD1380159;
+	Fri,  5 Sep 2025 03:56:32 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-10.internal (MEProxy); Fri, 05 Sep 2025 03:56:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1757058992;
+	 x=1757066192; bh=KXUoaaH+PV1RudhFs2J2lVTbxM4uje+tSmH6gtbu+Nw=; b=
+	QaTEQEmjGTJeSxeiah6pwWZmjZ/MZs5T6DwWq8Nmr7oHpYFT9j95C72yMyBcZ5nz
+	u3cXjVlnWCc6V75Dwc83w5se6RUX0cgy2r6hhn8896BD1N9niWfNBDEsX5z3bbZh
+	580Lxh1wJduGFt3iTeOOmO1kuUcf+UmbfmLmVrhi303staCq+82oOHT6v6FtLJ0q
+	KUmIN0sVOTWfm9OO4IWePH36nTPtiHUbxCP6V5sCpCoy7ecX5fAcARL2bBp1+hYX
+	meum9lsc6nxtc9bJfoYbWnrGaAyGJmjEbDgf28gHFpwuN2s7fsfyePI14fKiGSKO
+	+KWH0qpxAXjQsFF5TvJk4Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1757058992; x=
+	1757066192; bh=KXUoaaH+PV1RudhFs2J2lVTbxM4uje+tSmH6gtbu+Nw=; b=Y
+	0cf+H8iNJvMgyddoNtlWXiFqcl4IGVll81T+/QLuu0VNzM2Tdl4Dututnx+WBVfY
+	ZUAq036GCT8hJkBvo1Xuxdbdn01HtUdgUk4Ofv3efStIQ3nE14kAyA73FHfb4fjf
+	KOwQB+75cW2V3GGZKDUuIfX594V3wr1n+Z2P2+qfVHB3QqrZG4ssbRrH1By1GbCD
+	TRIW/OdNehrErechp8kPDk8rijxMDklBtf55Ic7ogPHsHFoI0ZeeNpUdQIUyNFBc
+	8OZXytKiVrvaFoIX8swMPQV8EFgUKFbS92QjUo575ehIJo8Op3B6lZAJqKd3TDxm
+	YaTlavtRtgFLUQVaVcOvQ==
+X-ME-Sender: <xms:rJe6aPT4hEQwkAeohLnFC7wamjbvAr7niwm9b31Yo5zEex0vYFN_jg>
+    <xme:rJe6aPCqpHI9uJ68XId1Qna7oWm5iyUGoAQPsu1kx2oN2qHjsCp2dNoZI4nTxFNl9
+    MurlN6lVZ1a7ntIgiI>
+X-ME-Received: <xmr:rJe6aO_r3H0kGSKS2fH0hEtRAmpG1wYDXGxPnza4nmiPk8yaDQHgreHxbUoYRRqeSVYYMKGdX0I7aNFWxHyOdN0DhlU70pWKyg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdekfeegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
+    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
+    epfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgrshcu
+    ufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvg
+    gthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeefheetheek
+    keegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+    grmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrght
+    vggthhdrshgvpdhnsggprhgtphhtthhopeeihedpmhhouggvpehsmhhtphhouhhtpdhrtg
+    hpthhtohepiihhrghordigihgthhgrohesvhhivhhordgtohhmpdhrtghpthhtohepjhgu
+    vghlvhgrrhgvsehsuhhsvgdrtghomhdprhgtphhtthhopehlihhnuhigsehrohgvtghkqd
+    hushdrnhgvthdprhgtphhtthhopehjihgtvdefsehkvghrnhgvlhdrohhrghdprhgtphht
+    thhopegulhgvtghhnhgvrhessggrhihlihgsrhgvrdgtohhmpdhrtghpthhtohepnhhunh
+    hordhsrgesrghnrghlohhgrdgtohhmpdhrtghpthhtoheprghnugihsehkvghrnhgvlhdr
+    ohhrghdprhgtphhtthhopeifvghnshestghsihgvrdhorhhgpdhrtghpthhtohepjhgvrh
+    hnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhm
+X-ME-Proxy: <xmx:rJe6aLaJP6Xj2rkulgEos-3PuobS8mQKjatGJJBMK7inm3Pq7Gp2Vg>
+    <xmx:rJe6aNF7-pW6bVrecDyimGuFt4rFKlRaO80vk9U-M3x2Osc7wCA6DA>
+    <xmx:rJe6aLeryKtg2eNLenz4G8c7nPW0XLHn41W-YUcd9nAafvGlUomGZw>
+    <xmx:rJe6aID5jwH-KTo0RNYmn7aS7aHdvvvDvzZsp7Xrs_Dh-FuDrHloig>
+    <xmx:sJe6aL5VH3NVRImO0zXqWNKt1X3K9WtPu7YT5fkHwr7N4ubXrLHaDEMN>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 5 Sep 2025 03:56:27 -0400 (EDT)
+Date: Fri, 5 Sep 2025 09:56:25 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Xichao Zhao <zhao.xichao@vivo.com>
+Cc: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,	Mark Brown <broonie@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Guillaume La Roque <glaroque@baylibre.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,	Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>,
+	Markus Mayer <mmayer@broadcom.com>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	zhanghongchen <zhanghongchen@loongson.cn>,
+	Yinbo Zhu <zhuyinbo@loongson.cn>, Amit Kucheria <amitk@kernel.org>,
+	Thara Gopinath <thara.gopinath@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,	Heiko Stuebner <heiko@sntech.de>,
+	Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,	Talel Shenhar <talel@amazon.com>,
+	Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	"open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
+	"moderated list:ARM/Allwinner sunXi SoC support"
+ <linux-arm-kernel@lists.infradead.org>,
+	"open list:ARM/Allwinner sunXi SoC support"
+ <linux-sunxi@lists.linux.dev>,
+	"open list:THERMAL" <linux-pm@vger.kernel.org>,
+	"open list:THERMAL DRIVER FOR AMLOGIC SOCS"
+ <linux-amlogic@lists.infradead.org>,
+	"moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE"
+ <linux-rpi-kernel@lists.infradead.org>,
+	"open list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <imx@lists.linux.dev>,
+	"open list:QUALCOMM TSENS THERMAL DRIVER"
+ <linux-arm-msm@vger.kernel.org>,
+	"open list:RENESAS R-CAR THERMAL DRIVERS"
+ <linux-renesas-soc@vger.kernel.org>,
+	"open list:ARM/Rockchip SoC support"
+ <linux-rockchip@lists.infradead.org>,
+	"open list:SAMSUNG THERMAL DRIVER" <linux-samsung-soc@vger.kernel.org>,
+	"moderated list:ARM/STM32 ARCHITECTURE"
+ <linux-stm32@st-md-mailman.stormreply.com>,
+	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
+	"open list:TI BANDGAP AND THERMAL DRIVER" <linux-omap@vger.kernel.org>
+Subject: Re: [PATCH 01/12] thermal: of: Add error handling in
+ devm_thermal_*_register()
+Message-ID: <20250905075625.GA1852264@ragnatech.se>
+References: <20250905072423.368123-1-zhao.xichao@vivo.com>
+ <20250905072423.368123-2-zhao.xichao@vivo.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v2 1/2] dt-bindings: ili9881c: Document 5" Raspberry Pi
- 720x1280
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- dri-devel@lists.freedesktop.org
-Cc: Conor Dooley <conor+dt@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@gmail.com>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20250904205743.186177-1-marek.vasut+renesas@mailbox.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20250904205743.186177-1-marek.vasut+renesas@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250905072423.368123-2-zhao.xichao@vivo.com>
 
-On 04/09/2025 22:56, Marek Vasut wrote:
-> Document the 5" Raspberry Pi 720x1280 DSI panel based on ili9881.
-> 
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> ---
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: devicetree@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
-> V2: No change
-> ---
->   .../devicetree/bindings/display/panel/ilitek,ili9881c.yaml       | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
-> index cf0aa996e072d..34a612705e8c4 100644
-> --- a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
-> @@ -20,6 +20,7 @@ properties:
->             - bananapi,lhr050h41
->             - bestar,bsd1218-a101kl68
->             - feixin,k101-im2byl02
-> +          - raspberrypi,dsi-5inch
->             - raspberrypi,dsi-7inch
->             - startek,kd050hdfia020
->             - tdo,tl050hdv35
+Hello Xichao,
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Thanks for your work.
+
+On 2025-09-05 15:23:53 +0800, Xichao Zhao wrote:
+> devm_thermal_of_zone_register() does not print any error message
+> when registering a thermal zone with a device node sensor fails
+> and allocating device resource data fails.
+> 
+> This forces each driver to implement redundant error logging.
+> Additionally, when upper-layer functions propagate these errors
+> without logging, critical debugging information is lost.
+> 
+> Add dev_err_probe() in devm_thermal_of_zone_register() to unify
+> error reporting.
+> 
+> Signed-off-by: Xichao Zhao <zhao.xichao@vivo.com>
+> ---
+>  drivers/thermal/thermal_of.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/thermal/thermal_of.c b/drivers/thermal/thermal_of.c
+> index 1a51a4d240ff..8fe0ad402579 100644
+> --- a/drivers/thermal/thermal_of.c
+> +++ b/drivers/thermal/thermal_of.c
+> @@ -475,11 +475,15 @@ struct thermal_zone_device *devm_thermal_of_zone_register(struct device *dev, in
+>  
+>  	ptr = devres_alloc(devm_thermal_of_zone_release, sizeof(*ptr),
+>  			   GFP_KERNEL);
+> -	if (!ptr)
+> +	if (!ptr) {
+> +		dev_err(dev, "Failed to allocate device resource data\n");
+>  		return ERR_PTR(-ENOMEM);
+> +	}
+>  
+>  	tzd = thermal_of_zone_register(dev->of_node, sensor_id, data, ops);
+>  	if (IS_ERR(tzd)) {
+> +		dev_err_probe(dev, PTR_ERR(tzd),
+> +			      "Failed to register thermal zone sensor[%d]\n", sensor_id);
+
+Don't thermal_of_zone_register() already print an error message for 
+failure cases? If not can this print be moved there? That would allow 
+the change you make in R-Car drivers to remove the prating completely, 
+not just for the devm_* cases.
+
+>  		devres_free(ptr);
+>  		return tzd;
+>  	}
+> -- 
+> 2.34.1
+> 
+
+-- 
+Kind Regards,
+Niklas Söderlund
 
