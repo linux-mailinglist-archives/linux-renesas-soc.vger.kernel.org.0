@@ -1,106 +1,172 @@
-Return-Path: <linux-renesas-soc+bounces-21536-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21537-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E51AB47410
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  6 Sep 2025 18:21:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78D75B47C23
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  7 Sep 2025 17:42:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E8F3F7B0A12
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  6 Sep 2025 16:19:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 130DD3AC064
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  7 Sep 2025 15:42:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 269F125228D;
-	Sat,  6 Sep 2025 16:20:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66E7A27E076;
+	Sun,  7 Sep 2025 15:42:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QJ5ZnUi0"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="cWAiZK0+";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="SC9AHSrK"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94D311C5F23;
-	Sat,  6 Sep 2025 16:20:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A2B15667D;
+	Sun,  7 Sep 2025 15:42:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757175644; cv=none; b=lDQpxxObAsWn8JPTBal0H4bJBcIqv4tJXwLs1fz59mAT0m1H71/TLTepn4Cpt+SZQIY6ukejOYVcuwEBPXufS+z3bU2IARe88d5ceHlBqDwmNmJ1akTQjiVAWxS2Ygm7bpmtfJ08O6+REWO5xzaL9TXXtfvewepAbpeuOW8sGuQ=
+	t=1757259735; cv=none; b=dwOXOp7HqSZyneKbDYk0gyLqXF8FG1plOCetp0x1DwwAOTd2YWGEXLjjU92cN+YFhur6jZjT48Z4CfQ199KAHcYikpJFGijuld/QtHoHhYJnFJ5mTw0slJNPUCb5p6jcu4fHDzuSsm4MY/hA45B4+DxoDehbTtflOZEQX3E8DL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757175644; c=relaxed/simple;
-	bh=yOlxvm/IuI9z8EQnlpAUn+w0NDmCbIwSllZQqGiUoM8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Du8haHizjyFt30XKOsFZoK0PlmXU70aiG6dV30TcvSXZY5Eig2oRFmeBoOpQ2UeEyPjSvuwH4RKBgCj8jtRjUeDsZMdcA0f40aqVBq7agGAO8j+o0YEFyXdRAlSo6ZHpHCFxE1yZE7LA0qu7rUgsBrmRRO9VleBblpOD8IVptbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QJ5ZnUi0; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-77256e75eacso2773552b3a.0;
-        Sat, 06 Sep 2025 09:20:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757175642; x=1757780442; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tJzdwL9rYlAVpWrUFdwHJMtmFfmLdcK7IkTFMPKfKjE=;
-        b=QJ5ZnUi08EUeJBDFDvY5iUwhFsI4sk+Wv00A7MmNdWviwAbjBMxx+IQz/wzOZO74M6
-         i7kECDSWA5vguOYOxITklDttH0ndc8ntMQjfryBKyXO9r5+nOMKMgf0awAysjWJKOJ1I
-         HmiofFnSIgZEYNngjvDECzs31p48lkKjnuqu9c9BUZJqe5HCSH2Vgehd4z4spQ6Ysrb5
-         Is4JFYWjb5vdJgcfGvwKslOPsTSlBZv5gAEYHvyPWAwupgRnSxXvKc6ztcjDyJTjILyh
-         HH1S/BTvjzhAjHHBwFBSTDpEXZf41Y9UN27Fithhfia7/oH9lklGd1iNHzOjPIbDG/yA
-         EZ9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757175642; x=1757780442;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tJzdwL9rYlAVpWrUFdwHJMtmFfmLdcK7IkTFMPKfKjE=;
-        b=ZaWbFc8iPI9i9g/5huRGgAojRZAq6vSoWBobtLTChYkthwxoYDqiWgxGXlFKwFL7YP
-         tHWg5JAItdIy/Ij7AO9pkMwV+OLaVQyyOsWoPp4yFlnqgp/lFNnfzKn526F4ENCa417F
-         2T1fFfsjPEbMpdIMj2Nq6FKxbWshOYIy463a5zgEwKg8iciQmitYaQ/DkUVsT0KHDBxT
-         TTTIOFbSoIG7CCNOOBQDP15YGy5Xt0sh+DG6zrxVnBADQY2MNFaww6WaRnpm/oA/89fJ
-         Yr551LK6hhIOt2Bnv2If6U+obE1xM2gJoxN2ASpkmKi7b3283CawK1G5CloWHpqM1ySM
-         6EYw==
-X-Forwarded-Encrypted: i=1; AJvYcCVe5lb3UTv5IJermH5NOuaPzIKh/xVAVHX9seZ5d26Ej25QuaNjol4SfqIZvJcElxB3dr7ptL29J5O+11ohueC0BU4=@vger.kernel.org, AJvYcCVroLZcdmBA3NMdfjldL2UaK6X40GWHULp906ctnHJgtEHydnfoWIb9Io6tKZlf7o0u6RWfMWFlsKWK@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywf+PJ3Blyv/Dzwo/qkDFruc1GSeDghoIIBBKpMDOH5w83s04/U
-	yEvoT+tKDKzgVGAOd1BvUoOfSNxAAPxsqiE4CHYZnQnX/SuQCul8KVek
-X-Gm-Gg: ASbGncsrnI97yrOiVhyc67jkvYY/lwTgb+mOgTuNN3/aFwo9D8w1B2+QAYc7uDJwC1p
-	G40kS/ezTlNDk7VXcbtEKRWmUlbcP1+h4DaT2wegGzFGe1ye1GS4RZ8Yvic5MeE1U4dImr2BPkt
-	55i8vTnGtM/JVUMo/owx7GE7sdxSjctkgPjtoEuVjY2mlK2WHjj2iFFiJsf2PciECHw21Ato89Q
-	DICC8lb+OGpi4OLeS80HBaZZQMMNSewjKwxWeq8leRXSt4dIX92FxBJpjFySjMLYQxikXHr873z
-	sNa/tKSzK8FI4HbBvb3uZURSrcwvo36/hsFeylPIW0drTckfNLZRVZ/4zzXqB6jkEGCEAQLhLbB
-	Vt3Gev4JHH+BZWRshSxxiTpE=
-X-Google-Smtp-Source: AGHT+IFeGaimkzYK+g4w4Ju1TcH/8/AgNIOEcwfVfoUpa9ToQ9TVy5p/179JctTAVymQPOVwzi5NfQ==
-X-Received: by 2002:a05:6a20:9146:b0:24c:dd96:5500 with SMTP id adf61e73a8af0-2533d5fec82mr3898398637.11.1757175641777;
-        Sat, 06 Sep 2025 09:20:41 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:e08d:5959:e7ec:1beb])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b520d33cbd8sm4235217a12.41.2025.09.06.09.20.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Sep 2025 09:20:41 -0700 (PDT)
-Date: Sat, 6 Sep 2025 09:20:39 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-input@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
+	s=arc-20240116; t=1757259735; c=relaxed/simple;
+	bh=K7NJ68o8i0sSlMsAcTHigJ/Z7kn33sPqjLQuXKnkZAU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Vag/p/TMmdVv4WgDuu9zlHaBk8gKJ3cFkt5vr9GSJr7ysw2ikj+GLFObT8rJ7ti5GWuHEA00mNlgF23nFVV2sORsNeL6dYSwrOfhMG7scPOQl22rwSDRy4jwXhOWRKpp1w0sjUq13iX4ohtiCBHxpVWGjbD4aD705AAzaTfiMRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=cWAiZK0+; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=SC9AHSrK; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4cKZ8F3QG2z9sNt;
+	Sun,  7 Sep 2025 17:42:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1757259725;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=r8ZyPJlnK88y58nk5PDDlvvHiR6G9HAR+z7l0FP9g8M=;
+	b=cWAiZK0+l4h0XvJXgSLiAS8NgFP78J66iixaOEiqPVMNUz+U7KMUCuFcSw+rw3bPJEMQaN
+	kM5XhCOynHe86PZgQJVokb4gfTT3EWLfV0SGeviBO6LjV9lBAl6Vjr3Lx/9UHwNskTqNuZ
+	l3dhIgXrHTJfpRsWprT3+FXpChNLQShJ35sOO+2vS1G4JvZfgQ0b4m1nEytd0ObiAGkL85
+	jVseyPWwsvP/QO0PmPQ/ShkfnuQ1538wV/27fxHlhoPgC9xHjKFiX72usEuOKsjdAnQkkQ
+	vEqULhAamXrau4R3tDqHJp2uUENEl3TnKLsWmr+VPM23ZJQghwgaGCFM2sxXMw==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=SC9AHSrK;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1757259723;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=r8ZyPJlnK88y58nk5PDDlvvHiR6G9HAR+z7l0FP9g8M=;
+	b=SC9AHSrK9xzsCBCrrrUG1vAH/UYNhSTkhY6rWgSwhLjipANSNqiELzP4BCAoeXH2UaiBPJ
+	Lf5HbknorM4Z2fwcDI6rej6P8927U7QKuoM7MiFvrPJLUaAJo6DJ4/1wXonW4oZZHOEZrD
+	eoB+P9BoBCFLrjzOZWPCStp9xi+5EIbaMoJUm+8jYtBuTmI90oexsBOxEZsRIExTRCkrpI
+	9Hf3w+BmgYzLtqeg2ntbpf3jRGbxQoquY7FGy5BMkBwX+VR+jlwgP6qjdOlFIqTMrF/WTh
+	K4XhU7C2gsfqLfqfPYKSV2IqHuGfdB6eKMa7Ffn4KF33JTAh7+YaQWfbglismw==
+To: linux-pm@vger.kernel.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Zhang Rui <rui.zhang@intel.com>,
 	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: input: touchscreen: goodix: Drop
- 'interrupts' requirement
-Message-ID: <pgwfqddpiou2rvawh75cgehteijlr25cxnhmxub32qkar3twje@yiiniixzxtmu>
-References: <20250904195727.168152-1-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH] thermal/drivers/rcar_gen3: Fix comment typo
+Date: Sun,  7 Sep 2025 17:41:38 +0200
+Message-ID: <20250907154148.171496-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250904195727.168152-1-marek.vasut+renesas@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 854210152853a8b1908
+X-MBO-RS-META: k3qby57p35eqdwjxhsp6d534hgui11c6
+X-Rspamd-Queue-Id: 4cKZ8F3QG2z9sNt
 
-On Thu, Sep 04, 2025 at 09:57:04PM +0200, Marek Vasut wrote:
-> Since commit 409fe0cea366 ("Input: goodix - add support for polling mode")
-> the interrupts property is optional, since at least the Linux kernel driver
-> supports also polling mode.
-> 
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Fix typo to millidegree Celsius. This aligns the comment with
+another comment later on the same function. No functional change.
 
-Applied, thank you.
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: "Niklas Söderlund" <niklas.soderlund@ragnatech.se>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Lukasz Luba <lukasz.luba@arm.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>
+Cc: Zhang Rui <rui.zhang@intel.com>
+Cc: linux-pm@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+NOTE: Sent with -U25 for the extra context which spans both comments,
+      the later one is at the end.
+---
+ drivers/thermal/renesas/rcar_gen3_thermal.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/thermal/renesas/rcar_gen3_thermal.c b/drivers/thermal/renesas/rcar_gen3_thermal.c
+index 45151a1733a94..af0bfe2555cb7 100644
+--- a/drivers/thermal/renesas/rcar_gen3_thermal.c
++++ b/drivers/thermal/renesas/rcar_gen3_thermal.c
+@@ -149,51 +149,51 @@ static inline void rcar_gen3_thermal_write(struct rcar_gen3_thermal_tsc *tsc,
+ 
+ static void rcar_gen3_thermal_shared_coefs(struct rcar_gen3_thermal_priv *priv)
+ {
+ 	priv->tj_t =
+ 		DIV_ROUND_CLOSEST((priv->ptat[1] - priv->ptat[2]) * priv->info->scale,
+ 				  priv->ptat[0] - priv->ptat[2])
+ 		+ priv->info->adj_below;
+ }
+ static void rcar_gen3_thermal_tsc_coefs(struct rcar_gen3_thermal_priv *priv,
+ 					struct rcar_gen3_thermal_tsc *tsc)
+ {
+ 	tsc->coef.below.a = priv->info->scale * (priv->ptat[2] - priv->ptat[1]);
+ 	tsc->coef.above.a = priv->info->scale * (priv->ptat[0] - priv->ptat[1]);
+ 
+ 	tsc->coef.below.b = (priv->ptat[2] - priv->ptat[0]) * (tsc->thcode[2] - tsc->thcode[1]);
+ 	tsc->coef.above.b = (priv->ptat[0] - priv->ptat[2]) * (tsc->thcode[1] - tsc->thcode[0]);
+ }
+ 
+ static int rcar_gen3_thermal_get_temp(struct thermal_zone_device *tz, int *temp)
+ {
+ 	struct rcar_gen3_thermal_tsc *tsc = thermal_zone_device_priv(tz);
+ 	struct rcar_gen3_thermal_priv *priv = tsc->priv;
+ 	const struct equation_set_coef *coef;
+ 	int adj, decicelsius, reg, thcode;
+ 
+-	/* Read register and convert to mili Celsius */
++	/* Read register and convert to millidegree Celsius */
+ 	reg = rcar_gen3_thermal_read(tsc, REG_GEN3_TEMP) & CTEMP_MASK;
+ 
+ 	if (reg < tsc->thcode[1]) {
+ 		adj = priv->info->adj_below;
+ 		coef = &tsc->coef.below;
+ 		thcode = tsc->thcode[2];
+ 	} else {
+ 		adj = priv->info->adj_above;
+ 		coef = &tsc->coef.above;
+ 		thcode = tsc->thcode[0];
+ 	}
+ 
+ 	/*
+ 	 * The dividend can't be grown as it might overflow, instead shorten the
+ 	 * divisor to convert to decidegree Celsius. If we convert after the
+ 	 * division precision is lost as we will scale up from whole degrees
+ 	 * Celsius.
+ 	 */
+ 	decicelsius = DIV_ROUND_CLOSEST(coef->a * (thcode - reg), coef->b / 10);
+ 
+ 	/* Guaranteed operating range is -40C to 125C. */
+ 
+ 	/* Reporting is done in millidegree Celsius */
+ 	*temp = decicelsius * 100 + adj * 1000;
+ 
 -- 
-Dmitry
+2.51.0
+
 
