@@ -1,105 +1,145 @@
-Return-Path: <linux-renesas-soc+bounces-21586-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21587-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 625E9B496EA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Sep 2025 19:25:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4691BB49BB3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Sep 2025 23:18:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 728EE1C255EF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Sep 2025 17:26:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 076803ABB00
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Sep 2025 21:18:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CD7E312832;
-	Mon,  8 Sep 2025 17:25:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59CD523B615;
+	Mon,  8 Sep 2025 21:18:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ua8VMQm2"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="Ip98w3po"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-74.smtpout.orange.fr [80.12.242.74])
+	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71FB30DD0C;
-	Mon,  8 Sep 2025 17:25:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B146F22A4CC;
+	Mon,  8 Sep 2025 21:18:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757352351; cv=none; b=O2gemcsnNrH5hgzAQIGmBXM+FPyYBrG528pmpB1EpBLWNwk1UPm80CeHrWFuKlcXjG1oiqiOfxdkPrFl35jl6EzeEXxcsVGxPrRQU8Mn8lu/tUq2NmztHowCITKAp00I2+fXy+4k0Z2LBrrt4jOY2+5Zb0t50BVWexyV/EPqKvk=
+	t=1757366288; cv=none; b=haZynvBOvH6T6a13tu40MnErCJFJP8I6zNoTMaDoIT6HBBo8CqQukFSBKQ4BKLOt0v3P6RZk4ufhPwnEZQ0lk/Ojurb/Nts8Hu5EyxCT7OQYRxT+KLqWc+D9AB1qLMSZm25eAHkgQXKCo/aw6Ey1teKUt114tw3ozsNtTQfcRSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757352351; c=relaxed/simple;
-	bh=vZ1M0/j+tol6OkxMr0hlVrmoHe7gz9INi+eTrspZDLs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p43FJmTT0SWFSQDxJY1HDw7zAgXpw3LbIdANg0tRri4I/LmKEOHVooS+88Bequ697hZjwlPdnQaAqX7Q7tK7iBv0aZu2KZk+xotosjxgE+yQG/uVEqvW9LLBSNKAKlk7b7bbOpccBb8jYvbB2QFEfjcyvWrksUSQJfpLX0PFa9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ua8VMQm2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DB2AC4CEF1;
-	Mon,  8 Sep 2025 17:25:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757352350;
-	bh=vZ1M0/j+tol6OkxMr0hlVrmoHe7gz9INi+eTrspZDLs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ua8VMQm28MuAxhVBQeMUZ/kS/mwfNcTKJVtB+tmxhMSSPfmmvYX473fO0xDcXAkUV
-	 r3XuAzKa00wPhcEQWFiNdK5DtNogesLL27y5ZE2UEGscjc7/mZYCtvoWsacwfmRaBL
-	 dlAQrYL7qHDRArakhLBvrjT/OmLOPp/xoFwcR25OcmHKw10TUdChRjHSlwo9+pIjjz
-	 KUre8tIzV8gM2WMrikSXjU+ujqhYtuqywPxz5+DnHgi2yALDG8MJwKzSqBDpjNbVfG
-	 RWOKc0ZtU2rdPg85cWhYmn1N4yHWOWL0DdQ7+dscYE9bN9kPKijevMCfQk7SmUZkQn
-	 BM6GSz9zfjktw==
-Date: Mon, 8 Sep 2025 18:25:45 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-	devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2] regulator: dt-bindings: rpi-panel: Split 7" Raspberry
- Pi 720x1280 v2 binding
-Message-ID: <20250908-punisher-doorbell-b616682bc682@spud>
-References: <20250905191637.147141-1-marek.vasut+renesas@mailbox.org>
+	s=arc-20240116; t=1757366288; c=relaxed/simple;
+	bh=lRd0m4AP0gScPwxPZnHBGNvcXKIi0NauOPacm8TzuXg=;
+	h=Message-ID:Date:MIME-Version:Subject:References:From:To:Cc:
+	 In-Reply-To:Content-Type; b=Zo6cfKIZ9YG+5tUC3ndc3qrsMnT+KtgrdBFsLyZWx5crL1uBLxKOmiDCWPw0Tkokkno/Esh1+RqINgqhfDkNQGK8qEoNVavUvzQbpMAKp76Q4ZYEXweyusQjRBEvY60+rCs7y0CPs3sj/Yi1M2XWKYAhMn0b8WgP9r1VVrTuJvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=Ip98w3po; arc=none smtp.client-ip=80.12.242.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
+ ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
+	by smtp.orange.fr with ESMTPA
+	id vj6puzqdeoTLUvj6puozOR; Mon, 08 Sep 2025 23:09:13 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1757365753;
+	bh=6ltswrdyQEQpMWiYuSVRDKy5ajUU0upafr0DRYZj5dU=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To;
+	b=Ip98w3po82tDFo78WFreoHDqqSTKQUvoEDNszK2zWi2rPiCt36agSQ7A+d4ZvaSwP
+	 RamEvrAl303pcRErS0TjhS5RHHA6iZh1+gQFULZB4LPDlN6GQkKqpR25DMe4h4xHc+
+	 5RKsqzcnWD5B2tj8gbMs467I/v47QnQV5QSnh7TXb+5fliGMc4NinF060yTtb7QGzG
+	 DglYg7jNHH6qr3PNyWaGhASvBsDuHa0poldyMxkZZNIC3Un7MzxkFR1ZCVXJKCav6K
+	 PkWFuHBzk0GpBkZfbbkSvQDRC0e42JJd9EGFhKs16fNEWSn/bvGwXuv1HhZDuS1UTG
+	 Ali2P3MY8035g==
+X-ME-Helo: [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Mon, 08 Sep 2025 23:09:13 +0200
+X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
+Message-ID: <78c764b8-44cf-4db5-88e7-807a85954518@wanadoo.fr>
+Date: Mon, 8 Sep 2025 23:09:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="z5hG/Mj9q8vHDhMA"
-Content-Disposition: inline
-In-Reply-To: <20250905191637.147141-1-marek.vasut+renesas@mailbox.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 4/8] drm/msm/dpu: use drmm_writeback_connector_init()
+References: <20250819-wb-drop-encoder-v3-0-b48a6af7903b@oss.qualcomm.com>
+ <20250819-wb-drop-encoder-v3-4-b48a6af7903b@oss.qualcomm.com>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Content-Language: en-US, fr-FR
+To: "dmitry.baryshkov@oss.qualcomm.com >> Dmitry Baryshkov"
+ <dmitry.baryshkov@oss.qualcomm.com>
+Cc: abhinav.kumar@linux.dev, airlied@gmail.com, alexander.deucher@amd.com,
+ amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
+ dave.stevenson@raspberrypi.com, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, geert+renesas@glider.be,
+ harry.wentland@amd.com, jani.nikula@linux.intel.com,
+ jessica.zhang@oss.qualcomm.com, kernel-list@raspberrypi.com,
+ kieran.bingham+renesas@ideasonboard.com,
+ laurent.pinchart+renesas@ideasonboard.com, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ liviu.dudau@arm.com, louis.chauvet@bootlin.com, lumag@kernel.org,
+ maarten.lankhorst@linux.intel.com, magnus.damm@gmail.com,
+ marijn.suijten@somainline.org, mcanal@igalia.com, mripard@kernel.org,
+ robin.clark@oss.qualcomm.com, sean@poorly.run, simona@ffwll.ch,
+ siqueira@igalia.com, sunpeng.li@amd.com, suraj.kandpal@intel.com,
+ tomi.valkeinen+renesas@ideasonboard.com, tzimmermann@suse.de
+In-Reply-To: <20250819-wb-drop-encoder-v3-4-b48a6af7903b@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Le 19/08/2025 à 22:32, Dmitry Baryshkov a écrit :
+> Use drmm_plain_encoder_alloc() to allocate simple encoder and
+> drmm_writeback_connector_init() in order to initialize writeback
+> connector instance.
+> 
+> Reviewed-by: Louis Chauvet <louis.chauvet-LDxbnhwyfcJBDgjK7y7TUQ@public.gmane.org>
+> Reviewed-by: Suraj Kandpal <suraj.kandpal-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+> Reviewed-by: Jessica Zhang <jessica.zhang-5oFBVzJwu8Ry9aJCnZT0Uw@public.gmane.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov-5oFBVzJwu8Ry9aJCnZT0Uw@public.gmane.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c | 10 +++-------
+>   1 file changed, 3 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
+> index 8ff496082902b1ee713e806140f39b4730ed256a..cd73468e369a93c50303db2a7d4499bcb17be5d1 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
+> @@ -80,7 +80,6 @@ static int dpu_wb_conn_atomic_check(struct drm_connector *connector,
+>   static const struct drm_connector_funcs dpu_wb_conn_funcs = {
+>   	.reset = drm_atomic_helper_connector_reset,
+>   	.fill_modes = drm_helper_probe_single_connector_modes,
+> -	.destroy = drm_connector_cleanup,
+>   	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+>   	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+>   };
+> @@ -131,12 +130,9 @@ int dpu_writeback_init(struct drm_device *dev, struct drm_encoder *enc,
+>   
+>   	drm_connector_helper_add(&dpu_wb_conn->base.base, &dpu_wb_conn_helper_funcs);
+>   
+> -	/* DPU initializes the encoder and sets it up completely for writeback
+> -	 * cases and hence should use the new API drm_writeback_connector_init_with_encoder
+> -	 * to initialize the writeback connector
+> -	 */
+> -	rc = drm_writeback_connector_init_with_encoder(dev, &dpu_wb_conn->base, enc,
+> -			&dpu_wb_conn_funcs, format_list, num_formats);
+> +	rc = drmm_writeback_connector_init(dev, &dpu_wb_conn->base,
+> +					   &dpu_wb_conn_funcs, enc,
+> +					   format_list, num_formats);
+>   
+>   	if (!rc)
+>   		dpu_wb_conn->wb_enc = enc;
+> 
+
+dpu_wb_conn is allocated a few lines above using devm_kzalloc().
+
+Based on [1], mixing devm_ and drmm_ is not safe and can lead to a uaf.
+
+Is it correct here?
+If the explanation at [1] is correct, then &dpu_wb_conn->base would 
+point to some released memory, IIUC.
 
 
---z5hG/Mj9q8vHDhMA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+just my 2c.
 
-On Fri, Sep 05, 2025 at 09:16:30PM +0200, Marek Vasut wrote:
-> The 5" and 7" Raspberry Pi 720x1280 Display 2 MCU is a bit more
-> complex than the original Display 1 ATTINY88 and the binding is
-> also a bit more demanding. Split the binding into separate file
-> and fill in required gpio-controller, #gpio-cells and #pwm-cells
-> which must be present for the V2 MCU. Include mention of the 5"
-> panel in the description of Display 2, as the 5" panel uses the
-> same MCU.
->=20
-> Fixes: 6d09c6e474bd ("regulator: dt-bindings: rpi-panel: Add regulator fo=
-r 7" Raspberry Pi 720x1280")
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+CJ
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-
---z5hG/Mj9q8vHDhMA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaL8RmQAKCRB4tDGHoIJi
-0tNSAQDHvTZVxppVac9hVI+YGFCfXJ0VH5h0bbcu57iFtmsfBAEAxIMkY/eVkpPB
-xh7DfBxcfZiL8+fcNFfZu5DnY8J4GA4=
-=MQSa
------END PGP SIGNATURE-----
-
---z5hG/Mj9q8vHDhMA--
+[1]: 
+https://web.git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/drivers/gpu/drm/xe/xe_hwmon.c?id=3a13c2de442d6bfaef9c102cd1092e6cae22b753
 
