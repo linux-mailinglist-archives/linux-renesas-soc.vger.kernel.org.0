@@ -1,120 +1,136 @@
-Return-Path: <linux-renesas-soc+bounces-21571-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21572-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85FE7B49007
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Sep 2025 15:46:40 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C62BB49063
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Sep 2025 15:54:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 40BA0167CBF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Sep 2025 13:46:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7BD817A5031
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Sep 2025 13:52:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C06A330BBA5;
-	Mon,  8 Sep 2025 13:45:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6CF130E0C3;
+	Mon,  8 Sep 2025 13:50:27 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FEC530BB9D;
-	Mon,  8 Sep 2025 13:45:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8993A30BBBF;
+	Mon,  8 Sep 2025 13:50:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757339147; cv=none; b=hDA3sA5ocps9VmHgvDzl0IHeDNpQw1LOQcJ65zBG374ZYEdrO63oM3SNKvjLQjmwuVY23X/9Pud1ys1K7moY+hqzpEfQS+myJfVCsp1OLjRLo0AJWLV6PTS2m2HBgGmlbnEHI8E8JPInNogctqR9rcGzUyQSwGRy59AUqhDLGoE=
+	t=1757339427; cv=none; b=d9UNvf7VNUyD98qL9Wp5g/45hnHx1AmUp8krrhl/7gMmQkBV28Y3qweQwVHPjB2BpUp6K+FG0ZWOBw1ZdnXYWK+AtlvoQN6Ro3kP8Tr5dhfl8yus4rFl1iAPjQnQLOq3Lb1bnhfSBGZ01ziyg2fi8/AhW6wnIw5yzX70HkSf4co=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757339147; c=relaxed/simple;
-	bh=lKauLn5+2xwHchcKZZ5CPnhjhdpYDngJAQZhK9lcAAc=;
+	s=arc-20240116; t=1757339427; c=relaxed/simple;
+	bh=V34JvDqHnn89NzOBpFWeJvdOmcenAISYq7m3Rr0xNtc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LmpRC/45iSjcIgLdLKFtR344H+RdrWvFG7kooBi/wJ2258QC4lDMD2w1qNXQRaYSJzTzigpVT67gAZ7Y9DAOKGJD1ANlXFoZFqOUiLOOepVFXsKzldE83nHxpE9Ahs5oenb6p6AT4sCWFDIcQ+8StMgIlj4pLO+wBXmbQWn4DTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.50
+	 To:Cc:Content-Type; b=bCIEBhMLX4yt1P1ezo0aA2l7tOT1Xv60AilsW2a6GAIEANgHR2sfHVhTCN+FUFs76cLaejXeZwbMPvYv1aTitOQhsN7qBohcg1jlSJopvIB7sDUTkKWyFEDuQIxVW2zDdNYILmFPYGDkJaDmxAnbfIC+80yBG4/MssIQiaY6AkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-89948e581d5so2381184241.3;
-        Mon, 08 Sep 2025 06:45:45 -0700 (PDT)
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-544a55b84d8so1366393e0c.2;
+        Mon, 08 Sep 2025 06:50:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757339144; x=1757943944;
+        d=1e100.net; s=20230601; t=1757339424; x=1757944224;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CqxnRLg2LuoFk9SqTSQO2WUraT5Rq33d28E8i3syP3I=;
-        b=eHztheZpuEQ0x83cOMpEx5SQ7Viq3ifncHamQJQd2/Q8C6osVj0yTtTFX4bINtLVwS
-         xnsmwavQ3zB9AkOaMsj5/7BiPkZXviwfMIBiiu7mpnJgJfnXySQ+nyYWPW8rVS2kWrPK
-         Joffe8Hza2z8CNSfniS+6phhySns3AnqElvcpRocUT9P1h/dg1KPrEn9+Qxakuzd/TSq
-         5/xmzdR8h/K6WS7OAev6+bmdQceAApO0qgUq53jnyJpWvL2T8uCxosbKqZ44rSHsMYTC
-         6FZZzLNJDHPIlF4l+nTYo0x7MK/KbJTxJXH71V5ZpO2I6TVV6ndpgCgUYmX6t4D/ezN8
-         pueg==
-X-Forwarded-Encrypted: i=1; AJvYcCUWUB6iq68rsBW1Hrj/Qx9Ub6hXRiOq+MULnxsxpgJeAoTMg+20kju3pMzt0KZPspuFs6C4Y9R0TpE6@vger.kernel.org
-X-Gm-Message-State: AOJu0YyyzXT1VylEIUdBGmLR9N2gtlJlXVlh6Xr+d5KFgxa/APHcUZY2
-	WZS/cH4VfhMLOKpcgHDUJ9JB8kBLpctIrcXtHcwZKGzzE/wtOH0s16/9Pl6fr3bG
-X-Gm-Gg: ASbGncvaHq9VHQUAfw0/WTQ0B5ru8dgjx8lUTjqrrMf5Q6ZRtCoZOHJqxptRqQEvpNS
-	MM6Dmmecz2+ZnzhvxxnnjDSDavgp50naMKB+iGN/w3bCDDdrbjx+RafyawWSs7OQeI3AvN9s8PK
-	SNaPhHvHFN2/MqV9j5hve9l6NijclcC33/4QcZ3uEUOTnOEpwcjnHYrEAqACjIM/NCOBVt0Y9E0
-	WPoTGE2qxKxnJkJn2i26rWA/mrR45TChNpQluPLAplq2atgiHMaCPTruCiclAHJ8kIKBsdNQaqm
-	LJg/lbG5E5VaENQQGlAMewI/yucIwBzNhT7QkndCIL7RqbuZu3VbUUMl6hSfTGAZi1GUw98z/1c
-	4lW4zLyIJUf6lVYJ2/NYpAa8OwAlnbQ0OGlL/J3QJNHL8B72thOANpAwmv+Z0
-X-Google-Smtp-Source: AGHT+IGNXqXD/alHZLp+nStz5BHyXFOpuI/nUodVPX1OafY6icFeVcpDcL+rAHfSDrvhvEKngdm4mg==
-X-Received: by 2002:a05:6102:dc8:b0:524:d902:8c80 with SMTP id ada2fe7eead31-53d22e1e883mr2453687137.28.1757339144113;
-        Mon, 08 Sep 2025 06:45:44 -0700 (PDT)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-52aefbabb3csm10548924137.8.2025.09.08.06.45.43
+        bh=+ml761WVy05tdScd/Dv5mha508YSOxsnNTPxMIr+13U=;
+        b=fgGTvRuYYxJYEU4ZxAxagZpjlovy7bDYv1IKbyHAx4VBFvl47QDajpCZlGlL2xP8gD
+         3D7q7qnhic2xOnuhzYMmsyv+yZvlU5/1qaad9ljOK+qpWhDTe65Oprj5RIa4032Hwldn
+         msyHcolJ8ZSw5YJjXojkgMdxfLEHdjozVo2yl+2nsIYoWTWQIgPIgrwaANWVK/0M61HU
+         oI6WTUDwDsjCnP/sx82Pvfe0CmRyIIPUQ0WasZVYecndICdMb8mLOX9jkTx5XvA+NnXx
+         wq8iEEpel5KMwjarT+rAjw9GYR4qJhsbkIlpEZ9GkM+I4lP6kDZYyW89CVDA8vUr0YzB
+         OCSg==
+X-Forwarded-Encrypted: i=1; AJvYcCWCnPgwTgBmlO1cDBU35V05myFwYxulD7P9aoF5qOPi99k7C93V3AzRjX3gptJpK+geofESAngBElKU59KNqO5kDnY=@vger.kernel.org, AJvYcCXEVDjOoJJ6LI6sgbKsXZLmOXafKr3b6M9UFZmrXAD5Mzdb46nq57qgpdqFkN2pk3dax2Ohl9RHGng=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxrlKt15Wazhs24wcWBRf9IVZ6YNT9mCxHvfpkCB/FQffZGH9TC
+	tUAQD1Dxz3CFC1A3UQ8Eu8gU99mgOCfryCFbBi7l0RQeJhnRNSK2AdnvQKCWEdm1
+X-Gm-Gg: ASbGncufr/5swQ/jXxwB2eBQXUNQXrkCQ4DYytUcfHNmrKmyLK1P3aXkWd6dOK7Sn/H
+	w0pn4zxv2AiecwS0LfYLNEbMToRp+BE1czEF7AJBkvZazFme/aLm2+utocq5uX0c/sQoH3e7ew4
+	I1ULwlQ7pWxPLrMe69NQqG640UlLoGwCcnQJad4Xcv1GKTZk0DdTWXJOwR/e8wmdC6YNUq7tV4b
+	cITnya58h37Ebspo+tqXf7PJjxWUuFlxxEN2awghW9j2x5DguuoL+VDbsHC9bgGmCq2Q6avLcPo
+	omm26q83SDWzphbrAMcB3uxyC8QSfemhXaGcQtL9bSRrNkZ1uNg8V/1nFtTynR2HLJxFu1awnWI
+	sCfqanNix/tJR6aFsyvmn6wQcCZU7ACe+2nKmmldJQnslt+jRPzIKdzFQ/z7MuwjsW48Vr74=
+X-Google-Smtp-Source: AGHT+IFLApw7Z1S663u6mmFAuyvzTMMRO0BP+wmyBxOT3lw6FIL86MI/nsNNUSErqdqQQ/uhCq6Liw==
+X-Received: by 2002:a05:6122:251c:b0:539:3bb5:e4c8 with SMTP id 71dfb90a1353d-5473cbb0200mr1729942e0c.12.1757339424201;
+        Mon, 08 Sep 2025 06:50:24 -0700 (PDT)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-544a666da0csm10616129e0c.28.2025.09.08.06.50.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Sep 2025 06:45:43 -0700 (PDT)
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-89018ea8f7cso2296839241.0;
-        Mon, 08 Sep 2025 06:45:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW2astoLtG8etF1l7Eo0JzsE9gWKRhJ/PV44Igo+4c/MDKlPsulJpIAB4SqrU/ZIBet3bCSqcXzE7hw@vger.kernel.org
-X-Received: by 2002:a05:6102:4b85:b0:519:534a:6c4f with SMTP id
- ada2fe7eead31-53d2434aadbmr2513652137.33.1757339143417; Mon, 08 Sep 2025
- 06:45:43 -0700 (PDT)
+        Mon, 08 Sep 2025 06:50:24 -0700 (PDT)
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-89019079fbeso902904241.2;
+        Mon, 08 Sep 2025 06:50:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUSqteZYhtZdEdUi3/3/o/5Yx2rSgDRiHJgrJipECAl1QtgGxD+NEzkpyF092AKFK2a2C/6kef6m7s=@vger.kernel.org, AJvYcCWyjyQNK4/c+XB7wA73MU848qXs1BgOaSY1ZD8Yxnj7t34KVrDX+eJx12Re+OIBFhHsuuWntqPbFg6VV1vWKa53edk=@vger.kernel.org
+X-Received: by 2002:a05:6102:5984:b0:52a:9223:1164 with SMTP id
+ ada2fe7eead31-53d0ce6c32fmr2135421137.9.1757339423677; Mon, 08 Sep 2025
+ 06:50:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <6f71998cd83730f77e0ddeea4b822aa4f8b833e7.1757067771.git.geert+renesas@glider.be>
-In-Reply-To: <6f71998cd83730f77e0ddeea4b822aa4f8b833e7.1757067771.git.geert+renesas@glider.be>
+References: <cover.1755855779.git.geert+renesas@glider.be> <f9198ea3be46f1eb2e27d046e51293df7fb67f46.1755855779.git.geert+renesas@glider.be>
+ <TY3PR01MB113463B58C2110A8BC108072A863DA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <TY3PR01MB113463800F4EBB1762FE96DBF863DA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB113463800F4EBB1762FE96DBF863DA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 8 Sep 2025 15:45:31 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV0w5a0jYqD9Kwy7j_nXBj5CAsLgApBPNxST2yQyG_Hvw@mail.gmail.com>
-X-Gm-Features: AS18NWDfQ8dqePyh8iqVprQqsoCdVehMJmNsHTNZ5Rq1SUPbY92ob8aVxkI8KKM
-Message-ID: <CAMuHMdV0w5a0jYqD9Kwy7j_nXBj5CAsLgApBPNxST2yQyG_Hvw@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: renesas: rzg2l: Fix PFC_SMT_mn register offset
-To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, Linus Walleij <linus.walleij@linaro.org>
-Cc: linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
+Date: Mon, 8 Sep 2025 15:50:12 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXJpJ7YOUJo1O9JqrQyevf=gZsFTbU9DZG8feHonuJ4LQ@mail.gmail.com>
+X-Gm-Features: AS18NWDQMury6GO1Ec_q9rkKIHe_iPhFrO5ifmVaXX515qkBpR-PnK2JdNnOOog
+Message-ID: <CAMuHMdXJpJ7YOUJo1O9JqrQyevf=gZsFTbU9DZG8feHonuJ4LQ@mail.gmail.com>
+Subject: Re: [PATCH/RFC 6/6] can: rcar_canfd: Add suspend/resume support
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
+	"linux-can@vger.kernel.org" <linux-can@vger.kernel.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 5 Sept 2025 at 12:23, Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-> According to the RZ/V2H (Rev.1.01) and RZ/G3E (Rev.1.10) documentation,
-> the Schmitt Control Registers are located at offset 0x3500.
->
-> Fixes: 725933a54f718af5 ("pinctrl: renesas: rzg2l: Add support for configuring schmitt-trigger")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> Untested due to lack of hardware.
-> ---
->  drivers/pinctrl/renesas/pinctrl-rzg2l.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> index 79c7792c2f549dab..52a61901aef0f191 100644
-> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> @@ -142,7 +142,7 @@
->  #define PUPD(off)              (0x1C00 + (off) * 8)
->  #define ISEL(off)              (0x2C00 + (off) * 8)
->  #define NOD(off)               (0x3000 + (off) * 8)
-> -#define SMT(off)               (0x3400 + (off) * 8)
-> +#define SMT(off)               (0x3500 + (off) * 8)
->  #define SD_CH(off, ch)         ((off) + (ch) * 4)
->  #define ETH_POC(off, ch)       ((off) + (ch) * 4)
->  #define QSPI                   (0x3008)
+Hi Biju,
 
-Please ignore: I missed that the SMT registers are documented to start
-at port 0x20 instead of 0x00, so the based address in the driver must
-be 32 * 8 = 256 less.
+On Fri, 22 Aug 2025 at 18:19, Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > From: Biju Das
+> > > From: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > Sent: 22 August 2025 10:51
+> > > To: Marc Kleine-Budde <mkl@pengutronix.de>; Vincent Mailhol
+> > > <mailhol.vincent@wanadoo.fr>; Biju Das <biju.das.jz@bp.renesas.com>
+> > > Cc: linux-can@vger.kernel.org; linux-renesas-soc@vger.kernel.org;
+> > > Geert Uytterhoeven <geert+renesas@glider.be>
+> > > Subject: [PATCH/RFC 6/6] can: rcar_canfd: Add suspend/resume support
+> > >
+> > > On R-Car Gen3 using PSCI, s2ram powers down the SoC.  After resume,
+> > > the CAN-FD interface no longer works.  Trying to bring it up again fails:
+> > >
+> > >     # ip link set can0 up
+> > >     RTNETLINK answers: Connection timed out
+> > >
+> > >     # dmesg
+> > >     ...
+> > >     channel 0 communication state failed
+> > >
+> > > Fix this by populating the (currently empty) suspend and resume
+> > > callbacks, to stop/start the individual CAN-FD channels, and (de)initialize the CAN-FD controller.
+> > >
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > ---
+> > > While this fixes CAN-FD after resume from s2ram on R-Car E3
+> > > (Ebisu-4D), it does introduce a regression on R-Car V4H (White Hawk):
+> > > after resume from s2idle (White Hawk does not support s2ram), CAN frames sent by other devices are no
+> > longer received, and the other side sometimes reports a "bus-off".
+> > >
+> > > However, the underlying issue is pre-existing, and can be reproduced
+> > > without this patch: the CAN-FD controller fails in the same way after
+> > > driver unbind/rebind.  So something must be missing in the (de)initialization sequence for the R-Car
+> > Gen4 CAN-FD register layout.
+> > > Note that it keeps on working after ifdown/ifup, which does not reinitialize the full controller.
+> > > ---
+> > >  drivers/net/can/rcar/rcar_canfd.c | 53
+
+> STR is now working on G3E based on BSP code with the following modifications[1]
+
+Thanks for looking into this!
+Unfortunately your changes do not fix s2idle on R-Car V4H.
 
 Gr{oetje,eeting}s,
 
