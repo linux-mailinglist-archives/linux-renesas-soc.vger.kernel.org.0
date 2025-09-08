@@ -1,149 +1,120 @@
-Return-Path: <linux-renesas-soc+bounces-21583-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21584-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27DE8B49423
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Sep 2025 17:48:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EA4DB494FC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Sep 2025 18:19:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4A4221BC33F7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Sep 2025 15:48:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1E1903B2CAC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Sep 2025 16:19:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7046311967;
-	Mon,  8 Sep 2025 15:45:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E681430F80A;
+	Mon,  8 Sep 2025 16:18:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Oz7MFzpr";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="DJwzI5MT"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="ZLYGhvrL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1873D311947;
-	Mon,  8 Sep 2025 15:44:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C706230F55E;
+	Mon,  8 Sep 2025 16:18:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757346301; cv=none; b=P/Voez3NCpYL6440qwcRwSJ7kw7JW7fHRKH7IRYuJa8sD0lVS+UkdXf0F/i1iU3YzgMLyagmma5bOJoiAHXZvrQ5QuuvHjliR+usRAamQCCM3u+86XEYt0tRUGzX2wp9VYMvAI3+JQd3sojvzhin06tbGRjbLXremZrwUCO9vkU=
+	t=1757348321; cv=none; b=JfxPXp8CoG1CA+qDDs6W6+/ECqhs4H/7gjMOCtryD6Rr74a2yelbsk6UO76ckaNu3Mo6KUMPqg+Zt2H7A1AzZasOSCJgwHCf0XLnPrI4Pdd/eoFIKzeDussTJSs3no5TGDCr21PuIBv+9KqHvHJx6M0UoFB6bk2z7sOqeTrpm+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757346301; c=relaxed/simple;
-	bh=l3RTtVjp0nY9tDtNogGgW+myfEU4sX1R8DwUnGQVFB4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qAf9j4/MlW6iJdC7Pp8lNx+LkYi+509S8K0F/xPRjzoLMBuwuKRKhBMFbrHl4S96QPdW/CqOhlCLvf2aM7PLzo5CuDTf4De6OSLDiVKAaauyEmR6gFD3hTasYHOsNPp3m9/5K2nG3hgCdOTTeIdgQb+YSuVBseT/ZTNmbyDbiHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Oz7MFzpr; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=DJwzI5MT; arc=none smtp.client-ip=202.12.124.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id F069F7A0170;
-	Mon,  8 Sep 2025 11:44:58 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Mon, 08 Sep 2025 11:44:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1757346298;
-	 x=1757432698; bh=Bg6zklM2N41/VHeW/tV1iE1EYj/xoKsZdA18LOc8lpA=; b=
-	Oz7MFzprm7B6tIXBJCWIFYt8ZkFRuJxXNYuQVyDo3kkuCiaLAtWjz/iSoPIZT9y6
-	Opld630XOrW/uVWzLCRPpZUDdaHk2bhzjYooFcP3G3E48rt+kxBhDLYhzhDU+XTx
-	yKZ3JJRSSrQH5EmH06D5AtTLn1LZ+amI/kP9mXXiXui68vbV68d2wVUPki3YpT/h
-	fP2cdqFvmSYtHt4MPipdTDTYZciUMFikqJwDAdXYYUyvAVedVw26pxuCyVkgTeoQ
-	UsuW9TnP8byC5ga51RFrbkfCHIZVJDSMC4D8yTzMrrv1jgewOMoGixB7eglcfdou
-	Yz0Vf0jq1ytMfhUgjjui2Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1757346298; x=
-	1757432698; bh=Bg6zklM2N41/VHeW/tV1iE1EYj/xoKsZdA18LOc8lpA=; b=D
-	JwzI5MT4ZpgC2VlEVkdQcJnGY8FZ0eluuBdCeFRB6NRTBUDbBparTxBdqk8oj7GN
-	FH0Dvtg2ZLHebowcXGIUwIfUX+7Og3hqoc/RmCKsuwzITbPnDYzrKyC4kX+nDqgq
-	QLd7HQHJBjRJbMjOf/CGF325LQFba0eL4YATpUy3QF/FRdxdGQeND2kLEhLKSDSH
-	PgP6eULc++GWMa6wnQQvcen7vZlyVt/TxStlhuLmaafiv8NGxnNv78W0afnaXcb8
-	4dOrfOxAbsr9DT74oBsDHYyr5eJwNOExUFY+4tKjB/Fsc1ch4MDz48vtZikGkeCc
-	IfMm/dscTdqW9IG+IEtGg==
-X-ME-Sender: <xms:-vm-aC7pwiZJBSzpg36bLQGKASre5t-G9OwGO_u5mqlC5SiRA-5pYg>
-    <xme:-vm-aJR0AtW6Lm2BZ7CQMciWpWaiCr7ahEqHpYk9nP1UZkfqrEyYl_n1RjZpuEJOr
-    1UqHN2pPOPxXnnlY3M>
-X-ME-Received: <xmr:-vm-aIwSO5Cw3sI0iHHmRt54f2ZHBmKSEVA8Ukdx8q5EPAEF6n-FeqaEutSyRbR-KKSThC9KsgwEbHPzGFyq5cV_0A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddujeelfecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefhvfevufffkffojghfgggtgfesthekredtredtjeenucfhrhhomheppfhikhhlrghs
-    ucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrg
-    hssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepheeigfeuveeutdef
-    hfehgeekvedtleeuueekveefudehhffhjeffgfegffelfeegnecuvehluhhsthgvrhfuih
-    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhu
-    nhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepuddtpdhmohguvgepsh
-    hmthhpohhuthdprhgtphhtthhopeihohhshhhihhhirhhordhshhhimhhouggrrdhuhhes
-    rhgvnhgvshgrshdrtghomhdprhgtphhtthhopegrnhgurhgvfidonhgvthguvghvsehluh
-    hnnhdrtghhpdhrtghpthhtohepuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvthdprhgt
-    phhtthhopegvughumhgriigvthesghhoohhglhgvrdgtohhmpdhrtghpthhtohepkhhusg
-    grsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehprggsvghnihesrhgvughhrghtrdgt
-    ohhmpdhrtghpthhtoheprhhitghhrghruggtohgthhhrrghnsehgmhgrihhlrdgtohhmpd
-    hrtghpthhtohepnhgvthguvghvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthht
-    oheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:-vm-aJoWoZB-eeuooX8dmMvM337mh65FVHKL0I8SIK1Oi0tgR1IQGg>
-    <xmx:-vm-aD0MT3NoGPsVNgz6m9lZqj0hHGVOeqYRkVVGwv2eMvWrjqwn2Q>
-    <xmx:-vm-aBzGXdU6ADchleWi8vdZ85Pc1nr-hStKv4XBbMBUpfD8Xu5WxA>
-    <xmx:-vm-aPgHM2Vh8BSb2yWHfN4fASTDZ8TpIvnvKDOCYCY5p3ef62Sq7w>
-    <xmx:-vm-aPIHmKjGVQ3c25vMv49AcxKYoIAauKai4NVDk5Cw9-IL8ZYgclCx>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 8 Sep 2025 11:44:58 -0400 (EDT)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	s=arc-20240116; t=1757348321; c=relaxed/simple;
+	bh=HjaSUkvFe9Zf1Jko2GILk8f9W1Z02HpzK2jNLOVrTfg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HUBIGcEpahvb42pz/jBdnPgbTzeBSyrdTxvkN7zX6UFAT84y0bQwzZldXYJkdjA2o+NU3/w+YsY7hIy3c+XlCQuQNgJ416XykPZsGjFbYz4lEurEBYDuigChORAXBY6c1/88D++3k3M/gH+341baKxcPPwpLnS1op/csgjRduvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=ZLYGhvrL; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=EeR/8Ymk60ruReRK9ZfH2vJcsqf8z8v4x0XDb+bu+ZY=; b=ZL
+	YGhvrL54zOR4/eRylD1TF6eHvOG6RjgZwEQP5I41LWjf0AyYcjlCnLh/1brxEjfO98J3E4hP7Qhwh
+	o3Dhn4VhMoc53UfNVthkH75D3c0HM/sV0rJmim0SKrcE0UuSKz1ZEo0R9XvpjWw4nwXipkc8C7JeR
+	emA6E3N9cNojAqU=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1uveZW-007gf8-Vg; Mon, 08 Sep 2025 18:18:26 +0200
+Date: Mon, 8 Sep 2025 18:18:26 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
 	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
+	"David S . Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 3/3] net: ethernet: renesas: rcar_gen4_ptp: Use lockdep to verify internal usage
-Date: Mon,  8 Sep 2025 17:44:26 +0200
-Message-ID: <20250908154426.3062861-4-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250908154426.3062861-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20250908154426.3062861-1-niklas.soderlund+renesas@ragnatech.se>
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-sh@vger.kernel.org
+Subject: Re: [PATCH net-next 2/3] sh_eth: Convert to
+ DEFINE_SIMPLE_DEV_PM_OPS()
+Message-ID: <3952a6b6-6428-4c7b-9a3f-7ae9c8599077@lunn.ch>
+References: <cover.1756998732.git.geert+renesas@glider.be>
+ <ee4def57eb68dd2c32969c678ea916d2233636ed.1756998732.git.geert+renesas@glider.be>
+ <082d5554-7dae-4ff4-bbbe-853268865025@lunn.ch>
+ <CAMuHMdU96u41ESayKOa9Z+fy2EvLCbKSNg256N5XZMJMB+9W6A@mail.gmail.com>
+ <c1f6fb82-9188-48ed-9763-712afa71c481@lunn.ch>
+ <20250905184103.GA1887882@ragnatech.se>
+ <CAMuHMdU=Q6AZcryj1ZBGW+5F+iYvZCL=Eg0yPw0B4jnczmA8nw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdU=Q6AZcryj1ZBGW+5F+iYvZCL=Eg0yPw0B4jnczmA8nw@mail.gmail.com>
 
-Instead of a having a comment that the lock must be held when calling
-the internal helper add a lockdep check to enforce it.
+On Mon, Sep 08, 2025 at 04:36:29PM +0200, Geert Uytterhoeven wrote:
+> Hi Niklas,
+> 
+> On Fri, 5 Sept 2025 at 20:41, Niklas Söderlund
+> <niklas.soderlund@ragnatech.se> wrote:
+> > On 2025-09-05 13:57:05 +0200, Andrew Lunn wrote:
+> > > > You cannot enter system sleep without CONFIG_PM_SLEEP, so enabling
+> > > > WoL would be pointless.
+> > >
+> > > Yet get_wol will return WoL can be used, and set_wol will allow you to
+> > > configure it. It seems like EOPNOTSUPP would be better.
+> >
+> > Out of curiosity. Are you suggesting a compile time check/construct for
+> > CONFIG_PM_SLEEP be added in the driver itself, or in ethtool_set_wol()
+> > and ethtool_get_wol() in net/ethtool/ioctl.c to complement the
+> >
+> >     if (!dev->ethtool_ops->get_wol || !dev->ethtool_ops->set_wol)
+> >         return -EOPNOTSUPP;
+> >
+> > checks already there? To always return EOPNOTSUPP if PM_SLEEP is not
+> > selected?
+> 
+> Iff we want to go that route, I'd vote for handling it in common code.
+> Still, there is no guarantee that WoL will actually work, as on
+> some systems it may depend on the firmware, too.  E.g. on ARM
+> systems with PSCI, the SoC may be powered down during s2ram, so
+> there is no guarantee that any of the wake-up sources shown in
+> /sys/kernel/debug/wakeup_sources can actually wake up the system.
+> I tried having a mechanism to describe that in DT, but it was rejected.
 
-Signed-off-by: Niklas SÃ¶derlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/net/ethernet/renesas/rcar_gen4_ptp.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+WoL is a bit of a mess. Russell has done a little cleanup for when the
+PHY does WoL, not the MAC.
 
-diff --git a/drivers/net/ethernet/renesas/rcar_gen4_ptp.c b/drivers/net/ethernet/renesas/rcar_gen4_ptp.c
-index cf13eba9b65e..d0979abd36de 100644
---- a/drivers/net/ethernet/renesas/rcar_gen4_ptp.c
-+++ b/drivers/net/ethernet/renesas/rcar_gen4_ptp.c
-@@ -42,12 +42,13 @@ static int rcar_gen4_ptp_adjfine(struct ptp_clock_info *ptp, long scaled_ppm)
- 	return 0;
- }
- 
--/* Caller must hold the lock */
- static void _rcar_gen4_ptp_gettime(struct ptp_clock_info *ptp,
- 				   struct timespec64 *ts)
- {
- 	struct rcar_gen4_ptp_private *ptp_priv = ptp_to_priv(ptp);
- 
-+	lockdep_assert_held(&ptp_priv->lock);
-+
- 	ts->tv_nsec = ioread32(ptp_priv->addr + PTPGPTPTM00_REG);
- 	ts->tv_sec = ioread32(ptp_priv->addr + PTPGPTPTM10_REG) |
- 		     ((s64)ioread32(ptp_priv->addr + PTPGPTPTM20_REG) << 32);
--- 
-2.51.0
+I don't think we can check for PM_SLEEP in the core. There are some
+PHYs which are powered by the standby voltage, so not effected by
+power off. And their WoL output is connected directly to the PMIC. So
+they have the ability to wake the system from off, not just suspend.
 
+For the hardware you are dealing with, the MAC does WoL. You know it
+cannot work without PM_SLEEP, so i think it needs to be the MAC which
+returns EOPNOTSUP.
+
+	Andrew
 
