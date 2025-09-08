@@ -1,70 +1,70 @@
-Return-Path: <linux-renesas-soc+bounces-21581-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21582-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E37A8B49433
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Sep 2025 17:49:53 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E121B4943A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Sep 2025 17:50:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9AE903B80EC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Sep 2025 15:47:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AF9187AD540
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Sep 2025 15:46:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A6B23115A3;
-	Mon,  8 Sep 2025 15:44:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 900A2311596;
+	Mon,  8 Sep 2025 15:44:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="fe633TAO";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="J+0O/sGC"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="gtJOkHY0";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="aUujdGyA"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE2E311595;
-	Mon,  8 Sep 2025 15:44:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8623530DEC6;
+	Mon,  8 Sep 2025 15:44:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757346296; cv=none; b=hAWBshEwnI5gqL4Tg9TM9qQq2ESFQ+YtCfV7qqOr6r8NIIkxUqT8qYjruUgpKM+N6ST4gYXrnvxL+5McHYhldhPry7IH5Ofzop4pI+lFbfi65RXBSimmtTblRWWGk/EhBJH/GqfAYsczIiYcP65AqTB7dNX6dHR1+/I++byiryU=
+	t=1757346299; cv=none; b=UzvsO3lXAyfnxh5Qyla0t6MAXreLlo7F6x20/SGAn6RbZaP4du7XW2NlXV44RknObs/sRi+lJdvm/Uxe3fSumylb6NxwY95aMc4WhasCFUzCwBjBVUBLaAb88tpTPf1m6TcdfWr9MQlu/tCouNGmH8ykvGS/VSUUiT72UisFUjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757346296; c=relaxed/simple;
-	bh=jOlTBtmfzKbyHUfNSllNI/VF3q9Tj1s9LVUvqxWL7/s=;
+	s=arc-20240116; t=1757346299; c=relaxed/simple;
+	bh=qJbDGOR3XjxtcnEVBkZH8sANOOuy70eTnZetrh9ITFs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oe8NlDfTzAQWRLk5zmBpYhGoVViu8nfO70enqHnXsfT6H1XsloJ4egtPkJ7h38vm675TXIaNahUvMSpH46LgSH+SwVnEtSQXs1RFaBdY0PtK7kOid15crJhkbBTBvt7D5J8kYpOLvNZxt/seNMmATRFpFx605FrVq+8zYXbIujM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=fe633TAO; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=J+0O/sGC; arc=none smtp.client-ip=202.12.124.154
+	 MIME-Version:Content-Type; b=duJ1QjFBCSLBOSyMxOgsVLDKv8BUza9/JPxGATotXtGtD7miU+Re1frfxvhakOa7XxThCY6eWO3hhTO3XbcrXE7o3ZD/ydfDYM7x0XLYKPjFIpb7JALbVbjylL9//BhDcbFf3KCTWjt0mnheU4hSW6g2UHL7aVLZBH3ZFD6yoJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=gtJOkHY0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=aUujdGyA; arc=none smtp.client-ip=202.12.124.154
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id C38AA7A0170;
-	Mon,  8 Sep 2025 11:44:53 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Mon, 08 Sep 2025 11:44:54 -0400
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 7B0787A0171;
+	Mon,  8 Sep 2025 11:44:56 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Mon, 08 Sep 2025 11:44:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1757346293;
-	 x=1757432693; bh=IHfaIgeSupgRJx253nE/poCucMilaHxDJ3+g+9NV0zo=; b=
-	fe633TAOyXy+Fj8sm8M9Dhs4Mzyxxm+UvO4ZLiOcsypq7+ZsH3zZbjyNt94hT2HT
-	XTOckL2DiEJATe7KCF3GpiCVLV3V/o1gXWpR/WHCYdk1a3+EfI0B4l8q+Hf1ibyX
-	rxJU67P6+eERjf0ZYSG1uMEzT5RYai1ptfIHZz6OxX3JQrMItmnVh4tT3W1aI08s
-	LpeGJc9+VJ38TnZ6u7lV7CoBo2ohi1adfBl4xfBmnArRYgk98pP8QIv4XabJTJkj
-	6q3HsPr3b6/zeTiNOTkaNcmtWIwvPYmcMtx+/Zfs6xNOA5GBY8dfqKHdS7OYrE+u
-	G7Yzt9ttW/3h7rvfe7mF+A==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1757346296;
+	 x=1757432696; bh=h4A9eojqnWiU8JyIjKCkZ5RM2W5RM6QrAUD+xxR29Wg=; b=
+	gtJOkHY0qTfhHuM9k1RiGoegwlgWPLJwJuw27gHN+rU6nSkfBkV8cl9U6McyqYH3
+	7gH4Fm0vX/WlFkEbewP5reAAvKrnKlXd0GQynS3EPWyO0ATSc5+Frvc8sODMSSVp
+	qLi6cCsPJjBBIL8tQ6glkoqmjjbwAZyDxgJq/OGJk1B2ebF1vueK2lDQf0gp2uUQ
+	jO2oC+gaCGjdVPMTz5rTL+QL8Q09lxBqRuhsc1lgMTmwnsWfbz+tdaqz9hGgoYnB
+	c2F0P7plfeRQmCanfIJvm7GpA9y9Rfod8+TABs88C1Ko6Am+Kpdg/3WQRdcaL35D
+	eu/+eqs+2f14QKu0AwTI4A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1757346293; x=
-	1757432693; bh=IHfaIgeSupgRJx253nE/poCucMilaHxDJ3+g+9NV0zo=; b=J
-	+0O/sGCcqXLGvqcRYwqoE04Oa0SYcFArHTgftvuluvFvoNXCnMcNSJPy4DQIW25L
-	I9tnZ/tzssj1vaAIjAnPflg07o36LqpGxrIQL6iUbwTkV+diNtTJcRZRMMnj10kH
-	RqdGEYS44YMLLcutlCD/OVZ41TjNp5VWLJ0TJ7oCmBGtmxYAn5Wnw/xWSf42kxTg
-	wjntkQqve37BEE1PmJIVi6mHd6jwasuFo0oNYmqHw8hN+Piskn2/Xi3QqtVDMjYO
-	yNWSAb9yZLI4rGXGq8503+pV0Jdon1fbO9utIW8m+3GlTDaH1e9chynSKILZVHsg
-	bKmQAtsdZELr3h8xugeAA==
-X-ME-Sender: <xms:9fm-aKGMtJAXePzlM1rx_HjzPtoryw2Ke2TyHS0JxZKWyR12nSog1g>
-    <xme:9fm-aItewnEUFn1D5uXu9_PDaVZL-X5DKVeiVUIbTfRU5nUnSO05xvGmH5wUtLOjg
-    XSPTs3Xv338EHX0jVU>
-X-ME-Received: <xmr:9fm-aLea2ZsLvdEa0-9MjE3QI5oHOFLnsM_QzZgv_lnuoaQZdh5yYk0YuSGwQj7Vs5T9S6GinEcAqD2qlhzCDDhJdg>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1757346296; x=
+	1757432696; bh=h4A9eojqnWiU8JyIjKCkZ5RM2W5RM6QrAUD+xxR29Wg=; b=a
+	UujdGyAZoumwA6q4GvCzkhkOvVHYyO+Qltg9ioIyy1edynB4fZn7tYArnDcGBX65
+	+isExNDMltdeH3ZSWJBIXuw6IhPfmusWiplY31uch91jvstwjxhJTrWl8CZYnJxD
+	XgxGzorY2KTz/Js6ciADQ5G3HXiZxsPyViVIZadRncFeLxKA495696dEUVCqabjc
+	NhOjBahhiEn7sntMYXnzZZLtVz3XW0ujLD2C8ZzpAtNjtccUiRECj0yFsqJpx+t4
+	2rdrQdtz8h38jSdSz7EyCS8h+3nwFPURGewmS8BvD7jSyvBofvaJYUQ8auLt0Th/
+	L962TVKU66JYNAndGy0lg==
+X-ME-Sender: <xms:9_m-aF4CyR9jFVBMbkZvNdk7DmBmov6LHQ_sX-ACNXLNYf0Y6rHJuA>
+    <xme:9_m-aAROfC_gHJwc-80vr_EpHPssZ2ShAofmOBeCYB_pAnYaS4zpsnwRlonf9bZsJ
+    QeQwerJb7eF_Q0DFXQ>
+X-ME-Received: <xmr:9_m-aDxHtyJTH-cc3dKtryZ6dI3nGiRDpTAULcoz2NmFTOqJoOBKiZvhRhhfGK4QsfO9mu0j8BeI_Kgryje_ymXcWw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddujeelvdcutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
     ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
@@ -82,14 +82,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddujeelvdcutefuodetgg
     ohhmpdhrtghpthhtoheprhhitghhrghruggtohgthhhrrghnsehgmhgrihhlrdgtohhmpd
     hrtghpthhtohepnhgvthguvghvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthht
     oheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:9fm-aOmyG8OPtKEkLQZK-9ilrWWn5YOjsmPNv9d46B70nM8Jwo_4JA>
-    <xmx:9fm-aOCTxrT-X1H0Z_1gp5OkYKd6O1twze3HO1y7kvNtZsWVHyh_wA>
-    <xmx:9fm-aIP4Yn2lsdhATN7YA_aLdP0ZPtQ59yWekLoS16nvoJkE67176w>
-    <xmx:9fm-aNMHpmNT7yfXvAxFz9uKDDceDLGcvzdJgOSmytXoL6MKMvauog>
-    <xmx:9fm-aIV3zLEonkSFWH0x4cypaXa4rMDXc18F-BuLEPwt1L7dFsrh_CJn>
+X-ME-Proxy: <xmx:9_m-aIqlGbkTVX5GS_N1x1PaaMnXHWbp5wuLp8wmcQB61Kf9OSwG_w>
+    <xmx:9_m-aG2IT-Q-8DusOm6_oDVAexNh3Gq7LX_4BZzOb6IBIW0ozCowIA>
+    <xmx:9_m-aIzGZX6qAsOBUpbUYWZaT6Pf_Gs8DGw9W8BfiEuUOaPX-wVriw>
+    <xmx:9_m-aKjXPxWVe3pQRh_TSvNjraAoTx76jelBhF_d3yHjwUsOdL0OEg>
+    <xmx:-Pm-aCKjVSed3DTrXqj5PivxrCpIpTGnVdrmvI1QUOrdqr-5WQR1BMr_>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 8 Sep 2025 11:44:52 -0400 (EDT)
+ 8 Sep 2025 11:44:55 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 	Andrew Lunn <andrew+netdev@lunn.ch>,
@@ -101,9 +101,9 @@ To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 	netdev@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
 Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 1/3] net: ethernet: renesas: rcar_gen4_ptp: Remove different memory layout
-Date: Mon,  8 Sep 2025 17:44:24 +0200
-Message-ID: <20250908154426.3062861-2-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 2/3] net: ethernet: renesas: rcar_gen4_ptp: Hide register layout
+Date: Mon,  8 Sep 2025 17:44:25 +0200
+Message-ID: <20250908154426.3062861-3-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250908154426.3062861-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20250908154426.3062861-1-niklas.soderlund+renesas@ragnatech.se>
@@ -116,113 +116,192 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-When upstreaming the Gen4 PTP support for R-Car S4 the possibility for
-different memory layouts on other Gen4 SoCs was build in. It turns out
-this is not needed and instead needlessly makes the driver harder to
-read, remove the support code that would have allowed different memory
-layouts.
+With the support for multiple register layout removed all support
+structures can be removed from the header file. Covert to a simpler
+structure using defines for the register offsets.
 
-This change only deals with the public functions used by other drivers,
-follow up work will clean up the rcar_gen4_ptp internals.
+There is no functional change, only switching from looking up offsets at
+runtime to compile time.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- drivers/net/ethernet/renesas/rcar_gen4_ptp.c | 11 +++--------
- drivers/net/ethernet/renesas/rcar_gen4_ptp.h |  7 +------
- drivers/net/ethernet/renesas/rswitch_main.c  |  3 +--
- drivers/net/ethernet/renesas/rtsn.c          |  3 +--
- 4 files changed, 6 insertions(+), 18 deletions(-)
+ drivers/net/ethernet/renesas/rcar_gen4_ptp.c | 66 ++++++++------------
+ drivers/net/ethernet/renesas/rcar_gen4_ptp.h | 26 --------
+ 2 files changed, 26 insertions(+), 66 deletions(-)
 
 diff --git a/drivers/net/ethernet/renesas/rcar_gen4_ptp.c b/drivers/net/ethernet/renesas/rcar_gen4_ptp.c
-index 4c3e8cc5046f..05d0ce193e97 100644
+index 05d0ce193e97..cf13eba9b65e 100644
 --- a/drivers/net/ethernet/renesas/rcar_gen4_ptp.c
 +++ b/drivers/net/ethernet/renesas/rcar_gen4_ptp.c
-@@ -130,12 +130,8 @@ static struct ptp_clock_info rcar_gen4_ptp_info = {
+@@ -12,20 +12,19 @@
+ #include <linux/slab.h>
+ 
+ #include "rcar_gen4_ptp.h"
++
++#define PTPTMEC_REG		0x0010
++#define PTPTMDC_REG		0x0014
++#define PTPTIVC0_REG		0x0020
++#define PTPTOVC00_REG		0x0030
++#define PTPTOVC10_REG		0x0034
++#define PTPTOVC20_REG		0x0038
++#define PTPGPTPTM00_REG		0x0050
++#define PTPGPTPTM10_REG		0x0054
++#define PTPGPTPTM20_REG		0x0058
++
+ #define ptp_to_priv(ptp)	container_of(ptp, struct rcar_gen4_ptp_private, info)
+ 
+-static const struct rcar_gen4_ptp_reg_offset gen4_offs = {
+-	.enable = PTPTMEC,
+-	.disable = PTPTMDC,
+-	.increment = PTPTIVC0,
+-	.config_t0 = PTPTOVC00,
+-	.config_t1 = PTPTOVC10,
+-	.config_t2 = PTPTOVC20,
+-	.monitor_t0 = PTPGPTPTM00,
+-	.monitor_t1 = PTPGPTPTM10,
+-	.monitor_t2 = PTPGPTPTM20,
+-};
+-
+ static int rcar_gen4_ptp_adjfine(struct ptp_clock_info *ptp, long scaled_ppm)
+ {
+ 	struct rcar_gen4_ptp_private *ptp_priv = ptp_to_priv(ptp);
+@@ -38,7 +37,7 @@ static int rcar_gen4_ptp_adjfine(struct ptp_clock_info *ptp, long scaled_ppm)
+ 	diff = div_s64(addend * scaled_ppm_to_ppb(scaled_ppm), NSEC_PER_SEC);
+ 	addend = neg_adj ? addend - diff : addend + diff;
+ 
+-	iowrite32(addend, ptp_priv->addr + ptp_priv->offs->increment);
++	iowrite32(addend, ptp_priv->addr + PTPTIVC0_REG);
+ 
+ 	return 0;
+ }
+@@ -49,9 +48,9 @@ static void _rcar_gen4_ptp_gettime(struct ptp_clock_info *ptp,
+ {
+ 	struct rcar_gen4_ptp_private *ptp_priv = ptp_to_priv(ptp);
+ 
+-	ts->tv_nsec = ioread32(ptp_priv->addr + ptp_priv->offs->monitor_t0);
+-	ts->tv_sec = ioread32(ptp_priv->addr + ptp_priv->offs->monitor_t1) |
+-		     ((s64)ioread32(ptp_priv->addr + ptp_priv->offs->monitor_t2) << 32);
++	ts->tv_nsec = ioread32(ptp_priv->addr + PTPGPTPTM00_REG);
++	ts->tv_sec = ioread32(ptp_priv->addr + PTPGPTPTM10_REG) |
++		     ((s64)ioread32(ptp_priv->addr + PTPGPTPTM20_REG) << 32);
+ }
+ 
+ static int rcar_gen4_ptp_gettime(struct ptp_clock_info *ptp,
+@@ -73,14 +72,14 @@ static void _rcar_gen4_ptp_settime(struct ptp_clock_info *ptp,
+ {
+ 	struct rcar_gen4_ptp_private *ptp_priv = ptp_to_priv(ptp);
+ 
+-	iowrite32(1, ptp_priv->addr + ptp_priv->offs->disable);
+-	iowrite32(0, ptp_priv->addr + ptp_priv->offs->config_t2);
+-	iowrite32(0, ptp_priv->addr + ptp_priv->offs->config_t1);
+-	iowrite32(0, ptp_priv->addr + ptp_priv->offs->config_t0);
+-	iowrite32(1, ptp_priv->addr + ptp_priv->offs->enable);
+-	iowrite32(ts->tv_sec >> 32, ptp_priv->addr + ptp_priv->offs->config_t2);
+-	iowrite32(ts->tv_sec, ptp_priv->addr + ptp_priv->offs->config_t1);
+-	iowrite32(ts->tv_nsec, ptp_priv->addr + ptp_priv->offs->config_t0);
++	iowrite32(1, ptp_priv->addr + PTPTMDC_REG);
++	iowrite32(0, ptp_priv->addr + PTPTOVC20_REG);
++	iowrite32(0, ptp_priv->addr + PTPTOVC10_REG);
++	iowrite32(0, ptp_priv->addr + PTPTOVC00_REG);
++	iowrite32(1, ptp_priv->addr + PTPTMEC_REG);
++	iowrite32(ts->tv_sec >> 32, ptp_priv->addr + PTPTOVC20_REG);
++	iowrite32(ts->tv_sec, ptp_priv->addr + PTPTOVC10_REG);
++	iowrite32(ts->tv_nsec, ptp_priv->addr + PTPTOVC00_REG);
+ }
+ 
+ static int rcar_gen4_ptp_settime(struct ptp_clock_info *ptp,
+@@ -130,13 +129,6 @@ static struct ptp_clock_info rcar_gen4_ptp_info = {
  	.enable = rcar_gen4_ptp_enable,
  };
  
--static int rcar_gen4_ptp_set_offs(struct rcar_gen4_ptp_private *ptp_priv,
--				  enum rcar_gen4_ptp_reg_layout layout)
-+static int rcar_gen4_ptp_set_offs(struct rcar_gen4_ptp_private *ptp_priv)
- {
--	if (layout != RCAR_GEN4_PTP_REG_LAYOUT)
--		return -EINVAL;
+-static int rcar_gen4_ptp_set_offs(struct rcar_gen4_ptp_private *ptp_priv)
+-{
+-	ptp_priv->offs = &gen4_offs;
 -
- 	ptp_priv->offs = &gen4_offs;
- 
- 	return 0;
-@@ -151,8 +147,7 @@ static s64 rcar_gen4_ptp_rate_to_increment(u32 rate)
- 	return div_s64(1000000000LL << 27, rate);
- }
- 
--int rcar_gen4_ptp_register(struct rcar_gen4_ptp_private *ptp_priv,
--			   enum rcar_gen4_ptp_reg_layout layout, u32 rate)
-+int rcar_gen4_ptp_register(struct rcar_gen4_ptp_private *ptp_priv, u32 rate)
+-	return 0;
+-}
+-
+ static s64 rcar_gen4_ptp_rate_to_increment(u32 rate)
  {
- 	int ret;
+ 	/* Timer increment in ns.
+@@ -149,24 +141,18 @@ static s64 rcar_gen4_ptp_rate_to_increment(u32 rate)
  
-@@ -161,7 +156,7 @@ int rcar_gen4_ptp_register(struct rcar_gen4_ptp_private *ptp_priv,
+ int rcar_gen4_ptp_register(struct rcar_gen4_ptp_private *ptp_priv, u32 rate)
+ {
+-	int ret;
+-
+ 	if (ptp_priv->initialized)
+ 		return 0;
  
  	spin_lock_init(&ptp_priv->lock);
  
--	ret = rcar_gen4_ptp_set_offs(ptp_priv, layout);
-+	ret = rcar_gen4_ptp_set_offs(ptp_priv);
- 	if (ret)
- 		return ret;
+-	ret = rcar_gen4_ptp_set_offs(ptp_priv);
+-	if (ret)
+-		return ret;
+-
+ 	ptp_priv->default_addend = rcar_gen4_ptp_rate_to_increment(rate);
+-	iowrite32(ptp_priv->default_addend, ptp_priv->addr + ptp_priv->offs->increment);
++	iowrite32(ptp_priv->default_addend, ptp_priv->addr + PTPTIVC0_REG);
+ 	ptp_priv->clock = ptp_clock_register(&ptp_priv->info, NULL);
+ 	if (IS_ERR(ptp_priv->clock))
+ 		return PTR_ERR(ptp_priv->clock);
  
+-	iowrite32(0x01, ptp_priv->addr + ptp_priv->offs->enable);
++	iowrite32(0x01, ptp_priv->addr + PTPTMEC_REG);
+ 	ptp_priv->initialized = true;
+ 
+ 	return 0;
+@@ -175,7 +161,7 @@ EXPORT_SYMBOL_GPL(rcar_gen4_ptp_register);
+ 
+ int rcar_gen4_ptp_unregister(struct rcar_gen4_ptp_private *ptp_priv)
+ {
+-	iowrite32(1, ptp_priv->addr + ptp_priv->offs->disable);
++	iowrite32(1, ptp_priv->addr + PTPTMDC_REG);
+ 
+ 	return ptp_clock_unregister(ptp_priv->clock);
+ }
 diff --git a/drivers/net/ethernet/renesas/rcar_gen4_ptp.h b/drivers/net/ethernet/renesas/rcar_gen4_ptp.h
-index e22da5acd53d..3343216526fe 100644
+index 3343216526fe..f77e79e47357 100644
 --- a/drivers/net/ethernet/renesas/rcar_gen4_ptp.h
 +++ b/drivers/net/ethernet/renesas/rcar_gen4_ptp.h
-@@ -11,10 +11,6 @@
+@@ -19,37 +19,11 @@
  
- #define RCAR_GEN4_GPTP_OFFSET_S4	0x00018000
+ #define RCAR_GEN4_TXTSTAMP_ENABLED		BIT(0)
  
--enum rcar_gen4_ptp_reg_layout {
--	RCAR_GEN4_PTP_REG_LAYOUT
+-#define PTPRO				0
+-
+-enum rcar_gen4_ptp_reg {
+-	PTPTMEC		= PTPRO + 0x0010,
+-	PTPTMDC		= PTPRO + 0x0014,
+-	PTPTIVC0	= PTPRO + 0x0020,
+-	PTPTOVC00	= PTPRO + 0x0030,
+-	PTPTOVC10	= PTPRO + 0x0034,
+-	PTPTOVC20	= PTPRO + 0x0038,
+-	PTPGPTPTM00	= PTPRO + 0x0050,
+-	PTPGPTPTM10	= PTPRO + 0x0054,
+-	PTPGPTPTM20	= PTPRO + 0x0058,
 -};
 -
- /* driver's definitions */
- #define RCAR_GEN4_RXTSTAMP_ENABLED		BIT(0)
- #define RCAR_GEN4_RXTSTAMP_TYPE_V2_L2_EVENT	BIT(1)
-@@ -61,8 +57,7 @@ struct rcar_gen4_ptp_private {
- 	bool initialized;
- };
+-struct rcar_gen4_ptp_reg_offset {
+-	u16 enable;
+-	u16 disable;
+-	u16 increment;
+-	u16 config_t0;
+-	u16 config_t1;
+-	u16 config_t2;
+-	u16 monitor_t0;
+-	u16 monitor_t1;
+-	u16 monitor_t2;
+-};
  
--int rcar_gen4_ptp_register(struct rcar_gen4_ptp_private *ptp_priv,
--			   enum rcar_gen4_ptp_reg_layout layout, u32 rate);
-+int rcar_gen4_ptp_register(struct rcar_gen4_ptp_private *ptp_priv, u32 rate);
- int rcar_gen4_ptp_unregister(struct rcar_gen4_ptp_private *ptp_priv);
- struct rcar_gen4_ptp_private *rcar_gen4_ptp_alloc(struct platform_device *pdev);
- 
-diff --git a/drivers/net/ethernet/renesas/rswitch_main.c b/drivers/net/ethernet/renesas/rswitch_main.c
-index 59dceb81607c..ff5f966c98a9 100644
---- a/drivers/net/ethernet/renesas/rswitch_main.c
-+++ b/drivers/net/ethernet/renesas/rswitch_main.c
-@@ -2090,8 +2090,7 @@ static int rswitch_init(struct rswitch_private *priv)
- 	if (err < 0)
- 		goto err_fwd_init;
- 
--	err = rcar_gen4_ptp_register(priv->ptp_priv, RCAR_GEN4_PTP_REG_LAYOUT,
--				     clk_get_rate(priv->clk));
-+	err = rcar_gen4_ptp_register(priv->ptp_priv, clk_get_rate(priv->clk));
- 	if (err < 0)
- 		goto err_ptp_register;
- 
-diff --git a/drivers/net/ethernet/renesas/rtsn.c b/drivers/net/ethernet/renesas/rtsn.c
-index 05c4b6c8c9c3..15a043e85431 100644
---- a/drivers/net/ethernet/renesas/rtsn.c
-+++ b/drivers/net/ethernet/renesas/rtsn.c
-@@ -1330,8 +1330,7 @@ static int rtsn_probe(struct platform_device *pdev)
- 
- 	device_set_wakeup_capable(&pdev->dev, 1);
- 
--	ret = rcar_gen4_ptp_register(priv->ptp_priv, RCAR_GEN4_PTP_REG_LAYOUT,
--				     clk_get_rate(priv->clk));
-+	ret = rcar_gen4_ptp_register(priv->ptp_priv, clk_get_rate(priv->clk));
- 	if (ret)
- 		goto error_pm;
- 
+ struct rcar_gen4_ptp_private {
+ 	void __iomem *addr;
+ 	struct ptp_clock *clock;
+ 	struct ptp_clock_info info;
+-	const struct rcar_gen4_ptp_reg_offset *offs;
+ 	spinlock_t lock;	/* For multiple registers access */
+ 	u32 tstamp_tx_ctrl;
+ 	u32 tstamp_rx_ctrl;
 -- 
 2.51.0
 
