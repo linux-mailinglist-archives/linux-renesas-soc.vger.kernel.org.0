@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-21548-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21549-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63599B48485
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Sep 2025 08:55:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFAA2B485FA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Sep 2025 09:46:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 52EF718976F3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Sep 2025 06:56:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E15F116BC59
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Sep 2025 07:44:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA9AD233721;
-	Mon,  8 Sep 2025 06:55:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20BD92E8B9F;
+	Mon,  8 Sep 2025 07:43:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EwZxFrOA"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PgMKbJo5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571B122333B
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Sep 2025 06:55:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 493322E8B85;
+	Mon,  8 Sep 2025 07:43:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757314536; cv=none; b=GZ1iHhg7hcj56VNQRZ+DKBy997FHFjtCgW+IkDwt+GmqC90JcTfC3ZjD5WbrKn33RxfyuZRvRmKD64rb1BAMTYnFZn+Rmvl44/vIjw+Hrl6pLDViAuogqxLgX2/fRBbxkrY7pTd2Nk68xRVFJM/7pHDvSXm+xS2OS8r0nZlzeqQ=
+	t=1757317391; cv=none; b=QzbX063JLSiYuuue+AS+YY79fWsRqu3JeOgtpEh0HuE9SPdU4YyevhoGw3TvuyueM6hpi0ewevCw/JHR4p1wFjSo5RSur2bwnFTrzKXffQIvnMgr9rvhu7Pp5D0xZoOVDvf+mvpndZjAJrPA/f7U+frhrsnuduI3Cs5MbYuuRlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757314536; c=relaxed/simple;
-	bh=Tk52E33OGZgJ3kB8265QC9IQmWqA6o5LadjgMZUpNMc=;
+	s=arc-20240116; t=1757317391; c=relaxed/simple;
+	bh=aq1GphbLDS1fcntK2JdbgxWD0wmRSOBaD+tKq0T0kQs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V3WxzBz7eMgnNiafpOCnK2ipuxVl6gIig0sEhsQe001T6XC6DtZ1H4Q4igu1fRfd315WfIju7cC6rq6Aeg5iLD5LcntIa242lVVEnEzgxYQPZm8KxoKlL8zmldFIYIwrPug/JVzG1R/JZBlmhjZ+8tWhK2zwnqGsWjerC7AC1UI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=EwZxFrOA; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=dSMHNIK0gJZuoSSMMLbENRZQ4cGetA3YEQCGCyIqlbD9xZ79g7YecnyuLc/KGWgIcyCw6S1fVg76MmJZHwL3uGjL/V684gCKwFW6WPqD4gfMWp0GSlWcjKbgfA7T6CstAZWzEIhizIkYYguHAjOREPQJa5xNEZqmZbjreFuoJFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=PgMKbJo5; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F1B0999F;
-	Mon,  8 Sep 2025 08:54:19 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 769BF10BE;
+	Mon,  8 Sep 2025 09:41:53 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1757314460;
-	bh=Tk52E33OGZgJ3kB8265QC9IQmWqA6o5LadjgMZUpNMc=;
+	s=mail; t=1757317314;
+	bh=aq1GphbLDS1fcntK2JdbgxWD0wmRSOBaD+tKq0T0kQs=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=EwZxFrOA7smJkQ/fih6U7RUw83YPkzfIGo/d+ohRc1PWME/euUagfDlccvsxYZUwQ
-	 YNkRItv+R49tXvvlTtWtU/04uaEfrZKjKoZfn9UDr9TruOHlezM0V1RsZFvu69eTka
-	 OjrzUy6rp2tmAW72yHxdTpiItW7wDLYtegmnex5U=
-Message-ID: <52a285d6-45bd-4ec2-a70b-8d0efe377780@ideasonboard.com>
-Date: Mon, 8 Sep 2025 09:55:29 +0300
+	b=PgMKbJo5LvUZ7g1akl7sJ2qkbhdmT35+8gPZL5wMY2UpwEiKXYHwCQP+EExQ6zxeQ
+	 z1/wXJtrgirSBOYQbaIV/XAAJX59ZMFfab+N9nLCKR2wxIb1vkeciAUhIW1Q2jwW4b
+	 FqROF0zKV2m1YJGjnV0X8owWywJPZKMGQWHa8enE=
+Message-ID: <4ffcf4fc-17a9-4669-af07-f81ddb46aee9@ideasonboard.com>
+Date: Mon, 8 Sep 2025 10:43:02 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,448 +50,146 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/rcar-du: dsi: Implement DSI command support
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: David Airlie <airlied@gmail.com>,
+Subject: Re: [PATCH v2 4/4] dt-bindings: display: bridge: renesas,dsi-csi2-tx:
+ Allow panel@ subnode
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ dri-devel@lists.freedesktop.org
+Cc: Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20250831190507.327848-1-marek.vasut+renesas@mailbox.org>
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20250904210147.186728-1-marek.vasut+renesas@mailbox.org>
+ <20250904210147.186728-4-marek.vasut+renesas@mailbox.org>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <20250831190507.327848-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20250904210147.186728-4-marek.vasut+renesas@mailbox.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 31/08/2025 22:04, Marek Vasut wrote:
-> Implement support for DSI command transfer. Transmission of both Short
-> Packet and Long Packet is implemented, so is command transmission to
-> request response from peripheral device and transmission of non-read
-> command with BTA.
-> 
-> The AXI memory access mode is currently not implemented, each transfer
-> is performed purely using controller register interface. Short Packet
-> transfer can transfer up to 2 Bytes of data, Long Packet transfer can
-> transfer up to 16 Bytes of data.
+On 05/09/2025 00:01, Marek Vasut wrote:
+> This controller can have both bridges and panels connected to it. In
+> order to describe panels properly in DT, pull in dsi-controller.yaml
+> and disallow only unevaluatedProperties, because the panel node is
+> optional. Include example binding with panel.
 > 
 > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-
-Looks good to me, pushing to drm-misc-next.
-
- Tomi
-
 > ---
+> Cc: Conor Dooley <conor+dt@kernel.org>
 > Cc: David Airlie <airlied@gmail.com>
 > Cc: Geert Uytterhoeven <geert+renesas@glider.be>
 > Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
 > Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Magnus Damm <magnus.damm@gmail.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Robert Foss <rfoss@kernel.org>
 > Cc: Simona Vetter <simona@ffwll.ch>
 > Cc: Thomas Zimmermann <tzimmermann@suse.de>
 > Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> Cc: devicetree@vger.kernel.org
 > Cc: dri-devel@lists.freedesktop.org
 > Cc: linux-renesas-soc@vger.kernel.org
 > ---
-> V2: - Use %zu instead of %ld to print size_t
->     - Drop mode from commit message
->     - Increase timeouts to 50ms, which is about 3 frame times
->     - Add comments to timeouts
->     - Drop use of BIT() macros, the driver will be converted to them
->       in separate patch
+> V2: Drop the dsi0: and dsi1: controller labels
 > ---
->  .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c   | 225 ++++++++++++++++++
->  .../drm/renesas/rcar-du/rcar_mipi_dsi_regs.h  | 125 ++++++++++
->  2 files changed, 350 insertions(+)
+>  .../display/bridge/renesas,dsi-csi2-tx.yaml   | 53 ++++++++++++++++++-
+>  1 file changed, 51 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> index 952c3efb74da9..5c73a513f678e 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> @@ -937,9 +937,234 @@ static int rcar_mipi_dsi_host_detach(struct mipi_dsi_host *host,
->  	return 0;
->  }
+> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+> index c167795c63f64..51d685ed82891 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+> @@ -14,6 +14,9 @@ description: |
+>    R-Car Gen4 SoCs. The encoder can operate in either DSI or CSI-2 mode, with up
+>    to four data lanes.
 >  
-> +static ssize_t rcar_mipi_dsi_host_tx_transfer(struct mipi_dsi_host *host,
-> +					      const struct mipi_dsi_msg *msg,
-> +					      bool is_rx_xfer)
-> +{
-> +	const bool is_tx_long = mipi_dsi_packet_format_is_long(msg->type);
-> +	struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
-> +	struct mipi_dsi_packet packet;
-> +	u8 payload[16] = { 0 };
-> +	u32 status;
-> +	int ret;
+> +allOf:
+> +  - $ref: /schemas/display/dsi-controller.yaml#
 > +
-> +	ret = mipi_dsi_create_packet(&packet, msg);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Configure LP or HS command transfer. */
-> +	rcar_mipi_dsi_write(dsi, TXCMSETR, (msg->flags & MIPI_DSI_MSG_USE_LPM) ?
-> +					   TXCMSETR_SPDTYP : 0);
-> +
-> +	/* Register access mode for RX transfer. */
-> +	if (is_rx_xfer)
-> +		rcar_mipi_dsi_write(dsi, RXPSETR, 0);
-> +
-> +	/* Do not use IRQ, poll for completion, the completion is quick. */
-> +	rcar_mipi_dsi_write(dsi, TXCMIER, 0);
-> +
-> +	/*
-> +	 * Send the header:
-> +	 * header[0] = Virtual Channel + Data Type
-> +	 * header[1] = Word Count LSB (LP) or first param (SP)
-> +	 * header[2] = Word Count MSB (LP) or second param (SP)
-> +	 */
-> +	rcar_mipi_dsi_write(dsi, TXCMPHDR,
-> +			    (is_tx_long ? TXCMPHDR_FMT : 0) |
-> +			    TXCMPHDR_VC(msg->channel) |
-> +			    TXCMPHDR_DT(msg->type) |
-> +			    TXCMPHDR_DATA1(packet.header[2]) |
-> +			    TXCMPHDR_DATA0(packet.header[1]));
-> +
-> +	if (is_tx_long) {
-> +		memcpy(payload, packet.payload,
-> +		       min(msg->tx_len, sizeof(payload)));
-> +
-> +		rcar_mipi_dsi_write(dsi, TXCMPPD0R,
-> +				    (payload[3] << 24) | (payload[2] << 16) |
-> +				    (payload[1] << 8) | payload[0]);
-> +		rcar_mipi_dsi_write(dsi, TXCMPPD1R,
-> +				    (payload[7] << 24) | (payload[6] << 16) |
-> +				    (payload[5] << 8) | payload[4]);
-> +		rcar_mipi_dsi_write(dsi, TXCMPPD2R,
-> +				    (payload[11] << 24) | (payload[10] << 16) |
-> +				    (payload[9] << 8) | payload[8]);
-> +		rcar_mipi_dsi_write(dsi, TXCMPPD3R,
-> +				    (payload[15] << 24) | (payload[14] << 16) |
-> +				    (payload[13] << 8) | payload[12]);
-> +	}
-> +
-> +	/* Start the transfer, RX with BTA, TX without BTA. */
-> +	if (is_rx_xfer) {
-> +		rcar_mipi_dsi_write(dsi, TXCMCR, TXCMCR_BTAREQ);
-> +
-> +		/* Wait until the transmission, BTA, reception completed. */
-> +		ret = read_poll_timeout(rcar_mipi_dsi_read, status,
-> +					(status & RXPSR_BTAREQEND),
-> +					2000, 50000, false, dsi, RXPSR);
-> +	} else {
-> +		rcar_mipi_dsi_write(dsi, TXCMCR, TXCMCR_TXREQ);
-> +
-> +		/* Wait until the transmission completed. */
-> +		ret = read_poll_timeout(rcar_mipi_dsi_read, status,
-> +					(status & TXCMSR_TXREQEND),
-> +					2000, 50000, false, dsi, TXCMSR);
-> +	}
-> +
-> +	if (ret < 0) {
-> +		dev_err(dsi->dev, "Command transfer timeout (0x%08x)\n",
-> +			status);
-> +		return ret;
-> +	}
-> +
-> +	return packet.size;
-> +}
-> +
-> +static ssize_t rcar_mipi_dsi_host_rx_transfer(struct mipi_dsi_host *host,
-> +					      const struct mipi_dsi_msg *msg)
-> +{
-> +	struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
-> +	u8 *rx_buf = (u8 *)(msg->rx_buf);
-> +	u32 reg, data, status, wc;
-> +	int i, ret;
-> +
-> +	/* RX transfer received data validation and parsing starts here. */
-> +	reg = rcar_mipi_dsi_read(dsi, TOSR);
-> +	if (reg & TOSR_TATO) {	/* Turn-Around TimeOut. */
-> +		/* Clear TATO Turn-Around TimeOut bit. */
-> +		rcar_mipi_dsi_write(dsi, TOSR, TOSR_TATO);
-> +		return -ETIMEDOUT;
-> +	}
-> +
-> +	reg = rcar_mipi_dsi_read(dsi, RXPSR);
-> +
-> +	if (msg->flags & MIPI_DSI_MSG_REQ_ACK) {
-> +		/* Transfer with zero-length RX. */
-> +		if (!(reg & RXPSR_RCVACK)) {
-> +			/* No ACK on RX response received. */
-> +			return -EINVAL;
-> +		}
-> +	} else {
-> +		/* Transfer with non-zero-length RX. */
-> +		if (!(reg & RXPSR_RCVRESP)) {
-> +			/* No packet header of RX response received. */
-> +			return -EINVAL;
-> +		}
-> +
-> +		if (reg & (RXPSR_CRCERR | RXPSR_WCERR | RXPSR_AXIERR | RXPSR_OVRERR)) {
-> +			/* Incorrect response payload. */
-> +			return -ENODATA;
-> +		}
-> +
-> +		data = rcar_mipi_dsi_read(dsi, RXPHDR);
-> +		if (data & RXPHDR_FMT) {	/* Long Packet Response. */
-> +			/* Read Long Packet Response length from packet header. */
-> +			wc = data & 0xffff;
-> +			if (wc > msg->rx_len) {
-> +				dev_warn(dsi->dev,
-> +					 "Long Packet Response longer than RX buffer (%d), limited to %zu Bytes\n",
-> +					 wc, msg->rx_len);
-> +				wc = msg->rx_len;
-> +			}
-> +
-> +			if (wc > 16) {
-> +				dev_warn(dsi->dev,
-> +					 "Long Packet Response too long (%d), limited to 16 Bytes\n",
-> +					 wc);
-> +				wc = 16;
-> +			}
-> +
-> +			for (i = 0; i < msg->rx_len; i++) {
-> +				if (!(i % 4))
-> +					data = rcar_mipi_dsi_read(dsi, RXPPD0R + i);
-> +
-> +				rx_buf[i] = data & 0xff;
-> +				data >>= 8;
-> +			}
-> +		} else {	/* Short Packet Response. */
-> +			if (msg->rx_len >= 1)
-> +				rx_buf[0] = data & 0xff;
-> +			if (msg->rx_len >= 2)
-> +				rx_buf[1] = (data >> 8) & 0xff;
-> +			if (msg->rx_len >= 3) {
-> +				dev_warn(dsi->dev,
-> +					 "Expected Short Packet Response too long (%zu), limited to 2 Bytes\n",
-> +					 msg->rx_len);
-> +			}
-> +		}
-> +	}
-> +
-> +	if (reg & RXPSR_RCVAKE) {
-> +		/* Acknowledge and Error report received. */
-> +		return -EFAULT;
-> +	}
-> +
-> +	/* Wait until the bus handover to host processor completed. */
-> +	ret = read_poll_timeout(rcar_mipi_dsi_read, status,
-> +				!(status & PPIDL0SR_DIR),
-> +				2000, 50000, false, dsi, PPIDL0SR);
-> +	if (ret < 0) {
-> +		dev_err(dsi->dev, "Command RX DIR timeout (0x%08x)\n", status);
-> +		return ret;
-> +	}
-> +
-> +	/* Wait until the data lane is in LP11 stop state. */
-> +	ret = read_poll_timeout(rcar_mipi_dsi_read, status,
-> +				status & PPIDL0SR_STPST,
-> +				2000, 50000, false, dsi, PPIDL0SR);
-> +	if (ret < 0) {
-> +		dev_err(dsi->dev, "Command RX STPST timeout (0x%08x)\n", status);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static ssize_t rcar_mipi_dsi_host_transfer(struct mipi_dsi_host *host,
-> +					   const struct mipi_dsi_msg *msg)
-> +{
-> +	const bool is_rx_xfer = (msg->flags & MIPI_DSI_MSG_REQ_ACK) || msg->rx_len;
-> +	struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
-> +	int ret;
-> +
-> +	if (msg->tx_len > 16 || msg->rx_len > 16) {
-> +		/* ToDo: Implement Memory on AXI bus command mode. */
-> +		dev_warn(dsi->dev,
-> +			 "Register-based command mode supports only up to 16 Bytes long payload\n");
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	ret = rcar_mipi_dsi_host_tx_transfer(host, msg, is_rx_xfer);
-> +
-> +	/* If TX transfer succeeded and this transfer has RX part. */
-> +	if (ret >= 0 && is_rx_xfer) {
-> +		ret = rcar_mipi_dsi_host_rx_transfer(host, msg);
-> +		if (ret)
-> +			return ret;
-> +
-> +		ret = msg->rx_len;
-> +	}
-> +
-> +	/*
-> +	 * Wait a bit between commands, otherwise panels based on ILI9881C
-> +	 * TCON may fail to correctly receive all commands sent to them.
-> +	 * Until we can actually test with another DSI device, keep the
-> +	 * delay here, but eventually this delay might have to be moved
-> +	 * into the ILI9881C panel driver.
-> +	 */
-> +	usleep_range(1000, 2000);
-> +
-> +	/* Clear the completion interrupt. */
-> +	if (!msg->rx_len)
-> +		rcar_mipi_dsi_write(dsi, TXCMSR, TXCMSR_TXREQEND);
-> +
-> +	return ret;
-> +}
-> +
->  static const struct mipi_dsi_host_ops rcar_mipi_dsi_host_ops = {
->  	.attach = rcar_mipi_dsi_host_attach,
->  	.detach = rcar_mipi_dsi_host_detach,
-> +	.transfer = rcar_mipi_dsi_host_transfer
->  };
+
+Did you try with a bridge? dsi-controller.yaml only allows a panel. I
+think I discussed this with someone not long ago, but I couldn't find
+any patch sent for that.
+
+ Tomi
+
+>  properties:
+>    compatible:
+>      enum:
+> @@ -80,14 +83,14 @@ required:
+>    - resets
+>    - ports
 >  
->  /* -----------------------------------------------------------------------------
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> index a54c7eb4113b9..76521276e2af8 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> @@ -15,6 +15,127 @@
->  #define TXSETR				0x100
->  #define TXSETR_LANECNT_MASK		(0x3 << 0)
+> -additionalProperties: false
+> +unevaluatedProperties: false
 >  
-> +/*
-> + * DSI Command Transfer Registers
-> + */
-> +#define TXCMSETR			0x110
-> +#define TXCMSETR_SPDTYP			(1 << 8)	/* 0:HS 1:LP */
-> +#define TXCMSETR_LPPDACC		(1 << 0)
-> +#define TXCMCR				0x120
-> +#define TXCMCR_BTATYP			(1 << 2)
-> +#define TXCMCR_BTAREQ			(1 << 1)
-> +#define TXCMCR_TXREQ			(1 << 0)
-> +#define TXCMSR				0x130
-> +#define TXCMSR_CLSNERR			(1 << 18)
-> +#define TXCMSR_AXIERR			(1 << 16)
-> +#define TXCMSR_TXREQEND			(1 << 0)
-> +#define TXCMSCR				0x134
-> +#define TXCMSCR_CLSNERR			(1 << 18)
-> +#define TXCMSCR_AXIERR			(1 << 16)
-> +#define TXCMSCR_TXREQEND		(1 << 0)
-> +#define TXCMIER				0x138
-> +#define TXCMIER_CLSNERR			(1 << 18)
-> +#define TXCMIER_AXIERR			(1 << 16)
-> +#define TXCMIER_TXREQEND		(1 << 0)
-> +#define TXCMADDRSET0R			0x140
-> +#define TXCMPHDR			0x150
-> +#define TXCMPHDR_FMT			(1 << 24)	/* 0:SP 1:LP */
-> +#define TXCMPHDR_VC(n)			(((n) & 0x3) << 22)
-> +#define TXCMPHDR_DT(n)			(((n) & 0x3f) << 16)
-> +#define TXCMPHDR_DATA1(n)		(((n) & 0xff) << 8)
-> +#define TXCMPHDR_DATA0(n)		(((n) & 0xff) << 0)
-> +#define TXCMPPD0R			0x160
-> +#define TXCMPPD1R			0x164
-> +#define TXCMPPD2R			0x168
-> +#define TXCMPPD3R			0x16c
-> +
-> +#define RXSETR				0x200
-> +#define RXSETR_CRCEN			(((n) & 0xf) << 24)
-> +#define RXSETR_ECCEN			(((n) & 0xf) << 16)
-> +#define RXPSETR				0x210
-> +#define RXPSETR_LPPDACC			(1 << 0)
-> +#define RXPSR				0x220
-> +#define RXPSR_ECCERR1B			(1 << 28)
-> +#define RXPSR_UEXTRGERR			(1 << 25)
-> +#define RXPSR_RESPTOERR			(1 << 24)
-> +#define RXPSR_OVRERR			(1 << 23)
-> +#define RXPSR_AXIERR			(1 << 22)
-> +#define RXPSR_CRCERR			(1 << 21)
-> +#define RXPSR_WCERR			(1 << 20)
-> +#define RXPSR_UEXDTERR			(1 << 19)
-> +#define RXPSR_UEXPKTERR			(1 << 18)
-> +#define RXPSR_ECCERR			(1 << 17)
-> +#define RXPSR_MLFERR			(1 << 16)
-> +#define RXPSR_RCVACK			(1 << 14)
-> +#define RXPSR_RCVEOT			(1 << 10)
-> +#define RXPSR_RCVAKE			(1 << 9)
-> +#define RXPSR_RCVRESP			(1 << 8)
-> +#define RXPSR_BTAREQEND			(1 << 0)
-> +#define RXPSCR				0x224
-> +#define RXPSCR_ECCERR1B			(1 << 28)
-> +#define RXPSCR_UEXTRGERR		(1 << 25)
-> +#define RXPSCR_RESPTOERR		(1 << 24)
-> +#define RXPSCR_OVRERR			(1 << 23)
-> +#define RXPSCR_AXIERR			(1 << 22)
-> +#define RXPSCR_CRCERR			(1 << 21)
-> +#define RXPSCR_WCERR			(1 << 20)
-> +#define RXPSCR_UEXDTERR			(1 << 19)
-> +#define RXPSCR_UEXPKTERR		(1 << 18)
-> +#define RXPSCR_ECCERR			(1 << 17)
-> +#define RXPSCR_MLFERR			(1 << 16)
-> +#define RXPSCR_RCVACK			(1 << 14)
-> +#define RXPSCR_RCVEOT			(1 << 10)
-> +#define RXPSCR_RCVAKE			(1 << 9)
-> +#define RXPSCR_RCVRESP			(1 << 8)
-> +#define RXPSCR_BTAREQEND		(1 << 0)
-> +#define RXPIER				0x228
-> +#define RXPIER_ECCERR1B			(1 << 28)
-> +#define RXPIER_UEXTRGERR		(1 << 25)
-> +#define RXPIER_RESPTOERR		(1 << 24)
-> +#define RXPIER_OVRERR			(1 << 23)
-> +#define RXPIER_AXIERR			(1 << 22)
-> +#define RXPIER_CRCERR			(1 << 21)
-> +#define RXPIER_WCERR			(1 << 20)
-> +#define RXPIER_UEXDTERR			(1 << 19)
-> +#define RXPIER_UEXPKTERR		(1 << 18)
-> +#define RXPIER_ECCERR			(1 << 17)
-> +#define RXPIER_MLFERR			(1 << 16)
-> +#define RXPIER_RCVACK			(1 << 14)
-> +#define RXPIER_RCVEOT			(1 << 10)
-> +#define RXPIER_RCVAKE			(1 << 9)
-> +#define RXPIER_RCVRESP			(1 << 8)
-> +#define RXPIER_BTAREQEND		(1 << 0)
-> +#define RXPADDRSET0R			0x230
-> +#define RXPSIZESETR			0x238
-> +#define RXPSIZESETR_SIZE(n)		(((n) & 0xf) << 3)
-> +#define RXPHDR				0x240
-> +#define RXPHDR_FMT			(1 << 24)	/* 0:SP 1:LP */
-> +#define RXPHDR_VC(n)			(((n) & 0x3) << 22)
-> +#define RXPHDR_DT(n)			(((n) & 0x3f) << 16)
-> +#define RXPHDR_DATA1(n)			(((n) & 0xff) << 8)
-> +#define RXPHDR_DATA0(n)			(((n) & 0xff) << 0)
-> +#define RXPPD0R				0x250
-> +#define RXPPD1R				0x254
-> +#define RXPPD2R				0x258
-> +#define RXPPD3R				0x25c
-> +#define AKEPR				0x300
-> +#define AKEPR_VC(n)			(((n) & 0x3) << 22)
-> +#define AKEPR_DT(n)			(((n) & 0x3f) << 16)
-> +#define AKEPR_ERRRPT(n)			(((n) & 0xffff) << 0)
-> +#define RXRESPTOSETR			0x400
-> +#define TACR				0x500
-> +#define TASR				0x510
-> +#define TASCR				0x514
-> +#define TAIER				0x518
-> +#define TOSR				0x610
-> +#define TOSR_TATO			(1 << 2)
-> +#define TOSR_LRXHTO			(1 << 1)
-> +#define TOSR_HRXTO			(1 << 0)
-> +#define TOSCR				0x614
-> +#define TOSCR_TATO			(1 << 2)
-> +#define TOSCR_LRXHTO			(1 << 1)
-> +#define TOSCR_HRXTO			(1 << 0)
-> +
->  /*
->   * Video Mode Register
->   */
-> @@ -100,6 +221,10 @@
->  #define PPICLSCR_HSTOLP			(1 << 27)
->  #define PPICLSCR_TOHS			(1 << 26)
+>  examples:
+>    - |
+>      #include <dt-bindings/clock/r8a779a0-cpg-mssr.h>
+>      #include <dt-bindings/power/r8a779a0-sysc.h>
 >  
-> +#define PPIDL0SR			0x740
-> +#define PPIDL0SR_DIR			(1 << 10)
-> +#define PPIDL0SR_STPST			(1 << 6)
+> -    dsi0: dsi-encoder@fed80000 {
+> +    dsi@fed80000 {
+>          compatible = "renesas,r8a779a0-dsi-csi2-tx";
+>          reg = <0xfed80000 0x10000>;
+>          power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
+> @@ -117,4 +120,50 @@ examples:
+>              };
+>          };
+>      };
 > +
->  #define PPIDLSR				0x760
->  #define PPIDLSR_STPST			(0xf << 0)
->  
+> +  - |
+> +    #include <dt-bindings/clock/r8a779g0-cpg-mssr.h>
+> +    #include <dt-bindings/power/r8a779g0-sysc.h>
+> +
+> +    dsi@fed80000 {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +        compatible = "renesas,r8a779g0-dsi-csi2-tx";
+> +        reg = <0xfed80000 0x10000>;
+> +        clocks = <&cpg CPG_MOD 415>,
+> +                 <&cpg CPG_CORE R8A779G0_CLK_DSIEXT>,
+> +                 <&cpg CPG_CORE R8A779G0_CLK_DSIREF>;
+> +        clock-names = "fck", "dsi", "pll";
+> +        power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
+> +        resets = <&cpg 415>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +            };
+> +
+> +            port@1 {
+> +                reg = <1>;
+> +
+> +                dsi0port1_out: endpoint {
+> +                    remote-endpoint = <&panel_in>;
+> +                    data-lanes = <1 2>;
+> +                };
+> +            };
+> +        };
+> +
+> +        panel@0 {
+> +            reg = <0>;
+> +            compatible = "raspberrypi,dsi-7inch";
+> +
+> +            port {
+> +                panel_in: endpoint {
+> +                    remote-endpoint = <&dsi0port1_out>;
+> +                };
+> +            };
+> +        };
+> +    };
+>  ...
 
 
