@@ -1,94 +1,152 @@
-Return-Path: <linux-renesas-soc+bounces-21565-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21566-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3E7EB48D88
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Sep 2025 14:31:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AC91B48E3D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Sep 2025 14:54:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A41D83BBDE3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Sep 2025 12:31:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 402453BA2C5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Sep 2025 12:54:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B78D2FF643;
-	Mon,  8 Sep 2025 12:31:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39CDE2FFDE6;
+	Mon,  8 Sep 2025 12:54:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MXMyaFuQ"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="IB3cle64";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="cgOt7SeL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668594690;
-	Mon,  8 Sep 2025 12:31:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08F642F546E;
+	Mon,  8 Sep 2025 12:54:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757334674; cv=none; b=PdFD18k38jYcTaAXM5LGFuQFZxTr+M83AO51Cghz1HDRshL8PSq3wyyvAYm0/vx/11rmU/SsFaq516d9BF0ha+hRAQuh0/W1mKyrAb3OUA2e+MY5n7EOWv6r8KPTjfUbizqTYVkpHNR60E/dR7ujocXhUrCBON6X3mRYNJrcLbU=
+	t=1757336072; cv=none; b=Z/XN/oz/MFUJOPo46Bo78M9p28y+sf2pVtHH3L2pUiYuHgFVB737SdgzFtHwWRMTwt2gkohdM7vR38GBLMSfddAcbMGuKBgK+6N+adCC4Y0F6UqfJwCGHhiAEODbhPu9rBg7/vqUa2mRLGG/uoIRiAqzp6tCOaqyueWnlN+lV/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757334674; c=relaxed/simple;
-	bh=4BlAT6O6nDuMl7JxdSAqapZvimpnAM67d5Wt4tnaQFM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=MVYL/VYWBHswKoBrHoA38ED8KnPjPNUziz4gs5m9UTy1I8II/mPTYbKjyzVXrALwx47khhTCT75kWf8lnonoH72J0V4A8H8kYtomwFLwaElE4Ozwfy3+4C+CBvjadmWmnC6FhYyLnUaDBOnkYvtRlO3uSDzqNzW6l0qqA8TPhYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MXMyaFuQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4554C4CEF8;
-	Mon,  8 Sep 2025 12:31:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757334674;
-	bh=4BlAT6O6nDuMl7JxdSAqapZvimpnAM67d5Wt4tnaQFM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=MXMyaFuQzRtryqYbXQmWsvDdbaCY/JaBYISHCzavD8CfWjVIaHcRMuk8vKvxKgkyh
-	 0e77+QczsByDdgTQu4nwfV3plxC1DxMC71xNmYUEmjc7OmrCRkiTl6RyRdsf9eVsUh
-	 QqkFC0AAYF2U4OOuJP23VsOTUwinxumA4/TN4kqlSNtqxrA9j49nLMQh1aqXkRcaYM
-	 qq9GUinHHoRn5N6meCYRG9bXo5UsMVWSUb3BJBNRT1EP6kRcKvvNCSKYHQTu4xFoPC
-	 /k6KoJc8+IWh8VN864MxOSDzWMN/GmyloMXQuvWSC3ufOBHc8VDypqwWH6txGRfjn1
-	 IX6esRTiKENfQ==
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: linux-pci@vger.kernel.org, 
- Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: Niklas Cassel <cassel@kernel.org>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, Damien Le Moal <dlemoal@kernel.org>, 
- Frank Li <Frank.Li@nxp.com>, Jerome Brunet <jbrunet@baylibre.com>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, 
- Wang Jiang <jiangwang@kylinos.cn>, linux-kernel@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org
-In-Reply-To: <20250905184240.144431-1-marek.vasut+renesas@mailbox.org>
-References: <20250905184240.144431-1-marek.vasut+renesas@mailbox.org>
-Subject: Re: [PATCH v3] PCI: endpoint: pci-epf-test: Limit PCIe BAR size
- for fixed BARs
-Message-Id: <175733467033.10254.12972405823164212308.b4-ty@kernel.org>
-Date: Mon, 08 Sep 2025 18:01:10 +0530
+	s=arc-20240116; t=1757336072; c=relaxed/simple;
+	bh=sg7Nc1RzZVJnICruDF3lMThjEe7KCVXgFy+eJ7MfrVc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=i60BZ2MBpp8iBpKxQr2tXG47XGd0cobmZLom2Zxf+oAailUp13HtHmRh6LcMP4mPkBfHDFQKR/4W+FCYT2kAsK6qPHoS9sFp2I4iMWr0FYuUuBwqxUPXHAoRiBDlbo987R1G+vuOKic9z+TiqUmP4nDioP1wZhnOhpxYe08200I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=IB3cle64; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=cgOt7SeL; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cL6NG0Z63z9tGX;
+	Mon,  8 Sep 2025 14:54:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1757336062;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rLg9bh33bXVIKLGiohlmqJP0n8UW6cjhY+uJOZV8XrM=;
+	b=IB3cle64uqKld1NLaEF656hneXh+E2Oe89+Af8ZDIAQmAXGfYFb3Evukz8S7D/Xfit4OTs
+	UxBr6glYOrwbTxiFLtSdRlttYKMcMJ3EtKoTHtFEAtSw1I5lVpj/LM2OoD6/0fQJ9abqUf
+	EcWbbkvyWrqi0rSGUiV62HjfZf0nT5QPIVfu6/ovb9uokpZQBslKdhsODv5t7NknE8gGSc
+	vNFBVmF+EtnVZWEvTnKdywneFvHVhR64rp/p/trhlANrjFeewCIOrvmKWhDYhSXv1pvNV1
+	Gql4wOIdocIA8C9D3MB43rEGNWqwD2SNdh6GAsSYp3P0tTTtbJ/T+PyALUfSlQ==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=cgOt7SeL;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=marek.vasut@mailbox.org
+Message-ID: <d76ff19c-7b0f-4aa9-8ae2-d08c82d70410@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1757336060;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rLg9bh33bXVIKLGiohlmqJP0n8UW6cjhY+uJOZV8XrM=;
+	b=cgOt7SeL07uK4bbfI4wSxfemhkBmH98e5h/kcTxUlWI/f9lWSFePcVqP6xDh92fuSBxMKy
+	aAhhMoZMrE0o3UWqNEZqUYG9KBCYFmItrAN3GAUeCr945OElSXIQtG2M3eNSxPIbr8N1eo
+	dUtcKCECxMmkZoIPMEHF65mOxSP0x42HylWyXEzT45AL0Iful0NoBQoIf79ytLBB/CUdYT
+	o4M5/YFVt09A7uqCOJeKwibPgm3ZOMcW5syS9ge21VoCWPL078nQ/GgBOtuFGCu9XqHcQZ
+	Y2GvZPG2AYxdm0K1jW9x1jiX6HzfvP4rs6ryHODDYk+2wxQW3j7JBR5eYSyy6A==
+Date: Mon, 8 Sep 2025 14:54:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Subject: Re: [PATCH v2 4/4] dt-bindings: display: bridge: renesas,dsi-csi2-tx:
+ Allow panel@ subnode
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ dri-devel@lists.freedesktop.org
+Cc: Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20250904210147.186728-1-marek.vasut+renesas@mailbox.org>
+ <20250904210147.186728-4-marek.vasut+renesas@mailbox.org>
+ <4ffcf4fc-17a9-4669-af07-f81ddb46aee9@ideasonboard.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <4ffcf4fc-17a9-4669-af07-f81ddb46aee9@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+X-MBO-RS-ID: 5b7806702f524cb8287
+X-MBO-RS-META: enummhz4zqtmsbae8u3fgxqa3gjahjpr
+X-Rspamd-Queue-Id: 4cL6NG0Z63z9tGX
 
+On 9/8/25 9:43 AM, Tomi Valkeinen wrote:
+> Hi,
 
-On Fri, 05 Sep 2025 20:42:10 +0200, Marek Vasut wrote:
-> Currently, the test allocates BAR sizes according to fixed table
-> bar_size[] = { 512, 512, 1024, 16384, 131072, 1048576 } . This
-> does not work with controllers which have fixed size BARs that
-> is smaller than the requested BAR size. One such controller is
-> Renesas R-Car V4H PCIe controller, which has BAR4 size limited
-> to 256 Bytes, which is much less than 131072 currently requested
-> by this test. a lot of controllers drivers in-tree have fixed
-> size BARs, and they do work perfectly fine, but it is only
-> because their fixed size is larger than the size requested
-> by pci-epf-test.c
+Hello Tomi,
+
+> On 05/09/2025 00:01, Marek Vasut wrote:
+>> This controller can have both bridges and panels connected to it. In
+>> order to describe panels properly in DT, pull in dsi-controller.yaml
+>> and disallow only unevaluatedProperties, because the panel node is
+>> optional. Include example binding with panel.
+>>
+>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+>> ---
+>> Cc: Conor Dooley <conor+dt@kernel.org>
+>> Cc: David Airlie <airlied@gmail.com>
+>> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+>> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+>> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+>> Cc: Rob Herring <robh@kernel.org>
+>> Cc: Robert Foss <rfoss@kernel.org>
+>> Cc: Simona Vetter <simona@ffwll.ch>
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> Cc: devicetree@vger.kernel.org
+>> Cc: dri-devel@lists.freedesktop.org
+>> Cc: linux-renesas-soc@vger.kernel.org
+>> ---
+>> V2: Drop the dsi0: and dsi1: controller labels
+>> ---
+>>   .../display/bridge/renesas,dsi-csi2-tx.yaml   | 53 ++++++++++++++++++-
+>>   1 file changed, 51 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+>> index c167795c63f64..51d685ed82891 100644
+>> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+>> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+>> @@ -14,6 +14,9 @@ description: |
+>>     R-Car Gen4 SoCs. The encoder can operate in either DSI or CSI-2 mode, with up
+>>     to four data lanes.
+>>   
+>> +allOf:
+>> +  - $ref: /schemas/display/dsi-controller.yaml#
+>> +
 > 
-> [...]
-
-Applied, thanks!
-
-[1/1] PCI: endpoint: pci-epf-test: Limit PCIe BAR size for fixed BARs
-      commit: db4291ba733d857f2326db88c5c41ad6072350e5
-
-Best regards,
--- 
-Manivannan Sadhasivam <mani@kernel.org>
-
+> Did you try with a bridge? dsi-controller.yaml only allows a panel. I
+> think I discussed this with someone not long ago, but I couldn't find
+> any patch sent for that.
+Nope, I only have these two 5" and 7" RPi Display 2 panels.
 
