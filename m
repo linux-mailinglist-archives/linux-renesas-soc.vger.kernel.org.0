@@ -1,133 +1,203 @@
-Return-Path: <linux-renesas-soc+bounces-21653-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21654-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30174B4FB83
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Sep 2025 14:42:26 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C97EB4FBAB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Sep 2025 14:49:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 189A84E79F5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Sep 2025 12:42:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E35F934508B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Sep 2025 12:48:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94C732C21EF;
-	Tue,  9 Sep 2025 12:42:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10CB233CE9C;
+	Tue,  9 Sep 2025 12:48:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="NokdZ6BY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C8EA2C0F60
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Sep 2025 12:42:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CB2033CEA2
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Sep 2025 12:48:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757421736; cv=none; b=TA6AvMHi6M1XyuUA77a5a3c5nVW/iwwgrJ1yydqx03q/5TO7k3HMSXTdSt6LO0ST9QuPm3i60Zp1tZNacToQdTEeyuo1CriKmtxbylJ7tBv2pLfvz5U52xMB8B39YgcG5dntpuq5J/MKut2QrY0+AMIfR3Ubq2pF6Noa9wFPIqg=
+	t=1757422097; cv=none; b=Gcf0M5fOww14e7430yt8xVqhKwCDuD7s1EaoXv4tWJGv6QI5CM0gmbfGlTKOfATNOAJ+MnIJvG8/cwac/yz6EcWhFQtnjGGUkBi+kkB6JxBqXSz9V6HPXtvrdNq/q7q1lx2W2QxH9YdrMNGpCZJf2nMptPxADMdIfpE89mzan3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757421736; c=relaxed/simple;
-	bh=7l2cCWx/bIUHsZwYO83x3v5h7dP0os+fhFFE8mrHeu4=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=B2BE9fOC9pif+Kpdh3UhHS9R1HNXTGPcOT8smPqxS+epNyFgpLifgjGYIccUiMofIljTUFwD/rHTifJjYWpN3yGlKPE5U4CNfpZj/k0XQxHr9bUod5r3L67qcjNwVMeoCHGGog0kFbqgc2WSkntn/6Uj4fTjrUVBaKCDbP18Bu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5DF3C4CEF4
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Sep 2025 12:42:15 +0000 (UTC)
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: linux-renesas-soc@vger.kernel.org
-Subject: renesas-drivers-2025-09-09-v6.17-rc5
-Date: Tue,  9 Sep 2025 14:42:13 +0200
-Message-ID: <20250909124213.3309405-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1757422097; c=relaxed/simple;
+	bh=VftbE1hsLmXFChLA3aJJHbvI9G8AlMyg5ojBtwjpRKo=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=R6KECVOWiuV2+WK6ZT5M+CT/6usqGIEtvi4MpYRplk/aP0vO85cRd1BXxf3QT3YSgrAiwip5AL0Hm1mvgcoQ15oZSLuiGCgwCd+kFXSK+jUUNy+t4A+DGWkK62MG8LFnRfayViNrNirNM/PXs+mj0N7GN6N9yCgoEcXqBfbtJqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=NokdZ6BY; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-45ddddbe31fso19939895e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 09 Sep 2025 05:48:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1757422093; x=1758026893; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=/9O8tHwn09nsjeClSuqgfyQVy6t2GJ6AHHgo9UAkBbk=;
+        b=NokdZ6BYazX/JhBEcEC2OTZ6eRkjs7y0uEp0LXUYy9BiyZSIZk7sPHMmq+JbNkzcoA
+         t3ztbk9gkrCMzrWLyzDIgYyjE4Q1NXlPvGum3GwfsZQkUZNO1fEnqUF5cJctheqUQL96
+         3l+LGCsbEMHvPg2j6Nqxms3PEgpv1CUUc1xqfEYA8hBeZOcVsMhoDaKEVDlz3+b46KTp
+         SVoPwYvczWzPsuhBRBdKzM5jctbjYhCFdQ0M+khI9b+JlU1oq/Ic/dtE/NeoQJVc/7tU
+         waIefJtJ3EQgRmKhMyHIn9gBpGYVqJNJ7v/heJnpaOyZvSGGJLX1CyimDGzaB2NxHncR
+         yRLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757422093; x=1758026893;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/9O8tHwn09nsjeClSuqgfyQVy6t2GJ6AHHgo9UAkBbk=;
+        b=gr2poSyHye8gjMRVF8yiFV6/DlY/r5jrl2zl3MIZJSzJ8Kj5YZa6sH4j5/vBx6vYYd
+         MZc82PkFHJy//7CA4yl+4ijJ/0W32Rd6eUwTu7HOSSSVHf6Pk6NmWN/UMWXTdcLJF1z/
+         4YMAnyEZz06feuWN1ur07y/GTNlSFDg9atBb3ebqLjD9iW3YczkTgub4he9U1iMf2/GY
+         gnYt1xnVSFfb2JRnw2Tx9CmIbP62MyytwQimqn8Ab1IcCEpiIiZImCw+Da8luslJYTF2
+         i36J+uDgwkrPlybPGiez1U9ks0VW0vfXj+o/0/hCfeSPXlzwHYrbMKiR4BNNtAfq6FLA
+         Y1Xw==
+X-Forwarded-Encrypted: i=1; AJvYcCUrnLvA5YZd3rApyHZ3Nur5sWE1m06QrXQQCTOzg44N0dt/oJOWG+X/i1aFqYdQX+ZjLW4n6YA9SJijxJyM492/sg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2tRMM4aQ5jvIhi7wlLI/n/nC4tuI2j++wWykugMc7q9EwX0Y7
+	NzduSmcAnu9Z/wOLM6JB2bmqDjIS1g3MgU7hcz9zxYSpwgThW7OEX/cM28hvnHe1iAg=
+X-Gm-Gg: ASbGncsHXOozPJwL7brBZYPmKrh5b6xQpWSO8NoHEp53ZO33uzcfHw555fNcM22MyNZ
+	A94Y0Tw8pebZFGjt729avDIzZpubzDI13ULWt5iOUfwRSSqRKHGbT+7ko88rBTadTx+1oPzZSwu
+	3ksfsTpfNNp6wsCdC4oZdb6AqJsLiMuXEnndHGUdKvsML37vOkOGx7o+1PEKGF/FUNGiZsci+zy
+	MumXlQqFp2+wkr+B/+vbEWD4yn3WlFA1CyQQu+C+o6ZhaGW8DU3lUGGul12z+6uublbr/Ms4xD5
+	7PNGyuCmxmwzSR12NXo5n+am5Sj0QXBkfjqjUQ/tocf0mgW8OISs/PYroiSWGC1HD9X10b/2+Fs
+	OXeFE9umowV0J6aWguqwH3BW+EsQe6xweVeYIyvWBAg==
+X-Google-Smtp-Source: AGHT+IGNhrTxIPsosCdGJWZIZAbT0RGPUxRM8nlUnIFpaFAXk/yICLpZY71X3iYYFxkLTIc/wDUO1A==
+X-Received: by 2002:a05:600c:46d0:b0:45d:d96e:6176 with SMTP id 5b1f17b1804b1-45ddded62d8mr99306545e9.25.1757422092531;
+        Tue, 09 Sep 2025 05:48:12 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.139])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e75224db20sm2503507f8f.60.2025.09.09.05.48.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Sep 2025 05:48:12 -0700 (PDT)
+Message-ID: <ba50f82f-3344-42dd-b58d-0a1d7438e1ac@tuxon.dev>
+Date: Tue, 9 Sep 2025 15:48:10 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 5/9] PCI: rzg3s-host: Add Initial PCIe Host Driver for
+ Renesas RZ/G3S SoC
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: bhelgaas@google.com, lpieralisi@kernel.org, kwilczynski@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ geert+renesas@glider.be, magnus.damm@gmail.com, catalin.marinas@arm.com,
+ will@kernel.org, mturquette@baylibre.com, sboyd@kernel.org,
+ p.zabel@pengutronix.de, lizhi.hou@amd.com, linux-pci@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org, Claudiu Beznea
+ <claudiu.beznea.uj@bp.renesas.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+References: <20250704161410.3931884-1-claudiu.beznea.uj@bp.renesas.com>
+ <20250704161410.3931884-6-claudiu.beznea.uj@bp.renesas.com>
+ <ddxayjj5wcuuish4kvyluzrujkes5seo7zlusmomyjfjcgzcyj@xe3zzzmy2zaj>
+ <8ef466aa-b470-4dcb-9024-0a9c36eb9a6a@tuxon.dev>
+Content-Language: en-US
+In-Reply-To: <8ef466aa-b470-4dcb-9024-0a9c36eb9a6a@tuxon.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-I have pushed renesas-drivers-2025-09-09-v6.17-rc5 to
-https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
+Hi, Manivannan,
 
-This tree is meant to ease development of platform support and drivers
-for Renesas ARM and RISC-V SoCs.  It is created by merging (a) the
-for-next branches of various subsystem trees and (b) branches with
-driver code submitted or planned for submission to maintainers into the
-master branch of my renesas-devel.git tree.
+On 8/30/25 14:22, Claudiu Beznea wrote:
+> 
+> On 30.08.2025 09:59, Manivannan Sadhasivam wrote:
+>> On Fri, Jul 04, 2025 at 07:14:05PM GMT, Claudiu wrote:
+>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>
+>>> The Renesas RZ/G3S features a PCIe IP that complies with the PCI Express
+>>> Base Specification 4.0 and supports speeds of up to 5 GT/s. It functions
+>>> only as a root complex, with a single-lane (x1) configuration. The
+>>> controller includes Type 1 configuration registers, as well as IP
+>>> specific registers (called AXI registers) required for various adjustments.
+>>>
+>>> Hardware manual can be downloaded from the address in the "Link" section.
+>>> The following steps should be followed to access the manual:
+>>> 1/ Click the "User Manual" button
+>>> 2/ Click "Confirm"; this will start downloading an archive
+>>> 3/ Open the downloaded archive
+>>> 4/ Navigate to r01uh1014ej*-rzg3s-users-manual-hardware -> Deliverables
+>>> 5/ Open the file r01uh1014ej*-rzg3s.pdf
+>>>
+>>> Link: https://www.renesas.com/en/products/rz-g3s?
+>>> queryID=695cc067c2d89e3f271d43656ede4d12
+>>> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>> ---
+>>>
+>> [...]
+>>
+>>> +static bool rzg3s_pcie_child_issue_request(struct rzg3s_pcie_host *host)
+>>> +{
+>>> +	u32 val;
+>>> +	int ret;
+>>> +
+>>> +	rzg3s_pcie_update_bits(host->axi, RZG3S_PCI_REQISS,
+>>> +			       RZG3S_PCI_REQISS_REQ_ISSUE,
+>>> +			       RZG3S_PCI_REQISS_REQ_ISSUE);
+>>> +	ret = readl_poll_timeout_atomic(host->axi + RZG3S_PCI_REQISS, val,
+>>> +					!(val & RZG3S_PCI_REQISS_REQ_ISSUE),
+>>> +					5, RZG3S_REQ_ISSUE_TIMEOUT_US);
+>>> +
+>>> +	return !!ret || (val & RZG3S_PCI_REQISS_MOR_STATUS);
+>> You don't need to do !!ret as the C11 standard guarantees that any scalar type
+>> stored as bool will have the value of 0 or 1.
+> OK, will drop it anyway as suggested in another thread.
+> 
+>>> +}
+>>> +
+>> [...]
+>>
+>>> +static void __iomem *rzg3s_pcie_root_map_bus(struct pci_bus *bus,
+>>> +					     unsigned int devfn,
+>>> +					     int where)
+>>> +{
+>>> +	struct rzg3s_pcie_host *host = bus->sysdata;
+>>> +
+>>> +	if (devfn)
+>>> +		return NULL;
+>> Is it really possible to have devfn as non-zero for a root bus?
+> I will drop it.
 
-Today's version is based on renesas-devel-2025-09-08-v6.17-rc5.
+Actually, when calling:
 
-Included branches with driver code:
-  - renesas-clk-for-v6.18
-  - renesas-pinctrl-for-v6.18
-  - topic/r8a78000-v1
+pci_host_probe() ->
+  pci_scan_root_bus_bridge() ->
+    pci_scan_child_bus() ->
+      pci_scan_child_bus_extend() ->
+        // ...
+        for (devnr = 0; devnr < PCI_MAX_NR_DEVS; devnr++)
+            pci_scan_slot(bus, PCI_DEVFN(devnr, 0));
 
-Included fixes:
-  - [TEST] soc: renesas: rcar-rst: Enable WDT reset on early R-Car V4M
-  - ARM: shmobile: defconfig: Update for renesas-drivers
-  - [LOCAL] arm64: renesas: defconfig: Update for renesas-drivers
-  - [LOCAL] riscv: rzfive: defconfig: Update for renesas-drivers
+The pci_scan_slot() calls only_one_child() at the beginning but that don't
+return 1 on the root bus as it is called just after pci_host_probe() and
+the bus->self is not set (as of my investigation it is set later in
+pci_scan_child_bus_extend()) leading to rzg3s_pcie_root_map_bus() being
+called with devfn != 0.
 
-Included subsystem trees:
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#main
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/i2c-host-fixes
-  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/i2c-host
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
-  - https://gitlab.freedesktop.org/drm/kernel.git#drm-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/iommu/linux.git#next
-  - git://linuxtv.org/media_tree.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git#pwm/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/daniel.lezcano/linux.git#timers/drivers/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rmk/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/drivers
-  - git://git.kernel.org/pub/scm/linux/kernel/git/libata/linux#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
-  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
-  - https://gitlab.freedesktop.org/drm/misc/kernel.git#for-linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/glaubitz/sh-linux.git#for-next
-  - https://git.pengutronix.de/git/pza/linux#reset/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#fixes
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/andy/linux-auxdisplay.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/srini/nvmem.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git#char-misc-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git#togreg
+Similar drivers having ops and child_ops assigned use the same approach.
+E.g. dw_pcie_own_conf_map_bus():
 
-Gr{oetje,eeting}s,
+void __iomem *dw_pcie_own_conf_map_bus(struct pci_bus *bus, unsigned int
+devfn, int where)
+{
+	struct dw_pcie_rp *pp = bus->sysdata;
+	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
 
-						Geert
+	if (PCI_SLOT(devfn) > 0)
+		return NULL;
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+	return pci->dbi_base + where;
+}
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+Thank you,
+Claudiu
 
