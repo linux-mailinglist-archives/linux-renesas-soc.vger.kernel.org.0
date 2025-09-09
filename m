@@ -1,47 +1,47 @@
-Return-Path: <linux-renesas-soc+bounces-21656-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21657-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C87CB4FBCF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Sep 2025 14:52:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD255B4FBD1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Sep 2025 14:52:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E4B3B1BC4032
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Sep 2025 12:52:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D74D0168811
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Sep 2025 12:51:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CB3F33A038;
-	Tue,  9 Sep 2025 12:51:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A20A33A01F;
+	Tue,  9 Sep 2025 12:51:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gm/bZ8vM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AnLs9Ee0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5524E322DC3;
-	Tue,  9 Sep 2025 12:51:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2095C3203A7;
+	Tue,  9 Sep 2025 12:51:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757422299; cv=none; b=GGbsPYf5LjsR8qGUlxM4Htk2oL3pZ6jAnoDB80nStuY9W6wIUZlJd8YtK1QHOxCyX5XmCaXHaYS1WVHgDhbTO/p358KZbfKjIb0kkbNZFO5GN1Tuxw6BJPVD14ypRDvFGGpVpFsOBnTByYhSRxb/+Nwb3rGfzekfOSwf3hmCQJ8=
+	t=1757422313; cv=none; b=G5S0lv6qZ7eYZTfGGkIxsNgeR9ZUqj7eyZfAS+qc2PW6TzWi/6zH9uTAivQOWU8xPqJ31dR+iNSxJiVmzGwBF43CIUkITWnp0HWxKoB/JdGLClqPnuPxpYOwMQk1MTmpG7yJP4FSxvYA/MtfOYR/cskU7FD+20su0vbkSNPZZM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757422299; c=relaxed/simple;
-	bh=4BlFj5A4ZV/YCg+/3lRvbK+EE8Cc7L3lQE5j5L3mpKc=;
+	s=arc-20240116; t=1757422313; c=relaxed/simple;
+	bh=zajlGVhEwyY85tWtB/aQbljBsQiHKjoUFceCAVWfzno=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tCBlvTaaWxIr6ASgGjmhO5ayg5AyuUi6ryE5OEMk/ufN6zNpCi0vs3JeS32CmjzFmtkEKoNlGspMpnlT6GptwgD31mMLNMaQhyf1UeB5TV84537JOhe15KlcOFliwqOWdJaXw/LzsdtOGXaSLqKjN165f2w8HQTegwNCABh2jFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gm/bZ8vM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3110C4CEF4;
-	Tue,  9 Sep 2025 12:51:36 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZDw5gkhfRpfUuzbOr0McjVUGjkF0FLDeZjiSuFTJmfqiInaSxok9l8fJm+4T+89FNRi5P/dTriKeL6OEu60HfWcK/X8zUpwCcn6LzqwlPtrxC5Iwi8Wg/mlA5A2R/St4rMXuKk4BTYQMSZOuF1n/lmCAA2i/ABo5U2OhRugyjyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AnLs9Ee0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B06BDC4CEF4;
+	Tue,  9 Sep 2025 12:51:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757422298;
-	bh=4BlFj5A4ZV/YCg+/3lRvbK+EE8Cc7L3lQE5j5L3mpKc=;
+	s=k20201202; t=1757422312;
+	bh=zajlGVhEwyY85tWtB/aQbljBsQiHKjoUFceCAVWfzno=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gm/bZ8vM6+XA0U1YFgFcCk6q4NRXjj7wCOtgV0ReI4ykxZTtbHpGY8VGgmNaCS4qf
-	 ouow9SWYsnnRQYV4o+3UAUntM8d4V7aitC5VfWhhQNDJ0pFCb6eQBygekqwGN51mpF
-	 jfZi7SSdpf2iZfqB6xRoKMZTyEku553+ycWwDPuYMm2RNVamlrkxyNadVfMU8ocypt
-	 FtqKXt5yq/xYQCpOexc845/3trFwtsS/vbTVF910pV/DO/9cOaHxRH6o2f1jDfFkIF
-	 PFgmOAmNsvViLmHDrnOdKoyKQCVLJ/6AJCAY91ILaOJj2R1bt7e94EXFn6xSERVMkg
-	 epB+aNp7XqZnA==
-Date: Tue, 9 Sep 2025 13:51:34 +0100
+	b=AnLs9Ee0wRFU6pBkl52vS/y8ckXHvDDWnZPNKtcL1rEHGyApCQ3f4JMZtJhMLKkrM
+	 ZBW4poAefnVmNxpys6BHNvhjyM4CTTDcPyUcMLmmjSwUtTunZvJT1ITzK4fKFQZAU5
+	 VKQSyCotJR0nfGbtUe/C+Ta5Wn1iuZ+cnl7BF3EyR3fdDBHWDN6r+MrHCpXAnlGySs
+	 Rv9wAW5JHLi4oXUknQE8axH9XYQJOG7GOUCxY49K72maJl4MrcYhqa3GNbJqOXxwOz
+	 NH4RqoozSL3D/8gKo1Bv8H8Eo57DA0TWYszPA1UyFg6FJxUq/2yzr55CFMHWr0ueOF
+	 XSgXw1MEuCzWw==
+Date: Tue, 9 Sep 2025 13:51:48 +0100
 From: Simon Horman <horms@kernel.org>
 To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
@@ -51,11 +51,11 @@ Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Richard Cochran <richardcochran@gmail.com>, netdev@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/3] net: ethernet: renesas: rcar_gen4_ptp: Hide register
- layout
-Message-ID: <20250909125134.GG14415@horms.kernel.org>
+Subject: Re: [PATCH 3/3] net: ethernet: renesas: rcar_gen4_ptp: Use lockdep
+ to verify internal usage
+Message-ID: <20250909125148.GH14415@horms.kernel.org>
 References: <20250908154426.3062861-1-niklas.soderlund+renesas@ragnatech.se>
- <20250908154426.3062861-3-niklas.soderlund+renesas@ragnatech.se>
+ <20250908154426.3062861-4-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -65,15 +65,11 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250908154426.3062861-3-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20250908154426.3062861-4-niklas.soderlund+renesas@ragnatech.se>
 
-On Mon, Sep 08, 2025 at 05:44:25PM +0200, Niklas Söderlund wrote:
-> With the support for multiple register layout removed all support
-> structures can be removed from the header file. Covert to a simpler
-> structure using defines for the register offsets.
-> 
-> There is no functional change, only switching from looking up offsets at
-> runtime to compile time.
+On Mon, Sep 08, 2025 at 05:44:26PM +0200, Niklas Söderlund wrote:
+> Instead of a having a comment that the lock must be held when calling
+> the internal helper add a lockdep check to enforce it.
 > 
 > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
