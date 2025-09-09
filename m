@@ -1,47 +1,47 @@
-Return-Path: <linux-renesas-soc+bounces-21655-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21656-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1929EB4FBCD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Sep 2025 14:52:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C87CB4FBCF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Sep 2025 14:52:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 072664E6FF0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Sep 2025 12:51:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E4B3B1BC4032
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Sep 2025 12:52:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AEC233A03D;
-	Tue,  9 Sep 2025 12:51:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CB3F33A038;
+	Tue,  9 Sep 2025 12:51:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l7VkGHtY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gm/bZ8vM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED8233A038;
-	Tue,  9 Sep 2025 12:51:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5524E322DC3;
+	Tue,  9 Sep 2025 12:51:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757422287; cv=none; b=ODhYC8G9XohH2EuXGxvmzMN5b8HK1feHmvl4z03HijsPt2QD3vKF6FCzHQvjhGvC20x8CWTiIOghDiXiPVGk33eLaDrCAm7DBdV3Fr6yAkgllgGiKIJsuX1KdIWqMU2qhrcS+JDL8zgKb86qJFWidFRd5bxmRyVNU4W5fEdZ1as=
+	t=1757422299; cv=none; b=GGbsPYf5LjsR8qGUlxM4Htk2oL3pZ6jAnoDB80nStuY9W6wIUZlJd8YtK1QHOxCyX5XmCaXHaYS1WVHgDhbTO/p358KZbfKjIb0kkbNZFO5GN1Tuxw6BJPVD14ypRDvFGGpVpFsOBnTByYhSRxb/+Nwb3rGfzekfOSwf3hmCQJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757422287; c=relaxed/simple;
-	bh=I4b+aKBGVugeNvvUKj2s/TJ6lJ6f7L/HxrD77pVXUOE=;
+	s=arc-20240116; t=1757422299; c=relaxed/simple;
+	bh=4BlFj5A4ZV/YCg+/3lRvbK+EE8Cc7L3lQE5j5L3mpKc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VYJNN2h7HswoyeQK5S9twLaqveELDdmM1lOERloclGC6DbnWCA5zI1GIkNuiWkNCh8pl6hUc16nSN6eLH3lEcFSrlXSr6jbedvIkjZM232Cx81o10xsyowAZjmv28BtXQDnYMiouuqBSa60QSBdRdbb+weJeRPKgvfV4H76k+/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l7VkGHtY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C940C4CEF4;
-	Tue,  9 Sep 2025 12:51:24 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=tCBlvTaaWxIr6ASgGjmhO5ayg5AyuUi6ryE5OEMk/ufN6zNpCi0vs3JeS32CmjzFmtkEKoNlGspMpnlT6GptwgD31mMLNMaQhyf1UeB5TV84537JOhe15KlcOFliwqOWdJaXw/LzsdtOGXaSLqKjN165f2w8HQTegwNCABh2jFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gm/bZ8vM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3110C4CEF4;
+	Tue,  9 Sep 2025 12:51:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757422286;
-	bh=I4b+aKBGVugeNvvUKj2s/TJ6lJ6f7L/HxrD77pVXUOE=;
+	s=k20201202; t=1757422298;
+	bh=4BlFj5A4ZV/YCg+/3lRvbK+EE8Cc7L3lQE5j5L3mpKc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=l7VkGHtYqMX2mussnwYBS48dM3PdfAyINuv9Q4xUSHg7mD3U8ZFwaZR/mdSsq3g4A
-	 zuyLo9CnKuERwb3k1Dn3GGSZGOIoEaw1SYpmbAfPag/WBMbWfQpLhNUeWfgm34Gwa1
-	 oDtLcWV9dmqnn5wNXQ1xgtciRhbu4Dg1ZKKfDaQKpN9ujGYc6BQNxMVXSclq1jHak0
-	 /xMlU56RpwhFRdArIckr9NBiPWM3gBMAh8BIrOEOzgOzBEMJ61LdcfkE8KpULvdWXa
-	 4MR3rH2PnvvnlSsjXsnefciTw8m4r5ACSjhN1AtRk5aH1Kkhp6mFMPs2fPGKcw8zLz
-	 ra4+TtAn7pJgw==
-Date: Tue, 9 Sep 2025 13:51:22 +0100
+	b=gm/bZ8vM6+XA0U1YFgFcCk6q4NRXjj7wCOtgV0ReI4ykxZTtbHpGY8VGgmNaCS4qf
+	 ouow9SWYsnnRQYV4o+3UAUntM8d4V7aitC5VfWhhQNDJ0pFCb6eQBygekqwGN51mpF
+	 jfZi7SSdpf2iZfqB6xRoKMZTyEku553+ycWwDPuYMm2RNVamlrkxyNadVfMU8ocypt
+	 FtqKXt5yq/xYQCpOexc845/3trFwtsS/vbTVF910pV/DO/9cOaHxRH6o2f1jDfFkIF
+	 PFgmOAmNsvViLmHDrnOdKoyKQCVLJ/6AJCAY91ILaOJj2R1bt7e94EXFn6xSERVMkg
+	 epB+aNp7XqZnA==
+Date: Tue, 9 Sep 2025 13:51:34 +0100
 From: Simon Horman <horms@kernel.org>
 To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
@@ -51,11 +51,11 @@ Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Richard Cochran <richardcochran@gmail.com>, netdev@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/3] net: ethernet: renesas: rcar_gen4_ptp: Remove
- different memory layout
-Message-ID: <20250909125122.GF14415@horms.kernel.org>
+Subject: Re: [PATCH 2/3] net: ethernet: renesas: rcar_gen4_ptp: Hide register
+ layout
+Message-ID: <20250909125134.GG14415@horms.kernel.org>
 References: <20250908154426.3062861-1-niklas.soderlund+renesas@ragnatech.se>
- <20250908154426.3062861-2-niklas.soderlund+renesas@ragnatech.se>
+ <20250908154426.3062861-3-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -65,17 +65,15 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250908154426.3062861-2-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20250908154426.3062861-3-niklas.soderlund+renesas@ragnatech.se>
 
-On Mon, Sep 08, 2025 at 05:44:24PM +0200, Niklas Söderlund wrote:
-> When upstreaming the Gen4 PTP support for R-Car S4 the possibility for
-> different memory layouts on other Gen4 SoCs was build in. It turns out
-> this is not needed and instead needlessly makes the driver harder to
-> read, remove the support code that would have allowed different memory
-> layouts.
+On Mon, Sep 08, 2025 at 05:44:25PM +0200, Niklas Söderlund wrote:
+> With the support for multiple register layout removed all support
+> structures can be removed from the header file. Covert to a simpler
+> structure using defines for the register offsets.
 > 
-> This change only deals with the public functions used by other drivers,
-> follow up work will clean up the rcar_gen4_ptp internals.
+> There is no functional change, only switching from looking up offsets at
+> runtime to compile time.
 > 
 > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
