@@ -1,126 +1,142 @@
-Return-Path: <linux-renesas-soc+bounces-21606-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21607-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05A9BB4A437
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Sep 2025 09:51:30 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E92BCB4A585
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Sep 2025 10:38:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B8FEC3A6EAF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Sep 2025 07:51:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0F1DE18975CA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Sep 2025 08:38:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B73D222A7E4;
-	Tue,  9 Sep 2025 07:51:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30D2A253B71;
+	Tue,  9 Sep 2025 08:38:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UARw4Z1v"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD550522F;
-	Tue,  9 Sep 2025 07:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08886253950;
+	Tue,  9 Sep 2025 08:38:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757404286; cv=none; b=JWBg9I4jc14l48m5vgayNGGM75XiCYwd7vB0Dqlr53KPZ8wHcWA2TwQ2B7sYhoFatAuak92bPzsycZ5f8jB/gfAlQylhACo8SlCUvL6WgujZvdRgkBnR+ocM1+Cw493YhWluCcfU+R/7F/RQNbEWzGVc16wZVIo3fL8mZp2R0KE=
+	t=1757407102; cv=none; b=pmJrkUkRvngrmF2ca7ZgDi8atROKQF2tFg2GGO+2nF0Yker0MAcawt9Dik/u8DvDbr6NB5jTGVPmuC6hz3CaYangdC3SOYHqvl322KY3QO3yvYPDdgoVgJhLqfNfMX5ML++C8C+HZ8xR1wsNUTIjSj2X+MghVXZ1huU4M2i5Gh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757404286; c=relaxed/simple;
-	bh=LbdVI6Slt38Ir7cYm0efEYzLuDhlztlQKtA9nVk/uWA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YXAPgZyuOot+bUOeDtLAB91wCDzFJAj4tNy5yILEhbXRYmtRqK+GriBkZvsiJHW71prwjl13NFfS51L4TnItVvx5rVlg2QyBSEq+8s2JMJaKEL8f1aIy0CTcblBLWRYhcw8F5fVfjjXeVQSm2wAyKl95KYc65TR/bM0+i5nzyvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-89607b19f71so1640644241.1;
-        Tue, 09 Sep 2025 00:51:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757404284; x=1758009084;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0JIrSDKvo9ZR7TqGGDnw5XTvCh2zdcwH8+YMgz0j0MA=;
-        b=XK2l3XgoawbRNT94xuxyQq/O5IAa/DNp7HXDgdKI/IDbaeLK5a0Ww/v+C1ADyyYqrv
-         NaYhb9TP5pSADVma52CDKX9sTYDUcSntgBsEi6Hg6yQ2mJQ8+S1AZHf9Nwj8VBeJY3Gd
-         gDMuU17sO6LqvD5CaOaPq9TOMmpS6wgzY5x6gtZbtUvxhDaLK8+OKTndxBGo4UmGiOaG
-         uUBtXVBreLVjMWSSka/95IuEZcH+3X8N2xVsWAeijKi0TX+iRTFphuUgDKtZ7FRo2agz
-         bnX4KMD3qI+iFq6ll+9hXoj8u6qnpZzQ9DcgkVUlFvU1YCLHhrA/zhhuR+G8cjsB/5D3
-         rfyA==
-X-Forwarded-Encrypted: i=1; AJvYcCWakJJdkhyUTRC3hLsT1MO/cvTtR+L70WdHyUwjvnn3WqTrqv2cD6j0QinsQv7llupeR2959MGcgZ15TvKvbpWVjz8=@vger.kernel.org, AJvYcCWj9P8KDh2GuRIuQH7M5iLAYvgE+oO1BBI2aztF+7n+nXeYGoTM3Akzt/eQiWbmPoPC/yPzAgpH88SS@vger.kernel.org
-X-Gm-Message-State: AOJu0YxzY6ssA9Os0oBxOU+eKRVrju7934PI2c9rieU+YtGBt4pNIqET
-	BODqAYqTqQLxOF/+IEvUX4c4uVxKrrBqOSFfIrSdVWm7j/nbC3LzsLefsBSJFhAq
-X-Gm-Gg: ASbGncu6Pqu+vcG6+bT+MqOUutkqBOYDnD7ZebfR85S5E74AIP7GYCZknCjozJ7ocpb
-	/17v9lYw5sSZWSmrmhU0lmAuFCdHwNcsmJuR1s+ukOz/aU7ZpXy6LyDWeNR2JwBPZr7hBjMf5TD
-	hsg4D5GLUu/ZhnY8fPMVdo39Bd7yWz/Xf/wnaU/CUd4lwmmCJa0IdKdhv0Ff9DeNKKFfk8npV/a
-	94jajSC/l1rTgudrmj1ZWEcj0icUbMKHC9Zd/uznaFKK3QVBh7eGL6ra+RXmjotfWCR9w+Ekq/m
-	3uaixrVwk7QnLZ2L76FUcWjspBpaRYqNJu3VGaAVvZy8a3alLgiPYFh5T8m0XrTCtlaxSB958Aw
-	oUMFEfNs7vxQz1cXO0IZFBM8xd3yFH6O9jpn23v02K0ALUYz8Rt2jWYC/TlVrztGsNUk/S/9lMN
-	Q=
-X-Google-Smtp-Source: AGHT+IG6wKIhY9a6rNEKRWSk8In1Tbtr/DkzSsSfHfWIv5Hv1BEE4hgGndKiBaT5v0e4P0jKy3xdlA==
-X-Received: by 2002:a05:6102:d88:b0:52a:b8b:f0cd with SMTP id ada2fe7eead31-53d231f904cmr2799153137.29.1757404283588;
-        Tue, 09 Sep 2025 00:51:23 -0700 (PDT)
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com. [209.85.221.173])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-899d7986b82sm6381046241.17.2025.09.09.00.51.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Sep 2025 00:51:22 -0700 (PDT)
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-544c796daa1so1923193e0c.1;
-        Tue, 09 Sep 2025 00:51:22 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU2n6qHoCwHXv1avXXOQEG2zbKr2KH3i/U1kgZc4/NTyo/BZgQIUudkFjMfauJjPc7CAESq7EVrWGlb3NsdnAFW2Xk=@vger.kernel.org, AJvYcCWUO6cpBa1Xl0e3NDEyc9EC21H7bMwWhWTII2u4IefGhfg8XT5EIYiwYVIouB5C2Pty8inwDpypEFRR@vger.kernel.org
-X-Received: by 2002:a05:6122:a1d:b0:543:a319:7394 with SMTP id
- 71dfb90a1353d-5473803d00fmr3100624e0c.16.1757404282613; Tue, 09 Sep 2025
- 00:51:22 -0700 (PDT)
+	s=arc-20240116; t=1757407102; c=relaxed/simple;
+	bh=uB+IEtx25LHxWXI7ahs311VclinzFGUMpGguGTX3quc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uLJAgxPvKyS2O1hZDDfGCfSCI8Pk0heCowrcl/xmQfntYU7PNoUGUILsj0aDShvjP0GTZXo2enMl3wIK1KamL1QQZ5uCY5aNPbwnMDwuGvArsmYIKW79mZnq6W1Ngo7mu9S6z8mdsrElvpryi566TNbxQepfad6ktc/okczNcq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UARw4Z1v; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FE06C4CEF5;
+	Tue,  9 Sep 2025 08:38:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757407100;
+	bh=uB+IEtx25LHxWXI7ahs311VclinzFGUMpGguGTX3quc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=UARw4Z1vtYhTMk6kbJdenfdkjaYGlv/GBJuf9leQ9bV/z4qaKqoQQ73eNY84aAoDT
+	 FyLt86TS1jK/4wkKvnQIC06jKsa/9YsoaKEcJNS/rsamsMmHNwyF9giB180cIo7Tsu
+	 aW6+YNlKNsGWZJFPQgk3ZCr3jUob5LPrUvkc7ygDKCIHduEmHvhoEYyUU0wOYoz/Oa
+	 qlIdixGfuX4qsyd38sj6R4ccPzFnL3J2Gg92hwmz5F7j2tPYQXZTg+4C/w9LEqMPLJ
+	 BW7OYtdQjsbaSqURWNq9DdhDx9rZ7TFiKVtm8jSNw8/+n3Qe4yHuZHQGE84G39gRwN
+	 sBTSO3REfuzwg==
+Message-ID: <df2dcd5d-bafc-483a-8ef5-f58ff225fc91@kernel.org>
+Date: Tue, 9 Sep 2025 10:38:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <87tt1c9z7h.wl-kuninori.morimoto.gx@renesas.com>
- <87plc09z6j.wl-kuninori.morimoto.gx@renesas.com> <20250909-woodlouse-of-authentic-fertility-1cea2c@kuoka>
-In-Reply-To: <20250909-woodlouse-of-authentic-fertility-1cea2c@kuoka>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 9 Sep 2025 09:51:10 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXd6yhi2SBHBvq+0LF4kBnjm3igVb21TYaKoWSvjPGcEg@mail.gmail.com>
-X-Gm-Features: AS18NWCqrYWMcqkCjrtTcTjJES8TRBWo_VLUGDGC4w91TdcQouLAXKvc2ETcjyo
-Message-ID: <CAMuHMdXd6yhi2SBHBvq+0LF4kBnjm3igVb21TYaKoWSvjPGcEg@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 3/4] arm64: dts: renesas: Add R8A78000 X5H DTs
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <87tt1c9z7h.wl-kuninori.morimoto.gx@renesas.com>
+ <87plc09z6j.wl-kuninori.morimoto.gx@renesas.com>
+ <20250909-woodlouse-of-authentic-fertility-1cea2c@kuoka>
+ <CAMuHMdXd6yhi2SBHBvq+0LF4kBnjm3igVb21TYaKoWSvjPGcEg@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <CAMuHMdXd6yhi2SBHBvq+0LF4kBnjm3igVb21TYaKoWSvjPGcEg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Krzysztof,
+On 09/09/2025 09:51, Geert Uytterhoeven wrote:
+> Hi Krzysztof,
+> 
+> Thanks for your quick review!
+> 
+> On Tue, 9 Sept 2025 at 09:46, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>> On Tue, Sep 09, 2025 at 01:45:09AM +0000, Kuninori Morimoto wrote:
+> 
+>>> +     extal_clk: extal {
+>>
+>> Use some sane prefix.
+>>
+>> https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/clock/fixed-clock.yaml
+>>
+>>> +             compatible = "fixed-clock";
+>>> +             #clock-cells = <0>;
+>>> +             /* This value must be overridden by the board */
+>>> +             clock-frequency = <0>;
+>>
+>> Drop instead
+> 
+> clock-frequency is a required property?
 
-Thanks for your quick review!
+And it should be provided by the board or fail the DTS. I think now it
+hides the dtbs_check warnings for no real gain/reason.
 
-On Tue, 9 Sept 2025 at 09:46, Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> On Tue, Sep 09, 2025 at 01:45:09AM +0000, Kuninori Morimoto wrote:
 
-> > +     extal_clk: extal {
->
-> Use some sane prefix.
->
-> https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/clock/fixed-clock.yaml
->
-> > +             compatible = "fixed-clock";
-> > +             #clock-cells = <0>;
-> > +             /* This value must be overridden by the board */
-> > +             clock-frequency = <0>;
->
-> Drop instead
-
-clock-frequency is a required property?
-
->
-> > +     };
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best regards,
+Krzysztof
 
