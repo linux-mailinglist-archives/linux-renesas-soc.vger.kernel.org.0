@@ -1,276 +1,237 @@
-Return-Path: <linux-renesas-soc+bounces-21664-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21665-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C047B50296
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Sep 2025 18:27:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8AAEB504DC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Sep 2025 20:08:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1A58A16988A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Sep 2025 16:27:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AE9F01C61672
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Sep 2025 18:08:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F179B353340;
-	Tue,  9 Sep 2025 16:27:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D18A352FFE;
+	Tue,  9 Sep 2025 18:08:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ZWNvoLZe";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="HoIMFsee"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RdVOS2x1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C87352FD0;
-	Tue,  9 Sep 2025 16:27:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D6931D37B;
+	Tue,  9 Sep 2025 18:08:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757435255; cv=none; b=N3uh58opH3vJz8uUPz+OWjySToo0V5+V9Ai0yFUhdvfenZNC/jmuxtUdAsNU3SQe+DUsD0uJ/WLYkJO4p77pGvZvpwrJViA2cjQJPmeV39XtO3gHBDH0IqldTP1ptTgDHnwfFWYm+UXqVAWg7dutOJ0viZOHStg9c8JjDahUBS4=
+	t=1757441289; cv=none; b=OMs+Vneu4VKo12QS4V3HE6wOg1dUf2Lqw1G5dFqUwiup9NGakqDMlZK+f7DSBb4Rhsyb2f8tGKQ01RCEb0eaEG1vrkwOw1+B8djhU5kh0HHbYJkQIU0x1jBF8ykqQzqcwSnSovrwMRhT5FA5323DI5Z2jEmg5oa4Qvccb3PTCEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757435255; c=relaxed/simple;
-	bh=DYvgbpVeZXZ6/fOkKGUKsS/zmQa+67z9PePns+8rPmU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lI5seBcczQsdL2BzsMhSSzveq22adWiQJ64mOd/9wwzLG8XZIv5NN0sDFfkOzpAjUkF8d9ZB5k//pNdehRIcQTL4/gnxexggB/dCIEawjQzm9Ed80DyQOv81iTPACQ7kfZOdvi70zOe9BY3U9G4IXCkgLBE7qXfSeI2Q6QEiBko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=ZWNvoLZe; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=HoIMFsee; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4cLq3l2QBzz9tDp;
-	Tue,  9 Sep 2025 18:27:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1757435251;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qrJY0CwQrGpokThx28B+z72uq+klbWOH2rdh4qGj/g0=;
-	b=ZWNvoLZeADqrvefVJbHkxohM4x/15tdwpTrqywcPpUp8WXqavwsLX5+5HR317ILcyhgekC
-	38LzZIfv4s6MGw1JwL2czO5EuW1ZbPKLTNfrxydFcGPyelOL/LqhseKoVfL/7hI9Uz0EJ0
-	suaxFyvkopAlSNvQlu3JwAuZDI7LrcEbAAg2qecW4Cu9xxhQ64528MalbybfVyzSjd7sT9
-	XpIIBzm37z2gcfDUiWlyRFZGN5I6vE8Qnh4zpQZYjlo1+tMEHZR4B4sdAxxeJ+9oZNd7Xg
-	sjitxptKHzbdVQxRR+4cJOoO+ctmOOE3vDYUrKj9qoY70sEFDvNgSZk6Sby+XA==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1757435249;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qrJY0CwQrGpokThx28B+z72uq+klbWOH2rdh4qGj/g0=;
-	b=HoIMFseefYSxp/WGXQX+IbuknMg9nzBWBtSxYn0xRKcEkHBYcgvooCpOosguIGC+5pKm5l
-	vgCYxDvl4lvMWcZttJT5XSwODwOrNVg2haSvYg+4ivuDeE8gvU2x1bnEvepy71IypTlCa0
-	MHgcDCuVSwjEw8OQk3x03xYAICr3R6iIRIg3AZZkWM64aPJdFxY0MPli3l9N5oVVdNtRIA
-	hN12xjZef40SGzB78PpQlQOWLyIU12NzSXHpnr8dCUIztOlzu5P3kTRvmaWxt0QTRpZnXK
-	uoiBDsNLVuRPviQGBkTzzCqh+V0x4/vBid0Od4T9lffPkqsH2/MqFd9eH9KnJA==
-To: linux-pci@vger.kernel.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Duy Nguyen <duy.nguyen.rh@renesas.com>,
-	Thuan Nguyen <thuan.nguyen-hong@banvien.com.vn>,
-	stable@vger.kernel.org,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Marc Zyngier <maz@kernel.org>,
+	s=arc-20240116; t=1757441289; c=relaxed/simple;
+	bh=1E/FEfgXbxlTyDOQEnGwwHybKyqopOrH/LUQEsD4bdY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=opzGf2J6X4GfYVAl7mWdZois3zBlP6+TFoo/embo70T3KYb8uOe/HSH/RvGlpx0JcyGoHUOBD9Eoj/K/HcQTjSD0X4CCEg3NI1841shxkv2IjsgP3drIee3EO2fCTDaryocIiq16/0yEEbzaObnWpSb0pDHIXmqqO+o9Cg2UGhk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RdVOS2x1; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-45dd5e24d16so42735355e9.3;
+        Tue, 09 Sep 2025 11:08:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757441286; x=1758046086; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pzISf5D7Sm/re0S/MlFezCf6LIeMNaY1mdeO+lXW9Lw=;
+        b=RdVOS2x13d05QH7s06mD6PVBar/crYdXNBnpvI2/2d9ZHpwqSd+JgIYTh0IBblF77I
+         JKORmagnx3Oznpwd5+RswAxDaBZXcSJy+AtZu4yWmUtPibCxSipd2JfuHsQSWUIb6D9z
+         lPcZG4l+srJpHMz2LU2M+r331hBVxJeK6iDi8vA8ZeFdJZtIg1KMP0lvOrTPBXayw77b
+         EJkScyLbxKJWltaBsrnqGdTyw1YDMJuxiZrqm+w8O7f0rJAc7o+oYSC8xm5uFR1wr9Dv
+         KkLVAMumqJ0pOltw03QpG7fhFWH8gR94o7hfKLCiFCCRpRoN190aB0hReKqXB7Or/26f
+         roHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757441286; x=1758046086;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pzISf5D7Sm/re0S/MlFezCf6LIeMNaY1mdeO+lXW9Lw=;
+        b=IjG2HW7sCOzddJZseD3vgMLvnzx6NUbLLZY+1+XqRu9aejOUFt7nj3XLCJaSvVbjFJ
+         DbUVbbZJ/B7wdKt2LNAU2muSn9sYCZyg8Knxt85G9aNjIUvs16KQqJ1FaRGN4Ox4868R
+         yi3g/6j1XjmCJmnURtmjSTOLlzyycCZE39XzNVORfBIo2uCzThvktgVj8UnQFVnWcb2j
+         Ure9HKd770PCNtf7gczYQgWMNUVCU1W6BkSZJN7yTYBsXjOLFL2CJu9ULsm18qhX0iuc
+         LwKTmVAVinss+0xlEeUyVaaiWJMqcSTX6DpvvFPLO/U3K5oDczcx3PMox+GZwSAF9oA2
+         GjGA==
+X-Forwarded-Encrypted: i=1; AJvYcCUwqLdVQlp6+3pYF1l6vKVsAXgx1XDSFtqZntohcN+LP92/vfpGtFJ6IA7xw74LfQ0vCadt8Z9teSojftuQbQAsgFA=@vger.kernel.org, AJvYcCVJMT+gNyIuM55cTaLMcGwcIT794eMe6NnwaoZ1/y15nFmU0a4SjvmmdtGDTeKPrztuTjolaeqFFA5N@vger.kernel.org, AJvYcCVocqrdigTCqtzqm11Lo/PjvYlwTnDQtQKEsYKJPFZgdQ1/4OQ3nCcJgc64XOUAQPpdCZZNedEWew9F2YIr@vger.kernel.org, AJvYcCWnxa2C8YhvVdXWH6BE1fMsHGiu8WDP1u/K5n+srDW/1+pf3w1CHzdhgaOUVWo+Ku9ypf6wc6W9+6gO@vger.kernel.org, AJvYcCXK5NVhaXEZmzPCYSesy71s43Ly+7RLrADMI1IcP3tDAoLCoRMrYP3s5JaviSlZR9iwjVNKzmJE5arv@vger.kernel.org
+X-Gm-Message-State: AOJu0YzePGykLJ3CQDgomQNVHxkIoRtIBOhpOHJJYBgL9tjyq4vLE5d8
+	2hLQpJW7sOOEMBmAaN2Yoh1w118OO2EP195JF3AczZc070P3QBkKKw2q
+X-Gm-Gg: ASbGnctvLQzNWQ8PBjSfbzPCh7wVkLUKZwCpPljoUs3x0Fq94VgBA0B7DdyadGlhqVI
+	X611OZccrY47V3Ctqp59gcswe+JWCQZpU7Tyj6wF+Nuzn0PsyvSpomNxswXWQzQKZCQeU2mjLwV
+	DquzYZ8T5EH3Q7eBxLTKm0f1oOy7UeO1w+92WqK7fmwfgLfAwYH3ZtuTmw/L5JldAmRWjDiwYB0
+	qoBYe2Ulg6gV5tKNBbYUoPARKq7w80FOuiyV4PeL0K+lBfyhIyMcfov3LXThCY9CFwPPrkLq/x0
+	fKHNYjdVHuFHKcxAJxaGB+9Z/T0DvcVMHuI2ehRsBcf9FLjHQTY815admQQ6JiV8/qnPkXeyVHx
+	afe+pKTSK22ppsidMq5rGs9ErtQoanI+G+TJmMzg3l02rSRGtViOz4O6YVboORw8rvFYl2H0JcG
+	tIQb+GB1gRDyZn
+X-Google-Smtp-Source: AGHT+IHU8RVQLjbJmIfVzd4tfEr5Aww1xmlwzaYanHEmYj2UDm4y3gZ47LxspBoB5NASAirXTwqtAA==
+X-Received: by 2002:a05:600c:3596:b0:45d:d6fc:2509 with SMTP id 5b1f17b1804b1-45dddeb00bfmr133247045e9.6.1757441285524;
+        Tue, 09 Sep 2025 11:08:05 -0700 (PDT)
+Received: from biju.lan (host86-139-30-37.range86-139.btcentralplus.com. [86.139.30.37])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45df679a4c9sm4174015e9.3.2025.09.09.11.08.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Sep 2025 11:08:05 -0700 (PDT)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mathias Nyman <mathias.nyman@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Rob Herring <robh@kernel.org>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 2/2] PCI: rcar-host: Convert struct rcar_msi mask_lock into raw spinlock
-Date: Tue,  9 Sep 2025 18:26:25 +0200
-Message-ID: <20250909162707.13927-2-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20250909162707.13927-1-marek.vasut+renesas@mailbox.org>
-References: <20250909162707.13927-1-marek.vasut+renesas@mailbox.org>
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	linux-clk@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Wesley Cheng <quic_wcheng@quicinc.com>,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v2 00/11] Add RZ/G3E USB3.2 Gen1 Host Controller support
+Date: Tue,  9 Sep 2025 19:07:45 +0100
+Message-ID: <20250909180803.140939-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 9c6651d71222ac77325
-X-MBO-RS-META: kumgsuncs79ex4qu1e1tabzt3wazn3i9
 
-The rcar_msi_irq_unmask() function may be called from a PCI driver
-request_threaded_irq() function. This triggers kernel/irq/manage.c
-__setup_irq() which locks raw spinlock &desc->lock descriptor lock
-and with that descriptor lock held, calls rcar_msi_irq_unmask().
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
-Since the &desc->lock descriptor lock is a raw spinlock , and the
-rcar_msi .mask_lock is not a raw spinlock, this setup triggers
-'BUG: Invalid wait context' with CONFIG_PROVE_RAW_LOCK_NESTING=y .
+Add RZ/G3E USB3.2 Gen1 Host Controller and PHY support. The USB3HOST
+is compliant with the Universal Serial Bus 3.2 Specification Revision 1.0.
+ - Supports 1 downstream USB receptacles
+     - Number of SSP Gen2 or SS ports: 1
+     - Number of HS or FS or LS ports: 1
+ - Supports Super Speed Plus Gen2x1 (10 Gbps), Super Speed (5 Gbps),
+   High Speed (480 Mbps), Full Speed (12Mbps), and Low Speed (1.5 Mbps).
+ - Supports all transfer-types: Control, Bulk, Interrupt, Isochronous, and
+   these split-transactions.
+ - Supports Power Control and Over Current Detection.
 
-Use scoped_guard() to simplify the locking.
+v1->v2:
+ * Collected tags.
+ * Replaced usb30->usb3_0 for clocks and resets.
+ * Replaced magic numbers with macros iphy driver.
+ * Added ref to usb-xhci.yaml in USB3 binding patch.
+ 
+ Logs:
+ root@smarc-rzg3e:/cip-test-scripts/py# cat /proc/interrupts | grep SLEEP
+133:          0          0          0          0 rzv2h-icu   0 Edge      SLEEP
+root@smarc-rzg3e:/cip-test-scripts/py# [  128.532806] PM: suspend entry (deep)
+[  128.536700] Filesystems sync: 0.000 seconds
+[  128.542466] Freezing user space processes
+[  128.548296] Freezing user space processes completed (elapsed 0.001 seconds)
+[  128.555283] OOM killer disabled.
+[  128.558531] Freezing remaining freezable tasks
+[  128.564240] Freezing remaining freezable tasks completed (elapsed 0.001 seconds)
+[  128.571649] printk: Suspending console(s) (use no_console_suspend to debug)
+NOTICE:  BL2: v2.10.5(release):2.10.5/rz_soc_dev-169-g1410189b0
+NOTICE:  BL2: Built : 12:53:12, Jul 15 2025
+NOTICE:  BL2: SYS_LSI_MODE: 0x13e06
+NOTICE:  BL2: SYS_LSI_DEVID: 0x8679447
+NOTICE:  BL2: SYS_LSI_PRR: 0x0
+NOTICE:  BL2: Booting BL31
+[  128.604363] sd 0:0:0:0: [sda] Synchronizing SCSI cache
+[  128.670116] renesas-gbeth 15c30000.ethernet end0: Link is Down
+[  128.683550] Disabling non-boot CPUs ...
+[  128.688394] psci: CPU3 killed (polled 4 ms)
+[  128.695415] psci: CPU2 killed (polled 0 ms)
+[  128.702070] psci: CPU1 killed (polled 0 ms)
+[  128.704897] Enabling non-boot CPUs ...
+[  128.705107] Detected VIPT I-cache on CPU1
+[  128.705157] GICv3: CPU1: found redistributor 100 region 0:0x0000000014960000
+[  128.705195] CPU1: Booted secondary processor 0x0000000100 [0x412fd050]
+[  128.706006] CPU1 is up
+[  128.706106] Detected VIPT I-cache on CPU2
+[  128.706128] GICv3: CPU2: found redistributor 200 region 0:0x0000000014980000
+[  128.706149] CPU2: Booted secondary processor 0x0000000200 [0x412fd050]
+[  128.706732] CPU2 is up
+[  128.706831] Detected VIPT I-cache on CPU3
+[  128.706854] GICv3: CPU3: found redistributor 300 region 0:0x00000000149a0000
+[  128.706876] CPU3: Booted secondary processor 0x0000000300 [0x412fd050]
+[  128.707557] CPU3 is up
+[  128.724000] dwmac4: Master AXI performs fixed burst length
+[  128.724900] renesas-gbeth 15c30000.ethernet end0: No Safety Features support found
+[  128.724920] renesas-gbeth 15c30000.ethernet end0: IEEE 1588-2008 Advanced Timestamp supported
+[  128.728436] renesas-gbeth 15c30000.ethernet end0: configuring for phy/rgmii-id link mode
+[  128.745766] dwmac4: Master AXI performs fixed burst length
+[  128.746653] renesas-gbeth 15c40000.ethernet end1: No Safety Features support found
+[  128.746668] renesas-gbeth 15c40000.ethernet end1: IEEE 1588-2008 Advanced Timestamp supported
+[  128.750222] renesas-gbeth 15c40000.ethernet end1: configuring for phy/rgmii-id link mode
+[  128.797030] usb usb1: root hub lost power or was reset
+[  128.797038] usb usb2: root hub lost power or was reset
+[  130.956146] usb 2-1: reset SuperSpeed Plus Gen 2x1 USB device number 2 using xhci-renesas-hcd
+[  131.143425] OOM killer enabled.
+[  131.146563] Restarting tasks: Starting
+[  131.151382] Restarting tasks: Done
+[  131.154877] random: crng reseeded on system resumption
+[  131.160209] PM: suspend exit
+[  131.494956] renesas-gbeth 15c30000.ethernet end0: Link is Up - 1Gbps/Full - flow control rx/tx
 
-Fixes: 83ed8d4fa656 ("PCI: rcar: Convert to MSI domains")
-Reported-by: Duy Nguyen <duy.nguyen.rh@renesas.com>
-Reported-by: Thuan Nguyen <thuan.nguyen-hong@banvien.com.vn>
-Cc: stable@vger.kernel.org
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-=============================
-[ BUG: Invalid wait context ]
-6.17.0-rc4-next-20250905-00049-g13b74d3367a3-dirty #1117 Not tainted
------------------------------
-swapper/0/1 is trying to lock:
-ffffff84c1974e58 (&msi->mask_lock){....}-{3:3}, at: rcar_msi_irq_unmask+0x28/0x70
-other info that might help us debug this:
-context-{5:5}
-6 locks held by swapper/0/1:
- #0: ffffff84c0e0d0f8 (&dev->mutex){....}-{4:4}, at: device_lock+0x14/0x1c
- #1: ffffffc0817675b0 (pci_rescan_remove_lock){+.+.}-{4:4}, at: pci_lock_rescan_remove+0x18/0x20
- #2: ffffff84c2a691b0 (&dev->mutex){....}-{4:4}, at: device_lock+0x14/0x1c
- #3: ffffff84c1976108 (&dev->mutex){....}-{4:4}, at: device_lock+0x14/0x1c
- #4: ffffff84c2a71640 (&desc->request_mutex){+.+.}-{4:4}, at: __setup_irq+0xa4/0x5bc
- #5: ffffff84c2a714c8 (&irq_desc_lock_class){....}-{2:2}, at: __setup_irq+0x230/0x5bc
-stack backtrace:
-CPU: 1 UID: 0 PID: 1 Comm: swapper/0 Not tainted 6.17.0-rc4-next-20250905-00049-g13b74d3367a3-dirty #1117 PREEMPT
-Hardware name: Renesas Salvator-X 2nd version board based on r8a77951 (DT)
-Call trace:
- dump_backtrace+0x6c/0x7c (C)
- show_stack+0x14/0x1c
- dump_stack_lvl+0x68/0x8c
- dump_stack+0x14/0x1c
- __lock_acquire+0x3e8/0x1064
- lock_acquire+0x17c/0x2ac
- _raw_spin_lock_irqsave+0x54/0x70
- rcar_msi_irq_unmask+0x28/0x70
- irq_chip_unmask_parent+0x18/0x20
- cond_startup_parent+0x40/0x44
- pci_irq_startup_msi+0x20/0x58
- __irq_startup+0x34/0x84
- irq_startup+0x64/0x114
- __setup_irq+0x3f8/0x5bc
- request_threaded_irq+0x11c/0x148
- pcie_pme_probe+0xec/0x190
- pcie_port_probe_service+0x34/0x5c
- really_probe+0x190/0x350
- __driver_probe_device+0x120/0x138
- driver_probe_device+0x38/0xec
- __device_attach_driver+0x100/0x114
- bus_for_each_drv+0xa8/0xd0
- __device_attach+0xdc/0x15c
- device_initial_probe+0x10/0x18
- bus_probe_device+0x38/0xa0
- device_add+0x554/0x68c
- device_register+0x1c/0x28
- pcie_portdrv_probe+0x480/0x518
- pci_device_probe+0xcc/0x13c
- really_probe+0x190/0x350
- __driver_probe_device+0x120/0x138
- driver_probe_device+0x38/0xec
- __device_attach_driver+0x100/0x114
- bus_for_each_drv+0xa8/0xd0
- __device_attach+0xdc/0x15c
- device_initial_probe+0x10/0x18
- pci_bus_add_device+0xb8/0x130
- pci_bus_add_devices+0x50/0x74
- pci_host_probe+0x90/0xc4
- rcar_pcie_probe+0x5e8/0x650
- platform_probe+0x58/0x88
- really_probe+0x190/0x350
- __driver_probe_device+0x120/0x138
- driver_probe_device+0x38/0xec
- __driver_attach+0x158/0x168
- bus_for_each_dev+0x7c/0xd0
- driver_attach+0x20/0x28
- bus_add_driver+0xe0/0x1d8
- driver_register+0xac/0xe8
- __platform_driver_register+0x1c/0x24
- rcar_pcie_driver_init+0x18/0x20
- do_one_initcall+0xd4/0x220
- kernel_init_freeable+0x308/0x30c
- kernel_init+0x20/0x11c
- ret_from_fork+0x10/0x20
----
-Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
-Cc: Magnus Damm <magnus.damm@gmail.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: linux-pci@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
----
- drivers/pci/controller/pcie-rcar-host.c | 27 ++++++++++++-------------
- 1 file changed, 13 insertions(+), 14 deletions(-)
+root@smarc-rzg3e:/cip-test-scripts/py# ./run_pytests.sh tests/test_xhci.py -k test_xhci_005
+==================================================================== test session starts ====================================================================
+INFO     root:spl2_test_helpers.py:2059 DD performance with bs=32M count=32 is
+Write= 383 MB/s
+Read= 555 MB/s
 
-diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
-index 625a00f3b2230..213028052aa58 100644
---- a/drivers/pci/controller/pcie-rcar-host.c
-+++ b/drivers/pci/controller/pcie-rcar-host.c
-@@ -12,6 +12,7 @@
-  */
- 
- #include <linux/bitops.h>
-+#include <linux/cleanup.h>
- #include <linux/clk.h>
- #include <linux/clk-provider.h>
- #include <linux/delay.h>
-@@ -38,7 +39,7 @@ struct rcar_msi {
- 	DECLARE_BITMAP(used, INT_PCI_MSI_NR);
- 	struct irq_domain *domain;
- 	struct mutex map_lock;
--	spinlock_t mask_lock;
-+	raw_spinlock_t mask_lock;
- 	int irq1;
- 	int irq2;
- };
-@@ -602,28 +603,26 @@ static void rcar_msi_irq_mask(struct irq_data *d)
- {
- 	struct rcar_msi *msi = irq_data_get_irq_chip_data(d);
- 	struct rcar_pcie *pcie = &msi_to_host(msi)->pcie;
--	unsigned long flags;
- 	u32 value;
- 
--	spin_lock_irqsave(&msi->mask_lock, flags);
--	value = rcar_pci_read_reg(pcie, PCIEMSIIER);
--	value &= ~BIT(d->hwirq);
--	rcar_pci_write_reg(pcie, value, PCIEMSIIER);
--	spin_unlock_irqrestore(&msi->mask_lock, flags);
-+	scoped_guard(raw_spinlock_irqsave, &msi->mask_lock) {
-+		value = rcar_pci_read_reg(pcie, PCIEMSIIER);
-+		value &= ~BIT(d->hwirq);
-+		rcar_pci_write_reg(pcie, value, PCIEMSIIER);
-+	}
- }
- 
- static void rcar_msi_irq_unmask(struct irq_data *d)
- {
- 	struct rcar_msi *msi = irq_data_get_irq_chip_data(d);
- 	struct rcar_pcie *pcie = &msi_to_host(msi)->pcie;
--	unsigned long flags;
- 	u32 value;
- 
--	spin_lock_irqsave(&msi->mask_lock, flags);
--	value = rcar_pci_read_reg(pcie, PCIEMSIIER);
--	value |= BIT(d->hwirq);
--	rcar_pci_write_reg(pcie, value, PCIEMSIIER);
--	spin_unlock_irqrestore(&msi->mask_lock, flags);
-+	scoped_guard(raw_spinlock_irqsave, &msi->mask_lock) {
-+		value = rcar_pci_read_reg(pcie, PCIEMSIIER);
-+		value |= BIT(d->hwirq);
-+		rcar_pci_write_reg(pcie, value, PCIEMSIIER);
-+	}
- }
- 
- static void rcar_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
-@@ -736,7 +735,7 @@ static int rcar_pcie_enable_msi(struct rcar_pcie_host *host)
- 	int err;
- 
- 	mutex_init(&msi->map_lock);
--	spin_lock_init(&msi->mask_lock);
-+	raw_spin_lock_init(&msi->mask_lock);
- 
- 	err = of_address_to_resource(dev->of_node, 0, &res);
- 	if (err)
+INFO     root:spl2_test_helpers.py:2099 fio performance with bs=32m for Sequential and bs=4m for random access are
+
+INFO     root:spl2_test_helpers.py:2104 b'   READ: bw=562MiB/s (590MB/s), 562MiB/s-562MiB/s (590MB/s-590MB/s), io=5024MiB (5268MB), run=8936-8936msec'
+INFO     root:spl2_test_helpers.py:2104 b'  WRITE: bw=555MiB/s (582MB/s), 555MiB/s-555MiB/s (582MB/s-582MB/s), io=5024MiB (5268MB), run=9058-9058msec'
+INFO     root:spl2_test_helpers.py:2104 b'   READ: bw=373MiB/s (391MB/s), 373MiB/s-373MiB/s (391MB/s-391MB/s), io=5000MiB (5243MB), run=13394-13394msec'
+INFO     root:spl2_test_helpers.py:2104 b'  WRITE: bw=387MiB/s (406MB/s), 387MiB/s-387MiB/s (406MB/s-406MB/s), io=5000MiB (5243MB), run=12920-12920msec'
+
+Biju Das (11):
+  dt-bindings: clock: renesas,r9a09g047-cpg: Add USB3.0 core clocks
+  clk: renesas: r9a09g047: Add USB3.0 clocks/resets
+  dt-bindings: phy: renesas: Document Renesas RZ/G3E USB3.0 PHY
+  phy: renesas: Add Renesas RZ/G3E USB3.0 PHY driver
+  usb: host: xhci-rcar: Move R-Car reg definitions
+  dt-bindings: usb: Document Renesas RZ/G3E USB3HOST
+  usb: host: xhci-plat: Add .post_resume_quirk for struct xhci_plat_priv
+  usb: host: xhci-rcar: Add Renesas RZ/G3E USB3 Host driver support
+  arm64: dts: renesas: r9a09g047: Add USB3 PHY/Host nodes
+  arm64: dts: renesas: r9a09g047e57-smarc: Enable USB3HOST
+  arm64: defconfig: Enable RZ/G3E USB3 PHY driver
+
+ .../bindings/phy/renesas,rzg3e-usb3-phy.yaml  |  63 ++++
+ .../bindings/usb/renesas,rzg3e-xhci.yaml      |  87 ++++++
+ arch/arm64/boot/dts/renesas/r9a09g047.dtsi    |  30 ++
+ .../boot/dts/renesas/r9a09g047e57-smarc.dts   |  10 +
+ .../boot/dts/renesas/renesas-smarc2.dtsi      |   8 +
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/clk/renesas/r9a09g047-cpg.c           |   9 +-
+ drivers/phy/renesas/Kconfig                   |   7 +
+ drivers/phy/renesas/Makefile                  |   1 +
+ drivers/phy/renesas/phy-rzg3e-usb3.c          | 271 ++++++++++++++++++
+ drivers/usb/host/Kconfig                      |   2 +-
+ drivers/usb/host/xhci-plat.c                  |  14 +
+ drivers/usb/host/xhci-plat.h                  |   1 +
+ drivers/usb/host/xhci-rcar-regs.h             |  49 ++++
+ drivers/usb/host/xhci-rcar.c                  | 100 ++++---
+ drivers/usb/host/xhci-rzg3e-regs.h            |  12 +
+ .../dt-bindings/clock/renesas,r9a09g047-cpg.h |   2 +
+ 17 files changed, 621 insertions(+), 46 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/phy/renesas,rzg3e-usb3-phy.yaml
+ create mode 100644 Documentation/devicetree/bindings/usb/renesas,rzg3e-xhci.yaml
+ create mode 100644 drivers/phy/renesas/phy-rzg3e-usb3.c
+ create mode 100644 drivers/usb/host/xhci-rcar-regs.h
+ create mode 100644 drivers/usb/host/xhci-rzg3e-regs.h
+
 -- 
-2.51.0
+2.43.0
 
 
