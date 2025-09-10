@@ -1,230 +1,168 @@
-Return-Path: <linux-renesas-soc+bounces-21738-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21739-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CB9CB52261
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 22:39:12 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39C0EB52267
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 22:41:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 143AD46813B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 20:39:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 44AAD1C85964
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 20:42:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C8862F1FEA;
-	Wed, 10 Sep 2025 20:39:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46AEB2F28E3;
+	Wed, 10 Sep 2025 20:41:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J7QmIi2Q"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TQLy6yPe"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 832B22EFDAE;
-	Wed, 10 Sep 2025 20:39:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6645F1D8DFB;
+	Wed, 10 Sep 2025 20:41:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757536748; cv=none; b=i28yO1qKN7ZHBF620rT5j2Ri1n+qiZJm3UbIGxabCc0UXDRV3DqAEZJgVpD0VB5Qy9m3pMT3aSmrqZk9PgmCghjK83cps5jABo7LEOLOyVwV7loNefJB9xhaaxnD9qNoILVr9xh+7rRVTQjz2SBPMNZAi9Au1n/NRlF+8DJtkcs=
+	t=1757536900; cv=none; b=bimTcCczJMhldVZw9V6Qb/KoD/jRUP6slH1/05H14ol3zEhxeBJawEvcWOxcZqNZ+qNDONkINLOpYEuuGBH4tc1E9KGK8e7F1Ojk36GF9p8IEoCZgaPAX3t+cQ17PNIIgX9rdMCttMRY/tY9eCtt5ZtM4xpxTLe1HBRRCBwuWWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757536748; c=relaxed/simple;
-	bh=B6fkvpBK+Ee+0YOFckXyRfEu8C3ZmYjOmbvJLcYj7rE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Euj9giLq6hRfGE1TQDKRrMsWPdf210vPiAW61KorHQN6neSJXd8IZYbt9EqjUqVHHLz1f8u7SsenLE441GBM/9aoXJ3gf6NSPFCxrSRgaza1ie2cLNBniB19wiz8I3eKf4Fbg6GtDvNeICNKi0E8iklRKuNkZF9uJdMC1FbjiJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J7QmIi2Q; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757536747; x=1789072747;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=B6fkvpBK+Ee+0YOFckXyRfEu8C3ZmYjOmbvJLcYj7rE=;
-  b=J7QmIi2QJY5HUkAH3NfAikUxt3pwi7OnJFxCnE5HSRjB4uAkKF8UPfiE
-   dVN6pF7m9ofNtTQ2EkK6ZivBc/3ZuRDoNS2g7UJCMsptKgy0IsOkLTUBT
-   dOamGWO14OhNUgLMm2dLH9c8lSJpBwq+8Os/M183On/D3vkRetdXKdvT6
-   qnLkkTE7Dvv6528q0liJMgG6FHzacbQqqILrTeoYwL04SgYS3kTAeOyzZ
-   ZC6ToKNUwWP40dZaC9oMdcohTZ7+Uu5a9ByxHtVZ20mXftaiCIcdmoKkC
-   7+mraI6FvZVLdjNlnJaTJjnl7tJo95Ei7ZmwolH54+vR/u+zWaFDL+NYL
-   g==;
-X-CSE-ConnectionGUID: PSrwnMjDTteQbtkXsT2bDg==
-X-CSE-MsgGUID: hu/LLBQJRhGgERGE/51PZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11549"; a="59083187"
-X-IronPort-AV: E=Sophos;i="6.18,255,1751266800"; 
-   d="scan'208";a="59083187"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 13:39:05 -0700
-X-CSE-ConnectionGUID: 0pc5aoHiT2OxenyLymEnVA==
-X-CSE-MsgGUID: Sz8c7R3oQ0WyCVA7akPy3A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,255,1751266800"; 
-   d="scan'208";a="210615967"
-Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 10 Sep 2025 13:39:00 -0700
-Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uwRaj-0006GZ-2H;
-	Wed, 10 Sep 2025 20:38:57 +0000
-Date: Thu, 11 Sep 2025 04:38:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Hoan Tran <hoan@os.amperecomputing.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
+	s=arc-20240116; t=1757536900; c=relaxed/simple;
+	bh=0oagLe8fOnXISlWeTa/kfm/g6uzMEFeSXwJhXsqFDUc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kAiyY4r/wTvoL9dnf2lib1U0cAUb1rDXUrHQIH8SY0mFiZW73cS3l4efB/DV7zFi2ec25R1dbS9+WGQ/9ypCowZA+CyCbbxAErI6SXJtGlnwn+I27pHnL7xCXdBWZEibQe3FVfiZHiSAF5tpk8nU6QOqEwoqG2BagD85U5Dv1eI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TQLy6yPe; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-45b9c35bc0aso191885e9.2;
+        Wed, 10 Sep 2025 13:41:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757536897; x=1758141697; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=onEVVy/te+kVlImFH7TVFonDeLnTecLrkLYITcBmYWk=;
+        b=TQLy6yPe85DCGnmGSxG+3SNaR2sDRpaKMXWpYm4nQIl9tfwL2RFcLeZZog2yrbULs8
+         iNyLmjD9wRl48uNqcM1C8F/D4eqvOetl/d2xu1fA1BNplmzHVHAaJAZZ9TpPH7wbkCPI
+         bml9Vts9IdbhgSLqEqLZ7ac5r3wt71SRs4n7W/eN6I1lalckqYAnseIZF7l1xDGa7t4U
+         YVYp28oohFr6mAr7bxAKrLLf+SBCRTxLydYlChbcG0GgF0Sa3PPvrXI1ViWFvlVHgMls
+         0r6eBJp5IyZ8lQy4BznJqMx/QksSFmyFnipr2FTqLIQclFxor2xOJcJThXq1gAezQRx/
+         Rv1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757536897; x=1758141697;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=onEVVy/te+kVlImFH7TVFonDeLnTecLrkLYITcBmYWk=;
+        b=LmJ4XW9QZ1x2zH+R3G2+zhyV8Tkwz+/ViETWD0xUfWLatno3q1yGfg8ZH8CI4yL4/s
+         Sh7K8+LyrKrzIh/UE1H5OGFKlYf5yGWDhOssmslFdZq9a96cSYQzykF5jjsGc2jAkzZA
+         L9lC/G7ONWsKiqGwZsGXMu5qFgWR8dnHigwdLY2k2B7Bsyjd3LvLlBcvnpQdVxDSuIWv
+         3KxjUwTdui5rxV4HAWLF0FYuTXxvrbL06d1PH9axbLBH9xIS/gICf7yan3UkJZ4P8Dr0
+         CAaRoDEe9ZZzzyy2B8+OmZfeRTr9BAQ0GGke6uY0GQXLa0tJwVT9O+thY2WBpYriUqQM
+         Z/jA==
+X-Forwarded-Encrypted: i=1; AJvYcCU/MRzKUkTTYWKLzdfeLGmay8/0M0JJCkjS9iCVc6Xq+/Q5fbdUwafahn58fXb4P8AV1aTPdYOWrUiHq+gN@vger.kernel.org, AJvYcCVPF1EPcwSz5rBXi3yXNua6dZWhZ4L+zRRdbPsqO6FrmiBZTaVRr5Lt0/cQNM/c0vNBytixEFF6@vger.kernel.org, AJvYcCVo8Lxvw63MWE8d1EoNvv6wlNGB/kAmvekMDiI2uHqXTifqCxexhJwhn9HGVKXVSypG5OXbQ2Rr5bGj@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAtmDr/iEWB0YvGUpGYiz6vEXRYigG2Aif0/2dEFyLHo8JyC6b
+	mq4vEgq5f0DHmFKsCEMEz8WYLBoXUzDW7wFVeRisTykvrsg+GDFA7Arc
+X-Gm-Gg: ASbGnctkf2DzlYcde/KeeiLGQB8X9Gn7Y4NkODVZKmIpfyLN4NJKQXIUuoOijqXWNwH
+	0mtnXIoaQ6e5/Lx4DyUDQzwPEaBOyr0jWzJ6fwekHs7A6vdV5fkPpRxtBzw5bx5LR9XyDDBYmAD
+	6+CAc8nHiFZPd9YYqsrjhDkSaf+8dIEu3b8zGZ4NweymcYLWFO2vkXOdypi9nuFAZeWgKN7mExj
+	+6Jw132UgveCcAA4J5YLOjg3+MpIM5ELpv117vilPo0X8LHQQ4bfTKpqjoUOyq1NmpE+5/j5dni
+	xd3CFNn52jFGaYwKfC4HOSL8k4aD71T2slngUassdk5vouZKuJcTPi70LQJWHmZpyyckBg8Yx/H
+	fNFVXhX2RPNTNKz0mIS981isjhix6kD4Mqy6RApa6VaQc0n0=
+X-Google-Smtp-Source: AGHT+IH0FrdKxhb/OfkMmU6nPKsme3pPVultPw48KOkIWOb5cvaoD/X9ldikvmsGnulePcw+v1BObw==
+X-Received: by 2002:a05:600c:1c1b:b0:45d:e6b6:55fe with SMTP id 5b1f17b1804b1-45ded9fb96bmr70479505e9.34.1757536896503;
+        Wed, 10 Sep 2025 13:41:36 -0700 (PDT)
+Received: from iku.Home ([2a06:5906:61b:2d00:ee64:b92b:f8fd:6cd8])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e0157d68esm320085e9.6.2025.09.10.13.41.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Sep 2025 13:41:35 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Serge Semin <fancer.lancer@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Phil Edworthy <phil.edworthy@renesas.com>,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Pascal Eberhard <pascal.eberhard@se.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 3/8] of/irq: Introduce for_each_of_imap_item
-Message-ID: <202509110402.OHHgtxRA-lkp@intel.com>
-References: <20250909120041.154459-4-herve.codina@bootlin.com>
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	netdev@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH net-next v3 0/9] Add PCS support for Renesas RZ/{T2H,N2H} SoCs
+Date: Wed, 10 Sep 2025 21:41:21 +0100
+Message-ID: <20250910204132.319975-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250909120041.154459-4-herve.codina@bootlin.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Herve,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-kernel test robot noticed the following build warnings:
+Hi All,
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on tip/irq/core linus/master v6.17-rc5 next-20250910]
-[cannot apply to geert-renesas-devel/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+This series aims to add PCS support for the Renesas RZ/T2H and RZ/N2H SoCs
+These SoCs include a MII converter (MIIC) that converts MII to RMII/RGMII
+or can be set in pass-through mode for MII similar to the RZ/N1 SoC. The
+MIIC is used in conjunction with the Ethernet switch (ETHSW) available on
+these SoCs.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Herve-Codina-Schneider-Electric/ARM-dts-r9a06g032-Add-GPIO-controllers/20250909-200642
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250909120041.154459-4-herve.codina%40bootlin.com
-patch subject: [PATCH v2 3/8] of/irq: Introduce for_each_of_imap_item
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250911/202509110402.OHHgtxRA-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250911/202509110402.OHHgtxRA-lkp@intel.com/reproduce)
+v2->v3:
+- Moved reset handling from probe to a separate function
+  miic_reset_control_init() to avoid checkpatch warnings.
+- Added a comment about replacing with FIELD_PREP().
+- Dropped inlining of miic_unlock_regs().
+- Dropped inlining of miic_lock_regs().
+- Fixed checkpatch warning to fit within 80 columns.
+- Added Tested-by tag from Wolfram.
+- Added Reviewed-by tag from Andrew.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509110402.OHHgtxRA-lkp@intel.com/
+v1->v2:
+- Dropped regx in title and description in patch 1/9.
+- As done for other IPs used T2H compatible as a fallback for N2H.
+- Renamed pcs-rzt2h-miic.h -> renesas,r9a09g077-pcs-miic.h
+- Added matrix table in the new header file.
+- Corrected the resets check for RZ/N1.
+- Updated the commit message in patch 1/9.
+- Dropped regx in config description in patch 9/9.
+- Dropped patch "net: pcs: rzn1-miic: Add PCS validate callback
+  for RZ/T2H MIIC" is this already taken care in commit 508df2de7b3e
+  as pointed by Russell King.
 
-All warnings (new ones prefixed by >>):
+Cheers,
+Prabhakar
 
-   In file included from drivers/base/platform.c:15:
->> include/linux/of_irq.h:123:29: warning: no previous prototype for function 'of_imap_parser_one' [-Wmissing-prototypes]
-     123 | extern struct of_imap_item *of_imap_parser_one(struct of_imap_parser *parser,
-         |                             ^
-   include/linux/of_irq.h:123:8: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     123 | extern struct of_imap_item *of_imap_parser_one(struct of_imap_parser *parser,
-         |        ^
-   1 warning generated.
+Lad Prabhakar (9):
+  dt-bindings: net: pcs: renesas,rzn1-miic: Add RZ/T2H and RZ/N2H
+    support
+  net: pcs: rzn1-miic: Drop trailing comma from of_device_id table
+  net: pcs: rzn1-miic: Add missing include files
+  net: pcs: rzn1-miic: Move configuration data to SoC-specific struct
+  net: pcs: rzn1-miic: move port range handling into SoC data
+  net: pcs: rzn1-miic: Make switch mode mask SoC-specific
+  net: pcs: rzn1-miic: Add support to handle resets
+  net: pcs: rzn1-miic: Add per-SoC control for MIIC register unlock/lock
+  net: pcs: rzn1-miic: Add RZ/T2H MIIC support
 
-
-vim +/of_imap_parser_one +123 include/linux/of_irq.h
-
-    58	
-    59	extern int of_irq_parse_raw(const __be32 *addr, struct of_phandle_args *out_irq);
-    60	extern unsigned int irq_create_of_mapping(struct of_phandle_args *irq_data);
-    61	extern int of_irq_to_resource(struct device_node *dev, int index,
-    62				      struct resource *r);
-    63	
-    64	#ifdef CONFIG_OF_IRQ
-    65	extern void of_irq_init(const struct of_device_id *matches);
-    66	extern int of_irq_parse_one(struct device_node *device, int index,
-    67				  struct of_phandle_args *out_irq);
-    68	extern int of_irq_count(struct device_node *dev);
-    69	extern int of_irq_get(struct device_node *dev, int index);
-    70	extern int of_irq_get_byname(struct device_node *dev, const char *name);
-    71	extern int of_irq_to_resource_table(struct device_node *dev,
-    72			struct resource *res, int nr_irqs);
-    73	extern struct device_node *of_irq_find_parent(struct device_node *child);
-    74	extern int of_imap_parser_init(struct of_imap_parser *parser,
-    75				       struct device_node *node,
-    76				       struct of_imap_item *item);
-    77	extern struct of_imap_item *of_imap_parser_one(struct of_imap_parser *parser,
-    78						       struct of_imap_item *item);
-    79	extern struct irq_domain *of_msi_get_domain(struct device *dev,
-    80						    const struct device_node *np,
-    81						    enum irq_domain_bus_token token);
-    82	extern struct irq_domain *of_msi_map_get_device_domain(struct device *dev,
-    83								u32 id,
-    84								u32 bus_token);
-    85	extern void of_msi_configure(struct device *dev, const struct device_node *np);
-    86	extern u32 of_msi_xlate(struct device *dev, struct device_node **msi_np, u32 id_in);
-    87	#else
-    88	static inline void of_irq_init(const struct of_device_id *matches)
-    89	{
-    90	}
-    91	static inline int of_irq_parse_one(struct device_node *device, int index,
-    92					   struct of_phandle_args *out_irq)
-    93	{
-    94		return -EINVAL;
-    95	}
-    96	static inline int of_irq_count(struct device_node *dev)
-    97	{
-    98		return 0;
-    99	}
-   100	static inline int of_irq_get(struct device_node *dev, int index)
-   101	{
-   102		return 0;
-   103	}
-   104	static inline int of_irq_get_byname(struct device_node *dev, const char *name)
-   105	{
-   106		return 0;
-   107	}
-   108	static inline int of_irq_to_resource_table(struct device_node *dev,
-   109						   struct resource *res, int nr_irqs)
-   110	{
-   111		return 0;
-   112	}
-   113	static inline void *of_irq_find_parent(struct device_node *child)
-   114	{
-   115		return NULL;
-   116	}
-   117	static inline int of_imap_parser_init(struct of_imap_parser *parser,
-   118					      struct device_node *node,
-   119					      struct of_imap_item *item)
-   120	{
-   121		return -ENOSYS;
-   122	}
- > 123	extern struct of_imap_item *of_imap_parser_one(struct of_imap_parser *parser,
-   124						       struct of_imap_item *item)
-   125	{
-   126		return NULL;
-   127	}
-   128	static inline struct irq_domain *of_msi_get_domain(struct device *dev,
-   129							   struct device_node *np,
-   130							   enum irq_domain_bus_token token)
-   131	{
-   132		return NULL;
-   133	}
-   134	static inline struct irq_domain *of_msi_map_get_device_domain(struct device *dev,
-   135							u32 id, u32 bus_token)
-   136	{
-   137		return NULL;
-   138	}
-   139	static inline void of_msi_configure(struct device *dev, struct device_node *np)
-   140	{
-   141	}
-   142	static inline u32 of_msi_xlate(struct device *dev, struct device_node **msi_np, u32 id_in)
-   143	{
-   144		return id_in;
-   145	}
-   146	#endif
-   147	
+ .../bindings/net/pcs/renesas,rzn1-miic.yaml   | 177 +++++++---
+ drivers/net/pcs/Kconfig                       |  11 +-
+ drivers/net/pcs/pcs-rzn1-miic.c               | 317 +++++++++++++++---
+ .../net/renesas,r9a09g077-pcs-miic.h          |  36 ++
+ 4 files changed, 440 insertions(+), 101 deletions(-)
+ create mode 100644 include/dt-bindings/net/renesas,r9a09g077-pcs-miic.h
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.51.0
+
 
