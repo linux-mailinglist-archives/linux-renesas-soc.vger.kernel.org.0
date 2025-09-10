@@ -1,375 +1,343 @@
-Return-Path: <linux-renesas-soc+bounces-21701-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21702-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF20CB5141B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 12:34:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0EA0B5141F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 12:35:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 93C273A6307
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 10:34:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1D4DC3B3EDD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 10:35:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4156F2638AF;
-	Wed, 10 Sep 2025 10:34:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD80B1F416A;
+	Wed, 10 Sep 2025 10:35:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Aq0pMcyn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IxDYRHts"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B67531D385;
-	Wed, 10 Sep 2025 10:34:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D487DA930
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Sep 2025 10:35:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757500454; cv=none; b=CR+KFnQJnGr26G64XlJTuwLBJ+NYfug0qvAbZrDxAO1bUblhDjPiHWknpd+6bVeXUlQHGerSCGu0wsjYUx3ZD/rLjJ+jkCxdo4w6IyR+fOPzvRSScPedS5T4W7JJNjmNp3H6mcy2nB+NnwRj9+dI7cc+OPLx2eKtEeLJog6pQzM=
+	t=1757500506; cv=none; b=g3nxd3okgnZi5aFzl+bspvbb+v8njTGtQcE7Hm/XM16AZ5+Cu3UB/1Wt3nN/4n+CzLIKjOECKHJKh8uEHUmaPBrJyFy8osu54jm5YJqvFg7tE4A1dJLkGhcVQwLV7HX7wPrCm2C+SKXVHSGBfpWZXwzNaGXqfqvH6oub4sjZ4Uw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757500454; c=relaxed/simple;
-	bh=5M/o4RAP7wZoeD9O+0DDpwoy5rI2RuVMEJcQ4FyWfw0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WrXcnMY3OHxEF95E3djYQDosHC61yuGpC4aoFbeP5PEBE3LlOZE+qaMiUF1lfdnSne+ZLNm/b//rdu90g3XQROqwRTjfItlR8wZiE//cAVT76Bqn/dfZYk0beBHhBHvnMVnxdw/HjQflow7Qnyx7ofBdQ/N/Qo6+uI/Pj9o4X/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Aq0pMcyn; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1757500506; c=relaxed/simple;
+	bh=PMyiBqvJGuQBg9v8jXy/UXkhxKfEYY44OT87UYweBHI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=T0K7YTR2FZKcpqXJFIUoH9TF/FM/figPr9R3YI1ROaW180c1Thk5NU7Ah73UOUcG1uGpSwlGFqRMRcsKncHnCfxcA2Af2dXBHQiIuknf62ac5ikC6dIi5waCHVI/uMo65S5Bnl05EK9bwPLQydZzLLxCkuANf9eE9dGvZXtQWZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IxDYRHts; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757500451; x=1789036451;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5M/o4RAP7wZoeD9O+0DDpwoy5rI2RuVMEJcQ4FyWfw0=;
-  b=Aq0pMcyn4KhJvoecHXp7kl7pN2n2bXkjTvg0DimXbgCmWzEsPhTvYapE
-   0wSVpmax323D+T0xKIEA/xoOmkpdLbnFOsWtZ71xjLLDqJWHNMmdckp2S
-   xj/Gt7eJfGV38mspwq3TV0yxmRaTKtzw7Oq96cN2rW6cxA3XZzZg5zAQE
-   12UASyLPSGD8Qmz4T6p7IlQ2/zr+fBwbO+RwJDivdVyeUlghL4Jil3RMh
-   MANXJShJF9BfPvXtY//TCIAnFCpliUmORkM6PXh1Ga/pTqhKgO3K57n/l
-   EyBwXbHJsfbrQ2As+U5UWstuncik0qOuSNveTVoOjSHfzWW4XwIBvttka
-   g==;
-X-CSE-ConnectionGUID: ShJbV73hSxaHeIwMT9B3uw==
-X-CSE-MsgGUID: ESg8Nf6OTs6GgJlqLffgmA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="82395591"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="82395591"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 03:34:10 -0700
-X-CSE-ConnectionGUID: 6KdLSLK4TJi5yFx+sU20zQ==
-X-CSE-MsgGUID: J3SUYXR6QHWX/yA50MukLg==
+  t=1757500505; x=1789036505;
+  h=date:from:to:cc:subject:message-id;
+  bh=PMyiBqvJGuQBg9v8jXy/UXkhxKfEYY44OT87UYweBHI=;
+  b=IxDYRHtsVZAi7roo0aNhGJM4obpoiBEAM8TlgmRpitVuP6bS0G4APwzK
+   i+3yelle5tBlKOzqzaPDIye0xSgraOue7lPV1RY3QHxTxXae8gwT2jvFw
+   PDRaJk8ZWORCibYRkLrlHJiyKm/119RL/ti0hU89NAq+r7lAE0wru/V8w
+   HluyWnbWDQftByr1VNbPXBEnpC82Xyc+dkxZcohwqLfDcOdRvnKCGfjYL
+   K5vi6tjrWevuoXtw/rsmhRIsLLSGeqgOrfMOD6d9SL6AnMeW58XTGamif
+   dclyNvfUVMnv5fCvGNdQe51UBqdjRLSZIgIw20RMWGnlWh9kTlXTD6JYD
+   A==;
+X-CSE-ConnectionGUID: /mWkJ3bDTKyOjOB3oKLpWA==
+X-CSE-MsgGUID: 8dI+AcppT+OsFDuOEt12pw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="59027551"
+X-IronPort-AV: E=Sophos;i="6.18,254,1751266800"; 
+   d="scan'208";a="59027551"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 03:35:04 -0700
+X-CSE-ConnectionGUID: R8CbqQMKRhmgmVoy+d6oqA==
+X-CSE-MsgGUID: aRPgtP2MT4GZVT7h82tibw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,254,1751266800"; 
-   d="scan'208";a="173808692"
+   d="scan'208";a="197023990"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 10 Sep 2025 03:34:03 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 10 Sep 2025 03:35:03 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uwI9I-0005pr-1f;
-	Wed, 10 Sep 2025 10:34:00 +0000
-Date: Wed, 10 Sep 2025 18:33:24 +0800
+	id 1uwIAG-0005qD-30;
+	Wed, 10 Sep 2025 10:35:00 +0000
+Date: Wed, 10 Sep 2025 18:34:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Hoan Tran <hoan@os.amperecomputing.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Serge Semin <fancer.lancer@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Phil Edworthy <phil.edworthy@renesas.com>,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Pascal Eberhard <pascal.eberhard@se.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 3/8] of/irq: Introduce for_each_of_imap_item
-Message-ID: <202509110852.9fhL9uHp-lkp@intel.com>
-References: <20250909120041.154459-4-herve.codina@bootlin.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:master] BUILD SUCCESS
+ f4304a929fdb77d8378f3fb2ac8c8347b786d2d8
+Message-ID: <202509101854.bpYCUi8W-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250909120041.154459-4-herve.codina@bootlin.com>
 
-Hi Herve,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+branch HEAD: f4304a929fdb77d8378f3fb2ac8c8347b786d2d8  [LOCAL] riscv: rzfive: defconfig: Update for renesas-drivers
 
-kernel test robot noticed the following build errors:
+elapsed time: 1269m
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on tip/irq/core linus/master v6.17-rc5]
-[cannot apply to geert-renesas-devel/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+configs tested: 250
+configs skipped: 5
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Herve-Codina-Schneider-Electric/ARM-dts-r9a06g032-Add-GPIO-controllers/20250909-200642
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250909120041.154459-4-herve.codina%40bootlin.com
-patch subject: [PATCH v2 3/8] of/irq: Introduce for_each_of_imap_item
-config: x86_64-buildonly-randconfig-005-20250910 (https://download.01.org/0day-ci/archive/20250911/202509110852.9fhL9uHp-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250911/202509110852.9fhL9uHp-lkp@intel.com/reproduce)
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509110852.9fhL9uHp-lkp@intel.com/
+tested configs:
+alpha                             allnoconfig    clang-22
+alpha                             allnoconfig    gcc-15.1.0
+alpha                            allyesconfig    clang-19
+alpha                            allyesconfig    gcc-15.1.0
+alpha                               defconfig    clang-19
+arc                              allmodconfig    clang-19
+arc                              allmodconfig    gcc-15.1.0
+arc                               allnoconfig    clang-22
+arc                               allnoconfig    gcc-15.1.0
+arc                              allyesconfig    clang-19
+arc                              allyesconfig    gcc-15.1.0
+arc                          axs101_defconfig    gcc-15.1.0
+arc                                 defconfig    clang-19
+arc                   randconfig-001-20250909    gcc-8.5.0
+arc                   randconfig-001-20250910    gcc-13.4.0
+arc                   randconfig-002-20250909    gcc-8.5.0
+arc                   randconfig-002-20250910    gcc-13.4.0
+arm                              allmodconfig    clang-19
+arm                              allmodconfig    gcc-15.1.0
+arm                               allnoconfig    clang-22
+arm                              allyesconfig    clang-19
+arm                              allyesconfig    gcc-15.1.0
+arm                                 defconfig    clang-19
+arm                   randconfig-001-20250909    clang-18
+arm                   randconfig-001-20250910    gcc-13.4.0
+arm                   randconfig-002-20250909    clang-17
+arm                   randconfig-002-20250910    gcc-13.4.0
+arm                   randconfig-003-20250909    clang-22
+arm                   randconfig-003-20250910    gcc-13.4.0
+arm                   randconfig-004-20250909    clang-19
+arm                   randconfig-004-20250910    gcc-13.4.0
+arm                           spitz_defconfig    gcc-15.1.0
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    clang-22
+arm64                             allnoconfig    gcc-15.1.0
+arm64                               defconfig    clang-19
+arm64                 randconfig-001-20250909    clang-16
+arm64                 randconfig-001-20250910    gcc-13.4.0
+arm64                 randconfig-002-20250909    gcc-11.5.0
+arm64                 randconfig-002-20250910    gcc-13.4.0
+arm64                 randconfig-003-20250909    gcc-11.5.0
+arm64                 randconfig-003-20250910    gcc-13.4.0
+arm64                 randconfig-004-20250909    clang-22
+arm64                 randconfig-004-20250910    gcc-13.4.0
+csky                              allnoconfig    clang-22
+csky                              allnoconfig    gcc-15.1.0
+csky                                defconfig    clang-19
+csky                  randconfig-001-20250909    gcc-15.1.0
+csky                  randconfig-001-20250910    clang-22
+csky                  randconfig-002-20250909    gcc-15.1.0
+csky                  randconfig-002-20250910    clang-22
+hexagon                          allmodconfig    clang-17
+hexagon                          allmodconfig    clang-19
+hexagon                           allnoconfig    clang-22
+hexagon                          allyesconfig    clang-19
+hexagon                          allyesconfig    clang-22
+hexagon                             defconfig    clang-19
+hexagon               randconfig-001-20250909    clang-22
+hexagon               randconfig-001-20250910    clang-22
+hexagon               randconfig-002-20250909    clang-22
+hexagon               randconfig-002-20250910    clang-22
+i386                             allmodconfig    clang-20
+i386                              allnoconfig    clang-20
+i386                             allyesconfig    clang-20
+i386        buildonly-randconfig-001-20250909    gcc-13
+i386        buildonly-randconfig-001-20250910    clang-20
+i386        buildonly-randconfig-002-20250909    clang-20
+i386        buildonly-randconfig-002-20250910    clang-20
+i386        buildonly-randconfig-003-20250909    clang-20
+i386        buildonly-randconfig-003-20250910    clang-20
+i386        buildonly-randconfig-004-20250909    clang-20
+i386        buildonly-randconfig-004-20250910    clang-20
+i386        buildonly-randconfig-005-20250909    clang-20
+i386        buildonly-randconfig-005-20250910    clang-20
+i386        buildonly-randconfig-006-20250909    clang-20
+i386        buildonly-randconfig-006-20250910    clang-20
+i386                                defconfig    clang-20
+i386                  randconfig-001-20250910    clang-20
+i386                  randconfig-002-20250910    clang-20
+i386                  randconfig-003-20250910    clang-20
+i386                  randconfig-004-20250910    clang-20
+i386                  randconfig-005-20250910    clang-20
+i386                  randconfig-006-20250910    clang-20
+i386                  randconfig-007-20250910    clang-20
+i386                  randconfig-011-20250910    clang-20
+i386                  randconfig-012-20250910    clang-20
+i386                  randconfig-013-20250910    clang-20
+i386                  randconfig-014-20250910    clang-20
+i386                  randconfig-015-20250910    clang-20
+i386                  randconfig-016-20250910    clang-20
+i386                  randconfig-017-20250910    clang-20
+loongarch                        allmodconfig    clang-19
+loongarch                         allnoconfig    clang-22
+loongarch                           defconfig    clang-19
+loongarch             randconfig-001-20250909    gcc-15.1.0
+loongarch             randconfig-001-20250910    clang-22
+loongarch             randconfig-002-20250909    gcc-15.1.0
+loongarch             randconfig-002-20250910    clang-22
+m68k                             allmodconfig    clang-19
+m68k                             allmodconfig    gcc-15.1.0
+m68k                              allnoconfig    gcc-15.1.0
+m68k                             allyesconfig    clang-19
+m68k                             allyesconfig    gcc-15.1.0
+m68k                                defconfig    clang-19
+m68k                        m5307c3_defconfig    gcc-15.1.0
+microblaze                       allmodconfig    clang-19
+microblaze                       allmodconfig    gcc-15.1.0
+microblaze                        allnoconfig    gcc-15.1.0
+microblaze                       allyesconfig    clang-19
+microblaze                       allyesconfig    gcc-15.1.0
+microblaze                          defconfig    gcc-15.1.0
+mips                              allnoconfig    gcc-15.1.0
+nios2                            allmodconfig    clang-22
+nios2                             allnoconfig    gcc-11.5.0
+nios2                            allyesconfig    clang-22
+nios2                               defconfig    gcc-15.1.0
+nios2                 randconfig-001-20250909    gcc-11.5.0
+nios2                 randconfig-001-20250910    clang-22
+nios2                 randconfig-002-20250909    gcc-8.5.0
+nios2                 randconfig-002-20250910    clang-22
+openrisc                         allmodconfig    clang-22
+openrisc                          allnoconfig    clang-22
+openrisc                         allyesconfig    gcc-15.1.0
+openrisc                            defconfig    gcc-14
+parisc                           alldefconfig    gcc-15.1.0
+parisc                           allmodconfig    gcc-15.1.0
+parisc                            allnoconfig    clang-22
+parisc                           allyesconfig    gcc-15.1.0
+parisc                              defconfig    gcc-15.1.0
+parisc                randconfig-001-20250909    gcc-8.5.0
+parisc                randconfig-001-20250910    clang-22
+parisc                randconfig-002-20250909    gcc-12.5.0
+parisc                randconfig-002-20250910    clang-22
+parisc64                            defconfig    gcc-15.1.0
+powerpc                          allmodconfig    gcc-15.1.0
+powerpc                           allnoconfig    clang-22
+powerpc                          allyesconfig    clang-22
+powerpc                          allyesconfig    gcc-15.1.0
+powerpc                        cell_defconfig    gcc-15.1.0
+powerpc                    ge_imp3a_defconfig    gcc-15.1.0
+powerpc               randconfig-001-20250909    clang-22
+powerpc               randconfig-001-20250910    clang-22
+powerpc               randconfig-002-20250909    clang-17
+powerpc               randconfig-002-20250910    clang-22
+powerpc               randconfig-003-20250909    gcc-8.5.0
+powerpc               randconfig-003-20250910    clang-22
+powerpc64             randconfig-001-20250909    clang-20
+powerpc64             randconfig-002-20250909    gcc-10.5.0
+powerpc64             randconfig-002-20250910    clang-22
+powerpc64             randconfig-003-20250909    gcc-8.5.0
+powerpc64             randconfig-003-20250910    clang-22
+riscv                            allmodconfig    clang-22
+riscv                            allmodconfig    gcc-15.1.0
+riscv                             allnoconfig    clang-22
+riscv                            allyesconfig    clang-16
+riscv                            allyesconfig    gcc-15.1.0
+riscv                               defconfig    gcc-14
+riscv                 randconfig-001-20250909    clang-22
+riscv                 randconfig-001-20250910    gcc-12.5.0
+riscv                 randconfig-002-20250909    clang-22
+riscv                 randconfig-002-20250910    gcc-12.5.0
+s390                             allmodconfig    clang-18
+s390                             allmodconfig    gcc-15.1.0
+s390                              allnoconfig    clang-22
+s390                             allyesconfig    gcc-15.1.0
+s390                                defconfig    gcc-14
+s390                  randconfig-001-20250909    gcc-11.5.0
+s390                  randconfig-001-20250910    gcc-12.5.0
+s390                  randconfig-002-20250909    clang-18
+s390                  randconfig-002-20250910    gcc-12.5.0
+sh                               allmodconfig    gcc-15.1.0
+sh                                allnoconfig    gcc-15.1.0
+sh                               allyesconfig    gcc-15.1.0
+sh                                  defconfig    gcc-14
+sh                    randconfig-001-20250909    gcc-15.1.0
+sh                    randconfig-001-20250910    gcc-12.5.0
+sh                    randconfig-002-20250909    gcc-9.5.0
+sh                    randconfig-002-20250910    gcc-12.5.0
+sh                        sh7785lcr_defconfig    gcc-15.1.0
+sparc                            allmodconfig    gcc-15.1.0
+sparc                             allnoconfig    gcc-15.1.0
+sparc                            allyesconfig    clang-22
+sparc                               defconfig    gcc-15.1.0
+sparc                 randconfig-001-20250909    gcc-8.5.0
+sparc                 randconfig-001-20250910    gcc-12.5.0
+sparc                 randconfig-002-20250909    gcc-15.1.0
+sparc                 randconfig-002-20250910    gcc-12.5.0
+sparc64                          allmodconfig    clang-22
+sparc64                          allyesconfig    clang-22
+sparc64                             defconfig    gcc-14
+sparc64               randconfig-001-20250909    clang-22
+sparc64               randconfig-001-20250910    gcc-12.5.0
+sparc64               randconfig-002-20250909    gcc-8.5.0
+sparc64               randconfig-002-20250910    gcc-12.5.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-22
+um                               allyesconfig    clang-19
+um                               allyesconfig    gcc-14
+um                                  defconfig    gcc-14
+um                             i386_defconfig    gcc-14
+um                    randconfig-001-20250909    gcc-14
+um                    randconfig-001-20250910    gcc-12.5.0
+um                    randconfig-002-20250909    gcc-14
+um                    randconfig-002-20250910    gcc-12.5.0
+um                           x86_64_defconfig    gcc-14
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250909    clang-20
+x86_64      buildonly-randconfig-001-20250910    gcc-14
+x86_64      buildonly-randconfig-002-20250909    clang-20
+x86_64      buildonly-randconfig-002-20250910    gcc-14
+x86_64      buildonly-randconfig-003-20250909    gcc-14
+x86_64      buildonly-randconfig-003-20250910    gcc-14
+x86_64      buildonly-randconfig-004-20250909    clang-20
+x86_64      buildonly-randconfig-004-20250910    gcc-14
+x86_64      buildonly-randconfig-005-20250909    gcc-14
+x86_64      buildonly-randconfig-005-20250910    gcc-14
+x86_64      buildonly-randconfig-006-20250909    clang-20
+x86_64      buildonly-randconfig-006-20250910    gcc-14
+x86_64                              defconfig    clang-20
+x86_64                                  kexec    clang-20
+x86_64                randconfig-001-20250910    clang-20
+x86_64                randconfig-002-20250910    clang-20
+x86_64                randconfig-003-20250910    clang-20
+x86_64                randconfig-004-20250910    clang-20
+x86_64                randconfig-005-20250910    clang-20
+x86_64                randconfig-006-20250910    clang-20
+x86_64                randconfig-007-20250910    clang-20
+x86_64                randconfig-008-20250910    clang-20
+x86_64                randconfig-071-20250910    gcc-14
+x86_64                randconfig-072-20250910    gcc-14
+x86_64                randconfig-073-20250910    gcc-14
+x86_64                randconfig-074-20250910    gcc-14
+x86_64                randconfig-075-20250910    gcc-14
+x86_64                randconfig-076-20250910    gcc-14
+x86_64                randconfig-077-20250910    gcc-14
+x86_64                randconfig-078-20250910    gcc-14
+x86_64                               rhel-9.4    clang-20
+x86_64                           rhel-9.4-bpf    gcc-14
+x86_64                          rhel-9.4-func    clang-20
+x86_64                    rhel-9.4-kselftests    clang-20
+x86_64                         rhel-9.4-kunit    gcc-14
+x86_64                           rhel-9.4-ltp    gcc-14
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    gcc-15.1.0
+xtensa                           allyesconfig    clang-22
+xtensa                randconfig-001-20250909    gcc-8.5.0
+xtensa                randconfig-001-20250910    gcc-12.5.0
+xtensa                randconfig-002-20250909    gcc-15.1.0
+xtensa                randconfig-002-20250910    gcc-12.5.0
 
-All error/warnings (new ones prefixed by >>):
-
-   In file included from drivers/bluetooth/hci_bcm.c:16:
->> include/linux/of_irq.h:123:29: warning: no previous prototype for 'of_imap_parser_one' [-Wmissing-prototypes]
-     123 | extern struct of_imap_item *of_imap_parser_one(struct of_imap_parser *parser,
-         |                             ^~~~~~~~~~~~~~~~~~
 --
-   In file included from drivers/spi/spi-pic32.c:20:
->> include/linux/of_irq.h:123:29: warning: no previous prototype for 'of_imap_parser_one' [-Wmissing-prototypes]
-     123 | extern struct of_imap_item *of_imap_parser_one(struct of_imap_parser *parser,
-         |                             ^~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-pic32.c:850:34: warning: 'pic32_spi_of_match' defined but not used [-Wunused-const-variable=]
-     850 | static const struct of_device_id pic32_spi_of_match[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~
---
-   ld: drivers/irqchip/irq-renesas-rzv2h.o: in function `of_imap_parser_one':
->> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/irqchip/irq-ingenic-tcu.o: in function `of_imap_parser_one':
->> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/irqchip/irq-stm32mp-exti.o: in function `of_imap_parser_one':
->> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/irqchip/irq-meson-gpio.o: in function `of_imap_parser_one':
->> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/irqchip/irq-starfive-jh8100-intc.o: in function `of_imap_parser_one':
->> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/irqchip/irq-imx-irqsteer.o: in function `of_imap_parser_one':
->> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/irqchip/irq-imx-intmux.o: in function `of_imap_parser_one':
->> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/irqchip/irq-lan966x-oic.o: in function `of_imap_parser_one':
->> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/irqchip/irq-ti-sci-intr.o: in function `of_imap_parser_one':
->> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/irqchip/irq-mst-intc.o: in function `of_imap_parser_one':
->> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/irqchip/irq-mchp-eic.o: in function `of_imap_parser_one':
->> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/irqchip/irq-sp7021-intc.o: in function `of_imap_parser_one':
->> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/gpio/gpio-msc313.o: in function `of_imap_parser_one':
->> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/gpio/gpio-rockchip.o: in function `of_imap_parser_one':
->> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/gpio/gpio-rtd.o: in function `of_imap_parser_one':
->> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/soc/mediatek/mtk-devapc.o: in function `of_imap_parser_one':
->> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/regulator/qcom-labibb-regulator.o: in function `of_imap_parser_one':
->> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/tty/serial/8250/8250_mtk.o: in function `of_imap_parser_one':
->> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/tty/serial/arc_uart.o: in function `of_imap_parser_one':
->> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/tty/serial/omap-serial.o: in function `of_imap_parser_one':
->> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/iommu/mtk_iommu.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/iommu/mtk_iommu_v1.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/gpu/drm/bridge/analogix/analogix-anx78xx.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/base/platform.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/mfd/wcd934x.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/nfc/nfcmrvl/i2c.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/nfc/nfcmrvl/spi.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/nfc/s3fwrn5/i2c.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/ata/sata_fsl.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/mtd/nand/raw/atmel/nand-controller.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/mtd/nand/raw/atmel/pmecc.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/spi/spi.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/spi/spi-bcm2835.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/spi/spi-cadence.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/spi/spi-microchip-core-qspi.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/spi/spi-pic32.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/usb/mtu3/mtu3_plat.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/usb/mtu3/mtu3_core.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/usb/gadget/udc/max3420_udc.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/input/keyboard/gpio_keys.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/i2c/busses/i2c-stm32f4.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/i2c/busses/i2c-viai2c-wmt.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/i2c/busses/i2c-viai2c-common.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/power/reset/brcmstb-reboot.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/hwmon/npcm750-pwm-fan.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/thermal/rockchip_thermal.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/thermal/ti-soc-thermal/ti-bandgap.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/watchdog/at91sam9_wdt.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/watchdog/rzn1_wdt.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/bluetooth/hci_bcm.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/bluetooth/btusb.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/firmware/qcom/qcom_scm.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/clocksource/timer-of.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/clocksource/timer-atmel-st.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/clocksource/timer-davinci.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/clocksource/timer-digicolor.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/clocksource/timer-econet-en751221.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/clocksource/timer-fttmr010.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/clocksource/timer-ixp4xx.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/clocksource/bcm2835_timer.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/clocksource/timer-meson6.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/clocksource/timer-zevio.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/clocksource/timer-stm32-lp.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/clocksource/timer-fsl-ftm.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/clocksource/timer-owl.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/clocksource/timer-integrator-ap.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/clocksource/timer-msc313e.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/clocksource/timer-ralink.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/clocksource/timer-nxp-stm.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-   ld: drivers/bcma/main.o: in function `of_imap_parser_one':
-   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
-
-
-vim +125 include/linux/of_irq.h
-
-    58	
-    59	extern int of_irq_parse_raw(const __be32 *addr, struct of_phandle_args *out_irq);
-    60	extern unsigned int irq_create_of_mapping(struct of_phandle_args *irq_data);
-    61	extern int of_irq_to_resource(struct device_node *dev, int index,
-    62				      struct resource *r);
-    63	
-    64	#ifdef CONFIG_OF_IRQ
-    65	extern void of_irq_init(const struct of_device_id *matches);
-    66	extern int of_irq_parse_one(struct device_node *device, int index,
-    67				  struct of_phandle_args *out_irq);
-    68	extern int of_irq_count(struct device_node *dev);
-    69	extern int of_irq_get(struct device_node *dev, int index);
-    70	extern int of_irq_get_byname(struct device_node *dev, const char *name);
-    71	extern int of_irq_to_resource_table(struct device_node *dev,
-    72			struct resource *res, int nr_irqs);
-    73	extern struct device_node *of_irq_find_parent(struct device_node *child);
-    74	extern int of_imap_parser_init(struct of_imap_parser *parser,
-    75				       struct device_node *node,
-    76				       struct of_imap_item *item);
-    77	extern struct of_imap_item *of_imap_parser_one(struct of_imap_parser *parser,
-    78						       struct of_imap_item *item);
-    79	extern struct irq_domain *of_msi_get_domain(struct device *dev,
-    80						    const struct device_node *np,
-    81						    enum irq_domain_bus_token token);
-    82	extern struct irq_domain *of_msi_map_get_device_domain(struct device *dev,
-    83								u32 id,
-    84								u32 bus_token);
-    85	extern void of_msi_configure(struct device *dev, const struct device_node *np);
-    86	extern u32 of_msi_xlate(struct device *dev, struct device_node **msi_np, u32 id_in);
-    87	#else
-    88	static inline void of_irq_init(const struct of_device_id *matches)
-    89	{
-    90	}
-    91	static inline int of_irq_parse_one(struct device_node *device, int index,
-    92					   struct of_phandle_args *out_irq)
-    93	{
-    94		return -EINVAL;
-    95	}
-    96	static inline int of_irq_count(struct device_node *dev)
-    97	{
-    98		return 0;
-    99	}
-   100	static inline int of_irq_get(struct device_node *dev, int index)
-   101	{
-   102		return 0;
-   103	}
-   104	static inline int of_irq_get_byname(struct device_node *dev, const char *name)
-   105	{
-   106		return 0;
-   107	}
-   108	static inline int of_irq_to_resource_table(struct device_node *dev,
-   109						   struct resource *res, int nr_irqs)
-   110	{
-   111		return 0;
-   112	}
-   113	static inline void *of_irq_find_parent(struct device_node *child)
-   114	{
-   115		return NULL;
-   116	}
-   117	static inline int of_imap_parser_init(struct of_imap_parser *parser,
-   118					      struct device_node *node,
-   119					      struct of_imap_item *item)
-   120	{
-   121		return -ENOSYS;
-   122	}
- > 123	extern struct of_imap_item *of_imap_parser_one(struct of_imap_parser *parser,
-   124						       struct of_imap_item *item)
- > 125	{
-   126		return NULL;
-   127	}
-   128	static inline struct irq_domain *of_msi_get_domain(struct device *dev,
-   129							   struct device_node *np,
-   130							   enum irq_domain_bus_token token)
-   131	{
-   132		return NULL;
-   133	}
-   134	static inline struct irq_domain *of_msi_map_get_device_domain(struct device *dev,
-   135							u32 id, u32 bus_token)
-   136	{
-   137		return NULL;
-   138	}
-   139	static inline void of_msi_configure(struct device *dev, struct device_node *np)
-   140	{
-   141	}
-   142	static inline u32 of_msi_xlate(struct device *dev, struct device_node **msi_np, u32 id_in)
-   143	{
-   144		return id_in;
-   145	}
-   146	#endif
-   147	
-
--- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
 
