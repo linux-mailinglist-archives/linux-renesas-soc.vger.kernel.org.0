@@ -1,108 +1,63 @@
-Return-Path: <linux-renesas-soc+bounces-21748-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21749-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E69E1B5228E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 22:44:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86003B52363
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 23:19:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 07E90583D8B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 20:44:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ADCA41C20B97
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 21:20:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8F793043B6;
-	Wed, 10 Sep 2025 20:41:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EC2D30F7F5;
+	Wed, 10 Sep 2025 21:19:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iQjjS77/"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="LgEX+2rZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2856D3064A6
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Sep 2025 20:41:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE1930F7E9
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Sep 2025 21:19:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757536911; cv=none; b=kRIm29YjR1qtjRgFyy/BVGg4YeBV8hw7mO6Jnk+7+dEluMWOA9wecM5oNs15L5jjurx3AivbxHpGfN/Q/k+NJvAMrFryZNKPmBW4m4hj/07OUQLfP/evuKEqTY6woV3/Ochr5WjV60cyqsULxBo2qXm0uLNYRfmwotcO/s3zDc8=
+	t=1757539175; cv=none; b=rItrVZY2w0Tals4fVM+o2UFhOJFtVQdA1fVfAErma9z5KclyqEIxcgj+Lo4MMvwHJ3NLAAkntaZI/J0yulta2rAMUGogAbtfSGdug5eWQUV/i8f+DAPxz93IoDlHO0ZXMnSmonlHzyxNKB1t9dKIv5gBEpq6DPzKtOipkwrgzFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757536911; c=relaxed/simple;
-	bh=llYEKR9ZsQCFnMi48dM1Js47Rbaf1JKFBze2trZI1y0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Cbn+yHlI0QUv4375NQ8gfpkoaIry1i1cDaIo0Zru8xpH4w5BZukgL2O5599azKcd7OjPtHHmlxvezaJTAGYyE1SDbfAyrth5/tDkT9FyHhEIzLQ/Sa31dMiZNcdpbt+9ErZgP7/gRj//IOwZ5YOCYvvu4jF9qmrLHQAUkYk8Y5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iQjjS77/; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-45b4d89217aso143735e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Sep 2025 13:41:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757536907; x=1758141707; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3FHTZRydesHvIXXhzlLwXfJdC1zrWRzHVjiGEebmFrg=;
-        b=iQjjS77/YpOurYBP4UYx2wDmKedhsCTQvyJbum1WQi33+Se23EoTud3ubl2VJ3fJmE
-         ofl6xtvl/desp17hIWbuFuLlGuahuPr44cuCX/VQWG3ImCXPmkAJB5mG9ISJlkbbEx/k
-         1DEBnFFIc4aUDOFiCtvEQ9JjkqA62AL9hUB9pTQYrZTuDmZuDq1vQTeVPpwDngagJPwf
-         vVJMbRNsbXKj6of0B5Q1dcFuY8twVXHTvHlphqBje2OVAo5iKIJP86x4QvtEzUVGTWEB
-         sKRmfKsz97Xo8iCDjyrIOt4rmu1k9S/3zs7QSTZSof2fesRrocn+kxIgyFtCz0hONykC
-         NYcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757536907; x=1758141707;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3FHTZRydesHvIXXhzlLwXfJdC1zrWRzHVjiGEebmFrg=;
-        b=aaO3fj/VYvQPVm06hgr2acQAfoHFpGHEzLqkNmv49SFsO+eiGWSGQG7jo8Se25UHK1
-         bUsLZHaiV1pHKNCiYGJYtN/I/ENyIKwtwoFx+RZLAxwtOGOJAHcUWA8KN3VOzlhTvo2d
-         09SD5pAcILYbpnfyUUGBGm5uwVZfofUyt6oHiHBcJcFBy94KlUPDIluq7KJ5qDoJGRrm
-         8hiNCqyPfopiPUW44k7fx8FdFRmgzJIwJZDJN+PlD0xR/ZwRKl483EOFC24i2Rq8msdG
-         Kg6odrijqTgJAM3H4K+x1GEolgln3gjHPA3nJdVWlPgHDVibep5BswUeWlKnK1ZALdX5
-         4cdA==
-X-Gm-Message-State: AOJu0YwH2Dh3294KUP1OYuTPdhdKcVU1g0gwq8NqnOGoftZfU9sB68ue
-	XVOjs+yPEddpT5/L4xgaVSWEe95qnoxAFjK3ZtzyONUnF3euXdv2WBlF
-X-Gm-Gg: ASbGncuZ4HRkjFSOP7W1XBVQP8sjFhQvfI90SYMrMY/b6heepPXy6pIz3cmLQi2aWcj
-	BeycgcSM8lF4Qj9W5fYfpEYzw5GBZn0BZv0XhbbmbnJhnePxrIKORuXhYjN+uc/NnOWSwrZKZzE
-	UvZT8n5d4Cm4VFtrt4yp/ZZE6biJ6QIQ5UI75gXlaQK+ooF9dXDbQjPhgF4oHOV/i6YsTraWobN
-	M6+uCQ3dr2uAR/KcmFkR8IrXlusTkFSSSFhmJ2Zo6uOqpfoY6lt/pHV6RA1Bq19UCWEPnROsvFe
-	Dq6+gOxQqyYfZ+3zY+EBtsnRMpOPW9LvGFIupDb0L7J9+pBX3F2RHI5KK87TC3F4YHuVTOV7E7j
-	ohOPio21wtsyBkyr22zi8dLD42fRmYQCqDJPjHk/Y9WyqGGo=
-X-Google-Smtp-Source: AGHT+IGbpCneuFgKariSapKev3xYB10Cgl8j+/UcwQVOYSv/8nDk4BOfl8jeZtgRapP8sGugb4Kc/Q==
-X-Received: by 2002:a05:6000:40ca:b0:3e2:a7d0:add3 with SMTP id ffacd0b85a97d-3e636d900cdmr14105621f8f.11.1757536907147;
-        Wed, 10 Sep 2025 13:41:47 -0700 (PDT)
-Received: from iku.Home ([2a06:5906:61b:2d00:ee64:b92b:f8fd:6cd8])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e0157d68esm320085e9.6.2025.09.10.13.41.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Sep 2025 13:41:46 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
+	s=arc-20240116; t=1757539175; c=relaxed/simple;
+	bh=ievPIUbEBHGTMNrTQgN5r1NbbQp/YzCcsVvk89v/Dpg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=snJulGwSKgFE05paHhGF3ShQLug8UOy6H3GPuMc1UQ+gS4iCMS6Bo8rSzNuRhaccotn3/RnBGXpKU78YN1XATkz6QItWzNyvJhF8gkWl/GMNnIa47XW9IDNv021JyxZ4D05XZlGXWrCHuO8vNtpmr1Jn7qY43k4rPYvUAJIC9xU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=LgEX+2rZ; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=VMVAEWbpoBa7q4
+	s9vXhrFSHIa7ODzgzTMPc0MMsjIDU=; b=LgEX+2rZmulH5hSbSxUko0z6hafofC
+	n9OSLR+RcY7e48yA3YEEnWDbkKCq+g8XbwVr5qifbirpel7UOSrDRidWshtxXEgQ
+	6RIcZwRW2SWORcNlwJEkTb0b+z+tUuEaIY3gO7dbmmpfZEPZzRS/GXzGkVQDrCs/
+	rjhdhEPBi0oNfckOTBonk0Zkb73IIt8QYFsDPTzK2PBkEXXkxtMqp3gqfLXJYrT3
+	LdjAcClozCZcvGPKGxvLtOAbuPfmbcs0t2lsv0VKOdFtZbuseMkuOJ5cn4H2j7VT
+	Wa41iq+Ka+tK4iCXMfbHfvQrbnQvi/VrWIWAY6Efm/Tl5hQtNcUWryxQ==
+Received: (qmail 744484 invoked from network); 10 Sep 2025 23:19:28 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Sep 2025 23:19:28 +0200
+X-UD-Smtp-Session: l3s3148p1@ME/F+Xg+FsYujnuV
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	netdev@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH net-next v3 9/9] net: pcs: rzn1-miic: Add RZ/T2H MIIC support
-Date: Wed, 10 Sep 2025 21:41:30 +0100
-Message-ID: <20250910204132.319975-10-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250910204132.319975-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20250910204132.319975-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-watchdog@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [RFC PATCH] dt-bindings: watchdog: Add Renesas WWDT
+Date: Wed, 10 Sep 2025 23:06:46 +0200
+Message-ID: <20250910210646.2443-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -111,170 +66,120 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Describe the Windowed Watchdog timer found on Renesas R-Car SoCs from
+late Gen3 onwards.
 
-Add support for the Renesas RZ/T2H MIIC by defining SoC-specific
-modctrl match tables, register map, and string representations
-for converters and ports.
-
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
-v2->v3:
-- Dropped inlining of miic_lock_regs().
-- Added Tested-by tag.
 
-v1->v2:
-- Dropped regx in config description.
-- Used "renesas,r9a09g077-miic" as compatible for RZ/T2H.
----
- drivers/net/pcs/Kconfig         | 11 +++--
- drivers/net/pcs/pcs-rzn1-miic.c | 82 +++++++++++++++++++++++++++++++++
- 2 files changed, 88 insertions(+), 5 deletions(-)
+I send out these bindings as RFC without the driver, so we can discuss
+the peculiar items while I finetune the driver:
 
-diff --git a/drivers/net/pcs/Kconfig b/drivers/net/pcs/Kconfig
-index f6aa437473de..76dbc11d9575 100644
---- a/drivers/net/pcs/Kconfig
-+++ b/drivers/net/pcs/Kconfig
-@@ -26,11 +26,12 @@ config PCS_MTK_LYNXI
- 	  which is part of MediaTek's SoC and Ethernet switch ICs.
- 
- config PCS_RZN1_MIIC
--	tristate "Renesas RZ/N1 MII converter"
--	depends on OF && (ARCH_RZN1 || COMPILE_TEST)
-+	tristate "Renesas RZ/N1, RZ/N2H, RZ/T2H MII converter"
-+	depends on OF
-+	depends on ARCH_RZN1 || ARCH_R9A09G077 || ARCH_R9A09G087 || COMPILE_TEST
- 	help
--	  This module provides a driver for the MII converter that is available
--	  on RZ/N1 SoCs. This PCS converts MII to RMII/RGMII or can be set in
--	  pass-through mode for MII.
-+	  This module provides a driver for the MII converter available on
-+	  Renesas RZ/N1, RZ/N2H, and RZ/T2H SoCs. This PCS converts MII to
-+	  RMII/RGMII, or can be set in pass-through mode for MII.
- 
- endmenu
-diff --git a/drivers/net/pcs/pcs-rzn1-miic.c b/drivers/net/pcs/pcs-rzn1-miic.c
-index ef10994d8c11..885f17c32643 100644
---- a/drivers/net/pcs/pcs-rzn1-miic.c
-+++ b/drivers/net/pcs/pcs-rzn1-miic.c
-@@ -21,6 +21,7 @@
- #include <linux/reset.h>
- #include <linux/slab.h>
- #include <dt-bindings/net/pcs-rzn1-miic.h>
-+#include <dt-bindings/net/renesas,r9a09g077-pcs-miic.h>
- 
- #define MIIC_PRCMD			0x0
- #define MIIC_ESID_CODE			0x4
-@@ -125,6 +126,57 @@ static const char * const index_to_string[] = {
- 	"CONV5",
- };
- 
-+static struct modctrl_match rzt2h_modctrl_match_table[] = {
-+	{0x0, {ETHSS_GMAC0_PORT, ETHSS_ETHSW_PORT0, ETHSS_ETHSW_PORT1,
-+	       ETHSS_ETHSW_PORT2, ETHSS_GMAC1_PORT}},
+a) the two clocks have various names in the Gen3/4/5 datasheets. I opted
+   to use the Gen5 naming "bus" + "cnt" because they are easiest to
+   understand
+
+b) the device has two resets, one for each circuit driven by the two
+   clocks above. Thus, I decided to name the resets the same as the
+   clocks.
+
+The bindings pass dt_binding_check. But I am still not very used to
+write bindings.
+
+ .../bindings/watchdog/renesas,wwdt.yaml       | 83 +++++++++++++++++++
+ 1 file changed, 83 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/watchdog/renesas,wwdt.yaml
+
+diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wwdt.yaml b/Documentation/devicetree/bindings/watchdog/renesas,wwdt.yaml
+new file mode 100644
+index 000000000000..496ba4297c84
+--- /dev/null
++++ b/Documentation/devicetree/bindings/watchdog/renesas,wwdt.yaml
+@@ -0,0 +1,83 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/watchdog/renesas,wwdt.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+	{0x1, {MIIC_MODCTRL_CONF_NONE, ETHSS_ESC_PORT0, ETHSS_ESC_PORT1,
-+	       ETHSS_GMAC2_PORT, ETHSS_GMAC1_PORT}},
++title: Renesas Windowed Watchdog Timer (WWDT) Controller
 +
-+	{0x2, {ETHSS_GMAC0_PORT, ETHSS_ESC_PORT0, ETHSS_ESC_PORT1,
-+		ETHSS_ETHSW_PORT2, ETHSS_GMAC1_PORT}},
++maintainers:
++  - Wolfram Sang <wsa+renesas@sang-engineering.com>
 +
-+	{0x3, {MIIC_MODCTRL_CONF_NONE, ETHSS_ESC_PORT0, ETHSS_ESC_PORT1,
-+	       ETHSS_ESC_PORT2, ETHSS_GMAC1_PORT}},
++properties:
++  compatible:
++    items:
++      - const: renesas,r8a779g0-wwdt  # V4H
++      - const: renesas,rcar-gen4-wwdt
 +
-+	{0x4, {ETHSS_GMAC0_PORT, ETHSS_ETHSW_PORT0, ETHSS_ESC_PORT1,
-+	       ETHSS_ESC_PORT2, ETHSS_GMAC1_PORT}},
++  reg:
++    maxItems: 1
 +
-+	{0x5, {ETHSS_GMAC0_PORT, ETHSS_ETHSW_PORT0, ETHSS_ESC_PORT1,
-+	       ETHSS_ETHSW_PORT2, ETHSS_GMAC1_PORT}},
++  interrupts:
++    items:
++      - description: Pretimeout, 75% of overflow reached
++      - description: Error occurred
 +
-+	{0x6, {ETHSS_GMAC0_PORT, ETHSS_ETHSW_PORT0, ETHSS_ETHSW_PORT1,
-+	       ETHSS_GMAC2_PORT, ETHSS_GMAC1_PORT}},
++  interrupt-names:
++    items:
++      - const: pretimeout
++      - const: error
 +
-+	{0x7, {MIIC_MODCTRL_CONF_NONE, ETHSS_GMAC0_PORT, ETHSS_GMAC1_PORT,
-+		ETHSS_GMAC2_PORT, MIIC_MODCTRL_CONF_NONE}}
-+};
++  clocks:
++    items:
++      - description: Bus clock
++      - description: Counting clock
 +
-+static const char * const rzt2h_conf_to_string[] = {
-+	[ETHSS_GMAC0_PORT]	= "GMAC0_PORT",
-+	[ETHSS_GMAC1_PORT]	= "GMAC1_PORT",
-+	[ETHSS_GMAC2_PORT]	= "GMAC2_PORT",
-+	[ETHSS_ESC_PORT0]	= "ETHERCAT_PORT0",
-+	[ETHSS_ESC_PORT1]	= "ETHERCAT_PORT1",
-+	[ETHSS_ESC_PORT2]	= "ETHERCAT_PORT2",
-+	[ETHSS_ETHSW_PORT0]	= "SWITCH_PORT0",
-+	[ETHSS_ETHSW_PORT1]	= "SWITCH_PORT1",
-+	[ETHSS_ETHSW_PORT2]	= "SWITCH_PORT2",
-+};
++  clock-names:
++    items:
++      - const: bus
++      - const: cnt
 +
-+static const char * const rzt2h_index_to_string[] = {
-+	"SWITCH_PORTIN",
-+	"CONV0",
-+	"CONV1",
-+	"CONV2",
-+	"CONV3",
-+};
++  power-domains:
++    maxItems: 1
 +
-+static const char * const rzt2h_reset_ids[] = {
-+	"rst",
-+	"crst",
-+};
++  resets:
++    items:
++      - description: Reset circuitry driven by bus clock
++      - description: Reset circuitry driven by counting clock
 +
- /**
-  * struct miic - MII converter structure
-  * @base: base address of the MII converter
-@@ -204,11 +256,24 @@ static void miic_unlock_regs(struct miic *miic)
- 	writel(0x0001, miic->base + MIIC_PRCMD);
- }
- 
-+static void miic_lock_regs(struct miic *miic)
-+{
-+	/* Protect register writes */
-+	writel(0x0000, miic->base + MIIC_PRCMD);
-+}
++  reset-names:
++    items:
++      - const: bus
++      - const: cnt
 +
- static void miic_reg_writel_unlocked(struct miic *miic, int offset, u32 value)
- {
- 	writel(value, miic->base + offset);
- }
- 
-+static void miic_reg_writel_locked(struct miic *miic, int offset, u32 value)
-+{
-+	miic_unlock_regs(miic);
-+	writel(value, miic->base + offset);
-+	miic_lock_regs(miic);
-+}
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
 +
- static void miic_reg_writel(struct miic *miic, int offset, u32 value)
- {
- 	miic->of_data->miic_write(miic, offset, value);
-@@ -666,7 +731,24 @@ static struct miic_of_data rzn1_miic_of_data = {
- 	.miic_write = miic_reg_writel_unlocked,
- };
- 
-+static struct miic_of_data rzt2h_miic_of_data = {
-+	.match_table = rzt2h_modctrl_match_table,
-+	.match_table_count = ARRAY_SIZE(rzt2h_modctrl_match_table),
-+	.conf_conv_count = 5,
-+	.conf_to_string = rzt2h_conf_to_string,
-+	.conf_to_string_count = ARRAY_SIZE(rzt2h_conf_to_string),
-+	.index_to_string = rzt2h_index_to_string,
-+	.index_to_string_count = ARRAY_SIZE(rzt2h_index_to_string),
-+	.miic_port_start = 0,
-+	.miic_port_max = 4,
-+	.sw_mode_mask = GENMASK(2, 0),
-+	.reset_ids = rzt2h_reset_ids,
-+	.reset_count = ARRAY_SIZE(rzt2h_reset_ids),
-+	.miic_write = miic_reg_writel_locked,
-+};
++allOf:
++  - $ref: watchdog.yaml#
 +
- static const struct of_device_id miic_of_mtable[] = {
-+	{ .compatible = "renesas,r9a09g077-miic", .data = &rzt2h_miic_of_data },
- 	{ .compatible = "renesas,rzn1-miic", .data = &rzn1_miic_of_data },
- 	{ /* sentinel */ }
- };
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/r8a779g0-cpg-mssr.h>
++    #include <dt-bindings/power/r8a779g0-sysc.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    wwdt0: watchdog@ffc90000 {
++            compatible = "renesas,r8a779g0-wwdt",
++                         "renesas,rcar-gen4-wwdt";
++            reg = <0xffc90000 0x10>;
++            interrupts = <GIC_SPI 310 IRQ_TYPE_LEVEL_HIGH>,
++                         <GIC_SPI 311 IRQ_TYPE_LEVEL_HIGH>;
++            interrupt-names = "pretimeout", "error";
++            clocks = <&cpg CPG_CORE R8A779G0_CLK_SASYNCRT>,
++                     <&cpg CPG_CORE R8A779G0_CLK_R>;
++            clock-names = "bus", "cnt";
++            power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
++            resets = <&cpg 1318>, <&cpg 1200>;
++            reset-names = "bus", "cnt";
++    };
 -- 
-2.51.0
+2.47.2
 
 
