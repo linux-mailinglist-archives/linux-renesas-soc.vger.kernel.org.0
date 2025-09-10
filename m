@@ -1,56 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-21687-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21688-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED023B50D80
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 07:41:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D797DB50EC8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 09:11:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 998144E7BB0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 05:41:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 987723A4199
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 07:11:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1085021C9E4;
-	Wed, 10 Sep 2025 05:41:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B46E030648B;
+	Wed, 10 Sep 2025 07:11:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="scLhUfFo"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="plbVd2yo"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.smtpout.orange.fr (smtp-81.smtpout.orange.fr [80.12.242.81])
-	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A85C2BE49;
-	Wed, 10 Sep 2025 05:41:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A20B305058;
+	Wed, 10 Sep 2025 07:11:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757482913; cv=none; b=fO3TKATOnDJUUEjLnGkLMAjdJaAQvQXHYRuSakBNmLdlu0zp68r+G1W/BhxXgUdgbVEve3VmMl8wxhFD5Zwx3K5BPLxXKkWQfuoHzZDWqL22tdTIdtbmkR4vrc+iD0pACrAKEvFgLQTgw+NKrz6n5muhWhrUC+NJF9GgBoCbW/4=
+	t=1757488295; cv=none; b=uWOoXlmVQapcEUWjDOkDwUV2FOTxcyDUZqysL8Jv5rkYpTYe+8xh5Udi4ONV4usMkQL6lnOxalSoEg0HB4dX0uCDy7D0w8RKwiMJFW4p/5VyCh2OWvcbi5Rf32c8eiqzfx/oBXibDpD7pUWsKtCu+wGqeyQYtfUsAoGLXg0KR2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757482913; c=relaxed/simple;
-	bh=SOhrd0jqbFye5uUlHtQQIJxhN/bfW0eC1Sn7thJSxvI=;
+	s=arc-20240116; t=1757488295; c=relaxed/simple;
+	bh=HKOuKlqZ5BjBhjFY5x/Px27d5T3CtyQzr3nOlrxkL/U=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DRe3POdfubUpoJzvgcJIGnkz80ksb0KFDb3lsquqpjBAimDR/QRyqKZEMhkWHQDOfD93xJWFyQTwxgbxpiQ9cjfjjY+WDiozSmMdFpByxolP0KhYVNf2qUMSc6z4pX1m1dneTXMSy5GiglIuiE8eUeVeAvvqzDGEvQSSFeWtkxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=scLhUfFo; arc=none smtp.client-ip=80.12.242.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
- ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
-	by smtp.orange.fr with ESMTPA
-	id wDRrubswWjg72wDRruzgJz; Wed, 10 Sep 2025 07:32:56 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1757482376;
-	bh=9Zxhr99Mmj2vi+RoG0QYHKDA21udjWwSg+ONMdgzCn0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=scLhUfFoPPETEBlKDeYO4eO7wZgRtPVhphiC7OmOMFzDYHu9GvObRMACfrNWi/KIx
-	 gY11BSWHJTs+Vx+I+fdGujCrkd2Fsk5AAq8TatnEkrpOSCQIBRWb/0UZgV1iKLKC2z
-	 93/J1JAaUY8xi+jJ91wcg2vtSz16SmaqA7v7EcPq5tnFCp3egn3VCszpmdf8EcXB4N
-	 GEtbRS5twEctwPo2mvNq6yg4LI5RtbQLcDWsyzhri4+LtdOrhoV2BNuRGTbP+L7yjj
-	 WSeOe7RBOmfdiyZu8jxrYD6BC6qWZVsscbGqbU2NTlhuQYdtPubekBfSUaGmNwro4u
-	 /GvsPCIq3XNOw==
-X-ME-Helo: [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Wed, 10 Sep 2025 07:32:56 +0200
-X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
-Message-ID: <ae40f623-4cfc-4a49-9eed-affb08efdfd1@wanadoo.fr>
-Date: Wed, 10 Sep 2025 07:32:51 +0200
+	 In-Reply-To:Content-Type; b=RYDx58i8Rp5AHgZ70L22gJkFSOg1JC+dwbVqhYGikd5lwwWC4Zrkz9gt4aG8ivM1qaNkR+7PIiF1TukQjiO05QOmtV17SHF6ZnbS9B6JRl/gPQqCGQz6LjE1tn4bv/04tRaIi3cN3q7+ZWY1+1KWw4/yR8+MUKwpgZuTmcynwzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=plbVd2yo; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3872BC4CEF0;
+	Wed, 10 Sep 2025 07:11:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757488295;
+	bh=HKOuKlqZ5BjBhjFY5x/Px27d5T3CtyQzr3nOlrxkL/U=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=plbVd2yoAcmDY10/m2ehgzNriUv4lzxYaGmlOsHe+K9B783WCNBZD7/IiU3AAHRd7
+	 QbGXZv1CRPT6p8dlt+nF7Isci2EYqSlGEryNUqzN8HSOm6ktzClU/+qVc9p97vjjlz
+	 41948MPRisGQ5JPE5VvPSRuO/XhC6/PLxt+mze+vw8cmGGcagLUwk8WNXxsTX5hbna
+	 hE3sa72Sb40O8i65ohNgVEAatHrSpOE6kxOfAFL7DLElJa1C8Mhiw6szbBhKTh2ZFo
+	 NOEn5yD0sRcCZm4qCbOizzn/77FWT2J3Pb7CkDvrTMKw/mcjp90zLg2L2FKsC2nsaE
+	 sg8JoNznzW1Bg==
+Message-ID: <983be392-e76f-40b3-ac57-5321f5d88abc@kernel.org>
+Date: Wed, 10 Sep 2025 09:11:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -58,122 +50,84 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/8] drm/msm/dpu: use drmm_writeback_connector_init()
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: abhinav.kumar@linux.dev, airlied@gmail.com, alexander.deucher@amd.com,
- amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
- christophe.jaillet@wanadoo.fr, dave.stevenson@raspberrypi.com,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- geert+renesas@glider.be, harry.wentland@amd.com,
- jani.nikula@linux.intel.com, jessica.zhang@oss.qualcomm.com,
- kernel-list@raspberrypi.com, kieran.bingham+renesas@ideasonboard.com,
- laurent.pinchart+renesas@ideasonboard.com, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- liviu.dudau@arm.com, louis.chauvet@bootlin.com, lumag@kernel.org,
- maarten.lankhorst@linux.intel.com, magnus.damm@gmail.com,
- marijn.suijten@somainline.org, mcanal@igalia.com, mripard@kernel.org,
- robin.clark@oss.qualcomm.com, sean@poorly.run, simona@ffwll.ch,
- siqueira@igalia.com, sunpeng.li@amd.com, suraj.kandpal@intel.com,
- tomi.valkeinen+renesas@ideasonboard.com, tzimmermann@suse.de
-References: <20250819-wb-drop-encoder-v3-0-b48a6af7903b@oss.qualcomm.com>
- <20250819-wb-drop-encoder-v3-4-b48a6af7903b@oss.qualcomm.com>
- <78c764b8-44cf-4db5-88e7-807a85954518@wanadoo.fr>
- <zw23hgjduxgijown52jyiomungxx4cjyv63qixtnx5nbm3w7xb@2yy65777ydnj>
- <654e04e3-d80e-4d34-a1a0-21f66d43875b@wanadoo.fr>
- <75tzn4xg2k2zxdqko4b3xsplbtnolhrxzbowisdqogoo2qhfkl@szr3ar5dg5zd>
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Content-Language: en-US, fr-FR
-In-Reply-To: <75tzn4xg2k2zxdqko4b3xsplbtnolhrxzbowisdqogoo2qhfkl@szr3ar5dg5zd>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 4/4] arm64: renesas: Add R8A78000 Ironhide board code
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <87tt1c9z7h.wl-kuninori.morimoto.gx@renesas.com>
+ <87o6rk9z6c.wl-kuninori.morimoto.gx@renesas.com>
+ <20250909-witty-successful-toucan-beca41@kuoka>
+ <87segvw5yr.wl-kuninori.morimoto.gx@renesas.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <87segvw5yr.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Le 10/09/2025 à 05:47, Dmitry Baryshkov a écrit :
-> On Mon, Sep 08, 2025 at 11:38:44PM +0200, Christophe JAILLET wrote:
->> Le 08/09/2025 à 23:26, Dmitry Baryshkov a écrit :
->>> On Mon, Sep 08, 2025 at 11:09:07PM +0200, Christophe JAILLET wrote:
->>>> Le 19/08/2025 à 22:32, Dmitry Baryshkov a écrit :
->>>>> Use drmm_plain_encoder_alloc() to allocate simple encoder and
->>>>> drmm_writeback_connector_init() in order to initialize writeback
->>>>> connector instance.
->>>>>
->>>>> Reviewed-by: Louis Chauvet <louis.chauvet-LDxbnhwyfcJBDgjK7y7TUQ-XMD5yJDbdMReXY1tMh2IBg-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
->>>>> Reviewed-by: Suraj Kandpal <suraj.kandpal-ral2JQCrhuEAvxtiuMwx3w-XMD5yJDbdMReXY1tMh2IBg-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
->>>>> Reviewed-by: Jessica Zhang <jessica.zhang-5oFBVzJwu8Ry9aJCnZT0Uw-XMD5yJDbdMReXY1tMh2IBg-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
->>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov-5oFBVzJwu8Ry9aJCnZT0Uw-XMD5yJDbdMReXY1tMh2IBg-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
->>>>> ---
->>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c | 10 +++-------
->>>>>     1 file changed, 3 insertions(+), 7 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
->>>>> index 8ff496082902b1ee713e806140f39b4730ed256a..cd73468e369a93c50303db2a7d4499bcb17be5d1 100644
->>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
->>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
->>>>> @@ -80,7 +80,6 @@ static int dpu_wb_conn_atomic_check(struct drm_connector *connector,
->>>>>     static const struct drm_connector_funcs dpu_wb_conn_funcs = {
->>>>>     	.reset = drm_atomic_helper_connector_reset,
->>>>>     	.fill_modes = drm_helper_probe_single_connector_modes,
->>>>> -	.destroy = drm_connector_cleanup,
->>>>>     	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
->>>>>     	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
->>>>>     };
->>>>> @@ -131,12 +130,9 @@ int dpu_writeback_init(struct drm_device *dev, struct drm_encoder *enc,
->>>>>     	drm_connector_helper_add(&dpu_wb_conn->base.base, &dpu_wb_conn_helper_funcs);
->>>>> -	/* DPU initializes the encoder and sets it up completely for writeback
->>>>> -	 * cases and hence should use the new API drm_writeback_connector_init_with_encoder
->>>>> -	 * to initialize the writeback connector
->>>>> -	 */
->>>>> -	rc = drm_writeback_connector_init_with_encoder(dev, &dpu_wb_conn->base, enc,
->>>>> -			&dpu_wb_conn_funcs, format_list, num_formats);
->>>>> +	rc = drmm_writeback_connector_init(dev, &dpu_wb_conn->base,
->>>>> +					   &dpu_wb_conn_funcs, enc,
->>>>> +					   format_list, num_formats);
->>>>>     	if (!rc)
->>>>>     		dpu_wb_conn->wb_enc = enc;
->>>>>
->>>>
->>>> dpu_wb_conn is allocated a few lines above using devm_kzalloc().
->>>
->>> That's a valid point, thanks!
->>
->> I've not analyzed in details all the patches of the serie, but at least
->> patch 2/8 and 6/8 seems to have the same pattern.
+On 10/09/2025 01:39, Kuninori Morimoto wrote:
 > 
-> Not quite, 2/8 and 6/8 use drmm_kzalloc(), it is fine to be used with
-> drmm_writeback_connector_init(). This one is indeed incorrect.
+> Hi Krzysztof
 > 
-
-Hmm, for patch 2/8, I looked at the source, not what was changes by your 
-patch... Sorry. :(
-
-For 6/8, I agree with you.
-
-For patch 1/8, I think there is a issue too, becasue of [1], IIUC.
-
-CJ
-
-
-[1]: 
-https://elixir.bootlin.com/linux/v6.17-rc5/source/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c#L5257
-
+>>> +	chosen {
+>>> +		bootargs = "ignore_loglevel rw maxcpus=1";
 >>
->> CJ
->>
->>>
->>>>
->>>> Based on [1], mixing devm_ and drmm_ is not safe and can lead to a uaf.
->>>>
->>>> Is it correct here?
->>>> If the explanation at [1] is correct, then &dpu_wb_conn->base would point to
->>>> some released memory, IIUC.
->>>>
->>>>
->>>> just my 2c.
->>>>
->>>> CJ
->>>>
->>>> [1]: https://web.git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/drivers/gpu/drm/xe/xe_hwmon.c?id=3a13c2de442d6bfaef9c102cd1092e6cae22b753
->>>
->>
+>> Drop bootargs. Not suitable for mainline. I really do not understand why
+>> all users in mainline and other projects (not your development) must be
+>> limited to cpus=1.
 > 
+> This is initial patch, and only 1 CPU is available for now.
+> The limitaion will be removed in the future, but not yet for now.
 
+
+You do not understand the problem - DTS describes the hardware, not your
+current stage of Linux support. These bootargs are wrong, I have been
+commenting on this since years.
+
+Best regards,
+Krzysztof
 
