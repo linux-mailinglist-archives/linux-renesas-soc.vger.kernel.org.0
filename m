@@ -1,78 +1,79 @@
-Return-Path: <linux-renesas-soc+bounces-21717-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21718-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id D665CB518B3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 16:03:33 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DBF5B518B9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 16:03:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9B9964E355A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 14:03:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D7EE47A7451
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 14:02:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F014B321F24;
-	Wed, 10 Sep 2025 14:03:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CD31322A22;
+	Wed, 10 Sep 2025 14:03:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="RjC4WqNI"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="JKnkXOhM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 227762DE1FE
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Sep 2025 14:03:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18126307AC7
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Sep 2025 14:03:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757513006; cv=none; b=qzZWlmsRzM1tbzBNEbkKs2UsPcF27XDWGL6RJLutcasYUsDpRUMboMXXh+eKOCsdvtvIAQm9KwGK2UW1MBK16jYDXMulcrzHlSL2DUSey4WDyBAWl0OEBF3jZgqvVvo0X8+Yim2Oop+8qSAQMy9FtmRq6hfPqimv7OoaQmzWCG4=
+	t=1757513009; cv=none; b=pDEWVbaOoV4hN9M5p5kjokXs8yz6TzcT1i61lExM22PbVCB4usHzPohJUQj+rX0LTCtNcr4KNd49b7BsnDYWopw0ze87MtogVCK1PvqcxqHdt5hppgXv9TlbzrDUPa6DfGpxIePQVBm8acwmlgkDEFBllz2V1amdlHrRuKJuuH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757513006; c=relaxed/simple;
-	bh=mIES78B6726Znvf8L6XTq1c7dfrUiohkxj+gjIIj/0I=;
+	s=arc-20240116; t=1757513009; c=relaxed/simple;
+	bh=xnkO2/ugdWW1AEEoC5uQKPmEa+cWP3HwT2TacT+rR48=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LimMkN2rx9NP8aKr7reo7WtVCzo8hhEerg12AFzIpoXnzaya1hHk6blWrtdvmdU6yTF2pQyUiRZj/HEzUUTGvzIwMQxzqfH9K6Y6J4oOXOMEYZHanEA48N4buFX7fENMWN5xYVsZ/xL8JfS/xjIG0nZf8Lp7lwtk3f0kwznHxao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=RjC4WqNI; arc=none smtp.client-ip=209.85.128.45
+	 MIME-Version; b=kCZk5S0e5KPWSqIG1goR3R/S3iuhKe6Wxx0yze9e0cyDg8+cQ4xas+ltkMRBD2YX29SZHl4oQy7hFo2TSWO3x9GGZJfCzUS8oX1qUosmcBeagTD/IVktCtvVKe0mFvCWzfQYyZX1NwfRDQ6bK2bT/eaB0tAl8iU6qf/T9IC/kXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=JKnkXOhM; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-45dde353b47so21380985e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Sep 2025 07:03:24 -0700 (PDT)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-45ddc7d5731so29875205e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Sep 2025 07:03:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1757513003; x=1758117803; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1757513005; x=1758117805; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/VRRoBJDxUtuCClVOWAtoorGRAjTpvhk+jM3BYoUxN8=;
-        b=RjC4WqNIESNPp4dqszRZR95oQCaMhUL5drrffpgkfmVxkN0y72k8naR+jotCgZMEif
-         4sMAZFgsKNnDOpKR/UoK/cuv49WbLvrXdAdeAWxuXM6aYka2EK5+lpYv2hU5R69sSENx
-         rxXMYT2eUCVz1kRBwQFj6bd3uqExJbfoGu388MNUbRXoSzl+IxNhW6bkPuydso8oghM9
-         VUePHir0UD2CkEROJIrHAuM7ZoscKYc7bp19cO4WxtoSV9T58PWB/NMbPIdA0fFQgAa5
-         Knt3gQ+nzSc2fq3CGd97aisPRcMdcj/F/qQMK6sRTLiRXdoHfFumKTGf0u+skX1lBNSZ
-         z/ZQ==
+        bh=Jkyh4Dhlw28CLMdRTkOh/1iBArvWo9DTQbXvmwtecM0=;
+        b=JKnkXOhMNnxwxIP9nKcLBcZNkcvPvEGLHKwtu+ZYCERoXYtI9a8Y9RR/7J/ApWKrd6
+         zMxmF9DyXp0XyNVXrvUSVapRBF7Uxw82daTbYvdh/DoGdEgVVrn1ITIZlPNULTizWGGO
+         GF+Ru7H44rVh7Fvch/OpeOgk5yIE+m7jcrxWbXcZZklOdDcnkVbkzsr9t+W7p/eVWdDQ
+         MUy3CRPO+UazZWwy/CgwJRqVKlMYgmyMrll0GOrO8OhQtNLTYPQp15Mh2cdIVazHbLzM
+         MWo1Ioe+vOm+yoRL+lzqdaWNH0wBw7uFObJGjpCPGHA5ezQW1M0SkRxKp7PsQdt/7B9E
+         AF7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757513003; x=1758117803;
+        d=1e100.net; s=20230601; t=1757513005; x=1758117805;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/VRRoBJDxUtuCClVOWAtoorGRAjTpvhk+jM3BYoUxN8=;
-        b=gaxmTVtRmxyTyE70Dz2zhNTLcBB782JfdC4UhA/UBW6dxpZ7nPjrSi2H22/I79pjIw
-         z675xPzjagpGXGiKomeiTrX1l1Iic9mzirf4fTdx7YU5g6SgUNJjar8ha8GGton/PUGh
-         BoHkaFzWLozPRpPbVBK3Lv8Qu3jna7DaNpc1EWym7BOVn1IE6yLu9J9wZMSb3J137YqC
-         1GJ1g1DGw9V9uS0LjVLwmJXqtwUne5vKGjoOEQHiCAaRes5SHvuTNVD9PK6dDlMjyGYk
-         x6nf9FpWnKSq4U5RLLs5/gd9FVrnT2dHpAPG+KG3OPzR33Z6CdBM8udjfZ7+nOL/OOe3
-         rQSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWGwigdSKM5xrwk1uPR9Afvw5FNiMISxX8cjXrra3L+IbI/4pVS/SD4HfmIkxN4kHDErgkZpIU0hcDNWaOdVL534g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDRaD/VIi0gSCGbVFDo8AhrTUEn8rvtKMnQbJ1LfmflPlhBsdc
-	jPU0erPDj5M6/IXz43OXRVnK9mItNAUZPrHhIMTmL1QMG1SHfAAw8p+AJssF1qj4vMk=
-X-Gm-Gg: ASbGnct1XaVVqSrwFdF63LVLAGlSt13fmj2UWZ1+ASr++XzcZ4OvoAjvBFVuIZD6lGO
-	ehewhzpl4OCyCynolO55+6Fl3uUAY/N4iaAycSVoYQo1iD4WE62QESVBrwDcRFORLyZLJ0NW8n9
-	5i4FhbKOXM3CIg9b+w7s8oAvRlSnoN4EaSfZ5Pc4WbAaPE9xipk09pny2Qtb8w4ZatuZwbwDgnN
-	k/tS06NemmM6f/vVWju3zZq7X8yG/wYVv4wWkrPTNUQ6o/6o8QiUUXSXIU/yaJBFLOEPSvegpgc
-	9ksjGuQWwwL53UaTgeAJI8bZHjCqhqezfMWKBCvmppuuyNDRthZVo0DZCPseggbTbDiAuES0JyI
-	3vloVTmZlm42ivuo0ceSvdrkil1WUmv/rip8DsXZgOk7htteGrRii
-X-Google-Smtp-Source: AGHT+IHhfcHfzteNbpb670GfMcFeMNBt1xhdYwJHk1+Sw0KbXw/4z1Sr9oNd9yxGkx0R5Z7OW1OtIw==
-X-Received: by 2002:a05:600c:840f:b0:45b:6365:794e with SMTP id 5b1f17b1804b1-45dddecdacemr152293835e9.24.1757513003366;
-        Wed, 10 Sep 2025 07:03:23 -0700 (PDT)
+        bh=Jkyh4Dhlw28CLMdRTkOh/1iBArvWo9DTQbXvmwtecM0=;
+        b=T1y/hRklXeJUm9gxpCDr7uX4a7Or8EccbuFGRFtRe1fPmcJxJVFNy485cc4zL6uTso
+         3zZctnUuhK8TKoQeKABOJThgRiZ/dPbn/VmoHplSQcCAsvD7kF9X1cxirGCiCnVgiWd1
+         1vcq4yh9r6ih8AhaHGcNp0PTt5EIlFkwQUfwCc4sU8DAElziNFep90SV2hZFOGjJEQeQ
+         6Teh4sMklNtrM4fuN7WfOYgcBJqQlAMRRfSYCshdrJV5ea70/matkSlt05h3RDY/D09r
+         XLy1mUvdcOGdVQ9NyXmg2HoawyUh3t6UBFXvQsvNLOFCpYWALupPdHo2gqsKtssHHxSI
+         J7Tg==
+X-Forwarded-Encrypted: i=1; AJvYcCUBfGZHNSk/tFpaAQX65NGPuD+0q2xfUakJNw4rhFp/2rrRczw4zwDKZNs9Y5w+VnjFGKjg/VV9emlwvsxBX/6xaQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxx0mFc4Egx6infdNpgJ8FYXw0yoRxYXjzrHWihpELFsBA9IaGg
+	UZlIbAe5gegkgSLKQxSaGvezdkiLaYVxhrNZISKUW+aSbYxI5wUvpXe1pjhO07cNX6IfAR8mFqx
+	RugSs
+X-Gm-Gg: ASbGncvii67OZEA2MYVakjlAAI9D5CCvc+6oHMq74uKt+kSuu08F3nz+OY9KE0FAEBJ
+	qj0PSL8uCCiR6yEb9FbHBE2OJ9O/EIFqOMRc4bUaFVGogvtvASA5AdK+ze3fK+TCVQ1BA4+cfEO
+	lNgSrRD1Gof9Ka3m3l5GTyz5DxzYOsRNcCan/FSR+bvol2PhSkYDe46ckSmooEU3P7HMbz6l+SA
+	Ec6mCXrst8KHEp9qfcMHSrDts/lRFnKPMzQq9k39a3zu0QcrVxdf898zzwTMOt/Hh/oBSW84YE+
+	SC+daoe+X1F1USZXS6hP1sn3c6lHw2YctP7N5EV8NSOh/Y8s5LoTNhiIWV0tAPnQa+VFCZJ5O6R
+	8b7aOhREayP8lZS0mfLpXVSgO8ectyMW+Ng6kuoNj3tGtOiOLctWw
+X-Google-Smtp-Source: AGHT+IFSs4+XILv/ozu1ePkTUArRSwLZOgfXjnuMdSXTBp3f8FpU0Yp9uKqcu+HOub89ber0vORyLw==
+X-Received: by 2002:a05:600c:19c8:b0:45b:7ce0:fb98 with SMTP id 5b1f17b1804b1-45ddde866c8mr148790095e9.5.1757513005134;
+        Wed, 10 Sep 2025 07:03:25 -0700 (PDT)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.139])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45df804bce3sm29523875e9.0.2025.09.10.07.03.21
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45df804bce3sm29523875e9.0.2025.09.10.07.03.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Sep 2025 07:03:22 -0700 (PDT)
+        Wed, 10 Sep 2025 07:03:24 -0700 (PDT)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: vkoul@kernel.org,
@@ -90,12 +91,12 @@ Cc: claudiu.beznea@tuxon.dev,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH v6 1/7] dt-bindings: phy: renesas,usb2-phy: Mark resets as required for RZ/G3S
-Date: Wed, 10 Sep 2025 17:02:59 +0300
-Message-ID: <20250910140305.541961-2-claudiu.beznea.uj@bp.renesas.com>
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v6 2/7] phy: renesas: rcar-gen3-usb2: Fix an error handling path in rcar_gen3_phy_usb2_probe()
+Date: Wed, 10 Sep 2025 17:03:00 +0300
+Message-ID: <20250910140305.541961-3-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250910140305.541961-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20250910140305.541961-1-claudiu.beznea.uj@bp.renesas.com>
@@ -107,19 +108,30 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-The reset lines are mandatory for the Renesas RZ/G3S platform and must be
-explicitly defined in device tree.
+If an error occurs after the reset_control_deassert(),
+reset_control_assert() must be called, as already done in the remove
+function.
 
-Fixes: f3c849855114 ("dt-bindings: phy: renesas,usb2-phy: Document RZ/G3S phy bindings")
+Use devm_add_action_or_reset() to add the missing call and simplify the
+.remove() function accordingly.
+
+While at it, drop struct rcar_gen3_chan::rstc as it is not used aymore.
+
+Fixes: 4eae16375357 ("phy: renesas: rcar-gen3-usb2: Add support to initialize the bus")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
 Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+[claudiu.beznea: removed "struct reset_control *rstc = data;" from
+ rcar_gen3_reset_assert(), dropped struct rcar_gen3_chan::rstc]
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
 
 Changes in v6:
+- dropped struct rcar_gen3_chan::rstc; updated the patch description
+  to reflect it
 - collected tags
 
 Changes in v5:
@@ -130,28 +142,71 @@ Changes in v4:
 
 Changes in v3:
 - collected tags
-- rebased on top of latest version of renesas,usb2-phy.yaml;
-  Conor, Geert: I kept your tags; please let me know if you consider it
-  otherwise
 
 Changes in v2:
-- none; this patch is new
+- none; this patch is new; re-spinned the Christophe's work at
+  https://lore.kernel.org/all/TYCPR01MB113329930BA5E2149C9BE2A1986672@TYCPR01MB11332.jpnprd01.prod.outlook.com/
 
- Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
-index 179cb4bfc424..2bbec8702a1e 100644
---- a/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
-+++ b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
-@@ -118,6 +118,7 @@ allOf:
-           contains:
-             enum:
-               - renesas,usb2-phy-r9a09g057
-+              - renesas,usb2-phy-r9a08g045
-               - renesas,rzg2l-usb2-phy
-     then:
-       properties:
+ drivers/phy/renesas/phy-rcar-gen3-usb2.c | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+index 3f6b480e1092..a38ead7c8055 100644
+--- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
++++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+@@ -134,7 +134,6 @@ struct rcar_gen3_chan {
+ 	struct extcon_dev *extcon;
+ 	struct rcar_gen3_phy rphys[NUM_OF_PHYS];
+ 	struct regulator *vbus;
+-	struct reset_control *rstc;
+ 	struct work_struct work;
+ 	spinlock_t lock;	/* protects access to hardware and driver data structure. */
+ 	enum usb_dr_mode dr_mode;
+@@ -771,21 +770,31 @@ static enum usb_dr_mode rcar_gen3_get_dr_mode(struct device_node *np)
+ 	return candidate;
+ }
+ 
++static void rcar_gen3_reset_assert(void *data)
++{
++	reset_control_assert(data);
++}
++
+ static int rcar_gen3_phy_usb2_init_bus(struct rcar_gen3_chan *channel)
+ {
+ 	struct device *dev = channel->dev;
++	struct reset_control *rstc;
+ 	int ret;
+ 	u32 val;
+ 
+-	channel->rstc = devm_reset_control_array_get_shared(dev);
+-	if (IS_ERR(channel->rstc))
+-		return PTR_ERR(channel->rstc);
++	rstc = devm_reset_control_array_get_shared(dev);
++	if (IS_ERR(rstc))
++		return PTR_ERR(rstc);
+ 
+ 	ret = pm_runtime_resume_and_get(dev);
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = reset_control_deassert(channel->rstc);
++	ret = reset_control_deassert(rstc);
++	if (ret)
++		goto rpm_put;
++
++	ret = devm_add_action_or_reset(dev, rcar_gen3_reset_assert, rstc);
+ 	if (ret)
+ 		goto rpm_put;
+ 
+@@ -924,7 +933,6 @@ static void rcar_gen3_phy_usb2_remove(struct platform_device *pdev)
+ 	if (channel->is_otg_channel)
+ 		device_remove_file(&pdev->dev, &dev_attr_role);
+ 
+-	reset_control_assert(channel->rstc);
+ 	pm_runtime_disable(&pdev->dev);
+ };
+ 
 -- 
 2.43.0
 
