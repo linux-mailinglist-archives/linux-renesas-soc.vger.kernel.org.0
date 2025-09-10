@@ -1,127 +1,120 @@
-Return-Path: <linux-renesas-soc+bounces-21705-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21706-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9D0EB51545
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 13:17:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12BC6B51608
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 13:44:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1442A1C82E59
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 11:18:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 34EE41883FED
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 11:45:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1490F7405A;
-	Wed, 10 Sep 2025 11:17:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="QKpukNVB"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 924E130E857;
+	Wed, 10 Sep 2025 11:44:50 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98082773D8
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Sep 2025 11:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2D4325FA1D;
+	Wed, 10 Sep 2025 11:44:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757503074; cv=none; b=txXjBt28tdQLHaWDD0leoWk1BlUJyw0yRyG6tUZJMqoqiVXlmAGhbND1Zz7wdzn2rAADTjt/k2vw+aYdWAIvXP6/FbSOJdoXBkbOwogN8GgSrC8pRyNy6eeK9MQq2rI1H9QHHbwVEQ5Q3mv6TTuXh8FhefilNfVpbe5Eu/dPFhI=
+	t=1757504690; cv=none; b=mJpUifLXtcC1aRPi4cQk0i7a0LwZYNgCncBneppI1WThuzBv4XZ9QHKOJkjRhSg+2iwze5qoGFAJDMWPPYStTW/Um90eTpg4Nf6HokSbjnywA9QvSWLkz8gAXVOwgZmiJvog6jBjzTNvEKrReL4KKNmtoLs0pduWzUdFg3z5PMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757503074; c=relaxed/simple;
-	bh=Xtb/sLzI5bW8Bo35Swpy28juwuCbw+RUPfTq/h5670o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=puqwsXirhl/coUuze1CmROep+MQ9/kMbuEhvIV1hCD5oFG+dgaOyOhZ7vzkLsBDqb8zLx3p+1w0Hdxk2MI3k4hRbToaetY2fKY2djHCadUG1ebQ9aMIl6E36homPa0jchD2ZIcRlbn1/3P/lLQF6XIXgMW7lmt9p9lvBUXj5VUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=QKpukNVB; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=Xtb/
-	sLzI5bW8Bo35Swpy28juwuCbw+RUPfTq/h5670o=; b=QKpukNVB4TrB18ESciEG
-	Y1BK6GL0+tBbE8uORRbGDneKzuh9uGhhKCB2cmtcYXdo9P8URsWJMc5kroXb5xku
-	/95y7vKfD28hQkEtqoBh/Zd8sfLN8TbO2uVxbmYomKwcV5SqVdjtrGW+bzktOtCd
-	X2QgSDBGKTdKZmcgdCEVmYHwW9khCrPWKve/iYDCm3d11lxgiaSDM7lcQe5Hsdg1
-	oiGLbyAZy7qpRc1RpDEaYDh0/xK5QulJ5wYVr5YmkO5CzI5Zb5Wjs7E3xQgR7Iie
-	yCeMLOrK7Hb+7wUOPLXU0oljL5YpenVUYrdkagHlXWpXIsb13TIDN0e4qSgeR2Tp
-	LQ==
-Received: (qmail 578202 invoked from network); 10 Sep 2025 13:17:49 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Sep 2025 13:17:49 +0200
-X-UD-Smtp-Session: l3s3148p1@ieomknA+gpwujnuV
-Date: Wed, 10 Sep 2025 13:17:49 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
-Cc: Hoan Tran <hoan@os.amperecomputing.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Serge Semin <fancer.lancer@gmail.com>,
-	Phil Edworthy <phil.edworthy@renesas.com>,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Pascal Eberhard <pascal.eberhard@se.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 1/8] ARM: dts: r9a06g032: Add GPIO controllers
-Message-ID: <aMFeXXXuks0OVkj5@ninjato>
-References: <20250909120041.154459-1-herve.codina@bootlin.com>
- <20250909120041.154459-2-herve.codina@bootlin.com>
+	s=arc-20240116; t=1757504690; c=relaxed/simple;
+	bh=qFOKzwSy4+/kMNuPnqqV/VxLFFXu9ArvHPf88847BXM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hXrPHeLBzZGg/JEOg+o4INfzStK0HPnxczWNxyEBK5tONFgl2BD3YIdhZ9z/Godw933YLI7mWk2Vz7DXFc751322YcvqTalmLXYtDPCRcvtpycyT1E1pgQfavTNhLOZviaZ5ZjeVryxtpacNetRQS8PfkFhJwsgbYAqxyWyhZK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-545f4b31600so1419963e0c.1;
+        Wed, 10 Sep 2025 04:44:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757504687; x=1758109487;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hMxHFFLSbMKBh562LQ05IQOcfgi5loSAFXBEfhNF46E=;
+        b=QlYSVnUWLwyXsB5p9M78S+BNfn+QHbGud6E4YZzI5uAm9m1qwd5QRDKCkPFf9Wr27c
+         ilTeTT9fLZqDb3MGoNWX9zraAceSGXlzHUELeLQBcEvAyGL+ml3wwxbGFe0blwoEa8K9
+         8ZYRBm8KO6isR5sHD546KOM87gSO6Mqou0EgTvyLkWaxYhTfouRRAy+YwEWl91j5be4x
+         wj46uWq5cyBR9UMV5hiFlyB8XWgOjm5UlZ/tWLoMK78vhltIQmuBDcjrXYLKQn6gxNNf
+         QPjyNqdWeo5oVmwOav8uFlwwSYecbidOdfvRrlR2v35tcys+fDXtXUX0DPxIEgyfSKJo
+         zyGg==
+X-Forwarded-Encrypted: i=1; AJvYcCUJeipF0LEylKNzG5tgU6Z3m3Bq12fKRJbLtRNUn5Z9A9RJ8DGkbqAQm9+CJTsE7AALeLxNJ0PQgEqtkgjKw0qBtOc=@vger.kernel.org, AJvYcCUVAq2Q1AUzkK/Lwkk9d+KJi5GBaViU0K0U1BL48gIpbBeWswSyqoFvBYWrXRdv/WNca8lEl8lj1SOVjOSx@vger.kernel.org, AJvYcCXBCGBaUlqP4+B+/hK71xXlBxUZgLdwOFYNxLKZqXHQy7ezbEnncOnT0L+DoYozza6jCqJ6yLnkTKM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YylRWbaaToFC32fkJlP6su4r4ILdNt+wahupOhNUjB8a0NM95LU
+	gMQP4vxCAsKk8I29NFPAprW0twLtm+Ho+Z/w6oSg23buufKTQQLWwDDWZbx/UAnG
+X-Gm-Gg: ASbGnctF5nkW6VqlILhNP+iDgB2FeJGVsy57DjsjH4Lo01afxOtgq8jTU/ALXd9PNDG
+	JRPkpY3sREUvem0Aq6EOl/lunQOSoVc7rpgHX5JiOflfrefKUMTlazvu6x1cZtT06yRIZqiACgD
+	c9idM1re041IvfNnG6Pzm9LCDSKK8pnPFhf17zecXv4dUoB/MXm3oHlgkeLpNh+V+o/5WmmT3zi
+	qxjmcQgynClvygijI7/N7moY8JzM0J6qBurGGny9Cq24SXFkWoGM/IWCx39HDuqvRg4XGWXbnek
+	cRCkhdXpcOufSfzy12QibY4/BIuz0YnZcIA5ctaSjbpFq/QB4FYVi8KmghdWfZjIFZ+Iix2NWLe
+	La5+xt/+d5QOqL0aljmKRPc3n5bmby+xmpBB5gno6KxrB8aZd6fyjZExX9srBR4SlIUlq3g0=
+X-Google-Smtp-Source: AGHT+IGujZeqaM1OvPxB9FCumirrb+WtfTdoHmVJwgpGcx9DaxNwVsH6881radgG18HW/NpXjBvkAg==
+X-Received: by 2002:a05:6122:8c06:b0:531:236f:1295 with SMTP id 71dfb90a1353d-5473aabff31mr3610774e0c.5.1757504687437;
+        Wed, 10 Sep 2025 04:44:47 -0700 (PDT)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-544912c7d07sm14080923e0c.4.2025.09.10.04.44.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Sep 2025 04:44:46 -0700 (PDT)
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-8980d75995dso1879191241.3;
+        Wed, 10 Sep 2025 04:44:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCULDC8HHJjFMDNHTwMRWUK7xmNOrnIouhdzBqtA1i/IA9Ok72HVEzwC7dN1T/QvfZoLvH3LPg0QancKkK24@vger.kernel.org, AJvYcCVZMyx7isURuhuo/NnwSF4T74ELU/AwTTU9D++iiyEoBdf8NR10TsZWSphsAOipxs0p5RW9uU7ehxse0BDpCcFKk+4=@vger.kernel.org, AJvYcCWinZI8m/7zWGUJRJQtE+FgoAOoiLqzS5WC0t/e6jCGuHeD7vxpuzUiWYali/3NPAcV1FYXZniX1lU=@vger.kernel.org
+X-Received: by 2002:a05:6102:5cc8:b0:522:4c98:17e with SMTP id
+ ada2fe7eead31-53d0c98bd16mr4600297137.4.1757504686481; Wed, 10 Sep 2025
+ 04:44:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="iumSSLlPufN+jsYR"
-Content-Disposition: inline
-In-Reply-To: <20250909120041.154459-2-herve.codina@bootlin.com>
+References: <20250908120940.147196-1-biju.das.jz@bp.renesas.com>
+ <20250908120940.147196-2-biju.das.jz@bp.renesas.com> <CAMuHMdWmMzZ0gCNVAsBOGKDTO4kAF5TTcSo4V+m-_MGfsTo63Q@mail.gmail.com>
+ <TY3PR01MB11346BE5957318E1805CF9E7F860EA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB11346BE5957318E1805CF9E7F860EA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 10 Sep 2025 13:44:35 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU7oqTfpGr38FU6GcbaRjF_Ku5yPyFmA2PpVW-zSyVP4A@mail.gmail.com>
+X-Gm-Features: AS18NWApLmcM5nGc9hI5H5IM6Rq4E_LNCl90o3m6Gh62XYg4OyMWJhX1g9RyiaM
+Message-ID: <CAMuHMdU7oqTfpGr38FU6GcbaRjF_Ku5yPyFmA2PpVW-zSyVP4A@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] can: rcar_canfd: Update bit rate constants for
+ RZ/G3E and R-Car Gen4
+To: Biju Das <biju.das.jz@bp.renesas.com>, Marc Kleine-Budde <mkl@pengutronix.de>
+Cc: "biju.das.au" <biju.das.au@gmail.com>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
+	"magnus.damm" <magnus.damm@gmail.com>, 
+	"linux-can@vger.kernel.org" <linux-can@vger.kernel.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Biju,
 
---iumSSLlPufN+jsYR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 10 Sept 2025 at 12:50, Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > From: Geert Uytterhoeven <geert@linux-m68k.org>
+Mon, 8 Sept 2025 at 14:09, Biju <biju.das.au@gmail.com> wrote:
+> > > From: Biju Das <biju.das.jz@bp.renesas.com>
+> > >
+> > > The calculation formula for nominal bit rate of classical CAN is same
+> > > as
+> >
+> > the same
+>
+> OK, will send new version fixing this.
 
-On Tue, Sep 09, 2025 at 02:00:32PM +0200, Herve Codina (Schneider Electric)=
- wrote:
-> Add GPIO controllers (Synosys DesignWare IPs) available in the
-> r9a06g032 (RZ/N1D) SoC.
->=20
-> Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@bootlin.co=
-m>
+I don't think you have to resend the series just for this. Marc?
 
-Of course, I couldn't test and review all GPIOs but the GPIOs I tested
-on my N1D-DB and EB work nicely so far. Previous tests didn't work
-because I simply missed to setup a configuration switch properly for
-this case. Phew!
+Gr{oetje,eeting}s,
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+                        Geert
 
-I won't have the bandwidth to review the irq patches. Maybe I can donate
-tests, but no promises...
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
---iumSSLlPufN+jsYR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjBXlkACgkQFA3kzBSg
-KbbEaA//fbbtj5vTazGI3o6nzrkselioCZlzKsf5vGNmi8jqg+aXHRK7vm7yTfSW
-i0A3/MxjuXHIaEDf/MW8SgPp6/z+TtyMohi3cnwPPonAbOKaICpEEbQmrEXTO4kn
-AQE3VM1lXAxGjL/rHi7tv+d2o3s3SM9fHGNvmsTaYHsLxJni/ylOERHKSCDNZvdT
-spoyw+5i7xw5rmN5Drjh+LWT04H3YwPMs9Hikbk6fdd2eTZ9yEWi2wLiNwbSLX9z
-iSNkE6TTth9OvGGQusfuzgwJVq9oAMFNcW1YWISCznGHJ1hOaHhvi2+mTStfNgtR
-h9mgNiOF3NuPm6OMqtNSQYYkJ3Y/LEYy3O3RAhRCVk3B1Gdt/nkKMuigVSvV7m1Q
-3xFNMiDqCuzdX15JPAgu927pSNnQXP0GKshTtZTpCtzFjj/GgEl8KJCjqQ7og0bx
-FatOjTUnFv1BZXc/LaVPthp1FSozfje7RULinOrXSq+nVUZJJrNcHYflR9qKx51q
-5Q5iC7TX8qmyewAgqwnMJMNNMgwt3ykWfxeVte8P2CgBJdPfaRIqYxEC+8KQHBF6
-WeAin+KN5RWDAAceH6NZuJKlQzO1QucH/ciAxwO6naSa3DBgasISrvOU9s0dZCvt
-jkeXbOIhevD6w2y6CsApyTG7UX9ckayXAec1htNOJOL15VpGToc=
-=Mu3J
------END PGP SIGNATURE-----
-
---iumSSLlPufN+jsYR--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
