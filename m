@@ -1,142 +1,375 @@
-Return-Path: <linux-renesas-soc+bounces-21700-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21701-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD8D2B513B6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 12:19:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF20CB5141B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 12:34:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EC6ED485F35
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 10:19:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 93C273A6307
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 10:34:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F284B3168E6;
-	Wed, 10 Sep 2025 10:18:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4156F2638AF;
+	Wed, 10 Sep 2025 10:34:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="IuaQ81rh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Aq0pMcyn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 595522FF65B
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Sep 2025 10:18:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B67531D385;
+	Wed, 10 Sep 2025 10:34:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757499509; cv=none; b=Riv+0/RGfKUWZ6VLfNgOg+kUupPNKtOGrSmn8p+lkYAOjrYxhHrBY/YsZoCK5Nlp2v4Qq6AHItdX0QFyFHGNrroxLzVXBdCLGoLWDe1wzBf/A1ynaREkD88CfyasTusVWLcFBdpIuZBdZtn5+ZJvin5PV+Z4oTKpSOongbocLCQ=
+	t=1757500454; cv=none; b=CR+KFnQJnGr26G64XlJTuwLBJ+NYfug0qvAbZrDxAO1bUblhDjPiHWknpd+6bVeXUlQHGerSCGu0wsjYUx3ZD/rLjJ+jkCxdo4w6IyR+fOPzvRSScPedS5T4W7JJNjmNp3H6mcy2nB+NnwRj9+dI7cc+OPLx2eKtEeLJog6pQzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757499509; c=relaxed/simple;
-	bh=pUSy8i4pFmy/zmoPlHaRlnvRxhJ+o6yafXGacXCrSR0=;
+	s=arc-20240116; t=1757500454; c=relaxed/simple;
+	bh=5M/o4RAP7wZoeD9O+0DDpwoy5rI2RuVMEJcQ4FyWfw0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ef2C2+sM+OUg1fTZ+lQ/eMFWLhJiVjZ2PbQq4vGyp5ZLecVVyegoW8u8P4FaZfayUx2/NnoL2xdZOQuFDLv7QCtnSQalrPJC4pwHjYZQQ+7TVp9Q1kY+/qUZcfznfQqupOvOaLHWsTiDvgK0bxrWoYKO/JQ9HORwZNoNMo9JN+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=IuaQ81rh; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=CJ+M
-	D8YzeVsq/xpythvaTyAC3To5rI+Xi9AsTN9btYs=; b=IuaQ81rh38h2Hl5RmHHZ
-	HreEBySZKc64Tx3kWScdd4W+X1gxzg4yX7ltplUwcpdet6/Zo/PrN0BZN+liaLtw
-	yHTFYVWZ3dL9KbRWQC2Hpn/Tr1Z1hT3CtK6aszZDsQ6KZhcmnVgHfMjLTjGeCJQa
-	Xjum2EGZvlYQMXcw4WwM7d1Shb/K/kOpTKSe65301aecgeGDvwZo5TUxQ0QhSw/f
-	pwyqbTt21um0+Cn5/acCnayOTgOHS1q6vJVKrKMcDrbOxG9r7rncgcwyu61ybrtM
-	5cp6TqGi6wt5BHNISeWa3J6NJxAl+GRf8zF6AshyknBKbsWa9NkiUEW2LlB+2tlL
-	qg==
-Received: (qmail 560856 invoked from network); 10 Sep 2025 12:18:17 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Sep 2025 12:18:17 +0200
-X-UD-Smtp-Session: l3s3148p1@9BtAvW8+QJ8ujnuV
-Date: Wed, 10 Sep 2025 12:18:17 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=WrXcnMY3OHxEF95E3djYQDosHC61yuGpC4aoFbeP5PEBE3LlOZE+qaMiUF1lfdnSne+ZLNm/b//rdu90g3XQROqwRTjfItlR8wZiE//cAVT76Bqn/dfZYk0beBHhBHvnMVnxdw/HjQflow7Qnyx7ofBdQ/N/Qo6+uI/Pj9o4X/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Aq0pMcyn; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757500451; x=1789036451;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5M/o4RAP7wZoeD9O+0DDpwoy5rI2RuVMEJcQ4FyWfw0=;
+  b=Aq0pMcyn4KhJvoecHXp7kl7pN2n2bXkjTvg0DimXbgCmWzEsPhTvYapE
+   0wSVpmax323D+T0xKIEA/xoOmkpdLbnFOsWtZ71xjLLDqJWHNMmdckp2S
+   xj/Gt7eJfGV38mspwq3TV0yxmRaTKtzw7Oq96cN2rW6cxA3XZzZg5zAQE
+   12UASyLPSGD8Qmz4T6p7IlQ2/zr+fBwbO+RwJDivdVyeUlghL4Jil3RMh
+   MANXJShJF9BfPvXtY//TCIAnFCpliUmORkM6PXh1Ga/pTqhKgO3K57n/l
+   EyBwXbHJsfbrQ2As+U5UWstuncik0qOuSNveTVoOjSHfzWW4XwIBvttka
+   g==;
+X-CSE-ConnectionGUID: ShJbV73hSxaHeIwMT9B3uw==
+X-CSE-MsgGUID: ESg8Nf6OTs6GgJlqLffgmA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="82395591"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="82395591"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 03:34:10 -0700
+X-CSE-ConnectionGUID: 6KdLSLK4TJi5yFx+sU20zQ==
+X-CSE-MsgGUID: J3SUYXR6QHWX/yA50MukLg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,254,1751266800"; 
+   d="scan'208";a="173808692"
+Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 10 Sep 2025 03:34:03 -0700
+Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uwI9I-0005pr-1f;
+	Wed, 10 Sep 2025 10:34:00 +0000
+Date: Wed, 10 Sep 2025 18:33:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>,
+	Hoan Tran <hoan@os.amperecomputing.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Magnus Damm <magnus.damm@gmail.com>,
-	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH net-next v2 0/9] Add PCS support for Renesas RZ/{T2H,N2H}
- SoCs
-Message-ID: <aMFQaQhn2So3T_oi@ninjato>
-References: <20250904114204.4148520-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <aLwm2fbi3acKlIgH@ninjato>
+	Saravana Kannan <saravanak@google.com>,
+	Serge Semin <fancer.lancer@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Phil Edworthy <phil.edworthy@renesas.com>,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Pascal Eberhard <pascal.eberhard@se.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v2 3/8] of/irq: Introduce for_each_of_imap_item
+Message-ID: <202509110852.9fhL9uHp-lkp@intel.com>
+References: <20250909120041.154459-4-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tJk4KSjWRS5EPtob"
-Content-Disposition: inline
-In-Reply-To: <aLwm2fbi3acKlIgH@ninjato>
-
-
---tJk4KSjWRS5EPtob
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250909120041.154459-4-herve.codina@bootlin.com>
 
-On Sat, Sep 06, 2025 at 02:19:37PM +0200, Wolfram Sang wrote:
->=20
-> > This series aims to add PCS support for the Renesas RZ/T2H and RZ/N2H S=
-oCs
-> > These SoCs include a MII converter (MIIC) that converts MII to RMII/RGM=
-II
-> > or can be set in pass-through mode for MII similar to the RZ/N1 SoC. The
-> > MIIC is used in conjunction with the Ethernet switch (ETHSW) available =
-on
-> > these SoCs.
-> >=20
-> > v1->v2:
-> > - Dropped regx in title and description in patch 1/9.
-> > - As done for other IPs used T2H compatible as a fallback for N2H.
-> > - Renamed pcs-rzt2h-miic.h -> renesas,r9a09g077-pcs-miic.h
-> > - Added matrix table in the new header file.
-> > - Corrected the resets check for RZ/N1.
-> > - Updated the commit message in patch 1/9.
-> > - Dropped regx in config description in patch 9/9.
-> > - Dropped patch "net: pcs: rzn1-miic: Add PCS validate callback
-> >   for RZ/T2H MIIC" is this already taken care in commit 508df2de7b3e
-> >   as pointed by Russell King.
->=20
-> I plan to test this series on RZ/N1D next week, hopefully on Monday.
+Hi Herve,
 
-No regressions found when using the 5 ethernet ports on the RZ/N1D
-board. For this series:
+kernel test robot noticed the following build errors:
 
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on tip/irq/core linus/master v6.17-rc5]
+[cannot apply to geert-renesas-devel/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Herve-Codina-Schneider-Electric/ARM-dts-r9a06g032-Add-GPIO-controllers/20250909-200642
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250909120041.154459-4-herve.codina%40bootlin.com
+patch subject: [PATCH v2 3/8] of/irq: Introduce for_each_of_imap_item
+config: x86_64-buildonly-randconfig-005-20250910 (https://download.01.org/0day-ci/archive/20250911/202509110852.9fhL9uHp-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250911/202509110852.9fhL9uHp-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509110852.9fhL9uHp-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   In file included from drivers/bluetooth/hci_bcm.c:16:
+>> include/linux/of_irq.h:123:29: warning: no previous prototype for 'of_imap_parser_one' [-Wmissing-prototypes]
+     123 | extern struct of_imap_item *of_imap_parser_one(struct of_imap_parser *parser,
+         |                             ^~~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/spi/spi-pic32.c:20:
+>> include/linux/of_irq.h:123:29: warning: no previous prototype for 'of_imap_parser_one' [-Wmissing-prototypes]
+     123 | extern struct of_imap_item *of_imap_parser_one(struct of_imap_parser *parser,
+         |                             ^~~~~~~~~~~~~~~~~~
+   drivers/spi/spi-pic32.c:850:34: warning: 'pic32_spi_of_match' defined but not used [-Wunused-const-variable=]
+     850 | static const struct of_device_id pic32_spi_of_match[] = {
+         |                                  ^~~~~~~~~~~~~~~~~~
+--
+   ld: drivers/irqchip/irq-renesas-rzv2h.o: in function `of_imap_parser_one':
+>> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/irqchip/irq-ingenic-tcu.o: in function `of_imap_parser_one':
+>> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/irqchip/irq-stm32mp-exti.o: in function `of_imap_parser_one':
+>> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/irqchip/irq-meson-gpio.o: in function `of_imap_parser_one':
+>> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/irqchip/irq-starfive-jh8100-intc.o: in function `of_imap_parser_one':
+>> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/irqchip/irq-imx-irqsteer.o: in function `of_imap_parser_one':
+>> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/irqchip/irq-imx-intmux.o: in function `of_imap_parser_one':
+>> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/irqchip/irq-lan966x-oic.o: in function `of_imap_parser_one':
+>> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/irqchip/irq-ti-sci-intr.o: in function `of_imap_parser_one':
+>> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/irqchip/irq-mst-intc.o: in function `of_imap_parser_one':
+>> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/irqchip/irq-mchp-eic.o: in function `of_imap_parser_one':
+>> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/irqchip/irq-sp7021-intc.o: in function `of_imap_parser_one':
+>> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/gpio/gpio-msc313.o: in function `of_imap_parser_one':
+>> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/gpio/gpio-rockchip.o: in function `of_imap_parser_one':
+>> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/gpio/gpio-rtd.o: in function `of_imap_parser_one':
+>> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/soc/mediatek/mtk-devapc.o: in function `of_imap_parser_one':
+>> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/regulator/qcom-labibb-regulator.o: in function `of_imap_parser_one':
+>> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/tty/serial/8250/8250_mtk.o: in function `of_imap_parser_one':
+>> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/tty/serial/arc_uart.o: in function `of_imap_parser_one':
+>> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/tty/serial/omap-serial.o: in function `of_imap_parser_one':
+>> include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/iommu/mtk_iommu.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/iommu/mtk_iommu_v1.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/gpu/drm/bridge/analogix/analogix-anx78xx.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/base/platform.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/mfd/wcd934x.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/nfc/nfcmrvl/i2c.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/nfc/nfcmrvl/spi.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/nfc/s3fwrn5/i2c.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/ata/sata_fsl.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/mtd/nand/raw/atmel/nand-controller.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/mtd/nand/raw/atmel/pmecc.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/spi/spi.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/spi/spi-bcm2835.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/spi/spi-cadence.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/spi/spi-microchip-core-qspi.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/spi/spi-pic32.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/usb/mtu3/mtu3_plat.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/usb/mtu3/mtu3_core.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/usb/gadget/udc/max3420_udc.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/input/keyboard/gpio_keys.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/i2c/busses/i2c-stm32f4.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/i2c/busses/i2c-viai2c-wmt.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/i2c/busses/i2c-viai2c-common.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/power/reset/brcmstb-reboot.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/hwmon/npcm750-pwm-fan.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/thermal/rockchip_thermal.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/thermal/ti-soc-thermal/ti-bandgap.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/watchdog/at91sam9_wdt.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/watchdog/rzn1_wdt.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/bluetooth/hci_bcm.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/bluetooth/btusb.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/firmware/qcom/qcom_scm.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/clocksource/timer-of.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/clocksource/timer-atmel-st.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/clocksource/timer-davinci.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/clocksource/timer-digicolor.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/clocksource/timer-econet-en751221.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/clocksource/timer-fttmr010.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/clocksource/timer-ixp4xx.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/clocksource/bcm2835_timer.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/clocksource/timer-meson6.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/clocksource/timer-zevio.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/clocksource/timer-stm32-lp.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/clocksource/timer-fsl-ftm.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/clocksource/timer-owl.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/clocksource/timer-integrator-ap.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/clocksource/timer-msc313e.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/clocksource/timer-ralink.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/clocksource/timer-nxp-stm.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
+   ld: drivers/bcma/main.o: in function `of_imap_parser_one':
+   include/linux/of_irq.h:125: multiple definition of `of_imap_parser_one'; kernel/irq/irqdomain.o:include/linux/of_irq.h:125: first defined here
 
 
---tJk4KSjWRS5EPtob
-Content-Type: application/pgp-signature; name="signature.asc"
+vim +125 include/linux/of_irq.h
 
------BEGIN PGP SIGNATURE-----
+    58	
+    59	extern int of_irq_parse_raw(const __be32 *addr, struct of_phandle_args *out_irq);
+    60	extern unsigned int irq_create_of_mapping(struct of_phandle_args *irq_data);
+    61	extern int of_irq_to_resource(struct device_node *dev, int index,
+    62				      struct resource *r);
+    63	
+    64	#ifdef CONFIG_OF_IRQ
+    65	extern void of_irq_init(const struct of_device_id *matches);
+    66	extern int of_irq_parse_one(struct device_node *device, int index,
+    67				  struct of_phandle_args *out_irq);
+    68	extern int of_irq_count(struct device_node *dev);
+    69	extern int of_irq_get(struct device_node *dev, int index);
+    70	extern int of_irq_get_byname(struct device_node *dev, const char *name);
+    71	extern int of_irq_to_resource_table(struct device_node *dev,
+    72			struct resource *res, int nr_irqs);
+    73	extern struct device_node *of_irq_find_parent(struct device_node *child);
+    74	extern int of_imap_parser_init(struct of_imap_parser *parser,
+    75				       struct device_node *node,
+    76				       struct of_imap_item *item);
+    77	extern struct of_imap_item *of_imap_parser_one(struct of_imap_parser *parser,
+    78						       struct of_imap_item *item);
+    79	extern struct irq_domain *of_msi_get_domain(struct device *dev,
+    80						    const struct device_node *np,
+    81						    enum irq_domain_bus_token token);
+    82	extern struct irq_domain *of_msi_map_get_device_domain(struct device *dev,
+    83								u32 id,
+    84								u32 bus_token);
+    85	extern void of_msi_configure(struct device *dev, const struct device_node *np);
+    86	extern u32 of_msi_xlate(struct device *dev, struct device_node **msi_np, u32 id_in);
+    87	#else
+    88	static inline void of_irq_init(const struct of_device_id *matches)
+    89	{
+    90	}
+    91	static inline int of_irq_parse_one(struct device_node *device, int index,
+    92					   struct of_phandle_args *out_irq)
+    93	{
+    94		return -EINVAL;
+    95	}
+    96	static inline int of_irq_count(struct device_node *dev)
+    97	{
+    98		return 0;
+    99	}
+   100	static inline int of_irq_get(struct device_node *dev, int index)
+   101	{
+   102		return 0;
+   103	}
+   104	static inline int of_irq_get_byname(struct device_node *dev, const char *name)
+   105	{
+   106		return 0;
+   107	}
+   108	static inline int of_irq_to_resource_table(struct device_node *dev,
+   109						   struct resource *res, int nr_irqs)
+   110	{
+   111		return 0;
+   112	}
+   113	static inline void *of_irq_find_parent(struct device_node *child)
+   114	{
+   115		return NULL;
+   116	}
+   117	static inline int of_imap_parser_init(struct of_imap_parser *parser,
+   118					      struct device_node *node,
+   119					      struct of_imap_item *item)
+   120	{
+   121		return -ENOSYS;
+   122	}
+ > 123	extern struct of_imap_item *of_imap_parser_one(struct of_imap_parser *parser,
+   124						       struct of_imap_item *item)
+ > 125	{
+   126		return NULL;
+   127	}
+   128	static inline struct irq_domain *of_msi_get_domain(struct device *dev,
+   129							   struct device_node *np,
+   130							   enum irq_domain_bus_token token)
+   131	{
+   132		return NULL;
+   133	}
+   134	static inline struct irq_domain *of_msi_map_get_device_domain(struct device *dev,
+   135							u32 id, u32 bus_token)
+   136	{
+   137		return NULL;
+   138	}
+   139	static inline void of_msi_configure(struct device *dev, struct device_node *np)
+   140	{
+   141	}
+   142	static inline u32 of_msi_xlate(struct device *dev, struct device_node **msi_np, u32 id_in)
+   143	{
+   144		return id_in;
+   145	}
+   146	#endif
+   147	
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjBUGUACgkQFA3kzBSg
-KbbzQRAAjVPcydjLGZs63Ha5mu3EK9/MgZpkIQZRY6lbCXwg/dTSQ/7Hy/pgOKW6
-y/r5g6yBPLQ8KiEYovrZ9Y8aHI6tXSJuRzsQ48M5Tp4EzsJm+tGv4epWqdKAa60x
-ZGpI8vytpoDOk1DlGZqQn9lyWdlHGZWcqgap9X/DRUGv10y5UEZQyrbPgr+I1QO9
-agcr1KnKytg4pgZdgmD2TA3iN8uVYsKOfH6sS2SCBNlLhjZkH9zX+pgSyWmQ54BZ
-9tqKqo3aTmk5XjEl4zaS6rcmE9zZOQ3KPjH7fCzNc9Wxzx9eYg/Pg4tLKrFv45aE
-cH9ZSvPx2aIrEqNhCQsJjpA8RLd7fCH/Xzii+F840BSsNtZxbjdxSwxTfx0KMcJi
-fuMEtKgwVU5txq3/EHdbk4v59FbN1DBNIkf895jpdv9oc1uINMV4HC2PX1kzue0M
-fsWuHtI/4O6AGRw9ZjsI2+d69sCBWL0cFtsl9sgiVVO+NzI3oI3NRSwvBexoYG7z
-jVb09ngzJdaV+Ho1xXGHQYxfbPxSV27zNjW5V0UlyUB9lhZlVPtuNp3vFyWHjoN3
-ITnCNp7KmKgzJzWT9eMvlZV2tL0SGtCAZHOMlBuxVgjs4L5FtZqo6JYPiiIXZcJV
-NOHc04NgbeicnQ8ONcp9ayCkoJ2rlak7KQlwjhyByYxTT+UxGJU=
-=AHfh
------END PGP SIGNATURE-----
-
---tJk4KSjWRS5EPtob--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
