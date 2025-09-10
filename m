@@ -1,110 +1,90 @@
-Return-Path: <linux-renesas-soc+bounces-21737-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21738-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07C8FB52158
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 21:44:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CB9CB52261
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 22:39:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D52B67A8BCB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 19:43:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 143AD46813B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 20:39:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B32932D73BE;
-	Wed, 10 Sep 2025 19:44:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C8862F1FEA;
+	Wed, 10 Sep 2025 20:39:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="avc37zmE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J7QmIi2Q"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2466420FAA4
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Sep 2025 19:44:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 832B22EFDAE;
+	Wed, 10 Sep 2025 20:39:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757533481; cv=none; b=JlltGnAykIYukTVipcw+ktmTFw7zyzQPyyvVbXn0WtKrwCaPSzycDNAp+Q2nBrqGDUgWKRY5Vbi5VHTTtH2pbS4QLUjzcYHLH0cF6POLWTIYehcvoPapl5KZPvpQuCebP05IsIeqiie6Qf42JUy07bLo8E+T/5ICb/Pb60lnBBg=
+	t=1757536748; cv=none; b=i28yO1qKN7ZHBF620rT5j2Ri1n+qiZJm3UbIGxabCc0UXDRV3DqAEZJgVpD0VB5Qy9m3pMT3aSmrqZk9PgmCghjK83cps5jABo7LEOLOyVwV7loNefJB9xhaaxnD9qNoILVr9xh+7rRVTQjz2SBPMNZAi9Au1n/NRlF+8DJtkcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757533481; c=relaxed/simple;
-	bh=TvvbGJhGoXgTGsOsVrfYtmt12BEe2nakx6B6C3BC+qs=;
+	s=arc-20240116; t=1757536748; c=relaxed/simple;
+	bh=B6fkvpBK+Ee+0YOFckXyRfEu8C3ZmYjOmbvJLcYj7rE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DhJejfzr8YPN6Cqg6ctAPREqUCoGqGqUjjsgbX19vjxb86mR4mPd9wt0REK40S0d10bqn2vZp9ZGAk1nw1DoezmeoqaOcvZGO2txEzxjyyCU4sQeH6Ppv0/vC8K1yD83YThJTCe6Zur/BbuB0zbcuLvwqbNoceqkLaJaommdDFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=avc37zmE; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58ACgEjO024531
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Sep 2025 19:44:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=MRFwGcw4G0+ktZMni3vfLtmQ
-	O/YRU2ZQtqpoFx/hjaA=; b=avc37zmEzVW7YjVsxItPhtWI22GJZQQOvskkWisI
-	fAPD0eUnTWrwGwoiLO6/vxsGmyPbq3IOT3bDNSVNVJ9Cb2MPH1f/YAmv7QAcY8Lh
-	yTzmcpRFSSiZfYNDmLTj7y+7A+m6xea7WQH0GmwOe5wmaLw5jv5tY2TEC0YocBab
-	CzOvW1/dr2D6JZc7kOT9YGSwQkckprDcudn/1rdT9By0GObcCpBRtPZxTT2b7c1e
-	QPuKJ5WTYEV9Uc7qEOByIVZQUFjqVgbtBlcdN/okWE5aChurpHzl8cLP8lDRQrBc
-	PU9xSiqsSMWBtA8NUcn7IkT2woCXAPQ+JlIxcIPC+4K4PA==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490db8n4ng-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Sep 2025 19:44:39 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-72023d1be83so16292286d6.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Sep 2025 12:44:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757533478; x=1758138278;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MRFwGcw4G0+ktZMni3vfLtmQO/YRU2ZQtqpoFx/hjaA=;
-        b=F1GZo44bc/XjcGapI01xPz0UvVoLbayUB0tybzSz/X+vErPfF6ET7ZSUJTIF5q9ZvQ
-         hVXhJldFG1w//ZGXPGwsI3iuabKIBN8pECzc+HPWJJcity1QKuwWRX0IuhkT/2WQv+iO
-         TdZyLkdd+2eUOSaY1KnnR6EJYKS/MyIUf3gnY3D3wZAX01qz5RetcI6ozU/EMFGZjLU+
-         M5DgNEtm5iEPKuUYwWyC78JNzevtIMNbf9sjjtKcAw+unyFcEQ08H0tNG1y6WVsxdGu3
-         2of6Or+8bnXzY9sbA3e869bMJpD/SImf08xKgjjDsywmbMejyEFl/Y7jZMUs3kxRjOfC
-         sI6w==
-X-Forwarded-Encrypted: i=1; AJvYcCUHlkue44hRDSCb4oFIHrNSl4JkzIb/u2hErGBW2y3Z3P/c3vDI6////gK0XRkp/oFyHhrv5e1rhQxqAiHob76Qig==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2x7bcvRWCDo4upN7dGlCc2CicAkTIHnVdURO0cx2AHlH2KxQ9
-	8Vr/BYmE0RSE+txQziyC5Dgva94/5H7raDMZ7txxzyNKDMbcTBAa+orx8wt4Mn6ImuoGRYR0ffg
-	mIz4nkWLhJYj5vYygB85OEFbUCOf0cT7Ud2SuORPTUgz2ZbgahtEPLqVMHx7h32a8W+J0ZgGzdk
-	5dLcExxQ==
-X-Gm-Gg: ASbGncvUoxkbAzvCxFW7dkRBRW6pfj3HBuDWr+juxyKh9IzoOD2qGkaMPcHL0Sh+uNm
-	T+v0qVzZi0qGnxfSxAfCay6aas0wyq+N/KE5GixW13S1Tood2W0gmAB9IR8nVVGVuT0ETYBMzqX
-	DMODpkO7Y0n5uqb812NZU6zaBiLHqMLflDHyBCyrUzVg2aF+4kFKpW/+Eetnqu96Rir6k2mzFkT
-	WLvSdTKd3kgsU0LVuYSaIFZYL6y607cplrQ1P65RjwL4pkiJJbp2AG8scbvqzQm7CcGoogQeG5Z
-	9xylw7elZIx0+3cQSekBr93jiT4oSDHoNsnzc2lSpJXmF0EYzEeh+04lKfxT3JcFvSZfjAi8dOS
-	e7EBBAp/JkhnnxkQxbfon4goV51W92mSkP8rZmMY+t2C/nistE/Wc
-X-Received: by 2002:a05:6214:d83:b0:722:4cf0:43ca with SMTP id 6a1803df08f44-7393ec165cfmr207443256d6.36.1757533477923;
-        Wed, 10 Sep 2025 12:44:37 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHLTybLfL00fFfCA42iPicU5GPH+S6SfBfiUJaoauFhGCNadtLOwQ0vunk0e3CAte+J5/R2vA==
-X-Received: by 2002:a05:6214:d83:b0:722:4cf0:43ca with SMTP id 6a1803df08f44-7393ec165cfmr207442566d6.36.1757533477313;
-        Wed, 10 Sep 2025 12:44:37 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-337f4c4ffd5sm43997081fa.14.2025.09.10.12.44.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Sep 2025 12:44:35 -0700 (PDT)
-Date: Wed, 10 Sep 2025 22:44:32 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Suraj Kandpal <suraj.kandpal@intel.com>
-Cc: kernel-list@raspberrypi.com, amd-gfx@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org, ankit.k.nautiyal@intel.com,
-        arun.r.murthy@intel.com, uma.shankar@intel.com, jani.nikula@intel.com,
-        harry.wentland@amd.com, siqueira@igalia.com, alexander.deucher@amd.com,
-        christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
-        liviu.dudau@arm.com, maarten.lankhorst@linux.intel.com,
-        mripard@kernel.org, robin.clark@oss.qualcomm.com,
-        abhinav.kumar@linux.dev, tzimmermann@suse.de,
-        jessica.zhang@oss.qualcomm.com, sean@poorly.run,
-        marijn.suijten@somainline.org,
-        laurent.pinchart+renesas@ideasonboard.com, mcanal@igalia.com,
-        dave.stevenson@raspberrypi.com,
-        tomi.valkeinen+renesas@ideasonboard.com,
-        kieran.bingham+renesas@ideasonboard.com, louis.chauvet@bootlin.com
-Subject: Re: [PATCH 2/7] drm: writeback: Modify writeback init helpers
-Message-ID: <nw4ehd7a655rzyf6g5yxb3z25en45esja2i5uowzy4wpmb2el6@orycag5iccho>
-References: <20250909100649.1509696-1-suraj.kandpal@intel.com>
- <20250909100649.1509696-3-suraj.kandpal@intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Euj9giLq6hRfGE1TQDKRrMsWPdf210vPiAW61KorHQN6neSJXd8IZYbt9EqjUqVHHLz1f8u7SsenLE441GBM/9aoXJ3gf6NSPFCxrSRgaza1ie2cLNBniB19wiz8I3eKf4Fbg6GtDvNeICNKi0E8iklRKuNkZF9uJdMC1FbjiJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J7QmIi2Q; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757536747; x=1789072747;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=B6fkvpBK+Ee+0YOFckXyRfEu8C3ZmYjOmbvJLcYj7rE=;
+  b=J7QmIi2QJY5HUkAH3NfAikUxt3pwi7OnJFxCnE5HSRjB4uAkKF8UPfiE
+   dVN6pF7m9ofNtTQ2EkK6ZivBc/3ZuRDoNS2g7UJCMsptKgy0IsOkLTUBT
+   dOamGWO14OhNUgLMm2dLH9c8lSJpBwq+8Os/M183On/D3vkRetdXKdvT6
+   qnLkkTE7Dvv6528q0liJMgG6FHzacbQqqILrTeoYwL04SgYS3kTAeOyzZ
+   ZC6ToKNUwWP40dZaC9oMdcohTZ7+Uu5a9ByxHtVZ20mXftaiCIcdmoKkC
+   7+mraI6FvZVLdjNlnJaTJjnl7tJo95Ei7ZmwolH54+vR/u+zWaFDL+NYL
+   g==;
+X-CSE-ConnectionGUID: PSrwnMjDTteQbtkXsT2bDg==
+X-CSE-MsgGUID: hu/LLBQJRhGgERGE/51PZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11549"; a="59083187"
+X-IronPort-AV: E=Sophos;i="6.18,255,1751266800"; 
+   d="scan'208";a="59083187"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 13:39:05 -0700
+X-CSE-ConnectionGUID: 0pc5aoHiT2OxenyLymEnVA==
+X-CSE-MsgGUID: Sz8c7R3oQ0WyCVA7akPy3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,255,1751266800"; 
+   d="scan'208";a="210615967"
+Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 10 Sep 2025 13:39:00 -0700
+Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uwRaj-0006GZ-2H;
+	Wed, 10 Sep 2025 20:38:57 +0000
+Date: Thu, 11 Sep 2025 04:38:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>,
+	Hoan Tran <hoan@os.amperecomputing.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Saravana Kannan <saravanak@google.com>,
+	Serge Semin <fancer.lancer@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Phil Edworthy <phil.edworthy@renesas.com>,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Pascal Eberhard <pascal.eberhard@se.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v2 3/8] of/irq: Introduce for_each_of_imap_item
+Message-ID: <202509110402.OHHgtxRA-lkp@intel.com>
+References: <20250909120041.154459-4-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -113,72 +93,138 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250909100649.1509696-3-suraj.kandpal@intel.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAzMSBTYWx0ZWRfX1VgCjXh9ZviB
- hIvE0h5ZZLmoecWO+P/LYuIvR/b4DjSEeagwrSFyQsjazSUlu26sXbz1zJxKHdF/4QDSd2I87IA
- GkTYRBPlxUTDJp3JrVJ8us0vr+ODIUAtn3u3YpnY/LhqqtJdtG79TajtRvmGZArmH8gwPG9d1aD
- p2St5/lp8/bXbucKGf5k6fFJAKrjngp/eosi23Alihiu23ROjnuwaq8H6ROyQqJCs35sGdYUUtk
- Pp20B0DneYnIeAcjNa9U8++c5LO2HWFrb4FEYATcfRhrZf9sIEtuQumFD4LTclhtRuTuCQZrOBW
- 2deFMXW/8S2Q9FHXIx4jqldMD0tNnoxFoIXnaDMLWk9/bPCM8eAsqOI4Lwcy61FrAuMJQ7g0k1/
- SO3t4TFk
-X-Proofpoint-ORIG-GUID: 9wHGVYVVwa3AHSwZvkGbvAgKQFlzDX9w
-X-Proofpoint-GUID: 9wHGVYVVwa3AHSwZvkGbvAgKQFlzDX9w
-X-Authority-Analysis: v=2.4 cv=VIDdn8PX c=1 sm=1 tr=0 ts=68c1d527 cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=QyXUC8HyAAAA:8 a=T65gB5C1oy4ZwBZl7KYA:9 a=CjuIK1q_8ugA:10
- a=OIgjcC2v60KrkQgK7BGD:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-10_04,2025-09-10_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0
- phishscore=0 adultscore=0 clxscore=1015 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060031
+In-Reply-To: <20250909120041.154459-4-herve.codina@bootlin.com>
 
-On Tue, Sep 09, 2025 at 03:36:44PM +0530, Suraj Kandpal wrote:
-> Now with drm_writeback_connector moved to drm_connector it makes
-> more sense use drm_connector as an argument rather than drm_connector.
+Hi Herve,
 
-than drm_writeback_connector
+kernel test robot noticed the following build warnings:
 
-> The writeback connector can easily be derived from drm_connector.
-> 
-> Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
-> ---
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c |  2 +-
->  .../drm/arm/display/komeda/komeda_wb_connector.c |  5 +----
->  drivers/gpu/drm/arm/malidp_mw.c                  |  2 +-
->  drivers/gpu/drm/drm_writeback.c                  | 16 ++++++++--------
->  drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c    |  2 +-
->  .../gpu/drm/renesas/rcar-du/rcar_du_writeback.c  |  3 +--
->  drivers/gpu/drm/vc4/vc4_txp.c                    |  2 +-
->  drivers/gpu/drm/vkms/vkms_writeback.c            |  4 ++--
->  include/drm/drm_writeback.h                      |  4 ++--
->  9 files changed, 18 insertions(+), 22 deletions(-)
-> 
-> @@ -338,13 +338,13 @@ static void drm_writeback_connector_cleanup(struct drm_device *dev,
->   * Returns: 0 on success, or a negative error code
->   */
->  int drmm_writeback_connector_init(struct drm_device *dev,
-> -				  struct drm_writeback_connector *wb_connector,
-> +				  struct drm_connector *connector,
->  				  const struct drm_connector_funcs *con_funcs,
->  				  struct drm_encoder *enc,
->  				  const u32 *formats, int n_formats)
->  {
-> -	struct drm_connector *connector =
-> -		drm_writeback_to_connector(wb_connector);
-> +	struct drm_writeback_connector *wb_connector =
-> +		drm_connector_to_writeback(connector);
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on tip/irq/core linus/master v6.17-rc5 next-20250910]
+[cannot apply to geert-renesas-devel/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-You can use &connector->writeback without extra wrappers.
+url:    https://github.com/intel-lab-lkp/linux/commits/Herve-Codina-Schneider-Electric/ARM-dts-r9a06g032-Add-GPIO-controllers/20250909-200642
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250909120041.154459-4-herve.codina%40bootlin.com
+patch subject: [PATCH v2 3/8] of/irq: Introduce for_each_of_imap_item
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250911/202509110402.OHHgtxRA-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250911/202509110402.OHHgtxRA-lkp@intel.com/reproduce)
 
->  	int ret;
->  
->  	ret = drmm_connector_init(dev, connector, con_funcs,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509110402.OHHgtxRA-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/base/platform.c:15:
+>> include/linux/of_irq.h:123:29: warning: no previous prototype for function 'of_imap_parser_one' [-Wmissing-prototypes]
+     123 | extern struct of_imap_item *of_imap_parser_one(struct of_imap_parser *parser,
+         |                             ^
+   include/linux/of_irq.h:123:8: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     123 | extern struct of_imap_item *of_imap_parser_one(struct of_imap_parser *parser,
+         |        ^
+   1 warning generated.
+
+
+vim +/of_imap_parser_one +123 include/linux/of_irq.h
+
+    58	
+    59	extern int of_irq_parse_raw(const __be32 *addr, struct of_phandle_args *out_irq);
+    60	extern unsigned int irq_create_of_mapping(struct of_phandle_args *irq_data);
+    61	extern int of_irq_to_resource(struct device_node *dev, int index,
+    62				      struct resource *r);
+    63	
+    64	#ifdef CONFIG_OF_IRQ
+    65	extern void of_irq_init(const struct of_device_id *matches);
+    66	extern int of_irq_parse_one(struct device_node *device, int index,
+    67				  struct of_phandle_args *out_irq);
+    68	extern int of_irq_count(struct device_node *dev);
+    69	extern int of_irq_get(struct device_node *dev, int index);
+    70	extern int of_irq_get_byname(struct device_node *dev, const char *name);
+    71	extern int of_irq_to_resource_table(struct device_node *dev,
+    72			struct resource *res, int nr_irqs);
+    73	extern struct device_node *of_irq_find_parent(struct device_node *child);
+    74	extern int of_imap_parser_init(struct of_imap_parser *parser,
+    75				       struct device_node *node,
+    76				       struct of_imap_item *item);
+    77	extern struct of_imap_item *of_imap_parser_one(struct of_imap_parser *parser,
+    78						       struct of_imap_item *item);
+    79	extern struct irq_domain *of_msi_get_domain(struct device *dev,
+    80						    const struct device_node *np,
+    81						    enum irq_domain_bus_token token);
+    82	extern struct irq_domain *of_msi_map_get_device_domain(struct device *dev,
+    83								u32 id,
+    84								u32 bus_token);
+    85	extern void of_msi_configure(struct device *dev, const struct device_node *np);
+    86	extern u32 of_msi_xlate(struct device *dev, struct device_node **msi_np, u32 id_in);
+    87	#else
+    88	static inline void of_irq_init(const struct of_device_id *matches)
+    89	{
+    90	}
+    91	static inline int of_irq_parse_one(struct device_node *device, int index,
+    92					   struct of_phandle_args *out_irq)
+    93	{
+    94		return -EINVAL;
+    95	}
+    96	static inline int of_irq_count(struct device_node *dev)
+    97	{
+    98		return 0;
+    99	}
+   100	static inline int of_irq_get(struct device_node *dev, int index)
+   101	{
+   102		return 0;
+   103	}
+   104	static inline int of_irq_get_byname(struct device_node *dev, const char *name)
+   105	{
+   106		return 0;
+   107	}
+   108	static inline int of_irq_to_resource_table(struct device_node *dev,
+   109						   struct resource *res, int nr_irqs)
+   110	{
+   111		return 0;
+   112	}
+   113	static inline void *of_irq_find_parent(struct device_node *child)
+   114	{
+   115		return NULL;
+   116	}
+   117	static inline int of_imap_parser_init(struct of_imap_parser *parser,
+   118					      struct device_node *node,
+   119					      struct of_imap_item *item)
+   120	{
+   121		return -ENOSYS;
+   122	}
+ > 123	extern struct of_imap_item *of_imap_parser_one(struct of_imap_parser *parser,
+   124						       struct of_imap_item *item)
+   125	{
+   126		return NULL;
+   127	}
+   128	static inline struct irq_domain *of_msi_get_domain(struct device *dev,
+   129							   struct device_node *np,
+   130							   enum irq_domain_bus_token token)
+   131	{
+   132		return NULL;
+   133	}
+   134	static inline struct irq_domain *of_msi_map_get_device_domain(struct device *dev,
+   135							u32 id, u32 bus_token)
+   136	{
+   137		return NULL;
+   138	}
+   139	static inline void of_msi_configure(struct device *dev, struct device_node *np)
+   140	{
+   141	}
+   142	static inline u32 of_msi_xlate(struct device *dev, struct device_node **msi_np, u32 id_in)
+   143	{
+   144		return id_in;
+   145	}
+   146	#endif
+   147	
 
 -- 
-With best wishes
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
