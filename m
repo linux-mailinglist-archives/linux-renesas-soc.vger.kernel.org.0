@@ -1,209 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-21760-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21761-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8B1CB52B6C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Sep 2025 10:17:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF9E6B52C1B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Sep 2025 10:46:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2870C7A53E1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Sep 2025 08:16:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D8F0B7ABE0F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Sep 2025 08:44:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97532278772;
-	Thu, 11 Sep 2025 08:17:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 838532E88B4;
+	Thu, 11 Sep 2025 08:45:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uWvOWWRP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E45D4219A86;
-	Thu, 11 Sep 2025 08:17:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA4B2E54DA;
+	Thu, 11 Sep 2025 08:45:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757578647; cv=none; b=Q1zgTD0CetQr4y8nvwsOj+scu/TDBq+SOPzvtSyPh+z62jfaM5Kmt6WuhQtK8FMaDJRlhY7Sa4QgIIluLtPdvMpmgeCZ432iJkK67zqSDj7nE7mU00mj7sR5/yj67m/aBZFAZVWg/EvFp0VZfeISO+zHymdZvC1/dHlogW+Gx6E=
+	t=1757580327; cv=none; b=UB4DdWFZm3YUUEP69knBXYDNYDURn1b9Q2vnDM9WDIwpfCmcPxgzUkPfm9hwoeopd94DarN254P3dws63LO/OFsK7qAiAFLyMi9Lo6n1gqXIeeJMXB8tvqIoWmYN2rhBEjPDzEXdyO83WG3/Sg7Dlc5kghI/fOextQUcZXtoWzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757578647; c=relaxed/simple;
-	bh=wHfI0Zex5SRmzFSXfaqcAMgB3WV407FMktikanLNJus=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=i4GtXDBugvtSx+ExLQ6EJISLgP7cE2gyFxX6PadpW71Jn1RrzH0FUDq2hco4gwX612XbkcocBK6z+YfyF+GhrAV+tiIyQpcdmkT6H2Y0IuyxD2om8uweUq/5/6SPcaUawdWmsZfh7xUyDPr3/qI/gVfS8HaKoZyaw/2xlf2Adus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-8902ee514deso317302241.1;
-        Thu, 11 Sep 2025 01:17:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757578645; x=1758183445;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=js/8UDggOvfLe3IaSH9Cswopzmf6KAi8oVvdx2AROQ0=;
-        b=BeLK16/XMUj4JDxfgT++eu/RJ4nfOIhXcM3Y1cdnaST2mJbTXz3/jEeQYLx3eHxy+D
-         iv8QFgGZpWRMa45JAu1aTqkHVDO7vuxIYRdUtGwsL1BT3AcxrUqQdZasG2WRF+aKn8Im
-         yp3zEelLVZTD0KYWGOw0OL3lUY6bVppkhtvwFOinPLcTsJxpcrwD9UmuFU5es9FR8lER
-         NI8Md1BNr5li843MbIrEpRiNlds/QbDfNIEV+5AZdjyv5rLuOvOM33r56UfmQ9fknVIn
-         pvb8gU/cagYGO9qqHPUgesIdsemGS54sefV5VkBFw3GzE/NRXdaVM338zAw8Pcgg1xXl
-         qb3A==
-X-Forwarded-Encrypted: i=1; AJvYcCVVzaFU4h/6KrgUCPA+CnO02LsYxstg/ia3fHwhLV9dwyrUJ+N8wmjjkfuZqX5gIhsCfbRoOXCcBxk2@vger.kernel.org, AJvYcCVhaKzrHAnlSjv/qVMCs6TaU4GMRQgcn7juiPmuqdmi+z8R6STajGhkQYCPQczzx5XWgO4sgqoqoj4yGoBXN+U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMcUIbManRNQK+/C5D122gWsMtWSG3GYXjsFkuDVQsa/bLG7OC
-	YgzkpBH6fevqejCV1fQoFlvoi1r2uCS5hBSR+ikCV0WKxmIU+oAwL3RPXq3JiMnj
-X-Gm-Gg: ASbGnctdvJGFt6jWKjKL2GSfDMv/QAZAtyFbGG22RSfj0e8hDxtH62Z9ngEWGrusNqb
-	mJ61CKnH+Gdt0/qba/vWBjKDXGmV5Ugcg6SYPRY7uHMNmMDzTQqjb95sIemicUBQGK81aSa987J
-	5K0F/eWAfI5kiqqw2CBoUyHHnub9+/3z6yESi174EDo5HcHOJhOWRzdWRzHg8NUvEeQ3Mv0lQ1F
-	UD9eQcSwZa/EscomXK7CMOwU5WYoQffsL2OUrpakBqoUwee4BCn9CB+4f/gMrHxRxUyKg7KjFDk
-	PnaI61Am9Fccueg0U3J3bvEk8bxaxWwkCVvjXImnkDhdSeY6iJhbGvTvH0Yd7FjeS2WK831wuYE
-	YpKqmeSj4AsRQfrVPURNftmBZULPCN+Lj3nLDYVEGK1e/VGIcuUP3gv6UnXQT
-X-Google-Smtp-Source: AGHT+IE6RMYmUnZQHYhALihC2o3qWVSpdKvqKrgo0MYV66KWCPN148hZCll52KkBMBRYxHpSznVryg==
-X-Received: by 2002:a05:6102:292c:b0:528:9956:6a3d with SMTP id ada2fe7eead31-5520c29c86amr947316137.12.1757578644686;
-        Thu, 11 Sep 2025 01:17:24 -0700 (PDT)
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com. [209.85.217.47])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8ccd3bd595csm145490241.10.2025.09.11.01.17.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Sep 2025 01:17:24 -0700 (PDT)
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-528a601a3cbso925247137.1;
-        Thu, 11 Sep 2025 01:17:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUBEPA3MzEML76o1Du1UBYAlKXk0Y6szSmtGN2cB9EJ3xGpPhgh5H3yhR4Pgo1GqnVRdHr/oWGZkoPP@vger.kernel.org, AJvYcCVXUnWVuvxf2l4Bdeg0bwmwrEp86z13wsN9qKLGiCjOU/0WOWTR5+t86ad/S90RqQKDzbJJNe+Almjet7f9DQs=@vger.kernel.org
-X-Received: by 2002:a67:e04b:0:b0:4e9:963a:a42b with SMTP id
- ada2fe7eead31-55207cdefc5mr588780137.8.1757578643963; Thu, 11 Sep 2025
- 01:17:23 -0700 (PDT)
+	s=arc-20240116; t=1757580327; c=relaxed/simple;
+	bh=53yhZfFyRELoKxsnWRyQDmkkksjZMP5Wq9WxE/8k7yE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RuVM6GC23JRe4fhMOlzLq7SH5HCz/C6ZC8YSIbuF0NCATKZUgXXo2R2UgNvKyQUy5kkIOJUp1G2S9+0nb5HUaqVVoKA+BHDXCUdcc8IxcOkHACsSgCZ6hxf9iRK1oaP/CF/W+rKt/VbFVJqIHsc0j8sbx4R8Ve+KAQI0eLhXSQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uWvOWWRP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC772C4CEF1;
+	Thu, 11 Sep 2025 08:45:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757580326;
+	bh=53yhZfFyRELoKxsnWRyQDmkkksjZMP5Wq9WxE/8k7yE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=uWvOWWRPJ5CiISu3PJfaN6bxrRiIodsz0odHM+RJVNgzhAzDpuseU3QxWKXfpbkXW
+	 uMqK0yl0RZ9fBtA2Qy5yR7ro73XUgGKcK6awuV45BRNLmNyijtGg9ge0L/mgspbN3Z
+	 BEcpKk0or3K+EMD4JaxouZJpZVqyhXv1ANNt96cTjhC0V1bq4qMXQrvqWYfzqwElcu
+	 ZptRarlAxRbf2kNuA0tmqfnay5ul+lcLZsOT+A/9d2noGi3PidRAc2wGVsJ+ibdXQl
+	 tYrQmc4nYY1H3lWcmsGUoUCdqA1OVehiWTTwGyIiLBqZFNOdp/lAGJzdAnW3JITSro
+	 pP71d83oe/5YQ==
+Message-ID: <07a663ff-1eb1-4e21-85dc-0d523633cbe3@kernel.org>
+Date: Thu, 11 Sep 2025 10:45:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250910210646.2443-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20250910210646.2443-1-wsa+renesas@sang-engineering.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 11 Sep 2025 10:17:12 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUmxav90n=5P8E2hTW2AcBgopwX=yMTBaziQWrgZ3mcwQ@mail.gmail.com>
-X-Gm-Features: AS18NWBMKbagIFfwdulwWim8tXBtXDY5-SJL7aFbkpUtfKOkvs80DJZv2jRtWt8
-Message-ID: <CAMuHMdUmxav90n=5P8E2hTW2AcBgopwX=yMTBaziQWrgZ3mcwQ@mail.gmail.com>
-Subject: Re: [RFC PATCH] dt-bindings: watchdog: Add Renesas WWDT
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, 
-	Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-watchdog@vger.kernel.org, 
-	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/4] arm64: renesas: Add R8A78000 Ironhide board code
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <87tt1c9z7h.wl-kuninori.morimoto.gx@renesas.com>
+ <87o6rk9z6c.wl-kuninori.morimoto.gx@renesas.com>
+ <20250909-witty-successful-toucan-beca41@kuoka>
+ <87segvw5yr.wl-kuninori.morimoto.gx@renesas.com>
+ <983be392-e76f-40b3-ac57-5321f5d88abc@kernel.org>
+ <CAMuHMdUFOGNNuogp19WoCy4c-4a6KjBfyutp=UWfvBD2oHtOAw@mail.gmail.com>
+ <bf4a92d4-0472-4d0f-95d5-83fca816ae03@kernel.org>
+ <CAMuHMdVvhso0E=w3Y8tk_GnBWsV8GrjGPwYkSq19aDr+VDSymg@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <CAMuHMdVvhso0E=w3Y8tk_GnBWsV8GrjGPwYkSq19aDr+VDSymg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Wolfram,
+On 11/09/2025 09:24, Geert Uytterhoeven wrote:
+> Hi Krzysztof,
+> 
+> On Thu, 11 Sept 2025 at 09:16, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>> What's more, it breaks my imaginary system root, because I am running it
+>> from readonly NFS root.
+> 
+> Real mean run NFS root over SLIP on the serial console
+> (which is so far the only I/O device described in the DTB ;-).
 
-On Wed, 10 Sept 2025 at 23:19, Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> Describe the Windowed Watchdog timer found on Renesas R-Car SoCs from
-> late Gen3 onwards.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+My imaginary system is very imaginary :).
 
-Thanks for your patch!
-
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/watchdog/renesas,wwdt.yaml
-> @@ -0,0 +1,83 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/watchdog/renesas,wwdt.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas Windowed Watchdog Timer (WWDT) Controller
-> +
-> +maintainers:
-> +  - Wolfram Sang <wsa+renesas@sang-engineering.com>
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - const: renesas,r8a779g0-wwdt  # V4H
-> +      - const: renesas,rcar-gen4-wwdt
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    items:
-> +      - description: Pretimeout, 75% of overflow reached
-> +      - description: Error occurred
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: pretimeout
-> +      - const: error
-> +
-> +  clocks:
-> +    items:
-> +      - description: Bus clock
-> +      - description: Counting clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: bus
-> +      - const: cnt
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    items:
-> +      - description: Reset circuitry driven by bus clock
-> +      - description: Reset circuitry driven by counting clock
-> +
-> +  reset-names:
-> +    items:
-> +      - const: bus
-> +      - const: cnt
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-
-resets, pm-domains?
-
-> +
-> +allOf:
-> +  - $ref: watchdog.yaml#
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/r8a779g0-cpg-mssr.h>
-> +    #include <dt-bindings/power/r8a779g0-sysc.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-
-Please insert a blank line.
-
-> +    wwdt0: watchdog@ffc90000 {
-> +            compatible = "renesas,r8a779g0-wwdt",
-> +                         "renesas,rcar-gen4-wwdt";
-> +            reg = <0xffc90000 0x10>;
-> +            interrupts = <GIC_SPI 310 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 311 IRQ_TYPE_LEVEL_HIGH>;
-> +            interrupt-names = "pretimeout", "error";
-> +            clocks = <&cpg CPG_CORE R8A779G0_CLK_SASYNCRT>,
-> +                     <&cpg CPG_CORE R8A779G0_CLK_R>;
-> +            clock-names = "bus", "cnt";
-> +            power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
-> +            resets = <&cpg 1318>, <&cpg 1200>;
-
-The first reset is no longer documented in the latest R-Car V4H Hardware
-User Manual (Rev.1.30).
-It is not documented on R-Car Gen3, either.
-
-> +            reset-names = "bus", "cnt";
-> +    };
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best regards,
+Krzysztof
 
