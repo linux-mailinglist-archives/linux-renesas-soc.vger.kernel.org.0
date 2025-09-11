@@ -1,137 +1,124 @@
-Return-Path: <linux-renesas-soc+bounces-21771-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21772-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9225AB5348D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Sep 2025 15:55:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4C42B534F8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Sep 2025 16:16:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AAB98B63A34
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Sep 2025 13:53:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9E3DB5A352A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Sep 2025 14:16:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43CA83375B3;
-	Thu, 11 Sep 2025 13:52:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="LkK6jdpx";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="HnHouNSe"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 739BA1A0BD0;
+	Thu, 11 Sep 2025 14:16:19 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1C8335BBB;
-	Thu, 11 Sep 2025 13:52:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28DFB2F37;
+	Thu, 11 Sep 2025 14:16:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757598746; cv=none; b=Uze7yOf9Du22il+82coWq8ABTekp7TCJWf1Kkxrv+7CqbB2XHs1kq9Q9kNKDA04HdUnrd+YbRwB8aUxNs0TYfB+At9VM4NAN5Pa1ofLNrgcdhNF67BVuvNsSimdEeVcNiPL4WpZklsIb+ucBr3fUVdyu7j2MlAg+trrNFNAHDEM=
+	t=1757600179; cv=none; b=BAvnkyGmBX136JbUH/lQwPzIc7BLLxywzHYDyjjacojKPd8SYEPeRtDi+4pVN0jVwBcq+8xNxTAaKAGlTeIMGUhNLCWiElu/FTEJeQTgwr+ISRPqptH92MAaHMm/XrPJoL9tix7bcfRYZOKXpfK9p+eVtXS0Fiq5CchADW0az5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757598746; c=relaxed/simple;
-	bh=deGvupzM/LLKwOeN5SKhrOyqbm5RrItp4EoBaXJwJCM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=O2WzBguI/jdHVobNGI098Bm+zRFNRxM7WRW3HXBvFBJOcfYpNEbmpiq3rMgjIYFJunsqejQ2zONpARPCR7FUfxc6LSwkP+B3dxYET7qa3EYrT2U37TVg+gU95D55EV6QkgZYvcNle5Hv0WyXVe7+ILqLg7LdUs5TfLwLGfAW8c0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=LkK6jdpx; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=HnHouNSe; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1757598742;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C92gKHTmPMKru6z9KnmAjno8euROQELszOPMKezd0q4=;
-	b=LkK6jdpxw21FjYkLcj1CNXjZ4trzKKHygKuDeJVQAC72SCjmTtdwpmSDIVJtOfvxUTtu/E
-	MrkjH9BZm9gcLa8xnTG+kkxvGY2DQJ/zGj+PXZSKW99G0V5DeX96wFvl+85VdqGdOisqAe
-	JrXYBwsSYyn9+ed/hrwNvwa9k6kWby3U9Po8aMzo6jNERFwwiCSK72ldY/U1f/hR+uqIZE
-	Oq9BVCOQutMM7+wZJIkIxg5h3u4koSSlorKovwuReQMFsYxcFeZ9oqhEanhx5i0mB1ogxg
-	4mRhgP43rBruIFfHEXSdV6yYmTXwKqDoLXKk7fTjaWRU0UnDAHpbrnnMfPGWGg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1757598742;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C92gKHTmPMKru6z9KnmAjno8euROQELszOPMKezd0q4=;
-	b=HnHouNSegRS6LE+/7RLUmAhvPaJKyUXtknAuAb6SrGfH+ZreDU91Pnl0x68VvI5zDFg8m/
-	fIoDD0wV6LaRjvDg==
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, Hoan Tran
- <hoan@os.amperecomputing.com>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus
- Damm <magnus.damm@gmail.com>, Saravana Kannan <saravanak@google.com>, Serge
- Semin <fancer.lancer@gmail.com>, Phil Edworthy <phil.edworthy@renesas.com>,
- linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Pascal
- Eberhard <pascal.eberhard@se.com>, Miquel Raynal
- <miquel.raynal@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 0/8] gpio: renesas: Add support for GPIO and related
- interrupts in RZ/N1 SoC
-In-Reply-To: <20250911090450.32c7cdbe@bootlin.com>
-References: <20250909120041.154459-1-herve.codina@bootlin.com>
- <87y0qntkmy.ffs@tglx> <87segvtkha.ffs@tglx>
- <20250911090450.32c7cdbe@bootlin.com>
-Date: Thu, 11 Sep 2025 15:52:21 +0200
-Message-ID: <87cy7xrt9m.ffs@tglx>
+	s=arc-20240116; t=1757600179; c=relaxed/simple;
+	bh=78XtLP/BTOocTZuOujCHVMdfqbYWpr3uMcENeX+6wSA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Xt8stPnfLF70/hSqBm4/D8z+hvM2/uRmWARa9C82QRA0CD3IszIes/drw4VfxyNG3fvk4jLQFO9BxrUDUri5DxGT/oxXZ3bBCYbZs8zNDkXCYl1ocVnFHau6A91Xe67xFAw4qLZl3F6SlmoEQzEgPAMuuscZ8DtkhQmvekxI0J4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-52912c1c805so434271137.2;
+        Thu, 11 Sep 2025 07:16:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757600176; x=1758204976;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Gx4aRa/DYxNYojHtYq5HLhlClHIAo1vhCbhvxpbrlU4=;
+        b=fPuGiQNScCtK39hdcywPw5LY388LDBD621Dm0ujnmCV+wYz6dEV9ttaYye+fKfCKnh
+         Se3KYaPRwyq1vXWUo6gusJaGgtN3O/QNw8k6DO8BvCPQ4ej1gFA0O96D0APok65hy0Gf
+         4ooVTf+xo5l+4BTyqaH4WHOMwGDLRzCUcsJf0+IkrTI2qdbFh4ac7DL+CmL/Hc+VEgY/
+         QKAojIT91/67fAaQDALbkOcuKk/3yWxRew9/PrEQzDk5Jc6xpwFD6ixMU8uvZRE8mC/6
+         M6MQW34U05Z5z6b/beKtSRkDcD+eV6LVshzH9FZgJiE67eEzhXAP7kbUsdo8pKJVKYBu
+         YlrA==
+X-Forwarded-Encrypted: i=1; AJvYcCVhoZi/phiOMGcl4qKpnYn2Gcrp8OZrb9Tsl0IO9bc9nlse9mbnjwItU1JvaUm82H+yglo8bXyz6vzohQKSUDsfb7Q=@vger.kernel.org, AJvYcCWxX6bsZaD/lAltwCUBeu3Josvz08cfzdjr7nl1UpXA95KRWljBXWczwDG3JgRNOhp0VwFdxlm3OBw1vrju@vger.kernel.org, AJvYcCX8PvIIsrpO8YbInFkTZjVc9KTS5Uo7v+The0AvIu8jadL/iO+0kr0anlBZt7LgEH/C3yW1fqwvKHP4@vger.kernel.org
+X-Gm-Message-State: AOJu0YxWZchsBgdETqLOJV7Y2lfzaj+gWW0m6WJ3DxQui7/Oyy8Nw2jb
+	cK5wNY4p+ja3UDMGgCdDgJlN0bNPC3gZTYDS43bn6FeFlVfLwwfcrZiWYD48mx9J
+X-Gm-Gg: ASbGncs9kOocOgoOtNaGTltwPeU+kH/AndycrgglFPTNOsrs0Y3P7iK7fZgl8gLrxSz
+	LqX9d9ciBog2Iyxz6Kpvqgkawg/2bwiTZ0BbSH1ubPBajotw4txEpq8L1Zzx3DiGxhf3J45EqEX
+	BpIrtg6vkoCowu2nLstOcehOZEto1vaPaQDhNXz/DeGELoZxxz1mSr2Ck1X3/MG0yPMJpyO8NDy
+	Mp4BCiuePWsoUcZ7R3KCoewK+HT7WSdRIaAc/wlqGcUNEH7/U4WWqXjfqyoVr3yQGxbCwfrJR+V
+	o1VN7A9EG6U39sWDdkRMVOnwdd2pZ5j5FtwoMR1CKlD6YQLWejAe7EknKMJW0LV37Boc6ZN2O8m
+	fpWx4euWCgz3FZfOCYzM9j6Fbved+erSQOdsiChzOzc22fwx4Z3//JqwvfJid/AXLXSx58Sk=
+X-Google-Smtp-Source: AGHT+IEgRN8yI9HrUXhgMbtS4cxoahhDSVs0IISa2glL2tFdMOyWevPCJDT9gFlfHNLNyEDpRj8B+A==
+X-Received: by 2002:a05:6102:c8c:b0:534:cfe0:f854 with SMTP id ada2fe7eead31-53d22e1e7d4mr6760746137.29.1757600175699;
+        Thu, 11 Sep 2025 07:16:15 -0700 (PDT)
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com. [209.85.217.51])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5537062ca23sm335826137.6.2025.09.11.07.16.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Sep 2025 07:16:15 -0700 (PDT)
+Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-52912c1c805so434255137.2;
+        Thu, 11 Sep 2025 07:16:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU1ourneaNmjkgdibOgUGi+ZVX7BFZDm60iAa+VHCOUwO9fCHM3ua19PkFEGmfZcYc4fbXkJvvsSFxU@vger.kernel.org, AJvYcCWnUCLp84Uf3+i5i+SJdRcnzAYLg/7WoNCJwDiPgdEuqwuHKOg9CeCPuJx7FA0UOIU9VSUmN9KBh9T4VJ1J2IxQBuc=@vger.kernel.org, AJvYcCXHNE3U5aBwGp5uIKNXYJ8EXMzvaHAtj+osT+/QO61t8GWV33zJPk/aq/bsZ6/fBh0MWZ1Cjk9S62CmJyyq@vger.kernel.org
+X-Received: by 2002:a05:6102:f83:b0:524:b9b7:af01 with SMTP id
+ ada2fe7eead31-53d1c3d6e5cmr6980412137.10.1757600174723; Thu, 11 Sep 2025
+ 07:16:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20250814153456.268208-1-john.madieu.xa@bp.renesas.com>
+In-Reply-To: <20250814153456.268208-1-john.madieu.xa@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 11 Sep 2025 16:16:03 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVU6=sLCgAe6pGjdt8wpq6yvx7e1bEYPO5TPQwnHyziVw@mail.gmail.com>
+X-Gm-Features: AS18NWAegn5j-m-Dd9bPo2kyKUVHNv4W-i4tNuR2hLzsoad5LDvMrWiiXXRuU1I
+Message-ID: <CAMuHMdVU6=sLCgAe6pGjdt8wpq6yvx7e1bEYPO5TPQwnHyziVw@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r9a09g047: enable tx coe support
+To: John Madieu <john.madieu.xa@bp.renesas.com>
+Cc: magnus.damm@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	biju.das.jz@bp.renesas.com, john.madieu@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Sep 11 2025 at 09:04, Herve Codina wrote:
-> On Tue, 09 Sep 2025 22:54:41 +0200
-> Thomas Gleixner <tglx@linutronix.de> wrote:
+Hi John,
+
+Thanks for your patch!
+
+On Thu, 14 Aug 2025 at 17:35, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
+> The GBETH IPs found on RZ/G3E SoC family are compatible with the stmmac driver.
+> They have a MAC HW feature register used by this driver to enable respective
+> features. While the register advertises Tx coe support, it was not enabled by
+> the driver due to the 'snps,force_thresh_dma_mode' dtsi property.
 >
->> On Tue, Sep 09 2025 at 22:51, Thomas Gleixner wrote:
->> > On Tue, Sep 09 2025 at 14:00, Herve Codina wrote:  
->> >>   Patch 5 (new in v2)
->> >>    - Convert irqchip/ls-extirq to use for_each_of_imap_item
->> >>
->> >>   Patch 6 (new in v2)
->> >>    - Convert irqchip/renesas-rza1 to use for_each_of_imap_item  
->> >
->> > How are those two patches related to adding GPIO support?
->> >
->> > AFAICT, they are completely unrelated and just randomly sprinkled into
->> > this series, but I might be missing something.  
->> 
->> Ah. I missed that this iterator got introduced in this series. Did you
->> check whether that creates any conflicts against pending irqchip
->> patches?
->> 
+> Switch from 'snps,force_thresh_dma_mode' to 'snps,force_sf_dma_mode' to enable
+> Tx checksum offload support on both GBETH IPs. While at it, also switch from
+> 'snps,fixed-busrt' to 'nsps,mixed-burst' and remove 'snps,no-pbl-x8' for
+
+burst ... snps
+
+> optimal DMA configuration. This improvement results in a measurable TCP Tx
+> performance gains, increasing throughput by 20Mbps.
 >
-> Indeed, I have a conflict in my patch 6 with 40c26230a1bf ("irqchip: Use int
-> type to store negative error codes").
->
-> I can rebase my next iteration on top of 40c26230a1bf and mention this commit
-> in my next iteration cover letter but an immutable tag and referencing this
-> tag in the cover letter should be better.
+> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 
-No. Don't do that.
+LGTM, so
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.18, with the typos fixed.
 
-> What is the best approach?
+Gr{oetje,eeting}s,
 
-Just base it on upstream and mentioning the conflict in the cover
-letter. For actual merging, if it's ready before the merge window, we
-can sort it out by:
+                        Geert
 
-  1) You putting patch (3-6) in front of the queue
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-  2) Me picking up these 4 patches into a separate branch based on rc1
-     or later, which gets tagged and is consumable by the GPIO
-     maintainers.
-
-     Then I can merge that branch into irq/drivers and resolve the
-     conflict, which is trivial enough
-
-Alternatively GPIO folks pick up the whole lot and sort the conflict out
-with -next and Linus themself. No real preference from my side.
-
-Thanks,
-
-        tglx
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
