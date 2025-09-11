@@ -1,121 +1,113 @@
-Return-Path: <linux-renesas-soc+bounces-21787-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21788-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5F31B53897
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Sep 2025 18:03:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78435B53A63
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Sep 2025 19:28:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4986F7BE1BD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Sep 2025 15:58:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B52191BC46BE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Sep 2025 17:29:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C65083568FE;
-	Thu, 11 Sep 2025 15:58:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A0BF34AB1F;
+	Thu, 11 Sep 2025 17:28:54 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA61C3568EE;
-	Thu, 11 Sep 2025 15:58:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 767A3340D8C
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Sep 2025 17:28:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757606283; cv=none; b=MxpPvHeQ9nghL8BMXdaSCtSP5Dz3AUgCmG8kMLrLxGLUcH7EhOthsH9bCbn6ybxjQGBfuIypVksP1queSDR+Qrh2Vwu8CPnIMgtccLJ5aCdekB2MvS1ivvTNTi6yNITNXybaV3OPgYn45gm3ZE36zvjja7QBX7ZxW+MhTYD7z0A=
+	t=1757611734; cv=none; b=T7Qid4ufqDx1SinI2hGFcGVw+g8NN4YlVHHI74mS6gWQGi6p9Zqz6jgdhG9ir6dX/aetZWNfRW5X8nyZ5ppor7s/XY82nB5l1MRL5911nxvf3jZ38wy5meL98KPDmZDx7dBDNIneA8iblMXHDSf7EiLUOsnbIk87yHjbCiN2C38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757606283; c=relaxed/simple;
-	bh=evudM0Uyjx2S8LqxgXEnatYJA++HlRHsVUO1LLrdNnc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZbvvddZTr60qvgcI787P0JajAgODN+9d6Ziw0ezKdj2gQFDZA0bSLRdr1Ns8mB49brS3T3WQrfEb//tYIpNLaE/DtY8fF+yVawSn1n/iQkrZB90mYuEFDLN6XYzOyYoVMm3p//VTbBHqk+/4Uyh8xQGlbIx/tnh9pi91zPLpS5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB423C4CEF0;
-	Thu, 11 Sep 2025 15:58:01 +0000 (UTC)
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] clk: renesas: r9a09g05[67]: Reduce differences
-Date: Thu, 11 Sep 2025 17:57:58 +0200
-Message-ID: <2246d2263e8a24d1aaf653db2004cbf2263c9048.1757606097.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1757611734; c=relaxed/simple;
+	bh=BdWBmM3pGAEjuR8ywljtmJOivr5eFXGIIviSTZvwLdY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BGxeQ2Dw7GG8uKn1qLg2tLgxxRJXfc+VycWjAzGK3ZibG+HGNvo/EdANU6WT0XSfV1GeiIpHg+ben44vfbQMOb4gvX3cXHmKPSbpL4Ml2KfKXTI6Wajgq33TAo0EZ3y4upJtkzmjTlh1UMC4khoLODs4fHq//Kz1cm1gmKjcLwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-544ba00733aso647881e0c.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Sep 2025 10:28:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757611730; x=1758216530;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nNwKnllKcgNmSxozD/+n9dLn0I91saVxOj9Y59G/HOU=;
+        b=eFsl3CTgODDPhNB4OCscU3pakvAzFAWAw35CSFR9qW8HT/8KnUUhlAL/TBbL3XnI1S
+         i4a9HLtq79WnX+UqyrRULTxU8SHx9qs+qsmNsPXz9ZAVql8kaBPRAqAtAxlD42wNGejg
+         vDQw7/EyPj9sb8lV2TG5KY/z5qp+knUDEC54+YcCfed+zso+v79H+Z5sH1uZbNQwfWpw
+         KqxPDCz2tFqyFSSDrSjtz9HHOWXH4/+GituEYjAi6n7ivxanVQHKjwr7WZ6/Xumry4s8
+         Q9PlOIP4fC2ZtLiaH1ZsB1xfOyH/e/OysbmYZ3PGmyMZQUDHOmQHQI9jzXdNPjRyCWXm
+         UpXA==
+X-Forwarded-Encrypted: i=1; AJvYcCVOu5jnSGV1deYp09kGKWDQjtOWqmqwVdIIcXaub2yArJpYQGz6yFw4SsEQf9z+ATGuGw19Qwo3dzuTnwhe2CkbuA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGMkCvGC6Qqj4+eH6wZw/s9r4KjMrs00gdE6EIzeK8lcDd4oTI
+	r/ejC2HWZOYJJGh7Sz1/3+FpoKePNWM7iqKV56Vi9EpxNhuwneqNBIk4DyuEsje6
+X-Gm-Gg: ASbGncvn1MXl2RQDDNiDwHVdTrvdptUb4vvQZbg2TVbiqwUEiDXocsdia0wV4FaoIpp
+	6NNWO3nJvwLSR5H5zHnb4trgu3iiEG26yRaaW7Jalto3z1ap+e1gDEaRKRXa5/QFPlL56RF20sO
+	zIUPbNzf2i7ufGOOwAuKBnzD7PbSLQK48YWdYnJn3zUO4s0J5HFSU/vXq9p8I72dNP00yH1h5qU
+	+erPrlwBgd5Id7xYlpUVcPDB48IjNfW7svGOX/9OxLMUVqnF4EmcKbFJKLsHfJj/tVWXviIDZw5
+	A1uRiCngrkdLDDKkPMyHB3SpFZmedur1EyAjytUw8M7F4c9NA2PIUk2i8Muv5FWXn4W06/DCBm9
+	sLiNqY+xsgyCi6hwcIv7t7BYUYcrdhA9ZU8kMxi+7BIhOPG4now1N78jjTG28cjTNc/MU8t7/aQ
+	oJ2Jw2zg==
+X-Google-Smtp-Source: AGHT+IHOohUS+4UqC38rnRtJBnNm0DSXWZd17RjMEEMxPqZU821g4L19ISUNDHPIkfK6uUcZ+ZyAmQ==
+X-Received: by 2002:a05:6122:3284:b0:530:5308:42ec with SMTP id 71dfb90a1353d-54a16ba4ad5mr75684e0c.8.1757611730086;
+        Thu, 11 Sep 2025 10:28:50 -0700 (PDT)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-54a0d1bd094sm378513e0c.1.2025.09.11.10.28.49
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Sep 2025 10:28:49 -0700 (PDT)
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-89018ec3597so572966241.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Sep 2025 10:28:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXxfwt/23EzOuE7SNHVx2xqiHWZStoV7qunN1tfnp+5gTJ/AFNT/IXMd+goHwk8sNXkThKUOlZ9Nc86U+uKRZh+Qg==@vger.kernel.org
+X-Received: by 2002:a05:6102:41a2:b0:4fb:fc47:e8c2 with SMTP id
+ ada2fe7eead31-55607e2ba72mr193657137.9.1757611729558; Thu, 11 Sep 2025
+ 10:28:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250907225338.426253-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20250907225338.426253-1-marek.vasut+renesas@mailbox.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 11 Sep 2025 19:28:38 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUHwp7EiVw97CFZG0zmcK3opAgO-YGcdSGRaF3tGwgLcw@mail.gmail.com>
+X-Gm-Features: AS18NWCqPuEA5ue65D37BzPjM6jGqyVU7S3WL9hosSlR-Z0YeWoG17bjv1N9sFE
+Message-ID: <CAMuHMdUHwp7EiVw97CFZG0zmcK3opAgO-YGcdSGRaF3tGwgLcw@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r8a779g3: Rework fan hwmon comment
+ on Retronix R-Car V4H Sparrow Hawk fan DTO
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-The clock drivers for RZ/V2H and RZ/V2N are very similar.
-Reduce the differences between them by:
-  - Moving and reformatting the PLLCM33_GEAR clock definitions,
-  - Replacing spaces by TABs.
+On Mon, 8 Sept 2025 at 00:53, Marek Vasut
+<marek.vasut+renesas@mailbox.org> wrote:
+> Reword fan DT overlay hwmon comment to accurately locate the
+> fan control sysfs hwmon node on Retronix R-Car V4H Sparrow Hawk.
+> No functional change.
+>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-To be qeueued in renesas-clk-for-v6.18.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.18.
 
- drivers/clk/renesas/r9a09g056-cpg.c | 8 ++++----
- drivers/clk/renesas/r9a09g057-cpg.c | 3 +--
- 2 files changed, 5 insertions(+), 6 deletions(-)
+Gr{oetje,eeting}s,
 
-diff --git a/drivers/clk/renesas/r9a09g056-cpg.c b/drivers/clk/renesas/r9a09g056-cpg.c
-index f0a8c5073fa6a48f..55f056359dd77762 100644
---- a/drivers/clk/renesas/r9a09g056-cpg.c
-+++ b/drivers/clk/renesas/r9a09g056-cpg.c
-@@ -36,10 +36,10 @@ enum clk_ids {
- 	CLK_PLLCM33_DIV4,
- 	CLK_PLLCM33_DIV5,
- 	CLK_PLLCM33_DIV16,
-+	CLK_PLLCM33_GEAR,
- 	CLK_SMUX2_XSPI_CLK0,
- 	CLK_SMUX2_XSPI_CLK1,
- 	CLK_PLLCM33_XSPI,
--	CLK_PLLCM33_GEAR,
- 	CLK_PLLCLN_DIV2,
- 	CLK_PLLCLN_DIV8,
- 	CLK_PLLCLN_DIV16,
-@@ -120,11 +120,11 @@ static const struct cpg_core_clk r9a09g056_core_clks[] __initconst = {
- 	DEF_FIXED(".pllcm33_div4", CLK_PLLCM33_DIV4, CLK_PLLCM33, 1, 4),
- 	DEF_FIXED(".pllcm33_div5", CLK_PLLCM33_DIV5, CLK_PLLCM33, 1, 5),
- 	DEF_FIXED(".pllcm33_div16", CLK_PLLCM33_DIV16, CLK_PLLCM33, 1, 16),
-+	DEF_DDIV(".pllcm33_gear", CLK_PLLCM33_GEAR, CLK_PLLCM33_DIV4, CDDIV0_DIVCTL1, dtable_2_64),
- 	DEF_SMUX(".smux2_xspi_clk0", CLK_SMUX2_XSPI_CLK0, SSEL1_SELCTL2, smux2_xspi_clk0),
- 	DEF_SMUX(".smux2_xspi_clk1", CLK_SMUX2_XSPI_CLK1, SSEL1_SELCTL3, smux2_xspi_clk1),
- 	DEF_CSDIV(".pllcm33_xspi", CLK_PLLCM33_XSPI, CLK_SMUX2_XSPI_CLK1, CSDIV0_DIVCTL3,
- 		  dtable_2_16),
--	DEF_DDIV(".pllcm33_gear", CLK_PLLCM33_GEAR, CLK_PLLCM33_DIV4, CDDIV0_DIVCTL1, dtable_2_64),
- 
- 	DEF_FIXED(".pllcln_div2", CLK_PLLCLN_DIV2, CLK_PLLCLN, 1, 2),
- 	DEF_FIXED(".pllcln_div8", CLK_PLLCLN_DIV8, CLK_PLLCLN, 1, 8),
-@@ -325,8 +325,8 @@ static const struct rzv2h_reset r9a09g056_resets[] __initconst = {
- 	DEF_RST(9, 14, 4, 15),		/* RIIC_6_MRST */
- 	DEF_RST(9, 15, 4, 16),		/* RIIC_7_MRST */
- 	DEF_RST(10, 0, 4, 17),		/* RIIC_8_MRST */
--	DEF_RST(10, 3, 4, 20),          /* SPI_HRESETN */
--	DEF_RST(10, 4, 4, 21),          /* SPI_ARESETN */
-+	DEF_RST(10, 3, 4, 20),		/* SPI_HRESETN */
-+	DEF_RST(10, 4, 4, 21),		/* SPI_ARESETN */
- 	DEF_RST(10, 7, 4, 24),		/* SDHI_0_IXRST */
- 	DEF_RST(10, 8, 4, 25),		/* SDHI_1_IXRST */
- 	DEF_RST(10, 9, 4, 26),		/* SDHI_2_IXRST */
-diff --git a/drivers/clk/renesas/r9a09g057-cpg.c b/drivers/clk/renesas/r9a09g057-cpg.c
-index e84fcd5cf648c57a..b9f5356e3e3eaaf0 100644
---- a/drivers/clk/renesas/r9a09g057-cpg.c
-+++ b/drivers/clk/renesas/r9a09g057-cpg.c
-@@ -171,9 +171,8 @@ static const struct cpg_core_clk r9a09g057_core_clks[] __initconst = {
- 	DEF_FIXED(".pllcm33_div3", CLK_PLLCM33_DIV3, CLK_PLLCM33, 1, 3),
- 	DEF_FIXED(".pllcm33_div4", CLK_PLLCM33_DIV4, CLK_PLLCM33, 1, 4),
- 	DEF_FIXED(".pllcm33_div5", CLK_PLLCM33_DIV5, CLK_PLLCM33, 1, 5),
--	DEF_DDIV(".pllcm33_gear", CLK_PLLCM33_GEAR,
--		 CLK_PLLCM33_DIV4, CDDIV0_DIVCTL1, dtable_2_64),
- 	DEF_FIXED(".pllcm33_div16", CLK_PLLCM33_DIV16, CLK_PLLCM33, 1, 16),
-+	DEF_DDIV(".pllcm33_gear", CLK_PLLCM33_GEAR, CLK_PLLCM33_DIV4, CDDIV0_DIVCTL1, dtable_2_64),
- 	DEF_SMUX(".smux2_xspi_clk0", CLK_SMUX2_XSPI_CLK0, SSEL1_SELCTL2, smux2_xspi_clk0),
- 	DEF_SMUX(".smux2_xspi_clk1", CLK_SMUX2_XSPI_CLK1, SSEL1_SELCTL3, smux2_xspi_clk1),
- 	DEF_CSDIV(".pllcm33_xspi", CLK_PLLCM33_XSPI, CLK_SMUX2_XSPI_CLK1, CSDIV0_DIVCTL3,
+                        Geert
+
 -- 
-2.43.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
