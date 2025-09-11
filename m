@@ -1,64 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-21751-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21752-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4923B52985
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Sep 2025 09:03:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 556E7B5298A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Sep 2025 09:05:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A365656274F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Sep 2025 07:03:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0FC81A00C1D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Sep 2025 07:05:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4D27329F0F;
-	Thu, 11 Sep 2025 07:03:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5D30265614;
+	Thu, 11 Sep 2025 07:05:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="NrC/qmfr"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="R81DX7l4"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 670A8329F2D
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Sep 2025 07:03:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E300226D1F;
+	Thu, 11 Sep 2025 07:05:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757574204; cv=none; b=q2zBTXgV75mtOLEWh0xWVrT92V280B9JWSeDWzspWr3ets4d0vY5yOSov7rg2QzkWur3IH8ZvEEAJuvusGssKmFjBYepDcdO+j2faWXPvgv7XMkgx1gNrdjqy79L5wITkexDkOW7URG/ombQ0Il5/32oai4/CBFS+5TfeEWGBMo=
+	t=1757574348; cv=none; b=G+YZiZLpzIwcAiAgqDNG+JkZai6mFT3KyEwyq5TnaFw78Wjpr+oHVBM1PVo22XjJGngJBrTRBNOMyt67wrhz9f1E3yppmb2jkZL3iTB4C6Bcbjv3jQpnluCmbf/cc5DCxx78Q2bJVR6AGHZGHSyXe1PRynW+x63WrYE7HDHx3bk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757574204; c=relaxed/simple;
-	bh=D0AQll4YNpo4Aw6s5Jkuob5l/K0NCNf16jd3ETY+tQk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gh0uMveakUFEHGni0+grAAtenfor+YymzyvWFXhZhwFtj3BhCAgsxU8VIv9z6/J3WSgvTh2qy2hVo6ZZlTGbEc+KsDOzwC95eKIML/41oinWfPSGOnM4totznxhsGCV8TbNpNWbXW7kOaEA8JephzBAnS6fvYxq2+j5AsNes1sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=NrC/qmfr; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-type:content-transfer-encoding; s=k1; bh=g
-	m0BxvLWaTi74FC+aSojSvZF2Kqn0p/GrNAhDhRzchw=; b=NrC/qmfrpfYmUrE0b
-	U/JSUpi9qSKBg8TVIg/bJZvYmrbZphGK3kAR5GA+XCJDz+cHroEW6JGxP9VR4u4b
-	baj+6Hp71DwoicwqSowNpgVSaA0zN0kB+aDbxajQXkyOCD5q46sbeAX2MhfN0tEA
-	5IJegKum1Q1PPfYh2j3O7WTO9ax+w9lzX8+aD9PaURopNREZs0avX5eRL+RZE+IY
-	EGRbsvAHhozx5fX6T/BTr4LA1j9sLrmuIy9KB39wlA47GLaXPYAhdC9FVB176LFE
-	nm/rhKjfWEZ1d8QuUjfIG4XL6UNli9rTJYmltji9gfr1tUpqqS4Z0XDGgbw2LV3H
-	38PLA==
-Received: (qmail 878067 invoked from network); 11 Sep 2025 09:03:12 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Sep 2025 09:03:12 +0200
-X-UD-Smtp-Session: l3s3148p1@9dJmIYE+FqUgAwDPXyerAKQ7QDbxBzog
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Lukasz Luba <lukasz.luba@arm.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-pm@vger.kernel.org
-Subject: [PATCH] thermal/drivers/rcar_gen3: fix mapping SoCs to generic Gen4 entry
-Date: Thu, 11 Sep 2025 09:00:13 +0200
-Message-ID: <20250911070254.2214-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
+	s=arc-20240116; t=1757574348; c=relaxed/simple;
+	bh=yyiUFUCUBmqE1yB6VFtqNmcfwBmBV2+S6J/sE/W3Yq4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ezXL84eHjJcnH5ERw5IXfqOiqSNUOl2HZDRolLrcFez30kdIliD38nq4ODwc6EoGgsquzuC8CSOAJkDtiATN0qQpHlQtV0rEgX/uTKCTHmuUWB57JsRfx+CDS9hRmcpM1BXo4bL4/G0C6Zv02QQdi8dChlaOlJdXp31owwosm98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=R81DX7l4; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 7394CC6B3AB;
+	Thu, 11 Sep 2025 07:05:27 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 29A29606BB;
+	Thu, 11 Sep 2025 07:05:43 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D42F0102F28D9;
+	Thu, 11 Sep 2025 09:05:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1757574342; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=NVEKI7kAnykMj9HJvXc3qX3+FSJ439W0rcfUBK46rSw=;
+	b=R81DX7l4+R9LcCwr7NzF9EUT276PBC5ktIypbV1Fuac8PHzflskebnl//yUwDRQIcH/klV
+	auTbKgwMC3TCiRzV0GylY3Q4GdhXGR19/JVFLKHcWyjEJqNLzbEOM60/c+z2EOL7if4k6H
+	BQT8B8lVwAXjHqMrsBi6Js48w5J+byicIuk7va5tDOcoo/PCs9FSkCEAsvSWxJHbfaEtV3
+	LVK84lT2lghh1Q8Fw2ipSmW3NPRHndCeso4AWmXR8jNudsf17jk5saTmU0qLu7XvrgfjEZ
+	qmI67rmjvsrzXvtGvfHS6H7xqd3wifwYho9+pqXxcAg4XxduYfsJhcld7zSN+Q==
+Date: Thu, 11 Sep 2025 09:04:50 +0200
+From: Herve Codina <herve.codina@bootlin.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, Hoan Tran
+ <hoan@os.amperecomputing.com>, Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Magnus
+ Damm <magnus.damm@gmail.com>, Saravana Kannan <saravanak@google.com>, Serge
+ Semin <fancer.lancer@gmail.com>, Phil Edworthy <phil.edworthy@renesas.com>,
+ linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Pascal
+ Eberhard <pascal.eberhard@se.com>, Miquel Raynal
+ <miquel.raynal@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v2 0/8] gpio: renesas: Add support for GPIO and related
+ interrupts in RZ/N1 SoC
+Message-ID: <20250911090450.32c7cdbe@bootlin.com>
+In-Reply-To: <87segvtkha.ffs@tglx>
+References: <20250909120041.154459-1-herve.codina@bootlin.com>
+	<87y0qntkmy.ffs@tglx>
+	<87segvtkha.ffs@tglx>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -67,78 +80,40 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-S4 was added first so it was assumed to be the blueprint for R-Car Gen4.
-It turned out now, that S4 is a special mix between Gen3 and Gen4. V4H
-and V4M are the similar ones as confirmed by HW engineers.
+Hi Thomas,
 
-So, rename the S4 entry to be specific instead of generic. Rename the
-V4H entry to be the new generic one, so V4M will use it as well now.
+On Tue, 09 Sep 2025 22:54:41 +0200
+Thomas Gleixner <tglx@linutronix.de> wrote:
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Changes since RFC:
-* added tags from Niklas and Geert (thanks!)
-* dropped patch 2/2 because it needs more internal discussion and may be
-  superfluous in the end. This patch here seems to have consensus, though.
+> On Tue, Sep 09 2025 at 22:51, Thomas Gleixner wrote:
+> > On Tue, Sep 09 2025 at 14:00, Herve Codina wrote:  
+> >>   Patch 5 (new in v2)
+> >>    - Convert irqchip/ls-extirq to use for_each_of_imap_item
+> >>
+> >>   Patch 6 (new in v2)
+> >>    - Convert irqchip/renesas-rza1 to use for_each_of_imap_item  
+> >
+> > How are those two patches related to adding GPIO support?
+> >
+> > AFAICT, they are completely unrelated and just randomly sprinkled into
+> > this series, but I might be missing something.  
+> 
+> Ah. I missed that this iterator got introduced in this series. Did you
+> check whether that creates any conflicts against pending irqchip
+> patches?
+> 
 
- drivers/thermal/renesas/rcar_gen3_thermal.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Indeed, I have a conflict in my patch 6 with 40c26230a1bf ("irqchip: Use int
+type to store negative error codes").
 
-diff --git a/drivers/thermal/renesas/rcar_gen3_thermal.c b/drivers/thermal/renesas/rcar_gen3_thermal.c
-index 01858e72f4e0..07b53d4f2683 100644
---- a/drivers/thermal/renesas/rcar_gen3_thermal.c
-+++ b/drivers/thermal/renesas/rcar_gen3_thermal.c
-@@ -371,7 +371,7 @@ static const struct rcar_gen3_thermal_fuse_default rcar_gen3_thermal_fuse_defaul
- 	},
- };
- 
--static const struct rcar_gen3_thermal_fuse_default rcar_gen3_thermal_fuse_default_info_v4h = {
-+static const struct rcar_gen3_thermal_fuse_default rcar_gen3_thermal_fuse_default_info_gen4 = {
- 	.ptat = { 3274, 2164, 985 },
- 	.thcodes = { /* All four THS units share the same trimming */
- 		{ 3218, 2617, 1980 },
-@@ -397,7 +397,7 @@ static const struct rcar_thermal_info rcar_gen3_thermal_info = {
- 	.fuse_defaults = &rcar_gen3_thermal_fuse_default_info_gen3,
- };
- 
--static const struct rcar_thermal_info rcar_gen4_thermal_info = {
-+static const struct rcar_thermal_info rcar_s4_thermal_info = {
- 	.scale = 167,
- 	.adj_below = -41,
- 	.adj_above = 126,
-@@ -405,12 +405,12 @@ static const struct rcar_thermal_info rcar_gen4_thermal_info = {
- 	.fuse_defaults = &rcar_gen3_thermal_fuse_default_info_gen3,
- };
- 
--static const struct rcar_thermal_info rcar_v4h_thermal_info = {
-+static const struct rcar_thermal_info rcar_gen4_thermal_info = {
- 	.scale = 167,
- 	.adj_below = -41,
- 	.adj_above = 126,
- 	.fuses = &rcar_gen3_thermal_fuse_info_gen4,
--	.fuse_defaults = &rcar_gen3_thermal_fuse_default_info_v4h,
-+	.fuse_defaults = &rcar_gen3_thermal_fuse_default_info_gen4,
- };
- 
- static const struct of_device_id rcar_gen3_thermal_dt_ids[] = {
-@@ -452,11 +452,11 @@ static const struct of_device_id rcar_gen3_thermal_dt_ids[] = {
- 	},
- 	{
- 		.compatible = "renesas,r8a779f0-thermal",
--		.data = &rcar_gen4_thermal_info,
-+		.data = &rcar_s4_thermal_info,
- 	},
- 	{
- 		.compatible = "renesas,r8a779g0-thermal",
--		.data = &rcar_v4h_thermal_info,
-+		.data = &rcar_gen4_thermal_info,
- 	},
- 	{
- 		.compatible = "renesas,r8a779h0-thermal",
--- 
-2.47.2
+I can rebase my next iteration on top of 40c26230a1bf and mention this commit
+in my next iteration cover letter but an immutable tag and referencing this
+tag in the cover letter should be better.
 
+What is the best approach?
+
+Best regards,
+Hervé
 
