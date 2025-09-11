@@ -1,63 +1,50 @@
-Return-Path: <linux-renesas-soc+bounces-21749-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21750-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86003B52363
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 23:19:39 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 248D4B52585
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Sep 2025 03:10:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ADCA41C20B97
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Sep 2025 21:20:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C2A921C20EC0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Sep 2025 01:10:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EC2D30F7F5;
-	Wed, 10 Sep 2025 21:19:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 882A61EE7D5;
+	Thu, 11 Sep 2025 01:10:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="LgEX+2rZ"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YQZra/eV"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE1930F7E9
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Sep 2025 21:19:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D6F31E8331;
+	Thu, 11 Sep 2025 01:10:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757539175; cv=none; b=rItrVZY2w0Tals4fVM+o2UFhOJFtVQdA1fVfAErma9z5KclyqEIxcgj+Lo4MMvwHJ3NLAAkntaZI/J0yulta2rAMUGogAbtfSGdug5eWQUV/i8f+DAPxz93IoDlHO0ZXMnSmonlHzyxNKB1t9dKIv5gBEpq6DPzKtOipkwrgzFg=
+	t=1757553007; cv=none; b=Y+zBqZ3PgiCLBlTD5rnf4sQoIZxCN+LvSlY9uQZDVTOi3eKyHicn47lcckQWI1tQI/gu4bGmiRZJzGmyJcA+9yEEUE6M+3xnUbRl+NqJU7cKEzSbG5+vQkSwLU82F6sWPvSlENuX8rbyJeT+fvhxUPF2QbKQW3bxq+zDFqaazUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757539175; c=relaxed/simple;
-	bh=ievPIUbEBHGTMNrTQgN5r1NbbQp/YzCcsVvk89v/Dpg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=snJulGwSKgFE05paHhGF3ShQLug8UOy6H3GPuMc1UQ+gS4iCMS6Bo8rSzNuRhaccotn3/RnBGXpKU78YN1XATkz6QItWzNyvJhF8gkWl/GMNnIa47XW9IDNv021JyxZ4D05XZlGXWrCHuO8vNtpmr1Jn7qY43k4rPYvUAJIC9xU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=LgEX+2rZ; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=VMVAEWbpoBa7q4
-	s9vXhrFSHIa7ODzgzTMPc0MMsjIDU=; b=LgEX+2rZmulH5hSbSxUko0z6hafofC
-	n9OSLR+RcY7e48yA3YEEnWDbkKCq+g8XbwVr5qifbirpel7UOSrDRidWshtxXEgQ
-	6RIcZwRW2SWORcNlwJEkTb0b+z+tUuEaIY3gO7dbmmpfZEPZzRS/GXzGkVQDrCs/
-	rjhdhEPBi0oNfckOTBonk0Zkb73IIt8QYFsDPTzK2PBkEXXkxtMqp3gqfLXJYrT3
-	LdjAcClozCZcvGPKGxvLtOAbuPfmbcs0t2lsv0VKOdFtZbuseMkuOJ5cn4H2j7VT
-	Wa41iq+Ka+tK4iCXMfbHfvQrbnQvi/VrWIWAY6Efm/Tl5hQtNcUWryxQ==
-Received: (qmail 744484 invoked from network); 10 Sep 2025 23:19:28 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Sep 2025 23:19:28 +0200
-X-UD-Smtp-Session: l3s3148p1@ME/F+Xg+FsYujnuV
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-watchdog@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: [RFC PATCH] dt-bindings: watchdog: Add Renesas WWDT
-Date: Wed, 10 Sep 2025 23:06:46 +0200
-Message-ID: <20250910210646.2443-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
+	s=arc-20240116; t=1757553007; c=relaxed/simple;
+	bh=UJA9kHmEb7gX4ePCVJq0ikYNPPKrSZSwiQk2jS7FKd8=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=U2pMUVH2m3hF/C2P95ak66zXyyvb6bwjW1EDt4enk0iUxp7YuuirXQ8IPMZBph1x+9rqOuahLSbIGjkGBoy3Jqj49M4tMKb5yTMHWJykzChITitDZuDBc5AZYBHga2Z+FHrL9Mgl0yIYLCVRo5GwKDONO9yrVSAQXEvS6Jbe2Dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YQZra/eV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6B0EC4CEEB;
+	Thu, 11 Sep 2025 01:10:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757553006;
+	bh=UJA9kHmEb7gX4ePCVJq0ikYNPPKrSZSwiQk2jS7FKd8=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=YQZra/eVckrApaTOSwd7l1745QYzD00PHf6ebLDqRDKaMuXERtIHgzeKE/NqzkC3R
+	 jX0dNCxSKNjPtua3sAQZ1+EtJptvROlgMmFqaBoeDVKmDtVqdU4eUzBrn8uFN/Ce8u
+	 +wKLCOXiligz6dHevc2IQPDOuFfdIVuMd3S2G88WTSucq9zfAi3xZisg+GsPVuUMfA
+	 fh6ikyDU5RPBswXAahk0DyOUDneboZFZaxkgtlyb3IyVnAi5J5lx1hKZ+FuVY6eSU0
+	 HpO4x81Qt8jQTZloS0jPPh+FHZHVQhjLRScS1wchLCSSTC+eJGLHzIMQSx90KP1T1n
+	 OI+23XZpT5r6A==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EAEA4383BF69;
+	Thu, 11 Sep 2025 01:10:10 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -65,121 +52,42 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [net-next] net: sh_eth: Disable WoL if system can not suspend
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <175755300958.1617124.14583721373188480783.git-patchwork-notify@kernel.org>
+Date: Thu, 11 Sep 2025 01:10:09 +0000
+References: <20250909085849.3808169-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20250909085849.3808169-1-niklas.soderlund+renesas@ragnatech.se>
+To: =?utf-8?q?Niklas_S=C3=B6derlund_=3Cniklas=2Esoderlund+renesas=40ragnatech=2E?=@codeaurora.org,
+	=?utf-8?q?se=3E?=@codeaurora.org
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
 
-Describe the Windowed Watchdog timer found on Renesas R-Car SoCs from
-late Gen3 onwards.
+Hello:
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-I send out these bindings as RFC without the driver, so we can discuss
-the peculiar items while I finetune the driver:
+On Tue,  9 Sep 2025 10:58:49 +0200 you wrote:
+> The MAC can't facilitate WoL if the system can't go to sleep. Gate the
+> WoL support callbacks in ethtool at compile time using CONFIG_PM_SLEEP.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+> Hi,
+> 
+> [...]
 
-a) the two clocks have various names in the Gen3/4/5 datasheets. I opted
-   to use the Gen5 naming "bus" + "cnt" because they are easiest to
-   understand
+Here is the summary with links:
+  - [net-next] net: sh_eth: Disable WoL if system can not suspend
+    https://git.kernel.org/netdev/net-next/c/9c02ea544ac3
 
-b) the device has two resets, one for each circuit driven by the two
-   clocks above. Thus, I decided to name the resets the same as the
-   clocks.
-
-The bindings pass dt_binding_check. But I am still not very used to
-write bindings.
-
- .../bindings/watchdog/renesas,wwdt.yaml       | 83 +++++++++++++++++++
- 1 file changed, 83 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/watchdog/renesas,wwdt.yaml
-
-diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wwdt.yaml b/Documentation/devicetree/bindings/watchdog/renesas,wwdt.yaml
-new file mode 100644
-index 000000000000..496ba4297c84
---- /dev/null
-+++ b/Documentation/devicetree/bindings/watchdog/renesas,wwdt.yaml
-@@ -0,0 +1,83 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/watchdog/renesas,wwdt.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas Windowed Watchdog Timer (WWDT) Controller
-+
-+maintainers:
-+  - Wolfram Sang <wsa+renesas@sang-engineering.com>
-+
-+properties:
-+  compatible:
-+    items:
-+      - const: renesas,r8a779g0-wwdt  # V4H
-+      - const: renesas,rcar-gen4-wwdt
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    items:
-+      - description: Pretimeout, 75% of overflow reached
-+      - description: Error occurred
-+
-+  interrupt-names:
-+    items:
-+      - const: pretimeout
-+      - const: error
-+
-+  clocks:
-+    items:
-+      - description: Bus clock
-+      - description: Counting clock
-+
-+  clock-names:
-+    items:
-+      - const: bus
-+      - const: cnt
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  resets:
-+    items:
-+      - description: Reset circuitry driven by bus clock
-+      - description: Reset circuitry driven by counting clock
-+
-+  reset-names:
-+    items:
-+      - const: bus
-+      - const: cnt
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+
-+allOf:
-+  - $ref: watchdog.yaml#
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/r8a779g0-cpg-mssr.h>
-+    #include <dt-bindings/power/r8a779g0-sysc.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    wwdt0: watchdog@ffc90000 {
-+            compatible = "renesas,r8a779g0-wwdt",
-+                         "renesas,rcar-gen4-wwdt";
-+            reg = <0xffc90000 0x10>;
-+            interrupts = <GIC_SPI 310 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 311 IRQ_TYPE_LEVEL_HIGH>;
-+            interrupt-names = "pretimeout", "error";
-+            clocks = <&cpg CPG_CORE R8A779G0_CLK_SASYNCRT>,
-+                     <&cpg CPG_CORE R8A779G0_CLK_R>;
-+            clock-names = "bus", "cnt";
-+            power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
-+            resets = <&cpg 1318>, <&cpg 1200>;
-+            reset-names = "bus", "cnt";
-+    };
+You are awesome, thank you!
 -- 
-2.47.2
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
 
