@@ -1,273 +1,275 @@
-Return-Path: <linux-renesas-soc+bounces-21766-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21767-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74682B5313B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Sep 2025 13:45:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19942B53383
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Sep 2025 15:20:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 69BDF5A2F3C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Sep 2025 11:44:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 36ECC5865BA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Sep 2025 13:20:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B201E313539;
-	Thu, 11 Sep 2025 11:44:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FB45326D57;
+	Thu, 11 Sep 2025 13:19:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vq1x61l7"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="Pm1mlMlL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC78519A;
-	Thu, 11 Sep 2025 11:44:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757591061; cv=fail; b=hSjrdhbJ7qGFs+Qichod3oJxQw7ERFbfd/ECqC0Wl05HFtZM7ls7zsk3qxxei6BeKp++n0OD0+8J7DLsCFaBBqIi2gZg1w/VZ0T/A+JBylp4AVjHv93F16bQvx8W4WhgjVA8u2flm7u/uM6adjttG5M4j5zJRRmdyORufi+hXRA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757591061; c=relaxed/simple;
-	bh=UeMeyNkESfdK3wQDT/IF8mtOCW1BRa3eqY3kKTBxX0M=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=j+dth2XvsARyc4638IJaFf3MEFbRKjjOh4odDpNokjU/72w207wRPLspifK1mRmdqCif5hscBJENMIboW6bcx9RS6rph3rYAzLOCbYsymt3++i2wuqwxPw9QzlJhztoP3JPbStXclLIa8CqwI5NepbV03IjJr5gKG/W5xs1ukCQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vq1x61l7; arc=fail smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757591060; x=1789127060;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=UeMeyNkESfdK3wQDT/IF8mtOCW1BRa3eqY3kKTBxX0M=;
-  b=Vq1x61l7lP6bgXgAuz9A9N793lMhQ5UIJXiKCh/yadVW84ySEWo8ltxb
-   3okjyrQJkS1mPJ4HCPdB8hcJeRNLHeGlC67MxZCZGmvpqSBtYArlbVyCA
-   KiyULWd1QuAltG8HjD8rRprVVvNhFPhklL26MIhBXLX94P0HReQLeU8Gn
-   PTBvC1cfC+rwbqAoajr+0u9seY6xQT7CEnN8TpQRfe5H14rsRFMVs6aRQ
-   PC/QA6NJ0+IoVwZPCrTBkimvDDM02/oSNL3v/6c5UEHcNIz0biqp/I29I
-   pRWfzBdA60PavO7dnRlbSgfKDgWdhywSUSAsPdgdv3Gd7mOqGoU9XnvsP
-   A==;
-X-CSE-ConnectionGUID: lyXLr7PwThix7bgP5XCSyg==
-X-CSE-MsgGUID: Pc15RV6YTdWc0yv31Svf4Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11549"; a="70537972"
-X-IronPort-AV: E=Sophos;i="6.18,257,1751266800"; 
-   d="scan'208";a="70537972"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2025 04:44:19 -0700
-X-CSE-ConnectionGUID: gJFAvSsdRnC3huhk6jwCzA==
-X-CSE-MsgGUID: KMv03nt8Rm6Hr8LmW2qIlw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,257,1751266800"; 
-   d="scan'208";a="178874094"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2025 04:44:18 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Thu, 11 Sep 2025 04:44:17 -0700
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Thu, 11 Sep 2025 04:44:17 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (40.107.93.67) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Thu, 11 Sep 2025 04:44:17 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UvYdKSeu3IyVBInaPZ51yiKGnKZoITO3N8z+ZlWdHxOBXbmd8E8IIGicuUH7sseMt0hVkDJt4M5YT6IHq4dMO7KZOGSti06IShF1UPd97kA9ctCHw/kcIpDWNlX7qBWQbbf7Z6oYE7Al4bg6XqK9LGJQCL5WbCkke3iE/S9+xbj7Gnw6mhz/il6h4/2FpsCAb5jkJgo5/PxSOeU7c6N/LOAX2YeZX+E4wAHQu+JDbUdGTEaH2j+FpY5Lq1aeijoDMqaO3kWlFtdPub50gVodDuBCm79uJQR455EgEEgi+rws9cy9P4Yg5hPLpw4H6mF++XUaDYVvrMMC2mABtSlT8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wmDhSPKC0b4DVEGL2K7x3DwNua6qJDkWuMdjaxfU7Y8=;
- b=sEfIFqq0qGAF2RDKwxcDREn1jxuqLVhy7+dnhVGKtu/6DpyHESEqy3Eu6tL7uxe/BWGNhgzfl+DWuZLAIHsrg4yTepyuSoR385ULoOQHuJQ074SFfvIWOpRTUQAww79Ugbz+E5OQF7ZZUIhFNLHHh8y+6CFr6QBHjhWF7qPHarqnzxnX5Oj4XpF5DXJ5Ds7BntyJr3JCfowTyEIGgXZTD3h8QvG+ef+D3avCXaPKW6AOYAjF7ARZFLVKw+UR7b6YhlIZq6VIlMt1eh3v0sghMP8uzenpbjjuA5MFsocqCTiK1pqRuom2Dn6++OEDs/Wj/In7wwSysAWLxdMUN+53rQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
- (2603:10b6:f:fc00::f13) by CH3PR11MB7722.namprd11.prod.outlook.com
- (2603:10b6:610:122::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Thu, 11 Sep
- 2025 11:44:15 +0000
-Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
- ([fe80::7aab:2a1f:f728:eb01]) by DM3PPF208195D8D.namprd11.prod.outlook.com
- ([fe80::7aab:2a1f:f728:eb01%6]) with mapi id 15.20.9094.021; Thu, 11 Sep 2025
- 11:44:15 +0000
-From: "Kandpal, Suraj" <suraj.kandpal@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-CC: "kernel-list@raspberrypi.com" <kernel-list@raspberrypi.com>,
-	"amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-	"freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
-	"intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
-	"Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>, "Murthy, Arun R"
-	<arun.r.murthy@intel.com>, "Shankar, Uma" <uma.shankar@intel.com>, "Nikula,
- Jani" <jani.nikula@intel.com>, "harry.wentland@amd.com"
-	<harry.wentland@amd.com>, "siqueira@igalia.com" <siqueira@igalia.com>,
-	"alexander.deucher@amd.com" <alexander.deucher@amd.com>,
-	"christian.koenig@amd.com" <christian.koenig@amd.com>, "airlied@gmail.com"
-	<airlied@gmail.com>, "simona@ffwll.ch" <simona@ffwll.ch>,
-	"liviu.dudau@arm.com" <liviu.dudau@arm.com>,
-	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
-	"mripard@kernel.org" <mripard@kernel.org>, "robin.clark@oss.qualcomm.com"
-	<robin.clark@oss.qualcomm.com>, "abhinav.kumar@linux.dev"
-	<abhinav.kumar@linux.dev>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
-	"jessica.zhang@oss.qualcomm.com" <jessica.zhang@oss.qualcomm.com>,
-	"sean@poorly.run" <sean@poorly.run>, "marijn.suijten@somainline.org"
-	<marijn.suijten@somainline.org>, "laurent.pinchart+renesas@ideasonboard.com"
-	<laurent.pinchart+renesas@ideasonboard.com>, "mcanal@igalia.com"
-	<mcanal@igalia.com>, "dave.stevenson@raspberrypi.com"
-	<dave.stevenson@raspberrypi.com>, "tomi.valkeinen+renesas@ideasonboard.com"
-	<tomi.valkeinen+renesas@ideasonboard.com>,
-	"kieran.bingham+renesas@ideasonboard.com"
-	<kieran.bingham+renesas@ideasonboard.com>, "louis.chauvet@bootlin.com"
-	<louis.chauvet@bootlin.com>
-Subject: RE: [PATCH 2/7] drm: writeback: Modify writeback init helpers
-Thread-Topic: [PATCH 2/7] drm: writeback: Modify writeback init helpers
-Thread-Index: AQHcIXGVIDatfl+Hr0KRZbXy9BD+3rSM08QAgAELFxA=
-Date: Thu, 11 Sep 2025 11:44:14 +0000
-Message-ID: <DM3PPF208195D8D0D1CAE876CBDADD3B82BE309A@DM3PPF208195D8D.namprd11.prod.outlook.com>
-References: <20250909100649.1509696-1-suraj.kandpal@intel.com>
- <20250909100649.1509696-3-suraj.kandpal@intel.com>
- <nw4ehd7a655rzyf6g5yxb3z25en45esja2i5uowzy4wpmb2el6@orycag5iccho>
-In-Reply-To: <nw4ehd7a655rzyf6g5yxb3z25en45esja2i5uowzy4wpmb2el6@orycag5iccho>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM3PPF208195D8D:EE_|CH3PR11MB7722:EE_
-x-ms-office365-filtering-correlation-id: 3a9cb5a7-f974-48a0-e095-08ddf12888bb
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|7416014|1800799024|38070700021;
-x-microsoft-antispam-message-info: =?us-ascii?Q?oMzXR68ityLv9mcgj+N+mscq/QJgtbHcRysReMvqt6Lqxc+LMNaHF0KhG0oz?=
- =?us-ascii?Q?0StbGoVQ0uCXfZtIjcolqPJC3JvQpVHBpLCMbW1nd/SsksQRBsqrix6p+2fJ?=
- =?us-ascii?Q?DQwbg0YNzQAATjdChZTvM+HIvAIew+DLsVfV5i13cr3GZs5E+GR2EmBPuir3?=
- =?us-ascii?Q?lmLHwvFQ2c5tsyv83BEORK6++WcGVN4dhcAFA2cQ7aCZUgqsYxE578Qzi4CL?=
- =?us-ascii?Q?y/ikgll0eF7Id0Js8r8PWcsZ38l23dXbdEycVBFrvHdz59z0EptKgnO1xMjr?=
- =?us-ascii?Q?BA3BjU4korXSjAm02P5fHnvqS1HEaO5vRL8avvVRmDdnPCFHghCAkRIG0C95?=
- =?us-ascii?Q?2211fshVhYOIMdbfV/IW/k44Zuz9kQqUVVFCzx8+Jfb4CNR/sr5BBVniSvVN?=
- =?us-ascii?Q?DHTaLPQEUQUfDhhY4hLuuK8ZjREOvwouu64H4KZNOJh95mEsQ1JlUCFXUvSI?=
- =?us-ascii?Q?IyXM3festQMA7RUHMB5IsMRmBQjZTI8uVxtTd10yt+uuzpPQzh8J4/qOi9g8?=
- =?us-ascii?Q?5XfqEJ+TCbgfTDDqVwgBsVb+21bENkH6G7GUaIRvDRfuwKafzJJxU1DfYKSA?=
- =?us-ascii?Q?LU2jldFmynWQmMfR9F5oTiLrMeYoK31NcSKnBB9ocy/rs5CLiCPYKJUkGIc6?=
- =?us-ascii?Q?pSiiOMzOh7PUjqHOyQU+NEuE95fZK07AguKpAN/IpzZnPu3w84kdEJcugpnX?=
- =?us-ascii?Q?Ol1VDN3BX0pWHPIDk/f8m9YtwDk1zLNNXZBl2sgG/b10Cqj0q91KwSvPE3Gl?=
- =?us-ascii?Q?JaI3KguegJHWFtyG2zAwlfaUpqXM5IDEoJnuxbRmAqL2DwhfjaRUVeymoyjd?=
- =?us-ascii?Q?maEOWKAVYkqW1sgOvFEkFYrT+1KLkbPYCcQWDRlW5fgY7GqY0MqS//Cd8fQW?=
- =?us-ascii?Q?9eBXoBBOmppP8pJBzpujqMs8n/+cOuGoWfKIn75nmgKTsRGCeB3Xauyb0qNo?=
- =?us-ascii?Q?Z4LTUaRsOtpNRh/jS1yuPtU7a7SZTqhI1p/k7gGrotr+an10nz2ffLQ41/Fb?=
- =?us-ascii?Q?gXotlHDyl5AxvgTbL+qUwqxryPPNQ2SIxofWR82SmzvZOEqM5rphZcVBT9Oh?=
- =?us-ascii?Q?9E6ysRmluuRwDeRsCSyvYXPOJm0GktXT6WIdTOJCtdUM44TvJK/A6DmjCjE6?=
- =?us-ascii?Q?HIJedw2VZHbzuJkTCtFH4TJz6eo3LEw6MFNYgAvwBTxLRA3czj6yA+gS9KRu?=
- =?us-ascii?Q?QMhB01VC42N0PvFY0nGnYzqYXXoN/RwhKOZw088ZPCM8qHIWMUG3jHxLxG0C?=
- =?us-ascii?Q?zeBdUKmUxE8f6wT8aZ13Xq8M02OBrj05u6jCpj2xsVFcvvrspeZoicxF6ZGL?=
- =?us-ascii?Q?4eApqssXZ15WiaSNpKdJ7ScNYIa9eB8fgnn6aLaLF/UiKa72t8XQvXMOo0lo?=
- =?us-ascii?Q?Q0HvumLQ1FqLPusezEzRMkEuHSar/vk6ZSe0WDsM3WwAIwfsDO7evEQCp+GB?=
- =?us-ascii?Q?qYAxMKjEF5D1I+tUnoOG8suRUxQroqp9mSv7KrC+WVsPmfD3/O9LllGvHfov?=
- =?us-ascii?Q?ME245p+3/0W0Df4=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM3PPF208195D8D.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(1800799024)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?taeCMkFW74NEDX/BRY8xofacCa+hU8+Yd2oEBmU5ElbXQacKhin/8UtiUuEq?=
- =?us-ascii?Q?hb5ltZfeH9br8/mfPAR17B4uCUa/InthIlHDnAbAjYQRvtNkyUd/zaVZVKoO?=
- =?us-ascii?Q?YcdjO9T6xF0qQhnV8y2rYT6A5OZikZNaWWRrW3+0/hy28khPk4P7XIuulu/H?=
- =?us-ascii?Q?fu26hJfbEzfv4Nks+eYmylBoZ3tFFbAQBmDUdtSLTOCoiqNXqrkp9QA72RK2?=
- =?us-ascii?Q?EoVJ/xpH/Fs++bTAD7/bQY8SFjBUBFlzLcEpVbZfga7pa1k0kil3I1VXA4Yw?=
- =?us-ascii?Q?YKvHYZWkCPeSzK/+dGQpZDVlmgTa/MknxYGEphr6PQJsR85bruc1RAKfEfjH?=
- =?us-ascii?Q?bM1KSM5ReViFTDQkDg8aLRCDl/6m24dq/MjwMVdfnAFl5prEN/IM9WrCNorK?=
- =?us-ascii?Q?JjT4CuyBOKNPJNfZR5q/5WvHkfkDyvngZJXkeIhfmypBFIn+pzwTUzc5xixp?=
- =?us-ascii?Q?ypRPhjxBNcXJu5f619It4C0LdnI1Ap/lDdQIOEckLO9rycCqSMbsFmBen8aA?=
- =?us-ascii?Q?qm5XzwQaxo5t5GBJM89EyP2akHIb0xC3FI2kJbgeU42TmzTT8MMbvJLC6O9A?=
- =?us-ascii?Q?wuFNmmK8dZiFiMZ/9PnoqVMPR9wphOQgVEX41XViEFXMzr8bf3GzgJb/4IDI?=
- =?us-ascii?Q?1omJ7S/BsU+UdJJxX0h8wN5zrsrXDZsqKEyBsp9/I406xAxoiDEkEgFpfQ2I?=
- =?us-ascii?Q?x8ZTzWVtaHd3RleZwjmHnI4ALWoAtj2f3RFPnvHrOTF3BbJy4n8nWGFjYUR4?=
- =?us-ascii?Q?vE8gjg2nYdMlS51kgd9qWQzMPsw4yNF0qc3sZZkC3aQ9bK05N5IvmjkW8rmz?=
- =?us-ascii?Q?GuHNygcpd2grKqXgI0+NlMN1/AHIiI+pVIWGW8vdvP90J6rbj9OQsOU4DwtF?=
- =?us-ascii?Q?CHQOEEhsMhZEZAsRhBXebcyOGgo3AVnOuWFJoTDI8Kt4IkSDiSnSijWrXT5c?=
- =?us-ascii?Q?dWQJ22QAgI3Xo2sTyZFncjP9EF9OSED5fOW1WNlLSFhzJANiA6K7gJJ5xU0C?=
- =?us-ascii?Q?MsYLgnRBCwbpzQvQVuYihRVlEsPnA1CLA8SbIEwoZHqKaalJTzlKe5b9mSWJ?=
- =?us-ascii?Q?oLog2xAZvU1I/5LaOkr05u5SlMqndAkn2cQGOPG/7EUCbJheAgHtjRtMb/ek?=
- =?us-ascii?Q?U97iojcXEmIFVik7RgR5GO4An/26gfAYsSvE81xeIbjxbB54VbfNxw24Lqyd?=
- =?us-ascii?Q?Ny4c0wNAWIVC/i4NN7IOBb3+XYjdgP8ERdXSJoR7sUX0vu3SUabnyuZx0Xzl?=
- =?us-ascii?Q?KgpdJrgSFfm187HBfHsQP0t4OuXwgm2zyADBBpY3g8FcFqOjk0t3mrJUCz3y?=
- =?us-ascii?Q?zyB8FvTQFg8XdBVvTY2CjYiQpewKuMgeRgpkj07/eqduAmlaHw7in8NBT5Xw?=
- =?us-ascii?Q?oNcdVRLJlNPP/t5VHm+Dbxu4WgW52J9xG/Eh3wl4RpXMKpHrdgZHceph/pEw?=
- =?us-ascii?Q?MhV95MbpACE8uqxD0xOARMenbNcqRrZejXD3gGYT5kKug+20pvust4BIRvwJ?=
- =?us-ascii?Q?Mlf+dOIGk/67aFt2jpQx/laXb2h7LWIo4C2JNiFMbvXwJKdZ4rTjWGNzsG7+?=
- =?us-ascii?Q?B9FVoHp/W5AjJIdmU13FFegptr+95F5Gi5vYko7G?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E697F2E6CA6
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Sep 2025 13:19:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757596786; cv=none; b=LQxsXDVA/Ohew0qd5b0b0cwmsdFGx3/zOJHwCVW9QbF+Hm5pIRQLsIY7m5bMI7SpJdyJ+xITSEZTuFzIsqObZOEfPWZKYYh9aic3hffnM7v8Zdzt8q7/J+erSRsYemt3bMrQuKMhHn7vpaZwDWH9UPMOZwQaXeXhfFdWkqIsyQ0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757596786; c=relaxed/simple;
+	bh=ePzqisO6Qaumrt2qktaPC5KlyCzzYBDYymDXyVRUeNs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AyNLHRGt3kREBaslqzTGO0mhetboDbPRLPtLyyLsvGH8RigkErJk2F47RNiDHhMbW1MrN+ZZ3e9O6dTGetqn/G15ObCZpdFwKYRKwkQXp1m3DL+Xaou2yEjP97uIzxrJl8gcoPznKATTZE009OSMR1Ygorc38Q5X/O6ZavPdTNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=Pm1mlMlL; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3e751508f21so553969f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Sep 2025 06:19:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1757596781; x=1758201581; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Y8u8fybT/8WnDYZHmGoTAq5zebxzVXyJlNWKbAi8sGg=;
+        b=Pm1mlMlLvtLgUfONiQFgDeyoXP/qjF9kPKgQb6v8/CrrRtxgGn27xzhY6Cg/Otm2mL
+         Edvwe8vQRoza/1L2soKv5A+5KFKyU/OrbzVi3sbHPGRctqYZej8ee02+auFmQOnsakYe
+         /SMfjvIeywRiGmar7CUpe6JMA5XYW9AMxhKvzVbNGIphFtW6Gd+AsaOArUPjI3VNhA/d
+         QWYX8N5aOHKW33QkDdqzY9OcPMTnkiyeCOnlC4VPlt04VybyZ5jHukBrtiP1FfqQapom
+         DioGbk/K/ewWJBspmLJV4f1iWBb73BL2Emb3CIFNMoRWRKwJsbVaXZngfRXCpqoJzif/
+         XjxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757596781; x=1758201581;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y8u8fybT/8WnDYZHmGoTAq5zebxzVXyJlNWKbAi8sGg=;
+        b=GUP3zh+QavidSpbhAqDYi4WZAQBSG4NlgvLVEFLAkAaKZM6oYdY71vDrLvUCDjhwol
+         IdSRrUYefikvTJ1nrZtKrGtJKMxKzMOxj6f5yHUS09B9M7mAxk7PYkXXTg7yFgPJwL28
+         R0uu689+lHiccvX8J/6bcfKgM1wJele2fVUHwfj77R11gurvkMB6y/l6rC01ryFfTyc0
+         rdsdeKPHts/JJS0vCXneAh0dXVLa4AmrNBzPK7cqveFdTysk1ka258XDHoD4Br8Z369f
+         /HK5Plr+BCCNl4y6Gf0y7MEOvQHiIFjv5WVTSvNxWXuzUj+8YpPN+y2Yd2uy4LJRsKbp
+         ddaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUSOY4NRpd9PqciYWfZuR48F/KI2p2KTeW7adimAkCNp8EN4BwTQbS5Ksu5LFVElUBRyUBYFgcW8Dlq4VUe7D9Bvw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwV5OFPZWNUKGIO1ITPpUu+hX54WSF+FDDNrFKFSpP73qw7jMYr
+	rl/gKTQcI8EXBjijoXuhrDOQlYryKaQjKFHbmt1qkb9CWpukp8cxtermEF1qVXHdw5k=
+X-Gm-Gg: ASbGncsZvTRxA+f4DtKR6kSOYI2b0t0VuPbcXIJtQZ+MLse01BX3ZnE5qmVI3s8p85d
+	P9k89ipjAJCXRw4r6xon3xzMnzP5tPtIqyrj05yVTg+vWvAwXbdGWzWlshPpU0BkG9PrfhYnXFR
+	GfiXdr36pwo0tJFdo0ehyaqlfxu866EcGpzF8wzpBQhB8wZ5KOJuH3gXhi/RuZJrsVuQwktZZw/
+	IysOhFEsCuRTQ5odPQbls/9UHeGlcuha/ttgF1hlMVvsLhZ6ddp2YbwLs4+5+9TmW+RCDLFBG10
+	jjSgB7d99j1a6oCi36QwrZazoVkR6dhHgcbspKT91hUOJsYaQwvZHBWo1KpXqb/moBh/Nev/BO0
+	RVVuOX6j39G6ieSUpKh2hqCU1O871ZK4=
+X-Google-Smtp-Source: AGHT+IGS+e3rDa8fueFMFZrNNPBXI9wawcGCyt+UegFi2IhP29bW3Js2e9o7EOACRR+TFLON2p8asg==
+X-Received: by 2002:a05:6000:2681:b0:3e4:74dc:a3bb with SMTP id ffacd0b85a97d-3e64bde9298mr18368153f8f.40.1757596781068;
+        Thu, 11 Sep 2025 06:19:41 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.139])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e0156d206sm27297545e9.5.2025.09.11.06.19.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Sep 2025 06:19:40 -0700 (PDT)
+Message-ID: <a44f590e-8c4d-498c-be7a-6c6fd6c43da8@tuxon.dev>
+Date: Thu, 11 Sep 2025 16:19:39 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM3PPF208195D8D.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3a9cb5a7-f974-48a0-e095-08ddf12888bb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2025 11:44:15.1438
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: CV5s7qOG22p1B86ORlH5j3CcUdZ4rOwBiqwlZ6ZYbB58BozBiuvY3jEK2IhVDQkeohZgbK1KusBRpfE315+sSg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7722
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] pinctrl: renesas: rzg2l: Fix ISEL restore on resume
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linus.walleij@linaro.org, biju.das.jz@bp.renesas.com,
+ linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, stable@vger.kernel.org
+References: <20250908144250.1269294-1-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdVVWTAvEMgv2NVg0-2f4Cs4oXp4yBM1tQYUUbMKH6EiGQ@mail.gmail.com>
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Content-Language: en-US
+In-Reply-To: <CAMuHMdVVWTAvEMgv2NVg0-2f4Cs4oXp4yBM1tQYUUbMKH6EiGQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> > Now with drm_writeback_connector moved to drm_connector it makes more
-> > sense use drm_connector as an argument rather than drm_connector.
->=20
-> than drm_writeback_connector
+Hi, Geert,
 
-Sure will fix this.
+On 9/11/25 12:53, Geert Uytterhoeven wrote:
+> Hi Claudiu,
+> 
+> On Mon, 8 Sept 2025 at 16:42, Claudiu <claudiu.beznea@tuxon.dev> wrote:
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>> Commit 1d2da79708cb ("pinctrl: renesas: rzg2l: Avoid configuring ISEL in
+>> gpio_irq_{en,dis}able*()") dropped the configuration of ISEL from
+>> rzg2l_gpio_irq_enable()/rzg2l_gpio_irq_disable() and moved it to
+>> rzg2l_gpio_child_to_parent_hwirq()/rzg2l_gpio_irq_domain_free() to fix
+>> spurious IRQs.
+>>
+>> The resume code used rzg2l_gpio_irq_enable() (called from
+>> rzg2l_gpio_irq_restore()) to reconfigure the wakeup interrupts. Some
+>> drivers (e.g. Ethernet) may also reconfigure interrupts in their own code,
+>> eventually calling rzg2l_gpio_irq_enable(), when these are not wakeup
+>> interrupts.
+>>
+>> After commit 1d2da79708cb ("pinctrl: renesas: rzg2l: Avoid configuring ISEL
+>> in gpio_irq_{en,dis}able*()"), ISEL was no longer configured properly after
+>> resume.
+>>
+>> Fix this by adding rzg2l_gpio_irq_endisable() back into
+>> rzg2l_gpio_irq_enable(), and by using its unlocked variant in
+>> rzg2l_gpio_irq_restore(). Having IRQs enable in rzg2l_gpio_irq_enable()
+> 
+> enabled
+> 
+>> should be safe with respect to spurious IRQs, as in the probe case IRQs are
+>> enabled anyway in rzg2l_gpio_child_to_parent_hwirq(). No spurious IRQs
+>> were detected on suspend/resume tests (executed on RZ/G3S).
+>>
+>> Fixes: 1d2da79708cb ("pinctrl: renesas: rzg2l: Avoid configuring ISEL in gpio_irq_{en,dis}able*(")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> Thanks for your patch!
+> 
+> I have to admit I don't fully understand what is going on...
 
->=20
-> > The writeback connector can easily be derived from drm_connector.
-> >
-> > Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
-> > ---
-> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c |  2 +-
-> > .../drm/arm/display/komeda/komeda_wb_connector.c |  5 +----
-> >  drivers/gpu/drm/arm/malidp_mw.c                  |  2 +-
-> >  drivers/gpu/drm/drm_writeback.c                  | 16 ++++++++--------
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c    |  2 +-
-> >  .../gpu/drm/renesas/rcar-du/rcar_du_writeback.c  |  3 +--
-> >  drivers/gpu/drm/vc4/vc4_txp.c                    |  2 +-
-> >  drivers/gpu/drm/vkms/vkms_writeback.c            |  4 ++--
-> >  include/drm/drm_writeback.h                      |  4 ++--
-> >  9 files changed, 18 insertions(+), 22 deletions(-)
-> >
-> > @@ -338,13 +338,13 @@ static void
-> drm_writeback_connector_cleanup(struct drm_device *dev,
-> >   * Returns: 0 on success, or a negative error code
-> >   */
-> >  int drmm_writeback_connector_init(struct drm_device *dev,
-> > -				  struct drm_writeback_connector
-> *wb_connector,
-> > +				  struct drm_connector *connector,
-> >  				  const struct drm_connector_funcs
-> *con_funcs,
-> >  				  struct drm_encoder *enc,
-> >  				  const u32 *formats, int n_formats)  {
-> > -	struct drm_connector *connector =3D
-> > -		drm_writeback_to_connector(wb_connector);
-> > +	struct drm_writeback_connector *wb_connector =3D
-> > +		drm_connector_to_writeback(connector);
->=20
-> You can use &connector->writeback without extra wrappers.
+Sorry about that. Basically, ISEL is not properly configured as a result of
+removing rzg2l_gpio_irq_endisable() from rzg2l_gpio_irq_enable() which was
+previously called on interrupt reconfiguration path.
 
-Hmm just kept it around to make abstract the internal structure, will help =
-with future refactors if any.
-Its anyways a static inline function.
-If that doesn't make sense I can do it the way as you suggested and also ad=
-d a patch to remove this helper altogether
+> 
+>> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+>> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+>> @@ -2428,7 +2428,7 @@ static int rzg2l_gpio_get_gpioint(unsigned int virq, struct rzg2l_pinctrl *pctrl
+>>  }
+>>
+>>  static void rzg2l_gpio_irq_endisable(struct rzg2l_pinctrl *pctrl,
+>> -                                    unsigned int hwirq, bool enable)
+>> +                                    unsigned int hwirq, bool enable, bool lock)
+>>  {
+>>         const struct pinctrl_pin_desc *pin_desc = &pctrl->desc.pins[hwirq];
+>>         u64 *pin_data = pin_desc->drv_data;
+>> @@ -2443,12 +2443,16 @@ static void rzg2l_gpio_irq_endisable(struct rzg2l_pinctrl *pctrl,
+>>                 addr += 4;
+>>         }
+>>
+>> -       spin_lock_irqsave(&pctrl->lock, flags);
+>> +       if (lock)
+>> +               spin_lock_irqsave(&pctrl->lock, flags);
+>> +
+>>         if (enable)
+>>                 writel(readl(addr) | BIT(bit * 8), addr);
+>>         else
+>>                 writel(readl(addr) & ~BIT(bit * 8), addr);
+>> -       spin_unlock_irqrestore(&pctrl->lock, flags);
+>> +
+>> +       if (lock)
+>> +               spin_unlock_irqrestore(&pctrl->lock, flags);
+>>  }
+> 
+> I am not so fond of these "if (lock) ..."-constructs, especially as
+> the function now takes two bool parameters, which is error-prone.
+> 
+> What about renaming rzg2l_gpio_irq_endisable() to
+> __rzg2l_gpio_irq_endisable(), and moving the locking to a wrapper
+> rzg2l_gpio_irq_endisable()?
 
-Regards,
-Suraj Kandpal
+That was my other option but, if I remember correctly, it generated
+duplicated code, thus I ended up with this.
 
+> 
+>     static void __rzg2l_gpio_irq_endisable(struct rzg2l_pinctrl *pctrl,
+>                                          unsigned int hwirq, bool enable)
+>     {
+>             /* old functionality without locking */
+>             ...
+>     }
+> 
+>     static void rzg2l_gpio_irq_endisable(struct rzg2l_pinctrl *pctrl,
+>                                         unsigned int hwirq, bool enable)
+>     {
+>             unsigned long flags;
+> 
+>             spin_lock_irqsave(&pctrl->lock, flags);
+>             __rzg2l_gpio_irq_endisable(pctrl, hwirq, enable);
+>             spin_unlock_irqrestore(&pctrl->lock, flags);
+>     }
+> 
+> Then no existing callers of rzg2l_gpio_irq_endisable() need to be
+> changed.
+> 
+>> @@ -2460,15 +2464,22 @@ static void rzg2l_gpio_irq_disable(struct irq_data *d)
+>>         gpiochip_disable_irq(gc, hwirq);
+>>  }
+>>
+>> -static void rzg2l_gpio_irq_enable(struct irq_data *d)
+>> +static void rzg2l_gpio_irq_enable_helper(struct irq_data *d, bool lock)
+> 
+> Here we can't do without the "lock" parameter, unless duplicating the
+> full body, so this is fine.  I'd rename it to __rzg2l_gpio_irq_enable(),
+> though.
+> 
+>>  {
+>>         struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
+>> +       struct rzg2l_pinctrl *pctrl = container_of(gc, struct rzg2l_pinctrl, gpio_chip);
+>>         unsigned int hwirq = irqd_to_hwirq(d);
+>>
+>>         gpiochip_enable_irq(gc, hwirq);
+>> +       rzg2l_gpio_irq_endisable(pctrl, hwirq, true, lock);
+> 
+> if (lock)
+>     rzg2l_gpio_irq_endisable(pctrl, hwirq, true);
+> else
+>     __rzg2l_gpio_irq_endisable(pctrl, hwirq, true);
+> 
+>>         irq_chip_enable_parent(d);
+>>  }
+>>
+>> +static void rzg2l_gpio_irq_enable(struct irq_data *d)
+>> +{
+>> +       rzg2l_gpio_irq_enable_helper(d, true);
+> 
+> __rzg2l_gpio_irq_enable(d, true);
+> 
+>> +}
+>> +
+>>  static int rzg2l_gpio_irq_set_type(struct irq_data *d, unsigned int type)
+>>  {
+>>         return irq_chip_set_type_parent(d, type);
+>> @@ -2617,7 +2628,7 @@ static void rzg2l_gpio_irq_restore(struct rzg2l_pinctrl *pctrl)
+>>                 spin_lock_irqsave(&pctrl->lock, flags);
+>>                 ret = rzg2l_gpio_irq_set_type(data, irqd_get_trigger_type(data));
+>>                 if (!ret && !irqd_irq_disabled(data))
+>> -                       rzg2l_gpio_irq_enable(data);
+>> +                       rzg2l_gpio_irq_enable_helper(data, false);
+> 
+> __rzg2l_gpio_irq_enable(data, false);
+> 
+> Before, the lock was taken again, while it was already held.
+> Didn't this cause a deadlock?
+
+The only locking issue I've seen around this code was fixed by commit
+a39741d38c04 ("pinctrl: renesas: rzg2l: Use
+spin_{lock,unlock}_irq{save,restore}"
+
+I'll use the approach proposed by you in the next version.
+
+Thank you for your review,
+Claudiu
+
+> 
+>>                 spin_unlock_irqrestore(&pctrl->lock, flags);
+>>
+>>                 if (ret)
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
 
 
