@@ -1,124 +1,163 @@
-Return-Path: <linux-renesas-soc+bounces-21772-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21773-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4C42B534F8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Sep 2025 16:16:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2AC8B5353C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Sep 2025 16:26:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9E3DB5A352A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Sep 2025 14:16:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 63F383AADCC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Sep 2025 14:26:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 739BA1A0BD0;
-	Thu, 11 Sep 2025 14:16:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB5D3338F4E;
+	Thu, 11 Sep 2025 14:26:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kpzjQl4g"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28DFB2F37;
-	Thu, 11 Sep 2025 14:16:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B9DF338F27;
+	Thu, 11 Sep 2025 14:26:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757600179; cv=none; b=BAvnkyGmBX136JbUH/lQwPzIc7BLLxywzHYDyjjacojKPd8SYEPeRtDi+4pVN0jVwBcq+8xNxTAaKAGlTeIMGUhNLCWiElu/FTEJeQTgwr+ISRPqptH92MAaHMm/XrPJoL9tix7bcfRYZOKXpfK9p+eVtXS0Fiq5CchADW0az5I=
+	t=1757600797; cv=none; b=NzDnpQ7k/HPAxjUM3Yly8XAC3K50V3IzVpAUgxtZThZcGq0KlzLlds2sYyhyVAGLtT7x7epZN/yc7ZD5/53CLxqGNOiPFlQ6N2byOCx6XBAGB70PYwV91AtGN2dM4sADP7CXNbN38nmYmFapvs7fqJwpAdz/atfhXCs4UBAIlhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757600179; c=relaxed/simple;
-	bh=78XtLP/BTOocTZuOujCHVMdfqbYWpr3uMcENeX+6wSA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Xt8stPnfLF70/hSqBm4/D8z+hvM2/uRmWARa9C82QRA0CD3IszIes/drw4VfxyNG3fvk4jLQFO9BxrUDUri5DxGT/oxXZ3bBCYbZs8zNDkXCYl1ocVnFHau6A91Xe67xFAw4qLZl3F6SlmoEQzEgPAMuuscZ8DtkhQmvekxI0J4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-52912c1c805so434271137.2;
-        Thu, 11 Sep 2025 07:16:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757600176; x=1758204976;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Gx4aRa/DYxNYojHtYq5HLhlClHIAo1vhCbhvxpbrlU4=;
-        b=fPuGiQNScCtK39hdcywPw5LY388LDBD621Dm0ujnmCV+wYz6dEV9ttaYye+fKfCKnh
-         Se3KYaPRwyq1vXWUo6gusJaGgtN3O/QNw8k6DO8BvCPQ4ej1gFA0O96D0APok65hy0Gf
-         4ooVTf+xo5l+4BTyqaH4WHOMwGDLRzCUcsJf0+IkrTI2qdbFh4ac7DL+CmL/Hc+VEgY/
-         QKAojIT91/67fAaQDALbkOcuKk/3yWxRew9/PrEQzDk5Jc6xpwFD6ixMU8uvZRE8mC/6
-         M6MQW34U05Z5z6b/beKtSRkDcD+eV6LVshzH9FZgJiE67eEzhXAP7kbUsdo8pKJVKYBu
-         YlrA==
-X-Forwarded-Encrypted: i=1; AJvYcCVhoZi/phiOMGcl4qKpnYn2Gcrp8OZrb9Tsl0IO9bc9nlse9mbnjwItU1JvaUm82H+yglo8bXyz6vzohQKSUDsfb7Q=@vger.kernel.org, AJvYcCWxX6bsZaD/lAltwCUBeu3Josvz08cfzdjr7nl1UpXA95KRWljBXWczwDG3JgRNOhp0VwFdxlm3OBw1vrju@vger.kernel.org, AJvYcCX8PvIIsrpO8YbInFkTZjVc9KTS5Uo7v+The0AvIu8jadL/iO+0kr0anlBZt7LgEH/C3yW1fqwvKHP4@vger.kernel.org
-X-Gm-Message-State: AOJu0YxWZchsBgdETqLOJV7Y2lfzaj+gWW0m6WJ3DxQui7/Oyy8Nw2jb
-	cK5wNY4p+ja3UDMGgCdDgJlN0bNPC3gZTYDS43bn6FeFlVfLwwfcrZiWYD48mx9J
-X-Gm-Gg: ASbGncs9kOocOgoOtNaGTltwPeU+kH/AndycrgglFPTNOsrs0Y3P7iK7fZgl8gLrxSz
-	LqX9d9ciBog2Iyxz6Kpvqgkawg/2bwiTZ0BbSH1ubPBajotw4txEpq8L1Zzx3DiGxhf3J45EqEX
-	BpIrtg6vkoCowu2nLstOcehOZEto1vaPaQDhNXz/DeGELoZxxz1mSr2Ck1X3/MG0yPMJpyO8NDy
-	Mp4BCiuePWsoUcZ7R3KCoewK+HT7WSdRIaAc/wlqGcUNEH7/U4WWqXjfqyoVr3yQGxbCwfrJR+V
-	o1VN7A9EG6U39sWDdkRMVOnwdd2pZ5j5FtwoMR1CKlD6YQLWejAe7EknKMJW0LV37Boc6ZN2O8m
-	fpWx4euWCgz3FZfOCYzM9j6Fbved+erSQOdsiChzOzc22fwx4Z3//JqwvfJid/AXLXSx58Sk=
-X-Google-Smtp-Source: AGHT+IEgRN8yI9HrUXhgMbtS4cxoahhDSVs0IISa2glL2tFdMOyWevPCJDT9gFlfHNLNyEDpRj8B+A==
-X-Received: by 2002:a05:6102:c8c:b0:534:cfe0:f854 with SMTP id ada2fe7eead31-53d22e1e7d4mr6760746137.29.1757600175699;
-        Thu, 11 Sep 2025 07:16:15 -0700 (PDT)
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com. [209.85.217.51])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5537062ca23sm335826137.6.2025.09.11.07.16.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Sep 2025 07:16:15 -0700 (PDT)
-Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-52912c1c805so434255137.2;
-        Thu, 11 Sep 2025 07:16:15 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU1ourneaNmjkgdibOgUGi+ZVX7BFZDm60iAa+VHCOUwO9fCHM3ua19PkFEGmfZcYc4fbXkJvvsSFxU@vger.kernel.org, AJvYcCWnUCLp84Uf3+i5i+SJdRcnzAYLg/7WoNCJwDiPgdEuqwuHKOg9CeCPuJx7FA0UOIU9VSUmN9KBh9T4VJ1J2IxQBuc=@vger.kernel.org, AJvYcCXHNE3U5aBwGp5uIKNXYJ8EXMzvaHAtj+osT+/QO61t8GWV33zJPk/aq/bsZ6/fBh0MWZ1Cjk9S62CmJyyq@vger.kernel.org
-X-Received: by 2002:a05:6102:f83:b0:524:b9b7:af01 with SMTP id
- ada2fe7eead31-53d1c3d6e5cmr6980412137.10.1757600174723; Thu, 11 Sep 2025
- 07:16:14 -0700 (PDT)
+	s=arc-20240116; t=1757600797; c=relaxed/simple;
+	bh=qReZW+H6OyZz2AFMbvTmZJxvwut6V42yTPOtJKgTkkU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dY9vp19RAsuIts1Bt0PQU8YSXJ1D6CcFbHi1OrqOsUDN9FJDEKUNWsxpIivnjWEFPVq1MZyC8kcfvbgODIIUaIEiNEyaVeQQgw/tcEtJ2C78rx/dPJSj6onJwH9+5vZOQ5DyWhQziiM/6O8+xUlU1pTk8svwCAl05bD9tZNav54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kpzjQl4g; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AA8114A4;
+	Thu, 11 Sep 2025 16:25:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1757600718;
+	bh=qReZW+H6OyZz2AFMbvTmZJxvwut6V42yTPOtJKgTkkU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=kpzjQl4gHzaXfBaGIdp3zuciJs1QF8I/wYVcHwLnl59KOl7jEas+jL5LeJ96wC5Ub
+	 zGuq1AJN7MzcYbfZTRr8d+DxG8OQJKotvXXy/fday67G0eqfN0+IJ1Yxa4Hjt8sAVI
+	 qjKQNZLyubtI9u63SW/VYvSbd4XDTS7yEGqj8nBg=
+Message-ID: <f1e671a3-77af-4ae2-aa6e-bde93aaa54b7@ideasonboard.com>
+Date: Thu, 11 Sep 2025 17:26:28 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250814153456.268208-1-john.madieu.xa@bp.renesas.com>
-In-Reply-To: <20250814153456.268208-1-john.madieu.xa@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 11 Sep 2025 16:16:03 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVU6=sLCgAe6pGjdt8wpq6yvx7e1bEYPO5TPQwnHyziVw@mail.gmail.com>
-X-Gm-Features: AS18NWAegn5j-m-Dd9bPo2kyKUVHNv4W-i4tNuR2hLzsoad5LDvMrWiiXXRuU1I
-Message-ID: <CAMuHMdVU6=sLCgAe6pGjdt8wpq6yvx7e1bEYPO5TPQwnHyziVw@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r9a09g047: enable tx coe support
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: magnus.damm@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	biju.das.jz@bp.renesas.com, john.madieu@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 2/6] clk: renesas: rzv2h-cpg: Add support for DSI
+ clocks
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-clk@vger.kernel.org, Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>,
+ Magnus Damm <magnus.damm@gmail.com>
+References: <20250903161718.180488-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250903161718.180488-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <db2fc907-218c-4688-aebf-4a929f21b074@ideasonboard.com>
+ <CA+V-a8vghwkHKWoqU8NQ3O9ZdHxB+cEvMv7Z9LQOMsZcx9vjPA@mail.gmail.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <CA+V-a8vghwkHKWoqU8NQ3O9ZdHxB+cEvMv7Z9LQOMsZcx9vjPA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi John,
+Hi,
 
-Thanks for your patch!
+On 11/09/2025 11:14, Lad, Prabhakar wrote:
+> Hi Tomi,
+> 
+> On Wed, Sep 10, 2025 at 1:30 PM Tomi Valkeinen
+> <tomi.valkeinen+renesas@ideasonboard.com> wrote:
+>>
+>> Hi,
+>>
+>> On 03/09/2025 19:17, Prabhakar wrote:
+>>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>>>
+>>> Add support for PLLDSI and PLLDSI divider clocks.
+>>>
+>>> Introduce the `renesas-rzv2h-cpg-pll.h` header to centralize and share
+>>> PLLDSI related data structures, limits, and algorithms between the
+>>> RZ/V2H(P) CPG and DSI drivers.
+>>>
+>>> The DSI PLL is functionally similar to the CPG's PLLDSI, but has slightly
+>>> different parameter limits and omits the programmable divider present in
+>>> CPG. To ensure precise frequency calculations, especially for milliHz-level
+>>> accuracy needed by the DSI driver, the shared algorithm allows both drivers
+>>> to compute PLL parameters consistently using the same logic and input
+>>> clock.
+>>
+>> Can you elaborate a bit more why a new clock APIs are needed for the DSI
+>> PLL? This is the first time I have heard a DSI TX (well, any IP) require
+>> more precision than Hz. Is that really the case? Are there other reasons?
+>>
+> Im pasting the same reply from Fab
+> (https://lore.kernel.org/all/TYCPR01MB12093A7D99392BC3D6B5E5864C2BC2@TYCPR01MB12093.jpnprd01.prod.outlook.com/#t)
+> for the similar concern.
+> 
+> The PLL found inside the DSI IP is very similar to the PLLDSI found in
+> the CPG IP block, although the limits for some of the parameters are
 
-On Thu, 14 Aug 2025 at 17:35, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
-> The GBETH IPs found on RZ/G3E SoC family are compatible with the stmmac driver.
-> They have a MAC HW feature register used by this driver to enable respective
-> features. While the register advertises Tx coe support, it was not enabled by
-> the driver due to the 'snps,force_thresh_dma_mode' dtsi property.
->
-> Switch from 'snps,force_thresh_dma_mode' to 'snps,force_sf_dma_mode' to enable
-> Tx checksum offload support on both GBETH IPs. While at it, also switch from
-> 'snps,fixed-busrt' to 'nsps,mixed-burst' and remove 'snps,no-pbl-x8' for
+Thanks. As discussed on chat, this confused me: There's a PLLDSI on CPG,
+which doesn't provide a DSI clock, but a pixel clock. And then there's a
+PLL in the DSI D-PHY which provides the DSI clock.
 
-burst ... snps
+A few comments overall some for this driver but also the dsi driver:
 
-> optimal DMA configuration. This improvement results in a measurable TCP Tx
-> performance gains, increasing throughput by 20Mbps.
->
-> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+This hardcodes the refclk rate to 24 MHz with RZ_V2H_OSC_CLK_IN_MEGA in
+the header file. That doesn't feel right, shouldn't the refclk rate come
+from the clock framework with clk_get_rate()?
 
-LGTM, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.18, with the typos fixed.
+While not v2h related, I think it would be good to have a comment in the
+dsi driver about how the g2l hs clock rate is derived directly from the
+pixel clock.
 
-Gr{oetje,eeting}s,
+I still don't see why all the code here has to be in a header file.
+Usually headers contain only a few lines of inline code. Is there a
+reason why it's not in a .c file?
 
-                        Geert
+And last, we discussed the milliHz a bit on chat, you said you'll come
+back to that. I don't think it's a blocker, but I'm very curious why
+exactly it is needed in the DSI. +/- 12 Hz with, say 3.6GHz clock does
+not sound very much to me, and there should be enough time every line
+during blanking period to empty any fifos and "catch up".
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+In fact, if the DSI is so picky about the rate, I find the HW design
+odd: in g2l the pixel clock and the DSI clock come from a single source,
+which keeps them neatly in sync. If that is required, why change the
+design here so that the DSI PLL is independent of the pixel clock, yet
+still the DSI PLL must be programmed to be exactly matched to the pixel
+clock.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+The docs say v2h supports burst mode. Isn't the idea with DSI burst mode
+that you run the DSI much faster than the display controller (i.e. with
+much higher clock than HSFREQ = (VCLK * bpp) / num_lanes), so that the
+DSI can burst the data out from its fifos and then go to sleep? The
+separate PLL in v2h allows independent DSI clock config, allowing burst
+mode. If the HW can support that, then there shouldn't be a strict
+requirement for HSFREQ = (VCLK * bpp) / num_lanes, or hitting the
+pclk-hsfreq ratio exactly to milliHz precision.
+
+ Tomi
+
 
