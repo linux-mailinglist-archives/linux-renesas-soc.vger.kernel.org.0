@@ -1,144 +1,168 @@
-Return-Path: <linux-renesas-soc+bounces-21822-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21823-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1965B54DC5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Sep 2025 14:31:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BD1AB54E29
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Sep 2025 14:38:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 70CFF189AE95
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Sep 2025 12:27:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3D9061885D73
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Sep 2025 12:34:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07A8D30EF67;
-	Fri, 12 Sep 2025 12:25:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69136306D58;
+	Fri, 12 Sep 2025 12:32:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="UuT9PLWb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IU55n742"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA36430C350
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Sep 2025 12:25:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB64305E09;
+	Fri, 12 Sep 2025 12:32:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757679903; cv=none; b=SU4rPs5eEx31s8UoCggErouFRIlR61St9HMe54DEE6GqzOx732QlTcjF/eA8NNfMznIqXXfKRKWejfVQoczhHrYFbjxGGXcL0xSNA+sc+yPEK0yFpGq425Vt+0/r2Dh/mDU0g2JfYrGGx8aWyxwGTwy3gE5SeQL1jIIcAWpxqSY=
+	t=1757680348; cv=none; b=UsBqz8zv0230Dol8/Kbh+38VNns7hGnkIqpcZiPFXjev5xQweWVEvm9lyAdsaI6Ms18YoyloWoca/whelk/ZMmCZ6X9P3rzx5D0sOtT/gcPCagcSNh3mtdMczRUCHFF1WEtulX9WmZJUqvIvX6nCkLMc/AR1rVMg/a9cNPJyB1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757679903; c=relaxed/simple;
-	bh=rlU12FG+4sUq0XnXmaxg6zY2V7ONJn4T+IfJgTnkVPc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=D/f4yF3vpTv1egT7JRt623r0y+0Qj2ePPgllWa2YBBuAFefiRKphGy/BOfFu2w9TtEtYf5zZ4hbFtL0MyLcNZ+GNUPdBvVtjmFsYOxqyYk7bPxYenjpRcdTbqX3V9saZulrJSGHdIfdFJh8RA2PYbTJ6lra428cv2J0GPTOHzkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=UuT9PLWb; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3df726ecff3so1067082f8f.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Sep 2025 05:25:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1757679900; x=1758284700; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=md5nkDmRRh2gMN/cfSkiCbamlknh5oiGopcdy0QJF8Y=;
-        b=UuT9PLWb2lfWbAIh0WkT7qwgzoW0KT8KC3XMLU9NE5FRaozLRPm4CS8L6q7a35uSL9
-         49+DAdxtYhNJIrCiw6sz3BYnCMkDSu0MIquWtcQAyeAOnLMJF+LNcb0dvIgsKZpYhXs9
-         5oq1c5B8AZL9zrdbYBR21Q/Bn9wbOSsKvzA1WbREOC5qmtIDZ3eHZslt/6rKxr9Htf4i
-         g7JJrb3SosqooP9y2AuPB+hZdsII1wlGE7kHcYf25imF9A1TmriSUzDLPyC6GDLCKGu6
-         8jQbaSkmnJCymmITs7rPIi9serU0ipAcFhuoSMuSm2EKES7uZKHNzpd2e+Y8WVA77jtZ
-         hAJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757679900; x=1758284700;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=md5nkDmRRh2gMN/cfSkiCbamlknh5oiGopcdy0QJF8Y=;
-        b=ZhlM+1wzXXUU+BDHdccASfNXUFIQqu3HVr8atu4fRAANKjvIk0WlgQmbqiPwM0TePn
-         KeVWU8rGOqQufRt8oc6OTOQtwU6P8XyjX4qO/8YAap5pEzcl5lAnn59ossGRv+7U0rr2
-         7tGd6Fc/WKgR3foZ45EIn1Tmx7FEVIXdjCw9K3J+BZ1xg+ZHwmpqrrjcaglY8FylbEpM
-         J2Ujv0/84kS/W9eXvv6zlAVKG5vNcjcj/421YBIuZwxrfFbREPSc3v6urIv42YHWxmGn
-         hFbh51peNv3IyUOeKEUAUFXchd0aY8/zJ/+W9RNc9/s9gNw+UnLZVl636pCQRktTR2Tz
-         qtzw==
-X-Forwarded-Encrypted: i=1; AJvYcCWTfTHY1fC5dv2l8YrW4TdFJp8pH7lGS6+nDWH3kZHw9WOliflwXY3dn4cEQ9sf0hqIquYvSEtT2fJTDCJvGj2O2g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5CMxMtto7zru6LjpXMTwa6d6wIfBtDlS5Q6RCVk4rRIWcPvUq
-	VliHbuHCeg8sjzBo3jHGukdOrSUx3iG362k5IVekmfxlYDLn/Swk1U9BBcKxizietcc=
-X-Gm-Gg: ASbGncvddSN68I5oEBPE3QxLtMTs51bwfRqzpJA66zmWWOyu7e/nlVmm5OA7moUDTx0
-	f8qFf+cRkKxbCIRQicDCVYWaAXLJYu1qYApwznx2jq3LzJAxYnCaAKuUpkKaZ20dK6250bGgf6/
-	rQPI1hN6mmqNyQabevBoeRSVgd/Z7Ckv8IfVZtTuHxdH+i+0HziawAvkq9M8vfFHgOrRtlhYHoT
-	nFpKSPS0+IcaST0BjKosWBRkZAEDBWknZehMQQOzAEQ4T6uRrkZrAgx2pVMMsO+FYm32Mwr0EpK
-	RD269jthYoGD49xfjc6CAt0jkkoyRtIingC44P8n0qcJ3oSh3jejlCWxa+k50sqR6GkvoXGPkVS
-	PbIJlFFkVrTKuYbqjOgLLNA6ma1z3go2hZGQE25ZtwZMzw7mKTghn
-X-Google-Smtp-Source: AGHT+IFeFgkWbvNLPP6zQb3x+mqbY/nkKchmA7T4My9baxdYYpQETFEEocYlizuFZpzNAgPRzsrfUw==
-X-Received: by 2002:a05:6000:240b:b0:3e7:6457:ca85 with SMTP id ffacd0b85a97d-3e765781280mr3017656f8f.5.1757679899686;
-        Fri, 12 Sep 2025 05:24:59 -0700 (PDT)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.153])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e7607770c2sm6320091f8f.8.2025.09.12.05.24.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Sep 2025 05:24:59 -0700 (PDT)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: bhelgaas@google.com,
-	lpieralisi@kernel.org,
-	kwilczynski@kernel.org,
-	mani@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	geert+renesas@glider.be,
-	magnus.damm@gmail.com,
-	p.zabel@pengutronix.de
-Cc: claudiu.beznea@tuxon.dev,
-	linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH v4 6/6] arm64: defconfig: Enable PCIe for the Renesas RZ/G3S SoC
-Date: Fri, 12 Sep 2025 15:24:44 +0300
-Message-ID: <20250912122444.3870284-7-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250912122444.3870284-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20250912122444.3870284-1-claudiu.beznea.uj@bp.renesas.com>
+	s=arc-20240116; t=1757680348; c=relaxed/simple;
+	bh=FcB/j8jpTTeuUgVYhkcDadPRSSv9aTjPsQanKoFiqeY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LDp5XO/7ZpvYLT+tQHXkiZdpAK/Bg5Ve0fXDnSrbA1dXjOxsx8GcZN2pruAjJzmrU1frK2cRqBF7cW4PQ95IlwyzujWDTIQfFoTzXn2qYwBXJeP8tfJwhezkoOr1U3gVOY6wDGOtXSq3G146LqcNZUk5nK+vrWfJEpyOvk5V4YY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IU55n742; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6500C4CEF1;
+	Fri, 12 Sep 2025 12:32:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757680347;
+	bh=FcB/j8jpTTeuUgVYhkcDadPRSSv9aTjPsQanKoFiqeY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IU55n7424YFkl7R89fO1ro6rbYLpxDoWNnQ5RDwzGZWkFpFRaYy8xKAyncIsgmwFs
+	 kWBrthguK+Q5SPbSQhIUOQuMGZs2CTi99sKx6wWvPO59ZWte07N8oZ8ZpqutdTCrVN
+	 a5anbr6R+aR9xvPhr+Mbuw+xreZXEmvSPvD+h/54KYPbjc+cNs58BnOWFLTFC7iQd6
+	 mTu7HzR3N0ASRwQWStFHRMTFgnACZD/UG+bcpITx9z6Pv4gI3zTwmeai//yb+YifXM
+	 L4Mb1vchumZCk4NBZ7l45o9JleaftTyPT7v4JtMGzBBH19TCfIAX4TlwEBKk5Q/MfI
+	 HfN37v8XYCwsQ==
+Date: Fri, 12 Sep 2025 14:32:24 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: "biju.das.au" <biju.das.au@gmail.com>, 
+	"linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v2] pwm: rzg2l-gpt: Implementation of the waveform
+ callbacks
+Message-ID: <6gvpdndagee54h7gr3uqm37rfu4yk2owffxwtszyjvnic2vqvl@pbp3jqcfrzox>
+References: <20250814115022.73732-1-biju.das.jz@bp.renesas.com>
+ <jb6vcdv3553kbvuzuxdmx7tyxcpmnkaqszks3n4apmt43an6d2@mr4lyezd5a7s>
+ <TY3PR01MB1134600B9DF5AA79AE121CD148609A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="sgmdvzmvjcipahsk"
+Content-Disposition: inline
+In-Reply-To: <TY3PR01MB1134600B9DF5AA79AE121CD148609A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Enable PCIe for the Renesas RZ/G3S SoC.
+--sgmdvzmvjcipahsk
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2] pwm: rzg2l-gpt: Implementation of the waveform
+ callbacks
+MIME-Version: 1.0
 
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
+Hello Biju,
 
-Changes in v4:
-- made it builtin
+On Thu, Sep 11, 2025 at 09:46:38AM +0000, Biju Das wrote:
+> > -----Original Message-----
+> > From: Uwe Kleine-K=F6nig <ukleinek@kernel.org>
+> > Sent: 09 September 2025 16:19
+> > On Thu, Aug 14, 2025 at 12:50:20PM +0100, Biju wrote:
+> > > -/* Caller holds the lock while calling rzg2l_gpt_config() */ -static
+> > > int rzg2l_gpt_config(struct pwm_chip *chip, struct pwm_device *pwm,
+> > > -			    const struct pwm_state *state)
+> > > +static int rzg2l_gpt_round_waveform_tohw(struct pwm_chip *chip,
+> > > +					 struct pwm_device *pwm,
+> > > +					 const struct pwm_waveform *wf,
+> > > +					 void *_wfhw)
+> > > +
+> > >  {
+> > >  	struct rzg2l_gpt_chip *rzg2l_gpt =3D to_rzg2l_gpt_chip(chip);
+> > > -	u8 sub_ch =3D rzg2l_gpt_subchannel(pwm->hwpwm);
+> > > +	struct rzg2l_gpt_waveform *wfhw =3D _wfhw;
+> > >  	u8 ch =3D RZG2L_GET_CH(pwm->hwpwm);
+> > >  	u64 period_ticks, duty_ticks;
+> > >  	unsigned long pv, dc;
+> > > -	u8 prescale;
+> > > +
+> > > +	guard(mutex)(&rzg2l_gpt->lock);
+> > > +	if (wf->period_length_ns =3D=3D 0) {
+> > > +		*wfhw =3D (struct rzg2l_gpt_waveform){
+> > > +			.gtpr =3D 0,
+> > > +			.gtccr =3D 0,
+> > > +			.prescale =3D 0,
+> > > +		};
+> > > +
+> > > +		return 0;
+> > > +	}
+> > >
+> > >  	/* Limit period/duty cycle to max value supported by the HW */
+> > > -	period_ticks =3D mul_u64_u64_div_u64(state->period, rzg2l_gpt->rate=
+_khz, USEC_PER_SEC);
+> > > +	period_ticks =3D mul_u64_u64_div_u64(wf->period_length_ns,
+> > > +rzg2l_gpt->rate_khz, USEC_PER_SEC);
+> > >  	if (period_ticks > RZG2L_MAX_TICKS)
+> > >  		period_ticks =3D RZG2L_MAX_TICKS;
+> > >  	/*
+> >=20
+> > The code that follows here needs adaption. Other than .apply(),
+> > .round_waveform_tohw() is supposed to not fail if the requested period =
+is too small but use the
+> > smallest possible value then (and return 1).
+>=20
+>=20
+> You mean something like below
+>=20
+>         if (rzg2l_gpt->channel_request_count[ch] > 1) {
+>                 if (period_ticks < rzg2l_gpt->period_ticks[ch])
+> -                       return -EBUSY;
+> +                       is_small_second_period =3D true;
+>                 else
+>                         period_ticks =3D rzg2l_gpt->period_ticks[ch];
+>         }
+> @@ -272,6 +276,9 @@ static int rzg2l_gpt_round_waveform_tohw(struct pwm_c=
+hip *chip,
+>         wfhw->prescale =3D rzg2l_gpt_calculate_prescale(rzg2l_gpt, period=
+_ticks);
+>         pv =3D rzg2l_gpt_calculate_pv_or_dc(period_ticks, wfhw->prescale);
+>         wfhw->gtpr =3D pv;
+> +       if (is_small_second_period)
+> +               return 1;
 
-Changes in v3:
-- collected tags
+Just locking at the diff: Yes, that looks about right. I guess you also
+need `period_ticks =3D rzg2l_gpt->period_ticks[ch]` in the
+is_small_second_period=3D=3Dtrue case.
 
-Changes in v2:
-- none
+Best regards
+Uwe
 
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+--sgmdvzmvjcipahsk
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 5dcf36e99cd2..ca731843a9ba 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -230,6 +230,7 @@ CONFIG_PCIE_MEDIATEK_GEN3=m
- CONFIG_PCI_TEGRA=y
- CONFIG_PCIE_RCAR_HOST=y
- CONFIG_PCIE_RCAR_EP=y
-+CONFIG_PCIE_RENESAS_RZG3S_HOST=y
- CONFIG_PCIE_ROCKCHIP_HOST=m
- CONFIG_PCI_XGENE=y
- CONFIG_PCI_IMX6_HOST=y
--- 
-2.43.0
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmjEEtQACgkQj4D7WH0S
+/k4mgQf/YqaB99nCURNqmLX97YX5q/F71+F4Alf4Z9rlAXZp1XgbqQTbSJseZD7C
+8v+bAiYTi0PAYWrOgOwjoulGqZWyBmdnvk4gmz9Vz/TO6LZfWS0rI2irQihBkvPh
+ILfdAkVLBQdCz2nDHgVEbYMxSMa92fb++ME/1JyK9GbLkowESioKi3hzaj/uB1UJ
+OD5bidc7+wBPXa9ULO4DclTTVz5rWx6h5alJD8GW/nZokHZK408s3iSRbo3mudia
+qQs3Z96ch0F5mXjI+wOfQy7WWNxRu4aFuMvapKjtlOaU+reOJZY7meaIcWOo7tgZ
+PlQJFIFIGjDzlGZ4vvTJulGCtCAOhg==
+=UeFn
+-----END PGP SIGNATURE-----
+
+--sgmdvzmvjcipahsk--
 
