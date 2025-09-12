@@ -1,168 +1,163 @@
-Return-Path: <linux-renesas-soc+bounces-21823-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21824-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BD1AB54E29
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Sep 2025 14:38:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CFA3B54ECC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Sep 2025 15:09:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3D9061885D73
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Sep 2025 12:34:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 371981C83889
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Sep 2025 13:09:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69136306D58;
-	Fri, 12 Sep 2025 12:32:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC0873043D1;
+	Fri, 12 Sep 2025 13:09:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IU55n742"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="h+eqyzd2";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="B0tqT2+S"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB64305E09;
-	Fri, 12 Sep 2025 12:32:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D991D3009CB;
+	Fri, 12 Sep 2025 13:09:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757680348; cv=none; b=UsBqz8zv0230Dol8/Kbh+38VNns7hGnkIqpcZiPFXjev5xQweWVEvm9lyAdsaI6Ms18YoyloWoca/whelk/ZMmCZ6X9P3rzx5D0sOtT/gcPCagcSNh3mtdMczRUCHFF1WEtulX9WmZJUqvIvX6nCkLMc/AR1rVMg/a9cNPJyB1M=
+	t=1757682548; cv=none; b=jP6RIm6mxONYNTxRtbHnH+3XUizqNREnUmew3qLtJg1jpcAfDD9joAB899EhxMqd8tdJmfJtQXrVaAhdCw5EDJr4C19UyzFlGGyggcKOLtLECMjBpParf54Pk4Fef7jziiUcNrX8pda3hNoDr+JpUeWHOKGZlP6XYL4EtYJM1Lo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757680348; c=relaxed/simple;
-	bh=FcB/j8jpTTeuUgVYhkcDadPRSSv9aTjPsQanKoFiqeY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LDp5XO/7ZpvYLT+tQHXkiZdpAK/Bg5Ve0fXDnSrbA1dXjOxsx8GcZN2pruAjJzmrU1frK2cRqBF7cW4PQ95IlwyzujWDTIQfFoTzXn2qYwBXJeP8tfJwhezkoOr1U3gVOY6wDGOtXSq3G146LqcNZUk5nK+vrWfJEpyOvk5V4YY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IU55n742; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6500C4CEF1;
-	Fri, 12 Sep 2025 12:32:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757680347;
-	bh=FcB/j8jpTTeuUgVYhkcDadPRSSv9aTjPsQanKoFiqeY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IU55n7424YFkl7R89fO1ro6rbYLpxDoWNnQ5RDwzGZWkFpFRaYy8xKAyncIsgmwFs
-	 kWBrthguK+Q5SPbSQhIUOQuMGZs2CTi99sKx6wWvPO59ZWte07N8oZ8ZpqutdTCrVN
-	 a5anbr6R+aR9xvPhr+Mbuw+xreZXEmvSPvD+h/54KYPbjc+cNs58BnOWFLTFC7iQd6
-	 mTu7HzR3N0ASRwQWStFHRMTFgnACZD/UG+bcpITx9z6Pv4gI3zTwmeai//yb+YifXM
-	 L4Mb1vchumZCk4NBZ7l45o9JleaftTyPT7v4JtMGzBBH19TCfIAX4TlwEBKk5Q/MfI
-	 HfN37v8XYCwsQ==
-Date: Fri, 12 Sep 2025 14:32:24 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: "biju.das.au" <biju.das.au@gmail.com>, 
-	"linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v2] pwm: rzg2l-gpt: Implementation of the waveform
- callbacks
-Message-ID: <6gvpdndagee54h7gr3uqm37rfu4yk2owffxwtszyjvnic2vqvl@pbp3jqcfrzox>
-References: <20250814115022.73732-1-biju.das.jz@bp.renesas.com>
- <jb6vcdv3553kbvuzuxdmx7tyxcpmnkaqszks3n4apmt43an6d2@mr4lyezd5a7s>
- <TY3PR01MB1134600B9DF5AA79AE121CD148609A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	s=arc-20240116; t=1757682548; c=relaxed/simple;
+	bh=7ElAf8sTQijlHx3haxeZf0p3J8l5v1LuiFmE4Od6Hmo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YcXxgBOzJaqq8xG8xz4ZAq66+IFPWGoA5ItRA/UpvR1rDknJMxDhBv/48tC4Qidiv5TEvMz3GSNUWXOgA83TkhshPQQGtp6CiwP8x1pHir0OCzlKxgBkMGw/KpaqbBH+JpBg/BqDqZRsQGBA1j5gbeyzYYHcLDZdJ/FF4xPjEbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=h+eqyzd2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=B0tqT2+S; arc=none smtp.client-ip=103.168.172.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id CE6111400416;
+	Fri, 12 Sep 2025 09:09:04 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Fri, 12 Sep 2025 09:09:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1757682544; x=1757768944; bh=5V
+	qV6ShM83ZnT+VLBGrssvzUJYQzVIvizvZ43hXPevc=; b=h+eqyzd2oqIS5HBUf+
+	dzAKHpPydqZnvdI8OPsA6VHFUTSkhmg8mBB2DvesizLcVymSQJNypZzcB8zGr/8P
+	xtGFgoXAbC1x46hrHqTt7j57pPWe6VX4mKb8l9SZ+r5TtRLBlOr/QSRsgbsvZ6/x
+	sVH8ZCvgVenZBUadNOnzBmgG05KOfM01epEMzcE8IV+ea7isre6I/wevfHbENv5v
+	yoQ5p+l5m3Vh9TZ/XyjZ80M16LOabRltCQ1woODLRj9BcPjT5ppb2PyGP98xxen2
+	PAiihnSlRqLUdkDf4FMJcttHNtVWwrpVRwZOtdGRWfhfHge6kmi9S3urbMUtn/x8
+	qruw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1757682544; x=1757768944; bh=5VqV6ShM83ZnT+VLBGrssvzUJYQz
+	VIvizvZ43hXPevc=; b=B0tqT2+SiAiwCu1Fj3uLCsXrWXHeSPDX7ctwNBUttqHi
+	pB7SJV1GTctNIQ0tUrRx1ezikFsHTokFXPoue2knISKfpOGkppQLfv4EJXMwIpAL
+	Y56PhqAC8gZiUhWdfNairpBTpVHojI3PFLyNZFWE/Ui1HM5z8FKM9tdAJffwwv4T
+	qVWIp2rpQbuqNWIev1rYhb81CdmKYuoyyLktvTWTM03OpuzjbCt4C2kn07laCwzx
+	jAmqZRxgTG1prTUc8+rGUF4Qf29xscJiJtg5FELJuDSeS/SKlxEt+rT8KUTdPxLR
+	fFdnT+0p4J00etx2cDMe/UUhcchRxRPtShNSiANxDA==
+X-ME-Sender: <xms:cBvEaHTt11uF7Opfdjneybp_vLvKcp9nU4aarpG8GAddEwiLCi0XSQ>
+    <xme:cBvEaDaCthprqhLxXhWvQCw-aiQbZPkDWwAmmafivLrmTRQugnavcLpilAL36WthA
+    c3S28jOvNZTM9X7-TE>
+X-ME-Received: <xmr:cBvEaC2rG0j4lHNKWEMUJ_9tVz21nJ4Bn90clPyyH_KfGGYQGGoeokLDY2EQhYqPI0MpA5ak_Zf46AAs9hJJ8Z4gKw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvledufecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomheppfhikhhlrghsucfu
+    npguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghsse
+    hrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepheduleetteekgffffedu
+    feeuvdejiedvkefhveeifeegffehledtvdevhfefteegnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhgu
+    sehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepledpmhhouggvpehsmhhtph
+    houhhtpdhrtghpthhtohepphgruhhlsehpsggrrhhkvghrrdguvghvpdhrtghpthhtohep
+    rghnughrvgifodhnvghtuggvvheslhhunhhnrdgthhdprhgtphhtthhopegurghvvghmse
+    gurghvvghmlhhofhhtrdhnvghtpdhrtghpthhtohepvgguuhhmrgiivghtsehgohhoghhl
+    vgdrtghomhdprhgtphhtthhopehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoh
+    epphgrsggvnhhisehrvgguhhgrthdrtghomhdprhgtphhtthhopehnvghtuggvvhesvhhg
+    vghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqd
+    hsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhhikhhlrghsrdhs
+    ohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
+X-ME-Proxy: <xmx:cBvEaGpMFSzsQfIMfKwoPLN-aGtDWCEGJoaYEE8XUZWOLCCwRyB1GQ>
+    <xmx:cBvEaBOsPL0vZ5HWukQ8oNt_1-4FKzmwZwkpOePMBfyrJ1LN15ybhA>
+    <xmx:cBvEaPqOmKRTdcaNiTjaWPNx5UKvetsiUuRmdo_bQudJ_E3VPa2VHQ>
+    <xmx:cBvEaMt9VvAB-Ee0VYIYT3zeIlYH4NyuLYNI0vfGN-gBDcHlOllxmA>
+    <xmx:cBvEaCig1tUevxOyXvGNjT3LPg-YSF-ErWDlkgpcQRWAHWKpqRgHhb65>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 12 Sep 2025 09:09:03 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Paul Barker <paul@pbarker.dev>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [net-next] net: ravb: Fix -Wmaybe-uninitialized warning
+Date: Fri, 12 Sep 2025 15:06:24 +0200
+Message-ID: <20250912130624.1022028-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="sgmdvzmvjcipahsk"
-Content-Disposition: inline
-In-Reply-To: <TY3PR01MB1134600B9DF5AA79AE121CD148609A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Fix a -Wmaybe-uninitialized warning by initializing the variable to
+NULL. The warning is bogus and should not happen, but fixing it allows
+running the check on the driver to catch potential future problems.
 
---sgmdvzmvjcipahsk
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2] pwm: rzg2l-gpt: Implementation of the waveform
- callbacks
-MIME-Version: 1.0
+  $ make CFLAGS_ravb_main.o=-Wmaybe-uninitialized
 
-Hello Biju,
+  In function 'ravb_rx_csum_gbeth',
+      inlined from 'ravb_rx_gbeth' at .../linux/drivers/net/ethernet/renesas/ravb_main.c:923:6:
+  .../linux/drivers/net/ethernet/renesas/ravb_main.c:765:25: error: 'skb' may be used uninitialized [-Werror=maybe-uninitialized]
+    765 |         if (unlikely(skb->len < csum_len))
+        |                      ~~~^~~~~
+  .../linux/include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+     77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+        |                                             ^
+  .../linux/drivers/net/ethernet/renesas/ravb_main.c: In function 'ravb_rx_gbeth':
+  .../linux/drivers/net/ethernet/renesas/ravb_main.c:806:25: note: 'skb' was declared here
+    806 |         struct sk_buff *skb;
+        |                         ^~~
+  cc1: all warnings being treated as errors
 
-On Thu, Sep 11, 2025 at 09:46:38AM +0000, Biju Das wrote:
-> > -----Original Message-----
-> > From: Uwe Kleine-K=F6nig <ukleinek@kernel.org>
-> > Sent: 09 September 2025 16:19
-> > On Thu, Aug 14, 2025 at 12:50:20PM +0100, Biju wrote:
-> > > -/* Caller holds the lock while calling rzg2l_gpt_config() */ -static
-> > > int rzg2l_gpt_config(struct pwm_chip *chip, struct pwm_device *pwm,
-> > > -			    const struct pwm_state *state)
-> > > +static int rzg2l_gpt_round_waveform_tohw(struct pwm_chip *chip,
-> > > +					 struct pwm_device *pwm,
-> > > +					 const struct pwm_waveform *wf,
-> > > +					 void *_wfhw)
-> > > +
-> > >  {
-> > >  	struct rzg2l_gpt_chip *rzg2l_gpt =3D to_rzg2l_gpt_chip(chip);
-> > > -	u8 sub_ch =3D rzg2l_gpt_subchannel(pwm->hwpwm);
-> > > +	struct rzg2l_gpt_waveform *wfhw =3D _wfhw;
-> > >  	u8 ch =3D RZG2L_GET_CH(pwm->hwpwm);
-> > >  	u64 period_ticks, duty_ticks;
-> > >  	unsigned long pv, dc;
-> > > -	u8 prescale;
-> > > +
-> > > +	guard(mutex)(&rzg2l_gpt->lock);
-> > > +	if (wf->period_length_ns =3D=3D 0) {
-> > > +		*wfhw =3D (struct rzg2l_gpt_waveform){
-> > > +			.gtpr =3D 0,
-> > > +			.gtccr =3D 0,
-> > > +			.prescale =3D 0,
-> > > +		};
-> > > +
-> > > +		return 0;
-> > > +	}
-> > >
-> > >  	/* Limit period/duty cycle to max value supported by the HW */
-> > > -	period_ticks =3D mul_u64_u64_div_u64(state->period, rzg2l_gpt->rate=
-_khz, USEC_PER_SEC);
-> > > +	period_ticks =3D mul_u64_u64_div_u64(wf->period_length_ns,
-> > > +rzg2l_gpt->rate_khz, USEC_PER_SEC);
-> > >  	if (period_ticks > RZG2L_MAX_TICKS)
-> > >  		period_ticks =3D RZG2L_MAX_TICKS;
-> > >  	/*
-> >=20
-> > The code that follows here needs adaption. Other than .apply(),
-> > .round_waveform_tohw() is supposed to not fail if the requested period =
-is too small but use the
-> > smallest possible value then (and return 1).
->=20
->=20
-> You mean something like below
->=20
->         if (rzg2l_gpt->channel_request_count[ch] > 1) {
->                 if (period_ticks < rzg2l_gpt->period_ticks[ch])
-> -                       return -EBUSY;
-> +                       is_small_second_period =3D true;
->                 else
->                         period_ticks =3D rzg2l_gpt->period_ticks[ch];
->         }
-> @@ -272,6 +276,9 @@ static int rzg2l_gpt_round_waveform_tohw(struct pwm_c=
-hip *chip,
->         wfhw->prescale =3D rzg2l_gpt_calculate_prescale(rzg2l_gpt, period=
-_ticks);
->         pv =3D rzg2l_gpt_calculate_pv_or_dc(period_ticks, wfhw->prescale);
->         wfhw->gtpr =3D pv;
-> +       if (is_small_second_period)
-> +               return 1;
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ drivers/net/ethernet/renesas/ravb_main.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Just locking at the diff: Yes, that looks about right. I guess you also
-need `period_ticks =3D rzg2l_gpt->period_ticks[ch]` in the
-is_small_second_period=3D=3Dtrue case.
+diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+index 94b6fb94f8f1..9d3bd65b85ff 100644
+--- a/drivers/net/ethernet/renesas/ravb_main.c
++++ b/drivers/net/ethernet/renesas/ravb_main.c
+@@ -802,7 +802,6 @@ static int ravb_rx_gbeth(struct net_device *ndev, int budget, int q)
+ 	const struct ravb_hw_info *info = priv->info;
+ 	struct net_device_stats *stats;
+ 	struct ravb_rx_desc *desc;
+-	struct sk_buff *skb;
+ 	int rx_packets = 0;
+ 	u8  desc_status;
+ 	u16 desc_len;
+@@ -815,6 +814,8 @@ static int ravb_rx_gbeth(struct net_device *ndev, int budget, int q)
+ 	stats = &priv->stats[q];
+ 
+ 	for (i = 0; i < limit; i++, priv->cur_rx[q]++) {
++		struct sk_buff *skb = NULL;
++
+ 		entry = priv->cur_rx[q] % priv->num_rx_ring[q];
+ 		desc = &priv->rx_ring[q].desc[entry];
+ 		if (rx_packets == budget || desc->die_dt == DT_FEMPTY)
+-- 
+2.51.0
 
-Best regards
-Uwe
-
---sgmdvzmvjcipahsk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmjEEtQACgkQj4D7WH0S
-/k4mgQf/YqaB99nCURNqmLX97YX5q/F71+F4Alf4Z9rlAXZp1XgbqQTbSJseZD7C
-8v+bAiYTi0PAYWrOgOwjoulGqZWyBmdnvk4gmz9Vz/TO6LZfWS0rI2irQihBkvPh
-ILfdAkVLBQdCz2nDHgVEbYMxSMa92fb++ME/1JyK9GbLkowESioKi3hzaj/uB1UJ
-OD5bidc7+wBPXa9ULO4DclTTVz5rWx6h5alJD8GW/nZokHZK408s3iSRbo3mudia
-qQs3Z96ch0F5mXjI+wOfQy7WWNxRu4aFuMvapKjtlOaU+reOJZY7meaIcWOo7tgZ
-PlQJFIFIGjDzlGZ4vvTJulGCtCAOhg==
-=UeFn
------END PGP SIGNATURE-----
-
---sgmdvzmvjcipahsk--
 
