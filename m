@@ -1,176 +1,442 @@
-Return-Path: <linux-renesas-soc+bounces-21798-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21799-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB609B54832
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Sep 2025 11:45:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB836B54865
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Sep 2025 11:53:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7ABCC3A2527
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Sep 2025 09:45:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6257316E759
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Sep 2025 09:53:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9F6B24DCE9;
-	Fri, 12 Sep 2025 09:45:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0BF6285C9E;
+	Fri, 12 Sep 2025 09:53:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mP3Drm2M"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="DmBxXmlW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0614241663;
-	Fri, 12 Sep 2025 09:45:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE7A285417
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Sep 2025 09:53:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757670326; cv=none; b=RAjbAZ8GmCVK5VIL8+lS/zwNTuzyDkEQPMMsxxqgRelsm9ASRs4uHwa42MPiPFtUXDQ87ZWrsQFWmOs+YPLbbdSQ7FerguDpgNRK6jB0v+V3dE2XEI7raZySNzTVbVj8moB8tU01Fl+ECmpgDQFo6cSzZ5O0TFc8vl3o8oax1jM=
+	t=1757670802; cv=none; b=FzpXRehFABJ5RtjpabDRoeJIwfMpgS69XfAygP/NHPLb+yxcuoLmo4izABqT/OXug37I27ntnSYgdOkDd1/WC0lYvKlh+FAApmQtjoL3azuEKtMfAfRuKnyZpJXGUtWlsU1+Dc2M4HviBsIm2DVlTDvG7bf6hN+FJbOMDmszgQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757670326; c=relaxed/simple;
-	bh=zr4igsr8oFeCiBW9+aaQVL2zxhxlT/E+EeXpT4KWGCI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kgpWQItEbJeSRXkH2pgqLyAXAlXOfibrO2R6mBYWYLLDabKhIz72/wkQdn2xdrQ2k8rMRRZkX6mto0Z2TMId0FzGbZhSM99OUyxb0gFbvKnhE6oUK23AV9WZGmZTvhSog2+Bko9BiS/Vjvh3BN7I2dHsvd1oJ0zc+s//+WUgrIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mP3Drm2M; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B770FC4CEF1;
-	Fri, 12 Sep 2025 09:45:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757670326;
-	bh=zr4igsr8oFeCiBW9+aaQVL2zxhxlT/E+EeXpT4KWGCI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mP3Drm2MCi5c/EOK7gSIX8JcfxHCc3bqEEvkb54MJrsvBCr+UWSM9/7dGJtwEokcx
-	 dtchJ88D6DchUOeXdYmDRfJZ75bC9edXf0vEHu9hBEqG3fs5Ds5fqd4/CCOAUKbRhV
-	 +xKW81YPDjGQOlk6jPqmOKnu/FXOtCYzamvSX5BjyQ9Qq5w/+Qd3VSifgwsYcDQ4tl
-	 MaGlegYreXTdjoSGYkdDM1MxUA4EpeYFPfELKHEb5d0N68S+E4RdcONpbhsJc+SF+A
-	 KyZnhnWRZ4ZKnvAPXWLYCCpb35EoBpcKk658w/UPwmVKP4DCYWHcLsb+IF/4tNlymu
-	 YPdSRa09hF1UA==
-Date: Fri, 12 Sep 2025 11:45:23 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-pwm@vger.kernel.org, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2] regulator: rpi-panel-v2: Convert to new PWM waveform
- ops
-Message-ID: <qdqla4f5nfccqg2vdwkshzo6znwfizqizsyhfs7ksp6znja7uv@u4uwzvx7pgn6>
-References: <20250904210604.186893-1-marek.vasut+renesas@mailbox.org>
+	s=arc-20240116; t=1757670802; c=relaxed/simple;
+	bh=8k//oqODeNvjTEYYKfAncLtadxTJvZSm20dDhdVFxmE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TJezpA2N8ZZVvBE3RS/F+758aMH6oNECerQDkcbvCKlkgE7R+O03xJ6F+PMGTDKy2AblD2tmLzMRbidx9OePUBleYL3ZV69YWBvPI5YOhQidhXcZ3URNzH0A7PF/cVcqUb8ulVKWGSux4DG4RAkBo7mKSZ06FS3vm8xQB21KD+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=DmBxXmlW; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-45decc9e83eso15678115e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Sep 2025 02:53:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1757670797; x=1758275597; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=F7XfxhScw5K/pNKiOE5XDa0/rE5syTRmPjNymm4IZEw=;
+        b=DmBxXmlWtt16JCdtZH+eM0Tew5ponkvIT1kaunaM3ls33aCriu8eyMO7AxAyQEL8lW
+         lD1zjKTZSr8Uy8Vq9+HEOT76n98HHDmpIY5LPj8YdmanlWFIx01/dUEG47Q3mElYUuFL
+         kNiLexvCoovNjeVd99TdqF3J1dZxA2YNTHtSuJwmrgU1AUvdMKfqpzn2ILyroSk8jpsz
+         PBZn1rPzAnVyTMZUGVCgzbxWf7O8XNoOu5Pf2Stdx1U537V4DMTtHcmmP1abmx7l6QS4
+         tm1PY1Re0CAA9qmbgITr4A6UwfCwwkepAV5SpdVxSdS3kHuMRfATt1NVGjjRM+GrZriR
+         ebQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757670797; x=1758275597;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=F7XfxhScw5K/pNKiOE5XDa0/rE5syTRmPjNymm4IZEw=;
+        b=wHtIR9b3/kUD/fmzMczXSJaXcyhZcsvyyc3l4Vniv1/smYyIdl7/1efYSCo4TnmAoA
+         AHCT9Zyg2DwWXqUwGiRIt022iT7GQkIAJRnDm6UKJvJjPzYXhkgfzdU3X/R2xASwRe+1
+         3jSj4aZ74HI43HlBp2Zq6rVMoVpyZk94iXcA5fTTH6Unql5B5sO0pq3c0JtOKqWntoTZ
+         bERpAehGPo1SXzeEIVs95/TMHl6Sa32hXbLMDQPJMzFh1O7+0l02+NrLX2I1iuNsWhYj
+         o6sAlEnNCCBudu1bZ/jbLgzN/8WNrEZed9zlyjCWdLLhZif+6kYv1ggy0LBfgwnlXsCG
+         F1Ig==
+X-Forwarded-Encrypted: i=1; AJvYcCXGHsGeRVlowrsWlBccmp+7nZ91hAo7286DZD0ZXjiFHAZD2cNzt5ezClsecCp+ghhXXuOtco1AYbboMye5C7m5bg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzldqW2/m/v0sNHS/zu77dfc6tFnVXc2h7YWe6Z66jPp+nCXPns
+	vAYtBHqaIiSVqKRhKKL0gl/EyKGjyBJTwv0IkLg1HNeWQzVsLVYbUT1hV56wCOm12uw=
+X-Gm-Gg: ASbGnctIcXfCykOkyPYOfJLNo+fDPH8EC2PoyBzUrncWKfwa2wxKCVkLiTMAfbvJBZt
+	c0MkUP/6qD7zha/1iWwRN15jR3LZ8T/YwFY/kYbVw7N8pocSXa5FjRKESdvWtYkBQnZJG1UbgYH
+	hycVFaAyPPAjTP4voehl7/MCqa12eroLoQ1pOY/4puCFNFuRLbf5aUgEwVEItwvFe7l3KA6qT0A
+	2UQajB+Ggs8j26upuu3GwNxLDPlNBb3uqMq8n8iYLcs2oG2phCveO3VDKdVTHKOL0JtKqk2kmxw
+	WtkttW66Ue+a8Ai2nLrv7Ay+u/lbQOEoB6f9crF7PJ5RnvcPJE6ZwsK4kkNgBf6oMm6w4mEd87Q
+	Kwv4POKRPXgDJDylAGOcZRvGTw5NO3SryoVaCazNZ5BGiunjDAmit
+X-Google-Smtp-Source: AGHT+IHMKrVsenUpeia7t70Vufz+9EjifL1rICmtpRyfLfre57PvL5rJHcwpotRE8pRDh7ZjAgDWiw==
+X-Received: by 2002:a05:6000:18a4:b0:3e4:f194:288f with SMTP id ffacd0b85a97d-3e765a56cf5mr2010478f8f.62.1757670797296;
+        Fri, 12 Sep 2025 02:53:17 -0700 (PDT)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.153])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e7607d7ff9sm5865231f8f.51.2025.09.12.02.53.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Sep 2025 02:53:16 -0700 (PDT)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: geert+renesas@glider.be,
+	linus.walleij@linaro.org,
+	biju.das.jz@bp.renesas.com
+Cc: claudiu.beznea@tuxon.dev,
+	linux-renesas-soc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v2] pinctrl: renesas: rzg2l: Fix ISEL restore on resume
+Date: Fri, 12 Sep 2025 12:53:08 +0300
+Message-ID: <20250912095308.3603704-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bx4cacmerglue3jb"
-Content-Disposition: inline
-In-Reply-To: <20250904210604.186893-1-marek.vasut+renesas@mailbox.org>
+Content-Transfer-Encoding: 8bit
+
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+
+Commit 1d2da79708cb ("pinctrl: renesas: rzg2l: Avoid configuring ISEL in
+gpio_irq_{en,dis}able*()") dropped the configuration of ISEL from
+struct irq_chip::{irq_enable, irq_disable} APIs and moved it to
+struct gpio_chip::irq::{child_to_parent_hwirq,
+child_irq_domain_ops::free} APIs to fix spurious IRQs.
+
+After commit 1d2da79708cb ("pinctrl: renesas: rzg2l: Avoid configuring ISEL
+in gpio_irq_{en,dis}able*()"), ISEL was no longer configured properly on
+resume. This is because the pinctrl resume code used
+struct irq_chip::irq_enable  (called from rzg2l_gpio_irq_restore()) to
+reconfigure the wakeup interrupts. Some drivers (e.g. Ethernet) may also
+reconfigure non-wakeup interrupts on resume through their own code,
+eventually calling struct irq_chip::irq_enable.
+
+Fix this by adding ISEL configuration back into the
+struct irq_chip::irq_enable API and on resume path for wakeup interrupts.
+
+As struct irq_chip::irq_enable needs now to lock to update the ISEL,
+convert the struct rzg2l_pinctrl::lock to a raw spinlock and replace the
+locking API calls with the raw variants. Otherwise the lockdep reports
+invalid wait context when probing the adv7511 module on RZ/G2L:
+
+ [ BUG: Invalid wait context ]
+ 6.17.0-rc5-next-20250911-00001-gfcfac22533c9 #18 Not tainted
+ -----------------------------
+ (udev-worker)/165 is trying to lock:
+ ffff00000e3664a8 (&pctrl->lock){....}-{3:3}, at: rzg2l_gpio_irq_enable+0x38/0x78
+ other info that might help us debug this:
+ context-{5:5}
+ 3 locks held by (udev-worker)/165:
+ #0: ffff00000e890108 (&dev->mutex){....}-{4:4}, at: __driver_attach+0x90/0x1ac
+ #1: ffff000011c07240 (request_class){+.+.}-{4:4}, at: __setup_irq+0xb4/0x6dc
+ #2: ffff000011c070c8 (lock_class){....}-{2:2}, at: __setup_irq+0xdc/0x6dc
+ stack backtrace:
+ CPU: 1 UID: 0 PID: 165 Comm: (udev-worker) Not tainted 6.17.0-rc5-next-20250911-00001-gfcfac22533c9 #18 PREEMPT
+ Hardware name: Renesas SMARC EVK based on r9a07g044l2 (DT)
+ Call trace:
+ show_stack+0x18/0x24 (C)
+ dump_stack_lvl+0x90/0xd0
+ dump_stack+0x18/0x24
+ __lock_acquire+0xa14/0x20b4
+ lock_acquire+0x1c8/0x354
+ _raw_spin_lock_irqsave+0x60/0x88
+ rzg2l_gpio_irq_enable+0x38/0x78
+ irq_enable+0x40/0x8c
+ __irq_startup+0x78/0xa4
+ irq_startup+0x108/0x16c
+ __setup_irq+0x3c0/0x6dc
+ request_threaded_irq+0xec/0x1ac
+ devm_request_threaded_irq+0x80/0x134
+ adv7511_probe+0x928/0x9a4 [adv7511]
+ i2c_device_probe+0x22c/0x3dc
+ really_probe+0xbc/0x2a0
+ __driver_probe_device+0x78/0x12c
+ driver_probe_device+0x40/0x164
+ __driver_attach+0x9c/0x1ac
+ bus_for_each_dev+0x74/0xd0
+ driver_attach+0x24/0x30
+ bus_add_driver+0xe4/0x208
+ driver_register+0x60/0x128
+ i2c_register_driver+0x48/0xd0
+ adv7511_init+0x5c/0x1000 [adv7511]
+ do_one_initcall+0x64/0x30c
+ do_init_module+0x58/0x23c
+ load_module+0x1bcc/0x1d40
+ init_module_from_file+0x88/0xc4
+ idempotent_init_module+0x188/0x27c
+ __arm64_sys_finit_module+0x68/0xac
+ invoke_syscall+0x48/0x110
+ el0_svc_common.constprop.0+0xc0/0xe0
+ do_el0_svc+0x1c/0x28
+ el0_svc+0x4c/0x160
+ el0t_64_sync_handler+0xa0/0xe4
+ el0t_64_sync+0x198/0x19c
+
+Having ISEL configuration back into the struct irq_chip::irq_enable API
+should be safe with respect to spurious IRQs, as in the probe case IRQs
+are enabled anyway in struct gpio_chip::irq::child_to_parent_hwirq. No
+spurious IRQs were detected on suspend/resume, boot, ethernet link
+insert/remove tests (executed on RZ/G3S). Boot, ethernet link
+insert/remove tests were also executed successfully on RZ/G2L.
+
+Fixes: 1d2da79708cb ("pinctrl: renesas: rzg2l: Avoid configuring ISEL in gpio_irq_{en,dis}able*(")
+Cc: stable@vger.kernel.org
+Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+---
+
+Changes in v2:
+- changed the implementation approach by dropping the spinlock in
+  rzg2l_gpio_irq_endisable(), renaming it to
+  __rzg2l_gpio_irq_endisable() and using it in
+  rzg2l_gpio_irq_endisable(), the newly introduced
+  __rzg2l_gpio_irq_enable() and rzg2l_gpio_irq_restore()
+- convert struct rzg2l_pinctrl::lock to raw_spinlock_t
 
 
---bx4cacmerglue3jb
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2] regulator: rpi-panel-v2: Convert to new PWM waveform
- ops
-MIME-Version: 1.0
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c | 71 +++++++++++++++----------
+ 1 file changed, 44 insertions(+), 27 deletions(-)
 
-Hello Marek,
+diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+index f524af6f586f..c360e473488c 100644
+--- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
++++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+@@ -359,7 +359,7 @@ struct rzg2l_pinctrl {
+ 	spinlock_t			bitmap_lock; /* protect tint_slot bitmap */
+ 	unsigned int			hwirq[RZG2L_TINT_MAX_INTERRUPT];
+ 
+-	spinlock_t			lock; /* lock read/write registers */
++	raw_spinlock_t			lock; /* lock read/write registers */
+ 	struct mutex			mutex; /* serialize adding groups and functions */
+ 
+ 	struct rzg2l_pinctrl_pin_settings *settings;
+@@ -543,7 +543,7 @@ static void rzg2l_pinctrl_set_pfc_mode(struct rzg2l_pinctrl *pctrl,
+ 	unsigned long flags;
+ 	u32 reg;
+ 
+-	spin_lock_irqsave(&pctrl->lock, flags);
++	raw_spin_lock_irqsave(&pctrl->lock, flags);
+ 
+ 	/* Set pin to 'Non-use (Hi-Z input protection)'  */
+ 	reg = readw(pctrl->base + PM(off));
+@@ -567,7 +567,7 @@ static void rzg2l_pinctrl_set_pfc_mode(struct rzg2l_pinctrl *pctrl,
+ 
+ 	pctrl->data->pwpr_pfc_lock_unlock(pctrl, true);
+ 
+-	spin_unlock_irqrestore(&pctrl->lock, flags);
++	raw_spin_unlock_irqrestore(&pctrl->lock, flags);
+ };
+ 
+ static int rzg2l_pinctrl_set_mux(struct pinctrl_dev *pctldev,
+@@ -882,10 +882,10 @@ static void rzg2l_rmw_pin_config(struct rzg2l_pinctrl *pctrl, u32 offset,
+ 		addr += 4;
+ 	}
+ 
+-	spin_lock_irqsave(&pctrl->lock, flags);
++	raw_spin_lock_irqsave(&pctrl->lock, flags);
+ 	reg = readl(addr) & ~(mask << (bit * 8));
+ 	writel(reg | (val << (bit * 8)), addr);
+-	spin_unlock_irqrestore(&pctrl->lock, flags);
++	raw_spin_unlock_irqrestore(&pctrl->lock, flags);
+ }
+ 
+ static int rzg2l_caps_to_pwr_reg(const struct rzg2l_register_offsets *regs, u32 caps)
+@@ -1121,7 +1121,7 @@ static int rzg2l_write_oen(struct rzg2l_pinctrl *pctrl, unsigned int _pin, u8 oe
+ 	if (bit < 0)
+ 		return -EINVAL;
+ 
+-	spin_lock_irqsave(&pctrl->lock, flags);
++	raw_spin_lock_irqsave(&pctrl->lock, flags);
+ 	val = readb(pctrl->base + oen_offset);
+ 	if (oen)
+ 		val &= ~BIT(bit);
+@@ -1134,7 +1134,7 @@ static int rzg2l_write_oen(struct rzg2l_pinctrl *pctrl, unsigned int _pin, u8 oe
+ 	writeb(val, pctrl->base + oen_offset);
+ 	if (pctrl->data->hwcfg->oen_pwpr_lock)
+ 		writeb(pwpr & ~PWPR_REGWE_B, pctrl->base + regs->pwpr);
+-	spin_unlock_irqrestore(&pctrl->lock, flags);
++	raw_spin_unlock_irqrestore(&pctrl->lock, flags);
+ 
+ 	return 0;
+ }
+@@ -1687,14 +1687,14 @@ static int rzg2l_gpio_request(struct gpio_chip *chip, unsigned int offset)
+ 	if (ret)
+ 		return ret;
+ 
+-	spin_lock_irqsave(&pctrl->lock, flags);
++	raw_spin_lock_irqsave(&pctrl->lock, flags);
+ 
+ 	/* Select GPIO mode in PMC Register */
+ 	reg8 = readb(pctrl->base + PMC(off));
+ 	reg8 &= ~BIT(bit);
+ 	pctrl->data->pmc_writeb(pctrl, reg8, PMC(off));
+ 
+-	spin_unlock_irqrestore(&pctrl->lock, flags);
++	raw_spin_unlock_irqrestore(&pctrl->lock, flags);
+ 
+ 	return 0;
+ }
+@@ -1709,7 +1709,7 @@ static void rzg2l_gpio_set_direction(struct rzg2l_pinctrl *pctrl, u32 offset,
+ 	unsigned long flags;
+ 	u16 reg16;
+ 
+-	spin_lock_irqsave(&pctrl->lock, flags);
++	raw_spin_lock_irqsave(&pctrl->lock, flags);
+ 
+ 	reg16 = readw(pctrl->base + PM(off));
+ 	reg16 &= ~(PM_MASK << (bit * 2));
+@@ -1717,7 +1717,7 @@ static void rzg2l_gpio_set_direction(struct rzg2l_pinctrl *pctrl, u32 offset,
+ 	reg16 |= (output ? PM_OUTPUT : PM_INPUT) << (bit * 2);
+ 	writew(reg16, pctrl->base + PM(off));
+ 
+-	spin_unlock_irqrestore(&pctrl->lock, flags);
++	raw_spin_unlock_irqrestore(&pctrl->lock, flags);
+ }
+ 
+ static int rzg2l_gpio_get_direction(struct gpio_chip *chip, unsigned int offset)
+@@ -1761,7 +1761,7 @@ static int rzg2l_gpio_set(struct gpio_chip *chip, unsigned int offset,
+ 	unsigned long flags;
+ 	u8 reg8;
+ 
+-	spin_lock_irqsave(&pctrl->lock, flags);
++	raw_spin_lock_irqsave(&pctrl->lock, flags);
+ 
+ 	reg8 = readb(pctrl->base + P(off));
+ 
+@@ -1770,7 +1770,7 @@ static int rzg2l_gpio_set(struct gpio_chip *chip, unsigned int offset,
+ 	else
+ 		writeb(reg8 & ~BIT(bit), pctrl->base + P(off));
+ 
+-	spin_unlock_irqrestore(&pctrl->lock, flags);
++	raw_spin_unlock_irqrestore(&pctrl->lock, flags);
+ 
+ 	return 0;
+ }
+@@ -2429,14 +2429,13 @@ static int rzg2l_gpio_get_gpioint(unsigned int virq, struct rzg2l_pinctrl *pctrl
+ 	return gpioint;
+ }
+ 
+-static void rzg2l_gpio_irq_endisable(struct rzg2l_pinctrl *pctrl,
+-				     unsigned int hwirq, bool enable)
++static void __rzg2l_gpio_irq_endisable(struct rzg2l_pinctrl *pctrl,
++				       unsigned int hwirq, bool enable)
+ {
+ 	const struct pinctrl_pin_desc *pin_desc = &pctrl->desc.pins[hwirq];
+ 	u64 *pin_data = pin_desc->drv_data;
+ 	u32 off = RZG2L_PIN_CFG_TO_PORT_OFFSET(*pin_data);
+ 	u8 bit = RZG2L_PIN_ID_TO_PIN(hwirq);
+-	unsigned long flags;
+ 	void __iomem *addr;
+ 
+ 	addr = pctrl->base + ISEL(off);
+@@ -2445,12 +2444,20 @@ static void rzg2l_gpio_irq_endisable(struct rzg2l_pinctrl *pctrl,
+ 		addr += 4;
+ 	}
+ 
+-	spin_lock_irqsave(&pctrl->lock, flags);
+ 	if (enable)
+ 		writel(readl(addr) | BIT(bit * 8), addr);
+ 	else
+ 		writel(readl(addr) & ~BIT(bit * 8), addr);
+-	spin_unlock_irqrestore(&pctrl->lock, flags);
++}
++
++static void rzg2l_gpio_irq_endisable(struct rzg2l_pinctrl *pctrl,
++				     unsigned int hwirq, bool enable)
++{
++	unsigned long flags;
++
++	raw_spin_lock_irqsave(&pctrl->lock, flags);
++	__rzg2l_gpio_irq_endisable(pctrl, hwirq, enable);
++	raw_spin_unlock_irqrestore(&pctrl->lock, flags);
+ }
+ 
+ static void rzg2l_gpio_irq_disable(struct irq_data *d)
+@@ -2462,15 +2469,25 @@ static void rzg2l_gpio_irq_disable(struct irq_data *d)
+ 	gpiochip_disable_irq(gc, hwirq);
+ }
+ 
+-static void rzg2l_gpio_irq_enable(struct irq_data *d)
++static void __rzg2l_gpio_irq_enable(struct irq_data *d, bool lock)
+ {
+ 	struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
++	struct rzg2l_pinctrl *pctrl = container_of(gc, struct rzg2l_pinctrl, gpio_chip);
+ 	unsigned int hwirq = irqd_to_hwirq(d);
+ 
+ 	gpiochip_enable_irq(gc, hwirq);
++	if (lock)
++		rzg2l_gpio_irq_endisable(pctrl, hwirq, true);
++	else
++		__rzg2l_gpio_irq_endisable(pctrl, hwirq, true);
+ 	irq_chip_enable_parent(d);
+ }
+ 
++static void rzg2l_gpio_irq_enable(struct irq_data *d)
++{
++	__rzg2l_gpio_irq_enable(d, true);
++}
++
+ static int rzg2l_gpio_irq_set_type(struct irq_data *d, unsigned int type)
+ {
+ 	return irq_chip_set_type_parent(d, type);
+@@ -2616,11 +2633,11 @@ static void rzg2l_gpio_irq_restore(struct rzg2l_pinctrl *pctrl)
+ 		 * This has to be atomically executed to protect against a concurrent
+ 		 * interrupt.
+ 		 */
+-		spin_lock_irqsave(&pctrl->lock, flags);
++		raw_spin_lock_irqsave(&pctrl->lock, flags);
+ 		ret = rzg2l_gpio_irq_set_type(data, irqd_get_trigger_type(data));
+ 		if (!ret && !irqd_irq_disabled(data))
+-			rzg2l_gpio_irq_enable(data);
+-		spin_unlock_irqrestore(&pctrl->lock, flags);
++			__rzg2l_gpio_irq_enable(data, false);
++		raw_spin_unlock_irqrestore(&pctrl->lock, flags);
+ 
+ 		if (ret)
+ 			dev_crit(pctrl->dev, "Failed to set IRQ type for virq=%u\n", virq);
+@@ -2950,7 +2967,7 @@ static int rzg2l_pinctrl_probe(struct platform_device *pdev)
+ 				     "failed to enable GPIO clk\n");
+ 	}
+ 
+-	spin_lock_init(&pctrl->lock);
++	raw_spin_lock_init(&pctrl->lock);
+ 	spin_lock_init(&pctrl->bitmap_lock);
+ 	mutex_init(&pctrl->mutex);
+ 	atomic_set(&pctrl->wakeup_path, 0);
+@@ -3093,7 +3110,7 @@ static void rzg2l_pinctrl_pm_setup_pfc(struct rzg2l_pinctrl *pctrl)
+ 	u32 nports = pctrl->data->n_port_pins / RZG2L_PINS_PER_PORT;
+ 	unsigned long flags;
+ 
+-	spin_lock_irqsave(&pctrl->lock, flags);
++	raw_spin_lock_irqsave(&pctrl->lock, flags);
+ 	pctrl->data->pwpr_pfc_lock_unlock(pctrl, false);
+ 
+ 	/* Restore port registers. */
+@@ -3138,7 +3155,7 @@ static void rzg2l_pinctrl_pm_setup_pfc(struct rzg2l_pinctrl *pctrl)
+ 	}
+ 
+ 	pctrl->data->pwpr_pfc_lock_unlock(pctrl, true);
+-	spin_unlock_irqrestore(&pctrl->lock, flags);
++	raw_spin_unlock_irqrestore(&pctrl->lock, flags);
+ }
+ 
+ static int rzg2l_pinctrl_suspend_noirq(struct device *dev)
+@@ -3187,14 +3204,14 @@ static int rzg2l_pinctrl_resume_noirq(struct device *dev)
+ 
+ 	writeb(cache->qspi, pctrl->base + QSPI);
+ 	if (pctrl->data->hwcfg->oen_pwpr_lock) {
+-		spin_lock_irqsave(&pctrl->lock, flags);
++		raw_spin_lock_irqsave(&pctrl->lock, flags);
+ 		pwpr = readb(pctrl->base + regs->pwpr);
+ 		writeb(pwpr | PWPR_REGWE_B, pctrl->base + regs->pwpr);
+ 	}
+ 	writeb(cache->oen, pctrl->base + pctrl->data->hwcfg->regs.oen);
+ 	if (pctrl->data->hwcfg->oen_pwpr_lock) {
+ 		writeb(pwpr & ~PWPR_REGWE_B, pctrl->base + regs->pwpr);
+-		spin_unlock_irqrestore(&pctrl->lock, flags);
++		raw_spin_unlock_irqrestore(&pctrl->lock, flags);
+ 	}
+ 	for (u8 i = 0; i < 2; i++) {
+ 		if (regs->sd_ch)
+-- 
+2.43.0
 
-On Thu, Sep 04, 2025 at 11:05:28PM +0200, Marek Vasut wrote:
-> Convert the driver from legacy PWM apply ops to modern waveform ops.
-> There is no functional change.
->=20
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> ---
-> Cc: "Uwe Kleine-K=F6nig" <ukleinek@kernel.org>
-> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Cc: Liam Girdwood <lgirdwood@gmail.com>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: linux-pwm@vger.kernel.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
-> V2: - Safeguard against wf->duty_length_ns > wf->period_length_ns
-> ---
->  drivers/regulator/rpi-panel-v2-regulator.c | 53 +++++++++++++++++-----
->  1 file changed, 42 insertions(+), 11 deletions(-)
->=20
-> diff --git a/drivers/regulator/rpi-panel-v2-regulator.c b/drivers/regulat=
-or/rpi-panel-v2-regulator.c
-> index 30b78aa75ee38..eb4c4e3ead364 100644
-> --- a/drivers/regulator/rpi-panel-v2-regulator.c
-> +++ b/drivers/regulator/rpi-panel-v2-regulator.c
-> @@ -35,24 +35,55 @@ static const struct regmap_config rpi_panel_regmap_co=
-nfig =3D {
->  	.can_sleep =3D true,
->  };
-> =20
-> -static int rpi_panel_v2_pwm_apply(struct pwm_chip *chip, struct pwm_devi=
-ce *pwm,
-> -				  const struct pwm_state *state)
-> +static int rpi_panel_v2_pwm_round_waveform_tohw(struct pwm_chip *chip,
-> +						struct pwm_device *pwm,
-> +						const struct pwm_waveform *wf,
-> +						void *_wfhw)
->  {
-> -	struct regmap *regmap =3D pwmchip_get_drvdata(chip);
-> -	unsigned int duty;
-> +	u8 *wfhw =3D _wfhw;
-> +
-> +	if (wf->duty_length_ns > wf->period_length_ns)
-> +		*wfhw =3D 100;
-> +	else
-> +		*wfhw =3D mul_u64_u64_div_u64(wf->duty_length_ns, 100, wf->period_leng=
-th_ns);
-
-If I understand correctly the device has a fixed period length but the
-actual length is unknown and so assumed to be 100 ms, right?
-
-In this case the right incarnation for .round_waveform_tohw() is:
-
-/*
- * The device has a fixed but unknown period length. To have something
- * to work with, we're assuming this fixed length is 100 ms.
- */
-#define RPI_PANEL_V2_PERIOD_NS 100000
-
-static int rpi_panel_v2_pwm_round_waveform_tohw(...)
-{
-	u8 *wfhw =3D _wfhw;
-
-	if (wf->period_length_ns =3D=3D 0) {
-		*wfhw =3D 0;
-		return 0;
-	}
-
-	if (wf->duty_length_ns >=3D RPI_PANEL_V2_PERIOD_NS)
-		*wfhw =3D 100;
-	else
-		*wfhw =3D mul_u64_u64_div_u64(wf->duty_length_ns, 100, RPI_PANEL_V2_PERIO=
-D_NS);
-
-	if (wf->period_length_ns < RPI_PANEL_V2_PERIOD_NS)
-		return 1;
-	else
-		return 0;
-}
-
-Extra points are awarded if you come up with a nice name for the plain
-100 in here, maybe RPI_PANEL_V2_DUTY_STEPS?
-
-Best regards
-Uwe
-
---bx4cacmerglue3jb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmjD67EACgkQj4D7WH0S
-/k5IxggAmOsqibUsxYYJGyq8oIKpR2r1k73zJ5A8alctw77tLRk5qQ1pIOluqyZ7
-gfQCEEJ6ywfJHYNRbtsDj8pAnMGXV0VQhyTA9l7U6umua1ANZLA4wnLUKcG2CScA
-FtLiSU3qAgf1CzXeugFTn15kZt641v2im92oeYW2IMzZ0fksh+SDcmJnZxed1/Xs
-gdqDL369JW1Z0GaXH8Fhgpj+PLungONCGSxUtOE23FFImhzrh6UllNPWri4yTtHi
-iJFrp9m1XyIB1ll6PmwuX2+bMpAJ/a2yMCWpasih14NQt2D0cne61g40jenedFw3
-c5+ZyKu9rGC4RTY2hAKL7DAbvRzG2g==
-=1NrA
------END PGP SIGNATURE-----
-
---bx4cacmerglue3jb--
 
