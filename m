@@ -1,71 +1,71 @@
-Return-Path: <linux-renesas-soc+bounces-21794-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21795-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 216B9B54549
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Sep 2025 10:27:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86BE1B545C3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Sep 2025 10:44:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2B2E21CC2945
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Sep 2025 08:27:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D1D741CC3A91
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Sep 2025 08:44:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 417DB2D7802;
-	Fri, 12 Sep 2025 08:27:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6D2728BAA6;
+	Fri, 12 Sep 2025 08:43:59 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E982D663F
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Sep 2025 08:27:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10C261BBBE5
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Sep 2025 08:43:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757665638; cv=none; b=fKTdf6CYn8JqOBDGffM/H/T6lQ/WObwJzaOUF5iQjIjovnuPlF4krpH5q0ab7QFi2TCcY54xIX2fKNY2ukrPZ7LoENPpik58ldB7H0oh0UYD9oJDE6qhGiZNx0jHFrhYrTb0QrTym8HeHUgJ4gvh4lcZFhSiFGCue4c6iJAbMAk=
+	t=1757666639; cv=none; b=iBmLBn1xCkObloBYXDcYcaWlE53jN0VluekM600VjkwdPPoHfm6kPHYEpiQDVPmMGSHDl/5Ts1G86tqb1YMcArZ7zGhR15/9KopVzAXihEQMupFD1+/fCT0ltGx/j8V4A6tKqr8VO92G8s/QMfzqudwVu4h/3VM+1xLZe4q0F4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757665638; c=relaxed/simple;
-	bh=rPlm91W0zx0lVppYs1CxSHj4tmUuYrI4z38Rx5YJFZI=;
+	s=arc-20240116; t=1757666639; c=relaxed/simple;
+	bh=y/jJz2ZusSDybe1iPBMjSqne5ow7NABIzFffczF3yyk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Xq5ixdgjC5b918VtOmWSIxYnRd73GGVN93I/njFjJAfu9q2TD1nDLYCOFuf0Jy9vUsg7JlLHkQTRhF2lk+Uz2fxKo/QkrhVJpwVubmgoy1l5QAvXyNvyXqPyMNsItHZp3ZBohBIQpIoOiPAKauJ2pQUkwXdVlicWKNwgO0O5Xzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.45
+	 To:Cc:Content-Type; b=BYV3raOruDFgtoul6sMV8qEaDnBiGzJmitx+bw+6wqTusoA7vsdZUYt1/EVLfrd0EFkBNSZo/V0XBp/KIqAD4p+eVrEFJwJYmPxaGM5vTaBKNx41UsVPbgER23KDOwsfePiQ0adoKR3EALGNmtLKqZBVSuy+OdwUf0+dag7NszY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-89a079e029bso508154241.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Sep 2025 01:27:14 -0700 (PDT)
+Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-5449432a854so774741e0c.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Sep 2025 01:43:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757665633; x=1758270433;
+        d=1e100.net; s=20230601; t=1757666637; x=1758271437;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Dw+rt+iyBk5pp2tm7bKOL8mJupu0qbCu/uLdjMNZyww=;
-        b=YvDSS3B2piCW/7wg/ndWCMTQCYMYz/DUDzRSFiU/XGGDXtZJcNsQsfH86TQy4Y6GjM
-         taV5DOprV/Xxvw1RTlvZu1qg40/E8JbLG6jZSwAg0q6mduZZxnur7upaCdGLCL5aJkO4
-         qgX73yQSVW7akg2vZFODKkbwnvN5WaR08q8Uz6QFu+DJxopFDIJh/TROC9WZBtgAfk8r
-         DPcfrsPkQaJUaxtzjxm/TyYSZbLA4SCE0UCU3udQXr7kgjB/1PkJ/CE9gWwDcKtTYtst
-         im99YIcVjNkOeJm9JnZvQ5nbquMHs2A5GeX68Q0IM1MJJf67oHV2TOUiVpdJC59Z5BYt
-         Khhg==
-X-Forwarded-Encrypted: i=1; AJvYcCXtACPUy6/DwFAZmqTtqa7uhIqjImr+/zYo6fT5w1QrprPIN/eQg0XSUB6DerUSCvAnVGee2wnQdbfsFZflufLZTA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxzuTw+hjQO2brKuicyPJSeUpFjn0tnt40jIwsCgDDeF5oc8msc
-	Lr16ZLoxZTpnj7UJolTybMlkT4/GL+lMSTgvfC9MlYf5Hh4gCQO751VTwxaISPXH
-X-Gm-Gg: ASbGncuLt5IOOGz1X54ISkI7vBNDwAIODA2IHhk8vT/wSw08K90T5IWKk7JCB4nEyuP
-	xfCp8nyHgeKyi78FkkViOZI2UhypFwiGrgAVjVPMtQ3tMBCCGEi+tTwTmYEXK/CYTiV9Lf0yNCT
-	WFzps6r/ZcLtacQWdNji/XTC+emA3Dq5vDU/KVtK42fjTRolqQR3gEhBcF0K8CMsDLY8sc9Y9aA
-	wZczwpYJ+0dv1f5hPgofjkLwKXIqp0poDbbRTBSbtV+/tPZJuVkHbWpil3nwMGBqME/ZO3JyblA
-	zFSOg8lA48mIm+c7Csjpcj2aFkJ7q8EQ3rh6BGr6TZcRQBulSB6bnOsVHNSd1hMF1IMiHmKZ8px
-	3nn0D/LxuehcqBjglCcQCKH8tZsYV64c0Fm6vY5cAYtu2tVM4OXRZ0hiH42NP
-X-Google-Smtp-Source: AGHT+IGShNY7w+RTh12Pf/RcCfGAMex+HQ/xN9RqcIsWQwPIyQO0OlMvas7aGnLO+9+V+H8ydozrcw==
-X-Received: by 2002:a05:6102:390c:b0:52d:a7d9:b5d2 with SMTP id ada2fe7eead31-5560a2fd0aamr782252137.10.1757665633508;
-        Fri, 12 Sep 2025 01:27:13 -0700 (PDT)
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com. [209.85.217.45])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-55374ee8b4bsm857710137.11.2025.09.12.01.27.13
+        bh=Op91nehv57YfLzGMLGlCp7oEduF1D2i1sngnXjbKPUY=;
+        b=W8W5Xu+d0txCyC/jxWPailYra/dwEM+ajYjDjryhl3v70P+VRfAgZxARaln1fTE976
+         NS01KdCaBdBCISwIvJWP+SFQ/GMgc0a3oyhbq3LUmz0OAieMD9owD+3LToa21uqsjE6W
+         oaLYWniB0pzSlI1OtMBs9zyeWVapZV6z1pcw8NyIpr29636Q0gQicqL/DiXnUwNJQIai
+         dnYqGgx37TPviN5uBwcj8KlKAv8hFwkUQ5Jxd1u/0Ckxh6YYsx398B0vhYN9FuLQa6ht
+         B0flydDs0M1LQx3lpQNtOf3+GAMAbQLz1noALQ/g84rLgsUPY3zMxgjN2aU/rwVGdrkc
+         Spmw==
+X-Forwarded-Encrypted: i=1; AJvYcCWtq8dcCv9qw6sJXbIaufafcHzasrUvKY7ubkQoyO6VlTQfvRV0T/BlsDHWMeYUL+GsU1INpTz21NwZpOSRrEOHFA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbQSfR2DVNBIvIh4ff/qtLhViWaz6k7k2PPyG96K5nrAMzAe5z
+	SCxIM3RFmO8z11jty30VeYcWG/TAd8GGXW0zp7lfr4uC0Vs9QJwp9Ry0w9Js2sTr
+X-Gm-Gg: ASbGnctuimJfwSvyp702A5NYI9As62KlGTtXEN8kWPNOABb26LFF5b2vi7geKkDoJDc
+	4pxJX+3Du+AKusRM/zc8bogh80pcYi3V1hIBAQzsWI/IFsFtNHaAymwfkqXw/Kazmt8iWVQCZer
+	IjECYJvu4PstfKSja7BsqorcBHP3I7bx9xVg7DNtQyaR5isOSTHsAUxMo+IpMg0wpXaqIYIsBc+
+	8FW6abKHrEzTKPTgJXXsiL+QGiAc6zC/8D1n6Q8KGn+V0i65abb1IwHJZ3gCysjoQYTruHxnvCg
+	Tjqth6F3/Pn4ZwDmQEp5dnOlrwjVcQcuQtbxRs5nXn0Fr0G0WB/bmWU9pAmHqI6uT9c0d3w+CDu
+	jUwYG39ygn4D1piB/B6780SItAqDgysB3ccqR1I/4iwiHCuStnSiMDanwoR4z/eZg2UXC8Io=
+X-Google-Smtp-Source: AGHT+IFp0mxcBf05zGyZmItTiOnACC7sm65p5ZpR3seK8rP0ZrfKx1nNEFyl3UkJg86sKAwkoEpTgQ==
+X-Received: by 2002:a05:6102:5cc6:b0:523:f1b1:87b with SMTP id ada2fe7eead31-5560fd2d8camr855325137.26.1757666636731;
+        Fri, 12 Sep 2025 01:43:56 -0700 (PDT)
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com. [209.85.217.52])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-553677f3b3esm852183137.0.2025.09.12.01.43.56
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Sep 2025 01:27:13 -0700 (PDT)
-Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-52dec008261so484142137.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Sep 2025 01:27:13 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWNwnEDLWFRmVh1CRGMmCkHu7DeyBHAWAGCAoclag278f0JM45Udkn2O2yRyHil/3+6vfYnAt/DKO83omOZ1+hDuA==@vger.kernel.org
-X-Received: by 2002:a05:6102:50a7:b0:524:bd1e:bcf2 with SMTP id
- ada2fe7eead31-5561119ee74mr779739137.35.1757665632776; Fri, 12 Sep 2025
- 01:27:12 -0700 (PDT)
+        Fri, 12 Sep 2025 01:43:56 -0700 (PDT)
+Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-5330fdb9723so726256137.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Sep 2025 01:43:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWnwwhM5Yu7ldAkRqybxbL0EPLSg/ZlV6zdQDJg9+3Sx8QfUuZUZPsW4EK6EEbwr+nJmAAt/FWZouHlf2QRhEI8Qg==@vger.kernel.org
+X-Received: by 2002:a05:6102:f07:b0:522:a762:8e5d with SMTP id
+ ada2fe7eead31-5560a011ca5mr932894137.13.1757666636265; Fri, 12 Sep 2025
+ 01:43:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -76,10 +76,10 @@ References: <cover.1755855779.git.geert+renesas@glider.be> <f9198ea3be46f1eb2e27
  <TY3PR01MB1134652A3383410EB50783E3A8608A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 In-Reply-To: <TY3PR01MB1134652A3383410EB50783E3A8608A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 12 Sep 2025 10:27:01 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXSVtgGkv6_=ixdBOcTRFHtPxPGxKLGJtV59v4pHBBR0w@mail.gmail.com>
-X-Gm-Features: AS18NWABhW1LifViex4oQ6Jd3RNhJjWXAXEhORT-Lh_o6tOSVSNEKZQYYqXS88U
-Message-ID: <CAMuHMdXSVtgGkv6_=ixdBOcTRFHtPxPGxKLGJtV59v4pHBBR0w@mail.gmail.com>
+Date: Fri, 12 Sep 2025 10:43:44 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUrqqJEM4VWt5KzjPGkTHL4w5Sx9x1gC-yoRW2jEArMiw@mail.gmail.com>
+X-Gm-Features: AS18NWCEc9rh7mbV7HZ3dF7nCk5pwoJB5ewSjxEXrkXmJ5-xyFDYhnGln5x6xVo
+Message-ID: <CAMuHMdUrqqJEM4VWt5KzjPGkTHL4w5Sx9x1gC-yoRW2jEArMiw@mail.gmail.com>
 Subject: Re: [PATCH/RFC 6/6] can: rcar_canfd: Add suspend/resume support
 To: Biju Das <biju.das.jz@bp.renesas.com>
 Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
@@ -90,64 +90,10 @@ Content-Type: text/plain; charset="UTF-8"
 Hi Biju,
 
 On Fri, 12 Sept 2025 at 09:54, Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > -----Original Message-----
-> > From: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Sent: 22 August 2025 10:51
-> > Subject: [PATCH/RFC 6/6] can: rcar_canfd: Add suspend/resume support
-> >
-> > On R-Car Gen3 using PSCI, s2ram powers down the SoC.  After resume, the CAN-FD interface no longer
-> > works.  Trying to bring it up again fails:
-> >
-> >     # ip link set can0 up
-> >     RTNETLINK answers: Connection timed out
-> >
-> >     # dmesg
-> >     ...
-> >     channel 0 communication state failed
-> >
-> > Fix this by populating the (currently empty) suspend and resume callbacks, to stop/start the individual
-> > CAN-FD channels, and (de)initialize the CAN-FD controller.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> Tested-by: Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
->
 > With adaption to RZ/G3E for ram_clk [1]
 
-Thanks!
-
-> > --- a/drivers/net/can/rcar/rcar_canfd.c
-> > +++ b/drivers/net/can/rcar/rcar_canfd.c
-
-> >
-> >  static int rcar_canfd_resume(struct device *dev)  {
-> > +     struct rcar_canfd_global *gpriv = dev_get_drvdata(dev);
-> > +     int err;
-> > +     u32 ch;
-> > +
-> > +     err = rcar_canfd_global_init(gpriv);
-> > +     if (err) {
-> > +             dev_err(dev, "rcar_canfd_open() failed %pe\n", ERR_PTR(err));
->
-> Typo: rcar_canfd_global_init
-
-Oops...
-
-> [1]
->
-> biju@biju:~/linux-work/linux$ git diff
-> diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
-> index 57ac90e57f11..cb358a4e49d0 100644
 > --- a/drivers/net/can/rcar/rcar_canfd.c
 > +++ b/drivers/net/can/rcar/rcar_canfd.c
-> @@ -468,6 +468,7 @@ struct rcar_canfd_global {
->         struct platform_device *pdev;   /* Respective platform device */
->         struct clk *clkp;               /* Peripheral clock */
->         struct clk *can_clk;            /* fCAN clock */
-> +       struct clk *clk_ram;            /* Clock RAM */
->         unsigned long channels_mask;    /* Enabled channels mask */
->         bool extclk;                    /* CANFD or Ext clock */
->         bool fdmode;                    /* CAN FD or Classical CAN only mode */
 > @@ -1983,10 +1984,18 @@ static int rcar_canfd_global_init(struct rcar_canfd_global *gpriv)
 >                 goto fail_reset2;
 >         }
@@ -174,6 +120,9 @@ Oops...
 >         clk_disable_unprepare(gpriv->clkp);
 > +fail_ram_clk:
 > +       clk_disable_unprepare(gpriv->clk_ram);
+
+Should be inserted above fail_clk.
+
 >  fail_reset2:
 >         reset_control_assert(gpriv->rstc2);
 >  fail_reset1:
@@ -182,23 +131,12 @@ Oops...
 >
 >         clk_disable_unprepare(gpriv->clkp);
 > +       clk_disable_unprepare(gpriv->clk_ram);
+
+Wrong order.
+
 >         reset_control_assert(gpriv->rstc2);
 >         reset_control_assert(gpriv->rstc1);
 >  }
-> @@ -2153,10 +2165,10 @@ static int rcar_canfd_probe(struct platform_device *pdev)
->                 gpriv->extclk = gpriv->info->external_clk;
->         }
->
-> -       clk_ram = devm_clk_get_optional_enabled(dev, "ram_clk");
-> +       gpriv->clk_ram = devm_clk_get_optional(dev, "ram_clk");
->         if (IS_ERR(clk_ram))
->                 return dev_err_probe(dev, PTR_ERR(clk_ram),
-> -                                    "cannot get enabled ram clock\n");
-> +                                    "cannot get ram clock\n");
-
-I guess this should be folded into "[PATCH 3/6] can: rcar_canfd:
-Extract rcar_canfd_global_{,de}init()", or even better, inserted as
-a new patch before that?
 
 Gr{oetje,eeting}s,
 
