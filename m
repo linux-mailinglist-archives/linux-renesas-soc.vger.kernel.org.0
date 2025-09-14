@@ -1,71 +1,63 @@
-Return-Path: <linux-renesas-soc+bounces-21847-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21848-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1196FB56C4C
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Sep 2025 22:54:00 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C3E2B56C50
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Sep 2025 22:54:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C7A1717B689
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Sep 2025 20:53:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DA8F03BF4F1
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Sep 2025 20:54:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A56C42E1C7B;
-	Sun, 14 Sep 2025 20:53:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09B622E1EF5;
+	Sun, 14 Sep 2025 20:54:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="QeyRXE6G"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="xeGUVM+S"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A188E2DCF69;
-	Sun, 14 Sep 2025 20:53:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27AC91F3BA9
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 14 Sep 2025 20:54:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757883237; cv=none; b=h5BuUlbzWLUx2QkSb31HjgUG9xsLPFzZDkv5pptqpbuk1veMP4fOrrRjTRM87/OWQ/0b3RETd9+wjgqUxcOFuXPa6V+aMUU4sRD7Ws0wa+ZnbLfb2nYRLewb1Kb0SotpUgmE/fAs8g+7s3XZYvDSK7Q79GQ4BfGG4Bfw4iz2zEg=
+	t=1757883260; cv=none; b=NGR4b0miHbXFnYZfxBhyBoRdDK3FgHSmBdAPqcZjzbZqmrMSfeQZUANxqoeQ8M2VKx6lAoWqvbBppac8hBqYrnGFXz3CjuMfqzKYKFEoMh5eF99gCyYN8m1GZUx9aTLo+YzQP03Hu3PhtUbci9EjUFxrcTLEM4HTnNmkGHZODFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757883237; c=relaxed/simple;
-	bh=JDdCHIxDfQ3AJnTMXc0VF5Q2RCCsvH4MDbxZQYKi8EE=;
+	s=arc-20240116; t=1757883260; c=relaxed/simple;
+	bh=PpxiVB9+pQ+MkaHlLZheoPYARB8iBtYoXqTp/QyqMEg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IlsRfmUmmPq9f3PsILMICW1MYw4Z36zpyZrI3EMY9nuu7EZIXpzd9vzqi3WkuhN953cnjLgHMSsEhIsY942jWkxx0SVAnMYBIuNNOp0Jbj1Cfdk2AvhpJ3amMWwS/IRK6H6T+2HNh9QqyBpMBVzyQLjRIM/ToCeII/fLRNYImtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=QeyRXE6G; arc=none smtp.client-ip=185.246.85.4
+	 Content-Type:Content-Disposition:In-Reply-To; b=cSNhVCXNQ7xjsjLNNpCZ5odV9rlcoE5OM3J9BgjmT52RXAJTm/O4sAcH0AOR0yU9tpnIgAOTal4hKpEWuD154zr9UntoAZOz8TMPAlEJiAcrRNEabaVG1s0atVPqyekjiImgWzZnByK3NWWIapnyJMt8B5ZuucJ+AQ5gQsBvwDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=xeGUVM+S; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id EAF5A4E40BD1;
-	Sun, 14 Sep 2025 20:53:53 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id BC82E1A0DE4;
+	Sun, 14 Sep 2025 20:54:17 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id BEB056063F;
-	Sun, 14 Sep 2025 20:53:53 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 694A4102F2A7F;
-	Sun, 14 Sep 2025 22:53:46 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 8EAB86063F;
+	Sun, 14 Sep 2025 20:54:17 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A654E102F2A7F;
+	Sun, 14 Sep 2025 22:54:13 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1757883233; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=7xQaSzl/TxXQwIRozChDy9Tm+5Lzv6IuUtQ4mWGkAgY=;
-	b=QeyRXE6GcF8lBbDkyGWh9+amy8cLIw7ntDBnRdyEXuiNgbP/aYoh6ADxf6vNCPzUiLbz0F
-	pqaiy+sbbdG2o9oKZktxDx1dDI4uxN0/sBFrVxSnvD83SBEysQ0avybyiKOjr5sYTE9tPe
-	b/1oKLTWKDHonJo0H/Wd3K/QCeRRn/80eSjNCN5V1/Kd0F2XnNaWyabckJAKCr6WVPxrpa
-	sUKz/kGVXdZ683iF5BVJ14YiLuBUNjUEmCYxgNMh9spHX+pvpKCxk8MOB+iMMJF08n7oEw
-	HybkFAX8QwxSbaRFsKk6frbQdI0zK8I0ijJ3jv9xtp6ONwqVKKvRmp8aYnVPcw==
-Date: Sun, 14 Sep 2025 22:53:46 +0200
+	t=1757883257; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=ihIw/PXqVfsvt59L0VFImOtf51q1FRfV6w8XRlZ4Ft8=;
+	b=xeGUVM+Sj+9Dgs8CiVWWe3q2s0jgqBLuGGBsyP3AyAo0ig4Ypp/oJ+UpbLgG8JqGP9+GgB
+	j40GluxagZ+8EUod311DSMW2QXsbWOhTMJnDgwGythulFCYxB8ncCL1iRbFEIRCs3qWxFE
+	Kfz0jcleSbOPMTGh8yYy0vPgpNaIjYvzP+IsqvtpC/5P8E+nax4rmuMzWSUvqyZw8rsmIf
+	V8zEPzHJwS5yymnAXASoC9NFVyWe0vQhkWMCNcMbr7cihdieqWOpaTMGQQjO8pa6galEEL
+	xSLOZOiQUqdz5Tv8dCGB4cd5oCvG25FJ7VIdQ6CMSvkexN5JEaHgI9L65IyGvg==
+Date: Sun, 14 Sep 2025 22:54:13 +0200
 From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+To: linux-renesas-soc@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
 	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
-	Frank Li <Frank.Li@nxp.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Prabhakar <prabhakar.csengg@gmail.com>
-Cc: linux-i3c@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2] dt-bindings: i3c: renesas,i3c: Add RZ/V2H(P) and
- RZ/V2N support
-Message-ID: <175788312845.382502.12492963502213477306.b4-ty@bootlin.com>
-References: <20250908093930.12591-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Frank Li <Frank.Li@nxp.com>, linux-i3c@lists.infradead.org
+Subject: Re: [PATCH] i3c: renesas: Simplify return statement in
+ 'renesas_i3c_daa'
+Message-ID: <175788312845.382502.12699337913885146267.b4-ty@bootlin.com>
+References: <20250803211256.18513-2-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -74,25 +66,19 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250908093930.12591-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250803211256.18513-2-wsa+renesas@sang-engineering.com>
 X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, 08 Sep 2025 10:39:30 +0100, Prabhakar wrote:
-> Add device tree binding support for the I3C Bus Interface on Renesas
-> RZ/V2H(P) and RZ/V2N SoCs. The I3C IP on these SoCs is identical to
-> that found on the RZ/G3E SoC.
+On Sun, 03 Aug 2025 23:12:57 +0200, Wolfram Sang wrote:
+> There was already a bail out for 'ret < 0', so we can always return
+> success at the end of the function.
 > 
-> Add new compatible strings "renesas,r9a09g056-i3c" for RZ/V2N and
-> "renesas,r9a09g057-i3c" for RZ/V2H(P). Both variants use
-> "renesas,r9a09g047-i3c" as a fallback compatible to indicate hardware
-> compatibility with the RZ/G3E implementation.
 > 
-> [...]
 
 Applied, thanks!
 
-[1/1] dt-bindings: i3c: renesas,i3c: Add RZ/V2H(P) and RZ/V2N support
-      https://git.kernel.org/i3c/c/12ba31828681
+[1/1] i3c: renesas: Simplify return statement in 'renesas_i3c_daa'
+      https://git.kernel.org/i3c/c/b22971d9629f
 
 Best regards,
 
