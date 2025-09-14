@@ -1,129 +1,105 @@
-Return-Path: <linux-renesas-soc+bounces-21845-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21846-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD9ECB56AB2
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Sep 2025 18:56:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1FB0B56B56
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Sep 2025 20:40:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7FE143BB48C
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Sep 2025 16:56:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8CEDE3A2C86
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Sep 2025 18:40:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E95EE2DC350;
-	Sun, 14 Sep 2025 16:56:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4005B2DA759;
+	Sun, 14 Sep 2025 18:40:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b="UEyTsq/8"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AEiY5IJy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 189A9258CE9
-	for <linux-renesas-soc@vger.kernel.org>; Sun, 14 Sep 2025 16:56:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 097A6635;
+	Sun, 14 Sep 2025 18:40:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757868978; cv=none; b=sOLAQKa0877kqsz0pr9gVOIPyVE/pMjxkBPhMPY9ZeSM9AnLaDilXtgXeAFTfGK+F7dmGvTL86pO/xSdrMVSoikJqyz5Ss1Qefnnxh/CD/N5ZWcKY65e97T8XCUIHmEmpuOOpCmiiWpqyOGsWoGSerOBo3mYP6WSY53Ljht1GIY=
+	t=1757875208; cv=none; b=BNvlzdBBYeIrgZQkyBhPdjVvlSQEhREOwu4uAd2g8KlJjnK8iI4lZkO6zuCaUoJjnXC32hiiF9T01QWBefm6XE48J8sIUSGZxt8qE6Ga9aMPtKqxi8bizciLHFJyuTNS4L6viJ9XIszjmY1Un4mLuhueNq/nEkhS9n4qbW7yoC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757868978; c=relaxed/simple;
-	bh=RkfQfhlJbWyA2LHc1bvVYWrp9RkM8HrXK7A2wjNzvIY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pb5iIqTLVPNzKiAsv92fkgA/h7V3bEYnyj1lBJ+m/yHQZQ9HpB3ExuN4STBXDI+ilDeOT+eQmz1uZLwllo7ffv5oms/qq3EVyWL2unj4Fx6zdphvnpbb3dox+1fbPiwKeIF84dik2kTOhMdlaBdYuHJynGWRFh6QXnSFtbI3pH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com; spf=pass smtp.mailfrom=cogentembedded.com; dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b=UEyTsq/8; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cogentembedded.com
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b0428b537e5so469091866b.3
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 14 Sep 2025 09:56:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20230601.gappssmtp.com; s=20230601; t=1757868974; x=1758473774; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QPlpyeAwSRDCzGoq7PgUzo7R9sROP9lHXNmER4Pl0Oo=;
-        b=UEyTsq/8pAHwi+9IH7M466q475q0LO+gzT9fX/DKEThrKeJ4CVCViGmTCEM9hneJbN
-         tzDYssgdnVoC2KRYJM/5MoN5mideTncUgNFC9+TkC7ZMoqrMb0EC+GDMI+JTI8brCgcy
-         FH10yS7ugg2I7a1NHE8791AcrUeSFwsMgT9ttuj2dyHi2mpgygjYfTHDlJWQ+sLxcNTH
-         Aw1uWKyGWp9TEGE4no9J95JcdbyLVeyw2Zi4SHizjKaBMhZK+CB69iqApmeCBa/Lrj4A
-         1BRDk1KaiPEictdpO/quanr2HJFmfT5esvxx+pdAOJUZZnlA1zbXs1y0HsKrPasKTrT2
-         nqtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757868974; x=1758473774;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QPlpyeAwSRDCzGoq7PgUzo7R9sROP9lHXNmER4Pl0Oo=;
-        b=vxsiG+93/yKyAe0N35+dPHJN8Sb6cm0RcVyBBxj/gTkatlniRgAcYbLpzngRpWVYGQ
-         V7SLozErxzzkDfyrnxlap6h6gBfYJfgcbDzkAaFuIVSQed4BWrTqi010Bps74Lvok49c
-         t0u5KuNBeT92qyhjbGtEdLGKW54PkVifrQCTBCMpwbvQ3fXzscMDJf1Gzzif2w0IdQt6
-         nIKNpSxuBZ5oubQssHgxcLkPsobhxTEIU+9gwcpYJmlAm40Bjoyu3ed5hvQYUVXKdj98
-         uYCqsqxE0vwgioPf+CnjyGU5KwWL4+xM5pSQfCYNSava2H8tQIsJn6ggAMtoS1/BFAE3
-         cl7A==
-X-Forwarded-Encrypted: i=1; AJvYcCUjDwiG9oKmOMes5rMqUbYZZ0TPzEV8pEZfcH1J535HwsdhiBoBksSQKbcJL8N9/UpK25Lgx5zvURypjqA0egW3oQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxYC4S1F0V0vxn4qGoNDbYJu4SYGuRxCIO1jRj65mVbn/cTNIUp
-	ewqSqe0HRZQx/DuhQaRb1WUs3+DlX4TKQh6zkNXeubxxT0/hxlAmD6a+NUBXXnCOAPU=
-X-Gm-Gg: ASbGncsDy3DY6YEXU+iJPliCnfUXX0DVfMOFifQsNMmmfHnySUvOpM2jwiLBL9+zJDC
-	aBGInURoX/keWyqDeSVhf71Cl+vCLhgttO/SuFLFRHyFFuUBS7ZRy7pJ0/wnmCJvXlV82kfAI7C
-	fm5/27gnEuqnNZt7z7Vaq+lURamrB+WHaywqKZCip1HUm5jMC0zL9JPulECrHHtEL7N0D2NFXwv
-	yJ5xhhDyzuzAroDOH29Zl1K/kMRFY/59h0B/53BJdVixDQaIjVkSjS+k6dobRPP/HvcoMNM8vkK
-	ljH95JDi2mJjErIOAjDa/VQ+o6k/ypdHDMd1Gn37Vk895k34ZOBjXYtDYFAVYB17WpsAaqnjeDr
-	Rzcp9oqVBQ7IJs0cvHj/z74ctLolPLbf6q04TqkRA4NEeOzBsaHlyDl+1lwiskvNaHA1f8g==
-X-Google-Smtp-Source: AGHT+IFo7cg/KTe51S4KiqVqGNE/pynRgI3QfYqO9osoGDCNwd6sXzlp1MQZ0N6YUJ78vOJwr7Bgcw==
-X-Received: by 2002:a17:907:9344:b0:b04:4786:5dfa with SMTP id a640c23a62f3a-b07c3820e57mr986866666b.35.1757868974236;
-        Sun, 14 Sep 2025 09:56:14 -0700 (PDT)
-Received: from ?IPV6:2a02:810a:b98:a000::a43c? ([2a02:810a:b98:a000::a43c])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b07b30da302sm768603066b.16.2025.09.14.09.56.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 14 Sep 2025 09:56:13 -0700 (PDT)
-Message-ID: <a9d9967d-ef5d-47ff-88a5-b1fcf9bcd319@cogentembedded.com>
-Date: Sun, 14 Sep 2025 18:56:12 +0200
+	s=arc-20240116; t=1757875208; c=relaxed/simple;
+	bh=YieT40UUJGq33KYU6kqgUp5hNH+j4q3y+c8x9dfZKSI=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=M/lT6E9OUPQwA5o2RnsRnmN01rmyMdVUGsyunLo0qXU4VriITsKv/mtrh6QYKDbYDg9Za7Fru1ST5oxqIob7n6QVFdxw3kUdC6WyDYgB+nEyAxzd7YegAunRGDHAeVv5Hu0QGj58BHUKSPjtKbc0x/A0sKDsRzxTKZCaTD3Yiig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AEiY5IJy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CA79C4CEF1;
+	Sun, 14 Sep 2025 18:40:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757875207;
+	bh=YieT40UUJGq33KYU6kqgUp5hNH+j4q3y+c8x9dfZKSI=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=AEiY5IJyCBvKp5SFmrw9R3Ld8gUZhhaZLJpAyli3NTlg1zp8qmByc0FjidSZy+O23
+	 y+TN7mR8rYpW9PJrTO/tFTR9wIokRxb/80u4VDGNAOZFEJQglgib91C7vRkhDROSaH
+	 8DnXF8PQ7ES4aPlP8qpfKvkxx/2RH/wN80qKJF5KirSFhTauyPDZjr1lXAgBa3+Jiv
+	 2y6T56wj52TGAYWKP0Kmh6FWnpdOcn1tEGB6KOc1KQK48gtpN4y6PopQ5PhQyreqJe
+	 ZVZtYYAvHQL6IzBqxd+ZLgDFuosA79V00dReDKONnsmbTsa1YKTcuHZxsCy7scdD0t
+	 QGbEa59BgbHDA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70E9F39B167D;
+	Sun, 14 Sep 2025 18:40:10 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] net: renesas: rswitch: simplify rswitch_stop()
-To: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250913181345.204344-1-yury.norov@gmail.com>
-Content-Language: en-US, ru-RU
-From: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-In-Reply-To: <20250913181345.204344-1-yury.norov@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v3 0/3] Add GMAC support for Renesas RZ/{T2H,
+ N2H} SoCs
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <175787520925.3525025.295266235162136621.git-patchwork-notify@kernel.org>
+Date: Sun, 14 Sep 2025 18:40:09 +0000
+References: <20250908105901.3198975-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: 
+ <20250908105901.3198975-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Lad@codeaurora.org, Prabhakar <prabhakar.csengg@gmail.com>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+ richardcochran@gmail.com, p.zabel@pengutronix.de, linux@armlinux.org.uk,
+ geert+renesas@glider.be, magnus.damm@gmail.com, vladimir.oltean@nxp.com,
+ peppe.cavallaro@st.com, joabreu@synopsys.com, netdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, biju.das.jz@bp.renesas.com,
+ fabrizio.castro.jz@renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com
 
-> rswitch_stop() opencodes for_each_set_bit().
+Hello:
+
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Mon,  8 Sep 2025 11:58:58 +0100 you wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> Signed-off-by: Yury Norov (NVIDIA) <yury.norov@gmail.com>
-> ---
->   drivers/net/ethernet/renesas/rswitch.c | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
+> Hi All,
 > 
-> diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
-> index aba772e14555..9497c738b828 100644
-> --- a/drivers/net/ethernet/renesas/rswitch.c
-> +++ b/drivers/net/ethernet/renesas/rswitch.c
-> @@ -1627,9 +1627,7 @@ static int rswitch_stop(struct net_device *ndev)
->   	if (bitmap_empty(rdev->priv->opened_ports, RSWITCH_NUM_PORTS))
->   		iowrite32(GWCA_TS_IRQ_BIT, rdev->priv->addr + GWTSDID);
->   
-> -	for (tag = find_first_bit(rdev->ts_skb_used, TS_TAGS_PER_PORT);
-> -	     tag < TS_TAGS_PER_PORT;
-> -	     tag = find_next_bit(rdev->ts_skb_used, TS_TAGS_PER_PORT, tag + 1)) {
-> +	for_each_set_bit(tag, rdev->ts_skb_used, TS_TAGS_PER_PORT) {
->   		ts_skb = xchg(&rdev->ts_skb[tag], NULL);
->   		clear_bit(tag, rdev->ts_skb_used);
->   		if (ts_skb)
+> This series adds support for the Ethernet MAC (GMAC) IP present on
+> the Renesas RZ/T2H and RZ/N2H SoCs.
+> 
+> [...]
 
-Probably shall be [PATCH net], otherwise
+Here is the summary with links:
+  - [net-next,v3,1/3] dt-bindings: net: renesas,rzv2h-gbeth: Document Renesas RZ/T2H and RZ/N2H SoCs
+    https://git.kernel.org/netdev/net-next/c/d43ce9822349
+  - [net-next,v3,2/3] net: stmmac: dwmac-renesas-gbeth: Use OF data for configuration
+    https://git.kernel.org/netdev/net-next/c/264c26934f75
+  - [net-next,v3,3/3] net: stmmac: dwmac-renesas-gbeth: Add support for RZ/T2H SoC
+    https://git.kernel.org/netdev/net-next/c/57e9e4d7023a
 
-Reviewed-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
 
