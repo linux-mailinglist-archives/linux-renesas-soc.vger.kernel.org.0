@@ -1,101 +1,144 @@
-Return-Path: <linux-renesas-soc+bounces-21931-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21932-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 399F9B59AD0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 16:51:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23F54B59AE4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 16:53:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CAC6C16D3E6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 14:48:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9AEDC1B21F09
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 14:53:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 072F8346A06;
-	Tue, 16 Sep 2025 14:48:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 299FE34AB0D;
+	Tue, 16 Sep 2025 14:49:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aA+2vuDf"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="grP0sXLA"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6FE345752;
-	Tue, 16 Sep 2025 14:48:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7710F34AB13;
+	Tue, 16 Sep 2025 14:49:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758034100; cv=none; b=W251eaXOa2+iSwPwegOPzwCajxDRX6+R4kg8hhwBC52mf1JrQwlltH4IUnBF5FZJFrS1Iq81Ki/KF71/b6rAeJWPaF9Y0QXVHFnpv6g/eK156QU+OR+CjhrKY8IvJ5ZFqd8HMxOcHb1KjmMOaiCNcLRabtqxvMnuPux0cyHnMq4=
+	t=1758034188; cv=none; b=fGro/pLIWeNUGZI1Gs8Y2uHn8zLIRXHbR+6/ezuNuAGVOFDPDxbLll7AHuJGyJUwe+2r95LnICH+TN2mLmDAK601YVtNn/jIWmDJKPq9A9cq2VfO3ROuycoMnYGnEJ/Y/wsI6l9arLBrAFhcjeRQ2Oojky5P8GoMSvzics0SAU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758034100; c=relaxed/simple;
-	bh=CXrQbmAAPCdFfNP2ODalbJjSr2f4p5P/pB6C9b016xM=;
+	s=arc-20240116; t=1758034188; c=relaxed/simple;
+	bh=4Nhjy8qW+RODcC2XVyatf5YPors4YTxk1pZEVvt7I3E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TUOYy3Cwu+6nem5iljelvdhv+puP2NMk/CWyhUPaFQVnQs6BVtd65OqOeN4iaQ55khqVKtvfA4l6IrEuQmXNcCE8bOPWDWk8lWCl2/rsfjsX1pIUAqPCrU/pO2LPUCTQv3ePYyo3o32C957w1rJ16qmxYN4aFH06cRdwLtvgPpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aA+2vuDf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADB11C4CEEB;
-	Tue, 16 Sep 2025 14:48:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758034098;
-	bh=CXrQbmAAPCdFfNP2ODalbJjSr2f4p5P/pB6C9b016xM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aA+2vuDfTgddzPeBptarS26VSs2gOVvvWeCJidsDEFuhceBFFXaZoUfCAlDweUfT1
-	 mlgDfeVZwNrVasQtVBkCMuc6DgH3LGcdulTfXxjv543vcfT9TCCkqG/GK8pWbJ97L8
-	 lU3R8ybSsKQJKsvZnScxtt5vznQBGm3sJIh0ljmDqjWGaKKTzd6+aVxNAqQaQ/l3FT
-	 ka0LdD/6nU924r98Oa2j5sae9SKBEJI0BFAp19dQFmP3G3LY27RejTCRSpRdP83bYm
-	 bxKqrAHBSs1CliE39wz6S/n6JuQn4WotAlzjjbgERtW2CN7ziFtpqkOpBvRasC2Xz3
-	 YUZ76AZTaKt0A==
-Date: Tue, 16 Sep 2025 15:48:13 +0100
-From: Simon Horman <horms@kernel.org>
-To: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=qpahgxpHqtMeXF0Piyr/DS04bupkISJ9Kah13B32+SXvMvycaFwmD4a2iBeL+QGPqe67lRlAI5/UVr2BFUjEzrlKAJoWVQeCr5dOl4E5j++GXip/Xj6Pvmc91WhjCKtVEg+K+2Zd1XuGRzriyopA15OMH9HxDncFuKFV5BVtQhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=grP0sXLA; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=pC6CKk54JU5YyVUn15lE8Gs0KLNMqIiG9WMVBi2XP08=; b=gr
+	P0sXLAhq3sRKgY9YvihESO6KON0b6iUV0RbpYQL2qSXrnZQ+vu9rZkwkwfwX8YoVPhcKfXn2bmwWZ
+	ehOzPsId0c57zRT8F3cVZPQnYK1jeUo78U9yRIjRr74aO0KM5A3YY0GXhTwTA8/WREjJXGY9yyEZ2
+	uVuzESWEQPHdpi8=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1uyWzt-008ZrR-8D; Tue, 16 Sep 2025 16:49:33 +0200
+Date: Tue, 16 Sep 2025 16:49:33 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Paul Barker <paul@pbarker.dev>, Andrew Lunn <andrew+netdev@lunn.ch>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
-	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re:
-Message-ID: <20250916144813.GG224143@horms.kernel.org>
-References: <20250915195231.403865-1-yury.norov@gmail.com>
+	Magnus Damm <magnus.damm@gmail.com>,
+	Richard Cochran <richardcochran@gmail.com>, netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [net-next 6/6] net: ravb: Use common defines for time stamping
+ control
+Message-ID: <81a21668-4886-40ad-9dc2-f6081396a94d@lunn.ch>
+References: <20250916101055.740518-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250916101055.740518-7-niklas.soderlund+renesas@ragnatech.se>
+ <b52b6209-d0c3-49fb-8e99-3cd16e5121d9@lunn.ch>
+ <20250916130848.GD1045278@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250915195231.403865-1-yury.norov@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250916130848.GD1045278@ragnatech.se>
 
-On Mon, Sep 15, 2025 at 03:52:31PM -0400, Yury Norov (NVIDIA) wrote:
-> Subject: [PATCH net-next v2] net: renesas: rswitch: simplify rswitch_stop()
+On Tue, Sep 16, 2025 at 03:08:48PM +0200, Niklas Söderlund wrote:
+> On 2025-09-16 14:38:58 +0200, Andrew Lunn wrote:
+> > > @@ -1010,18 +1009,27 @@ static int ravb_rx_rcar(struct net_device *ndev, int budget, int q)
+> > >  				break;
+> > >  			}
+> > >  			skb_mark_for_recycle(skb);
+> > > -			get_ts &= (q == RAVB_NC) ?
+> > > -					RAVB_RXTSTAMP_TYPE_V2_L2_EVENT :
+> > > -					~RAVB_RXTSTAMP_TYPE_V2_L2_EVENT;
+> > > -			if (get_ts) {
+> > > -				struct skb_shared_hwtstamps *shhwtstamps;
+> > > -
+> > > -				shhwtstamps = skb_hwtstamps(skb);
+> > > -				memset(shhwtstamps, 0, sizeof(*shhwtstamps));
+> > > -				ts.tv_sec = ((u64) le16_to_cpu(desc->ts_sh) <<
+> > > -					     32) | le32_to_cpu(desc->ts_sl);
+> > > -				ts.tv_nsec = le32_to_cpu(desc->ts_n);
+> > > -				shhwtstamps->hwtstamp = timespec64_to_ktime(ts);
+> > > +
+> > > +			if (priv->tstamp_rx_ctrl != HWTSTAMP_FILTER_NONE) {
+> > > +				bool get_ts = false;
+> > > +
+> > > +				if (q == RAVB_NC)
+> > > +					get_ts = priv->tstamp_rx_ctrl ==
+> > > +						HWTSTAMP_FILTER_PTP_V2_L2_EVENT;
+> > > +				else
+> > > +					get_ts = priv->tstamp_rx_ctrl !=
+> > > +						HWTSTAMP_FILTER_PTP_V2_L2_EVENT;
+> > > +
+> > > +				if (get_ts) {
+> > > +					struct skb_shared_hwtstamps *shhwtstamps;
+> > > +
+> > > +					shhwtstamps = skb_hwtstamps(skb);
+> > > +					memset(shhwtstamps, 0, sizeof(*shhwtstamps));
+> > > +					ts.tv_sec = ((u64)le16_to_cpu(desc->ts_sh) << 32)
+> > > +						| le32_to_cpu(desc->ts_sl);
+> > > +					ts.tv_nsec = le32_to_cpu(desc->ts_n);
+> > > +					shhwtstamps->hwtstamp = timespec64_to_ktime(ts);
+> > > +				}
+> > 
+> > This hunk is bigger than it needs to be because this block has been
+> > indented further. Maybe keep get_ts as function scope, initialised to
+> > false, so you don't need to touch this block?
 > 
-> rswitch_stop() opencodes for_each_set_bit().
-> 
-> CC: Simon Horman <horms@kernel.org>
-> Reviewed-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-> Signed-off-by: Yury Norov (NVIDIA) <yury.norov@gmail.com>
-> ---
-> v1: https://lore.kernel.org/all/20250913181345.204344-1-yury.norov@gmail.com/
-> v2: Rebase on top of net-next/main
-> 
->  drivers/net/ethernet/renesas/rswitch_main.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+> Thanks for the suggestion. I could do that. What I like about this is 
+> that it's immediately clear that all this depends on 
+> priv->tstamp_rx_ctrl.
 
-Hi Yury,
+True.
 
-I see this marked as Changes Requested in Patchwork.
-But no response on the netdev ML. So I'll provide one.
+As a reviewer, i was asking myself, has the code actually setting the
+timestamp in the skbuf changed? Do i need to look at it in detail?
+There should not be any need for it to change....
 
-Unfortunately it seems that the posting is slightly mangled,
-there was no Subject in the header (or an empty one), and what
-was supposed to be the Subject ended up at the top of the body.
+> I could break it out to a separate function if you prefer to reduce the 
+> indentation level,
 
-I'm wondering if you could repost with that addressed,
-being sure to observe the 24h delay between postings.
+It is not really indentation level, but the fact it is in the hunk,
+meaning should i look at it?
 
-Thanks!
+So maybe add a patch which moves the copying of the timestamp from the
+descriptor into the skbuf into a helper. This patch then just calls
+the helper, making this hunk much smaller and more obvious?
 
-...
+It does look correct as it is, but its just more effort to review.
+Small, simple, obviously correct patches are what we want.
+
+	Andrew
 
