@@ -1,109 +1,113 @@
-Return-Path: <linux-renesas-soc+bounces-21922-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21923-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B069EB596F8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 15:06:51 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBD36B59706
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 15:09:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9EAA9324E85
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 13:05:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5FFD87AC968
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 13:07:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F985315D2E;
-	Tue, 16 Sep 2025 13:05:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C41A3313290;
+	Tue, 16 Sep 2025 13:08:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fos5Uf5H"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="XrFnaE0t";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Dqx1tW24"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9EAC1A5B92
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Sep 2025 13:05:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7773830EF92;
+	Tue, 16 Sep 2025 13:08:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758027921; cv=none; b=pl+oadVGzFFqTS1LGIHWIdnUuNEvGMCgg6wAqVfpVdMM3Ncx/mlHJYW4MXA7M3whv1nTdRcQKdiQ/NFeh2dgQaEiwGmjU6H6e8byn/hvLUwwbITP+lLgUPELFLFszT/DMhV1vhAH/E/CBan6BsikItwKGuyelCO7MKm0F8JLj9Q=
+	t=1758028135; cv=none; b=UESPh9M0pxzCpgTP0rT17aQEvyStJtQFeqDluev3HfEWHc1Dhz31u2DNDnquu1KEVUxCgZPN8lGfLS/4MIkDvtt/fAvaUIGMxORHDbmHmdpmfxfkSjvSyIx8y/K5nQNUIW7Zlmc8ZntwyU2X+6Pj8oyYOCQLlh+Do22XLAWZseo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758027921; c=relaxed/simple;
-	bh=A3J/tFGOFdBX0jXW1C50S6raOvMVBUSgWZvi7Kanhlc=;
+	s=arc-20240116; t=1758028135; c=relaxed/simple;
+	bh=WeTBIfSJ5Z8ivbbBQqRNRmhhqLaZsrw58259nQwZ/0o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HPYn4H8EBlA+KLDEMl4MR3l7HqklpMO303QwjehHYiLh6hTsjx1Dkv8epQiGUNMdUK/mZpXOdm9cMXjV5exY0LiihfDIauieArAoVWA3oT5pjhGvE6lL+jH38wEm+Uv3FMdDYQQbjR8C0JZtZhC7ZjfLY1okvLCIr7YLbA6+C98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fos5Uf5H; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5718ee49659so434512e87.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Sep 2025 06:05:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1758027913; x=1758632713; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7/8TL00Hlar3x8JkbaIO/sy+q7FGgNPnwJ9JADaoRL4=;
-        b=fos5Uf5HmtyHtL+lmjA3a2H9HrHhg8P/6Oolr9AJUDGP9OMkPBwjrxX4OljDwPgr6d
-         EGU3mAK2k3oxuwsvYOcV9dbWMOzECSpFh5rGQAoVPBdCYGIzcxU1qmZg5zk4kcKy1o8m
-         ObLceXCuhryPZVREmWltfaDyU3ZSF1AB8tcM7qcx3s+Gz+c2nfs8LaVe1SpP50rIkaBH
-         5kjixBwE/ipFb5iKq7VUmS/Jj4sUhCRs8m+4ruHcLezKuG1xEXn3RG6EeIVEcmOnGCUs
-         3gWXyvDwyTqCB2iiTAz4a69UtfssPH55UjmP+s5EQSAjGrj7AA9BVG9u3gT7Ox6W1DjG
-         Y+8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758027913; x=1758632713;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7/8TL00Hlar3x8JkbaIO/sy+q7FGgNPnwJ9JADaoRL4=;
-        b=mxtryorDArKKp1Qw+r1q7bhxGdjipjSbhF7sb46UQ5rJ+eWr1hjzUp0Zh+FPhNQtLn
-         A/1vF7bBqBUnJ9TSGao6FV6Zw3HnIZtqRTZ2D/ojzvv8OhBfHXjWsHEoHOZKsjzCKjDB
-         pchirLBI8+en0bBCt9eUTJSlAPECFPW7rwHxACyqQN3ZENhskdio3CaZfij4wu/JAm/M
-         9kHUX3RsIkIOpXCbPQZ6WbhbgOTlsovvdcq86fw00aDSfnxiVtAPxa3Fh2qwi7rr528+
-         5ZgqwuTN3wtxljLRhvGn62N/twS6geTWzjTmXNVfpIkqAap4E7/wBDrb8tc98iVzAuci
-         8jvw==
-X-Forwarded-Encrypted: i=1; AJvYcCWSa9uXRKqWfhFE3Cp8FharTKBeLrFGKTMEBXcf49NKqES8TgQPn0HBVstwL3SJQkmH2iWkv5CzlqZRPGWoJwONQw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywd87u9nGG9TCH+ES3roqX2TUZ+lfCJapw0+Kydk7YLG4knHMJH
-	9ILGz8L1ml/o8QQ2Z1HrPfgewlbowbXg/OP5tL5p4IoTpr0x3Qd6h3rSQZpOqv6kqqk=
-X-Gm-Gg: ASbGncuW9H0zNAPyLlbm3LyCuScGW+RnH4SUplcVaIkvOgfIK10mLMwxuWbWch5OWx7
-	8FUnb7mnKb03hW3HpCSnQou/utSrRy1tJcwFId3treBjUA5NzUOyAQQED8Klj2M046hR+nmZJ8A
-	rC8W/COuZRw178DsgOFblFXxjJn/Mil+P8ARZGRxRy0cxi2NY0MdujmFtJezs06W9EWFZJFYnGj
-	4qSUyJLdzlPRPl0ys/QfXKU5MX0G5O5YqncwDfQ2SaF5ijjT+8cf+06GRXt3TQ/j+S7SkRffPSX
-	F+fGrdChiUfPNbLeg02ZjwOrvYqsHmb/9Dr1sGV6CyjHGQh64oPLUNI8agQ/YlnGWDZaAiO3IPF
-	QvOee+TMmi6SN5buJ2RCRrDXjte1G9ZpwUODIchz3F2Q0aq0EHA/vmFXzuLGQmnIoIw==
-X-Google-Smtp-Source: AGHT+IENshuIe1ZzBTlZI8ErHAIWfYofEIxwEqD/DxJUwphDcoj5NYeMYiaSJpT5gnIx28eNAX2rmA==
-X-Received: by 2002:a2e:bea2:0:b0:336:e445:92c5 with SMTP id 38308e7fff4ca-3513dd54c2amr23580931fa.3.1758027912735;
-        Tue, 16 Sep 2025 06:05:12 -0700 (PDT)
-Received: from monster (c-85-229-7-191.bbcust.telenor.se. [85.229.7.191])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-34f1b2a931fsm33599691fa.47.2025.09.16.06.05.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Sep 2025 06:05:10 -0700 (PDT)
-Date: Tue, 16 Sep 2025 15:05:07 +0200
-From: Anders Roxell <anders.roxell@linaro.org>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=siAN5oCV0LKNm7oIfW0NBPbeX6+q60Kwwq9HMvySEFtoqbqhKKWz8Sak/YpWyvcXipXJgSS94bC63abeQiYRQaj5D50tB3VJve0pmJ+WKgUvORhP3Lc1ily96z/6YvWB6MAIbQnntRfPZFfPruQAkPMrLvP/3oS51qhEIbGqcHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=XrFnaE0t; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Dqx1tW24; arc=none smtp.client-ip=202.12.124.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 3AC6E7A02BB;
+	Tue, 16 Sep 2025 09:08:52 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-10.internal (MEProxy); Tue, 16 Sep 2025 09:08:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1758028132;
+	 x=1758114532; bh=OFomf3Gkg99WJzC0kc3CgX2BW0qAYCzUzDBFtqLeVlQ=; b=
+	XrFnaE0t/fWQG9RXKlN2OjCgdCwwMzORY9y190V7eMqU1zZWAS1jsWWS4V544xux
+	WcUiYFIK2oGTUccuSeyE5sGQUZHaitVJmi09DSjg+30F3KBJ238YCvwAtu+pIvzC
+	hT6RbzYJESYC2Js0as/Ci14DMZPXUBullvHGHEFcjpGHTds2pvI8zr1Znz/E25ts
+	3Xp5P6jid5EcQUPFj+uOkCgdvoe680rqlNJUKhkaEiDTXOzI5SPoC8U9J98zX3jZ
+	VTEeavunHLge9KcsUkk+27+txn0fasVzSC2GcUUTT2YbtprW8W1MowVrMwIo2tbe
+	XzKYJRN3oBy1Ok9CtgDn6Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1758028132; x=
+	1758114532; bh=OFomf3Gkg99WJzC0kc3CgX2BW0qAYCzUzDBFtqLeVlQ=; b=D
+	qx1tW24HJaXqIQiIF5j/B3Ae/KSvO7LEEkwMQb/SNCf4NYP20NzIKxQFqglmv0qL
+	vgKvZ/pUGH0DqHh2JwwsYtoI5TjMJjnDmQrK0SuXxtFx6s0tj7yHkgDCsdVnzYOj
+	V54V2CXjbcf6sW/w9uLILD1SbakDIyvoHQVEC5qsoOycf/1+JdRwCPLowcDGg2TR
+	3GXZLGj2U3Kduw8DoZxtCmsOpIxijQYzBvCa6q6P9zOoGc7UiHRkDfCeq2VebUFH
+	Zlg6cBkpxlGN1+fLAf/2yhUK4x6GzVR3nX/j7S86a1+YebdsE1S5KgIlSau6W/Hf
+	keVssymBw33uhepym0llw==
+X-ME-Sender: <xms:Y2HJaJYgjlQyzkwR0Bo99nFByNzjPPIxtq0QGDygBXz_LJZFtjLXuQ>
+    <xme:Y2HJaNHvvN1AU0wUZ1ehxnaTGHNS4VxYsAWy3hCRRCp_LLP4i9XMWCH7dytAoNBB1
+    F53xYiVfLsutsYTbEA>
+X-ME-Received: <xmr:Y2HJaP3EgfVzPgwC8Q5jFwmv2BRKYQlaMXBYUQhAqTPRE4MEV9Wn2B1ZPnezTigBKJZRoyHpd-dM_O5p5sMvC49TymGscWPgpg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdegtdeiiecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhikhhlrghs
+    ucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrg
+    hssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepfefhleelhfffjefg
+    fedugfegjeelhfevheeikefhueelgfdtfeeuhefftddvleeinecuvehluhhsthgvrhfuih
+    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhu
+    nhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepud
+    efpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegrnhgurhgvfieslhhunhhnrdgt
+    hhdprhgtphhtthhopehprghulhesphgsrghrkhgvrhdruggvvhdprhgtphhtthhopegrnh
+    gurhgvfidonhgvthguvghvsehluhhnnhdrtghhpdhrtghpthhtohepuggrvhgvmhesuggr
+    vhgvmhhlohhfthdrnhgvthdprhgtphhtthhopegvughumhgriigvthesghhoohhglhgvrd
+    gtohhmpdhrtghpthhtohepkhhusggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehp
+    rggsvghnihesrhgvughhrghtrdgtohhmpdhrtghpthhtohephihoshhhihhhihhrohdrsh
+    hhihhmohgurgdruhhhsehrvghnvghsrghsrdgtohhmpdhrtghpthhtohepghgvvghrthdo
+    rhgvnhgvshgrshesghhlihguvghrrdgsvg
+X-ME-Proxy: <xmx:Y2HJaBwhPrw3fTDwU9Gfv_erGowK_ygOmbLwzYXDhSNSu-LOm2Y5jg>
+    <xmx:Y2HJaIiOeo3erKwjAlTU9t1du-goPsXOeFid3tnWpltTzv5HhfXFFw>
+    <xmx:Y2HJaGMnHd96LFFYhgKpytPDFJzJlmSu-23s0Qpijd7Ko6nLEA56Fw>
+    <xmx:Y2HJaDc_e3l_U5bHMw7g89nRwmLlfh5FsxxyAJagm1MKDhzEHOQ9sA>
+    <xmx:ZGHJaKqa3Qj5zforCSeMfkUJUtSetg7b8cDYKfaMQu1AA9UJ0PmD8KoG>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 16 Sep 2025 09:08:50 -0400 (EDT)
+Date: Tue, 16 Sep 2025 15:08:48 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Paul Barker <paul@pbarker.dev>, Andrew Lunn <andrew+netdev@lunn.ch>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Russell King <linux@armlinux.org.uk>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Magnus Damm <magnus.damm@gmail.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Jose Abreu <joabreu@synopsys.com>, netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH net-next v3 3/3] net: stmmac: dwmac-renesas-gbeth: Add
- support for RZ/T2H SoC
-Message-ID: <aMlgg_QpJOEDGcEA@monster>
-References: <20250908105901.3198975-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250908105901.3198975-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Richard Cochran <richardcochran@gmail.com>, netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [net-next 6/6] net: ravb: Use common defines for time stamping
+ control
+Message-ID: <20250916130848.GD1045278@ragnatech.se>
+References: <20250916101055.740518-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250916101055.740518-7-niklas.soderlund+renesas@ragnatech.se>
+ <b52b6209-d0c3-49fb-8e99-3cd16e5121d9@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -112,82 +116,91 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250908105901.3198975-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b52b6209-d0c3-49fb-8e99-3cd16e5121d9@lunn.ch>
 
-On 2025-09-08 11:59, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On 2025-09-16 14:38:58 +0200, Andrew Lunn wrote:
+> > @@ -1010,18 +1009,27 @@ static int ravb_rx_rcar(struct net_device *ndev, int budget, int q)
+> >  				break;
+> >  			}
+> >  			skb_mark_for_recycle(skb);
+> > -			get_ts &= (q == RAVB_NC) ?
+> > -					RAVB_RXTSTAMP_TYPE_V2_L2_EVENT :
+> > -					~RAVB_RXTSTAMP_TYPE_V2_L2_EVENT;
+> > -			if (get_ts) {
+> > -				struct skb_shared_hwtstamps *shhwtstamps;
+> > -
+> > -				shhwtstamps = skb_hwtstamps(skb);
+> > -				memset(shhwtstamps, 0, sizeof(*shhwtstamps));
+> > -				ts.tv_sec = ((u64) le16_to_cpu(desc->ts_sh) <<
+> > -					     32) | le32_to_cpu(desc->ts_sl);
+> > -				ts.tv_nsec = le32_to_cpu(desc->ts_n);
+> > -				shhwtstamps->hwtstamp = timespec64_to_ktime(ts);
+> > +
+> > +			if (priv->tstamp_rx_ctrl != HWTSTAMP_FILTER_NONE) {
+> > +				bool get_ts = false;
+> > +
+> > +				if (q == RAVB_NC)
+> > +					get_ts = priv->tstamp_rx_ctrl ==
+> > +						HWTSTAMP_FILTER_PTP_V2_L2_EVENT;
+> > +				else
+> > +					get_ts = priv->tstamp_rx_ctrl !=
+> > +						HWTSTAMP_FILTER_PTP_V2_L2_EVENT;
+> > +
+> > +				if (get_ts) {
+> > +					struct skb_shared_hwtstamps *shhwtstamps;
+> > +
+> > +					shhwtstamps = skb_hwtstamps(skb);
+> > +					memset(shhwtstamps, 0, sizeof(*shhwtstamps));
+> > +					ts.tv_sec = ((u64)le16_to_cpu(desc->ts_sh) << 32)
+> > +						| le32_to_cpu(desc->ts_sl);
+> > +					ts.tv_nsec = le32_to_cpu(desc->ts_n);
+> > +					shhwtstamps->hwtstamp = timespec64_to_ktime(ts);
+> > +				}
 > 
-> Extend the Renesas GBETH stmmac glue driver to support the RZ/T2H SoC,
-> where the GMAC is connected through a MIIC PCS. Introduce a new
-> `has_pcs` flag in `struct renesas_gbeth_of_data` to indicate when PCS
-> handling is required.
+> This hunk is bigger than it needs to be because this block has been
+> indented further. Maybe keep get_ts as function scope, initialised to
+> false, so you don't need to touch this block?
+
+Thanks for the suggestion. I could do that. What I like about this is 
+that it's immediately clear that all this depends on 
+priv->tstamp_rx_ctrl.
+
+If I keep the chunk as-is it gives the impression there is some other 
+condition other then priv->tstamp_rx_ctrl that could set get_ts and make 
+a valid use-case of reading the timestamp from the descriptor.
+
+I could break it out to a separate function if you prefer to reduce the 
+indentation level,
+
+static void ravb_rx_rcar_hwstamp(...)
+{
+    bool get_ts = false;
+
+    ...
+
+    if (get_ts) {
+        ....
+    }
+
+}
+
+static int ravb_rx_rcar(..)
+{
+    ...
+
+    if (priv->tstamp_rx_ctrl != HWTSTAMP_FILTER_NONE)
+        ravb_rx_rcar_hwstamp(...);
+
+    ...
+}
+
+Would that work ?
+
 > 
-> When enabled, the driver parses the `pcs-handle` phandle, creates a PCS
-> instance with `miic_create()`, and wires it into phylink. Proper cleanup
-> is done with `miic_destroy()`. New init/exit/select hooks are added to
-> `plat_stmmacenet_data` for PCS integration.
-> 
-> Update Kconfig to select `PCS_RZN1_MIIC` when building the Renesas GBETH
-> driver so the PCS support is always available.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v2->v3:
-> - Dropped passing STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP flag in stmmac_flags
->   as it is always set for all the SoCs.
-> - Updated Kconfig to include RZ/T2H and RZ/N2H.
-> 
-> v1->v2:
-> - No changes.
+> 	Andrew
 
-The following warning is seen when doing a defconfig build (make
-defconfig) for arm64 on the Linux next-20250915 tag.
-
-First seen on next-20250915
-Good: next-20250912
-Bad: next-20250915
-
-Regression Analysis:
-- New regression? yes
-- Reproducibility? yes
-
-Build regression: WARNING: unmet direct dependencies detected for PCS_RZN1_MIIC
-
-Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
-
-This is the build warning:
-WARNING: unmet direct dependencies detected for PCS_RZN1_MIIC
-  Depends on [n]: NETDEVICES [=y] && OF [=y] && (ARCH_RZN1 [=n] || COMPILE_TEST [=n])
-  Selected by [m]:
-  - DWMAC_RENESAS_GBETH [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_STMICRO [=y] && STMMAC_ETH [=m] && STMMAC_PLATFORM [=m] && OF [=y] && (ARCH_RENESAS [=y] || COMPILE_TEST [=n])
-
-WARNING: unmet direct dependencies detected for PCS_RZN1_MIIC
-  Depends on [n]: NETDEVICES [=y] && OF [=y] && (ARCH_RZN1 [=n] || COMPILE_TEST [=n])
-  Selected by [m]:
-  - DWMAC_RENESAS_GBETH [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_STMICRO [=y] && STMMAC_ETH [=m] && STMMAC_PLATFORM [=m] && OF [=y] && (ARCH_RENESAS [=y] || COMPILE_TEST [=n])
-I: config: PASS in 0:00:01.592356
-
-
-By reverting this patch the warning disapears.
-
-
-## Source
-* Kernel version: 6.17.0-rc6
-* Git tree:
-* https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/linux-next.git
-* Git describe: next-20250915
-* Git commit: c3067c2c38316c3ef013636c93daa285ee6aaa2e
-* Architectures: arm64
-* Toolchains: gcc and clang
-* Kconfigs: lkftconfigs
-
-## Build
-* Build log: https://storage.tuxsuite.com/public/linaro/lkft/builds/32l4UF8KltAzu6kUpW3hXaYRWjZ/build.log
-* Test details: https://regressions.linaro.org/lkft/linux-next-master/next-20250915/log-parser-build-clang/general-unmet-dependencies-warning-unmet-direct-dependencies-detected-for-pcs_rzn_miic/
-* Build link: https://storage.tuxsuite.com/public/linaro/lkft/builds/32l4UF8KltAzu6kUpW3hXaYRWjZ/
-* Kernel config: https://storage.tuxsuite.com/public/linaro/lkft/builds/32l4UF8KltAzu6kUpW3hXaYRWjZ/config
-
-
---
-Linaro LKFT
+-- 
+Kind Regards,
+Niklas Söderlund
 
