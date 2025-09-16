@@ -1,137 +1,227 @@
-Return-Path: <linux-renesas-soc+bounces-21882-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21883-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEAD3B588AE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 01:59:41 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EB5BB58963
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 02:29:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8EC39584092
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Sep 2025 23:59:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 684377A5D82
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 00:28:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1852E2DC338;
-	Mon, 15 Sep 2025 23:59:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 544F11A9F86;
+	Tue, 16 Sep 2025 00:28:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="gK1RcYf3";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="OVV4iufm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dv/Td6BD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC9A5C96;
-	Mon, 15 Sep 2025 23:59:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E9921D63F5
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Sep 2025 00:28:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757980779; cv=none; b=Yy5lXnTp8jau/03Zcb3y/NQFq/2h0GRp31qYiCS4utg8f+jqyrvkhdegGLACJHGrd4CaTelpeDmqMGGb8Ga3hgv3w/iybWBrlQmAFbSKRSKgzDSQVjWUMSI0O67cVhe3iSDM2u0Zzyog12K9UWw4HntYq0LPb9njQeX4IgkrsdY=
+	t=1757982526; cv=none; b=uIRwXRKa4rahoCs3uBNOJxkK6hHLJVZYNIFWb5WUvqNzNXGPtn4KQOSyTWoucIkvem7I23d6Ych3sb5qdSw0LKwjD4hUbTFJ1F9jAKIg4GPPbQ4O3hoBfAQjGH2MQ4JQySr9j8dt63IPvFkY/TpDX2qoCR4HigproSXl2hjJdB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757980779; c=relaxed/simple;
-	bh=lPo+MmAbaJ4RcImUPunqiSi0tkxuuXdNZTRsr7RBkKc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PCU6xhhGXrLGewjChG1zBqN9H9xW1RuWX47G1ph2BzK8evbpQgb3Zavv1efU52ZZrdifc1ZHmi/SD0EuLVfNzcujCfO4sozqdBX86lLtroJombZlnso8aiAsBMKjdh1cbWweTfBm5ZNqTD4ronGn2i1bAzr4eHEfIUDqvxyWdBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=gK1RcYf3; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=OVV4iufm; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cQhpZ2GDXz9tgb;
-	Tue, 16 Sep 2025 01:59:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1757980774;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=VIXJv+Tk+btOXvpNbOOVKpDaA7mhVnLO1HpnIo+0uLo=;
-	b=gK1RcYf3PblzEzcKtP5ndYzdjwJaKGK/YTUSfklh/WSLcKqoCub4gekSvteYzv3tDKz5OW
-	7ho/1qhgnwUGQ5OnWioHzMmL5zz4z45ffCiQE2KUMdUfakX5KU+Lpit0BrzV0xboMHkHSw
-	NvzqdZlTMZk8Oc5sflm0dnxD4BU3WG17g0TQLrpgddDiuuSTTg7n/59bEEqpiigI6hub0L
-	eachXIxAerovc4+Aj6szg13Ob/YI2xq5oShRcCAd/KqoJcBzxoiujNJFVhcjez9sWmqn9H
-	Xe38XvZ+Ng/YoZA+cKyN2GyxPs6UT4CBncXNzvmukY0xwT/Yr3k9vSdEbjitKg==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1757980772;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=VIXJv+Tk+btOXvpNbOOVKpDaA7mhVnLO1HpnIo+0uLo=;
-	b=OVV4iufmn5SuB1etNRBorLkPTTU4yS3ga5FnRpy8K5pZDBJ+pItvlnGhk2NWQFEYwRVtpe
-	6UgBQ8a0yFg5x5EiQMTmTP0w/iW++Oe5saXoyNDZ8S4RkCQfU5oU6F90n198jf6ihvZgbt
-	iDk/3OplS3dGcUr4x+7GsxRF1dJ6hMHUHLjZoWHmXzdK25gTUVdARNY/IEJ6OXfC/KEBCO
-	aHj+8pQLGGlVi9vD+Qw0T1Svc2kEd93+6e56IigYFcjR0uBpQJG8NDTJeASjC3o6yCuXRN
-	mgrITBG95aSxYNW1pPQ6y2D9ALy95SW7QbO+zQMsfGhed7wez8oCa8isLTszLw==
-To: linux-pci@vger.kernel.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] PCI: rcar-gen4: Fix inverted break condition in PHY initialization
-Date: Tue, 16 Sep 2025 01:58:40 +0200
-Message-ID: <20250915235910.47768-1-marek.vasut+renesas@mailbox.org>
+	s=arc-20240116; t=1757982526; c=relaxed/simple;
+	bh=we78nwC9k8iWxJxctPF8C4yQx/wewY4URuE+tcY1KAQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Yl5v8hIrKqMps2rsfzAHcwBegYVJF3ZfQDXYA694+q6QLSISbPKYL0Ssp2L7CFJpocDQI6PlOcCT9yT1O1DD3rxtgIKuHH3sY+BU2a0eYyHcZQ4Ttet9sWdZ57Dx3OZOqAoN4qASe6bFEAATK68uN8uouPWNx5Jj7la4L/pNfk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dv/Td6BD; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757982524; x=1789518524;
+  h=date:from:to:cc:subject:message-id;
+  bh=we78nwC9k8iWxJxctPF8C4yQx/wewY4URuE+tcY1KAQ=;
+  b=dv/Td6BD6oNoUd0uE0ZmSDghDkmoBf7Snh3Tj9YDSK37XjnxCYe5cl++
+   vS8gehCVfzfcJDg2w3ZzUWlt+a4OJmmdZ6DaTmmCDiQJrpPdiMJzXEAFn
+   kMtN+dqMCoQe+d2XfmzOHpPWzU+Z2dRy1ngJDuhxfDfwbjZK9BfatlvIs
+   189hO3duf9aPINK0EP713qrMaAEQmNHlKuEHsxhWKYt4tqIwkfH8q5IxV
+   Tt1ZtPjE3dPRqNZymusdk8iHX97Hx6DSZXnDzH5MlsAgP/Uw+bemdBvZs
+   fQh0mggRZNKk44PXFMBvi5QrrVJriiy4IlbRw7cg92DomXb6nRGZH8y6f
+   w==;
+X-CSE-ConnectionGUID: wXrMTA18Ta6+z60ob7oayQ==
+X-CSE-MsgGUID: SjjCb9FBSje/yDAWTvDHSQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11554"; a="60121671"
+X-IronPort-AV: E=Sophos;i="6.18,267,1751266800"; 
+   d="scan'208";a="60121671"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2025 17:28:44 -0700
+X-CSE-ConnectionGUID: LFTrlQVtS1K+Vcbaeo35bQ==
+X-CSE-MsgGUID: E4P+uljLSQ2MYHeBtLhFdw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,267,1751266800"; 
+   d="scan'208";a="173915147"
+Received: from lkp-server01.sh.intel.com (HELO 5b01dd97f97c) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 15 Sep 2025 17:28:43 -0700
+Received: from kbuild by 5b01dd97f97c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uyJYm-0000q7-0n;
+	Tue, 16 Sep 2025 00:28:40 +0000
+Date: Tue, 16 Sep 2025 08:28:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:next] BUILD SUCCESS
+ 35083f5599e6ef1517370efdaefaa2be2074264f
+Message-ID: <202509160803.pH0tdeLn-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: duezxbbpsott3rqapy8king1yarmgdp5
-X-MBO-RS-ID: 05e32af31a68a73225b
 
-R-Car V4H Reference Manual R19UH0186EJ0130 Rev.1.30 Apr. 21, 2025 page 4581
-Figure 104.3b Initial Setting of PCIEC(example), third quarter of the figure
-indicates that register 0xf8 should be polled until bit 18 becomes set to 1.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+branch HEAD: 35083f5599e6ef1517370efdaefaa2be2074264f  Merge branches 'renesas-arm-defconfig-for-v6.18', 'renesas-arm-soc-for-v6.18', 'renesas-drivers-for-v6.18', 'renesas-dt-bindings-for-v6.18' and 'renesas-dts-for-v6.18' into renesas-next
 
-Register 0xf8 bit 18 is 0 immediately after write to PCIERSTCTRL1 and is set
-to 1 in less than 1 ms afterward. The current readl_poll_timeout() break
-condition is inverted and returns when register 0xf8 bit 18 is set to 0,
-which in most cases means immediately. In case CONFIG_DEBUG_LOCK_ALLOC=y ,
-the timing changes just enough for the first readl_poll_timeout() poll to
-already read register 0xf8 bit 18 as 1 and afterward never read register
-0xf8 bit 18 as 0, which leads to timeout and failure to start the PCIe
-controller.
+elapsed time: 889m
 
-Fix this by inverting the poll condition to match the reference manual
-initialization sequence.
+configs tested: 134
+configs skipped: 4
 
-Fixes: faf5a975ee3b ("PCI: rcar-gen4: Add support for R-Car V4H")
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
-Cc: Magnus Damm <magnus.damm@gmail.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: linux-pci@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
----
- drivers/pci/controller/dwc/pcie-rcar-gen4.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-index 5932f83996f0..dafec70837fe 100644
---- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-+++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-@@ -711,7 +711,7 @@ static int rcar_gen4_pcie_ltssm_control(struct rcar_gen4_pcie *rcar, bool enable
- 	val &= ~APP_HOLD_PHY_RST;
- 	writel(val, rcar->base + PCIERSTCTRL1);
- 
--	ret = readl_poll_timeout(rcar->phy_base + 0x0f8, val, !(val & BIT(18)), 100, 10000);
-+	ret = readl_poll_timeout(rcar->phy_base + 0x0f8, val, val & BIT(18), 100, 10000);
- 	if (ret < 0)
- 		return ret;
- 
--- 
-2.51.0
+tested configs:
+alpha                             allnoconfig    gcc-15.1.0
+alpha                            allyesconfig    gcc-15.1.0
+alpha                               defconfig    gcc-15.1.0
+arc                              allmodconfig    gcc-15.1.0
+arc                               allnoconfig    gcc-15.1.0
+arc                              allyesconfig    gcc-15.1.0
+arc                                 defconfig    gcc-15.1.0
+arc                   randconfig-001-20250915    gcc-9.5.0
+arc                   randconfig-002-20250915    gcc-9.5.0
+arm                              allmodconfig    gcc-15.1.0
+arm                               allnoconfig    clang-22
+arm                              allyesconfig    gcc-15.1.0
+arm                                 defconfig    clang-22
+arm                   randconfig-001-20250915    gcc-13.4.0
+arm                   randconfig-002-20250915    clang-20
+arm                   randconfig-003-20250915    gcc-8.5.0
+arm                   randconfig-004-20250915    gcc-11.5.0
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-15.1.0
+arm64                               defconfig    gcc-15.1.0
+arm64                 randconfig-001-20250915    clang-22
+arm64                 randconfig-002-20250915    clang-22
+arm64                 randconfig-003-20250915    gcc-8.5.0
+arm64                 randconfig-004-20250915    gcc-11.5.0
+csky                              allnoconfig    gcc-15.1.0
+csky                                defconfig    gcc-15.1.0
+csky                  randconfig-001-20250915    gcc-15.1.0
+csky                  randconfig-002-20250915    gcc-15.1.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-22
+hexagon                          allyesconfig    clang-22
+hexagon                             defconfig    clang-22
+hexagon               randconfig-001-20250915    clang-22
+hexagon               randconfig-002-20250915    clang-22
+i386                             allmodconfig    gcc-14
+i386                              allnoconfig    gcc-14
+i386                             allyesconfig    gcc-14
+i386        buildonly-randconfig-001-20250915    clang-20
+i386        buildonly-randconfig-002-20250915    gcc-14
+i386        buildonly-randconfig-003-20250915    gcc-14
+i386        buildonly-randconfig-004-20250915    gcc-14
+i386        buildonly-randconfig-005-20250915    gcc-14
+i386        buildonly-randconfig-006-20250915    gcc-14
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    clang-19
+loongarch                         allnoconfig    clang-22
+loongarch                           defconfig    clang-19
+loongarch             randconfig-001-20250915    clang-22
+loongarch             randconfig-002-20250915    gcc-12.5.0
+m68k                             allmodconfig    gcc-15.1.0
+m68k                              allnoconfig    gcc-15.1.0
+m68k                             allyesconfig    gcc-15.1.0
+m68k                                defconfig    gcc-15.1.0
+microblaze                       allmodconfig    gcc-15.1.0
+microblaze                        allnoconfig    gcc-15.1.0
+microblaze                       allyesconfig    gcc-15.1.0
+microblaze                          defconfig    gcc-15.1.0
+mips                              allnoconfig    gcc-15.1.0
+mips                         rt305x_defconfig    clang-22
+mips                           xway_defconfig    clang-22
+nios2                             allnoconfig    gcc-11.5.0
+nios2                               defconfig    gcc-11.5.0
+nios2                 randconfig-001-20250915    gcc-11.5.0
+nios2                 randconfig-002-20250915    gcc-11.5.0
+openrisc                          allnoconfig    gcc-15.1.0
+openrisc                         allyesconfig    gcc-15.1.0
+openrisc                            defconfig    gcc-15.1.0
+parisc                           allmodconfig    gcc-15.1.0
+parisc                            allnoconfig    gcc-15.1.0
+parisc                           allyesconfig    gcc-15.1.0
+parisc                              defconfig    gcc-15.1.0
+parisc                randconfig-001-20250915    gcc-9.5.0
+parisc                randconfig-002-20250915    gcc-14.3.0
+parisc64                            defconfig    gcc-15.1.0
+powerpc                           allnoconfig    gcc-15.1.0
+powerpc                          allyesconfig    clang-22
+powerpc                     kmeter1_defconfig    gcc-15.1.0
+powerpc               randconfig-001-20250915    gcc-14.3.0
+powerpc               randconfig-002-20250915    gcc-8.5.0
+powerpc               randconfig-003-20250915    clang-22
+powerpc                     redwood_defconfig    clang-22
+powerpc64             randconfig-001-20250915    clang-20
+powerpc64             randconfig-002-20250915    clang-22
+powerpc64             randconfig-003-20250915    clang-22
+riscv                            allmodconfig    clang-22
+riscv                             allnoconfig    gcc-15.1.0
+riscv                            allyesconfig    clang-16
+riscv                               defconfig    clang-22
+riscv                 randconfig-001-20250915    gcc-8.5.0
+riscv                 randconfig-002-20250915    clang-22
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-22
+s390                             allyesconfig    gcc-15.1.0
+s390                                defconfig    clang-22
+s390                  randconfig-001-20250915    clang-22
+s390                  randconfig-002-20250915    clang-22
+sh                               allmodconfig    gcc-15.1.0
+sh                                allnoconfig    gcc-15.1.0
+sh                               allyesconfig    gcc-15.1.0
+sh                                  defconfig    gcc-15.1.0
+sh                          landisk_defconfig    gcc-15.1.0
+sh                          lboxre2_defconfig    gcc-15.1.0
+sh                    randconfig-001-20250915    gcc-15.1.0
+sh                    randconfig-002-20250915    gcc-13.4.0
+sh                          rsk7203_defconfig    gcc-15.1.0
+sparc                            allmodconfig    gcc-15.1.0
+sparc                             allnoconfig    gcc-15.1.0
+sparc                               defconfig    gcc-15.1.0
+sparc                 randconfig-001-20250915    gcc-8.5.0
+sparc                 randconfig-002-20250915    gcc-8.5.0
+sparc64                             defconfig    clang-20
+sparc64               randconfig-001-20250915    gcc-13.4.0
+sparc64               randconfig-002-20250915    gcc-12.5.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-22
+um                               allyesconfig    gcc-14
+um                                  defconfig    clang-22
+um                             i386_defconfig    gcc-14
+um                    randconfig-001-20250915    gcc-14
+um                    randconfig-002-20250915    gcc-14
+um                           x86_64_defconfig    clang-22
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250915    clang-20
+x86_64      buildonly-randconfig-002-20250915    gcc-12
+x86_64      buildonly-randconfig-003-20250915    gcc-14
+x86_64      buildonly-randconfig-004-20250915    clang-20
+x86_64      buildonly-randconfig-005-20250915    clang-20
+x86_64      buildonly-randconfig-006-20250915    gcc-14
+x86_64                              defconfig    gcc-14
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    gcc-15.1.0
+xtensa                randconfig-001-20250915    gcc-9.5.0
+xtensa                randconfig-002-20250915    gcc-11.5.0
 
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
