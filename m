@@ -1,133 +1,127 @@
-Return-Path: <linux-renesas-soc+bounces-21895-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21896-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06DCFB58FA8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 09:52:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15A0CB59037
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 10:18:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9B77048425E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 07:52:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C4CD216321A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 08:18:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 546B327E7FC;
-	Tue, 16 Sep 2025 07:52:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4C7B2641CA;
+	Tue, 16 Sep 2025 08:18:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="t0CSi7sK"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5FF6272E56
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Sep 2025 07:52:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 859DA1D61A3;
+	Tue, 16 Sep 2025 08:18:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758009130; cv=none; b=XzjNM7BCJNN5FeU+LyVtNchwC0OBxaMPvHClpNzeWSbRuXbLIl2oI6WRJ54c+ygCV9ZKdhYbsGUyivBXA1JfFvHf4vptOEKHujonzZiUvYKZQElKat7OJ36m1TKKUtatkaUVivWDrY698Lwr+dg7k6Ca4p+glqlUxekBwow+ztI=
+	t=1758010702; cv=none; b=Nov5Lil5Bm/mwSstTI4kr3PWso+aOaNoDmKbZ5RjareU3/Bn5WDaFq/YiMeLtcy1/6oir1QysneS2/+d9TQKDP99z8CoNyhBuji8WCr5qXD0t2v4o3ZWMz1pF1yMH0Tk/BCWuYZZVnOA/lf6z5DL1X+uIIAMMF+n6tr8CY2tB3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758009130; c=relaxed/simple;
-	bh=6yWeRjTd3EigN4C7xJHdCPXEVBDs9X8oQniavBQDHtQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IxhTWgUKEDYAk8gQd9hK3Oe2uoBDksVk+2YLJUeba/mrb72xcLisCDTX6xz7TPq6iki+hvJlUcjvTDOM8h0Q+YF+jAJtvK7Hy6fPjlLZ5QxZ/xMaJkY6zk1wdFpVrNRbNBGYV18TAiewpRx3L7EFWUGXZql/jCxjrHBQzmIKLJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-52e532e8198so1045278137.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Sep 2025 00:52:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758009127; x=1758613927;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=K9F1be41AfAEhuegD+wVkRBLQQ7Qa3dUKKIwBvQcqqw=;
-        b=bBW3D7emBQQ0dDspaEdpHxX14nDv7rVvJalLp5CqQNj4ZJQNoXrL1zJ1B1/rbMIgR4
-         YkqEL/MCirWEvBuO9FUs23cK5J0dbUERIf0Y89HJyrX4xLC/9OTSH7HnhxGHKaPsPQAa
-         Z2OMO9esvVWY72EK50BmXssjwPmQDjGwgehH66fpMWiq/736BaaikhRH1fSiJ1Mwu0FT
-         6ypFrakvgJnFl+nqd6qOtqRHn1fE9Tyv+KruRT3L2vYQZHFIURn2HAYNrvX0Gv6jDNKJ
-         Agc6S5hcoLU3urcaouhzp1hIvY/RJopeL7R54f1f9si+yYXpA4yICQI/25HU1iNxlqbl
-         4J7w==
-X-Forwarded-Encrypted: i=1; AJvYcCX9W4NhMOcphr/QUTuysz+oidA19ZY9SzcSyEtaHJy7ztX0lK3wD1O8qiB4FVrB4LC7melRiJr+m8OFGG0FqZR4Rg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YybvDlJkwoqCM7/69i+HREor0XYT06WnJEWL2btVW3+YLqVu7HO
-	fCc8RtjekxeWqMY4em3goXFDJ1hH/NhomKd4noSciE+/amWv72ikW7PO6XQXmoUO
-X-Gm-Gg: ASbGncsz+5T0EMXHiKr0QunLVWBeISrXpFN79gSiMDK6oHsviaAXNT5ScKN+r0WfIP1
-	MWSFeldZaWRKHG6N5xR6CY81PHYh9QavLhSJL5Y1RBRUETyNy43kMXijLzzNZynHRT82JXFwQiP
-	XNrfHgl/jnamqu3Z7DGqlHAYcVroReSBTLLSdvWe3Xr9i7qCYR9ZuyxVBof7z8BFjwDpgej395I
-	zaJQ12Dng0gGoQK3vJYKgw4vQpjuvtUf4dAnWX9BoFPgW47YmkgUtONWf7ED75xHZgiqWIHX6aN
-	aqB3QnxBnqlAYx2L2C/7ZLpwpR53jo2OAhLY4kIO0l5U8gEzrpEaZskzyqYw1wsGMr7MKX/f61r
-	9xtH71aMKho1d3QHuIR/C1CSA5c/wtc0YXoCmbkFFEVAuJQ70mpbBRRPnLWxF
-X-Google-Smtp-Source: AGHT+IFozRtMGfGr86f3YdmcvwAfqvjDz69SmyeX6NRtEM3gEqoAqgV4cIFd/J6PlBXKtP8LKok++Q==
-X-Received: by 2002:a05:6102:3ed1:b0:529:96b9:1fcc with SMTP id ada2fe7eead31-55611c509e7mr4525040137.24.1758009127248;
-        Tue, 16 Sep 2025 00:52:07 -0700 (PDT)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8d84fbfd6a9sm1452972241.5.2025.09.16.00.52.06
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Sep 2025 00:52:06 -0700 (PDT)
-Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-8d99807af90so482153241.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Sep 2025 00:52:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUOvH+ZzleW5Kg8lmL6TDHMBsgiGxv5+ita6vcT+FoV4YsmP4k6QyYtB4V9tZhuU6TsNoohWzHrBf9721p+TOqdSQ==@vger.kernel.org
-X-Received: by 2002:a05:6102:dca:b0:523:5bd4:f982 with SMTP id
- ada2fe7eead31-55612bda230mr4819073137.31.1758009126350; Tue, 16 Sep 2025
- 00:52:06 -0700 (PDT)
+	s=arc-20240116; t=1758010702; c=relaxed/simple;
+	bh=k30uoh2add8WC8hx0lDIfBpOwQ1OXG69JhEGP1lfLP4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Oy1sVa9uDfq5eDinBkCDoG3tMCkqca6JY3lyoNwNsi6CdQI1LQdIUhtZjVRAHTPjaJII/pyxnQERpxunNcmQ9b2gFPFLZuTAA6J9KXWW/wVjBuz7oZ0Qy3+3ZeedXqkfHyArl9TX5h85dCypBwXlhx6wUk9V4VCGpkOTFihUl2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=t0CSi7sK; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4cQvt04SNgz9v0s;
+	Tue, 16 Sep 2025 10:18:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1758010696;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=N/vF9UevhN6ZN5SGz1v+nHr1RKJ6dgc+bwkrlLnvagw=;
+	b=t0CSi7sKDbYEv/8E/fYWlpoeQhtYkjgg15cupEZz1ZelEuN/+K++lgwpYrhM2eEMnrM0aB
+	jDIDxDgeF6whui0P/JMjnOWFwTz6C6+WVD5fcJbvICH8ZublcO44VYkn3y0Mr93AbaNmqC
+	Y4KQ9Bsq1sjVH3+iPjH20pmCgdHy68z/1jglFAI3GaAU7VuxfViNLLtGYTxCWzxTCMDFtp
+	W+m8I+fAtbompRrDvSKNL/fJ+mGKByEJF5GUmOf+NLWIDuvl47D+hOR4SnEq0Ezvk/0lw7
+	k618WFUwhYzomjqJACwML/2Qo9DQE85oRJ3yo2TLkq2rbgoBBfL4fod5cxeIMQ==
+Message-ID: <5b152739-6b1d-4742-8163-bb6e6b39822a@mailbox.org>
+Date: Tue, 16 Sep 2025 10:15:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <87o6rjvzf4.wl-kuninori.morimoto.gx@renesas.com>
- <87jz27vzec.wl-kuninori.morimoto.gx@renesas.com> <CAMuHMdVVV5tY_iwb=Xn6XVY-Ai6spBY70yXhc5VRxwDva8BGng@mail.gmail.com>
- <87jz24fqrg.wl-kuninori.morimoto.gx@renesas.com> <CAMuHMdX3cviP6xHnGP01kRDwuHRrHg0ZpNLV8Mf29MFS1B7S8g@mail.gmail.com>
- <87wm5zi5h0.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87wm5zi5h0.wl-kuninori.morimoto.gx@renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 16 Sep 2025 09:51:55 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWsKj0s2LjGCOf8_Nm7AE3n4X30bxR6iUp8iCOofDUTww@mail.gmail.com>
-X-Gm-Features: AS18NWCq3KxiPfd0GUnp0oi4W3bn5nezjEinSQF5aftVVknOFW2KMtqQ51sfeFU
-Message-ID: <CAMuHMdWsKj0s2LjGCOf8_Nm7AE3n4X30bxR6iUp8iCOofDUTww@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] arm64: dts: renesas: Add R8A78000 X5H DTs
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Marc Zyngier <maz@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH] dt-bindings: ili9881c: Allow port subnode
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ dri-devel@lists.freedesktop.org
+Cc: Conor Dooley <conor+dt@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@gmail.com>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20250904200130.168263-1-marek.vasut+renesas@mailbox.org>
+ <a0d85f06-a87b-40f6-a74a-27b148f309fd@linaro.org>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <a0d85f06-a87b-40f6-a74a-27b148f309fd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 9b32751bbdc6a1c7e7c
+X-MBO-RS-META: fjk88fwxmddi989pozr1d4cfss6c996q
 
-Hi Morimoto-san,
+On 9/5/25 9:51 AM, Neil Armstrong wrote:
+> On 04/09/2025 22:01, Marek Vasut wrote:
+>> The ILI9881C is a DSI panel, which can be tied to a DSI controller
+>> using OF graph port/endpoint. Allow the port subnode in the binding.
+>>
+>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+>> ---
+>> Cc: Conor Dooley <conor+dt@kernel.org>
+>> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+>> Cc: David Airlie <airlied@gmail.com>
+>> Cc: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+>> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>> Cc: Maxime Ripard <mripard@kernel.org>
+>> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+>> Cc: Rob Herring <robh@kernel.org>
+>> Cc: Simona Vetter <simona@ffwll.ch>
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: devicetree@vger.kernel.org
+>> Cc: dri-devel@lists.freedesktop.org
+>> Cc: linux-renesas-soc@vger.kernel.org
+>> ---
+>>   .../devicetree/bindings/display/panel/ilitek,ili9881c.yaml       | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/panel/ 
+>> ilitek,ili9881c.yaml b/Documentation/devicetree/bindings/display/ 
+>> panel/ilitek,ili9881c.yaml
+>> index 434cc6af9c954..cf0aa996e072d 100644
+>> --- a/Documentation/devicetree/bindings/display/panel/ 
+>> ilitek,ili9881c.yaml
+>> +++ b/Documentation/devicetree/bindings/display/panel/ 
+>> ilitek,ili9881c.yaml
+>> @@ -30,6 +30,7 @@ properties:
+>>       maxItems: 1
+>>     backlight: true
+>> +  port: true
+>>     power-supply: true
+>>     reset-gpios: true
+>>     rotation: true
+> 
+> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 
-On Tue, 16 Sept 2025 at 02:52, Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> > > > > +                       reg = <0 0xc0700000 0 0x40>;
-> > > > > +                       interrupts = <GIC_SPI 4074 IRQ_TYPE_LEVEL_HIGH>;
-> > > > > +                       clocks = <&dummy_clk_sgasyncd4>, <&dummy_clk_sgasyncd4>, <&scif_clk>;
-> > > > > +                       clock-names = "fck", "brg_int", "scif_clk";
-
-> > > > According to the DT bindings, "power-domains" and "resets" are missing.
-> > >
-> > > Unfortunately, can't use for now. It needs SCP support but is under
-> > > development. How should I do in this case ? Maybe use dummy device,
-> > > but can we use it ??
-> >
-> > Just leave them out for now, but be prepared to receive complaints
-> > from the dtbs_check bots ;-)
->
-> OK, but I wonder does these really mandatory (= ) property ?
-
-DT describes hardware, and SCIF is part of the always-on Clock Domain.
-I am not so sure about the module reset, but you made it required
-in commit 6ac1d60473727931 ("dt-bindings: serial: sh-sci: Document
-r8a78000 bindings")?
-
-> I'm asking because it works without these...
-
-Sure it works: SCIF is in the always-on power area, all clocks are
-dummies (the real ones are enabled by the boot loader), and the Linux
-driver doesn't use resets...
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Would it be OK to pick this one up via drm-misc (and possibly also the 
+other ili9881c RPi 5" Display 2 patches), or shall I wait a bit longer ?
 
