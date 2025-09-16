@@ -1,180 +1,155 @@
-Return-Path: <linux-renesas-soc+bounces-21926-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21927-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B118FB597AF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 15:31:25 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16D1AB597DD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 15:39:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 66D9A488093
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 13:31:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 95A9E1C00026
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 13:40:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25E081EBFE0;
-	Tue, 16 Sep 2025 13:31:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04517294A10;
+	Tue, 16 Sep 2025 13:39:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="sH1xuCuM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ECE320D51C
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Sep 2025 13:31:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9751F28315A;
+	Tue, 16 Sep 2025 13:39:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758029480; cv=none; b=mCdSfRgvaCxZbn/FPDeGJl5MFOExlUhFC/D+I8dJaI9fgxu0fxDMBZ1mlpaV87byiY2oIAKOG0+c+rz4K65ESAuhoK1LgkY2QvjD+SeVuPgkeQ7hOVKdKleo4i0CEQPoekat4DFDtSb2eMHM+znK3Ve7rq1RL1Zy19MP3cCE6eU=
+	t=1758029979; cv=none; b=jc0O5uwr1R7r9m5LEWZ/ldx2DhvzfFFVBxSkBhzbzvGiPgrHyfuMpxZLwIR0uGvGc2G+ue0c7CQ0POM/wqXQiMucgOYUbKNY8Atzsjs06x/1KblAG2qBn+YGzqlXndUkv6Fq2+bKqfvBwuMZOKYEj3Q9DoWnDJg7LeHJCcQAoMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758029480; c=relaxed/simple;
-	bh=lRwGS+EzOykdHSjihfKZFNIAo3QDxUC71G1I5pU5mBM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WI3k7wd97JsxIfyHzNhkP438y/uEQGCnQZjMhVWy6dPS6pHUBtIBzrJOGnHvn2vZe7mIh+mPSulcHtCJAMw+u6N2d/ecd46JuuLtj9eySHJl3qb3k52740TklCbsKG5TyLn26nPP1z17iwskDg2B4njuuppOtCqAhVG6wUCTibg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-8943501ba3dso2839619241.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Sep 2025 06:31:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758029477; x=1758634277;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aDQooxDkD5fz4sLWBIH6i0SDIPVUTbpTi303GssaIAI=;
-        b=d1rDLHDYjDYwEpIYdB+Svq4B16XzF9i/CT61ANz6I8tP0heL4p1FCAl3ljy9ABQxfL
-         4HlDJpPaWqwCXMrM83La7q43WdOU0sqo96A6wr/VSdWXtrlYHKNlHQM5poIy5kFDJAeT
-         8oRDuUkusvxax6Sz/PYVhrvOv6a9LnWzWcCPoZ7xOcV0IWT9GRyV97T3axVWkzwHLfBG
-         PZpPik+2/ayrtH6JnNFeTbOXDuE1F0iMSsTQUpSFzH3gKpuhvP2Rzh8eSp1zQqoj8649
-         hWGJ+Uire97YwQvsdJ2nDWGduv5m3bSWdOHMW8aqwQZnf1+pleScjAxWqdPuQGFLHzaZ
-         qn2w==
-X-Forwarded-Encrypted: i=1; AJvYcCXsbl6W79gZX+sm3DOZW5IYH0kMJ6BfARdL/my1KmoFSzIIjLlJlD3zHIV2b3OJP1sCejclFtuxHJUwcx/iPnMzzg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywkrm4OG2eAWZC21R/LHpDuosGtZTYMxoqccKRNCcRy7zpMLTiS
-	h1JlcCz6tiAo9q0sFwjPmgPOdUKwT7Z06D1w81ZoJp7qymK5JE4CLNb4qgOiOTlE
-X-Gm-Gg: ASbGncuU5mRDxa9Aa7al/BPmdZ4+B2JwD7xX6W7YhHq9yoFm0cAhj6mxWAbT0f1vIef
-	Rggy3NvNspoe1pEEX3Vq1Yu0tDBy2yzU074canakeKaMG7Bax3rXuPawDtM6sA5DYYWkrNBnpyp
-	aSbOCjdllop7oMJLi4FD+KPX6uaczQcOYqL05oYcoqEPAeEDE+uZLq9iQX7v/4uBa7gse9jcTRY
-	70zAfAdlOqU7Gp5FiKUtZyMvOwAmAibdKIqGIiLx/pjMVkVglf3K+x6hQDBS/+eBLRMXKyfAkQW
-	fTPFupw1UkxaQk/8uVk3OHVB/xQ6RGUUGbjebCS3e583C9INaYmNn1Z+k2FakZiXaYwIFfjp354
-	sFg84IVfYW5qwps9/pBz4pmfXNQ0vq3sRIXy0Vb7h+QKAH0JOpeDS7YF9/yY/yIxv
-X-Google-Smtp-Source: AGHT+IGLA8oHPNKmdqca/HN3bN/cGrcBEaGLdjDpVRphHCb/nQQs/48XwSOdBOtCIYnI8sqz29DC3Q==
-X-Received: by 2002:a05:6102:548d:b0:52e:68:770a with SMTP id ada2fe7eead31-5560d760c81mr5235867137.24.1758029476703;
-        Tue, 16 Sep 2025 06:31:16 -0700 (PDT)
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com. [209.85.221.172])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5598571bbc0sm2510204137.2.2025.09.16.06.31.15
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Sep 2025 06:31:15 -0700 (PDT)
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-54a1bef404fso2955657e0c.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Sep 2025 06:31:15 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUPFbrW+8Pji2c1WGYXR2x5sMV7jcqwCTAYFD16vqYKrugHNvNNVKm72IZIvBxcBBje+X5TwFN55q72EuEJRIusLA==@vger.kernel.org
-X-Received: by 2002:a05:6122:1d8c:b0:53b:174d:98f2 with SMTP id
- 71dfb90a1353d-54a16b20009mr5200853e0c.3.1758029474999; Tue, 16 Sep 2025
- 06:31:14 -0700 (PDT)
+	s=arc-20240116; t=1758029979; c=relaxed/simple;
+	bh=oXfCogu51Y1JMNG2+OaF7xr6XeoOW7V7I6ypr3fSbQs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VVUg1oU4tqI0cFVk9MoFkFVKAQ4Dnfn/NkTxRdmtqJiLMlLrAfw7sSQl/7XQHvX4j0O1wPuRCbOvXDhVm3mIzeerPd/1n9O9t0sJ+TgUcPzaIY5D4ot6ZaZeT7Cxn7JN3Bqsy7GRrcL+Wt8c48BhAdlyuYbjF10qSarCfVaTETQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=sH1xuCuM; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cR30h3BTpz9skk;
+	Tue, 16 Sep 2025 15:39:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1758029972;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=k8GhPVxxHZ+Y3EpvPo7HYyNQhRtudJBKn7C5LHbgH50=;
+	b=sH1xuCuM3gwfGZQIONkrBz7X5tBdHkdCoIv2OPaL/wefxJq38KRnLdtQ8hsK7wbaEu7sm6
+	LfGcbfYaMWQJzXpeXqMZO1018t7jgae3JpBWOVu2Ti60NXlO87oUYW3ZrWMTMnsqAf4Ycg
+	+fg2ZsPKSNcq7DsZoZ1hyndCRsX90BRMnX0MUrdP5HS0KeoHhg0icNUWLfEEpcc0pOkpme
+	7KFnXkBHSTYGjbfA7Zwoss57Cr8K685HNtRjk20G/oK4eJ+HhREgrR+FxjUYEMaBmzZ39T
+	eC1C9uSxRTmqc5Ci7id7YnGQ1mdp5ASLE8mNSP1hr5qmrdnd/fwNgdEJkn8rXg==
+Message-ID: <6fdc7d1e-8eaa-4244-a6b4-4a07e719dd73@mailbox.org>
+Date: Tue, 16 Sep 2025 15:39:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250908105901.3198975-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250908105901.3198975-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <aMlgg_QpJOEDGcEA@monster>
-In-Reply-To: <aMlgg_QpJOEDGcEA@monster>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 16 Sep 2025 15:31:04 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXWVXd5FauMYNq0yXgQa87F4Z9HcGOu2O_ercQg48GNoQ@mail.gmail.com>
-X-Gm-Features: AS18NWCih78Z1mvXR97O_iR6cJDURxsOD6O73Iub1rATQe0jxKnm2iY0iJuCAa8
-Message-ID: <CAMuHMdXWVXd5FauMYNq0yXgQa87F4Z9HcGOu2O_ercQg48GNoQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 3/3] net: stmmac: dwmac-renesas-gbeth: Add
- support for RZ/T2H SoC
-To: Anders Roxell <anders.roxell@linaro.org>
-Cc: Prabhakar <prabhakar.csengg@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Richard Cochran <richardcochran@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Russell King <linux@armlinux.org.uk>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, Vladimir Oltean <vladimir.oltean@nxp.com>, 
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>, Jose Abreu <joabreu@synopsys.com>, netdev@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH] PCI: rcar-gen4: Fix inverted break condition in PHY
+ initialization
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-pci@vger.kernel.org, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Magnus Damm <magnus.damm@gmail.com>, Manivannan Sadhasivam
+ <mani@kernel.org>, Rob Herring <robh@kernel.org>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ linux-renesas-soc@vger.kernel.org
+References: <20250915235910.47768-1-marek.vasut+renesas@mailbox.org>
+ <CAMuHMdXAK6EhxPoNoqwqWSjGtwM24gL4qjSf6_n+NMCcpDf1HA@mail.gmail.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <CAMuHMdXAK6EhxPoNoqwqWSjGtwM24gL4qjSf6_n+NMCcpDf1HA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: ddt3k6hk83bg1jd35oym9p6444sir7a3
+X-MBO-RS-ID: 0586fb1d42d24f34612
 
-Hi Anders,
+On 9/16/25 11:59 AM, Geert Uytterhoeven wrote:
+> Hi Marek,
 
-On Tue, 16 Sept 2025 at 15:05, Anders Roxell <anders.roxell@linaro.org> wrote:
-> On 2025-09-08 11:59, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Extend the Renesas GBETH stmmac glue driver to support the RZ/T2H SoC,
-> > where the GMAC is connected through a MIIC PCS. Introduce a new
-> > `has_pcs` flag in `struct renesas_gbeth_of_data` to indicate when PCS
-> > handling is required.
-> >
-> > When enabled, the driver parses the `pcs-handle` phandle, creates a PCS
-> > instance with `miic_create()`, and wires it into phylink. Proper cleanup
-> > is done with `miic_destroy()`. New init/exit/select hooks are added to
-> > `plat_stmmacenet_data` for PCS integration.
-> >
-> > Update Kconfig to select `PCS_RZN1_MIIC` when building the Renesas GBETH
-> > driver so the PCS support is always available.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > v2->v3:
-> > - Dropped passing STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP flag in stmmac_flags
-> >   as it is always set for all the SoCs.
-> > - Updated Kconfig to include RZ/T2H and RZ/N2H.
-> >
-> > v1->v2:
-> > - No changes.
->
-> The following warning is seen when doing a defconfig build (make
-> defconfig) for arm64 on the Linux next-20250915 tag.
->
-> First seen on next-20250915
-> Good: next-20250912
-> Bad: next-20250915
->
-> Regression Analysis:
-> - New regression? yes
-> - Reproducibility? yes
->
-> Build regression: WARNING: unmet direct dependencies detected for PCS_RZN1_MIIC
->
-> Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
->
-> This is the build warning:
-> WARNING: unmet direct dependencies detected for PCS_RZN1_MIIC
->   Depends on [n]: NETDEVICES [=y] && OF [=y] && (ARCH_RZN1 [=n] || COMPILE_TEST [=n])
->   Selected by [m]:
->   - DWMAC_RENESAS_GBETH [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_STMICRO [=y] && STMMAC_ETH [=m] && STMMAC_PLATFORM [=m] && OF [=y] && (ARCH_RENESAS [=y] || COMPILE_TEST [=n])
->
-> WARNING: unmet direct dependencies detected for PCS_RZN1_MIIC
->   Depends on [n]: NETDEVICES [=y] && OF [=y] && (ARCH_RZN1 [=n] || COMPILE_TEST [=n])
->   Selected by [m]:
->   - DWMAC_RENESAS_GBETH [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_STMICRO [=y] && STMMAC_ETH [=m] && STMMAC_PLATFORM [=m] && OF [=y] && (ARCH_RENESAS [=y] || COMPILE_TEST [=n])
-> I: config: PASS in 0:00:01.592356
+Hello Geert,
 
-Thanks for your report!
+> On Tue, 16 Sept 2025 at 01:59, Marek Vasut
+> <marek.vasut+renesas@mailbox.org> wrote:
+>> R-Car V4H Reference Manual R19UH0186EJ0130 Rev.1.30 Apr. 21, 2025 page 4581
+>> Figure 104.3b Initial Setting of PCIEC(example), third quarter of the figure
+>> indicates that register 0xf8 should be polled until bit 18 becomes set to 1.
+>>
+>> Register 0xf8 bit 18 is 0 immediately after write to PCIERSTCTRL1 and is set
+>> to 1 in less than 1 ms afterward. The current readl_poll_timeout() break
+>> condition is inverted and returns when register 0xf8 bit 18 is set to 0,
+>> which in most cases means immediately. In case CONFIG_DEBUG_LOCK_ALLOC=y ,
+>> the timing changes just enough for the first readl_poll_timeout() poll to
+>> already read register 0xf8 bit 18 as 1 and afterward never read register
+>> 0xf8 bit 18 as 0, which leads to timeout and failure to start the PCIe
+>> controller.
+>>
+>> Fix this by inverting the poll condition to match the reference manual
+>> initialization sequence.
+>>
+>> Fixes: faf5a975ee3b ("PCI: rcar-gen4: Add support for R-Car V4H")
+>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> 
+> Thanks for your patch!
+> 
+>> --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+>> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+>> @@ -711,7 +711,7 @@ static int rcar_gen4_pcie_ltssm_control(struct rcar_gen4_pcie *rcar, bool enable
+>>          val &= ~APP_HOLD_PHY_RST;
+>>          writel(val, rcar->base + PCIERSTCTRL1);
+>>
+>> -       ret = readl_poll_timeout(rcar->phy_base + 0x0f8, val, !(val & BIT(18)), 100, 10000);
+>> +       ret = readl_poll_timeout(rcar->phy_base + 0x0f8, val, val & BIT(18), 100, 10000);
+>>          if (ret < 0)
+>>                  return ret;
+>>
+> 
+> This change looks correct, and fixes the timeout seen on White Hawk
+> with CONFIG_DEBUG_LOCK_ALLOC=y.
+> However, it causes a crash when CONFIG_DEBUG_LOCK_ALLOC=n:
+> 
+>      SError Interrupt on CPU0, code 0x00000000be000011 -- SError
 
-    config DWMAC_RENESAS_GBETH
-        depends on OF && (ARCH_RENESAS || COMPILE_TEST)
-        select PCS_RZN1_MIIC
+...
 
-    config PCS_RZN1_MIIC
-        depends on ARCH_RZN1 || ARCH_R9A09G077 || ARCH_R9A09G087 || COMPILE_TEST
+>       el1h_64_error_handler+0x2c/0x40
+>       el1h_64_error+0x70/0x74
+>       dw_pcie_read+0x20/0x74 (P)
+>       rcar_gen4_pcie_additional_common_init+0x1c/0x6c
 
-"ARCH_RENESAS" is wider than "ARCH_RZN1 || ARCH_R9A09G077 || ARCH_R9A09G087".
-I would just change the latter to ARCH_RENESAS.
+SError in rcar_gen4_pcie_additional_common_init , this is unrelated to 
+this fix.
 
-Gr{oetje,eeting}s,
+Does the following patch make this SError go away ?
 
-                        Geert
+"
+diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c 
+b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+index d787f2a364d5..5932f83996f0 100644
+--- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
++++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+@@ -204,6 +204,8 @@ static int rcar_gen4_pcie_common_init(struct 
+rcar_gen4_pcie *rcar)
+         if (ret)
+                 goto err_unprepare;
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
++mdelay(1);
++
+         if (rcar->drvdata->additional_common_init)
+                 rcar->drvdata->additional_common_init(rcar);
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+"
 
