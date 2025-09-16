@@ -1,94 +1,93 @@
-Return-Path: <linux-renesas-soc+bounces-21938-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21937-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB75AB59B7C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 17:08:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBA35B59B7D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 17:08:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C807B1BC7EC0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 15:04:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B813E58124D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 15:04:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D55E2350D58;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD0BF350D53;
 	Tue, 16 Sep 2025 15:03:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e+znDs0p"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ixts7/yQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5893434A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8054734A33F
 	for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Sep 2025 15:03:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758034987; cv=none; b=kwpCB/AWd4k3HofdGYJsMrIXx4WEc90qgJs02xV7lb5nHkr+vK52X0sqj89O3m87nJy6Izqg24KXoJKXm2uczADHjQUy/Kn1sH3sVMXVtmPlV6eRYrswVjqHC6yR7Dgl/tKVCtnax37op9GdRXPvGF46mY8YYuNS2cCkKc8MDVQ=
+	t=1758034987; cv=none; b=TF5Rw3MoJ6azF48TOO098UtPCyBWmjevqXjic6ycr11MpWRSFBGkOU0jBS6bFjpkz8tcvfeb9hM8X9ahlLkKpCTDWcXpxlDG8ZWrsmi8ZkWjOrIADwTvLHjgRzs+11E1hh1+wpWmiSHn1lyXXgAN+EQ9U7t/XA7Q7WO8rqEJ9II=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1758034987; c=relaxed/simple;
-	bh=JWAOPJVJwm9JYWeWUAD5rygvd8/WMZojAO7MBTDFeao=;
+	bh=A/pVmo2VMMUD2z+HUZj4DpziB5TxDDr6gmH3385sgqQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=N9vIuUwrEsafyyndKcddV5TsyN3Ccvrlb7QXIDWrBRQkrE2artQrL92HRGWcsaWVHbpHSIX6oT+uiFrg1tXlpnO9mC8l4sBb9y/4I39pWIsbfYtanPIwl2wabuDKJA3avSGt+AOSsiR1XBI7QOJ8N/dapfYemrFmhjTs8VcJXUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e+znDs0p; arc=none smtp.client-ip=209.85.221.50
+	 MIME-Version; b=NCmuGLiZaxvP/NQdPSvX6znXLYFOH77exoOhoQ7A0U/7+hFhEftUFGe7BD1p24bJAENlQAD5I7fFxkGjymZ0erqiifMY44uSYcxt+TQTQGK88th821CihrRHBKZAyYV6yKV6mLChj3046RDzStYUqPVCmSlRpYPP07Tr+zG0HKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ixts7/yQ; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3ebc706eb7bso1196366f8f.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Sep 2025 08:03:03 -0700 (PDT)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3ecbcc16948so522389f8f.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Sep 2025 08:03:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1758034982; x=1758639782; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Uuy6+KxTBsC6SlUdB1lv3rItTmRywfPxKGtKtkwquJE=;
-        b=e+znDs0pGGlz4NGNnRj7sJynRZQsghAUSe9ow1UgR9AfWB0fUUaQzEGHk8WzKs1LkX
-         jzRA2B0oXpx3SYs+0XBGH50UPYY4MeI6KG4skV8Uzh6fAhredjNSAYt8/MTNB3YSYSBu
-         W68nLQz0KM46e9hWETj6rR4tXlIYDhhBE+jIiH4Vkj37T2r///Mt879u3tN+fXiKNQ8N
-         BDhfL/x4KTVJNfCoZ5EWOLtaaTw8EM6Wr6nyOoRnAn0mU4Ce1l4oQsx115h4ctQPPHPO
-         E7c00ad+H2xnXHE7wUXxuzWr35dIdhAmddfhkBXJZpXrXhzJVsp8gkzgxoDsdH/aMqBk
-         HhFw==
+        bh=1/k7vhUf1voL8kqIJSX9PkvL+7B3TmZ2+++u1y1uP1Q=;
+        b=Ixts7/yQY5gf8B9y9C6Zf6BHoYLLlWuB48hHKmNVehxpj7geI3FWHqvNJyz0A26UWY
+         FbvXxvYsISIGLgIPexfICQ4NvzMJbo1Xa/j7ij76W4wDFKWWzhIowhNxiarVvfTT5Ml9
+         GKh5pJgDIwFN8B7UFAI4u48lLApSKl76YQBkI+DuChCLTMkVWm1yOOR4AaCHYWnjBbXW
+         WuPjyJ8DJyfrkBZDo/Si8yt8A570eQK1hjlBnXblDLEuyggkhCR7ajeltN6p9Pb6r1Xo
+         zAN5NTaJX7VV/L2TQaIOE6SbsNy5Vth2MWzYhp69SfifXzv6W3cZ4cHxp3Za5fhHWGhw
+         SeyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1758034982; x=1758639782;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Uuy6+KxTBsC6SlUdB1lv3rItTmRywfPxKGtKtkwquJE=;
-        b=AGv5DDaKzJP6FXaNw+eN1psL2Mz0Y7jjE5oO66JQab4fbzBnT6QrqImkMDnFPoHic1
-         9r6Wacoy2VqhwpB/Jytk5nd/3n0z1mHV1Bi2TjFzySDSbTM64ox44bIzicFbvg4C9F/a
-         1wG3vHiG3B1DmVIKhzme6yQg4VLArCDiGqrvdrtZtp71DmAL9QnRbsfmG/EcGYy8CRSH
-         aba2JNOB8OI0jHCeMmqtsh6LBcK+V+z3uOrdL8ZEFRUnNt8S9oUkKOcIJxS+U+5NjuOg
-         G+NRMAq+4a8At/jxrJlxgifHYljKf8n8M2+gdF21q/y7mywJRjT/O6dwVcqydZ0ZyU46
-         Wb/w==
-X-Forwarded-Encrypted: i=1; AJvYcCWNEwoMiOBjwj1EiVCdR9KXMNMimYJWmVCmz4oDb1UibQEDgzxxx1u4cmLvP0keeD9F7heXDkNJz+MuoytzxQ37EQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyt6NAb7Wp+jHJpLYdpwxE1hcM5H2PWFkO/FV9P8hMSGlLJMioo
-	O+VWaY9GblcBABU4dD9isf3TegidOwCfnC7aerx5gck2CwMjbKXMf18R
-X-Gm-Gg: ASbGncuCJy2dQjnNxNBCncoYhHTpkqePiXE+PgwCjpegTCWJxnnrnKHFbHUyTP3XcgF
-	4LiIj2HliQAauMcIcJigYUKhxtsfOVEn1FstBglpqK+420J2EU7n69tVbEEFbG5xDlpV+2muc/i
-	ydMGmWYceK8w5gEGeJH1RNvQvtytabSj4EUtjj8T/PaabpsjnSkc1DMZ05IeEjHpO92PumC20w6
-	fDb/SRSzfA3gE6OVT+Fui3eSjmIXtuPGSqWHlPwLYFDMt6t/CeRtnU7iP3N5gdmTi84y7eKZtNT
-	85sHN09/h97KSJT2uioiqhZbvE/tXZyARu/ErChKF97xowEv+hRG9B5gfG59nog/UMd5VdcoiL/
-	9rXhng0yBqGX2v4sOq1OYzc4XxpmenKhkK6G0+4kfY+uI5j6gUNQgCS45CeNt5zkSvZblc7yGQm
-	Y4kg==
-X-Google-Smtp-Source: AGHT+IGaK+iWpAtXwRiAraxvEqz36VioS/HwnWCyYlLR+y9IAHh0lXnlG9NgJ3OxFlqx32YU43DzKQ==
-X-Received: by 2002:a05:6000:4023:b0:3eb:4e88:55e with SMTP id ffacd0b85a97d-3eb4e88099emr5348037f8f.41.1758034981581;
-        Tue, 16 Sep 2025 08:03:01 -0700 (PDT)
+        bh=1/k7vhUf1voL8kqIJSX9PkvL+7B3TmZ2+++u1y1uP1Q=;
+        b=OOB1MWHy/ZSq/p935wZzi/ehmfM4lrQDhBgbMMjEmt5Lb3eBTTmQYPrwT3b01IsPw7
+         5SHt10dlEGcHHKO8MjoH7sj+5qe1wVchhyj4awZXHz5QgzzcEKRTeRP8dBG8Wh5GzGgE
+         sjmlTH4UXBumdV//32jA/5HrFP0lo/9+jV6XV66Z2cJz4nLDMLZ59/hW44LCqQffmOIK
+         RrtlAENKXtq2oKW6NrDs9Oxbcck2HJ5hZubNB2kpcIxgbneVJSxLdL4QOt61ZXAIowbi
+         2PiPkxHO3BYvU7rSY3/fg2fx9lY6IQGX4RcYx1ojhPUrzQuNO9qebHtsprVt/q1sdkih
+         U3NA==
+X-Forwarded-Encrypted: i=1; AJvYcCUSq8+fftl+HAZmSlehPY6TJW1GU8uT+TPn6cGfe5xWa/EH77DOGBYK3dTbT1uyqCtHtATR4cbGw9LYxd967MFEQQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxwuyXaiGj+uPPfO3L9J4MV5BqDOD/Nt97ooB5w0ZCTGxncVXQN
+	ZOQfIXwjlMb1xwFWAQsa+xIkeBZfT9wHH9N1/ePZZ3mATsp7CUzjBq5U
+X-Gm-Gg: ASbGnctjUTztp8cEb5xFhdMqP4SY4U/H1f9QMFAXRzqTdUFN59ajTVeXpm7FDQJwIQE
+	QCW7B09T+0AyKYG7BEmAhMcekE9F7P7tKn0hWrnoMoKzJH+HM2sSh579V0lTFT2FdiNHiP/K2FU
+	U/HUSofH8cJm6I8TRziaR2+nJA4LyR4VdWSK8IxKfXXt9dfj4Sblt0aIrBBXgUJGt/1T2kDI4hA
+	H36IQxUXIdSVNAwUIkHUkHtZOoHcT2WNpb6oIWfvUBQEGjzYeqzHyBxYcp3olbpnfwZWSQmus4/
+	3QD4TjpDAqV6Lj6+SxqiOT3FNboAcrZjyughzKMBrVDRg61Fm0j7rTj6Kpp5DYbUq98UyBmIJzX
+	ke9wRlxMyhYHwgqYdeC9UcHptE5IHX0CGrCbmLKErHDEy5PIElghGtHkey2QQxwOAP5eNBMNTH8
+	ANHg==
+X-Google-Smtp-Source: AGHT+IGrfbQPvbjSEiLxQt7eaONhgRJwkDjXjoj1pqSn2g2OiHYXCnZlBuCibXYoLvrggR6sX6Hh/g==
+X-Received: by 2002:a05:6000:2903:b0:3e0:152a:87b4 with SMTP id ffacd0b85a97d-3e7659db0ecmr14198255f8f.35.1758034982264;
+        Tue, 16 Sep 2025 08:03:02 -0700 (PDT)
 Received: from biju.lan (host86-139-30-37.range86-139.btcentralplus.com. [86.139.30.37])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3ecdc2deb20sm932154f8f.47.2025.09.16.08.03.00
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3ecdc2deb20sm932154f8f.47.2025.09.16.08.03.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 16 Sep 2025 08:03:01 -0700 (PDT)
 From: Biju <biju.das.au@gmail.com>
 X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
 To: Mathias Nyman <mathias.nyman@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-kernel@vger.kernel.org,
 	linux-usb@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v3 4/9] usb: host: xhci-rcar: Move R-Car reg definitions
-Date: Tue, 16 Sep 2025 16:02:40 +0100
-Message-ID: <20250916150255.4231-5-biju.das.jz@bp.renesas.com>
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v3 5/9] usb: host: xhci-plat: Add .post_resume_quirk for struct xhci_plat_priv
+Date: Tue, 16 Sep 2025 16:02:41 +0100
+Message-ID: <20250916150255.4231-6-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250916150255.4231-1-biju.das.jz@bp.renesas.com>
 References: <20250916150255.4231-1-biju.das.jz@bp.renesas.com>
@@ -102,8 +101,8 @@ Content-Transfer-Encoding: 8bit
 
 From: Biju Das <biju.das.jz@bp.renesas.com>
 
-Move xhci-rcar reg definitions to a header file for the preparation of adding
-support for RZ/G3E XHCI that has different register definitions.
+Some SoCs (eg Renesas RZ/G3E SoC) have special sequence after
+xhci_resume, add .post_resume_quick for it.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
@@ -112,129 +111,54 @@ v2->v3:
 v1->v2:
  * No change.
 ---
- drivers/usb/host/xhci-rcar-regs.h | 49 +++++++++++++++++++++++++++++++
- drivers/usb/host/xhci-rcar.c      | 45 +---------------------------
- 2 files changed, 50 insertions(+), 44 deletions(-)
- create mode 100644 drivers/usb/host/xhci-rcar-regs.h
+ drivers/usb/host/xhci-plat.c | 14 ++++++++++++++
+ drivers/usb/host/xhci-plat.h |  1 +
+ 2 files changed, 15 insertions(+)
 
-diff --git a/drivers/usb/host/xhci-rcar-regs.h b/drivers/usb/host/xhci-rcar-regs.h
-new file mode 100644
-index 000000000000..5ecbda858be0
---- /dev/null
-+++ b/drivers/usb/host/xhci-rcar-regs.h
-@@ -0,0 +1,49 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef __XHCI_RCAR_H
-+#define __XHCI_RCAR_H
-+
-+/*** Register Offset ***/
-+#define RCAR_USB3_AXH_STA	0x104	/* AXI Host Control Status */
-+#define RCAR_USB3_INT_ENA	0x224	/* Interrupt Enable */
-+#define RCAR_USB3_DL_CTRL	0x250	/* FW Download Control & Status */
-+#define RCAR_USB3_FW_DATA0	0x258	/* FW Data0 */
-+
-+#define RCAR_USB3_LCLK		0xa44	/* LCLK Select */
-+#define RCAR_USB3_CONF1		0xa48	/* USB3.0 Configuration1 */
-+#define RCAR_USB3_CONF2		0xa5c	/* USB3.0 Configuration2 */
-+#define RCAR_USB3_CONF3		0xaa8	/* USB3.0 Configuration3 */
-+#define RCAR_USB3_RX_POL	0xab0	/* USB3.0 RX Polarity */
-+#define RCAR_USB3_TX_POL	0xab8	/* USB3.0 TX Polarity */
-+
-+/*** Register Settings ***/
-+/* AXI Host Control Status */
-+#define RCAR_USB3_AXH_STA_B3_PLL_ACTIVE		0x00010000
-+#define RCAR_USB3_AXH_STA_B2_PLL_ACTIVE		0x00000001
-+#define RCAR_USB3_AXH_STA_PLL_ACTIVE_MASK (RCAR_USB3_AXH_STA_B3_PLL_ACTIVE | \
-+					   RCAR_USB3_AXH_STA_B2_PLL_ACTIVE)
-+
-+/* Interrupt Enable */
-+#define RCAR_USB3_INT_XHC_ENA	0x00000001
-+#define RCAR_USB3_INT_PME_ENA	0x00000002
-+#define RCAR_USB3_INT_HSE_ENA	0x00000004
-+#define RCAR_USB3_INT_ENA_VAL	(RCAR_USB3_INT_XHC_ENA | \
-+				RCAR_USB3_INT_PME_ENA | RCAR_USB3_INT_HSE_ENA)
-+
-+/* FW Download Control & Status */
-+#define RCAR_USB3_DL_CTRL_ENABLE	0x00000001
-+#define RCAR_USB3_DL_CTRL_FW_SUCCESS	0x00000010
-+#define RCAR_USB3_DL_CTRL_FW_SET_DATA0	0x00000100
-+
-+/* LCLK Select */
-+#define RCAR_USB3_LCLK_ENA_VAL	0x01030001
-+
-+/* USB3.0 Configuration */
-+#define RCAR_USB3_CONF1_VAL	0x00030204
-+#define RCAR_USB3_CONF2_VAL	0x00030300
-+#define RCAR_USB3_CONF3_VAL	0x13802007
-+
-+/* USB3.0 Polarity */
-+#define RCAR_USB3_RX_POL_VAL	BIT(21)
-+#define RCAR_USB3_TX_POL_VAL	BIT(4)
-+
-+#endif /* __XHCI_RCAR_H */
-diff --git a/drivers/usb/host/xhci-rcar.c b/drivers/usb/host/xhci-rcar.c
-index 1cc082a3b793..6d4662def87f 100644
---- a/drivers/usb/host/xhci-rcar.c
-+++ b/drivers/usb/host/xhci-rcar.c
-@@ -14,6 +14,7 @@
+diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
+index 3a56d8f94519..9e58431f486b 100644
+--- a/drivers/usb/host/xhci-plat.c
++++ b/drivers/usb/host/xhci-plat.c
+@@ -75,6 +75,16 @@ static int xhci_priv_resume_quirk(struct usb_hcd *hcd)
+ 	return priv->resume_quirk(hcd);
+ }
  
- #include "xhci.h"
- #include "xhci-plat.h"
-+#include "xhci-rcar-regs.h"
- #include "xhci-rzv2m.h"
- 
- #define XHCI_RCAR_FIRMWARE_NAME_V1	"r8a779x_usb3_v1.dlmem"
-@@ -29,50 +30,6 @@
- MODULE_FIRMWARE(XHCI_RCAR_FIRMWARE_NAME_V1);
- MODULE_FIRMWARE(XHCI_RCAR_FIRMWARE_NAME_V3);
- 
--/*** Register Offset ***/
--#define RCAR_USB3_AXH_STA	0x104	/* AXI Host Control Status */
--#define RCAR_USB3_INT_ENA	0x224	/* Interrupt Enable */
--#define RCAR_USB3_DL_CTRL	0x250	/* FW Download Control & Status */
--#define RCAR_USB3_FW_DATA0	0x258	/* FW Data0 */
--
--#define RCAR_USB3_LCLK		0xa44	/* LCLK Select */
--#define RCAR_USB3_CONF1		0xa48	/* USB3.0 Configuration1 */
--#define RCAR_USB3_CONF2		0xa5c	/* USB3.0 Configuration2 */
--#define RCAR_USB3_CONF3		0xaa8	/* USB3.0 Configuration3 */
--#define RCAR_USB3_RX_POL	0xab0	/* USB3.0 RX Polarity */
--#define RCAR_USB3_TX_POL	0xab8	/* USB3.0 TX Polarity */
--
--/*** Register Settings ***/
--/* AXI Host Control Status */
--#define RCAR_USB3_AXH_STA_B3_PLL_ACTIVE		0x00010000
--#define RCAR_USB3_AXH_STA_B2_PLL_ACTIVE		0x00000001
--#define RCAR_USB3_AXH_STA_PLL_ACTIVE_MASK (RCAR_USB3_AXH_STA_B3_PLL_ACTIVE | \
--					   RCAR_USB3_AXH_STA_B2_PLL_ACTIVE)
--
--/* Interrupt Enable */
--#define RCAR_USB3_INT_XHC_ENA	0x00000001
--#define RCAR_USB3_INT_PME_ENA	0x00000002
--#define RCAR_USB3_INT_HSE_ENA	0x00000004
--#define RCAR_USB3_INT_ENA_VAL	(RCAR_USB3_INT_XHC_ENA | \
--				RCAR_USB3_INT_PME_ENA | RCAR_USB3_INT_HSE_ENA)
--
--/* FW Download Control & Status */
--#define RCAR_USB3_DL_CTRL_ENABLE	0x00000001
--#define RCAR_USB3_DL_CTRL_FW_SUCCESS	0x00000010
--#define RCAR_USB3_DL_CTRL_FW_SET_DATA0	0x00000100
--
--/* LCLK Select */
--#define RCAR_USB3_LCLK_ENA_VAL	0x01030001
--
--/* USB3.0 Configuration */
--#define RCAR_USB3_CONF1_VAL	0x00030204
--#define RCAR_USB3_CONF2_VAL	0x00030300
--#define RCAR_USB3_CONF3_VAL	0x13802007
--
--/* USB3.0 Polarity */
--#define RCAR_USB3_RX_POL_VAL	BIT(21)
--#define RCAR_USB3_TX_POL_VAL	BIT(4)
--
- static void xhci_rcar_start_gen2(struct usb_hcd *hcd)
++static int xhci_priv_post_resume_quirk(struct usb_hcd *hcd)
++{
++	struct xhci_plat_priv *priv = hcd_to_xhci_priv(hcd);
++
++	if (!priv->post_resume_quirk)
++		return 0;
++
++	return priv->post_resume_quirk(hcd);
++}
++
+ static void xhci_plat_quirks(struct device *dev, struct xhci_hcd *xhci)
  {
- 	/* LCLK Select */
+ 	struct xhci_plat_priv *priv = xhci_to_priv(xhci);
+@@ -529,6 +539,10 @@ static int xhci_plat_resume_common(struct device *dev, bool power_lost)
+ 	if (ret)
+ 		goto disable_clks;
+ 
++	ret = xhci_priv_post_resume_quirk(hcd);
++	if (ret)
++		goto disable_clks;
++
+ 	pm_runtime_disable(dev);
+ 	pm_runtime_set_active(dev);
+ 	pm_runtime_enable(dev);
+diff --git a/drivers/usb/host/xhci-plat.h b/drivers/usb/host/xhci-plat.h
+index 2b32a93d2b76..00751d851831 100644
+--- a/drivers/usb/host/xhci-plat.h
++++ b/drivers/usb/host/xhci-plat.h
+@@ -21,6 +21,7 @@ struct xhci_plat_priv {
+ 	int (*init_quirk)(struct usb_hcd *);
+ 	int (*suspend_quirk)(struct usb_hcd *);
+ 	int (*resume_quirk)(struct usb_hcd *);
++	int (*post_resume_quirk)(struct usb_hcd *);
+ };
+ 
+ #define hcd_to_xhci_priv(h) ((struct xhci_plat_priv *)hcd_to_xhci(h)->priv)
 -- 
 2.43.0
 
