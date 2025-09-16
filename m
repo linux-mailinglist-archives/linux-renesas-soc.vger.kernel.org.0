@@ -1,145 +1,180 @@
-Return-Path: <linux-renesas-soc+bounces-21925-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21926-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EFBAB597A1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 15:28:42 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B118FB597AF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 15:31:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E371E4607B2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 13:28:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 66D9A488093
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Sep 2025 13:31:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8545315D2A;
-	Tue, 16 Sep 2025 13:27:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="fSgNx9NP"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25E081EBFE0;
+	Tue, 16 Sep 2025 13:31:20 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB8C530DEA5;
-	Tue, 16 Sep 2025 13:27:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ECE320D51C
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Sep 2025 13:31:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758029278; cv=none; b=I7BDKg1vC80P1rcdLPb2gRkF958ok1Vj4mlB/bH9yJBi8dfzYNF81EJ512IvFJ/wa61Oby3JX8rpQooDJwPqqT2zgWKeEg9A7dEaypvt2pCcPD5KH29ekRmyPT3yRcLFkB1xOMGsxOC+k+GvfoR5RVhnP4oyycjmYF4843UO+qU=
+	t=1758029480; cv=none; b=mCdSfRgvaCxZbn/FPDeGJl5MFOExlUhFC/D+I8dJaI9fgxu0fxDMBZ1mlpaV87byiY2oIAKOG0+c+rz4K65ESAuhoK1LgkY2QvjD+SeVuPgkeQ7hOVKdKleo4i0CEQPoekat4DFDtSb2eMHM+znK3Ve7rq1RL1Zy19MP3cCE6eU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758029278; c=relaxed/simple;
-	bh=2pO1YonxiMJrZtkqsn6CSCegsW+76mZGoVZl9Jo/mqE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GoTacyUbUSolv6ZwxwspcEK0PaPcwb3bnXY6SahQDOa1WuBBpheUCvTLZP16H5WFZLjAn1BfvBDQSlNFyWoBnDDoUdQIv/FU/bnhQZOWwsDPtJDjXEOwV2dnL3wcFdd/Ka2K56NeqBedHhQxFwSmmGCPYgMxGG6FeOkGc6YfTGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=fSgNx9NP; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cR2lD6kqQz9t6Q;
-	Tue, 16 Sep 2025 15:27:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1758029273;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D5srN1S/oujImaL8aN5Qf49+6W9cVuV46BKkTsjrOg8=;
-	b=fSgNx9NP+kzeOk4Kz8QIFhAsMs6QQk8eF7bq/MqjLFCy5NapHb+Wfbvv73eN/U4Nctte3P
-	MCXxzRTWSdYsAgWWRrfbski6Af7uvU+ZUxjKi/c5zvbfGF98qT5APtf7N8a4pidqdsfPyD
-	Lru6sksYg28U/qoxV8WBRtOeDTBqNkAYaOr4By+GfJc7zcq9DRf2DcgNSBvxglLOXeOh7M
-	2ShUVsN6fU07Z15B3SMpvDImFk/DrCJU9M0+z0oNk/8FUlrG5foPxb31iFLgR96o1Rpmuk
-	f0T4c5wUPk8WlAqVDX6hYtJt98OJz2pOmleUg3aAC81J/vUL6/M8uCTeNQEwmg==
-Message-ID: <35c35faf-dd76-47e4-86fe-35ec9eaad6f4@mailbox.org>
-Date: Tue, 16 Sep 2025 15:27:47 +0200
+	s=arc-20240116; t=1758029480; c=relaxed/simple;
+	bh=lRwGS+EzOykdHSjihfKZFNIAo3QDxUC71G1I5pU5mBM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WI3k7wd97JsxIfyHzNhkP438y/uEQGCnQZjMhVWy6dPS6pHUBtIBzrJOGnHvn2vZe7mIh+mPSulcHtCJAMw+u6N2d/ecd46JuuLtj9eySHJl3qb3k52740TklCbsKG5TyLn26nPP1z17iwskDg2B4njuuppOtCqAhVG6wUCTibg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-8943501ba3dso2839619241.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Sep 2025 06:31:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758029477; x=1758634277;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aDQooxDkD5fz4sLWBIH6i0SDIPVUTbpTi303GssaIAI=;
+        b=d1rDLHDYjDYwEpIYdB+Svq4B16XzF9i/CT61ANz6I8tP0heL4p1FCAl3ljy9ABQxfL
+         4HlDJpPaWqwCXMrM83La7q43WdOU0sqo96A6wr/VSdWXtrlYHKNlHQM5poIy5kFDJAeT
+         8oRDuUkusvxax6Sz/PYVhrvOv6a9LnWzWcCPoZ7xOcV0IWT9GRyV97T3axVWkzwHLfBG
+         PZpPik+2/ayrtH6JnNFeTbOXDuE1F0iMSsTQUpSFzH3gKpuhvP2Rzh8eSp1zQqoj8649
+         hWGJ+Uire97YwQvsdJ2nDWGduv5m3bSWdOHMW8aqwQZnf1+pleScjAxWqdPuQGFLHzaZ
+         qn2w==
+X-Forwarded-Encrypted: i=1; AJvYcCXsbl6W79gZX+sm3DOZW5IYH0kMJ6BfARdL/my1KmoFSzIIjLlJlD3zHIV2b3OJP1sCejclFtuxHJUwcx/iPnMzzg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywkrm4OG2eAWZC21R/LHpDuosGtZTYMxoqccKRNCcRy7zpMLTiS
+	h1JlcCz6tiAo9q0sFwjPmgPOdUKwT7Z06D1w81ZoJp7qymK5JE4CLNb4qgOiOTlE
+X-Gm-Gg: ASbGncuU5mRDxa9Aa7al/BPmdZ4+B2JwD7xX6W7YhHq9yoFm0cAhj6mxWAbT0f1vIef
+	Rggy3NvNspoe1pEEX3Vq1Yu0tDBy2yzU074canakeKaMG7Bax3rXuPawDtM6sA5DYYWkrNBnpyp
+	aSbOCjdllop7oMJLi4FD+KPX6uaczQcOYqL05oYcoqEPAeEDE+uZLq9iQX7v/4uBa7gse9jcTRY
+	70zAfAdlOqU7Gp5FiKUtZyMvOwAmAibdKIqGIiLx/pjMVkVglf3K+x6hQDBS/+eBLRMXKyfAkQW
+	fTPFupw1UkxaQk/8uVk3OHVB/xQ6RGUUGbjebCS3e583C9INaYmNn1Z+k2FakZiXaYwIFfjp354
+	sFg84IVfYW5qwps9/pBz4pmfXNQ0vq3sRIXy0Vb7h+QKAH0JOpeDS7YF9/yY/yIxv
+X-Google-Smtp-Source: AGHT+IGLA8oHPNKmdqca/HN3bN/cGrcBEaGLdjDpVRphHCb/nQQs/48XwSOdBOtCIYnI8sqz29DC3Q==
+X-Received: by 2002:a05:6102:548d:b0:52e:68:770a with SMTP id ada2fe7eead31-5560d760c81mr5235867137.24.1758029476703;
+        Tue, 16 Sep 2025 06:31:16 -0700 (PDT)
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com. [209.85.221.172])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5598571bbc0sm2510204137.2.2025.09.16.06.31.15
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Sep 2025 06:31:15 -0700 (PDT)
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-54a1bef404fso2955657e0c.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Sep 2025 06:31:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUPFbrW+8Pji2c1WGYXR2x5sMV7jcqwCTAYFD16vqYKrugHNvNNVKm72IZIvBxcBBje+X5TwFN55q72EuEJRIusLA==@vger.kernel.org
+X-Received: by 2002:a05:6122:1d8c:b0:53b:174d:98f2 with SMTP id
+ 71dfb90a1353d-54a16b20009mr5200853e0c.3.1758029474999; Tue, 16 Sep 2025
+ 06:31:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] dt-bindings: ili9881c: Allow port subnode
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- dri-devel@lists.freedesktop.org
-Cc: Conor Dooley <conor+dt@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@gmail.com>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20250904200130.168263-1-marek.vasut+renesas@mailbox.org>
- <a0d85f06-a87b-40f6-a74a-27b148f309fd@linaro.org>
- <5b152739-6b1d-4742-8163-bb6e6b39822a@mailbox.org>
- <004e4b73-b695-4e37-b484-4fbc340701ea@linaro.org>
- <0cdd321a-4eb0-42aa-ab7f-71fffb96ac73@mailbox.org>
- <bbd0e55d-aa5f-4ace-8c5b-074fbf1c46f7@linaro.org>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <bbd0e55d-aa5f-4ace-8c5b-074fbf1c46f7@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 9d651fb07e536f89313
-X-MBO-RS-META: px4uixpx8ccc9nc15ytk4i5my75zndsr
+References: <20250908105901.3198975-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250908105901.3198975-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <aMlgg_QpJOEDGcEA@monster>
+In-Reply-To: <aMlgg_QpJOEDGcEA@monster>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 16 Sep 2025 15:31:04 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXWVXd5FauMYNq0yXgQa87F4Z9HcGOu2O_ercQg48GNoQ@mail.gmail.com>
+X-Gm-Features: AS18NWCih78Z1mvXR97O_iR6cJDURxsOD6O73Iub1rATQe0jxKnm2iY0iJuCAa8
+Message-ID: <CAMuHMdXWVXd5FauMYNq0yXgQa87F4Z9HcGOu2O_ercQg48GNoQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 3/3] net: stmmac: dwmac-renesas-gbeth: Add
+ support for RZ/T2H SoC
+To: Anders Roxell <anders.roxell@linaro.org>
+Cc: Prabhakar <prabhakar.csengg@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Richard Cochran <richardcochran@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Russell King <linux@armlinux.org.uk>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Vladimir Oltean <vladimir.oltean@nxp.com>, 
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>, Jose Abreu <joabreu@synopsys.com>, netdev@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 9/16/25 1:54 PM, Neil Armstrong wrote:
-> On 16/09/2025 13:48, Marek Vasut wrote:
->> On 9/16/25 11:52 AM, Neil Armstrong wrote:
->>> On 16/09/2025 10:15, Marek Vasut wrote:
->>>> On 9/5/25 9:51 AM, Neil Armstrong wrote:
->>>>> On 04/09/2025 22:01, Marek Vasut wrote:
->>>>>> The ILI9881C is a DSI panel, which can be tied to a DSI controller
->>>>>> using OF graph port/endpoint. Allow the port subnode in the binding.
->>>>>>
->>>>>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
->>>>>> ---
->>>>>> Cc: Conor Dooley <conor+dt@kernel.org>
->>>>>> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
->>>>>> Cc: David Airlie <airlied@gmail.com>
->>>>>> Cc: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
->>>>>> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
->>>>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>>>>> Cc: Maxime Ripard <mripard@kernel.org>
->>>>>> Cc: Neil Armstrong <neil.armstrong@linaro.org>
->>>>>> Cc: Rob Herring <robh@kernel.org>
->>>>>> Cc: Simona Vetter <simona@ffwll.ch>
->>>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->>>>>> Cc: devicetree@vger.kernel.org
->>>>>> Cc: dri-devel@lists.freedesktop.org
->>>>>> Cc: linux-renesas-soc@vger.kernel.org
->>>>>> ---
->>>>>>   .../devicetree/bindings/display/panel/ilitek,ili9881c.yaml       
->>>>>> | 1 +
->>>>>>   1 file changed, 1 insertion(+)
->>>>>>
->>>>>> diff --git a/Documentation/devicetree/bindings/display/panel/ 
->>>>>> ilitek,ili9881c.yaml b/Documentation/devicetree/bindings/display/ 
->>>>>> panel/ilitek,ili9881c.yaml
->>>>>> index 434cc6af9c954..cf0aa996e072d 100644
->>>>>> --- a/Documentation/devicetree/bindings/display/panel/ 
->>>>>> ilitek,ili9881c.yaml
->>>>>> +++ b/Documentation/devicetree/bindings/display/panel/ 
->>>>>> ilitek,ili9881c.yaml
->>>>>> @@ -30,6 +30,7 @@ properties:
->>>>>>       maxItems: 1
->>>>>>     backlight: true
->>>>>> +  port: true
->>>>>>     power-supply: true
->>>>>>     reset-gpios: true
->>>>>>     rotation: true
->>>>>
->>>>> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
->>>>
->>>> Would it be OK to pick this one up via drm-misc (and possibly also 
->>>> the other ili9881c RPi 5" Display 2 patches), or shall I wait a bit 
->>>> longer ?
->>>
->>> yes it's ok to pick via drm-misc, bit it's too late for v6.18.
->> That's fine. Will you pick it up or shall I do that ?
-> 
-> I'll do this later this week, if you have the opportunity before, please 
-> pick it.
-I really don't like picking up my own patches, so next week is just 
-fine. Thank you.
+Hi Anders,
+
+On Tue, 16 Sept 2025 at 15:05, Anders Roxell <anders.roxell@linaro.org> wrote:
+> On 2025-09-08 11:59, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Extend the Renesas GBETH stmmac glue driver to support the RZ/T2H SoC,
+> > where the GMAC is connected through a MIIC PCS. Introduce a new
+> > `has_pcs` flag in `struct renesas_gbeth_of_data` to indicate when PCS
+> > handling is required.
+> >
+> > When enabled, the driver parses the `pcs-handle` phandle, creates a PCS
+> > instance with `miic_create()`, and wires it into phylink. Proper cleanup
+> > is done with `miic_destroy()`. New init/exit/select hooks are added to
+> > `plat_stmmacenet_data` for PCS integration.
+> >
+> > Update Kconfig to select `PCS_RZN1_MIIC` when building the Renesas GBETH
+> > driver so the PCS support is always available.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > v2->v3:
+> > - Dropped passing STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP flag in stmmac_flags
+> >   as it is always set for all the SoCs.
+> > - Updated Kconfig to include RZ/T2H and RZ/N2H.
+> >
+> > v1->v2:
+> > - No changes.
+>
+> The following warning is seen when doing a defconfig build (make
+> defconfig) for arm64 on the Linux next-20250915 tag.
+>
+> First seen on next-20250915
+> Good: next-20250912
+> Bad: next-20250915
+>
+> Regression Analysis:
+> - New regression? yes
+> - Reproducibility? yes
+>
+> Build regression: WARNING: unmet direct dependencies detected for PCS_RZN1_MIIC
+>
+> Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+>
+> This is the build warning:
+> WARNING: unmet direct dependencies detected for PCS_RZN1_MIIC
+>   Depends on [n]: NETDEVICES [=y] && OF [=y] && (ARCH_RZN1 [=n] || COMPILE_TEST [=n])
+>   Selected by [m]:
+>   - DWMAC_RENESAS_GBETH [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_STMICRO [=y] && STMMAC_ETH [=m] && STMMAC_PLATFORM [=m] && OF [=y] && (ARCH_RENESAS [=y] || COMPILE_TEST [=n])
+>
+> WARNING: unmet direct dependencies detected for PCS_RZN1_MIIC
+>   Depends on [n]: NETDEVICES [=y] && OF [=y] && (ARCH_RZN1 [=n] || COMPILE_TEST [=n])
+>   Selected by [m]:
+>   - DWMAC_RENESAS_GBETH [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_STMICRO [=y] && STMMAC_ETH [=m] && STMMAC_PLATFORM [=m] && OF [=y] && (ARCH_RENESAS [=y] || COMPILE_TEST [=n])
+> I: config: PASS in 0:00:01.592356
+
+Thanks for your report!
+
+    config DWMAC_RENESAS_GBETH
+        depends on OF && (ARCH_RENESAS || COMPILE_TEST)
+        select PCS_RZN1_MIIC
+
+    config PCS_RZN1_MIIC
+        depends on ARCH_RZN1 || ARCH_R9A09G077 || ARCH_R9A09G087 || COMPILE_TEST
+
+"ARCH_RENESAS" is wider than "ARCH_RZN1 || ARCH_R9A09G077 || ARCH_R9A09G087".
+I would just change the latter to ARCH_RENESAS.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
