@@ -1,151 +1,180 @@
-Return-Path: <linux-renesas-soc+bounces-21968-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21969-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E28AB7F91C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Sep 2025 15:51:44 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49DCCB80559
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Sep 2025 17:02:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E2D443B63B7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Sep 2025 13:50:40 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D90134E24F8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Sep 2025 15:02:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63F07316180;
-	Wed, 17 Sep 2025 13:44:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="UcKiHouV"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEB8A332A47;
+	Wed, 17 Sep 2025 14:58:52 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E75E233140;
-	Wed, 17 Sep 2025 13:44:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6AB32E73E
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Sep 2025 14:58:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758116670; cv=none; b=klhjhyFc6KWcQXu6DNMvCZSXdhG9ByCxbzxa3GdJTO1zqDUnEsznJUUgi4RAY58fEabpfExpXDV/p9MxLv4J02BY1I13JEcL67emtmjWyq59ypRPPkxbkfErZ44WyhzZ4srQHHtIeQ6ecUBvKoiMO6NATQiBvq/CLb9/j76nxo4=
+	t=1758121132; cv=none; b=SWmPqCpZl2IIyhzW2yCBZAtY5NhtRXgj3BEAZxh14zsvFQmfsKJ8naCQsAXJ8AEu6CHdrotFD/fQIMtq0O3cv6fp0mIkcg8ppCHt9N0AZVmBHlb7LRbQ7ePI2H+1Sc6ZrShgllxyHETtNwmPgiR6vSMuRGvyRD5FcW9zTQWH3Ms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758116670; c=relaxed/simple;
-	bh=u90Fk5cPBbawK5fK7gzSnozL1IIQ7AgT4sUYW+7MSC8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EPCqvUYi0Yp7Z7CQh7YhsjuqjNnaTjADOsBZemmOUwwk5ynvnnvpJ5GIgWYFwour1f4CuMk5T2R3zqmwPFaz/bNmpDDbgNWVd6ioiS1Welc0U0s+5NjvBej4FhOMkG3sv2BVvm41hX6NPnXP0L2J4xqCoFpugjfgZiENIXz6ZL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=UcKiHouV; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cRg3l0V4Lz9tK1;
-	Wed, 17 Sep 2025 15:44:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1758116659;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=urDXGyEsj1r/aJXZk5lMxgMwOCYoe0BVA9dDdk/rdpU=;
-	b=UcKiHouV+A8jmB7/LKNJtMjIN0Jx/qBupdrfggZnpDsME3ImnILP5VJkpj3m27ODrqk0Ih
-	tBN33C6MGi+R62WpEjjO4SkXZHG0KSjuZ3Y/Ftl1dDBpdJCZmM2+uYAR48FnxuY450dh15
-	xeKHjFIBZXFlcOesTKSgh+H6EamLKAJuLKWGsKP43D9tDfIzTsXQSaRjA31rBKZ4Xxm3wf
-	jBwBpldOLukXdxsZyY+hRmLvGSv9NmuVAMjOL2M2rpnaw6NKz3UiYKOHYamGhrILXH140N
-	dcLOV1S8R01Xh7nVUBSll9AaL81mo0DtAdxO+dGmwyx86tCa3lxhx1kxcmiPGg==
-Message-ID: <bf385367-bec7-432c-af2b-1c1bd269547e@mailbox.org>
-Date: Wed, 17 Sep 2025 15:44:16 +0200
+	s=arc-20240116; t=1758121132; c=relaxed/simple;
+	bh=aWHBMOW8hyEe365SagMQZPNiGW5aSEvEFBlvvt4KhAw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=he2cfBCfOSwZ4YwLIcuLLFW19xqPdbHVM+aBq4HKPw3JNXGxcJpM0nSfwQFJz5Hxg+HJNvRhEsfrRw5ehUwtZlQTkxl1UCpUlJIDK38GsYj4GFAAYeDXqUPNweXiWsympeuLBsPkpCy35KTtVZHyIN4LJ7BqTgdY0q3wMJ+gjT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-54a6248e23aso259680e0c.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Sep 2025 07:58:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758121129; x=1758725929;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=05Xx0KU64Po07Lz8pcNMpuzAdK+HLbLydsRr28mrazU=;
+        b=Egqy60FZHPlIIzSA7iDYDTKKcccqsuTiHCv9/S7M3GY56fR7utUEuUPgLd0pGRaqPi
+         6w0ddSAihzDKs5vcQOGnEEQOszbWAnWis8813svokK5nKGzL2wI5te815XB2ZvP+BCDC
+         x/BNJaT+GGBTfMVlkVMUwaCxIzdtQmzCfCWxecuiRLkevZjaX9mKorq9WwDAGsLpuI1G
+         2FxSj7Px6q+qeKxseDmREWqRR8jW/rUYE91bH3k09OIAJyyYu8UGBK2G8M7G0NfuI6zD
+         XGGISNDFFO1AKt7h/juVB7neYCwyGakNq65QLToqK55rSsuty15HLpDJgY4vnE1c3A1H
+         oBYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXL+VZj+4ycOcQ+VRjJHgJrchCTnr5PGNYSE028I/QnzPSGRtHheggawdmF/4zbhd0gS5c6a6Glk6xMuxkFoqiHag==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy5VExHQoCQJYYTDGxhUeXkZZXiFAbJIL8rEEfa/V43EpsovEaF
+	824er/LQdjM+7rIEODc6JIkV0GM/TMg531ii6JYR/Gclxofv71VmsPobweQiiCU+wFI=
+X-Gm-Gg: ASbGncuSg/unR3MtV5LKVnU8xPmNPedx40r25WayFgkoS3DCOoBE7AZyB1o8hGAMxrz
+	CL2JxN7ubf625iQEZ8lrADMACId3v6JMcHga1KxtCj3jvBXN7F+coZiyIbOlrq2Bp96j5Ayi3sA
+	RCOTKGUva4hqU1Kpmk4/DOfbixB217tYhvmqYmj9ICKHlwFmR4V1WeXz6B4Kxind413ANjFYUtr
+	YVEQ40xTErDz1o4VGC0f/qXk3nxJgv5QzyWcOrAuIkSOmCKRuyK4A1IRWa17M9rFguz1LqK0S3Y
+	cCSm12hnw26SLC10pyNrldGDw2G3DhLA2feNPifTVHyr6g3D9pelUCi0+SmRysqiNYd+b4+5EM+
+	9WnkQFImUB3uQWcP2BSkwS3wMaJxW9J8KRVidOKxvEbSINuU969kfOzkrfTq4Qeb1
+X-Google-Smtp-Source: AGHT+IGjv/aKKyuOF9U1Xfgav5+53c0UyFPqsohmyfeSzAFW3yxy08EqVj2xl1sDsbiEk0iLHu5VUA==
+X-Received: by 2002:a05:6122:1da9:b0:545:ef3e:2f94 with SMTP id 71dfb90a1353d-54a605dd9c8mr697038e0c.1.1758121128843;
+        Wed, 17 Sep 2025 07:58:48 -0700 (PDT)
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com. [209.85.221.169])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-54a0d3f050esm3537239e0c.14.2025.09.17.07.58.47
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Sep 2025 07:58:48 -0700 (PDT)
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-54a6248e23aso259656e0c.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Sep 2025 07:58:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW5KlIhvuyOa8FCKxCGc0YZtgCnRZaeuTP5sHJsiyYd1kqY1wa30/9y4VnBJVOb5+qetb2ofFYQmiTCWilS5dwdWg==@vger.kernel.org
+X-Received: by 2002:a05:6122:829c:b0:539:3bb5:e4c8 with SMTP id
+ 71dfb90a1353d-54a60a7a014mr768825e0c.12.1758121126748; Wed, 17 Sep 2025
+ 07:58:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] PCI: rcar-gen4: Fix inverted break condition in PHY
- initialization
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, linux-pci@vger.kernel.org,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Magnus Damm <magnus.damm@gmail.com>, Manivannan Sadhasivam
- <mani@kernel.org>, Rob Herring <robh@kernel.org>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- linux-renesas-soc@vger.kernel.org
-References: <20250916181558.GA1810654@bhelgaas>
- <643c9b19-dda4-43c5-bb6d-aa0705053d43@mailbox.org>
- <CAMuHMdXh0rxpLXW+3yCP7hZNwacVcuc3Wp5t8CiDJ2HE=P+OiQ@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <CAMuHMdXh0rxpLXW+3yCP7hZNwacVcuc3Wp5t8CiDJ2HE=P+OiQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 75b0886a497c68c846f
-X-MBO-RS-META: dczkuht97h9yh5n3egsxea9qkhkii97i
+References: <87ecs5abp9.wl-kuninori.morimoto.gx@renesas.com> <875xdhabml.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <875xdhabml.wl-kuninori.morimoto.gx@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 17 Sep 2025 16:58:35 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX=oJqJhXOm6w_65dJHRD3VZyJZUWfHzot5EuZtRB2tZw@mail.gmail.com>
+X-Gm-Features: AS18NWDSUjkX-aOCFteBo5qpdwwTSUCRiYts8nug9t_TpQbYuJMfunN09RrdfOE
+Message-ID: <CAMuHMdX=oJqJhXOm6w_65dJHRD3VZyJZUWfHzot5EuZtRB2tZw@mail.gmail.com>
+Subject: Re: [PATCH v4 5/5] arm64: dts: renesas: R8A78000: Add initial
+ Ironhide support
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: "Liang, Kan" <kan.liang@linux.intel.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Conor Dooley <conor+dt@kernel.org>, Douglas Anderson <dianders@chromium.org>, 
+	Ian Rogers <irogers@google.com>, Ingo Molnar <mingo@redhat.com>, 
+	James Clark <james.clark@linaro.org>, Jiri Olsa <jolsa@kernel.org>, 
+	John Garry <john.g.garry@oracle.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Leo Yan <leo.yan@linux.dev>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Mike Leach <mike.leach@linaro.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+	Peter Zijlstra <peterz@infradead.org>, Rob Herring <robh@kernel.org>, 
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>, Will Deacon <will@kernel.org>, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-perf-users@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Marc Zyngier <maz@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On 9/17/25 10:00 AM, Geert Uytterhoeven wrote:
+Hi Morimoto-san,
 
-Hello Geert,
+On Wed, 17 Sept 2025 at 07:31, Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> From: Hai Pham <hai.pham.ud@renesas.com>
+>
+> Add the initial support for Renesas X5H Ironhide board.
+>
+> Note: It is using "maxcpus" in bootargs to limit number of CPU, because
+> SMP support is now under development. This limitation will be removed
+> in the future.
+>
+> [Kuninori: tidyup for upstreaming]
+>
+> Signed-off-by: Hai Pham <hai.pham.ud@renesas.com>
+> Signed-off-by: Vinh Nguyen <vinh.nguyen.xz@renesas.com>
+> Signed-off-by: Takeshi Kihara <takeshi.kihara.df@renesas.com>
+> Signed-off-by: Khanh Le <khanh.le.xr@renesas.com>
+> Signed-off-by: Huy Bui <huy.bui.wm@renesas.com>
+> Signed-off-by: Phong Hoang <phong.hoang.wz@renesas.com>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
->> --- a/drivers/clk/renesas/renesas-cpg-mssr.c
->> +++ b/drivers/clk/renesas/renesas-cpg-mssr.c
->> @@ -688,12 +688,14 @@ static int cpg_mssr_reset(struct
->> reset_controller_dev *rcdev,
->>
->>          /* Reset module */
->>          writel(bitmask, priv->pub.base0 + priv->reset_regs[reg]);
->> +       readl(priv->pub.base0 + priv->reset_regs[reg]);
->>
->>          /* Wait for at least one cycle of the RCLK clock (@ ca. 32 kHz) */
->>          udelay(35);
->>
->>          /* Release module from reset state */
->>          writel(bitmask, priv->pub.base0 + priv->reset_clear_regs[reg]);
->> +       readl(priv->pub.base0 + priv->reset_clear_regs[reg]);
->>
->>          return 0;
->>    }
->> @@ -708,6 +710,7 @@ static int cpg_mssr_assert(struct
->> reset_controller_dev *rcdev, unsigned long id)
->>          dev_dbg(priv->dev, "assert %u%02u\n", reg, bit);
->>
->>          writel(bitmask, priv->pub.base0 + priv->reset_regs[reg]);
->> +       readl(priv->pub.base0 + priv->reset_regs[reg]);
->>          return 0;
->>    }
->>
->> @@ -722,6 +725,7 @@ static int cpg_mssr_deassert(struct
->> reset_controller_dev *rcdev,
->>          dev_dbg(priv->dev, "deassert %u%02u\n", reg, bit);
->>
->>          writel(bitmask, priv->pub.base0 + priv->reset_clear_regs[reg]);
->> +       readl(priv->pub.base0 + priv->reset_clear_regs[reg]);
->>          return 0;
->>    }
->>
-> 
-> Yes, reading the reset registers after writing works, too.
-> 
-> I just noticed the module reset operation in the R-Car V4H Hardware
-> User's Manual has changed from R-Car Gen2/Gen3, and is now more complex,
-> with three different reset types, depending on the module to be reset
-> (see Section 9.3 "Operation" subsection (2) "Software Reset").
-> The most striking difference is that there is no more mention of
-> a single delay of 1 RCLK cycle (cfr. the udelay(35) above), but of
-> much longer delays of 1 ms.
-> 
-> As drivers/pci/controller/dwc/pcie-rcar-gen4.c does not call the
-> combined reset_control_reset() , but uses separate
-> reset_control_assert() and reset_control_deassert() calls, the PCIe
-> driver itself is responsible for enforcing this 1 ms delay.
+Thanks for the update!
 
-Shouldn't we patch the reset driver and insert unconditional 1ms delay 
-into reset_assert() callback ?
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/renesas/r8a78000-ironhide.dts
+> @@ -0,0 +1,92 @@
+> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +/*
+> + * Device Tree Source for the Ironhide board
+> + *
+> + * Copyright (C) 2025 Renesas Electronics Corp.
+> + */
+> +
+> +/dts-v1/;
+> +#include "r8a78000.dtsi"
+> +
+> +/ {
+> +       model = "Renesas Ironhide board based on r8a78000";
+> +       compatible = "renesas,ironhide", "renesas,r8a78000";
+> +
+> +       aliases {
+> +               serial0 = &hscif0;
+> +       };
+> +
+> +       chosen {
+> +               /*
+> +                * REMOVE-ME
+> +                *
+> +                * It works 1 CPU core only for now. This limitation will be
+> +                * removed in future.
+> +                */
+> +               bootargs = "maxcpus=1";
 
-> Which is exactly what your introduction of mdelay(1) (just after the
-> out-of-context call to reset_control_deassert()) does, so I believe
-> we're all set?
+I still don't fully understand why this is needed: without that line,
+Ironhide boots fine, and only a single CPU is enabled.
+None of the cpu node have an enable-method, so Linux does not try to
+enable secondary CPUs anyway.  Even with the enable-method re-added
+(like in your v2), Linux cannot enable secondary CPUs, as there is no
+PSCI node.
 
-No, I do not think so. Figure 9.3.2 Software Reset flow (B) on page 585 
-does NOT describe 1ms delay after write into SRSTCLR register. It does 
-describe 1ms delay after write into SRCR register. That means, we need 
-1ms delay after reset_control_assert(), but it does NOT mean we need 1ms 
-delay after reset_control_deassert() . That means the issue remains 
-unexplained ?
+What am I missing?
+
+> +               stdout-path = "serial0:1843200n8";
+> +       };
+
+The rest LGTM.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
