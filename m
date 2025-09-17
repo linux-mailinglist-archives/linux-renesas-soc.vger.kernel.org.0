@@ -1,115 +1,151 @@
-Return-Path: <linux-renesas-soc+bounces-21967-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21968-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04170B7C657
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Sep 2025 14:00:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E28AB7F91C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Sep 2025 15:51:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 499DF465335
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Sep 2025 12:00:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E2D443B63B7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Sep 2025 13:50:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A22B9371EB9;
-	Wed, 17 Sep 2025 11:59:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63F07316180;
+	Wed, 17 Sep 2025 13:44:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S0b0Z0LD"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="UcKiHouV"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77965369992;
-	Wed, 17 Sep 2025 11:59:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E75E233140;
+	Wed, 17 Sep 2025 13:44:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758110399; cv=none; b=EImVSCMTAU48VyDQ38Y6JI1XK5IK7ezoYuhbhOy+MN37xSx9B5YBFqjySbPwdZUiMqnonE93z7BN75Sj5WEh0OiegP4TzZJhlHjeHDYVx+oGQT659V/4KFZs2xac6pF6bpSx6sa6BblddY4ADk1Zi6C//6A7q8f8x22JDAP53dY=
+	t=1758116670; cv=none; b=klhjhyFc6KWcQXu6DNMvCZSXdhG9ByCxbzxa3GdJTO1zqDUnEsznJUUgi4RAY58fEabpfExpXDV/p9MxLv4J02BY1I13JEcL67emtmjWyq59ypRPPkxbkfErZ44WyhzZ4srQHHtIeQ6ecUBvKoiMO6NATQiBvq/CLb9/j76nxo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758110399; c=relaxed/simple;
-	bh=iR5+nco2EXNlSn4A2SXA42HaKbUNS/VQWh8sK0f6yhM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QiTj4g9VcEUo3TX/4Vqz3byULG9nutueHv6EKNG14Bg5Ij7CjHXAlI+nrvfhfkfzI75/t5VmWIGQhu/WGGSySmOkDieX9S+dsFBraeSNtL6OvI8ck3s8d8bLMdTRAjCIT5oA8fH6BKCtDwv+CcX1uuaLKSljjQosr1qOKmcivbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S0b0Z0LD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4441CC4CEF5;
-	Wed, 17 Sep 2025 11:59:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758110399;
-	bh=iR5+nco2EXNlSn4A2SXA42HaKbUNS/VQWh8sK0f6yhM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=S0b0Z0LDC7ZatNJWoSFifZpi5eMunY/GMLlAQgcDKrKfB1tHTmXZtjARH19jixr4b
-	 U+AFtcAh/obHUbw3mHT3AKzlUDSdBbDHkSwx3p4SxQ9DoLn8r0JwppUxwiCWYXpzxt
-	 tI1YhLmSbnrP2fzwKh+jbHdm33vjW5kL/D0iMf7zPuA80yIxfn1UrMQpHcJ9GzmfOZ
-	 nxt+fjgPRD0cASGO/3Me1AkjyiRstx/j6qOLFn3ImJfSHR1MaXZSfH5XP4gTIQMjJS
-	 gGDRuJ9zIcdV6zdxY0rqsQpnB3LbA11UxNJFyFzV3JQXEtNJAkEJF9L6WrMkamOJw5
-	 BkbvDQX+6MANQ==
-Date: Wed, 17 Sep 2025 12:59:50 +0100
-From: Will Deacon <will@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: "Liang,  Kan" <kan.liang@linux.intel.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Ian Rogers <irogers@google.com>, Ingo Molnar <mingo@redhat.com>,
-	James Clark <james.clark@linaro.org>, Jiri Olsa <jolsa@kernel.org>,
-	John Garry <john.g.garry@oracle.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Leo Yan <leo.yan@linux.dev>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Mike Leach <mike.leach@linaro.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Rob Herring <robh@kernel.org>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-perf-users@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Marc Zyngier <maz@kernel.org>
-Subject: Re: [PATCH v4 1/5] arm64: cputype: Add Cortex-A725AE definitions
-Message-ID: <aMqitjILn1GomkXt@willie-the-truck>
-References: <87ecs5abp9.wl-kuninori.morimoto.gx@renesas.com>
- <87bjn9abne.wl-kuninori.morimoto.gx@renesas.com>
+	s=arc-20240116; t=1758116670; c=relaxed/simple;
+	bh=u90Fk5cPBbawK5fK7gzSnozL1IIQ7AgT4sUYW+7MSC8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EPCqvUYi0Yp7Z7CQh7YhsjuqjNnaTjADOsBZemmOUwwk5ynvnnvpJ5GIgWYFwour1f4CuMk5T2R3zqmwPFaz/bNmpDDbgNWVd6ioiS1Welc0U0s+5NjvBej4FhOMkG3sv2BVvm41hX6NPnXP0L2J4xqCoFpugjfgZiENIXz6ZL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=UcKiHouV; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cRg3l0V4Lz9tK1;
+	Wed, 17 Sep 2025 15:44:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1758116659;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=urDXGyEsj1r/aJXZk5lMxgMwOCYoe0BVA9dDdk/rdpU=;
+	b=UcKiHouV+A8jmB7/LKNJtMjIN0Jx/qBupdrfggZnpDsME3ImnILP5VJkpj3m27ODrqk0Ih
+	tBN33C6MGi+R62WpEjjO4SkXZHG0KSjuZ3Y/Ftl1dDBpdJCZmM2+uYAR48FnxuY450dh15
+	xeKHjFIBZXFlcOesTKSgh+H6EamLKAJuLKWGsKP43D9tDfIzTsXQSaRjA31rBKZ4Xxm3wf
+	jBwBpldOLukXdxsZyY+hRmLvGSv9NmuVAMjOL2M2rpnaw6NKz3UiYKOHYamGhrILXH140N
+	dcLOV1S8R01Xh7nVUBSll9AaL81mo0DtAdxO+dGmwyx86tCa3lxhx1kxcmiPGg==
+Message-ID: <bf385367-bec7-432c-af2b-1c1bd269547e@mailbox.org>
+Date: Wed, 17 Sep 2025 15:44:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87bjn9abne.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH] PCI: rcar-gen4: Fix inverted break condition in PHY
+ initialization
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Bjorn Helgaas <helgaas@kernel.org>, linux-pci@vger.kernel.org,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Magnus Damm <magnus.damm@gmail.com>, Manivannan Sadhasivam
+ <mani@kernel.org>, Rob Herring <robh@kernel.org>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ linux-renesas-soc@vger.kernel.org
+References: <20250916181558.GA1810654@bhelgaas>
+ <643c9b19-dda4-43c5-bb6d-aa0705053d43@mailbox.org>
+ <CAMuHMdXh0rxpLXW+3yCP7hZNwacVcuc3Wp5t8CiDJ2HE=P+OiQ@mail.gmail.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <CAMuHMdXh0rxpLXW+3yCP7hZNwacVcuc3Wp5t8CiDJ2HE=P+OiQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 75b0886a497c68c846f
+X-MBO-RS-META: dczkuht97h9yh5n3egsxea9qkhkii97i
 
-On Wed, Sep 17, 2025 at 05:30:45AM +0000, Kuninori Morimoto wrote:
-> Add cputype definitions for Cortex-A725AE. These will be used for errata
-> detection in subsequent patches.
-> 
-> These values can be found in the Cortex-A725AE TRM:
-> 
-> https://developer.arm.com/documentation/102828/0001/
-> 
-> ... in Table A-187
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->  arch/arm64/include/asm/cputype.h | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/arch/arm64/include/asm/cputype.h b/arch/arm64/include/asm/cputype.h
-> index 661735616787e..b10eba7f52476 100644
-> --- a/arch/arm64/include/asm/cputype.h
-> +++ b/arch/arm64/include/asm/cputype.h
-> @@ -96,6 +96,7 @@
->  #define ARM_CPU_PART_NEOVERSE_V3	0xD84
->  #define ARM_CPU_PART_CORTEX_X925	0xD85
->  #define ARM_CPU_PART_CORTEX_A725	0xD87
-> +#define ARM_CPU_PART_CORTEX_A720AE	0xD89
->  #define ARM_CPU_PART_NEOVERSE_N3	0xD8E
+On 9/17/25 10:00 AM, Geert Uytterhoeven wrote:
 
-You seem to have sent the same patch twice but in both cases you're adding
-A720AE whereas the commit message says A725AE.
+Hello Geert,
 
-Will
+>> --- a/drivers/clk/renesas/renesas-cpg-mssr.c
+>> +++ b/drivers/clk/renesas/renesas-cpg-mssr.c
+>> @@ -688,12 +688,14 @@ static int cpg_mssr_reset(struct
+>> reset_controller_dev *rcdev,
+>>
+>>          /* Reset module */
+>>          writel(bitmask, priv->pub.base0 + priv->reset_regs[reg]);
+>> +       readl(priv->pub.base0 + priv->reset_regs[reg]);
+>>
+>>          /* Wait for at least one cycle of the RCLK clock (@ ca. 32 kHz) */
+>>          udelay(35);
+>>
+>>          /* Release module from reset state */
+>>          writel(bitmask, priv->pub.base0 + priv->reset_clear_regs[reg]);
+>> +       readl(priv->pub.base0 + priv->reset_clear_regs[reg]);
+>>
+>>          return 0;
+>>    }
+>> @@ -708,6 +710,7 @@ static int cpg_mssr_assert(struct
+>> reset_controller_dev *rcdev, unsigned long id)
+>>          dev_dbg(priv->dev, "assert %u%02u\n", reg, bit);
+>>
+>>          writel(bitmask, priv->pub.base0 + priv->reset_regs[reg]);
+>> +       readl(priv->pub.base0 + priv->reset_regs[reg]);
+>>          return 0;
+>>    }
+>>
+>> @@ -722,6 +725,7 @@ static int cpg_mssr_deassert(struct
+>> reset_controller_dev *rcdev,
+>>          dev_dbg(priv->dev, "deassert %u%02u\n", reg, bit);
+>>
+>>          writel(bitmask, priv->pub.base0 + priv->reset_clear_regs[reg]);
+>> +       readl(priv->pub.base0 + priv->reset_clear_regs[reg]);
+>>          return 0;
+>>    }
+>>
+> 
+> Yes, reading the reset registers after writing works, too.
+> 
+> I just noticed the module reset operation in the R-Car V4H Hardware
+> User's Manual has changed from R-Car Gen2/Gen3, and is now more complex,
+> with three different reset types, depending on the module to be reset
+> (see Section 9.3 "Operation" subsection (2) "Software Reset").
+> The most striking difference is that there is no more mention of
+> a single delay of 1 RCLK cycle (cfr. the udelay(35) above), but of
+> much longer delays of 1 ms.
+> 
+> As drivers/pci/controller/dwc/pcie-rcar-gen4.c does not call the
+> combined reset_control_reset() , but uses separate
+> reset_control_assert() and reset_control_deassert() calls, the PCIe
+> driver itself is responsible for enforcing this 1 ms delay.
+
+Shouldn't we patch the reset driver and insert unconditional 1ms delay 
+into reset_assert() callback ?
+
+> Which is exactly what your introduction of mdelay(1) (just after the
+> out-of-context call to reset_control_deassert()) does, so I believe
+> we're all set?
+
+No, I do not think so. Figure 9.3.2 Software Reset flow (B) on page 585 
+does NOT describe 1ms delay after write into SRSTCLR register. It does 
+describe 1ms delay after write into SRCR register. That means, we need 
+1ms delay after reset_control_assert(), but it does NOT mean we need 1ms 
+delay after reset_control_deassert() . That means the issue remains 
+unexplained ?
 
