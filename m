@@ -1,124 +1,164 @@
-Return-Path: <linux-renesas-soc+bounces-21965-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21966-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35EE2B7F955
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Sep 2025 15:53:11 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E61CB7E1D0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Sep 2025 14:42:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 15C7E17A12C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Sep 2025 08:06:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CBBCA325742
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Sep 2025 09:02:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63138303A35;
-	Wed, 17 Sep 2025 08:05:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 127E731BCB7;
+	Wed, 17 Sep 2025 09:02:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ekiwTziW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F57C308F1F
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Sep 2025 08:05:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2088D188734
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Sep 2025 09:02:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758096347; cv=none; b=rnB+H7qBmN56Y6F2pqjbLgxzD6ZOGjGLKKozZ3nw5feqTMp76YuG6VuuzPK7ebeVjX+3yxDMt5z9GfNpkf8vU0K2UxmqrFu6JhZJR8qboBU6tcvkxf+BC+jQWkMVRmIe4hQZek1h+4FNFNzVMpCARVLDU95f0Ow/H3hHJJTQRlQ=
+	t=1758099771; cv=none; b=WtU3LNk00fJTgUVVj+EkM3rVnPjIGrVo4vV+X2dtF10rvmiuPcWz0K5AMFcIquzfddiQ3A5FiPku5GR5Cx8CBU8Z8mV8oPRxTCwAnrpeme6GnHNs91pahiu6hreBtkSB/6NmE+oQhUvHeu9j7KW0uGGzb5vXe5g5aCnZeSi+ZBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758096347; c=relaxed/simple;
-	bh=Ec9ei6B/8ewo89UcVD8Q7X1+MZiGXpFbC8JM3y5kSV8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MX+1fbdt0gAxzjKDdoghJZLVNiI571eE8KdqlbEoB/WHjEpPdhbJU3g5gND5Ml6Y+0UuRC6yKdKQqB0ZJWbz3YSmuvY+NWTvREEXM1kogM0KFgZlIZ+nlqLnX5Y7XXR3Thsv2T2BdJDOxEX9IwxVG2ADb69uoFQhraujDJhc9eE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b07c2908f3eso762311666b.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Sep 2025 01:05:45 -0700 (PDT)
+	s=arc-20240116; t=1758099771; c=relaxed/simple;
+	bh=nkVK/tLnT8hl7YDYf7A/XsjvE10iA8D4y1I0YFB4XLE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=BCyS83xrXTCwPkV4ZEv8ddpjOaghX+QfZFWyoRAjMcHB8NnLn1TMKvELFIdkUVmFjWa3V6bwLv5A9HGhwjDJCuY+YF9vol4LIvgEAIItdqeTsXZZUBIM+zPaoPUVivjPW32UFvSy6D+3iVT4JTIxkfbSKJ9TCRqOc9Cqk6cw9OI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ekiwTziW; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-45dec026c78so64604485e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Sep 2025 02:02:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1758099767; x=1758704567; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=OrkRK12gc8jdKzalAh+dHWGpiMd74C9Kj46DS5jLtZY=;
+        b=ekiwTziW+kY9d3ah0VwENE8dhTsn+b+A3R8muJwy99NuUbrQ7hAcNJadOTV3vZyE9g
+         aQtR+6OL8T01rDcIHPt98XaRyu50tnlt+0k8xCOWpUUGjlAIrqrV2UMn8mELUQjQH0Ze
+         vPhqMJOGoAhvlHwp6EegYBvoYEsby7y3/U4FSnXnhE1vR3155WlAg1Ar98/PBZ9RBdbT
+         Zcd034njc3xZD4tWfHkC2V74vks7jUIJjrToEhp4LXSxs9d0YHRD7CfJ2eYGvnIjRUdI
+         UCQMhvhzXrXcR0gZzRal0hFZ9sraUiXx3NWKp46E64wWyUIgdfUw/FZavXj1mtCJJdQw
+         KGZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758096343; x=1758701143;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sHmK1DphSWWRr1U++nog5qIJKFnFzeb4vk8JecyOkhQ=;
-        b=nSMREu71qcy6/nCSp+Y66RsccPlNC7MmE84WHB8Gx7Nu5Iy+Qn4kfzFkcLQ41X8P+l
-         EYKm0m2LkZEaoREF2Js8I8lvH5Mvir37hnvUb30XOLKNHv03+7dBVyu9shKFipchWCsT
-         4okE852mfDVe0MEvSURNvBmUGrHFVqVScFjJ/djjnAIdIyPPLLqzqYmh5K9pnaSQFL9/
-         ppeqMtLXpTpxBAA/EmhP4OsH6CzuVDNaaTLGnWe89xqyAgoHO6k+IAxWSpXmSayq/sWP
-         a/yMZULYmKjyiWcGLKs3EJO1SQfsWQV4yU9MBIYxZc8W/GZMn3rygxTuSONQJIyuPmX0
-         fWUA==
-X-Forwarded-Encrypted: i=1; AJvYcCUKtSLMTNfWnXdstZJCV7PhZhSWTFLac+PQuHrCpD5F/r3amIxl2fFL91fYORiOUFzwsdf8cOTqJxQ7M048UNdj8Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz23sXiXmmCpn7/0ZamdB65gu8dabJwopbgyAARzZ+ohvUIYqzg
-	ib9u/3Wq60rt185XC2g6cXS44JQ9cW6Z3GYSJotAmVB8PiEuPlZ/wGYvwaYxRXyeJpc=
-X-Gm-Gg: ASbGncsslX1bul2fEQxEU7UZZEB18CPXLvxmsm8czV8QXoeHMnbmFy+hZQ1JIuLQ0zt
-	0XYJaDr4qgxE7w17lgEg+LONP1YZn9yj/AaFQZzMbaLyNt1/q986TEQjs2CKj2PwzVtCOmDwoJr
-	EGiVXhQ9I3yBUKsCVMMYpLD247cr6m7jwFoS0O655IgMYK1aWvlFAvxUEE4lu4cjo4Zijgj4rYj
-	siTtsltwvifJL1pZamyrLDXszHIQo5YE7h+3L6Q6Encz/+oa2SFnbsa91hmL1j8Mlr7uvhC3tJk
-	SYPvT337+oM6MZQv6UMAIjWe5ytxSKEgWrFF9iDEqHWH/YOYlfrUHQi2ER8B7r1RXBy0R2VLMIo
-	zhxK7m5J+B42gBcAShZueesNQlO5H6aoSYOPxA5rypzBcIj5vJNcy9vr72dhW
-X-Google-Smtp-Source: AGHT+IF5DP4w1ebbMQ+BbpHFsE5+O5vnqZzpDb6D2CbbHv/xOF4Il+0jsoeDXLXALR4Sw1kB8YoI9w==
-X-Received: by 2002:a17:907:3e1f:b0:b04:2b28:223d with SMTP id a640c23a62f3a-b1bb6048f2cmr144332666b.20.1758096343176;
-        Wed, 17 Sep 2025 01:05:43 -0700 (PDT)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com. [209.85.218.46])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b07e1aed5ffsm924937966b.81.2025.09.17.01.05.36
-        for <linux-renesas-soc@vger.kernel.org>
+        d=1e100.net; s=20230601; t=1758099767; x=1758704567;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OrkRK12gc8jdKzalAh+dHWGpiMd74C9Kj46DS5jLtZY=;
+        b=XA3kw3k/wWpM8CjUKMVhN1LpmJbGptJtQmDUpj1sABUyT9w8hnlUD/qR4LaV4/XVkM
+         Ql0JixYHsya7+7UGPBEQhQoYbxfBmEp2+fRmv3/0l4sbAUaj4jRp7kkimUX7De7sM16X
+         2v9q5EodUEcMQKLPOJ+0mi+LWUKIZmFYl9i1LJT7j7C9DOpAYJ5RYA87YQkU3aVDWx7Q
+         +ZQ23NPAUov+NuZGM3kIcK2VC22w9ZjiA19/BoQ2S79MuTj4OxQxSZMcjuq8KDFU+4zc
+         lDNRB5QTFpwiRVHUuc2Eku9GRQJZ4IWYfYdl+SJCz2kUE06r6EbcWwmHypQBuNWfUHfV
+         Ivrw==
+X-Forwarded-Encrypted: i=1; AJvYcCXmQww+EojO5N+ISgJPvEDHNaI2uAKEObAIE5DYvjknAJxJeeV3u59xgsUluWiY673fXS0F6G32+rYVg0bDfl2lQA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyoKHPcCS5HPQX7fzEIzo4xroYRoFqxeJMes+nnVFN6If1WsGGd
+	BnJ3cwyTo21DWq9XMnsMQuEHggUSGyEeo6OYovav0FzTX1paNqQZ7xl1M2IZm4KTS84=
+X-Gm-Gg: ASbGncvdiVOwTBzRUtZpl2ECBQARoyOQCBlJduBCql2akzQl+KV2mr1hhHJ+XVPKRXH
+	EA/8jiiqVUOZUSxkf8jTtt4EBHDhXxYBTfzqzF8hetKO/Tp5RMus2OMH53tAR2FbmiJixaFWeh0
+	9GmP7elkTUVoZ67C+2lYGuQS6r5XThSXndMB9bfW/DRFs/OkTVn7bNi84cqjR+5Lg36g4ORIneq
+	R8L6KUpsL3MS3WaIOgcccuKytYnbg1aRG/I9+da0gUuLWUS++r9pfC5HWYHwV7RxanRMk08gxbn
+	f9pK0tGfe9RjQHYA61gkUQcdzArDCJYieJ62YpUV2NAiVz6n2JrP1y2Bca5R3nsejkkMaBF7ext
+	oPmjMxcgexb/X+gfjSNXv4JR9FYHNTkxuM3TYMYzO8PDKTCX2AiGmroqkjJlIax44DNE9ShuC07
+	vKBg==
+X-Google-Smtp-Source: AGHT+IEtszsia9uiCGTPEBIHTJjuVpyP2y3zgLrS6tqVaYTjJObHoOKM5qrDjGV153Veud6Zut/s8A==
+X-Received: by 2002:a05:600c:a44:b0:45d:da25:595d with SMTP id 5b1f17b1804b1-46206099be5mr12086115e9.22.1758099766944;
+        Wed, 17 Sep 2025 02:02:46 -0700 (PDT)
+Received: from ?IPV6:2a05:6e02:1041:c10:37e6:ed62:3c8b:2621? ([2a05:6e02:1041:c10:37e6:ed62:3c8b:2621])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3e7607870cfsm25993034f8f.19.2025.09.17.02.02.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Sep 2025 01:05:36 -0700 (PDT)
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b07d01fd4fbso720631066b.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Sep 2025 01:05:36 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVLQmmJ7aZN4FZd3oUw8RYw/hoMCVagXuY7DNmhADUFHY5MGrVWXYZwjRtWnqW0RkxvxOo6py4zF3+vgfy9TtUi9w==@vger.kernel.org
-X-Received: by 2002:a17:906:9f8e:b0:b04:6e94:f317 with SMTP id
- a640c23a62f3a-b1bbbe68575mr139964666b.34.1758096335970; Wed, 17 Sep 2025
- 01:05:35 -0700 (PDT)
+        Wed, 17 Sep 2025 02:02:46 -0700 (PDT)
+Message-ID: <8917db78-fe40-487a-9ad5-f1bddfe0120c@linaro.org>
+Date: Wed, 17 Sep 2025 11:02:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250916162335.3339558-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250916162335.3339558-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 17 Sep 2025 10:05:18 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXhUHAMtOx1RVtva5iGmJhKy1DyvNJdjNMj=OxmL_ydFQ@mail.gmail.com>
-X-Gm-Features: AS18NWBJ_DPCNXyZLdkJ7u6e0yw3d9zcREiBtm4I2Y3XsgBeWPU4BTw3RRIOiqE
-Message-ID: <CAMuHMdXhUHAMtOx1RVtva5iGmJhKy1DyvNJdjNMj=OxmL_ydFQ@mail.gmail.com>
-Subject: Re: [PATCH net-next] net: pcs: Kconfig: Fix unmet dependency warning
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
-	Russell King <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Linux Kernel Functional Testing <lkft@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] clocksource/drivers/sh_cmt: Improve clock event
+ design
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>, Thomas Gleixner
+ <tglx@linutronix.de>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20250910142657.1148696-1-niklas.soderlund+renesas@ragnatech.se>
+Content-Language: en-US
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+In-Reply-To: <20250910142657.1148696-1-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, 16 Sept 2025 at 18:23, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Fix the Kconfig dependencies for PCS_RZN1_MIIC to avoid the unmet direct
-> dependency warning when enabling DWMAC_RENESAS_GBETH. The PCS driver is
-> used on multiple Renesas SoCs including RZ/N1, RZ/N2H and RZ/T2H, but the
-> existing condition only allowed ARCH_RZN1, ARCH_R9A09G077, or
-> ARCH_R9A09G087. This conflicted with the GBETH/GMAC driver which selects
-> PCS_RZN1_MIIC under ARCH_RENESAS.
->
-> Update the dependency to ARCH_RENESAS || COMPILE_TEST so that the PCS
-> driver is available on all Renesas platforms.
->
-> Fixes: 08f89e42121d ("net: pcs: rzn1-miic: Add RZ/T2H MIIC support")
-> Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
-> Closes: https://lore.kernel.org/all/aMlgg_QpJOEDGcEA@monster/
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On 10/09/2025 16:26, Niklas Söderlund wrote:
+> Hello,
+> 
+> This series tries to address an issue with the Renesas CMT driver
+> design. The driver do PM and clock handling in struct clock_event_device
+> callbacks. This leads to LOCKDEP warnings and I think hints at a larger
+> issue.
+> 
+>      =============================
+>      [ BUG: Invalid wait context ]
+>      6.17.0-rc3-arm64-renesas-03071-gb3c4f4122b28-dirty #21 Not tainted
+>      -----------------------------
+>      swapper/1/0 is trying to lock:
+>      ffff00000898d180 (&dev->power.lock){-...}-{3:3}, at: __pm_runtime_resume+0x38/0x88
+>      ccree e6601000.crypto: ARM CryptoCell 630P Driver: HW version 0xAF400001/0xDCC63000, Driver version 5.0
+>      other info that might help us debug this:
+>      ccree e6601000.crypto: ARM ccree device initialized
+>      context-{5:5}
+>      2 locks held by swapper/1/0:
+>       #0: ffff80008173c298 (tick_broadcast_lock){-...}-{2:2}, at: __tick_broadcast_oneshot_control+0xa4/0x3a8
+>       #1: ffff0000089a5858 (&ch->lock){....}-{2:2}
+>      usbcore: registered new interface driver usbhid
+>      , at: sh_cmt_start+0x30/0x364
+>      stack backtrace:
+>      CPU: 1 UID: 0 PID: 0 Comm: swapper/1 Not tainted 6.17.0-rc3-arm64-renesas-03071-gb3c4f4122b28-dirty #21 PREEMPT
+>      Hardware name: Renesas Salvator-X 2nd version board based on r8a77965 (DT)
+>      Call trace:
+>       show_stack+0x14/0x1c (C)
+>       dump_stack_lvl+0x6c/0x90
+>       dump_stack+0x14/0x1c
+>       __lock_acquire+0x904/0x1584
+>       lock_acquire+0x220/0x34c
+>       _raw_spin_lock_irqsave+0x58/0x80
+>       __pm_runtime_resume+0x38/0x88
+>       sh_cmt_start+0x54/0x364
+>       sh_cmt_clock_event_set_oneshot+0x64/0xb8
+>       clockevents_switch_state+0xfc/0x13c
+>       tick_broadcast_set_event+0x30/0xa4
+>       __tick_broadcast_oneshot_control+0x1e0/0x3a8
+>       tick_broadcast_oneshot_control+0x30/0x40
+>       cpuidle_enter_state+0x40c/0x680
+>       cpuidle_enter+0x30/0x40
+>       do_idle+0x1f4/0x26c
+>       cpu_startup_entry+0x34/0x40
+>       secondary_start_kernel+0x11c/0x13c
+>       __secondary_switched+0x74/0x78
+> 
+> This series tries to address this by instead doing PM and clock
+> management at probe time, and leaving them on for the CMT channels that
+> are used as clock events. The CMT design is a bit messy as channels can
+> be used both as clock sources and events. And the design to do the
+> housekeeping for clock sources seems to be valid and is kept.
+> 
+> The work is tested on R-Car M3-N and R-Mobile A1.
+> 
+> See individual patches for change long.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
+Applied, thanks
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
 
