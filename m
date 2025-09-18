@@ -1,156 +1,185 @@
-Return-Path: <linux-renesas-soc+bounces-22013-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22014-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7018FB83C7B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Sep 2025 11:27:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78147B83E55
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Sep 2025 11:48:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5F8E91662FA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Sep 2025 09:26:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 016804637F1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Sep 2025 09:48:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAD342D77ED;
-	Thu, 18 Sep 2025 09:26:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 519F62E2EFC;
+	Thu, 18 Sep 2025 09:47:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="Ybv3BI+6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5414F2EF670
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Sep 2025 09:26:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B06A13D638
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Sep 2025 09:47:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758187616; cv=none; b=iZoas99u7XUGmUHt00BhQUvb6GXDqOUtGjdJghEQJ2SFasmJ4wWLL2AvIdwNHrA09XKDj8Ou+wTKbduR7jfzYLOgEalZ3gU7er4Irhaffceh50eGW/TEG2SVs5gCsASKgZlhztkC6Xn0uSnybRtMfm5Zv06nXHnpm8xbRyqM/EE=
+	t=1758188867; cv=none; b=jxtYTrRDv/VSZK8WYLkrJyZOQzi85iZ0Uau2qRCt06vD8jEc6f4ZFo+CIc9M9y90QaDYH15NzcscNeY39ctWNBzozITy5IBu/Ds1vxZtqcjiBq42mg09ziCuQSXhMT8FaTWgJyYMPNgCn4zVfJ+LN6GN9ISfXbQGtXGmAQKOBHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758187616; c=relaxed/simple;
-	bh=F+7UwolL+d5M3u3SJQMdS/JoH4KAhipm+vZbdTiVTtU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n8oTGH6YX7OKA0wSotVP5o715wMIzX3VowJqSk/7oYc1VdHS8J12RGShic3iTIfNoWlCUwLx4EnxFuHp6wXkvYq5fmoNSc128WApjGkJWIWcmq/a0XmlC0U1Xeazj+pUfvfefBFgWE7KtJZ43blkXTys35GZhu7g1NsCzBGsJhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-544acb1f41dso254096e0c.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Sep 2025 02:26:54 -0700 (PDT)
+	s=arc-20240116; t=1758188867; c=relaxed/simple;
+	bh=ebIejkG9lO3H+4v19Kd3NsOO4t6uOqMYtPLh1XK6HPg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aml/zOed41HFbzsY4BzCRagT4mY7p6E4fDREDAdcV45E60p3VIg3hVgqrlHkggwMX/xINLziJ7BKYaDAvLSbOinpNqCyvG1VroyWbowG6xxCC6qSY2zjkEDfa30DaK/84ngl/nBOYuvBqdJ1r4H5sO5CE0jMezGlNwgrP2AUsxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=Ybv3BI+6; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b04ba3de760so96102766b.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Sep 2025 02:47:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1758188862; x=1758793662; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xY2fN2zgk9K5ePhnAH7PE+WNn7DSzrHO8ylDHhqkcZ4=;
+        b=Ybv3BI+6pNabav/XvdmX6XIsppQ0M/5IxuGMMtXGZgPUwY0Lnd/MprI2Pk+tOS7kbu
+         w2fp5utdwqax5a1S9sBlkkn7oAbBk1ju3xCZ0EHQv/lYLwEjgbeUIgxZIxTOhXj9nefr
+         qPiv2mCwuGuJI9ezJUK6Xo9K1uZ9Ae08ij4XxyXDeSwiFt/BW9DxV3KC2zA3DKvDrGI6
+         N6nUXPpEtXLqIsyy3Q7F6qLx0OuqWg8OE6X6flkiKAoV4oFhP5E9C0Tvw9SvRzp8cluG
+         yxv9j7zqAIQmCBkecM0MwzPVezr/UPQoij/GCYGfDzWnDgeb+mBWcoO4AzzC1oMpIkT4
+         cJMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758187613; x=1758792413;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=thwzdmTgqO/aYIbO/EaYexBbO6rJAeT6rezea+eeFXA=;
-        b=l4maToublZjpY/U+JD4anEWxR6DLkybxYmD1I8NNX9EQf2zSHvC4DXGQY3dUmLilMh
-         WlDOMqt7DEQ1s+xsvOxjHoeBo8N/FOEyvLc/VIKdpzAHOgacKQLPSKH23vtn7wVeDIZw
-         VluWFuVtOd9eY3eip5TW8VJ+Gmo1WuWLK4CqrlBPIO4+KmqjWdaAZNIfSuOd2gul2awg
-         z/Pb7KoDbKvDq7/6qm3M4NJVchKJw7+9ddH35birQjM9DjeVOc/ftpk6uD5+0i2mFoR0
-         7ck202UtWwbOFoPZYcZ6KfD8DywqjIelh6guKNrrE6j9NuyFY2lxLefiDeqb4gTNC3nP
-         itmA==
-X-Forwarded-Encrypted: i=1; AJvYcCXhGF97GD3qB1pJ7nACZJu9rhOK0iOYgLmZRVMh8giCVSKgOEHpI2r7IhC/mRHDbJuw7ZNtzWeKVxG8CGLuNDMDzA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNY4cnd7WRpmlp1MLjE6hNMk7OBDmNq+L1NImqop1MqH701u8T
-	emEJJBohk70kYKoa3zHxZO8gGthkJYVO5OvVaXnyKSIwOr45r7sQBRbcv+c2Ht/v
-X-Gm-Gg: ASbGncs+qobsjFoQs0h7Qn67X4GnoxlAik02PN2JhKQ+UO8tvcOM9OFSnbuNyE2vhUM
-	N5OedyqMD8WSqPec+eqEqo3IAh8l+HZZYmsGsr6fwfDIz5+cMT/QgCzVO+YW5nGndAHXd8UgjLx
-	dbXG0M1kh14akVJD6NW0SwLiY15nzjmZk5VZ1M9THEg8aVJfchLZLlQtkAcBrhzHU18EzLigspY
-	Z2E88kpIJ+4STRB/llqTYLd6MDu6sygVli6/Guo+vH3ZwKClsVJYnWZhKJRvYDOG1xB1nv9bb3L
-	KCMDvjZQfRcbCrTXkXqfNYXA4iLeUVgYPOm2si7LG9eJj8aHiQic9X6UBpRQksYN34HeIGbVl/G
-	NSRyToRi9SFalu7zgJuHrECXfboW3H+Kez+N9yJHLx84LcDkCxZ/3Ui/VfiakBm7qkdvxptDGq3
-	QS2TI=
-X-Google-Smtp-Source: AGHT+IEm04pRopGSKTx0n28xuX/hAuKbZnwCl5P+YEaohF8NeapvojxU/tOAsib2yI6FiRBWG7ErmA==
-X-Received: by 2002:a05:6122:828e:b0:53c:6d68:1cce with SMTP id 71dfb90a1353d-54a60b80718mr1813008e0c.16.1758187613461;
-        Thu, 18 Sep 2025 02:26:53 -0700 (PDT)
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com. [209.85.217.48])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-54a7275991asm446703e0c.9.2025.09.18.02.26.51
-        for <linux-renesas-soc@vger.kernel.org>
+        d=1e100.net; s=20230601; t=1758188862; x=1758793662;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xY2fN2zgk9K5ePhnAH7PE+WNn7DSzrHO8ylDHhqkcZ4=;
+        b=qPOiqiPM6zWQxeg6WYFuZCAj5k64jg0qkEMuZBAWELRbKxvfw5TrPEfkq6EZgY1yCC
+         wbCSF52ZwgfM9RllBFxXlgFSm1Wt0KxLHn7VyWt146vR1X8kg5XQXVWGGVXngwDnND4R
+         nyYwh/kWn5BLQyOpzAwDViUGWQYz1ZctzphN7a4vw3rJYcH8gk7tT3LPQPEY4WUU3+3t
+         S4vUpCosos8rNlcvTle3Y3bynaCy+h6m0mhFO+Rglyt19O9rHWwbgiEEaLraiUTY94N2
+         UfROP/+W8kxKA1MgL1soC056dS+NRrMR5qcQ1SrcCHiaGsYgAnFr5mUgB6W6FLvFczPV
+         wgNg==
+X-Forwarded-Encrypted: i=1; AJvYcCWn/o+WnF+ZRQD/uzQViVPp2XtADDQtYeyC5Cloza0XDiE8TYt1mHgUNI+1wzHHIEAflkmYWt4k4xDfD08wNtoBVg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAd8pHTYChjbOch42vim7bbpJ5IlPhNXQ7aMU8ozThec48eu5/
+	fWEdJChkGZfa85Gg34KpV47Iymb864Fjd1esoTu4irQ3whbqNT7iwemOWRkk7edXbic=
+X-Gm-Gg: ASbGncv9gsSF3keuN/Tln7xN3JYNMDwp2KP2uAANev1sZS2cc6BX/PaRpy+ZBf/5a/i
+	RnRVT2xRihld/udecmknDBt+vA9Rf9b4Gmi1CUoNkbdDuZKPdk9ALBLscqLeHkSE80XcxRnlM0N
+	zVeiWLCtImeGsUJ/aXaDvLaQSTtSt9Cb9WaLrp2rD8+ViMv27Pd3oolDg0aGQCQ4ACAhC0UsjG0
+	FUUXlhtw3bjHPCojjuhDs5tmubLguUuVPlwKDI27wG7slF5So1ovS3wNfu8ZNs/9zBMzScyONks
+	57hhwol6/43/cbsSzUxKM1xuZDhI0/htGF1uU/Br/p1NE3kTpn8yVszFZTwkfywKPQg5dIJJk9t
+	rptotOex38ZlojcV1TVrmis2qVzm/nETnj/fdsAsEFMK9ApB+IR0O2wXOFRMY
+X-Google-Smtp-Source: AGHT+IGm1gMecKNS7ulsOyutPp7cC/3sMrnG/x/HjeoFQdZsaPx3dh9Tz2I2uksJ4hOSdxJlyIcHBg==
+X-Received: by 2002:a17:906:730d:b0:b07:88ae:4b80 with SMTP id a640c23a62f3a-b1bbb7615cdmr515429166b.65.1758188862248;
+        Thu, 18 Sep 2025 02:47:42 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.153])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b1fd15cb2fesm161684766b.89.2025.09.18.02.47.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Sep 2025 02:26:52 -0700 (PDT)
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-529da1b07b5so136402137.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Sep 2025 02:26:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVIykPjdcbci9z/QDPE3f8Kh1GDnBFK5eL7PwfEfic+vzKEMERaL1w5/HLmlKm0vhVmwDYLV4Lj8Qd5eacPnWntDA==@vger.kernel.org
-X-Received: by 2002:a05:6102:80a6:b0:51e:92cc:6e6a with SMTP id
- ada2fe7eead31-56d6d57bf75mr1452834137.33.1758187611708; Thu, 18 Sep 2025
- 02:26:51 -0700 (PDT)
+        Thu, 18 Sep 2025 02:47:41 -0700 (PDT)
+Message-ID: <c2fc5f6b-0e7c-464e-89a6-35dc76177d18@tuxon.dev>
+Date: Thu, 18 Sep 2025 12:47:40 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <87ms6snut0.wl-kuninori.morimoto.gx@renesas.com> <87jz1wnunm.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87jz1wnunm.wl-kuninori.morimoto.gx@renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 18 Sep 2025 11:26:40 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVfhMKrdnQCjf_Z90EnH_gb-RpdxPiVUjEe3C5ZyuTfUw@mail.gmail.com>
-X-Gm-Features: AS18NWDTdMprA4ImYjVf-zjtYmKdsmDO9RIvez5aKcVZCW3WJ100X4TbNjepaRg
-Message-ID: <CAMuHMdVfhMKrdnQCjf_Z90EnH_gb-RpdxPiVUjEe3C5ZyuTfUw@mail.gmail.com>
-Subject: Re: [PATCH v5 2/7] dt-bindings: serial: sh-sci: don't required "power-domain"
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: "Liang, Kan" <kan.liang@linux.intel.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Conor Dooley <conor+dt@kernel.org>, Douglas Anderson <dianders@chromium.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Ian Rogers <irogers@google.com>, 
-	Ingo Molnar <mingo@redhat.com>, James Clark <james.clark@linaro.org>, Jiri Olsa <jolsa@kernel.org>, 
-	John Garry <john.g.garry@oracle.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Leo Yan <leo.yan@linux.dev>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Mike Leach <mike.leach@linaro.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
-	Peter Zijlstra <peterz@infradead.org>, Rob Herring <robh@kernel.org>, 
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>, Will Deacon <will@kernel.org>, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-perf-users@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Marc Zyngier <maz@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/6] arm64: dts: renesas: rzg3s-smarc-som: Update
+ dma-ranges for PCIe
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: bhelgaas@google.com, lpieralisi@kernel.org, kwilczynski@kernel.org,
+ mani@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ magnus.damm@gmail.com, p.zabel@pengutronix.de, linux-pci@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+References: <20250912122444.3870284-1-claudiu.beznea.uj@bp.renesas.com>
+ <20250912122444.3870284-5-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdWP638eB_p9xMAqZmOnuc6n7=n31h6AqV+287uvqQEdww@mail.gmail.com>
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Content-Language: en-US
+In-Reply-To: <CAMuHMdWP638eB_p9xMAqZmOnuc6n7=n31h6AqV+287uvqQEdww@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Morimoto-san,
+Hi, Geert,
 
-On Thu, 18 Sept 2025 at 08:26, Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> {H}SCIF is in the always-on power area. "power-domain" property is not
-> mandatory. Remove it.
->
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+On 9/18/25 12:09, Geert Uytterhoeven wrote:
+> Hi Claudiu,
+> 
+> On Fri, 12 Sept 2025 at 14:24, Claudiu <claudiu.beznea@tuxon.dev> wrote:
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>> The first 128MB of memory is reserved on this board for secure area.
+>> Secure area is a RAM region used by firmware. The rzg3s-smarc-som.dtsi
+>> memory node (memory@48000000) excludes the secure area.
+>> Update the PCIe dma-ranges property to reflect this.
+>>
+>> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> Thanks for your patch!
+> 
+>> --- a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
+>> +++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
+>> @@ -214,6 +214,16 @@ &sdhi2 {
+>>  };
+>>  #endif
+>>
+>> +&pcie {
+>> +       /* First 128MB is reserved for secure area. */
+> 
+> Do you really have to take that into account here?  I believe that
+> 128 MiB region will never be used anyway, as it is excluded from the
+> memory map (see memory@48000000).
+> 
+>> +       dma-ranges = <0x42000000 0 0x48000000 0 0x48000000 0x0 0x38000000>;
+> 
+> Hence shouldn't you add
+> 
+>     dma-ranges = <0x42000000 0 0x48000000 0 0x48000000 0x0 0x38000000>;
+> 
+> to the pcie node in arch/arm64/boot/dts/renesas/r9a08g045s33.dtsi
+> instead, like is done for all other Renesas SoCs that have PCIe?
 
-Thanks for your patch!
+I chose to add it here as the rzg3s-smarc-som.dtsi is the one that defines
+the available memory for board, as the available memory is something board
+dependent.
 
-> I'm not sure this is acceptable patch. This is optional patch.
+If you consider it is better to have it in the SoC file, please let me know.
 
-(H)SCIF is indeed part of the always-on power area.  However, like
-for many other modules, its power management is handled similarly
-through a clock/module controller.  Hence it falls under the PM Domain
-abstraction, and the power-domains property is justified.
+> 
+>> +};
+>> +
+>> +&pcie_port0 {
+>> +       clocks = <&versa3 5>;
+>> +       clock-names = "ref";
+>> +};
+> 
+> This is not related.
 
-What this power-domains property will point to on R-ar X5H is a
-different question, as there are no DT bindings and no driver for the
-clock/module controller yet...
+Ah, right! Could you please let me know if you prefer to have another patch
+or to update the patch description?
 
-> --- a/Documentation/devicetree/bindings/serial/renesas,hscif.yaml
-> +++ b/Documentation/devicetree/bindings/serial/renesas,hscif.yaml
-> @@ -116,7 +116,6 @@ required:
->    - interrupts
->    - clocks
->    - clock-names
-> -  - power-domains
->
->  if:
->    properties:
+Thank you,
+Claudiu
 
-> --- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> @@ -168,7 +168,6 @@ required:
->    - interrupts
->    - clocks
->    - clock-names
-> -  - power-domains
->
->  allOf:
->    - $ref: serial.yaml#
+> 
+>> +
+>>  &pinctrl {
+>>  #if SW_CONFIG3 == SW_ON
+>>         eth0-phy-irq-hog {
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+> 
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
