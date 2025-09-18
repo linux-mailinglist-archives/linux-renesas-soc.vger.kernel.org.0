@@ -1,151 +1,186 @@
-Return-Path: <linux-renesas-soc+bounces-21996-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21997-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6D93B82B4B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Sep 2025 05:07:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3AB2B82BBC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Sep 2025 05:17:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A798C720970
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Sep 2025 03:07:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B3B3B720CCC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Sep 2025 03:17:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EC3E2222B2;
-	Thu, 18 Sep 2025 03:07:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E4C4217F35;
+	Thu, 18 Sep 2025 03:16:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="WGwgXXXq";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="nMR+SFBi"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="gSRyPFPK"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C37E3D984;
-	Thu, 18 Sep 2025 03:07:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EBBE23C4F4;
+	Thu, 18 Sep 2025 03:16:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758164861; cv=none; b=SkQYkGZ408oXffc+6KCwbaLLbSHxow6FoKJLzHfJXwefNG4YDMvJkdOzSjdJVkIiXq831LCjkfnp/pXWa6pS4tW78FRsAxc/FnlZfCVZ5lWvqNnwwHzIm16E6V7TaHlJxnBn/MK6PurYDZVkvNx3tTdYVKFaPTVCy10ehPO4QXQ=
+	t=1758165412; cv=none; b=TlSB62Np8AVNraWLOp/fdAYnCnlwp0h+DI/oKu15u2Zyk7TAN04sXB9/gDc8d5+QxERqtfIVK9qZcxcM0ihmlhx+Hd5rUswmssORoJ36xH2j6VKdGqxT53gXW6qHccUpKesMkifWL/JprS5FdMuiSuLqecNDGeOKiYG0QvibJMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758164861; c=relaxed/simple;
-	bh=r5J6Xh4YUa0MvD2MPxnB0v4QJmTN4BqYy1SGpfAPauA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=P48PxLTmuG6bpWSoWv25USKEJ5jzj/hEwapx6UBLiO7R4DyQrBzRXWy9tWAnrUBDPO9/hNzk3gaKa0ABGp1GE8/2feDrM9sbpLd84blUQACKa4oP33GkcDNqb+wf7URLMcyX/VSRfr59N3ih8Rt9EoLXppvpXhqMSk1jYHROZKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=WGwgXXXq; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=nMR+SFBi; arc=none smtp.client-ip=80.241.56.161
+	s=arc-20240116; t=1758165412; c=relaxed/simple;
+	bh=ryTT3N25mG7wS1phsm1BBg04KF1Hd0yABxMx56lwJXw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HiM8Y1u70SqZHqDuP0YuOK+S2Ooa86zBhoTKSZPwuQWIl5DiQuRAWnTbzE9tDZPDVmCYubPOmCFCmWX1yTcHj48N3Bwx8pjPOSnit1HDZqFvFsgRjoWRAioWdqOCUuJKEyx2+3o5rTN/fLOP0Mk5Fr0qlA7RCi5O3BlB1bH5H+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=gSRyPFPK; arc=none smtp.client-ip=80.241.56.161
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cS0td4ChSz9sdM;
-	Thu, 18 Sep 2025 05:07:37 +0200 (CEST)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cS1596G9fz9tgv;
+	Thu, 18 Sep 2025 05:16:45 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1758164857;
+	t=1758165405;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=OyYwV9bOm1SqIxxcvCeAbUqevMM0QbYFC2WSPc2lN1o=;
-	b=WGwgXXXqYQYJPz52QRRmwI5of+NmwQ1tXWG78asBNl02xZAt8F5mB9LgaiTqZsb4hmi3w/
-	Jb+4hv1zpBdK6s4+yWe/10GHixtrF4t7FaLZYam37w+wVpd+8kRn5jGiLMMXia0lXMumfj
-	sECfQcl+rFYUMleAwIo/UFt+1RB3NMhg5NEGPibW2XDhTY5CAuTBSBqh/7asjD63tOuzub
-	F09A506IMet8AUJqkk6Qy5hrV0GYSAnEn62YgDXAiRU35jmzUleEKlA36cu3zjJJWYKwZh
-	pxn02goLJb188opcCNriGszvuJaNprAP1al53d+Az6y7cV+cikU1NacneIPF2w==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1758164855;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=OyYwV9bOm1SqIxxcvCeAbUqevMM0QbYFC2WSPc2lN1o=;
-	b=nMR+SFBi8VTOD2BmdZXmI5MioHfqeeJkSOn9P8kKkCuYGu6lTMHT01UnM+bOwGB3Wqw07q
-	AY2nqjyEygxcZeFN+vAiF7cBoyH4b/XowU2U8DKWzKr6jh9726su4EfZjBVaR6ZwGa4+RC
-	Jd3q/9NC8wbFavNg66gS73d5S0JrsayD+i7L3t+RgcauXkKb9hliooHzGYT+4u5xNzJO2A
-	XpS0kehDP8OqcO/K8ilmOq42e28LoNJb53RIS+2AOFUsTllgJlAEWXPRGFhLTXjlSRzNws
-	jPOZTx4fIoHYL7qUhMNe1Is+LhAgbB+GhX6Rt4wwsRWTlYdzQmezwM/n9uq18g==
-To: linux-clk@vger.kernel.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] clk: renesas: cpg-mssr: Read back reset registers to assure values latched
-Date: Thu, 18 Sep 2025 05:06:51 +0200
-Message-ID: <20250918030723.331634-1-marek.vasut+renesas@mailbox.org>
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WJiellIJxOMKYBDkQCC2kMZIE2wxTzAMm26GhkPt9Jg=;
+	b=gSRyPFPKICc2fMJT/Zf4K+kDOPoIQ/gtz0OtsPajy8ngZL3zlP89Tc67NjN2OVUvdfoRIx
+	U8CdJX6VPWp5xmioK78MM7A/EWOhKViOyiIgrWdxTZE3tQoAotLSft8GpSW0/LFNLyoOh0
+	IqGcUqhVorQwcHr10ZI704bJ8sIW5dj/A98mBuP7y0++a/MP7HoLZtkUXrPB2ZrOw2/f0G
+	U32FC0pEg0jYoiztsPQfI78sUMmGjmYIQIiw6q40Tt/SKcTeBkUPYay+CZvyTsOwow4Oor
+	kjb+xC3kUgf3l56sSgDEhvq2CID9PIiOs6w9Sq+UjVBy7AE8TjrynvmoNNzhlA==
+Message-ID: <12b54030-5505-416b-9e4e-2338263c5c7a@mailbox.org>
+Date: Thu, 18 Sep 2025 05:16:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 1uk6oimsckbeo4zeydeu1hhyiijcxup4
-X-MBO-RS-ID: 6cd8798236063df7e62
+Subject: Re: [PATCH] PCI: rcar-gen4: Fix inverted break condition in PHY
+ initialization
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-pci@vger.kernel.org, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Magnus Damm <magnus.damm@gmail.com>, Manivannan Sadhasivam
+ <mani@kernel.org>, Rob Herring <robh@kernel.org>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ linux-renesas-soc@vger.kernel.org
+References: <20250915235910.47768-1-marek.vasut+renesas@mailbox.org>
+ <CAMuHMdXAK6EhxPoNoqwqWSjGtwM24gL4qjSf6_n+NMCcpDf1HA@mail.gmail.com>
+ <6fdc7d1e-8eaa-4244-a6b4-4a07e719dd73@mailbox.org>
+ <CAMuHMdVrw1Mr_hKvgve03DQwvpqSPNaN5XUnYRJPXMeX1wvv0A@mail.gmail.com>
+ <de4e4003-214f-4260-854c-d15efc81bb74@mailbox.org>
+ <CAMuHMdVgFNb-3TgL7a+AJMYE6tqOiMpGYFDhXnQoz9R5gLz=-A@mail.gmail.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <CAMuHMdVgFNb-3TgL7a+AJMYE6tqOiMpGYFDhXnQoz9R5gLz=-A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: 31s7ai5uoss1fgcmjc99mwgm3nccu1ok
+X-MBO-RS-ID: c4ff34d47b981fde408
 
-On R-Car V4H, the PCIEC controller DBI read would generate an SError
-in case the controller reset is released by writing SRSTCLR register
-first, and immediately afterward reading some PCIEC controller DBI
-register. The issue triggers in rcar_gen4_pcie_additional_common_init()
-on dw_pcie_readl_dbi(dw, PCIE_PORT_LANE_SKEW), which on V4H is the first
-read after reset_control_deassert(dw->core_rsts[DW_PCIE_PWR_RST].rstc).
+On 9/17/25 9:23 AM, Geert Uytterhoeven wrote:
 
-The reset controller which contains the SRSTCLR register and the PCIEC
-controller which contains the DBI register share the same root access
-bus, but the bus then splits into separate segments before reaching
-each IP. Even if the SRSTCLR write access was posted on the bus before
-the DBI read access, it seems the DBI read access may reach the PCIEC
-controller before the SRSTCLR write completed, and trigger the SError.
+Hello Geert,
 
-Mitigate the issue by adding a dummy SRSTCLR read, which assures the
-SRSTCLR write completes fully and is latched into the reset controller,
-before the PCIEC DBI read access can occur.
+> On Tue, 16 Sept 2025 at 18:31, Marek Vasut <marek.vasut@mailbox.org> wrote:
+>> On 9/16/25 3:57 PM, Geert Uytterhoeven wrote:
+>>> On Tue, 16 Sept 2025 at 15:39, Marek Vasut <marek.vasut@mailbox.org> wrote:
+>>>> On 9/16/25 11:59 AM, Geert Uytterhoeven wrote:
+>>>>> On Tue, 16 Sept 2025 at 01:59, Marek Vasut
+>>>>> <marek.vasut+renesas@mailbox.org> wrote:
+>>>>>> R-Car V4H Reference Manual R19UH0186EJ0130 Rev.1.30 Apr. 21, 2025 page 4581
+>>>>>> Figure 104.3b Initial Setting of PCIEC(example), third quarter of the figure
+>>>>>> indicates that register 0xf8 should be polled until bit 18 becomes set to 1.
+>>>>>>
+>>>>>> Register 0xf8 bit 18 is 0 immediately after write to PCIERSTCTRL1 and is set
+>>>>>> to 1 in less than 1 ms afterward. The current readl_poll_timeout() break
+>>>>>> condition is inverted and returns when register 0xf8 bit 18 is set to 0,
+>>>>>> which in most cases means immediately. In case CONFIG_DEBUG_LOCK_ALLOC=y ,
+>>>>>> the timing changes just enough for the first readl_poll_timeout() poll to
+>>>>>> already read register 0xf8 bit 18 as 1 and afterward never read register
+>>>>>> 0xf8 bit 18 as 0, which leads to timeout and failure to start the PCIe
+>>>>>> controller.
+>>>>>>
+>>>>>> Fix this by inverting the poll condition to match the reference manual
+>>>>>> initialization sequence.
+>>>>>>
+>>>>>> Fixes: faf5a975ee3b ("PCI: rcar-gen4: Add support for R-Car V4H")
+>>>>>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+>>>>>
+>>>>> Thanks for your patch!
+>>>>>
+>>>>>> --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+>>>>>> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+>>>>>> @@ -711,7 +711,7 @@ static int rcar_gen4_pcie_ltssm_control(struct rcar_gen4_pcie *rcar, bool enable
+>>>>>>            val &= ~APP_HOLD_PHY_RST;
+>>>>>>            writel(val, rcar->base + PCIERSTCTRL1);
+>>>>>>
+>>>>>> -       ret = readl_poll_timeout(rcar->phy_base + 0x0f8, val, !(val & BIT(18)), 100, 10000);
+>>>>>> +       ret = readl_poll_timeout(rcar->phy_base + 0x0f8, val, val & BIT(18), 100, 10000);
+>>>>>>            if (ret < 0)
+>>>>>>                    return ret;
+>>>>>>
+>>>>>
+>>>>> This change looks correct, and fixes the timeout seen on White Hawk
+>>>>> with CONFIG_DEBUG_LOCK_ALLOC=y.
+>>>>> However, it causes a crash when CONFIG_DEBUG_LOCK_ALLOC=n:
+>>>>>
+>>>>>        SError Interrupt on CPU0, code 0x00000000be000011 -- SError
+>>>>
+>>>> ...
+>>>>
+>>>>>         el1h_64_error_handler+0x2c/0x40
+>>>>>         el1h_64_error+0x70/0x74
+>>>>>         dw_pcie_read+0x20/0x74 (P)
+>>>>>         rcar_gen4_pcie_additional_common_init+0x1c/0x6c
+>>>>
+>>>> SError in rcar_gen4_pcie_additional_common_init , this is unrelated to
+>>>> this fix.
+>>>>
+>>>> Does the following patch make this SError go away ?
+>>>
+>>>> --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+>>>> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+>>>> @@ -204,6 +204,8 @@ static int rcar_gen4_pcie_common_init(struct
+>>>> rcar_gen4_pcie *rcar)
+>>>>            if (ret)
+>>>>                    goto err_unprepare;
+>>>>
+>>>> +mdelay(1);
+>>>> +
+>>>>            if (rcar->drvdata->additional_common_init)
+>>>>                    rcar->drvdata->additional_common_init(rcar);
+>>>>
+>>>
+>>> Yes it does, thanks!
+>> So with this one extra mdelay(1), the PCIe is fully good on your side,
+>> or is there still anything weird/flaky/malfunctioning ?
+>>
+>> If you could give me a RB/TB on this fix, it would be nice.
+> 
+> You can have my
+> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> but only for the combination of both (A) "[PATCH] PCI: rcar-gen4: Fix
+> inverted break condition in PHY initialization" and (B) the addition
+> of the mdelay.
+> 
+>    - (A) without (B) causes an SError if CONFIG_DEBUG_LOCK_ALLOC=n,
+> 
+>    - (B) without (A) causes a timeout if CONFIG_DEBUG_LOCK_ALLOC=n
+>      (i.e. same behavior as with CONFIG_DEBUG_LOCK_ALLOC=y).
+I have instead posted what I think are proper fixes for that SError:
 
-Fixes: 0ab55cf18341 ("clk: renesas: cpg-mssr: Add support for R-Car V4H")
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Michael Turquette <mturquette@baylibre.com>
-Cc: Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
----
- drivers/clk/renesas/renesas-cpg-mssr.c | 4 ++++
- 1 file changed, 4 insertions(+)
+PCI: rcar-gen4: Add missing 1ms delay after PWR reset assertion
+https://patchwork.kernel.org/project/linux-pci/patch/20250918030058.330960-1-marek.vasut+renesas@mailbox.org/
 
-diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/renesas/renesas-cpg-mssr.c
-index 65dfaceea71f..7b52e8235984 100644
---- a/drivers/clk/renesas/renesas-cpg-mssr.c
-+++ b/drivers/clk/renesas/renesas-cpg-mssr.c
-@@ -688,6 +688,7 @@ static int cpg_mssr_reset(struct reset_controller_dev *rcdev,
- 
- 	/* Reset module */
- 	writel(bitmask, priv->pub.base0 + priv->reset_regs[reg]);
-+	readl(priv->pub.base0 + priv->reset_regs[reg]);
- 
- 	/*
- 	 * On R-Car Gen4, delay after SRCR has been written is 1ms.
-@@ -701,6 +702,7 @@ static int cpg_mssr_reset(struct reset_controller_dev *rcdev,
- 
- 	/* Release module from reset state */
- 	writel(bitmask, priv->pub.base0 + priv->reset_clear_regs[reg]);
-+	readl(priv->pub.base0 + priv->reset_clear_regs[reg]);
- 
- 	return 0;
- }
-@@ -715,6 +717,7 @@ static int cpg_mssr_assert(struct reset_controller_dev *rcdev, unsigned long id)
- 	dev_dbg(priv->dev, "assert %u%02u\n", reg, bit);
- 
- 	writel(bitmask, priv->pub.base0 + priv->reset_regs[reg]);
-+	readl(priv->pub.base0 + priv->reset_regs[reg]);
- 	return 0;
- }
- 
-@@ -729,6 +732,7 @@ static int cpg_mssr_deassert(struct reset_controller_dev *rcdev,
- 	dev_dbg(priv->dev, "deassert %u%02u\n", reg, bit);
- 
- 	writel(bitmask, priv->pub.base0 + priv->reset_clear_regs[reg]);
-+	readl(priv->pub.base0 + priv->reset_clear_regs[reg]);
- 	return 0;
- }
- 
--- 
-2.51.0
+clk: renesas: cpg-mssr: Add missing 1ms delay into reset toggle callback
+https://patchwork.kernel.org/project/linux-clk/patch/20250918030552.331389-1-marek.vasut+renesas@mailbox.org/
 
+clk: renesas: cpg-mssr: Read back reset registers to assure values latched
+https://patchwork.kernel.org/project/linux-clk/patch/20250918030723.331634-1-marek.vasut+renesas@mailbox.org/
+
+I hope those help. Can you please let me know if they do help ?
 
