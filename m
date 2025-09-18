@@ -1,138 +1,135 @@
-Return-Path: <linux-renesas-soc+bounces-21994-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21995-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 169B2B82B2A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Sep 2025 05:01:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CD1CB82B48
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Sep 2025 05:06:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CDBA217C182
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Sep 2025 03:01:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1F9D4720986
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Sep 2025 03:06:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 453D81B6CE9;
-	Thu, 18 Sep 2025 03:01:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6980216E23;
+	Thu, 18 Sep 2025 03:06:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="iHt8az7R";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Y+arRO55"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="mu2LoqeI";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="EzRvM+bO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 055933D984;
-	Thu, 18 Sep 2025 03:01:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 654D53D984;
+	Thu, 18 Sep 2025 03:06:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758164491; cv=none; b=uF8xFpJmPuzc2Mv2aOtoCpKAknSpjHDOiqzSj+7IC/T22PW+09s/SQUskHKP2TTDbkt9P5myhEJ3rek8uHtvpKSYzihcKbZM8oindfPJJeFdiL6APGC5GhOIM5V0PuRdJoM05R63yLqJ0PH7Jml5kODXGVOIHdCtRwyFpTqfqSQ=
+	t=1758164769; cv=none; b=Cbz6HR+Dv4IDNRxP4220gV0GPOfYXLyPCeg0+XfxZRoFinaGOPp0hQfJDAjXq8TkFWWuIzbqMvlPDIhssb2lNU5ySRhOnRxxYzLNK6QDrz4G+Ci/aZ10nG4/pX7EYaPVa5+eQjRoDlpgjrihqoe6fFQYhgpRgIOkvcHjC9fS2f0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758164491; c=relaxed/simple;
-	bh=BO6SrqAA20xkccW+vNmsZQDKPzgNblJ1bTTjEhOfctg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=adQkpAbZbrpH8yrqyQgPuNh/kDzyREJVAe7IPfSPe/ZQGN2Hq9cJvrkMD/rPu0bNQJLMu83Wro8m9gATZ9UyN8TGnSxrC1o1Mto7ZrjL8OkJmDKUPt+hpnHNkzqIEgKe4h/T82z1Ah7u8B8CN+shREtNwA464OUPNLWYLqnQz2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=iHt8az7R; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Y+arRO55; arc=none smtp.client-ip=80.241.56.161
+	s=arc-20240116; t=1758164769; c=relaxed/simple;
+	bh=1ID5dmzkAwZnoMz4LrUvGK8Yig7t3V7KKTbvLXgRwK8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Svq8RwqXvNY5KuBZ3jvtBrmaQJjE/ThakVAPSimPQdClDp0YF3tCszxOOkX/+00G64skYMn5LPX8WNCMSEMKEXdKZtTOgPU1agnRNfTaqK4/PxUl/uJEoVbhWIefTMZjyx7sBXEVC7Yjox/yeIPH5fqX591xcIBvC/f8EaL8a6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=mu2LoqeI; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=EzRvM+bO; arc=none smtp.client-ip=80.241.56.161
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cS0lN1wbYz9tCf;
-	Thu, 18 Sep 2025 05:01:20 +0200 (CEST)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cS0rs2rWXz9tPg;
+	Thu, 18 Sep 2025 05:06:05 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1758164480;
+	t=1758164765;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=S3GAuvZrakaLKvdrywK46MUNS+Ijb2FFTim9amfwSH4=;
-	b=iHt8az7RrIyxAnSHSIm5p/0vGSh053ezK/GNeqIXIP1guBB9mc+2j9pT77lg5xQyszq+rp
-	M0Onilar3GYrbEcSXYWIWHGu7zQEhhBYAFc6fUrN+S5MKy547GR0CF6dvFx0Iy2HOjRm5k
-	XS44LHqefQ7eHkDru5oOnAWmju86g0ADTsOfFKvkQo++fKSRWP7bpea0njy8NMRQN1Ngar
-	alHYv0XD/SDIluuwRjt9aVbfvu/l4xbsg7vIwMAFy/bP4gW49OU9LIYZ8zYd0CXkOV14kS
-	gEdN0q0Zkza3SpHS1xS1peRtgXPGekSusJSsdCwe6DR9Ybf7/cANfVgcR1Jtvw==
+	bh=bPbAbtXIJpucPo8RwMSVvdoy5gHEkvEEZ+5KJJxdzFU=;
+	b=mu2LoqeI05DT7VUKEK99UPN2rRuwWSL8YOLbAITVIkJa38ZiDK7XrfbThfpy1p7didXe+N
+	INGfX5EwezxTEo3cWe1SUDi63sSyMo68hZhGDnZPG9nrA5Kfx9Wm/n/Q36FdAmeGPFPWqD
+	UF13uP42xIxY3ikBep+uroLIr5XIWNoOBJMbkUHp0NGhckyl06ynZ5rsfqGa0IrrKu/yPv
+	xmwp1EDnQWFkLU5kJDQusswglUSCj7dECazOOqBzQWeF/wKLtKr8/80P0/yBms+MU8tuJC
+	cfV6goYnuHC4dqRkn1u+6mamJ2maEoBanrlvvfodRlWz/Ja/KUGvn9Cwpn38Vw==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=EzRvM+bO;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
 From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1758164478;
+	t=1758164763;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=S3GAuvZrakaLKvdrywK46MUNS+Ijb2FFTim9amfwSH4=;
-	b=Y+arRO55gyBeUP4R5XrTiwVsWwnjfwqv+Co5Sgygfukd7lFvhaZzX5lI5rwDWH8aMmvLFp
-	rFHSaN3KJmqpFAWM56klvsrO7VdYKjFRcEeUn7yjOfwzEIp7bCFTRlCJnFKqRQSVqX+b9E
-	PNUr49dqqwHdfwCeR9ow/6kQvhg20q2u2mZEHEmFp/DiRWueFZJF3+LZCUiQNnTuqmGDSb
-	JLDalGzEtazi5lQneYTB+1RmGU0Uwvm2RdSRKD6AI1+oaQHGm4vsJt24vWdNIeEtQ7g8WE
-	PfFY2C90B8bHodv+ka+SR7udKi852J3ro3dOOf3oYqltJBBojlJIo9bP/clJ0A==
-To: linux-pci@vger.kernel.org
+	bh=bPbAbtXIJpucPo8RwMSVvdoy5gHEkvEEZ+5KJJxdzFU=;
+	b=EzRvM+bO2AI0IFbNRH62IH40jGAsw6EwrINRAh08MWSLJuv6Tz4sq0cm55AoEYraV/4TST
+	HgOa8dPn/ygM31P4bQ+xL7iTYDXEHdT7ly4ZrGTjDViWVRX9+m7UPhEdz/EciadQAxASNp
+	4cfd2csd60Eg/Z79hw+sVI6sCGuLtPJqd6cnZEG+wBXKvNaQuXj9QSJUWA6rawkKyHmBWn
+	vC2do1RoeLuM4q/H6bRCVAq4bl2KxlLzsfVNf5RzgHnswf+vSmxtrxGB8pN/0EmsegB1uw
+	NAgg8ZZ6qEgTr4KKOxCl4x0QRMBTM++cQ/vbZvnQQe8K/ruPN2ucnO2rXG1ufQ==
+To: linux-clk@vger.kernel.org
 Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] PCI: rcar-gen4: Add missing 1ms delay after PWR reset assertion
-Date: Thu, 18 Sep 2025 05:00:26 +0200
-Message-ID: <20250918030058.330960-1-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH] clk: renesas: cpg-mssr: Add missing 1ms delay into reset toggle callback
+Date: Thu, 18 Sep 2025 05:04:43 +0200
+Message-ID: <20250918030552.331389-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 1b4xefz96otwf4sga8owzf6r765jcs9o
-X-MBO-RS-ID: 9d77d2dd001a629b244
+X-MBO-RS-META: s6ofhwsixofofxia5wrkrnnmuyx41ffz
+X-MBO-RS-ID: 811c07f5cbd203fba44
+X-Rspamd-Queue-Id: 4cS0rs2rWXz9tPg
 
-R-Car V4H Reference Manual R19UH0186EJ0130 Rev.1.30 Apr. 21, 2025 page 585
-Figure 9.3.2 Software Reset flow (B) indicates that for peripherals in HSC
-domain, after reset has been asserted by writing a matching reset bit into
-register SRCR, it is mandatory to wait 1ms.
-
-Because it is the controller driver which can determine whether or not the
-controller is in HSC domain based on its compatible string, add the missing
-delay into the controller driver.
+R-Car V4H Reference Manual R19UH0186EJ0130 Rev.1.30 Apr. 21, 2025 page 583
+Figure 9.3.1(a) Software Reset flow (A) as well as flow (B) / (C) indicate
+after reset has been asserted by writing a matching reset bit into register
+SRCR, it is mandatory to wait 1ms.
 
 This 1ms delay is documented on R-Car V4H and V4M, it is currently unclear
 whether S4 is affected as well. This patch does apply the extra delay on
 R-Car S4 as well.
 
-Fixes: 0d0c551011df ("PCI: rcar-gen4: Add R-Car Gen4 PCIe controller support for host mode")
-Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Fix the reset driver to respect the additional delay when toggling resets.
+Drivers which use separate reset_control_(de)assert() must assure matching
+delay in their driver code.
+
+Fixes: 0ab55cf18341 ("clk: renesas: cpg-mssr: Add support for R-Car V4H")
 Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
-Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>
 Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
-Cc: Magnus Damm <magnus.damm@gmail.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: linux-pci@vger.kernel.org
+Cc: Michael Turquette <mturquette@baylibre.com>
+Cc: Stephen Boyd <sboyd@kernel.org>
+Cc: linux-clk@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org
 ---
- drivers/pci/controller/dwc/pcie-rcar-gen4.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/clk/renesas/renesas-cpg-mssr.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-index de9fe2ed2423..8b39e014bc7c 100644
---- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-+++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-@@ -182,8 +182,10 @@ static int rcar_gen4_pcie_common_init(struct rcar_gen4_pcie *rcar)
- 		return ret;
- 	}
+diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/renesas/renesas-cpg-mssr.c
+index be9f59e6975d..65dfaceea71f 100644
+--- a/drivers/clk/renesas/renesas-cpg-mssr.c
++++ b/drivers/clk/renesas/renesas-cpg-mssr.c
+@@ -689,8 +689,15 @@ static int cpg_mssr_reset(struct reset_controller_dev *rcdev,
+ 	/* Reset module */
+ 	writel(bitmask, priv->pub.base0 + priv->reset_regs[reg]);
  
--	if (!reset_control_status(dw->core_rsts[DW_PCIE_PWR_RST].rstc))
-+	if (!reset_control_status(dw->core_rsts[DW_PCIE_PWR_RST].rstc)) {
- 		reset_control_assert(dw->core_rsts[DW_PCIE_PWR_RST].rstc);
+-	/* Wait for at least one cycle of the RCLK clock (@ ca. 32 kHz) */
+-	udelay(35);
++	/*
++	 * On R-Car Gen4, delay after SRCR has been written is 1ms.
++	 * On older SoCs, delay after SRCR has been written is 35us
++	 * (one cycle of the RCLK clock @ cca. 32 kHz).
++	 */
++	if (priv->reg_layout == CLK_REG_LAYOUT_RCAR_GEN4)
 +		usleep_range(1000, 2000);
-+	}
++	else
++		usleep_range(35, 1000);
  
- 	val = readl(rcar->base + PCIEMSR0);
- 	if (rcar->drvdata->mode == DW_PCIE_RC_TYPE) {
+ 	/* Release module from reset state */
+ 	writel(bitmask, priv->pub.base0 + priv->reset_clear_regs[reg]);
 -- 
 2.51.0
 
