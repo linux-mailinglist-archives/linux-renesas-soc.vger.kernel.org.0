@@ -1,221 +1,142 @@
-Return-Path: <linux-renesas-soc+bounces-21990-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-21991-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 026ABB825D0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Sep 2025 02:20:11 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C5D3B8263F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Sep 2025 02:39:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AD70E4607A0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Sep 2025 00:20:11 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D98AF7A946D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Sep 2025 00:37:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 274CC17A300;
-	Thu, 18 Sep 2025 00:20:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD9FA1A3166;
+	Thu, 18 Sep 2025 00:39:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="CahEq9A2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ty5Ef03t"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011055.outbound.protection.outlook.com [40.107.74.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9950F28E7;
-	Thu, 18 Sep 2025 00:20:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.55
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758154807; cv=fail; b=umWPe2/ljlpB599/uVcCQSO2hhaqigYAmJ90ySK7QCQefNvNLKetJGcgam7yETQ39hrR5myXgyKKWEQI3MtcrAE2Rn+2G8nS9gZ0qWT+DyZEqAXf+FLkqcSLtNWP7vduPA+eo6JiEsbtLDSJzBMcGFl7j9oMk5tPwCz4BYiyXQs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758154807; c=relaxed/simple;
-	bh=n0jAew2uAZ2K6eUwqobQUCABBuNQlSytdGAtb+M5ZIM=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=ZvhozDpcYLNtlk5w9awamoyTophKtxDS4oj5aBAa5vU3Rbu6mWrmzur7C6LCJ27yfa7gFyPKYmQCPvXoXkg0j3aywfGvhYONfM2aR3+YmilPW42Qt3WJp+o/doeC5BNNeNYg05SPi6TT8bIxu97QGX9hdjuj6yQkXUWcYanJLAM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=CahEq9A2; arc=fail smtp.client-ip=40.107.74.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tLpb8F1xmOSpP9gXvPCkGL5aR0KEPo74j3oYhbpnH0JZ1Zu6KWoV0c03S1w1oxiRrjbJI83oQMgGk+C0o+2yNOXHvdQQD2i7Ms0th8agCiT8OLaucco6zZzpD0nR1EKeta84ALLKL8yrcoygh+q8gt4AJBi7W8owRKDe+g38GaS0RrPBWR8cQwi9kABT7qwXbgjeVK5rlem5umh/dzq+tVXWiNB8D8zh19LHC3G+kLK0MgYdDM0r2hNU6XazE3q03n+O3ZmEXSFAI5DsLkO8Vj+QUBCqBkRwsIlhIdR9I3837OcmlP6hTYQYK6LKmmuckCFQnaf6GiNQ/TI1V+jcUw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V1hrD2EaAI8fLXMLR09RWk+LkneeQ74KzYGXe7ezNyc=;
- b=nf2YMWlbM+r3no3szuOd4W3X+JsG/tpgcyKLXl9gACA+CFzsSTGN5xy21OAsBfCirt/LznKd1zJfV46IE6XBn+fbkED/ASvkoceRaWYstwE5GQsqS5WBwr7mrc4muAOf6rmWBItB5mQteEmMoSfuR5pI3aU/a67g4y9snNWsKjFaIeqVoJMkhAt4yVPrvZOCngfNT9Ci6RwSKvo+qozPnTMmuL89xbuhnKa6QF7BiDGPIxeiTmghwPobh0rjO3l0uTtBZLscLe0SS31mgw5ga1bLKhh2JFH+c8BUUMoLzCZKXBSbjd8SQa1JUK56jqiIcRSdkQxGHluqLjbOJtz+MQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V1hrD2EaAI8fLXMLR09RWk+LkneeQ74KzYGXe7ezNyc=;
- b=CahEq9A2v7EOOmol4J/tAPNsLZvJpb0nSEZDOSjOMmoYCBxzx2xsPgNUgI1KIYa29kn3h/syGwWbhLKdwtFagCnwiiVihXGTtn+x99Em2msLxJi3zfqUOWTIJiYc1p8Xj1TRsD0rqRYf9wPxwdJJnN+c55AGkfJo+/jPOdTUWL8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by OSCPR01MB15738.jpnprd01.prod.outlook.com
- (2603:1096:604:3cb::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.14; Thu, 18 Sep
- 2025 00:20:00 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%3]) with mapi id 15.20.9137.012; Thu, 18 Sep 2025
- 00:20:00 +0000
-Message-ID: <87cy7opq6o.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Marc Zyngier <maz@kernel.org>,
-	"Liang,  Kan" <kan.liang@linux.intel.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Ian Rogers <irogers@google.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	James Clark <james.clark@linaro.org>,
-	Jiri Olsa <jolsa@kernel.org>,
-	John Garry <john.g.garry@oracle.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Leo Yan <leo.yan@linux.dev>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Mike Leach <mike.leach@linaro.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Rob Herring <robh@kernel.org>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Will Deacon <will@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-perf-users@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 5/6] arm64: dts: renesas: Add R8A78000 X5H DTs
-In-Reply-To: <aMr1QjI8vfrP_fwD@shikoro>
-References: <87tt13i0lh.wl-kuninori.morimoto.gx@renesas.com>
-	<87ms6vi0js.wl-kuninori.morimoto.gx@renesas.com>
-	<86v7li1xs4.wl-maz@kernel.org>
-	<87h5x1afgr.wl-kuninori.morimoto.gx@renesas.com>
-	<86qzw51pmw.wl-maz@kernel.org>
-	<aMr1QjI8vfrP_fwD@shikoro>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 18 Sep 2025 00:19:59 +0000
-X-ClientProxiedBy: TYCPR01CA0184.jpnprd01.prod.outlook.com
- (2603:1096:400:2b0::13) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F657155C88;
+	Thu, 18 Sep 2025 00:39:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758155970; cv=none; b=HzK5TpNy8N/tl6FRNSjBRF2wzA6zslUHIh0E7N63JrQicZP0JclF3gh8xUEw38jVnxjMk52rHD0RpK4549hRYaHAWMJvPCq5GLVOKiZyC+umfkT49pe+Dv+I9A4ZblsNiCGA0c4cPPvbltK1aCeDmNPzIxjBsj0iO8hRoNC4X0A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758155970; c=relaxed/simple;
+	bh=a75lhk+xgj4a6qR5ZsY/lmRJGeQMFkEJZWE3IgPCtIo=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=BF1p9Fb+E326i7/DPJuufxnd1PJwtjrQIO9oGZBXlifAkrVnkYJXYuLe4K5/paBidXijOQ35lWTiB1WF7ISDahbIxYQJ2IcpfooC7rOKWAy6Vc/TLT875JuxrFCJ0rrhlHl8JFNN48bGtU4tUxmBLpW3VP3uvlkh7pideR1BI9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ty5Ef03t; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BBFBC4CEE7;
+	Thu, 18 Sep 2025 00:39:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758155970;
+	bh=a75lhk+xgj4a6qR5ZsY/lmRJGeQMFkEJZWE3IgPCtIo=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=Ty5Ef03tAJzpoz+XIPXuRIzkkpXYoHt2BMsB9KWT+jy2MEKMJ0FHYFZ5RhbBuhxyt
+	 R7ZkHF1aSnzqMm0WsvVahUPre/erQRjU3TNH43HUh2abKvCXqkiE57hcVFmz4mYbh8
+	 nDSY+oJFz5RvSc0ulNDT/H1VhApylmvgmcOjFrKYkCUklasO2O0DZgBe7ZqT4I9qzw
+	 /zKvj91yiPj8CHLFLz4dDTOz9x5VR3wIvka6ps2tQk4cYXs4fJBY/rgoIo1rbAdVo3
+	 f/DpkFP7cGJt1GkIim0reC1i6smLVcU5QPKfxvqWjIXCn0OYJeWgznHjPwXA8S2CG5
+	 GhEKD3IA+LhCA==
+Date: Wed, 17 Sep 2025 19:39:27 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OSCPR01MB15738:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2661ca3a-9cc1-4ad4-3092-08ddf6491aba
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|52116014|7416014|376014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?V7kdkDf1DsxWKjXkV3tYhIbtZOdpYB9OyxbLTcPDuSjsg9rfCXMd9qAhH53I?=
- =?us-ascii?Q?GQ6RypCruo7Wk7jtflACJpZjgV/kl1RztBkMHTD5ZwV7jkb8PVgRgVNLMAlf?=
- =?us-ascii?Q?NzPezeVckns3CWvYSUAPPNCzEL5P3YzqYr8XHLtTv1xB5vJZK/9yqrNL2JI6?=
- =?us-ascii?Q?8QJnhQFrNr1K/1v+s7EYSGzcga1cje+Ca3vyWXsDIl79uU/U8IIq3SVqEP2H?=
- =?us-ascii?Q?RmWFtVBRApxqqHJpcLiD343i/i/BdyFsoYdKgGflP8gjsFFMcF8xBYmyuB77?=
- =?us-ascii?Q?v5NDrwCegUUIrEvGcAEFdqWXdg5Dw1n51mra+ydyk33GmZ5ZubxSFzWHxExV?=
- =?us-ascii?Q?E/+XwO5qpImqOUzdBXoQb857J89EYqGq6uUDI8ta8yCQLoK3ZokAzGeP9owl?=
- =?us-ascii?Q?Pf7HKgUnbu6Q+7BRXFIN880pXOgZJgpCmhM5HRwIhrNmGcVycw13+CwL0YWy?=
- =?us-ascii?Q?bSdwx1y/zzV585uJCRCZBN68rCf9dcd7+PFLzTyNOzC7+L/0r/dfL56PjZKp?=
- =?us-ascii?Q?t9XhBam/AMQbzjrv/VnQFbqPG5+4kS0ifdoxJMYuTpjWKZrYG07Phn5CpfTm?=
- =?us-ascii?Q?eWT2CXR3drosuiCqNiFejEiC2hJs53hX96TSLg0hCE/Uz+q0/TidDNwMisEx?=
- =?us-ascii?Q?zZT0jgF1a8+Lnt1a9NeDbrQXu3N58rGDn5a+4giPqkbuqUcHBE5i6amW4dd2?=
- =?us-ascii?Q?SEm4Wlt0LBdmFG1NnQE8umRvrfWgzT9BIRAGRVPjK1CKYjU6N0uxUYouW73p?=
- =?us-ascii?Q?Hu7i+uL9B7/s6wc1nKUkq+rJZs6Lza3m218Y++Fyc+vp+IACrfmqjbQgpchP?=
- =?us-ascii?Q?B+taZOTNPNauLQJjmpsAL1/BfYlBQQpbxJBY5Z/DIQT3ADqNXs35+zDV4JVf?=
- =?us-ascii?Q?CbFhhiTg3pqBQDGc6+lUFdvyA97dvPJL6TMHSQ9g2bSwTDx5jxzZvm9fJpmb?=
- =?us-ascii?Q?EibY2mxMF9ban5Ke/wh+k+gp3i0rArkNFmer/wnjlxxsbLi/qgeTNbpsmpek?=
- =?us-ascii?Q?UPUPGZ6FBIIF72AXcWsHLLs5W+LPpbiamM0mGwnbZ5gF2hxtiTqVpFagIuOt?=
- =?us-ascii?Q?Foc+SNDJQug+ESyRT31fmzGHHcHMKmJY9V4Rz7XlAMJ8Y09rcOM+ZgZhtBXD?=
- =?us-ascii?Q?j/Q7PLBGKuxiIfEa/oNe3rjfTH29JtwiLE/NLNLc5eo91pxWEmQPfS005t8b?=
- =?us-ascii?Q?c/6HAuWQq1eJqXzZKHnEgdPju1b4b/gWwcSXYC24wK4t5kttQryL+U9AEwED?=
- =?us-ascii?Q?CEDuIlOsdRowiFoRNuw1viOY3GJd9PQ69RZSj++gakpLdcHMe1HtgKyfMB9d?=
- =?us-ascii?Q?50ZP4XzSUQxeWIdEQYUpuLhasePMDLvTyY/1DMbSe+ZBXvMLiE1qU8uPu5RZ?=
- =?us-ascii?Q?QkYaShNwY1aLth2lNA+7DjmCS8Dl+KuD8BbF/N38cEw6XwKAYZXSTgTu2LkH?=
- =?us-ascii?Q?G0797co61gfKaoAvjkuK9gtKI2vB4jffpCGHjCIfNkv/ge2dOQYtwg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(7416014)(376014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?j48JXckX7QYVvqxi11w73NS4uf3WdHXPwvHuuSGP4/pqBHn63h9AdhzJaFGG?=
- =?us-ascii?Q?gW1cTDZTIHO/6w4eyPHHxLJimmtRgRjOYLgeJebp32OYt11Os5/cvPqYLTJX?=
- =?us-ascii?Q?TNSacNZFxXyII4nCe9SsEd95aB7gfEgNwQLoqCWOtufbR6dmhBiXM5oZaagV?=
- =?us-ascii?Q?ekHC+xbnZXu5WJDkeIBJh8PiSBaP2j8n2bFrUVzaTV/YVwx3czA+Ulyjb7E+?=
- =?us-ascii?Q?FmW8rASN7gz6DzavYK0pTueGs3GEC8slOnR3kPxj+M+UwQ1yMujivux2sKv3?=
- =?us-ascii?Q?SQjTgq70bXm4d+yEZR9p5kEnVl5azQaM4alEd67c6OwJZyAe+NBP6UDZK6rg?=
- =?us-ascii?Q?RQHoYjzjn7D3/IWTMHbioqGQw1zykEvGDR1/dnqiKoKRArxByKuvp/vH9vCj?=
- =?us-ascii?Q?Ta1ekNkpnQyQaGl1MBunsHJwvlcFCESmvrFQxp7rcwuqBlemK6XB99Jg2DCg?=
- =?us-ascii?Q?YnP2M0sfI+M1+ZvuQ8ywaacMonq0nH+J9ga4Uw/1fOOzpQ2p9TT30Gwk4eIX?=
- =?us-ascii?Q?98mnkU8j2hbVkzgR+8yjCfF8MQOGmxHKAtyVdU5Jj5YTkoiaRIwkM5e6254L?=
- =?us-ascii?Q?bToNQYV/qdMR3pzYSNGOf1su07LwhZoQ2lE5Cqi0ueRwm9xQhgFX7nCbQwxk?=
- =?us-ascii?Q?tHMjxGHp7ZvfZeaXveMEtvxNxEkim88EwhXMW8TAPYYEUz3+Vlu6Lcji7w5u?=
- =?us-ascii?Q?CU7zuRb5kdLhx2vS9ud0ybCKdqQfAdsDesKkp/RaOB0F9w0liw7pwA4Pg2xL?=
- =?us-ascii?Q?nNVTk78oqlA5hxZXyAPg8paC3kqc7yYSnF22ARbRW84AQXbSOAxpXHO+ldbL?=
- =?us-ascii?Q?JAJhHNM2pTP7PiclLFA6FfSo/izXjCQr4018DBG9h/PTxCdIfjfxM11bMe8s?=
- =?us-ascii?Q?FbISA95ozzqmdIDFMzZxFZan1HRH72dbrKUq7p+GeVUd+JVPv9gq4HGxwX9i?=
- =?us-ascii?Q?UM5NHra1+BbdJKDCkSkaTNi+zXQAGixH0ZxAOeMlpTcm9i1UliU3slxwbPYY?=
- =?us-ascii?Q?Ef9ihFIKF+fbWwyjmNbgF4hcnhOXt+9ZmbUiyVAm5Xrs9SSUnRl9FHBJMbY9?=
- =?us-ascii?Q?IrfOrAzhf4d2JD8HseRTcvfZDvXGsaLsMcqgkT+xaA9MFCUpuv0841EgY+GI?=
- =?us-ascii?Q?CAob6jvm0QIuO8pkb3RdjeBfismaDPgvs2/rXukyC4K+5STRtPCwHU6wsupE?=
- =?us-ascii?Q?Ksf0XZuhvf6BrMMLjeoMH3NGpzEOCG3dfunPKfVtjqpayb+q5+/ofNrDCLq4?=
- =?us-ascii?Q?PCI5a47enxODm1c23RKmDlhy/FwMrChdiA+Q1KTsgRDMNbwbCgOacOmp89oH?=
- =?us-ascii?Q?6urh5FLaD1DnPsbju+WfzIF97jrG8DvafG7bG4hEH5LdWP24UYgURYiYhaPp?=
- =?us-ascii?Q?ElJlE7E1bO9yaow57KNFoGioi7/Su7NCwHl9sp2fu/g52r9t9e/ey0JYpgXi?=
- =?us-ascii?Q?5k/++AJaLGkArkAG4ygA57/ATnZettgY9gXrNuJtbmcoreFmPv396HsvFD7R?=
- =?us-ascii?Q?5T4yMlsSShENy3qcO1dJhhqvgId71Leal9zgsg3OJUHlxJPA+CmGdBQ4clty?=
- =?us-ascii?Q?oO2kXufd1XkdHocj3rIHfA8+tZaPiW4z87vXiR3kOhCtvtx+DpG2949aN42E?=
- =?us-ascii?Q?I9tltCRG4XcDxjbppuzGiqE=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2661ca3a-9cc1-4ad4-3092-08ddf6491aba
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2025 00:19:59.9693
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qOBN6vhPCRudU0n99dsJ3O3Z7REtc8Y/hIXxcD5jOFiMLw6BSv5lheeDlJYm6HRRnKTs2OnrwAqErf1M7KyAi8y5cZ0TommDQJLslDzvG4N2wlbKu7/9gaXvrS2QEiZ6
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCPR01MB15738
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>, 
+ Magnus Damm <magnus.damm@gmail.com>, linux-aspeed@lists.ozlabs.org, 
+ devicetree@vger.kernel.org, Joel Stanley <joel@jms.id.au>, 
+ linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Kevin Tung <kevin.tung.openbmc@gmail.com>
+In-Reply-To: <20250917075334.4044607-1-kevin.tung.openbmc@gmail.com>
+References: <20250917075334.4044607-1-kevin.tung.openbmc@gmail.com>
+Message-Id: <175815587102.3804257.11804671658691330900.robh@kernel.org>
+Subject: Re: [PATCH v1 2/2] ARM: dts: aspeed: yosemite5: Add Meta Yosemite5
+ BMC
 
 
-Hi Marc
-
-> > > And, the datasheet is very complex, I don't think people can find it by
-> > > himself without any hint.
-> > 
-> > I guess we're just a bunch of inexperienced idiots unable to read a
-> > TRM.
+On Wed, 17 Sep 2025 15:53:32 +0800, Kevin Tung wrote:
+> Add device tree for the Meta (Facebook) Yosemite5 compute node,
+> based on the AST2600 BMC.
 > 
-> Please don't feel offended. Morimoto-san really has a point here. The
-> datasheet available for us is currently in a very rough format with
-> *lots* of attached documents with hard to grasp naming. I am dealing
-> with R-Car datasheets for 10+ years now, and I do have a hard time
-> finding the information I want with this one.
+> The Yosemite5 platform provides monitoring of voltages, power,
+> temperatures, and other critical parameters across the motherboard,
+> CXL board, E1.S expansion board, and NIC components. The BMC also
+> logs relevant events and performs appropriate system actions in
+> response to abnormal conditions.
 > 
-> That being said, I agree to the point that it is not very helpful to
-> reference such documentation upstream.
+> Signed-off-by: Kevin Tung <kevin.tung.openbmc@gmail.com>
+> ---
+>  .../aspeed/aspeed-bmc-facebook-yosemite5.dts  | 1063 +++++++++++++++++
+>  1 file changed, 1063 insertions(+)
+>  create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dts
+> 
 
-In normal way, you can find GIC base address on datasheet as "0x38000000".
-But we need to use in Linux is "0x39000000", but it is not indicated, and
-there is no hint about it. You can find it in tons of attached documents
-as only 1 line.
 
-Indeed the person who can get X5H datasheet is limited, but I believe
-that it doesn't mean hint-comment is not useful though.
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
 
-Thank you for your help !!
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
 
-Best regards
----
-Kuninori Morimoto
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+This patch series was applied (using b4) to base:
+ Base: attempting to guess base-commit...
+ Base: failed to guess base
+
+If this is not the correct base, please add 'base-commit' tag
+(or use b4 which does this automatically)
+
+New warnings running 'make CHECK_DTBS=y for arch/arm/boot/dts/aspeed/' for 20250917075334.4044607-1-kevin.tung.openbmc@gmail.com:
+
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dtb: / (facebook,yosemite5-bmc): compatible: 'oneOf' conditional failed, one must be fixed:
+	'facebook,yosemite5-bmc' is not one of ['delta,ahe50dc-bmc', 'facebook,galaxy100-bmc', 'facebook,wedge100-bmc', 'facebook,wedge40-bmc', 'microsoft,olympus-bmc', 'quanta,q71l-bmc', 'tyan,palmetto-bmc', 'yadro,vesnin-bmc']
+	'facebook,yosemite5-bmc' is not one of ['amd,daytonax-bmc', 'amd,ethanolx-bmc', 'ampere,mtjade-bmc', 'aspeed,ast2500-evb', 'asrock,e3c246d4i-bmc', 'asrock,e3c256d4i-bmc', 'asrock,romed8hm3-bmc', 'asrock,spc621d8hm3-bmc', 'asrock,x570d4u-bmc', 'bytedance,g220a-bmc', 'facebook,cmm-bmc', 'facebook,minipack-bmc', 'facebook,tiogapass-bmc', 'facebook,yamp-bmc', 'facebook,yosemitev2-bmc', 'facebook,wedge400-bmc', 'facebook,wedge400-data64-bmc', 'hxt,stardragon4800-rep2-bmc', 'ibm,mihawk-bmc', 'ibm,mowgli-bmc', 'ibm,romulus-bmc', 'ibm,swift-bmc', 'ibm,witherspoon-bmc', 'ingrasys,zaius-bmc', 'inspur,fp5280g2-bmc', 'inspur,nf5280m6-bmc', 'inspur,on5263m5-bmc', 'intel,s2600wf-bmc', 'inventec,lanyang-bmc', 'lenovo,hr630-bmc', 'lenovo,hr855xg2-bmc', 'portwell,neptune-bmc', 'qcom,centriq2400-rep-bmc', 'supermicro,x11spi-bmc', 'tyan,s7106-bmc', 'tyan,s8036-bmc', 'yadro,nicole-bmc', 'yadro,vegman-n110-bmc', 'yadro,vegman-rx20-bmc', 'yadro,vegman-sx20-bmc']
+	'facebook,yosemite5-bmc' is not one of ['ampere,mtjefferson-bmc', 'ampere,mtmitchell-bmc', 'aspeed,ast2600-evb', 'aspeed,ast2600-evb-a1', 'asus,x4tf-bmc', 'facebook,bletchley-bmc', 'facebook,catalina-bmc', 'facebook,clemente-bmc', 'facebook,cloudripper-bmc', 'facebook,darwin-bmc', 'facebook,elbert-bmc', 'facebook,fuji-bmc', 'facebook,fuji-data64-bmc', 'facebook,greatlakes-bmc', 'facebook,harma-bmc', 'facebook,minerva-cmc', 'facebook,santabarbara-bmc', 'facebook,yosemite4-bmc', 'ibm,blueridge-bmc', 'ibm,everest-bmc', 'ibm,fuji-bmc', 'ibm,rainier-bmc', 'ibm,sbp1-bmc', 'ibm,system1-bmc', 'ibm,tacoma-bmc', 'inventec,starscream-bmc', 'inventec,transformer-bmc', 'jabil,rbp-bmc', 'nvidia,gb200nvl-bmc', 'qcom,dc-scm-v1-bmc', 'quanta,s6q-bmc', 'ufispace,ncplite-bmc']
+	'aspeed,ast2400' was expected
+	'aspeed,ast2500' was expected
+	from schema $id: http://devicetree.org/schemas/arm/aspeed/aspeed.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dtb: /: failed to match any schema with compatible: ['facebook,yosemite5-bmc', 'aspeed,ast2600']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dtb: timer (arm,armv7-timer): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dtb: /sdram@1e6e0000: failed to match any schema with compatible: ['aspeed,ast2600-sdram-edac', 'syscon']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dtb: bus@1e600000 (aspeed,ast2600-ahbc): compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
+	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dtb: ethernet@1e670000 (aspeed,ast2600-mac): Unevaluated properties are not allowed ('ncsi-package' was unexpected)
+	from schema $id: http://devicetree.org/schemas/net/faraday,ftgmac100.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dtb: syscon@1e6e2000 (aspeed,ast2600-scu): 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^pinctrl-[0-9]+$', '^silicon-id@[0-9a-f]+$'
+	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dtb: /ahb/apb/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dtb: adc@1e6e9000 (aspeed,ast2600-adc0): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dtb: adc@1e6e9100 (aspeed,ast2600-adc1): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dtb: crypto@1e6fa000 (aspeed,ast2600-acry): 'aspeed,ahbc' does not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2600-ibt-bmc']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dtb: /ahb/apb/dma-controller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udma']
+
+
+
+
+
 
