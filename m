@@ -1,63 +1,63 @@
-Return-Path: <linux-renesas-soc+bounces-22007-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22008-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4314B83230
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Sep 2025 08:27:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D2A3B83239
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Sep 2025 08:27:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9F22B4A5B56
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Sep 2025 06:27:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0332E4A5B2F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Sep 2025 06:27:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC9D32D97B7;
-	Thu, 18 Sep 2025 06:27:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E57A22D94B6;
+	Thu, 18 Sep 2025 06:27:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="dJP1vbLP"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="W4r8UR/c"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010069.outbound.protection.outlook.com [52.101.228.69])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010051.outbound.protection.outlook.com [52.101.228.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 666802D94BD;
-	Thu, 18 Sep 2025 06:27:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF252D879F;
+	Thu, 18 Sep 2025 06:27:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758176852; cv=fail; b=WlozjVdorYO/SbpCiziZnLTsKr1r3gulmO5qIjjNQSeUyY7WNG+UVLeFOc1mXpTr41RXKgtddQrrKplEV+tORn3s4MiqLOZI2bsXTmmNhYc319OX1TshxbfT4cj+bJQTHRF0uoDKpwL4/feYp1oiZ69mjmtt0tPmvPsHO4sarzI=
+	t=1758176875; cv=fail; b=BCHlF3RjEVocvw9tUmwFkVi8Xeq6eaNvNxblvyyKIL4UdIzHLap6769vbSSzJwwElXqE21WU9n3/taV4azSH8d1dXQkWuKA10MB2rr7789UjRDNI4W09wONQPpVrXA1HJYzmQyxjYLFOTPAcCrw5KaJd8b0UwyFW+oeieipifYc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758176852; c=relaxed/simple;
-	bh=HVdA/QIZHuid8pKNJCx0+J/WOggrnf+iFs11nzodhjY=;
+	s=arc-20240116; t=1758176875; c=relaxed/simple;
+	bh=WWpk297GBX98c0HBxvQjNfdRNRPXXVuSRT5u09plB/g=;
 	h=Message-ID:To:In-Reply-To:References:From:Subject:Content-Type:
-	 Date:MIME-Version; b=IRUHesdw/g+Nhp8OQiF+vKPE2KBERCDUEr4e26IkjDsdQBVXonGoKAJh6Lf6YwgapaRN4FiHbbzadkwfwxL9dNfqgjaxN5y+AJsCTu1ypcQn/FvHEME0UKrJJRJ+4nxebNNPzarj5IAVPYw+KlBccvzWFyIPAO3WdKuhwVCFVCk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=dJP1vbLP; arc=fail smtp.client-ip=52.101.228.69
+	 Date:MIME-Version; b=UTOYuWtT+W7MWYBtckXMgm+nxjiQa7VJrlDM0jJ1ZzCsr8CC2B4bujXkiUD3S4ViFwDiOquHF8XRT7RBS/OjVUPSb3idEUfzS3ZW3GmEv3VunnKHhiwjA1zBO4HRDWLcKqb+Bvg/w1nWAA9SESyuQ0YcUYOD4wAf8eXPXTMR5Pc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=W4r8UR/c; arc=fail smtp.client-ip=52.101.228.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=n5GILXipW2dzvIB7h1wvmTBTzm29YRMMJB7VDPD14xldfi9i/7S5LSkgaOwiC8srkIcbwnDLe2wKbYcmkDjhD+t2Y6qt1Hn7MoyPkOq/ONw8WiYiTfMtuDQT8O9jWBWdVEOzCoV3ac10OcznuK9lK8I9aVop2Oo64GrQ0J48XJCtzzg34z+x4C+MiYRqcBGlsW8ZHS9GEbKLBhRYLeodIbLFeGkU/r1R+z93sEiFL27RtUe/wWv1qI57oZNNNwOWLT8IO+32GHstHfeRW/lM2QxeRbmvYD5+a6FGQ5usTlB5NbGlUnW0lnuCzay2SKFXV0DNcxm9irXPTCHipixiVQ==
+ b=GLTY7eK3GUd8y/XPqhsokxsnjwgGoI9LBqUvZtE9eKwkJVApzaGJCduMhdUWUlyic9CxsIelAMVvAXOXja/t6zIwbc659UWN9oOinbaVAJaCIGfvS7ql4PaqKlLP0ON9Ubjahw1igoihG2VaZkxOJwsm6VG5oD6cPrfgpCghU0osUvcN/dDITps27K/hzFaAn+mS4V6YoVw9PloyBPi2wm1ls6Xs0fYluws5q/qvrfb3bDuFG8sIoY8uVlVr5K4t3hE9G5kJGpC+xKyigjKCGf+zZZ84CwGpdubUmFVWER+nTAgInVkBtQByn8j1AXRa1Qserm2niflVCEfCJejL3A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tg59TM0qnvVRiJRIimXlW8jMfO0unDm9lwgcbWwpK0w=;
- b=a1JZUoNRWTgVvrhsZvPTw+mxDpqJaTc+kSefCZTahtbMChJJP0XeJMReZf/TnFEFtwZNRdDxtXOzMRAV/IZP22HGRq3TxA++ejQI1tn3Zgx1vWLxV2sTAfS5iirjs/Zgi2A/WPtLQjTms0Ru83cEqq8ynCXyC8RFH7BzkmHFmwcMxSx8unHzs+X3iRhN844WQTTydxOAYfU+IEZ3TiUoKh1TzCTXFaCByuKN0qFipWFtgXojEdoqO2qt4CDF/X2SOO1FHa5xGjFhF1TyVfsEzQXmaHqqP43jT7w4VKAPClR8nSG2KtEomL9ZY4ifb8QDl+UoHlLZA67Wjcm9H6Y+TA==
+ bh=cbmcPb6a+a5cj3S507EUNlHL0wbvWxj2ieYJ4zbjOHM=;
+ b=Ags9sKzCQi5/7MRlLFPXG0JtdMsn8agPWmsJxrWq0hkonVhKedFcpdtTlHngQfzUpDZWFcmJfk7fYEm7JyaWtJXMM/TnYGNWGrO359T3TTpdFIEDRHgyaiwnpSWPh8XmNKfyT3SFWpukt/du/iKshw0nBnEXn85D75WOq+KkxRuZIxbP6lhwn8vJW5tz/buk3J7MSy4Y5s0DolexxKCohYG1NWcnXzsY47lP7L/olrcSV8qHDxg56dTRpTFFIRv6Fcjc+mlIDjwQbx/W3E8IB1k3K9j9lx2vdQUSWiqyy45jTEFbjdccgSfiQpamGdLes2mBdUpLNIHsvJB7K49jgg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tg59TM0qnvVRiJRIimXlW8jMfO0unDm9lwgcbWwpK0w=;
- b=dJP1vbLPxoXKSI8/k1DNOSBjS4PZIDEGGkimFiOrVfY0nnHumy3awjiw9FU6+Rni59k1XkteB7lblwdwa5VAvJ631XSHvIahKeS/q9cz8JfQ9/Q8BokHEPkbReF9VzfQxcS+NyogsC7HBFte+SrnoSfTqcvEnnIKy+qE1pul69o=
+ bh=cbmcPb6a+a5cj3S507EUNlHL0wbvWxj2ieYJ4zbjOHM=;
+ b=W4r8UR/cBUmKYBji3H9CKInEOWNj9qrLTqDnstaPOQEoJyo2teY9ldGJ5UP8xHxCUZEO79+bPKy81HYrObomdv1D/PBBhsPo3We4r09z3eknMo0TtSQIMbFME5eSeOV6GHlqfaOs3qLN+BtCrRd7re/jAQYq5KfMeH/fkfTyX3s=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by OSCPR01MB16214.jpnprd01.prod.outlook.com
- (2603:1096:604:3ea::8) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:1096:400:3a9::11) by TY4PR01MB15939.jpnprd01.prod.outlook.com
+ (2603:1096:405:2c8::13) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.13; Thu, 18 Sep
- 2025 06:27:26 +0000
+ 2025 06:27:51 +0000
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::c568:1028:2fd1:6e11%3]) with mapi id 15.20.9137.012; Thu, 18 Sep 2025
- 06:27:26 +0000
-Message-ID: <87ecs4nult.wl-kuninori.morimoto.gx@renesas.com>
+ 06:27:51 +0000
+Message-ID: <87cy7onul5.wl-kuninori.morimoto.gx@renesas.com>
 To: "Liang,  Kan" <kan.liang@linux.intel.com>,
 	Adrian Hunter <adrian.hunter@intel.com>,
 	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
@@ -90,12 +90,12 @@ To: "Liang,  Kan" <kan.liang@linux.intel.com>,
 In-Reply-To: <87ms6snut0.wl-kuninori.morimoto.gx@renesas.com>
 References: <87ms6snut0.wl-kuninori.morimoto.gx@renesas.com>
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v5 6/7] arm64: dts: renesas: Add R8A78000 X5H DTs
+Subject: [PATCH v5 7/7] arm64: dts: renesas: R8A78000: Add initial Ironhide support
 User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
 Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 18 Sep 2025 06:27:26 +0000
-X-ClientProxiedBy: TYCP286CA0063.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:31a::12) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+Date: Thu, 18 Sep 2025 06:27:50 +0000
+X-ClientProxiedBy: TY4PR01CA0032.jpnprd01.prod.outlook.com
+ (2603:1096:405:2bd::13) To TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -104,893 +104,209 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OSCPR01MB16214:EE_
-X-MS-Office365-Filtering-Correlation-Id: f7c9dd07-0303-477e-e4c0-08ddf67c6fa2
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TY4PR01MB15939:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6addeaae-5b95-4955-7b3c-08ddf67c7e30
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|376014|7416014|366016|1800799024|921020|38350700014;
+	BCL:0;ARA:13230040|52116014|376014|7416014|1800799024|366016|38350700014|921020;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?7JprmS2pU6MhGGnfdXo0rSiQR/hia9kNRVncSZEyNMr8bCbEv4L9o/k5S/uH?=
- =?us-ascii?Q?iH3WeueuZjNh3M9gx8d1aIaL7YYOt9imeFnEqzrMF3wSHxY7K9GeSN8joKRh?=
- =?us-ascii?Q?CcUC8p35qJlG2J/bSc5+90vp4w5ixsB6fwzg4VEpK6ufmPK9rjjtcGkY+h8M?=
- =?us-ascii?Q?kvl8XgWN3/UTnQITznMdJ2B5+3kWwiO4rNsQGg1bWjaZ0xcqaW+UBolC7FGm?=
- =?us-ascii?Q?oFViQ9ZkuweRPjmFKV3SfcngEEkvBm/3oUkhcUGWducwHnVIKgaoQ0KCZX3l?=
- =?us-ascii?Q?pfcmLH72pCZU54PTjZXj6JoAtppDQOSXZtyrmt4T5W3am1cQ6ZmatBZsQp8Q?=
- =?us-ascii?Q?Kq6f6RVmckBRPJzikzTA3Ib6yCfvmZyq+qM4NqWsyMTwgv5mqcQ6+jqXOaIx?=
- =?us-ascii?Q?sOQ9Q96F3DprQpK8QmK9xY0EIYs3aYIeaOAz6JYnYps1d8ko8QM7rq3rpDWn?=
- =?us-ascii?Q?c4PYnneEvRDfdSGV6jG5eSenuU51UvjsVpl7UkH28e6swNkQuJg+8GSrp3pT?=
- =?us-ascii?Q?FnE0HzkXdF59gxcX40Ec72U7zO1KoZomP4nK3poaXIoizPydOj5BF09ExVmr?=
- =?us-ascii?Q?bqX16hvLtQppldfwwyyruQpgGfJyMJab93ufHAtKXI8JI0/ZSRK132jrd9h3?=
- =?us-ascii?Q?OySY1ZMOfpHJoaDMhK/CDXaH3wXBo69cnOTxrfmPXmd3zCOcz5lKB8/OD4gc?=
- =?us-ascii?Q?YDTAwWF9PaRXs+jZ4DW/FghefMkPledjzn62qf+52ITmQpnqzcmLpI2vWgb1?=
- =?us-ascii?Q?5/vw9YD89ejmZitN1h1qV2H39uooid0qqYIoRg+XzCcygyEbllc+eoFvCGt8?=
- =?us-ascii?Q?/eIm6uIPwx+o3N4i0mGGo+yy115oogM7YQOA8pC1jZMEbXU82nzdNXXe9ykG?=
- =?us-ascii?Q?0c0tNQuPsl9frdpdqAJepX2I5kF5wV6EB0dUE6nU5Bg8nAAmhYclAVi4SGMu?=
- =?us-ascii?Q?y6Q8RVKgr/G9cXkHuNYYYbmhlH004bijNDz9JejmwvXOKMuSB6N9zUkF1Fup?=
- =?us-ascii?Q?Xzm1XygUujg2OIDr4U+fo2npjqpUQYcp4JFanc9ojfwh28pxElhtRNLZui5P?=
- =?us-ascii?Q?3i+xlJ0LdMyqSvXNRoQUKq27AMgJUH3tOu9phYpz5/FmA01N9J6140TfR7UL?=
- =?us-ascii?Q?39NhjhTiwB1AA/BuJc/I5CzItrppSxWFxHjorF9Rld7TO/netmh98q22/2NN?=
- =?us-ascii?Q?vAOlTJqJhPNaDCYJfQn91B6J4Woxlom4MUGXsBdAn8UePlqLYtQHPrkKgMBP?=
- =?us-ascii?Q?+X7GvHdv2RPNuGNYXKAg6a/5a+VfL6C1ITTWIrizcJFryLgTP5Wkw6q/pGu2?=
- =?us-ascii?Q?D7PwKjSjY4I7CO0/CF3Nvwlhev+tlOYBDTOWIjMuOshvfkuRuwLu5piW2wUz?=
- =?us-ascii?Q?05B+Ms5KF6c66JG7CuU5mEv8Lb2AoZRLP8Mj349ZW9GcHc4LZreHMwqO3gmb?=
- =?us-ascii?Q?dUxEME6ORDdi1fZjumrxo1TcmIv9SuQT98DM+psMjkRsCOAwQ/YsGXcz03eT?=
- =?us-ascii?Q?0YDECqeFTA6WQb0=3D?=
+	=?us-ascii?Q?N4+Z5GilKD12trltWHEEgepHVUTwTkG/Fz5n7dmVC+EQnQvCLvhtJPXscJAE?=
+ =?us-ascii?Q?Rt7VFWoTYlJtnYNkT5ARNCCDdqJNlQ8I4t8iccZYjZGfj50U72W89+c5nmst?=
+ =?us-ascii?Q?wFeYqpCEeMlZ1eZRyAdiXodtbTnLNUcnkZgUaQ6T3BXjh7op26Ne8Y1uGsM0?=
+ =?us-ascii?Q?ESRVWtPXZ4GXEdwv7IHNZpSjkDdK/iaSsiqZ+UMdYm+00L7M0MChY40lznr9?=
+ =?us-ascii?Q?yU09VV/EpSeos6rHlkpNC99HveC39S3oYsysQfYLy3gKqCpCwnbtvP2lzvwj?=
+ =?us-ascii?Q?aJatD2UfIO0YBmz7KGWiLjaWMsDX1pMAo3SjQirg3eWntKIbawljrjl9Uf6i?=
+ =?us-ascii?Q?oCvs6Lob89AgEx63w2uUyvUjithTCg7Nm6rUYiNJC6t8C2dwGKvzSbm0NRDL?=
+ =?us-ascii?Q?Cgc+CAG7bwBlvV3tRCObigNgcxWfFWcgm9irFy/kPaCfO553u0lPuJxL6uVL?=
+ =?us-ascii?Q?ePahGf/+tVyyp69IwYaV3zFEQTWwyWFy/+FJDrvPY6H/7PsulYYQr9fYmi/h?=
+ =?us-ascii?Q?ERk95hh1BLexORil+FhOV57bHH74mc/bfcZ6ginwUfA998V1HSO+gkx6pOpb?=
+ =?us-ascii?Q?4Y1qsM4xxwjIE43Cj2zO3XCTJU9kxv9VYOYTiyKAwbYlpMwx79zzukMG8MGy?=
+ =?us-ascii?Q?4WY1bK+SweQbwbvnlptNCJW8L67qigEmRx00ZytLhm1HlxxaoQpK8tgqCXw9?=
+ =?us-ascii?Q?UubTe2V7SxpeHoYdYXe2XM9Gc9R8UEiDE2MpMlL/QzHOd7Ue2BQVJJDfQ3iF?=
+ =?us-ascii?Q?0WzklicVMpJFKHOrJbQ8TSUjPb/s+t/SWhVjg/fWfcmDyF0AzuwoBAZf4ON7?=
+ =?us-ascii?Q?O9oKslPoVyLCywPIqwtMo0CokKDWV1gopno+QfLPspqcahmLoG3ifcYn2ewn?=
+ =?us-ascii?Q?o7ZZ/V9FUGDUJHYZzAPC5iDT0Mwc63oiQZBFhzg4QE2fnElaJh3GCjyPThX6?=
+ =?us-ascii?Q?KWU0B6nbpBiJA6KumGUsj1HLvGh980aaCDjlCx85h97BU2O6EwODxdGWDJrs?=
+ =?us-ascii?Q?RrPbYSOK/CMF0gmjyln7yszZzqUGKTt+WX1wiRnoreclg7pds3p66bi02JEG?=
+ =?us-ascii?Q?XxrlsMtvEhVn4Zr9/k3qg4Ixdwdq1O4M21rTti/yuV0DxERHgKnJAW0TFGH+?=
+ =?us-ascii?Q?jPlzVg+zRsVr824k9gtfo94AFGErLWnVBvnYyYaZ06yaRRPfZR813mpfm1FC?=
+ =?us-ascii?Q?4a+WMObOgQ6QStYVEJD+gRbIHlqIY48lZ9ZZkMwkQtQaQLxFOxwPj8Fe9GPr?=
+ =?us-ascii?Q?FUy54llNQMp952mXhVBmmCzuss5gOnHgD4a8YXk4CiMn4MFMTMW2A0idRjWj?=
+ =?us-ascii?Q?V2EuGN+SgJ0uLui35rBs3i/z+F6JCk6wFLupfdK1rHDGAlCN2tgf2nffRihx?=
+ =?us-ascii?Q?yM39MFDpJB+jQdTzVKsd5yEUOVeUdPWEGf10ovGAJ6bCujPDSFWUnG5b/32X?=
+ =?us-ascii?Q?t+nq3leJ1WtknPIxUEbVk6hMdR/7cud+WXN7cfvimz/2AziZqiHJvWT+FKbm?=
+ =?us-ascii?Q?qnIMjK98B6UkqeY=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(7416014)(366016)(1800799024)(921020)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(7416014)(1800799024)(366016)(38350700014)(921020);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?bJzCIVDPQfY0Oz5EZsaxCtpZDj4Jv3mL9oG3l1wWoO4ORqOMFffwuOUuA3HI?=
- =?us-ascii?Q?yySmFMi/HpDt5fHVmApc843NTBVmm3iGTmF5I7C1pvfCZmBY4e0WHKgm6woQ?=
- =?us-ascii?Q?K15ZPR5aHNxrI34Kz2RJnG3HPa0PACxMuCdKXqLyaNmPkRQtNSQ7Uqus4iib?=
- =?us-ascii?Q?lhiUKZtQRxxsJ3p3+xciK5I+wHaFboYhhDZoUbPj6Gbjrh0Xcyzy+plBNi3E?=
- =?us-ascii?Q?7xyITXqXeic5Np+tVON/zaINJpg4T1mlV5iNkgfBWmpgjydBk71lRpuVHn8E?=
- =?us-ascii?Q?GZdDCiXINZqljRYN3JL27Nj8/ubsjQDOTsgbSWEgX5APjGZaXLL3D2H7BhTZ?=
- =?us-ascii?Q?+lemWT4hS9cAyNkXQy4GCfBfQN4JUtbu0b4RMGVudJGGQQoifSX/JipKuoui?=
- =?us-ascii?Q?37YPWZ1X/Xln30/6iQuyWMSwQ7SgK/8Pxk9EegkzHtmVsC11V6AqbcPTtJ/y?=
- =?us-ascii?Q?/PdNauvpAh/S7ciHy8U4hBcdY2puamhfxudVjZ9dmSSGl8o6dIdgnaExgCW1?=
- =?us-ascii?Q?DMIT7v6GUcYH0v/Vl8kRUoE3IOTvUioSQRpfK6YwAYfqKBZkB8YDaoggctBL?=
- =?us-ascii?Q?8B4d/HTclUcbjq9NQ0yf8UFOfH7G303rPqp0ZB68pbfRx/ytw5P6r71fSrM2?=
- =?us-ascii?Q?yFJ4l8tORQVU5nD2Atpbu5LT0GHZtGyZZmvyAGUxO0VMx8yvEK6a4xxA3UFc?=
- =?us-ascii?Q?HrEsQ08lPDgbWdWeUzvU5G4HlGxeHwSO7WYCydQERzKj91N//eVhs3SMIOho?=
- =?us-ascii?Q?SlOvV0IFJ9e/1zxq1yYwbDh6HivKk0/3HErmHqN09ljoALja1411bdOD0zV8?=
- =?us-ascii?Q?WhvLCIsO/fS7Touxf91Jt5EzI+tzmpuOz5x1p/XByNdQvsj2kbBFzH8LKVdP?=
- =?us-ascii?Q?B9S+E0cjb/boaLpE6inL12TiPxv0crBrqzNM3dzXAB32Ai8Xqlm4Jita0vZ8?=
- =?us-ascii?Q?CHT6tJ34PmzqCGQnYqZTiCa02DUr+kQkwBPKJLiNMUQ3wQpjjK4CKUmrRtxr?=
- =?us-ascii?Q?LdMvfuGQpp7l2vznLl3EHPASQM4+Io+DUmdYrEjj/NcruXy+dN8So5GlZ0TT?=
- =?us-ascii?Q?KMakFyDx5N7vSejo8sbvUchuPAIpMRKi9PVUF1tXFlTUuzbAxpvU24ow4Brr?=
- =?us-ascii?Q?j9YCjNkXZOWbtDa2KEqyFCu+NL6Zq/bBSa2SCm1f7b/TuIRgGQY7p5a3VFxs?=
- =?us-ascii?Q?1h5W6+bKfGrbM83+1VTKZAh+tGr8EQzvKgWZ1JHUfD+D2/MiPbPMYrRxBYmq?=
- =?us-ascii?Q?9QmRoegRmvA6fyIVsQJSMimWtCRv/j/rUwuvKS6aR0KKNglSZvwEvqYUuf2F?=
- =?us-ascii?Q?z2uvB/XV/j9iXu2Ei0Pv15wr7WpH0g6mRGIferhGF1Ev/YCo6Gyk4D7cHlQA?=
- =?us-ascii?Q?c49gien99pGp7b/VWuPAa+T4JT/AD2xzdUr995O40ixOzkx5WA8RZHMvgNVE?=
- =?us-ascii?Q?YyVJzfotkeInA9++NaWDs8vpqARb70R7AOXlJBywpr+suueaLZu89Tjpm33K?=
- =?us-ascii?Q?Tf1mzFy5dbMcGF9QZ0FBMsJZ19HzG7lM46/WeqY7RXmP0rZ6ui4Ryu5SV2BG?=
- =?us-ascii?Q?SziRZ2q2q5dvxkPLOmaNq/dyt0GmLocah1OUpBfy7QOttCCy0PsGWUB1MEbC?=
- =?us-ascii?Q?0jn3x1wab+RUpcys20f0gjw=3D?=
+	=?us-ascii?Q?tIdrwNuPt7Ifs9CL+0nJ3zvKkTQT3m/d/7jqYQR4TnoGDQ3sar5/JtgbsnnV?=
+ =?us-ascii?Q?k2UKS46kZFtKiwvQ+cQYzA/2dKrLgpHb6VCTqPM/+V1zhgprZLAUK0gs721a?=
+ =?us-ascii?Q?bBfH4wzGAUWZUUj1pEE1U7bH70cLJkYAbfnkhSOaVNBYmLGQnUa23SpYmmqP?=
+ =?us-ascii?Q?PeDuzfQBb9w/GtDVnBq3GO1/hkLLF3ZRpQA6xKfXzDb5Cn8EZkxVZfiaGKl9?=
+ =?us-ascii?Q?ieUE8rd5NeAAH0mxQ5L1EAJPQUEyFvsBBjiEn1+rUYUCVgtMep4r7cnpfQvd?=
+ =?us-ascii?Q?1SFxni4uPmx7/KnkT0Q8wQqlbKUDeSceXhizhOy0b5cFTvdzTy1b7pzbv3kf?=
+ =?us-ascii?Q?mIZ9wDVNkGqzeK+tXtIE9z2zL/gnU56v+E3A9F2hJNo1N5mzcnFgspU5+RQh?=
+ =?us-ascii?Q?hgShJ6Y+lzDb6A9prIaiMzDftUaFJ0Cwj/l09/DNwvXm3zsRchszGsgGyFlG?=
+ =?us-ascii?Q?F+NkjfGa4ENVo9CkS7OKMPLIqZ7prXHQoo6PyAbQS4DB2kWtQsYQ9dedoPpr?=
+ =?us-ascii?Q?EMF916xUf0pLmBLniVxk8z2sXxqF0ltgEIev7MBwBZbU5tYTG7IngBq2WFf3?=
+ =?us-ascii?Q?f+KTv3Dqrc8GII+NhsfPuFfDLFSTsuqWWYLk0tLPMYVRIkRZN4BNBVeCfui8?=
+ =?us-ascii?Q?6UdNl/EihM9DxV3NofacZvakkAJj9J2B7IOKbGgzYpyJQ5NMjXvb4JzI+YjA?=
+ =?us-ascii?Q?MHCiZfGxrT6U5wiuua597oX8bSPx05QS2brAq0G/93NdBQ+7UCgPOLXM67JE?=
+ =?us-ascii?Q?022OoxjiXtxPyyfXKayBpwh06QEvydrBmiyv6/8neYORHk9FU4pk9SwLiiaW?=
+ =?us-ascii?Q?nCwEqfsWDVWBId+N0M6j5rHOcb4B/L9SH45toyS7veuJ6gpZxSKE6BejvxDR?=
+ =?us-ascii?Q?7ZOhKd9hh6rDJiksazSO9T5DUk+xDq1+KrKR27U97HIQzzZG1QrQUWPMPx5t?=
+ =?us-ascii?Q?Vki31SsEu/50nIZ90DcGb6bC04+ukmuCW1V4Te8dhan49Ym/e9mGBPsQva/8?=
+ =?us-ascii?Q?/JjSQIz4zII93b16huzs4B6EIFgtJdfHKaiNCnkHhNavCcW5T6YoJQTT4ff+?=
+ =?us-ascii?Q?59w0MfjM3e9F4iQnV4kcY8MH+sj4Bv/Re+mEBodOzdv4ovckdmKKZhK4TBQn?=
+ =?us-ascii?Q?5hsRiyl63Fbz2BgyKFPpVKRwY9DgA2fjBpNYZD4N2wMKJuUeiSyKjhZIBV3k?=
+ =?us-ascii?Q?2olk0mZnb8ENmzDjFHeQW/wdIR845XtE/34yB69JwOZ09LGTMC1CQ8YizHqk?=
+ =?us-ascii?Q?3o4oa2yZsqtxWCQ65F2XGBn1NnNwmSAggRBqqz9M+FokyJv1EU1GRzKUBH5L?=
+ =?us-ascii?Q?xBgr2UiLGD3KC9LuzREbv83qBSmIaSnI3LB8UDFcLQglF1pTPuB6/CzEJTIJ?=
+ =?us-ascii?Q?bnwGZ86FJXWXQRv2tzAu5zlSl72gBdfM2y1Cf1jpfAs8iOUZ7gm+Kbi1qzjQ?=
+ =?us-ascii?Q?Ol6hoYXsJuIm/aWBpcHoerTGTspcS9dbiK44gCAu/BJqqcHG5i3aqAhdArH/?=
+ =?us-ascii?Q?RCZRPsHFnQEN1UG4HRC+Ipa2EdccVANLoucB0r8oUehmH4G+rMJRICqnFLaC?=
+ =?us-ascii?Q?3GCWKrHFLVm1g9sUTVSMgt2OOlWQS0zDKTNkb5ShP+DxuRGQ6dxuKzY9wOAd?=
+ =?us-ascii?Q?Q2T/P5H2ND+eoId4WeOF4Oo=3D?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f7c9dd07-0303-477e-e4c0-08ddf67c6fa2
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6addeaae-5b95-4955-7b3c-08ddf67c7e30
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2025 06:27:26.7320
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2025 06:27:51.1633
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jIasgUMTBQlNB1nHoHF/bPDiKXwbo9m8Lmqbcwk4B9KXI8wImyAtp0JLgX5VfLwzMwIewe0kKFQPViITp/RJRSyrL7IV/NTuUvJoCMXaZt0xKnMcvqsYe0mRkXcSSPMP
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCPR01MB16214
+X-MS-Exchange-CrossTenant-UserPrincipalName: h9wboAD0lQDpgqUI8/KYSPtbd8Y9puqR9KGrhUBn8XCUEe3lfjQX80jbfv+mt7mLeVg3nVVWc6VFy58+D9OwuBnzpCvJqG6AI7rXBA8ZTYUOrciA5NoiQaPmutg6ZoJU
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY4PR01MB15939
 
 From: Hai Pham <hai.pham.ud@renesas.com>
 
-Add initial DT support for R8A78000 (R-Car X5H) SoC.
+Add the initial support for Renesas X5H Ironhide board.
+
+Note: It is using "maxcpus" in bootargs to limit number of CPU, because
+SMP support is now under development. This limitation will be removed
+in the future.
 
 [Kuninori: tidyup for upstreaming]
 
 Signed-off-by: Hai Pham <hai.pham.ud@renesas.com>
 Signed-off-by: Vinh Nguyen <vinh.nguyen.xz@renesas.com>
-Signed-off-by: Minh Le <minh.le.aj@renesas.com>
-Signed-off-by: Huy Bui <huy.bui.wm@renesas.com>
+Signed-off-by: Takeshi Kihara <takeshi.kihara.df@renesas.com>
 Signed-off-by: Khanh Le <khanh.le.xr@renesas.com>
+Signed-off-by: Huy Bui <huy.bui.wm@renesas.com>
 Signed-off-by: Phong Hoang <phong.hoang.wz@renesas.com>
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- arch/arm64/boot/dts/renesas/r8a78000.dtsi | 787 ++++++++++++++++++++++
- 1 file changed, 787 insertions(+)
- create mode 100644 arch/arm64/boot/dts/renesas/r8a78000.dtsi
+ arch/arm64/boot/dts/renesas/Makefile          |  2 +
+ .../boot/dts/renesas/r8a78000-ironhide.dts    | 85 +++++++++++++++++++
+ 2 files changed, 87 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a78000-ironhide.dts
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a78000.dtsi b/arch/arm64/boot/dts/renesas/r8a78000.dtsi
+diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
+index ccdf7aaeca13e..dde046a3f25c8 100644
+--- a/arch/arm64/boot/dts/renesas/Makefile
++++ b/arch/arm64/boot/dts/renesas/Makefile
+@@ -136,6 +136,8 @@ dtb-$(CONFIG_ARCH_R8A77965) += r8a779m5-salvator-xs.dtb
+ r8a779m5-salvator-xs-panel-aa104xd12-dtbs := r8a779m5-salvator-xs.dtb salvator-panel-aa104xd12.dtbo
+ dtb-$(CONFIG_ARCH_R8A77965) += r8a779m5-salvator-xs-panel-aa104xd12.dtb
+ 
++dtb-$(CONFIG_ARCH_R8A78000) += r8a78000-ironhide.dtb
++
+ dtb-$(CONFIG_ARCH_R9A07G043) += r9a07g043u11-smarc.dtb
+ dtb-$(CONFIG_ARCH_R9A07G043) += r9a07g043u11-smarc-cru-csi-ov5645.dtbo
+ dtb-$(CONFIG_ARCH_R9A07G043) += r9a07g043u11-smarc-du-adv7513.dtbo
+diff --git a/arch/arm64/boot/dts/renesas/r8a78000-ironhide.dts b/arch/arm64/boot/dts/renesas/r8a78000-ironhide.dts
 new file mode 100644
-index 0000000000000..96d87d5b50859
+index 0000000000000..a721734fbd5d0
 --- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r8a78000.dtsi
-@@ -0,0 +1,787 @@
++++ b/arch/arm64/boot/dts/renesas/r8a78000-ironhide.dts
+@@ -0,0 +1,85 @@
 +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +/*
-+ * Device Tree Source for the R-Car X5H (R8A78000) SoC
++ * Device Tree Source for the Ironhide board
 + *
 + * Copyright (C) 2025 Renesas Electronics Corp.
 + */
 +
-+#include <dt-bindings/interrupt-controller/arm-gic.h>
++/dts-v1/;
++#include "r8a78000.dtsi"
 +
 +/ {
-+	compatible = "renesas,r8a78000";
-+	#address-cells = <2>;
-+	#size-cells = <2>;
-+	interrupt-parent = <&gic>;
-+
-+	cpus {
-+		#address-cells = <2>;
-+		#size-cells = <0>;
-+
-+		cpu-map {
-+			cluster0 {
-+				core0 {
-+					cpu = <&a720_0>;
-+				};
-+				core1 {
-+					cpu = <&a720_1>;
-+				};
-+				core2 {
-+					cpu = <&a720_2>;
-+				};
-+				core3 {
-+					cpu = <&a720_3>;
-+				};
-+			};
-+
-+			cluster1 {
-+				core0 {
-+					cpu = <&a720_4>;
-+				};
-+				core1 {
-+					cpu = <&a720_5>;
-+				};
-+				core2 {
-+					cpu = <&a720_6>;
-+				};
-+				core3 {
-+					cpu = <&a720_7>;
-+				};
-+			};
-+
-+			cluster2 {
-+				core0 {
-+					cpu = <&a720_8>;
-+				};
-+				core1 {
-+					cpu = <&a720_9>;
-+				};
-+				core2 {
-+					cpu = <&a720_10>;
-+				};
-+				core3 {
-+					cpu = <&a720_11>;
-+				};
-+			};
-+
-+			cluster3 {
-+				core0 {
-+					cpu = <&a720_12>;
-+				};
-+				core1 {
-+					cpu = <&a720_13>;
-+				};
-+				core2 {
-+					cpu = <&a720_14>;
-+				};
-+				core3 {
-+					cpu = <&a720_15>;
-+				};
-+			};
-+
-+			cluster4 {
-+				core0 {
-+					cpu = <&a720_16>;
-+				};
-+				core1 {
-+					cpu = <&a720_17>;
-+				};
-+				core2 {
-+					cpu = <&a720_18>;
-+				};
-+				core3 {
-+					cpu = <&a720_19>;
-+				};
-+			};
-+
-+			cluster5 {
-+				core0 {
-+					cpu = <&a720_20>;
-+				};
-+				core1 {
-+					cpu = <&a720_21>;
-+				};
-+				core2 {
-+					cpu = <&a720_22>;
-+				};
-+				core3 {
-+					cpu = <&a720_23>;
-+				};
-+			};
-+
-+			cluster6 {
-+				core0 {
-+					cpu = <&a720_24>;
-+				};
-+				core1 {
-+					cpu = <&a720_25>;
-+				};
-+				core2 {
-+					cpu = <&a720_26>;
-+				};
-+				core3 {
-+					cpu = <&a720_27>;
-+				};
-+			};
-+
-+			cluster7 {
-+				core0 {
-+					cpu = <&a720_28>;
-+				};
-+				core1 {
-+					cpu = <&a720_29>;
-+				};
-+				core2 {
-+					cpu = <&a720_30>;
-+				};
-+				core3 {
-+					cpu = <&a720_31>;
-+				};
-+			};
-+		};
-+
-+		a720_0: cpu@0 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x0>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_0>;
-+		};
-+
-+		a720_1: cpu@100 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x100>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_1>;
-+		};
-+
-+		a720_2: cpu@200 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x200>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_2>;
-+		};
-+
-+		a720_3: cpu@300 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x300>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_3>;
-+		};
-+
-+		a720_4: cpu@10000 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x10000>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_4>;
-+		};
-+
-+		a720_5: cpu@10100 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x10100>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_5>;
-+		};
-+
-+		a720_6: cpu@10200 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x10200>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_6>;
-+		};
-+
-+		a720_7: cpu@10300 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x10300>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_7>;
-+		};
-+
-+		a720_8: cpu@20000 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x20000>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_8>;
-+		};
-+
-+		a720_9: cpu@20100 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x20100>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_9>;
-+		};
-+
-+		a720_10: cpu@20200 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x20200>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_10>;
-+		};
-+
-+		a720_11: cpu@20300 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x20300>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_11>;
-+		};
-+
-+		a720_12: cpu@30000 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x30000>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_12>;
-+		};
-+
-+		a720_13: cpu@30100 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x30100>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_13>;
-+		};
-+
-+		a720_14: cpu@30200 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x30200>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_14>;
-+		};
-+
-+		a720_15: cpu@30300 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x30300>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_15>;
-+		};
-+
-+		a720_16: cpu@40000 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x40000>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_16>;
-+		};
-+
-+		a720_17: cpu@40100 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x40100>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_17>;
-+		};
-+
-+		a720_18: cpu@40200 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x40200>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_18>;
-+		};
-+
-+		a720_19: cpu@40300 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x40300>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_19>;
-+		};
-+
-+		a720_20: cpu@50000 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x50000>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_20>;
-+		};
-+
-+		a720_21: cpu@50100 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x50100>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_21>;
-+		};
-+
-+		a720_22: cpu@50200 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x50200>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_22>;
-+		};
-+
-+		a720_23: cpu@50300 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x50300>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_23>;
-+		};
-+
-+		a720_24: cpu@60000 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x60000>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_24>;
-+		};
-+
-+		a720_25: cpu@60100 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x60100>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_25>;
-+		};
-+
-+		a720_26: cpu@60200 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x60200>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_26>;
-+		};
-+
-+		a720_27: cpu@60300 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x60300>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_27>;
-+		};
-+
-+		a720_28: cpu@70000 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x70000>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_28>;
-+		};
-+
-+		a720_29: cpu@70100 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x70100>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_29>;
-+		};
-+
-+		a720_30: cpu@70200 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x70200>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_30>;
-+		};
-+
-+		a720_31: cpu@70300 {
-+			compatible = "arm,cortex-a720ae";
-+			reg = <0x0 0x70300>;
-+			device_type = "cpu";
-+			next-level-cache = <&L2_CA720_31>;
-+		};
-+
-+		L2_CA720_0: cache-controller-200 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_0>;
-+		};
-+
-+		L2_CA720_1: cache-controller-201 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_0>;
-+		};
-+
-+		L2_CA720_2: cache-controller-202 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_0>;
-+		};
-+
-+		L2_CA720_3: cache-controller-203 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_0>;
-+		};
-+
-+		L2_CA720_4: cache-controller-204 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_1>;
-+		};
-+
-+		L2_CA720_5: cache-controller-205 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_1>;
-+		};
-+
-+		L2_CA720_6: cache-controller-206 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_1>;
-+		};
-+
-+		L2_CA720_7: cache-controller-207 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_1>;
-+		};
-+
-+		L2_CA720_8: cache-controller-208 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_2>;
-+		};
-+
-+		L2_CA720_9: cache-controller-209 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_2>;
-+		};
-+
-+		L2_CA720_10: cache-controller-210 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_2>;
-+		};
-+
-+		L2_CA720_11: cache-controller-211 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_2>;
-+		};
-+
-+		L2_CA720_12: cache-controller-212 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_3>;
-+		};
-+
-+		L2_CA720_13: cache-controller-213 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_3>;
-+		};
-+
-+		L2_CA720_14: cache-controller-214 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_3>;
-+		};
-+
-+		L2_CA720_15: cache-controller-215 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_3>;
-+		};
-+
-+		L2_CA720_16: cache-controller-216 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_4>;
-+		};
-+
-+		L2_CA720_17: cache-controller-217 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_4>;
-+		};
-+
-+		L2_CA720_18: cache-controller-218 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_4>;
-+		};
-+
-+		L2_CA720_19: cache-controller-219 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_4>;
-+		};
-+
-+		L2_CA720_20: cache-controller-220 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_5>;
-+		};
-+
-+		L2_CA720_21: cache-controller-221 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_5>;
-+		};
-+
-+		L2_CA720_22: cache-controller-222 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_5>;
-+		};
-+
-+		L2_CA720_23: cache-controller-223 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_5>;
-+		};
-+
-+		L2_CA720_24: cache-controller-224 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_6>;
-+		};
-+
-+		L2_CA720_25: cache-controller-225 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_6>;
-+		};
-+
-+		L2_CA720_26: cache-controller-226 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_6>;
-+		};
-+
-+		L2_CA720_27: cache-controller-227 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_6>;
-+		};
-+
-+		L2_CA720_28: cache-controller-228 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_7>;
-+		};
-+
-+		L2_CA720_29: cache-controller-229 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_7>;
-+		};
-+
-+		L2_CA720_30: cache-controller-230 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_7>;
-+		};
-+
-+		L2_CA720_31: cache-controller-231 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <2>;
-+			next-level-cache = <&L3_CA720_7>;
-+		};
-+
-+		L3_CA720_0: cache-controller-30 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <3>;
-+		};
-+
-+		L3_CA720_1: cache-controller-31 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <3>;
-+		};
-+
-+		L3_CA720_2: cache-controller-32 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <3>;
-+		};
-+
-+		L3_CA720_3: cache-controller-33 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <3>;
-+		};
-+
-+		L3_CA720_4: cache-controller-34 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <3>;
-+		};
-+
-+		L3_CA720_5: cache-controller-35 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <3>;
-+		};
-+
-+		L3_CA720_6: cache-controller-36 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <3>;
-+		};
-+
-+		L3_CA720_7: cache-controller-37 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-level = <3>;
-+		};
++	model = "Renesas Ironhide board based on r8a78000";
++	compatible = "renesas,ironhide", "renesas,r8a78000";
++
++	aliases {
++		serial0 = &hscif0;
 +	};
 +
-+	extal_clk: extal-clk {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		/* clock-frequency must be set on board */
++	chosen {
++		stdout-path = "serial0:1843200n8";
 +	};
 +
-+	extalr_clk: extalr-clk {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		/* clock-frequency must be set on board */
++	memory@60600000 {
++		device_type = "memory";
++		/* first 518MiB is reserved for other purposes. */
++		reg = <0x0 0x60600000 0x0 0x5fa00000>;
 +	};
 +
-+	/*
-+	 * In the early phase, there is no clock control support,
-+	 * so assume that the clocks are enabled by default.
-+	 * Therefore, dummy clocks are used.
-+	 */
-+	dummy_clk_sgasyncd4: dummy-clk-sgasyncd4 {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <266660000>;
++	memory@1080000000 {
++		device_type = "memory";
++		reg = <0x10 0x80000000 0x0 0x80000000>;
 +	};
 +
-+	dummy_clk_sgasyncd16: dummy-clk-sgasyncd16 {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <66666000>;
++	memory@1200000000 {
++		device_type = "memory";
++		reg = <0x12 0x00000000 0x1 0x00000000>;
 +	};
 +
-+	/* External SCIF clock - to be overridden by boards that provide it */
-+	scif_clk: scif-clk {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <0>; /* optional */
++	memory@1400000000 {
++		device_type = "memory";
++		reg = <0x14 0x00000000 0x1 0x00000000>;
 +	};
 +
-+	soc: soc {
-+		compatible = "simple-bus";
-+		#address-cells = <2>;
-+		#size-cells = <2>;
-+		ranges;
-+
-+		prr: chipid@189e0044 {
-+			compatible = "renesas,prr";
-+			reg = <0 0x189e0044 0 4>;
-+		};
-+
-+		/*
-+		 * The ARM GIC-720AE - View 1
-+		 *
-+		 * see
-+		 *	r19uh0244ej0052-r-carx5h.pdf
-+		 *	- attachments: 002_R-CarX5H_Address_Map_r0p51.xlsx
-+		 *	 - sheet [RT]
-+		 *	  - line 619
-+		 */
-+		gic: interrupt-controller@39000000 {
-+			compatible = "arm,gic-v3";
-+			#interrupt-cells = <3>;
-+			#address-cells = <0>;
-+			interrupt-controller;
-+			reg = <0 0x39000000 0 0x20000>,
-+			      <0 0x39080000 0 0x800000>;
-+			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_HIGH>;
-+		};
-+
-+		scif0: serial@c0700000 {
-+			compatible = "renesas,scif-r8a78000", "renesas,rcar-gen5-scif", "renesas,scif";
-+			reg = <0 0xc0700000 0 0x40>;
-+			interrupts = <GIC_SPI 4074 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&dummy_clk_sgasyncd16>, <&dummy_clk_sgasyncd16>, <&scif_clk>;
-+			clock-names = "fck", "brg_int", "scif_clk";
-+			status = "disabled";
-+		};
-+
-+		scif1: serial@c0704000 {
-+			compatible = "renesas,scif-r8a78000", "renesas,rcar-gen5-scif", "renesas,scif";
-+			reg = <0 0xc0704000 0 0x40>;
-+			interrupts = <GIC_SPI 4075 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&dummy_clk_sgasyncd16>, <&dummy_clk_sgasyncd16>, <&scif_clk>;
-+			clock-names = "fck", "brg_int", "scif_clk";
-+			status = "disabled";
-+		};
-+
-+		scif3: serial@c0708000 {
-+			compatible = "renesas,scif-r8a78000", "renesas,rcar-gen5-scif", "renesas,scif";
-+			reg = <0 0xc0708000 0 0x40>;
-+			interrupts = <GIC_SPI 4076 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&dummy_clk_sgasyncd16>, <&dummy_clk_sgasyncd16>, <&scif_clk>;
-+			clock-names = "fck", "brg_int", "scif_clk";
-+			status = "disabled";
-+		};
-+
-+		scif4: serial@c070c000 {
-+			compatible = "renesas,scif-r8a78000", "renesas,rcar-gen5-scif", "renesas,scif";
-+			reg = <0 0xc070c000 0 0x40>;
-+			interrupts = <GIC_SPI 4077 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&dummy_clk_sgasyncd16>, <&dummy_clk_sgasyncd16>, <&scif_clk>;
-+			clock-names = "fck", "brg_int", "scif_clk";
-+			status = "disabled";
-+		};
-+
-+		hscif0: serial@c0710000 {
-+			compatible = "renesas,hscif-r8a78000", "renesas,rcar-gen5-hscif", "renesas,hscif";
-+			reg = <0 0xc0710000 0 0x60>;
-+			interrupts = <GIC_SPI 4078 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&dummy_clk_sgasyncd4>, <&dummy_clk_sgasyncd4>, <&scif_clk>;
-+			clock-names = "fck", "brg_int", "scif_clk";
-+			status = "disabled";
-+		};
-+
-+		hscif1: serial@c0714000 {
-+			compatible = "renesas,hscif-r8a78000", "renesas,rcar-gen5-hscif", "renesas,hscif";
-+			reg = <0 0xc0714000 0 0x60>;
-+			interrupts = <GIC_SPI 4079 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&dummy_clk_sgasyncd4>, <&dummy_clk_sgasyncd4>, <&scif_clk>;
-+			clock-names = "fck", "brg_int", "scif_clk";
-+			status = "disabled";
-+		};
-+
-+		hscif2: serial@c0718000 {
-+			compatible = "renesas,hscif-r8a78000", "renesas,rcar-gen5-hscif", "renesas,hscif";
-+			reg = <0 0xc0718000 0 0x60>;
-+			interrupts = <GIC_SPI 4080 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&dummy_clk_sgasyncd4>, <&dummy_clk_sgasyncd4>, <&scif_clk>;
-+			clock-names = "fck", "brg_int", "scif_clk";
-+			status = "disabled";
-+		};
-+
-+		hscif3: serial@c071c000 {
-+			compatible = "renesas,hscif-r8a78000", "renesas,rcar-gen5-hscif", "renesas,hscif";
-+			reg = <0 0xc071c000 0 0x60>;
-+			interrupts = <GIC_SPI 4081 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&dummy_clk_sgasyncd4>, <&dummy_clk_sgasyncd4>, <&scif_clk>;
-+			clock-names = "fck", "brg_int", "scif_clk";
-+			status = "disabled";
-+		};
++	memory@1600000000 {
++		device_type = "memory";
++		reg = <0x16 0x00000000 0x1 0x00000000>;
 +	};
 +
-+	timer {
-+		compatible = "arm,armv8-timer";
-+		interrupts = <GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 14 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 11 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 10 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 12 IRQ_TYPE_LEVEL_LOW>;
-+		interrupt-names = "sec-phys", "phys", "virt", "hyp-phys", "hyp-virt";
++	memory@1800000000 {
++		device_type = "memory";
++		reg = <0x18 0x00000000 0x1 0x00000000>;
 +	};
++
++	memory@1a00000000 {
++		device_type = "memory";
++		reg = <0x1a 0x00000000 0x1 0x00000000>;
++	};
++
++	memory@1c00000000 {
++		device_type = "memory";
++		reg = <0x1c 0x00000000 0x1 0x00000000>;
++	};
++
++	memory@1e00000000 {
++		device_type = "memory";
++		reg = <0x1e 0x00000000 0x1 0x00000000>;
++	};
++};
++
++&extal_clk {
++	clock-frequency = <16666600>;
++};
++
++&extalr_clk {
++	clock-frequency = <32768>;
++};
++
++&hscif0 {
++	uart-has-rtscts;
++	status = "okay";
++};
++
++&scif_clk {
++	clock-frequency = <26000000>;
 +};
 -- 
 2.43.0
