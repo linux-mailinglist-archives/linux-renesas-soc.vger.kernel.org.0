@@ -1,123 +1,115 @@
-Return-Path: <linux-renesas-soc+bounces-22052-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22053-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E55B8757F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 01:16:54 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BD2BB87ED7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 07:42:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BEAC35241D4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Sep 2025 23:16:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA8187E04C2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 05:42:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAA60221287;
-	Thu, 18 Sep 2025 23:16:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AE5E1F462C;
+	Fri, 19 Sep 2025 05:42:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="iFz3ieaZ"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="dfnG49GD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11BE04A2D;
-	Thu, 18 Sep 2025 23:16:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0087255F27
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Sep 2025 05:42:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758237410; cv=none; b=ngj1sPbzUfVgxoy+mu5pqQHsvktVzpU0baWMcW1yUp5ZYya0vtsYaHeL8q7Nqn6v66RtkpF3FpCaXADej0jgPgmVwybcq0iOpNBLmgHmixzHQZIOpOD4CiO1fHDBshTmzOValBRLtCJHArObTHR+NqBp75hUJVUcKMTR2vgBP6Y=
+	t=1758260525; cv=none; b=cv78BlvDKzhKnV9dNQoQ0hCA8sQAujrbbECLF1S8unmONCxKaxMJksQQ+4BEJ4BnTYGBmdMTrmleKYGyM4w2/JHOoyXjohX8fjy2u080H5Ryy0CHvN3VQNtOxf6PZ0gUUcYYjmGX4zDT7AlJbqzLIPov4u6IW+Gl6MUatSfz8wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758237410; c=relaxed/simple;
-	bh=uLe3Rs76NuC3iXyCx+i0ugiqXnSkTMOx8ZjqX3d1DYM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZdjWUVawcCHjVmCerq8niayigNDaGL9LoQSvGnpf7t9wdi/FOF3NXDOp7sAroRF9rCblafrQWSrI14WkW4oAcTPO4qyWt13fioBE7jxrT7N0i/ssi+SrppnLKI+NaHBvghWEg+p2RNmS93S4tYXa7eupVEFT6yKDBvkryMmY5AI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=iFz3ieaZ; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cSWjf6qD8z9sss;
-	Fri, 19 Sep 2025 01:16:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1758237399;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AWpAqgCZ+Kq1EB4cSge6b9M96CwK6u9PPFoE3ETCiRI=;
-	b=iFz3ieaZ6lgdPd4WmncLZbbrMxReE9O39AOS9Y81ZD2w4AQE0ecl24zru2u4eTCB1SiDHi
-	OrBtr6sY8oqL1qJ5Dz8iF7UDbKr0ySC4Mgb+M8uUc2Lb6kLPYLZrxm/1jVZE17+Gjs2tau
-	f+/j7VTG8+v0huPg/oQybpmss64z9KJgs+fh+i38y8WOizOJ5/4Rk7BpZvepwmRRNLUwAE
-	B47c6xpaYBQ4iEpAc3F734DW+5Y0EMDwkexq3o/x2SL84+4F1/EX7mzScWDcwgy3CTWBQB
-	al4xx+8pfzrfh7TRtwktCjrlT2z75aXSJI8vQaG+XDaFsziFY9wp0tJXrnU5kw==
-Message-ID: <9dbc6022-eb97-49af-bda7-1a7a8069609a@mailbox.org>
-Date: Fri, 19 Sep 2025 01:16:37 +0200
+	s=arc-20240116; t=1758260525; c=relaxed/simple;
+	bh=4q4/rw5mnD3aV6CATtWOIIeUTbmfcdY4ZrTuAkDyrvQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aES3o05Z9AaBeyeAb98HP/Of7inCxwbyv6lBBvQrUbggK+v7OfNxMBnjCs4zc3o+1xwcBtPmzSSuNYb31C5J8Gj02FE52qjagrGLbP4ozy/ECX4l4Pws7Kv+FzYyLKRgZEk1gVbtNTANWsWk67uvtzoJqLbX85HMeSiOSE/cXmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=dfnG49GD; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=4q4/
+	rw5mnD3aV6CATtWOIIeUTbmfcdY4ZrTuAkDyrvQ=; b=dfnG49GDha8fXT56thxG
+	XT9hTOWvzhhtDVXTQaTEElgu+xxb7CvyzHzWrTOMcp70IxkaYpOQM0Kya1+sr4BV
+	29aJn76ePhww7F5y4DuTxut1uZ9HMR8KjAQM/asoay8F+jUEossNINNzc6+uYhFt
+	EdZShvQgd8QpfhnxATVhItcQeC2ybTVyLUpRZnsI5yyrxFkncIdy4iQ6U2pm5sT5
+	S+/U0hoP5bE5f/VnsWRH4JwZq3FS/3245jK0A1QmojcR5a5/e4J/UES0jN7NWJkq
+	n+BVaxt3CLe/aLjYbMcUHghx0CM3vyqiOzOQRjeT36A0EZ7nVolAIa/tZ81/S2bf
+	Kg==
+Received: (qmail 3787594 invoked from network); 19 Sep 2025 07:41:49 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Sep 2025 07:41:49 +0200
+X-UD-Smtp-Session: l3s3148p1@yJAV7SA//tgujnsa
+Date: Fri, 19 Sep 2025 07:41:47 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>,
+	Hoan Tran <hoan@os.amperecomputing.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Saravana Kannan <saravanak@google.com>,
+	Serge Semin <fancer.lancer@gmail.com>,
+	Phil Edworthy <phil.edworthy@renesas.com>,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Pascal Eberhard <pascal.eberhard@se.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v3 0/8] gpio: renesas: Add support for GPIO and related
+ interrupts in RZ/N1 SoC
+Message-ID: <aMztGzYMHEPL1GVt@ninjato>
+References: <20250918104009.94754-1-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] clk: renesas: cpg-mssr: Read back reset registers to
- assure values latched
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: linux-clk@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, linux-renesas-soc@vger.kernel.org
-References: <20250918030723.331634-1-marek.vasut+renesas@mailbox.org>
- <CA+V-a8sjPx8U+MB3v-SxErRPqbz4irAgZhCvd5CHY=6uO_VoyQ@mail.gmail.com>
- <353db156-e518-49c8-96ac-bd138ee64a01@mailbox.org>
- <CA+V-a8sLxBq8vSuq2HxcchpLqyQxqTRtkWjUKsRN9tBqGhU7mw@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <CA+V-a8sLxBq8vSuq2HxcchpLqyQxqTRtkWjUKsRN9tBqGhU7mw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: 5ubejjp1t796cok6d6cj5kb96qbkbycs
-X-MBO-RS-ID: 4cd4385661fd9ec09cf
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="+NCAvgYw1zCajOLr"
+Content-Disposition: inline
+In-Reply-To: <20250918104009.94754-1-herve.codina@bootlin.com>
 
-On 9/18/25 5:05 PM, Lad, Prabhakar wrote:
 
-Hello Prabhakar,
+--+NCAvgYw1zCajOLr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
->>>> diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/renesas/renesas-cpg-mssr.c
->>>> index 65dfaceea71f..7b52e8235984 100644
->>>> --- a/drivers/clk/renesas/renesas-cpg-mssr.c
->>>> +++ b/drivers/clk/renesas/renesas-cpg-mssr.c
->>>> @@ -688,6 +688,7 @@ static int cpg_mssr_reset(struct reset_controller_dev *rcdev,
->>>>
->>>>           /* Reset module */
->>>>           writel(bitmask, priv->pub.base0 + priv->reset_regs[reg]);
->>>> +       readl(priv->pub.base0 + priv->reset_regs[reg]);
->>> Fyi on the RZ/T2H and RZ/N2H SoCs which uses the same driver we need
->>> to read the reset register `7` times and confirm [0] (as mentioned in
->>> the HW manual). So after reading do we want to confirm the bit is
->>> set/clear?
->> This is interesting, I wonder if the readback is something more common
->> to this reset controller.
->>
->> Why 7 times ? Is this documented in one of the HW manuals ? Are those
->> public and can you share a link to them , with the specific chapter or
->> page I should read about this 7 times read requirement ?
->>
-> Yes this is documented in the HW manual [0] section 6.5.1 Notes on
-> Module Reset Control Register Operation:
-> 
-> 1. To secure processing after release from a module reset, dummy read
-> the same register at least seven times except RTC
-> and LCDC after writing to initiate release from the module reset, and
-> only then proceed with the subsequent processing.
-> For RTC, dummy read the same register at least 300 times and for LCDC,
-> at least 100 times.
-> 
-> 2. When module is reset once and released again, make sure that the
-> target bit of module reset control register is set to 1 by
-> reading the register before releasing from a module reset. Then
-> release from a module reset
 
-Thank you for sharing this, but it seems this is not the case for R-Car 
-Gen4. I found out that V4H and V4M has additional "synchronized" and 
-"asynchronized" reset types according to SRCRn_FSRCHRKRAn attachment to 
-the V4H RM. The PCIe resets are "asynchronized". This extra readl() 
-added in this patch is turning all the resets into "synchronized" and 
-therefore makes them behave as expected.
+> This series adds support for GPIO and GPIO IRQ mux available in the
+> RZ/N1 SoCs.
+
+I want to test this series today. From a glimpse, I might have some
+comments, so please wait a little before resending.
+
+
+--+NCAvgYw1zCajOLr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjM7RcACgkQFA3kzBSg
+KbZqVQ//Z+JQrYUTEYKiVUYjRP3/e3VPEoOzJNLrPBAT0k4udThHiHECeEV72V/j
+jQEv/o2rOTQ8/tR9cN4F8ZbBhbA3LmnLDj3msnHZK4t54ZmrG4DFM0shZYNx8F5y
+iHjBIa/YRoC0Fp0udz9PI2yzDgteKNUJ0WiDqEa5R73OHR54Go6VFTunIe3bujMC
+CU5uKDs14GFxU3K43GKJEaqxf+oF2Xc9M0mslmGsCDCuGRkA4gIM04WwUSEqvmHr
+sXj+v0W6rnhNqtmyHu2ndvr8FTjzSF1hL0AUvwfa6y4hL3knb5XQTuTr5774ZdT/
+7wH7m++QJh5YtolMlWvEiGim5+zyBziRyeJxyIm2c164piYWavyfJvJb/vn3KIHM
+IxMuKo1VOt/oL6C5dSrSnlvGAHedRf9sU0Nkja/reAcUcBF/l7RChTUnzEqg0DEf
+OiXFHpUZrFjXRli040DhILDe3UAszFf4DavvOwzkngYl2YGoFchLano7ws5yxBMC
+oa7HL/51xlW7DGgwGm7SHQ5Rx93z/ZJyY8/uB3+RA1nyVBl4C8qYq5CVOiWQrnna
+sWvVwbNly46K613UZdCCw4nlJWQvPR4oxdXIUZZCWRCdDVeF11nzEHbBgzIOGAux
+jHLh1HMewT/wxlue9Nr6dtQJYKa9QMKdD/MhIQzC8+oqgqEFD8A=
+=I+cJ
+-----END PGP SIGNATURE-----
+
+--+NCAvgYw1zCajOLr--
 
