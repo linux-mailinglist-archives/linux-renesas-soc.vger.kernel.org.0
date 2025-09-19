@@ -1,173 +1,162 @@
-Return-Path: <linux-renesas-soc+bounces-22060-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22061-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4904B88689
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 10:26:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADF10B886EF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 10:33:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 853131C85F1C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 08:26:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 740B2584BA0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 08:33:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75D832F531B;
-	Fri, 19 Sep 2025 08:26:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 436E72F360B;
+	Fri, 19 Sep 2025 08:33:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jc1G9Gh9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fgvr5Tsw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438342C0266;
-	Fri, 19 Sep 2025 08:26:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 121732C17B6;
+	Fri, 19 Sep 2025 08:33:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758270363; cv=none; b=n9EiiVDb6U33JqyL9j8ZOH+rxnWN7GXhAzNO+f4WbASpXSeIefxJOUJB4ZpknOmM/O13Cs4D1ObSOTB/cDLW1bT8/do/pCBorKmfr3XYqNTzPU8sqkmWR/09EmRkCM013cDLzzgmHBfMqO0w9P7PdIbcdHqdAaAYQ5u1PPJK8MY=
+	t=1758270818; cv=none; b=Fsx+8sc1fEB7jzlgu+FUsdQ/H/1UAwPtK6TXfS1JwZMZr5D4MwpmEEsQlDNJ1W5UiAAbrBiT1+3yqnbSuaKCDmJZNJxTzXYaRcPqmNEltK5SMxtIq+CrsWPxTdo2KdSO5m14HRuNc2yVSSHAGoEa9xTzU8p4OAmn7D7tqGNZedU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758270363; c=relaxed/simple;
-	bh=94XJgyA9heUKGaNQHHvoXRU6/+9lv/JiUASGkCrs2sA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ha55g/yffvKboLLFc/9TsHsjulT4dWKGqvlUb3k/aQxk8BmaqJ4G+3fjkl2HHbRTvW3TQ4runzLVcD8ruarJaXm9x3rrO526AbmxiUYrLaR2fwGs37vmXAF2oRVk9c0jut9ftdsTrE4PLOsR+B0CflWkyEulNsBb8XM1DRq4cMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jc1G9Gh9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8886BC4CEF0;
-	Fri, 19 Sep 2025 08:25:57 +0000 (UTC)
+	s=arc-20240116; t=1758270818; c=relaxed/simple;
+	bh=A0OWMtvps1Wg81cMmbvIwQ/jjMHTw/+5L7NX69xhXOA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=a0tL2hmJJry2FcIW5Dr9tnL/XcuXC/mDhf/QeVn83NhOIikwkhkBcEFJxIh/sVtwTDnscubkH6NrdlPXcoSlbo4bzxmyZeJUrsOLelIX59l5t2CaF8r9pzbCTWoFvmkwL15/hYJDlgWKhutv/+W2TuKZzJ0szvTZzApZ2KvOe9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fgvr5Tsw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FBF8C4CEF0;
+	Fri, 19 Sep 2025 08:33:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758270362;
-	bh=94XJgyA9heUKGaNQHHvoXRU6/+9lv/JiUASGkCrs2sA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jc1G9Gh9G9MUDfv02eB8f66vHm/pTD3oBEghnT8jfZnaSBfuYevs9E1aFWZSQIgz4
-	 Oei6unoME5dYatMYUzkhwTYB91ailhf/tFZw+YwTUbGsd/TkO8y0YdHvS1n/oMxHi7
-	 15fiMqI4Ix0oxHgqjkywhSBLV0BOqvGNvpMPIN+whapbnJBtmFX8lbdm4tfSj6L11a
-	 KlKrpc0yl4Nh2/YJDxb+H5RyCAV3aTZWK7IURNwW7XOXHw3j+EWNgVnPHUMdKrlzdo
-	 G0DDBXLcPKPUZxZmSWqafP0T3SoTaDnR2SH62qsLrpalJMvAwOkc5p1oKeB4WNcKfO
-	 c7Q5E43MopcMw==
-Date: Fri, 19 Sep 2025 13:55:53 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, bhelgaas@google.com, 
-	lpieralisi@kernel.org, kwilczynski@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, magnus.damm@gmail.com, p.zabel@pengutronix.de, 
-	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH v4 4/6] arm64: dts: renesas: rzg3s-smarc-som: Update
- dma-ranges for PCIe
-Message-ID: <lunqwki2orbf5gjyo4a5kz6ko3rs5w6fspbantqcv7b2vxe5ku@734remr6z4lp>
-References: <20250912122444.3870284-1-claudiu.beznea.uj@bp.renesas.com>
- <20250912122444.3870284-5-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdWP638eB_p9xMAqZmOnuc6n7=n31h6AqV+287uvqQEdww@mail.gmail.com>
- <c2fc5f6b-0e7c-464e-89a6-35dc76177d18@tuxon.dev>
- <CAMuHMdWeHoUe-=7TDetnDQbLQsKGf4pDGpSdz3xEVLs_Rst9qQ@mail.gmail.com>
- <0a20c765-ff72-4c03-af84-dff3f4850fa4@tuxon.dev>
+	s=k20201202; t=1758270817;
+	bh=A0OWMtvps1Wg81cMmbvIwQ/jjMHTw/+5L7NX69xhXOA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=fgvr5Tsw8zrd1WdlGfdJXPxPaxz6hGIy23jAI0/LiOBdfXV+y332cCVDaA517TNDF
+	 ckFfXGne6LMAX+HeJENEo7QBgKiNxh9XOhzjbPjchnFB372o2qS7Hpr4WRViR2v5ib
+	 nbLzFLfuI3dJ+eMyGuTDpOq80f2btKmjpY09JzQQDaSXDWQIGVuypRf2OunlAZ0POX
+	 11zEwhyN/V9xYINHU84nN2gNPFHxC7OdwwSP5XKcF7ceMYVgskhbw0JXuYAWaj6r57
+	 zL5JNaczkthArdSdBwXjDJJBIthgPv1h3uwSsfImBtceXO0WZGzLbJlUrYRAiShvS/
+	 a2qe3xLxstq5g==
+Received: from 82-132-235-207.dab.02.net ([82.132.235.207] helo=lobster-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1uzWYf-00000007i2F-3pDh;
+	Fri, 19 Sep 2025 08:33:34 +0000
+Date: Fri, 19 Sep 2025 09:33:29 +0100
+Message-ID: <877bxuzvs6.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	"Liang, Kan" <kan.liang@linux.intel.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Ian Rogers <irogers@google.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	James Clark <james.clark@linaro.org>,
+	Jiri Olsa <jolsa@kernel.org>,
+	John Garry <john.g.garry@oracle.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Leo Yan <leo.yan@linux.dev>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mike Leach <mike.leach@linaro.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Rob Herring <robh@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v5 6/7] arm64: dts: renesas: Add R8A78000 X5H DTs
+In-Reply-To: <CAMuHMdVezqWxbFp9dd0WPJnNM+MvmQ9F0UA2Ru_BSV6-6VgOyA@mail.gmail.com>
+References: <87ms6snut0.wl-kuninori.morimoto.gx@renesas.com>
+	<87ecs4nult.wl-kuninori.morimoto.gx@renesas.com>
+	<86ikhg13m1.wl-maz@kernel.org>
+	<CAMuHMdVezqWxbFp9dd0WPJnNM+MvmQ9F0UA2Ru_BSV6-6VgOyA@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0a20c765-ff72-4c03-af84-dff3f4850fa4@tuxon.dev>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 82.132.235.207
+X-SA-Exim-Rcpt-To: geert@linux-m68k.org, kuninori.morimoto.gx@renesas.com, kan.liang@linux.intel.com, adrian.hunter@intel.com, alexander.shishkin@linux.intel.com, acme@kernel.org, catalin.marinas@arm.com, conor+dt@kernel.org, dianders@chromium.org, geert+renesas@glider.be, irogers@google.com, mingo@redhat.com, james.clark@linaro.org, jolsa@kernel.org, john.g.garry@oracle.com, krzk+dt@kernel.org, leo.yan@linux.dev, lpieralisi@kernel.org, mark.rutland@arm.com, mike.leach@linaro.org, namhyung@kernel.org, oliver.upton@linux.dev, peterz@infradead.org, robh@kernel.org, will@kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Fri, Sep 19, 2025 at 10:38:52AM +0300, Claudiu Beznea wrote:
-> Hi, Geert,
-> 
-> On 9/18/25 13:00, Geert Uytterhoeven wrote:
-> > Hi Claudiu,
-> > 
-> > On Thu, 18 Sept 2025 at 11:47, Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
-> >> On 9/18/25 12:09, Geert Uytterhoeven wrote:
-> >>> On Fri, 12 Sept 2025 at 14:24, Claudiu <claudiu.beznea@tuxon.dev> wrote:
-> >>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>>>
-> >>>> The first 128MB of memory is reserved on this board for secure area.
-> >>>> Secure area is a RAM region used by firmware. The rzg3s-smarc-som.dtsi
-> >>>> memory node (memory@48000000) excludes the secure area.
-> >>>> Update the PCIe dma-ranges property to reflect this.
-> >>>>
-> >>>> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> >>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>>
-> >>> Thanks for your patch!
-> >>>
-> >>>> --- a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-> >>>> +++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-> >>>> @@ -214,6 +214,16 @@ &sdhi2 {
-> >>>>  };
-> >>>>  #endif
-> >>>>
-> >>>> +&pcie {
-> >>>> +       /* First 128MB is reserved for secure area. */
-> >>>
-> >>> Do you really have to take that into account here?  I believe that
-> >>> 128 MiB region will never be used anyway, as it is excluded from the
-> >>> memory map (see memory@48000000).
-> >>>
-> >>>> +       dma-ranges = <0x42000000 0 0x48000000 0 0x48000000 0x0 0x38000000>;
-> >>>
-> >>> Hence shouldn't you add
-> >>>
-> >>>     dma-ranges = <0x42000000 0 0x48000000 0 0x48000000 0x0 0x38000000>;
-> > 
-> > Oops, I really meant (forgot to edit after copying it):
-> > 
-> >     dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0x0 0x40000000>;
-> > 
-> >>>
-> >>> to the pcie node in arch/arm64/boot/dts/renesas/r9a08g045s33.dtsi
-> >>> instead, like is done for all other Renesas SoCs that have PCIe?
-> >>
-> >> I chose to add it here as the rzg3s-smarc-som.dtsi is the one that defines
-> >> the available memory for board, as the available memory is something board
-> >> dependent.
-> > 
-> > But IMHO it is independent from the amount of memory on the board.
-> > On other SoCs, it has a comment:
-> > 
-> >      /* Map all possible DDR as inbound ranges */
-> > 
-> >>
-> >> If you consider it is better to have it in the SoC file, please let me know.
-> > 
-> > Hence yes please.
-> > 
-> > However, I missed you already have:
-> > 
-> >     /* Map all possible DRAM ranges (4 GB). */
-> >     dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0x1 0x0>;
-> > 
-> > in r9a08g045.dtsi, so life's good.
-> > 
-> > +
-> >>>> +};
-> >>>> +
-> >>>> +&pcie_port0 {
-> >>>> +       clocks = <&versa3 5>;
-> >>>> +       clock-names = "ref";
-> >>>> +};
-> >>>
-> >>> This is not related.
-> >>
-> >> Ah, right! Could you please let me know if you prefer to have another patch
-> >> or to update the patch description?
-> > 
-> > Given the dma-ranges changes is IMHO not needed,
-> 
-> I kept it here as the driver configures the PCIe registers for the inbound
-> windows with the values passed though the dma-ranges. This is done through
-> rzg3s_pcie_set_inbound_windows() -> rzg3s_pcie_set_inbound_window(). The
-> controller will be aware that the secure area zone is something valid to
-> work with. In that case, if my understanding of PCIe windows is right, I
-> added this in the idea that an endpoint (a malicious one?) could DMA
-> into/from secure area if we don't exclude it here?
-> 
+Hi Geert,
 
-That's true. But do you really have an usecase to setup inbound window for the
-endpoints? What does the endpoint do with this memory?
+On Fri, 19 Sep 2025 07:52:38 +0100,
+Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> 
+> Hi Marc,
+> 
+> On Thu, 18 Sept 2025 at 12:01, Marc Zyngier <maz@kernel.org> wrote:
+> > On Thu, 18 Sep 2025 07:27:26 +0100,
+> > Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
+> > > +             /*
+> > > +              * The ARM GIC-720AE - View 1
+> > > +              *
+> > > +              * see
+> > > +              *      r19uh0244ej0052-r-carx5h.pdf
+> > > +              *      - attachments: 002_R-CarX5H_Address_Map_r0p51.xlsx
+> > > +              *       - sheet [RT]
+> > > +              *        - line 619
+> > > +              */
+> > > +             gic: interrupt-controller@39000000 {
+> > > +                     compatible = "arm,gic-v3";
+> > > +                     #interrupt-cells = <3>;
+> > > +                     #address-cells = <0>;
+> > > +                     interrupt-controller;
+> > > +                     reg = <0 0x39000000 0 0x20000>,
+> > > +                           <0 0x39080000 0 0x800000>;
+> > > +                     interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_HIGH>;
+> > > +             };
+> >
+> > I already asked for:
+> >
+> > - this comment to be dropped, as it serves zero purpose to the common
+> >   mortal
+> 
+> What about using a different comment instead?
+> 
+>     /* Linux must use I/F Region 1 */
+> 
+> I.e. replace "View 1" by the above.
 
-- Mani
+I definitely wouldn't mention Linux, as the DT is not specific to any
+particular OS. This is more about what block the main CPUs are allowed
+to use. Also, "View" is the term used in the TRM to describe the
+multiplexing of multiple GIC "instances" on a single GIC
+implementation in a mixed-criticality system, so keeping it makes more
+sense.
+
+Something like:
+
+	/* Application Processors manage View-1 of a GIC-720AE */
+
+and the mention of the TRM and other spreadsheets dropped.
+
+Thanks,
+
+	M.
 
 -- 
-மணிவண்ணன் சதாசிவம்
+Jazz isn't dead. It just smells funny.
 
