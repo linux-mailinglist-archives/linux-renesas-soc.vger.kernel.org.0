@@ -1,116 +1,158 @@
-Return-Path: <linux-renesas-soc+bounces-22094-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22095-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AECEB8A641
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 17:48:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF3B8B8A6D4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 17:52:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3B7C13AB18C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 15:48:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A81D57E7A53
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 15:51:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41FBF31B800;
-	Fri, 19 Sep 2025 15:48:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E87A931E8B3;
+	Fri, 19 Sep 2025 15:49:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="iRx/Ku4b"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fPpnGcTc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7AB318146
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Sep 2025 15:48:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9620B31E8BE;
+	Fri, 19 Sep 2025 15:49:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758296912; cv=none; b=rUIxo6U1RwP8J0JaTS/SZHlKQuCqK9Iiwe42xKkLa0IGerze4iOb8wnPnfAv/x8fXMPVzWeCSPFBuWzrd5xYTycgSXwO+msT+g35A63KBiAniuJSDnlEXJWAF9yLwubqZjBG+p4nPewx4eUA9T+/WjwfqDmhyv1wtpkafWWPEdM=
+	t=1758296988; cv=none; b=D1xV+/Uu1VNT4JYV/2A7KncF9DR3cqE5BWTmXb1vNvitKIGGfYiydrtrayCoZfoO7D7t56h/u3Gntc42V4Y3UICSTBH0EwfbTYYdlp5OP1doRLeeTm0JOQR+xc0TXKtVYxWqyHnM84m8Qyh8e/dMdcBe6E06py3EZbd3LHJeMf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758296912; c=relaxed/simple;
-	bh=u0vGF1+Z1rrRnWW+KC1hbB8IFqjlexdvrw2BH4hB5Lk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BiNqZnUtQs7DXVaaLTNEKr9Hs0d2fKSqLNpb2PVro16SiqNtN4A0+hP+sUw0XjbfSGaMnhcI7lYXeCHNkVc2m6bwlOPcbLSctzXwTs8/svkxdseWx0zs9gZXlDHisJCVErAG8kEBvm12oO81nhDtQzPXmvW3MsZwX1Pjbn9d9PE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=iRx/Ku4b; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=u0vG
-	F1+Z1rrRnWW+KC1hbB8IFqjlexdvrw2BH4hB5Lk=; b=iRx/Ku4bNLZg+n2rHgKS
-	qAxbw7syg0QyihGUmqyNwUuEfrXC3WL29J5ndVK+RcHw0BTTJ4IXuQQnltJbuTLD
-	lOrhO4Je+JGzMF5A9yiM1tfcmsDkgMQBaMU5yBm4zfz97qHmoRE+Jpf6Ezy667XS
-	PDS77XcKmo8l/DVudCIEHeajrygf6D0IZrjNxAger6pZujRzW6HvY11CdyT86ruw
-	zdFEfvaqWZIpPGr15ngwW3wH4obAMPeO+pY9P56OIrsSLTjyToO5J0U0D/43j4tl
-	ZHdb9CaKKJUSFBSTo2aawhgz47WdltyOmDNvtWrGGbLN+u/KCbBxH3bx7/hvBKHC
-	Hw==
-Received: (qmail 3968457 invoked from network); 19 Sep 2025 17:48:28 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Sep 2025 17:48:28 +0200
-X-UD-Smtp-Session: l3s3148p1@4kOaZik/5LwgAwDPXxLYAMR913XberYj
-Date: Fri, 19 Sep 2025 17:48:27 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>,
-	Hoan Tran <hoan@os.amperecomputing.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Serge Semin <fancer.lancer@gmail.com>,
-	Phil Edworthy <phil.edworthy@renesas.com>,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Pascal Eberhard <pascal.eberhard@se.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v3 0/8] gpio: renesas: Add support for GPIO and related
- interrupts in RZ/N1 SoC
-Message-ID: <aM17S8VWTNvPAaDN@shikoro>
-References: <20250918104009.94754-1-herve.codina@bootlin.com>
- <aMztGzYMHEPL1GVt@ninjato>
- <aM0ltldIXG5gwsDn@ninjato>
- <aM0ocJOCjctW6Lad@ninjato>
+	s=arc-20240116; t=1758296988; c=relaxed/simple;
+	bh=uzz8UtcR8/EpP02NCPWiEvxG4gfkUH/EZNqtISIb7gU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Hy3vqUadjcFFaQmV/JzFziXRAzo/DYVZ1qWMwgDv4s/tpWhqecbDD7mDAYaqWcQNkYPwMehW01tUKqYJCxRwJai46jIc5/+o5MwGoBMbiKyFnhmAMS/b2/cnIWAdwJmhf9zFNAWozmH7GxopwxEeNdkqEPBjk3RWzMwIay1nFK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fPpnGcTc; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BABAD6DF;
+	Fri, 19 Sep 2025 17:48:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1758296903;
+	bh=uzz8UtcR8/EpP02NCPWiEvxG4gfkUH/EZNqtISIb7gU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=fPpnGcTc4YjA80wmVNlEPgddwWAhvxA9LK74u+F2Ii53E94D+KvtcAOZBDxNQ4Vvu
+	 KSds7oq75mUOfBvI0yKI+bvDjHdW2WMpLzO6D2G1PYSc04fDHgwQMYrOuZ6lGRovCQ
+	 OW7+88ZbPWdElF/4ZzeAZ1moiZs8z0Jo7EJLmR4o=
+Message-ID: <cd0c59f8-bb83-4d1b-9bda-96be3a960154@ideasonboard.com>
+Date: Fri, 19 Sep 2025 18:49:39 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2paa0KuInPy4P9RY"
-Content-Disposition: inline
-In-Reply-To: <aM0ocJOCjctW6Lad@ninjato>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/4] dt-bindings: display: bridge: renesas,dsi-csi2-tx:
+ Allow panel@ subnode
+To: Marek Vasut <marek.vasut@mailbox.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ dri-devel@lists.freedesktop.org
+Cc: Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20250904210147.186728-1-marek.vasut+renesas@mailbox.org>
+ <20250904210147.186728-4-marek.vasut+renesas@mailbox.org>
+ <4ffcf4fc-17a9-4669-af07-f81ddb46aee9@ideasonboard.com>
+ <d76ff19c-7b0f-4aa9-8ae2-d08c82d70410@mailbox.org>
+ <aebc10ec-73ed-4843-95c5-9ba5a2759ccb@ideasonboard.com>
+ <b4c0e78a-eecb-4a18-9199-18ea91c8df31@mailbox.org>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <b4c0e78a-eecb-4a18-9199-18ea91c8df31@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Hi,
 
---2paa0KuInPy4P9RY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 19/09/2025 18:42, Marek Vasut wrote:
+> On 9/19/25 5:21 PM, Tomi Valkeinen wrote:
+> 
+> Hello Tomi,
+> 
+>>>> On 05/09/2025 00:01, Marek Vasut wrote:
+>>>>> This controller can have both bridges and panels connected to it. In
+>>>>> order to describe panels properly in DT, pull in dsi-controller.yaml
+>>>>> and disallow only unevaluatedProperties, because the panel node is
+>>>>> optional. Include example binding with panel.
+>>>>>
+>>>>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+>>>>> ---
+>>>>> Cc: Conor Dooley <conor+dt@kernel.org>
+>>>>> Cc: David Airlie <airlied@gmail.com>
+>>>>> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+>>>>> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>>>>> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+>>>>> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>>>>> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+>>>>> Cc: Rob Herring <robh@kernel.org>
+>>>>> Cc: Robert Foss <rfoss@kernel.org>
+>>>>> Cc: Simona Vetter <simona@ffwll.ch>
+>>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>>>>> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>>>>> Cc: devicetree@vger.kernel.org
+>>>>> Cc: dri-devel@lists.freedesktop.org
+>>>>> Cc: linux-renesas-soc@vger.kernel.org
+>>>>> ---
+>>>>> V2: Drop the dsi0: and dsi1: controller labels
+>>>>> ---
+>>>>>    .../display/bridge/renesas,dsi-csi2-tx.yaml   | 53 +++++++++++++
+>>>>> +++++-
+>>>>>    1 file changed, 51 insertions(+), 2 deletions(-)
+>>>>>
+>>>>> diff --git a/Documentation/devicetree/bindings/display/bridge/
+>>>>> renesas,dsi-csi2-tx.yaml b/Documentation/devicetree/bindings/display/
+>>>>> bridge/renesas,dsi-csi2-tx.yaml
+>>>>> index c167795c63f64..51d685ed82891 100644
+>>>>> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-
+>>>>> csi2-tx.yaml
+>>>>> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-
+>>>>> csi2-tx.yaml
+>>>>> @@ -14,6 +14,9 @@ description: |
+>>>>>      R-Car Gen4 SoCs. The encoder can operate in either DSI or CSI-2
+>>>>> mode, with up
+>>>>>      to four data lanes.
+>>>>>    +allOf:
+>>>>> +  - $ref: /schemas/display/dsi-controller.yaml#
+>>>>> +
+>>>>
+>>>> Did you try with a bridge? dsi-controller.yaml only allows a panel. I
+>>>> think I discussed this with someone not long ago, but I couldn't find
+>>>> any patch sent for that.
+>>> Nope, I only have these two 5" and 7" RPi Display 2 panels.
+>>
+>> Ok. My point was just that the dsi-controller.yaml doesn't allow
+>> "bridge" node (you can just rename the panel to bridge to test). I
+>> thought someone (I just can't remember who was it =) will send a patch
+>> for it, but I think that hasn't happened.
+> Do you want me to drop the bridge part from the commit message (I assume
+> yes) ?
 
+It's not clear to me if the binding before this patch supported both
+panels and bridges as DSI peripherals, or neither, only "external" ones,
+i.e. i2c?.
 
-> Maybe I can test patch 4 later today on my RZ/A1-Genmai.
+If it supported bridges earlier, and now doesn't, it's a regression in
+the binding.
 
-That needs to wait until v3 of this series.
+What I want is for someone to fix dsi-controller.yaml (hint hint!), but
+as for this patch, assuming there's no regression, I think it's fine to
+just mention that only panels are currently supported due to
+dsi-controller.yaml.
 
+ Tomi
 
---2paa0KuInPy4P9RY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjNe0sACgkQFA3kzBSg
-KbYi2w/8Dg1l6YOqbIoSLU0xqdeJfmKpPpzvmGsJBDAym+QXKjw04nDtczDHi31J
-ks2l6oz9NznwoqNRgT+ogoUGwBPvAdxQPqskvA3d3jvUm21ItVRU/xsNWh6S2a2Q
-6bIf1uNAGe0qwSrUbG6aW4Ov2NvnLES9qwoNz/8f6Y5rMi+MP52xIXYzg/C8uOYk
-22qjFaUblYXQ+V9Hc8WPl2WRPiTbwwhN3rOwt3wc6N+eBeu5RNBUv027O5uUBQ+c
-wiDLqTexGA5vifkyRUIF42a/JKT3NQF3ze8wHqOnNA16Q6ZLDoXjWyaFwvokoFGM
-k6E4uwNm4Nk5JcO5anfkSiOo15cyTFL5WEkwKgpLSfdfDeCwGr7CLk/0pn7Z26EE
-uFsDAwYwKnHntNGR6MTdMvoS8RJzSvifm2c6KCDEMqfm+YxYv/kLmNqBL9FQ/73E
-N4ZEOC9PyugOKSL6Yvrc/Boic9OOi+uXLeH9aJPgLR0d+6IXO5e3JlN2BT1yg94r
-0op4weAOBzFRSGKs7G/cS7rrkfU2h/20rCF6Xuzi6n7KLp8ErNQ8G8iNSoG1CyfL
-C3pj//s56DeJs7kUxhlwlYRF/JR7h3i1jEkjuCLqx2755lOhBx2iNNXEE5pFT6dI
-15dv1syP1JaeUIb+aFbEyuTnuNwwdoUn35Zd67yShVB7x6gX/MU=
-=te5E
------END PGP SIGNATURE-----
-
---2paa0KuInPy4P9RY--
 
