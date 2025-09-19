@@ -1,126 +1,126 @@
-Return-Path: <linux-renesas-soc+bounces-22089-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22090-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CB0CB8A4B2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 17:30:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96AB5B8A57E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 17:39:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4EF6E587DD8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 15:30:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D745417C28A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 15:38:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D96831A806;
-	Fri, 19 Sep 2025 15:30:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D9F831A80C;
+	Fri, 19 Sep 2025 15:36:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="K1Uw/QL5"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="olAimwhx"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A25FE31A564;
-	Fri, 19 Sep 2025 15:30:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1821F31A80D
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Sep 2025 15:36:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758295833; cv=none; b=Ttbct1UgngPwyaaU9Z+dyeVewu4gdQtog1qKXRM+6wWxtOoeTtuGtAcgO+rVR/PAgt3UAmnGVJnlIB5MydJCcFLKHFzwltCOvFI4hxsU6c9Fp80jd9z2yXhNjgndmNfaovmc0d8NSxrGmn6nxPm7SDoAB0w5n4FqCB/2UsH4WX8=
+	t=1758296190; cv=none; b=muuYLtFP2O+xH/LvcWccS145/nodCWrJKda+uwAMfGWZ1mYvODMgc6G/2W0T9gHhuyH1UYGBMA+TOpEhCX8vyfuW87gdNbhQ0XYl2H86PnEnqcUgt5AvWAfy3kKezE7U2MCfuxmG8pHXoMrkio3AuKLnClu0aIJczB1AB+gRawU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758295833; c=relaxed/simple;
-	bh=+4PZdqjap8xszXOt8XL4lD85fXoioACD8cWnc7TQ75s=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GmX9koqf5IR6NVXmCszxhSbLRmQIfXR2p8CGQQgJaUur7u6+rVqwsJxYPAW5N93rmHxV4jDfSoyT6Ar5PKC6E7ov2b96H0mV8Tfzh6JT2uUHGjsRlgBwom7KvjgeEVSzT1pIjnWnJ4P+f0Qv34BhRflHWHFOgLqVyVEolQSldYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=K1Uw/QL5; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 8C7674E40D40;
-	Fri, 19 Sep 2025 15:30:29 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 4FD67606A8;
-	Fri, 19 Sep 2025 15:30:29 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3B7D0102F183B;
-	Fri, 19 Sep 2025 17:30:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1758295828; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=KorTOHGT+f9+nNZ7UQL8M7VObv8JOq459H/SyY11yls=;
-	b=K1Uw/QL59JphgBYp1ihEC+DD67F51NEXJc6M+eoPvZlg09K/xx0e3lJZZahpkw1kGpxv7k
-	MAtNMWPcLZbYOqYOHxA545LjrW7ZIP/o3IqPHlKcKvQIR0yZf/2LLhtJkSeaAaHGbtbN1o
-	u53EobUUqMAsY1P1PokRVOksVCLda6k7/Rk1arp9Ekx0UT0dFHOEZFDp6XMlxWfbNceakA
-	6K06DMFMK/jlobQHVYamjzPJdPCBR38vJe/tkwcoT1wMM5TEMJfBiQGEuApewskyrT8MKY
-	+ajjQ86ivLGvGdzIn0fd/NuPZw79R+GT6sS44NQ0uo4EAbRN3vNokveTpPUDJQ==
-Date: Fri, 19 Sep 2025 17:30:11 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Hoan Tran
- <hoan@os.amperecomputing.com>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Magnus
- Damm <magnus.damm@gmail.com>, Saravana Kannan <saravanak@google.com>, Serge
- Semin <fancer.lancer@gmail.com>, Phil Edworthy <phil.edworthy@renesas.com>,
- linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Pascal
- Eberhard <pascal.eberhard@se.com>, Miquel Raynal
- <miquel.raynal@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v3 7/8] soc: renesas: Add support for Renesas RZ/N1 GPIO
- Interrupt Multiplexer
-Message-ID: <20250919173011.4b32a928@bootlin.com>
-In-Reply-To: <aM1rRuiJH9dlwBjL@shikoro>
-References: <20250918104009.94754-1-herve.codina@bootlin.com>
-	<20250918104009.94754-8-herve.codina@bootlin.com>
-	<aM0lU01x1w2wB3LG@ninjato>
-	<20250919151448.14f8719a@bootlin.com>
-	<aM1rRuiJH9dlwBjL@shikoro>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1758296190; c=relaxed/simple;
+	bh=QQ13y357KdcEoMsg6bRgvQuNzIHdWlBZTLLZM/2ttNo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=efczkUBHVMFBUs2sBY8N/EhH2Thvzqtayc4PeH0Pi+3TMHe7xS3OeWoMZu+16QIVmuXnQlCJMxbe8RKBKDjxO0Wuu7F8no9F/omEr+oW0vTDU/6C2QvTe3FEDtY8vLW6397S7/mmDXN9L11Hy/5lH7uDnnDtqukbyWcWk9BvBM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=olAimwhx; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3ee12807d97so1766399f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Sep 2025 08:36:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1758296187; x=1758900987; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=f2pRpE/45sP9niRYSRq9qImpVKIDTIafU8gzww+a/cI=;
+        b=olAimwhxLsKMhKYeqjqMZvqxn071mQyq0ldUX5QgkcLSzXtBsBqRHbSAGScekEdTU+
+         MGeKRZoRPGyIycDGUzu4hIs9xjb51px4qgFatcI28GGL3ixLuZ9289r4aJtFsbawrk1w
+         choirb1DyaXSd/XwmZ67senyHvZkBdUOQnUef/320a6Y8GgP7SNzHEBF4ickCRidcAkq
+         Ts5SyCHyMJNHWgi90qP4yM7ShZ0LJxxu1EMaYd0igXZIutrxE6xlJ4nED6tfvDdh/4+t
+         wV/p3mML4z4DN4PsFA0/67+fcm78wM3zxtmFQmYQoVRq32aAr2cx5jojUcMzgqV3nFLZ
+         odjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758296187; x=1758900987;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=f2pRpE/45sP9niRYSRq9qImpVKIDTIafU8gzww+a/cI=;
+        b=dRwHGY8nsrR1cuOOumWquLeTGVUYRAeOWwWT3B4FaaLaocdhhVqZ83ENyfIClEYoCi
+         TC/f5BYFZUbqO+e9vevrC8S4qX+MjIqrCQ8pqUpJdcEHRL4Omj4837iTmCrRUVdF9XNw
+         9ACnU4Z4uRFsoNNy8gdXPah38uRzRDfphBzFqnP2KNif2tRUKSN8t0Ex8ntWzSZBCgoC
+         cEv0wr98rpthoW+NLFaP0ieBWcWFF+TRmlkhev0cM5uVyVAt2ECB8eII2wfONfgGW25H
+         vQnP4wpBVZkxZjUSBlrQkeXAMctAxPDqarN+EXtu1aRPVnlupn6ktnS2JL967Gk0V3Qs
+         vXXg==
+X-Forwarded-Encrypted: i=1; AJvYcCX8RtUooFTATsXJR5/ogW9BjQcv2ohp5sHejCNVcNQDXwsWM02nbK+2bKpAGpkXdYQBdLh4ABf39jRnpTGXuU+xzA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVSBvb4lSV98e1Re1cbWiZXlGoPFw2yYRogcSwdGipTtTHAsoZ
+	RreRAXhQQiO4CvXSzNmk6WSecQgZlv2zDsMeWJaRB4RsoYx9j8J5V3FSsn7QuA0nr6U=
+X-Gm-Gg: ASbGnctMxYehL0lTiGUxDuveAtk/N0++opGzrS8ZB3PEyY1epjI066KcwTRS2/Ll6IF
+	StcjXoGI6j8soH+eQp7TlQY/HtrdLAauDXaLNXFUPMWPuzd0WrzhKqC/t+PbIFLNpQ7t3x2bVYC
+	QXVACVk1L3X77H9JYJwCD9FvKyN0XFVs2vlMVoGzsioGsLUkJuXQ22aRRdj6wpRXEgnzslXAHUw
+	sbM18sgQuANPHF9S2M3AYDNb21+DYddOHojCfXRGBfO407nZ4vOVL1sC45ePCwZodz4g7nR/+ft
+	Izs0tbH1n24QDb8MMv/tEqlzYkxx9IiOn1nsVT/3Wbr3UL/EVoBEcGixRQzOR/FE5o1Gt5DEAEk
+	o+EsJOiJ8pF51yDA31QyzrfvkaTRnHGcAFRoQlVnLjWqTzZoCREXSaJya7xEtJmkRWtbTQXcf1y
+	fBIw==
+X-Google-Smtp-Source: AGHT+IG3N6yDffPIIsvlc2hrfvII+0O+KrDC9YtG2RKsx3+KurTsZNXbENU81ur2gTzujZrnIC6z3A==
+X-Received: by 2002:a05:6000:1862:b0:3ec:1b42:1f8d with SMTP id ffacd0b85a97d-3ee7c5542c6mr2990681f8f.10.1758296187269;
+        Fri, 19 Sep 2025 08:36:27 -0700 (PDT)
+Received: from ?IPV6:2a05:6e02:1041:c10:8ffd:205a:6719:49c1? ([2a05:6e02:1041:c10:8ffd:205a:6719:49c1])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-464f0d8a2bfsm93035635e9.2.2025.09.19.08.36.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 19 Sep 2025 08:36:26 -0700 (PDT)
+Message-ID: <3613157b-8c98-44b4-89b3-75eb7fe397ac@linaro.org>
+Date: Fri, 19 Sep 2025 17:36:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] thermal/drivers/rcar_gen3: fix mapping SoCs to generic
+ Gen4 entry
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ linux-renesas-soc@vger.kernel.org
+Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>, Magnus Damm <magnus.damm@gmail.com>,
+ linux-pm@vger.kernel.org
+References: <20250911070254.2214-2-wsa+renesas@sang-engineering.com>
+Content-Language: en-US
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+In-Reply-To: <20250911070254.2214-2-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Wolfram,
-
-On Fri, 19 Sep 2025 16:40:06 +0200
-Wolfram Sang <wsa+renesas@sang-engineering.com> wrote:
-
-> > Rob asked to use only interrupt-map and use directly the interrupt-map index as
-> > the hardware index:
-> >   https://lore.kernel.org/lkml/20250801111753.382f52ac@bootlin.com/  
+On 11/09/2025 09:00, Wolfram Sang wrote:
+> S4 was added first so it was assumed to be the blueprint for R-Car Gen4.
+> It turned out now, that S4 is a special mix between Gen3 and Gen4. V4H
+> and V4M are the similar ones as confirmed by HW engineers.
 > 
-> I agree with that. Currently an interrupt-map entry looks like:
+> So, rename the S4 entry to be specific instead of generic. Rename the
+> V4H entry to be the new generic one, so V4M will use it as well now.
 > 
-> 	interrupt-map = <0 &gic GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>,
-> 
-> And the number after GIC_SPI determines the index register, no? Can't we
-> simply say 'index = <SPI_nr_from_dt> - 103' incl. some sanity checks?
-> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
 
-And so 103 used to compute the index is hardcoded on the driver.
+Applied, thanks
 
-Further more the wiring of irq-mux interrupt output to the GIC input
-line depends on the irq-mux integration and not the irq-mux itself.
-Nothing in the irq-mux itself requires a specific connection to the
-GIC.
 
-But well, without adding this mapping information in the DT, maybe a
-table in the driver in order to determine reg index from GIC IRQ number.
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
-kind of:
-  static u8 reg_index[8] = {103, 104, 105, ... , 110};
-
-Base on GIC IRQ number retrieve from the interrupt-map item, we search for
-the index in reg_index that match this number. The index found is the index
-used to access the register.
-
-What do you think about this?
-
-Best regards,
-Hervé
-
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
 
