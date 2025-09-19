@@ -1,107 +1,92 @@
-Return-Path: <linux-renesas-soc+bounces-22084-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22085-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A928B89DDF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 16:21:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D547B89FC2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 16:33:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F22C93A9352
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 14:21:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2C7C13B4D03
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 14:30:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76203311598;
-	Fri, 19 Sep 2025 14:21:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="R8pe6gCC";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="akm/prIZ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75F46313D65;
+	Fri, 19 Sep 2025 14:30:24 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6AA304BD7;
-	Fri, 19 Sep 2025 14:21:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E11E314A85;
+	Fri, 19 Sep 2025 14:30:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758291710; cv=none; b=LxQED8oHFz/rCFw+/GTyxoVsd9gBsSAznVenGft12YpNzUeP7TnPLOPog/sl/Eas4bkQl060eb6Vvci9e0+hYCHjdXnsxmxCpVYkL/nAoO3yzob74CHq+3ufGNoacbGdWBwKpjJkGgOLHRMozXOHnD+tbT6MsR01iiCIsR21nGo=
+	t=1758292224; cv=none; b=RkTm43N2UswicBxMdg1j0X7i+A1igk1c+P+KKdH91gG4NSXnblHUBKAIdr3e9tCOzZHZcStWe7mVJV58GCc7zeOrZP8pdLVrzZ+96xUqNljt9Z/bDe6sztAylLheiq4pD68x/whCYhYeiGUf8NrWbMtyTe5uHiU19VsRHNHS9hc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758291710; c=relaxed/simple;
-	bh=ms4BSYg24WtCv2INcR+zp+YTYIeJmo8eegi09owXHs4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MaqpXdtvQGcOr/gbPPsIUVxivgUKkyUf+pr5ftwcV+KBwVINAvl7IHDXvgWwKkstjR24BdIzPgXAHNalmLMqV/gIVf5zNp/PGlxF751gOx/4GQevNKivvCQtB7T9slSXKhYkiklywHF2au+eNvOgt9r4GRkMhY9XcC2Ta/imT3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=R8pe6gCC; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=akm/prIZ; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cSvp23QLFz9t8m;
-	Fri, 19 Sep 2025 16:21:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1758291706;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g0C7x6JSiZLAkwvCSWBHZvTvW/DiXlBc+kXSxhWoUgw=;
-	b=R8pe6gCCGeDL2wo0kTwLE1zijwMSOBoEH0c9XqkDRw0VHMvIFMxXm8zoyjz8+A3pPsDQFU
-	NlvqV+Un6uNQslFcDBLRGwx9irWCQvA2/lql2CGqZYiWBfdcgSpLdXP/3AN18Z9nIQtY4E
-	fhEzxooRjwzL3AhPHqaGVv5HJXPNdSlU/8NPgIm0vqXMEn3GPXdxYQaUa1For0dcoR1ph3
-	NZYps4V27uLiRzmz5Sf+74c5meiEVrEe+Gz1TOnZCDekcn6hYm0d1K/TsnLga2eZ0rzHH+
-	lL6laFOXYAdQqy7qVXajxroXmYmBl3WVHa5rpWEp2hzP/WyT5sEj8fVE1CKD9w==
-Message-ID: <77ca101e-28e6-477f-b9d0-1ac7c154db33@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1758291704;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g0C7x6JSiZLAkwvCSWBHZvTvW/DiXlBc+kXSxhWoUgw=;
-	b=akm/prIZnnwUCyNfC4augwJO/FS3+E/QLyPN8jBil1w4sM05FF/Uj1zQ9ha+Z8G3Ul3WMy
-	F/lGM5vLjjZVOp/FIqsP9GyE6OyrzR22waVdmiCwlG3A7pCEnq4rB8Z1Nwhs4plXIIVhYW
-	YxI0sdHQDHXKwjbKlfReF32Sj0ikF1X7PcKf/v167VimPuIq773DfSsXghfF6AKS9AG9a3
-	FJ8ImcqP22XDB/Ihk8AbYm4WpAnJgBgA/oZgmMp9FnxSo2DcTi87xUDs1VgNPPp2FB8CWk
-	O7cCvo5mtzxloUooes71DasQZQbm6xzRrOEemfI+2tL91X0pcibZzc9N6lREvg==
-Date: Fri, 19 Sep 2025 16:21:41 +0200
+	s=arc-20240116; t=1758292224; c=relaxed/simple;
+	bh=jR5hXSe5Rb2lJevs7VVywEayah8UQ+hzgixju+gCauo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=r9NZ/qRfuB2twSrIZ5Cj9s94dMfSuskTuTwtXGg5YuTNfuEgvLum74p8TkbEp5pZCCF7GrcgrttaoWDLCd1JN4lDEPQVNLbnPFuxLBYeRDfGAwNgrDfP5dt2ysLrTwPNE7V/nalnaFYo+H8UwTERSrGjF6+j029/SllIoTlD6U0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+X-CSE-ConnectionGUID: QoxrVUnMQTSZrC+KOJJF5A==
+X-CSE-MsgGUID: QMmjvF3MRJu2R/nyXL2UxA==
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 19 Sep 2025 23:30:13 +0900
+Received: from demon-pc.localdomain (unknown [10.226.92.70])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 2EAF940083FA;
+	Fri, 19 Sep 2025 23:30:09 +0900 (JST)
+From: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+To: 
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v2] nvmem: rcar-efuse: add missing MODULE_DEVICE_TABLE
+Date: Fri, 19 Sep 2025 17:28:53 +0300
+Message-ID: <20250919142856.2313927-1-cosmin-gabriel.tanislav.xa@renesas.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3] PCI: rcar-gen4: Add missing 1ms delay after PWR reset
- assertion
-To: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-pci@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Magnus Damm <magnus.damm@gmail.com>, Manivannan Sadhasivam
- <mani@kernel.org>, Rob Herring <robh@kernel.org>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- linux-renesas-soc@vger.kernel.org
-References: <20250919134644.208098-1-marek.vasut+renesas@mailbox.org>
- <20250919141340.GA709855@rocinante>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <20250919141340.GA709855@rocinante>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: knpdzgfe8or6h4y5dehwyp8jmkk7hfhb
-X-MBO-RS-ID: fa1fcb9414c86bcf4d6
 
-On 9/19/25 4:13 PM, Krzysztof Wilczyński wrote:
-> Hello,
+The nvmem-rcar-efuse driver can be compiled as a module. Add missing
+MODULE_DEVICE_TABLE so it can be matched by modalias and automatically
+loaded by udev.
 
-Hello Krzysztof,
+Cc: stable@vger.kernel.org
+Fixes: 1530b923a514 ("nvmem: Add R-Car E-FUSE driver")
+Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
 
-> [...]
->> Fixes: 0d0c551011df ("PCI: rcar-gen4: Add R-Car Gen4 PCIe controller support for host mode")
->> Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
->> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> 
-> Missed a tag from me. :)  But we can add it when applying, no worries.
-Sorry, and thank you.
+V2:
+ * add stable to CC
+ * pick up Reviewed-by
+
+ drivers/nvmem/rcar-efuse.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/nvmem/rcar-efuse.c b/drivers/nvmem/rcar-efuse.c
+index f24bdb9cb5a7..d9a96a1d59c8 100644
+--- a/drivers/nvmem/rcar-efuse.c
++++ b/drivers/nvmem/rcar-efuse.c
+@@ -127,6 +127,7 @@ static const struct of_device_id rcar_fuse_match[] = {
+ 	{ .compatible = "renesas,r8a779h0-otp", .data = &rcar_fuse_v4m },
+ 	{ /* sentinel */ }
+ };
++MODULE_DEVICE_TABLE(of, rcar_fuse_match);
+ 
+ static struct platform_driver rcar_fuse_driver = {
+ 	.probe = rcar_fuse_probe,
+-- 
+2.51.0
+
 
