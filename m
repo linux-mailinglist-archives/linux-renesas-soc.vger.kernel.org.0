@@ -1,126 +1,93 @@
-Return-Path: <linux-renesas-soc+bounces-22082-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22083-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80281B89C2C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 15:59:57 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAB98B89DA2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 16:15:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7563CA010AD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 13:59:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6A46D5A540F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 14:15:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D300313D55;
-	Fri, 19 Sep 2025 13:59:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72DFBEEDE;
+	Fri, 19 Sep 2025 14:13:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="S8U1p6lk"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UUnhCcBg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7240313263
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Sep 2025 13:59:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A94313E2E;
+	Fri, 19 Sep 2025 14:13:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758290376; cv=none; b=jIaxolAXQBc0Ts33FWJL+pJ4X6DbM5wiMIYwNo///v5lihizvrB7CphsSIo+GUCCNSneWfU+pIQrAPklsZw2vHkQRZzMaeOmE/Bousi9u5rtK7q7sSyLVExD0iWqC54NCT1QGG8HFgiY46q6eZSY+XK+pmMYo+bFkrhxWeW/4zM=
+	t=1758291223; cv=none; b=tfcGIKo2YxO2dV1WURO6iyevSAOgUE3NZbCDUn0QX6JrO9euSmq+Fvaa8HN20kdqtb+GYV7OepWU7Fo9iDZ88c8PMWqnDpSGpBpw7s4JicMVQhbvpIgsfE/vcc14LIb2O+Z/2qH5qQIXgG06EVHZlhHacxds08YguYdhknuUG/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758290376; c=relaxed/simple;
-	bh=rYm7TDSt7m3UIo26WMvRENt6r9Gc+DAQRE/S6hKjId4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kOD5gz5TqzXSHL9TA3hJVbFHKMQC5Ye+RFT8DIbpH1w1PGztVPZAyOrTsE/61AcZ+GGnhn43QEw8smYsoaU8J9sBAQjeJb6phKnT7/1rUrukqtJgqbKcylqjpMTrJ+sbIpls7QbeompGo5LKgq5PUOdGNSgRotFkXgN/n3duKpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=S8U1p6lk; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 074D54E40D5E;
-	Fri, 19 Sep 2025 13:59:32 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id B6B02606A8;
-	Fri, 19 Sep 2025 13:59:31 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 757D2102F1BCB;
-	Fri, 19 Sep 2025 15:59:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1758290370; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=dWYgA9dXzIHOPv9DWHE+oxQc2sRvSmlPdD1Mhljo75M=;
-	b=S8U1p6lkz1TkcMx0Lx7dsXI7Kddmg+uVELN9GHpySFHyJ2gk1ThiVW0Ya+PpybT6exc9ir
-	wIbyd/ulU+97JOw74n87KFkRy2DwhRKtueVABl1T4qIL8gyh7hWyH5b1zwBUig4Uj5+qF+
-	wBUbg8bHk6dIV4ydjeSwxjXKSMAI/WFc4zzB9bodtyq0MM7BUh6IuYi/AhSiwVZstgnFTo
-	rGoYqdY/RafwrWkZRO3L7Yhavyw4azaKKvM+itxgU5CFgpv9YsidHU9AjU7xbERlbPW6D8
-	PpD1EfNJvk7BY5MFrpomAw46ybV6NP/ps8+UcccH7gEU1RO8YZXoNhbGyVcKTg==
-Date: Fri, 19 Sep 2025 15:59:10 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Hoan Tran
- <hoan@os.amperecomputing.com>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Magnus
- Damm <magnus.damm@gmail.com>, Saravana Kannan <saravanak@google.com>, Serge
- Semin <fancer.lancer@gmail.com>, Phil Edworthy <phil.edworthy@renesas.com>,
- linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Pascal
- Eberhard <pascal.eberhard@se.com>, Miquel Raynal
- <miquel.raynal@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v3 8/8] ARM: dts: r9a06g032: Add support for GPIO
- interrupts
-Message-ID: <20250919155910.4d106256@bootlin.com>
-In-Reply-To: <aM0llhn054OI9rA8@ninjato>
-References: <20250918104009.94754-1-herve.codina@bootlin.com>
- <20250918104009.94754-9-herve.codina@bootlin.com>
- <aM0llhn054OI9rA8@ninjato>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1758291223; c=relaxed/simple;
+	bh=zsmMfy13t92PuvhDDdd5MeIl42HPR1hIGKVw0wAu95o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N4zN42GSvARPNiojmx08t8FI4VgcvjF2wbE9YRK8UMCdgknYNC1CAnpWzjSoM2rWkMExDkiwVlR+zDdu9Irm4t17Bf8KTOC1VeVtetRG0AuoH+OulvuhCFCwILYusbR4PXvPMvIpEwBL9ymLbSqWpSO35D2NaILWIPuv+uJcLpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UUnhCcBg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F81BC4CEF0;
+	Fri, 19 Sep 2025 14:13:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758291222;
+	bh=zsmMfy13t92PuvhDDdd5MeIl42HPR1hIGKVw0wAu95o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UUnhCcBggT4OKOd9QktuA+CEF9Rhkea8L11xJ5mUwncSvY7NjfC7zGLDTG7+w8T3k
+	 75iwaUN0Grxmo74cC5Vh66eQK01Psfj2mypiC5s8tn+ijas3EYdbqzwVdtHnsgsf9D
+	 XEFsJgxrzVnN4jaOo5Taco0PLPNljQhhRrd+W43qz/LxAl3+pHZZJ4GvNQx5+yqqOf
+	 R7IAr2sdjpv0npn1AI+j/Hznpotk1uUxova31F/5v0rztCr0InajxchiQdzv6voj5a
+	 kUiSMQqHQPRVmuZ4lAS/xkh0gJ5L2QT1waEw7T07oyQvRuvD3eFm5fqsJD5hufVhMT
+	 k2HIq5SxuRdGg==
+Date: Fri, 19 Sep 2025 23:13:40 +0900
+From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-pci@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3] PCI: rcar-gen4: Add missing 1ms delay after PWR reset
+ assertion
+Message-ID: <20250919141340.GA709855@rocinante>
+References: <20250919134644.208098-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250919134644.208098-1-marek.vasut+renesas@mailbox.org>
 
-On Fri, 19 Sep 2025 11:42:46 +0200
-Wolfram Sang <wsa+renesas@sang-engineering.com> wrote:
+Hello,
 
-> > +			/*
-> > +			 * interrupt-map has to be updated according to GPIO
-> > +			 * usage. The order has to be kept. Only the src irq
-> > +			 * (0 field) has to be updated with the needed GPIO
-> > +			 * interrupt number.
-> > +			 */
-> > +			interrupt-map = <0 &gic GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>,
-> > +					<0 &gic GIC_SPI 104 IRQ_TYPE_LEVEL_HIGH>,
-> > +					<0 &gic GIC_SPI 105 IRQ_TYPE_LEVEL_HIGH>,
-> > +					<0 &gic GIC_SPI 106 IRQ_TYPE_LEVEL_HIGH>,
-> > +					<0 &gic GIC_SPI 107 IRQ_TYPE_LEVEL_HIGH>,
-> > +					<0 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>,
-> > +					<0 &gic GIC_SPI 109 IRQ_TYPE_LEVEL_HIGH>,
-> > +					<0 &gic GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH>;  
-> 
-> I'd think this should be dropped from the include and added in the board
-> file instead. I did this with my board and it works fine.
-> 
+[...]
+> Fixes: 0d0c551011df ("PCI: rcar-gen4: Add R-Car Gen4 PCIe controller support for host mode")
+> Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-I can only reduce the table but I need to keep the interrupt-map property.
+Missed a tag from me. :)  But we can add it when applying, no worries.
 
-'interrupt-map' is a required property. If the board doesn't use any interrupt
-GPIO, its dts has no reason to set the interrupt-map.
+> -	if (!reset_control_status(dw->core_rsts[DW_PCIE_PWR_RST].rstc))
+> +	if (!reset_control_status(dw->core_rsts[DW_PCIE_PWR_RST].rstc)) {
+>  		reset_control_assert(dw->core_rsts[DW_PCIE_PWR_RST].rstc);
+> +		/*
+> +		 * R-Car V4H Reference Manual R19UH0186EJ0130 Rev.1.30 Apr. 21, 2025 page 585
+> +		 * Figure 9.3.2 Software Reset flow (B) indicates that for peripherals in HSC
+> +		 * domain, after reset has been asserted by writing a matching reset bit into
+> +		 * register SRCR, it is mandatory to wait 1ms.
+> +		 */
+> +		fsleep(1000);
 
-In that case, if I fully remove 'interrupt-map' in the dtsi, dtbs_check
-will not be happy. Indeed, a required property is missing.
+Thank you!
 
-Also, having the full table containing the 8 items with the correct GIC
-interrupt number and the correct order could help a user to route the
-GPIO line to one of those 8 items.
-
-The '0' field use as interrupt source matches the registers reset value
-of the irq-mux controller.
-
-With that in mind, do you still think that I should reduce this table?
-
-Best regards,
-Hervé
+	Krzysztof
 
