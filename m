@@ -1,193 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-22079-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22080-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9307EB899FD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 15:15:09 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45A4EB89ADC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 15:30:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 47A267E1978
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 13:15:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 11D751C850DE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 13:30:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60B5A2EBBA2;
-	Fri, 19 Sep 2025 13:15:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B50530FC2E;
+	Fri, 19 Sep 2025 13:30:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Axz3FXF4"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="UwZH8Wkw";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Is6FkuHY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9EB51D63D8
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Sep 2025 13:15:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1999330FC0C;
+	Fri, 19 Sep 2025 13:30:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758287707; cv=none; b=HuzftPRWmYFcq2rEQYULKUeUOcTwCdt0UQjrV+BlmVisSC0DYsLkmwj19JaCetgu1xtnJhzV2RFAFIW5Xclw2y5phUk0hUfcLePhboW7Aj1VDRv2LXGBbewHQw4Nyp8YeoM9xSc/V9F9Jfay+e6xeXweeA0IJx02RqtPTlEFB78=
+	t=1758288624; cv=none; b=GHwnbTUDUd+QutMmxTiVQKm7AOpfhY/jVXtaRSKbtBifHRru9J0N7/Axl9ouG8SCDg2uPnVa4mAbwvJ8Q7+ca3JIngMTPKSCyGftKkQmUWo60DQ8kgwGHFk/+VA8MOEvjODv2LpA4eHbJweIl1TAObOsyti5NKeqZy14QIenJYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758287707; c=relaxed/simple;
-	bh=4fc6a0O2Ct2ACGyTZVA9k3181Dr2+/nX0D6D+4aFGQA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ahg6ZFBX8URHyQqQkZCVHSM117+XcmXcvTd7CCuc2XhsY/H7/ebITUFDxkLrqHsfL0GdvNQB0Xa5S/XhJucHbp346WVLKTENmWwIxaXIBVmZ/oFUkv11pna4qwFFNZ9w7tneMcnhXaRshpz2TqMyKPf0zY5y/zXmdVfsdmabzGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Axz3FXF4; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 245B81A0F18;
-	Fri, 19 Sep 2025 13:15:02 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id DB47F606A8;
-	Fri, 19 Sep 2025 13:15:01 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B0E50102F17C5;
-	Fri, 19 Sep 2025 15:14:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1758287699; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=zkLSfTCSK30R9rnBMrwgwQurzUY0AzbDvB3qzxOn7Vc=;
-	b=Axz3FXF42lf4Jr7BG20uduI+4cHtaPmCNT+YGAtHgjs2YaI3lAqfOF52VepQXDiDCSqyIW
-	2NNkJIXmbC5KnEdJUJe1VCrwIFmjDyjUQNGaPzY3eIh1cpWzs2SFTCNwOjuKz5CYMr+53u
-	kRWOTUAydDlzosgQ+snn7FdhPrHmyC4XHPzlViUbtTqd4n6eT7LmLXORk/0b8IbhsS49kQ
-	ycXbS/oneOwhVtcHgJ1tKE6kbACHX/HpH+27DGH6VaSlEH0gCb3iCP/XgIOP/5BPP46a7X
-	3wPkVjOTgkkNTnEx6tMUxx0tmQi6qfRmOYVszE+GUbjO1dWCynOvzzBPOwJqAg==
-Date: Fri, 19 Sep 2025 15:14:48 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Hoan Tran
- <hoan@os.amperecomputing.com>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Magnus
- Damm <magnus.damm@gmail.com>, Saravana Kannan <saravanak@google.com>, Serge
- Semin <fancer.lancer@gmail.com>, Phil Edworthy <phil.edworthy@renesas.com>,
- linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Pascal
- Eberhard <pascal.eberhard@se.com>, Miquel Raynal
- <miquel.raynal@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v3 7/8] soc: renesas: Add support for Renesas RZ/N1 GPIO
- Interrupt Multiplexer
-Message-ID: <20250919151448.14f8719a@bootlin.com>
-In-Reply-To: <aM0lU01x1w2wB3LG@ninjato>
-References: <20250918104009.94754-1-herve.codina@bootlin.com>
-	<20250918104009.94754-8-herve.codina@bootlin.com>
-	<aM0lU01x1w2wB3LG@ninjato>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1758288624; c=relaxed/simple;
+	bh=LjMAgSqzHT2jVCoMUEf15a1PpZUbC/qcUdEscqbqwEc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bqyc4xGhQrNUiA3ut2/ugHkIglx/e2qnX6loWEVet/JxWuroYPxklq16pDDLv3w+d5dtt9ILT1fYTxeqCF7Ol0KK7uHK8Q08gihMBGfCCk8enQr8+iGz0uwWgImX//cTHy4qTg5vGHOcU7p/pTY/lnrt7+tz84s249A4kWkcmBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=UwZH8Wkw; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Is6FkuHY; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cStfh0Bzfz9t6m;
+	Fri, 19 Sep 2025 15:30:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1758288620;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IURTeqqTjduSTnwx7LDzSNH9H6AyP3UiSbRBPX8HLUo=;
+	b=UwZH8Wkwb1hAk3bfC6+nUFe13NHpC+cIn4QasCtH6MmlDAUwA0mIJZtsX1nGblILYTgbJk
+	XXNxH4AgZ89NI6z7Fdh3qBjXSrrZ6+EFjnUO261dloAOZOgIvr2BV9PRxvhc8gQzW/EWz9
+	p6VnOr9jAKc8CZg+7g1hbDN5XRF2gSCmWrLVEcfAL+Z9iJ/9UAXslu8cpJ8h8fTEfcZhYy
+	pLWxbYoUCNsG1To2TIMCdhRlddgtkUIAPoASu5pg4nrO56rdwwRNhcEFCN8m5XHMkOdTjd
+	wwp0pOsEmmKFdDD4DPkbGhh4U8l3WhfqmbDUYKES97BAEF1kOs9w0CUqpnhZ1g==
+Message-ID: <475cfd27-54d2-44b3-9b26-5de4b75033ff@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1758288618;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IURTeqqTjduSTnwx7LDzSNH9H6AyP3UiSbRBPX8HLUo=;
+	b=Is6FkuHYwvAr7/ph+xvdYFzXK/2fFYI+Upi/4cydhh2gfPnfJRJfAPUqNTX9fKz08ENC0R
+	3A0rwVydBzfIQVxfT75OrmJf5MTY6d8G9yHJrKbs1ekXVBAP4x1J9xfIc3hVPVu00lo9CR
+	fl99+qx9Gl0lbbLrdeCdYkSXwyrgDAjGyG8I0YBl4RGnzEYq22f1Yu95Lm1ryVR65HOZ9V
+	f7E5twIc3EDiAB1tuOaUVsJu4oG8QbGjq3wfzrJkYu/6lAaScs8fDaav9Ie711Q0iwzXhx
+	tKGs0XE0A/Ugreqhx7d/c2rYD0UA5V4V+YuBtg09D+/eLYLrQEBHSANUm4ZUyQ==
+Date: Fri, 19 Sep 2025 15:30:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Subject: Re: [PATCH v2] PCI: rcar-gen4: Add missing 1ms delay after PWR reset
+ assertion
+To: Manivannan Sadhasivam <mani@kernel.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+Cc: linux-pci@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ linux-renesas-soc@vger.kernel.org
+References: <20250918231253.189906-1-marek.vasut+renesas@mailbox.org>
+ <20250919100038.GA3918632@rocinante>
+ <3h3tkv6jmkwqqsb6bdotdx4bcnnzqqqzgl5digryxo5bc4qpm6@np76zatxj6ff>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <3h3tkv6jmkwqqsb6bdotdx4bcnnzqqqzgl5digryxo5bc4qpm6@np76zatxj6ff>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: fb68b355c9e47a5e3f5
+X-MBO-RS-META: 45qi1xcbz9enx5o1c8hdcmzec4qf4jxn
 
-Hi Wolfram,
+On 9/19/25 2:33 PM, Manivannan Sadhasivam wrote:
 
-On Fri, 19 Sep 2025 11:41:39 +0200
-Wolfram Sang <wsa+renesas@sang-engineering.com> wrote:
+Hello Manivannan,
 
-> Hi Herve,
+>>> Because it is the controller driver which can determine whether or not the
+>>> controller is in HSC domain based on its compatible string, add the missing
+>>> delay into the controller driver.
+>>>
+>>> This 1ms delay is documented on R-Car V4H and V4M, it is currently unclear
+>>> whether S4 is affected as well. This patch does apply the extra delay on
+>>> R-Car S4 as well.
+>>
 > 
-> > +#define IRQMUX_MAX_IRQS 8
-> > +
-> > +static int irqmux_setup(struct device *dev, struct device_node *np, u32 __iomem *regs)  
+> What are the implications of not having the delay? Just asking to determine if
+> this patch is a stable candidate or not.
+
+Observable, thus far, none. However, the current behavior does not 
+follow the reference manual operations chart, so I think this should be 
+in stable, else the hardware is operated out of specification.
+
+>> [...]
+>>> -	if (!reset_control_status(dw->core_rsts[DW_PCIE_PWR_RST].rstc))
+>>> +	if (!reset_control_status(dw->core_rsts[DW_PCIE_PWR_RST].rstc)) {
+>>>   		reset_control_assert(dw->core_rsts[DW_PCIE_PWR_RST].rstc);
+>>> +		fsleep(1000);
+>>> +	}
+>>
+>> Would it be a prudent thing to do here to add a comment over the fsleep()
+>> or over the if-statement to document briefly (and for posterity) why we
+>> sleep here?
+>>
 > 
-> The whole driver would benefit from a 'rzn1_irqmux' instead of 'irqmux'
-> prefix, I'd say.
-
-Agree, I will used the 'rzn1_irqmux' prefix.
-
-> 
-> > +	for_each_of_imap_item(&imap_parser, &imap_item) {
-> > +		/*
-> > +		 * The child #address-cells is 0 (already checked). The first
-> > +		 * value in imap item is the src hwirq.
-> > +		 *
-> > +		 * imap items matches 1:1 the interrupt lines that could
-> > +		 * be configured by registers (same order, same number).
-> > +		 * Configure the related register with the src hwirq retrieved
-> > +		 * from the interrupt-map.
-> > +		 */  
-> 
-> I haven't looked into the above for_each_of_imap_item-helper. But
-> wouldn't it be possibleto retrieve the GIC_SPI number as well and use
-> the correct register based on that? That would remove the need of an
-> already sorted interrupt-map.
-
-Hum, this give the knowledge of the GIC interrupt number in the driver itself.
-
-Not sure that the mapping between the output interrupt line number N (handled
-by register index N) and the GIC interrupt number X should be hardcoded in
-the driver.
-
-In my v1 series iteration, I used the 'interrupts' property to provide this
-missing information:
-   interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>, /* line 0 (reg index 0) route to GIC 103 */
-                <GIC_SPI 104 IRQ_TYPE_LEVEL_HIGH>, /* line 1 (reg index 1) route to GIC 104 */
-                <GIC_SPI 105 IRQ_TYPE_LEVEL_HIGH>, /* line 2 (reg index 2) route to GIC 105 */
-                ...
-
-Base on the interrupts table and the interrupt-map, I deduce the reg index:
-  - From interrupt-map, got a GIC interrupt number
-  - From interrupts table and the GIC interrupt number, got the line/reg index.
-
-Rob asked to use only interrupt-map and use directly the interrupt-map index as
-the hardware index:
-  https://lore.kernel.org/lkml/20250801111753.382f52ac@bootlin.com/
-
-> 
-> > +		if (index > IRQMUX_MAX_IRQS) {
-> > +			of_node_put(imap_item.parent_args.np);
-> > +			dev_err(dev, "too much items in interrupt-map\n");
-> > +			return -EINVAL;  
-> 
-> -E2BIG? With such a unique errno, we could even drop the dev_err.
-
-Yes sure.
-
-> 
-> > +		}
-> > +
-> > +		writel(imap_item.child_imap[0], regs + index);
-> > +		index++;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int irqmux_probe(struct platform_device *pdev)
-> > +{
-> > +	struct device *dev = &pdev->dev;
-> > +	struct device_node *np = dev->of_node;
-> > +	u32 __iomem *regs;
-> > +	int nr_irqs;
-> > +	int ret;
-> > +
-> > +	regs = devm_platform_ioremap_resource(pdev, 0);
-> > +	if (IS_ERR(regs))
-> > +		return PTR_ERR(regs);
-> > +
-> > +	nr_irqs = of_irq_count(np);
-> > +	if (nr_irqs < 0)
-> > +		return nr_irqs;
-> > +
-> > +	if (nr_irqs > IRQMUX_MAX_IRQS) {
-> > +		dev_err(dev, "too many output interrupts\n");
-> > +		return -ENOENT;  
-> 
-> -E2BIG? Wait, isn't this the same check twice?
-
-This is not the same check but this one should not be there.
-
-Indeed of_irq_count() counts the number of items available in the
-'interrupts' property. This is not used anymore.
-
-I missed to remove it from v1 to v2 updates (and also from v2 to v3).
-
-The of_irq_count() call and related checks will be remove in the next
-iteration.
-
-Best regards,
-Hervé
+> I can add the quote to the reference manual while applying.
+I'll send a V3 with a comment shortly.
 
