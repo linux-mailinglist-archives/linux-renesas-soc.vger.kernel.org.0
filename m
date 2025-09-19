@@ -1,115 +1,147 @@
-Return-Path: <linux-renesas-soc+bounces-22053-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22054-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD2BB87ED7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 07:42:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F391FB8810F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 08:54:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA8187E04C2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 05:42:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1BE7B3ADC36
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 06:52:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AE5E1F462C;
-	Fri, 19 Sep 2025 05:42:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="dfnG49GD"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3042C1F8BA6;
+	Fri, 19 Sep 2025 06:52:54 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0087255F27
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Sep 2025 05:42:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0806525A326
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Sep 2025 06:52:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758260525; cv=none; b=cv78BlvDKzhKnV9dNQoQ0hCA8sQAujrbbECLF1S8unmONCxKaxMJksQQ+4BEJ4BnTYGBmdMTrmleKYGyM4w2/JHOoyXjohX8fjy2u080H5Ryy0CHvN3VQNtOxf6PZ0gUUcYYjmGX4zDT7AlJbqzLIPov4u6IW+Gl6MUatSfz8wg=
+	t=1758264774; cv=none; b=pMrNYb1S1dyW7VfFjEJA/lC1QYhYyvkjJqdkvnGu98FJlpOdgG2K3zwWqIpI7GOFmKqSHCEUAN5mWlCfmqvkmDedHbaFqXdsRysViapW2iIEUFj5P1AuJqIhGUtjXRX8uRhvQM9J0Uyb7vn54qfdltq7iky4JhkTHnSuSxkllg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758260525; c=relaxed/simple;
-	bh=4q4/rw5mnD3aV6CATtWOIIeUTbmfcdY4ZrTuAkDyrvQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aES3o05Z9AaBeyeAb98HP/Of7inCxwbyv6lBBvQrUbggK+v7OfNxMBnjCs4zc3o+1xwcBtPmzSSuNYb31C5J8Gj02FE52qjagrGLbP4ozy/ECX4l4Pws7Kv+FzYyLKRgZEk1gVbtNTANWsWk67uvtzoJqLbX85HMeSiOSE/cXmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=dfnG49GD; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=4q4/
-	rw5mnD3aV6CATtWOIIeUTbmfcdY4ZrTuAkDyrvQ=; b=dfnG49GDha8fXT56thxG
-	XT9hTOWvzhhtDVXTQaTEElgu+xxb7CvyzHzWrTOMcp70IxkaYpOQM0Kya1+sr4BV
-	29aJn76ePhww7F5y4DuTxut1uZ9HMR8KjAQM/asoay8F+jUEossNINNzc6+uYhFt
-	EdZShvQgd8QpfhnxATVhItcQeC2ybTVyLUpRZnsI5yyrxFkncIdy4iQ6U2pm5sT5
-	S+/U0hoP5bE5f/VnsWRH4JwZq3FS/3245jK0A1QmojcR5a5/e4J/UES0jN7NWJkq
-	n+BVaxt3CLe/aLjYbMcUHghx0CM3vyqiOzOQRjeT36A0EZ7nVolAIa/tZ81/S2bf
-	Kg==
-Received: (qmail 3787594 invoked from network); 19 Sep 2025 07:41:49 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Sep 2025 07:41:49 +0200
-X-UD-Smtp-Session: l3s3148p1@yJAV7SA//tgujnsa
-Date: Fri, 19 Sep 2025 07:41:47 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>,
-	Hoan Tran <hoan@os.amperecomputing.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Serge Semin <fancer.lancer@gmail.com>,
-	Phil Edworthy <phil.edworthy@renesas.com>,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Pascal Eberhard <pascal.eberhard@se.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v3 0/8] gpio: renesas: Add support for GPIO and related
- interrupts in RZ/N1 SoC
-Message-ID: <aMztGzYMHEPL1GVt@ninjato>
-References: <20250918104009.94754-1-herve.codina@bootlin.com>
+	s=arc-20240116; t=1758264774; c=relaxed/simple;
+	bh=92VyL1l/CCW1RzuyUm3CyqNURYeJmbDXunIJF9vmd2A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gUuPa1YnthTktAytX+pMo2Xf2N0BEKwaU3sZyZYs6gm1uHez4AyrbXr810y/rRYtn4+TstyUtbz45Rdm6vHai/IkD7Q8QXPSpDdAl1cRWooptEhxWDnBsxLEPS7/AKoMOqddGamvyx00XGbBsenXpluT0p9fdsF4C8UjqIWMKF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-8a967f3a873so702185241.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Sep 2025 23:52:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758264770; x=1758869570;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pkV81nju0TPvNncudyLCXK6ByPHFzfyoX04Ft1zWdlI=;
+        b=Q6M9t7inz/tLDWCDdFg9OAtXzV84pQ3B5nT58d2ZZBoCceMoiygY2TDUCCcFTJd5dg
+         Kka0+C69Zdk4il/3U2Zx0arK/JxVvWijAFj5ioWEFytG6dkDXvT3GP6rMX7s9JpteaLG
+         z+Cj0ZUuLLPVZjpXunHGN5lgE7j0Wzw8NbOHeRXzTcC838YHpi5933ftnNuqhbPHvJ4v
+         Muj9m9w+JvhAm7he8MkWVRfSHBb69NGZerCMY/rt3PbdEcM6/4CHuDnlLS8FcP/IcAtQ
+         yNlEO2SNmMk1+c/o5j/dJlOCWP13TOr8VX0MRwrwlWDlhwaenGH+V178iDGYppv9EyYH
+         B/NQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVRGSwLl5mU887vTy+YNC5k0EcsDPORwh1QgeGkCN8K+HFaLAz1uXHCzuJ7T0D0oEkmokHATZBU8pfkWEpWFyOtmw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YycGxshomKJcXiqVz0hpqsaiSNxec+Y9/a46OT/TBvjXzXGOh6o
+	WjXWGWQamwfxajG5m/KXqh/rLKgvrYs1kvkq2NJedoQYIzcGYwTz2PzteZw4uPI+
+X-Gm-Gg: ASbGncs1S3Fd/V5MZmV0VVSZhzmVthmVRcHKjp9hhMAgWNffWXmq32Jk24nzIHIsVIO
+	jAi1vN/KSAVbb1+WYEloyuMB1T5/Iaiaj7s3plm8+yqVxu/XUl9NPiuAd+1uVsHcNkbPkWzIm42
+	pQh4S5rQoUKT4Sr6zsdxl00qAZKrKtmXuSDJ6G684PcU2pXwzQC6P2rDttR0t+JSBRnOlUIXitG
+	rea/7uvjF63wuc6WGDyVHdxopaYNUFIEnd1py5KJFkGjGNRUo0UVlX+n59fKObMnutKCHeERybq
+	VbvvTzdtu14vAfKFidb+5r1+86tylRHyNznuZcwKqaTRz8Z7xNBiBtbMldQUl6WnuS9fIdyw2JP
+	jmULEqe1w3Gv5GdoeYD26VW/NY4oMlBhz7sTTqK0zemhC0DXg6eShwN9OM9KP
+X-Google-Smtp-Source: AGHT+IF2xcHk+aL/T/yqDHg+nON2FN+bpNlLwhrTYk0AWnZqZUw9QdTyjbEOhDAJJH0L9q0y8sAmaw==
+X-Received: by 2002:a05:6102:d8c:b0:529:1815:ae8f with SMTP id ada2fe7eead31-588baa65188mr652230137.0.1758264769785;
+        Thu, 18 Sep 2025 23:52:49 -0700 (PDT)
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com. [209.85.217.43])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8e3e7523a42sm788731241.13.2025.09.18.23.52.49
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Sep 2025 23:52:49 -0700 (PDT)
+Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-52e532e8198so341210137.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Sep 2025 23:52:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXogaGknMlvsQeQJ8Fbjn9UU6RGh2nSmjIoJ33g2TgXnGkCjif5D91kk5WUj5ncK5lLfnZCL+TIX8WBsgGfoispRw==@vger.kernel.org
+X-Received: by 2002:a05:6102:cd4:b0:519:534a:6c24 with SMTP id
+ ada2fe7eead31-588f87db47cmr602651137.34.1758264769029; Thu, 18 Sep 2025
+ 23:52:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="+NCAvgYw1zCajOLr"
-Content-Disposition: inline
-In-Reply-To: <20250918104009.94754-1-herve.codina@bootlin.com>
+References: <87ms6snut0.wl-kuninori.morimoto.gx@renesas.com>
+ <87ecs4nult.wl-kuninori.morimoto.gx@renesas.com> <86ikhg13m1.wl-maz@kernel.org>
+In-Reply-To: <86ikhg13m1.wl-maz@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 19 Sep 2025 08:52:38 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVezqWxbFp9dd0WPJnNM+MvmQ9F0UA2Ru_BSV6-6VgOyA@mail.gmail.com>
+X-Gm-Features: AS18NWD_Pkgqx7xjtQzxa7XmXgry72f3hJO1WXd7ew0O-6Nznr1kYzKT4iwfWdQ
+Message-ID: <CAMuHMdVezqWxbFp9dd0WPJnNM+MvmQ9F0UA2Ru_BSV6-6VgOyA@mail.gmail.com>
+Subject: Re: [PATCH v5 6/7] arm64: dts: renesas: Add R8A78000 X5H DTs
+To: Marc Zyngier <maz@kernel.org>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	"Liang, Kan" <kan.liang@linux.intel.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Conor Dooley <conor+dt@kernel.org>, Douglas Anderson <dianders@chromium.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Ian Rogers <irogers@google.com>, 
+	Ingo Molnar <mingo@redhat.com>, James Clark <james.clark@linaro.org>, Jiri Olsa <jolsa@kernel.org>, 
+	John Garry <john.g.garry@oracle.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Leo Yan <leo.yan@linux.dev>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Mike Leach <mike.leach@linaro.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+	Peter Zijlstra <peterz@infradead.org>, Rob Herring <robh@kernel.org>, Will Deacon <will@kernel.org>, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-perf-users@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Marc,
 
---+NCAvgYw1zCajOLr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Thu, 18 Sept 2025 at 12:01, Marc Zyngier <maz@kernel.org> wrote:
+> On Thu, 18 Sep 2025 07:27:26 +0100,
+> Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
+> > +             /*
+> > +              * The ARM GIC-720AE - View 1
+> > +              *
+> > +              * see
+> > +              *      r19uh0244ej0052-r-carx5h.pdf
+> > +              *      - attachments: 002_R-CarX5H_Address_Map_r0p51.xlsx
+> > +              *       - sheet [RT]
+> > +              *        - line 619
+> > +              */
+> > +             gic: interrupt-controller@39000000 {
+> > +                     compatible = "arm,gic-v3";
+> > +                     #interrupt-cells = <3>;
+> > +                     #address-cells = <0>;
+> > +                     interrupt-controller;
+> > +                     reg = <0 0x39000000 0 0x20000>,
+> > +                           <0 0x39080000 0 0x800000>;
+> > +                     interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_HIGH>;
+> > +             };
+>
+> I already asked for:
+>
+> - this comment to be dropped, as it serves zero purpose to the common
+>   mortal
 
+What about using a different comment instead?
 
-> This series adds support for GPIO and GPIO IRQ mux available in the
-> RZ/N1 SoCs.
+    /* Linux must use I/F Region 1 */
 
-I want to test this series today. From a glimpse, I might have some
-comments, so please wait a little before resending.
+I.e. replace "View 1" by the above.
+Thanks!
 
+Gr{oetje,eeting}s,
 
---+NCAvgYw1zCajOLr
-Content-Type: application/pgp-signature; name="signature.asc"
+                        Geert
 
------BEGIN PGP SIGNATURE-----
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjM7RcACgkQFA3kzBSg
-KbZqVQ//Z+JQrYUTEYKiVUYjRP3/e3VPEoOzJNLrPBAT0k4udThHiHECeEV72V/j
-jQEv/o2rOTQ8/tR9cN4F8ZbBhbA3LmnLDj3msnHZK4t54ZmrG4DFM0shZYNx8F5y
-iHjBIa/YRoC0Fp0udz9PI2yzDgteKNUJ0WiDqEa5R73OHR54Go6VFTunIe3bujMC
-CU5uKDs14GFxU3K43GKJEaqxf+oF2Xc9M0mslmGsCDCuGRkA4gIM04WwUSEqvmHr
-sXj+v0W6rnhNqtmyHu2ndvr8FTjzSF1hL0AUvwfa6y4hL3knb5XQTuTr5774ZdT/
-7wH7m++QJh5YtolMlWvEiGim5+zyBziRyeJxyIm2c164piYWavyfJvJb/vn3KIHM
-IxMuKo1VOt/oL6C5dSrSnlvGAHedRf9sU0Nkja/reAcUcBF/l7RChTUnzEqg0DEf
-OiXFHpUZrFjXRli040DhILDe3UAszFf4DavvOwzkngYl2YGoFchLano7ws5yxBMC
-oa7HL/51xlW7DGgwGm7SHQ5Rx93z/ZJyY8/uB3+RA1nyVBl4C8qYq5CVOiWQrnna
-sWvVwbNly46K613UZdCCw4nlJWQvPR4oxdXIUZZCWRCdDVeF11nzEHbBgzIOGAux
-jHLh1HMewT/wxlue9Nr6dtQJYKa9QMKdD/MhIQzC8+oqgqEFD8A=
-=I+cJ
------END PGP SIGNATURE-----
-
---+NCAvgYw1zCajOLr--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
