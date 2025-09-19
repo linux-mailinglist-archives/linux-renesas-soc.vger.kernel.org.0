@@ -1,144 +1,110 @@
-Return-Path: <linux-renesas-soc+bounces-22076-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22077-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 630BBB896A5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 14:19:51 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FD05B89763
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 14:33:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 95DF57BE74C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 12:18:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F3CDA3BBE62
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 12:33:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2E2B30FF3A;
-	Fri, 19 Sep 2025 12:19:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9B811D5AC6;
+	Fri, 19 Sep 2025 12:33:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="aTLVuzXq";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="xcU5dyp9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b7ocws22"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D8B30EF97;
-	Fri, 19 Sep 2025 12:19:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 813E419CC27;
+	Fri, 19 Sep 2025 12:33:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758284380; cv=none; b=fVclTzzBVjwdAEWlsh+s/K9nvlUtU+fDFhfSAuGR/W76tZnX60Akh5DkPaYb8S26wFSr6iytmhuiY1myBwTp2tWcli6XGsGAKIhyR4tNAUTLFcCU6IWAkfXn+GlkxKX3QS25zpVIehOqBxtt0zS0+uLkw0nvm3fPHtQREYKeWug=
+	t=1758285200; cv=none; b=rkXw5qnfeuUc4CuslshXMQIK8bt4DvgRr/B1sLgLaf1zCUTWmRN6Wz4oFaXWdSgBE8xIccy4IuTVS3V+Dhozt5h0pfOgJnvBdBheMIMJZYYt9LhGpzb+j3DYEGypiO9ecRqxL0lkjfVC3lzlYguVZGZ2Yj/u1CrxdjEVQXniVa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758284380; c=relaxed/simple;
-	bh=s61a/yp1wfMmIUuIrqwP0YUZ7l3wMSZcSYjOwEKNHUE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PxBRnt+S2RAt+jPPdeX9azen0V9vL+6P1tamaj1qc+AoVD1ocP2NSdN6HpG8g4v0jU7yoim2w5nyAsJgf9nO/eLMTN50rplFTzE7Efxd5YLV1t9rS5TZGBeVcXzeA/NaM52uQ9he+gTAp5xTET5LQ3HGjKmgx+hyt+whluPapdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=aTLVuzXq; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=xcU5dyp9; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cSs4z2Bcqz9sdH;
-	Fri, 19 Sep 2025 14:19:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1758284371;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C7OrMoU3Lsx8RxrhmwIrFS2FblgYqLM3hYfHo+fqPTY=;
-	b=aTLVuzXq3ROwHxW2eNcQacyCs+kz/fDnTENfKXEWfr0gxGWDiJvsnW4qMJWHt+21PmcduT
-	zek9vtlBxsjTSuUq+XTBZvsKozF2EEsDS6GSHO5gq0z3Ut8+5ykC9XUl1ICwDFPQFSxk5i
-	ynfbR1M0f4ikztt1joLqMXk4mHdZ5U44yS9OirvisFGqkuMRHI9MaK+6N9WSH1WjZD3jnt
-	kyNun+FOffU0J0b6JN8cuF36SBmuBIkknjfzPwwr13AdW6rMCQWq9KyJuscvWAc/oec9fB
-	Rt8v3d0TEr1KjyOnTcbOXB5wysgzw4On8DUvEzc14ZsJsjj7OC9n7A0j6W/rGA==
-Message-ID: <066d5882-89d4-4d10-a054-4d0fdec88cd7@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1758284369;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C7OrMoU3Lsx8RxrhmwIrFS2FblgYqLM3hYfHo+fqPTY=;
-	b=xcU5dyp9uWVB/WfyYLifydQLi/tumthbNNJdKmXXQ1sH6XSRIOV5j5jjnSClX+vnD6mFyL
-	tZa78pqfJ9AUv6pEEAjlRjNXjSGiAT9vbRcDwrH+oH+ZswcEYYTT8TJkSiZcZi8DTTNLIF
-	ZgU4l02hnToKJjDHBiWT5m1AwNvQqJqrrwIEdmYOW4BTqkZyfuCrI5Juu8VFkQpLV2/9lv
-	1+CP/zGTm5BlW2y+6AaWSttL2+Sn2AUJcGwtBtxY+3EVNoKJ2vdO/5vGZ7+x/v/iClTCSj
-	KEVzQf7ueSHcn9xnjcbDMvmf04yfFZ0qc4pAbRYAKvlTLRh8dMrINqvm6v3vUw==
-Date: Fri, 19 Sep 2025 14:19:27 +0200
+	s=arc-20240116; t=1758285200; c=relaxed/simple;
+	bh=vobpzHuxbagJk0+nMmeihBJWUkhXY4FqYQ5Kve1dS28=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n8n5mpcMZk9c/3fE+tmvxfidm1eqv9dq5nKl0dSuxRLIwZxnmYzHcxZgJffLXS4k1BDZG21RV5ofyxB+bokydJhXxIvRKx+W5tU7awGFGoF85KVLLVJQCGvvPv15Nb5fdCyhn8CheT8StY7OoxrEmDqkzD+F/6uiY7RRNQR8pms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b7ocws22; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FA9EC4CEF0;
+	Fri, 19 Sep 2025 12:33:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758285200;
+	bh=vobpzHuxbagJk0+nMmeihBJWUkhXY4FqYQ5Kve1dS28=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=b7ocws22QNoMpcYJxLykD6ISRoWbqEhp+J6wvNPJ1LUSWeMmBvJpKmPC22zMs76qi
+	 Yg/cKI1S0ccqcmHbbxqwJu8QdWbTbyY9aGdS7W0GMdWACbXeWEXMibFT2UW0bK4N8A
+	 ndJPF9AzU/IaMd/KghcT93eJmQL8rRX+YTR5w5Iys8d/OvluCdJJMkoR/UKlCrjxa1
+	 wjHjYRkP0Ufat6GTRpCGhF+jvjQVso4E62E2UQHdyXjdwETVpJMIP4NXLBD5PHdEvF
+	 5eV9bvb0DQMo/4Eso5BNpjffDvhDV7Ryx+lWxbkEIe2g+aa2FaG35UsMr/mgIeYShU
+	 JzXRNgLlAEmfg==
+Date: Fri, 19 Sep 2025 18:03:13 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+Cc: linux-pci@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2] PCI: rcar-gen4: Add missing 1ms delay after PWR reset
+ assertion
+Message-ID: <3h3tkv6jmkwqqsb6bdotdx4bcnnzqqqzgl5digryxo5bc4qpm6@np76zatxj6ff>
+References: <20250918231253.189906-1-marek.vasut+renesas@mailbox.org>
+ <20250919100038.GA3918632@rocinante>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] clk: renesas: cpg-mssr: Read back reset registers to
- assure values latched
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>, linux-clk@vger.kernel.org,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, linux-renesas-soc@vger.kernel.org
-References: <20250918030723.331634-1-marek.vasut+renesas@mailbox.org>
- <CA+V-a8sjPx8U+MB3v-SxErRPqbz4irAgZhCvd5CHY=6uO_VoyQ@mail.gmail.com>
- <353db156-e518-49c8-96ac-bd138ee64a01@mailbox.org>
- <CA+V-a8sLxBq8vSuq2HxcchpLqyQxqTRtkWjUKsRN9tBqGhU7mw@mail.gmail.com>
- <CAMuHMdXN2=0KRhBy-pW_ah7mL6iU+8O9pGD20dhSxk4-5R5ckg@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <CAMuHMdXN2=0KRhBy-pW_ah7mL6iU+8O9pGD20dhSxk4-5R5ckg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: dajori9jqiuixj5uegaj8bufk5wprot8
-X-MBO-RS-ID: fd5d281c595cb7b9d5a
+In-Reply-To: <20250919100038.GA3918632@rocinante>
 
-On 9/19/25 9:21 AM, Geert Uytterhoeven wrote:
-
-Hello Geert,
-
-> On Thu, 18 Sept 2025 at 17:05, Lad, Prabhakar
-> <prabhakar.csengg@gmail.com> wrote:
->> On Thu, Sep 18, 2025 at 2:42 PM Marek Vasut <marek.vasut@mailbox.org> wrote:
->>> On 9/18/25 1:11 PM, Lad, Prabhakar wrote:
->>>>> diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/renesas/renesas-cpg-mssr.c
->>>>> index 65dfaceea71f..7b52e8235984 100644
->>>>> --- a/drivers/clk/renesas/renesas-cpg-mssr.c
->>>>> +++ b/drivers/clk/renesas/renesas-cpg-mssr.c
->>>>> @@ -688,6 +688,7 @@ static int cpg_mssr_reset(struct reset_controller_dev *rcdev,
->>>>>
->>>>>           /* Reset module */
->>>>>           writel(bitmask, priv->pub.base0 + priv->reset_regs[reg]);
->>>>> +       readl(priv->pub.base0 + priv->reset_regs[reg]);
->>>> Fyi on the RZ/T2H and RZ/N2H SoCs which uses the same driver we need
->>>> to read the reset register `7` times and confirm [0] (as mentioned in
->>>> the HW manual). So after reading do we want to confirm the bit is
->>>> set/clear?
->>> This is interesting, I wonder if the readback is something more common
->>> to this reset controller.
->>>
->>> Why 7 times ? Is this documented in one of the HW manuals ? Are those
->>> public and can you share a link to them , with the specific chapter or
->>> page I should read about this 7 times read requirement ?
->>>
->> Yes this is documented in the HW manual [0] section 6.5.1 Notes on
->> Module Reset Control Register Operation:
->>
->> 1. To secure processing after release from a module reset, dummy read
->> the same register at least seven times except RTC
->> and LCDC after writing to initiate release from the module reset, and
->> only then proceed with the subsequent processing.
->> For RTC, dummy read the same register at least 300 times and for LCDC,
->> at least 100 times.
+On Fri, Sep 19, 2025 at 07:00:38PM +0900, Krzysztof Wilczyński wrote:
+> Hello,
 > 
-> Ugh, the number of times depends on the module to reset :-(
-> Do we need #reset-cells = <2> to encode the number?
+> [...]
+> > Because it is the controller driver which can determine whether or not the
+> > controller is in HSC domain based on its compatible string, add the missing
+> > delay into the controller driver.
+> > 
+> > This 1ms delay is documented on R-Car V4H and V4M, it is currently unclear
+> > whether S4 is affected as well. This patch does apply the extra delay on
+> > R-Car S4 as well.
+> 
 
-This does seem like an reference manual issue and will be updated.
+What are the implications of not having the delay? Just asking to determine if
+this patch is a stable candidate or not.
 
-However, it also seems if this encoding of per-reset properties is 
-necessary in the future, it would be better to have reset property 
-tables (similar to clock property tables) in the kernel instead of 
-encoding the per-reset properties in DT?
+> [...]
+> > -	if (!reset_control_status(dw->core_rsts[DW_PCIE_PWR_RST].rstc))
+> > +	if (!reset_control_status(dw->core_rsts[DW_PCIE_PWR_RST].rstc)) {
+> >  		reset_control_assert(dw->core_rsts[DW_PCIE_PWR_RST].rstc);
+> > +		fsleep(1000);
+> > +	}
+> 
+> Would it be a prudent thing to do here to add a comment over the fsleep()
+> or over the if-statement to document briefly (and for posterity) why we
+> sleep here?
+> 
+
+I can add the quote to the reference manual while applying.
+
+> Otherwise, looks good! Thank you for fixing this potential issue.
+> 
+> Reviewed-by: Krzysztof Wilczyński <kwilczynski@kernel.org>
+> 
+
+Thanks!
+
+- Mani
 
 -- 
-Best regards,
-Marek Vasut
+மணிவண்ணன் சதாசிவம்
 
