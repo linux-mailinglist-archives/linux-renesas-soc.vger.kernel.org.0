@@ -1,128 +1,129 @@
-Return-Path: <linux-renesas-soc+bounces-22092-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22093-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33673B8A5E4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 17:43:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C7F5B8A614
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 17:47:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DA2391896A91
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 15:43:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 071ED3AB689
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 15:47:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1701731CA58;
-	Fri, 19 Sep 2025 15:43:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90E4C31A55C;
+	Fri, 19 Sep 2025 15:47:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gOBt1FA3"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="cZawCdZY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3294C31CA7C
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Sep 2025 15:43:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28C2231AF14
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Sep 2025 15:47:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758296592; cv=none; b=jsQ1sS8nodkEBxSLUFgQ2kdPLMPy7IBDXMUT5OIAvcpsti2ILtyOfTWxvd/NkQjSrbUbS40gTYrTdyFDHAFUMIdbYEpKZ7NESJFWscJk21edN48NuFx46nTGMs6/bYBuLX0bizbrBI4YDhqLttxrLSOSmUmZmgrH6BD6LcxgHWk=
+	t=1758296831; cv=none; b=O4W2Vx1+5GMEinxu3bTlU8IeROaW88avYBgoKIslcsFNkCr3yNXeDayEyOhgltT/sgYPX6HsGGEKIX5f8qCTdgPWTYOo9v+R3emycRiOc8Ix8trcWMokat5Lufg3Pv6UBmvN9gGWfUPKX5h9IMkUiTGEHUswFbSklLhtWjwMVsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758296592; c=relaxed/simple;
-	bh=GUWbbIoYuPxC0PVASkNOJOvzh3Uy4fRQSYTvrzvfFGI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eP1PwwOAgesSwlojwpAQOl7rpEaPIKxNGKX+WPIeL6/foETps+ujy7UDPXuBGzP7ezm7kz9Oqd7eElTgB76ozj76+6MGRzWAnBYz4cg2Igb+NIe2Qn1R8CZ29pl0Z0g/ZfQqMVDoIHZuloFmN8o0aNSGgSAwM3DmO+B5TbzQQPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gOBt1FA3; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4619eb18311so15587565e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Sep 2025 08:43:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1758296588; x=1758901388; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LkQpaDIpCuNqvddytBmuD6MDMQYm1NodhkCLcp7FXu0=;
-        b=gOBt1FA3izxafufsChenpq9lm53BFHuBTsrYe0D7JJArrOYWcEYmrUEtUalZ4m0CAm
-         lI2QBkV8Sa1/ma9lujhy2ub2z3c15IUdZ7W91nY+waxQk8kRysoujgJq7+fX6t5jgLvh
-         IMw38jUxJTLqeBCGYJA3FOkrVT7AnrXLjUrPaSEQGFi24hYu9xAVd9H/lg0kgY04xyYg
-         EemYDyyc5xxci+trp6fNj/wbKFZea50sOOn3LCTsDwjcKxgP/Scga01RM7bu5TPWn/xi
-         6FWl2bkrUensrRhVrJ6rMptO5TjSJJ92PlbMLLjPwobUHyi9YtC+G7pRLV2GPu11QqBg
-         PuPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758296588; x=1758901388;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LkQpaDIpCuNqvddytBmuD6MDMQYm1NodhkCLcp7FXu0=;
-        b=nVjqppTT3qRUeXQ3NktkdCWvk4RIgj027QPLcttz5MGwdAcbQ4DqpvcXvNLss7M3IK
-         IpGNsAbP8dMQf6dnBWXXKdi8Ah7nI69GQrw6Wv/VPWVjYzcKtyrzhkzi1ipadJUfQnaN
-         ABYwXOufM0yyeZRY5025E4DxGhI9hK6c/PAVJPSpYCBXcflcqXVL/LZjB+5+1YFo18mj
-         asdLnx0s29Yi6IwmbyjrFrHDB8xOzdMpqLUB4+jWO3d6kdcRB9CUglYK4fCvoRJTx0Fz
-         d1clGn7ePF2P1nOr33L5fIfaHTY3un0ER+eWwWaC1y4IUV4H7zSBRqGrrNfYtpv5Zx9k
-         r4BA==
-X-Forwarded-Encrypted: i=1; AJvYcCUvooKJPo64lHLESvi21CDEccO/Xpx6Dn7G1efJo6XdYLLDHyXQVrbWuKzfbv6ujlEvmH8EBCjtC72vrlQXC4Wl0w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwkQ2P+4HGUZSpDOrqJKQl5KU2FYzKNbv2PAGovMYgazAH5njJ
-	3m/qqPTWc8/Lj37ABbxmBa75+hGCm+rIgj+kzm3VrVZmDX70ER57+5odKNwhJIvtV63PB9R9l6G
-	QWvSX91c=
-X-Gm-Gg: ASbGnct/SuhqX4nm7ZshTyDrl+VEUElCM6zIgIZhnnAqFiCV2EEY9QeKDQR02Cxqv8i
-	w094SolW7jm989kBcUFrj2rGE/lwuInQMaLXhQPvyPyNX6DbDQ4Uy0iF3VTVZV28KLSaVHVKSFP
-	JEnoyN6CHmK5LOKC1MtO1BConcWEd3/XXnk6VII1ptekm5uSuJNjqhbrHnIlVD4T/F3o7oULosq
-	CBBDjAzXgzq/WLdreFPO9PTUFKMaYP11sT+GDWgteQ9TaHY2vvolH0y5EXABtd0a9YzFrdD1s3M
-	UnxEPafhRHhy6UVNYKSMZqT5kF9VWZKAUjHmydBTHQ3iqyxFcNHXY3S9URwOLhICwm/Ay/o5E7O
-	Z+3kKenkTyrJ16WoxORjnvxirlJN3zjPPt2vdq4HMao5aWDoszSQgoiC35jDb37P2TZK4+w4kFi
-	gJCA==
-X-Google-Smtp-Source: AGHT+IFYvRcAmwC+mp+0+RFbvRArwGTpkTn3ZN8Wn5X+7lOF3PNWJMwXqY3LiyaPYA6nN2cvLS4FUw==
-X-Received: by 2002:a05:600c:8b86:b0:467:f71c:148 with SMTP id 5b1f17b1804b1-467f71c039emr31089465e9.33.1758296588420;
-        Fri, 19 Sep 2025 08:43:08 -0700 (PDT)
-Received: from ?IPV6:2a05:6e02:1041:c10:8ffd:205a:6719:49c1? ([2a05:6e02:1041:c10:8ffd:205a:6719:49c1])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3ee15bfab67sm4605373f8f.43.2025.09.19.08.43.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Sep 2025 08:43:07 -0700 (PDT)
-Message-ID: <f9554814-e5b7-421d-bef8-92131b1cc840@linaro.org>
-Date: Fri, 19 Sep 2025 17:43:07 +0200
+	s=arc-20240116; t=1758296831; c=relaxed/simple;
+	bh=bZhMTjNs0YcdGY/cp9K2ELuzBsbeI/AjHbVeOQdERBo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j9jcnraR5SKOhH5EoWMAB1XEmNkXFWEmZMAL9eUWysUyVPYatrjHtf1vnvWcvss2hXUgMH9G/KHAY51i7rKER1okIky9sVT7z1h0v1wZMyfMbH+Mw8uJc3mRJn9rF6mpVAouiZrsy5lMqPA+yLV7PDhIzCP+Hv/PuqneGz48Log=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=cZawCdZY; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=C1Yt
+	3wDpRx/hWaDw4sYAQXyPZ9mCqlXDREwSUU83R8o=; b=cZawCdZYRZw2+cukQmNB
+	KoVXCO7O35/qLi+uwN+K9k6g+kRzjuI3+zMVPXaBeKDQcta+QlRUn2KyjN3TphD7
+	zwCnM1bwzp28nuDWFwFO21fPWFd1jyx3hDrslDM6IYknlQJoClmvuCxho1XuuAEy
+	KoOskgCPGML8nkNlIVnzVXRUBhjeKcMjgJP1Ox6SmYYvhMBmu8L+M1QHaMovGJaZ
+	xC3YY4CMJow5pqegyE+TlFdNQYpCG6x6ZutCSnMbL0ugi7QR07T9UO2EGVXAlXEW
+	y12uTTciltBqH6JrItrqjTekEBpWMN6NcNJMHUAKNSJiMZYKSVFSmg0fbRI3QoPc
+	Lw==
+Received: (qmail 3967997 invoked from network); 19 Sep 2025 17:47:05 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Sep 2025 17:47:05 +0200
+X-UD-Smtp-Session: l3s3148p1@0sWqYSk/PKwgAwDPXxLYAMR913XberYj
+Date: Fri, 19 Sep 2025 17:47:04 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>,
+	Hoan Tran <hoan@os.amperecomputing.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Saravana Kannan <saravanak@google.com>,
+	Serge Semin <fancer.lancer@gmail.com>,
+	Phil Edworthy <phil.edworthy@renesas.com>,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Pascal Eberhard <pascal.eberhard@se.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v3 7/8] soc: renesas: Add support for Renesas RZ/N1 GPIO
+ Interrupt Multiplexer
+Message-ID: <aM16-DDi7OVSRbjG@shikoro>
+References: <20250918104009.94754-1-herve.codina@bootlin.com>
+ <20250918104009.94754-8-herve.codina@bootlin.com>
+ <aM0lU01x1w2wB3LG@ninjato>
+ <20250919151448.14f8719a@bootlin.com>
+ <aM1rRuiJH9dlwBjL@shikoro>
+ <20250919173011.4b32a928@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/4] thermal: renesas: Add support for RZ/G3S
-To: Claudiu <claudiu.beznea@tuxon.dev>, rafael@kernel.org,
- rui.zhang@intel.com, lukasz.luba@arm.com, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, geert+renesas@glider.be,
- magnus.damm@gmail.com, p.zabel@pengutronix.de
-Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, niklas.soderlund@ragnatech.se,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20250810122125.792966-1-claudiu.beznea.uj@bp.renesas.com>
-Content-Language: en-US
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <20250810122125.792966-1-claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="lGy/8oDdan6XB7Xf"
+Content-Disposition: inline
+In-Reply-To: <20250919173011.4b32a928@bootlin.com>
 
-On 10/08/2025 14:21, Claudiu wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> Hi,
-> 
-> This series adds thermal support for the Renesas RZ/G3S SoC.
-> 
-> Series is organized as follows:
-> - patches 1-2/4:	add thermal support for RZ/G3S
-> - patches 3-4/5:	add device tree support
-> 
-> Merge strategy, if any:
-> - patches 1-2/4 can go through the thermal tree
-> - patches 3-4/4 can go through the Renesas tree
 
-Applied patch 1,2
+--lGy/8oDdan6XB7Xf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks
 
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+> kind of:
+>   static u8 reg_index[8] =3D {103, 104, 105, ... , 110};
+>=20
+> Base on GIC IRQ number retrieve from the interrupt-map item, we search for
+> the index in reg_index that match this number. The index found is the ind=
+ex
+> used to access the register.
+>=20
+> What do you think about this?
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+I sure like it better than a fixed ordering in DT. And the advantage
+compared to subtracting 103 is that reg_index can be flexible in case we
+want to support other SoCs than RZ/N1?
+
+
+--lGy/8oDdan6XB7Xf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjNevQACgkQFA3kzBSg
+KbbK3w/9EAnr3+PwQmgvwpXfxXsG5pvpSDSa74RKDXBPik4xj/2AxbEQbjuI6ThV
+hdWPaPzEZIms40E0+1Ei8dzmO2EbNzExXs0VO+bIoizSECCo7btYJq0vItZgKAcQ
+tqTskGmEBGdCYBg+F75T9GvYgBhfiQ45WgnJCtFKoZiSaMGVlFowY8DiQlY9P/V7
+MRWkdcpIDU9NIOU8i52+DxDeCZnJ9fSJsmZUwtGFRjJpDNvB3ErVxf6XzsLDKupP
+oQEYULzP97xC+k33org7ek8n7YKoSN0SPZFtDx6HoqJAi4YTpJ15zSodVbOFa89t
+LpFFAArkTlIYoVcbu59Ceilw1+xhIF7Tgr05R8jo4HP7nyb7/lRTfQBpAZVMs8FY
+tvBl/j6Pn1baMxT1f4YJVELap/yDTYG/Nazqpjz61MqEUWytFlfmqHyDDj79F8nF
+oTTXC2hWEb41Fgvama5jCGL5GBPa19FApzmviDiYAFPMl+btAtc7jbxGz80xdL9u
+9qMeO7/LTqQ9C7MP3UZvhHsfpewM+JhFUDH/H3WO8m/tMZ5dvweH+WHXzaLoS0b7
+X1lQ79s9MMJehn0K6+H2LA7Bx9AutSF66aO6wZmNMYfVvy/5FmN0ZI4Y8zfmr2eI
+VLsFQBk620BUoKRR7VnrM5FjGY+Conp/g7CJfpJzvetRkr+UOfo=
+=f6/y
+-----END PGP SIGNATURE-----
+
+--lGy/8oDdan6XB7Xf--
 
