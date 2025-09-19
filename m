@@ -1,126 +1,162 @@
-Return-Path: <linux-renesas-soc+bounces-22090-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22091-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96AB5B8A57E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 17:39:06 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8702DB8A5DE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 17:43:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D745417C28A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 15:38:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3C3BF1896A6E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 15:43:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D9F831A80C;
-	Fri, 19 Sep 2025 15:36:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 116AA31CA41;
+	Fri, 19 Sep 2025 15:42:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="olAimwhx"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="yHVlC6jo";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="hLtBEhbi"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1821F31A80D
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Sep 2025 15:36:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB7731C592;
+	Fri, 19 Sep 2025 15:42:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758296190; cv=none; b=muuYLtFP2O+xH/LvcWccS145/nodCWrJKda+uwAMfGWZ1mYvODMgc6G/2W0T9gHhuyH1UYGBMA+TOpEhCX8vyfuW87gdNbhQ0XYl2H86PnEnqcUgt5AvWAfy3kKezE7U2MCfuxmG8pHXoMrkio3AuKLnClu0aIJczB1AB+gRawU=
+	t=1758296564; cv=none; b=Z2k5WbYjAuWcarfBvJhVGs9OEiw8tIeCmsY8xfSFdoS3EcVBgxZG+b1cq1XLoy1H8p5G9ouv8dB7wX5uvTH4q0PVX8R4EIcDSX48nYQZP+G+nDETFDSMIpkf0LXS7g1mpKRm5HSVax0PsRIkmgkibt6uU0huE5hxcofgAuNMJSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758296190; c=relaxed/simple;
-	bh=QQ13y357KdcEoMsg6bRgvQuNzIHdWlBZTLLZM/2ttNo=;
+	s=arc-20240116; t=1758296564; c=relaxed/simple;
+	bh=nT0IlK4MNyUIspg9avz2WKTOIwejIyISgsi6l50Mpzk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=efczkUBHVMFBUs2sBY8N/EhH2Thvzqtayc4PeH0Pi+3TMHe7xS3OeWoMZu+16QIVmuXnQlCJMxbe8RKBKDjxO0Wuu7F8no9F/omEr+oW0vTDU/6C2QvTe3FEDtY8vLW6397S7/mmDXN9L11Hy/5lH7uDnnDtqukbyWcWk9BvBM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=olAimwhx; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3ee12807d97so1766399f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Sep 2025 08:36:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1758296187; x=1758900987; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=f2pRpE/45sP9niRYSRq9qImpVKIDTIafU8gzww+a/cI=;
-        b=olAimwhxLsKMhKYeqjqMZvqxn071mQyq0ldUX5QgkcLSzXtBsBqRHbSAGScekEdTU+
-         MGeKRZoRPGyIycDGUzu4hIs9xjb51px4qgFatcI28GGL3ixLuZ9289r4aJtFsbawrk1w
-         choirb1DyaXSd/XwmZ67senyHvZkBdUOQnUef/320a6Y8GgP7SNzHEBF4ickCRidcAkq
-         Ts5SyCHyMJNHWgi90qP4yM7ShZ0LJxxu1EMaYd0igXZIutrxE6xlJ4nED6tfvDdh/4+t
-         wV/p3mML4z4DN4PsFA0/67+fcm78wM3zxtmFQmYQoVRq32aAr2cx5jojUcMzgqV3nFLZ
-         odjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758296187; x=1758900987;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=f2pRpE/45sP9niRYSRq9qImpVKIDTIafU8gzww+a/cI=;
-        b=dRwHGY8nsrR1cuOOumWquLeTGVUYRAeOWwWT3B4FaaLaocdhhVqZ83ENyfIClEYoCi
-         TC/f5BYFZUbqO+e9vevrC8S4qX+MjIqrCQ8pqUpJdcEHRL4Omj4837iTmCrRUVdF9XNw
-         9ACnU4Z4uRFsoNNy8gdXPah38uRzRDfphBzFqnP2KNif2tRUKSN8t0Ex8ntWzSZBCgoC
-         cEv0wr98rpthoW+NLFaP0ieBWcWFF+TRmlkhev0cM5uVyVAt2ECB8eII2wfONfgGW25H
-         vQnP4wpBVZkxZjUSBlrQkeXAMctAxPDqarN+EXtu1aRPVnlupn6ktnS2JL967Gk0V3Qs
-         vXXg==
-X-Forwarded-Encrypted: i=1; AJvYcCX8RtUooFTATsXJR5/ogW9BjQcv2ohp5sHejCNVcNQDXwsWM02nbK+2bKpAGpkXdYQBdLh4ABf39jRnpTGXuU+xzA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwVSBvb4lSV98e1Re1cbWiZXlGoPFw2yYRogcSwdGipTtTHAsoZ
-	RreRAXhQQiO4CvXSzNmk6WSecQgZlv2zDsMeWJaRB4RsoYx9j8J5V3FSsn7QuA0nr6U=
-X-Gm-Gg: ASbGnctMxYehL0lTiGUxDuveAtk/N0++opGzrS8ZB3PEyY1epjI066KcwTRS2/Ll6IF
-	StcjXoGI6j8soH+eQp7TlQY/HtrdLAauDXaLNXFUPMWPuzd0WrzhKqC/t+PbIFLNpQ7t3x2bVYC
-	QXVACVk1L3X77H9JYJwCD9FvKyN0XFVs2vlMVoGzsioGsLUkJuXQ22aRRdj6wpRXEgnzslXAHUw
-	sbM18sgQuANPHF9S2M3AYDNb21+DYddOHojCfXRGBfO407nZ4vOVL1sC45ePCwZodz4g7nR/+ft
-	Izs0tbH1n24QDb8MMv/tEqlzYkxx9IiOn1nsVT/3Wbr3UL/EVoBEcGixRQzOR/FE5o1Gt5DEAEk
-	o+EsJOiJ8pF51yDA31QyzrfvkaTRnHGcAFRoQlVnLjWqTzZoCREXSaJya7xEtJmkRWtbTQXcf1y
-	fBIw==
-X-Google-Smtp-Source: AGHT+IG3N6yDffPIIsvlc2hrfvII+0O+KrDC9YtG2RKsx3+KurTsZNXbENU81ur2gTzujZrnIC6z3A==
-X-Received: by 2002:a05:6000:1862:b0:3ec:1b42:1f8d with SMTP id ffacd0b85a97d-3ee7c5542c6mr2990681f8f.10.1758296187269;
-        Fri, 19 Sep 2025 08:36:27 -0700 (PDT)
-Received: from ?IPV6:2a05:6e02:1041:c10:8ffd:205a:6719:49c1? ([2a05:6e02:1041:c10:8ffd:205a:6719:49c1])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-464f0d8a2bfsm93035635e9.2.2025.09.19.08.36.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Sep 2025 08:36:26 -0700 (PDT)
-Message-ID: <3613157b-8c98-44b4-89b3-75eb7fe397ac@linaro.org>
-Date: Fri, 19 Sep 2025 17:36:26 +0200
+	 In-Reply-To:Content-Type; b=rD66LLSeaeQgb0S//YNjZm8fl8pWdLuFxKoLkdfTD0Zg2q/IsiFOMQvKbadP/Z4VAFqLUrZV301PNds8QEBHTS0oLO4YICUzMk14uqZTbHd61aAPnfQ6Iga0gfDSXrhLoByrCJb2inLCz7QSEoVVmnAHNZdECgf0WMr6HUJLDv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=yHVlC6jo; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=hLtBEhbi; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cSxbM2x4pz9srv;
+	Fri, 19 Sep 2025 17:42:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1758296559;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c1Ehgl//7J5eN6jIwhxHmYv+Fa5MYiiiBJ6kgACwPfU=;
+	b=yHVlC6joAYt1+1RMpzsfhIqXUqeNKrZOxDn5euG5D9bmVWDRRqrIZLjDYgQDaVoL066Knw
+	JUg+dZrOHPc1ltO6GSxVX7+w7MyUjRQKX9VhwJbVM6S15/A+ggso8jTyUG3xWqQ/oVwCZV
+	0xyX7sWodNsL+nY58NT4+q5Tu9S67IsCDB1GaPuB6sd23WDaV6ce9QdiMciFDMAA0GP22o
+	jp2JnVMUmV6nZGMAdNKj+xcTDf9ZiskDc59CIZN+6L26J9OHI+MYGq/2cCMV/NBcag44Jz
+	cEVrNxzdWg7ss6IVB8gV8fXoMI4RE+3ltbFZvQNeBD8Z3I8TXfh12SPRphCk/A==
+Message-ID: <b4c0e78a-eecb-4a18-9199-18ea91c8df31@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1758296557;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c1Ehgl//7J5eN6jIwhxHmYv+Fa5MYiiiBJ6kgACwPfU=;
+	b=hLtBEhbiDO+lKrG8WUaqpYtg45pLbEgKIJQOw1wIxZUUF38HPDEReOqlr1j58LGg0/ehxI
+	EKVLIVUbocX5EqliK+6oH4H4m75dRKSZGUGBd6RbqVtu6DDHA86TynI2/4z2balA2+OF9Z
+	4+lGKOzuCK5ifYZ4Co3gA/9nFaSxbDzbyHNQSvt14UTjx4ruqxHK+McLt6G5rB1T7gp7yr
+	0hjl/DdxZ41qRcD6ugLcfD9PbmftjB8aDrSt9CPk8mnyYg0HI0rcahPmCImzkANDuQbap7
+	9vsHYfjLMwPGNBbcMszAVPxRbytgHffL0leH9V8JUMuqkljG5ovoUL/S1vWUPw==
+Date: Fri, 19 Sep 2025 17:42:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] thermal/drivers/rcar_gen3: fix mapping SoCs to generic
- Gen4 entry
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- linux-renesas-soc@vger.kernel.org
-Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>,
+Subject: Re: [PATCH v2 4/4] dt-bindings: display: bridge: renesas,dsi-csi2-tx:
+ Allow panel@ subnode
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ dri-devel@lists.freedesktop.org
+Cc: Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
- Lukasz Luba <lukasz.luba@arm.com>, Magnus Damm <magnus.damm@gmail.com>,
- linux-pm@vger.kernel.org
-References: <20250911070254.2214-2-wsa+renesas@sang-engineering.com>
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20250904210147.186728-1-marek.vasut+renesas@mailbox.org>
+ <20250904210147.186728-4-marek.vasut+renesas@mailbox.org>
+ <4ffcf4fc-17a9-4669-af07-f81ddb46aee9@ideasonboard.com>
+ <d76ff19c-7b0f-4aa9-8ae2-d08c82d70410@mailbox.org>
+ <aebc10ec-73ed-4843-95c5-9ba5a2759ccb@ideasonboard.com>
 Content-Language: en-US
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <20250911070254.2214-2-wsa+renesas@sang-engineering.com>
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <aebc10ec-73ed-4843-95c5-9ba5a2759ccb@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: tgc6nksa5org5k5jrkqcbo767uioh3zf
+X-MBO-RS-ID: 94d5eb12e6c652a00fb
 
-On 11/09/2025 09:00, Wolfram Sang wrote:
-> S4 was added first so it was assumed to be the blueprint for R-Car Gen4.
-> It turned out now, that S4 is a special mix between Gen3 and Gen4. V4H
-> and V4M are the similar ones as confirmed by HW engineers.
+On 9/19/25 5:21 PM, Tomi Valkeinen wrote:
+
+Hello Tomi,
+
+>>> On 05/09/2025 00:01, Marek Vasut wrote:
+>>>> This controller can have both bridges and panels connected to it. In
+>>>> order to describe panels properly in DT, pull in dsi-controller.yaml
+>>>> and disallow only unevaluatedProperties, because the panel node is
+>>>> optional. Include example binding with panel.
+>>>>
+>>>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+>>>> ---
+>>>> Cc: Conor Dooley <conor+dt@kernel.org>
+>>>> Cc: David Airlie <airlied@gmail.com>
+>>>> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+>>>> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>>>> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+>>>> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>>>> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+>>>> Cc: Rob Herring <robh@kernel.org>
+>>>> Cc: Robert Foss <rfoss@kernel.org>
+>>>> Cc: Simona Vetter <simona@ffwll.ch>
+>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>>>> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>>>> Cc: devicetree@vger.kernel.org
+>>>> Cc: dri-devel@lists.freedesktop.org
+>>>> Cc: linux-renesas-soc@vger.kernel.org
+>>>> ---
+>>>> V2: Drop the dsi0: and dsi1: controller labels
+>>>> ---
+>>>>    .../display/bridge/renesas,dsi-csi2-tx.yaml   | 53 ++++++++++++++++++-
+>>>>    1 file changed, 51 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/display/bridge/
+>>>> renesas,dsi-csi2-tx.yaml b/Documentation/devicetree/bindings/display/
+>>>> bridge/renesas,dsi-csi2-tx.yaml
+>>>> index c167795c63f64..51d685ed82891 100644
+>>>> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-
+>>>> csi2-tx.yaml
+>>>> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-
+>>>> csi2-tx.yaml
+>>>> @@ -14,6 +14,9 @@ description: |
+>>>>      R-Car Gen4 SoCs. The encoder can operate in either DSI or CSI-2
+>>>> mode, with up
+>>>>      to four data lanes.
+>>>>    +allOf:
+>>>> +  - $ref: /schemas/display/dsi-controller.yaml#
+>>>> +
+>>>
+>>> Did you try with a bridge? dsi-controller.yaml only allows a panel. I
+>>> think I discussed this with someone not long ago, but I couldn't find
+>>> any patch sent for that.
+>> Nope, I only have these two 5" and 7" RPi Display 2 panels.
 > 
-> So, rename the S4 entry to be specific instead of generic. Rename the
-> V4H entry to be the new generic one, so V4M will use it as well now.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
+> Ok. My point was just that the dsi-controller.yaml doesn't allow
+> "bridge" node (you can just rename the panel to bridge to test). I
+> thought someone (I just can't remember who was it =) will send a patch
+> for it, but I think that hasn't happened.
+Do you want me to drop the bridge part from the commit message (I assume 
+yes) ?
 
-Applied, thanks
-
-
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+Any other change I should do before sending a V3 ?
 
