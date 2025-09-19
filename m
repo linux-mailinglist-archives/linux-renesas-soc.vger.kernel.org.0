@@ -1,125 +1,144 @@
-Return-Path: <linux-renesas-soc+bounces-22103-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22104-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EC6CB8AC21
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 19:26:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A056B8AC51
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 19:33:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E2E667E744F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 17:26:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4EB1D564BCB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 17:33:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 296CB155A30;
-	Fri, 19 Sep 2025 17:26:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D09F23112B7;
+	Fri, 19 Sep 2025 17:33:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="trIoGFAE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A26E5244669
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Sep 2025 17:26:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D834274FFE
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Sep 2025 17:33:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758302805; cv=none; b=Uhte6P37KpisvXgnGD9Xdw/CyPzQGj9b7VNWp+vrwE3nrC+MpUNLXarWDYdtaGxWGghQaLEJqXquNazcAcFN/6UA/MW0tLRWTMgREwnRH9cDVcMjuULqekKkkHOybxfjRxy3+Oy9JlXxGUUtLw0wsJMQjvddsjLUBFjBogHnCNc=
+	t=1758303222; cv=none; b=tyMqwYWzKncafLMH+j1bBx6Z6cQ1EUdRpIdPSeP0mfMNEm8mUbR6ZfDnfFMefeCpGKn/4HEThoiii3U6CNs+N8UzmtcyiLz/kmc5+2IGbd8OGyMpzi3DnNCpSjM7fFFpbT8l1xpK/iW4Ktm/DfaRntMUfwkEf5TgULg6XHBqROs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758302805; c=relaxed/simple;
-	bh=B+urOrqmBB+3QdP9Plmm538jf6VIjLUppsmdToePA7c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q0SMUbw96rnFvCz8wxbBw9NkYPDhiWrNYCgFGnuV3KKhrlqEqld0N+wdAsP/MkLi/9B+CjeqlwQzgPxemn+F4gShxrQXBo1D+hPAnO72+smWc43y+tF5CdC9chl4yvh2GSxJHmxN+7d6xM45e4juXFvOrTGP98p7t4B/0qi8qb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1uzesb-0004GO-0W; Fri, 19 Sep 2025 19:26:41 +0200
-Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1uzesa-0028qA-1k;
-	Fri, 19 Sep 2025 19:26:40 +0200
-Received: from pengutronix.de (ip-185-104-138-125.ptr.icomera.net [185.104.138.125])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id 720784750E5;
-	Fri, 19 Sep 2025 17:26:39 +0000 (UTC)
-Date: Fri, 19 Sep 2025 19:26:35 +0200
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
-	linux-can@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 00/11] can: rcar_can: Miscellaneous cleanups and
- improvements
-Message-ID: <20250919-aquatic-invisible-bird-19f49c-mkl@pengutronix.de>
-References: <cover.1755857536.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1758303222; c=relaxed/simple;
+	bh=+STrF9PYCBuc8/qsS+R4t2F0Hq1eLV08xgFRkBJD3nc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=u8T/rTmicpsMvLV0hUHMQDCPzWxxdi6ZTTpOI2BGZ+76XtuKe7ucBR7KEf8imMrgFQU/7K36EeeP2TwTB826S135+dzJZX1G0Y02wf37UsSj33Kl8dAoguMRSKNSwB1HRF+eJDSGYe7zc+/Bi2bCST/rpSdbISd2UpMr7qBdxUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=trIoGFAE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38309C4CEF7
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Sep 2025 17:33:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758303222;
+	bh=+STrF9PYCBuc8/qsS+R4t2F0Hq1eLV08xgFRkBJD3nc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=trIoGFAE4UosNsFMT+rSrmDzqZUOaGqRMFx98wg6sX51fjVkofYbQuqQ86twtURoa
+	 8YF3T77sDkXbCe7VL6Ve0tKbOIb174SO0mRTonUzt3Fgz5BI8Ju/oghIXc3n7U3sqS
+	 Xzv629DmvW8TjdfFM2VsFREnSyTuzMg8r+fwXeaO+WHraHHlnf/Xj8LzZx6g4oA0JQ
+	 OEXbtmxDM/lOAj/Qc5j/9UrCpdy1FCT+QFw/4WvYW0UYn3ElrUIMS2KK/F+Ucc0Fei
+	 Io6wsFBsig40LatLLL6dZ1apRIU0Z/bZ0sIr9fmVwCxh5LyXQgFMxrYmdeI9StMTqA
+	 9BbkWg038aolA==
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-61cc281171cso3344681a12.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Sep 2025 10:33:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUmf+FQyHf2Mgc+jxgQ1q5CUWzI2V/4hOJBuITW1/BBnUoB5+vi75ENxWCiJo69SzxRe9ixYhL3lySFQlAZibXHHw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw29gjfUg1YVyvCPjbNoZHKQ9fM2tzu64Y0cvCpO9zMMIigCx+t
+	4Eciq51gtrqk3OBpcm07yvkdbRjIjIObm05ZwMq/UdRo4EgMfX+Hm3wE/fhI0O3dpn74B+DYtHY
+	YitAZ/+VmAPklCBS85JVbCHkift7Z5Q==
+X-Google-Smtp-Source: AGHT+IFdAHQZ/nDUnKsSSIL9qonNEPFjd3PHBSsoiQD+Q5n/+BJxgmT2/kYpRWAJZfsEz+lU2Sc7msvI1kFYm4PEGLA=
+X-Received: by 2002:a05:6402:35d3:b0:62f:40c7:8543 with SMTP id
+ 4fb4d7f45d1cf-62fc08d7695mr3868736a12.6.1758303220768; Fri, 19 Sep 2025
+ 10:33:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="u46zhikjaei36jib"
-Content-Disposition: inline
-In-Reply-To: <cover.1755857536.git.geert+renesas@glider.be>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
-
-
---u46zhikjaei36jib
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
+References: <20250918104009.94754-1-herve.codina@bootlin.com>
+ <20250918104009.94754-7-herve.codina@bootlin.com> <20250918-majestic-mockup-0a0e090db0a7@spud>
+ <20250918171502.411c3527@bootlin.com> <20250918-education-resource-aac71b87e979@spud>
+ <20250918173915.730bc3db@bootlin.com> <20250918-flakily-thermos-5404fb4bcd1a@spud>
+In-Reply-To: <20250918-flakily-thermos-5404fb4bcd1a@spud>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 19 Sep 2025 12:33:29 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqK4CNq-NRDYz8bsTrAqv7rZwd_FYR+z-97o1UfnBp9=Wg@mail.gmail.com>
+X-Gm-Features: AS18NWDOpFL6VIHjLpp_0Gr54mKQd2E6A2Ik4bvpTdMu2EYUpi-oL3EoqZwJsAo
+Message-ID: <CAL_JsqK4CNq-NRDYz8bsTrAqv7rZwd_FYR+z-97o1UfnBp9=Wg@mail.gmail.com>
+Subject: Re: [PATCH v3 6/8] dt-bindings: soc: renesas: Add the Renesas RZ/N1
+ GPIO Interrupt Multiplexer
+To: Conor Dooley <conor@kernel.org>, Herve Codina <herve.codina@bootlin.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Hoan Tran <hoan@os.amperecomputing.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Saravana Kannan <saravanak@google.com>, Serge Semin <fancer.lancer@gmail.com>, 
+	Phil Edworthy <phil.edworthy@renesas.com>, linux-gpio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Pascal Eberhard <pascal.eberhard@se.com>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 00/11] can: rcar_can: Miscellaneous cleanups and
- improvements
-MIME-Version: 1.0
 
-On 22.08.2025 12:17:01, Geert Uytterhoeven wrote:
-> 	Hi all,
->=20
-> This patch series contains miscellaneous cleanups and improvements for
-> the R-Car CAN driver.  I deliberately sent this as a separate series
-> from "[PATCH] can: rcar_can: Fix s2ram with PSCI"[1], to avoid blocking
-> the latter.  However, this series (in particular [PATCH 3/9]) does
-> depend on it.
->=20
-> Changes compared to v1[2]:
->   - Convert new Runtime PM error messages to %pe,
->   - New patches 10 and 11.
->=20
-> Thanks for your comments!
+On Thu, Sep 18, 2025 at 10:44=E2=80=AFAM Conor Dooley <conor@kernel.org> wr=
+ote:
+>
+> On Thu, Sep 18, 2025 at 05:39:15PM +0200, Herve Codina wrote:
+> > On Thu, 18 Sep 2025 16:26:59 +0100
+> > Conor Dooley <conor@kernel.org> wrote:
+> >
+> > > On Thu, Sep 18, 2025 at 05:15:02PM +0200, Herve Codina wrote:
+> > > > Hi Conor,
+> > > >
+> > > > On Thu, 18 Sep 2025 16:06:04 +0100
+> > > > Conor Dooley <conor@kernel.org> wrote:
+> > > >
+> > > > > On Thu, Sep 18, 2025 at 12:40:04PM +0200, Herve Codina (Schneider=
+ Electric) wrote:
+> > > > > > On the Renesas RZ/N1 SoC, GPIOs can generate interruptions. Tho=
+se
+> > > > > > interruption lines are multiplexed by the GPIO Interrupt Multip=
+lexer in
+> > > > > > order to map 32 * 3 GPIO interrupt lines to 8 GIC interrupt lin=
+es.
+> > > > > >
+> > > > > > The GPIO interrupt multiplexer IP does nothing but select 8 GPI=
+O
+> > > > > > IRQ lines out of the 96 available to wire them to the GIC input=
+ lines.
+> > > > > >
+> > > > > > Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@=
+bootlin.com>
+> > > > > > ---
+> > > > > >  .../soc/renesas/renesas,rzn1-gpioirqmux.yaml  | 87 +++++++++++=
+++++++++
+> > > > > >  1 file changed, 87 insertions(+)
+> > > > > >  create mode 100644 Documentation/devicetree/bindings/soc/renes=
+as/renesas,rzn1-gpioirqmux.yaml
+> > > > >
+> > > > > This is an interrupt controller, please move it to that subdirect=
+ory.
+> > > >
+> > > > Not so sure. It is a nexus node. It routes interrupt signals to the
+> > > > interrupt controller (interrupt-map) but it is not an interrupt con=
+troller
+> > > > itself.
+> > > >
+> > > > I am not sure that it should be moved to the interrupt-controller
+> > > > directory.
+> > >
+> > > Your node name choice disagrees with you!
+> >
+> > Oups, you're right, my bad.
+> >
+> > What do you think if I change the node name from "interrupt-controller"=
+ to
+> > "interrupt-mux" in the next iteration?
+>
+> I guess, sure.
 
-Applied to linux-can-next.
-
-Thanks,
-Marc
-
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde          |
-Embedded Linux                   | https://www.pengutronix.de |
-Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
-
---u46zhikjaei36jib
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEn/sM2K9nqF/8FWzzDHRl3/mQkZwFAmjNkkcACgkQDHRl3/mQ
-kZx0xgf/ZUxi15DJOWGyX9v3T/lgJDmyCeRNQoujDGxcCiTuod2gm1gVJeZ8Apq9
-HwdfsA7de7BE1tby51J4X2lhQ0k/GihJ809ERYOObh4R94DAtgxtLkkbwAdkpvL9
-PePCMxx+xOIN2Ubgq9xklfE23QdzauVlmJWRrbdoGXmo10i+MH3f07wCc4zcmvKF
-/j67XfSaWRwKHihMHKyzuVrr9QIRCrkPhzkiFcN21u8/hFO5p3OEm0JgI3lGcgpo
-jwO75gPZ1EWxh1sriQ1LhkyembanuwiLfs6znRo0l/tawulM0zETjr3yi0UFnbFS
-LQVIgUP4g7oQ3JFKH0d0rBHX8D3CSA==
-=v2jw
------END PGP SIGNATURE-----
-
---u46zhikjaei36jib--
+Stick with interrupt-controller. That's what the schema expects and
+'interrupt-mux' (or any other variation) is not in the spec.
 
