@@ -1,148 +1,209 @@
-Return-Path: <linux-renesas-soc+bounces-22055-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22056-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77885B88245
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 09:21:18 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4A2CB883BE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 09:42:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3BDB0174F4B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 07:21:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7260E175354
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 07:41:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 505CB2BE63D;
-	Fri, 19 Sep 2025 07:21:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 343152D29C2;
+	Fri, 19 Sep 2025 07:38:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="LLfIf4GA"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF5D29D264
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Sep 2025 07:21:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F87A2F7AAC
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Sep 2025 07:38:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758266475; cv=none; b=oZDUax84Up1xguRUsNNO2oI2JnMnRURvAqqc6p/d522Se+dcaZW1ECktagC2MtgUh3IevRTBYQXrWDgeAVBkwxBOjwpx4gAOc0x4Iv9tbRevI24r9IpahwGngpumr9IM61cgOSjca2luulV7k6fcAGZh3n0IWK9FXpCgaLbsXDg=
+	t=1758267539; cv=none; b=rMez3BeIc6K2Ndk2FPJ8rpi4FaJYvH6FwWlTGcYxz88AtT31qAzsJKHBQTEgHy/gy6h3MQfdAumPSiBmg34+9ZbMr2IjM8AT7zoXdJdnPsNR++dW1afq4cdjuv/0hV6WI9V2nN4WVDk7fQMYOg+Vfk3G71ywiQRxthBVdRmhfAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758266475; c=relaxed/simple;
-	bh=Q+yeL72eS/EFDh4aFYPzpqwZ4gkMGeQeQ3gNYps+5s4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iOx1zySJxIV2TMZfcbu7ggEUsa57j5YRa8CTrQ3PLS3duWm5Xe8Tda0QmNezG7b2t96T8QmHeQi2k5gkgOaxL6T42KD4lZeAw7JWcEVyjqbuSEMUitE/vXDzg9q1tK1sF22hKoTCNxLfsQGa2BjFGjr+4OB8YbhAA5kLt/y3cNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-559cd5166bbso368382137.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Sep 2025 00:21:13 -0700 (PDT)
+	s=arc-20240116; t=1758267539; c=relaxed/simple;
+	bh=kMc6qIYkpkSaZVkYzK0h2R64lMZcG/aeYocJD7OH9t0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YYJGR804LLNESEN4bkeOPxd3VDRCZ2hQdGl2Oeu06F1IxC8XUB81HF+PMp5Dwmb0RT0LHcuasPIx0rzkDSLyX9TvxTZX+D10OIVDasW2bMu4tlZBNBS0hgWgbNJPW+Xd0pWSmJEOZlRc5g/t9IS88BY36VZDQN2UyPtQQarv/5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=LLfIf4GA; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-62fc89cd68bso571433a12.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Sep 2025 00:38:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1758267535; x=1758872335; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=C52fJI8OZn6dmpJ0EOOlg/5SF4AUK9kWOko1av6xLQQ=;
+        b=LLfIf4GAnVHjjU7p7nlOkC4EhaL2uxwAaiVPmwozaKqf/Tv9iNlt8JRYALD5QEJGq1
+         vLnCmIBKAL8b57erjZBJQum377AcTR1Zc02OCH5DfOOEg0klz47zdq698d67fMZlIthG
+         B5/l8VqVSkIfYMgYYlvy34sn/3fjjm7hCKI8738VPuATVWOvwxeiij0WAzMOIn2XuaXw
+         z1HoaJ5F/iT03Wqp2z2gOBNYDNQvvpQyJbBbW52D1HTtWkNEdHSLdr0AZ9FLq3lxGNZ1
+         PrCLb5fWQZsP+S4N/sFGAzUcylmgvYda6n8AwWiPMVVFmlpAnn4BAHmZEEf8Ec1M8qXW
+         Aw5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758266472; x=1758871272;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Wy84fRvImGlGf/x5eRlETn8EsRWO9FKk3GgLBbxuALM=;
-        b=XHgLENaKOwx99nskE0DFczcb34oOvJt2m5LC+o/07tQW1crcGeReVnGUx31iN1pWA7
-         1syiRkPGJXCiR00LBa6q0w1x33GUusfhAJigJjuPTqNDFUKd0IpE5QUSi0UJLRJD1PJ0
-         /kO+SsDgAMSf6LQX5mPvcP3WShgtdIMAtEBn7Dh3UwJqpRvXAngCuvySSyjt3Q58lhPT
-         w4Hh5YlfBlbKHjDHwHpcVMZhfW16QYjMjsVC8hgq62NKMBfLOpdKFMaPDLyK86IQjZjM
-         W6fGZyy1RYMeCc7kyziLyLUg0qAwdjun+1RCMegLUltWdJUKSBLyi0XAOm+dvCXXTKxJ
-         TdpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV5ZxLK1Cuiu+/PzEfxpSsyODcUZx+jGwOCuNn7g9LQ9+1LmlxH6X9q3YYHTgxMeDSJ3KPYNnzx2ciVIKSK8Ic20Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzsx3VlAAmlloFFDWqxsix9WsnfTw3HUlktsEl5fY98Ov7vF6dh
-	nS+AbkMNx9RgeWbPP2dZbI5OEfkRHTJGbVAtX4junc54y/0UfkydzQgO/mK6Boxi
-X-Gm-Gg: ASbGnctLaJA7/ypuXy+scdlKYu4X+Kj8s2QhUHIiLxEPjwD6+JUYiapdxvar1MzhQOo
-	kZbD8a+46PqR9KdL0gV0Pu6SdoMWgCbDOvV/1YPVsA2fHXmq5wzjyOnvzQz+3PZZf2gQEUJgUF7
-	ntTR2KC012snUstiC0o/eotSyjIfQHnI9mSTjsVXs94eY12mLTUuQOHdnsYS0it1fA7kmWX8ZiG
-	DzZpd3YjgD7yUeU8O4UK+I4+Qifk16LQcyuB6RLVpSQfD93BPf10vZKIDiZsTuSI7FIAiTwAS0h
-	zvXTpv3HFtlC8uDK4yShT9qrrhwuvnFEeLssknaJCRkEJzbpTlPlZyfsYNgTqVIFbbZFJoEUojF
-	hZ37iD6aFuO6e2ZggVP+yokz1MFk99JyeHUw+Zhs5M98kOUTP4YMfcH8i2q8xbpiwCTJ1S34=
-X-Google-Smtp-Source: AGHT+IEKfNuOp+/XBJK5Anyvm0PkH8naRUJaXgaJhZdJgQqazHMzdl5QxJmAHhzH8bwHOWoneubNeQ==
-X-Received: by 2002:a05:6102:f8a:b0:569:93c9:b572 with SMTP id ada2fe7eead31-588d78d4f57mr724600137.9.1758266472232;
-        Fri, 19 Sep 2025 00:21:12 -0700 (PDT)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8e3e75254casm722003241.11.2025.09.19.00.21.11
-        for <linux-renesas-soc@vger.kernel.org>
+        d=1e100.net; s=20230601; t=1758267535; x=1758872335;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=C52fJI8OZn6dmpJ0EOOlg/5SF4AUK9kWOko1av6xLQQ=;
+        b=YhCKjnAVUdZ+8ydtvqjrJdSF/b1oJyjPRTp5o1VgROr/RqywcgrwE1NFgrt0QHLLh/
+         L9mcTX76njwvFmx2s8tBD/XXscxEqhp9lQg2rGg+QfiPti2P+AHz0IS2HK57qbWNOODG
+         hvg6/4MQADJI3iA/vWZvz8AyjxUkvWuyauIUM9Hl5dFdZ1Ih7v2Vf12ATbhDCaTVHs5h
+         kdB0e47KSxYy95XmmnvoXEC8emn5h7tXUAUe8m5aSVuRLCQzSCnHnQm6kDUl/7oHSp+f
+         UTwKJj1za+A3Cx9+oHMng90PTWzhHMikt5yZ+MiLPteFSEMQZQf4PgxNU4VYxfD1GNzr
+         o0tA==
+X-Forwarded-Encrypted: i=1; AJvYcCV0hu973khWZOQQVa08xElyNHK1gk2rh8g/2qB0fkMaqhM0DOXfC4MjDPhhIMTuaCxGhAVJkZMTM5y4Si8qgHWOrw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJQ+MryW+lf2ZPGKEb8yRr7eu0GuGStyM57J59OM+jd+GZ6alK
+	jztVO6+iQn+6YtUfUncSljsdqa7ZCtuhsUOYA5Gl34cwY/N69nCpkY41F5ybowML6k4iZ7u3SDu
+	985V/
+X-Gm-Gg: ASbGnctaiHNHTC2eHtsxMPdWI618IrtRzRrIOTk6VXg2qlMkeI1mMVK8BBAkSFlGe4g
+	YI4JnY5IRT4NGX9I4Rt+/3BOUWj2ayZivm7vsqFFJyhYngrw+mBwiDiJuuE4fYVbZhYxp3XYwy/
+	ocLnyURHCDX1aQATN7Ryw5dyN0SMfHkVnOtKb7HfaaP1yt00nJaqfyqsY5E9HDeGuwJoDU8pIGM
+	Gm7Vhq8KMAAX9WOtjKSiiHQWRgwaBFMJS/sPAh+flUiI+VBFc5a4JvXoluSagU0oQGmozUoCDAE
+	LLzQyjOQnDQmdUvMjPETZHQ5Rgi3kLDbgTq9N6p8CXuwbEnms/aSv/LdbzYXxNHH4LtlyFyO3Tp
+	omMF6PhHsohQiYf9LhOZ3iS3j9Wwxg5F8zrbE7iS03w==
+X-Google-Smtp-Source: AGHT+IGZhuyuyTd1aKAi+fBtFosLneGcx8gx8yEr9OgXp4C95CMy9oC3K7BFoFpsdhrbZOu6d5TNSA==
+X-Received: by 2002:a17:907:3e96:b0:afe:63ae:c337 with SMTP id a640c23a62f3a-b24f727a7f1mr237583366b.57.1758267535087;
+        Fri, 19 Sep 2025 00:38:55 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.153])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b1fc5f43924sm386437766b.6.2025.09.19.00.38.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Sep 2025 00:21:11 -0700 (PDT)
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-89018ea5625so533512241.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Sep 2025 00:21:11 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUwPXLkdXXvl5NeK5dJyJURxofYOo0VLEJqGlqkKQddehx2wsx9YHAvlTK/qcvZRy1BEr1yesvZX2ldeZve3+Itpg==@vger.kernel.org
-X-Received: by 2002:a05:6102:c0b:b0:57d:9305:63db with SMTP id
- ada2fe7eead31-588dada3a4fmr641660137.15.1758266471269; Fri, 19 Sep 2025
- 00:21:11 -0700 (PDT)
+        Fri, 19 Sep 2025 00:38:54 -0700 (PDT)
+Message-ID: <0a20c765-ff72-4c03-af84-dff3f4850fa4@tuxon.dev>
+Date: Fri, 19 Sep 2025 10:38:52 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250918030723.331634-1-marek.vasut+renesas@mailbox.org>
- <CA+V-a8sjPx8U+MB3v-SxErRPqbz4irAgZhCvd5CHY=6uO_VoyQ@mail.gmail.com>
- <353db156-e518-49c8-96ac-bd138ee64a01@mailbox.org> <CA+V-a8sLxBq8vSuq2HxcchpLqyQxqTRtkWjUKsRN9tBqGhU7mw@mail.gmail.com>
-In-Reply-To: <CA+V-a8sLxBq8vSuq2HxcchpLqyQxqTRtkWjUKsRN9tBqGhU7mw@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 19 Sep 2025 09:21:00 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXN2=0KRhBy-pW_ah7mL6iU+8O9pGD20dhSxk4-5R5ckg@mail.gmail.com>
-X-Gm-Features: AS18NWCwEfI5KFrh0NIrqWXYQYE3E0Y3sbKZZ_oamCae3icZUAjis03HzRmeCBs
-Message-ID: <CAMuHMdXN2=0KRhBy-pW_ah7mL6iU+8O9pGD20dhSxk4-5R5ckg@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: cpg-mssr: Read back reset registers to
- assure values latched
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Marek Vasut <marek.vasut@mailbox.org>, Marek Vasut <marek.vasut+renesas@mailbox.org>, 
-	linux-clk@vger.kernel.org, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/6] arm64: dts: renesas: rzg3s-smarc-som: Update
+ dma-ranges for PCIe
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: bhelgaas@google.com, lpieralisi@kernel.org, kwilczynski@kernel.org,
+ mani@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ magnus.damm@gmail.com, p.zabel@pengutronix.de, linux-pci@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+References: <20250912122444.3870284-1-claudiu.beznea.uj@bp.renesas.com>
+ <20250912122444.3870284-5-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdWP638eB_p9xMAqZmOnuc6n7=n31h6AqV+287uvqQEdww@mail.gmail.com>
+ <c2fc5f6b-0e7c-464e-89a6-35dc76177d18@tuxon.dev>
+ <CAMuHMdWeHoUe-=7TDetnDQbLQsKGf4pDGpSdz3xEVLs_Rst9qQ@mail.gmail.com>
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Content-Language: en-US
+In-Reply-To: <CAMuHMdWeHoUe-=7TDetnDQbLQsKGf4pDGpSdz3xEVLs_Rst9qQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Prabhakar,
+Hi, Geert,
 
-On Thu, 18 Sept 2025 at 17:05, Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> On Thu, Sep 18, 2025 at 2:42=E2=80=AFPM Marek Vasut <marek.vasut@mailbox.=
-org> wrote:
-> > On 9/18/25 1:11 PM, Lad, Prabhakar wrote:
-> > >> diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/re=
-nesas/renesas-cpg-mssr.c
-> > >> index 65dfaceea71f..7b52e8235984 100644
-> > >> --- a/drivers/clk/renesas/renesas-cpg-mssr.c
-> > >> +++ b/drivers/clk/renesas/renesas-cpg-mssr.c
-> > >> @@ -688,6 +688,7 @@ static int cpg_mssr_reset(struct reset_controlle=
-r_dev *rcdev,
-> > >>
-> > >>          /* Reset module */
-> > >>          writel(bitmask, priv->pub.base0 + priv->reset_regs[reg]);
-> > >> +       readl(priv->pub.base0 + priv->reset_regs[reg]);
-> > > Fyi on the RZ/T2H and RZ/N2H SoCs which uses the same driver we need
-> > > to read the reset register `7` times and confirm [0] (as mentioned in
-> > > the HW manual). So after reading do we want to confirm the bit is
-> > > set/clear?
-> > This is interesting, I wonder if the readback is something more common
-> > to this reset controller.
-> >
-> > Why 7 times ? Is this documented in one of the HW manuals ? Are those
-> > public and can you share a link to them , with the specific chapter or
-> > page I should read about this 7 times read requirement ?
-> >
-> Yes this is documented in the HW manual [0] section 6.5.1 Notes on
-> Module Reset Control Register Operation:
->
-> 1. To secure processing after release from a module reset, dummy read
-> the same register at least seven times except RTC
-> and LCDC after writing to initiate release from the module reset, and
-> only then proceed with the subsequent processing.
-> For RTC, dummy read the same register at least 300 times and for LCDC,
-> at least 100 times.
+On 9/18/25 13:00, Geert Uytterhoeven wrote:
+> Hi Claudiu,
+> 
+> On Thu, 18 Sept 2025 at 11:47, Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
+>> On 9/18/25 12:09, Geert Uytterhoeven wrote:
+>>> On Fri, 12 Sept 2025 at 14:24, Claudiu <claudiu.beznea@tuxon.dev> wrote:
+>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>>
+>>>> The first 128MB of memory is reserved on this board for secure area.
+>>>> Secure area is a RAM region used by firmware. The rzg3s-smarc-som.dtsi
+>>>> memory node (memory@48000000) excludes the secure area.
+>>>> Update the PCIe dma-ranges property to reflect this.
+>>>>
+>>>> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+>>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>
+>>> Thanks for your patch!
+>>>
+>>>> --- a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
+>>>> +++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
+>>>> @@ -214,6 +214,16 @@ &sdhi2 {
+>>>>  };
+>>>>  #endif
+>>>>
+>>>> +&pcie {
+>>>> +       /* First 128MB is reserved for secure area. */
+>>>
+>>> Do you really have to take that into account here?  I believe that
+>>> 128 MiB region will never be used anyway, as it is excluded from the
+>>> memory map (see memory@48000000).
+>>>
+>>>> +       dma-ranges = <0x42000000 0 0x48000000 0 0x48000000 0x0 0x38000000>;
+>>>
+>>> Hence shouldn't you add
+>>>
+>>>     dma-ranges = <0x42000000 0 0x48000000 0 0x48000000 0x0 0x38000000>;
+> 
+> Oops, I really meant (forgot to edit after copying it):
+> 
+>     dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0x0 0x40000000>;
+> 
+>>>
+>>> to the pcie node in arch/arm64/boot/dts/renesas/r9a08g045s33.dtsi
+>>> instead, like is done for all other Renesas SoCs that have PCIe?
+>>
+>> I chose to add it here as the rzg3s-smarc-som.dtsi is the one that defines
+>> the available memory for board, as the available memory is something board
+>> dependent.
+> 
+> But IMHO it is independent from the amount of memory on the board.
+> On other SoCs, it has a comment:
+> 
+>      /* Map all possible DDR as inbound ranges */
+> 
+>>
+>> If you consider it is better to have it in the SoC file, please let me know.
+> 
+> Hence yes please.
+> 
+> However, I missed you already have:
+> 
+>     /* Map all possible DRAM ranges (4 GB). */
+>     dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0x1 0x0>;
+> 
+> in r9a08g045.dtsi, so life's good.
+> 
+> +
+>>>> +};
+>>>> +
+>>>> +&pcie_port0 {
+>>>> +       clocks = <&versa3 5>;
+>>>> +       clock-names = "ref";
+>>>> +};
+>>>
+>>> This is not related.
+>>
+>> Ah, right! Could you please let me know if you prefer to have another patch
+>> or to update the patch description?
+> 
+> Given the dma-ranges changes is IMHO not needed,
 
-Ugh, the number of times depends on the module to reset :-(
-Do we need #reset-cells =3D <2> to encode the number?
+I kept it here as the driver configures the PCIe registers for the inbound
+windows with the values passed though the dma-ranges. This is done through
+rzg3s_pcie_set_inbound_windows() -> rzg3s_pcie_set_inbound_window(). The
+controller will be aware that the secure area zone is something valid to
+work with. In that case, if my understanding of PCIe windows is right, I
+added this in the idea that an endpoint (a malicious one?) could DMA
+into/from secure area if we don't exclude it here?
 
-Gr{oetje,eeting}s,
+Thank you,
+Claudiu
 
-                        Geert
+> this can just be
+> a separate patch.
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
