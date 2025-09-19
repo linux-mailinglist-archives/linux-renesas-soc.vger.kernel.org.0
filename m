@@ -1,118 +1,142 @@
-Return-Path: <linux-renesas-soc+bounces-22087-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22088-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAA17B8A097
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 16:41:12 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A31AB8A3F2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 17:21:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E80D4E16B6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 14:41:11 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 10A5C7A7BD8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 15:20:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F74B31328D;
-	Fri, 19 Sep 2025 14:41:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CDE6314B64;
+	Fri, 19 Sep 2025 15:21:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="bo+ti9sV"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WFqOut0I"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B48C227EA8
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Sep 2025 14:41:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74BA9253B64;
+	Fri, 19 Sep 2025 15:21:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758292869; cv=none; b=CXLKUF8XnJ+igQ6kV0sPX3GlrGyny48IWqu8VYRE/pr74zwZv4kHumlGSA3VlzuOHe40XxYhgSQozpDyM0djz5LZ0UUwIhqwtfvypz5mxucJY3i73KR3/tlxLR0ko2COsgwVwKG8dBeanrsbNN3roIRVdInoomt8SCKDjv0xQDU=
+	t=1758295304; cv=none; b=DeKZhWmkzPOVA1S7KgZOHnnukLShRM/fAAVLUG0DrX5cxEl+8N83Pkh7IdYTMoeyDcimn1UiiuOA7EImfra0c7N1Mbw4mQ6YKyOOirsuqIOcTy7wwA9Pt0vwdhrI1gNOY4Q2Kf8Jo7O4jixWWSm7WngAOlrqz5WocQn6WBSTNv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758292869; c=relaxed/simple;
-	bh=vg+VLVnVm1/uOlgwx6+NHyakWpf7CT1+wvh0cm/sJhQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t+FJEKNGwah2TFT0fRiHpBDX+eBuRm8EFgIGO0mA0+kVHYDv2Ji84OQ2xVwDxSTRhTqMdJKMoRRKPq0kWIhyWXHDphAnpYdsPCPz0jSCHMwHW3akc37OU3NQmLjqdJtU2Ne5ixStPzjATrRTNZQKcAqRB+C1ASnnWit19UU7+6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=bo+ti9sV; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=vg+V
-	LVnVm1/uOlgwx6+NHyakWpf7CT1+wvh0cm/sJhQ=; b=bo+ti9sVXAtjzg/a3wLp
-	2r4Qt1xEKhK2iVNYSy4O3V0EUAy0vmeoCRdZzhtaKnwTtFhLkCC6vmRwiW5vMGhP
-	InB8LHgIUa7+6VMcEnw3sbShIlu7kl2r3vi3rrCRSGfXxpZEBRPEk84lkPsexw2C
-	ZX1tIk6rdvdecNxzl+pft/m0AmJNedTAxM+6uTt4+GJNsXc/lw+dAa3Aw5vm17gZ
-	cP2KiPyWNXdW0jvGH3S+O6EKewW6SYcbOfpMdDDq8FxzXLdJxB+F0Guu3QUOCJGr
-	PAakYORziKajsMb9UGcrI5GK4nBZMDmrDQq+NcTlUyN4O/sKU7qEGxxbCN6/qDl6
-	iw==
-Received: (qmail 3951065 invoked from network); 19 Sep 2025 16:41:05 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Sep 2025 16:41:05 +0200
-X-UD-Smtp-Session: l3s3148p1@zjuldSg/IyVtKPID
-Date: Fri, 19 Sep 2025 16:41:05 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>,
-	Hoan Tran <hoan@os.amperecomputing.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Serge Semin <fancer.lancer@gmail.com>,
-	Phil Edworthy <phil.edworthy@renesas.com>,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Pascal Eberhard <pascal.eberhard@se.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v3 8/8] ARM: dts: r9a06g032: Add support for GPIO
- interrupts
-Message-ID: <aM1rgY9CCF54c_Pg@shikoro>
-References: <20250918104009.94754-1-herve.codina@bootlin.com>
- <20250918104009.94754-9-herve.codina@bootlin.com>
- <aM0llhn054OI9rA8@ninjato>
- <20250919155910.4d106256@bootlin.com>
+	s=arc-20240116; t=1758295304; c=relaxed/simple;
+	bh=/Q3VULcApHZbh0mYrofsuxZoPIgmQRE2Mj3xl32fo08=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nVx9ywVNOAg7wsTUk3/BK6g3QijUAI5WYzzhXaiPLwXt1txdakJBaAnWemG+Yr0gaZmy//SopmwnTCLPUgSQ3ZnZpRUBJAf0DM1VTZhHs+9zcPb2oMnWOERiBdzXzqd/UvrRyQd+jM+iY7u2LybH147OBQ2XB8GxHpm8gFtRcw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WFqOut0I; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DD1EE6DF;
+	Fri, 19 Sep 2025 17:20:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1758295219;
+	bh=/Q3VULcApHZbh0mYrofsuxZoPIgmQRE2Mj3xl32fo08=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=WFqOut0IapQJ2zdcnW1+a2EvxW/XydeBUTQGUdAkknjx0Hk15vFeGgihEG6xzwhpb
+	 mMQCNVZSDaKZ+46i4P6w3e6Ye+XPpfq/uQehon953qpdzmxbwcLFdjYDjWkhCOzMHc
+	 zQPXmusrCFkefjWc2vzSXPsOqBfDp83PSQOIGBhE=
+Message-ID: <aebc10ec-73ed-4843-95c5-9ba5a2759ccb@ideasonboard.com>
+Date: Fri, 19 Sep 2025 18:21:35 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cI7BpyPbBSmbEbfX"
-Content-Disposition: inline
-In-Reply-To: <20250919155910.4d106256@bootlin.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/4] dt-bindings: display: bridge: renesas,dsi-csi2-tx:
+ Allow panel@ subnode
+To: Marek Vasut <marek.vasut@mailbox.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ dri-devel@lists.freedesktop.org
+Cc: Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20250904210147.186728-1-marek.vasut+renesas@mailbox.org>
+ <20250904210147.186728-4-marek.vasut+renesas@mailbox.org>
+ <4ffcf4fc-17a9-4669-af07-f81ddb46aee9@ideasonboard.com>
+ <d76ff19c-7b0f-4aa9-8ae2-d08c82d70410@mailbox.org>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <d76ff19c-7b0f-4aa9-8ae2-d08c82d70410@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Hi,
 
---cI7BpyPbBSmbEbfX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 08/09/2025 15:54, Marek Vasut wrote:
+> On 9/8/25 9:43 AM, Tomi Valkeinen wrote:
+>> Hi,
+> 
+> Hello Tomi,
+> 
+>> On 05/09/2025 00:01, Marek Vasut wrote:
+>>> This controller can have both bridges and panels connected to it. In
+>>> order to describe panels properly in DT, pull in dsi-controller.yaml
+>>> and disallow only unevaluatedProperties, because the panel node is
+>>> optional. Include example binding with panel.
+>>>
+>>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+>>> ---
+>>> Cc: Conor Dooley <conor+dt@kernel.org>
+>>> Cc: David Airlie <airlied@gmail.com>
+>>> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+>>> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>>> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+>>> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>>> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+>>> Cc: Rob Herring <robh@kernel.org>
+>>> Cc: Robert Foss <rfoss@kernel.org>
+>>> Cc: Simona Vetter <simona@ffwll.ch>
+>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>>> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>>> Cc: devicetree@vger.kernel.org
+>>> Cc: dri-devel@lists.freedesktop.org
+>>> Cc: linux-renesas-soc@vger.kernel.org
+>>> ---
+>>> V2: Drop the dsi0: and dsi1: controller labels
+>>> ---
+>>>   .../display/bridge/renesas,dsi-csi2-tx.yaml   | 53 ++++++++++++++++++-
+>>>   1 file changed, 51 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/display/bridge/
+>>> renesas,dsi-csi2-tx.yaml b/Documentation/devicetree/bindings/display/
+>>> bridge/renesas,dsi-csi2-tx.yaml
+>>> index c167795c63f64..51d685ed82891 100644
+>>> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-
+>>> csi2-tx.yaml
+>>> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-
+>>> csi2-tx.yaml
+>>> @@ -14,6 +14,9 @@ description: |
+>>>     R-Car Gen4 SoCs. The encoder can operate in either DSI or CSI-2
+>>> mode, with up
+>>>     to four data lanes.
+>>>   +allOf:
+>>> +  - $ref: /schemas/display/dsi-controller.yaml#
+>>> +
+>>
+>> Did you try with a bridge? dsi-controller.yaml only allows a panel. I
+>> think I discussed this with someone not long ago, but I couldn't find
+>> any patch sent for that.
+> Nope, I only have these two 5" and 7" RPi Display 2 panels.
 
+Ok. My point was just that the dsi-controller.yaml doesn't allow
+"bridge" node (you can just rename the panel to bridge to test). I
+thought someone (I just can't remember who was it =) will send a patch
+for it, but I think that hasn't happened.
 
-> 'interrupt-map' is a required property. If the board doesn't use any interrupt
-> GPIO, its dts has no reason to set the interrupt-map.
+ Tomi
 
-Why is 'interrupt-map' then a required property? Can we drop it from the
-requirements?
-
-
---cI7BpyPbBSmbEbfX
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjNa4AACgkQFA3kzBSg
-KbbH5A/+KFV1JaIWgdLWXWHARzjzFnlQtriKenzhqLJBCz4lQU+Mzb5VeB7p7ys7
-kTu2fYEhPy5TZYH7BTBmQlt/DT9oD9IuvAyzCA7jBDRcI0gBLwNIAUzd6MkIVjTU
-88qzoij2nyjRQgDe9qwTx12eu2MnD8s86qp18lTjLsSoMoGdcg9R10rsK0wC3s5J
-NEzPQa/WjFReCXS4yPrNk9OWHBXOZs+IW4dLPP9dF9EIkJRUvr0Z72nco7T9f0Rv
-4RuGrZdbc0PbseDiYFxFeG8ajxwZEu9CS69jpoO4zmmQOD75VaCV+tR9O+3fDQJW
-ZETEIw4uOwpUlF+oWpq4X6tAeUyRBy4KX4OBnfbbkpdiQnfIfvzQf1U9D+Pi9j39
-lfR36k7PxBCsMJ0wmVfJcIDhtKNKBUnBWe8UHyDXW79lLU9+eLPn7+FYQEUZnSt2
-2oaCRgfXKAwKCK7AWMnKoUTvkxDWEPCMwCFLUoKhrF0xBOUWue7UFwzCUMpgXowm
-6pyV8V7886NqBnCpEojZ2rwVBwx2C/HhdFgYc6dSJwmDazB+AUor4Ix290W6NzF3
-PWn2ynIEtiVNSGp2g7R0X7uexRMNr1jUp1IQoMYT81+F3WNxZ+ypGnny/dBnGEac
-gKbLs/0lWgA11ijNXck092CTdQw1iRBCMEIILOvYzLEjxI8dryE=
-=lIeI
------END PGP SIGNATURE-----
-
---cI7BpyPbBSmbEbfX--
 
