@@ -1,144 +1,120 @@
-Return-Path: <linux-renesas-soc+bounces-22104-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22105-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A056B8AC51
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 19:33:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC269B8BF04
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Sep 2025 06:26:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4EB1D564BCB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Sep 2025 17:33:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9FF35567236
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Sep 2025 04:26:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D09F23112B7;
-	Fri, 19 Sep 2025 17:33:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FF231D86D6;
+	Sat, 20 Sep 2025 04:26:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="trIoGFAE"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="B17jvZXl"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D834274FFE
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Sep 2025 17:33:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AD531DD9AD
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 20 Sep 2025 04:26:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758303222; cv=none; b=tyMqwYWzKncafLMH+j1bBx6Z6cQ1EUdRpIdPSeP0mfMNEm8mUbR6ZfDnfFMefeCpGKn/4HEThoiii3U6CNs+N8UzmtcyiLz/kmc5+2IGbd8OGyMpzi3DnNCpSjM7fFFpbT8l1xpK/iW4Ktm/DfaRntMUfwkEf5TgULg6XHBqROs=
+	t=1758342372; cv=none; b=GBuFg7lxEatHb+5agdPf87ffE0QjEqZyyRHBmqpauUaw9rL+KyWVVmc940FJ9OuC4SDDBFoEJ7TuCZah0oRx0rVUNUef+4dpdNGQjXLjwGUZIyfmIROhaUmPaATRAKH/Fd17WuhGybEeEzlEY53f9m+dV0yqI6QrabxOVokIKT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758303222; c=relaxed/simple;
-	bh=+STrF9PYCBuc8/qsS+R4t2F0Hq1eLV08xgFRkBJD3nc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=u8T/rTmicpsMvLV0hUHMQDCPzWxxdi6ZTTpOI2BGZ+76XtuKe7ucBR7KEf8imMrgFQU/7K36EeeP2TwTB826S135+dzJZX1G0Y02wf37UsSj33Kl8dAoguMRSKNSwB1HRF+eJDSGYe7zc+/Bi2bCST/rpSdbISd2UpMr7qBdxUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=trIoGFAE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38309C4CEF7
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Sep 2025 17:33:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758303222;
-	bh=+STrF9PYCBuc8/qsS+R4t2F0Hq1eLV08xgFRkBJD3nc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=trIoGFAE4UosNsFMT+rSrmDzqZUOaGqRMFx98wg6sX51fjVkofYbQuqQ86twtURoa
-	 8YF3T77sDkXbCe7VL6Ve0tKbOIb174SO0mRTonUzt3Fgz5BI8Ju/oghIXc3n7U3sqS
-	 Xzv629DmvW8TjdfFM2VsFREnSyTuzMg8r+fwXeaO+WHraHHlnf/Xj8LzZx6g4oA0JQ
-	 OEXbtmxDM/lOAj/Qc5j/9UrCpdy1FCT+QFw/4WvYW0UYn3ElrUIMS2KK/F+Ucc0Fei
-	 Io6wsFBsig40LatLLL6dZ1apRIU0Z/bZ0sIr9fmVwCxh5LyXQgFMxrYmdeI9StMTqA
-	 9BbkWg038aolA==
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-61cc281171cso3344681a12.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Sep 2025 10:33:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUmf+FQyHf2Mgc+jxgQ1q5CUWzI2V/4hOJBuITW1/BBnUoB5+vi75ENxWCiJo69SzxRe9ixYhL3lySFQlAZibXHHw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw29gjfUg1YVyvCPjbNoZHKQ9fM2tzu64Y0cvCpO9zMMIigCx+t
-	4Eciq51gtrqk3OBpcm07yvkdbRjIjIObm05ZwMq/UdRo4EgMfX+Hm3wE/fhI0O3dpn74B+DYtHY
-	YitAZ/+VmAPklCBS85JVbCHkift7Z5Q==
-X-Google-Smtp-Source: AGHT+IFdAHQZ/nDUnKsSSIL9qonNEPFjd3PHBSsoiQD+Q5n/+BJxgmT2/kYpRWAJZfsEz+lU2Sc7msvI1kFYm4PEGLA=
-X-Received: by 2002:a05:6402:35d3:b0:62f:40c7:8543 with SMTP id
- 4fb4d7f45d1cf-62fc08d7695mr3868736a12.6.1758303220768; Fri, 19 Sep 2025
- 10:33:40 -0700 (PDT)
+	s=arc-20240116; t=1758342372; c=relaxed/simple;
+	bh=n1pNTMIqKRIESOMixjRP3Eb90Zf9mfLaMQ7sjwOSjME=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N7LmoZ/s9NElmCoaFasiEpHpgFEXlHv2KVXLZtp9HyUWFqv6fGV/Wtv6hAGDF7vzrx9rKkTNzsTqZE06xsVQw0xBWMvQgQ5P4qhXTYOEQfRNB/SFaQRPrBsg1TEJ2rfcxr1iMGqzHAOWWT9DRDHafdmnmsmGiWpW9/3t+BpecBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=B17jvZXl; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=n1pN
+	TMIqKRIESOMixjRP3Eb90Zf9mfLaMQ7sjwOSjME=; b=B17jvZXlPq6SW+epKV/g
+	m2SgeAhHYFCcL0NBfeknXRoRjfspwLm9TsAC8wevdgIXlVUpgE1gaJO7KKsb7YRH
+	JDYVdIAlez5MLi6t8WZDZlRUQXfXEwq6FAKP/tiR9Vrt+chX7G4wEo5bTftP/nVl
+	HagC0cHAqbfzmSIfa+oGx/4A/yaBui06eGKoPjv3VNX/M5sQ6wp+/6KCqxz0NEBx
+	7RD8318W1CacHhmFX99OfSXfbRZf33o5Bftde8oPJTWxXSgY+qkJ93ON8HqKX5V+
+	YDd8jiVub/4RWTuNBl5cf3LnLEVV/g5MUMphQgi1QuXmpIn2EvW8SEamwbr8aSK7
+	Sg==
+Received: (qmail 4143060 invoked from network); 20 Sep 2025 06:26:02 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Sep 2025 06:26:02 +0200
+X-UD-Smtp-Session: l3s3148p1@FWTl+zM/Dowujnub
+Date: Sat, 20 Sep 2025 06:26:01 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-clk@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2] clk: renesas: cpg-mssr: Read back reset registers to
+ assure values latched
+Message-ID: <aM4s2bKCOrmAiTze@shikoro>
+References: <20250918134526.18929-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250918104009.94754-1-herve.codina@bootlin.com>
- <20250918104009.94754-7-herve.codina@bootlin.com> <20250918-majestic-mockup-0a0e090db0a7@spud>
- <20250918171502.411c3527@bootlin.com> <20250918-education-resource-aac71b87e979@spud>
- <20250918173915.730bc3db@bootlin.com> <20250918-flakily-thermos-5404fb4bcd1a@spud>
-In-Reply-To: <20250918-flakily-thermos-5404fb4bcd1a@spud>
-From: Rob Herring <robh@kernel.org>
-Date: Fri, 19 Sep 2025 12:33:29 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqK4CNq-NRDYz8bsTrAqv7rZwd_FYR+z-97o1UfnBp9=Wg@mail.gmail.com>
-X-Gm-Features: AS18NWDOpFL6VIHjLpp_0Gr54mKQd2E6A2Ik4bvpTdMu2EYUpi-oL3EoqZwJsAo
-Message-ID: <CAL_JsqK4CNq-NRDYz8bsTrAqv7rZwd_FYR+z-97o1UfnBp9=Wg@mail.gmail.com>
-Subject: Re: [PATCH v3 6/8] dt-bindings: soc: renesas: Add the Renesas RZ/N1
- GPIO Interrupt Multiplexer
-To: Conor Dooley <conor@kernel.org>, Herve Codina <herve.codina@bootlin.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Hoan Tran <hoan@os.amperecomputing.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Saravana Kannan <saravanak@google.com>, Serge Semin <fancer.lancer@gmail.com>, 
-	Phil Edworthy <phil.edworthy@renesas.com>, linux-gpio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Pascal Eberhard <pascal.eberhard@se.com>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="mJc2pi4607S/6DX3"
+Content-Disposition: inline
+In-Reply-To: <20250918134526.18929-1-marek.vasut+renesas@mailbox.org>
+
+
+--mJc2pi4607S/6DX3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 18, 2025 at 10:44=E2=80=AFAM Conor Dooley <conor@kernel.org> wr=
-ote:
->
-> On Thu, Sep 18, 2025 at 05:39:15PM +0200, Herve Codina wrote:
-> > On Thu, 18 Sep 2025 16:26:59 +0100
-> > Conor Dooley <conor@kernel.org> wrote:
-> >
-> > > On Thu, Sep 18, 2025 at 05:15:02PM +0200, Herve Codina wrote:
-> > > > Hi Conor,
-> > > >
-> > > > On Thu, 18 Sep 2025 16:06:04 +0100
-> > > > Conor Dooley <conor@kernel.org> wrote:
-> > > >
-> > > > > On Thu, Sep 18, 2025 at 12:40:04PM +0200, Herve Codina (Schneider=
- Electric) wrote:
-> > > > > > On the Renesas RZ/N1 SoC, GPIOs can generate interruptions. Tho=
-se
-> > > > > > interruption lines are multiplexed by the GPIO Interrupt Multip=
-lexer in
-> > > > > > order to map 32 * 3 GPIO interrupt lines to 8 GIC interrupt lin=
-es.
-> > > > > >
-> > > > > > The GPIO interrupt multiplexer IP does nothing but select 8 GPI=
-O
-> > > > > > IRQ lines out of the 96 available to wire them to the GIC input=
- lines.
-> > > > > >
-> > > > > > Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@=
-bootlin.com>
-> > > > > > ---
-> > > > > >  .../soc/renesas/renesas,rzn1-gpioirqmux.yaml  | 87 +++++++++++=
-++++++++
-> > > > > >  1 file changed, 87 insertions(+)
-> > > > > >  create mode 100644 Documentation/devicetree/bindings/soc/renes=
-as/renesas,rzn1-gpioirqmux.yaml
-> > > > >
-> > > > > This is an interrupt controller, please move it to that subdirect=
-ory.
-> > > >
-> > > > Not so sure. It is a nexus node. It routes interrupt signals to the
-> > > > interrupt controller (interrupt-map) but it is not an interrupt con=
-troller
-> > > > itself.
-> > > >
-> > > > I am not sure that it should be moved to the interrupt-controller
-> > > > directory.
-> > >
-> > > Your node name choice disagrees with you!
-> >
-> > Oups, you're right, my bad.
-> >
-> > What do you think if I change the node name from "interrupt-controller"=
- to
-> > "interrupt-mux" in the next iteration?
->
-> I guess, sure.
+On Thu, Sep 18, 2025 at 03:44:41PM +0200, Marek Vasut wrote:
+> On R-Car V4H, the PCIEC controller DBI read would generate an SError
+> in case the controller reset is released by writing SRSTCLR register
+> first, and immediately afterward reading some PCIEC controller DBI
+> register. The issue triggers in rcar_gen4_pcie_additional_common_init()
+> on dw_pcie_readl_dbi(dw, PCIE_PORT_LANE_SKEW), which on V4H is the first
+> read after reset_control_deassert(dw->core_rsts[DW_PCIE_PWR_RST].rstc).
+>=20
+> The reset controller which contains the SRSTCLR register and the PCIEC
+> controller which contains the DBI register share the same root access
+> bus, but the bus then splits into separate segments before reaching
+> each IP. Even if the SRSTCLR write access was posted on the bus before
+> the DBI read access, it seems the DBI read access may reach the PCIEC
+> controller before the SRSTCLR write completed, and trigger the SError.
+>=20
+> Mitigate the issue by adding a dummy SRSTCLR read, which assures the
+> SRSTCLR write completes fully and is latched into the reset controller,
+> before the PCIEC DBI read access can occur.
+>=20
+> Fixes: 0ab55cf18341 ("clk: renesas: cpg-mssr: Add support for R-Car V4H")
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-Stick with interrupt-controller. That's what the schema expects and
-'interrupt-mux' (or any other variation) is not in the spec.
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+
+--mJc2pi4607S/6DX3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjOLNUACgkQFA3kzBSg
+KbZceQ//TVcg38zE/EHHVJ//i1ZvWL6pgv8yxCRVeDcNjV4IrtijT7pEYXECDMF0
+42KIOUUuWpGyWbabuiItLV3CgZsp7KpBUzq9YJEsqLL0Rnr58hCEoWdkcoV6VEha
+tVyWOjvXDI2jrdp/GCH0rmgMkyzpx9P76gji0Sw0mfBNPd4L4bLBw/ekBWCgoirx
+32RCL5kMD5q6naHC+dLxA6tlsklW8gJoPRb0XEY0Uq8BrWl3tEKj1uCplAHzSJa7
+8DNflNqHo+dlvDV+d9RXpGcA27pNNkOdqnAYLCF6DCCwkTc1HtQL5OJpI5XUPwVl
+CUpBe7PHWeYTKp26l6HUEeW5hcdvhjO172EtVWX+tODr+o2IstlCbKeXZGEhO1n4
+72qSIqNWSxVGcavmxSjdDrQIPhkrIphg3k8IsdCmMao2RhSXXraHQNwGvgYKYAcG
+jBq/Ouo0Uce9MWhUkHhZBIDxJLvFE+IeteyT3KHVAMyz2jdAie4WYQ/Sxf7PnXiT
+bUIKlKlZtviNILbVjJ7xsxZovXULHIZj4zWUtNb8o6pVGnze8qEpKivdYnFrc9/t
+CrJB7WktxYWK4/X8/O8UchFHO5dkjwa9kKHlqWJDvMWXiblNS7d15eExlD2cGs/c
+OCirYLtbV7Wno+9MGT2J7lFKHaFnPgFU63NbvqUSBeKi0Uw+JWY=
+=Fyls
+-----END PGP SIGNATURE-----
+
+--mJc2pi4607S/6DX3--
 
