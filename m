@@ -1,60 +1,64 @@
-Return-Path: <linux-renesas-soc+bounces-22106-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22108-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CCE1B8C0F1
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Sep 2025 08:44:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FD89B8C100
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Sep 2025 08:44:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 42E917E4954
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Sep 2025 06:44:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4B1177E49B0
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Sep 2025 06:44:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAC862D63E5;
-	Sat, 20 Sep 2025 06:44:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 403022D63F9;
+	Sat, 20 Sep 2025 06:44:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="BLvXQqnB"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="jmMwvWFm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E15CA2D595E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E145823373D
 	for <linux-renesas-soc@vger.kernel.org>; Sat, 20 Sep 2025 06:44:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758350692; cv=none; b=fFghXinyyPnqxD1DmAivhZPFuRQ7TzeufUPaO8yry53zBxHQTfmCixstDibmKfRpsf6p+y6s2ivlqouhckQghF9+8e6WvQ80ndzuWwITI6lgniwFJ8tSRAWxGZqkaqkB9KazUVeYnKi3CjJsr1Q7SQTiD1KgQ2UofGPg+8ponaE=
+	t=1758350694; cv=none; b=mgg1dssrVltktgw/8qU90r7BOZhDdwt7g9MunAD4lxLBhm0atn2n8NhmS8ZfLZmKh7hatxCejkBCU+mxoah8zu2nk8G1MneUx8YEe0iwSlpHjb3yFdbwSe3VJ9/CSNlN3tGx+ldKmuKhQdqIANIPVMsFiGsT+7GAKTtuKrI2CY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758350692; c=relaxed/simple;
-	bh=tZSxW3vbkxB15H2xezl5wua1AL32dSm4A42EPZ99tWM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KTZ0xcPxcrRcS+6p75ZbEDlYd19lZsQ49y2jik8xff3GgkwLPwvOGpBmWuFDoy5WbYbaDFIGsGiCrjWsiVGtZzsyVDwp44Y6XtjTk120cg/qm90rX3gCQJzZcXjmHRdbj4PW6X/2rHJ50Yy8G3vUQbjFcajLK9R7HcSx/v/ICgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=BLvXQqnB; arc=none smtp.client-ip=194.117.254.33
+	s=arc-20240116; t=1758350694; c=relaxed/simple;
+	bh=vWZrEYsYkuX6mUArduhpirnfzBtwp8yyYJ4zdu+2hvw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=UjrL6xGAGoKOFMT0Vhku7MEFZ+LBIVhttZxsgUGKcjKnv5YMJVScPLoiSJqAd8pAiKm+gR+O+sAMrQGhAj4Jr+RFVf8IiOMdYsBk9uHSdEbAnwXZKqb/3dg18skRIZuXMOs/WImRL6vTfIxw48OX9dtrnHcMFXjy3fjG/uwO4u4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=jmMwvWFm; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=YsHxpmf/djyu03
-	jdy89ZxFLwlW4Aeh7ED7v+ovDxJRs=; b=BLvXQqnBE7CSkVFWN8qfsDpGOXgnpA
-	A372oTWIfoTQIK/AMHxkFPobsLRdgnIUhsbKsVECYCoSVtiIzloRCbNGHGT6ihAW
-	cQorSUs3xUPBFdOPIJeNncLiwjdcwhRgqCj5hErC6pMoZmmiOX0DqO0XUwsMcVL1
-	nql2xImsZYJtndtNyZ8agYxfa4EkGdEyS+9jCzJtjIu/I57OTluVwt7lbVVL4Njg
-	vKiPwFxbnugqxhT++0YFzmKAVu4g1EbyhbdtYr03rTZlBsDGq7hWfPtN7duJkK3K
-	I60DJY9oX7RmpxrXFkPrnBfHeM7rdWBUcRbYaIOSCmJzfHvytEHQURMg==
-Received: (qmail 4169170 invoked from network); 20 Sep 2025 08:44:41 +0200
+	:in-reply-to:references:mime-version:content-transfer-encoding;
+	 s=k1; bh=tk1I62tLI0Vb8/eRDzu0H/ZdlVw1gol0e2AqPUX9ebo=; b=jmMwvW
+	Fmgpa10GtjEYVsSHUpKg84V97uLAVAouRtJwWPHjYBTeI+0I/LtijpV7UDSr21DD
+	s5mR2DoqqszhIZpB77mBbmwa9xZB8o78nGMoiBjJI99LuAY7CLSX9D7GvnDl8k4H
+	8jBbUXPqBdpVhLjLR7e5yIv5a1RN3QgqACknpprAKvFjI8Jntlukm09jCAl1/VJM
+	6oqQYJiFHDrT9PUBMKjzofqzwx+JF6uTnGZC9oZ54l0GNyGwG43HmkvTAgrGu0wB
+	m98vTlSEBsgfRcxHc0KVk5BG6e+qN4wIqpnwrIt/nM7vx4gmTTrWRa+Tdgt+3LVo
+	1M08kmPr+gItSIQQ==
+Received: (qmail 4169214 invoked from network); 20 Sep 2025 08:44:41 +0200
 Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Sep 2025 08:44:41 +0200
-X-UD-Smtp-Session: l3s3148p1@pte36zU/epogAwDPXwQHAL/S9V79e5yL
+X-UD-Smtp-Session: l3s3148p1@EQTF6zU/iJogAwDPXwQHAL/S9V79e5yL
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-renesas-soc@vger.kernel.org
 Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>
-Subject: [RFC PATCH 0/6] arm64: dts: renesas: add SWDT
-Date: Sat, 20 Sep 2025 08:44:27 +0200
-Message-ID: <20250920064428.5544-8-wsa+renesas@sang-engineering.com>
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org
+Subject: [RFC PATCH 1/6] arm64: dts: renesas: r8a77951: add SWDT node
+Date: Sat, 20 Sep 2025 08:44:28 +0200
+Message-ID: <20250920064428.5544-9-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250920064428.5544-8-wsa+renesas@sang-engineering.com>
+References: <20250920064428.5544-8-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -63,35 +67,32 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-I forgot over the years why we did not enable the SWDT on R-Car Gen3+.
-The reason is that it is used by the firmware on Renesas boards.
-However, this was not documented. So, based on a previous discussion
-with Geert, here is an RFC how this documentation could look like:
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ arch/arm64/boot/dts/renesas/r8a77951.dtsi | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-* add the complete node to the SoC DTSI (here only R-Car H3, M3*)
-* mark the node as "reserved" for the relevant boards
-  (firmware should have done that(tm))
-
-If this approach is acceptable, I'd handle the other SoCs, too, of
-course. Looking forward to comments! Passes dtbs_check here BTW.
-
-
-Wolfram Sang (6):
-  arm64: dts: renesas: r8a77951: add SWDT node
-  arm64: dts: renesas: r8a77960: add SWDT node
-  arm64: dts: renesas: r8a77961: add SWDT node
-  arm64: dts: renesas: r8a77965: add SWDT node
-  arm64: dts: renesas: salvator-common: mark SWDT as reserved
-  arm64: dts: renesas: ulcb: mark SWDT as reserved
-
- arch/arm64/boot/dts/renesas/r8a77951.dtsi        | 10 ++++++++++
- arch/arm64/boot/dts/renesas/r8a77960.dtsi        | 10 ++++++++++
- arch/arm64/boot/dts/renesas/r8a77961.dtsi        | 10 ++++++++++
- arch/arm64/boot/dts/renesas/r8a77965.dtsi        | 10 ++++++++++
- arch/arm64/boot/dts/renesas/salvator-common.dtsi |  5 +++++
- arch/arm64/boot/dts/renesas/ulcb.dtsi            |  5 +++++
- 6 files changed, 50 insertions(+)
-
+diff --git a/arch/arm64/boot/dts/renesas/r8a77951.dtsi b/arch/arm64/boot/dts/renesas/r8a77951.dtsi
+index c389ebc7e6ce..b3e935e5a2b1 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77951.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77951.dtsi
+@@ -365,6 +365,16 @@ rwdt: watchdog@e6020000 {
+ 			status = "disabled";
+ 		};
+ 
++		swdt: watchdog@e6030000 {
++			compatible = "renesas,r8a7795-wdt", "renesas,rcar-gen3-wdt";
++			reg = <0 0xe6030000 0 0x0c>;
++			interrupts = <GIC_SPI 141 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_CORE R8A7795_CLK_OSC>;
++			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
++			resets = <&cpg 401>;
++			status = "disabled";
++		};
++
+ 		gpio0: gpio@e6050000 {
+ 			compatible = "renesas,gpio-r8a7795",
+ 				     "renesas,rcar-gen3-gpio";
 -- 
 2.47.2
 
