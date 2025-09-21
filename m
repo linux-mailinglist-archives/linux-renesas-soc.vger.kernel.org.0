@@ -1,49 +1,50 @@
-Return-Path: <linux-renesas-soc+bounces-22118-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22119-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01EFFB8D9CC
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Sep 2025 13:19:09 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3970B8DA0B
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Sep 2025 13:27:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DBF5B189D4F5
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Sep 2025 11:19:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9D3C07AF681
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Sep 2025 11:25:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2CD91F78E6;
-	Sun, 21 Sep 2025 11:19:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C18325A33A;
+	Sun, 21 Sep 2025 11:26:58 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5599217C77;
-	Sun, 21 Sep 2025 11:19:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADC08155A30;
+	Sun, 21 Sep 2025 11:26:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758453545; cv=none; b=NKqlQM1GJM1lmAzj81PIeIz4iX+LNRqSBlWC6llzbIE2UnZw0ZTWr8xY3Bskn69eqglh3Dz9VZxjri03sLmh2Cl1h/v3Q4rxjyDB/bqwir3m8fR86QjjYniORDF5jVkCbOOUnMkEiLbgiS27NXfviYcMX2d4PbscY4dgnrwiPoE=
+	t=1758454018; cv=none; b=HSMPWuyUMl1gLln+JYqyUQRMB6j1pY4u6k9yLjz4CWpQIQJJu03G2FLAtysIB2WliyTpvsTelj9zzh8Y/WnIdYwG3U/wkKTSzPBd6D4fSx/A69Trh2RxMUp84n0d65ZGqNH30AbT63qn5cN9JYCSkubOOWE/hq7uUSCoaCTrbc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758453545; c=relaxed/simple;
-	bh=+k1EK6R8XHlzTNlhK3lcLoKxPRU0a92elkKWdtsW4sk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aY+a4XCf6fWUDWGqu0tSAkj7GETCFY91ux6cDnC57lwvLwFIJHPy0VlCltPuBCiy5IvTQo4cYBMhqNO7DK0+ZKiFx8Lz01Eh2toikWND3Tq8U1LzY2lpxHqC1E3DWuKx6sXzRXirrDBB2B1uvTXHKbuoQaOjStost83MdsKMvxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+	s=arc-20240116; t=1758454018; c=relaxed/simple;
+	bh=MXaN4lqHWmNLiQj0aNxMlqMXhlsjkwpE6bc+WacQvD4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=M+wSxz41/vnUWZwZxsXQUAO38vRGMPPccRBdZe65+3Ab3FDdvllnDBVBPKtUBN5AtDIq7vIOGX42MkVz9wK/v5p8Xkcr8EWPwtM2lZEdHw23eE9B5Pbj5J5OEBrg4vO6VFgFoNwswDWyaZEepQgcHc9IxS/8ITh7P2EvajwQD+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: 0WVm7JRbTvaMOEkEriQlHA==
-X-CSE-MsgGUID: z37TRNCaQTiGA39SFDxpqg==
+X-CSE-ConnectionGUID: unZIpQdzT2e1W3YHxHenCg==
+X-CSE-MsgGUID: 24E8VZ+LSWGZHE7hwKHgnA==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 21 Sep 2025 20:19:00 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 21 Sep 2025 20:26:53 +0900
 Received: from localhost.localdomain (unknown [10.226.92.3])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id E53C6400091E;
-	Sun, 21 Sep 2025 20:18:57 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 786FB400E4E4;
+	Sun, 21 Sep 2025 20:26:51 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
+To: Mark Brown <broonie@kernel.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	linux-spi@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] memory: renesas-rpc-if: Add suspend/resume support
-Date: Sun, 21 Sep 2025 12:18:52 +0100
-Message-ID: <20250921111855.103566-1-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 0/2] spi: rpc-if: Add resume support for RZ/G3E
+Date: Sun, 21 Sep 2025 12:26:44 +0100
+Message-ID: <20250921112649.104516-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -53,110 +54,20 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On RZ/G3E using PSCI, s2ram powers down the SoC. Add suspend/resume
-callbacks to control spi/spix2 clocks.
+On RZ/G3E using PSCI, s2ram powers down the SoC. After resume,
+reinitialize the hardware for SPI operations.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/memory/renesas-rpc-if.c | 56 ++++++++++++++++++++++++++++-----
- 1 file changed, 48 insertions(+), 8 deletions(-)
+Also Replace the macro SIMPLE_DEV_PM_OPS->DEFINE_SIMPLE_DEV_PM_OPS macro
+and use pm_sleep_ptr(). This lets us drop the check for CONFIG_PM_SLEEP
+and __maybe_unused attribute from PM functions.
 
-diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
-index 4a417b693080..e1fba157982f 100644
---- a/drivers/memory/renesas-rpc-if.c
-+++ b/drivers/memory/renesas-rpc-if.c
-@@ -67,6 +67,8 @@ struct rpcif_priv {
- 	void __iomem *dirmap;
- 	struct regmap *regmap;
- 	struct reset_control *rstc;
-+	struct clk *spi_clk;
-+	struct clk *spix2_clk;
- 	struct platform_device *vdev;
- 	size_t size;
- 	const struct rpcif_info *info;
-@@ -1025,16 +1027,14 @@ static int rpcif_probe(struct platform_device *pdev)
- 	 * disable it in remove().
- 	 */
- 	if (rpc->info->type == XSPI_RZ_G3E) {
--		struct clk *spi_clk;
--
--		spi_clk = devm_clk_get_enabled(dev, "spix2");
--		if (IS_ERR(spi_clk))
--			return dev_err_probe(dev, PTR_ERR(spi_clk),
-+		rpc->spix2_clk = devm_clk_get_enabled(dev, "spix2");
-+		if (IS_ERR(rpc->spix2_clk))
-+			return dev_err_probe(dev, PTR_ERR(rpc->spix2_clk),
- 					     "cannot get enabled spix2 clk\n");
- 
--		spi_clk = devm_clk_get_enabled(dev, "spi");
--		if (IS_ERR(spi_clk))
--			return dev_err_probe(dev, PTR_ERR(spi_clk),
-+		rpc->spi_clk = devm_clk_get_enabled(dev, "spi");
-+		if (IS_ERR(rpc->spi_clk))
-+			return dev_err_probe(dev, PTR_ERR(rpc->spi_clk),
- 					     "cannot get enabled spi clk\n");
- 	}
- 
-@@ -1063,6 +1063,43 @@ static void rpcif_remove(struct platform_device *pdev)
- 	platform_device_unregister(rpc->vdev);
- }
- 
-+static int rpcif_suspend(struct device *dev)
-+{
-+	struct rpcif_priv *rpc = dev_get_drvdata(dev);
-+
-+	if (rpc->info->type == XSPI_RZ_G3E) {
-+		clk_disable_unprepare(rpc->spi_clk);
-+		clk_disable_unprepare(rpc->spix2_clk);
-+	}
-+
-+	return 0;
-+}
-+
-+static int rpcif_resume(struct device *dev)
-+{
-+	struct rpcif_priv *rpc = dev_get_drvdata(dev);
-+
-+	if (rpc->info->type == XSPI_RZ_G3E) {
-+		int ret = clk_prepare_enable(rpc->spix2_clk);
-+
-+		if (ret) {
-+			dev_err(dev, "failed to enable spi x2 clock: %pe\n",
-+				ERR_PTR(ret));
-+			return ret;
-+		}
-+
-+		ret = clk_prepare_enable(rpc->spi_clk);
-+		if (ret) {
-+			clk_disable_unprepare(rpc->spix2_clk);
-+			dev_err(dev, "failed to enable spi x2 clock: %pe\n",
-+				ERR_PTR(ret));
-+			return ret;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- static const struct rpcif_impl rpcif_impl = {
- 	.hw_init = rpcif_hw_init_impl,
- 	.prepare = rpcif_prepare_impl,
-@@ -1125,12 +1162,15 @@ static const struct of_device_id rpcif_of_match[] = {
- };
- MODULE_DEVICE_TABLE(of, rpcif_of_match);
- 
-+static DEFINE_SIMPLE_DEV_PM_OPS(rpcif_pm_ops, rpcif_suspend, rpcif_resume);
-+
- static struct platform_driver rpcif_driver = {
- 	.probe	= rpcif_probe,
- 	.remove = rpcif_remove,
- 	.driver = {
- 		.name =	"rpc-if",
- 		.of_match_table = rpcif_of_match,
-+		.pm = pm_sleep_ptr(&rpcif_pm_ops),
- 	},
- };
- module_platform_driver(rpcif_driver);
+Biju Das (2):
+  spi: rpc-if: Drop deprecated SIMPLE_DEV_PM_OPS
+  spi: rpc-if: Add resume support for RZ/G3E
+
+ drivers/spi/spi-rpc-if.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
 -- 
 2.43.0
 
