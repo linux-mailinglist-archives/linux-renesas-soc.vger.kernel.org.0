@@ -1,127 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-22171-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22172-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8998B920CD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 17:49:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46C56B92242
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 18:08:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A5B201893480
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 15:50:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 082F417E05F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 16:08:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A89F30C609;
-	Mon, 22 Sep 2025 15:49:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1A92310768;
+	Mon, 22 Sep 2025 16:08:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="UGWLSg85"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="hN/5y+Lz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618443043AF;
-	Mon, 22 Sep 2025 15:49:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4E6310764;
+	Mon, 22 Sep 2025 16:08:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758556182; cv=none; b=AuubtDTRyIMpfEcNqDZLW8TUidgUNwgKTSZz7dmHcZfCTaWgwN+YK6IReEZa1pe10RHf9JuAnEC2KeeUzVysbimWYW1r/EMhuYAqWmZ/xaTSZmNmVSAv6HaE4HYPrNbjROPFZcF9IAohLYDTzze2yINN3yJpTWUuK1rXI1lJ6d4=
+	t=1758557320; cv=none; b=a0UoYlrB/IJANtsObxhPaBWHwTQenk/X/fq9Hr0vFn/Q9iyg5MMeruAv01trv+BIHS8VeTIbIbvXTyy1Xi6R8J07p6b3o8N6hzSP9k/YMAT2AbQoOk3EDHWZUmjkWqoeIpa7b5ZLzcC1aL5gb4Kwuk8goYeNrAINRAY+md7Eaq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758556182; c=relaxed/simple;
-	bh=6v63gcck4IdmcUss0gS+xnAwi2ypo7VV2cbS2eFvqzQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FC5HEpuaPHDuRyalRvr0wRAWbaqfa5OO+HSj6X/Tz9nap5eybx944wK7RwdFHTH4UDyZDujpKVTgnEVnWt8toziTN1HeX3fZDNFo05IenOkd3v1UT45a2d+tuk871UVSCfZwlsQcu1Fz2drdaAFifXSc62rPLBxAy8NGAn88yC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=UGWLSg85; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cVnc13Bdbz9tQs;
-	Mon, 22 Sep 2025 17:49:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1758556177;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BMSiwDHMdiBzB9w1xv0vr5ZmlYI62jGSNhhuXuilP0k=;
-	b=UGWLSg85wjKNKW1OEWsiZdg2gYaxpk8LlMUCrOEvNPrGaJtWJvNOLputAaZC1++F1hgyVj
-	JtJZsmc7PQzyljacRyNgDeq20MoI9v0fHgY+kjRiidpbQ//Ksm9B9B9IVCnkEPctrtDIC7
-	gGcgfJQa+h3xq21bBnpCnjWMkr4LcyMrLjAKxbZQgKVrLjxpqIwpG4mk4lWnp3FlsB+6jz
-	eeT1Qf5GDw2Gxvea4KtihMqWqMu1W0GndP78SeNqlcTGoiqXyNaPtB87rlVygddybMjpkV
-	TTa/3jR8D3Vmjc/V36Z5OhQRCQMCL/aQI+ZXDXjsujFZK5ZTis36Vxkhu/qF3g==
-Message-ID: <c34424d5-b1ac-483e-a1e1-8dd8bfdc2c51@mailbox.org>
-Date: Mon, 22 Sep 2025 17:49:34 +0200
+	s=arc-20240116; t=1758557320; c=relaxed/simple;
+	bh=1JhvlsGag/g0lsEn3CJ4T79NzeC8MMz8OYCOhlhCcfk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=D7jEeUL4iPk94PIluXj+NODn0ZuNqFQIJMm+O+2J6oZLNilGvXb13houwvu1Tz6E+YWzU/pf3t18feIHkykCODcmhvPUrzB5UoR5Adg9ARs0pPb8cn0HTAoleE+YaxdgWJ8aR7TrAx6CI3HX0v97k2LiKqGsmXGFUWAOlWjGnLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=hN/5y+Lz; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 6891FC8EC47;
+	Mon, 22 Sep 2025 16:08:13 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 3D28360635;
+	Mon, 22 Sep 2025 16:08:30 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 58A1F102F1942;
+	Mon, 22 Sep 2025 18:08:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1758557309; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=Hg2NoZ+lLEZW8Bu+98QwiGq8+y6KwiE9j3xN84DMQww=;
+	b=hN/5y+Lzx6vJQWz5+IvAyWUVCO9Sb8V+lGAwRHtGKlZHhiH9QpCd5NrK4oDe6YpbAmgnIX
+	ku+RMG37326N+lZz5XAgWH5nSuHgiObTTQ/wHd4qezZ/j8mke5Pb9bIu9fQFPd8g1n3Cju
+	Am6lH4IIJK54d9FjDmxzONgPRSDCYyw9zDpWxWdZ4+wDCsvfK9DcwHWCK6V0jRpp4ox2FA
+	yW2suHPc7o8wJjNwTP9+ujj08T4lNrUfePNLgKMmQUwxNcgtFveSJ6/BKajTZCgbJnGNAa
+	jRvZDa5eHTBYhQGXAU44mSibt4ktklGI+5PeSl+6j2yWOvGnTByBDSWp6SI80Q==
+Date: Mon, 22 Sep 2025 18:08:17 +0200
+From: Herve Codina <herve.codina@bootlin.com>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Wolfram Sang
+ <wsa+renesas@sang-engineering.com>, Hoan Tran
+ <hoan@os.amperecomputing.com>, Linus Walleij <linus.walleij@linaro.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Saravana
+ Kannan <saravanak@google.com>, Serge Semin <fancer.lancer@gmail.com>, Phil
+ Edworthy <phil.edworthy@renesas.com>, linux-gpio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, Pascal Eberhard
+ <pascal.eberhard@se.com>, Miquel Raynal <miquel.raynal@bootlin.com>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v3 5/8] ARM: dts: r9a06g032: Add GPIO controllers
+Message-ID: <20250922180817.7c1b8f61@bootlin.com>
+In-Reply-To: <CAMRc=MeLDe+o6dWkFCv6zc7ubcXicWdw4FA_A2p519OC4SH2BA@mail.gmail.com>
+References: <20250918104009.94754-1-herve.codina@bootlin.com>
+	<20250918104009.94754-6-herve.codina@bootlin.com>
+	<CAMRc=Mf9OB03FXEpSXG8XeJhtd7MkwJTH=rY11SBb9SazCMqJw@mail.gmail.com>
+	<20250922173145.4d4dbb2f@bootlin.com>
+	<CAMRc=MeLDe+o6dWkFCv6zc7ubcXicWdw4FA_A2p519OC4SH2BA@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] PCI: rcar-gen4: Fix inverted break condition in PHY
- initialization
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-pci@vger.kernel.org, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Magnus Damm <magnus.damm@gmail.com>, Manivannan Sadhasivam
- <mani@kernel.org>, Rob Herring <robh@kernel.org>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- linux-renesas-soc@vger.kernel.org
-References: <20250915235910.47768-1-marek.vasut+renesas@mailbox.org>
- <CAMuHMdXAK6EhxPoNoqwqWSjGtwM24gL4qjSf6_n+NMCcpDf1HA@mail.gmail.com>
- <6fdc7d1e-8eaa-4244-a6b4-4a07e719dd73@mailbox.org>
- <CAMuHMdVrw1Mr_hKvgve03DQwvpqSPNaN5XUnYRJPXMeX1wvv0A@mail.gmail.com>
- <de4e4003-214f-4260-854c-d15efc81bb74@mailbox.org>
- <CAMuHMdVgFNb-3TgL7a+AJMYE6tqOiMpGYFDhXnQoz9R5gLz=-A@mail.gmail.com>
- <12b54030-5505-416b-9e4e-2338263c5c7a@mailbox.org>
- <CAMuHMdUnKqHQpaTkiuYUmR1kQ2GwVvj0SeML-9x3Rc+srtXW+w@mail.gmail.com>
- <3e6544a4-a202-4a1b-8cef-a864936db5f2@mailbox.org>
- <CAMuHMdUZ0U4OZOgOMXVKque55JwuSjA7kxBg7htmFjzca6+DyQ@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <CAMuHMdUZ0U4OZOgOMXVKque55JwuSjA7kxBg7htmFjzca6+DyQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: f137d8bedb6dea5bb3f
-X-MBO-RS-META: ewya93e5otsbcmyrpq8ipiuqh9w9opna
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On 9/22/25 5:33 PM, Geert Uytterhoeven wrote:
+Hi Barosz,
 
-Hello Geert,
+On Mon, 22 Sep 2025 18:33:49 +0300
+Bartosz Golaszewski <brgl@bgdev.pl> wrote:
 
-> On Mon, 22 Sept 2025 at 17:17, Marek Vasut <marek.vasut@mailbox.org> wrote:
->> On 9/22/25 12:10 PM, Geert Uytterhoeven wrote:
->>>> I have instead posted what I think are proper fixes for that SError:
->>>>
->>>> PCI: rcar-gen4: Add missing 1ms delay after PWR reset assertion
->>>> https://patchwork.kernel.org/project/linux-pci/patch/20250918030058.330960-1-marek.vasut+renesas@mailbox.org/
->>>
->>> I used v3 instead.
->>> While that patch seems to fix the SError after a hard reset (hardware
->>> reset), it is not sufficient after a soft reset (typing "reboot").
->>>
->>>> clk: renesas: cpg-mssr: Add missing 1ms delay into reset toggle callback
->>>> https://patchwork.kernel.org/project/linux-clk/patch/20250918030552.331389-1-marek.vasut+renesas@mailbox.org/
->>>
->>> This does not fix the SError, as expected (pcie-rcar-gen4.c does not
->>> call reset_control_reset(), but reset_control_{,de}assert()).
->>>
->>>> clk: renesas: cpg-mssr: Read back reset registers to assure values latched
->>>> https://patchwork.kernel.org/project/linux-clk/patch/20250918030723.331634-1-marek.vasut+renesas@mailbox.org/
->>>
->>> I used v2 instead, which seems to fix the SError.
->>
->> Those three patches have to be used together, and this inverted break
->> condition fix should be applied too.
->>
->> The first two are corrections which align the code behavior with
->> reference manual. This inverted break fix is another correction. The
->> last patch in the list above actually fixes the asynchronized reset
->> behavior and turns it into synchronized reset behavior, therefore fixing
->> the SError in the process.
+> On Mon, 22 Sep 2025 17:31:45 +0200, Herve Codina
+> <herve.codina@bootlin.com> said:
+> > Hi Bartosz,
+> >
+> > On Mon, 22 Sep 2025 16:22:14 +0200
+> > Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+> >  
+> >> On Thu, Sep 18, 2025 at 12:40 PM Herve Codina (Schneider Electric)
+> >> <herve.codina@bootlin.com> wrote:  
+> >> >
+> >> > Add GPIO controllers (Synosys DesignWare IPs) available in the
+> >> > r9a06g032 (RZ/N1D) SoC.
+> >> >
+> >> > Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@bootlin.com>
+> >> > Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> >> > Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> >> > ---  
+> >>
+> >> Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>  
+> >
+> > I have just sent the v4 iteration.
+> >
+> > This patch has not been modified in v4.
+> >
+> > Can you add your 'Reviewed-by' in the v4 series?
+> >  
 > 
-> FTR, I always had the inverted break condition fix applied.
-> All 3 fixes on top should be fine.
-Maybe I can finally properly deserve your TB on this patch with this 
-option (C) , all three patches applied.
+> Sure, done.
+
+I have seen your 'Reviewed-by' in v4 but on patch 8 ("ARM: dts: r9a06g032:
+Add support for GPIO interrupts").
+
+Maybe this is correct but here (v3) your 'Reviewed-by' in on patch 5 ("ARM: dts:
+r9a06g032: Add GPIO controllers").
+
+This exact same patch 5 exists also in v4.
+
+Best regards,
+Hervé
 
