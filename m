@@ -1,68 +1,71 @@
-Return-Path: <linux-renesas-soc+bounces-22183-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22184-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1201B92B1C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 20:58:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40DEFB92B1F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 20:58:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7AF5E179A46
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 18:58:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EB00F3B9ED4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 18:58:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14609313525;
-	Mon, 22 Sep 2025 18:58:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E54A2D94A2;
+	Mon, 22 Sep 2025 18:58:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="A5afV8z3";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="n6ZZq1Ph"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="x9OIz/mY";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="WdI6USyP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555CF2D838B
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Sep 2025 18:58:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C282D838B
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Sep 2025 18:58:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758567520; cv=none; b=OoasfDh5L6qQ165ZW6M10JBMMcqYejm3exOufUDJxiyP2kIdASSOnnEwGDhnD86tptP+1mmYovV4aaYDca8DDW8eChWYL98Mh4Bfc6nKawsB9ul332CxWoGt/1ygFdmXOC2v0R3CIalf7aOR9YMhbjU3fQQ1RQ1SMyGZm2ZcurA=
+	t=1758567523; cv=none; b=lNTMdfxq1sW5G5gIrG1BF7wP49oi5En9MuKdcQuAsnYrB3c9H2sfWGY5n1ipFg8XyoNnQeSkdNsuQi7N9naSpxdxCMckfWOn1YUAsJqAW0QIPynC5r8RTt/KmbSOfjUVO0//h7NoMNBvr556nt1B32tG7YyNq8o+KWWOY4Ct9Qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758567520; c=relaxed/simple;
-	bh=ADnsJOMEqefF0AusG55xXjzTS/LEj62RxpqyqVEYV1s=;
+	s=arc-20240116; t=1758567523; c=relaxed/simple;
+	bh=BeoiPBcp4x2+vCKjt/qiz0+9PNMAiC0iGBJtcz/MOeI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OAq6vn1wgpWfnXuDjsbrlYgaBvqsrynGGm/6p4188YBkGw5QX19v1RvvD2yVDLbDSKZsRW6f+0wQtE2CV4TJ9upi2uIpDvO43VHbmaOJKeSCe4UEDTO/wy0tZj4LMKj5NWuF5kQf3dDHC1efo9mwfqE53jrnO6MQuQttv0kPvQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=A5afV8z3; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=n6ZZq1Ph; arc=none smtp.client-ip=80.241.56.151
+	 MIME-Version; b=C6Jp5Aubq+sxJozYMzKYwTzpgBfC1TQbpyEObisb+cXJnI77Z5wnET7ltasLOymgkbNAu0LSbfTvdUs8JfmXLZK1WLhd7b+49BImMsoZ7qQ6H5T6F/B35I/ZXg7x4ym9VkKqbEdLHBejzCO9MrMdkP5n1COlPGv/UMVz2H4O9po=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=x9OIz/mY; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=WdI6USyP; arc=none smtp.client-ip=80.241.56.152
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cVsp43b0bz9t8x;
-	Mon, 22 Sep 2025 20:58:36 +0200 (CEST)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cVsp749PMz9v7r;
+	Mon, 22 Sep 2025 20:58:39 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1758567516;
+	t=1758567519;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CFLkeaRfQ2y/QwzU/hD60WB1fNZa+S53HgIUZExkr4I=;
-	b=A5afV8z3hFYQaCHgZHdWjOTrB08Yei5XEk3UGdCsmZV84QXVpWwP032JjJQePPCmH+Oi5w
-	EgpogXRzkX5woIVS5uWRDOFJjo18OVXVowjrjFrGw1EWzREaBJ4jPNyXQhuHEFezgmfj7Y
-	qtHLZgN+mU7pOew+vCWMBz4R6rbYUD60uaUjRwt1OIdQudwEiboCeuRqLOaN1ipmEr3nBG
-	1tbgQsMGXnWzfHIK6koqMApG2K/6g8Wzq58Uegw3mkgvgDkIxtfnF0dr36ZsZAcJBeT5+9
-	HORkuk3GOoc2pUiQsrBGbYORegPxqGiw/Nu6wSNNFpt/9E0PeZkbVcE1icdl9w==
+	bh=d7Z33ifVGQU85bQ1pigrdRBQv1M42R2Qh85fJEFdDEM=;
+	b=x9OIz/mY5OQB21L0/+iFUUTDLpp+u4+q0DPy0bzmmqbvrQJV1isxmI42hLvfuVx0Kr/NJA
+	DJi2dL1zQKShmHQSaUGeofmZZs1f+yPJegILI41kffDorUeLPlARJbXZXtLBQx6zTXqcca
+	SGanzKYL3rSP+BSzD3V4YUcX2K/O6kW7zLm7D0UPQOPDdethIiJW4NCRWqgKtfdnzEDtWa
+	G7Ausj73l6Rw4gRzxlKIFZNZvbJ0+BbdjEZQIj41t+2uHXfxH9MITrhdfPqCwFDhIH9l7k
+	HMNj4j3y2+aCjUV5WWNJOUwblD6IsqsmQ4a/6QZ3F9LPuYsobLjFeYnz94MUkA==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=WdI6USyP;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
 From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1758567514;
+	t=1758567517;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CFLkeaRfQ2y/QwzU/hD60WB1fNZa+S53HgIUZExkr4I=;
-	b=n6ZZq1PhAqYn5FLV0+ToTanxkQd6C8M4oOVOooLfDe+RNm6VZSMJCR711CkuThv/GQVMHn
-	awKf0P4IbXYLGwD9wbeUDnYJVbIbB1IN2IaR9O+tq7QX8vpM5hgCN18/poKWwym4oTtoe1
-	LZJQkpXiGrYIiRHIpK6TvUz7lrQMiLUxH6LmbaQkLCh7wfAFO7+IUxstqiZhBfDw4vqbo1
-	l7l0ZGCeytewDYbRNiSW8ijU1c4I//Wu31KhpgEx9FFS4CaXdb067LF0TAEeYNwtlmE/oS
-	+/l/vYnAwzvSkF2yxjikUYbqs5F8Nj4xdqFbNB5vj15423Wd0hSH1u1Wn6wE8w==
+	bh=d7Z33ifVGQU85bQ1pigrdRBQv1M42R2Qh85fJEFdDEM=;
+	b=WdI6USyPeMZJZMiQXac7QS+1r5XJkrXktnjFfGc52LTb1y1E2T2gsN8sFGPCNfNPfpupo1
+	aLaPah9U7ctEO74LQwxeYLKa9yG9b7Hbtvz75E2BY3R+AGzsXCI5/H217JXE1dH+tgvmew
+	DHGo5M0wIpXB8Wkx9ZndZ73TiCMZ+IqJzuYHs9+ZO8THdMis92QmKXU3zJJ324Vbh2Lrxl
+	k6InZL0LvYKGdz8B+FPf17dgbgWPCqRMGjxUTRxqoYd5RXhqC6Fqo/8NiVmtfRqbjPEszV
+	XS0jSqNN2Pfs0pf3EJrpr1sAyJ6czRZjRL4qC3bnSDkkoOcq9d9RC0aeIANuTg==
 To: dri-devel@lists.freedesktop.org
 Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	David Airlie <airlied@gmail.com>,
@@ -76,9 +79,9 @@ Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 7/9] drm/rcar-du: dsi: Clean up handling of DRM mode flags
-Date: Mon, 22 Sep 2025 20:55:03 +0200
-Message-ID: <20250922185740.153759-8-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH 8/9] drm/rcar-du: dsi: Convert register bits to BIT() macro
+Date: Mon, 22 Sep 2025 20:55:04 +0200
+Message-ID: <20250922185740.153759-9-marek.vasut+renesas@mailbox.org>
 In-Reply-To: <20250922185740.153759-1-marek.vasut+renesas@mailbox.org>
 References: <20250922185740.153759-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
@@ -88,22 +91,13 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 6d20f3f886adba1ec75
-X-MBO-RS-META: jkey1ymouqjq3aepa95k9y97b64oi4bn
+X-MBO-RS-META: gfky4dbrh3gz3ia14rw4mz33uqzu5utz
+X-MBO-RS-ID: 189aff4fa9b2263fcf5
+X-Rspamd-Queue-Id: 4cVsp749PMz9v7r
 
-Introduce TXVMVPRMSET0R_BPP_MASK macro and use FIELD_PREP() to generate
-appropriate bitfield from mask and value without bitshift, assign this
-value into vprmset0r. Remove TXVMVPRMSET0R_CSPC_RGB which is never used,
-replace it with code comment next to TXVMVPRMSET0R_CSPC_YCbCr.
-
-Replace (mode->flags & DRM_MODE_FLAG_P.SYNC) test with inverted conditional
-(mode->flags & DRM_MODE_FLAG_N.SYNC) and bitwise orr vprmset0r with either
-or both TXVMVPRMSET0R_HSPOL_LOW and TXVMVPRMSET0R_VSPOL_LOW if conditional
-matches.
-
-Do not convert bits and bitfields to BIT() and GENMASK() yet, to be
-consisten with the current style. Conversion to BIT() and GENMASK()
-macros is done at the very end of this series in the last two patches.
+Convert register bits to BIT() macro where applicable. This is done
+automatically using regex 's@(1 << \([0-9]\+\))@BIT(\1)', except for
+bitfields which are manually updated to use GENMASK().
 
 Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
@@ -120,65 +114,382 @@ Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Cc: dri-devel@lists.freedesktop.org
 Cc: linux-renesas-soc@vger.kernel.org
 ---
-NOTE: No functional change expected, this is a preparatory patch which
-partly removes macros which evaluate to zeroes from rcar_mipi_dsi_regs.h .
-The other patches in this series proceed with that job, piece by piece,
-to make it all reviewable.
----
- drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c  | 12 ++++++------
- .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h | 16 +++++++---------
- 2 files changed, 13 insertions(+), 15 deletions(-)
+ .../drm/renesas/rcar-du/rcar_mipi_dsi_regs.h  | 248 +++++++++---------
+ 1 file changed, 124 insertions(+), 124 deletions(-)
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-index 36bd9de61ce05..f91cc35423758 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-@@ -489,12 +489,12 @@ static void rcar_mipi_dsi_set_display_timing(struct rcar_mipi_dsi *dsi,
- 
- 	rcar_mipi_dsi_write(dsi, TXVMSETR, setr);
- 
--	/* Configuration for Video Parameters */
--	vprmset0r = (mode->flags & DRM_MODE_FLAG_PVSYNC ?
--		     TXVMVPRMSET0R_VSPOL_HIG : TXVMVPRMSET0R_VSPOL_LOW)
--		  | (mode->flags & DRM_MODE_FLAG_PHSYNC ?
--		     TXVMVPRMSET0R_HSPOL_HIG : TXVMVPRMSET0R_HSPOL_LOW)
--		  | TXVMVPRMSET0R_CSPC_RGB | TXVMVPRMSET0R_BPP_24;
-+	/* Configuration for Video Parameters, input is always RGB888 */
-+	vprmset0r = FIELD_PREP(TXVMVPRMSET0R_BPP_MASK, TXVMVPRMSET0R_BPP_24);
-+	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
-+		vprmset0r |= TXVMVPRMSET0R_VSPOL_LOW;
-+	if (mode->flags & DRM_MODE_FLAG_NHSYNC)
-+		vprmset0r |= TXVMVPRMSET0R_HSPOL_LOW;
- 
- 	vprmset1r = TXVMVPRMSET1R_VACTIVE(mode->vdisplay)
- 		  | TXVMVPRMSET1R_VSA(mode->vsync_end - mode->vsync_start);
 diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-index 99a88ea35aacd..48c3b679b2663 100644
+index 48c3b679b2663..29c806cae3557 100644
 --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
 +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-@@ -170,15 +170,13 @@
+@@ -9,37 +9,37 @@
+ #define __RCAR_MIPI_DSI_REGS_H__
+ 
+ #define LINKSR				0x010
+-#define LINKSR_LPBUSY			(1 << 1)
+-#define LINKSR_HSBUSY			(1 << 0)
++#define LINKSR_LPBUSY			BIT(1)
++#define LINKSR_HSBUSY			BIT(0)
+ 
+ #define TXSETR				0x100
+-#define TXSETR_LANECNT_MASK		(0x3 << 0)
++#define TXSETR_LANECNT_MASK		GENMASK(1, 0)
+ 
+ /*
+  * DSI Command Transfer Registers
+  */
+ #define TXCMSETR			0x110
+-#define TXCMSETR_SPDTYP			(1 << 8)	/* 0:HS 1:LP */
+-#define TXCMSETR_LPPDACC		(1 << 0)
++#define TXCMSETR_SPDTYP			BIT(8)	/* 0:HS 1:LP */
++#define TXCMSETR_LPPDACC		BIT(0)
+ #define TXCMCR				0x120
+-#define TXCMCR_BTATYP			(1 << 2)
+-#define TXCMCR_BTAREQ			(1 << 1)
+-#define TXCMCR_TXREQ			(1 << 0)
++#define TXCMCR_BTATYP			BIT(2)
++#define TXCMCR_BTAREQ			BIT(1)
++#define TXCMCR_TXREQ			BIT(0)
+ #define TXCMSR				0x130
+-#define TXCMSR_CLSNERR			(1 << 18)
+-#define TXCMSR_AXIERR			(1 << 16)
+-#define TXCMSR_TXREQEND			(1 << 0)
++#define TXCMSR_CLSNERR			BIT(18)
++#define TXCMSR_AXIERR			BIT(16)
++#define TXCMSR_TXREQEND			BIT(0)
+ #define TXCMSCR				0x134
+-#define TXCMSCR_CLSNERR			(1 << 18)
+-#define TXCMSCR_AXIERR			(1 << 16)
+-#define TXCMSCR_TXREQEND		(1 << 0)
++#define TXCMSCR_CLSNERR			BIT(18)
++#define TXCMSCR_AXIERR			BIT(16)
++#define TXCMSCR_TXREQEND		BIT(0)
+ #define TXCMIER				0x138
+-#define TXCMIER_CLSNERR			(1 << 18)
+-#define TXCMIER_AXIERR			(1 << 16)
+-#define TXCMIER_TXREQEND		(1 << 0)
++#define TXCMIER_CLSNERR			BIT(18)
++#define TXCMIER_AXIERR			BIT(16)
++#define TXCMIER_TXREQEND		BIT(0)
+ #define TXCMADDRSET0R			0x140
+ #define TXCMPHDR			0x150
+-#define TXCMPHDR_FMT			(1 << 24)	/* 0:SP 1:LP */
++#define TXCMPHDR_FMT			BIT(24)	/* 0:SP 1:LP */
+ #define TXCMPHDR_VC(n)			(((n) & 0x3) << 22)
+ #define TXCMPHDR_DT(n)			(((n) & 0x3f) << 16)
+ #define TXCMPHDR_DATA1(n)		(((n) & 0xff) << 8)
+@@ -53,63 +53,63 @@
+ #define RXSETR_CRCEN(n)			(((n) & 0xf) << 24)
+ #define RXSETR_ECCEN(n)			(((n) & 0xf) << 16)
+ #define RXPSETR				0x210
+-#define RXPSETR_LPPDACC			(1 << 0)
++#define RXPSETR_LPPDACC			BIT(0)
+ #define RXPSR				0x220
+-#define RXPSR_ECCERR1B			(1 << 28)
+-#define RXPSR_UEXTRGERR			(1 << 25)
+-#define RXPSR_RESPTOERR			(1 << 24)
+-#define RXPSR_OVRERR			(1 << 23)
+-#define RXPSR_AXIERR			(1 << 22)
+-#define RXPSR_CRCERR			(1 << 21)
+-#define RXPSR_WCERR			(1 << 20)
+-#define RXPSR_UEXDTERR			(1 << 19)
+-#define RXPSR_UEXPKTERR			(1 << 18)
+-#define RXPSR_ECCERR			(1 << 17)
+-#define RXPSR_MLFERR			(1 << 16)
+-#define RXPSR_RCVACK			(1 << 14)
+-#define RXPSR_RCVEOT			(1 << 10)
+-#define RXPSR_RCVAKE			(1 << 9)
+-#define RXPSR_RCVRESP			(1 << 8)
+-#define RXPSR_BTAREQEND			(1 << 0)
++#define RXPSR_ECCERR1B			BIT(28)
++#define RXPSR_UEXTRGERR			BIT(25)
++#define RXPSR_RESPTOERR			BIT(24)
++#define RXPSR_OVRERR			BIT(23)
++#define RXPSR_AXIERR			BIT(22)
++#define RXPSR_CRCERR			BIT(21)
++#define RXPSR_WCERR			BIT(20)
++#define RXPSR_UEXDTERR			BIT(19)
++#define RXPSR_UEXPKTERR			BIT(18)
++#define RXPSR_ECCERR			BIT(17)
++#define RXPSR_MLFERR			BIT(16)
++#define RXPSR_RCVACK			BIT(14)
++#define RXPSR_RCVEOT			BIT(10)
++#define RXPSR_RCVAKE			BIT(9)
++#define RXPSR_RCVRESP			BIT(8)
++#define RXPSR_BTAREQEND			BIT(0)
+ #define RXPSCR				0x224
+-#define RXPSCR_ECCERR1B			(1 << 28)
+-#define RXPSCR_UEXTRGERR		(1 << 25)
+-#define RXPSCR_RESPTOERR		(1 << 24)
+-#define RXPSCR_OVRERR			(1 << 23)
+-#define RXPSCR_AXIERR			(1 << 22)
+-#define RXPSCR_CRCERR			(1 << 21)
+-#define RXPSCR_WCERR			(1 << 20)
+-#define RXPSCR_UEXDTERR			(1 << 19)
+-#define RXPSCR_UEXPKTERR		(1 << 18)
+-#define RXPSCR_ECCERR			(1 << 17)
+-#define RXPSCR_MLFERR			(1 << 16)
+-#define RXPSCR_RCVACK			(1 << 14)
+-#define RXPSCR_RCVEOT			(1 << 10)
+-#define RXPSCR_RCVAKE			(1 << 9)
+-#define RXPSCR_RCVRESP			(1 << 8)
+-#define RXPSCR_BTAREQEND		(1 << 0)
++#define RXPSCR_ECCERR1B			BIT(28)
++#define RXPSCR_UEXTRGERR		BIT(25)
++#define RXPSCR_RESPTOERR		BIT(24)
++#define RXPSCR_OVRERR			BIT(23)
++#define RXPSCR_AXIERR			BIT(22)
++#define RXPSCR_CRCERR			BIT(21)
++#define RXPSCR_WCERR			BIT(20)
++#define RXPSCR_UEXDTERR			BIT(19)
++#define RXPSCR_UEXPKTERR		BIT(18)
++#define RXPSCR_ECCERR			BIT(17)
++#define RXPSCR_MLFERR			BIT(16)
++#define RXPSCR_RCVACK			BIT(14)
++#define RXPSCR_RCVEOT			BIT(10)
++#define RXPSCR_RCVAKE			BIT(9)
++#define RXPSCR_RCVRESP			BIT(8)
++#define RXPSCR_BTAREQEND		BIT(0)
+ #define RXPIER				0x228
+-#define RXPIER_ECCERR1B			(1 << 28)
+-#define RXPIER_UEXTRGERR		(1 << 25)
+-#define RXPIER_RESPTOERR		(1 << 24)
+-#define RXPIER_OVRERR			(1 << 23)
+-#define RXPIER_AXIERR			(1 << 22)
+-#define RXPIER_CRCERR			(1 << 21)
+-#define RXPIER_WCERR			(1 << 20)
+-#define RXPIER_UEXDTERR			(1 << 19)
+-#define RXPIER_UEXPKTERR		(1 << 18)
+-#define RXPIER_ECCERR			(1 << 17)
+-#define RXPIER_MLFERR			(1 << 16)
+-#define RXPIER_RCVACK			(1 << 14)
+-#define RXPIER_RCVEOT			(1 << 10)
+-#define RXPIER_RCVAKE			(1 << 9)
+-#define RXPIER_RCVRESP			(1 << 8)
+-#define RXPIER_BTAREQEND		(1 << 0)
++#define RXPIER_ECCERR1B			BIT(28)
++#define RXPIER_UEXTRGERR		BIT(25)
++#define RXPIER_RESPTOERR		BIT(24)
++#define RXPIER_OVRERR			BIT(23)
++#define RXPIER_AXIERR			BIT(22)
++#define RXPIER_CRCERR			BIT(21)
++#define RXPIER_WCERR			BIT(20)
++#define RXPIER_UEXDTERR			BIT(19)
++#define RXPIER_UEXPKTERR		BIT(18)
++#define RXPIER_ECCERR			BIT(17)
++#define RXPIER_MLFERR			BIT(16)
++#define RXPIER_RCVACK			BIT(14)
++#define RXPIER_RCVEOT			BIT(10)
++#define RXPIER_RCVAKE			BIT(9)
++#define RXPIER_RCVRESP			BIT(8)
++#define RXPIER_BTAREQEND		BIT(0)
+ #define RXPADDRSET0R			0x230
+ #define RXPSIZESETR			0x238
+ #define RXPSIZESETR_SIZE(n)		(((n) & 0xf) << 3)
+ #define RXPHDR				0x240
+-#define RXPHDR_FMT			(1 << 24)	/* 0:SP 1:LP */
++#define RXPHDR_FMT			BIT(24)	/* 0:SP 1:LP */
+ #define RXPHDR_VC(n)			(((n) & 0x3) << 22)
+ #define RXPHDR_DT(n)			(((n) & 0x3f) << 16)
+ #define RXPHDR_DATA1(n)			(((n) & 0xff) << 8)
+@@ -128,38 +128,38 @@
+ #define TASCR				0x514
+ #define TAIER				0x518
+ #define TOSR				0x610
+-#define TOSR_TATO			(1 << 2)
+-#define TOSR_LRXHTO			(1 << 1)
+-#define TOSR_HRXTO			(1 << 0)
++#define TOSR_TATO			BIT(2)
++#define TOSR_LRXHTO			BIT(1)
++#define TOSR_HRXTO			BIT(0)
+ #define TOSCR				0x614
+-#define TOSCR_TATO			(1 << 2)
+-#define TOSCR_LRXHTO			(1 << 1)
+-#define TOSCR_HRXTO			(1 << 0)
++#define TOSCR_TATO			BIT(2)
++#define TOSCR_LRXHTO			BIT(1)
++#define TOSCR_HRXTO			BIT(0)
+ 
+ /*
+  * Video Mode Register
+  */
+ #define TXVMSETR			0x180
+-#define TXVMSETR_SYNSEQ_EVENTS		(1 << 16) /* 0:Pulses 1:Events */
+-#define TXVMSETR_VSTPM			(1 << 15)
+-#define TXVMSETR_PIXWDTH		(1 << 8)
+-#define TXVMSETR_VSEN			(1 << 4)
+-#define TXVMSETR_HFPBPEN		(1 << 2)
+-#define TXVMSETR_HBPBPEN		(1 << 1)
+-#define TXVMSETR_HSABPEN		(1 << 0)
++#define TXVMSETR_SYNSEQ_EVENTS		BIT(16) /* 0:Pulses 1:Events */
++#define TXVMSETR_VSTPM			BIT(15)
++#define TXVMSETR_PIXWDTH		BIT(8)
++#define TXVMSETR_VSEN			BIT(4)
++#define TXVMSETR_HFPBPEN		BIT(2)
++#define TXVMSETR_HBPBPEN		BIT(1)
++#define TXVMSETR_HSABPEN		BIT(0)
+ 
+ #define TXVMCR				0x190
+-#define TXVMCR_VFCLR			(1 << 12)
+-#define TXVMCR_EN_VIDEO			(1 << 0)
++#define TXVMCR_VFCLR			BIT(12)
++#define TXVMCR_EN_VIDEO			BIT(0)
+ 
+ #define TXVMSR				0x1a0
+-#define TXVMSR_STR			(1 << 16)
+-#define TXVMSR_VFRDY			(1 << 12)
+-#define TXVMSR_ACT			(1 << 8)
+-#define TXVMSR_RDY			(1 << 0)
++#define TXVMSR_STR			BIT(16)
++#define TXVMSR_VFRDY			BIT(12)
++#define TXVMSR_ACT			BIT(8)
++#define TXVMSR_RDY			BIT(0)
+ 
+ #define TXVMSCR				0x1a4
+-#define TXVMSCR_STR			(1 << 16)
++#define TXVMSCR_STR			BIT(16)
+ 
+ #define TXVMPSPHSETR			0x1c0
+ #define TXVMPSPHSETR_DT_MASK		(0x3f << 16)
+@@ -170,10 +170,10 @@
  #define TXVMPSPHSETR_DT_YCBCR16		0x2c
  
  #define TXVMVPRMSET0R			0x1d0
--#define TXVMVPRMSET0R_HSPOL_HIG		(0 << 17)
--#define TXVMVPRMSET0R_HSPOL_LOW		(1 << 17)
--#define TXVMVPRMSET0R_VSPOL_HIG		(0 << 16)
--#define TXVMVPRMSET0R_VSPOL_LOW		(1 << 16)
--#define TXVMVPRMSET0R_CSPC_RGB		(0 << 4)
--#define TXVMVPRMSET0R_CSPC_YCbCr	(1 << 4)
--#define TXVMVPRMSET0R_BPP_16		(0 << 0)
--#define TXVMVPRMSET0R_BPP_18		(1 << 0)
--#define TXVMVPRMSET0R_BPP_24		(2 << 0)
-+#define TXVMVPRMSET0R_HSPOL_LOW		(1 << 17) /* 0:High 1:Low */
-+#define TXVMVPRMSET0R_VSPOL_LOW		(1 << 16) /* 0:High 1:Low */
-+#define TXVMVPRMSET0R_CSPC_YCbCr	(1 << 4) /* 0:RGB 1:YCbCr */
-+#define TXVMVPRMSET0R_BPP_MASK		(7 << 0)
-+#define TXVMVPRMSET0R_BPP_16		0
-+#define TXVMVPRMSET0R_BPP_18		1
-+#define TXVMVPRMSET0R_BPP_24		2
+-#define TXVMVPRMSET0R_HSPOL_LOW		(1 << 17) /* 0:High 1:Low */
+-#define TXVMVPRMSET0R_VSPOL_LOW		(1 << 16) /* 0:High 1:Low */
+-#define TXVMVPRMSET0R_CSPC_YCbCr	(1 << 4) /* 0:RGB 1:YCbCr */
+-#define TXVMVPRMSET0R_BPP_MASK		(7 << 0)
++#define TXVMVPRMSET0R_HSPOL_LOW		BIT(17) /* 0:High 1:Low */
++#define TXVMVPRMSET0R_VSPOL_LOW		BIT(16) /* 0:High 1:Low */
++#define TXVMVPRMSET0R_CSPC_YCbCr	BIT(4) /* 0:RGB 1:YCbCr */
++#define TXVMVPRMSET0R_BPP_MASK		GENMASK(2, 0)
+ #define TXVMVPRMSET0R_BPP_16		0
+ #define TXVMVPRMSET0R_BPP_18		1
+ #define TXVMVPRMSET0R_BPP_24		2
+@@ -198,51 +198,51 @@
+  * PHY-Protocol Interface (PPI) Registers
+  */
+ #define PPISETR				0x700
+-#define PPISETR_DLEN_MASK		(0xf << 0)
+-#define PPISETR_CLEN			(1 << 8)
++#define PPISETR_DLEN_MASK		GENMASK(3, 0)
++#define PPISETR_CLEN			BIT(8)
  
- #define TXVMVPRMSET1R			0x1d4
- #define TXVMVPRMSET1R_VACTIVE(x)	(((x) & 0x7fff) << 16)
+ #define PPICLCR				0x710
+-#define PPICLCR_TXREQHS			(1 << 8)
+-#define PPICLCR_TXULPSEXT		(1 << 1)
+-#define PPICLCR_TXULPSCLK		(1 << 0)
++#define PPICLCR_TXREQHS			BIT(8)
++#define PPICLCR_TXULPSEXT		BIT(1)
++#define PPICLCR_TXULPSCLK		BIT(0)
+ 
+ #define PPICLSR				0x720
+-#define PPICLSR_HSTOLP			(1 << 27)
+-#define PPICLSR_TOHS			(1 << 26)
+-#define PPICLSR_STPST			(1 << 0)
++#define PPICLSR_HSTOLP			BIT(27)
++#define PPICLSR_TOHS			BIT(26)
++#define PPICLSR_STPST			BIT(0)
+ 
+ #define PPICLSCR			0x724
+-#define PPICLSCR_HSTOLP			(1 << 27)
+-#define PPICLSCR_TOHS			(1 << 26)
++#define PPICLSCR_HSTOLP			BIT(27)
++#define PPICLSCR_TOHS			BIT(26)
+ 
+ #define PPIDL0SR			0x740
+-#define PPIDL0SR_DIR			(1 << 10)
+-#define PPIDL0SR_STPST			(1 << 6)
++#define PPIDL0SR_DIR			BIT(10)
++#define PPIDL0SR_STPST			BIT(6)
+ 
+ #define PPIDLSR				0x760
+-#define PPIDLSR_STPST			(0xf << 0)
++#define PPIDLSR_STPST			GENMASK(3, 0)
+ 
+ /*
+  * Clocks registers
+  */
+ #define LPCLKSET			0x1000
+-#define LPCLKSET_CKEN			(1 << 8)
++#define LPCLKSET_CKEN			BIT(8)
+ #define LPCLKSET_LPCLKDIV(x)		(((x) & 0x3f) << 0)
+ 
+ #define CFGCLKSET			0x1004
+-#define CFGCLKSET_CKEN			(1 << 8)
++#define CFGCLKSET_CKEN			BIT(8)
+ #define CFGCLKSET_CFGCLKDIV(x)		(((x) & 0x3f) << 0)
+ 
+ #define DOTCLKDIV			0x1008
+-#define DOTCLKDIV_CKEN			(1 << 8)
++#define DOTCLKDIV_CKEN			BIT(8)
+ #define DOTCLKDIV_DOTCLKDIV(x)		(((x) & 0x3f) << 0)
+ 
+ #define VCLKSET				0x100c
+-#define VCLKSET_CKEN			(1 << 16)
+-#define VCLKSET_COLOR_YCC		(1 << 8) /* 0:RGB 1:YCbCr */
++#define VCLKSET_CKEN			BIT(16)
++#define VCLKSET_COLOR_YCC		BIT(8) /* 0:RGB 1:YCbCr */
+ #define VCLKSET_DIV_V3U(x)		(((x) & 0x3) << 4)
+ #define VCLKSET_DIV_V4H(x)		(((x) & 0x7) << 4)
+-#define VCLKSET_BPP_MASK		(3 << 2)
++#define VCLKSET_BPP_MASK		GENMASK(3, 2)
+ #define VCLKSET_BPP_16			0
+ #define VCLKSET_BPP_18			1
+ #define VCLKSET_BPP_18L			2
+@@ -250,24 +250,24 @@
+ #define VCLKSET_LANE(x)			(((x) & 0x3) << 0)
+ 
+ #define VCLKEN				0x1010
+-#define VCLKEN_CKEN			(1 << 0)
++#define VCLKEN_CKEN			BIT(0)
+ 
+ #define PHYSETUP			0x1014
+ #define PHYSETUP_HSFREQRANGE(x)		(((x) & 0x7f) << 16)
+-#define PHYSETUP_HSFREQRANGE_MASK	(0x7f << 16)
++#define PHYSETUP_HSFREQRANGE_MASK	GENMASK(22, 16)
+ #define PHYSETUP_CFGCLKFREQRANGE(x)	(((x) & 0x3f) << 8)
+-#define PHYSETUP_SHUTDOWNZ		(1 << 1)
+-#define PHYSETUP_RSTZ			(1 << 0)
++#define PHYSETUP_SHUTDOWNZ		BIT(1)
++#define PHYSETUP_RSTZ			BIT(0)
+ 
+ #define CLOCKSET1			0x101c
+-#define CLOCKSET1_LOCK_PHY		(1 << 17)
+-#define CLOCKSET1_CLKSEL		(1 << 8)
+-#define CLOCKSET1_CLKINSEL_MASK		(3 << 2)
++#define CLOCKSET1_LOCK_PHY		BIT(17)
++#define CLOCKSET1_CLKSEL		BIT(8)
++#define CLOCKSET1_CLKINSEL_MASK		GENMASK(3, 2)
+ #define CLOCKSET1_CLKINSEL_EXTAL	0
+ #define CLOCKSET1_CLKINSEL_DIG		1
+ #define CLOCKSET1_CLKINSEL_DU		2
+-#define CLOCKSET1_SHADOW_CLEAR		(1 << 1)
+-#define CLOCKSET1_UPDATEPLL		(1 << 0)
++#define CLOCKSET1_SHADOW_CLEAR		BIT(1)
++#define CLOCKSET1_UPDATEPLL		BIT(0)
+ 
+ #define CLOCKSET2			0x1020
+ #define CLOCKSET2_M(x)			(((x) & 0xfff) << 16)
+@@ -281,15 +281,15 @@
+ #define CLOCKSET3_GMP_CNTRL(x)		(((x) & 0x3) << 0)
+ 
+ #define PHTW				0x1034
+-#define PHTW_DWEN			(1 << 24)
++#define PHTW_DWEN			BIT(24)
+ #define PHTW_TESTDIN_DATA(x)		(((x) & 0xff) << 16)
+-#define PHTW_CWEN			(1 << 8)
++#define PHTW_CWEN			BIT(8)
+ #define PHTW_TESTDIN_CODE(x)		(((x) & 0xff) << 0)
+ 
+ #define PHTR				0x1038
+-#define PHTR_TEST			(1 << 16)
++#define PHTR_TEST			BIT(16)
+ 
+ #define PHTC				0x103c
+-#define PHTC_TESTCLR			(1 << 0)
++#define PHTC_TESTCLR			BIT(0)
+ 
+ #endif /* __RCAR_MIPI_DSI_REGS_H__ */
 -- 
 2.51.0
 
