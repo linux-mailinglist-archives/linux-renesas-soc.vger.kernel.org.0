@@ -1,122 +1,122 @@
-Return-Path: <linux-renesas-soc+bounces-22152-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22153-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B2E3B91CDD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 16:53:12 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FDCAB91E0F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 17:17:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8CC01189A2F7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 14:53:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C8DD942165C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 15:17:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 315742D29CA;
-	Mon, 22 Sep 2025 14:53:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2F772DF14B;
+	Mon, 22 Sep 2025 15:17:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="USSraptt";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="oxMbV+e3"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="X+m03wCm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8922D24BA;
-	Mon, 22 Sep 2025 14:53:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C9E2820B2;
+	Mon, 22 Sep 2025 15:17:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758552788; cv=none; b=q2K6PlRlN99jkQCR4XnKiEh+lu1bQOpy+F4nK+Dp7gu/CI1kGyFE9YNsGA7r5TdSG92TmPSnB1MnOeDHUk7EkCxdLagtFGttbkMAzI9a8WFMCirOpubtwUgTC8YgQEY2Q9A6e2V45wPzdY18yq56PhZQO8oEVLnhUfbbmeF0c5I=
+	t=1758554268; cv=none; b=P1/nvkgC+18W/yJ2voTmtS4I0rzGQckVZNAmGQfCYZwClWAzGkaOUVQdqSyXrGbz9kbTUwVGvuPxNSoU6Yd3+wEazidKEhq8npJ1SVTtEvk9PDRBLSCBp5fwqlEcXsAtQxs4huHKYUDkZgl5wYPYS2804AQdevCIWL6qqLxN1mM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758552788; c=relaxed/simple;
-	bh=GMCPkEYEEsTJqfE/6r6Ghq6SNiQAO0BjDhL0faMM54Y=;
+	s=arc-20240116; t=1758554268; c=relaxed/simple;
+	bh=MdE303L2jf4nU+Hx7xSbllxvbBaD9/9k3x17y6Zdap0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JP+l9y1oQ6Hy+SkRZSVvF6GkIhchvN3tL42RgxiSrODWWqnUx4UycnL5L/mxDol3tYZduMMFhw6n95R3QmIk6ElmrAugGFxA2ti8qjUkGYROfT7CAQL5rLGhDmVuYna9jCW/r8F5+vYJgUebNkGOvJi9FnF6aFqpxPMslm4rRVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=USSraptt; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=oxMbV+e3; arc=none smtp.client-ip=80.241.56.172
+	 In-Reply-To:Content-Type; b=APMY4VFmT/F1UcWwzp1lMXDrlmopXF3wTB/fiSXJBZz6uNzJA2+kMQOvngRMzRSQsalF+/5vaxk0oa+lNU2kuEUJsUTr3VxsfN6jzGKf+5t3ovSN+wBNUL/tuBqHchvc+0EElA1BIf9HnuXoDvrVFT2mJzWZUgzl5fOdTEWaKyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=X+m03wCm; arc=none smtp.client-ip=80.241.56.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cVmLm2gGzz9sxm;
-	Mon, 22 Sep 2025 16:53:04 +0200 (CEST)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4cVmvC0rphz9sX2;
+	Mon, 22 Sep 2025 17:17:43 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1758552784;
+	t=1758554263;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ia3X6LOqGAChyLZnv60EY8Niqy3mRn+utTuNAth8QQo=;
-	b=USSraptt5e3eqBAphtPEd4M/7yEVRQtJaikPRDFvyR084GcW63O9xJzdM903Rm/oDcQT24
-	/KpJ/kuJw3weKyoiXPHqnwJLkhvIEdu16U/E3T1MaSgOZ2rFrAdZtIW1b7BPE4DiG4aKP3
-	lcMBqgPVbqkOUujlLhuwY5e8VMY3aPU7KMrVaddouA0bAeuSHhnYaCA4NHBqdgboubQ/Th
-	FGIKEKHfoFD+fAvAAAV/7av0dMz6ZkO5b9zKnwt54gL/37g1s56bZyghgqxv4FwcTkPyDP
-	655nt34aNkOzuTxxsXhNzLMVg9hduaif7SbZhOv0TiEk3tD70eQQNP4uofvh2w==
-Message-ID: <a7bc3998-72d8-4d13-b0c1-05c5c44795b4@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1758552782;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ia3X6LOqGAChyLZnv60EY8Niqy3mRn+utTuNAth8QQo=;
-	b=oxMbV+e3sDebK83lCT2bvdqP0N1KrLcaIq6WTcZJtiGTyHnuNQlTHXZKz4xGlMM7GbVRoV
-	NDwbqPzR4Yj3tMWyIbLBFnar8PohdAdpJV+AC9f0Dy0A9qEivgXirgQjXOXSkl+PwFxX+s
-	csZw91CSOrBsMjeeVB6bp4lrDL7S16vfVFRqq7u4u9xZtgSl0Gr6G8jUjM/9tgM0FbhIZG
-	LdTET0ZjwzI1D6swb5vP7V4ENKzGBnLoH0upy0MCzfPAOAxgYjQz+JUKywxsheVkpe0tlQ
-	AdwzZR0hpUm8sHtNpFqTQLTCdNPEPqf1yLEWorFiDP/tGlXnfwXnUP0/1Bb76Q==
-Date: Mon, 22 Sep 2025 16:53:00 +0200
+	bh=p9HzCu9fxdKzZx3H4fanu6rYT9Lj42sxXC+higvSiso=;
+	b=X+m03wCm7T3J49DqAL2mzsmySlMb21ew3ZO2T1oWUBX5YvXDl4D5/I9HL1H6IEPp5B06vn
+	d6wgz9yLoaQeP2UDOL7HXZAOoLm75ofpr3LKURwMwK8mKu+DW4U/4nKMiOtYriwLN2gzc5
+	gpBuhXKF5PUjovrJTnP/rN0ApgQX23VTM8ka2bP8qiuAhYgT/Mqu0uuDb1xIl7A8TUoXQK
+	d3o0NnE7DhNBvGtUHniE0Xk6sPkbQwOaEoULHUdJrYpYrefqwo7JnT/FBoVbwGz4vWl5t3
+	sJNfzBYd3e9sZSuuYIAri+ojiXrwh4h/M3Ieq3FDUf/5KRUBhfBMhWlikurJ8A==
+Message-ID: <3e6544a4-a202-4a1b-8cef-a864936db5f2@mailbox.org>
+Date: Mon, 22 Sep 2025 17:17:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] clk: renesas: cpg-mssr: Add missing 1ms delay into reset
- toggle callback
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-clk@vger.kernel.org, Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, linux-renesas-soc@vger.kernel.org
-References: <20250918030552.331389-1-marek.vasut+renesas@mailbox.org>
- <CAMuHMdWgaU9MvR+Aa4VGHJz+U_ksyP2w6+TmuEYPrGFEOtNg5g@mail.gmail.com>
+Subject: Re: [PATCH] PCI: rcar-gen4: Fix inverted break condition in PHY
+ initialization
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-pci@vger.kernel.org, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Magnus Damm <magnus.damm@gmail.com>, Manivannan Sadhasivam
+ <mani@kernel.org>, Rob Herring <robh@kernel.org>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ linux-renesas-soc@vger.kernel.org
+References: <20250915235910.47768-1-marek.vasut+renesas@mailbox.org>
+ <CAMuHMdXAK6EhxPoNoqwqWSjGtwM24gL4qjSf6_n+NMCcpDf1HA@mail.gmail.com>
+ <6fdc7d1e-8eaa-4244-a6b4-4a07e719dd73@mailbox.org>
+ <CAMuHMdVrw1Mr_hKvgve03DQwvpqSPNaN5XUnYRJPXMeX1wvv0A@mail.gmail.com>
+ <de4e4003-214f-4260-854c-d15efc81bb74@mailbox.org>
+ <CAMuHMdVgFNb-3TgL7a+AJMYE6tqOiMpGYFDhXnQoz9R5gLz=-A@mail.gmail.com>
+ <12b54030-5505-416b-9e4e-2338263c5c7a@mailbox.org>
+ <CAMuHMdUnKqHQpaTkiuYUmR1kQ2GwVvj0SeML-9x3Rc+srtXW+w@mail.gmail.com>
 Content-Language: en-US
 From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <CAMuHMdWgaU9MvR+Aa4VGHJz+U_ksyP2w6+TmuEYPrGFEOtNg5g@mail.gmail.com>
+In-Reply-To: <CAMuHMdUnKqHQpaTkiuYUmR1kQ2GwVvj0SeML-9x3Rc+srtXW+w@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: 1mdhnc95ckfgh3har8i1mwtnt3m7if7d
-X-MBO-RS-ID: 0de83875d2785eba642
+X-MBO-RS-ID: b9e099ba3a54f189132
+X-MBO-RS-META: dtmfpu8wk5keobsmfim7o7csdd6p69oc
 
-On 9/22/25 1:37 PM, Geert Uytterhoeven wrote:
+On 9/22/25 12:10 PM, Geert Uytterhoeven wrote:
 
 Hello Geert,
 
->> --- a/drivers/clk/renesas/renesas-cpg-mssr.c
->> +++ b/drivers/clk/renesas/renesas-cpg-mssr.c
->> @@ -689,8 +689,15 @@ static int cpg_mssr_reset(struct reset_controller_dev *rcdev,
->>          /* Reset module */
->>          writel(bitmask, priv->pub.base0 + priv->reset_regs[reg]);
+>> I have instead posted what I think are proper fixes for that SError:
 >>
->> -       /* Wait for at least one cycle of the RCLK clock (@ ca. 32 kHz) */
->> -       udelay(35);
->> +       /*
->> +        * On R-Car Gen4, delay after SRCR has been written is 1ms.
->> +        * On older SoCs, delay after SRCR has been written is 35us
->> +        * (one cycle of the RCLK clock @ cca. 32 kHz).
+>> PCI: rcar-gen4: Add missing 1ms delay after PWR reset assertion
+>> https://patchwork.kernel.org/project/linux-pci/patch/20250918030058.330960-1-marek.vasut+renesas@mailbox.org/
 > 
-> s/cca/ca/ (I can fix that myself).
-
-cca - circa , it seems all of c., ca., ca, cca are valid.
-
->> +        */
->> +       if (priv->reg_layout == CLK_REG_LAYOUT_RCAR_GEN4)
->> +               usleep_range(1000, 2000);
->> +       else
->> +               usleep_range(35, 1000);
->>
->>          /* Release module from reset state */
->>          writel(bitmask, priv->pub.base0 + priv->reset_clear_regs[reg]);
+> I used v3 instead.
+> While that patch seems to fix the SError after a hard reset (hardware
+> reset), it is not sufficient after a soft reset (typing "reboot").
 > 
-> LGTM, but wait for more feedback?
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Thank you. I wait.
+>> clk: renesas: cpg-mssr: Add missing 1ms delay into reset toggle callback
+>> https://patchwork.kernel.org/project/linux-clk/patch/20250918030552.331389-1-marek.vasut+renesas@mailbox.org/
+> 
+> This does not fix the SError, as expected (pcie-rcar-gen4.c does not
+> call reset_control_reset(), but reset_control_{,de}assert()).
+> 
+>> clk: renesas: cpg-mssr: Read back reset registers to assure values latched
+>> https://patchwork.kernel.org/project/linux-clk/patch/20250918030723.331634-1-marek.vasut+renesas@mailbox.org/
+> 
+> I used v2 instead, which seems to fix the SError.
+
+Those three patches have to be used together, and this inverted break 
+condition fix should be applied too.
+
+The first two are corrections which align the code behavior with 
+reference manual. This inverted break fix is another correction. The 
+last patch in the list above actually fixes the asynchronized reset 
+behavior and turns it into synchronized reset behavior, therefore fixing 
+the SError in the process.
+
+-- 
+Best regards,
+Marek Vasut
 
