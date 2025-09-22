@@ -1,141 +1,220 @@
-Return-Path: <linux-renesas-soc+bounces-22186-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22187-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7811B92C51
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 21:26:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07081B932E0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 22:07:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7C68F1688EC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 19:26:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 288F3188EB9A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 20:07:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CD1C3148A1;
-	Mon, 22 Sep 2025 19:26:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B3EB2877DC;
+	Mon, 22 Sep 2025 20:07:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iHTDm6ki"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OMmcAWOh"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3173D26E711;
-	Mon, 22 Sep 2025 19:26:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB4D262D14
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Sep 2025 20:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758569202; cv=none; b=cwYgVCBOxyGBoaYuWgmfrgYhiU7MQLDMUL1IgKPza/8yudfE029EK0/aTbrrC83nKB7oe5wtTl7OBKanb4RyqO/G5hUwRY3k/aGM7w2cCbd+qiIGZu45vU4pGhzj80/HVmrqd/1mmcGb7Rx0jt3+vR4PhlbBcMgL6GQFNpXrL9c=
+	t=1758571643; cv=none; b=ZxJPaPhkdLvrIbEpj0Fgpmuc+i+ekzfCdVZT5do7deyDUKnS4XMl1m2Y0D5YWxv0Vnj4qkhgQZ2Id2Hylc0JLyCHEYKk/8+IZg+VjCeFAzk7ryBhPmeiMa3Cv8Cqe54tgN0PAgcMs8kKAAOTtRuKp+FJFmE4JcYfPjv1HoPau9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758569202; c=relaxed/simple;
-	bh=upj4qQnegJPBP6IU+iQ3qZuAwuV5GgFt4jHCz7IbfrY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ANcGYTqRx2c07YBCexx5ooohUsBJu0j/TG5WJPma7E9ICMh2Set9Gq54qu9U49yOZ2KN+I4qk9el/3DgnLm2WHSz1oF4enJRxUxVJ1ogew8Xn/xeX/Rf39jJhCmFEqF6ue4uR3M0g8MyoW5/0zOSdQq6A3xQswnkTv6DivfAO3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iHTDm6ki; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42F50C4CEF0;
-	Mon, 22 Sep 2025 19:26:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758569201;
-	bh=upj4qQnegJPBP6IU+iQ3qZuAwuV5GgFt4jHCz7IbfrY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iHTDm6ki+Znj5QJhMnKNcuMgPKzKrGrNCytmqYIdxYiQMMF/WDyqrgEz38Ij+uia3
-	 fghV5oWPj07UsrbXfDwkQggml2gkT8+4qmhtQvhU3B7yogjJNkBfJwMuMzYcfp3xj0
-	 X6JTN01vgnXKiFCQONR1XE621SPMITr2OSUJSyXZNxZ9ug7aeR0SpiIlI0quraKqbC
-	 9ovf6GwRsYvKLFi4bY6aX7a/6PvuJv03WVeaNXHwLNviPKVoTtnNBhOrozUXE10XeC
-	 lJ4WVMWyo9A99IiGX30y1cHH0XG5NQ6/36qz3fZCM/7iMGKI10Dn0o+GxtcW/QPjev
-	 sxjhe0G4Q5/zg==
-Date: Mon, 22 Sep 2025 14:26:40 -0500
-From: Rob Herring <robh@kernel.org>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [RFC PATCH] ARM: dts: renesas: r9a06g032-rzn1d400-eb: describe
- LEDs
-Message-ID: <20250922192640.GA841738-robh@kernel.org>
-References: <20250919100740.28429-1-wsa+renesas@sang-engineering.com>
+	s=arc-20240116; t=1758571643; c=relaxed/simple;
+	bh=C/T7ZbQJakjXvnJe1kk1uEOAFH5y08GjWlAIpSeZl6c=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ut3JskiyKDWJdwHVSiTzKVNVz61mDvHaE1HfjjqSw1khtNrlqtOMiheEKZgRp13gxSZ6p8KNy2QVx5XmYMrZ5Q70Z4bf0cp6TDrzg9SVwJ8kmeVwZEzoQf5UJ+nfxVQOWL5Exc5hL0BZkjZpW3Yld372dI+nIwK5GqxC/VIiN2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OMmcAWOh; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758571641; x=1790107641;
+  h=date:from:to:cc:subject:message-id;
+  bh=C/T7ZbQJakjXvnJe1kk1uEOAFH5y08GjWlAIpSeZl6c=;
+  b=OMmcAWOh/+/ynG1CpVVUP4a78j3wjzfuRcDY1b+peOuxnXoHeq+zJoyH
+   gvKN/w8aBhai/6SOPGu81F8DoO17iSckBQmm/I2d/CG5qTTQ9/19plV+z
+   zWQUbjORiB0rTtCZngUuXKaHVG3tC++rUjSeKK1ifokU8A/lB1rqTVwlD
+   ckknACObxm5Oa6OV+k7D7pGXppH9JAnlVM0q2P/jTMHsDN11ae3gnpuPY
+   VffPb7Rtq25vqwGMzeE2e7/aa6haQn5amy+DjK5gQGpN7750fFIxT9EMD
+   sigeYYeXd+D0LyLuMefeFMHt5Mpl6tS/527OEHn76UIJfmkytoy1gahh7
+   g==;
+X-CSE-ConnectionGUID: NkbePF4QRWW5U+0wm1vRsg==
+X-CSE-MsgGUID: TcT+aVQkTM66svGBH9dU2Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="71950633"
+X-IronPort-AV: E=Sophos;i="6.18,285,1751266800"; 
+   d="scan'208";a="71950633"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 13:07:21 -0700
+X-CSE-ConnectionGUID: s3Q38kVpTjqZVe0RLhwEsQ==
+X-CSE-MsgGUID: gW25BTZtSMyAkPYWqKumcQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,285,1751266800"; 
+   d="scan'208";a="176943625"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 22 Sep 2025 13:07:19 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v0mof-0002SP-0x;
+	Mon, 22 Sep 2025 20:07:17 +0000
+Date: Tue, 23 Sep 2025 04:06:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:master] BUILD SUCCESS
+ 71a2fea2f1b5fb480244c641bf20c949b5757211
+Message-ID: <202509230411.3IrSj9wt-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250919100740.28429-1-wsa+renesas@sang-engineering.com>
 
-On Fri, Sep 19, 2025 at 12:07:20PM +0200, Wolfram Sang wrote:
-> To be able to use the LEDs, a configuration switch has to be set to a
-> non-default value. So, infrastructure to support these switches (which
-> modify signal routing via the CPLD on the demo board (DB)) is added as
-> well.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
-> 
-> This patch depends on "[PATCH v3 5/8] ARM: dts: r9a06g032: Add GPIO
-> controllers" which is still in-flight. I send this out as RFC already,
-> so we can discuss the introduction of the switch dependant settings. I
-> copied this approach form RZ/G3S.
->  
-> 
->  .../renesas/r9a06g032-rzn1d400-db-switches.h  | 22 ++++++++++++++
->  .../dts/renesas/r9a06g032-rzn1d400-db.dts     | 30 +++++++++++++++++++
->  .../dts/renesas/r9a06g032-rzn1d400-eb.dts     | 19 ++++++++++++
->  3 files changed, 71 insertions(+)
->  create mode 100644 arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db-switches.h
-> 
-> diff --git a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db-switches.h b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db-switches.h
-> new file mode 100644
-> index 000000000000..4560d16e7c60
-> --- /dev/null
-> +++ b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db-switches.h
-> @@ -0,0 +1,22 @@
-> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
-> +/*
-> + * On-board switches for the Renesas RZ/N1D demo board (DB) and extension
-> + * board (EB)
-> + *
-> + * Copyright (C) 2025 Renesas Electronics Corp.
-> + */
-> +
-> +#ifndef __N1D_DB_EB_SWITCHES_H__
-> +#define __N1D_DB_EB_SWITCHES_H__
-> +
-> +#define SW_OFF         0
-> +#define SW_ON          1
-> +
-> +/*
-> + * SW_2-2:
-> + *     SW_OFF - enable PMOD1-3+LEDs on the extension board
-> + *     SW_ON  - enable CAT/S3 (default)
-> + */
-> +#define SW_2_2 SW_ON
-> +
-> +#endif
-> diff --git a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
-> index 3258b2e27434..849b5ad9c79d 100644
-> --- a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
-> +++ b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
-> @@ -15,6 +15,7 @@
->  #include <dt-bindings/pinctrl/rzn1-pinctrl.h>
->  
->  #include "r9a06g032.dtsi"
-> +#include "r9a06g032-rzn1d400-db-switches.h"
->  
->  / {
->  	model = "RZN1D-DB Board";
-> @@ -185,6 +186,14 @@ fixed-link {
->  	};
->  };
->  
-> +#if SW2_2 == SW_OFF
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
+branch HEAD: 71a2fea2f1b5fb480244c641bf20c949b5757211  Merge tag 'v6.17-rc7' into renesas-devel
 
-The "rule" for DT headers is #defines for numbers only.
+elapsed time: 729m
 
-If the switches are s/w readable, then I'd say firmware should read them 
-and enable/disable the LEDs as appropriate. If not, then maybe the DT 
-should have a property reflecting the switch state and firmware uses 
-that to enable/disable.
+configs tested: 127
+configs skipped: 4
 
-Rob
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig    gcc-15.1.0
+alpha                            allyesconfig    gcc-15.1.0
+arc                              allmodconfig    gcc-15.1.0
+arc                               allnoconfig    gcc-15.1.0
+arc                              allyesconfig    gcc-15.1.0
+arc                   randconfig-001-20250922    gcc-8.5.0
+arc                   randconfig-002-20250922    gcc-9.5.0
+arm                              allmodconfig    gcc-15.1.0
+arm                               allnoconfig    clang-22
+arm                              allyesconfig    gcc-15.1.0
+arm                      footbridge_defconfig    clang-17
+arm                   randconfig-001-20250922    clang-22
+arm                   randconfig-002-20250922    gcc-12.5.0
+arm                   randconfig-003-20250922    clang-17
+arm                   randconfig-004-20250922    gcc-8.5.0
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-15.1.0
+arm64                 randconfig-001-20250922    gcc-8.5.0
+arm64                 randconfig-002-20250922    gcc-15.1.0
+arm64                 randconfig-003-20250922    clang-22
+arm64                 randconfig-004-20250922    clang-22
+csky                              allnoconfig    gcc-15.1.0
+csky                  randconfig-001-20250922    gcc-15.1.0
+csky                  randconfig-002-20250922    gcc-15.1.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-22
+hexagon                          allyesconfig    clang-22
+hexagon               randconfig-001-20250922    clang-20
+hexagon               randconfig-002-20250922    clang-19
+i386                             allmodconfig    gcc-14
+i386                              allnoconfig    gcc-14
+i386                             allyesconfig    gcc-14
+i386        buildonly-randconfig-001-20250922    clang-20
+i386        buildonly-randconfig-002-20250922    gcc-14
+i386        buildonly-randconfig-003-20250922    gcc-14
+i386        buildonly-randconfig-004-20250922    gcc-14
+i386        buildonly-randconfig-005-20250922    clang-20
+i386        buildonly-randconfig-006-20250922    clang-20
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    clang-19
+loongarch                         allnoconfig    clang-22
+loongarch             randconfig-001-20250922    clang-22
+loongarch             randconfig-002-20250922    clang-18
+m68k                             allmodconfig    gcc-15.1.0
+m68k                              allnoconfig    gcc-15.1.0
+m68k                             allyesconfig    gcc-15.1.0
+m68k                       m5275evb_defconfig    gcc-15.1.0
+microblaze                       allmodconfig    gcc-15.1.0
+microblaze                        allnoconfig    gcc-15.1.0
+microblaze                       allyesconfig    gcc-15.1.0
+microblaze                          defconfig    gcc-15.1.0
+mips                              allnoconfig    gcc-15.1.0
+mips                         rt305x_defconfig    clang-22
+mips                           xway_defconfig    clang-22
+nios2                             allnoconfig    gcc-11.5.0
+nios2                               defconfig    gcc-11.5.0
+nios2                 randconfig-001-20250922    gcc-11.5.0
+nios2                 randconfig-002-20250922    gcc-8.5.0
+openrisc                          allnoconfig    gcc-15.1.0
+openrisc                         allyesconfig    gcc-15.1.0
+openrisc                            defconfig    gcc-15.1.0
+parisc                           allmodconfig    gcc-15.1.0
+parisc                            allnoconfig    gcc-15.1.0
+parisc                           allyesconfig    gcc-15.1.0
+parisc                              defconfig    gcc-15.1.0
+parisc                randconfig-001-20250922    gcc-8.5.0
+parisc                randconfig-002-20250922    gcc-9.5.0
+parisc64                            defconfig    gcc-15.1.0
+powerpc                     akebono_defconfig    clang-22
+powerpc                          allmodconfig    gcc-15.1.0
+powerpc                           allnoconfig    gcc-15.1.0
+powerpc                          allyesconfig    clang-22
+powerpc               randconfig-001-20250922    clang-22
+powerpc               randconfig-002-20250922    gcc-12.5.0
+powerpc               randconfig-003-20250922    clang-17
+powerpc64             randconfig-002-20250922    clang-20
+powerpc64             randconfig-003-20250922    clang-17
+riscv                            allmodconfig    clang-22
+riscv                             allnoconfig    gcc-15.1.0
+riscv                            allyesconfig    clang-16
+riscv                               defconfig    clang-22
+riscv                 randconfig-001-20250922    clang-22
+riscv                 randconfig-002-20250922    clang-22
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-22
+s390                             allyesconfig    gcc-15.1.0
+s390                                defconfig    clang-22
+s390                  randconfig-001-20250922    gcc-8.5.0
+s390                  randconfig-002-20250922    gcc-11.5.0
+sh                               allmodconfig    gcc-15.1.0
+sh                                allnoconfig    gcc-15.1.0
+sh                               allyesconfig    gcc-15.1.0
+sh                                  defconfig    gcc-15.1.0
+sh                    randconfig-001-20250922    gcc-15.1.0
+sh                    randconfig-002-20250922    gcc-11.5.0
+sh                           se7780_defconfig    gcc-15.1.0
+sh                   secureedge5410_defconfig    gcc-15.1.0
+sh                        sh7785lcr_defconfig    gcc-15.1.0
+sparc                            allmodconfig    gcc-15.1.0
+sparc                             allnoconfig    gcc-15.1.0
+sparc                               defconfig    gcc-15.1.0
+sparc                 randconfig-001-20250922    gcc-15.1.0
+sparc                 randconfig-002-20250922    gcc-14.3.0
+sparc64                             defconfig    clang-20
+sparc64               randconfig-001-20250922    gcc-12.5.0
+sparc64               randconfig-002-20250922    gcc-14.3.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-22
+um                               allyesconfig    gcc-14
+um                                  defconfig    clang-22
+um                             i386_defconfig    gcc-14
+um                    randconfig-001-20250922    gcc-14
+um                    randconfig-002-20250922    clang-22
+um                           x86_64_defconfig    clang-22
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250922    clang-20
+x86_64      buildonly-randconfig-002-20250922    gcc-13
+x86_64      buildonly-randconfig-003-20250922    gcc-13
+x86_64      buildonly-randconfig-004-20250922    clang-20
+x86_64      buildonly-randconfig-005-20250922    clang-20
+x86_64      buildonly-randconfig-006-20250922    clang-20
+x86_64                              defconfig    gcc-14
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    gcc-15.1.0
+xtensa                randconfig-001-20250922    gcc-9.5.0
+xtensa                randconfig-002-20250922    gcc-11.5.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
