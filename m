@@ -1,231 +1,109 @@
-Return-Path: <linux-renesas-soc+bounces-22123-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22124-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93CB6B8E18B
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Sep 2025 19:19:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2E98B8ED17
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 04:47:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5B837189AABE
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Sep 2025 17:20:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 65D0D17920F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 02:47:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 923BE261B72;
-	Sun, 21 Sep 2025 17:19:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBEAD80C02;
+	Mon, 22 Sep 2025 02:47:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M4/7Svp6"
+	dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b="kZW7zB/6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58E7819F11E;
-	Sun, 21 Sep 2025 17:19:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09F8B17BA1;
+	Mon, 22 Sep 2025 02:47:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.241.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758475190; cv=none; b=d8j8iXYud6S6Q/JHt0xwDRHPgxAnpEGomEgPtXaR0aMs025JU1fgHel8kvaCw9ceELC5N4PN22fIzqbtop9usRmF3AMpfS/FJ8w2mSqJXSsGQsOqFszKhBcV+6Y6QdSLsaEC46orvCIfXQC+HyFCmbFZ8T2FYFVvE0JYNS/9Z+k=
+	t=1758509240; cv=none; b=Eal70H/tlVcB/SIy7S7tP3Y1qRNWeZZSORQNECc7XQgcfyFi8tYM9ned03gOoizaWHsAUtfB3B0UaBBVzIuYXinxkCd8JMHM86mHrsTLxtDXpqCDaXggw3vs+ewEvCd5VPbalMxEdj5wF5aNQJksj0KEdVCAcf1G4ef7NPn0MI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758475190; c=relaxed/simple;
-	bh=rxiF7+0X+E1DwELu2yV6ORqUEuJ5BQYtLtP8zWsIpaI=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Hs4JlfU2CVWDdwtPpVTmDiDnK9ypU+IhyrUO3A0FwbhmlH3lElmSXwx3Wzn5JnNw0DzU85pXAJVfs8ddKRxjMQH3ZcD8vPT8VwYntY/DI1ePYThNVEDArPlzEzw2RI+DHPoZbCJ1CbVSLolcyobQrt9PuVBOnXTVvjkmuD6ccG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M4/7Svp6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E58E4C4CEE7;
-	Sun, 21 Sep 2025 17:19:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758475190;
-	bh=rxiF7+0X+E1DwELu2yV6ORqUEuJ5BQYtLtP8zWsIpaI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=M4/7Svp6AnZCeOKbjsm5eSg8NQKXGqzgGhzt1oHC2Jaw2wkJqRR/Lx77QBE/qh7c3
-	 tlWvTiszBm2dAbpbNBuNdlAfPf2ZVOZQCyQ9wrFCjom3tnv6mBVuf+aPHZoZ6VRVBw
-	 IPXwvAe0UIYT0VfxkFlwDh02s9o7A2R+BZXlB9ogV4yC4FsiZ7vmS0F9SRSTupxy8v
-	 eUmTvjfRQhom1jH1wSFN6j49GD2osRCotFGsMjNLAGJPeh0/XJPS1ehi8N5cotcwUj
-	 awvcjovcHP77qzG9dNH8B/L6svBqwaP++ul63wxVNEud6cw6+I0No9ua9nzQTKg9m6
-	 k+b0AK3XAZn1Q==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=lobster-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1v0Nj1-00000008Ctq-0grY;
-	Sun, 21 Sep 2025 17:19:47 +0000
-Date: Sun, 21 Sep 2025 18:19:46 +0100
-Message-ID: <87ms6nyb7x.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Alok Tiwari <alok.a.tiwari@oracle.com>
-Cc: thomas.petazzoni@bootlin.com,
-	pali@kernel.org,
-	lpieralisi@kernel.org,
-	kwilczynski@kernel.org,
-	mani@kernel.org,
-	robh@kernel.org,
-	bhelgaas@google.com,
-	joyce.ooi@intel.com,
-	alyssa@rosenzweig.io,
-	jim2101024@gmail.com,
-	florian.fainelli@broadcom.com,
-	bcm-kernel-feedback-list@broadcom.com,
-	rjui@broadcom.com,
-	sbranden@broadcom.com,
-	ryder.lee@mediatek.com,
-	jianjun.wang@mediatek.com,
-	sergio.paracuellos@gmail.com,
-	matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com,
-	marek.vasut+renesas@gmail.com,
-	yoshihiro.shimoda.uh@renesas.com,
-	geert+renesas@glider.be,
-	magnus.damm@gmail.com,
-	shawn.lin@rock-chips.com,
-	heiko@sntech.de,
-	michal.simek@amd.com,
-	bharat.kumar.gogada@amd.com,
-	will@kernel.org,
-	kys@microsoft.com,
-	haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	linus.walleij@linaro.org,
-	thierry.reding@gmail.com,
-	jonathanh@nvidia.com,
-	rric@kernel.org,
-	nirmal.patel@linux.intel.com,
-	toan@os.amperecomputing.com,
-	jonathan.derrick@linux.dev,
-	linux-pci@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-hyperv@vger.kernel.org,
-	linux-tegra@vger.kernel.org
-Subject: Re: [PATCH RFC] PCI: Convert devm_pci_alloc_host_bridge() users to error-pointer returns
-In-Reply-To: <20250921161434.1561770-1-alok.a.tiwari@oracle.com>
-References: <20250921161434.1561770-1-alok.a.tiwari@oracle.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	s=arc-20240116; t=1758509240; c=relaxed/simple;
+	bh=8lcFSOzja5E1OdUdSgtdwJamxmrIxOqXabOscv2yoRU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=uLP+6ZWCqw6egjjqI05ezOB9ULJAUE3oILPZF8e4sOsZDkCA5jGx1M/7CHYrLCwHDwB66hso5KdjjFR52yun9co9IxJyIhnvNXOuBAXh+KkMO++YrN13kAixgKX/cQAG9oWIRRpiDn4evwIi2ZBhmtbZ/4xZVO3crKG1obknUGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; spf=pass smtp.mailfrom=codeconstruct.com.au; dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b=kZW7zB/6; arc=none smtp.client-ip=203.29.241.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeconstruct.com.au
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1758509234;
+	bh=8lcFSOzja5E1OdUdSgtdwJamxmrIxOqXabOscv2yoRU=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=kZW7zB/6EL0FgFn6rLaJ6D2Bl9DGzdY3hWfhg93pcG5VaIa5HGLi1t0AijUmBFVFU
+	 GkfqvqEqHM7/BejQe+nvSXxYvVhttNV33t6W5iz4ox1xyAauEHCytqMjQ6y0HsZy+D
+	 9D12OQB/X8MZo2FILB5BB824OnU6mImg3jy493UxhkO6w8goh4BkCXp+N44fSU+wUx
+	 tP81ueKkSUbA8m2w7e/W4Kzjn6TNr6tQSMJD39Db8KCsxLnLqwWB/4koT8o8IIeZhd
+	 xRynaMBpOxEc8iocDzgIl25QQSQdelgZFDeEXhNHqu6bKEdTvsEZL74pMlHNqoUAUr
+	 R1INSLBUj+INQ==
+Received: from [192.168.68.113] (unknown [180.150.112.213])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id DEEE964755;
+	Mon, 22 Sep 2025 10:47:12 +0800 (AWST)
+Message-ID: <7e6f568da28d7a63738b6ed22b33db3df4c478c9.camel@codeconstruct.com.au>
+Subject: Re: [PATCH v1 0/2] Add Meta (Facebook) Yosemite5 BMC (AST2600)
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Kevin Tung <kevin.tung.openbmc@gmail.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel
+ Stanley <joel@jms.id.au>,  Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Date: Mon, 22 Sep 2025 12:17:12 +0930
+In-Reply-To: <CABh9gBew1=hbJvg1Mhg5dE7Lr_Z442_kbBX6zTs_6_C2NRyLbw@mail.gmail.com>
+References: <20250917074812.4042797-1-kevin.tung.openbmc@gmail.com>
+	 <9bb9929a-8130-48da-983e-2901a7c3da36@lunn.ch>
+	 <CABh9gBew1=hbJvg1Mhg5dE7Lr_Z442_kbBX6zTs_6_C2NRyLbw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.1-1 
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: alok.a.tiwari@oracle.com, thomas.petazzoni@bootlin.com, pali@kernel.org, lpieralisi@kernel.org, kwilczynski@kernel.org, mani@kernel.org, robh@kernel.org, bhelgaas@google.com, joyce.ooi@intel.com, alyssa@rosenzweig.io, jim2101024@gmail.com, florian.fainelli@broadcom.com, bcm-kernel-feedback-list@broadcom.com, rjui@broadcom.com, sbranden@broadcom.com, ryder.lee@mediatek.com, jianjun.wang@mediatek.com, sergio.paracuellos@gmail.com, matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com, marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com, geert+renesas@glider.be, magnus.damm@gmail.com, shawn.lin@rock-chips.com, heiko@sntech.de, michal.simek@amd.com, bharat.kumar.gogada@amd.com, will@kernel.org, kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com, linus.walleij@linaro.org, thierry.reding@gmail.com, jonathanh@nvidia.com, rric@kernel.org, nirmal.patel@linux.intel.com, toan@os.amperecomputing.com, jonathan.derrick@linux.
- dev, linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-hyperv@vger.kernel.org, linux-tegra@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
 
-On Sun, 21 Sep 2025 17:14:07 +0100,
-Alok Tiwari <alok.a.tiwari@oracle.com> wrote:
-> 
-> devm_pci_alloc_host_bridge() and pci_alloc_host_bridge() previously
-> returned NULL on failure, forcing callers to special-case NULL handling
-> and often hardcode -ENOMEM as the error.
-> 
-> This series updates devm_pci_alloc_host_bridge() to consistently return
-> error pointers (ERR_PTR) with the actual error code, instead of NULL.
-> All callers across PCI host controller drivers are updated to use
-> IS_ERR_OR_NULL()/PTR_ERR() instead of NULL checks and hardcoded -ENOMEM.
-> 
-> Benefits:
->   - Standardizes error handling with Linux kernel ERR_PTR()/PTR_ERR()
->     conventions.
->   - Ensures that the actual error code from lower-level helpers is
->     propagated back to the caller.
->   - Removes ambiguity between NULL and error pointer returns.
->
-> Touched drivers include:
->  cadence (J721E, cadence-plat)
->  dwc (designware, qcom)
->  mobiveil (layerscape-gen4, mobiveil-plat)
->  aardvark, ftpci100, ixp4xx, loongson, mvebu, rcar, tegra, v3-semi,
->  versatile, xgene, altera, brcmstb, iproc, mediatek, mt7621, xilinx,
->  plda, and others
-> 
-> This patch updates error handling across these host controller drivers
->  so that callers consistently receive ERR_PTR() instead of NULL.
+On Thu, 2025-09-18 at 10:21 +0800, Kevin Tung wrote:
+> On Wed, Sep 17, 2025 at 11:12=E2=80=AFPM Andrew Lunn <andrew@lunn.ch> wro=
+te:
+> >=20
+> > On Wed, Sep 17, 2025 at 03:48:08PM +0800, Kevin Tung wrote:
+> > > Summary:
+> > > Add device tree for the Meta (Facebook) Yosemite5 compute node,
+> > > based on the AST2600 BMC.
+> > >=20
+> > > The Yosemite5 platform provides monitoring of voltages, power,
+> > > temperatures, and other critical parameters across the motherboard,
+> > > CXL board, E1.S expansion board, and NIC components. The BMC also
+> > > logs relevant events and performs appropriate system actions in
+> > > response to abnormal conditions.
+> > >=20
+> > > Kevin Tung (2):
+> > > =C2=A0 dt-bindings: arm: aspeed: add Meta Yosemite5 board
+> > > =C2=A0 ARM: dts: aspeed: yosemite5: Add Meta Yosemite5 BMC
+> >=20
+> > The threading between your patches are broken? How did you send them?
+> > git send-email? b4 send?
+>=20
+> Yes, the threading is broken. I initially used git send-email, but for
+> some reason, only the cover letter was sent. I then sent the remaining
+> dt-bindings and DTS patches separately as a follow-up.
 
-Not quite.
+I recommend using b4, it helps blunt some of the sharp edges of git-
+send-email.
 
-> diff --git a/arch/mips/pci/pci-xtalk-bridge.c b/arch/mips/pci/pci-xtalk-bridge.c
-> index e00c38620d14..c2c8ed8ecac1 100644
-> --- a/arch/mips/pci/pci-xtalk-bridge.c
-> +++ b/arch/mips/pci/pci-xtalk-bridge.c
-> @@ -636,8 +636,8 @@ static int bridge_probe(struct platform_device *pdev)
->  	pci_set_flags(PCI_PROBE_ONLY);
->  
->  	host = devm_pci_alloc_host_bridge(dev, sizeof(*bc));
-> -	if (!host) {
-> -		err = -ENOMEM;
-> +	if (IS_ERR_OR_NULL(host)) {
-> +		err = PTR_ERR(host);
+https://b4.docs.kernel.org/en/latest/
 
-Under which circumstances can NULL still be returned? Because applying
-PTR_ERR() to a NULL pointer looks like a pretty bad idea.
+Can you please send v2 of the series so that it's properly threaded,
+after applying tags you've collected for the involved patches, and
+checking your work with `make CHECK_DTBS=3Dy aspeed/aspeed-bmc-facebook-
+yosemite5.dtb`?
 
->  		goto err_remove_domain;
->  	}
->  
-
-[...]
-
-> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-> index f41128f91ca7..e627f36b7683 100644
-> --- a/drivers/pci/probe.c
-> +++ b/drivers/pci/probe.c
-> @@ -686,18 +686,18 @@ struct pci_host_bridge *devm_pci_alloc_host_bridge(struct device *dev,
->  
->  	bridge = pci_alloc_host_bridge(priv);
->  	if (!bridge)
-> -		return NULL;
-> +		return ERR_PTR(-ENOMEM);
->  
->  	bridge->dev.parent = dev;
->  
->  	ret = devm_add_action_or_reset(dev, devm_pci_alloc_host_bridge_release,
->  				       bridge);
->  	if (ret)
-> -		return NULL;
-> +		return ERR_PTR(ret);
->  
->  	ret = devm_of_pci_bridge_init(dev, bridge);
->  	if (ret)
-> -		return NULL;
-> +		return ERR_PTR(ret);
->  
->  	return bridge;
->  }
-> @@ -3198,7 +3198,7 @@ struct pci_bus *pci_create_root_bus(struct device *parent, int bus,
->  
->  	bridge = pci_alloc_host_bridge(0);
->  	if (!bridge)
-> -		return NULL;
-> +		return ERR_PTR(-ENOMEM);
->  
->  	bridge->dev.parent = parent;
->  
-
-And what about the code that comes after that if we fail to register
-the bus? The remaining "return NULL", which will then be interpreted
-as 0 in any user of this function, leading to a worse situation than
-what we have now.
-
-Also, things like pci_scan_root_bus() have the following pattern:
-
-	b = pci_create_root_bus(parent, bus, ops, sysdata, resources);
-	if (!b)
-		return NULL;
-
-which will end with prejudice given what you have introduced.
-
-If you are going to touch this sort of things, at least make it
-consistent, analyse *all* code paths, and provide documentation.
-
-	M.
-
--- 
-Jazz isn't dead. It just smells funny.
+Andrew
 
