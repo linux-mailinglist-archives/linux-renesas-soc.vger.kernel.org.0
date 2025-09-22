@@ -1,165 +1,123 @@
-Return-Path: <linux-renesas-soc+bounces-22133-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22134-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71856B9048A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 12:55:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7868B904E9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 13:10:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 248D816FD5E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 10:55:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A5365189869B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 11:11:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 432C12F657A;
-	Mon, 22 Sep 2025 10:55:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="QbK+hulz"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEF5C28850E;
+	Mon, 22 Sep 2025 11:10:49 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D414C42AA9;
-	Mon, 22 Sep 2025 10:55:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D5A2AEE4
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Sep 2025 11:10:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758538521; cv=none; b=tywFj8wsyk4+j06p1PsOWWgCdMB3NCU0+nkaGMqWDnxSVKbJZ2lvfPdoQDhDqq7gNszYO62uu5q6H+kMhAxiKu73AfnznWoKT2YuR+CX/K7HautZ2PVbyzOCGk1tbVSqMd44r+j6uPkTqmvijzoJdEnGoZR/otN7wK8ZGDM4S/s=
+	t=1758539449; cv=none; b=sMB/WW5vkEvmTKyv1z36gwYmG//ZEsqe87a+E9NhpF9Gmejiq73cHc8z0tGU1BgFIJK7Fc4U/irmTFz1AjztGBcCcNC0+c/k2zikSNMzq5xatUdoQmmY0IXKXaZ85HxCkLquSbYgMKaiBef8YSeGEgp9lpivnqI8TD6FkFPTGcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758538521; c=relaxed/simple;
-	bh=cq7Y4UZHdRw2ECiLZbveDiF74dbYePvi+a4phlHnPtY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iMVH3pam9zl0BgexD/DuhYOkeUEe5Tiq7LaXMPtKj0djaMwZPCFYK0aymcLV3byIj0Pyz49MwORuuT/0LG0eldaJTDjGmubE7rug3x5QTZyIww8pemfWqzZZOI4KRCk0OMs/VuT3xHJathc0abQLFHhbhiFOdoKPVpreHX+W1WI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=QbK+hulz; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1758538516;
-	bh=cq7Y4UZHdRw2ECiLZbveDiF74dbYePvi+a4phlHnPtY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=QbK+hulz3cRofs2gz2imTo35BmAq9oyHgdicO4p3aKWCfae83ng/JF1phynRpMfzb
-	 EuVXef5tc+M3MEHd287xeKzfT9mVt+1oAR7fUJfVgx3+3R0NuK5/fiasc4TYWglNvE
-	 93XlbxP8cERhUsWnHpPuns5AJ8/QRPVLbopOIrgFwyY6Et63A3RawnM1zn/1JF+fnc
-	 KfwXMYeSwHpTu7EX1CFTguGhgeeT/Ub6QMEXC+71X8tNYwhdS7THjVwrCyEtsrgZ6w
-	 kjrT1HVp3qoNlFHshhrf4KdjEaeexDd1LhSZPWVvZMcV7eqIhhUj3xxB6GEuCySHiH
-	 kS8wrgJKWbdVw==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5AC9417E10F3;
-	Mon, 22 Sep 2025 12:55:15 +0200 (CEST)
-Message-ID: <e700cea3-cbe7-4ab5-94d8-a211051e2472@collabora.com>
-Date: Mon, 22 Sep 2025 12:55:14 +0200
+	s=arc-20240116; t=1758539449; c=relaxed/simple;
+	bh=cTOWHSZz0CbR5QVq9JJxTyPwu6atT+ebquYnqCSMr7M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LZXPZBCMEqIOJppH9lzdGVrkdQuDZPRThv7TcL1NEgpHBi1K2piWzaW3AeSv9s1ATWMD+Gjzr3EcEtoLI0NAomVPfvcS+0f03S8d4ovP+LQQjvlR3+F/1bEaQ8Ry09Z6MsD0cMYt24hNmdFV0Tt2ZrPqAGrbt+MVKlsn6iYk97Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-5a218470faaso484574137.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Sep 2025 04:10:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758539447; x=1759144247;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IV/+B9dZihk2EaYjeu+uEgh+MclsoCpinoB+GYo0npw=;
+        b=pHxUzqOYso6gZLFf1f+99HHg4OsiEq3ji2rvbDNiPMrYrOJf2Lm7JNiVBKg66xvXlX
+         uMWN7MWkb3qxWnEz9IMeSEed+zXOBLSCN+YwaJpRX4t80WOMiQB+npIMnTUSIPKRgGil
+         8d7Eu5O2FQZlmGApqGpwLZMVsBczAIVnGCsfWe4nYC9VOW0OD1jOIpB8VIT/QUPQBd1v
+         j0bhneuTSkQEFKA0qbTNDPdxqxGm+DfC8znkIxcsbRA7b7/u95mndtqfmqhW9xMt77rL
+         fbFXG/lDV5h/VjYr4DWvhFwHOXojWTckp6Jyn/iEYkREPT05LRLVKEIV2jszfn6KrQMi
+         CzfA==
+X-Forwarded-Encrypted: i=1; AJvYcCXwfxHThwqXGUTITF9ggctyeUGQGr+KSNM/1AiC442xsflYY0kZVxSkaPN3cOiq/7XIoCqU5WVnFBm8XZgIhKEKog==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzm/loAATu+RYpURsfMXKW6yLSt70sd+6LZI9vXUlGlWCHfZ0yh
+	ZboH93Dvn7xTFxi4IL5DLal+FVLxDQQnWkxmz3EklDn+cLpVL2BQRxsh7D8D06i6
+X-Gm-Gg: ASbGncvqGP6HzkFH7cjxszUDYua+zgmcCmr54YkVYZSKs2Jg50sYdxIGF6210qNeY0w
+	LQDX552Ic0LkQ37IMwUyNAYlMy4nnEafFXH/1m8Ibi8grUR+4FyHGOYlWeUW64koAzzkQNAFTZw
+	G7NFvS7MqeYoDKZ3M0q4TNvDB/ah694VJqgFWzMDa+02CNRd6eQJ7Kk2obWy5bwVKFt2m0exPVc
+	EFhIVIQRvNRX29TPjM6U4cthkb1DGSRvivtMbFd+t3gYxJHckuDIO6eilkeexeoKaw7GeMyKihp
+	mJDsyuz3rix5DBG3BIGbNtXfwA9bwDhwX3EOqofPseHX3ffifk8nMyiNrlq6Gz6Dw2ygFSa6g2D
+	kCXf6dxTXQOokNR2ubvQkU1+rcv+hE2MOAGXJ71Tj1RKeFULwIv6VvtQgqS+H
+X-Google-Smtp-Source: AGHT+IHAjgGnUT9uDxTfJKm7m+vVBp57EP2a8lgge8oOgG6XH4JSrITCGmW8x8yXTqdogFxojfj8sQ==
+X-Received: by 2002:a05:6102:3a07:b0:521:356e:2883 with SMTP id ada2fe7eead31-588d9c53e74mr3796296137.7.1758539446888;
+        Mon, 22 Sep 2025 04:10:46 -0700 (PDT)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-57a0267661fsm3269329137.12.2025.09.22.04.10.46
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Sep 2025 04:10:46 -0700 (PDT)
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-89018ec3597so2712117241.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Sep 2025 04:10:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV7d1dGGQPuFNEu+Hh/4zTiViOvEPpGvve5m5umwQHHQAUffZFsLWC02DQJ1Jlc3ybQvaiA78rKnqLC3DUEkn3BaQ==@vger.kernel.org
+X-Received: by 2002:a05:6102:6499:10b0:59e:37f3:688e with SMTP id
+ ada2fe7eead31-59e37f39589mr1254098137.26.1758539446124; Mon, 22 Sep 2025
+ 04:10:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] PCI: Convert devm_pci_alloc_host_bridge() users to
- error-pointer returns
-To: Alok Tiwari <alok.a.tiwari@oracle.com>, thomas.petazzoni@bootlin.com,
- pali@kernel.org, lpieralisi@kernel.org, kwilczynski@kernel.org,
- mani@kernel.org, robh@kernel.org, bhelgaas@google.com, joyce.ooi@intel.com,
- alyssa@rosenzweig.io, maz@kernel.org, jim2101024@gmail.com,
- florian.fainelli@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
- rjui@broadcom.com, sbranden@broadcom.com, ryder.lee@mediatek.com,
- jianjun.wang@mediatek.com, sergio.paracuellos@gmail.com,
- matthias.bgg@gmail.com, marek.vasut+renesas@gmail.com,
- yoshihiro.shimoda.uh@renesas.com, geert+renesas@glider.be,
- magnus.damm@gmail.com, shawn.lin@rock-chips.com, heiko@sntech.de,
- michal.simek@amd.com, bharat.kumar.gogada@amd.com, will@kernel.org,
- kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
- decui@microsoft.com, linus.walleij@linaro.org, thierry.reding@gmail.com,
- jonathanh@nvidia.com, rric@kernel.org, nirmal.patel@linux.intel.com,
- toan@os.amperecomputing.com, jonathan.derrick@linux.dev,
- linux-pci@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-hyperv@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <20250921161434.1561770-1-alok.a.tiwari@oracle.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250921161434.1561770-1-alok.a.tiwari@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250919134644.208098-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20250919134644.208098-1-marek.vasut+renesas@mailbox.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 22 Sep 2025 13:10:34 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU1z3ePD+1cyghfu0WbnP1X1_k4Jviv04hSxWtn=tt-xg@mail.gmail.com>
+X-Gm-Features: AS18NWB5GAhd387xFzdau5HTt1U0YcFo9PHbJ6-t9ZIWuzYYbXO-r5xYHoFbkes
+Message-ID: <CAMuHMdU1z3ePD+1cyghfu0WbnP1X1_k4Jviv04hSxWtn=tt-xg@mail.gmail.com>
+Subject: Re: [PATCH v3] PCI: rcar-gen4: Add missing 1ms delay after PWR reset assertion
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-pci@vger.kernel.org, 
+	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Il 21/09/25 18:14, Alok Tiwari ha scritto:
-> devm_pci_alloc_host_bridge() and pci_alloc_host_bridge() previously
-> returned NULL on failure, forcing callers to special-case NULL handling
-> and often hardcode -ENOMEM as the error.
-> 
-> This series updates devm_pci_alloc_host_bridge() to consistently return
-> error pointers (ERR_PTR) with the actual error code, instead of NULL.
-> All callers across PCI host controller drivers are updated to use
-> IS_ERR_OR_NULL()/PTR_ERR() instead of NULL checks and hardcoded -ENOMEM.
-> 
-> Benefits:
->    - Standardizes error handling with Linux kernel ERR_PTR()/PTR_ERR()
->      conventions.
->    - Ensures that the actual error code from lower-level helpers is
->      propagated back to the caller.
->    - Removes ambiguity between NULL and error pointer returns.
-> 
-> Touched drivers include:
->   cadence (J721E, cadence-plat)
->   dwc (designware, qcom)
->   mobiveil (layerscape-gen4, mobiveil-plat)
->   aardvark, ftpci100, ixp4xx, loongson, mvebu, rcar, tegra, v3-semi,
->   versatile, xgene, altera, brcmstb, iproc, mediatek, mt7621, xilinx,
->   plda, and others
-> 
-> This patch updates error handling across these host controller drivers
->   so that callers consistently receive ERR_PTR() instead of NULL.
-> 
+On Fri, 19 Sept 2025 at 15:47, Marek Vasut
+<marek.vasut+renesas@mailbox.org> wrote:
+> R-Car V4H Reference Manual R19UH0186EJ0130 Rev.1.30 Apr. 21, 2025 page 585
+> Figure 9.3.2 Software Reset flow (B) indicates that for peripherals in HSC
+> domain, after reset has been asserted by writing a matching reset bit into
+> register SRCR, it is mandatory to wait 1ms.
+>
+> Because it is the controller driver which can determine whether or not the
+> controller is in HSC domain based on its compatible string, add the missing
+> delay into the controller driver.
+>
+> This 1ms delay is documented on R-Car V4H and V4M, it is currently unclear
+> whether S4 is affected as well. This patch does apply the extra delay on
+> R-Car S4 as well.
+>
+> Fixes: 0d0c551011df ("PCI: rcar-gen4: Add R-Car Gen4 PCIe controller support for host mode")
+> Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-I think that's a nice improvement - propagating the right error code looks good.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-The only thing is - you have to make sure that it never returns NULL, so that
-in the controller drivers you always check for `if (IS_ERR(x))` - otherwise with
-the current IS_ERR_OR_NULL(x) most of the error paths are wrong.
+Gr{oetje,eeting}s,
 
-Cheers,
-Angelo
+                        Geert
 
-> Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
-> ---
->   arch/mips/pci/pci-xtalk-bridge.c                       | 4 ++--
->   drivers/pci/controller/cadence/pci-j721e.c             | 4 ++--
->   drivers/pci/controller/cadence/pcie-cadence-plat.c     | 4 ++--
->   drivers/pci/controller/dwc/pcie-designware-host.c      | 4 ++--
->   drivers/pci/controller/dwc/pcie-qcom.c                 | 4 ++--
->   drivers/pci/controller/mobiveil/pcie-layerscape-gen4.c | 4 ++--
->   drivers/pci/controller/mobiveil/pcie-mobiveil-plat.c   | 4 ++--
->   drivers/pci/controller/pci-aardvark.c                  | 4 ++--
->   drivers/pci/controller/pci-ftpci100.c                  | 4 ++--
->   drivers/pci/controller/pci-host-common.c               | 4 ++--
->   drivers/pci/controller/pci-hyperv.c                    | 4 ++--
->   drivers/pci/controller/pci-ixp4xx.c                    | 4 ++--
->   drivers/pci/controller/pci-loongson.c                  | 4 ++--
->   drivers/pci/controller/pci-mvebu.c                     | 4 ++--
->   drivers/pci/controller/pci-rcar-gen2.c                 | 4 ++--
->   drivers/pci/controller/pci-tegra.c                     | 4 ++--
->   drivers/pci/controller/pci-v3-semi.c                   | 4 ++--
->   drivers/pci/controller/pci-versatile.c                 | 4 ++--
->   drivers/pci/controller/pci-xgene.c                     | 4 ++--
->   drivers/pci/controller/pcie-altera.c                   | 4 ++--
->   drivers/pci/controller/pcie-brcmstb.c                  | 4 ++--
->   drivers/pci/controller/pcie-iproc-bcma.c               | 4 ++--
->   drivers/pci/controller/pcie-iproc-platform.c           | 4 ++--
->   drivers/pci/controller/pcie-mediatek-gen3.c            | 4 ++--
->   drivers/pci/controller/pcie-mediatek.c                 | 4 ++--
->   drivers/pci/controller/pcie-mt7621.c                   | 4 ++--
->   drivers/pci/controller/pcie-rcar-host.c                | 4 ++--
->   drivers/pci/controller/pcie-rockchip-host.c            | 4 ++--
->   drivers/pci/controller/pcie-xilinx-cpm.c               | 4 ++--
->   drivers/pci/controller/pcie-xilinx-dma-pl.c            | 4 ++--
->   drivers/pci/controller/pcie-xilinx-nwl.c               | 4 ++--
->   drivers/pci/controller/pcie-xilinx.c                   | 4 ++--
->   drivers/pci/controller/plda/pcie-plda-host.c           | 4 ++--
->   drivers/pci/probe.c                                    | 8 ++++----
->   34 files changed, 70 insertions(+), 70 deletions(-)
-> 
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
