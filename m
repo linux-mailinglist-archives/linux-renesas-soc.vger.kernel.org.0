@@ -1,376 +1,141 @@
-Return-Path: <linux-renesas-soc+bounces-22185-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22186-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FDDCB92B26
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 20:58:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7811B92C51
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 21:26:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6BE6B1906256
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 18:59:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7C68F1688EC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 19:26:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71031313525;
-	Mon, 22 Sep 2025 18:58:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CD1C3148A1;
+	Mon, 22 Sep 2025 19:26:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Z9jvPdEO";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="f4zsr8/G"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iHTDm6ki"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31A4A2D838B
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Sep 2025 18:58:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3173D26E711;
+	Mon, 22 Sep 2025 19:26:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758567526; cv=none; b=VpYAJQQ96yBldSEfctmwtVQ7ZZiA4c6S4SK4Xr/DzQ/MpGCHkxENeQBRT1mOJQWQhCq5cYv40B/nbmgN/eW1hlsk7iKrUFjydPZfYYR8UAwxcrEC+9fdsJDBBBEaFliL3JISjwcDaWd6vAEIQSufCkdDNqiw4ZLzjMElPpkpdLk=
+	t=1758569202; cv=none; b=cwYgVCBOxyGBoaYuWgmfrgYhiU7MQLDMUL1IgKPza/8yudfE029EK0/aTbrrC83nKB7oe5wtTl7OBKanb4RyqO/G5hUwRY3k/aGM7w2cCbd+qiIGZu45vU4pGhzj80/HVmrqd/1mmcGb7Rx0jt3+vR4PhlbBcMgL6GQFNpXrL9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758567526; c=relaxed/simple;
-	bh=8HaSMTy3hQ+JHUuPuavUYn4QhAZtmz+4Y7UUMQMHzmM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pds1m8jhRZHYA/MPJFB+sB5NtZlfstN4Q70JUnZrxKcBHCdsUGXWQc7+PtHS4mpjCFgmYC6gUXRdMb+LC/f42WPYhJiMKRFk5r+QM1T6o3xyJkVvsayDyLnTBfsqs0/dWlkZo+rrdSUfCd7Zk+e+9YUu7fxsAlAWqp7Onwo87cI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Z9jvPdEO; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=f4zsr8/G; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4cVspB1Ytkz9tBF;
-	Mon, 22 Sep 2025 20:58:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1758567522;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uwsoa3fKD1fQf9iyhGVHOv1mAJmIqFKKYg0iJU4hgGQ=;
-	b=Z9jvPdEOL4eZ/gG0lV346isUtgeFvZBpX64swPXIx0aDqhTxDizecBoWDNGTL5oWzv8ahH
-	iir9rEjhVMe4mbbSjZeX5hMxnukC4j7y6/FsxVj+jzoz0QXtIUw0wN9NWgmN1CM+hG4K3M
-	V6z8N2dndoy/BAdJwJpwLBL9UV8+tZUhaOBwLkgK6r9jezj42cg+vY04GNvBhAk6tciukX
-	GQufTexxAjshdKKfjtczpUAHKG8eZ09thUhYbXyqvnYTyXwa1vlMCbZ7zBgFJat2kSZB/e
-	QZxC5XbB7wdnSI2zLjAdRH6MBgKTKNFi4pOrF0I4WWWFNuIfIhhUAyV+WQ+K8w==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1758567520;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uwsoa3fKD1fQf9iyhGVHOv1mAJmIqFKKYg0iJU4hgGQ=;
-	b=f4zsr8/GskF0N06MIEDSamR+mimHLq4O5vOcWSz4QzMOET/nD0gOrCMqW3Qc0ahsbZIi94
-	edfln0N5n24kF5Mo4/aattTNC8M8hZa1WELlx8qpddgj1GJyv59x0PIaCHerVrQLokDbJ9
-	nbO+ZZDNbrH39U3lCouImi2OfiVuTz1yHaK9Qsp6x4eW35aurx8IJAWW9BTKjxZDlztJ53
-	q4P9TaZRdqilDUC3aaASx7L3BX2o3+Pn1mqqHNvt2rgXT4Dnnao3Vb5AhXpIMivWeZGkM3
-	kzDVbMv6HNkFP6cpQdZt+9r/hg2KUctJuNsMBLNBGHo2Ewbjrf6J0cCkjdKf/g==
-To: dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	David Airlie <airlied@gmail.com>,
+	s=arc-20240116; t=1758569202; c=relaxed/simple;
+	bh=upj4qQnegJPBP6IU+iQ3qZuAwuV5GgFt4jHCz7IbfrY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ANcGYTqRx2c07YBCexx5ooohUsBJu0j/TG5WJPma7E9ICMh2Set9Gq54qu9U49yOZ2KN+I4qk9el/3DgnLm2WHSz1oF4enJRxUxVJ1ogew8Xn/xeX/Rf39jJhCmFEqF6ue4uR3M0g8MyoW5/0zOSdQq6A3xQswnkTv6DivfAO3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iHTDm6ki; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42F50C4CEF0;
+	Mon, 22 Sep 2025 19:26:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758569201;
+	bh=upj4qQnegJPBP6IU+iQ3qZuAwuV5GgFt4jHCz7IbfrY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iHTDm6ki+Znj5QJhMnKNcuMgPKzKrGrNCytmqYIdxYiQMMF/WDyqrgEz38Ij+uia3
+	 fghV5oWPj07UsrbXfDwkQggml2gkT8+4qmhtQvhU3B7yogjJNkBfJwMuMzYcfp3xj0
+	 X6JTN01vgnXKiFCQONR1XE621SPMITr2OSUJSyXZNxZ9ug7aeR0SpiIlI0quraKqbC
+	 9ovf6GwRsYvKLFi4bY6aX7a/6PvuJv03WVeaNXHwLNviPKVoTtnNBhOrozUXE10XeC
+	 lJ4WVMWyo9A99IiGX30y1cHH0XG5NQ6/36qz3fZCM/7iMGKI10Dn0o+GxtcW/QPjev
+	 sxjhe0G4Q5/zg==
+Date: Mon, 22 Sep 2025 14:26:40 -0500
+From: Rob Herring <robh@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Magnus Damm <magnus.damm@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Simona Vetter <simona@ffwll.ch>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 9/9] drm/rcar-du: dsi: Convert register bitfields to GENMASK() macro
-Date: Mon, 22 Sep 2025 20:55:05 +0200
-Message-ID: <20250922185740.153759-10-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20250922185740.153759-1-marek.vasut+renesas@mailbox.org>
-References: <20250922185740.153759-1-marek.vasut+renesas@mailbox.org>
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [RFC PATCH] ARM: dts: renesas: r9a06g032-rzn1d400-eb: describe
+ LEDs
+Message-ID: <20250922192640.GA841738-robh@kernel.org>
+References: <20250919100740.28429-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: bad47ba7d9d87d2f6b8
-X-MBO-RS-META: rc83zj1idp8cmb45jnkr19muzz4dx9nw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250919100740.28429-1-wsa+renesas@sang-engineering.com>
 
-Convert register bitfields to GENMASK() macro where applicable.
-Use FIELD_PREP() throughout the driver.
+On Fri, Sep 19, 2025 at 12:07:20PM +0200, Wolfram Sang wrote:
+> To be able to use the LEDs, a configuration switch has to be set to a
+> non-default value. So, infrastructure to support these switches (which
+> modify signal routing via the CPLD on the demo board (DB)) is added as
+> well.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+> 
+> This patch depends on "[PATCH v3 5/8] ARM: dts: r9a06g032: Add GPIO
+> controllers" which is still in-flight. I send this out as RFC already,
+> so we can discuss the introduction of the switch dependant settings. I
+> copied this approach form RZ/G3S.
+>  
+> 
+>  .../renesas/r9a06g032-rzn1d400-db-switches.h  | 22 ++++++++++++++
+>  .../dts/renesas/r9a06g032-rzn1d400-db.dts     | 30 +++++++++++++++++++
+>  .../dts/renesas/r9a06g032-rzn1d400-eb.dts     | 19 ++++++++++++
+>  3 files changed, 71 insertions(+)
+>  create mode 100644 arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db-switches.h
+> 
+> diff --git a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db-switches.h b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db-switches.h
+> new file mode 100644
+> index 000000000000..4560d16e7c60
+> --- /dev/null
+> +++ b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db-switches.h
+> @@ -0,0 +1,22 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
+> +/*
+> + * On-board switches for the Renesas RZ/N1D demo board (DB) and extension
+> + * board (EB)
+> + *
+> + * Copyright (C) 2025 Renesas Electronics Corp.
+> + */
+> +
+> +#ifndef __N1D_DB_EB_SWITCHES_H__
+> +#define __N1D_DB_EB_SWITCHES_H__
+> +
+> +#define SW_OFF         0
+> +#define SW_ON          1
+> +
+> +/*
+> + * SW_2-2:
+> + *     SW_OFF - enable PMOD1-3+LEDs on the extension board
+> + *     SW_ON  - enable CAT/S3 (default)
+> + */
+> +#define SW_2_2 SW_ON
+> +
+> +#endif
+> diff --git a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
+> index 3258b2e27434..849b5ad9c79d 100644
+> --- a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
+> +++ b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
+> @@ -15,6 +15,7 @@
+>  #include <dt-bindings/pinctrl/rzn1-pinctrl.h>
+>  
+>  #include "r9a06g032.dtsi"
+> +#include "r9a06g032-rzn1d400-db-switches.h"
+>  
+>  / {
+>  	model = "RZN1D-DB Board";
+> @@ -185,6 +186,14 @@ fixed-link {
+>  	};
+>  };
+>  
+> +#if SW2_2 == SW_OFF
 
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: David Airlie <airlied@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-renesas-soc@vger.kernel.org
----
- .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c   | 46 +++++------
- .../drm/renesas/rcar-du/rcar_mipi_dsi_regs.h  | 77 +++++++++----------
- 2 files changed, 61 insertions(+), 62 deletions(-)
+The "rule" for DT headers is #defines for numbers only.
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-index f91cc35423758..67bab7fbd9288 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-@@ -496,17 +496,17 @@ static void rcar_mipi_dsi_set_display_timing(struct rcar_mipi_dsi *dsi,
- 	if (mode->flags & DRM_MODE_FLAG_NHSYNC)
- 		vprmset0r |= TXVMVPRMSET0R_HSPOL_LOW;
- 
--	vprmset1r = TXVMVPRMSET1R_VACTIVE(mode->vdisplay)
--		  | TXVMVPRMSET1R_VSA(mode->vsync_end - mode->vsync_start);
-+	vprmset1r = FIELD_PREP(TXVMVPRMSET1R_VACTIVE_MASK, mode->vdisplay)
-+		  | FIELD_PREP(TXVMVPRMSET1R_VSA_MASK, mode->vsync_end - mode->vsync_start);
- 
--	vprmset2r = TXVMVPRMSET2R_VFP(mode->vsync_start - mode->vdisplay)
--		  | TXVMVPRMSET2R_VBP(mode->vtotal - mode->vsync_end);
-+	vprmset2r = FIELD_PREP(TXVMVPRMSET2R_VFP_MASK, mode->vsync_start - mode->vdisplay)
-+		  | FIELD_PREP(TXVMVPRMSET2R_VBP_MASK, mode->vtotal - mode->vsync_end);
- 
--	vprmset3r = TXVMVPRMSET3R_HACTIVE(mode->hdisplay)
--		  | TXVMVPRMSET3R_HSA(mode->hsync_end - mode->hsync_start);
-+	vprmset3r = FIELD_PREP(TXVMVPRMSET3R_HACTIVE_MASK, mode->hdisplay)
-+		  | FIELD_PREP(TXVMVPRMSET3R_HSA_MASK, mode->hsync_end - mode->hsync_start);
- 
--	vprmset4r = TXVMVPRMSET4R_HFP(mode->hsync_start - mode->hdisplay)
--		  | TXVMVPRMSET4R_HBP(mode->htotal - mode->hsync_end);
-+	vprmset4r = FIELD_PREP(TXVMVPRMSET4R_HFP_MASK, mode->hsync_start - mode->hdisplay)
-+		  | FIELD_PREP(TXVMVPRMSET4R_HBP_MASK, mode->htotal - mode->hsync_end);
- 
- 	rcar_mipi_dsi_write(dsi, TXVMVPRMSET0R, vprmset0r);
- 	rcar_mipi_dsi_write(dsi, TXVMVPRMSET1R, vprmset1r);
-@@ -553,7 +553,7 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
- 	/* PHY setting */
- 	phy_setup = rcar_mipi_dsi_read(dsi, PHYSETUP);
- 	phy_setup &= ~PHYSETUP_HSFREQRANGE_MASK;
--	phy_setup |= PHYSETUP_HSFREQRANGE(setup_info.hsfreqrange);
-+	phy_setup |= FIELD_PREP(PHYSETUP_HSFREQRANGE_MASK, setup_info.hsfreqrange);
- 	rcar_mipi_dsi_write(dsi, PHYSETUP, phy_setup);
- 
- 	switch (dsi->info->model) {
-@@ -576,13 +576,13 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
- 	rcar_mipi_dsi_set(dsi, CLOCKSET1, CLOCKSET1_SHADOW_CLEAR);
- 	rcar_mipi_dsi_clr(dsi, CLOCKSET1, CLOCKSET1_SHADOW_CLEAR);
- 
--	clockset2 = CLOCKSET2_M(setup_info.m - dsi->info->clockset2_m_offset)
--		  | CLOCKSET2_N(setup_info.n - 1)
--		  | CLOCKSET2_VCO_CNTRL(setup_info.clkset->vco_cntrl);
--	clockset3 = CLOCKSET3_PROP_CNTRL(setup_info.clkset->prop_cntrl)
--		  | CLOCKSET3_INT_CNTRL(setup_info.clkset->int_cntrl)
--		  | CLOCKSET3_CPBIAS_CNTRL(setup_info.clkset->cpbias_cntrl)
--		  | CLOCKSET3_GMP_CNTRL(setup_info.clkset->gmp_cntrl);
-+	clockset2 = FIELD_PREP(CLOCKSET2_M_MASK, setup_info.m - dsi->info->clockset2_m_offset)
-+		  | FIELD_PREP(CLOCKSET2_N_MASK, setup_info.n - 1)
-+		  | FIELD_PREP(CLOCKSET2_VCO_CNTRL_MASK, setup_info.clkset->vco_cntrl);
-+	clockset3 = FIELD_PREP(CLOCKSET3_PROP_CNTRL_MASK, setup_info.clkset->prop_cntrl)
-+		  | FIELD_PREP(CLOCKSET3_INT_CNTRL_MASK, setup_info.clkset->int_cntrl)
-+		  | FIELD_PREP(CLOCKSET3_CPBIAS_CNTRL_MASK, setup_info.clkset->cpbias_cntrl)
-+		  | FIELD_PREP(CLOCKSET3_GMP_CNTRL_MASK, setup_info.clkset->gmp_cntrl);
- 	rcar_mipi_dsi_write(dsi, CLOCKSET2, clockset2);
- 	rcar_mipi_dsi_write(dsi, CLOCKSET3, clockset3);
- 
-@@ -647,16 +647,16 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
- 		return -EINVAL;
- 	}
- 
--	vclkset |= VCLKSET_LANE(dsi->lanes - 1);
-+	vclkset |= FIELD_PREP(VCLKSET_LANE_MASK, dsi->lanes - 1);
- 
- 	switch (dsi->info->model) {
- 	case RCAR_DSI_V3U:
- 	default:
--		vclkset |= VCLKSET_DIV_V3U(__ffs(setup_info.vclk_divider));
-+		vclkset |= FIELD_PREP(VCLKSET_DIV_V3U_MASK, __ffs(setup_info.vclk_divider));
- 		break;
- 
- 	case RCAR_DSI_V4H:
--		vclkset |= VCLKSET_DIV_V4H(__ffs(setup_info.vclk_divider) - 1);
-+		vclkset |= FIELD_PREP(VCLKSET_DIV_V4H_MASK, __ffs(setup_info.vclk_divider) - 1);
- 		break;
- 	}
- 
-@@ -988,10 +988,10 @@ static ssize_t rcar_mipi_dsi_host_tx_transfer(struct mipi_dsi_host *host,
- 	 */
- 	rcar_mipi_dsi_write(dsi, TXCMPHDR,
- 			    (is_tx_long ? TXCMPHDR_FMT : 0) |
--			    TXCMPHDR_VC(msg->channel) |
--			    TXCMPHDR_DT(msg->type) |
--			    TXCMPHDR_DATA1(packet.header[2]) |
--			    TXCMPHDR_DATA0(packet.header[1]));
-+			    FIELD_PREP(TXCMPHDR_VC_MASK, msg->channel) |
-+			    FIELD_PREP(TXCMPHDR_DT_MASK, msg->type) |
-+			    FIELD_PREP(TXCMPHDR_DATA1_MASK, packet.header[2]) |
-+			    FIELD_PREP(TXCMPHDR_DATA0_MASK, packet.header[1]));
- 
- 	if (is_tx_long) {
- 		memcpy(payload, packet.payload,
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-index 29c806cae3557..c605e7a964dd7 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-@@ -40,18 +40,18 @@
- #define TXCMADDRSET0R			0x140
- #define TXCMPHDR			0x150
- #define TXCMPHDR_FMT			BIT(24)	/* 0:SP 1:LP */
--#define TXCMPHDR_VC(n)			(((n) & 0x3) << 22)
--#define TXCMPHDR_DT(n)			(((n) & 0x3f) << 16)
--#define TXCMPHDR_DATA1(n)		(((n) & 0xff) << 8)
--#define TXCMPHDR_DATA0(n)		(((n) & 0xff) << 0)
-+#define TXCMPHDR_VC_MASK		GENMASK(23, 22)
-+#define TXCMPHDR_DT_MASK		GENMASK(21, 16)
-+#define TXCMPHDR_DATA1_MASK		GENMASK(15, 8)
-+#define TXCMPHDR_DATA0_MASK		GENMASK(7, 0)
- #define TXCMPPD0R			0x160
- #define TXCMPPD1R			0x164
- #define TXCMPPD2R			0x168
- #define TXCMPPD3R			0x16c
- 
- #define RXSETR				0x200
--#define RXSETR_CRCEN(n)			(((n) & 0xf) << 24)
--#define RXSETR_ECCEN(n)			(((n) & 0xf) << 16)
-+#define RXSETR_CRCEN_MASK		GENMASK(27, 24)
-+#define RXSETR_ECCEN_MASK		GENMASK(19, 16)
- #define RXPSETR				0x210
- #define RXPSETR_LPPDACC			BIT(0)
- #define RXPSR				0x220
-@@ -107,21 +107,21 @@
- #define RXPIER_BTAREQEND		BIT(0)
- #define RXPADDRSET0R			0x230
- #define RXPSIZESETR			0x238
--#define RXPSIZESETR_SIZE(n)		(((n) & 0xf) << 3)
-+#define RXPSIZESETR_SIZE_MASK		GENMASK(6, 3)
- #define RXPHDR				0x240
- #define RXPHDR_FMT			BIT(24)	/* 0:SP 1:LP */
--#define RXPHDR_VC(n)			(((n) & 0x3) << 22)
--#define RXPHDR_DT(n)			(((n) & 0x3f) << 16)
--#define RXPHDR_DATA1(n)			(((n) & 0xff) << 8)
--#define RXPHDR_DATA0(n)			(((n) & 0xff) << 0)
-+#define RXPHDR_VC_MASK			GENMASK(23, 22)
-+#define RXPHDR_DT_MASK			GENMASK(21, 16)
-+#define RXPHDR_DATA1_MASK		GENMASK(15, 8)
-+#define RXPHDR_DATA0_MASK		GENMASK(7, 0)
- #define RXPPD0R				0x250
- #define RXPPD1R				0x254
- #define RXPPD2R				0x258
- #define RXPPD3R				0x25c
- #define AKEPR				0x300
--#define AKEPR_VC(n)			(((n) & 0x3) << 22)
--#define AKEPR_DT(n)			(((n) & 0x3f) << 16)
--#define AKEPR_ERRRPT(n)			(((n) & 0xffff) << 0)
-+#define AKEPR_VC_MASK			GENMASK(23, 22)
-+#define AKEPR_DT_MASK			GENMASK(21, 16)
-+#define AKEPR_ERRRPT_MASK		GENMASK(15, 0)
- #define RXRESPTOSETR			0x400
- #define TACR				0x500
- #define TASR				0x510
-@@ -179,20 +179,20 @@
- #define TXVMVPRMSET0R_BPP_24		2
- 
- #define TXVMVPRMSET1R			0x1d4
--#define TXVMVPRMSET1R_VACTIVE(x)	(((x) & 0x7fff) << 16)
--#define TXVMVPRMSET1R_VSA(x)		(((x) & 0xfff) << 0)
-+#define TXVMVPRMSET1R_VACTIVE_MASK	GENMASK(30, 16)
-+#define TXVMVPRMSET1R_VSA_MASK		GENMASK(11, 0)
- 
- #define TXVMVPRMSET2R			0x1d8
--#define TXVMVPRMSET2R_VFP(x)		(((x) & 0x1fff) << 16)
--#define TXVMVPRMSET2R_VBP(x)		(((x) & 0x1fff) << 0)
-+#define TXVMVPRMSET2R_VFP_MASK		GENMASK(28, 16)
-+#define TXVMVPRMSET2R_VBP_MASK		GENMASK(12, 0)
- 
- #define TXVMVPRMSET3R			0x1dc
--#define TXVMVPRMSET3R_HACTIVE(x)	(((x) & 0x7fff) << 16)
--#define TXVMVPRMSET3R_HSA(x)		(((x) & 0xfff) << 0)
-+#define TXVMVPRMSET3R_HACTIVE_MASK	GENMASK(30, 16)
-+#define TXVMVPRMSET3R_HSA_MASK		GENMASK(11, 0)
- 
- #define TXVMVPRMSET4R			0x1e0
--#define TXVMVPRMSET4R_HFP(x)		(((x) & 0x1fff) << 16)
--#define TXVMVPRMSET4R_HBP(x)		(((x) & 0x1fff) << 0)
-+#define TXVMVPRMSET4R_HFP_MASK		GENMASK(28, 16)
-+#define TXVMVPRMSET4R_HBP_MASK		GENMASK(12, 0)
- 
- /*
-  * PHY-Protocol Interface (PPI) Registers
-@@ -227,35 +227,34 @@
-  */
- #define LPCLKSET			0x1000
- #define LPCLKSET_CKEN			BIT(8)
--#define LPCLKSET_LPCLKDIV(x)		(((x) & 0x3f) << 0)
-+#define LPCLKSET_LPCLKDIV_MASK		GENMASK(5, 0)
- 
- #define CFGCLKSET			0x1004
- #define CFGCLKSET_CKEN			BIT(8)
--#define CFGCLKSET_CFGCLKDIV(x)		(((x) & 0x3f) << 0)
-+#define CFGCLKSET_CFGCLKDIV_MASK	GENMASK(5, 0)
- 
- #define DOTCLKDIV			0x1008
- #define DOTCLKDIV_CKEN			BIT(8)
--#define DOTCLKDIV_DOTCLKDIV(x)		(((x) & 0x3f) << 0)
-+#define DOTCLKDIV_DOTCLKDIV_MASK	GENMASK(5, 0)
- 
- #define VCLKSET				0x100c
- #define VCLKSET_CKEN			BIT(16)
- #define VCLKSET_COLOR_YCC		BIT(8) /* 0:RGB 1:YCbCr */
--#define VCLKSET_DIV_V3U(x)		(((x) & 0x3) << 4)
--#define VCLKSET_DIV_V4H(x)		(((x) & 0x7) << 4)
-+#define VCLKSET_DIV_V3U_MASK		GENMASK(5, 4)
-+#define VCLKSET_DIV_V4H_MASK		GENMASK(6, 4)
- #define VCLKSET_BPP_MASK		GENMASK(3, 2)
- #define VCLKSET_BPP_16			0
- #define VCLKSET_BPP_18			1
- #define VCLKSET_BPP_18L			2
- #define VCLKSET_BPP_24			3
--#define VCLKSET_LANE(x)			(((x) & 0x3) << 0)
-+#define VCLKSET_LANE_MASK		GENMASK(1, 0)
- 
- #define VCLKEN				0x1010
- #define VCLKEN_CKEN			BIT(0)
- 
- #define PHYSETUP			0x1014
--#define PHYSETUP_HSFREQRANGE(x)		(((x) & 0x7f) << 16)
- #define PHYSETUP_HSFREQRANGE_MASK	GENMASK(22, 16)
--#define PHYSETUP_CFGCLKFREQRANGE(x)	(((x) & 0x3f) << 8)
-+#define PHYSETUP_CFGCLKFREQRANGE_MASK	GENMASK(13, 8)
- #define PHYSETUP_SHUTDOWNZ		BIT(1)
- #define PHYSETUP_RSTZ			BIT(0)
- 
-@@ -270,21 +269,21 @@
- #define CLOCKSET1_UPDATEPLL		BIT(0)
- 
- #define CLOCKSET2			0x1020
--#define CLOCKSET2_M(x)			(((x) & 0xfff) << 16)
--#define CLOCKSET2_VCO_CNTRL(x)		(((x) & 0x3f) << 8)
--#define CLOCKSET2_N(x)			(((x) & 0xf) << 0)
-+#define CLOCKSET2_M_MASK		GENMASK(27, 16)
-+#define CLOCKSET2_VCO_CNTRL_MASK	GENMASK(13, 8)
-+#define CLOCKSET2_N_MASK		GENMASK(3, 0)
- 
- #define CLOCKSET3			0x1024
--#define CLOCKSET3_PROP_CNTRL(x)		(((x) & 0x3f) << 24)
--#define CLOCKSET3_INT_CNTRL(x)		(((x) & 0x3f) << 16)
--#define CLOCKSET3_CPBIAS_CNTRL(x)	(((x) & 0x7f) << 8)
--#define CLOCKSET3_GMP_CNTRL(x)		(((x) & 0x3) << 0)
-+#define CLOCKSET3_PROP_CNTRL_MASK	GENMASK(29, 24)
-+#define CLOCKSET3_INT_CNTRL_MASK	GENMASK(21, 16)
-+#define CLOCKSET3_CPBIAS_CNTRL_MASK	GENMASK(14, 8)
-+#define CLOCKSET3_GMP_CNTRL_MASK	GENMASK(1, 0)
- 
- #define PHTW				0x1034
- #define PHTW_DWEN			BIT(24)
--#define PHTW_TESTDIN_DATA(x)		(((x) & 0xff) << 16)
-+#define PHTW_TESTDIN_DATA_MASK		GENMASK(23, 16)
- #define PHTW_CWEN			BIT(8)
--#define PHTW_TESTDIN_CODE(x)		(((x) & 0xff) << 0)
-+#define PHTW_TESTDIN_CODE_MASK		GENMASK(15, 0)
- 
- #define PHTR				0x1038
- #define PHTR_TEST			BIT(16)
--- 
-2.51.0
+If the switches are s/w readable, then I'd say firmware should read them 
+and enable/disable the LEDs as appropriate. If not, then maybe the DT 
+should have a property reflecting the switch state and firmware uses 
+that to enable/disable.
 
+Rob
 
