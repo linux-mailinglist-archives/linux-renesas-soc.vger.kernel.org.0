@@ -1,121 +1,167 @@
-Return-Path: <linux-renesas-soc+bounces-22147-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22148-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22777B9198A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 16:09:45 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE8BFB919D5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 16:16:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8AB47424F5F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 14:09:24 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7075C4E252C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 14:16:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6810D19B5A7;
-	Mon, 22 Sep 2025 14:09:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8DDA1DD0D4;
+	Mon, 22 Sep 2025 14:16:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="konAnS3U"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 775081990D9
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Sep 2025 14:09:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A671A9FA4
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Sep 2025 14:16:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758550155; cv=none; b=cyE0aWmq50dZW2Co0h5bJ19fRbCSRvyh1Q5KK38IGSLVGXaglgJiota2ag7yQ2S8rm6MfPch8S87vYfeX+inz8RjlRZavfiZ3TZ1h2rel+YU/1z0jx9sYnOt0Mf2YpEZvxc4lbOFxHYbxxP8E8T94kK9gndND7/Ot1G4rQYgTGQ=
+	t=1758550606; cv=none; b=SkoI4Re9sz8dBh8Hpd2Mxo16HwwZxlhDZLc3TCaBmovY8+z2o8lZXGAsCJZJxEOEqK+zLP3FPxNahFVqQRqJPT5wiuDWlQIkWxwxOmgcOddSmKBHOJvo6cHrQnutf939WtSZFJeVOC3TFYl3gRs7BNpoZPc/vt4cqSajMuanfvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758550155; c=relaxed/simple;
-	bh=c5oVqsPoTa3VSn3rF+3vlXIawS3iS9jeZUv5xAHbhIM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rgY3MIV/Y0w2d84cstC8tsIc8ny3TuEh+5MCnW0W6UgrEbUZSZnSQl7z5zn8Y7BLQ3KbBDpMeXmWLCGqKVM5GghGe0t3AiXVaVEGD3SigYFiW9nKo2GdmmCqAxxT82+K+LpFvyU9PmSYvZKPUlNruwo8fnUblIh97HVMumIkfYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-557a2ba1e65so3763124137.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Sep 2025 07:09:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758550151; x=1759154951;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9myguoJ7hjvRqUVutV6ImQsg8/m76or1A6XOg+N5HvU=;
-        b=OB8yW7OuwBLrNPvo+aV747TH5U8AdY2MarLqnNF9R4Ed/ZaorSRKkbSSir6pKLiRBq
-         y8Tnev7mOkqIUgphyK6QFsAB8Qb32Fon2TRQstvhZrfb2wR4BrY6ykPlNdwsRLyyPvoA
-         WWcNYpNX9d8adEk/TWtAlYN0fYHzcSDYczchkrSSHv7S31QwPysJZCqCpjOI+ahOb1Qi
-         cyYxaC+IyNrslcKr1RLJBIk8CLDLCuwwtvGtORSpmK5pROUJ1oiqPYhACprHJvHL9/pU
-         Zw7zvaVOEdkU57yWUPXVhlXGkHJecYzjBh1dQAg4q/hvEWcjaNJV1XpRkuvRxtUoccj8
-         jd1g==
-X-Forwarded-Encrypted: i=1; AJvYcCXLwP4YQZ6I2pLJVcqASsIM6GMlb8VAyKHQY6W1RJ+FaDftm36LlYHzvE9QdxjuaTLpwHTDEqtyfoJJqScgbr1ZZg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4QmWN9Qxld5bXDLckpfN6Oe1uLcazMD6+JrSTIZwL7/oRCp39
-	brSxfL7tZEWTObRkBfPXNL6t8QHDxFHwBa1XqwGKYG6puQRGfvALs4D9C3KZj2hO
-X-Gm-Gg: ASbGncsSGsy63omUxDeYCZeg+Z/yb8bZi1SSUO1y3BIudB1W00FEUKM1Op6l0i/J0i6
-	Pxp5gidsjIxmtwmKqUWSBZ6K9nlyp/UnMnd++ynJv8GD4p7pYlFqRFaQdty46IsfZ8XFrKbkNJG
-	3ZSFFYUAR8ygUm4jB1zouQiGSG/1KebWDw60bMI5WLlJdsBbDAHl0T/CUJ+1Y8pjbUYC2wK0YPP
-	b6RJVedgR4Ny4qdbrkY7PKHCERz285Ow75x8o8xm+wVLxmiYxxUf5Rhos/WAdsTA5vrLYFXfp5f
-	r/msFfKDoIK89j3UJp2c6cGIPK77+X9Y0ayloAPp/p29264ysNVhNEUp4Q+SeP4OTW7KeMr2lea
-	+qwZYe6j/X4ruqLwxPJ9X81AeT3ByXcZkmyut6cSdrDJbTayZHOoa+CxYhEPu
-X-Google-Smtp-Source: AGHT+IFAFiFMvauyvnrzIbwSC4Wq0fIK9rH0rEWLt4fAslY8hbU9aIwfDAfYJMiLUNzCvIPlrLKySw==
-X-Received: by 2002:a05:6102:4244:b0:5a2:668d:f20b with SMTP id ada2fe7eead31-5a2668e027fmr1064546137.16.1758550150533;
-        Mon, 22 Sep 2025 07:09:10 -0700 (PDT)
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com. [209.85.217.47])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8e3e7fe91bdsm2284752241.21.2025.09.22.07.09.10
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Sep 2025 07:09:10 -0700 (PDT)
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-58de3ab1831so1726054137.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Sep 2025 07:09:10 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXdJ0awPQwGt1Jq6KnbEYX3Z67e8c97BHKmZPWacA9DVCMOvzBwVev8R5y5ps2rUxX1qxBr6IAtYFu58D1vldCjSQ==@vger.kernel.org
-X-Received: by 2002:a05:6102:c0f:b0:57d:9305:63de with SMTP id
- ada2fe7eead31-588e0e89e45mr4003349137.10.1758550149618; Mon, 22 Sep 2025
- 07:09:09 -0700 (PDT)
+	s=arc-20240116; t=1758550606; c=relaxed/simple;
+	bh=uNppTuam3Us42pG36glkkl2XG4QsQhRzg9RzTUlo9+I=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=l+6QxsyUTHvgtXtXz87JQvO9cH2xZYgihCHIoAFIp0mjEtsCY3wlhEfh5vaF3CPAd2OIscRbjhXLyKzIeGAqeLvrJ7ndjkDtpqlpNt3+CU3qf1jGW0s7SAiWQL0Y4E1P5AcQ/Q/x+YGEJXe17LfLFFibBzXt9H/+9vaDeBQKWJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=konAnS3U; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 81BE9C8EC45;
+	Mon, 22 Sep 2025 14:16:22 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 520D660634;
+	Mon, 22 Sep 2025 14:16:39 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8DE15102F1929;
+	Mon, 22 Sep 2025 16:16:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1758550598; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=Jebq9t143raDKfgvx6YsnmKGCNR8DfJDEIED3irNcJk=;
+	b=konAnS3UHmYMPEtgcRx33Q19DB+JYfmTijrplkBupkL7pfdxJ7kFVVY6/Qhv/0/ZJDSBSM
+	yG93VSXZJ570DGEnaoGO7PAkI8d7Tfd6q0qNty8TrWf5hV7YYxvl5O5GgkZpuovxa7VMQ0
+	GK6RsUToXHHQrFvu4zRzFCQV2grW6VYh53vC4ypvmgnXd5AyUJRLe+c766IH3USzhjoyp5
+	yNr3EkPzDbpHXdvFGdf8y2e5llHMMT0yqLCbgxGwT2N6rQ5INF31NGF8ziILh3TNHA2d4Z
+	prw9+SYKXJs689jNZI1Qt0cPApV3gd0xePEAMadsx+mxnmt8YIv97Hl/Wphnpg==
+Date: Mon, 22 Sep 2025 16:16:20 +0200
+From: Herve Codina <herve.codina@bootlin.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Hoan Tran
+ <hoan@os.amperecomputing.com>, Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Magnus
+ Damm <magnus.damm@gmail.com>, Saravana Kannan <saravanak@google.com>, Serge
+ Semin <fancer.lancer@gmail.com>, Phil Edworthy <phil.edworthy@renesas.com>,
+ linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Pascal
+ Eberhard <pascal.eberhard@se.com>, Miquel Raynal
+ <miquel.raynal@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v3 8/8] ARM: dts: r9a06g032: Add support for GPIO
+ interrupts
+Message-ID: <20250922161620.03fa8d8e@bootlin.com>
+In-Reply-To: <20250919191211.0ed4c976@bootlin.com>
+References: <20250918104009.94754-1-herve.codina@bootlin.com>
+	<20250918104009.94754-9-herve.codina@bootlin.com>
+	<aM0llhn054OI9rA8@ninjato>
+	<20250919155910.4d106256@bootlin.com>
+	<aM1rgY9CCF54c_Pg@shikoro>
+	<20250919191211.0ed4c976@bootlin.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250918030723.331634-1-marek.vasut+renesas@mailbox.org>
- <CA+V-a8sjPx8U+MB3v-SxErRPqbz4irAgZhCvd5CHY=6uO_VoyQ@mail.gmail.com>
- <353db156-e518-49c8-96ac-bd138ee64a01@mailbox.org> <CA+V-a8sLxBq8vSuq2HxcchpLqyQxqTRtkWjUKsRN9tBqGhU7mw@mail.gmail.com>
- <9dbc6022-eb97-49af-bda7-1a7a8069609a@mailbox.org> <CAMuHMdWuCyq+jXSasGdrMOSBP-XmDG-wHsBaXUMTGA3mtq_C5Q@mail.gmail.com>
- <aNFVv_n7y-ZmblX-@shikoro>
-In-Reply-To: <aNFVv_n7y-ZmblX-@shikoro>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 22 Sep 2025 16:08:58 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV7QvQFs_wXYy5B8fyO_TT2-ksHtfRKQXrhe3ouQpJALg@mail.gmail.com>
-X-Gm-Features: AS18NWCrW3QxDjpWptl-dOn2GBYoJBw9An_ElV0y7JonoSEdT_C1EiUOZKFlSZM
-Message-ID: <CAMuHMdV7QvQFs_wXYy5B8fyO_TT2-ksHtfRKQXrhe3ouQpJALg@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: cpg-mssr: Read back reset registers to
- assure values latched
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Marek Vasut <marek.vasut@mailbox.org>, "Lad, Prabhakar" <prabhakar.csengg@gmail.com>, 
-	linux-clk@vger.kernel.org, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
 Hi Wolfram,
 
-On Mon, 22 Sept 2025 at 15:57, Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> > So e.g. MSIOF has synchronized resets, while I2C has not, although
-> > both are connected to the peripheral AXI bus...
->
-> Is this why we need 'read_poll_timeout_atomic' in 'rcar_i2c_do_reset()'
-> then? I have never received a reason besides "HW engineers said so".
-> This is pre-Gen4, though.
+On Fri, 19 Sep 2025 19:12:11 +0200
+Herve Codina <herve.codina@bootlin.com> wrote:
 
-Perhaps... IIRC there never was any mention of "(a)synchronized resets"
-before.
+> On Fri, 19 Sep 2025 16:41:05 +0200
+> Wolfram Sang <wsa+renesas@sang-engineering.com> wrote:
+> 
+> > > 'interrupt-map' is a required property. If the board doesn't use any interrupt
+> > > GPIO, its dts has no reason to set the interrupt-map.    
+> > 
+> > Why is 'interrupt-map' then a required property? Can we drop it from the
+> > requirements?
+> >   
+> 
+> I need to check in details but 'interrupt-map' should be kept required.
+> Indeed, irq-mux needs this property to work. It is not an optional one.
+> 
+> I need to look at the 'make CHECK_DTBS=y' behavior when required property is
+> missing in a not enabled node (node with status = "disabled").
+> 
+> Also, got some:
+>    Warning (interrupts_property): /soc/interrupt-controller@51000480: Missing interrupt-controller or interrupt-map property
+> 
+> This could be due to the presence of #interrupt-cells or the node name (not
+> sure). As I need to rename the node (Conor's comment), I will see if the
+> warning disappear. If the warning is due to #interrupt-cells, I don't think
+> that removing #interrupt-cells is the right solution to avoid the warning.
+> 
+> That's said, I need to perform some local tries. I will keep you informed.
+> 
 
-Can you trigger an issue by removing the polling, and does Marek's
-patch fix it?
+If I remove the 'interrupt-map', I still have warnings from DTC:
+  r9a06g032.dtsi:647.45-664.5: Warning (interrupts_property): /soc/interrupt-controller@51000480: Missing interrupt-controller or interrupt-map property
+  r9a06g032.dtsi:647.45-664.5: Warning (interrupts_property): /soc/interrupt-controller@51000480: Missing interrupt-controller or interrupt-map property
+  r9a06g032.dtsi:647.45-664.5: Warning (interrupts_property): /soc/interrupt-controller@51000480: Missing interrupt-controller or interrupt-map property
+  r9a06g032.dtsi:647.45-664.5: Warning (interrupt_provider): /soc/interrupt-controller@51000480: '#interrupt-cells' found, but node is not an interrupt provider
+  r9a06g032-rzn1d400-eb.dtb: Warning (interrupt_map): Failed prerequisite 'interrupt_provider'
 
-Gr{oetje,eeting}s,
+Indeed, the irq-mux node is referenced (interrupt-parent) in the gpio nodes.
+DTC checks that in that case irq-mux is correctly set. It has to be either
+an interrupt controller ('interrupt-controller' property) or a interrupt
+nexus node ('interrupt-map' property).
 
-                        Geert
+If I remove, the 'interrupt-map' property, DTC is not happy.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Also in that case, my node has '#interrupt-cells' set without being an
+interrupt controller of a interrupt nexus node and this leads to a warning too.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+The only way to avoid warnings is to fully remove the irq-mux node and related
+references available in gpio nodes.
+
+IHMO, I think we can leave with a reduce 'interrupt-map' array set in the irq-mux
+node in r9a06g032.dtsi file such as follow.
+--- 8< ---
+	interrupt-controller@51000480 {
+		compatible = "renesas,r9a06g032-gpioirqmux", "renesas,rzn1-gpioirqmux";
+		reg = <0x51000480 0x20>;
+		#interrupt-cells = <1>;
+		#address-cells = <0>;
+		interrupt-map-mask = <0x7f>;
+
+		/*
+		 * interrupt-map has to be updated according to GPIO
+		 * usage. The src irq (0 field) has to be updated with
+		 * the needed GPIO interrupt number.
+		 * More items can be added (up to 8). Those items must
+		 * define a GIC SPI interrupt in the range 103 to 110.
+		 */
+		interrupt-map = <0 &gic GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
+
+		status = "disabled";
+	};
+--- 8< ---
+
+Could this modification be ok on your side?
+
+Best regards,
+Hervé
 
