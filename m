@@ -1,135 +1,119 @@
-Return-Path: <linux-renesas-soc+bounces-22167-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22164-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9D24B91F5C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 17:35:10 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B48E9B91F62
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 17:35:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 731CA2A3AED
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 15:35:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BEE054275AB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 15:34:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B5F62E8B75;
-	Mon, 22 Sep 2025 15:34:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B4A52E03FB;
+	Mon, 22 Sep 2025 15:33:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="fF4cPOY6";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="aTbC89OW"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="EbcZ8RqS"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D96A2E8B63;
-	Mon, 22 Sep 2025 15:34:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 310E42E92B4
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Sep 2025 15:33:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758555260; cv=none; b=eVIAcUHUZ70cP5zVZjtpi3eHEPEOZuEgkIYOfzwBvR/4+qtiGwYQAcj3wJC8t/XxfBBHTuXWF7F5q/WdWdngSzkOql5YVr7J37qmXXUik5Ovt+8SJ+hIFGzPMDZ1/Da0zztV+so5O95Q9kSnMK3uT02lLwsE79Rs+dB/LmVJetU=
+	t=1758555219; cv=none; b=a6yJqb16OqNJltS7HJSJnXN39aZvbmtzMGhPKyLvXDVI7AO8OEHqBLxQJ2akdBbtlQtcKGTvBHpW5psgxr+FfmFg21sdqpslnYNdaYlJfA2LJAHsjTBbT0teBANT/Tf5Ow+NkuCYaOB/mBq/38EMgKm3p7xvHIAQThP6Ys/DH4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758555260; c=relaxed/simple;
-	bh=4g8pdZiNUoEUbdC/+29dwwVutwbVoelgcoRU4UE69Bg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=T/L8WdOQFC6F8MUiA/BcsAew81y3JZ+VUDtbXhM5nLc/qCW0TY8QJ7EDyGlR2bGj7tv2OXl+9YLgOPl1qM89LePhONYL/nUwovg2ojNK0AEX+4lRefWiBp2sZYAmo8e2u6PUJJLMpEkXkL6g3VO8A4dXtbmB2Drbsk5QGwNL3AY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=fF4cPOY6; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=aTbC89OW; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cVnGC00nqz9tTb;
-	Mon, 22 Sep 2025 17:34:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1758555251;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=T/WfyxJwREoktiQFDoI3msz85U3rthfK4OgtAIm+ta4=;
-	b=fF4cPOY6kVDD+HqL2NKouMkZV7oNc6vNAcZ4Jo4e3HSYg9GbBcxOl6AOy/Ks/kqyGBbzsk
-	JU2/AI6n3PmJzNi3RGFbA2s19RkBuMk5jeBVPhX/6FEbRktCgh/wYj8jfU5S+oLmhesDnZ
-	XA143cJTJefkwoz+dIHju6lQxgKnTxgh784mqhJ5efqic0ZbeJI9aHYW5JNWCAxauJQ1Ro
-	6lMi7kEDaMG8c39YcMC/8DiTmBniRBP6JItbL56p22QAgwIN2lzHaGs+gUwbNE3AG/laav
-	DKBqulMbPbPzObi/Tg8QxNM13ElkF0wgy4oiAdezLqll4QXXUErMauOBFkSuQA==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1758555249;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=T/WfyxJwREoktiQFDoI3msz85U3rthfK4OgtAIm+ta4=;
-	b=aTbC89OWGfBoI9HBTujrfBZGB6NCv+2Gq90taOAGwUB5cogLWb4kcTYNfbBDiknJtiSN+6
-	4Jk9uAehRpLyHFL+Y18H3Gq/bCClEVNPBE5ALCY2VRNUz1cQOERLSE/gzVnc2lcTkEXlln
-	C1aHNje0UiCNSPosaJoGsTCZkbDKK9dtEwxRpMLJQnvbywW/DLnVIuTFaBNP3L+gMDGygC
-	2v2Vg5s3Pa3bgOfL+BaubN1AWHV6CofdKTzgflTplp2SVhsq7sf6FunhtnjvqwvDI8sz+f
-	fRP4DJbfmUnNzUG9zwb4+J6HEwHNhaR1/dw5P6arntrDYR2WCHHr9ejpAmGqKw==
-To: linux-pci@vger.kernel.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] PCI: rcar-host: Add static assertion to check !PCI_LOCKLESS_CONFIG
-Date: Mon, 22 Sep 2025 17:33:23 +0200
-Message-ID: <20250922153352.99197-1-marek.vasut+renesas@mailbox.org>
+	s=arc-20240116; t=1758555219; c=relaxed/simple;
+	bh=9GDSk+7eMD2m4olz8yNUDHsfzJO5iPrhK7AiGouP2SQ=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=a1f04txMb22nPZ0N0Sn8p46Rxa4JSXbwLos5weDZ8uKqtdNRNO1pLXeLskq80jcoSY6gzpBAKHiy3NcXBJmK5SfKV4YPR1hupHQdsTpJVCrWmMYSaYHiB4CbPFKeHfzSu4Oud8Qj4uSmb13jTpZNS04xD2/AZ1Dvch4Bjpm3vXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=EbcZ8RqS; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-57d93a4b637so1551321e87.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Sep 2025 08:33:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1758555215; x=1759160015; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:references:mime-version:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9GDSk+7eMD2m4olz8yNUDHsfzJO5iPrhK7AiGouP2SQ=;
+        b=EbcZ8RqS4mvV5MmSP0RIRTEncBjwbZHP744uU278APuleIi9lH8l/VbXf+kqOevmgM
+         SHzScm36ygXeXwUT11qNhOeXs6KR+Ugfegk7vO2eSCUzSd9WAwSEgHXGrtwyeeAojEaZ
+         dEkjj5GImdttddn7cX6K7yZxi2MBkN2M+ht1N7M1qh3I37jt7FaIPCtsdYqnS+IyMNQ7
+         973Ir883NnIApSuoAYxUsmJ0FLrm2fRP69vDPz6LKdAihXiuVoMTByn7skf1VqU4wdqt
+         cwyTeqQVSzis4elHj9vFijnySwYUIgvHqESIgC7Cgl8zSA+QOS8jHCx0lxEQWuFjwalZ
+         FPig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758555215; x=1759160015;
+        h=cc:to:subject:message-id:date:references:mime-version:in-reply-to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9GDSk+7eMD2m4olz8yNUDHsfzJO5iPrhK7AiGouP2SQ=;
+        b=jIA40k+iKr5y865BH3FrLpsI/QM1VgtugST4gUAxn855DW4i1jhujHmn+SHMyfrlTe
+         XDKrLApJEHmXJiGF9vA3HVP3nXdOFd5nTeto9EG32kGeP76fnzkPORnVjXbrvwI2oyYb
+         9au5aPDowREUMaQVTZ8/chtfDSITcBIIDullE/3qqxpGMMFfaGNBvqas09rjVsxIVpu1
+         CrvYDAHOsYs77bB6HSWaV3+9SudOGvYzkmByOJErB1fGXQgwILwy9c7uOMvJk4rT8CUI
+         JqLfmU0stJMz9aA3ByMYQz/YJ58QtUrHX64zhHEm4fgB5864iu520GP8DsMhjraYYQBL
+         4MuA==
+X-Forwarded-Encrypted: i=1; AJvYcCWZLOdlQWaI4xYv5ImlbCqukHOfO30M3iOa4laIQkXXC+JhbKFRfK0/45FAmsJ7he7g6DL1p3Tw+VXa/5jPnpk+Fg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxVADGKzYXNCjR6PevTpK/zTpmRDu8U8GiSZtk0s0S6eVdaVD1p
+	ka7cqz+pejLIlZPQpMZ9CzNZilv7QXOWUIohPrb7aK9juWyew/rKOmzjAInbzj6C03TfKJqabce
+	CGMBw9nv/W+ZSz2cxRRL8tbOj3WmKbScxV4MK61s3LQ==
+X-Gm-Gg: ASbGncu+weHpFx7Y+tKrD9NarfQrRSe5tAQ+Ca2zpLeA7pPCU/cbrMIaPt+tdILSCoj
+	HLpi7sNHPvY2AU7D6wb+luPLlvhe7ZPgbW4kMGRQpc2M/g8UKvSvZfHOPAEGw7GLOCYkz75KHJ4
+	B1sRof5giHwHDSfbYCjxtsQmPZgyHV+vILgrTgnGEvLI8ZY5d/07/GQu74hi9VU84uoPQFTAylq
+	hONKj3pU9h4CfOU0tFUJrU0ev+fugqsMfX+og==
+X-Google-Smtp-Source: AGHT+IGlZY4kCJWeN5dqXhMVz0wVth63k88LkQRY0NMxqg5N9plQEniHvw0FL0I709EW4Ka6RI0ByvFRASCxDMR0/MQ=
+X-Received: by 2002:a05:6512:799:b0:55f:49ab:884a with SMTP id
+ 2adb3069b0e04-579e1f43c06mr3621448e87.21.1758555215241; Mon, 22 Sep 2025
+ 08:33:35 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 22 Sep 2025 18:33:33 +0300
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 22 Sep 2025 18:33:33 +0300
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+In-Reply-To: <20250922152640.154092-9-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 78269535d8f6cd48f72
-X-MBO-RS-META: c7edgmgujodt3bt7ycs9yx6rdws6b8mf
+References: <20250922152640.154092-1-herve.codina@bootlin.com> <20250922152640.154092-9-herve.codina@bootlin.com>
+Date: Mon, 22 Sep 2025 18:33:33 +0300
+X-Gm-Features: AS18NWCFatxNFArvnh5SmkTj0DfmC7GBtzmB19TRGxTfynwgSMsjCS139sdcpWc
+Message-ID: <CAMRc=Mfh_6kfreC6WNFvFE2X5RZmuHfuVQK+GQ2q6Df-4kJXCQ@mail.gmail.com>
+Subject: Re: [PATCH v4 8/8] ARM: dts: r9a06g032: Add support for GPIO interrupts
+To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
+Cc: Phil Edworthy <phil.edworthy@renesas.com>, linux-gpio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Pascal Eberhard <pascal.eberhard@se.com>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	Thomas Gleixner <tglx@linutronix.de>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Hoan Tran <hoan@os.amperecomputing.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Saravana Kannan <saravanak@google.com>, Serge Semin <fancer.lancer@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-This driver can not function correctly without PCIe subsystem level
-config space access serialization. In case PCI_LOCKLESS_CONFIG is
-ever enabled on ARM, complain loudly so the driver can be updated
-accordingly.
+On Mon, 22 Sep 2025 17:26:39 +0200, "Herve Codina (Schneider
+Electric)" <herve.codina@bootlin.com> said:
+> In the RZ/N1 SoC, the GPIO interrupts are multiplexed using the GPIO
+> Interrupt Multiplexer.
+>
+> Add the multiplexer node and connect GPIO interrupt lines to the
+> multiplexer.
+>
+> The interrupt-map available in the multiplexer node has to be updated in
+> dts files depending on the GPIO usage. Indeed, the usage of an interrupt
+> for a GPIO is board dependent.
+>
+> Up to 8 GPIOs can be used as an interrupt line (one per multiplexer
+> output interrupt).
+>
+> Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@bootlin.com>
+> ---
 
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
-Cc: Magnus Damm <magnus.damm@gmail.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Marek Vasut <marek.vasut+renesas@gmail.com>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-pci@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
----
- drivers/pci/controller/pcie-rcar-host.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
-index 213028052aa58..29e13f7ff7ff1 100644
---- a/drivers/pci/controller/pcie-rcar-host.c
-+++ b/drivers/pci/controller/pcie-rcar-host.c
-@@ -35,6 +35,14 @@
- 
- #include "pcie-rcar.h"
- 
-+/*
-+ * This driver can not function correctly without PCIe subsystem level
-+ * config space access serialization. In case PCI_LOCKLESS_CONFIG is
-+ * ever enabled on ARM, complain loudly so the driver can be updated
-+ * accordingly.
-+ */
-+static_assert(!IS_ENABLED(CONFIG_PCI_LOCKLESS_CONFIG));
-+
- struct rcar_msi {
- 	DECLARE_BITMAP(used, INT_PCI_MSI_NR);
- 	struct irq_domain *domain;
--- 
-2.51.0
-
+Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
