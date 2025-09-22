@@ -1,130 +1,202 @@
-Return-Path: <linux-renesas-soc+bounces-22172-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22173-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46C56B92242
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 18:08:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DF17B92360
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 18:21:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 082F417E05F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 16:08:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7D04016E4D4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 16:21:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1A92310768;
-	Mon, 22 Sep 2025 16:08:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D05D311581;
+	Mon, 22 Sep 2025 16:21:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="hN/5y+Lz"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Fp3h06l5";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="K67lEHCi"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4E6310764;
-	Mon, 22 Sep 2025 16:08:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D3D5215198;
+	Mon, 22 Sep 2025 16:21:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758557320; cv=none; b=a0UoYlrB/IJANtsObxhPaBWHwTQenk/X/fq9Hr0vFn/Q9iyg5MMeruAv01trv+BIHS8VeTIbIbvXTyy1Xi6R8J07p6b3o8N6hzSP9k/YMAT2AbQoOk3EDHWZUmjkWqoeIpa7b5ZLzcC1aL5gb4Kwuk8goYeNrAINRAY+md7Eaq4=
+	t=1758558098; cv=none; b=i87+o6yJcPWbKXL4ZR0rImbeQP07v33vEH0XhGrfpUxAbZkkFA564TpvNeUtVOjLL27uTE6jtnKKkA6Vb4DZgXYOiKqxPuxroI/FJWE1Igok6p0e3tkZhHn+VbZ+WFuI8tZ2v2p1cQlNGlLua/RmxtvyZUAaeze6FeObX/9Y1Do=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758557320; c=relaxed/simple;
-	bh=1JhvlsGag/g0lsEn3CJ4T79NzeC8MMz8OYCOhlhCcfk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=D7jEeUL4iPk94PIluXj+NODn0ZuNqFQIJMm+O+2J6oZLNilGvXb13houwvu1Tz6E+YWzU/pf3t18feIHkykCODcmhvPUrzB5UoR5Adg9ARs0pPb8cn0HTAoleE+YaxdgWJ8aR7TrAx6CI3HX0v97k2LiKqGsmXGFUWAOlWjGnLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=hN/5y+Lz; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 6891FC8EC47;
-	Mon, 22 Sep 2025 16:08:13 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 3D28360635;
-	Mon, 22 Sep 2025 16:08:30 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 58A1F102F1942;
-	Mon, 22 Sep 2025 18:08:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1758557309; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=Hg2NoZ+lLEZW8Bu+98QwiGq8+y6KwiE9j3xN84DMQww=;
-	b=hN/5y+Lzx6vJQWz5+IvAyWUVCO9Sb8V+lGAwRHtGKlZHhiH9QpCd5NrK4oDe6YpbAmgnIX
-	ku+RMG37326N+lZz5XAgWH5nSuHgiObTTQ/wHd4qezZ/j8mke5Pb9bIu9fQFPd8g1n3Cju
-	Am6lH4IIJK54d9FjDmxzONgPRSDCYyw9zDpWxWdZ4+wDCsvfK9DcwHWCK6V0jRpp4ox2FA
-	yW2suHPc7o8wJjNwTP9+ujj08T4lNrUfePNLgKMmQUwxNcgtFveSJ6/BKajTZCgbJnGNAa
-	jRvZDa5eHTBYhQGXAU44mSibt4ktklGI+5PeSl+6j2yWOvGnTByBDSWp6SI80Q==
-Date: Mon, 22 Sep 2025 18:08:17 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Wolfram Sang
- <wsa+renesas@sang-engineering.com>, Hoan Tran
- <hoan@os.amperecomputing.com>, Linus Walleij <linus.walleij@linaro.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Saravana
- Kannan <saravanak@google.com>, Serge Semin <fancer.lancer@gmail.com>, Phil
- Edworthy <phil.edworthy@renesas.com>, linux-gpio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, Pascal Eberhard
- <pascal.eberhard@se.com>, Miquel Raynal <miquel.raynal@bootlin.com>, Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v3 5/8] ARM: dts: r9a06g032: Add GPIO controllers
-Message-ID: <20250922180817.7c1b8f61@bootlin.com>
-In-Reply-To: <CAMRc=MeLDe+o6dWkFCv6zc7ubcXicWdw4FA_A2p519OC4SH2BA@mail.gmail.com>
-References: <20250918104009.94754-1-herve.codina@bootlin.com>
-	<20250918104009.94754-6-herve.codina@bootlin.com>
-	<CAMRc=Mf9OB03FXEpSXG8XeJhtd7MkwJTH=rY11SBb9SazCMqJw@mail.gmail.com>
-	<20250922173145.4d4dbb2f@bootlin.com>
-	<CAMRc=MeLDe+o6dWkFCv6zc7ubcXicWdw4FA_A2p519OC4SH2BA@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1758558098; c=relaxed/simple;
+	bh=tE2zAptSNq/J+Q+6Iqinursh6sIsMnJY11rAjVQrQzQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p3MPTNEFptf4SQUw0crPBPdRJwOttK9NNus1QDTdfpYmI6Ybdkqutus+xUIuNU0zDFpEP6EWt2dLVl0ekjXbfcySthxRY2AUvMLWaBRlQQmjmHnD+QOQ7jVsdaZTyEktpLCc54vsC7X/Zp1kIHVQT/BdHSvvOSUZ/Z1sfujll68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Fp3h06l5; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=K67lEHCi; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cVpJt2HRqz9v9D;
+	Mon, 22 Sep 2025 18:21:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1758558094;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Wg8AF9dz48wLNsQi3U7S4Uq6PfCqKgRn4n2UpopgsW8=;
+	b=Fp3h06l5m7lTFRJp8JMHWBlBAy5wNH33oc7tftmXCc+9dbNa3Dp/rvMWoUabknNh62X0hy
+	2Jko0CIdd2OPCsFRuZJsy7gAxGnVnK4fUlgDXC+7kDvSMfdmVwZNfj85iQAzNxgEVnVLhN
+	gZB/hZFM7bTVd/iWTg+JZpFSwOmQKJJAlyc7pSK5ragIkNA31oCZLrEfum7FCL+TbX1//J
+	WM9wOnXO/6OLx0JS3JC2T95pJKEOmEAkTGIJWZY7OaUCU+q0kl9x5eh0n0+LcaKr2WZnCv
+	R8/5MgvNg/VMFrVnQVBXrio+aSpKkiQ/VVMAmXZBAmiBlImi/y+r3b8BLmmkJA==
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1758558092;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Wg8AF9dz48wLNsQi3U7S4Uq6PfCqKgRn4n2UpopgsW8=;
+	b=K67lEHCinHPGd4ma6jjY++WBmQ8nbEV97S/csrT8IM/UvRWvQGaqPWRWE4r7kSEo3w2fh8
+	WQpHMMAl0Zvht01x++siGYNVxJeq5uKPEp73weaoMg/1grvfYngzryco9saoz1Gl+eCG9N
+	gRLny0CZTsMcfWmu+hItu9/uyFZvSRvlYanRYXjZN+aKcR8L92qsF1cNUNZqeZixVSfgLI
+	Ivtz9lSp+v586slMbK11m6xfePAs/AVXKK0z9qkxEgT57WAZUxb8WDTy0tl+J8IC6HOTaX
+	PiI2Cnu5hre1nYc2iz9QE1zT0/ltbh3K0XRHL6lZgkmc0XJVZUiDUJE+b7KitA==
+To: linux-clk@vger.kernel.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v4] clk: renesas: cpg-mssr: Read back reset registers to assure values latched
+Date: Mon, 22 Sep 2025 18:20:38 +0200
+Message-ID: <20250922162113.113223-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+X-MBO-RS-META: gk65d9biq6dji8d8n7ocptjtjgm14gxh
+X-MBO-RS-ID: eca6f977796ca2cd658
 
-Hi Barosz,
+On R-Car V4H, the PCIEC controller DBI read would generate an SError
+in case the controller reset is released by writing SRSTCLR register
+first, and immediately afterward reading some PCIEC controller DBI
+register. The issue triggers in rcar_gen4_pcie_additional_common_init()
+on dw_pcie_readl_dbi(dw, PCIE_PORT_LANE_SKEW), which on V4H is the first
+read after reset_control_deassert(dw->core_rsts[DW_PCIE_PWR_RST].rstc).
 
-On Mon, 22 Sep 2025 18:33:49 +0300
-Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+The reset controller which contains the SRSTCLR register and the PCIEC
+controller which contains the DBI register share the same root access
+bus, but the bus then splits into separate segments before reaching
+each IP. Even if the SRSTCLR write access was posted on the bus before
+the DBI read access, it seems the DBI read access may reach the PCIEC
+controller before the SRSTCLR write completed, and trigger the SError.
 
-> On Mon, 22 Sep 2025 17:31:45 +0200, Herve Codina
-> <herve.codina@bootlin.com> said:
-> > Hi Bartosz,
-> >
-> > On Mon, 22 Sep 2025 16:22:14 +0200
-> > Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-> >  
-> >> On Thu, Sep 18, 2025 at 12:40 PM Herve Codina (Schneider Electric)
-> >> <herve.codina@bootlin.com> wrote:  
-> >> >
-> >> > Add GPIO controllers (Synosys DesignWare IPs) available in the
-> >> > r9a06g032 (RZ/N1D) SoC.
-> >> >
-> >> > Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@bootlin.com>
-> >> > Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> >> > Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> >> > ---  
-> >>
-> >> Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>  
-> >
-> > I have just sent the v4 iteration.
-> >
-> > This patch has not been modified in v4.
-> >
-> > Can you add your 'Reviewed-by' in the v4 series?
-> >  
-> 
-> Sure, done.
+Mitigate the issue by adding a dummy SRSTCLR read, which assures the
+SRSTCLR write completes fully and is latched into the reset controller,
+before the PCIEC DBI read access can occur.
 
-I have seen your 'Reviewed-by' in v4 but on patch 8 ("ARM: dts: r9a06g032:
-Add support for GPIO interrupts").
+Fixes: 0ab55cf18341 ("clk: renesas: cpg-mssr: Add support for R-Car V4H")
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Michael Turquette <mturquette@baylibre.com>
+Cc: Stephen Boyd <sboyd@kernel.org>
+Cc: linux-clk@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+V2: Factor out the writel-then-readl code into cpg_mssr_writel_with_latch()
+    and clean the code up a bit
+V3: Add RB from Wolfram
+V4: - Rename cpg_mssr_writel_with_latch() to cpg_mssr_reset_operate()
+    - Drop priv varible from cpg_mssr_reset()
+    - Add TB from Geert
+---
+ drivers/clk/renesas/renesas-cpg-mssr.c | 44 +++++++++++---------------
+ 1 file changed, 19 insertions(+), 25 deletions(-)
 
-Maybe this is correct but here (v3) your 'Reviewed-by' in on patch 5 ("ARM: dts:
-r9a06g032: Add GPIO controllers").
+diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/renesas/renesas-cpg-mssr.c
+index be9f59e6975d7..6a33e8a3d6ddf 100644
+--- a/drivers/clk/renesas/renesas-cpg-mssr.c
++++ b/drivers/clk/renesas/renesas-cpg-mssr.c
+@@ -676,53 +676,47 @@ static int __init cpg_mssr_add_clk_domain(struct device *dev,
+ 
+ #define rcdev_to_priv(x)	container_of(x, struct cpg_mssr_priv, rcdev)
+ 
+-static int cpg_mssr_reset(struct reset_controller_dev *rcdev,
+-			  unsigned long id)
++static int cpg_mssr_reset_operate(struct reset_controller_dev *rcdev,
++				  char *func, bool set, unsigned long id)
+ {
+ 	struct cpg_mssr_priv *priv = rcdev_to_priv(rcdev);
+ 	unsigned int reg = id / 32;
+ 	unsigned int bit = id % 32;
++	const u16 reset_reg = set ? priv->reset_regs[reg] : priv->reset_clear_regs[reg];
+ 	u32 bitmask = BIT(bit);
+ 
+-	dev_dbg(priv->dev, "reset %u%02u\n", reg, bit);
++	if (func)
++		dev_dbg(priv->dev, "%s %u%02u\n", func, reg, bit);
+ 
++	writel(bitmask, priv->pub.base0 + reset_reg);
++	readl(priv->pub.base0 + reset_reg);
++	barrier_data(priv->pub.base0 + reset_reg);
++
++	return 0;
++}
++
++static int cpg_mssr_reset(struct reset_controller_dev *rcdev,
++			  unsigned long id)
++{
+ 	/* Reset module */
+-	writel(bitmask, priv->pub.base0 + priv->reset_regs[reg]);
++	cpg_mssr_reset_operate(rcdev, "reset", true, id);
+ 
+ 	/* Wait for at least one cycle of the RCLK clock (@ ca. 32 kHz) */
+ 	udelay(35);
+ 
+ 	/* Release module from reset state */
+-	writel(bitmask, priv->pub.base0 + priv->reset_clear_regs[reg]);
+-
+-	return 0;
++	return cpg_mssr_reset_operate(rcdev, NULL, false, id);
+ }
+ 
+ static int cpg_mssr_assert(struct reset_controller_dev *rcdev, unsigned long id)
+ {
+-	struct cpg_mssr_priv *priv = rcdev_to_priv(rcdev);
+-	unsigned int reg = id / 32;
+-	unsigned int bit = id % 32;
+-	u32 bitmask = BIT(bit);
+-
+-	dev_dbg(priv->dev, "assert %u%02u\n", reg, bit);
+-
+-	writel(bitmask, priv->pub.base0 + priv->reset_regs[reg]);
+-	return 0;
++	return cpg_mssr_reset_operate(rcdev, "assert", true, id);
+ }
+ 
+ static int cpg_mssr_deassert(struct reset_controller_dev *rcdev,
+ 			     unsigned long id)
+ {
+-	struct cpg_mssr_priv *priv = rcdev_to_priv(rcdev);
+-	unsigned int reg = id / 32;
+-	unsigned int bit = id % 32;
+-	u32 bitmask = BIT(bit);
+-
+-	dev_dbg(priv->dev, "deassert %u%02u\n", reg, bit);
+-
+-	writel(bitmask, priv->pub.base0 + priv->reset_clear_regs[reg]);
+-	return 0;
++	return cpg_mssr_reset_operate(rcdev, "deassert", false, id);
+ }
+ 
+ static int cpg_mssr_status(struct reset_controller_dev *rcdev,
+-- 
+2.51.0
 
-This exact same patch 5 exists also in v4.
-
-Best regards,
-Hervé
 
