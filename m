@@ -1,149 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-22189-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22190-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F55B949C8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 08:47:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 644F6B94A07
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 08:56:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B94453BCFE4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 06:47:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 74EA11901654
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 06:56:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6255B30FC2D;
-	Tue, 23 Sep 2025 06:47:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C67DF3019D0;
+	Tue, 23 Sep 2025 06:56:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="baVXzgA3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA26A231C91
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Sep 2025 06:47:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC321DC198
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Sep 2025 06:56:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758610038; cv=none; b=u3z+1BQFKigRK+3RhKhv1oi+kjceTJAPi7fqtY2t3REIcOfmTzr6uTecR8nLGeTK/xTBYWLJXGMHOjFGIk8KAdJTOblkQ2xNCCegf1ww7vkT4i6p3tqI1mPmhR6KRrvppNNX88la52DJBfMM68AbGUBD2phG4OtU2vb5DClDd9c=
+	t=1758610584; cv=none; b=g9NlovRAoKHjRJOW+dgDUsZW+S+AkgSMfVoMdO+oLRr0mTvzC6T5AMW2TmPa3VNPqgkdHQ8qLBGy2pTB0ZhZbc5DdtKbyS9Tjaq/uAOcfa4NVl/Db/TUgVH6Y00hXuQzXFQXUzHPBjKxRv9QdjMOaRj1D4OmhIWxtqjZdT2jCOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758610038; c=relaxed/simple;
-	bh=2LzdFVxCXwCfJ4ulDN7WItQnbdwjYVISQX81SvmdtTU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Lvqe2MD8nWVSNK6tB16hdxN3ny2bvGr7zenI0PfjU/9F5DnDH48+Dhr5Oqs/hCOd2V8ABAKpWwV4Y6In7/+kcwyEdH0v+JyhkXTFvi7irXO6e7rIXrB7DzfSCOiycIzRlUK3jlaJirKkMqVMZHRdjq8q/yP1InffbTK4NXkP4JQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-54bd3158f7bso53237e0c.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Sep 2025 23:47:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758610035; x=1759214835;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MrqmRbHxqTgRekvhDXdBEX/h9tK7W2RIqWha/LWNLSo=;
-        b=QY42ov3TTPC3NVI0xoTVXUdVWXV5v0RWD5zhdg+hYUklN7l+DKcyMhiFs5tdSH539R
-         kJq0Lf4U3m4QxLfvpjamgqR5qf0ZnPKN2nn6EL6OMbWZXJUiL3aBOy+NauQWQAbVpapx
-         u12fqQ3t/urBf8sBFRc9RlEUZARopSUe5J77onER+kGG3r4XPOlSIAFN94Xw50ajD28Q
-         UX66zio32unnV33YOmOMlL4idn5TnS7K+z/lQ0D3lBEL7g38dv4DWa24eniqGid/X3s5
-         1ZYx5X10ifDe61Eweul0chAFk3qLOU1xBdN3oXRFHkgvTqHBtlV1ohV/DHiIics+okoM
-         ZDdw==
-X-Forwarded-Encrypted: i=1; AJvYcCVmnRCgZeaTGnWHcYej65FPH1yGpkdWQBdZM8CkWpm6NLexXSYsKrfpnnxmJ+QkZSGjOPSM6iHJFFTPxVbJUeFKkw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxgkvMJcRWjtpQKgW3RhIMrAylpS4odplq33y3tl7FaHCns5VHk
-	sL9DZCfhTnearqw7lyZWT0ZsEirXkqh9eAl9uIpQmGnPht4u10YNvuCQcga6c4sE
-X-Gm-Gg: ASbGncuAQ75iIaSGFpSnngLH7jFXOB3XG7qpVL65fG7z58PcFwo+V1v4GrlEqR0xcuS
-	V3dBQE9Iw/A1wJwdqH4IWCnCTuilV9RrVvkgtWRKCnd56jtG6ybew10VFuRNWNF+WbAzCGasEoH
-	9efGDX9E0i4KoI6sEHIhATz2/D3pqD4m4CJSHxpGr3Tgpf8KInZK9mEkO0o9tVra2Ci27PJ65G7
-	c7psMUmBgLx3/qIyP9droq/bp5RkEdcrH6GjnywBMHYGVG1yoJ3TwACzuh9lIJjXRgMPhLXz9Js
-	c10hcLZt+g91gzm53Fq7O5JxRP2/CNrVbDsugD3EIErxh8QamZO4kRdk9UqtpWsXQAM/CRdHugE
-	QEsUtYrKlNnDa9tRUhFROqspTrGwZZuqvtc7NjZTO3Bp14UC5QhMPfXB8wHmAem/H
-X-Google-Smtp-Source: AGHT+IHj/dvUTnONVcRB8f5EXR1dtVJXjaYo9e20kIjSgLeJlbYgpSiCuer+DP8GguI52gQkuCHryQ==
-X-Received: by 2002:a05:6102:4488:b0:521:f2f5:e444 with SMTP id ada2fe7eead31-5a5787b01b3mr620356137.17.1758610035525;
-        Mon, 22 Sep 2025 23:47:15 -0700 (PDT)
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com. [209.85.221.169])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8e3e5dc2f2fsm2470254241.7.2025.09.22.23.47.14
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Sep 2025 23:47:14 -0700 (PDT)
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-54a9482f832so2071971e0c.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Sep 2025 23:47:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVb+mGpG7rrn0kToWq7jq4Lajt6YBBiaAuybJTCbYsLzKy2REROhUIG4/iPPIrrLunGlCR+xXDgT1wqLXzlaHGcKA==@vger.kernel.org
-X-Received: by 2002:a05:6122:3122:b0:544:9313:8387 with SMTP id
- 71dfb90a1353d-54bcb245adamr531248e0c.15.1758610034331; Mon, 22 Sep 2025
- 23:47:14 -0700 (PDT)
+	s=arc-20240116; t=1758610584; c=relaxed/simple;
+	bh=Q1JgOVWrgfnpXgIZeXWfz4VzvMC4tAbZhSpeEIsa6UA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s6NCo1Pl3DZdM9EUpVB5fdTxCPU5BvBqbFQR6toFTkXHOEkVuFULACNTActBieVtA9WqarqKjcgK2rGRfPaXBffGOxhAHUoJQUr9YfCXsZ2CdPVP4I5tGOQs5EdDrAL5iYcOFEbZtTt6UEaksHlNvi6Nz7LZp4GvbDHudHEQC+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=baVXzgA3; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=Q1Jg
+	OVWrgfnpXgIZeXWfz4VzvMC4tAbZhSpeEIsa6UA=; b=baVXzgA3gNuJRgNUduCT
+	9YLAh8ao3jJ4T8cLsmn+INWGot11qAUosE9al7r+2vHxEHf1iIFaX7bt7SMgQiu8
+	Uuo/UA5AIq7jQItsKC97WWxNK5Om8tZHAY2eUTzaaKlev0kiKa2lePNUh1Fs09dE
+	njAyluDzD13VmPy4sxNUGZ/9wbjZK/p+k1wDFsL/iMJBwB7EoxAlosKYDrj47NMQ
+	N16pFj+DMCceGAUjTmo/YJ1ok65CfjxH+sSRD00UAf2hkc4hWQ1YG+OXe0dYC1hI
+	AIL5PkmSTXpLw2RT0AO+B4yj5cfnH5MufMOSNFfl6A4ESHTPULdp3eR5mk+C7Z9C
+	Og==
+Received: (qmail 1004437 invoked from network); 23 Sep 2025 08:56:18 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 Sep 2025 08:56:18 +0200
+X-UD-Smtp-Session: l3s3148p1@Rv/NbnI/LtggAwDPXwQHAL/S9V79e5yL
+Date: Tue, 23 Sep 2025 08:56:17 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>,
+	Hoan Tran <hoan@os.amperecomputing.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Saravana Kannan <saravanak@google.com>,
+	Serge Semin <fancer.lancer@gmail.com>,
+	Phil Edworthy <phil.edworthy@renesas.com>,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Pascal Eberhard <pascal.eberhard@se.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v4 4/8] irqchip/renesas-rza1: Use for_each_of_imap_item
+ iterator
+Message-ID: <aNJEkd9C2bDrowHP@shikoro>
+References: <20250922152640.154092-1-herve.codina@bootlin.com>
+ <20250922152640.154092-5-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250922185740.153759-1-marek.vasut+renesas@mailbox.org> <20250922185740.153759-3-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20250922185740.153759-3-marek.vasut+renesas@mailbox.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 23 Sep 2025 08:47:03 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUqzfGb0ehdXjdmbZfZ9XVoHMjL8y0hoJ-BYLEkLepP3w@mail.gmail.com>
-X-Gm-Features: AS18NWBbqJdzROVb-R_5LsREkzO-QMxyulkUW7pFQYzo2rYa7Cd6WwBB1tWZSMs
-Message-ID: <CAMuHMdUqzfGb0ehdXjdmbZfZ9XVoHMjL8y0hoJ-BYLEkLepP3w@mail.gmail.com>
-Subject: Re: [PATCH 2/9] drm/rcar-du: dsi: Deduplicate mipi_dsi_pixel_format_to_bpp()
- usage
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Magnus Damm <magnus.damm@gmail.com>, 
-	Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="TIDIkyJ3Gg25L3Jq"
+Content-Disposition: inline
+In-Reply-To: <20250922152640.154092-5-herve.codina@bootlin.com>
 
-Hi Marek,
 
-On Mon, 22 Sept 2025 at 20:58, Marek Vasut
-<marek.vasut+renesas@mailbox.org> wrote:
-> Call mipi_dsi_pixel_format_to_bpp() once in rcar_mipi_dsi_set_display_timing()
-> and store the value into a variable. This slightly simplifies the code.
->
-> No functional change.
->
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+--TIDIkyJ3Gg25L3Jq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for your patch!
+On Mon, Sep 22, 2025 at 05:26:35PM +0200, Herve Codina (Schneider Electric)=
+ wrote:
+> The renesas-rza1 driver parses the interrupt-map property. It does it
+> using open code.
+>=20
+> Recently for_each_of_imap_item iterator has been introduce to help
+> drivers in this parsing.
+>=20
+> Convert the renesas-rza1 driver to use the for_each_of_imap_item
+> iterator instead of open code.
+>=20
+> Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@bootlin.co=
+m>
 
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> @@ -449,6 +449,7 @@ static void rcar_mipi_dsi_parameters_calc(struct rcar_mipi_dsi *dsi,
->  static void rcar_mipi_dsi_set_display_timing(struct rcar_mipi_dsi *dsi,
->                                              const struct drm_display_mode *mode)
->  {
-> +       const int dsibpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
->         u32 setr;
->         u32 vprmset0r;
->         u32 vprmset1r;
-> @@ -457,11 +458,11 @@ static void rcar_mipi_dsi_set_display_timing(struct rcar_mipi_dsi *dsi,
->         u32 vprmset4r;
->
->         /* Configuration for Pixel Stream and Packet Header */
-> -       if (mipi_dsi_pixel_format_to_bpp(dsi->format) == 24)
-> +       if (dsibpp == 24)
->                 rcar_mipi_dsi_write(dsi, TXVMPSPHSETR, TXVMPSPHSETR_DT_RGB24);
-> -       else if (mipi_dsi_pixel_format_to_bpp(dsi->format) == 18)
-> +       else if (dsibpp == 18)
->                 rcar_mipi_dsi_write(dsi, TXVMPSPHSETR, TXVMPSPHSETR_DT_RGB18);
-> -       else if (mipi_dsi_pixel_format_to_bpp(dsi->format) == 16)
-> +       else if (dsibpp == 16)
+SW6 on my Genmai board still delivers irqs via rza1-irqc, so:
 
-What about using the switch() statement instead?
+Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
->                 rcar_mipi_dsi_write(dsi, TXVMPSPHSETR, TXVMPSPHSETR_DT_RGB16);
->         else {
->                 dev_warn(dsi->dev, "unsupported format");
 
-The current code even has a default case ;-)
+--TIDIkyJ3Gg25L3Jq
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Gr{oetje,eeting}s,
+-----BEGIN PGP SIGNATURE-----
 
-                        Geert
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjSRI0ACgkQFA3kzBSg
+KbY/FxAAlVLFGL6AfVEsCD/oIUfVYSIxAjWEEjVSx/Le5JffJO2Ft1SgnZ9rH8ji
+J1cpy3LuqstvKKD3u/BqrCMZRGjP/l+7iw6g/OSdetuKHf/VpDHpO47xD2LAZzBV
+Y0t0YvhLDN7phe1AfpkL3fVEbLRFX5/h+AcyP9mDReCJqwzV3cs7TDkbfMwbM1L9
++nQ5/4zodr/wkG/jdoMTCR9Acw6rCTFExxy1ay2GbyOponId39hkBneZYpTS/QTZ
+61b5ISD7aoEKu2CU4m32xOdNyep0bWjzgGlnSKl3KXpbKnpxSLvjbUTgBG/LTgXp
+gaBN0qNtqzh47Uzhy1pNjjC9mT/PTkbMg/wHp6bSBV7uMwgvodtT5JXaiGalWKhg
+SRGkvwUEOzRyVcF+07lBd23dP7QCMwkRc6vcI9VwlDQohnGQckIi+/9m2TnKzRtN
+H/TGXeC8oqQYgEgi3JuVY280LOfV0wOnGVe0by48mji6njHcc8PafrkFxExU3JFW
+Yexm+lUlqcVH6CzrGAJItO0aiUEZdeWjCGERIdPaU07M8LXIDbrLfqJkdVQdVief
+NglHPzKbAtsMzRKCXzUZUcVgW2pD06BhBtBOY8vGBroGGQr6NcZCd+B6PpYhHuaX
+DXDsLGKaG5modPfTEoUDF0i0M17lYLe5Cis6icEVXXMK/7EpVG0=
+=YWOY
+-----END PGP SIGNATURE-----
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--TIDIkyJ3Gg25L3Jq--
 
