@@ -1,109 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-22201-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22202-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0007B952C4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 11:11:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33169B953FD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 11:29:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 051731884E1A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 09:12:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 228FC18A6A9E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 09:29:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 911573203B6;
-	Tue, 23 Sep 2025 09:11:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CC3C3203AE;
+	Tue, 23 Sep 2025 09:29:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="LcHkazmE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZmaCJJWK"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A55223128D1
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Sep 2025 09:11:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57EB93203AA
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Sep 2025 09:29:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758618705; cv=none; b=gS/ztZPHFXTeuDHSh4omniflbsp/VxbT4liumAfkikwV/gXen6JpJIUZ1FkTZxYnVOkk1VEV+nyYvPjgkvz+GA5pS2RdwrSOo/tZQnu9FmOBcVvt1a/BGv/Lcl65zlxfEHlwj6saEmbV5FMaOB576+kUphAqGZUMYrw9yz4celE=
+	t=1758619742; cv=none; b=jinecUSANKiWQ/IZ4nwsKN+bU6xYdjIRaY/dr4s/MuHZNo9qUFP8xzlJ6Dxt+L5vz1jceYyiimd2+drrEcYxTz/aT76RKwuqx+5hImcqmduIAig7jU88zFNTFzY5tahWWt4+7NXI8od2wVYelYFoJbPlQHtpoo1gd9AdoPVW5Nw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758618705; c=relaxed/simple;
-	bh=uerxYf+eEfT50V5pG5VQr7FO3btKNXnczyNq3yxqmQQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XSdAnn16NgL9kLi3p4llSBdbZmHyn0kT4Ga0MNb/mLXjhz5V6cfnll5nhdp996DHNM9+ga3trjyUBZ+QBd6D90QSelVY3JkL1VhSswi9pdOynlnnReZ3uV7+FtWjrGjE1FwETPjqnltZhtCkutkFS71YmEKd+Iu5qqD7Fn2GBbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=LcHkazmE; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4cWDkM6r9Yz9tcL;
-	Tue, 23 Sep 2025 11:11:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1758618700;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wORAbE+fa3VQa1/NpkSIjaheDrhD2YrnQjGxBf0E86Y=;
-	b=LcHkazmEKu/juvjliE8SiysSiob7L928/BkYRTwmYAKlwMQsr+II46XDltoTcpR/YJbA3K
-	ptVr2l42L1P0uxZ4sOgqoYGJOYSpp2ZFwJqrb2yWSVpc6iKhIVQRfCJJXTGMQbvGTmVhND
-	n2D4GXm52gKkF+GWyVFU9jXx3wJQrtZNkZQNRlq0t6zeI4eSMRH//H8ZiwLP5ST65m/nQN
-	Y/lBIRz3A+P9kdgYtlgq5NsvXyMLz2jJgI+pDxHPF+NuqtPYfuVDCaHraIyl1g5a/7gVXO
-	nXWMIN0i0nlxDN/CgU/pTR8ApwdoUBgs4rcRH1Y/fUXZUOKaa8DyB+W2TrfNvQ==
-Message-ID: <856fe0f1-3bf3-4ad2-9e62-a8b1d7dc7eee@mailbox.org>
-Date: Tue, 23 Sep 2025 11:11:36 +0200
+	s=arc-20240116; t=1758619742; c=relaxed/simple;
+	bh=NBEQffd2H9uKpV++ZtU70NTiqjKCKVw4AAQiI8qHzlE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bBW++3PMK51m8Qqp4NBNnQsbJjftT1CFGgnVl8VwSBjk9UtopR4oCNCNRMMa0j3GXh6ynZNWa3krPpIRAkGkWMBMjkqA1qbHHYJkR5fSZZKKQNOFr8J5WdPm8KXwziynEV1tXsWrHeA/GzQqMzglC0ELmubjQmn0AvJ1rbssAP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZmaCJJWK; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3ee64bc6b85so3865175f8f.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Sep 2025 02:29:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758619739; x=1759224539; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xbyITinY33OhIKJ5MBGUt4odwalHEaw3IqQgPt6HVIQ=;
+        b=ZmaCJJWKfyfPNMshhyqKIxZU6tW/9Q5gaOCKLbnTnxl5inQ7tBFJNshsHUeBdeb+f1
+         i+kwQWyo8cQphIhkeEWRNoyfSGczckqNdUcHcufyOQGOiOmsqVPVGHrethYMCbmTD7Rf
+         sX/PyhLipS5Zld5DywQ/w7d4VGz165Z7/k4eHzucq8bM0LTPx5eWmMx1SE8C4cSE+94k
+         nFNJlcwWh0VSESW2xcg2Ldz8PjdfrzUJV3xVXd3t/QcBlKAXSSTS8GvUFna8o24943C4
+         vfz+1so0SxWBOAIHL4SSPEu/CETD3PVZ1HqNAPkCBs/SawJDd8F5k7XP483uzHwn5PKo
+         LxVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758619739; x=1759224539;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xbyITinY33OhIKJ5MBGUt4odwalHEaw3IqQgPt6HVIQ=;
+        b=nbkxq5a90RKLjYiP/FvaUBR5xOGcDGfQ0hsr3jCFL+/ksm3akHk/qnyDjNgHtcpmc/
+         A7Q6ZEqYOeYzD0JI22mAE4atJH+fBe0MjCIZJ0dOMBrS9rA7256hv5V4+LWmcR3gIbWZ
+         +lbAFd5bGQ7sWpoCgHdIS53vKSs/uxVBx3B2MOFK8syLWhghbvEA5hiTMSbIFzvqflI/
+         rbLv8x6d3HoHLB2I0LatEutBcotu3+bDdeMiJVowXmw06U5LXVZB7/YxWeIsB5Q6hxzD
+         aIzNvLWxRqEv9k3mOTFaa0N4f3ts+19/JRij0NOLXRwv39Yb9AO5UwycS2z//IBNHeuI
+         jtLA==
+X-Forwarded-Encrypted: i=1; AJvYcCXKAgVnRdDKsMi8FzeIkl1p/ua19oHH8Cj8kl1lDe/W9bl1ed2xvTOZpFcHc3Pg1z6/Z5hCRQ1dOP7wAUU728Na1w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+oyTLw2wj7GfEzGg0+7LEScSo3h4ENGwee5UOqo4z149KAn0a
+	YRt9jaLe3Eo25Jvo8i85SwrWPRUZXFyp1A5ht47rbGhsFHBtHlkf/0r/
+X-Gm-Gg: ASbGncuIF76i4KaMFZWIYei6gWYFAGMXT+VeCXRsMf4bIbermxCTqwAorsHmxn5nOFM
+	VVYewLu2eupZ1Y/WPvtKojzW0TjcqUlrKWcukAUETrc6B/F4lMAdhXC18baWLpFRMMV6TOikHB4
+	+MGDmV0rUxOqR+R5AqdiD0R+FtREagDNRtioPjreIMZTmxwRuw4EV4D1OO5k9llFotYHZOlicoN
+	U2HWdCl3NdxokDy7rSutew7N+EFo8qtCvX9eWdm1kmmXc3+VN+M/yv2SguWMZyndPeVi4+43dYE
+	EODOuBVvNoOU8SCTvbR9slDB3PVqvJadqR2DW1CywfmXQknxIKy/ZF80/2DPpvt8ThSuZXhXaXV
+	ry/xX9P95/hCZqbhoHkja8E9HTMYA8ONuvQ8VPklNrM60khw=
+X-Google-Smtp-Source: AGHT+IF7z73d2VuvQnNwt++NqM3EoWvKvnBFDLgcn+C2wjtH1EryvG8YXOQEMCGihX4URtIuIPau1Q==
+X-Received: by 2002:a05:6000:2f87:b0:3eb:7f7d:aefb with SMTP id ffacd0b85a97d-405ccbd73damr1680845f8f.53.1758619738435;
+        Tue, 23 Sep 2025 02:28:58 -0700 (PDT)
+Received: from iku.Home ([2a06:5906:61b:2d00:a5d1:59f5:ca88:d11c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-461391232e7sm271956435e9.6.2025.09.23.02.28.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Sep 2025 02:28:57 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] serial: sh-sci: Add missing header guard
+Date: Tue, 23 Sep 2025 10:28:46 +0100
+Message-ID: <20250923092846.74517-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 4/9] drm/rcar-du: dsi: Clean up CLOCKSET1 CLKINSEL macros
-To: Biju Das <biju.das.jz@bp.renesas.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Cc: David Airlie <airlied@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- "magnus.damm" <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-References: <20250922185740.153759-1-marek.vasut+renesas@mailbox.org>
- <20250922185740.153759-5-marek.vasut+renesas@mailbox.org>
- <TY3PR01MB11346FE123074366946A24C26861DA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <ce2b5734-4a5c-4d63-be62-fc4c4cf7cfea@mailbox.org>
- <TY3PR01MB1134662359F7FADC6919AE0B8861DA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <TY3PR01MB1134662359F7FADC6919AE0B8861DA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 21ace9840633f30e14d
-X-MBO-RS-META: g798ejwgtpi3rm9pecnybkhiju5quqzc
+Content-Transfer-Encoding: 8bit
 
-On 9/23/25 11:04 AM, Biju Das wrote:
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hello Biju,
+Add header guard to sh-sci.h to prevent multiple inclusions of the
+header file.
 
->>>> -#define CLOCKSET1_CLKINSEL_EXTAL	(0 << 2)
->>>
->>> 0
->>>> -#define CLOCKSET1_CLKINSEL_DIG		(1 << 2)
->>> 4
->>>> -#define CLOCKSET1_CLKINSEL_DU		(1 << 3)
->>> 8
->>>> +#define CLOCKSET1_CLKINSEL_MASK		(3 << 2)
->>>> +#define CLOCKSET1_CLKINSEL_EXTAL	0
->>>> +#define CLOCKSET1_CLKINSEL_DIG		1
->>>> +#define CLOCKSET1_CLKINSEL_DU		2
->>>
->>>
->>> Looks like this patch breaks existing functionality,
->>
->> There are no users of this bitfield, hence no updates to the DSI driver.
->> (see commit message). Therefore there is no breakage.
-> 
-> Can we remove it, if there are no users? Or you still prefer to keep it.
-The header does contain a complete list of bitfields, that's why I kept it.
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ drivers/tty/serial/sh-sci.h | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/tty/serial/sh-sci.h b/drivers/tty/serial/sh-sci.h
+index 951681aba586..22f877e2a17e 100644
+--- a/drivers/tty/serial/sh-sci.h
++++ b/drivers/tty/serial/sh-sci.h
+@@ -1,4 +1,7 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
++#ifndef __SH_SCI_H__
++#define __SH_SCI_H__
++
+ #include <linux/bitops.h>
+ #include <linux/serial_core.h>
+ #include <linux/io.h>
+@@ -176,3 +179,5 @@ enum {
+ 	(((port)->type == PORT_SCI) ? SCI_TDxE_CLEAR : SCIF_TDxE_CLEAR)
+ #define SCxSR_BREAK_CLEAR(port) \
+ 	(((port)->type == PORT_SCI) ? SCI_BREAK_CLEAR : SCIF_BREAK_CLEAR)
++
++#endif /* __SH_SCI_H__ */
+-- 
+2.51.0
+
 
