@@ -1,67 +1,59 @@
-Return-Path: <linux-renesas-soc+bounces-22241-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22242-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB6ABB97381
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 20:41:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7714B974F5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 21:14:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D5A4619C3AC3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 18:42:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AA55C16D943
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 19:14:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 746E0301716;
-	Tue, 23 Sep 2025 18:41:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B14F303A07;
+	Tue, 23 Sep 2025 19:14:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G6JrtzTQ"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ONh4mnwL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ABF01D5146;
-	Tue, 23 Sep 2025 18:41:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEFF71FF1B4
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Sep 2025 19:14:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758652909; cv=none; b=ZPQ5XAl7cyvE2Tf2KMiuTAD3mA8OA+u+98n8KGWzF1W9HrAxVhoUlpDeVA5Mquk+wytitJkS0eShS/g+NyXjmJdPqmhG4D0AcSPXqA7ehlNfexpHlWgaffb/wZE51D01Vuir7KiB5tAwtj9/eL+xnA70V2HK9JeBjnxEFWxmU40=
+	t=1758654867; cv=none; b=WLCW6+FHpC7FALG/wrJ873+64h49AF/fNt0zD10AW912u8oUZ5K4GJKqcjC3Bz3yhhUg2ZneyZn7iu9UAC+KTyZVuZz71XbF/opuVmP5vPjVYM2L1/uuStODOdYxiC8IFoLOdFuyewvYQZGv4u+ZsH+9Gab6OIqCAa+xtc3eB2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758652909; c=relaxed/simple;
-	bh=Hqf061t5q3203ZdM7uYVB+F7fFOGaBDfx66exBR4K0s=;
+	s=arc-20240116; t=1758654867; c=relaxed/simple;
+	bh=jJ9cN/DYo2vq0Mrw3OGwNIh02VJj1UV39hWhXZ3qfo8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j1WZjL8pP+2yQh+Mas6xbhFUIfQTdqDZF0uEg6uWiizJJbw6RAsZ31G3iONPiTG+BJ9sROYRVzb361LgRDXIfmeFY99EUQljtFZnncaNVYo7YCXvg+vOhdn0xF/xBP7vw7BWdAWlsLvUq/irDdIoSfTgwhKIt92TH+Yy2UgfjcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G6JrtzTQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6411CC4CEF5;
-	Tue, 23 Sep 2025 18:41:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758652908;
-	bh=Hqf061t5q3203ZdM7uYVB+F7fFOGaBDfx66exBR4K0s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=G6JrtzTQVih7eArFHAGyZs4M5mx2MrXR5R16/+9YAZN0lanJLRiIBgfF9amqMKcyX
-	 mErGsMH58oaGKDSXYgvK6EYW0qbDHvh8aIDCQUXjEKzUCs/2mUKpPdQDfvzuxei4Hf
-	 TPMpX5k9GWeZU/4oITxSA1T4dNmYlHka8hTH0t36sgIA7KgYYg+YfuP15DaL0vl/lT
-	 oz35QRnFMyMWjRObhQnCyaLvFUcnTXIQF8LM78o+Jbm02But8OWReBSn7Gt27PbXcn
-	 9uYUanpp++gU4FUL0oPskzdAZhoVs7ShWvp8igxDcFSp++Cuaud1SI22mln7qtOYQZ
-	 KlXIxgjen5/zg==
-Date: Tue, 23 Sep 2025 19:41:43 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-clk@vger.kernel.org
-Subject: Re: [PATCH 2/7] dt-bindings: iio: adc: document RZ/T2H and RZ/N2H ADC
-Message-ID: <20250923-walmart-shale-359fb66133f8@spud>
-References: <20250923160524.1096720-1-cosmin-gabriel.tanislav.xa@renesas.com>
- <20250923160524.1096720-3-cosmin-gabriel.tanislav.xa@renesas.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=nGFO8C9L3CJ798Ly+L4lkNwom2Xq/GkzyGV7ifIYM/Z4jj0NyQPpq52GmX3ruuQT0J5FcBfq7Q100vduQpOpy9kjDo7Gol/aoEWBnSyEbb3HDF9NE7ojkuj3hyuBKxfdbX0mtW7KU21+e5xWg9xeFT7NxlIHMPdvNY4rUjU7cH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ONh4mnwL; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=jJ9c
+	N/DYo2vq0Mrw3OGwNIh02VJj1UV39hWhXZ3qfo8=; b=ONh4mnwLtQjjme5jBfjj
+	/V97gDh495tc0pCNXdvUH530j/BFt9+imSrij29NxltvgTXJQUokojbeS8xVJ1t3
+	uGSzs0JUNvA5CkGpmEcepLereVkHdGejyD2CHYVERlpJ/yDQ0YvxEe0iWda05Uqx
+	xBkG1mlzB/PMxpK7N3/Qiybx3Su/a0I99mgrQlyuXIeDExU7XJgmRSpHYyelym2E
+	oHGQSyJSMjEWwkjYKFFXZyyXKxR6FUZHbD3/UdCGHSvsp8PS14EVsV31KXIf7M5P
+	amJttrK2XQTQYaS2KESpN3p/BYddhvFmPpUuesvrpn02u/kaeZDCjMP1tmFvtxuO
+	XA==
+Received: (qmail 1217279 invoked from network); 23 Sep 2025 21:14:22 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 Sep 2025 21:14:22 +0200
+X-UD-Smtp-Session: l3s3148p1@8JJevnw/Uqsujnsp
+Date: Tue, 23 Sep 2025 21:14:22 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: chris.brandt@renesas.com, andi.shyti@kernel.org, wsa@kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH] i2c: riic: Allow setting frequencies lower than 50KHz
+Message-ID: <aNLxjmOj5Vy26BpE@shikoro>
+References: <20250923141826.3765925-1-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -69,260 +61,49 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="aJDuWnn7O/3Zbilf"
+	protocol="application/pgp-signature"; boundary="hkrmgQDHtEnJrbgn"
 Content-Disposition: inline
-In-Reply-To: <20250923160524.1096720-3-cosmin-gabriel.tanislav.xa@renesas.com>
+In-Reply-To: <20250923141826.3765925-1-claudiu.beznea.uj@bp.renesas.com>
 
 
---aJDuWnn7O/3Zbilf
+--hkrmgQDHtEnJrbgn
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 23, 2025 at 07:05:16PM +0300, Cosmin Tanislav wrote:
-> Document the A/D 12-Bit successive approximation converters found in the
-> Renesas RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs.
+On Tue, Sep 23, 2025 at 05:18:26PM +0300, Claudiu wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >=20
-> RZ/T2H has two ADCs with 4 channels and one with 6.
-> RZ/N2H has two ADCs with 4 channels and one with 15.
+> The MR1.CKS field is 3 bits wide and all the possible values (from 0 to
+> 7) are valid. This is true for all the SoCs currently integrated in
+> upstream Linux. Take into account CKS=3D7 which allows setting bus
+> frequencies lower than 50KHz. This may be useful at least for debugging.
 >=20
-> Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-> ---
->  .../iio/adc/renesas,r9a09g077-adc.yaml        | 170 ++++++++++++++++++
->  MAINTAINERS                                   |   7 +
->  2 files changed, 177 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/iio/adc/renesas,r9a=
-09g077-adc.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/iio/adc/renesas,r9a09g077-=
-adc.yaml b/Documentation/devicetree/bindings/iio/adc/renesas,r9a09g077-adc.=
-yaml
-> new file mode 100644
-> index 000000000000..840108cd317e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/iio/adc/renesas,r9a09g077-adc.yaml
-> @@ -0,0 +1,170 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas RZ/T2H / RZ/N2H ADC12
-> +
-> +maintainers:
-> +  - Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-> +
-> +description: |
-> +  A/D Converter block is a successive approximation analog-to-digital co=
-nverter
-> +  with a 12-bit accuracy. Up to 15 analog input channels can be selected.
-> +  Conversions can be performed in single or continuous mode. Result of t=
-he ADC
-> +  is stored in a 16-bit data register corresponding to each channel.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - renesas,r9a09g077-adc # RZ/T2H
-> +      - renesas,r9a09g087-adc # RZ/N2H
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    items:
-> +      - description: A/D scan end interrupt
-> +      - description: A/D scan end interrupt for Group B
-> +      - description: A/D scan end interrupt for Group C
-> +      - description: Window A compare match
-> +      - description: Window B compare match
-> +      - description: Compare match
-> +      - description: Compare mismatch
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: adi
-> +      - const: gbadi
-> +      - const: gcadi
-> +      - const: cmpai
-> +      - const: cmpbi
-> +      - const: wcmpm
-> +      - const: wcmpum
-> +
-> +  clocks:
-> +    items:
-> +      - description: converter clock
-> +      - description: peripheral clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: adclk
-> +      - const: pclk
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  renesas,max-channels:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: |
-> +      Maximum number of channels supported by the ADC.
-> +      RZ/T2H has two ADCs with 4 channels and one with 6 channels.
-> +      RZ/N2H has two ADCs with 4 channels and one with 15 channels.
+> Fixes: d982d6651419 ("i2c: riic: remove clock and frequency restrictions")
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-What is the point of this? Why do you need to know how many channels
-there can be in the driver, isn't it enough to just figure out how many
-child nodes you have?
+Applied to for-current, thanks!
 
-> +
-> +  '#address-cells':
-> +    const: 1
-> +
-> +  '#size-cells':
-> +    const: 0
-> +
-> +  "#io-channel-cells":
-> +    const: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - power-domains
-> +  - renesas,max-channels
 
-This should be after patternProperties.
-
-> +
-> +patternProperties:
-> +  "^channel@[0-9a-e]$":
-> +    $ref: adc.yaml
-> +    type: object
-> +    description: The external channels which are connected to the ADC.
-> +
-> +    properties:
-> +      reg:
-> +        description: The channel number.
-> +        maximum: 14
-> +
-> +    required:
-> +      - reg
-> +
-
-> +    additionalProperties: false
-
-You don't include any properties other than reg from adc.yaml, and using
-additionalProperties: false blocks their use. Is that intentional or
-should this be unevaluatedProperties: false?
-
-Cheers,
-Conor.
-
-> +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: renesas,r9a09g077-adc
-> +    then:
-> +      properties:
-> +        renesas,max-channels:
-> +          enum: [4, 6]
-> +
-> +      patternProperties:
-> +        "^channel@[6-9a-e]$": false
-> +        "^channel@[0-5]$":
-> +          properties:
-> +            reg:
-> +              maximum: 5
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - renesas,r9a09g087-adc
-> +    then:
-> +      properties:
-> +        renesas,max-channels:
-> +          enum: [4, 15]
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    adc@80008000 {
-> +      compatible =3D "renesas,r9a09g077-adc";
-> +      reg =3D <0x80008000 0x400>;
-> +      interrupts =3D <GIC_SPI 708 IRQ_TYPE_EDGE_RISING>,
-> +                   <GIC_SPI 709 IRQ_TYPE_EDGE_RISING>,
-> +                   <GIC_SPI 710 IRQ_TYPE_EDGE_RISING>,
-> +                   <GIC_SPI 711 IRQ_TYPE_LEVEL_HIGH>,
-> +                   <GIC_SPI 712 IRQ_TYPE_LEVEL_HIGH>,
-> +                   <GIC_SPI 855 IRQ_TYPE_EDGE_RISING>,
-> +                   <GIC_SPI 856 IRQ_TYPE_EDGE_RISING>;
-> +      interrupt-names =3D "adi", "gbadi", "gcadi",
-> +                        "cmpai", "cmpbi", "wcmpm", "wcmpum";
-> +      clocks =3D <&cpg CPG_CORE R9A09G077_CLK_PCLKL>,
-> +               <&cpg CPG_MOD 225>;
-> +      clock-names =3D "adclk", "pclk";
-> +      power-domains =3D <&cpg>;
-> +      #address-cells =3D <1>;
-> +      #size-cells =3D <0>;
-> +      #io-channel-cells =3D <1>;
-> +      renesas,max-channels =3D <6>;
-> +
-> +      channel@0 {
-> +        reg =3D <0x0>;
-> +      };
-> +      channel@1 {
-> +        reg =3D <0x1>;
-> +      };
-> +      channel@2 {
-> +        reg =3D <0x2>;
-> +      };
-> +      channel@3 {
-> +        reg =3D <0x3>;
-> +      };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 9f4b48801879..07e0d37cf468 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -21822,6 +21822,13 @@ S:	Supported
->  F:	Documentation/devicetree/bindings/timer/renesas,rz-mtu3.yaml
->  F:	drivers/counter/rz-mtu3-cnt.c
-> =20
-> +RENESAS RZ/T2H / RZ/N2H A/D DRIVER
-> +M:	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-> +L:	linux-iio@vger.kernel.org
-> +L:	linux-renesas-soc@vger.kernel.org
-> +S:	Supported
-> +F:	Documentation/devicetree/bindings/iio/adc/renesas,r9a09g077-adc.yaml
-> +
->  RENESAS RTCA-3 RTC DRIVER
->  M:	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->  L:	linux-rtc@vger.kernel.org
-> --=20
-> 2.51.0
->=20
-
---aJDuWnn7O/3Zbilf
+--hkrmgQDHtEnJrbgn
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaNLp5gAKCRB4tDGHoIJi
-0gF8AP0e9IPpkmVVbAYL2Uh5rbwusvJrXFkZkKEhbkNv1YjSJAEA97RhG7uRUc9W
-WWGY5cG6DcxCQkUGOfidMcOgEgHLhgc=
-=iUBj
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjS8Y4ACgkQFA3kzBSg
+Kba9nw/6Ah5MqRiLYqFos9kaw02e/QAN/iTO9X9TSSX1uzG4KoFseArQM0Nk05Qy
+vwCKmv66MquakRFcmlZX70evqxehap1ciJPB5CkrmFpA3g+HKIkGSfZcXNttX0Dx
+hhbx1ZQXnwi6eK3t370bCT27aGJcA4SyVVZJXteDh7urbQQ1/S3CdQTfCDrn37Yi
+u1wdLly4F5sZY+PYYfDv0+mNHlELQxhdiC43vYnGadgunIzFOGfZ3DVSF3iOwKMv
+XYRzaviM2A5q/5i3+CnjlLUKONe8QtjZgfHlfZl89TdTUFsgTvM2Qm6sgAGclU9l
+fcmFBlSG1MquQThuufQwhncBeDUfxqo3rAHd/otSeUcGSxrhnHLLdP9cH+Qrd+i5
+cC8BDW1JopxSDRPq1ofiQiGV9L5qn5uu0ctCM34xbFy3q4khuDMccAPUnWcLIcMm
+1Mq1wrDfAkF1zSYWybKOGxIbbA3NZCGJBwsx+PV8BfZSFB9aNf+0ssLTzQnyGGdt
+ytqtHnp8IOYWSXJbXN1B26llgSztecaZRnAmIO7gjMfVNTR4MY+yzPeoLBYvXOi8
+Uh3ShU9O/vxisQrn0YTWmJSQkrNmPaOygReZpQOegFtYik0kotrkvuhXs2/V+AGS
+2DBKr0kMtL0658bbPeVTbzx302DiLM9/eWVocrw3vSZ+e7kRI+E=
+=iUJO
 -----END PGP SIGNATURE-----
 
---aJDuWnn7O/3Zbilf--
+--hkrmgQDHtEnJrbgn--
 
