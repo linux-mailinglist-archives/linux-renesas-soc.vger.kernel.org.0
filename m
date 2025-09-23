@@ -1,205 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-22247-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22248-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98F61B97C6F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 01:07:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA95DB97CF4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 01:42:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 301F03A1C6E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 23:07:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 94D894C38C4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 23:42:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E42433101DF;
-	Tue, 23 Sep 2025 23:07:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C097130C0FD;
+	Tue, 23 Sep 2025 23:42:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hghqotyn"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="k1oUZo7v";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="OianGu9j"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD46730FF3A;
-	Tue, 23 Sep 2025 23:07:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D04A017A5BE;
+	Tue, 23 Sep 2025 23:42:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758668833; cv=none; b=cnXV+tCFbk1eVYrnlaXr6puiv6KtxJI7lVawE0WW2H4HmcJpAqaqnOze2fHqj6YIdtygLxOqZLJgXzSMZnJ7UCOsN5oaKqr3TOY78p4CL13e+dYSvlocR66Daza5I7EE0wE4DSSJTvhb3iV1d8vFOWr/jcxkcaT4CCYC/wZBfLs=
+	t=1758670958; cv=none; b=q/TcolVzlqa/a8fN6KpotChfSqBw27mMKBJlFdBAL+9RIc0gGZy/t3G4sMr5Gk1t/IAG8hIrZh8yLoCA3H/Bekmk/db98iB1QeDanoz3GvFk4XvwMnUBep+RrsSM9obkrFDsUUDFf5nPW3jSaJCkuC7SGSNCX/qFxlr8uZ0w/0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758668833; c=relaxed/simple;
-	bh=myebbJEIelj6OaJbcBR6uxOg/2sE9Y7fBusonNz4fbU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mlaiyhNG0xMrZMtnr26qk5vGz9myy91JwLZH5aNFornpWtoXanMDPfNkxwTrm1pff0uxYnWVm/+1605RCrusyqfGeFeB6BbzC3j7XXjO1MFaW87+XG4JrRLIUbwLEHS4umY8iYwX9Qz/rATvDJJb39IzQ/ZzAxA6u6tv5KKg2IA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hghqotyn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBE36C113CF;
-	Tue, 23 Sep 2025 23:07:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758668833;
-	bh=myebbJEIelj6OaJbcBR6uxOg/2sE9Y7fBusonNz4fbU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HghqotynkHbRWS3JVhE5mbF5L7n8U8MzlD8w7dZ/rwbNd3mL/QE/hnHV9Eh8fhsbq
-	 5Me2eIVHvj3BTjyC1j/NEPlUVrl/rh5c7BDMcCXqOk3kkTKlIBshjZcoYjfohK3sDl
-	 ir+jDd+VSc7cXxaovhYy+haSO0h6lI9SBydPy4Zy+Qyl5Vf8OqpANSqn+jN9KGTIqV
-	 3yr92JwMt+hZcpI5G90qjHZ+DPEBnNyvkfSYTALVr1W4VdgXE8EbMfSSq17etDCsxn
-	 2HFKBNfPEfK5JBQTjBeVLD/veWVuiKPDdxaDIaMOM+gaOwzDmsPBTxvzoaAxB0XS54
-	 LMVGPceu04opg==
-Date: Wed, 24 Sep 2025 00:07:07 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Cosmin-Gabriel Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	"magnus.damm" <magnus.damm@gmail.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	"linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>
-Subject: Re: [PATCH 2/7] dt-bindings: iio: adc: document RZ/T2H and RZ/N2H ADC
-Message-ID: <20250924-playable-catfight-3757178ada02@spud>
-References: <20250923160524.1096720-1-cosmin-gabriel.tanislav.xa@renesas.com>
- <20250923160524.1096720-3-cosmin-gabriel.tanislav.xa@renesas.com>
- <20250923-walmart-shale-359fb66133f8@spud>
- <TYWPR01MB88052B9ACC279F3C00AEAC21851DA@TYWPR01MB8805.jpnprd01.prod.outlook.com>
+	s=arc-20240116; t=1758670958; c=relaxed/simple;
+	bh=zQbD8DNnhInHmxj6cJ/kQbwd1SEYY4Ub6EuQKSRTR9w=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=BjTYwLL77G+asE6pTL8GxvhLlI0gqf4nW/dDndIj+3E767vAR+MvCoWF/0GMn0jJskh0FO7qKAWZQOWV1D60epb0IZ8S9IClAayq8I8eciLiLWQnydA95GNCDMg7dmCt4GeufTU/SCCTKid3kqLA0P91AOwCCEcy7pgFUCtf9qA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=k1oUZo7v; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=OianGu9j; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4cWc391br4z9smg;
+	Wed, 24 Sep 2025 01:42:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1758670949;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v0tO2Xj2ANtxwUz+K9Ts0AqWNrmWxz9Ns88vd8fr+ts=;
+	b=k1oUZo7vwaAYqHE2CEIx3dVHc4tk0T6oYNWU7yIYgdQz1zpAVwpck/PuRylQiamWRSEPd2
+	xxmRf/QU/tFBANWR2qOCEw66GKIuKbimsi04I+pgbh2BhmjCua+wsIe7etD4owl5keueJE
+	Rk2ZtTW0UinZ+3itlURW9GtKO3WBFAOaXekl9tJaT1YBM+izDu8hIYkrkIXsbUaCoU8X/4
+	3ySpkGBiM59Nlg7fw3B8elyHPMkRTYTps6bvFjvRVRAcGS7Pbx0LZ9CM4JTJ1OVQu6FJCo
+	3RygT9bAaneSr7UR6xPEAZ4epgaUysD7QrYa6x6c73wvIpAAvfr9sFaOAmt/IQ==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=OianGu9j;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=marek.vasut@mailbox.org
+Message-ID: <c1da4b74-0fd0-437a-88da-c31c681b6c5d@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1758670947;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v0tO2Xj2ANtxwUz+K9Ts0AqWNrmWxz9Ns88vd8fr+ts=;
+	b=OianGu9jHaLhKjjXNf1fTjhbivWz7aNm/Y6mKQBB/7V3CswSDOAHWxrzpEkU2h0Id//Sk7
+	17t6eboiPbGpQ2yfwf01wy0E9/gLD4qmg4lV1pqFrV+bP3LshOWUKbT7E53GYPVUdCPBIp
+	U01Mau4bxeKZIQOd2S5+QoeuukRsTu60F6vNKQV64vlt0lZ9vtPWN/j8hF2W8OumyyCFwf
+	yrIF9TV3r06qpbo9wqGsRtdIgX7vbMRIxRw/JcmL1jbDcZiiiiTi+BbZ6c+Ace6cq9RYum
+	Fom7IQPEq6J1rrLWzVhgqHjFWL8VtJgEb1pVncP/Hrarhn/b5zcq0fnIsKu6cg==
+Date: Wed, 24 Sep 2025 01:42:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="OsOWBbkfV+LccHUK"
-Content-Disposition: inline
-In-Reply-To: <TYWPR01MB88052B9ACC279F3C00AEAC21851DA@TYWPR01MB8805.jpnprd01.prod.outlook.com>
+Subject: Re: [PATCH] PCI: rcar-host: Add static assertion to check
+ !PCI_LOCKLESS_CONFIG
+From: Marek Vasut <marek.vasut@mailbox.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-pci@vger.kernel.org, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Magnus Damm <magnus.damm@gmail.com>, Manivannan Sadhasivam
+ <mani@kernel.org>, Marek Vasut <marek.vasut+renesas@gmail.com>,
+ Rob Herring <robh@kernel.org>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20250922153352.99197-1-marek.vasut+renesas@mailbox.org>
+ <CAMuHMdUG_y-gb6kGd+Bgo5AQvqv009RYwVjwN5dDC0WFOuyPcg@mail.gmail.com>
+ <974b6f7f-e769-48ff-9bd9-0ed0c8f48b1e@mailbox.org>
+Content-Language: en-US
+In-Reply-To: <974b6f7f-e769-48ff-9bd9-0ed0c8f48b1e@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: ffada4ad991afe6718a
+X-MBO-RS-META: nwjtf1iw9sxucig7h1wrcutk8mbxmfut
+X-Rspamd-Queue-Id: 4cWc391br4z9smg
 
+On 9/22/25 5:48 PM, Marek Vasut wrote:
 
---OsOWBbkfV+LccHUK
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hello Geert,
 
-On Tue, Sep 23, 2025 at 08:14:09PM +0000, Cosmin-Gabriel Tanislav wrote:
-> > From: Conor Dooley <conor@kernel.org>
-> > On Tue, Sep 23, 2025 at 07:05:16PM +0300, Cosmin Tanislav wrote:
-> > > Document the A/D 12-Bit successive approximation converters found in =
-the
-> > > Renesas RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs.
-> > >
-> > > RZ/T2H has two ADCs with 4 channels and one with 6.
-> > > RZ/N2H has two ADCs with 4 channels and one with 15.
-> > >
-> > > Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.co=
-m>
-> > > ---
-> > >  .../iio/adc/renesas,r9a09g077-adc.yaml        | 170 ++++++++++++++++=
-++
-> > >  MAINTAINERS                                   |   7 +
-> > >  2 files changed, 177 insertions(+)
-> > >  create mode 100644
-> > Documentation/devicetree/bindings/iio/adc/renesas,r9a09g077-adc.yaml
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/iio/adc/renesas,r9a09g=
-077-
-> > adc.yaml b/Documentation/devicetree/bindings/iio/adc/renesas,r9a09g077-
-> > adc.yaml
-> > > new file mode 100644
-> > > index 000000000000..840108cd317e
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/iio/adc/renesas,r9a09g077-
-> > adc.yaml
-> > > @@ -0,0 +1,170 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yam=
-l#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Renesas RZ/T2H / RZ/N2H ADC12
-> > > +
-> > > +maintainers:
-> > > +  - Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-> > > +
-> > > +description: |
-> > > +  A/D Converter block is a successive approximation analog-to-digital
-> > converter
-> > > +  with a 12-bit accuracy. Up to 15 analog input channels can be
-> > selected.
-> > > +  Conversions can be performed in single or continuous mode. Result =
-of
-> > the ADC
+>>> +/*
+>>> + * This driver can not function correctly without PCIe subsystem level
+>>> + * config space access serialization. In case PCI_LOCKLESS_CONFIG is
+>>> + * ever enabled on ARM, complain loudly so the driver can be updated
+>>> + * accordingly.
+>>> + */
+>>> +static_assert(!IS_ENABLED(CONFIG_PCI_LOCKLESS_CONFIG));
+>>> +
+>>>   struct rcar_msi {
+>>>          DECLARE_BITMAP(used, INT_PCI_MSI_NR);
+>>>          struct irq_domain *domain;
+>>
+>> This causes a build failure when compile-testing, e.g. x86 allmodconfig.
+>> Using "depends on !PCI_LOCKLESS_CONFIG" instead would avoid that,
+>> but indeed has the disadvantage that it wouldn't complain loudly when
+>> PCI_LOCKLESS_CONFIG would ever be enabled on ARM64...
+> All right, let's also wait for input from PCI maintainers. It seems both 
+> alternatives -- static_assert() and !PCI_LOCKLESS_CONFIG have their own 
+> disadvantages, maybe there is a third option.
 
-Your mail client is screwing up quoting somehow. Please fix it.
+Maybe we can try with both.
 
-> > > +  renesas,max-channels:
-> > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > > +    description: |
-> > > +      Maximum number of channels supported by the ADC.
-> > > +      RZ/T2H has two ADCs with 4 channels and one with 6 channels.
-> > > +      RZ/N2H has two ADCs with 4 channels and one with 15 channels.
-> >
-> > What is the point of this? Why do you need to know how many channels
-> > there can be in the driver, isn't it enough to just figure out how many
-> > child nodes you have?
-> >
->=20
-> The idea here was that the SoC dtsi file would define the number of
-> channels supported by each instance of the ADC peripheral, while the
-> board dtsi (which includes the SoC dtsi) would define the number of
-> channels actually wired up on the.
->=20
-> Alternatively, we could have multiple compatibles for each SoC, like
-> renesas,r9a09g077-adc-4, which would only have 4 channels, while
-> the main renesas,r9a09g077-adc compatible would be the one with the
-> most channels, 6.
->=20
-> There might exist instances where knowing how many channels the chip
-> has might be useful inside the driver, but the bindings themselves
-> shouldn't really be addressing driver requirements, they should be
-> describing the hardware properties.
-
-"There might", so in other words: have written the driver and have not
-had any need for this information. ;)
-
-> The maximum number of supported channels of each ADC instance is a
-> property of the hardware, which is fine to have in the bindings.
-
-That is true, but also there's no interest in having properties that
-you can obtain by other means - or don't need at all.
-
-> Also, it is useful to know the maximum number of channels,
-> otherwise, we would have to iterate over the iio_chan_spec
-> populated by devm_iio_adc_device_alloc_chaninfo_se() to figure out
-> what is the maximum used channel. We will surely need this
-
-Right, you can get the information from another source. You only need to
-do that exactly once, during probe, so whatever overhead that produces
-isn't meaningful. I think this property should be removed.
-
-> information when implementing buffered mode, to know up to which
-> register to read data from, and we already need it when iterating
-> over the enabled channels for the same reason.
->=20
-> All things considered, I think it is useful to have this property
-> here, considering the separation between SoC capabilities and board
-> implementation.
->=20
-
---OsOWBbkfV+LccHUK
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaNMoGwAKCRB4tDGHoIJi
-0h49AQDirzGaJuMpClcLnZM1qOqUHlpJ6LU+uguhyM7s+7diGQEAh+Jk/swRqsSC
-5K2R+SP2kftGX+lyjQVSixUCvRGiXAk=
-=riQv
------END PGP SIGNATURE-----
-
---OsOWBbkfV+LccHUK--
+-- 
+Best regards,
+Marek Vasut
 
