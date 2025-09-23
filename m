@@ -1,220 +1,241 @@
-Return-Path: <linux-renesas-soc+bounces-22187-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22188-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07081B932E0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 22:07:26 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B3ABB9477D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 07:45:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 288F3188EB9A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Sep 2025 20:07:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A30837B0EB5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 05:44:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B3EB2877DC;
-	Mon, 22 Sep 2025 20:07:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F49FBA34;
+	Tue, 23 Sep 2025 05:45:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OMmcAWOh"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="mtq/3kzQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010021.outbound.protection.outlook.com [52.101.228.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB4D262D14
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Sep 2025 20:07:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758571643; cv=none; b=ZxJPaPhkdLvrIbEpj0Fgpmuc+i+ekzfCdVZT5do7deyDUKnS4XMl1m2Y0D5YWxv0Vnj4qkhgQZ2Id2Hylc0JLyCHEYKk/8+IZg+VjCeFAzk7ryBhPmeiMa3Cv8Cqe54tgN0PAgcMs8kKAAOTtRuKp+FJFmE4JcYfPjv1HoPau9M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758571643; c=relaxed/simple;
-	bh=C/T7ZbQJakjXvnJe1kk1uEOAFH5y08GjWlAIpSeZl6c=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ut3JskiyKDWJdwHVSiTzKVNVz61mDvHaE1HfjjqSw1khtNrlqtOMiheEKZgRp13gxSZ6p8KNy2QVx5XmYMrZ5Q70Z4bf0cp6TDrzg9SVwJ8kmeVwZEzoQf5UJ+nfxVQOWL5Exc5hL0BZkjZpW3Yld372dI+nIwK5GqxC/VIiN2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OMmcAWOh; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758571641; x=1790107641;
-  h=date:from:to:cc:subject:message-id;
-  bh=C/T7ZbQJakjXvnJe1kk1uEOAFH5y08GjWlAIpSeZl6c=;
-  b=OMmcAWOh/+/ynG1CpVVUP4a78j3wjzfuRcDY1b+peOuxnXoHeq+zJoyH
-   gvKN/w8aBhai/6SOPGu81F8DoO17iSckBQmm/I2d/CG5qTTQ9/19plV+z
-   zWQUbjORiB0rTtCZngUuXKaHVG3tC++rUjSeKK1ifokU8A/lB1rqTVwlD
-   ckknACObxm5Oa6OV+k7D7pGXppH9JAnlVM0q2P/jTMHsDN11ae3gnpuPY
-   VffPb7Rtq25vqwGMzeE2e7/aa6haQn5amy+DjK5gQGpN7750fFIxT9EMD
-   sigeYYeXd+D0LyLuMefeFMHt5Mpl6tS/527OEHn76UIJfmkytoy1gahh7
-   g==;
-X-CSE-ConnectionGUID: NkbePF4QRWW5U+0wm1vRsg==
-X-CSE-MsgGUID: TcT+aVQkTM66svGBH9dU2Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="71950633"
-X-IronPort-AV: E=Sophos;i="6.18,285,1751266800"; 
-   d="scan'208";a="71950633"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 13:07:21 -0700
-X-CSE-ConnectionGUID: s3Q38kVpTjqZVe0RLhwEsQ==
-X-CSE-MsgGUID: gW25BTZtSMyAkPYWqKumcQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,285,1751266800"; 
-   d="scan'208";a="176943625"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 22 Sep 2025 13:07:19 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v0mof-0002SP-0x;
-	Mon, 22 Sep 2025 20:07:17 +0000
-Date: Tue, 23 Sep 2025 04:06:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- 71a2fea2f1b5fb480244c641bf20c949b5757211
-Message-ID: <202509230411.3IrSj9wt-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF1B2B9A4
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Sep 2025 05:45:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.21
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758606338; cv=fail; b=mfG/HhqnbGx7uC8M1EqCr2ngK75rnSW4wLGfyizggcNERRicu8PCC3P5VS1iYWus1bxH5/rVi58TocjM1hSEBZV9PUSuiLVY5w1T0y8IRIqjXyImCWKiRmetRlVsSWy6FdLMmpbfbF+eGRtWGrh9KfRA8p/lgC1q8aq0py/oDsY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758606338; c=relaxed/simple;
+	bh=WM4dcCd0YFJMDlZY1/aCLRVIHpoACiwugbdJ5Ta1j6E=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=iSup0ZTyBqeSjGmHT1nRmMpYktPv+rO6U3zoVh4vl48+8i5BVcsRGtwIUIu35QfJ57utJGNsla0i+I3GhZNdVoALx6bFLCsPKlBplV40xicN/glPoNhMSf1oiQ/lzvZSIE6uukB4yM8V8H/yPdA/27sZLdDC0/mD3gCshVUKk7E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=mtq/3kzQ; arc=fail smtp.client-ip=52.101.228.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Q9zVgRYFvdFnxom4oxLGhtrz5PuUMqMIW2Jy9nAM6qbjSmLMyZB2XRCaBkeMW4hQYEkBhZfH/NTajHhupvgEuGexbk1V8XP1UK1xt0RTbyLuBvLr3BMBwsJccW7Dpz6DmJwAlA7gitZp6bKzEa51R418odEVENsSWgex96Vfq8V+iPJbAj7moa5ZjdM76NxyFoYENYpZ9my+Fuxu0Fpo9GiPq70baTtNH31U39RMKx6nlsW6HEc/oHnB4l+K3ZA3QZYKzRrWOxpIvpVs+otvOnBWlqHyfp5R3CNxw/g4DEJSrQViY6+ZT6n+lYCIwZAjNvaT5l9LfSculLQ6JXUv6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uE2U8VFkwteOdmZxlNn7cyB+SsQ8bC8Gc4RyOUv1D/M=;
+ b=eJaOgur+zc4Qo3OmN8Geu8Pxkq5EmhE0I1TVH1fsEd7DuCeQitB6XRLhLATPvfU1BHPpsqnmtjq7ycwQNy3O9UXDJB6Sk9oQUO9DLBRPJJ1a+yilhn/Z/V7dtxH7CX1kpbHFUvYYLQ3UDrhmHyLWVKhtJHx6BZ+9ti6z6gWzSy8uKdh71pGvEk4W/2Yvs6ubSR0Du2i4YkfOEzHqxCBL/5H8QmJdGI/i/VLYtOrxppe4c1tecIYHXehONKwNf6Lp98XzucFHQJ56e9HeaHDhanrm3fA5uKaqBe0rDHMNipShGvPs8VihyYLLHnJbu4lbxrSXAnaeNOjJdoPg4UdkvQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uE2U8VFkwteOdmZxlNn7cyB+SsQ8bC8Gc4RyOUv1D/M=;
+ b=mtq/3kzQVouSc2lhTvUOFPw4i5zH1Owy5VUnOIQ/LCFXWCbvOW2svdqE0o/UKlcelLqD8e9QGiZXW3YOZpcOD+KWwIObZiprnSMyGvLkfo9P0dJf5fDtc3/pvzCasVHcOzRvpEVKl7bS/SXQ+7BwsE+PdeeNWpMp81urW7VPAmo=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by OSCPR01MB16208.jpnprd01.prod.outlook.com (2603:1096:604:3e9::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Tue, 23 Sep
+ 2025 05:45:30 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%4]) with mapi id 15.20.9137.018; Tue, 23 Sep 2025
+ 05:45:30 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+CC: David Airlie <airlied@gmail.com>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, Kieran Bingham
+	<kieran.bingham+renesas@ideasonboard.com>, Laurent Pinchart
+	<laurent.pinchart+renesas@ideasonboard.com>, Maarten Lankhorst
+	<maarten.lankhorst@linux.intel.com>, magnus.damm <magnus.damm@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>, Thomas
+ Zimmermann <tzimmermann@suse.de>, Tomi Valkeinen
+	<tomi.valkeinen+renesas@ideasonboard.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH 4/9] drm/rcar-du: dsi: Clean up CLOCKSET1 CLKINSEL macros
+Thread-Topic: [PATCH 4/9] drm/rcar-du: dsi: Clean up CLOCKSET1 CLKINSEL macros
+Thread-Index: AQHcK/LmTCgzaExxe06X7PfbHDM01rSgQXgg
+Date: Tue, 23 Sep 2025 05:45:30 +0000
+Message-ID:
+ <TY3PR01MB11346FE123074366946A24C26861DA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20250922185740.153759-1-marek.vasut+renesas@mailbox.org>
+ <20250922185740.153759-5-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20250922185740.153759-5-marek.vasut+renesas@mailbox.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OSCPR01MB16208:EE_
+x-ms-office365-filtering-correlation-id: dc510d4f-77e0-43b8-6009-08ddfa64680c
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|7416014|1800799024|366016|38070700021;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?6UjN1qV6CJ35bhKLtFKGkdB/7MTJp0PH/NSHFo3NsZNdSgjy2JfXuJT45AEQ?=
+ =?us-ascii?Q?qvvs6uqHa4VMHUSrrOc8yJQVlKlKDFnoo3Zsas8ZdwBE3dLcJa+KYmslfq5h?=
+ =?us-ascii?Q?LNS1n5l9jOW6DZBM3W5vDIMLrx5wGTRkNa8qZGmKXadWpE+oExSkli9hJCqC?=
+ =?us-ascii?Q?CyQvdvNWrxcrUkoSaLMpY+dl7PmiMb0gBg2vaBruUe2nJOD6hIPORh7+5r7c?=
+ =?us-ascii?Q?S745srvmMb94UguVmXD3d5kfrzF3QJAqZvJqJQ1PYTy+HOe9o7yHDyCxN3tG?=
+ =?us-ascii?Q?nWD12AtAfLcYHNOBsZ2xeapVt0UUUYo1uENap1YFEu1bxaldtk1H6UDfeHov?=
+ =?us-ascii?Q?TRarEZtlmARTz8Rqf97tW6UenLAENuWclbfL+Wxg7vb4L3uQSbpw//R3xjQN?=
+ =?us-ascii?Q?c1KQ3oksGiSEb6yiPMC3qet4kQraOX71FuxxFJ0U6mtqqoNe5YWa1PXTTXHw?=
+ =?us-ascii?Q?FoNnzh8gg10x8yS4EY4RiIubYqpseBbec5LHe+0R7dEF4LgDR8w8k/355YYV?=
+ =?us-ascii?Q?/VIuURV2bty002vWB49YPoWXoHkv8vBBOoORLzHGG5H8r9WBoytReq+p0pd6?=
+ =?us-ascii?Q?gwmeCiDz0MRM8XzHZKlMKKP1aQz9zSsSGAB82gxnmtAW5IpI8Zqino8h4XEP?=
+ =?us-ascii?Q?pR+sAAxHK6lz5ZCRDZMUPnXEtNAp1ju+fVnQBhMxJOIuqN3KqcDl1bBIWDez?=
+ =?us-ascii?Q?z+HXPuN9M0uXVEhCz3XsG36+5msIfXJLdvUWqcY8awSjk0hG/PC5lbrIDhDP?=
+ =?us-ascii?Q?VaHtCHkh/xmPUgpI8hLFsAUI+ix6VGMgonQUC521FgqK9VGj1P9OhXCjr5Op?=
+ =?us-ascii?Q?NB185gK6A9BQiCOcuT4GTilcm9a4W0uHD+odjjZzTjrJprgggSQQMRwjkscM?=
+ =?us-ascii?Q?nhz34veRAQsbazGTY61jf9htbTt0Cjap3NY7bucP58KO5+mdNcPolsTBpzcc?=
+ =?us-ascii?Q?lERMRH6EnCYAjp0bb7aezGVatoKy6bXaYes7CxIHu08/wdOuHrgoOU3eArDr?=
+ =?us-ascii?Q?65KkWKNlOUptyoeFy9KT9plkf1g0UXkfWRMEF7oBL7Hoa3BwGUH7loOu5gOA?=
+ =?us-ascii?Q?PsnhixEPGqtleHLWuGjssQsORH5O2y08j619sNyimPnsV+p2PYmxaww/3xMr?=
+ =?us-ascii?Q?Ty3gYXXUb0ozUGW+S/sSr02i9JW5S9N6c/YHpxi7afBAGcniYv4Yc81P9dWa?=
+ =?us-ascii?Q?hgTQReU+HaiMGp9MbQmuJODDqT/YcPX5AuDfo8EWwXbDvvV3GUpOtbGqn0Xw?=
+ =?us-ascii?Q?m90MfA6Z+80Z0VWgvmCRW1AnIKd37H9m1SB5QoVLwQRKiBg7RcZX8hyQEIJ4?=
+ =?us-ascii?Q?wHHFiPrVPz85cEttOZvUT8Yc4gSnrtvTaWfyrUjHJyovvgj/IR7xYe7+U3m9?=
+ =?us-ascii?Q?SmJN5j/9C69fPxQBq64gCRYsD3oaxCc+osrrKlOvxmrzvYK7RLXfkxUoV5e0?=
+ =?us-ascii?Q?V3MEIw5KoedV+QmAOl7AIs3lpcVqgvTy0BZtpqprAmYkJHpWCIZohA=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?gbceXEF4TBsINAVLOsQ+la7vk6GG71cTTl1NCTNPyMWe0QEn9xXAiKhFI5Ac?=
+ =?us-ascii?Q?WP/56igwE4uvAlcEcZ1WUqeu42glgW5BQX05qDXAD27aNDh+v645JpDupoFq?=
+ =?us-ascii?Q?dywEBvhwGl3EZaAsMF2iDeQ5t1fwa4kXA/HEf2uFyArUp2/rwdpwj/LVhVRm?=
+ =?us-ascii?Q?fwv5DyCs0EjTiG/mWcf6EieIP//OI8dtd71zdaNwD7J/gZ5s2qqTZOKK3Tcf?=
+ =?us-ascii?Q?M58TG9TrtLCcqnJmMeFV4LNkEA5Oi7aKBIz9zuWawO6l6QGrKPxW83vLkAl8?=
+ =?us-ascii?Q?iB7DlDkPqhFaS+MSouNy8zd4jis/TDjGU0yR/1qmYeA+CHWgelXjy3tzfN4n?=
+ =?us-ascii?Q?8Q9N3d1PQE9opLX2k9HYbjzqoXnRM9cIdlAn5C1i7BIa6kMtiCnrhP+nXJFq?=
+ =?us-ascii?Q?XpP22Eb9y90Ku4CFGX1KUukJ9xjf59q3lAmjI7/kZ5ibprtm11EaFpBhmBY+?=
+ =?us-ascii?Q?93AevOYlkJGRZXnlMfO+Y8/dmEexFre6VlNAgoCnjzv+WyZr6NBQbjQkaCdI?=
+ =?us-ascii?Q?x0I0P7x1n2bGuxMsU+iFwubR1IHPrw7spFaXOykIXilrr4wCiDsc9NxEa7WC?=
+ =?us-ascii?Q?/vsL7gBcNfSCVV+as3gtmVH+erjgEr0P7zk+ETZU23f/lwaJSqWPURtnO1z5?=
+ =?us-ascii?Q?bXtVLS81ocn2R6fM6N89IIgp7OmjqG4c93eHLbXAOkeNtVs4vOqMJYTnsvf8?=
+ =?us-ascii?Q?Qe5yeDzFpPsuHIiPybYagtzeMa7S3cUuqt4m8j2IKTf8GM+ww2UcycYsyXpe?=
+ =?us-ascii?Q?HbiDX5zwYi8lTpoXKlUnoffLoLzz3jJfOhAksTylmOerCsEGhdWYd6VNp6of?=
+ =?us-ascii?Q?cKUuibNLjiRurvdbVIuPRcamv1tirmrKrrrZe5G1Bz7f2EuiDSpd0018ghsj?=
+ =?us-ascii?Q?ulPlyNOBS0yhd5xHhBvsRCov7tIJdedlm9YQ4dbcD1FRWgn5Ern6Hy5AkDHO?=
+ =?us-ascii?Q?M+Ts3/gl5iwoSzoyqlAEwwhyi+2xE0Xdh0i3wpBpoJZp0c3HsWtrdq22BiHB?=
+ =?us-ascii?Q?EnLmluC+9IlreRXGs9e/iEXKLCqzQieGjQdMeLdSbUJr4/7RXYI1GR3dTPQN?=
+ =?us-ascii?Q?XceHTjse2IiKq+WcRSsUOy7si1Da6jdhNMItQoZRdy7imN7ShjsmNI0ed+eb?=
+ =?us-ascii?Q?uH4LPNjshfV3scxMMDdN+BTOMIOx6hZKFd20epuWEnlFn40Md7m4M9fI1gbu?=
+ =?us-ascii?Q?fNupcCqPPuMNgMoD9ny5ozFNv1iRNX4K6qdP/YTmsqS2nvMdO93vXKLLfCdO?=
+ =?us-ascii?Q?anz1v4965TYoKL4OCh+oUBgjxKv5yVl6ANwFHBNpMTr779g0IaXIpHE4tSkr?=
+ =?us-ascii?Q?8jGJnxUsO/dDXouYpEAIhuqDynEco0KShMbuY7FBezK+WWTEVek0jyHQlyMa?=
+ =?us-ascii?Q?Pkyquuy7MlWiA9kosoLZty0gMad2wMDK+o5f/I+2QoZ38pCFKpdDGEc3Yghz?=
+ =?us-ascii?Q?gI5zntIDIbMueX3ApAmVr59eTzxSN71gIU4AYcwRk13tw4aPZNeo0mSgCBJJ?=
+ =?us-ascii?Q?WARewStOO2ih3dBeBtjCPYCAPQJSaW3zIHGKLOLGiTEbZgyQxB1pcTqTq8WP?=
+ =?us-ascii?Q?S15ewTt5W4QbDK1Mbmg/SHDBwd9JaHGRfRX67xCy/fnroLxuVYY6qWyQ/zAQ?=
+ =?us-ascii?Q?JA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dc510d4f-77e0-43b8-6009-08ddfa64680c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Sep 2025 05:45:30.5694
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: LZAzgDI2n2UPW4cQ6P+XgZnb+Z4nnDNfOz2uOkxibbN0XHr8ItJzrxl9gE96czjOazsa1StZXwihnNFjBRlARqd+Gma7mcKzyfvImtfkA5Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCPR01MB16208
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: 71a2fea2f1b5fb480244c641bf20c949b5757211  Merge tag 'v6.17-rc7' into renesas-devel
+Hi Marek,
 
-elapsed time: 729m
+> -----Original Message-----
+> From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> Sent: 22 September 2025 19:55
+> Subject: [PATCH 4/9] drm/rcar-du: dsi: Clean up CLOCKSET1 CLKINSEL macros
+>=20
+> Introduce CLOCKSET1_CLKINSEL_MASK macro and remove bitshift from values t=
+o make this bitfield usable
+> with FIELD_PREP(). There are no users of this bitfield, hence no updates =
+to the DSI driver.
+>=20
+> Do not convert bits and bitfields to BIT() and GENMASK() yet, to be consi=
+sten with the current style.
+> Conversion to BIT() and GENMASK() macros is done at the very end of this =
+series in the last two
+> patches.
+>=20
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> ---
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Magnus Damm <magnus.damm@gmail.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+> NOTE: No functional change expected, this is a preparatory patch which pa=
+rtly removes macros which
+> evaluate to zeroes from rcar_mipi_dsi_regs.h .
+> The other patches in this series proceed with that job, piece by piece, t=
+o make it all reviewable.
+> ---
+>  drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drive=
+rs/gpu/drm/renesas/rcar-
+> du/rcar_mipi_dsi_regs.h
+> index c2cb06ef144ed..808861aaf3bfe 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+> @@ -268,9 +268,10 @@
+>  #define CLOCKSET1			0x101c
+>  #define CLOCKSET1_LOCK_PHY		(1 << 17)
+>  #define CLOCKSET1_CLKSEL		(1 << 8)
+> -#define CLOCKSET1_CLKINSEL_EXTAL	(0 << 2)
 
-configs tested: 127
-configs skipped: 4
+0
+> -#define CLOCKSET1_CLKINSEL_DIG		(1 << 2)
+4
+> -#define CLOCKSET1_CLKINSEL_DU		(1 << 3)
+8
+> +#define CLOCKSET1_CLKINSEL_MASK		(3 << 2)
+> +#define CLOCKSET1_CLKINSEL_EXTAL	0
+> +#define CLOCKSET1_CLKINSEL_DIG		1
+> +#define CLOCKSET1_CLKINSEL_DU		2
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    gcc-15.1.0
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    gcc-15.1.0
-arc                   randconfig-001-20250922    gcc-8.5.0
-arc                   randconfig-002-20250922    gcc-9.5.0
-arm                              allmodconfig    gcc-15.1.0
-arm                               allnoconfig    clang-22
-arm                              allyesconfig    gcc-15.1.0
-arm                      footbridge_defconfig    clang-17
-arm                   randconfig-001-20250922    clang-22
-arm                   randconfig-002-20250922    gcc-12.5.0
-arm                   randconfig-003-20250922    clang-17
-arm                   randconfig-004-20250922    gcc-8.5.0
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.1.0
-arm64                 randconfig-001-20250922    gcc-8.5.0
-arm64                 randconfig-002-20250922    gcc-15.1.0
-arm64                 randconfig-003-20250922    clang-22
-arm64                 randconfig-004-20250922    clang-22
-csky                              allnoconfig    gcc-15.1.0
-csky                  randconfig-001-20250922    gcc-15.1.0
-csky                  randconfig-002-20250922    gcc-15.1.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-22
-hexagon                          allyesconfig    clang-22
-hexagon               randconfig-001-20250922    clang-20
-hexagon               randconfig-002-20250922    clang-19
-i386                             allmodconfig    gcc-14
-i386                              allnoconfig    gcc-14
-i386                             allyesconfig    gcc-14
-i386        buildonly-randconfig-001-20250922    clang-20
-i386        buildonly-randconfig-002-20250922    gcc-14
-i386        buildonly-randconfig-003-20250922    gcc-14
-i386        buildonly-randconfig-004-20250922    gcc-14
-i386        buildonly-randconfig-005-20250922    clang-20
-i386        buildonly-randconfig-006-20250922    clang-20
-i386                                defconfig    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-22
-loongarch             randconfig-001-20250922    clang-22
-loongarch             randconfig-002-20250922    clang-18
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-m68k                       m5275evb_defconfig    gcc-15.1.0
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-mips                         rt305x_defconfig    clang-22
-mips                           xway_defconfig    clang-22
-nios2                             allnoconfig    gcc-11.5.0
-nios2                               defconfig    gcc-11.5.0
-nios2                 randconfig-001-20250922    gcc-11.5.0
-nios2                 randconfig-002-20250922    gcc-8.5.0
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-15.1.0
-parisc                           allmodconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                           allyesconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250922    gcc-8.5.0
-parisc                randconfig-002-20250922    gcc-9.5.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                     akebono_defconfig    clang-22
-powerpc                          allmodconfig    gcc-15.1.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                          allyesconfig    clang-22
-powerpc               randconfig-001-20250922    clang-22
-powerpc               randconfig-002-20250922    gcc-12.5.0
-powerpc               randconfig-003-20250922    clang-17
-powerpc64             randconfig-002-20250922    clang-20
-powerpc64             randconfig-003-20250922    clang-17
-riscv                            allmodconfig    clang-22
-riscv                             allnoconfig    gcc-15.1.0
-riscv                            allyesconfig    clang-16
-riscv                               defconfig    clang-22
-riscv                 randconfig-001-20250922    clang-22
-riscv                 randconfig-002-20250922    clang-22
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-22
-s390                             allyesconfig    gcc-15.1.0
-s390                                defconfig    clang-22
-s390                  randconfig-001-20250922    gcc-8.5.0
-s390                  randconfig-002-20250922    gcc-11.5.0
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                                  defconfig    gcc-15.1.0
-sh                    randconfig-001-20250922    gcc-15.1.0
-sh                    randconfig-002-20250922    gcc-11.5.0
-sh                           se7780_defconfig    gcc-15.1.0
-sh                   secureedge5410_defconfig    gcc-15.1.0
-sh                        sh7785lcr_defconfig    gcc-15.1.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20250922    gcc-15.1.0
-sparc                 randconfig-002-20250922    gcc-14.3.0
-sparc64                             defconfig    clang-20
-sparc64               randconfig-001-20250922    gcc-12.5.0
-sparc64               randconfig-002-20250922    gcc-14.3.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-22
-um                               allyesconfig    gcc-14
-um                                  defconfig    clang-22
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20250922    gcc-14
-um                    randconfig-002-20250922    clang-22
-um                           x86_64_defconfig    clang-22
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250922    clang-20
-x86_64      buildonly-randconfig-002-20250922    gcc-13
-x86_64      buildonly-randconfig-003-20250922    gcc-13
-x86_64      buildonly-randconfig-004-20250922    clang-20
-x86_64      buildonly-randconfig-005-20250922    clang-20
-x86_64      buildonly-randconfig-006-20250922    clang-20
-x86_64                              defconfig    gcc-14
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250922    gcc-9.5.0
-xtensa                randconfig-002-20250922    gcc-11.5.0
+Looks like this patch breaks existing functionality,
+as the macro values are different.=20
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Biju
 
