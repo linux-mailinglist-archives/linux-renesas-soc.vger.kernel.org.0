@@ -1,56 +1,50 @@
-Return-Path: <linux-renesas-soc+bounces-22239-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22240-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E94DB96CB0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 18:19:37 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D606B97204
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 19:53:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 05FB61709E7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 16:19:37 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id CEE8C4E3227
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 17:53:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E67E43112C4;
-	Tue, 23 Sep 2025 16:19:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="QfEfgZK8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 092352DF139;
+	Tue, 23 Sep 2025 17:50:24 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 547A5319615
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Sep 2025 16:19:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F06EC29B228;
+	Tue, 23 Sep 2025 17:50:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758644364; cv=none; b=IdZT7+hyEVyrDutvRthTSPD0zn3g/CcvWii0bAi1ZfkHhYs1QQ7/JYCSd34fWHgthyUXX8tlaYkY9OdMTNaFFBfRMyOx8Tt6tdVggAs3eone6effURDupd5Ho3OGuPLYJv0lwO9gVGZ6+Y88ri4qIskGkr9vQTU0grF1Hc02bzI=
+	t=1758649823; cv=none; b=NrhuN53nZzFVPDUHSghfrT8dXDqtcnnYfrR0iMZ6XPo5xRWYLjYtzWhprqorIFcin9snXrw3Si8UfC2Q4x9qPDTb+KnzBwQzqAkmOUOPve77vTaxCghxw5X9yn0MgVUv4N0lpaDOamNf5EP5ZIq2W7An2m2UKh16dl82qGolfKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758644364; c=relaxed/simple;
-	bh=VGysIx6ugPC1wKpK4qahCFYnp3Pqi+rhySd5kllItgM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ab52moeczWBUuE1A7OK6e1cLYaIBMvZ9UGG510ssOk4sb4uTnOYxIkOOtIVd2UMiGNZaygFMNKc24eC/ax5sloWwooVFjCo2bkGdh7AOI65rL5ornM/fjfen27mw/F7zO3LaBeSNy8k52bjG90qezSNDxInK3dKj3d6Xg0wgCd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=QfEfgZK8; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=chZ0sj+mlqrXtm
-	JOXE5Pl98r8hL1uFNFjTT+OIyFcMg=; b=QfEfgZK8Fe1aRUXZ75wXcfDkSBnItX
-	lWhDrvrAEv4cf1BM7d+kr+fJIXGmDUPdlhm4CvofdguUUmr1dKKWuuWwUF+6jThq
-	WHu50Ctt5la0w6xhbfWKB0FBSPWwRuzOjApBRuxXJqL2nmF9uotfClPGgoxVF0RY
-	HaT7RB8o7WpCXOkZ4CpUU+Omc+RJ7rq+Il8g+IGhKrgrj/R8iSYY9Zq0ifPP+qZW
-	iglf6r7Vm8kr1wTf7t+2nfeagotXEVpcMWr7Orw5w+Dsx5nN44I0ZeZPFs/KDmBt
-	ieD3JezsK1c6OGeUFF+EMeK418R0eE0fKWhIJv9q5hmNuDMTGikyXE0g==
-Received: (qmail 1173212 invoked from network); 23 Sep 2025 18:19:20 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 Sep 2025 18:19:20 +0200
-X-UD-Smtp-Session: l3s3148p1@u1RfTHo/LsIujnsp
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	linux-mmc@vger.kernel.org
-Subject: [PATCH] mmc: renesas_sdhi: enable bigger data ports where available
-Date: Tue, 23 Sep 2025 18:17:19 +0200
-Message-ID: <20250923161915.3172-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
+	s=arc-20240116; t=1758649823; c=relaxed/simple;
+	bh=3MzZor+wv1b+LtEEulN63K5j/gISYaHE/QyOscIN/2Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WWnr3KwCimlJb06q6q3ZsHgrA7sqpHwgef/hE6k7NKM2pVKsmhCMOJ04pDUj4q3Kq2RIy7b+FfrdgsAKpFvAGbZR8XsnqBMuyHBYS1X3YC7sUz9R56k1yXdSJTvInYXO2ggxkGxV44FFbcJzOTuXT/aYD8e8oQJilemp/rpTi6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+X-CSE-ConnectionGUID: Z3Gm9Z44RTCrZpFLzthbPQ==
+X-CSE-MsgGUID: wYlBcxyoS2W7tt2kT0jCyg==
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 24 Sep 2025 02:50:19 +0900
+Received: from demon-pc.localdomain (unknown [10.226.93.64])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 904CF403D61D;
+	Wed, 24 Sep 2025 02:50:17 +0900 (JST)
+From: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+To: 
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+Subject: [PATCH] pinctrl: renesas: rzg2l: remove extra semicolons
+Date: Tue, 23 Sep 2025 20:49:50 +0300
+Message-ID: <20250923174951.1136259-1-cosmin-gabriel.tanislav.xa@renesas.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -59,48 +53,63 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-R-Car Gen2 SoCs have a 32 bit dataport, V3M even 64 bit. Make use of
-the bigger size in the rare case DMA is failing.
+Semicolons after end of function braces are unnecessary, remove them.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
 ---
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Tested on a Renesas Lager board (Gen2) and Eagle + extension board
-(V3M). SDHI driver was hacked to avoid DMA and use PIO.
-
- drivers/mmc/host/renesas_sdhi_internal_dmac.c | 3 ++-
- drivers/mmc/host/renesas_sdhi_sys_dmac.c      | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/mmc/host/renesas_sdhi_internal_dmac.c b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-index 9e3ed0bcddd6..73c84fd8a2d8 100644
---- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-+++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-@@ -124,7 +124,8 @@ static const struct renesas_sdhi_of_data of_data_rcar_gen3 = {
+diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+index f524af6f586f..51b7e4291ff4 100644
+--- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
++++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+@@ -568,7 +568,7 @@ static void rzg2l_pinctrl_set_pfc_mode(struct rzg2l_pinctrl *pctrl,
+ 	pctrl->data->pwpr_pfc_lock_unlock(pctrl, true);
  
- static const struct renesas_sdhi_of_data of_data_rcar_gen3_no_sdh_fallback = {
- 	.tmio_flags	= TMIO_MMC_HAS_IDLE_WAIT | TMIO_MMC_CLK_ACTUAL |
--			  TMIO_MMC_HAVE_CBSY | TMIO_MMC_MIN_RCAR2,
-+			  TMIO_MMC_HAVE_CBSY | TMIO_MMC_MIN_RCAR2 |
-+			  TMIO_MMC_64BIT_DATA_PORT,
- 	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ |
- 			  MMC_CAP_CMD23 | MMC_CAP_WAIT_WHILE_BUSY,
- 	.capabilities2	= MMC_CAP2_NO_WRITE_PROTECT | MMC_CAP2_MERGE_CAPABLE,
-diff --git a/drivers/mmc/host/renesas_sdhi_sys_dmac.c b/drivers/mmc/host/renesas_sdhi_sys_dmac.c
-index 822a310c9bba..543ad1d0ed1c 100644
---- a/drivers/mmc/host/renesas_sdhi_sys_dmac.c
-+++ b/drivers/mmc/host/renesas_sdhi_sys_dmac.c
-@@ -60,7 +60,8 @@ static struct renesas_sdhi_scc rcar_gen2_scc_taps[] = {
+ 	spin_unlock_irqrestore(&pctrl->lock, flags);
+-};
++}
  
- static const struct renesas_sdhi_of_data of_rcar_gen2_compatible = {
- 	.tmio_flags	= TMIO_MMC_HAS_IDLE_WAIT | TMIO_MMC_CLK_ACTUAL |
--			  TMIO_MMC_HAVE_CBSY | TMIO_MMC_MIN_RCAR2,
-+			  TMIO_MMC_HAVE_CBSY | TMIO_MMC_MIN_RCAR2 |
-+			  TMIO_MMC_32BIT_DATA_PORT,
- 	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ |
- 			  MMC_CAP_CMD23 | MMC_CAP_WAIT_WHILE_BUSY,
- 	.capabilities2	= MMC_CAP2_NO_WRITE_PROTECT,
+ static int rzg2l_pinctrl_set_mux(struct pinctrl_dev *pctldev,
+ 				 unsigned int func_selector,
+@@ -608,7 +608,7 @@ static int rzg2l_pinctrl_set_mux(struct pinctrl_dev *pctldev,
+ 	}
+ 
+ 	return 0;
+-};
++}
+ 
+ static int rzg2l_map_add_config(struct pinctrl_map *map,
+ 				const char *group_or_pin,
+@@ -1413,7 +1413,7 @@ static int rzg2l_pinctrl_pinconf_get(struct pinctrl_dev *pctldev,
+ 	*config = pinconf_to_config_packed(param, arg);
+ 
+ 	return 0;
+-};
++}
+ 
+ static int rzg2l_pinctrl_pinconf_set(struct pinctrl_dev *pctldev,
+ 				     unsigned int _pin,
+@@ -1613,7 +1613,7 @@ static int rzg2l_pinctrl_pinconf_group_set(struct pinctrl_dev *pctldev,
+ 	}
+ 
+ 	return 0;
+-};
++}
+ 
+ static int rzg2l_pinctrl_pinconf_group_get(struct pinctrl_dev *pctldev,
+ 					   unsigned int group,
+@@ -1640,7 +1640,7 @@ static int rzg2l_pinctrl_pinconf_group_get(struct pinctrl_dev *pctldev,
+ 	}
+ 
+ 	return 0;
+-};
++}
+ 
+ static const struct pinctrl_ops rzg2l_pinctrl_pctlops = {
+ 	.get_groups_count = pinctrl_generic_get_group_count,
 -- 
-2.47.2
+2.51.0
 
 
