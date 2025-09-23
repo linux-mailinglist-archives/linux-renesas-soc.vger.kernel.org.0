@@ -1,94 +1,93 @@
-Return-Path: <linux-renesas-soc+bounces-22223-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22224-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E460B9668D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 16:50:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 839C6B96696
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 16:50:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B39CC188BFCB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 14:46:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9EBBC2A0789
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 14:46:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9A2825BF13;
-	Tue, 23 Sep 2025 14:45:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2AE8262FCD;
+	Tue, 23 Sep 2025 14:45:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UOrjEdl9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ij+NF/sf"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B64F24EF8C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4965424635E
 	for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Sep 2025 14:45:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758638734; cv=none; b=gR+zmU+rSbkOXbe+AxuMmM3ZxOEBlLJFngdE1AMq6Ck5b1xPmvOBHSk0cNETxiAGa+SZrWDWDdntDe8yVhN1dAyA5jy9jFFDLvnAIgfRpoMNYZP7wCXQ6yx9P2vJiY3boyCSET1aV3MG8ppDt2W3Edv/kEQ/wXX0uBsCKykZY/4=
+	t=1758638735; cv=none; b=cZfNcDEnbj+4nYIBwz4zF8wg3jfNyv73uEVLe0LDU/U7FY43ws42JQp/d5Chf9qA6eCiCeFFe3jm3ILv3aa1357sEpRgv7EOfQKWwUZ6/NXA+vZEKLPlURZei1h38vb62iEfzAwYI7uSVdhHOZtixenFKLAYD90HdD5HcGhBQfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758638734; c=relaxed/simple;
-	bh=9KLJ4BwtbpJm/9b4WxuSUtjekeadp6ZfsZa6/vsycek=;
+	s=arc-20240116; t=1758638735; c=relaxed/simple;
+	bh=OjsLrF0BpyixmbNmZqRDeZM8/Q9vuOqtCut1I2w6tGk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kDmjeERsl6rY5CAs63R9sE5Izk3C9ZJy+sCw81Mdvxs+NRjaUpqT79RQt/MovSzVzo6E6Z0HEmn2EAqDqFOvGKhAHzfKFRTnq5D1jRlnoPrH0VOar/Ixo30s+oCfIjP4zzhUaEXsESDypXkhF0YziaDDo/BY+f9m26Y3jVPIv0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UOrjEdl9; arc=none smtp.client-ip=209.85.128.47
+	 MIME-Version; b=ajwSVTA6E71nOl7EMEdvURFd46MJxMXznVo4CvcCaE9FLhBv8hFmfiQa0HofkHyDpZv3k/1c9WrS9FF+wiNO1Fzi1n+oCb3sKzkA3XeO/Zszg1S3yVQY7jYr7McfnvJ/z7v5gUTNebc8NIateWJsKDO77oHgY2/38w7SXFfXLdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ij+NF/sf; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-46e24de89c1so2643175e9.1
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-46e1bc8ffa1so12461295e9.0
         for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Sep 2025 07:45:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758638730; x=1759243530; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1758638731; x=1759243531; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iJzzrWzUCil64+RXOrKpLt8hJS1/JsUfq3sdCZB4Iv8=;
-        b=UOrjEdl9MFT2vIinolk9C2fNfVlEjjKV7oPzOEaofVrCEaCssC5nkdzit14konTK1j
-         GXTskkJ37uFUwkwNW0bVB8cBrUCmhE+qy8b3DJkOmhXNLigCAn7hjbRruXsFwuwwxUSV
-         ehNAIwWuOvc25j2RZdlp3drm30XaT6+e8i2QKOwCP53pDauF/xxPm0iGSvvC7YgbdpzV
-         vYNLYiaCzL/YBJ+P4an8Uewxc+okqdwo3fwCuYWwQDkz6GZXl0HxcrlARp1LyfStu9qE
-         MAat8SNwfBGy2+dRafzJ560Rorhxi9lH843QTDRjFz3vf6bWyRpQCw7mWLSdgTZuhRW4
-         duKQ==
+        bh=lPc1khGgtKoM3FlGkfqU+I3xy6hkWBPtPzJJrRqEf2k=;
+        b=ij+NF/sfiWk+1ENFruXrQ4KJ+jnBN03VRNgTXIMFy/ZU631B99ithKyI4JJxy4SZIS
+         XpVYQzQwzle/VEceSbLb8br9OdVh+7boYfCgapNaLysQLcUJkk29g3S6cZo1ZdhAoYoT
+         yaSnG4BxqLNHoIKgjaP05sYrfQRE3Y9/oWJCjcwriZSzldtZe7k1PIUjQxIhG+RK/opW
+         QrVBBAih3nSgVUCFalIvsTQebfOfao6h0EwBM0tyPjLue9k6TLuf9v8b+aT4uKzcrCgS
+         vHXcGk+t5uaOkbyBQlpDhA6HoxYUWFLe7IplM6uZV/fFmjhxkAqrDI4OWWkUJwDxJEAz
+         5wwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758638730; x=1759243530;
+        d=1e100.net; s=20230601; t=1758638731; x=1759243531;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iJzzrWzUCil64+RXOrKpLt8hJS1/JsUfq3sdCZB4Iv8=;
-        b=CDXHSOOrX5ESKu1Zz6qcjuBUfiQFCz1khtuW2GemCEIsRZ4wopeLGIlIwzG9iAlBi9
-         xkTsY8cWdi32okzL3rR0DjvzC3fTu2bb7Gpw25y7rNUnknFmZtpvp7AC2zqJzYTIc5Vv
-         0MTMt+4Uxu8am8if2sfoHD5XGiRQIB4o9d4W+ZD34IV52Cog0LEZo47PNxTTvxm5d7Ee
-         fkd6ZiqUhtDSjQbI5IkPeoAli8B8Iwf9RN0EvZPa0qRpEYMKLHHg605O01dCGcs0o1cd
-         koO+ryvIp/4Nq8kGzChEHCzQjxpWxfFyVS4A1jvMRikGO2/k5WsCftXofhzhzGvmtVKQ
-         NTCA==
-X-Forwarded-Encrypted: i=1; AJvYcCVlo59SSZBVzKevykkKyWxwebi5fcO9FOsLa1NX3bKE9K0N065nDpnn5m9AhOY3ZhGOJOzKw21Jo9FWADpQ9amoRA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwmBwazkquO+6EeOgn2g4nJcU81SAYjiECSTzjQFPQ6vWuLfxzU
-	Kgkh/6Ex110m+7+9DL06fSUxXcsnBBFASbWlsaEISavo+4H906Eq1rSAvILClivF
-X-Gm-Gg: ASbGncv6k/6wheIjWg1uZZt2uvUEqynwxDh/3SbkB3daj/tSFqqrkJ3b5uWVqSCDtNa
-	RHMPeN9xCJGwbJYRaTQo3N5BqQlFVpz0+QyEAIF6yyv6n4Y/XyoNLEOhmIH+tFFzWQsM0z+NKdY
-	pEK/lG0rS5tZozQGA7q/oGKq8vkEIDmctpuCc3IoWaKUNgOEUKJQFF7e8gRpetoxglHR3OXdEWI
-	r+19s0olcJhQ9awWCqzKmIotImJqVNAflazy+/clAn1WkISZjFzRtpkySS4A72WX/PM49rkNIYs
-	ijaD9TJGxvhbIOaPdsSQpF70Xyr8QbW3kErr+OYy5BOnwBa/y1K+Gxf2+wN0QV0ylPZXCrpwkuJ
-	YwGdUyruVe7NFPmW7nPy2snynfNu9+2y9B5/N5i0OKHsxevoDg5YtbWiw20Z8ZFcheIfCRx+CSW
-	0OUA==
-X-Google-Smtp-Source: AGHT+IF8SaV47gPXwoIWR6PYZsGf9RNwLPvhOV3otS7XPoc5em+Mo1XsY9TmdJAjeAKHts9TAgBzRw==
-X-Received: by 2002:a05:600c:154e:b0:45f:29e4:92fc with SMTP id 5b1f17b1804b1-46e1daacd4emr26901375e9.20.1758638730444;
+        bh=lPc1khGgtKoM3FlGkfqU+I3xy6hkWBPtPzJJrRqEf2k=;
+        b=AEwL876pjuUCL1qZNE4RrtOc+P/4tVQMmxTqDpyEvtgZCqyggRkoJhdMBMD5I8mLwO
+         AXaBo6zHwH1hXQ+iDdwUawcOd9Q9MUEzZ1lGWdRJUjfb2/N1jXbF2MG/kIl6sx+CQr+v
+         d/dFBAnzZbAGHY9Qwdk0hpgdurEaeCswPhfXq8foipE0h4ITpJ3WDmLVdkxWLCrOAKqw
+         Dghdq6EmZQOhtlrOUL7YA3fC9ZEx4BnKjUcZ2cZyq2Vs2AsT7RI2ZSrTHhWNc/UPO9rL
+         Ah8X0XktrglFZMBZm9RsjmiiaCUuoW7MLu2zSKc5sCR4RW/VpaG4/Co/jVw2c+fE5vXA
+         BoHA==
+X-Forwarded-Encrypted: i=1; AJvYcCUKLYXckplFkMEUCRCe1o8+9Nj2ZPA5IXk3EwLGSHyS+OtvQ194y78m2J6W12ginB/UZ8zu7+zcLFmo73BIYO85QA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxBCRnYv1CmNpQg65SsxAu99WZ0/VwC0YuR5QDh3k6bnnLt57np
+	SNlD+7lEe+QFs3POa3CgmMOzKBi3VDguAwCut0Flyz+EPklOUHHBYvci
+X-Gm-Gg: ASbGncuoQ5C1+8jRTjFBsKlXQLW+EkPCCBxMqyaXSN8ST+bi/GiPj5hVAReOqB2zUwt
+	M/dfk/JTINimjt879OmCN3+8IdVPo3ttwp3xhSH2ium5YGmF5AsBDrMpExzT0iK4u0tUgj3aZU9
+	DyOxr97a0g8dKy/CTfnxIHqzbAYmiabFVB5PT7G6rMLmgJo6qUrlJA1RsM2ABzuzEx2HVdEc93t
+	qjC+GHYADzIXzXrqSlr/utxly0AhU9V7BcfISouTpUyl+z6sIO1p5kgEL18AezIgAdZJZFwWDeY
+	2jAU4UbeQmTEiSRrSoFqcmsac2z2MShpnRPUUT3u1Mx+zhT8chuI87ZJtXf6UJGs5qnQuNkeeDO
+	hWmARXdLSfI3/m1DZ3TXaq8LbF7nNofCdtTZoWpZM/UzCgDvABmP33kRZQVt86vo+JydrcCwO6j
+	pnMQ==
+X-Google-Smtp-Source: AGHT+IHw/moOQQdjQkyrnN2ABVgFGjJsARhjpZqCkhFnEqOLp4++U1HM/kmTdYY+jb+YZL8vgz1o9g==
+X-Received: by 2002:a05:600c:8b0d:b0:46e:2330:e959 with SMTP id 5b1f17b1804b1-46e2330ea71mr14864405e9.37.1758638730981;
         Tue, 23 Sep 2025 07:45:30 -0700 (PDT)
 Received: from biju.lan (host86-139-30-37.range86-139.btcentralplus.com. [86.139.30.37])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-464f0aac3fdsm238940435e9.1.2025.09.23.07.45.29
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-464f0aac3fdsm238940435e9.1.2025.09.23.07.45.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 23 Sep 2025 07:45:30 -0700 (PDT)
 From: Biju <biju.das.au@gmail.com>
 X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
 To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>
+	Philipp Zabel <p.zabel@pengutronix.de>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	linux-pwm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Subject: [PATCH v3 5/8] pwm: rzg2l-gpt: Add RZ/G3E support
-Date: Tue, 23 Sep 2025 15:45:09 +0100
-Message-ID: <20250923144524.191892-6-biju.das.jz@bp.renesas.com>
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v3 6/8] pwm: rzg2l-gpt: Add suspend/resume support
+Date: Tue, 23 Sep 2025 15:45:10 +0100
+Message-ID: <20250923144524.191892-7-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250923144524.191892-1-biju.das.jz@bp.renesas.com>
 References: <20250923144524.191892-1-biju.das.jz@bp.renesas.com>
@@ -102,114 +101,197 @@ Content-Transfer-Encoding: 8bit
 
 From: Biju Das <biju.das.jz@bp.renesas.com>
 
-Add RZ/G3E GPT support. It has multiple clocks and resets compared to
-RZ/G2L. Also prescale field width and factor for calculating prescale
-are different.
+On RZ/G3E using PSCI, s2ram powers down the SoC. Add suspend/resume
+callbacks for save/restore GPT context.
 
-Reviewed-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
-v2->v3:
- * No change.
-v1->v2:
- * Added link to hardware manual
- * Updated limitation section
- * Collected tag 
+v3:
+ * New patch.
 ---
- drivers/pwm/pwm-rzg2l-gpt.c | 46 +++++++++++++++++++++++++++++++++++--
- 1 file changed, 44 insertions(+), 2 deletions(-)
+ drivers/pwm/pwm-rzg2l-gpt.c | 118 +++++++++++++++++++++++++++++++-----
+ 1 file changed, 102 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/pwm/pwm-rzg2l-gpt.c b/drivers/pwm/pwm-rzg2l-gpt.c
-index 0af3aaf1917a..087bc3c0778c 100644
+index 087bc3c0778c..abf8dae52b91 100644
 --- a/drivers/pwm/pwm-rzg2l-gpt.c
 +++ b/drivers/pwm/pwm-rzg2l-gpt.c
-@@ -6,15 +6,21 @@
-  *
-  * Hardware manual for this IP can be found here
-  * https://www.renesas.com/eu/en/document/mah/rzg2l-group-rzg2lc-group-users-manual-hardware-0?language=en
-+ * https://www.renesas.com/en/document/mah/rzg3e-group-users-manual-hardware
-  *
-  * Limitations:
-  * - Counter must be stopped before modifying Mode and Prescaler.
-  * - When PWM is disabled, the output is driven to inactive.
-  * - While the hardware supports both polarities, the driver (for now)
-  *   only handles normal polarity.
-- * - General PWM Timer (GPT) has 8 HW channels for PWM operations and
-- *   each HW channel have 2 IOs.
-+ * - For RZ/G2L, the General PWM Timer (GPT) has 8 HW channels for PWM
-+     operations and each HW channel have 2 IOs (GTIOCn{A, B}).
-  * - Each IO is modelled as an independent PWM channel.
-+ * - For RZ/G3E, the General PWM Timer (GPT) has 16 HW channels for PWM
-+     operations (GPT0: 8 channels, GPT1: 8 Channels) and each HW channel
-+     have 4 IOs (GTIOCn{A,AN,B,BN}). The 2 extra IOs GTIOCnAN and GTIOCnBN
-+     in RZ/G3E are anti-phase signals of GTIOCnA and GTIOCnB. The
-+     anti-phase signals of RZ/G3E are not modelled as PWM channel.
-  * - When both channels are used, disabling the channel on one stops the
-  *   other.
-  * - When both channels are used, the period of both IOs in the HW channel
-@@ -153,6 +159,27 @@ static u8 rzg2l_gpt_calculate_prescale(u64 period_ticks)
- 	return prescale;
- }
+@@ -101,14 +101,26 @@ struct rzg2l_gpt_info {
+ 	u8 prescale_pow_of_two_mult_factor;
+ };
  
-+static u8 rzg3e_gpt_calculate_prescale(u64 period_ticks)
-+{
-+	u32 prescaled_period_ticks;
-+	u8 prescale;
++struct rzg2l_gpt_cache {
++	u32 gtpr;
++	u32 gtccr[2];
++	u32 gtcr;
++	u32 gtior;
++};
 +
-+	prescaled_period_ticks = period_ticks >> 32;
-+	if (prescaled_period_ticks >= 64 && prescaled_period_ticks < 256) {
-+		prescale = 6;
-+	} else if (prescaled_period_ticks >= 256 && prescaled_period_ticks < 1024) {
-+		prescale = 8;
-+	} else if (prescaled_period_ticks >= 1024) {
-+		prescale = 10;
-+	} else {
-+		prescale = fls(prescaled_period_ticks);
-+		if (prescale > 1)
-+			prescale -= 1;
-+	}
-+
-+	return prescale;
-+}
-+
- static int rzg2l_gpt_request(struct pwm_chip *chip, struct pwm_device *pwm)
+ struct rzg2l_gpt_chip {
+ 	void __iomem *mmio;
+ 	struct mutex lock; /* lock to protect shared channel resources */
+ 	const struct rzg2l_gpt_info *info;
++	struct clk *clk;
++	struct clk *bus_clk;
++	struct reset_control *rst;
++	struct reset_control *rst_s;
+ 	unsigned long rate_khz;
+ 	u32 period_ticks[RZG2L_MAX_HW_CHANNELS];
+ 	u32 channel_request_count[RZG2L_MAX_HW_CHANNELS];
+ 	u32 channel_enable_count[RZG2L_MAX_HW_CHANNELS];
++	struct rzg2l_gpt_cache hw_cache[RZG2L_MAX_HW_CHANNELS];
+ };
+ 
+ /* This represents a hardware configuration for one channel */
+@@ -465,10 +477,8 @@ static int rzg2l_gpt_probe(struct platform_device *pdev)
  {
- 	struct rzg2l_gpt_chip *rzg2l_gpt = to_rzg2l_gpt_chip(chip);
-@@ -459,6 +486,14 @@ static int rzg2l_gpt_probe(struct platform_device *pdev)
- 	if (IS_ERR(rstc))
- 		return dev_err_probe(dev, PTR_ERR(rstc), "Cannot deassert reset control\n");
+ 	struct rzg2l_gpt_chip *rzg2l_gpt;
+ 	struct device *dev = &pdev->dev;
+-	struct reset_control *rstc;
+ 	struct pwm_chip *chip;
+ 	unsigned long rate;
+-	struct clk *clk;
+ 	int ret;
  
-+	rstc = devm_reset_control_get_optional_exclusive_deasserted(dev, "rst_s");
-+	if (IS_ERR(rstc))
-+		return dev_err_probe(dev, PTR_ERR(rstc), "Cannot deassert rst_s reset\n");
+ 	chip = devm_pwmchip_alloc(dev, RZG2L_MAX_PWM_CHANNELS, sizeof(*rzg2l_gpt));
+@@ -482,27 +492,29 @@ static int rzg2l_gpt_probe(struct platform_device *pdev)
+ 
+ 	rzg2l_gpt->info = of_device_get_match_data(dev);
+ 
+-	rstc = devm_reset_control_get_exclusive_deasserted(dev, NULL);
+-	if (IS_ERR(rstc))
+-		return dev_err_probe(dev, PTR_ERR(rstc), "Cannot deassert reset control\n");
++	rzg2l_gpt->rst = devm_reset_control_get_exclusive_deasserted(dev, NULL);
++	if (IS_ERR(rzg2l_gpt->rst))
++		return dev_err_probe(dev, PTR_ERR(rzg2l_gpt->rst),
++				     "Cannot deassert reset control\n");
+ 
+-	rstc = devm_reset_control_get_optional_exclusive_deasserted(dev, "rst_s");
+-	if (IS_ERR(rstc))
+-		return dev_err_probe(dev, PTR_ERR(rstc), "Cannot deassert rst_s reset\n");
++	rzg2l_gpt->rst_s = devm_reset_control_get_optional_exclusive_deasserted(dev, "rst_s");
++	if (IS_ERR(rzg2l_gpt->rst_s))
++		return dev_err_probe(dev, PTR_ERR(rzg2l_gpt->rst_s),
++				     "Cannot deassert rst_s reset\n");
+ 
+-	clk = devm_clk_get_optional_enabled(dev, "bus");
+-	if (IS_ERR(clk))
+-		return dev_err_probe(dev, PTR_ERR(clk), "Cannot get bus clock\n");
++	rzg2l_gpt->bus_clk = devm_clk_get_optional_enabled(dev, "bus");
++	if (IS_ERR(rzg2l_gpt->bus_clk))
++		return dev_err_probe(dev, PTR_ERR(rzg2l_gpt->bus_clk), "Cannot get bus clock\n");
+ 
+-	clk = devm_clk_get_enabled(dev, NULL);
+-	if (IS_ERR(clk))
+-		return dev_err_probe(dev, PTR_ERR(clk), "Cannot get clock\n");
++	rzg2l_gpt->clk = devm_clk_get_enabled(dev, NULL);
++	if (IS_ERR(rzg2l_gpt->clk))
++		return dev_err_probe(dev, PTR_ERR(rzg2l_gpt->clk), "Cannot get clock\n");
+ 
+-	ret = devm_clk_rate_exclusive_get(dev, clk);
++	ret = devm_clk_rate_exclusive_get(dev, rzg2l_gpt->clk);
+ 	if (ret)
+ 		return ret;
+ 
+-	rate = clk_get_rate(clk);
++	rate = clk_get_rate(rzg2l_gpt->clk);
+ 	if (!rate)
+ 		return dev_err_probe(dev, -EINVAL, "The gpt clk rate is 0");
+ 
+@@ -529,9 +541,80 @@ static int rzg2l_gpt_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return dev_err_probe(dev, ret, "Failed to add PWM chip\n");
+ 
++	platform_set_drvdata(pdev, chip);
 +
-+	clk = devm_clk_get_optional_enabled(dev, "bus");
-+	if (IS_ERR(clk))
-+		return dev_err_probe(dev, PTR_ERR(clk), "Cannot get bus clock\n");
-+
- 	clk = devm_clk_get_enabled(dev, NULL);
- 	if (IS_ERR(clk))
- 		return dev_err_probe(dev, PTR_ERR(clk), "Cannot get clock\n");
-@@ -497,6 +532,12 @@ static int rzg2l_gpt_probe(struct platform_device *pdev)
  	return 0;
  }
  
-+static const struct rzg2l_gpt_info rzg3e_data = {
-+	.calculate_prescale = rzg3e_gpt_calculate_prescale,
-+	.gtcr_tpcs_mask = GENMASK(26, 23),
-+	.prescale_pow_of_two_mult_factor = 1,
-+};
++static int rzg2l_gpt_suspend(struct device *dev)
++{
++	struct pwm_chip *chip = dev_get_drvdata(dev);
++	struct rzg2l_gpt_chip *rzg2l_gpt = to_rzg2l_gpt_chip(chip);
++	unsigned int i;
 +
- static const struct rzg2l_gpt_info rzg2l_data = {
- 	.calculate_prescale = rzg2l_gpt_calculate_prescale,
- 	.gtcr_tpcs_mask = GENMASK(26, 24),
-@@ -504,6 +545,7 @@ static const struct rzg2l_gpt_info rzg2l_data = {
++	for (i = 0; i < RZG2L_MAX_HW_CHANNELS; i++) {
++		if (!rzg2l_gpt->channel_enable_count[i])
++			continue;
++
++		rzg2l_gpt->hw_cache[i].gtpr = rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTPR(i));
++		rzg2l_gpt->hw_cache[i].gtccr[0] = rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTCCR(i, 0));
++		rzg2l_gpt->hw_cache[i].gtccr[1] = rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTCCR(i, 1));
++		rzg2l_gpt->hw_cache[i].gtcr = rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTCR(i));
++		rzg2l_gpt->hw_cache[i].gtior = rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTIOR(i));
++	}
++
++	clk_disable_unprepare(rzg2l_gpt->clk);
++	clk_disable_unprepare(rzg2l_gpt->bus_clk);
++	reset_control_assert(rzg2l_gpt->rst_s);
++	reset_control_assert(rzg2l_gpt->rst);
++
++	return 0;
++}
++
++static int rzg2l_gpt_resume(struct device *dev)
++{
++	struct pwm_chip *chip = dev_get_drvdata(dev);
++	struct rzg2l_gpt_chip *rzg2l_gpt = to_rzg2l_gpt_chip(chip);
++	unsigned int i;
++	int ret;
++
++	ret = reset_control_deassert(rzg2l_gpt->rst);
++	if (ret)
++		return ret;
++
++	ret = reset_control_deassert(rzg2l_gpt->rst_s);
++	if (ret)
++		goto fail_reset;
++
++	ret = clk_prepare_enable(rzg2l_gpt->bus_clk);
++	if (ret)
++		goto fail_reset_all;
++
++	ret = clk_prepare_enable(rzg2l_gpt->clk);
++	if (ret)
++		goto fail_bus_clk;
++
++	for (i = 0; i < RZG2L_MAX_HW_CHANNELS; i++) {
++		if (!rzg2l_gpt->channel_enable_count[i])
++			continue;
++
++		rzg2l_gpt_write(rzg2l_gpt, RZG2L_GTPR(i), rzg2l_gpt->hw_cache[i].gtpr);
++		rzg2l_gpt_write(rzg2l_gpt, RZG2L_GTCCR(i, 0), rzg2l_gpt->hw_cache[i].gtccr[0]);
++		rzg2l_gpt_write(rzg2l_gpt, RZG2L_GTCCR(i, 1), rzg2l_gpt->hw_cache[i].gtccr[1]);
++		rzg2l_gpt_write(rzg2l_gpt, RZG2L_GTCR(i), rzg2l_gpt->hw_cache[i].gtcr);
++		rzg2l_gpt_write(rzg2l_gpt, RZG2L_GTIOR(i), rzg2l_gpt->hw_cache[i].gtior);
++	}
++
++	return 0;
++fail_bus_clk:
++	clk_disable_unprepare(rzg2l_gpt->bus_clk);
++fail_reset_all:
++	reset_control_assert(rzg2l_gpt->rst_s);
++fail_reset:
++	reset_control_assert(rzg2l_gpt->rst);
++	return ret;
++}
++
+ static const struct rzg2l_gpt_info rzg3e_data = {
+ 	.calculate_prescale = rzg3e_gpt_calculate_prescale,
+ 	.gtcr_tpcs_mask = GENMASK(26, 23),
+@@ -551,10 +634,13 @@ static const struct of_device_id rzg2l_gpt_of_table[] = {
  };
+ MODULE_DEVICE_TABLE(of, rzg2l_gpt_of_table);
  
- static const struct of_device_id rzg2l_gpt_of_table[] = {
-+	{ .compatible = "renesas,r9a09g047-gpt", .data = &rzg3e_data },
- 	{ .compatible = "renesas,rzg2l-gpt", .data = &rzg2l_data },
- 	{ /* Sentinel */ }
++static DEFINE_SIMPLE_DEV_PM_OPS(rzg2l_gpt_pm_ops, rzg2l_gpt_suspend, rzg2l_gpt_resume);
++
+ static struct platform_driver rzg2l_gpt_driver = {
+ 	.driver = {
+ 		.name = "pwm-rzg2l-gpt",
+ 		.of_match_table = rzg2l_gpt_of_table,
++		.pm = pm_sleep_ptr(&rzg2l_gpt_pm_ops),
+ 	},
+ 	.probe = rzg2l_gpt_probe,
  };
 -- 
 2.43.0
