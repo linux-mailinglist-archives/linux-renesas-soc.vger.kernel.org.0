@@ -1,128 +1,149 @@
-Return-Path: <linux-renesas-soc+bounces-22190-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22191-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 644F6B94A07
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 08:56:28 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A873B94B37
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 09:09:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 74EA11901654
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 06:56:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0E9627A4889
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 07:07:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C67DF3019D0;
-	Tue, 23 Sep 2025 06:56:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="baVXzgA3"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DD5029CF5;
+	Tue, 23 Sep 2025 07:05:05 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC321DC198
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Sep 2025 06:56:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1044130F93E
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Sep 2025 07:05:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758610584; cv=none; b=g9NlovRAoKHjRJOW+dgDUsZW+S+AkgSMfVoMdO+oLRr0mTvzC6T5AMW2TmPa3VNPqgkdHQ8qLBGy2pTB0ZhZbc5DdtKbyS9Tjaq/uAOcfa4NVl/Db/TUgVH6Y00hXuQzXFQXUzHPBjKxRv9QdjMOaRj1D4OmhIWxtqjZdT2jCOo=
+	t=1758611105; cv=none; b=mng7gPO+z7i/AvXyurpG0Nkhn5m9+/TPKPjSeJJjGIz1fRtlzRC8C1P4IlY6N9/Z0+ke9XFtHCZUi0SXU2c7bCL0IK8doHk4Oey9XUs1gQXoc2TX1YvkL5OdekM/4WyYOhW6siVzhFSkwWiGOJnpiKQkATiuNi4M1m3wN8c3Fcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758610584; c=relaxed/simple;
-	bh=Q1JgOVWrgfnpXgIZeXWfz4VzvMC4tAbZhSpeEIsa6UA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s6NCo1Pl3DZdM9EUpVB5fdTxCPU5BvBqbFQR6toFTkXHOEkVuFULACNTActBieVtA9WqarqKjcgK2rGRfPaXBffGOxhAHUoJQUr9YfCXsZ2CdPVP4I5tGOQs5EdDrAL5iYcOFEbZtTt6UEaksHlNvi6Nz7LZp4GvbDHudHEQC+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=baVXzgA3; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=Q1Jg
-	OVWrgfnpXgIZeXWfz4VzvMC4tAbZhSpeEIsa6UA=; b=baVXzgA3gNuJRgNUduCT
-	9YLAh8ao3jJ4T8cLsmn+INWGot11qAUosE9al7r+2vHxEHf1iIFaX7bt7SMgQiu8
-	Uuo/UA5AIq7jQItsKC97WWxNK5Om8tZHAY2eUTzaaKlev0kiKa2lePNUh1Fs09dE
-	njAyluDzD13VmPy4sxNUGZ/9wbjZK/p+k1wDFsL/iMJBwB7EoxAlosKYDrj47NMQ
-	N16pFj+DMCceGAUjTmo/YJ1ok65CfjxH+sSRD00UAf2hkc4hWQ1YG+OXe0dYC1hI
-	AIL5PkmSTXpLw2RT0AO+B4yj5cfnH5MufMOSNFfl6A4ESHTPULdp3eR5mk+C7Z9C
-	Og==
-Received: (qmail 1004437 invoked from network); 23 Sep 2025 08:56:18 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 Sep 2025 08:56:18 +0200
-X-UD-Smtp-Session: l3s3148p1@Rv/NbnI/LtggAwDPXwQHAL/S9V79e5yL
-Date: Tue, 23 Sep 2025 08:56:17 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>,
-	Hoan Tran <hoan@os.amperecomputing.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Serge Semin <fancer.lancer@gmail.com>,
-	Phil Edworthy <phil.edworthy@renesas.com>,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Pascal Eberhard <pascal.eberhard@se.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 4/8] irqchip/renesas-rza1: Use for_each_of_imap_item
- iterator
-Message-ID: <aNJEkd9C2bDrowHP@shikoro>
-References: <20250922152640.154092-1-herve.codina@bootlin.com>
- <20250922152640.154092-5-herve.codina@bootlin.com>
+	s=arc-20240116; t=1758611105; c=relaxed/simple;
+	bh=o2uBmggyCnP3RASSdv7vq3M9mUEKNXKMw4hsc2V3Qxs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lKz1gsyeddKfTegSAPb18ZFj4ZT+kgUSAoFbbdL9L6DMe/3B8mFqfPp/so3mTgR1olZs/y2j0PwWd9EmoE17beGQYPinlofetHpF2sgsj9xt/zgJH+J8/tgjPmDaBlQQiiYYaL7IxcP4W2ndwv5tV49E9o8hoXsNhzazUR7Mv6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-8cda57802f3so1381513241.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Sep 2025 00:05:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758611102; x=1759215902;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cTSa9ZrFX35P20ri8x54pvG4hV62yKGbElIfp1uaYxc=;
+        b=Yo257OgiJLx7lhAwPWooXz1RJVP+Ntkh2LlYt6pCr6uTPKUZJKICziNcocTLYOpbem
+         JHjGJ5SSckcyrMTXXySWFDYwyRIcNyMPpHqm8X0qZWdFVBkoTUmo1HOp735nU0x0W7ik
+         zriMABIEdWiEy5ykrgmOMr0z8y80HbKgV8hBXcO7xHxjAehFDkljBavT6fGIIpCk8DNU
+         9TaOoolYLeG08jma6UlM+rJMThrGM10Anp27Ll827eREeFyWneF6NGjJ5uaV//5s2fse
+         orz0xz3TMPSIux3P929wAdqcge18Olr2VQkQQZWWTfCxEPio5w2BWTvcKJxFCRL37rla
+         Yhog==
+X-Forwarded-Encrypted: i=1; AJvYcCXq18OgKXe7nAGQsX8sPSQVNjH2LvAQlbnuEDHQO5HEh3jvE4bRricGcseNrTK1lrjcSGkippKlxjZae6S+/VJf2A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxctmN1Ep4hhsM4mHhKnki97Z2cpjxVMkhoAYGaIg2iGpHohuV8
+	NNUBqdcE4td7vwR89Y7aDpb8fTKGSYHZPR3diMWUr4HXKa+nchZK9T/1blpuoXvQ
+X-Gm-Gg: ASbGncsfjZuN+8MMSX5A2SkMWLVJrerWqNVyhH/zX1YkNvdIVPO67NjESzH38hEGTpF
+	MQuQNa0tM3VL1NjHhWH8UHPJ7iu+ZmLb5WvG9Bmsr1Xymka7GhtOAIqEm2Of5amhOeHzE2yqWF7
+	83d1P3bBIQxRBiWt43YCgPXL5kRmE/QRQGde4jfVZImkcEBFewqlGkI6xRKCcKoNSUKNWzYKv7f
+	qmAqNvKTGmDyGt5h8LmtuDhm5oyEb49Ys2RTkMHUTm2ocNriv0lq+RkpmkPBqPaPu5iXLLQCBFI
+	rEvHaZEEQecC12PjrwmItBPxAZXBiGh6AhQz0IXd69JOibf8plxaRZAzO+/my3VN6W/V9IvnEi/
+	y15kaMmMAXDNfnfifV3zuj3ELMaz5iiR9vfTb8IYIwR98ujCWOR5rPpopubBRBdQj
+X-Google-Smtp-Source: AGHT+IHsC8r9EgTYrqmLJx/bVp/CE23BkMCdmAkm3gEI3DiJWnrQViHJ4RbAR0mfk0HEj6dSiWYaSg==
+X-Received: by 2002:a05:6102:1610:b0:533:ff66:698c with SMTP id ada2fe7eead31-5a57e77391fmr511730137.2.1758611101763;
+        Tue, 23 Sep 2025 00:05:01 -0700 (PDT)
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com. [209.85.221.177])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8e3e58e7514sm2360107241.2.2025.09.23.00.05.01
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Sep 2025 00:05:01 -0700 (PDT)
+Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-54a8f6a2d80so1204807e0c.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Sep 2025 00:05:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU4nRm0EAY4nhiMhnF2caRpaAav2bGt6l0g713Jj/zxeMUlQkdX39jn7yxrERkhuhCJkaNXB0d2v7kA9VwYB8JWPA==@vger.kernel.org
+X-Received: by 2002:a05:6102:3e1b:b0:534:cfe0:f83e with SMTP id
+ ada2fe7eead31-5a57e774684mr497929137.3.1758611101246; Tue, 23 Sep 2025
+ 00:05:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="TIDIkyJ3Gg25L3Jq"
-Content-Disposition: inline
-In-Reply-To: <20250922152640.154092-5-herve.codina@bootlin.com>
+References: <20250915235910.47768-1-marek.vasut+renesas@mailbox.org>
+ <CAMuHMdXAK6EhxPoNoqwqWSjGtwM24gL4qjSf6_n+NMCcpDf1HA@mail.gmail.com>
+ <6fdc7d1e-8eaa-4244-a6b4-4a07e719dd73@mailbox.org> <CAMuHMdVrw1Mr_hKvgve03DQwvpqSPNaN5XUnYRJPXMeX1wvv0A@mail.gmail.com>
+ <de4e4003-214f-4260-854c-d15efc81bb74@mailbox.org> <CAMuHMdVgFNb-3TgL7a+AJMYE6tqOiMpGYFDhXnQoz9R5gLz=-A@mail.gmail.com>
+ <12b54030-5505-416b-9e4e-2338263c5c7a@mailbox.org> <CAMuHMdUnKqHQpaTkiuYUmR1kQ2GwVvj0SeML-9x3Rc+srtXW+w@mail.gmail.com>
+ <3e6544a4-a202-4a1b-8cef-a864936db5f2@mailbox.org> <CAMuHMdUZ0U4OZOgOMXVKque55JwuSjA7kxBg7htmFjzca6+DyQ@mail.gmail.com>
+ <c34424d5-b1ac-483e-a1e1-8dd8bfdc2c51@mailbox.org>
+In-Reply-To: <c34424d5-b1ac-483e-a1e1-8dd8bfdc2c51@mailbox.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 23 Sep 2025 09:04:50 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUKAz67vD+5pQm-sJx64CY9fwdRpNcreHNF6Oet43-YYw@mail.gmail.com>
+X-Gm-Features: AS18NWCkJPDSQ7i_rlf0FanL-iuzDqO4gQrvZfLgfjUxJp_g2BkVs26NNcSRwJo
+Message-ID: <CAMuHMdUKAz67vD+5pQm-sJx64CY9fwdRpNcreHNF6Oet43-YYw@mail.gmail.com>
+Subject: Re: [PATCH] PCI: rcar-gen4: Fix inverted break condition in PHY initialization
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: linux-pci@vger.kernel.org, 
+	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+On Mon, 22 Sept 2025 at 17:49, Marek Vasut <marek.vasut@mailbox.org> wrote:
+> On 9/22/25 5:33 PM, Geert Uytterhoeven wrote:
+> > On Mon, 22 Sept 2025 at 17:17, Marek Vasut <marek.vasut@mailbox.org> wrote:
+> >> On 9/22/25 12:10 PM, Geert Uytterhoeven wrote:
+> >>>> I have instead posted what I think are proper fixes for that SError:
+> >>>>
+> >>>> PCI: rcar-gen4: Add missing 1ms delay after PWR reset assertion
+> >>>> https://patchwork.kernel.org/project/linux-pci/patch/20250918030058.330960-1-marek.vasut+renesas@mailbox.org/
+> >>>
+> >>> I used v3 instead.
+> >>> While that patch seems to fix the SError after a hard reset (hardware
+> >>> reset), it is not sufficient after a soft reset (typing "reboot").
+> >>>
+> >>>> clk: renesas: cpg-mssr: Add missing 1ms delay into reset toggle callback
+> >>>> https://patchwork.kernel.org/project/linux-clk/patch/20250918030552.331389-1-marek.vasut+renesas@mailbox.org/
+> >>>
+> >>> This does not fix the SError, as expected (pcie-rcar-gen4.c does not
+> >>> call reset_control_reset(), but reset_control_{,de}assert()).
+> >>>
+> >>>> clk: renesas: cpg-mssr: Read back reset registers to assure values latched
+> >>>> https://patchwork.kernel.org/project/linux-clk/patch/20250918030723.331634-1-marek.vasut+renesas@mailbox.org/
+> >>>
+> >>> I used v2 instead, which seems to fix the SError.
+> >>
+> >> Those three patches have to be used together, and this inverted break
+> >> condition fix should be applied too.
+> >>
+> >> The first two are corrections which align the code behavior with
+> >> reference manual. This inverted break fix is another correction. The
+> >> last patch in the list above actually fixes the asynchronized reset
+> >> behavior and turns it into synchronized reset behavior, therefore fixing
+> >> the SError in the process.
+> >
+> > FTR, I always had the inverted break condition fix applied.
+> > All 3 fixes on top should be fine.
+>
+> Maybe I can finally properly deserve your TB on this patch with this
+> option (C) , all three patches applied.
 
---TIDIkyJ3Gg25L3Jq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-On Mon, Sep 22, 2025 at 05:26:35PM +0200, Herve Codina (Schneider Electric)=
- wrote:
-> The renesas-rza1 driver parses the interrupt-map property. It does it
-> using open code.
->=20
-> Recently for_each_of_imap_item iterator has been introduce to help
-> drivers in this parsing.
->=20
-> Convert the renesas-rza1 driver to use the for_each_of_imap_item
-> iterator instead of open code.
->=20
-> Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@bootlin.co=
-m>
+Gr{oetje,eeting}s,
 
-SW6 on my Genmai board still delivers irqs via rza1-irqc, so:
+                        Geert
 
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
---TIDIkyJ3Gg25L3Jq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjSRI0ACgkQFA3kzBSg
-KbY/FxAAlVLFGL6AfVEsCD/oIUfVYSIxAjWEEjVSx/Le5JffJO2Ft1SgnZ9rH8ji
-J1cpy3LuqstvKKD3u/BqrCMZRGjP/l+7iw6g/OSdetuKHf/VpDHpO47xD2LAZzBV
-Y0t0YvhLDN7phe1AfpkL3fVEbLRFX5/h+AcyP9mDReCJqwzV3cs7TDkbfMwbM1L9
-+nQ5/4zodr/wkG/jdoMTCR9Acw6rCTFExxy1ay2GbyOponId39hkBneZYpTS/QTZ
-61b5ISD7aoEKu2CU4m32xOdNyep0bWjzgGlnSKl3KXpbKnpxSLvjbUTgBG/LTgXp
-gaBN0qNtqzh47Uzhy1pNjjC9mT/PTkbMg/wHp6bSBV7uMwgvodtT5JXaiGalWKhg
-SRGkvwUEOzRyVcF+07lBd23dP7QCMwkRc6vcI9VwlDQohnGQckIi+/9m2TnKzRtN
-H/TGXeC8oqQYgEgi3JuVY280LOfV0wOnGVe0by48mji6njHcc8PafrkFxExU3JFW
-Yexm+lUlqcVH6CzrGAJItO0aiUEZdeWjCGERIdPaU07M8LXIDbrLfqJkdVQdVief
-NglHPzKbAtsMzRKCXzUZUcVgW2pD06BhBtBOY8vGBroGGQr6NcZCd+B6PpYhHuaX
-DXDsLGKaG5modPfTEoUDF0i0M17lYLe5Cis6icEVXXMK/7EpVG0=
-=YWOY
------END PGP SIGNATURE-----
-
---TIDIkyJ3Gg25L3Jq--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
