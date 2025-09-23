@@ -1,90 +1,62 @@
-Return-Path: <linux-renesas-soc+bounces-22229-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22230-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB41EB96846
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 17:14:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A63B96B7D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 18:06:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C6F2618A15DB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 15:15:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E248B18A2A16
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 16:06:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF7562417D9;
-	Tue, 23 Sep 2025 15:14:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z5uD2LfT"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 754A226C3AE;
+	Tue, 23 Sep 2025 16:06:08 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB1A31E0B9C
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Sep 2025 15:14:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B083E14EC46;
+	Tue, 23 Sep 2025 16:06:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758640482; cv=none; b=BreJZt0D8E+hpbraIdsgIwx9uh8MudvbJQu2GKcuA+qRXa6AN9kq/4+8HYs0xasq0ZURPcq/Fl271rxd1uP1W4P0U43MvDxujOliJ9/A91jJiIlC7U8Ls3oXgo3d/GC44cceMhgRiudWZ+6Uw6J1yqiG5qU1IFKjsXAX/x5h3eA=
+	t=1758643568; cv=none; b=JMWsxWtQmjmfITDhIo5KqM5FTnVRiNMQlF5QtnHJZ76CpeYhV2NxCuncYgkyZkr9pV9Q49KX3vlSCUYuHECxQqMDKEaNyhpH+D0DbWmfbbCeF7rkvoTAh0Hwz9BM5nf0Gja7/XSEjrqyL3MMGY2apFcbgWLfJ/NqIPzth381lGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758640482; c=relaxed/simple;
-	bh=1KrVLh9i+3wagyFqRh2yb9A01gM5zJx1I7yzbRkVgqI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hYn6eSkzUidQ01BIZrvcrvAxeOby2NLq/11RCi4UXBLrDxkKjL0HopEfYo9HTQfQ6Cv51JMV7EyR31LicySAqobsEpMymHmgzC2krMH9iATXgY3++HFnz8ieL0OSkOOyjEXZzeoGAQaHOwTw0UGlDI3OxIs2YBKQLNk52I1hdQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z5uD2LfT; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-46cbdf513d7so26164555e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Sep 2025 08:14:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758640479; x=1759245279; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bSzoRKv9D6242LbOslRZzX/vjvHi3jJdP3+X1xG4QfA=;
-        b=Z5uD2LfT0UTWSxcCs+rmnha8QFyTy/f6KfE4wYo4tn2/NYP9iOVEv5icbx6BzurFKU
-         cpD1oeJahgfXJYG3y0r+Og5krA90CefrUEbJdVgji+96baOEtSZG5qZ5Wt23ZOW+IOQk
-         RYqTRhmXUkx8p4jfYartMf0uJHlIjU/0wL70EEQDoVG4RL1K28UuMTPrneKJz4qT/joj
-         S5T0FBn4xwnWVCuWYa0/iKVlbw3Tq//l55N2tz7YXUDUZ3wpshJOzI9J3c2LJxT2+FbI
-         hJ6q9fYTmaBYhI9wNa4EY7oCN0nI/AH6pFTx0NbPGk0d8NBcjez1PUA1Pyhd5HsbHztY
-         /pfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758640479; x=1759245279;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bSzoRKv9D6242LbOslRZzX/vjvHi3jJdP3+X1xG4QfA=;
-        b=NDmlDdP9ZQwPHOBkTbz7zdWglvPowT0QKwpwXt7hALOmwIMcj137zSeMdiO6jbi/e1
-         M3rO0kAJKxv4IgQ5nyJj+wLypMKHOmP1jsC/KAPlr6Q+apSmAvFOsZ73rBfCoO6ciFt7
-         3j/gcQeVl8xxwGS4xImn3oORS0CR7sh4Pw37zf+t4rOlZh7zemcCxlPa9S3y3ciSGsjz
-         nZQRDjWAckew8p22aPp/DUdDuAPiSSjEopYnodINwHa6xO+SBUMWA3pth7NGu8J0REiW
-         +FqAiBbVc+/n6BV1Bu8NMevNxM5FcP85PSUbv71EOk8IPPv2wU3cutUlXVPaj4v8ZTu7
-         92/A==
-X-Forwarded-Encrypted: i=1; AJvYcCXH1lY1ZqL8XH0WY06euK9zy7BI6iAIuQI/Cg2pDG5KI7jfjXRTI5yEuq0JezVm4XbuxFJoOKBWvUyf8y8orvDCfQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxGY2V3W5utcDiZzbBQcbL140AVpb5x2mtoz8GG8lZmrh+MnQ+3
-	i9C++EcSJouyrmcsqnHGXzwN7t4+4a+l8uY9hhLPUlz5ygwVniqU8qL+
-X-Gm-Gg: ASbGncsbYVktz7NWjspnBW5CZz6GFCZ29VeJkefuSrj6Tx5Ef1g7rahufsvrxdzmacE
-	m5Nn/L3nlYwzHJfzb4qsVdHO29CJg4sN8g6haj1DttShDwbwJE7UZRrfqQxj/jZLvl6qXIvoExx
-	WHrFdx1zhO4jWQ3/r2S0yvJKHf0XLSV49X/UpjPsETicpu81GFz0eLsMbZvO051eKhMmyBIA6L7
-	Ou1uX+E8CnUAVzZOSbtyvBDvzg7YnCX+0uV9dwUd+4AwdZd7YYmaNVEwU4Wr9ufFJOpd1lXNgnV
-	cYAYdu0OwewyKGCKjKB4UaEDjFcsG5x9Z5l8h9aeu/zxkStFVdEyE1ETr2D2jSa3Rlls4/6FsdH
-	dhKJbbJ9oOv3CjK1e6jfYVKagfOC2kkOU+fupj//wT/+rXeV6tODJlSqVMvUVjXnuVKOeLMIso8
-	I47w==
-X-Google-Smtp-Source: AGHT+IFni6TH8MGUWBWjCjHCYhHGXILklcn8cRu2vDbncMqxw2ouu3ZjMQL5xTbf+f9nA3Rt1w8R1w==
-X-Received: by 2002:a05:600c:3145:b0:46e:1d01:11dd with SMTP id 5b1f17b1804b1-46e1d9745c1mr25739075e9.2.1758640479096;
-        Tue, 23 Sep 2025 08:14:39 -0700 (PDT)
-Received: from biju.lan (host86-139-30-37.range86-139.btcentralplus.com. [86.139.30.37])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e1ce10bacsm20913985e9.0.2025.09.23.08.14.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Sep 2025 08:14:38 -0700 (PDT)
-From: Biju <biju.das.au@gmail.com>
-X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-kernel@vger.kernel.org,
+	s=arc-20240116; t=1758643568; c=relaxed/simple;
+	bh=0GTh+0WJIPd40cypVxXRfCEqOpvywQK+YUOaM9yZ4W0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nB1nMNy1fV/L1Yw/9ZcVGayPjMJ8u/ZN94ZISoxLH5F4kwT+PVcxcDxqbEU7bWFuT62m5FE/77/FVYbENwLnBL09IX+cKCX1iSCAuPclJ2rhIxsOa8G7fZw0js7kfHZqLbKcyslghBr4qjooch0n2Re0PoSAX79D80rAFy8Yngk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+X-CSE-ConnectionGUID: YGSbaGE+SJCKN1N7nn0uLw==
+X-CSE-MsgGUID: EzCQqDIPQu+ubIvfaqd+YA==
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 24 Sep 2025 01:05:58 +0900
+Received: from demon-pc.localdomain (unknown [10.226.93.64])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id A932D400C752;
+	Wed, 24 Sep 2025 01:05:52 +0900 (JST)
+From: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+To: 
+Cc: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2] memory: renesas-rpc-if: Add suspend/resume support
-Date: Tue, 23 Sep 2025 16:14:33 +0100
-Message-ID: <20250923151437.287721-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+	Magnus Damm <magnus.damm@gmail.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-iio@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org
+Subject: [PATCH 0/7] Add ADCs support for RZ/T2H and RZ/N2H
+Date: Tue, 23 Sep 2025 19:05:14 +0300
+Message-ID: <20250923160524.1096720-1-cosmin-gabriel.tanislav.xa@renesas.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -93,117 +65,40 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
+Renesas RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs include three
+12-Bit successive approximation A/D converters.
 
-On RZ/G3E using PSCI, s2ram powers down the SoC. Add suspend/resume
-callbacks to control spi/spix2 clocks.
+RZ/T2H has two ADCs with 4 channels and one with 6.
+RZ/N2H has two ADCs with 4 channels and one with 15.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * Updated error messages in rpcif_resume().
----
- drivers/memory/renesas-rpc-if.c | 57 ++++++++++++++++++++++++++++-----
- 1 file changed, 49 insertions(+), 8 deletions(-)
+Add support for them.
 
-diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
-index 4a417b693080..2bcb05559ccb 100644
---- a/drivers/memory/renesas-rpc-if.c
-+++ b/drivers/memory/renesas-rpc-if.c
-@@ -67,6 +67,8 @@ struct rpcif_priv {
- 	void __iomem *dirmap;
- 	struct regmap *regmap;
- 	struct reset_control *rstc;
-+	struct clk *spi_clk;
-+	struct clk *spix2_clk;
- 	struct platform_device *vdev;
- 	size_t size;
- 	const struct rpcif_info *info;
-@@ -1025,16 +1027,14 @@ static int rpcif_probe(struct platform_device *pdev)
- 	 * disable it in remove().
- 	 */
- 	if (rpc->info->type == XSPI_RZ_G3E) {
--		struct clk *spi_clk;
--
--		spi_clk = devm_clk_get_enabled(dev, "spix2");
--		if (IS_ERR(spi_clk))
--			return dev_err_probe(dev, PTR_ERR(spi_clk),
-+		rpc->spix2_clk = devm_clk_get_enabled(dev, "spix2");
-+		if (IS_ERR(rpc->spix2_clk))
-+			return dev_err_probe(dev, PTR_ERR(rpc->spix2_clk),
- 					     "cannot get enabled spix2 clk\n");
- 
--		spi_clk = devm_clk_get_enabled(dev, "spi");
--		if (IS_ERR(spi_clk))
--			return dev_err_probe(dev, PTR_ERR(spi_clk),
-+		rpc->spi_clk = devm_clk_get_enabled(dev, "spi");
-+		if (IS_ERR(rpc->spi_clk))
-+			return dev_err_probe(dev, PTR_ERR(rpc->spi_clk),
- 					     "cannot get enabled spi clk\n");
- 	}
- 
-@@ -1063,6 +1063,44 @@ static void rpcif_remove(struct platform_device *pdev)
- 	platform_device_unregister(rpc->vdev);
- }
- 
-+static int rpcif_suspend(struct device *dev)
-+{
-+	struct rpcif_priv *rpc = dev_get_drvdata(dev);
-+
-+	if (rpc->info->type == XSPI_RZ_G3E) {
-+		clk_disable_unprepare(rpc->spi_clk);
-+		clk_disable_unprepare(rpc->spix2_clk);
-+	}
-+
-+	return 0;
-+}
-+
-+static int rpcif_resume(struct device *dev)
-+{
-+	struct rpcif_priv *rpc = dev_get_drvdata(dev);
-+
-+	if (rpc->info->type == XSPI_RZ_G3E) {
-+		int ret;
-+
-+		ret = clk_prepare_enable(rpc->spix2_clk);
-+		if (ret) {
-+			dev_err(dev, "failed to enable spix2 clock: %pe\n",
-+				ERR_PTR(ret));
-+			return ret;
-+		}
-+
-+		ret = clk_prepare_enable(rpc->spi_clk);
-+		if (ret) {
-+			clk_disable_unprepare(rpc->spix2_clk);
-+			dev_err(dev, "failed to enable spi clock: %pe\n",
-+				ERR_PTR(ret));
-+			return ret;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- static const struct rpcif_impl rpcif_impl = {
- 	.hw_init = rpcif_hw_init_impl,
- 	.prepare = rpcif_prepare_impl,
-@@ -1125,12 +1163,15 @@ static const struct of_device_id rpcif_of_match[] = {
- };
- MODULE_DEVICE_TABLE(of, rpcif_of_match);
- 
-+static DEFINE_SIMPLE_DEV_PM_OPS(rpcif_pm_ops, rpcif_suspend, rpcif_resume);
-+
- static struct platform_driver rpcif_driver = {
- 	.probe	= rpcif_probe,
- 	.remove = rpcif_remove,
- 	.driver = {
- 		.name =	"rpc-if",
- 		.of_match_table = rpcif_of_match,
-+		.pm = pm_sleep_ptr(&rpcif_pm_ops),
- 	},
- };
- module_platform_driver(rpcif_driver);
+Cosmin Tanislav (7):
+  clk: renesas: r9a09g077: Add ADC modules clock
+  dt-bindings: iio: adc: document RZ/T2H and RZ/N2H ADC
+  iio: adc: add RZ/T2H / RZ/N2H ADC driver
+  arm64: dts: renesas: r9a09g077: Add ADCs support
+  arm64: dts: renesas: r9a09g087: Add ADCs support
+  arm64: dts: renesas: rzt2h/rzn2h-evk: enable ADCs
+  arm64: defconfig: enable RZ/T2H / RZ/N2H ADC driver
+
+ .../iio/adc/renesas,r9a09g077-adc.yaml        | 170 +++++++++
+ MAINTAINERS                                   |   8 +
+ arch/arm64/boot/dts/renesas/r9a09g077.dtsi    |  69 ++++
+ .../dts/renesas/r9a09g077m44-rzt2h-evk.dts    |  28 ++
+ arch/arm64/boot/dts/renesas/r9a09g087.dtsi    |  69 ++++
+ .../dts/renesas/r9a09g087m44-rzn2h-evk.dts    |  64 ++++
+ .../dts/renesas/rzt2h-n2h-evk-common.dtsi     |  79 +++++
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/clk/renesas/r9a09g077-cpg.c           |   3 +
+ drivers/iio/adc/Kconfig                       |  10 +
+ drivers/iio/adc/Makefile                      |   1 +
+ drivers/iio/adc/rzt2h_adc.c                   | 328 ++++++++++++++++++
+ 12 files changed, 830 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/iio/adc/renesas,r9a09g077-adc.yaml
+ create mode 100644 drivers/iio/adc/rzt2h_adc.c
+
 -- 
-2.43.0
+2.51.0
 
 
