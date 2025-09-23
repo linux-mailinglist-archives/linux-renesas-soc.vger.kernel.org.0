@@ -1,128 +1,136 @@
-Return-Path: <linux-renesas-soc+bounces-22205-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22206-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05286B955B0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 11:59:55 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45826B95620
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 12:05:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B4CD83AD10E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 09:59:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0DBFB2E108B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Sep 2025 10:05:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C4DF320CC2;
-	Tue, 23 Sep 2025 09:59:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EABBE2877E2;
+	Tue, 23 Sep 2025 10:05:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eb098zEg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF972798FE
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Sep 2025 09:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2553027815B
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Sep 2025 10:05:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758621586; cv=none; b=nd6P+G4GaS3mFOYz8iYUAIXogFRWaW+gHv85h4rOPHPEM0a/4ziedElPbLVb77XHbsKWTMIimEhrmPLAsMbaS5pid5QMqTpnqJ4wGmuDJSkK0PzlBXIOSQAcEsHgBQx77/Dk+Dbeg3owHgcnm99dUtYOKsLaGgEjpT5D2EE7Rgg=
+	t=1758621931; cv=none; b=piJ9+cDQ/fOtahDiHA4P69QBcw5UOcHxViZCTfryQgZb+EgwCnz7lPkylWtJKD5UTgCz5Q3pZNTNSmFTBqK59q7rIigzhtOi2smkwwJI3Ayw1i3bE1GeioELnojQTz/QunowuQghm38Cz5oyD4HcErH4F/ymoTN+yTWwyyVLOmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758621586; c=relaxed/simple;
-	bh=UngJ0Rhljc1gSU7wLJptkJ9TDFmikWFZOGAOtnzQ0Ho=;
+	s=arc-20240116; t=1758621931; c=relaxed/simple;
+	bh=seZKVt+CB+k7Mas/mFiiVxa4+/v/4YNrXuxIJTyDwm4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KM+CEKeokg2GhYixgJO9kMGcGy+uGEg1ui/uvpW5WS8NE/pTMyL8872OR+f5HPeCq/PQIRmlMBgF9m7uRmjTe7+pGTefezhX+68i1dndGkVyLjbvXrVL8PBw549Hc1xPtHXK4z72AzWRXjzDJm8klLK1FSk2DL9O+NFRrcaIHCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=T1oVqV52C+ReXsE+PPy4uHiGj4aQBrsVjhH7fuef2qEZYV0uBiKFB9zqSGoxrLuc1hKEbiiNnBJb68TbjthOM3Kcsvs+CNf1HzY+oCA2kLaD3HfLD2u+JY4pqKQmiOS3bJ0KW6FislsR8uTU819VrDZU6HzaIw7R45BI7w6vRok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eb098zEg; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-55ae619545fso3385189137.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Sep 2025 02:59:43 -0700 (PDT)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3ee13baf2e1so3906930f8f.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Sep 2025 03:05:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758621928; x=1759226728; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=c7Xs+So4MvDnUaVFG+Q6oG/T6yZ5oFXdVTaeJcgoYjs=;
+        b=eb098zEg9hMWFVDPenA2juV6hBsABv+UljqGJHn5D9dQNXpGJDor8E4pVnylwrz6At
+         r0zCnvALrmTS7gPr7PgoZmtmz2mXawtExEkEGQGMpmdNSfwOdPI5pkLeC5qEoMid6vbg
+         B4ljFdejXQVerRouWgydg6Mif9AjijfXpr1G802mfaaBzKq3iSTF0mQ6rNmenqC2R8lr
+         bGFqS7NP/OW/4DXR8zMp4WEFDiQWqhIBCUtAZ8V834JrF4325nN4kKzLJIFf8AkCz/WO
+         1lZR6clhj7w0Nu0/3DOUsk/TcWgv7ojk0jMbpeWab+cMe27Q42R2Pw9LfBWJodXnHSAb
+         pv+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758621582; x=1759226382;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rnoTjylvxrxdgkjV6WJ+aZ2BUNyHdjRUjdJqPB2kS9E=;
-        b=rj6UpKRD8L2p6Rk3dp45+CiEKfVwAmQ4z215Pw0eemSLhxTSaAlY81dhy6yf33W2KF
-         R4HYBS8UOyAojRBmBbhacpVu2gfnrNATsmzx0KXXju/0cfCeKF6vpFkalB8RlsU48K3X
-         SlS6dOOVzu9hfAWHrb+FdwzuzDU8rubspFwKi3nEcOQw4bxNaLlS8oPYFyLEoQV1Tfui
-         VkwwzFLG0ze3Ek+hRdMSv2cvwVnDH3sVutz4h7+IBmvbh1DY2dVKoXeTJG8X7fE6z8DK
-         uur+yd8j0o0zEx8GAVAuZjW03nWSRehTYlIo05BKB1FmQAtwDdrK0S2RW/mkIjMUVyn8
-         eMiw==
-X-Forwarded-Encrypted: i=1; AJvYcCVpSqQe/vnSWIKdHBW9eJpX4eAjfqKh8UscVJ43cqilJJd14ASviM0v0LGPSxa1vNLVgnSqJvxR+Ps9If8jM8I5Ug==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyjeyBn6qRc60t2UYhRwBFnkL0YhCKOT28KeQ5iWNX8k4kuJXqp
-	IpO3MdqGKbwxe+pkRitiCWMhHS/64QToC8azZj5Qbt7ZJzp+i97u6+pgTVuYSG4k
-X-Gm-Gg: ASbGncvyyHVr9pzbennRiDRODyUE7422fE0ksr63PSJvtaBrGHdfRh2XEOGh5uCjvwN
-	rAIkUiHnIlG03wsb+2TwW0mAeBhFn0MDjgUI3KoR5GmplcYpXPIzKw1tfmCuUuGP0dUzCkylvEL
-	wTmiTOACVu9x7HJSvzAY4iRjSHyEHN/8sBGvrF3AfrIECQAt3Jmbj+51/uedwc2Kzwsb1ywfr0x
-	HFIatqpr6zvFm3/JviuQ9PkoMZ0KAiRYjEZ3A5RTkODJim+uXX92IF2NOUS5JmnBwmGulW12gQ0
-	hUxKsdfdaI7CKrAsieou/ISvb3ZV1JaRpmcLr8L3kaH+z16vOjpycSRKeYdGXXDNCEH1SW1V/1B
-	4HJ4oWe0bz23x2ZOwSFWxP41Kk/HIvS1CRRkj43D1YebSSF2C0E6+2fTj8KUv
-X-Google-Smtp-Source: AGHT+IE6Pj0W7SFaWNsa7Fseu2GelSpuI//abvlJMlV8MXM/eMRqj9gEI3QKyGTK9v66LDYIXUNsvA==
-X-Received: by 2002:a05:6102:2ace:b0:519:534a:6c50 with SMTP id ada2fe7eead31-5a57c942471mr782096137.34.1758621582206;
-        Tue, 23 Sep 2025 02:59:42 -0700 (PDT)
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com. [209.85.217.48])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-57a0267661fsm3993509137.12.2025.09.23.02.59.41
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Sep 2025 02:59:41 -0700 (PDT)
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-557a2ba1e65so4794129137.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Sep 2025 02:59:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVeiEduoepzObjwsti9sJjRulNVA6APoPe9EBTQNJoJiFYSHl5QWSsgmbMf/mHGHDaCN6jzYfODQFaLodaDpANHTA==@vger.kernel.org
-X-Received: by 2002:a05:6102:a4a:b0:59d:6be4:5b97 with SMTP id
- ada2fe7eead31-5a577be934amr649174137.5.1758621580798; Tue, 23 Sep 2025
- 02:59:40 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758621928; x=1759226728;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=c7Xs+So4MvDnUaVFG+Q6oG/T6yZ5oFXdVTaeJcgoYjs=;
+        b=nPPbmwchoza9smnFkjMLrbuGMu2JeY2kzGmrWRUROu6TugHxtpx+wjcYTMKQr8Ftau
+         3sWJLvxLDMx7MpJDrX+mlhz29A4wYy+IWFo0JLhHMINzP5P18cHspGmmSnvgz8+1uc+x
+         YUAV4khMTkdRUDI4yuUF9M1JMTA/KowODrmxabpgVHDQTRnL+/Z9srAwP9nxyUiA0xPr
+         71xSEgTcCSf44kbLeHEHEebrWgmsm3XIlijNE/cB0fGubMBFa7K+JsndSypmA3HAzjcK
+         0JQ4WWRBeOOJXHTQNfT+JjbinOk9NjgDuLsATKoM6VQN5p/e4nVsiY0vkABw43FwB3bj
+         tTZg==
+X-Forwarded-Encrypted: i=1; AJvYcCWSoom+FhhLzEcWiXAyGn6cjur0lNVNAYu0gJ/ZWuUNirNmFfVtdfs05cSR4iaj5h+f/zXdUPI78WIwNQdPEiNz3Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzYCSk9nOFI7NS/DOzQ6pGaGpnXWWJQqevCRD56M9fxKqj1k9mT
+	cPI5h/skg/qHWsTFie98LoJZhl+so7C2gfQHfNbD9IHpr37dDaxsI3aWF2czUZksBFusZXMcjAh
+	xiXeobNElmNgsgDD8BNcSJh5xDd2Wa3jxKJGg
+X-Gm-Gg: ASbGncvY/NletJE2N15JSZGfZjAZifhvTGSxEcCFAzBT05HoFRV+qUo4gkzRksaagxz
+	9DIAtBaOlzT6bnHvqaFYp8fvfg5qbK3cF0QKwd1CVYVn5yY0Kay8VhCjafHafZ1Dkv+mTBZCidb
+	zsNymtvltKL8XtBdC0moA++KZyOrW+x3d2ptNeOXVM8Fyt8RD94OyGwKs5hL6mrN69UR/Zg1cLj
+	3ipUCOH
+X-Google-Smtp-Source: AGHT+IEmfUOWv3qbc8Ohx4AaGaG7HewCyVbyN4002SXkqm3XHR6/YgMnu50wP/YGQJQxCgT0YYdAXH6LHlAhjgjNMsk=
+X-Received: by 2002:a05:6000:1789:b0:3fe:34ec:2fab with SMTP id
+ ffacd0b85a97d-405cb3e61a9mr1619335f8f.63.1758621928300; Tue, 23 Sep 2025
+ 03:05:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250923092846.74517-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <2025092311-espresso-collector-5f4d@gregkh>
-In-Reply-To: <2025092311-espresso-collector-5f4d@gregkh>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 23 Sep 2025 11:59:29 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU_UXyAaeriz8R0MO5SpWE_z4s8Ci6CEMFgVJr_XxDZzA@mail.gmail.com>
-X-Gm-Features: AS18NWAf5t3cNSnr0jhWdIdKjaw8kVZxFdQZxsA5_eTxyzisEh79rb7MSnHdO50
-Message-ID: <CAMuHMdU_UXyAaeriz8R0MO5SpWE_z4s8Ci6CEMFgVJr_XxDZzA@mail.gmail.com>
+References: <20250923092846.74517-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <2025092311-espresso-collector-5f4d@gregkh> <CAMuHMdU_UXyAaeriz8R0MO5SpWE_z4s8Ci6CEMFgVJr_XxDZzA@mail.gmail.com>
+In-Reply-To: <CAMuHMdU_UXyAaeriz8R0MO5SpWE_z4s8Ci6CEMFgVJr_XxDZzA@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Tue, 23 Sep 2025 11:05:01 +0100
+X-Gm-Features: AS18NWCi66XhZ5MUL-jzRAWBA37LuUHnLVXt5X9xQycFYilsn6M_AddZZJIo5qk
+Message-ID: <CA+V-a8uhrOZSXih7ays+0nTJ_gPOAs7sn5=cUkpvwZR3c7EQHA@mail.gmail.com>
 Subject: Re: [PATCH] serial: sh-sci: Add missing header guard
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Prabhakar <prabhakar.csengg@gmail.com>, Jiri Slaby <jirislaby@kernel.org>, 
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
 	Geert Uytterhoeven <geert+renesas@glider.be>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
 	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, 
 	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Greg,
+Hi Geert,
 
-On Tue, 23 Sept 2025 at 11:51, Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
-> On Tue, Sep 23, 2025 at 10:28:46AM +0100, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Add header guard to sh-sci.h to prevent multiple inclusions of the
-> > header file.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  drivers/tty/serial/sh-sci.h | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> >
-> > diff --git a/drivers/tty/serial/sh-sci.h b/drivers/tty/serial/sh-sci.h
-> > index 951681aba586..22f877e2a17e 100644
-> > --- a/drivers/tty/serial/sh-sci.h
+On Tue, Sep 23, 2025 at 10:59=E2=80=AFAM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
 >
-> Why is this a .h file at all?  It's so small, why not just put it all in
-> the .c file and then there's no need for it anymore.
+> Hi Greg,
+>
+> On Tue, 23 Sept 2025 at 11:51, Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> > On Tue, Sep 23, 2025 at 10:28:46AM +0100, Prabhakar wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > Add header guard to sh-sci.h to prevent multiple inclusions of the
+> > > header file.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
+>
+> > > ---
+> > >  drivers/tty/serial/sh-sci.h | 5 +++++
+> > >  1 file changed, 5 insertions(+)
+> > >
+> > > diff --git a/drivers/tty/serial/sh-sci.h b/drivers/tty/serial/sh-sci.=
+h
+> > > index 951681aba586..22f877e2a17e 100644
+> > > --- a/drivers/tty/serial/sh-sci.h
+> >
+> > Why is this a .h file at all?  It's so small, why not just put it all i=
+n
+> > the .c file and then there's no need for it anymore.
+>
+> Until commit e76fe57447e88916 ("sh: Remove old early serial console code
+> V2") in v2.6.33, it was also included by arch/sh/kernel/early_printk.c.
+> Those days are long gone, so the time has come for assimilation...
+>
+You beat me. I was about to ask if you are OK moving this to `sh-sci.c`.
 
-Until commit e76fe57447e88916 ("sh: Remove old early serial console code
-V2") in v2.6.33, it was also included by arch/sh/kernel/early_printk.c.
-Those days are long gone, so the time has come for assimilation...
+I'll drop this patch and merge the sh-sci.h header into sh-sci.c.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
 
