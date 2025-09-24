@@ -1,81 +1,80 @@
-Return-Path: <linux-renesas-soc+bounces-22339-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22340-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3683B9AB3A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 17:37:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78C77B9AC2D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 17:45:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8CFA3162A84
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 15:34:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 858B5162241
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 15:45:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C5A630F95E;
-	Wed, 24 Sep 2025 15:33:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 781F23128C1;
+	Wed, 24 Sep 2025 15:45:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b="yzaJmM62"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="ERxaZORr"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE80021257E
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Sep 2025 15:33:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B0B32749C9
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Sep 2025 15:45:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758728002; cv=none; b=WQ40URWMXa79klPn2Xa/WS07lA/zk0tIHPxzoGp3dzaxc4Vb0A8PHB+EPQPR8hezd7GMas7JNd3G7Qhdv5/mw46QdFrsev9E+24oeo17CGXayH/yq4KjcDVBiBfL9ktPmZYAYRjsNw44jT5UglDwu4frTdy/j8IhCaqdRplafz8=
+	t=1758728720; cv=none; b=d7gIIl0mZQRMahc7nBD59zX+V6jZaHgqBE3Va7NIp2sr3iz+UJ8Zt70bxBhw16ISgxqe5InBM7po9t0VE0afzlblVg2ji8gzn+NxUqfm7kbtrZosK/x+EqBJWmyRlhl9pb/pbahrymz9h2DyFWMVKIgKNAK41sF8Y5M3JTesX6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758728002; c=relaxed/simple;
-	bh=oj40lHJe2CXGo61XnScdHEqFvpXJOdvbt9aC6Rr03U8=;
+	s=arc-20240116; t=1758728720; c=relaxed/simple;
+	bh=wxoRaReO4bOkEJ9wqUi/JezN7CZUe2yebO48RziHfMs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jmBH5dYgMf2+l0iG6QDYbzxl7C/YI6Q2Egb1wyUClqmjs0+p+TZXN3zd4s9ghD5lcgz6t/pRGDQnUwvw7FBSA175bnUZoz2NKwF/zJL4MMCxGVe0NOuCRPu84+N56vTZtoQ3v9iZVjeAQV1tbAg45A4wiuEnOfWWyw3DXwBdfIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com; spf=pass smtp.mailfrom=cogentembedded.com; dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b=yzaJmM62; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cogentembedded.com
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-55ce508d4d6so6133362e87.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Sep 2025 08:33:20 -0700 (PDT)
+	 In-Reply-To:Content-Type; b=AO2LFQNepkX4xmZNDN3z8sSbOtdR+zr2bMfizTnXfIagSaMu0xLy/iuMb7JWgE6jcoIMGao/BrKLguIdeOQFPdG7ObubyaEBRmkkwEMnqH1ACGPcruboxJXGaTY+K05q1pYQQaMQrdP1Uoeq+rnJa2c38VdUjtsjIlD1wLM7aGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=ERxaZORr; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-45ed646b656so61015375e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Sep 2025 08:45:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20230601.gappssmtp.com; s=20230601; t=1758727999; x=1759332799; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
+        d=tuxon.dev; s=google; t=1758728715; x=1759333515; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=LIkBf3qivogFIYB3w/+L+S2G/9aj30PqRjDjHIQrDuQ=;
-        b=yzaJmM62jiv9QSyXTAJV8YMaZYJPsQJnaZ8EQSGY6iVJcTB1Y6jck+O/vzR4fvBo23
-         Lmys3K/s8KmivHQSc3Rks5UVyvtvFjJucSNig5Yek3vT8q+AByNaweeRdseBYBX+rrM3
-         tCU9dkng65n4FlD3hyKvWXtaJRtAvO28kHEDlmALkb9zKk/MaFrfa2BshSPywPI0aDfs
-         LyuYVJ4wsIzEoHJ6OlRUL5xTTnsDXlNWVPWSkDV0xYBnATj1E3jSdV5DRXA9uZA0uK6c
-         TnXZi9rw8GV02Lip0YajFcviymIFM4XwxKPwr/Vvt7jrCJeRzAwg3LDsB/6FdTHOWHa1
-         iD2A==
+        bh=DHM+dPg5CzcBzObOI9Pf2b6r0LMdTdXtJZQ6lv1PBkc=;
+        b=ERxaZORrYnw71Lp37+kNSzcbYIUefU+tY/3fOWArGMxmn6OudbkpdSRNAfuWS7kvc4
+         rzmI0SPQvN4NfZMqcWvy9g8CZRekg5qeHDNQBifXQLBxhxyDfyNibSngfi2tMHspvMdV
+         Qs76yC/95q0qCvoQeV9F16BvC+HhkfHSIm7CGiJoMKo8D9zmvL+751FQIzQqISwvrCkC
+         I+rQobLiLivQx1qqx0SUcC4zNHUbP4HuCyXQ/zvlMZOT1GiDOrB4dm228z9139+C/I+A
+         v6kZDBCM73eXBc5x62WmBpj/wxGFGTVOGBnc0HwfmTmQ/24R7R6ue2CKBslSviNzNW7O
+         KTgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758727999; x=1759332799;
-        h=content-transfer-encoding:in-reply-to:from:content-language
+        d=1e100.net; s=20230601; t=1758728715; x=1759333515;
+        h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LIkBf3qivogFIYB3w/+L+S2G/9aj30PqRjDjHIQrDuQ=;
-        b=S4k9VVWQvjk6xJt2BWb9eZRgv1ToERcZ7SHGv0/nC+uM7wMxz2eilb8udEjs8n/VcX
-         7fLUV5jSCnkrbaoT+k8v22FcMqOwGrGdmxR/xH9gM/ZBDOj4SVjpyZGVFKojCKFKVaZB
-         7MevcFZPKPme9zbZDn4Zl/9h99Cv8/LLQyq6LpKEXQHP2+BOkZp/lWZW59JvirEFgFED
-         kEO+stB6iFUVEZ4sltfcyFlstqHNsuoEYf+dle2D+JL9Ezey5DY83HEEgfzYtsZ0EMnS
-         0xB9YByhbMMYj/m3xK0PQLLzGCqyjyBF3rZen1rQx97isG2b9Lmhs0HkC5ti0esaWLc+
-         7X/g==
-X-Forwarded-Encrypted: i=1; AJvYcCWGJEERc87ejiNBmV/yG7aMpcxMqLz3QcRARdBMJp+CNa7Y0BwGVA3OIQfOQTnT06uxHyjZOE6LeTtaOYe8+ObRcg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxHH9xgdGzGJiDEYY22GAfXuaai83rigsnxdaeoD+gacewgZ9BV
-	HpZMOdKZkyVWyZVs2rNE46YneInWzHgkAL7tdDM3rRA0TEQb8uuJ8v3mvsUX8fhUut7LEluE6oZ
-	CWGlPO/Wv3Aok
-X-Gm-Gg: ASbGnctXitAT7mUnovQIjPi5wnZnvSp+sfys1WBUqv1WNqWDDASIkuYbmVIbk/QCF6B
-	Py6mfXzHckhcsFRjFz/3P6vUsptOfkWvYXSclaIr9YptIW2FKgpEsU+kN3H7B+pyrF4xSoLpdux
-	W4t2/quV6Tpmx9YeF1LDiuk93DjZrg8EPs+kHl15W2OL4sTE+6ejf3pqX2bdWRh8XHxlY/OffhT
-	t5eXhrRQKdxcQeflJxp4Jm/toqmbqmEWW8TpTuJKIfZpHsbbtqtLNymVjzbXt7LTck8NjVOBLw7
-	UpyPfzhhofZoszJomRNIPqWD99lUodm67TVX7OHsJHw0dRdqSmaD/xGAdqYYMW5kUwEsW6Nm/kJ
-	firoKMrjxHGgKWG29QXambyC4cn5fXMOd8M8Jsai7nLpChZoz
-X-Google-Smtp-Source: AGHT+IH1GOx/pgpEVam+Qq+Qt3KSl//uKOXGpLYUqrQ7YkBLxLp90yiM5cgLCS5fXN5hydSO30VRWA==
-X-Received: by 2002:a05:6512:a91:b0:57d:a4e9:5b00 with SMTP id 2adb3069b0e04-58072cf64e0mr1912058e87.30.1758727998821;
-        Wed, 24 Sep 2025 08:33:18 -0700 (PDT)
-Received: from ?IPV6:2a02:810a:b98:a000::9a07? ([2a02:810a:b98:a000::9a07])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-578a9f1419csm5120236e87.148.2025.09.24.08.33.17
+        bh=DHM+dPg5CzcBzObOI9Pf2b6r0LMdTdXtJZQ6lv1PBkc=;
+        b=ToRv4BeoohLfGfhPjcKlN9Rp/O3fqAS6LSW4eiHQRO0R5nJvYhHTiW41q0cI8e+Gb3
+         7HUIjv9mGh1+svN1n4JW4eOxd6yV+XPBw0H6ZoYViItEXEN1Bjoxy4IEKIxiJ06XzDGJ
+         EiNLkogfQP7Hwa03hj2zWfkHZfBBFZhQNhoV/hZrmu80/XLZnI3Sb6F1sSTK8JzJ2wAb
+         jzRt/ic6nhOe29gn13bXL36hA0E0KqMcHRfE6NokbbvXcBDgBUgfE8lw4p5cNk+BCxNq
+         vR5CwY6S3i44VBqj0PyCPk40IkHhYrA2qa1CI5VMMkS7psAqJ0+gj3kUmkRVJ/slb0WG
+         qiqg==
+X-Forwarded-Encrypted: i=1; AJvYcCWxSxqUSnY8wHy8LR1x5JXKPuN/NZqqLA9iwuuT83wuEK2Efbim5LtijqvmG4zsc/6OBc6ZcPRiIzd37Gvh0bKbuA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpgTnuTyLR5RltVutyuujxnhv/xB2u6ES3b2Z4qBIKIiCT3oxH
+	0itqmqz40cjE8zfHV9URCdhK+u2jlGnpYO8yrx0dpWb6Bi7sJb9qAr1BOJZ5B09QmZQ=
+X-Gm-Gg: ASbGncvHsPeJmluV6pBj4Ys37oRhgaqXmiB75l19CJ6L5qe3mdS3ZLcJgF0Z5VtBOGl
+	3ezDYtpnuKKe8xONm9J9ir2qDJ8qiXunw5CRsLgooaqQ+R0tRTRnZPyE9VhjaCpOQOCywu+vcNl
+	5gIQDHT26vGfZ92lcEREesa+FQU5b4VjhdOEo4VdOGjMtkF7UnQB4xWt1QDUl823vImWIxXQSNd
+	M2lQ/pl0raOfMloqF12J/3H0w3hdNT/uahMGGdNCwSuMKXfZnBLfeS4g1GJeLgF/YTIGZ5jorZL
+	WDwL4VWpPC5Q9WVTVVX1IJkxElzS+J4gS0Goadbso9Yf7YmuYGqa12Gc57p87mLkE4FNufxtiab
+	zdzM143JSyK5KNWuALG7+BabJylCXBi0=
+X-Google-Smtp-Source: AGHT+IHMnyFMvGG37xHm32Yaa55kvxvWk5ho63VASQxzF/DozMTzRSP1c41ESBWFhl0MwyfSWac6UA==
+X-Received: by 2002:a05:600c:4e4c:b0:46d:27b7:e7e5 with SMTP id 5b1f17b1804b1-46e32a51741mr2647965e9.32.1758728715341;
+        Wed, 24 Sep 2025 08:45:15 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.153])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3ee07408433sm28236778f8f.20.2025.09.24.08.45.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Sep 2025 08:33:18 -0700 (PDT)
-Message-ID: <007fd561-70be-4960-9e74-06792be5818d@cogentembedded.com>
-Date: Wed, 24 Sep 2025 17:33:16 +0200
+        Wed, 24 Sep 2025 08:45:14 -0700 (PDT)
+Message-ID: <e19b5006-c6b5-4e72-a3bf-42fa6833936a@tuxon.dev>
+Date: Wed, 24 Sep 2025 18:45:13 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -83,25 +82,68 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] [net-next] net: renesas: rswitch: Remove unneeded
- semicolons
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- Michael Dege <michael.dege@renesas.com>, Andrew Lunn
- <andrew+netdev@lunn.ch>, "David S . Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>
-Cc: netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <e6b57123f319c03b3f078981cb452be49e86253b.1758719832.git.geert+renesas@glider.be>
-Content-Language: en-US, ru-RU
-From: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-In-Reply-To: <e6b57123f319c03b3f078981cb452be49e86253b.1758719832.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH] soc: renesas: rz-sysc: Populate
+ readable_reg/writeable_reg in regmap config
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: magnus.damm@gmail.com, john.madieu.xa@bp.renesas.com,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20250922074101.2067014-1-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdXKbPGqAnAcL2kFyF6K3hH9=gr8ECAFVpkgj-OL1mB4eg@mail.gmail.com>
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Content-Language: en-US
+In-Reply-To: <CAMuHMdXKbPGqAnAcL2kFyF6K3hH9=gr8ECAFVpkgj-OL1mB4eg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-> Semicolons after end of function braces are not needed, remove them.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Hi, Geert,
 
-Reviewed-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+On 9/24/25 16:44, Geert Uytterhoeven wrote:
+> Hi Claudiu,
+> 
+> On Mon, 22 Sept 2025 at 09:41, Claudiu <claudiu.beznea@tuxon.dev> wrote:
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>> Not all system controller registers are accessible from Linux. Accessing
+>> such registers generates synchronous external abort. Populate the
+>> readable_reg and writeable_reg members of the regmap config to inform the
+>> regmap core which registers can be accessed. The list will need to be
+>> updated whenever new system controller functionality is exported through
+>> regmap.
+>>
+>> Fixes: 2da2740fb9c8 ("soc: renesas: rz-sysc: Add syscon/regmap support")
+>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> Thanks for your patch!
+> 
+> How can this be triggered? 
+
+I found this issue by reading the exported regmap debug file:
+
+cat /sys/kernel/debug/regmap/11020000.system-controller-rz_sysc_regs/registers
+
+Thank you,
+Claudiu
+
+> AFAIU, registers are only accessed as
+> obtained from syscon_regmap_lookup_by_phandle_args(), i.e. based on the
+> register offset stored in the DTB.  If the offset in the DTB is wrong,
+> there is not much we can do ("garbage in, garbage out"), and the DTB
+> should be fixed instead.
+> 
+> Is there another way the user can access these non-existing registers?
+> Thanks!
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+
 
