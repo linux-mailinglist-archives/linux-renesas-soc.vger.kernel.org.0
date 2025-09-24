@@ -1,191 +1,110 @@
-Return-Path: <linux-renesas-soc+bounces-22312-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22313-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32290B99A40
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 13:47:55 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63751B99A62
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 13:50:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D7E58323602
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 11:47:54 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E9E0D7A628E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 11:48:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2FF42FE052;
-	Wed, 24 Sep 2025 11:47:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 339B82FE052;
+	Wed, 24 Sep 2025 11:50:05 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE522FF158
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Sep 2025 11:47:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8361E2834
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Sep 2025 11:50:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758714469; cv=none; b=ZuJvEYRulocIQIM+y9zxX25bnvcbJsm1Jjaq9T475mdPxnl/46tLtufeoVbyY6hUGn4E+GbIW6qsY56942m6Uh1CVuwpDQU+CoVsF0SXQtCJUaWuZNAa7bn7ARDyzkriR7k/OQi3XLzTwFiEIq5KAVa+6sqRRlHhC36SAHRJk5s=
+	t=1758714605; cv=none; b=UD98PziTLquJ6QdHZsztIIe1RPgbqVL6u3oZHhNhYAXhuRoytny2Oki0pqSB5IOpNRtsG/pIgqOlhP+vFalHtMdXlGpSxmdLpovt6Rm3pCUhw2AEJ0IRo32CYYLCYaE36gzLCDrHguYBJ1Mq5WdA97Hmu9L9lhUsZCwVhjeQT2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758714469; c=relaxed/simple;
-	bh=F2T9cBlXa2Aul5PaZEk7a5BmBGQxeyNBSTLZ+tD9rX4=;
+	s=arc-20240116; t=1758714605; c=relaxed/simple;
+	bh=9tehMRz08WQLUJ/smHN3UjG/IZMKp1SRULcKii4ippo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hCGm9gVMCpkZWG+4hy1gTf8eheuqgw+VwuHAd5mtIyhX/DgPzaRTyyvsgYArZbt6/VtoIGtMriVgP0PpzxsWAfcLLg+0AcEMC9aYtFtJ6n0GbozOxLIoc06W2Bob+FgaCIMjDxC1WbliTKhUaQYapRhg8djGY6TwYSZX5A+JQzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.45
+	 To:Cc:Content-Type; b=pOO2yd6NuHEZe7zJ9arcohVouRsnFMdK9T1fQu9iMURO3CWxN0Ic93B5TYPZ1QSY3p+VtV6esACzlq68DbtwoWm3CXFO4hHpKt3sYpLZTNUn2C+JKAlTDj36TwdUcyhqlaFp73FCaHtiPs4r/VX0xJqwR1WXTNTfa3Y+yIJqSV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-8c0e2d1efd5so1578414241.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Sep 2025 04:47:43 -0700 (PDT)
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-54a8f6a2d80so1712588e0c.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Sep 2025 04:50:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758714462; x=1759319262;
+        d=1e100.net; s=20230601; t=1758714599; x=1759319399;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=IXddTGI8uaXfvwfDYhb5Vv63RMQiOgf8BHFZrk9FEJU=;
-        b=OBTVDCWeUmUo7OoKrrUu7eCQfVzgd1hnRVHS5+T/EV0AYhb++Zp4McjhrlIOfasFUm
-         rXE20xQxtkqsnmGUbelEq/+YSL0GyU/rNzFeWaQHTISQy5hIMoYYDxPwfHDzolvXp/QS
-         rmnOusJvZbFsCgKO5Un3YLnsazP4zJkAHNcJaCMtianhKMbo/m2F1e4Hgm3j78846PZX
-         Fyz2j5daBDWMigIb4DX0YnqB2HV0i1VkgtnZSJho0Xa645ijwtp5I+hL+mgg9juSV3Oe
-         z27u+iCH7KEgPXUDuTR2E3uE3dvAi5aQG5oSx013UVQCZdtYKqocYGkbcgtJ+4GBMTaT
-         Se/w==
-X-Forwarded-Encrypted: i=1; AJvYcCV44bBxi6eB4tB5WXhkYcIxQk9sh1RUTW8784xwrVqAxvVWnoIE43mwLnf5Ebtg7pDBjbxkT8u4KR10U4CylEDiHg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKs9QKBqj9/XIb2u2+KSzcyMvV6Qhp8tUN/1LPJ9qhzqx7wos7
-	gYQnl7aulv9+o3M4NDJNmsYV9/FMzqW5AFxu8Nz0VDxnsGYrtPgxbV9TZtZCMT6V
-X-Gm-Gg: ASbGncv9I4V3sSwhAgRtk6W6pRJRyc6uoQ1+mehXt6y+ZKvxc01RpvJqAn7Lt9ezTi/
-	wk5xjqnAVIQqTU2OtCd+QcOwVqF9tXjhYtWRmiEUZQU1PqnrYSk6felOQi+BbkiVCLr4OCkni8I
-	lhDHcQV8vrExaci9EOhOSnX91M6HWh0xZZL3YLjyfSot+7qhOvCCl+KOELgyGkXZ7iRCsVaGUKu
-	UXuydsi/A69jAbf0L1Lg4JR5LJFabvVHN4/63ZHruAWRryVD4k5br8pg4YWtAFfVW71x3TJS2qZ
-	kFYMhzmq5LRW3DSaNXZQllkgsjrXDHdbD+ue+7lx5oap/hpN1ExsiEPuV6GUKIfGPlRL9fjLCDL
-	/v9Z7wiWBxp0nnEkvHCJ/nd5zwe7N2/iWZSFLzBqxtKTImIfMViBVYA6MPhBCwB2dUvRRf+k=
-X-Google-Smtp-Source: AGHT+IGc7q3zYz82oiUwquuGXYVQvTLWxPAC2Wi3VvEgMz6s759R6JlbDYqaWw8eAV1hX1i5legoHA==
-X-Received: by 2002:a05:6122:1d12:b0:544:b862:1055 with SMTP id 71dfb90a1353d-54bcae25edcmr1732646e0c.6.1758714462304;
-        Wed, 24 Sep 2025 04:47:42 -0700 (PDT)
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-54bc0141d54sm1475287e0c.18.2025.09.24.04.47.41
+        bh=2UvM+/QBcNnuTK2u1snMXMO5HJEe0Z5rWe+7sqxETZ0=;
+        b=c4YtNTyS0gh7fakZ//46F+M8zkeAq4BE0N5KshvXK4/YgLvv8DSn9D1X4kOt/RhkFj
+         L5wobaqx+taJDK572cUtdl0EhejO1MH/i6JkJ5e3/w+/rGPsEvLSIHPwvEZySOShy1p+
+         8YmSerY9xupXSj9ooIG7S+/FetEMdxjTKTFUaTCEa2cazPTDb72w3zIXgOZtwG+kNB+g
+         B1AuyCaCV6JKR+Q8JOSFNzaFqUXUVpgwuzgfsNPooW/ue4BnzlMmFENcFN+D/No0cz+T
+         OTzTvfzVB3tsZe5oEMv3kA+yKHAi7tCeFHYG0GnQGc4ayejqYQMkDh5wFxcWIAsktiMu
+         kCMA==
+X-Forwarded-Encrypted: i=1; AJvYcCW8v1YwgmojSMxn+mzyeO64mG2qbX97YvM8i/LQbpsukUZJ5RBMsU3+L7w9u75n7PG3fUKBVEAQcNn5VJxszpPzAA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOrAMwEr/IE6PNF7gOXHiwmMDyVpNnVBzFxiTskXoZM3YhCW2o
+	Js2/AG93VxTUNjhlOIGLivAXyurpt0hyuF/bEAEK8QRqmVo05j/agM7BTU5DHXxW
+X-Gm-Gg: ASbGncsDXHPKTyDa/s6ScNkSPZvDPuUcaX+qd1BrpBVqnNwFBXlY/asa1vzlhxJzDW2
+	M3nE/Ve50vT9nF10AkTenyDOJ1Q8cN9LRH9ioT2Ong/ej/Z82g62ipIQU85+SLXZ88jS+GBAJm5
+	Ndg163DB5cjFmeOMfMEnjR/O9sadQo0iO+z0Bei1kvniCrcBaCL5oPZx3wMI7b8H+6LQvB7WqG8
+	R5ZRd6O9kxYAXbuRKJ9mCp7rnsZ2I1Elav9jvLbFqwDCSOUQscjc3WLcNhEC3uSFc8O5OIR4pHL
+	eYJsl1mSEHG1QY1u7lsDaWSeWnDpYZDgZWTINGxRPFXD0n4V3Wdb0VV0SKbT4uiOvIFQHyo47T/
+	bHwIp1bc4J34f4nMZkLrU/82hOHeSxtAn5XuEiVJZQxp33lDF9QSXQTZrk5J+JuyjT+Cxwl8=
+X-Google-Smtp-Source: AGHT+IGCBNS4lvH9oLS8YMIb82t/pjnzySTz7KvSfusvyEn9Zjtu/r+HgZ4wa/GQ8ne5ori/Im9LVg==
+X-Received: by 2002:a05:6122:31a9:b0:54a:9fe8:1717 with SMTP id 71dfb90a1353d-54bcb1bb614mr1910800e0c.9.1758714599111;
+        Wed, 24 Sep 2025 04:49:59 -0700 (PDT)
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-54a729c444csm3877028e0c.25.2025.09.24.04.49.57
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Sep 2025 04:47:41 -0700 (PDT)
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-59a8c1eb90cso1799041137.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Sep 2025 04:47:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWJ9/VL/utIEp0Lsewqh9t9gDkPGhsroBmWPGnh6SsJ/O+0k/f6+7wKdNNVbrWtDqDQOoxihp6Hd5zCczU9f08fkQ==@vger.kernel.org
-X-Received: by 2002:a05:6102:50a5:b0:59d:458d:b629 with SMTP id
- ada2fe7eead31-5a57a7cbc00mr1938022137.30.1758714461166; Wed, 24 Sep 2025
- 04:47:41 -0700 (PDT)
+        Wed, 24 Sep 2025 04:49:58 -0700 (PDT)
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-8fea25727a9so1083290241.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Sep 2025 04:49:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVeRQXhT3nIF5q7svvl7HWctDIw92k7sHwtDNulrLW4Ds6EyN4biL7vc9ac3tE8kBX01TdsgZZ2hjc1LZx5hnmmQg==@vger.kernel.org
+X-Received: by 2002:a05:6102:1610:b0:533:ff66:698c with SMTP id
+ ada2fe7eead31-5a57e77391fmr2023739137.2.1758714597528; Wed, 24 Sep 2025
+ 04:49:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250923160524.1096720-1-cosmin-gabriel.tanislav.xa@renesas.com>
- <20250923160524.1096720-3-cosmin-gabriel.tanislav.xa@renesas.com>
- <CAMuHMdVEDJZ6wdGZs_CDs=jLPV1u382o6=cZ1HfKQOffGf7jGw@mail.gmail.com> <TYWPR01MB88052A16F01666B693EE28E3851CA@TYWPR01MB8805.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYWPR01MB88052A16F01666B693EE28E3851CA@TYWPR01MB8805.jpnprd01.prod.outlook.com>
+References: <20250923160524.1096720-1-cosmin-gabriel.tanislav.xa@renesas.com> <20250923160524.1096720-2-cosmin-gabriel.tanislav.xa@renesas.com>
+In-Reply-To: <20250923160524.1096720-2-cosmin-gabriel.tanislav.xa@renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 24 Sep 2025 13:47:29 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV_-F5S+PvPOpvJ9nE9uhR+nGsK8m3fum9OUn3r9PKJWw@mail.gmail.com>
-X-Gm-Features: AS18NWBGLDA1OtvFhfhRzZsHpYufqx92wigmowEKITBkUz8CBA3NmIgNrG3GBeU
-Message-ID: <CAMuHMdV_-F5S+PvPOpvJ9nE9uhR+nGsK8m3fum9OUn3r9PKJWw@mail.gmail.com>
-Subject: Re: [PATCH 2/7] dt-bindings: iio: adc: document RZ/T2H and RZ/N2H ADC
-To: Cosmin-Gabriel Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+Date: Wed, 24 Sep 2025 13:49:46 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdULfR3PZVdh4=2QQv5N3-J8kH=3--mPS5ckkd44Xf8miA@mail.gmail.com>
+X-Gm-Features: AS18NWAd607zcV9Nbln-a-J8dRoED1AjG1taSvoUWP2QDMqIsRBLiGt34BtVpEo
+Message-ID: <CAMuHMdULfR3PZVdh4=2QQv5N3-J8kH=3--mPS5ckkd44Xf8miA@mail.gmail.com>
+Subject: Re: [PATCH 1/7] clk: renesas: r9a09g077: Add ADC modules clock
+To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
 Cc: Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
 	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
 	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, "magnus.damm" <magnus.damm@gmail.com>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	"linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>
+	Magnus Damm <magnus.damm@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-clk@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Cosmin,
-
-On Wed, 24 Sept 2025 at 13:33, Cosmin-Gabriel Tanislav
+On Tue, 23 Sept 2025 at 18:06, Cosmin Tanislav
 <cosmin-gabriel.tanislav.xa@renesas.com> wrote:
-> > From: Geert Uytterhoeven <geert@linux-m68k.org>
-> > On Tue, 23 Sept 2025 at 18:06, Cosmin Tanislav
-> > <cosmin-gabriel.tanislav.xa@renesas.com> wrote:
-> > > Document the A/D 12-Bit successive approximation converters found in the
-> > > Renesas RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs.
-> > >
-> > > RZ/T2H has two ADCs with 4 channels and one with 6.
-> > > RZ/N2H has two ADCs with 4 channels and one with 15.
-> > >
-> > > Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/iio/adc/renesas,r9a09g077-adc.yaml
-> > > @@ -0,0 +1,170 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id:
-> > http://devicetree.org/schemas/iio/adc%252
-> > Frenesas%2Cr9a09g077-adc.yaml%23&data=05%7C02%7Ccosmin-
-> > gabriel.tanislav.xa%40renesas.com%7C8c536bc422b9440a018708ddfb401335%7C53d82571da1947e49cb4625a166a4a2a
-> > %7C0%7C0%7C638942974801495945%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiO
-> > iJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=0zAY5VARxHP%2FN0wV7Gv1%2B9DZi%2Bg8JzBbi%
-> > 2BkzCDdN59M%3D&reserved=0
-> > > +$schema: http://devicetree.org/meta-
-> > schemas%2Fcore.yaml%23&data=05%7C02%7Ccosmin-
-> > gabriel.tanislav.xa%40renesas.com%7C8c536bc422b9440a018708ddfb401335%7C53d82571da1947e49cb4625a166a4a2a
-> > %7C0%7C0%7C638942974801538982%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiO
-> > iJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=VlYwNJVc7W%2BnLFKHf%2FG2Gk0HfWSsQ58cR0a8
-> > fQpckwE%3D&reserved=0
-> > > +
-> > > +title: Renesas RZ/T2H / RZ/N2H ADC12
-> > > +
-> > > +maintainers:
-> > > +  - Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-> > > +
-> > > +description: |
-> > > +  A/D Converter block is a successive approximation analog-to-digital converter
-> > > +  with a 12-bit accuracy. Up to 15 analog input channels can be selected.
-> >
-> > The documentation for several registers talks about bitmasks for ch0-ch15,
-> > so the actual hardware block supports up to 16 channels.
+> Renesas RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs have three 12bit
+> ADC peripherals, each with its own peripheral clock.
 >
-> Maybe the hardware block can support up to 16 channels, but on T2H,
-> which uses a 729-pin FCBGA pacakge, ADC2 only exposes 6 channels,
-> and on N2H, which uses a 576-pin FCBGA package, ADC2 only exposes 15
-> channels. On both of them, only 4 channels are exposed for ADC0 and
-> ADC1. As of this moment, this binding describes the ADC hardware blocks
-> of T2H and N2H, why would we use 16 here?
-
-Because the description at the top describes the hardware block,
-not the restrictions in the integration in specific SoCs.
-
-> > > +  renesas,max-channels:
-> > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > > +    description: |
-> > > +      Maximum number of channels supported by the ADC.
-> > > +      RZ/T2H has two ADCs with 4 channels and one with 6 channels.
-> > > +      RZ/N2H has two ADCs with 4 channels and one with 15 channels.
-> >
-> > According to the documentation, both SoCs have three instances?
+> For conversion, they use the PCLKL clock.
 >
-> Yes, both SoCs have three instances and (obviously) we've tested all
-> of them, as they're exposed on the evaluation board, as defined in
-> the dts patches in this series.
-
-My apologies, I misread.
-
-> > > +patternProperties:
-> > > +  "^channel@[0-9a-e]$":
-> >
-> > 0-9a-f
-> >
+> Add their clocks to the list of module clocks.
 >
-> 15 channels max for N2H, which is where 0-9a-e comes from. f is not valid.
-> Do you want to document 16 channels on the presumption that the hardware
-> block has 16 channels, even though only up to 15 are ever exposed out of
-> any SoC currently supported?
+> Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
 
-Exactly...
-
-> This can be amended when/if we add support
-> for an SoC with 16 channels using the same ADC IP.
-
-We can do that later, more churn...
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-clk for v6.19.
 
 Gr{oetje,eeting}s,
 
