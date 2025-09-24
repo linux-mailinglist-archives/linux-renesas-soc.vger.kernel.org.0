@@ -1,145 +1,172 @@
-Return-Path: <linux-renesas-soc+bounces-22325-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22326-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CB0BB99F70
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 15:05:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81D19B99F7C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 15:05:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CFBAF380EA2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 13:05:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2CA5B3B9DB9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 13:05:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 273A72FE050;
-	Wed, 24 Sep 2025 13:05:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JCMTcW8/"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BD7F289376;
+	Wed, 24 Sep 2025 13:05:35 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0B852FE052
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Sep 2025 13:05:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A232E6CA7
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Sep 2025 13:05:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758719102; cv=none; b=a6Zx2vfimk6hoKn3w6+WealiTYBqNmwctD8nbJ+SNUzeVPqBgd8eobRLgA92W9+Y4Bug9LmCcH+OSZlnPYfv0zekhIeEZ2cYKM3JJ2KelqMiTb6Wmsfh4NYIGAptSE8uRb/SUqdBwlbGETs1TEaP0uvgBvAO0gh2albQBETYscg=
+	t=1758719135; cv=none; b=P8CZoBsZ6ru87varcMp4hK+k5h1y+7MFSLH9mc9EBJ7zWvQndSJlzcraKavD1pX04A+NheGOQbHo2k7qc/TAq9v5MM8JMZxvmjfIZFUeXGWGcGjNnA/MMj9W0y8fyvly3BD4Byg/J5PTdWMZQpNxq2Jdb+teHEhPWKUVTrjvvBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758719102; c=relaxed/simple;
-	bh=KMWRTBxhzUrCLpchCiypHr9RXPN/vVczjD1fykuzDjc=;
+	s=arc-20240116; t=1758719135; c=relaxed/simple;
+	bh=5CKhCzt8uwTRTXN1dt78wJGzG2xEgCNEZ1R79yBCn7Q=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kXrahj/+bi0NLXfoGaWIGYaewEzqWxwfMkN4IzyAqHUlItAAkyDCioa3oXsRuespGSoWIevdzWX0p65bRxKNqQZb61IvQfExIKvvdvXNn6UQqpzNkk+mZxmWTwSffIBmTKgoIPGz8iXq7ddjUq+T0y/oxvbPHjGkSriK9m78QF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JCMTcW8/; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 To:Cc:Content-Type; b=RoD+gtDwkDPISGMeLYNGUJDbmVBGY3X1v7jfvUDxtJaNE39+QOe3XpC+lcsMJuMCrqcCMY4Ro9tvsHHKL1MuFgLr1UjGid39jEKjDQbcJj6yJWh588VlJLon9LAcUeOWj9qedK4ymHd6hGOl4h/Ms/eAjAGV3KcLYVRzUmXQgt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-77f0efd84abso3771750b3a.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Sep 2025 06:05:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758719100; x=1759323900; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ML8MT93NBaCozkqy3f5m8pHWK455oP1ORVjpuJLm5oc=;
-        b=JCMTcW8/ThqqXZ2v1sJ7Sv+jMJCFLhAKsRkpIKIeQIJXo8qGHTEJkWCLpwmwc5R0uY
-         GVtljqd3PmXKubL72WSIzqB35whCYQin+pDyaPoFn1BnVJKhUBiU6QBHi8CNpTH00n9W
-         IijKyO/MFWpwgp9vJKaEqPZ32c+mM4Cf+d1Vf3uNbNMJXjYsqc+lOyEoFVyK3D/SePFf
-         /MFGjQ9oKE/HmU4BzVJ7Ter8nolDFTqu++ZwA3Yr7aRrAvJyXBEHPWf1hVxmavcgfMac
-         bpaR9sib2RtwbhRir8RQf6XUv7utYEG75TQfYUXX5Uyfo2T2P6zykxw75XownAneuRoT
-         kl9w==
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-ea5c8833b15so5433817276.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Sep 2025 06:05:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758719100; x=1759323900;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ML8MT93NBaCozkqy3f5m8pHWK455oP1ORVjpuJLm5oc=;
-        b=q+o/u2GkbWzvNe86XpVUx55O8/f3VgwpSy6+IKKZsAu44e9Paewm0zLhQJEbhsJzyk
-         x990DqA84ZzaxZBpzjnooMVZy3cGAzfKZuBeBZtbsTXJlSl9u928X0WAYpE6NedNR6Dd
-         2Ob6pPxvZrqJRDjM293qX0+y5oBUdUfw54qLe5QwAfdQ+O+bkNrjhuGpHY1Y1RfJjqjX
-         tSqNums7lYjBMw7uEVZy1/TX0lco1EqtAP+ig5LMPF98DUCKy+POAf8Ww37ZAwEp63iu
-         07aS+86NG+72TfYdey4LpohBcdTKTHLFmSjjTAVFNXYQlb494IBQvJ8Z8Zwnwej3KscY
-         ioPw==
-X-Forwarded-Encrypted: i=1; AJvYcCV+gl7WKeA2GVymcIN1qqMIlkGYLCQ0/yFR1iUW6PmRvsxvvSdt4ZYXro6mcEzuz0kpPfiipeua0XFnYOZRIHu/Gg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjMlznai26pz678CEM7JjXLNTbjk7eT82IegTlo+8IAhPoaC/m
-	6bhG9r0gnklNdsZDaoHiCc2sOtLNLXLS2RaWVremfsULoCyXNMXYWHha4CvAmW06JMwZeC3VSqi
-	vAc+jSjgTw5GWoV3zNknRDYAMcglu2Nc=
-X-Gm-Gg: ASbGnctTU5BW2hTkTlvtnplsCwGZ/pKp7OpnneCr1OX10hzfSNNrDHAiPhyvWSQ8Agi
-	q3ZnH9xgcdeATpXmqf4Pc/aMZscYrSkSDnHly9CkX1+NWLqkq6ymvEc97znQ4zYHK+/Qy5l8uJ3
-	1kwsVJdZXP7P0v4XNIbcpKeuDjbYz6sTxJBycxiz8gh1pHmm995WHCKgRGEyG+jIHjvdCv+Usqs
-	tZkyA6v
-X-Google-Smtp-Source: AGHT+IGCUZlb7GHgT5j+JVNTpOON3z17rHhaJH8wYaV5Fzq+5A7QIaXDxQAJZsuGjTC053XYov/IrdtaNcnRVtX6QBE=
-X-Received: by 2002:a05:6a20:6723:b0:2d5:e559:d241 with SMTP id
- adf61e73a8af0-2d5e559e089mr4875908637.7.1758719099609; Wed, 24 Sep 2025
- 06:04:59 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758719132; x=1759323932;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Dt3FE+JEfBgU4GvIduSmfD+mr673puEsHTiT0sBkYwI=;
+        b=NS+Athwz3xt2pKNTOEyiwBBDSRCtnGpg5n0HQJlEab/Mil3AMFAYxuJnq994HWJXvY
+         aGRC19WV4uWGUDBrsfhB6jecwYkvX1XYt6yxRmuw+Qgvnvwy+FUfQZXzerskbv7qgEGZ
+         I4Upm49vgngAfzgldlIFXqxlHlGopQIamjnu3xUnPZTMuin17Pkpi9THoddxMVOZbg+c
+         gpW8Czf5tDxVBOXgRlWs9hWEt2h6c6d/cyVF/5ZNPccDA5d1gsIsxUMZnkvpi4B6/EfS
+         G0dkRDFUsu0HuScAP21Hm/lnW7fDTrJQuUUiiT8eidQ/cBEwzcbdHGvuLiTg7bKMd31o
+         c4Ug==
+X-Forwarded-Encrypted: i=1; AJvYcCXTj1xvzIV4rFMyUpXjIv5egxIUYuuicCGeYcKBySMGupOqsNBrCfwgmRkA/+MNp6zt11xn2K8ygVn4TSPuiTYNxg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxwmEvZf8/jqTWgCXIywLHbYCLcFg6rpWK05ttLCoCPL1XIyi23
+	NVQGPDv5T4B01rEvmrkSFiGvisikXZnbIUKdvw8RaCOxSMkKmlVQbt/wdiqEeAaO
+X-Gm-Gg: ASbGnctgUgFJMg0tSfpMXpr2ev5dFyKl6zoBbhF3P00iqYFNDtOvFPhUdlvu5OP5XYm
+	jULzFRJcAv8ZvkIAqYOMuyzkWvv1HKX4p8xZBf6CPbYSrknEcXm4D4g28dzNodh+SYBSHn8J0zf
+	EsqFN/wBg8d19/BmYuWMc4oARDsdGgPFBSwHmElPVxQ/y25YUjEPPs2o8LNaSBjWldPi9pi+iLZ
+	5zyOfwt/qgCFRxx7xL4spBHMvRpKbLfe9TwgeQDG//xMiJhNqAaLtRTDNYtjY2hFfjHlaP2XRfH
+	v9PN8rU6IZtAPrzN6pLEHB9GO7P/RmxY2Lzrw3xfp8xGvIHNGz866n6MsVM5wYXWX3No9UZ9ami
+	1IU8vW1n1TxenSPhZLJRGLDrStEjslO75fjf/Re7V5cTv6DMOALrU/+RatWSy
+X-Google-Smtp-Source: AGHT+IHFAb6+vim7w9jkcrVj2Axx9PeFDUFWUkEEa6Jg3ZzUXaKZaIxQM/MvBoikgBcUhWGVJnFtzg==
+X-Received: by 2002:a05:6902:1542:b0:ea5:af77:e48e with SMTP id 3f1490d57ef6-eb32de60eb9mr4945669276.3.1758719131447;
+        Wed, 24 Sep 2025 06:05:31 -0700 (PDT)
+Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com. [74.125.224.53])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-eb37ebdb5b2sm64516276.20.2025.09.24.06.05.30
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Sep 2025 06:05:30 -0700 (PDT)
+Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-6353f2937f3so2022293d50.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Sep 2025 06:05:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWGFfoOGGc0jrsTwoFfwJ/Jw+4oYHeE1KKIT1F9NfIvD3wGqDKc4LEGPXutehUxV9t8P9OSaK6tGbTraAJE8LqUrQ==@vger.kernel.org
+X-Received: by 2002:a05:690e:2593:b0:5fc:53ab:a49c with SMTP id
+ 956f58d0204a3-636045f7a94mr3388326d50.11.1758719130471; Wed, 24 Sep 2025
+ 06:05:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250917074812.4042797-1-kevin.tung.openbmc@gmail.com>
- <9bb9929a-8130-48da-983e-2901a7c3da36@lunn.ch> <CABh9gBew1=hbJvg1Mhg5dE7Lr_Z442_kbBX6zTs_6_C2NRyLbw@mail.gmail.com>
- <7e6f568da28d7a63738b6ed22b33db3df4c478c9.camel@codeconstruct.com.au>
-In-Reply-To: <7e6f568da28d7a63738b6ed22b33db3df4c478c9.camel@codeconstruct.com.au>
-From: Kevin Tung <kevin.tung.openbmc@gmail.com>
-Date: Wed, 24 Sep 2025 21:04:48 +0800
-X-Gm-Features: AS18NWDPd9WPADUis1pKLRli7PBC0PtWHTmrvMja5YpnlZ2VdCkq5JfPN2APv_M
-Message-ID: <CABh9gBcoWbXurPo0f9U9+gz8k6gttUvj=NMMDVfgjo5dgaTLSA@mail.gmail.com>
-Subject: Re: [PATCH v1 0/2] Add Meta (Facebook) Yosemite5 BMC (AST2600)
-To: Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
+References: <20250903161718.180488-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250903161718.180488-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250903161718.180488-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 24 Sep 2025 15:05:18 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUacF5UfiLTXuWOXAZZvEJ-St5+awkWML_HDp9b38=sXw@mail.gmail.com>
+X-Gm-Features: AS18NWC94EGYcxjMXs4Deenf7S5F9QjlUjLF0OPIzRnfMxCF0EhsIC5PeV3xDXg
+Message-ID: <CAMuHMdUacF5UfiLTXuWOXAZZvEJ-St5+awkWML_HDp9b38=sXw@mail.gmail.com>
+Subject: Re: [PATCH v8 2/6] clk: renesas: rzv2h-cpg: Add support for DSI clocks
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Magnus Damm <magnus.damm@gmail.com>, 
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-clk@vger.kernel.org, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 22, 2025 at 10:47=E2=80=AFAM Andrew Jeffery
-<andrew@codeconstruct.com.au> wrote:
->
-> On Thu, 2025-09-18 at 10:21 +0800, Kevin Tung wrote:
-> > On Wed, Sep 17, 2025 at 11:12=E2=80=AFPM Andrew Lunn <andrew@lunn.ch> w=
-rote:
-> > >
-> > > On Wed, Sep 17, 2025 at 03:48:08PM +0800, Kevin Tung wrote:
-> > > > Summary:
-> > > > Add device tree for the Meta (Facebook) Yosemite5 compute node,
-> > > > based on the AST2600 BMC.
-> > > >
-> > > > The Yosemite5 platform provides monitoring of voltages, power,
-> > > > temperatures, and other critical parameters across the motherboard,
-> > > > CXL board, E1.S expansion board, and NIC components. The BMC also
-> > > > logs relevant events and performs appropriate system actions in
-> > > > response to abnormal conditions.
-> > > >
-> > > > Kevin Tung (2):
-> > > >   dt-bindings: arm: aspeed: add Meta Yosemite5 board
-> > > >   ARM: dts: aspeed: yosemite5: Add Meta Yosemite5 BMC
-> > >
-> > > The threading between your patches are broken? How did you send them?
-> > > git send-email? b4 send?
-> >
-> > Yes, the threading is broken. I initially used git send-email, but for
-> > some reason, only the cover letter was sent. I then sent the remaining
-> > dt-bindings and DTS patches separately as a follow-up.
->
-> I recommend using b4, it helps blunt some of the sharp edges of git-
-> send-email.
->
-> https://b4.docs.kernel.org/en/latest/
->
-> Can you please send v2 of the series so that it's properly threaded,
-> after applying tags you've collected for the involved patches, and
-> checking your work with `make CHECK_DTBS=3Dy aspeed/aspeed-bmc-facebook-
-> yosemite5.dtb`?
->
-> Andrew
+Hi Prabhakar,
 
-Sure! I have sent v2 of the series using b4, and the patches are now
-properly threaded.
-I also checked the work with `make CHECK_DTBS=3Dy
-aspeed/aspeed-bmc-facebook- yosemite5.dtb`,
-and the warnings that appear are not related to these patches.
+On Wed, 3 Sept 2025 at 18:17, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Add support for PLLDSI and PLLDSI divider clocks.
+>
+> Introduce the `renesas-rzv2h-cpg-pll.h` header to centralize and share
+> PLLDSI related data structures, limits, and algorithms between the
+> RZ/V2H(P) CPG and DSI drivers.
+>
+> The DSI PLL is functionally similar to the CPG's PLLDSI, but has slightly
+> different parameter limits and omits the programmable divider present in
+> CPG. To ensure precise frequency calculations, especially for milliHz-level
+> accuracy needed by the DSI driver, the shared algorithm allows both drivers
+> to compute PLL parameters consistently using the same logic and input
+> clock.
+>
+> Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Kevin
+> --- a/drivers/clk/renesas/rzv2h-cpg.c
+> +++ b/drivers/clk/renesas/rzv2h-cpg.c
+
+> +static int rzv2h_cpg_plldsi_div_determine_rate(struct clk_hw *hw,
+> +                                              struct clk_rate_request *req)
+> +{
+> +       struct rzv2h_plldsi_div_clk *dsi_div = to_plldsi_div_clk(hw);
+> +       struct pll_clk *pll_clk = to_pll(clk_hw_get_parent(hw));
+> +       struct rzv2h_cpg_priv *priv = dsi_div->priv;
+> +       struct rzv2h_pll_div_pars *dsi_params;
+> +       struct rzv2h_pll_dsi_info *dsi_info;
+> +       u64 rate_millihz;
+> +
+> +       dsi_info = &priv->pll_dsi_info[pll_clk->pll.instance];
+> +       dsi_params = &dsi_info->pll_dsi_parameters;
+> +
+> +       rate_millihz = mul_u32_u32(req->rate, MILLI);
+> +       if (rate_millihz == dsi_params->div.error_millihz + dsi_params->div.freq_millihz)
+> +               goto exit_determine_rate;
+> +
+> +       if (!rzv2h_get_pll_dtable_pars(dsi_info->pll_dsi_limits, dsi_params, dsi_div->dtable,
+> +                                      rate_millihz)) {
+> +               dev_err(priv->dev,
+> +                       "failed to determine rate for req->rate: %lu\n",
+> +                       req->rate);
+> +               return -EINVAL;
+> +       }
+> +
+> +exit_determine_rate:
+> +       req->rate = DIV_ROUND_CLOSEST_ULL(dsi_params->div.freq_millihz, MILLI);
+> +       req->best_parent_rate = req->rate * dsi_params->div.divider_value;
+> +       dsi_info->req_pll_dsi_rate = req->best_parent_rate;
+> +
+> +       return 0;
+> +};
+
+Unneeded semicolon (there are three more below).
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
