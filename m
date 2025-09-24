@@ -1,254 +1,127 @@
-Return-Path: <linux-renesas-soc+bounces-22304-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22305-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B908DB98B39
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 09:54:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB9B1B98C0B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 10:08:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2769E7A20D1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 07:52:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A10E6189FA8B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 08:08:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 107E5280308;
-	Wed, 24 Sep 2025 07:51:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D58EA280A2C;
+	Wed, 24 Sep 2025 08:08:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="FnHE2anQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C03E2877E2
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Sep 2025 07:51:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79F71280331
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Sep 2025 08:08:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758700295; cv=none; b=nKUXZVVFK1sKIflHNFO0S2N+TgQcyK2qOKdizY+xK2LAaHvaikPyV37jt3KEZ0Rm9EYQb7dpXb6Hvn9Qg2eJWHTgPzfGIb7pvLvRJtaxwJJeTgyiRYiKP6Sz/jLL/izVKpGqtcayQLYlwCMEYQUnorU8PAC7488d5WsihXGJSJ8=
+	t=1758701286; cv=none; b=pdVOLPqydPxkxrSxubBS4YCfAEm49cvN106kaNJBLZjFAhrk4Crti+56qbb9bqISHXqeE6/uIwgnyCPIn8JF7u2nuk67/M6ovb9eIf5+8+EwDjfGzmYQskoL6F8x19Rgdwo0an/9Eq3UuNQQUIHxDMWo2Uzy93NYzmZojRyHWUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758700295; c=relaxed/simple;
-	bh=aWLfvJIhJGUp5ivux4F05IzZUz29wUscuHa27oPNgME=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qhGobhI4GHVT71PCoVgr4iDd7iyJv18f1DWs7ceYKWXMQMVIkplm0eS1wUnMAfWW4bnR7xEZKVgAbF0w8AQnvVqnYtKkuU4HhOoZ3jQgWAckmroMKOCy1Nm6jeNGLfa7G+M3qSqfHcNAJcHkQURvGcP8exITnalUDgt+0MbGrP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-90dd3b43f8eso621480241.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Sep 2025 00:51:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758700292; x=1759305092;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hh+Khf6unZqbzxNHEU+Ts8bq4BIxlEWA7Rzthe6aDww=;
-        b=FwFnUAMibE5TAoenyGCMV9bp8gLoVhDd5+KhwblPWarO778AveCqCytNQlsTXkIjTX
-         Em+3kaVo/Ip0tFy4ZDloCOUj26BvPkHjYzl/TBcKF1Ua0L9o9hz7dHnCBE4clmY9qoLu
-         rIGrs2tqj4iHEac++zle+MsDNY8YxApkT2sSj2LkOazZh1+IMa9kk0oO29XiGQCdWPOt
-         AzAm26qzgCwNUlp92k6zAlGv3pOdVa+Le7dCWOYSUxoTdwqCvGIp5PLt5uO7soacI2Ar
-         b2rLNXx+Y7pnfiqPAcQjRAf6hAC4SHz08ZW+AXMmIgbSoXo6ltRUgAwPsyC01s9hHmra
-         Yh4w==
-X-Forwarded-Encrypted: i=1; AJvYcCVrV8kJGJwTPshy+EaXz8KWAxzgGbIZD3ny6GkiTg3YedCX5W8LTv6OGwr00om9JYCTi00s2S0bj6AOlzd3uXmWcg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz7+lAjohUP8X2SXOAq4AidDDUA7VsICa/txo8SL5Xv1PnFXsBj
-	IxZBmq6Lv/fUjct8xq9IY8iV3697KHNmhM9oIc0yUhqiODjrUZdCMYwsGUsPu72X
-X-Gm-Gg: ASbGncsoe6NXm3la2Bc/nqkOkgo0V9Lr3BZ3pJJ94GjXh/vcCV9PoaFkbYJJCvTpIo9
-	FGmuX7HJLI5DSngOXowF0+F9h4plCztVU7RjJ2MvxEUhMFwhJkCZ/dOryTiMTqqD15xJrk3/Z07
-	6kXWu09rrPQ9VPJZfqB/E45E1QZoNu1DCgxaUDq9+9ssQssSI2i0tHBt25C7nsNZ6z4DajHFdSW
-	QLpykhLEJ+pUV9mwyh0OOe/Jd/8kxigZLI2frbI50/SYUAM3NXQbY//Z81Ku9RbctwmOjvcbzyF
-	WsakSgvHk1oQS9O7weGKI4AvKtI1sqUige1iFgxKUf/wzkgooOcYcLdsXYIYBr5i63Hw5fnhM4N
-	R6PqpbEjnA0xmMUbIMYJCuHQSUTuQetx8pcx5VvG8uHJCmkBM3UA9eWeWNI4sUAx79kiImvw=
-X-Google-Smtp-Source: AGHT+IHWrtWebxGDs2I3eYBoq8V+uet/FBO94327WsZFZC/iEWITxW0GgaFH5k2UZ3P+jsxaa/fV9g==
-X-Received: by 2002:a67:e70f:0:b0:586:a135:746e with SMTP id ada2fe7eead31-5a579d1d767mr1936967137.28.1758700291926;
-        Wed, 24 Sep 2025 00:51:31 -0700 (PDT)
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com. [209.85.217.51])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8e3e75254casm2792368241.11.2025.09.24.00.51.30
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Sep 2025 00:51:30 -0700 (PDT)
-Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-583a520bd81so2153308137.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Sep 2025 00:51:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVp50Xe9NTJKtKeh8EcXagNz4ZyBl953lmORUgDM9K7PJYr7I6kaPxQso5My68pb5LeWsJGNWJOFG1ijH+4VhsSdw==@vger.kernel.org
-X-Received: by 2002:a05:6102:6884:b0:569:93c9:b572 with SMTP id
- ada2fe7eead31-5a57695d27dmr1659602137.9.1758700290135; Wed, 24 Sep 2025
- 00:51:30 -0700 (PDT)
+	s=arc-20240116; t=1758701286; c=relaxed/simple;
+	bh=6HP7WS33RyuhHq10ONakzPJU/Wc265faZwnsYhZjIZU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rJ3LI+dVMdTE8ssG2oIH3Wx/AFHQT4IU5+HOSoU3vVlSS7UfBAwGg5SEAKfBl3sFidwIZJR7bqsMGF3saD1DrOyjMqZLHX66U97ueWv5rLHORGDBlXQuWfe9T5gpxhFH8i7o5VVu+UbiMcZo0bnC7vNY0W/uolWr9dD2SlBOwiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=FnHE2anQ; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=6HP7
+	WS33RyuhHq10ONakzPJU/Wc265faZwnsYhZjIZU=; b=FnHE2anQqFYVXls/UmZy
+	YrQmBFJl8lz7rjfOaPHXiT4rOY7Q93aSFhaVKkjEBYfcGNp+/Sn564zOaxOeC37Z
+	y2Vu26IalgtVQds2tAzDx9sDkcjO6pFn8Op/U2IVNpvwL54DrbueHClA/HFPgJAh
+	kGXowapirRYNlYX1YxMwziZ3gQqz9rCLP+4D407eOJHb5lKjutnkTqhI+4pgk/BZ
+	XVzVldK7aC0clwQ0pfJINLHpLQlzM0ipB2ndhYqZq9xqhwGFnkl6rvebk3Msc7Q7
+	27XZONzLCTw7uUHhf2SNvTHWDBvtbfb4TPegUBK+BcnaSdsFmW9rIJ5mFMIMolwM
+	6A==
+Received: (qmail 1410440 invoked from network); 24 Sep 2025 10:07:59 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 24 Sep 2025 10:07:59 +0200
+X-UD-Smtp-Session: l3s3148p1@01sIjYc/0tsujntL
+Date: Wed, 24 Sep 2025 10:07:59 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>,
+	Hoan Tran <hoan@os.amperecomputing.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Saravana Kannan <saravanak@google.com>,
+	Serge Semin <fancer.lancer@gmail.com>,
+	Phil Edworthy <phil.edworthy@renesas.com>,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Pascal Eberhard <pascal.eberhard@se.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v4 6/8] dt-bindings: soc: renesas: Add the Renesas RZ/N1
+ GPIO Interrupt Multiplexer
+Message-ID: <aNOm3-NxKfjXLsSV@ninjato>
+References: <20250922152640.154092-1-herve.codina@bootlin.com>
+ <20250922152640.154092-7-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250923160524.1096720-1-cosmin-gabriel.tanislav.xa@renesas.com> <20250923160524.1096720-3-cosmin-gabriel.tanislav.xa@renesas.com>
-In-Reply-To: <20250923160524.1096720-3-cosmin-gabriel.tanislav.xa@renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 24 Sep 2025 09:51:17 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVEDJZ6wdGZs_CDs=jLPV1u382o6=cZ1HfKQOffGf7jGw@mail.gmail.com>
-X-Gm-Features: AS18NWCUnOtI9sni6QIPbp0MqkmfhYYAKBnwNUuJbeyYXQXVL2FCMeoJiSjFxRk
-Message-ID: <CAMuHMdVEDJZ6wdGZs_CDs=jLPV1u382o6=cZ1HfKQOffGf7jGw@mail.gmail.com>
-Subject: Re: [PATCH 2/7] dt-bindings: iio: adc: document RZ/T2H and RZ/N2H ADC
-To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
-	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-iio@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="FOgGMUw30W40DZAr"
+Content-Disposition: inline
+In-Reply-To: <20250922152640.154092-7-herve.codina@bootlin.com>
 
-Hi Cosmin,
 
-On Tue, 23 Sept 2025 at 18:06, Cosmin Tanislav
-<cosmin-gabriel.tanislav.xa@renesas.com> wrote:
-> Document the A/D 12-Bit successive approximation converters found in the
-> Renesas RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs.
->
-> RZ/T2H has two ADCs with 4 channels and one with 6.
-> RZ/N2H has two ADCs with 4 channels and one with 15.
->
-> Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+--FOgGMUw30W40DZAr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for your patch!
+On Mon, Sep 22, 2025 at 05:26:37PM +0200, Herve Codina (Schneider Electric)=
+ wrote:
+> On the Renesas RZ/N1 SoC, GPIOs can generate interruptions. Those
+> interruption lines are multiplexed by the GPIO Interrupt Multiplexer in
+> order to map 32 * 3 GPIO interrupt lines to 8 GIC interrupt lines.
+>=20
+> The GPIO interrupt multiplexer IP does nothing but select 8 GPIO
+> IRQ lines out of the 96 available to wire them to the GIC input lines.
+>=20
+> Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@bootlin.co=
+m>
 
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/iio/adc/renesas,r9a09g077-adc.yaml
-> @@ -0,0 +1,170 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas RZ/T2H / RZ/N2H ADC12
-> +
-> +maintainers:
-> +  - Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-> +
-> +description: |
-> +  A/D Converter block is a successive approximation analog-to-digital converter
-> +  with a 12-bit accuracy. Up to 15 analog input channels can be selected.
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-The documentation for several registers talks about bitmasks for ch0-ch15,
-so the actual hardware block supports up to 16 channels.
+Looks good from the technical side. No comment on the syntax because my
+DT check invocation fails again after some update, sigh...
 
-> +  Conversions can be performed in single or continuous mode. Result of the ADC
-> +  is stored in a 16-bit data register corresponding to each channel.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - renesas,r9a09g077-adc # RZ/T2H
-> +      - renesas,r9a09g087-adc # RZ/N2H
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    items:
-> +      - description: A/D scan end interrupt
-> +      - description: A/D scan end interrupt for Group B
-> +      - description: A/D scan end interrupt for Group C
-> +      - description: Window A compare match
-> +      - description: Window B compare match
-> +      - description: Compare match
-> +      - description: Compare mismatch
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: adi
-> +      - const: gbadi
-> +      - const: gcadi
-> +      - const: cmpai
-> +      - const: cmpbi
-> +      - const: wcmpm
-> +      - const: wcmpum
-> +
-> +  clocks:
-> +    items:
-> +      - description: converter clock
 
-Converter
+--FOgGMUw30W40DZAr
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> +      - description: peripheral clock
+-----BEGIN PGP SIGNATURE-----
 
-Peripheral
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjTptsACgkQFA3kzBSg
+KbbUMQ//R4uahw+mh6cHSRJmsbHQeEMbaHXdeiqM2Ezw/8GZn3xhRRz8qFR3AHH+
+5k3pZCffvHtYAxjVCe7gaTcRT3sDtKTiHrvPRtzEZzlOxVtFJqRJC4lueftWS0eW
+i8rLdwy4rf+fq7nczU/dXAcnw902tQp2zzom05wWaekOaTuGWYoBuE0FWtP7mJ9D
+B9rCJV9mfzh7dIxvTbaqKU3AwwlmGAlX7XuNk3GnRKsNEMzYgbSI8s4lbSYrqAmm
+K+zsTmsXlCxG8Eft3siYtSBz5hfnZ/jIEbHw1gXXOrute9ATqhD6MZzRbOFbyy+2
+UqYuOlLReS/fNcxGXpte3XMP059Ixk6LD9JhNTvSy7Z99XAloV79waxPo8kLp5ns
+vBISCYCr8d3eTGVcteoj//X0razRlzJ1Aacx7/UH1tKLqhy1iU2YtY7wJianxwhm
+YNGimNgsnFNMC48UHfzaeQJDFL69fikSluCH+V7gOtAp334mDjzn6cWT83xD8om4
+TXUunrt6VUg6o/csg1Kb50kNqwto34ida/HSUISwm3VnEijK+wJAy1zhxoDC1FWx
+1bsNhc2SpzhQ1n5LvXlqk0SyjtGMryCwf4916OonDLtcbR/5QC+/NEsLrhgW1YWa
+Rcgw09I9B11iqZaXdbdDLQjidkXCE7J7fj5MH96zKMvKwjuFW2E=
+=4j6V
+-----END PGP SIGNATURE-----
 
-> +
-> +  clock-names:
-> +    items:
-> +      - const: adclk
-> +      - const: pclk
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  renesas,max-channels:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: |
-> +      Maximum number of channels supported by the ADC.
-> +      RZ/T2H has two ADCs with 4 channels and one with 6 channels.
-> +      RZ/N2H has two ADCs with 4 channels and one with 15 channels.
-
-According to the documentation, both SoCs have three instances?
-
-I agree with Connor that this should be dropped: the same information
-is available from the channel@N subnodes, and future SoCs could have
-gaps in the numbering.
-
-FTR, from a quick glance, it looks like this module is very similar
-to the ADC on RZ/A2M, so I hope we can reuse the driver for that SoC.
-
-> +patternProperties:
-> +  "^channel@[0-9a-e]$":
-
-0-9a-f
-
-> +    $ref: adc.yaml
-> +    type: object
-> +    description: The external channels which are connected to the ADC.
-> +
-> +    properties:
-> +      reg:
-> +        description: The channel number.
-> +        maximum: 14
-
-15
-But I don't think it is needed, as the dtc check for non-matching unit
-addresses and reg properties should already enforce this.
-
-> +
-> +    required:
-> +      - reg
-> +
-> +    additionalProperties: false
-> +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: renesas,r9a09g077-adc
-> +    then:
-> +      properties:
-> +        renesas,max-channels:
-> +          enum: [4, 6]
-> +
-> +      patternProperties:
-> +        "^channel@[6-9a-e]$": false
-
-6-9a-f
-
-> +        "^channel@[0-5]$":
-> +          properties:
-> +            reg:
-> +              maximum: 5
-
-Not needed as per above.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--FOgGMUw30W40DZAr--
 
