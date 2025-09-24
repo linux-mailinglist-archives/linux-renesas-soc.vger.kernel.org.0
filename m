@@ -1,48 +1,44 @@
-Return-Path: <linux-renesas-soc+bounces-22328-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22329-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25493B9A02A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 15:20:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF252B9A03B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 15:20:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CF1864C364C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 13:20:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CF75B2A43D5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 13:20:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFBAE3043B9;
-	Wed, 24 Sep 2025 13:19:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 487AA2DF126;
+	Wed, 24 Sep 2025 13:20:38 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF7FF304BA8;
-	Wed, 24 Sep 2025 13:19:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3003022069E
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Sep 2025 13:20:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758719977; cv=none; b=bSoNO6uN8djBaOgvI3rJMnqL7x8cZrXgg4b7EsLpPGSpxoXnGxiM2Tqcc0931mLUdQUJtCC1o0Av7UaaxpXBKckcmd6EUo9xPFJ/iFd0tgpAwwhGKx09XhZL4NlcmXpBCQIVoCr6wN5hY83d23M5L3rCdGtcAYNPDvWDUCmHR5w=
+	t=1758720038; cv=none; b=tz4HtWr6AjBVgo568FCcKCFttWYh6Yg1qf4fP7WUhKcmZjwOFd8SfWWAfc+xkGjgp1uYZ8Z/zR0waLCL7rFjXCr0HMPwrdr2uajJekMxYlz2lGQmQOYFk3e5rSI5FHqk52jjEWctt40GhImJNBCGc32eSN9bWY73XXKDnblmpWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758719977; c=relaxed/simple;
-	bh=BM8Wcnq/5WBXMEv91PoKN60uQW0Qu0p3WPLEYWEo/to=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DyVaJneNudSB1C8ILPwX5co/Q3Gxy5P6kRSvzytt3khuw/tNvonYP18cElnrNGb8g3jUJd4FWMqeDUyLpYjThlPnK4KYj1+9tNFTM9KuZwsxnAubiUW7tu16gPDS/QqubSK1hmCvwdS6aFFJ7uATLyXxaePAHoBq651ypToPo/I=
+	s=arc-20240116; t=1758720038; c=relaxed/simple;
+	bh=AppEkqoEDTCVorztpnXVqb3RGurzcRqssTLsYWCO5Bw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QTJmXdnzT8B62r3HngyRxpvpUZ7D1GhuNTuLjfQWlOF4ysGJWG2DQAlP4W1VU2p5ugTgyoKfM0ttW5Est+/zthlsGPLoLHkKWXafdupIVeTlXwsPgI9p0M/7OuiUqY3xE4/lQ6EGZ3zWSwxR6lHG7XqE/yLOLU0835rFgYT8EZk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EA3BC116D0;
-	Wed, 24 Sep 2025 13:19:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48E48C4CEF7;
+	Wed, 24 Sep 2025 13:20:36 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Michael Dege <michael.dege@renesas.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
-	netdev@vger.kernel.org,
+To: Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: linux-phy@lists.infradead.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] [net-next] net: renesas: rswitch: Remove unneeded semicolons
-Date: Wed, 24 Sep 2025 15:19:30 +0200
-Message-ID: <e6b57123f319c03b3f078981cb452be49e86253b.1758719832.git.geert+renesas@glider.be>
+Subject: [PATCH] phy: renesas: Remove unneeded semicolons
+Date: Wed, 24 Sep 2025 15:20:31 +0200
+Message-ID: <a8807dafa87fcc3abcafd34a1895e4c722c39793.1758719985.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -56,31 +52,50 @@ Semicolons after end of function braces are not needed, remove them.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/net/ethernet/renesas/rswitch_main.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/phy/renesas/phy-rcar-gen3-pcie.c | 2 +-
+ drivers/phy/renesas/phy-rcar-gen3-usb2.c | 2 +-
+ drivers/phy/renesas/phy-rcar-gen3-usb3.c | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/net/ethernet/renesas/rswitch_main.c b/drivers/net/ethernet/renesas/rswitch_main.c
-index 69676db20fec635a..8d8acc2124b8fdaa 100644
---- a/drivers/net/ethernet/renesas/rswitch_main.c
-+++ b/drivers/net/ethernet/renesas/rswitch_main.c
-@@ -1629,7 +1629,7 @@ static int rswitch_open(struct net_device *ndev)
- 		rswitch_update_l2_offload(rdev->priv);
- 
- 	return 0;
--};
-+}
- 
- static int rswitch_stop(struct net_device *ndev)
+diff --git a/drivers/phy/renesas/phy-rcar-gen3-pcie.c b/drivers/phy/renesas/phy-rcar-gen3-pcie.c
+index feca4cb2ff4d1e9e..c0e5a4ac82de2cfb 100644
+--- a/drivers/phy/renesas/phy-rcar-gen3-pcie.c
++++ b/drivers/phy/renesas/phy-rcar-gen3-pcie.c
+@@ -128,7 +128,7 @@ static int rcar_gen3_phy_pcie_probe(struct platform_device *pdev)
+ static void rcar_gen3_phy_pcie_remove(struct platform_device *pdev)
  {
-@@ -1664,7 +1664,7 @@ static int rswitch_stop(struct net_device *ndev)
- 	}
- 
- 	return 0;
+ 	pm_runtime_disable(&pdev->dev);
 -};
 +}
  
- static bool rswitch_ext_desc_set_info1(struct rswitch_device *rdev,
- 				       struct sk_buff *skb,
+ static struct platform_driver rcar_gen3_phy_driver = {
+ 	.driver = {
+diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+index 3f6b480e10922950..6671616b26cec7c2 100644
+--- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
++++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+@@ -926,7 +926,7 @@ static void rcar_gen3_phy_usb2_remove(struct platform_device *pdev)
+ 
+ 	reset_control_assert(channel->rstc);
+ 	pm_runtime_disable(&pdev->dev);
+-};
++}
+ 
+ static struct platform_driver rcar_gen3_phy_usb2_driver = {
+ 	.driver = {
+diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb3.c b/drivers/phy/renesas/phy-rcar-gen3-usb3.c
+index 5c267d148c90bef9..0420f5b283ce4233 100644
+--- a/drivers/phy/renesas/phy-rcar-gen3-usb3.c
++++ b/drivers/phy/renesas/phy-rcar-gen3-usb3.c
+@@ -202,7 +202,7 @@ static int rcar_gen3_phy_usb3_probe(struct platform_device *pdev)
+ static void rcar_gen3_phy_usb3_remove(struct platform_device *pdev)
+ {
+ 	pm_runtime_disable(&pdev->dev);
+-};
++}
+ 
+ static struct platform_driver rcar_gen3_phy_usb3_driver = {
+ 	.driver = {
 -- 
 2.43.0
 
