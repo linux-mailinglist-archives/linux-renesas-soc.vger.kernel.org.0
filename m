@@ -1,167 +1,150 @@
-Return-Path: <linux-renesas-soc+bounces-22342-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22343-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC18DB9B8AD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 20:42:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B30F1B9B9A8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 21:10:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 27BF516EF43
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 18:41:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 720302E5919
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 19:10:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CE2C31A053;
-	Wed, 24 Sep 2025 18:41:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA814258CF2;
+	Wed, 24 Sep 2025 19:10:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="PATM6Mun"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R9cPG0dM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7DAE31AF09
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Sep 2025 18:41:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09C0625484D
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Sep 2025 19:10:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758739295; cv=none; b=gUs2aNUneBADXtHF+bzbl1pJngELEK0pULBtrFO1uAJ0iR0q4E+xxfhTeS2npaaXxPvCDTGIxXxAEeZbO6b9kHKySyyzXYEUZryDwKgrYySC/1Hn7mRp7MnpL0BAJ/FZPehxcGGs318y+c7SzSlyWDwhpIFpkNEcGsNXps0To/s=
+	t=1758741047; cv=none; b=A3bBCtTlirh3au9JdDLZt8fvmY5odZ2T+peuI7oRmKZKMZaJwOHdv+y0vO2BdeYtZv+5ipKro1/+60NrCdbuxcVKXAyJD9FuzZLmAMWdwwuTgA3Ic0yqmdpSnQgha5Ym7Yude+cA9bX4Cpk5aSBcn5GO7CKaAsV1lq5HO5zuI2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758739295; c=relaxed/simple;
-	bh=AmtVRRJ1jDNsgzknhAmzKa0wOzllfT760U23kBlxD+M=;
+	s=arc-20240116; t=1758741047; c=relaxed/simple;
+	bh=EG8x2jtizeJG3yiW42c2IdRC9fQ9/O2UIX7L2gZFaC0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Iv3ZsxKUIDbjSm0HnuhXCMKNULMn1RTfac1Z3hU2w1BrXHPnOzlEV/DImWUif9YJ4zOlwbKuZSKl9fI2MN1ZfPdKoIn5idHOghs36Y0CHPqTNfBBLurYDfAJibM4P2fiRHMcShw27lSxM5uyjYhFQEe/XCwZ9DRA8VOhCfR/wFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=PATM6Mun; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=+/I1
-	ab4olDmDZGHkFb/TQwI1UB8ySlew2Es2bhyLFxc=; b=PATM6MunPPhQrDkXlA25
-	6VcLtNz5L6k6gV4cHOpLAqoYi324j5/ewZlnrXU3FSQ5AnzLu/aKcTuw8juOZ1I6
-	UqhizFzH3f7WitkIJhx9OGq2vBfe6efaUzCMamNCDIn945n41H7Cub1LVbpfmhN7
-	3pJ/CEv1xOo81DrULWfegDEHWxurwj5ZfRPutZhirkMsRbUXaFuUyckFdoqtaYmW
-	pkSuvpXzrM2nQzuqtah9mv7RZFWlpUmRGvjw59XD0Q9nAhQE8WFyGUOQvsN1nflh
-	3YPLpEbhlC5H0A1QJ3rD11xTs0jQfwC2WLkZeZ/sIqw0xbd5TCTlKvIU3nfrNgmN
-	EA==
-Received: (qmail 1587696 invoked from network); 24 Sep 2025 20:41:21 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 24 Sep 2025 20:41:21 +0200
-X-UD-Smtp-Session: l3s3148p1@TSMiZpA/OIoujntL
-Date: Wed, 24 Sep 2025 20:41:20 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>,
-	Hoan Tran <hoan@os.amperecomputing.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=FX1y6MpOnHWGldWqpWvD4C6c+kBhzMptXVn4yFPkesoOmJPKVihiVugABMUR9JZOLvQAqWgwXQkJAVh8hWMPhNodYSQ3oNDx1E08OTmzO3IqDVK8DQeNSlNENj+tOC75gLuv+C0qEVKNxkHJYH3my6p1yaXBUjCVbGGf2KE9jzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R9cPG0dM; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758741046; x=1790277046;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EG8x2jtizeJG3yiW42c2IdRC9fQ9/O2UIX7L2gZFaC0=;
+  b=R9cPG0dMN4AZ1/hzfGnCuWXHyMq7OHO6u+azM/4uqWdXtq4havELCBcs
+   DZRZw1BvH7ktkuc3vi2hfGVHwOEEpMNr9Jrq30yxcc8gcmH0MSH4fuB/t
+   MGGYUceroFlswlFhcp/U/5Xp/4cciTqGOvi7YPJJhVn2Adr4T6VM4Mutf
+   /W5vUmeWAyxD4ktVJd5zlKZGyX5VgPBgLKw11DkRsaDR27EGuerN8+Byr
+   O3XSMc7GMwCDzDYXdOH0lDpSwUJva69PjNHsnjnoj+G+VVWgLPd9rsTkU
+   LhLtLKzyXsRudRgTUAsrwb6oKWeKLA+vfUMKf0k/JJDQN7fU1syJHD3zH
+   w==;
+X-CSE-ConnectionGUID: 3pJ2WpcATC+2gwfGW6Ug5w==
+X-CSE-MsgGUID: cpaAIeRqQ0yY5rv3k30P6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11563"; a="64691007"
+X-IronPort-AV: E=Sophos;i="6.18,291,1751266800"; 
+   d="scan'208";a="64691007"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 12:10:46 -0700
+X-CSE-ConnectionGUID: tTzMU4ERT2OiRhRmFfQFvw==
+X-CSE-MsgGUID: 6M9s9B2dQ6+OqQ4iPDW7lA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,291,1751266800"; 
+   d="scan'208";a="176242884"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by orviesa006.jf.intel.com with ESMTP; 24 Sep 2025 12:10:42 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v1Usx-0004SD-2i;
+	Wed, 24 Sep 2025 19:10:39 +0000
+Date: Thu, 25 Sep 2025 03:10:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	David Airlie <airlied@gmail.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Magnus Damm <magnus.damm@gmail.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Serge Semin <fancer.lancer@gmail.com>,
-	Phil Edworthy <phil.edworthy@renesas.com>,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Pascal Eberhard <pascal.eberhard@se.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 7/8] soc: renesas: Add support for Renesas RZ/N1 GPIO
- Interrupt Multiplexer
-Message-ID: <aNQ7UOniYss92EIS@ninjato>
-References: <20250922152640.154092-1-herve.codina@bootlin.com>
- <20250922152640.154092-8-herve.codina@bootlin.com>
+	Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 04/10] drm/rcar-du: dsi: Clean up VCLKSET register
+ macros
+Message-ID: <202509250233.QOpzRcHv-lkp@intel.com>
+References: <20250924003003.91039-5-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="sPDzEL5A/+tREXwg"
-Content-Disposition: inline
-In-Reply-To: <20250922152640.154092-8-herve.codina@bootlin.com>
-
-
---sPDzEL5A/+tREXwg
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250924003003.91039-5-marek.vasut+renesas@mailbox.org>
 
-Hi Herve,
+Hi Marek,
 
-On Mon, Sep 22, 2025 at 05:26:38PM +0200, Herve Codina (Schneider Electric)=
- wrote:
-> On the Renesas RZ/N1 SoC, GPIOs can generate interruptions. Those
-> interruption lines are multiplexed by the GPIO Interrupt Multiplexer in
-> order to map 32 * 3 GPIO interrupt lines to 8 GIC interrupt lines.
->=20
-> The GPIO interrupt multiplexer IP does nothing but select 8 GPIO
-> IRQ lines out of the 96 available to wire them to the GIC input lines.
->=20
-> Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@bootlin.co=
-m>
+kernel test robot noticed the following build errors:
 
-Thanks for improving the driver and removing the requirement of a fixed
-ordering!
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-tip/drm-tip next-20250924]
+[cannot apply to linus/master v6.17-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> +static u32 rzn1_irqmux_output_lines[] =3D {
+url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Vasut/drm-rcar-du-dsi-Fix-missing-parameter-in-RXSETR_-EN-macros/20250924-083415
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20250924003003.91039-5-marek.vasut%2Brenesas%40mailbox.org
+patch subject: [PATCH v2 04/10] drm/rcar-du: dsi: Clean up VCLKSET register macros
+config: arc-randconfig-002-20250924 (https://download.01.org/0day-ci/archive/20250925/202509250233.QOpzRcHv-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250925/202509250233.QOpzRcHv-lkp@intel.com/reproduce)
 
-const?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509250233.QOpzRcHv-lkp@intel.com/
 
-> +	103, 104, 105, 106, 107, 108, 109, 110
-> +};
+All errors (new ones prefixed by >>):
 
-=2E..
-
-> +	for (i =3D 0; i < ARRAY_SIZE(rzn1_irqmux_output_lines); i++) {
-> +		if (parent_args->args[1] =3D=3D rzn1_irqmux_output_lines[i])
-> +			return i;
-> +	}
-
-Do we want a check here if the index has already been used in cases of
-an improper 'interrupt-map'? I'd think it would be nice to have but I
-would also not really require it.
-
-=2E..
-
-> +	ret =3D rzn1_irqmux_setup(dev, np, regs);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "failed to setup mux\n");
-> +
-> +	return 0;
-
-Maybe just
-
-	return rzn1_irqmux_setup(dev, np, regs);
-
-The driver core will report a failed probe already.
-
-It still works, so:
-
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-Happy hacking,
-
-   Wolfram
+   In file included from drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c:29:
+   drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c: In function 'rcar_mipi_dsi_startup':
+>> drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h:256:41: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+     256 | #define VCLKSET_BPP_24                  FIELD_PREP(VCLKSET_BPP_MASK, 3)
+         |                                         ^~~~~~~~~~
+   drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c:629:28: note: in expansion of macro 'VCLKSET_BPP_24'
+     629 |                 vclkset |= VCLKSET_BPP_24;
+         |                            ^~~~~~~~~~~~~~
 
 
---sPDzEL5A/+tREXwg
-Content-Type: application/pgp-signature; name="signature.asc"
+vim +/FIELD_PREP +256 drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
 
------BEGIN PGP SIGNATURE-----
+   246	
+   247	#define VCLKSET				0x100c
+   248	#define VCLKSET_CKEN			(1 << 16)
+   249	#define VCLKSET_COLOR_YCC		(1 << 8) /* 0:RGB 1:YCbCr */
+   250	#define VCLKSET_DIV_V3U(x)		(((x) & 0x3) << 4)
+   251	#define VCLKSET_DIV_V4H(x)		(((x) & 0x7) << 4)
+   252	#define VCLKSET_BPP_MASK		(3 << 2)
+   253	#define VCLKSET_BPP_16			FIELD_PREP(VCLKSET_BPP_MASK, 0)
+   254	#define VCLKSET_BPP_18			FIELD_PREP(VCLKSET_BPP_MASK, 1)
+   255	#define VCLKSET_BPP_18L			FIELD_PREP(VCLKSET_BPP_MASK, 2)
+ > 256	#define VCLKSET_BPP_24			FIELD_PREP(VCLKSET_BPP_MASK, 3)
+   257	#define VCLKSET_LANE(x)			(((x) & 0x3) << 0)
+   258	
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjUO0wACgkQFA3kzBSg
-Kbb7sg/9FlraWenace/wEziJTaN0z5SDtlFavT/tff2xkVPYo/YHX2RD+UF+eP3v
-7KsuMhwUUnLUsY5I1m76gFwa7iwZpY7ADInuWm3oyR79pUvsCUkdK6bCzHyqGZow
-3ITIkEPIVBAjDnGO+tmaXk9WdbpfxwUTbPYhKDxa1f/szLqf0uvDWmmSb3RoQZE5
-r9EBKV9modMar30ppBO6rk1F268MNB/mNGNNS6hqfGYROzHirS7trjP7+8+zSuMX
-idjZzgLdfO2QyWYwcfBCqz6i3LbqWk7HnG02vm4r1MhgMv3Nzi2WKu9MV7NRPh6w
-12JgK8xECSKisTYDJ+paD/ALarKM9tvZ4PI63MMzscCatrLvILLW9nH7EouSjnKc
-RDBhRElN6LSwQidhRLcF1KgKKMmL3AvPvbk8L0Ywjq+ziJ2qpaDWKMr+f2pLylS4
-Wy0X1Owdu/1fTSrjmgrksEqA1nIEAOvjjtJQW/MyjF+KzrnrlpBXlWUtjzinf893
-CeHqKzRiWue0rbjsPfW5CLmbfuqkn5k5+TnjPclMNnFmZAv3hIYdeGYxZ/JwaaVm
-eKoCp9FYTemfmqdeLjZp0FGBcnsvHx+wyzxb+YCI/ypJJyB94x7ikmawUgLmFPfm
-FR93LoSrFnEV8wg9hrPKn/RTwb3U9k4j9pRuAkSZQe4KnzhLWkg=
-=mmQN
------END PGP SIGNATURE-----
-
---sPDzEL5A/+tREXwg--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
