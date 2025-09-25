@@ -1,89 +1,111 @@
-Return-Path: <linux-renesas-soc+bounces-22386-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22387-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 190CEBA0AF9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Sep 2025 18:45:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 924C9BA1DA8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Sep 2025 00:41:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9E0E71881B37
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Sep 2025 16:45:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AAE891894D4B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Sep 2025 22:41:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0B4A1F4613;
-	Thu, 25 Sep 2025 16:45:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HAe2Y+Xf"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1635F321287;
+	Thu, 25 Sep 2025 22:40:58 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A782AD25;
-	Thu, 25 Sep 2025 16:45:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C92502882C9;
+	Thu, 25 Sep 2025 22:40:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758818713; cv=none; b=b0lYGqW8tOy7J+RSa+907TSTsAdSMv9qyGQrcnaeOpSl7IuUF8BXNWUnM5Tz6dak2Gfl3nL3hOUfZnx2wBH6aYYRhUG4NW1NCsnYuCSa1VT3uPkBLtpwy9RwdK0tnviCveuVarFf/YQ/Dlo5gXsIRPTEam+tASuKzVM8y9sxfmI=
+	t=1758840058; cv=none; b=JzzmVGLNnRUhhkePVz5uO5xRA0HzyhrEL9rhzUmUdnC2yj6zaX1CRXTRnCvjjQvhRv6gFR7X4Wl3e2rREgvK1dWlOJv1vHa1R4N4JXf3mY3TlJ4Iz4UKtUlfiDoVW/M+8uW4LJ04GqMmHFjjdhn1YKjjjRznzfSbT0qddG+23Nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758818713; c=relaxed/simple;
-	bh=7elF26Ve0F+Q3ywVODITsdvGWDRWqWm36UM6j8I3SsA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BCGSvP4aYgRfqRLk5JNXQPpZ+UuNljQ7tp+569bJJHVQ1bAdpewmkiwRmjULrjwxECu9RkfoSgtdTkdF+e3dGukmxvzk19Umy1Rdk1EhGTYWxdNUeCobdjJXW052oQGUZoHD+cecB/50iDVc3X54YeAlWiVz7VzGZTPr2N1GBLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HAe2Y+Xf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A047C4CEF5;
-	Thu, 25 Sep 2025 16:45:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758818712;
-	bh=7elF26Ve0F+Q3ywVODITsdvGWDRWqWm36UM6j8I3SsA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HAe2Y+XfLGw8ezGLmJQPvcRPz8r7cF5kqq+YWqLlb91oiUusYo4U/WAEgFIuN5Dl4
-	 SLFmvWeW7KtxhCwOzhEIkd7Jp2J5F294napTDCYr2oaKRDOggWEC9mlHSh+t80sWbq
-	 KbEPmxQWsDesKAir3uPhaWhmr4EzDF9w1Z7fykLSTNVL/udUl+1IDlxXHV4iTgQXDD
-	 lJK1L2uoG+U539wlftgeuZLT6zHF4/FTeFqoeIChJauq1/qJ+QcJkDxT/EjdL10s00
-	 0tnzjpS/tcwX/+T8xjmOupfTCb3D5pwiZazIkP/ClZtaD4J8R/T31UT5NZlP3cO1Gv
-	 3iNQr39tuwwZw==
-Date: Thu, 25 Sep 2025 22:15:03 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>, 
-	linux-pci@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3] PCI: rcar-gen4: Add missing 1ms delay after PWR reset
- assertion
-Message-ID: <befzloabtpkvgcehzllqa7iy7657citnge7zzoq6kqbbsvy32d@hxhlyoltqvp4>
-References: <20250919134644.208098-1-marek.vasut+renesas@mailbox.org>
- <20250919141340.GA709855@rocinante>
+	s=arc-20240116; t=1758840058; c=relaxed/simple;
+	bh=R0ZC9HDSPtzDblgCKz4awGmG6PvRPYu/gPFIahGawM0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IJGFIr+OWlFvAt12diw54JC8AvpkEj654ANks7TggkGzTT4UA9N39tdXcm8Du2MN+qbimtEpTQztAyJ2xiSSGSonAAvSliT3PnE3LAZCLuASQ30O6ADrIvqrSPEywkDw8LMRUBijc4eVOVJZIBgaz51vBkMa1wHtR+mqhtZZFZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+X-CSE-ConnectionGUID: eUfWO2cDTZKZgWZwCslw0g==
+X-CSE-MsgGUID: AmBBRPKRSDCldcM8ZJsiwQ==
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 26 Sep 2025 07:40:49 +0900
+Received: from demon-pc.localdomain (unknown [10.226.92.2])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 991F0400CF0A;
+	Fri, 26 Sep 2025 07:40:44 +0900 (JST)
+From: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+To: 
+Cc: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-iio@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/7] Add ADCs support for RZ/T2H and RZ/N2H
+Date: Fri, 26 Sep 2025 01:40:02 +0300
+Message-ID: <20250925224013.2146983-1-cosmin-gabriel.tanislav.xa@renesas.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250919141340.GA709855@rocinante>
 
-On Fri, Sep 19, 2025 at 11:13:40PM +0900, Krzysztof Wilczyński wrote:
-> Hello,
-> 
-> [...]
-> > Fixes: 0d0c551011df ("PCI: rcar-gen4: Add R-Car Gen4 PCIe controller support for host mode")
-> > Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> 
-> Missed a tag from me. :)  But we can add it when applying, no worries.
-> 
+Renesas RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs include three
+12-Bit successive approximation A/D converters.
 
-I've added your tag while applying:
-https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/commit/?h=controller/rcar-gen4&id=23291403391180b0312405bb3d8fa8546124c643
+RZ/T2H has two ADCs with 4 channels and one with 6.
+RZ/N2H has two ADCs with 4 channels and one with 15.
 
-Thanks, Krzysztof!
+Add support for them.
 
-- Mani
+V2:
+ * pick up Reviewed-by from Geert
+ * dt-bindings: move required after patternProperties
+ * dt-bindings: describe 16 channels, but limit per-SoC to 6 / 15
+ * dt-bindings: use uppercase for clock descriptions
+ * remove max-channels property and find it from parsed channel subnodes
+ * remove start/stop wrappers
+ * stop calibration even on failure
+ * move data reading to rzt2h_adc_read_single() instead of interrupt
+ * handler
+
+Cosmin Tanislav (7):
+  clk: renesas: r9a09g077: Add ADC modules clock
+  dt-bindings: iio: adc: document RZ/T2H and RZ/N2H ADC
+  iio: adc: add RZ/T2H / RZ/N2H ADC driver
+  arm64: dts: renesas: r9a09g077: Add ADCs support
+  arm64: dts: renesas: r9a09g087: Add ADCs support
+  arm64: dts: renesas: rzt2h/rzn2h-evk: enable ADCs
+  arm64: defconfig: enable RZ/T2H / RZ/N2H ADC driver
+
+ .../iio/adc/renesas,r9a09g077-adc.yaml        | 160 +++++++++
+ MAINTAINERS                                   |   8 +
+ arch/arm64/boot/dts/renesas/r9a09g077.dtsi    |  69 ++++
+ .../dts/renesas/r9a09g077m44-rzt2h-evk.dts    |  28 ++
+ arch/arm64/boot/dts/renesas/r9a09g087.dtsi    |  69 ++++
+ .../dts/renesas/r9a09g087m44-rzn2h-evk.dts    |  64 ++++
+ .../dts/renesas/rzt2h-n2h-evk-common.dtsi     |  79 +++++
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/clk/renesas/r9a09g077-cpg.c           |   3 +
+ drivers/iio/adc/Kconfig                       |  10 +
+ drivers/iio/adc/Makefile                      |   1 +
+ drivers/iio/adc/rzt2h_adc.c                   | 306 ++++++++++++++++++
+ 12 files changed, 798 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/iio/adc/renesas,r9a09g077-adc.yaml
+ create mode 100644 drivers/iio/adc/rzt2h_adc.c
 
 -- 
-மணிவண்ணன் சதாசிவம்
+2.51.0
+
 
