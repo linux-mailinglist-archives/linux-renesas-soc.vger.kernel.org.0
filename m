@@ -1,97 +1,153 @@
-Return-Path: <linux-renesas-soc+bounces-22348-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22349-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92281B9CD44
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Sep 2025 02:17:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13A12B9D6EA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Sep 2025 07:12:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B24BA1BC3767
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Sep 2025 00:17:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C14124A588C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Sep 2025 05:12:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D9FE136E3F;
-	Thu, 25 Sep 2025 00:17:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC6CB2E764B;
+	Thu, 25 Sep 2025 05:12:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b="OJ2QRaPE"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="on11+F5v";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Z/O717V1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792CC42A96;
-	Thu, 25 Sep 2025 00:16:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.241.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B3F2749C9;
+	Thu, 25 Sep 2025 05:12:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758759420; cv=none; b=dW31vY0FnkCla8z3jfVPN/eJ+7IuMU1lFPUNZWy2krRadyK540KE+sGfGrK+9R/wMaimsDB5A3nAYQ7HfjUxvGTQuJgD+Etj9BGOdQQ4i3HlY2x5AP8rATkPPedceL6DwxmC0htKM5SI4B6c2Z5maPe5T9e0mqBvyNBhQeloeRg=
+	t=1758777146; cv=none; b=mhRBTE0amyvYMnP0Ti5QExJ5CGjBOXiQg0ne+m2zQnH0wV7AXJ3KldW2sNOiB98tCZ1cROyPAbbp+Le4psfWV7l/DVB1Rh0+X3mVZSxGnBuyzMdrMFr0/Z5UiCvqWwBEdLG621d37clPctBCDC1DjSSaSoB7ml9l4x5C06UXotw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758759420; c=relaxed/simple;
-	bh=trv/5zES0J71ogwwSlHNmpRE442auLyV/o1fTLjOtsY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=TNvPOzTD7ML4fTTVU9JLXTdPYxRiBflvp7TYVE4sumFqivKBTjsvu7/HcJ74er4+aNGRjs7fkGmsu3yH+UugE6uJFFJbNKNtQTUpmCvjJrqIf7m3YJFFCuT/rnTgAK/Q84qubyKX36iWbc9PRtq+MmgbsGMj/EIdOuHJ0kzpUX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; spf=pass smtp.mailfrom=codeconstruct.com.au; dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b=OJ2QRaPE; arc=none smtp.client-ip=203.29.241.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeconstruct.com.au
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1758759414;
-	bh=trv/5zES0J71ogwwSlHNmpRE442auLyV/o1fTLjOtsY=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=OJ2QRaPE5M6I7OP/H1j/PrTVgCrSMP8UrZbzVbJyJ9se212oYGTasKT/W0nJ7I+XH
-	 ufKTD795DRI0fcQbAbG4Akd1jFQhFgIBgbF9Hsd9dw62X2HbwkoHeOTNow7OPwDWHO
-	 01TvqkRQaD37ozssgLvRxP2BAueimrUnliWp0A5eAXcAgpoXodP0Uz993+ElhG/G5j
-	 hZb7lX1kvo7ItL6eQKyReGgHb3fIB4nnpYY5Psj6Olq3TMKiyomvU1KqwmUNxQA2bK
-	 N6lSo2VEHUf2xwIN6720wRPNbNRpW4oVU/TXB1hs2vZgfs+iZTeHf20qDw0vajdGqj
-	 k3l0y0U2BxUNg==
-Received: from [192.168.68.113] (unknown [180.150.112.213])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 55C40738DF;
-	Thu, 25 Sep 2025 08:16:52 +0800 (AWST)
-Message-ID: <090d0e196fd0f814b5385f2c6e47e5196f0be649.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v1 0/2] Add Meta (Facebook) Yosemite5 BMC (AST2600)
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Kevin Tung <kevin.tung.openbmc@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Andrew Lunn <andrew@lunn.ch>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel
- Stanley <joel@jms.id.au>,  Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Date: Thu, 25 Sep 2025 09:46:51 +0930
-In-Reply-To: <CAL_Jsq+zBK1CBJX0XcaqaYeOPUhoRE-nMeYvkTNwQovJ+dakGg@mail.gmail.com>
-References: <20250917074812.4042797-1-kevin.tung.openbmc@gmail.com>
-	 <9bb9929a-8130-48da-983e-2901a7c3da36@lunn.ch>
-	 <CABh9gBew1=hbJvg1Mhg5dE7Lr_Z442_kbBX6zTs_6_C2NRyLbw@mail.gmail.com>
-	 <7e6f568da28d7a63738b6ed22b33db3df4c478c9.camel@codeconstruct.com.au>
-	 <CABh9gBcoWbXurPo0f9U9+gz8k6gttUvj=NMMDVfgjo5dgaTLSA@mail.gmail.com>
-	 <CAL_Jsq+zBK1CBJX0XcaqaYeOPUhoRE-nMeYvkTNwQovJ+dakGg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.1-1 
+	s=arc-20240116; t=1758777146; c=relaxed/simple;
+	bh=AmKGP0SFQudpzE0wY/paaMqioPBUYag+fDjfFcMzHvk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CSSi2qt+RUXrPRfcNvV4QEEOkfVQZFgfh9Hb4ONPz+5N3Hc9/WAGt1S7UwteoXNCdsYilAEBEFBzyJGhJKiitqzRpD7TIqb4FqTA0CQxS8uiBU2lRdAKB9Ksy62Cwbt08B82xzBooc+1uPv3/3m4ijCGKft9FDzJ1LZn3h4Uopo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=on11+F5v; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Z/O717V1; arc=none smtp.client-ip=202.12.124.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 604C77A00AC;
+	Thu, 25 Sep 2025 01:12:22 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Thu, 25 Sep 2025 01:12:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1758777142;
+	 x=1758863542; bh=F18HV6w3Twni1U/Lm2MdRg8IOu1XRnlYZ8Z35cH+x6g=; b=
+	on11+F5vJR91oEA+e5tPJLQ+wd21/+BIYhMJ2S+AXHuA4GqSn8jLQKLl5nRyrKO5
+	sQqh1d4mjKTLBkthknIbA7kGlkEiQTkHSD7m0ehzrITYa2RvfeTkInIrVveQ4rXj
+	cSCGA98yxT76+TIcQ4BesEUsWkA/tN8nR/ReC1LOvpzOhARf6R/JTO2d5XaPH5y1
+	jR2YkjhLK9T0xJ6k2VfkVoZb4Fsfr98uD0+gkTypEPv6Rn/D8rHbMQK6lepQMc6m
+	6ifF42VCkOaRC9p/KQ+b/t9PerWKrPjKkGdLOak9lbZqvXCviKsSVy8/wqq6Hcnr
+	7XRaXXNlAZa25XSoXEnVBQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1758777142; x=
+	1758863542; bh=F18HV6w3Twni1U/Lm2MdRg8IOu1XRnlYZ8Z35cH+x6g=; b=Z
+	/O717V1SprFLCUlsJKnr6VrQl3zK7J/L7Or7YC0tfGmF53ywo+r369ZnCDSGXFBT
+	36EDemZrWv2shokw4lhWUW1TMnj+ETZ8lrh40zw3i4qmWYguLm7/ozdj4tQDvtji
+	lFHlGi+y+l0XiSXLzdEDs/4qnDY5dD835rNYciR5NAir9gg6QQ/BDBgTQtj/YzAN
+	pld+IRddyTGA8I0klZ22DWbqN0ceLK4Fqjrj7Oc9IONoQ/MOtf4Hf2yb1KvZbgCw
+	tRKtvkjFxhRu8xwqPGOLenbwjKlxXoSBlofR2tOPubKOkJY5u3BfDAO45RnAONjD
+	GBKVopJ4P74pJgbyREVAw==
+X-ME-Sender: <xms:Nc_UaOuCyHdSWexMWmpFInypdv5YnFQAQaT1qaVDmLlgMGbv5qo2SA>
+    <xme:Nc_UaE8KRCaPLY2rNJvEbZtnT9NH59nkYFC64iOyEX8-sH9t7nOx83R-h1d22R8Wt
+    2zaDsrQ4M5igtiTHdRCN5iXaoyI9GS-60YcbSjEthzMHFwAwbBShgY>
+X-ME-Received: <xmr:Nc_UaJ0aJaQUUySfsL4IasQeguN-rYHcLEeNs7HZpIZQzSNaNixOmuyqdH6Z_hmvETEwAoYFCTmQYqI9ABLZVn4wVkb38K4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdeiheeivdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhikhhlrghs
+    ucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrg
+    hssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepfefhleelhfffjefg
+    fedugfegjeelhfevheeikefhueelgfdtfeeuhefftddvleeinecuvehluhhsthgvrhfuih
+    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhu
+    nhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohephe
+    dpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepghgvvghrtheslhhinhhugidqmhei
+    kehkrdhorhhgpdhrtghpthhtohepuggrnhhivghlrdhlvgiitggrnhhosehlihhnrghroh
+    drohhrghdprhgtphhtthhopehtghhlgieslhhinhhuthhrohhnihigrdguvgdprhgtphht
+    thhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtph
+    htthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdho
+    rhhg
+X-ME-Proxy: <xmx:Nc_UaJC8bewA29F6QaT79fT0cYO6jLhRwoIgVEZgN_SG_sTwZm15FA>
+    <xmx:Nc_UaFfxG02h4ge_8TiD_nC-LRhyTXnBYs-FmTzjnKtYqcqzSPh-ww>
+    <xmx:Nc_UaG4tX9Wll-JohR5tsg7j6Q7bZp_bYrySDdJvpvahAtBviPBqGQ>
+    <xmx:Nc_UaIWGgurNL6C6QsVXwnLIDvfi-Vh-4BitkLuVDCFI8Bp54Lpfwg>
+    <xmx:Ns_UaDUvli4gCAVyEJJp-yMj4GDEee6ii_B3f1A_iaJ5pHQbvnLpltOJ>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 25 Sep 2025 01:12:21 -0400 (EDT)
+Date: Thu, 25 Sep 2025 07:12:19 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] clocksource/drivers/sh_cmt: Do not power down
+ channels used for events
+Message-ID: <20250925051219.GB1062104@ragnatech.se>
+References: <20250910142657.1148696-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250910142657.1148696-3-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdVKZn-YfBxvwA1wgjksvzZK=NPzaoTCPRur_Z=AneLA6w@mail.gmail.com>
+ <8672a8c1-26b2-4b65-a30e-a4c3e0f1f32e@linaro.org>
+ <20250924093132.GA1062104@ragnatech.se>
+ <69f09f55-fd2f-47a9-887a-e9c2cf7c21df@linaro.org>
+ <CAMuHMdWt07VP=i_5S2bm6yaRwOovzc4hgZzYaYvpqj4nronxgA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdWt07VP=i_5S2bm6yaRwOovzc4hgZzYaYvpqj4nronxgA@mail.gmail.com>
 
-Hi Kevin,
+On 2025-09-24 15:46:45 +0200, Geert Uytterhoeven wrote:
+> Hi Daniel,
+> 
+> On Wed, 24 Sept 2025 at 15:43, Daniel Lezcano <daniel.lezcano@linaro.org> wrote:
+> > On 24/09/2025 11:31, Niklas Söderlund wrote:
+> > > If it's not too late I think we should drop it. The issue this work
+> > > tries to solve is a lockdep blurb which highlights a design issue in the
+> > > driver. But the driver have function properly in the past. So I think
+> > > it's better I work on solving the blurb without any regressions.
+> >
+> > Ok, dropping 2/2 but keeping 1/2 is fine, right ?
+> 
+> 1/2 is a refactoring without any functional impact.
+> Thanks!
 
-On Wed, 2025-09-24 at 08:34 -0500, Rob Herring wrote:
-> On Wed, Sep 24, 2025 at 8:05=E2=80=AFAM Kevin Tung <kevin.tung.openbmc@gm=
-ail.com> wrote:
-> > I also checked the work with `make CHECK_DTBS=3Dy
-> > aspeed/aspeed-bmc-facebook- yosemite5.dtb`,
-> > and the warnings that appear are not related to these patches.
->=20
-> Um, they are related because they are warnings for *your* platform.
-> You don't care that there are warnings for your platform?
+Thanks to the both of you! Geert for testing and finding the regression 
+and Daniel for his quick action removing it from the pull request. I 
+will work on a v3 which tries to solve the original issue without the 
+regression.
 
-Which is to say, by contributing a DTS that relies on the ASPEED DTSIs
-you're now part of the community of people interested in maintaining
-support for ASPEED SoCs in the kernel, and it will be appreciated if
-you could help improve what we have.
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> -- 
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
 
-If you could pick a warning or two from the DTSIs and contribute
-changes to address them that'd be great, as this improves the situation
-for everyone.
-
-Andrew
+-- 
+Kind Regards,
+Niklas Söderlund
 
