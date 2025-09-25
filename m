@@ -1,137 +1,243 @@
-Return-Path: <linux-renesas-soc+bounces-22375-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22376-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C04B9FA73
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Sep 2025 15:47:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B84CFB9FA97
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Sep 2025 15:50:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0B3F618897AC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Sep 2025 13:47:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CC35A1883D6D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Sep 2025 13:51:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9D7027877B;
-	Thu, 25 Sep 2025 13:47:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58F2A284B36;
+	Thu, 25 Sep 2025 13:50:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="bAAaVkeg";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ZbzmUISU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F081F416B
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Sep 2025 13:47:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B35323D287;
+	Thu, 25 Sep 2025 13:50:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758808027; cv=none; b=q/tRy246nW7LwxYaCF0YorKI3HiFl5n5HGLkAUJRGmd1whQPlar14kiCN5oWsWiQoeQ21FHq5MIV8Za5uDDDPwkNijTRplMfpxCwE/DSmNlAGT/ct1nNtkjx4hf7RI8IQ5maF+IC/I943ZJox/iq1b1KcJcWSdlBtR3Z+IyqEms=
+	t=1758808238; cv=none; b=rDzTfm/uNa/EU+2jIwfnExCDMceHhUsE0SP1mSmT8S6uIVe1fxGxmB/ndL/ztlvT9vksmOJzieb/jAfDqGzCAGWnEV/WjPu/0qnSeNEnWq03twQbplYgAFIPnJPghUYpQy95funTy0dlN7nBVzuH81YF78nmXN4gjzJPjgC6UeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758808027; c=relaxed/simple;
-	bh=76V+ef64wstiWIEawou8zi8nz4mysgrIAL+3ytmcNms=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HwTmCyir1C+ukgxBdT7pve6agfCVoPvo/AkUl1pJ4yVNVU6IB8GatqZcpx3HdwGseOiDx+pJfPNIXwzitWVIMj/5da2ed8beSwSGdjtC35WPap1OvNSoJIqL2mKW6cJR6e62t7B8YVMHDbBZpx7GYWj0ukvRWPS4jFtKejZj544=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-8e936be1359so658148241.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Sep 2025 06:47:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758808025; x=1759412825;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=e9u5mgXPjjEdl0wf/nsDsPLKxWAZf+E1AY9DpKNlfbM=;
-        b=Ai6x4VDHiehz/ONeYEnxeuUijzSFK8aN4pnHEpKCTa9aWJTtDpgbNgWIVQfGnPx0fh
-         G2/BsFsLmBi8ziU6k671O51fs3cdsNXhSZtaSext5PJ9sHyRhGnBLPUQX+rZDvZkZbJe
-         VBHRXnzzU1sfTqygMOwiL6PtRd6qp5GahCnshawk9JdNX8qZz/4HAjsyYFbUHUswB+b4
-         K03jyNVBXkAUyOr/T81vrJkHkzTUElXv44NneGh0ZwUmls/8h0sPBs/XLGrcrI+hAeUa
-         4JaZE5I03uFWJq5npEZHTpyROZJcK8EJoqPYbLJDMizbZc+7RCB1H/2Pt7D5fFtlZdQp
-         KAbg==
-X-Forwarded-Encrypted: i=1; AJvYcCW/MITGpKTTLFe7WclvEZyw/OZlHFaTTSRefwjWD05ccUIkT+MvuijfqHFvppDbXDsdpMsW6eN4w5pKLu0SsBlq7w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjMpFG3/blTBy3BxouMvVQjrBlz8aWY7Uu9Vg8XmxlPC+ZcN3K
-	3K/zFgHl1A2hzEOGX4FTrBeRuGjbPCnTxqT1oLl3ymvwDSMXJNi6zx09C64mt2CP
-X-Gm-Gg: ASbGncvzlrztZqVvHbvwCCWuQuO9WUVUt2VTOSYEGVKNzSrzB1ruziFwAWBCM+gRTwI
-	fjyHKmtiVcmoexxW5qcbq/TqmpZqetqfIyCfLbhMS0f/B31aZqpHu9+tu9U/MLuLHteFtioahab
-	2Hjg6vkP2pexsI80OdI6cI6IdCEx4Qaa2qASLY4Y/fiYl4CTpmLp13NXqMik8etAMkawnPCtfuL
-	YHl2aiWG68sBWu/CwUtjIBHQzXB40nsO4Wc+8VHH43fHhUZru9onjLyRu9dcWlJCiw8Vtx7jT9V
-	vtcskiBkTmR8fzII51DHP2bIWfD0YITzFDQ/6lK9qj+HLbGQKflM2G9vYmmDhLf5H2YyOuP/o/U
-	O4Wq6fK6hhIpfoANmDG+A7polYgd0/b2zCr+lJMt/OuCr52wI9jSZInhaoabY
-X-Google-Smtp-Source: AGHT+IEqvEcLjuvuJ8nWYy289xTREbItD8Vx7e+Ojff/D6TNYv44vonwgB6ZL6BORJ+mgbMvQBHkTg==
-X-Received: by 2002:a05:6102:5107:b0:59d:2396:18fb with SMTP id ada2fe7eead31-5acd1c83bb6mr1495282137.25.1758808024586;
-        Thu, 25 Sep 2025 06:47:04 -0700 (PDT)
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com. [209.85.217.47])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5ae39effc0csm511480137.14.2025.09.25.06.47.04
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Sep 2025 06:47:04 -0700 (PDT)
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-5aa6b7c085aso1141017137.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Sep 2025 06:47:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUsqh8Uwp8MyOOyxwHwOgU1UW0DE8GX3O4A1hAjf15etsS2y4l2Oh6cSjUfHhIeDJqkrNGrotA2Hw39VWFFFLvtKg==@vger.kernel.org
-X-Received: by 2002:a05:6102:3e85:b0:525:9f17:9e55 with SMTP id
- ada2fe7eead31-5acd43506ebmr1559910137.32.1758808023996; Thu, 25 Sep 2025
- 06:47:03 -0700 (PDT)
+	s=arc-20240116; t=1758808238; c=relaxed/simple;
+	bh=5VZtnlz8SLZh1hJUOEN8X4K2QYuKaXR8uZPnfTSelpk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Kd2vg1mj29TKfSTy3tEdIHsxICtcEw3/O/nNzuR3NlKKiacDVLPRqPl+6I8VmSuQUbkOES0HaWGDIn4Rfw34oBiTadhJQbhMWLiGXpz8PmVRhqUxoLjBFoIgyU5wNVVkS/y4YQQcOwEnA+nF1IU+nG9KQlmLrC5C0Z9wgHoQ7rw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=bAAaVkeg; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=ZbzmUISU; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cXZqG19Nyz9tSd;
+	Thu, 25 Sep 2025 15:50:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1758808234;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=sa813ro74wVcAWbPynO8r+wVmbDbagBCRzrt3WOCBcE=;
+	b=bAAaVkeg3qkXwX4rxpXeQjO8w10KWFZmVYNUDH7FNzbMijDNrep6/AKissmRy9wjMpwrzz
+	T4THZTRE54LcehdU0EbyAT4X1bDXrrwydEHw9nAanK8WXC1lYRey98BjpLmEl5cWIrJurf
+	3BEFs/ZWNZv/LYiW2thKb8W3L+KYEWesRiFQB/1fRubC+KxbEHDy0Nm8Zb9qhAbhnbO2sd
+	Zg56IGGbo5DuIJ+8h6od+r/nP9Gf7Wqdy4RW8UVnk6hjGfaBdsZtqsWGCzGbFxe11B9XS3
+	jtNNRWLmqYtdNfVInSeVa0q3TzIrhiLaUk0QgXIflOn2WWDEVtu2wSB0lvR+WA==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=ZbzmUISU;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1758808232;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=sa813ro74wVcAWbPynO8r+wVmbDbagBCRzrt3WOCBcE=;
+	b=ZbzmUISU3AA94pt7HWxwPSTM7AvtX6UBi+I5ZnfPym7FYxSHMJGwr5gPIhNGsQG/k75DY/
+	tWQSgjxuNJXdNaaKAT/C0EOlQBmTdABiqjk6MFYq5WWANbVAT8f0CskqtKWwcHEv5/EV4h
+	kHoZJIvJ0tZ8jy3aCZPpOfEUaL+AaGl8TY3x0mXB0oBN6MEw3nC0DHHrlbBXqPqSGyaMH9
+	ui+gT7pT0g9oXKBfJRuUtOY590loBkng5cjtO+u/D89AKWHCfRWOUUDwIZKmRvzkpexuhb
+	TXKaiq/UVk9ii11Id9x1uSMJjbShuk23ZC5IcVO7rFYEsBdqhAqcxi4tRVwydA==
+To: linux-pci@vger.kernel.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Christian Bruel <christian.bruel@foss.st.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Inochi Amaoto <inochiama@gmail.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Mayank Rana <mayank.rana@oss.qualcomm.com>,
+	Nam Cao <namcao@linutronix.de>,
+	Rob Herring <robh@kernel.org>,
+	Shradha Todi <shradha.t@samsung.com>,
+	Thippeswamy Havalige <thippeswamy.havalige@amd.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] PCI: controller: Mark controllers which cannot do lockless config access with !PCI_LOCKLESS_CONFIG
+Date: Thu, 25 Sep 2025 15:49:45 +0200
+Message-ID: <20250925135014.66865-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250922074101.2067014-1-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdXKbPGqAnAcL2kFyF6K3hH9=gr8ECAFVpkgj-OL1mB4eg@mail.gmail.com> <e19b5006-c6b5-4e72-a3bf-42fa6833936a@tuxon.dev>
-In-Reply-To: <e19b5006-c6b5-4e72-a3bf-42fa6833936a@tuxon.dev>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 25 Sep 2025 15:46:52 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXOLnLbPNyRm5-=nHBNbVpE6GRkkx36SC1dgnjdOrzLhg@mail.gmail.com>
-X-Gm-Features: AS18NWACshqhP7gJRe8a3wvNaNnnr4LUuRpGFp0o_IIumNSTw6shqMump8vYGSc
-Message-ID: <CAMuHMdXOLnLbPNyRm5-=nHBNbVpE6GRkkx36SC1dgnjdOrzLhg@mail.gmail.com>
-Subject: Re: [PATCH] soc: renesas: rz-sysc: Populate readable_reg/writeable_reg
- in regmap config
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: magnus.damm@gmail.com, john.madieu.xa@bp.renesas.com, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 9387870ca75cff30f0d
+X-MBO-RS-META: askstgdrzeiry8fg1788yjagpq6u8187
+X-Rspamd-Queue-Id: 4cXZqG19Nyz9tSd
 
-Hi Claudiu,
+Add 'depends on !PCI_LOCKLESS_CONFIG' to controllers which cannot do config
+access without PCI subsystem level spinlock. If PCI_LOCKLESS_CONFIG is ever
+enabled, those controllers would have to be updated accordingly.
 
-On Wed, 24 Sept 2025 at 17:45, Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
-> On 9/24/25 16:44, Geert Uytterhoeven wrote:
-> > On Mon, 22 Sept 2025 at 09:41, Claudiu <claudiu.beznea@tuxon.dev> wrote:
-> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>
-> >> Not all system controller registers are accessible from Linux. Accessing
-> >> such registers generates synchronous external abort. Populate the
-> >> readable_reg and writeable_reg members of the regmap config to inform the
-> >> regmap core which registers can be accessed. The list will need to be
-> >> updated whenever new system controller functionality is exported through
-> >> regmap.
-> >>
-> >> Fixes: 2da2740fb9c8 ("soc: renesas: rz-sysc: Add syscon/regmap support")
-> >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >
-> > Thanks for your patch!
-> >
-> > How can this be triggered?
->
-> I found this issue by reading the exported regmap debug file:
->
-> cat /sys/kernel/debug/regmap/11020000.system-controller-rz_sysc_regs/registers
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Christian Bruel <christian.bruel@foss.st.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Inochi Amaoto <inochiama@gmail.com>
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Mayank Rana <mayank.rana@oss.qualcomm.com>
+Cc: Nam Cao <namcao@linutronix.de>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Shradha Todi <shradha.t@samsung.com>
+Cc: Thippeswamy Havalige <thippeswamy.havalige@amd.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-pci@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+NOTE: I hope I got them all
+---
+ drivers/pci/controller/Kconfig      | 6 ++++++
+ drivers/pci/controller/dwc/Kconfig  | 5 +++++
+ drivers/pci/controller/plda/Kconfig | 1 +
+ 3 files changed, 12 insertions(+)
 
-Thank you, that was exactly what I was looking for!
-
-> > AFAIU, registers are only accessed as
-> > obtained from syscon_regmap_lookup_by_phandle_args(), i.e. based on the
-> > register offset stored in the DTB.  If the offset in the DTB is wrong,
-> > there is not much we can do ("garbage in, garbage out"), and the DTB
-> > should be fixed instead.
-> >
-> > Is there another way the user can access these non-existing registers?
-> > Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/pci/controller/Kconfig b/drivers/pci/controller/Kconfig
+index 41748d083b933..1a6e937cca929 100644
+--- a/drivers/pci/controller/Kconfig
++++ b/drivers/pci/controller/Kconfig
+@@ -12,6 +12,7 @@ config PCI_AARDVARK
+ 	depends on (ARCH_MVEBU && ARM64) || COMPILE_TEST
+ 	depends on OF
+ 	depends on PCI_MSI
++	depends on !PCI_LOCKLESS_CONFIG
+ 	select PCI_BRIDGE_EMUL
+ 	select IRQ_MSI_LIB
+ 	help
+@@ -205,6 +206,7 @@ config PCIE_MEDIATEK_GEN3
+ 	tristate "MediaTek Gen3 PCIe controller"
+ 	depends on ARCH_AIROHA || ARCH_MEDIATEK || COMPILE_TEST
+ 	depends on PCI_MSI
++	depends on !PCI_LOCKLESS_CONFIG
+ 	select IRQ_MSI_LIB
+ 	help
+ 	  Adds support for PCIe Gen3 MAC controller for MediaTek SoCs.
+@@ -244,6 +246,7 @@ config PCIE_RCAR_HOST
+ 	bool "Renesas R-Car PCIe controller (host mode)"
+ 	depends on ARCH_RENESAS || COMPILE_TEST
+ 	depends on PCI_MSI
++	depends on !PCI_LOCKLESS_CONFIG
+ 	select IRQ_MSI_LIB
+ 	help
+ 	  Say Y here if you want PCIe controller support on R-Car SoCs in host
+@@ -332,6 +335,7 @@ config PCIE_XILINX_DMA_PL
+ 	bool "Xilinx DMA PL PCIe host bridge support"
+ 	depends on ARCH_ZYNQMP || COMPILE_TEST
+ 	depends on PCI_MSI
++	depends on !PCI_LOCKLESS_CONFIG
+ 	select PCI_HOST_COMMON
+ 	select IRQ_MSI_LIB
+ 	help
+@@ -344,6 +348,7 @@ config PCIE_XILINX_NWL
+ 	bool "Xilinx NWL PCIe controller"
+ 	depends on ARCH_ZYNQMP || COMPILE_TEST
+ 	depends on PCI_MSI
++	depends on !PCI_LOCKLESS_CONFIG
+ 	select IRQ_MSI_LIB
+ 	help
+ 	 Say 'Y' here if you want kernel support for Xilinx
+@@ -354,6 +359,7 @@ config PCIE_XILINX_NWL
+ config PCIE_XILINX_CPM
+ 	bool "Xilinx Versal CPM PCI controller"
+ 	depends on ARCH_ZYNQMP || COMPILE_TEST
++	depends on !PCI_LOCKLESS_CONFIG
+ 	select PCI_HOST_COMMON
+ 	help
+ 	  Say 'Y' here if you want kernel support for the
+diff --git a/drivers/pci/controller/dwc/Kconfig b/drivers/pci/controller/dwc/Kconfig
+index 34abc859c1071..8eab27775195f 100644
+--- a/drivers/pci/controller/dwc/Kconfig
++++ b/drivers/pci/controller/dwc/Kconfig
+@@ -2,6 +2,7 @@
+ 
+ menu "DesignWare-based PCIe controllers"
+ 	depends on PCI
++	depends on !PCI_LOCKLESS_CONFIG
+ 
+ config PCIE_DW
+ 	bool
+@@ -322,6 +323,7 @@ config PCIE_RCAR_GEN4_HOST
+ 	tristate "Renesas R-Car Gen4 PCIe controller (host mode)"
+ 	depends on ARCH_RENESAS || COMPILE_TEST
+ 	depends on PCI_MSI
++	depends on !PCI_LOCKLESS_CONFIG
+ 	select PCIE_DW_HOST
+ 	select PCIE_RCAR_GEN4
+ 	help
+@@ -390,6 +392,7 @@ config PCIE_UNIPHIER
+ 	depends on ARCH_UNIPHIER || COMPILE_TEST
+ 	depends on OF && HAS_IOMEM
+ 	depends on PCI_MSI
++	depends on !PCI_LOCKLESS_CONFIG
+ 	select PCIE_DW_HOST
+ 	help
+ 	  Say Y here if you want PCIe host controller support on UniPhier SoCs.
+@@ -410,6 +413,7 @@ config PCIE_SOPHGO_DW
+ 	depends on ARCH_SOPHGO || COMPILE_TEST
+ 	depends on PCI_MSI
+ 	depends on OF
++	depends on !PCI_LOCKLESS_CONFIG
+ 	select PCIE_DW_HOST
+ 	help
+ 	  Say Y here if you want PCIe host controller support on
+@@ -488,6 +492,7 @@ config PCI_KEYSTONE_HOST
+ 	bool "TI Keystone PCIe controller (host mode)"
+ 	depends on ARCH_KEYSTONE || ARCH_K3 || COMPILE_TEST
+ 	depends on PCI_MSI
++	depends on !PCI_LOCKLESS_CONFIG
+ 	select PCIE_DW_HOST
+ 	select PCI_KEYSTONE
+ 	help
+diff --git a/drivers/pci/controller/plda/Kconfig b/drivers/pci/controller/plda/Kconfig
+index 62120101139cb..2a400678312eb 100644
+--- a/drivers/pci/controller/plda/Kconfig
++++ b/drivers/pci/controller/plda/Kconfig
+@@ -10,6 +10,7 @@ config PCIE_PLDA_HOST
+ config PCIE_MICROCHIP_HOST
+ 	tristate "Microchip AXI PCIe controller"
+ 	depends on PCI_MSI && OF
++	depends on !PCI_LOCKLESS_CONFIG
+ 	select PCI_HOST_COMMON
+ 	select PCIE_PLDA_HOST
+ 	help
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.51.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
