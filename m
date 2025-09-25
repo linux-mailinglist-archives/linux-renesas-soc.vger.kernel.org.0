@@ -1,132 +1,97 @@
-Return-Path: <linux-renesas-soc+bounces-22347-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22348-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68376B9C4D0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 23:48:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92281B9CD44
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Sep 2025 02:17:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 23C2317D9E4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Sep 2025 21:48:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B24BA1BC3767
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Sep 2025 00:17:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF08026CE17;
-	Wed, 24 Sep 2025 21:48:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D9FE136E3F;
+	Thu, 25 Sep 2025 00:17:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="H1LgXzaN"
+	dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b="OJ2QRaPE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8003414A9B
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Sep 2025 21:48:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792CC42A96;
+	Thu, 25 Sep 2025 00:16:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.241.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758750525; cv=none; b=EKReYCBJNLSgyNxeT9WchR2xMaW/V2hwYLV6XhBh9Gj5Za/ntMyFRKq6RDypP7YEzGTOsD05fH+WZBFpfcD63LVMsWkgY8NZ4gqJMbR+/ez1Hs22rl3NqeGovvT8mRA3cti/O2bWManGU9JajBf/r6rEJHBLAnEWy+1yYxXhYyE=
+	t=1758759420; cv=none; b=dW31vY0FnkCla8z3jfVPN/eJ+7IuMU1lFPUNZWy2krRadyK540KE+sGfGrK+9R/wMaimsDB5A3nAYQ7HfjUxvGTQuJgD+Etj9BGOdQQ4i3HlY2x5AP8rATkPPedceL6DwxmC0htKM5SI4B6c2Z5maPe5T9e0mqBvyNBhQeloeRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758750525; c=relaxed/simple;
-	bh=aE05OVLTPmqhXmuWSJP7DGx8docC8xqiHGoDzUsPDyo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lbu5WUn1VCT6WAjbStc4veI1fthfNGPGTauPjQiT7JfqhK4bh/rvEuXCPaQJNYG+P2AWr9MgXJBdJC68O8j2nrJj4hqWU1YNVVJeHq2dcwFXJWOXmA+3i8EvTXYHzX58Ct6v3QLExmQaMU0qdMymcCzM+LFckxxYnwGIiyQ+itA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=H1LgXzaN; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=Sd+w
-	mIZ22PON20TAEBc1B2ghCmV0byKiM0bDhr9fIoA=; b=H1LgXzaN0Gla79rJu83C
-	1ULDX42H6uWXMkzrD2+evEaZykaKTEv2tl/+33dqdWOygqY7J42e9/kZViV0hBbk
-	C1/7Y0v5eE8l2udX0J+owfxIcmepS1ipdPfDVLNoQXipYvsDH4dQ8tqnoLEtwViU
-	dhIP1ODk6hCdKywo72ON0SDarPx/GmsR+cc58GJDdLRanS3c8RKJfnkRZytcOpHy
-	ydkiv6Nif87GaH5GeZWXndg1AQRXus+wwztArU5tXSeoq86oANz/J4IG7JbYlH14
-	5Te3lLG4qwHpH2geyPmsO/PuqIk2H0Znj9NmdMly1R8ASXb0O5CWms3X2l+SOdPq
-	VA==
-Received: (qmail 1627587 invoked from network); 24 Sep 2025 23:48:41 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 24 Sep 2025 23:48:41 +0200
-X-UD-Smtp-Session: l3s3148p1@UXkNBJM/VLAujntL
-Date: Wed, 24 Sep 2025 23:48:40 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>,
-	Hoan Tran <hoan@os.amperecomputing.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Serge Semin <fancer.lancer@gmail.com>,
-	Phil Edworthy <phil.edworthy@renesas.com>,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Pascal Eberhard <pascal.eberhard@se.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 8/8] ARM: dts: r9a06g032: Add support for GPIO
- interrupts
-Message-ID: <aNRnOFTvaThW-CJE@shikoro>
-References: <20250922152640.154092-1-herve.codina@bootlin.com>
- <20250922152640.154092-9-herve.codina@bootlin.com>
+	s=arc-20240116; t=1758759420; c=relaxed/simple;
+	bh=trv/5zES0J71ogwwSlHNmpRE442auLyV/o1fTLjOtsY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=TNvPOzTD7ML4fTTVU9JLXTdPYxRiBflvp7TYVE4sumFqivKBTjsvu7/HcJ74er4+aNGRjs7fkGmsu3yH+UugE6uJFFJbNKNtQTUpmCvjJrqIf7m3YJFFCuT/rnTgAK/Q84qubyKX36iWbc9PRtq+MmgbsGMj/EIdOuHJ0kzpUX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; spf=pass smtp.mailfrom=codeconstruct.com.au; dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b=OJ2QRaPE; arc=none smtp.client-ip=203.29.241.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeconstruct.com.au
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1758759414;
+	bh=trv/5zES0J71ogwwSlHNmpRE442auLyV/o1fTLjOtsY=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=OJ2QRaPE5M6I7OP/H1j/PrTVgCrSMP8UrZbzVbJyJ9se212oYGTasKT/W0nJ7I+XH
+	 ufKTD795DRI0fcQbAbG4Akd1jFQhFgIBgbF9Hsd9dw62X2HbwkoHeOTNow7OPwDWHO
+	 01TvqkRQaD37ozssgLvRxP2BAueimrUnliWp0A5eAXcAgpoXodP0Uz993+ElhG/G5j
+	 hZb7lX1kvo7ItL6eQKyReGgHb3fIB4nnpYY5Psj6Olq3TMKiyomvU1KqwmUNxQA2bK
+	 N6lSo2VEHUf2xwIN6720wRPNbNRpW4oVU/TXB1hs2vZgfs+iZTeHf20qDw0vajdGqj
+	 k3l0y0U2BxUNg==
+Received: from [192.168.68.113] (unknown [180.150.112.213])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 55C40738DF;
+	Thu, 25 Sep 2025 08:16:52 +0800 (AWST)
+Message-ID: <090d0e196fd0f814b5385f2c6e47e5196f0be649.camel@codeconstruct.com.au>
+Subject: Re: [PATCH v1 0/2] Add Meta (Facebook) Yosemite5 BMC (AST2600)
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Kevin Tung <kevin.tung.openbmc@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Andrew Lunn <andrew@lunn.ch>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel
+ Stanley <joel@jms.id.au>,  Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Date: Thu, 25 Sep 2025 09:46:51 +0930
+In-Reply-To: <CAL_Jsq+zBK1CBJX0XcaqaYeOPUhoRE-nMeYvkTNwQovJ+dakGg@mail.gmail.com>
+References: <20250917074812.4042797-1-kevin.tung.openbmc@gmail.com>
+	 <9bb9929a-8130-48da-983e-2901a7c3da36@lunn.ch>
+	 <CABh9gBew1=hbJvg1Mhg5dE7Lr_Z442_kbBX6zTs_6_C2NRyLbw@mail.gmail.com>
+	 <7e6f568da28d7a63738b6ed22b33db3df4c478c9.camel@codeconstruct.com.au>
+	 <CABh9gBcoWbXurPo0f9U9+gz8k6gttUvj=NMMDVfgjo5dgaTLSA@mail.gmail.com>
+	 <CAL_Jsq+zBK1CBJX0XcaqaYeOPUhoRE-nMeYvkTNwQovJ+dakGg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.1-1 
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="oA4k4Hyef5iRiZPB"
-Content-Disposition: inline
-In-Reply-To: <20250922152640.154092-9-herve.codina@bootlin.com>
 
+Hi Kevin,
 
---oA4k4Hyef5iRiZPB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Wed, 2025-09-24 at 08:34 -0500, Rob Herring wrote:
+> On Wed, Sep 24, 2025 at 8:05=E2=80=AFAM Kevin Tung <kevin.tung.openbmc@gm=
+ail.com> wrote:
+> > I also checked the work with `make CHECK_DTBS=3Dy
+> > aspeed/aspeed-bmc-facebook- yosemite5.dtb`,
+> > and the warnings that appear are not related to these patches.
+>=20
+> Um, they are related because they are warnings for *your* platform.
+> You don't care that there are warnings for your platform?
 
+Which is to say, by contributing a DTS that relies on the ASPEED DTSIs
+you're now part of the community of people interested in maintaining
+support for ASPEED SoCs in the kernel, and it will be appreciated if
+you could help improve what we have.
 
-> +			/*
-> +			 * interrupt-map has to be updated according to GPIO
-> +			 * usage. The src irq (0 field) has to be updated with
-> +			 * the needed GPIO interrupt number.
-> +			 * More items can be added (up to 8). Those items must
-> +			 * define one GIC interrupt line among 103 to 110.
-> +			 */
-> +			interrupt-map = <0 &gic GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
+If you could pick a warning or two from the DTSIs and contribute
+changes to address them that'd be great, as this improves the situation
+for everyone.
 
-Okay, so my main concern here was that we setup some "random" default
-mapping for each board. Which is not true because this node is disabled
-by default. So, maybe we could rephrase the paragraph like
-
-/*
- * Example mapping entry. Board DTs need to overwrite 'interrupt-map'
- * with their specific mapping. Check the irqmux binding documentation
- * for details.
- */
-
-? I will see if I can provide a useful board addition for the DB400
-boards...
-
-
---oA4k4Hyef5iRiZPB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjUZzMACgkQFA3kzBSg
-KbZDWw/+LIaZhl2ByaLjrNPnnLEpJsF6SPa2bCt/qWEa+M+GcWNL1EEi4e1wQBiR
-17inwvsmdCWn89uISn7xnbZiSOwGleG0czZZuJ8C6cdJr5Fja8uyG6xmmDFrsry+
-3lvewd2LoyWjvpH4lgflQNgyEmdrX4eOAbCerjpWNj8VwVJoyR1M0ocgA6eYB7c9
-MFb8eZhFw1i94IPvu0quRllCTU4bLLR/V2EAGNtKIIgnDtTULA17Uy8/V0coLxVI
-bM+wa5LHu+AsK1cmmj6IMEtgS0Y85icRuasZKydP5GFcbKIlQjSACAi6LwMLOpJi
-AiODOhnW7O/VKEMfuxquz4vEjJq5EmBoNv8WvBfzuhKwUClRYAWVFet3nZDF5knj
-BbXyd+nxx95o1QhCikrCgUns2XgCcLQotv4aLkAhGdpWvw13yJEbcm2VpVgvXRJ7
-z0+SyP5ocEMFMZDPZkdEirj3yEwDIqWn3gxMkEFCvQ8fpZ+yU910A5Oapby0iKX5
-FCPHAW1bgi5udUpewhnavxzJuKCDP8H+89OrnZ5uRyHvoZrUOez56c+Fj81HZH2+
-bmGc9SJSCJNerb0o3VvMkygH5EEmqHtTtwVQl4p8iXNktH7c5efPUd2fJxvsZ0ew
-5VYePdwIK5f40wkupqLJLW7pE5KwgbHKY4tUF58HK3vWAeiy24w=
-=v8Q/
------END PGP SIGNATURE-----
-
---oA4k4Hyef5iRiZPB--
+Andrew
 
