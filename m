@@ -1,126 +1,169 @@
-Return-Path: <linux-renesas-soc+bounces-22405-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22406-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BED1BBA3169
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Sep 2025 11:15:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D39FBA31F7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Sep 2025 11:24:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 797254C6CF6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Sep 2025 09:15:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3F03A1BC80DD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Sep 2025 09:25:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF4E729BDB9;
-	Fri, 26 Sep 2025 09:15:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="DbfUQMZD"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A21CB266B41;
+	Fri, 26 Sep 2025 09:24:31 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCAAA29B205
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Sep 2025 09:15:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34ECC279355
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Sep 2025 09:24:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758878108; cv=none; b=jN9JsQOit4E5JHvC6bfLCEMWiH3djo1+eK21UJBGBlwa67g1hilNyIfQr4rvZdIuP1ikHJ2/isa6YHhM/h9xGsCDBwbg4ylnynFkh30u9zb6EYO35eI4WO3wGWXVSr6tu5g5H6GrbGHC2IvCUZdceQNqeSGm33wgOcRF5ExOGns=
+	t=1758878671; cv=none; b=SjfZ/2v0ggW7M//fAuR+YMehZpbJNjKbLRrp+EE8H84/ze6T3V/KzwkwIyfSDE55LLe0x5AHBwAU8Yfs2L/xxSDYNONxTMZORmY1NLdLhdMQ5qlwXJ3oHOi5UViDRlRD9GcncLvxdQ6Pzlt8Wrb7NSBzBzGizWBvmUYq130cHyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758878108; c=relaxed/simple;
-	bh=kONY/WgDIpRHcTB+eEvoT0XM7fNHfY7Naq/HZbdUMRc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z5zGF5JqpduBX26O71TXbTK7RaFmW8S49ORoo8+qWtpKzpPP9vI75DdJtz4VUgvaIr1axS14TD1kTAfN7nmVbt4RVnCEgEbuOfsyBTzDK0S+72zVVI1LIDf19Ylh3G/2t3527MpuHBYYdVdIeQjtBlbeqzrkGEbAVAZk7jSZiJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=DbfUQMZD; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=QKtp
-	8zfrVj6u9HY8qxhEQCKZKJ2UZhB0qJu9a4h5+s4=; b=DbfUQMZD8RuWwnbKGwWz
-	DrVnhP6i/k4ksyxKTaVxWUwkGP+5s8sZlO67KqPn71a2D8glHOWqogZXyUNKnl3B
-	pPl5CtC0t2XcChnBp+RP2LKXp94ADLF/cNBr9YRxJR00/YtrtbI7gcdj3pEL6hF4
-	Xhz7DENZTeB9C3JJGQce60A3+2OLxbUahRhHNkqWuX2NNV/trnVeZFnpLBjBC3Ay
-	LhrwOb18//7iE4u8dWvCyAQH0wk7Kagvi+OIPNbcomYsbCKDAmFzE2v3OVO37HcN
-	z8f9tEwW+uCrNuRvosX0ilwW8V/ruby1xkj0UIXUcgcCvTdl/P2dfy+twaARLhRi
-	fA==
-Received: (qmail 2198339 invoked from network); 26 Sep 2025 11:15:04 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 26 Sep 2025 11:15:04 +0200
-X-UD-Smtp-Session: l3s3148p1@bHOguLA/dN8gAwDPXwQHAL/S9V79e5yL
-Date: Fri, 26 Sep 2025 11:15:04 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [RFC PATCH] ARM: dts: renesas: r9a06g032-rzn1d400-eb: describe
- LEDs
-Message-ID: <aNZZmDAAdLkISA9F@shikoro>
-References: <20250919100740.28429-1-wsa+renesas@sang-engineering.com>
- <CAMuHMdVGthcw94vXDErZTissJ1wVPvJKaLb+j7D8Y77-E226PA@mail.gmail.com>
+	s=arc-20240116; t=1758878671; c=relaxed/simple;
+	bh=wUbRJMho5V5NS/aRRFUvPe88ctT0n1w78dZf3S8MekM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GbT125xD6CG842IP/6aopa+6oLzpT6M9RioZLA837jcevkFJBkFqLsqa2oCd+Tmd5PtEtW29+F1MmfJayRC1aGLl9//TzRscOUYn2KIJfqo/5hhyUNapnjes8fuCsz96LAPR3d/RaFmTKsRHAVp+u3pd6dEhaMcIVP4gTI/UBb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-54a94a48debso727795e0c.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Sep 2025 02:24:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758878667; x=1759483467;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=V8vXN/4Yr3tP+tgTiuwjLQtfBNx9PrZcekFNLffDoHo=;
+        b=q0h0kEdjD1tGSm1VcUy6wuT3yxhERRfCrCQcd4KqxwNULuSlFQU5xzoih1MdPXbiN6
+         l1ewfIYKogLWpiGX/XTXQ+y02pVhK9bRQISxT86cHJBJ6NKZ3RzQAHoKbBQC34eFbLxc
+         XmZD8iPSzdtJbuONz4gW+D1Ezp3HKWaKyyxprUIF0Y2blJcXWiBsK1Y9HOvIfoDwBvtV
+         brELCNyLHOEzAoCjzHskPvqDY9DhGKiHoiwgEY2cks/CUIIJmgdKtXnHAw6Y6XoT0ipZ
+         +C40l8HMax0Q1g9Y1766Rn9gfpcrfgoyqplXKDaDdn7xTl+GhyRP9GxNA6qCDJyKtc15
+         5jWg==
+X-Forwarded-Encrypted: i=1; AJvYcCW0IiNDb2F6m9jk3XTErj2QAFBSNhBXKZOS0OglMkfy7VQR9cueoH4Rstv2JFY9hzGM2iYBPd7AVovPTtsbZyLP1g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwRIQ9zcU3VM6zJ1gXYU9ePn9rW5yo3M2mGsQQD3m+CTfJpxiJ
+	/NbaR7Zd18bwE6itn4Y0pwzTF6HcXMnH+q6lH+ghGpVah5pCB1ZCiLWiN6WgM99U
+X-Gm-Gg: ASbGncvkvxsyTM0PqDNYk47pGxBTIbAGr9vDDcqTTCRofi3T8Rw7UsfUBeZ7R7Jc3Jv
+	hSayLZLGEuHpw0acrjZ+isTPAEkDAuGraFwX/rzLlCPQ7yanOY93St25STUG1v1a9zZMvZM4jds
+	Gp1lV2U8gU0ACyns2yk809yUoqpg2fPDgG3eWZI92QFTvsU7MS22EpFw1DQsz5BzcGJIZByovuO
+	ZcpDlelZ8NDZUZr1NSrrc68O4csPrkJR1gbCVpH2RyKEURvbwTJMPGnjzCkHRGwglhl8znfuCYW
+	LotfLISkJkrYjynXN7D0iLRa78kiVF3RbQoTI6gCzkFjb6zVDDyzlKbagU4vz97CIT3k7U5XJwv
+	25meL0dRtoFh89tX5vYv1IAoZZdgDJNfX0waCLTAgsxcsqMcXpu7y8HsoQijOI+0a8hvSpS3Btt
+	ZWeXb0ug==
+X-Google-Smtp-Source: AGHT+IFsIkcmEzV+KdkXJwx3BdvGTnPXnp1PG1ZKfZXpPevaeGNQPWvaFOvD9UYpKq16r3JqNI3vtg==
+X-Received: by 2002:a05:6122:7cf:b0:544:8d16:4541 with SMTP id 71dfb90a1353d-54bea102e5fmr2460073e0c.7.1758878666729;
+        Fri, 26 Sep 2025 02:24:26 -0700 (PDT)
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com. [209.85.217.54])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-54bed881ea0sm821839e0c.1.2025.09.26.02.24.26
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Sep 2025 02:24:26 -0700 (PDT)
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-59c662bd660so802949137.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Sep 2025 02:24:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWj4K5MCiX71dXLKpwpylJQz99Xf2+ORJa+8r53OBSbTGCRuXQBmUz2dZzXmBgm/QL5aJfu4b63Fjxnqk30b6LcNw==@vger.kernel.org
+X-Received: by 2002:a05:6102:621c:20b0:5b1:15:1986 with SMTP id
+ ada2fe7eead31-5b100151fe9mr1352205137.15.1758878666185; Fri, 26 Sep 2025
+ 02:24:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="L18wlUVkSYcJ/5Jb"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVGthcw94vXDErZTissJ1wVPvJKaLb+j7D8Y77-E226PA@mail.gmail.com>
+References: <20250919100740.28429-1-wsa+renesas@sang-engineering.com> <20250922192640.GA841738-robh@kernel.org>
+In-Reply-To: <20250922192640.GA841738-robh@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 26 Sep 2025 11:24:15 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVdMCm2eYmkzo9tOXn5MHyqmvKN-Cu=2RO7q7n3EZF3=A@mail.gmail.com>
+X-Gm-Features: AS18NWA7DJU_DehkMVc8u2tM81YJnXpnMbPvztHNUybS4R8bb44hSxW0C3oaO7U
+Message-ID: <CAMuHMdVdMCm2eYmkzo9tOXn5MHyqmvKN-Cu=2RO7q7n3EZF3=A@mail.gmail.com>
+Subject: Re: [RFC PATCH] ARM: dts: renesas: r9a06g032-rzn1d400-eb: describe LEDs
+To: Rob Herring <robh@kernel.org>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-renesas-soc@vger.kernel.org, 
+	Magnus Damm <magnus.damm@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Rob,
 
---L18wlUVkSYcJ/5Jb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
+On Mon, 22 Sept 2025 at 21:26, Rob Herring <robh@kernel.org> wrote:
+> On Fri, Sep 19, 2025 at 12:07:20PM +0200, Wolfram Sang wrote:
+> > To be able to use the LEDs, a configuration switch has to be set to a
+> > non-default value. So, infrastructure to support these switches (which
+> > modify signal routing via the CPLD on the demo board (DB)) is added as
+> > well.
+> >
+> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 > > This patch depends on "[PATCH v3 5/8] ARM: dts: r9a06g032: Add GPIO
 > > controllers" which is still in-flight. I send this out as RFC already,
 > > so we can discuss the introduction of the switch dependant settings. I
 > > copied this approach form RZ/G3S.
->=20
-> I am not opposed to that.
-> The switches are needed in both the DB and EB DTS, and in future
-> DT overlays (if any).
-
-Thanks, however, Rob didn't like the idea. I have to add we actually can
-read out the switch states via I2C. Dunno if that's different to G3S
-etc...
 
 > > --- /dev/null
 > > +++ b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db-switches.h
->=20
-> "...-db-eb-...", as this header file applies to both?
+> > @@ -0,0 +1,22 @@
+> > +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
+> > +/*
+> > + * On-board switches for the Renesas RZ/N1D demo board (DB) and extension
+> > + * board (EB)
+> > + *
+> > + * Copyright (C) 2025 Renesas Electronics Corp.
+> > + */
+> > +
+> > +#ifndef __N1D_DB_EB_SWITCHES_H__
+> > +#define __N1D_DB_EB_SWITCHES_H__
+> > +
+> > +#define SW_OFF         0
+> > +#define SW_ON          1
+> > +
+> > +/*
+> > + * SW_2-2:
+> > + *     SW_OFF - enable PMOD1-3+LEDs on the extension board
+> > + *     SW_ON  - enable CAT/S3 (default)
+> > + */
+> > +#define SW_2_2 SW_ON
+> > +
+> > +#endif
+> > diff --git a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
+> > index 3258b2e27434..849b5ad9c79d 100644
+> > --- a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
+> > +++ b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
+> > @@ -15,6 +15,7 @@
+> >  #include <dt-bindings/pinctrl/rzn1-pinctrl.h>
+> >
+> >  #include "r9a06g032.dtsi"
+> > +#include "r9a06g032-rzn1d400-db-switches.h"
+> >
+> >  / {
+> >       model = "RZN1D-DB Board";
+> > @@ -185,6 +186,14 @@ fixed-link {
+> >       };
+> >  };
+> >
+> > +#if SW2_2 == SW_OFF
+>
+> The "rule" for DT headers is #defines for numbers only.
+>
+> If the switches are s/w readable, then I'd say firmware should read them
+> and enable/disable the LEDs as appropriate. If not, then maybe the DT
+> should have a property reflecting the switch state and firmware uses
+> that to enable/disable.
 
-Ah, I forgot to rename it.
+Both options require updating the (10y-old?) firmware, which is unlikely
+to happen.
 
-I agree to all your other comments but we need to decide on the
-principal approach first.
+Gr{oetje,eeting}s,
 
-Thanks for your help,
+                        Geert
 
-   Wolfram
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
---L18wlUVkSYcJ/5Jb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjWWZgACgkQFA3kzBSg
-Kbb4ZBAAqTBN45BjJuLRM6hzBQEUr3kQ7n0BOoW/YP2CNbXNfTEiXkvDppT2aiDg
-NvNExSZOoPCVk+pgTNSj6Jcm/1nWiwSpg+f7QEI6WzKT89phhGbZzDRneoE8+Yo+
-n+VbN5HpfQLE8OQPlimxBAoPNKPiVn+Jwbzl/D3uQBsU4Zzff3L4fJusFnlKUwnK
-I23hOeUjuC4IwdH9Pg9BVFgxgXBAo4Zm/uvjHqX+mQFhXAXedoUv9xZi4bIYkk3u
-IVgj3Rc7KcWqUAxV0wNfnEIOy4a9WBG5IToS3XnYy25xJGJvZlhzZcjJAKEowcny
-Ug0ngnq/YI3ZySFt6g1kTpYVdK7MLVj2avZXh7y0Ij9LQN+Rwth0EGVDRoMBq679
-3K7LJCsxRii8L4tNM+bav+wGhih2MEWvPfglOyK1dLNmsZh+40cAJpTUtY/3YYPs
-Zu1B+cwz4syP1iBdB0IqKESx95AoJNq3MfFKLqtTNinhfdRX5B8ceWjoWUZvrqKq
-vvYjEz0DY13A2JsHAEDJu83WaFSv5zo+lYN7gbyrwnSaAjU6ksYSl9oVQ0HFzRX0
-9XFf9u5EptfDfCTEjr/lx30iPUF82peJZIdGa/BS6F6vwQb2O+uITzueVwd6Ndxm
-Z4vD+aY29v3KgbuZpR9Ihpsxi5YPKWHzYgzvAlTgdWMAipHb4nA=
-=f6pg
------END PGP SIGNATURE-----
-
---L18wlUVkSYcJ/5Jb--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
