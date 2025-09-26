@@ -1,112 +1,170 @@
-Return-Path: <linux-renesas-soc+bounces-22411-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22412-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72A42BA3591
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Sep 2025 12:30:53 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B5FBBA3786
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Sep 2025 13:22:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D057F1C04D07
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Sep 2025 10:31:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6F6377A8C38
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Sep 2025 11:20:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE2EF2F3C00;
-	Fri, 26 Sep 2025 10:30:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D56EA2877EE;
+	Fri, 26 Sep 2025 11:22:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XPJFbsyE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2ED2741D1
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Sep 2025 10:30:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B401025BF13;
+	Fri, 26 Sep 2025 11:22:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758882638; cv=none; b=kQkAv2Frx7LAZOUIAnC7lae/7ddBAFNmCBo10XuVj4rTwojWxxVU6ss51MYHEr95dVE6/uc05ONkeiXxDJV2t7rE6kBKnniVCRbI/mVXXC9uJS/xDXsPV87phRDC4jkqzTaj+DV6eue+0obodBvqvtIaC5AsINsi+wjsw56MuLc=
+	t=1758885744; cv=none; b=WsTLSklXz0BZP6h6dQkU+6nzrkLg/HKJwCOOIKiUCQcuOg5kBB+v+H1BvoFYmIXZwv9WVD1sc5tDXr3ty/q31RGZZVhIHGTeJCv97anEHOffKeSvyT/OgxXsrNxbASGtUDzVr5GicfvM8roxfiGl8FzQY001Oh4xEX5tkXwHBIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758882638; c=relaxed/simple;
-	bh=meSxc8wrYtkbVLWzjZPTLzds/Hd25Wzn0pY931UcZts=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KqoPROiIjUv9/CkJNoREhR+mBAhPblf8SaGcHfWAX9cpEhTwXN0VAxAeA7hd6tw490B0Z4WiE7n6R/a+0iMFZ6eoiLOgnfnu5qv7O1m3BNogiM+x9JP2GfGy9nJVav9RxM4V5R+wyGHXlic6bXEgGR458p441XKNvipkf3IoBXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-59c662bd660so825327137.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Sep 2025 03:30:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758882635; x=1759487435;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=udD672uKdPtCim7NmlDurpPdZYBL+0mV4DdXmMjUq+o=;
-        b=cbO+JdetsgcE0vCwMVtNdBMuzP8YMjCGehmwxfGjBNxttAVaAh5ry/D3vqLLLR0XmI
-         80H4sh/XG0ykgZl9LIwuZpVRvyDja07550A/aKBGJzL2lOTMIUvqkeUeJ2t0n+/NNbG3
-         7P00o/w5IILYYl9OAoYdF/pmRMinaYxA4esQ/mWhjJj2O4jZDQilJgYpdfsMrEmL5TVa
-         XVOTfe1oLVQ6c49NxAcSLiyMp+L+W8AP7x7mH09PWig6FvP2bEucuydsju/VB6VUc5ph
-         MQMUkrdVmumcwCyvPHEDTOOIzuT5/pzqb673MYIFClJA0m/gPIKITj+6gfIVD+pHO5fX
-         s60w==
-X-Forwarded-Encrypted: i=1; AJvYcCV6XoL1E9tavdaHq2Fn0t+2pqEi4hou5iiEcAI67kP8P0eD7HFX8MFjyk6jrzcaamZCmWOV2Eej0rZHneTS55EQbw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyY8XmO1xIkBwhU21n75cj2ftDvlHDysGcR0zqrpqJGb28VnhlU
-	GhP91IU6rHFuwZOxK0fW+fCVRGVKvBYNGnuGG1TulXtw8NMj69iYngogVMRbuELH
-X-Gm-Gg: ASbGnctTFrikHHjsM7ap17FreyqxFXVWe7x02aXt/lBMf9fXtFPbLf/5z9JmynbrOy/
-	x/bpzkVP7UogG5WLAnSkJFpuuHRa88//FFwMz74loZl+Hsi2OyXTTOQU1fuD0h2SAKXWvowUguo
-	ArLcwbTuKEq9zVfC8mdVajmpalwFPVU8b17wW9Dkxk/c6ukYHrvT5aSWUVS6iMmPqCCfGSi+7J+
-	h1V291ZQCx5lg16eZi2elX1sXuePSabnQVprsizF1Y0XFpgMEcHomXMWBZ4JHnFl0uSBKlafrRs
-	/fL+t4s+tWXm90+/7RZHOIyW+j06DEBk9WoVF2Ftkxo1Bh8lFAvuaXVo+oR0ect9BQeVv1CFE7F
-	EyrFgf8pJDm9kX1T5pQoTjWqla3G3HSBThvmMhEyV5IeL+jZxFQjm1a08MWgMyca/zCJztTDAFj
-	Jjp1sNfg==
-X-Google-Smtp-Source: AGHT+IHoeM7WhuJb+FnL2sBYfLcJSc+2BCzpNeth7t+yf39L2ofO66T+LboUZsfxTNzaxniEGMg2yg==
-X-Received: by 2002:a05:6102:370d:b0:52a:4268:7618 with SMTP id ada2fe7eead31-5accf20b16fmr2524279137.27.1758882635305;
-        Fri, 26 Sep 2025 03:30:35 -0700 (PDT)
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5ae302edafasm1172932137.4.2025.09.26.03.30.34
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Sep 2025 03:30:34 -0700 (PDT)
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-59c662bd660so825314137.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Sep 2025 03:30:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWf4Z6f4s2mFsP81ZwtLDTogBi/ujlB0oJK9nZx1W1oethlTy/zhXuLlhw3kI945n1OhRsaf1x/pbBYSuCey/474w==@vger.kernel.org
-X-Received: by 2002:a05:6102:6d2:b0:538:f3d5:fc12 with SMTP id
- ada2fe7eead31-5acd0935270mr2716797137.32.1758882634619; Fri, 26 Sep 2025
- 03:30:34 -0700 (PDT)
+	s=arc-20240116; t=1758885744; c=relaxed/simple;
+	bh=LxiQwDak1V+pV+OqZZwUlNKvMEwfAWR0ggF+WRfn7+0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Fl2zUyLJAIiMiG1kKx+fWFz4UPuafa2QKHqLS1bPPosR8b78q00cUPB9qS117c1IAkzVFCyuljxZ3DaIbLVmlAoEz7+VYmxvmlbkAyxZ0q7SiReyEJ0Jyp7zBm8MPYVagd3ALKVhopwHTtIIIoo7oqPqJT+QUNIQcfNdmfaJ0UM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XPJFbsyE; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9E7D0E70;
+	Fri, 26 Sep 2025 13:20:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1758885649;
+	bh=LxiQwDak1V+pV+OqZZwUlNKvMEwfAWR0ggF+WRfn7+0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=XPJFbsyEyAWQMGZYiKKVtWdPacj7bK6tDAhMZEehHItTbSZvyjYMtypMSS8ErjNIA
+	 kJfZVNHJ775pjufK/iEu8cJP3GWDITwR/6f+8il15+Y0OGb4UY8XccocLysT4LJFNZ
+	 KjeYnhLxXsq7O5XYAAalPYX6aFxZUHqqoyUEvw4E=
+Message-ID: <62890f7a-8ce9-47af-be36-e7384d2a99fd@ideasonboard.com>
+Date: Fri, 26 Sep 2025 14:22:10 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250923144524.191892-1-biju.das.jz@bp.renesas.com> <20250923144524.191892-8-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20250923144524.191892-8-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 26 Sep 2025 12:30:23 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXM+CBd0=dqG3DnfU5NAup5AH+T_w35MFi3B6T0iWAqQA@mail.gmail.com>
-X-Gm-Features: AS18NWD7sjtTfJ_M9h0NGs84Fgd5nzj22GGL5o6mTQegvldoQrfGgdyuYCG0Z6c
-Message-ID: <CAMuHMdXM+CBd0=dqG3DnfU5NAup5AH+T_w35MFi3B6T0iWAqQA@mail.gmail.com>
-Subject: Re: [PATCH v3 7/8] arm64: dts: renesas: r9a09g047: Add GPT nodes
-To: Biju <biju.das.au@gmail.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 03/15] media: rcar-isp: Move {enable|disable}_streams()
+ calls
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+References: <20250530-rcar-streams-v3-0-026655df7138@ideasonboard.com>
+ <20250530-rcar-streams-v3-3-026655df7138@ideasonboard.com>
+ <20250602055742.GC11750@pendragon.ideasonboard.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <20250602055742.GC11750@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, 23 Sept 2025 at 16:45, Biju <biju.das.au@gmail.com> wrote:
-> From: Biju Das <biju.das.jz@bp.renesas.com>
->
-> The RZ/G3E SoC has 2 GPT's.  Add GPT nodes to RZ/G3E ("R9A09G047") SoC
-> DTSI.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Hi,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On 02/06/2025 12:43, Laurent Pinchart wrote:
+> Hi Tomi,
+> 
+> Thank you for the patch.
+> 
+> On Fri, May 30, 2025 at 04:50:32PM +0300, Tomi Valkeinen wrote:
+>> With multiple streams the operation to enable the ISP hardware and to
+>> call {enable|disable}_streams() on upstream subdev will need to be
+>> handled separately.
+>>
+>> Prepare for that by moving {enable|disable}_streams() calls out from
+>> risp_start() and risp_stop().
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> ---
+>>  drivers/media/platform/renesas/rcar-isp/csisp.c | 18 ++++++++++--------
+>>  1 file changed, 10 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/renesas/rcar-isp/csisp.c b/drivers/media/platform/renesas/rcar-isp/csisp.c
+>> index 8fb2cc3b5650..2337c5d44c40 100644
+>> --- a/drivers/media/platform/renesas/rcar-isp/csisp.c
+>> +++ b/drivers/media/platform/renesas/rcar-isp/csisp.c
+>> @@ -268,18 +268,11 @@ static int risp_start(struct rcar_isp *isp, struct v4l2_subdev_state *state)
+>>  	/* Start ISP. */
+>>  	risp_write_cs(isp, ISPSTART_REG, ISPSTART_START);
+>>  
+>> -	ret = v4l2_subdev_enable_streams(isp->remote, isp->remote_pad,
+>> -					 BIT_ULL(0));
+>> -	if (ret)
+>> -		risp_power_off(isp);
+>> -
+>> -	return ret;
+>> +	return 0;
+>>  }
+>>  
+>>  static void risp_stop(struct rcar_isp *isp)
+>>  {
+>> -	v4l2_subdev_disable_streams(isp->remote, isp->remote_pad, BIT_ULL(0));
+>> -
+>>  	/* Stop ISP. */
+>>  	risp_write_cs(isp, ISPSTART_REG, ISPSTART_STOP);
+>>  
+>> @@ -305,6 +298,13 @@ static int risp_enable_streams(struct v4l2_subdev *sd,
+>>  			return ret;
+>>  	}
+>>  
+>> +	ret = v4l2_subdev_enable_streams(isp->remote, isp->remote_pad,
+>> +					 BIT_ULL(0));
+> 
+> You're now potentially calling v4l2_subdev_disable_streams() multiple
+> times on the same pad and stream, as this call isn't covered by the
+> stream_count check anymore. Is that correct ? Maybe because
+> risp_enable_streams() is guaranteed to never be called multiple times,
+> with stream_count never becoming larger than 1 ? If so that should be
+> explained in the commit message, and stream_count should probably be
+> dropped.
 
-Gr{oetje,eeting}s,
+At this point in the series risp_enable_streams() is called just once,
+from a single VIN. That is, assuming only a single stream is supported.
+In the cover letter I mention that there seems to be some kind of
+attempts for multistreaming in upstream, which breaks during this
+series. My understanding from Niklas was that the custom multistreaming
+doesn't work or at least can be dropped. Niklas, correct me if I'm wrong
+(and if I am wrong, someone else needs to take care of the custom
+multistreaming =).
 
-                        Geert
+Later in the series risp_enable_streams will be called multiple times.
+Each VIN video node will call it once when enabling.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+ Tomi
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> 
+> Same when stopping.
+> 
+>> +	if (ret) {
+>> +		risp_stop(isp);
+> 
+> This is also not covered by the stream_count, while risp_start() is.
+> 
+>> +		return ret;
+>> +	}
+>> +
+>>  	isp->stream_count += 1;
+>>  
+>>  	return ret;
+>> @@ -322,6 +322,8 @@ static int risp_disable_streams(struct v4l2_subdev *sd,
+>>  	if (!isp->remote)
+>>  		return -ENODEV;
+>>  
+>> +	v4l2_subdev_disable_streams(isp->remote, isp->remote_pad, BIT_ULL(0));
+>> +
+>>  	if (isp->stream_count == 1)
+>>  		risp_stop(isp);
+>>  
+> 
+
 
