@@ -1,134 +1,189 @@
-Return-Path: <linux-renesas-soc+bounces-22397-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22398-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2FCBA2659
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Sep 2025 06:42:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6493ABA298F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Sep 2025 08:58:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 43F151C00691
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Sep 2025 04:43:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 20285627E55
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Sep 2025 06:58:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12EB6272803;
-	Fri, 26 Sep 2025 04:42:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="Nui8T7fH"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B7CD280CC9;
+	Fri, 26 Sep 2025 06:58:01 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 338BB2727E5
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Sep 2025 04:42:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CD82280334
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Sep 2025 06:57:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758861760; cv=none; b=ZmFwrdfKL5lQQcnZCV2T4Vr+ZqQ9f+g8pADjFcQ8tpLyR0o3+lzMt/XHztEMHjx8Sy25473B/Bs2YusHyKL/rQfcwzUweXCc0gugfIv1pbjiVk+EAhxxpng2Js9ldtbgJ1VDoiceppBsVfuV537JZW+9qKMGyZGcp8D+BujNoiU=
+	t=1758869881; cv=none; b=s91BaArLIQ5aFt1Ifx5YVmkvp9YlCWbw4G3vaR4AaBb3Jd+0XkjDKuFyenVskiXZ9U7PznvPiTPJzjeI18rewiYsW0TYBB8ffxHa8w1LIOM4M9aFr+QU4hElQj/6fk/Jr4qaw4VDCmyTI9eh3impxRt2FNQSLCAlDrY4voXvTQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758861760; c=relaxed/simple;
-	bh=fEauAJYcUbua+cmvgc3OmlOg5F7hAKqTIEP40tTkZjI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gELvj1RZFYIO+YZ96tY0A6m73wlwSmpKJPUP993WuzH5bI4qhnmHW0krrZRW1pd5aQrwQyZf6sReyy3oF7xJSmntPDVG4s6pI8IHTJAzlOawDYtEs4CytAwIc8p7VtsLzGoY2lAhZT873CmyulrlHU6+yfspm1QN7AEky+K+qs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=Nui8T7fH; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3ef166e625aso1333381f8f.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Sep 2025 21:42:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1758861756; x=1759466556; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TLGY1bfUCfvvgSQwYAf1vBj9u82Y/c0FBRs2wNpuwOU=;
-        b=Nui8T7fH5wzqOXlynwLj3xh+sI7sW9Thl56x6qqBUrg1lzL3nBXAvRZgTYNfmvzYJp
-         w4cY2BilFGsyeoZVlXPXYzTto1dHX/hHANVY8NujU2Js40Ik6+RWx7pq8M+D8d0jOdLM
-         r7TrRHDRzvxFJpv26MmYLIn3rLMmuthcxE/lDqg2oXtzgYbJNj1DzdFLFBDNlg7IvW/z
-         VsWcv16VZZ0sHNGcYM4TJXfmhMTxqtvjYGCEzHjwVGFj/xcIOjTaJKZEWNIJAg4BOk9o
-         4hSZQrtm+uu7oMaXw9z0cO/EdtYMn0V989WXqrbOBWtTAqhZykqUimWM52LzEx8ERSWo
-         fNTw==
+	s=arc-20240116; t=1758869881; c=relaxed/simple;
+	bh=dw8VodF5d0G5wyZprT1Cfu9CVLPEqqgX7pSeump3QdM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dOM+aIgV+4DeW8aN4BKoW8TTtxGt0oTx1EI9jihGa5J+feElaSu+3ZoSAHUNf1WrZhdg+cYQABNPKcBzRIjMMQg34NEhYCzJVWpASEgjaJA6GZaI4tJmaRDeBW3KJ3VnYknz4GL7mnMrXdpO07l63XkV9BIJDmVmsV4g7euk16Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-892196f0471so727688241.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Sep 2025 23:57:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758861756; x=1759466556;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TLGY1bfUCfvvgSQwYAf1vBj9u82Y/c0FBRs2wNpuwOU=;
-        b=tmek0Vykp+cDm+Dg/23SjMoTjsqmJ4oVhWc/2UJsIlSj2RyL1pKNC3X0sH0R968VAZ
-         NauMGL0c4zZHBoT5E9R26D9Vu8qp4/esN9YXbKerN28JQi34Eo8eAujGhdtjhSRi4lNV
-         N0PIIIbCkgqpRgkQ4NS4Yi5EgMRu1cLo4+/Rz0ahaS9/FzWReNBnz68jV5IrxY8rvMRy
-         03FXWxLvu7jZXtxpT5LJq2DOFiZfTQhf8JhabojAq6vclDYRE1dvke29f09qxLw6HOXc
-         BMpDtu5ttOkytYMn/z21JnG7cZg9VvaCtxX6ad3hLvB5uTskmcwVKFCGRjqbV5z6wFfr
-         YQmA==
-X-Forwarded-Encrypted: i=1; AJvYcCW3LvvByPih9Py0DeRXW2RqHBunnw0SZ2ThBDYy3BSpgvVe4/4vEJfiRxAJ/efJGaXEvGkD/w3cQ7/81gmO7V8jXQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywa5f3EnQCv67q3FQwvigCv8tzk3FElRzUx2wUMLuGWtYQFMGp8
-	lAwL2db+yJIEbB2uzPEgZyBIkaWAmlcNGB337xM2dWt3saIcSXqkxGGMvk5jXeKb1rQ=
-X-Gm-Gg: ASbGnctyxImwr2py1bBl4sE/VXbaFf76a7FQdNJHcIUPaOa3z61Em47cJlLl7LRqy8u
-	ahUln+AOAMyhUWS00tNsWTcwf8bxO5nMOjjQqcS2HVvJzXwSOVyw9R6bxKEoO0ODzTPWiucGJa6
-	wLO0+V4oFEdouvBNzlBpDSKWKK6W6eYDuM0+hYkaQ8+OP0Zgzv200M4JTpcpmre5JWeFeVmuyF+
-	y3x9t6Byi1zpGzI5CTRAUzZNVrs43s94k9af7t6PXpUNlgmS00KXOqmmTL2xNjIn4ZFTN1OsCdm
-	H+RDNyIZ48cuYwEimLx30zEoYTH9/D6P8A+9WnHL/p/IVfie2iFkrjDtyLYRZVrFeEZ7hHdiUjT
-	PsJBaEEZ6Tgdz4G1eQPSUzlwl+wBwdRc=
-X-Google-Smtp-Source: AGHT+IEcWDDzdBLvASMwHVBQJF3Lf+PtK0CqkPG0drCL4iEC6JWFAWRCy5oEosu1Iyq9sP+wEPuLDQ==
-X-Received: by 2002:a05:6000:40ce:b0:400:ac58:b36c with SMTP id ffacd0b85a97d-40e50f57256mr5069817f8f.62.1758861756442;
-        Thu, 25 Sep 2025 21:42:36 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.111])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e33baab12sm58199575e9.8.2025.09.25.21.42.35
+        d=1e100.net; s=20230601; t=1758869878; x=1759474678;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vjQDtyvvVNH5A+YlQavoDIDNO01bRK+FCcEXT++J39I=;
+        b=L8YIXeoGZiTBg0hm40NKBVCWfOkZx8Npap6uXkwBiWoCps4MpJWXRKYgb6w2P3z0t0
+         P1wiO6DmSsMsomtJWZ0SkSvUUfhDnj63+eY9gj3vgI62BR56E/mPH85dTzutaLiNV2nC
+         X7TLR0k7dbqzwZYsdXffK+Y8n9jWF3j3hlVaCooThPaWx1wlk3txfGHCtOWzp3jhxa10
+         SG8XqlWMgu4XgEp44iQ8ps/Me+RHtiZZ7gCw8d062j3cdNIcstwCnXS69L0SVJ60gd9o
+         SYLDCp9hw/8xB3tlyI46u61B5wuX9pDPJnDz54UXXz+9tYEFjP7HLGwDwoBV/TDvZLpg
+         pE/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWTV9WhqoVKUhnHuX7xCYq5Hv9kLOwuxGTcmQptgdq+dD4/+VVSMSbi+FqPI/OCxPpWXAVg7WaflRX8WW8o/A224A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxwI1YWO9Nc+2621lQZVk4v3/7VfZoAkwYjxJZHTtX1Uud7cmzy
+	myj1GvUJQ4qtJFHYqt7ISumrAjpI+qCLJnhbIuN0wUYB7HQiVlTMoLBzCf3XdV0t
+X-Gm-Gg: ASbGncs8TAZRJYuXcOH/ZOUmD2KCGy+c91rlenAwZbeWnekyw5Q8SN4+X8xgMdL7hHi
+	RINP03qVJf1iec9CJbHT3QMwwMoY7Qcy9RZnTlij7rQso5kMM1n8nOykD8/n25tJms0TBVHAzgC
+	e4nQaXBjeg32pdF+gS9UoVo+S2TkL3tECPcKzCg9HeI6IGBelNhjNqej13lr4T/1MnW+TcHgo8N
+	adoGjqT9VtH/oVKrbsE4CrDLiXWEhbN6GuwTZH/rN6mE2lS7H/VCcNmSV+9M2iDlgOxPbyJrPHq
+	OfYxnTDYv2yzqzr2Nbfy3J76nzmetY6L7YbIP/TrmN3jdNFOlACNbVTrPE85TD0TZtBmI5uYfbl
+	L5KpNLk3u2t0EpxlIzO6nFGeV06g+cWYfwou1hatX9lNUHo1pdLQu622Rmw+x
+X-Google-Smtp-Source: AGHT+IEPahhHPFQcUv+QpwxMojIqPVQoF4mfv494DR1ZSZt8/eMpMI7Id5EUNLy9Jix/sa77syCFwA==
+X-Received: by 2002:a05:6102:5488:b0:55d:cfa5:9d58 with SMTP id ada2fe7eead31-5acc72a1b1dmr2754785137.13.1758869878094;
+        Thu, 25 Sep 2025 23:57:58 -0700 (PDT)
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com. [209.85.217.41])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5ae305d0c44sm1095649137.1.2025.09.25.23.57.56
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Sep 2025 21:42:35 -0700 (PDT)
-Message-ID: <1708d3bb-20f7-4b33-b3ce-f69b96ec07ba@tuxon.dev>
-Date: Fri, 26 Sep 2025 07:42:34 +0300
+        Thu, 25 Sep 2025 23:57:57 -0700 (PDT)
+Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-59d576379b9so939708137.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Sep 2025 23:57:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX/FikwC0An4Tbt2fUTSmubz516JOlpsPxXyzKKcmjgOcWflbaO7Jc4+wNIqiSDqXf63OkInXLhV0I/CynygZLy3w==@vger.kernel.org
+X-Received: by 2002:a05:6102:442c:b0:5a3:6a6f:21ad with SMTP id
+ ada2fe7eead31-5acd0182a34mr2333473137.30.1758869876161; Thu, 25 Sep 2025
+ 23:57:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] PCI: rzg3s-host: Add Renesas RZ/G3S SoC host driver
-To: bhelgaas@google.com, lpieralisi@kernel.org, kwilczynski@kernel.org,
- mani@kernel.org, robh@kernel.org, geert+renesas@glider.be,
- magnus.damm@gmail.com, p.zabel@pengutronix.de
-Cc: linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20250912122444.3870284-3-claudiu.beznea.uj@bp.renesas.com>
- <20250919093741.1695015-1-claudiu.beznea.uj@bp.renesas.com>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <20250919093741.1695015-1-claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250701114733.636510-1-ulf.hansson@linaro.org>
+ <CAPDyKFr=u0u2ijczExkntHK1miWZ6hRrEWBMiyUwShS3m6c29g@mail.gmail.com>
+ <CAMuHMdX1BacUfqtmV8g7NpRnY9aTdL=fh+jC7OryMLz4ijaOCg@mail.gmail.com>
+ <CAPDyKFqANQZmGXd8ccA5qWiGrCor2N=W_7dmV+OK8hMd_+zmmw@mail.gmail.com>
+ <CAMuHMdVrkr56XsRsbG7H-tLHVzmP+g-7=5Nrv9asC25ismwiYA@mail.gmail.com> <CAGETcx-L-KypYZEkdKRBfZHDhFMTUuwKEGVQ-7QPv=++6uwLSw@mail.gmail.com>
+In-Reply-To: <CAGETcx-L-KypYZEkdKRBfZHDhFMTUuwKEGVQ-7QPv=++6uwLSw@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 26 Sep 2025 08:57:45 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWjhXjjw9wFw5Me-wAX0nA+gK2mdGxLyBJJCWDHZ58LeQ@mail.gmail.com>
+X-Gm-Features: AS18NWD2sqCNW31Hr76xpW5m_kx80ye1q9D4_pFDoOhvkwDietXEmUuVKInRsEY
+Message-ID: <CAMuHMdWjhXjjw9wFw5Me-wAX0nA+gK2mdGxLyBJJCWDHZ58LeQ@mail.gmail.com>
+Subject: Re: [PATCH v3 00/24] pmdomain: Add generic ->sync_state() support to genpd
+To: Saravana Kannan <saravanak@google.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Stephen Boyd <sboyd@kernel.org>, linux-pm@vger.kernel.org, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Michael Grzeschik <m.grzeschik@pengutronix.de>, Bjorn Andersson <andersson@kernel.org>, 
+	Abel Vesa <abel.vesa@linaro.org>, Peng Fan <peng.fan@oss.nxp.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Johan Hovold <johan@kernel.org>, 
+	Maulik Shah <maulik.shah@oss.qualcomm.com>, Michal Simek <michal.simek@amd.com>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Hiago De Franco <hiago.franco@toradex.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi, Mani,
+Hi Saravana,
 
-On 9/19/25 12:37, Claudiu wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> The Renesas RZ/G3S features a PCIe IP that complies with the PCI Express
-> Base Specification 4.0 and supports speeds of up to 5 GT/s. It functions
-> only as a root complex, with a single-lane (x1) configuration. The
-> controller includes Type 1 configuration registers, as well as IP
-> specific registers (called AXI registers) required for various adjustments.
-> 
-> Hardware manual can be downloaded from the address in the "Link" section.
-> The following steps should be followed to access the manual:
-> 1/ Click the "User Manual" button
-> 2/ Click "Confirm"; this will start downloading an archive
-> 3/ Open the downloaded archive
-> 4/ Navigate to r01uh1014ej*-rzg3s-users-manual-hardware -> Deliverables
-> 5/ Open the file r01uh1014ej*-rzg3s.pdf
-> 
-> Link: https://www.renesas.com/en/products/rz-g3s?
-> queryID=695cc067c2d89e3f271d43656ede4d12
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> ---
-> 
-> Hi, Mani,
-> 
-> As mentioned here [1], I'm seding the gotos variant here.
-> Please have a look.
+On Fri, 26 Sept 2025 at 00:41, Saravana Kannan <saravanak@google.com> wrote=
+:
+> On Thu, Aug 7, 2025 at 2:43=E2=80=AFAM Geert Uytterhoeven <geert@linux-m6=
+8k.org> wrote:
+> > On Wed, 30 Jul 2025 at 12:29, Ulf Hansson <ulf.hansson@linaro.org> wrot=
+e:
+> > > On Wed, 30 Jul 2025 at 11:56, Geert Uytterhoeven <geert@linux-m68k.or=
+g> wrote:
+> > > > BTW, the "pending due to"-messages look weird to me.
+> > > > On R-Car M2-W (r8a7791.dtsi) I see e.g.:
+> > > >
+> > > >     genpd_provider ca15-cpu0: sync_state() pending due to e6020000.=
+watchdog
+> > > >     renesas-cpg-mssr e6150000.clock-controller: sync_state() pendin=
+g
+> > > > due to e6020000.watchdog
+> > > >
+> > > > ca15-cpu0 is the PM Domain holding the first CPU core, while
+> > > > the watchdog resides in the always-on Clock Domain, and uses the
+> > > > clock-controller for PM_CLK handling.
+> >
+> > Unfortunately the first PM Domain is "ca15-cpu0", which is blocked on
+> > these bogus pending states, and no PM Domain is powered off.
+>
+> Can you explain why you call these as bogus? Sorry if you already
+> explained it. But the reason I'm asking is to see if you can set a
+> flag for the watchdog device so fw_devlink will completely ignore it.
 
-Could you please let me know if you are OK with the format using "goto"
-instead of devm action, as proposed in this patch?
+"bogus" refers to "1." below.
 
-Thank you,
-Claudiu
+Furthermore, devices that are located in an alway-on domain should
+not block the sync state.
+
+> It looks like there's a driver for this watchdog node? Why is it not
+> probing then?
+
+Because this particular revision of the SoC has a hardware bug that
+prevents the watchdog timer from rebooting the system, and the driver
+detects that.
+
+Anyway, if the driver is not available, unused power domains should
+still be powered down, like before.
+
+> > If I remove the "sync_state =3D false" above, genpd_provider_sync_state=
+()
+> > considers all domains, and does power down all unused domains (even
+> > multiple times, as expected).
+> >
+> > Upon closer look, all "pending due to" messages I see claim that the
+> > first (index 0) PM Domain is pending on some devices, while all of
+> > these devices are part of a different domain (usually the always-on
+> > domain, which is always the last (32 or 64) on R-Car).
+> >
+> > So I think there are two issues:
+> >   1. Devices are not attributed to the correct PM Domain using
+> >      fw_devlink sync_state,
+>
+> Is it a fw_devlink issue? Or is this a multi-domain controller?
+
+This is a multi-domain controller.
+
+> >   2. One PM Domain of a multi-domain controller being blocked should
+> >      not block all other domains handled by the same controller.
+>
+> This is going to take a while to sort out. But the current behavior is
+> the safest. How grumpy will you be if we don't fix this :)
+
+Depending on your definition of "safe".  Keeping all power domains on
+increases power consumption and heat generation, and may cause e.g. CPU
+frequency throttling to kick in, slowing down operation of the system.
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
