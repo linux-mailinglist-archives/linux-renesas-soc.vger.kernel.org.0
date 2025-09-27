@@ -1,175 +1,312 @@
-Return-Path: <linux-renesas-soc+bounces-22425-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22426-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81EAABA5C38
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Sep 2025 11:21:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68A71BA6246
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Sep 2025 20:07:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2EA82322342
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Sep 2025 09:21:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 13616189A35D
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Sep 2025 18:07:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 756734A21;
-	Sat, 27 Sep 2025 09:20:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 886CD22B8C5;
+	Sat, 27 Sep 2025 18:06:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WMuB4BRP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VYug1uxJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6EF31EA7EC
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 27 Sep 2025 09:20:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FCE520299B;
+	Sat, 27 Sep 2025 18:06:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758964855; cv=none; b=AjPAwZgr1iuSt8LaDT7C/pmjzzmem/SLpN3LAvZl3mW5cOs94C7xPQ5kEu2tKoAMJlz5WB2TcrfW5mYqT/7G/8Xd2WPFrnN/X1n9QOtpv5lqzBXt81r7zMeoHhhcbDrJcvdyDrqXI6LIFEyFuKnsfxWNoVLXzOMM4o4/TE/ztuA=
+	t=1758996414; cv=none; b=jjjPZ7+HWFQyRMqggUIx7/IW0aFDhyZCL5LWVUFzclK7yWDholTKR3z8acvzr2RxbSSNh/ZVsL59ig+xBacNPMrNpRQJctFtNmd02fDdiFeahtiqkqgpX77ZpXHEdzrarGocP7uWVPYcKrhcqfWtfzUeaiI1jRD0Qmq/VEKkYMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758964855; c=relaxed/simple;
-	bh=/t3TZT7OJrjKJml8DIU0qxdIMBB5wu0/exPcKbnLXnQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cS0yVDg1Js6YXeB2O/3nGuomZUrzbl4A2ltoVmBY7o9BS6/fZHhabgXJOlK1kS/AB2Y+j6ZS15kF/BqpCVPOKMXy6BmVnI0zFyscVezRbPsJ1dzbt2WeuHTimiUzFMSq/J5BLqnejLLCJ7H+lfbZAxc3mcdidHrJDffY7dhO8g4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WMuB4BRP; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3ee15505cdeso2374921f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 27 Sep 2025 02:20:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758964852; x=1759569652; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+K9Vn9bWAnI4BE155GCPvaTjF5XBKFWlh0xk9agIzlA=;
-        b=WMuB4BRPUhBt+bNq/DGyqc7vLAb9bi2ccfL3AxOEX6D6TbqIfzp93BoervgD3hu4UC
-         XpUR7IHdC1YlskIUJHQd1LtPpsMGLTB2DKwsdlpEhxX8CrVtiGIMX7hZ5KXyeZHOrf9l
-         UKyYCSWrhjjDhowJYtOPO9osFRoyjB7kgHJViS45HgTho/8YkbXXMMVouIgoY2mSMP0A
-         nU9QX/h7ylR6ll+ex8LUzslz3RFrzGHOAYDR/5hQA36EB+j/6FihbhAs21zWxORcSXXy
-         xvA++U3WEuR0U7A9RaCEC4CxgJw0xlLd0BeJdcBqO+Cl214WRd5282hTS/TS6QTQaU0m
-         6s2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758964852; x=1759569652;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+K9Vn9bWAnI4BE155GCPvaTjF5XBKFWlh0xk9agIzlA=;
-        b=PjV4SZhDIeW4yTZWPV9ODiFMNvejMQpFeTPabGo4PekV66DR67qtsEsUYq7+vSqyud
-         E4p7wFXD/MdQPrZxoOlpb3uEq5NEkrw873Y6aGF0XSshc3IbltuWVQWQHv8Ad4olSxqp
-         +FaPD9X1qXbfc6W2jJJn2htNuu4l4t+4aASdc1tnzWA7sin4JC0MQ76RP+ayKFRdxsJJ
-         XFfDZwKtCHDe5+s9mN4JR4It/m1HUazoU23/ElW4Xn6gUbMIUB2rDv3PiDZ2p2E+TJ2O
-         ShjS6f5qEneq3V6ipnF4PtO9ivQ/YaAwgdG/ycqG2c2nI7FJ/GWU2BwwCgsnpLN5s8lD
-         M+LQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVdtHFiQNmjFBoTqFl0rYq9zWmH7foY49E5vQUwlLwbDC/QG2kLNEChQ50tUt7bUjsLNKSOHzTiarpYD4saL2kayA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YySo6l3gC232uF40ds1pFz8CJUBxmiUX5/16UYfQ/Yzo8Z0WybT
-	bfhNUSTtkAXh1AbNxpLfN0iRZ01OrT2PoJD5u0aaJMxoUAxD0uls2fokTg6eeg/xMUjJS2w2vuq
-	yMS66Ob9Xi1wkDlxb1YepVAhXeCH9HTU=
-X-Gm-Gg: ASbGncuWubvVZVzwhdwBkMPISe2c/O82nFMT4zBCg18DVLZXQF7SUc2TF9YiEilqcWx
-	QYvD+vBLjVe7LSnHElik7FIo/b5DDqLbGZ8Dd3mibRc30ZReKux9MjhPl6Px8eKmXktI4JSXOP/
-	Ha6ZuUpSJJ5E19gNYKpg82m1JxrN4U1aj159FgHY/cmjn3lUfiXrgR+dflzzf1aHK6dG44+/fGg
-	GWbQjCEc6LZMkh05rE=
-X-Google-Smtp-Source: AGHT+IFrTxM9Q7PDjvaeqtIGpYhacKRy64PKIRSyugqmIbH/nwL4P9ZHMzWlj1q2unq+uw4xc3LL+ZZ5rcx2i+qxmE0=
-X-Received: by 2002:a05:6000:420e:b0:3e8:f67:894f with SMTP id
- ffacd0b85a97d-40f65cb098emr8732361f8f.26.1758964851657; Sat, 27 Sep 2025
- 02:20:51 -0700 (PDT)
+	s=arc-20240116; t=1758996414; c=relaxed/simple;
+	bh=tvD5OtZcFkIwI6aWwtvtHLnO2K8nKOpik4/PZ+knzJM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ImcoMMb4TpB5ZjoZYeKyHBwADZQp6FpKvArhARwd5klUnBBBn6t7KndtXVKa6pQNwr3RXPwuBKnLQiQboC7YAWfwr07OqJfnXMa293eOz54cKKdNDJCYkmzrmdwkWKWnarLtDXD1egsmq9pm8CNj25gIb6RtLk6lUA1utkTmeGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VYug1uxJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C7DEC4CEE7;
+	Sat, 27 Sep 2025 18:06:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758996413;
+	bh=tvD5OtZcFkIwI6aWwtvtHLnO2K8nKOpik4/PZ+knzJM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=VYug1uxJemtvCEHEoqbHblFAuh6e+j7qDLjCk4/dPv6J5DpzQ2qgdBGeNA1U/eHFl
+	 HZ59MjL4asKFONfPQT81nXGESQ6q7jqxplA0qHngUCr5nLJQWOXyUhRvJ/VQ2XSfLP
+	 LPRardUxExEY1SYaViWPcbLnTWJAvvRa3NhweZ0EB5ykifXXdN3lm2E8Ix6Xta5MTe
+	 GeAFKnqV7e6Wf69zPax+AY9GKmwCQHSY1zBpSyTJ0i9XKdEjsNK7WmM2tv+jVLHNNX
+	 o/67Zk3UBObb5HEAZwaUE2FuJyiz5nOqR2K4tjc6mpWCnoWLoLIm3CCx5hBaHWD1Kz
+	 6f6eZBJOx2Sag==
+Date: Sat, 27 Sep 2025 19:06:43 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Nuno =?UTF-8?B?U8Oh?= <noname.nuno@gmail.com>
+Cc: Cosmin-Gabriel Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>, David
+ Lechner <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=	
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring	
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley	
+ <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ "magnus.damm" <magnus.damm@gmail.com>, "linux-iio@vger.kernel.org"
+ <linux-iio@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"	
+ <linux-renesas-soc@vger.kernel.org>, "devicetree@vger.kernel.org"	
+ <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"	
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 3/7] iio: adc: add RZ/T2H / RZ/N2H ADC driver
+Message-ID: <20250927190643.61852030@jic23-huawei>
+In-Reply-To: <3f93a0dad6ba5dea8db84973ae1518bbb98d3aed.camel@gmail.com>
+References: <20250925224013.2146983-1-cosmin-gabriel.tanislav.xa@renesas.com>
+	<20250925224013.2146983-4-cosmin-gabriel.tanislav.xa@renesas.com>
+	<3550caed57f460a3d28ed585eda2d955bd846930.camel@gmail.com>
+	<OSZPR01MB87987A7D3F418A6E7A24FC41851EA@OSZPR01MB8798.jpnprd01.prod.outlook.com>
+	<3f93a0dad6ba5dea8db84973ae1518bbb98d3aed.camel@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <81260328acb5c78e915ab04afad3901a31c16128.1758793709.git.geert+renesas@glider.be>
-In-Reply-To: <81260328acb5c78e915ab04afad3901a31c16128.1758793709.git.geert+renesas@glider.be>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Sat, 27 Sep 2025 10:20:25 +0100
-X-Gm-Features: AS18NWBrfcgOBOZDAaeK8p6RbP_plvyufDtAafY_khBrZmmD6GFm9c13OLsUcRw
-Message-ID: <CA+V-a8u-FEfB7WyDRtz_q5ZKKmZMRrNbv6uoBg234ggkVD1BGg@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: Use IS_ERR() for pointers that cannot be NULL
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	kernel test robot <lkp@intel.com>, Dan Carpenter <dan.carpenter@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 25, 2025 at 10:53=E2=80=AFAM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
-> The use of IS_ERR_OR_NULL() suggests that "clk" can be a NULL pointer.
-> Hence smatch assumes so, and issues a "passing zero to 'PTR_ERR'"
-> warning.
->
-> At these checkpoints, "clk" always contains either a valid pointer, or
-> an error pointer (none of the functions called return NULL pointers).
-> Hence replace IS_ERR_OR_NULL() by IS_ERR().
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Closes: https://lore.kernel.org/r/202408032025.ve2JMaoV-lkp@intel.com/
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> To be queued in renesas-clk-for-v6.19.
->
->  drivers/clk/renesas/renesas-cpg-mssr.c | 2 +-
->  drivers/clk/renesas/rzg2l-cpg.c        | 2 +-
->  drivers/clk/renesas/rzv2h-cpg.c        | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
->
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Fri, 26 Sep 2025 15:41:14 +0100
+Nuno S=C3=A1 <noname.nuno@gmail.com> wrote:
 
-Cheers,
-Prabhakar
+> On Fri, 2025-09-26 at 12:41 +0000, Cosmin-Gabriel Tanislav wrote:
+> >=20
+> >  =20
+> > > -----Original Message-----
+> > > From: Nuno S=C3=A1 <noname.nuno@gmail.com>
+> > > Sent: Friday, September 26, 2025 3:11 PM
+> > > To: Cosmin-Gabriel Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+> > > Cc: Jonathan Cameron <jic23@kernel.org>; David Lechner
+> > > <dlechner@baylibre.com>; Nuno S=C3=A1
+> > > <nuno.sa@analog.com>; Andy Shevchenko <andy@kernel.org>; Rob Herring
+> > > <robh@kernel.org>; Krzysztof
+> > > Kozlowski <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; G=
+eert
+> > > Uytterhoeven
+> > > <geert+renesas@glider.be>; magnus.damm <magnus.damm@gmail.com>;
+> > > linux-iio@vger.kernel.org; linux-
+> > > renesas-soc@vger.kernel.org; devicetree@vger.kernel.org;
+> > > linux-kernel@vger.kernel.org
+> > > Subject: Re: [PATCH v2 3/7] iio: adc: add RZ/T2H / RZ/N2H ADC driver
+> > >=20
+> > > On Fri, 2025-09-26 at 01:40 +0300, Cosmin Tanislav wrote: =20
+> > > > Add support for the A/D 12-Bit successive approximation converters =
+found
+> > > > in the Renesas RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs.
+> > > >=20
+> > > > RZ/T2H has two ADCs with 4 channels and one with 6.
+> > > > RZ/N2H has two ADCs with 4 channels and one with 15.
+> > > >=20
+> > > > Conversions can be performed in single or continuous mode. Result o=
+f the
+> > > > conversion is stored in a 16-bit data register corresponding to each
+> > > > channel.
+> > > >=20
+> > > > The conversions can be started by a software trigger, a synchronous
+> > > > trigger (from MTU or from ELC) or an asynchronous external trigger =
+(from
+> > > > ADTRGn# pin).
+> > > >=20
+> > > > Only single mode with software trigger is supported for now.
+> > > >=20
+> > > > Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.=
+com>
+> > > > --- =20
+> > >=20
+> > > Just one small nit from me. With it:
+> > >=20
+> > > Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+> > >  =20
+> > > > =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> > > > =C2=A0drivers/iio/adc/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 10 ++
+> > > > =C2=A0drivers/iio/adc/Makefile=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> > > > =C2=A0drivers/iio/adc/rzt2h_adc.c | 306 +++++++++++++++++++++++++++=
++++++++++
+> > > > =C2=A04 files changed, 318 insertions(+)
+> > > > =C2=A0create mode 100644 drivers/iio/adc/rzt2h_adc.c
+> > > >=20
+> > > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > > index eed08d25cb7a..220d17039084 100644
+> > > > --- a/MAINTAINERS
+> > > > +++ b/MAINTAINERS
+> > > > @@ -21837,6 +21837,7 @@ L:=C2=A0 linux-iio@vger.kernel.org
+> > > > =C2=A0L: linux-renesas-soc@vger.kernel.org
+> > > > =C2=A0S: Supported
+> > > > =C2=A0F: Documentation/devicetree/bindings/iio/adc/renesas,r9a09g07=
+7-adc.yaml
+> > > > +F: drivers/iio/adc/rzt2h_adc.c
+> > > >=20
+> > > > =C2=A0RENESAS RTCA-3 RTC DRIVER
+> > > > =C2=A0M: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> > > > diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
+> > > > index 58a14e6833f6..cab5eeba48fe 100644
+> > > > --- a/drivers/iio/adc/Kconfig
+> > > > +++ b/drivers/iio/adc/Kconfig
+> > > > @@ -1403,6 +1403,16 @@ config RZG2L_ADC
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 To compile this driver as a module, =
+choose M here: the
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 module will be called rzg2l_adc.
+> > > >=20
+> > > > +config RZT2H_ADC
+> > > > +=C2=A0=C2=A0 tristate "Renesas RZ/T2H / RZ/N2H ADC driver"
+> > > > +=C2=A0=C2=A0 select IIO_ADC_HELPER
+> > > > +=C2=A0=C2=A0 help
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0 Say yes here to build support for the ADC=
+ found in Renesas
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0 RZ/T2H / RZ/N2H SoCs.
+> > > > +
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0 To compile this driver as a module, choos=
+e M here: the
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0 module will be called rzt2h_adc.
+> > > > +
+> > > > =C2=A0config SC27XX_ADC
+> > > > =C2=A0=C2=A0=C2=A0 tristate "Spreadtrum SC27xx series PMICs ADC"
+> > > > =C2=A0=C2=A0=C2=A0 depends on MFD_SC27XX_PMIC || COMPILE_TEST
+> > > > diff --git a/drivers/iio/adc/Makefile b/drivers/iio/adc/Makefile
+> > > > index d008f78dc010..ed647a734c51 100644
+> > > > --- a/drivers/iio/adc/Makefile
+> > > > +++ b/drivers/iio/adc/Makefile
+> > > > @@ -123,6 +123,7 @@ obj-$(CONFIG_ROHM_BD79112) +=3D rohm-bd79112.o
+> > > > =C2=A0obj-$(CONFIG_ROHM_BD79124) +=3D rohm-bd79124.o
+> > > > =C2=A0obj-$(CONFIG_ROCKCHIP_SARADC) +=3D rockchip_saradc.o
+> > > > =C2=A0obj-$(CONFIG_RZG2L_ADC) +=3D rzg2l_adc.o
+> > > > +obj-$(CONFIG_RZT2H_ADC) +=3D rzt2h_adc.o
+> > > > =C2=A0obj-$(CONFIG_SC27XX_ADC) +=3D sc27xx_adc.o
+> > > > =C2=A0obj-$(CONFIG_SD_ADC_MODULATOR) +=3D sd_adc_modulator.o
+> > > > =C2=A0obj-$(CONFIG_SOPHGO_CV1800B_ADC) +=3D sophgo-cv1800b-adc.o
+> > > > diff --git a/drivers/iio/adc/rzt2h_adc.c b/drivers/iio/adc/rzt2h_ad=
+c.c
+> > > > new file mode 100644
+> > > > index 000000000000..6a49788a5c67
+> > > > --- /dev/null
+> > > > +++ b/drivers/iio/adc/rzt2h_adc.c
+> > > > @@ -0,0 +1,306 @@
+> > > > +// SPDX-License-Identifier: GPL-2.0
+> > > > +
+> > > > +#include <linux/bitfield.h>
+> > > > +#include <linux/cleanup.h>
+> > > > +#include <linux/completion.h>
+> > > > +#include <linux/delay.h>
+> > > > +#include <linux/iio/adc-helpers.h>
+> > > > +#include <linux/iio/iio.h>
+> > > > +#include <linux/interrupt.h>
+> > > > +#include <linux/io.h>
+> > > > +#include <linux/iopoll.h>
+> > > > +#include <linux/mod_devicetable.h>
+> > > > +#include <linux/module.h>
+> > > > +#include <linux/platform_device.h>
+> > > > +#include <linux/pm_runtime.h>
+> > > > +#include <linux/property.h>
+> > > > + =20
+> > >=20
+> > > ...
+> > >  =20
+> > > >=20
+> > > > +
+> > > > +static int rzt2h_adc_pm_runtime_resume(struct device *dev)
+> > > > +{
+> > > > +=C2=A0=C2=A0 struct iio_dev *indio_dev =3D dev_get_drvdata(dev);
+> > > > +=C2=A0=C2=A0 struct rzt2h_adc *adc =3D iio_priv(indio_dev); =20
+> > >=20
+> > > Not seeing the point of the pointer arithmetic. You can pass your dev=
+ice
+> > > pointer
+> > > (adc) directly in platform_set_drvdata()
+> > >  =20
+> >=20
+> > Thanks Nuno, I'll do that. I also have another change to make to the dr=
+iver so
+> > I will have to send a new version and you'll have to give your Reviewed=
+-by
+> > again.
+> >=20
+> > Here's the change I'm planning to make, maybe I could keep the Reviewed=
+-by
+> > if you agree.
+> >=20
+> > Without this change, pm_runtime_resume_and_get() is inside the mutex,
+> > while pm_runtime_put_autosuspend() is outside of it. This is mostly for=
+ =20
+>=20
+> I guess you meant the other way around.
+>=20
+> > symmetry, although it's not excluded for some subtle bugs to be able to
+> > occur without it.
+> >  =20
+>=20
+> Fell free to keep my tag.
+>=20
+> - Nuno S=C3=A1
+>=20
+> > diff --git a/drivers/iio/adc/rzt2h_adc.c b/drivers/iio/adc/rzt2h_adc.c
+> > index 708029dc8949..79053bbc71c9 100644
+> > --- a/drivers/iio/adc/rzt2h_adc.c
+> > +++ b/drivers/iio/adc/rzt2h_adc.c
+> > @@ -81,9 +81,9 @@ static int rzt2h_adc_read_single(struct rzt2h_adc *ad=
+c,
+> > unsigned int ch, int *va
+> > =C2=A0=C2=A0=C2=A0=C2=A0 ret =3D pm_runtime_resume_and_get(adc->dev);
+> > =C2=A0=C2=A0=C2=A0=C2=A0 if (ret)
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
+> >=20
+> > -=C2=A0=C2=A0=C2=A0 guard(mutex)(&adc->lock);
+> > +=C2=A0=C2=A0=C2=A0 mutex_lock(&adc->lock);
+> >=20
+As you've highlighted this bit of code, I'll observe here that mixing goto =
+and
+cleanup.h magic is a bad idea.  There is a bunch of text about this in clea=
+nup.h
 
-> diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/renesas=
-/renesas-cpg-mssr.c
-> index 7d661beb09a0810b..0289a35e4e6a0e59 100644
-> --- a/drivers/clk/renesas/renesas-cpg-mssr.c
-> +++ b/drivers/clk/renesas/renesas-cpg-mssr.c
-> @@ -451,7 +451,7 @@ static void __init cpg_mssr_register_core_clk(const s=
-truct cpg_core_clk *core,
->                 break;
->         }
->
-> -       if (IS_ERR_OR_NULL(clk))
-> +       if (IS_ERR(clk))
->                 goto fail;
->
->         dev_dbg(dev, "Core clock %pC at %lu Hz\n", clk, clk_get_rate(clk)=
-);
-> diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-=
-cpg.c
-> index 15b0b96373b03d16..2923961ec001079a 100644
-> --- a/drivers/clk/renesas/rzg2l-cpg.c
-> +++ b/drivers/clk/renesas/rzg2l-cpg.c
-> @@ -1177,7 +1177,7 @@ rzg2l_cpg_register_core_clk(const struct cpg_core_c=
-lk *core,
->                 goto fail;
->         }
->
-> -       if (IS_ERR_OR_NULL(clk))
-> +       if (IS_ERR(clk))
->                 goto fail;
->
->         dev_dbg(dev, "Core clock %pC at %lu Hz\n", clk, clk_get_rate(clk)=
-);
-> diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/rzv2h-=
-cpg.c
-> index 0965f3d11213ed22..0509d1e338058f4e 100644
-> --- a/drivers/clk/renesas/rzv2h-cpg.c
-> +++ b/drivers/clk/renesas/rzv2h-cpg.c
-> @@ -591,7 +591,7 @@ rzv2h_cpg_register_core_clk(const struct cpg_core_clk=
- *core,
->                 goto fail;
->         }
->
-> -       if (IS_ERR_OR_NULL(clk))
-> +       if (IS_ERR(clk))
->                 goto fail;
->
->         dev_dbg(dev, "Core clock %pC at %lu Hz\n", clk, clk_get_rate(clk)=
-);
-> --
-> 2.43.0
->
->
+Rafael has posted a series that will provide cleanup.h magic for runtime PM=
+, but
+that still doesn't get you around the mix of goto and not.
+
+> > =C2=A0=C2=A0=C2=A0=C2=A0 reinit_completion(&adc->completion);
+> >=20
+> > =C2=A0=C2=A0=C2=A0=C2=A0 /* Enable a single channel */
+> > @@ -106,8 +106,10 @@ static int rzt2h_adc_read_single(struct rzt2h_adc =
+*adc,
+> > unsigned int ch, int *va
+> >=20
+> > =C2=A0disable:
+> > =C2=A0=C2=A0=C2=A0=C2=A0 rzt2h_adc_start_stop(adc, false, 0);
+> >=20
+> > +=C2=A0=C2=A0=C2=A0 mutex_unlock(&adc->lock);
+> > +
+> > =C2=A0=C2=A0=C2=A0=C2=A0 pm_runtime_put_autosuspend(adc->dev);
+> >=20
+> > =C2=A0=C2=A0=C2=A0=C2=A0 return ret;
+> > =C2=A0}
+> >  =20
+> > > - Nuno S=C3=A1 =20
+> >=20
+> > ________________________________
+> >=20
+> > Renesas Electronics Europe GmbH
+> > Registered Office: Arcadiastrasse 10
+> > DE-40472 Duesseldorf
+> > Commercial Registry: Duesseldorf, HRB 3708
+> > Managing Director: Carsten Jauch
+> > VAT-No.: DE 14978647
+> > Tax-ID-No: 105/5839/1793
+> >=20
+> > Legal Disclaimer: This e-mail communication (and any attachment/s) is
+> > confidential and contains proprietary information, some or all of which=
+ may be
+> > legally privileged. It is intended solely for the use of the individual=
+ or
+> > entity to which it is addressed. Access to this email by anyone else is
+> > unauthorized. If you are not the intended recipient, any disclosure, co=
+pying,
+> > distribution or any action taken or omitted to be taken in reliance on =
+it, is
+> > prohibited and may be unlawful. =20
+
 
