@@ -1,239 +1,175 @@
-Return-Path: <linux-renesas-soc+bounces-22424-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22425-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C5B6BA59E8
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Sep 2025 08:17:14 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81EAABA5C38
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Sep 2025 11:21:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F3F544A608E
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Sep 2025 06:17:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2EA82322342
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Sep 2025 09:21:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 620B1267B90;
-	Sat, 27 Sep 2025 06:17:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 756734A21;
+	Sat, 27 Sep 2025 09:20:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="or1t/Kyi";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="IiitGhCf"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WMuB4BRP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A282258CDC;
-	Sat, 27 Sep 2025 06:17:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6EF31EA7EC
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 27 Sep 2025 09:20:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758953831; cv=none; b=SL00nzl7i2Xk4SYpeWrl3eg6qks9OoWpdPLGGIJYdb6YEtbjY1Md3nhiUuL6I1yrOixIJtzA1irVxuAl31JumTtDIy6v27F6vPuux42BNdj7ehb/6tHIT7P733O8RZuyEirjfBDLOnNICBuSuVu5U/5C56IB3mdKip5F5R8M5qI=
+	t=1758964855; cv=none; b=AjPAwZgr1iuSt8LaDT7C/pmjzzmem/SLpN3LAvZl3mW5cOs94C7xPQ5kEu2tKoAMJlz5WB2TcrfW5mYqT/7G/8Xd2WPFrnN/X1n9QOtpv5lqzBXt81r7zMeoHhhcbDrJcvdyDrqXI6LIFEyFuKnsfxWNoVLXzOMM4o4/TE/ztuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758953831; c=relaxed/simple;
-	bh=Mw5TBqc8ObImy/VzvyAW0LqNtXyvXGWCIJZuMNb2j5k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GE5/EKmZ+JlcahaBvHCaqT03SiKui9lmq/httElY4LHK6b/Xo7+jHeMX8jOET8O5fU9z3+jnswbRYbJyeUUIX49ET3W0AB92Pt3pNW5xTKzMPejM+ihO0oAgkO8Fb6iOQcnruzhZ6IcTTe6FqmOD8O9BedBFQy1ocBy6CDM4g4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=or1t/Kyi; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=IiitGhCf; arc=none smtp.client-ip=202.12.124.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 79D0C7A00C3;
-	Sat, 27 Sep 2025 02:17:07 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Sat, 27 Sep 2025 02:17:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1758953827;
-	 x=1759040227; bh=RS6yuaADnvZ6pC8boGHVpGYnBRl6x45obIoXXRd6D24=; b=
-	or1t/KyiXr+z0AuSqJobYcuPuIg6ITQs+1sOfsE+nbxrgNmFHq5wYJBod/tQ0iiR
-	fws9G/3JXkz0PSx01aUdXpwHM1yBZi6a6I7F5ECZ4FGxkLjSb9OQUjIj4aMLIDQt
-	hhJOMsSeRT7/SbVA0vkt07X5I3hMTxD3o2yc9YpXHVHHZ4l0yXFB3Vqc7sIqkQZ6
-	ez4yAlLWMF1AfI4mm0CZxYW3LnvNuN1TorhhBx/rg+TdB/V7kaOCwt09Aa4xx7ty
-	Cwnt5bNjMZFVWny1RBSgmCHLzuegKWW4bZs2xSQQhlbFeprYp9tklazdfk+PNiZa
-	iVYgOmaRHRWf/yHTboOzvw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1758953827; x=
-	1759040227; bh=RS6yuaADnvZ6pC8boGHVpGYnBRl6x45obIoXXRd6D24=; b=I
-	iitGhCfajDw1VYhaa71H9y3bd+r79eIdUj7sCShJSH5fdmy37EKPTBWwP1RhnM2t
-	E8scA6fyy7UfctEynb14ZRq4AoNBJzk6GIhSj/AYzxuulZYfdBRuigbzUfETZwxm
-	d3WC8rOyE9Rpf7mJra6l7oP/Pt53OskhTdUkfQdVtMrPyK5onU6ZEgn4CJJ9D6+D
-	8fwfFxrwR1ljzT1jm1Oc/ATqfYdFYuw2Du4MWyYyzVsjoKQzRWRwGwu5PG2jFu71
-	yv3tOYoDFfKeEVYik2d8Q2x1BWnq54zUErbIrj6vjlgc2Un93k5oDrPfh3sZH6W6
-	hGH3+hPW1HZTb8h8A33uw==
-X-ME-Sender: <xms:YoHXaP9yQ0TZMSb6BBACWUMMrM6Wm333wk6b5WmkOK2YWf9TosIypg>
-    <xme:YoHXaIT36EaOXkPl7OkyIYpymqYqxAHAph4M-fdJzKxR6MxzVQqQSFE60GftzXcZ7
-    _dIaoE4vsDe10692jgo3DGvnDt4SH5mevHk_E50CUFfVrajdDz0D2w>
-X-ME-Received: <xmr:YoHXaBc06Jgq7Q40RR0rGAoSGAWVB_zmADB3Mxqvyfmhxp18vkUh_WPzewx_Wbivk2MiMVIvGP0YhU_cYUq6S5DqzYCF_Hc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdejudehudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhikhhlrghs
-    ucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrth
-    gvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepveetgedtvddvhfdtkeeghfeffeehteeh
-    keekgeefjeduieduueelgedtheekkeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
-    hrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgr
-    thgvtghhrdhsvgdpnhgspghrtghpthhtohepledpmhhouggvpehsmhhtphhouhhtpdhrtg
-    hpthhtohepthhomhhirdhvrghlkhgvihhnvghnodhrvghnvghsrghssehiuggvrghsohhn
-    sghorghrugdrtghomhdprhgtphhtthhopehlrghurhgvnhhtrdhpihhntghhrghrthesih
-    guvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrhhn
-    vghlrdhorhhgpdhrtghpthhtohepshgrkhgrrhhirdgrihhluhhssehlihhnuhigrdhinh
-    htvghlrdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghr
-    nhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvgh
-    gvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehv
-    ghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgthhgvhhgrsgdohhhurgifvg
-    hisehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjrggtohhpohdrmhhonhguihesihgu
-    vggrshhonhgsohgrrhgurdgtohhm
-X-ME-Proxy: <xmx:YoHXaCTZU-HnRpuDQ8dXl4v4rSTDkAj7vNjj--b6TfJeAHiogPRpAg>
-    <xmx:YoHXaFKkFweoNiOqlJUG711XDrFTfSR3Xaqv0l-KotbmHzvWMwqZWg>
-    <xmx:YoHXaHIaTbM__G2SdgdeRE_30E-6KIp1SRjXrnOS7Zv3SI6_8QaBqw>
-    <xmx:YoHXaIgXb27GFPg8wSOmRM1rDzq09HyHgzzh08yiYlLExrHezciB3Q>
-    <xmx:Y4HXaCpe0iMvy-B9QlU2LZfLDxs1mzWXn2HPF1e49yBxwzB9dn9GR44T>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 27 Sep 2025 02:17:06 -0400 (EDT)
-Date: Sat, 27 Sep 2025 08:17:04 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH v3 03/15] media: rcar-isp: Move
- {enable|disable}_streams() calls
-Message-ID: <20250927061704.GA2027750@ragnatech.se>
-References: <20250530-rcar-streams-v3-0-026655df7138@ideasonboard.com>
- <20250530-rcar-streams-v3-3-026655df7138@ideasonboard.com>
- <20250602055742.GC11750@pendragon.ideasonboard.com>
- <62890f7a-8ce9-47af-be36-e7384d2a99fd@ideasonboard.com>
+	s=arc-20240116; t=1758964855; c=relaxed/simple;
+	bh=/t3TZT7OJrjKJml8DIU0qxdIMBB5wu0/exPcKbnLXnQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cS0yVDg1Js6YXeB2O/3nGuomZUrzbl4A2ltoVmBY7o9BS6/fZHhabgXJOlK1kS/AB2Y+j6ZS15kF/BqpCVPOKMXy6BmVnI0zFyscVezRbPsJ1dzbt2WeuHTimiUzFMSq/J5BLqnejLLCJ7H+lfbZAxc3mcdidHrJDffY7dhO8g4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WMuB4BRP; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3ee15505cdeso2374921f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 27 Sep 2025 02:20:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758964852; x=1759569652; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+K9Vn9bWAnI4BE155GCPvaTjF5XBKFWlh0xk9agIzlA=;
+        b=WMuB4BRPUhBt+bNq/DGyqc7vLAb9bi2ccfL3AxOEX6D6TbqIfzp93BoervgD3hu4UC
+         XpUR7IHdC1YlskIUJHQd1LtPpsMGLTB2DKwsdlpEhxX8CrVtiGIMX7hZ5KXyeZHOrf9l
+         UKyYCSWrhjjDhowJYtOPO9osFRoyjB7kgHJViS45HgTho/8YkbXXMMVouIgoY2mSMP0A
+         nU9QX/h7ylR6ll+ex8LUzslz3RFrzGHOAYDR/5hQA36EB+j/6FihbhAs21zWxORcSXXy
+         xvA++U3WEuR0U7A9RaCEC4CxgJw0xlLd0BeJdcBqO+Cl214WRd5282hTS/TS6QTQaU0m
+         6s2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758964852; x=1759569652;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+K9Vn9bWAnI4BE155GCPvaTjF5XBKFWlh0xk9agIzlA=;
+        b=PjV4SZhDIeW4yTZWPV9ODiFMNvejMQpFeTPabGo4PekV66DR67qtsEsUYq7+vSqyud
+         E4p7wFXD/MdQPrZxoOlpb3uEq5NEkrw873Y6aGF0XSshc3IbltuWVQWQHv8Ad4olSxqp
+         +FaPD9X1qXbfc6W2jJJn2htNuu4l4t+4aASdc1tnzWA7sin4JC0MQ76RP+ayKFRdxsJJ
+         XFfDZwKtCHDe5+s9mN4JR4It/m1HUazoU23/ElW4Xn6gUbMIUB2rDv3PiDZ2p2E+TJ2O
+         ShjS6f5qEneq3V6ipnF4PtO9ivQ/YaAwgdG/ycqG2c2nI7FJ/GWU2BwwCgsnpLN5s8lD
+         M+LQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVdtHFiQNmjFBoTqFl0rYq9zWmH7foY49E5vQUwlLwbDC/QG2kLNEChQ50tUt7bUjsLNKSOHzTiarpYD4saL2kayA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YySo6l3gC232uF40ds1pFz8CJUBxmiUX5/16UYfQ/Yzo8Z0WybT
+	bfhNUSTtkAXh1AbNxpLfN0iRZ01OrT2PoJD5u0aaJMxoUAxD0uls2fokTg6eeg/xMUjJS2w2vuq
+	yMS66Ob9Xi1wkDlxb1YepVAhXeCH9HTU=
+X-Gm-Gg: ASbGncuWubvVZVzwhdwBkMPISe2c/O82nFMT4zBCg18DVLZXQF7SUc2TF9YiEilqcWx
+	QYvD+vBLjVe7LSnHElik7FIo/b5DDqLbGZ8Dd3mibRc30ZReKux9MjhPl6Px8eKmXktI4JSXOP/
+	Ha6ZuUpSJJ5E19gNYKpg82m1JxrN4U1aj159FgHY/cmjn3lUfiXrgR+dflzzf1aHK6dG44+/fGg
+	GWbQjCEc6LZMkh05rE=
+X-Google-Smtp-Source: AGHT+IFrTxM9Q7PDjvaeqtIGpYhacKRy64PKIRSyugqmIbH/nwL4P9ZHMzWlj1q2unq+uw4xc3LL+ZZ5rcx2i+qxmE0=
+X-Received: by 2002:a05:6000:420e:b0:3e8:f67:894f with SMTP id
+ ffacd0b85a97d-40f65cb098emr8732361f8f.26.1758964851657; Sat, 27 Sep 2025
+ 02:20:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <62890f7a-8ce9-47af-be36-e7384d2a99fd@ideasonboard.com>
+References: <81260328acb5c78e915ab04afad3901a31c16128.1758793709.git.geert+renesas@glider.be>
+In-Reply-To: <81260328acb5c78e915ab04afad3901a31c16128.1758793709.git.geert+renesas@glider.be>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Sat, 27 Sep 2025 10:20:25 +0100
+X-Gm-Features: AS18NWBrfcgOBOZDAaeK8p6RbP_plvyufDtAafY_khBrZmmD6GFm9c13OLsUcRw
+Message-ID: <CA+V-a8u-FEfB7WyDRtz_q5ZKKmZMRrNbv6uoBg234ggkVD1BGg@mail.gmail.com>
+Subject: Re: [PATCH] clk: renesas: Use IS_ERR() for pointers that cannot be NULL
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	kernel test robot <lkp@intel.com>, Dan Carpenter <dan.carpenter@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Tomi,
+On Thu, Sep 25, 2025 at 10:53=E2=80=AFAM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> The use of IS_ERR_OR_NULL() suggests that "clk" can be a NULL pointer.
+> Hence smatch assumes so, and issues a "passing zero to 'PTR_ERR'"
+> warning.
+>
+> At these checkpoints, "clk" always contains either a valid pointer, or
+> an error pointer (none of the functions called return NULL pointers).
+> Hence replace IS_ERR_OR_NULL() by IS_ERR().
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Closes: https://lore.kernel.org/r/202408032025.ve2JMaoV-lkp@intel.com/
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> To be queued in renesas-clk-for-v6.19.
+>
+>  drivers/clk/renesas/renesas-cpg-mssr.c | 2 +-
+>  drivers/clk/renesas/rzg2l-cpg.c        | 2 +-
+>  drivers/clk/renesas/rzv2h-cpg.c        | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
+>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On 2025-09-26 14:22:10 +0300, Tomi Valkeinen wrote:
-> Hi,
-> 
-> On 02/06/2025 12:43, Laurent Pinchart wrote:
-> > Hi Tomi,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Fri, May 30, 2025 at 04:50:32PM +0300, Tomi Valkeinen wrote:
-> >> With multiple streams the operation to enable the ISP hardware and to
-> >> call {enable|disable}_streams() on upstream subdev will need to be
-> >> handled separately.
-> >>
-> >> Prepare for that by moving {enable|disable}_streams() calls out from
-> >> risp_start() and risp_stop().
-> >>
-> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> >> ---
-> >>  drivers/media/platform/renesas/rcar-isp/csisp.c | 18 ++++++++++--------
-> >>  1 file changed, 10 insertions(+), 8 deletions(-)
-> >>
-> >> diff --git a/drivers/media/platform/renesas/rcar-isp/csisp.c b/drivers/media/platform/renesas/rcar-isp/csisp.c
-> >> index 8fb2cc3b5650..2337c5d44c40 100644
-> >> --- a/drivers/media/platform/renesas/rcar-isp/csisp.c
-> >> +++ b/drivers/media/platform/renesas/rcar-isp/csisp.c
-> >> @@ -268,18 +268,11 @@ static int risp_start(struct rcar_isp *isp, struct v4l2_subdev_state *state)
-> >>  	/* Start ISP. */
-> >>  	risp_write_cs(isp, ISPSTART_REG, ISPSTART_START);
-> >>  
-> >> -	ret = v4l2_subdev_enable_streams(isp->remote, isp->remote_pad,
-> >> -					 BIT_ULL(0));
-> >> -	if (ret)
-> >> -		risp_power_off(isp);
-> >> -
-> >> -	return ret;
-> >> +	return 0;
-> >>  }
-> >>  
-> >>  static void risp_stop(struct rcar_isp *isp)
-> >>  {
-> >> -	v4l2_subdev_disable_streams(isp->remote, isp->remote_pad, BIT_ULL(0));
-> >> -
-> >>  	/* Stop ISP. */
-> >>  	risp_write_cs(isp, ISPSTART_REG, ISPSTART_STOP);
-> >>  
-> >> @@ -305,6 +298,13 @@ static int risp_enable_streams(struct v4l2_subdev *sd,
-> >>  			return ret;
-> >>  	}
-> >>  
-> >> +	ret = v4l2_subdev_enable_streams(isp->remote, isp->remote_pad,
-> >> +					 BIT_ULL(0));
-> > 
-> > You're now potentially calling v4l2_subdev_disable_streams() multiple
-> > times on the same pad and stream, as this call isn't covered by the
-> > stream_count check anymore. Is that correct ? Maybe because
-> > risp_enable_streams() is guaranteed to never be called multiple times,
-> > with stream_count never becoming larger than 1 ? If so that should be
-> > explained in the commit message, and stream_count should probably be
-> > dropped.
-> 
-> At this point in the series risp_enable_streams() is called just once,
-> from a single VIN. That is, assuming only a single stream is supported.
-> In the cover letter I mention that there seems to be some kind of
-> attempts for multistreaming in upstream, which breaks during this
-> series. My understanding from Niklas was that the custom multistreaming
-> doesn't work or at least can be dropped. Niklas, correct me if I'm wrong
-> (and if I am wrong, someone else needs to take care of the custom
-> multistreaming =).
+Cheers,
+Prabhakar
 
-And as discussed on IRC the main issue for the VIN pipeline will be on 
-Gen3 where media graph links are made to model VC-to-VIN as we had no 
-streams concept at the time. And that would need to be changed _before_ 
-adding streams to instead model the physical busses between the R-Car 
-CSI-2 Rx and VIN instances, with all their fun limitations.
-
-If that is not done and streams added to the R-Car CSI-2 driver it would 
-do the correct thing, but the VIN driver would still create a lot of 
-media links that after streams are not possible to setup in hardware.
-
-> 
-> Later in the series risp_enable_streams will be called multiple times.
-> Each VIN video node will call it once when enabling.
-> 
->  Tomi
-> 
-> > 
-> > Same when stopping.
-> > 
-> >> +	if (ret) {
-> >> +		risp_stop(isp);
-> > 
-> > This is also not covered by the stream_count, while risp_start() is.
-> > 
-> >> +		return ret;
-> >> +	}
-> >> +
-> >>  	isp->stream_count += 1;
-> >>  
-> >>  	return ret;
-> >> @@ -322,6 +322,8 @@ static int risp_disable_streams(struct v4l2_subdev *sd,
-> >>  	if (!isp->remote)
-> >>  		return -ENODEV;
-> >>  
-> >> +	v4l2_subdev_disable_streams(isp->remote, isp->remote_pad, BIT_ULL(0));
-> >> +
-> >>  	if (isp->stream_count == 1)
-> >>  		risp_stop(isp);
-> >>  
-> > 
-> 
-
--- 
-Kind Regards,
-Niklas Söderlund
+> diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/renesas=
+/renesas-cpg-mssr.c
+> index 7d661beb09a0810b..0289a35e4e6a0e59 100644
+> --- a/drivers/clk/renesas/renesas-cpg-mssr.c
+> +++ b/drivers/clk/renesas/renesas-cpg-mssr.c
+> @@ -451,7 +451,7 @@ static void __init cpg_mssr_register_core_clk(const s=
+truct cpg_core_clk *core,
+>                 break;
+>         }
+>
+> -       if (IS_ERR_OR_NULL(clk))
+> +       if (IS_ERR(clk))
+>                 goto fail;
+>
+>         dev_dbg(dev, "Core clock %pC at %lu Hz\n", clk, clk_get_rate(clk)=
+);
+> diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-=
+cpg.c
+> index 15b0b96373b03d16..2923961ec001079a 100644
+> --- a/drivers/clk/renesas/rzg2l-cpg.c
+> +++ b/drivers/clk/renesas/rzg2l-cpg.c
+> @@ -1177,7 +1177,7 @@ rzg2l_cpg_register_core_clk(const struct cpg_core_c=
+lk *core,
+>                 goto fail;
+>         }
+>
+> -       if (IS_ERR_OR_NULL(clk))
+> +       if (IS_ERR(clk))
+>                 goto fail;
+>
+>         dev_dbg(dev, "Core clock %pC at %lu Hz\n", clk, clk_get_rate(clk)=
+);
+> diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/rzv2h-=
+cpg.c
+> index 0965f3d11213ed22..0509d1e338058f4e 100644
+> --- a/drivers/clk/renesas/rzv2h-cpg.c
+> +++ b/drivers/clk/renesas/rzv2h-cpg.c
+> @@ -591,7 +591,7 @@ rzv2h_cpg_register_core_clk(const struct cpg_core_clk=
+ *core,
+>                 goto fail;
+>         }
+>
+> -       if (IS_ERR_OR_NULL(clk))
+> +       if (IS_ERR(clk))
+>                 goto fail;
+>
+>         dev_dbg(dev, "Core clock %pC at %lu Hz\n", clk, clk_get_rate(clk)=
+);
+> --
+> 2.43.0
+>
+>
 
