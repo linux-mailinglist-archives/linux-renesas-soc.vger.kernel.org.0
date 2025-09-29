@@ -1,52 +1,59 @@
-Return-Path: <linux-renesas-soc+bounces-22434-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22435-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B04EBA8688
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Sep 2025 10:35:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D149FBA8A8C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Sep 2025 11:36:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C3B08188F1AB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Sep 2025 08:35:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 48158189BF15
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Sep 2025 09:37:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CE2623183F;
-	Mon, 29 Sep 2025 08:35:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6F09288510;
+	Mon, 29 Sep 2025 09:36:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="SBKyCvYI"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="e0n9gaOW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFCDA14E2E2
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Sep 2025 08:34:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB5D6280CC9
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Sep 2025 09:36:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759134904; cv=none; b=V+eH704FJgfSYDtGDdEA/9Qmx/c86VNvrxMg/SzwhqvDS1wHVBe1KYXQoHBB0geFBeapCvK/3a+6nqikuX2YvCQ7V/v1K8zJjJ9xs4uYAhYaTYk/FODP51i4L52VMavPrscgBgA9DHM8HQRvfw7Gvzx4qtn9wjaMOIAHBkXwIFc=
+	t=1759138591; cv=none; b=gPo3PWroMAzFHNdE4Uy3VZwpUc+gCHIYWakzPgvyG4VJ3h10UCpEiFvmOMv07maE6ZdCPL5Y6imenRN4s4L0xdR0NMnaLxYs41o/eBMsCdu+FNUO/bNM9IqYhWWgmt9yVesW4HcOeSbAp8Wr9I/mV3aolo5odjKnRqt5MmmmAac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759134904; c=relaxed/simple;
-	bh=b1rmZNu7HDfckQqsuISYnl3zQTrDvfW9oSBMuiWkOWM=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=adaXWhdQ+crHHq9U4lCvpKSKq4KAEHjiz+3ZR4qIzUKXJ/00k1SidrZpTqkzjLfjt1NqiHNlyyqozPmDhEVGCLU5aG7B6vGnpwCviub1bXPOWBCFKKu5E9F1Fwp4s/1Q7DCamhLoQlwVg6CcoPfHLYbcxTGfpjBJn5vqCjtws9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=SBKyCvYI; arc=none smtp.client-ip=194.117.254.33
+	s=arc-20240116; t=1759138591; c=relaxed/simple;
+	bh=EvvFaseR4kEK979M3pL2h0cvRRfSLp0TkP3esh3Rscg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TrXOqdFdR6j90chHIrITU2b/UmftBexqckzP2MDN1tsDTJUEPC9aO9Ak2771cgFqjjggPoUtu6iPeSL8V2fkZb5rlD39aUx8bHd5qdoBY0dwsf8Id17tIq/yXeiogBsbhSA6YLmB8wZsQl3w7T/znaHpMUXiU0TtZW2Ce+3g5u4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=e0n9gaOW; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=rWIXW2a5KULKO/
-	2r69KqW7CRGloiI+0coE2XY6HpH2Y=; b=SBKyCvYIQ0tDTCYLujBJDcbw2XrCSp
-	dTVrEf0ojFugxQmdTuMZsmpsUQXwOhIL7Aer2Lu+V7BgIKCLWMszML1tqiatgXYZ
-	FzY1Od+4sR14QSvkeDsN50r4JFqPbwD6ZHP6rosBBVqbR/QFp6daPkIbbHXoDSXc
-	5Yh3/bNXO2742KoHOr49Eh5cAeGDEoTSROHl+AoAl+kWqTE85C6+NWHupNlSqoII
-	RKIR3WqJxwPEwlK1ZXqnbjp2KJiwDW61a1o50ZCfavufte2+nrs6u6F+szr0U0eG
-	X7HuMOF5cGbav+PP1d36m8nlpUZ/ascCdgaXJvSoFRvry3MU+u7AMuZg==
-Received: (qmail 3183417 invoked from network); 29 Sep 2025 10:34:53 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Sep 2025 10:34:53 +0200
-X-UD-Smtp-Session: l3s3148p1@xGtyguw/gNogAwDPXwQHAL/S9V79e5yL
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=9iUdCsBI7lDexR
+	qWCpMYXTi2569TV1CRxcyXb4GXn8o=; b=e0n9gaOWgl9n7i2y5/ku3ciqu6ichn
+	oV6WuA5kJ3Q55JMfBpyIKsYU6XVR0kz9fZs/yverUf4pk3Vyrbc0KbgXMJHBa3oe
+	h5mcunYC72D5TVD2SPNWuCwoNKfFlKw0R5IBsZzI6soQ93iXUCrmaBiwgMl4JS6z
+	UoP/WjWJj8sEZhZZROlXXSIoU1K5ERSRm09stvKQj1R2U++sW6snG+GsFjZFen5v
+	HD71wjIsYSJcx2s7uC7zSQHIOx/ufn+78NMdXP2fqlvkFY1mFSCwsrxsU+ZojBkS
+	nkV4vH4JAWeuYfUvTT7UWsRrQkssjLc3WBj+kjZRjfKCsKQvo2wYRzKg==
+Received: (qmail 3202041 invoked from network); 29 Sep 2025 11:36:23 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Sep 2025 11:36:23 +0200
+X-UD-Smtp-Session: l3s3148p1@11NjXu0/CtwgAwDPXwQHAL/S9V79e5yL
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-renesas-soc@vger.kernel.org
-Subject: [RFC PATCH] dt-bindings: mfd: Add Renesas R2A11302FT PMIC
-Date: Mon, 29 Sep 2025 10:34:49 +0200
-Message-ID: <20250929083449.14393-1-wsa+renesas@sang-engineering.com>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org
+Subject: [PATCH] ARM: dts: renesas: gose: remove superfluous port property
+Date: Mon, 29 Sep 2025 11:36:02 +0200
+Message-ID: <20250929093616.17679-2-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -56,93 +63,28 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Internal RFC for now.
+'bus-width' is defined for the corresponding vin input port already. No
+need to declare it in the output port again. Fixes:
 
-Basic binding description for the above PMIC already referenced in
-upstream DTs for the Renesas Lager and Koelsch boards.
-
-Do you think we could / should upstream it? Passes dt_binding_check and
-dtbs_check.
-
-Fixes:
-arch/arm/boot/dts/renesas/r8a7790-lager.dtb: /soc/spi@e6e10000/pmic@0: failed to match any schema with compatible: ['renesas,r2a11302ft']
-arch/arm/boot/dts/renesas/r8a7791-koelsch.dtb: /soc/spi@e6e20000/pmic@0: failed to match any schema with compatible: ['renesas,r2a11302ft']
-
-Notes:
-
-Would have loved to add this to 'trivial-devices' but 'spi-cpol' and
-'spi-cpha' are not allowed there.
-
-There is no driver and there will likely never be one.
-
-I don't have and couldn't find any datasheet.
-
-Maybe Geert wants to be listed as maintainer? He is the only one who
-ever playes with this device. All is fine with me...
+arch/arm/boot/dts/renesas/r8a7793-gose.dtb: composite-in@20 (adi,adv7180cp): ports:port@3:endpoint: Unevaluated properties are not allowed ('bus-width' was unexpected)
 
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- .../bindings/mfd/renesas,r2a11302ft.yaml      | 51 +++++++++++++++++++
- 1 file changed, 51 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/mfd/renesas,r2a11302ft.yaml
+ arch/arm/boot/dts/renesas/r8a7793-gose.dts | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/mfd/renesas,r2a11302ft.yaml b/Documentation/devicetree/bindings/mfd/renesas,r2a11302ft.yaml
-new file mode 100644
-index 000000000000..fc94f26f2bcd
---- /dev/null
-+++ b/Documentation/devicetree/bindings/mfd/renesas,r2a11302ft.yaml
-@@ -0,0 +1,51 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/mfd/renesas,r2a11302ft.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas R2A11302FT Power Supply ICs for R-Car
-+
-+maintainers:
-+  - Wolfram Sang <wsa+renesas@sang-engineering.com>
-+
-+properties:
-+  compatible:
-+    const: renesas,r2a11302ft
-+
-+  reg:
-+    maxItems: 1
-+
-+  spi-max-frequency:
-+    maximum: 6000000
-+
-+  spi-cpol: true
-+
-+  spi-cpha: true
-+
-+required:
-+  - compatible
-+  - reg
-+  - spi-cpol
-+  - spi-cpha
-+
-+allOf:
-+  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    spi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        pmic: pmic@0 {
-+                compatible = "renesas,r2a11302ft";
-+                reg = <0>;
-+                spi-max-frequency = <6000000>;
-+                spi-cpol;
-+                spi-cpha;
-+        };
-+    };
-+...
+diff --git a/arch/arm/boot/dts/renesas/r8a7793-gose.dts b/arch/arm/boot/dts/renesas/r8a7793-gose.dts
+index 45b267ec2679..5c6928c941ac 100644
+--- a/arch/arm/boot/dts/renesas/r8a7793-gose.dts
++++ b/arch/arm/boot/dts/renesas/r8a7793-gose.dts
+@@ -373,7 +373,6 @@ adv7180_in: endpoint {
+ 				port@3 {
+ 					reg = <3>;
+ 					adv7180_out: endpoint {
+-						bus-width = <8>;
+ 						remote-endpoint = <&vin1ep>;
+ 					};
+ 				};
 -- 
 2.47.2
 
