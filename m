@@ -1,249 +1,163 @@
-Return-Path: <linux-renesas-soc+bounces-22445-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22446-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 541BCBA929A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Sep 2025 14:10:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC65DBA9349
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Sep 2025 14:29:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 35AED1892702
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Sep 2025 12:10:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 34435189EDF8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Sep 2025 12:30:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 750E62BF000;
-	Mon, 29 Sep 2025 12:10:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="KwG4vMWs"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6979930595F;
+	Mon, 29 Sep 2025 12:29:44 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18C1C30506C
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Sep 2025 12:10:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E34347F77
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Sep 2025 12:29:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759147807; cv=none; b=ZO+QCN8BO5aFsS0iu4r1A2llQ52FIOf/Btfjgd5BitkK1nydDwRRCHMt+DU6g2gdmx23yqsBv6uK8BOpMwDuOlzTGWjFOtDMGo4/SGDsHNFIfLHTpxSrrQ9dok8S0pPeNcfeSCXi2DPNGER8MWpJ31SrOz1VGu+dqy2R9qLZLAk=
+	t=1759148984; cv=none; b=lRNAiFdjXiNrZ6H466HgsU7D0Sp9FxLxRWu1bFVczaGymlZbmVjzD6Ft5em+1Coxnkyw3AmSJoFwg2DAZ8uvXDSrapxh1zUyuH/xcoF1cnqvGKa740E9r10+GCSqJgrxBwymSi8y3CJeWTcuPlftMMGx+eknx944EA+sdIuOJ+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759147807; c=relaxed/simple;
-	bh=xp73wE0iogPFWbLCN8f/Njrke1JukbnUCU8WyG4rMoQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HSt0sftyDp5owx8v36YatPVF6c3fcPHKGSQ4yKIl3XVtFWdcEMlj2emM99mV5SmYcZBp3CF4TFqjjQT4Rm1030W7TVxxQx7PHfMknEsaQsF5qPvW9+D2hI87oKPGm4DlzeW9iOQ1xN+SNp1mDDoNwoFO3PDpG4XBNkDylg+bU7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=KwG4vMWs; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3f42b54d1b9so4467190f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Sep 2025 05:10:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1759147802; x=1759752602; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/A1N+ty2qApZBdj5/inaifpCvqdtitLGQdcgdQAh7Zc=;
-        b=KwG4vMWspA2Bn1gXCL5Mpb2Dyvj7rwwLpccdrEyDsZfQUvYSXBydIuWgXUoFV7QIsi
-         LGfsfd2k2boNqkTmkRagxw0LXvHEAzmGRuNGdfkJe/EAnb/hqlzxUtvvb0ry3iqyz90B
-         ZDn+v6vgyXjYQAPyNOvhXb4oQsFEbJrbQ7olZJUhDatSBCRc7vX9eNisPPaHkSRrCHDy
-         PE87+TvAIKXIaqt0uD7BP+bUcopb+I2Su1nJMS2Guc3bRn0abY3AyGC+I9zezqKhhBeJ
-         sZ4shgjV/69blOTRjIhKStX01IxQL8ZG6yTuGGxBPUri3pCZFlDKYzZ5RPTiOzE6B/cr
-         vemQ==
+	s=arc-20240116; t=1759148984; c=relaxed/simple;
+	bh=Eouh/Dih6ut2cc9xkN69dD3YmwApD37ueW0zfyLSUjI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GE0HRE37+SLedb6OrnF8X0oHNhL6BWBvsQJ2kVemDSavmVchbH7440HULyFBMXIr2bpOKq0q4PgqgykvKzqZdOZXYcBvHePnOcGQYIWgkvf/FUl5EhaukrdUorVMFPcUzX2Gp0gXeawCBoCQLJZq2e8Ou57AyTs8IT/5onlSvUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-59eb88955d8so1890406137.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Sep 2025 05:29:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759147802; x=1759752602;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/A1N+ty2qApZBdj5/inaifpCvqdtitLGQdcgdQAh7Zc=;
-        b=BtEa9PRMjMXr1UIY31vk/0vUMIgP5j0mYUNe864Lf3XQxjHyOawQCYULkkH7p2AHhN
-         wd4I6DsIVWhmHjXxQsQ9zmJig4KSXKiPtlNXXL408SGXV7sJxwIVjR6mmBgAo22ADjar
-         5t8ZSehVdJLVa+4pHqJtgAvmuwT4e4qau96pbcnOY8l07GP3a16ACCJyxFHiJuhPRyVd
-         aSl9AJJ5E2LGpG940Vvox9itmahI0Os7ZrxnkQVOz/J9Xtigt05GvT1bKm9QCnkgfkwF
-         kWdFjGWBti3H8BQJDcYYA+T9QJ60/YXkYVMPFDA1dVpvnACQmNPlDzVga/UHRQ7Nyh5y
-         jIDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW4BDO2jPqlbdf9NdZ8h0jXwukMtUDZz0plTsEJk3kCFzzezOSJqYoKCK39QEjbtTjto72RqzEDYhqyI6KGD1WqGQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwN0FISnWYRqSBgikJ408B96Fawcz211uMeuLUZNBvoONvESRLI
-	8RbcnsT4MoAOZUdPgq0ZigHBPdQR3q9MLHTFU6qE2iuTqLCYLKIj4I+knvliFQEZ2tk=
-X-Gm-Gg: ASbGncuqCFXMgsr1c0oLNTeiR/na5C+hAEQ5/21UdT3OHdqjL+m/9kGsDWrtDUqfsKy
-	gqY35SOjIspnyr5NWFuFFp5aySF7u65FreOQz+VfU1Ta0PEdTE7wjk0vEW9UT6ZgmQdy5QwhC9C
-	60ZufAAjpKO49cvehldP7ntVx0n3sQvuW9ZOOUyadDRSV/n07m1nTJqe8DspSLQDjgyXQqvHLo+
-	EkcS4pXli6jPheireKavNlzkEaSzluWtPzuIxgtPOGTc9g3LOk8bvSZNgF6PA7idouPGegGCM2T
-	dNVSN8hnOj3Ps2SLHlCiTb268TTVqU8f+3hcJsB6T7QFH23UffqrjSp/Y8CmIH8tj1k4YTYYYge
-	aGg6lP8W/+9SYlvREUxb8b9M67sQ9PTBdMkm+S8cx6A==
-X-Google-Smtp-Source: AGHT+IGOI3s83JZpf8iF/U2faBc1EGkYgirVAtNe1lZ2DI3XBN2xkajove5bIaa7373Vb0l2Wjr1lw==
-X-Received: by 2002:a05:6000:3105:b0:3f8:6e37:376 with SMTP id ffacd0b85a97d-40e499acbecmr16060096f8f.45.1759147802117;
-        Mon, 29 Sep 2025 05:10:02 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.111])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e56f3d754sm11135015e9.4.2025.09.29.05.10.00
+        d=1e100.net; s=20230601; t=1759148981; x=1759753781;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RkpKegjLM4X1g5BOC9wFP0NSK9+QF1wXHcR6o9TX8L8=;
+        b=W5ZHlAKI8lZzDirzhOX8Om6RpipU4qIMicFfPoVxLkXYpuduwQU6JBWue9e+SP74TM
+         LJnEF+P54AQFbH16tUlh8zqsd/puoNhGjU0qRxMWDWcOvk81RcB8lP2wplpOjt6VwNUj
+         LKno815kqvc2VqU030ojkH4oooydm3bTOSb3a+J8ijFn/MA8HL1fvy8nftTxMrRB67bU
+         hLmFLx/lIpacRvPKZU+p1vPJcHvw1cAJegoBPufMygJdz3a2Y+EQEaPa/7KX57Zh6MkW
+         Mvgy5Xlwf+r2VRQdl/AZ3HgCzFCQmHN5ut/cG8jloz82FIJzEQM54rGVNA2hGDGz4wA6
+         JVZg==
+X-Gm-Message-State: AOJu0YxbCeHjQIhBE2H4+u2HRUkWy4YgvhhSu+i8KdywuUgXXM74V/Qg
+	FH4YakJYf0gB7pBdUqPmbG2kBSFZVn02kMmq8Rm2D4VCOe+joIjW5f6Vg6hIE0h8
+X-Gm-Gg: ASbGncsaDNhgSQ2/Zs7c0X2g/LDDXhSH1ZsflBAEPCkZSCrJVvpqQA3zNPTN0Mn95CB
+	sLjW61LCXbvlKkThrz3UQa605e7hsxKKaYMGmJZT6LFzqvQ1BTwFd7vmHYDTm0kCI3+DgTXKlx9
+	EYzraLrYOUusY5MxkE5fK2PETfvbmc9buHRFA+LACPRycASL+BI0O9W1BImtmpST6u06SCdwHqc
+	wdUAZ6qgTmE7J4UthO8VhJuH2UWOb3wlmKnif5yjfTLWKMXKXqc065Z+o3DvmbAPoCSApgOXQlH
+	Lm5ZE6b7BzXLkjbR2FM7VF5o7rL2FuS+qbH6trTmEVZQVSQJuglDXoiVDcPpn7jDURaUufxXJRJ
+	HUgt0wylBo3NDNL4wcySpP1D/HTm/qNeKfMiZ36PV3apsISYg9MzJfprKW0S7
+X-Google-Smtp-Source: AGHT+IGbhbsrENa3+DW2+9Hn7KegwLy63noClny2joZiBalrEFtG1CeLCVH5Fv1R2BHS8hNzxjLeMg==
+X-Received: by 2002:a05:6102:370d:b0:52a:4268:7618 with SMTP id ada2fe7eead31-5accf20b16fmr5853750137.27.1759148980775;
+        Mon, 29 Sep 2025 05:29:40 -0700 (PDT)
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com. [209.85.217.54])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-916d8788fb4sm2358615241.13.2025.09.29.05.29.40
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Sep 2025 05:10:01 -0700 (PDT)
-Message-ID: <ef82c610-0571-4665-a5d1-07a9ed9fb8d3@tuxon.dev>
-Date: Mon, 29 Sep 2025 15:10:00 +0300
+        Mon, 29 Sep 2025 05:29:40 -0700 (PDT)
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-59eb88955d8so1890402137.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Sep 2025 05:29:40 -0700 (PDT)
+X-Received: by 2002:a05:6102:292c:b0:5a3:1af9:752a with SMTP id
+ ada2fe7eead31-5accd2116femr5698432137.20.1759148980357; Mon, 29 Sep 2025
+ 05:29:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] pinctrl: renesas: rzg2l: Fix ISEL restore on resume
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linus.walleij@linaro.org, biju.das.jz@bp.renesas.com,
- linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, stable@vger.kernel.org
-References: <20250912095308.3603704-1-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdXv1-w0SE7FZy5k3jg2FO-a-RB2w1WB=VM_UFEA9zjWDw@mail.gmail.com>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <CAMuHMdXv1-w0SE7FZy5k3jg2FO-a-RB2w1WB=VM_UFEA9zjWDw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <87cy7ga2x8.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87cy7ga2x8.wl-kuninori.morimoto.gx@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 29 Sep 2025 14:29:27 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVn24vKVSkGZ_F4OHiXvqtKd4Hx88Ct+Lz-YcvFK1Gv2A@mail.gmail.com>
+X-Gm-Features: AS18NWC1JlKmz_lymfUFwzNisQMHtJyVP-Gt1E9IjHo2EdqpBeIpGGeP95Pm48A
+Message-ID: <CAMuHMdVn24vKVSkGZ_F4OHiXvqtKd4Hx88Ct+Lz-YcvFK1Gv2A@mail.gmail.com>
+Subject: Re: [PATCH 00/26] arm64: dts: renesas: move interrupt-parent to top node
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi, Geert,
+Hi Morimoto-san,
 
-On 9/29/25 15:03, Geert Uytterhoeven wrote:
-> Hi Claudiu,
-> 
-> On Fri, 12 Sept 2025 at 11:53, Claudiu <claudiu.beznea@tuxon.dev> wrote:
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> Commit 1d2da79708cb ("pinctrl: renesas: rzg2l: Avoid configuring ISEL in
->> gpio_irq_{en,dis}able*()") dropped the configuration of ISEL from
->> struct irq_chip::{irq_enable, irq_disable} APIs and moved it to
->> struct gpio_chip::irq::{child_to_parent_hwirq,
->> child_irq_domain_ops::free} APIs to fix spurious IRQs.
->>
->> After commit 1d2da79708cb ("pinctrl: renesas: rzg2l: Avoid configuring ISEL
->> in gpio_irq_{en,dis}able*()"), ISEL was no longer configured properly on
->> resume. This is because the pinctrl resume code used
->> struct irq_chip::irq_enable  (called from rzg2l_gpio_irq_restore()) to
->> reconfigure the wakeup interrupts. Some drivers (e.g. Ethernet) may also
->> reconfigure non-wakeup interrupts on resume through their own code,
->> eventually calling struct irq_chip::irq_enable.
->>
->> Fix this by adding ISEL configuration back into the
->> struct irq_chip::irq_enable API and on resume path for wakeup interrupts.
->>
->> As struct irq_chip::irq_enable needs now to lock to update the ISEL,
->> convert the struct rzg2l_pinctrl::lock to a raw spinlock and replace the
->> locking API calls with the raw variants. Otherwise the lockdep reports
->> invalid wait context when probing the adv7511 module on RZ/G2L:
->>
->>  [ BUG: Invalid wait context ]
->>  6.17.0-rc5-next-20250911-00001-gfcfac22533c9 #18 Not tainted
->>  -----------------------------
->>  (udev-worker)/165 is trying to lock:
->>  ffff00000e3664a8 (&pctrl->lock){....}-{3:3}, at: rzg2l_gpio_irq_enable+0x38/0x78
->>  other info that might help us debug this:
->>  context-{5:5}
->>  3 locks held by (udev-worker)/165:
->>  #0: ffff00000e890108 (&dev->mutex){....}-{4:4}, at: __driver_attach+0x90/0x1ac
->>  #1: ffff000011c07240 (request_class){+.+.}-{4:4}, at: __setup_irq+0xb4/0x6dc
->>  #2: ffff000011c070c8 (lock_class){....}-{2:2}, at: __setup_irq+0xdc/0x6dc
->>  stack backtrace:
->>  CPU: 1 UID: 0 PID: 165 Comm: (udev-worker) Not tainted 6.17.0-rc5-next-20250911-00001-gfcfac22533c9 #18 PREEMPT
->>  Hardware name: Renesas SMARC EVK based on r9a07g044l2 (DT)
->>  Call trace:
->>  show_stack+0x18/0x24 (C)
->>  dump_stack_lvl+0x90/0xd0
->>  dump_stack+0x18/0x24
->>  __lock_acquire+0xa14/0x20b4
->>  lock_acquire+0x1c8/0x354
->>  _raw_spin_lock_irqsave+0x60/0x88
->>  rzg2l_gpio_irq_enable+0x38/0x78
->>  irq_enable+0x40/0x8c
->>  __irq_startup+0x78/0xa4
->>  irq_startup+0x108/0x16c
->>  __setup_irq+0x3c0/0x6dc
->>  request_threaded_irq+0xec/0x1ac
->>  devm_request_threaded_irq+0x80/0x134
->>  adv7511_probe+0x928/0x9a4 [adv7511]
->>  i2c_device_probe+0x22c/0x3dc
->>  really_probe+0xbc/0x2a0
->>  __driver_probe_device+0x78/0x12c
->>  driver_probe_device+0x40/0x164
->>  __driver_attach+0x9c/0x1ac
->>  bus_for_each_dev+0x74/0xd0
->>  driver_attach+0x24/0x30
->>  bus_add_driver+0xe4/0x208
->>  driver_register+0x60/0x128
->>  i2c_register_driver+0x48/0xd0
->>  adv7511_init+0x5c/0x1000 [adv7511]
->>  do_one_initcall+0x64/0x30c
->>  do_init_module+0x58/0x23c
->>  load_module+0x1bcc/0x1d40
->>  init_module_from_file+0x88/0xc4
->>  idempotent_init_module+0x188/0x27c
->>  __arm64_sys_finit_module+0x68/0xac
->>  invoke_syscall+0x48/0x110
->>  el0_svc_common.constprop.0+0xc0/0xe0
->>  do_el0_svc+0x1c/0x28
->>  el0_svc+0x4c/0x160
->>  el0t_64_sync_handler+0xa0/0xe4
->>  el0t_64_sync+0x198/0x19c
->>
->> Having ISEL configuration back into the struct irq_chip::irq_enable API
->> should be safe with respect to spurious IRQs, as in the probe case IRQs
->> are enabled anyway in struct gpio_chip::irq::child_to_parent_hwirq. No
->> spurious IRQs were detected on suspend/resume, boot, ethernet link
->> insert/remove tests (executed on RZ/G3S). Boot, ethernet link
->> insert/remove tests were also executed successfully on RZ/G2L.
->>
->> Fixes: 1d2da79708cb ("pinctrl: renesas: rzg2l: Avoid configuring ISEL in gpio_irq_{en,dis}able*(")
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->> ---
->>
->> Changes in v2:
->> - changed the implementation approach by dropping the spinlock in
->>   rzg2l_gpio_irq_endisable(), renaming it to
->>   __rzg2l_gpio_irq_endisable() and using it in
->>   rzg2l_gpio_irq_endisable(), the newly introduced
->>   __rzg2l_gpio_irq_enable() and rzg2l_gpio_irq_restore()
->> - convert struct rzg2l_pinctrl::lock to raw_spinlock_t
-> 
-> LGTM, so
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-pinctrl for v6.19.
-> 
->> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
->> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
->> @@ -543,7 +543,7 @@ static void rzg2l_pinctrl_set_pfc_mode(struct rzg2l_pinctrl *pctrl,
->>         unsigned long flags;
->>         u32 reg;
->>
->> -       spin_lock_irqsave(&pctrl->lock, flags);
->> +       raw_spin_lock_irqsave(&pctrl->lock, flags);
->>
->>         /* Set pin to 'Non-use (Hi-Z input protection)'  */
->>         reg = readw(pctrl->base + PM(off));
-> 
-> This conflicts with commit d57183d06851bae4 ("pinctrl: renesas: rzg2l:
-> Drop unnecessary pin configurations"), which I have already queued
-> in renesas-drivers/renesas-pinctrl-for-v6.19.  Hence I am replacing
-> the above hunk by:
-> 
->             /* Switching to GPIO is not required if reset value is
-> same as func */
->             reg = readb(pctrl->base + PMC(off));
->     -       spin_lock_irqsave(&pctrl->lock, flags);
->     +       raw_spin_lock_irqsave(&pctrl->lock, flags);
->             pfc = readl(pctrl->base + PFC(off));
->             if ((reg & BIT(pin)) && (((pfc >> (pin * 4)) & PFC_MASK) == func)) {
->     -               spin_unlock_irqrestore(&pctrl->lock, flags);
->     +               raw_spin_unlock_irqrestore(&pctrl->lock, flags);
->                     return;
->             }
-> 
-> while applying.
+On Wed, 24 Sept 2025 at 06:29, Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> We can choose not to use interrupt-parent by moving interrupts-parent.
+>
+> Kuninori Morimoto (26):
+>   arm64: dts: renesas: r8a774a1: move interrupt-parent to top node
+>   arm64: dts: renesas: r8a774b1: move interrupt-parent to top node
+>   arm64: dts: renesas: r8a774c0: move interrupt-parent to top node
+>   arm64: dts: renesas: r8a774e1: move interrupt-parent to top node
+>   arm64: dts: renesas: r8a77951: move interrupt-parent to top node
+>   arm64: dts: renesas: r8a77960: move interrupt-parent to top node
+>   arm64: dts: renesas: r8a77961: move interrupt-parent to top node
+>   arm64: dts: renesas: r8a77965: move interrupt-parent to top node
+>   arm64: dts: renesas: r8a77970: move interrupt-parent to top node
+>   arm64: dts: renesas: r8a77980: move interrupt-parent to top node
+>   arm64: dts: renesas: r8a77990: move interrupt-parent to top node
+>   arm64: dts: renesas: r8a77995: move interrupt-parent to top node
+>   arm64: dts: renesas: r8a779a0: move interrupt-parent to top node
+>   arm64: dts: renesas: r8a779f0: move interrupt-parent to top node
+>   arm64: dts: renesas: r8a779g0: move interrupt-parent to top node
+>   arm64: dts: renesas: r8a779h0: move interrupt-parent to top node
+>   arm64: dts: renesas: r9a07g043u: move interrupt-parent to top node
+>   arm64: dts: renesas: r9a07g044: move interrupt-parent to top node
+>   arm64: dts: renesas: r9a07g054: move interrupt-parent to top node
+>   arm64: dts: renesas: r9a08g045: move interrupt-parent to top node
+>   arm64: dts: renesas: r9a09g011: move interrupt-parent to top node
+>   arm64: dts: renesas: r9a09g047: move interrupt-parent to top node
+>   arm64: dts: renesas: r9a09g056: move interrupt-parent to top node
+>   arm64: dts: renesas: r9a09g057: move interrupt-parent to top node
+>   arm64: dts: renesas: r9a09g077: move interrupt-parent to top node
+>   arm64: dts: renesas: r9a09g087: move interrupt-parent to top node
+>
+>  arch/arm64/boot/dts/renesas/r8a774a1.dtsi   | 22 ++++++++---------
+>  arch/arm64/boot/dts/renesas/r8a774b1.dtsi   | 14 +++++------
+>  arch/arm64/boot/dts/renesas/r8a774c0.dtsi   | 14 +++++------
+>  arch/arm64/boot/dts/renesas/r8a774e1.dtsi   | 26 ++++++++++-----------
+>  arch/arm64/boot/dts/renesas/r8a77951.dtsi   | 26 ++++++++++-----------
+>  arch/arm64/boot/dts/renesas/r8a77960.dtsi   | 22 ++++++++---------
+>  arch/arm64/boot/dts/renesas/r8a77961.dtsi   | 22 ++++++++---------
+>  arch/arm64/boot/dts/renesas/r8a77965.dtsi   | 14 +++++------
+>  arch/arm64/boot/dts/renesas/r8a77970.dtsi   | 14 +++++------
+>  arch/arm64/boot/dts/renesas/r8a77980.dtsi   | 22 +++++++----------
+>  arch/arm64/boot/dts/renesas/r8a77990.dtsi   | 14 +++++------
+>  arch/arm64/boot/dts/renesas/r8a77995.dtsi   | 12 +++++-----
+>  arch/arm64/boot/dts/renesas/r8a779a0.dtsi   | 14 +++++------
+>  arch/arm64/boot/dts/renesas/r8a779f0.dtsi   | 14 +++++------
+>  arch/arm64/boot/dts/renesas/r8a779g0.dtsi   | 14 +++++------
+>  arch/arm64/boot/dts/renesas/r8a779h0.dtsi   | 14 +++++------
+>  arch/arm64/boot/dts/renesas/r9a07g043u.dtsi | 16 ++++++-------
+>  arch/arm64/boot/dts/renesas/r9a07g044.dtsi  | 14 +++++------
+>  arch/arm64/boot/dts/renesas/r9a07g054.dtsi  | 14 +++++------
+>  arch/arm64/boot/dts/renesas/r9a08g045.dtsi  | 12 +++++-----
+>  arch/arm64/boot/dts/renesas/r9a09g011.dtsi  | 10 ++++----
+>  arch/arm64/boot/dts/renesas/r9a09g047.dtsi  | 12 +++++-----
+>  arch/arm64/boot/dts/renesas/r9a09g056.dtsi  | 12 +++++-----
+>  arch/arm64/boot/dts/renesas/r9a09g057.dtsi  | 12 +++++-----
+>  arch/arm64/boot/dts/renesas/r9a09g077.dtsi  | 12 +++++-----
+>  arch/arm64/boot/dts/renesas/r9a09g087.dtsi  | 12 +++++-----
+>  26 files changed, 200 insertions(+), 204 deletions(-)
 
-This is right. Thank you! I'm going to give it also a try (on actual HW) a
-bit later. I'll let you know.
+Thanks for your series!
 
-Thank you,
-Claudiu
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.19.
+If you don't mind, I will fold it into a single commit, though.
 
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
+Gr{oetje,eeting}s,
 
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
