@@ -1,88 +1,107 @@
-Return-Path: <linux-renesas-soc+bounces-22430-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22431-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AB1BBA7E13
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Sep 2025 05:48:29 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B91B4BA83AE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Sep 2025 09:23:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1EA3E7AA5A6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Sep 2025 03:46:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3AC9A7AC630
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Sep 2025 07:21:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB1EA1FDA92;
-	Mon, 29 Sep 2025 03:48:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5374217597;
+	Mon, 29 Sep 2025 07:23:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hxZb874d"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="XEg28HcN"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB42DD515;
-	Mon, 29 Sep 2025 03:48:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52E6E252900
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Sep 2025 07:23:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759117701; cv=none; b=PhD4SK1f/Apgaa6okrZokYj3X8UoJGqhMUWND2mRvO1c2xznmYweQPmMTDERor8wIQXXhlLe0z3+/bNxyJ+GHDD3Kuf117HxNTMRFxW3CA+CzTqEqbbZpsyl13v9UUNEwzWxs4QK+DCoKeHhxJJAkbM6SZCsWDrhgElrRFpV/O4=
+	t=1759130603; cv=none; b=AR05BTei2kSbrMor8k/mCm0FSNARUjcQOzvmQezP0yqjTbTm+clKjyTDjXxRinE9T/O6p0Y18qcTMPU9tHUUXADr0jLEP6+uwHE6m65s+qgAfypEWEeKWiXvWjvY9l/JmOQG7PmK7Lq9tfjxiu3MLXSJSR3nBX7wtfTgQD3IQsY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759117701; c=relaxed/simple;
-	bh=AeitMKrh+ZMi7IdhxDVaLH+9R9YhBwmzMrI6tuxwdWM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=a6/bQrnQo0Zj4M8Z5Cd0dqPLuagqGW8/0yQB5O4viNpzfapyOeEW53rTUw3CtdXCnLwcLY5YSn3zAueiq2aW6vNpkgsmk0NfYfVC8TKQWSIr2ZDVNjG2SCJxXEET8oUaZTYwxx1T98Z7hpWyhahTJ8oQuuNOGwVkYzo1KnF9uUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hxZb874d; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38DF7C113D0;
-	Mon, 29 Sep 2025 03:48:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759117701;
-	bh=AeitMKrh+ZMi7IdhxDVaLH+9R9YhBwmzMrI6tuxwdWM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hxZb874dZRgOv1HcVCM2nlK8+4uXf8O66F3aKe8KxXKLjxI6WmGcgKWnQBhjyG3BN
-	 1ttY2BzIRohK8OCgIGLv6mlYGglti4m/xY9UzPQ3/zEk6wMe0Mg9Y2fi7C3X/N/Jxs
-	 K86f+hUYnVviAHrGlhafXYtHTQDRsQY7NNGAhBXpMCqAkwPNSbTVwhLTIwUMVWblkg
-	 2+3Ho00ds2VPPTGBJe5DDqVoShhpmrqjbpQ72hoHiNTs01HNuwzwr0sBhjyPg6Z1GI
-	 QXBGwgIu0iQMB/BFqxTbyRfpx1PfkifXZOGvGDcmFFnnis7b3VL63v0PlQKUcsSNog
-	 KsU1RxXYKAOKw==
-From: Kees Cook <kees@kernel.org>
-To: Andy Shevchenko <andy@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Kees Cook <kees@kernel.org>,
-	linux-hardening@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH] lib/string_choices: Add str_assert_deassert() helper
-Date: Sun, 28 Sep 2025 20:48:18 -0700
-Message-Id: <175911769613.3662480.16218936940501384278.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250923095229.2149740-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20250923095229.2149740-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1759130603; c=relaxed/simple;
+	bh=kH3QJ/0ymsVNJZvRPMjt7T69wHLI8967r0QgMznqKOk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VMfXyGisFYP3Y2YZJlXRu7Lcns9p3HVjTLXIMQiy6Cx6hfuqpchA8jd8XOzUh4dx+I0of5dL6kVFbtdirgagtxMx4pwTqrdxK1E+UTRcE9kbLAB6s4k3tajpOEJbCPJfgojB4dnz8ICTFSc4eH9b84XDXz+e+leIxlYtRJDUULI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=XEg28HcN; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=73S58KutHbjhLt
+	8pmc5mm38D9C5OVGnA59+LsgoomP0=; b=XEg28HcNIOtjoJ+2Rwj3RIg272zKFD
+	IiljTe+9/PQOJnOjGRPopFgAySTRk1rAb+HcfIGj02Qn4OYLcOtL8VtoUJ5WAOUW
+	i4tm6TJkXtQ50FV1XiahpjHigBXs521viwmAYBJxpkcHqMm61gOgJzETjeyBCu6D
+	bUrj1QbqcaOiW7ul5Y0NJcPImH+VM8f5T2gTy1wVEJ6LjjmkB6w284ZatqoImaht
+	k9snzZ1DUXc30sB4V7uh8igUjjZzkgmS6l4I21US5ZNItHCjQUTIpmYhw83WjC2/
+	GHvTHqNKVOCm34/BPFC9dNA6Xdl51Pjb7X0YuoeuYcH4aquk530zSF1A==
+Received: (qmail 3162345 invoked from network); 29 Sep 2025 09:23:11 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Sep 2025 09:23:11 +0200
+X-UD-Smtp-Session: l3s3148p1@S3z5ges/do0gAwDPXwQHAL/S9V79e5yL
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Steve Twiss <stwiss.opensource@diasemi.com>,
+	devicetree@vger.kernel.org
+Subject: [PATCH] dt-bindings: mfd: dlg,da9063: allow 'interrupts-extended' property
+Date: Mon, 29 Sep 2025 09:20:47 +0200
+Message-ID: <20250929072306.5634-2-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Tue, 23 Sep 2025 10:52:29 +0100, Prabhakar wrote:
-> Add str_assert_deassert() helper to return "assert" or "deassert"
-> string literal depending on the boolean argument. Also add the
-> inversed variant str_deassert_assert().
-> 
-> 
+If nested, DT schema cannot extend required 'interrupts' to include
+'interrupts-extended'. It needs to be added manually. Fixes:
 
-Applied to for-next/hardening, thanks!
+arch/arm/boot/dts/renesas/r8a7791-koelsch.dtb: pmic@58 (dlg,da9063): 'interrupts' is a required property
+	from schema $id: http://devicetree.org/schemas/mfd/dlg,da9063.yaml#
 
-[1/1] lib/string_choices: Add str_assert_deassert() helper
-      https://git.kernel.org/kees/c/c8a935a31bc7
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-Take care,
+Copied this solution 1:1 from:
+  Documentation/devicetree/bindings/mfd/samsung,s2mps11.yaml
 
+ Documentation/devicetree/bindings/mfd/dlg,da9063.yaml | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml b/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
+index 51612dc22748..4af5fcb856c7 100644
+--- a/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
++++ b/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
+@@ -110,10 +110,16 @@ allOf:
+             "^buck[1-4]$": false
+         thermal: false
+       required:
+-        - interrupts
+         - interrupt-controller
+         - '#interrupt-cells'
+ 
++      # oneOf is required, because dtschema's fixups.py doesn't handle this
++      # nesting here. Its special treatment to allow either interrupt property
++      # when only one is specified in the binding works at the top level only.
++      oneOf:
++        - required: [interrupts]
++        - required: [interrupts-extended]
++
+   - if:
+       properties:
+         compatible:
 -- 
-Kees Cook
+2.47.2
 
 
