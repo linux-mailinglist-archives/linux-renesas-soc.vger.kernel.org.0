@@ -1,144 +1,149 @@
-Return-Path: <linux-renesas-soc+bounces-22433-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22434-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E2CBBA864C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Sep 2025 10:27:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B04EBA8688
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Sep 2025 10:35:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8EE4F7A9803
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Sep 2025 08:25:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C3B08188F1AB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Sep 2025 08:35:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D68026D4C1;
-	Mon, 29 Sep 2025 08:27:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CE2623183F;
+	Mon, 29 Sep 2025 08:35:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="SBKyCvYI"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E5DD1A9FBD
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Sep 2025 08:27:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFCDA14E2E2
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Sep 2025 08:34:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759134433; cv=none; b=elt0Hwtutx1TaGy5fr+uEOwU1CKkYMDVPLg+ozmH2qcte+kEte16MCebCyyEL/HTl5Omz7+5eWP32cOKxJPz+UJQfaNbFxKorsTpDMpQbhBMiAdVcoLkHCcpNlsHum+lXZrxHRfiMgdSqq+hKCGAI11qwZSt+MCg4cXCpCpd8B8=
+	t=1759134904; cv=none; b=V+eH704FJgfSYDtGDdEA/9Qmx/c86VNvrxMg/SzwhqvDS1wHVBe1KYXQoHBB0geFBeapCvK/3a+6nqikuX2YvCQ7V/v1K8zJjJ9xs4uYAhYaTYk/FODP51i4L52VMavPrscgBgA9DHM8HQRvfw7Gvzx4qtn9wjaMOIAHBkXwIFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759134433; c=relaxed/simple;
-	bh=3wEnJJupgz1SJm2E9By0j/0oQe0EV3tSedp0jhNUmw0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mw5urVgRNwlm4e3t17WNbeY5pP0r4ERHEqaCsTzYA2UXldpYnsStTX02Kbw1GtcsBLd9rNl+3jFN1BUdPpG/IEuRQCcVcXDCUxnxDYoN/yObT8Nm5QGZ1+gQOqeNDCZtGSQVTSoUhzxx15YrOqDkEo8Wob9R6DHrMpP48LVthAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-8943501ba3dso2228642241.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Sep 2025 01:27:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759134430; x=1759739230;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vjEe7O8j7KCrjhzBmS059atyR4bTunLk3aQjDHMi0Mg=;
-        b=qxUpsBqjeAjBJC8hiLU6M5ZJOIVwdp+9qv98lLR24rzDyB6hCnzvAg5znPQkHdEiBk
-         vWVq82QuAIyvNQShW04tOPAhaR9RqyOvv4NeP0RtqXoPFVYpnA6WuU+xQ9qkFiBNpEQF
-         NJIeuDEZ6Gy9LhsMXHkEN/yS686Gjnnzbrq270jekxCFbCJDEhgFLF69sdlb+vLuAWnT
-         mKP5JIeWm7R+ocNZCtTmEEZ2QpsyAtGugovZA9/yK9WDnf3jNd96FlViwo2eIBlw4iSO
-         ib94ync0yNgOwZRZR4UVHc9O3paKEenUuXQXj2XguF1emxT3GoY7JrHpqKV6lruFuFhj
-         ZsdA==
-X-Forwarded-Encrypted: i=1; AJvYcCXUKZWSLrpAOJ1KGF+CM5dcJaIckWci5KJhocVK0eLFIXD1UQVQQ3DPmwExrhH32af2xD16Dm+9QMGp+z11BdwRag==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJc5RBKWoyAObAGgvqewdDhOrM7SSMHwTG2bRZH/z7CRx+GbVp
-	WluFOYiK/fVe4A1mZ0VSp/BSn71e0+FBh5cNbDGkPCJ+/KZp2GOf2qoDCo3NGyHa
-X-Gm-Gg: ASbGncvxK8ykKQ/0oFustsEzZgdzlvAuIGYb+16fm/7HlBdH37u6VaYNKEnsQJpAnYS
-	zIw2yNXOlR8cUYQr+qRk26D5xTYHcTaEx7RmdwZpYiWl6yMLrzUhIS9YTstdQFXv8wW2t3nfYGH
-	ErqgMbjog1ltF3eHSpUJW5kIrr+MPWFrsRQR16Mamo4LbKFQb/7QFGEUQkpga5ay3cGMVIx1DH0
-	UJqPSen7jxl1cSkyzvqqR+bsh6TUfqWZZPMNLR6GFx4PDMIkIyrb2D6MKAwtRlxZexie9ienGKt
-	X1emfe7SQSk3UHMLSU4SvPrZGjS34eS8ptVK79PGWKzdbYBzlhyDFaoRY+SbNBjCKJZiDmZomN5
-	O77txYIRQWs5anD1QPCF6nDZe5DuIaymgBHkzpl88AkNfoGZkTLGF3apPdTY9
-X-Google-Smtp-Source: AGHT+IEzZhVkZOE9mug5wwOZPDJEEjU+CIMy9CGki/8E51/TaX2POdYJTD0FrbXoveKTjGS0q9/UTA==
-X-Received: by 2002:a05:6102:510e:b0:527:d1de:893b with SMTP id ada2fe7eead31-5acd4639ad5mr6363955137.18.1759134429747;
-        Mon, 29 Sep 2025 01:27:09 -0700 (PDT)
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com. [209.85.217.44])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-916d878c126sm2297333241.11.2025.09.29.01.27.09
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Sep 2025 01:27:09 -0700 (PDT)
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-50f8bf5c518so3382006137.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Sep 2025 01:27:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUeNs0+DjPXyDU74h+GEzPWpzQW3z6C8xEv+8onSrvMS5ZQnuyHuAqDr4TiziennfP39BaAJ99nLFjH33q9wTuysg==@vger.kernel.org
-X-Received: by 2002:a05:6102:d90:b0:5a4:420c:6f94 with SMTP id
- ada2fe7eead31-5accbcdfbdfmr6816724137.4.1759134429370; Mon, 29 Sep 2025
- 01:27:09 -0700 (PDT)
+	s=arc-20240116; t=1759134904; c=relaxed/simple;
+	bh=b1rmZNu7HDfckQqsuISYnl3zQTrDvfW9oSBMuiWkOWM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=adaXWhdQ+crHHq9U4lCvpKSKq4KAEHjiz+3ZR4qIzUKXJ/00k1SidrZpTqkzjLfjt1NqiHNlyyqozPmDhEVGCLU5aG7B6vGnpwCviub1bXPOWBCFKKu5E9F1Fwp4s/1Q7DCamhLoQlwVg6CcoPfHLYbcxTGfpjBJn5vqCjtws9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=SBKyCvYI; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=rWIXW2a5KULKO/
+	2r69KqW7CRGloiI+0coE2XY6HpH2Y=; b=SBKyCvYIQ0tDTCYLujBJDcbw2XrCSp
+	dTVrEf0ojFugxQmdTuMZsmpsUQXwOhIL7Aer2Lu+V7BgIKCLWMszML1tqiatgXYZ
+	FzY1Od+4sR14QSvkeDsN50r4JFqPbwD6ZHP6rosBBVqbR/QFp6daPkIbbHXoDSXc
+	5Yh3/bNXO2742KoHOr49Eh5cAeGDEoTSROHl+AoAl+kWqTE85C6+NWHupNlSqoII
+	RKIR3WqJxwPEwlK1ZXqnbjp2KJiwDW61a1o50ZCfavufte2+nrs6u6F+szr0U0eG
+	X7HuMOF5cGbav+PP1d36m8nlpUZ/ascCdgaXJvSoFRvry3MU+u7AMuZg==
+Received: (qmail 3183417 invoked from network); 29 Sep 2025 10:34:53 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Sep 2025 10:34:53 +0200
+X-UD-Smtp-Session: l3s3148p1@xGtyguw/gNogAwDPXwQHAL/S9V79e5yL
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Subject: [RFC PATCH] dt-bindings: mfd: Add Renesas R2A11302FT PMIC
+Date: Mon, 29 Sep 2025 10:34:49 +0200
+Message-ID: <20250929083449.14393-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1756998732.git.geert+renesas@glider.be> <ee4def57eb68dd2c32969c678ea916d2233636ed.1756998732.git.geert+renesas@glider.be>
- <082d5554-7dae-4ff4-bbbe-853268865025@lunn.ch> <CAMuHMdU96u41ESayKOa9Z+fy2EvLCbKSNg256N5XZMJMB+9W6A@mail.gmail.com>
- <c1f6fb82-9188-48ed-9763-712afa71c481@lunn.ch> <20250905184103.GA1887882@ragnatech.se>
- <CAMuHMdU=Q6AZcryj1ZBGW+5F+iYvZCL=Eg0yPw0B4jnczmA8nw@mail.gmail.com>
-In-Reply-To: <CAMuHMdU=Q6AZcryj1ZBGW+5F+iYvZCL=Eg0yPw0B4jnczmA8nw@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 29 Sep 2025 10:26:57 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW7+F-VdNw+LLCs_WPUsFVNnbsCT-wompswecEmipmhqA@mail.gmail.com>
-X-Gm-Features: AS18NWC4L73fMvbY7JVbl7jU9THAB7wi-kzKLyAei1Oc0zvFvsC0lPY-ku9gbpA
-Message-ID: <CAMuHMdW7+F-VdNw+LLCs_WPUsFVNnbsCT-wompswecEmipmhqA@mail.gmail.com>
-Subject: Re: [PATCH net-next 2/3] sh_eth: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: Andrew Lunn <andrew@lunn.ch>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-sh@vger.kernel.org, 
-	Markus Schneider-Pargmann <msp@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, 8 Sept 2025 at 16:36, Geert Uytterhoeven <geert@linux-m68k.org> wro=
-te:
-> On Fri, 5 Sept 2025 at 20:41, Niklas S=C3=B6derlund
-> <niklas.soderlund@ragnatech.se> wrote:
-> > On 2025-09-05 13:57:05 +0200, Andrew Lunn wrote:
-> > > > You cannot enter system sleep without CONFIG_PM_SLEEP, so enabling
-> > > > WoL would be pointless.
-> > >
-> > > Yet get_wol will return WoL can be used, and set_wol will allow you t=
-o
-> > > configure it. It seems like EOPNOTSUPP would be better.
-> >
-> > Out of curiosity. Are you suggesting a compile time check/construct for
-> > CONFIG_PM_SLEEP be added in the driver itself, or in ethtool_set_wol()
-> > and ethtool_get_wol() in net/ethtool/ioctl.c to complement the
-> >
-> >     if (!dev->ethtool_ops->get_wol || !dev->ethtool_ops->set_wol)
-> >         return -EOPNOTSUPP;
-> >
-> > checks already there? To always return EOPNOTSUPP if PM_SLEEP is not
-> > selected?
->
-> Iff we want to go that route, I'd vote for handling it in common code.
-> Still, there is no guarantee that WoL will actually work, as on
-> some systems it may depend on the firmware, too.  E.g. on ARM
-> systems with PSCI, the SoC may be powered down during s2ram, so
-> there is no guarantee that any of the wake-up sources shown in
-> /sys/kernel/debug/wakeup_sources can actually wake up the system.
-> I tried having a mechanism to describe that in DT, but it was rejected.
+Internal RFC for now.
 
-(oops, forgot to press "send" in an old draft)
+Basic binding description for the above PMIC already referenced in
+upstream DTs for the Renesas Lager and Koelsch boards.
 
-Discovering commit af8dbf9c6aa8972f ("schemas: wakeup-source:
-Possibility for system states") in dt-schema.git, there seems to
-be hope!
+Do you think we could / should upstream it? Passes dt_binding_check and
+dtbs_check.
 
-Gr{oetje,eeting}s,
+Fixes:
+arch/arm/boot/dts/renesas/r8a7790-lager.dtb: /soc/spi@e6e10000/pmic@0: failed to match any schema with compatible: ['renesas,r2a11302ft']
+arch/arm/boot/dts/renesas/r8a7791-koelsch.dtb: /soc/spi@e6e20000/pmic@0: failed to match any schema with compatible: ['renesas,r2a11302ft']
 
-                        Geert
+Notes:
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Would have loved to add this to 'trivial-devices' but 'spi-cpol' and
+'spi-cpha' are not allowed there.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+There is no driver and there will likely never be one.
+
+I don't have and couldn't find any datasheet.
+
+Maybe Geert wants to be listed as maintainer? He is the only one who
+ever playes with this device. All is fine with me...
+
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ .../bindings/mfd/renesas,r2a11302ft.yaml      | 51 +++++++++++++++++++
+ 1 file changed, 51 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mfd/renesas,r2a11302ft.yaml
+
+diff --git a/Documentation/devicetree/bindings/mfd/renesas,r2a11302ft.yaml b/Documentation/devicetree/bindings/mfd/renesas,r2a11302ft.yaml
+new file mode 100644
+index 000000000000..fc94f26f2bcd
+--- /dev/null
++++ b/Documentation/devicetree/bindings/mfd/renesas,r2a11302ft.yaml
+@@ -0,0 +1,51 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/mfd/renesas,r2a11302ft.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas R2A11302FT Power Supply ICs for R-Car
++
++maintainers:
++  - Wolfram Sang <wsa+renesas@sang-engineering.com>
++
++properties:
++  compatible:
++    const: renesas,r2a11302ft
++
++  reg:
++    maxItems: 1
++
++  spi-max-frequency:
++    maximum: 6000000
++
++  spi-cpol: true
++
++  spi-cpha: true
++
++required:
++  - compatible
++  - reg
++  - spi-cpol
++  - spi-cpha
++
++allOf:
++  - $ref: /schemas/spi/spi-peripheral-props.yaml#
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        pmic: pmic@0 {
++                compatible = "renesas,r2a11302ft";
++                reg = <0>;
++                spi-max-frequency = <6000000>;
++                spi-cpol;
++                spi-cpha;
++        };
++    };
++...
+-- 
+2.47.2
+
 
