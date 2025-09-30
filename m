@@ -1,146 +1,145 @@
-Return-Path: <linux-renesas-soc+bounces-22479-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22480-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B12EFBAC75B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Sep 2025 12:24:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CCBBBAC767
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Sep 2025 12:25:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 66B203B3E6D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Sep 2025 10:24:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F068D3B4E42
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Sep 2025 10:24:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F09C2F8BE8;
-	Tue, 30 Sep 2025 10:24:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="nKIpd7xH"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 778B82F83C5;
+	Tue, 30 Sep 2025 10:24:56 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F5042F83D9
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Sep 2025 10:24:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9372F3C3D
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Sep 2025 10:24:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759227867; cv=none; b=uK/et6xPV0UUrBcN9nWdrtQTLjf+2z+V+FK+ePl27zazLR+r0yg5Hrx8MsrVkpdj6edbDgTRoiqlkS0VuX/+hfA+NU8IwSMu+UWuzgz3OgfYapgi9i+BLshBdPZZ9nXT2+1A1Gp3/FaiCQCVGtthvo32J8aqfrTV/fuOeJl9Afs=
+	t=1759227896; cv=none; b=RZkruQw7Ineo72Zrx9VjjfUD33nd2+aiG8npJ0I8k8/eQf6IiE5UG1nG8tXWLHzXdvMr7KQddC7KOdhyw7NWGGT0RlzQbdhBemlYTQuT/FxIUitnT2qCTfJfD38s18n8i6act/F5PhaR0rcAC8LbXMTb7jHbMVH0pDGWi0CNzuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759227867; c=relaxed/simple;
-	bh=/xO3z020SlrGnH1T1fxHsnuXvcuFN/F7C6gDnFLfAhY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O7U6x/opshOCaIw8/GsX4nW06jLHKMP6yAv0OVifg5l5oXPCZ/TDpe45Z5Nz9MTAclkxWYPyUvy+OzfDe0/d9na7fiMMpC+liHY8ya/TTuJsuer4LT03hpxMtKKNXDJ7ZIIBliMI+DL1kRyYKVELlcnbZTLzYyxEraKD6OKaEbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=nKIpd7xH; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b3e9d633b78so498524566b.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Sep 2025 03:24:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1759227863; x=1759832663; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yku4GoZzp9LeWe3ADlx09HHrsnQ3oJo5nPkdtrMrKK0=;
-        b=nKIpd7xH0CXPhYC2VZthyLijAwfxXiUFGgh3W/jjAWaRtzjJXsbPolvPjsWU1NvWW5
-         XJzHH5usUrlK9MxBaI+FWbY0E46BUUVQy9UslH17cchzoeR7/y5KLAtelVQj9TtjITBn
-         kz2JCwmlAJe8hIS7jCsOzG1frpIxVyzWWU4m7fifMtV37z7PioMOyJDcpTtWAQNRC7o2
-         KjAZMdVPjDi/VjNvTycWYE6/JmQ2mlOgOOmkrf3yxi6+zbPd42pfkofbkque5U2CX2/k
-         x2ypQYbl2pmaqrZ9WZrbtuUG20s9i7BQxYqlWiEQRq/2rbgPB1urPC4jcf1qw8wuLrPf
-         G+DQ==
+	s=arc-20240116; t=1759227896; c=relaxed/simple;
+	bh=NIsKp5GbFDcQPhLDJfZxN1nX/4KGoPsrwSotfE5mvdo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=F+hxR1LzB26RYU2O7XseNa5fEIeg63rFOpBc0UcJEySDSu1lP5i5iCyyM6aDFuPLuD0P29oA8ifRAyX9/wgefsJmwfY5aMZwcg7abb1IjvrgrmnMQTBC+ZzMtWiGdOtKk04B9nCXEqDowaweM6cG6uJpWDhrvtFLRWrQGwszrPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-8c0e2d1efd5so1747022241.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Sep 2025 03:24:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759227863; x=1759832663;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yku4GoZzp9LeWe3ADlx09HHrsnQ3oJo5nPkdtrMrKK0=;
-        b=fMW7e90yk34LDslRhfxtEdfvcNtt1rXhOQHB/trO4pIMXoAp/iiKT+1B9Hkv9KwV+t
-         bGBO9fWw32dPYPjPIPGj1dXHbnCU+YxzYD3yck3kkd9b3ArJ1njbIhX8oOlcJ32aZZFg
-         EtDu4mW2L4DQ0sLcJpp/YBl6tt0UD8c6jQ+oLWODF2xqQ5ZhZ6rmYThbJVuDrHdCnO18
-         jxnh13RCl0aRTKvWhu7LdwQmziMI/DeaQ8OBwvBLHAONsTnM6qPSONGuJUIJq8cMifam
-         hv6FqI+6ngJDJZkipn1E9dWRyVnUCGlkTGsO1mLjJGuGqyPQhaYf/5J8Y2bczwix6526
-         Numw==
-X-Forwarded-Encrypted: i=1; AJvYcCWR+w+2Q1XH83kwz8Z5ZOmsHlabf4mBfzUVPWlfnCXnj5arTyvtYENbL8f5k9fkbPQpAWalSD7ufc+xKQRFPKK6NA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxrz8hm52l586c7IzSDx8FxKhlocmO0YfFbZcv78mC79aoMPfSn
-	IyPwvTI9pZJWczsaD/AuRA9LXER/aMW6WU7mf1mZI/CbKu3p1G9cTaZp25AGQdycjWo=
-X-Gm-Gg: ASbGnctHqywGaemLh+D8DwITnSfQBT8t+DGw98FcyEtz0/6axBquPpHJdCPZnNV3xAj
-	dVub5uAnau0bL64G/hakii/8wunR2GYXXi79x5DKWc6id/LjBwVioLl3K2GaxzlxaEJxedGgw6E
-	dBoH+STcio1+bil/CjG+jnTgfZD+BSCzc7ttMnQ3Q9gifMION0CjmQgDCOZraUyDpyPvA1ClMRf
-	ldp17Wb7pgXMlv09kVKtC9eSn1G8pE/AFXHMsFzQFghV80hYUXEWVFh2Nuq9jRFCGKkPCykT2TW
-	C/hWwuG1NIr83GFbuCGVF6Lo+bjuri0a0Wk03W6BmwVz3DutLxwYoXzVOhQgkd9zlcWA+6T02J0
-	WZdTX+LPwm5/fngFRTMSBROmg367wt2Caq7gsbpIengogRJBJ12n7hJ0jLJNNHb159w==
-X-Google-Smtp-Source: AGHT+IEwT6Q7OMLIIwGyLtVN5rHhdWH9GNscWF9k7Eai3fNlLMNA2xSp+0/7z8qMh2DHsvkbRP8yBg==
-X-Received: by 2002:a17:906:6a13:b0:b3d:d30b:39c0 with SMTP id a640c23a62f3a-b4138d54e8fmr374520766b.21.1759227863393;
-        Tue, 30 Sep 2025 03:24:23 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.111])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b3ccb3234fesm494802366b.8.2025.09.30.03.24.22
+        d=1e100.net; s=20230601; t=1759227893; x=1759832693;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5gxwjnDPmLXoIEs1Rv4slGC0A9yr0/IqjZP6qkVdinM=;
+        b=iU66M2Q2hl32+IoiJ4YVtO1Nzm/DIBDLLYBN6KeGHnLFr0bzAP9JeYMWbPB4WTgKmi
+         4B6jqDO4ofUf9Mn0r9ImcjCQ83aMESHVUSpCWZBJuNtKtMQ97CCpyuiSWRcEk0qxkSe0
+         FTiO9Kpa8ttQN4M/CTmK2V8erRM1gfy44q8zZ65PfFzA1NeTy6U9BClFUgRWKU6Gyk2L
+         f4sv04LOZ/058mQlZ1XRgzBMIUpWofyE7AEcRb+beS4DQb+h7V0JI+SwFFooeCo50ZZV
+         V0jVO5zjhGMUjbFapmw0+USh7RAWKhhcsg+YmOF+Obm/T6gcFHl0Rfcy9232ynE09K1P
+         NyZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWrlf0/mg/gSOAVmjxGwpbcr0l5VfkUf30D5yMSGhCaoqKXuyb1lJ7sMOzEWes2KoqmpK/Yd/ZWCJvfJu6GuDi+iA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwqsAtx4ZHQ1KK2Voy1iFjWw2KBG8Pxt3cTctbcg9cMK8m4//I8
+	WDu1aOK9scPmcaiUsoBUYfwvk48lb2clxUXRCHMtGSh0dRsvgWaWTMRf523fIYdn
+X-Gm-Gg: ASbGncsZzavWqAGgu77QWOKmN0yR2B3k3TidhRJ5mmKhHEdjuOINyxtqOQE2x7fVT48
+	8R/rw86ndu1C2b1bZFB2UmFKGTAdW9ChXYFwaqpQ4HMss4eM8f8eT+C5R1qwCkoS8drGJcRkupo
+	a8GLwafha1HYu+BeJVswIguUy2e5O2vhfT8R34fpu+a78UeEH0S0gVUil9ioE4eYmaI6L6gjvUp
+	kcjBOvlTo/odRmaU5c5M3OFG5FaC6c3q1o8sHKyrFNqKSK7IyHr1VTfp5BPNNiJZS0ZD3rJjeAe
+	BGZF/mcQl/Wx1YrwPIY360i96DBpg9hz4DEGnazPAecdsqd9F6B1QSy0WuAHfML9bnXAxYX8fCR
+	9ujefdCa/cZamQ8f3eJpomoz+Bo5fDz8WGBmNKjPmgH04Yo7Xcoh2ygLtRN6FgkDGMMO7K5JbhA
+	0SWUIuBirYhbiPQ62qT49D3dBDvHcgkA==
+X-Google-Smtp-Source: AGHT+IF9OluQiHS0LAfWRlLtF2dvatN1B7awflUMdUHIp93J9BaH4sWc8xcO8nfL72c6ZREdz+SipA==
+X-Received: by 2002:a05:6122:1699:b0:54b:bf2f:bcd7 with SMTP id 71dfb90a1353d-54bea2c22e8mr7821880e0c.11.1759227893470;
+        Tue, 30 Sep 2025 03:24:53 -0700 (PDT)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-54c45bff024sm1726609e0c.9.2025.09.30.03.24.53
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Sep 2025 03:24:22 -0700 (PDT)
-Message-ID: <aab3bf2f-b778-4754-a1ac-5e5e32e54743@tuxon.dev>
-Date: Tue, 30 Sep 2025 13:24:21 +0300
+        Tue, 30 Sep 2025 03:24:53 -0700 (PDT)
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-8e1d6fd99c1so2008170241.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Sep 2025 03:24:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWWnuY/tEsOgXe/aUGm135OGlxsAj6emFIuog0rnayo467wQ0Ezqclb9JQUszAz58QncVOj/+RxjT7XVQST6htJtQ==@vger.kernel.org
+X-Received: by 2002:a05:6102:b12:b0:525:42d2:790d with SMTP id
+ ada2fe7eead31-5acd15c52c7mr8052194137.25.1759227892840; Tue, 30 Sep 2025
+ 03:24:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] pinctrl: renesas: rzg2l: Fix ISEL restore on resume
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linus.walleij@linaro.org, biju.das.jz@bp.renesas.com,
- linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, stable@vger.kernel.org
-References: <20250912095308.3603704-1-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdXv1-w0SE7FZy5k3jg2FO-a-RB2w1WB=VM_UFEA9zjWDw@mail.gmail.com>
- <ef82c610-0571-4665-a5d1-07a9ed9fb8d3@tuxon.dev>
- <2bd09757-cd66-4a2a-8801-0f62dc99b9c8@tuxon.dev>
- <CAMuHMdW6TQFZJ_r+XZOuh7yTUKwZxQRCr4Ps-xZ8U702xMd1=w@mail.gmail.com>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <CAMuHMdW6TQFZJ_r+XZOuh7yTUKwZxQRCr4Ps-xZ8U702xMd1=w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250909104247.3309-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20250909104247.3309-1-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 30 Sep 2025 12:24:41 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV5bn1CjqNKvrtgEUTq8iQPZyg4UVh44s=6Z81XF1-F5Q@mail.gmail.com>
+X-Gm-Features: AS18NWBEbbL7niL2f1QYLCCmEF_wzKXMQ4DUWPDaBIb8c5eMNT8LD5RKrVsYWOY
+Message-ID: <CAMuHMdV5bn1CjqNKvrtgEUTq8iQPZyg4UVh44s=6Z81XF1-F5Q@mail.gmail.com>
+Subject: Re: [PATCH v3] pinctrl: renesas: rzg2l: Drop the unnecessary pin configurations
+To: Biju <biju.das.au@gmail.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi, Geert,
+Hi Biju,
 
-On 9/30/25 13:20, Geert Uytterhoeven wrote:
-> Hi Claudiu,
-> 
-> On Tue, 30 Sept 2025 at 07:33, Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
->> On 9/29/25 15:10, Claudiu Beznea wrote:
->>>> This conflicts with commit d57183d06851bae4 ("pinctrl: renesas: rzg2l:
->>>> Drop unnecessary pin configurations"), which I have already queued
->>>> in renesas-drivers/renesas-pinctrl-for-v6.19.  Hence I am replacing
->>>> the above hunk by:
->>>>
->>>>             /* Switching to GPIO is not required if reset value is
->>>> same as func */
->>>>             reg = readb(pctrl->base + PMC(off));
->>>>     -       spin_lock_irqsave(&pctrl->lock, flags);
->>>>     +       raw_spin_lock_irqsave(&pctrl->lock, flags);
->>>>             pfc = readl(pctrl->base + PFC(off));
->>>>             if ((reg & BIT(pin)) && (((pfc >> (pin * 4)) & PFC_MASK) == func)) {
->>>>     -               spin_unlock_irqrestore(&pctrl->lock, flags);
->>>>     +               raw_spin_unlock_irqrestore(&pctrl->lock, flags);
->>>>                     return;
->>>>             }
->>>>
->>>> while applying.
->>> This is right. Thank you! I'm going to give it also a try (on actual HW) a
->>> bit later. I'll let you know.
->>
->> Sorry for the delay, all looks good to me (checked on RZ/G3S).
-> 
-> Given this is a fix which will be backported, I will reshuffle both
-> commits, so your fix is first, and the above no longer applies (here).
+On Tue, 9 Sept 2025 at 12:42, Biju <biju.das.au@gmail.com> wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+>
+> There is no need to reconfigure the pin if the pin's configuration values
+> are same as the reset values. E.g.: PS0 pin configuration for NMI function
+> is PMC = 1 and PFC = 0 and is same as that of reset values. Currently the
+> code is first setting it to GPIO HI-Z state and then again reconfiguring
+> to NMI function leading to spurious IRQ. Drop the unnecessary pin
+> configurations from the driver.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-That's OK for me. Thank you for handling it.
+> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> @@ -541,9 +541,16 @@ static void rzg2l_pinctrl_set_pfc_mode(struct rzg2l_pinctrl *pctrl,
+>                                        u8 pin, u8 off, u8 func)
+>  {
+>         unsigned long flags;
+> -       u32 reg;
+> +       u32 reg, pfc;
+>
+> +       /* Switching to GPIO is not required if reset value is same as func */
+> +       reg = readb(pctrl->base + PMC(off));
 
-Claudiu
+I am updating the commit to move this assignment inside the spinlock
+below.
 
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
+>         spin_lock_irqsave(&pctrl->lock, flags);
+> +       pfc = readl(pctrl->base + PFC(off));
+> +       if ((reg & BIT(pin)) && (((pfc >> (pin * 4)) & PFC_MASK) == func)) {
+> +               spin_unlock_irqrestore(&pctrl->lock, flags);
+> +               return;
+> +       }
 
+To ease backporting "[PATCH v2] pinctrl: renesas: rzg2l: Fix ISEL
+restore on resume"[1], I am rebasing this commit on top of the latter.
 
+>
+>         /* Set pin to 'Non-use (Hi-Z input protection)'  */
+>         reg = readw(pctrl->base + PM(off));
+
+[1] https://lore.kernel.org/20250912095308.3603704-1-claudiu.beznea.uj@bp.renesas.com
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
