@@ -1,310 +1,134 @@
-Return-Path: <linux-renesas-soc+bounces-22470-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22471-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55FCCBAAFA9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Sep 2025 04:19:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0FFEBAB802
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Sep 2025 07:33:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8EB237A256E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Sep 2025 02:17:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3122A188C9DE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Sep 2025 05:33:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6437521883E;
-	Tue, 30 Sep 2025 02:18:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3063D276057;
+	Tue, 30 Sep 2025 05:33:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HCJJcl/w"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="TI4uSpQw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A02A1D90DD;
-	Tue, 30 Sep 2025 02:18:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06076276046
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Sep 2025 05:33:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759198718; cv=none; b=NTWNB2jGjyNAfWxRzuE4h7EW6g+519Wq90QZY2Kynn8TtZggyICppX0Jr/NKvaN3AJqMw0YKcWM3MlchPxHq9uZcSrVcheFEDjVmaSwykkR4P+EfmeRyD/HIO/3w1b0jsjZSnvKKFTYJ4ArgPZWiTcRbJCue4Xp7P91PKPvtXg8=
+	t=1759210403; cv=none; b=Sb8LJQbihf0PsvYcWMJTv9CUkz//1E1JeasEvdlSEoRZJ24VNldjo3YmsDH584q9fv/ENVcQM5yz6lQef3BoWxr9fgVcVruxH6clQOFOxsO3eQPdqlQnH4GV85vR6umy+dIIxD2yQi0KbsRoe37EWRTYzz17vikOR2maaJC9vH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759198718; c=relaxed/simple;
-	bh=fpKPkrDturt9Y6S+lG3GDJtRBhOKTto/XyLWQaQxVDE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s1+YlU0+N0wxKyRH/N/bHvx+Kl/Tcs9WiM+Pzo+ntPdzV3G1Ecmijg8c3sDb5/XzczZ3nXvb6OCzmUjb+c5gEo35f7cFtPozDFwSoiY7l/3VOGsU9iHfauKkSdFb9knFJSqMqVYgwuwSxKArVauJhUZ44caJW4j+6e+pH3pY5Fo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HCJJcl/w; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67CA9C4CEF4;
-	Tue, 30 Sep 2025 02:18:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759198717;
-	bh=fpKPkrDturt9Y6S+lG3GDJtRBhOKTto/XyLWQaQxVDE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HCJJcl/wO3qAhdAiPfIhIK+HuwaHZUfafOXpUDnWxcdpKPvkG33MtJOurLWwUqCP+
-	 gzfSUErxZTvSQDDebwqdnX4f4tfO9dR8WUXYkyjInSw0VIfM2+evHVmoOb1umR5Oqp
-	 ep1kqbP4NAOPFIP0WvxQWvbR7K/ox07KZkXLJei708OXM08NMbt0IiL6yN+phbOYR9
-	 KKsUff3fGQRajH5jAaknpHZ6fRnVKW6I9SnRArLaO3bLen29zCAbUEPpyHVZIMWpEz
-	 a8TAb7ucwTnDYYKhAoYqEtMvxmCkrclJ6gnGsBt/Fswe/mrIqUTpFyby/ZjkXc6x+X
-	 v2tcaG6rWsenQ==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Duy Nguyen <duy.nguyen.rh@renesas.com>,
-	Tranh Ha <tranh.ha.xb@renesas.com>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Sasha Levin <sashal@kernel.org>,
-	geert+renesas@glider.be,
-	magnus.damm@gmail.com,
-	mailhol.vincent@wanadoo.fr,
-	biju.das.jz@bp.renesas.com,
-	uli+renesas@fpond.eu,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.16-6.1] can: rcar_canfd: Fix controller mode setting
-Date: Mon, 29 Sep 2025 22:18:12 -0400
-Message-ID: <20250930021831.688479-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250930021831.688479-1-sashal@kernel.org>
-References: <20250930021831.688479-1-sashal@kernel.org>
+	s=arc-20240116; t=1759210403; c=relaxed/simple;
+	bh=+zYHcq1PnJGmU//SbV0gpmoJSYNqd+MwGlmrpbux8Rk=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=ukiCq3T3mJhrCE4LNS+ww/Mw2lErTvwsl0YnKx0BV0qWPtNNAPwhi82ZZ3+5wfZRPgxyJ1Je9OUySK84TTxuexJoDZ2w49WREyddO4JR1UnBVo0O8asqGiKHWdbia2c7Vh9OKt0GbED6D62ydwY3mv0v8NyIkWy2R+T27nCgm4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=TI4uSpQw; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-41174604d88so2778496f8f.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Sep 2025 22:33:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1759210399; x=1759815199; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=RcKZSqsNCClUnXNLZ+VWODkqJQUd67st9xIuGAhStQk=;
+        b=TI4uSpQwWfQKYiW1tI6/8kA5Z+W7OMOqi0a4zllk1q8j+84RD0TwN0Du9UKkguXWhO
+         W76z5mPf5mURJ4ve7m6CFUL+1+UsRX1pLFNYCGCwo3SFu01z3wnAa7RMnSU9BICyKlwO
+         ld4kwDoZEKgwKlSsnd9aGwUYu82qT3Iho1o+MtzCQMBzgVs1uqg5u3ukbs5ZPNPGNodb
+         543neIkoKYOqLzvovMx5dWX6W7EHk5etHpXdVKHjH0jlEYrqJXmnvgrsndCmaHc0Xjbr
+         jf9IHBQDX6BUC8KxoEkh0w/TJX3JwqnHOIlLZNgtum8ys1Mb2uOlKF8vBz4ICzOSZsa5
+         OtRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759210399; x=1759815199;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RcKZSqsNCClUnXNLZ+VWODkqJQUd67st9xIuGAhStQk=;
+        b=bl9/F+s00xlYE7bo4/cpB6MTVKZMovpQlIe7amPYeeAfRdJoM0qLxQ03HmXpl90eFG
+         yMeU7a0Q9SG5IjMprhFKggdBEx6CQTAIEo+kYyvSH8HQo9m6DVObC88PTRJfw/YejfFb
+         mnqAkBvm6fbo3JaPjT8Q7PhiA4GhxHtGvAFLp1jJXsZm5pTEQo9kMKxE1gpvPP2grFIl
+         L8D42eqbmegvctY/MSOwZVLQhSenyPim2fR3STXWC5N+AeNVCrxxKkX8GAKj7fIMlOYs
+         vGvZXr+P7Qq1vlZxRPRer15CaL7OQw/rciGuUHGZS4onVr3Xu9CTpeOjBmV6RgyoUJp4
+         zMOg==
+X-Forwarded-Encrypted: i=1; AJvYcCW7cNDG+O1sZmb9cVTtFABvGuSv8KI3o//wKrgj4zU1GZGPMraKeSojlBMA5045JLL0exUzgaFZ7eAHP6vwZpqymQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfmoyLShbGOklRZO5xo/AqskV0UQP8wt6FKWllAXOX3ZuL335F
+	lxfKK70BWiV5lW6XuTiNLTXmAYF/oL36Z8QTmTyBt/KS7iKprCxvKvwx7NujluX7SvXItexIZq8
+	U5Zj/
+X-Gm-Gg: ASbGncuo18Z8WxqMckd9dVPKbFdPR1kty6ohL46OucnZ5QZOFbZOv5dPI/7Y1SLfNSu
+	M8x4WHaxhIUMsYYPTW2gDkyVsVzQ7nqntn/C12pzRzeJCHLMzKMlMGlzLnfzyJAvGhpFX/BG9yL
+	++5PjMhYXMRyaY2crOooFUGpceCpa2T6EfNRXeANjZhn1lnm6vOYH1xOS7ci7Krbh0tquAuPWTd
+	q3Wj7T+cGB1O6D/p//4IajhOs51SgAPii15co7+1QbOzBRW7pZs5WleSbCiSikJW8jTsCrisC3V
+	nD9sJfJNP5iU8BGhqHEPO7LjwhqjQWfJ2OFzKgkXZ3GmVcuRjvoAxulnvlrStvFCTOXZbiRifb5
+	ebGiTF2CNIWJDLJ7G8GGiSa8qgH3rPukZwC57kGZwP8IfDQ1CdeMzzCs=
+X-Google-Smtp-Source: AGHT+IEkueAS01kFVAoXd3MEH9FbKcaIHwo56QQ73i1m/EjHyO0vo1fWE9up8eTSOW6ZhEmF700+iQ==
+X-Received: by 2002:a05:6000:400a:b0:3e4:957d:d00 with SMTP id ffacd0b85a97d-40e4c2d2576mr17438762f8f.58.1759210399124;
+        Mon, 29 Sep 2025 22:33:19 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.111])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-40fc88b0779sm20750915f8f.58.2025.09.29.22.33.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Sep 2025 22:33:18 -0700 (PDT)
+Message-ID: <2bd09757-cd66-4a2a-8801-0f62dc99b9c8@tuxon.dev>
+Date: Tue, 30 Sep 2025 08:33:15 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.16.9
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] pinctrl: renesas: rzg2l: Fix ISEL restore on resume
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linus.walleij@linaro.org, biju.das.jz@bp.renesas.com,
+ linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, stable@vger.kernel.org
+References: <20250912095308.3603704-1-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdXv1-w0SE7FZy5k3jg2FO-a-RB2w1WB=VM_UFEA9zjWDw@mail.gmail.com>
+ <ef82c610-0571-4665-a5d1-07a9ed9fb8d3@tuxon.dev>
+Content-Language: en-US
+In-Reply-To: <ef82c610-0571-4665-a5d1-07a9ed9fb8d3@tuxon.dev>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-From: Duy Nguyen <duy.nguyen.rh@renesas.com>
+Hi, Geert,
 
-[ Upstream commit 5cff263606a10102a0ea19ff579eaa18fd5577ad ]
+On 9/29/25 15:10, Claudiu Beznea wrote:
+>> This conflicts with commit d57183d06851bae4 ("pinctrl: renesas: rzg2l:
+>> Drop unnecessary pin configurations"), which I have already queued
+>> in renesas-drivers/renesas-pinctrl-for-v6.19.  Hence I am replacing
+>> the above hunk by:
+>>
+>>             /* Switching to GPIO is not required if reset value is
+>> same as func */
+>>             reg = readb(pctrl->base + PMC(off));
+>>     -       spin_lock_irqsave(&pctrl->lock, flags);
+>>     +       raw_spin_lock_irqsave(&pctrl->lock, flags);
+>>             pfc = readl(pctrl->base + PFC(off));
+>>             if ((reg & BIT(pin)) && (((pfc >> (pin * 4)) & PFC_MASK) == func)) {
+>>     -               spin_unlock_irqrestore(&pctrl->lock, flags);
+>>     +               raw_spin_unlock_irqrestore(&pctrl->lock, flags);
+>>                     return;
+>>             }
+>>
+>> while applying.
+> This is right. Thank you! I'm going to give it also a try (on actual HW) a
+> bit later. I'll let you know.
 
-Driver configures register to choose controller mode before
-setting all channels to reset mode leading to failure.
-The patch corrects operation of mode setting.
+Sorry for the delay, all looks good to me (checked on RZ/G3S).
 
-Signed-off-by: Duy Nguyen <duy.nguyen.rh@renesas.com>
-Signed-off-by: Tranh Ha <tranh.ha.xb@renesas.com>
-Link: https://patch.msgid.link/TYWPR01MB87434739F83E27EDCD23DF44B416A@TYWPR01MB8743.jpnprd01.prod.outlook.com
-Signed-off-by: Marc Kleine-Budde <mkl@pengutronix.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
+Thank you,
+Claudiu
 
-LLM Generated explanations, may be completely bogus:
-
-Now I have enough information to provide a comprehensive analysis. Let
-me compile my findings:
-
-## **BACKPORT ANALYSIS: can: rcar_canfd: Fix controller mode setting**
-
-### **ANSWER: YES**
-
-This commit **SHOULD be backported** to stable kernel trees.
-
----
-
-### **DETAILED ANALYSIS**
-
-#### **1. What the Bug Fixes**
-
-The commit corrects a **critical initialization order bug** in the R-Car
-CANFD controller reset sequence in
-drivers/net/can/rcar/rcar_canfd.c:823-844:
-
-**Before (buggy):**
-```c
-/* Reset Global error flags */
-rcar_canfd_write(gpriv->base, RCANFD_GERFL, 0x0);
-
-/* Set the controller into appropriate mode */
-rcar_canfd_set_mode(gpriv);          // ← MODE SET **BEFORE** CHANNEL
-RESET
-
-/* Transition all Channels to reset mode */
-for_each_set_bit(ch, &gpriv->channels_mask, ...) {
-    // Reset each channel
-}
-```
-
-**After (fixed):**
-```c
-/* Reset Global error flags */
-rcar_canfd_write(gpriv->base, RCANFD_GERFL, 0x0);
-
-/* Transition all Channels to reset mode */
-for_each_set_bit(ch, &gpriv->channels_mask, ...) {
-    // Reset each channel
-}
-
-/* Set the controller into appropriate mode */
-rcar_canfd_set_mode(gpriv);          // ← MODE SET **AFTER** CHANNEL
-RESET
-```
-
-#### **2. Why This Bug Matters**
-
-**Hardware Architecture Difference:**
-- **Gen3 (R-Car H3/M3)**: Uses a **global** mode register
-  (RCANFD_GRMCFG) that affects all channels at once
-- **Gen4/V3U (R-Car V3U/V4H)**: Uses **per-channel** mode registers
-  (RCANFD_GEN4_FDCFG) for each of the 8 channels independently
-
-**The Problem:**
-When `rcar_canfd_set_mode()` is called **before** channels are reset:
-1. Mode bits are written to channel-specific registers
-2. Channels are then transitioned to reset mode
-3. **Channel reset clears the mode configuration**
-4. Controller ends up in an undefined or incorrect mode
-
-**Result:** Channels 2-7 fail to initialize properly on Gen4 hardware,
-causing CAN communication failures.
-
-#### **3. Affected Hardware & Versions**
-
-**Affected SoCs:**
-- R-Car V3U (R8A779A0) - 8 channels
-- R-Car Gen4 (R8A779F0, R8A779G0/V4H) - 8 channels
-- RZ/G3E - 6 channels
-
-**Kernel Versions Affected:**
-- **v5.18+**: V3U support introduced (commit 45721c406dcf, March 2022)
-- **v6.16+**: Ch_interface_mode abstraction added (commit c10e551010111,
-  April 2025)
-- Current mainline vulnerable until this fix
-
-**Estimated affected stable trees:** 5.18.x through 6.16.x (all still
-maintained)
-
-#### **4. Bug History & Context**
-
-**Timeline:**
-1. **v4.10 (2016)**: Classical CAN mode support added, mode set BEFORE
-   channel reset
-2. **v5.18 (2022)**: V3U support added, inherited the problematic
-   ordering
-3. **v6.3 (2023)**: V3U mode selection bug fixed (wrong register used)
-4. **v6.16 (2025)**: Hardware abstraction improved with
-   ch_interface_mode flag
-5. **v6.17 (Sept 2025)**: **This fix** - corrects initialization order
-
-**Previous Related Fixes:**
-- **0a016639ef92b** (Jan 2023): "can: rcar_canfd: Fix R-Car V3U CAN mode
-  selection" - Fixed wrong register being used
-- **b064431630d0** (Oct 2022): "can: rcar_canfd: Add missing ECC error
-  checks for channels 2-7"
-
-The bug was introduced in the original 2016 implementation but only
-became problematic with Gen4 hardware's per-channel mode architecture.
-
-#### **5. Real-World Impact**
-
-**Severity: MODERATE to HIGH**
-
-**User-Visible Symptoms:**
-- CAN channels fail to initialize on V3U/Gen4 boards
-- Channels 2-3 not working on V4H White-Hawk development boards
-  (channels 0-1 work)
-- Mode switching between CAN FD and Classical CAN fails
-- Communication failures in automotive and industrial systems
-
-**Reported Issues:**
-- Active discussions on Renesas forums about CANFD init problems
-- Zephyr RTOS users reporting RTR test failures
-- Multiple community bug reports across different platforms
-
-**No CVE assigned** - This is a functional bug, not a security
-vulnerability.
-
-#### **6. Backport Suitability Assessment**
-
-**✅ EXCELLENT BACKPORT CANDIDATE:**
-
-| Criterion | Assessment | Details |
-|-----------|-----------|---------|
-| **Bug Severity** | ✅ HIGH | Breaks controller initialization on
-multiple platforms |
-| **Code Changes** | ✅ MINIMAL | Moves 1 function call (3 lines removed,
-4 lines added) |
-| **Regression Risk** | ✅ LOW | Simple reordering, no logic changes |
-| **Architectural Changes** | ✅ NONE | No new features or refactoring |
-| **Dependencies** | ✅ NONE | Self-contained fix |
-| **Testing** | ✅ CLEAR | Pass/fail is obvious (channels work or don't)
-|
-| **Subsystem Scope** | ✅ ISOLATED | Confined to rcar_canfd driver |
-| **User Impact** | ✅ HIGH | Fixes broken hardware on production systems
-|
-
-**Stable Kernel Rules Compliance:**
-- ✅ Fixes important bug affecting users
-- ✅ Doesn't introduce new features
-- ✅ Doesn't make architectural changes
-- ✅ Minimal risk of regression
-- ✅ Confined to specific driver/subsystem
-- ✅ Clear, understandable fix
-
-#### **7. Missing Elements**
-
-**Concerns:**
-1. **No Fixes: tag** - Commit doesn't specify which commit introduced
-   the bug
-2. **No Cc: stable** - Not explicitly marked for stable backporting
-3. **Minimal commit message** - Doesn't explain hardware requirements or
-   affected versions
-
-**Recommendation:** When backporting, add:
-```
-Fixes: 45721c406dcf ("can: rcar_canfd: Add support for r8a779a0 SoC")
-Cc: stable@vger.kernel.org # v5.18+
-```
-
-#### **8. Comparison with Similar Fixes**
-
-This fix follows the same pattern as **commit 0a016639ef92b** (January
-2023):
-- Both fix Gen4/V3U initialization issues
-- Both affect mode configuration
-- That fix was backported to stable (v6.1+)
-- Similar scope and risk profile
-
-### **CONCLUSION**
-
-**Backport Status: YES**
-
-This commit fixes a clear initialization bug that breaks CAN controller
-functionality on R-Car V3U and Gen4 hardware. The fix is minimal
-(reordering one function call), has low regression risk, and resolves a
-real-world issue affecting production automotive and industrial systems.
-It fully complies with stable kernel backport rules and should be
-backported to all affected stable trees (v5.18+).
-
-**Recommended stable trees:** 5.18.x, 6.1.x, 6.6.x, 6.11.x, 6.16.x
-
- drivers/net/can/rcar/rcar_canfd.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
-index 7f10213738e5c..e2ae8d6a9de64 100644
---- a/drivers/net/can/rcar/rcar_canfd.c
-+++ b/drivers/net/can/rcar/rcar_canfd.c
-@@ -870,9 +870,6 @@ static int rcar_canfd_reset_controller(struct rcar_canfd_global *gpriv)
- 	/* Reset Global error flags */
- 	rcar_canfd_write(gpriv->base, RCANFD_GERFL, 0x0);
- 
--	/* Set the controller into appropriate mode */
--	rcar_canfd_set_mode(gpriv);
--
- 	/* Transition all Channels to reset mode */
- 	for_each_set_bit(ch, &gpriv->channels_mask, gpriv->info->max_channels) {
- 		rcar_canfd_clear_bit(gpriv->base,
-@@ -892,6 +889,10 @@ static int rcar_canfd_reset_controller(struct rcar_canfd_global *gpriv)
- 			return err;
- 		}
- 	}
-+
-+	/* Set the controller into appropriate mode */
-+	rcar_canfd_set_mode(gpriv);
-+
- 	return 0;
- }
- 
--- 
-2.51.0
+> 
+> Thank you,
+> Claudiu
 
 
