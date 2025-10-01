@@ -1,123 +1,292 @@
-Return-Path: <linux-renesas-soc+bounces-22528-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22529-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8183BB08E2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Oct 2025 15:47:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A237BB0A60
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Oct 2025 16:09:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9D3024A48C6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Oct 2025 13:47:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DFE12167BDD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Oct 2025 14:09:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 988682FC016;
-	Wed,  1 Oct 2025 13:47:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lbrNcnyk"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0842430171B;
+	Wed,  1 Oct 2025 14:08:57 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 749142FC00C
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  1 Oct 2025 13:47:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37122AF03
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  1 Oct 2025 14:08:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759326421; cv=none; b=MJ6+b8OlkjDw2KeedC/PaBBWcoyxyc6rO2ka/mr/D60eh2s5Ek9JddFWF7i74lZUqEd2vSmkvZMQ37kW7XcJz71Nte4g2LOlb2KV3pki4SO+lxPr5PzCBWcdbteqGzXVcpw38NarENxPuWUSgvSipgyU+ZsoBRdkv2Co7viFBkI=
+	t=1759327736; cv=none; b=ShQiJ1GwGF0Bv+TAT4g2MX9z3vEAlw/+dYcl5kzZ/CNW9puNECjT8VF0jt9OvHYlJq+42AQkKaTEkHe9aY+HpqjXm19ibv8VMxntF9G76OXyla34VFcsemIJZDB11eyJloz4MKF7Qya/w2J1mhFQ/FSOlqZWzs1HR7K9dvp9U5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759326421; c=relaxed/simple;
-	bh=v+ji9plO4OzWyJJ2i6Oh5BS7dDU72AHEz/U7GHRK0w4=;
+	s=arc-20240116; t=1759327736; c=relaxed/simple;
+	bh=aVjm7nsSk3MpK0Ybz2S8XwhrZGlGiGMKP0ozCtx1Fug=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kbqAQWi+cPPQNZxXdibm653NzBiBc2B1/QJnj5FjjuPh80BlEYb3NxwdsI7QqO4WbsKzLmMEFq/obrmtUrQg4I+lEw9wm7CjiEl8zoG0cr7PfWx7DoKsfqtuC+cgwndAu4o1bRJSFnq2rF+TjuTrnE7yP4Q2zgsiuAG5gzrxIoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lbrNcnyk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBFB5C2BC9E
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  1 Oct 2025 13:47:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759326421;
-	bh=v+ji9plO4OzWyJJ2i6Oh5BS7dDU72AHEz/U7GHRK0w4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=lbrNcnyks3+ir45B8whX+uMqQeRBBFxrcMRB0fAhX395A4/OI6N3tMF7uEdvcgFYV
-	 I1RCPdZS03d2UKit1z4cnjxqqcRPKBuAFJMnQLphCCGzRrkogYnEf3qs0tsaZo1tNm
-	 28C2XN6206TbM8M/2u5cIJQQcn0yJ//Jg1JWgtln9jKayfRtObWyTBE8JXFg026/Q+
-	 luivwjam98HZ36cWi6s4jjOyLlsMzqAiWc9xYrLVnnqMAA91w0oZcNhS6cwOhF2wXE
-	 H/zyUEHSe8fpZrUpRC67HTLBSU6Y0asMdUVVBd8eP7H2uzAUPqqLNWg3s6zIu78abt
-	 +5o31bGdgN78g==
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b0418f6fc27so1072706866b.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 01 Oct 2025 06:47:00 -0700 (PDT)
-X-Gm-Message-State: AOJu0YySqn/Wa3YDH3WyBEOH4hqYpNwKP+VhCxqBKoDsiC6S/MWVVcF7
-	gKks8ipuzAg5PIljnS3+Crtc3Qhc+TG/LNxmSTUitcwbvYpFVlGX/L0VVwkEUpyJ0QV+DuB1gTM
-	xzPrFrR5i8Co17QCyy+qcMTTEwIycGA==
-X-Google-Smtp-Source: AGHT+IG9ni4sY2zl429plZ6qIAweLfDCEUNWwBAiRJ2N77L+a8Jj28/qR+F80g2b2zgIZ5GWBfDitVWfYI5X8+Mgc2M=
-X-Received: by 2002:a17:907:26c9:b0:b40:2873:a61a with SMTP id
- a640c23a62f3a-b46e0dad64emr408799166b.6.1759326419310; Wed, 01 Oct 2025
- 06:46:59 -0700 (PDT)
+	 To:Cc:Content-Type; b=gHZlZu+ISLT3Cd+26YnpXC52dUIOukXNIw5cIsY13LzM06zi5uuJRLybKz+9aaRTB7uBVdnn4VIQVuN74TEqdxhqjjgh1cj/D6xLXY15reDXWKLMSniC1OEOToYN2IpXQnUVje/4Ef3+dxzb/vd7JhLLOi7X8fTLB2W7SIz1E3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-5a7b2a6b13bso6407010137.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 01 Oct 2025 07:08:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759327734; x=1759932534;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Xz5PdUboJ1NmOVuSbpHG255Mw2uRB3+8MjK6aZSUD/Q=;
+        b=eAKQIHE5fTid9tovKT/Jmdr7TymDuDSMlMy+BH7Eu40T6j4IL5awK/oeHZzwvm8AEg
+         DDjAOyKeaLoDBGDZ7UJrhm2CQ3VkjfSuxjnGFmZzApqOb7eg3tHS1fINVw5k7GeqFUdR
+         6BK27WFpv7iHSvcZeO/BtzmIDnM4wIbjio5ut6LqM6WR/ld/TQptejo/EiJIQ4G89qt6
+         EZNDtkpD7qjQnQzUHYAqo0nyAPM0BfQf+ac7kBnlNun9rlmpKQ7vo2QKoai7qmk9QoYe
+         gJAdGa7gNGscySoI4DAFDX16EhCBbXCvICkehYPEPeNYMDdYy0gweGzwXYX90coNvp/9
+         zYFg==
+X-Forwarded-Encrypted: i=1; AJvYcCWSEgnSveghB2qloqxhbN4iW+4NdpSLzStmMgMiUyZelmCZU3t3pTUBLc3iPTgxwrQ2XJ7JwcMJjwMQXKvNfRaOFw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwRFsWU+I5rtSrQZlMNFxaN+9Jyc/D4WEIp+wPqVG9PbmL6Q4Ag
+	9U8TFAxio2uGjnCEP2nzSWGedh4huXwAsfkP7utRPRi8WO3Xsl7OTfQ9BerqPk2o
+X-Gm-Gg: ASbGnct4VMn4dhcY9kh1BlI/oJ2izZDJg8mK/JfP97n3Dhekb+QY4nK6XlgqvCLtqM8
+	ZToN5zV4r0k3Bd73dCrQtXL0lLXFfYiko16reVULmX376nWmV1iYGARPRE0xCFoctmK8Foyyq5r
+	TDS9FftxAaANSqKr9e1L95s0epZwFNppR1lvD1V6DCu0rb8gngfv7tJQYhS7o2C7t9Kl6mMiRfp
+	sSngvz0EO6G6/kmzAbn7UZFjZ6gXq5hBXe+/l26EEQP5tevNRShMyZidRDHc3X6eVZa6pSfARNt
+	B64d0TRUGBM08j2P7rcfrPhrsAdBU1VYZdA3hq8clkAyFTyBXgLZeUtJq3a9LhVu6ZMaqf4Qh6n
+	FdowjcXLCOYHRzJpyaitUKlDORP8RokUMzcy0G4qdpzRp5H+18tcIeHd8/s6RDx8L950LcIfIqM
+	uTDo0uGWY1
+X-Google-Smtp-Source: AGHT+IFg3KPuIQFVxqS7dF2UezaujFLo7rpfLUoCqHtEDPmaKMbZVtXjWGrcMxeTGEhDV20QZmQPdg==
+X-Received: by 2002:a05:6102:3711:b0:5c8:c906:e3c1 with SMTP id ada2fe7eead31-5d3fe69854dmr1598330137.17.1759327733501;
+        Wed, 01 Oct 2025 07:08:53 -0700 (PDT)
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com. [209.85.217.54])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5ae3182b293sm5505436137.6.2025.10.01.07.08.52
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Oct 2025 07:08:52 -0700 (PDT)
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-5ce093debf6so2794588137.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 01 Oct 2025 07:08:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXD2a0nDMvaxEhtVYXWmQVQJsla7a0tRcRQmrwVic4sJSUFBOOhHVQuXY+jz8HO9e3KaQoDG+oly4ga4/7FubbfmA==@vger.kernel.org
+X-Received: by 2002:a05:6102:1629:b0:520:dbc0:6ac4 with SMTP id
+ ada2fe7eead31-5d3fe4e4d01mr1726266137.2.1759327732025; Wed, 01 Oct 2025
+ 07:08:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250929072306.5634-2-wsa+renesas@sang-engineering.com> <20251001125149.GA1122744-robh@kernel.org>
-In-Reply-To: <20251001125149.GA1122744-robh@kernel.org>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 1 Oct 2025 08:46:47 -0500
-X-Gmail-Original-Message-ID: <CAL_Jsq+Rnmv26tjOednFuQkLf0hwfMU1xihLT+D6aym0SigNng@mail.gmail.com>
-X-Gm-Features: AS18NWD2sQKDdAvC2H5URHdQH3iLfTDYG6Pm_keCh6ddLiDqUsFxVxjTYOqR5Fg
-Message-ID: <CAL_Jsq+Rnmv26tjOednFuQkLf0hwfMU1xihLT+D6aym0SigNng@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: mfd: dlg,da9063: allow 'interrupts-extended' property
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, 
-	Support Opensource <support.opensource@diasemi.com>, Lee Jones <lee@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Steve Twiss <stwiss.opensource@diasemi.com>, devicetree@vger.kernel.org
+References: <20250924134228.1663-1-ilpo.jarvinen@linux.intel.com>
+ <20250924134228.1663-3-ilpo.jarvinen@linux.intel.com> <CAMuHMdVtVzcL3AX0uetNhKr-gLij37Ww+fcWXxnYpO3xRAOthA@mail.gmail.com>
+ <4c28cd58-fd0d-1dff-ad31-df3c488c464f@linux.intel.com> <CAMuHMdUbaQDXsowZETimLJ-=gLCofeP+LnJp_txetuBQ0hmcPQ@mail.gmail.com>
+ <c17c5ec1-132d-3588-2a4d-a0e6639cf748@linux.intel.com>
+In-Reply-To: <c17c5ec1-132d-3588-2a4d-a0e6639cf748@linux.intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 1 Oct 2025 16:08:40 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVbyKdzbptA10F82Oj=6ktxnGAk4fz7dBLVdxALb8-WWg@mail.gmail.com>
+X-Gm-Features: AS18NWDSe69_JEeKgA8QttkxMcLIXMbSn-oNZuqPwYgxLktm1Z3rr1fy86KWDUc
+Message-ID: <CAMuHMdVbyKdzbptA10F82Oj=6ktxnGAk4fz7dBLVdxALb8-WWg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] PCI: Resources outside their window must set IORESOURCE_UNSET
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>, 
+	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, LKML <linux-kernel@vger.kernel.org>, 
+	Lucas De Marchi <lucas.demarchi@intel.com>, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 1, 2025 at 7:51=E2=80=AFAM Rob Herring <robh@kernel.org> wrote:
->
-> On Mon, Sep 29, 2025 at 09:20:47AM +0200, Wolfram Sang wrote:
-> > If nested, DT schema cannot extend required 'interrupts' to include
-> > 'interrupts-extended'. It needs to be added manually. Fixes:
-> >
-> > arch/arm/boot/dts/renesas/r8a7791-koelsch.dtb: pmic@58 (dlg,da9063): 'i=
-nterrupts' is a required property
-> >       from schema $id: http://devicetree.org/schemas/mfd/dlg,da9063.yam=
-l#
-> >
-> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> > ---
-> >
-> > Copied this solution 1:1 from:
-> >   Documentation/devicetree/bindings/mfd/samsung,s2mps11.yaml
-> >
-> >  Documentation/devicetree/bindings/mfd/dlg,da9063.yaml | 8 +++++++-
-> >  1 file changed, 7 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml b/Do=
-cumentation/devicetree/bindings/mfd/dlg,da9063.yaml
-> > index 51612dc22748..4af5fcb856c7 100644
-> > --- a/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
-> > +++ b/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
-> > @@ -110,10 +110,16 @@ allOf:
-> >              "^buck[1-4]$": false
-> >          thermal: false
-> >        required:
-> > -        - interrupts
-> >          - interrupt-controller
-> >          - '#interrupt-cells'
-> >
-> > +      # oneOf is required, because dtschema's fixups.py doesn't handle=
- this
-> > +      # nesting here. Its special treatment to allow either interrupt =
-property
-> > +      # when only one is specified in the binding works at the top lev=
-el only.
->
-> The solution is to fix dtschema. I'll take a look at it.
+Hi Ilpo,
 
-Now fixed in 'main' branch. There's a handful of other cases fixed
-too. Had nothing to do with nesting as most cases were ones where
-'interrupts' was only defined in a referenced schema, but then
-required in the outer schema.
+On Wed, 1 Oct 2025 at 15:06, Ilpo J=C3=A4rvinen
+<ilpo.jarvinen@linux.intel.com> wrote:
+> On Wed, 1 Oct 2025, Geert Uytterhoeven wrote:
+> > On Tue, 30 Sept 2025 at 18:32, Ilpo J=C3=A4rvinen
+> > <ilpo.jarvinen@linux.intel.com> wrote:
+> > > On Tue, 30 Sep 2025, Geert Uytterhoeven wrote:
+> > > > On Fri, 26 Sept 2025 at 04:40, Ilpo J=C3=A4rvinen
+> > > > <ilpo.jarvinen@linux.intel.com> wrote:
+> > > > > PNP resources are checked for conflicts with the other resource i=
+n the
+> > > > > system by quirk_system_pci_resources() that walks through all PCI
+> > > > > resources. quirk_system_pci_resources() correctly filters out res=
+ource
+> > > > > with IORESOURCE_UNSET.
+> > > > >
+> > > > > Resources that do not reside within their bridge window, however,=
+ are
+> > > > > not properly initialized with IORESOURCE_UNSET resulting in bogus
+> > > > > conflicts detected in quirk_system_pci_resources():
+> > > > >
+> > > > > pci 0000:00:02.0: VF BAR 2 [mem 0x00000000-0x1fffffff 64bit pref]
+> > > > > pci 0000:00:02.0: VF BAR 2 [mem 0x00000000-0xdfffffff 64bit pref]=
+: contains BAR 2 for 7 VFs
+> > > > > ...
+> > > > > pci 0000:03:00.0: VF BAR 2 [mem 0x00000000-0x1ffffffff 64bit pref=
+]
+> > > > > pci 0000:03:00.0: VF BAR 2 [mem 0x00000000-0x3dffffffff 64bit pre=
+f]: contains BAR 2 for 31 VFs
+> > > > > ...
+> > > > > pnp 00:04: disabling [mem 0xfc000000-0xfc00ffff] because it overl=
+aps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64bit pref]
+> > > > > pnp 00:05: disabling [mem 0xc0000000-0xcfffffff] because it overl=
+aps 0000:00:02.0 BAR 9 [mem 0x00000000-0xdfffffff 64bit pref]
+> > > > > pnp 00:05: disabling [mem 0xfedc0000-0xfedc7fff] because it overl=
+aps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64bit pref]
+> > > > > pnp 00:05: disabling [mem 0xfeda0000-0xfeda0fff] because it overl=
+aps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64bit pref]
+> > > > > pnp 00:05: disabling [mem 0xfeda1000-0xfeda1fff] because it overl=
+aps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64bit pref]
+> > > > > pnp 00:05: disabling [mem 0xc0000000-0xcfffffff disabled] because=
+ it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64bit pref]
+> > > > > pnp 00:05: disabling [mem 0xfed20000-0xfed7ffff] because it overl=
+aps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64bit pref]
+> > > > > pnp 00:05: disabling [mem 0xfed90000-0xfed93fff] because it overl=
+aps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64bit pref]
+> > > > > pnp 00:05: disabling [mem 0xfed45000-0xfed8ffff] because it overl=
+aps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64bit pref]
+> > > > > pnp 00:05: disabling [mem 0xfee00000-0xfeefffff] because it overl=
+aps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64bit pref]
+> > > > >
+> > > > > Mark resources that are not contained within their bridge window =
+with
+> > > > > IORESOURCE_UNSET in __pci_read_base() which resolves the false
+> > > > > positives for the overlap check in quirk_system_pci_resources().
+> > > > >
+> > > > > Fixes: f7834c092c42 ("PNP: Don't check for overlaps with unassign=
+ed PCI BARs")
+> > > > > Signed-off-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
+> > > >
+> > > > Thanks for your patch, which is now commit 06b77d5647a4d6a7 ("PCI:
+> > > > Mark resources IORESOURCE_UNSET when outside bridge windows") in
+> > > > linux-next/master next-20250929 pci/next
+> >
+> > > > This replaces the actual resources by their sizes in the boot log o=
+n
+> > > > e.g. on R-Car M2-W:
+> > > >
+> > > >      pci-rcar-gen2 ee090000.pci: host bridge /soc/pci@ee090000 rang=
+es:
+> > > >      pci-rcar-gen2 ee090000.pci:      MEM 0x00ee080000..0x00ee08fff=
+f -> 0x00ee080000
+> > > >      pci-rcar-gen2 ee090000.pci: PCI: revision 11
+> > > >      pci-rcar-gen2 ee090000.pci: PCI host bridge to bus 0000:00
+> > > >      pci_bus 0000:00: root bus resource [bus 00]
+> > > >      pci_bus 0000:00: root bus resource [mem 0xee080000-0xee08ffff]
+> > > >      pci 0000:00:00.0: [1033:0000] type 00 class 0x060000 conventio=
+nal PCI endpoint
+> > > >     -pci 0000:00:00.0: BAR 0 [mem 0xee090800-0xee090bff]
+> > > >     -pci 0000:00:00.0: BAR 1 [mem 0x40000000-0x7fffffff pref]
+> > >
+> > > What is going to be the parent of these resources? They don't seem to=
+ fall
+> > > under the root bus resource above in which case the output change is
+> > > intentional so they don't appear as if address range would be "okay".
+> >
+> > >From /proc/iomem:
+> >
+> >     ee080000-ee08ffff : pci@ee090000
+> >       ee080000-ee080fff : 0000:00:01.0
+> >         ee080000-ee080fff : ohci_hcd
+> >       ee081000-ee0810ff : 0000:00:02.0
+> >         ee081000-ee0810ff : ehci_hcd
+> >     ee090000-ee090bff : ee090000.pci pci@ee090000
+>
+> Okay, so this seem to appear in the resource tree but not among the root
+> bus resources.
+>
+> >     ee0c0000-ee0cffff : pci@ee0d0000
+> >       ee0c0000-ee0c0fff : 0001:01:01.0
+> >         ee0c0000-ee0c0fff : ohci_hcd
+> >       ee0c1000-ee0c10ff : 0001:01:02.0
+> >         ee0c1000-ee0c10ff : ehci_hcd
+> >
+> > > When IORESOURCE_UNSET is set in a resource, %pR does not print the st=
+art
+> > > and end addresses.
+> >
+> > Yeah, that's how I found this commit, without bisecting ;-)
+> >
+> > > >     +pci 0000:00:00.0: BAR 0 [mem size 0x00000400]
+> > > >     +pci 0000:00:00.0: BAR 1 [mem size 0x40000000 pref]
+> > > >      pci 0000:00:01.0: [1033:0035] type 00 class 0x0c0310 conventio=
+nal PCI endpoint
+> > > >     -pci 0000:00:01.0: BAR 0 [mem 0x00000000-0x00000fff]
+> > > >     +pci 0000:00:01.0: BAR 0 [mem size 0x00001000]
+> > >
+> > > For this resource, it's very much intentional. It's a zero-based BAR =
+which
+> > > was left without IORESOURCE_UNSET prior to my patch leading to others=
+ part
+> > > of the kernel to think that resource range valid and in use (in your
+> > > case it's so small it wouldn't collide with anything but it wasn't
+> > > properly set up resource, nonetheless).
+> > >
+> > > >      pci 0000:00:01.0: supports D1 D2
+> > > >      pci 0000:00:01.0: PME# supported from D0 D1 D2 D3hot
+> > > >      pci 0000:00:02.0: [1033:00e0] type 00 class 0x0c0320 conventio=
+nal PCI endpoint
+> > > >     -pci 0000:00:02.0: BAR 0 [mem 0x00000000-0x000000ff]
+> > > >     +pci 0000:00:02.0: BAR 0 [mem size 0x00000100]
+> > >
+> > > And this as well is very much intentional.
+> > >
+> > > >      pci 0000:00:02.0: supports D1 D2
+> > > >      pci 0000:00:02.0: PME# supported from D0 D1 D2 D3hot
+> > > >      PCI: bus0: Fast back to back transfers disabled
+> > > >      pci 0000:00:01.0: BAR 0 [mem 0xee080000-0xee080fff]: assigned
+> > > >      pci 0000:00:02.0: BAR 0 [mem 0xee081000-0xee0810ff]: assigned
+> > > >      pci_bus 0000:00: resource 4 [mem 0xee080000-0xee08ffff]
+> > > >
+> > > > Is that intentional?
+> > >
+> > > There's also that pci_dbg() in the patch which would show the origina=
+l
+> > > addresses (print the resource before setting IORESOURCE_UNSET) but to=
+ see
+> > > it one would need to enable it with dyndbg=3D... Bjorn was thinking o=
+f
+> > > making that pci_info() though so it would appear always.
+> > >
+> > > Was this the entire PCI related diff? I don't see those 0000:00:00.0 =
+BARs
+> > > getting assigned anywhere.
+> >
+> > The above log is almost complete (lacked enabling the device afterwards=
+).
+> >
+> > AFAIU, the BARs come from the reg and ranges properties in the
+> > PCI controller nodes;
+> > https://elixir.bootlin.com/linux/v6.17/source/arch/arm/boot/dts/renesas=
+/r8a7791.dtsi#L1562
+>
+> Thanks, although I had already found this line by grep. I was just
+> expecting the address appear among root bus resources too.
+>
+> Curiously enough, pci_register_host_bridge() seems to try to add some
+> resource from that list into bus and it's what prints those "root bus
+> resource" lines and ee090000 is not among the printed lines despite
+> appearing in /proc/iomem. As is, the resource tree and PCI bus view on th=
+e
+> resources seems to be in disagreement and I'm not sure what to make of it=
+.
+>
+> But before considering going into that direction or figuring out why this
+> ee090000 resource does not appear among root bus resources, could you
+> check if the attached patch changes behavior for the resource which are
+> non-zero based?
 
-Rob
+This patch has no impact on dmesg, lspci output, or /proc/iomem
+for pci-rcar-gen2.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
