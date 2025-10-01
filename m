@@ -1,101 +1,146 @@
-Return-Path: <linux-renesas-soc+bounces-22505-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22506-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD7AFBAFFCC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Oct 2025 12:21:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64D67BB00C4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 01 Oct 2025 12:44:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5FF8119430DB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Oct 2025 10:22:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0B87017097F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Oct 2025 10:44:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5218D2BE036;
-	Wed,  1 Oct 2025 10:21:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20C462BF015;
+	Wed,  1 Oct 2025 10:43:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="aQOBFybd"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from vmicros1.altlinux.org (vmicros1.altlinux.org [194.107.17.57])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C93A1B0420;
-	Wed,  1 Oct 2025 10:21:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.57
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 514A02BF3DF
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  1 Oct 2025 10:43:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759314091; cv=none; b=UsJ45I2B3amXcqjyBI1BY8HkG0OHVfGOE8mRbA43mPoLjJHB8td0ZLzb9WJ6WlGWwvAkQkUiU4GZVoSaAxBzF9kKJfNGuIQ3b102s/JKHzp75Y1QFktdM30CMbcRXx5cRWpvsxuzcypLxih3wcPblRnUiYz83cekU8ye1OCr2wo=
+	t=1759315414; cv=none; b=lmY7RnD3FAwpLB7LMBdiPsf3nlX0YyLWBFOaL3sB6KJBjrIVLj1FfBJ6RV+Iemzr6mwh6jLV/B+HeDnKC+l3rzZ2pvHZ6tG+EMcdSZQvimjyxczqLLuK7yAimSMk3RIzevYovLeionsLZo06m42x8fq5WfmjEcnJaBNZ6YLvBwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759314091; c=relaxed/simple;
-	bh=ODeNv/xSjUtbdZAeBsFlGuryHUWRemRcqjm8xDajy7E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dylHR7wnLcAZvpRQmsJqAtq9FGcz21KK6pkgDWwZDUw5QODIkDNR7tFKFEJIMMF6RTGLJryCqTRCU4Gw9yPf6Dd178KA6K+u21oBRXNpqZ1rAiaoQTvOqZbL4ZKrTsPxE8ZoCJCQdcXAM9Yq4j+OU9YG5w5DKcreL9sCMCXnRoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
-Received: from imap.altlinux.org (imap.altlinux.org [194.107.17.38])
-	by vmicros1.altlinux.org (Postfix) with ESMTP id 7418972C8CC;
-	Wed,  1 Oct 2025 13:11:48 +0300 (MSK)
-Received: by imap.altlinux.org (Postfix, from userid 705)
-	id 6C02E36D070F; Wed,  1 Oct 2025 13:11:48 +0300 (MSK)
-Date: Wed, 1 Oct 2025 13:11:48 +0300
-From: Michael Shigorin <mike@altlinux.org>
-To: Michael Shigorin <mike@altlinux.ru>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Tor Vic <torvic9@mailbox.org>, Kexy Biscuit <kexybiscuit@aosc.io>,
-	jeffbai@aosc.io, gregkh@linuxfoundation.org, wangyuli@uniontech.com,
-	aospan@netup.ru, conor.dooley@microchip.com,
-	ddrokosov@sberdevices.ru, dmaengine@vger.kernel.org,
-	dushistov@mail.ru, fancer.lancer@gmail.com, geert@linux-m68k.org,
-	hoan@os.amperecomputing.com, ink@jurassic.park.msu.ru,
-	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-fpga@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-ide@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-spi@vger.kernel.org, manivannan.sadhasivam@linaro.org,
-	mattst88@gmail.com, netdev@vger.kernel.org, nikita@trvn.ru,
-	ntb@lists.linux.dev, patches@lists.linux.dev,
-	richard.henderson@linaro.org, s.shtylyov@omp.ru, serjk@netup.ru,
-	shc_work@mail.ru, tsbogend@alpha.franken.de, v.georgiev@metrotek.ru,
-	wsa+renesas@sang-engineering.com, xeb@mail.ru
-Subject: Re: what about CoC? (was: [PATCH] Revert "MAINTAINERS: Remove some
- entries due to various compliance requirements.")
-Message-ID: <20251001101148.GA30625@imap.altlinux.org>
-References: <a08dc31ab773604d8f206ba005dc4c7a@aosc.io>
- <20241023080935.2945-2-kexybiscuit@aosc.io>
- <124c1b03-24c9-4f19-99a9-6eb2241406c2@mailbox.org>
- <CAHk-=whNGNVnYHHSXUAsWds_MoZ-iEgRMQMxZZ0z-jY4uHT+Gg@mail.gmail.com>
- <20241024095339.GA32487@imap.altlinux.org>
+	s=arc-20240116; t=1759315414; c=relaxed/simple;
+	bh=/YciURnIdbkM8Wu492VdYHHi999331iJHAr4GsSNKNg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=EBHUvV2+kCMB1kWrWGFB+7MoJLUskL6p9dotiFHzGx/exUskqHGR5y9aBcySzfd9TX5GqWUrhqo9vTsxve0ICpEhYVasGemOxSKp3Pfp5wVCoQPPiJornirZeUWsxJNHmwkarFLVzivJp8KDsnlAbbwF/hK1TyoVuOwkGlQeRak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=aQOBFybd; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-type:content-transfer-encoding; s=k1; bh=T
+	GSFfJotV/sLfDR2Zhgpl9a+GeB8wpK+KOFucAWHlNM=; b=aQOBFybdKCLHE4ZIm
+	fnYH9WT14+WzGpLyFLSI2pbZMN7uzcuahnrXjuNnJeirN9ty9TNJu0o+UyMIjYma
+	Xm+yWK2meyjNtpWzmrpqG/3syEvTnu42M9CNmcHfizEBCOhuTsPWVBeK1iWL/a77
+	U5l3fEAfD3g4to3lXoL2qmSpNW/dfNDj77vQ9jK9hGNFIAqBfF8eoRYPG9QN9+/E
+	dpOeeGn+kHdaWDSs3UsldE6n3ZlsJBtYLZuYdpE4D2Y+y0Ybh23UZb8rxzC228Qg
+	uQRTuGt+WNG0iNiCS2QUyBfwIsq2sRpCoeerjJ/sNPRsvu30ujHkQ0IueWSoK2st
+	+3y8A==
+Received: (qmail 4007115 invoked from network); 1 Oct 2025 12:43:21 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Oct 2025 12:43:21 +0200
+X-UD-Smtp-Session: l3s3148p1@66eHiRZAkKAujntN
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Herve Codina <herve.codina@bootlin.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org
+Subject: [RFC PATCH] ARM: dts: renesas: r9a06g032-rzn1d400-db: use interrupt for Micrel PHYs
+Date: Wed,  1 Oct 2025 12:38:06 +0200
+Message-ID: <20251001104312.40771-2-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241024095339.GA32487@imap.altlinux.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 24, 2024 at 12:53:39PM +0300, I wrote
-> It's not about the patch but rather about the attitude;
-> Documentation/process/code-of-conduct-interpretation.rst:
-> 
-> "regardless of ... ethnicity, ... nationality, ... race"
-> "Focusing on what is best for the community"
-> 
-> "Examples of unacceptable behavior ... insulting/derogatory
-> comments ... Public or private harassment"
-> 
-> Get back to single-standard integrity for yor own's sake.
+Make use of the interrupts wired to the Micrel PHYs via the GPIO IRQ
+mux.
 
-Glad to hear that ESR thinks -- and speaks! -- in a similar vein.
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-I believe that Linus -- whose daughter has been basically
-kidnapped mentally[1][2] by the same hypicrites who speak "love"
-but groom real hate -- has his own merits to rise against those.
+Works nicely and kinda out-of-the-box for the Micrel PHYs, couldn't get
+it to work (reliably?) with the Marvell PHYs on the EB. Leaving this for
+later (if ever), no more bandwidth currently. But at least we have an
+upstream user for the gpioirqmux now.
 
-But it does take leadership and guts in a "modern" world.
+RFC because Hervé's patches are still in-flight.
 
-[1] http://reddit.com/r/linux/comments/9go8cp/linus_torvalds_daughter_has_signed_the/ [del, heh]
-[2] http://unz.com/isteve/and-they-came-for-somebody-who-actually-gets-things-done-linus-torvalds/
+ .../dts/renesas/r9a06g032-rzn1d400-db.dts     | 21 +++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
+diff --git a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
+index c3786d54992a..d81e92f787a6 100644
+--- a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
++++ b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
+@@ -186,6 +186,12 @@ fixed-link {
+ 	};
+ };
+ 
++&gpioirqmux {
++	interrupt-map = <89 &gic GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>, /* pin 147: phy@4 */
++			<91 &gic GIC_SPI 104 IRQ_TYPE_LEVEL_HIGH>; /* pin 149: phy@5 */
++	status = "okay";
++};
++
+ #if DB_SW2_2 == SW_OFF
+ &gpio1 {
+ 	pinctrl-0 = <&pins_gpio1>;
+@@ -194,6 +200,12 @@ &gpio1 {
+ };
+ #endif
+ 
++&gpio2 {
++	pinctrl-0 = <&pins_gpio2>;
++	pinctrl-names = "default";
++	status = "okay";
++};
++
+ &i2c2 {
+ 	pinctrl-0 = <&pins_i2c2>;
+ 	pinctrl-names = "default";
+@@ -286,6 +298,13 @@ pins_gpio1: pins-gpio1 {
+ 	};
+ #endif
+ 
++	pins_gpio2: pins-gpio2 {
++		pinmux = <RZN1_PINMUX(147, RZN1_FUNC_GPIO)>,
++			 <RZN1_PINMUX(149, RZN1_FUNC_GPIO)>;
++		drive-strength = <6>;
++		bias-disable;
++	};
++
+ 	pins_eth3: pins_eth3 {
+ 		pinmux = <RZN1_PINMUX(36, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+ 			 <RZN1_PINMUX(37, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+@@ -355,11 +374,13 @@ mdio {
+ 		switch0phy4: ethernet-phy@4 {
+ 			reg = <4>;
+ 			micrel,led-mode = <1>;
++			interrupts-extended = <&gpio2a 25 IRQ_TYPE_LEVEL_LOW>;
+ 		};
+ 
+ 		switch0phy5: ethernet-phy@5 {
+ 			reg = <5>;
+ 			micrel,led-mode = <1>;
++			interrupts-extended = <&gpio2a 27 IRQ_TYPE_LEVEL_LOW>;
+ 		};
+ 	};
+ };
 -- 
-Michael Shigorin
-http://t.me/anna_news
+2.47.2
+
 
