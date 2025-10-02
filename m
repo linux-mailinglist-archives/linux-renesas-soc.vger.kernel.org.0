@@ -1,86 +1,86 @@
-Return-Path: <linux-renesas-soc+bounces-22566-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22567-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 440ABBB3926
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Oct 2025 12:13:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48433BB3A43
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Oct 2025 12:34:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A961818826ED
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Oct 2025 10:14:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C990119C05CF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Oct 2025 10:34:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3493F2FB0BE;
-	Thu,  2 Oct 2025 10:13:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16B7A30ACEE;
+	Thu,  2 Oct 2025 10:33:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ws+ShSH7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LY/9O9aF"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48CC62DCBF1
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Oct 2025 10:13:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0943D30B514
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Oct 2025 10:33:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759400016; cv=none; b=soToNs125nj52AI6jzJKRC8LGJFaDrdjPt90AwYAAgW5N+TIJlPv6XdetvBa4qA3nbZ2XWsRMdbETG0xfH5tizEjaG+jzS9jfoSw+d4yJS9dwsrZmr/mBMhpSqsfaV4YuXH0BvP596Q3mgF4dYJrG1DcaUqy8t59k897ib1d03U=
+	t=1759401217; cv=none; b=SEQeQb98ZuFwdehjdmJ1oyAt/gi2+OuOG2XG2ZAI47P2p5e9gqzITT6fFwGZFCu7Ige4jvkXh/IkdUFHgPdGlgy7QxugyWmd5QuWWLx+uJrAU/1hY0OGZvlqZQKgjadH+i6yncYoEhBeFFNHex8N7Jp0d2YilMHNc+Emx0c5hJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759400016; c=relaxed/simple;
-	bh=kTHkVX8EgYDO2X59Ce3pbQkFy7te9tyOFYwQAujfCxo=;
+	s=arc-20240116; t=1759401217; c=relaxed/simple;
+	bh=iHz5DuFUuSRhhhMvqJmu2XdnOFnrd/+He8NnZr0fAEI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Rts4Bu/cPWgQAN15ORAHdAIKigIQVXL8qFA9qGF064FZPGfEqF20cXZz3qVhPqgPCfh5DLP2AsVlGG/VdtSIhTIb+Q7JPtvJdztm53Axcn0iEWGLFfAv7S5fgR+zFAAW9IOwpU5Ghd7ftcstUwATktgbhgR/UVhsjYxyHWGONYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ws+ShSH7; arc=none smtp.client-ip=209.85.221.53
+	 To:Cc:Content-Type; b=kj0Fx2NwZabCm55Jm8KGD9cQBscQFoeDLeIhToI92em9GzceXarynZUKOX/MjibhvXlmKm9E17+zi8ZmSwNhn1Hc/Ei1FerVXt7bDdmN9+w7NxznHwlL3wX2aTG+oevYhebxP21brttgztnPzrrgtNsZSP6pAVxhBIJlRDtEzbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LY/9O9aF; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3f0ae439b56so495122f8f.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 02 Oct 2025 03:13:34 -0700 (PDT)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-414f48bd5a7so638447f8f.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 02 Oct 2025 03:33:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759400012; x=1760004812; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1759401213; x=1760006013; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VoUZVmG+wanthu+Vrxr8Ind4+3GaVeaFdXzwUAH9pE4=;
-        b=Ws+ShSH7PI7WMB+7tphBVS5YUW1flVPHruovgPH48HAuKyP88x8JJQ2ZkUNfaPB9Qx
-         sJSX61qxlrpgJdFiKM9mXh5ev9TJFtJUAud+lfUO0stp6q/uXLhd5kBdes4RIeRWZ9iC
-         N3npS97bzdINd9PKuekrsm6jpXCgq/zP750LIVlI0XW1niZkWaJ9soJfm6OMDPU8lBCy
-         /fOkJ5EIzc9U9G67G2Gnkp9ySjqIN99cbi/7X3VlM/U9vKE3cq56C+s0zZ/xxQb+SRuf
-         dDJfxPbC4bKHYeGXxO6+GfMMc7zNaO8Hcfyjhk6PCrFMN4R3272cVN6mZl6r9HM+7A8H
-         pv+w==
+        bh=IBFQk+smj0luOQPvO8LJUySLK5ZYsAeSl494Q1YFpjQ=;
+        b=LY/9O9aFFmfkat0QYgd9cM6oYZGJnl0L74XMp9JBDJvP1kuoon0Qxd1RvHcse60+wx
+         WiNlu/i/Dme7Ma+xZiiWkWZImIK+EN4xPGUSykjKZbgI7+V92pG12Qmn/lYnIkyvdQ4j
+         bHrMKrATIMPxtS+aJ7kKKD+QMnbgT/5qeuy0Fm2WfKPVje5vf1V1A1Vmnpqmydnx7zti
+         lOPilocm5NHvv0wiCRQqFJRYhKolwu2IdhUWdWB/ehipui5b59w67tswDu5fckc9JSyY
+         i8+CIo/b/JWl9x65c6wDsQkrLM2+2RejfPUXTdtn162pftGcnSPkMd3RaxA9UkLSa+8q
+         +djw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759400012; x=1760004812;
+        d=1e100.net; s=20230601; t=1759401213; x=1760006013;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VoUZVmG+wanthu+Vrxr8Ind4+3GaVeaFdXzwUAH9pE4=;
-        b=CbNcMCY7wRt5uHbmVOojVkMT1nYkTnsKH2iJ++ZAF9KS5hh9g0m/Ov1biqfFndcf31
-         w22BcoXF7dWfjfzU1fzIfRveYZzrSIn9HZUvyKkt2fDVUktu2UHhL8nh0o3ZKtpZQwQG
-         is25oW7mU8dNTZLSl79QsJS2/X+k4vyfc5XPj7Qb4jme69I8goWPWp+CH6kVlwjNreit
-         SgvVKyJwxrOxTgWotPc3zJFwFOU4RogxZai4LCeel2O/Svtu49MxeRo2DCPtd0C062Nj
-         jCaUc3c4HwNTWjZ5qamGTpyPr39eG+nzO7qOP4vJNgxpb9LIfn4yJZKkVuBu0wC6RQzl
-         PBxw==
-X-Gm-Message-State: AOJu0Yzu3qlu18btPhBZjMhjNyF576koovJeOAkfKvFAcZFZoyn9nyr+
-	/uT5iiOCy8J36vDQZZJYd+DFpS4v4I1hJhiednJOAhRDctJ2vjxNkVuhqU9NxXIcjOfV0wKRDTQ
-	Kvc7EX3sFMsq4pT9nKa5bimlwbOquzsnBDdatwH4=
-X-Gm-Gg: ASbGncu2Gq9b3PMycWzMbMHwhXwr8j2/ncG+st0rXXyKyxghBF9LEiFHEYU45KR+EYv
-	UhppSErrAAhbJ2j3wTGh1h60TDQgVrzvemN3CiNa3pBaLS4ohhQmbaCKRP5s1j7UJ5VgsCDBJZ9
-	p6L5iCC738IugD5OW68uNZZ+D2HXfbnc6TLrp4n4ItS4LyxzS+ktzagM4Z+v0QZQRnkjgIcLXm2
-	Us4Iv/AfzZJcNPGyaZZM9ZY/AYiDjmWsei73qpybrHqQflLxAWTHf/JTkmFES6k
-X-Google-Smtp-Source: AGHT+IE0GzPYKQ+fQSyj0QL8Rt5wckBDXV+aNww7i555ohXgN2TPamhwpxtI9xW1ZdKcsCnQ8w+9QUTKBmDlB5gjRCY=
-X-Received: by 2002:a5d:64c8:0:b0:3e8:ee5d:f31e with SMTP id
- ffacd0b85a97d-425577f35c5mr5418574f8f.25.1759400012304; Thu, 02 Oct 2025
- 03:13:32 -0700 (PDT)
+        bh=IBFQk+smj0luOQPvO8LJUySLK5ZYsAeSl494Q1YFpjQ=;
+        b=mSYi51G9aaXAqQ/74ZZrCWwIl/6QQ8oh3Oa5/yEpOjPAzqVSgLmrloSJOhJ+Np0Fzf
+         7f2AIM5v+ES3H0jUs3iEcvC5gXLJqImKjFCoG5L86+1XZAWitRaoR2e11RIMv5+E2LzV
+         R/pVKsgU81gvvqUKr98qnPIQ5NoT/lGWfHE/P0n39/AMwiNCv0I2/WXhYfX721NgTkeB
+         K1jZpL0UdcqrDULm28XY5pVO6gJ2Bwuv4UE9qIxfRI71I5XjZ7RFnd8GkVALlqs5V5JR
+         +QqsJSd0pjtFrkLmL60dVE6w0MFfM8iiZRV7OFEA7qHIdSTvALMVQoCuAL+UGJUQ6bNt
+         aCPg==
+X-Gm-Message-State: AOJu0Yza6S4QkrGCO3SKq4QsoVMxLAPKL1bfs54zdnb8xxl6wJiFYi7P
+	RifVSyAwvPzmygP239xHvAC0LQqncSTyWYtQdUTpiU3MpyeZfQv9/HCJl/jnOFGxD5uCTBuzofZ
+	idGDxbjw508zMS6PBlptz/kN1Lu6ZG6w=
+X-Gm-Gg: ASbGncth4vXVUixVHq8e5k/eTIJEsn+12zJLQjJfgHRVyk1kCGrgVzLwUjYshEcAQYm
+	QlKy5A/TCsK0t9PljehrpZ4bwBZLRPGXX5NsSKo/4+9oXcPgfJLKpwEj4tI2NUCFTVxjSLZ262F
+	/EhKLAgQz3W67CboI1gTUGwvaAbCPSzI1xIdTP08qyjj/cKybI4yscevrA7gqrU2AfMVDiBEVCX
+	za097GzVGMFUH0PNczo1vQD7KLAJQz7SXgXeU1W2/ACAi0R14H22fvVRZujelOp5oz/Onc45Lw=
+X-Google-Smtp-Source: AGHT+IEgO+SNZ+oeRJMlwNL6de+h/EshFHSd5fTKNUIjP95JulowMk4ElQrLGV2GGoUIacRVcYCCL2vJDJNwiWdzG+U=
+X-Received: by 2002:a05:6000:184e:b0:3ee:1118:df7d with SMTP id
+ ffacd0b85a97d-425578192b4mr4578653f8f.47.1759401213120; Thu, 02 Oct 2025
+ 03:33:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250926112218.28723-1-wsa+renesas@sang-engineering.com> <20250926112218.28723-4-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20250926112218.28723-4-wsa+renesas@sang-engineering.com>
+References: <20250926112218.28723-1-wsa+renesas@sang-engineering.com> <20250926112218.28723-5-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20250926112218.28723-5-wsa+renesas@sang-engineering.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 2 Oct 2025 11:13:06 +0100
-X-Gm-Features: AS18NWDNRNrjESTbI6iot2OorbGJTsxauUcvGEKTyTEYkhoGmaaITd0BUgQ7JIw
-Message-ID: <CA+V-a8vyVkGo+LhdHCzxm4JE13nO_u=9kPT5xr=YgLu0FtWtDg@mail.gmail.com>
-Subject: Re: [PATCH 3/4] dt-bindings: watchdog: factor out RZ/G2L watchdog
+Date: Thu, 2 Oct 2025 11:33:07 +0100
+X-Gm-Features: AS18NWBWmT4dyEr42ezmAwsnmUR1Nru1ucjaPodumEJCIP0PRxOEk0DsyormBnY
+Message-ID: <CA+V-a8tqOBz2i_7Nny488syuSXGBhe1japjX47hkN6_Ejge1ZQ@mail.gmail.com>
+Subject: Re: [PATCH 4/4] dt-bindings: watchdog: factor out RZ/V2H(P) watchdog
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc: linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
@@ -101,71 +101,65 @@ On Fri, Sep 26, 2025 at 12:22=E2=80=AFPM Wolfram Sang
 > Renesas created different watchdog IPs but they are all handled in the
 > same binding documentation. This leads to a lot of conditional handling
 > which makes it unnecessarily hard to add new items. Factor out the
-> RZ/G2L watchdog to make handling easier.
+> RZ/V2H(P) watchdog to make handling easier.
 >
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > ---
->  .../bindings/watchdog/renesas,rzg2l-wdt.yaml  | 111 ++++++++++++++++++
->  .../bindings/watchdog/renesas,wdt.yaml        |  45 +------
->  2 files changed, 112 insertions(+), 44 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/watchdog/renesas,rz=
-g2l-wdt.yaml
+>  .../watchdog/renesas,r9a09g057-wdt.yaml       | 113 ++++++++++++++++++
+>  .../bindings/watchdog/renesas,wdt.yaml        |  97 +--------------
+>  2 files changed, 118 insertions(+), 92 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/watchdog/renesas,r9=
+a09g057-wdt.yaml
 >
-> diff --git a/Documentation/devicetree/bindings/watchdog/renesas,rzg2l-wdt=
-.yaml b/Documentation/devicetree/bindings/watchdog/renesas,rzg2l-wdt.yaml
+> diff --git a/Documentation/devicetree/bindings/watchdog/renesas,r9a09g057=
+-wdt.yaml b/Documentation/devicetree/bindings/watchdog/renesas,r9a09g057-wd=
+t.yaml
 > new file mode 100644
-> index 000000000000..77d325415280
+> index 000000000000..2450ac856783
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/watchdog/renesas,rzg2l-wdt.yaml
-> @@ -0,0 +1,111 @@
+> +++ b/Documentation/devicetree/bindings/watchdog/renesas,r9a09g057-wdt.ya=
+ml
+> @@ -0,0 +1,113 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/watchdog/renesas,rzg2l-wdt.yaml#
+> +$id: http://devicetree.org/schemas/watchdog/renesas,r9a09g057-wdt.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Renesas RZ/G2L Watchdog Timer (WDT) Controller
+> +title: Renesas RZ/V2H(P) Watchdog Timer (WDT) Controller
 > +
 > +maintainers:
-> +  - Biju Das <biju.das.jz@bp.renesas.com>
+> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > +
 > +properties:
 > +  compatible:
 > +    oneOf:
 > +      - items:
 > +          - enum:
-> +              - renesas,r9a07g043-wdt    # RZ/G2UL and RZ/Five
-> +              - renesas,r9a07g044-wdt    # RZ/G2{L,LC}
-> +              - renesas,r9a07g054-wdt    # RZ/V2L
-> +              - renesas,r9a08g045-wdt    # RZ/G3S
-> +          - const: renesas,rzg2l-wdt
+> +              - renesas,r9a09g047-wdt # RZ/G3E
+> +              - renesas,r9a09g056-wdt # RZ/V2N
+> +          - const: renesas,r9a09g057-wdt # RZ/V2H(P)
+> +
+> +      - enum:
+> +          - renesas,r9a09g057-wdt    # RZ/V2H(P)
+> +          - renesas,r9a09g077-wdt    # RZ/T2H
 > +
 > +      - items:
-> +          - enum:
-> +              - renesas,r9a09g011-wdt    # RZ/V2M
-> +          - const: renesas,rzv2m-wdt     # RZ/V2M
+> +          - const: renesas,r9a09g087-wdt # RZ/N2H
+> +          - const: renesas,r9a09g077-wdt # RZ/T2H
 > +
 > +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
 > +    minItems: 1
-> +    items:
-> +      - description: Timeout
-> +      - description: Parity error
-> +
-> +  interrupt-names:
-> +    minItems: 1
-> +    items:
-> +      - const: wdt
-> +      - const: perrout
+> +    maxItems: 2
 > +
 > +  clocks:
+> +    minItems: 1
 > +    items:
 > +      - description: Register access clock
 > +      - description: Main clock
 > +
 > +  clock-names:
+> +    minItems: 1
 > +    items:
 > +      - const: pclk
 > +      - const: oscclk
@@ -181,11 +175,7 @@ g2l-wdt.yaml
 > +required:
 > +  - compatible
 > +  - reg
-> +  - interrupts
 > +  - clocks
-> +  - clock-names
-> +  - power-domains
-> +  - resets
 > +
 > +allOf:
 > +  - $ref: watchdog.yaml#
@@ -195,31 +185,55 @@ g2l-wdt.yaml
 > +        compatible:
 > +          contains:
 > +            enum:
-> +              - renesas,rzg2l-wdt
+> +              - renesas,r9a09g057-wdt
 > +    then:
 > +      properties:
-> +        interrupts:
+> +        clocks:
 > +          minItems: 2
-> +        interrupt-names:
+> +        clock-names:
 > +          minItems: 2
 > +      required:
-> +        - interrupt-names
+> +        - clock-names
+We could move this into the above required list as it is marked as
+required for all the SoCs.
+
 > +    else:
 > +      properties:
-> +        interrupts:
+> +        clocks:
 > +          maxItems: 1
-For the RZ/V2M case we need maxItems: 1 for interrupt-names or
-interrupt-names: false.
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,r9a09g077-wdt
+> +    then:
+> +      properties:
+> +        resets: false
+> +        clock-names:
+> +          maxItems: 1
+> +        reg:
+> +          minItems: 2
+> +      required:
+> +        - clock-names
+> +        - power-domains
+`power-domains` should be a required property for
+`renesas,r9a09g057-wdt` case too. We can move this to the top level
+required list as all the SoCs need it.
 
+> +    else:
+> +      properties:
+> +        reg:
+> +          maxItems: 1
 > +
 > +additionalProperties: false
 > +
 > +examples:
 > +  - |
-> +    #include <dt-bindings/clock/r9a07g044-cpg.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/renesas,r9a09g057-cpg.h>
 > +
-> +    wdt0: watchdog@12800800 {
+> +    wdt0: watchdog@11c00400 {
+
 We can get rid of this label.
 
 Rest LGTM,
@@ -230,96 +244,140 @@ Cheers,
 Prabhakar
 
 
-> +            compatible =3D "renesas,r9a07g044-wdt",
-> +                         "renesas,rzg2l-wdt";
-> +            reg =3D <0x12800800 0x400>;
-> +            clocks =3D <&cpg CPG_MOD R9A07G044_WDT0_PCLK>,
-> +                     <&cpg CPG_MOD R9A07G044_WDT0_CLK>;
+
+> +            compatible =3D "renesas,r9a09g057-wdt";
+> +            reg =3D <0x11c00400 0x400>;
+> +            clocks =3D <&cpg CPG_MOD 0x4b>, <&cpg CPG_MOD 0x4c>;
 > +            clock-names =3D "pclk", "oscclk";
-> +            interrupts =3D <GIC_SPI 49 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 50 IRQ_TYPE_LEVEL_HIGH>;
-> +            interrupt-names =3D "wdt", "perrout";
-> +            resets =3D <&cpg R9A07G044_WDT0_PRESETN>;
+> +            resets =3D <&cpg 0x75>;
 > +            power-domains =3D <&cpg>;
 > +    };
 > diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml =
 b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-> index 12ba07781763..2a15c012fd67 100644
+> index 2a15c012fd67..08ba128bf442 100644
 > --- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
 > +++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-> @@ -13,19 +13,6 @@ maintainers:
->  properties:
->    compatible:
->      oneOf:
-> -      - items:
-> -          - enum:
-> -              - renesas,r9a07g043-wdt    # RZ/G2UL and RZ/Five
-> -              - renesas,r9a07g044-wdt    # RZ/G2{L,LC}
-> -              - renesas,r9a07g054-wdt    # RZ/V2L
-> -              - renesas,r9a08g045-wdt    # RZ/G3S
-> -          - const: renesas,rzg2l-wdt
-> -
-> -      - items:
-> -          - enum:
-> -              - renesas,r9a09g011-wdt    # RZ/V2M
-> -          - const: renesas,rzv2m-wdt     # RZ/V2M
-> -
->        - items:
->            - enum:
->                - renesas,r8a7742-wdt      # RZ/G1H
-> @@ -83,16 +70,7 @@ properties:
->      maxItems: 2
+> @@ -51,38 +51,14 @@ properties:
+>                - renesas,r8a779h0-wdt     # R-Car V4M
+>            - const: renesas,rcar-gen4-wdt # R-Car Gen4
 >
->    interrupts:
-> -    minItems: 1
-> -    items:
-> -      - description: Timeout
-> -      - description: Parity error
+> -      - items:
+> -          - enum:
+> -              - renesas,r9a09g047-wdt # RZ/G3E
+> -              - renesas,r9a09g056-wdt # RZ/V2N
+> -          - const: renesas,r9a09g057-wdt # RZ/V2H(P)
 > -
-> -  interrupt-names:
+> -      - enum:
+> -          - renesas,r9a09g057-wdt    # RZ/V2H(P)
+> -          - renesas,r9a09g077-wdt    # RZ/T2H
+> -
+> -      - items:
+> -          - const: renesas,r9a09g087-wdt # RZ/N2H
+> -          - const: renesas,r9a09g077-wdt # RZ/T2H
+> -
+>    reg:
 > -    minItems: 1
-> -    items:
-> -      - const: wdt
-> -      - const: perrout
+> -    maxItems: 2
 > +    maxItems: 1
 >
->    clocks:
->      minItems: 1
-> @@ -140,8 +118,6 @@ allOf:
->            contains:
->              enum:
->                - renesas,r9a09g057-wdt
-> -              - renesas,rzg2l-wdt
-> -              - renesas,rzv2m-wdt
->      then:
->        properties:
->          clocks:
-> @@ -155,25 +131,6 @@ allOf:
->          clocks:
->            maxItems: 1
+>    interrupts:
+>      maxItems: 1
 >
+>    clocks:
+> -    minItems: 1
+> -    items:
+> -      - description: Register access clock
+> -      - description: Main clock
+> -
+> -  clock-names:
+> -    minItems: 1
+> -    items:
+> -      - const: pclk
+> -      - const: oscclk
+> +    maxItems: 1
+>
+>    power-domains:
+>      maxItems: 1
+> @@ -96,76 +72,13 @@ required:
+>    - compatible
+>    - reg
+>    - clocks
+> +  - interrupts
+> +  - power-domains
+> +  - resets
+>
+>  allOf:
+>    - $ref: watchdog.yaml#
+>
+> -  - if:
+> -      not:
+> -        properties:
+> -          compatible:
+> -            contains:
+> -              enum:
+> -                - renesas,r9a09g077-wdt
+> -    then:
+> -      required:
+> -        - power-domains
+> -        - resets
+> -
 > -  - if:
 > -      properties:
 > -        compatible:
 > -          contains:
 > -            enum:
-> -              - renesas,rzg2l-wdt
+> -              - renesas,r9a09g057-wdt
 > -    then:
 > -      properties:
-> -        interrupts:
+> -        clocks:
 > -          minItems: 2
-> -        interrupt-names:
+> -        clock-names:
 > -          minItems: 2
 > -      required:
-> -        - interrupt-names
+> -        - clock-names
 > -    else:
 > -      properties:
-> -        interrupts:
+> -        clocks:
 > -          maxItems: 1
 > -
->    - if:
->        properties:
->          compatible:
+> -  - if:
+> -      properties:
+> -        compatible:
+> -          contains:
+> -            enum:
+> -              - renesas,r9a09g057-wdt
+> -              - renesas,r9a09g077-wdt
+> -    then:
+> -      properties:
+> -        interrupts: false
+> -        interrupt-names: false
+> -    else:
+> -      required:
+> -        - interrupts
+> -
+> -  - if:
+> -      properties:
+> -        compatible:
+> -          contains:
+> -            const: renesas,r9a09g077-wdt
+> -    then:
+> -      properties:
+> -        resets: false
+> -        clock-names:
+> -          maxItems: 1
+> -        reg:
+> -          minItems: 2
+> -      required:
+> -        - clock-names
+> -        - power-domains
+> -    else:
+> -      properties:
+> -        reg:
+> -          maxItems: 1
+> -
+>  additionalProperties: false
+>
+>  examples:
 > --
 > 2.47.2
 >
