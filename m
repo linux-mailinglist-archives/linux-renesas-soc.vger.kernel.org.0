@@ -1,43 +1,43 @@
-Return-Path: <linux-renesas-soc+bounces-22595-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22596-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AD4CBB42F2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Oct 2025 16:41:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33FAFBB42F3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Oct 2025 16:41:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B890A19E2E8D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Oct 2025 14:41:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C1626188134B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Oct 2025 14:41:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B53E13115B5;
-	Thu,  2 Oct 2025 14:40:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74DC12EC08E;
+	Thu,  2 Oct 2025 14:41:00 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0042C027F
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Oct 2025 14:40:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CDDA2C027F
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Oct 2025 14:41:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759416058; cv=none; b=HLGQUgyc9PZ6r40VDOVmBsjLTeLU68GeQ0FQ3JQQesdTsevWliOHUmjP/i6AT7Qp0zJ6GlBg76B3GH3C0Fy+UAUxAXgNxZESY00vFNf5L9MmgrKf5Ghg4SbsI1z/JRICIfdIARcPzSGOXpzunKyehy3EM22BOihq/CcLnIjjqds=
+	t=1759416060; cv=none; b=HW0tm0TEubwpn5Ox1M0+E8N7KDM8sBvBV49lPVLodwIbWK9EEf/F5D9wHlLmJUxv6FWp+vj+mvFOUaq0ILHoMB/90EFLSnLhdRhEb5W1ESFra2NCLD7xEzoN5nO7cAhzvGn5YM3SWrLUzeW6HDkOl0F0LWUWL44Z+MrSoNIBP6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759416058; c=relaxed/simple;
-	bh=PKlmKOQSPSj/WPBr5hNwvo3usQkBv4uhGwGOCnQFrlQ=;
+	s=arc-20240116; t=1759416060; c=relaxed/simple;
+	bh=ponv3eh9PQqWlR+s1X8ail29jxkOtpEDA39BbTy0YQk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SMj8JH54DyHBqsQj3KJZK4yvsCPJHqL/hSrrwv0Q14PH337rJuDwLQSZO6tDi5gD6zbElYgNzUGrYrPOmyi0xNbj863vFy9fV45xmu5FDbf6GlyvqIOpfEav5zb6t7/V1EMLbtfMJXxhubO408auQmRnk/5voFtvhsKVCmpwJ5M=
+	 MIME-Version; b=MQ0T5TVr9ltYZyXJH77gbTahg3NOcv/0V/C2gwzBp+qPGT3vNVig2syBixxLdavmHtwZpRmwjhBtckMtiBPhlI4ipMUPQuQfnnhUSgrkOSiFYNSqgqp2m4M50RVLCoF2CkqZSYVm8h8zYJeGg6+q83nIOdlsG5hlXgXUe5ZX4mc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68763C4CEFC;
-	Thu,  2 Oct 2025 14:40:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4E4EC4CEFD;
+	Thu,  2 Oct 2025 14:40:58 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Magnus Damm <magnus.damm@gmail.com>,
 	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: linux-arm-kernel@lists.infradead.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 06/13] ARM: dts: renesas: r8a7745: Move interrupt-parent to root node
-Date: Thu,  2 Oct 2025 16:40:34 +0200
-Message-ID: <fc23a6b5b7c8d92334089770854535f088201d58.1759414774.git.geert+renesas@glider.be>
+Subject: [PATCH 07/13] ARM: dts: renesas: r8a77470: Move interrupt-parent to root node
+Date: Thu,  2 Oct 2025 16:40:35 +0200
+Message-ID: <13edb8c780f21366343268a0c8f1ab5d54032c66.1759414774.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1759414774.git.geert+renesas@glider.be>
 References: <cover.1759414774.git.geert+renesas@glider.be>
@@ -55,22 +55,22 @@ root node, and simplify "interrupts-extended = <&gic ...>" to
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- arch/arm/boot/dts/renesas/r8a7745.dtsi | 14 +++++++-------
+ arch/arm/boot/dts/renesas/r8a77470.dtsi | 14 +++++++-------
  1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/arch/arm/boot/dts/renesas/r8a7745.dtsi b/arch/arm/boot/dts/renesas/r8a7745.dtsi
-index 704fa6f3cbd088e5..5424a73562ddba3c 100644
---- a/arch/arm/boot/dts/renesas/r8a7745.dtsi
-+++ b/arch/arm/boot/dts/renesas/r8a7745.dtsi
-@@ -14,6 +14,7 @@ / {
- 	compatible = "renesas,r8a7745";
+diff --git a/arch/arm/boot/dts/renesas/r8a77470.dtsi b/arch/arm/boot/dts/renesas/r8a77470.dtsi
+index a8a12275c98a66c7..c61790e7667f589f 100644
+--- a/arch/arm/boot/dts/renesas/r8a77470.dtsi
++++ b/arch/arm/boot/dts/renesas/r8a77470.dtsi
+@@ -13,6 +13,7 @@ / {
+ 	compatible = "renesas,r8a77470";
  	#address-cells = <2>;
  	#size-cells = <2>;
 +	interrupt-parent = <&gic>;
  
  	aliases {
  		i2c0 = &i2c0;
-@@ -105,8 +106,8 @@ extal_clk: extal {
+@@ -66,8 +67,8 @@ extal_clk: extal {
  
  	pmu {
  		compatible = "arm,cortex-a7-pmu";
@@ -81,7 +81,7 @@ index 704fa6f3cbd088e5..5424a73562ddba3c 100644
  		interrupt-affinity = <&cpu0>, <&cpu1>;
  	};
  
-@@ -120,7 +121,6 @@ scif_clk: scif {
+@@ -81,7 +82,6 @@ scif_clk: scif {
  
  	soc {
  		compatible = "simple-bus";
@@ -89,7 +89,7 @@ index 704fa6f3cbd088e5..5424a73562ddba3c 100644
  
  		#address-cells = <2>;
  		#size-cells = <2>;
-@@ -1631,10 +1631,10 @@ cmt1: timer@e6130000 {
+@@ -1057,10 +1057,10 @@ cmt1: timer@e6130000 {
  
  	timer {
  		compatible = "arm,armv7-timer";
