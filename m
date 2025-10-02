@@ -1,128 +1,109 @@
-Return-Path: <linux-renesas-soc+bounces-22585-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22586-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A30A8BB3EE7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Oct 2025 14:47:47 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69418BB3EF0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Oct 2025 14:47:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5B2743AA5FF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Oct 2025 12:47:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2E9542A6DF0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Oct 2025 12:47:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B1AE30F944;
-	Thu,  2 Oct 2025 12:47:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48D1C30F944;
+	Thu,  2 Oct 2025 12:47:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i8dLD5dw"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vaZHRXzz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5B2429CE1
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Oct 2025 12:47:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FF5230DED4;
+	Thu,  2 Oct 2025 12:47:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759409264; cv=none; b=hxBe/wdtXaSYInjUJWNY2alsGD0EMhaF82E8TNOKrdzQCFufo+ZwLi+2q7GPnwPJVEt547IwV+fQFAcFxYr6oLLQ01ZTvihQeQqr6Zn4GqFxXb5xXZyVgu163hRDPvgVsvNghhTQwCuv0k12LoWUa+ISLdEHuSeBPI9In8WDAvc=
+	t=1759409270; cv=none; b=d2EpwDcj8RS8MqD4HRv4B7ZMX+w8EvNLME2TclrU5bVTRprDlQEwgSeOjBsJz9tTY0QaVH/qXFmI3Vc4rbVVRLciAzjjyq1tvb4aQwnUtSgwCjy6Xmqst+NMC3A6tU3wajHgx51oPilLsjsenE0T/Tro3LzlsG3h9vE5N8aX7RI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759409264; c=relaxed/simple;
-	bh=hyCU+EM5MVqp2Ncmpf7/x1Fq6EYDnoCdRL4dsEkWNw0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Qp7TbcWIcg6qAfP9hpxrqJuJ+iW5hGtPwPjk9BuigM7AbTG/KmZ4lFPvA9iyrhqWAaVQnQyz3eRcF0Mr8hAPI4a5IoHwc2UNTuzm6r9EbjLItxE2eVeINhoMnVadooQ6ieBOA2e4sWjSSfoQIbofslrQFLB5Xl12I/p7GvW+5To=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i8dLD5dw; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-46e5980471eso5048005e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 02 Oct 2025 05:47:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759409261; x=1760014061; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ET4ihU5LqsfIrlbYUc19Lai41MLJqMKOlTXkrUOUnQU=;
-        b=i8dLD5dwe8nGG09ze/WTvKMjI872cwhtOzII5+iJ0WGFP835a339ZhY16vJlcN1Uka
-         CmuD7KGrOF0VLOEaLakxYahtl8rxCyF9DS83WSxaaqcr6q23YzuDdNWPbCILkFsMsz1u
-         Fblm6DJHKQAzIaszN5CS4oKjI7YR+fZa7p3DczDTXRKh4uRfa3ZXQb5dkNfpgE2mWCTa
-         sbO1AqTSO7rtZS4N0hPq8yahRC9frX+SlhK9WDjGKDJto/+8X6mmTgTwuWzAeafC4A8D
-         bRM5sJ3yxrC3uATMo/l/y1DAvTNV7z/yJQN1IQKDEUJCvC7FzJ2f1WBIoX06v43Ny5bo
-         w13g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759409261; x=1760014061;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ET4ihU5LqsfIrlbYUc19Lai41MLJqMKOlTXkrUOUnQU=;
-        b=AVfaqwZ+9K3zCrmnRCvslVYKJYN3gto843p2FxlOduRWoWGPs7360Gv3cg6saiDIHl
-         yKkYeNLrFQxp792zKU1K+u6GcI+LqMqwnW39YYjRBoW4PQvqIHEw4zwjFHN6Jq0mOPmu
-         Zz+DMSIot7zLmanpbQ2M4VVO3oIF+mHoy+QXShVswPNBeKJIGGV+UfGuXXC3FTIFcrVx
-         lCzmDbufqvcvvyU1xwFJ2fotYGaTmnpNTqVzK7D1MIQjEBapreSVop00sxfeF7sHQNa6
-         Lzqt+mVhfO2tqjpSykTiYdS9dnT3DmYw97r3SEtIgbKtU0YU4o0n20j71XxRqQ2PdnMO
-         qG7g==
-X-Forwarded-Encrypted: i=1; AJvYcCVRRyQGH5MWGz0o/TSGEDS2eeyppSKZDpMPtHB2VgqHK+pAoxVuTClGqs7j/Bk3pNNsaEUtqMgeMSous/BHJxzE0A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNhl1VZyqTp8xHULtrVrh2tVMTWtsPUA3Yqe0xhrmMLa8uoDV3
-	EluU2O/kxE2aEDHfj7Rdn9wQEKSEvm5SOMPPZAF6gzIxQiuJ8nukwCZe
-X-Gm-Gg: ASbGncviatP2GPX5okchwWUuIAGZnaBZtwF9iOaeHDCI8hK4Zsk2/ND2M+HL9SUFl8o
-	/UqqB4d4jnSofaBEi0kSYjaErQG2+UbyjMxSrZTI7mKGD67j6TjyBr8R9wcdkAAKE/FmVWSALqs
-	VK30R1DUph+1CKF/QVdnPgn4nk/7vzPGnLKF1PBLdN4pgLZn8ybSb2DswBbsIfU061rqBa7hdJT
-	eXYh4NwYZGyrWfUUQS1zcLEqupNP8mOBWZx8YAbr0q+fq+quSEw2IEyX4ya0S/9he3u8jEZhhhl
-	kFLqcLE7bAECMohghoeuSuP+3jfGBBvJrDAOspAtOoXZ049MsJtHabTQtWdODwITiE+5ItJk4lK
-	3xUxTMwXIxUEr6tkoDPN9hvXg2IkcTdE66kuTtucsJve3FasI3nanMZb7x09dFEX791HrwAky28
-	+Y2KZfAqvTulwtMq4=
-X-Google-Smtp-Source: AGHT+IG14FNYlyj1SOve2+lpdu6yCG10mUv6KZ7dieXzI0BdMzJSkDE4fwEUuAUNod2k7Ird6LY+WA==
-X-Received: by 2002:a05:600c:314a:b0:46e:21c8:ad37 with SMTP id 5b1f17b1804b1-46e61285328mr58217715e9.25.1759409261152;
-        Thu, 02 Oct 2025 05:47:41 -0700 (PDT)
-Received: from iku.example.org ([2a06:5906:61b:2d00:607d:d8e6:591c:c858])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e6917a731sm34541085e9.3.2025.10.02.05.47.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Oct 2025 05:47:40 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Vinod Koul <vkoul@kernel.org>
-Cc: dmaengine@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
+	s=arc-20240116; t=1759409270; c=relaxed/simple;
+	bh=10qfnOH1V7V4fSOnAg7xdvk9UP941K9D3WD/YuFXX9I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nzEQ3aQECqlQysMBfG7v68+HOTVJxEsPIq6U4Kr/o+t0qnm4zDyaKXYBGMsm3+qkoYPawgudy8gatCvKOpjVN4W1tIj0V1I0+wDAshaogzIcFk8GZqSQ0BRA5jsce77xv8laS5iLVjdEuKp/Kxd4gZKVit2kUQcFP63CoIsqyok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vaZHRXzz; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 3B185929;
+	Thu,  2 Oct 2025 14:46:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1759409171;
+	bh=10qfnOH1V7V4fSOnAg7xdvk9UP941K9D3WD/YuFXX9I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vaZHRXzzpFB2cXLirBHqrnXxqjS540/w70XXVMhh0eUix7BcmEOA6Hfrjt3A/3OeX
+	 TSC+MLCSB9cuQHWT6+19J4UmatH4U5GPoAxM6IFPhQzrYUXxMQ6/+bv0L8lKvasATq
+	 6knGIviTJ9vMBpJp5iHh1DXpJqOOx7BlInPwTa8c=
+Date: Thu, 2 Oct 2025 15:47:35 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
 	Biju Das <biju.das.jz@bp.renesas.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] dmaengine: sh: Kconfig: Drop ARCH_R7S72100/ARCH_RZG2L dependency
-Date: Thu,  2 Oct 2025 13:47:35 +0100
-Message-ID: <20251002124735.149042-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.51.0
+Subject: Re: [PATCH] drm: renesas: rz-du: Drop ARCH_RZG2L dependency
+Message-ID: <20251002124735.GB10198@pendragon.ideasonboard.com>
+References: <20251002123452.146610-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251002123452.146610-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Thu, Oct 02, 2025 at 01:34:52PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> The RZ/G2L DU driver is now also used on other Renesas SoCs such as
+> RZ/V2H(P) and RZ/V2N. Restricting it to ARCH_RZG2L prevents enabling it
+> on these newer platforms.
+> 
+> Replace the ARCH_RZG2L dependency with ARCH_RENESAS to allow the driver
+> to be built on all relevant Renesas SoCs.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-The RZ DMA controller is used across multiple Renesas SoCs, not only
-RZ/A1 (R7S72100) and RZ/G2L. Limiting the build to these SoCs prevents
-enabling the driver on newer platforms such as RZ/V2H(P) and RZ/V2N.
+Happy to see the driver getting used more widely. Coming-of-age is
+always a special time, for software too :-)
 
-Replace the ARCH_R7S72100 || ARCH_RZG2L dependency with ARCH_RENESAS so
-the driver can be built for all Renesas SoCs.
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/dma/sh/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> ---
+>  drivers/gpu/drm/renesas/rz-du/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/renesas/rz-du/Kconfig b/drivers/gpu/drm/renesas/rz-du/Kconfig
+> index 34d515eb798b..8bbcc66ca3f0 100644
+> --- a/drivers/gpu/drm/renesas/rz-du/Kconfig
+> +++ b/drivers/gpu/drm/renesas/rz-du/Kconfig
+> @@ -1,7 +1,7 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  config DRM_RZG2L_DU
+>  	tristate "DRM Support for RZ/G2L Display Unit"
+> -	depends on ARCH_RZG2L || COMPILE_TEST
+> +	depends on ARCH_RENESAS || COMPILE_TEST
+>  	depends on DRM && OF
+>  	depends on VIDEO_RENESAS_VSP1
+>  	select DRM_CLIENT_SELECTION
 
-diff --git a/drivers/dma/sh/Kconfig b/drivers/dma/sh/Kconfig
-index 8184d475a49a..a16c7e83bd14 100644
---- a/drivers/dma/sh/Kconfig
-+++ b/drivers/dma/sh/Kconfig
-@@ -50,7 +50,7 @@ config RENESAS_USB_DMAC
- 
- config RZ_DMAC
- 	tristate "Renesas RZ DMA Controller"
--	depends on ARCH_R7S72100 || ARCH_RZG2L || COMPILE_TEST
-+	depends on ARCH_RENESAS || COMPILE_TEST
- 	select RENESAS_DMA
- 	select DMA_VIRTUAL_CHANNELS
- 	help
 -- 
-2.51.0
+Regards,
 
+Laurent Pinchart
 
