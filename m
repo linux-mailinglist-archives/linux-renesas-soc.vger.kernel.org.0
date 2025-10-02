@@ -1,67 +1,55 @@
-Return-Path: <linux-renesas-soc+bounces-22575-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22576-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC4DFBB3D09
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Oct 2025 13:50:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DB3BBB3D18
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Oct 2025 13:50:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8C29F325B79
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Oct 2025 11:50:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B7D11325BDB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Oct 2025 11:50:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54C0330CB42;
-	Thu,  2 Oct 2025 11:49:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A40A021770C;
+	Thu,  2 Oct 2025 11:50:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="MBU49MfC"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="EWGI9dqs"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BBFF2F1FD5
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Oct 2025 11:49:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F4A30EF9A
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Oct 2025 11:50:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759405792; cv=none; b=ZFJp0eyBxfIYSKIHcb8GQuzEVasbItxKVs0hbA1FqWg2wxMvz79Kq3z5cZ0kkJ1NG3DVYbhy4lbarGc/srXbCUMS6gqNXLXLKWyQ+Ie9W9ele5Wh+j/gZDK9CafNGftJuNJlC2yJTHKZq5GvROzLnFO+lnnWjI63eDbZDyuQmr4=
+	t=1759405829; cv=none; b=pBIbgBMwQGIaQ4wNzF5NRADf4Q0vyOpXx2odlkpt5dLTVmfq+YVt3Ee0jaq0ZjMc7EE8qGt4LLBnWiyfCow60KfR8FOH4X5zji5DivvkJeycA4HANg6u5tMAApAKjOxi7a9GnALU+dhMk2LalH0MDgsaBsRIXN+5LfW8rGLaOQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759405792; c=relaxed/simple;
-	bh=ce0/XkN5zkEtykoh4F14aijPmOF1cEWyAFp8FrBCYiI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r5bUmFtK3qwDiFPAYaY6i9H6dseXy4bjumRvKB1CjR2B328BYPRuXTz1RC1pHTz8j1hrHuw5moZwKmd8Cecf6KwD36WibwWyVDfe9Q06+UIRp5YG42ef721DB65BvDlUjDXaaKPueL4LMY5NitpedrtSH1qwiN4jUhAKeydhL2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=MBU49MfC; arc=none smtp.client-ip=194.117.254.33
+	s=arc-20240116; t=1759405829; c=relaxed/simple;
+	bh=dZA7NeQvBSG7kkrREgxUjyxVevDFNetKyY6tI/k2oPQ=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=piVpW8zHCylyt4SlQaoriY1Z0JmX1C/5esebVQp0tc6nyc16kILIO1lFWq+Hc5X12wH/9f5x7hXIe2y54PhF9LxJiK7nukipldgqiToJ+g36rJ0SRelkO3A9ZyC/+aM4kdLB3hfFQhmw70U1vMb8hhGFBpvpR/xYiY3yY4yjBU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=EWGI9dqs; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=mS+R
-	aU/N3sZxgyqOlzL7mMSLe0f1ES6Z71fhweY0cpI=; b=MBU49MfC+kEDi7tVikUQ
-	ssRZYWiyCfWRyZnCAKsaO35J4KSu4ZE8/Fbw2wrjZy/jQDkvxE3VgpyvLeRhOWvQ
-	SsetPHAq7ucBe65WHiWAeYFc6ma3u7GRyVwn/vMvkLN5n2aJMsuu0WB1l4dS3X2G
-	Qrb7RtMseKLeiydXRtRZQVsIY5fx6bpHAE86pphgAFSZhhR1zGJzklpyt4XXN0WB
-	h8BWyLeHFriAZNRGMWRxfl5nzyYdIsAjiJAx3jXjqye5McEw1TN9O7iPrUwK5Nye
-	ckVMax7RQQWaeHjjlOZIjj27fdKOerbGqTLe2Y0od+O/9TTYnW/oARWXEG4WJq8M
-	3g==
-Received: (qmail 248369 invoked from network); 2 Oct 2025 13:49:46 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 2 Oct 2025 13:49:46 +0200
-X-UD-Smtp-Session: l3s3148p1@DAbklCtAKswujnuL
-Date: Thu, 2 Oct 2025 13:49:45 +0200
+	sang-engineering.com; h=date:from:to:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=Gpwh
+	Jtp73JfXh+lIsscSlKA4GQ/t6oPZHhHI5SMQp20=; b=EWGI9dqskRgs3hyAtLrs
+	kRNWdRGRovY1p3w+uXVDJWf1VqkvSJ0qolZCrPKL1N+ulw277HTRCVdy8mUnO6gC
+	cRSG3NOc7XXTpfiDACt2twpJhMYmfnxQ9+CuAplmhbl1fc2tOm3OXyDRG/ki1JcB
+	xTwEd/bA5b38OrzjGMe9H2CjWkbNzzSvROU2mTqjcGG/TYNv6j0ld2xUzO2LmSge
+	FJ+QiB36P/fh82Aoznz/RNmKbnSksyGnVASvJkW37V763iA6AzdzBDhIPSArXoOC
+	lwNrjK4Ljrqzw3prYYqyA6y06AHpkt2gGOI9+iKMjyHakDw7MDn864JEGCM8mDvA
+	mQ==
+Received: (qmail 248704 invoked from network); 2 Oct 2025 13:50:25 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 2 Oct 2025 13:50:25 +0200
+X-UD-Smtp-Session: l3s3148p1@GlI5lytAzNUujnuL
+Date: Thu, 2 Oct 2025 13:50:24 +0200
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, linux-watchdog@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH 4/4] dt-bindings: watchdog: factor out RZ/V2H(P) watchdog
-Message-ID: <aN5m2TltHzdBQDLT@shikoro>
-References: <20250926112218.28723-1-wsa+renesas@sang-engineering.com>
- <20250926112218.28723-5-wsa+renesas@sang-engineering.com>
- <CA+V-a8tqOBz2i_7Nny488syuSXGBhe1japjX47hkN6_Ejge1ZQ@mail.gmail.com>
+To: linux-renesas-soc@vger.kernel.org
+Subject: Re: [RFC PATCH] dt-bindings: mfd: Add Renesas R2A11302FT PMIC
+Message-ID: <aN5nAAQ_FUDyFF1A@shikoro>
+References: <20250929083449.14393-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -69,46 +57,39 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="CukGRbOVR6ODqes/"
+	protocol="application/pgp-signature"; boundary="RJKvkMBcSMMML+tF"
 Content-Disposition: inline
-In-Reply-To: <CA+V-a8tqOBz2i_7Nny488syuSXGBhe1japjX47hkN6_Ejge1ZQ@mail.gmail.com>
+In-Reply-To: <20250929083449.14393-1-wsa+renesas@sang-engineering.com>
 
 
---CukGRbOVR6ODqes/
+--RJKvkMBcSMMML+tF
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Prabhakar,
+> +        pmic: pmic@0 {
 
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Thanks for the fast and detailed reviews! From a glimpse, all your
-comments make perfect sense to me, so I will send a v2 soon.
-
-Happy hacking,
-
-   Wolfram
+The label can go...
 
 
---CukGRbOVR6ODqes/
+--RJKvkMBcSMMML+tF
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjeZtkACgkQFA3kzBSg
-KbZtMA/+MfrX4yFdCG4XbwClnRZRYZehLb3kx10LfVv20jtuW5sjhvWGd9HmHP9A
-jGi5Rezj24hW4SzWYBRLiwOKHF+hw0mmCtNhGydQCoslzObFRXk6z+iFNAQbcQre
-Vlvb27O14G09L7akUmHfzC5C6mE/BufFPIChxdjg4CTSUSAoI9AYR64JKjtekbKX
-Au6wfcEd7gEyb+DOsz29uzmVYqueWMFTzRd0JcK0rkypa0ACL/LNh58+rVOniGrN
-3FP3L0xUWTSKzpPpjzt2gJtwn0pmuP9Gd0xuJQ7ltJmJ6ZmnY1pPMB/ocd2BNnpk
-IiBXSkGpJDVF28Y6gQ4qn9O2MC82Xaxav/XSZT17GNLg2S9xM7La6CZxqgzuq8cX
-76Y+9tKqsqllwLDUiurUp//E+ikoUSTMxZDOi05HbCKJ7vQ3UF2vM+4axZ81ruzk
-kxh1C3LyzZ47QbgFmnYrDuuRBiY18ELaii7Zhj8LbWVAGc3Wy5DIuD/uSQTpe42C
-igNN5BSjNKqLMGALogCtXrPrSSAc01KupVoBPkL0BwhO23arrhhdbjARZBp/PLwn
-TQleCzT/PKS9XWFrvuxeEHNb7Morbg3EhZZtCZWF0PbnoenAcl3sRLlwsScZtEtt
-LR6God7zafboyc9gjWbllQkPz+qCmfvefF7K/PgP3hrmwp8CqFs=
-=XlV0
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjeZwAACgkQFA3kzBSg
+Kba0ahAAsO8/t565EvtdNHYw45TLWSj8dPmqFdg6dHVoPrV3xExyqPmPgnc1le7t
+c+Oelfhb+ntnwpZrZJ6xoRApPQ+8Q9aTLWGGzPmp84RKy8C4wJ4i92UDtym0ctZi
+qrx2kGZe1ymW1lOxhDfigDQUtFfclYeI7zyxqtNzd1LJqv31m/vovGKLmMaPg1pF
+OEdjQp2umKGuQiZ8CWaFbs13fd6f4aFbq9Ddecc1iylVJp4v+yTS35BPnUDQytFs
+nHO29vGf7oAHIf4OejlyYADzws2ybPQQl65Cu70Ew1gz7uIk+YuDma/uqDWCXYRp
+qTkvqhmjowSRpapDrVOGRrWnbXcs8RpfAK53OPu7O+xNv+uVnW7mCnjYbSk5dz5i
+xTTyVyj/A8of8uxJ6EDHtvdidPop43daWxI+yWeqIp5gGLAAEoJRIRnV7tvd8O7O
+AcdXeD8sLZHuOmGgffY/1IfqVymMScPAFxVde4FcgNtPMBCKxboSkpu7Qf9HpkH+
+KcyMUzmVR77WlbQ0C5trh/lcrz4q/86pZ2fGmj5LqwTn7Lb73Mu0O9x6yPIgBTCe
+Ni15okEieQa8LQTvYQ2nAV1Gn36Ta6nBeZZtt19WE/B5JoPqBArJF5UtnTnJ11np
+S3Kjst2YzOv8V00/QzbBH8BHsn+wcCbYzZMbrsOhb+cbmzT6ilA=
+=HJpF
 -----END PGP SIGNATURE-----
 
---CukGRbOVR6ODqes/--
+--RJKvkMBcSMMML+tF--
 
