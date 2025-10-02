@@ -1,65 +1,43 @@
-Return-Path: <linux-renesas-soc+bounces-22588-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22589-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 612B1BB4291
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Oct 2025 16:26:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B946BB42EC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Oct 2025 16:40:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2A93B1C71F2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Oct 2025 14:26:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DE46732703D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Oct 2025 14:40:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FF4C2C027F;
-	Thu,  2 Oct 2025 14:26:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="cjz2K0Nr"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D34822EC08E;
+	Thu,  2 Oct 2025 14:40:49 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98712311C1F
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Oct 2025 14:26:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB1C12C027F
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Oct 2025 14:40:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759415212; cv=none; b=I/Jz3rALaqLwhtxvE58Dyqpkq3X5R//hPGpM8P/Mot8lsdrJZ7rZTyuD3rtQcAWNuO6+OxBPik3CFMZHLALfCcFMRW/3eq25QkvKEjxYn3mWiOVDPvBcjYuCxpKhJ5Y3jvm8ZW63J/VkXa3rGuWYhpeXKhNYXZMMZwAi/zttj48=
+	t=1759416049; cv=none; b=CMkQw76I97aDt+y/DVfWpN9ehaoF4ihSizkhWyEl3QinY2pFzropwW/vanHiYhfn8t6lOgKF2BAur3+e4cflZFwOmu+KNd5LziH3Xgt4vtLc/iuYIh+nKSi/zSknMQrjErSnic9hfcvY1kluQ0koxxt941Gbx8/UvwGqUrsiCfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759415212; c=relaxed/simple;
-	bh=KSZxk61Nw6d08b48cvYnYIxGwNHKkM8FCkULX1VqREg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qXZounYg9Rz/eHG5c3MewTZtax7z7U8S7Sc2PUEo9OSTMxTeN3/565MdqCBPgIv4k5SZryrIpmXsJluRFqG4aOq2HptjYuXjtO2KvKqydHVFQ+wprKUUKpFXyDJAHK+pF8lJ9oRLfvXbbHK2eN7gFMHG1GCpJCX6AMabZLOjCeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=cjz2K0Nr; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=Kq2DhKQo8ptLIX
-	roc27s3A+iNop2714/WUHopXrdZZI=; b=cjz2K0Nr2FCoG0OMRwodk9VwnIWnPV
-	P6SiLaJ++JhWSVDFXX0TfIQLalwADdM8sKBMHnqamXIbrRDgAlAbcOAbnrL2GUdz
-	2MXYT8LBkIYFjdMzHsd42VzzRnozb+9mYWbbVOBFPKkhI0ei9G2Ibo7M20G4lpd8
-	I7U/yY/KfDFC74m8GI8V6d9fiCi+N0iZQqeB4CrVpPd6JJXP7j8uQCIUE+5ytMu4
-	QHug3hBKATPoGbbjJaekpqZ3u+z6mUBrhqJdXrMgYsGYjAaoFlcpqiFla7tT1fz9
-	DBy0o2o4S1QKzktiCv3M+cOmpdloIVFzhiBifvYcT838JiIL7IthgNzw==
-Received: (qmail 302230 invoked from network); 2 Oct 2025 16:26:48 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 2 Oct 2025 16:26:48 +0200
-X-UD-Smtp-Session: l3s3148p1@iiN+xi1AGrogAwDPXwQHAL/S9V79e5yL
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mtd@lists.infradead.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH] dt-bindings: mtd: physmap: add 'clocks' and 'power-domains'
-Date: Thu,  2 Oct 2025 16:23:11 +0200
-Message-ID: <20251002142639.17082-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
+	s=arc-20240116; t=1759416049; c=relaxed/simple;
+	bh=ksJRPGhBrP6PmzzrIa2iKyyJYpu2/wCO2tbjPHFW+Dg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=II3jznpceSGJg/HDCjhzvgFPdE3IluQhHd1vRBsfqO+/EIejr8eda+2rYhp0o1rm+1SBugfv1kcGXRQqTIloaYtiawBxJ4uGbfKjNr2N6nTfBGBi67SCeSN0g6u+5/w6mD666kPJnfMKy6fd3ZfTxN2yxr4g8helD3LOeFIBxGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C118C4CEF4;
+	Thu,  2 Oct 2025 14:40:48 +0000 (UTC)
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Magnus Damm <magnus.damm@gmail.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 00/13] ARM: dts: renesas: Move interrupt-parent to root node
+Date: Thu,  2 Oct 2025 16:40:28 +0200
+Message-ID: <cover.1759414774.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -68,45 +46,67 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Physmap supports minimal PM since commit 0bc448b49e8a017e ("mtd: maps:
-physmap: Add minimal Runtime PM support"), so support it also when used
-in DT configurations.
+	Hi all,
 
-Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+This patch series is a follow-up to Morimoto-san's series[1] to move
+interrupt-parent properties to the root nodes in Renesas ARM64
+SoC-specific .dtsi files, which lets us replace several
+interrupts-extended properties by the more concise interrupts
+properties.  This series repeats the exercise for Renesas ARM32 SoCs.
 
-Tested with a Renesas Genmai board (RZ/A1). Passes 'dt_binding_check'
-and 'dtbs_check'. Supersedes my original approach "[RFC PATCH 0/4] ARM:
-dts: renesas: mtd-rom has no clock and power domain":
+Note that several .dtsi files predating the concept of the "soc" node
+already had their GIC interrupt-parent properties at the root node.
+Of the modified files, some had duplicate interrupt-parent properties.
 
-https://lore.kernel.org/r/20250930101656.33435-6-wsa+renesas@sang-engineering.com
+I intend to queue this in renesas-devel for v6.19.
 
- Documentation/devicetree/bindings/mtd/mtd-physmap.yaml | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Thanks for your comments!
 
-diff --git a/Documentation/devicetree/bindings/mtd/mtd-physmap.yaml b/Documentation/devicetree/bindings/mtd/mtd-physmap.yaml
-index 1b375dee83b0..a9ec3ca002c7 100644
---- a/Documentation/devicetree/bindings/mtd/mtd-physmap.yaml
-+++ b/Documentation/devicetree/bindings/mtd/mtd-physmap.yaml
-@@ -69,6 +69,16 @@ properties:
-     minItems: 1
-     maxItems: 8
- 
-+  clocks:
-+    description: |
-+      Chips may need clocks to be enabled for themselves or for transparent
-+      bridges.
-+
-+  power-domains:
-+    description: |
-+      Chips may need power domains to be enabled for themselves or for
-+      transparent bridges.
-+
-   bank-width:
-     description: Width (in bytes) of the bank.  Equal to the device width times
-       the number of interleaved chips.
+[1] "[PATCH 00/26] arm64: dts: renesas: move interrupt-parent to top
+     node"
+    https://lore.kernel.org/87cy7ga2x8.wl-kuninori.morimoto.gx@renesas.com/
+
+Geert Uytterhoeven (13):
+  ARM: dts: renesas: r7s72100: Move interrupt-parent to root node
+  ARM: dts: renesas: r7s9210: Remove duplicate interrupt-parent
+  ARM: dts: renesas: r8a7742: Move interrupt-parent to root node
+  ARM: dts: renesas: r8a7743: Move interrupt-parent to root node
+  ARM: dts: renesas: r8a7744: Move interrupt-parent to root node
+  ARM: dts: renesas: r8a7745: Move interrupt-parent to root node
+  ARM: dts: renesas: r8a77470: Move interrupt-parent to root node
+  ARM: dts: renesas: r8a7790: Move interrupt-parent to root node
+  ARM: dts: renesas: r8a7791: Move interrupt-parent to root node
+  ARM: dts: renesas: r8a7792: Move interrupt-parent to root node
+  ARM: dts: renesas: r8a7793: Move interrupt-parent to root node
+  ARM: dts: renesas: r8a7794: Move interrupt-parent to root node
+  ARM: dts: renesas: r9a06g032: Move interrupt-parent to root node
+
+ arch/arm/boot/dts/renesas/r7s72100.dtsi  |  4 ++--
+ arch/arm/boot/dts/renesas/r7s9210.dtsi   |  1 -
+ arch/arm/boot/dts/renesas/r8a7742.dtsi   | 26 ++++++++++++------------
+ arch/arm/boot/dts/renesas/r8a7743.dtsi   | 14 ++++++-------
+ arch/arm/boot/dts/renesas/r8a7744.dtsi   | 14 ++++++-------
+ arch/arm/boot/dts/renesas/r8a7745.dtsi   | 14 ++++++-------
+ arch/arm/boot/dts/renesas/r8a77470.dtsi  | 14 ++++++-------
+ arch/arm/boot/dts/renesas/r8a7790.dtsi   | 26 ++++++++++++------------
+ arch/arm/boot/dts/renesas/r8a7791.dtsi   | 14 ++++++-------
+ arch/arm/boot/dts/renesas/r8a7792.dtsi   | 14 ++++++-------
+ arch/arm/boot/dts/renesas/r8a7793.dtsi   | 14 ++++++-------
+ arch/arm/boot/dts/renesas/r8a7794.dtsi   | 14 ++++++-------
+ arch/arm/boot/dts/renesas/r9a06g032.dtsi |  3 +--
+ 13 files changed, 85 insertions(+), 87 deletions(-)
+
 -- 
-2.47.2
+2.43.0
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
