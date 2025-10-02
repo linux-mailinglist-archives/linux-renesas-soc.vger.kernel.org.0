@@ -1,175 +1,209 @@
-Return-Path: <linux-renesas-soc+bounces-22563-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22564-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84CB3BB35ED
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Oct 2025 10:58:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C205BB3854
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Oct 2025 11:54:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3893B171694
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Oct 2025 08:58:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F314B16F31C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Oct 2025 09:54:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7DDE2ED15F;
-	Thu,  2 Oct 2025 08:58:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AE2330505F;
+	Thu,  2 Oct 2025 09:54:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="btSCzjks"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AA8QEKMf"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 823DD2FBE17
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Oct 2025 08:58:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE4BA2F260F
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Oct 2025 09:54:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759395494; cv=none; b=N/xLQqZRHvGnfQXRpBw0shR2Q0YZQMfOW+tj/Sc2AfZP6w3gYhIGfRL0QbqmUal92xuIEn+fQplSSSq+JyQoRejbbH5FVNcNNFpQE9p+dT/jhQCXveW7lnw7VM89tovIx0fqwB75r2plEXj24eWHFNGYB1Z5RttpTSiqpUi/2YU=
+	t=1759398846; cv=none; b=DQxmqibuqTOGfAhHZ91t6RYv4Gx/j0vNELaDrtnfYqv+ep97Zkzo9mAiatJunQJN1GNHEF1O4FSRpbNUFAT/EzQ2gxS3bsdq7b3cwgpxoZ3RQzWb9vwzydnXcAyEER7nlVqTcEeHXN2FwNHmnZia2udyJCvJX/G04OHlQcU2P/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759395494; c=relaxed/simple;
-	bh=I4SP6KNXP9wNBNDQD45sLrHOkRhFeQz2BrfdEPhIUNM=;
+	s=arc-20240116; t=1759398846; c=relaxed/simple;
+	bh=KY7oJVD96cnojEf0Z1OMA1GM0LEH55wJF3Kcg/twpZI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=k+c86ck66qdeug07cTgCvQNGJMRkohuu+LYrV7j+LtLLhK+s2DpRP4yAMkgxmqHSvdFg11tlUgwAGLuF+o5EF6XG6JBjK16aoV4TxF+PcTs33JI55xQKxzAe2Y56zji9yhzu8pxQA6IIdlzytX0fyZuPdC1wpAlTBVY9jOCz10w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=btSCzjks; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BF3FC116C6
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Oct 2025 08:58:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759395494;
-	bh=I4SP6KNXP9wNBNDQD45sLrHOkRhFeQz2BrfdEPhIUNM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=btSCzjksCbPVkonNPB29BHRt0fa1sO3TU7OFt947yofwiXOioRH73y+gwEYb3G+WV
-	 +pJFG7+NiBIpNdjtyt5qEB0DAgnTXrXv0DRkiUIMk8UcvE2go2Mnx70GNRt6cgeAxP
-	 P2uerqHp1q3U3TtaCHV2IIZTwsHra5tmNTmYkxk1vmCDLeadS/Mk8g/MUQg2oNzpmZ
-	 tY5gviXk2i+YBzHU5kFX9OiIT5jkrzHAjJ1TttD6vC8PZ+e4GMSxvO0b8/LdoWxY3W
-	 zz3xwBMsFVBcJCBOYOsHi5S1Rrpq+Epuv9xDa9VxynO8vi1OcMPJ7TRK74KO7UOSUw
-	 8FMj7LYHT5CtA==
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-63a1f3c0820so207409eaf.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 02 Oct 2025 01:58:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXdJqb6ACnZTSL5cqozTsP7SwCo3kc5OyKexaMmUfsYtzSW8hA8QROnwrKEjkCZLo5dI3cW6AJE8N1kHaSEZx92Yg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyCM8d5rb4fgC3O423J41OAwAZ074gmXLE8y7b49BO53+5tiuPQ
-	nVnj4jxJlotjDMMFGO7j3TuYOfE9rHOChm8sZjFdXPGCH8KWbqnHMEXgmR0IiZwQGIf/KUMI1VF
-	ITWxC7wzjMew2qEAVmgkRKCv6xjXCZyg=
-X-Google-Smtp-Source: AGHT+IEMLxjd9ZUo/Zk/S6ZXeKvQYsV2ZpEB+uhyIKOVPA1BpiREMPXNleuwDOpgKOeWqhEdBohMl5tTdZvgKgUbJ+k=
-X-Received: by 2002:a05:6820:761a:b0:64e:5783:441f with SMTP id
- 006d021491bc7-64e5783480fmr470666eaf.8.1759395493299; Thu, 02 Oct 2025
- 01:58:13 -0700 (PDT)
+	 To:Cc:Content-Type; b=GjAUca5gMQiyjsdRdp5Ho80EyznxwULxk8gbxao/btUwCUwRsket7x/fliFSO/+kIYXtUvDW4KRTPGgmg5J9hQu8lRRQS2vSYBsT+pDS32yRglFTYJLW9QUKs6SMso102XFtI/0jykqKMeIuL3kaCTarjSmj811RuR2pkq0+IHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AA8QEKMf; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4060b4b1200so715579f8f.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 02 Oct 2025 02:54:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759398843; x=1760003643; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DXMSGrr5AGBLO1DMGf5WoRV/437AE3YsJ0D/ngwVj84=;
+        b=AA8QEKMfsB+H4sRGsYnsZAZml4yVDBsLl2zI1fP+i71g50/1xb+xXsYqe12bNnd/oM
+         tIGDKWInFGk442P6NF3g85iT97pptXc5uDtvhz98PU2TXrufJDSODuYKBGwGiJl9vZ84
+         2LCGNQZ87fRQJAXwf0fC8dBBpGvE0LRh0FgIWSVlyoNbS1oSbxutnHZDyGCSIIRIiR2s
+         r1o+V+8qwQQVMWMUFfCDHyDkL9P8lImd+yfV3PCukJ1ta4vbpDIB+pSTnyhCGizsyKK0
+         3Ak6RcNrGHvtmiappq3LEED4w6ovxexU2qOE1zN0oOd2CePBbMUTlp5oLNiL03jfGVCG
+         IS4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759398843; x=1760003643;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DXMSGrr5AGBLO1DMGf5WoRV/437AE3YsJ0D/ngwVj84=;
+        b=pn1SknjGX39J3oYrnsGS/zflLU4AZVOh2y10yZ3BAYbCFWbUnbNcgm1Vp3WQL7BAOL
+         qfdvIbj80xp554xSPpYiPOHZXY072zuI8OULfmuktUuSZ1dp1+UuP3ffFFBWsyQ/vQbn
+         aFdHC0yZ41f5GuWG5pdccVo7K6/cYhZxDpMEkuSDWG7mMoKjD2fMEM8apjUfAgLwkTgb
+         R8+CBhPq6m0ObebE+aj3A55hsgpwwzEERUgvjjp1w3q+BQRG9xDTpydeRBkc5luR25Ts
+         9jtMnXTRorCqYgMsx0V31yKXJW2RYzc2DRLGlIu5n+pN4qRnizhw1cJtNZIddtBktOY8
+         XV4A==
+X-Gm-Message-State: AOJu0Yw4nZb3skMOo1WWSlCouP0B8ofCa+BBMLFmH3Z+S2tUCTmdKcgk
+	Ya8igLBB6eMWZaueOpJSzdhQ0zEFkp3UF+IicXacBdAY878SwAnBKKGUI9+cJC8BE9M1obHhYs+
+	2KZjir7dg9B8TU7w9dT8De7RjhkAmVhc=
+X-Gm-Gg: ASbGnctEPKduV/deWj7bz9AqZEYfHamVqcJZUZwUgCaxvZGuDn1FgDr1QuWi4Wohn8D
+	pW9SaYlW7zxsBITI6yL6d/ZC/YKLEWwvhE4gxq6xODzkYyK8hGoMkPNOAsYu0UxHkbxg2zqI2+x
+	0JaGvAXbFUT3GFIj8zF0vGUDnAW6G4Wv048nuFpENQlkrL2IrsLyxA0Oq/w452Mmt3xkITcoOhH
+	aEzGEHNVBDgflp0R2buKQg0yN3ebmLeqs1+ZWttEEDh0mgGqq8S/sp5e6OcyUkE
+X-Google-Smtp-Source: AGHT+IFyxrSuP40tpzGopQzLFOO/js8UgU+MXvmMqceOi0CUmwG9jtBvk3DYF4XZ7ZAoLNX0k47RM5pg5rhENgLvKJs=
+X-Received: by 2002:a5d:5f87:0:b0:3e8:e52:31c5 with SMTP id
+ ffacd0b85a97d-425577eddb1mr4683590f8f.2.1759398843030; Thu, 02 Oct 2025
+ 02:54:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <3f5420c70643d9b35b39d9b336295d589eaf7013.1759239979.git.geert+renesas@glider.be>
-In-Reply-To: <3f5420c70643d9b35b39d9b336295d589eaf7013.1759239979.git.geert+renesas@glider.be>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Thu, 2 Oct 2025 10:58:00 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0iu=OYABdXjeYX3GPcUq-LDsq9q1JmGizDi8OX_Uzh4RA@mail.gmail.com>
-X-Gm-Features: AS18NWBBfJP7yjox4AMLuLOrPsFP_Cs7O04kv8bpwFN8HDufe2l_y4eEFFPQjWA
-Message-ID: <CAJZ5v0iu=OYABdXjeYX3GPcUq-LDsq9q1JmGizDi8OX_Uzh4RA@mail.gmail.com>
-Subject: Re: [PATCH] thermal: renesas: Fix RZ/G3E fall-out
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
-	John Madieu <john.madieu.xa@bp.renesas.com>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, linux-pm@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
+References: <20250926112218.28723-1-wsa+renesas@sang-engineering.com> <20250926112218.28723-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20250926112218.28723-2-wsa+renesas@sang-engineering.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 2 Oct 2025 10:53:37 +0100
+X-Gm-Features: AS18NWA-dFJzWGXuZztR2zqmly5nFCsmHxqrdNUIjCqymp_8OwjCsnbC4Mcge8k
+Message-ID: <CA+V-a8tc7KpE6zvLffV0hUrw=1LNxyxZnkgogMBpGhk8u4Z+nA@mail.gmail.com>
+Subject: Re: [PATCH 1/4] dt-bindings: watchdog: factor out RZ/A watchdog
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 30, 2025 at 3:47=E2=80=AFPM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
->   - Restore sort order in MAINTAINERS and Kconfig,
->   - Remove empty trailing line from Makefile.
->
-> Fixes: 19d3a401a617c68e ("thermal/drivers/renesas/rzg3e: Add thermal driv=
-er for the Renesas RZ/G3E SoC")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  MAINTAINERS                      | 14 +++++++-------
->  drivers/thermal/renesas/Kconfig  | 14 +++++++-------
->  drivers/thermal/renesas/Makefile |  1 -
->  3 files changed, 14 insertions(+), 15 deletions(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index eb73b4db917596bd..fc755a50fb150498 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -21881,13 +21881,6 @@ S:     Maintained
->  F:     Documentation/devicetree/bindings/iio/potentiometer/renesas,x9250=
-.yaml
->  F:     drivers/iio/potentiometer/x9250.c
->
-> -RENESAS RZ/G3S THERMAL SENSOR UNIT DRIVER
-> -M:     Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> -L:     linux-pm@vger.kernel.org
-> -S:     Maintained
-> -F:     Documentation/devicetree/bindings/thermal/renesas,r9a08g045-tsu.y=
-aml
-> -F:     drivers/thermal/renesas/rzg3s_thermal.c
-> -
->  RENESAS RZ/G3E THERMAL SENSOR UNIT DRIVER
->  M:     John Madieu <john.madieu.xa@bp.renesas.com>
->  L:     linux-pm@vger.kernel.org
-> @@ -21895,6 +21888,13 @@ S:     Maintained
->  F:     Documentation/devicetree/bindings/thermal/renesas,r9a09g047-tsu.y=
-aml
->  F:     drivers/thermal/renesas/rzg3e_thermal.c
->
-> +RENESAS RZ/G3S THERMAL SENSOR UNIT DRIVER
-> +M:     Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> +L:     linux-pm@vger.kernel.org
-> +S:     Maintained
-> +F:     Documentation/devicetree/bindings/thermal/renesas,r9a08g045-tsu.y=
-aml
-> +F:     drivers/thermal/renesas/rzg3s_thermal.c
-> +
->  RESET CONTROLLER FRAMEWORK
->  M:     Philipp Zabel <p.zabel@pengutronix.de>
->  S:     Maintained
-> diff --git a/drivers/thermal/renesas/Kconfig b/drivers/thermal/renesas/Kc=
-onfig
-> index c762c1c30d5a211a..5735c8728a31fcb5 100644
-> --- a/drivers/thermal/renesas/Kconfig
-> +++ b/drivers/thermal/renesas/Kconfig
-> @@ -27,6 +27,13 @@ config RZG2L_THERMAL
->           Enable this to plug the RZ/G2L thermal sensor driver into the L=
-inux
->           thermal framework.
->
-> +config RZG3E_THERMAL
-> +       tristate "Renesas RZ/G3E thermal driver"
-> +       depends on ARCH_RENESAS || COMPILE_TEST
-> +       help
-> +         Enable this to plug the RZ/G3E thermal sensor driver into the L=
-inux
-> +         thermal framework.
-> +
->  config RZG3S_THERMAL
->         tristate "Renesas RZ/G3S thermal driver"
->         depends on ARCH_R9A08G045 || COMPILE_TEST
-> @@ -34,10 +41,3 @@ config RZG3S_THERMAL
->         help
->           Enable this to plug the RZ/G3S thermal sensor driver into the L=
-inux
->           thermal framework.
-> -
-> -config RZG3E_THERMAL
-> -       tristate "Renesas RZ/G3E thermal driver"
-> -       depends on ARCH_RENESAS || COMPILE_TEST
-> -       help
-> -         Enable this to plug the RZ/G3E thermal sensor driver into the L=
-inux
-> -         thermal framework.
-> diff --git a/drivers/thermal/renesas/Makefile b/drivers/thermal/renesas/M=
-akefile
-> index 0ea59224757226cc..8f5ae9af277cab5e 100644
-> --- a/drivers/thermal/renesas/Makefile
-> +++ b/drivers/thermal/renesas/Makefile
-> @@ -5,4 +5,3 @@ obj-$(CONFIG_RCAR_THERMAL)      +=3D rcar_thermal.o
->  obj-$(CONFIG_RZG2L_THERMAL)    +=3D rzg2l_thermal.o
->  obj-$(CONFIG_RZG3E_THERMAL)    +=3D rzg3e_thermal.o
->  obj-$(CONFIG_RZG3S_THERMAL)    +=3D rzg3s_thermal.o
-> -
-> --
+Hi Wolfram,
 
-Applied, thanks!
+Thank you for the patch.
+
+On Fri, Sep 26, 2025 at 12:22=E2=80=AFPM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+> Renesas created different watchdog IPs but they are all handled in the
+> same binding documentation. This leads to a lot of conditional handling
+> which makes it unnecessarily hard to add new items. Factor out the RZ/A
+> watchdog to make handling easier.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>  .../bindings/watchdog/renesas,rza-wdt.yaml    | 51 +++++++++++++++++++
+>  .../bindings/watchdog/renesas,wdt.yaml        |  7 ---
+>  2 files changed, 51 insertions(+), 7 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/watchdog/renesas,rz=
+a-wdt.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/watchdog/renesas,rza-wdt.y=
+aml b/Documentation/devicetree/bindings/watchdog/renesas,rza-wdt.yaml
+> new file mode 100644
+> index 000000000000..7078218e0759
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/watchdog/renesas,rza-wdt.yaml
+> @@ -0,0 +1,51 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/watchdog/renesas,rza-wdt.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas RZ/A Watchdog Timer (WDT) Controller
+> +
+> +maintainers:
+> +  - Wolfram Sang <wsa+renesas@sang-engineering.com>
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - renesas,r7s72100-wdt     # RZ/A1
+> +          - renesas,r7s9210-wdt      # RZ/A2
+> +      - const: renesas,rza-wdt       # RZ/A
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  timeout-sec: true
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +
+> +allOf:
+> +  - $ref: watchdog.yaml#
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/r7s72100-clock.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    wdt: watchdog@fcfe0000 {
+we can get rid of the label, rest LGTM.
+
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+Cheers,
+Prabhakar
+
+> +            compatible =3D "renesas,r7s72100-wdt", "renesas,rza-wdt";
+> +            reg =3D <0xfcfe0000 0x6>;
+> +            interrupts =3D <GIC_SPI 106 IRQ_TYPE_LEVEL_HIGH>;
+> +            clocks =3D <&p0_clk>;
+> +    };
+> diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml =
+b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> index b6e60162c263..8a25e0c6271f 100644
+> --- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> @@ -13,12 +13,6 @@ maintainers:
+>  properties:
+>    compatible:
+>      oneOf:
+> -      - items:
+> -          - enum:
+> -              - renesas,r7s72100-wdt     # RZ/A1
+> -              - renesas,r7s9210-wdt      # RZ/A2
+> -          - const: renesas,rza-wdt       # RZ/A
+> -
+>        - items:
+>            - enum:
+>                - renesas,r9a06g032-wdt    # RZ/N1D
+> @@ -140,7 +134,6 @@ allOf:
+>              contains:
+>                enum:
+>                  - renesas,r9a09g077-wdt
+> -                - renesas,rza-wdt
+>                  - renesas,rzn1-wdt
+>      then:
+>        required:
+> --
+> 2.47.2
+>
+>
 
