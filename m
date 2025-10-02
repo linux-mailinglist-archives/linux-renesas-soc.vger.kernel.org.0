@@ -1,83 +1,83 @@
-Return-Path: <linux-renesas-soc+bounces-22557-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22558-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62658BB25EB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Oct 2025 04:30:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF995BB25F9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Oct 2025 04:31:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 15222327274
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Oct 2025 02:30:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 954E3188C38A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Oct 2025 02:31:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5ACC2741B3;
-	Thu,  2 Oct 2025 02:30:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6FF32853E7;
+	Thu,  2 Oct 2025 02:31:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O3j4zu3Q"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ep0zuVk5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0166B2749CB
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Oct 2025 02:30:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2634828312D
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Oct 2025 02:31:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759372249; cv=none; b=bwXdpUcPA+yEHJSh64KK7hXXVPwfZKzjUUN2zLw48RKtmo15Kqh1nKnbUVwGtibZc4FyOgdPuYGCAYspL9y4ODMCO2i0/5PsbZI7behCPLtc+n06rQ8UeSwFtoMHDt2u9DPkaeZS9eYbtKbgfbjmoBkku0YLONWivtWJbvTrZh4=
+	t=1759372266; cv=none; b=r8+k94Z52Z0cEF/zAFMP1M6LyQKogYGco4SSYKrZN4MZrlpa94g+4+D1c1SPESB3sFKqp+32r6GLwCJ65Tp/6bM5/3qmsO3K6ZRQMm2GcPEBR4kv0hoRyxgXk11YHWHFOcG3FFcAHxi6EZ1AanCFcBcS4kJl7Tu0XkhGGmrxjuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759372249; c=relaxed/simple;
-	bh=Hum+PFvbFXkCQsJfkEq//482z3lj6GUir953LaNMY5Q=;
+	s=arc-20240116; t=1759372266; c=relaxed/simple;
+	bh=2iYUjbI7WW8h1gUyUqVgFtbKR2p1Teu/z8J52VRHH9s=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p9xRRy1PZJFTKZAF4KmhOgdZ93sUv0apOiYbqx0iIYIaJs1jOpigENCbFzpCUGTlWz/0URDhb7Si8PJ+5ozQHTZXoanJwD3nz9tA3rjQAjP0iEkls+qFfmsi2BS2hAniAWmPeJxrJNukq5v9KSMAVXzlUUT0gwRe9Qpo6Ga/sws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O3j4zu3Q; arc=none smtp.client-ip=209.85.214.179
+	 In-Reply-To:Content-Type; b=I0F/U40SJwnRrl0jr57y3JKbl89CuVsHeW75NERo8Xdrt4Evip3fAKUCma7Sn7pRVfkNVfuVa0+Cq0lvqrLntbcfqITmuTklcdBo5XXQTiOiCRKs5LccLdNl1BbuofzGAFxrPo0mFbMSq3mNUTzRlle5A+GFSCqzrpxVgJiq4kw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ep0zuVk5; arc=none smtp.client-ip=209.85.210.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2698d47e776so3720915ad.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 01 Oct 2025 19:30:47 -0700 (PDT)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-77f343231fcso372194b3a.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 01 Oct 2025 19:31:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759372247; x=1759977047; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1759372264; x=1759977064; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=J+Hd4fVpuDmD1sqiXE0//EY5LjX6rjx9bI8hk6BegOw=;
-        b=O3j4zu3QWEom660xeGLdVlHo9K8myp+L6AARzll8Jpd2fEUkmq3W4crPD512JnlkUD
-         qrxLnSsXLLHyq+PJs+BI+EdJBgQpbkvFiGTxm75d/ZkTDsaSWSDW+KG89l8jVbDZEZ8c
-         YpPwTo+PcXHh3ZekyaBZUAnqf+RtwoL3vpidsN/HPhn9cioO2qHGZAXiV6fBcOUIkICR
-         t/ma+bFqJt+SW+A3hLxLwtjpgYyQdez6PxGYUNw1jL9QHodWJhIQzw+kWkX4R32OwnWA
-         N/be/wxxHXZGPeKub6BdnuDRkx57A8uohC1St6UEbDHh6+kVmIWs37y7qYIF9PpodDOn
-         TanQ==
+        bh=Xfgqn39s6/BEF9EgTCjP8PdWeG1LzkqGUEJ5kP4XTEw=;
+        b=ep0zuVk5TyqY1pQZ0adgcGrN/mm4ubhmOCJUantk8srCnkH1Usy7ts+4LOPZ7nvNcJ
+         6IFpaGp2HPAzD0aYzieH4kx7HN5RUAoULcI8HbgpXJC4/rQfs+WGB9HqNuirWPSmj4OG
+         1Q/nTK3cUQBK1jDIgnQjPkwGE82UC09zTPHbf8fk1mw7P+lns79e6e2Yy9AoE7Hy99y+
+         LEdjd6r/nfTNNuZ1PK5Zw1J4x6EzuY21oUvzfhWKDuZEFHAfa5bByHsptuihlJtSkCpd
+         Gt8iVNG2D7NrKYF5Wmakdm92AjwgyVVaOjzHQYtJXuVdsOANQFEF0/eTL9KoHO+cngdZ
+         YD0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759372247; x=1759977047;
+        d=1e100.net; s=20230601; t=1759372264; x=1759977064;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=J+Hd4fVpuDmD1sqiXE0//EY5LjX6rjx9bI8hk6BegOw=;
-        b=jQGHZ3UVPWZFPBxPkmwkuy9mCuVv0rJ9l905t6utM/d9XMPVK5bV4XS1D65zDoVbbr
-         yIA3fuKDVf29r7e2mpX3sWTXuc3McUnaqfTsh/4fbFfowrPbGCEQsEWU0yrdWUqqlZDN
-         Amacr1tHiORNpuiY4o9B+ObX2OB3Gr8463onDgXeMNzn3si0EqJTONmcpjlh3FSK4fmk
-         DIAGqmTbSd0PbjuBK88f7tpw5p51WbNq8aOBNUgs2VkCS7ol+QqBgViAXuZuHQqL0PXt
-         0dLhXlq9jZUYnK8GuIp5roHkKb7h8cdMSxqjec95AfxxtOTqxZuLXHAM7xRjn5LdLxrl
-         jB3g==
-X-Forwarded-Encrypted: i=1; AJvYcCXt813Nt9n0L/moZPdZCgjaf50olPtdk3gVyx5lz+YmmXhmj3bDeECeD91Z64uL1QEbyYtFlo7C2b3knRvsq9Z6Ag==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTgUt9225Hd4p46h7wOMv78frB9bNG1WFYzk0ztv0tmto0jBtP
-	VurtVBt6kHZKWBfPXfTH1B4MbOjAJLzJd+x8S8aXHOuvfuiLQtQQr7Kt
-X-Gm-Gg: ASbGncsP91MXL6ZK7nAtjWYzPN6GjkgzDQdzGph8jUxt+pWz1co6gjR76nSrhn+N4CO
-	Dr0jAXqCAU07oCNX/kg4JKl3VNj1BlocMEhbjG642Koqdyuw9/n5liofn4eVQfv3uQ/w1SLn/Uw
-	s6UMJBjnfqHooba/Wribih+72AK93mXOrS6C+r1/vHPAgtnO45NJcWtfsDqhTGA9IAi26wF4aFa
-	lrTUnWR2fYOHP76veWPwk580j8URSNtFue/c8FlXyxuT6FqfvD4a+TDTFUGq2yoksUxXTnMIRSm
-	dUS6lQdIPEjmkYGOGrNkfweDnJZt92QVO5Vyi491OfiFFuIAHQGRVTKGixj+99IdTPDIHXh0WLb
-	/MI0IfuEM9IEiAAqz3ykADZ3ECfTwnG7eCGCXJx/E/iGG6llvC9kKwToHh6/k2FMg186RzAGJ4S
-	9atHJwKQhsChDEaPXv+PB3EB+mx1/Frg==
-X-Google-Smtp-Source: AGHT+IGHT84Qf+UoUWA6jb3IxZPRfUWoD+BvLkJI7FuBwHyF9sbUKgBzPyG6ExfUioS9C785mbuvAg==
-X-Received: by 2002:a17:903:2392:b0:246:4077:4563 with SMTP id d9443c01a7336-28e7f310ee5mr70964875ad.34.1759372247040;
-        Wed, 01 Oct 2025 19:30:47 -0700 (PDT)
+        bh=Xfgqn39s6/BEF9EgTCjP8PdWeG1LzkqGUEJ5kP4XTEw=;
+        b=nhtufSFk3ZUIMiKYF9+glwxjxCW6of7BYoTyrK/sVKpsM66A/TX1C+kCWU+1zP7ovT
+         UEjSClrW//P/aaX35xZf5d4YeMdFbzO0l7i1xFPLxUUryOilQAJzsEFgqUP6p46S89v5
+         9iP/u61q6U0QqPJyl3VLxqf/FnMGE9eZmtc0u2dqXfUmIcKX4ln//rq4FpR2S1Xadkdd
+         ZX3cIUOy2jZRfHqTo0Cuo2CduIR6fz8R4agcdn3knwiE+IpuVsSUkKIqqmLI+ZBBaUqK
+         0isBGabfhtmKX4p0Ou40vw5Z8uSmD24qRIimXaAsEADitXCAD4E/2g16XrnLoO3ltOVC
+         411Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWUJ/Zn0A6YyE554MKx96zY7JcU0ze/MDHL3Rtodmkgf9FXAj5NwQIod4PetwQc8NlKkemm0msQRJK0+tBLG/XLpw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzfQSAfGErfx2Rfq/olGWrK7UlctA0WM8VGKkiUQq9r7HiAfFHu
+	lqvasB+b7M98atzpBmU/tEWsvLNrP7N3YYz+ZLs/Ww9XyN9s0aXIsDEf
+X-Gm-Gg: ASbGncs4EOpNm4egoeE+//0LAUdRG44oBm5xCObuhkjG0RTJP6rvtFohlxE/0oZqlKE
+	ozja4E4VJjTGE+fmv+Co5EJY4T5XaXg8lPY1MINLa4G/SSpzWWGjf8IEkAvIqKYBWbx6S2AcwZG
+	QFYa44fj893s+oujpn1yKgJ9W9xopFIQnvKehMpwkI/ne74ZFS9+kKNq4+ETJAh00+CGLD8sDn4
+	IE406Cmwu3IT4kRIliRC1wXz6gQvacbITeHj2OEExJEfE/hLZbOkOds194LvT5uvKdKmgfzr37d
+	wzhqr+kKOc/87GhhDiQdHWDM5CxijR5t+JqFzI2+yFTUnVNCg4UpDTBiaF9JuToN+VHM1GBrqIO
+	0AfkxhH0R5/HC7i59yTsbOUFzzskDJOelxndBAZl6gJxGt/p2TGhb2j1R2jh2xWUvPQNStM7Nzi
+	i238z6RnoamowkLfWJsnXkFjXEXYYepA==
+X-Google-Smtp-Source: AGHT+IGorENcdOGe8zuk7KjvdCcMClXU0QhgXv3FpUcvJWbaYf9g1TRN964d9BgMDoHJ7uAKv4Fb9A==
+X-Received: by 2002:a05:6a00:2e04:b0:781:9a6:1175 with SMTP id d2e1a72fcca58-78af417a351mr6495179b3a.25.1759372264118;
+        Wed, 01 Oct 2025 19:31:04 -0700 (PDT)
 Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d038e4asm10398425ad.0.2025.10.01.19.30.45
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-78b01f9a364sm1042251b3a.6.2025.10.01.19.31.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Oct 2025 19:30:46 -0700 (PDT)
+        Wed, 01 Oct 2025 19:31:03 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <b28fd34d-d38f-48c2-8a4b-105897da3fb1@roeck-us.net>
-Date: Wed, 1 Oct 2025 19:30:45 -0700
+Message-ID: <e6135fff-c7d5-403d-8818-57220348ca7d@roeck-us.net>
+Date: Wed, 1 Oct 2025 19:31:02 -0700
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -85,7 +85,7 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] dt-bindings: watchdog: factor out RZ/N1 watchdog
+Subject: Re: [PATCH 3/4] dt-bindings: watchdog: factor out RZ/G2L watchdog
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
  linux-renesas-soc@vger.kernel.org
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
@@ -96,7 +96,7 @@ Cc: Biju Das <biju.das.jz@bp.renesas.com>,
  Magnus Damm <magnus.damm@gmail.com>, linux-watchdog@vger.kernel.org,
  devicetree@vger.kernel.org
 References: <20250926112218.28723-1-wsa+renesas@sang-engineering.com>
- <20250926112218.28723-3-wsa+renesas@sang-engineering.com>
+ <20250926112218.28723-4-wsa+renesas@sang-engineering.com>
 Content-Language: en-US
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
@@ -142,104 +142,219 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
  FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
  np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20250926112218.28723-3-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20250926112218.28723-4-wsa+renesas@sang-engineering.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 9/26/25 04:22, Wolfram Sang wrote:
 > Renesas created different watchdog IPs but they are all handled in the
 > same binding documentation. This leads to a lot of conditional handling
-> which makes it unnecessarily hard to add new items. Factor out the RZ/N1
-> watchdog to make handling easier.
+> which makes it unnecessarily hard to add new items. Factor out the
+> RZ/G2L watchdog to make handling easier.
 > 
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
 > ---
->   .../bindings/watchdog/renesas,rzn1-wdt.yaml   | 49 +++++++++++++++++++
->   .../bindings/watchdog/renesas,wdt.yaml        |  6 ---
->   2 files changed, 49 insertions(+), 6 deletions(-)
->   create mode 100644 Documentation/devicetree/bindings/watchdog/renesas,rzn1-wdt.yaml
+>   .../bindings/watchdog/renesas,rzg2l-wdt.yaml  | 111 ++++++++++++++++++
+>   .../bindings/watchdog/renesas,wdt.yaml        |  45 +------
+>   2 files changed, 112 insertions(+), 44 deletions(-)
+>   create mode 100644 Documentation/devicetree/bindings/watchdog/renesas,rzg2l-wdt.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/watchdog/renesas,rzn1-wdt.yaml b/Documentation/devicetree/bindings/watchdog/renesas,rzn1-wdt.yaml
+> diff --git a/Documentation/devicetree/bindings/watchdog/renesas,rzg2l-wdt.yaml b/Documentation/devicetree/bindings/watchdog/renesas,rzg2l-wdt.yaml
 > new file mode 100644
-> index 000000000000..01eab6cc1110
+> index 000000000000..77d325415280
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/watchdog/renesas,rzn1-wdt.yaml
-> @@ -0,0 +1,49 @@
+> +++ b/Documentation/devicetree/bindings/watchdog/renesas,rzg2l-wdt.yaml
+> @@ -0,0 +1,111 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/watchdog/renesas,rzn1-wdt.yaml#
+> +$id: http://devicetree.org/schemas/watchdog/renesas,rzg2l-wdt.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Renesas RZ/N1 Watchdog Timer (WDT) Controller
+> +title: Renesas RZ/G2L Watchdog Timer (WDT) Controller
 > +
 > +maintainers:
-> +  - Wolfram Sang <wsa+renesas@sang-engineering.com>
+> +  - Biju Das <biju.das.jz@bp.renesas.com>
 > +
 > +properties:
 > +  compatible:
-> +    items:
-> +      - enum:
-> +          - renesas,r9a06g032-wdt    # RZ/N1D
-> +      - const: renesas,rzn1-wdt      # RZ/N1
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - renesas,r9a07g043-wdt    # RZ/G2UL and RZ/Five
+> +              - renesas,r9a07g044-wdt    # RZ/G2{L,LC}
+> +              - renesas,r9a07g054-wdt    # RZ/V2L
+> +              - renesas,r9a08g045-wdt    # RZ/G3S
+> +          - const: renesas,rzg2l-wdt
+> +
+> +      - items:
+> +          - enum:
+> +              - renesas,r9a09g011-wdt    # RZ/V2M
+> +          - const: renesas,rzv2m-wdt     # RZ/V2M
 > +
 > +  reg:
 > +    maxItems: 1
 > +
 > +  interrupts:
-> +    maxItems: 1
+> +    minItems: 1
+> +    items:
+> +      - description: Timeout
+> +      - description: Parity error
+> +
+> +  interrupt-names:
+> +    minItems: 1
+> +    items:
+> +      - const: wdt
+> +      - const: perrout
 > +
 > +  clocks:
+> +    items:
+> +      - description: Register access clock
+> +      - description: Main clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: pclk
+> +      - const: oscclk
+> +
+> +  power-domains:
 > +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  timeout-sec: true
 > +
 > +required:
 > +  - compatible
 > +  - reg
 > +  - interrupts
 > +  - clocks
+> +  - clock-names
+> +  - power-domains
+> +  - resets
 > +
 > +allOf:
 > +  - $ref: watchdog.yaml#
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,rzg2l-wdt
+> +    then:
+> +      properties:
+> +        interrupts:
+> +          minItems: 2
+> +        interrupt-names:
+> +          minItems: 2
+> +      required:
+> +        - interrupt-names
+> +    else:
+> +      properties:
+> +        interrupts:
+> +          maxItems: 1
 > +
 > +additionalProperties: false
 > +
 > +examples:
 > +  - |
-> +    #include <dt-bindings/clock/r9a06g032-sysctrl.h>
+> +    #include <dt-bindings/clock/r9a07g044-cpg.h>
 > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
 > +
-> +    wdt0: watchdog@40008000 {
-> +            compatible = "renesas,r9a06g032-wdt", "renesas,rzn1-wdt";
-> +            reg = <0x40008000 0x1000>;
-> +            interrupts = <GIC_SPI 73 IRQ_TYPE_EDGE_RISING>;
-> +            clocks = <&sysctrl R9A06G032_CLK_WATCHDOG>;
+> +    wdt0: watchdog@12800800 {
+> +            compatible = "renesas,r9a07g044-wdt",
+> +                         "renesas,rzg2l-wdt";
+> +            reg = <0x12800800 0x400>;
+> +            clocks = <&cpg CPG_MOD R9A07G044_WDT0_PCLK>,
+> +                     <&cpg CPG_MOD R9A07G044_WDT0_CLK>;
+> +            clock-names = "pclk", "oscclk";
+> +            interrupts = <GIC_SPI 49 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 50 IRQ_TYPE_LEVEL_HIGH>;
+> +            interrupt-names = "wdt", "perrout";
+> +            resets = <&cpg R9A07G044_WDT0_PRESETN>;
+> +            power-domains = <&cpg>;
 > +    };
 > diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-> index 8a25e0c6271f..12ba07781763 100644
+> index 12ba07781763..2a15c012fd67 100644
 > --- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
 > +++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-> @@ -13,11 +13,6 @@ maintainers:
+> @@ -13,19 +13,6 @@ maintainers:
 >   properties:
 >     compatible:
 >       oneOf:
 > -      - items:
 > -          - enum:
-> -              - renesas,r9a06g032-wdt    # RZ/N1D
-> -          - const: renesas,rzn1-wdt      # RZ/N1
+> -              - renesas,r9a07g043-wdt    # RZ/G2UL and RZ/Five
+> -              - renesas,r9a07g044-wdt    # RZ/G2{L,LC}
+> -              - renesas,r9a07g054-wdt    # RZ/V2L
+> -              - renesas,r9a08g045-wdt    # RZ/G3S
+> -          - const: renesas,rzg2l-wdt
+> -
+> -      - items:
+> -          - enum:
+> -              - renesas,r9a09g011-wdt    # RZ/V2M
+> -          - const: renesas,rzv2m-wdt     # RZ/V2M
 > -
 >         - items:
 >             - enum:
->                 - renesas,r9a07g043-wdt    # RZ/G2UL and RZ/Five
-> @@ -134,7 +129,6 @@ allOf:
->               contains:
->                 enum:
->                   - renesas,r9a09g077-wdt
-> -                - renesas,rzn1-wdt
+>                 - renesas,r8a7742-wdt      # RZ/G1H
+> @@ -83,16 +70,7 @@ properties:
+>       maxItems: 2
+>   
+>     interrupts:
+> -    minItems: 1
+> -    items:
+> -      - description: Timeout
+> -      - description: Parity error
+> -
+> -  interrupt-names:
+> -    minItems: 1
+> -    items:
+> -      - const: wdt
+> -      - const: perrout
+> +    maxItems: 1
+>   
+>     clocks:
+>       minItems: 1
+> @@ -140,8 +118,6 @@ allOf:
+>             contains:
+>               enum:
+>                 - renesas,r9a09g057-wdt
+> -              - renesas,rzg2l-wdt
+> -              - renesas,rzv2m-wdt
 >       then:
->         required:
->           - power-domains
+>         properties:
+>           clocks:
+> @@ -155,25 +131,6 @@ allOf:
+>           clocks:
+>             maxItems: 1
+>   
+> -  - if:
+> -      properties:
+> -        compatible:
+> -          contains:
+> -            enum:
+> -              - renesas,rzg2l-wdt
+> -    then:
+> -      properties:
+> -        interrupts:
+> -          minItems: 2
+> -        interrupt-names:
+> -          minItems: 2
+> -      required:
+> -        - interrupt-names
+> -    else:
+> -      properties:
+> -        interrupts:
+> -          maxItems: 1
+> -
+>     - if:
+>         properties:
+>           compatible:
 
 
