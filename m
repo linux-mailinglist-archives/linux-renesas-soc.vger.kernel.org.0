@@ -1,109 +1,175 @@
-Return-Path: <linux-renesas-soc+bounces-22562-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22563-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 645DBBB2BA1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Oct 2025 09:46:20 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84CB3BB35ED
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Oct 2025 10:58:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 21C783BE2B6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Oct 2025 07:46:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3893B171694
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Oct 2025 08:58:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A69828F935;
-	Thu,  2 Oct 2025 07:46:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7DDE2ED15F;
+	Thu,  2 Oct 2025 08:58:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="hdMC6LTv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="btSCzjks"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A2026E718
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Oct 2025 07:46:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 823DD2FBE17
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Oct 2025 08:58:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759391175; cv=none; b=dZM47r1bBBnp3rogAYlkRLPTAro2aVo+aDy2/EQdeMT6FScxb9x5FEldstr5kzjty2fSXlFvE5HErEUmOgfJPVLhCqnqArUZVAqekGTJ6egmSeLd+piV4gkXMV0SqHCoz+eLZJBowu59BeeE79upf4bcg763fky/SsmT6iDPEJI=
+	t=1759395494; cv=none; b=N/xLQqZRHvGnfQXRpBw0shR2Q0YZQMfOW+tj/Sc2AfZP6w3gYhIGfRL0QbqmUal92xuIEn+fQplSSSq+JyQoRejbbH5FVNcNNFpQE9p+dT/jhQCXveW7lnw7VM89tovIx0fqwB75r2plEXj24eWHFNGYB1Z5RttpTSiqpUi/2YU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759391175; c=relaxed/simple;
-	bh=cxdhP4mqFsJBNQO/VRV1m4vk7D6c4c++Lg24qQFgRZQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EVKrLapLFE/oCZa0Usv56C5y6gYdfbCu/quveMdqUhgyXXOdaf7gmcVUdWF83X2KCw86Ht5cHUeH+OVjnA/4eL7flQOBC8f+VzqpSwLGchUw2wwSX4eH1h+uqqcz1Y+psqQvzehTxRMMi8yDjagDXEAMTgbeL++pUmxNWN8WbII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=hdMC6LTv; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=cxdh
-	P4mqFsJBNQO/VRV1m4vk7D6c4c++Lg24qQFgRZQ=; b=hdMC6LTvkBHtyCgwjhtb
-	2eW/JF/5zIlSoeIQfppFGhIMUy9stGa7FvD8XyoaLprIjgDmHZ+vEJ/UKoVnGrdg
-	2NnvUIvYp7PM+y2Ggk2i6MVdfWdEy95yMVPde0LiBEF0fmPTro9aggq2ozZ0OcxP
-	rCjAi+Cq+G6/UwL6cL1RCyMfGsUIr4lidv1Y6nhsGnHURmxsJHrZrmqJ+pChfuvz
-	D+S2yKNF3I9BfuW92oAaPHa+kFMKv6zDunxxtZx+FaxQlI+7pFgUHMlVdQ8L6r9U
-	hna9oM0VnVyD01b1ueptRnTYL9Fw358/cBxPdB0Z7cD78gRvWbBefV3LVXcxJHF8
-	bw==
-Received: (qmail 163477 invoked from network); 2 Oct 2025 09:46:06 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 2 Oct 2025 09:46:06 +0200
-X-UD-Smtp-Session: l3s3148p1@oI01LShA0OsgAwDPXwQHAL/S9V79e5yL
-Date: Thu, 2 Oct 2025 09:46:01 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Rob Herring <robh@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-watchdog@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>
-Subject: Re: [PATCH 0/4] dt-bindings: watchdog: factor out RZ watchdogs
-Message-ID: <aN4tuTgRUqd0T54U@shikoro>
-References: <20250926112218.28723-1-wsa+renesas@sang-engineering.com>
- <20251002022324.GA2916027-robh@kernel.org>
+	s=arc-20240116; t=1759395494; c=relaxed/simple;
+	bh=I4SP6KNXP9wNBNDQD45sLrHOkRhFeQz2BrfdEPhIUNM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=k+c86ck66qdeug07cTgCvQNGJMRkohuu+LYrV7j+LtLLhK+s2DpRP4yAMkgxmqHSvdFg11tlUgwAGLuF+o5EF6XG6JBjK16aoV4TxF+PcTs33JI55xQKxzAe2Y56zji9yhzu8pxQA6IIdlzytX0fyZuPdC1wpAlTBVY9jOCz10w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=btSCzjks; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BF3FC116C6
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Oct 2025 08:58:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759395494;
+	bh=I4SP6KNXP9wNBNDQD45sLrHOkRhFeQz2BrfdEPhIUNM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=btSCzjksCbPVkonNPB29BHRt0fa1sO3TU7OFt947yofwiXOioRH73y+gwEYb3G+WV
+	 +pJFG7+NiBIpNdjtyt5qEB0DAgnTXrXv0DRkiUIMk8UcvE2go2Mnx70GNRt6cgeAxP
+	 P2uerqHp1q3U3TtaCHV2IIZTwsHra5tmNTmYkxk1vmCDLeadS/Mk8g/MUQg2oNzpmZ
+	 tY5gviXk2i+YBzHU5kFX9OiIT5jkrzHAjJ1TttD6vC8PZ+e4GMSxvO0b8/LdoWxY3W
+	 zz3xwBMsFVBcJCBOYOsHi5S1Rrpq+Epuv9xDa9VxynO8vi1OcMPJ7TRK74KO7UOSUw
+	 8FMj7LYHT5CtA==
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-63a1f3c0820so207409eaf.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 02 Oct 2025 01:58:14 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXdJqb6ACnZTSL5cqozTsP7SwCo3kc5OyKexaMmUfsYtzSW8hA8QROnwrKEjkCZLo5dI3cW6AJE8N1kHaSEZx92Yg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCM8d5rb4fgC3O423J41OAwAZ074gmXLE8y7b49BO53+5tiuPQ
+	nVnj4jxJlotjDMMFGO7j3TuYOfE9rHOChm8sZjFdXPGCH8KWbqnHMEXgmR0IiZwQGIf/KUMI1VF
+	ITWxC7wzjMew2qEAVmgkRKCv6xjXCZyg=
+X-Google-Smtp-Source: AGHT+IEMLxjd9ZUo/Zk/S6ZXeKvQYsV2ZpEB+uhyIKOVPA1BpiREMPXNleuwDOpgKOeWqhEdBohMl5tTdZvgKgUbJ+k=
+X-Received: by 2002:a05:6820:761a:b0:64e:5783:441f with SMTP id
+ 006d021491bc7-64e5783480fmr470666eaf.8.1759395493299; Thu, 02 Oct 2025
+ 01:58:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="kNM4CdNxEDzw257Z"
-Content-Disposition: inline
-In-Reply-To: <20251002022324.GA2916027-robh@kernel.org>
-
-
---kNM4CdNxEDzw257Z
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <3f5420c70643d9b35b39d9b336295d589eaf7013.1759239979.git.geert+renesas@glider.be>
+In-Reply-To: <3f5420c70643d9b35b39d9b336295d589eaf7013.1759239979.git.geert+renesas@glider.be>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Thu, 2 Oct 2025 10:58:00 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0iu=OYABdXjeYX3GPcUq-LDsq9q1JmGizDi8OX_Uzh4RA@mail.gmail.com>
+X-Gm-Features: AS18NWBBfJP7yjox4AMLuLOrPsFP_Cs7O04kv8bpwFN8HDufe2l_y4eEFFPQjWA
+Message-ID: <CAJZ5v0iu=OYABdXjeYX3GPcUq-LDsq9q1JmGizDi8OX_Uzh4RA@mail.gmail.com>
+Subject: Re: [PATCH] thermal: renesas: Fix RZ/G3E fall-out
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
+	John Madieu <john.madieu.xa@bp.renesas.com>, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, linux-pm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
+On Tue, Sep 30, 2025 at 3:47=E2=80=AFPM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+>   - Restore sort order in MAINTAINERS and Kconfig,
+>   - Remove empty trailing line from Makefile.
+>
+> Fixes: 19d3a401a617c68e ("thermal/drivers/renesas/rzg3e: Add thermal driv=
+er for the Renesas RZ/G3E SoC")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  MAINTAINERS                      | 14 +++++++-------
+>  drivers/thermal/renesas/Kconfig  | 14 +++++++-------
+>  drivers/thermal/renesas/Makefile |  1 -
+>  3 files changed, 14 insertions(+), 15 deletions(-)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index eb73b4db917596bd..fc755a50fb150498 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -21881,13 +21881,6 @@ S:     Maintained
+>  F:     Documentation/devicetree/bindings/iio/potentiometer/renesas,x9250=
+.yaml
+>  F:     drivers/iio/potentiometer/x9250.c
+>
+> -RENESAS RZ/G3S THERMAL SENSOR UNIT DRIVER
+> -M:     Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> -L:     linux-pm@vger.kernel.org
+> -S:     Maintained
+> -F:     Documentation/devicetree/bindings/thermal/renesas,r9a08g045-tsu.y=
+aml
+> -F:     drivers/thermal/renesas/rzg3s_thermal.c
+> -
+>  RENESAS RZ/G3E THERMAL SENSOR UNIT DRIVER
+>  M:     John Madieu <john.madieu.xa@bp.renesas.com>
+>  L:     linux-pm@vger.kernel.org
+> @@ -21895,6 +21888,13 @@ S:     Maintained
+>  F:     Documentation/devicetree/bindings/thermal/renesas,r9a09g047-tsu.y=
+aml
+>  F:     drivers/thermal/renesas/rzg3e_thermal.c
+>
+> +RENESAS RZ/G3S THERMAL SENSOR UNIT DRIVER
+> +M:     Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> +L:     linux-pm@vger.kernel.org
+> +S:     Maintained
+> +F:     Documentation/devicetree/bindings/thermal/renesas,r9a08g045-tsu.y=
+aml
+> +F:     drivers/thermal/renesas/rzg3s_thermal.c
+> +
+>  RESET CONTROLLER FRAMEWORK
+>  M:     Philipp Zabel <p.zabel@pengutronix.de>
+>  S:     Maintained
+> diff --git a/drivers/thermal/renesas/Kconfig b/drivers/thermal/renesas/Kc=
+onfig
+> index c762c1c30d5a211a..5735c8728a31fcb5 100644
+> --- a/drivers/thermal/renesas/Kconfig
+> +++ b/drivers/thermal/renesas/Kconfig
+> @@ -27,6 +27,13 @@ config RZG2L_THERMAL
+>           Enable this to plug the RZ/G2L thermal sensor driver into the L=
+inux
+>           thermal framework.
+>
+> +config RZG3E_THERMAL
+> +       tristate "Renesas RZ/G3E thermal driver"
+> +       depends on ARCH_RENESAS || COMPILE_TEST
+> +       help
+> +         Enable this to plug the RZ/G3E thermal sensor driver into the L=
+inux
+> +         thermal framework.
+> +
+>  config RZG3S_THERMAL
+>         tristate "Renesas RZ/G3S thermal driver"
+>         depends on ARCH_R9A08G045 || COMPILE_TEST
+> @@ -34,10 +41,3 @@ config RZG3S_THERMAL
+>         help
+>           Enable this to plug the RZ/G3S thermal sensor driver into the L=
+inux
+>           thermal framework.
+> -
+> -config RZG3E_THERMAL
+> -       tristate "Renesas RZ/G3E thermal driver"
+> -       depends on ARCH_RENESAS || COMPILE_TEST
+> -       help
+> -         Enable this to plug the RZ/G3E thermal sensor driver into the L=
+inux
+> -         thermal framework.
+> diff --git a/drivers/thermal/renesas/Makefile b/drivers/thermal/renesas/M=
+akefile
+> index 0ea59224757226cc..8f5ae9af277cab5e 100644
+> --- a/drivers/thermal/renesas/Makefile
+> +++ b/drivers/thermal/renesas/Makefile
+> @@ -5,4 +5,3 @@ obj-$(CONFIG_RCAR_THERMAL)      +=3D rcar_thermal.o
+>  obj-$(CONFIG_RZG2L_THERMAL)    +=3D rzg2l_thermal.o
+>  obj-$(CONFIG_RZG3E_THERMAL)    +=3D rzg3e_thermal.o
+>  obj-$(CONFIG_RZG3S_THERMAL)    +=3D rzg3s_thermal.o
+> -
+> --
 
-> Let me know if watchdog maintainers fail to pick this up. Seems to be=20
-> hit or miss for bindings...
-
-Thanks. I think the WDT tree is the better choice here because this is
-only a preparational cleanup for the actual changes...
-
-
---kNM4CdNxEDzw257Z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjeLbUACgkQFA3kzBSg
-KbYglBAAoXua78nbPkr1NGhV3hH3oSp1WpZplCPBFgZyLm55f4ENVLeIcagrkfIB
-Bh2jkRN2RYrszgfwVrNt61Jt2xcO5XuppQH5QvlICppuBL63rR1uTw65wBMZOMol
-Sa1WMO40lk0DR7Qin4DLTG1FqsDQmBD2sPDqvXUbcbVm5h6iQ0lvTonaRIAbQO+d
-SD3wPFgHqOxkC76aKkzx4vXTSIU8fTbx1EBXjDq/aHhJ71uGF12tQHw12Q37BAuQ
-c1AWb7iBfWDGaqPPljTG42lzhUw+J0n92jA9dAkcYBPNxiImaGculSlQWr+aLpbj
-TxbphFitwqwaRfFM5ou/lxBLUdDgmVu5qkSSIlqdalAj5LWYegyZwI0FhSFELeeQ
-vHtzAd3wUm4TOd7iuCqlC6RMC3SmhvWVBvctjdKmG127dK2TvZrms8u3axm1MRIm
-3y8GTrif3GREIRmKFn1KyGGCOhMMzQgNr8hj612rzYXyHlgwDzgx7MMAAScBBbZw
-ayK6yi3y+/6OJGTlBu3Mg+geyoEOrKD5shl/OK1dBei7qOJKb/r0X78JAKIcjuIe
-yquV68WPKFySB5awc9qznZoc00X29y3D1CkKagAtfF70oM/84jKGuMtbtdrNywPP
-+7XtI8d/dmWZqLjWErkooNkEiRryy50cTXuG5vSeomN25yfVMu0=
-=1+en
------END PGP SIGNATURE-----
-
---kNM4CdNxEDzw257Z--
+Applied, thanks!
 
