@@ -1,43 +1,43 @@
-Return-Path: <linux-renesas-soc+bounces-22599-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22600-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B78A3BB42FA
+	by mail.lfdr.de (Postfix) with ESMTPS id C13F7BB42FB
 	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Oct 2025 16:41:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0F20A18881C0
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C10C61888A3F
 	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Oct 2025 14:41:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EEBD2EC08E;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87F6D2C027F;
 	Thu,  2 Oct 2025 14:41:06 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 563BB2C027F
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Oct 2025 14:41:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FD6330DD32
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Oct 2025 14:41:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759416066; cv=none; b=rVpFb8q6jdR27GygO+l19DJpEojH95bwIeOwvPN0gcipX/131G8AezW5dIvOtzQyaHcqSE97Qn4f932fTKBv2U/j+lQssBm8abwmU1RHCMXk7KtiofjWH8wGX/yN507/V5VC3joNm2ETh4SfRR6yl3LZ6YX2ebQLZMo3QRrTFsc=
+	t=1759416066; cv=none; b=lXOh3SkT7408ogTT/pPK3dLbhLwtA31Hw+QS/FtFzob5yGQoWXhh94xBrQlcKP1G8evH9VkNaBza3x7U5obeTTiUeZQg3aZhr2x9moDTG6y72xhEK5s4sEgNizJqSvGw6SIXKLh0IVmX4LpGDOwP0vEPDGvKZXWlsHYCrslAUVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1759416066; c=relaxed/simple;
-	bh=i6UxcO7fhT5CmVK52vJ54GLhzgUuLlrVOyj7pw+CX2s=;
+	bh=nYh5q4w2sTLmkhVHs4989VynKKkwu/Mi1DOTvwNbPGc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CYHHdsYYkXF45LcRs7juEhjdCJ6sr2Gw58QkSq+rm46DLr6vJcktZFyNsej6+fzquTb8ZB6hoyVNaQbYS2uujNz+lgqXOJA/UiEosUDcYF+lr/onTHwzEQENyzwc4Z0YulqWCRGn0L1osAp57vDwW3F4kQo8UwQVOX7kUyCMTZE=
+	 MIME-Version; b=gRksHOjjrfVOvOIBopeAM7mf0uD69EFMBUlG8lnrANPhP/pvVLpbH42Ltuic3vkO6jq32bOb8377fxvr75lYJb2Kmerk7lR9ohlStBdlAxFprV8I1gUa4Pg9luYuRhUbKBSR16e+dJegvHuBP/q+cka80Krq2zx+C5OXf0gdUuI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C0E5C4CEFB;
-	Thu,  2 Oct 2025 14:41:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D51BC4CEFD;
+	Thu,  2 Oct 2025 14:41:05 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Magnus Damm <magnus.damm@gmail.com>,
 	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: linux-arm-kernel@lists.infradead.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 10/13] ARM: dts: renesas: r8a7792: Move interrupt-parent to root node
-Date: Thu,  2 Oct 2025 16:40:38 +0200
-Message-ID: <3fc9ca6fd1469ec76c6c820a8c966b0a6652fbad.1759414774.git.geert+renesas@glider.be>
+Subject: [PATCH 11/13] ARM: dts: renesas: r8a7793: Move interrupt-parent to root node
+Date: Thu,  2 Oct 2025 16:40:39 +0200
+Message-ID: <a561c3ee412df8e6fd293a91fa0aa5d303143d22.1759414774.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1759414774.git.geert+renesas@glider.be>
 References: <cover.1759414774.git.geert+renesas@glider.be>
@@ -55,22 +55,22 @@ root node, and simplify "interrupts-extended = <&gic ...>" to
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- arch/arm/boot/dts/renesas/r8a7792.dtsi | 14 +++++++-------
+ arch/arm/boot/dts/renesas/r8a7793.dtsi | 14 +++++++-------
  1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/arch/arm/boot/dts/renesas/r8a7792.dtsi b/arch/arm/boot/dts/renesas/r8a7792.dtsi
-index 7513afc1c95853ea..9e0de69ac3a3a919 100644
---- a/arch/arm/boot/dts/renesas/r8a7792.dtsi
-+++ b/arch/arm/boot/dts/renesas/r8a7792.dtsi
+diff --git a/arch/arm/boot/dts/renesas/r8a7793.dtsi b/arch/arm/boot/dts/renesas/r8a7793.dtsi
+index fc6d3bcca2961f8e..1ad50070a1a732bd 100644
+--- a/arch/arm/boot/dts/renesas/r8a7793.dtsi
++++ b/arch/arm/boot/dts/renesas/r8a7793.dtsi
 @@ -14,6 +14,7 @@ / {
- 	compatible = "renesas,r8a7792";
+ 	compatible = "renesas,r8a7793";
  	#address-cells = <2>;
  	#size-cells = <2>;
 +	interrupt-parent = <&gic>;
  
  	aliases {
  		i2c0 = &i2c0;
-@@ -94,8 +95,8 @@ lbsc: bus {
+@@ -122,8 +123,8 @@ extal_clk: extal {
  
  	pmu {
  		compatible = "arm,cortex-a15-pmu";
@@ -81,7 +81,7 @@ index 7513afc1c95853ea..9e0de69ac3a3a919 100644
  		interrupt-affinity = <&cpu0>, <&cpu1>;
  	};
  
-@@ -109,7 +110,6 @@ scif_clk: scif {
+@@ -137,7 +138,6 @@ scif_clk: scif {
  
  	soc {
  		compatible = "simple-bus";
@@ -89,7 +89,7 @@ index 7513afc1c95853ea..9e0de69ac3a3a919 100644
  		bootph-all;
  
  		#address-cells = <2>;
-@@ -992,10 +992,10 @@ cmt1: timer@e6130000 {
+@@ -1518,10 +1518,10 @@ cooling-maps {
  
  	timer {
  		compatible = "arm,armv7-timer";
@@ -103,7 +103,7 @@ index 7513afc1c95853ea..9e0de69ac3a3a919 100644
 +			     <GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>;
  		interrupt-names = "sec-phys", "phys", "virt", "hyp-phys";
  	};
- };
+ 
 -- 
 2.43.0
 
