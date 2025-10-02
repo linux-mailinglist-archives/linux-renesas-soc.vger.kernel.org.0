@@ -1,43 +1,43 @@
-Return-Path: <linux-renesas-soc+bounces-22598-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22599-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AEB4BB42F5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Oct 2025 16:41:06 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B78A3BB42FA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 02 Oct 2025 16:41:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C95031886229
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Oct 2025 14:41:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0F20A18881C0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Oct 2025 14:41:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B38DC311C37;
-	Thu,  2 Oct 2025 14:41:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EEBD2EC08E;
+	Thu,  2 Oct 2025 14:41:06 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6DC30DD32
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Oct 2025 14:41:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 563BB2C027F
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Oct 2025 14:41:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759416063; cv=none; b=lVEDY/htqAHlnDFv9dbd8yTDlRA7j4SiFSZd/o7p6vD1Zaa21yCgLLaTTANG/qrr7t2Us973uISUGXrIsjTGO44V6CGpqez+u/vGebo4D0c1bF+JlLmZ2ANBB+Wckcof/9FTxpv1t5alxgqUlQxaA/QHqKFvXtZ+fsNvIE8bz/8=
+	t=1759416066; cv=none; b=rVpFb8q6jdR27GygO+l19DJpEojH95bwIeOwvPN0gcipX/131G8AezW5dIvOtzQyaHcqSE97Qn4f932fTKBv2U/j+lQssBm8abwmU1RHCMXk7KtiofjWH8wGX/yN507/V5VC3joNm2ETh4SfRR6yl3LZ6YX2ebQLZMo3QRrTFsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759416063; c=relaxed/simple;
-	bh=B1r4ku1+0USWCWv2HUF9EI93q657dZP2u2//gfZeWSg=;
+	s=arc-20240116; t=1759416066; c=relaxed/simple;
+	bh=i6UxcO7fhT5CmVK52vJ54GLhzgUuLlrVOyj7pw+CX2s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gDkxmMGHKsKOfrnLYbPn9c9KPrjwqz0JDAGFg+wxTkKqbi6XTL/v3Y02lkd9xCh7dnUFwLb1qnNnzmBcKjyzQQrsMchhnz2pM8zxY0fhU4FX0hwGxjGu0/BnTv7Zjqsyi/msl6rhau1VVWH2S549JqlFl8FYVw25A7BDSntBVvQ=
+	 MIME-Version; b=CYHHdsYYkXF45LcRs7juEhjdCJ6sr2Gw58QkSq+rm46DLr6vJcktZFyNsej6+fzquTb8ZB6hoyVNaQbYS2uujNz+lgqXOJA/UiEosUDcYF+lr/onTHwzEQENyzwc4Z0YulqWCRGn0L1osAp57vDwW3F4kQo8UwQVOX7kUyCMTZE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12792C4CEF9;
-	Thu,  2 Oct 2025 14:41:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C0E5C4CEFB;
+	Thu,  2 Oct 2025 14:41:03 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Magnus Damm <magnus.damm@gmail.com>,
 	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: linux-arm-kernel@lists.infradead.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 09/13] ARM: dts: renesas: r8a7791: Move interrupt-parent to root node
-Date: Thu,  2 Oct 2025 16:40:37 +0200
-Message-ID: <32809538c2ceedcd142fc419918c6928870bbb6c.1759414774.git.geert+renesas@glider.be>
+Subject: [PATCH 10/13] ARM: dts: renesas: r8a7792: Move interrupt-parent to root node
+Date: Thu,  2 Oct 2025 16:40:38 +0200
+Message-ID: <3fc9ca6fd1469ec76c6c820a8c966b0a6652fbad.1759414774.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1759414774.git.geert+renesas@glider.be>
 References: <cover.1759414774.git.geert+renesas@glider.be>
@@ -55,22 +55,22 @@ root node, and simplify "interrupts-extended = <&gic ...>" to
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- arch/arm/boot/dts/renesas/r8a7791.dtsi | 14 +++++++-------
+ arch/arm/boot/dts/renesas/r8a7792.dtsi | 14 +++++++-------
  1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/arch/arm/boot/dts/renesas/r8a7791.dtsi b/arch/arm/boot/dts/renesas/r8a7791.dtsi
-index 5023b41c28b36173..35313e8da426500f 100644
---- a/arch/arm/boot/dts/renesas/r8a7791.dtsi
-+++ b/arch/arm/boot/dts/renesas/r8a7791.dtsi
-@@ -16,6 +16,7 @@ / {
- 	compatible = "renesas,r8a7791";
+diff --git a/arch/arm/boot/dts/renesas/r8a7792.dtsi b/arch/arm/boot/dts/renesas/r8a7792.dtsi
+index 7513afc1c95853ea..9e0de69ac3a3a919 100644
+--- a/arch/arm/boot/dts/renesas/r8a7792.dtsi
++++ b/arch/arm/boot/dts/renesas/r8a7792.dtsi
+@@ -14,6 +14,7 @@ / {
+ 	compatible = "renesas,r8a7792";
  	#address-cells = <2>;
  	#size-cells = <2>;
 +	interrupt-parent = <&gic>;
  
  	aliases {
  		i2c0 = &i2c0;
-@@ -137,8 +138,8 @@ pcie_bus_clk: pcie_bus {
+@@ -94,8 +95,8 @@ lbsc: bus {
  
  	pmu {
  		compatible = "arm,cortex-a15-pmu";
@@ -81,7 +81,7 @@ index 5023b41c28b36173..35313e8da426500f 100644
  		interrupt-affinity = <&cpu0>, <&cpu1>;
  	};
  
-@@ -152,7 +153,6 @@ scif_clk: scif {
+@@ -109,7 +110,6 @@ scif_clk: scif {
  
  	soc {
  		compatible = "simple-bus";
@@ -89,7 +89,7 @@ index 5023b41c28b36173..35313e8da426500f 100644
  		bootph-all;
  
  		#address-cells = <2>;
-@@ -1939,10 +1939,10 @@ cooling-maps {
+@@ -992,10 +992,10 @@ cmt1: timer@e6130000 {
  
  	timer {
  		compatible = "arm,armv7-timer";
@@ -103,7 +103,7 @@ index 5023b41c28b36173..35313e8da426500f 100644
 +			     <GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>;
  		interrupt-names = "sec-phys", "phys", "virt", "hyp-phys";
  	};
- 
+ };
 -- 
 2.43.0
 
