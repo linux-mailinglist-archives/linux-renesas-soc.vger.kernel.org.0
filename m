@@ -1,528 +1,254 @@
-Return-Path: <linux-renesas-soc+bounces-22623-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22624-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B008BB63EE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 03 Oct 2025 10:36:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85810BB66AA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 03 Oct 2025 12:03:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EF80B422B88
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Oct 2025 08:36:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 341E33C7F01
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Oct 2025 10:03:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D03AC26E6F3;
-	Fri,  3 Oct 2025 08:36:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7738F29BDB3;
+	Fri,  3 Oct 2025 10:03:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="LxDeHWEL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010008.outbound.protection.outlook.com [52.101.229.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F4E26E153
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  3 Oct 2025 08:36:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759480585; cv=none; b=F+cR4e2sa0K2AV3UVXzKKJGAPf79CVLTrc7FOIsrTeDAzJ+4b4C8ScouRYg8F5ZS/vQg24DekDK6Z0DzzJx0uXyyTBOdm+mgJvnEv/2LrxJWAVaJ7hQbosv87gvqdEcKSUV0EoP7YQRcSHOQzvAXdsbSI1PApyIwBLf8ScLL968=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759480585; c=relaxed/simple;
-	bh=cfrd57YYyjYqKaR3ugNAJPp3zEcBDHea8JquZ04nE+U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AxirRLealYL8pdhYiMdQ7hHJ2kSKaUtqixQ9xlJO32MpPL2KmOkEcbOvOiqqokIkHxrf5Lex1Jdc3V6HB8VceOrEQrDP9hiDGkU61tnrVSOl/7pwq7zlihl+8SHD0QRBmoQazIpuIC7Yo37uZSoFijkZL5KUXcD31tlvL7sxRrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-54bbc2a8586so649841e0c.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 03 Oct 2025 01:36:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759480582; x=1760085382;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GJm5961noSyZ6vNZVTMrFP3FcaKw0C9GlbxQjCPQ5pQ=;
-        b=r5qJd7oSbHV31aJZijJWdZvRob3kAd21OYYqTQNr/CW83amHbT8jfBFo1J/XSVT26M
-         ueWvgdQHzf4bKroDEVYQNy4WNXKfutqoMmZNQ2jyUUKVueKAZ4X3wukV1tehU8oN3M0c
-         ONQWLr4c0MKYBIir7szWAjHb154ULbfdbWHdujp8eY81ZboJY25iqqnwVS2ISo0H1qAN
-         OfR3RQJ2+GuWZpmx7YQdc67GPAvi/TfMmUVE/negmSBCvBgO2EDWQ8uxH8Mg86CNBCy9
-         BXXYibF7ut3RVpwdI/XkexcS1KBHigf0nMnDcPu+rtu+r46Emv9QvwnPo49jy3OdBBtI
-         NFQA==
-X-Forwarded-Encrypted: i=1; AJvYcCVLzs9IrAoT83+EUgJBoaL3nquR3wiqD54tbyuup+BAzzaghYVbCRoaHmC5Em/t/rMsqO4qFw33o363FPyt4HBdNQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw810Yvrdnp7W3UJRspkcM2HXIWuGHJYPCzZW6qQ1vC/d6dYTtY
-	NG0Xz1FyhYW513hUcXEJHMAnAPS6xP8lqsPU5ytn9gle/JP8z614eyzlWVwpNef/mkM=
-X-Gm-Gg: ASbGncsdvBjTHvQXmh2BBFVsPLHh0yCJYZCJHf2nb6EP/XP64wMgJ9RvHYGBirFXukU
-	1ezWYUxiTnjrCp5UmDP/t3uO58vkZMk/ZNk+T8lJK7m5oZoAgu6EZlRTO5I2WfBxwhRI8ynJBpl
-	ujNk7AN2Gwq5sYbJdSoVhY+i8aZDCMErfzsxqwKgZSPXhqCMRFRTeIVB3e2UeejBeq+s6JIp5Pk
-	o64e/COA0AH15Y56cZX3SnxvK4Ua7NRr4Oy3HWkXEe6t5269r6/x/MQAkcRxjt+ErtZNHfEVpf+
-	A6oiilO/ubhHmARv/hmlNsSnPLRkRCNNtZZ6N2exnHF3tOuvxl/UaLjDKOedFIIhRvuo/hFVNbA
-	G5rSAJoghu/imePV0JYNHdn2sOR6CgL3owXBIKcWdgu5WPEtMvOGXeNaZxOTU9J+r4J1OQgdJSF
-	ommPpu7l/Ayh5m
-X-Google-Smtp-Source: AGHT+IHLi/MasbfXOsCg/dQCzqmAq9RfAma1MpdGMmeviM7Lv+XvsG2Q6XG0zBwnkhrOjGUTb9jOog==
-X-Received: by 2002:a05:6122:d09:b0:54a:99e2:47db with SMTP id 71dfb90a1353d-5524ea81757mr708608e0c.13.1759480581829;
-        Fri, 03 Oct 2025 01:36:21 -0700 (PDT)
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com. [209.85.221.181])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5523ce648f4sm1112725e0c.9.2025.10.03.01.36.20
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Oct 2025 01:36:21 -0700 (PDT)
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-54aa30f4093so719758e0c.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 03 Oct 2025 01:36:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUpDRXYgNiFIpOlQpg3y/9cu0i23zb+1WtYIg6GpnzGmcTRCflH4du8jFfcqvUD/f9xiZh4mS4Iz2DuYIF4SYhQVw==@vger.kernel.org
-X-Received: by 2002:a05:6122:2086:b0:543:53df:f3c with SMTP id
- 71dfb90a1353d-5524e847342mr608221e0c.2.1759480580498; Fri, 03 Oct 2025
- 01:36:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55BA42628D;
+	Fri,  3 Oct 2025 10:03:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.8
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1759485837; cv=fail; b=MB/EfIo9l2qcjrY7A1b2kUcXc+D2mOT2Hsntaus9m4tyS5R7ycGerojt3MSuNnVfH5ZdFzIM9KeVAXrrpnJUSiY8bjQG00OJXFNuHAQylBIjh6XUH6GAHh6TvhJwvSz2aHbp49xQGg/8l+J2rfVX2YZmdH7ZVMOUlJQuJQZfRfI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1759485837; c=relaxed/simple;
+	bh=6YbiY4ZO/DSlbveGxK+ofvlkDE7Azea9fsgw+dyDZvg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=VqudMKn+ZLRayLrtfrKDHmlzekve/Y0hZ/+gp/drFQglYAduRrnb2ooNZOUhxBi7hcTfmKkMtyvAllZEIOG0zhL7vHRFvaynuQCndryiLJZCW7xWs8Wf4/Pq9EFYcYkiZsJ+cdTIVXlVArlaQ0am+XGFbmuynBOjHeWpWOGAHM4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=LxDeHWEL; arc=fail smtp.client-ip=52.101.229.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DqF80Oa7NNIr9wjPmnuXPhmhf9a3h9UK89bu49rW3yo4bKwrraIuEw1wtBC3xVCdMbkgi6eHGfgVMM/Uz5RQKFesHkNDV1x8WCQm9ybQ0PIUxVD0+0fGhgsHIE9vWTdtPvrv8hcGuAsDZaRDdeRAksTZRhgB1Q2+/rBZfwmGeCZXqfRGpSTibzgqsaCiBfpjY0tWeqgMrJhg6r9m/T8mkgUa+dnV+y06hRNnI46YxBmXZnjHnrMwYlBRa/S6G2Vw3apGbdIUpPhhl2egFXT0ZfTP631OurL/UKMIS7SsOKfZXBWVJLTPJHXepNgNlypLVYDGFi+5RRGoWNWliaMClw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+wJ+3SZSK0WpFZkWMxAmTt5Qo4UUOOxHna/SO7j5l68=;
+ b=MztqME1e7W4ipSiLJM3l4u2sXCADWG6wYrWZ+xTU7N4wPY61ovia85KMCufgTF/k4enwCJuFI3Dlvd2d7ZVlVySOlYKhkUgTYAekJejXr37PwPUnwaO9OJbvnBE1hZH3oyX23hVkG8DKpkHzdIjaUnDs4fz4CoKW/q+Co8REinwb2MOombAsymr0w6+2RI3nTwWeqklyMQaj+Q8Wj6F1aagftjQj9Xj0B/o4IXUkz/xLXnP4BOCdT3t1TAscWBdUur35jUl1f25aPlUhZQESgtjD4OX9bAJhX/NAULwuQQ4ezSzyktUe1lP1eQ1cA7MzTawy219yeOnci28X/XDdOw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+wJ+3SZSK0WpFZkWMxAmTt5Qo4UUOOxHna/SO7j5l68=;
+ b=LxDeHWEL52wgc7fCNMuXkcfhADuh+FJQqi71LDLJIyBok+7VwuSbYr4mIPWr5ES16Oqf5QjkhemI1uM3ZN50UzB1oFkxISQa0NcLezcVDABXPshoZguTEpBuqwFVzYcMWzkFDfer8r+w6wv/8arOgLxk8xSn1NfdAstkYVVhPNA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com (2603:1096:400:3e1::6)
+ by TYWPR01MB10305.jpnprd01.prod.outlook.com (2603:1096:400:1e0::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.15; Fri, 3 Oct
+ 2025 10:03:50 +0000
+Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com
+ ([fe80::63d8:fff3:8390:8d31]) by TYCPR01MB11947.jpnprd01.prod.outlook.com
+ ([fe80::63d8:fff3:8390:8d31%6]) with mapi id 15.20.9182.015; Fri, 3 Oct 2025
+ 10:03:50 +0000
+Date: Fri, 3 Oct 2025 12:03:31 +0200
+From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+To: Conor Dooley <conor@kernel.org>
+Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
+	biju.das.jz@bp.renesas.com,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-phy@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/18] Add USB2.0 support for RZ/G3E
+Message-ID: <aN-fc_v1nxInFNml@tom-desktop>
+References: <20251001212709.579080-1-tommaso.merciai.xr@bp.renesas.com>
+ <20251002-mystify-idiom-0273ef40b4dd@spud>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251002-mystify-idiom-0273ef40b4dd@spud>
+X-ClientProxiedBy: FR4P281CA0304.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f6::9) To TYCPR01MB11947.jpnprd01.prod.outlook.com
+ (2603:1096:400:3e1::6)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250924134228.1663-1-ilpo.jarvinen@linux.intel.com>
- <20250924134228.1663-3-ilpo.jarvinen@linux.intel.com> <CAMuHMdVtVzcL3AX0uetNhKr-gLij37Ww+fcWXxnYpO3xRAOthA@mail.gmail.com>
- <4c28cd58-fd0d-1dff-ad31-df3c488c464f@linux.intel.com> <CAMuHMdUbaQDXsowZETimLJ-=gLCofeP+LnJp_txetuBQ0hmcPQ@mail.gmail.com>
- <c17c5ec1-132d-3588-2a4d-a0e6639cf748@linux.intel.com> <CAMuHMdVbyKdzbptA10F82Oj=6ktxnGAk4fz7dBLVdxALb8-WWg@mail.gmail.com>
- <2d5e9b78-8a90-3035-ff42-e881d61f4b7c@linux.intel.com> <CAMuHMdU_tPmQd=9dCzNs+dEt3fHNsYpYPFnT6QZk546o-J-y9g@mail.gmail.com>
- <7640a03e-dfea-db9c-80f5-d80fa2c505b7@linux.intel.com>
-In-Reply-To: <7640a03e-dfea-db9c-80f5-d80fa2c505b7@linux.intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 3 Oct 2025 10:36:08 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVgCHU80mRm1Vwo6GFgNAtQcf50yHBz_oAk4TrtjcMpYg@mail.gmail.com>
-X-Gm-Features: AS18NWAC3J-HExGr3j225sYFW_aJRHvXtE81_GRaX8pDUz3iz3twZt5eft3t9W0
-Message-ID: <CAMuHMdVgCHU80mRm1Vwo6GFgNAtQcf50yHBz_oAk4TrtjcMpYg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] PCI: Resources outside their window must set IORESOURCE_UNSET
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, LKML <linux-kernel@vger.kernel.org>, 
-	Lucas De Marchi <lucas.demarchi@intel.com>, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB11947:EE_|TYWPR01MB10305:EE_
+X-MS-Office365-Filtering-Correlation-Id: ef8a7105-9ee4-4234-d28f-08de0264267b
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|376014|366016|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?KZ7PYo5yqCvo2MHORfRGFKkuqIxJuyCawbpE5i+JCieyrvlSaTxBteWjJm81?=
+ =?us-ascii?Q?vdSA/2dPAFgIm/jer/WO6J32x2viJ0yCoc6DvFWW9ZTeiG58ixhHfMi+yaOx?=
+ =?us-ascii?Q?72yq+NNX/5xKZVcv6LrYmJ39qsr57h0YVWZGKmJfuOifQTNBxsC+D3AVH69w?=
+ =?us-ascii?Q?R7TC4erhrPDITACoHe4Realy0WcsoIQkZ39sfwLGN0D+rKsKQ6xdJdKrr3/H?=
+ =?us-ascii?Q?8K5p8EvJez5YetadRBd5iSqTikgAftzrYjeA2+KnklP1BM7+VF4/yBOnQl3c?=
+ =?us-ascii?Q?tTnHLhqryheV1W0+u7MFG9XQLkots0ax4POy/4IeDIs7rbyG95MnKTe9SpoK?=
+ =?us-ascii?Q?QqLXGrsoR7rfhDqKFigoT9uZ508P6ZOMoWYCJFL0xG1f+iDztUf8D/tHoRgs?=
+ =?us-ascii?Q?MXfdLt6wnW4h4OZ2rmnHB4A/TWOE30boj+zgozaUvtu6A5uzN7s7X+YpDN1W?=
+ =?us-ascii?Q?DttEvtl6OajzfwTP89UC9skW/uhFY1Q79TAwTfFL47hAWg1HX0/RapdFA303?=
+ =?us-ascii?Q?VpKQzOqlEEYMrrR/VTD5n2Ktp9pNDOeKiMJSwMnoNoZBFia+PAtLjPoYl+oQ?=
+ =?us-ascii?Q?mTB3yvJvKQ49Ozb29vFa33aNcQDd5242+WMGF+2djLS8X+74vmRPLW3tNQLC?=
+ =?us-ascii?Q?/450MH7LzdRo2yhclhS/qP+VLCiIOSkqtUn2ER8In8sLfrjOy+lrtE02ODPL?=
+ =?us-ascii?Q?zMVF++W4EvZbnGITN7G/I9RTXFo+Gto85aIy4EVt96L3NA7/6e9pooZFpBFM?=
+ =?us-ascii?Q?He/AbmRVTw0UDTByWCfrnZTVpw4b8UVzCghgPdW+9MC2xVU8/gVEywWVspbd?=
+ =?us-ascii?Q?obs1nFYgRcPrgK7u1ecCm4jYUTB79qbiFcpOMAq6hMgVDX4lePzbhMRBkjS3?=
+ =?us-ascii?Q?eEv3BuxVbQfnNLE3QqLFGnoItbC5xQb/8AvlkNZBYpweNKzN3Od/7vMf3Ldl?=
+ =?us-ascii?Q?EwrucDyN3n0u9yzFt1bBSyqYKE8BG+v3vzAUbBzuJ3QfH0+d+clBW48aBJwF?=
+ =?us-ascii?Q?FcAOQwnTb4U0MU1tjVHsQgqapbsgYI2alpkyiOsnp0sbS9dblG/XeMylP8/o?=
+ =?us-ascii?Q?ihuee04n8n80kWFpZR8kjZX1VeSQhJJKCWrdQ8b1xp/RSMB8jxs8obDenioS?=
+ =?us-ascii?Q?pNzvpCtF0aJWCmrgAlWGWZgkpHmNin5trZKkoJK75hzOnE001tFXkfaK/PYg?=
+ =?us-ascii?Q?HB55887198GBas0297jMZdWWNY72GhHryiMZWp2AEFSfBr8bH8VQtsIKIJB1?=
+ =?us-ascii?Q?BhZJ/x5zZ2ouVqG+fMKEYox/8JRJr4Mvxf/eYckI96BQqitFfUDLClMC53RT?=
+ =?us-ascii?Q?VErjgx3J8nCzjQj8bbCIx2yr+6LMWqA0OJkNe0yFKZDqwyl1RhAqeu5ybSGr?=
+ =?us-ascii?Q?4R3/H7XsjP/1vl8mrQGRSW0ifbRTmpz+dJNsQ4cg4Boi7nELgLcT4U4zmdwx?=
+ =?us-ascii?Q?vpfalKqd4ZiTcewiTqmDBea/JT+8KCOQmwGXZ8LkrkQmIu2kZ1c1IA=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11947.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?XXyuphgF5/9ftoWXTogSMAo28nDcifb20zg3iwKEj/s9dSyS6VYIKOpjRZsj?=
+ =?us-ascii?Q?oEnhJsxH5zsYN2h82QrrMKaVE6qW8qlt8z81QQcfyYcstyQbRuut6tov85O9?=
+ =?us-ascii?Q?jeP6Hd7zp3Z4uv2tO6tPcESv5tnKxb47nIwKT8l3hCg7MFgW+sNaVMYP717z?=
+ =?us-ascii?Q?h8Cb8uCd83zur0MSsZD8DNI7X2uXT+WCGAazLF3gFp8wEo6IRLhR6B4PNl4T?=
+ =?us-ascii?Q?ABC6ab6FJnogoYsUo+ulx5Vam/QXwRk6DvTh9QY97Ky38HjZ7dnvzf/0OUwU?=
+ =?us-ascii?Q?vDDvmzHyg5ZBEW7BOSVEG3MGHnn1y+BKb9+i8kjksZrZFBwrm1WEaduhaZ4u?=
+ =?us-ascii?Q?nNfljkzKdtJ614+BSBpepuIhYabs2YrSu+Srp6tg7Z6kF7vv+7WaaG3eHDwV?=
+ =?us-ascii?Q?P0xQdfVUZ7H/27act3yTadjTNF0g7C+Jo7EfihLrb4SN+1V1WpyJEgy+krT7?=
+ =?us-ascii?Q?ihnS0a/+U4KLT+e483XriqfslVYxU55qgA2xdFVQRNv80uYz1eXadQnGgrmc?=
+ =?us-ascii?Q?qcQCY6uAHAI5cXwrhGoiJvZ6AOmMKF4Epo/WByuhKs6Fd3CMtf7MJsO1Pso4?=
+ =?us-ascii?Q?K/y0fG7N8kI2qXxqGvNElXtknMVf1vbh2K4oT3AZAmi1q9vBfF1opp0sctdi?=
+ =?us-ascii?Q?6uf/JT2JpIXL9r9eN4YZu6VhNyh8gP/lc1Vl7WvSsulur7LC1BSlWWpl2RpF?=
+ =?us-ascii?Q?zo7ZKaE39bdRkdGc7aGEC9vosdatM5jve/oQVGP1kqqSRkulkMzFC0mGbeWH?=
+ =?us-ascii?Q?YpLUtV6XMjnzsN01u8E9boZfYrXw/h+eMHxLbQuZRrqUhWY+egyOJRCvKbpG?=
+ =?us-ascii?Q?Eb/82L7OG6v+Ruuyw372UOlfEWE46Q9JcDGDGmGgP9ZOTiISgIEfCdDjYSE2?=
+ =?us-ascii?Q?zQBrgAPo1vpiP+35+Ro4vHmDicodOzvZIrrQ4O86BXuBDy9j6tw2Qysyut7o?=
+ =?us-ascii?Q?Zbbo5SL30vBqli2K4OlgseMAqAH3oCC41TFHb/JbtpfNELlY0HC0Nk+fJpO8?=
+ =?us-ascii?Q?fcVvdEGdRLCoB2weU6BEO0ByQEozug9c13s7wzEO6eAINVlM7DEzGy4jUhVT?=
+ =?us-ascii?Q?GXdQSif9HCJ3+YJci96einndNa4WCeHh9ZYeE0Pk2AkquwWnW5sTP8G84cPb?=
+ =?us-ascii?Q?NTWAxsyH+1n+W5ce0pP7MQu++TpLKEZ2/8GkWoSm5h4RG4ZbS8qm0l+PPuS4?=
+ =?us-ascii?Q?JoxucX9nmnL52VsHcSr18vl0UPU/o113JPi0LBES5+ny3Bd1XFtednP7SQwm?=
+ =?us-ascii?Q?zIAdSbKJBHCK3/N1pdqrkCBFwPjguwgZdduEB40vu3Uao7zkf+GtKsrccGIZ?=
+ =?us-ascii?Q?3U8AvKVg7roWRhTfve9ShoPsY9AIZKwIA4g1pnu8/nHOvVfzJh27dVj52Cq4?=
+ =?us-ascii?Q?hgH8Q9q8DDt7UqwSkw3yEb1AYZyW5T6kK9SB3U1trI27jZ2/o4A6tZd3KgHg?=
+ =?us-ascii?Q?KeEmoHb2zi3vfW60Sgd3tN/7oWwVYp/3yfI/iEJUk4gTW9spBbXKYlXl5VU0?=
+ =?us-ascii?Q?KE01gmYBG5wTE2+6Znn9ObfAdJIz2UKZqNTZwsjVDnOqRNETrnx8l2I9+UvP?=
+ =?us-ascii?Q?zjUP7pj7Zrq+a5xC4oU1gh8BzU/D7Ar889AWYNRg7YlihNHe2qx8Fos7oM2P?=
+ =?us-ascii?Q?+QI3Eu1ve0bexX7keL3E7cQ=3D?=
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ef8a7105-9ee4-4234-d28f-08de0264267b
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11947.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Oct 2025 10:03:50.3251
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: t7J/T+KF9aDo/FxbzgTdrh5nFKx3RKwtMTikmgphE0oatPQkwEORHLrw1lKCCsCAsFgi9rzt9UEa1VfEFAEscU2BWUAfj72mMWcxbG/lkFoASAY4ieTfyXHLLUWP34td
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB10305
 
-Hi Ilpo,
+Hi Conor,
+Thanks for your review.
 
-On Thu, 2 Oct 2025 at 18:59, Ilpo J=C3=A4rvinen
-<ilpo.jarvinen@linux.intel.com> wrote:
-> On Thu, 2 Oct 2025, Geert Uytterhoeven wrote:
-> > On Thu, 2 Oct 2025 at 16:54, Ilpo J=C3=A4rvinen
-> > <ilpo.jarvinen@linux.intel.com> wrote:
-> > > On Wed, 1 Oct 2025, Geert Uytterhoeven wrote:
-> > > > On Wed, 1 Oct 2025 at 15:06, Ilpo J=C3=A4rvinen
-> > > > <ilpo.jarvinen@linux.intel.com> wrote:
-> > > > > On Wed, 1 Oct 2025, Geert Uytterhoeven wrote:
-> > > > > > On Tue, 30 Sept 2025 at 18:32, Ilpo J=C3=A4rvinen
-> > > > > > <ilpo.jarvinen@linux.intel.com> wrote:
-> > > > > > > On Tue, 30 Sep 2025, Geert Uytterhoeven wrote:
-> > > > > > > > On Fri, 26 Sept 2025 at 04:40, Ilpo J=C3=A4rvinen
-> > > > > > > > <ilpo.jarvinen@linux.intel.com> wrote:
-> > > > > > > > > PNP resources are checked for conflicts with the other re=
-source in the
-> > > > > > > > > system by quirk_system_pci_resources() that walks through=
- all PCI
-> > > > > > > > > resources. quirk_system_pci_resources() correctly filters=
- out resource
-> > > > > > > > > with IORESOURCE_UNSET.
-> > > > > > > > >
-> > > > > > > > > Resources that do not reside within their bridge window, =
-however, are
-> > > > > > > > > not properly initialized with IORESOURCE_UNSET resulting =
-in bogus
-> > > > > > > > > conflicts detected in quirk_system_pci_resources():
-> > > > > > > > >
-> > > > > > > > > pci 0000:00:02.0: VF BAR 2 [mem 0x00000000-0x1fffffff 64b=
-it pref]
-> > > > > > > > > pci 0000:00:02.0: VF BAR 2 [mem 0x00000000-0xdfffffff 64b=
-it pref]: contains BAR 2 for 7 VFs
-> > > > > > > > > ...
-> > > > > > > > > pci 0000:03:00.0: VF BAR 2 [mem 0x00000000-0x1ffffffff 64=
-bit pref]
-> > > > > > > > > pci 0000:03:00.0: VF BAR 2 [mem 0x00000000-0x3dffffffff 6=
-4bit pref]: contains BAR 2 for 31 VFs
-> > > > > > > > > ...
-> > > > > > > > > pnp 00:04: disabling [mem 0xfc000000-0xfc00ffff] because =
-it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64bit pref]
-> > > > > > > > > pnp 00:05: disabling [mem 0xc0000000-0xcfffffff] because =
-it overlaps 0000:00:02.0 BAR 9 [mem 0x00000000-0xdfffffff 64bit pref]
-> > > > > > > > > pnp 00:05: disabling [mem 0xfedc0000-0xfedc7fff] because =
-it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64bit pref]
-> > > > > > > > > pnp 00:05: disabling [mem 0xfeda0000-0xfeda0fff] because =
-it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64bit pref]
-> > > > > > > > > pnp 00:05: disabling [mem 0xfeda1000-0xfeda1fff] because =
-it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64bit pref]
-> > > > > > > > > pnp 00:05: disabling [mem 0xc0000000-0xcfffffff disabled]=
- because it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64bit =
-pref]
-> > > > > > > > > pnp 00:05: disabling [mem 0xfed20000-0xfed7ffff] because =
-it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64bit pref]
-> > > > > > > > > pnp 00:05: disabling [mem 0xfed90000-0xfed93fff] because =
-it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64bit pref]
-> > > > > > > > > pnp 00:05: disabling [mem 0xfed45000-0xfed8ffff] because =
-it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64bit pref]
-> > > > > > > > > pnp 00:05: disabling [mem 0xfee00000-0xfeefffff] because =
-it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64bit pref]
-> > > > > > > > >
-> > > > > > > > > Mark resources that are not contained within their bridge=
- window with
-> > > > > > > > > IORESOURCE_UNSET in __pci_read_base() which resolves the =
-false
-> > > > > > > > > positives for the overlap check in quirk_system_pci_resou=
-rces().
-> > > > > > > > >
-> > > > > > > > > Fixes: f7834c092c42 ("PNP: Don't check for overlaps with =
-unassigned PCI BARs")
-> > > > > > > > > Signed-off-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.in=
-tel.com>
-> > > > > > > >
-> > > > > > > > Thanks for your patch, which is now commit 06b77d5647a4d6a7=
- ("PCI:
-> > > > > > > > Mark resources IORESOURCE_UNSET when outside bridge windows=
-") in
-> > > > > > > > linux-next/master next-20250929 pci/next
-> > > > > >
-> > > > > > > > This replaces the actual resources by their sizes in the bo=
-ot log on
-> > > > > > > > e.g. on R-Car M2-W:
-> > > > > > > >
-> > > > > > > >      pci-rcar-gen2 ee090000.pci: host bridge /soc/pci@ee090=
-000 ranges:
-> > > > > > > >      pci-rcar-gen2 ee090000.pci:      MEM 0x00ee080000..0x0=
-0ee08ffff -> 0x00ee080000
-> > > > > > > >      pci-rcar-gen2 ee090000.pci: PCI: revision 11
-> > > > > > > >      pci-rcar-gen2 ee090000.pci: PCI host bridge to bus 000=
-0:00
-> > > > > > > >      pci_bus 0000:00: root bus resource [bus 00]
-> > > > > > > >      pci_bus 0000:00: root bus resource [mem 0xee080000-0xe=
-e08ffff]
-> > > > > > > >      pci 0000:00:00.0: [1033:0000] type 00 class 0x060000 c=
-onventional PCI endpoint
-> > > > > > > >     -pci 0000:00:00.0: BAR 0 [mem 0xee090800-0xee090bff]
-> > > > > > > >     -pci 0000:00:00.0: BAR 1 [mem 0x40000000-0x7fffffff pre=
-f]
-> > > > > > >
-> > > > > > > What is going to be the parent of these resources? They don't=
- seem to fall
-> > > > > > > under the root bus resource above in which case the output ch=
-ange is
-> > > > > > > intentional so they don't appear as if address range would be=
- "okay".
-> > > > > >
-> > > > > > >From /proc/iomem:
-> > > > > >
-> > > > > >     ee080000-ee08ffff : pci@ee090000
-> > > > > >       ee080000-ee080fff : 0000:00:01.0
-> > > > > >         ee080000-ee080fff : ohci_hcd
-> > > > > >       ee081000-ee0810ff : 0000:00:02.0
-> > > > > >         ee081000-ee0810ff : ehci_hcd
-> > > > > >     ee090000-ee090bff : ee090000.pci pci@ee090000
-> > > > >
-> > > > > Okay, so this seem to appear in the resource tree but not among t=
-he root
-> > > > > bus resources.
-> > > > >
-> > > > > >     ee0c0000-ee0cffff : pci@ee0d0000
-> > > > > >       ee0c0000-ee0c0fff : 0001:01:01.0
-> > > > > >         ee0c0000-ee0c0fff : ohci_hcd
-> > > > > >       ee0c1000-ee0c10ff : 0001:01:02.0
-> > > > > >         ee0c1000-ee0c10ff : ehci_hcd
-> > > > > >
-> > > > > > > When IORESOURCE_UNSET is set in a resource, %pR does not prin=
-t the start
-> > > > > > > and end addresses.
-> > > > > >
-> > > > > > Yeah, that's how I found this commit, without bisecting ;-)
-> > > > > >
-> > > > > > > >     +pci 0000:00:00.0: BAR 0 [mem size 0x00000400]
-> > > > > > > >     +pci 0000:00:00.0: BAR 1 [mem size 0x40000000 pref]
-> > > > > > > >      pci 0000:00:01.0: [1033:0035] type 00 class 0x0c0310 c=
-onventional PCI endpoint
-> > > > > > > >     -pci 0000:00:01.0: BAR 0 [mem 0x00000000-0x00000fff]
-> > > > > > > >     +pci 0000:00:01.0: BAR 0 [mem size 0x00001000]
-> > > > > > >
-> > > > > > > For this resource, it's very much intentional. It's a zero-ba=
-sed BAR which
-> > > > > > > was left without IORESOURCE_UNSET prior to my patch leading t=
-o others part
-> > > > > > > of the kernel to think that resource range valid and in use (=
-in your
-> > > > > > > case it's so small it wouldn't collide with anything but it w=
-asn't
-> > > > > > > properly set up resource, nonetheless).
-> > > > > > >
-> > > > > > > >      pci 0000:00:01.0: supports D1 D2
-> > > > > > > >      pci 0000:00:01.0: PME# supported from D0 D1 D2 D3hot
-> > > > > > > >      pci 0000:00:02.0: [1033:00e0] type 00 class 0x0c0320 c=
-onventional PCI endpoint
-> > > > > > > >     -pci 0000:00:02.0: BAR 0 [mem 0x00000000-0x000000ff]
-> > > > > > > >     +pci 0000:00:02.0: BAR 0 [mem size 0x00000100]
-> > > > > > >
-> > > > > > > And this as well is very much intentional.
-> > > > > > >
-> > > > > > > >      pci 0000:00:02.0: supports D1 D2
-> > > > > > > >      pci 0000:00:02.0: PME# supported from D0 D1 D2 D3hot
-> > > > > > > >      PCI: bus0: Fast back to back transfers disabled
-> > > > > > > >      pci 0000:00:01.0: BAR 0 [mem 0xee080000-0xee080fff]: a=
-ssigned
-> > > > > > > >      pci 0000:00:02.0: BAR 0 [mem 0xee081000-0xee0810ff]: a=
-ssigned
-> > > > > > > >      pci_bus 0000:00: resource 4 [mem 0xee080000-0xee08ffff=
-]
-> > > > > > > >
-> > > > > > > > Is that intentional?
-> > > > > > >
-> > > > > > > There's also that pci_dbg() in the patch which would show the=
- original
-> > > > > > > addresses (print the resource before setting IORESOURCE_UNSET=
-) but to see
-> > > > > > > it one would need to enable it with dyndbg=3D... Bjorn was th=
-inking of
-> > > > > > > making that pci_info() though so it would appear always.
-> > > > > > >
-> > > > > > > Was this the entire PCI related diff? I don't see those 0000:=
-00:00.0 BARs
-> > > > > > > getting assigned anywhere.
-> > > > > >
-> > > > > > The above log is almost complete (lacked enabling the device af=
-terwards).
-> > > > > >
-> > > > > > AFAIU, the BARs come from the reg and ranges properties in the
-> > > > > > PCI controller nodes;
-> > > > > > https://elixir.bootlin.com/linux/v6.17/source/arch/arm/boot/dts=
-/renesas/r8a7791.dtsi#L1562
-> > > > >
-> > > > > Thanks, although I had already found this line by grep. I was jus=
-t
-> > > > > expecting the address appear among root bus resources too.
-> > > > >
-> > > > > Curiously enough, pci_register_host_bridge() seems to try to add =
-some
-> > > > > resource from that list into bus and it's what prints those "root=
- bus
-> > > > > resource" lines and ee090000 is not among the printed lines despi=
-te
-> > > > > appearing in /proc/iomem. As is, the resource tree and PCI bus vi=
-ew on the
-> > > > > resources seems to be in disagreement and I'm not sure what to ma=
-ke of it.
-> > > > >
-> > > > > But before considering going into that direction or figuring out =
-why this
-> > > > > ee090000 resource does not appear among root bus resources, could=
- you
-> > > > > check if the attached patch changes behavior for the resource whi=
-ch are
-> > > > > non-zero based?
-> > > >
-> > > > This patch has no impact on dmesg, lspci output, or /proc/iomem
-> > > > for pci-rcar-gen2.
-> > >
-> > > It would have been too easy... :-(
-> > >
-> > > I'm sorry I don't really know these platform well and I'm currently t=
-rying
-> > > to understand what adds that ee090000 resource into the resource tree
-> > > and so far I've not been very successful.
-> > >
-> > > Perhaps it would be easiest to print a stacktrace when the resource i=
-s
-> > > added but there are many possible functions. I think all of them
-> > > converge in __request_resource() so I suggest adding:
-> > >
-> > > WARN_ON(new->start =3D=3D 0xee090000);
-> > >
-> > > before __request_resource() does anything.
-> >
-> >     Call trace:
-> >      unwind_backtrace from show_stack+0x10/0x14
-> >      show_stack from dump_stack_lvl+0x7c/0xb0
-> >      dump_stack_lvl from __warn+0x80/0x198
-> >      __warn from warn_slowpath_fmt+0xc0/0x124
-> >      warn_slowpath_fmt from __request_resource+0x38/0xc8
-> >      __request_resource from __request_region+0xc4/0x1e8
-> >      __request_region from __devm_request_region+0x80/0xac
-> >      __devm_request_region from __devm_ioremap_resource+0xcc/0x160
-> >      __devm_ioremap_resource from rcar_pci_probe+0x58/0x350
-> >      rcar_pci_probe from platform_probe+0x58/0x90
-> >
-> > I.e. the call to devm_platform_get_and_ioremap_resource() in
-> > drivers/pci/controller/pci-rcar-gen2.c:rcar_pci_probe().
->
-> Thanks, the patch below might help BAR0 (but I'm not sure if it's the
-> correct solution due to being so unfamiliar with these kind of platforms
-> and how they're initialized).
+On Thu, Oct 02, 2025 at 07:48:57PM +0100, Conor Dooley wrote:
+> On Wed, Oct 01, 2025 at 11:26:44PM +0200, Tommaso Merciai wrote:
+> > Dear All,
+> > 
+> > This patch series adds USB2.0 support for the Renesas R9A09G047 (RZ/G3E)
+> > SoC and enables it on the RZ/G3E SMARC II board.
+> > The RZ/G3E USB2.0 IP is identical to that used in the RZ/V2H (R9A09G057),
+> > so the existing support has been extended accordingly.
+> > 
+> > The series applies on top of [1] and [2] and includes driver cleanups,
+> > VBUS/OTG handling fixes, regulator improvements, clock/reset additions,
+> > and device tree updates for RZ/G3E, RZ/V2H, and RZ/V2N SoCs and boards.
+> > 
+> > Thanks & Regards,
+> > Tommaso
+> 
+> If you're not gonna CC me on all the patches in the series, please at
+> least CC me on the cover so I have an idea about what is going on in the
+> rest of the set.
 
-Thanks, that has the following impact on dmesg:
+Sorry, I made a mistake when I sent the series.
+I only ran ./scripts/get_maintainer.pl on some patches, not all.
+My fault.
 
-     pci-rcar-gen2 ee090000.pci: PCI: revision 11
-     pci-rcar-gen2 ee090000.pci: PCI host bridge to bus 0000:00
-     pci_bus 0000:00: root bus resource [bus 00]
-    -pci_bus 0000:00: root bus resource [mem 0xee080000-0xee08ffff]
-    +pci_bus 0000:00: root bus resource [mem 0xee080000-0xee090bff]
-     pci 0000:00:00.0: [1033:0000] type 00 class 0x060000 conventional
-PCI endpoint
-    -pci 0000:00:00.0: BAR 0 [mem 0xee090800-0xee090bff]: no initial
-claim (no window)
-    -pci 0000:00:00.0: BAR 0 [mem size 0x00000400]
-    -pci 0000:00:00.0: BAR 1 [mem 0x40000000-0x7fffffff pref]: no
-initial claim (no window)
-    +pci 0000:00:00.0: BAR 0 [mem 0xee090800-0xee090bff]
-     pci 0000:00:00.0: BAR 1 [mem size 0x40000000 pref]
-     pci 0000:00:01.0: [1033:0035] type 00 class 0x0c0310 conventional
-PCI endpoint
-    -pci 0000:00:01.0: BAR 0 [mem 0x00000000-0x00000fff]: no initial
-claim (no window)
-     pci 0000:00:01.0: BAR 0 [mem size 0x00001000]
-     pci 0000:00:01.0: supports D1 D2
-     pci 0000:00:01.0: PME# supported from D0 D1 D2 D3hot
-     pci 0000:00:02.0: [1033:00e0] type 00 class 0x0c0320 conventional
-PCI endpoint
-    -pci 0000:00:02.0: BAR 0 [mem 0x00000000-0x000000ff]: no initial
-claim (no window)
-     pci 0000:00:02.0: BAR 0 [mem size 0x00000100]
-     pci 0000:00:02.0: supports D1 D2
-     pci 0000:00:02.0: PME# supported from D0 D1 D2 D3hot
-     PCI: bus0: Fast back to back transfers disabled
-     pci 0000:00:01.0: BAR 0 [mem 0xee080000-0xee080fff]: assigned
-     pci 0000:00:02.0: BAR 0 [mem 0xee081000-0xee0810ff]: assigned
-    -pci_bus 0000:00: resource 4 [mem 0xee080000-0xee08ffff]
-    +pci_bus 0000:00: resource 4 [mem 0xee080000-0xee090bff]
-     pci-rcar-gen2 ee0d0000.pci: adding to PM domain always-on
-     PM: genpd_add_device: Add ee0d0000.pci to always-on
-     pci-rcar-gen2 ee0d0000.pci: host bridge /soc/pci@ee0d0000 ranges:
-    @@ -414,26 +416,22 @@ PM: =3D=3D=3D=3D always-on/ee0d0000.pci: start
-     pci-rcar-gen2 ee0d0000.pci: PCI: revision 11
-     pci-rcar-gen2 ee0d0000.pci: PCI host bridge to bus 0001:01
-     pci_bus 0001:01: root bus resource [bus 01]
-    -pci_bus 0001:01: root bus resource [mem 0xee0c0000-0xee0cffff]
-    +pci_bus 0001:01: root bus resource [mem 0xee0c0000-0xee0d0bff]
-     pci 0001:01:00.0: [1033:0000] type 00 class 0x060000 conventional
-PCI endpoint
-    -pci 0001:01:00.0: BAR 0 [mem 0xee0d0800-0xee0d0bff]: no initial
-claim (no window)
-    -pci 0001:01:00.0: BAR 0 [mem size 0x00000400]
-    -pci 0001:01:00.0: BAR 1 [mem 0x40000000-0x7fffffff pref]: no
-initial claim (no window)
-    +pci 0001:01:00.0: BAR 0 [mem 0xee0d0800-0xee0d0bff]
-     pci 0001:01:00.0: BAR 1 [mem size 0x40000000 pref]
-     pci 0001:01:01.0: [1033:0035] type 00 class 0x0c0310 conventional
-PCI endpoint
-    -pci 0001:01:01.0: BAR 0 [mem 0x00000000-0x00000fff]: no initial
-claim (no window)
-     pci 0001:01:01.0: BAR 0 [mem size 0x00001000]
-     pci 0001:01:01.0: supports D1 D2
-     pci 0001:01:01.0: PME# supported from D0 D1 D2 D3hot
-     pci 0001:01:02.0: [1033:00e0] type 00 class 0x0c0320 conventional
-PCI endpoint
-    -pci 0001:01:02.0: BAR 0 [mem 0x00000000-0x000000ff]: no initial
-claim (no window)
-     pci 0001:01:02.0: BAR 0 [mem size 0x00000100]
-     pci 0001:01:02.0: supports D1 D2
-     pci 0001:01:02.0: PME# supported from D0 D1 D2 D3hot
-     PCI: bus1: Fast back to back transfers disabled
-     pci 0001:01:01.0: BAR 0 [mem 0xee0c0000-0xee0c0fff]: assigned
-     pci 0001:01:02.0: BAR 0 [mem 0xee0c1000-0xee0c10ff]: assigned
-    -pci_bus 0001:01: resource 4 [mem 0xee0c0000-0xee0cffff]
-    +pci_bus 0001:01: resource 4 [mem 0xee0c0000-0xee0d0bff]
-     rcar-pcie fe000000.pcie: adding to PM domain always-on
-     PM: genpd_add_device: Add fe000000.pcie to always-on
-     rcar-pcie fe000000.pcie: host bridge /soc/pcie@fe000000 ranges:
+> All the bindings are
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-and on /proc/iomem (I used "diff -w" to reduce clutter):
+Thanks for your tag!
 
-     ec700000-ec70ffff : ec700000.dma-controller dma-controller@ec700000
-     ec720000-ec72ffff : ec720000.dma-controller dma-controller@ec720000
-     ec740000-ec7401ff : ec500000.sound audmapp
-    -ee080000-ee08ffff : pci@ee090000
-    -  ee080000-ee080fff : 0000:00:01.0
-         ee080000-ee080fff : ohci_hcd
-    -  ee081000-ee0810ff : 0000:00:02.0
-         ee081000-ee0810ff : ehci_hcd
-     ee090000-ee090bff : ee090000.pci pci@ee090000
-    -ee0c0000-ee0cffff : pci@ee0d0000
-    -  ee0c0000-ee0c0fff : 0001:01:01.0
-         ee0c0000-ee0c0fff : ohci_hcd
-    -  ee0c1000-ee0c10ff : 0001:01:02.0
-         ee0c1000-ee0c10ff : ehci_hcd
-     ee0d0000-ee0d0bff : ee0d0000.pci pci@ee0d0000
-     ee100000-ee100327 : ee100000.mmc mmc@ee100000
+Regards,
+Tommaso
 
-Removing the pci@ee0x0000 and 000x:0x:0x.0 entries doesn't look
-right to me? Or am I missing something?
-
-> If this works, we'll also have to decide what to do with the BAR1 (it
-> didn't appear in your (partial?) /proc/iomem quote so I'm left unsure how
-> to approach it).
-
-That is indeed not visible in /proc/iomem.
-
-I tried the following (whitespace-damaged):
-
---- a/drivers/pci/controller/pci-rcar-gen2.c
-+++ b/drivers/pci/controller/pci-rcar-gen2.c
-@@ -179,6 +179,7 @@ static void rcar_pci_setup(struct rcar_pci *priv)
-        unsigned long window_size;
-        unsigned long window_addr;
-        unsigned long window_pci;
-+       struct resource res;
-        u32 val;
-
-        entry =3D resource_list_first_type(&bridge->dma_ranges, IORESOURCE_=
-MEM);
-@@ -191,6 +192,8 @@ static void rcar_pci_setup(struct rcar_pci *priv)
-                window_pci =3D entry->res->start - entry->offset;
-                window_size =3D resource_size(entry->res);
-        }
-+       resource_set_range(&res, window_addr, window_size);
-+       pci_add_resource(&bridge->windows, &res);
-
-        pm_runtime_enable(dev);
-        pm_runtime_get_sync(dev);
-
-and only got:
-
-     pci-rcar-gen2 ee090000.pci: PCI host bridge to bus 0000:00
-     pci_bus 0000:00: root bus resource [bus 00]
-     pci_bus 0000:00: root bus resource [mem 0xee080000-0xee090bff]
-    +pci_bus 0000:00: busn_res: can not insert [bus 00-7fffffff] under
-domain [bus 00-ff] (conflicts with (null) [bus 00-ff])
-    +pci_bus 0000:00: root bus resource [mem size 0x40000000 64bit
-pref window disabled]
-     pci 0000:00:00.0: [1033:0000] type 00 class 0x060000 conventional
-PCI endpoint
-     pci 0000:00:00.0: BAR 0 [mem 0xee090800-0xee090bff]
-     pci 0000:00:00.0: BAR 1 [mem size 0x40000000 pref]
-    @@ -417,6 +419,8 @@ pci-rcar-gen2 ee0d0000.pci: PCI: revisio
-     pci-rcar-gen2 ee0d0000.pci: PCI host bridge to bus 0001:01
-     pci_bus 0001:01: root bus resource [bus 01]
-     pci_bus 0001:01: root bus resource [mem 0xee0c0000-0xee0d0bff]
-    +pci_bus 0001:01: busn_res: can not insert [bus 01-7fffffff] under
-domain [bus 00-ff] (conflicts with (null) [bus 00-ff])
-    +pci_bus 0001:01: root bus resource [mem size 0x40000000 64bit
-pref window disabled]
-     pci 0001:01:00.0: [1033:0000] type 00 class 0x060000 conventional
-PCI endpoint
-     pci 0001:01:00.0: BAR 0 [mem 0xee0d0800-0xee0d0bff]
-     pci 0001:01:00.0: BAR 1 [mem size 0x40000000 pref]
-
-but no impact on /proc/iomem.
-
-> I also noticed that || COMPILE_TEST is made ineffective for this driver b=
-y
-> the depends on ARM on the other line but it built just fine on x86 after
-> changing the depends on to:
->
-> depends on (ARCH_RENESAS && ARM) || COMPILE_TEST
-
-Thanks, that is a relic from the past, when the driver failed to build
-on other architectures. I have submitted a fix.
+> 
+> Cheers,
+> Conor.
+> 
+> > 
+> > [1] https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=1001788
+> > [2] https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=1006104
+> > 
+> > Tommaso Merciai (18):
+> >   phy: renesas: rcar-gen3-usb2: Use devm_pm_runtime_enable()
+> >   phy: renesas: rcar-gen3-usb2: Factor out VBUS control logic
+> >   reset: rzv2h-usb2phy: Simplify pm_runtime driver handling
+> >   reset: rzv2h-usb2phy: Set VBENCTL register for OTG mode
+> >   dt-bindings: phy: renesas,usb2-phy: Document USB VBUS regulator
+> >   phy: renesas: rcar-gen3-usb2: Add regulator for OTG VBUS control
+> >   regulator: devres: Disable exclusive regulator before releasing
+> >   dt-bindings: clock: renesas,r9a09g047-cpg: Add USB2 PHY core clocks
+> >   clk: renesas: r9a09g047: Add clock and reset entries for USB2
+> >   dt-bindings: usb: renesas,usbhs: Add RZ/G3E SoC support
+> >   dt-bindings: phy: renesas,usb2-phy: Document RZ/G3E SoC
+> >   dt-bindings: reset: Document RZ/G3E USB2PHY reset
+> >   arm64: dts: renesas: r9a09g056: Add USB2.0 PHY VBUS internal regulator
+> >     node
+> >   arm64: dts: renesas: r9a09g056n48-rzv2n-evk: Enable USB2 PHY0 VBUS
+> >     support
+> >   arm64: dts: renesas: r9a09g057: Add USB2.0 PHY VBUS internal regulator
+> >     node
+> >   arm64: dts: renesas: r9a09g057h44-rzv2h-evk: Enable USB2 PHY0 VBUS
+> >     support
+> >   arm64: dts: renesas: r9a09g047: Add USB2.0 support
+> >   arm64: dts: renesas: r9a09g047e57-smarc: Enable USB2.0 support
+> > 
+> >  .../bindings/phy/renesas,usb2-phy.yaml        |  10 +-
+> >  .../reset/renesas,rzv2h-usb2phy-reset.yaml    |   4 +-
+> >  .../bindings/usb/renesas,usbhs.yaml           |   1 +
+> >  arch/arm64/boot/dts/renesas/r9a09g047.dtsi    | 122 +++++++++++
+> >  .../boot/dts/renesas/r9a09g047e57-smarc.dts   |  49 +++++
+> >  arch/arm64/boot/dts/renesas/r9a09g056.dtsi    |   6 +
+> >  .../dts/renesas/r9a09g056n48-rzv2n-evk.dts    |   5 +
+> >  arch/arm64/boot/dts/renesas/r9a09g057.dtsi    |   6 +
+> >  .../dts/renesas/r9a09g057h44-rzv2h-evk.dts    |   5 +
+> >  .../boot/dts/renesas/renesas-smarc2.dtsi      |  23 ++
+> >  drivers/clk/renesas/r9a09g047-cpg.c           |  18 +-
+> >  drivers/phy/renesas/phy-rcar-gen3-usb2.c      | 199 +++++++++++++-----
+> >  drivers/regulator/devres.c                    |   8 +-
+> >  drivers/reset/reset-rzv2h-usb2phy.c           | 105 ++++++---
+> >  .../dt-bindings/clock/renesas,r9a09g047-cpg.h |   2 +
+> >  15 files changed, 478 insertions(+), 85 deletions(-)
+> > 
+> > -- 
+> > 2.43.0
+> > 
 
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
