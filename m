@@ -1,182 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-22641-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22642-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1066BB8EE6
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 04 Oct 2025 16:33:25 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1A21BB9390
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 05 Oct 2025 05:04:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 671E13C7ABD
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Oct 2025 14:33:24 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BF53A4E05F8
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Oct 2025 03:04:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0A7E1F91E3;
-	Sat,  4 Oct 2025 14:33:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A368A189B84;
+	Sun,  5 Oct 2025 03:04:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="gH65xBKn";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="yVd5azXF"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF94201004
-	for <linux-renesas-soc@vger.kernel.org>; Sat,  4 Oct 2025 14:33:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2045DCA4B
+	for <linux-renesas-soc@vger.kernel.org>; Sun,  5 Oct 2025 03:04:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759588401; cv=none; b=cJ5iFD9sz60a0Nko8DjHQkXFpbi9E23OM1m80AOSWP2Wf7xk/X+2j71O6I0EVCFWTGJi5K9OoYWLuQ9NbeJGZ8I1s5gqGWqXQZeXxjKResYHUMot4OdUXjyUST5pOvr8L3V6HdHtVFPc9Js0P51g1Ri5ulaCVK83puiewSDyfC4=
+	t=1759633467; cv=none; b=nAqTj79gApocUaGJikaI1Tark8ZAe2LNvLSctNv714qC3GfcjsEeZYuksxNnQcN5Vg0Hbd+PSLenPXC2WNU8L0YugF65zWbj9LvPRx4Xh5xPJp/96Cd9WMHu+chjADkcpuwLZZEaboKXs2YCwnCoKR1Y/A331eQxOBMGqaLgvGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759588401; c=relaxed/simple;
-	bh=0J55Y2HmqgcnbS+RXB3tiJFIIySx+Rr5EZpIa0gAB24=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OMu72EDVuGoTFUUc8fyUHCoOv9ftiJK+3A5PGj4gHbl3LsWAJ3xy4EnU36Bh1pq0/UUnRVi3gXHvt0i3HljDyHLzUXp6ubO74YzEeryJOM9LWzfCNscFgkpUTqdK9lBRtc8RmKknBWs74JE42wrle5AcS0RWXjorb6ZFG0HQgxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-8e936be1359so2083341241.0
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 04 Oct 2025 07:33:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759588398; x=1760193198;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xthzmHjkhKJUrri8Wf1E3AifPP/ZxbkaJDpboT1dzM4=;
-        b=SUjpiNcPve3kPVQCnlT0pv2M4sHxXuwgfHk+9e3pAg6EVu32yda5ioGvxjCcThkQ+R
-         DMmyH8gbFPsOLEUgVFb9KbS9TaMcHepmpRSMF4jZv9whFYKHMXTRjLPuhsSfyES9YlmD
-         UWyfE5LCr+fsgXmleb1W71VezGDW2YYbaruOkmoe+DXx67PTBog34ZRRaHGqwVeVjZzV
-         1w1gX2UhptIZsLrP3ZdLEs7+0X+W9s84AQjmIckPkuqOLOsohWHeCU7YkofPt5Up3NUH
-         4I1C/+N4SCpq9YweJpGHF7Itj2NGTZx8p96gtlZ84WnhjyfZDT0NgjeZBVnq1Ou6O7uo
-         anGw==
-X-Forwarded-Encrypted: i=1; AJvYcCWdrXhpmW+1lYtV3ad/L/bo8RCvOnlyZMfWb2+P67V0iv3XZsWxHwLYlWZrkNs49QMy3CeSgORue87v5CBKUsJHmQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjgoNz2z5/EhSBYNeKSmmzSWqRj2vw1hfPc70VCnHRoE/NHhF/
-	m89LmLbXyOKwKRoR/lAITc9mVagBeVL6rn64Vb57D4RY17nIIAtUvNYsaiELL/zI
-X-Gm-Gg: ASbGncuzA5jPIJbUPXVXvXTZgF43ZHerNfi1FOjG5BNHwXCEQw/uVNKQD3IkQfmJiu/
-	1aAKKxb7H5EDRIdPa4eI78SxdpU7xkNQzXJTtS7Oyjp7IppQRmxS8EJsAZA/bfWYuJ5upn8DY0x
-	3VWbEiS7tfLNAO8WE3aDNZn9Q/IBXMaydNSQxrr1PNa1eZW8FWfbVEvwFOcw+P7QWA1nuXfXhhZ
-	iUH09CINEPaJ7bj0uTVhOIIXtbRhVssVjy5a4xcwvEbwgzZptufyrdlv4iMKWrKSA3xp0C6rFgh
-	L8T+txDbJlqtXwKJJ5kuBeyoM16DXpzSXHHInWew4MvCG4Rzrishyx22SxPYizy1WW8AxetHuHe
-	ORuRVPppADH93J5F52BR/X65pdPuL4zjO6dbezMw70m6WKzWKS7dT3lu3Sr2VRGz9X5CAl2xe/H
-	B8eFdr8LR1
-X-Google-Smtp-Source: AGHT+IFqQRoGVgKGSYM63UguWrvs4/F/n/Gd48S2uDzE70MkGSrtVLV6W17+Cu8GaL0tacLhPbTmmQ==
-X-Received: by 2002:a05:6122:882:b0:54b:c080:a55e with SMTP id 71dfb90a1353d-5524e420feamr2511115e0c.0.1759588398484;
-        Sat, 04 Oct 2025 07:33:18 -0700 (PDT)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5523cf96587sm1863134e0c.25.2025.10.04.07.33.17
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 04 Oct 2025 07:33:17 -0700 (PDT)
-Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-8e8163d94bbso2399304241.3
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 04 Oct 2025 07:33:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVmfQXGSP0AXAzVAllrPOEb2cjtWszdNtPCGc6XCIfzZ1v2vMkX7HgYmqfmiuTRxmJRxsSRKBvQUDjHnVHJFMFW8w==@vger.kernel.org
-X-Received: by 2002:a05:6102:291f:b0:5a2:668d:f20b with SMTP id
- ada2fe7eead31-5d41d0dd17bmr3054407137.16.1759588396956; Sat, 04 Oct 2025
- 07:33:16 -0700 (PDT)
+	s=arc-20240116; t=1759633467; c=relaxed/simple;
+	bh=HXvjoqH053Pv5ITmLi6wQvFEe9r6lploZ+hxLh+w1gg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lyISew2qvBl3fvCy4+gN+Sb58fJ9FHVGj6q5xcxvv1/J7mi3KC2aGgnvWdXAZRTRLnSp2/2C5rYAa4q4kcvGuSJ3odx2D0ziwiRfo+A+kMjV0ApBQ1ZN4/Qj1VpJ9sHs7ee9gDr5tuifOrJBbapYH7GF1mJVhc/XtDsDtBbpIno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=gH65xBKn; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=yVd5azXF; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cfS124qxpz9svm;
+	Sun,  5 Oct 2025 05:04:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1759633462;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=MnqZ7gdNGXjD0CLqH5Zyd8pfzI37ICi49VhUV/Gv0Wk=;
+	b=gH65xBKnOKmSuM11Se2os1i7dSx1mK9x2Yrwlvno9RDgV5JfLXVnXhFEv4Igqu6EKPjRTN
+	r4pTj6BO00/N2zn1bvwP1rvCd1jrP8IZhbcTYOIm5+PUYIaw/MhbaRvy5HZ0aiYZ6oBgOE
+	WiCu3f8kYRqZY+7TtY7Z6ZW5VEJzzQrVpfA7eMQuyj2yUR4+uxN3ovJD64wWL/cNw5QudC
+	e51jw6GtkdaGE6MzsQYKJ+N+pZvDGtc0rMvZ0H3OqBVSli5zvgH1I3D7YLmANqRuZosjJG
+	qzMwsvEHs+ZPspghmhUijZcTe6AqNp62N1BMloWY6q/siLLtdpwMC4SLxhWtMQ==
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1759633460;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=MnqZ7gdNGXjD0CLqH5Zyd8pfzI37ICi49VhUV/Gv0Wk=;
+	b=yVd5azXFBEQ+zyHf3ymCLch4nVwmkFSc+4RGSdbkr2mEPfpOOhXGm0PFiVRSNBeJsaQnFa
+	qNQqP8T3y0cWfnUnkKdLCKNdQncw64Rc47h6K2KI06+/L9IQYalqgPbh741zxl8iYRLFX+
+	x7dJRhbNuMwppTkNooodRWw5hypBoZJ03IsOJo5zpLh3XAGIe4rb75K4XIxWHC4Kzvs/E/
+	XWTsIrx3Th+zvko+8A2wSlgCAKusu97nGqThLYXZo+FyFF8r0ZgpiepTWpmwHc3VpNLAKb
+	qw85GnUntLb3sQphBc+DrHlPZQN63yr8sbhNz82dSaihdRf+t6hyhf9//LhFLg==
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	David Airlie <airlied@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Simona Vetter <simona@ffwll.ch>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v3 00/11] drm/rcar-du: dsi: Convert register bits to BIT()/GENMASK() macros
+Date: Sun,  5 Oct 2025 05:02:47 +0200
+Message-ID: <20251005030355.202242-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251001122326.4024391-1-cosmin-gabriel.tanislav.xa@renesas.com>
- <20251001122326.4024391-4-cosmin-gabriel.tanislav.xa@renesas.com> <20251004143901.505ec386@jic23-huawei>
-In-Reply-To: <20251004143901.505ec386@jic23-huawei>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Sat, 4 Oct 2025 16:33:05 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV+V60pZSRmu6SjeBNyi_0+Un5pXjWDLDDBt6UbYfTmeQ@mail.gmail.com>
-X-Gm-Features: AS18NWBkap4dmgI1LydXdtTPg0XGaFgAjq5oqq5cMsJWqAup1M73smsgPeqmT7I
-Message-ID: <CAMuHMdV+V60pZSRmu6SjeBNyi_0+Un5pXjWDLDDBt6UbYfTmeQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/7] iio: adc: add RZ/T2H / RZ/N2H ADC driver
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>, 
-	David Lechner <dlechner@baylibre.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: ktqnpc1ub98ipe4xirfje8f79b4fqnmf
+X-MBO-RS-ID: b5cc5bb6c2042bb8f9d
 
-On Sat, 4 Oct 2025 at 15:39, Jonathan Cameron <jic23@kernel.org> wrote:
->
-> On Wed,  1 Oct 2025 15:23:10 +0300
-> Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com> wrote:
->
-> > Add support for the A/D 12-Bit successive approximation converters foun=
-d
-> > in the Renesas RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs.
-> >
-> > RZ/T2H has two ADCs with 4 channels and one with 6.
-> > RZ/N2H has two ADCs with 4 channels and one with 15.
-> >
-> > Conversions can be performed in single or continuous mode. Result of th=
-e
-> > conversion is stored in a 16-bit data register corresponding to each
-> > channel.
-> >
-> > The conversions can be started by a software trigger, a synchronous
-> > trigger (from MTU or from ELC) or an asynchronous external trigger (fro=
-m
-> > ADTRGn# pin).
-> >
-> > Only single mode with software trigger is supported for now.
-> >
-> > Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-> > Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
-> Hi Cosmin
->
-> A few really minor comments.
->
-> I might have ignored these or tweaked whilst applying but looks
-> like you'll probably be doing a v4 anyway so I thought I'd mention them.
->
-> Thanks,
->
-> Jonathan
->
->
-> > diff --git a/drivers/iio/adc/rzt2h_adc.c b/drivers/iio/adc/rzt2h_adc.c
-> > new file mode 100644
-> > index 000000000000..51d1852d814d
-> > --- /dev/null
-> > +++ b/drivers/iio/adc/rzt2h_adc.c
-> > @@ -0,0 +1,309 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +
-> > +#include <linux/bitfield.h>
-> > +#include <linux/cleanup.h>
-> > +#include <linux/completion.h>
-> > +#include <linux/delay.h>
-> > +#include <linux/iio/adc-helpers.h>
-> > +#include <linux/iio/iio.h>
-> > +#include <linux/interrupt.h>
-> > +#include <linux/io.h>
-> > +#include <linux/iopoll.h>
-> > +#include <linux/mod_devicetable.h>
-> > +#include <linux/module.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/pm_runtime.h>
-> > +#include <linux/property.h>
-> > +
-> > +#define RZT2H_NAME                   "rzt2h-adc"
->
-> I'm not a huge fan of defines like this as there is no inherent reason th=
-e two
-> places it is used should take the same value. If you feel it's really jus=
-tified
-> then I don't mind too much though.
+Convert register bits to BIT() macro and bitfields to GENMASK()/FIELD_PREP() macros.
+Most of this patchset is boring mechanical conversion.
 
-I am not a fan either, as using a define in the initialization of
-platform_driver.driver.name means I have to do another grep to
-find the actual name.
+Noteworthy patches are 6 and 7 , those introduce handling of DSI mode flags
+and convert use of DRM_MODE_FLAG_P.SYNC into DRM_MODE_FLAG_N.SYNC, but that
+should not have any adverse effect on existing hardware.
 
-Gr{oetje,eeting}s,
+Marek Vasut (11):
+  drm/rcar-du: dsi: Fix missing parameter in RXSETR_...EN macros
+  drm/rcar-du: dsi: Document TXVMSETR PIXWDTH as bitfield
+  drm/rcar-du: dsi: Document PHTR TESTDOUT as bitfield
+  drm/rcar-du: dsi: Deduplicate mipi_dsi_pixel_format_to_bpp() usage
+  drm/rcar-du: dsi: Clean up VCLKSET register macros
+  drm/rcar-du: dsi: Clean up CLOCKSET1 CLKINSEL macros
+  drm/rcar-du: dsi: Clean up TXVMPSPHSETR DT macros
+  drm/rcar-du: dsi: Respect DSI mode flags
+  drm/rcar-du: dsi: Clean up handling of DRM mode flags
+  drm/rcar-du: dsi: Convert register bits to BIT() macro
+  drm/rcar-du: dsi: Convert register bitfields to GENMASK() macro
 
-                        Geert
+ .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c   |  50 ++-
+ .../drm/renesas/rcar-du/rcar_mipi_dsi_regs.h  | 387 +++++++++---------
+ 2 files changed, 237 insertions(+), 200 deletions(-)
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+---
+Cc: David Airlie <airlied@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+2.51.0
+
 
