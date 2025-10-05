@@ -1,364 +1,157 @@
-Return-Path: <linux-renesas-soc+bounces-22650-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22654-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D137BB93C9
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 05 Oct 2025 05:04:56 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E893BB93EE
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 05 Oct 2025 06:00:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BB90A3BA78B
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Oct 2025 03:04:54 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2DBA64E10D0
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Oct 2025 04:00:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9E24189B84;
-	Sun,  5 Oct 2025 03:04:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B594CA93D;
+	Sun,  5 Oct 2025 04:00:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="XrvRhzrj";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="bCIIQnHg"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ASNtZo5o";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="hlFr1UtA"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B24CA4B
-	for <linux-renesas-soc@vger.kernel.org>; Sun,  5 Oct 2025 03:04:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3642E2905;
+	Sun,  5 Oct 2025 04:00:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759633493; cv=none; b=Ba24GT24DvxNl72qgSXJxeuFji6FlT4EL0LFJ54ZpWyqMGXEZ/ntLIuf+fC2QXu8VNFn+iQSrrO6aNbWN8ej6rO8cfpl5dtYsiMsX3X1dbdcdWze3FStbrCkAhEI3/WoJYauBKNCT/OCiFQPHZEFafAscWwB/olKYv51rgl9ZoE=
+	t=1759636824; cv=none; b=q5wKYRCksIf09z7rdVtrnya34z+GM6gEAuNZ88lpiLF+bc9B0PCGT+IcJtlnFaOuNvbPheOFPy8IwnSSl/MaKiJTRH4iIB6bReG5aejHsJbwTOFyaMh9nhzuHkgircDQU7SNawt1GaKNRVNWuUTnNPt5jBPWmAY6gF2v59hdd8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759633493; c=relaxed/simple;
-	bh=3/A9eikVpnBnVhNYEFOtp3+ZDHPMqThu37AS3CfC4zQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=M1uOeUr3F5VFsa6cCE4ot7ZhEAcfus8raQ0lrtfZSLBZ/fWkFmUhbmorcosisfySwRCTuYQ8kG8tRfaZDFQpa2GDaMaP7LjS0riGm0zAOlmkcrUoQgeZD/V4aCw52V9rzZOMFTVHdnKBQ+7nDQ2EPQLDJg145i0KcSaU+XyKewE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=XrvRhzrj; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=bCIIQnHg; arc=none smtp.client-ip=80.241.56.152
+	s=arc-20240116; t=1759636824; c=relaxed/simple;
+	bh=wlnCOX+67XfaGMGbG87kU4jUOi+a6CQ+UrR3wEyKfOc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HGVTc6rnHelOOO7PGJ7oqTEHjdgSFf8q9QPb3ZozAJEGBxFUrmK+Lu1w6943EMu4MOWM7YQwnz3eoNpUyqvzwJBeluOdn5njVcwKsIHC9JxaIb1N8279YoyEwBhu6/xdzVtmA+stzpJ4nb3dD4/3L63Yk79YaX1e6Ew0BR3z9lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=ASNtZo5o; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=hlFr1UtA; arc=none smtp.client-ip=80.241.56.152
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cfS1Z13Xsz9sq6;
-	Sun,  5 Oct 2025 05:04:50 +0200 (CEST)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cfTFc1pwVz9vQh;
+	Sun,  5 Oct 2025 06:00:20 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1759633490;
+	t=1759636820;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZK0zoHj+NrijzbETWnzCVHaPxcsJjM5YLid7gPer7uA=;
-	b=XrvRhzrjFALmEynRAhECYU6x2+9LdUK4MMHHDeXkQIuOJBKpZL5QXQ5YJjKjoVIkJJOVId
-	UAwAZEEdjFpgwLbw+h4ezHt4jgLxHRn+Q1cjNpghr8e7au6SkD+LVo53kLpP7FKn/vreAm
-	n57xeqnpAaBZ1AA5TNFhBgvE6zaXitU1JzTieUJ5yOi1u4EmPxQd7f1ZAqSmV4+HjPfRYc
-	udEDWFdAR/0lHsscs01i+URANwcP4T9UzJd9cvPl8kMAMmEYPb7PFRglDnYixgzi2U+D8S
-	LDvbtu/jnLwwtuuDSsUXzsbJ5bgzKX3ErBaZDebCzs+PgXzLPcLByG6O3VwIkg==
+	bh=VL6nAJwaC7sCapEGrJW3fRmB2emPVD690TICEO6QHUY=;
+	b=ASNtZo5oUa1ORzy+mFsdTmnFIjgJ20lP2GSUBWoKJcaiA+tY4QUZVp8iXKhZ8HoHvoATZ4
+	/+r236NqQvEo6/tEdBhaBKmM6qWYqF4Q08IMW8Z7aT4j0njCCWgXw2RF7rFUxZfpWKj2iI
+	zbdpVa7gqkbHgLyE83bYObHriArctfMSDVLi4I4fK/FykpEeCGRfrCcAPFCpHxrnFrKKHV
+	63VO+9Pt4ekdhIgdSaNGypnb5R1U7B4kvbCvc9Kw8Ti6Q2jH8dT6jCBSxDrye0ogyDhOVT
+	BSkuRNLXs4qWm2KGec15HCCpVCayfFPKiiEgLPz8+b5XVoImKAH//CzF20lDug==
 Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=bCIIQnHg;
-	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=hlFr1UtA;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=marek.vasut@mailbox.org
+Message-ID: <a59212ef-3555-4003-9c71-4ac80eac5cc8@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1759633488;
+	t=1759636818;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZK0zoHj+NrijzbETWnzCVHaPxcsJjM5YLid7gPer7uA=;
-	b=bCIIQnHgPQGV+q3jBRW0xpSSN7/J6rebcBSj/hIOLNW2ndng0xJ8oS/i8NMRtaF9sc5f9z
-	OOWgBq35BrqELhD5Tl9fPTsAVdxFO4URxagDgpSsms3fWxtEbiRuq8C3kUCo4A7hrsZTux
-	Sga1OPzzXxrqj8EOu9CO/nqQWjkgGd4VA5DHgYRne8CnSwukJ/JyAfAjTFqzRBttOBMMS3
-	0EiLMSYNVfry9ptRlbxGay0kMuDq0bpelWm8BT6VDQfzmEvfaqt7NKZ/xiu+ri18X9h5nw
-	0z2Ji1kn/6iFm/zIOE1Ajo9Fk8Ao4NFPLDi2M2l8fvh6C0GsC+HIs+MjxjS6yw==
-To: dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	David Airlie <airlied@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Simona Vetter <simona@ffwll.ch>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3 11/11] drm/rcar-du: dsi: Convert register bitfields to GENMASK() macro
-Date: Sun,  5 Oct 2025 05:02:58 +0200
-Message-ID: <20251005030355.202242-12-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20251005030355.202242-1-marek.vasut+renesas@mailbox.org>
-References: <20251005030355.202242-1-marek.vasut+renesas@mailbox.org>
+	bh=VL6nAJwaC7sCapEGrJW3fRmB2emPVD690TICEO6QHUY=;
+	b=hlFr1UtA5U/TgM367Udb8BFIUoD23rroBhaeYjWH0arKGVYTyT02XYOraynVgyM29FMeqg
+	8HF+QV8F5HWJBMEb973kcL/7skhG1FGG1VAysH2wa4b4HvGVSNG++KJPf7emRNi7tJALe1
+	F3+GlzEy4mGc+79R5uSPLXCu0oz+Vaxp96wBW+JU2cEseIYIsBsThQtrCHjsAHxOR4KIKq
+	IaM/sAyiO+U2ZWTbfjiXdV5DY+1q0KmWHe0P6A8N142hZxg9L7mQLMI8/L8y+aDdCdM90+
+	0kuqf8BlxZJIJUOL9lgelQVy2uv3cCtn4oyuYF4BsB90AAS+1blIwxXp9aMcvw==
+Date: Sun, 5 Oct 2025 06:00:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Subject: Re: [PATCH] clk: renesas: cpg-mssr: Add missing 1ms delay into reset
+ toggle callback
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-clk@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, linux-renesas-soc@vger.kernel.org
+References: <20250918030552.331389-1-marek.vasut+renesas@mailbox.org>
+ <20251003150819.GC344149@ragnatech.se>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <20251003150819.GC344149@ragnatech.se>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 55moixis3b97e3dbsuhen8zwnaxxjcu6
-X-MBO-RS-ID: 798e3543b76215ed547
-X-Rspamd-Queue-Id: 4cfS1Z13Xsz9sq6
+X-MBO-RS-META: n7n5ydiyq3aym6bh6pgzdinfktk5apcm
+X-MBO-RS-ID: 94e2aca0927c824e8c3
+X-Rspamd-Queue-Id: 4cfTFc1pwVz9vQh
 
-Convert register bitfields to GENMASK() macro where applicable.
-Use FIELD_PREP() throughout the driver.
+On 10/3/25 5:08 PM, Niklas Söderlund wrote:
 
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: David Airlie <airlied@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-renesas-soc@vger.kernel.org
----
-V2: No change
-V3: Use GENMASK_U32() and inline FIELD_PREP()
----
- .../drm/renesas/rcar-du/rcar_mipi_dsi_regs.h  | 118 +++++++++++-------
- 1 file changed, 70 insertions(+), 48 deletions(-)
+Hello Niklas,
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-index 431a107ba54d8..79684184b3b0b 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-@@ -13,7 +13,7 @@
- #define LINKSR_HSBUSY			BIT_U32(0)
- 
- #define TXSETR				0x100
--#define TXSETR_LANECNT_MASK		GENMASK(1, 0)
-+#define TXSETR_LANECNT_MASK		GENMASK_U32(1, 0)
- 
- /*
-  * DSI Command Transfer Registers
-@@ -40,18 +40,22 @@
- #define TXCMADDRSET0R			0x140
- #define TXCMPHDR			0x150
- #define TXCMPHDR_FMT			BIT_U32(24)	/* 0:SP 1:LP */
--#define TXCMPHDR_VC(n)			(((n) & 0x3) << 22)
--#define TXCMPHDR_DT(n)			(((n) & 0x3f) << 16)
--#define TXCMPHDR_DATA1(n)		(((n) & 0xff) << 8)
--#define TXCMPHDR_DATA0(n)		(((n) & 0xff) << 0)
-+#define TXCMPHDR_VC_MASK		GENMASK_U32(23, 22)
-+#define TXCMPHDR_VC(n)			FIELD_PREP(TXCMPHDR_VC_MASK, (n))
-+#define TXCMPHDR_DT_MASK		GENMASK_U32(21, 16)
-+#define TXCMPHDR_DT(n)			FIELD_PREP(TXCMPHDR_DT_MASK, (n))
-+#define TXCMPHDR_DATA1_MASK		GENMASK_U32(15, 8)
-+#define TXCMPHDR_DATA1(n)		FIELD_PREP(TXCMPHDR_DATA1_MASK, (n))
-+#define TXCMPHDR_DATA0_MASK		GENMASK_U32(7, 0)
-+#define TXCMPHDR_DATA0(n)		FIELD_PREP(TXCMPHDR_DATA0_MASK, (n))
- #define TXCMPPD0R			0x160
- #define TXCMPPD1R			0x164
- #define TXCMPPD2R			0x168
- #define TXCMPPD3R			0x16c
- 
- #define RXSETR				0x200
--#define RXSETR_CRCEN(n)			(((n) & 0xf) << 24)
--#define RXSETR_ECCEN(n)			(((n) & 0xf) << 16)
-+#define RXSETR_CRCEN_MASK		GENMASK_U32(27, 24)
-+#define RXSETR_ECCEN_MASK		GENMASK_U32(19, 16)
- #define RXPSETR				0x210
- #define RXPSETR_LPPDACC			BIT_U32(0)
- #define RXPSR				0x220
-@@ -107,21 +111,21 @@
- #define RXPIER_BTAREQEND		BIT_U32(0)
- #define RXPADDRSET0R			0x230
- #define RXPSIZESETR			0x238
--#define RXPSIZESETR_SIZE(n)		(((n) & 0xf) << 3)
-+#define RXPSIZESETR_SIZE_MASK		GENMASK_U32(6, 3)
- #define RXPHDR				0x240
- #define RXPHDR_FMT			BIT_U32(24)	/* 0:SP 1:LP */
--#define RXPHDR_VC(n)			(((n) & 0x3) << 22)
--#define RXPHDR_DT(n)			(((n) & 0x3f) << 16)
--#define RXPHDR_DATA1(n)			(((n) & 0xff) << 8)
--#define RXPHDR_DATA0(n)			(((n) & 0xff) << 0)
-+#define RXPHDR_VC_MASK			GENMASK_U32(23, 22)
-+#define RXPHDR_DT_MASK			GENMASK_U32(21, 16)
-+#define RXPHDR_DATA1_MASK		GENMASK_U32(15, 8)
-+#define RXPHDR_DATA0_MASK		GENMASK_U32(7, 0)
- #define RXPPD0R				0x250
- #define RXPPD1R				0x254
- #define RXPPD2R				0x258
- #define RXPPD3R				0x25c
- #define AKEPR				0x300
--#define AKEPR_VC(n)			(((n) & 0x3) << 22)
--#define AKEPR_DT(n)			(((n) & 0x3f) << 16)
--#define AKEPR_ERRRPT(n)			(((n) & 0xffff) << 0)
-+#define AKEPR_VC_MASK			GENMASK_U32(23, 22)
-+#define AKEPR_DT_MASK			GENMASK_U32(21, 16)
-+#define AKEPR_ERRRPT_MASK		GENMASK_U32(15, 0)
- #define RXRESPTOSETR			0x400
- #define TACR				0x500
- #define TASR				0x510
-@@ -142,7 +146,7 @@
- #define TXVMSETR			0x180
- #define TXVMSETR_SYNSEQ_EVENTS		BIT_U32(16) /* 0:Pulses 1:Events */
- #define TXVMSETR_VSTPM			BIT_U32(15)
--#define TXVMSETR_PIXWDTH_MASK		GENMASK(10, 8)
-+#define TXVMSETR_PIXWDTH_MASK		GENMASK_U32(10, 8)
- #define TXVMSETR_PIXWDTH		BIT_U32(8) /* Only allowed value */
- #define TXVMSETR_VSEN			BIT_U32(4)
- #define TXVMSETR_HFPBPEN		BIT_U32(2)
-@@ -174,32 +178,40 @@
- #define TXVMVPRMSET0R_HSPOL_LOW		BIT_U32(17) /* 0:High 1:Low */
- #define TXVMVPRMSET0R_VSPOL_LOW		BIT_U32(16) /* 0:High 1:Low */
- #define TXVMVPRMSET0R_CSPC_YCbCr	BIT_U32(4) /* 0:RGB 1:YCbCr */
--#define TXVMVPRMSET0R_BPP_MASK		GENMASK(2, 0)
-+#define TXVMVPRMSET0R_BPP_MASK		GENMASK_U32(2, 0)
- #define TXVMVPRMSET0R_BPP_16		FIELD_PREP(TXVMVPRMSET0R_BPP_MASK, 0)
- #define TXVMVPRMSET0R_BPP_18		FIELD_PREP(TXVMVPRMSET0R_BPP_MASK, 1)
- #define TXVMVPRMSET0R_BPP_24		FIELD_PREP(TXVMVPRMSET0R_BPP_MASK, 2)
- 
- #define TXVMVPRMSET1R			0x1d4
--#define TXVMVPRMSET1R_VACTIVE(x)	(((x) & 0x7fff) << 16)
--#define TXVMVPRMSET1R_VSA(x)		(((x) & 0xfff) << 0)
-+#define TXVMVPRMSET1R_VACTIVE_MASK	GENMASK_U32(30, 16)
-+#define TXVMVPRMSET1R_VACTIVE(n)	FIELD_PREP(TXVMVPRMSET1R_VACTIVE_MASK, (n))
-+#define TXVMVPRMSET1R_VSA_MASK		GENMASK_U32(11, 0)
-+#define TXVMVPRMSET1R_VSA(n)		FIELD_PREP(TXVMVPRMSET1R_VSA_MASK, (n))
- 
- #define TXVMVPRMSET2R			0x1d8
--#define TXVMVPRMSET2R_VFP(x)		(((x) & 0x1fff) << 16)
--#define TXVMVPRMSET2R_VBP(x)		(((x) & 0x1fff) << 0)
-+#define TXVMVPRMSET2R_VFP_MASK		GENMASK_U32(28, 16)
-+#define TXVMVPRMSET2R_VFP(n)		FIELD_PREP(TXVMVPRMSET2R_VFP_MASK, (n))
-+#define TXVMVPRMSET2R_VBP_MASK		GENMASK_U32(12, 0)
-+#define TXVMVPRMSET2R_VBP(n)		FIELD_PREP(TXVMVPRMSET2R_VBP_MASK, (n))
- 
- #define TXVMVPRMSET3R			0x1dc
--#define TXVMVPRMSET3R_HACTIVE(x)	(((x) & 0x7fff) << 16)
--#define TXVMVPRMSET3R_HSA(x)		(((x) & 0xfff) << 0)
-+#define TXVMVPRMSET3R_HACTIVE_MASK	GENMASK_U32(30, 16)
-+#define TXVMVPRMSET3R_HACTIVE(n)	FIELD_PREP(TXVMVPRMSET3R_HACTIVE_MASK, (n))
-+#define TXVMVPRMSET3R_HSA_MASK		GENMASK_U32(11, 0)
-+#define TXVMVPRMSET3R_HSA(n)		FIELD_PREP(TXVMVPRMSET3R_HSA_MASK, (n))
- 
- #define TXVMVPRMSET4R			0x1e0
--#define TXVMVPRMSET4R_HFP(x)		(((x) & 0x1fff) << 16)
--#define TXVMVPRMSET4R_HBP(x)		(((x) & 0x1fff) << 0)
-+#define TXVMVPRMSET4R_HFP_MASK		GENMASK_U32(28, 16)
-+#define TXVMVPRMSET4R_HFP(n)		FIELD_PREP(TXVMVPRMSET4R_HFP_MASK, (n))
-+#define TXVMVPRMSET4R_HBP_MASK		GENMASK_U32(12, 0)
-+#define TXVMVPRMSET4R_HBP(n)		FIELD_PREP(TXVMVPRMSET4R_HBP_MASK, (n))
- 
- /*
-  * PHY-Protocol Interface (PPI) Registers
-  */
- #define PPISETR				0x700
--#define PPISETR_DLEN_MASK		GENMASK(3, 0)
-+#define PPISETR_DLEN_MASK		GENMASK_U32(3, 0)
- #define PPISETR_CLEN			BIT_U32(8)
- 
- #define PPICLCR				0x710
-@@ -221,49 +233,52 @@
- #define PPIDL0SR_STPST			BIT_U32(6)
- 
- #define PPIDLSR				0x760
--#define PPIDLSR_STPST			GENMASK(3, 0)
-+#define PPIDLSR_STPST			GENMASK_U32(3, 0)
- 
- /*
-  * Clocks registers
-  */
- #define LPCLKSET			0x1000
- #define LPCLKSET_CKEN			BIT_U32(8)
--#define LPCLKSET_LPCLKDIV(x)		(((x) & 0x3f) << 0)
-+#define LPCLKSET_LPCLKDIV_MASK		GENMASK_U32(5, 0)
- 
- #define CFGCLKSET			0x1004
- #define CFGCLKSET_CKEN			BIT_U32(8)
--#define CFGCLKSET_CFGCLKDIV(x)		(((x) & 0x3f) << 0)
-+#define CFGCLKSET_CFGCLKDIV_MASK	GENMASK_U32(5, 0)
- 
- #define DOTCLKDIV			0x1008
- #define DOTCLKDIV_CKEN			BIT_U32(8)
--#define DOTCLKDIV_DOTCLKDIV(x)		(((x) & 0x3f) << 0)
-+#define DOTCLKDIV_DOTCLKDIV_MASK	GENMASK_U32(5, 0)
- 
- #define VCLKSET				0x100c
- #define VCLKSET_CKEN			BIT_U32(16)
- #define VCLKSET_COLOR_YCC		BIT_U32(8) /* 0:RGB 1:YCbCr */
--#define VCLKSET_DIV_V3U(x)		(((x) & 0x3) << 4)
--#define VCLKSET_DIV_V4H(x)		(((x) & 0x7) << 4)
--#define VCLKSET_BPP_MASK		GENMASK(3, 2)
-+#define VCLKSET_DIV_V3U_MASK		GENMASK_U32(5, 4)
-+#define VCLKSET_DIV_V3U(n)		FIELD_PREP(VCLKSET_DIV_V3U_MASK, (n))
-+#define VCLKSET_DIV_V4H_MASK		GENMASK_U32(6, 4)
-+#define VCLKSET_DIV_V4H(n)		FIELD_PREP(VCLKSET_DIV_V4H_MASK, (n))
-+#define VCLKSET_BPP_MASK		GENMASK_U32(3, 2)
- #define VCLKSET_BPP_16			FIELD_PREP(VCLKSET_BPP_MASK, 0)
- #define VCLKSET_BPP_18			FIELD_PREP(VCLKSET_BPP_MASK, 1)
- #define VCLKSET_BPP_18L			FIELD_PREP(VCLKSET_BPP_MASK, 2)
- #define VCLKSET_BPP_24			FIELD_PREP(VCLKSET_BPP_MASK, 3)
--#define VCLKSET_LANE(x)			(((x) & 0x3) << 0)
-+#define VCLKSET_LANE_MASK		GENMASK_U32(1, 0)
-+#define VCLKSET_LANE(n)			FIELD_PREP(VCLKSET_LANE_MASK, (n))
- 
- #define VCLKEN				0x1010
- #define VCLKEN_CKEN			BIT_U32(0)
- 
- #define PHYSETUP			0x1014
--#define PHYSETUP_HSFREQRANGE(x)		(((x) & 0x7f) << 16)
--#define PHYSETUP_HSFREQRANGE_MASK	GENMASK(22, 16)
--#define PHYSETUP_CFGCLKFREQRANGE(x)	(((x) & 0x3f) << 8)
-+#define PHYSETUP_HSFREQRANGE_MASK	GENMASK_U32(22, 16)
-+#define PHYSETUP_HSFREQRANGE(n)		FIELD_PREP(PHYSETUP_HSFREQRANGE_MASK, (n))
-+#define PHYSETUP_CFGCLKFREQRANGE_MASK	GENMASK_U32(13, 8)
- #define PHYSETUP_SHUTDOWNZ		BIT_U32(1)
- #define PHYSETUP_RSTZ			BIT_U32(0)
- 
- #define CLOCKSET1			0x101c
- #define CLOCKSET1_LOCK_PHY		BIT_U32(17)
- #define CLOCKSET1_CLKSEL		BIT_U32(8)
--#define CLOCKSET1_CLKINSEL_MASK		GENMASK(3, 2)
-+#define CLOCKSET1_CLKINSEL_MASK		GENMASK_U32(3, 2)
- #define CLOCKSET1_CLKINSEL_EXTAL	FIELD_PREP(CLOCKSET1_CLKINSEL_MASK, 0)
- #define CLOCKSET1_CLKINSEL_DIG		FIELD_PREP(CLOCKSET1_CLKINSEL_MASK, 1)
- #define CLOCKSET1_CLKINSEL_DU		FIELD_PREP(CLOCKSET1_CLKINSEL_MASK, 2)
-@@ -271,24 +286,31 @@
- #define CLOCKSET1_UPDATEPLL		BIT_U32(0)
- 
- #define CLOCKSET2			0x1020
--#define CLOCKSET2_M(x)			(((x) & 0xfff) << 16)
--#define CLOCKSET2_VCO_CNTRL(x)		(((x) & 0x3f) << 8)
--#define CLOCKSET2_N(x)			(((x) & 0xf) << 0)
-+#define CLOCKSET2_M_MASK		GENMASK_U32(27, 16)
-+#define CLOCKSET2_M(n)			FIELD_PREP(CLOCKSET2_M_MASK, (n))
-+#define CLOCKSET2_VCO_CNTRL_MASK	GENMASK_U32(13, 8)
-+#define CLOCKSET2_VCO_CNTRL(n)		FIELD_PREP(CLOCKSET2_VCO_CNTRL_MASK, (n))
-+#define CLOCKSET2_N_MASK		GENMASK_U32(3, 0)
-+#define CLOCKSET2_N(n)			FIELD_PREP(CLOCKSET2_N_MASK, (n))
- 
- #define CLOCKSET3			0x1024
--#define CLOCKSET3_PROP_CNTRL(x)		(((x) & 0x3f) << 24)
--#define CLOCKSET3_INT_CNTRL(x)		(((x) & 0x3f) << 16)
--#define CLOCKSET3_CPBIAS_CNTRL(x)	(((x) & 0x7f) << 8)
--#define CLOCKSET3_GMP_CNTRL(x)		(((x) & 0x3) << 0)
-+#define CLOCKSET3_PROP_CNTRL_MASK	GENMASK_U32(29, 24)
-+#define CLOCKSET3_PROP_CNTRL(n)	FIELD_PREP(CLOCKSET3_PROP_CNTRL_MASK, (n))
-+#define CLOCKSET3_INT_CNTRL_MASK	GENMASK_U32(21, 16)
-+#define CLOCKSET3_INT_CNTRL(n)		FIELD_PREP(CLOCKSET3_INT_CNTRL_MASK, (n))
-+#define CLOCKSET3_CPBIAS_CNTRL_MASK	GENMASK_U32(14, 8)
-+#define CLOCKSET3_CPBIAS_CNTRL(n)	FIELD_PREP(CLOCKSET3_CPBIAS_CNTRL_MASK, (n))
-+#define CLOCKSET3_GMP_CNTRL_MASK	GENMASK_U32(1, 0)
-+#define CLOCKSET3_GMP_CNTRL(n)		FIELD_PREP(CLOCKSET3_GMP_CNTRL_MASK, (n))
- 
- #define PHTW				0x1034
- #define PHTW_DWEN			BIT_U32(24)
--#define PHTW_TESTDIN_DATA(x)		(((x) & 0xff) << 16)
-+#define PHTW_TESTDIN_DATA_MASK		GENMASK_U32(23, 16)
- #define PHTW_CWEN			BIT_U32(8)
--#define PHTW_TESTDIN_CODE(x)		(((x) & 0xff) << 0)
-+#define PHTW_TESTDIN_CODE_MASK		GENMASK_U32(15, 0)
- 
- #define PHTR				0x1038
--#define PHTW_TESTDOUT			GENMASK(23, 16)
-+#define PHTW_TESTDOUT			GENMASK_U32(23, 16)
- #define PHTR_TESTDOUT_TEST		BIT_U32(16)
- 
- #define PHTC				0x103c
--- 
-2.51.0
-
+> On 2025-09-18 05:04:43 +0200, Marek Vasut wrote:
+>> R-Car V4H Reference Manual R19UH0186EJ0130 Rev.1.30 Apr. 21, 2025 page 583
+>> Figure 9.3.1(a) Software Reset flow (A) as well as flow (B) / (C) indicate
+>> after reset has been asserted by writing a matching reset bit into register
+>> SRCR, it is mandatory to wait 1ms.
+>>
+>> This 1ms delay is documented on R-Car V4H and V4M, it is currently unclear
+>> whether S4 is affected as well. This patch does apply the extra delay on
+>> R-Car S4 as well.
+>>
+>> Fix the reset driver to respect the additional delay when toggling resets.
+>> Drivers which use separate reset_control_(de)assert() must assure matching
+>> delay in their driver code.
+>>
+>> Fixes: 0ab55cf18341 ("clk: renesas: cpg-mssr: Add support for R-Car V4H")
+>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+>> ---
+>> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+>> Cc: Michael Turquette <mturquette@baylibre.com>
+>> Cc: Stephen Boyd <sboyd@kernel.org>
+>> Cc: linux-clk@vger.kernel.org
+>> Cc: linux-renesas-soc@vger.kernel.org
+>> ---
+>>   drivers/clk/renesas/renesas-cpg-mssr.c | 11 +++++++++--
+>>   1 file changed, 9 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/renesas/renesas-cpg-mssr.c
+>> index be9f59e6975d..65dfaceea71f 100644
+>> --- a/drivers/clk/renesas/renesas-cpg-mssr.c
+>> +++ b/drivers/clk/renesas/renesas-cpg-mssr.c
+>> @@ -689,8 +689,15 @@ static int cpg_mssr_reset(struct reset_controller_dev *rcdev,
+>>   	/* Reset module */
+>>   	writel(bitmask, priv->pub.base0 + priv->reset_regs[reg]);
+>>   
+>> -	/* Wait for at least one cycle of the RCLK clock (@ ca. 32 kHz) */
+>> -	udelay(35);
+>> +	/*
+>> +	 * On R-Car Gen4, delay after SRCR has been written is 1ms.
+>> +	 * On older SoCs, delay after SRCR has been written is 35us
+>> +	 * (one cycle of the RCLK clock @ cca. 32 kHz).
+>> +	 */
+>> +	if (priv->reg_layout == CLK_REG_LAYOUT_RCAR_GEN4)
+>> +		usleep_range(1000, 2000);
+>> +	else
+>> +		usleep_range(35, 1000);
+> 
+> I rebased the R-Car ISP work to renesas-drivers today and it included
+> this change, and I seem to have hit an issue with the switch form
+> udelay() to usleep_range() I'm afraid. I can't find any other good
+> reproducer of the issue however.
+> 
+> THe core of the issue seems to be that if a reset is issued from an
+> atomic context bad things happen if you try to sleep. I get this splat
+> and the board is completer dead after it, needing a power cycle to
+> recover.
+> 
+> If I revert this patch things work as expected.
+Thank you for testing. Does it work well if you replace those 
+usleep_range()s with plain udelay() ?
 
