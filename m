@@ -1,122 +1,154 @@
-Return-Path: <linux-renesas-soc+bounces-22692-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22693-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8568BBBD5E7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 06 Oct 2025 10:39:53 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5793BBD6EB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 06 Oct 2025 11:25:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 437784E5632
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Oct 2025 08:39:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7B6E63A4B7D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Oct 2025 09:25:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A738261B97;
-	Mon,  6 Oct 2025 08:39:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="FE2BTq2D"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2329260590;
+	Mon,  6 Oct 2025 09:25:26 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 667D8EED8
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Oct 2025 08:39:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F977262FE9
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Oct 2025 09:25:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759739989; cv=none; b=Fya2GkAAseOEzzbk3KlskylK1S0w1j746yOOSEdAZ/cTfgD5iQziiqhvlSSjGWVqx2M6oJuWURfqYL2B0YiEmnWjld7lUZGZNlrf75puIzmq9gYYMAZGOBkqARafchj91mGpcYHSG0goKV50nVxgcPaqBn1hAI2ce59AiI3fCpc=
+	t=1759742726; cv=none; b=Tg3JMMrfKNNRMrTviJeN0q1k2EZLOmb10CXfZE5dQROcKCKwRErZcqeTaFC5Js029vvI3a4gGTqzlmJGfjHs37xSeaKANyYN6asbsQ2cxyOeKGHihur0AQTAnlvHNMWH5a95De0uuurjlWfSECzcohRL9MRWtgD3SLB2oIDAp8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759739989; c=relaxed/simple;
-	bh=0P48OP0DLwQKC91mQqmuSxoGiGJG3bBtbYCULGi9JI4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XWHru9m8JqJ8Yg2TvV2l0HNRy/J5imKGHnVrtfcZE5e1Y5DHwCboRmuonH44NxPeiZlnh8oQgRlNVK/+aKgtyjiCkpc467v3J+neBX1LmZdY6TZqUV4XAleX4h1mOnOzJZCahzQjh0ELOgdEhIwZn0NMe/LuCJ+GeEEGuhdSRtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=FE2BTq2D; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=LCd2
-	x4I5OqIO3V0sZsaau0PRF3ZhgX3UrduQkOEH2IY=; b=FE2BTq2DaoeN7EgYQ3DR
-	Rov9vRJCpVwIHloXIO4BEtIfZN55n+uGuIHMII+01E11y/woqK6q6eCIIdTxrNha
-	9m22twpEmpk8s1FJHzjsVpr862cQkUhJ4RmWrH+3meGub4K0nx6SaSuFbffL/78u
-	hPc1SBQlwXnGWb0L48vr/+IOqYUkCFo5c1VEn+yShPNuRdNGdUl8Vjj/yhveP7Wp
-	+jPO2CCWWMgWh2HllQc/X0YzblALRc6MMCqEAqtBKwp2OK8x8tHrs29qyuuNDHN+
-	b4VfFVaad6Kf9n4UHA1mJw3nsBH6at1BqgL2DPvCW9cq9y9F+zzUTiWWQyLsD1yJ
-	bw==
-Received: (qmail 1697254 invoked from network); 6 Oct 2025 10:39:45 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Oct 2025 10:39:45 +0200
-X-UD-Smtp-Session: l3s3148p1@/+a0ZHlAbNAgAwDPXwQHAL/S9V79e5yL
-Date: Mon, 6 Oct 2025 10:39:44 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Guenter Roeck <linux@roeck-us.net>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, linux-watchdog@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] dt-bindings: watchdog: factor out RZ/V2H(P)
- watchdog
-Message-ID: <aOOAUJVrnMNM1JZr@shikoro>
-References: <20251005144416.3699-6-wsa+renesas@sang-engineering.com>
- <20251005144416.3699-10-wsa+renesas@sang-engineering.com>
+	s=arc-20240116; t=1759742726; c=relaxed/simple;
+	bh=sZDSusUePS7KTbHF94xK8rV0QQmbxPNR2RLFiaVDrNw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lyswNgr299boJNSQWQNpU371UGlgi4zqAk0BhpmTgIwkeXRQPSauGgVU85Rc8uzQP2lSxZjAxFtOfbk5RMgqygDuMUfiHrnYPpt8iHmH3c/IN0ATnPtNyAkpVlwIR51uSSsZXbmiuOhcv70CR1a+Gpoi4dgYbAH4NT1+SN0vZcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-905b08b09f5so1455718241.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Oct 2025 02:25:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759742724; x=1760347524;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a1f5H254g1HK7lVacJLaFY9n0QZTczpZzL+ddUhW6f4=;
+        b=wnK+ETACLzPQf+XGTVzu/NAcWCCknGmvUceNzNrsTWtIBi6DxPlOzISMVDTSp5GVZi
+         oOmPcJaTrUvjDg2rx97f3kIhBdcvKwARlWKuG+x7XnCzDfIRd+DnBsUtEtikz1kN5h6D
+         Ao8Zi3oAV9qIbz4WqvhcR523kGk/WqieVbX1pEcHHSabfpURUbsj4klCgwXeZHD2xAoH
+         B2eEs+7DXp9ZqNsE0mkaP0z6vHJIkmVUr1dd/x/IA8imVCzM51PCWpdbNKI2uR3UYWqk
+         CgN6kc+fivIBZtkkW1/mh0hC1q0PeiOIkqZyKT/3py/tVouQWCbvPpfLCkYH2IFLT4Un
+         enyA==
+X-Forwarded-Encrypted: i=1; AJvYcCVa/C/LVwRPx5FAdjVfoofGHBH/7F0I3WNXvCgxYMMpVGtf1NfbubBqLSl10RLaCq1jrpGRw/6dCB9BvtkCCYMS7Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yykk8cSDJXpOPVoDN8JlnF8vsJRyfV0kiBPKDhr7FO/Afw4Ysnu
+	O9Dxx5Xn9grf0o3iGfjJz+G5Gowz3uQLkudBvNAvlfdk7VAMG4JRUYa+Ch5pw5Xe
+X-Gm-Gg: ASbGncuHMzUn95AikmjfFDcsuog/SbiTfqKvoye/mIpLjWklICXd+nZZLffFPlD3i96
+	/wS0+L4qi0u53r5uqJ3h88sACz40N6IpAt/0G20cnsevvmEzLDxoMTQP8PwfhNHPk0APxmRbU6I
+	zYC6XUqMcuv3VUJxTKcbA5oOFvsEZ3DK0g8xRKcVaSNvRn2mbddNL04FMv57JL1EBLshbxrkwRu
+	7SbT2vvG7FO7AFfmsMa1JOmp3MTfUdxxqW/wMBbRxMnzSfQPIjHQv4901rd/MsyAkuYWk2pLs6f
+	9uA7b1m/IVMkovknewUy9ygmMo7hABk1mUu/7Vidh2y2lTD5sxgo1hZEnyQfWjYNRkguBYOjWWM
+	/tcEiq2LHLxjA9D87lO+o5856pW2UELUD91Ewces1q/GaKQNbhCdKhEsfoBLoJ9bmqlcrNeF6A8
+	E7zu48rAj8DOggwCWthPU=
+X-Google-Smtp-Source: AGHT+IF31XvmuO0KMWxV1oPWCsHR1Wb127jeFxtsDcYFlpP0nwq1SmvKj+uIp+6doTa1hHu5ZBKCdg==
+X-Received: by 2002:a05:6102:32c2:b0:5a3:acb7:55c5 with SMTP id ada2fe7eead31-5d41d10c1fdmr4051433137.26.1759742723516;
+        Mon, 06 Oct 2025 02:25:23 -0700 (PDT)
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com. [209.85.217.46])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-92eb4f08a7fsm2892699241.17.2025.10.06.02.25.22
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Oct 2025 02:25:23 -0700 (PDT)
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-5997f407c85so1705492137.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Oct 2025 02:25:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX/k3xo0MwWM7k2Yhs6we+Ms3AaqJuNbOEXxkkiNySmIZ+mYCaQCa3h1eyWzfKY4iqPJlr5KE3WI43jLH2RG90Ujg==@vger.kernel.org
+X-Received: by 2002:a67:e7ca:0:b0:4e5:980a:d164 with SMTP id
+ ada2fe7eead31-5d41cdf4a3bmr3915460137.0.1759742722677; Mon, 06 Oct 2025
+ 02:25:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tpyE72Q6iazj6LTP"
-Content-Disposition: inline
-In-Reply-To: <20251005144416.3699-10-wsa+renesas@sang-engineering.com>
+References: <20251005144416.3699-6-wsa+renesas@sang-engineering.com>
+ <20251005144416.3699-10-wsa+renesas@sang-engineering.com> <TY3PR01MB11346E3690F0E74C5E1AF9B7586E2A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <aOKajKzRlrQD7plt@shikoro> <TY3PR01MB113460EB1918AD06D8F2ADD0C86E3A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <aONh89-5-llFZWue@shikoro>
+In-Reply-To: <aONh89-5-llFZWue@shikoro>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 6 Oct 2025 11:25:11 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVUbENsdjCCqrn7e9=mWbs+J1kcat6LYU6vAcrBHzawBw@mail.gmail.com>
+X-Gm-Features: AS18NWDrTsDaUWwW6vNGYUXbBb2hzV0fRFzAQBAzuQ6sMouqWvDz9ki7n_BBmQw
+Message-ID: <CAMuHMdVUbENsdjCCqrn7e9=mWbs+J1kcat6LYU6vAcrBHzawBw@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] dt-bindings: watchdog: factor out RZ/V2H(P) watchdog
+To: "wsa+renesas" <wsa+renesas@sang-engineering.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, Guenter Roeck <linux@roeck-us.net>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Wim Van Sebroeck <wim@linux-watchdog.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, "magnus.damm" <magnus.damm@gmail.com>, 
+	"linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Wolfram,
 
---tpyE72Q6iazj6LTP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Mon, 6 Oct 2025 at 08:30, wsa+renesas
+<wsa+renesas@sang-engineering.com> wrote:
+> > > > > +      - enum:
+> > > > > +          - renesas,r9a09g057-wdt    # RZ/V2H(P)
+> > > > > +          - renesas,r9a09g077-wdt    # RZ/T2H
+> > > > > +
+> > > > > +      - items:
+> > > > > +          - const: renesas,r9a09g087-wdt # RZ/N2H
+> > > > > +          - const: renesas,r9a09g077-wdt # RZ/T2H
+> >
+> > I guess a comment like # fallback RZ/T2H here will avoid confusion.
+>
+> Hmmm, if we add such a comment for every fallback, this will be quite
+> some churn, I would think. My favourite solution would be to swap the
+> 'items' entry with the 'enum'. So, everything with a fallback comes
+> first, and the 'plain' entries last. But what do others think?
 
+We do have "fallback" comments in other places, and I think they do
+help in understanding compatible naming schemes.
 
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - renesas,r9a09g057-wdt
+Would it be possible to handle this in dt-schema?
+Currently we have to write:
 
-I think this should be 'const' for now...
+      - const: vendor,soc1-ip
 
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: renesas,r9a09g077-wdt
+      - items:
+          - enum:
+              - vendor,soc2-ip
+              - vendor,soc3-ip
+          - const: vendor,soc1-ip       # fallback
 
-...like here.
+If dt-schema would automatically drop duplicates of the fallback,
+we could just write:
 
-Same for patch 3.
+      - items:
+          - enum:
+              - vendor,soc1-ip
+              - vendor,soc2-ip
+              - vendor,soc3-ip
+          - const: vendor,soc1-ip       # fallback
 
+What do you think?
+Thanks!
 
---tpyE72Q6iazj6LTP
-Content-Type: application/pgp-signature; name="signature.asc"
+Gr{oetje,eeting}s,
 
------BEGIN PGP SIGNATURE-----
+                        Geert
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjjgE0ACgkQFA3kzBSg
-KbZ3Fw//Wjx5XMWxXvFecxAXiBjhT0iieGRnWzJeR7LjcDnmxU1gr1Y2DZhk5zg5
-iXMnScEMl3jo7LKBi3crTpRtrv4jNA08bvGOPZa7iOLxzVGw4st/iFLV/xELgG8O
-LI2puPcJUftxs3GSZyPgI73Ie6JTDcd62EKp8BWOuZmzd8SGlZTFTLPlzM5c1Pko
-PnA+WuPWd4rno7Mexv5mJNsBpTRZ/deVDXja1cJEWhqF4NZiXCuHVyUGi/wVKrY1
-6SrAFYOsA0oWyiBn+0lwzU2cM5p5+uQBQPO7xhmzWMAK+yliel82bUvf7/ZJQdyn
-nOxC1cxtsgCOV4ukIKQ6UrqlUcNThVFS5VrmAtOeDUujYVuAZX4cKuTo/9kTPZKO
-7kp93GpLujQrY6C+8ma9UP0mHva78QYquejSgB6k0YM40jdLzbfVCitHLgfGdja5
-M0SsFutQdcwsqD5PJ3zGlz3CGJD91ze65xzyy3oof39DFj0RBEtitdSW9BvE+pP1
-J7IAbgfGdt1jV8mI9nwBmuwmiA8iEVYLDNEIFftro2KkiTySCmNmOOdr90oCVG8t
-jKPukaskuPbjBx/lljuY8EGLFzFCMaXsw4e/QMwSSx5oHKa/ZO2dTuc29GJjrb2H
-snCUDLzMGD3eba7aWXABFVLFDseqQkVbYcJ5gfdHTv4SdM4BtTc=
-=N27g
------END PGP SIGNATURE-----
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
---tpyE72Q6iazj6LTP--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
