@@ -1,125 +1,210 @@
-Return-Path: <linux-renesas-soc+bounces-22699-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22700-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53293BBDF12
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 06 Oct 2025 13:59:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A90C5BBE044
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 06 Oct 2025 14:23:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 407A74E19BB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Oct 2025 11:59:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6C04A189718D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Oct 2025 12:24:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8661276020;
-	Mon,  6 Oct 2025 11:59:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 293F727F724;
+	Mon,  6 Oct 2025 12:23:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="T94CrnWg";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="qUODGQrE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED0D17E4
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Oct 2025 11:58:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B24327E07E;
+	Mon,  6 Oct 2025 12:23:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759751942; cv=none; b=lTnW1anPfzKKq+O6bV2tfD+8EXxq+Vv4uATDnxEskBN/wvonEFbrwuklWmrsSdu0zVash1rl4WKietGJeMTFX2anVtd+DbmAWJrw30f2KYY+yqEFMy+xL3r4PzQAJRP9XvDF/iLSzzcrylcLaJktPdsyj3FMpn+YxOtXaNG75Js=
+	t=1759753425; cv=none; b=or7DmFA3giCTz6Yt2SLayu9z1UTMOSqxjlvn4ePX0YA4ZbxX8CUit8zYG4d6f/76kr7QyjY+yLJQ+8u73ENUI2+ZAwEcmxt4wxvaBBuDBiXwmxv1y1Smg6STFM/bqV74bEP6tML9IZYu8I1FG7Z60pFB+CC7okjmR0IRPVzEPMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759751942; c=relaxed/simple;
-	bh=I5uC25b6no/Mhl16rMoemx2zfef6d8aMW4nTPRFe6XY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RYKjxhFuWH4diNhPaMmkpG6zhY842TFepE0E72geYpAJdC4tyl4tRxUY4GL03RPk4VDxrzmMVW6Lfv9tS89uTeKMh1u2vpfCPkbvnDRY36VoWQZK0aA57MGg3GgtH13KBLaCL7IOAxjICi+AguJeihrA9HZAP3LAqg/9cmarpiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-58de3ab1831so4682407137.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Oct 2025 04:58:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759751939; x=1760356739;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tpORwolC+qpTMCC12M1JZ1HTJyn7uuoBh2byX7KsERo=;
-        b=Hz08BPFfJQo6Uyc+Sfq3wrBOQw2C8VBTvRUE/t1EsvlgvXd3xAG8RzzVH71gaDNrUf
-         YKp/egtgq8cCQZs2xwv8EbFjUkRLtGPMUE9hst6nW4lHl4nu7nYC2iOc7eWG3owMjqAg
-         7jgI3jlRgs75NdVLYi68A+/Zdz8Gp1RTGvf5xac3VKiLz9jFZhewyFK7t7H98qVJlBQm
-         tGvAVp7M8gWzl0ydS/44NXdCZ0bJ75l+HulHi6XpD+Uo15AbqQkkI8MsOJoxyNvpsCTj
-         nGJD/n4DMMiDQ+s/52Sm02D+hnRLQUCcKUcso5LpL3Xaj1MwgzMz+Q1kNmAyiKACvoNv
-         pItA==
-X-Gm-Message-State: AOJu0Ywp3LmBjtELGeN3p6XUvPbduBNnfmwDMGQ8FiVCTO/wai6ynEg6
-	TskDpEA7bg1ey367k5dOEimdTOlGWMPuOy4T2Aw1KJAYOxQEh6r5uJVEJUSAAEly
-X-Gm-Gg: ASbGncv/rXeVX1edzHrQhNo5dkYFyYxt6+5PZPO5AuoWhhQ12eubx/DupnJIC6xIv1a
-	wNfMWPmq/GvSdMdcCOG6EJAy+ICCpRjhmsML0itzi0gya4GO/nb2F5BoBboIxM1NmVol4YZHObO
-	U+vgid6EN95MkFb/niFjQ0xbvcGIOeFO+Zf73h/DeP6cXVrUgCf4c5KiuZlmsxRx0W8Q6cGeB94
-	fo0OPXjaqsemJ0c5sk8Latn8RBoxTtrfEPnPtVWOX/E96Amj3d4648J0tiq83gWw8SNEhhriGKI
-	DQZCOonrzluDLbkbebqzdfCQfp8PneyMZ8nygHNN4jWKJYgSyZddQrApXXucmKlygOU+dvtA7Ln
-	uOXkUlpj/AH3HlTg8BeYSpyZzDdoa4OZTrMu581wbsjg6mPeZ4ZgL8QmH6fuSnCAIWQmF3cEif+
-	AyM1fc4XadLQDpV+sODM8=
-X-Google-Smtp-Source: AGHT+IGIKOOMC9/DGFIKTOfMSj4XOMnZaXaoUgX3+FVBj9vKw1VG16FQln8WLSl3bq3NAuRYJGb5gg==
-X-Received: by 2002:a05:6102:512c:b0:59d:2396:18fb with SMTP id ada2fe7eead31-5d41d0fd79bmr4462887137.25.1759751938802;
-        Mon, 06 Oct 2025 04:58:58 -0700 (PDT)
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5d40c4eb7bcsm3267891137.3.2025.10.06.04.58.58
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Oct 2025 04:58:58 -0700 (PDT)
-Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-8e0c90cac25so2855398241.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Oct 2025 04:58:58 -0700 (PDT)
-X-Received: by 2002:a05:6102:291f:b0:5a2:668d:f20b with SMTP id
- ada2fe7eead31-5d41d0dd17bmr5163622137.16.1759751938259; Mon, 06 Oct 2025
- 04:58:58 -0700 (PDT)
+	s=arc-20240116; t=1759753425; c=relaxed/simple;
+	bh=JW9AjJTwskhiSsvLHVksjR4Yh5RYY8J5kRftJwvfmGY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hvfKhDs7BbFyjkSiPbYDyfUJwdgx6aVeJDbsJQGtwNcEulnVttGNC5Iz2+hm1j+ar9J+4UwFslKhjCznD6ImDvrMJBpB23wvNjgPdG95vGQqU7cpaH5o8MWQ5rMLuYdPIEfaquNYsKpALmfgVMU+r5CmdV5KLqnlLGUF2CIhB6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=T94CrnWg; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=qUODGQrE; arc=none smtp.client-ip=202.12.124.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfout.stl.internal (Postfix) with ESMTP id AA6C21D001B3;
+	Mon,  6 Oct 2025 08:23:41 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Mon, 06 Oct 2025 08:23:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1759753421;
+	 x=1759839821; bh=HHRWfj9nZcHamSWr5nC9AW7Sli28G72oI6+akm7FbLM=; b=
+	T94CrnWgc1JcZE/Rf8GzgKs6EWo8qdGo3AiLlErzMY1icYyXRncMtx0SE5kGsEkW
+	LIgUMTzYVZhnuvxVXL7WyQp5UWNvH6JoMMUhYeWK2Kcwez97INuJDZH2Ry1A1lYP
+	/kTqPuLWw2038hhaEORhZgVo2pYNSCZQ+lwzt7rRYvPFFMeF/fnp2GYTBLq4YI7T
+	4jJPviVrAfemPOEmZh3CNOu1A7jUJ/MOVrSR7BZOQvYOQAJoPX/dJgL3aWUd4BM4
+	pQWSFqZABDi3521tONUtaohOjnHJ3ppHxMG9CEkDg9NovB34WKRsnVruvnZSNgNi
+	/O0VaBqlxWE45z0aIPuAhQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1759753421; x=
+	1759839821; bh=HHRWfj9nZcHamSWr5nC9AW7Sli28G72oI6+akm7FbLM=; b=q
+	UODGQrEFJ4qjDn6ZzQWyUPcx3IpG1SWnPhBsRUAdd4vZoemaSvGf4HpzYfWKxY8S
+	2vPI48i3R4A4hAK/r3+Z14z30V3Mqk4vhDa+6A7IhyM9j2Lg91a+05HJ1mt+Whia
+	eSp6nS6ARUI6amS4jbTLZ0fpZMM9DIhPxAGZ+BYEbqGiMYq+3QpewgHR4cHV3NzZ
+	JGwncdSROfC03nVQju/y3t16cYcAYl80a66J+Xp+lZHYbzEddtV8JRjex3Xj5X6U
+	y8+EiU1V6iZYqrYr1iBml/EMEAYxBmGUP93UpkogG9swKhK2rfwFdoC2wrisZ9Uq
+	I55c4GkMrfBI13Glbt+Lw==
+X-ME-Sender: <xms:zbTjaKVIQ5qktna8xDBB62H1tKRfc3rcDt-Fv7BoAwuDcZY9o5kHdw>
+    <xme:zbTjaP6b8xM8DqagGNPug77LUYm2mXm9YYlvYp5SDSjHMdmgsbUQErIPE8d4HKcj8
+    z84xW53iF1Im4RUyyBPwhACLs2wtdYJvfCbyt7seuUkzgLVcAXrGgND>
+X-ME-Received: <xmr:zbTjaFpufdU6mINeQ3b3vQIWg8gfbQWV0SVb73YTXQ8zmr6lKc32PUSjyKwm1JzUaEnNgAlNryUaL9rHDBuJ0hZtH44e04M>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdeljeehfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhikhhlrghs
+    ucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrth
+    gvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepveetgedtvddvhfdtkeeghfeffeehteeh
+    keekgeefjeduieduueelgedtheekkeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+    hrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgr
+    thgvtghhrdhsvgdpnhgspghrtghpthhtohepiedpmhhouggvpehsmhhtphhouhhtpdhrtg
+    hpthhtohepghgvvghrtheslhhinhhugidqmheikehkrdhorhhgpdhrtghpthhtohepmhgr
+    rhgvkhdrvhgrshhuthdorhgvnhgvshgrshesmhgrihhlsghogidrohhrghdprhgtphhtth
+    hopehlihhnuhigqdgtlhhksehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohep
+    mhhtuhhrqhhuvghtthgvsegsrgihlhhisghrvgdrtghomhdprhgtphhtthhopehssghohi
+    gusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhs
+    ohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:zbTjaCn3tO28sM7Yj-Xf5uQlEgY2CJabFEtq9d9m9jrXBUOU7lxhTw>
+    <xmx:zbTjaBOJ8EHkOVAxfjU-mZHj79YAg0RLnrZij4Rf2F2YNoyxasovSA>
+    <xmx:zbTjaGNz4wQv7jR4lqPqmlC9pUnWn7ypJ0IUhB-Hwp0xFRxPSwm8Hw>
+    <xmx:zbTjaCjvCpPEpHLrFjIpK8ubVqT00CugGlO-OZuhWGKeY7rwmXFm-g>
+    <xmx:zbTjaDYSIbdD0V9I570XDYqloI1BqBUIYgENDEZcZ3BNLrB3zL0pv8QT>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 6 Oct 2025 08:23:40 -0400 (EDT)
+Date: Mon, 6 Oct 2025 14:23:38 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	linux-clk@vger.kernel.org,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] clk: renesas: cpg-mssr: Add missing 1ms delay into reset
+ toggle callback
+Message-ID: <20251006122338.GB1353934@ragnatech.se>
+References: <20250918030552.331389-1-marek.vasut+renesas@mailbox.org>
+ <20251003150819.GC344149@ragnatech.se>
+ <CAMuHMdWXkwOyAhAZB=j_zZg8PcGcdkMDGOa-nBhcgjYRgb7MSg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250917185651.12428-1-wsa+renesas@sang-engineering.com> <20250917185651.12428-3-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20250917185651.12428-3-wsa+renesas@sang-engineering.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 6 Oct 2025 13:58:46 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUoo1vm1oz8HfC4UVj3X7+e8N0_cNWPX0BJeQcYZ0eCTw@mail.gmail.com>
-X-Gm-Features: AS18NWABWM_T7RTrVAKGX5mAsBLfBVSPuYOM2tFdhqiGNbYaoJRqZ-R_pXAbaSY
-Message-ID: <CAMuHMdUoo1vm1oz8HfC4UVj3X7+e8N0_cNWPX0BJeQcYZ0eCTw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] watchdog: renesas_wwdt: add driver
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, 
-	Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	linux-watchdog@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdWXkwOyAhAZB=j_zZg8PcGcdkMDGOa-nBhcgjYRgb7MSg@mail.gmail.com>
 
-Hi Wolfram,
+On 2025-10-06 13:53:34 +0200, Geert Uytterhoeven wrote:
+> Hi Niklas,
+> 
+> On Fri, 3 Oct 2025 at 17:08, Niklas Söderlund
+> <niklas.soderlund@ragnatech.se> wrote:
+> > On 2025-09-18 05:04:43 +0200, Marek Vasut wrote:
+> > > R-Car V4H Reference Manual R19UH0186EJ0130 Rev.1.30 Apr. 21, 2025 page 583
+> > > Figure 9.3.1(a) Software Reset flow (A) as well as flow (B) / (C) indicate
+> > > after reset has been asserted by writing a matching reset bit into register
+> > > SRCR, it is mandatory to wait 1ms.
+> > >
+> > > This 1ms delay is documented on R-Car V4H and V4M, it is currently unclear
+> > > whether S4 is affected as well. This patch does apply the extra delay on
+> > > R-Car S4 as well.
+> > >
+> > > Fix the reset driver to respect the additional delay when toggling resets.
+> > > Drivers which use separate reset_control_(de)assert() must assure matching
+> > > delay in their driver code.
+> > >
+> > > Fixes: 0ab55cf18341 ("clk: renesas: cpg-mssr: Add support for R-Car V4H")
+> > > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> 
+> > > --- a/drivers/clk/renesas/renesas-cpg-mssr.c
+> > > +++ b/drivers/clk/renesas/renesas-cpg-mssr.c
+> > > @@ -689,8 +689,15 @@ static int cpg_mssr_reset(struct reset_controller_dev *rcdev,
+> > >       /* Reset module */
+> > >       writel(bitmask, priv->pub.base0 + priv->reset_regs[reg]);
+> > >
+> > > -     /* Wait for at least one cycle of the RCLK clock (@ ca. 32 kHz) */
+> > > -     udelay(35);
+> > > +     /*
+> > > +      * On R-Car Gen4, delay after SRCR has been written is 1ms.
+> > > +      * On older SoCs, delay after SRCR has been written is 35us
+> > > +      * (one cycle of the RCLK clock @ cca. 32 kHz).
+> > > +      */
+> > > +     if (priv->reg_layout == CLK_REG_LAYOUT_RCAR_GEN4)
+> > > +             usleep_range(1000, 2000);
+> > > +     else
+> > > +             usleep_range(35, 1000);
+> >
+> > I rebased the R-Car ISP work to renesas-drivers today and it included
+> > this change, and I seem to have hit an issue with the switch form
+> > udelay() to usleep_range() I'm afraid. I can't find any other good
+> > reproducer of the issue however.
+> 
+> Yeah, AFAIK we didn't have any callers of reset_control_assert() from
+> atomic context, but I was already afraid one was going to pop up...
+> 
+> > THe core of the issue seems to be that if a reset is issued from an
+> > atomic context bad things happen if you try to sleep. I get this splat
+> > and the board is completer dead after it, needing a power cycle to
+> > recover.
+> >
+> > If I revert this patch things work as expected.
+> >
+> > [   29.256947] BUG: scheduling while atomic: yavta/597/0x00000002
+> 
+> > [   29.265595]  reset_control_reset+0x4c/0x160
+> > [   29.265604]  risp_core_start_streaming+0x100/0x440
+> > [   29.265609]  risp_io_start_streaming+0x74/0x108
+> 
+> The existing udelay(2000) after the call to reset_control_reset() is
+> also a bit gross.
 
-On Wed, 17 Sept 2025 at 20:57, Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> This driver adds support for the Renesas Window Watchdog Timer (WWDT).
-> Because it can only be setup once after boot and we cannot know if this
-> already happened, it is mandated that the firmware configures the
-> watchdog. Linux then adapts according to the given config.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Haha, I agree :-)
 
-Thanks for your patch!
+> I understand you are using a spinlock because you
+> need to synchronize with an interrupt handler.  Would converting to a
+> threaded interrupt handler and using a mutex (which the code already
+> uses) instead be an option?
 
-I didn't get to reviewing this driver yet, so here's just the initial comment
-from scripts/checkpatch.pl:
+Yes and no. For the current use-case where the ISP is used in off-line 
+mode, that is userspace dequeue images from VIN and then queues them to 
+the ISP, it could work. But if we ever want to support the ISP in 
+in-line mode, that is the CSI-2 Rx queues the frames directly to the ISP 
+I think a threaded interrupt handler would be to slow to change ISP 
+parameters between each frame.
 
-> --- /dev/null
-> +++ b/drivers/watchdog/renesas_wwdt.c
+But that can also be a future problem, I will see what I can do.
 
-> +MODULE_DESCRIPTION("Renesas Window Watchdog (WWDT) Driver");
-> +MODULE_LICENSE("GPL v2");
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> -- 
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
 
-WARNING: Prefer "GPL" over "GPL v2" - see commit bf7fbeeae6db
-("module: Cure the MODULE_LICENSE "GPL" vs. "GPL v2" bogosity")
-
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Kind Regards,
+Niklas Söderlund
 
