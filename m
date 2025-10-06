@@ -1,196 +1,813 @@
-Return-Path: <linux-renesas-soc+bounces-22704-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22705-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B04BBBE193
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 06 Oct 2025 14:54:18 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57161BBE28C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 06 Oct 2025 15:17:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C89901895506
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Oct 2025 12:54:40 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 43D434E3865
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Oct 2025 13:17:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DF88280CC8;
-	Mon,  6 Oct 2025 12:54:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="fhS1/M3C"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C88D267B9B;
+	Mon,  6 Oct 2025 13:17:19 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010045.outbound.protection.outlook.com [52.101.229.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DAC9149C6F;
-	Mon,  6 Oct 2025 12:54:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759755254; cv=fail; b=QdeqrSGDcQFe4WOLqrtmYWA89C2VA9djkGhY8N2Gg/NgtedppzEpoNN9QTtnnwxSMq4MXcoT0/8BopcHCHD59B4D091MlcIsE9Vp677w1yPn097eCH48rq2e58y1Frd78SBxDNvPuSOFIeAukcvuH4gSyMTiLMTnSq8/+SqyvXM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759755254; c=relaxed/simple;
-	bh=rqQ5NQL0tbu22Hfxuiw2lRGfYAf9W315jqD4xTvxDD8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=oAxvWYem3knjYcij/MeJstQZwcztur9c8I/P4jSryKbPqNKuVG4Sci1OvGiw/KSi1Cx1PpGIjfyKqkRm3prm74Je49TlqPliUNIRbGvKxdcThyzsbFqYWBRUEFfguCPltjy409Y7K9TAz7ist21M2SRQSqSFNFbEcHe/LlfHQpM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=fhS1/M3C; arc=fail smtp.client-ip=52.101.229.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hhNcK+i4uB4CXThCPdwF5rsgvENco20/S0gpIzNO50zt23BwtKoCuUSWiOyEykUg0fjUG4FVRnQ3Fe1i3jF4HubxRYyK2aV+8ebJo7WJSbcu0UKIJxUF9LUNBa3DbrENlfWWMdzQ72ZKsRBfFjGbd5DVuQCEshtB8oY2HCS9QNfdjzMVaOHgRGPE3UPS76UdpS8qoC4deSMMRrfbHEgh5u6vJSZeNUJz6uANJ3beIFOfBxzOZ9mMKyfVT6/7tR2jDBMvzANMugY8T6Y6WwU3ooH2nzDZq9xP3ROG3/r4d2DtAEBavwK4ZUjcMIVQc86N/fu6sii4WaqMk6DyOzm2bQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Io/ywwOlAJqMrUgfmFOpG0fSxbZiMbXf9La/wbKHCa4=;
- b=kD/PxWYahoJHku4QoAWlImjzWrR4uUl2IBiXKMeoqu10KEVOMZPxkGXlWL8YAkTM2mH2sGE/BMenMJP9HA20rtn+9UVdsPt+b5IeN2+H86m9t9BekeHvN1yU4n/7LV2K9O7asAjWhjAGxkLpJa/1tjl2VEyJEPedbvGSz1HDbWK9NhqKjhzwisft38u7tMKCJy8qhBR4dFLzefFO3hM+V2QYNXtR0h9tSHEcU/n9e3gKbR+7twBWHrEu6upUJBbvO7JirvkGZTYHyeQZ0xGZqoigNornur8u8S1adUr0lH+0izGPFOcmjB7JpE8OG30bLuxMYDg+voeLD0o0coqc9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Io/ywwOlAJqMrUgfmFOpG0fSxbZiMbXf9La/wbKHCa4=;
- b=fhS1/M3C61COkVKcadPGp58VFkH3HYUMJyuf7M7B4i5WIVhshDWiLnEIFPIsZpKFdMdhM/FMLn4CgnCUCvex0rlE+1dRx0xpHhfuCDjwnJ1YRMQMBmEBI0HfKDs5H504CsJyVAR1/uvwV1y0RsBfU0GAEf4JK0b6Wc+c46HnJvw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com (2603:1096:400:3e1::6)
- by OSCPR01MB13126.jpnprd01.prod.outlook.com (2603:1096:604:353::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.8; Mon, 6 Oct
- 2025 12:54:07 +0000
-Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com
- ([fe80::33f1:f7cd:46be:e4d8]) by TYCPR01MB11947.jpnprd01.prod.outlook.com
- ([fe80::33f1:f7cd:46be:e4d8%5]) with mapi id 15.20.9203.007; Mon, 6 Oct 2025
- 12:54:07 +0000
-Date: Mon, 6 Oct 2025 14:53:52 +0200
-From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
-	biju.das.jz@bp.renesas.com,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, linux-phy@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 07/18] regulator: devres: Disable exclusive regulator
- before releasing
-Message-ID: <aOO74D2XW47aDZlg@tom-desktop>
-References: <20251001212709.579080-1-tommaso.merciai.xr@bp.renesas.com>
- <20251001212709.579080-8-tommaso.merciai.xr@bp.renesas.com>
- <ae2701a5-8662-47d3-81fa-30e832600423@sirena.org.uk>
- <aOAI5cfA1HmEc7Rv@tom-desktop>
- <ffc7b0f7-edc0-4e26-ab43-e2010ec58819@sirena.org.uk>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ffc7b0f7-edc0-4e26-ab43-e2010ec58819@sirena.org.uk>
-X-ClientProxiedBy: FR0P281CA0106.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a8::7) To TYCPR01MB11947.jpnprd01.prod.outlook.com
- (2603:1096:400:3e1::6)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6259271447
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Oct 2025 13:17:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1759756639; cv=none; b=TZbkiN4XzOu9y2UdK1aRPhXFogvONVk1xDgTC7nz0mzM9ppMT2mdc+dDwNfhcEspUy89XZvMarxv/xAolvqREA75wrxziDkbp3tnaqiLrwO/Rbq5pHYi8ADjazm1okvxPcGSRcYrW3fXiMHVx/IsVfSG+Ss1LTuT5NK31ujbkt8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1759756639; c=relaxed/simple;
+	bh=KGnWqIGqIKSniA79RO3vOzqDOgzISe13r8623BSRbqs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Z/evRI68HPWeder6ptFonOKuk8xpvvWznJ/u9quuWFogUEbteoYGXZ5bYO2MaJgHRIE3HaYBywN95wSG37EzK0XrJpGFffpg+i0ljUSoVUeV36LR4N4+3VVjqDiSDxyxXhkkp6ZOGoaLfuLi8xUIGingopY8v3QXl6DGfITcbqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-8e30a19da78so2881213241.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Oct 2025 06:17:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759756635; x=1760361435;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=F/5IKalp7KoFmJQfsce+aQR+XVFAjEugjnItXqVt8U4=;
+        b=s3S+X5AuMfCQKALBvMNRTUTzY4QzHaBlKyU+TAqc2INxzQO3HA7KonjJDn3aE/pH1h
+         qFGl8ckIUO+Ci51+tJHKHbeTKhN/dKs/MeT+6iv6n4B+ml8uyWerlTZ5bGJUjcjfXpIZ
+         b2VB+PTPWgrboUiIGozE7gzdvwP4JEon1VI51hPQjNf+ifmA1QQz9/vtZm90RjGXgn16
+         iN0sdvjtHNlyrm6AqytCgqdY3a2vm47YKRZ14EdebqDOHKb2r49F5T+jtUralZdPDBPK
+         /lKG7E75nT8FYPpPfqQeJ++4tTXTPSndiG4l7Jp6S2Jk8B3Qox3NMQrveCKoKj/uDO99
+         4BRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWdu+ut8E7AV9lUwD+CK7+LzUESYy3lwRHrrvb/NVQCm/pizkAf6GrYFLsQ1Rb22Q3kbkWS7gm721EjcnhHDt5i8Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+L7MAoJ+s07SjNf4YRsEWgrGYvOygRniNvMSq+LGkYSE7cnsP
+	miZ4CLRlwUaZexqRBHsgEqd8H1ORQpLq6Be4lSpumLfxuAtutXIJwgi1metllJno
+X-Gm-Gg: ASbGnct2xGoounOqNDMzjNjLwFJN2SUu6BfTViOIto8RGVUyY8vt6ZUW7AyKq5ArTAM
+	hIGTvF97fQTdGFqhbdbvwrAaPQfbXjwEoQws8HAM5fEcKYuliRElqVRLW5+s9GT/6iT7EzND2rS
+	5yguA04awdVmlugIofhEwWgEmEgB/luipvw6YGagFweuw415xrOz4kyn5NFIAA4A/8Xn7mvUFY4
+	xESFNqDiQcXotqVm9w6MPoervpbA11bCBV1kvCtZfJSAQ9w/BFY2INJfKtmed+rKv0TnlMEbdqI
+	xqVr5+3OxPP5gw/tLw09VJIzgy0kiTUipHaAJJoJ0vwwQ0s1q14jRfdGZYGKNc8lTWm9B9Rw/ik
+	JUaqAd41vkzkfThMhGoWRklmYBPzTwROpFPmnlUZcGQevOH/h01ojZ7Lyx/Im07g5abxK24sjeR
+	5f5ePirDGy0YfqOKgW354=
+X-Google-Smtp-Source: AGHT+IEVwUp/Aw+yNfU2lUgYvFdXXFykZgG/jk2sfTKHoery0ZP3fM0yhZi4cNy8i1svhB0BC+bDdQ==
+X-Received: by 2002:a05:6122:1781:b0:54b:bf4d:558b with SMTP id 71dfb90a1353d-5524ea2610bmr4445491e0c.10.1759756634686;
+        Mon, 06 Oct 2025 06:17:14 -0700 (PDT)
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com. [209.85.217.45])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5523ce202c6sm2999206e0c.5.2025.10.06.06.17.13
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Oct 2025 06:17:13 -0700 (PDT)
+Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-58de3ab1831so4749152137.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Oct 2025 06:17:13 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUTW5yKLN4iQJgvxKGtuWaEoU1RfGGg4prHjQz0NHvAhGxs9W11v6clMRg1r6vPX3glQt5vLQ+l3LzxzsBmVFOYoQ==@vger.kernel.org
+X-Received: by 2002:a05:6102:5111:b0:526:db01:5fb2 with SMTP id
+ ada2fe7eead31-5d41d11fb3fmr4896191137.30.1759756633093; Mon, 06 Oct 2025
+ 06:17:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB11947:EE_|OSCPR01MB13126:EE_
-X-MS-Office365-Filtering-Correlation-Id: 60b3d057-d51b-4f2c-804e-08de04d76f88
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?rqB8jUr1UqqJ47z5Jzeid9Fxy9jIMdasEvYqtk4iu34H8cSMoYeW5KhWKorK?=
- =?us-ascii?Q?xX6Q4I1O3QiA/mGLTBAXq1PxsmpSK0qQ04S7qsp6Bsc2XvmvQiFemUpMvSnp?=
- =?us-ascii?Q?qGwzu2/uSWBIpbx9RL0anUxNmqUl7ytOyut4H+S54Pi+wRO08tiZXsjLqEhP?=
- =?us-ascii?Q?boN3wlhH2DCLDVfdKcXuehXW6G32Qpzs183HOJ631SNQ4rSCPviEsdCSLS7i?=
- =?us-ascii?Q?TiJDoUWfiyaMAugvdjnGrdNwRikH/LSFah1+Dii6F1/XLuhGdLEsrCkOZUo4?=
- =?us-ascii?Q?XeXCXIkTXTBLKLEpvUwfuCgRp6Ag+5HW3fktQbRTWfTlwsMgeHNOwAadUPQb?=
- =?us-ascii?Q?5zZL0pnZkTqdMOK0qNL+P1IafZbV1E36jXop+xMCJmDNe1H70MvAava9Z5fg?=
- =?us-ascii?Q?IgYG4hY/WUgJZz5vactRi3Dp8sXU67H/MNE1BD5B1VHWeG+1fWS1l/VRLqZj?=
- =?us-ascii?Q?p2i8GBVixzyeG/OZF4nzvpdDzvrIzfJ1D2+0eDElGdMrcrDAkOk0yN18dn9Y?=
- =?us-ascii?Q?YrSUKztRxpY8aCsagx2YR54JzUFOrAA/1g5YCxBcr8cJXQBhCdSwF+ya9sqA?=
- =?us-ascii?Q?G3ywoYyLYEMDB6YvvvQRLkpTiHHBeX8lBM4kvsOllr6NFK22XjbRMEFN98Zd?=
- =?us-ascii?Q?ze7qzPqPYK3C6kGS7r2mZl1SVB5ojkD0BnAyKdUBZgescebo+2A345J36Lom?=
- =?us-ascii?Q?YtOgXutrd2YTSTxZS7JMAzn2rJG9TXLMxqMACk38EQDSaRWbvlNN+5qM6z35?=
- =?us-ascii?Q?Z8vALHYEidactWOblAzDvTFfojOtT79ymO2qJ25Uvf99AAt/0SFgLZBz8e7K?=
- =?us-ascii?Q?MhkdlopOWc+DK70DBlD3wWpYby/qeM946SA8pWjkmjTwnXZNaTT2/+FPcwZB?=
- =?us-ascii?Q?5pKihav3sx32tuAbdgUCwsU1dbeuciJIX41lc0MZKm1MJ0Qil8uJvWSwFb10?=
- =?us-ascii?Q?c4FB69xDFiqhDCBfkv8ACFeFgVptD2FDsWAtXJBywUGFczXfMqlPISKDnsg7?=
- =?us-ascii?Q?/Qzge5hE+NH1DMO8dw0Dp3Ezi69HZhD8v0FZYo1uu3ZT2JK1hQvDlJvwmeN8?=
- =?us-ascii?Q?Bu0XNyKwujImD9Y0xQh8FKpR8DUvDqewACQ87tRPihz2ZZD2lpT+STfZeo4p?=
- =?us-ascii?Q?Lo+8q7Qiu/nfUguhqJTZAQRWP7teUM24u+QRrqlzD+8YGQha5yWR6CDc0gwr?=
- =?us-ascii?Q?YU3lKdrPVoHDAjDzrS56871aYyrDdo4FL8/3oHnEr4LKhEI7u42zb7mtc9KN?=
- =?us-ascii?Q?o77ivGXqcaSxXCvdLbuKO9HJIosI0vqGsM5TniZ7SYbJmziNo4a4w3zFUL3q?=
- =?us-ascii?Q?hxTK8SJ6mBJiavERD0OdTeMJSUiYPkJ+aglDVrLyNyhH+z7Zx/y+KibfM1ci?=
- =?us-ascii?Q?nBGWq9yR49qd8Q13R1cYJahkfYk10Z8nqzdmcSI3MXaxpThrPC8clRpIGi4Y?=
- =?us-ascii?Q?FYGzyO+ka76eTd8ljw924MA3DHbycDsWJLHrtrteb0SKd6Df1JQMI8Ijl17B?=
- =?us-ascii?Q?SEPt92TTQV3AEgBaIC3hYxVz2sAJgfpqE48P?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11947.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(52116014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?HACQghFq3IXmS2g4HCyKQRtnEApsvUO8k1O4fLrlNfijCB3r2DxCB0M8oIam?=
- =?us-ascii?Q?IxZZRnhV8IOLX7N2V/1VCAm4rv0klRmAeQM8yrnDH0xwQDmFTUHGn1l1PIn/?=
- =?us-ascii?Q?z6B+GkpwVWfGQ222tmpRCFM3Qvnye0cecWu/w18mfL+pPoydIewUWx7NdhNE?=
- =?us-ascii?Q?iek9E2bvg53O3+jZJFFfYoGg/8m62mbXkKqm560uXUwH7arAxtd0v85gET07?=
- =?us-ascii?Q?Y5e28xkDhD1yZPBzuEqhTbwv4HqLK6Q/9zpoMmuKuAcxkF6U5nWGmVSDueFO?=
- =?us-ascii?Q?HMKEf4qPWOkI6kqDS8C2PhdRzFEdvCPvuEiwMGpiBQTFHhG9twC/12Mv6K90?=
- =?us-ascii?Q?cw/d/b4nMoC3xBqNpRG4KwegB7SZzrayH+d4vbOO6Uf6aRVNvm7BlC6KesgR?=
- =?us-ascii?Q?vb1cAoMvmyvUG+ubeEwGKmJac9bznwy2tMyu+cTfn/cQUIMcAIc626qEY7ai?=
- =?us-ascii?Q?tnC42+VpBAnV/iDlP0p4YBAr/XortPHDX+6aAEo+TXF7YywAbVAKzvgROid2?=
- =?us-ascii?Q?KStwaE2Gvjn3calvLdIMR8eDP6AdE1T3Aryl6BoEaiK93kWWXSOJ2D6cCjKD?=
- =?us-ascii?Q?FnO8LIPHRqUQylNeoFpaSpSgHp76LqiFTt6gKUR/nk0CVGZuTUlhDK+y3Qlf?=
- =?us-ascii?Q?hMPnMo6PR4ha9ezyHCdDb70oS1xoMNHKBtDztjkauKPOK+V0Y8tunSPwxMEl?=
- =?us-ascii?Q?j1o4aKAJoKrovZn9fRlRznVaXAuFoiN1HtdpMX0mwOd+9USFKRewgWD9J5UB?=
- =?us-ascii?Q?/odzSGaLaongfLebikb7MKVpoPcYeBKn+TVOE/9A5tndYdfGKRc4t8q+TQ4w?=
- =?us-ascii?Q?LM6VOc2iEBtkziWvh58yZQnj3E46qIi03AmfK1fS/P2W4NaGWgY5LOYYjgf+?=
- =?us-ascii?Q?zxRh0r82reL1684DsGMGIjVj4IWg8lJPLZ+VPhzPJUlNXYnlz3ajqchSf/4t?=
- =?us-ascii?Q?ugXeukx77DNB1JLx9DdZRuYlepWm5/fsuQLVwjTwEL3J8rUg2euj8zNIkNCa?=
- =?us-ascii?Q?LttLp9fXX1l8t7OoITCT44NTw6chkyzyit7CMeWeLnToUmvbsWffjiOJHI0D?=
- =?us-ascii?Q?FHML2/ZwyYi+xAh1YbVQZdt6rS+0nyAkNRs1ugZwuoO2fTniUBfaqssJ+Eo1?=
- =?us-ascii?Q?rIQaiWPjwC98erwr9X7i57ZIyN3RdJVftIK2j4Ewa2cOJqEtLH7A5u6wVOb1?=
- =?us-ascii?Q?MtTg4UjnnNV7zFTC2ERMqXShzPRaShNnFe3xMs1AtTUmePRsYoa563X5d+1D?=
- =?us-ascii?Q?F1wb8RhLvSqeOS8OCImDHJtbcFF0nWofkRxNCH+oy0XUuqZ683eeoESHBI1x?=
- =?us-ascii?Q?fq0Jbq6+RMPHLtrQVU9WMfbodxRgdtx1MuzfR5XDyl/D2yciF0LO1MIM9iNF?=
- =?us-ascii?Q?KPjPwG25Y1E67TRQMBqQRKbQoPdIuWDKpr29uKd4/PhReGyTZRDl2QyI/bpM?=
- =?us-ascii?Q?a/1mlrgKTuNHpTCdjmfAsjO21z6L3u1s75ApVaGTkio1VG0Yc90ctNa/cGuR?=
- =?us-ascii?Q?RWddAfyH+J+Wa3t5lcu3Wu9vrIa5IjINzIFwQsfonabEYU6/8piVw3QizBy3?=
- =?us-ascii?Q?f33TQPyoHAWZCOU/5q94DNnP76P4VN6OXeZeff5Ds8pzK54i1Tb7zqfH/3Am?=
- =?us-ascii?Q?CMbpPg3g/Z8/VgCys31/S+8=3D?=
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 60b3d057-d51b-4f2c-804e-08de04d76f88
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11947.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Oct 2025 12:54:07.2303
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0L43HNLWvUgyTECEZsuiN5s2VU8bqScZdWqSAVw5zNQsGBB3G3VvPvGJOPGkjbK2cN5NEAkG0IOFNYjs343EHYiKPzKT4krYeQCIEL2w3WbilBIn/nQOhC52oQGUU7Tv
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCPR01MB13126
+References: <20250924134228.1663-1-ilpo.jarvinen@linux.intel.com>
+ <20250924134228.1663-3-ilpo.jarvinen@linux.intel.com> <CAMuHMdVtVzcL3AX0uetNhKr-gLij37Ww+fcWXxnYpO3xRAOthA@mail.gmail.com>
+ <4c28cd58-fd0d-1dff-ad31-df3c488c464f@linux.intel.com> <CAMuHMdUbaQDXsowZETimLJ-=gLCofeP+LnJp_txetuBQ0hmcPQ@mail.gmail.com>
+ <c17c5ec1-132d-3588-2a4d-a0e6639cf748@linux.intel.com> <CAMuHMdVbyKdzbptA10F82Oj=6ktxnGAk4fz7dBLVdxALb8-WWg@mail.gmail.com>
+ <2d5e9b78-8a90-3035-ff42-e881d61f4b7c@linux.intel.com> <CAMuHMdU_tPmQd=9dCzNs+dEt3fHNsYpYPFnT6QZk546o-J-y9g@mail.gmail.com>
+ <7640a03e-dfea-db9c-80f5-d80fa2c505b7@linux.intel.com> <CAMuHMdVgCHU80mRm1Vwo6GFgNAtQcf50yHBz_oAk4TrtjcMpYg@mail.gmail.com>
+ <8b46093f-82bc-1c25-5607-ee40923b51af@linux.intel.com> <CAMuHMdUjhq2ZLFyMYv9KYRW8brsvXMH5xb5NW8shsHJmx7w2QQ@mail.gmail.com>
+ <bd1810d7-3e37-b599-5105-02902e6edf33@linux.intel.com>
+In-Reply-To: <bd1810d7-3e37-b599-5105-02902e6edf33@linux.intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 6 Oct 2025 15:17:01 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUrM+WJm2JAPuLmUjA0wWpipdqTfW6mu7cQdAHEyCAwdw@mail.gmail.com>
+X-Gm-Features: AS18NWBJ-yFB-FmJ5_xlpTHa6T0uLFGmSRL7T13bfyHcbmdHQMViSbqv-hVH-Wc
+Message-ID: <CAMuHMdUrM+WJm2JAPuLmUjA0wWpipdqTfW6mu7cQdAHEyCAwdw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] PCI: Resources outside their window must set IORESOURCE_UNSET
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org, 
+	Bjorn Helgaas <bhelgaas@google.com>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, LKML <linux-kernel@vger.kernel.org>, 
+	Lucas De Marchi <lucas.demarchi@intel.com>, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Mark,
-Thanks for your comment.
+Hi Ilpo,
 
-On Mon, Oct 06, 2025 at 12:52:29PM +0100, Mark Brown wrote:
-> On Fri, Oct 03, 2025 at 07:33:25PM +0200, Tommaso Merciai wrote:
-> > On Thu, Oct 02, 2025 at 05:29:19PM +0100, Mark Brown wrote:
-> 
-> > I will need to move the refcounting handlingfor the exclusive regulator
-> > at USB driver lvl.
-> > The drivers/phy/renesas/phy-rcar-gen3-usb2.c is using
-> > regulator_hardware_enable() for some USB otg channel. I think this is
-> > the reason why I need this patch to handle multiple unbind/bind.
-> > Without this I'm getting some WARN_ON(regulator->enable_count) doing
-> > multiple unbind/bind.
-> 
-> Are you sure it's not just that the driver doesn't always disable the
-> regulator before unbinding?  It only disables in the power off callback
-> so might leave a dangling reference behind.
+On Mon, 6 Oct 2025 at 14:37, Ilpo J=C3=A4rvinen
+<ilpo.jarvinen@linux.intel.com> wrote:
+> On Mon, 6 Oct 2025, Geert Uytterhoeven wrote:
+> > On Fri, 3 Oct 2025 at 16:58, Ilpo J=C3=A4rvinen
+> > <ilpo.jarvinen@linux.intel.com> wrote:
+> > > On Fri, 3 Oct 2025, Geert Uytterhoeven wrote:
+> > > > On Thu, 2 Oct 2025 at 18:59, Ilpo J=C3=A4rvinen
+> > > > <ilpo.jarvinen@linux.intel.com> wrote:
+> > > > > On Thu, 2 Oct 2025, Geert Uytterhoeven wrote:
+> > > > > > On Thu, 2 Oct 2025 at 16:54, Ilpo J=C3=A4rvinen
+> > > > > > <ilpo.jarvinen@linux.intel.com> wrote:
+> > > > > > > On Wed, 1 Oct 2025, Geert Uytterhoeven wrote:
+> > > > > > > > On Wed, 1 Oct 2025 at 15:06, Ilpo J=C3=A4rvinen
+> > > > > > > > <ilpo.jarvinen@linux.intel.com> wrote:
+> > > > > > > > > On Wed, 1 Oct 2025, Geert Uytterhoeven wrote:
+> > > > > > > > > > On Tue, 30 Sept 2025 at 18:32, Ilpo J=C3=A4rvinen
+> > > > > > > > > > <ilpo.jarvinen@linux.intel.com> wrote:
+> > > > > > > > > > > On Tue, 30 Sep 2025, Geert Uytterhoeven wrote:
+> > > > > > > > > > > > On Fri, 26 Sept 2025 at 04:40, Ilpo J=C3=A4rvinen
+> > > > > > > > > > > > <ilpo.jarvinen@linux.intel.com> wrote:
+> > > > > > > > > > > > > PNP resources are checked for conflicts with the =
+other resource in the
+> > > > > > > > > > > > > system by quirk_system_pci_resources() that walks=
+ through all PCI
+> > > > > > > > > > > > > resources. quirk_system_pci_resources() correctly=
+ filters out resource
+> > > > > > > > > > > > > with IORESOURCE_UNSET.
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > Resources that do not reside within their bridge =
+window, however, are
+> > > > > > > > > > > > > not properly initialized with IORESOURCE_UNSET re=
+sulting in bogus
+> > > > > > > > > > > > > conflicts detected in quirk_system_pci_resources(=
+):
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > pci 0000:00:02.0: VF BAR 2 [mem 0x00000000-0x1fff=
+ffff 64bit pref]
+> > > > > > > > > > > > > pci 0000:00:02.0: VF BAR 2 [mem 0x00000000-0xdfff=
+ffff 64bit pref]: contains BAR 2 for 7 VFs
+> > > > > > > > > > > > > ...
+> > > > > > > > > > > > > pci 0000:03:00.0: VF BAR 2 [mem 0x00000000-0x1fff=
+fffff 64bit pref]
+> > > > > > > > > > > > > pci 0000:03:00.0: VF BAR 2 [mem 0x00000000-0x3dff=
+ffffff 64bit pref]: contains BAR 2 for 31 VFs
+> > > > > > > > > > > > > ...
+> > > > > > > > > > > > > pnp 00:04: disabling [mem 0xfc000000-0xfc00ffff] =
+because it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64bit p=
+ref]
+> > > > > > > > > > > > > pnp 00:05: disabling [mem 0xc0000000-0xcfffffff] =
+because it overlaps 0000:00:02.0 BAR 9 [mem 0x00000000-0xdfffffff 64bit pre=
+f]
+> > > > > > > > > > > > > pnp 00:05: disabling [mem 0xfedc0000-0xfedc7fff] =
+because it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64bit p=
+ref]
+> > > > > > > > > > > > > pnp 00:05: disabling [mem 0xfeda0000-0xfeda0fff] =
+because it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64bit p=
+ref]
+> > > > > > > > > > > > > pnp 00:05: disabling [mem 0xfeda1000-0xfeda1fff] =
+because it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64bit p=
+ref]
+> > > > > > > > > > > > > pnp 00:05: disabling [mem 0xc0000000-0xcfffffff d=
+isabled] because it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dfffffff=
+f 64bit pref]
+> > > > > > > > > > > > > pnp 00:05: disabling [mem 0xfed20000-0xfed7ffff] =
+because it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64bit p=
+ref]
+> > > > > > > > > > > > > pnp 00:05: disabling [mem 0xfed90000-0xfed93fff] =
+because it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64bit p=
+ref]
+> > > > > > > > > > > > > pnp 00:05: disabling [mem 0xfed45000-0xfed8ffff] =
+because it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64bit p=
+ref]
+> > > > > > > > > > > > > pnp 00:05: disabling [mem 0xfee00000-0xfeefffff] =
+because it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64bit p=
+ref]
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > Mark resources that are not contained within thei=
+r bridge window with
+> > > > > > > > > > > > > IORESOURCE_UNSET in __pci_read_base() which resol=
+ves the false
+> > > > > > > > > > > > > positives for the overlap check in quirk_system_p=
+ci_resources().
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > Fixes: f7834c092c42 ("PNP: Don't check for overla=
+ps with unassigned PCI BARs")
+> > > > > > > > > > > > > Signed-off-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@=
+linux.intel.com>
+> > > > > > > > > > > >
+> > > > > > > > > > > > Thanks for your patch, which is now commit 06b77d56=
+47a4d6a7 ("PCI:
+> > > > > > > > > > > > Mark resources IORESOURCE_UNSET when outside bridge=
+ windows") in
+> > > > > > > > > > > > linux-next/master next-20250929 pci/next
+> > > > > > > > > >
+> > > > > > > > > > > > This replaces the actual resources by their sizes i=
+n the boot log on
+> > > > > > > > > > > > e.g. on R-Car M2-W:
+> > > > > > > > > > > >
+> > > > > > > > > > > >      pci-rcar-gen2 ee090000.pci: host bridge /soc/p=
+ci@ee090000 ranges:
+> > > > > > > > > > > >      pci-rcar-gen2 ee090000.pci:      MEM 0x00ee080=
+000..0x00ee08ffff -> 0x00ee080000
+> > > > > > > > > > > >      pci-rcar-gen2 ee090000.pci: PCI: revision 11
+> > > > > > > > > > > >      pci-rcar-gen2 ee090000.pci: PCI host bridge to=
+ bus 0000:00
+> > > > > > > > > > > >      pci_bus 0000:00: root bus resource [bus 00]
+> > > > > > > > > > > >      pci_bus 0000:00: root bus resource [mem 0xee08=
+0000-0xee08ffff]
+> > > > > > > > > > > >      pci 0000:00:00.0: [1033:0000] type 00 class 0x=
+060000 conventional PCI endpoint
+> > > > > > > > > > > >     -pci 0000:00:00.0: BAR 0 [mem 0xee090800-0xee09=
+0bff]
+> > > > > > > > > > > >     -pci 0000:00:00.0: BAR 1 [mem 0x40000000-0x7fff=
+ffff pref]
+> > > > > > > > > > >
+> > > > > > > > > > > What is going to be the parent of these resources? Th=
+ey don't seem to fall
+> > > > > > > > > > > under the root bus resource above in which case the o=
+utput change is
+> > > > > > > > > > > intentional so they don't appear as if address range =
+would be "okay".
+> > > > > > > > > >
+> > > > > > > > > > >From /proc/iomem:
+> > > > > > > > > >
+> > > > > > > > > >     ee080000-ee08ffff : pci@ee090000
+> > > > > > > > > >       ee080000-ee080fff : 0000:00:01.0
+> > > > > > > > > >         ee080000-ee080fff : ohci_hcd
+> > > > > > > > > >       ee081000-ee0810ff : 0000:00:02.0
+> > > > > > > > > >         ee081000-ee0810ff : ehci_hcd
+> > > > > > > > > >     ee090000-ee090bff : ee090000.pci pci@ee090000
+> > > > > > > > >
+> > > > > > > > > Okay, so this seem to appear in the resource tree but not=
+ among the root
+> > > > > > > > > bus resources.
+> > > > > > > > >
+> > > > > > > > > >     ee0c0000-ee0cffff : pci@ee0d0000
+> > > > > > > > > >       ee0c0000-ee0c0fff : 0001:01:01.0
+> > > > > > > > > >         ee0c0000-ee0c0fff : ohci_hcd
+> > > > > > > > > >       ee0c1000-ee0c10ff : 0001:01:02.0
+> > > > > > > > > >         ee0c1000-ee0c10ff : ehci_hcd
+> > > > > > > > > >
+> > > > > > > > > > > When IORESOURCE_UNSET is set in a resource, %pR does =
+not print the start
+> > > > > > > > > > > and end addresses.
+> > > > > > > > > >
+> > > > > > > > > > Yeah, that's how I found this commit, without bisecting=
+ ;-)
+> > > > > > > > > >
+> > > > > > > > > > > >     +pci 0000:00:00.0: BAR 0 [mem size 0x00000400]
+> > > > > > > > > > > >     +pci 0000:00:00.0: BAR 1 [mem size 0x40000000 p=
+ref]
+> > > > > > > > > > > >      pci 0000:00:01.0: [1033:0035] type 00 class 0x=
+0c0310 conventional PCI endpoint
+> > > > > > > > > > > >     -pci 0000:00:01.0: BAR 0 [mem 0x00000000-0x0000=
+0fff]
+> > > > > > > > > > > >     +pci 0000:00:01.0: BAR 0 [mem size 0x00001000]
+> > > > > > > > > > >
+> > > > > > > > > > > For this resource, it's very much intentional. It's a=
+ zero-based BAR which
+> > > > > > > > > > > was left without IORESOURCE_UNSET prior to my patch l=
+eading to others part
+> > > > > > > > > > > of the kernel to think that resource range valid and =
+in use (in your
+> > > > > > > > > > > case it's so small it wouldn't collide with anything =
+but it wasn't
+> > > > > > > > > > > properly set up resource, nonetheless).
+> > > > > > > > > > >
+> > > > > > > > > > > >      pci 0000:00:01.0: supports D1 D2
+> > > > > > > > > > > >      pci 0000:00:01.0: PME# supported from D0 D1 D2=
+ D3hot
+> > > > > > > > > > > >      pci 0000:00:02.0: [1033:00e0] type 00 class 0x=
+0c0320 conventional PCI endpoint
+> > > > > > > > > > > >     -pci 0000:00:02.0: BAR 0 [mem 0x00000000-0x0000=
+00ff]
+> > > > > > > > > > > >     +pci 0000:00:02.0: BAR 0 [mem size 0x00000100]
+> > > > > > > > > > >
+> > > > > > > > > > > And this as well is very much intentional.
+> > > > > > > > > > >
+> > > > > > > > > > > >      pci 0000:00:02.0: supports D1 D2
+> > > > > > > > > > > >      pci 0000:00:02.0: PME# supported from D0 D1 D2=
+ D3hot
+> > > > > > > > > > > >      PCI: bus0: Fast back to back transfers disable=
+d
+> > > > > > > > > > > >      pci 0000:00:01.0: BAR 0 [mem 0xee080000-0xee08=
+0fff]: assigned
+> > > > > > > > > > > >      pci 0000:00:02.0: BAR 0 [mem 0xee081000-0xee08=
+10ff]: assigned
+> > > > > > > > > > > >      pci_bus 0000:00: resource 4 [mem 0xee080000-0x=
+ee08ffff]
+> > > > > > > > > > > >
+> > > > > > > > > > > > Is that intentional?
+> > > > > > > > > > >
+> > > > > > > > > > > There's also that pci_dbg() in the patch which would =
+show the original
+> > > > > > > > > > > addresses (print the resource before setting IORESOUR=
+CE_UNSET) but to see
+> > > > > > > > > > > it one would need to enable it with dyndbg=3D... Bjor=
+n was thinking of
+> > > > > > > > > > > making that pci_info() though so it would appear alwa=
+ys.
+> > > > > > > > > > >
+> > > > > > > > > > > Was this the entire PCI related diff? I don't see tho=
+se 0000:00:00.0 BARs
+> > > > > > > > > > > getting assigned anywhere.
+> > > > > > > > > >
+> > > > > > > > > > The above log is almost complete (lacked enabling the d=
+evice afterwards).
+> > > > > > > > > >
+> > > > > > > > > > AFAIU, the BARs come from the reg and ranges properties=
+ in the
+> > > > > > > > > > PCI controller nodes;
+> > > > > > > > > > https://elixir.bootlin.com/linux/v6.17/source/arch/arm/=
+boot/dts/renesas/r8a7791.dtsi#L1562
+> > > > > > > > >
+> > > > > > > > > Thanks, although I had already found this line by grep. I=
+ was just
+> > > > > > > > > expecting the address appear among root bus resources too=
+.
+> > > > > > > > >
+> > > > > > > > > Curiously enough, pci_register_host_bridge() seems to try=
+ to add some
+> > > > > > > > > resource from that list into bus and it's what prints tho=
+se "root bus
+> > > > > > > > > resource" lines and ee090000 is not among the printed lin=
+es despite
+> > > > > > > > > appearing in /proc/iomem. As is, the resource tree and PC=
+I bus view on the
+> > > > > > > > > resources seems to be in disagreement and I'm not sure wh=
+at to make of it.
+> > > > > > > > >
+> > > > > > > > > But before considering going into that direction or figur=
+ing out why this
+> > > > > > > > > ee090000 resource does not appear among root bus resource=
+s, could you
+> > > > > > > > > check if the attached patch changes behavior for the reso=
+urce which are
+> > > > > > > > > non-zero based?
+> > > > > > > >
+> > > > > > > > This patch has no impact on dmesg, lspci output, or /proc/i=
+omem
+> > > > > > > > for pci-rcar-gen2.
+> > > > > > >
+> > > > > > > It would have been too easy... :-(
+> > > > > > >
+> > > > > > > I'm sorry I don't really know these platform well and I'm cur=
+rently trying
+> > > > > > > to understand what adds that ee090000 resource into the resou=
+rce tree
+> > > > > > > and so far I've not been very successful.
+> > > > > > >
+> > > > > > > Perhaps it would be easiest to print a stacktrace when the re=
+source is
+> > > > > > > added but there are many possible functions. I think all of t=
+hem
+> > > > > > > converge in __request_resource() so I suggest adding:
+> > > > > > >
+> > > > > > > WARN_ON(new->start =3D=3D 0xee090000);
+> > > > > > >
+> > > > > > > before __request_resource() does anything.
+> > > > > >
+> > > > > >     Call trace:
+> > > > > >      unwind_backtrace from show_stack+0x10/0x14
+> > > > > >      show_stack from dump_stack_lvl+0x7c/0xb0
+> > > > > >      dump_stack_lvl from __warn+0x80/0x198
+> > > > > >      __warn from warn_slowpath_fmt+0xc0/0x124
+> > > > > >      warn_slowpath_fmt from __request_resource+0x38/0xc8
+> > > > > >      __request_resource from __request_region+0xc4/0x1e8
+> > > > > >      __request_region from __devm_request_region+0x80/0xac
+> > > > > >      __devm_request_region from __devm_ioremap_resource+0xcc/0x=
+160
+> > > > > >      __devm_ioremap_resource from rcar_pci_probe+0x58/0x350
+> > > > > >      rcar_pci_probe from platform_probe+0x58/0x90
+> > > > > >
+> > > > > > I.e. the call to devm_platform_get_and_ioremap_resource() in
+> > > > > > drivers/pci/controller/pci-rcar-gen2.c:rcar_pci_probe().
+> > > > >
+> > > > > Thanks, the patch below might help BAR0 (but I'm not sure if it's=
+ the
+> > > > > correct solution due to being so unfamiliar with these kind of pl=
+atforms
+> > > > > and how they're initialized).
+> > > >
+> > > > Thanks, that has the following impact on dmesg:
+> > > >
+> > > >      pci-rcar-gen2 ee090000.pci: PCI: revision 11
+> > > >      pci-rcar-gen2 ee090000.pci: PCI host bridge to bus 0000:00
+> > > >      pci_bus 0000:00: root bus resource [bus 00]
+> > > >     -pci_bus 0000:00: root bus resource [mem 0xee080000-0xee08ffff]
+> > > >     +pci_bus 0000:00: root bus resource [mem 0xee080000-0xee090bff]
+> > > >      pci 0000:00:00.0: [1033:0000] type 00 class 0x060000 conventio=
+nal
+> > > > PCI endpoint
+> > > >     -pci 0000:00:00.0: BAR 0 [mem 0xee090800-0xee090bff]: no initia=
+l
+> > > > claim (no window)
+> > > >     -pci 0000:00:00.0: BAR 0 [mem size 0x00000400]
+> > > >     -pci 0000:00:00.0: BAR 1 [mem 0x40000000-0x7fffffff pref]: no
+> > > > initial claim (no window)
+> > > >     +pci 0000:00:00.0: BAR 0 [mem 0xee090800-0xee090bff]
+> > > >      pci 0000:00:00.0: BAR 1 [mem size 0x40000000 pref]
+> > > >      pci 0000:00:01.0: [1033:0035] type 00 class 0x0c0310 conventio=
+nal
+> > > > PCI endpoint
+> > > >     -pci 0000:00:01.0: BAR 0 [mem 0x00000000-0x00000fff]: no initia=
+l
+> > > > claim (no window)
+> > > >      pci 0000:00:01.0: BAR 0 [mem size 0x00001000]
+> > > >      pci 0000:00:01.0: supports D1 D2
+> > > >      pci 0000:00:01.0: PME# supported from D0 D1 D2 D3hot
+> > > >      pci 0000:00:02.0: [1033:00e0] type 00 class 0x0c0320 conventio=
+nal
+> > > > PCI endpoint
+> > > >     -pci 0000:00:02.0: BAR 0 [mem 0x00000000-0x000000ff]: no initia=
+l
+> > > > claim (no window)
+> > >
+> > > Did you e.g. forget to change pci_dbg() to pci_info() as these all we=
+nt
+> > > away, I cannot see why it should disappear because of my patch?
+> > >
+> > > (No need to apologize if that was the case, just confirming if that
+> > > explains it is enough. :-))
+> >
+> > I indeed dropped that change. Adding it back...
+> >
+> > > >      pci 0000:00:02.0: BAR 0 [mem size 0x00000100]
+> > > >      pci 0000:00:02.0: supports D1 D2
+> > > >      pci 0000:00:02.0: PME# supported from D0 D1 D2 D3hot
+> > > >      PCI: bus0: Fast back to back transfers disabled
+> > > >      pci 0000:00:01.0: BAR 0 [mem 0xee080000-0xee080fff]: assigned
+> > > >      pci 0000:00:02.0: BAR 0 [mem 0xee081000-0xee0810ff]: assigned
+> > >
+> > > Perhaps print here what's the parent resource of these resource.
+> >
+> > pci 0000:00:01.0: BAR 0 [mem 0xee080000-0xee080fff]: assigned (parent
+> > [mem 0xee080000-0xee08ffff])
+> > pci 0000:00:02.0: BAR 0 [mem 0xee081000-0xee0810ff]: assigned (parent
+> > [mem 0xee080000-0xee08ffff])
+>
+> Were these from a kernel without the problematic commit at all or with th=
+e
+> problematic commit and my fix? They look like the former case. The full
+> /proc/iomem also shows all the parent resources I think.
 
-Yep you are right.
-I will fix that in v2 dropping this unnecessary patch.
+With commit 06b77d5647a4d6a7 ("PCI: Mark resources IORESOURCE_UNSET when
+outside bridge windows"), but without adding
+"pci_add_resource(&bridge->windows, cfg_res);" in .probe().
 
-Thanks & Regards,
-Tommaso
+> > > >     -pci_bus 0000:00: resource 4 [mem 0xee080000-0xee08ffff]
+> > > >     +pci_bus 0000:00: resource 4 [mem 0xee080000-0xee090bff]
+> > > >      pci-rcar-gen2 ee0d0000.pci: adding to PM domain always-on
+> > > >      PM: genpd_add_device: Add ee0d0000.pci to always-on
+> > > >      pci-rcar-gen2 ee0d0000.pci: host bridge /soc/pci@ee0d0000 rang=
+es:
+> > > >     @@ -414,26 +416,22 @@ PM: =3D=3D=3D=3D always-on/ee0d0000.pci: =
+start
+> > > >      pci-rcar-gen2 ee0d0000.pci: PCI: revision 11
+> > > >      pci-rcar-gen2 ee0d0000.pci: PCI host bridge to bus 0001:01
+> > > >      pci_bus 0001:01: root bus resource [bus 01]
+> > > >     -pci_bus 0001:01: root bus resource [mem 0xee0c0000-0xee0cffff]
+> > > >     +pci_bus 0001:01: root bus resource [mem 0xee0c0000-0xee0d0bff]
+> > > >      pci 0001:01:00.0: [1033:0000] type 00 class 0x060000 conventio=
+nal PCI endpoint
+> > > >     -pci 0001:01:00.0: BAR 0 [mem 0xee0d0800-0xee0d0bff]: no initia=
+l claim (no window)
+> > > >     -pci 0001:01:00.0: BAR 0 [mem size 0x00000400]
+> > > >     -pci 0001:01:00.0: BAR 1 [mem 0x40000000-0x7fffffff pref]: no i=
+nitial claim (no window)
+> > > >     +pci 0001:01:00.0: BAR 0 [mem 0xee0d0800-0xee0d0bff]
+> > > >      pci 0001:01:00.0: BAR 1 [mem size 0x40000000 pref]
+> > > >      pci 0001:01:01.0: [1033:0035] type 00 class 0x0c0310 conventio=
+nal PCI endpoint
+> > > >     -pci 0001:01:01.0: BAR 0 [mem 0x00000000-0x00000fff]: no initia=
+l claim (no window)
+> > > >      pci 0001:01:01.0: BAR 0 [mem size 0x00001000]
+> > > >      pci 0001:01:01.0: supports D1 D2
+> > > >      pci 0001:01:01.0: PME# supported from D0 D1 D2 D3hot
+> > > >      pci 0001:01:02.0: [1033:00e0] type 00 class 0x0c0320 conventio=
+nal PCI endpoint
+> > > >     -pci 0001:01:02.0: BAR 0 [mem 0x00000000-0x000000ff]: no initia=
+l claim (no window)
+> > > >      pci 0001:01:02.0: BAR 0 [mem size 0x00000100]
+> > > >      pci 0001:01:02.0: supports D1 D2
+> > > >      pci 0001:01:02.0: PME# supported from D0 D1 D2 D3hot
+> > > >      PCI: bus1: Fast back to back transfers disabled
+> > > >      pci 0001:01:01.0: BAR 0 [mem 0xee0c0000-0xee0c0fff]: assigned
+> > > >      pci 0001:01:02.0: BAR 0 [mem 0xee0c1000-0xee0c10ff]: assigned
+> > > >     -pci_bus 0001:01: resource 4 [mem 0xee0c0000-0xee0cffff]
+> > > >     +pci_bus 0001:01: resource 4 [mem 0xee0c0000-0xee0d0bff]
+> > > >      rcar-pcie fe000000.pcie: adding to PM domain always-on
+> > > >      PM: genpd_add_device: Add fe000000.pcie to always-on
+> > > >      rcar-pcie fe000000.pcie: host bridge /soc/pcie@fe000000 ranges=
+:
+> > > >
+> > > > and on /proc/iomem (I used "diff -w" to reduce clutter):
+> > > >
+> > > >      ec700000-ec70ffff : ec700000.dma-controller dma-controller@ec7=
+00000
+> > > >      ec720000-ec72ffff : ec720000.dma-controller dma-controller@ec7=
+20000
+> > > >      ec740000-ec7401ff : ec500000.sound audmapp
+> > > >     -ee080000-ee08ffff : pci@ee090000
+> > >
+> > > So what did add this previous? (Maybe use the same WARN_ON() trick as
+> > > previously to find out.)
+> >
+> > First call:
+> >
+> >     + __request_resource from request_resource_conflict+0x24/0x3c
+> >     + request_resource_conflict from devm_request_resource+0x48/0x9c
+> >     + devm_request_resource from devm_request_pci_bus_resources+0x5c/0x=
+70
+> >     + devm_request_pci_bus_resources from devm_of_pci_bridge_init+0x7c/=
+0x1c0
+> >     + devm_of_pci_bridge_init from devm_pci_alloc_host_bridge+0x44/0x6c
+> >     + devm_pci_alloc_host_bridge from rcar_pci_probe+0x34/0x384
+> >     + rcar_pci_probe from platform_probe+0x58/0x90
+>
+> Thanks. So this is the call of interest, the rest are just the childs of
+> it with the same address.
+>
+> I'm looking devm_of_pci_get_host_bridge_resources(), it seems to read
+> "ranges" property but not "reg" at all.
+>
+> I wonder if devm_of_pci_get_host_bridge_resources() should also loop
+> through "reg" addresses and add those to host resources which are outside
+> of the "ranges"? Or if there should be a "range" that covers all what's
+> in "reg" to get them added into host bridge resources? That would seem th=
+e
+> generic solution instead of trying to do this in rcar_pci_probe().
+>
+> (Perhaps these are stupid questions, please excuse my lack of knowledge
+> about OF things.)
+>
+> While looking at another issue report, I also notice of_pci_prop_ranges()
+> assumes there are only bridge windows or BARs, but not both (not sure if
+> this relates to anything, just an observation while reading these code
+> paths).
 
+We still have Rob in CC...
+
+> > Second call:
+> >
+> >     + __request_resource from allocate_resource+0x1b8/0x1d4
+> >     + allocate_resource from pci_bus_alloc_from_region+0x1e0/0x220
+> >     + pci_bus_alloc_from_region from pci_bus_alloc_resource+0x84/0xb8
+> >     + pci_bus_alloc_resource from _pci_assign_resource+0x78/0x150
+> >     + _pci_assign_resource from pci_assign_resource+0x10c/0x310
+> >     + pci_assign_resource from assign_requested_resources_sorted+0x78/0=
+xac
+> >     + assign_requested_resources_sorted from
+> > __assign_resources_sorted+0x74/0x5c4
+> >     + __assign_resources_sorted from __pci_bus_assign_resources+0x50/0x=
+1f0
+> >     + __pci_bus_assign_resources from
+> > pci_assign_unassigned_root_bus_resources+0xa8/0x190
+> >     + pci_assign_unassigned_root_bus_resources from pci_host_probe+0x5c=
+/0xb0
+> >     + pci_host_probe from rcar_pci_probe+0x2e0/0x384
+> >     + rcar_pci_probe from platform_probe+0x58/0x90
+> >
+> > Third call:
+> >
+> >     + __request_resource from __request_region+0xc4/0x1e8
+> >     + __request_region from __devm_request_region+0x80/0xac
+> >     + __devm_request_region from usb_hcd_pci_probe+0x15c/0x35c
+> >     + usb_hcd_pci_probe from pci_device_probe+0x94/0x104
+> >     + pci_device_probe from really_probe+0x128/0x28c
+> >
+> > Fourth call:
+> >
+> >     + __request_region from __devm_request_region+0x80/0xac
+> >     + __devm_request_region from usb_hcd_pci_probe+0x15c/0x35c
+> >     + usb_hcd_pci_probe from pci_device_probe+0x94/0x104
+> >     + pci_device_probe from really_probe+0x128/0x28c
+> >
+> > Fifth call:
+> >
+> >     + __request_region from __devm_request_region+0x80/0xac
+> >     + __devm_request_region from usb_hcd_pci_probe+0x15c/0x35c
+> >     + usb_hcd_pci_probe from pci_device_probe+0x94/0x104
+> >     + pci_device_probe from really_probe+0x128/0x28c
+> >
+> > > It might have gotten broken because the coalesed resource
+> > > ee080000-ee090bff overlaps with that other resource in the resource t=
+ree.
+> > > But I don't see anything to that effect in the log so it's either sil=
+ent
+> > > failure or there's much filtered from the log.
+> > >
+> > > >     -  ee080000-ee080fff : 0000:00:01.0
+> > > >          ee080000-ee080fff : ohci_hcd
+> > > >     -  ee081000-ee0810ff : 0000:00:02.0
+> > > >          ee081000-ee0810ff : ehci_hcd
+> > > >      ee090000-ee090bff : ee090000.pci pci@ee090000
+> > > >     -ee0c0000-ee0cffff : pci@ee0d0000
+> > > >     -  ee0c0000-ee0c0fff : 0001:01:01.0
+> > > >          ee0c0000-ee0c0fff : ohci_hcd
+> > > >     -  ee0c1000-ee0c10ff : 0001:01:02.0
+> > > >          ee0c1000-ee0c10ff : ehci_hcd
+> > > >      ee0d0000-ee0d0bff : ee0d0000.pci pci@ee0d0000
+> > > >      ee100000-ee100327 : ee100000.mmc mmc@ee100000
+> > > >
+> > > > Removing the pci@ee0x0000 and 000x:0x:0x.0 entries doesn't look
+> > > > right to me? Or am I missing something?
+> > >
+> > > I cannot understand this output, these resources seem to have been no=
+w
+> > > left without a parent and due to -w I don't know what's their real
+> > > indentation level.
+> >
+> > The *_hcd resources are now at the top level.
+> >
+> >      ec700000-ec70ffff : ec700000.dma-controller dma-controller@ec70000=
+0
+> >      ec720000-ec72ffff : ec720000.dma-controller dma-controller@ec72000=
+0
+> >      ec740000-ec7401ff : ec500000.sound audmapp
+> >     -ee080000-ee08ffff : pci@ee090000
+> >     -  ee080000-ee080fff : 0000:00:01.0
+> >     -    ee080000-ee080fff : ohci_hcd
+> >     -  ee081000-ee0810ff : 0000:00:02.0
+> >     -    ee081000-ee0810ff : ehci_hcd
+> >     +ee080000-ee080fff : ohci_hcd
+> >     +ee081000-ee0810ff : ehci_hcd
+> >      ee090000-ee090bff : ee090000.pci pci@ee090000
+> >     -ee0c0000-ee0cffff : pci@ee0d0000
+> >     -  ee0c0000-ee0c0fff : 0001:01:01.0
+> >     -    ee0c0000-ee0c0fff : ohci_hcd
+> >     -  ee0c1000-ee0c10ff : 0001:01:02.0
+> >     -    ee0c1000-ee0c10ff : ehci_hcd
+> >     +ee0c0000-ee0c0fff : ohci_hcd
+> >     +ee0c1000-ee0c10ff : ehci_hcd
+> >      ee0d0000-ee0d0bff : ee0d0000.pci pci@ee0d0000
+> >      ee100000-ee100327 : ee100000.mmc mmc@ee100000
+> >      ee140000-ee1400ff : ee140000.mmc mmc@ee140000
+> >
+> > I assume the others are gone because they now conflict with the *_hcd
+> > resources at the top level.
+>
+> Like you initially assumed, it is wrong (while it works as the resources
+> themselves don't care that much about their parent they're under as long
+> as the resource is assigned, it's still not intended to be that way).
+>
+> It might be worth to see if the coalescing in pci_register_host_bridge()
+> somehow messes these resources up either by not doing the coalesing loop
+> at all or by adding:
+>
+>                 if (res->parent || next_res->parent) {
+>                         if (res->parent)
+>                                 pr_info("Has parent %pR\n", res);
+>                         if (next_res->parent)
+>                                 pr_info("Has parent %pR\n", next_res);
+>                         continue;
+>                 }
+>
+> ...into the coalescing loop in case one of them happens to have a parent
+> (this is to be tested with the rcar_probe() fix).
+
+The above restores the missing entries in /proc/iomem.
+Changes to dmesg:
+
+     pci-rcar-gen2 ee090000.pci: host bridge /soc/pci@ee090000 ranges:
+     pci-rcar-gen2 ee090000.pci:      MEM 0x00ee080000..0x00ee08ffff
+-> 0x00ee080000
+     pci-rcar-gen2 ee090000.pci: PCI: revision 11
+     pci-rcar-gen2 ee090000.pci: PCI host bridge to bus 0000:00
+    +Has parent [mem 0xee080000-0xee08ffff]
+     pci_bus 0000:00: root bus resource [bus 00]
+     pci_bus 0000:00: root bus resource [mem 0xee080000-0xee08ffff]
+    +pci_bus 0000:00: root bus resource [mem 0xee090000-0xee090bff]
+     pci 0000:00:00.0: [1033:0000] type 00 class 0x060000 conventional
+PCI endpoint
+    -pci 0000:00:00.0: BAR 0 [mem 0xee090800-0xee090bff]: no initial
+claim (no window)
+    -pci 0000:00:00.0: BAR 0 [mem size 0x00000400]
+    +pci 0000:00:00.0: BAR 0 [mem 0xee090800-0xee090bff]
+     pci 0000:00:00.0: BAR 1 [mem 0x40000000-0x7fffffff pref]: no
+initial claim (no window)
+     pci 0000:00:00.0: BAR 1 [mem size 0x40000000 pref]
+     pci 0000:00:01.0: [1033:0035] type 00 class 0x0c0310 conventional
+PCI endpoint
+    @@ -403,21 +397,24 @@ pci 0000:00:02.0: BAR 0 [mem size 0x0000
+     pci 0000:00:02.0: supports D1 D2
+     pci 0000:00:02.0: PME# supported from D0 D1 D2 D3hot
+     PCI: bus0: Fast back to back transfers disabled
+     pci 0000:00:01.0: BAR 0 [mem 0xee080000-0xee080fff]: assigned
+     pci 0000:00:02.0: BAR 0 [mem 0xee081000-0xee0810ff]: assigned
+     pci_bus 0000:00: resource 4 [mem 0xee080000-0xee08ffff]
+    +pci_bus 0000:00: resource 5 [mem 0xee090000-0xee090bff]
+     pci-rcar-gen2 ee0d0000.pci: adding to PM domain always-on
+     pci-rcar-gen2 ee0d0000.pci: host bridge /soc/pci@ee0d0000 ranges:
+     pci-rcar-gen2 ee0d0000.pci:      MEM 0x00ee0c0000..0x00ee0cffff
+-> 0x00ee0c0000
+     pci-rcar-gen2 ee0d0000.pci: PCI: revision 11
+     pci-rcar-gen2 ee0d0000.pci: PCI host bridge to bus 0001:01
+    +Has parent [mem 0xee0c0000-0xee0cffff]
+     pci_bus 0001:01: root bus resource [bus 01]
+     pci_bus 0001:01: root bus resource [mem 0xee0c0000-0xee0cffff]
+    +pci_bus 0001:01: root bus resource [mem 0xee0d0000-0xee0d0bff]
+     pci 0001:01:00.0: [1033:0000] type 00 class 0x060000 conventional
+PCI endpoint
+    -pci 0001:01:00.0: BAR 0 [mem 0xee0d0800-0xee0d0bff]: no initial
+claim (no window)
+    -pci 0001:01:00.0: BAR 0 [mem size 0x00000400]
+    +pci 0001:01:00.0: BAR 0 [mem 0xee0d0800-0xee0d0bff]
+     pci 0001:01:00.0: BAR 1 [mem 0x40000000-0x7fffffff pref]: no
+initial claim (no window)
+     pci 0001:01:00.0: BAR 1 [mem size 0x40000000 pref]
+     pci 0001:01:01.0: [1033:0035] type 00 class 0x0c0310 conventional
+PCI endpoint
+    @@ -431,9 +428,10 @@ pci 0001:01:02.0: BAR 0 [mem size 0x0000
+     pci 0001:01:02.0: supports D1 D2
+     pci 0001:01:02.0: PME# supported from D0 D1 D2 D3hot
+     PCI: bus1: Fast back to back transfers disabled
+     pci 0001:01:01.0: BAR 0 [mem 0xee0c0000-0xee0c0fff]: assigned
+     pci 0001:01:02.0: BAR 0 [mem 0xee0c1000-0xee0c10ff]: assigned
+     pci_bus 0001:01: resource 4 [mem 0xee0c0000-0xee0cffff]
+    +pci_bus 0001:01: resource 5 [mem 0xee0d0000-0xee0d0bff]
+
+> > > > > If this works, we'll also have to decide what to do with the BAR1=
+ (it
+> > > > > didn't appear in your (partial?) /proc/iomem quote so I'm left un=
+sure how
+> > > > > to approach it).
+> > > >
+> > > > That is indeed not visible in /proc/iomem.
+> > >
+> > > I meant before the commit 06b77d5647a4d6a7 ("PCI Mark resources
+> > > IORESOURCE_UNSET when outside bridge windows"), was it present?
+> >
+> > No, it was not present.
+> >
+> > > > I tried the following (whitespace-damaged):
+> > > >
+> > > > --- a/drivers/pci/controller/pci-rcar-gen2.c
+> > > > +++ b/drivers/pci/controller/pci-rcar-gen2.c
+> > > > @@ -179,6 +179,7 @@ static void rcar_pci_setup(struct rcar_pci *pri=
+v)
+> > > >         unsigned long window_size;
+> > > >         unsigned long window_addr;
+> > > >         unsigned long window_pci;
+> > > > +       struct resource res;
+> > > >         u32 val;
+> > > >
+> > > >         entry =3D resource_list_first_type(&bridge->dma_ranges, IOR=
+ESOURCE_MEM);
+> > > > @@ -191,6 +192,8 @@ static void rcar_pci_setup(struct rcar_pci *pri=
+v)
+> > > >                 window_pci =3D entry->res->start - entry->offset;
+> > > >                 window_size =3D resource_size(entry->res);
+> > > >         }
+> > > > +       resource_set_range(&res, window_addr, window_size);
+> > >
+> > > You need to set flags properly too as this now tried to insert BUS, n=
+ot
+> > > MEM resource (DEFINE_RES() might be the more appropriate in that case
+> > > anyway).
+> > >
+> > > However, if there's not &bridge->dma_ranges ranges entry, rcar_pci_se=
+tup()
+> > > seems to initialize the resource to 0x40000000-0x7fffffff and I'm not=
+ sure
+> >
+> > I guess the not &bridge->dma_ranges case dates back to the time the
+> > DTS didn't have dma-ranges yet.  However, upon closer look, the DTS
+> > still doesn't have dma_ranges, thus always using the default.
+> >
+> > > how it's supposed to work if there's more than one of these devices a=
+s per
+> > > the log above.
+> >
+> > Upon closer look, this is not a resource of the device, but an inbound
+> > memory region.  Hence there is no issue if multiple devices use the
+> > same region.
+> >
+> > >
+> > > > +       pci_add_resource(&bridge->windows, &res);
+> > >
+> > > What would be the backing resource in the resource tree for this? I'm=
+ not
+> > > sure if pci_add_resource() is going to result in adding one into the
+> > > resource tree.
+> >
+> > Likewise, it should not appear in /proc/ioem.
+>
+> Thanks for checking it out.
+>
+> I wonder how it would be supposed to work if PCI resource fitting logic
+> finds place for it and changes its address. I don't think it would ever
+> happen because it should never fit...
+>
+> ...But the logic still is a bit fishy if rcar2 code expects that address
+> to be fixed but doesn't flag the resource to have a fixed address.
+
+How can the PCI resource fitting logic change it? It is an inbound
+memory region, not a normal BAR?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
