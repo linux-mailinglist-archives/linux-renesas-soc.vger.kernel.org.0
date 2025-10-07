@@ -1,288 +1,145 @@
-Return-Path: <linux-renesas-soc+bounces-22738-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22739-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E98F2BC0A18
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 07 Oct 2025 10:29:11 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A61A9BC0C3A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 07 Oct 2025 10:45:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ECA2A3C5978
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Oct 2025 08:28:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB43A189EE97
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Oct 2025 08:45:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A82D2D29CE;
-	Tue,  7 Oct 2025 08:28:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="EUU4cr1/"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3D882D5412;
+	Tue,  7 Oct 2025 08:45:10 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B320F2D46A9
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Oct 2025 08:28:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C48232D47F6
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Oct 2025 08:45:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759825731; cv=none; b=DEL/Tg4Df+NbumkhyFmJlwwdYhW/U9R8KLWm2PscgOcmwlah8a4JZg5ndsFbi4MessqONmAs00JbTzbNWxxHnmJbT+4wW7VMRMbGpkwtA++Zte5dxjmUh1qMYawCj0Le7R9BADhVdD3Ri6eRcnu6iV/7pG7Q80MeB4CSh4xsjjU=
+	t=1759826710; cv=none; b=BrCp5C76WcbykOJATWqDcc8RIj1x94k7SoA2+0pf9VuPo3GVoWtQ1dOEj7ZscMU83l0egw1VtESJNGyBw/ze3MCIgYYob7IuyuKv4N+TGBbO4rS296lgqGMn3W9N/tM1/uJp+2cA/sG9Zp8e1MOJjycDImlkY1+4IPHY02vBcuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759825731; c=relaxed/simple;
-	bh=7tqn6MpQTe5shqw/GcxKWOVjdFdvB/RGG8b9txeG0xE=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=q6mP5oKNTb11muaxSyQRRdxqgQsIG7TkyxShbT+qsR/DiESD77pDuEvcAMeSzdmf4oHCbB7UYj0TTHSLyBQzPIMKd9UiS3DeceNTzAmm1LzhFdCgjpjGs03X6AxVFqsu67haF1AQX8NGvW8DZTDySMwSqL3mjTZA5K3E+vM3hZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=EUU4cr1/; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cgq6H47Btz9tTm;
-	Tue,  7 Oct 2025 10:28:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1759825719;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1CvfjdAxf1Zb7xPifTEPcCYNscx+NlmdYgAIwvjb1t4=;
-	b=EUU4cr1/vhkGBHNEluFakdSW7kx5VAHL8Cp38E02+xWMyusx0ZRk5ARFYR4W/cLdPCeMZ4
-	gn0pSEBt4drecN2EyQ1rZILMLvZAdXbayMMUgp45Su+jLgdEc4/gU5YAwZpr5uDJoA4WNW
-	/WK7X5SbWOcdmY6dwkbVyd3W7PNHlxKS1l5LFysAD2V1omersLudakaApaGcwpBbCh6POp
-	EKLYYUyX0i/ihs8DsYAsQ2dKsAjAaYc8wAXlXS9h217GXHl+kPyGl9UmVbzDe5953HrUQ7
-	fnqTDQ1s0a5TV9pS3sLxin06HJ8pyEB7PX6pq7Il7dfyBrUSJy/OtrBJbVvBCA==
-Message-ID: <6625e755-bae5-4a07-b3ce-f5feaf24d5e7@mailbox.org>
-Date: Tue, 7 Oct 2025 10:28:36 +0200
+	s=arc-20240116; t=1759826710; c=relaxed/simple;
+	bh=7HNOoQVw8YG5z5v6c7sWMWYBWqnFnOEjwJXCKJndxDk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RdzLGORgQzGhXZ9HTaw22DGi6tOKp9BsBAAdOM0mRbZ6O5A2M5ZFzwVWL3ggEGXpV+7texh1ENeUIKv6RECypAAGY/J/nwT5bLs115JcJ/MPm3vnEQPzjo05DdaaoE10BGgDgec0cu4NDAqVvfrHTuCuDoKgkAVIqn9rDpsgh70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-890190c7912so2532061241.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Oct 2025 01:45:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759826706; x=1760431506;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NQSgaEnCuQkYyKpd7dFZWet/o1KtZrc3TnC6bn7aOH0=;
+        b=klBVvF32O/COyrBiaeWbJve1Wv4gaLA2VWxqxtpukqM2JtkAlUUcnGlEC8nNM5nYmh
+         FvH1kSaBzJO7nOFkCpb5skr8pE032MWF1s1FIJ//G/CkKcKBKuPVihGBzYXGWviPAmht
+         nkgJMcGBbnjvfXYYWqQ8fYXTGwWTon90uUZbaVmV6Ty3R9EF9GWF/kjiSh9ls+un4J32
+         PRzeE0Nva9bfMnjARgXm6BoeIWNBemVFut/m5XXA6hKGXCefYgsPp+EG0Uz1BMZXxXKx
+         nffP1KCkik/4T58JThzMhz7pDN90PSJMsNEYZODbzFeDYEqO6ZgtfCDUePl2bgJEgrmd
+         lbkg==
+X-Gm-Message-State: AOJu0YyWvpNoF74nqKhCw1LBJaEdqJRbrUhNgtj5cD1RsE6M+2PmOeB2
+	6YkTWYRnIODHBxkfyldce6AE2dPwKYxbAxRcGn76Kr0f9kKPZ/V2E15n2BIUksoJ
+X-Gm-Gg: ASbGncvAA421yJA7wmjmEzeKKjZgXYS5qHvus9ifbrbL+REsIPUUH/M0IysaSCIUXqX
+	WCUCxkH4JDHIMpQQbr++2SoNd0TiLjVZ4S2LMc39KL7UjPnjUYtyMZFb/le3WM6+xAgK5f7nLil
+	RWcbXiJOWi1Zcx7Widmy6nK6jQTJgN8n4iarM/xW91mPsgi+KpbhigvIaVDuNr7kjZlRmzwRSvc
+	4nU0NRiP9fZUZe4LhW0GQs5fWRFmNDXVFVVTkSUJT2ovSrYVFFaqS0bcdAkH+kEAzqrPl4SsPpO
+	4dG6GoR4NtNx+3G+N4sUls5SD6K3HWDQb3BjkvbL7Y7k0EDChDVkr3L/aHMncWSp5et0Id9RDGi
+	Cciz8RTQ3XPFAVIOyDlk5dQbnzCeBlOf6JNEkyicwjJAs479OEbSDSkjRnAeIsAZf2Hc+nOSiGS
+	68ms2RL+ee
+X-Google-Smtp-Source: AGHT+IGpy4bTNuG0ATwKzHsv0eC+CuVlxo8Jfn1zkwzAYhKvAHtaE5wTvnDXJ8MnoFs9vWDRaCn92A==
+X-Received: by 2002:a05:6102:512c:b0:4e9:8f71:bd6e with SMTP id ada2fe7eead31-5d41ce388c5mr5774008137.0.1759826706371;
+        Tue, 07 Oct 2025 01:45:06 -0700 (PDT)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-92eb4d83b81sm3476365241.3.2025.10.07.01.45.05
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Oct 2025 01:45:06 -0700 (PDT)
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-8e32821b5bcso1952997241.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Oct 2025 01:45:05 -0700 (PDT)
+X-Received: by 2002:a05:6102:5092:b0:522:194f:fcd7 with SMTP id
+ ada2fe7eead31-5d41d07d7bfmr5217235137.15.1759826705225; Tue, 07 Oct 2025
+ 01:45:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] mtd: spi-nor: spansion: Add SMPT fixup for S25FS512S
-From: Marek Vasut <marek.vasut@mailbox.org>
-To: Tudor Ambarus <tudor.ambarus@linaro.org>, linux-mtd@lists.infradead.org,
- Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Walle <mwalle@kernel.org>, Pratyush Yadav <pratyush@kernel.org>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- linux-renesas-soc@vger.kernel.org
-References: <20240914220859.128540-1-marek.vasut+renesas@mailbox.org>
- <0e0f1195-fd08-4d8b-a247-3c94b5628081@linaro.org>
- <c0cd93b5-4e94-4e4b-9b84-c96e024bcc3e@mailbox.org>
-Content-Language: en-US
-In-Reply-To: <c0cd93b5-4e94-4e4b-9b84-c96e024bcc3e@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 54dzejkit638pahr5asg1adyu7j8kmg5
-X-MBO-RS-ID: 3704253ed54bb6e38e4
+References: <20251007032209.7617-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20251007032209.7617-2-wsa+renesas@sang-engineering.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 7 Oct 2025 10:44:54 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUChRoJ-A4W-PBBQssMvsn1GZY5zXmWxJ9y+EA8M2p3gw@mail.gmail.com>
+X-Gm-Features: AS18NWCnRYJUVTJV8FR89tG1mXzK-9QzVHwHqrU72-Fmo1xtJlFHb9IaRUVrY-c
+Message-ID: <CAMuHMdUChRoJ-A4W-PBBQssMvsn1GZY5zXmWxJ9y+EA8M2p3gw@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: bus: renesas-bsc: allow additional properties
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hello again,
+Hi Wolfram,
 
->>> The S25FS512S chip datasheet rev.O Table 71 on page 153 JEDEC Sector Map
->>> Parameter Dword-6 Config. Detect-3 does use CR3NV bit 1 to discern 64kiB
->>> and 256kiB uniform sectors device configuration, however according to
->>> section 7.5.5.1 Configuration Register 3 Non-volatile (CR3NV) page 61,
->>> the CR3NV bit 1 is RFU Reserved for Future Use, and is set to 0 on newly
->>> manufactured devices, which means 64kiB sectors. Since the device 
->>> does not
->>> support 64kiB uniform sectors in any configuration, parsing SMPT table
->>> cannot find a valid sector map entry and fails.
->>>
->>> Fix this up by setting SMPT configuration index bit 0, which is 
->>> populated
->>> exactly by the CR3NV bit 1 being 1. This is implemented via 
->>> new .post_smpt
->>> fixup hook and a wrapper function. The only implementation of the 
->>> hook is
->>> currently specific to S25FS512S.
->>>
->>> This fixes the following failure on S25FS512S:
->>> spi-nor spi0.0: Failed to parse optional parameter table: ff81 (err=-22)
->>>
->>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
->>> ---
->>> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
->>> Cc: Michael Walle <mwalle@kernel.org>
->>> Cc: Miquel Raynal <miquel.raynal@bootlin.com>
->>> Cc: Pratyush Yadav <pratyush@kernel.org>
->>> Cc: Richard Weinberger <richard@nod.at>
->>> Cc: Tudor Ambarus <tudor.ambarus@linaro.org>
->>> Cc: Vignesh Raghavendra <vigneshr@ti.com>
->>> Cc: linux-mtd@lists.infradead.org
->>> Cc: linux-renesas-soc@vger.kernel.org
->>> ---
->>>   drivers/mtd/spi-nor/core.c     | 17 +++++++++++++++++
->>>   drivers/mtd/spi-nor/core.h     |  5 +++++
->>>   drivers/mtd/spi-nor/sfdp.c     |  4 ++++
->>>   drivers/mtd/spi-nor/spansion.c | 27 ++++++++++++++++++++++++++-
->>>   4 files changed, 52 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/mtd/spi-nor/core.c b/drivers/mtd/spi-nor/core.c
->>> index 9d6e85bf227b..ca65f36e5638 100644
->>> --- a/drivers/mtd/spi-nor/core.c
->>> +++ b/drivers/mtd/spi-nor/core.c
->>> @@ -2405,6 +2405,23 @@ int spi_nor_post_bfpt_fixups(struct spi_nor *nor,
->>>       return 0;
->>>   }
->>> +int spi_nor_post_smpt_fixups(struct spi_nor *nor, u8 *smpt)
->>> +{
->>> +    int ret;
->>> +
->>> +    if (nor->manufacturer && nor->manufacturer->fixups &&
->>> +        nor->manufacturer->fixups->post_smpt) {
->>> +        ret = nor->manufacturer->fixups->post_smpt(nor, smpt);
->>> +        if (ret)
->>> +            return ret;
->>> +    }
->>> +
->>> +    if (nor->info->fixups && nor->info->fixups->post_smpt)
->>> +        return nor->info->fixups->post_smpt(nor, smpt);
->>> +
->>> +    return 0;
->>> +}
->>> +
->>>   static int spi_nor_select_read(struct spi_nor *nor,
->>>                      u32 shared_hwcaps)
->>>   {
->>> diff --git a/drivers/mtd/spi-nor/core.h b/drivers/mtd/spi-nor/core.h
->>> index 1516b6d0dc37..d5294424ab9d 100644
->>> --- a/drivers/mtd/spi-nor/core.h
->>> +++ b/drivers/mtd/spi-nor/core.h
->>> @@ -413,6 +413,8 @@ struct spi_nor_flash_parameter {
->>>    *             parameters that could not be extracted by other 
->>> means (i.e.
->>>    *             when information provided by the SFDP/flash_info 
->>> tables are
->>>    *             incomplete or wrong).
->>> + * @post_smpt: update sector map configuration ID selector according to
->>> + *             chip-specific quirks.
->>>    * @late_init: used to initialize flash parameters that are not 
->>> declared in the
->>>    *             JESD216 SFDP standard, or where SFDP tables not 
->>> defined at all.
->>>    *             Will replace the default_init() hook.
->>> @@ -426,6 +428,7 @@ struct spi_nor_fixups {
->>>                const struct sfdp_parameter_header *bfpt_header,
->>>                const struct sfdp_bfpt *bfpt);
->>>       int (*post_sfdp)(struct spi_nor *nor);
->>> +    int (*post_smpt)(struct spi_nor *nor, u8 *smpt);
->>>       int (*late_init)(struct spi_nor *nor);
->>>   };
->>> @@ -660,6 +663,8 @@ int spi_nor_post_bfpt_fixups(struct spi_nor *nor,
->>>                    const struct sfdp_parameter_header *bfpt_header,
->>>                    const struct sfdp_bfpt *bfpt);
->>> +int spi_nor_post_smpt_fixups(struct spi_nor *nor, u8 *stmp);
->>> +
->>>   void spi_nor_init_default_locking_ops(struct spi_nor *nor);
->>>   void spi_nor_try_unlock_all(struct spi_nor *nor);
->>>   void spi_nor_set_mtd_locking_ops(struct spi_nor *nor);
->>> diff --git a/drivers/mtd/spi-nor/sfdp.c b/drivers/mtd/spi-nor/sfdp.c
->>> index 5b1117265bd2..542c775918ad 100644
->>> --- a/drivers/mtd/spi-nor/sfdp.c
->>> +++ b/drivers/mtd/spi-nor/sfdp.c
->>> @@ -765,6 +765,10 @@ static const u32 *spi_nor_get_map_in_use(struct 
->>> spi_nor *nor, const u32 *smpt,
->>>           map_id = map_id << 1 | !!(*buf & read_data_mask);
->>>       }
->>> +    err = spi_nor_post_smpt_fixups(nor, &map_id);
->>> +    if (err)
->>> +        return ERR_PTR(err);
->>> +
->>>       /*
->>>        * If command descriptors are provided, they always precede map
->>>        * descriptors in the table. There is no need to start the 
->>> iteration
->>> diff --git a/drivers/mtd/spi-nor/spansion.c b/drivers/mtd/spi-nor/ 
->>> spansion.c
->>> index d6c92595f6bc..d446d12371e1 100644
->>> --- a/drivers/mtd/spi-nor/spansion.c
->>> +++ b/drivers/mtd/spi-nor/spansion.c
->>> @@ -757,6 +757,31 @@ static const struct spi_nor_fixups 
->>> s25fs_s_nor_fixups = {
->>>       .post_bfpt = s25fs_s_nor_post_bfpt_fixups,
->>>   };
->>> +static int s25fs512s_nor_post_smpt_fixups(struct spi_nor *nor, u8 
->>> *smpt)
->>> +{
->>> +    /*
->>> +     * The S25FS512S chip datasheet rev.O Table 71 on page 153
->>> +     * JEDEC Sector Map Parameter Dword-6 Config. Detect-3 does
->>> +     * use CR3NV bit 1 to discern 64kiB/256kiB uniform sectors
->>> +     * device configuration, however according to section 7.5.5.1
->>> +     * Configuration Register 3 Non-volatile (CR3NV) page 61, the
->>> +     * CR3NV bit 1 is RFU Reserved for Future Use, and is set to
->>> +     * 0 on newly manufactured devices, which means 64kiB sectors.
->>> +     * Since the device does not support 64kiB uniform sectors in
->>> +     * any configuration, parsing SMPT table cannot find a valid
->>> +     * sector map entry and fails. Fix this up by setting SMPT
->>> +     * configuration index bit 0, which is populated exactly by
->>> +     * the CR3NV bit 1 being 1.
->>> +     */
->>> +    *smpt |= BIT(0);
->>
->> Please help me understand this. Maybe a link to your revision of
->> datasheet would help me.
-> 
-> https://www.infineon.com/assets/row/public/documents/10/49/infineon- 
-> s25fs512s-512-mb-1-datasheet-en.pdf
-> 
-> SMPT values:
-> 
-> i=0 smpt[i]=08ff65fc
-> i=1 smpt[i]=00000004
-> i=2 smpt[i]=04ff65fc
-> i=3 smpt[i]=00000002
-> i=4 smpt[i]=02ff65fd
-> i=5 smpt[i]=00000004
-> i=6 smpt[i]=ff0201fe
-> i=7 smpt[i]=00007ff1
-> i=8 smpt[i]=00037ff4
-> i=9 smpt[i]=03fbfff4
-> i=10 smpt[i]=ff0203fe
-> i=11 smpt[i]=03fbfff4
-> i=12 smpt[i]=00037ff4
-> i=13 smpt[i]=00007ff1
-> i=14 smpt[i]=ff0005ff
-> i=15 smpt[i]=03fffff4
-> 
->> In the flash datasheets that I see, there shall
->> be a "Sector Map Parameter Table Notes" where a "Sector Map Parameter"
->> table is described showing an Index Value constructed by the CRxNV[y]
->> return values. That index value is the map_id in the code.
->>
->> By reading your description I understand CR3NV[1] has value zero as it
->> is marked as RFU, but at the same time that bit is expected in SMPT to
->> always have value 1. That's why datasheets like this one [1] in their
->> "Table 70. Sector Map Parameter" do not describe CR3NV[1] at all, and
->> define the index value as CR3NV[3] << 2 | CR1NV[2] << 1 | 1.
-> 
-> Where does this last part "define the index value as CR3NV[3] << 2 | 
-> CR1NV[2] << 1 | 1" come from ?
-> 
->> I assume what you're doing is fine as it shouldn't break backward
->> compatibility with other older flashes as their CR3NV[1] has value one
->> anyway. Correct me if I'm wrong.
-> 
-> I hope so.
-> 
->> Now looking at the code, what we usually do is to save the flash
->> parameters described by SFDP in nor->params, then amend those parameters
->> with fixup hooks if that's needed. Here you modify the map_id and then
->> let the code use it in order to determine the sector_map. Then that
->> sector_map (which is SMPT data from the table itself) is used to
->> initialize erase regions. That sector_map can contain wrong data too.
-> 
-> By sector_map, do you refer to the "smpt" array ?
-> 
->> I'd suggest saving a nor->params->sector_map then call a
->> int spi_nor_post_smpt_fixups(struct spi_nor *nor,
->>     const struct sfdp_parameter_header *smpt_header,
->>     const u32 *smpt)
->> in case spi_nor_get_map_in_use() fails. This way others can update
->> sector_map as well if that's ever needed. What do you think?
-> 
-> This won't work for me, would it ? In my case, I need to patch content 
-> of CR3NV register to assure CR3NV bit 1 is well defined. I don't need to 
-> patch the sector_map itself.
+On Tue, 7 Oct 2025 at 05:22, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> Allow additional properties to enable devices attached to the bus.
+> Fixes warnings like these:
+>
+> arch/arm/boot/dts/renesas/sh73a0-kzm9g.dtb: bus@fec10000 (renesas,bsc-sh73a0): Unevaluated properties are not allowed ('ethernet@10000000' was unexpected)
+> arch/arm/boot/dts/renesas/r8a73a4-ape6evm.dtb: bus@fec10000 (renesas,bsc-r8a73a4): Unevaluated properties are not allowed ('ethernet@8000000', 'flash@0' were unexpected)
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Let me bump this discussion.
+Thanks for your patch!
+
+> index f53a37785413..24732c5e24e1 100644
+> --- a/Documentation/devicetree/bindings/bus/renesas,bsc.yaml
+> +++ b/Documentation/devicetree/bindings/bus/renesas,bsc.yaml
+> @@ -41,6 +41,18 @@ properties:
+>    interrupts:
+>      maxItems: 1
+>
+> +patternProperties:
+> +  # All other properties should be child nodes with unit-address and 'reg'
+> +  "^[a-zA-Z][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+$":
+
+I take it the "\\-" means escaped dash, to avoid it being interpreted
+as a range? I usually put the dash at the end, so it needs no escaping,
+but I am not sure that would work in yaml.
+
+I would drop the "A-F", as upper-case hex in unit addresses is very
+rare, and non-existent in *upstream) Renesas DTS files.
+
+> +    type: object
+> +    additionalProperties: true
+> +    properties:
+> +      reg:
+> +        maxItems: 1
+> +
+> +    required:
+> +      - reg
+> +
+>  required:
+>    - reg
+
+I guess we can indeed have no child nodes without reg properties.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
