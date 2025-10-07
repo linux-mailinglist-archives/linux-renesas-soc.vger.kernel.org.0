@@ -1,64 +1,60 @@
-Return-Path: <linux-renesas-soc+bounces-22725-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22726-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F427BBECB9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 06 Oct 2025 19:21:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CD83BC0156
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 07 Oct 2025 05:22:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 43F4E4F050A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Oct 2025 17:21:47 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E8F8F4E02C3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Oct 2025 03:22:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6403E2D4806;
-	Mon,  6 Oct 2025 17:21:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61FC4209F43;
+	Tue,  7 Oct 2025 03:22:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="MRjNcVq1"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="UX25niyS"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C5D2676DE
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Oct 2025 17:21:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BD65CDF1
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Oct 2025 03:22:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759771291; cv=none; b=XvmAY0riJ/w5/JJ1moyGnrPfl9/+rfKO5L1r+npKeHE752bH6cK8JVsPT9vvkF2SDNxyVIMRLP9HB9aVJydTj2u+J8V2QPT4YqeGK/ZgbmBEr1eMmH1HcCzF3NOxZeWzMiWwiwJ05KHUoK51bl9gzTCGFIJgqj4p2OifPvDQZ4Y=
+	t=1759807344; cv=none; b=OsnMv2XZ2c1ELWZiAybC/QBz6ASpyTqjWb+685a1pz2H8egstbCKHXDV2szzjYynDe31weEhGY0XP79OjnBQHij8gT0DmB2AggQl9Nt2Val5cB7/FGzmF1WaLTVbiWHRhfRM3TvDWuz19EyqyDk7IkAKaSMr3BwANCssKWScbyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759771291; c=relaxed/simple;
-	bh=OYYb2M2fECLb+jrNYm1kW1HVJOljI9bg/nvEDHfpPic=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gY2acRPBK52C3qcpGVkAsPa3zdqi8fB63oFzaThDKymo3xLOsR0OmrjBVXeJhOv7iSuaN6gNiGy18B1cFax+wXTivHwB3SMG2cwLAYbXVULr+yurIBoQQKAC9ZGZNsCTtllpIY+J8UJfiRUUQE0Ah3cuP2y6hpdNpVcZNViNDF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=MRjNcVq1; arc=none smtp.client-ip=194.117.254.33
+	s=arc-20240116; t=1759807344; c=relaxed/simple;
+	bh=iMlhBkZnfNgPHleNmXkIgTXUdbd0SohpN8lWmooInBY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uBHNMplsBdDQGnCbSpbHM1zE5ngq47r26xaoxVCwdAWXK+9MmXn6aRHfCXv9zg2yuqg7R4b7tNzyjGjeSqAenYfcXxhX1G5advnWKpAKg4NOerk9rBHuBqsPKd3oXoOBe+yMD6J9SgBmgAGXMzqIpeJYdI2+N6uiNjzgMyB5y40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=UX25niyS; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=fBSs/il4N7pRMizhvkDKpaZKCds+bMrynpG8pj2s5Hw=; b=MRjNcV
-	q1paSfwwHAk+Gop4BmtE/gXA6Ou59ed5+UEdKkqyb7IGm3AE4NrLJ/wsZYxqBBv2
-	N3uFFT/DWUFVwH+QtlExf4gl4duhWRJ+JNatGHKCqexSaPpAo7TtTA1F5KKenG15
-	86mZ58dPhL0PB6xY9PpnitZZq9Cu4uk1lqkewXri7rSPjkeDZeUBESjf6KbwU2LI
-	3Q3qjcdJ813md9XWTWDo34rHEAryEX/AAYqqChhwXnwk32ZrHr+/GzjKzopJcQv9
-	YW9e8S9+xsLca2ycrm3BQHtP02Ad2GwruovURSC9+ouYVDN67qMRWETZFsJRHDGy
-	UyeCtSYFKXfDdz6w==
-Received: (qmail 1872562 invoked from network); 6 Oct 2025 19:21:22 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Oct 2025 19:21:22 +0200
-X-UD-Smtp-Session: l3s3148p1@JjEuroBAVsUujnsE
+	:mime-version:content-transfer-encoding; s=k1; bh=n0Y4rlmuWxVmzL
+	/bS7lbB8hNkPOMags9RfrGuxE3ZZQ=; b=UX25niyS1StK87Yah66yEJRDs6vw1K
+	b8VYG+P82+A7HL+KZvBHufBJINkWTXtKN3r3VNoKdqZYYON6D2ipuw4Vb5yWXJl/
+	bbSJr+xxrU9HpgFE12fKxbl6X1YWpJ6CUTcGfh+NRu9f+zD3PHaJUIiqMflbRkaJ
+	iUafIhTxzAieW9e8bci8A0Y19kEWQDQ3yEDQJnVMO+yb8+aXe8TsXr4zHTOhNjMq
+	t2YyJSV6/hYJocBMIr+SrLfNlW5JY7jsFoIKOqiRCg9Re6K9Tj4Tg8TwgF+WIluz
+	MHSYpFmdGKsF9/I7KOUajPIkaJ76O5GW1ny7GEgAfL70w7qELZHULSQA==
+Received: (qmail 108038 invoked from network); 7 Oct 2025 05:22:17 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 7 Oct 2025 05:22:17 +0200
+X-UD-Smtp-Session: l3s3148p1@DT8yE4lAxLgujntU
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org,
-	Rob Herring <robh@kernel.org>
+To: linux-renesas-soc@vger.kernel.org
 Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
 	devicetree@vger.kernel.org
-Subject: [RFC PATCH 2/2] ARM: dts: renesas: kzm9g: name interrupts for accelerometer
-Date: Mon,  6 Oct 2025 19:21:18 +0200
-Message-ID: <20251006172119.2888-3-wsa+renesas@sang-engineering.com>
+Subject: [PATCH] dt-bindings: bus: renesas-bsc: allow additional properties
+Date: Tue,  7 Oct 2025 05:18:52 +0200
+Message-ID: <20251007032209.7617-2-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20251006172119.2888-1-wsa+renesas@sang-engineering.com>
-References: <20251006172119.2888-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -67,28 +63,46 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Per the updated binding documentation, both interrupts must be named.
+Allow additional properties to enable devices attached to the bus.
+Fixes warnings like these:
+
+arch/arm/boot/dts/renesas/sh73a0-kzm9g.dtb: bus@fec10000 (renesas,bsc-sh73a0): Unevaluated properties are not allowed ('ethernet@10000000' was unexpected)
+arch/arm/boot/dts/renesas/r8a73a4-ape6evm.dtb: bus@fec10000 (renesas,bsc-r8a73a4): Unevaluated properties are not allowed ('ethernet@8000000', 'flash@0' were unexpected)
 
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
 
-This uncovers another issue. See coverletter.
+Copied this from 'bus/allwinner,sun50i-a64-de2.yaml' which seemed to me
+like the most specific patternProperties for a bus.
 
- arch/arm/boot/dts/renesas/sh73a0-kzm9g.dts | 1 +
- 1 file changed, 1 insertion(+)
+Passes dt_binding_check and fixes the above warnings without regressing.
 
-diff --git a/arch/arm/boot/dts/renesas/sh73a0-kzm9g.dts b/arch/arm/boot/dts/renesas/sh73a0-kzm9g.dts
-index 1ce07d0878dc..0a9cd61bcb5f 100644
---- a/arch/arm/boot/dts/renesas/sh73a0-kzm9g.dts
-+++ b/arch/arm/boot/dts/renesas/sh73a0-kzm9g.dts
-@@ -209,6 +209,7 @@ accelerometer@1d {
- 		reg = <0x1d>;
- 		interrupts-extended = <&irqpin3 2 IRQ_TYPE_LEVEL_HIGH>,
- 				      <&irqpin3 3 IRQ_TYPE_LEVEL_HIGH>;
-+		interrupt-names = "INT1", "INT2";
- 	};
+ .../devicetree/bindings/bus/renesas,bsc.yaml         | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/bus/renesas,bsc.yaml b/Documentation/devicetree/bindings/bus/renesas,bsc.yaml
+index f53a37785413..24732c5e24e1 100644
+--- a/Documentation/devicetree/bindings/bus/renesas,bsc.yaml
++++ b/Documentation/devicetree/bindings/bus/renesas,bsc.yaml
+@@ -41,6 +41,18 @@ properties:
+   interrupts:
+     maxItems: 1
  
- 	rtc@32 {
++patternProperties:
++  # All other properties should be child nodes with unit-address and 'reg'
++  "^[a-zA-Z][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+$":
++    type: object
++    additionalProperties: true
++    properties:
++      reg:
++        maxItems: 1
++
++    required:
++      - reg
++
+ required:
+   - reg
+ 
 -- 
 2.47.2
 
