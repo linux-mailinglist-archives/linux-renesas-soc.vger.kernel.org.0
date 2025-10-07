@@ -1,216 +1,111 @@
-Return-Path: <linux-renesas-soc+bounces-22758-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22760-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DDE0BC1AAA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 07 Oct 2025 16:14:06 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56BF4BC1E4E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 07 Oct 2025 17:20:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2FD204F6AF0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Oct 2025 14:13:52 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 0B62C34FA12
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Oct 2025 15:20:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D03C2E1F04;
-	Tue,  7 Oct 2025 14:13:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 054832E3AF5;
+	Tue,  7 Oct 2025 15:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Bf83pC+u"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC6E42E1758
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Oct 2025 14:13:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4DB02E3B11
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Oct 2025 15:20:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759846426; cv=none; b=m3/3tW00y6a1MMbd3GDxQUf8ryMEsfgL/LtN8YUGi9J29M8FGXJl5tkXIZoVRnPnXxz3qeKL+Ar3GE+hpP6jDxcS5rpsVqH8YhkIktzPM6+vVRI8HiJjF2vi+qKmjxd7nnouFGp+/RCnSe3UlXI/+XVz1nS9tRIbv89cLj+OrSE=
+	t=1759850431; cv=none; b=t7hwBY2j0fF0PngL2H5YkPXRS0i7mhvw80wZ2dxqG83jz3ajUJFB9TxrqEEzA2/+QFeolYCXPY5cgq5X/nHfObp/DAQKGtphFyE+HDemIJRFcgw/KXycnSkaTBxdlCGYIqgUs14WXp/476YBqzdJi+1pN6/OVhbM2izb5cfA+Mo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759846426; c=relaxed/simple;
-	bh=Uqtt/4tM4AV0md7Ic2QU6kx7zP0JgCxghbEpzs/Y9BQ=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Ha7uIkeQiB15MGxIHNsKwFwn+M2BsRU1fg5UuCldl9NMIJ0fyIXMfXawE0/7cK73Q/9Jf3WC/ZlgJ19vU09NiYjSujvDaYCMw27xsLfesrKstFmaVZlgGFsvVtIhpuUI4pgtKdUvvlgECejNrF0/tSblzZk/x+hcsGw7vuPwfQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1v68R6-0000Tf-32; Tue, 07 Oct 2025 16:13:04 +0200
-Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1v68R4-002Phx-33;
-	Tue, 07 Oct 2025 16:13:02 +0200
-Received: from pza by lupine with local (Exim 4.98.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1v68R4-000000004MN-3brl;
-	Tue, 07 Oct 2025 16:13:02 +0200
-Message-ID: <988658d3485232a0bb6c433b6533ebf0ae41226a.camel@pengutronix.de>
-Subject: Re: [PATCH 04/18] reset: rzv2h-usb2phy: Set VBENCTL register for
- OTG mode
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Biju Das <biju.das.jz@bp.renesas.com>, Tommaso Merciai	
- <tommaso.merciai.xr@bp.renesas.com>, Tommaso Merciai
- <tomm.merciai@gmail.com>
-Cc: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-  Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Vinod Koul
- <vkoul@kernel.org>, Kishon Vijay Abraham I	 <kishon@kernel.org>, Geert
- Uytterhoeven <geert+renesas@glider.be>,  "magnus.damm"
- <magnus.damm@gmail.com>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "linux-phy@lists.infradead.org"	 <linux-phy@lists.infradead.org>,
- "linux-kernel@vger.kernel.org"	 <linux-kernel@vger.kernel.org>
-Date: Tue, 07 Oct 2025 16:13:02 +0200
-In-Reply-To: <TY3PR01MB1134623A14F4F313986F631ED86E0A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20251001212709.579080-1-tommaso.merciai.xr@bp.renesas.com>
-			 <20251001212709.579080-5-tommaso.merciai.xr@bp.renesas.com>
-		 <593eb851ae6ce0ec03ddeacf436180b6538fdd1e.camel@pengutronix.de>
-		 <TY3PR01MB1134635745721CC005B35702286E0A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-	 <01fc3101ab2e3898932afeaaaf060a6676cdf323.camel@pengutronix.de>
-	 <TY3PR01MB1134623A14F4F313986F631ED86E0A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.1-1 
+	s=arc-20240116; t=1759850431; c=relaxed/simple;
+	bh=5ix/xMH3w3PyNpAXFhVzHGaR5bjNdsrIFNS++MUjIfU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=shWY0uhgYzcPmjXbJ70ICT3Au8AmCM8lNgUoJyQ3gGXde2CdYZK5xss7p6FvsZqA50ltFJYHtSrhWa/RozOfDA+RACC/f0OE3ymLd0QMJEEZyIQ/lPJSBojMS5+xF5qSPTkOE61kwbu22jCB6xBpIeQC4/BeGhJO76b4LF48J9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Bf83pC+u; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=DzRGqoTxDBrne6
+	urB5mtPh0E5kjLt4Z+LF4wlzjpX/U=; b=Bf83pC+ulmefkhZJIhsG0xZ35tYgWu
+	b9pmrvX3gP3+TJwoQ6i14GC5rz7jXZtJovX4B6htttEE8Tmeh83aD2jL0b+lvMqG
+	1SZtsYsWe7wQPfvLo5tpqJsyePJL73DMoI2IltwIVghiYFMK9Iz7DA0a/GQHROIw
+	toPXT0en5oWQXOCrJcRBElhlSGZme5a/UjxbDy16mwyaAbC8W7Hi5MGND5KLLLvE
+	CUPyTSpyilk60KVFxD2hbCnsh03CNpGmhUaua423xVpvNQitzzK8H7ahU+Upbwp4
+	Ve0mVnfpMoKoAxM86sK//AGLspmsU+T83rKk7K/jbWgzS8SZOQmIEufw==
+Received: (qmail 313078 invoked from network); 7 Oct 2025 17:20:25 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 7 Oct 2025 17:20:25 +0200
+X-UD-Smtp-Session: l3s3148p1@he52G5NAVsoujntU
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-watchdog@vger.kernel.org,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>
+Subject: [PATCH v3 0/5] dt-bindings: watchdog: factor out RZ watchdogs
+Date: Tue,  7 Oct 2025 17:20:05 +0200
+Message-ID: <20251007152007.14508-7-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 
-Hi Biju,
+Minor changes since v2 are documented in each individual patch. Main
+change is that patch 5 is added to keep dependency handling low.
 
-On Di, 2025-10-07 at 11:04 +0000, Biju Das wrote:
-> Hi Philipp,
->=20
-> > -----Original Message-----
-> > From: Philipp Zabel <p.zabel@pengutronix.de>
-> > Sent: 07 October 2025 10:44
-> > Subject: Re: [PATCH 04/18] reset: rzv2h-usb2phy: Set VBENCTL register f=
-or OTG mode
-> >=20
-> > Hi Biju,
-> >=20
-> > On Di, 2025-10-07 at 04:02 +0000, Biju Das wrote:
-> > > Hi Philipp,
-> > >=20
-> > > Thanks for the feedback.
-> > >=20
-> > > > -----Original Message-----
-> > > > From: Philipp Zabel <p.zabel@pengutronix.de>
-> > > > Sent: 06 October 2025 17:32
-> > > > Subject: Re: [PATCH 04/18] reset: rzv2h-usb2phy: Set VBENCTL
-> > > > register for OTG mode
-> > > >=20
-> > > > On Mi, 2025-10-01 at 23:26 +0200, Tommaso Merciai wrote:
-> > > > > Add logic to set the VBENCTL register when the USB controller
-> > > > > operates in OTG mode. This is required to ensure proper USB
-> > > > > transceiver behavior when the device is configured as OTG.
-> > > > >=20
-> > > > > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com=
->
-> > > >=20
-> > > > I had reservations about this driver before, because of the opaque
-> > > > register initialization sequence, and I was told that no, this is a=
- reset driver alright [1].
-> > >=20
-> > > The latest hardware manual document about VBENCTRL register which set=
-s source for VBUS selection.
-> > > s
-> >=20
-> > I still can't look at this, right? The USB2PHY control register space a=
-ppears to be documented in
-> > the "RZ/V2H Group User's Manual: Hardware (Additional document)" (under=
- NDA).=09
->=20
-> It is documented here[1], Page 2177, USB2PHY Control Register (USB2m_PHY_=
-VBENCTL)
->=20
-> [1]
-> https://www.renesas.com/en/document/mah/rzg3e-group-users-manual-hardware=
-?r=3D25574493
+renesas,wdt.yaml describes lots of different hardware blocks which
+results in complex if-structs. Factor out the different IP blocks into
+their own files. I took over maintainership of the files for RZ/A and
+RZ/N1 but if someone else wants them, very fine with me. RZ/G2L and
+RZ/V2H have the original driver contributors as maintainers (Hi Biju, Hi
+Prabhakar :)). If these need changes, please let me know, too.
 
-For me, that link points to a document without the USB2m_PHY_* register
-definitions. Page 2177 is unrelated (documenting PCI_EP_HLOG2_Fn,
-somewhere in the PCIe interface chapter).
+After the refactoring, the V3H exception is finally added to the
+original binding document and is now much easier to understand.
 
-> > > > Can you please try to find a proper abstraction for this, because
-> > > > drivers/reset is not the correct place for USB OTG mode handling.
-> > >=20
-> > > Sorry for the confusion. This driver is not handling USB OTG mode. It
-> > > just configures VBENCTRL(one time setting) that selects the source fo=
-r
-> > > VBUS_SEL. Actual USB OTG mode handling is done USB PHY driver which s=
-ets host/device mode based on
-> > ID detection.
-> >=20
-> > So this is a mux for the VBUS_SEL signal?
->=20
-> Yes, Please find the bit definition.
->=20
-> 0 VBUS_SEL 0h RW Select VBUSEN control
-> 0b: Output PP controlled by PORTSC1 register of the Host Controller as VB=
-USEN.
-> 1b: Output VBOUT controlled by VBCTRL register of the Host Controller as =
-VBUSEN.
->=20
-> We have USB PHY control driver(This driver)-> USB PHY driver->| USB HOST(=
-Generic ehci/ohci)
->                                                        	  | USB function =
-(renesas usbhs)
->=20
-> We plan to set 1b for this IP in this driver for OTG channel during probe=
-.
-> After that using VBOUT register the PHY driver can switch between Host an=
-d device.
+Passes 'dt_binding_check' and 'dtbs_check' after each patch here.
+Looking forward to comments.
 
-Thank you for the explanation.
+Happy hacking!
 
-> > Why don't the USB host controller drivers parse their "dr_mode"
-> > property themselves and control USB2PHY VBENCTRL via the mux API, for e=
-xample?
->=20
-> Currently for OTG channel, based ID detection IRQ, the USB PHY driver swi=
-tches between host
-> and device. We use method2 below for the host operation.
->=20
-> For Host operation:
-> Method1: USB2m_PHY_VBENCTL.VBUS_SEL=3D0
-> or
-> method2: USB2m_PHY_VBENCTL.VBUS_SEL=3D1 and USB_HOST_VBCTRL.VBOUT =3D 1
->=20
-> For device operation:
-> USB2m_PHY_VBENCTL.VBUS_SEL=3D1 and USB_HOST_VBCTRL.VBOUT =3D 0
->=20
-> Are you suggesting to use method1(mux) for host operation?
 
-No, not necessarily. I was thinking of letting the PHY driver, before
-registering the VBOUT controlled VBUS regulator in its probe function,
-call into the mux API to set VBENCTL.VBUS_SEL=3D1 and thus make the VBOUT
-bit functional.
+Wolfram Sang (5):
+  dt-bindings: watchdog: factor out RZ/A watchdog
+  dt-bindings: watchdog: factor out RZ/N1 watchdog
+  dt-bindings: watchdog: factor out RZ/G2L watchdog
+  dt-bindings: watchdog: factor out RZ/V2H(P) watchdog
+  dt-bindings: watchdog: renesas,wdt: add SWDT exception for V3H
 
-> Currently this is one time configuration. If we plan to
-> use mux, then it becomes dynamic.
->
-> How we can we make use of PHY driver using mux API to select the mux regi=
-ster(VBUS_SEL)
-> in USB PHY control Driver?
+ .../watchdog/renesas,r9a09g057-wdt.yaml       | 109 +++++++++++++
+ .../bindings/watchdog/renesas,rza-wdt.yaml    |  51 ++++++
+ .../bindings/watchdog/renesas,rzg2l-wdt.yaml  | 110 +++++++++++++
+ .../bindings/watchdog/renesas,rzn1-wdt.yaml   |  48 ++++++
+ .../bindings/watchdog/renesas,wdt.yaml        | 149 ++----------------
+ 5 files changed, 327 insertions(+), 140 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/watchdog/renesas,r9a09g057-wdt.yaml
+ create mode 100644 Documentation/devicetree/bindings/watchdog/renesas,rza-wdt.yaml
+ create mode 100644 Documentation/devicetree/bindings/watchdog/renesas,rzg2l-wdt.yaml
+ create mode 100644 Documentation/devicetree/bindings/watchdog/renesas,rzn1-wdt.yaml
 
-For example, this driver could spawn an auxiliary mux device with a
-driver in drivers/mux that registers a mux for VBENCTL.VBUS_SEL on the
-&usb20phyrst node.
+-- 
+2.47.2
 
-The phy could then get a "mux-states =3D <&usb20phyrst 1>;" property in
-its device tree node and call the equivalent of:
-
-  mux_state =3D devm_mux_state_get_optional(dev, NULL);
-  mux_state_select(mux_state);
-
-to switch to VBOUT controlled VBUSEN.
-
-regards
-Philipp
 
