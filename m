@@ -1,186 +1,172 @@
-Return-Path: <linux-renesas-soc+bounces-22728-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22729-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4763BC028E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 07 Oct 2025 06:38:09 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4928BBC0380
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 07 Oct 2025 07:46:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 3A5324E1DB3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Oct 2025 04:38:08 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 086BD4E90E6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Oct 2025 05:45:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 526D613C914;
-	Tue,  7 Oct 2025 04:38:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 244D41922FB;
+	Tue,  7 Oct 2025 05:45:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="mx2dOO3+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JGMf02Dz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011001.outbound.protection.outlook.com [52.101.125.1])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD74F5FDA7
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Oct 2025 04:38:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.1
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759811885; cv=fail; b=RePOQU7VTtRZvT0FljW06h3SAVh3VdTszcFcAs4suJSgYBm9wt6DvGg8LcIVMEdVQmbfORsfJYjyecbj9GkYWWwQHzfxABTBnqKrAQ7ffzT14KfeajTHT7lckhTZmP9yjabm+/b1Qi5RLOIGJItQr7BYpCOvzeqIDkSa2FCc/LQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759811885; c=relaxed/simple;
-	bh=VXCqNFdeysovg88x/5aRSzNTvC8XVZHwdKXPC53MMVk=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=X9VmiBHemtCQ1tg+/H8FkzDlm0sk31Ada4MAAmh1OwwWyZt7hd0BSUwVECbLpEes7SI7dIdG/hvSghTYcmyT2XNrHvrDvrg9aUhZQrVajP/zpALj2zXJjqTjujHRwWuAhM6R8cOgPQAWx+ApMsTEmk9FVM6+p+h2GfwU+adhR7I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=mx2dOO3+; arc=fail smtp.client-ip=52.101.125.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=K9+b7ReucNzIw1JYe8yK4BgRZoFvct6QZbd04izvZK1GRkOo75tD9jNAcBK/75NPr+PriMKjY6dfysngYFN8UPc4lBtcYaQ6Si/Qj5L739KWvuB0FLsL2GomXFQVwnNLDk9sRKAiNeJoqhddJC7jrE9eVd9OCTn2jGOmI4q99/bXFO43Zr0Pa7RWUHD6DowRbjYqSvdaQG6UEqBkSbXV7wa+/tWfRDjwLdlkD9G3qNKYR72yyrLDwNVdWdp+QzXGt9Fh5dRN0c3C/xShuKUHbYlPG1aqbWadcjYODZY5udBcagRVbo6gdLVKw+Xul6DYgf9YRbUpzrNqBFyvKf1JYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GuM1mfGm1FPA5YxxYmHOXywkhSHTo0ggixjHg07JZS4=;
- b=M2eQo7phdXmkGTfL1GRl/mC7/4XPtNXyoi4EIlnsJCPPi4whr9DOMIIwwLT4IUe/8gKkekmtz21VeIarQ1H3Wvw65IFgYv3jmN6y+jNeJ9enKsNBE2y/NvZop/3hDzT027vQkyP2p8y8nQ7b30k3xko2QwRNvKYtmALXE3TC1B9s0KBDmcTisDJimVjQAd7AbCvTgyj3DDmEoQB+oEHzzpPeg8EVaqI8wAOqqRXZbYtQjbWyY8iIviBsMsG54/LlUjvqojDDFV/X1pu/R6wJqrcGxqeQlamo/b29XNN/tGreSWUZy2vATwrWYZWaVURxbl5t8NXFdkG7Ho4oebl5Mg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GuM1mfGm1FPA5YxxYmHOXywkhSHTo0ggixjHg07JZS4=;
- b=mx2dOO3+1sC4YZwWmE3Cf2DlhBzLcz50NK9iYxukVWyjRSxnrdpzGIjak78sHh3cXqUtNUnL7BAfM2uvmL1hwbccK5acGq2k5x7j9aPeFluSvhqLjko6d8bmyx/L0bZZw98GUlhOm7Jza+JBJPnloYYQrfgOHpOPJ5BjKz7nwwo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYCPR01MB11711.jpnprd01.prod.outlook.com
- (2603:1096:400:389::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.9; Tue, 7 Oct
- 2025 04:37:59 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%3]) with mapi id 15.20.9203.007; Tue, 7 Oct 2025
- 04:37:59 +0000
-Message-ID: <87ecrf5ntl.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Magnus Damm <magnus.damm@gmail.com>,
-	linux-arm-kernel@lists.infradead.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B50A71C84BB;
+	Tue,  7 Oct 2025 05:45:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1759815953; cv=none; b=OOgHSqbY2RAb7UdVaveulokx9QGp33LxoXzuSjxBwjVK6dI7awxlUC5nJL8R8iRGavp+6SIDIHUgmpSVNk2lSy19H0UKossJzIqZZ3cwGDc6eA4Ejb/mpRf4hJjQeaWRraihkG5GZ1FjUE3zngg1O/81OmKNy7OL1sY6hh/p99I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1759815953; c=relaxed/simple;
+	bh=aRM3qd+6F6N7GpoYtfIBeQSbvfWgtoGFVl5Adw4VJro=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sTVvwUvWXGSlN+lB9ck96FmnG55FudO4VV7H54kchJ1Jb+RkL3OhVGL7mEcxrmAJFZ8kOmsQSsHb/ZSuz/XT04mWr7YRlnrJ8VjO+mp6b06qNlhm/EJI8uEBDX9/70m7lmPumFrVamglBZ392IupkMUYbMYwj1uMiJU34H0Iwq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JGMf02Dz; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759815951; x=1791351951;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=aRM3qd+6F6N7GpoYtfIBeQSbvfWgtoGFVl5Adw4VJro=;
+  b=JGMf02DzGMSOeno+Ub/QUkKAXwM9RTbpncd+q1dsAieXtXqsvYvL68/Q
+   RWodZ9NdH3HdagXEiMRGIBkVmQBp5Fr0q9Mus3CLxiuq1iySWl/Nhvkjo
+   +lTemLxX9SmlrLjU/YS0BEGd/hRQBlijCqMddzITGSEKzV3r1/he/w3vU
+   lnokvGQXkdJDUBcrbEbKWonLL7XDhqKhlJ+WykF+kybttKo5lyI3xg2cQ
+   atWr4xEPoj9Sq8v882wyGms0mFD/+RqnDAfxOZdNjB6AqdrtsRgMUG3FD
+   4+nXKv2CXr/No6w66RlwZCQ9EX4vS8AJoMksAC0gTHbuzmzd5pvJk1EIW
+   A==;
+X-CSE-ConnectionGUID: pqg0UwaySSefMrR/W/0W5g==
+X-CSE-MsgGUID: AUokCAk1QNWiT5LJ8BbOGw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11574"; a="61027898"
+X-IronPort-AV: E=Sophos;i="6.18,321,1751266800"; 
+   d="scan'208";a="61027898"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2025 22:45:50 -0700
+X-CSE-ConnectionGUID: yVoRrmGNR8Sx0wUO6LVKnw==
+X-CSE-MsgGUID: /dgv+ZRHR/COnS6B1I5Jsg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,321,1751266800"; 
+   d="scan'208";a="180479325"
+Received: from kandpal-x299-ud4-pro.iind.intel.com ([10.190.239.10])
+  by fmviesa008.fm.intel.com with ESMTP; 06 Oct 2025 22:45:41 -0700
+From: Suraj Kandpal <suraj.kandpal@intel.com>
+To: linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	kernel-list@raspberrypi.com,
+	amd-gfx@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 00/13] ARM: dts: renesas: Move interrupt-parent to root node
-In-Reply-To: <cover.1759414774.git.geert+renesas@glider.be>
-References: <cover.1759414774.git.geert+renesas@glider.be>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 7 Oct 2025 04:37:59 +0000
-X-ClientProxiedBy: TYCP286CA0173.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:3c6::16) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+Cc: dmitry.baryshkov@oss.qualcomm.com,
+	ankit.k.nautiyal@intel.com,
+	arun.r.murthy@intel.com,
+	uma.shankar@intel.com,
+	jani.nikula@intel.com,
+	harry.wentland@amd.com,
+	siqueira@igalia.com,
+	alexander.deucher@amd.com,
+	christian.koenig@amd.com,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	liviu.dudau@arm.com,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	robin.clark@oss.qualcomm.com,
+	abhinav.kumar@linux.dev,
+	tzimmermann@suse.de,
+	jessica.zhang@oss.qualcomm.com,
+	sean@poorly.run,
+	marijn.suijten@somainline.org,
+	laurent.pinchart+renesas@ideasonboard.com,
+	mcanal@igalia.com,
+	dave.stevenson@raspberrypi.com,
+	tomi.valkeinen+renesas@ideasonboard.com,
+	kieran.bingham+renesas@ideasonboard.com,
+	louis.chauvet@bootlin.com,
+	Suraj Kandpal <suraj.kandpal@intel.com>
+Subject: [PATCH v2 0/7] Refactor drm_writeback_connector structure
+Date: Tue,  7 Oct 2025 11:15:22 +0530
+Message-Id: <20251007054528.2900905-1-suraj.kandpal@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB11711:EE_
-X-MS-Office365-Filtering-Correlation-Id: 19c73255-5ac1-412b-5916-08de055b4b0b
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|1800799024|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?NI+NeU9zLjq8Tpq3EAIpAuToT1UHmpi1RekNAmw7gy6pZ+s/GtBwWvqWAbQC?=
- =?us-ascii?Q?NGN+ubwK5tmRztjBRuwtikOKtXxw+3uraMwMi1/Wj9PJBMV0/3Pk5esyxf/z?=
- =?us-ascii?Q?aPpEpKYbcZ4lIDyJbe/AqBaUUyMT/V/3f23sn6P4lNcV2MHEbLj9FBjek3FK?=
- =?us-ascii?Q?Parc96XBDRit349qL6QOHf6Nj1pQD9GSxbF2t5sQUPRCyb0jpbHtV2lrW427?=
- =?us-ascii?Q?rZcrCi1XsZHfGrXZxA8DNICuA0l3EhGNajw/eRdNQ0h2U8Vpl8O9i6oYNl5r?=
- =?us-ascii?Q?4eti4E5pBvJpYIUbNdHbMr9bF9xCd9Y5BOtH8rCkN59pI/HlyAepldWHtZal?=
- =?us-ascii?Q?3XKB1TyV9d8bqiAR9kXk5e0FO6tR3yw5gfYYaG6S5isbBw9vEJ6T2fwFPmJX?=
- =?us-ascii?Q?5nj0aFUEMq9yUyYRVHW5h4zzvLD7nOuEZVvr4nVH21b1aR9wFD+uNDxHYDm8?=
- =?us-ascii?Q?tl7I2F9kxNgvWtdBvid0DpmEqq4zswCbwwvGFiGHHakjLGuyAxt+g0IqU0Hq?=
- =?us-ascii?Q?tAjf4Yjv5+2VTrATPaXGAvXVX91b/DUe231grTN1xFV1HnL98WDAZh3g97fK?=
- =?us-ascii?Q?hgUOrz/CsqwfTxZsNLh6FZkMunLDgFfteO5DFFs5mhACkqzGdmxB6OcbGgEz?=
- =?us-ascii?Q?3O6WD3O6Ha1bBbR4ZQYUR8UkrMxWVCPrYbaH+hEUkG5gmcC9KVXWeK6Z0Hbp?=
- =?us-ascii?Q?TKSrigiBNatFY7cKBcOzUi4bj7Rw1FZMj+WL05hwBCtt8b8jeNgZBFqI272/?=
- =?us-ascii?Q?JMhVNyFdHFpX4dfLz2a5ItytapyZuMYGI8mmQeQVZhdTFGgfRDTOuTMPWQZ5?=
- =?us-ascii?Q?+WZLYTqT2UOAzJFqq5uIrcun3syaPZLN6RzWZI7Lq+dS4uHzUZI5asSl8xtL?=
- =?us-ascii?Q?/TIb0efXbZ73hR1btqKLVkj9AcWwiuD8xlJ5QCD+lsovR7GQT15HP7VoCBtB?=
- =?us-ascii?Q?2D/ilIYw6Tg63/0JvK1Kkjq01uuzMRDIFwpjmC3twO5ox68tuQf2AlP/kvcz?=
- =?us-ascii?Q?YlahOON6ePfOQiSTnByCIz5vnpG7AWLpVvl3Effv0I4aU9nFcMiXb6awg4U2?=
- =?us-ascii?Q?H96jIOxKlOUFFbpbppbEw2fb9r4iza9XA3umWjp+lnK9iWqDXect3VmlZffX?=
- =?us-ascii?Q?16ZYKwvAI3kgMYuFxjYEi8VBBuu1hqvOahARq+lbjjxkJIsQBk05tLhzbNfr?=
- =?us-ascii?Q?Xri10/5duQL/gq1nbPnpRdBv1dzj2q+xy7VWkXUnnBQNbX9L4HLcB/A/8D4H?=
- =?us-ascii?Q?86Mjia5fac3kNnnC1IMiTwvEcJ35vzx5IL4XrfqKzKdn7OdR9WHljTduTYPM?=
- =?us-ascii?Q?baXbHzmOgNMU7NgeooeMva7+CX8TjCs84/ND4WBm1RG8w6admVYa47ci1SNj?=
- =?us-ascii?Q?Ga4oF5NWARqR/8lWGgcqLzvHU9yXxDejU7+Wv2It5I3AiiCf7lLN4wSPD2p9?=
- =?us-ascii?Q?elxYi8x+xZDX6ELemAGR6hFuZSuVc3RGQbEb8iRonZp0+IDR8zYpKL+KJher?=
- =?us-ascii?Q?zw2HgwdAnq5xIHOaFMBFxvI7W+r9XB7HG2j2?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(52116014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?h6+Yl47/YGgimYsWwkcTYLDYUYn8PMJEGaCRt8HkkBeel1x9X6PcsVC4w+cQ?=
- =?us-ascii?Q?bPUaAgVShI/4lLFeMPW8uh3nOzBD6rBMRybeT9CF/Tb4wIQMjBcP+AOKYmbV?=
- =?us-ascii?Q?0zciVqWLl44UfXbJF/5KYidM6qbDs4BINupmJbbG00E3e7wZBpjA8YOSRZm9?=
- =?us-ascii?Q?fR+5jtpWO/ukWsaprXl35jKct2UXK5NeDtGhIaQdsngmCDwsF+yqrhm5o0SL?=
- =?us-ascii?Q?WGm+PF640rXGOMmc3yilXmVj24e+iznh76gMEfw5jtuGVHtJy5BLZB4CKlvc?=
- =?us-ascii?Q?SqU1BIcXnkTd5ja36eJTKdfF7O7Y3xHyNtKlKR4GpX7VwNLajecG4JC4C3t0?=
- =?us-ascii?Q?xnmRxZ3VQSEYS2j6Uti9ZPEYWBchrdAwtfjdYMbFeHc5GqSaAKcCGA2PjEUd?=
- =?us-ascii?Q?iOECWwqh6yiSCdH6KOlmfjYymc1W7BfGwZ9F4MJ+3VrBWcnSfIf+/st2CeIy?=
- =?us-ascii?Q?p6Bs2vRySl3rueOYOuC7ZOLLcO2i2kdYB+w4uEHqF9+gpAqO9yUALZLnB92f?=
- =?us-ascii?Q?jffCv5uJI5uPdEkJBJfDUIkwNw5lq0lrahdSHoOCLU13f/4ACqObVh9CHxsB?=
- =?us-ascii?Q?ivTVbedXHDzV/BMu6N1xVnkMfJ3l1CHcbjjpVYM2XB+bmojiCn9hS8JNlMSj?=
- =?us-ascii?Q?jjBRbkZnRlRzuGTcHUt7MqhKhWU7CoXL31yQ+z3q6C3P7+uAkjf3E521cFDt?=
- =?us-ascii?Q?jtH7sxP0eYZZRTWU/GUZcaktNJPSgkQyftDhDZ1rSYLN1OwwPbvkljqVRzmy?=
- =?us-ascii?Q?BpBDslpC9UtP12nEeV76ul65iEkl1H6bxijQFwb0T6P6wy2KSPUo6qsQhFD4?=
- =?us-ascii?Q?qA17dfkcB8I6435bwMCJj0WNC46Ctgb1EEMv4mukbOKMVkwT5jvaCivihCvV?=
- =?us-ascii?Q?/9JCLwqexxDZP6v8cOD1Kq24hBy4TY9zd5otIVTWi85RrfQCbs/RzcBFG2IZ?=
- =?us-ascii?Q?GS4fXazTdY/Q9CT+ZGGh2hM9ABXAKpoKO5Gpzl/22S2r4ICYMKNsZKqMRmVv?=
- =?us-ascii?Q?HAX4/9ttkFjUkasBnsNZYv8GLICNh1w3TyA7JxT/jbSWtC0YX0IBC+8ml2/7?=
- =?us-ascii?Q?HsnU7PZze4ZY7Oyf36YD53oTXTMXMvZhkcloLW7DjHh8xPWzQH3bDopKPXsH?=
- =?us-ascii?Q?Oq+PNQTO2ztJo0KuL3tc3eYpN3ATjFvCKjO1kgsJV8IBkO3V2PHVuoTNbN/R?=
- =?us-ascii?Q?Q5cr3k0OM84NcQ0Hgt9jxZKP0DoQwjon+14azf+bb2tOqxMh49KVciqF5eQ6?=
- =?us-ascii?Q?o70bzuyXK8WC/hpQ4qNEtloAIZoNtb+y7OiEQoNh+YroiqK3EC0DPBjTa5hP?=
- =?us-ascii?Q?Azrv6+6muOLNEMii2zVbNaHjqXkYb/Vyo0vNjVeGcKinLc8LHetpI47PF7yN?=
- =?us-ascii?Q?qUceaGb4qNATe14lhvMRMPFhrpE6XtWV9iJt1Zi5+WfqlD1cP1kTYKKArkfi?=
- =?us-ascii?Q?KSQdz1/aGeUmPWbVYR3kmY31uDOFrzh+aWnJe9DSsnadF9YXGQrYX3pR/qOW?=
- =?us-ascii?Q?hVn/C3UlrANuj9bYCPl3+/Z1YMMqg1MbfJXAo51ZONSsi1RbHk25ac5ghmJ2?=
- =?us-ascii?Q?cmuLZZlgQUprLjuJclBwoWo/VoedNmipf9gt+C8XndyqbVlhvdbACJL4krSf?=
- =?us-ascii?Q?/z7vgbo+PBKlMsgnTUYfOI4=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 19c73255-5ac1-412b-5916-08de055b4b0b
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2025 04:37:59.4355
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bvskJ7x6LA5eHxVRcEbdsPJ08dmZhoMz5aliOxYK6PQFmZ41O1rGAYTbQXunXYgm5fPDYn34SHGNSYDA0X+xpazI618oggkbLQ3kbT7mH8X4YmjiA5/N/676ZKI1W8d5
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB11711
+Content-Transfer-Encoding: 8bit
 
+Some drivers cannot work with the current design where the connector
+is embedded within the drm_writeback_connector such as intel and
+some drivers that can get it working end up adding a lot of checks
+all around the code to check if it's a writeback conenctor or not.
+This is due to the inheritance limitation in C.
+This series intends to solve it by moving the drm_writeback_connector
+within the drm_connector and remove the drm_connector base which was in
+drm_writeback_connector. This is done in union with hdmi connector
+within drm_connector to save memory and since drm_connector cannot be
+both hdmi and writeback it serves is well.
+A RFC version was floated and discussion had taken place at [1] which
+kicked of this more cleaner series. 
+We do all other required modifications that come with these changes
+along with addition of new function which returns the drm_connector when
+drm_writeback_connector is present.
+This series also contains some writeback API cleanups as a consequence
+of writeback connector moving into drm_connector
+All drivers will be expected to allocate the drm_connector.
+This discussion was tiggered from [2] and sits on top of Dmitry's series
+see [3].
 
-Hi Geert
+[1] https://patchwork.freedesktop.org/series/152758/
+[2] https://patchwork.freedesktop.org/series/152106/
+[3] https://patchwork.freedesktop.org/series/152420/
 
-> 	Hi all,
-> 
-> This patch series is a follow-up to Morimoto-san's series[1] to move
-> interrupt-parent properties to the root nodes in Renesas ARM64
-> SoC-specific .dtsi files, which lets us replace several
-> interrupts-extended properties by the more concise interrupts
-> properties.  This series repeats the exercise for Renesas ARM32 SoCs.
-> 
-> Note that several .dtsi files predating the concept of the "soc" node
-> already had their GIC interrupt-parent properties at the root node.
-> Of the modified files, some had duplicate interrupt-parent properties.
-> 
-> I intend to queue this in renesas-devel for v6.19.
+Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
 
-Looks good to me
+Suraj Kandpal (7):
+  drm: writeback: Refactor drm_writeback_connector structure
+  drm: writeback: Modify writeback init helpers
+  drm: writeback: Modify drm_writeback_queue_job params
+  drm: writeback: Modify drm_writeback_signal_completion param
+  drm: writeback: Modify params for drm_writeback_get_out_fence
+  drm/connector: Modify prepare_writeback_job helper
+  drm/connector: Modify cleanup_writeback_job helper
 
-Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 10 +--
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  2 +-
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c  | 12 +--
+ .../gpu/drm/arm/display/komeda/komeda_crtc.c  |  2 +-
+ .../gpu/drm/arm/display/komeda/komeda_kms.h   |  6 +-
+ .../arm/display/komeda/komeda_wb_connector.c  | 11 +--
+ drivers/gpu/drm/arm/malidp_crtc.c             |  2 +-
+ drivers/gpu/drm/arm/malidp_drv.h              |  2 +-
+ drivers/gpu/drm/arm/malidp_mw.c               |  7 +-
+ drivers/gpu/drm/drm_atomic_uapi.c             |  4 +-
+ drivers/gpu/drm/drm_writeback.c               | 51 ++++++++-----
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   |  9 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c | 10 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.h |  4 +-
+ .../gpu/drm/renesas/rcar-du/rcar_du_crtc.h    |  4 +-
+ .../drm/renesas/rcar-du/rcar_du_writeback.c   | 12 ++-
+ drivers/gpu/drm/vc4/vc4_txp.c                 |  8 +-
+ drivers/gpu/drm/vkms/vkms_drv.h               |  2 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c         | 15 ++--
+ include/drm/drm_connector.h                   | 69 ++++++++++++++++-
+ include/drm/drm_modeset_helper_vtables.h      |  4 +-
+ include/drm/drm_writeback.h                   | 76 ++-----------------
+ 22 files changed, 162 insertions(+), 160 deletions(-)
 
-Thank you for your help !!
+-- 
+2.34.1
 
-Best regards
----
-Kuninori Morimoto
 
