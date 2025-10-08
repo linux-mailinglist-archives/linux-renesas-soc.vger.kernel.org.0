@@ -1,119 +1,140 @@
-Return-Path: <linux-renesas-soc+bounces-22800-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22801-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E065BC52B3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Oct 2025 15:20:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C3DFBC53F1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Oct 2025 15:40:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2DC534E207C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Oct 2025 13:20:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C994C3A8D3F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Oct 2025 13:40:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 057FE2836A3;
-	Wed,  8 Oct 2025 13:20:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 173BB285CA3;
+	Wed,  8 Oct 2025 13:40:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WhwU7AKn"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Hm56csVk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4FB8277009
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Oct 2025 13:20:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF6C258EE9
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Oct 2025 13:40:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759929624; cv=none; b=EOrpMpolTPB+XRybyikz34jPORA4DRis3TqO2Z1I3mWvXgm/VsKUJ92NwKxVZQ+AZLHySwKqUeY89oTBtw0ppmLFUxAJSXJWaKTH2KMF78C9lJ7pQTZ0A9gYbB0t/nPNEiUqYkF1CiSTo08FE51nR/0wkPJRy9tNqqvbz2Qh2Z8=
+	t=1759930817; cv=none; b=s39r1IJtGtVLAs3CCDFXDoF9SA3iuSe+5+O/dJNrkT+Xh8USErjB4pJobbKlQdaNNauWf7aZ+BnUBn55rVT7Httek5w5czSWn7NWhEfrJoC2CFOh2tjdlwMrdP+gPmOzfLjcihL9hIwaBpUV6Xdfhlx9NJHLiOHfBM5al6A+FP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759929624; c=relaxed/simple;
-	bh=ZyXE1gB3ikOy2dEPl6Jces1EYqY/TB+Nmxg0r/vrWjo=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=c6UOdd07FtoNvhoBPguIqzKYq9QBzdQBgRZShPDzYHmqil4IGTdtgd3g87aFyhm44R5l44nRffuTVfYjCePhFiZYprMkcgiD6P+cNEeDUDqhv0FvT14J+mtI3IW0Dlpw/JRI6edKAzhLhABGYbJSK87x6gdzgiN+P7RfI/k1J0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WhwU7AKn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA2EEC4CEF4
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Oct 2025 13:20:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759929624;
-	bh=ZyXE1gB3ikOy2dEPl6Jces1EYqY/TB+Nmxg0r/vrWjo=;
-	h=Subject:From:Date:To:From;
-	b=WhwU7AKnoMa3NnYBznXrqdCYd09UMsK7iwcNZnYabWOOKZwQf5vPC5gVnhij0z9Co
-	 vtAmGy9lpIEG9PIX1zBKzskMnffaRn1TVmU1hKndLt9mlHDAZ3ZRavBldYW+MESdQ+
-	 2v0V4v63lFlDYwy3vouY7KbVL7kTdL1wRTOAmCHH+8W5bHd4MNQLMWHzWbe7AfK1zl
-	 QNEM+z5ij6X8atK8OvpQepmWPo8LnjWTkZAhnwwoU3SPpzW07KjYCk9wcIyQvG2LiT
-	 yjeoZl5c/9PV1g+gnb/hYbss5tVywETKrMNl4h5niQtKDq+j00yjPO9q2fKwoP6+gC
-	 CaIkJRmFigzHQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 74A193A40FF3
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Oct 2025 13:20:14 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1759930817; c=relaxed/simple;
+	bh=uCd0oFT2wjNeQkZVPleL3jtPHC1bWZiaW/O0YewUWV4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nQ36X/XI9i0Lej1K1GUY25U3C5nt6c870EeRuEfw3l5SwMTI3hXyprjLQSUSpRLt8bvOxaXWWd8EEsVI2hSqQYoez3mdkzeL0G3uHUdYEHcZKJwcRH9tc+Fr8/IISnLaAOf8yphh/AHeDzsWa0oFPZFNACgVhq02Xax7ubOsQv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Hm56csVk; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=KUpe
+	Ow+dmD2bLA13SltvmvslMCpHj+UYI4ACyT5RaPM=; b=Hm56csVklsHZsSHQl/lB
+	RwR9v8SD8WgDfzUf8smvTkTYjcLMKZkXzkEdZypFwDcK9BvVvRgRsesaBU9VOUMc
+	BZ/p4f7pyF53thsT2OgajLr2TQx6Iz/7E7y15pOY4Trgh88O+YHSXvZzZ4eslCfb
+	i7p7NrfX3BAnNkY3WHVdvI6HDoRj7I3ZSOnjknOKXSRZF+VP+PQGRU1rN2/nhmry
+	RjXJ/BlsX3YfimlXhZeRcttdSi+wYaB4vzxkO+J27dIGLFVGX8JTTSNrHkFtt3mr
+	Wz2bAUrpXXOLcXw8nvpdtuOBARUXtKduOhuAvliy5WO1BwTftBbZLR+ldwotJEkD
+	Xg==
+Received: (qmail 679544 invoked from network); 8 Oct 2025 15:40:05 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 8 Oct 2025 15:40:05 +0200
+X-UD-Smtp-Session: l3s3148p1@w7Bu0qVABNa57ts1
+Date: Wed, 8 Oct 2025 15:40:04 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-renesas-soc@vger.kernel.org,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-watchdog@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 5/5] dt-bindings: watchdog: renesas,wdt: add SWDT
+ exception for V3H
+Message-ID: <aOZptGV6FB8eq5b6@shikoro>
+References: <20251007152007.14508-7-wsa+renesas@sang-engineering.com>
+ <20251007152007.14508-12-wsa+renesas@sang-engineering.com>
+ <CAMuHMdUf80xCgCZE_NTbBX15tK7f8==ZbP8zvVS21pRyDMEziQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From: patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: 
- <175992961293.3447604.4710477411370561195.git-patchwork-summary@kernel.org>
-Date: Wed, 08 Oct 2025 13:20:12 +0000
-To: linux-renesas-soc@vger.kernel.org
-
-Hello:
-
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
-
-Series: ARM: dts: renesas: Move interrupt-parent to root node
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=1008039
-  Lore link: https://lore.kernel.org/r/cover.1759414774.git.geert+renesas@glider.be
-    Patches: [01/13] ARM: dts: renesas: r7s72100: Move interrupt-parent to root node
-             [02/13] ARM: dts: renesas: r7s9210: Remove duplicate interrupt-parent
-             [03/13] ARM: dts: renesas: r8a7742: Move interrupt-parent to root node
-             [04/13] ARM: dts: renesas: r8a7743: Move interrupt-parent to root node
-             [05/13] ARM: dts: renesas: r8a7744: Move interrupt-parent to root node
-             [06/13] ARM: dts: renesas: r8a7745: Move interrupt-parent to root node
-             [07/13] ARM: dts: renesas: r8a77470: Move interrupt-parent to root node
-             [08/13] ARM: dts: renesas: r8a7790: Move interrupt-parent to root node
-             [09/13] ARM: dts: renesas: r8a7791: Move interrupt-parent to root node
-             [10/13] ARM: dts: renesas: r8a7792: Move interrupt-parent to root node
-             [11/13] ARM: dts: renesas: r8a7793: Move interrupt-parent to root node
-             [12/13] ARM: dts: renesas: r8a7794: Move interrupt-parent to root node
-             [13/13] ARM: dts: renesas: r9a06g032: Move interrupt-parent to root node
-
-Patch: arm64: dts: renesas: v3msk: Enable watchdog timer
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=1008974
-  Lore link: https://lore.kernel.org/r/e30fb396d73307f2538a638cdda06ca58a1a4e60.1759830182.git.geert+renesas@glider.be
-
-Series: arm64: dts: renesas: gen4: handle SWDT
-  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=1008616
-  Lore link: https://lore.kernel.org/r/20251006082520.10570-11-wsa+renesas@sang-engineering.com
-    Patches: [1/9] arm64: dts: renesas: r8a779a0: add SWDT node
-             [2/9] arm64: dts: renesas: falcon: mark SWDT as reserved
-             [3/9] arm64: dts: renesas: r8a779f0: add SWDT node
-             [4/9] arm64: dts: renesas: s4: mark SWDT as reserved
-             [5/9] arm64: dts: renesas: r8a779g0: add SWDT node
-             [7/9] arm64: dts: renesas: v4h: mark SWDT as reserved
-             [8/9] arm64: dts: renesas: r8a779h0: add SWDT node
-             [9/9] arm64: dts: renesas: gray-hawk: mark SWDT as reserved
-
-Patch: ARM: dts: renesas: koelsch: Update ADV7180 binding
-  Submitter: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=1008388
-  Lore link: https://lore.kernel.org/r/20251003215318.39757-1-niklas.soderlund+renesas@ragnatech.se
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="+B0yzqA/FZKTYHvT"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdUf80xCgCZE_NTbBX15tK7f8==ZbP8zvVS21pRyDMEziQ@mail.gmail.com>
 
 
-Total patches: 23
+--+B0yzqA/FZKTYHvT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Hi Geert,
+
+thanks for the reviews!
+
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            const: renesas,r8a77980-swdt
+> > +    then:
+> > +      properties:
+> > +        resets: false
+> > +    else:
+> > +      required:
+> > +        - resets
+> > +
+>=20
+> Instead, I would just make the resets property optional (i.e. not
+> required) for renesas,r8a77980-wdt.
+
+Oh, I like that idea! Because you are right the IP core is the same.
+
+> Of course, I wouldn't be surprised if the MSSR does have a reset bit to
+> control SWDT on R-Car V3H.  But it may be a bit hard to flip the
+> suspected bit on a system with remote access, as it requires modifying
+> firmware permissions?
+
+Well, in the docs *every* SoC except V3H has it expressed. So, I
+consider it officially unsupported. And I don't feel like digging out
+why.
+
+I'll implement your suggestion.
+
+Happy hacking,
+
+   Wolfram
 
 
+--+B0yzqA/FZKTYHvT
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjmabAACgkQFA3kzBSg
+Kbbahg/8DUKWKLaM9CN3rHFzAcGShiQpFc71yx4Ca7iYo0LTVc65ytBqk0sQlRU3
+3J1NiwVbRsw9HgaJ6OorirmyCxqh9PDzm0MgHWDU9L30TAOxSyTsqdb20QcL95Ue
+M+zSKic/fI4PmM69zMLDgjJBcNvIO9afXlPf/E9/J4lY+VrVeKS8NPXLdT3G4Tpj
+7tT7fbhFrR6ygdqDYs7lpmdrOHQRSdWY4Odq7LoVKe1X+MeaUj+ajf1gyrhEnG4K
+xPHvKMUV1znOvkBJ7g3GB0mIPU0IwS3YHLWx2Caw+VgeqG++Ny8f+oLnn/O6omGt
+BEBzcL3uuv9N6xRtb8VQyQkdIjOC/KyDbApKaGlCGhwWaQ1HFcoqQzHU45Ydp4IG
+VZ+tx5+FwPXkKzDss/KNRZPyh4v9GqahMX5cEVq+2+0U5Z/B+BqMUui5EyblUeOH
+y7Zg5Gb7K+Rkia0KAHtZ4ZfQrDxjkqEOkKBk8EklkONFcJ46lf0ILsioKh6L/5jj
+a9WuW8nn4+3RMYNy0Vc/xUB3JxW/PY50trOBKtedUV+3vqxtCwscCIxELwJ+odIX
+ES20ntrpR3iCuaH6RtT0r3x4cn3HRUftcbTr0jmiAPTd7uqjqi0h73CN95mq4jOX
+lIeINx4U2h8rTZTBS/fqAddXcJviWGYCVboPwGdQpOkPczJcvO8=
+=zm20
+-----END PGP SIGNATURE-----
+
+--+B0yzqA/FZKTYHvT--
 
