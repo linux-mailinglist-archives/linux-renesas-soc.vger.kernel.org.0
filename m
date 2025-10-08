@@ -1,123 +1,144 @@
-Return-Path: <linux-renesas-soc+bounces-22805-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22806-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F9CCBC6348
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Oct 2025 19:52:54 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4888ABC63D1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Oct 2025 20:06:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D7CD840341A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Oct 2025 17:52:06 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E84D34EE220
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Oct 2025 18:06:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07BFD2C11F2;
-	Wed,  8 Oct 2025 17:51:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Gqn+PT7P"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D20EC2C0292;
+	Wed,  8 Oct 2025 18:06:08 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B922C026C;
-	Wed,  8 Oct 2025 17:51:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E5832C08A8
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Oct 2025 18:06:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759945893; cv=none; b=DN8eg0JUWGP9wYKcE7iyUrEwNJqLtKSTaXT+JyfZCsoERxTqAG/7sujV6IbMq20tdvSZ5W9CAN0SkNinczdoanysI0debfmYi0GwjfbbOslfy8u3zGhOz3YySaDcidh6oQfism+sYWrprPJDr7Qv6s/yqUCPwa91YRmmet110oc=
+	t=1759946768; cv=none; b=TVAfB/jNYqQBlOL95evEt16bvnbfuaqoIU6GKg+hIi7vFfXe2OXgFAiUXPhAOPbJoapB6QxqLlI61FTAUHnEuA0PJgzIR3j+QHqYSKq5jPd88RzFtJkaoW0k8bKbpdlTmg3sr1fYLNwWq9Afmu6zytt/5R+9o4KUfR6qUBH+Clg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759945893; c=relaxed/simple;
-	bh=YjQ78MlOdbG2kdjxS2oF/HH9OIUdcqSXcQKlprq7ffg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JeZqwAGWrKBLGSnUxUvS25TxdHiJb2uKeolU1TVmNF5gqdWK5PrzhgTgtPrp6BiOnl31G4EwNlQW8NwNASj/TRg6DwOetdOi+iDrCVwgrrZDpPWVMmnmQn65r5jc7+d6IFi6bdb8lsTiQLOn/KSFx7URbQc5g+QozhI7NIMj1pQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Gqn+PT7P; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (82-203-166-19.bb.dnainternet.fi [82.203.166.19])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id E58911831;
-	Wed,  8 Oct 2025 19:49:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1759945796;
-	bh=YjQ78MlOdbG2kdjxS2oF/HH9OIUdcqSXcQKlprq7ffg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Gqn+PT7Pp8ZCCqETLdiky64CHEvOYM+c5CZUaARhLVQSCbKdDeDRmsdWu8g4ioq6J
-	 wAEGxUtf51tZ4AFL4LhRvB4AcIpUwQrgFr6NzV0xLRssVtN0GOf9DrRlTFwSfZMxcO
-	 IJK6LJn5mHVAHYvnmSy5LiEg6oDPtOER27V9zIhU=
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>
-Subject: [PATCH 18/25] media: rcar_jpu: Drop unneeded v4l2_m2m_get_vq() NULL check
-Date: Wed,  8 Oct 2025 20:50:45 +0300
-Message-ID: <20251008175052.19925-19-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.49.1
-In-Reply-To: <20251008175052.19925-1-laurent.pinchart@ideasonboard.com>
-References: <20251008175052.19925-1-laurent.pinchart@ideasonboard.com>
+	s=arc-20240116; t=1759946768; c=relaxed/simple;
+	bh=1OGVmkCskoJ5MGHQWE/f0dqeXk7mBBM3atdNNTo9nVI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Uko59CyrPtSXoR9/jUx3cmt36uOosKPzCd2JlaXjMeTwu31y7ogfR5qCjxFOzLB1La6oDYfpaWplCWwieNImMcn/mfmue5BRkUiimVb4/qTnHOH2WmDrAta6oG8QoDSoDzi4fzw/BdkytlRz3ch+Bz3KrboLaTLQ4kDlxBWTQGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1v6YX8-0006Uf-Ob; Wed, 08 Oct 2025 20:05:02 +0200
+Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1v6YX2-002bby-2j;
+	Wed, 08 Oct 2025 20:04:56 +0200
+Received: from pengutronix.de (p54b152ce.dip0.t-ipconnect.de [84.177.82.206])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: mkl-all@blackshift.org)
+	by smtp.blackshift.org (Postfix) with ESMTPSA id 508514821AD;
+	Wed, 08 Oct 2025 18:04:56 +0000 (UTC)
+Date: Wed, 8 Oct 2025 20:04:55 +0200
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: Vincent Mailhol <mailhol@kernel.org>
+Cc: Oliver Hartkopp <socketcan@hartkopp.net>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Dario Binacchi <dario.binacchi@amarulasolutions.com>, 
+	Max Staudt <max@enpas.org>, Pavel Pisa <pisa@cmp.felk.cvut.cz>, 
+	Ondrej Ille <ondrej.ille@gmail.com>, Stefan =?utf-8?B?TcOkdGpl?= <stefan.maetje@esd.eu>, 
+	socketcan@esd.eu, Chandrasekar Ramakrishnan <rcsekar@samsung.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, kernel@pengutronix.de, 
+	Heiko Stuebner <heiko@sntech.de>, Manivannan Sadhasivam <mani@kernel.org>, 
+	Thomas Kopp <thomas.kopp@microchip.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Frank Jungclaus <frank.jungclaus@esd.eu>, "Ji-Ze Hong (Peter Hong)" <peter_hong@fintek.com.tw>, 
+	Yasushi SHOJI <yashi@spacecubics.com>, Ming Yu <tmyu0@nuvoton.com>, 
+	Appana Durga Kedareswara rao <appana.durga.rao@xilinx.com>, Michal Simek <michal.simek@amd.com>, linux-can@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] can: treewide: remove can_change_mtu()
+Message-ID: <20251008-hallowed-zebu-of-wonder-638a63-mkl@pengutronix.de>
+References: <20251003-remove-can_change_mtu-v1-1-337f8bc21181@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="7ys7jjoslh254pce"
+Content-Disposition: inline
+In-Reply-To: <20251003-remove-can_change_mtu-v1-1-337f8bc21181@kernel.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
-The v4l2_m2m_get_vq() function never returns NULL.
 
-In the set format handler, the check may have been intended to catch
-invalid format types, but that's not needed as the V4L2 core picks the
-appropriate VIDIOC_S_FMT ioctl handler based on the format type, so the
-type can't be incorrect.
+--7ys7jjoslh254pce
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] can: treewide: remove can_change_mtu()
+MIME-Version: 1.0
 
-In the get and try format handlers, the return value is not used for any
-purpose other than the NULL check, which was therefore probably intended
-to catch invalid format types. That's not needed for the same reason as
-in the set format handler.
+On 03.10.2025 12:16:38, Vincent Mailhol wrote:
+> can_change_mtu() became obsolete by commit 23049938605b ("can:
+> populate the minimum and maximum MTU values"). Now that
+> net_device->min_mtu and net_device->max_mtu are populated, all the
+> checks are already done by dev_validate_mtu() in net/core/dev.c.
+>=20
+> Remove the net_device_ops->ndo_change_mtu() callback of all the
+> physical interfaces, then remove can_change_mtu(). Only keep the
+> vcan_change_mtu() and vxcan_change_mtu() because the virtual
+> interfaces use their own different MTU logic.
+>=20
+> The only functional change this patch introduces is that now the user
+> will be able to change the MTU even if the interface is up. This does
+> not matter for Classical CAN and CAN FD because their MTU range is
+> composed of only one value, respectively CAN_MTU and CANFD_MTU. For
+> the upcoming CAN XL, the MTU will be configurable within the
+> CANXL_MIN_MTU to CANXL_MAX_MTU range at any time, even if the
+> interface is up. This is consistent with the other net protocols and
+> does not contradict ISO 11898-1:2024 as having a modifiable MTU is a
+> kernel extension.
+>=20
+> Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
 
-Drop the unneeded return value check and, as the function has no side
-effect, the unneeded function calls as well.
+Applied to linux-can-next.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/media/platform/renesas/rcar_jpu.c | 8 --------
- 1 file changed, 8 deletions(-)
+Thanks,
+Marc
 
-diff --git a/drivers/media/platform/renesas/rcar_jpu.c b/drivers/media/platform/renesas/rcar_jpu.c
-index 81038df71bb5..5a4376bdd10f 100644
---- a/drivers/media/platform/renesas/rcar_jpu.c
-+++ b/drivers/media/platform/renesas/rcar_jpu.c
-@@ -825,9 +825,6 @@ static int jpu_try_fmt(struct file *file, void *priv, struct v4l2_format *f)
- {
- 	struct jpu_ctx *ctx = fh_to_ctx(priv);
- 
--	if (!v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type))
--		return -EINVAL;
--
- 	return __jpu_try_fmt(ctx, NULL, &f->fmt.pix_mp, f->type);
- }
- 
-@@ -841,8 +838,6 @@ static int jpu_s_fmt(struct file *file, void *priv, struct v4l2_format *f)
- 	int ret;
- 
- 	vq = v4l2_m2m_get_vq(m2m_ctx, f->type);
--	if (!vq)
--		return -EINVAL;
- 
- 	if (vb2_is_busy(vq)) {
- 		v4l2_err(&ctx->jpu->v4l2_dev, "%s queue busy\n", __func__);
-@@ -866,9 +861,6 @@ static int jpu_g_fmt(struct file *file, void *priv, struct v4l2_format *f)
- 	struct jpu_q_data *q_data;
- 	struct jpu_ctx *ctx = fh_to_ctx(priv);
- 
--	if (!v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type))
--		return -EINVAL;
--
- 	q_data = jpu_get_q_data(ctx, f->type);
- 	f->fmt.pix_mp = q_data->format;
- 
--- 
-Regards,
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde          |
+Embedded Linux                   | https://www.pengutronix.de |
+Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
 
-Laurent Pinchart
+--7ys7jjoslh254pce
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEn/sM2K9nqF/8FWzzDHRl3/mQkZwFAmjmp8QACgkQDHRl3/mQ
+kZylYQf/emcrn4U+wDMRPg3cnnX/DTOwyFGlC0GbTPxJZkzn4E0NT1qsY7z/YVhX
+7MRCmOjXQ+hVuG2hc8RUN1ynUPZj5j+MdkL82hJuFw5qwAG7USc4wWOWaCXxDuhx
+EtlF3EExo+k1BC5OObcREtNlshvVgELeNDLtuTb2HymwGKRkvHgwAmG4i/fhtCFp
+UeU1WDDstTpSC+miqpW5XxnWD0iIeQkWaWKw1PJgOkcS9i49Uv1LWkM0qdconmCz
+Xw1gHx2l1LR87jxFlFtiHfSH2SQ/yVnYlX3fTT4lvsjMV6swaJyROxlwvOofrCYT
+3f3ZZsstGkn+vB61p9pnuXiuTh3vaA==
+=c2yg
+-----END PGP SIGNATURE-----
+
+--7ys7jjoslh254pce--
 
