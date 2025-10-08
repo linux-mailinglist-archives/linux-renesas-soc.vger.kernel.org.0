@@ -1,89 +1,89 @@
-Return-Path: <linux-renesas-soc+bounces-22791-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22792-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A1D6BC44DB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Oct 2025 12:26:33 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEBA5BC458F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Oct 2025 12:37:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id BC4A8350A3A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Oct 2025 10:26:15 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A9BD74E3FF2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Oct 2025 10:37:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BAC62F60AD;
-	Wed,  8 Oct 2025 10:26:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDD512F39BC;
+	Wed,  8 Oct 2025 10:37:08 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8987B2F5A3D
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Oct 2025 10:26:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4212E3D76
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Oct 2025 10:37:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759919162; cv=none; b=TxdmkshcbHpK2Tt3FB5RgiBIy2+sh+jM0BoJYuLhjjpKF/ai30ETT3Md+gHY4b12MfMb5Y4eq5Wnwbr78kyM75peQnOHI9LeTshIuZ+sAxd78s/atjcUC/nwbt37SRvjXHYq8QkxT+1XCwGPuCbR0/UdUajsNaeNEIojPl9FQhQ=
+	t=1759919828; cv=none; b=D/VCcZ9goy6lXtyM3QRdu1XqhzMC3zNfXkuMVYcUJ9ubj/j05yReJXc+N5JF725p5XM5xFjqUTmJLgQWLn+rEUo9MbUctm55E/k24ISSmmYZBYgOQOsMVMTra7ziTdEHipCu2D/n5xfNsuewjo90IosqIYt6ExHzyru1vBtipmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759919162; c=relaxed/simple;
-	bh=OXSpHYjCFeAW1bnTUQJIYsMTnFikBWZCXE15rVM8+54=;
+	s=arc-20240116; t=1759919828; c=relaxed/simple;
+	bh=dOAt+nuRo28aNDNvJxcRiwiD39zS4vrxmN4+5vmPi4U=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T1ly1SDjNvjZjW1ORS1EOl+xymfIo/XcEDoVS6wodLK8ga2yaBSC39YsYqpoy0KpgdAOrBnvZAHoNYZCzxt4d0I7OXZaetlIOWTpvLViqfRtMTZOPyTq+RJ+8qnSu974D7KOp+YdDCkkk7AIPSXhPY5otkrQPCv88xb/j5YRDsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.181
+	 To:Cc:Content-Type; b=UThHiANTvqZcLiP+aPAkJPTQfPcy73BfsVF6lnCSYKsCNYW2Zhx303PbSBc1o8eie6susnzFs7lCxd5LrpCpXFaQeHtV0krZ3NTIyOwd+GlPjF2m94fyi5LLetpJc7FjSwbOJlxg3iE7ZyISrtsk37NAoIBiBIkRuvqxSPO1Vp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-54c0a10990fso2448320e0c.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Oct 2025 03:26:00 -0700 (PDT)
+Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-890190a3579so1429924241.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Oct 2025 03:37:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759919159; x=1760523959;
+        d=1e100.net; s=20230601; t=1759919825; x=1760524625;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=P51hehgBHthh05rneSfzMskbp21c3potJuyyZ4GFVHY=;
-        b=g+D7AU+5OD1T2CW8vtCstCy2wZ3fz71BE1lJZWY2oSHoajVEJt2/0d38u7P9SlEg/K
-         fNLGl1VjPM/gFeZCkYTfiaiwPC/gC+SMjKjeed1o55MZehprrE2fxEDMS4Y6pGFUi54u
-         3BZI6jBR6h4PIMl/00daCH8K//fHhbHH1AL7/t9DMjNHt6i1FctLAOCJ/iMrM7EG20ji
-         LeEu9/69yKknUzSHTZebU9Zdd2BL+uNGBGjYmxy+FiXnINZcViesAJXz7EatB3ajqzD2
-         FJZYuhhFbkUpiiS1hLUDWLwdKUhxdKJbeIv+arxblHBZYGDCTDmpExvUc71kZCwDCnr7
-         i9hg==
-X-Gm-Message-State: AOJu0YzW632Y54BLj0nB7SDgV9pDhMz3AbK9kLZ4RH/db824bsbt883x
-	Ry1ApIQNLpYogt2iZOCEKOt5J+2/avjOFdvJ7P0u/2kxTmTU5Hy4HHkI9vZI9XpP
-X-Gm-Gg: ASbGncuNm7QX15xEGuQVLyRFdWlJ5M4avOUhqMAxi/RWeIo7qWTCJPpW+xqXKK7ZMFB
-	C/Gy60Ys5oZA++U8JWxT7bZXytZ2fYIvkuDd4Z6O0QjZdykb0vK9sZsUiOq66ZV0DrurFFQZyqd
-	9uJc9sO2CoUwTCD3OEEhVwqUwlnyA5RCJeapGuzG1o9PwYaMZKLG4EuwSOmkCNY7Kn+lJIX4FuY
-	X0Gf4IOGy6kwf686dr1mgM4NWC0CZxFFsgImeZrrbnI6LqwE7NixfeCcRu2sufHJHrBgJZzfPcJ
-	S7b1tmgKnujyHyjgh5O82BJ45ICP859u35e0a6pQpQu+7hlQ9W/yBpWGu22LWWif5nJXEWh4sfZ
-	0Z/CZDQede+5jk/0wot5UBKYP7j5byN+xhiTBjsAVYbcUhXfeyjQgYWiKUwYOJqXPsbHymoK94I
-	zpX8TkdlukTsKg6dsV/cg=
-X-Google-Smtp-Source: AGHT+IEJnZ0BK+OA3zA0fud8HxaMrBSZAYj43Es1hm7JhN9xAUGYOO9zXNYOln03wRwQWPA2N2gRxw==
-X-Received: by 2002:a05:6122:2228:b0:54c:da0:f708 with SMTP id 71dfb90a1353d-554b8bb8c55mr855202e0c.9.1759919159270;
-        Wed, 08 Oct 2025 03:25:59 -0700 (PDT)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5523cf65458sm4381789e0c.24.2025.10.08.03.25.57
+        bh=SpM5IF7an2KKoogtwZq+ATkkUPR65N1c7rRftHs9zKs=;
+        b=G721o9iBG5KrewR10kRdxtdX+1/HO1ZRxePusYWOrsvewb1Zt31i+L2bT6ih/z2j74
+         MuFkIx1YY1nfeRk29j0NAW76CNOHTN0vAf8erKQXZZDySeQXZqLtCAEQ7t3rZdpF6S82
+         9sNogSVhH+LkVTaAlDE3ZwAdcO055rujNpF7K0uAy+QACGI2mQIajjywryzV4BBQvBch
+         nyTQFowyZlMJN5gRaaPCzFkOecxdkwYN09gCHLhguD5o3JH+HX/gQjgmiqYvzfXYz4oy
+         RgXDdSewe9u+FGWD5es0Gu+i1YgqbF/M4TXrgtrhp9k/VLp8Pmext1AcSixGfJWjDzZz
+         i72A==
+X-Gm-Message-State: AOJu0YwTyUOispm/zi1KkzBpVgDEzPOhwr1Vhv6OGIkTPwOD1Lgiub5w
+	W7YU+wbI2AJc+AGAMKo/F0ga0ivQBBcx4GwKN++RE1EO9AlnVdr7Hpk757a7IvZT
+X-Gm-Gg: ASbGncslsNbmvP/knP92BtFcR7ipFh9jZ5qRVYQbkHUda5abALG03fOGqLWkRrwTZoO
+	uKV/Izc/UBoQCFcq0YZH2/TcphYYblusRKukj3uQxxxjO6skCzH8gTAg2gTrfHgS0l7Ql+fHgCg
+	+MYhnfO727kzBFGgI5wGA4bKvuEH4fVEaW8aAlWl/N9LV+zXvGJZ0SXR2sld8mvComzjOuFXn1x
+	MKLHb5rVAePAs2SNlrVtHcyrIemcx2UYV+UjQCdKrjQR/AjZZ0o/q+UEi3B9kdacE9ZiCUoCofb
+	PFMdVmtrYsN5bxBXmWTDx+RhKuckG6ADmXXd7vpR3Xyo6ha6mGeRp3SYgmwGfXM6aYKlE60WYX8
+	3DZYgRzHANcOXsh1KfqojwZgWRTWeXeeQtjp8T78XvGNH5Bx6wqZGq4g5+rEfczAjp6G/DIC6Yh
+	64aSx4GBvk+P579QRSvgE=
+X-Google-Smtp-Source: AGHT+IGC/p+vruBOmMX3CVUn5OlVbEqfMcbZJQkHsqvc5Ov5y9kPn9oNhb2ZHlH/33c2SsprnGh5Jg==
+X-Received: by 2002:a05:6102:5a8c:b0:525:df9e:9365 with SMTP id ada2fe7eead31-5d5e236d032mr1012337137.16.1759919824684;
+        Wed, 08 Oct 2025 03:37:04 -0700 (PDT)
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com. [209.85.217.53])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-92eb4d83c45sm4051903241.4.2025.10.08.03.37.04
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Oct 2025 03:25:58 -0700 (PDT)
-Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-930ae1c6d05so31559241.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Oct 2025 03:25:57 -0700 (PDT)
-X-Received: by 2002:a05:6102:fa0:b0:5d4:1e69:fda4 with SMTP id
- ada2fe7eead31-5d5e2375b8cmr814639137.21.1759919157025; Wed, 08 Oct 2025
- 03:25:57 -0700 (PDT)
+        Wed, 08 Oct 2025 03:37:04 -0700 (PDT)
+Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-5a3511312d6so2877314137.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Oct 2025 03:37:04 -0700 (PDT)
+X-Received: by 2002:a05:6102:2925:b0:520:4054:6b9 with SMTP id
+ ada2fe7eead31-5d5e226f3e6mr849411137.9.1759919823850; Wed, 08 Oct 2025
+ 03:37:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251007152007.14508-7-wsa+renesas@sang-engineering.com> <20251007152007.14508-10-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20251007152007.14508-10-wsa+renesas@sang-engineering.com>
+References: <20251007152007.14508-7-wsa+renesas@sang-engineering.com> <20251007152007.14508-11-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20251007152007.14508-11-wsa+renesas@sang-engineering.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 8 Oct 2025 12:25:46 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVP5nLSu4PDVO5LLFodgPvbYBZ9-Oyh6Ap101ukaGp4pg@mail.gmail.com>
-X-Gm-Features: AS18NWDJs2ffomK6k-23MtOzRWpeHmLjXjjd7OOOXX1Fs-JbyrmQo7Z86oHzZmc
-Message-ID: <CAMuHMdVP5nLSu4PDVO5LLFodgPvbYBZ9-Oyh6Ap101ukaGp4pg@mail.gmail.com>
-Subject: Re: [PATCH v3 3/5] dt-bindings: watchdog: factor out RZ/G2L watchdog
+Date: Wed, 8 Oct 2025 12:36:52 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX29OUfM+RphgS3jk9Whw7kz+U-ysFYq1FymdU4GZLqFA@mail.gmail.com>
+X-Gm-Features: AS18NWDuumoDujetCyC5cvBjrasbgP1Lj0erif8acEm21JO_mY5oVayc_GqwzjY
+Message-ID: <CAMuHMdX29OUfM+RphgS3jk9Whw7kz+U-ysFYq1FymdU4GZLqFA@mail.gmail.com>
+Subject: Re: [PATCH v3 4/5] dt-bindings: watchdog: factor out RZ/V2H(P) watchdog
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc: linux-renesas-soc@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>, 
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Wim Van Sebroeck <wim@linux-watchdog.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Magnus Damm <magnus.damm@gmail.com>, linux-watchdog@vger.kernel.org, 
 	devicetree@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
@@ -95,114 +95,82 @@ On Tue, 7 Oct 2025 at 17:20, Wolfram Sang
 > Renesas created different watchdog IPs but they are all handled in the
 > same binding documentation. This leads to a lot of conditional handling
 > which makes it unnecessarily hard to add new items. Factor out the
-> RZ/G2L watchdog to make handling easier.
+> RZ/V2H(P) watchdog to make handling easier.
 >
 > Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 Thanks for your patch!
 
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/watchdog/renesas,rzg2l-wdt.yaml
-> @@ -0,0 +1,110 @@
+> +++ b/Documentation/devicetree/bindings/watchdog/renesas,r9a09g057-wdt.yaml
+> @@ -0,0 +1,109 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/watchdog/renesas,rzg2l-wdt.yaml#
+> +$id: http://devicetree.org/schemas/watchdog/renesas,r9a09g057-wdt.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Renesas RZ/G2L Watchdog Timer (WDT) Controller
+> +title: Renesas RZ/V2H(P) Watchdog Timer (WDT) Controller
 > +
 > +maintainers:
-> +  - Biju Das <biju.das.jz@bp.renesas.com>
+> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > +
 > +properties:
 > +  compatible:
 > +    oneOf:
 > +      - items:
 > +          - enum:
-> +              - renesas,r9a07g043-wdt    # RZ/G2UL and RZ/Five
-> +              - renesas,r9a07g044-wdt    # RZ/G2{L,LC}
-> +              - renesas,r9a07g054-wdt    # RZ/V2L
-> +              - renesas,r9a08g045-wdt    # RZ/G3S
-> +          - const: renesas,rzg2l-wdt
+> +              - renesas,r9a09g047-wdt # RZ/G3E
+> +              - renesas,r9a09g056-wdt # RZ/V2N
+> +          - const: renesas,r9a09g057-wdt # RZ/V2H(P)
 > +
 > +      - items:
-> +          - const: renesas,r9a09g011-wdt # RZ/V2M
-> +          - const: renesas,rzv2m-wdt     # RZ/V2M
+> +          - const: renesas,r9a09g087-wdt # RZ/N2H
+> +          - const: renesas,r9a09g077-wdt # RZ/T2H
 > +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    minItems: 1
-> +    items:
-> +      - description: Timeout
-> +      - description: Parity error
-> +
-> +  interrupt-names:
-> +    minItems: 1
-> +    items:
-> +      - const: wdt
-> +      - const: perrout
-> +
-> +  clocks:
-> +    items:
-> +      - description: Register access clock
-> +      - description: Main clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: pclk
-> +      - const: oscclk
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  timeout-sec: true
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - power-domains
-> +  - resets
-> +
-> +allOf:
-> +  - $ref: watchdog.yaml#
+> +      - enum:
+> +          - renesas,r9a09g057-wdt    # RZ/V2H(P)
+> +          - renesas,r9a09g077-wdt    # RZ/T2H
+
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,r9a09g057-wdt
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 2
+> +        clock-names:
+> +          minItems: 2
+> +    else:
+> +      properties:
+> +        clocks:
+> +          maxItems: 1
 > +
 > +  - if:
 > +      properties:
 > +        compatible:
 > +          contains:
-> +            const: renesas,rzg2l-wdt
+> +            const: renesas,r9a09g077-wdt
 > +    then:
 > +      properties:
-> +        interrupts:
+> +        resets: false
+> +        clock-names:
+> +          maxItems: 1
+> +        reg:
 > +          minItems: 2
-> +        interrupt-names:
-> +          minItems: 2
-> +      required:
-> +        - interrupt-names
 > +    else:
 > +      properties:
-> +        interrupts:
+> +        reg:
 > +          maxItems: 1
-> +        interrupt-names: false
 
-I am not a big fan of explicitly forbidding *-names in case
-there is just one, if the first name still makes sense.
+Both if-statements can be merged, as the second test condition boils
+down to the inverse of the first.
 
-Regardless:
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+The rest LGTM.
 
 Gr{oetje,eeting}s,
 
