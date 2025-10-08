@@ -1,683 +1,214 @@
-Return-Path: <linux-renesas-soc+bounces-22802-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22803-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 751A1BC5547
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Oct 2025 15:57:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42A58BC62F0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 08 Oct 2025 19:51:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4039B3C448C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Oct 2025 13:57:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 71A433B6204
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Oct 2025 17:51:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12A23289E16;
-	Wed,  8 Oct 2025 13:57:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C42772C0269;
+	Wed,  8 Oct 2025 17:51:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YPkQFe7m"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B372277CAF
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Oct 2025 13:57:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80FB12C0271;
+	Wed,  8 Oct 2025 17:51:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759931867; cv=none; b=tadti5jlWIxgVu++CtoSgeggx5YH9i/6i0E7S6IM4eQd6q/D6UZKWf3geP1mehgLSAc6dUDmY2MwkSEHQB+RGpfZ2gVwVDDtU3aAOMDjdW0YiNyLXxvgUViMoXp6Sr88muubRe+mFeyrzUS4s5SCEHDDck0WFvO6d513TdHKKgM=
+	t=1759945864; cv=none; b=bC3f4u4x2v2yrBpkiTPqiGmJ6n0QJNvTMt4VeyQTesf9AkkgWd10S8RB7qSExAwSz/5pdjCFOmfZUIOVNjqzucwXtQl//SDom+wEvuOjpOmPeQptJLOewCkGTWuuuplxQ4jx7HXpJCJOQOHLLvkdsWMbcafcmYC9mwmIydkzy8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759931867; c=relaxed/simple;
-	bh=wi7nv0TmmgzRBhNcZR59aFmt5RlhONwX+bBW9c6smTM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=u5xOdofDc9pR74czEFj3RWHEMoSmswtnR6IHacUWBBqf9Pb/FUJ0Un1nI8mCwP+s4dxfbxT8sNbVuQ3BM8L2MgpakKC8u0i8pmLrY5dgsJnTJIDnCz/Txqoi8W35TD/xw/WPchwAGmqOtVLcenqFkFE3J866s1fslG6WW5IMfwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-5b99f5d5479so717762137.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Oct 2025 06:57:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759931863; x=1760536663;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cZ7XOckRrA/rE7fezNf6XCWKqsh/sn5CQ0xAL3N0olQ=;
-        b=vx6/WNo4f18ZM1nVuWd8vwRQAkL+EUwed2PZN7pe26zUNnxpAFIAPCUDiOv7bkIFRn
-         uuD2ctdI5lszGtlk4h+qX/uh0sCkRs85rTRlPi+SqxGYMuqwvMOktzw9U05uzKlxWh2p
-         chW65lmyijfkYrz42KZmG5i1m65BcFLQolw6uoprTCGUFam77FLxp1NAylxpCnnS9S1g
-         dmH3ktFGt/A+TsnA9Ka1zM5IiMyp7oLbdvevsqTrfqKFzo2GkbcxmOkd8laG0TM/R6Tc
-         nxiiyELIaJEfxMDPSEJdxQUepeXiUQuJU844zbP1ATN3v19KtAYWSo8H1GdVSOwljkL/
-         GSgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX+0wurzmhSyd7X8HycyLkvK5s1Ekh5p2jPtTfmtlFWxUQ/BTZeXvqNIdoci1IzIXu0XwBiGtORMWf/xHEtC3JhSQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQzvACNx6Ipgl8z2USfr5iO2r0CuRsTS9a68I6mLheCGxQf/3l
-	67fk7vDarSvL4i7jl6J8tzt732iGQBiGJyWxNcexDfugoUpSrZE+C+3t9VT6EP0K
-X-Gm-Gg: ASbGnct23xhlahrHVLePv7NoJemtDxuiUvvKIIwzuAmKUozB5htkivAvsE2NIhzJZm5
-	iLoFdgUFRJYQxmb5fWfIM7ZBEUPOAhXSSBOq7dj4EpP2C5TvwxgBag4TkuXuJkW4DiLcbZaYA6J
-	9KF3a0ulO38Ld+Rx4I5BR3TjUGlGVHp0HmVw4qTgIOWCllpxjfWdK8GnCWx0TA+XzbrRnsv0hUy
-	VJJJQoUhDTdJVL/UD7HUqiXKFXZM3bQ801jiwHhqoat51LbD0cZTgplPGOIjbXXUYdqqg5/oOZ9
-	gDXsDOK7gmDE/5o8zBZ9IKXVZwZsGCwL+VJJQCRYTFDpvgUHbIEPgRomB9zg2yl5aywtWl7VLie
-	efnh3se7WIvbQERjvf5eVow95zmh1ir/42HCsXxcsmJ+bYVyMJ6/39vl24GZTgR/latg0DCWCNJ
-	YlBFYPVV14
-X-Google-Smtp-Source: AGHT+IERapLUAyu4ATKfPk3E6i4WTFlnM4ySH6RWe4vfC9B9zG4cw2Zrapj37nHBal4CFPAXUSPQPg==
-X-Received: by 2002:a05:6102:14db:10b0:598:371e:2450 with SMTP id ada2fe7eead31-5d5d4ddf7a3mr3123412137.15.1759931862812;
-        Wed, 08 Oct 2025 06:57:42 -0700 (PDT)
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com. [209.85.222.44])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5d5d3571cd4sm1666749137.0.2025.10.08.06.57.41
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Oct 2025 06:57:41 -0700 (PDT)
-Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-8eafd5a7a23so425268241.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Oct 2025 06:57:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVi4jbf1lGW7zlX8Mybv4ZpEwumxPYHQWaFuqy99buUbPvDl+0LF1Pepo946PsLiKTo3hffyjkcwYmPp1wtTS1XUg==@vger.kernel.org
-X-Received: by 2002:a05:6102:3a0e:b0:51c:4443:16c7 with SMTP id
- ada2fe7eead31-5d5e2591dc5mr1447964137.6.1759931861384; Wed, 08 Oct 2025
- 06:57:41 -0700 (PDT)
+	s=arc-20240116; t=1759945864; c=relaxed/simple;
+	bh=5QPb7bYF1JsxERE0FuwEAunttFsnfMgYjjBTINS4yIQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X9sI6gLQAvBuvq3bp8qjWExOGUqkChAXQd3voT62w2oTLG3GOZrP2nTJKparrj2RmZgyStR0/jc5J/6uz3HKTAG/Y6s+47HRxWIytKEtziB7NAmhyLH8BxpI4OTw0Ian0Gnj6LGBku/oLDY8ul38AR+YmUVhB87Gd09o3iSx6l0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YPkQFe7m; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (82-203-166-19.bb.dnainternet.fi [82.203.166.19])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id E0410EFE;
+	Wed,  8 Oct 2025 19:49:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1759945765;
+	bh=5QPb7bYF1JsxERE0FuwEAunttFsnfMgYjjBTINS4yIQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=YPkQFe7m4tlSrmAl9ZBjyv+eI/JWf/k7WF+658nQWBrZIzV+uPNz37s0qBigB9HvU
+	 0b3YUzqxgqPxJB7+h8Qo5W0EGYR8x5T9nk5cynRX7S09Q60Zndi6x/TV/AEdKol4kX
+	 yrBnirUeTD4FdNnixpQ6jbt3LG5QWFlFQynrDDXA=
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: linux-media@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	imx@lists.linux.dev,
+	linux-amlogic@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org
+Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Matthew Majewski <mattwmajewski@gmail.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Devarsh Thakkar <devarsht@ti.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Ming Qian <ming.qian@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Zhou Peng <eagle.zhou@nxp.com>,
+	Dikshita Agarwal <quic_dikshita@quicinc.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Jiasheng Jiang <jiashengjiangcool@gmail.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	=?UTF-8?q?=C5=81ukasz=20Stelmach?= <l.stelmach@samsung.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Benoit Parrot <bparrot@ti.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Jacob Chen <jacob-chen@iotwrt.com>,
+	Bin Liu <bin.liu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+Subject: [PATCH 00/25] media: v4l2-mem2mem: Reduce cargo-cult
+Date: Wed,  8 Oct 2025 20:50:27 +0300
+Message-ID: <20251008175052.19925-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.49.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250924134228.1663-1-ilpo.jarvinen@linux.intel.com>
- <20250924134228.1663-3-ilpo.jarvinen@linux.intel.com> <CAMuHMdVtVzcL3AX0uetNhKr-gLij37Ww+fcWXxnYpO3xRAOthA@mail.gmail.com>
- <4c28cd58-fd0d-1dff-ad31-df3c488c464f@linux.intel.com> <CAMuHMdUbaQDXsowZETimLJ-=gLCofeP+LnJp_txetuBQ0hmcPQ@mail.gmail.com>
- <c17c5ec1-132d-3588-2a4d-a0e6639cf748@linux.intel.com> <CAMuHMdVbyKdzbptA10F82Oj=6ktxnGAk4fz7dBLVdxALb8-WWg@mail.gmail.com>
- <2d5e9b78-8a90-3035-ff42-e881d61f4b7c@linux.intel.com> <CAMuHMdU_tPmQd=9dCzNs+dEt3fHNsYpYPFnT6QZk546o-J-y9g@mail.gmail.com>
- <7640a03e-dfea-db9c-80f5-d80fa2c505b7@linux.intel.com> <CAMuHMdVgCHU80mRm1Vwo6GFgNAtQcf50yHBz_oAk4TrtjcMpYg@mail.gmail.com>
- <8b46093f-82bc-1c25-5607-ee40923b51af@linux.intel.com> <CAMuHMdUjhq2ZLFyMYv9KYRW8brsvXMH5xb5NW8shsHJmx7w2QQ@mail.gmail.com>
- <bd1810d7-3e37-b599-5105-02902e6edf33@linux.intel.com> <CAMuHMdUrM+WJm2JAPuLmUjA0wWpipdqTfW6mu7cQdAHEyCAwdw@mail.gmail.com>
- <cadef017-c330-888b-a092-04d0b42ff686@linux.intel.com>
-In-Reply-To: <cadef017-c330-888b-a092-04d0b42ff686@linux.intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 8 Oct 2025 15:57:29 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWkNNJHxJNFc_1xgmAwWznnw_AOZV2t4o_ztDH-G3LjnQ@mail.gmail.com>
-X-Gm-Features: AS18NWCR-BzkS4gbErISz0OqUIrLRfZj_zLU1e5GxN9kZLCo7aVvbeadGA1FEbs
-Message-ID: <CAMuHMdWkNNJHxJNFc_1xgmAwWznnw_AOZV2t4o_ztDH-G3LjnQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] PCI: Resources outside their window must set IORESOURCE_UNSET
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Kai-Heng Feng <kaihengf@nvidia.com>, Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org, 
-	Bjorn Helgaas <bhelgaas@google.com>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, LKML <linux-kernel@vger.kernel.org>, 
-	Lucas De Marchi <lucas.demarchi@intel.com>, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Ilpo,
+Hello,
 
-On Tue, 7 Oct 2025 at 19:30, Ilpo J=C3=A4rvinen
-<ilpo.jarvinen@linux.intel.com> wrote:
-> On Mon, 6 Oct 2025, Geert Uytterhoeven wrote:
-> > On Mon, 6 Oct 2025 at 14:37, Ilpo J=C3=A4rvinen
-> > <ilpo.jarvinen@linux.intel.com> wrote:
-> > > On Mon, 6 Oct 2025, Geert Uytterhoeven wrote:
-> > > > On Fri, 3 Oct 2025 at 16:58, Ilpo J=C3=A4rvinen
-> > > > <ilpo.jarvinen@linux.intel.com> wrote:
-> > > > > On Fri, 3 Oct 2025, Geert Uytterhoeven wrote:
-> > > > > > On Thu, 2 Oct 2025 at 18:59, Ilpo J=C3=A4rvinen
-> > > > > > <ilpo.jarvinen@linux.intel.com> wrote:
-> > > > > > > On Thu, 2 Oct 2025, Geert Uytterhoeven wrote:
-> > > > > > > > On Thu, 2 Oct 2025 at 16:54, Ilpo J=C3=A4rvinen
-> > > > > > > > <ilpo.jarvinen@linux.intel.com> wrote:
-> > > > > > > > > On Wed, 1 Oct 2025, Geert Uytterhoeven wrote:
-> > > > > > > > > > On Wed, 1 Oct 2025 at 15:06, Ilpo J=C3=A4rvinen
-> > > > > > > > > > <ilpo.jarvinen@linux.intel.com> wrote:
-> > > > > > > > > > > On Wed, 1 Oct 2025, Geert Uytterhoeven wrote:
-> > > > > > > > > > > > On Tue, 30 Sept 2025 at 18:32, Ilpo J=C3=A4rvinen
-> > > > > > > > > > > > <ilpo.jarvinen@linux.intel.com> wrote:
-> > > > > > > > > > > > > On Tue, 30 Sep 2025, Geert Uytterhoeven wrote:
-> > > > > > > > > > > > > > On Fri, 26 Sept 2025 at 04:40, Ilpo J=C3=A4rvin=
-en
-> > > > > > > > > > > > > > <ilpo.jarvinen@linux.intel.com> wrote:
-> > > > > > > > > > > > > > > PNP resources are checked for conflicts with =
-the other resource in the
-> > > > > > > > > > > > > > > system by quirk_system_pci_resources() that w=
-alks through all PCI
-> > > > > > > > > > > > > > > resources. quirk_system_pci_resources() corre=
-ctly filters out resource
-> > > > > > > > > > > > > > > with IORESOURCE_UNSET.
-> > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > Resources that do not reside within their bri=
-dge window, however, are
-> > > > > > > > > > > > > > > not properly initialized with IORESOURCE_UNSE=
-T resulting in bogus
-> > > > > > > > > > > > > > > conflicts detected in quirk_system_pci_resour=
-ces():
-> > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > pci 0000:00:02.0: VF BAR 2 [mem 0x00000000-0x=
-1fffffff 64bit pref]
-> > > > > > > > > > > > > > > pci 0000:00:02.0: VF BAR 2 [mem 0x00000000-0x=
-dfffffff 64bit pref]: contains BAR 2 for 7 VFs
-> > > > > > > > > > > > > > > ...
-> > > > > > > > > > > > > > > pci 0000:03:00.0: VF BAR 2 [mem 0x00000000-0x=
-1ffffffff 64bit pref]
-> > > > > > > > > > > > > > > pci 0000:03:00.0: VF BAR 2 [mem 0x00000000-0x=
-3dffffffff 64bit pref]: contains BAR 2 for 31 VFs
-> > > > > > > > > > > > > > > ...
-> > > > > > > > > > > > > > > pnp 00:04: disabling [mem 0xfc000000-0xfc00ff=
-ff] because it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64b=
-it pref]
-> > > > > > > > > > > > > > > pnp 00:05: disabling [mem 0xc0000000-0xcfffff=
-ff] because it overlaps 0000:00:02.0 BAR 9 [mem 0x00000000-0xdfffffff 64bit=
- pref]
-> > > > > > > > > > > > > > > pnp 00:05: disabling [mem 0xfedc0000-0xfedc7f=
-ff] because it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64b=
-it pref]
-> > > > > > > > > > > > > > > pnp 00:05: disabling [mem 0xfeda0000-0xfeda0f=
-ff] because it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64b=
-it pref]
-> > > > > > > > > > > > > > > pnp 00:05: disabling [mem 0xfeda1000-0xfeda1f=
-ff] because it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64b=
-it pref]
-> > > > > > > > > > > > > > > pnp 00:05: disabling [mem 0xc0000000-0xcfffff=
-ff disabled] because it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dfff=
-fffff 64bit pref]
-> > > > > > > > > > > > > > > pnp 00:05: disabling [mem 0xfed20000-0xfed7ff=
-ff] because it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64b=
-it pref]
-> > > > > > > > > > > > > > > pnp 00:05: disabling [mem 0xfed90000-0xfed93f=
-ff] because it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64b=
-it pref]
-> > > > > > > > > > > > > > > pnp 00:05: disabling [mem 0xfed45000-0xfed8ff=
-ff] because it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64b=
-it pref]
-> > > > > > > > > > > > > > > pnp 00:05: disabling [mem 0xfee00000-0xfeefff=
-ff] because it overlaps 0000:03:00.0 BAR 9 [mem 0x00000000-0x3dffffffff 64b=
-it pref]
-> > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > Mark resources that are not contained within =
-their bridge window with
-> > > > > > > > > > > > > > > IORESOURCE_UNSET in __pci_read_base() which r=
-esolves the false
-> > > > > > > > > > > > > > > positives for the overlap check in quirk_syst=
-em_pci_resources().
-> > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > Fixes: f7834c092c42 ("PNP: Don't check for ov=
-erlaps with unassigned PCI BARs")
-> > > > > > > > > > > > > > > Signed-off-by: Ilpo J=C3=A4rvinen <ilpo.jarvi=
-nen@linux.intel.com>
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > Thanks for your patch, which is now commit 06b7=
-7d5647a4d6a7 ("PCI:
-> > > > > > > > > > > > > > Mark resources IORESOURCE_UNSET when outside br=
-idge windows") in
-> > > > > > > > > > > > > > linux-next/master next-20250929 pci/next
-> > > > > > > > > > > >
-> > > > > > > > > > > > > > This replaces the actual resources by their siz=
-es in the boot log on
-> > > > > > > > > > > > > > e.g. on R-Car M2-W:
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > >      pci-rcar-gen2 ee090000.pci: host bridge /s=
-oc/pci@ee090000 ranges:
-> > > > > > > > > > > > > >      pci-rcar-gen2 ee090000.pci:      MEM 0x00e=
-e080000..0x00ee08ffff -> 0x00ee080000
-> > > > > > > > > > > > > >      pci-rcar-gen2 ee090000.pci: PCI: revision =
-11
-> > > > > > > > > > > > > >      pci-rcar-gen2 ee090000.pci: PCI host bridg=
-e to bus 0000:00
-> > > > > > > > > > > > > >      pci_bus 0000:00: root bus resource [bus 00=
-]
-> > > > > > > > > > > > > >      pci_bus 0000:00: root bus resource [mem 0x=
-ee080000-0xee08ffff]
-> > > > > > > > > > > > > >      pci 0000:00:00.0: [1033:0000] type 00 clas=
-s 0x060000 conventional PCI endpoint
-> > > > > > > > > > > > > >     -pci 0000:00:00.0: BAR 0 [mem 0xee090800-0x=
-ee090bff]
-> > > > > > > > > > > > > >     -pci 0000:00:00.0: BAR 1 [mem 0x40000000-0x=
-7fffffff pref]
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > What is going to be the parent of these resources=
-? They don't seem to fall
-> > > > > > > > > > > > > under the root bus resource above in which case t=
-he output change is
-> > > > > > > > > > > > > intentional so they don't appear as if address ra=
-nge would be "okay".
-> > > > > > > > > > > >
-> > > > > > > > > > > > >From /proc/iomem:
-> > > > > > > > > > > >
-> > > > > > > > > > > >     ee080000-ee08ffff : pci@ee090000
-> > > > > > > > > > > >       ee080000-ee080fff : 0000:00:01.0
-> > > > > > > > > > > >         ee080000-ee080fff : ohci_hcd
-> > > > > > > > > > > >       ee081000-ee0810ff : 0000:00:02.0
-> > > > > > > > > > > >         ee081000-ee0810ff : ehci_hcd
-> > > > > > > > > > > >     ee090000-ee090bff : ee090000.pci pci@ee090000
-> > > > > > > > > > >
-> > > > > > > > > > > Okay, so this seem to appear in the resource tree but=
- not among the root
-> > > > > > > > > > > bus resources.
-> > > > > > > > > > >
-> > > > > > > > > > > >     ee0c0000-ee0cffff : pci@ee0d0000
-> > > > > > > > > > > >       ee0c0000-ee0c0fff : 0001:01:01.0
-> > > > > > > > > > > >         ee0c0000-ee0c0fff : ohci_hcd
-> > > > > > > > > > > >       ee0c1000-ee0c10ff : 0001:01:02.0
-> > > > > > > > > > > >         ee0c1000-ee0c10ff : ehci_hcd
-> > > > > > > > > > > >
-> > > > > > > > > > > > > When IORESOURCE_UNSET is set in a resource, %pR d=
-oes not print the start
-> > > > > > > > > > > > > and end addresses.
-> > > > > > > > > > > >
-> > > > > > > > > > > > Yeah, that's how I found this commit, without bisec=
-ting ;-)
-> > > > > > > > > > > >
-> > > > > > > > > > > > > >     +pci 0000:00:00.0: BAR 0 [mem size 0x000004=
-00]
-> > > > > > > > > > > > > >     +pci 0000:00:00.0: BAR 1 [mem size 0x400000=
-00 pref]
-> > > > > > > > > > > > > >      pci 0000:00:01.0: [1033:0035] type 00 clas=
-s 0x0c0310 conventional PCI endpoint
-> > > > > > > > > > > > > >     -pci 0000:00:01.0: BAR 0 [mem 0x00000000-0x=
-00000fff]
-> > > > > > > > > > > > > >     +pci 0000:00:01.0: BAR 0 [mem size 0x000010=
-00]
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > For this resource, it's very much intentional. It=
-'s a zero-based BAR which
-> > > > > > > > > > > > > was left without IORESOURCE_UNSET prior to my pat=
-ch leading to others part
-> > > > > > > > > > > > > of the kernel to think that resource range valid =
-and in use (in your
-> > > > > > > > > > > > > case it's so small it wouldn't collide with anyth=
-ing but it wasn't
-> > > > > > > > > > > > > properly set up resource, nonetheless).
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > >      pci 0000:00:01.0: supports D1 D2
-> > > > > > > > > > > > > >      pci 0000:00:01.0: PME# supported from D0 D=
-1 D2 D3hot
-> > > > > > > > > > > > > >      pci 0000:00:02.0: [1033:00e0] type 00 clas=
-s 0x0c0320 conventional PCI endpoint
-> > > > > > > > > > > > > >     -pci 0000:00:02.0: BAR 0 [mem 0x00000000-0x=
-000000ff]
-> > > > > > > > > > > > > >     +pci 0000:00:02.0: BAR 0 [mem size 0x000001=
-00]
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > And this as well is very much intentional.
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > >      pci 0000:00:02.0: supports D1 D2
-> > > > > > > > > > > > > >      pci 0000:00:02.0: PME# supported from D0 D=
-1 D2 D3hot
-> > > > > > > > > > > > > >      PCI: bus0: Fast back to back transfers dis=
-abled
-> > > > > > > > > > > > > >      pci 0000:00:01.0: BAR 0 [mem 0xee080000-0x=
-ee080fff]: assigned
-> > > > > > > > > > > > > >      pci 0000:00:02.0: BAR 0 [mem 0xee081000-0x=
-ee0810ff]: assigned
-> > > > > > > > > > > > > >      pci_bus 0000:00: resource 4 [mem 0xee08000=
-0-0xee08ffff]
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > Is that intentional?
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > There's also that pci_dbg() in the patch which wo=
-uld show the original
-> > > > > > > > > > > > > addresses (print the resource before setting IORE=
-SOURCE_UNSET) but to see
-> > > > > > > > > > > > > it one would need to enable it with dyndbg=3D... =
-Bjorn was thinking of
-> > > > > > > > > > > > > making that pci_info() though so it would appear =
-always.
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > Was this the entire PCI related diff? I don't see=
- those 0000:00:00.0 BARs
-> > > > > > > > > > > > > getting assigned anywhere.
-> > > > > > > > > > > >
-> > > > > > > > > > > > The above log is almost complete (lacked enabling t=
-he device afterwards).
-> > > > > > > > > > > >
-> > > > > > > > > > > > AFAIU, the BARs come from the reg and ranges proper=
-ties in the
-> > > > > > > > > > > > PCI controller nodes;
-> > > > > > > > > > > > https://elixir.bootlin.com/linux/v6.17/source/arch/=
-arm/boot/dts/renesas/r8a7791.dtsi#L1562
-> > > > > > > > > > >
-> > > > > > > > > > > Thanks, although I had already found this line by gre=
-p. I was just
-> > > > > > > > > > > expecting the address appear among root bus resources=
- too.
-> > > > > > > > > > >
-> > > > > > > > > > > Curiously enough, pci_register_host_bridge() seems to=
- try to add some
-> > > > > > > > > > > resource from that list into bus and it's what prints=
- those "root bus
-> > > > > > > > > > > resource" lines and ee090000 is not among the printed=
- lines despite
-> > > > > > > > > > > appearing in /proc/iomem. As is, the resource tree an=
-d PCI bus view on the
-> > > > > > > > > > > resources seems to be in disagreement and I'm not sur=
-e what to make of it.
-> > > > > > > > > > >
-> > > > > > > > > > > But before considering going into that direction or f=
-iguring out why this
-> > > > > > > > > > > ee090000 resource does not appear among root bus reso=
-urces, could you
-> > > > > > > > > > > check if the attached patch changes behavior for the =
-resource which are
-> > > > > > > > > > > non-zero based?
-> > > > > > > > > >
-> > > > > > > > > > This patch has no impact on dmesg, lspci output, or /pr=
-oc/iomem
-> > > > > > > > > > for pci-rcar-gen2.
-> > > > > > > > >
-> > > > > > > > > It would have been too easy... :-(
-> > > > > > > > >
-> > > > > > > > > I'm sorry I don't really know these platform well and I'm=
- currently trying
-> > > > > > > > > to understand what adds that ee090000 resource into the r=
-esource tree
-> > > > > > > > > and so far I've not been very successful.
-> > > > > > > > >
-> > > > > > > > > Perhaps it would be easiest to print a stacktrace when th=
-e resource is
-> > > > > > > > > added but there are many possible functions. I think all =
-of them
-> > > > > > > > > converge in __request_resource() so I suggest adding:
-> > > > > > > > >
-> > > > > > > > > WARN_ON(new->start =3D=3D 0xee090000);
-> > > > > > > > >
-> > > > > > > > > before __request_resource() does anything.
-> > > > > > > >
-> > > > > > > >     Call trace:
-> > > > > > > >      unwind_backtrace from show_stack+0x10/0x14
-> > > > > > > >      show_stack from dump_stack_lvl+0x7c/0xb0
-> > > > > > > >      dump_stack_lvl from __warn+0x80/0x198
-> > > > > > > >      __warn from warn_slowpath_fmt+0xc0/0x124
-> > > > > > > >      warn_slowpath_fmt from __request_resource+0x38/0xc8
-> > > > > > > >      __request_resource from __request_region+0xc4/0x1e8
-> > > > > > > >      __request_region from __devm_request_region+0x80/0xac
-> > > > > > > >      __devm_request_region from __devm_ioremap_resource+0xc=
-c/0x160
-> > > > > > > >      __devm_ioremap_resource from rcar_pci_probe+0x58/0x350
-> > > > > > > >      rcar_pci_probe from platform_probe+0x58/0x90
-> > > > > > > >
-> > > > > > > > I.e. the call to devm_platform_get_and_ioremap_resource() i=
-n
-> > > > > > > > drivers/pci/controller/pci-rcar-gen2.c:rcar_pci_probe().
-> > > > > > >
-> > > > > > > Thanks, the patch below might help BAR0 (but I'm not sure if =
-it's the
-> > > > > > > correct solution due to being so unfamiliar with these kind o=
-f platforms
-> > > > > > > and how they're initialized).
-> > > > > >
-> > > > > > Thanks, that has the following impact on dmesg:
-> > > > > >
-> > > > > >      pci-rcar-gen2 ee090000.pci: PCI: revision 11
-> > > > > >      pci-rcar-gen2 ee090000.pci: PCI host bridge to bus 0000:00
-> > > > > >      pci_bus 0000:00: root bus resource [bus 00]
-> > > > > >     -pci_bus 0000:00: root bus resource [mem 0xee080000-0xee08f=
-fff]
-> > > > > >     +pci_bus 0000:00: root bus resource [mem 0xee080000-0xee090=
-bff]
-> > > > > >      pci 0000:00:00.0: [1033:0000] type 00 class 0x060000 conve=
-ntional
-> > > > > > PCI endpoint
-> > > > > >     -pci 0000:00:00.0: BAR 0 [mem 0xee090800-0xee090bff]: no in=
-itial
-> > > > > > claim (no window)
-> > > > > >     -pci 0000:00:00.0: BAR 0 [mem size 0x00000400]
-> > > > > >     -pci 0000:00:00.0: BAR 1 [mem 0x40000000-0x7fffffff pref]: =
-no
-> > > > > > initial claim (no window)
-> > > > > >     +pci 0000:00:00.0: BAR 0 [mem 0xee090800-0xee090bff]
-> > > > > >      pci 0000:00:00.0: BAR 1 [mem size 0x40000000 pref]
-> > > > > >      pci 0000:00:01.0: [1033:0035] type 00 class 0x0c0310 conve=
-ntional
-> > > > > > PCI endpoint
-> > > > > >     -pci 0000:00:01.0: BAR 0 [mem 0x00000000-0x00000fff]: no in=
-itial
-> > > > > > claim (no window)
-> > > > > >      pci 0000:00:01.0: BAR 0 [mem size 0x00001000]
-> > > > > >      pci 0000:00:01.0: supports D1 D2
-> > > > > >      pci 0000:00:01.0: PME# supported from D0 D1 D2 D3hot
-> > > > > >      pci 0000:00:02.0: [1033:00e0] type 00 class 0x0c0320 conve=
-ntional
-> > > > > > PCI endpoint
-> > > > > >     -pci 0000:00:02.0: BAR 0 [mem 0x00000000-0x000000ff]: no in=
-itial
-> > > > > > claim (no window)
-> > > > >
-> > > > > Did you e.g. forget to change pci_dbg() to pci_info() as these al=
-l went
-> > > > > away, I cannot see why it should disappear because of my patch?
-> > > > >
-> > > > > (No need to apologize if that was the case, just confirming if th=
-at
-> > > > > explains it is enough. :-))
-> > > >
-> > > > I indeed dropped that change. Adding it back...
-> > > >
-> > > > > >      pci 0000:00:02.0: BAR 0 [mem size 0x00000100]
-> > > > > >      pci 0000:00:02.0: supports D1 D2
-> > > > > >      pci 0000:00:02.0: PME# supported from D0 D1 D2 D3hot
-> > > > > >      PCI: bus0: Fast back to back transfers disabled
-> > > > > >      pci 0000:00:01.0: BAR 0 [mem 0xee080000-0xee080fff]: assig=
-ned
-> > > > > >      pci 0000:00:02.0: BAR 0 [mem 0xee081000-0xee0810ff]: assig=
-ned
-> > > > >
-> > > > > Perhaps print here what's the parent resource of these resource.
-> > > >
-> > > > pci 0000:00:01.0: BAR 0 [mem 0xee080000-0xee080fff]: assigned (pare=
-nt
-> > > > [mem 0xee080000-0xee08ffff])
-> > > > pci 0000:00:02.0: BAR 0 [mem 0xee081000-0xee0810ff]: assigned (pare=
-nt
-> > > > [mem 0xee080000-0xee08ffff])
-> > >
-> > > Were these from a kernel without the problematic commit at all or wit=
-h the
-> > > problematic commit and my fix? They look like the former case. The fu=
-ll
-> > > /proc/iomem also shows all the parent resources I think.
-> >
-> > With commit 06b77d5647a4d6a7 ("PCI: Mark resources IORESOURCE_UNSET whe=
-n
-> > outside bridge windows"), but without adding
-> > "pci_add_resource(&bridge->windows, cfg_res);" in .probe().
-> >
-> > > > > >     -pci_bus 0000:00: resource 4 [mem 0xee080000-0xee08ffff]
-> > > > > >     +pci_bus 0000:00: resource 4 [mem 0xee080000-0xee090bff]
-> > > > > >      pci-rcar-gen2 ee0d0000.pci: adding to PM domain always-on
-> > > > > >      PM: genpd_add_device: Add ee0d0000.pci to always-on
-> > > > > >      pci-rcar-gen2 ee0d0000.pci: host bridge /soc/pci@ee0d0000 =
-ranges:
-> > > > > >     @@ -414,26 +416,22 @@ PM: =3D=3D=3D=3D always-on/ee0d0000.p=
-ci: start
-> > > > > >      pci-rcar-gen2 ee0d0000.pci: PCI: revision 11
-> > > > > >      pci-rcar-gen2 ee0d0000.pci: PCI host bridge to bus 0001:01
-> > > > > >      pci_bus 0001:01: root bus resource [bus 01]
-> > > > > >     -pci_bus 0001:01: root bus resource [mem 0xee0c0000-0xee0cf=
-fff]
-> > > > > >     +pci_bus 0001:01: root bus resource [mem 0xee0c0000-0xee0d0=
-bff]
-> > > > > >      pci 0001:01:00.0: [1033:0000] type 00 class 0x060000 conve=
-ntional PCI endpoint
-> > > > > >     -pci 0001:01:00.0: BAR 0 [mem 0xee0d0800-0xee0d0bff]: no in=
-itial claim (no window)
-> > > > > >     -pci 0001:01:00.0: BAR 0 [mem size 0x00000400]
-> > > > > >     -pci 0001:01:00.0: BAR 1 [mem 0x40000000-0x7fffffff pref]: =
-no initial claim (no window)
-> > > > > >     +pci 0001:01:00.0: BAR 0 [mem 0xee0d0800-0xee0d0bff]
-> > > > > >      pci 0001:01:00.0: BAR 1 [mem size 0x40000000 pref]
-> > > > > >      pci 0001:01:01.0: [1033:0035] type 00 class 0x0c0310 conve=
-ntional PCI endpoint
-> > > > > >     -pci 0001:01:01.0: BAR 0 [mem 0x00000000-0x00000fff]: no in=
-itial claim (no window)
-> > > > > >      pci 0001:01:01.0: BAR 0 [mem size 0x00001000]
-> > > > > >      pci 0001:01:01.0: supports D1 D2
-> > > > > >      pci 0001:01:01.0: PME# supported from D0 D1 D2 D3hot
-> > > > > >      pci 0001:01:02.0: [1033:00e0] type 00 class 0x0c0320 conve=
-ntional PCI endpoint
-> > > > > >     -pci 0001:01:02.0: BAR 0 [mem 0x00000000-0x000000ff]: no in=
-itial claim (no window)
-> > > > > >      pci 0001:01:02.0: BAR 0 [mem size 0x00000100]
-> > > > > >      pci 0001:01:02.0: supports D1 D2
-> > > > > >      pci 0001:01:02.0: PME# supported from D0 D1 D2 D3hot
-> > > > > >      PCI: bus1: Fast back to back transfers disabled
-> > > > > >      pci 0001:01:01.0: BAR 0 [mem 0xee0c0000-0xee0c0fff]: assig=
-ned
-> > > > > >      pci 0001:01:02.0: BAR 0 [mem 0xee0c1000-0xee0c10ff]: assig=
-ned
-> > > > > >     -pci_bus 0001:01: resource 4 [mem 0xee0c0000-0xee0cffff]
-> > > > > >     +pci_bus 0001:01: resource 4 [mem 0xee0c0000-0xee0d0bff]
-> > > > > >      rcar-pcie fe000000.pcie: adding to PM domain always-on
-> > > > > >      PM: genpd_add_device: Add fe000000.pcie to always-on
-> > > > > >      rcar-pcie fe000000.pcie: host bridge /soc/pcie@fe000000 ra=
-nges:
-> > > > > >
-> > > > > > and on /proc/iomem (I used "diff -w" to reduce clutter):
-> > > > > >
-> > > > > >      ec700000-ec70ffff : ec700000.dma-controller dma-controller=
-@ec700000
-> > > > > >      ec720000-ec72ffff : ec720000.dma-controller dma-controller=
-@ec720000
-> > > > > >      ec740000-ec7401ff : ec500000.sound audmapp
-> > > > > >     -ee080000-ee08ffff : pci@ee090000
-> > > > >
-> > > > > So what did add this previous? (Maybe use the same WARN_ON() tric=
-k as
-> > > > > previously to find out.)
-> > > >
-> > > > First call:
-> > > >
-> > > >     + __request_resource from request_resource_conflict+0x24/0x3c
-> > > >     + request_resource_conflict from devm_request_resource+0x48/0x9=
-c
-> > > >     + devm_request_resource from devm_request_pci_bus_resources+0x5=
-c/0x70
-> > > >     + devm_request_pci_bus_resources from devm_of_pci_bridge_init+0=
-x7c/0x1c0
-> > > >     + devm_of_pci_bridge_init from devm_pci_alloc_host_bridge+0x44/=
-0x6c
-> > > >     + devm_pci_alloc_host_bridge from rcar_pci_probe+0x34/0x384
-> > > >     + rcar_pci_probe from platform_probe+0x58/0x90
-> > >
-> > > Thanks. So this is the call of interest, the rest are just the childs=
- of
-> > > it with the same address.
-> > >
-> > > I'm looking devm_of_pci_get_host_bridge_resources(), it seems to read
-> > > "ranges" property but not "reg" at all.
-> > >
-> > > I wonder if devm_of_pci_get_host_bridge_resources() should also loop
-> > > through "reg" addresses and add those to host resources which are out=
-side
-> > > of the "ranges"? Or if there should be a "range" that covers all what=
-'s
-> > > in "reg" to get them added into host bridge resources? That would see=
-m the
-> > > generic solution instead of trying to do this in rcar_pci_probe().
-> > >
-> > > (Perhaps these are stupid questions, please excuse my lack of knowled=
-ge
-> > > about OF things.)
-> > >
-> > > While looking at another issue report, I also notice of_pci_prop_rang=
-es()
-> > > assumes there are only bridge windows or BARs, but not both (not sure=
- if
-> > > this relates to anything, just an observation while reading these cod=
-e
-> > > paths).
-> >
-> > We still have Rob in CC...
->
-> While we wait, can you simply try to make the "ranges" large enough to fi=
-t
-> the BAR0 too?
+The v4l2_m2m_get_vq() function never returns NULL, but many mem2mem
+drivers still check its return value and consider NULL as an error. This
+may have originated a long time ago from valid checks when
+v4l2_m2m_get_vq() could return NULL, with drivers then just copying the
+checks. This series attempts to stop the cargo-cult behaviour.
 
-Sure, so I changed:
+Patch 01/25 starts by explicitly stating in kerneldoc that the
+v4l2_m2m_get_vq() function never returns NULL. All the other patches
+drop NULL checks from drivers.
 
-    --- a/arch/arm/boot/dts/renesas/r8a7791.dtsi
-    +++ b/arch/arm/boot/dts/renesas/r8a7791.dtsi
-    @@ -1577,7 +1577,7 @@ pci0: pci@ee090000 {
-                            #address-cells =3D <3>;
-                            #size-cells =3D <2>;
-                            #interrupt-cells =3D <1>;
-    -                       ranges =3D <0x02000000 0 0xee080000 0
-0xee080000 0 0x00010000>;
-    +                       ranges =3D <0x02000000 0 0xee080000 0
-0xee080000 0 0x00020000>;
-                            interrupt-map-mask =3D <0xf800 0 0 0x7>;
-                            interrupt-map =3D <0x0000 0 0 1 &gic GIC_SPI
-108 IRQ_TYPE_LEVEL_HIGH>,
-                                            <0x0800 0 0 1 &gic GIC_SPI
-108 IRQ_TYPE_LEVEL_HIGH>,
+I have carefully checked all patched locations in all drivers. They fall
+in 3 categories:
 
-> I think it will results in making the larger "ranges" entry the parent of
-> ee090000-ee090bff : ee090000.pci pci@ee090000 entry in the resource tree
+- Checks in the VIDIOC_G_FMT, VIDIOC_TRY_FMT and VIDIOC_S_FMT handlers:
+  Those may have been added to ensure that the format type has a valid
+  value, but that is ensured by the V4L2 ioctl core before calling the
+  handlers. The checks can be dropped without a need to replace them
+  with proper type checks.
 
-Correct!
+- Checks in the VIDIOC_S_SELECTION handler: The only location where this
+  is performed has an explicit type check, so the NULL check can also be
+  dropped.
 
-Impact on dmesg:
+- Checks in other locations where the type parameter to the
+  v4l2_m2m_get_vq() function is hardcoded: The hardcoded type is valid,
+  so the NULL check can't have been meant to check the type. It can also
+  be removed.
 
-     pci-rcar-gen2 ee090000.pci: host bridge /soc/pci@ee090000 ranges:
-    -pci-rcar-gen2 ee090000.pci:      MEM 0x00ee080000..0x00ee08ffff
--> 0x00ee080000
-    +pci-rcar-gen2 ee090000.pci:      MEM 0x00ee080000..0x00ee09ffff
--> 0x00ee080000
-     rcar_pci_setup:187: No dma_ranges, using default!
-     pci-rcar-gen2 ee090000.pci: PCI: revision 11
-     pci-rcar-gen2 ee090000.pci: PCI host bridge to bus 0000:00
-    -Has parent [mem 0xee080000-0xee08ffff]
-    +Has parent [mem 0xee080000-0xee09ffff]
-     pci_bus 0000:00: root bus resource [bus 00]
-    -pci_bus 0000:00: root bus resource [mem 0xee080000-0xee08ffff]
-    +pci_bus 0000:00: root bus resource [mem 0xee080000-0xee09ffff]
-     pci_bus 0000:00: root bus resource [mem 0xee090000-0xee090bff]
-     pci 0000:00:00.0: [1033:0000] type 00 class 0x060000 conventional
-PCI endpoint
-     pci 0000:00:00.0: BAR 0 [mem 0xee090800-0xee090bff]
-    @@ -397,9 +398,9 @@ pci 0000:00:02.0: BAR 0 [mem size 0x0000
-     pci 0000:00:02.0: supports D1 D2
-     pci 0000:00:02.0: PME# supported from D0 D1 D2 D3hot
-     PCI: bus0: Fast back to back transfers disabled
-    -pci 0000:00:01.0: BAR 0 [mem 0xee080000-0xee080fff]: assigned
-(parent [mem 0xee080000-0xee08ffff])
-    -pci 0000:00:02.0: BAR 0 [mem 0xee081000-0xee0810ff]: assigned
-(parent [mem 0xee080000-0xee08ffff])
-    -pci_bus 0000:00: resource 4 [mem 0xee080000-0xee08ffff]
-    +pci 0000:00:01.0: BAR 0 [mem 0xee080000-0xee080fff]: assigned
-(parent [mem 0xee080000-0xee09ffff])
-    +pci 0000:00:02.0: BAR 0 [mem 0xee081000-0xee0810ff]: assigned
-(parent [mem 0xee080000-0xee09ffff])
-    +pci_bus 0000:00: resource 4 [mem 0xee080000-0xee09ffff]
-     pci_bus 0000:00: resource 5 [mem 0xee090000-0xee090bff]
+There's no dependency between any of those patches so they can be merged
+in any order.
+
+Laurent Pinchart (25):
+  media: v4l2-mem2mem: Document that v4l2_m2m_get_vq() never returns
+    NULL
+  media: allgro-dvt: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: meson-g2d: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: amphion: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: coda: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: imagination: e5010: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: m2m-deinterlace: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: mediatek: jpeg: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: mediatek: vcodec: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: dw100: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: imx-jpeg: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: imx-pxp: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: nxp: imx8-isi: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: mx2_emmaprp: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: qcom: iris: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: qcom: venus: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: renesas: fdp1: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: rcar_jpu: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: platform: rga: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: samsung: s5p-g2d: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: samsung: s5p-jpeg: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: stm32: dma2d: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: ti: vpe: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: vicodec: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: vim2m: Drop unneeded v4l2_m2m_get_vq() NULL check
+
+ drivers/media/platform/allegro-dvt/allegro-core.c    |  2 --
+ drivers/media/platform/amlogic/meson-ge2d/ge2d.c     |  5 -----
+ drivers/media/platform/amphion/vdec.c                |  2 --
+ drivers/media/platform/amphion/venc.c                |  2 --
+ .../media/platform/chips-media/coda/coda-common.c    |  4 ----
+ drivers/media/platform/imagination/e5010-jpeg-enc.c  |  4 ----
+ drivers/media/platform/m2m-deinterlace.c             |  7 -------
+ drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c |  7 -------
+ .../mediatek/vcodec/decoder/mtk_vcodec_dec.c         |  7 -------
+ .../vcodec/decoder/vdec/vdec_av1_req_lat_if.c        |  2 --
+ .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c        |  2 --
+ .../mediatek/vcodec/encoder/mtk_vcodec_enc.c         |  8 --------
+ drivers/media/platform/nxp/dw100/dw100.c             |  7 -------
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c       |  4 ----
+ drivers/media/platform/nxp/imx-pxp.c                 |  7 -------
+ drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c   |  2 --
+ drivers/media/platform/nxp/mx2_emmaprp.c             |  7 -------
+ drivers/media/platform/qcom/iris/iris_vdec.c         |  2 --
+ drivers/media/platform/qcom/venus/vdec.c             |  2 --
+ drivers/media/platform/qcom/venus/venc.c             |  2 --
+ drivers/media/platform/renesas/rcar_fdp1.c           |  3 ---
+ drivers/media/platform/renesas/rcar_jpu.c            |  8 --------
+ drivers/media/platform/rockchip/rga/rga.c            |  4 ----
+ drivers/media/platform/samsung/s5p-g2d/g2d.c         |  4 ----
+ drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c  |  7 -------
+ drivers/media/platform/st/stm32/dma2d/dma2d.c        |  5 -----
+ drivers/media/platform/ti/vpe/vpe.c                  |  7 -------
+ drivers/media/test-drivers/vicodec/vicodec-core.c    |  7 -------
+ drivers/media/test-drivers/vim2m.c                   | 12 ------------
+ drivers/media/v4l2-core/v4l2-mem2mem.c               | 12 +-----------
+ include/media/v4l2-mem2mem.h                         |  3 +++
+ 31 files changed, 4 insertions(+), 153 deletions(-)
 
 
-Impact on /proc/iomem:
+base-commit: e5f0a698b34ed76002dc5cff3804a61c80233a7a
+-- 
+Regards,
 
-     ec700000-ec70ffff : ec700000.dma-controller dma-controller@ec700000
-     ec720000-ec72ffff : ec720000.dma-controller dma-controller@ec720000
-     ec740000-ec7401ff : ec500000.sound audmapp
-    -ee080000-ee08ffff : pci@ee090000
-    +ee080000-ee09ffff : pci@ee090000
-       ee080000-ee080fff : 0000:00:01.0
-         ee080000-ee080fff : ohci_hcd
-       ee081000-ee0810ff : 0000:00:02.0
-         ee081000-ee0810ff : ehci_hcd
-    -ee090000-ee090bff : ee090000.pci pci@ee090000
-    +  ee090000-ee090bff : ee090000.pci pci@ee090000
-     ee0c0000-ee0cffff : pci@ee0d0000
-       ee0c0000-ee0c0fff : 0001:01:01.0
-         ee0c0000-ee0c0fff : ohci_hcd
+Laurent Pinchart
 
-
-> which would also avoid the coalescing issue.
-
-Also correct: I can remove the coalescing workaround again without
-having any impact on /proc/iomem.
-
-> Again, I'm not entirely sure if that would be an acceptable solution.
-
-I am afraid not, as it should keep on working with existing DTBs,
-as per the stable DT ABI rule.
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
