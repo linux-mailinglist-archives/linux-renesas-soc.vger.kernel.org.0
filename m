@@ -1,151 +1,226 @@
-Return-Path: <linux-renesas-soc+bounces-22848-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22847-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FD94BCA8D0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Oct 2025 20:19:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A49F3BCA8C5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Oct 2025 20:13:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5D21F1A6146D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Oct 2025 18:19:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8D8774847F2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Oct 2025 18:13:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14A732B9B7;
-	Thu,  9 Oct 2025 18:19:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EFAE24DCFD;
+	Thu,  9 Oct 2025 18:12:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ADfLfmbf"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="od93zvom";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="pLthQ6Mu"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47ACA1662E7
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Oct 2025 18:19:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D32924BD03;
+	Thu,  9 Oct 2025 18:12:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760033971; cv=none; b=uSmWAG+K0ou36/O4aO8hs6DOiDgUDwfEDRgW1iivqIq5cPxZ8Kruf1F3m5cE+EbouZdvH4bJJX6x3Ys4PiUlEgZ2h7m8kTt6pnAxWPZCkS6FlZFIuT2t4pkfnDXnsAEk1aAQYgJUv8RBD0543rh6wN2nv9dyemRbYeX++Yq/xHU=
+	t=1760033577; cv=none; b=g5rJUM/BRroep2eYzj7qTLMX6ShEk7rUOTAwZtA4v3z+axpZig+iGTkM3+fvcMwoDjKIZJFhT0Wv5QhjqcxcBkDffmrroYHYEezdfg3aLPUqWII3vNp4u8SMuXklNocx7WBdmQ3F4iN4HfvaUe8Ip/gGGWXGMOtrjJ+G0Jib6LE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760033971; c=relaxed/simple;
-	bh=oJL9ZzdD0I4gLcqpPwX4g8cC/PdlzfO8WIm2TwilfUk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NY6OjoyTT3HXq/huzna3MKECY2wlNwaqqIxueKjljJUKglXC+cQaRLEXuzrbSS0vcojgF1PyMiqpSuU8LlcnrI9OfGFdPj7mEsBZ54BQgKaKfZhe8wfVBO5ruwUn9slONN841AaY5KayBByZJDwggx3fQSI3JGoGx04B505bsS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ADfLfmbf; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1760033577; c=relaxed/simple;
+	bh=iXj2HYV1s3ATEkhcscqNZs7/IKnrkOl0Nwe/bos6hBo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ENWpDYtkpFuObhshLENvBy9Ryw0vSwu3Q4J3yaszByT69ZNMS49EBJx931wlzE7SfxqSOngIs9jSrLL7BXSOJ6fyxGh61Gzm+4gwWNmdKNfgNnnTnOQBJ2bGm0uAmOb/erWiI/My62QFzHSRxU2WLE9G9J0f4EN0g8mrubvrs4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=od93zvom; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=pLthQ6Mu; arc=none smtp.client-ip=202.12.124.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.stl.internal (Postfix) with ESMTP id 759BB1D0003C;
+	Thu,  9 Oct 2025 14:12:53 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Thu, 09 Oct 2025 14:12:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1760033573;
+	 x=1760119973; bh=2ARSzrDkgF/WLyQlIcPcdMxriBnwEIQrbWwts1neh+8=; b=
+	od93zvomj56Xm3dV0itATqt/d6MSb0ZNCucalnxN0/SvAwF/mBjxP2+CGh01Z1wl
+	dDJRVzG2cILIVzTdNxuIishUFkEdH8CkkWUcXL9AGKFX+/gvCRGo7jbWmKFg4ezY
+	7Hu2MWQf9+GBisQELZcZjswNvMHMgY6fkvIU+95X/m4qJRgMOQwt0286xzWt9wU7
+	jW8RrLLXYj0nGp7kXAsdt257PYybshhvwkUmpWeYUQiOXs4RQhD8BfiupDLdYvUY
+	Y/tLZ+kPCbGxVLRy+LKn5fCGHpnmHX5Y2PFj83KSngYkZ2fidiF4DDbmdC6FbJZe
+	X5pSH3GUZIRQtE2mkgCUdA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=UNgWapdaXwLxZR
-	5i7ioNb3VcKjZtB4lqKESXtLEmFSM=; b=ADfLfmbf9z0Zx7jAsomq2CzrQPH9+v
-	lmA36JbF+nlg9TmZ1z+uPciKWwYWq3txGuzxUSB7l1hNJFuSvWTxe8Vst6nbBsw3
-	1VxLL4Pl1hdphx1kXCCFCDVnONG6qSCJBabnT+BmMSvBc/uQvpJkEisVc7oI+xOC
-	EeCN4BfhJl8+hHVkWjjJi+xR9K87XLMKZAUcdwIDgky2Jv+pT7WvJbjMLqPrlnlL
-	RLJhie/6pPPF484zinL+0KtX4TgXN8WVLiEt+rPCJwCr9RwE8ADVjPD7Nsv/Ktt/
-	F5xm8Yj/1PVjjh7hRTidwrIxStyg/IdgnVeLj/pR8/iTvNI8ZVgUrYgQ==
-Received: (qmail 1180667 invoked from network); 9 Oct 2025 20:19:25 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Oct 2025 20:19:25 +0200
-X-UD-Smtp-Session: l3s3148p1@JEhP171AWJYujnv2
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	devicetree@vger.kernel.org
-Subject: [PATCH] dt-bindings: mfd: Add Renesas R2A11302FT PMIC
-Date: Thu,  9 Oct 2025 20:12:47 +0200
-Message-ID: <20251009181916.2431-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1760033573; x=
+	1760119973; bh=2ARSzrDkgF/WLyQlIcPcdMxriBnwEIQrbWwts1neh+8=; b=p
+	LthQ6Murzp57zj6mK+lfJrNEHcmz25Q8vEvLAwmJSQ7Cjw/QARRQAQnUVvTxv/+r
+	lhjfIjB+bikp2h/WKT/HtES5FlRBaoBFqmYLowJJQ/i/1JQbrmCnxdD6t1W7kzdQ
+	uFMTxNxdFfNwIPrQqvIbli6PnQZV2XVd5SOqL+eB5odxhtB77VwI1Q59k+eVkiMX
+	OkYjk09iq9Zq0zjizZj71F/YM61sMb4qAevwzJDx6zydw7idKK7HhK/6G6l8Bz6l
+	4ZRaJfDc78OEO2dO4SvQTTHo6bhodKUPbpD7ITtdFW37Id9BEoPqe7tqmHrWY7/A
+	qUZMn1hfIfOlGCCuf++/g==
+X-ME-Sender: <xms:JPvnaIaJfmIleBe2TL4CmVDNBBY7UDPsDSUprixJKwCiXN-ysMQ_Xg>
+    <xme:JPvnaMth5H4afVo1xMo-G3vKGPUD0X6g-m8UFv_co2cgPp7Dr07-PfZ9d0ogtwtoX
+    6NksiY81itxvN6P79TTQUB4nftu1TNADlBU3gEKu-VHuszXuL66mFw>
+X-ME-Received: <xmr:JPvnaKPUs8511TbgPielHdsu6sTVQehMhU8ibXbRW8FWJenTSGHnibM0X6eA1u5e_vFBkalNP7u8UcKmminwZt68GtFjaec>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddutdeikeejucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
+    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrg
+    htvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeefheet
+    heekkeegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhn
+    rghtvggthhdrshgvpdhnsggprhgtphhtthhopeeipdhmohguvgepshhmthhpohhuthdprh
+    gtphhtthhopehgvggvrhhtsehlihhnuhigqdhmieekkhdrohhrghdprhgtphhtthhopehm
+    rghrvghkrdhvrghsuhhtodhrvghnvghsrghssehmrghilhgsohigrdhorhhgpdhrtghpth
+    htoheplhhinhhugidqtghlkhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthho
+    pehmthhurhhquhgvthhtvgessggrhihlihgsrhgvrdgtohhmpdhrtghpthhtohepshgsoh
+    ihugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdq
+    shhotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:JPvnaD4aEIP8dAC91VGsYedzba1DREgXPdqgV4uSjUa_LPWTx5rWmw>
+    <xmx:JPvnaARXn0hRYz4yBebk4kJtjfTI60rMReTOxsmfhEE20PeJrYf5EQ>
+    <xmx:JPvnaACpg8LrRBwptd9MqOkjd0Xi4dobqFm40qBjQSt-VfNGgjD2UA>
+    <xmx:JPvnaAHRKNP1IuKq6BBFmy1gI1lFp1rBRv3PeXwW_fGiqdYHQW2rCg>
+    <xmx:JfvnaF9e0FIU2o0rQQoy8wwPGHhDQd3GJ34LsxNwBvo_bNWdLOjGvD67>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 9 Oct 2025 14:12:52 -0400 (EDT)
+Date: Thu, 9 Oct 2025 20:12:50 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	linux-clk@vger.kernel.org,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] clk: renesas: cpg-mssr: Add missing 1ms delay into reset
+ toggle callback
+Message-ID: <20251009181250.GB2550463@ragnatech.se>
+References: <20250918030552.331389-1-marek.vasut+renesas@mailbox.org>
+ <20251003150819.GC344149@ragnatech.se>
+ <CAMuHMdWXkwOyAhAZB=j_zZg8PcGcdkMDGOa-nBhcgjYRgb7MSg@mail.gmail.com>
+ <20251006122338.GB1353934@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251006122338.GB1353934@ragnatech.se>
 
-This PMIC is referenced in upstream DTs for the Renesas Lager and
-Koelsch boards. Sadly, we don't have documentation for more complete
-bindings, but due to the spi-cpol/cpha it also doesn't belong to trivial
-devices. So, start with this minimal binding description with the facts
-that we do know:
+Hello,
 
-Fixes:
-arch/arm/boot/dts/renesas/r8a7790-lager.dtb: /soc/spi@e6e10000/pmic@0: failed to match any schema with compatible: ['renesas,r2a11302ft']
-arch/arm/boot/dts/renesas/r8a7791-koelsch.dtb: /soc/spi@e6e20000/pmic@0: failed to match any schema with compatible: ['renesas,r2a11302ft']
+On 2025-10-06 14:23:42 +0200, Niklas Söderlund wrote:
+> On 2025-10-06 13:53:34 +0200, Geert Uytterhoeven wrote:
+> > Hi Niklas,
+> > 
+> > On Fri, 3 Oct 2025 at 17:08, Niklas Söderlund
+> > <niklas.soderlund@ragnatech.se> wrote:
+> > > On 2025-09-18 05:04:43 +0200, Marek Vasut wrote:
+> > > > R-Car V4H Reference Manual R19UH0186EJ0130 Rev.1.30 Apr. 21, 2025 page 583
+> > > > Figure 9.3.1(a) Software Reset flow (A) as well as flow (B) / (C) indicate
+> > > > after reset has been asserted by writing a matching reset bit into register
+> > > > SRCR, it is mandatory to wait 1ms.
+> > > >
+> > > > This 1ms delay is documented on R-Car V4H and V4M, it is currently unclear
+> > > > whether S4 is affected as well. This patch does apply the extra delay on
+> > > > R-Car S4 as well.
+> > > >
+> > > > Fix the reset driver to respect the additional delay when toggling resets.
+> > > > Drivers which use separate reset_control_(de)assert() must assure matching
+> > > > delay in their driver code.
+> > > >
+> > > > Fixes: 0ab55cf18341 ("clk: renesas: cpg-mssr: Add support for R-Car V4H")
+> > > > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> > 
+> > > > --- a/drivers/clk/renesas/renesas-cpg-mssr.c
+> > > > +++ b/drivers/clk/renesas/renesas-cpg-mssr.c
+> > > > @@ -689,8 +689,15 @@ static int cpg_mssr_reset(struct reset_controller_dev *rcdev,
+> > > >       /* Reset module */
+> > > >       writel(bitmask, priv->pub.base0 + priv->reset_regs[reg]);
+> > > >
+> > > > -     /* Wait for at least one cycle of the RCLK clock (@ ca. 32 kHz) */
+> > > > -     udelay(35);
+> > > > +     /*
+> > > > +      * On R-Car Gen4, delay after SRCR has been written is 1ms.
+> > > > +      * On older SoCs, delay after SRCR has been written is 35us
+> > > > +      * (one cycle of the RCLK clock @ cca. 32 kHz).
+> > > > +      */
+> > > > +     if (priv->reg_layout == CLK_REG_LAYOUT_RCAR_GEN4)
+> > > > +             usleep_range(1000, 2000);
+> > > > +     else
+> > > > +             usleep_range(35, 1000);
+> > >
+> > > I rebased the R-Car ISP work to renesas-drivers today and it included
+> > > this change, and I seem to have hit an issue with the switch form
+> > > udelay() to usleep_range() I'm afraid. I can't find any other good
+> > > reproducer of the issue however.
+> > 
+> > Yeah, AFAIK we didn't have any callers of reset_control_assert() from
+> > atomic context, but I was already afraid one was going to pop up...
+> > 
+> > > THe core of the issue seems to be that if a reset is issued from an
+> > > atomic context bad things happen if you try to sleep. I get this splat
+> > > and the board is completer dead after it, needing a power cycle to
+> > > recover.
+> > >
+> > > If I revert this patch things work as expected.
+> > >
+> > > [   29.256947] BUG: scheduling while atomic: yavta/597/0x00000002
+> > 
+> > > [   29.265595]  reset_control_reset+0x4c/0x160
+> > > [   29.265604]  risp_core_start_streaming+0x100/0x440
+> > > [   29.265609]  risp_io_start_streaming+0x74/0x108
+> > 
+> > The existing udelay(2000) after the call to reset_control_reset() is
+> > also a bit gross.
+> 
+> Haha, I agree :-)
+> 
+> > I understand you are using a spinlock because you
+> > need to synchronize with an interrupt handler.  Would converting to a
+> > threaded interrupt handler and using a mutex (which the code already
+> > uses) instead be an option?
+> 
+> Yes and no. For the current use-case where the ISP is used in off-line 
+> mode, that is userspace dequeue images from VIN and then queues them to 
+> the ISP, it could work. But if we ever want to support the ISP in 
+> in-line mode, that is the CSI-2 Rx queues the frames directly to the ISP 
+> I think a threaded interrupt handler would be to slow to change ISP 
+> parameters between each frame.
+> 
+> But that can also be a future problem, I will see what I can do.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+With a bit of work I have reworked the ISP driver to reset the core from 
+a context that can sleep. Without the need for a threaded interrupt 
+handler. Thanks for all the tips shared on IRC Geert and Marek.
 
-Change since RFC [1]:
-* dropped "unevaluatedProperties" because we know this binding is not
-  complete currently
-* removed 'pmic' label from the example
-* proper patch description
+I now have no known case where usleep_range() in cpg_mssr_reset() causes 
+issues. If I trip any more I will let you guys know.
 
-[1] https://lore.kernel.org/r/20250929083449.14393-1-wsa+renesas@sang-engineering.com
+> 
+> > 
+> > Gr{oetje,eeting}s,
+> > 
+> >                         Geert
+> > 
+> > -- 
+> > Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> > 
+> > In personal conversations with technical people, I call myself a hacker. But
+> > when I'm talking to journalists I just say "programmer" or something like that.
+> >                                 -- Linus Torvalds
+> 
+> -- 
+> Kind Regards,
+> Niklas Söderlund
 
- .../bindings/mfd/renesas,r2a11302ft.yaml      | 49 +++++++++++++++++++
- 1 file changed, 49 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/mfd/renesas,r2a11302ft.yaml
-
-diff --git a/Documentation/devicetree/bindings/mfd/renesas,r2a11302ft.yaml b/Documentation/devicetree/bindings/mfd/renesas,r2a11302ft.yaml
-new file mode 100644
-index 000000000000..e978b359b3ec
---- /dev/null
-+++ b/Documentation/devicetree/bindings/mfd/renesas,r2a11302ft.yaml
-@@ -0,0 +1,49 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/mfd/renesas,r2a11302ft.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas R2A11302FT Power Supply ICs for R-Car
-+
-+maintainers:
-+  - Wolfram Sang <wsa+renesas@sang-engineering.com>
-+
-+properties:
-+  compatible:
-+    const: renesas,r2a11302ft
-+
-+  reg:
-+    maxItems: 1
-+
-+  spi-max-frequency:
-+    maximum: 6000000
-+
-+  spi-cpol: true
-+
-+  spi-cpha: true
-+
-+required:
-+  - compatible
-+  - reg
-+  - spi-cpol
-+  - spi-cpha
-+
-+allOf:
-+  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-+
-+examples:
-+  - |
-+    spi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        pmic@0 {
-+                compatible = "renesas,r2a11302ft";
-+                reg = <0>;
-+                spi-max-frequency = <6000000>;
-+                spi-cpol;
-+                spi-cpha;
-+        };
-+    };
-+...
 -- 
-2.47.2
-
+Kind Regards,
+Niklas Söderlund
 
