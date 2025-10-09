@@ -1,241 +1,223 @@
-Return-Path: <linux-renesas-soc+bounces-22838-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22839-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6369CBCA0A7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Oct 2025 18:13:09 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48268BCA14F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Oct 2025 18:15:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4B9023A5096
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Oct 2025 16:10:37 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 507F13435A7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Oct 2025 16:13:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53D082FD7B9;
-	Thu,  9 Oct 2025 16:01:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04EBE2EC0BB;
+	Thu,  9 Oct 2025 16:07:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="liCXkWYS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VCa3BPND"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 291332FD1C6;
-	Thu,  9 Oct 2025 16:01:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 100BE22A4D8
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Oct 2025 16:07:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760025683; cv=none; b=DH2Kvst/Qj8Q+b1BM7tWuwXaCievS7vql8yH1rn5ZDyOcu9Q44FS4YcQUp8cMLZDRyWu2a7w5EQUCs0bzJ8RuKVBEYLCkYgOnZsTT/mzzX3GLv283mi3o1sypq7POmcz8ZqvcLiGQkYh27TjvlwRQI67y4Q4rDq4v68Yg9lblnk=
+	t=1760026062; cv=none; b=cWNiCXXxhtIs/zqZR9ZCUQzpoe5fHddUr4BGxGoS7FePcMfjDGkgTt9iSeLiTm8kYqjnvmNyI2ggtIEFLCK5Swzl+i27czR7vCoiESvzUu8tvZbB8P0dm5DzyFC/AP0ooENT+Wv3jS3RAipxFKZnKx3V2CEVw1z/MOT5WAp9/p8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760025683; c=relaxed/simple;
-	bh=5GQW4BTVVGIA11a77VNxVUsz3AV1PVIa49c3M8dJv14=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YXImHOzlgRfGWtHADBh0EJd4n+5+CwOPlbJYY8kThd5iGOcYhzaqGvqt0Zvf9QS2j364gk9Exc7vSHvScLkBFhWrdtlwzvbXg5SQoWWn+TSnnJDtLmcgLIVBvffavhLoeMSXDPwcGvzl06Gvxtu9f2XKmvsS4pRFA7rXAz4lzmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=liCXkWYS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23EE7C4CEE7;
-	Thu,  9 Oct 2025 16:01:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760025683;
-	bh=5GQW4BTVVGIA11a77VNxVUsz3AV1PVIa49c3M8dJv14=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=liCXkWYSylS9X0Muas6fekD9KhvPp5AFOu3cK7/pN7eoJZMU44NRvrgXuyUVsL7mD
-	 kY+0e4Phc/fAEA5qDlXWfWZJoJsWpVP5LcmBWCI+mfY/WFpbOck6JIA9sVo7mNpk+N
-	 Bf708xFUOIKTUxHW3liFewiwu779I+9KEUxayj7W31C6igHhCzLCeOwCFfBfoUWE9S
-	 JphmR3oksXO/wQkktRecNOwdovmF7W5u3y6Iz9GbxGJz/NOdpfTBQAwqM9xJBRnwdW
-	 Al2apLH43IjgPDJOXQFyfRzsdVrABGa7LGHJnw+fGJrPchLtkN1zetJjIHlXoLQvmx
-	 V3sQBw2wk5GPQ==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Sasha Levin <sashal@kernel.org>,
-	wsa+renesas@sang-engineering.com,
-	linux-mmc@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.17-5.4] mmc: host: renesas_sdhi: Fix the actual clock
-Date: Thu,  9 Oct 2025 11:56:20 -0400
-Message-ID: <20251009155752.773732-114-sashal@kernel.org>
+	s=arc-20240116; t=1760026062; c=relaxed/simple;
+	bh=ZBKYlNjssO3a9NTTMCoS8WJFqiGOTxYT0Q8KXdGtvgU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b0rdGtUMwx94uZYURY6nxyBPNsVS7hZF7ChsCO5no5BDvXEmZXOymnNzji/iBkbel3f2p8VoKeV3bVzlpt9Vk0h7SICvbrpi3VxUmFucdMfOCEyOgRwkSKs0aobUK9aaDmjZAMu4XRD2wPAgnRYLrRQ2hLHkPcAACIoUprqQYBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VCa3BPND; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3ee15505cdeso1090202f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 09 Oct 2025 09:07:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760026059; x=1760630859; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ah71RYYCwhvPLrflp/SE2C1CvVpY05ssrF2NMUD4q1o=;
+        b=VCa3BPNDfM4HqfCjL+Y0Fzj1HdVCLVYhm2UCIT6iJJKiwuqSYN7VAzAHh2bnrVYnyS
+         INDTAy3Rr3v5ISg73ZUvI4itIfJeHCUqMx7NMrTMJEWGWRVlDWqtOp9cyUMd9Th5BZg7
+         M/XEPPQlR5YnhTX2Cfb1GVT5qfEOFtb9OG2IC/rlAME8ZL/wJW1L0dae9B+KEqM6CtG+
+         1PWITRkKq5EuSws2OgZZ3pUK0+xX4TMnrwF0NeAKo6H4t2BC2DNbmtZwSshK2GAJeaWN
+         yQnwWPylIribLxVWOcBI4XiOieP73xR78k12l1KuyPYmvZX5ID5U5paUuGEj288KGXBW
+         Uh/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760026059; x=1760630859;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ah71RYYCwhvPLrflp/SE2C1CvVpY05ssrF2NMUD4q1o=;
+        b=c2ecASp2YGYP2DMQ6BP2UqYCf4xecKmgmja4SafqoiWPjtODU/bPa6ZZKt0I+1gKkr
+         7qOOOtCbcVbTVhsQk/8TThbvPjSDOy2K1MyUj2E9xCBKESlgMlj5gT8wB+1Ii/SBE/g+
+         /KlzyINN45Ggfvman7GGClwJGya5Dr8JHcX0Ctm7KRQFZIAkm3gpvnYlTbXKWZHtUfQ9
+         W5NpFfLu+Aa0TQd2QkyrGA4PFrKXkuUekZlf+zpgpFj6R7JOqrc7AwF9cHRHJ8HPg8an
+         L+5eoxE1nTtWGgd7zUl5fBIAwp8fCKEN2EL9OXNH5wbIqcfadJ70C7HG8LVjRFa89Nad
+         ufHw==
+X-Forwarded-Encrypted: i=1; AJvYcCUl4v4o6tmjhURberVagjQ8DYIe8kb1h6X+5iREz/1W1Rgv7dFM2dTn4IwdAtZC4Iw6bYLiIZjzJ++9K43LqkX38g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyo90t+5yyqpwiX79vkfYQY8V3pP06VTjeNNvN+ksqjzCv+jWlx
+	n1Vc5uJQ3v5p+Ux96XDnpSY0ktiLjgpwjKtLwK1LClQDpA5hVBBT+M6J
+X-Gm-Gg: ASbGncuvLYtYL1U55DLvQftE8e287FNeG+PpmMRBu7mdMzpedg5yNfRV+IddgygY4uC
+	G0tRujbFeHPTbc2JLfdl0uWGroSpmHC9vI6hmQHgAOr9Izd0hWJ+paJaFpEClYi3j3SWJs1z4bY
+	XRswTFn3bKspu76rTFvS2tG9JaBwr+czOIUxLJlQTHJzSHVtQVqh8y6i6tXPSqa4ov5wxZSFgCt
+	0X/MeBCJClxj30ozeAnufziZPxk1YF2s4PhAuypUgDJ0Ak4YIlwxmXD1BgbIfVCHrIWPGxxPFQr
+	nfYnxvwDtiJVYOcuxwZbtU5Ml9li34rxWzIEAYK/OqmbUWDCL8AyqgIZtir3NXLRVIorFsTDQoX
+	0pbldsALsUe1PwLLthBbHBko3CLPRs7zDNWtb2v+gvXMKUB7iZkEEolgns6/buzgTR4nhfAuWJ7
+	S1QKKQ
+X-Google-Smtp-Source: AGHT+IGxuBNO3H+uGp5GLq88cFcoq8l3NQrqENv31LLcKHd2kWMzfztWuUeSeIUqEX0lkAYgro4w9w==
+X-Received: by 2002:a05:6000:1845:b0:3ee:1494:27f5 with SMTP id ffacd0b85a97d-42666aad658mr6085490f8f.13.1760026059072;
+        Thu, 09 Oct 2025 09:07:39 -0700 (PDT)
+Received: from iku.example.org ([2a06:5906:61b:2d00:480c:edeb:2884:a92a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-426cd93e45fsm94632f8f.4.2025.10.09.09.07.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Oct 2025 09:07:38 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v10 0/6] Add support for DU/DSI clocks and DSI driver support for the Renesas RZ/V2H(P) SoC
+Date: Thu,  9 Oct 2025 17:07:26 +0100
+Message-ID: <20251009160732.1623262-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251009155752.773732-1-sashal@kernel.org>
-References: <20251009155752.773732-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.17.1
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-[ Upstream commit 9c174e4dacee9fb2014a4ffc953d79a5707b77e4 ]
+Hi All,
 
-Wrong actual clock reported, if the SD clock division ratio is other
-than 1:1(bits DIV[7:0] in SD_CLK_CTRL are set to 11111111).
+This patch series adds DU/DSI clocks and provides support for the
+MIPI DSI interface on the RZ/V2H(P) SoC.
 
-On high speed mode, cat /sys/kernel/debug/mmc1/ios
-Without the patch:
-clock:          50000000 Hz
-actual clock:   200000000 Hz
+v9->v10:
+- Dropped rzv2h_get_pll_div_pars() helper and opencoded instead.
+- Dropped rzv2h_get_pll_dtable_pars() helper and opencoded instead.
+- Added dummy helpers rzv2h_get_pll_pars() and rzv2h_get_pll_divs_pars()
+  in renesas.h for !CONFIG_CLK_RZV2H case.
+- Dropped selecting CLK_RZV2H for DSI driver.
 
-After the fix:
-clock:          50000000 Hz
-actual clock:   50000000 Hz
+v8->v9:
+- Dropped `renesas-rzv2h-cpg-pll.h` header and merged into `renesas.h`
+- Exported the symbols for PLL calculation apis
+- Updated commit message for patch 2
+- Dropped reviewed-by tags for patch 2
+- Updated to use renesas.h
+- Updated Kconfig to select CLK_RZV2H
+- Added reviewed-by tag from Tomi for patch 5 and 6
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Link: https://lore.kernel.org/r/20250629203859.170850-1-biju.das.jz@bp.renesas.com
-Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
+v7->v8:
+- Added reviewed-by tags from Tomi, Geert and Biju
+- Dropped rzv2h_get_pll_dsi_info() helper and opencoded instead.
+- Dropped is_plldsi parameter from rzv2h_cpg_pll_clk_register()
+- Updated commit message for patch 5/6 and 6/6
+- Switched to use devm_clk_get() instead of devm_clk_get_optional()
+  as lpclk clock is available on all SoCs.
+- Simplified check in rzv2h_mipi_dsi_dphy_init() for PLL parameters
+- Renamed start_index member to base_value in struct rzv2h_mipi_dsi_timings
+- Added comments in the code for DSI arrays and their usage
+- Added comments in the code for sleeps
+- Rebased the changes on next-20250902
 
-LLM Generated explanations, may be completely bogus:
+v6->v7:
+- Renamed pllclk to pllrefclk in DT binding
+- Added a new patch to add instance field to struct pll
+- Renamed rzv2h_pll_div_limits to rzv2h_pll_limits
+- Included fout_min and fout_max in the rzv2h_pll_limits structure
+- Renamed rzv2h_plldsi_parameters to rzv2h_pll_div_pars and re-structured
+  for readability
+- Dropped rzv2h_dsi_get_pll_parameters_values() instead added modular apis
+  to calculate the PLL parameters ie rzv2h_get_pll_pars/rzv2h_get_pll_div_pars/
+  rzv2h_get_pll_dtable_pars
+- Dropped plldsi_limits from rzv2h_cpg_info structure
+- Updated the DSI driver to use the new PLL APIs
+- Included the LPCLK patch
+- Rebased the changes on next-20250728
 
-Based on my comprehensive analysis of this commit, here is my
-assessment:
+v5-> v6:
+- Renamed CPG_PLL_STBY_SSCGEN_WEN to CPG_PLL_STBY_SSC_EN_WEN
+- Updated CPG_PLL_CLK1_DIV_K, CPG_PLL_CLK1_DIV_M, and
+  CPG_PLL_CLK1_DIV_P macros to use GENMASK
+- Updated req->rate in rzv2h_cpg_plldsi_div_determine_rate()
+- Dropped the cast in rzv2h_cpg_plldsi_div_set_rate()
+- Dropped rzv2h_cpg_plldsi_round_rate() and implemented
+  rzv2h_cpg_plldsi_determine_rate() instead
+- Made use of FIELD_PREP()
+- Moved CPG_CSDIV1 macro in patch 2/4
+- Dropped two_pow_s in rzv2h_dsi_get_pll_parameters_values()
+- Used mul_u32_u32() while calculating output_m and output_k_range
+- Used div_s64() instead of div64_s64() while calculating
+  pll_k
+- Used mul_u32_u32() while calculating fvco and fvco checks
+- Rounded the final output using DIV_U64_ROUND_CLOSEST()
+- Renamed CLK_DIV_PLLETH_LPCLK to CLK_CDIV4_PLLETH_LPCLK
+- Renamed CLK_CSDIV_PLLETH_LPCLK to CLK_PLLETH_LPCLK_GEAR
+- Renamed CLK_PLLDSI_SDIV2 to CLK_PLLDSI_GEAR
+- Renamed plldsi_sdiv2 to plldsi_gear
+- Preserved the sort order (by part number).
+- Added reviewed tag from Geert.
+- Made use of GENMASK() macro for PLLCLKSET0R_PLL_*,
+  PHYTCLKSETR_* and PHYTHSSETR_* macros.
+- Replaced 10000000UL with 10 * MEGA
+- Renamed mode_freq_hz to mode_freq_khz in rzv2h_dsi_mode_calc
+- Replaced `i -= 1;` with `i--;`
+- Renamed RZV2H_MIPI_DPHY_FOUT_MIN_IN_MEGA to
+  RZV2H_MIPI_DPHY_FOUT_MIN_IN_MHZ and
+  RZV2H_MIPI_DPHY_FOUT_MAX_IN_MEGA to
+  RZV2H_MIPI_DPHY_FOUT_MAX_IN_MHZ.
 
-## Backport Status: **YES**
+Cheers,
+Prabhakar
 
-### Extensive Analysis
+Lad Prabhakar (6):
+  clk: renesas: rzv2h-cpg: Add instance field to struct pll
+  clk: renesas: rzv2h-cpg: Add support for DSI clocks
+  clk: renesas: r9a09g057: Add clock and reset entries for DSI and LCDC
+  dt-bindings: display: bridge: renesas,dsi: Document RZ/V2H(P) and
+    RZ/V2N
+  drm: renesas: rz-du: mipi_dsi: Add LPCLK clock support
+  drm: renesas: rz-du: mipi_dsi: Add support for RZ/V2H(P) SoC
 
-#### Bug Description and Impact
+ .../bindings/display/bridge/renesas,dsi.yaml  | 120 +++-
+ drivers/clk/renesas/r9a09g057-cpg.c           |  62 +++
+ drivers/clk/renesas/rzv2h-cpg.c               | 514 +++++++++++++++++-
+ drivers/clk/renesas/rzv2h-cpg.h               |  29 +-
+ .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 453 +++++++++++++++
+ .../drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h   |  34 ++
+ include/linux/clk/renesas.h                   | 145 +++++
+ 7 files changed, 1317 insertions(+), 40 deletions(-)
 
-The commit fixes an incorrect `actual_clock` reporting bug in the
-Renesas SDHI MMC driver that has existed since v5.4 (commit
-75eaf49f5d3d8 from 2019).
-
-**The Problem:**
-When the SD clock division ratio is not 1:1 (i.e., DIV[7:0] bits in
-SD_CLK_CTRL register are not 0xff), the driver incorrectly reports
-`actual_clock` as the parent clock frequency instead of the divided
-frequency.
-
-From the commit message example:
-- Requested: 50 MHz
-- Parent clock set to: 200 MHz
-- Hardware divider: 1/4 (to get 50 MHz)
-- **Bug**: `actual_clock` reports 200 MHz instead of 50 MHz
-
-**Functional Impact Beyond Debugging:**
-
-While this appears to be a debugfs reporting issue, it has **real
-functional consequences**. The `actual_clock` value is used in
-`drivers/mmc/core/block.c:1056` (`mmc_blk_clock_khz()`) to calculate
-timeout values:
-
-```c
-if (data->timeout_clks) {
-    khz = mmc_blk_clock_khz(host);  // Uses actual_clock
-    ms += DIV_ROUND_UP(data->timeout_clks, khz);
-}
-```
-
-With incorrect `actual_clock` (e.g., 200 MHz instead of 50 MHz),
-timeouts are calculated **4x too short**, potentially causing premature
-timeout errors and data transfer failures.
-
-#### Code Analysis
-
-**The Hardware Divider Mechanism:**
-
-From commit 0196c8db8363f7 (2018), the SD_CLK_CTRL register DIV[7:0]
-bits work as follows:
-- `0x80` (bit 7): 1/512 divider
-- `0x40` (bit 6): 1/256 divider
-- `0x20` (bit 5): 1/128 divider
-- ... (each bit represents a power-of-2 division)
-- `0x01` (bit 0): 1/4 divider
-- `0x00` (all clear): 1/2 divider
-- `0xff` (Renesas extension): 1/1 (no division)
-
-**The Fix - Mathematical Verification:**
-
-The fix adds lines 224-226 in `renesas_sdhi_core.c:205`:
-
-```c
-clock = clk & CLK_CTL_DIV_MASK;
-if (clock != 0xff)
-    host->mmc->actual_clock /= (1 << (ffs(clock) + 1));
-```
-
-Formula verification for all divider values:
-- `clock=0x80`: `ffs(0x80)=8` → `(1<<9)=512` → divides by 512 ✓
-- `clock=0x40`: `ffs(0x40)=7` → `(1<<8)=256` → divides by 256 ✓
-- `clock=0x01`: `ffs(0x01)=1` → `(1<<2)=4` → divides by 4 ✓
-- `clock=0x00`: `ffs(0x00)=0` → `(1<<1)=2` → divides by 2 ✓
-- `clock=0xff`: skips division (1:1 ratio) ✓
-
-The formula is **mathematically correct** for all possible hardware
-divider configurations.
-
-#### Backporting Criteria Assessment
-
-**Positive Factors:**
-1. ✅ **Fixes real functional bug**: Incorrect timeout calculations, not
-   just cosmetic
-2. ✅ **Small and contained**: Only 3 lines added, affecting one function
-3. ✅ **No architectural changes**: Simple calculation fix
-4. ✅ **Minimal regression risk**: Mathematically sound, verified formula
-5. ✅ **Hardware-specific**: Limited to Renesas SDHI driver (contained
-   blast radius)
-6. ✅ **No known issues**: No reverts or subsequent fixes (only a cleanup
-   commit 5d0702dc9c2f6 replacing magic number with macro)
-7. ✅ **Stable in mainline**: Merged August 19, 2025, no problems
-   reported
-
-**Considerations:**
-- ⚠️ **No explicit Fixes: tag** (though it clearly fixes commit
-  75eaf49f5d3d8)
-- ⚠️ **No Cc: stable tag**
-- ⚠️ **Author couldn't test HS400 mode** (mentioned in lore.kernel.org
-  thread)
-- ℹ️ **Long-standing bug** (since v5.4, 2019) without major reports
-  suggests real-world impact may be limited
-
-**Dependencies:**
-- Requires `actual_clock` field (present since v5.4)
-- Requires current `renesas_sdhi_set_clock()` structure (present since
-  v4.19)
-- Should apply cleanly to kernels v5.4+
-
-#### Conclusion
-
-This commit **should be backported** to stable trees (v5.4+) because:
-
-1. It fixes a **functional bug with real-world consequences** (timeout
-   calculation errors leading to potential data transfer failures)
-2. The fix is **small, simple, and mathematically verified**
-3. **Very low regression risk** - the formula correctly implements the
-   hardware specification
-4. **Confined scope** - only affects Renesas SDHI hardware
-5. **Stable in mainline** - no issues found since merge
-
-The absence of Fixes:/Cc:stable tags is not disqualifying given the
-clear functional impact and the quality of the fix. The commit already
-has been staged for backport (6693c63ffc49e in linux-autosel-6.17),
-which is appropriate.
-
- drivers/mmc/host/renesas_sdhi_core.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-index fb8ca03f661d7..a41291a28e9bd 100644
---- a/drivers/mmc/host/renesas_sdhi_core.c
-+++ b/drivers/mmc/host/renesas_sdhi_core.c
-@@ -222,7 +222,11 @@ static void renesas_sdhi_set_clock(struct tmio_mmc_host *host,
- 			clk &= ~0xff;
- 	}
- 
--	sd_ctrl_write16(host, CTL_SD_CARD_CLK_CTL, clk & CLK_CTL_DIV_MASK);
-+	clock = clk & CLK_CTL_DIV_MASK;
-+	if (clock != 0xff)
-+		host->mmc->actual_clock /= (1 << (ffs(clock) + 1));
-+
-+	sd_ctrl_write16(host, CTL_SD_CARD_CLK_CTL, clock);
- 	if (!(host->pdata->flags & TMIO_MMC_MIN_RCAR2))
- 		usleep_range(10000, 11000);
- 
 -- 
 2.51.0
 
