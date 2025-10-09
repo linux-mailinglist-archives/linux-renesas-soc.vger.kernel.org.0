@@ -1,67 +1,64 @@
-Return-Path: <linux-renesas-soc+bounces-22820-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22821-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6439BBC8909
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Oct 2025 12:45:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C076BC8B89
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 09 Oct 2025 13:15:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 053FF3B0C6A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Oct 2025 10:45:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1BF823A96F9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Oct 2025 11:15:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C39A227587D;
-	Thu,  9 Oct 2025 10:45:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 589D42DF6FA;
+	Thu,  9 Oct 2025 11:15:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Yhqt0vP7"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="FkLFTp77"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2DB2BE04B
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Oct 2025 10:45:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0AD2DECAA
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Oct 2025 11:15:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760006730; cv=none; b=PefbiLT1sadFY6qLICatbFWkL35V7an3086BEDImhdR1WCmKa1NFVTZwTQEgVECt6ugUOjMYxzymBLP2u0zbGk/+lHMjZYnyOvbJZjTH/d7gCsjOV4EUififctCnP9Pbcofdtd9t1v96DgX/EBH+cRIZ5Zy+LQhrWsbzu2OjHj0=
+	t=1760008509; cv=none; b=kwsqD/7AbaIu2rfReAcDBpk/3Mwg3oaT4VsdN0D1QND9gDbzCY0OOFJ0Y1TrgG2V5cDZwooDSInsCwQNU8h4uBhmStf/JV12awDTLNLZfBqDOYdwvVVFXRVJu5/y2vzEcRtsAt5bPlmMYFEyZukKt/ZMeMm3ZMfQCEO55Pr0P/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760006730; c=relaxed/simple;
-	bh=+B6DukldXJVBE1RqN/SyaNypJxIyi15yQYg2A2Go0+w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NYizlKXTytOLC2HjDHa533m9HKWHqkLmPbevX7utZX1J4iN2jfxSR5mUtIWPdSVzYOLUhfPbXGbeFiOEWN0pm2Xt3Sn4ugT9POGj+totyH2uFo+ICPZ0ieY7c7Z1H0q4JuOrgDbUovKnvJLUwZ/hUUVBROiXt1jeIqXS9naMFWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Yhqt0vP7; arc=none smtp.client-ip=194.117.254.33
+	s=arc-20240116; t=1760008509; c=relaxed/simple;
+	bh=17DABAYyRu5ydqaiY/MOa7rfFHJpPs9cc+SvvxAZoNM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cYzucouqTRRVmxpOkv/G/yNAEM+eOB3xdsFnU+TJXA2M+C0Pk2JdBYncfyFweJZun1mrxwIbbEIYhnsHRIXxIT6Ephe6QJ6KIoZo6obNWn5QtMlvWf9IC557u8ArgDITawLqY98bp+k75Q9+iYsK9Uda7Flwk4rjH7veFDmuR0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=FkLFTp77; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=ZmLPdS7qBuSlyyQgt3NI7LxPAJPa4sXuQbbk1En+yQA=; b=Yhqt0v
-	P7Eryb7RmUC+6uPHf09qF8W7DZfZU+GdN6Pa13MQCZ/5uxbVdGBlgHgKow/AaI22
-	ABnjsllP7/8YK4nIwDJ3mEq9xn14jzwY7GGEjdyMk5qAxJZmaHXUi4zPUYF2NaDD
-	7Yd7OJErREazBvZt0SqzTR6Z3NNNhIvt+pyRKllcdxdQztEmhk7QmH/jeUuU4Kfn
-	jHHoDKn6GmGsK0xlIfxcj29YqNGC6Vrl49MvAIrnM0m73fZV52iXFtoW1XYCOkTO
-	q/SxM5jvcLiSv0OV7PkRzwFQpmICL1L42kOKlLBb4twNWgUsdF6xmb6Sd+A7ykhP
-	1L4X3HtL3bIAjNkQ==
-Received: (qmail 1043427 invoked from network); 9 Oct 2025 12:45:21 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Oct 2025 12:45:21 +0200
-X-UD-Smtp-Session: l3s3148p1@r8dlf7dAiK0gAwDPXwQHAL/S9V79e5yL
+	:mime-version:content-transfer-encoding; s=k1; bh=puKIa6gq41MuuF
+	Uv7F0TBXGg6p/QotAOOyBKeGipZeI=; b=FkLFTp77mkvSYo4RqC7Mfc129w78VD
+	gbvI6LJWwMjwLtBLBa0daDQ6VFe8ywwZpA68njjeqAktFHJunsk9pbcFnWzpaGyv
+	qo93t21LVqQaejjdR35U9wD8EsASkA2F/f8nGStV5pv6RnWpLRvbQpzhTJ20sqi8
+	FPT0w62R9z1o9R1aOi43hoLJ2EYfonqgz7Lrh9y+gH1fnT+BgbFZh/Uuce+PIaUp
+	poCAM1m0TIAXrp35ptlo0+Ko5sZOOIzOT3GfPd3Kf13GKzscC+YMyUTFlvMEik3e
+	Vyy3ewmsqZhPaMdx50d4S0ZR/tQZIndaFUVM4z8kj9nofXTwizu2ZAHA==
+Received: (qmail 1052996 invoked from network); 9 Oct 2025 13:15:05 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Oct 2025 13:15:05 +0200
+X-UD-Smtp-Session: l3s3148p1@ro286bdA5IggAwDPXwQHAL/S9V79e5yL
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-renesas-soc@vger.kernel.org
 Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-watchdog@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH v4 5/5] dt-bindings: watchdog: renesas,wdt: add SWDT exception for V3H
-Date: Thu,  9 Oct 2025 12:45:03 +0200
-Message-ID: <20251009104500.69787-12-wsa+renesas@sang-engineering.com>
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH] dt-bindings: bus: allwinner,sun50i-a64-de2: don't check node names
+Date: Thu,  9 Oct 2025 13:12:59 +0200
+Message-ID: <20251009111500.75198-2-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20251009104500.69787-7-wsa+renesas@sang-engineering.com>
-References: <20251009104500.69787-7-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -70,43 +67,31 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The SWDT on V3H has no reset bit. Make resets optional on this SoC.
+Node names are already and properly checked by the core schema. No need
+to do it again.
 
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
 
-Changes since v3:
-* don't introduce new compatible, just make resets optional (Geert)
+Passes both DT checks. Please let me know if A-F in unit-addresses
+should be fixed as well and if this is a seperate change.
 
- .../devicetree/bindings/watchdog/renesas,wdt.yaml     | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml       | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-index 08ba128bf442..7aebc5a5cf17 100644
---- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-+++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-@@ -74,11 +74,20 @@ required:
-   - clocks
-   - interrupts
-   - power-domains
--  - resets
+diff --git a/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml b/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml
+index 9845a187bdf6..52447768e65c 100644
+--- a/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml
++++ b/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml
+@@ -44,7 +44,7 @@ properties:
  
- allOf:
-   - $ref: watchdog.yaml#
- 
-+  - if:
-+      not:
-+        properties:
-+          compatible:
-+            contains:
-+              const: renesas,r8a77980-wdt
-+    then:
-+      required:
-+        - resets
-+
- additionalProperties: false
- 
- examples:
+ patternProperties:
+   # All other properties should be child nodes with unit-address and 'reg'
+-  "^[a-zA-Z][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+$":
++  "^.*@[0-9a-fA-F]+$":
+     type: object
+     additionalProperties: true
+     properties:
 -- 
 2.47.2
 
