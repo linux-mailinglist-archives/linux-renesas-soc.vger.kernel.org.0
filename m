@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-22861-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22862-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42F3ABCB6EE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Oct 2025 04:37:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D90EBCB74E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Oct 2025 04:49:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 517421A63FBD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Oct 2025 02:37:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6E9BF408880
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Oct 2025 02:49:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCF95238C1A;
-	Fri, 10 Oct 2025 02:37:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C310B176FB1;
+	Fri, 10 Oct 2025 02:48:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jjzQee5f"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DoE7yU7W"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1EA021CC4B;
-	Fri, 10 Oct 2025 02:37:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B6314F9FB;
+	Fri, 10 Oct 2025 02:48:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760063841; cv=none; b=s3vIfN+2ZlkSagPxDfsxCoAS2ahtsDCJytOASzhLyGEYjasfoUUU3RA1Ldo9T6awFnbRohOVJ+tckpv7BMBwwzaS6ywUrEDoHET+dO9px7p8x84YYehjSNFLc0N57VjuebJ3pmnEcDfXqEgmdOeDcCGb/4ouE0/A+MTuSDrY0X8=
+	t=1760064533; cv=none; b=GF92hpt9Lv0zAYLgcvi/WR0swo2hn8FvIv+nFlLRPCdqDzjVMPbTPQqptVl+oNvE6lchhvpRAAph2L9iT19humuODXZ9oJICCOL5qS9Ys1g1FXSY3WVqNs5WJ0vF1T8ET9gNX4sdW5L/daZ64rpwJq8xSqmNyETGu4/a1wG/WRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760063841; c=relaxed/simple;
-	bh=lwU66AJfEbvhUiM0tXc7O29qiW1GKY8GCIbXRnYqYcA=;
+	s=arc-20240116; t=1760064533; c=relaxed/simple;
+	bh=dpHvJ3fXY5TGb269aSKXP1Sb8xv7H1F0krpu0an6SWg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=h7CTCDg/mffSEjI1ZI3DdTfN58rMeWgvB+z00WByLHxNz7HDY5L2ImOJjepzkVx8PgSlp2XyWYlea+A4NlNvzD0/d8MNODQ4vOWajhYuIxKaoR5A81f7iwC5oPmpJKLy3IQ3Ctn85r6VP5IX9SnJ7kVkXFTN/92eNIRVZANku5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jjzQee5f; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D247BC4CEE7;
-	Fri, 10 Oct 2025 02:37:17 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=MOEPGVzgH//gVqDO+xB2uStHAU9efZRGKX8kJdzovwA+HSu303mSlL17BkjQklUbCEQRhICzj0VR8bASvxahit11ySvAJi+7ESyTEgeUBhzmvok5Khm+lRDbFPFzf52iFais4FYtGU69zcpG9HZ1DN5FMKEtmAV0R4NP365rIDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DoE7yU7W; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B52BCC4CEE7;
+	Fri, 10 Oct 2025 02:48:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760063841;
-	bh=lwU66AJfEbvhUiM0tXc7O29qiW1GKY8GCIbXRnYqYcA=;
+	s=k20201202; t=1760064533;
+	bh=dpHvJ3fXY5TGb269aSKXP1Sb8xv7H1F0krpu0an6SWg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=jjzQee5fd+TTjh2I3b9VYeSdkRHtmfRhxTagPkNiZQT26G1MZyeegDtZ0WZtC+VOh
-	 AxOl6LiY/207erzxpoZqqO6C+EL2k2EuZB+NTyMJc1j22qZnC3MehUBFbY42fuow0q
-	 vN0X9zgHl6j3FKBmAMKQ7r2zo/tmE3Y+EutfwGcLS4GB79EVOqnM+MkVUTDbighMz2
-	 yBzys/B7/lM+iFkwdCtt6NmsvuSdqSibC9b3zITd2KYZHJLtCGMJNRo91qIWvEq4Ik
-	 7vxWLMZ9WPTww8/DlDgVdppQBXbv/RMSRDhFWFqzZK7rUL0ZF6J9rz0kG4m/wnBc5B
-	 mPc46L1SLuZDQ==
-Message-ID: <08b7a21a-72f7-47e4-9dc9-37a7316f94d5@kernel.org>
-Date: Fri, 10 Oct 2025 04:37:14 +0200
+	b=DoE7yU7WXBy06VP9Dofh+2qXhJ6nB0/LI0pvzA7fkWCHph4P+6b1nm8WKFCs6jduf
+	 3Swy2O5eBg1OX2d7jM2u8PlLUNx2+EUZOaHk9+dvrmyln8WHqd25Tk57Htu0ytOVnW
+	 /KLm9WAGiqEJCvw8VoYDCsk8f+zNwWvGI7CA/+VzHfpfcKN1PXlf8DM9TvLxV++QsE
+	 Hq3bJ6AGQIRFyeLqX4Qd812NF/VAKyfZmBPb/SlubG2q7aDW4n73OJ2MxaIKckHMgm
+	 2iwpX76GgVp68SbzxgqHClHXrDfbCXpkgtdZAD+oizuqU/sDv/E5Cebxf2/b40gTXS
+	 ZfDbTvu/ZrLnQ==
+Message-ID: <4f490516-20d8-485f-8e1a-a1fb8c23e526@kernel.org>
+Date: Fri, 10 Oct 2025 04:48:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,14 +50,13 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dt-bindings: mfd: Add Renesas R2A11302FT PMIC
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+Subject: Re: [PATCH v2] memory: renesas-rpc-if: Add suspend/resume support
+To: Biju <biju.das.au@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, linux-kernel@vger.kernel.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  linux-renesas-soc@vger.kernel.org
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Lee Jones <lee@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
- devicetree@vger.kernel.org
-References: <20251009181916.2431-2-wsa+renesas@sang-engineering.com>
+References: <20250923151437.287721-1-biju.das.jz@bp.renesas.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -103,105 +102,66 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251009181916.2431-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20250923151437.287721-1-biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 09/10/2025 20:12, Wolfram Sang wrote:
-> This PMIC is referenced in upstream DTs for the Renesas Lager and
-> Koelsch boards. Sadly, we don't have documentation for more complete
-> bindings, but due to the spi-cpol/cpha it also doesn't belong to trivial
-
-That's not a problem.
-
-> devices. So, start with this minimal binding description with the facts
-> that we do know:
-> 
-> Fixes:
-> arch/arm/boot/dts/renesas/r8a7790-lager.dtb: /soc/spi@e6e10000/pmic@0: failed to match any schema with compatible: ['renesas,r2a11302ft']
-> arch/arm/boot/dts/renesas/r8a7791-koelsch.dtb: /soc/spi@e6e20000/pmic@0: failed to match any schema with compatible: ['renesas,r2a11302ft']
-> 
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
-> 
-> Change since RFC [1]:
-
-Please start using b4. This is v2. Your wrong numbering makes any
-comparisons broken. Try yourself with b4.
-
-> * dropped "unevaluatedProperties" because we know this binding is not
->   complete currently
-
-You cannot. Bindings must be complete (or complete "enough"), otherwise
-I see no point in accepting them.
-
-It is like you sent driver code which does not build because you did not
-write half of it. Why would we want it?
-
-
-> * removed 'pmic' label from the example
-> * proper patch description
-> 
-> [1] https://lore.kernel.org/r/20250929083449.14393-1-wsa+renesas@sang-engineering.com
-> 
->  .../bindings/mfd/renesas,r2a11302ft.yaml      | 49 +++++++++++++++++++
->  1 file changed, 49 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mfd/renesas,r2a11302ft.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/mfd/renesas,r2a11302ft.yaml b/Documentation/devicetree/bindings/mfd/renesas,r2a11302ft.yaml
-> new file mode 100644
-> index 000000000000..e978b359b3ec
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/renesas,r2a11302ft.yaml
-> @@ -0,0 +1,49 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/renesas,r2a11302ft.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+On 23/09/2025 17:14, Biju wrote:
+>  	if (rpc->info->type == XSPI_RZ_G3E) {
+> -		struct clk *spi_clk;
+> -
+> -		spi_clk = devm_clk_get_enabled(dev, "spix2");
+> -		if (IS_ERR(spi_clk))
+> -			return dev_err_probe(dev, PTR_ERR(spi_clk),
+> +		rpc->spix2_clk = devm_clk_get_enabled(dev, "spix2");
+> +		if (IS_ERR(rpc->spix2_clk))
+> +			return dev_err_probe(dev, PTR_ERR(rpc->spix2_clk),
+>  					     "cannot get enabled spix2 clk\n");
+>  
+> -		spi_clk = devm_clk_get_enabled(dev, "spi");
+> -		if (IS_ERR(spi_clk))
+> -			return dev_err_probe(dev, PTR_ERR(spi_clk),
+> +		rpc->spi_clk = devm_clk_get_enabled(dev, "spi");
+> +		if (IS_ERR(rpc->spi_clk))
+> +			return dev_err_probe(dev, PTR_ERR(rpc->spi_clk),
+>  					     "cannot get enabled spi clk\n");
+>  	}
+>  
+> @@ -1063,6 +1063,44 @@ static void rpcif_remove(struct platform_device *pdev)
+>  	platform_device_unregister(rpc->vdev);
+>  }
+>  
+> +static int rpcif_suspend(struct device *dev)
+> +{
+> +	struct rpcif_priv *rpc = dev_get_drvdata(dev);
 > +
-> +title: Renesas R2A11302FT Power Supply ICs for R-Car
-> +
-> +maintainers:
-> +  - Wolfram Sang <wsa+renesas@sang-engineering.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: renesas,r2a11302ft
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  spi-max-frequency:
-> +    maximum: 6000000
-> +
-> +  spi-cpol: true
-> +
-> +  spi-cpha: true
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - spi-cpol
-> +  - spi-cpha
-> +
-> +allOf:
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> +
+> +	if (rpc->info->type == XSPI_RZ_G3E) {
 
-Missing unevaluatedProps. See writing schema (and any of my talks).
+clk are null in other case, so you can simplify it by dropping this if().
 
-> +examples:
-> +  - |
-> +    spi {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
+> +		clk_disable_unprepare(rpc->spi_clk);
+> +		clk_disable_unprepare(rpc->spix2_clk);
+> +	}
 > +
-> +        pmic@0 {
-> +                compatible = "renesas,r2a11302ft";
+> +	return 0;
+> +}
+> +
+> +static int rpcif_resume(struct device *dev)
+> +{
+> +	struct rpcif_priv *rpc = dev_get_drvdata(dev);
+> +
+> +	if (rpc->info->type == XSPI_RZ_G3E) {
 
-Messed indentation.
+
+... which would save you one indentation here making it a bit more readable.
+
+> +		int ret;
+> +
+> +		ret = clk_prepare_enable(rpc->spix2_clk);
+> +		if (ret) {
+> +			dev_err(dev, "failed to enable spix2 clock: %pe\n",
+> +				ERR_PTR(ret));
+> +			return ret;
 
 
 Best regards,
