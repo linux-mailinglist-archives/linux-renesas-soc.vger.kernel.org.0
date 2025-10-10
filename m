@@ -1,80 +1,126 @@
-Return-Path: <linux-renesas-soc+bounces-22891-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22892-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2120EBCD88C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Oct 2025 16:32:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D5F1BCD945
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Oct 2025 16:42:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 056AD4E9D07
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Oct 2025 14:32:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DB43254057A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Oct 2025 14:42:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7362238C07;
-	Fri, 10 Oct 2025 14:32:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC81E2F60CB;
+	Fri, 10 Oct 2025 14:42:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K0DM+ICi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ScUzQdrE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99EAD1DE8A4;
-	Fri, 10 Oct 2025 14:32:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E9F3D6F;
+	Fri, 10 Oct 2025 14:42:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760106741; cv=none; b=HQE1BrxukQFcKu1m/5QpxtqEwW+mnTTEtv4mnlCNRG9+AYais6F81gOH6P1XroI1GnuNGtueZD+wal/DPU7iA7whR4aTtuGSpOoGeZ5Dg9e7uuaznw/5gLfjuoqivojoKibumZm8qG1Jp4H38cmm0kjba54KxY4pqY7TwmlxvAc=
+	t=1760107366; cv=none; b=oyCafUXQnqd2xIqszFiib5WJruWO6HOQU5ZXusRla/iEhsHOdKMiNUjeg2O+BPm2OvzPEc7XFOV/LPqCKgVM0lByydpna2+FoCsqvdEJrhiTfInA/cYlNKzPl9b2C9dhpwsKXYXmKwldRbYeScJrdg0dUQqD/Bm06RFfsA13tEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760106741; c=relaxed/simple;
-	bh=Y13MZLSFH0Wu9ldSZ+acLNvddtlrHdyWJ1rhQK7RQ6c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gM/JMnRAWIlAuUrUUJCAYCJKe2rYgfVJwuQQ4OeawvYrv5m2XsYAFaT9PuNwCSVaqnktRFBInWZi8WMRX0IqFWeDx7b2LgX7vpDF5EdBLBHdzU8NQ6Et1/SFMik2CLncRD4t8xuSEZafwhcEEZYxCbxNaV120luE/eNsYRY+zDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K0DM+ICi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52057C4CEF1;
-	Fri, 10 Oct 2025 14:32:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760106741;
-	bh=Y13MZLSFH0Wu9ldSZ+acLNvddtlrHdyWJ1rhQK7RQ6c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=K0DM+ICir0i7Q2RAddxiar9C1/wPPoy+vlk/h9Y4rlov2EXexkpvpkfdWzZkbsl0H
-	 SYclKJTzLys6HmkeArSuiRrYlL/3AxDha0Epirp2i9kof7u57OttYN14foOe+xb3p8
-	 0q8ibH95OrzKRRX+ffcSIeZB0yMrYyj3wOJEb1BELpU4N87plVZIOz1aspcv7bLdPX
-	 7ZjugNKFVTC8MjrjDzZM16hBiH3KEGQ7lgQhXnbqxGe2+lxFZEZvi4GtHMli2sLIM5
-	 f44y/xXonYOLkNN8RuARkh2DyeI4BoaS0+Oa95dcp8eg/fGkaXYRL0Gpu5bEq7MQQP
-	 Qui8oxOOOCjmA==
-Date: Fri, 10 Oct 2025 09:32:19 -0500
-From: Rob Herring <robh@kernel.org>
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: lpieralisi@kernel.org, kwilczynski@kernel.org, mani@kernel.org,
-	bhelgaas@google.com, krzk+dt@kernel.org, conor+dt@kernel.org,
-	geert+renesas@glider.be, magnus.damm@gmail.com,
-	p.zabel@pengutronix.de, linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH v5 1/6] dt-bindings: PCI: renesas,r9a08g045s33-pcie: Add
- documentation for the PCIe IP on Renesas RZ/G3S
-Message-ID: <20251010143219.GB242024-robh@kernel.org>
-References: <20251007133657.390523-1-claudiu.beznea.uj@bp.renesas.com>
- <20251007133657.390523-2-claudiu.beznea.uj@bp.renesas.com>
+	s=arc-20240116; t=1760107366; c=relaxed/simple;
+	bh=cBi1fiEOIVmQkj4I6mHqhrC4PBTYmdVJpugrfMkk5zA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=BHKTlRPDMxjek8yMiWkwy2ILiC0PKRBrmzZR6kWBHIag9xhSZkEgIPEcb6eWeXKH5p7McPhx+4mnKj8jXEWncn+/t3Nrediq7fgzm7z+gBIb10ANf1ssGiGlV/AFVr/+lHIZsq4tV9uho1rfevuztUbYC4vPwRkmIw3YsAs3FIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ScUzQdrE; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760107365; x=1791643365;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=cBi1fiEOIVmQkj4I6mHqhrC4PBTYmdVJpugrfMkk5zA=;
+  b=ScUzQdrEnaQVhKKdu0oLf0oixhE5xbHxO5pCny19gtkN5J6wlUbXWCY1
+   R9HuY8bxf/RZsU6M88Z33OmR3bjGqB7RdPYtj8fWgVGND265ZDv0pXROd
+   DXwp3bsCGNIzEy19xCGypyah51yHrCoPnEr5dtBP7em2Qmav14WX4/M+Y
+   7FDO/jj7gVv/EhWVCzOV+dRSwowbOnO9ILgSi4jmySqEsqLSXxpw/K7zW
+   tF5BPtxhEYOe5YattnJBmMic6WpohExrlhIwEKq/kq393oxVkLqvqYnOa
+   SWdXefqPtl2BpmPpxibG0ds/dZ95Wh0Dw5U3j3mOhX4N5DtbBcdD1q5Qs
+   g==;
+X-CSE-ConnectionGUID: ODK13TYwT4ycOQlnRvGf/A==
+X-CSE-MsgGUID: aGLZtciIRve3s8ofFCCWNw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="62370357"
+X-IronPort-AV: E=Sophos;i="6.19,219,1754982000"; 
+   d="scan'208";a="62370357"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 07:42:44 -0700
+X-CSE-ConnectionGUID: XG4VPK2kTT2DGWLSZ/D56A==
+X-CSE-MsgGUID: VCg+i/+DS8yUc7WNA30elA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,219,1754982000"; 
+   d="scan'208";a="180573752"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.127])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 07:42:40 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: linux-pci@vger.kernel.org,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Kai-Heng Feng <kaihengf@nvidia.com>,
+	Rob Herring <robh@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH 0/3] PCI & resource: Make coalescing host bridge windows safer
+Date: Fri, 10 Oct 2025 17:42:28 +0300
+Message-Id: <20251010144231.15773-1-ilpo.jarvinen@linux.intel.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251007133657.390523-2-claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 07, 2025 at 04:36:52PM +0300, Claudiu wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> The PCIe IP available on the Renesas RZ/G3S complies with the PCI Express
-> Base Specification 4.0. It is designed for root complex applications and
-> features a single-lane (x1) implementation. Add documentation for it.
+Hi,
 
-Also, for the subject, "Add Renesas RZ/G3S" is sufficient. We already 
-know it is for PCI and is documentation.
+Here's a series for Geert to test if this fixes the improper coalescing
+of resources as was experienced with the pci_add_resource() change (I
+know the breaking change was pulled before 6.18 main PR but I'd want to
+retry it later once the known issues have been addressed). The expected
+result is there'll be two adjacent host bridge resources in the
+resource tree as the different name should disallow coalescing them
+together, and therefore BAR0 has a window into which it belongs to.
 
-Rob
+Generic info for the series:
+
+PCI host bridge windows were coalesced in place into one of the structs
+on the resources list. The host bridge window coalescing code does not
+know who holds references and still needs the struct resource it's
+coalescing from/to so it is safer to perform coalescing into entirely
+a new struct resource instead and leave the old resource addresses as
+they were.
+
+The checks when coalescing is allowed are also made stricter so that
+only resources that have identical the metadata can be coalesced.
+
+As a bonus, there's also a bit of framework to easily create kunit
+tests for resource tree functions (beyond just resource_coalesce()).
+
+Ilpo Järvinen (3):
+  PCI: Refactor host bridge window coalescing loop to use prev
+  PCI: Do not coalesce host bridge resource structs in place
+  resource, kunit: add test case for resource_coalesce()
+
+ drivers/pci/probe.c          |  26 +++----
+ include/linux/ioport.h       |   5 ++
+ include/linux/resource_ext.h |   3 +
+ kernel/resource.c            | 139 ++++++++++++++++++++++++++++++++++-
+ kernel/resource_kunit.c      | 121 ++++++++++++++++++++++++++++++
+ 5 files changed, 279 insertions(+), 15 deletions(-)
+
+
+base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+-- 
+2.39.5
+
 
