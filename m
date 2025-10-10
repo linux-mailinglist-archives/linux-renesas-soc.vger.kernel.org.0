@@ -1,80 +1,80 @@
-Return-Path: <linux-renesas-soc+bounces-22886-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22887-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE87EBCCB90
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Oct 2025 13:17:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08526BCCC52
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Oct 2025 13:26:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9301E4211FE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Oct 2025 11:17:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B163A3A2C43
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Oct 2025 11:26:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DEFC2475CD;
-	Fri, 10 Oct 2025 11:17:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95386286891;
+	Fri, 10 Oct 2025 11:26:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="HkdIYMHc"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="DIBBCJxO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46BEA18872A
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Oct 2025 11:17:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94AA4286D66
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Oct 2025 11:26:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760095067; cv=none; b=X5pVW3B3fc95XqDDY8iIPxTHOKqcc73L9hqYVjTJNqvcKlDvYOPYht/UDArcYB4OFXCWrtCrPWppp9ODlMHAnDNFFiwPNh9WAaFsWKSIx72fue7ygvo9L3j1v6tMHf/DRP5x5FUEYVGOAVA/r+gJcBOiO19oHkMtSeTdv1i7k2s=
+	t=1760095591; cv=none; b=V6wIUOBXJO0iILGllR4Vs1oGFkvHw1XnSLw7ur2i8qyN6BkvnBHDPlG9V5pQGbFK1Q77SfXqc6kFs2w9hy+/UqsCkYq5/dxUm88MCsdEGF3FyCUIk0062hKX8aPJAEUI6ao12GY2KfaT55CQ/I1m91vPl45UirBRwNpJKKaL7es=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760095067; c=relaxed/simple;
-	bh=KtxlDWPITa5bEuPFEGshMtxcyISVp2BcGqrMhLFKkYk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WzjjF9RaQL4TWVXkBPRI5CfPDxTl8EbfXn3+QovXOSj+e/Ik89Hrzx5EpQru2zV7U656DHngp/nFFIAQvVs+IAwX0ZzHLVUQi2J6bZGZt3PaD7xOMNNotn0L2yA0xF3cTLIpuCGLpo+H0VZ1LNsWnqzABVCij2FxysjtMu5VKxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=HkdIYMHc; arc=none smtp.client-ip=209.85.221.44
+	s=arc-20240116; t=1760095591; c=relaxed/simple;
+	bh=fNcGy+FTinFlO6rjUIlxt7xm2mSUFyR7mTt65QRs0yc=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=gPcUXKioFMcxkTzx0MKgQQj1mDxhtzQiZwSSdcBhprlOVpgniAsZ2Nriyw017CvuN3cJo2P+rmUiFvvNbLQLVzk6UVNxm5Ao7CrJIz44K2f/Eu5qW/fnMc+hHX5jBAsD52jBAOaN3SJPBX0T+O59KqvA2K3B0ixz6AnSo6Ppj0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=DIBBCJxO; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3f42b54d1b9so1675243f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Oct 2025 04:17:45 -0700 (PDT)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-46e37d10f3eso14470345e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Oct 2025 04:26:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1760095063; x=1760699863; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Z1ynCVq0m0dwKkBAOEoWpD+qF9QKRnUMUdTWsdSWb50=;
-        b=HkdIYMHcIQE398WdTPSIN5Mm+cZJxgxezu+A+N6RoJNwlZqQIMKxAdWDPNWw5nPs8H
-         OU76CojdVbYGD9cW4il7ZeB2s32ErVc/NVQCP1Hg9YwqhyWFCUQzjbzrsaBlJE2XaPZh
-         bzfzQn/aVQxhxM7ckFcWzEHAdyo8jI8Lt1ESDmjW9fJQc0wvTq+DH0tEfq3bUywmo613
-         4b7xDsCOg9cR3P8lsWw7TaotIti2Z0fnyL7+++XT1L7nqlozzNwf6qKkzjjNO6IK8FyS
-         jAg2aMXsyBuQQeUBsiNl19BgvgabDWMUbBlY6dARm5mtnVaJ8paoVPmxNHI5qQr74cx6
-         B2vg==
+        d=tuxon.dev; s=google; t=1760095588; x=1760700388; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=MJYv7wcTmHOu13aBWc1M6LrX7Yag7J9oLnKL5BHIPTg=;
+        b=DIBBCJxO0spBsGQvhKA3qJq9PQ6sAwjKUfZugF1TzPBd0FOx15NGl1+OBPXrh5J4a5
+         i/MnTFQOTPKJLR66H/ihTQGp9zmCqa49GpkY1qNnHgUl+AfFdHG37UOZTShYt5OJlOAY
+         eSRu46d9DuHrDKysaRJkuCdoL85rswJFp1xHzL9wiEQz4AyMHbo0kMM+YvFpVRM5jDFX
+         L4ViVsU9ZgGX8wk/HOborlzW1mN9uREI5ZoX58Wj9WfFreRIswRgSjf2z8oqDupwJcUQ
+         dFKVSQfDJxxWp6aY5q0PHHwvD96UXQ7PrX+JpBa8nX5UO+1Fl8kTiIuTulsKqT0y5fAz
+         1Dow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760095063; x=1760699863;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1760095588; x=1760700388;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z1ynCVq0m0dwKkBAOEoWpD+qF9QKRnUMUdTWsdSWb50=;
-        b=CQBvRs5Fl8cKpqV+43ECqaDwWQyYuBSvB0kvczMGP8r9DnzU/pvcgkXa32+hasMCnM
-         GQylZEP0zr9RqgHJ5WloiE/42AqBfGOtSsUBxLXTrEZBIYHE1RbVwhDvFHFo3peJqkQT
-         4eDulWSp+7yYiczPvgDIal2N2lHF7nWO2ziihHVObQ4c8rF7WF7ljFS39u94rPARrc8q
-         RV66diZm4vMCaTd6d2caGyyo+OKolON7YkvhkfDqlAJGYBfJVdGSKdyiu3uE+KvXx6YQ
-         E1wokU0SAErkQhGXTbi6dGM2MyNw2jWQfjdleLdjwxTHAJDC3KM3g25kFAATAAi4O9gX
-         8jbw==
-X-Forwarded-Encrypted: i=1; AJvYcCVl/Gq9rYD42FL54LovqGOjTgNQfs7Eq4yY4YnKDy8srCJS+T62dzpZ5ftqcdb4NCbM9UnWD7AD8Xo4eCkvdh256A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6MlY7Plv01mBgAp4djlox+Aco4HH4QUO80jmNQA1mKNjTz+BS
-	4LVX9nX5EE/ol8ZzohKqMYymW//i56vdtN4aPv+pW4Y3Cz6GNzvg1UJ/QzXQ67acdcA=
-X-Gm-Gg: ASbGncsxfsofcU4bYlLe11dcMNlNXOd9oqHUM7pUYfiWOvCCEW0moYqbr6wRcfd1YiS
-	pInllPR3SWapbcjMN3Z7JnpNOc6GX7QxeVi7Imz1dq9rlbyof484LYY29RdR3Htyhw7Li0aGh+Z
-	33UbOrJCSGG8hVac0qaGp+KDZRw6ev6DjZ5NC7crELZzCzvpPqkjdzqyZCjEGwLCyjyncGSDm0y
-	EIpG1++fv1XeMqKfDFHGppfDCYTyd/w/Np0q6Dd7sLXDq2O9zOHZcgc9Xb/EhN61VviynuPRBgH
-	pP2+sp4FaiDd/HcO20kw9evTFK6egdq/lBNj3e1MAQzhFQhre6nxNuEh+H5liirStQ4nwjsBbqS
-	aUE6hPzlqH04D3vE8L8JemFx0hb7tVR9gMqEKD1eNPoC5asez
-X-Google-Smtp-Source: AGHT+IEJyJwckoO/p0aVyGWvU5k2OM0lgE0S2o7VC0t5p2sDg5hRPW4SnUamM22kpxYfehRCibmZsA==
-X-Received: by 2002:a5d:5d88:0:b0:401:70eb:eec7 with SMTP id ffacd0b85a97d-4266e8dc113mr7191302f8f.43.1760095063534;
-        Fri, 10 Oct 2025 04:17:43 -0700 (PDT)
+        bh=MJYv7wcTmHOu13aBWc1M6LrX7Yag7J9oLnKL5BHIPTg=;
+        b=E48l529yajI55e/VVrQoLSit4BPGY/gw+cmfLvfy0vZGeqFk3XPzwJnp5i6HxlcTXE
+         fT6/RHr1WjzHklCqs/PyRV7WKwHTU15i9zKBTrQdvdknX73w9+31EpOjmZrfGz3rQ754
+         YYAYGWwdLPkQsUe3Mz9FOtIvLfziaMUo/ceqW+kdXtJkYF6OrD4TSQy8Z0vHiEoRNchz
+         c/XUBqA+WFcIb8QFznG7ETq79905LgCkS+20Y+AAeAT+aY0AWJ5Og1qLDdb8VEcA1uJD
+         RAhs3D3oq/kHu1WoODhDfEkX68QUABpUbZ62KbsX+VomgyEY5hdk/IfcIHlb2t3c7ki6
+         cxBw==
+X-Forwarded-Encrypted: i=1; AJvYcCXbGkTYrmnyF1IOQznukZ9LAc9CAhJ6FgQ7p1/9jMFX/LXCOH0S7VKw2/qbkdPzn6i5sDHz0o7JApWdtZzsojJL2Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8lybQB7t/HHgXiVrkITgVLtjkt6alxz3bb80OT/Rxi/rxU4hv
+	BNG+2IT6K6fWdssg5CU9jAbLw8NAYVz35BwTYutmWqGonVY5/4xo1g+hpd2+jI/cSJw=
+X-Gm-Gg: ASbGnctsN742Py/v6Grfl0v2rWv5mzcq7uIMhwR9gBX9rQhYJHgkUVqIfnS8sIRDmou
+	EM9/Wbr+zGgVxh0QTU9lcCWi3hpcpUs3n1ezgWfnhqiJiC3FrS6pKQjGSr+3IkHsbb9BEjJ5oHB
+	R1tlWpI5U7uNV5kSzSZO3kDGiaZH4pW7++oGmVIsaJgAPiqLd8gtE1t9IFg4tP88MiOfPCKLE61
+	hG0UsvE+PecpF1whjJLtRKLdiD8P56HfA1InE3RDDg48QHY7cai6iM/Sz4dl+2VNC260WOOJtfi
+	SnuKbDc3ztX7h2qn8kgi7FeL6hk6Bx9cH37KshUrdM6blsrOFwnOk9c7HQJj5/ZsLbijGPicVMC
+	roKbDaJRZNHLtZVuV+QePnTi2eQIbt4cZmrtttHEuUqM7E+Egkcvzi9atpuk=
+X-Google-Smtp-Source: AGHT+IGqto8DzzsUkr3m2rhrXEeJ8gdggFLEt9ehxmvIAsPFVSe6T8rsRQ8HQwfhX/mMuR4S29coxQ==
+X-Received: by 2002:a05:600c:19c6:b0:46e:3d17:b614 with SMTP id 5b1f17b1804b1-46fa9a9440emr89600325e9.6.1760095587252;
+        Fri, 10 Oct 2025 04:26:27 -0700 (PDT)
 Received: from [192.168.50.4] ([82.78.167.59])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fb489ac60sm42166215e9.16.2025.10.10.04.17.42
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fb489af92sm48160085e9.17.2025.10.10.04.26.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Oct 2025 04:17:43 -0700 (PDT)
-Message-ID: <7848e331-3d32-42ee-a05f-66ab40ef00be@tuxon.dev>
-Date: Fri, 10 Oct 2025 14:17:41 +0300
+        Fri, 10 Oct 2025 04:26:26 -0700 (PDT)
+Message-ID: <6d4bc69c-1571-4d98-b0d4-214c68be118e@tuxon.dev>
+Date: Fri, 10 Oct 2025 14:26:25 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -82,101 +82,92 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/6] arm64: dts: renesas: r9a08g045: Add PCIe node
-To: Biju Das <biju.das.jz@bp.renesas.com>,
- "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
- "kwilczynski@kernel.org" <kwilczynski@kernel.org>,
- "mani@kernel.org" <mani@kernel.org>, "robh@kernel.org" <robh@kernel.org>,
- "bhelgaas@google.com" <bhelgaas@google.com>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "geert+renesas@glider.be" <geert+renesas@glider.be>,
- "magnus.damm" <magnus.damm@gmail.com>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>
-Cc: "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- wsa+renesas <wsa+renesas@sang-engineering.com>
-References: <20251007133657.390523-1-claudiu.beznea.uj@bp.renesas.com>
- <20251007133657.390523-4-claudiu.beznea.uj@bp.renesas.com>
- <TY3PR01MB113461AF51BD346E1D96E43B486E0A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Subject: Re: [PATCH v7 4/7] reset: rzg2l-usbphy-ctrl: Add support for USB
+ PWRRDY
 From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+To: Philipp Zabel <p.zabel@pengutronix.de>, vkoul@kernel.org,
+ kishon@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ geert+renesas@glider.be, magnus.damm@gmail.com,
+ yoshihiro.shimoda.uh@renesas.com, biju.das.jz@bp.renesas.com
+Cc: linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+References: <20250925100302.3508038-1-claudiu.beznea.uj@bp.renesas.com>
+ <20250925100302.3508038-5-claudiu.beznea.uj@bp.renesas.com>
+ <c7fc31f1247332196516394a22f6feef9733a0b4.camel@pengutronix.de>
+ <66d85e70-efb8-4a45-9164-55b123691b70@tuxon.dev>
+ <bcf6113b0025777db1cb2ace1618fed8fac2dfc6.camel@pengutronix.de>
+ <cca1061e-df67-4b5b-99bd-9721c72a0f88@tuxon.dev>
 Content-Language: en-US
-In-Reply-To: <TY3PR01MB113461AF51BD346E1D96E43B486E0A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <cca1061e-df67-4b5b-99bd-9721c72a0f88@tuxon.dev>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi, Biju,
+Hi, Philipp,
 
-On 10/7/25 16:44, Biju Das wrote:
-> Hi Claudiu,
+On 10/8/25 15:16, Claudiu Beznea wrote:
+> Hi, Philipp,
 > 
->> -----Original Message-----
->> From: Claudiu <claudiu.beznea@tuxon.dev>
->> Sent: 07 October 2025 14:37
->> Subject: [PATCH v5 3/6] arm64: dts: renesas: r9a08g045: Add PCIe node
+> On 10/8/25 13:23, Philipp Zabel wrote:
+>> Hi Claudiu,
 >>
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>> On Mi, 2025-10-08 at 12:29 +0300, Claudiu Beznea wrote:
+>>> Hi, Philipp,
+>>>
+>>> On 10/8/25 11:34, Philipp Zabel wrote:
+>>>> Hi Claudiu,
+>>>>
+>>>> On Do, 2025-09-25 at 13:02 +0300, Claudiu wrote:
+>>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>>>
+>>>>> On the Renesas RZ/G3S SoC, the USB PHY block has an input signal called
+>>>>> PWRRDY. This signal is managed by the system controller and must be
+>>>>> de-asserted after powering on the area where USB PHY resides and asserted
+>>>>> before powering it off.
+>>>>>
+>>>>> On power-on the USB PWRRDY signal need to be de-asserted before enabling
+>>>>> clock and switching the module to normal state (through MSTOP support). The
+>>>>> power-on configuration sequence
+>>>> The wording makes me wonder, have you considered implementing this as a
+>>>> power sequencing driver?
+>>> No, haven't tried as power sequencing. At the moment this was started I
+>>> think the power sequencing support wasn't merged.
+>>>
+>>> The approaches considered were:
+>>> a/ power domain
+>> Letting a power domain control a corresponding power ready signal would
+>> have been my first instinct as well.
 >>
->> The RZ/G3S SoC has a variant (R9A08G045S33) which supports PCIe. Add the PCIe node.
->>
->> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
->> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->> ---
->>
->> Changes in v5:
->> - updated the last part of ranges and dma-ranges
->> - collected tags
->>
->> Changes in v4:
->> - moved the node to r9a08g045.dtsi
->> - dropped the "s33" from the compatible string
->> - added port node
->> - re-ordered properties to have them grouped together
->>
->> Changes in v3:
->> - collected tags
->> - changed the ranges flags
->>
->> Changes in v2:
->> - updated the dma-ranges to reflect the SoC capability; added a
->>   comment about it.
->> - updated clock-names, interrupt names
->> - dropped legacy-interrupt-controller node
->> - added interrupt-controller property
->> - moved renesas,sysc at the end of the node to comply with
->>   DT coding style
->>
->>  arch/arm64/boot/dts/renesas/r9a08g045.dtsi | 66 ++++++++++++++++++++++
->>  1 file changed, 66 insertions(+)
->>
->> diff --git a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
->> index 16e6ac614417..00b43377877e 100644
->> --- a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
->> +++ b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
->> @@ -717,6 +717,72 @@ eth1: ethernet@11c40000 {
->>  			status = "disabled";
->>  		};
->>
->> +		pcie: pcie@11e40000 {
->> +			compatible = "renesas,r9a08g045-pcie";
->> +			reg = <0 0x11e40000 0 0x10000>;
->> +			ranges = <0x02000000 0 0x30000000 0 0x30000000 0 0x08000000>;
->> +			/* Map all possible DRAM ranges (4 GB). */
->> +			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 1 0x00000000>;
+>>> b/ regulator
+>>> c/ as a reference counted bit done through regmap read/writes APIs
+>>>
+>>> a and b failed as a result of discussions in the previous posted versions.
+>> Could you point me to the discussion related to a?
+> It's this one
+> https://lore.kernel.org/all/
+> CAPDyKFrS4Dhd7DZa2zz=oPro1TiTJFix0awzzzp8Qatm-8Z2Ug@mail.gmail.com/
 > 
-> On RZ/G3E, HW manual mentions PCIe can access up to a 36-bit address space (access to DDR and PCIE0).
 > 
-> Not sure about RZ/G3S?
+>> I see v2 and v3 tried to control the bit from the PHY drivers, and in
+>> v4 we were are already back to the reset driver.
+> v2 passed the system controller (SYSC) phandle to the USB PHYs only (though
+> renesas,sysc-signals DT property) where the PWRRDY bit was set. The PWRRDY
+> bit was referenced counted in the SYSC driver though regmap APIs.
+> 
+> v3 used the approach from v2 but passed the renesas,sysc-signals to all the
+> USB related drivers.
+> 
+> Then, in v4, the PWRRDY refcounting was dropped and passed
+> renesas,sysc-signals only to the USB PHY CTRL DT node in the idea that this
+> is the node that will always be probed first as all the other USB blocks
+> need it and request resets from it.
+> 
+> v5 and v6 kept the approach from v4 and only addressed misc comments or
+> things that I noticed.
 
-As of my knowledge/investigation, according to chapter 5.4.2.1 34-Bit
-Address Space Access of HW manual, revision 1.10, on RZ/G3S there are some
-bus masters that can access up to 34-bit address space, these being
-SDHI/eMMC, GEthernet, USB2.0, DMAC. The rest can access up to 32-bit
-address space.
+Could you please let me know if you are OK with the approach proposed in
+v7, so that I can start preparing a new version addressing your comments?
 
 Thank you,
 Claudiu
