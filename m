@@ -1,212 +1,161 @@
-Return-Path: <linux-renesas-soc+bounces-22867-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22868-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A90BBCBF02
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Oct 2025 09:37:47 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BE57BCBF41
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Oct 2025 09:40:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C5583C4E43
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Oct 2025 07:37:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2047E1A638B5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Oct 2025 07:40:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3109F227E83;
-	Fri, 10 Oct 2025 07:37:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7332D275B15;
+	Fri, 10 Oct 2025 07:39:57 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61091262FF3
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Oct 2025 07:37:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F778273D8D
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Oct 2025 07:39:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760081864; cv=none; b=OHiwLjRjhQr6QI4ydRzCIg2D4nyLGk4OtLHKQMP+8LWArSn2ZceukqOl9S1lThe/+HCsOdZF50S+YSgAWpIhj5GFF2YxyftHcASL2Mi8zoaSgZ5/HTNS5I016tA18tpvoc+Q/JzKV+mL31JiNd3uq7g+yyzrsmlpYDF/zs9QVno=
+	t=1760081997; cv=none; b=ngK4CQ4Y4JX4+gwL2WfEWXCGQalqiwAsNeNiV/CfitG4UcBI92PsHWzp2xile3dngpmdZIJpqsf9PjN0Yn8CDZ0YVBjZp1bmZP/vQ/74DYuKKE0FXL/bn/HmFFWqcM/4sqbLQgpQHGO002h6iX+Qm/ltJUIKj9ZIAPZaxgtdSXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760081864; c=relaxed/simple;
-	bh=eST3ZT7rgB9R6WdFdGECdhPZDbsoewBoBABzcKzXuMk=;
+	s=arc-20240116; t=1760081997; c=relaxed/simple;
+	bh=UPchuvReFLKZUodDfs2E9bb42rO6Ub7zgDbedskMYJQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BeTJk7zRwYRoY4liJejdKOV6rpDI5V+KflaUM6JJENIf9GhYYMzWEfARsEoNBrf3UVh7QbgyUmAZY+FT/1Pe35ZvpSCRST3fzpcsfHfubGrkmVQ302V22T8pt9W0O/nOh5Fz0fLVJ0ly1dDcDMG2AZdcRbaZw90ZJpBWBH1ikbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.47
+	 To:Cc:Content-Type; b=g5309gyZ5hcGAAQki6qXD0t+NJBE7KgjbkScIFr9aOcQIDJ9As7fNvQ3P8HPu0MhHddGP17ejfUgFITlfHSSM4ZxV40h7Bgdu3ZgbCouE6NkGEyBAIMR+oBk8GKwtVxKDuPxHw44k4L/Aep0XKJao/n1B7GUZteTw+CunDlF9gU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-8e364003538so1318795241.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Oct 2025 00:37:42 -0700 (PDT)
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-930a1bacf0bso1100335241.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Oct 2025 00:39:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760081861; x=1760686661;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tyJ7Kpxwh9FSglSF6Jve2BNo88/F4JmGj75EOHjBoPk=;
-        b=OBEjtwmCkca95i9IQ0LAhB6N3+X3NZVImn9rnw5U48J0hHbBLVa0cts1m1T8tJhAy3
-         InJf/Mw6NJyH/v2cfRjvf9VX99MVR8C582HsNXrBOgEfa9qCRcc9xn12xspdxr0cDpca
-         0Cc3Nb2vNJuUzlmHs7mAeUZIzae2NooC8IwPhWogzxDtoRYYe+EpVmnqdVHCUjrSR21D
-         EYTQMN84B/w5gRgSmPHyfcrMb6DFveBYtiC/PciWcWT9xfQ29zn6fzXMS79qbdXDBMBs
-         Ac051N8ak8X8cEzAXZ+309eIHtan2M8Z5eqkzCb7bBxRBOf5neSgG2OKLYTlr+OwoTim
-         QxpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV/OCk/AWDnsOD0dlyPj8ZEdtZHXGXe9rWHt937rQu0EdMCu9vc38pVQJOGAa3yy4LNeIz1GGWmbMzVxx/lxNmnHA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyAZGgidcPy8Ilw6Wrz8UkA63P4VVJ32QXaiwhv4iAS8W90d52u
-	1ZjtOSRJBQkDhB5VjUC6IzFjqvmXgRm05DI6U6/j2uA0Qu+ekqFHwH1kiMiN5KhB
-X-Gm-Gg: ASbGncsgvoR+/bkbuYUx4Y9iBReX8TyPad8cma2sQraQvj/+1O/uzvifdPDPt5OnL2g
-	M9KHDZmJ7Hd3C1R6tI8/b3DQ73VEy3AST9PCBlNOOrL+Z7PBgRS/4NfzjVNMPdCxpYV6KfL0vDz
-	iVcG0+eolmlxMNSAYR1blJoyFABKp1uila2BhL7Upb73bc3ZQzZ3qyOJlutrQ8q8LY7POC2yaYL
-	/juafxKkIOE4a3QXbVgJwigi4keLu8HtBs4KCsDQBFshaRTSLDZK1JJ9hMpnjWb0xPmgHk+lW1I
-	lOmzkoUmFBAv2wbLYUTGaKzriT4VtLglCatxHOikJenwDGIe3CF8XLBEq49My9ZB1gg8UxW1nc/
-	7mB9RJJn3wy7wm+cEEx2bYSLwSR5q9wTrKxJ5+PolESGuKGY2YtUjwd3wuyut7LiCoJ0lo5md6B
-	Ju9V4=
-X-Google-Smtp-Source: AGHT+IEGsuLbc6VaEMBTBf7RQsjpukgkh49vmdUFZr8vGxDVN0Lq9I9hlllA3jRVA4M3l9AL3xbW6g==
-X-Received: by 2002:a05:6102:e10:b0:5d3:fed9:4e72 with SMTP id ada2fe7eead31-5d5e23549ebmr5098337137.25.1760081860927;
-        Fri, 10 Oct 2025 00:37:40 -0700 (PDT)
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com. [209.85.217.46])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-930bf6b1248sm537433241.2.2025.10.10.00.37.40
+        d=1e100.net; s=20230601; t=1760081994; x=1760686794;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=g+ttZbolmltC88YmqqxciPmwAZI8Qy5cQcJ0WlW2Ejk=;
+        b=QyzDP3X+bPAR6onNrH0Wgp4Eo97MhdsunDpELXYg+WEB1biTV2nB50ZOpJhm1UdbPK
+         DbMZqUTXrF9mhwqjRKyiM/x3MmtOv+svO/3PtS2Q+ONQn1DdfJxSLUSSUdvquOS9/gLk
+         e1GDlXuA9eicsrOnBiIP5GK7mCmxF0RnKLnT1bO6HI4ivrGlfJKClrkeGUzUwjw6y2e2
+         92HGGXjhI96ESAmP30oS4gef7OkUwBnfVE46YLzWPhvUWsxwvvZLZSsO8NbSDAqtP1WV
+         E36oKnR5eEsrvcnkLHziPzZYiJs2ptcQeTJXesl+/45NDWqqfWa2Cd9eAWqsuhLcJhqN
+         XWIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXNhUj5SSG8o14Zec5dqAM9UM8WGHV/imM/Ny7MO2UUbSrZyy6VhByiOMOpV9u638tkFjtmw576nfsbvMPSCul5rA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz64yVxWws2lXJyJo36NHxUcPyVMjaV5WCPY7YsuGtgLdIYxwDk
+	bHISZwujR2Z+UU3fr1V9PwqluHGqqKkyd0ZUJe8vIzfZS7ARWqgMyqu6bf2xm8qq
+X-Gm-Gg: ASbGncsWU7XYrevL0qmA8P81Byh+aLgqtulY8+EoSvjCVuN5jqVuwbMpOWaLb4oQLfT
+	BxayBSbCrtvC2sbMm5FHXmzcAwR1HE+ETerD8upskkAmBmeK6gDIJCj39d+hjuuh6jT9TXJZaRo
+	qKrAD7IP55mntWA3FJ+W7wexw+IlwdnTq0CwIt2m0GhkH8H0m+8YqPKnwJAuRKdGAmud7b+hKzM
+	wMyJPKKXU/5K5PtGn0Kh0/JJQj1/x6SRiu49FnY1zRHx7sO1RtwsWddaftWtdZVv3Nh4w5umeBc
+	PBzJyCe6waLA0lWG8sLyMm6/lMiD1cXhGd57xWOp9mc0ArP6GvhRiougW1zDPPN6jaT4rAN5C0I
+	pfmGLo877lG95FhyUrexU7KRXdfYMg/zjjFaTNtN71oUSkcTvMfdHkcA/hCMmcEpfErRI7LIN5g
+	p0kZo=
+X-Google-Smtp-Source: AGHT+IHpzQbygTrA4DiQdMDtmKXdlkVhd5va6KwzID0Dbi/jUEW11oeLrFdCpD5ytJTbMN92Fctclw==
+X-Received: by 2002:a05:6102:80a9:b0:56c:eed1:276d with SMTP id ada2fe7eead31-5d5e2323cfbmr4443676137.18.1760081994006;
+        Fri, 10 Oct 2025 00:39:54 -0700 (PDT)
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com. [209.85.217.45])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5d5fc761bbesm688724137.7.2025.10.10.00.39.53
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Oct 2025 00:37:40 -0700 (PDT)
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-5b62ab6687dso1930728137.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Oct 2025 00:37:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUM2gpS25TXppxAJXpmTGZ9SqniSq6pvV7oRko5A98OxdpoOOa7Z9wqiFMkDUK3JJzS+NZGmXLesfM0uQ2Mvl2p6w==@vger.kernel.org
-X-Received: by 2002:a05:6102:a4e:b0:528:92b8:6c3e with SMTP id
- ada2fe7eead31-5d5e21ce95amr5073612137.1.1760081860129; Fri, 10 Oct 2025
- 00:37:40 -0700 (PDT)
+        Fri, 10 Oct 2025 00:39:53 -0700 (PDT)
+Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-5a0d17db499so1627781137.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Oct 2025 00:39:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU5+Auw9CLBPPHV22F3Za/V1DO2lAaIXkx7X7DMXu2EppFaRMw/wnLF5bAL/hDjwVy4ALEosXdderW6N3djfHziqw==@vger.kernel.org
+X-Received: by 2002:a05:6102:1483:b0:552:aa04:c61 with SMTP id
+ ada2fe7eead31-5d5e23571dcmr5106366137.23.1760081993484; Fri, 10 Oct 2025
+ 00:39:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250918030552.331389-1-marek.vasut+renesas@mailbox.org>
- <20251003150819.GC344149@ragnatech.se> <CAMuHMdWXkwOyAhAZB=j_zZg8PcGcdkMDGOa-nBhcgjYRgb7MSg@mail.gmail.com>
- <20251006122338.GB1353934@ragnatech.se> <20251009181250.GB2550463@ragnatech.se>
-In-Reply-To: <20251009181250.GB2550463@ragnatech.se>
+References: <20251005131524.16745-1-marek.vasut+renesas@mailbox.org>
+ <CAMuHMdV-6A+vV4bZLoT2NtXiqMQLTRRbNJXC1z2ttXX=aXFEGw@mail.gmail.com>
+ <9864e81d-3b62-4513-9deb-1ce154cdc571@mailbox.org> <CAMuHMdVEK5MaJNWwpT_7yo0=tk+Pm+99QRD3SStkWsHHDDVJ7A@mail.gmail.com>
+ <8220c385d69bd46adf65f58d8e95b247dff6ae1e.camel@pengutronix.de>
+In-Reply-To: <8220c385d69bd46adf65f58d8e95b247dff6ae1e.camel@pengutronix.de>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 10 Oct 2025 09:37:29 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUQ-5eL53xx0h0A951J-vU_vTbZtXksO3zai+qs3-hxOQ@mail.gmail.com>
-X-Gm-Features: AS18NWAhg-eRKCHFk41jOIrVt9EBhsPvKCaPawOrsQMFS0mslGNWcDjWshSyeHE
-Message-ID: <CAMuHMdUQ-5eL53xx0h0A951J-vU_vTbZtXksO3zai+qs3-hxOQ@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: cpg-mssr: Add missing 1ms delay into reset
- toggle callback
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>, linux-clk@vger.kernel.org, 
+Date: Fri, 10 Oct 2025 09:39:42 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXf5-tajON6bu8E8riuKTYev+wr=F08oSsmR0rJgCF3YA@mail.gmail.com>
+X-Gm-Features: AS18NWD8vsVGbk4pjXdOCbjlrmtFfZ_mqBe9nTk9CWR-xxNlIBE48LR0lCcl3Sc
+Message-ID: <CAMuHMdXf5-tajON6bu8E8riuKTYev+wr=F08oSsmR0rJgCF3YA@mail.gmail.com>
+Subject: Re: [PATCH v2] clk: renesas: cpg-mssr: Add missing 1ms delay into
+ reset toggle callback
+To: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Marek Vasut <marek.vasut@mailbox.org>, linux-clk@vger.kernel.org, 
 	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
 	linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Niklas,
+Hi Philipp,
 
-On Thu, 9 Oct 2025 at 20:12, Niklas S=C3=B6derlund
-<niklas.soderlund@ragnatech.se> wrote:
-> On 2025-10-06 14:23:42 +0200, Niklas S=C3=B6derlund wrote:
-> > On 2025-10-06 13:53:34 +0200, Geert Uytterhoeven wrote:
-> > > On Fri, 3 Oct 2025 at 17:08, Niklas S=C3=B6derlund
-> > > <niklas.soderlund@ragnatech.se> wrote:
-> > > > On 2025-09-18 05:04:43 +0200, Marek Vasut wrote:
-> > > > > R-Car V4H Reference Manual R19UH0186EJ0130 Rev.1.30 Apr. 21, 2025=
- page 583
-> > > > > Figure 9.3.1(a) Software Reset flow (A) as well as flow (B) / (C)=
- indicate
-> > > > > after reset has been asserted by writing a matching reset bit int=
-o register
+On Mon, 6 Oct 2025 at 16:10, Philipp Zabel <p.zabel@pengutronix.de> wrote:
+> On Mo, 2025-10-06 at 16:03 +0200, Geert Uytterhoeven wrote:
+> > On Mon, 6 Oct 2025 at 15:56, Marek Vasut <marek.vasut@mailbox.org> wrote:
+> > > On 10/6/25 3:43 PM, Geert Uytterhoeven wrote:
+> > > > > R-Car V4H Reference Manual R19UH0186EJ0130 Rev.1.30 Apr. 21, 2025 page 583
+> > > > > Figure 9.3.1(a) Software Reset flow (A) as well as flow (B) / (C) indicate
+> > > > > after reset has been asserted by writing a matching reset bit into register
 > > > > > SRCR, it is mandatory to wait 1ms.
-> > > > >
-> > > > > This 1ms delay is documented on R-Car V4H and V4M, it is currentl=
-y unclear
-> > > > > whether S4 is affected as well. This patch does apply the extra d=
-elay on
-> > > > > R-Car S4 as well.
-> > > > >
-> > > > > Fix the reset driver to respect the additional delay when togglin=
-g resets.
-> > > > > Drivers which use separate reset_control_(de)assert() must assure=
- matching
-> > > > > delay in their driver code.
-> > > > >
-> > > > > Fixes: 0ab55cf18341 ("clk: renesas: cpg-mssr: Add support for R-C=
-ar V4H")
-> > > > > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 > > >
-> > > > > --- a/drivers/clk/renesas/renesas-cpg-mssr.c
-> > > > > +++ b/drivers/clk/renesas/renesas-cpg-mssr.c
-> > > > > @@ -689,8 +689,15 @@ static int cpg_mssr_reset(struct reset_contr=
-oller_dev *rcdev,
-> > > > >       /* Reset module */
-> > > > >       writel(bitmask, priv->pub.base0 + priv->reset_regs[reg]);
-> > > > >
-> > > > > -     /* Wait for at least one cycle of the RCLK clock (@ ca. 32 =
-kHz) */
-> > > > > -     udelay(35);
-> > > > > +     /*
-> > > > > +      * On R-Car Gen4, delay after SRCR has been written is 1ms.
-> > > > > +      * On older SoCs, delay after SRCR has been written is 35us
-> > > > > +      * (one cycle of the RCLK clock @ cca. 32 kHz).
-> > > > > +      */
-> > > > > +     if (priv->reg_layout =3D=3D CLK_REG_LAYOUT_RCAR_GEN4)
-> > > > > +             usleep_range(1000, 2000);
-> > > > > +     else
-> > > > > +             usleep_range(35, 1000);
+> > > [...]
+> > >
+> > > > > +        * On R-Car Gen4, delay after SRCR has been written is 1ms.
+> > > > > +        * On older SoCs, delay after SRCR has been written is 35us
+> > > > > +        * (one cycle of the RCLK clock @ ca. 32 kHz).
+> > > > > +        */
+> > > > > +       if (priv->reg_layout == CLK_REG_LAYOUT_RCAR_GEN4)
+> > > > > +               udelay(1000);
 > > > >
-> > > > I rebased the R-Car ISP work to renesas-drivers today and it includ=
-ed
-> > > > this change, and I seem to have hit an issue with the switch form
-> > > > udelay() to usleep_range() I'm afraid. I can't find any other good
-> > > > reproducer of the issue however.
-> > >
-> > > Yeah, AFAIK we didn't have any callers of reset_control_assert() from
-> > > atomic context, but I was already afraid one was going to pop up...
-> > >
-> > > > THe core of the issue seems to be that if a reset is issued from an
-> > > > atomic context bad things happen if you try to sleep. I get this sp=
-lat
-> > > > and the board is completer dead after it, needing a power cycle to
-> > > > recover.
+> > > > 1ms is a bit long for busy waiting, so I'd really like to avoid this.
 > > > >
-> > > > If I revert this patch things work as expected.
-> > > >
-> > > > [   29.256947] BUG: scheduling while atomic: yavta/597/0x00000002
+> > > > While the documentation does state this 1ms, I understand the
+> > > > issue we saw in the field was fixed by
+> > > > https://patch.msgid.link/20250922162113.113223-1-marek.vasut+renesas@mailbox.org
 > > >
-> > > > [   29.265595]  reset_control_reset+0x4c/0x160
-> > > > [   29.265604]  risp_core_start_streaming+0x100/0x440
-> > > > [   29.265609]  risp_io_start_streaming+0x74/0x108
+> > > This synchronizes the asynchronized resets, this is a separate topic
+> > > from the 1ms delay.
 > > >
-> > > The existing udelay(2000) after the call to reset_control_reset() is
-> > > also a bit gross.
+> > > > so perhaps we can do without this longer delay?
+> > >
+> > > This aligns the driver with hardware operation charts in the V4H RM,
+> > > which mandate the 1ms. If we want to follow the RM accurately, then we
+> > > do need the 1ms delay, otherwise who knows what kind of fringe failures
+> > > we could run into.
 > >
-> > Haha, I agree :-)
+> > All true...
 > >
-> > > I understand you are using a spinlock because you
-> > > need to synchronize with an interrupt handler.  Would converting to a
-> > > threaded interrupt handler and using a mutex (which the code already
-> > > uses) instead be an option?
+> > > > FTR, it looks like the reset controller documentation doesn't say
+> > > > anything about the context from which it is safe to make reset calls?
+> > >
+> > > What does this mean ? Please clarify .
 > >
-> > Yes and no. For the current use-case where the ISP is used in off-line
-> > mode, that is userspace dequeue images from VIN and then queues them to
-> > the ISP, it could work. But if we ever want to support the ISP in
-> > in-line mode, that is the CSI-2 Rx queues the frames directly to the IS=
-P
-> > I think a threaded interrupt handler would be to slow to change ISP
-> > parameters between each frame.
-> >
-> > But that can also be a future problem, I will see what I can do.
+> > Are you allowed to call reset_control_reset() from atomic context,
+> > like the ISP driver does?
+> > For the clock subsystem, this is clearly documented: e.g. clk_enable()
+> > can be called from atomic context, clk_prepare() cannot.
 >
-> With a bit of work I have reworked the ISP driver to reset the core from
-> a context that can sleep. Without the need for a threaded interrupt
-> handler. Thanks for all the tips shared on IRC Geert and Marek.
->
-> I now have no known case where usleep_range() in cpg_mssr_reset() causes
-> issues. If I trip any more I will let you guys know.
+> The reset_control_assert()/deassert() APIs are de-facto only safe to
+> call from contexts that can sleep, because some reset drivers sleep or
+> call gpio_set_value_cansleep().
+> This is not properly documented and the reset functions don't enforce
+> it with might_sleep() either, which is an oversight.
 
-Thank you, I still have this v1 in renesas-clk-for-v6.19.
+Thanks for confirming!
+So I keep v1 in renesas-clk-for-v6.19, using usleep_range().
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
                                 -- Linus Torvalds
 
