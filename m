@@ -1,62 +1,61 @@
-Return-Path: <linux-renesas-soc+bounces-22896-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22897-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0D73BCE33D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Oct 2025 20:14:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9E0FBCE472
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Oct 2025 20:46:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 25E4B4F5499
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Oct 2025 18:14:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 93AC53AEAE6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Oct 2025 18:46:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 213872FC020;
-	Fri, 10 Oct 2025 18:14:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18B62227BB9;
+	Fri, 10 Oct 2025 18:46:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N5fgZ3nB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GJpSuy6Q"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E72EF2F5487;
-	Fri, 10 Oct 2025 18:14:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF7F332C8B;
+	Fri, 10 Oct 2025 18:46:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760120058; cv=none; b=R5HPNGX18Q2Cs9fQOdWGj8US5wfY17+j6a8DZKmh02w7Kf4WGVp2z4Seb1fTglQ3KfMmF4UFD1JYN2eTRCb9e3rk1hV5/5blJ/dbrIROSD3qzCeuDx7Sis2u8gP/xjn3hQsW0v1wpVThFGe3sNZ7y1RhhuM8G9OgY5oDLni8+w4=
+	t=1760121963; cv=none; b=rfLYUC7/tJ/nua+aMweTRmW8AQX+eiUHNapzgnjrEpBoQEU3WsyL3pUqbn2QhpfbOxCGx7RTgmVlC5hZ6mpgF5LE71U0qOwgnc5cV1PSDNDqMEAriWo/UuYXlVe6EwHxdBndOCUSWL9N7iK6QGGKbxBeUgF25h04GHnGG0SQQhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760120058; c=relaxed/simple;
-	bh=WykGdIgrKV3qVAkKEUu62ycGYqWV9fyAYr+Ox74s+Tc=;
+	s=arc-20240116; t=1760121963; c=relaxed/simple;
+	bh=/RQkKmofIpTcP5IxDbViET4LQva955Hk1A6mQ8+698A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lx7k4iz7Gyg+HMqZytifQn42cESnOa9nf0qdai2yFLeqaei6/mZmjxrUFFbsR8JKsOD9OdJ9KdJ6T20j5ty9RZqj+8vtrXKxFhxlVeTVoM7VSgq7JCaJ9Pq366wfj9rC9v2LMGNqvw1/MP+kV7M204ag96Cza/PAvlTZ9e0/PN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N5fgZ3nB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3758BC4CEF1;
-	Fri, 10 Oct 2025 18:14:17 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=rjDKSZG52+Vp0lgqPena47g3dqaNd39Jkri5fw9yJHGvSLV8GppO29Mnde5YMedCSzyLFmmSx6jQJtIHyiLAy7y+CPod36OWB7Ac9IFAXoTbuQVOoa3GKUPrJfY67ar6QB5AAWdEIzCmBSoMZPedgNS6EA5xaRBm2d/a9Z745MA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GJpSuy6Q; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 880D9C4CEF1;
+	Fri, 10 Oct 2025 18:46:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760120057;
-	bh=WykGdIgrKV3qVAkKEUu62ycGYqWV9fyAYr+Ox74s+Tc=;
+	s=k20201202; t=1760121962;
+	bh=/RQkKmofIpTcP5IxDbViET4LQva955Hk1A6mQ8+698A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N5fgZ3nBZd0UJnUGugzaqPns9akl58JXDw6jZ+KMggSrCjD9ogWtc14sBNZBk4Bh3
-	 ExxnPrgkpKTMXRCx7DXm/tFHhfCeKbItfjBLvOZ5BExW9n2x+zKouvZ8KJVejmEBJD
-	 RCGmY5oEDDpZTaDLOtrA0jFN+91hRDrJSQMiQNfs42ZVKDN6hh8WzXlptfLW+xwS0Y
-	 YahLVhgiTvPM7/MyZ4pJRrTPAtA2kfcKd74upS/TLGSBtyXxJaU55YQt8cBjjM/n9W
-	 p22T8py8c8yLLu6dtch6ApwtiyrzjehFTE54+e1ckoU/0QdCmDp52K34x2zAhawEDL
-	 G/aOD3/Beb/yg==
-Date: Fri, 10 Oct 2025 13:14:15 -0500
+	b=GJpSuy6QLNiZepjO1i/r9yn4XyKjK8af2RMEVi9vJQPOa0cQBGykqdlOd7ezfx4Qm
+	 VQO3orKj+KV4q88mxx4V5o0G/RZ96P4dPmuaMIEBgZkCcFoHg1hqwRKzxo7FC+jWCL
+	 bTLHHdOu7OoNEAUpHCynugIsv/3xe6w2/ja6emg0JRBnLatxMx9WUCruDnQzIZoeiM
+	 r/MPvV0zCUiU4/bDOSe2zqfReyPbY3X4ZlnBVHFxI/HU3BPOy6tozCndzzuQPr3zOt
+	 PynJpJjbpWo7WGC2TC4qe5rFzVNLnmSiIQRnZ60mz+WvclrN541aqTH20dg4epely8
+	 Nyolnk19KiaQw==
+Date: Fri, 10 Oct 2025 13:46:00 -0500
 From: "Rob Herring (Arm)" <robh@kernel.org>
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Guenter Roeck <linux@roeck-us.net>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-watchdog@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
+Cc: linux-sunxi@lists.linux.dev, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 5/5] dt-bindings: watchdog: renesas,wdt: add SWDT
- exception for V3H
-Message-ID: <176012005479.654031.91907462455772331.robh@kernel.org>
-References: <20251009104500.69787-7-wsa+renesas@sang-engineering.com>
- <20251009104500.69787-12-wsa+renesas@sang-engineering.com>
+	linux-arm-kernel@lists.infradead.org,
+	Samuel Holland <samuel@sholland.org>,
+	linux-renesas-soc@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>, devicetree@vger.kernel.org,
+	Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v2] dt-bindings: bus: allwinner,sun50i-a64-de2: don't
+ check node names
+Message-ID: <176012195864.688896.9808018119386389754.robh@kernel.org>
+References: <20251009183835.5533-2-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -65,22 +64,22 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251009104500.69787-12-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20251009183835.5533-2-wsa+renesas@sang-engineering.com>
 
 
-On Thu, 09 Oct 2025 12:45:03 +0200, Wolfram Sang wrote:
-> The SWDT on V3H has no reset bit. Make resets optional on this SoC.
+On Thu, 09 Oct 2025 20:37:43 +0200, Wolfram Sang wrote:
+> Node names are already and properly checked by the core schema. No need
+> to do it again.
 > 
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > ---
+> Changes since v1:
+> * dropped superfluous '^.*' from the regex
 > 
-> Changes since v3:
-> * don't introduce new compatible, just make resets optional (Geert)
-> 
->  .../devicetree/bindings/watchdog/renesas,wdt.yaml     | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
+>  .../devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml       | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Applied, thanks!
 
 
