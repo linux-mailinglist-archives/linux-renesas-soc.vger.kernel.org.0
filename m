@@ -1,79 +1,79 @@
-Return-Path: <linux-renesas-soc+bounces-22923-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22926-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5684BD366B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 16:16:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DFB8BD36E7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 16:18:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 39EE9189A0A7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 14:16:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5069A3A6B78
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 14:16:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2DC4309EE5;
-	Mon, 13 Oct 2025 14:15:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 041DC2FE58C;
+	Mon, 13 Oct 2025 14:15:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="I21vI3yq"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="izTUNuay"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870D425782D
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Oct 2025 14:14:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BAD7277C8D
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Oct 2025 14:15:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760364909; cv=none; b=qpl4DzpzPCuFzr+ltdFF5EWAz69dMaCIkmqCBmPCSkV2GXfLFCJdBupc6gBabxz3SdG62UxC1Hf92EYSC8qKaKCWLBq0lyZ+W+gCTz+iBivrrA0nrCoBv3sAkqkHIViEJARqRs+1E6N0BuCIXiLda3c9tptRDbAoKO6MY91EHiI=
+	t=1760364911; cv=none; b=K4YB4HyRtM3cPNOEsvqPn8cM7uJ4UcUqBUVvb4Kju1J34T+nUdN0oNwH5Ld7+71fIghCMalGnNNsnwW6O9ihFO+X5O+bko9QuWtDR6AUeDIPqAbIXc/A3QmyWjjPdn2Ya0Tr9EVSuX7S4HJtq43YzuLbxs7cWtz1L3Q3yyEVpj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760364909; c=relaxed/simple;
-	bh=cjTbphg5ydQRNNF0zGsMKQ9PfRKUomJXS0y++m9uD5Q=;
+	s=arc-20240116; t=1760364911; c=relaxed/simple;
+	bh=+oAwKYsKZnmMRNeirjVFyUXif+/X/1l4gmdnVjVso4M=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Tp1WRxGpZJxCcobZ1aiOnaagX1dDTjEDAIYcd/iidmv0Scmy/dtBCIq0EjUeT/XPIXMQ8OThh9f1YrnmxEzxVDGVUuB1+lW7FfwGoWIcy+qCx3kRF4twUth+afkVkBYpP6mZ2D3eL3t+iA22sPjoQ+I8cGkR5dHiWw8qKI57nz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=I21vI3yq; arc=none smtp.client-ip=209.85.167.52
+	 In-Reply-To:To:Cc; b=H9rABpuI+HXRdoM1TLP3vjgI9inFdiD+hON/nU428Pd4Fur353E7TBgp1ekLdp6jQe+SQUrltBVxZp/cy+MTPiDvvnjIVhcXczLYiz2PnZYtDNbw31BEsHjIVYt9+jD1uZDug/L/msetngp1ZGKPyjXDcXgnKZZ/yuIIettYECQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=izTUNuay; arc=none smtp.client-ip=209.85.167.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-57f0aa38aadso4965148e87.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Oct 2025 07:14:59 -0700 (PDT)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-57a59124323so4619694e87.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Oct 2025 07:15:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google; t=1760364897; x=1760969697; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Gx2Nk8bbTBBYhN943GhcMzv342eYq6Mo/xpbKyZ7/rI=;
-        b=I21vI3yqWJ+gtAKtphPU+0JVrvViANfW5mf7L1y2jKwRfe8+LAbSDJdgyax9+zc1X3
-         aYbxt50wlnvFbEXRcU6PpMxCoTQ3zjnfvkapF1fDFUvXKG7Do/kyA0UDAB6LY7php88G
-         iLoxBG/lO3qezExPedC2mANEKRhnDJjks4JFI=
+        bh=weMrn1P2Dmx5cKyBfIFsmXsJRg2imt8oYjxSbIy2C0c=;
+        b=izTUNuayAQ45sJgBQXb0nIli8DPefQgSO+xRgra5o4yjJ6Nz+NS35kd39st74oQW82
+         oogcytQoWlc4+jWm0/3pG77HeR8v+K0uEPIVlBqnxkUvwmvT54rZDM2A/75TGymXZ9Mt
+         E6Nv6WCwdpnhxJKw8IC6L4hwQ4VpKY3qQwTz4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1760364897; x=1760969697;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Gx2Nk8bbTBBYhN943GhcMzv342eYq6Mo/xpbKyZ7/rI=;
-        b=jyFP3g+JgfpmWRrk/4MpqD5qVqYMZouWBSJ28dh6I+RCRkZe2Q+7Kp0WuhhXauGJA5
-         zjou9nkywpZAvgaXBi1rlJKJXjaFS7pGJP80foP9KOhm2jMef8edOqzuimDemlfyC6JV
-         RIYqZcGLKkpq5+N2NPHGYIxvRbZwRm8S3Q27TsNm6Ux7hw/NpVGiMo/rO7C2lU8JimBx
-         /TWCduZvxEX/bAhirdtZx3BhBKJYPXJd/6mNXnk1ya52IJViI95xdL+1GJTAVQc5K5wr
-         G7dQosomkSsrQ9fVjBQwaCHToG4wLOim/0VjCXbsbZUuUnK2hw9KBXZXLMIZI5bSBj7S
-         3lOw==
-X-Forwarded-Encrypted: i=1; AJvYcCX7TcfEqudYw8tBNyZ8h3GqCu6zyCkRfjO7CkZkJcuWkh8mF7STfpe/130dy77Rg9lZ0rz2QKD0hv65CJdEbGMW/w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEHrvCDyAKb0Tej2ZOzT5yHf81dJ5nMk18uq7/2qeDReNsh0Qh
-	1rMLjc2247NvF7MxuFUG3YCM9NX+e2ngruUOV6nMSUvJBvastaZ4hdlbKGg0GqrhxQ==
-X-Gm-Gg: ASbGncu7yB9W4z5J5iM3AXjYFOh9ooAJkATN5bgc20b9EyrWvHxPh/AZna89MFY3a3t
-	BbXgDSoJ/jwxB5CReE8NVAPSDVi/Mm1KnlccwdR7HgiOViKT5IHcdpKM66SVZC/nFnGKodtkRT/
-	C+BA+RjLBrTJFwF6vmLScm8HAI05YzS3mjsK+84estgZUt/WnVhBogS6c5N62o86QMkTjDhZaGl
-	SAEsjc0XqgjM9VqiVXqbliv8bBEbYKyda7G2MKHbD6QWPXuXD9MV6qcF+3Yy5OiATc/Tshi0eml
-	+Z9QuI8Vh+ZMvRwESpckqFu69HbPDmANHnFCvV09pvGSsuF21baNJ0xnXmmi9oAC6fxA0pRxnx1
-	A5masqgnOl+s2mMwafN67c3lsdC4ASfoey7q2sKd16vJ5l4OXoZTYr/XFJDFXj5wfWexRxp1eW+
-	jaLi5Ei+IgRv34n/DlhnAnWDjWJpjb8vU3CEvPY68=
-X-Google-Smtp-Source: AGHT+IGza3WB72u87Qc/jc2dtqKhHQX3673S999Ht+Uo4ar3zMBnJvEIFFWeIrwIdWwBJ84BunwKvw==
-X-Received: by 2002:ac2:4c45:0:b0:57e:9865:d6a5 with SMTP id 2adb3069b0e04-5906d9e7318mr6028332e87.40.1760364896522;
-        Mon, 13 Oct 2025 07:14:56 -0700 (PDT)
+        bh=weMrn1P2Dmx5cKyBfIFsmXsJRg2imt8oYjxSbIy2C0c=;
+        b=sir8Keyg0IxAPLTJKJcirxpqkHCvTgbHosR99CbJBE5AKH6CgCrB8urzkRr4x81ob5
+         u0YwKQwOFUcjx5rNF06uqJjXE6h/Xkp2X6U6im6tlvJ7SHlRFamLu2U+IPV5QWIRLmm1
+         55SxHGYJj/66IIfICH+82jnPjCY00ITynTJwgsDqJYzagJ9xBb5C+F+aVXqd3TJDElCW
+         ujovjB+yJee9FbLyRHyyGhaJ8E2lhp8lOhT46XPsoPQRxob9dH4rMuGhhzUby3uUimg0
+         x35irU8SO1GUUf0sePDgAMByKScKPjEnLaNBvIYYfvQTgko99kTbHCn21QfQY3oziCeH
+         WTEg==
+X-Forwarded-Encrypted: i=1; AJvYcCWdJxUNeqXgtGLMu6RIKAlrSyXmrCkRXuLMH4jsNL1GwJV06MWmmuDYyNcWB6OKa76uDbsoBQA2kj//w60r3yTzTQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwpwSJsa+wAXD37fWIpcgLdJ06ieZLGnjhZhwjMNBFilhlwnpwV
+	6pTUogAI2UQtKajYXxIMwdJ3BYyOj1TLGiVdSp7pDuGnJ9648Se/A6grTXDlan38Fg==
+X-Gm-Gg: ASbGncvtSNUqZ1IozhLZtf9HZKzkuZRQatEzEJBz2HJpanpNihK6lGMcDIT7zy4WreJ
+	GndrItrXGJAq5XE8P7cwCGp3VdcBv//FjONMmBBxk5XxDt94XFA5HXsrFtvmvg/Bdf7IaJ0IB0Y
+	UKl4UUypLjUDYts1Tvxov5w0QmYsyjsUivAmwddhT9LlhrmdUnfncoKn5lYnyWF1LifMkqpNZXy
+	axMzKXUeo008HIoAvTUvIIbspLZCEUNsvrHHTIG8/clF7iwX+v8NQg7FuI2sfuByv3xH4eQbFlV
+	Ybs2Nz6lPk9Cou6IXLBhX2D5Q0bSrwrHSHUkbdhSKGjLinXmLCRXDntq8w/lms1u9MzofFQnox/
+	4gNUF8wjRTSG9BlpHxoQt9kMz/nIH4R6VjftSB0jgwbghsMFrzkTqTQP6OuLWXRTCF+XxS4HKGA
+	+VbS0uyDAkAS2eW4y05Q==
+X-Google-Smtp-Source: AGHT+IHVv3VTrmCgUzT/cTkypfMtCAEj51jzL57PRvYw0rG8gIadeWnRbBvldcFvBGl05DoGVFZcMA==
+X-Received: by 2002:ac2:4e0a:0:b0:55f:503c:d328 with SMTP id 2adb3069b0e04-5906d8edab9mr6287769e87.36.1760364897004;
+        Mon, 13 Oct 2025 07:14:57 -0700 (PDT)
 Received: from ribalda.c.googlers.com (56.213.88.34.bc.googleusercontent.com. [34.88.213.56])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-590881e4e58sm4165256e87.25.2025.10.13.07.14.55
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-590881e4e58sm4165256e87.25.2025.10.13.07.14.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Oct 2025 07:14:55 -0700 (PDT)
+        Mon, 13 Oct 2025 07:14:56 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 13 Oct 2025 14:14:51 +0000
-Subject: [PATCH 11/32] media: i2c: imx412: Use %pe format specifier
+Date: Mon, 13 Oct 2025 14:14:52 +0000
+Subject: [PATCH 12/32] media: i2c: max9286: Use %pe format specifier
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -82,7 +82,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251013-ptr_err-v1-11-2c5efbd82952@chromium.org>
+Message-Id: <20251013-ptr_err-v1-12-2c5efbd82952@chromium.org>
 References: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
 In-Reply-To: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
 To: Linus Walleij <linus.walleij@linaro.org>, 
@@ -135,28 +135,28 @@ a symbolic error name (eg. -EINVAL) and it makes the code simpler by
 omitting PTR_ERR().
 
 This patch fixes this cocci report:
-./i2c/imx412.c:931:3-10: WARNING: Consider using %pe to print PTR_ERR()
+./i2c/max9286.c:755:7-14: WARNING: Consider using %pe to print PTR_ERR()
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/i2c/imx412.c | 4 ++--
+ drivers/media/i2c/max9286.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/i2c/imx412.c b/drivers/media/i2c/imx412.c
-index 7bbd639a9ddfa7fa76d3a4594be1e1c4d002c98a..b3826f80354703b17b416dc233854da3f5736e38 100644
---- a/drivers/media/i2c/imx412.c
-+++ b/drivers/media/i2c/imx412.c
-@@ -927,8 +927,8 @@ static int imx412_parse_hw_config(struct imx412 *imx412)
- 	imx412->reset_gpio = devm_gpiod_get_optional(imx412->dev, "reset",
- 						     GPIOD_OUT_LOW);
- 	if (IS_ERR(imx412->reset_gpio)) {
--		dev_err(imx412->dev, "failed to get reset gpio %ld\n",
--			PTR_ERR(imx412->reset_gpio));
-+		dev_err(imx412->dev, "failed to get reset gpio %pe\n",
-+			imx412->reset_gpio);
- 		return PTR_ERR(imx412->reset_gpio);
- 	}
- 
+diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+index 7c0961688d6173843f3ae846253d4a8669ae762b..e6e214f8294b83105be02f29966e1d3ed72f8dbe 100644
+--- a/drivers/media/i2c/max9286.c
++++ b/drivers/media/i2c/max9286.c
+@@ -751,8 +751,8 @@ static int max9286_v4l2_notifier_register(struct max9286_priv *priv)
+ 		mas = v4l2_async_nf_add_fwnode(&priv->notifier, source->fwnode,
+ 					       struct max9286_asd);
+ 		if (IS_ERR(mas)) {
+-			dev_err(dev, "Failed to add subdev for source %u: %ld",
+-				i, PTR_ERR(mas));
++			dev_err(dev, "Failed to add subdev for source %u: %pe",
++				i, mas);
+ 			v4l2_async_nf_cleanup(&priv->notifier);
+ 			return PTR_ERR(mas);
+ 		}
 
 -- 
 2.51.0.760.g7b8bcc2412-goog
