@@ -1,188 +1,185 @@
-Return-Path: <linux-renesas-soc+bounces-22957-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22958-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86CC3BD4DFA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 18:16:46 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 937C1BD54FA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 19:00:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EC27618A07B4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 16:16:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9C61D484456
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 16:21:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD9EB30CD9F;
-	Mon, 13 Oct 2025 16:02:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZW8AY5d0"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CAF82727E2;
+	Mon, 13 Oct 2025 16:20:19 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F132330CD95
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Oct 2025 16:02:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3400826F44C
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Oct 2025 16:20:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760371360; cv=none; b=oFQNGyDw11RBQHhL7POogaWI5yzACZuY7SH1CpTJwKu5n4Q9fA0zqKfhqAxXScIzfg/Akg+QNY+XERJBbgM109W+KIaNTHkHVIYrHDSPNL7OXhaCoP8MDtNcEdhvxbx+modRmkH2hbN3cop14aJrY/kSmVz57FZ1dBQRqB09bSg=
+	t=1760372419; cv=none; b=XLSYNi0o+zjlT1CCU1rNNCSrx5KvdyRt8FFmMSw5KcJ+FqUzFdJkjiek5+uppfKQVYj181PZTFmgw420R19lIcXueLR17GuziW7a0E392FcQD0RlYk4yOdsDUGxY9tFKwZGx+7yOHAPKMgVe3RenP8MljtHcwnora07GsnjU09Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760371360; c=relaxed/simple;
-	bh=7pmScWeJxb/SA9LfgnIE+RSHfO7kt+ZDsVcv07zsRtU=;
+	s=arc-20240116; t=1760372419; c=relaxed/simple;
+	bh=QZXGC+aNSm2VaxhXC6fK/8LfmGJE2quumpT2uKvw4qE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CGBHed8ozmrd7Db8J0K9gaO1NVjXmtihdZEoMCmvR5rr+tF6fUKop1KWKBw3mwspUFA0K56mjDAwCX2UF33kCZabV3cgSGUCOw3MwXPrjS+RxhPadXoo27KvDEXE79GLuz7i+uuSQIqS7wFkDtQOta5ssTm9nroUh0e2Jl3e8yM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ZW8AY5d0; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-63bad3cd668so1771715a12.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Oct 2025 09:02:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1760371357; x=1760976157; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=85zW8eAa0UUuhYK13qFSD0pz0Cqd0sUrz3cG+0d4BSc=;
-        b=ZW8AY5d0A7x0JH23tpNn2fzZpXihG50kEjoqS46YQKNbO1pxmdrYDfF80UhPURhXZo
-         huW7y71evh4XYwSyVictteAHRrno+f8zaSq+67H+t6bLzTk0EPHtkVUVZkFcuYOkbabl
-         /lldvYg+iHKxdMHSjUPQ9vh4Hu4dYWqYedPDU=
+	 To:Cc:Content-Type; b=a3KLjuJIGF/0exAb68ELZKnZpfzzdoz4UfY7H1HZMuUX+nVHrjqSqcPpnRxuMPhjhTQjOocNUQODRGrvwi05PSbtTCAFE/+Q/wqNob+zyGpCp7kxIR1b9wnHHzm4DsA6BTn5FHSKJIHJQ8CLThr22doP5EfD+lh587N5eLz0KyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-5d61f261ebfso560280137.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Oct 2025 09:20:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760371357; x=1760976157;
+        d=1e100.net; s=20230601; t=1760372415; x=1760977215;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=85zW8eAa0UUuhYK13qFSD0pz0Cqd0sUrz3cG+0d4BSc=;
-        b=d3m/wm0RsanjeO9VSxvB/cYXeVFdvWJfzjMtYbY+rzGVYIr672R5fHl77D2BbuiYlZ
-         gJ3pbz4D7oXT+DH+Zcmn0p0uPLqDf+eDMOSafqkxmRJiaUqmyEq5Ebel6AQpZ4SPVIkU
-         Z3DWC8pjL/ZMCSGYeSXK4TUzsCKwSM2GTEXaZta/fVeXTJKD00SouWqiW4PAOOODrmEp
-         lDUHTqUNSXMBrlxKCFjbFHXW2zfTUnDZm8ro3/mp+BNn5lI4t80/t8bwlpPxsVhz2+2U
-         Cvz6nTo/zACc6IBSMyUcnoKw0NUh0abBk/JEZEaGB6U0GCV4SYhuW/naa36ixq/IFL06
-         AzDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXMmtZabxSEs0uHBIZAl5gCsjJfalOPOIg93gJSFRl4j4TFKjH71KohEIA82hJZgAp53AyTSe8XhdIGD/ac1CG9Vg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzBWpiU33XjWJGNpSlaLPZs0jmiEcxIcSaAnKLP7aiPIajnu/3c
-	kbgn5z1JVTQI6XJHQk/f4F+nH9lkDCeGxOw3N4iObfaaiS1QQCY9yoBnnJmEIDaprCWt942q1Xt
-	cXkfCHnJg
-X-Gm-Gg: ASbGncsVaD7eqm3d9tNAo5OIa1KOGWVaL+oDhXJ3bYgmXSN9qutRslmACM2ofSLdH+u
-	3VDhQ3oYTiX9DTN2EuHeNDSllZ7UvzPvWK4EsBZVssKM/hST9s4L16R5ER3qgcG+Kck0YjGZCXp
-	WCT/i35Jna7M9b0c3d0qhqkTWBm4yJXldsH6L/aFVJWNWTkAB07feBa6XA1TEB4YcrdbmEgX09a
-	zzPMxezuXvUMRUlVJy4xiiSfijO9J95kpkrhoI0JjS+9c7Fynkrg1mxnTMoyq+EzQGo4TNuGJ44
-	zdrGeVcQ1XxKkIEkZ4LpX/OM9pnTSs+RhNh62XSH3iaBCdxCnMYbqlJ7StgdcTIg7dapxcXZuq9
-	0ScRcAh9+K07MoR1G1aSZALXxfGcbokxuhR/llp8601GjD0JE99lqmGAz00OKcBVVSACiLCzGPt
-	7s8N2NaBNQ1rOsIA==
-X-Google-Smtp-Source: AGHT+IEziGpbFLQ+3OK93cIQ7Jbr/mp6arp6wkGkFHkN+uvNBgFVdD6peKdARg0GJ1eMTISwM84WIQ==
-X-Received: by 2002:a17:907:3ccb:b0:b57:2d81:41f with SMTP id a640c23a62f3a-b572d810c7emr1130936966b.40.1760371357039;
-        Mon, 13 Oct 2025 09:02:37 -0700 (PDT)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com. [209.85.218.51])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b55d67d5c2bsm951654166b.37.2025.10.13.09.02.36
+        bh=BFpRqZmIQrKu+7ylr5t2VWlgMZSJphDIQU23QX0pR+8=;
+        b=DoUsVsNP+dOPLWgBtRWAm/X4OkGIF+uIdG2mjzeOxKs7jczUQpazJhjoh/HiJDI4xy
+         2yA7FlAohl/ivv7xDBMvkRE7IoOlvDxcoC3DxRmhc66lLrXQKon2uja2GF4gM/GC1i3W
+         a6/47NVi6rn7E8r+Nqdf12WKijhuHOX5tNc4pBBLl8fMul0sjDjVhKGcFFqLx46nuyNS
+         AL6EUmT3Smknin/M6eROrPf3hiiykX0z3nwDW0ZwGauHNV+H3/SQp0jQ05Ojd2ByMKSe
+         7HHv/xGeDtba3C3dr+y9woPyjwgM/oRJpmzbanWtNdGh0ojopc2Ted46Lesv2Cz3i0V6
+         gKTw==
+X-Forwarded-Encrypted: i=1; AJvYcCVZGBkwGcEIVz4eLuWnHc4tTkFBspdPMFw9yAjwVCScy3/WqB8oKpB3TchbObhfPDDN7PBglSh0Va1Zeu0mjTdmsA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzfD3N3X9SI9qTlhGlyAx4MEoTCoPOsJdNKmAYlGJodHLe083KT
+	FS5jU8X/Fo2Mg37zUZ9Ig3QdhaB7I8jdPrPpX/xGtci+7mPAZE+02pgRizEybobt
+X-Gm-Gg: ASbGnctmQmi2m8Jv26xq45Gr8MJ583iFZRiRSPchU+1zURh7N6jAcYPJvbPdHRyP3Yc
+	JsEnb2mWogHmhm2iAp1QAHddvvz8WPSbpw1NOt2uFzIdA2lhDCVzOwnrxBDsDqqUkDmPQp3c0W0
+	V97cpdD7mSTGSw0Mmb663n2j+MmVtprcNx0s3f6S/+GCqprn98//QPEFuJkzLrwqPJnkJGB1mej
+	/+XaKkhLwYGnxfv3E8sYB9A5RX5sqly8GNL5DARsx4a35KRFcgcMQ8MWJ8uWbw+1PiIkBIxSolI
+	IcLd0WHvKiELjSbZXFpmyJMsfg9DHfKZzLQKPhbviuJWpa4S/j896xa7HJP3cf3WFu6NIRSi9R6
+	0KG7S/Ywf7Q2SfJhbxHazPQEIoTNFAL7EFAw4w3zxUPjxpQGvDYgogIWmNA1pID+6rjeEPhermX
+	HRHkm1f87sB8zfdJLnhIRk5EKm
+X-Google-Smtp-Source: AGHT+IH+zs7EOkG6eg13IujyqAgU6NvWzG0Heu0vi0DG5M3zMpSbzmm2tVHv9UBqG8s3/F3SjD5JwQ==
+X-Received: by 2002:a05:6102:5987:b0:52a:1ff2:da15 with SMTP id ada2fe7eead31-5d5e22a274cmr6547432137.15.1760372415555;
+        Mon, 13 Oct 2025 09:20:15 -0700 (PDT)
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com. [209.85.222.52])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-930e7a118bbsm224162241.14.2025.10.13.09.20.14
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Oct 2025 09:02:36 -0700 (PDT)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b4aed12cea3so697927966b.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Oct 2025 09:02:36 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV/SVge2n4jpFfyzmFmbSDn4e6PxXuDtqT2xBqbd7zmCjJGWb5K6C04rXven5F8Q7a5y8xN+Y25GZW6guSO9S0DtQ==@vger.kernel.org
-X-Received: by 2002:ac2:4c50:0:b0:55f:4ac2:a58c with SMTP id
- 2adb3069b0e04-5906dc0ff30mr6173104e87.22.1760370964286; Mon, 13 Oct 2025
- 08:56:04 -0700 (PDT)
+        Mon, 13 Oct 2025 09:20:15 -0700 (PDT)
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-8e401b11bfaso1124802241.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Oct 2025 09:20:14 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU1oM4JpmZ6OpV7xo3IDgcNUD0CMDAqKfjFTcgmmuRrPPS3FCkOTQ/4TPv+LKuLzpQ4ivHb6KUNZ1csUB7zYHSXWA==@vger.kernel.org
+X-Received: by 2002:a05:6102:548b:b0:5d5:f6ae:38c0 with SMTP id
+ ada2fe7eead31-5d5f6ae3b65mr5428961137.41.1760372414371; Mon, 13 Oct 2025
+ 09:20:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
- <20251013-ptr_err-v1-10-2c5efbd82952@chromium.org> <176036780330.559803.287308146210017676@ping.linuxembedded.co.uk>
-In-Reply-To: <176036780330.559803.287308146210017676@ping.linuxembedded.co.uk>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 13 Oct 2025 17:55:51 +0200
-X-Gmail-Original-Message-ID: <CANiDSCsuPkdz0=U2b_mNh4TWTNztAd9qEwJaiMRdGy1sf3UEbA@mail.gmail.com>
-X-Gm-Features: AS18NWCmgLaH0rMvCIhheSPVtWPGKkpbEBd_aB_kzUyM4RaB_yHSiy8sRs-muw0
-Message-ID: <CANiDSCsuPkdz0=U2b_mNh4TWTNztAd9qEwJaiMRdGy1sf3UEbA@mail.gmail.com>
-Subject: Re: [PATCH 10/32] media: i2c: imx335: Use %pe format specifier
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Alim Akhtar <alim.akhtar@samsung.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Bingbu Cao <bingbu.cao@intel.com>, 
-	Dafna Hirschfeld <dafna@fastmail.com>, Daniel Scally <djrscally@gmail.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Fabio Estevam <festevam@gmail.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil@kernel.org>, 
-	Heiko Stuebner <heiko@sntech.de>, Jacopo Mondi <jacopo+renesas@jmondi.org>, 
-	Jacopo Mondi <jacopo@jmondi.org>, Julien Massot <julien.massot@collabora.com>, 
-	=?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Leon Luo <leonl@leopardimaging.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Purism Kernel Team <kernel@puri.sm>, 
-	Rui Miguel Silva <rmfrfs@gmail.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
-	Tianshu Qiu <tian.shu.qiu@intel.com>, Tiffany Lin <tiffany.lin@mediatek.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, Yong Zhi <yong.zhi@intel.com>, 
-	Yunfei Dong <yunfei.dong@mediatek.com>, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-staging@lists.linux.dev
+References: <20251008042526.3312597-1-claudiu.beznea.uj@bp.renesas.com> <20251008042526.3312597-3-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20251008042526.3312597-3-claudiu.beznea.uj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 13 Oct 2025 18:20:03 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXUqsU6MKh8WSO4EmrxCfUg8FZkrJKb7OH-KwMY4+iC4Q@mail.gmail.com>
+X-Gm-Features: AS18NWAZcmdiqSjfkUoPbuGPh-cNUsYtDKIlfc4ni5Js9vtMQnoS9mBsr70Q9Bc
+Message-ID: <CAMuHMdXUqsU6MKh8WSO4EmrxCfUg8FZkrJKb7OH-KwMY4+iC4Q@mail.gmail.com>
+Subject: Re: [PATCH 2/3] mmc: renesas_sdhi: Switch to SYSTEM_SLEEP_PM_OPS()/RUNTIME_PM_OPS()
+ and pm_ptr()
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: wsa+renesas@sang-engineering.com, ulf.hansson@linaro.org, 
+	p.zabel@pengutronix.de, linux-mmc@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Kieran
+Hi Claudiu,
 
-On Mon, 13 Oct 2025 at 17:03, Kieran Bingham
-<kieran.bingham@ideasonboard.com> wrote:
+On Fri, 10 Oct 2025 at 22:16, Claudiu <claudiu.beznea@tuxon.dev> wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >
-> Quoting Ricardo Ribalda (2025-10-13 15:14:50)
-> > The %pe format specifier is designed to print error pointers. It prints
-> > a symbolic error name (eg. -EINVAL) and it makes the code simpler by
-> > omitting PTR_ERR().
-> >
-> > This patch fixes this cocci report:
-> > ./i2c/imx335.c:1013:3-10: WARNING: Consider using %pe to print PTR_ERR()
+> SET_SYSTEM_SLEEP_PM_OPS() and SET_RUNTIME_PM_OPS() are deprecated now
+> and require __maybe_unused protection against unused function warnings.
+> The usage of pm_ptr() and SYSTEM_SLEEP_PM_OPS()/RUNTIME_PM_OPS() allows
+> the compiler to see the functions, thus suppressing the warning. Thus
+> drop the __maybe_unused markings.
 >
-> Ohhh nice. Is this new ? First I've come across it.
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-It is actually from 2019:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=57f5677e535ba24b8926a7125be2ef8d7f09323c
+Thanks for your patch!
 
-I just learned about it because there is a new check in coccinelle :).
+> --- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+> +++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+> @@ -599,18 +599,17 @@ static int renesas_sdhi_internal_dmac_probe(struct platform_device *pdev)
+>  }
+>
+>  static const struct dev_pm_ops renesas_sdhi_internal_dmac_dev_pm_ops = {
+> -       SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+> -                               pm_runtime_force_resume)
+> -       SET_RUNTIME_PM_OPS(tmio_mmc_host_runtime_suspend,
+> -                          tmio_mmc_host_runtime_resume,
+> -                          NULL)
+> +       SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
+> +       RUNTIME_PM_OPS(tmio_mmc_host_runtime_suspend,
+> +                      tmio_mmc_host_runtime_resume,
+> +                      NULL)
+>  };
+>
+>  static struct platform_driver renesas_internal_dmac_sdhi_driver = {
+>         .driver         = {
+>                 .name   = "renesas_sdhi_internal_dmac",
+>                 .probe_type = PROBE_PREFER_ASYNCHRONOUS,
+> -               .pm     = &renesas_sdhi_internal_dmac_dev_pm_ops,
+> +               .pm     = pm_ptr(&renesas_sdhi_internal_dmac_dev_pm_ops),
+>                 .of_match_table = renesas_sdhi_internal_dmac_of_match,
+>         },
+>         .probe          = renesas_sdhi_internal_dmac_probe,
+> diff --git a/drivers/mmc/host/tmio_mmc.h b/drivers/mmc/host/tmio_mmc.h
+> index c8cdb1c0722e..b9de03325c58 100644
+> --- a/drivers/mmc/host/tmio_mmc.h
+> +++ b/drivers/mmc/host/tmio_mmc.h
+> @@ -209,10 +209,8 @@ void tmio_mmc_enable_mmc_irqs(struct tmio_mmc_host *host, u32 i);
+>  void tmio_mmc_disable_mmc_irqs(struct tmio_mmc_host *host, u32 i);
+>  irqreturn_t tmio_mmc_irq(int irq, void *devid);
+>
+> -#ifdef CONFIG_PM
+>  int tmio_mmc_host_runtime_suspend(struct device *dev);
+>  int tmio_mmc_host_runtime_resume(struct device *dev);
+> -#endif
 
-It is pretty cool, but you need to be careful to check IS_ERR(ptr)
-before doing the printk, otherwise %pe will print the pointer value.
-
-Regards!
+This change is indeed needed, because RUNTIME_PM_OPS() now
+references these two functions unconditionally...
 
 >
+>  static inline u16 sd_ctrl_read16(struct tmio_mmc_host *host, int addr)
+>  {
+> diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
+> index 775e0d9353d5..8be642f737c7 100644
+> --- a/drivers/mmc/host/tmio_mmc_core.c
+> +++ b/drivers/mmc/host/tmio_mmc_core.c
+> @@ -1286,7 +1286,6 @@ void tmio_mmc_host_remove(struct tmio_mmc_host *host)
+>  }
+>  EXPORT_SYMBOL_GPL(tmio_mmc_host_remove);
 >
->
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  drivers/media/i2c/imx335.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
-> > index c043df2f15fb25b3a56422092f99a1fd9a508fa9..71ed9a0d84a252ee362621c4d38001508fb86d28 100644
-> > --- a/drivers/media/i2c/imx335.c
-> > +++ b/drivers/media/i2c/imx335.c
-> > @@ -1009,8 +1009,8 @@ static int imx335_parse_hw_config(struct imx335 *imx335)
-> >         imx335->reset_gpio = devm_gpiod_get_optional(imx335->dev, "reset",
-> >                                                      GPIOD_OUT_HIGH);
-> >         if (IS_ERR(imx335->reset_gpio)) {
-> > -               dev_err(imx335->dev, "failed to get reset gpio %ld\n",
-> > -                       PTR_ERR(imx335->reset_gpio));
-> > +               dev_err(imx335->dev, "failed to get reset gpio %pe\n",
-> > +                       imx335->reset_gpio);
->
-> Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
->
-> >                 return PTR_ERR(imx335->reset_gpio);
-> >         }
-> >
-> >
-> > --
-> > 2.51.0.760.g7b8bcc2412-goog
-> >
+> -#ifdef CONFIG_PM
+>  static int tmio_mmc_clk_enable(struct tmio_mmc_host *host)
+>  {
+>         if (!host->clk_enable)
+> @@ -1331,7 +1330,6 @@ int tmio_mmc_host_runtime_resume(struct device *dev)
+>         return 0;
+>  }
+>  EXPORT_SYMBOL_GPL(tmio_mmc_host_runtime_resume);
+> -#endif
 
+... however, no actual code referencing them is emitted in the
+CONFIG_PM=n case, as renesas_sdhi_internal_dmac_dev_pm_ops is not used
+due to the use of pm_ptr().  Hence the changes to this file are needed.
+(verified with m68k allmodconfig/allyesconfig builds)
 
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Ricardo Ribalda
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
