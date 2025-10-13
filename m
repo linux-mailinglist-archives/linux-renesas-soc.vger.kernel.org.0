@@ -1,244 +1,226 @@
-Return-Path: <linux-renesas-soc+bounces-22973-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22974-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CFD5BD5245
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 18:41:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D3AFBD52B4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 18:45:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 8D44C3511F5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 16:41:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A049118A572B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 16:45:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D3FF17F4F6;
-	Mon, 13 Oct 2025 16:40:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B963526F46F;
+	Mon, 13 Oct 2025 16:45:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="X53QfW+I"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OUqE/1Ks"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AD95296BBC
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Oct 2025 16:40:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95728243367
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Oct 2025 16:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760373658; cv=none; b=OrxcQqjluNdgTk0AFWqJrOPLt9/OPxwR9nTOfoYTk3DMW8Rp//31BXvd3sKBdIByMlox9dvr16KmTEQYgQGCVLVYCk/FhGDWHlgnyka5nqlOXOWjv3YxBGOs48xm9CTpMpqkXBlLJ8zFghy1t35pJYyagteIgPSAyy+s89j1GY8=
+	t=1760373923; cv=none; b=NG/WsQRKv7Jk0O/Jt6Cxt7oYAOXNvk827ReBPfj8zboKPnng1qwwWsdur0Niza4GuKzpxmk86kZAvf19c40Gn1cV0a8sJ42l/sMUrqfFjrFB7F6dNgqYFM9O79gJ9d1z9BqK8QppEP5tFSzinx+qDe6EhBXeIBYLpKtqA7BU8Fs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760373658; c=relaxed/simple;
-	bh=sN7m7KVtFP1O6UMDR1mCq5KvZmUG+2AyD9HcCn9BHzk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RMJINtLohle57Q7pG7JbabXkIPgX3heIzHTI+X+sACihYspdRLacj3Rh3uK8W7Qh9SpU9vSPy4U6DNTkONSbulugPluJYNgGZSFsTDv5Ypqnx0RQmGVv5JuaJxqQ4xc9101wGbDDOV/A3KRyZADpEEG1nqZEr75kleiytdjrxRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=X53QfW+I; arc=none smtp.client-ip=91.218.175.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1760373643;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Xr1xLID5gomdkQtccCZ4HHd+IBsFKVqD/prj31TJZnk=;
-	b=X53QfW+IPT36daDXqxSkJ9/GguRsk/1Ep03WReFIZuTCxROBWdN5oTBjdS/x2HbeBzUbDK
-	3Pbh/cmeqVJuM3JPuxmxAfs6XOfuA60aQRChAMQVZPFJmwlVBHKhymGswIBmQkSpplZ22W
-	kR442kZmCMXOaqPWICYZl/BJBl1rZ9w=
-From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Igor Russkikh <irusskikh@marvell.com>,
-	Egor Pomozov <epomozov@marvell.com>,
-	Potnuri Bharat Teja <bharat@chelsio.com>,
-	Dimitris Michailidis <dmichail@fungible.com>,
-	Jian Shen <shenjian15@huawei.com>,
-	Salil Mehta <salil.mehta@huawei.com>,
-	Jijie Shao <shaojijie@huawei.com>,
-	Sunil Goutham <sgoutham@marvell.com>,
-	Geetha sowjanya <gakula@marvell.com>,
-	Subbaraya Sundeep <sbhatta@marvell.com>,
-	Bharat Bhushan <bbhushan2@marvell.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Brett Creeley <brett.creeley@amd.com>,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-	Paul Barker <paul@pbarker.dev>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	MD Danish Anwar <danishanwar@ti.com>,
-	Roger Quadros <rogerq@kernel.org>
-Cc: Richard Cochran <richardcochran@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Subject: [PATCH net-next 14/14] net: hns3: move hns3pf to use hwtstamp callbacks
-Date: Mon, 13 Oct 2025 16:39:23 +0000
-Message-ID: <20251013163923.5078-1-vadim.fedorenko@linux.dev>
+	s=arc-20240116; t=1760373923; c=relaxed/simple;
+	bh=0wTihLOD99fRq7kWBMtjXLXmc8J0Akxg7M80xoV5nnA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rpMUXkg8dqDopkyjKPaHYqJ4bJIlewHrMBIP5egOgVGTUQ3B4375ELQ6MfRKuPti4vOwO02M943pa4xRZoBlFtkLlspmJQhidVqGNjr3D+DM+jkivcdZECOAexDD7b9vGuHH75URgRCr8TWGPaUNEKio572yJUge2D99rYkedns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OUqE/1Ks; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3ee13baf2e1so3249937f8f.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Oct 2025 09:45:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760373919; x=1760978719; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bm/7+n2mKW42M8RxL5Oj+vsywNFzwHrxsNk7zzkAZi0=;
+        b=OUqE/1Ks5LUsaO1cITsVFTzTfZ5bikpUOuGvvxer7crCYxJJoC8EPq21TH95WNn3e9
+         oc2kq21tildUCXFmqTjhUg6Wi2QWGt7dfGT4uNUFKZ1BGVdkjZmKvKKVzYeJr2g+PPlT
+         bU0U+qz3tizok054Eahr+7BBXFXjg1xAyASCaN6S0QZFnD/m8qVArPVjApTa2QSH6sAT
+         Ha506+HLugASfms8rhLX2RheSiWWkufBE3zFzWIrr69upQZjLXgjNw9GQ477wJbNq/kB
+         Vuq5JMxIxlIDiQVp8SDvJieVkjG6C0jTOqq2r18qHpdZ1tfqIiZ49Q2vG9x97wRRupKu
+         3ckA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760373919; x=1760978719;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bm/7+n2mKW42M8RxL5Oj+vsywNFzwHrxsNk7zzkAZi0=;
+        b=qnaNV5ueHP5t5W8CxGFCQFOd2uW0RRryHT+KhW41GW0w50eo5Jh2/PSqMjAxpvhHYL
+         wFH6mhV83VavMnShdi92EdyFIT799PoK+2xlDkEcD7358fDDfimWe79YLvrWBcrlzyGH
+         Rr+U3V3dGndDCYtiPkA0NaPzGiqOZgptIWQARHNUujxDMwgOr4aSriS1qBy3bL6VweEZ
+         ZHaa7LHQCvHMEjRGVDN8KKC/fkInjrAp5VKTQVDiwl0IOQDg+yveKv1Sok1/+Mq8N1rF
+         VyQIBIStVJMdUbmZpLTHupzOSNaFjUcr1Z+1ChRzt1FJ8lbRo9011/JIiVjCdKYWqbR7
+         BTOA==
+X-Forwarded-Encrypted: i=1; AJvYcCX2+U5z+arG5GVU0f7FftFDS0EIJiGPFFmOd1oxrO59xr+wzETNcdH3EQqp+++xb2gJpkzDo0NHrf5G4cOPHewDJA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwyfqftfseUW0HizRp+H9xYvDiAfi8hxseg/3AxCrldL4007bmp
+	u9NjIaeuZe91ljU3jjmXKB/FBo/5rFuKrQ+zWVLoLDPL9H9ixuibC1grK8rndiL32FbJSa3FUq2
+	SpR4htkQDKta5hbmOcGdkyX6GIJusqp9YiLun
+X-Gm-Gg: ASbGncthOwgFGbwe5p2Ejq4zvj3MKzOiEgv0+b+g5WXb9fDCyoU9rwUse9CqnJkn6fF
+	LlD2G+RO4sxEUIfsOUQkKTox0wMrqfq/dvWdcxMn6XHukjiEsDyCxGC6ZNTjyEEbW151ruayOmv
+	rczkN7aeg393N0QEoQn2ecb5ibOGuRpQrV7hCKoOhLUQ0LQS0o9lxK8GUAi6MnY+xflUOrvFA+d
+	cvojBpb0/ThQK6IPI7QnAIPDW7Ete9Oa7D098+NccWa2sdn/QpJrRTdyljU
+X-Google-Smtp-Source: AGHT+IFAeGAh4Wpnp3B5IRkMFfhupqiBX/iiJ3P/+Yj20ZzS6IuDiZo7IhU/1z0XLJ7PY/lxRHpoJi84zX1pyuIRQLg=
+X-Received: by 2002:a05:6000:460b:b0:426:d51c:495b with SMTP id
+ ffacd0b85a97d-426d51c4abemr6608215f8f.27.1760373918503; Mon, 13 Oct 2025
+ 09:45:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+References: <20250929112324.3622148-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXz0ThdhjeeurjE6TLXjVLXUy-ie-PqXHrTYExQ6TpeLA@mail.gmail.com>
+In-Reply-To: <CAMuHMdXz0ThdhjeeurjE6TLXjVLXUy-ie-PqXHrTYExQ6TpeLA@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 13 Oct 2025 17:44:52 +0100
+X-Gm-Features: AS18NWCKBDqvR-oZRgUD7Bn15GS9DM_WwNfwWczE6IvmlyY-mHebH_EDvOspORg
+Message-ID: <CA+V-a8urG_e4yZXg9VH-cOPeK62qPGR1L2Zbbc3O97WB22hcRw@mail.gmail.com>
+Subject: Re: [PATCH v4] clk: renesas: cpg-mssr: Add module reset support for RZ/T2H
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-renesas-soc@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Adopt hns3pf to use .ndo_hwtstamp_get()/.ndo_hwtstamp_set()
-callbacks.
+Hi Geert,
 
-Signed-off-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
----
- .../hisilicon/hns3/hns3pf/hclge_main.c        | 13 +++-----
- .../hisilicon/hns3/hns3pf/hclge_ptp.c         | 32 +++++++++++--------
- .../hisilicon/hns3/hns3pf/hclge_ptp.h         |  9 ++++--
- 3 files changed, 28 insertions(+), 26 deletions(-)
+Thank you for the review.
 
-diff --git a/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c b/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
-index 9d34d28ff168..81d3bdc098e6 100644
---- a/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
-+++ b/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
-@@ -9445,15 +9445,8 @@ static int hclge_do_ioctl(struct hnae3_handle *handle, struct ifreq *ifr,
- 	struct hclge_vport *vport = hclge_get_vport(handle);
- 	struct hclge_dev *hdev = vport->back;
- 
--	switch (cmd) {
--	case SIOCGHWTSTAMP:
--		return hclge_ptp_get_cfg(hdev, ifr);
--	case SIOCSHWTSTAMP:
--		return hclge_ptp_set_cfg(hdev, ifr);
--	default:
--		if (!hdev->hw.mac.phydev)
--			return hclge_mii_ioctl(hdev, ifr, cmd);
--	}
-+	if (!hdev->hw.mac.phydev)
-+		return hclge_mii_ioctl(hdev, ifr, cmd);
- 
- 	return phy_mii_ioctl(hdev->hw.mac.phydev, ifr, cmd);
- }
-@@ -12901,6 +12894,8 @@ static const struct hnae3_ae_ops hclge_ops = {
- 	.get_dscp_prio = hclge_get_dscp_prio,
- 	.get_wol = hclge_get_wol,
- 	.set_wol = hclge_set_wol,
-+	.hwtstamp_get = hclge_ptp_get_cfg,
-+	.hwtstamp_set = hclge_ptp_set_cfg,
- };
- 
- static struct hnae3_ae_algo ae_algo = {
-diff --git a/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.c b/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.c
-index 4bd52eab3914..0081c5281455 100644
---- a/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.c
-+++ b/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.c
-@@ -204,13 +204,17 @@ static int hclge_ptp_adjtime(struct ptp_clock_info *ptp, s64 delta)
- 	return 0;
- }
- 
--int hclge_ptp_get_cfg(struct hclge_dev *hdev, struct ifreq *ifr)
-+int hclge_ptp_get_cfg(struct hnae3_handle *handle,
-+		      struct kernel_hwtstamp_config *config)
- {
-+	struct hclge_vport *vport = hclge_get_vport(handle);
-+	struct hclge_dev *hdev = vport->back;
-+
- 	if (!test_bit(HCLGE_STATE_PTP_EN, &hdev->state))
- 		return -EOPNOTSUPP;
- 
--	return copy_to_user(ifr->ifr_data, &hdev->ptp->ts_cfg,
--		sizeof(struct hwtstamp_config)) ? -EFAULT : 0;
-+	*config = hdev->ptp->ts_cfg;
-+	return 0;
- }
- 
- static int hclge_ptp_int_en(struct hclge_dev *hdev, bool en)
-@@ -269,7 +273,7 @@ static int hclge_ptp_cfg(struct hclge_dev *hdev, u32 cfg)
- 	return ret;
- }
- 
--static int hclge_ptp_set_tx_mode(struct hwtstamp_config *cfg,
-+static int hclge_ptp_set_tx_mode(struct kernel_hwtstamp_config *cfg,
- 				 unsigned long *flags, u32 *ptp_cfg)
- {
- 	switch (cfg->tx_type) {
-@@ -287,7 +291,7 @@ static int hclge_ptp_set_tx_mode(struct hwtstamp_config *cfg,
- 	return 0;
- }
- 
--static int hclge_ptp_set_rx_mode(struct hwtstamp_config *cfg,
-+static int hclge_ptp_set_rx_mode(struct kernel_hwtstamp_config *cfg,
- 				 unsigned long *flags, u32 *ptp_cfg)
- {
- 	int rx_filter = cfg->rx_filter;
-@@ -332,7 +336,7 @@ static int hclge_ptp_set_rx_mode(struct hwtstamp_config *cfg,
- }
- 
- static int hclge_ptp_set_ts_mode(struct hclge_dev *hdev,
--				 struct hwtstamp_config *cfg)
-+				 struct kernel_hwtstamp_config *cfg)
- {
- 	unsigned long flags = hdev->ptp->flags;
- 	u32 ptp_cfg = 0;
-@@ -359,9 +363,12 @@ static int hclge_ptp_set_ts_mode(struct hclge_dev *hdev,
- 	return 0;
- }
- 
--int hclge_ptp_set_cfg(struct hclge_dev *hdev, struct ifreq *ifr)
-+int hclge_ptp_set_cfg(struct hnae3_handle *handle,
-+		      struct kernel_hwtstamp_config *config,
-+		      struct netlink_ext_ack *extack)
- {
--	struct hwtstamp_config cfg;
-+	struct hclge_vport *vport = hclge_get_vport(handle);
-+	struct hclge_dev *hdev = vport->back;
- 	int ret;
- 
- 	if (!test_bit(HCLGE_STATE_PTP_EN, &hdev->state)) {
-@@ -369,16 +376,13 @@ int hclge_ptp_set_cfg(struct hclge_dev *hdev, struct ifreq *ifr)
- 		return -EOPNOTSUPP;
- 	}
- 
--	if (copy_from_user(&cfg, ifr->ifr_data, sizeof(cfg)))
--		return -EFAULT;
--
--	ret = hclge_ptp_set_ts_mode(hdev, &cfg);
-+	ret = hclge_ptp_set_ts_mode(hdev, config);
- 	if (ret)
- 		return ret;
- 
--	hdev->ptp->ts_cfg = cfg;
-+	hdev->ptp->ts_cfg = *config;
- 
--	return copy_to_user(ifr->ifr_data, &cfg, sizeof(cfg)) ? -EFAULT : 0;
-+	return 0;
- }
- 
- int hclge_ptp_get_ts_info(struct hnae3_handle *handle,
-diff --git a/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.h b/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.h
-index 61faddcc3dd0..0162fa5ac146 100644
---- a/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.h
-+++ b/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.h
-@@ -62,7 +62,7 @@ struct hclge_ptp {
- 	unsigned long flags;
- 	void __iomem *io_base;
- 	struct ptp_clock_info info;
--	struct hwtstamp_config ts_cfg;
-+	struct kernel_hwtstamp_config ts_cfg;
- 	spinlock_t lock;	/* protects ptp registers */
- 	u32 ptp_cfg;
- 	u32 last_tx_seqid;
-@@ -133,8 +133,11 @@ bool hclge_ptp_set_tx_info(struct hnae3_handle *handle, struct sk_buff *skb);
- void hclge_ptp_clean_tx_hwts(struct hclge_dev *hdev);
- void hclge_ptp_get_rx_hwts(struct hnae3_handle *handle, struct sk_buff *skb,
- 			   u32 nsec, u32 sec);
--int hclge_ptp_get_cfg(struct hclge_dev *hdev, struct ifreq *ifr);
--int hclge_ptp_set_cfg(struct hclge_dev *hdev, struct ifreq *ifr);
-+int hclge_ptp_get_cfg(struct hnae3_handle *handle,
-+		      struct kernel_hwtstamp_config *config);
-+int hclge_ptp_set_cfg(struct hnae3_handle *handle,
-+		      struct kernel_hwtstamp_config *config,
-+		      struct netlink_ext_ack *extack);
- int hclge_ptp_init(struct hclge_dev *hdev);
- void hclge_ptp_uninit(struct hclge_dev *hdev);
- int hclge_ptp_get_ts_info(struct hnae3_handle *handle,
--- 
-2.47.3
+On Mon, Oct 13, 2025 at 4:46=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Mon, 29 Sept 2025 at 13:23, Prabhakar <prabhakar.csengg@gmail.com> wro=
+te:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Add support for module reset handling on the RZ/T2H SoC. Unlike earlier
+> > CPG/MSSR variants, RZ/T2H uses a unified set of Module Reset Control
+> > Registers (MRCR) where both reset and deassert actions are done via
+> > read-modify-write (RMW) to the same register.
+> >
+> > Introduce a new MRCR offset table (mrcr_for_rzt2h) for RZ/T2H and assig=
+n
+> > it to reset_regs. For this SoC, the number of resets is based on the
+> > number of MRCR registers rather than the number of module clocks. Also
+> > add cpg_mrcr_reset_ops to implement reset, assert, and deassert using R=
+MW
+> > while holding the spinlock. This follows the RZ/T2H requirements, where
+> > processing after releasing a module reset must be secured by performing
+> > seven dummy reads of the same register, and where a module that is rese=
+t
+> > and released again must ensure the target bit in the Module Reset Contr=
+ol
+> > Register is set to 1.
+> >
+> > Update the reset controller registration to select cpg_mrcr_reset_ops f=
+or
+> > RZ/T2H, while keeping the existing cpg_mssr_reset_ops for other SoCs.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > v3->v4:
+> > - Renamed cpg_mrcr_set_bit() to cpg_mrcr_set_reset_state() for clarity.
+> > - Updated the parameters in cpg_mrcr_set_reset_state().
+>
+> Thanks for the update!
+>
+> > --- a/drivers/clk/renesas/renesas-cpg-mssr.c
+> > +++ b/drivers/clk/renesas/renesas-cpg-mssr.c
+> > @@ -736,6 +754,72 @@ static int cpg_mssr_status(struct reset_controller=
+_dev *rcdev,
+> >         return !!(readl(priv->pub.base0 + priv->reset_regs[reg]) & bitm=
+ask);
+> >  }
+> >
+> > +static int cpg_mrcr_set_reset_state(struct reset_controller_dev *rcdev=
+,
+> > +                                   unsigned long id, bool set)
+> > +{
+> > +       struct cpg_mssr_priv *priv =3D rcdev_to_priv(rcdev);
+> > +       unsigned int reg =3D id / 32;
+> > +       unsigned int bit =3D id % 32;
+> > +       u32 bitmask =3D BIT(bit);
+> > +       void __iomem *reg_addr;
+> > +       unsigned long flags;
+> > +       unsigned int i;
+> > +       u32 val;
+> > +
+> > +       dev_dbg(priv->dev, "%s %u%02u\n", set ? "assert" : "deassert", =
+reg, bit);
+> > +
+> > +       spin_lock_irqsave(&priv->pub.rmw_lock, flags);
+> > +
+> > +       reg_addr =3D priv->pub.base0 + priv->reset_regs[reg];
+> > +       /* Read current value and modify */
+> > +       val =3D readl(reg_addr);
+> > +       if (set)
+> > +               val |=3D bitmask;
+> > +       else
+> > +               val &=3D ~bitmask;
+> > +       writel(val, reg_addr);
+> > +
+> > +       /*
+> > +        * For secure processing after release from a module reset, dum=
+my read
+> > +        * the same register at least seven times.
+>
+> This comment is waiting to become out-of-sync with the actual value...
+>
+For the reset operation no, for this I would like to keep this as is.
+But for the MSTP registers I will be adding a delay. Or did I
+misunderstand something?
 
+> > +        */
+> > +       for (i =3D 0; !set && i < RZT2H_RESET_REG_READ_COUNT; i++)
+> > +               readl(reg_addr);
+> > +
+> > +       /* Verify the operation */
+> > +       val =3D readl(reg_addr);
+> > +       if ((set && !(bitmask & val)) || (!set && (bitmask & val))) {
+>
+> Perhaps just "set =3D=3D !(bitmask & val)"? Or is that too obscure?
+>
+Ok, I will update it to the above in v5.
+
+Cheers,
+Prabhakar
+> > +               dev_err(priv->dev, "Reset register %u%02u operation fai=
+led\n", reg, bit);
+> > +               spin_unlock_irqrestore(&priv->pub.rmw_lock, flags);
+> > +               return -EIO;
+> > +       }
+> > +
+> > +       spin_unlock_irqrestore(&priv->pub.rmw_lock, flags);
+> > +
+> > +       return 0;
+> > +}
+>
+> Regardless:
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
 
