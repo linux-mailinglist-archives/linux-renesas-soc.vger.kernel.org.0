@@ -1,241 +1,235 @@
-Return-Path: <linux-renesas-soc+bounces-22953-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22954-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80941BD4E5E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 18:18:53 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BCA1BD5063
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 18:28:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 0E3225661A7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 15:56:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 63C7B5464E3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 16:04:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64E2331B813;
-	Mon, 13 Oct 2025 15:36:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AD5A3081D6;
+	Mon, 13 Oct 2025 15:41:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="kHe81I4Y"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qi08nNVG"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010031.outbound.protection.outlook.com [52.101.84.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D75343101C7;
-	Mon, 13 Oct 2025 15:36:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.31
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760369786; cv=fail; b=cjL/GYcOxnYJp4pTiFhe1z9+SQxqom8NWM0YxcUZtWaUavq1xXc1zn829gxwOL5yPqmWmzY8CZPCioWWITUXdt9ZrFopAVLIKvjyAts4q9Fpli+VzDY4QEyeRJSLFgQI2Mou+bVFF69se8zkl/8A3KUjzhysLRnAn7TisIMAuho=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760369786; c=relaxed/simple;
-	bh=GYYQ0IYHEhGSuiQjZsh7xZCw7uMS9dWiGan/41/QH4s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=saMFJDkypRjSMcJok2auVJl4aa/HaYQ4PigsO53jqC+BYHU8alurIO7qv29uQj+dRDIdomGtqpruE8JQjdnCMomwaQBgFGxDt2rS8Ba+SwgqzERb5I4ys3aIQJc3Re07t4Vt//6FdPwh00xwrX/BrlXHl6RvxFeRGmbgElhymWU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=kHe81I4Y; arc=fail smtp.client-ip=52.101.84.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OvFbMS0G1RgYH2o4BqDC144TgwGfPI7KYzq81ttQXiIIIbzySnPnOSkqOv7m9IDeGSEz5QNdsWklJcRIlEfyD3XgAPIAbA99rpmEDvZxpU+QJn4H0is8/XOePDYXYBAawKKx2trV+g1zeZOst7XV6XMtypg8qaCZL+aYbG5/f3U7Fmaety3ETyWSuBUByPCxoIQB+V86wmlO1YdqBNIBKFv0iJUT+l3rthr5KUqPYPoa3Z+irgag+gglzUU/61YUqdQrYLFfOZMwC/pp/qbrCzyU6qehH2LQe7UobKEX+YPVSLWqDkBH+Sqs8jxrkMHTzLlEKH5yh9Fqj3D3i2Mn8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PBENrIHmIHt95N2pwdrDNGTpnC/htu9Q4US9FUAtQ/k=;
- b=mQSnTQp8IlNPRrYgO3vMryLOt7Cpoth8EQDYHgn/QztSQAVNntCW5oVcqDdHHJj+LkxpAkdQI81NP2+hyb+M0xQB36EgLf+Tbmp0Zp25OcWY5UIl39FxQnJr3Xw7JkdDSvuXo2nfEsQ7dDHaDhsQH1kiRwnkUxAz048k9o+LftdkPqnFihwAQ9/3k0IIlyftIideqfLndgW6TOsRD0kYGzUH/xiZpOuLPRvGbn1mNYiUBp704J7AprLs0cgWnEIhxjmSHN4ANUZmHopEVZS8um7wITc9MaCiyIszUZA2q/ex7IqbLt3y7xySIrahBBbCeL7edNeczQpVsp+dOd9+sg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PBENrIHmIHt95N2pwdrDNGTpnC/htu9Q4US9FUAtQ/k=;
- b=kHe81I4Ya09QfLcjIRkuXEz183YDEmphDoK+G2rmARRyq9EFuAOwKgvFtIgSNaHvm/2z2qRXTVBelq+yCU74P6bObzVxoQkVoUJ9FBdFQwiYB01FXGuqih553FpTfYi5y5cUw22G/KtcpKUTKQshGkE3VF4TiV54tiDj0KYchfrJ/x4YOjDXL2sP4kLS/2GAHxMU6uHRRNM1ag0VysrDDghDV2iieaDXfEOXZLeGpyqF9yCjTDF2rlSTDJOU9QrKqJ9k7UZwd8kJzd6VeJQ+xkhJBLkUm6FmHssIKuVZgjfr8IHeVv8bfE6agap81g6csqsRSEZ54WCWE19WNuYiUA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AS4PR04MB9621.eurprd04.prod.outlook.com (2603:10a6:20b:4ff::22)
- by GV2PR04MB11375.eurprd04.prod.outlook.com (2603:10a6:150:2b2::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.12; Mon, 13 Oct
- 2025 15:36:16 +0000
-Received: from AS4PR04MB9621.eurprd04.prod.outlook.com
- ([fe80::a84d:82bf:a9ff:171e]) by AS4PR04MB9621.eurprd04.prod.outlook.com
- ([fe80::a84d:82bf:a9ff:171e%4]) with mapi id 15.20.9203.009; Mon, 13 Oct 2025
- 15:36:16 +0000
-Date: Mon, 13 Oct 2025 11:35:57 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Leon Luo <leonl@leopardimaging.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Julien Massot <julien.massot@collabora.com>,
-	Jacopo Mondi <jacopo@jmondi.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Yong Zhi <yong.zhi@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Yemike Abhilash Chandra <y-abhilashchandra@ti.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, imx@lists.linux.dev,
-	linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 01/32] Input: cyttsp5 - Use %pe format specifier
-Message-ID: <aO0cXYeGLwwDABP6@lizhi-Precision-Tower-5810>
-References: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
- <20251013-ptr_err-v1-1-2c5efbd82952@chromium.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251013-ptr_err-v1-1-2c5efbd82952@chromium.org>
-X-ClientProxiedBy: BYAPR06CA0060.namprd06.prod.outlook.com
- (2603:10b6:a03:14b::37) To AS4PR04MB9621.eurprd04.prod.outlook.com
- (2603:10a6:20b:4ff::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431D63081D3
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Oct 2025 15:41:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760370115; cv=none; b=F1s7cAp6CztMwjXgNUbLroLixqRDItn0X6AFY+Lx7SQ39XEB4DsrkoqaoZQx6q+UAl8B/y1XRM4rTp+DoPQk+vlkINDk9B3HLnp8BwobFjL7E/WJ8WzGmbTWXppFW0hgsOuZxbhEi12vblaNWqbuGQVdg4EGfHsVL05QMOxmw70=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760370115; c=relaxed/simple;
+	bh=06TPhQyxr60GFPzcBmNOYvsB/bTvCVAJS3yaHsOuNCs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pKcf9erTLynp9qo7F5DDTZ2f2ymUH0a8BdZ7QsltGwKugC7c8XiEqV74QU/Q/ACNShFFcjXLTo1M/Bdo3H1R7cFNDlz4umI10j/7pAbjur3ztoIw88BknrpXBQWH1M0OsQqklxL4YlxR5fZIUs06g8xCH79VCiYhyHrH9K60CzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qi08nNVG; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-46e47cca387so43842945e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Oct 2025 08:41:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1760370111; x=1760974911; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=m0cgqSzE/Lkny12oGQRJ+XqTG+cD4gi7Ovvpfz4TdUk=;
+        b=qi08nNVG//W+8/WR+EEZEV23umdSo9CVd7txxCNnQFi7llPkmHQQLxJ1yMsoYaj/uk
+         9JOaxR9ZLTw98WzGPDdzxPhtK3EiU8s8jeb/oTbNw3V5sjJc3A8gtnkSxMikG5LnJjGM
+         hazwWqPETG6oBs1FM0gKs+LIrCcv5J5AZVY+oOzNpODl+W88+TmKqsZS+vgKZ9fe2KU0
+         mUTxraRGC9pgCs0AKu68GZYAPxBVMp4YQJJ1btOevR+5tP1ASFkSPaKWxCinrdEJZAAt
+         fSzS2M5TRaoXiDH7VKSJL4iklJtTiQmouZ4tQ20csSyyToGuubFA5dQq56ulNoH7+99R
+         7UqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760370111; x=1760974911;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=m0cgqSzE/Lkny12oGQRJ+XqTG+cD4gi7Ovvpfz4TdUk=;
+        b=wqgTZQQbnvLHt0aWraQDTIJVD67KkyiKzP8Nla5TTHCHgYtLH+iPIE8zxKtOekj+wh
+         JlUeCc2HrBALWbNLIDoQo3SUsnmipJ5bh7frq5P4RenL7AGoQSzE/t9/LS3ln1OUxTjC
+         Pfc6PksbBFtSghgBjtuxb4R7qz3Fotjufzkc4LuonoXbMQ2lJ626q0IUv6Wgm0aX+9SG
+         61MfmPheJEqTURe7JgRRKsPFxuM2G7qXEEly+ojOWpJdr6qKEiaFmk5msl+xWQblMt6Y
+         HDyWaFJ3f+AlS0o2GIltefRj3OW9o4wNYdf19DxCohr+90+OHyyJtvzOxa7uv+iMCijY
+         BQTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXKkYmI8J5YV8dFDtdSAf7AVj+IcVZKFTx07KoMGq7GkgdAuM4RXu3W9FNaW+osG9Ay/fLN5JGotwH/Ta/VqX8bzg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgVG5noxM58hep7W61lRTJvA7JqbOV6RSdvCAwrQgY7PcaRP8k
+	fPpV7DG1Tl8tRHIjUPiFcNKLS8SPWyqNUintRCIyyTGaG8KzGFYqjC2RR3nEWW+HW1w=
+X-Gm-Gg: ASbGncteXvRAiWhtWI38UKLf1xeswze9wAa7nUsQyzmuIlkW2ivZu+k7usg2z6xwtua
+	xdFTqJgpzUQLa9PRp5aR+Q3L4z81k22oHRQ9I30ccZP+sav5UVbMoMGyIeXdI5ilYhI8nATNeEG
+	QKODQpnO+0AbBjZGuMr175Rrwpwl5Kj3a5ppJGYztw9FwSb1naKm4OdgR8QwpOMwa30P/5TTAVC
+	E5On9bjbER4Ci+PTZ6m9clS0urYxtEJKEmNFknwH+6VmEq2lIVnjL0+joCdmCZSzFsv5MuD2CGU
+	nOb9myHKngT/Qx+mN9Dg4CvlUrSmtV+6dDI3MHilWqgTpNAGIduU+R9eorFksv+Dz7fXTo7WiFU
+	FWrAoIRYpa8XgsHmx4PTQkAq2JmLlPRNuFcIjGmyjRRVONL/xJoWe3p/Bl6G+NSRR
+X-Google-Smtp-Source: AGHT+IFKYw7QIOx3KawOwzG5qTW3beZOTdk9+jOTSPXwHNds5Qi4tQ8FekRB2sLyFkvKy6W5j9kTDA==
+X-Received: by 2002:a05:600c:3f1b:b0:46d:5189:3583 with SMTP id 5b1f17b1804b1-46fa9a20793mr152610355e9.0.1760370111512;
+        Mon, 13 Oct 2025 08:41:51 -0700 (PDT)
+Received: from [10.11.12.107] ([79.115.63.145])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-426ce5d0006sm19059187f8f.34.2025.10.13.08.41.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Oct 2025 08:41:50 -0700 (PDT)
+Message-ID: <7732351b-bf21-423d-bb70-177001cd24b9@linaro.org>
+Date: Mon, 13 Oct 2025 16:41:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR04MB9621:EE_|GV2PR04MB11375:EE_
-X-MS-Office365-Filtering-Correlation-Id: d7953d7b-1796-4b60-4f5e-08de0a6e3fd0
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|366016|19092799006|52116014|376014|7416014|7053199007|38350700014;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?ia6W8a3Ozr+m4W9WupCmEbLavJhV3zayvWSi3rKzpTnT//9KPREd4fKqOTFq?=
- =?us-ascii?Q?Z9Nz6akrA63QktegdjMw4eRWSJIcQOprkPx9WUaRkQIYsMvSqzqZ61db0W2B?=
- =?us-ascii?Q?5lgxDepKOk40lX76bf1G9WefiT3AsKrsma6I+zKCuxTp/IMZCnbS8g9JpyPx?=
- =?us-ascii?Q?pVa6XToPhTXMnTtCk9hMO5UXymP6Jqov61LYTQj+QjIwfinHTrrfMM570+ST?=
- =?us-ascii?Q?HGjNEvfnsjsPqLHejgnQX3YilqsPr2RSUvXovMFL6LVGQZyk5DR5seIKhPNU?=
- =?us-ascii?Q?kVSjwG1culdP/ZpSrCUUOhcQsoYSsVJ7PBzWsPO09M0XJdA/mY/2OG9CIQMQ?=
- =?us-ascii?Q?ncYVkcSlt2aUs/KVPv8zAGPoNgUcnWd8XvRr+XOiV2J+qFYNSfNIJckkaB3+?=
- =?us-ascii?Q?zb+cd1AFd48GbwPB+9wYSTB9kINarGqUomhAJkzafH6zsn+4G9zMJuJ+wnYn?=
- =?us-ascii?Q?IgcK+7o43SG4fro3vRKku1oGenRW+nJ9ZXx7uda+qpa+2uvAQmowL/jJkNAL?=
- =?us-ascii?Q?2pddu+SCCmKUXvn7VBqRG6Dhfz598K8fDiia7mhcwsNKLO/uT/qk4dRop81P?=
- =?us-ascii?Q?RWYSEwq9GYN9zzOrhXhZNLNOHZ3u5maTnBy5DPbxTSoFfxA+3USOUR5+Magk?=
- =?us-ascii?Q?zX1qEICBmJCN56tPk0ieq472eJjfvte75k7MZP/4ZCQjw/UGArvr85oTbuO9?=
- =?us-ascii?Q?I//6qCJA2uZzWfYErCU1rgaK7sd8r9bBW5tvAgyC/e0QBktC6W1WyUv2bCf2?=
- =?us-ascii?Q?PqNAjqYGXAw2crSstXhy23Wuoba5X2pDc8lC/3zjDkgjyMfamzsqtCfUnGe1?=
- =?us-ascii?Q?KpZ5qzYhSn2UfLALYvZSAb8OxRyCmkcSLBktNPVNxCOXDOyrjtyXjdqLuzOL?=
- =?us-ascii?Q?ADxKZOPgDQ5rzw8XDMWdWhDjop1zUfbfnISDEK2VrW5PWDcJ3KErdYWsUYyC?=
- =?us-ascii?Q?3ioFSViHTwIGCb1y3lQglzNmeUUl70c+H9/cWve4X5AIOdVBHjpGlwr/hexx?=
- =?us-ascii?Q?oDlgQAY12+/ky1SNwGO+JSET70yf7VWp+FkVNJCf+VafWZnF1JajDWQsgwSD?=
- =?us-ascii?Q?x4d1FJvLp0H4S5aCnKWag1yzL6zEKjReMC91g8uhC/d1apXZBNeMooKJeRDg?=
- =?us-ascii?Q?N+hptILcnGP26YLRGgcVhamkpjJtzOmdD+ltIb1fxUON4dezjdnqXh+LVdM4?=
- =?us-ascii?Q?WyYOUEKH46wNAWPhrrOMsDl2h5iFFEApjyiEjpaZH86hU6EyggAySf413Qqp?=
- =?us-ascii?Q?kuCYrSLelNeuXMsklKCgwe5OiQOIhV30FeoBXmbDg0xbwv5R0QRpBYaDCStT?=
- =?us-ascii?Q?FOV0PPDvRjN4HGyDLya5w9mJxYbT7V6LvsMDOew3jKuFfzeLdhAXItOCs/1M?=
- =?us-ascii?Q?Q4mhOSsf4+kWzFphqjxQTAUPSCGQltesy8qKhMUQ0q916hkNIWS/DiVubonH?=
- =?us-ascii?Q?sa30tKG5AJiW6aVqZ4ZVZ4j5zoAhri5q7EgNmi9alvg4iiuZQ7rvaLDoNbm7?=
- =?us-ascii?Q?qAcJ91mkSHcVz++48TKRJGe2vCdasnJ+Pfez?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9621.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(19092799006)(52116014)(376014)(7416014)(7053199007)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?LSaCJHGtdYoafO+artHRlfOjJkj3g02QuNc4h/UF7Vs060354+BEkyWpE8wa?=
- =?us-ascii?Q?Q/z0EXXddMo64wTPXz8io5OYTQMViDuBrac4mTE+J3/y1CvJx0RxiR4xyBuP?=
- =?us-ascii?Q?AqcSwUSg3Yaxj9B7GuN4fDKs9TD8amsmloz/j15aqh/mbHOUssh0VN2sMcA2?=
- =?us-ascii?Q?ECXPhL+P9HOD1l/JJsh2Iu0CQvdrLGBzZ+HA9jbeQN96omk8oCRcEubJSLWJ?=
- =?us-ascii?Q?R88nSrMku10JI0m1qE1RRpJ5bBL6Wo5f7mfYlSs2mDJ1xSzv70cTx2N8hivn?=
- =?us-ascii?Q?zq9E28U7tCADdrwXdsplolYhY2tazl2EYIhK7rq/Mn3TGaFLStn2JUfWJqwg?=
- =?us-ascii?Q?xr4vAlz7bHWPAFshFpwXYFYURBKkb9PfgsU7bmLcYVFJxA/RKDbLvFokuinD?=
- =?us-ascii?Q?egT2elGTy144oAODMmeCphCyhF79xVXLo86Mhbtb1LEMyziKI/y9sW3xtmH2?=
- =?us-ascii?Q?MHkzSjWcl1cGenE6C6SK2ZHev+X5ZUq6LV2Wqh/3yK13RZOhK+Y+XxBm81Wb?=
- =?us-ascii?Q?oZtMb8qJ0zNi1x9xgrciPs+09RN3uwpMTFrLY/x7qosqm3NvAI6cQyweZ6j/?=
- =?us-ascii?Q?ADCSlzTF3Li/2Q+/k691As6l1XpDpb6ifzH9qQ0iu66gOTWOnwvXTltDDdHM?=
- =?us-ascii?Q?54RINW+aR3WnhDE6MRiEDSYpFuAFUNfQx9qYL5a9eif5Jh0hqroRLDMN4viH?=
- =?us-ascii?Q?Vnx/PhyxJxu7jQPcKhEF/FlUojnx+AFY6vUieook+2etxoZ/V2HaIG63fF8h?=
- =?us-ascii?Q?/Cy4bgsXImEGJXbxbOzg6YrQ5dbrg1Yc0T2NRfDdhEfumpdXlJHFHSBUJe6t?=
- =?us-ascii?Q?cKuERws2u+z+5+iW/stgXZIWUx5emSHTryZATtrkexMIRjr0iFcccc7w55yD?=
- =?us-ascii?Q?dNQzMgaJic69rZrMSwzwYMczjSHOXR9Rg6pSj+Zn8AB3SJsNvcnX5tlhC4/K?=
- =?us-ascii?Q?+/b7Av0/4sKFHd1ugzAcJMRK/A+R15pS+N5RR5zKnANCTAN5niwP8l+qmjiG?=
- =?us-ascii?Q?kC9XHF9DwxP4FW+VHWxDyP79NGPPeu77/yc9w3GEhCrspG4DuEAJ3k26XIwN?=
- =?us-ascii?Q?MJ6sYfO0wF3G/w0gY0tUQLqDc+ZlRdomCP/D770GfdNlknWi6gK2e4F5Vrz6?=
- =?us-ascii?Q?3liSYJ49JtCuB+2HBJM6u/n0QMvNJG9XSLGPOM1yc8ZOe2vjAZ7b9y1F559U?=
- =?us-ascii?Q?ytHRfNtJgGS7/GeKDP1qVH0pbBPPPklB5LlX3TyxPRph/vzjJAjnVp20BG7C?=
- =?us-ascii?Q?9tqk/mZiaVisJfFCHdq7l56FUadi+p1/djT/9BJD8lMcu7cLs107CdIXVuXj?=
- =?us-ascii?Q?aWiAI8wY8/u/aVmwNT8xgB/klvRQtrFVZ73QTVkG7NVx4DOBxnRRmNN+ho0R?=
- =?us-ascii?Q?CFsNnRIQHRwGDIlU4AwKbAwf3cmB7BvbbkLWcW8XToCj+2J2MHL7/mibFlu+?=
- =?us-ascii?Q?hP65n4lgw8PEXDYTbopoTkXcycMydIPjk1Csh8jzi5rELien0t2acoLb6m+s?=
- =?us-ascii?Q?aYvXoHLNpyD7LPNIlnNy2tyA/+jau+uX4IEZqncuIq2ln26I7hOEe7+ZfO2w?=
- =?us-ascii?Q?muPuOI2EXr8ZJX5MoKg=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d7953d7b-1796-4b60-4f5e-08de0a6e3fd0
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9621.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2025 15:36:16.8280
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UcMBGOMpHemRBPMDZ46SFhhar0pauNNAID4ajRxmutNQJZPvQL6Lh327dNeUeS1gpMM+ACX8PaJeyA7DNRoZuQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR04MB11375
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mtd: spi-nor: spansion: Add SMPT fixup for S25FS512S
+To: Marek Vasut <marek.vasut@mailbox.org>, linux-mtd@lists.infradead.org,
+ Takahiro Kuwano <Takahiro.Kuwano@infineon.com>,
+ Takahiro Kuwano <tkuw584924@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Walle <mwalle@kernel.org>, Miquel Raynal
+ <miquel.raynal@bootlin.com>, Pratyush Yadav <pratyush@kernel.org>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ linux-renesas-soc@vger.kernel.org
+References: <20240914220859.128540-1-marek.vasut+renesas@mailbox.org>
+ <0e0f1195-fd08-4d8b-a247-3c94b5628081@linaro.org>
+ <c0cd93b5-4e94-4e4b-9b84-c96e024bcc3e@mailbox.org>
+ <ee1d4085-df65-4e77-844f-c49658cd0713@linaro.org>
+ <54058c12-3932-4dc1-bc51-6627fb46094a@mailbox.org>
+Content-Language: en-US
+From: Tudor Ambarus <tudor.ambarus@linaro.org>
+In-Reply-To: <54058c12-3932-4dc1-bc51-6627fb46094a@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 13, 2025 at 02:14:41PM +0000, Ricardo Ribalda wrote:
-> The %pe format specifier is designed to print error pointers. It prints
-> a symbolic error name (eg. -EINVAL) and it makes the code simpler by
-> omitting PTR_ERR()
->
-> This patch fixes this cocci report:
-> ./cyttsp5.c:927:3-10: WARNING: Consider using %pe to print PTR_ERR()
->
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/input/touchscreen/cyttsp5.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
 
-Suppose it will go though input subsystem intead of media.
-Need post seperated at difference thread?
 
-Frank
+On 10/12/25 5:19 PM, Marek Vasut wrote:
+> Hello Tudor,
 
->
-> diff --git a/drivers/input/touchscreen/cyttsp5.c b/drivers/input/touchscreen/cyttsp5.c
-> index 071b7c9bf566eb0b58e302a941ec085be1eb5683..47f4271395a69b8350f9be7266b57fe11d442ee3 100644
-> --- a/drivers/input/touchscreen/cyttsp5.c
-> +++ b/drivers/input/touchscreen/cyttsp5.c
-> @@ -923,8 +923,8 @@ static int cyttsp5_i2c_probe(struct i2c_client *client)
->
->  	regmap = devm_regmap_init_i2c(client, &config);
->  	if (IS_ERR(regmap)) {
-> -		dev_err(&client->dev, "regmap allocation failed: %ld\n",
-> -			PTR_ERR(regmap));
-> +		dev_err(&client->dev, "regmap allocation failed: %pe\n",
-> +			regmap);
->  		return PTR_ERR(regmap);
->  	}
->
->
-> --
-> 2.51.0.760.g7b8bcc2412-goog
->
+Hello!
+
+>>>>> diff --git a/drivers/mtd/spi-nor/spansion.c b/drivers/mtd/spi-nor/spansion.c
+>>>>> index d6c92595f6bc..d446d12371e1 100644
+>>>>> --- a/drivers/mtd/spi-nor/spansion.c
+>>>>> +++ b/drivers/mtd/spi-nor/spansion.c
+>>>>> @@ -757,6 +757,31 @@ static const struct spi_nor_fixups s25fs_s_nor_fixups = {
+>>>>>        .post_bfpt = s25fs_s_nor_post_bfpt_fixups,
+>>>>>    };
+>>>>>    +static int s25fs512s_nor_post_smpt_fixups(struct spi_nor *nor, u8 *smpt)
+>>>>> +{
+>>>>> +    /*
+>>>>> +     * The S25FS512S chip datasheet rev.O Table 71 on page 153
+>>>>> +     * JEDEC Sector Map Parameter Dword-6 Config. Detect-3 does
+>>>>> +     * use CR3NV bit 1 to discern 64kiB/256kiB uniform sectors
+>>>>> +     * device configuration, however according to section 7.5.5.1
+>>>>> +     * Configuration Register 3 Non-volatile (CR3NV) page 61, the
+>>>>> +     * CR3NV bit 1 is RFU Reserved for Future Use, and is set to
+>>>>> +     * 0 on newly manufactured devices, which means 64kiB sectors.
+>>>>> +     * Since the device does not support 64kiB uniform sectors in
+>>>>> +     * any configuration, parsing SMPT table cannot find a valid
+>>>>> +     * sector map entry and fails. Fix this up by setting SMPT
+>>>>> +     * configuration index bit 0, which is populated exactly by
+>>>>> +     * the CR3NV bit 1 being 1.
+>>>>> +     */
+>>>>> +    *smpt |= BIT(0);
+>>>>
+>>>> Please help me understand this. Maybe a link to your revision of
+>>>> datasheet would help me.
+>>>
+>>> https://www.infineon.com/assets/row/public/documents/10/49/infineon-s25fs512s-512-mb-1-datasheet-en.pdf
+>>>
+>>> SMPT values:
+>>>
+>>> i=0 smpt[i]=08ff65fc
+>>> i=1 smpt[i]=00000004
+>>> i=2 smpt[i]=04ff65fc
+>>> i=3 smpt[i]=00000002
+>>> i=4 smpt[i]=02ff65fd
+>>> i=5 smpt[i]=00000004
+>>> i=6 smpt[i]=ff0201fe
+>>> i=7 smpt[i]=00007ff1
+>>> i=8 smpt[i]=00037ff4
+>>> i=9 smpt[i]=03fbfff4
+>>> i=10 smpt[i]=ff0203fe
+>>> i=11 smpt[i]=03fbfff4
+>>> i=12 smpt[i]=00037ff4
+>>> i=13 smpt[i]=00007ff1
+>>> i=14 smpt[i]=ff0005ff
+>>> i=15 smpt[i]=03fffff4
+>>>
+>>
+>> thanks!
+>>
+>>>> In the flash datasheets that I see, there shall
+>>>> be a "Sector Map Parameter Table Notes" where a "Sector Map Parameter"
+>>>> table is described showing an Index Value constructed by the CRxNV[y]
+>>>> return values. That index value is the map_id in the code.
+>>>>
+>>>> By reading your description I understand CR3NV[1] has value zero as it
+>>>> is marked as RFU, but at the same time that bit is expected in SMPT to
+>>>> always have value 1. That's why datasheets like this one [1] in their
+>>>> "Table 70. Sector Map Parameter" do not describe CR3NV[1] at all, and
+>>>> define the index value as CR3NV[3] << 2 | CR1NV[2] << 1 | 1.
+>>>
+>>> Where does this last part "define the index value as CR3NV[3] << 2 | CR1NV[2] << 1 | 1" come from ?
+>>
+>> In your datasheet flavor, from "Table 70 Sector map parameter", page 152,
+>> "Index Value" column. I deduced the formula by using the CR3NV[3] and
+>> CR1NV[2] values. The datasheet says:
+>>
+>> "When more than one configuration bit must be read, all the bits are
+>> concatenated into an index value that is used to select the current address map."
+>>
+>> and that the "the following MSb to LSb order to form the configuration map
+>> index value:
+>> • CR3NV[3] — 0 = Hybrid Architecture, 1 = Uniform Architecture
+>> • CR1NV[2] — 0 = 4 KB parameter sectors at bottom, 1 = 4 KB sectors at top
+>> "
+>>
+>> The "Index Value" shall be the map_id that you passed in the code:
+>> spi_nor_post_smpt_fixups(nor, &map_id);
+>>
+>> Can you please print the map_id value that you obtain without updating it?
+> 
+> 0x4
+
+This translates to CR3NV[3] = 1, CR1NV[2] = 0,  CR3NV[1] = 0.
+> 
+>> Let's also print the values of CR3NV and CR1NV.
+> 
+> Both 0x0 and 0x0 .
+
+But here CR3NV is 0, it contradicts the result from above.
+
+Maybe it's the same problem that Takahiro identified: the flash needs
+8 dummy cycles, but the code uses zero dummy cycles, resulting in
+reading garbage data, depending on whether your IO lines are pulled up/down
+or floating.
+
+Can you redo the test with the following please?
+
+diff --git a/drivers/mtd/spi-nor/sfdp.c b/drivers/mtd/spi-nor/sfdp.c
+index 21727f9a4ac6..85443c903e59 100644
+--- a/drivers/mtd/spi-nor/sfdp.c
++++ b/drivers/mtd/spi-nor/sfdp.c
+@@ -752,7 +752,7 @@ static const u32 *spi_nor_get_map_in_use(struct spi_nor *nor, const u32 *smpt,
+ 
+                read_data_mask = SMPT_CMD_READ_DATA(smpt[i]);
+                nor->addr_nbytes = spi_nor_smpt_addr_nbytes(nor, smpt[i]);
+-               nor->read_dummy = spi_nor_smpt_read_dummy(nor, smpt[i]);
++               nor->read_dummy = 8;
+                nor->read_opcode = SMPT_CMD_OPCODE(smpt[i]);
+                addr = smpt[i + 1];
+ 
+@@ -767,6 +767,8 @@ static const u32 *spi_nor_get_map_in_use(struct spi_nor *nor, const u32 *smpt,
+                 * Configuration that is currently in use.
+                 */
+                map_id = map_id << 1 | !!(*buf & read_data_mask);
++               dev_err(nor->dev, "i = %d, buf = %02x, map_id = %02x\n",
++                       i, buf[0], map_id);
+        }
+ 
+Cheers,
+ta
 
