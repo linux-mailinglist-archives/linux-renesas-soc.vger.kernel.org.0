@@ -1,79 +1,79 @@
-Return-Path: <linux-renesas-soc+bounces-22926-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22928-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DFB8BD36E7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 16:18:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66549BD3708
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 16:18:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5069A3A6B78
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 14:16:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C1F2B3AE1FB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 14:16:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 041DC2FE58C;
-	Mon, 13 Oct 2025 14:15:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8440309F15;
+	Mon, 13 Oct 2025 14:15:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="izTUNuay"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XEDSeT2F"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BAD7277C8D
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Oct 2025 14:15:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D733081B8
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Oct 2025 14:15:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760364911; cv=none; b=K4YB4HyRtM3cPNOEsvqPn8cM7uJ4UcUqBUVvb4Kju1J34T+nUdN0oNwH5Ld7+71fIghCMalGnNNsnwW6O9ihFO+X5O+bko9QuWtDR6AUeDIPqAbIXc/A3QmyWjjPdn2Ya0Tr9EVSuX7S4HJtq43YzuLbxs7cWtz1L3Q3yyEVpj4=
+	t=1760364914; cv=none; b=Cx8bwS1IImJBdr2k8LCJpgt0kwUxXM4qXGP7usGvRCk6QsTpUjmvzcH5Q1w2MeCDyIfMfXjC8QX2fLCeBvDJ5+8xFZY8Gi1sO9EVRAWV8XMyGLlmCaOFkPSECDnLO02lr4CHQDta/595YZhjTQ7sfOCUQryN0fqjNLyRtBc+GdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760364911; c=relaxed/simple;
-	bh=+oAwKYsKZnmMRNeirjVFyUXif+/X/1l4gmdnVjVso4M=;
+	s=arc-20240116; t=1760364914; c=relaxed/simple;
+	bh=PoPtHLGESxHSet6DKhSq32L4rnbboY4bB4TsHRSTKBk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=H9rABpuI+HXRdoM1TLP3vjgI9inFdiD+hON/nU428Pd4Fur353E7TBgp1ekLdp6jQe+SQUrltBVxZp/cy+MTPiDvvnjIVhcXczLYiz2PnZYtDNbw31BEsHjIVYt9+jD1uZDug/L/msetngp1ZGKPyjXDcXgnKZZ/yuIIettYECQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=izTUNuay; arc=none smtp.client-ip=209.85.167.49
+	 In-Reply-To:To:Cc; b=G3fnCeCwqnrT+E8ynmy/O57Cb6N5ukGFR2qnWzMWEcbM4QAy9hRMDez3Hzj0jDqy2KRdeS7MxymT7UBzDzsQ4DA8PXan6u7QZ+2Ii9fq4qU635QGnYSQ42IL7ybGa+/2JsfoHBD7ciufUK11rSFhVBwftBnhg12ZqD3FMRftFiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=XEDSeT2F; arc=none smtp.client-ip=209.85.167.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-57a59124323so4619694e87.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Oct 2025 07:15:01 -0700 (PDT)
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-58afb2f42e3so5098316e87.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Oct 2025 07:15:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1760364897; x=1760969697; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1760364898; x=1760969698; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=weMrn1P2Dmx5cKyBfIFsmXsJRg2imt8oYjxSbIy2C0c=;
-        b=izTUNuayAQ45sJgBQXb0nIli8DPefQgSO+xRgra5o4yjJ6Nz+NS35kd39st74oQW82
-         oogcytQoWlc4+jWm0/3pG77HeR8v+K0uEPIVlBqnxkUvwmvT54rZDM2A/75TGymXZ9Mt
-         E6Nv6WCwdpnhxJKw8IC6L4hwQ4VpKY3qQwTz4=
+        bh=h/KkfbsbDFUpgpWR/Q+1n2e+SsZd/m2BbfBCG6Meudo=;
+        b=XEDSeT2F4b1hw1txr+gV6rS/DIfjBKvYcomtDjmiUyO3XsaM6alkVnnzztSmS2lcii
+         thfDO9/Dy1DHTHohdQ0owiRufRA+ZVIQyS6DByElS1aTBixn4Xs4C/ZfKl7SjW3yr6wM
+         cFcxtmKvMJP0UkyDNXKag61cJFndIwpUgI4u0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760364897; x=1760969697;
+        d=1e100.net; s=20230601; t=1760364898; x=1760969698;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=weMrn1P2Dmx5cKyBfIFsmXsJRg2imt8oYjxSbIy2C0c=;
-        b=sir8Keyg0IxAPLTJKJcirxpqkHCvTgbHosR99CbJBE5AKH6CgCrB8urzkRr4x81ob5
-         u0YwKQwOFUcjx5rNF06uqJjXE6h/Xkp2X6U6im6tlvJ7SHlRFamLu2U+IPV5QWIRLmm1
-         55SxHGYJj/66IIfICH+82jnPjCY00ITynTJwgsDqJYzagJ9xBb5C+F+aVXqd3TJDElCW
-         ujovjB+yJee9FbLyRHyyGhaJ8E2lhp8lOhT46XPsoPQRxob9dH4rMuGhhzUby3uUimg0
-         x35irU8SO1GUUf0sePDgAMByKScKPjEnLaNBvIYYfvQTgko99kTbHCn21QfQY3oziCeH
-         WTEg==
-X-Forwarded-Encrypted: i=1; AJvYcCWdJxUNeqXgtGLMu6RIKAlrSyXmrCkRXuLMH4jsNL1GwJV06MWmmuDYyNcWB6OKa76uDbsoBQA2kj//w60r3yTzTQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwpwSJsa+wAXD37fWIpcgLdJ06ieZLGnjhZhwjMNBFilhlwnpwV
-	6pTUogAI2UQtKajYXxIMwdJ3BYyOj1TLGiVdSp7pDuGnJ9648Se/A6grTXDlan38Fg==
-X-Gm-Gg: ASbGncvtSNUqZ1IozhLZtf9HZKzkuZRQatEzEJBz2HJpanpNihK6lGMcDIT7zy4WreJ
-	GndrItrXGJAq5XE8P7cwCGp3VdcBv//FjONMmBBxk5XxDt94XFA5HXsrFtvmvg/Bdf7IaJ0IB0Y
-	UKl4UUypLjUDYts1Tvxov5w0QmYsyjsUivAmwddhT9LlhrmdUnfncoKn5lYnyWF1LifMkqpNZXy
-	axMzKXUeo008HIoAvTUvIIbspLZCEUNsvrHHTIG8/clF7iwX+v8NQg7FuI2sfuByv3xH4eQbFlV
-	Ybs2Nz6lPk9Cou6IXLBhX2D5Q0bSrwrHSHUkbdhSKGjLinXmLCRXDntq8w/lms1u9MzofFQnox/
-	4gNUF8wjRTSG9BlpHxoQt9kMz/nIH4R6VjftSB0jgwbghsMFrzkTqTQP6OuLWXRTCF+XxS4HKGA
-	+VbS0uyDAkAS2eW4y05Q==
-X-Google-Smtp-Source: AGHT+IHVv3VTrmCgUzT/cTkypfMtCAEj51jzL57PRvYw0rG8gIadeWnRbBvldcFvBGl05DoGVFZcMA==
-X-Received: by 2002:ac2:4e0a:0:b0:55f:503c:d328 with SMTP id 2adb3069b0e04-5906d8edab9mr6287769e87.36.1760364897004;
+        bh=h/KkfbsbDFUpgpWR/Q+1n2e+SsZd/m2BbfBCG6Meudo=;
+        b=n3q2/6xbVLoikaygCFOSFDbJawSaiB/ReGI8Ntpdwjza/b0CVRGBDFDlEa9U4lLSnL
+         F/fX9+sh0TXmJ1RAmnTKlvC39Y6Y8+IQ5FDnHRrpm0e7dyMW7XG/i2T7zUpKdQejVOOE
+         iOz40CDRa7apm6My3gnY4L24dyG84w2IHyohquN8wcy4MIqUTSWziXHyuFAh7pz/m3rT
+         uXeGpbsg90rR7ULYHFZ3aG90Uuda7xEQ/NYE+JOsEFKs4HY5cfGbdnrFikDGT5Erg/ez
+         LAqW8dYomN5cqynGmUsU/ReC1EN34YDLLxW6VJaAxZELSatmNkjY2b3B3mNGVW4A1IA0
+         +VKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU3zTbDJAH4mM0T89IYwWBwKAn7oz+UDSeOqUwPPtVDhcAv7e2H7KiHOIyC5QczwMTKklNcR8qWiAAJ7xSXfrillw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwjPkJwPQoyU7E2syrK5cbvDvTRibIDSVofUpkUGO9eES7foVjC
+	tseKX/3fjtr7WaliquUJiyHJiEBT1zrqx91Bt1BXoDN9dNOkdZMRtkzPi1mVl3vILg==
+X-Gm-Gg: ASbGnct08ZMrZ4uCmJVY7Es1S0hLgq/ridHHWc4e2VP5WZTm/Y83KnbwnDWFTV/YOM+
+	pvolYPgXzUan7UX56obCA3R3W17g3t08D8BeH+oLWuWdA6IbxmJKzPUsRgfIYjI3BT+DcYIfVJr
+	J5OgAXa/TEFIbIj+lpLw2VqJ9K3Q+rMg7b8qMCrK6YtumwJ9t+p+MgQF/xPAgFLMisG8PEDEMxd
+	0YpbUbLntluwL7lYzu6Lop+RdlrZVgdP+In4DP0JuuvGjS79NFr7P38FkQr4grASUcRbKlw8oLE
+	z74XDv4g6+NibrtxmnvVAgHlWsxvR7cZ5yTCqmAQlD49jaQnECBmEE7JHJdOgexSg8IUuxQWyEZ
+	3rWHK0NXuYp9EkP0VT7L3XAA0iwc8F2TMtLoIZ1luc0CTOwEO/9S7Bh+y//4W7Mx49DmKb7PKfQ
+	UT1/8cbyn7fcUYO7US1hM/609Lji9q
+X-Google-Smtp-Source: AGHT+IHydw0CVPv6HxiK0rxt7/F7rhhFXqFXXsY7vFrPuGUIbADwLidmgxRKInXX5MSWX37dI8vbkg==
+X-Received: by 2002:a05:6512:3d17:b0:57d:9f0b:fd4b with SMTP id 2adb3069b0e04-5906db0ccd1mr6079921e87.6.1760364897595;
         Mon, 13 Oct 2025 07:14:57 -0700 (PDT)
 Received: from ribalda.c.googlers.com (56.213.88.34.bc.googleusercontent.com. [34.88.213.56])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-590881e4e58sm4165256e87.25.2025.10.13.07.14.56
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-590881e4e58sm4165256e87.25.2025.10.13.07.14.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Oct 2025 07:14:56 -0700 (PDT)
+        Mon, 13 Oct 2025 07:14:57 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 13 Oct 2025 14:14:52 +0000
-Subject: [PATCH 12/32] media: i2c: max9286: Use %pe format specifier
+Date: Mon, 13 Oct 2025 14:14:53 +0000
+Subject: [PATCH 13/32] media: i2c: max96717: Use %pe format specifier
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -82,7 +82,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251013-ptr_err-v1-12-2c5efbd82952@chromium.org>
+Message-Id: <20251013-ptr_err-v1-13-2c5efbd82952@chromium.org>
 References: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
 In-Reply-To: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
 To: Linus Walleij <linus.walleij@linaro.org>, 
@@ -135,28 +135,26 @@ a symbolic error name (eg. -EINVAL) and it makes the code simpler by
 omitting PTR_ERR().
 
 This patch fixes this cocci report:
-./i2c/max9286.c:755:7-14: WARNING: Consider using %pe to print PTR_ERR()
+./i2c/max96717.c:653:44-51: WARNING: Consider using %pe to print PTR_ERR()
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/i2c/max9286.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/i2c/max96717.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-index 7c0961688d6173843f3ae846253d4a8669ae762b..e6e214f8294b83105be02f29966e1d3ed72f8dbe 100644
---- a/drivers/media/i2c/max9286.c
-+++ b/drivers/media/i2c/max9286.c
-@@ -751,8 +751,8 @@ static int max9286_v4l2_notifier_register(struct max9286_priv *priv)
- 		mas = v4l2_async_nf_add_fwnode(&priv->notifier, source->fwnode,
- 					       struct max9286_asd);
- 		if (IS_ERR(mas)) {
--			dev_err(dev, "Failed to add subdev for source %u: %ld",
--				i, PTR_ERR(mas));
-+			dev_err(dev, "Failed to add subdev for source %u: %pe",
-+				i, mas);
- 			v4l2_async_nf_cleanup(&priv->notifier);
- 			return PTR_ERR(mas);
- 		}
+diff --git a/drivers/media/i2c/max96717.c b/drivers/media/i2c/max96717.c
+index c8ae7890d9fa87a78084df1f3be631004acbf57b..71ec4fdb8e3d96dddc23ab090a63b23b1d093fd4 100644
+--- a/drivers/media/i2c/max96717.c
++++ b/drivers/media/i2c/max96717.c
+@@ -650,7 +650,7 @@ static int max96717_v4l2_notifier_register(struct max96717_priv *priv)
+ 	fwnode_handle_put(ep_fwnode);
+ 
+ 	if (IS_ERR(asd)) {
+-		dev_err(dev, "Failed to add subdev: %ld", PTR_ERR(asd));
++		dev_err(dev, "Failed to add subdev: %pe", asd);
+ 		v4l2_async_nf_cleanup(&priv->notifier);
+ 		return PTR_ERR(asd);
+ 	}
 
 -- 
 2.51.0.760.g7b8bcc2412-goog
