@@ -1,79 +1,79 @@
-Return-Path: <linux-renesas-soc+bounces-22925-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22924-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13948BD3687
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 16:17:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFE4ABD3683
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 16:16:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 553F94F3741
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 14:16:23 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A83314F36A2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 14:16:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0DFE309EF5;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBB63309EE9;
 	Mon, 13 Oct 2025 14:15:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="F0MXKH8X"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HGTNrb/o"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC8B2F5479
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF8D026562D
 	for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Oct 2025 14:15:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760364911; cv=none; b=fYFswu8R6fAawEWKFQWzTNCjnsvG8tu+HfG3UdGDL7IjgUbb/JgmIBHgEWFDoFNVqX0dXPlQaRzXwOWSrRkXxT4eMizyFvZu0fN7XB3FtDUNhj6YoRAuMmwSW4z72YFBd2bHwItyIeKz8fxLibWHp8BBFUHmh8vOgSOs4lEabh4=
+	t=1760364910; cv=none; b=q3pfpAFVR1R0frNd4ZlvtPf35mx51lAk3HQ1VBGL0zy9I3Nc+4sG4HMiDXwX/E5VMUvavwlHkXux9zFnzCMOS/sPsI7JOAfrVF7byJj/Q60xNadU1rSSeq+nYXkgs2jfuMNPMi8jquJfdY4M7DFSeGUppCJf3dELNoNIPaghoks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760364911; c=relaxed/simple;
-	bh=IYbyVo3NUXYVIwRmrClYpoFVDSCS8PA6N1mE0EyDE2w=;
+	s=arc-20240116; t=1760364910; c=relaxed/simple;
+	bh=wrKOMHwKlcYP29CWxnwwTT7eHQ4f28o/AjBtQYuk4qk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VFcjYRqQqoMWCRldg6syoLI2FIqGSdHSDV+LcyWIJ6+ji+UQMfQ9fpAKeVuIu9qhhqx4JTCJgqqiw/2VHxC7XAfTgAwC/vjvm92l0x1uiFrdDnhSWfXjk9fnufXpM4HVm+h3dArEXFtmEBC/aYjxlSHRCRM2kK2phMeEttGXYw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=F0MXKH8X; arc=none smtp.client-ip=209.85.167.49
+	 In-Reply-To:To:Cc; b=gKvNRlKxv4xXvjwAYUSuXCz8ZV8IZpDM5ZF2NEJvvMbSgHyWazsZQF+fj0DEkUVchVBdeOHsIXkdDp5HLGAsUVkF8mnkrhF0S2wx+kvoyKH+SRMkL130Uzm6EPesdhMiixoOkRZcqAzyqtfqlOuWMm16Rf6Vfe5aj8Wxg+6IUBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=HGTNrb/o; arc=none smtp.client-ip=209.85.167.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-59093864727so2839252e87.3
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-579363a4602so5034594e87.0
         for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Oct 2025 07:15:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1760364898; x=1760969698; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1760364899; x=1760969699; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=U+HlSqes1yCsLkQoWVAYYhek4ZxMIKlt6Lo2LEEYk1o=;
-        b=F0MXKH8XD/+Omkozp3JvPJdc/BgEySnoAcDXLAi0YqPufXrNDmTdixfngz/T3eZE4T
-         xqAc86uhTwvo8VZTjgsPwJsZYxVrNylI8VWVHmxHFR1axK1LoY0M3mQoupHyntlc0nQH
-         xRuqav9bqa1CWcf/RF+DFzOH2dFH9//jHYxR4=
+        bh=p8BE8cd4ehs+vvBX7b/XSqVzFH/A9VcJiWIwNhqGmEE=;
+        b=HGTNrb/oldIeVPouKQ20E2UIpL7rvOEyVLwEfo5+bj5k5rlXh/IA7fJUKJ2rZ1/flE
+         QiK4JlrXBqvZ47HCpc4N354Gmmks8IV0mmC43hCRrlVHockQVK7hcjjOGCMeFFsqjy+X
+         Uue68ho47FRUvpI/yXBjJN7RXmmXCR74Aoqlk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760364898; x=1760969698;
+        d=1e100.net; s=20230601; t=1760364899; x=1760969699;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=U+HlSqes1yCsLkQoWVAYYhek4ZxMIKlt6Lo2LEEYk1o=;
-        b=Y1rrVbbboQMyuDn7rCiF0L0lNkPVdnpeT53oaF3SiXsNYWKjzZNaBzo90lmZnKyVa8
-         f4jWJ8vzcHMilZm6dXOdJVcFtHmz14ookdgDgLk3z/cHRCylFNggY0jWv/AvUxQyLHdQ
-         dVcgnO/LNdALIyTmMh9x5WbZzhOM6gfpxGRCNWcR5n+T0h1qNqC0RaUSovBAApbpNUpa
-         gfIEqPR5rjdFIxXyDV6+KiDsGAYzsWgPBSRKj87S7KTsqRdY+qbb0yYORaKShb04PvYn
-         p6+o+dqir/1nFs1AbenqfVMZyhCSdB85TYsS/B2hgdSCGMv/dPe1hcfWpq+ZJBSrY6Hm
-         SPAg==
-X-Forwarded-Encrypted: i=1; AJvYcCVmvlf7x0YPr326VMTnEqSvxhJ1gNrPVsQn23MCX1ucrvLPxjHmOJRU+AT1WV7qJQVXH1sUbmqTWwqEd5Mka35DtA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2tArd5zEB8DovRZBQxDnE60IgOaS/KUjSX530/04i2UW9qTwq
-	y9K0LyCfm1YVLt0FN/Zmr+FMvary6j4uqulPqTMP+618scq9JGSV8QB6EwJ1ZN/2ig==
-X-Gm-Gg: ASbGncsppNJpd90JSA8QYiZTJOhLo3Aa89Rm/f1zgX2iNiKu52+FpHiw4DE4+h1aeRF
-	CuZkMWZzWDawe5yFZIw4+5Rj8l6cDSnu2Uua8LRW/LRJED9nDvN4i7Zr5xqZH2O3FlPFG2FEGvj
-	lo2+GwwtycJwRs5OKvran45cXD3DCeFdfdrasdo7SNMVAuWfMWVx/K/QBDKvxCqeWW4iZXBVy0+
-	RkWU+t2YELp6FpahqZMwgzm2+20hi7nvIXKhwXrKaT7nv0omPvkpwF6+Z3MKHaOGhCPRc9AWnE0
-	Pv5ECszN16yOu/lX1MGHSqmp87ksGRlPJLi5K6UMOvkm2PLs7BgnZ7Nnc2WCjkz5U0trIB/3smR
-	EVW48V+DPKXScZJkj+Zd1t90x3kcNjDy8EQHf9U7lrAFllJP+dgxF5Rwy8J8JwU//HQG8c0Hk23
-	CO3hb5UwEIsWdticOnhg==
-X-Google-Smtp-Source: AGHT+IH27CfYjloqEXA5bxWZfYaU4LA1SVwbUAxn03k9AIO/MXhXvYZJr7Cls4Tsp0u6mygHRedkXg==
-X-Received: by 2002:a05:6512:3d94:b0:579:d89:20c7 with SMTP id 2adb3069b0e04-5906d896e12mr6073927e87.9.1760364898078;
+        bh=p8BE8cd4ehs+vvBX7b/XSqVzFH/A9VcJiWIwNhqGmEE=;
+        b=FI5dj1yXw6TiNNsmH7br6EfxprBQQzGBINZGHXz9pxx3btDka5tpkowNHdvaHAaA3x
+         vTSksjeg+XmRxRHOHFLPCk5rZvF0gCVMja4pfgj/IRMWUs6Cvm+1JFZIXlJ2z8f8Ye/6
+         wiaQWoqMVH5wy3qZVFzxVw5CrE7+FZ791wS6c2/uhVAaGc+/Kg5gsGeHUoLmdsJuLIvY
+         h9Jt5YKsE5H45EJHoVPFIzJ6532yRivWAk/KLvm9Bk93nE5apl0RfgWpGQC7zpMvnHrr
+         bEj3mLBwy60TxWjz8/dmjPKlpROLq+IqH1Sv5egpxplA8KIpaayDCaFfWvh17RdWwNE8
+         F74Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUKRRk26jiKHbbL2LBhfMLzU/gvgLjemteDFN0A75jM6YA1VxY7I/Q4o11MVF5A0PwW9zMzGdEKS+pQ5u16oraQpg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwyWVPeFZVrGHstd2DByikIC7/7pMccX6PYm9haolzBzl1s3xIT
+	d6z4L02BRHGA2TueaXnSV0x6CJ9PBeyBkFsWx2QO+aoyRiuv6WCusJB1f6Vh4wSHow==
+X-Gm-Gg: ASbGncuyVOcvTFthNMueGRoWrwvA88aVLCijKhBfFMVCiU9Yd9EwfVju94zV3EPip2S
+	d8zN4PwvL4m03UvJpJmbvSjPfHmI/86ugOW66cXaC0d1w7plVfOTF0LH0D1JihzxgY/8bDl0Z+w
+	1GhDoQdsb126bePwX/baX1ddV4cAjXovdNN5Z/PdYe3lZz5vPb7/K0V5/QFOWrEcGkoI9NKole8
+	zcolBUu6nTZPDMKmbzwW2CGfyJXER/xWRnsSCExoUqs5FR8zPlAUPxPOE3BH43hby/HKDIinw+U
+	nXo6OU57IWhSlUyG2hpN0le+fiTvbI8OjSZxPWjEnc4SdR47FtpM7rS6Hyd6eQsMNcib2FYJL+2
+	BxrsfG1pv9fNmu3l4k+1dxgExXnBgqtEGNFe8OV2BVkHuLZyAW/GD8SC+JXUOQQaxL/AZHRupJz
+	1E/p2wah4amTDD3tXGQkUO6DQusrVu
+X-Google-Smtp-Source: AGHT+IGpJ2y0KS2EDpbOsMnyHnkw2vKTe9VvDcatboc6qkM7xgDjulc/G8CRi01zrNhs6YMLw6/H1Q==
+X-Received: by 2002:a05:6512:1053:b0:590:651b:10e9 with SMTP id 2adb3069b0e04-5906dd514d8mr6137707e87.34.1760364898568;
         Mon, 13 Oct 2025 07:14:58 -0700 (PDT)
 Received: from ribalda.c.googlers.com (56.213.88.34.bc.googleusercontent.com. [34.88.213.56])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-590881e4e58sm4165256e87.25.2025.10.13.07.14.57
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-590881e4e58sm4165256e87.25.2025.10.13.07.14.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Oct 2025 07:14:57 -0700 (PDT)
+        Mon, 13 Oct 2025 07:14:58 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 13 Oct 2025 14:14:54 +0000
-Subject: [PATCH 14/32] media: i2c: mt9m111: Use %pe format specifier
+Date: Mon, 13 Oct 2025 14:14:55 +0000
+Subject: [PATCH 15/32] media: i2c: mt9v111: Use %pe format specifier
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -82,7 +82,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251013-ptr_err-v1-14-2c5efbd82952@chromium.org>
+Message-Id: <20251013-ptr_err-v1-15-2c5efbd82952@chromium.org>
 References: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
 In-Reply-To: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
 To: Linus Walleij <linus.walleij@linaro.org>, 
@@ -135,26 +135,48 @@ a symbolic error name (eg. -EINVAL) and it makes the code simpler by
 omitting PTR_ERR().
 
 This patch fixes this cocci report:
-./i2c/mt9m111.c:1290:3-10: WARNING: Consider using %pe to print PTR_ERR()
+./i2c/mt9v111.c:1143:3-10: WARNING: Consider using %pe to print PTR_ERR()
+./i2c/mt9v111.c:1151:3-10: WARNING: Consider using %pe to print PTR_ERR()
+./i2c/mt9v111.c:1159:3-10: WARNING: Consider using %pe to print PTR_ERR()
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/i2c/mt9m111.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/i2c/mt9v111.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/i2c/mt9m111.c b/drivers/media/i2c/mt9m111.c
-index 05dcf37c6f013b1cefb5d85f893af08f4533c7b4..3532c7c38becc21df88957f8f323c77033026a81 100644
---- a/drivers/media/i2c/mt9m111.c
-+++ b/drivers/media/i2c/mt9m111.c
-@@ -1286,8 +1286,8 @@ static int mt9m111_probe(struct i2c_client *client)
+diff --git a/drivers/media/i2c/mt9v111.c b/drivers/media/i2c/mt9v111.c
+index b4f2703faa1854a3a5e7d92ef312d01a39879a5a..64a758c95ab7b767de452304615a8d1f986dd23d 100644
+--- a/drivers/media/i2c/mt9v111.c
++++ b/drivers/media/i2c/mt9v111.c
+@@ -1139,24 +1139,24 @@ static int mt9v111_probe(struct i2c_client *client)
+ 	mt9v111->oe = devm_gpiod_get_optional(&client->dev, "enable",
+ 					      GPIOD_OUT_LOW);
+ 	if (IS_ERR(mt9v111->oe)) {
+-		dev_err(&client->dev, "Unable to get GPIO \"enable\": %ld\n",
+-			PTR_ERR(mt9v111->oe));
++		dev_err(&client->dev, "Unable to get GPIO \"enable\": %pe\n",
++			mt9v111->oe);
+ 		return PTR_ERR(mt9v111->oe);
+ 	}
  
- 	mt9m111->regulator = devm_regulator_get(&client->dev, "vdd");
- 	if (IS_ERR(mt9m111->regulator)) {
--		dev_err(&client->dev, "regulator not found: %ld\n",
--			PTR_ERR(mt9m111->regulator));
-+		dev_err(&client->dev, "regulator not found: %pe\n",
-+			mt9m111->regulator);
- 		return PTR_ERR(mt9m111->regulator);
+ 	mt9v111->standby = devm_gpiod_get_optional(&client->dev, "standby",
+ 						   GPIOD_OUT_HIGH);
+ 	if (IS_ERR(mt9v111->standby)) {
+-		dev_err(&client->dev, "Unable to get GPIO \"standby\": %ld\n",
+-			PTR_ERR(mt9v111->standby));
++		dev_err(&client->dev, "Unable to get GPIO \"standby\": %pe\n",
++			mt9v111->standby);
+ 		return PTR_ERR(mt9v111->standby);
+ 	}
+ 
+ 	mt9v111->reset = devm_gpiod_get_optional(&client->dev, "reset",
+ 						 GPIOD_OUT_LOW);
+ 	if (IS_ERR(mt9v111->reset)) {
+-		dev_err(&client->dev, "Unable to get GPIO \"reset\": %ld\n",
+-			PTR_ERR(mt9v111->reset));
++		dev_err(&client->dev, "Unable to get GPIO \"reset\": %pe\n",
++			mt9v111->reset);
+ 		return PTR_ERR(mt9v111->reset);
  	}
  
 
