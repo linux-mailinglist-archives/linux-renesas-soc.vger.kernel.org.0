@@ -1,47 +1,47 @@
-Return-Path: <linux-renesas-soc+bounces-22967-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22968-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67A85BD51F7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 18:39:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 823CEBD5200
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 18:40:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A49A718A52AB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 16:40:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 51A1F18A4F38
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Oct 2025 16:40:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F431299A96;
-	Mon, 13 Oct 2025 16:39:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D8B92D1F7E;
+	Mon, 13 Oct 2025 16:39:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qdbw5Kvn"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="uxHaw807"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A27A2DF139
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Oct 2025 16:39:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CCC02DF139
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Oct 2025 16:39:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760373580; cv=none; b=VVgU+RKECn2/ezzW/AaBI6yb0Fu+p2Ja/q+NvCqxF1oV8ao9Q3KEEzYFzpColZNMFEqf9L3ys6RPo19bgK8aSm3aqKoq1kk9NuLaoWec22/7nmcohct7ihoCgYFiY4/Cn7w/A6GgzCsL9m1XNUcopczP+vxsTNyWunsnex0Ic2g=
+	t=1760373582; cv=none; b=ECUWe5+ikqcuetKuofHMtrtOV0CvGVpBC+EGayoF3jVeQZ+iPxpy9YIai7Y3OclbIikOn9uXZQW+qySJ4GciCzZZ7I8Q/+eUP1CG1KYuI4Dj4IBvyueb92KIDcACFmahk35aNIH5Di4aNBGBqYnUwGeKFbfBax7XeqavAEH3IVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760373580; c=relaxed/simple;
-	bh=1F2fw3zczGI81JdRBOlSZBJBqXWd49SMfjnOTq+TE44=;
+	s=arc-20240116; t=1760373582; c=relaxed/simple;
+	bh=5zajwih8Y3qDJCqxZ3xh+gXLZyfVyKOccSrrtVYKtzw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fVOFdWGrpRHUWldaw+xBzqVnf63D0W9BQsfetwpP+qszqbVQkeGFLKASD8Vt2LRuVYtGTsb5rzyKHBZ96kGN/bOH2TJozPuyprtP/g6Sy/gdDohY0FjkaPuox4xGV6rzg6SDAj9xxxlaNH6JVp+NQTB4It/h4SxhmbC1CyWwswI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qdbw5Kvn; arc=none smtp.client-ip=95.215.58.189
+	 MIME-Version; b=XUWjBeVI1ojEiye18Vm13/JIgXujR25pZTZLvsflNN86sbXdQ3rwRk60AqZwr76wQPhJFy2qPTuHGesoVSdRU19/BHXcQ2iQbV5Yxs+p6R5Wpsn+Yt5F2psMQHq3ykQhYYkIBn2R3sN8fjwxLR6Wr9/3J3bNo4hoWG6WR+6mQDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=uxHaw807; arc=none smtp.client-ip=95.215.58.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1760373576;
+	t=1760373578;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VLdXb05s0WYbZTpQ719etyy1IRRzOpdwBC2/F78OAUo=;
-	b=qdbw5KvnjF+r23zGfOORydHoAyPMHkvmYeMipIsPwjbJ03MxQffQZ8lIFsksAonLkzA4Oj
-	OefxYM2qQm6tYwcWeO5s5kM4V71l6JsLywdKJ/evB/cRG3xGuYHcKRAohi1gjdBCNHYtVd
-	onSlBCfPR1eoEgA8ONar0J+4WgqhdPs=
+	bh=rRkOeYffQSPN3EI9cpUkils3HiItCyHuZrMbb4fIZ+I=;
+	b=uxHaw807OvVBxnPvUo/xCdR0YHYalp9bhj8G9YdslzYudJT8K+lV1JXK99KI+keUaUaj8E
+	aYc6MQT5Y6JZ1zirBC8fBlD+dEWAvrL2TxsHv23PxVsvFf5I6lk6L04VUxRoCRNJGXde5t
+	V81NgolYcNCRppSGuhKGQJrQyjVeDm0=
 From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
 To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
 	Andrew Lunn <andrew+netdev@lunn.ch>,
@@ -73,9 +73,9 @@ Cc: Richard Cochran <richardcochran@gmail.com>,
 	netdev@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Subject: [PATCH net-next 08/14] octeontx2: convert to ndo_hwtstamp API
-Date: Mon, 13 Oct 2025 16:37:43 +0000
-Message-ID: <20251013163749.5047-3-vadim.fedorenko@linux.dev>
+Subject: [PATCH net-next 09/14] mlx4: convert to ndo_hwtstamp API
+Date: Mon, 13 Oct 2025 16:37:44 +0000
+Message-ID: <20251013163749.5047-4-vadim.fedorenko@linux.dev>
 In-Reply-To: <20251013163749.5047-1-vadim.fedorenko@linux.dev>
 References: <20251013163749.5047-1-vadim.fedorenko@linux.dev>
 Precedence: bulk
@@ -88,105 +88,60 @@ Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
 Convert driver to use .ndo_hwtstamp_get()/.ndo_hwtstamp_set() callbacks.
-otx2_ioctl() becomes empty, remove it.
+mlx4_en_ioctl() becomes empty, remove it.
 
 Signed-off-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
 ---
- .../marvell/octeontx2/nic/otx2_common.h       |  9 ++-
- .../ethernet/marvell/octeontx2/nic/otx2_pf.c  | 56 +++++++++----------
- .../ethernet/marvell/octeontx2/nic/otx2_vf.c  |  3 +-
- 3 files changed, 33 insertions(+), 35 deletions(-)
+ .../net/ethernet/mellanox/mlx4/en_netdev.c    | 61 ++++++++-----------
+ drivers/net/ethernet/mellanox/mlx4/mlx4_en.h  |  6 +-
+ 2 files changed, 28 insertions(+), 39 deletions(-)
 
-diff --git a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h
-index 1c8a3c078a64..ec26d1b6c789 100644
---- a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h
-+++ b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h
-@@ -527,7 +527,7 @@ struct otx2_nic {
- 	u32			nix_lmt_size;
- 
- 	struct otx2_ptp		*ptp;
--	struct hwtstamp_config	tstamp;
-+	struct kernel_hwtstamp_config tstamp;
- 
- 	unsigned long		rq_bmap;
- 
-@@ -1098,8 +1098,11 @@ int otx2_open(struct net_device *netdev);
- int otx2_stop(struct net_device *netdev);
- int otx2_set_real_num_queues(struct net_device *netdev,
- 			     int tx_queues, int rx_queues);
--int otx2_ioctl(struct net_device *netdev, struct ifreq *req, int cmd);
--int otx2_config_hwtstamp(struct net_device *netdev, struct ifreq *ifr);
-+int otx2_config_hwtstamp_get(struct net_device *netdev,
-+			     struct kernel_hwtstamp_config *config);
-+int otx2_config_hwtstamp_set(struct net_device *netdev,
-+			     struct kernel_hwtstamp_config *config,
-+			     struct netlink_ext_ack *extack);
- 
- /* MCAM filter related APIs */
- int otx2_mcam_flow_init(struct otx2_nic *pf);
-diff --git a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c
-index e808995703cf..cf5a2d9fb0c7 100644
---- a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c
-+++ b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c
-@@ -2445,18 +2445,26 @@ static int otx2_config_hw_tx_tstamp(struct otx2_nic *pfvf, bool enable)
+diff --git a/drivers/net/ethernet/mellanox/mlx4/en_netdev.c b/drivers/net/ethernet/mellanox/mlx4/en_netdev.c
+index 308b4458e0d4..514f29f241c3 100644
+--- a/drivers/net/ethernet/mellanox/mlx4/en_netdev.c
++++ b/drivers/net/ethernet/mellanox/mlx4/en_netdev.c
+@@ -2420,21 +2420,21 @@ static int mlx4_en_change_mtu(struct net_device *dev, int new_mtu)
  	return 0;
  }
  
--int otx2_config_hwtstamp(struct net_device *netdev, struct ifreq *ifr)
-+int otx2_config_hwtstamp_get(struct net_device *netdev,
-+			     struct kernel_hwtstamp_config *config)
-+{
-+	struct otx2_nic *pfvf = netdev_priv(netdev);
-+
-+	*config = pfvf->tstamp;
-+	return 0;
-+}
-+EXPORT_SYMBOL(otx2_config_hwtstamp_get);
-+
-+int otx2_config_hwtstamp_set(struct net_device *netdev,
-+			     struct kernel_hwtstamp_config *config,
-+			     struct netlink_ext_ack *extack)
+-static int mlx4_en_hwtstamp_set(struct net_device *dev, struct ifreq *ifr)
++static int mlx4_en_hwtstamp_set(struct net_device *dev,
++				struct kernel_hwtstamp_config *config,
++				struct netlink_ext_ack *extack)
  {
- 	struct otx2_nic *pfvf = netdev_priv(netdev);
+ 	struct mlx4_en_priv *priv = netdev_priv(dev);
+ 	struct mlx4_en_dev *mdev = priv->mdev;
 -	struct hwtstamp_config config;
- 
- 	if (!pfvf->ptp)
- 		return -ENODEV;
- 
+-
 -	if (copy_from_user(&config, ifr->ifr_data, sizeof(config)))
 -		return -EFAULT;
--
+ 
+ 	/* device doesn't support time stamping */
+-	if (!(mdev->dev->caps.flags2 & MLX4_DEV_CAP_FLAG2_TS))
++	if (!(mdev->dev->caps.flags2 & MLX4_DEV_CAP_FLAG2_TS)) {
++		NL_SET_ERR_MSG(extack, "device doesn't support time stamping");
+ 		return -EINVAL;
++	}
+ 
+ 	/* TX HW timestamp */
 -	switch (config.tx_type) {
 +	switch (config->tx_type) {
  	case HWTSTAMP_TX_OFF:
- 		if (pfvf->flags & OTX2_FLAG_PTP_ONESTEP_SYNC)
- 			pfvf->flags &= ~OTX2_FLAG_PTP_ONESTEP_SYNC;
-@@ -2465,8 +2473,11 @@ int otx2_config_hwtstamp(struct net_device *netdev, struct ifreq *ifr)
- 		otx2_config_hw_tx_tstamp(pfvf, false);
+ 	case HWTSTAMP_TX_ON:
  		break;
- 	case HWTSTAMP_TX_ONESTEP_SYNC:
--		if (!test_bit(CN10K_PTP_ONESTEP, &pfvf->hw.cap_flag))
-+		if (!test_bit(CN10K_PTP_ONESTEP, &pfvf->hw.cap_flag)) {
-+			NL_SET_ERR_MSG(extack,
-+				       "One-step time stamping is not supported");
- 			return -ERANGE;
-+		}
- 		pfvf->flags |= OTX2_FLAG_PTP_ONESTEP_SYNC;
- 		schedule_delayed_work(&pfvf->ptp->synctstamp_work,
- 				      msecs_to_jiffies(500));
-@@ -2478,7 +2489,7 @@ int otx2_config_hwtstamp(struct net_device *netdev, struct ifreq *ifr)
- 		return -ERANGE;
+@@ -2443,7 +2443,7 @@ static int mlx4_en_hwtstamp_set(struct net_device *dev, struct ifreq *ifr)
  	}
  
+ 	/* RX HW timestamp */
 -	switch (config.rx_filter) {
 +	switch (config->rx_filter) {
  	case HWTSTAMP_FILTER_NONE:
- 		otx2_config_hw_rx_tstamp(pfvf, false);
  		break;
-@@ -2497,35 +2508,17 @@ int otx2_config_hwtstamp(struct net_device *netdev, struct ifreq *ifr)
+ 	case HWTSTAMP_FILTER_ALL:
+@@ -2461,39 +2461,27 @@ static int mlx4_en_hwtstamp_set(struct net_device *dev, struct ifreq *ifr)
  	case HWTSTAMP_FILTER_PTP_V2_SYNC:
  	case HWTSTAMP_FILTER_PTP_V2_DELAY_REQ:
- 		otx2_config_hw_rx_tstamp(pfvf, true);
+ 	case HWTSTAMP_FILTER_NTP_ALL:
 -		config.rx_filter = HWTSTAMP_FILTER_ALL;
 +		config->rx_filter = HWTSTAMP_FILTER_ALL;
  		break;
@@ -194,67 +149,147 @@ index e808995703cf..cf5a2d9fb0c7 100644
  		return -ERANGE;
  	}
  
--	memcpy(&pfvf->tstamp, &config, sizeof(config));
-+	pfvf->tstamp = *config;
+ 	if (mlx4_en_reset_config(dev, config, dev->features)) {
+-		config.tx_type = HWTSTAMP_TX_OFF;
+-		config.rx_filter = HWTSTAMP_FILTER_NONE;
++		config->tx_type = HWTSTAMP_TX_OFF;
++		config->rx_filter = HWTSTAMP_FILTER_NONE;
+ 	}
  
 -	return copy_to_user(ifr->ifr_data, &config,
 -			    sizeof(config)) ? -EFAULT : 0;
++	return 0;
+ }
+ 
+-static int mlx4_en_hwtstamp_get(struct net_device *dev, struct ifreq *ifr)
++static int mlx4_en_hwtstamp_get(struct net_device *dev,
++				struct kernel_hwtstamp_config *config)
+ {
+ 	struct mlx4_en_priv *priv = netdev_priv(dev);
+ 
+-	return copy_to_user(ifr->ifr_data, &priv->hwtstamp_config,
+-			    sizeof(priv->hwtstamp_config)) ? -EFAULT : 0;
 -}
--EXPORT_SYMBOL(otx2_config_hwtstamp);
 -
--int otx2_ioctl(struct net_device *netdev, struct ifreq *req, int cmd)
+-static int mlx4_en_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
 -{
--	struct otx2_nic *pfvf = netdev_priv(netdev);
--	struct hwtstamp_config *cfg = &pfvf->tstamp;
--
 -	switch (cmd) {
 -	case SIOCSHWTSTAMP:
--		return otx2_config_hwtstamp(netdev, req);
+-		return mlx4_en_hwtstamp_set(dev, ifr);
 -	case SIOCGHWTSTAMP:
--		return copy_to_user(req->ifr_data, cfg,
--				    sizeof(*cfg)) ? -EFAULT : 0;
+-		return mlx4_en_hwtstamp_get(dev, ifr);
 -	default:
 -		return -EOPNOTSUPP;
 -	}
++	*config = priv->hwtstamp_config;
 +	return 0;
  }
--EXPORT_SYMBOL(otx2_ioctl);
-+EXPORT_SYMBOL(otx2_config_hwtstamp_set);
  
- static int otx2_do_set_vf_mac(struct otx2_nic *pf, int vf, const u8 *mac)
+ static netdev_features_t mlx4_en_fix_features(struct net_device *netdev,
+@@ -2560,7 +2548,7 @@ static int mlx4_en_set_features(struct net_device *netdev,
+ 	}
+ 
+ 	if (reset) {
+-		ret = mlx4_en_reset_config(netdev, priv->hwtstamp_config,
++		ret = mlx4_en_reset_config(netdev, &priv->hwtstamp_config,
+ 					   features);
+ 		if (ret)
+ 			return ret;
+@@ -2844,7 +2832,6 @@ static const struct net_device_ops mlx4_netdev_ops = {
+ 	.ndo_set_mac_address	= mlx4_en_set_mac,
+ 	.ndo_validate_addr	= eth_validate_addr,
+ 	.ndo_change_mtu		= mlx4_en_change_mtu,
+-	.ndo_eth_ioctl		= mlx4_en_ioctl,
+ 	.ndo_tx_timeout		= mlx4_en_tx_timeout,
+ 	.ndo_vlan_rx_add_vid	= mlx4_en_vlan_rx_add_vid,
+ 	.ndo_vlan_rx_kill_vid	= mlx4_en_vlan_rx_kill_vid,
+@@ -2858,6 +2845,8 @@ static const struct net_device_ops mlx4_netdev_ops = {
+ 	.ndo_features_check	= mlx4_en_features_check,
+ 	.ndo_set_tx_maxrate	= mlx4_en_set_tx_maxrate,
+ 	.ndo_bpf		= mlx4_xdp,
++	.ndo_hwtstamp_get	= mlx4_en_hwtstamp_get,
++	.ndo_hwtstamp_set	= mlx4_en_hwtstamp_set,
+ };
+ 
+ static const struct net_device_ops mlx4_netdev_ops_master = {
+@@ -3512,7 +3501,7 @@ int mlx4_en_init_netdev(struct mlx4_en_dev *mdev, int port,
+ }
+ 
+ int mlx4_en_reset_config(struct net_device *dev,
+-			 struct hwtstamp_config ts_config,
++			 struct kernel_hwtstamp_config *ts_config,
+ 			 netdev_features_t features)
  {
-@@ -2942,7 +2935,6 @@ static const struct net_device_ops otx2_netdev_ops = {
- 	.ndo_set_features	= otx2_set_features,
- 	.ndo_tx_timeout		= otx2_tx_timeout,
- 	.ndo_get_stats64	= otx2_get_stats64,
--	.ndo_eth_ioctl		= otx2_ioctl,
- 	.ndo_set_vf_mac		= otx2_set_vf_mac,
- 	.ndo_set_vf_vlan	= otx2_set_vf_vlan,
- 	.ndo_get_vf_config	= otx2_get_vf_config,
-@@ -2951,6 +2943,8 @@ static const struct net_device_ops otx2_netdev_ops = {
- 	.ndo_xdp_xmit           = otx2_xdp_xmit,
- 	.ndo_setup_tc		= otx2_setup_tc,
- 	.ndo_set_vf_trust	= otx2_ndo_set_vf_trust,
-+	.ndo_hwtstamp_get	= otx2_config_hwtstamp_get,
-+	.ndo_hwtstamp_set	= otx2_config_hwtstamp_set,
+ 	struct mlx4_en_priv *priv = netdev_priv(dev);
+@@ -3522,8 +3511,8 @@ int mlx4_en_reset_config(struct net_device *dev,
+ 	int port_up = 0;
+ 	int err = 0;
+ 
+-	if (priv->hwtstamp_config.tx_type == ts_config.tx_type &&
+-	    priv->hwtstamp_config.rx_filter == ts_config.rx_filter &&
++	if (priv->hwtstamp_config.tx_type == ts_config->tx_type &&
++	    priv->hwtstamp_config.rx_filter == ts_config->rx_filter &&
+ 	    !DEV_FEATURE_CHANGED(dev, features, NETIF_F_HW_VLAN_CTAG_RX) &&
+ 	    !DEV_FEATURE_CHANGED(dev, features, NETIF_F_RXFCS))
+ 		return 0; /* Nothing to change */
+@@ -3542,7 +3531,7 @@ int mlx4_en_reset_config(struct net_device *dev,
+ 	mutex_lock(&mdev->state_lock);
+ 
+ 	memcpy(&new_prof, priv->prof, sizeof(struct mlx4_en_port_profile));
+-	memcpy(&new_prof.hwtstamp_config, &ts_config, sizeof(ts_config));
++	memcpy(&new_prof.hwtstamp_config, ts_config, sizeof(*ts_config));
+ 
+ 	err = mlx4_en_try_alloc_resources(priv, tmp, &new_prof, true);
+ 	if (err)
+@@ -3560,7 +3549,7 @@ int mlx4_en_reset_config(struct net_device *dev,
+ 			dev->features |= NETIF_F_HW_VLAN_CTAG_RX;
+ 		else
+ 			dev->features &= ~NETIF_F_HW_VLAN_CTAG_RX;
+-	} else if (ts_config.rx_filter == HWTSTAMP_FILTER_NONE) {
++	} else if (ts_config->rx_filter == HWTSTAMP_FILTER_NONE) {
+ 		/* RX time-stamping is OFF, update the RX vlan offload
+ 		 * to the latest wanted state
+ 		 */
+@@ -3581,7 +3570,7 @@ int mlx4_en_reset_config(struct net_device *dev,
+ 	 * Regardless of the caller's choice,
+ 	 * Turn Off RX vlan offload in case of time-stamping is ON
+ 	 */
+-	if (ts_config.rx_filter != HWTSTAMP_FILTER_NONE) {
++	if (ts_config->rx_filter != HWTSTAMP_FILTER_NONE) {
+ 		if (dev->features & NETIF_F_HW_VLAN_CTAG_RX)
+ 			en_warn(priv, "Turning off RX vlan offload since RX time-stamping is ON\n");
+ 		dev->features &= ~NETIF_F_HW_VLAN_CTAG_RX;
+diff --git a/drivers/net/ethernet/mellanox/mlx4/mlx4_en.h b/drivers/net/ethernet/mellanox/mlx4/mlx4_en.h
+index ad0d91a75184..aab97694f86b 100644
+--- a/drivers/net/ethernet/mellanox/mlx4/mlx4_en.h
++++ b/drivers/net/ethernet/mellanox/mlx4/mlx4_en.h
+@@ -388,7 +388,7 @@ struct mlx4_en_port_profile {
+ 	u8 num_up;
+ 	int rss_rings;
+ 	int inline_thold;
+-	struct hwtstamp_config hwtstamp_config;
++	struct kernel_hwtstamp_config hwtstamp_config;
  };
  
- int otx2_wq_init(struct otx2_nic *pf)
-diff --git a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_vf.c b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_vf.c
-index 25381f079b97..f4fdbfba8667 100644
---- a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_vf.c
-+++ b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_vf.c
-@@ -534,8 +534,9 @@ static const struct net_device_ops otx2vf_netdev_ops = {
- 	.ndo_set_features = otx2vf_set_features,
- 	.ndo_get_stats64 = otx2_get_stats64,
- 	.ndo_tx_timeout = otx2_tx_timeout,
--	.ndo_eth_ioctl	= otx2_ioctl,
- 	.ndo_setup_tc = otx2_setup_tc,
-+	.ndo_hwtstamp_get = otx2_config_hwtstamp_get,
-+	.ndo_hwtstamp_set = otx2_config_hwtstamp_set,
- };
+ struct mlx4_en_profile {
+@@ -612,7 +612,7 @@ struct mlx4_en_priv {
+ 	bool wol;
+ 	struct device *ddev;
+ 	struct hlist_head mac_hash[MLX4_EN_MAC_HASH_SIZE];
+-	struct hwtstamp_config hwtstamp_config;
++	struct kernel_hwtstamp_config hwtstamp_config;
+ 	u32 counter_index;
  
- static int otx2_vf_wq_init(struct otx2_nic *vf)
+ #ifdef CONFIG_MLX4_EN_DCB
+@@ -780,7 +780,7 @@ void mlx4_en_ptp_overflow_check(struct mlx4_en_dev *mdev);
+ 
+ int mlx4_en_moderation_update(struct mlx4_en_priv *priv);
+ int mlx4_en_reset_config(struct net_device *dev,
+-			 struct hwtstamp_config ts_config,
++			 struct kernel_hwtstamp_config *ts_config,
+ 			 netdev_features_t new_features);
+ void mlx4_en_update_pfc_stats_bitmap(struct mlx4_dev *dev,
+ 				     struct mlx4_en_stats_bitmap *stats_bitmap,
 -- 
 2.47.3
 
