@@ -1,126 +1,167 @@
-Return-Path: <linux-renesas-soc+bounces-22993-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22994-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08306BD8262
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 10:23:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B90A8BD82F5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 10:32:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7392E3E8504
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 08:23:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2F48B189E796
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 08:32:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3341130F811;
-	Tue, 14 Oct 2025 08:23:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DEAA29BDAD;
+	Tue, 14 Oct 2025 08:32:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pAMv2LyH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rI/lA1AX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A32CC19E992;
-	Tue, 14 Oct 2025 08:23:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B3C916F265;
+	Tue, 14 Oct 2025 08:32:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760430194; cv=none; b=UJo/kEu+6muVwT1K2Mb2K7BvQdndE2/on9BLPIEFuaS0DY5FujEiazx6jnt2ki+GX9TLbnxiQAovYYVYsuDp0Lyy+Jopv86E69MCYGdfSJermFkbpV15+WcbT1OAGxUGmkkOm4kiBIw9mFFZDdvGjnGX/o2C9Qvo2lUZ46EWEYg=
+	t=1760430736; cv=none; b=BbiQvwzXxb/1QmuibsfKAyN1vgk9iDlBW0Vfniq3dR83mj3Xw2nme7cm6TIgFVR6A34mzjaa3XY4oiJeHx3Rda46/VGOM/iGvno42rWUsLfCiq+PYT/tH5IXTk7IuTdqShMqrYNvlo2IJMm3JoefYlR7uMqTcbqhcNK0P3IigkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760430194; c=relaxed/simple;
-	bh=HI9MYPKRah6TCdEBS0xaMpDlHqOl0YmD4F6YufB4zNw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FrD9zQS8oxBp08O1YomAsn3UtwSOjlCAsA14X3WtRUxr9JmEeE3TIvnp1nzQjUyGqF6H0iTE1emLoItBBbVWylperHE7RgySFr6/79BZI0MMRoxFGA/ZpM5SYAO1uvd0W8Wg2YPV27jbv3592ZVRTkhhUINK0ZPlky6u1aq66no=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pAMv2LyH; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9A0CEC73;
-	Tue, 14 Oct 2025 10:21:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1760430092;
-	bh=HI9MYPKRah6TCdEBS0xaMpDlHqOl0YmD4F6YufB4zNw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pAMv2LyHLQSCiGClKzQLIdpgy5Rkfu/LQSsadd3DnmwkhbsnnLk2jG7oiPxRQCQSB
-	 QlXMAJwwVlfVOY6a3hS5XzESS3XC2uJ9VTpSwj4P7yeZeVYmxJvHK72c2wTXLg1//G
-	 wCRSriLpk3r7HpMwCcAwTlfkPSLdII9jJHlrl6TU=
-Message-ID: <14341b21-dbf6-43a4-87a2-1bd602034ff8@ideasonboard.com>
-Date: Tue, 14 Oct 2025 09:23:07 +0100
+	s=arc-20240116; t=1760430736; c=relaxed/simple;
+	bh=79Z8WAUQAlqHzUnTiERxYcnCSSAkZtyqlEAok9nIYMo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BvLi1Cv0orER606hQNW5EuDxRFzMrQptYECHYZTPZEAX6DGK+t75NAzYuLispif+JgIPFB1fdmX7nbyesLpLFjvieEjjYpA5FnIOCBQC7wU7D6svBo/JHhO4eHA8Se7ufazwYiZIcTzQWCyIjXqcLSCoy8z8GfYM5XLeED3NQp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rI/lA1AX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCE77C4CEE7;
+	Tue, 14 Oct 2025 08:32:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760430735;
+	bh=79Z8WAUQAlqHzUnTiERxYcnCSSAkZtyqlEAok9nIYMo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rI/lA1AXn1hCQJhcNCyjkW6MrbFzQpLG/WieRsxB3RryypZMk0rg8ehuoUNNU/cVT
+	 z/uoM6yqvb+aXmPBFY/uGJXxxHFFTQqn+U3UwllHJcOgtYga61iGqbaItiDSaQpg6p
+	 mcs/hTyRceLNhu1nh1vYS3oX6BjoSbvtrpIR4U7Npsf4nRVXLsfW1A2oullTcm7aHG
+	 Wge1rcRAMbRPt5h87r2Dy3GRDnlC1Ve+o6XRrR5M80qYjZhXUr2mqMzIY6t4nkzrGh
+	 0Cykwzn3STulKiQTj97e25y7FPPQ/hauvlrwcIkjZQOoWEUAsmxWv8vHuChFUGUswA
+	 X5BRd7pqSBqtg==
+Date: Tue, 14 Oct 2025 01:32:09 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, kernel test robot <lkp@intel.com>,
+	Kees Cook <kees@kernel.org>,
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>
+Subject: Re: [PATCH] PCI: rcar-host: Avoid objtool no-cfi warning in
+ rcar_pcie_probe()
+Message-ID: <20251014083209.GA2696801@ax162>
+References: <20251013-rcar_pcie_probe-avoid-nocfi-objtool-warning-v1-1-552876b94f04@kernel.org>
+ <CAMuHMdXZvoTyWcgRp6TnkybnKY4ekfO9aB33iumPVaR7wvEXkw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] clk: renesas: r9a09g057-cpg: Add clock and reset
- entries for ISP
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, fabrizio.castro.jz@renesas.com,
- linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
- prabhakar.mahadev-lad.rj@bp.renesas.com
-References: <20251010-rzv2h_isp_clk-v2-1-2c8853a9af7c@ideasonboard.com>
- <CAMuHMdXYsHFi3LSLLPtTZ8xrZsLsXUMG693C3KE=wShhObnkCQ@mail.gmail.com>
-Content-Language: en-US
-From: Dan Scally <dan.scally@ideasonboard.com>
-In-Reply-To: <CAMuHMdXYsHFi3LSLLPtTZ8xrZsLsXUMG693C3KE=wShhObnkCQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXZvoTyWcgRp6TnkybnKY4ekfO9aB33iumPVaR7wvEXkw@mail.gmail.com>
 
-Morning Geert
+Hi Geert,
 
-On 13/10/2025 16:23, Geert Uytterhoeven wrote:
-> Hi Daniel,
+On Tue, Oct 14, 2025 at 09:16:58AM +0200, Geert Uytterhoeven wrote:
+> On Mon, 13 Oct 2025 at 20:26, Nathan Chancellor <nathan@kernel.org> wrote:
+> > ---
+> > Another alternative is to make this driver depend on CONFIG_OF since it
+> > clearly requires it but that would restrict compile testing so I went
+> > with this first.
+> > ---
+> >  drivers/pci/controller/pcie-rcar-host.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
+> > index 213028052aa5..15514c9c1927 100644
+> > --- a/drivers/pci/controller/pcie-rcar-host.c
+> > +++ b/drivers/pci/controller/pcie-rcar-host.c
+> > @@ -981,7 +981,7 @@ static int rcar_pcie_probe(struct platform_device *pdev)
+> >                 goto err_clk_disable;
+> >
+> >         host->phy_init_fn = of_device_get_match_data(dev);
+> > -       err = host->phy_init_fn(host);
+> > +       err = host->phy_init_fn ? host->phy_init_fn(host) : -ENODEV;
+> >         if (err) {
+> >                 dev_err(dev, "failed to init PCIe PHY\n");
+> >                 goto err_clk_disable;
 > 
-> On Fri, 10 Oct 2025 at 11:43, Daniel Scally <dan.scally@ideasonboard.com> wrote:
->> Add entries detailing the clocks and resets for the ISP in the
->> RZ/V2H(P) SoC.
->>
->> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
->> ---
->> Changes in v2:
->> - Dropped the dt-bindings patches since the macros weren't needed
->> - Squashed the separate patches adding clock and reset definitions
->>    into a single patch
->> - Link to v1: https://lore.kernel.org/r/20250506121252.557170-1-dan.scally@ideasonboard.com
-> 
-> Thanks for the update!
-> 
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-clk for v6.19, with the below fixed...
-> 
->> --- a/drivers/clk/renesas/r9a09g057-cpg.c
->> +++ b/drivers/clk/renesas/r9a09g057-cpg.c
->> @@ -64,6 +64,7 @@ enum clk_ids {
->>          CLK_SMUX2_GBE1_TXCLK,
->>          CLK_SMUX2_GBE1_RXCLK,
->>          CLK_PLLGPU_GEAR,
->> +       CLK_PLLVDO_ISP,
-> 
-> ... moving up, with the other CLK_PLLVDO_* entries...
+> I am afraid you're playing a big game of whack-a-mole, since we tend
+> to remove these checks, as they can never happen in practice (driver
+> is probed from DT only, and all entries in rcar_pcie_of_match[] have
+> a non-NULL .data member)...
 
-Ah - sorry about missing the ordering there!
+Thanks for the input! Yeah, that is fair, as I alluded to in the scissor
+area. We could just do
 
-Thanks
-Dan
+diff --git a/drivers/pci/controller/Kconfig b/drivers/pci/controller/Kconfig
+index 41748d083b93..d8688abc5b27 100644
+--- a/drivers/pci/controller/Kconfig
++++ b/drivers/pci/controller/Kconfig
+@@ -243,6 +243,7 @@ config PCI_TEGRA
+ config PCIE_RCAR_HOST
+ 	bool "Renesas R-Car PCIe controller (host mode)"
+ 	depends on ARCH_RENESAS || COMPILE_TEST
++	depends on OF
+ 	depends on PCI_MSI
+ 	select IRQ_MSI_LIB
+ 	help
 
-> 
->>
->>          /* Module Clocks */
->>          MOD_CLK_BASE,
->> @@ -170,6 +171,7 @@ static const struct cpg_core_clk r9a09g057_core_clks[] __initconst = {
->>          DEF_SMUX(".smux2_gbe1_rxclk", CLK_SMUX2_GBE1_RXCLK, SSEL1_SELCTL1, smux2_gbe1_rxclk),
->>
->>          DEF_DDIV(".pllgpu_gear", CLK_PLLGPU_GEAR, CLK_PLLGPU, CDDIV3_DIVCTL1, dtable_2_64),
->> +       DEF_DDIV(".pllvdo_isp", CLK_PLLVDO_ISP, CLK_PLLVDO, CDDIV2_DIVCTL3, dtable_2_64),
-> 
-> ... moving up, with the other CLK_PLLVDO_* entries.
-> 
->>
->>          /* Core Clocks */
->>          DEF_FIXED("sys_0_pclk", R9A09G057_SYS_0_PCLK, CLK_QEXTAL, 1, 1),
-> 
-> Gr{oetje,eeting}s,
-> 
->                          Geert
-> 
+since it is required for the driver to function. Another alternative
+would be something like either:
 
+diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
+index 213028052aa5..c237e04392e6 100644
+--- a/drivers/pci/controller/pcie-rcar-host.c
++++ b/drivers/pci/controller/pcie-rcar-host.c
+@@ -941,6 +941,9 @@ static int rcar_pcie_probe(struct platform_device *pdev)
+ 	u32 data;
+ 	int err;
+ 
++	if (!IS_ENABLED(CONFIG_OF))
++		return -ENODEV;
++
+ 	bridge = devm_pci_alloc_host_bridge(dev, sizeof(*host));
+ 	if (!bridge)
+ 		return -ENOMEM;
+
+or
+
+diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
+index 213028052aa5..2aee2e0d9a1d 100644
+--- a/drivers/pci/controller/pcie-rcar-host.c
++++ b/drivers/pci/controller/pcie-rcar-host.c
+@@ -980,8 +980,12 @@ static int rcar_pcie_probe(struct platform_device *pdev)
+ 	if (err)
+ 		goto err_clk_disable;
+ 
+-	host->phy_init_fn = of_device_get_match_data(dev);
+-	err = host->phy_init_fn(host);
++	if (IS_ENABLED(CONFIG_OF)) {
++		host->phy_init_fn = of_device_get_match_data(dev);
++		err = host->phy_init_fn(host);
++	} else {
++		err = -ENODEV;
++	}
+ 	if (err) {
+ 		dev_err(dev, "failed to init PCIe PHY\n");
+ 		goto err_clk_disable;
+
+to keep the ability to compile test the driver without CONFIG_OF while
+having no impact on the final object code and avoiding the NULL call. I
+am open to other thoughts and ideas as well.
+
+Cheers,
+Nathan
 
