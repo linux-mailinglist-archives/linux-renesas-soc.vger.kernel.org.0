@@ -1,144 +1,171 @@
-Return-Path: <linux-renesas-soc+bounces-22988-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-22990-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2552EBD7CEE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 09:07:30 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA72BD7DEB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 09:25:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 45996189807A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 07:07:53 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8F8854FCD91
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 07:23:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42B472D592D;
-	Tue, 14 Oct 2025 07:07:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="qs/anXn2"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1C6729BD81;
+	Tue, 14 Oct 2025 07:22:42 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7728A307AE4
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Oct 2025 07:07:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3141A2D8DAF
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Oct 2025 07:22:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760425639; cv=none; b=kkoMxvij5iRQ8jA8yCPgY/VhEZWf5AcK8Yp5nBEEDLdMHxE5jybL+YnRLgjAdBNiiCYiuCupdrQOxSKkxXQn+LZWEkirPn9BEU2f9KOaaR7mibiM375zojCJ4Cf1fdCGDSQcbFMMTPbeN0iXuiq6IMbL8C+GUNk85j1gxjOMVlw=
+	t=1760426562; cv=none; b=DAPmMEXIdkQtX6ArlYMG0qwukY7Gh6TP9msaEno1+nNPHOzmo1+q7a4ULeQeq56+uIAILDFrwL1sNUfVtXVFfmXz8D+cpyOBstNJLuHnE+C5H4dStXVHKgH/9kRzuenwAbHG2Kp1VGIslzu64uua8yzjQ2/zZ4U2+MzwYuhOuDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760425639; c=relaxed/simple;
-	bh=AE6o9rBchXM9ButRAfqsiHwvFzmlHsuVVU5dxOZZtd8=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=VrkMTfZwIvduQjMSc53ZNLX8rvr5YaA2o6wPCMuRJz5fBEFhR62P34VX5cfmU3lBLU0Px6lmNC/UfHKhBIssMSVBgL4yAfNT6A0/v7lsU90kRNDDnLQxxppNI5GiWWDS/hkIWKaId9z0aMDXWUDL3rd5TghLNiww3spPy4HRsxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=qs/anXn2; arc=none smtp.client-ip=185.67.36.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 7D85E240027
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Oct 2025 09:07:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1760425627; bh=m2ao7yOlmXtTR+gAWOXEYdjwi7rdtHCkxzZCJ5XFR9E=;
-	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:From;
-	b=qs/anXn2TVnJ3gfmAMlt/gZ6fHeZdmw8nlor261Uc6AaFBIEbGJq4MC7QA5reFK0w
-	 0/PJKEyhUqqbCtiyOMuFuopxx0xkpGCfrUsi0RtgLsMTpGKpkkmIc5xTD1b3ZZozXO
-	 IxdgnISemS2GtLR1dbxwe5PSfug/pF+yzodMP8MImM7aIJAwZgpis5h48v6PNA9ti8
-	 ML+17oz4AzLX/16JGZiUQrkqTmUqxcr0GvmHM+qDCwxzO3hxCnv4WAEavaC2RU5W2I
-	 GWdSCeK7fMSy/OHfVFz7/E76HREqG687Nkt2HYjZqhcPW+h7juEPOAhhJjtMPxTiVz
-	 TywBmW4HlmzbA==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4cm4yp6z2Tz9rxR;
-	Tue, 14 Oct 2025 09:06:58 +0200 (CEST)
-Message-ID: <f30b137685be9148e69f18065d811d011bfe3409.camel@posteo.de>
-Subject: Re: [PATCH 25/32] media: imx8mq-mipi-csi2: Use %pe format specifier
-From: Martin Kepplinger-Novakovic <martink@posteo.de>
-To: Ricardo Ribalda <ribalda@chromium.org>, Linus Walleij	
- <linus.walleij@linaro.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Mauro Carvalho Chehab	 <mchehab@kernel.org>, Hans Verkuil
- <hverkuil@kernel.org>, Sakari Ailus	 <sakari.ailus@linux.intel.com>,
- Krzysztof =?UTF-8?Q?Ha=C5=82asa?=	 <khalasa@piap.pl>, Tomi Valkeinen
- <tomi.valkeinen@ideasonboard.com>, Leon Luo	 <leonl@leopardimaging.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,  Jacopo Mondi
- <jacopo+renesas@jmondi.org>, Kieran Bingham
- <kieran.bingham+renesas@ideasonboard.com>,  Laurent Pinchart
- <laurent.pinchart+renesas@ideasonboard.com>, Niklas
- =?ISO-8859-1?Q?S=F6derlund?=	 <niklas.soderlund+renesas@ragnatech.se>,
- Julien Massot	 <julien.massot@collabora.com>, Jacopo Mondi
- <jacopo@jmondi.org>, Daniel Scally	 <djrscally@gmail.com>, Dave Stevenson
- <dave.stevenson@raspberrypi.com>,  Benjamin Mugnier
- <benjamin.mugnier@foss.st.com>, Sylvain Petinot
- <sylvain.petinot@foss.st.com>, Yong Zhi	 <yong.zhi@intel.com>, Bingbu Cao
- <bingbu.cao@intel.com>, Tianshu Qiu	 <tian.shu.qiu@intel.com>, Tiffany Lin
- <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno	
- <angelogioacchino.delregno@collabora.com>, Rui Miguel Silva
- <rmfrfs@gmail.com>,  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Purism Kernel Team <kernel@puri.sm>, Shawn Guo	 <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Dafna
- Hirschfeld	 <dafna@fastmail.com>, Heiko Stuebner <heiko@sntech.de>,
- Sylwester Nawrocki	 <s.nawrocki@samsung.com>, Krzysztof Kozlowski
- <krzk@kernel.org>, Alim Akhtar	 <alim.akhtar@samsung.com>, Yemike Abhilash
- Chandra <y-abhilashchandra@ti.com>,  Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, imx@lists.linux.dev, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev
-Date: Tue, 14 Oct 2025 07:07:05 +0000
-In-Reply-To: <20251013-ptr_err-v1-25-2c5efbd82952@chromium.org>
-References: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
-	 <20251013-ptr_err-v1-25-2c5efbd82952@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1760426562; c=relaxed/simple;
+	bh=qcHTUS0wo1f43VFStYszqJZcg60j4r28QkB5kGixAXg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ny9zw8Jy5mTnZ9p3WK+BL/MywPKNUcaMVrQMiNteU9/Qy79QGucQaeIDUgYBjWGz3Vx1WoKDNDGkRzt98uVxXCdG2BV7yWiuqtqmDfNjudEXYDxZJ/hPZnR5ph0Rv+EogAEZrPWB+7i3j8xzsdJfQsOCeg8hSveKzUwz3ipQ7u4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-863fa984ef5so831486285a.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Oct 2025 00:22:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760426560; x=1761031360;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1LJPJfcpv0pJD66G650kRDT3CGUnlnJtrjGpdse2lj8=;
+        b=W6Ug7o0/R//pzvT7nbBm2xelVF2jmAYwFK8JGHJTT4wSoz1+CibzYEEmMQYjzvP2rz
+         ONPZZTImQWU91OJhQhxN1XMOMCx1KGTvQ2ea1DX/z7EDMPB9KMbdwx7veIaoDsqj3qyA
+         xZfAJceAziMYrdVJISC2L+zuDOXwpATJNCWoOeFs1Lg7Uw64QECTmBRaQjReTkUSFM1R
+         G89HTybhYRthyuYk5cLd0hmMWKYA2RdKQB8sJK85QLjwpz+r3dxk/32VpfkW25awbxLq
+         fQ01Vg6l/LO2B/vfo+fsOIpeNEvOLBQ2CbbyV058bjEmSNkdnyqFD460I7JUXgTfTmRY
+         bc+A==
+X-Forwarded-Encrypted: i=1; AJvYcCUZ16j0fDjMZ1HKsuqqgF24QQQCG8gfywgUuqyYtjBmOXKNL9Sbn7GGBAePmjf/KMGejeLqfodIW3gEG/ZBjOFbSQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJQE7v+K+OqLdWpyJhzTQC07feTkHZQO9782FRs+MqzMuBOprE
+	VE4nVMFDkDfAsqzOvHjtlBLiMTlOc6NQD/6uCSmORr4RKJ5VWmLyhvViUiEvxTPT
+X-Gm-Gg: ASbGncuO0hX8CMYAKZRYLShc4qFzGLtyE/iJ4Bq/0m76UGUQHeC7qwD54BFuN+YI321
+	4yRVJPvofg+/dJaHRiM8BnkDZWtlqowVuF1OrPkc3l7rEqvCeU8ojCMN4hmy/kyJNKQjFrSV4Y6
+	7GjAQI/+PuMRlK80/l92uEGKGROMmDS7lJAsu/jZXtsVA7Bg5Snxi0w6EQpi09hu7JktfP62u89
+	Q7TJLLU2sfYHr2HsFjVuUjX1svZ7nodO5cWfzHf/DUYAZx3E4okTTFTYz3ec17Kk7E5Z/yzaYpP
+	onuxrVXjD2PXRJht9bYzW5HRAhOLiLytN/2CXsmeFR8yVL3pzbsw6WtUuKvU59KSeQP2sjU6iaX
+	Qvp/4sXGAzM2mgMuuI/v08T7bxC3EFqnDXm4e0qxED3A2Q1Dx1dmKJiO3iK90zN5wflkbPkBzsy
+	w+dqJgbEc=
+X-Google-Smtp-Source: AGHT+IFVjTIHoWhV/NSkLWVU3VVPShtcN++BCG1ul23zJHF/UKfZiXpbvv5dvvrSPCGdugt4xYfpOA==
+X-Received: by 2002:a05:620a:1a13:b0:85c:bb2:ad8e with SMTP id af79cd13be357-88353b341admr3264870885a.48.1760426559834;
+        Tue, 14 Oct 2025 00:22:39 -0700 (PDT)
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com. [209.85.222.178])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-884a293a9a5sm1139864285a.61.2025.10.14.00.22.39
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Oct 2025 00:22:39 -0700 (PDT)
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-856cbf74c4aso962902685a.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Oct 2025 00:22:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWtx95EgaAfBAcDTknIc55LQ78veseHc1ovqRmNojEWtdlBEfGleYO8QyMfzIqx5JJBcVcRqJCR92ABwo/fjuJSuw==@vger.kernel.org
+X-Received: by 2002:a05:6102:3c8e:b0:4fa:25a2:5804 with SMTP id
+ ada2fe7eead31-5d5e220420bmr8840762137.10.1760426229660; Tue, 14 Oct 2025
+ 00:17:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20251013-rcar_pcie_probe-avoid-nocfi-objtool-warning-v1-1-552876b94f04@kernel.org>
+In-Reply-To: <20251013-rcar_pcie_probe-avoid-nocfi-objtool-warning-v1-1-552876b94f04@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 14 Oct 2025 09:16:58 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXZvoTyWcgRp6TnkybnKY4ekfO9aB33iumPVaR7wvEXkw@mail.gmail.com>
+X-Gm-Features: AS18NWBECJtooFXj8wIhcLw2_n3BPi6xXTVAMYxpuf1MNXW6QPz_d-TTeadxeIw
+Message-ID: <CAMuHMdXZvoTyWcgRp6TnkybnKY4ekfO9aB33iumPVaR7wvEXkw@mail.gmail.com>
+Subject: Re: [PATCH] PCI: rcar-host: Avoid objtool no-cfi warning in rcar_pcie_probe()
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Marek Vasut <marek.vasut+renesas@gmail.com>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	kernel test robot <lkp@intel.com>, Kees Cook <kees@kernel.org>, 
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Am Montag, dem 13.10.2025 um 14:15 +0000 schrieb Ricardo Ribalda:
-> The %pe format specifier is designed to print error pointers. It
-> prints
-> a symbolic error name (eg. -EINVAL) and it makes the code simpler by
-> omitting PTR_ERR().
->=20
-> This patch fixes this cocci report:
-> ./platform/nxp/imx8mq-mipi-csi2.c:422:23-30: WARNING: Consider using
-> %pe to print PTR_ERR()
->=20
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Hi Nathan,
+
+On Mon, 13 Oct 2025 at 20:26, Nathan Chancellor <nathan@kernel.org> wrote:
+> After commit 894af4a1cde6 ("objtool: Validate kCFI calls"), compile
+> testing pcie-rcar-host.c with CONFIG_FINEIBT=y and CONFIG_OF=n results
+> in a no-cfi objtool warning in rcar_pcie_probe():
+>
+>   $ cat allno.config
+>   CONFIG_CFI=y
+>   CONFIG_COMPILE_TEST=y
+>   CONFIG_CPU_MITIGATIONS=y
+>   CONFIG_GENERIC_PHY=y
+>   CONFIG_MITIGATION_RETPOLINE=y
+>   CONFIG_MODULES=y
+>   CONFIG_PCI=y
+>   CONFIG_PCI_MSI=y
+>   CONFIG_PCIE_RCAR_HOST=y
+>   CONFIG_X86_KERNEL_IBT=y
+>
+>   $ make -skj"$(nproc)" ARCH=x86_64 KCONFIG_ALLCONFIG=1 LLVM=1 clean allnoconfig vmlinux
+>   vmlinux.o: warning: objtool: rcar_pcie_probe+0x191: no-cfi indirect call!
+>
+> When CONFIG_OF is unset, of_device_get_match_data() returns NULL, so
+> LLVM knows this indirect call has no valid destination and drops the
+> kCFI setup before the call, triggering the objtool check that makes sure
+> all indirect calls have kCFI setup.
+>
+> Check that host->phy_init_fn is not NULL before calling it to avoid the
+> warning.
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202510092124.O2IX0Jek-lkp@intel.com/
+> Reviewed-by: Kees Cook <kees@kernel.org>
+> Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+
+Thanks for your patch!
+
 > ---
-> =C2=A0drivers/media/platform/nxp/imx8mq-mipi-csi2.c | 4 ++--
-> =C2=A01 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-> b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-> index
-> 3a4645f59a44028fdca82a4d8393e1a0a6ba88f0..d333ff43539f061b8b9cf88af2c
-> da8c44b3ec2a9 100644
-> --- a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-> +++ b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-> @@ -418,8 +418,8 @@ static int imx8mq_mipi_csi_calc_hs_settle(struct
-> csi_state *state,
-> =C2=A0
-> =C2=A0	src_pad =3D media_entity_remote_source_pad_unique(&sd_state-
-> >sd->entity);
-> =C2=A0	if (IS_ERR(src_pad)) {
-> -		dev_err(state->dev, "can't get source pad of %s
-> (%ld)\n",
-> -			sd_state->sd->name, PTR_ERR(src_pad));
-> +		dev_err(state->dev, "can't get source pad of %s
-> (%pe)\n",
-> +			sd_state->sd->name, src_pad);
-> =C2=A0		return PTR_ERR(src_pad);
-> =C2=A0	}
-> =C2=A0
+> Another alternative is to make this driver depend on CONFIG_OF since it
+> clearly requires it but that would restrict compile testing so I went
+> with this first.
+> ---
+>  drivers/pci/controller/pcie-rcar-host.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
+> index 213028052aa5..15514c9c1927 100644
+> --- a/drivers/pci/controller/pcie-rcar-host.c
+> +++ b/drivers/pci/controller/pcie-rcar-host.c
+> @@ -981,7 +981,7 @@ static int rcar_pcie_probe(struct platform_device *pdev)
+>                 goto err_clk_disable;
+>
+>         host->phy_init_fn = of_device_get_match_data(dev);
+> -       err = host->phy_init_fn(host);
+> +       err = host->phy_init_fn ? host->phy_init_fn(host) : -ENODEV;
+>         if (err) {
+>                 dev_err(dev, "failed to init PCIe PHY\n");
+>                 goto err_clk_disable;
 
-Reviewed-by: Martin Kepplinger-Novakovic <martink@posteo.de>
+I am afraid you're playing a big game of whack-a-mole, since we tend
+to remove these checks, as they can never happen in practice (driver
+is probed from DT only, and all entries in rcar_pcie_of_match[] have
+a non-NULL .data member)...
 
-thanks you,
+Gr{oetje,eeting}s,
 
-                             martin
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
