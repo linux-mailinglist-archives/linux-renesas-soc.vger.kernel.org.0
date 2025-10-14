@@ -1,143 +1,249 @@
-Return-Path: <linux-renesas-soc+bounces-23008-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23009-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16A61BD9AE2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 15:23:14 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64FF8BD9BC9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 15:33:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id CDDF5502055
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 13:22:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C1206189D500
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 13:29:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78902315D53;
-	Tue, 14 Oct 2025 13:20:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E248E31354E;
+	Tue, 14 Oct 2025 13:29:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TAnMWUCi"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE81631618B
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Oct 2025 13:20:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8E0B21E0BB;
+	Tue, 14 Oct 2025 13:29:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760448002; cv=none; b=gdgSn5+JzzMUDMZ/fNQPHEZeSZD8Ipicd2u9BF1hMBD8ykMIbehK13SYiJhiFWhB1k6eTbY0i4+W5VH4E80b/pSecc90PKNl3MPEmbyDyAdYyXnktfO5HoQmRhkDlQdCuAj952c78EzLBJLz2h3Zcz6e4by3KPbFTQ20bVwoHOU=
+	t=1760448567; cv=none; b=ce+bzjeNA8LbHLf7uwKEUj6yjVLLmZOo64WvAiQ9SjA9FVoSnudHphCwuRYMT5j8lL1JTxJMhpJ4ncyLqQu5swDqGwm8IyawshUW1eSf+HNWrV9DAz9AIp4N/gHTyGSfL5gmvTpKEjaGaqnGuizKGMg5bKYWJzPH9Klw6AJ1VtY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760448002; c=relaxed/simple;
-	bh=aSDd+KL4NOTNpSwWZ1vV1gh67WYD6fXPWRozSjlK8ZE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=U88UaEGaDCHFBnCzpD14Y8DpwoCXb3Hh9XKvJPHvI2K8Hs+wQByfrW+WzwikxRtC9S8jYy+kvJofLbbl3EnZT5ZiYb6NCheykmYUgUn3lRHXOQfXfKvudgSmdE4h0xBWPXXPfQFkkqDiq7te+IMUKM/lcDZ+iDMqeFmdBv6Xurs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-54a8f6a2d80so1763567e0c.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Oct 2025 06:20:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760447999; x=1761052799;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Njz6v4Ye7icNa6eer5LCY0z/OUSx/xsBh5FobUmXyGU=;
-        b=N9yLANQl2BcZZLPfPTnCDP9bU5me9VrZNn0AsvkoRMAg2C4+DFgNHzzJMFJ3V4+Fr4
-         KpbmKhuPsh1orTFjrmG8vL6vNbDAq7IiXIFAJYenPAJRtA37umyTkzoE8dke5UEoVayA
-         ar5s+Axa2sGZWL4Y2nsVfc8rG+7yf0DnV9MWFTW62GRv6CFW9jGgfmgJLkprdab4RPMz
-         5rAz+4FUGrRDwjC8s0XnB0Pn7nXHqJf8V+qh/hpqHLY850suS1ynTujc5osqWQDa+nW2
-         7Iw6JRtKYZvwhYtTO0ggHg4fzJkBm18fIuAiTfKA54xRWtt+xNU0INW49QY2r/chgnMm
-         SKNg==
-X-Forwarded-Encrypted: i=1; AJvYcCWhE0LtC+E59oTUVfDwqDuR8TcZZ2nKrdBmDscOD6Me+Je+q0KA7e+EczRY1sRVKZL77oHjTIj7pchxshAsHNYlTw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxj4IBjccAi1G7D2swbPBtoDCvAlM3/w9yGOPlnEM6z3jkf4EAB
-	B/CO0YmCrEqJMg1+l2FKCoHd7xYOA+SYjVhuZWgg88UeqxQmjH/y/1/PSzvJTME3
-X-Gm-Gg: ASbGncu1HXcEOeDEdWbalFgb3jxH9f2/TTqK5RuZT/quDYkvz7PllLlWrO29QI//s1R
-	jft75piy+tIjy2E5PmMkblcmC67SpORAwVE54g8EoQ1BrsnRBoMXf/tmyoxktTkXDlvtU6hMNOU
-	bMI10AVVcKyPDPcJbpzUlduXVL3DPrzTMp2PByzV3sgwagAVI/mLjy4PkNxG+3b77yZ8wegBBk4
-	yk+FMxtNIWiBHv6K349N15EyW03Q/1AhzjJDhS9KJH5Tm7pL7K7MMbtFJqV6aKqXWmBHixsn2Fh
-	44tv7fjjBXTKghdlm7lpOgi+o7YsnWpMGl7lDcFsQbUm5nUeC14TjDHiU6qIeuMXkdidFmXExlI
-	G1+421KNFj6IByQQa03Zjf5qGfpasibtuK6V8fxmXdjrhHcAKtpVbdcohyt7h8ATijLrNIa0vAg
-	+2kH+/MH4=
-X-Google-Smtp-Source: AGHT+IHSnvQI6+aNONxZaZyfU91KfLqboGgwVCV0J0XX1f09VqnMtXIpqQ07an/O5YfOpE6LIt7iJQ==
-X-Received: by 2002:a05:6122:3c8e:b0:552:2c5a:c057 with SMTP id 71dfb90a1353d-554b8c06316mr8212720e0c.13.1760447999239;
-        Tue, 14 Oct 2025 06:19:59 -0700 (PDT)
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com. [209.85.217.41])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-554d81148c6sm4000624e0c.26.2025.10.14.06.19.58
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Oct 2025 06:19:58 -0700 (PDT)
-Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-5d6266f1a33so672754137.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Oct 2025 06:19:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVVWS+CbPhFwjukpLEuoTnm3ysVK45DVR5vYE+NP2AkWnBe2MVezxaBM0ZSaGgJuEpfVRKz+u42Os3ABlZHXWp0Qg==@vger.kernel.org
-X-Received: by 2002:a05:6102:6ca:b0:5d5:f6ae:38de with SMTP id
- ada2fe7eead31-5d5f6ae3c7cmr5745861137.41.1760447998299; Tue, 14 Oct 2025
- 06:19:58 -0700 (PDT)
+	s=arc-20240116; t=1760448567; c=relaxed/simple;
+	bh=QiXQnftXW1d9rJAEQ6KtRkpR9BslCCYM3ivIwvsJqxc=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=JdP4h+NsSiCq92gPV8R/cqm69Cm3gymfR6AZV37XFVcy13VYuvcTzgcFp702u2/H1z7DcUIE8L7BFjSD+bOR7pAFAB+HRg+7uZmwwIXwnbqskxdDjkUVrwXrhc1sce9VvBWYlFGlMMlFtUiNiIVBcIVdpycieQEanwh5gPemFb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TAnMWUCi; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13F9CC4CEF1;
+	Tue, 14 Oct 2025 13:29:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760448567;
+	bh=QiXQnftXW1d9rJAEQ6KtRkpR9BslCCYM3ivIwvsJqxc=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=TAnMWUCif1YonqEkAVnuSFvB9eNbrhifuqgaBBrwMBTNteapV79Ueu7vp+yHXBisi
+	 SUhbbM0TkJ53cHe0D250faJ4U46BzFgIeW3W38IjcKeDy+s7Oxh4QYn8eVXglp4OfK
+	 Fm/IeSQy1df0UevAGeU37JHvhsH11HP4s9S3wsDaHSwmgT34LLIGEb56gON944mhHh
+	 Wd5XlZWektTvp3MFajwCEgx9oSoY6CSa8a57zGLTcsRPBVxC40URyj4dAxD+vjGV5K
+	 MNvnqlRVKZiM6b/XkcoKgwQzpJmImqeFGUCN/tFyHSvDVzhFb4pUbWOTTxdgeomfBs
+	 4bAA1Tnn51M6A==
+Date: Tue, 14 Oct 2025 08:29:25 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250918104009.94754-1-herve.codina@bootlin.com> <20250918104009.94754-8-herve.codina@bootlin.com>
-In-Reply-To: <20250918104009.94754-8-herve.codina@bootlin.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 14 Oct 2025 15:19:46 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWNErzjfqXXgJZOn2viPYmGeuJekY_WLDeK6vzYZzdJmA@mail.gmail.com>
-X-Gm-Features: AS18NWCbANtqchYIwTz4iekVik6u-ZIED4wJm4rfdVFvh3ZW_Tu4x1cmyNlu-78
-Message-ID: <CAMuHMdWNErzjfqXXgJZOn2viPYmGeuJekY_WLDeK6vzYZzdJmA@mail.gmail.com>
-Subject: Re: [PATCH v3 7/8] soc: renesas: Add support for Renesas RZ/N1 GPIO
- Interrupt Multiplexer
-To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Hoan Tran <hoan@os.amperecomputing.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Saravana Kannan <saravanak@google.com>, Serge Semin <fancer.lancer@gmail.com>, 
-	Phil Edworthy <phil.edworthy@renesas.com>, linux-gpio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Pascal Eberhard <pascal.eberhard@se.com>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+ Matt Coster <matt.coster@imgtec.com>, Magnus Damm <magnus.damm@gmail.com>, 
+ Adam Ford <aford173@gmail.com>, Frank Binns <frank.binns@imgtec.com>, 
+ Simona Vetter <simona@ffwll.ch>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ dri-devel@lists.freedesktop.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, David Airlie <airlied@gmail.com>, 
+ linux-arm-kernel@lists.infradead.org
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20251013190210.142436-1-marek.vasut+renesas@mailbox.org>
+References: <20251013190210.142436-1-marek.vasut+renesas@mailbox.org>
+Message-Id: <176044840106.3094437.2331943625522490352.robh@kernel.org>
+Subject: Re: [PATCH 1/3] dt-bindings: gpu: img,powervr-rogue: Document
+ GX6250 GPU in Renesas R-Car M3-W/M3-W+
 
-Hi Herv=C3=A9,
 
-On Thu, 18 Sept 2025 at 12:40, Herve Codina (Schneider Electric)
-<herve.codina@bootlin.com> wrote:
-> On the Renesas RZ/N1 SoC, GPIOs can generate interruptions. Those
-> interruption lines are multiplexed by the GPIO Interrupt Multiplexer in
-> order to map 32 * 3 GPIO interrupt lines to 8 GIC interrupt lines.
->
-> The GPIO interrupt multiplexer IP does nothing but select 8 GPIO
-> IRQ lines out of the 96 available to wire them to the GIC input lines.
->
-> Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@bootlin.co=
-m>
+On Mon, 13 Oct 2025 21:01:17 +0200, Marek Vasut wrote:
+> Document Imagination Technologies PowerVR Rogue GX6250 BNVC 4.45.2.58
+> present in Renesas R-Car R8A77960 M3-W and R8A77961 M3-W+ SoC.
+> 
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> ---
+> Cc: Adam Ford <aford173@gmail.com>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Frank Binns <frank.binns@imgtec.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Magnus Damm <magnus.damm@gmail.com>
+> Cc: Matt Coster <matt.coster@imgtec.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: devicetree@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+> See https://gitlab.freedesktop.org/imagination/linux-firmware/-/issues/13
+> for related userspace bits.
+> ---
+>  .../devicetree/bindings/gpu/img,powervr-rogue.yaml          | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
 
-Thanks for your patch!
 
-> --- /dev/null
-> +++ b/drivers/soc/renesas/rzn1_irqmux.c
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
 
-> +static const struct of_device_id irqmux_of_match[] =3D {
-> +       { .compatible =3D "renesas,rzn1-gpioirqmux", },
-> +       { /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, irq_mux_of_match);
-                           ^^^^^^^^^^^^^^^^
-                           irqmux_of_match
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
 
-Interestingly, this built fine for me before, presumably until commit
-5ab23c7923a1d2ae ("modpost: Create modalias for builtin modules")
-in v6.18-rc1.
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
 
-Gr{oetje,eeting}s,
+  pip3 install dtschema --upgrade
 
-                        Geert
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+This patch series was applied (using b4) to base:
+ Base: attempting to guess base-commit...
+ Base: tags/next-20251013 (exact match)
+ Base: tags/next-20251013 (use --merge-base to override)
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+If this is not the correct base, please add 'base-commit' tag
+(or use b4 which does this automatically)
+
+New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/renesas/' for 20251013190210.142436-1-marek.vasut+renesas@mailbox.org:
+
+Lexical error: arch/arm64/boot/dts/renesas/r8a77961.dtsi:2456.27-43 Unexpected 'R8A7796_PD_3DG_B'
+FATAL ERROR: Syntax error parsing input tree
+make[3]: *** [scripts/Makefile.dtbs:132: arch/arm64/boot/dts/renesas/r8a77961-ulcb-kf.dtb] Error 1
+make[2]: *** [scripts/Makefile.build:556: arch/arm64/boot/dts/renesas] Error 2
+make[2]: Target 'arch/arm64/boot/dts/renesas/r8a77961-ulcb-kf.dtb' not remade because of errors.
+make[1]: *** [/home/rob/proj/linux-dt-testing/Makefile:1478: renesas/r8a77961-ulcb-kf.dtb] Error 2
+Lexical error: arch/arm64/boot/dts/renesas/r8a77961.dtsi:2456.27-43 Unexpected 'R8A7796_PD_3DG_B'
+FATAL ERROR: Syntax error parsing input tree
+make[3]: *** [scripts/Makefile.dtbs:132: arch/arm64/boot/dts/renesas/r8a779m3-ulcb-kf.dtb] Error 1
+make[2]: *** [scripts/Makefile.build:556: arch/arm64/boot/dts/renesas] Error 2
+make[2]: Target 'arch/arm64/boot/dts/renesas/r8a779m3-ulcb-kf.dtb' not remade because of errors.
+make[1]: *** [/home/rob/proj/linux-dt-testing/Makefile:1478: renesas/r8a779m3-ulcb-kf.dtb] Error 2
+Lexical error: arch/arm64/boot/dts/renesas/r8a77961.dtsi:2456.27-43 Unexpected 'R8A7796_PD_3DG_B'
+FATAL ERROR: Syntax error parsing input tree
+make[3]: *** [scripts/Makefile.dtbs:132: arch/arm64/boot/dts/renesas/r8a77961-salvator-xs.dtb] Error 1
+make[2]: *** [scripts/Makefile.build:556: arch/arm64/boot/dts/renesas] Error 2
+make[2]: Target 'arch/arm64/boot/dts/renesas/r8a77961-salvator-xs.dtb' not remade because of errors.
+make[1]: *** [/home/rob/proj/linux-dt-testing/Makefile:1478: renesas/r8a77961-salvator-xs.dtb] Error 2
+Lexical error: arch/arm64/boot/dts/renesas/r8a77961.dtsi:2456.27-43 Unexpected 'R8A7796_PD_3DG_B'
+FATAL ERROR: Syntax error parsing input tree
+make[3]: *** [scripts/Makefile.dtbs:132: arch/arm64/boot/dts/renesas/r8a77961-ulcb.dtb] Error 1
+make[2]: *** [scripts/Makefile.build:556: arch/arm64/boot/dts/renesas] Error 2
+make[2]: Target 'arch/arm64/boot/dts/renesas/r8a77961-ulcb.dtb' not remade because of errors.
+make[1]: *** [/home/rob/proj/linux-dt-testing/Makefile:1478: renesas/r8a77961-ulcb.dtb] Error 2
+Lexical error: arch/arm64/boot/dts/renesas/r8a77961.dtsi:2456.27-43 Unexpected 'R8A7796_PD_3DG_B'
+FATAL ERROR: Syntax error parsing input tree
+make[3]: *** [scripts/Makefile.dtbs:132: arch/arm64/boot/dts/renesas/r8a779m3-ulcb.dtb] Error 1
+make[2]: *** [scripts/Makefile.build:556: arch/arm64/boot/dts/renesas] Error 2
+make[2]: Target 'arch/arm64/boot/dts/renesas/r8a779m3-ulcb.dtb' not remade because of errors.
+make[1]: *** [/home/rob/proj/linux-dt-testing/Makefile:1478: renesas/r8a779m3-ulcb.dtb] Error 2
+Lexical error: arch/arm64/boot/dts/renesas/r8a77961.dtsi:2456.27-43 Unexpected 'R8A7796_PD_3DG_B'
+FATAL ERROR: Syntax error parsing input tree
+make[3]: *** [scripts/Makefile.dtbs:132: arch/arm64/boot/dts/renesas/r8a779m3-salvator-xs.dtb] Error 1
+make[2]: *** [scripts/Makefile.build:556: arch/arm64/boot/dts/renesas] Error 2
+make[2]: Target 'arch/arm64/boot/dts/renesas/r8a779m3-salvator-xs.dtb' not remade because of errors.
+make[1]: *** [/home/rob/proj/linux-dt-testing/Makefile:1478: renesas/r8a779m3-salvator-xs.dtb] Error 2
+make: *** [Makefile:248: __sub-make] Error 2
+make: Target 'renesas/r9a07g044c2-smarc.dtb' not remade because of errors.
+make: Target 'renesas/r8a77961-ulcb-kf.dtb' not remade because of errors.
+make: Target 'renesas/r8a77965-ulcb.dtb' not remade because of errors.
+make: Target 'renesas/r8a77965-ulcb-kf.dtb' not remade because of errors.
+make: Target 'renesas/r8a779m1-ulcb.dtb' not remade because of errors.
+make: Target 'renesas/r8a774c0-ek874.dtb' not remade because of errors.
+make: Target 'renesas/r8a774c0-ek874-idk-2121wr.dtb' not remade because of errors.
+make: Target 'renesas/r9a09g077m44-rzt2h-evk.dtb' not remade because of errors.
+make: Target 'renesas/r8a77960-ulcb-kf.dtb' not remade because of errors.
+make: Target 'renesas/r8a77980a-condor-i.dtb' not remade because of errors.
+make: Target 'renesas/r8a774a1-hihope-rzg2m-rev2.dtb' not remade because of errors.
+make: Target 'renesas/r8a779g0-white-hawk.dtb' not remade because of errors.
+make: Target 'renesas/r8a774b1-hihope-rzg2n-rev2-ex.dtb' not remade because of errors.
+make: Target 'renesas/r8a779g2-white-hawk-single.dtb' not remade because of errors.
+make: Target 'renesas/r8a774e1-hihope-rzg2h-ex-idk-1110wr.dtb' not remade because of errors.
+make: Target 'renesas/r9a07g044l2-remi-pi.dtb' not remade because of errors.
+make: Target 'renesas/r8a774a1-hihope-rzg2m-ex-mipi-2.1.dtb' not remade because of errors.
+make: Target 'renesas/r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb' not remade because of errors.
+make: Target 'renesas/r8a774c0-ek874-mipi-2.1.dtb' not remade because of errors.
+make: Target 'renesas/r9a07g044l2-smarc.dtb' not remade because of errors.
+make: Target 'renesas/r9a09g056n48-rzv2n-evk.dtb' not remade because of errors.
+make: Target 'renesas/r8a774e1-hihope-rzg2h-ex-mipi-2.1.dtb' not remade because of errors.
+make: Target 'renesas/r8a779m5-salvator-xs.dtb' not remade because of errors.
+make: Target 'renesas/r8a77970-eagle.dtb' not remade because of errors.
+make: Target 'renesas/r8a77980-v3hsk.dtb' not remade because of errors.
+make: Target 'renesas/r8a77951-salvator-xs.dtb' not remade because of errors.
+make: Target 'renesas/r8a77951-ulcb-kf.dtb' not remade because of errors.
+make: Target 'renesas/r8a77965-salvator-xs.dtb' not remade because of errors.
+make: Target 'renesas/r9a09g057h48-kakip.dtb' not remade because of errors.
+make: Target 'renesas/r8a779f4-s4sk.dtb' not remade because of errors.
+make: Target 'renesas/r8a774b1-hihope-rzg2n-ex-mipi-2.1.dtb' not remade because of errors.
+make: Target 'renesas/r8a774b1-hihope-rzg2n-ex.dtb' not remade because of errors.
+make: Target 'renesas/r8a779h0-gray-hawk-single.dtb' not remade because of errors.
+make: Target 'renesas/r8a774c0-cat874.dtb' not remade because of errors.
+make: Target 'renesas/r8a77960-ulcb.dtb' not remade because of errors.
+make: Target 'renesas/r8a77951-ulcb.dtb' not remade because of errors.
+make: Target 'renesas/r8a774a1-hihope-rzg2m-rev2-ex-idk-1110wr.dtb' not remade because of errors.
+make: Target 'renesas/r8a774e1-beacon-rzg2h-kit.dtb' not remade because of errors.
+make: Target 'renesas/r9a09g087m44-rzn2h-evk.dtb' not remade because of errors.
+make: Target 'renesas/r8a779m1-ulcb-kf.dtb' not remade because of errors.
+make: Target 'renesas/r8a774b1-hihope-rzg2n-rev2.dtb' not remade because of errors.
+make: Target 'renesas/r8a77970-v3msk.dtb' not remade because of errors.
+make: Target 'renesas/r8a779m1-salvator-xs.dtb' not remade because of errors.
+make: Target 'renesas/r8a779m3-ulcb-kf.dtb' not remade because of errors.
+make: Target 'renesas/r9a09g047e57-smarc.dtb' not remade because of errors.
+make: Target 'renesas/r9a08g045s33-smarc.dtb' not remade because of errors.
+make: Target 'renesas/r8a77961-salvator-xs.dtb' not remade because of errors.
+make: Target 'renesas/r8a77960-salvator-xs.dtb' not remade because of errors.
+make: Target 'renesas/r8a77960-salvator-x.dtb' not remade because of errors.
+make: Target 'renesas/r8a77990-ebisu.dtb' not remade because of errors.
+make: Target 'renesas/r8a774b1-hihope-rzg2n-ex-idk-1110wr.dtb' not remade because of errors.
+make: Target 'renesas/r8a77980-condor.dtb' not remade because of errors.
+make: Target 'renesas/r9a07g054l2-smarc.dtb' not remade because of errors.
+make: Target 'renesas/r8a779g3-white-hawk-single.dtb' not remade because of errors.
+make: Target 'renesas/r8a779f0-spider.dtb' not remade because of errors.
+make: Target 'renesas/r8a774e1-hihope-rzg2h-ex.dtb' not remade because of errors.
+make: Target 'renesas/r8a779a0-falcon.dtb' not remade because of errors.
+make: Target 'renesas/r8a77965-salvator-x.dtb' not remade because of errors.
+make: Target 'renesas/r8a774e1-hihope-rzg2h.dtb' not remade because of errors.
+make: Target 'renesas/r8a77951-salvator-x.dtb' not remade because of errors.
+make: Target 'renesas/r9a09g011-v2mevk2.dtb' not remade because of errors.
+make: Target 'renesas/r8a774b1-hihope-rzg2n.dtb' not remade because of errors.
+make: Target 'renesas/r8a774b1-beacon-rzg2n-kit.dtb' not remade because of errors.
+make: Target 'renesas/r9a09g057h44-rzv2h-evk.dtb' not remade because of errors.
+make: Target 'renesas/r8a77961-ulcb.dtb' not remade because of errors.
+make: Target 'renesas/r8a774a1-hihope-rzg2m.dtb' not remade because of errors.
+make: Target 'renesas/r8a779h2-gray-hawk-single.dtb' not remade because of errors.
+make: Target 'renesas/r8a77995-draak.dtb' not remade because of errors.
+make: Target 'renesas/r8a774a1-hihope-rzg2m-ex.dtb' not remade because of errors.
+make: Target 'renesas/r8a779m3-ulcb.dtb' not remade because of errors.
+make: Target 'renesas/r8a774a1-hihope-rzg2m-ex-idk-1110wr.dtb' not remade because of errors.
+make: Target 'renesas/r8a779m3-salvator-xs.dtb' not remade because of errors.
+make: Target 'renesas/r9a07g043u11-smarc.dtb' not remade because of errors.
+make: Target 'renesas/r8a779g3-sparrow-hawk.dtb' not remade because of errors.
+make: Target 'renesas/r8a774a1-beacon-rzg2m-kit.dtb' not remade because of errors.
+make: Target 'renesas/r8a774a1-hihope-rzg2m-rev2-ex.dtb' not remade because of errors.
+make: Target 'renesas/r8a779g0-white-hawk-cpu.dtb' not remade because of errors.
+
+
+
+
+
 
