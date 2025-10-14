@@ -1,110 +1,121 @@
-Return-Path: <linux-renesas-soc+bounces-23003-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23004-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2967DBD90E7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 13:34:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81569BD91FB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 13:52:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CF5643B94B7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 11:34:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C69D418A6B2B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 11:53:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15C402FE053;
-	Tue, 14 Oct 2025 11:33:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52C3A3101B5;
+	Tue, 14 Oct 2025 11:52:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="nr04E4ei"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="lHlc4Mk/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4AD2E2EF2
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Oct 2025 11:33:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55C433101C5
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Oct 2025 11:52:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760441607; cv=none; b=YQqY9HJdSj4HxQjGE4+EVcVbSlMAXAWEM80JKAqLmCY5cOYldwKDfIWEtD5r12S2FbwLf48qDjZ7M/vF7ZTtxR3f2uqUU6uKHdcrt+Mqxgvq5E86Jbl3PmGF626rAJuYGdYXqoN0Ro4z4yMpWp3wLASdeJG56eEuCOYYEpQUbvc=
+	t=1760442759; cv=none; b=oLBcHyHzeE90h9tJiXgqB7Bmny0QzIBWzLqO6uTdjcJDIUJRDcy14qsAln7ehojBoYhIDQKMDgjuuMkBdPL4arnKkw5jQHdqYpPTo/m3uYtTI6bP6yVWZ5kX/6D98FzB38HXc6VTcpdedB+6UrD03qlL+I1G3R1t98JojIrCNx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760441607; c=relaxed/simple;
-	bh=EOiBoMq8sLGDd3lfmeBPzgdelZvp0tOnl2eG6FrkpzU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OyJUJXjvtP6YRrEUd2i5vnR27US1Lbfy5p3ox8qgGX3rAIGYJO22JodF27lS+CSDy5ZzrajSQiUokdcFohkzGkrXcx+z0NHdehBuGi+t9LYUU1FUwQ4TcsgKXXEDsC+Zf5/WIkWu0uVah9hZPDG+UzeACJDlw15yW+Vf28cG9Yg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=nr04E4ei; arc=none smtp.client-ip=95.215.58.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <fb93e416-1a6c-4c3c-9621-03deb8bc34aa@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1760441602;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TCxzBWmpERGaNbcd7P2dfHjWYxDzYzg8wdZKfHQFXKQ=;
-	b=nr04E4eiX7LIJzoKhkxJrfJGLTm++4OCq7ELggnOG2SHf1meAouxCgrl1KwLUuQ3ypmAA6
-	aNWjBAcNdJZJTWp2QowDUrCpem+qdcVfQ9IN/yz/i3mtm3zZKVqHpWd6CbMHoEVjT42Tcb
-	mOI8X88kDZHGVQsLROdUsk62sp0+n0Q=
-Date: Tue, 14 Oct 2025 12:33:15 +0100
+	s=arc-20240116; t=1760442759; c=relaxed/simple;
+	bh=x1brUYGY3NW2WQ2EAUXI9/nXmf4kZlLdpbpO/yh7tw4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rwWDJAT0R4XFfUgz4cEh14oBNcMbHvv8+mWaWL6wXNhNdcRfhjMsgBUAlkskBX80TRc2Ucpm32iaOg84Y7I/DoCyXU9Hn2H4makHnZSaeuCLLFWsjS9H8ki5qFzfH7Rt7GR4sryz7Y2/KCxhn2njSv3DnCV0TE35ZxatRGyi3ns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=lHlc4Mk/; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=vZpO
+	rc8jIqdudWaU55WhDn+MoeYiJWe7gJ48hDY+d1M=; b=lHlc4Mk/T4KsX8seSNJQ
+	vvL90nUOyuUxzJ/sq5J3piw1hVW61or4bFrdau3nnoyj3BFHrxN3871raQO/I1my
+	Bz2hxNc6FqCtd7PgKMnKFKb4zz5l0ZkRZrRwumRqR9BKuI1SJ2ADJNcz2IFKsFdU
+	7nuBCXwtqXb1hDr3WwWQTUQ9u509yeoTAuKhGd6ojJX525GWTZA+l2Y1cCCedxki
+	RoGYmMz1ynzbjCONDddHsTpxmDfBZnv+OBHrb9nSx93bzg7mxVHuiXUmbzunV9v2
+	qfLQ147EJ76zXvWtGcSHT5C/ArHdi6hIp1iJlb+s0EIXecC51hGviWUiT95BVFMO
+	+g==
+Received: (qmail 2951131 invoked from network); 14 Oct 2025 13:52:28 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Oct 2025 13:52:28 +0200
+X-UD-Smtp-Session: l3s3148p1@0cGqBB1B1OIgAwDPXwQHAL/S9V79e5yL
+Date: Tue, 14 Oct 2025 13:52:28 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Elie Morisse <syniurge@gmail.com>,
+	Shyam Sundar S K <shyam-sundar.s-k@amd.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Michal Simek <michal.simek@amd.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Jan Dabros <jsd@semihalf.com>, Jean Delvare <jdelvare@suse.com>,
+	Dong Aisheng <aisheng.dong@nxp.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Oleksij Rempel <o.rempel@pengutronix.de>,
+	Gregory CLEMENT <gregory.clement@bootlin.com>,
+	Ajay Gupta <ajayg@nvidia.com>, Aaro Koskinen <aaro.koskinen@iki.fi>,
+	Andreas Kemnade <andreas@kemnade.info>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
+	Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+	Vignesh R <vigneshr@ti.com>,
+	Loic Poulain <loic.poulain@oss.qualcomm.com>,
+	Robert Foss <rfoss@kernel.org>,
+	Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
+	Viken Dadhaniya <quic_vdadhani@quicinc.com>,
+	Chris Brandt <chris.brandt@renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+	linux-omap@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [PATCH 23/80] i2c: Remove redundant pm_runtime_mark_last_busy()
+ calls
+Message-ID: <aO45fBIEqFyRq3_k@shikoro>
+References: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
+ <20250704075415.3218608-1-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH net-next 13/14] net: hns3: add hwtstamp_get/hwtstamp_set
- ops
-To: Simon Horman <horms@kernel.org>
-Cc: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Igor Russkikh <irusskikh@marvell.com>, Egor Pomozov <epomozov@marvell.com>,
- Potnuri Bharat Teja <bharat@chelsio.com>,
- Dimitris Michailidis <dmichail@fungible.com>,
- Jian Shen <shenjian15@huawei.com>, Salil Mehta <salil.mehta@huawei.com>,
- Jijie Shao <shaojijie@huawei.com>, Sunil Goutham <sgoutham@marvell.com>,
- Geetha sowjanya <gakula@marvell.com>, Subbaraya Sundeep
- <sbhatta@marvell.com>, Bharat Bhushan <bbhushan2@marvell.com>,
- Tariq Toukan <tariqt@nvidia.com>, Brett Creeley <brett.creeley@amd.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Paul Barker <paul@pbarker.dev>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- MD Danish Anwar <danishanwar@ti.com>, Roger Quadros <rogerq@kernel.org>,
- Richard Cochran <richardcochran@gmail.com>,
- Russell King <linux@armlinux.org.uk>,
- Vladimir Oltean <vladimir.oltean@nxp.com>, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-References: <20251013163749.5047-1-vadim.fedorenko@linux.dev>
- <20251013163749.5047-8-vadim.fedorenko@linux.dev>
- <aO4zdkFjMlv5trhB@horms.kernel.org>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-In-Reply-To: <aO4zdkFjMlv5trhB@horms.kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250704075415.3218608-1-sakari.ailus@linux.intel.com>
 
-On 14/10/2025 12:26, Simon Horman wrote:
-> On Mon, Oct 13, 2025 at 04:37:48PM +0000, Vadim Fedorenko wrote:
->> And .ndo_hwtstamp_get()/.ndo_hwtstamp_set() callbacks to HNS3 framework
->> to support HW timestamp configuration via netlink.
->>
->> Signed-off-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+On Fri, Jul 04, 2025 at 10:54:15AM +0300, Sakari Ailus wrote:
+> pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
+> pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
+> to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
+> pm_runtime_mark_last_busy().
 > 
-> Hi Vadim,
-> 
-> This patch adds warnings about the functions it adds being unused.
-> 
-> I would suggest addressing this by simply squashing this and the following
-> patch, which uses these new functions, into one patch. I think the
-> resulting patch would still be small, internally consistent, and easy
-> enough to review.
-> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Acked-by: Andi Shyti <andi.shyti@kernel.org>
 
-Hi Simon!
-
-Thanks for the review. I was thinking about it while writing the code,
-but thought it would be clearer to have it split. Apparently, I forgot
-about warnings in this case, which is definitely an issue here.
-Thanks for flagging, I'll merge these 2 patches in the next version.
+With the dependencies being upstream now, applied to for-current,
+thanks!
 
 
