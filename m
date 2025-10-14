@@ -1,31 +1,31 @@
-Return-Path: <linux-renesas-soc+bounces-23020-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23021-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7864DBDAA4D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 18:37:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22939BDAAE0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 18:44:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9FD5F189DB95
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 16:38:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4029A583197
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 16:42:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B746F2C1786;
-	Tue, 14 Oct 2025 16:37:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42EC329BDAD;
+	Tue, 14 Oct 2025 16:42:41 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31D98288C2C
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Oct 2025 16:37:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2097230275F
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Oct 2025 16:42:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760459868; cv=none; b=K91E/uVapLFLNd1fpUrzoNS/WFIJVXoiF+6QfX1MTEXcuR2MCXjkgiy+gZ6jDNuWMZmhqlKetucn47NliKLQO3JRGu/YtLUR1hoBYUe/uZIx/lgRfAEBLgMlSjMemJgzP869n9647cUFKaC8Aprp4gfqTXcoMYj92PCoDK0RbD4=
+	t=1760460161; cv=none; b=c0zwkNY5bJIonSB3Wo38b8vIOTPzm5BIxsI6sdEERkmPYLjrkgBpnTzfp0lN1KHadufax44RezNFvIsotUq6PuCBdCCSQqSJ8kYTiJHaWoGDSrpp/WmjrYySgJ0lw72Vb4uv3sZtZY4uU6Awb8vYgPAH5VLvQcZS8UjnMH0cL8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760459868; c=relaxed/simple;
-	bh=bZnvcHJpPl6wYyHylv3znMtM3/3FCxpGoasHkgSZkxo=;
+	s=arc-20240116; t=1760460161; c=relaxed/simple;
+	bh=U0Rm8o5SIrRodpiWYPjiXcpztSQ9MnWHRrk2YHYlEBI=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=mtelZhScxaeuWnbQUrawPQoRiu5IinULFGBCYsOgeBIpOfn5aOKisWjrssqrD6I0dHmlJh+uw9kSjwq8qFR8z1hjXXehAeZ5EWbu7rBMzDDWNNRJ/F0/z2NWRb/Le9HR1W8Zzh8JxPUSvj+yrmA9324ddN0gDPidRPo9wsnMbNk=
+	 Content-Type:MIME-Version; b=IAcZ5jRbBHNmIggCSodAZOVhQvARBIK5i/k7Afk/k8ouh4ICZbVrk6PdLEfSdZUoNqFPKG+Sojul72XISOe/UUWBmfv7uC+voNHSHSP4I+vaOlqCZe62ZHwYOudqDztvyOEuT/opf7lv6pGWO9ZMEiezG/fXGrKZ/ALrdI269OM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -33,36 +33,40 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1v8i1s-0003ht-P6; Tue, 14 Oct 2025 18:37:40 +0200
+	id 1v8i6M-0004Ft-Eh; Tue, 14 Oct 2025 18:42:18 +0200
 Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1v8i1r-003aTt-2C;
-	Tue, 14 Oct 2025 18:37:39 +0200
+	id 1v8i6L-003aUP-2E;
+	Tue, 14 Oct 2025 18:42:17 +0200
 Received: from pza by lupine with local (Exim 4.98.2)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1v8i1r-00000000Bnk-2XDo;
-	Tue, 14 Oct 2025 18:37:39 +0200
-Message-ID: <86cdb51d3eb7414cb1665836175e3ea32ed687dd.camel@pengutronix.de>
-Subject: Re: [PATCH v4] clk: renesas: cpg-mssr: Add module reset support for
- RZ/T2H
+	id 1v8i6L-00000000Btg-2VfZ;
+	Tue, 14 Oct 2025 18:42:17 +0200
+Message-ID: <6ba1fd1f07753c9b98a57c87bffbbee16971da7a.camel@pengutronix.de>
+Subject: Re: [PATCH v7 4/7] reset: rzg2l-usbphy-ctrl: Add support for USB
+ PWRRDY
 From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Geert Uytterhoeven <geert@linux-m68k.org>, "Lad, Prabhakar"
-	 <prabhakar.csengg@gmail.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, 	linux-renesas-soc@vger.kernel.org,
- linux-clk@vger.kernel.org, 	linux-kernel@vger.kernel.org, Biju Das
- <biju.das.jz@bp.renesas.com>, Fabrizio Castro
- <fabrizio.castro.jz@renesas.com>, Lad Prabhakar
- <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Date: Tue, 14 Oct 2025 18:37:39 +0200
-In-Reply-To: <CAMuHMdWNnmmXPxPiuO4r66Mc78gPQ7ticuKt3y5pJ_DqRu_aLQ@mail.gmail.com>
-References: 
-	<20250929112324.3622148-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-	 <CAMuHMdXz0ThdhjeeurjE6TLXjVLXUy-ie-PqXHrTYExQ6TpeLA@mail.gmail.com>
-	 <CA+V-a8urG_e4yZXg9VH-cOPeK62qPGR1L2Zbbc3O97WB22hcRw@mail.gmail.com>
-	 <CAMuHMdWNnmmXPxPiuO4r66Mc78gPQ7ticuKt3y5pJ_DqRu_aLQ@mail.gmail.com>
+To: Claudiu Beznea <claudiu.beznea@tuxon.dev>, vkoul@kernel.org, 
+	kishon@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, 	geert+renesas@glider.be, magnus.damm@gmail.com,
+ yoshihiro.shimoda.uh@renesas.com, 	biju.das.jz@bp.renesas.com
+Cc: linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Claudiu
+ Beznea	 <claudiu.beznea.uj@bp.renesas.com>, Wolfram Sang	
+ <wsa+renesas@sang-engineering.com>
+Date: Tue, 14 Oct 2025 18:42:17 +0200
+In-Reply-To: <77678dd6-071b-4911-a5c5-f1519c92e91a@tuxon.dev>
+References: <20250925100302.3508038-1-claudiu.beznea.uj@bp.renesas.com>
+	 <20250925100302.3508038-5-claudiu.beznea.uj@bp.renesas.com>
+	 <c7fc31f1247332196516394a22f6feef9733a0b4.camel@pengutronix.de>
+	 <66d85e70-efb8-4a45-9164-55b123691b70@tuxon.dev>
+	 <bcf6113b0025777db1cb2ace1618fed8fac2dfc6.camel@pengutronix.de>
+	 <cca1061e-df67-4b5b-99bd-9721c72a0f88@tuxon.dev>
+	 <6d4bc69c-1571-4d98-b0d4-214c68be118e@tuxon.dev>
+	 <c1099a8e422abbc5d12bf3f325cb9f2140c8c006.camel@pengutronix.de>
+	 <77678dd6-071b-4911-a5c5-f1519c92e91a@tuxon.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.1-1 
@@ -77,136 +81,185 @@ X-SA-Exim-Mail-From: p.zabel@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
-Hi Geert, Prabhakar,
+Hi Claudiu,
 
-On Di, 2025-10-14 at 08:46 +0200, Geert Uytterhoeven wrote:
-> Hi Prabhakar,
+On Di, 2025-10-14 at 11:36 +0300, Claudiu Beznea wrote:
+> On 10/13/25 17:57, Philipp Zabel wrote:
+[...]
+> > > > On 10/8/25 13:23, Philipp Zabel wrote:
+> > > > > On Mi, 2025-10-08 at 12:29 +0300, Claudiu Beznea wrote:
+[...]
+> > > > > > The approaches considered were:
+> > > > > > a/ power domain
+[...]
+> > > > > Could you point me to the discussion related to a?
+[...]
+> > Thank you! From this discussion it still isn't clear to me whether
+> > Ulf's suggestion of using genpd on/off notifiers was considered and why
 >=20
-> On Mon, 13 Oct 2025 at 18:45, Lad, Prabhakar <prabhakar.csengg@gmail.com>=
- wrote:
-> > On Mon, Oct 13, 2025 at 4:46=E2=80=AFPM Geert Uytterhoeven <geert@linux=
--m68k.org> wrote:
-> > > On Mon, 29 Sept 2025 at 13:23, Prabhakar <prabhakar.csengg@gmail.com>=
- wrote:
-> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > >=20
-> > > > Add support for module reset handling on the RZ/T2H SoC. Unlike ear=
-lier
-> > > > CPG/MSSR variants, RZ/T2H uses a unified set of Module Reset Contro=
-l
-> > > > Registers (MRCR) where both reset and deassert actions are done via
-> > > > read-modify-write (RMW) to the same register.
-> > > >=20
-> > > > Introduce a new MRCR offset table (mrcr_for_rzt2h) for RZ/T2H and a=
-ssign
-> > > > it to reset_regs. For this SoC, the number of resets is based on th=
+> The genpd on/off notifier suggestion wasn't tried, but only the
+> implementation of PWRRDY handling through the power domain (what Ulf
+> suggested though "Move the entire reset handling into the PM domain
+> provider, as it obviously knows when the domain is getting turned on/off"
+> in
+> https://lore.kernel.org/all/fa9b3449-ea3e-4482-b7eb-96999445cea5@tuxon.de=
+v/).
+> Sorry if I mislead you.
+
+No worries, misunderstandings happen. Here I assumed the "power domain
+approach" meant letting the PWRRDY signal be controlled by power domain
+state, not specifically all code in the power domain driver. And I only
+learned about the genpd notifier suggestion after reading the thread.
+
+> Ulf suggested then here
+> https://lore.kernel.org/all/CAPDyKFpLnREr4C=3DwZ7o8Lb-CZbQa4Nr2VTuYdZHZ26=
+Rcb1Masg@mail.gmail.com/
+> that he is not agreeing anymore with having it as power domain due to the
+> discussion in thread
+> https://lore.kernel.org/all/TY3PR01MB1134652F9587CFA0ADE851CA486902@TY3PR=
+01MB11346.jpnprd01.prod.outlook.com/
+> (I can't remember what made him taking back is ack on this solution and I
+> can't find something in the thread either).
+>=20
+> If I'm not wrong, with the information that we have at the moment, the be=
+st
+> for the notifier would have to register it (before runtime resume) and
+> implement it in this driver (reset-rzg2l-usbphy-ctrl) so that, when the
+> pm_runtime_resume_and_get()/pm_runtime_put() in
+> rzg2l_usbphy_ctrl_probe()/rzg2l_usbphy_ctrl_remove() will be called (or
+> suspend/resume) the notifier will be called and set the PWRRDY bit. Pleas=
 e
-> > > > number of MRCR registers rather than the number of module clocks. A=
-lso
-> > > > add cpg_mrcr_reset_ops to implement reset, assert, and deassert usi=
-ng RMW
-> > > > while holding the spinlock. This follows the RZ/T2H requirements, w=
-here
-> > > > processing after releasing a module reset must be secured by perfor=
-ming
-> > > > seven dummy reads of the same register, and where a module that is =
-reset
-> > > > and released again must ensure the target bit in the Module Reset C=
-ontrol
-> > > > Register is set to 1.
-> > > >=20
-> > > > Update the reset controller registration to select cpg_mrcr_reset_o=
-ps for
-> > > > RZ/T2H, while keeping the existing cpg_mssr_reset_ops for other SoC=
-s.
-> > > >=20
-> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.c=
-om>
-> > > > ---
-> > > > v3->v4:
-> > > > - Renamed cpg_mrcr_set_bit() to cpg_mrcr_set_reset_state() for clar=
-ity.
-> > > > - Updated the parameters in cpg_mrcr_set_reset_state().
-> > >=20
-> > > Thanks for the update!
-> > >=20
-> > > > --- a/drivers/clk/renesas/renesas-cpg-mssr.c
-> > > > +++ b/drivers/clk/renesas/renesas-cpg-mssr.c
-> > > > @@ -736,6 +754,72 @@ static int cpg_mssr_status(struct reset_contro=
-ller_dev *rcdev,
-> > > >         return !!(readl(priv->pub.base0 + priv->reset_regs[reg]) & =
-bitmask);
-> > > >  }
-> > > >=20
-> > > > +static int cpg_mrcr_set_reset_state(struct reset_controller_dev *r=
-cdev,
-> > > > +                                   unsigned long id, bool set)
-> > > > +{
-> > > > +       struct cpg_mssr_priv *priv =3D rcdev_to_priv(rcdev);
-> > > > +       unsigned int reg =3D id / 32;
-> > > > +       unsigned int bit =3D id % 32;
-> > > > +       u32 bitmask =3D BIT(bit);
-> > > > +       void __iomem *reg_addr;
-> > > > +       unsigned long flags;
-> > > > +       unsigned int i;
-> > > > +       u32 val;
-> > > > +
-> > > > +       dev_dbg(priv->dev, "%s %u%02u\n", set ? "assert" : "deasser=
-t", reg, bit);
-> > > > +
-> > > > +       spin_lock_irqsave(&priv->pub.rmw_lock, flags);
-> > > > +
-> > > > +       reg_addr =3D priv->pub.base0 + priv->reset_regs[reg];
-> > > > +       /* Read current value and modify */
-> > > > +       val =3D readl(reg_addr);
-> > > > +       if (set)
-> > > > +               val |=3D bitmask;
-> > > > +       else
-> > > > +               val &=3D ~bitmask;
-> > > > +       writel(val, reg_addr);
-> > > > +
-> > > > +       /*
-> > > > +        * For secure processing after release from a module reset,=
- dummy read
-> > > > +        * the same register at least seven times.
-> > >=20
-> > > This comment is waiting to become out-of-sync with the actual value..=
+> let me know if you see it otherwise.
+
+That sounds like a clean abstraction to me.
+
+> > it was dismissed.
+>=20
+> The power domain approach was dismissed as a result of discussion from th=
+is
+> thread:
+> https://lore.kernel.org/all/TY3PR01MB1134652F9587CFA0ADE851CA486902@TY3PR=
+01MB11346.jpnprd01.prod.outlook.com/
+>=20
+> I don't remember exactly what triggered it and can't find it as well, sor=
+ry.
+
+Ok.
+
+> > From the DT patches it looks like there is no actual separate power
+> > domain for USB, just the single always-on CPG power domain (in rzg2l-
+> > cpg.c). Is that correct?
+>=20
+> That is correct, the CPG is a clock power domain. All the clocks that CPG
+> can be provided (including USB clocks) are part of CPG clock power domain=
 .
+>=20
+> > In the thread it sounded like there were
+> > multiple domains.
+>=20
+> You probably refer to this:
+> https://lore.kernel.org/all/fa9b3449-ea3e-4482-b7eb-96999445cea5@tuxon.de=
+v/
+
+Yes, I was confused by this sentence near the end: "And the USB SYSC PM
+domain is parent for all USB PM domains provided by CPG (3 in this
+case)."
+
+> In there, I was trying to present to Ulf how I did implement (locally,
+> nothing posted) the handling of PWRRDY though power domains. In that case
+> the SYSC (System Controller), where the PWRRDY resides, was modeled as a
+> power domain, I passed to the reset-rzg2l-usbphy-ctrl DT node the phandle
+> to sysc USB power domain as:
+>=20
+> power-domains =3D <&cpg R9A08G045_PD_USB_PHY>, <&sysc R9A08G045_SYSC_PD_U=
+SB>;
+>=20
+> along with the cpg, and handled it in the reset-rzg2l-usbphy-ctrl probe()=
+.
+
+Ok, thank you for the clarification.
+
+> > Is the issue that you need the PWRRDY signal to be (de)asserted
+> > independently from the CPG power domain enable/disable?
+>=20
+> Yes. I need to de-assert it before clocks, MSTOP on probe/resume and asse=
+rt
+> it back after clocks, MSTOP, on remove/suspend.
+>=20
+> > (Why?)
+>=20
+> Due to hardware constraints. This is how Renesas HW team recommended.
+
+I still haven't understood this part. Isn't CPG the power domain
+enabled "before clocks, MSTOP on probe resume" and disabled "after
+clocks, MSTOP, on remove/suspend"? So PWRRDY could be toggled from
+genpd notifications. If it needs to be (de)asserted independently,
+wouldn't that mean the genpd notifier approach can not be used?
+The notifiers are called from genpd_power_on/off(), after all.
+
+> > Why can't the power domain provider (cpg) have the renesas,sysc-pwrrdy
+> > property and set the signal together with the power domain?
+>=20
+> That can be done but, passing a SYSC phandle to the CPG DT node will not =
+be
+> valid from the HW description point of view.
+>
+> > > > > I see v2 and v3 tried to control the bit from the PHY drivers, an=
+d in
+> > > > > v4 we were are already back to the reset driver.
+> > > > v2 passed the system controller (SYSC) phandle to the USB PHYs only=
+ (though
+> > > > renesas,sysc-signals DT property) where the PWRRDY bit was set. The=
+ PWRRDY
+> > > > bit was referenced counted in the SYSC driver though regmap APIs.
+> > > >=20
+> > > > v3 used the approach from v2 but passed the renesas,sysc-signals to=
+ all the
+> > > > USB related drivers.
+> > > >=20
+> > > > Then, in v4, the PWRRDY refcounting was dropped and passed
+> > > > renesas,sysc-signals only to the USB PHY CTRL DT node in the idea t=
+hat this
+> > > > is the node that will always be probed first as all the other USB b=
+locks
+> > > > need it and request resets from it.
+> > > >=20
+> > > > v5 and v6 kept the approach from v4 and only addressed misc comment=
+s or
+> > > > things that I noticed.
 > > >=20
-> > For the reset operation no, for this I would like to keep this as is.
-> > But for the MSTP registers I will be adding a delay. Or did I
-> > misunderstand something?
->=20
-> How to make sure both "#define RZT2H_RESET_REG_READ_COUNT 7" and
-> "seven" are updated together?
->=20
->     /*
->      * For secure processing after release from a module reset, one must
->      * perform multiple dummy reads of the same register.
->      */
->=20
+> > > Could you please let me know if you are OK with the approach proposed=
+ in
+> > > v7, so that I can start preparing a new version addressing your comme=
+nts?
 > >=20
-> > > > +        */
-> > > > +       for (i =3D 0; !set && i < RZT2H_RESET_REG_READ_COUNT; i++)
-> > > > +               readl(reg_addr);
-> > > > +
-> > > > +       /* Verify the operation */
-> > > > +       val =3D readl(reg_addr);
-> > > > +       if ((set && !(bitmask & val)) || (!set && (bitmask & val)))=
- {
-> > >=20
-> > > Perhaps just "set =3D=3D !(bitmask & val)"? Or is that too obscure?
-> > >=20
-> > Ok, I will update it to the above in v5.
+> > If the PWRRDY signal is an input to the USB2PHY control block, and not
+> > only to the PHY blocks, I have no issue with this being handled in the
+> > usb2phy reset driver -
 >=20
-> No need to resend yet, I could make these changes while applying
-> (when Philipp is happy).
+> Yes, this is how the Renesas HW team confirmed they are related.
 
-Consider me happy and feel free to add
+Ok, understood. I concur that usb2phy-ctrl is the right place for the
+sysc property then.
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+> > iff it is not sensible to just control the
+> > signal from the power domain driver.
+>=20
+> As mentioned above, that can be done as well but, passing a SYSC phandle =
+to
+> the CPG DT node will not be valid from the HW description point of view.
+>
+> > If we have to handle it in the reset driver, I'd prefer to see this
+> > controlled with a dev_pm_genpd_add_notifier(). If that is not possible,
+> > I'd like to understand why.
+>=20
+> From the code inspection I did, that can be done. From what I can tell at
+> the moment, I'll have to register a gepnd notifier from
+> reset-rzg2l-usbphy-ctrl, before runtime resuming the device and control t=
+he
+> SYSC PWRRDY from it.
 
-, set =3D=3D !(bitmask & val) and all.
+I'd like that.
 
 regards
 Philipp
