@@ -1,122 +1,101 @@
-Return-Path: <linux-renesas-soc+bounces-22999-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23000-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id B813BBD906C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 13:29:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D93D1BD907E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 13:30:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 623BC3524AD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 11:29:46 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 83BC834C95D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 11:30:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C90830C34A;
-	Tue, 14 Oct 2025 11:29:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70A1F30CD83;
+	Tue, 14 Oct 2025 11:30:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="K7jAIQBA"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="JtVXGpOZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F5E02FD7DD;
-	Tue, 14 Oct 2025 11:29:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE4D2F8BF3
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Oct 2025 11:30:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760441381; cv=none; b=qtyMHt3hXX9Ng3CSvrWZh0IB8YxxA6tDsGaJK0xbGn+tXM7uzJUt5w1+S69huCYMV0crW15FwyvbExk9PN9KK5fRW99Y+MjbHVd6J3pplXNydKQM17biv7kwYZYYXbZPt80s6fkZvqgdzm3MEwoe7gYSFhsJpllUMiz2sFnxz+c=
+	t=1760441429; cv=none; b=DMGi73AaNLKiUqltfHktSPDIMRI0a7K3qDdROnhfV5hX0gwOipt1PXCkU0jBHjQlynQ3QnCuP7z6pAWCbN4Hum0cV8MZKTGZxH/IWaKFdJTU7crNQkCQJZAdQdXs55ttzOuY4u83XFBbvjB8srlycD+mrhz0p0XJrD8Kk+LRDOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760441381; c=relaxed/simple;
-	bh=1GfZigKl8BK6ItvIvHiHwUmP9apgJNQtcjLeOH0Fo9w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pASI8TM04qlVzFiUl7wZaSoV70mydYoe4bHMOb5HyFQqUKudmM8YEvKEKnhmRE/SucRFHk0BVzm3GrvMpoaQhIpGIOIj/oJolff9/URpCyby6FTa+/Hp9sivF1JbEsKUzntqUI611rLeQMU1K9dduDI7cEEX5EhZJ/i1Rv78MMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=K7jAIQBA; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1760441377;
-	bh=1GfZigKl8BK6ItvIvHiHwUmP9apgJNQtcjLeOH0Fo9w=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=K7jAIQBADMt3OIAdrE5ksGeiSSHn+ISFhMcWzPAkpAwTKDDKt1+rpCu0J1r1kxoIm
-	 zNE1qxXvfwjh7+J1vFhd+CXwaCDeTCBRPYI1e2Y7bRQ2yYeUial1kg5IXqPHmqGaol
-	 gNuazANough8dB0l1ZoB4bOQEMjfaMH4tTYj++IBGNQym4nZU8eDT5rUBZMuL3ahg5
-	 gE9qgUqEkQHVwdmMl74AovVLF8DX+jhSJVJorUEvN8fOWQOGImf9FMfeK7S3diHVfW
-	 w4w/90WAi+UBH348POXLwJPK18r2KfgdyNNcXSuy3mtUqBmQc1ZFuoIhho81lJrW6M
-	 OO3IAjcJ+77kA==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id CEE8617E0456;
-	Tue, 14 Oct 2025 13:29:35 +0200 (CEST)
-Message-ID: <15d26478-89e5-4815-8e20-7f34778d077a@collabora.com>
-Date: Tue, 14 Oct 2025 13:29:35 +0200
+	s=arc-20240116; t=1760441429; c=relaxed/simple;
+	bh=DW6Soa+EyZrGsAq6scGAnX4sB2XdUmO//NkjOugJRck=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S0tPQ+sqswo6YUUGyNaCu9Yp/R8ZVjOT6QXZBStJUQSAeWiItZwmV2zCqsSP0Knup2z8EkBV/kagH10tV9/frqwSVt6SfqNASETAtuj4heLr0GbeCdVsJr6VIioL1yO5skAUbhErhBzUNqYVcaf/+PMPVqoca+HShOG8eceLZpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=JtVXGpOZ; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=O3Ns10gBhYghn7
+	46iVy+H+W/ZDdIGY8P59pG+5DvZik=; b=JtVXGpOZrRd/5xKTzFZCG0ud0Thqnb
+	EK7m+j3PQwtxO96z0gLiHM+bz/c3qNF8PCf0Q7rXLA9n1Hpjmv0/TxwgqGlM4Nrr
+	Pq09FLLk9bAcHYeP3i31cRIqzceLykJYInFpG/B0q8YIjHn0wKJJ6fALq1pZN8ji
+	tPubEpzS+bK6fQGSiwQ4pWdMIgpNPsaGKGr2pi5lEjeLROeAGMFTtDDsnZ1HbtCD
+	Gj6Ewm4GmyN7i+jmSf8EnuwuTG7iYpxM/mZ/JXa6v0hKzP3qLqWQ1wBmMDT+z+E2
+	+AE4sBufvo7A7MLKZpAPC+POBtGqUvQstEdrKwleaSLFApbTVwMng+Dg==
+Received: (qmail 2943606 invoked from network); 14 Oct 2025 13:30:17 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Oct 2025 13:30:17 +0200
+X-UD-Smtp-Session: l3s3148p1@pVFRtRxBuN4gAwDPXwQHAL/S9V79e5yL
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-watchdog@vger.kernel.org,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>
+Subject: [PATCH v2 0/2] watchdog: add Renesas Window Watchdog support
+Date: Tue, 14 Oct 2025 13:29:52 +0200
+Message-ID: <20251014112953.25712-4-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 24/32] media: mediatek: vcodec: Use %pe format specifier
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- =?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Leon Luo <leonl@leopardimaging.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Julien Massot <julien.massot@collabora.com>, Jacopo Mondi
- <jacopo@jmondi.org>, Daniel Scally <djrscally@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Sylvain Petinot <sylvain.petinot@foss.st.com>, Yong Zhi
- <yong.zhi@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
- Tianshu Qiu <tian.shu.qiu@intel.com>, Tiffany Lin
- <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Rui Miguel Silva <rmfrfs@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Martin Kepplinger <martink@posteo.de>, Purism Kernel Team <kernel@puri.sm>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Dafna Hirschfeld <dafna@fastmail.com>,
- Heiko Stuebner <heiko@sntech.de>, Sylwester Nawrocki
- <s.nawrocki@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Yemike Abhilash Chandra <y-abhilashchandra@ti.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, imx@lists.linux.dev,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
- <20251013-ptr_err-v1-24-2c5efbd82952@chromium.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20251013-ptr_err-v1-24-2c5efbd82952@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Il 13/10/25 16:15, Ricardo Ribalda ha scritto:
-> The %pe format specifier is designed to print error pointers. It prints
-> a symbolic error name (eg. -EINVAL) and it makes the code simpler by
-> omitting PTR_ERR().
-> 
-> This patch fixes this cocci report:
-> ./platform/mediatek/vcodec/common/mtk_vcodec_dbgfs.c:187:3-10: WARNING: Consider using %pe to print PTR_ERR()
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+This Window Watchdog is a little peculiar because it can only be setup
+once but we cannot find out if this write already happened. So,
+configuration is delegated to the firmware/bootloader and the driver
+will adapt to whatever is configured. The driver handles all bits
+described in the datasheets. This is really all there is.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Tested on a SparrowHawk board (Renesas R-Car V4H). Based on v6.18-rc1
+and build bot is already happy. Passes also binding checks and dtb
+checks here.
 
+Big picture change since v1 (details mentioned per patch):
+
+* support not only V4H but all Gen3/4 SoCs having this WWDT
+
+Looking forward to comments!
+
+
+Wolfram Sang (2):
+  dt-bindings: watchdog: Add Renesas WWDT
+  watchdog: renesas_wwdt: add driver
+
+ .../watchdog/renesas,rcar-gen3-wwdt.yaml      | 114 ++++++++++++
+ drivers/watchdog/Kconfig                      |   8 +
+ drivers/watchdog/Makefile                     |   1 +
+ drivers/watchdog/renesas_wwdt.c               | 163 ++++++++++++++++++
+ 4 files changed, 286 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/watchdog/renesas,rcar-gen3-wwdt.yaml
+ create mode 100644 drivers/watchdog/renesas_wwdt.c
+
+-- 
+2.47.2
 
 
