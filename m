@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-23036-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23037-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB74BDB85F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 00:00:14 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46C76BDB8E3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 00:04:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 29D66354FA5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 22:00:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7BBAF18A8367
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 22:04:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19717306B39;
-	Tue, 14 Oct 2025 22:00:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A08EA30DEBF;
+	Tue, 14 Oct 2025 22:03:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TuopGxk0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QIlUCP1w"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D89DA301466;
-	Tue, 14 Oct 2025 22:00:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7400430F7E6;
+	Tue, 14 Oct 2025 22:03:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760479211; cv=none; b=Qb9/XLFk596/QQkpl+7mrZPXlzDHY4kGyZaoTrsvDyLbvkUX7CcPrPV/VF1Mazo9EjFcpSUCqfuv8vmYXuZ7DjTRMCFkJerSIJmnY+8KoCRkGEbVxb/0L7t3EwsbdOzZBdiE0l7LPxs24goGFO3EzpeQYjjMLkqYrmktwkUPP44=
+	t=1760479396; cv=none; b=LWc6ssH0s8Jfx8lnlXv2PKi1IxPHe24jFUA3fhiENztfo/EMTpaNa8uo1gyze5Kf5mYkEobCHJgozgbKk9B1bKwFjxR43RxiS6ziqAAPxypNKpUTnytkih1dXeTOLly27p4fhXr5E8SypISdF3GYUJyZ/OA1KRwOhqJoZfH0+n4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760479211; c=relaxed/simple;
-	bh=lvHYHTwWeKzgifRYc+k2raNaLz5B0lgzuCVEQJk1wqc=;
+	s=arc-20240116; t=1760479396; c=relaxed/simple;
+	bh=ud9SO++TE5+DojUghUZcik1yBq88ekmRJTRwTpc+Zxw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s1vX4yuxAEju2dB5Oobu1+rQ7JTTSIALnIkFvMvZFFeSeSFGEnGqOq7SDfNuXdVVTsEJhliTF5bhs7xt23ZYLd26rWWjwOjn1yx0qWEYv0U8uLYNjDcOAvyVYksRWoKYfbegKeZkYU4OFt8hZ0Z+ORya4RKvHGvAQs+qWoYYpLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TuopGxk0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1872AC4CEF1;
-	Tue, 14 Oct 2025 22:00:04 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=k4qtRpm94E/b+oDQgffPiwcfdN3qLPcB/ASIR8iqg3yJBjud85zzJ4fanEt+RKR6XK0VQIDHi7WMtwKRDvV23/cYBkNZ5GQtSdPAnplSEfNwUld4rPBdwEywm4yb3WO6td2yoEQWpZoq7ZOt8wZkztYBNz545z+LfBl8ZWRCz1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QIlUCP1w; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFB8AC4AF09;
+	Tue, 14 Oct 2025 22:03:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760479211;
-	bh=lvHYHTwWeKzgifRYc+k2raNaLz5B0lgzuCVEQJk1wqc=;
+	s=k20201202; t=1760479395;
+	bh=ud9SO++TE5+DojUghUZcik1yBq88ekmRJTRwTpc+Zxw=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=TuopGxk00M2Iv1b13UYZba/CyFBcz54Hxz6wjt+rEu6eBgPNxzBIqYjcoAcsj5SFQ
-	 k8wGPg+vUPcfgFHuDPuFv4p+UNCdsnluZmfJSnN/bfV/3emBdC3cXRzvSg/B+WqrRL
-	 k/p9N+LeIYJVuYI/lREdkKB5D0n1f+JEBFHEdxynvCK1h/zbhsNiZOuz2dzMWab5S/
-	 DJz4syekLjVct/dHudh7+n7VIGQhhmBPHN4piAQU2+J3fScyzbds/ALSt9bbJJp2r4
-	 9Joo8cX1S9pghjgbiVwH8tX17CWirLPyWIQuckQcFB/STHQrBsSayxUqha9LEvI7qi
-	 hdc+7nOlrGp9Q==
-Message-ID: <e97327ff-9dca-4764-9973-8223d6b50fa9@kernel.org>
-Date: Wed, 15 Oct 2025 00:00:02 +0200
+	b=QIlUCP1wMvPUTyXgUQS2PgffQlUVuWmX1udKI5ufzYR42kxrlQmaIpewF2tStmfKV
+	 N/aA7BOAOu5MRtK4aEZqKacUybeqLfwUjHUgCVAEiilDLtZCtzBMteiALt3y0OkGpV
+	 9qh7fRc3eh7a06C12M+yUBHaO4OuKzCVJQcJe4qr+duw046klYtZ0k6gnleQfqFAZz
+	 h1DQOMWxUiil8XgXt7t3a81etMW1d4pKqSk5CzfWULF8KUcO+o7DbPSxtbShlSIN/2
+	 o4JG8N4avjsP8fsJBx9/5d5PQQbATiQkb59yFJ674Fjhe7Qg/vq7RsNIEwVSrEQQuF
+	 ZlV5UocByMxSA==
+Message-ID: <b8137f4e-97d9-4e10-a80b-51ebacf3b3ac@kernel.org>
+Date: Wed, 15 Oct 2025 00:03:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -59,8 +59,10 @@ To: Prabhakar <prabhakar.csengg@gmail.com>,
 Cc: linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
  Biju Das <biju.das.jz@bp.renesas.com>,
  Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "michal.simek@amd.com" <michal.simek@amd.com>
 References: <20251014182035.239956-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <e97327ff-9dca-4764-9973-8223d6b50fa9@kernel.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -106,36 +108,44 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251014182035.239956-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <e97327ff-9dca-4764-9973-8223d6b50fa9@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 14/10/2025 20:20, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On 15/10/2025 00:00, Krzysztof Kozlowski wrote:
+> On 14/10/2025 20:20, Prabhakar wrote:
+>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>>
+>> CONFIG_OMAP_USB2 is already enabled as a module in the default defconfig
+>> since commit 8a703a728a745 ("arm64: defconfig: Enable USB2 PHY Driver").
+>> Remove the duplicate entry to fix the following warning:
+>>
+>>     arch/arm64/configs/defconfig:1705:warning: override: reassigning to symbol OMAP_USB2
+>>
+>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>> ---
+>>  arch/arm64/configs/defconfig | 1 -
+>>  1 file changed, 1 deletion(-)
+>>
+>> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+>> index e401915e2f2f..478ca72c0aeb 100644
+>> --- a/arch/arm64/configs/defconfig
+>> +++ b/arch/arm64/configs/defconfig
+>> @@ -1702,7 +1702,6 @@ CONFIG_PHY_UNIPHIER_USB3=y
+>>  CONFIG_PHY_TEGRA_XUSB=y
+>>  CONFIG_PHY_AM654_SERDES=m
+>>  CONFIG_PHY_J721E_WIZ=m
+>> -CONFIG_OMAP_USB2=m
 > 
-> CONFIG_OMAP_USB2 is already enabled as a module in the default defconfig
-> since commit 8a703a728a745 ("arm64: defconfig: Enable USB2 PHY Driver").
-> Remove the duplicate entry to fix the following warning:
+> I don't understand. There is no such line in defconfig. Which next are
+> you referring to? Was it just broken in Renesas tree?
 > 
->     arch/arm64/configs/defconfig:1705:warning: override: reassigning to symbol OMAP_USB2
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  arch/arm64/configs/defconfig | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-> index e401915e2f2f..478ca72c0aeb 100644
-> --- a/arch/arm64/configs/defconfig
-> +++ b/arch/arm64/configs/defconfig
-> @@ -1702,7 +1702,6 @@ CONFIG_PHY_UNIPHIER_USB3=y
->  CONFIG_PHY_TEGRA_XUSB=y
->  CONFIG_PHY_AM654_SERDES=m
->  CONFIG_PHY_J721E_WIZ=m
-> -CONFIG_OMAP_USB2=m
+Ah, no, it got broken by Michal. You should add proper fixes tag which
+results in automatic Cc.
 
-I don't understand. There is no such line in defconfig. Which next are
-you referring to? Was it just broken in Renesas tree?
+@Michal,
+
+Are you sure your commit did not introduce more of such issues?
 
 Best regards,
 Krzysztof
