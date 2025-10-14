@@ -1,152 +1,146 @@
-Return-Path: <linux-renesas-soc+bounces-23037-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23038-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46C76BDB8E3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 00:04:30 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 856F9BDB97E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 00:15:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7BBAF18A8367
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 22:04:53 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 10C90355216
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 22:15:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A08EA30DEBF;
-	Tue, 14 Oct 2025 22:03:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06A9730DD22;
+	Tue, 14 Oct 2025 22:15:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QIlUCP1w"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sl0ltCIa"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7400430F7E6;
-	Tue, 14 Oct 2025 22:03:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCD6D30CD88;
+	Tue, 14 Oct 2025 22:15:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760479396; cv=none; b=LWc6ssH0s8Jfx8lnlXv2PKi1IxPHe24jFUA3fhiENztfo/EMTpaNa8uo1gyze5Kf5mYkEobCHJgozgbKk9B1bKwFjxR43RxiS6ziqAAPxypNKpUTnytkih1dXeTOLly27p4fhXr5E8SypISdF3GYUJyZ/OA1KRwOhqJoZfH0+n4=
+	t=1760480114; cv=none; b=IgRl/AI9VvVpp7vX8gJOh400BHbIls0827Jw0V71S0YSHJ0pTwSaVzbgJBJIsruba/ZgKmyVa4S0OUZTupMFcflgLL8w+cXqNNW7MRpUf0DqF2SbzV3cQOknRpzfZ3EeIod59ul9ronm1eC0blpmd8+RLHKoGW740qR74o1mN5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760479396; c=relaxed/simple;
-	bh=ud9SO++TE5+DojUghUZcik1yBq88ekmRJTRwTpc+Zxw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k4qtRpm94E/b+oDQgffPiwcfdN3qLPcB/ASIR8iqg3yJBjud85zzJ4fanEt+RKR6XK0VQIDHi7WMtwKRDvV23/cYBkNZ5GQtSdPAnplSEfNwUld4rPBdwEywm4yb3WO6td2yoEQWpZoq7ZOt8wZkztYBNz545z+LfBl8ZWRCz1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QIlUCP1w; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFB8AC4AF09;
-	Tue, 14 Oct 2025 22:03:11 +0000 (UTC)
+	s=arc-20240116; t=1760480114; c=relaxed/simple;
+	bh=KgyniKiyFQd23HrebtH3vCuphtXuSOMM+Bh/BfGRffE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tCocz4kqG8028MWtp1IoNDrZpqF1h7Gs0X/18SL27S7KWNEKqqgsfdnQv1ux2j+m1p7pK9FIkH6/NiztiG5eNWo6Af0o6G0L86bf+JjsVN2uIAhbt/ZUPJK7qzhWppsbFPEX/vCQ0I8NBw/oScaLAwDo0NBMJ8RMlRHC/A+QZxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sl0ltCIa; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 941D7C4CEE7;
+	Tue, 14 Oct 2025 22:15:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760479395;
-	bh=ud9SO++TE5+DojUghUZcik1yBq88ekmRJTRwTpc+Zxw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=QIlUCP1wMvPUTyXgUQS2PgffQlUVuWmX1udKI5ufzYR42kxrlQmaIpewF2tStmfKV
-	 N/aA7BOAOu5MRtK4aEZqKacUybeqLfwUjHUgCVAEiilDLtZCtzBMteiALt3y0OkGpV
-	 9qh7fRc3eh7a06C12M+yUBHaO4OuKzCVJQcJe4qr+duw046klYtZ0k6gnleQfqFAZz
-	 h1DQOMWxUiil8XgXt7t3a81etMW1d4pKqSk5CzfWULF8KUcO+o7DbPSxtbShlSIN/2
-	 o4JG8N4avjsP8fsJBx9/5d5PQQbATiQkb59yFJ674Fjhe7Qg/vq7RsNIEwVSrEQQuF
-	 ZlV5UocByMxSA==
-Message-ID: <b8137f4e-97d9-4e10-a80b-51ebacf3b3ac@kernel.org>
-Date: Wed, 15 Oct 2025 00:03:08 +0200
+	s=k20201202; t=1760480114;
+	bh=KgyniKiyFQd23HrebtH3vCuphtXuSOMM+Bh/BfGRffE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Sl0ltCIaQzg15GVBhSlGUF3hZpn9xqKCszU+Bdt2RM5W8c8LV3lIhxpJpPZk0bfls
+	 dXg3GRaXErfEMP032i8bQDDjecno7KBm1MbQnuIoaU0ZHKEHJ1qsQB0OTrr2ZC2CFF
+	 qVMh/T8PBHgWVkt49KwymYodOVz3iyMA2qT4FGAKjgG7F7IozYVUsBO0hK2fRFrYnr
+	 zRkbzG2sYwy5puMrOVS2TQlORXvDdfFT6H23NDvHbPuGB946AtTMcLMgjqv4NmAObm
+	 wF7LMcYDTummp9q1MNAmLymjyBVDvKYRjtdKqkqT1W3NEbO73JLpbJeSnjZxiCnfja
+	 V2neNP2AElBOA==
+Date: Tue, 14 Oct 2025 23:15:10 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: linux-clk@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: clk: rs9: Fix DIF pattern match
+Message-ID: <20251014-limit-mom-fa96e8498dd4@spud>
+References: <20251014104626.10682-1-marek.vasut@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] arm64: defconfig: Drop duplicate CONFIG_OMAP_USB2 entry
-To: Prabhakar <prabhakar.csengg@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Arnd Bergmann <arnd@arndb.de>, Nishanth Menon <nm@ti.com>,
- Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
-Cc: linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Biju Das <biju.das.jz@bp.renesas.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "michal.simek@amd.com" <michal.simek@amd.com>
-References: <20251014182035.239956-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <e97327ff-9dca-4764-9973-8223d6b50fa9@kernel.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <e97327ff-9dca-4764-9973-8223d6b50fa9@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="khdArLaV7tas5Ih6"
+Content-Disposition: inline
+In-Reply-To: <20251014104626.10682-1-marek.vasut@mailbox.org>
 
-On 15/10/2025 00:00, Krzysztof Kozlowski wrote:
-> On 14/10/2025 20:20, Prabhakar wrote:
->> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->>
->> CONFIG_OMAP_USB2 is already enabled as a module in the default defconfig
->> since commit 8a703a728a745 ("arm64: defconfig: Enable USB2 PHY Driver").
->> Remove the duplicate entry to fix the following warning:
->>
->>     arch/arm64/configs/defconfig:1705:warning: override: reassigning to symbol OMAP_USB2
->>
->> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->> ---
->>  arch/arm64/configs/defconfig | 1 -
->>  1 file changed, 1 deletion(-)
->>
->> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
->> index e401915e2f2f..478ca72c0aeb 100644
->> --- a/arch/arm64/configs/defconfig
->> +++ b/arch/arm64/configs/defconfig
->> @@ -1702,7 +1702,6 @@ CONFIG_PHY_UNIPHIER_USB3=y
->>  CONFIG_PHY_TEGRA_XUSB=y
->>  CONFIG_PHY_AM654_SERDES=m
->>  CONFIG_PHY_J721E_WIZ=m
->> -CONFIG_OMAP_USB2=m
-> 
-> I don't understand. There is no such line in defconfig. Which next are
-> you referring to? Was it just broken in Renesas tree?
-> 
-Ah, no, it got broken by Michal. You should add proper fixes tag which
-results in automatic Cc.
 
-@Michal,
+--khdArLaV7tas5Ih6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Are you sure your commit did not introduce more of such issues?
+On Tue, Oct 14, 2025 at 12:46:03PM +0200, Marek Vasut wrote:
+> The pattern match [0-19] is incorrect and does not cover range of 0..19,
+> use pattern 1?[0-9] to cover range 0..19 instead. Update the example to
+> validate all parts of the pattern match and prevent such failures in the
+> future.
+>=20
+> Fixes: 26c1bc67aa2f ("dt-bindings: clk: rs9: Add Renesas 9-series I2C PCI=
+e clock generator")
+> Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
 
-Best regards,
-Krzysztof
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+pw-bot: not-applicable
+
+> ---
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Michael Turquette <mturquette@baylibre.com>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-clk@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+>  .../devicetree/bindings/clock/renesas,9series.yaml    | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/clock/renesas,9series.yaml=
+ b/Documentation/devicetree/bindings/clock/renesas,9series.yaml
+> index af6319697b1c0..a85f78ce29702 100644
+> --- a/Documentation/devicetree/bindings/clock/renesas,9series.yaml
+> +++ b/Documentation/devicetree/bindings/clock/renesas,9series.yaml
+> @@ -62,7 +62,7 @@ properties:
+>      description: Output clock down spread in pcm (1/1000 of percent)
+> =20
+>  patternProperties:
+> -  "^DIF[0-19]$":
+> +  "^DIF1?[0-9]$":
+>      type: object
+>      description:
+>        Description of one of the outputs (DIF0..DIF19).
+> @@ -107,6 +107,15 @@ examples:
+>              DIF0 {
+>                  renesas,slew-rate =3D <3000000>;
+>              };
+> +
+> +            /* Not present on 9FGV0241, used for DT validation only */
+> +            DIF2 {
+> +                renesas,slew-rate =3D <2000000>;
+> +            };
+> +
+> +            DIF19 {
+> +                renesas,slew-rate =3D <3000000>;
+> +            };
+>          };
+>      };
+> =20
+> --=20
+> 2.51.0
+>=20
+
+--khdArLaV7tas5Ih6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaO7LbgAKCRB4tDGHoIJi
+0iRtAP98fuLWwi2rj6BMCq3LRsL0F87fvaNaTczkkSsFtG63WAD9E0Ze2gsjxvy/
+xuZ752LZnbtlTZLPDImbROP8GhwIxAw=
+=z2F3
+-----END PGP SIGNATURE-----
+
+--khdArLaV7tas5Ih6--
 
