@@ -1,299 +1,110 @@
-Return-Path: <linux-renesas-soc+bounces-23001-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23003-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B3A7BD9090
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 13:30:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2967DBD90E7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 13:34:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 762564FE0B3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 11:30:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CF5643B94B7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 11:34:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0221B2F8BF3;
-	Tue, 14 Oct 2025 11:30:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15C402FE053;
+	Tue, 14 Oct 2025 11:33:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="hK3UBS0b"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="nr04E4ei"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6CF730C61D
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Oct 2025 11:30:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4AD2E2EF2
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Oct 2025 11:33:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760441429; cv=none; b=ZpSGyK9oSOOYC+DsFw4CpbQ/4Ll9DH2uyJb2bd+gcgRk2EhOaiXA31VxiPYshjjlbHnBMnuBO//f7lMl6TbFEEEILxEPElYHEbICtSWPk9QZxfJkd02o+45yjtFRBuGUqJOZaJULQ6crw8o3mVn1wMshDTPz3WjA6Y+ZE/5U1e4=
+	t=1760441607; cv=none; b=YQqY9HJdSj4HxQjGE4+EVcVbSlMAXAWEM80JKAqLmCY5cOYldwKDfIWEtD5r12S2FbwLf48qDjZ7M/vF7ZTtxR3f2uqUU6uKHdcrt+Mqxgvq5E86Jbl3PmGF626rAJuYGdYXqoN0Ro4z4yMpWp3wLASdeJG56eEuCOYYEpQUbvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760441429; c=relaxed/simple;
-	bh=JKkzunXJI7SSy9RFWCsKShj8+JF5EAwNZkgXDaVrd+s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kKqhQ2iQO+IDg7v9gBJvXpPm7d9kaRHSs6DFtFUI0ucQJkxTSbGZvALF3YQD58w/g8HH2z7WF78UQxl0PPBTusMLoz9DorPCITjQ6fJE+brNXBpVSQ+nb6B9ZnSw1NUnInLD/7pYZZSHezC8Jr2v6/zqUGBSfyhyqtH2Hyr/hqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=hK3UBS0b; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=g3WYL2pzJuVi8WRchTtp/JyvwjnGTf7H9qfruNOIL5Y=; b=hK3UBS
-	0bfW/mxoN58lvrvG0gKXlYcxev48VTPsfQ9eeDxhph5vUn/oR0L5G+kb50z4bNMM
-	+EZu+c04koziIjrF9BLmN5N3DvRPZVIwZ1DtVb8rC6G97FHbHBGEJSU1x8Us3gue
-	GAvkgNy0nR3P7+Muo/XMDqAPm7BWbY7tSu3p3jvdID1HfNqa8rd6rpVdTJigQ2XT
-	BAhW33AQb2E7zMzwLsmZJIKv+X3KjXK21bthrY4JsGeKU+oiGPbt0/HuH4oTuK0P
-	T8UNqqh5RlkshHZ+vprF0O3joZFr/gC7GxiOmxMXdt9vHMm+HnTQUwjmUbKW6miN
-	rrsvcVlqQ1ETYCpQ==
-Received: (qmail 2943715 invoked from network); 14 Oct 2025 13:30:19 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Oct 2025 13:30:19 +0200
-X-UD-Smtp-Session: l3s3148p1@op5ztRxB8qwgAwDPXwQHAL/S9V79e5yL
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-watchdog@vger.kernel.org
-Subject: [PATCH v2 2/2] watchdog: renesas_wwdt: add driver
-Date: Tue, 14 Oct 2025 13:29:54 +0200
-Message-ID: <20251014112953.25712-6-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20251014112953.25712-4-wsa+renesas@sang-engineering.com>
-References: <20251014112953.25712-4-wsa+renesas@sang-engineering.com>
+	s=arc-20240116; t=1760441607; c=relaxed/simple;
+	bh=EOiBoMq8sLGDd3lfmeBPzgdelZvp0tOnl2eG6FrkpzU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OyJUJXjvtP6YRrEUd2i5vnR27US1Lbfy5p3ox8qgGX3rAIGYJO22JodF27lS+CSDy5ZzrajSQiUokdcFohkzGkrXcx+z0NHdehBuGi+t9LYUU1FUwQ4TcsgKXXEDsC+Zf5/WIkWu0uVah9hZPDG+UzeACJDlw15yW+Vf28cG9Yg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=nr04E4ei; arc=none smtp.client-ip=95.215.58.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Message-ID: <fb93e416-1a6c-4c3c-9621-03deb8bc34aa@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1760441602;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TCxzBWmpERGaNbcd7P2dfHjWYxDzYzg8wdZKfHQFXKQ=;
+	b=nr04E4eiX7LIJzoKhkxJrfJGLTm++4OCq7ELggnOG2SHf1meAouxCgrl1KwLUuQ3ypmAA6
+	aNWjBAcNdJZJTWp2QowDUrCpem+qdcVfQ9IN/yz/i3mtm3zZKVqHpWd6CbMHoEVjT42Tcb
+	mOI8X88kDZHGVQsLROdUsk62sp0+n0Q=
+Date: Tue, 14 Oct 2025 12:33:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next 13/14] net: hns3: add hwtstamp_get/hwtstamp_set
+ ops
+To: Simon Horman <horms@kernel.org>
+Cc: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Igor Russkikh <irusskikh@marvell.com>, Egor Pomozov <epomozov@marvell.com>,
+ Potnuri Bharat Teja <bharat@chelsio.com>,
+ Dimitris Michailidis <dmichail@fungible.com>,
+ Jian Shen <shenjian15@huawei.com>, Salil Mehta <salil.mehta@huawei.com>,
+ Jijie Shao <shaojijie@huawei.com>, Sunil Goutham <sgoutham@marvell.com>,
+ Geetha sowjanya <gakula@marvell.com>, Subbaraya Sundeep
+ <sbhatta@marvell.com>, Bharat Bhushan <bbhushan2@marvell.com>,
+ Tariq Toukan <tariqt@nvidia.com>, Brett Creeley <brett.creeley@amd.com>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Paul Barker <paul@pbarker.dev>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ MD Danish Anwar <danishanwar@ti.com>, Roger Quadros <rogerq@kernel.org>,
+ Richard Cochran <richardcochran@gmail.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>, netdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20251013163749.5047-1-vadim.fedorenko@linux.dev>
+ <20251013163749.5047-8-vadim.fedorenko@linux.dev>
+ <aO4zdkFjMlv5trhB@horms.kernel.org>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+In-Reply-To: <aO4zdkFjMlv5trhB@horms.kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-This driver adds support for the Renesas Window Watchdog Timer (WWDT).
-Because it can only be setup once after boot and we cannot know if this
-already happened in early boot stages, it is mandated that the firmware
-configures the watchdog. Linux then adapts according to the given
-setup. Note that this watchdog only reports an overflow to the Error
-Control Module (ECM) and does not reset the SoC on its own.
+On 14/10/2025 12:26, Simon Horman wrote:
+> On Mon, Oct 13, 2025 at 04:37:48PM +0000, Vadim Fedorenko wrote:
+>> And .ndo_hwtstamp_get()/.ndo_hwtstamp_set() callbacks to HNS3 framework
+>> to support HW timestamp configuration via netlink.
+>>
+>> Signed-off-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+> 
+> Hi Vadim,
+> 
+> This patch adds warnings about the functions it adds being unused.
+> 
+> I would suggest addressing this by simply squashing this and the following
+> patch, which uses these new functions, into one patch. I think the
+> resulting patch would still be small, internally consistent, and easy
+> enough to review.
+> 
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+Hi Simon!
 
-Changes since v1:
-
-* support not only V4H but all Gen3/4 SoCs having this WWDT
-* update commit message and add introductory comment to explain how
-  this WWDT is handled as a "read-only" device basically
-* dropped pretimeout flag because this feature cannot be configured
-  from userspace
-* added bitfield.h to prevent build failures
-* switched to "GPL" licence string
-* cosmetic updates
-
- drivers/watchdog/Kconfig        |   8 ++
- drivers/watchdog/Makefile       |   1 +
- drivers/watchdog/renesas_wwdt.c | 163 ++++++++++++++++++++++++++++++++
- 3 files changed, 172 insertions(+)
- create mode 100644 drivers/watchdog/renesas_wwdt.c
-
-diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
-index 05008d937e40..792d0d831336 100644
---- a/drivers/watchdog/Kconfig
-+++ b/drivers/watchdog/Kconfig
-@@ -969,6 +969,14 @@ config RENESAS_WDT
- 	  This driver adds watchdog support for the integrated watchdogs in the
- 	  Renesas R-Car and other SH-Mobile SoCs (usually named RWDT or SWDT).
- 
-+config RENESAS_WWDT
-+	tristate "Renesas Window WWDT Watchdog"
-+	depends on ARCH_RENESAS || COMPILE_TEST
-+	select WATCHDOG_CORE
-+	help
-+	  This driver adds watchdog support for a window timer found in some
-+	  Renesas R-Car Gen3 and later SoCs.
-+
- config RENESAS_RZAWDT
- 	tristate "Renesas RZ/A WDT Watchdog"
- 	depends on ARCH_RENESAS || COMPILE_TEST
-diff --git a/drivers/watchdog/Makefile b/drivers/watchdog/Makefile
-index b680e4d3c1bc..ba52099b1253 100644
---- a/drivers/watchdog/Makefile
-+++ b/drivers/watchdog/Makefile
-@@ -85,6 +85,7 @@ obj-$(CONFIG_DIGICOLOR_WATCHDOG) += digicolor_wdt.o
- obj-$(CONFIG_LPC18XX_WATCHDOG) += lpc18xx_wdt.o
- obj-$(CONFIG_BCM7038_WDT) += bcm7038_wdt.o
- obj-$(CONFIG_RENESAS_WDT) += renesas_wdt.o
-+obj-$(CONFIG_RENESAS_WWDT) += renesas_wwdt.o
- obj-$(CONFIG_RENESAS_RZAWDT) += rza_wdt.o
- obj-$(CONFIG_RENESAS_RZN1WDT) += rzn1_wdt.o
- obj-$(CONFIG_RENESAS_RZG2LWDT) += rzg2l_wdt.o
-diff --git a/drivers/watchdog/renesas_wwdt.c b/drivers/watchdog/renesas_wwdt.c
-new file mode 100644
-index 000000000000..0f56f5c7e407
---- /dev/null
-+++ b/drivers/watchdog/renesas_wwdt.c
-@@ -0,0 +1,163 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Driver for the Renesas Window Watchdog Timer (WWDT)
-+ *
-+ * The WWDT can only be setup once after boot. Because we cannot know if this
-+ * already happened in early boot stages, it is mandated that the firmware
-+ * configures the watchdog. Linux then adapts according to the given setup.
-+ * Note that this watchdog only reports an overflow to the Error Control Module.
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/clk.h>
-+#include <linux/interrupt.h>
-+#include <linux/io.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/watchdog.h>
-+
-+#define WDTA0WDTE	0x00
-+#define WDTA0RUN	BIT(7)
-+#define WDTA0_KEY	0x2c
-+
-+#define WDTA0MD		0x0c
-+#define WDTA0OVF(x)	FIELD_GET(GENMASK(6, 4), x)
-+#define WDTA0WIE	BIT(3)
-+#define WDTA0ERM	BIT(2)
-+#define WDTA0WS(x)	FIELD_GET(GENMASK(1, 0), x)
-+
-+struct wwdt_priv {
-+	void __iomem *base;
-+	struct watchdog_device wdev;
-+};
-+
-+static int wwdt_start(struct watchdog_device *wdev)
-+{
-+	struct wwdt_priv *priv = watchdog_get_drvdata(wdev);
-+
-+	writeb(WDTA0RUN | WDTA0_KEY, priv->base + WDTA0WDTE);
-+	return 0;
-+}
-+
-+static const struct watchdog_info wwdt_ident = {
-+	.options = WDIOF_KEEPALIVEPING | WDIOF_ALARMONLY,
-+	.identity = "Renesas Window Watchdog",
-+};
-+
-+static const struct watchdog_ops wwdt_ops = {
-+	.owner = THIS_MODULE,
-+	.start = wwdt_start,
-+};
-+
-+static irqreturn_t wwdt_error_irq(int irq, void *dev_id)
-+{
-+	struct device *dev = dev_id;
-+
-+	dev_warn(dev, "Watchdog timed out\n");
-+	return IRQ_HANDLED;
-+}
-+
-+static irqreturn_t wwdt_pretimeout_irq(int irq, void *dev_id)
-+{
-+	struct watchdog_device *wdev = dev_id;
-+
-+	watchdog_notify_pretimeout(wdev);
-+	return IRQ_HANDLED;
-+}
-+
-+static int wwdt_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct wwdt_priv *priv;
-+	struct watchdog_device *wdev;
-+	struct clk *clk;
-+	unsigned long rate;
-+	unsigned int interval, window_size;
-+	int ret;
-+	u8 val;
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	priv->base = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(priv->base))
-+		return PTR_ERR(priv->base);
-+
-+	clk = devm_clk_get(dev, "cnt");
-+	if (IS_ERR(clk))
-+		return PTR_ERR(clk);
-+
-+	rate = clk_get_rate(clk);
-+	if (!rate)
-+		return -EINVAL;
-+
-+	wdev = &priv->wdev;
-+
-+	val = readb(priv->base + WDTA0WDTE);
-+	if (val & WDTA0RUN)
-+		set_bit(WDOG_HW_RUNNING, &wdev->status);
-+
-+	val = readb(priv->base + WDTA0MD);
-+	interval = 1 << (9 + WDTA0OVF(val));
-+	/* size of the closed(!) window per mille */
-+	window_size = 250 * (3 - WDTA0WS(val));
-+
-+	wdev->info = &wwdt_ident;
-+	wdev->ops = &wwdt_ops;
-+	wdev->parent = dev;
-+	wdev->min_hw_heartbeat_ms = window_size * interval / rate;
-+	wdev->max_hw_heartbeat_ms = 1000 * interval / rate;
-+	wdev->timeout = DIV_ROUND_UP(wdev->max_hw_heartbeat_ms, 1000);
-+
-+	watchdog_set_drvdata(wdev, priv);
-+	watchdog_set_nowayout(wdev, true);
-+
-+	if (!(val & WDTA0ERM)) {
-+		ret = platform_get_irq_byname(pdev, "error");
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = devm_request_threaded_irq(dev, ret, NULL, wwdt_error_irq,
-+						IRQF_ONESHOT, NULL, dev);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
-+	if (val & WDTA0WIE) {
-+		ret = platform_get_irq_byname(pdev, "pretimeout");
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = devm_request_threaded_irq(dev, ret, NULL, wwdt_pretimeout_irq,
-+						IRQF_ONESHOT, NULL, wdev);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
-+	devm_watchdog_register_device(dev, wdev);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id renesas_wwdt_ids[] = {
-+	{ .compatible = "renesas,rcar-gen3-wwdt", },
-+	{ .compatible = "renesas,rcar-gen4-wwdt", },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, renesas_wwdt_ids);
-+
-+static struct platform_driver renesas_wwdt_driver = {
-+	.driver = {
-+		.name = "renesas_wwdt",
-+		.of_match_table = renesas_wwdt_ids,
-+	},
-+	.probe = wwdt_probe,
-+};
-+module_platform_driver(renesas_wwdt_driver);
-+
-+MODULE_DESCRIPTION("Renesas Window Watchdog (WWDT) Driver");
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Wolfram Sang <wsa+renesas@sang-engineering.com>");
--- 
-2.47.2
+Thanks for the review. I was thinking about it while writing the code,
+but thought it would be clearer to have it split. Apparently, I forgot
+about warnings in this case, which is definitely an issue here.
+Thanks for flagging, I'll merge these 2 patches in the next version.
 
 
