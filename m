@@ -1,156 +1,113 @@
-Return-Path: <linux-renesas-soc+bounces-23075-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23068-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7A2EBDF17B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 16:34:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC149BDF098
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 16:30:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8C9D519C10B9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 14:34:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 87F9E4236DB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 14:30:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A74C28369D;
-	Wed, 15 Oct 2025 14:33:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDE3427F4F5;
+	Wed, 15 Oct 2025 14:29:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="LthLcyfE";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="DC1Mgh6k"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Fmlw7dH8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F5D627FD4B;
-	Wed, 15 Oct 2025 14:33:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A740726A08C;
+	Wed, 15 Oct 2025 14:29:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760538812; cv=none; b=i5QKCWoylf8EDQRSqtsRPNyhlGsqNXhHrN5AJResy1a3XJZr5iXc2iNZr30eMZjnh1EtFOu1tp1iG1EYHMsFuYGtRDtQeHS3RGFOytA+k+p15xRp03fB9+9htlUkgg/R0NJ1HT90rKjwEuJYfX2jLumb1wbGt5ekCzxW5NVnlCA=
+	t=1760538599; cv=none; b=s8TLe78OXcJfZWcSO2CHdQ+uxZmskPsIdGOTbx1yZK/wqXl5vvo5lfXEEIv1kMBSQSkjbrWSK4slfxV1vAU+xFk58W7XEZIjKou6GjBWyMxBihfo43TIam81om65ozdLVGaFKwbUsXJPzm6jEVJErCCvBKDA8tWZYqjsiwacff0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760538812; c=relaxed/simple;
-	bh=TyCgYVyA0qBWnBrmbbRe+PePLx8LUExSXhsoiurofBs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=W5qdCr5FuYGDuPezv7ZdRaz1ZHsq+o4CrqPjEJSEzrrNYWmNm86yp8qOWIWe1JqzdSiUMShfiBfy0oXoh9pGBVpMxt+xsGf52GA7a++XD+JDkB0Y7Wf88MtQQjoURYlKiTe+uzhjdyIHBtbmyfc2wtrVk8ujGfR49SyG0M+OfmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=LthLcyfE; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=DC1Mgh6k; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cmtqY0gMtz9tg3;
-	Wed, 15 Oct 2025 16:33:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1760538809;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=q/cjSZfGXkfMX/oq1yvyojc5xqlL+Ltp0AG5OjB5oXA=;
-	b=LthLcyfElyxrh4OtE/QaH42IDBlASpFRp34dmblnqS6N6+owvi+AGpLnnw3KCg7WNVlcPS
-	KWe90qCvVVeqotrQv4iseL6lTeG130sJDlTGg8X+pxV4jkLSB5YHUpdr82Yap7LnDuoI2o
-	CDpntdFSRYmrQ3yYGNdWjHtrUaUQgUdfBMGy1B3gAMmNqR/VpaOIlCPqBXVO5E3HGfhsFq
-	OU8l2JjKybnt7bs5r1M+TwrH8JScxN8vaefudtQnxD3iOm1riqgfzSL2952UavuJlicPEc
-	jrwyTWrpihhwMbXHFwKJagBoDNs7GKFJajQE65FpwkLZwQ7f9XqzjkJ8Ey316A==
-Message-ID: <8809b170-9cea-466a-8f73-29ff560c92da@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1760538807;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=q/cjSZfGXkfMX/oq1yvyojc5xqlL+Ltp0AG5OjB5oXA=;
-	b=DC1Mgh6k6xBxK1WRjL20A9FKI4waL0OXlyTdp8kRpVzBt5DtmT/53chovN0EQX/gf4Dr6S
-	jYClvxnNmkzTxQ9NBBBVy4xwJQm3LGf7u6aYk1TvtlXzxMPW1UAfJijHyqCHlY07UNQ22J
-	cPX6w1vl9TEO1C1BCPBwERAL/rM6R+tba7Sr/RNcuQHOUdAz0RFHqto2G2ZC6pqMBz3L4x
-	kdb7QlWz6oKfisc+13bORkTkOYwt3serJaxkj3DWZcb4c//ZUI+WLfdruzrP5xIQ0+8eZn
-	zAWdnHiQDHzjBTcGDGxTtKGipqgts9c9LtguySLScyQN49gk52CmHOJq0VXPdA==
-Date: Wed, 15 Oct 2025 16:24:44 +0200
+	s=arc-20240116; t=1760538599; c=relaxed/simple;
+	bh=6K4hGejioGprPo8ya0KxUvTCK94w5AQCZ8nqBGW2WiQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DQ7nopkG/AWGGz4fxbvVX3XOdIvkEUJp/oLPLkxMNH0Qtg7isIizPxJhciD7GtiHToxCsbb1qy+oAxaxE/tNYPZZThLvX5D610YJ3awImOrUyhxdNEd3kfSftmn/f8b7FM8ue+1M2tI+mc8Zg8wNtuDTKKwWcBew+fvm7S45jLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Fmlw7dH8; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id E01A81A13D6;
+	Wed, 15 Oct 2025 14:29:54 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id AC653606F9;
+	Wed, 15 Oct 2025 14:29:54 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 83CFD102F22BC;
+	Wed, 15 Oct 2025 16:29:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1760538593; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=QDtzpQmFLoPX3YynFoA/DirpAotzpRiBOpzPBhtRqaA=;
+	b=Fmlw7dH8tDXSOEA/YQymNzdnpSQQ1tQtBbe43Z01ToaqZ+Mo58w67e/ZcrncGFx6S5JcJR
+	yPCbcQE5JMhgNe1kvXvkW25faFFEuMZsopGYp5MbnDnDZhu3yDMrWMb8puggIQBju97M/+
+	Zmh3dahQx9Zi6qCmRP9auIKJuOuZJvb3sKvWyoLjo2lTdnbY8hZsASfUFmyBxjb5B+gJNS
+	QKnS89qnsiaNyeSY4wvmh3JTMr0eYUSbCGieQVRwvt51w9lte/Ql7Aia3h9CR+cWuJkxhD
+	NqOe5O1lgO77rVWzRMBY9JHTIfV4ZiQtid6Fb/c9zDO1DXiWQSoF8cdklTxRtg==
+From: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: linux-iio@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Pascal Eberhard <pascal.eberhard@se.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH 0/4] Add support for the Renesas RZ/N1 ADC
+Date: Wed, 15 Oct 2025 16:28:12 +0200
+Message-ID: <20251015142816.1274605-1-herve.codina@bootlin.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/3] dt-bindings: gpu: img,powervr-rogue: Document GX6250
- GPU in Renesas R-Car M3-W/M3-W+
-To: Matt Coster <Matt.Coster@imgtec.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- Adam Ford <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
- David Airlie <airlied@gmail.com>, Frank Binns <Frank.Binns@imgtec.com>,
- Alessio Belle <Alessio.Belle@imgtec.com>,
- Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-References: <20251013190210.142436-1-marek.vasut+renesas@mailbox.org>
- <c65950f5-010a-4d5d-88d9-60697eeddb46@imgtec.com>
- <f4e1897c-7073-4ab0-92b3-6f7d69382825@mailbox.org>
- <CAMuHMdVpb-0TJ4AoqjAGbdErw65193+j1-HbXCyvvwf8MT6yLQ@mail.gmail.com>
- <b5b47ad5-b3e4-4213-84e9-9e649a250237@imgtec.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <b5b47ad5-b3e4-4213-84e9-9e649a250237@imgtec.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 7ttxq4j69pdefxjn89h4ju6n166yx5t5
-X-MBO-RS-ID: 5fcd48714613e0e4852
+X-Last-TLS-Session-Version: TLSv1.3
 
-On 10/15/25 12:52 PM, Matt Coster wrote:
+Hi,
 
-Hello Matt,
+The Renesas RZ/N1 ADC controller is the ADC controller available in the
+Renesas RZ/N1 SoCs family.
 
->>>>    - Clock ZGφ: Appears to be a core clock for the GPU (3DGE). That would
->>>>      make it our "core" clock.
->>>
->>> This should be 600-700 MHz clock on M3-W , so that sounds like a GPU
->>> core clock.
->>
->> Agreed.
->>
->>>
->>>>    - Clock S2D1φ: Appears to be a core clock used on the AXI bus, making
->>>>      it our "sys" clock.
->>>
->>> This should be 400 MHz AXI clock, but wouldn't that make it "mem" clock
->>> ? I think this might be the clock which drives the AXI bus, used by the
->>> GPU to access data in DRAM ?
->>
->> Agreed.
->>
->>>>    - MSTP ST112: Appears to be a whole module on/off control of some
->>>>      description, and definitely doesn't align with the missing "mem"
->>>>      clock.
->>>
->>> Maybe this is the "sys" clock, since it toggles the register interface
->>> clock on/off ?
->>
->> Probably.
-> 
-> Yes, this is probably correct. I got my AXI interfaces mixed up – we
-> have both a manager interface for accessing memory (using the mem clock)
-> and a subordinate interface to expose to our registers (using the sys
-> clock). Here's the summary table from our system integration document:
-> 
->     +-------+-------------------------+------------------------+
->     | Clock | Modules Clocked         | Dependencies           |
->     +-------+-------------------------+------------------------+
->     | mem   | SLC / AXI Manager       | Run for all operations |
->     | sys   | SOCIF / AXI Subordinate | Run for all operations |
->     | core  | All                     | Run for all operations |
->     +-------+-------------------------+------------------------+
+It can use up to two internal ACD cores (ADC1 and ADC2) those internal
+cores are handled through ADC controller virtual channels.
 
-Thank you for sharing that. I will send a V2 series shortly.
+Best regards,
+Herve Codina
+
+Herve Codina (Schneider Electric) (4):
+  dt-bindings: iio: adc: Add the Renesas RZ/N1 ADC
+  iio: adc: Add support for the Renesas RZ/N1 ADC
+  ARM: dts: renesas: r9a06g032: Add the ADC device
+  MAINTAINERS: Add the Renesas RZ/N1 ADC driver entry
+
+ .../bindings/iio/adc/renesas,rzn1-adc.yaml    | 120 ++++
+ MAINTAINERS                                   |   8 +
+ arch/arm/boot/dts/renesas/r9a06g032.dtsi      |  10 +
+ drivers/iio/adc/Kconfig                       |  10 +
+ drivers/iio/adc/Makefile                      |   1 +
+ drivers/iio/adc/rzn1-adc.c                    | 626 ++++++++++++++++++
+ 6 files changed, 775 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/iio/adc/renesas,rzn1-adc.yaml
+ create mode 100644 drivers/iio/adc/rzn1-adc.c
 
 -- 
-Best regards,
-Marek Vasut
+2.51.0
+
 
