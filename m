@@ -1,384 +1,231 @@
-Return-Path: <linux-renesas-soc+bounces-23108-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23109-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 866A1BE054E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 21:14:41 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D4A5BE0684
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 21:30:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 37AA1428104
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 19:14:40 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E36F14FE701
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 19:30:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AADEE303A1F;
-	Wed, 15 Oct 2025 19:14:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED301306486;
+	Wed, 15 Oct 2025 19:26:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="OjEyLUA2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i9i+8bul"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07A830147D;
-	Wed, 15 Oct 2025 19:14:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E54AE30EF95
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 19:26:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760555676; cv=none; b=GGtmUjogXkhtwL5DwTdDMYyUMsd1ABtKESPqYWTmLnMoJmGRxKCPoOnr3Lypn9jV4edhxHdHCJfB/smPDsa6xownutMQjmzbj21CPjSqJ/xc/Yyhzt6VWR2cxjVgF2uUmfQjOaWstv8RRgaOcq2DMlNcCwfi2NUzcIvi+hqwNXE=
+	t=1760556388; cv=none; b=u/amBQnN17shGR8OaDe7lzycFEXSW8GXtRcSeOwmomlAP+QdKGaP7uEJwULTQBB5OmoWJvKeu5esKVgrhWz/FgITKW4PG1mmmq41kEoI2971tK1DHuirxS+zAUNiNnkbOZ2g2fAsAu8qqfxLvCNJ/hKUz0A10NlubIIAoUJ6rrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760555676; c=relaxed/simple;
-	bh=capcANLMQMa9VkmAVmPCDiytYriFywVv/8fYWytb4k8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XBehvqo/SK1U6Tb9jXoNTb0BAhz1bSJE/EVigBgQ2sAw9eMVYH8SF2+Rog3ho90B9JlENW7D0yngC+E3gsT44gVou1mAR75awo+8DcCVNm21fnuunZ3Q46NpP+ledCD9vOnCLc9AKCMELBLG0u5LxdtuzkUmejayrWDRK8IwC3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=OjEyLUA2; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 7A6FDC08CCD;
-	Wed, 15 Oct 2025 19:14:12 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 7F87060673;
-	Wed, 15 Oct 2025 19:14:31 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 43314102F22E5;
-	Wed, 15 Oct 2025 21:14:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760555670; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=Wa4NcWEC700br0R9Bk2bE/WAk5/Eh5OEwJob4/PGm1o=;
-	b=OjEyLUA2eEVF/4rtwvfCwqxDH6VCnflNpoqnKkzmE3Iufd84CwwLOlkHfx4o1/1w9o2oUk
-	Go622a8+U9BsTm+HuLWgpP60wC+QAoL44jUP9Pwf+u3pzqptLj1WLr3p8p4T9sf6q7jMYI
-	d9TttwFVuIdMv6SkQhCSdbzboH4TGjJGJ2kWdzDIVSEzBt/SEW0y+B385C5Sl+3hoT0+dj
-	jmUd8nd00kLFCbhH9QYhrL2d3EdLuScbfrq0tg1JeXQ7F8XSHkn3CvjFEbsEdZiPyHpVbZ
-	sgHsKssJe6RRkGqstNZt8KBjPtSTNOznR7m2n/XlpXDqrsa0ReCetbnv/sAVdQ==
-Date: Wed, 15 Oct 2025 21:14:20 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: Nuno =?UTF-8?B?U8Oh?= <noname.nuno@gmail.com>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, Jonathan Cameron
- <jic23@kernel.org>, David Lechner	 <dlechner@baylibre.com>, Nuno
- =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko	 <andy@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski	 <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven	
- <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Liam
- Girdwood	 <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Pascal Eberhard	
- <pascal.eberhard@se.com>, Miquel Raynal <miquel.raynal@bootlin.com>, Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 2/4] iio: adc: Add support for the Renesas RZ/N1 ADC
-Message-ID: <20251015211420.031c61fa@bootlin.com>
-In-Reply-To: <1e8d7c96cdfaa93bcc0f581103dc0e13dfee17b7.camel@gmail.com>
-References: <20251015142816.1274605-1-herve.codina@bootlin.com>
- <20251015142816.1274605-3-herve.codina@bootlin.com>
- <1e8d7c96cdfaa93bcc0f581103dc0e13dfee17b7.camel@gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1760556388; c=relaxed/simple;
+	bh=XWIWVLbIdLBV3+v5u5QWw9/N7RG5Abk3Fr1zTbfDR+8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gy5K+rdNIWjSrgiWW6/zZt8euajDPeMDKRWqcY2SyUlzK3CU4LYb4bW/SExKm1CIhV95Ruf9Ru2z0Amsm/mFNib3fVQbG8v0fnd1gcpQSIBgQS5RI1xVwew090a8mpshG6LwM7Xr4gFseTOITCOdAazn1P53/4sUZ9Y26rNiT3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i9i+8bul; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-b553412a19bso4447157a12.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 12:26:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760556385; x=1761161185; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nDVfpgjWNTkgshrfBSIkTd28bSn0/t7hIZGP8bEifOk=;
+        b=i9i+8bulONV/Fe1f8aVzvHsQIB3OarA2jSpTcrsizV5OgvaJuyFqb1BNiXt33Sfq4k
+         GE2AiLUNtRA/pJgtSu9LgcZz3rjlGHCOn48zvH83GNC1uI9fCcNqOmyQaEeXOZdP7aTB
+         IeeNx0tCoQE0utmEoQ0e6N8liXa0u2/3D+ZeLVsv93240v2bj4jHfQ8FurqfVAl0cAks
+         rc4vRaSpk4X5uOnZjU2C+JCAwrcRJnfIMKrI7DCY6yoOxKTsqiwU/9HMfVWHeqU4NKlj
+         EQvQYTryamex26WBeKOymGpmYOl54Uf2nSZHbkOLKUq6b8IYnzIMgKrINpJS/U+Rxvwy
+         1xog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760556385; x=1761161185;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nDVfpgjWNTkgshrfBSIkTd28bSn0/t7hIZGP8bEifOk=;
+        b=nuTLgb7r4q6RQe5vK0PGNDKbOXaXDXMqgVLgQBapSPSmfZGHaHVufjrualWwP8swuI
+         L3/6N/diDfXh3D+dVDZ9MZrtTGuAAneNmbhc5CEJ/h3HRKGt3KVqWLP+0fReVipfiiPr
+         bleekqztNiI973IzPKrX+X0JrgJ2z6SgdzqpVyx19FoiYmUSEnnkRvbNUgWfHczxwICc
+         ZaR41RBhjCSyh93w/cgQHtKvVcbYGNvydPggeurQ7EmtJaDV20rc5DLzFLPlpgTyNyvY
+         axQecaOFiOCxUkqE9+ynTnph9P7xwHG9le6OuzALTmOpJHhK8gf7mzUjkRt7l99EzOr1
+         KT8g==
+X-Forwarded-Encrypted: i=1; AJvYcCUvvo/a6Rgx747nu3Y7sjtETYuKuHhas3WkWXqt7qdSqHSB3q4f6VPcGt4vaUM3do11z+LUL03EZ3jybf7zBJcDXA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwsyqWiumo+47kHuCgAY5uOXPg0sKTGs5DWPAwuSCGhymGLFyXf
+	Yp4Vza5ZuwXKkt+cEUoa6DLbT+LWbH8Mq2Vk6tARAeqMJFiyzfyUC5Rd
+X-Gm-Gg: ASbGncui8gF1bgpAy9x9DuQ2eiBBzQgWWo4Em/OHX9X/7E0D8Ep7UwPjqMAje9NAaoy
+	JZBTCahXsue+dDCqKBsTep05BtDhGVyR0wwYlPCcyNzYavDFcvmIoSNSc4by9M76PbKvhdsR4DN
+	5EDEkD8V3yfNfG9zM/3VK71tVe4mJiOqVZhTKdadXY0qJtUksZELjWw4o4Gx5HHXwU6b0rBiw0j
+	zf2MFALUpIb2T5kEy0UhEmGQactSmzyT6e+Sli/Hd8x0fcEl4CLIWBbZRsRO8jVo4JIjSFNxtCc
+	s9ShujMRE3Mlou4nEXa7zBqt4tmjC73Q+wpwUH6UKvKMkTHSJREELsFA5FirdmvqJORn/qLwuUI
+	ZlsfYwcpQF0vbOC+S2uvfNHPMNVPLYNOpmRIlKTY8z5UCMjM+J8NF8FLsMb4ffW6e+z2brDlBEm
+	V4/d0n7yoOZci00e/eyobAYbAzaLr++fmyZrts2hZbaL4=
+X-Google-Smtp-Source: AGHT+IG/2RGIvnUlwhvRDKAbkNVBWO3Xn73wZNztecEYo6j0q//PBHfIYwwln5qR7o46Yt1zH+ZUwg==
+X-Received: by 2002:a17:903:94f:b0:250:643e:c947 with SMTP id d9443c01a7336-290273ee209mr370284695ad.28.1760556385119;
+        Wed, 15 Oct 2025 12:26:25 -0700 (PDT)
+Received: from iku.. ([2401:4900:1c07:c7d3:f449:63fb:7005:808e])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-290993102c9sm4427005ad.24.2025.10.15.12.26.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Oct 2025 12:26:24 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v11 0/7] Add support for DU/DSI clocks and DSI driver support for the Renesas RZ/V2H(P) SoC
+Date: Wed, 15 Oct 2025 20:26:04 +0100
+Message-ID: <20251015192611.241920-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Nuno,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Wed, 15 Oct 2025 16:21:09 +0100
-Nuno Sá <noname.nuno@gmail.com> wrote:
+Hi All,
 
-...
-> 
-> > +static int rzn1_adc_enable(struct rzn1_adc *rzn1_adc)
-> > +{
-> > +	int ret;
-> > +
-> > +	ret = rzn1_adc_core_power_on(&rzn1_adc->adc_core[0]);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret = rzn1_adc_core_power_on(&rzn1_adc->adc_core[1]);
-> > +	if (ret)
-> > +		goto poweroff_adc_core0;
-> > +
-> > +	ret = clk_prepare_enable(rzn1_adc->pclk);
-> > +	if (ret)
-> > +		goto poweroff_adc_core1;
-> > +
-> > +	ret = clk_prepare_enable(rzn1_adc->adc_clk);
-> > +	if (ret)
-> > +		goto disable_pclk;
-> > +
-> > +	ret = rzn1_adc_power(rzn1_adc, true);
-> > +	if (ret)
-> > +		goto disable_adc_clk;  
-> 
-> Can we use devm_actions() on the above to avoid the complex error path plus the
-> .remove() callback?
+This patch series adds DU/DSI clocks and provides support for the
+MIPI DSI interface on the RZ/V2H(P) SoC.
 
-rzn1_adc_enable() is used by the driver pm_runtime_resume() function.
+v10->v11:
+- Split CPG_PLL_CLK1_K/M/PDIV macro change into separate patch
+- Updated rzv2h_cpg_plldsi_div_determine_rate()
+  while iterating over the divider table
+- Added Acked-by tag from Tomi for patch 2/7 and 3/7
+- Added Reviewed-by tag from Geert for patch 2/7 and 3/7
 
-I don't think that devm_add_actions_or_reset() will help here.
+v9->v10:
+- Dropped rzv2h_get_pll_div_pars() helper and opencoded instead.
+- Dropped rzv2h_get_pll_dtable_pars() helper and opencoded instead.
+- Added dummy helpers rzv2h_get_pll_pars() and rzv2h_get_pll_divs_pars()
+  in renesas.h for !CONFIG_CLK_RZV2H case.
+- Dropped selecting CLK_RZV2H for DSI driver.
 
-In my understanding, devm_* functions are use to perform some operations
-automatically on device removal.
+v8->v9:
+- Dropped `renesas-rzv2h-cpg-pll.h` header and merged into `renesas.h`
+- Exported the symbols for PLL calculation apis
+- Updated commit message for patch 2
+- Dropped reviewed-by tags for patch 2
+- Updated to use renesas.h
+- Updated Kconfig to select CLK_RZV2H
+- Added reviewed-by tag from Tomi for patch 5 and 6
 
-The purpose of the error path here is to restore a correct state if
-rzn1_adc_enable() failed when it is called from pm_runtime_resume().
+v7->v8:
+- Added reviewed-by tags from Tomi, Geert and Biju
+- Dropped rzv2h_get_pll_dsi_info() helper and opencoded instead.
+- Dropped is_plldsi parameter from rzv2h_cpg_pll_clk_register()
+- Updated commit message for patch 5/6 and 6/6
+- Switched to use devm_clk_get() instead of devm_clk_get_optional()
+  as lpclk clock is available on all SoCs.
+- Simplified check in rzv2h_mipi_dsi_dphy_init() for PLL parameters
+- Renamed start_index member to base_value in struct rzv2h_mipi_dsi_timings
+- Added comments in the code for DSI arrays and their usage
+- Added comments in the code for sleeps
+- Rebased the changes on next-20250902
 
-In that case no device removal is involved to trig any action set by
-devm_add_actions_or_reset().
+v6->v7:
+- Renamed pllclk to pllrefclk in DT binding
+- Added a new patch to add instance field to struct pll
+- Renamed rzv2h_pll_div_limits to rzv2h_pll_limits
+- Included fout_min and fout_max in the rzv2h_pll_limits structure
+- Renamed rzv2h_plldsi_parameters to rzv2h_pll_div_pars and re-structured
+  for readability
+- Dropped rzv2h_dsi_get_pll_parameters_values() instead added modular apis
+  to calculate the PLL parameters ie rzv2h_get_pll_pars/
+  rzv2h_get_pll_div_pars/rzv2h_get_pll_dtable_pars
+- Dropped plldsi_limits from rzv2h_cpg_info structure
+- Updated the DSI driver to use the new PLL APIs
+- Included the LPCLK patch
+- Rebased the changes on next-20250728
 
-Maybe I am wrong. Did I miss something?
+v5-> v6:
+- Renamed CPG_PLL_STBY_SSCGEN_WEN to CPG_PLL_STBY_SSC_EN_WEN
+- Updated CPG_PLL_CLK1_DIV_K, CPG_PLL_CLK1_DIV_M, and
+  CPG_PLL_CLK1_DIV_P macros to use GENMASK
+- Updated req->rate in rzv2h_cpg_plldsi_div_determine_rate()
+- Dropped the cast in rzv2h_cpg_plldsi_div_set_rate()
+- Dropped rzv2h_cpg_plldsi_round_rate() and implemented
+  rzv2h_cpg_plldsi_determine_rate() instead
+- Made use of FIELD_PREP()
+- Moved CPG_CSDIV1 macro in patch 2/4
+- Dropped two_pow_s in rzv2h_dsi_get_pll_parameters_values()
+- Used mul_u32_u32() while calculating output_m and output_k_range
+- Used div_s64() instead of div64_s64() while calculating
+  pll_k
+- Used mul_u32_u32() while calculating fvco and fvco checks
+- Rounded the final output using DIV_U64_ROUND_CLOSEST()
+- Renamed CLK_DIV_PLLETH_LPCLK to CLK_CDIV4_PLLETH_LPCLK
+- Renamed CLK_CSDIV_PLLETH_LPCLK to CLK_PLLETH_LPCLK_GEAR
+- Renamed CLK_PLLDSI_SDIV2 to CLK_PLLDSI_GEAR
+- Renamed plldsi_sdiv2 to plldsi_gear
+- Preserved the sort order (by part number).
+- Added reviewed tag from Geert.
+- Made use of GENMASK() macro for PLLCLKSET0R_PLL_*,
+  PHYTCLKSETR_* and PHYTHSSETR_* macros.
+- Replaced 10000000UL with 10 * MEGA
+- Renamed mode_freq_hz to mode_freq_khz in rzv2h_dsi_mode_calc
+- Replaced `i -= 1;` with `i--;`
+- Renamed RZV2H_MIPI_DPHY_FOUT_MIN_IN_MEGA to
+  RZV2H_MIPI_DPHY_FOUT_MIN_IN_MHZ and
+  RZV2H_MIPI_DPHY_FOUT_MAX_IN_MEGA to
+  RZV2H_MIPI_DPHY_FOUT_MAX_IN_MHZ.
 
-> 
-> > +
-> > +	return 0;
-> > +
-> > +disable_adc_clk:
-> > +	clk_disable_unprepare(rzn1_adc->adc_clk);
-> > +disable_pclk:
-> > +	clk_disable_unprepare(rzn1_adc->pclk);
-> > +poweroff_adc_core1:
-> > +	rzn1_adc_core_power_off(&rzn1_adc->adc_core[1]);
-> > +poweroff_adc_core0:
-> > +	rzn1_adc_core_power_off(&rzn1_adc->adc_core[0]);
-> > +	return ret;
-> > +}
-> > +
+Cheers,
+Prabhakar
 
-...
+Lad Prabhakar (7):
+  clk: renesas: rzv2h-cpg: Add instance field to struct pll
+  clk: renesas: rzv2h-cpg: Use GENMASK for PLL fields
+  clk: renesas: rzv2h-cpg: Add support for DSI clocks
+  clk: renesas: r9a09g057: Add clock and reset entries for DSI and LCDC
+  dt-bindings: display: bridge: renesas,dsi: Document RZ/V2H(P) and
+    RZ/V2N
+  drm: renesas: rz-du: mipi_dsi: Add LPCLK clock support
+  drm: renesas: rz-du: mipi_dsi: Add support for RZ/V2H(P) SoC
 
-> > +static int rzn1_adc_set_iio_dev_channels(struct rzn1_adc *rzn1_adc,
-> > +					 struct iio_dev *indio_dev)
-> > +{
-> > +	int adc_used;
-> > +
-> > +	adc_used = rzn1_adc->adc_core[0].is_used ? 0x01 : 0x00;
-> > +	adc_used |= rzn1_adc->adc_core[1].is_used ? 0x02 : 0x00;
-> > +
-> > +	switch (adc_used) {
-> > +	case 0x01:
-> > +		indio_dev->channels = rzn1_adc1_channels;
-> > +		indio_dev->num_channels = ARRAY_SIZE(rzn1_adc1_channels);
-> > +		return 0;
-> > +	case 0x02:
-> > +		indio_dev->channels = rzn1_adc2_channels;
-> > +		indio_dev->num_channels = ARRAY_SIZE(rzn1_adc2_channels);
-> > +		return 0;
-> > +	case 0x03:
-> > +		indio_dev->channels = rzn1_adc1_adc2_channels;
-> > +		indio_dev->num_channels =
-> > ARRAY_SIZE(rzn1_adc1_adc2_channels);
-> > +		return 0;
-> > +	default:
-> > +		break;
-> > +	}
-> > +
-> > +	dev_err(rzn1_adc->dev, "Failed to set IIO channels, no ADC core
-> > used\n");
-> > +	return -ENODEV;  
-> 
-> dev_err_probe()?
+ .../bindings/display/bridge/renesas,dsi.yaml  | 120 +++-
+ drivers/clk/renesas/r9a09g057-cpg.c           |  62 +++
+ drivers/clk/renesas/rzv2h-cpg.c               | 512 +++++++++++++++++-
+ drivers/clk/renesas/rzv2h-cpg.h               |  29 +-
+ .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 453 ++++++++++++++++
+ .../drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h   |  34 ++
+ include/linux/clk/renesas.h                   | 145 +++++
+ 7 files changed, 1315 insertions(+), 40 deletions(-)
 
-Why? the error returned is a well known value: -ENODEV.
+-- 
+2.43.0
 
-dev_err_probe() should be involved when -EPROBE_DEFER is a potential error
-code.
-
-IMHO, dev_err() here is correct.
-
-> 
-> > +}
-> > +
-> > +static int rzn1_adc_probe(struct platform_device *pdev)
-> > +{
-> > +	struct device *dev = &pdev->dev;
-> > +	struct iio_dev *indio_dev;
-> > +	struct rzn1_adc *rzn1_adc;
-> > +	int ret;
-> > +
-> > +	indio_dev = devm_iio_device_alloc(dev, sizeof(*rzn1_adc));
-> > +	if (!indio_dev)
-> > +		return -ENOMEM;
-> > +
-> > +	rzn1_adc = iio_priv(indio_dev);
-> > +	rzn1_adc->dev = dev;
-> > +	mutex_init(&rzn1_adc->lock);  
-> 
-> devm_mutex_init()
-
-Yes, I will update in the next iteration.
-
-> 
-> > +
-> > +	rzn1_adc->regs = devm_platform_ioremap_resource(pdev, 0);
-> > +	if (IS_ERR(rzn1_adc->regs))
-> > +		return PTR_ERR(rzn1_adc->regs);
-> > +
-> > +	rzn1_adc->pclk = devm_clk_get(dev, "pclk");
-> > +	if (IS_ERR(rzn1_adc->pclk))
-> > +		return dev_err_probe(dev, PTR_ERR(rzn1_adc->pclk), "Failed to
-> > get pclk\n");
-> > +
-> > +	rzn1_adc->adc_clk = devm_clk_get(dev, "adc-clk");
-> > +	if (IS_ERR(rzn1_adc->pclk))
-> > +		return dev_err_probe(dev, PTR_ERR(rzn1_adc->pclk), "Failed to
-> > get adc-clk\n");
-> > +
-> > +	ret = rzn1_adc_core_get_regulators(rzn1_adc, &rzn1_adc->adc_core[0],
-> > +					   "adc1-avdd", "adc1-vref");
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret = rzn1_adc_core_get_regulators(rzn1_adc, &rzn1_adc->adc_core[1],
-> > +					   "adc2-avdd", "adc2-vref");
-> > +	if (ret)
-> > +		return ret;  
-> 
-> Hmm, is avdd really an optional regulator? I mean can the ADC power up at all
-> without a supply in AVDD? Even vref seems to be mandatory as we can't properly
-> scale the sample without it.
-
-Where do you see that avdd is an optional regulator?
-
-> 
-> Also, can't we have getting and enabling the regulator together? Then, we could
-> use some of the modern helpers to simplify the code (ok I see you use them in
-> the PM callbacks).
-
-Yes, I rely on PM callbacks to handle those regulators.
-
-> 
-> > +
-> > +	platform_set_drvdata(pdev, indio_dev);
-> > +
-> > +	indio_dev->name = dev_name(dev);  
-> 
-> dev_name() should not be used for the above. It's typically the part name so I
-> guess in here "rzn1-adc" would be the appropriate one.
-
-I thought it was more related to the instance and so having a different name
-for each instance was better.
-
-Some other IIO drivers use dev_name() here.
-
-But well, if you confirm that a fixed string should be used and so all
-instances have the same string, no problem, I will update my indio_dev->name.
-
-> 
-> > +	indio_dev->info = &rzn1_adc_info;
-> > +	indio_dev->modes = INDIO_DIRECT_MODE;
-> > +	ret = rzn1_adc_set_iio_dev_channels(rzn1_adc, indio_dev);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret = rzn1_adc_enable(rzn1_adc);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	pm_runtime_set_autosuspend_delay(dev, 500);
-> > +	pm_runtime_use_autosuspend(dev);
-> > +	pm_runtime_get_noresume(dev);
-> > +	pm_runtime_set_active(dev);
-> > +	pm_runtime_enable(dev);  
-> 
-> There's a devm_pm_runtime_enable() API now.
-
-Will look to use it in the next iteration.
-
-> 
-> > +
-> > +	ret = devm_iio_device_register(dev, indio_dev);
-> > +	if (ret)
-> > +		goto disable;
-> > +
-> > +	pm_runtime_mark_last_busy(dev);
-> > +	pm_runtime_put_autosuspend(dev);
-> > +
-> > +	return 0;
-> > +
-> > +disable:
-> > +	pm_runtime_disable(dev);
-> > +	pm_runtime_put_noidle(dev);
-> > +	pm_runtime_set_suspended(dev);
-> > +	pm_runtime_dont_use_autosuspend(dev);
-> > +
-> > +	rzn1_adc_disable(rzn1_adc);
-> > +	return ret;
-> > +}
-> > +
-> > +static void rzn1_adc_remove(struct platform_device *pdev)
-> > +{
-> > +	struct iio_dev *indio_dev = platform_get_drvdata(pdev);
-> > +	struct rzn1_adc *rzn1_adc = iio_priv(indio_dev);
-> > +
-> > +	pm_runtime_disable(rzn1_adc->dev);
-> > +	pm_runtime_set_suspended(rzn1_adc->dev);
-> > +	pm_runtime_dont_use_autosuspend(rzn1_adc->dev);
-> > +
-> > +	rzn1_adc_disable(rzn1_adc);
-> > +}  
-> 
-> I'm fairly confident we can sanely go without .remove().
-
-Will see what I can be do for the next iteration.
-
-Maybe I will ask some questions if I need some clarification around
-pm_runtime but let me first try to go further in that direction.
-
->  
-> > +
-> > +static int rzn1_adc_pm_runtime_suspend(struct device *dev)
-> > +{
-> > +	struct iio_dev *indio_dev = dev_get_drvdata(dev);
-> > +	struct rzn1_adc *rzn1_adc = iio_priv(indio_dev);
-> > +
-> > +	rzn1_adc_disable(rzn1_adc);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int rzn1_adc_pm_runtime_resume(struct device *dev)
-> > +{
-> > +	struct iio_dev *indio_dev = dev_get_drvdata(dev);
-> > +	struct rzn1_adc *rzn1_adc = iio_priv(indio_dev);
-> > +
-> > +	return rzn1_adc_enable(rzn1_adc);
-> > +}
-> > +
-> > +static const struct dev_pm_ops rzn1_adc_pm_ops = {
-> > +	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
-> > pm_runtime_force_resume)
-> > +	SET_RUNTIME_PM_OPS(rzn1_adc_pm_runtime_suspend,
-> > rzn1_adc_pm_runtime_resume, NULL)
-> > +};
-> > +
-> > +static const struct of_device_id rzn1_adc_of_match[] = {
-> > +	{ .compatible = "renesas,rzn1-adc" },
-> > +	{ /* sentinel */ },
-> > +};  
-> 
-> We typically don't add the sentinel comment in IIO.
-
-Ok, will be removed.
-
-> 
-> > +
-> > +MODULE_DEVICE_TABLE(of, rzn1_adc_of_match);
-> > +
-> > +static struct platform_driver rzn1_adc_driver = {
-> > +	.probe = rzn1_adc_probe,
-> > +	.remove = rzn1_adc_remove,
-> > +	.driver = {
-> > +		.name = "rzn1-adc",
-> > +		.of_match_table = of_match_ptr(rzn1_adc_of_match),  
-> 
-> Drop of_match_ptr().
-
-Ok, will be removed.
-
-
-Thanks for your review.
-
-Best regards,
-Hervé
 
