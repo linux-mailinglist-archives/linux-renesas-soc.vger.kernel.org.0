@@ -1,99 +1,111 @@
-Return-Path: <linux-renesas-soc+bounces-23065-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23066-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB94BDEB93
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 15:20:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D95EBDEF0E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 16:11:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 76A8D481CEF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 13:20:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 987603B8C97
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 14:09:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 077291EB195;
-	Wed, 15 Oct 2025 13:19:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A1E224C068;
+	Wed, 15 Oct 2025 14:09:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CyPIyU8n"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ApJoSdLY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C611DE2C9;
-	Wed, 15 Oct 2025 13:19:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54BBB23BD06;
+	Wed, 15 Oct 2025 14:09:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760534393; cv=none; b=NLlSh64QTBK6nFCBP82VUsCgwFiAz9226E+bayoIdRl1e2TAbS+xe54JsPBZWM4mYjDHVSqyLOVtUxy8tWfxFKgar5vftanUB1sYq7KiTH99RqNfq814qft9pMhV8OJiP4zdkzTb8G2VLaUCu+IEQ087OY7uhVy7nGYss0Qxxo4=
+	t=1760537353; cv=none; b=Rr1KsgGUMUFYPnmHZZux1lRc5vOxh7o1y9A+82e6/gUUqEJLhkwCHvpCrl4D6HKZwgDw4sptl3mTy0hiVIRFb/waZqE0Li5kWN+9NteFf8G27scfc3zhKWt4BmbDBhaF2kdoPmbWqTZXn/bO1/A5fFMVNpGJKXnnRCFE8vKmjsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760534393; c=relaxed/simple;
-	bh=l2nwmGl7BBebMnfQO55Dp8CWbUh3ixJkZIiDyPJUHn0=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=Eqp1KyZZJ7g93EEw43ovrRtVtnzcg/ptfqHJ6+dngqZ0ms2H5TnQbaLExN4aKKljbQYCBtW936K5IUOlK8upe1MdTaTUOy2XnayPe/UmTZQc0hL/FOSrqy+3JWgFCLfcUaXz2B21d1GrCtvdRn9vsSU8+dO7lV5kNzILw0ZCHFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CyPIyU8n; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CE0C7C72;
-	Wed, 15 Oct 2025 15:18:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1760534284;
-	bh=l2nwmGl7BBebMnfQO55Dp8CWbUh3ixJkZIiDyPJUHn0=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=CyPIyU8nMmkq/jUo9T7OtEgrNSNldVrEpY1dUEGG1h2dmAcqeCZBbHHh5iagoKC73
-	 GT5tklMld8PEzMgauhJ607sYctkX/tUhwyqkUfTaZCBxAt1vhcoSAT8TVPKMp06NYz
-	 OIvDLeNpoVh9+ugxknUnWHGpib+yuulNn0yc83Go=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1760537353; c=relaxed/simple;
+	bh=/AMU1FOYMJs4Nb4ZF4Qzj51fmvWaGBlcXl+yppUas6s=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=kRQNsF1GSl7HRlsVd10geFl+1ZmOzuGtuhTbKc3tH9BYYJkvsO+l1Y01PK/yaEdERlgtitUVI/bvIGcPXCMnRrPU9mbvo8GqbyNAnh9ktYi2dRIHKvJQv8yFIrHpBE1+coqs3/IxJpmOamiSgazSWlWDCsKbFiyIzih8mFYrLa0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=ApJoSdLY; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cmtHR3qS6z9v5D;
+	Wed, 15 Oct 2025 16:09:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1760537347;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Xe4Cg3XHk9WX/sshl/sHtnnh4SOJatS1Nt7rugFQLpk=;
+	b=ApJoSdLY1bjutb57XiLr/4vKS33N2MbZIv+lzF1Tw1O3KqYimZORZhsAxQ1BbzIgaxj5Mi
+	zPp+7ZP10rLlK+K5udsvhPAXN0avGNSL9X0PFnbvvcUgT98cKSU0Lr2+C1QfLQkeiOXns/
+	6U+W20WlAv9r7In95ZSwJxETQqxmUiQzAqnZB9pqJr/mbcfEiv1HP2mn9oSzVhfTpqJOD0
+	83JRyg3aO2qnNmNnmKxNXBvA4JiShfkPf2rH4WK1LGkTI1pv9k6H+lZKCxXqqh+g+UPkTi
+	9zoYnBAV0KrxNf8z0Jv/Qpc1g6CSjFrdvPE7BhTo7Wn/MnQrIuX8yRoaKs4mvA==
+Message-ID: <7a159b09-d957-4d9b-9460-adf62df9a440@mailbox.org>
+Date: Wed, 15 Oct 2025 16:09:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20251015075353.22625-18-laurent.pinchart@ideasonboard.com>
-References: <20251015075353.22625-1-laurent.pinchart@ideasonboard.com> <20251015075353.22625-18-laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v2 17/25] media: renesas: fdp1: Drop unneeded v4l2_m2m_get_vq() NULL check
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>, Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Date: Wed, 15 Oct 2025 14:19:41 +0100
-Message-ID: <176053438100.1246375.4312235042638260608@ping.linuxembedded.co.uk>
-User-Agent: alot/0.9.1
+Subject: Re: [PATCH v2 4/4] dt-bindings: display: bridge: renesas,dsi-csi2-tx:
+ Allow panel@ subnode
+From: Marek Vasut <marek.vasut@mailbox.org>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20250904210147.186728-1-marek.vasut+renesas@mailbox.org>
+ <20250904210147.186728-4-marek.vasut+renesas@mailbox.org>
+ <4ffcf4fc-17a9-4669-af07-f81ddb46aee9@ideasonboard.com>
+ <d76ff19c-7b0f-4aa9-8ae2-d08c82d70410@mailbox.org>
+ <aebc10ec-73ed-4843-95c5-9ba5a2759ccb@ideasonboard.com>
+ <b4c0e78a-eecb-4a18-9199-18ea91c8df31@mailbox.org>
+ <2da374d1-7557-4f7e-9160-86945b73731a@ideasonboard.com>
+ <14e5da7c-c6ce-4bb6-884b-08629f5a5788@mailbox.org>
+Content-Language: en-US
+In-Reply-To: <14e5da7c-c6ce-4bb6-884b-08629f5a5788@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 0fb8f56894de275614b
+X-MBO-RS-META: g54wzxtnzjkakehm6fai3y4gtt1n71h4
 
-Quoting Laurent Pinchart (2025-10-15 08:53:40)
-> The v4l2_m2m_get_vq() function never returns NULL. The check was
-> probably intended to catch invalid format types, but that's not needed
-> as the V4L2 core picks the appropriate VIDIOC_G_FMT ioctl handler based
-> on the format type, so the type can't be incorrect. Drop the unneeded
-> return value check and, as the function has no side effect, the function
-> call as well.
->=20
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+On 9/19/25 7:08 PM, Marek Vasut wrote:
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Hello Tomi,
 
-> ---
->  drivers/media/platform/renesas/rcar_fdp1.c | 3 ---
->  1 file changed, 3 deletions(-)
->=20
-> diff --git a/drivers/media/platform/renesas/rcar_fdp1.c b/drivers/media/p=
-latform/renesas/rcar_fdp1.c
-> index e615c56083f1..3515601030ec 100644
-> --- a/drivers/media/platform/renesas/rcar_fdp1.c
-> +++ b/drivers/media/platform/renesas/rcar_fdp1.c
-> @@ -1409,9 +1409,6 @@ static int fdp1_g_fmt(struct file *file, void *priv=
-, struct v4l2_format *f)
->         struct fdp1_ctx *ctx =3D file_to_ctx(file);
->         struct fdp1_q_data *q_data;
-> =20
-> -       if (!v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type))
-> -               return -EINVAL;
-> -
->         q_data =3D get_q_data(ctx, f->type);
->         f->fmt.pix_mp =3D q_data->format;
-> =20
-> --=20
-> Regards,
->=20
-> Laurent Pinchart
->
+>>>> Ok. My point was just that the dsi-controller.yaml doesn't allow
+>>>> "bridge" node (you can just rename the panel to bridge to test). I
+>>>> thought someone (I just can't remember who was it =) will send a patch
+>>>> for it, but I think that hasn't happened.
+>>> Do you want me to drop the bridge part from the commit message (I assume
+>>> yes) ?
+>>>
+>>> Any other change I should do before sending a V3 ?
+>>
+>> As we found out, this has been fixed in linux-next. For this, and the
+>> rest in this series:
+>>
+>> Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> 
+> Understood, thank you.
+Do you think this 4/4 can now be applied ? The rest already is.
+
+Thank you
 
