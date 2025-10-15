@@ -1,134 +1,125 @@
-Return-Path: <linux-renesas-soc+bounces-23083-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23084-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1511BDF455
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 17:07:47 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id C313DBDF4E4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 17:18:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3514619C1050
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 15:08:11 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id CACA44F75A5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 15:17:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13BDF2046BA;
-	Wed, 15 Oct 2025 15:07:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="drzMuTQC"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE8432FA0D4;
+	Wed, 15 Oct 2025 15:17:12 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 860D82D6E63
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 15:07:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 184932F3C07
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 15:17:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760540865; cv=none; b=LPRppkwoE/5OAUI561ByZXoPS/CvdWvSVE8ebgrDqyYZfO2Tvf4/FYrzM6ISnO9sAU9KPvAgA09nRSuqhOs5xnGJaPwXlkQENP+tcJMDnw0OILlAHt2khnVX/pc+MkbYXwVdg1kj5P1BccooNSoDPoBdNXindmgqvO8T28N2p0Y=
+	t=1760541432; cv=none; b=mBeDCNAOPeYImdhJ0wEtGN2Ap6oArQ2N76PAcRCEmmF2Cqxhi1lWw74Ceb7yT7nNyyGItzOz9TFnDo2VjQOjrgMgWVgKD/bgfHxVp12pfUzcHHR6fauZS0KgwOvSTtaMFfHcQG93obsSOPmgbbGEQ2y36cF3V5hjD39kRGgoYZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760540865; c=relaxed/simple;
-	bh=wFM7U5xEYjSSvnb/zcMAdN28R94rcUc3Ud2fIkD7+eA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ALWASjpAik0uGsBTxTVlDuGWu47jtv6aVtVp6pWxaK/CdoPR5Ks6oT6nKK/ZkjSQ6BsIGsPP3NDAtm/UijvCDJWfnBqT6hbG2GuXUW9tzrYbaqAv17YHD7/e0hJ9J9AFUat/qsI+iXQxWtfnKfhcJAhcfcaINJd8PEBy2dERn4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=drzMuTQC; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1760541432; c=relaxed/simple;
+	bh=IV+GRifs/CZH3mBOt11ulcvrcGNrA2ckYSmyBrRV8vA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tuVGha5iAWaW0VLOXRYw9lLhzK4O4ytOqJnhiOTbbKDveQe5+aL1x31QEzNefnbz0NTA/+AvEsGnhI7+TOIjukzWr/LjFEMh3/l+Mx0TqZIOi1rPbn59yY14TMopIFh3DDrPxucjh1mPm50hgLg5yuV4gdbTFbEd5wEIfD1+SnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-79af647cef2so3300842b3a.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 08:07:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760540863; x=1761145663; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=peC4fBCpVsJx1EbcTEa7mPVjNA4XLU1693R7f6y1/j0=;
-        b=drzMuTQCIHG/4/2y6WzITU06aol4E2xnbrfsKsuNcw5NE/ognk6kY3KF6s8KN7DlnS
-         wTlzRfWqjHSsh73jros74OkW61bQqWEuAfpBVCfP/l2BrJpdurXw0dhj6a4s5oxOwuXt
-         T4yMnBcB6iQgAeKposhpbdTZ2EBhKWxbHmgGbFIaQuWXbyqAU5+fCkzMD1w6/m2iFAjG
-         VPLnGTRFordswlZfjZCIydVmDMDMJM7B2WrcaKjuVF8M39qmumNdjp65TP7Z/33XeUFw
-         OpqIqOo9p1by6NCfEVRx28RwU4dvRypzYAazmoUixFH3FAqeB3mo7hQ/kl/128MaUgCg
-         1qcA==
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-89018e9f902so4035153241.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 08:17:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760540863; x=1761145663;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1760541430; x=1761146230;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=peC4fBCpVsJx1EbcTEa7mPVjNA4XLU1693R7f6y1/j0=;
-        b=mubvPlJCE7Oi+CoSIee8mYsXFFlDmWc1iBNPS/mMherafhoQu3CyjABq5Psx+lFvx+
-         jKxupDpNaK9/Uwg4m1EgS3ugGyumCkO0PGZEtEsZ8zkCsqz6J9xR3VFCr9Q6ScXwU05J
-         9RtBk9mRTFAMRUN0js8H/sTEZtKA/iPsCRlW4A+ar8fTNnjJ2RmkJZNyPs/3WsKoglIB
-         Hi5qGag7ivCXUFGnNTslpCDdt4q+O/LFK4D7GbDlDgp2YJdVskF6TIbxa6jc92MbUUDq
-         pR8GpOe17YxWP/RRZ8Tu89lA20F2RO/GLG2cHbIhANOJlAnjSsY4gv538+5JIH9tfhlu
-         OeKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUMGHYdr8z8yfJI2JbtE6f8LDbZxAL6BYiFuFeHcnTn/0tTDsKKu4B0ypHiDh4OM0LUH/wcuGf0AeUE2b1spd+7tA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzX9zkDofeO3iXtoBzbtfD/oFHnFTfrfBk1K9RbsYgooPxTJbzS
-	Cb809IvenThlSTHXpb9HveRfORh9ftxZ/ErhymFoIW2SrAk6lDc0gv4z
-X-Gm-Gg: ASbGncu+U9Bb0+csoGQfOneFZWEA938SarFOYdmKPpm4e0+qK9tXfo/VCB22xti9DVs
-	XS2QtoZ0Xu1DJTmkeTlGvKdQgctIr4azNI0xrOyPI/xrWynl2KHcss8rybrmpSPhl2AUc2uqPCi
-	AvC8Ro5xZqTjZylApD5Tm7OGSl15+iA8urjLdSXNzBSlkInhlkyZZSqg7TI0Nj7iJ0oQpARPAM4
-	21MUJSxPANN/ZhXYvWSq7cJSbkvu8rw/1ZHsRFGV/ST4It41y6j09XeillqdyMJh6i1ZM3YH6/Y
-	e3ITMuartMFSHTu+qsU+Hjnyx0Cb87ND4KDK3gEQniIgFGmNt98TtzI/Jc6P7v2eOHaTFzksyP7
-	SXPmJ2OCPpxlFuDqxKOEFqwcouIqUMBWAhq8udM3JuJRInEoWrlEW/h0HHhk7odI=
-X-Google-Smtp-Source: AGHT+IGYY64BKA7qLQ5pLlCX93/uTifpzYi4y8GygO52N9tFVQxsy/9rYr8eNMrWa9JF/Zp3Es2rzA==
-X-Received: by 2002:a05:6a20:7289:b0:2fd:a3b:9349 with SMTP id adf61e73a8af0-32da84e8482mr37991402637.57.1760540862311;
-        Wed, 15 Oct 2025 08:07:42 -0700 (PDT)
-Received: from iku.. ([2401:4900:1c07:c7d3:f449:63fb:7005:808e])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33b97853829sm2959821a91.5.2025.10.15.08.07.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Oct 2025 08:07:41 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	=?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>,
-	Nishanth Menon <nm@ti.com>,
-	Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
-Cc: linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2] arm64: defconfig: Drop duplicate CONFIG_OMAP_USB2 entry
-Date: Wed, 15 Oct 2025 16:07:28 +0100
-Message-ID: <20251015150728.118296-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+        bh=gYlOVCW4Ai0uf6Aunon5QhuALTLV1R3/6FPdAypUrZU=;
+        b=lbbopJWBxtVgxHHt/En8FpeuVez6Vnn0DNoN59CMlELvf6yGFca4AhW3FTUcMElY+a
+         0MwPVo4eiu0epcV7w+wQZz0nJ1nxh0mkq7WyQ0PhCIkPT6Sx+6VSJyhq9qhUxvGYfaJ0
+         LJN0YPqmI5qg9xdIn1mTKG9d70IRzZrY125fgxLY2+JTqjh5ZPtdSZp7CZ/v5ZhEqxkG
+         3zSzKsIEqd8mDzuvsFGPCXhL2WfFtNW8hwOl9+NdHuBCxxaXb2WV35m5WD9w9KPTqktu
+         WwSfQ6on4iLKzuquoT+QOiNGVyDu6j0Ua3LsOKwPawFks7CY1SvtzD528kuvbB2YYfR2
+         popg==
+X-Forwarded-Encrypted: i=1; AJvYcCVeERlTsgBwkYqbnuCrFvu6m+O55dFfhNL52yY+gUp+ygHXS/Rb4EKrPsLOA2gbmNrEgVIjm1Lq7C//rXCn/+2CbQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFKtgtj0Cb2021fOqLeoSbKe7dMZuo9miRibJ+45Ur4BhBB1PS
+	t1FZr4DmenDDo3ieaFBO4Bi/SRBrldRvySJB9tFoiWaYg4JsOgfd5cUzhKIQ5B8b
+X-Gm-Gg: ASbGncspTQQwWOVD7SfzvdxcecgU7IKFh5TD2FsBqxHOAO6GEXzHahSSWbx3Y09DeJ+
+	78s2sJm3p02VS5wL2QOlMUXZ76RULR3B63ptGPnJfVn/mlum4nezObuw0nkE1WBUclEnIldNIJv
+	e/RtWQdOxFUPpRXhRKo+IGwp3ZOh/SrIDm0CGs7YIMrDiOgZ2Lv+GoQ336DxBMnJAqbtCwNaNa1
+	AT2eU+4EIWf18uIFmNUEUEjz+s8RaEb5kpdNBPlS3Tsh0zLMF6uNn4rqwQK/y5RnFA0VX1mNdd/
+	d1Yw4MySvr49n6x3g7wYjYrOnHreY/vz+WGJcQtahpKxaARZWL84U1q6D3WyvEi4tl5OUPQnC0C
+	44SnIreSxZNJiFZPuGU4e0Rwtxi4SxVvvkAMNSgzUBIwxa8PDeviFM49nfyMC8z8K1LN5Q1Cgxm
+	7s3YFtr/e0emoYqPZ4xWotW6XP
+X-Google-Smtp-Source: AGHT+IHyvly22sUMVNPrK5i3CPlRlsyAGqC7yY4iIUnmk8mZUczIOC5t0yGPxjknBVXKRDzDe11bEw==
+X-Received: by 2002:a05:6102:3f4b:b0:5d6:21c0:d0b7 with SMTP id ada2fe7eead31-5d621c0de2cmr4105600137.34.1760541427544;
+        Wed, 15 Oct 2025 08:17:07 -0700 (PDT)
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5d5fc927cf3sm5544864137.15.2025.10.15.08.17.06
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Oct 2025 08:17:07 -0700 (PDT)
+Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-8fb58f2b820so4142688241.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 08:17:06 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW3oE9CIFLRRcrlGWCojP9pqRW/1N2jBMbFGtgyNl2hkB5pEl3TkS4PHZGsdhgJY4ATduY4n5ZOgwO1nkLTtBzdFQ==@vger.kernel.org
+X-Received: by 2002:a05:6102:80a9:b0:56c:eed1:276d with SMTP id
+ ada2fe7eead31-5d5e2323cfbmr10980364137.18.1760541426765; Wed, 15 Oct 2025
+ 08:17:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251015150728.118296-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20251015150728.118296-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 15 Oct 2025 17:16:55 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVUos1===uyOVwVTsmqpf321sX-hYJ36L6LKdR62sC23w@mail.gmail.com>
+X-Gm-Features: AS18NWCzpNv-DwB-GZVXUz-0WdBwxHutFcnJYtynPXM4j5XD-FsH8-0maASB2us
+Message-ID: <CAMuHMdVUos1===uyOVwVTsmqpf321sX-hYJ36L6LKdR62sC23w@mail.gmail.com>
+Subject: Re: [PATCH v2] arm64: defconfig: Drop duplicate CONFIG_OMAP_USB2 entry
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Eric Biggers <ebiggers@kernel.org>, Michal Simek <michal.simek@amd.com>, 
+	=?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>, 
+	Nishanth Menon <nm@ti.com>, Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Wed, 15 Oct 2025 at 17:07, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> CONFIG_OMAP_USB2 is already enabled as a module in the default defconfig
+> since commit 8a703a728a745 ("arm64: defconfig: Enable USB2 PHY Driver").
+> Remove the duplicate entry to fix the following warning:
+>
+>     arch/arm64/configs/defconfig:1705:warning: override: reassigning to symbol OMAP_USB2
+>
+> Fixes: 91fe3315cdf9f ("arm64: defconfig: Enable missing AMD/Xilinx drivers")
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v1->v2:
+> - Added "Fixes" tag.
 
-CONFIG_OMAP_USB2 is already enabled as a module in the default defconfig
-since commit 8a703a728a745 ("arm64: defconfig: Enable USB2 PHY Driver").
-Remove the duplicate entry to fix the following warning:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-    arch/arm64/configs/defconfig:1705:warning: override: reassigning to symbol OMAP_USB2
+As this is not yet part of the soc tree, I guess it can still be fixed
+in the original commit?
 
-Fixes: 91fe3315cdf9f ("arm64: defconfig: Enable missing AMD/Xilinx drivers")
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v1->v2:
-- Added "Fixes" tag.
----
- arch/arm64/configs/defconfig | 1 -
- 1 file changed, 1 deletion(-)
+Gr{oetje,eeting}s,
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index e401915e2f2f..478ca72c0aeb 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -1702,7 +1702,6 @@ CONFIG_PHY_UNIPHIER_USB3=y
- CONFIG_PHY_TEGRA_XUSB=y
- CONFIG_PHY_AM654_SERDES=m
- CONFIG_PHY_J721E_WIZ=m
--CONFIG_OMAP_USB2=m
- CONFIG_PHY_XILINX_ZYNQMP=m
- CONFIG_ARM_CCI_PMU=m
- CONFIG_ARM_CCN=m
+                        Geert
+
 -- 
-2.43.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
