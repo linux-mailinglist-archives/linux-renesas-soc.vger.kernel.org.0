@@ -1,151 +1,224 @@
-Return-Path: <linux-renesas-soc+bounces-23048-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23049-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id C626ABDD979
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 11:02:42 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id A22BABDD9E8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 11:10:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B063F4FCC2F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 09:02:40 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A4CAC4FDE41
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 09:10:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3ED213128C0;
-	Wed, 15 Oct 2025 09:02:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m4x1AhMp"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E85E4308F1B;
+	Wed, 15 Oct 2025 09:10:26 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6311E30BB9A
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 09:02:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A97A3090F7
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 09:10:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760518946; cv=none; b=Ag3mY/HN43U0DKoGuZHya8urUwqm4BjoQc/RxPNS4EK0hBgmNBtoEED3r8FRKDVVZ90glXdKHNMsQFKGQ0+8+h+t+X3FONbYEHcpv/b+xTj+3+TTxlyev8L2gKrSpK3zevccwN9/SMdweuGllLaLKkqrjuJ7vuwNAWTc5pPWum8=
+	t=1760519426; cv=none; b=ONir7PkU7KAdotBLT9cdQ1hzUrFqsUDEImHeBEsemEP2rh4w/+zCJIqHNDO04tb6ePlNBt5jSHhe7NzqNom0h6Ewp/KhVXVH8HjsS17bGDIPDblsBlIfYjyvbwD2inw9PgLt9Es7EbUYI3H4h5dWi7sACeVQtOLdRgzP3e1tBqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760518946; c=relaxed/simple;
-	bh=RDZfPG6F9pZtmU8Gkv33LWcmNPlLhbwFu6m2B9/1zPo=;
+	s=arc-20240116; t=1760519426; c=relaxed/simple;
+	bh=nozLRYQe8UdUB+yAdcgrpHH0NZNgUwItZr/cn1D4vEc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EBTeMJnAbwBi024ZnjXQq1BcSlzI1gehynVou7OPrsL9UfRWMOCZBKbYYiMpcTPm9Ah5n3/W9vMYJI3MlFyWk/4SOcTfSCGrkUEO6w8pIgwqdnD7dJkL+bI5PiBniutWbJf9bvZoF3YRnOeTj1zemV/P24A4zGSenoLkQL4IEMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m4x1AhMp; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 To:Cc:Content-Type; b=hGD/ZChsAdLXP4PYxIQjp1ocYfyQHB5paPXDfHFGqkSfv19jG/Xi5lPhexAsHh/PDG2Aqpzmh2hrK7yJF3o4yue4lCFgv0UDKPMcSWGAAVyd00+XOYwCRayLT2+cOaPoO0kJqDSztxUc8UAMTqktqO6TZcwkcGlZCpgsVoxhFME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-470ffbf2150so1938865e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 02:02:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760518942; x=1761123742; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FV3KRblijrAdpwToi+Mhyrh4bXSjZg3WfC9q1tzKT4E=;
-        b=m4x1AhMpzxLo4XqhN33wYmSjmpWeUVZKHq+uHpkOKkh6a66fY1eRip4bciSeUfd3uK
-         jzT2cyeYO3O22V6xWYiGnYSqbYkqk/2+gY63QePf7MxxsqzBZtW5H02P5yYOPwXWm7Wb
-         Km0pndtn+3nN4qG6SeHrjklg0VI+B8YXiTaWl6r5a6s+TMOiEOsqaq/r/Ub/7dqEwOIS
-         jvUmM9bor1t+bG0xkVY97kwMokT/tKlBpCEqVL85t9YAovyIfHrKqg5UhIh1bn3GDWkb
-         QvPeNnaasmN8xvf3FTIS3NQmsx4QGWT1+0LgJkxoYY4oA3/YvETdBmkw43qlANM0AdC+
-         Vosw==
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-8e261568020so1261210241.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 02:10:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760518942; x=1761123742;
+        d=1e100.net; s=20230601; t=1760519424; x=1761124224;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FV3KRblijrAdpwToi+Mhyrh4bXSjZg3WfC9q1tzKT4E=;
-        b=tuVINq84FlcGqD/QeMc2qYu4rLe+kR2U3G85ROSkuBOinMHxsI0PlnEt0/xmqaSt/K
-         mvimSwEOPXgZdPqevb139uLZR06jmb+ON0gIo1CKXUHgRlA58FDioKBqRmMrvkI8u4WY
-         PPALsrLY/Ia8mp+xmb28z50CSR8BiGxaCBIvRVUesixoHwtMxv0PFZJfG75RbiDeUraY
-         fn8lGptdBmTWgK+sO9TIUTTQbnT3UCc8IBCnC5464xTWTJHkj69g19GHEzLCrQQiSffV
-         CtWdUbHDNA++SV5C7QxUMQ5gfID0Tr/vQTQ/6EY/Y65Xx8znkoOFYSwb+0N1V/WETORJ
-         bSBw==
-X-Forwarded-Encrypted: i=1; AJvYcCXn58wk7hIU9x77NGtCB6Df2rzkb/TQghi3O6nxiEwYTgyNRyioTiTzRRbnVuTkFiE/P1aG+7+sLIHzl/L336GOIg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxf+lEomMbmbzid5ZNOPwopbGeuTjQvAjNlMFNaEkrmAMgiG5/8
-	4nJKqYeBxSvmmEwXSrVHRI1FWcSRy/ME4grB37qHpHdbzznf8NsjnrcymWe0TAdSfo8JHxE7SjJ
-	vWIzi2GFoiNnFYITZkeYUc7XU4WIBwvU=
-X-Gm-Gg: ASbGncvcGLtxZM3hQL/uixyW669O7P2KPjc88OCGWelvJrghwYTA76u/AGeyBQ30qOU
-	jBO96dZTX+ZFd18RPsKeeereO6v+6DMNmRRF6vfzQYqWy4+WfDSQs8+IiSw6SKInahunQH4+beO
-	BTXmXpEe4aIoJq1IByYNuh+rGa4R4BmHmH/eqRomaWaZdtT4PGv5Ic4Q4f5sfpeFWm0gNae5ke8
-	9cNUpUt4DmgVUSuhhO+/ZXwRHByOR5/hEob4+owGYCPJeXysBSbbvV4SqtQ1siT93v3kUpphBy2
-	BhbaCA==
-X-Google-Smtp-Source: AGHT+IEUi6z4S0evmQA4TnJ5mnhm76pyPFHvsITlzTuxuE6K5zX96wi7FQaogf9E9nYcIF1iq0Qp0I3dtBxgjiZTR7Q=
-X-Received: by 2002:a05:600c:1d9e:b0:46e:2815:8568 with SMTP id
- 5b1f17b1804b1-46fa9ebe0dfmr172293935e9.10.1760518941308; Wed, 15 Oct 2025
- 02:02:21 -0700 (PDT)
+        bh=tJmRJlu9H8wURlz4KPU2uyoao6Y2zyTwzoAnkPT6lmM=;
+        b=vpQS/uBR1OGjsfe4jdHHqCQfTPT7KC/ajIuU0V3w77vMdZB/RscXGNPbnyp8S80Uou
+         gNjVDzSpawiaSeqp7pWgMVW2dxsqvdEENtgSOyAA9pCg4vKnD09+wVyU3ESp0n0tfaAV
+         CAhqgGFY3MQmG+3jOj//4x9inLNJpMZ+m/LYu/4FPgKZGsXs+ikPq7pbrMP2S5py9DKl
+         75+VkEPEmqrz4345WUBVD4q4GuMOWXTjrdzf0N6Rc+Z1zwzeN6MPRAKo2lmrCbRpfQB+
+         xVJVd3aVNl6aToMokaVUyKLqoUOaH4yMKHjtedpdClkYT05aR8Ym8w3cXMYVdoKF6UGX
+         DNMA==
+X-Forwarded-Encrypted: i=1; AJvYcCXWsKhgZJfp/HZIoW6rpVnTksOUIxSxCEEzbpjgKgadV54Xv96jFziOtHqAPKRavBXN4HobP9bRXsPVfwfD3sz5Qw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzznAJv0FGqFarVw5i1I9uCWqNHJlPKV/lnOLGOJBnLDS4Q5jy2
+	9RTQ4dXMJehnwgVdSQ/t95q2rq+KiDpC8oufc4cWx5/SksYS3EO/EGlV4GvgJ/TP
+X-Gm-Gg: ASbGncteCFHFVC0yE1u4e2GRgkbJNTekYQWPIgCcxzbVvs1RXf2AupTe2FlpQ2HdCwm
+	k8TXlWpugV9ho513wXe/iUQk1ki8BKkvj8RdsEeVX7HkpKRuuYbpU/zfgQe5u2ap+NGzuErmLDa
+	iyKZpyF54Mx0kwbjbPEDmnqK/f8Bp0DSUSxVCllUXhVn17vjYmOM4ndYo8d+KfeE09rw/ZN/odn
+	b5MuyGMtaY+mhafg09c9y+ujyN38yKIDti1XiOr8Mys1OoneJ/VQ29D67z3rvE22OwHTrVmPHJm
+	jNCGSyJNubslC95H4XnLBN3FHrrDtP9YylKvF821nmlXdPFgOLswhCA1EA0LszzpQ38CcTfEY4C
+	O5DFcx/Psd9T0Z//3m7hEdfbExN1/SPF7aEvWEuIMJQowp8MeJh6sbaYI7VzyjVklhzAbBcT0zE
+	2Q5yg=
+X-Google-Smtp-Source: AGHT+IHkRiwBhfQwzhltgMXypBdKELnPZihk+5pgyRDljNSl3NGuzmkr6vHYlVIWIZJekz3ISd5hVQ==
+X-Received: by 2002:a05:6102:2913:b0:5d6:1309:8a4f with SMTP id ada2fe7eead31-5d613098a54mr3547074137.39.1760519423590;
+        Wed, 15 Oct 2025 02:10:23 -0700 (PDT)
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com. [209.85.222.42])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5d5fc713dbasm5125942137.4.2025.10.15.02.10.22
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Oct 2025 02:10:22 -0700 (PDT)
+Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-8e401b11bfaso1773181241.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 02:10:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVavcbFiQKMNfk8w7jTkJ6azDOUqNKzkJ/tMKThIEp3kK20UvZYcBmCV1o7NoBShkJGRIpatfpX/j1RhHc4UtcyuQ==@vger.kernel.org
+X-Received: by 2002:a05:6102:54a7:b0:5d6:df4:4a9c with SMTP id
+ ada2fe7eead31-5d60df44b27mr3945077137.38.1760519422390; Wed, 15 Oct 2025
+ 02:10:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251014182035.239956-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <e97327ff-9dca-4764-9973-8223d6b50fa9@kernel.org> <b8137f4e-97d9-4e10-a80b-51ebacf3b3ac@kernel.org>
-In-Reply-To: <b8137f4e-97d9-4e10-a80b-51ebacf3b3ac@kernel.org>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 15 Oct 2025 10:01:54 +0100
-X-Gm-Features: AS18NWAHDgRSntGqFSxqj0ORtuvvZPtf7_9IZdbAJmgCfonQpX7DDGGK4szxB_A
-Message-ID: <CA+V-a8t5x78diD4MQC2P5vhAvKNOi0Y55nQZz3kEHy6rhSGGUw@mail.gmail.com>
-Subject: Re: [PATCH] arm64: defconfig: Drop duplicate CONFIG_OMAP_USB2 entry
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Nishanth Menon <nm@ti.com>, Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	"michal.simek@amd.com" <michal.simek@amd.com>
+References: <20251013190210.142436-1-marek.vasut+renesas@mailbox.org>
+ <c65950f5-010a-4d5d-88d9-60697eeddb46@imgtec.com> <f4e1897c-7073-4ab0-92b3-6f7d69382825@mailbox.org>
+In-Reply-To: <f4e1897c-7073-4ab0-92b3-6f7d69382825@mailbox.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 15 Oct 2025 11:10:10 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVpb-0TJ4AoqjAGbdErw65193+j1-HbXCyvvwf8MT6yLQ@mail.gmail.com>
+X-Gm-Features: AS18NWC0NtvnYK5U9YXJyT8uG9UQFbJEFgUG9T-bnGHWW0_GW4mwUzABObId4Tc
+Message-ID: <CAMuHMdVpb-0TJ4AoqjAGbdErw65193+j1-HbXCyvvwf8MT6yLQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] dt-bindings: gpu: img,powervr-rogue: Document GX6250
+ GPU in Renesas R-Car M3-W/M3-W+
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: Matt Coster <Matt.Coster@imgtec.com>, Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+	Adam Ford <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>, 
+	David Airlie <airlied@gmail.com>, Frank Binns <Frank.Binns@imgtec.com>, 
+	Alessio Belle <Alessio.Belle@imgtec.com>, Alexandru Dadu <Alexandru.Dadu@imgtec.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Magnus Damm <magnus.damm@gmail.com>, 
+	Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 14, 2025 at 11:03=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.o=
-rg> wrote:
->
-> On 15/10/2025 00:00, Krzysztof Kozlowski wrote:
-> > On 14/10/2025 20:20, Prabhakar wrote:
-> >> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >>
-> >> CONFIG_OMAP_USB2 is already enabled as a module in the default defconf=
-ig
-> >> since commit 8a703a728a745 ("arm64: defconfig: Enable USB2 PHY Driver"=
-).
-> >> Remove the duplicate entry to fix the following warning:
-> >>
-> >>     arch/arm64/configs/defconfig:1705:warning: override: reassigning t=
-o symbol OMAP_USB2
-> >>
-> >> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >> ---
-> >>  arch/arm64/configs/defconfig | 1 -
-> >>  1 file changed, 1 deletion(-)
-> >>
-> >> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconf=
-ig
-> >> index e401915e2f2f..478ca72c0aeb 100644
-> >> --- a/arch/arm64/configs/defconfig
-> >> +++ b/arch/arm64/configs/defconfig
-> >> @@ -1702,7 +1702,6 @@ CONFIG_PHY_UNIPHIER_USB3=3Dy
-> >>  CONFIG_PHY_TEGRA_XUSB=3Dy
-> >>  CONFIG_PHY_AM654_SERDES=3Dm
-> >>  CONFIG_PHY_J721E_WIZ=3Dm
-> >> -CONFIG_OMAP_USB2=3Dm
+Hi Marek,
+
+On Wed, 15 Oct 2025 at 00:48, Marek Vasut <marek.vasut@mailbox.org> wrote:
+> On 10/14/25 1:52 PM, Matt Coster wrote:
+> >> diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.y=
+aml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+> >> index c87d7bece0ecd..c9680a2560114 100644
+> >> --- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+> >> +++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+> >> @@ -13,6 +13,12 @@ maintainers:
+> >>   properties:
+> >>     compatible:
+> >>       oneOf:
+> >> +      - items:
+> >> +          - enum:
+> >> +              - renesas,r8a77960-gpu
+> >> +              - renesas,r8a77961-gpu
 > >
-> > I don't understand. There is no such line in defconfig. Which next are
-> > you referring to? Was it just broken in Renesas tree?
+> > I think this can just be renesas,r8a7796-gpu; most of the devices in th=
+e
+> > dts for these SoCs appear to use the same pattern and the GPU is the
+> > same in both.
+>
+> Not really, the 77960 and 77961 are different SoCs, that is why they
+> each have different specific compatible. Of course, most drivers match
+> on fallback compatible, since the IPs are mostly identical, see this:
+>
+> $ git grep compatible.*7796 arch/arm64/boot/dts/renesas/r8a77961.dtsi
+> arch/arm64/boot/dts/renesas/r8a77961.dtsi:      compatible =3D
+> "renesas,r8a77961";
+> arch/arm64/boot/dts/renesas/r8a77961.dtsi:
+> compatible =3D "renesas,r8a77961-wdt",
+> arch/arm64/boot/dts/renesas/r8a77961.dtsi:
+> compatible =3D "renesas,gpio-r8a77961",
+> ...
+>
+> $  git grep compatible.*7796 arch/arm64/boot/dts/renesas/r8a77960.dtsi
+> arch/arm64/boot/dts/renesas/r8a77960.dtsi:      compatible =3D
+> "renesas,r8a7796";
+> arch/arm64/boot/dts/renesas/r8a77960.dtsi:
+> compatible =3D "renesas,r8a7796-wdt",
+> arch/arm64/boot/dts/renesas/r8a77960.dtsi:
+> compatible =3D "renesas,gpio-r8a7796",
+> arch/arm64/boot/dts/renesas/r8a77960.dtsi:
+> compatible =3D "renesas,gpio-r8a7796",
+>
+> I can turn the first entry into renesas,r8a7796-gpu to be consistent
+> with the legacy 7796 name for 77960.
+>
+> Geert ?
+
+Please use "renesas,r8a7796-gpu" for R-Car M3-W, and
+"renesas,r8a77961-gpu" for R-Car M3-W+.
+
+> >> +          - const: img,img-gx6250
+> >> +          - const: img,img-rogue
+> >>         - items:
+> >>             - enum:
+> >>                 - ti,am62-gpu
 > >
-> Ah, no, it got broken by Michal. You should add proper fixes tag which
-> results in automatic Cc.
+> > You also need to add img,img-gx6250 to the appropriate conditional
+> > blocks below here for the number of power domains (in this case, 2) and
+> > clocks (that's more complicated).
+> >
+> > These older GPUs always require three clocks (core, mem and sys), but
+> > it's not immediately clear from the Renesas TRM how these are hooked up=
+.
+> > I can see three "clocks" connected (fig 23.2 in my copy, clock details
+> > from fig 8.1b):
 >
-Sorry I missed that, I'll add the below and send a v2.
+> Which revision of the RM is that ? There should be some Rev.M.NP at the
+> bottom of each page.
 
-Fixes: 91fe3315cdf9f ("arm64: defconfig: Enable missing AMD/Xilinx drivers"=
-)
+Rev.2.40.
 
-Cheers,
-Prabhakar
-
-> @Michal,
+> >   - Clock ZG=CF=86: Appears to be a core clock for the GPU (3DGE). That=
+ would
+> >     make it our "core" clock.
 >
-> Are you sure your commit did not introduce more of such issues?
+> This should be 600-700 MHz clock on M3-W , so that sounds like a GPU
+> core clock.
+
+Agreed.
+
 >
-> Best regards,
-> Krzysztof
+> >   - Clock S2D1=CF=86: Appears to be a core clock used on the AXI bus, m=
+aking
+> >     it our "sys" clock.
+>
+> This should be 400 MHz AXI clock, but wouldn't that make it "mem" clock
+> ? I think this might be the clock which drives the AXI bus, used by the
+> GPU to access data in DRAM ?
+
+Agreed.
+
+> >   - MSTP ST112: Appears to be a whole module on/off control of some
+> >     description, and definitely doesn't align with the missing "mem"
+> >     clock.
+>
+> Maybe this is the "sys" clock, since it toggles the register interface
+> clock on/off ?
+
+Probably.
+
+Note that both ZG=CF=86 and S2D1=CF=86 are always-on.
+MSTP ST112 is the only gateable clock, and it is controlled through
+the PM Domain and Runtime PM.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
