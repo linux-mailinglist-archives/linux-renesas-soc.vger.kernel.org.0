@@ -1,157 +1,107 @@
-Return-Path: <linux-renesas-soc+bounces-23057-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23058-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89EECBDE531
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 13:49:00 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37837BDE6EB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 14:16:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 49B55425784
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 11:48:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F3502480B2B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 12:15:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92D8B322DB3;
-	Wed, 15 Oct 2025 11:48:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="24QDWAP1"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15FFF3277A7;
+	Wed, 15 Oct 2025 12:15:40 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707B1322DAA;
-	Wed, 15 Oct 2025 11:48:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF93B32779D
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 12:15:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760528938; cv=none; b=nmUHTFMUlV8+D1nHH+K5QGlzEDjLHJuih0rEmzo5LjvPivTJ7ZdK2eKEe9Lclp01VIPXdDm7Iehcm7+8fDxt5pHjXzuMBJCcin0zyWV5vtTUkJMO3j9AAKsa4/b56uo4xnQmL26yuLz2u3ilpDZtigwXveeRMeRVtF3S4zjD+WE=
+	t=1760530539; cv=none; b=GPACVIrZT8ZVZpWKPJ2DLZIEiFfZIM/jKNpCUnVCv8+opkAnWNamcJ+e0dduZ/qimcSQJb4u3bZg4aToS/kBw9JzzeV2MeakGbur/y+plcaLRWRdIcOiotDk5g+X3MxV3xP5Ajr/QP0VzKN5sZZvO/sxSEAXD52g07bd92H+4N0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760528938; c=relaxed/simple;
-	bh=5xkKQaCJcLNKjjAggEjnjUaHxOikgF03tyhL/q4hdLA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=A3etAgBusAPb4ZVh+lF1pwhYnYG3NeubwpY7EMqvNXM/lj0c80CF93JDLgvva60DX7LzJB/KKuWmPsYkXOUbc4Hg42uOd98zjbcN+hTIPUVYr4WcNDirSmHVvl2YYGBoB2hnmkSddpfDpL/8pDjK5Do9rYnGlQa2QzItMfcGsP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=24QDWAP1; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id CB4881A13CD;
-	Wed, 15 Oct 2025 11:48:52 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 9CEBF606F9;
-	Wed, 15 Oct 2025 11:48:52 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C41D9102F22B7;
-	Wed, 15 Oct 2025 13:48:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760528931; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=q2qoYp02/jZuYlfxVRjrpV1dQgL3PSlbw/Em+FLVpf4=;
-	b=24QDWAP1A1lGjyfEDs5xwM2YU5G0VB4komtmvS3SROem458VxFSnTBkz+AvZagMZPyRtXC
-	9LvHXjBfv4OObeqmp1YJE3F4s2KP37uSiS38soVDWNvSTdKTRhgE9SIrupD+qN2OBfQSa4
-	QBGFhNoFPddsTVuOXTSIsiyMANfhnimB9QuoeQBa5g+DOvLd0pnRBn5Nt0N0v1Rc1/E20K
-	sHpcXdaZ0MXrCxGp4P8t1/N3XJeiVJzlDU3wdAf8HKOFoIPqb+TR3Z06oiaMiaPQmn7wwC
-	clBVZ8Cy+gqzeKpb968crH5T7hTYRnVckcKNJ9J5UDGY2npS57KLruSRv80mLQ==
-Date: Wed, 15 Oct 2025 13:48:39 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Hoan Tran
- <hoan@os.amperecomputing.com>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Magnus
- Damm <magnus.damm@gmail.com>, Saravana Kannan <saravanak@google.com>, Serge
- Semin <fancer.lancer@gmail.com>, Phil Edworthy <phil.edworthy@renesas.com>,
- linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Pascal
- Eberhard <pascal.eberhard@se.com>, Miquel Raynal
- <miquel.raynal@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 7/8] soc: renesas: Add support for Renesas RZ/N1 GPIO
- Interrupt Multiplexer
-Message-ID: <20251015134839.1b71fe28@bootlin.com>
-In-Reply-To: <aNQ7UOniYss92EIS@ninjato>
-References: <20250922152640.154092-1-herve.codina@bootlin.com>
-	<20250922152640.154092-8-herve.codina@bootlin.com>
-	<aNQ7UOniYss92EIS@ninjato>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1760530539; c=relaxed/simple;
+	bh=QVYB/eAqiADxJGVO+eHlJ6q70TG9qmfPdTp+w/auQWs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JSjfXqNuGO1ypiFH2keO5hSX3Ud6t96vCPtEGfJ6tHe24+DUjip1j+Z1Z8HgwM8pah1TzK8SXxQZSQ7+B1IgLN33+DcOORQAP00JF25qsYfBxFCV2vFld8j8yzEEkOPbphnxIsGMkJVO9esF/CYtfAYbpSdCmNA+FSOyxCgxB1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE9DFC4CEFE;
+	Wed, 15 Oct 2025 12:15:38 +0000 (UTC)
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] ARM: shmobile: defconfig: Refresh for v6.18-rc1
+Date: Wed, 15 Oct 2025 14:15:34 +0200
+Message-ID: <d0fcc82fb294021bf96f8a490234165e15aadb43.1760530468.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Wolfram,
+Refresh the defconfig for Renesas ARM systems:
+  - Drop CONFIG_SCHED_MC=y (auto-enabled since commit 7bd291abe2da09f5
+    ("sched: Unify the SCHED_{SMT,CLUSTER,MC} Kconfig")),
+  - Disable CONFIG_SCHED_SMT (auto-enabled since commit 7bd291abe2da09f5
+    ("sched: Unify the SCHED_{SMT,CLUSTER,MC} Kconfig")),
+  - Restore CONFIG_ARM_GT_INITIAL_PRESCALER_VAL=1 (default changed to
+    zero (auto-detect) in commit 1c4b87c921fb158d
+    ("clocksource/drivers/arm_global_timer: Add auto-detection for
+    initial prescaler values")),
+  - Disable CONFIG_RPCSEC_GSS_KRB5 (auto-enabled since commit
+    d8e97cc476e33037 ("SUNRPC: Make RPCSEC_GSS_KRB5 select CRYPTO
+    instead of depending on it")).
 
-On Wed, 24 Sep 2025 20:41:20 +0200
-Wolfram Sang <wsa+renesas@sang-engineering.com> wrote:
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+To be queued in renesas-devel for v6.19.
+---
+ arch/arm/configs/shmobile_defconfig | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-> Hi Herve,
-> 
-> On Mon, Sep 22, 2025 at 05:26:38PM +0200, Herve Codina (Schneider Electric) wrote:
-> > On the Renesas RZ/N1 SoC, GPIOs can generate interruptions. Those
-> > interruption lines are multiplexed by the GPIO Interrupt Multiplexer in
-> > order to map 32 * 3 GPIO interrupt lines to 8 GIC interrupt lines.
-> > 
-> > The GPIO interrupt multiplexer IP does nothing but select 8 GPIO
-> > IRQ lines out of the 96 available to wire them to the GIC input lines.
-> > 
-> > Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@bootlin.com>  
-> 
-> Thanks for improving the driver and removing the requirement of a fixed
-> ordering!
-> 
-> > +static u32 rzn1_irqmux_output_lines[] = {  
-> 
-> const?
+diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
+index e4cb33b2bcee2215..c1fd469e20718120 100644
+--- a/arch/arm/configs/shmobile_defconfig
++++ b/arch/arm/configs/shmobile_defconfig
+@@ -10,7 +10,6 @@ CONFIG_KEXEC=y
+ CONFIG_ARCH_RENESAS=y
+ CONFIG_PL310_ERRATA_588369=y
+ CONFIG_SMP=y
+-CONFIG_SCHED_MC=y
+ CONFIG_NR_CPUS=8
+ CONFIG_HIGHMEM=y
+ CONFIG_ARM_APPENDED_DTB=y
+@@ -24,6 +23,7 @@ CONFIG_CPU_FREQ_GOV_CONSERVATIVE=y
+ CONFIG_CPUFREQ_DT=y
+ CONFIG_VFP=y
+ CONFIG_NEON=y
++# CONFIG_SCHED_SMT is not set
+ # CONFIG_CORE_DUMP_DEFAULT_ELF_HEADERS is not set
+ CONFIG_SLAB_FREELIST_HARDENED=y
+ CONFIG_CMA=y
+@@ -200,6 +200,7 @@ CONFIG_RZN1_DMAMUX=y
+ CONFIG_RCAR_DMAC=y
+ CONFIG_RENESAS_USB_DMAC=y
+ CONFIG_RZ_DMAC=y
++CONFIG_ARM_GT_INITIAL_PRESCALER_VAL=1
+ # CONFIG_IOMMU_SUPPORT is not set
+ CONFIG_IIO=y
+ CONFIG_AK8975=y
+@@ -218,6 +219,7 @@ CONFIG_NFS_V3_ACL=y
+ CONFIG_NFS_V4=y
+ CONFIG_NFS_V4_1=y
+ CONFIG_ROOT_NFS=y
++# CONFIG_RPCSEC_GSS_KRB5 is not set
+ CONFIG_NLS_CODEPAGE_437=y
+ CONFIG_NLS_ISO8859_1=y
+ CONFIG_DMA_CMA=y
+-- 
+2.43.0
 
-Yes, will be added in the next iteration.
-
-> 
-> > +	103, 104, 105, 106, 107, 108, 109, 110
-> > +};  
-> 
-> ...
-> 
-> > +	for (i = 0; i < ARRAY_SIZE(rzn1_irqmux_output_lines); i++) {
-> > +		if (parent_args->args[1] == rzn1_irqmux_output_lines[i])
-> > +			return i;
-> > +	}  
-> 
-> Do we want a check here if the index has already been used in cases of
-> an improper 'interrupt-map'? I'd think it would be nice to have but I
-> would also not really require it.
-
-Agree, it will be a good improvement.
-
-I will add this check in the next iteration.
-
-> 
-> ...
-> 
-> > +	ret = rzn1_irqmux_setup(dev, np, regs);
-> > +	if (ret)
-> > +		return dev_err_probe(dev, ret, "failed to setup mux\n");
-> > +
-> > +	return 0;  
-> 
-> Maybe just
-> 
-> 	return rzn1_irqmux_setup(dev, np, regs);
-> 
-> The driver core will report a failed probe already.
-
-Yes
-
-> 
-> It still works, so:
-> 
-> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-With update planned (new check for already been used indexes), a
-re-test will be probably needed.
-
-Best regards,
-Hervé
 
