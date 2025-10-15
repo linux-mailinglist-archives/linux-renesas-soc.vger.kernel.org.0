@@ -1,118 +1,206 @@
-Return-Path: <linux-renesas-soc+bounces-23050-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23051-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AB6DBDDD49
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 11:42:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E478ABDDF59
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 12:25:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2B4C74EC163
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 09:41:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F0B8B3A4E24
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 10:25:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D033B319850;
-	Wed, 15 Oct 2025 09:41:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D9BE31B827;
+	Wed, 15 Oct 2025 10:25:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="D2PIHTdX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="isX3Krsr"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0403128C0;
-	Wed, 15 Oct 2025 09:41:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C72931A569
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 10:25:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760521303; cv=none; b=QzUgcpM72IO+hLyCZJgTm14IJQQLR5KJoIYFiCCE6T7D+G+FJ1jM1TLnM/H5nCUIWC2f/Kd90PGRhCm55fVkUJVP071HqbJ+b/1WsoBExlN08ynvPsJ78VNqC0iNwHLoJtl4x5mZifX4z5DaBOQNYbTEVXZKUlx6UDc02VMNdIo=
+	t=1760523932; cv=none; b=sNXZrZwls8pKiybRe/rMjxw6AoQ2lcg6pcCWn0D1JSqWPiGo9lZPk/8u7JaigNI8ldG3zRfixYjsaghHxUDtNzG94Fu/6B+c3nKVn66IFB4JObhQaudzcuyIPRJ6uMwKOhEjbk+hlFxKU5c41mhEn3RzYndXSTaYmTjZ5wBUkIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760521303; c=relaxed/simple;
-	bh=5YzxXCYObJKOXfwxRNxk+wo7CJS2/C6bXiLRNvc0AyY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HYhNwHcaElMfqsAH8gsQQqegvVDitxNJ95a/k98Q7cdLO6bLOpXTRjVPkyko2ODBZRwSzJPsweTL4THY0523XFUOgtWxRogb1rWrJec8dhpw64D4vKIw4BkzyIElj2ajb/2C1R85/SY/LreRZwH4XM1OUo7EeEGhpvE9Rgo9LL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=D2PIHTdX; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id BDB151A13B7;
-	Wed, 15 Oct 2025 09:41:39 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 91505606F9;
-	Wed, 15 Oct 2025 09:41:39 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 228E7102F22B3;
-	Wed, 15 Oct 2025 11:41:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760521298; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=Urj62ugiM4MPFeNQ8KRlo+atG/UL8MNqNf3RQefG98s=;
-	b=D2PIHTdXlLnuTkFHWEiRapTiyQLldZDNrbdspT58WG6dTsSF/DUs3mapyEJIFOgK5L2Ier
-	f/qsS4b2Cxj9Z7iw3LfKatY+0e+ugX5+j4Rv2WiAkDRQVPCcHnkrbR9stFffHNhlHT5b+u
-	J9CPpKyDUcAK0m08LKRdrzWWhxzT+hzaXMjm8JvOVKp5vkhKc6M1c6pl6KljzF5EtkZiiZ
-	GbEZcbnX5JfFVi8B/4g8SmZGIrXPPPlp93hczpsUhPz1JpyTtghgpQFuwCEw1p033RADyW
-	lByP02OYa/wf8sZTufsTVgOXJq2gwiaVGg2Uf4zHdkjw9F/rEUrpfEHTB+Sr2Q==
-Date: Wed, 15 Oct 2025 11:41:26 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Hoan Tran
- <hoan@os.amperecomputing.com>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Magnus
- Damm <magnus.damm@gmail.com>, Saravana Kannan <saravanak@google.com>, Serge
- Semin <fancer.lancer@gmail.com>, Phil Edworthy <phil.edworthy@renesas.com>,
- linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Pascal
- Eberhard <pascal.eberhard@se.com>, Miquel Raynal
- <miquel.raynal@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 8/8] ARM: dts: r9a06g032: Add support for GPIO
- interrupts
-Message-ID: <20251015114126.4df207b1@bootlin.com>
-In-Reply-To: <aNRnOFTvaThW-CJE@shikoro>
-References: <20250922152640.154092-1-herve.codina@bootlin.com>
-	<20250922152640.154092-9-herve.codina@bootlin.com>
-	<aNRnOFTvaThW-CJE@shikoro>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1760523932; c=relaxed/simple;
+	bh=EdmVNMEdzhVGagPHRshWBZyNedGbuZxbWBj75ZOC7Wo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=R//BPdeSJ66VX1RD53jjwgZKUiT8s8/oy81d+iMCwMcVoTmgs/sY7CfLTAdxrH9iMPSTMlqKGBGvwAzgvbPfEpWYlS9m5EejJe2FH2/XIvo5iD8RnwsasTaN7gOJVUqM/y1w6Judynojg305y+wr4fWNUoXHSkCYtrgHuKkMFB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=isX3Krsr; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-781db5068b8so5062875b3a.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 03:25:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760523930; x=1761128730; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZpDrH61coc+DItWQj52GloHTcnEX52cLDzSouFLikTM=;
+        b=isX3KrsrTiDSximgv+7psZ3t1fN0ubd/T9onp6rUiR0gOH8iPwnamaWHbuKxL/pItK
+         S5+EZ5D25YpX+g34/YxExix5qmM62rSIfvf64TrEwtQEKDDOX9dcnHLLm6ZXMM2dHu3/
+         z/niI8mYRztieJ683NqGVc1c/li/g2xq+n91stNd46rfS06D4wWUK/RSI1+daKwf+DZq
+         cW3PkgL2B79Ng+5WMEnhq3w6l0ldnntpCFExeB9I2w8riAWlVWNGfY8MnJwVYy1Psu/i
+         2llAtELp5xGXflTzWA5RDm95RKVmNv/48F92bPI1+etaPy3NYkcJQ6FGuwiX3YAb1Skz
+         iP0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760523930; x=1761128730;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZpDrH61coc+DItWQj52GloHTcnEX52cLDzSouFLikTM=;
+        b=Ck66JFEcreNyDmnxRWAKLzfVs8MmdFqrwaw8xOr8UopK7n7KGlAtlz+iqGoenlJSqO
+         x6gVgJCndPRq8N0zyOBCDNEwjBIoRj5t7WuSgQd/MB2n6S6iTpKN5/cUWDtzqQVs2ELL
+         oasTazkp4wiN1D5xrFxrjLP8psZFgR0mZ+0lW72edojX4ac9fhm5cRkbFbbTOnfCfDOQ
+         GvvQk3akqdGl9vS42uXV2CEwsF2UwPNGHCbHjBVvUCn+bQeDTBb6qT43rAQd6xUjlyVw
+         1lUfftohx/3uvoHuH/txDffvK/6yvLjRp3Hvt3wgKQkzdgqg3lVxygCBYDGUZlb49lk6
+         +gkg==
+X-Gm-Message-State: AOJu0YzF+6vVQ7yD4oyPJf6NLOHoqMl6eDo8sWQqzRHdhmAn5kbEKIeQ
+	OiLZmDnHItBjOM+NWt3ppdh35hPtkqBmyaG4FvlUpFvHTlrGt0wYyYzu
+X-Gm-Gg: ASbGncvWE0g1yZw0hv8XzCRPL9YySGMGWwWBZjUxCB0AWwUu3Y/e7lkk2FHeit+K3v0
+	FC/pt3q4nOYpKKCFYTF3NtdANi43TkNzysdxet9Zh7mq8ndg24+EL/Waq2QCBN701aL/a/fZwUy
+	QlQEsEhWi33E+9RdUy0e00kbUOpPOoYu2wjPP0I2xMfUe6MT9e/k5XyiULombWCeud8Gb4gKUzQ
+	ccVJcbtTnc/xoUMJqUitKZ6jQPN1txykuPqD6wgzn2vt7+kwwsIl5BW41ls9b+JerNl2iRjmf7O
+	RE9nog9tST8bqEhNZcyVIDLaQRjI0+MtJKUI5xy/B841ml1XpgMwzxJW6XpErNP+ncDv9SD86Rw
+	LcgYV8fl73pjDpFIq1F3cLl36O6aNctp4tUfdTY/CbQSUjT13p3LQdwaliD9ZS/tt23wknWW/wN
+	hfLDu+GFRMCfjd6XKX2Pv/kHKX
+X-Google-Smtp-Source: AGHT+IEGry8vLqyCUE+lved+//YETCdDCkIKIK+IHR7ZNEywfhOIWLZQMXRVwuUtBrz6ojSm+DUMPg==
+X-Received: by 2002:a05:6a00:23d5:b0:781:1f5e:8bc5 with SMTP id d2e1a72fcca58-79387829439mr36878231b3a.18.1760523929749;
+        Wed, 15 Oct 2025 03:25:29 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992b060a38sm18426137b3a.5.2025.10.15.03.25.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Oct 2025 03:25:29 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <7cf0b3b1-c1e1-4df0-abbf-c4e4b542a836@roeck-us.net>
+Date: Wed, 15 Oct 2025 03:25:28 -0700
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] watchdog: renesas_wwdt: add driver
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, linux-watchdog@vger.kernel.org
+References: <20251014112953.25712-4-wsa+renesas@sang-engineering.com>
+ <20251014112953.25712-6-wsa+renesas@sang-engineering.com>
+ <9c1a61f6-f9aa-40b8-9578-adf0e443d790@roeck-us.net>
+ <aO6-S6uC1aEsAsNL@shikoro>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <aO6-S6uC1aEsAsNL@shikoro>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Wolfram,
-
-On Wed, 24 Sep 2025 23:48:40 +0200
-Wolfram Sang <wsa+renesas@sang-engineering.com> wrote:
-
-> > +			/*
-> > +			 * interrupt-map has to be updated according to GPIO
-> > +			 * usage. The src irq (0 field) has to be updated with
-> > +			 * the needed GPIO interrupt number.
-> > +			 * More items can be added (up to 8). Those items must
-> > +			 * define one GIC interrupt line among 103 to 110.
-> > +			 */
-> > +			interrupt-map = <0 &gic GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;  
+On 10/14/25 14:19, Wolfram Sang wrote:
+> Hi Guenter,
 > 
-> Okay, so my main concern here was that we setup some "random" default
-> mapping for each board. Which is not true because this node is disabled
-> by default. So, maybe we could rephrase the paragraph like
+> thanks for the fast review!
 > 
-> /*
->  * Example mapping entry. Board DTs need to overwrite 'interrupt-map'
->  * with their specific mapping. Check the irqmux binding documentation
->  * for details.
->  */
-
-Will be updated in next iteration.
-
+>>> + * The WWDT can only be setup once after boot. Because we cannot know if this
+>>> + * already happened in early boot stages, it is mandated that the firmware
+>>> + * configures the watchdog. Linux then adapts according to the given setup.
+>>
+>> What if it didn't happen ? Is WDTA0OVF set to a reasonable default in that case ?
 > 
-> ? I will see if I can provide a useful board addition for the DB400
-> boards...
+> It will overflow pretty fast, but it will be in a working condition,
+> generally.
+> 
+>>
+>>> + * Note that this watchdog only reports an overflow to the Error Control Module.
+>>
+>> Kind of unusual. Why not panic in that case, and why have the watchdog in the first
+>> place ?
+> 
+> We have multiple WWDTs on the SoCs, namely as much as we have cores. The
+> idea is to utilize one per SoC. In normal configuration, the Error
+> Control Module (ECM) gets notified of overflows and will act
+> accordingly. It has more options than a reset, it can e.g. raise
+> dedicated pins to trigger actions. Sadly, we don't have a driver for ECM
+> yet upstream, but we need to start somewhere.
+> 
+>>> +	struct wwdt_priv *priv = watchdog_get_drvdata(wdev);
+>>> +
+>> Maybe use container_of() ?
+> 
+> Ok.
+> 
+>>> +static irqreturn_t wwdt_error_irq(int irq, void *dev_id)
+>>> +{
+>>> +	struct device *dev = dev_id;
+>>> +
+>>> +	dev_warn(dev, "Watchdog timed out\n");
+>>
+>> So the pretimeout may trigger a reboot (panic) if the pretimeout
+>> governor is set to it, but the real watchdog just says Hi.
+>> Does that really make sense ?
+> 
+> It depends on how the ECM is configured. It can make sense. If someone
+> misconfigures, it might not make sense. But maybe we just don't use
+> pretimeout here because for Linux this is system-wide while the WWDT
+> usually has a smaller scale?
+> 
+> Does this make it more clear?
 > 
 
-Best regards,
-Hervé
+Yes. Assuming you know what you are doing,
+
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+
+> Happy hacking,
+> 
+>     Wolfram
+> 
+
 
