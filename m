@@ -1,117 +1,155 @@
-Return-Path: <linux-renesas-soc+bounces-23072-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23073-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04088BDF0AD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 16:30:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FC3FBDF0C2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 16:31:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A7F2219C333A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 14:31:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB70B19C4360
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 14:31:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82FF72C21E1;
-	Wed, 15 Oct 2025 14:30:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="LRnFLNeq"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFF1528C849;
+	Wed, 15 Oct 2025 14:30:25 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B029729BD81;
-	Wed, 15 Oct 2025 14:30:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01D228750C
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 14:30:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760538612; cv=none; b=jit0PV93QIdnsoKZcJA355PI8nEkrm411JlzZdeAB4ljDHa55v9Crs3USgA44+BMPcDl+i0qtgYKiFWebeO1NmoYVEssFiyIWAGk3au0478Tn0F/GzyIwHJepCN2AWpyqOAQJmfXKOEtlHp9R7wH7u2lJIefOx8WYI6obHew9Z0=
+	t=1760538625; cv=none; b=J5jhVPo9sctzHyqAShtER3AHBzZ6ZrkwwQ52AtIusIdK8S7WwQRbikFfRB5N+G8d0Oy9+NxvYHX4FYZ4M/XUdrEpju8IrZX3UYkVirzUVZDFrAW1ElbNK6y9cKI+I93HJ8yc/v6pIkKYbWWYsCvQn5VQQ0pU8N+H7gK53Vd1iUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760538612; c=relaxed/simple;
-	bh=mX6DRCpwZu0oJ3WXBuBCHDc7vccUf0lA0M42o6jyDC4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nWQlYyQJKSxyW9yY6MeTkvb6w026FbUTfUjRKAuTgPaHnwVGteuZdnyzdXKMwVJG1qBxxXWRqAvopui4Eu1temfUsrKT7YCEBFVqojisiTzWrfEK3gWVJ30CgR1Tb6WyXDh3fYtx1+25w2vOcqr1WIcPGSpWphwQBAo2il98eJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=LRnFLNeq; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 62DA5C09FB6;
-	Wed, 15 Oct 2025 14:29:49 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 83374606F9;
-	Wed, 15 Oct 2025 14:30:08 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BA6D0102F22DD;
-	Wed, 15 Oct 2025 16:30:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760538607; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=/PMFWi9CEOOJIMVm87BvUcgLHk/cuD8EQlZaMOLBNAg=;
-	b=LRnFLNeqaCNc8NTfpMXiOmKh9UGqtz8JLDp0WBOk/+o707hqz8UhjfoE5F1NHCrBFrnCEQ
-	TU8Yw+ANgUTTzffZMzrWLcxbfLppRuh30QY48kPrk1DL4S8Uifh3DawGIqRHO+PODniJd2
-	XoenisfdFXued0/1hKmnQ7n4NMep7sEw2SoXVF5KN7gWvG430/XiIlA6OEvsWjsYfe0a+5
-	tfpB2W2yfHGFytPCYbLPo5qqdz9TILrYwHsF/cVUpR2cF/l5YMdnpl9zPatbFqVXeDPiXL
-	AZrhL8bvyqGvLMUrMleNZW8EXjrgMOryJlXnw1dblQPj+1DTOQFrbxgf9HCtDA==
-From: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: linux-iio@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Pascal Eberhard <pascal.eberhard@se.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH 4/4] MAINTAINERS: Add the Renesas RZ/N1 ADC driver entry
-Date: Wed, 15 Oct 2025 16:28:16 +0200
-Message-ID: <20251015142816.1274605-5-herve.codina@bootlin.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251015142816.1274605-1-herve.codina@bootlin.com>
-References: <20251015142816.1274605-1-herve.codina@bootlin.com>
+	s=arc-20240116; t=1760538625; c=relaxed/simple;
+	bh=K1Tvo+DSqF9WNYYWJ+n9c3j2ga4uXkmmj4T88S0x2LA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=gbwJFt2AZXIO9S+Xm7FtYrSjBwyYiyzRfYNUqlv2KVnKj2pg1t3sWWmaQw9c6vFwtrR9Xb3QBiCdEu4uG/bYcMuvu/EjmhM7hhurOyyFDlEPnjuJ+/MYWpwrgXjgNFCn7WxR3HQmqtGfGvDDCF8SQesSHltWiwofiLAZldkbtYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1v92W2-0007UK-Qi; Wed, 15 Oct 2025 16:30:10 +0200
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1v92W2-003jpM-04;
+	Wed, 15 Oct 2025 16:30:10 +0200
+Received: from pza by lupine with local (Exim 4.98.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1v92W1-00000000BcA-3x2x;
+	Wed, 15 Oct 2025 16:30:09 +0200
+Message-ID: <c4996204c8b72f10324af87516b92a3a2819091c.camel@pengutronix.de>
+Subject: Re: [RFC PATCH] reset: always bail out on missing RESET_GPIO driver
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	linux-renesas-soc@vger.kernel.org
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Krzysztof
+ Kozlowski	 <krzysztof.kozlowski@linaro.org>, linux-kernel@vger.kernel.org
+Date: Wed, 15 Oct 2025 16:30:09 +0200
+In-Reply-To: <20251015112921.19535-2-wsa+renesas@sang-engineering.com>
+References: <20251015112921.19535-2-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.1-1 
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
-After contributing the driver, add myself as the maintainer for the
-Renesas RZ/N1 ADC driver.
+Hi Wolfram,
 
-Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@bootlin.com>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+On Mi, 2025-10-15 at 13:28 +0200, Wolfram Sang wrote:
+> Optional GPIOs mean they can be omitted. If they are described, a
+> failure in acquiring them still needs to be reported. When the
+> RESET_GPIO is not enabled so the reset core cannot provide its assumed
+> fallback, the user should be informed about it. So, not only bail out
+> but also give a hint how to fix the situation.
+>=20
+> Reported-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Closes: https://lore.kernel.org/r/87a51um1y1.wl-kuninori.morimoto.gx@rene=
+sas.com
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>=20
+> This happened because of this (in general) nice cleanup patch for the
+> pca954x driver (690de2902dca ("i2c: muxes: pca954x: Use reset controller
+> only")). Our .config didn't have the RESET_GPIO enabled before, so sound
+> regressed on some boards.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 46126ce2f968..40af68e4c9e9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -21874,6 +21874,14 @@ F:	include/dt-bindings/net/pcs-rzn1-miic.h
- F:	include/linux/pcs-rzn1-miic.h
- F:	net/dsa/tag_rzn1_a5psw.c
- 
-+RENESAS RZ/N1 ADC DRIVER
-+M:	Herve Codina <herve.codina@bootlin.com>
-+L:	linux-iio@vger.kernel.org
-+L:	linux-renesas-soc@vger.kernel.org
-+S:	Supported
-+F:	Documentation/devicetree/bindings/iio/adc/renesas,rzn1-adc.yaml
-+F:	drivers/iio/adc/rzn1-adc.c
-+
- RENESAS RZ/N1 DWMAC GLUE LAYER
- M:	Romain Gantois <romain.gantois@bootlin.com>
- S:	Maintained
--- 
-2.51.0
+Ouf, I should have noticed and asked if RESET_GPIO is enabled on all
+affected platforms when that patch was proposed.
 
+> Actually, my preferred solution would be to make the reset-gpio driver
+> 'obj-y' but I guess its dependency on GPIOLIB makes this a no-go?
+
+I think so, yes. Also it's only needed in (currently) a very small
+number of cases.
+
+> On the other hand, the fallback is a really nice feature which could
+> remove duplicated code. But if the fallback is not present by default,
+> it makes it cumbersome to use IMO.
+
+And it's not easy to automatically determine whether RESET_GPIO is
+actually required, because that depends on both device tree and
+individual drivers.
+
+> Has this been discussed before? I couldn't find any pointers...
+
+I don't remember this being discussed before.
+
+> Happy hacking, everyone!
+>=20
+>=20
+>  drivers/reset/core.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/reset/core.c b/drivers/reset/core.c
+> index 22f67fc77ae5..8a0f41963f6b 100644
+> --- a/drivers/reset/core.c
+> +++ b/drivers/reset/core.c
+> @@ -1028,8 +1028,10 @@ __of_reset_control_get(struct device_node *node, c=
+onst char *id, int index,
+>  	if (ret =3D=3D -EINVAL)
+>  		return ERR_PTR(ret);
+>  	if (ret) {
+> -		if (!IS_ENABLED(CONFIG_RESET_GPIO))
+> -			return optional ? NULL : ERR_PTR(ret);
+> +		if (!IS_ENABLED(CONFIG_RESET_GPIO)) {
+> +			pr_warn("%s(): RESET_GPIO driver not enabled, cannot fall back\n", __=
+func__);
+> +			return ERR_PTR(ret);
+> +		}
+> =20
+>  		/*
+>  		 * There can be only one reset-gpio for regular devices, so
+
+The reset-gpios phandle check should be done first, then. The warning
+only makes sense if that property exist, and returning -ENOENT for an
+optional reset is wrong if neither phandle property exists in the DT.
+
+I think putting the IS_ENABLED check first was intended to save an
+unnecessary "reset-gpios" phandle lookup on kernels with
+CONFIG_RESET_GPIO=3Dn.
+
+In short, if both of_parse_phandle_with_args() return -ENOENT, we
+should continue to silently return (optional ? NULL : -ENOENT), even if
+CONFIG_RESET_GPIO=3Dn.
+
+I think the message should be pr_err() level if we return an error that
+will cause the consumer driver probe to fail.
+
+regards
+Philipp
 
