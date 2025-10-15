@@ -1,157 +1,137 @@
-Return-Path: <linux-renesas-soc+bounces-23041-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23042-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5476CBDBB86
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 01:00:01 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 448BDBDCB25
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 08:21:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BCED71925D65
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Oct 2025 23:00:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 046DC422350
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 06:21:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23F3923875D;
-	Tue, 14 Oct 2025 22:59:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34B0C30FF0D;
+	Wed, 15 Oct 2025 06:21:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="lDEcy0Il";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="xUVFUheZ"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="rePeuf/p"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C1B1DE3B5;
-	Tue, 14 Oct 2025 22:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4AE82FFDE4;
+	Wed, 15 Oct 2025 06:21:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760482796; cv=none; b=aWTImHNpg8QnRcoetRmiPhW6jKAbuabyjJaRVfIEAwaQ40kGcIHeSbJtgeH5hdRlSw/RnmvD559gCzYiruULzoR2ORkzkIAkSdTGwEbObCrvqq8Fe+6kFBxuHjbSKJUi/JjDt3Mmo+iGDgf3Vn8nS1kB8CPjYvwk8jvEkBGiiwE=
+	t=1760509287; cv=none; b=JF9HBzTCnwnaNSQFQt7CnC9pa92uyfDfqqCGRRRIvtpWhgO8hVN8XNw+yNZPtiN0MI1POTLXkP1lydWObdQ8HKyYlodkObBWddiw7+B3S6QQd6w4KEAlMBsozZ97HQC+YUIUgdyJBcERAoN6jgZ0rgEPhsKhfLhmvRistayU2UM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760482796; c=relaxed/simple;
-	bh=54Lw6WuONADJipcfNA/jrZLbeEpDfXKq1CjyfzsyzL0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eC5L5imBI3jvkHyOr5CR3WLQ/rXp7SOtc4rxuUESnN2dE7yvesv4lKozuyL52nPq8TQ3tEyjrDetIpLKiCPVaInAFqu45+47JeL6KFToZfFq6T4Aj0Wi3+0OiqZY6T7T3dU7quUfSk/Y6gj7rZ2pfc8j4/5qo4yCrCqg3Y8lT7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=lDEcy0Il; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=xUVFUheZ; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cmV6J1LRGz9tvJ;
-	Wed, 15 Oct 2025 00:59:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1760482792;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4hfowH2iHudGa0LkdrtS84kdcHbiN+9po/FhXQJzKNc=;
-	b=lDEcy0IlAKe7LED+HzIzOHqp7CRKXKALzRrQvDKmrcT+wSLI8n83tfSuSjmrDfFXpayuFZ
-	D/To6s3CvThP/7sijhPgJ0EAXtGCAvTCiKU0hr6VoOZ2EXwEd+pirxb2DYcmsWOwxuzKe7
-	v2fyfqfHItH+5h09GPlqQAPfuAxAu2azo2UqNy56zXTOW4MqPFdpitQ2Xxx4iE9aNGqlC8
-	nb8nbZLPr4IhuTRN8T7YfzqaTccW2zL4BslS3CNut000rO3wDjAN+VZeuR/mrLzeHKRzKc
-	ypTa4p2sU3wR40taTxUJFxAGHWs3Yr4evv0CtGzFYK5qYoB/fC8RKzR3INpzsw==
-Message-ID: <e93779e7-026b-4b48-9d9b-dfef3d953749@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1760482790;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4hfowH2iHudGa0LkdrtS84kdcHbiN+9po/FhXQJzKNc=;
-	b=xUVFUheZfugfP5J1pOCixDTQUpRLR9ZwawCcYGvcbW0pX3TvbJAVoSQR0l//+64oGR/MuC
-	blIqT6PMlEMDE32pIZjKikeZZZ6Esi+Tluf4fTwEaEqODCW8cHnbbowg5IEy5Pol3VmG/t
-	wJdllMmbnaVfbRqAKkNHWe9SxD7JNhKUw1Iq4FYbKsa0Bd/x04aPTN5wXuX/CIicFhqQY2
-	NXckdpuJlHBs606HssIwzgcfZWsjPuVfR2lY02+kbvVV2raxdD0+jRTlQzkqilhKH6y4h/
-	TS/wUVguGXKs4890cebtTyZCBWI10ZFHQBYEgCllVDjVFIe98h00NosUuw2sug==
-Date: Wed, 15 Oct 2025 00:59:45 +0200
+	s=arc-20240116; t=1760509287; c=relaxed/simple;
+	bh=DicfJkkTsiij02qIVcRFiHOl97sEIvQS0/C6n7EV7gQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IUnycfbf6pamI/ttAHo9LEhB0JO9KD3FDYbILyaZj658evq5V3CY7D15s510AtbR4ZsN9JRTX4HmSXg1eeTF8RwM238HCeBUgZEJsiBs+ZhFlJrD8/rK+12B3oTtorLkNvGE4CobIxgUpNjH9vWwBNG+7SBo/9XLvNwrZ9hDk0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=rePeuf/p; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id E0CF7C09FA6;
+	Wed, 15 Oct 2025 06:20:59 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id E634B606F9;
+	Wed, 15 Oct 2025 06:21:18 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 59C5E102F22AA;
+	Wed, 15 Oct 2025 08:21:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1760509277; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=fJomQq7OE3Maiesqwu9sZQP6LCVhewRSpZqk8JBWs78=;
+	b=rePeuf/p5urYuOHJ7Zc4gd2xvA5MR+RBRetK2TQGnYv3G82ImEFQQA1N5ktsEIh14SeIAx
+	9bH4ohXrP0yiFVsi1Qu/mYchA8TM5xuzpWGlDOGT3254tDREKHcnCfElp6LIG2GhcdidM/
+	8TN5kaMTuf3zdluXLUBnzuAYmqEHEMkUQ20/z7ZgBv8/qHHoTfW9IwradnDyX8jG5pS3m1
+	6FKTWFrbIlhVRROiQg6Y54Tc4YLJrMGHCN0V6wLTskGZgeAWH504REFi/k43+yOMVWkaSt
+	wgerD0FWa8rOO2YZWyDQtXlqOxoMSpy++EaoxBNiR/sg9QRdOFQsPXA5/83H5A==
+Date: Wed, 15 Oct 2025 08:21:03 +0200
+From: Herve Codina <herve.codina@bootlin.com>
+To: Linus Walleij <linus.walleij@linaro.org>, Wolfram Sang
+ <wsa+renesas@sang-engineering.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Hoan Tran
+ <hoan@os.amperecomputing.com>, Bartosz Golaszewski <brgl@bgdev.pl>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Saravana Kannan
+ <saravanak@google.com>, Serge Semin <fancer.lancer@gmail.com>, Phil
+ Edworthy <phil.edworthy@renesas.com>, linux-gpio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, Pascal Eberhard
+ <pascal.eberhard@se.com>, Miquel Raynal <miquel.raynal@bootlin.com>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v4 7/8] soc: renesas: Add support for Renesas RZ/N1 GPIO
+ Interrupt Multiplexer
+Message-ID: <20251015082103.7907e019@bootlin.com>
+In-Reply-To: <CACRpkdacJCp8aCCrCAzD5F=_K3g25t_8kZGzaEoXMBnhY8hkzA@mail.gmail.com>
+References: <20250922152640.154092-1-herve.codina@bootlin.com>
+	<20250922152640.154092-8-herve.codina@bootlin.com>
+	<CACRpkdZPURiag1cUQZ319_QA83u+qOCSRALxpe10_+cTcevy+Q@mail.gmail.com>
+	<20251001174205.71a08017@bootlin.com>
+	<CACRpkdZ1qg6ecA5DyVEGUHQxLh0SnC=GC5JZdevT99YVWU0ypA@mail.gmail.com>
+	<aO5ekPxeg7tdFlHi@shikoro>
+	<CACRpkdacJCp8aCCrCAzD5F=_K3g25t_8kZGzaEoXMBnhY8hkzA@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/3] arm64: dts: renesas: r8a77960: Add GX6250 GPU node
-To: Matt Coster <Matt.Coster@imgtec.com>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: Adam Ford <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
- David Airlie <airlied@gmail.com>, Frank Binns <Frank.Binns@imgtec.com>,
- Alessio Belle <Alessio.Belle@imgtec.com>,
- Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-References: <20251013190210.142436-1-marek.vasut+renesas@mailbox.org>
- <20251013190210.142436-2-marek.vasut+renesas@mailbox.org>
- <d4ec2cc2-882a-4842-ad8c-42033ceb2bc7@imgtec.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <d4ec2cc2-882a-4842-ad8c-42033ceb2bc7@imgtec.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: ya4auwctb7mmsqbrry9umriad1d3o4wa
-X-MBO-RS-ID: 34d82dfc4b4fa9568db
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On 10/14/25 1:52 PM, Matt Coster wrote:
+Hi Linus, Wolfram,
 
-Hello Matt,
+On Tue, 14 Oct 2025 22:13:50 +0200
+Linus Walleij <linus.walleij@linaro.org> wrote:
 
->> +++ b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
->> @@ -2565,6 +2565,18 @@ gic: interrupt-controller@f1010000 {
->>   			resets = <&cpg 408>;
->>   		};
->>   
->> +		gpu: gpu@fd000000 {
->> +			compatible = "renesas,r8a77960-gpu",
->> +				     "img,img-gx6250",
->> +				     "img,img-rogue";
->> +			reg = <0 0xfd000000 0 0x40000>;
->> +			interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
->> +			clocks = <&cpg CPG_MOD 112>;
->> +			clock-names = "core";
->> +			power-domains = <&sysc R8A7796_PD_3DG_B>;
+> On Tue, Oct 14, 2025 at 4:30 PM Wolfram Sang
+> <wsa+renesas@sang-engineering.com> wrote:
 > 
-> My comments here apply to the other dts patch (P3/3) as well since the
-> integration appears to be identical between the two SoCs.
+> > Because the HW design kind of suggests it, I'd think. The GPIO
+> > controller is a standard Synopsis one ("snps,dw-apb-gpio") without any
+> > extras. The GPIOMUX (which is extra) is according to the docs part of
+> > the system controller with a dedicated set of registers. Luckily,
+> > self-contained and not mangled with other functionality.  
 > 
-> There are two power domains on this GPU and the SoC exposes both of
-> them; no reason to fall back to the single-domain scheme here.
+> Aha I see. If this is so tightly coupled with the Synopsis
+> designware GPIO then it should be mentioned in the commit
+> I guess. Also:
 > 
-> I know the sysc driver declares the dependency of _B on _A, but the dts
-> shouldn't rely on that, so can we have:
+> config RZN1_IRQMUX
+>        bool "Renesas RZ/N1 GPIO IRQ multiplexer support" if COMPILE_TEST
 > 
->     power-domains = <&sysc R8A7796_PD_3DG_A>, <&sysc R8A7796_PD_3DG_B>;
->     power-domain-names = "a", "b";
-
-Both SoCs fixed in V2 , which I will post in a few days , thanks !
-
->> +			resets = <&cpg 112>;
+> +      depends on GPIO_DWAPB || COMPILE_TEST
 > 
-> Is this a reset line? Is it a clock?
+> ?
+> 
+> I understand that it is convenient to make this a separate driver.
+> 
+> I'm not sure it is the right thing to do, but it's no a hill I want to
+> die on so if everyone else thinks I'm wrong, I can just shut up
+> about it, it's not like this driver is a big obstacle or anything.
+> 
+> Yours,
+> Linus Walleij
 
-This is a reset line. The MSTP controls both clocks and resets, but this 
-particular phandle describes reset control.
+I don't think the mux should depends on GPIO_DWAPB (the gpio controller).
 
-> I see this pattern used throughout
-> the Renesas dts, but I'm just thinking how this will interact with the
-> powervr driver. The reset line is optional since some hardware
-> integrations manage it for us during the power-up/down sequences, which
-> appears to be the case here with the MSTP control (from my brief dig
-> through the Renesas TRM).
+Also, several gpio controller instances are connected to the mux.
 
-As far as I can tell, the pvr_power.c toggles the IP reset after the IP 
-clock were already enabled, so the IP should be correctly reset. What 
-kind of problem do you expect ?
+The 96 GPIOs connected to the mux come from 3 GPIO controller instances (32
+gpios per instance). I don't think it makes sense to have the mux handled by
+the gpio driver itself. It could have make sense if 3 muxes were available,
+one per gpio controller but this is not the case.
 
-> Related, see my comments on the bindings patch (P1/3) about how clocks
-> are wired up in this SoC.
-I tried to reply to that one, hopefully it makes some sense.
+As Wolfram said, the mux is an hardware component really outside of the
+GPIO controller IPs.
+
+Best regards,
+Hervé
 
