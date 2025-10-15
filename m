@@ -1,147 +1,151 @@
-Return-Path: <linux-renesas-soc+bounces-23047-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23048-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF3F8BDD8A1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 10:53:19 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id C626ABDD979
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 11:02:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 6AEEE4FF8BB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 08:52:10 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B063F4FCC2F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 09:02:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8764531A7FE;
-	Wed, 15 Oct 2025 08:51:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3ED213128C0;
+	Wed, 15 Oct 2025 09:02:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m4x1AhMp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FAFE31A7E6
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 08:51:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6311E30BB9A
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 09:02:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760518297; cv=none; b=k4T8Sz21gYpUxwDiCY2psxXPRGMNZGJA6ocSectTRGJ6ltwL6UTqLk/V8/0Jw6YWPHBPgbyYCeUEO1kJaVW9CLopULYw/YvTk4zC9bnyVFg6bnmZ6NsMGAk8yRhUnzV4O85Y3mFgnu8rbKKWS+W4bGrUcjri1t4QoNf8bXVJGSo=
+	t=1760518946; cv=none; b=Ag3mY/HN43U0DKoGuZHya8urUwqm4BjoQc/RxPNS4EK0hBgmNBtoEED3r8FRKDVVZ90glXdKHNMsQFKGQ0+8+h+t+X3FONbYEHcpv/b+xTj+3+TTxlyev8L2gKrSpK3zevccwN9/SMdweuGllLaLKkqrjuJ7vuwNAWTc5pPWum8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760518297; c=relaxed/simple;
-	bh=Xe6Y50t/1UHK03lauiiO1RqhnypsAyHrTe2pPSI8Vmg=;
+	s=arc-20240116; t=1760518946; c=relaxed/simple;
+	bh=RDZfPG6F9pZtmU8Gkv33LWcmNPlLhbwFu6m2B9/1zPo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N4fdHXyp61oorhMnI4Hm4q/I/ENcpBprEH01ZPWghz2hPpOUGvd0tQ8zKTlt5XX15/7JO1LnF6xUY6IeEiu4Zxm3ntaPbJmnIMhSZJxdu1oc3feIqHX0haMDblOj9pfYZWXXJRIQDnReYozxTtcCXhZ+9sah7vvLL+A8FZ9oB8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=EBTeMJnAbwBi024ZnjXQq1BcSlzI1gehynVou7OPrsL9UfRWMOCZBKbYYiMpcTPm9Ah5n3/W9vMYJI3MlFyWk/4SOcTfSCGrkUEO6w8pIgwqdnD7dJkL+bI5PiBniutWbJf9bvZoF3YRnOeTj1zemV/P24A4zGSenoLkQL4IEMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m4x1AhMp; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-8e364003538so4115907241.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 01:51:30 -0700 (PDT)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-470ffbf2150so1938865e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 02:02:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760518942; x=1761123742; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FV3KRblijrAdpwToi+Mhyrh4bXSjZg3WfC9q1tzKT4E=;
+        b=m4x1AhMpzxLo4XqhN33wYmSjmpWeUVZKHq+uHpkOKkh6a66fY1eRip4bciSeUfd3uK
+         jzT2cyeYO3O22V6xWYiGnYSqbYkqk/2+gY63QePf7MxxsqzBZtW5H02P5yYOPwXWm7Wb
+         Km0pndtn+3nN4qG6SeHrjklg0VI+B8YXiTaWl6r5a6s+TMOiEOsqaq/r/Ub/7dqEwOIS
+         jvUmM9bor1t+bG0xkVY97kwMokT/tKlBpCEqVL85t9YAovyIfHrKqg5UhIh1bn3GDWkb
+         QvPeNnaasmN8xvf3FTIS3NQmsx4QGWT1+0LgJkxoYY4oA3/YvETdBmkw43qlANM0AdC+
+         Vosw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760518287; x=1761123087;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Cc23OylIA7nwIKH5grl86j81RiWu7A7C8vOJ884eZmU=;
-        b=knoOKa37G5j/sMTfsUZkjbGWRuxnEqWw3m/vzXQYD+KlyNhibkfS0NADgv+5fgveWZ
-         dMHeEOdDCufv5Itq2HvgxsXYCBlGk3t5l1si/AE+iVxPX8wOhBBRIjRf7WoWyok6M4El
-         2cP6L8nb50wgmrJ3Z1uUtSPlwWeAlB25lSC3XKl2+dYW0U8PJX6fKdmcyo4e3zDITC8y
-         XkJueBz6YSYGjlNTv8XNoRXrj5ShpbMQvJCK7Z27KNctU8WYzopQ2xSrvqA2og1ubjAn
-         wndaWCZoft3Jqughfe/eRwz+qXibjK71IL9kERAR5F9P+oSKf5KU/o+MS72GJjayH/DN
-         76hg==
-X-Forwarded-Encrypted: i=1; AJvYcCVqEbP/zE00sZNn1GNGNZjj8RpXGhomCR4FbMlzf/9zj8TlgvIKT6/lGJxsrllN2liNrP/7nYZz5dGAh6aEBD4Byw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxD4rMAyF4QdDpNJg32hshwGhz+wmosRs0lg12KFEfomMVN5cfl
-	LzzejQyOGjlxaHybPuvnRIl01SxXbxag65Gf2uLw19RuYMeay+rs3oluVaB/SO7l
-X-Gm-Gg: ASbGnctoyoeSfU7LHfLZ/ocIlpAWG7AtvvtwpHsxZzJg8AOZcvsJIR4aONPE3wzIzMl
-	SxLf+5zXg7YVfBPlxTaWbC2v1BFZFNNtuh6rg7m/i355Fr9anV+xv/CFegsA2I3/pV0W/dlhRK8
-	ph5ru3A8GcjJqxe7dlggEbPACLSHvYNdFCZYvRgg/WrALWirbK6/VRfznpM6XusrKWUhIHDwqfh
-	kM1LeEOFBxPbxEDDY3lCGwjg7CsxAHtZI3AtVMtdWOYSZzosmAxetQNVLl4DXs1zaju6XrMl7En
-	M6eoPShz3rvYcF0nIHKONpqixi7JXPBGPp60m1/D+aodi3MirJmPbk3zwBgoflj3Rlsj0qosbos
-	YOp6RdVCQbT5GDbtU7w/ebAvQPbLtojYEzQMP3db97unebjyGUZBYxEf030kjFNoo/MNrlfkS2y
-	dpOcR8AdorR8LtFA==
-X-Google-Smtp-Source: AGHT+IFCkQnsMbkGpItLoADxjYfuzFFZJM0wGADImDihH737Js6hpsLUOC+OwwxLTfAN3nr27gyGKw==
-X-Received: by 2002:a05:6102:598c:b0:51e:8f20:159b with SMTP id ada2fe7eead31-5d5e2357302mr11186079137.29.1760518287312;
-        Wed, 15 Oct 2025 01:51:27 -0700 (PDT)
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com. [209.85.217.45])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-930bf6ceb59sm4312266241.6.2025.10.15.01.51.26
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Oct 2025 01:51:26 -0700 (PDT)
-Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-5ce093debf6so5756675137.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 01:51:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWw6NF9H6vmN9Tow1zA05vbGUvON9hzyN9477b13hMEwoehBUYCOFCTrlo2sMlUIEmF+HYilPaDG0aXnS1li29AvA==@vger.kernel.org
-X-Received: by 2002:a05:6102:6219:10b0:5d5:f40d:28cc with SMTP id
- ada2fe7eead31-5d5f40d28d5mr7213275137.34.1760518286251; Wed, 15 Oct 2025
- 01:51:26 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1760518942; x=1761123742;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FV3KRblijrAdpwToi+Mhyrh4bXSjZg3WfC9q1tzKT4E=;
+        b=tuVINq84FlcGqD/QeMc2qYu4rLe+kR2U3G85ROSkuBOinMHxsI0PlnEt0/xmqaSt/K
+         mvimSwEOPXgZdPqevb139uLZR06jmb+ON0gIo1CKXUHgRlA58FDioKBqRmMrvkI8u4WY
+         PPALsrLY/Ia8mp+xmb28z50CSR8BiGxaCBIvRVUesixoHwtMxv0PFZJfG75RbiDeUraY
+         fn8lGptdBmTWgK+sO9TIUTTQbnT3UCc8IBCnC5464xTWTJHkj69g19GHEzLCrQQiSffV
+         CtWdUbHDNA++SV5C7QxUMQ5gfID0Tr/vQTQ/6EY/Y65Xx8znkoOFYSwb+0N1V/WETORJ
+         bSBw==
+X-Forwarded-Encrypted: i=1; AJvYcCXn58wk7hIU9x77NGtCB6Df2rzkb/TQghi3O6nxiEwYTgyNRyioTiTzRRbnVuTkFiE/P1aG+7+sLIHzl/L336GOIg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxf+lEomMbmbzid5ZNOPwopbGeuTjQvAjNlMFNaEkrmAMgiG5/8
+	4nJKqYeBxSvmmEwXSrVHRI1FWcSRy/ME4grB37qHpHdbzznf8NsjnrcymWe0TAdSfo8JHxE7SjJ
+	vWIzi2GFoiNnFYITZkeYUc7XU4WIBwvU=
+X-Gm-Gg: ASbGncvcGLtxZM3hQL/uixyW669O7P2KPjc88OCGWelvJrghwYTA76u/AGeyBQ30qOU
+	jBO96dZTX+ZFd18RPsKeeereO6v+6DMNmRRF6vfzQYqWy4+WfDSQs8+IiSw6SKInahunQH4+beO
+	BTXmXpEe4aIoJq1IByYNuh+rGa4R4BmHmH/eqRomaWaZdtT4PGv5Ic4Q4f5sfpeFWm0gNae5ke8
+	9cNUpUt4DmgVUSuhhO+/ZXwRHByOR5/hEob4+owGYCPJeXysBSbbvV4SqtQ1siT93v3kUpphBy2
+	BhbaCA==
+X-Google-Smtp-Source: AGHT+IEUi6z4S0evmQA4TnJ5mnhm76pyPFHvsITlzTuxuE6K5zX96wi7FQaogf9E9nYcIF1iq0Qp0I3dtBxgjiZTR7Q=
+X-Received: by 2002:a05:600c:1d9e:b0:46e:2815:8568 with SMTP id
+ 5b1f17b1804b1-46fa9ebe0dfmr172293935e9.10.1760518941308; Wed, 15 Oct 2025
+ 02:02:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250925100302.3508038-1-claudiu.beznea.uj@bp.renesas.com>
- <20250925100302.3508038-5-claudiu.beznea.uj@bp.renesas.com>
- <c7fc31f1247332196516394a22f6feef9733a0b4.camel@pengutronix.de>
- <66d85e70-efb8-4a45-9164-55b123691b70@tuxon.dev> <bcf6113b0025777db1cb2ace1618fed8fac2dfc6.camel@pengutronix.de>
- <cca1061e-df67-4b5b-99bd-9721c72a0f88@tuxon.dev> <6d4bc69c-1571-4d98-b0d4-214c68be118e@tuxon.dev>
- <c1099a8e422abbc5d12bf3f325cb9f2140c8c006.camel@pengutronix.de>
- <77678dd6-071b-4911-a5c5-f1519c92e91a@tuxon.dev> <6ba1fd1f07753c9b98a57c87bffbbee16971da7a.camel@pengutronix.de>
-In-Reply-To: <6ba1fd1f07753c9b98a57c87bffbbee16971da7a.camel@pengutronix.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 15 Oct 2025 10:51:15 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVQ_Eabhz0=FRB28BqdidQDpjdBOGq6+9yR6pioNfA_Lg@mail.gmail.com>
-X-Gm-Features: AS18NWCfZCQ0twtFVwNHBIGpA19Nn65er5LxlXMaub9DnCgxRsRqvVPljtERNfU
-Message-ID: <CAMuHMdVQ_Eabhz0=FRB28BqdidQDpjdBOGq6+9yR6pioNfA_Lg@mail.gmail.com>
-Subject: Re: [PATCH v7 4/7] reset: rzg2l-usbphy-ctrl: Add support for USB PWRRDY
-To: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>, vkoul@kernel.org, kishon@kernel.org, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	magnus.damm@gmail.com, yoshihiro.shimoda.uh@renesas.com, 
-	biju.das.jz@bp.renesas.com, linux-phy@lists.infradead.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
+References: <20251014182035.239956-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <e97327ff-9dca-4764-9973-8223d6b50fa9@kernel.org> <b8137f4e-97d9-4e10-a80b-51ebacf3b3ac@kernel.org>
+In-Reply-To: <b8137f4e-97d9-4e10-a80b-51ebacf3b3ac@kernel.org>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Wed, 15 Oct 2025 10:01:54 +0100
+X-Gm-Features: AS18NWAHDgRSntGqFSxqj0ORtuvvZPtf7_9IZdbAJmgCfonQpX7DDGGK4szxB_A
+Message-ID: <CA+V-a8t5x78diD4MQC2P5vhAvKNOi0Y55nQZz3kEHy6rhSGGUw@mail.gmail.com>
+Subject: Re: [PATCH] arm64: defconfig: Drop duplicate CONFIG_OMAP_USB2 entry
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Nishanth Menon <nm@ti.com>, Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	"michal.simek@amd.com" <michal.simek@amd.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Philipp,
-
-On Tue, 14 Oct 2025 at 18:42, Philipp Zabel <p.zabel@pengutronix.de> wrote:
-> On Di, 2025-10-14 at 11:36 +0300, Claudiu Beznea wrote:
-> > On 10/13/25 17:57, Philipp Zabel wrote:
-> > > Is the issue that you need the PWRRDY signal to be (de)asserted
-> > > independently from the CPG power domain enable/disable?
-> >
-> > Yes. I need to de-assert it before clocks, MSTOP on probe/resume and assert
-> > it back after clocks, MSTOP, on remove/suspend.
-> >
-> > > (Why?)
-> >
-> > Due to hardware constraints. This is how Renesas HW team recommended.
+On Tue, Oct 14, 2025 at 11:03=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.o=
+rg> wrote:
 >
-> I still haven't understood this part. Isn't CPG the power domain
-> enabled "before clocks, MSTOP on probe resume" and disabled "after
-> clocks, MSTOP, on remove/suspend"? So PWRRDY could be toggled from
-> genpd notifications. If it needs to be (de)asserted independently,
-> wouldn't that mean the genpd notifier approach can not be used?
-> The notifiers are called from genpd_power_on/off(), after all.
+> On 15/10/2025 00:00, Krzysztof Kozlowski wrote:
+> > On 14/10/2025 20:20, Prabhakar wrote:
+> >> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >>
+> >> CONFIG_OMAP_USB2 is already enabled as a module in the default defconf=
+ig
+> >> since commit 8a703a728a745 ("arm64: defconfig: Enable USB2 PHY Driver"=
+).
+> >> Remove the duplicate entry to fix the following warning:
+> >>
+> >>     arch/arm64/configs/defconfig:1705:warning: override: reassigning t=
+o symbol OMAP_USB2
+> >>
+> >> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >> ---
+> >>  arch/arm64/configs/defconfig | 1 -
+> >>  1 file changed, 1 deletion(-)
+> >>
+> >> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconf=
+ig
+> >> index e401915e2f2f..478ca72c0aeb 100644
+> >> --- a/arch/arm64/configs/defconfig
+> >> +++ b/arch/arm64/configs/defconfig
+> >> @@ -1702,7 +1702,6 @@ CONFIG_PHY_UNIPHIER_USB3=3Dy
+> >>  CONFIG_PHY_TEGRA_XUSB=3Dy
+> >>  CONFIG_PHY_AM654_SERDES=3Dm
+> >>  CONFIG_PHY_J721E_WIZ=3Dm
+> >> -CONFIG_OMAP_USB2=3Dm
+> >
+> > I don't understand. There is no such line in defconfig. Which next are
+> > you referring to? Was it just broken in Renesas tree?
+> >
+> Ah, no, it got broken by Michal. You should add proper fixes tag which
+> results in automatic Cc.
+>
+Sorry I missed that, I'll add the below and send a v2.
 
-Please let me chime in to clarify...
+Fixes: 91fe3315cdf9f ("arm64: defconfig: Enable missing AMD/Xilinx drivers"=
+)
 
-The CPG is not a power domain in the sense of a power area that can
-be powered on or off.
-The CPG is a clock domain in the Linux PM Domain abstraction, more
-specifically an always-on power domain that contains devices that are
-all power-managed similarly, through their module clock(s).
-Hence the CPG PM Domain itself cannot be powered on or off (through
-the generic_pm_domain.power_o{ff,n}() callbacks), but the individual
-devices that are part of it can be started/stopped (through the
-generic_pm_domain.dev_ops.{start,stop}() callbacks).
+Cheers,
+Prabhakar
 
-I hope this helps.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> @Michal,
+>
+> Are you sure your commit did not introduce more of such issues?
+>
+> Best regards,
+> Krzysztof
 
