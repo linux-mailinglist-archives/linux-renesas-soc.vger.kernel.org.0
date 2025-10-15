@@ -1,143 +1,131 @@
-Return-Path: <linux-renesas-soc+bounces-23076-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23077-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id E54F1BDF172
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 16:33:54 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D7B0BDF2CF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 16:54:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 996B23560D8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 14:33:54 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 48B674F029B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 14:54:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5A9C299927;
-	Wed, 15 Oct 2025 14:33:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="I2lRGJfq";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="I/Fcsian"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 830532D5948;
+	Wed, 15 Oct 2025 14:54:10 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117E1295DA6;
-	Wed, 15 Oct 2025 14:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3CE12D3EEA
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 14:54:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760538817; cv=none; b=NYyzPuLuYLWpQcFPQOY7YoOx3CEioGRVZkMDmx2AtDPXeEZcDpyu8U1CHabLsqHpTfPMJUDPVmS7OJGaW5iPOzhoEcH387nIluFtZn9ku2nXpsOSOOudwAgbC+XhI7azJHxJabb9whIoEOX9Zne1aRAxwGQJdsgAjtOwyXBlAas=
+	t=1760540050; cv=none; b=CZXhA8lWZalGz3gMc4lWgQv3RQ3426pL5VqGl3Jw+wPqeTLkfhbaEN093B3/obSf6HNPfw26/PfDtw/d567SQno34Yh4n5z8gwoSeA4T7moLBARcVS9DbDQNgnDw/PNjnP/CgLkgmDn52IJc2i0QtcCVZsc5oPo2DmsBSR7wfH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760538817; c=relaxed/simple;
-	bh=efBe5EDoJOkmAAbMIPruqDIB07/QgCmMZUCVpAOzTto=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Cc1hyfgKGF3MBDNftILL++LSGD3NIBzReeYBgR6PaVPn0PXDUZGCBghqFzt/s5WwrcVlqzB6ZRascxd/X9YTToFFZ/Osnn7U32hs4qVJCax1MC6vh7m5DBsB5lbN1bzkmfU9eXNB1zqZHjscwvA/ceX8Rzxh0PgXKdZdqODpm1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=I2lRGJfq; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=I/Fcsian; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cmtqd6zFXz9tTj;
-	Wed, 15 Oct 2025 16:33:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1760538814;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KoAAYwwSkct1dybDxwgNyk2Rm0SbhKgSXVNFxBcKatM=;
-	b=I2lRGJfqsloGT2SHdY2M8bMV7/q4Pr59f484nUVBeklXjYgpLKNPtR3atxbCXVW/1M6/d1
-	//HA5XXVaNuD2b6Enca6KnfDPJxqBmUJVqa4NOLPhPFCNkGxeddmE1IsXzMp3cd3fDxZa9
-	4Wf2yOBB5cqHG01UPn+ngvQ1D/DdhFnwzrgHDLLlrUCNHJ2+CF+eucPncmiU2dFK1Xd5zj
-	1bqiFG5NNt+0uzUK50KJiBMdN5ZwIGz4mp4wdPyVgLVCJat/0ddlHGrXzVsca75CD+dH9o
-	jexbeP8s6jXf3KHK5o6c3HwCeYSfw964x6dFHgdaUjHVmUad+JjZ9p3epDuIHA==
-Message-ID: <78249155-c90a-4c33-8caa-d79d83171551@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1760538811;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KoAAYwwSkct1dybDxwgNyk2Rm0SbhKgSXVNFxBcKatM=;
-	b=I/FcsianBv0Nxyf1djQKC/ndDM6D04GOPsXWCbJsRR8sd9AASeOicPZ6iFlUcdZQ5lOzOD
-	Ja5w1TTbFN+8hn/CISsFQbHxB7aDwsVIp1/ltJEvascotKjnWLppiDSkL0ALI5UeGqpeDJ
-	VjQca0ofS305cN2uQPwlJRtSOCiviTS/QR5G0ui17dOZgAUEzdgfYD5NVntVYPWcw21Pz1
-	6LzaB30f84Cgzsz1dU5n4QmbfXG9yQpY+e8Jtp/H2lEvSCoD+car8jueuek8SJfo4QkP1S
-	Yqi8gLvqHlDHg9MF2IAX9amcKfIRtY0TXLBtsfkM2aIM04bBzGFYS5+lLWccYA==
-Date: Wed, 15 Oct 2025 16:32:24 +0200
+	s=arc-20240116; t=1760540050; c=relaxed/simple;
+	bh=6OUsLxRkye/V5CLq7E3pRBp04R4Pl/s8hSmjTBcuHj0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XNEifFbquZDLS+HJCTEAXSKj2ZGs2ydH6Zq0N1PvoQoTUHBOvFIfHZPuYG8dF6OlS+0vTRIeCRo1xC9sxDQIOIWQUg4D5zDT0Xp+eO79qOq51yahInRjYdxOx5X3gW/vkaMW/5DJRfCAAm0mVAH5nfiub7ieDBNevFAXhcP+pB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-54bbe260539so2602004e0c.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 07:54:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760540046; x=1761144846;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=buS4UytUzJOTO4hyhwviAO+sxk7bCqxVtv+iDQgoWO0=;
+        b=ikq6Y+F4t6/+Id0zo1ayUB6qVv5WkQQKWA8QFQa+YGZ9upyJ6ce5diE+t9+09gWt8+
+         pwTmMx/fKxHIusoQDY5r+eJbjMOpBgJt1Xq0qQtMLNctbhv7hw/DmUNd5ecURCA08+ia
+         0uIHGfQNjjzUgsunlib0F7p0fx2fA72P2x+USs+pW6B2CT3wj4cDiNcV6+auOYqaXpD0
+         OROyXDWUDKVmF39dVsNZwKEOPtY1V5WtwZqKAw6YAoxi+JU1u8mSA57eWCjLey/liL7g
+         0bhGakLKb7ZRF8qT83L2geZaj6jTA5h5qT22NSjsb0EpTxobXjC32Vr6uWxHlPVPz94g
+         yo7g==
+X-Forwarded-Encrypted: i=1; AJvYcCVMYXy03YAGFwWD+XGM20eoPvC9pZRmySBD3UWWpA4p0mMWLo/K4LP+OtSWXXUXlOb8kzKkQgiyXvcRxpsXr8kv9Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhhvW2dcs2Ga+nitToC6Msx8FcMWustUh0j2Iuo4jy4pN8wH8T
+	BFWWAA59/sARS+me2wbVH1nxSwsZd8+kFzTj5oY/xwDaD+dNl24V/hu0ckOpURBw
+X-Gm-Gg: ASbGncs0dzjzxOOAt9l+8sTRa8+vTOHxE8CqQnOj5xlZTrBROaCH7RQX97Ro98ywu8F
+	bDOrM0RzYh+GbIXXhdR8jb4InYPJLfA0KQPfFM4PVyhv5S6T/KCNjehcMbdNyuxHEamG3Jt3nPu
+	14nBFElLpGIlxjC39kjEzINfPmrrXLjS7tX7kBI9H18Kd4HVC4jn9DVG1NcoF4Oc0qqHAlGmdxI
+	qyuQ7PFacDgRsvG5T9D/P87jOc+sF8SkpsF7zhitc97W3BBcaPRlzQ6vmN1mg5yCtsywLY1p+76
+	JrnmL/SWC2nuDhCl4Mf5JKbIKZVqOBulD1WCf5bTA5DEN8PeDLFZKDNCG2daKkS+rbOWxX8QZCg
+	f+av8WNTclDhe/fUkl//+1IiUu2Dah4zVS31GBFw+SHcMr7QfcjYXVj5WKmDlVcqtX/Jt+Hn0HE
+	/+m/JECCY4IVl2qQ==
+X-Google-Smtp-Source: AGHT+IEs7Gz5DWvwD/97wfRrdO/Xb8ZKFBTR8UVw+3zIXrVeNZjvHHUW3jjqoMadKw5gYcyuM6uXNw==
+X-Received: by 2002:a05:6122:91b:b0:545:ef3e:2f94 with SMTP id 71dfb90a1353d-554b8aa8d4fmr8754022e0c.1.1760540045766;
+        Wed, 15 Oct 2025 07:54:05 -0700 (PDT)
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com. [209.85.217.51])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-554d8109b5csm5130607e0c.25.2025.10.15.07.54.05
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Oct 2025 07:54:05 -0700 (PDT)
+Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-5838680e242so1966477137.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 07:54:05 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXkRlCw+Ahsbs65MvWHrvYZhHKwL/DmqPFR+5WwBgkxMLHeLUk6aJFVFSi2gGW3yy0B+2g64QJW9CFL/KCECnqwaA==@vger.kernel.org
+X-Received: by 2002:a05:6102:390b:b0:5d6:fce:4443 with SMTP id
+ ada2fe7eead31-5d60fce44d4mr4420342137.43.1760540044664; Wed, 15 Oct 2025
+ 07:54:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/3] arm64: dts: renesas: r8a77960: Add GX6250 GPU node
-To: Matt Coster <Matt.Coster@imgtec.com>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: Adam Ford <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
- David Airlie <airlied@gmail.com>, Frank Binns <Frank.Binns@imgtec.com>,
- Alessio Belle <Alessio.Belle@imgtec.com>,
- Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-References: <20251013190210.142436-1-marek.vasut+renesas@mailbox.org>
- <20251013190210.142436-2-marek.vasut+renesas@mailbox.org>
- <d4ec2cc2-882a-4842-ad8c-42033ceb2bc7@imgtec.com>
- <e93779e7-026b-4b48-9d9b-dfef3d953749@mailbox.org>
- <dd7e09c7-995f-4ef9-a5bc-ff6c8be64ae1@imgtec.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <dd7e09c7-995f-4ef9-a5bc-ff6c8be64ae1@imgtec.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: c1dy1jmb5s88yb7q9s43rwqiniopzzh7
-X-MBO-RS-ID: fb5ef80d27592a90e0c
+References: <20251015141014.156437-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20251015141014.156437-1-marek.vasut+renesas@mailbox.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 15 Oct 2025 16:53:53 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWq4dbpsRYBVeQLpAVZ0Zk44vwPJTShMi8jZpuH0miYgQ@mail.gmail.com>
+X-Gm-Features: AS18NWCxkT4sRPfN_bOCrKffa15VtUEJklYqD4ElIKofei39YrIIER48YuJxXBM
+Message-ID: <CAMuHMdWq4dbpsRYBVeQLpAVZ0Zk44vwPJTShMi8jZpuH0miYgQ@mail.gmail.com>
+Subject: Re: [PATCH] thermal/drivers/rcar_gen3: Document Gen4 support in
+ driver comment
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-pm@vger.kernel.org, 
+	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
+	Lukasz Luba <lukasz.luba@arm.com>, Magnus Damm <magnus.damm@gmail.com>, 
+	Zhang Rui <rui.zhang@intel.com>, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 10/15/25 12:55 PM, Matt Coster wrote:
+Hi Marek,
 
-Hello Matt,
+Thanks for your patch!
 
->>> I see this pattern used throughout
->>> the Renesas dts, but I'm just thinking how this will interact with the
->>> powervr driver. The reset line is optional since some hardware
->>> integrations manage it for us during the power-up/down sequences, which
->>> appears to be the case here with the MSTP control (from my brief dig
->>> through the Renesas TRM).
->>
->> As far as I can tell, the pvr_power.c toggles the IP reset after the
->> IP clock were already enabled, so the IP should be correctly reset.
->> What kind of problem do you expect ?
-> 
-> I think I'm just being paranoid about the weirdness (to me at least) of
-> having one device be treated as both clock and reset line. Assuming this
-> is tested as working, I'm okay with it, especially as it seems to be the
-> norm for Renesas.
+On Wed, 15 Oct 2025 at 16:10, Marek Vasut
+<marek.vasut+renesas@mailbox.org> wrote:
+> The R-Car Gen3 thermal driver supports both R-Car Gen3 and Gen4 SoCs.
 
-The combined clock/reset IP is not limited to renesas SoCs, there are 
-other SoCs which do the same thing (Allwinner "ccu", Marvell PXA 
-"soc_clocks" , nVidia Tegra "car", Qualcomm "gcc", Rockchip "cru", to 
-name a few). Usually the registers which control clock and resets are 
-shared in the same IP, but they control different (possibly related) 
-signals in the SoC.
+And RZ/G2 (the ones that do not fall under "RZ/G2L"), cfr. what you
+actually added in the comment.
 
->>> Related, see my comments on the bindings patch (P1/3) about how clocks
->>> are wired up in this SoC.
->> I tried to reply to that one, hopefully it makes some sense.
-> 
-> Looks like we've figured it out there, thanks for your comments!
+> Update the driver comment. No functional change.
+>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-Likewise, thank you for sharing the clocking details.
+> --- a/drivers/thermal/renesas/rcar_gen3_thermal.c
+> +++ b/drivers/thermal/renesas/rcar_gen3_thermal.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  /*
+> - *  R-Car Gen3 THS thermal sensor driver
+> + *  R-Car Gen3/Gen4 and RZ/G2 THS thermal sensor driver
+>   *  Based on rcar_thermal.c and work from Hien Dang and Khiem Nguyen.
+>   *
+>   * Copyright (C) 2016 Renesas Electronics Corporation.
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Best regards,
-Marek Vasut
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
