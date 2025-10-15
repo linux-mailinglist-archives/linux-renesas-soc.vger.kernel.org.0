@@ -1,68 +1,68 @@
-Return-Path: <linux-renesas-soc+bounces-23089-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23090-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6359BDF6FC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 17:40:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 112F4BDF702
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 17:40:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5FE303C1645
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 15:40:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5F56F3C2596
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 15:40:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C085E326D77;
-	Wed, 15 Oct 2025 15:40:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F31632C337;
+	Wed, 15 Oct 2025 15:40:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="EN9IFy3D";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="cClxOHrb"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ts5+XU4E";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Ox3W2Jta"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0B7322DC1;
-	Wed, 15 Oct 2025 15:40:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F19B31D730;
+	Wed, 15 Oct 2025 15:40:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760542835; cv=none; b=cMrJwUEEb//JhIL9vFdpd8wcIdAr+ftCE+MSholUbwkIIZv7YfKupWlRqCTUkI29HV/t4KyHf4AfVcppK3rGgfS93JmRZW7fYwlWnR98OQeVqWiTiNgd1kAgAt5/96vco4OUDxwqw1H7ey1vo8aTmt0GTQhQh9yM+K/mkhzbv2o=
+	t=1760542842; cv=none; b=eOhTdV2cBApsJZIiRoPMuiE+ipjnD3tIzYGzN+DWbLXdqgoLXYCMMDO4TK1V6uS3lKUkDWiPcrCJa/YwRSuPNbj97bsKHzi83aA4TO2QYbe+Mtc/EZFnfuw2vw4DmK3ujTS83835OqJ72tWbEIEoI0bEpDBsdcnEWp+XTtwOGoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760542835; c=relaxed/simple;
-	bh=gxlfdojBhL8fssoPJndBINuP3ZLa53Qf1MYLUAQrG1c=;
+	s=arc-20240116; t=1760542842; c=relaxed/simple;
+	bh=vXaxlDaljo3DrUaTZaX7U1L3tWLa3vJ9t3g1e5xesD0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bo1wAjgDFQJqfYmznSh/+2Xip+5uFil5e2PKWpY0ip3vtRkJgRk8C5PLAyif3IQtLtZUNI/yEIF82+yQXwaayBMJRNZhJBdf4fmhMwVK5YIkye8zBR3vmm8GmFBXwABnZjR8YCuPf+auYrxXKhswCT1J8BPRy72S2Muc66RufwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=EN9IFy3D; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=cClxOHrb; arc=none smtp.client-ip=80.241.56.161
+	 MIME-Version:Content-Type; b=e6bHPyCtKYg14tFcB/ZI/4A+629rcTPqb2/ChZfSkHhzi6FaQ2py72VTUcKSlY1itmsVsRcOjs8cDaoY5fhMuY0JcDXH3BwCr/PrH4YG9nLu54/ocQdbIp3tLOTK+AJbPUPTazrpCvSmkks8ZkzBgSMFX4YFOMpc6ub6S/RELDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=ts5+XU4E; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Ox3W2Jta; arc=none smtp.client-ip=80.241.56.161
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cmwJv5GBzz9tBF;
-	Wed, 15 Oct 2025 17:40:31 +0200 (CEST)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cmwK12bwPz9tgG;
+	Wed, 15 Oct 2025 17:40:37 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1760542831;
+	t=1760542837;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NmHsI+NQ50S3BEL3SwaM//wPzcvyZxShmWxF/jqZM18=;
-	b=EN9IFy3DAWf4esFvR1Da+qs8Iz0N1A7hlu45c5RupophREH98vadhPBuNeWKTQLBeiWy/X
-	FbJgBq6k4CcUAH/aQ0d19Y2firI/t1OpDQ3iJUEWgB4VFuWSSlK1leuwFM6jghzz90tKmx
-	SzkSIa4cjTRzcInLg4EKtQfYwx9047Cvv75Qxve+x21/PYP6PmoC3+NUtaCXKjNcW/kg1K
-	Ra/blxtbqK7tTjGe0VEoKKCaKBACGxt/THqpIUdfmx6wzCuiLo6+EEezr635Y/D5XUnfLn
-	k+l3wWCCPCVbYbUZJrOtVidQUI8EWuiXbF6JBbh+sPZrDxUFyDHbZdChcgFLXQ==
+	bh=WALWGBujqpuz8lR80FyOJBIEDnbfCjtWd9uM0KYO5Yw=;
+	b=ts5+XU4E9uoeHP5aS64D51GHt/43rxLYhmiO+ceTFAlILlRkBOW4nuwRPhS/QoDBsMaYaU
+	KCPIayrqg7nsW4oZQ3S9IwE8p6SPMTeujQ53CjnBgInPF8bGhU18qcM+ONY4/fSACDfUIC
+	lyL2BBOcApE3N6w+6rrmWUEpuBOLXSx2EMk1pj8YC62TU9FyeLXpfAd7DlAQe92R1qwpZz
+	X1QZWMvhZq6ufUFICtCqXXkrmGFmqZEEmw1Ots7KGfwz7atEJspdd7Oa6pgngD4RLsMMLh
+	57lt4tIyRcWKeA7UoMItrjtW2bKKVWuxMW0RIj63wpCSCES1kmXIyIYBkKNKcQ==
 From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1760542829;
+	t=1760542835;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NmHsI+NQ50S3BEL3SwaM//wPzcvyZxShmWxF/jqZM18=;
-	b=cClxOHrb7UcshKLyjqxbouBG6la2t0kiotnlZ8CBv2n3nRpbDLS+mV0o34J0IKQZGV43wl
-	mqP8Q5GdOE+FM6cE+lF06Ie0xfcICNaUGanLNKM7JQxamXEQE2aWqj2ZkcDFrplnt9gMGp
-	PICtso5nT1M1XouEnZY5M11RPTirY8x5qWpvmNFF2qS4IqHqxzAZxbEBLzcmcjBaNbR9Hr
-	FdohwLvAvDsfsJU4Ma/0HUZRR8KvoVqOc7KOe5PO35IXUI9rQMat/TOUOi2FUQGtDt/RzH
-	BcKVtWtlVyjQbVe3x3/S8NbYsYLo3YlmxuaIIndwbHg58ctkjnANUTnVCI56Sw==
+	bh=WALWGBujqpuz8lR80FyOJBIEDnbfCjtWd9uM0KYO5Yw=;
+	b=Ox3W2JtanoRnnGjuRU71a1yZIYIdVPzwidldeUfyJ8Rh7BK1YGGrheGYY5oeSM6oDNZgzb
+	bKsUn0gaex8TUY18GUGxZzMGPp5oNStT8JzPJKvff3p2YuFpnnso5FT+QdLPNFpEcUNl8m
+	9CYL84WwKmJA+5rOq2keXj1PfIAm0jW8P4wt/aBNRNtx+3bCfe/wgyrU9r8GwjK/c4AU4K
+	8LBEvA/Kax3eUKobLyaNjylwj0E3tJbzAofHE5Mzh0GkeSgN36I5dlwhmibhG/zLAWkfI6
+	K5+pC3s652vYmuAtLZVngCxQ7JdGKXJhJF1YBE1fx1zlilWdFXCgFBnmu/Y9KQ==
 To: linux-arm-kernel@lists.infradead.org
 Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
@@ -83,9 +83,9 @@ Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	devicetree@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 2/3] arm64: dts: renesas: r8a77960: Add GX6250 GPU node
-Date: Wed, 15 Oct 2025 17:38:57 +0200
-Message-ID: <20251015153952.185249-2-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH v2 3/3] arm64: dts: renesas: r8a77961: Add GX6250 GPU node
+Date: Wed, 15 Oct 2025 17:38:58 +0200
+Message-ID: <20251015153952.185249-3-marek.vasut+renesas@mailbox.org>
 In-Reply-To: <20251015153952.185249-1-marek.vasut+renesas@mailbox.org>
 References: <20251015153952.185249-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
@@ -96,11 +96,11 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: d8561daaab33aaff276
-X-MBO-RS-META: q3g1s4ksjthz8m1qth7n8a5r3dstmoaz
+X-MBO-RS-ID: e2ada218b4f0bf9902c
+X-MBO-RS-META: xes7cftrux7je99qpochttto5be99b3u
 
 Describe Imagination Technologies PowerVR Rogue GX6250 BNVC 4.45.2.58
-present in Renesas R-Car R8A77960 M3-W SoC.
+present in Renesas R-Car R8A77961 M3-W+ SoC.
 
 Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
@@ -124,38 +124,38 @@ Cc: dri-devel@lists.freedesktop.org
 Cc: linux-renesas-soc@vger.kernel.org
 ---
 V2: - Add RB from Niklas
+    - Fix up power-domains = <&sysc R8A77961_PD_3DG_B>; for 77961
     - Fill in all three clock and two power domains
-    - Use renesas,r8a7796-gpu for R8A77960 compatible string
 ---
- arch/arm64/boot/dts/renesas/r8a77960.dtsi | 16 ++++++++++++++++
+ arch/arm64/boot/dts/renesas/r8a77961.dtsi | 16 ++++++++++++++++
  1 file changed, 16 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77960.dtsi b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
-index 5b7e79b413394..0f7e63fdd075d 100644
---- a/arch/arm64/boot/dts/renesas/r8a77960.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
-@@ -2575,6 +2575,22 @@ gic: interrupt-controller@f1010000 {
+diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+index 12435ad9adc04..aa7f5de61e787 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+@@ -2455,6 +2455,22 @@ gic: interrupt-controller@f1010000 {
  			resets = <&cpg 408>;
  		};
  
 +		gpu: gpu@fd000000 {
-+			compatible = "renesas,r8a7796-gpu",
++			compatible = "renesas,r8a77961-gpu",
 +				     "img,img-gx6250",
 +				     "img,img-rogue";
 +			reg = <0 0xfd000000 0 0x40000>;
 +			interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_CORE R8A7796_CLK_ZG>,
-+				 <&cpg CPG_CORE R8A7796_CLK_S2D1>,
++			clocks = <&cpg CPG_CORE R8A77961_CLK_ZG>,
++				 <&cpg CPG_CORE R8A77961_CLK_S2D1>,
 +				 <&cpg CPG_MOD 112>;
 +			clock-names = "core", "mem", "sys";
-+			power-domains = <&sysc R8A7796_PD_3DG_A>,
-+					<&sysc R8A7796_PD_3DG_B>;
++			power-domains = <&sysc R8A77961_PD_3DG_A>,
++					<&sysc R8A77961_PD_3DG_B>;
 +			power-domain-names = "a", "b";
 +			resets = <&cpg 112>;
 +		};
 +
  		pciec0: pcie@fe000000 {
- 			compatible = "renesas,pcie-r8a7796",
+ 			compatible = "renesas,pcie-r8a77961",
  				     "renesas,pcie-rcar-gen3";
 -- 
 2.51.0
