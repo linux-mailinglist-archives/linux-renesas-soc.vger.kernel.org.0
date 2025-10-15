@@ -1,260 +1,297 @@
-Return-Path: <linux-renesas-soc+bounces-23100-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23101-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1030BDFCF2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 19:06:30 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3520EBDFD9F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 19:28:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 791683B7D5C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 17:06:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 40CA31A225F6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 17:29:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3F3F33CE93;
-	Wed, 15 Oct 2025 17:06:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E32A033A012;
+	Wed, 15 Oct 2025 17:28:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MA9u4T8A"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Xnn2uZZW";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gkTihk1+"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFCB732E75F
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 17:06:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A4B1C3C18;
+	Wed, 15 Oct 2025 17:28:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760547965; cv=none; b=pgPrM/EzkZtjjk4eiiJ5RWr+Q2bgTcIkvOwc2jYcnWKdN4mHtnvyb5B7DPJZGTbwxtcX7AwJV/LC+JhLwDV6Mu/j5L0aprLXM8XDTk+n6YKoilr/geHx8FpwTsP1+WGsXPPh7UDC2yFK/eQ++P5WR9yTx7BwKZk1MXDOWznB8M4=
+	t=1760549303; cv=none; b=RqqwWtaVPd4ifQwb7ZHgQtgrtZTtwhDUWJnstJyHeiDI1ZAFQMZ+bQjRv+rjZ+Y+2GATjuiy0s3zIbXwuF5W2b3uAe8J+UWogS9hts2Gfgytd5V7C/KRPfGCdA53WA3a0lZ6cDuIhRngJvZyKd3l/njjKHXSBsqSWX4/y0EYWOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760547965; c=relaxed/simple;
-	bh=ZRj4yj/dKCCw4SWLghqAcuiSwYLPhJ4yuDL64uAxDnU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=u0l3fx7oLnX+rBSTAHrg7cr8enryQYW624kowb8Q2sa015aQYXyUiceJb8GLTzunBK3XlUEEErquCcW1P+fFbIc8tG0C4AT+dG0A/3wUJU/R7pxRDMgw07Xl0Ydj1fRyHtvcIWJiR823xxgmUKJ13bQa7kfW33KROUVu6crUDZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MA9u4T8A; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-46b303f7469so47514545e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 10:06:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760547961; x=1761152761; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lAkTMQSX/DJUiILggSnm+16NO/7qs2Cgt/X+vx3kuHk=;
-        b=MA9u4T8ALuAdvYyQht5t0Onkqed/vNRwbUida/LZuV0X6ZKq10kKkA+qw4kCOpHJTB
-         CQx3OZJwYkmmOQ9fbfPwuaa6WrLyusvCKrR4GFUVguaLGLMTX3EtvtAoqiwyVuCpPcv8
-         HNRgoLxdO7bTylTis/KTTtH1ojqCylndEXCoDQlpnuzhhdOm/iZtpAVZzp9xYNByNAE1
-         2WYHeknJSNkbijMxNOvSTw6cB0o6mbh9p7LwHguMGrrxeWkZ+kevkZgfssd4vrAfeQ7+
-         2aRyekDSXSjIxAlaIKdkrZTbY+NqbMJzdWrjYWOeFVKnAKzfFpT3MhrRDtpwNjzPFaH+
-         jBow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760547961; x=1761152761;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lAkTMQSX/DJUiILggSnm+16NO/7qs2Cgt/X+vx3kuHk=;
-        b=gnP2X/aXxUjamORqI7V3KBYZU+spj1wfNu9j48Vv+2DZJhgYbLSRgcqmnLBKCaeXjK
-         6YVNb6p3dPmooyQsQ3RoJbp2r3y5RL0jMkt4kteyd2z2+YXesI7qNyJ6JvxOVHJHTbD6
-         UT4JCf5rDiCvg88MS3mL/fJBtMPwq45Oj+VHH2QjJPKfvrbnOpju9MUgdYCrI8YL2AMW
-         RjoBP8GV/7jIx+5GCAC1csSz/YIU3W2bJNeQ1OpubWRl/CV9tLKixPQ4fvOYc1wy3/cm
-         s8orZQlFJnIr/LW8j7J9AEy0OMmqhEdz4SGFnXo2xZba6Vu2DyYWx9dDdP5/7gxfk+Ot
-         e2hg==
-X-Forwarded-Encrypted: i=1; AJvYcCXEjdOJfpclivKHFVrImdRwdBaWSGALAGhBuYtDq2al05kU5LNev4mTYRtz2uOzGPY5s3chyFWD8bRQLp9ePbFIMQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwtuPmDuOdMolcCh0aFWyJFtSBYah6IKy0EdxyClF7/TxNpETO1
-	S+0HFITaourxQIz2+s3sBFBO0Lxr5aLwnx/wkjtwqEdbV37pMUUP4uBnFun+DLju/nT1McUIVv+
-	qi2PRSWWjAW6thmvSdVWD3IVtGgK1txY=
-X-Gm-Gg: ASbGncu4meOHIccRc7cHhXSY5XP5MJEhy4ev5jMgfTvw5tWfYo9r/AnoFZdJ5nhlw0l
-	JilCkgxxnYTlIiAHE0GzJD/wn9JD9t627ZomV2jQUjPgkTBON7WPeSUY34zXV9Oct/a0pgf1OGo
-	1vGJiovvE9VLue6rg4pSiEn5ihk+yA+uPmdf6MId+HlNW7K1iUadpQK2mMiExM46pu/osWnVARd
-	HFOH1DkilzARzkzj447XYJNZa93964I4DYT9M9/gLz+SCFpgAIxsJGWRIucswQI6i+fL/I=
-X-Google-Smtp-Source: AGHT+IHI7wNHnTiwaqUhiPR8CydFMYL65NRKSxFd39pyvhc1Mu/mg/YS2k0xCuKgzJyECEHhLkPG2NPYmawpE45EPMs=
-X-Received: by 2002:a05:600c:529a:b0:46e:3e25:1626 with SMTP id
- 5b1f17b1804b1-46fa9aefe15mr218668285e9.19.1760547960573; Wed, 15 Oct 2025
- 10:06:00 -0700 (PDT)
+	s=arc-20240116; t=1760549303; c=relaxed/simple;
+	bh=KLAu0WkbxTquj5UduIpU9D4+mgxcmJNvrmsIXpRUhts=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QjTNhN5LlBR9s1hyxpPbBACDCRP18OXt83SuMH39EnQYV3SmiTF5BOuMdhr49JyJNktDfcV+h8Y5hBwMbmZ347qarOzw1nFNj+tDwl7f80CpL/9+x2aOXQS7tAF0u4+FlLYx6eRDkoUfcfWJdMaLSaBcKy2G9s69sjbhHXmO+sg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Xnn2uZZW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gkTihk1+; arc=none smtp.client-ip=202.12.124.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailfout.stl.internal (Postfix) with ESMTP id ABF5A1D000B4;
+	Wed, 15 Oct 2025 13:28:19 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-12.internal (MEProxy); Wed, 15 Oct 2025 13:28:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1760549299;
+	 x=1760635699; bh=uxcF+OfUHtuRDJBNiFRogPSSql7FFz2iQUFoqpX5I9A=; b=
+	Xnn2uZZWVGZqlBaDMyuZ6VI+5w3mcoAUvQgBxttKlaaaRKOJYdJseMth7LBOHy6q
+	ph9xxOIZX2tfHqDaQ1ONRWnhcetVfIlBkZp1QTsEpS/WSpgri8sUq1sFVpyolnnW
+	1lRGPAOZgpwEwDSKMZV2K9Np9iMEDuxfB883JV1Yy1JDDzWguHsEASmpEOmU/OlI
+	8jIX9MMUtntmriVBcaKunU6FoOd49EMPI7pLjO1J4FuQ7XZdZI6Ttt9963NMwTua
+	pVOa+vuUJU9355ph8A5aHIRVKLrQ8cy3jr6+F7+EfBzcCE8bX++Z/DabnFgv3H5/
+	U/dITq4THg9fFBPpFJYAiw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1760549299; x=
+	1760635699; bh=uxcF+OfUHtuRDJBNiFRogPSSql7FFz2iQUFoqpX5I9A=; b=g
+	kTihk1+WS5RN+TCnGVAuAw9bHT3cCmEYz2R70ZbAe4WXMoZ7V5f89T9XFJhcQd9n
+	2twKJGJQwG8FwfltgqOMNJMOPkt/qY79DmmSlpIhSN1z657lfDFikxXQcZUbFc00
+	N5jTKyNIZBEz9HtygI+WKA5DZ4XZHABwPSF7BqL58WIbWBgjDO/IeVWJA+q6PrJ6
+	2Qlj598eWApJQl17+gwMkO7H6qNqxHcxuZguNVgPhYy/KzUyBvEGwtsF70dSlW1Q
+	4ZGOsT6mhyP0h+PcGes8/2Z1oIL1adE4laScUFv5CtDiPuQnBw7+hGQG3bC6peP+
+	q1V4YDrgE9CPJiYM2TLDQ==
+X-ME-Sender: <xms:stnvaHXOF_iP5kl8BcHKaq414OHVk1T-ZQ3xvxKR426YdAQhkE8QGg>
+    <xme:stnvaLaNzePPZ6q27NNqPeC-W7IhzYbTU_43zVuANUaHNFIjRqJE1uDHr27ODJfQ1
+    L69di3XG5cRZ9Q-YTUau_TssoPFPjvP3_7Mz_vb-sTNDFbK3RfHyQ>
+X-ME-Received: <xmr:stnvaI4YJQNRk9u-8_lkDU-VF_D0tH5Lq60OqTr-Wb-NyNAaKakghgulFAO8GxVrtl7-UYPnO4nVdE5CwI29kBSGoY3mwAs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduvdegtdduucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
+    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrg
+    htvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeefheet
+    heekkeegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhn
+    rghtvggthhdrshgvpdhnsggprhgtphhtthhopeduhedpmhhouggvpehsmhhtphhouhhtpd
+    hrtghpthhtohepphhrrggshhgrkhgrrhdrtghsvghnghhgsehgmhgrihhlrdgtohhmpdhr
+    tghpthhtohepphgruhhlsehpsggrrhhkvghrrdguvghvpdhrtghpthhtoheprghnughrvg
+    ifodhnvghtuggvvheslhhunhhnrdgthhdprhgtphhtthhopegurghvvghmsegurghvvghm
+    lhhofhhtrdhnvghtpdhrtghpthhtohepvgguuhhmrgiivghtsehgohhoghhlvgdrtghomh
+    dprhgtphhtthhopehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgrsggv
+    nhhisehrvgguhhgrthdrtghomhdprhgtphhtthhopehsvghrghgvihdrshhhthihlhihoh
+    hvsegtohhgvghnthgvmhgsvgguuggvugdrtghomhdprhgtphhtthhopehnvghtuggvvhes
+    vhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:stnvaEwkv-et2aou0xaC26sh9W-E0OF3YkX4Z3kr8vzt00QSUme08A>
+    <xmx:stnvaBoIdZYIzWWQ4jl8atJnqc32Y4A6u-IV9Mt-cuMDBTb1rq8qlA>
+    <xmx:stnvaO0MEwnZWG4AJG2OFqjaDPAbv8VMGUsqMt1IqL8kXEiMoby4EQ>
+    <xmx:stnvaCDtbae2Qb9k34FccCPnvwMAfm3yuf1-4cASv8jHDITvPWfAIA>
+    <xmx:s9nvaKRIh6aAROuVrR_dVzF1H-TWh1Wh3NpMzeF1VZKwr9w0rTk6czye>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 15 Oct 2025 13:28:18 -0400 (EDT)
+Date: Wed, 15 Oct 2025 19:28:15 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Paul Barker <paul@pbarker.dev>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 3/3] net: ravb: Enforce descriptor type ordering to
+ prevent early DMA start
+Message-ID: <20251015172815.GG439570@ragnatech.se>
+References: <20251015150026.117587-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20251015150026.117587-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20251015155622.GE439570@ragnatech.se>
+ <CA+V-a8vudn0=kSnaAT4qDCcRtVShmS+n2A4GOQH2iogYizUBzw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251015150026.117587-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20251015150026.117587-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <20251015153556.GC439570@ragnatech.se>
-In-Reply-To: <20251015153556.GC439570@ragnatech.se>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 15 Oct 2025 18:05:34 +0100
-X-Gm-Features: AS18NWCeZXObMFBnMoScyXIU84ZFuSWIQLCEr-5cctebOmvYCISJdgFwzckySGU
-Message-ID: <CA+V-a8vRXN+2CDQu=FkN_teTDLywzGPn_=8obvKC+3tmwYo4hA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] net: ravb: Make DBAT entry count configurable per-SoC
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: Paul Barker <paul@pbarker.dev>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>, netdev@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+V-a8vudn0=kSnaAT4qDCcRtVShmS+n2A4GOQH2iogYizUBzw@mail.gmail.com>
 
-Hi Niklas,
+Hello,
 
-Thank you for the review.
+On 2025-10-15 18:01:13 +0100, Lad, Prabhakar wrote:
+> Hi Niklas,
+> 
+> Thank you for the review.
+> 
+> On Wed, Oct 15, 2025 at 4:56 PM Niklas Söderlund
+> <niklas.soderlund@ragnatech.se> wrote:
+> >
+> > Hi Prabhakar,
+> >
+> > Thanks for your work.
+> >
+> > On 2025-10-15 16:00:26 +0100, Prabhakar wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > Ensure TX descriptor type fields are written in a safe order so the DMA
+> > > engine does not begin processing a chain before all descriptors are
+> > > fully initialised.
+> > >
+> > > For multi-descriptor transmissions the driver writes DT_FEND into the
+> > > last descriptor and DT_FSTART into the first. The DMA engine starts
+> > > processing when it sees DT_FSTART. If the compiler or CPU reorders the
+> > > writes and publishes DT_FSTART before DT_FEND, the DMA can start early
+> > > and process an incomplete chain, leading to corrupted transmissions or
+> > > DMA errors.
+> > >
+> > > Fix this by writing DT_FEND before the dma_wmb() barrier, executing
+> > > dma_wmb() immediately before DT_FSTART (or DT_FSINGLE in the single
+> > > descriptor case), and then adding a wmb() after the type updates to
+> > > ensure CPU-side ordering before ringing the hardware doorbell.
+> > >
+> > > On an RZ/G2L platform running an RT kernel, this reordering hazard was
+> > > observed as TX stalls and timeouts:
+> > >
+> > >   [  372.968431] NETDEV WATCHDOG: end0 (ravb): transmit queue 0 timed out
+> > >   [  372.968494] WARNING: CPU: 0 PID: 10 at net/sched/sch_generic.c:467 dev_watchdog+0x4a4/0x4ac
+> > >   [  373.969291] ravb 11c20000.ethernet end0: transmit timed out, status 00000000, resetting...
+> > >
+> > > This change enforces the required ordering and prevents the DMA engine
+> > > from observing DT_FSTART before the rest of the descriptor chain is
+> > > valid.
+> > >
+> > > Fixes: 2f45d1902acf ("ravb: minimize TX data copying")
+> > > Cc: stable@vger.kernel.org
+> > > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > ---
+> > >  drivers/net/ethernet/renesas/ravb_main.c | 14 +++++++++-----
+> > >  1 file changed, 9 insertions(+), 5 deletions(-)
+> > >
+> > > diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> > > index a200e205825a..2a995fa9bfff 100644
+> > > --- a/drivers/net/ethernet/renesas/ravb_main.c
+> > > +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> > > @@ -2211,15 +2211,19 @@ static netdev_tx_t ravb_start_xmit(struct sk_buff *skb, struct net_device *ndev)
+> > >
+> > >               skb_tx_timestamp(skb);
+> > >       }
+> > > -     /* Descriptor type must be set after all the above writes */
+> > > -     dma_wmb();
+> > > +
+> > > +     /* For multi-descriptors set DT_FEND before calling dma_wmb() */
+> > >       if (num_tx_desc > 1) {
+> > >               desc->die_dt = DT_FEND;
+> > >               desc--;
+> > > -             desc->die_dt = DT_FSTART;
+> > > -     } else {
+> > > -             desc->die_dt = DT_FSINGLE;
+> > >       }
+> > > +
+> > > +     /* Descriptor type must be set after all the above writes */
+> > > +     dma_wmb();
+> > > +     desc->die_dt = (num_tx_desc > 1) ? DT_FSTART : DT_FSINGLE;
+> >
+> > IMHO it's ugly to evaluate num_tx_desc twice. I would rather just open
+> > code the full steps in each branch of the if above. It would make it
+> > easier to read and understand.
+> >
+> I did this just to avoid compiler optimizations. With the previous
+> similar code on 5.10 CIP RT it was observed that the compiler
+> optimized code in such a way that the DT_FSTART was written first
+> before DT_FEND while the DMA was active because of which we ran into
+> DMA issues causing QEF errors.
 
-On Wed, Oct 15, 2025 at 4:36=E2=80=AFPM Niklas S=C3=B6derlund
-<niklas.soderlund@ragnatech.se> wrote:
->
-> Hi Prabhakar,
->
-> Thanks for your work.
->
-> On 2025-10-15 16:00:24 +0100, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > The number of CDARq (Current Descriptor Address Register) registers is =
-not
-> > fixed to 22 across all SoC variants. For example, the GBETH implementat=
-ion
-> > uses only two entries. Hardcoding the value leads to incorrect resource
-> > allocation on such platforms.
-> >
-> > Pass the DBAT entry count through the per-SoC hardware info struct and =
-use
-> > it during probe instead of relying on a fixed constant. This ensures
-> > correct descriptor table sizing and initialization across different SoC=
-s.
-> >
-> > Fixes: feab85c7ccea ("ravb: Add support for RZ/G2L SoC")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> I have not verified with documentation the setting of 2 for
-> gbeth_hw_info. But the change itself is good.
->
-> > ---
-> >  drivers/net/ethernet/renesas/ravb.h      | 2 +-
-> >  drivers/net/ethernet/renesas/ravb_main.c | 9 +++++++--
-> >  2 files changed, 8 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet=
-/renesas/ravb.h
-> > index 7b48060c250b..d65cd83ddd16 100644
-> > --- a/drivers/net/ethernet/renesas/ravb.h
-> > +++ b/drivers/net/ethernet/renesas/ravb.h
-> > @@ -1017,7 +1017,6 @@ enum CSR2_BIT {
-> >  #define CSR2_CSUM_ENABLE (CSR2_RTCP4 | CSR2_RUDP4 | CSR2_RICMP4 | \
-> >                         CSR2_RTCP6 | CSR2_RUDP6 | CSR2_RICMP6)
-> >
-> > -#define DBAT_ENTRY_NUM       22
-> >  #define RX_QUEUE_OFFSET      4
-> >  #define NUM_RX_QUEUE 2
-> >  #define NUM_TX_QUEUE 2
-> > @@ -1062,6 +1061,7 @@ struct ravb_hw_info {
-> >       u32 rx_max_frame_size;
-> >       u32 rx_buffer_size;
-> >       u32 rx_desc_size;
-> > +     u32 dbat_entry_num;
->
-> I have been wondering for some time if we shall not start to document
-> these fields as they always take so much time to get back to what each
-> of them represent. How do you feel about starting a header?
->
-> /**
->  * dbat_entry_num: Describe me here.
->  */
->
-I agree, let's take this separately into a different patch as it will
-make things easier to backport. What do you think?
+I was thinking of something like
 
-Cheers,
-Prabhakar
+  /* Descriptor type must be set after all the above writes */
+  dma_wmb();
 
-> Without, but preferably with, this added.
->
-> Reviewed-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.se=
->
->
-> >       unsigned aligned_tx: 1;
-> >       unsigned coalesce_irqs:1;       /* Needs software IRQ coalescing =
-*/
+  if (num_tx_desc > 1) {
+          desc->die_dt = DT_FEND;
+          desc--;
+	  /* For multi-descriptors ensure DT_FEND before start
+           * TODO: Add explanation about compiler optimised code etc.
+           */
+          dma_wmb();
+          desc->die_dt = DT_FSTART;
+  } else {
+          desc->die_dt = DT_FSINGLE;
+  }
+
+
+Would make new new special case clearer to understand. And if we figure 
+out different way of doing it it's very clear why the second dma_wmb() 
+is needed. But after writing it out I'm not so sure anymore, maybe 
+adding a temporary variable instead would make it a clearer read.
+
+    u8 die_dt = DT_FSINGLE;
+
+    /* For multi-descriptors ensure DT_FEND before DT_FEND
+     * TODO: Add explanation about compiler optimised code etc.
+     */
+    if (num_tx_desc > 1) {
+        desc->die_dt = DT_FEND;
+        desc--;
+        die_dt = DT_FSTART;
+    }
+
+    /* Descriptor type must be set after all the above writes */
+    dma_wmb();
+    desc->die_dt = die_dt;
+
+I think my main complaint is that evaluating num_tx_desc > 1 multiple 
+times makes the code read as stuff was just thrown into the driver until 
+a test-case passed without understanding the root cause.
+
+> 
+> > > +
+> > > +     /* Ensure data is written to RAM before initiating DMA transfer */
+> > > +     wmb();
 > >
-> > diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/eth=
-ernet/renesas/ravb_main.c
-> > index 9d3bd65b85ff..69d382e8757d 100644
-> > --- a/drivers/net/ethernet/renesas/ravb_main.c
-> > +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> > @@ -2694,6 +2694,7 @@ static const struct ravb_hw_info ravb_gen2_hw_inf=
-o =3D {
-> >       .rx_buffer_size =3D SZ_2K +
-> >                         SKB_DATA_ALIGN(sizeof(struct skb_shared_info)),
-> >       .rx_desc_size =3D sizeof(struct ravb_ex_rx_desc),
-> > +     .dbat_entry_num =3D 22,
-> >       .aligned_tx =3D 1,
-> >       .gptp =3D 1,
-> >       .nc_queues =3D 1,
-> > @@ -2717,6 +2718,7 @@ static const struct ravb_hw_info ravb_gen3_hw_inf=
-o =3D {
-> >       .rx_buffer_size =3D SZ_2K +
-> >                         SKB_DATA_ALIGN(sizeof(struct skb_shared_info)),
-> >       .rx_desc_size =3D sizeof(struct ravb_ex_rx_desc),
-> > +     .dbat_entry_num =3D 22,
-> >       .internal_delay =3D 1,
-> >       .tx_counters =3D 1,
-> >       .multi_irqs =3D 1,
-> > @@ -2743,6 +2745,7 @@ static const struct ravb_hw_info ravb_gen4_hw_inf=
-o =3D {
-> >       .rx_buffer_size =3D SZ_2K +
-> >                         SKB_DATA_ALIGN(sizeof(struct skb_shared_info)),
-> >       .rx_desc_size =3D sizeof(struct ravb_ex_rx_desc),
-> > +     .dbat_entry_num =3D 22,
-> >       .internal_delay =3D 1,
-> >       .tx_counters =3D 1,
-> >       .multi_irqs =3D 1,
-> > @@ -2769,6 +2772,7 @@ static const struct ravb_hw_info ravb_rzv2m_hw_in=
-fo =3D {
-> >       .rx_buffer_size =3D SZ_2K +
-> >                         SKB_DATA_ALIGN(sizeof(struct skb_shared_info)),
-> >       .rx_desc_size =3D sizeof(struct ravb_ex_rx_desc),
-> > +     .dbat_entry_num =3D 22,
-> >       .multi_irqs =3D 1,
-> >       .err_mgmt_irqs =3D 1,
-> >       .gptp =3D 1,
-> > @@ -2794,6 +2798,7 @@ static const struct ravb_hw_info gbeth_hw_info =
-=3D {
-> >       .rx_max_frame_size =3D SZ_8K,
-> >       .rx_buffer_size =3D SZ_2K,
-> >       .rx_desc_size =3D sizeof(struct ravb_rx_desc),
-> > +     .dbat_entry_num =3D 2,
-> >       .aligned_tx =3D 1,
-> >       .coalesce_irqs =3D 1,
-> >       .tx_counters =3D 1,
-> > @@ -3025,7 +3030,7 @@ static int ravb_probe(struct platform_device *pde=
-v)
-> >       ravb_parse_delay_mode(np, ndev);
+> > All of this looks a bit odd, why not just do a single dma_wmb() or wmb()
+> > before ringing the doorbell? Maybe I'm missing something obvious?
 > >
-> >       /* Allocate descriptor base address table */
-> > -     priv->desc_bat_size =3D sizeof(struct ravb_desc) * DBAT_ENTRY_NUM=
-;
-> > +     priv->desc_bat_size =3D sizeof(struct ravb_desc) * info->dbat_ent=
-ry_num;
-> >       priv->desc_bat =3D dma_alloc_coherent(ndev->dev.parent, priv->des=
-c_bat_size,
-> >                                           &priv->desc_bat_dma, GFP_KERN=
-EL);
-> >       if (!priv->desc_bat) {
-> > @@ -3035,7 +3040,7 @@ static int ravb_probe(struct platform_device *pde=
-v)
-> >               error =3D -ENOMEM;
-> >               goto out_rpm_put;
-> >       }
-> > -     for (q =3D RAVB_BE; q < DBAT_ENTRY_NUM; q++)
-> > +     for (q =3D RAVB_BE; q < info->dbat_entry_num; q++)
-> >               priv->desc_bat[q].die_dt =3D DT_EOS;
+> This wmb() was mainly added to ensure all the descriptor data is in
+> RAM. The HW manual for RZ/G1/2, R-Car Gen1/2 and RZ/G2L family
+> mentions that we need to read back the last written descriptor before
+> triggering the DMA. Please let me know if you think this can be
+> handled differently.
+
+Have you observed any issues without the wmb() here?
+
+What I'm trying to understand is why a new barrier is needed here when 
+it have worked without one before. I'm likely just slow but what I'm 
+trying to grasp is the need for the intermittent dma_wmb() above in 
+relation to this one.
+
+Should it not be, setup the descriptors, barrier to ensure it's in RAM, 
+ring doorbell. The staggered method of setup descriptors, barrier, setup 
+more descriptors, barrier, ring doorbell is what confuses me, I think 
+:-)
+
+> 
+> Cheers,
+> Prabhakar
+> 
+> > >       ravb_modify(ndev, TCCR, TCCR_TSRQ0 << q, TCCR_TSRQ0 << q);
+> > >
+> > >       priv->cur_tx[q] += num_tx_desc;
+> > > --
+> > > 2.43.0
+> > >
 > >
-> >       /* Initialise HW timestamp list */
 > > --
-> > 2.43.0
-> >
->
-> --
-> Kind Regards,
-> Niklas S=C3=B6derlund
+> > Kind Regards,
+> > Niklas Söderlund
+
+-- 
+Kind Regards,
+Niklas Söderlund
 
