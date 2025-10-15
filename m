@@ -1,114 +1,109 @@
-Return-Path: <linux-renesas-soc+bounces-23102-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23103-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81670BDFDB7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 19:29:45 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC5A8BDFE11
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 19:34:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6F0801A22A4D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 17:29:49 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 13A644FD7F2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 17:34:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7795433CE91;
-	Wed, 15 Oct 2025 17:29:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F05AA2FFFAA;
+	Wed, 15 Oct 2025 17:33:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="WPIM0HV/";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="XQls8kp2"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Bl/e5l7g";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="kK+hkijt"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53ADA338F3D;
-	Wed, 15 Oct 2025 17:29:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4552FFDFA;
+	Wed, 15 Oct 2025 17:33:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760549349; cv=none; b=M5bX4KoJuzwYlJg0wbEGLLJ7HfrHVm7QjG3B4QaCEDPriUTOkMsgoiPS76g/jHC/iw4/zDHewu9Nzs4FIrVpU4JY9fpeuQRdiqvfsyHdRDAA0nNtag9HylYQWgvzt2XvEVrxQb7aLrNL8DneHjTgnSX2Xoq4y0iYVrHQmLCgCvQ=
+	t=1760549589; cv=none; b=M/2OaXOHi1IBI+ZS9S6Eh5VhHm/MdGRHUtqsOTEgZ4jLfFcCg3iV5oPfti/T8GEsfAhj+PjBk5uwvtgDN5+SnDuO4rU4KoMS95i9nhqXg6SVXY8CqhJpaySW+MVsVAJuV60G9CRjGcpca5nNhdqexxvS+gMFI0DMIThfbMEGjes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760549349; c=relaxed/simple;
-	bh=5H8mfESP3dxIzl/iGvVR1gvFW1pHz/AkUxhDW0bj/NQ=;
+	s=arc-20240116; t=1760549589; c=relaxed/simple;
+	bh=85CV8PNCwtAjXfzdL2Yq2usOEFHJrQAflgQpbV1FMA0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NZasA8rKcP+dEJpli9H2ErqCuolnvKF21C07HFu4jldmc8uji9PbWN8yPqSBwpuzWCFv39WiN6kW8JvTx9Cxh/h/QPR2b/xtQMcjxup1V2/rxRs6NlC+HvroLbvn0IPJn5QngEVGYotjEdFjN0wQJ+6iajp4xZKccQYYOeX2icc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=WPIM0HV/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=XQls8kp2; arc=none smtp.client-ip=202.12.124.152
+	 Content-Type:Content-Disposition:In-Reply-To; b=tQbtxHWi70ZDOLwuMcsGCcbQV3D1VdGVCflvLoJDt5oyntIkqsQXxDXDuoCBY0RXmEuGtsTXcnOcwX8CLRe7MB7y6E8VYIjBqRK3W9FJ0SuWZFpFZC4u9Ym4ikpctwqh3JenuaNVzHZ6eFW5vQy+L+9uXlyBljaDZeeT5GzVnLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Bl/e5l7g; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=kK+hkijt; arc=none smtp.client-ip=202.12.124.152
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 107D17A01A5;
-	Wed, 15 Oct 2025 13:29:06 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-12.internal (MEProxy); Wed, 15 Oct 2025 13:29:06 -0400
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 3882D7A010C;
+	Wed, 15 Oct 2025 13:33:06 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Wed, 15 Oct 2025 13:33:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1760549345;
-	 x=1760635745; bh=JpHOjUlmPxlqLmVUG2wnIN2rAbw2kC6v6XhYhWuP4pc=; b=
-	WPIM0HV/YDsmOKB57DoRVOa9p+h6xRElVYHaTLnYrzCdpolPFSuW5LetWEfjEdm8
-	Yk9mKBIdDwTtqhpyFILhEKfbB86s00z4lLtWfOt5LHV9zdreNn1k2GJF5lCuZIsc
-	96sdeE1gKZpJnIOG7LTjF0O59MoEJNTaZino2aE4wmt2S0AnY8Zpio8DDfwGUpuM
-	lqZ18HZ+p0ws+wbn9v1ROMZJE1AbW4Ru3C4jJWQ//qjcD74Tt+hbzTQy2aaqCW3H
-	6EJeZqTfjFSao7bOt4m4VZaChAjtBYth1iBCbEUzVID0lJs173aTPRqpicmzOZWE
-	AQHYxjDGQmUwM6ciRqwyBA==
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1760549586;
+	 x=1760635986; bh=8QjXh8E1okcV/Gh4eC+R3CGH60JCknIAHdghkbl4JUc=; b=
+	Bl/e5l7gmK+t3tWfxGUPrD5IgsTwIzbHdy3JQFMhsREHsTIfp3ObV9bXnWdOnw6o
+	OCxHv4BtUFZvUROPQyGhwQ7q+Wj+NWAVL9WbNUDM8nLBi7RhdorZ50yPP4v5IS1W
+	dcJ+ctnvtLj4tsxuI+SOJElFIJ+uP6Ra9MfClYRu7PMf8LWvSkx892GjXZjEA7Qn
+	0hlSrdbZkQFsJYUJ9b6a89DGr9jNUsdgNC0O4fmtxxpxFtMjlBT0/Es+yygD/bEM
+	/XwgkBrcLWwqdOKylm93ElMRc63nKCvXG0IbCd+tZ+T7o2DkoH3j/aSUWktUYrZh
+	NUVVJKnojZtyM8pequ/Fig==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1760549345; x=
-	1760635745; bh=JpHOjUlmPxlqLmVUG2wnIN2rAbw2kC6v6XhYhWuP4pc=; b=X
-	Qls8kp2kGS2gsJ6UBWJfeBqhRESqK4AnCrj52xoxcY8dh2tEQN5U9zSaxp4EqFaw
-	QoYCdonF2qAXwVzIbywIqBshGFYWGhoEPjxaNCWQ7QnNhL6QWaKUByMbDp7M+bbc
-	XpIBMfgGumKyHizR3fvx25q01Bv0GXkXb/Ozqiyjv0wBGDK70NZghVm4HuU+Acw4
-	VO3QsB0EbQHaJ+WRnU7UmUgva22s5ihTnSf+gx0L61FgDkf0Zwr+3GxPJkfl2Yal
-	6ZIsX+lH0shVvgCPbAI9a2HdyQCNaMB7nMLYqWHvAJxtYhErsI7F9J3BG4ZNOvW4
-	adt5+jHZB2gUobT7PJlTQ==
-X-ME-Sender: <xms:4dnvaFHgNBwQpMRfdh1f5760-9POHqWdIg02h5epcHD0f0zfjydQEA>
-    <xme:4dnvaP6na0BiSCKYqvUojZIHU0VOno9SO5Z5YVzAhSwJ_-eDPcrAthqbUaOEDWhUt
-    oWQ81jsOIZ61KlEgbpkL3Eq7yTeFsEfVzgDuIodOvmxoCJaOqaUoA>
-X-ME-Received: <xmr:4dnvaAtDPl1bB8-SRFZvSOHY1OBOGa5fSGV5QIVNRHPUrQtYXq5AJYCo4FTqFbvA8v_mN8YVHIQnYAFIXDPvR7-fP4X_7Yk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduvdegtdduucetufdoteggodetrf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1760549586; x=
+	1760635986; bh=8QjXh8E1okcV/Gh4eC+R3CGH60JCknIAHdghkbl4JUc=; b=k
+	K+hkijtJhqoKw522j4wj4PInpA1JS7awNZpFlqtbXukUYRufORoKzbFsAQXA6Sfp
+	8EvNwjdkINizCaP/YllfWybMJ1h6TOWwSCJ413fjM+HIRkjmjJXiN0x7lIAKv2Xg
+	2fPsl8H1y+LmrSg4a4lBRMcuPhEkkPYLRmwOcWKOlh6Ufb7ZWkrdt8eYfnOau5Ln
+	p2YpuVpnKQSthZcsTFgS2JksHfhrzO4LKZ1vJYXPiIO34BfAkXCC19AcBMWWCMFy
+	AVQE6IMVf04fbZ0YcU1k9j6fAWtlBijxfGt+YdHH4Fyt3idRsbD6AO744NorsUn+
+	BxuEmGilMhytG4AifYkuA==
+X-ME-Sender: <xms:0drvaP-_Wt3iY60sbFQvwcHvRSlP5JivdENQKNhhbmkvZN3q-hxTJQ>
+    <xme:0drvaAqPw_YTKtm4KSU39pAuUXIJaFahLnlmdM4OzKTqK6blcvYJvlh-jdsBSb9rI
+    8pqiiAbb7X5f57BbJGIvX5TuXDDMt-LcdJY1vOMJxmb3sgCP6sK6ic>
+X-ME-Received: <xmr:0drvaBQTf86BgR9JJLyZDkWCXuT3RVGKsLhiTlSkOTW-lRitcWhJATq5HObiDKWPk01afLA7pINT1OxGL0JOHvA7cNgso5E>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduvdegtddvucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
     shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrg
     htvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeefheet
-    heekkeegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedunecurf
+    heekkeegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtnecurf
     grrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhn
-    rghtvggthhdrshgvpdhnsggprhgtphhtthhopeduhedpmhhouggvpehsmhhtphhouhhtpd
-    hrtghpthhtohepphhrrggshhgrkhgrrhdrtghsvghnghhgsehgmhgrihhlrdgtohhmpdhr
-    tghpthhtohepphgruhhlsehpsggrrhhkvghrrdguvghvpdhrtghpthhtoheprghnughrvg
-    ifodhnvghtuggvvheslhhunhhnrdgthhdprhgtphhtthhopegurghvvghmsegurghvvghm
-    lhhofhhtrdhnvghtpdhrtghpthhtohepvgguuhhmrgiivghtsehgohhoghhlvgdrtghomh
-    dprhgtphhtthhopehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgrsggv
-    nhhisehrvgguhhgrthdrtghomhdprhgtphhtthhopehsvghrghgvihdrshhhthihlhihoh
-    hvsegtohhgvghnthgvmhgsvgguuggvugdrtghomhdprhgtphhtthhopehnvghtuggvvhes
-    vhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:4dnvaL-raNsBfOhWZBHhp5cbl-Vckd1jwwy0bYPHb6RYtWrfJsMhkA>
-    <xmx:4dnvaCnW7uEosx3o1ZHykNHE3r4sKsBShP92a0ygy1-4Ja6YaBC82w>
-    <xmx:4dnvaDNRTJTXrhP3K_jAMn9ubeMdD4axH9k0cy_rwTW3R9I1_oNapQ>
-    <xmx:4dnvaJKidZpH4I9-5QmxiQ9VoeGCQc7mxcIhNLRKn1vSy35wvOGp1w>
-    <xmx:4dnvaJLfXXUblAWzjyZ51qBVKItq5mmjmAEd6yw_d-h5Bw4kn8uNwcQi>
+    rghtvggthhdrshgvpdhnsggprhgtphhtthhopeelpdhmohguvgepshhmthhpohhuthdprh
+    gtphhtthhopehmrghrvghkrdhvrghsuhhtodhrvghnvghsrghssehmrghilhgsohigrdho
+    rhhgpdhrtghpthhtoheplhhinhhugidqphhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpd
+    hrtghpthhtoheprhgrfhgrvghlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegurghn
+    ihgvlhdrlhgviigtrghnoheslhhinhgrrhhordhorhhgpdhrtghpthhtohepghgvvghrth
+    dorhgvnhgvshgrshesghhlihguvghrrdgsvgdprhgtphhtthhopehluhhkrghsiidrlhhu
+    sggrsegrrhhmrdgtohhmpdhrtghpthhtohepmhgrghhnuhhsrdgurghmmhesghhmrghilh
+    drtghomhdprhgtphhtthhopehruhhirdiihhgrnhhgsehinhhtvghlrdgtohhmpdhrtghp
+    thhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdroh
+    hrgh
+X-ME-Proxy: <xmx:0drvaLPNUBfd2stwPESjWtaqnzhTG7euPR6LuZNgmVTTTrDeHVMzcg>
+    <xmx:0drvaHhjQSpyzsUeSy3RhPFmGC-rbulrIdqG8swJXSKsWVChZQd8Tg>
+    <xmx:0drvaAkRofcmiMDCzStlroaToC_T9IYDf9y5hh18qckFAfKrMMbqIA>
+    <xmx:0drvaLiP1Bpyobm7gRMGfhQz9YeRBtXj6Jjhdz4l7KevoN800QpWlg>
+    <xmx:0trvaE68LyEqm-ykZ4ESd0hoPygPl0Du0D3WgDBkmieGXYQ-XoQoBhZR>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 15 Oct 2025 13:29:05 -0400 (EDT)
-Date: Wed, 15 Oct 2025 19:29:04 +0200
+ 15 Oct 2025 13:33:04 -0400 (EDT)
+Date: Wed, 15 Oct 2025 19:33:03 +0200
 From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Paul Barker <paul@pbarker.dev>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 1/3] net: ravb: Make DBAT entry count configurable per-SoC
-Message-ID: <20251015172904.GH439570@ragnatech.se>
-References: <20251015150026.117587-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20251015150026.117587-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20251015153556.GC439570@ragnatech.se>
- <CA+V-a8vRXN+2CDQu=FkN_teTDLywzGPn_=8obvKC+3tmwYo4hA@mail.gmail.com>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Zhang Rui <rui.zhang@intel.com>, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2] thermal/drivers/rcar_gen3: Document R-Car Gen4 and
+ RZ/G2 support in driver comment
+Message-ID: <20251015173303.GA607688@ragnatech.se>
+References: <20251015155905.186612-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -118,155 +113,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+V-a8vRXN+2CDQu=FkN_teTDLywzGPn_=8obvKC+3tmwYo4hA@mail.gmail.com>
+In-Reply-To: <20251015155905.186612-1-marek.vasut+renesas@mailbox.org>
 
-On 2025-10-15 18:05:34 +0100, Lad, Prabhakar wrote:
-> Hi Niklas,
+On 2025-10-15 17:58:52 +0200, Marek Vasut wrote:
+> The R-Car Gen3 thermal driver supports both R-Car Gen3 and Gen4 SoCs
+> as well as RZ/G2. Update the driver comment. No functional change.
 > 
-> Thank you for the review.
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> ---
+> Cc: "Niklas Söderlund" <niklas.soderlund@ragnatech.se>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Lukasz Luba <lukasz.luba@arm.com>
+> Cc: Magnus Damm <magnus.damm@gmail.com>
+> Cc: Zhang Rui <rui.zhang@intel.com>
+> Cc: linux-pm@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+> V2: Fix up the commit message, include RZ/G2
+> ---
+>  drivers/thermal/renesas/rcar_gen3_thermal.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> On Wed, Oct 15, 2025 at 4:36 PM Niklas Söderlund
-> <niklas.soderlund@ragnatech.se> wrote:
-> >
-> > Hi Prabhakar,
-> >
-> > Thanks for your work.
-> >
-> > On 2025-10-15 16:00:24 +0100, Prabhakar wrote:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > The number of CDARq (Current Descriptor Address Register) registers is not
-> > > fixed to 22 across all SoC variants. For example, the GBETH implementation
-> > > uses only two entries. Hardcoding the value leads to incorrect resource
-> > > allocation on such platforms.
-> > >
-> > > Pass the DBAT entry count through the per-SoC hardware info struct and use
-> > > it during probe instead of relying on a fixed constant. This ensures
-> > > correct descriptor table sizing and initialization across different SoCs.
-> > >
-> > > Fixes: feab85c7ccea ("ravb: Add support for RZ/G2L SoC")
-> > > Cc: stable@vger.kernel.org
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > I have not verified with documentation the setting of 2 for
-> > gbeth_hw_info. But the change itself is good.
-> >
-> > > ---
-> > >  drivers/net/ethernet/renesas/ravb.h      | 2 +-
-> > >  drivers/net/ethernet/renesas/ravb_main.c | 9 +++++++--
-> > >  2 files changed, 8 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-> > > index 7b48060c250b..d65cd83ddd16 100644
-> > > --- a/drivers/net/ethernet/renesas/ravb.h
-> > > +++ b/drivers/net/ethernet/renesas/ravb.h
-> > > @@ -1017,7 +1017,6 @@ enum CSR2_BIT {
-> > >  #define CSR2_CSUM_ENABLE (CSR2_RTCP4 | CSR2_RUDP4 | CSR2_RICMP4 | \
-> > >                         CSR2_RTCP6 | CSR2_RUDP6 | CSR2_RICMP6)
-> > >
-> > > -#define DBAT_ENTRY_NUM       22
-> > >  #define RX_QUEUE_OFFSET      4
-> > >  #define NUM_RX_QUEUE 2
-> > >  #define NUM_TX_QUEUE 2
-> > > @@ -1062,6 +1061,7 @@ struct ravb_hw_info {
-> > >       u32 rx_max_frame_size;
-> > >       u32 rx_buffer_size;
-> > >       u32 rx_desc_size;
-> > > +     u32 dbat_entry_num;
-> >
-> > I have been wondering for some time if we shall not start to document
-> > these fields as they always take so much time to get back to what each
-> > of them represent. How do you feel about starting a header?
-> >
-> > /**
-> >  * dbat_entry_num: Describe me here.
-> >  */
-> >
-> I agree, let's take this separately into a different patch as it will
-> make things easier to backport. What do you think?
+> diff --git a/drivers/thermal/renesas/rcar_gen3_thermal.c b/drivers/thermal/renesas/rcar_gen3_thermal.c
+> index 3223de238d014..a143b087a8ea7 100644
+> --- a/drivers/thermal/renesas/rcar_gen3_thermal.c
+> +++ b/drivers/thermal/renesas/rcar_gen3_thermal.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  /*
+> - *  R-Car Gen3 THS thermal sensor driver
+> + *  R-Car Gen3/Gen4 and RZ/G2 THS thermal sensor driver
 
-Works for me.
+Super nit: I would write "Gen3, Gen4 and RZ/...". Compared to v1 you 
+updated the commit message not the comment here. Not a big deal all the 
+information is there.
 
+With or without this,
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+>   *  Based on rcar_thermal.c and work from Hien Dang and Khiem Nguyen.
+>   *
+>   * Copyright (C) 2016 Renesas Electronics Corporation.
+> -- 
+> 2.51.0
 > 
-> Cheers,
-> Prabhakar
-> 
-> > Without, but preferably with, this added.
-> >
-> > Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> >
-> > >       unsigned aligned_tx: 1;
-> > >       unsigned coalesce_irqs:1;       /* Needs software IRQ coalescing */
-> > >
-> > > diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> > > index 9d3bd65b85ff..69d382e8757d 100644
-> > > --- a/drivers/net/ethernet/renesas/ravb_main.c
-> > > +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> > > @@ -2694,6 +2694,7 @@ static const struct ravb_hw_info ravb_gen2_hw_info = {
-> > >       .rx_buffer_size = SZ_2K +
-> > >                         SKB_DATA_ALIGN(sizeof(struct skb_shared_info)),
-> > >       .rx_desc_size = sizeof(struct ravb_ex_rx_desc),
-> > > +     .dbat_entry_num = 22,
-> > >       .aligned_tx = 1,
-> > >       .gptp = 1,
-> > >       .nc_queues = 1,
-> > > @@ -2717,6 +2718,7 @@ static const struct ravb_hw_info ravb_gen3_hw_info = {
-> > >       .rx_buffer_size = SZ_2K +
-> > >                         SKB_DATA_ALIGN(sizeof(struct skb_shared_info)),
-> > >       .rx_desc_size = sizeof(struct ravb_ex_rx_desc),
-> > > +     .dbat_entry_num = 22,
-> > >       .internal_delay = 1,
-> > >       .tx_counters = 1,
-> > >       .multi_irqs = 1,
-> > > @@ -2743,6 +2745,7 @@ static const struct ravb_hw_info ravb_gen4_hw_info = {
-> > >       .rx_buffer_size = SZ_2K +
-> > >                         SKB_DATA_ALIGN(sizeof(struct skb_shared_info)),
-> > >       .rx_desc_size = sizeof(struct ravb_ex_rx_desc),
-> > > +     .dbat_entry_num = 22,
-> > >       .internal_delay = 1,
-> > >       .tx_counters = 1,
-> > >       .multi_irqs = 1,
-> > > @@ -2769,6 +2772,7 @@ static const struct ravb_hw_info ravb_rzv2m_hw_info = {
-> > >       .rx_buffer_size = SZ_2K +
-> > >                         SKB_DATA_ALIGN(sizeof(struct skb_shared_info)),
-> > >       .rx_desc_size = sizeof(struct ravb_ex_rx_desc),
-> > > +     .dbat_entry_num = 22,
-> > >       .multi_irqs = 1,
-> > >       .err_mgmt_irqs = 1,
-> > >       .gptp = 1,
-> > > @@ -2794,6 +2798,7 @@ static const struct ravb_hw_info gbeth_hw_info = {
-> > >       .rx_max_frame_size = SZ_8K,
-> > >       .rx_buffer_size = SZ_2K,
-> > >       .rx_desc_size = sizeof(struct ravb_rx_desc),
-> > > +     .dbat_entry_num = 2,
-> > >       .aligned_tx = 1,
-> > >       .coalesce_irqs = 1,
-> > >       .tx_counters = 1,
-> > > @@ -3025,7 +3030,7 @@ static int ravb_probe(struct platform_device *pdev)
-> > >       ravb_parse_delay_mode(np, ndev);
-> > >
-> > >       /* Allocate descriptor base address table */
-> > > -     priv->desc_bat_size = sizeof(struct ravb_desc) * DBAT_ENTRY_NUM;
-> > > +     priv->desc_bat_size = sizeof(struct ravb_desc) * info->dbat_entry_num;
-> > >       priv->desc_bat = dma_alloc_coherent(ndev->dev.parent, priv->desc_bat_size,
-> > >                                           &priv->desc_bat_dma, GFP_KERNEL);
-> > >       if (!priv->desc_bat) {
-> > > @@ -3035,7 +3040,7 @@ static int ravb_probe(struct platform_device *pdev)
-> > >               error = -ENOMEM;
-> > >               goto out_rpm_put;
-> > >       }
-> > > -     for (q = RAVB_BE; q < DBAT_ENTRY_NUM; q++)
-> > > +     for (q = RAVB_BE; q < info->dbat_entry_num; q++)
-> > >               priv->desc_bat[q].die_dt = DT_EOS;
-> > >
-> > >       /* Initialise HW timestamp list */
-> > > --
-> > > 2.43.0
-> > >
-> >
-> > --
-> > Kind Regards,
-> > Niklas Söderlund
 
 -- 
 Kind Regards,
