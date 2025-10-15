@@ -1,115 +1,157 @@
-Return-Path: <linux-renesas-soc+bounces-23056-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23057-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 381FDBDE443
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 13:29:51 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89EECBDE531
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 13:49:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 593B9188A119
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 11:30:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 49B55425784
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 11:48:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F1FC3176E7;
-	Wed, 15 Oct 2025 11:29:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92D8B322DB3;
+	Wed, 15 Oct 2025 11:48:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="AuYOSJPq"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="24QDWAP1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C509749C
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 11:29:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707B1322DAA;
+	Wed, 15 Oct 2025 11:48:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760527786; cv=none; b=fTQxK/v/xFIrdH9yjfWZhcsqo7xcIIDfWNkvrpCZsSrwKekKJVYSrcPSsr4Xg4fcpzihIWXl7a2CCACdwRFMTjXFXF4Id2UYNsDWpiqPJseViqFXDwW2MRzyMdbWo/XBC8NC1nJI4dGnMYtJB1oEMX8pfs4mfKTm6q3ukQFM9EY=
+	t=1760528938; cv=none; b=nmUHTFMUlV8+D1nHH+K5QGlzEDjLHJuih0rEmzo5LjvPivTJ7ZdK2eKEe9Lclp01VIPXdDm7Iehcm7+8fDxt5pHjXzuMBJCcin0zyWV5vtTUkJMO3j9AAKsa4/b56uo4xnQmL26yuLz2u3ilpDZtigwXveeRMeRVtF3S4zjD+WE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760527786; c=relaxed/simple;
-	bh=cvbc4bQsfp6XJXPd4RR86XSedJxcuv8j3+iJpY/Z290=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kdgjd8+qiK3J0QIVKDczUIhyM6Cpuiy/hFO/5fAa2VYll5kBG463nbgRdQaiymtUzxKOWHxuaFONyu9rA4EE8iEiGaMexRRKAN3Nc0Bby5XC4hyOZGX1XlRRKCSOzDQNgcZtDf4QhoBTsEA+XIuvTDVeBg9XxbNLftpF8zZks3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=AuYOSJPq; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=M2uLmgje3ebm4+
-	kl1NOOb5d0r1B8OIFraXJQh54wt3Q=; b=AuYOSJPqfGiIXF7sJjp2f8TXTRX6jf
-	kgNKHGGwDxt9EmF6diCEjxTCcM87I9z9g4JLZi3lRcPKZO+T/O9B3dtN25iBartJ
-	s0PU3Pt7Nj+Gb9qgjttju99FljNgtA04xOxZKmLy4+NkAnsWreSIWkW3E0RcXoua
-	1TyTo6Y9OBXjifVAOjN2r5Sx/VAEWmxQP4nfBes1tzb8sz5pHTkza4vwgkzNkftI
-	QJxnZGzrwLu+CLKc1vG5iIo8WGEEd4Xe/SxAUMjPYuWfNjij3t78tFUV8DvZfjWK
-	OSnGJHs9B/Ld8Zk1yq2eEny653T5YyD7+6SCHV5QL+3kDUtVu4R5N1hw==
-Received: (qmail 3376364 invoked from network); 15 Oct 2025 13:29:41 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Oct 2025 13:29:41 +0200
-X-UD-Smtp-Session: l3s3148p1@L5Tt0DBBxLkujnsG
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	linux-kernel@vger.kernel.org,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Subject: [RFC PATCH] reset: always bail out on missing RESET_GPIO driver
-Date: Wed, 15 Oct 2025 13:28:59 +0200
-Message-ID: <20251015112921.19535-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
+	s=arc-20240116; t=1760528938; c=relaxed/simple;
+	bh=5xkKQaCJcLNKjjAggEjnjUaHxOikgF03tyhL/q4hdLA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=A3etAgBusAPb4ZVh+lF1pwhYnYG3NeubwpY7EMqvNXM/lj0c80CF93JDLgvva60DX7LzJB/KKuWmPsYkXOUbc4Hg42uOd98zjbcN+hTIPUVYr4WcNDirSmHVvl2YYGBoB2hnmkSddpfDpL/8pDjK5Do9rYnGlQa2QzItMfcGsP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=24QDWAP1; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id CB4881A13CD;
+	Wed, 15 Oct 2025 11:48:52 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 9CEBF606F9;
+	Wed, 15 Oct 2025 11:48:52 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C41D9102F22B7;
+	Wed, 15 Oct 2025 13:48:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1760528931; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=q2qoYp02/jZuYlfxVRjrpV1dQgL3PSlbw/Em+FLVpf4=;
+	b=24QDWAP1A1lGjyfEDs5xwM2YU5G0VB4komtmvS3SROem458VxFSnTBkz+AvZagMZPyRtXC
+	9LvHXjBfv4OObeqmp1YJE3F4s2KP37uSiS38soVDWNvSTdKTRhgE9SIrupD+qN2OBfQSa4
+	QBGFhNoFPddsTVuOXTSIsiyMANfhnimB9QuoeQBa5g+DOvLd0pnRBn5Nt0N0v1Rc1/E20K
+	sHpcXdaZ0MXrCxGp4P8t1/N3XJeiVJzlDU3wdAf8HKOFoIPqb+TR3Z06oiaMiaPQmn7wwC
+	clBVZ8Cy+gqzeKpb968crH5T7hTYRnVckcKNJ9J5UDGY2npS57KLruSRv80mLQ==
+Date: Wed, 15 Oct 2025 13:48:39 +0200
+From: Herve Codina <herve.codina@bootlin.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Hoan Tran
+ <hoan@os.amperecomputing.com>, Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Magnus
+ Damm <magnus.damm@gmail.com>, Saravana Kannan <saravanak@google.com>, Serge
+ Semin <fancer.lancer@gmail.com>, Phil Edworthy <phil.edworthy@renesas.com>,
+ linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Pascal
+ Eberhard <pascal.eberhard@se.com>, Miquel Raynal
+ <miquel.raynal@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v4 7/8] soc: renesas: Add support for Renesas RZ/N1 GPIO
+ Interrupt Multiplexer
+Message-ID: <20251015134839.1b71fe28@bootlin.com>
+In-Reply-To: <aNQ7UOniYss92EIS@ninjato>
+References: <20250922152640.154092-1-herve.codina@bootlin.com>
+	<20250922152640.154092-8-herve.codina@bootlin.com>
+	<aNQ7UOniYss92EIS@ninjato>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Optional GPIOs mean they can be omitted. If they are described, a
-failure in acquiring them still needs to be reported. When the
-RESET_GPIO is not enabled so the reset core cannot provide its assumed
-fallback, the user should be informed about it. So, not only bail out
-but also give a hint how to fix the situation.
+Hi Wolfram,
 
-Reported-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Closes: https://lore.kernel.org/r/87a51um1y1.wl-kuninori.morimoto.gx@renesas.com
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+On Wed, 24 Sep 2025 20:41:20 +0200
+Wolfram Sang <wsa+renesas@sang-engineering.com> wrote:
 
-This happened because of this (in general) nice cleanup patch for the
-pca954x driver (690de2902dca ("i2c: muxes: pca954x: Use reset controller
-only")). Our .config didn't have the RESET_GPIO enabled before, so sound
-regressed on some boards.
+> Hi Herve,
+> 
+> On Mon, Sep 22, 2025 at 05:26:38PM +0200, Herve Codina (Schneider Electric) wrote:
+> > On the Renesas RZ/N1 SoC, GPIOs can generate interruptions. Those
+> > interruption lines are multiplexed by the GPIO Interrupt Multiplexer in
+> > order to map 32 * 3 GPIO interrupt lines to 8 GIC interrupt lines.
+> > 
+> > The GPIO interrupt multiplexer IP does nothing but select 8 GPIO
+> > IRQ lines out of the 96 available to wire them to the GIC input lines.
+> > 
+> > Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@bootlin.com>  
+> 
+> Thanks for improving the driver and removing the requirement of a fixed
+> ordering!
+> 
+> > +static u32 rzn1_irqmux_output_lines[] = {  
+> 
+> const?
 
-Actually, my preferred solution would be to make the reset-gpio driver
-'obj-y' but I guess its dependency on GPIOLIB makes this a no-go?
+Yes, will be added in the next iteration.
 
-On the other hand, the fallback is a really nice feature which could
-remove duplicated code. But if the fallback is not present by default,
-it makes it cumbersome to use IMO.
+> 
+> > +	103, 104, 105, 106, 107, 108, 109, 110
+> > +};  
+> 
+> ...
+> 
+> > +	for (i = 0; i < ARRAY_SIZE(rzn1_irqmux_output_lines); i++) {
+> > +		if (parent_args->args[1] == rzn1_irqmux_output_lines[i])
+> > +			return i;
+> > +	}  
+> 
+> Do we want a check here if the index has already been used in cases of
+> an improper 'interrupt-map'? I'd think it would be nice to have but I
+> would also not really require it.
 
-Has this been discussed before? I couldn't find any pointers...
+Agree, it will be a good improvement.
 
-Happy hacking, everyone!
+I will add this check in the next iteration.
 
+> 
+> ...
+> 
+> > +	ret = rzn1_irqmux_setup(dev, np, regs);
+> > +	if (ret)
+> > +		return dev_err_probe(dev, ret, "failed to setup mux\n");
+> > +
+> > +	return 0;  
+> 
+> Maybe just
+> 
+> 	return rzn1_irqmux_setup(dev, np, regs);
+> 
+> The driver core will report a failed probe already.
 
- drivers/reset/core.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Yes
 
-diff --git a/drivers/reset/core.c b/drivers/reset/core.c
-index 22f67fc77ae5..8a0f41963f6b 100644
---- a/drivers/reset/core.c
-+++ b/drivers/reset/core.c
-@@ -1028,8 +1028,10 @@ __of_reset_control_get(struct device_node *node, const char *id, int index,
- 	if (ret == -EINVAL)
- 		return ERR_PTR(ret);
- 	if (ret) {
--		if (!IS_ENABLED(CONFIG_RESET_GPIO))
--			return optional ? NULL : ERR_PTR(ret);
-+		if (!IS_ENABLED(CONFIG_RESET_GPIO)) {
-+			pr_warn("%s(): RESET_GPIO driver not enabled, cannot fall back\n", __func__);
-+			return ERR_PTR(ret);
-+		}
- 
- 		/*
- 		 * There can be only one reset-gpio for regular devices, so
--- 
-2.47.2
+> 
+> It still works, so:
+> 
+> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
+With update planned (new check for already been used indexes), a
+re-test will be probably needed.
+
+Best regards,
+Hervé
 
