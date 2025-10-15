@@ -1,155 +1,143 @@
-Return-Path: <linux-renesas-soc+bounces-23073-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23076-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FC3FBDF0C2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 16:31:04 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id E54F1BDF172
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 16:33:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB70B19C4360
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 14:31:21 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 996B23560D8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 14:33:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFF1528C849;
-	Wed, 15 Oct 2025 14:30:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5A9C299927;
+	Wed, 15 Oct 2025 14:33:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="I2lRGJfq";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="I/Fcsian"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01D228750C
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 14:30:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117E1295DA6;
+	Wed, 15 Oct 2025 14:33:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760538625; cv=none; b=J5jhVPo9sctzHyqAShtER3AHBzZ6ZrkwwQ52AtIusIdK8S7WwQRbikFfRB5N+G8d0Oy9+NxvYHX4FYZ4M/XUdrEpju8IrZX3UYkVirzUVZDFrAW1ElbNK6y9cKI+I93HJ8yc/v6pIkKYbWWYsCvQn5VQQ0pU8N+H7gK53Vd1iUc=
+	t=1760538817; cv=none; b=NYyzPuLuYLWpQcFPQOY7YoOx3CEioGRVZkMDmx2AtDPXeEZcDpyu8U1CHabLsqHpTfPMJUDPVmS7OJGaW5iPOzhoEcH387nIluFtZn9ku2nXpsOSOOudwAgbC+XhI7azJHxJabb9whIoEOX9Zne1aRAxwGQJdsgAjtOwyXBlAas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760538625; c=relaxed/simple;
-	bh=K1Tvo+DSqF9WNYYWJ+n9c3j2ga4uXkmmj4T88S0x2LA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=gbwJFt2AZXIO9S+Xm7FtYrSjBwyYiyzRfYNUqlv2KVnKj2pg1t3sWWmaQw9c6vFwtrR9Xb3QBiCdEu4uG/bYcMuvu/EjmhM7hhurOyyFDlEPnjuJ+/MYWpwrgXjgNFCn7WxR3HQmqtGfGvDDCF8SQesSHltWiwofiLAZldkbtYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1v92W2-0007UK-Qi; Wed, 15 Oct 2025 16:30:10 +0200
-Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1v92W2-003jpM-04;
-	Wed, 15 Oct 2025 16:30:10 +0200
-Received: from pza by lupine with local (Exim 4.98.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1v92W1-00000000BcA-3x2x;
-	Wed, 15 Oct 2025 16:30:09 +0200
-Message-ID: <c4996204c8b72f10324af87516b92a3a2819091c.camel@pengutronix.de>
-Subject: Re: [RFC PATCH] reset: always bail out on missing RESET_GPIO driver
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	linux-renesas-soc@vger.kernel.org
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Krzysztof
- Kozlowski	 <krzysztof.kozlowski@linaro.org>, linux-kernel@vger.kernel.org
-Date: Wed, 15 Oct 2025 16:30:09 +0200
-In-Reply-To: <20251015112921.19535-2-wsa+renesas@sang-engineering.com>
-References: <20251015112921.19535-2-wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.1-1 
+	s=arc-20240116; t=1760538817; c=relaxed/simple;
+	bh=efBe5EDoJOkmAAbMIPruqDIB07/QgCmMZUCVpAOzTto=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Cc1hyfgKGF3MBDNftILL++LSGD3NIBzReeYBgR6PaVPn0PXDUZGCBghqFzt/s5WwrcVlqzB6ZRascxd/X9YTToFFZ/Osnn7U32hs4qVJCax1MC6vh7m5DBsB5lbN1bzkmfU9eXNB1zqZHjscwvA/ceX8Rzxh0PgXKdZdqODpm1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=I2lRGJfq; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=I/Fcsian; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cmtqd6zFXz9tTj;
+	Wed, 15 Oct 2025 16:33:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1760538814;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KoAAYwwSkct1dybDxwgNyk2Rm0SbhKgSXVNFxBcKatM=;
+	b=I2lRGJfqsloGT2SHdY2M8bMV7/q4Pr59f484nUVBeklXjYgpLKNPtR3atxbCXVW/1M6/d1
+	//HA5XXVaNuD2b6Enca6KnfDPJxqBmUJVqa4NOLPhPFCNkGxeddmE1IsXzMp3cd3fDxZa9
+	4Wf2yOBB5cqHG01UPn+ngvQ1D/DdhFnwzrgHDLLlrUCNHJ2+CF+eucPncmiU2dFK1Xd5zj
+	1bqiFG5NNt+0uzUK50KJiBMdN5ZwIGz4mp4wdPyVgLVCJat/0ddlHGrXzVsca75CD+dH9o
+	jexbeP8s6jXf3KHK5o6c3HwCeYSfw964x6dFHgdaUjHVmUad+JjZ9p3epDuIHA==
+Message-ID: <78249155-c90a-4c33-8caa-d79d83171551@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1760538811;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KoAAYwwSkct1dybDxwgNyk2Rm0SbhKgSXVNFxBcKatM=;
+	b=I/FcsianBv0Nxyf1djQKC/ndDM6D04GOPsXWCbJsRR8sd9AASeOicPZ6iFlUcdZQ5lOzOD
+	Ja5w1TTbFN+8hn/CISsFQbHxB7aDwsVIp1/ltJEvascotKjnWLppiDSkL0ALI5UeGqpeDJ
+	VjQca0ofS305cN2uQPwlJRtSOCiviTS/QR5G0ui17dOZgAUEzdgfYD5NVntVYPWcw21Pz1
+	6LzaB30f84Cgzsz1dU5n4QmbfXG9yQpY+e8Jtp/H2lEvSCoD+car8jueuek8SJfo4QkP1S
+	Yqi8gLvqHlDHg9MF2IAX9amcKfIRtY0TXLBtsfkM2aIM04bBzGFYS5+lLWccYA==
+Date: Wed, 15 Oct 2025 16:32:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 2/3] arm64: dts: renesas: r8a77960: Add GX6250 GPU node
+To: Matt Coster <Matt.Coster@imgtec.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: Adam Ford <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
+ David Airlie <airlied@gmail.com>, Frank Binns <Frank.Binns@imgtec.com>,
+ Alessio Belle <Alessio.Belle@imgtec.com>,
+ Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+References: <20251013190210.142436-1-marek.vasut+renesas@mailbox.org>
+ <20251013190210.142436-2-marek.vasut+renesas@mailbox.org>
+ <d4ec2cc2-882a-4842-ad8c-42033ceb2bc7@imgtec.com>
+ <e93779e7-026b-4b48-9d9b-dfef3d953749@mailbox.org>
+ <dd7e09c7-995f-4ef9-a5bc-ff6c8be64ae1@imgtec.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <dd7e09c7-995f-4ef9-a5bc-ff6c8be64ae1@imgtec.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: c1dy1jmb5s88yb7q9s43rwqiniopzzh7
+X-MBO-RS-ID: fb5ef80d27592a90e0c
 
-Hi Wolfram,
+On 10/15/25 12:55 PM, Matt Coster wrote:
 
-On Mi, 2025-10-15 at 13:28 +0200, Wolfram Sang wrote:
-> Optional GPIOs mean they can be omitted. If they are described, a
-> failure in acquiring them still needs to be reported. When the
-> RESET_GPIO is not enabled so the reset core cannot provide its assumed
-> fallback, the user should be informed about it. So, not only bail out
-> but also give a hint how to fix the situation.
->=20
-> Reported-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> Closes: https://lore.kernel.org/r/87a51um1y1.wl-kuninori.morimoto.gx@rene=
-sas.com
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->=20
-> This happened because of this (in general) nice cleanup patch for the
-> pca954x driver (690de2902dca ("i2c: muxes: pca954x: Use reset controller
-> only")). Our .config didn't have the RESET_GPIO enabled before, so sound
-> regressed on some boards.
+Hello Matt,
 
-Ouf, I should have noticed and asked if RESET_GPIO is enabled on all
-affected platforms when that patch was proposed.
+>>> I see this pattern used throughout
+>>> the Renesas dts, but I'm just thinking how this will interact with the
+>>> powervr driver. The reset line is optional since some hardware
+>>> integrations manage it for us during the power-up/down sequences, which
+>>> appears to be the case here with the MSTP control (from my brief dig
+>>> through the Renesas TRM).
+>>
+>> As far as I can tell, the pvr_power.c toggles the IP reset after the
+>> IP clock were already enabled, so the IP should be correctly reset.
+>> What kind of problem do you expect ?
+> 
+> I think I'm just being paranoid about the weirdness (to me at least) of
+> having one device be treated as both clock and reset line. Assuming this
+> is tested as working, I'm okay with it, especially as it seems to be the
+> norm for Renesas.
 
-> Actually, my preferred solution would be to make the reset-gpio driver
-> 'obj-y' but I guess its dependency on GPIOLIB makes this a no-go?
+The combined clock/reset IP is not limited to renesas SoCs, there are 
+other SoCs which do the same thing (Allwinner "ccu", Marvell PXA 
+"soc_clocks" , nVidia Tegra "car", Qualcomm "gcc", Rockchip "cru", to 
+name a few). Usually the registers which control clock and resets are 
+shared in the same IP, but they control different (possibly related) 
+signals in the SoC.
 
-I think so, yes. Also it's only needed in (currently) a very small
-number of cases.
+>>> Related, see my comments on the bindings patch (P1/3) about how clocks
+>>> are wired up in this SoC.
+>> I tried to reply to that one, hopefully it makes some sense.
+> 
+> Looks like we've figured it out there, thanks for your comments!
 
-> On the other hand, the fallback is a really nice feature which could
-> remove duplicated code. But if the fallback is not present by default,
-> it makes it cumbersome to use IMO.
+Likewise, thank you for sharing the clocking details.
 
-And it's not easy to automatically determine whether RESET_GPIO is
-actually required, because that depends on both device tree and
-individual drivers.
-
-> Has this been discussed before? I couldn't find any pointers...
-
-I don't remember this being discussed before.
-
-> Happy hacking, everyone!
->=20
->=20
->  drivers/reset/core.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/reset/core.c b/drivers/reset/core.c
-> index 22f67fc77ae5..8a0f41963f6b 100644
-> --- a/drivers/reset/core.c
-> +++ b/drivers/reset/core.c
-> @@ -1028,8 +1028,10 @@ __of_reset_control_get(struct device_node *node, c=
-onst char *id, int index,
->  	if (ret =3D=3D -EINVAL)
->  		return ERR_PTR(ret);
->  	if (ret) {
-> -		if (!IS_ENABLED(CONFIG_RESET_GPIO))
-> -			return optional ? NULL : ERR_PTR(ret);
-> +		if (!IS_ENABLED(CONFIG_RESET_GPIO)) {
-> +			pr_warn("%s(): RESET_GPIO driver not enabled, cannot fall back\n", __=
-func__);
-> +			return ERR_PTR(ret);
-> +		}
-> =20
->  		/*
->  		 * There can be only one reset-gpio for regular devices, so
-
-The reset-gpios phandle check should be done first, then. The warning
-only makes sense if that property exist, and returning -ENOENT for an
-optional reset is wrong if neither phandle property exists in the DT.
-
-I think putting the IS_ENABLED check first was intended to save an
-unnecessary "reset-gpios" phandle lookup on kernels with
-CONFIG_RESET_GPIO=3Dn.
-
-In short, if both of_parse_phandle_with_args() return -ENOENT, we
-should continue to silently return (optional ? NULL : -ENOENT), even if
-CONFIG_RESET_GPIO=3Dn.
-
-I think the message should be pr_err() level if we return an error that
-will cause the consumer driver probe to fail.
-
-regards
-Philipp
+-- 
+Best regards,
+Marek Vasut
 
