@@ -1,104 +1,80 @@
-Return-Path: <linux-renesas-soc+bounces-23118-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23121-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B7FCBE098E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 22:13:11 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20A66BE0BAC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 22:59:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 03BBC19C52EB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 20:13:35 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 854483536BD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Oct 2025 20:59:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6075230C615;
-	Wed, 15 Oct 2025 20:13:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA8EB2DC760;
+	Wed, 15 Oct 2025 20:59:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="FXy/Exts";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="tvAA9Z+G"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="WoL4bVeZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B768305044;
-	Wed, 15 Oct 2025 20:13:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF7C2D47EA
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Oct 2025 20:59:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760559189; cv=none; b=roYWGWfyA1OzRqr43ZBfpR/87mwk8A+SB8mDkiXXnxRfkw+l7TmhfCsPG7B3JrdjV/KUtpikRz2G9l246/kKRsrvIaOL/3NfuFzPzLp9FWJjYZ57Hzzjm8LRGXZkxug/sxGJdenOFL9gt3lapBTnJYR6SDA8WbHSYADORRPFhY4=
+	t=1760561980; cv=none; b=Etfxm2wmAcNSfQGqYE7sgLYsqLSeyvrgv20Vny5dPJ0o5GQMuxy9j0Ua38CT2Mjor2GM1dEZSQx7z0GBvKL1GLVJuctDEegd8w+3qrdM4M0wC4aHSP885F7clRr0xr5VgZviuwWRVcZayfQTZRUt9O6c0GWE/y3jKsxEfBf1agg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760559189; c=relaxed/simple;
-	bh=8SKLt6xilXa4kagNtkejZieX7wSZCHIz6QC7oBHqhr8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=khXT/D0YENwqXQoWEYEZSTKl8YJcAntjonXcdzdSoOhyxtUK4DQuPP40XJQi1jRMp9P5MQIzGb1ksCUpJfkbM/ZyXXpnr4MYXTiscFJMFHc6FKvw0o/71rhtHljAgjFL8En3ZFo3KUayHgAzEZXc3wDhEecL9KinP0YC3ags/Ek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=FXy/Exts; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=tvAA9Z+G; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cn2ML4Zpxz9tM1;
-	Wed, 15 Oct 2025 22:13:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1760559182;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=On7KI6QGKFzJ37IXkt8daBR+7FSXWV0v1bLXrhH1v6g=;
-	b=FXy/ExtsnnVVQRy00YJCWzBPuQPAeZdgerugJO8yVLXDh/uPCb6amfBHA8Epz4l8kHS++p
-	T1WeC2+OAcj2wMtg1tx9QjXgcA/7AhgmV+RROCaTSjf6ydwiuhM0uclBSqF28OfhipWtIf
-	8KnUaXhnENL6hJrRpOH1eki//6hvbM8upkTWX12grq22hAoCmCDUoMpg1++R2936wT850u
-	3PeXqEt0ybi9ThPW3544zXrApR3j88vZUYvWvp+a5w6rbsdgtrnHF/N67cJk1RZC4gMl3n
-	QcRf61dIpOqIadlae7TqKongiND+BVOZW5goDVF9UYqfQj4NL2KTfU+E8PIGKw==
-Message-ID: <62670d89-56f2-419e-8f80-0536858415f3@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1760559180;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=On7KI6QGKFzJ37IXkt8daBR+7FSXWV0v1bLXrhH1v6g=;
-	b=tvAA9Z+GSL3jyYYr6Sb5/QYXyRW5mn1hB7rCwhO+zJltxTVCaCGvWBvav56SB50LHTgwtx
-	/sKFmOOaphU6iy66WRALnCS4HPDQXmOLGSDIK/B5vu05DrH51G1lFTkczlz2uKsMRdrYoN
-	E3IkAHirbRvy/Z3aTchSUSRAokIbLqGtJtV+IvNa/HLlQc9W9VDNnEP8nk9/imoLWT6QQ5
-	AaHxSXEtadlEMwNCWPMezWArXmPTRPq7Wz3AUEZP7s1UbzavRrRPaE7UyohmkgufijtejL
-	R3ZNkh351d/5F7NHi8GvdvUY3bLdwUmt+39iPv7+Mx/92/MmIP/ZHRF7zqJfag==
-Date: Wed, 15 Oct 2025 20:12:37 +0200
+	s=arc-20240116; t=1760561980; c=relaxed/simple;
+	bh=jnz1pve43wNu1d5A6zNO1YPOXzcgscIb+158hVsiE14=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SqbFBW+FJmD7FAgYEeI7HRMJ+TNEcvgnH9jj35/XcM/zblHHgMxmChmbcN+YU4m0L8YaF/VRR8CMshdqMYYRZU5DvOJQEu77WMOcYX5NnaDyqxt3V34pWpSciolPo+0ri0PvoJEwkWFJ6mSPO5sk5AyyqO9M8019yBCZvj4aFdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=WoL4bVeZ; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=LiajE/tdE3SWzf
+	4kPctkcPc5diJca5eDM5dP0lETOqo=; b=WoL4bVeZbkQkQniWToLcI9/sItj0AV
+	kse6JVVXq7T3ZhEhWg9Eq0FDB+ax1k4rkzc9e2eHNGYtGZL1oAufsUpeRmXmlSco
+	B+MbPIHYeuy1tpVj8wh/NwnIaGreHzmDwRqlQGdp+Ib0j97Fe5PZB/m/iAQWd7Au
+	ZnNHQH+/K6ces/RvgnyH4ZAw9N9+3HYw5YIF8aJTtdM5XZLzgaZaEZkqOjFpy7l2
+	CI26q1ayOYxMfzgN8KeTG3c5UsmOTkgnjHJtRwVH+nWim44STw4hx15bRvtGMUB5
+	+574gVOte//sls+ucxBUXQqiVlRkd5NKS2p10ebn6ertpUJ5sy7o+bjA==
+Received: (qmail 3544936 invoked from network); 15 Oct 2025 22:59:32 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Oct 2025 22:59:32 +0200
+X-UD-Smtp-Session: l3s3148p1@xBz4xjhBYLMujnsG
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	linux-kernel@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Subject: [PATCH v2 0/2] reset: handle RESET_GPIO better to provide the fallback
+Date: Wed, 15 Oct 2025 22:59:20 +0200
+Message-ID: <20251015205919.12678-4-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] thermal/drivers/rcar_gen3: Document R-Car Gen4 and
- RZ/G2 support in driver comment
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-pm@vger.kernel.org, =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund@ragnatech.se>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Lukasz Luba <lukasz.luba@arm.com>, Magnus Damm <magnus.damm@gmail.com>,
- Zhang Rui <rui.zhang@intel.com>, linux-renesas-soc@vger.kernel.org
-References: <20251015155905.186612-1-marek.vasut+renesas@mailbox.org>
- <aO_eLEFLAnjc8n4G@shikoro>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <aO_eLEFLAnjc8n4G@shikoro>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: ifwukssuqgahtgyngunxgbjcznfsmf3a
-X-MBO-RS-ID: 5177b494faae2c86738
+Content-Transfer-Encoding: 8bit
 
-On 10/15/25 7:47 PM, Wolfram Sang wrote:
-> 
->> - *  R-Car Gen3 THS thermal sensor driver
->> + *  R-Car Gen3/Gen4 and RZ/G2 THS thermal sensor driver
-> 
-> I am not opposed to the patch. Just want to mention that such
-> information gets stale all the time, so I would suggest:
-> 
-> + R-Car Gen3 THS and compatible thermal sensor driver
-This won't cover RZ/G2 which something else, and Gen5 seems like it will 
-be also a bit different, so maybe the list is now exhaustive?
+After the discussion[1] (Thanks, Philipp!), here is the updated series.
+Details are in the commit messages. Please let me know what you think.
+
+[1] https://lore.kernel.org/r/20251015112921.19535-2-wsa+renesas@sang-engineering.com
+
+Wolfram Sang (2):
+  reset: always bail out on missing RESET_GPIO driver
+  reset: always include RESET_GPIO driver if possible
+
+ drivers/reset/Kconfig | 1 +
+ drivers/reset/core.c  | 8 +++++---
+ 2 files changed, 6 insertions(+), 3 deletions(-)
+
+-- 
+2.47.2
+
 
