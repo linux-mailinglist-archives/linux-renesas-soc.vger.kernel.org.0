@@ -1,184 +1,199 @@
-Return-Path: <linux-renesas-soc+bounces-23127-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23128-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90C43BE216F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 10:05:58 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7451BE21B9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 10:15:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 95847407632
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 08:05:56 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 91AD04E3C4E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 08:15:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D389022423A;
-	Thu, 16 Oct 2025 08:05:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF85E3019C5;
+	Thu, 16 Oct 2025 08:15:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="opTic0Ox"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010049.outbound.protection.outlook.com [52.101.228.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A072FE587
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Oct 2025 08:05:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760601954; cv=none; b=k4garXer3LH8YKQo6dgwjyRcciESn+fSlv7KuQf2DHCQzIQ3b4plWf4AeN4z7dcUHHyGlDcBGVZzuW6kqHticLNBGbQPn6SAFp6b5cXk1Lv9DOk/xhkA8z8TE3d90zyKW76c87fo08pS6nXNaVc8hA3ItLzI8Ol74yQQ9ggBFUM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760601954; c=relaxed/simple;
-	bh=ztVrdpOWpfiqyCWWdSB0SBx90SpUsNbJ6mq/bCQFil0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dibFTLOwEIoNCuZdvpKftIJtwVWWC06CSi8QJZ9B2YAisgVSaBSKpqLQ5briG4HGRnB8TndMosrp5eS6/Dsx1nbbnRc2gEwvmCccqzI5Htaah+9CltpcDBODNEe7BYDaYhnYq2UyMep6ACVMkcAULtW+3TMzYr6gnmnI4K4a/r4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-54a880e2858so321156e0c.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Oct 2025 01:05:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760601950; x=1761206750;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hOaWu67C1VjWzsEPqOzUQCmn+iSXUetMOVFsDVhAcDg=;
-        b=ap3lyjOnjnGr78YMwPSx7o/DV2bIVq/Dfhn9sgVufOAXcNJPYkjESxmmaEqbKA2pQe
-         dQNIlrq4y97dBvoLud8gjWpMN4PrltrCh7xccQtnpwFPjSAqbGOkfukJvc1T2D6GWtqY
-         dqod2uuDOWnldXM9Hj4JoWwBF7EaIxqyuGKEtwiBqRnION+VolBlEodZ1uI8BQZ7DrYN
-         ufjoqXk1tCLv8gkQyrCwKsmfKgG0HjcYFy4X6Wg9qILHrS86VpdG8HlgJnVzd63EguyS
-         Qvju0zUfYLm0HAhLGIXg+cbKlI16gH+IDpuslsq7i/3Kr0E01QPfbgiTjQHckNy2OBbA
-         5T5A==
-X-Forwarded-Encrypted: i=1; AJvYcCXQvJ0J5MbBB/Jloef16Rf+8Yqgqi4Z0+n2rUo9aTZy6S0G2XVrsNVlqCfUwdTNa3DRHkam6zh6+Yu9gN20cJ3jcA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/ZlEi1VxVQU/KPsNA68R9b5zhVECRXKm3K9LGBKB5nt2ZveNG
-	vKOwDRaKUvCaoIU5vOTt/YnlnYvdQtm+LfFuGXZPeL1/d2LFQAewGsXB41cptM+r
-X-Gm-Gg: ASbGncv/TgvSyNU5fQmXwYAtcbJ1XXHhb8CqHhm/J+w/xoJ9zs9zaFDHYasrQ6VavrT
-	0WmsDsZkcX8aU5j7PMrMsWCv/IZEFnfohgS4YxMSraxBKDYijk2bjSTdhWQEQn0W7NgGQbc6ITo
-	qSRUXfiNOPwOSNgZeKq69TO8DmVsUYj0EQXUzMQfuPgmd928+uUBIKOizeFUxs58Ji2ihLXZ2pq
-	v1ypQGdDVveBfp3lW2ujKrTMhSmDaa6Gzy7Srp0NvgBDp3KQQmqOpqJ/qyOA5Q1tIz4N//OBhKG
-	/q771C7hMtOsMSqK2kyZZ0N28pKdJDT7exhB6jKV+/SWil/Ot+Ccw2IK/prafrgvWUTxBoYEtSs
-	UpKzHQ2abv5+fTSp7asutBRGjkp6PJvZ3HQOP+b799WFDEnDA5oHv5TWvgOJbf3n0VPeH3jVjDu
-	lvugrIy+aqOhkjxOqZmQdSvRvlQ1P3AkiFi4s7Y9fI/Q==
-X-Google-Smtp-Source: AGHT+IF59wq6uHBUO4RleOOl8fuHEP3hdGpMTJBGi/ib8jLenz94+IfyyW9U3gkVBs4tcvoH9qs7Vw==
-X-Received: by 2002:a05:6122:17a9:b0:53c:6d68:1d2f with SMTP id 71dfb90a1353d-554b8be64d0mr12225355e0c.13.1760601949889;
-        Thu, 16 Oct 2025 01:05:49 -0700 (PDT)
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com. [209.85.221.173])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-554d80dc9e8sm5746794e0c.20.2025.10.16.01.05.48
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Oct 2025 01:05:48 -0700 (PDT)
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-54a79cadd1fso369195e0c.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Oct 2025 01:05:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWMsPWtfWkFFDDMT/wmSOQfwRBiSndYv6miVwfCV4MeMYWUM0qTLphC57YrZpehIb1BsiiP8EsIrAgHBlkJAQxyQA==@vger.kernel.org
-X-Received: by 2002:a05:6102:5f07:b0:526:db01:5fb2 with SMTP id
- ada2fe7eead31-5d5e23caf40mr12709050137.30.1760601948335; Thu, 16 Oct 2025
- 01:05:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E714D18BC3D;
+	Thu, 16 Oct 2025 08:15:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760602516; cv=fail; b=PiL8A0x4Zg3fLaAOrX94Af/Ps4mq4tbCVzH/8/rREbWPHWarN3tBUsRpa2MvE+ZydwHTYHtbGh8yFudQC1AZIydBcjvtVsi5Mb3UbcetmXBfHRIVWXuoOaeYL3du1CAWk2ZG0ti33i5OwaCEkHWLF0JFNTC28e7IDwJDNuKWDdk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760602516; c=relaxed/simple;
+	bh=kVdeaQDJTu+M4qTWie3p8H1Q3OMx8xy2T+/mT0yLg1c=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=reRFZ04Whu7zIBF6NYgAiONWLVFUnZMIcnVGWn0t/DQzC11v++M3vX1k06WjrGaTjsSDdlHZJWuOCxWGQo+MS58bbRdIeFMKJxU/5BsRGqTVBqzNX0gI4pwORxHDyi+N1wymEwJCc/FEsYZrlceYqmAIPs/GJofPM58e3Hp6rvI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=opTic0Ox; arc=fail smtp.client-ip=52.101.228.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AZmXXkhf63vw96Y+hDSwQjqHl3fIVeit497PBOXecqKcmpTgXNufaO5xR3ltjNBZx5991TtOJfe5Yu4hvuUjjJ5tlTL7MNsTb4ws4Ia8Yjb9/QERurkDPRwWQAty6ZvHRq5I/omhqL41Af3HxoKdExEiDWlfm3fnUui6lM7v1lu+ZPQWs/xEHtL/HlvQo7Cv5rWzNfXxKfcn/t954+Z6hvp3yLe1ITXGWk3AEggjsu2d223lzvjvlLDe91ZnRwt95Y/BYfB8Zr/LQXVN+2YSOXRWKeKUqhFy7JeMB0bnDRffMT/UlwOsstkseDAwYPjocffM0fW3QX0bJThjpRTXqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kVdeaQDJTu+M4qTWie3p8H1Q3OMx8xy2T+/mT0yLg1c=;
+ b=T+3txz6YsoaSTEYsFsuJAW7RNjV7GuUQ7lkZCXrbQzpYSau+FCiMF1eHjI/1Sbv+RUBtUB8D5Q9nYb2fO9phJvL91Ouk3K9lFVbdfa65l/fhShsKo9e7D0NVkoZj1bJ9+9x9S/y2SOm/LH2UtiZC3IqW5P23WtXsJTlHJRFuoaBQC7V88E5ThXNeVXSXKGigEN2uaJCZuUNO3aofWGXA9aHVh1NBvH6yyPgaVkTfGtydjZEGGJanNBdepbXqemob6jlnMdB2hNbO2BLKihER+hYbGihMuJN1W1qjQNobiCENXjOaJVwPzwqoTioXr3Do5hNuW7oyIE5Bld2pzWtoxQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kVdeaQDJTu+M4qTWie3p8H1Q3OMx8xy2T+/mT0yLg1c=;
+ b=opTic0Oxe2/EABevYvubiuqOcZBdzCAk714YKx4e4yv+gG0AiRNqc36S18NDPSQvnzs7bsWAjkGFvWAF1vFG/lyBxJjM4F4nHIGglm1iNwyuhTvq+S02rjEZGYv2VvJsyk4TmPpBj4NozLwEE7vVCu+fP9MdL9zAQTUp6KEO0tw=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by OS3PR01MB8635.jpnprd01.prod.outlook.com (2603:1096:604:19b::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.12; Thu, 16 Oct
+ 2025 08:15:01 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%4]) with mapi id 15.20.9228.012; Thu, 16 Oct 2025
+ 08:14:53 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: wsa+renesas <wsa+renesas@sang-engineering.com>, "marek.vasut@mailbox.org"
+	<marek.vasut@mailbox.org>
+CC: Marek Vasut <marek.vasut+renesas@mailbox.org>, "linux-pm@vger.kernel.org"
+	<linux-pm@vger.kernel.org>, niklas.soderlund <niklas.soderlund@ragnatech.se>,
+	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano
+	<daniel.lezcano@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+	Lukasz Luba <lukasz.luba@arm.com>, magnus.damm <magnus.damm@gmail.com>, Zhang
+ Rui <rui.zhang@intel.com>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v2] thermal/drivers/rcar_gen3: Document R-Car Gen4 and
+ RZ/G2 support in driver comment
+Thread-Topic: [PATCH v2] thermal/drivers/rcar_gen3: Document R-Car Gen4 and
+ RZ/G2 support in driver comment
+Thread-Index: AQHcPey366/c32c9J0GxfZcLKzkux7TDe60AgAAHDICAAOekAIAAAr/g
+Date: Thu, 16 Oct 2025 08:14:53 +0000
+Message-ID:
+ <TY3PR01MB113468C08443256EC6D99209386E9A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20251015155905.186612-1-marek.vasut+renesas@mailbox.org>
+ <aO_eLEFLAnjc8n4G@shikoro> <62670d89-56f2-419e-8f80-0536858415f3@mailbox.org>
+ <aPCmZp8sM5oV2jPa@shikoro>
+In-Reply-To: <aPCmZp8sM5oV2jPa@shikoro>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OS3PR01MB8635:EE_
+x-ms-office365-filtering-correlation-id: 974f62d5-44d3-445b-e6ea-08de0c8c1613
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|7416014|366016|1800799024|38070700021;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?fQrKsT3wn+H9VfPhsjFGDlF2DZkoULgvIQy6FvqWJTUwnFq3EgIOU9YzdtAp?=
+ =?us-ascii?Q?1Xb+WZDXrYhfPWsQPjxLIXRJJw680ojKbEnHAJtc9MV4VWrWoYBhjSMW4a2S?=
+ =?us-ascii?Q?9h+EnH6y3XSvyrrKZhOMXVOJoyOvEin2OSMfSPja9yHxjwoVxDF/k/Wsjnaw?=
+ =?us-ascii?Q?GSrkaqTk7EkQSJVZg93NoF/jLc3AbSs+VEXXnW42zhIBZH5+2eklHk1V+Gig?=
+ =?us-ascii?Q?kSSzt0bN/d741YmrWwz27AMfn0qdgIFE+u0QgvdwNfI845m4rOe7fso8hEaH?=
+ =?us-ascii?Q?9+trD/s1XkfPwdHfs5e1O/v1RKUk1DFWBHbhEUgBiMN/ni48Cz5vV8joNzhA?=
+ =?us-ascii?Q?fXDOMaIrym592j6FzSUJezM24l1F8yaGX0CTOCnQ8EEbDf0hDBePu2HgjG0s?=
+ =?us-ascii?Q?EUdKpJuJrWE13fRuFFWPBPlfyViWVX+7f2NQSDeYqN8l2hD7eyCisboMgXdU?=
+ =?us-ascii?Q?97Zcn3EcBXa8WdLDB+tGn9wU7OIwS02hAv8chf85QnzNKY6mHI6I3sOa5dzf?=
+ =?us-ascii?Q?1klj7FrmYQX81VKwcmkFwfkBXxeuJtYa1FVHFIrikn10c1WN7NnTQXF8LN9D?=
+ =?us-ascii?Q?U41KPZRIAaZC1fDoNEQgtq7J+TTo2+pg5N0aV60LVeg+DbP4wlFO4G3BqVKY?=
+ =?us-ascii?Q?dd8BRffQz8dSnzIn/UTFSawzhjcR5m+Z+cmXYmSGVB6HCOO38D4kb2ynThyp?=
+ =?us-ascii?Q?kAhJJioF1jAdm490hNLfhdYFniuC/5483EZemcIQv3T216C/T4MnUmcjRinS?=
+ =?us-ascii?Q?Tkdf9nSmaLZdxwAHyN+ZLkxPpM9iMK/zI/UPfQfmPY26tJc8DnjTq6wOT/Ha?=
+ =?us-ascii?Q?zUQM98WZjySoU8MVw/8JSN6N2NXWWWQjVHtKLFvkTBIH0z951xD7kOfqsBr/?=
+ =?us-ascii?Q?YVfgn4pXEJ+inummqDwNv4R/jCydfq76/R35UIq7b7d1tEn8r/+VpLIxFA9Q?=
+ =?us-ascii?Q?+9sojd7SHNld2RlX8X1MZrJjtnpZuBCdKnR0C1lIkK3K1ofKLPFx46j8OPCE?=
+ =?us-ascii?Q?/hGYcn6DYm7pfBKm7OI43v4+2+Z7zhvszsdIjD5CkuNfDjuKpuhvP4eff1BW?=
+ =?us-ascii?Q?g/FU7ZjBsq8AZlGg7zImwqeHxCf52YHt1FsQQtj8eDM2wAa89SeW2ctGCPUa?=
+ =?us-ascii?Q?7JZIvy5DJniutn0pbW/ExwDeMx7XyvC7J+Aq3QG7Ogaow0kigizF9PjlC9de?=
+ =?us-ascii?Q?S1VnU7ceWlmvB5mG34ezHOx3PqfpQfD+b8eVeJ95yeMqS4529vIqhVc2tFZe?=
+ =?us-ascii?Q?M9vjWxLwxkBJh4lqrIPgwYtPkWHiG4njmOhuOZaVyr+/Y5YoEbn4ylbpbyh0?=
+ =?us-ascii?Q?lhBB46pMo3Wi/sbJamPHBgVZx4wqZmvyhE3FY7bUKrqKoIemKrDxrm6wW1X6?=
+ =?us-ascii?Q?UKA3LSpTGhIa/KVoxZjCmLoMnJWsjyDrYNXLmp9EL27PeQwQaGlCe12o3gMI?=
+ =?us-ascii?Q?a/7KxhSl9vCA7U2Ck/48+zoLqP1KkQg9QQuKrD12BvORDIA2S6MCFdfN0tYh?=
+ =?us-ascii?Q?eDJXBYPwVXDpukHpAlw5fFieiOOhQx0TZGkK?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?KK3Rc3WWR3NZ1+GJa8eeEKK4YJUNwiGRkLu5vQ2EoA/VZO46uFPvH9epTc+G?=
+ =?us-ascii?Q?Ic0RjEN+BpvjLq7N0R0Whd9RoFhNXirdvbFKavJA4IbcMGTzYrkssWBI0H+V?=
+ =?us-ascii?Q?Ka8tQrK3bO0uoP9hMXRzU6L2LMXr0ZynSUBou6HVlmR2vv0dIycfv8IhFhvc?=
+ =?us-ascii?Q?YySnKgFccdQCTDtvvIqYiTfslQgiIOSISc+fZjbV80Afst4XXGnEVi3lQGYI?=
+ =?us-ascii?Q?p83r7otu/HNrRmiZOJtcJiNjPZh/zNb4r4kHjQyk3CSDqWnQBTYcsOksb1BB?=
+ =?us-ascii?Q?VnZyV7/ux9gYApi6DkfV0G4QulVYYRBueQNWFSW1gLBQNu8NUdJF/BmjDUhp?=
+ =?us-ascii?Q?Bc/roLoH3v9pM90QZxLYytwUo9N3p158L4IVHCbdXudKppqPsBmYPehjxoXP?=
+ =?us-ascii?Q?0Y5FchfNh9HYOaH5k/PyZmuHvbF3MgYKyeUzgBEff9mS0avUFexnmUeKV69F?=
+ =?us-ascii?Q?jnT9mevZpa71YsaQAROJVnSFwIgl64BEZu2PyC7rIWmIh1FKL1GeaPnO4Gyb?=
+ =?us-ascii?Q?88RdvZc91XvhTfNwyy3VtRZT34p7O/lRmc8QFIXhFf0gq59HLSqaZ+E0bkj6?=
+ =?us-ascii?Q?K2awcxh03s3/rO3rkpbykhcHCFL5IGYg5Vn4yVtmCEEi4YIBSolvE5TQiSkW?=
+ =?us-ascii?Q?YDiG4lwtP1+b6Uyc5bpGpQ/upFLq3j2y67Ag+MyzbHEsNdhucdABq6N5pAFQ?=
+ =?us-ascii?Q?3tLHQttmf1DdZ8L0NznArYcc34LIbr4G4USBjA6h+p7UwQKc0wSxR5dPsjZt?=
+ =?us-ascii?Q?vjPQVfcyoPiLLh3vGpUctcdq0rTkwGJf9+l7c1HQPiKmG3aeHAEZzgJmZqPR?=
+ =?us-ascii?Q?VJ18x4ZYCnLFi6BKxZnfdrQsm1nV1wlfNpOgErDocYVuzseD+zQc0hl2wS9D?=
+ =?us-ascii?Q?dzKmqi6EBju3lbyD5QOtijsXN+klozXcA59lcLlrWanCdLLTduKc7DFOEY16?=
+ =?us-ascii?Q?7xJPwNnlrZVT9R+7jVWkxQQR9bTkA2wzuBMVULzQDTJE0hAT6IgJS6OoOENZ?=
+ =?us-ascii?Q?gXBTcyCyFOZfiiVr5NK4zUCWAgpGPdZWo4oZtbv6y0YKAEwzR6QY2GlOPiGk?=
+ =?us-ascii?Q?VkP0YbryDdYzR3M5uWQ+l5U5Js2JL7IcL8ZDi1hwa2PPQD6vIiyObOmMKi3R?=
+ =?us-ascii?Q?jiDKxzgNKH705E9+XZ/fzwZZv4RmQOZTUZ5VhYOrqPlcOmOaOptodZVfKEku?=
+ =?us-ascii?Q?8zLUMfxmccjHpzEZS6zwvEN60O8+/Nx+oHMRIYtfMvkQWvbaLnUIremifnw1?=
+ =?us-ascii?Q?oRuX804CLw4+Qyi0Ps905K+24VJNKagYh3SNINnTVCIg8Wh5i6Ue2RhTINFO?=
+ =?us-ascii?Q?GWQPRTKPZDpTwjtRafQqHhFmLHHt1V+ipjb5R147OtQA+m2rN5s7Oc/nGvgh?=
+ =?us-ascii?Q?eNR/kwLIb8ZCt+mPa8MjI8OGe4sLFA/0rVmeXf8Ux4pvnnpoXzX1RzXiieWP?=
+ =?us-ascii?Q?flt5YvAibhqaXcWENwkbh//qQu+EM/SSZZODS3E/g5sSj8vtTpv5/Tq0TtwR?=
+ =?us-ascii?Q?GhSpV9Qv3TyMne3S8VU7nciMeo+mZb0KefsEMrqIv+r0dGp0Np/Uvoix3PvD?=
+ =?us-ascii?Q?FSreYhX5UO5wXZJ+U4ptoKCSv+BZiL4iuF+yUqWq?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251015153952.185249-1-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20251015153952.185249-1-marek.vasut+renesas@mailbox.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 16 Oct 2025 10:05:37 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUwaoW97D3HOQHTO=h+-jh8WBXASfMsN_5S19UUEhs5ew@mail.gmail.com>
-X-Gm-Features: AS18NWBojpV8EGtFpRhA4ksx4kN18NVJp94-AwZBKhJOeu5MaqA3XKOopME9Jaw
-Message-ID: <CAMuHMdUwaoW97D3HOQHTO=h+-jh8WBXASfMsN_5S19UUEhs5ew@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: gpu: img,powervr-rogue: Document
- GX6250 GPU in Renesas R-Car M3-W/M3-W+
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org, 
-	Conor Dooley <conor.dooley@microchip.com>, Adam Ford <aford173@gmail.com>, 
-	Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>, 
-	Frank Binns <frank.binns@imgtec.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Magnus Damm <magnus.damm@gmail.com>, 
-	Matt Coster <matt.coster@imgtec.com>, Maxime Ripard <mripard@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 974f62d5-44d3-445b-e6ea-08de0c8c1613
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Oct 2025 08:14:53.8491
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: m0NQmEV93J4J1bM8yOBfHuwzC0b+Fgj2GACYtU0hFNo6aMf65uWEsMTxB4I3XFUI0550SFeTOkTJygBVehP3UHnVRsMlpqBMio61BMgTEUc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB8635
 
-Hi Marek,
+Hi Wolfram,
 
-On Wed, 15 Oct 2025 at 17:40, Marek Vasut
-<marek.vasut+renesas@mailbox.org> wrote:
-> Document Imagination Technologies PowerVR Rogue GX6250 BNVC 4.45.2.58
-> present in Renesas R-Car R8A77960 M3-W and R8A77961 M3-W+ SoC.
->
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> -----Original Message-----
+> From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Sent: 16 October 2025 09:02
+> Subject: Re: [PATCH v2] thermal/drivers/rcar_gen3: Document R-Car Gen4 an=
+d RZ/G2 support in driver
+> comment
+>=20
+>=20
+> > > I am not opposed to the patch. Just want to mention that such
+> > > information gets stale all the time, so I would suggest:
+> > >
+> > > + R-Car Gen3 THS and compatible thermal sensor driver
+> > This won't cover RZ/G2 which something else, and Gen5 seems like it
+> > will be also a bit different, so maybe the list is now exhaustive?
+>=20
+> Sorry, I don't understand: If RZ/xx THS is compatible with R-Car Gen3 THS=
+, why is this not covered?
 
-Thanks for the update!
+RZ/G2{H,M,N,E} thermal sensors should be compatible with R-Car Gen3{H,M3W,M=
+3N,E}
+But RZ/{G2L,G2LC,G2UL,V2L} uses different compatible.
 
-> --- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-> +++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-> @@ -13,6 +13,12 @@ maintainers:
->  properties:
->    compatible:
->      oneOf:
-> +      - items:
-> +          - enum:
-> +              - renesas,r8a7796-gpu
-> +              - renesas,r8a77961-gpu
+Cheers,
+Biju
 
-OK.
-
-> +          - const: img,img-gx6250
-> +          - const: img,img-rogue
->        - items:
->            - enum:
->                - ti,am62-gpu
-> @@ -146,6 +152,29 @@ allOf:
->          clocks:
->            maxItems: 1
->
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - renesas,r8a7796-gpu
-> +              - renesas,r8a77961-gpu
-> +    then:
-> +      properties:
-> +        clocks:
-> +          minItems: 3
-> +        clock-names:
-> +          minItems: 3
-> +        power-domains:
-> +          items:
-> +            - description: Power domain A
-> +            - description: Power domain B
-> +        power-domain-names:
-> +          minItems: 2
-
-I think:
-
-    clocks:
-        minItems: 3
-    power-domains:
-        minItems: 2
-
-plus the required below should be sufficient.
-
-As Matt said, the power-domain-names are already specified at the top level.
-
-I guess they should be dropped from the other device-specific
-constraints, and their descriptions moved to the top, too (in a separate patch).
-
-> +      required:
-> +        - power-domains
-> +        - power-domain-names
-> +
->  examples:
->    - |
->      #include <dt-bindings/interrupt-controller/irq.h>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
