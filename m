@@ -1,78 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-23188-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23189-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DF8EBE5648
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 22:27:01 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA771BE563C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 22:26:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 913433A6539
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 20:26:26 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 4E647359DF3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 20:26:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74C192E11CA;
-	Thu, 16 Oct 2025 20:26:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 773992E06D2;
+	Thu, 16 Oct 2025 20:26:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fXXHMa4G"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TUoZyY6B"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF842E0B60
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Oct 2025 20:26:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2952DFA48
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Oct 2025 20:26:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760646366; cv=none; b=N8qqHNp9bDpqccELbROB6otalmWqgFAXPvti3t2y9wTcj909E9u2wlAN6JReThgWWtNXuUHOlvbgTrjgBJ4CFSlsfKkz83fhGEWj3Ml04oS2rKD7Utjqolgf5uN3Zbg2ZFiV00mOYcCPibkD54/Txi0f6KbQzDDX5FfzFy6oJY8=
+	t=1760646372; cv=none; b=o+8/YDFBhucSdto2dzkBKEqN4E11Dp/RV2vMM7J7R/34EsKA/cqpmsaehjTB9G16UfKKiTjSf2aPhoTiCqA7wz5cJpiuPDTqxLrGbxQkPw+oepVGEyb2mBF5kHgl3hfOsMGm4ngpvzQIkPuXCxD4P/32JtMIJCe56QROT1F75og=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760646366; c=relaxed/simple;
-	bh=blukffs3PEjdMDkOjtWNNyst69kGeFtVJ5IXmWODKlA=;
+	s=arc-20240116; t=1760646372; c=relaxed/simple;
+	bh=Fo+bdU1dVeyqb2BUl+K8o8neBckzezLHGCzSd2tXk1Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=F7zaaAppzaNsCcoMrfxcWlcaHiTZeR9n5NOv5oxG79MiGbwn/sakkuUNcf5o1akvlURYR0EH62JoBL5N5D/IYCqVbPTxX0i9r/gTyAaVbPGATYUvXo/pP4ZWk5vgyqdWcO1KR0i11mW5V1jjPib788bUThOZZvBvtb12Jb6vYCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fXXHMa4G; arc=none smtp.client-ip=209.85.214.176
+	 MIME-Version; b=a11bjao6go0skBHwxUgeVOg6gmS8aaqIUDgEET4LFAKcbxHeo/SnuAP3zo8I0ohsEf+yJZa9uO75ZSQ/+bqLMg5Zr1rivN7L/pQqAIBDE4WRW+qKM+DX3cqUT3ZlCjOX1oIWDZhGTxtqAeUYvJA82v9SfhycT5YsVlb7z6R7YzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TUoZyY6B; arc=none smtp.client-ip=209.85.215.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-28e7cd6dbc0so14167955ad.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Oct 2025 13:26:04 -0700 (PDT)
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b6093f8f71dso785015a12.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Oct 2025 13:26:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760646364; x=1761251164; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1760646369; x=1761251169; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CVXyTW0fp2Mu9ubWrDhAkDdslHX77ctIs4Eeauu0GUM=;
-        b=fXXHMa4GRy/ovVV26eEpysVNG8eb6t0f2oqTGotkArJEc1lnaVuxzkgn5Xu0W5Izjl
-         6atD9dHWn1Jrhx+r0i2Ej6vXNpmdFIY+tUAeWlJZTk/ir/HsZOblxErUnDvpKv+gJyD5
-         XcWL4YFJRPzpVXhjBdwLiB2xgliTCr1N5Ke5q3wdA8mX3OtxpLJDypCP+/UhvVVxfUwH
-         7M55bNltMpQQKffui40180j0KyZoC5Na0t63LZLLH/31xulHLMwaxsV5BQKXCmXH30W6
-         sOEpTUDsj4YCmKZWV5GTcm8gojMmK06vDCVE55jkWz/nVsLzgu9FKjekIYfXbdipS2t8
-         Xgjg==
+        bh=EKuSjVWx5lKmXiVPYHPTCVqm1DH3rmwfiQ4vGnxbaqI=;
+        b=TUoZyY6B+lNYxi0fdSGIdRFnT+uEiem6Z1l8+xaQNVgz4N+4BTV5jOt8EiK2BBNTDF
+         t1Ga8KNrVejWo9kw2m98Hel711CKzuqxCrV2WUdD59ovVth0oU85nZ8Ru+VICBuRXQ00
+         WEiTXalmS0gzntsqt/n3nerBLnPerHybjRiznk2uHO9hv33MmTBv6vKTOnpochf9KPbG
+         KIP9gf3UvY6of3lUfziRhkQyLt14OLOr8IWEWIlVYJlh1l5WM9IjXMZOXNoPXfnBRvKV
+         xfs7pF4O6OApKw/K7G7525zAcPxfPEjsOIZHo4PbUi8Il/gs8o9Jw7eLdw9BIhYiZO7Q
+         O3/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760646364; x=1761251164;
+        d=1e100.net; s=20230601; t=1760646369; x=1761251169;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CVXyTW0fp2Mu9ubWrDhAkDdslHX77ctIs4Eeauu0GUM=;
-        b=dx2CMn7vm1QGmLUNxW94mhff31O69Ld/uomPbSwjslA+KmVbw3XMo5BAaF0/ewha1p
-         j3uhiJqwScJICCspx326WPwVOW8WpWBIvWxbUlfVoQfgRBEqxvKajVnTdfUjjq9AHlm7
-         aQZ9j5hgPJAL53Kk+V54j0j7QmF1Njc3TYnsGGzgYv2u6wwttyfkHD0cdfs94cls/UNm
-         Bd8J7urKuR56gnP9z/R9kRAn69wEPuFGdZFWeFz8g5vkYOW+NmBvJh7ASaqTBQk6OKXq
-         Q96BY5ZDfa2BGXg2K1N5KdVCkuKZBZHUVEvRA4XjG2HKRZXkVt7c7Fsb7JPaxZIALTQ5
-         nzlw==
-X-Gm-Message-State: AOJu0Yx8QIwf5CCxpxz+lf3tTpwuTt4MZU5DbR4f2kbRAlcqlbh7hRn1
-	aZW5YMCD0xSQyPnNhYzc2/7Rpon6bEtm0Uu5uOQhpjTiTkN0j3yWuoxo
-X-Gm-Gg: ASbGncuzdeN9OL8ecUz8v7aTA3EcYF+RwoqmsfYb36ZwwA9J2XSr8Bb7obm18BjbAB9
-	c5kR2BCkYfZVA7Jm/xwh+qF8ay09NIQi/cLxbh/puK9joGcm86tWTTFI1inzoWQZSJ9+AN5apLw
-	ffL9Rw5M68sBq/Q7bzLpBcJw9zp0pr2FTFv64trMAaQCHmJK5kIWKtQHk8cLzVBcOrZkiivg/Aj
-	Cn0thUBnZBERscByCmfgNxC9xPSOKQPxHu4djP+1XpRQyjV7SrkfIJg9U1TLk6Lq2I1HVfYRm2u
-	IHJfdxPtU75EGWthbI8iYTOIQG6whutvIHWWZTE+VJlCZcwo163WwViNBJu1jkqiHe4iOZ1qbRv
-	QOOkB7g2igLp7f1qqEfEyLudebeelpsHgmyLvvcm/3FpM8FE2SvjXJc5LEx2WyCqkm8K98YrxdE
-	Slw5XG+INklMSmr5AW2CIEmXmHgUbo2cGK
-X-Google-Smtp-Source: AGHT+IEyEt+z7bIWUVRV5f6bAgL2H6dKwwtlJ6MIFQwPJ73RjP4OwSH06A8pBK+5wRG4l0pZKpRmyQ==
-X-Received: by 2002:a17:903:2341:b0:290:cd9c:1229 with SMTP id d9443c01a7336-290cd9c12aemr10731655ad.19.1760646363884;
-        Thu, 16 Oct 2025 13:26:03 -0700 (PDT)
+        bh=EKuSjVWx5lKmXiVPYHPTCVqm1DH3rmwfiQ4vGnxbaqI=;
+        b=kctB+7umu+u+PIkpZbmaBXp9b6Cdo4J+ujZtTZrYXKI75od6UDgHYWxODJ5UQ8cUaw
+         HE32mJH6bAo26vlITwj1eB7JQcfUg2UeV2KaliG5a/y+B2geD+HQXg+rNt15Eombr8TH
+         srlgoIag6UDKQddaPpOtZDAnNcuCv3peJq5urYU1jFXoCwZ2GqEbYCE+An8E7iwsPEUo
+         TFzw07ycn08FvvkvHi5hRQLvUU4jN7xuj66gHaGbVHNMO7RxRnL4qahL5SAURP4gnbKh
+         BoKDud76z4c0vwzheFVT5UVFjkc/VczIBvUq3KK4cwtvOJ10YW+MmreITH5aqtIUDRz7
+         4SUA==
+X-Gm-Message-State: AOJu0Yx1mbgGnaZ16xP6owx+ZBrd/x0sOzOAXGN1pzZrfj6uaBzAERjR
+	9UQUlDD+4qMhC1D7o2f1qx0/b1GtzTI8mdeAMyLQCziOKubkX25mmKEN
+X-Gm-Gg: ASbGncvRjYJ6W9N+jyLXmyRCX3z/oG8ip+jqBBaMyHRXLzwdC9Q32Yj4PfMbyi43pQB
+	ooG2jgrU861dX4guIa3wp6s0PyTBfVnLSOE0BlWTVUCkIqjHXSsLA7SNfaqq4Z2ER3i/xEuDdOR
+	x6H1Nrb0v+IEEHhpshLWilrepej4mgrDT44NG3QRhKX9Qmcmnj1RaDO15mtpjt8RyGe/VjOBoao
+	WxsdALFtF16/Ap5XuySXLTAkOmTfeeDw6fOSkfOLHTMMM0BmJaqchEIKSAbr5ESfY374AN8eUxm
+	VfGbXFbpOy2YjZhlBwdU5w9mMKB5bwsieaqvp7qY/ioT3cxultYtfJBLmAXwgZwSCS5zy/pylwW
+	kHng6btIGfh8oZKnDmLx8H7NBOGkfpqz7p2ODjIJIHoMQ3wViN9y+F3W3LltnJ93klTOnoORP0v
+	KAclj6Op80sZBqasVUNKU4pkuUMgmcZQEh
+X-Google-Smtp-Source: AGHT+IEW+62t32NMMwqWGoeiRSKyoX4yqFRWi7IvnEMbe7AbSYqLbgdhIhZbZSdAolJjJhVcLpgxbw==
+X-Received: by 2002:a17:903:8c7:b0:26b:3aab:f6bf with SMTP id d9443c01a7336-290cc2f83fcmr13856465ad.42.1760646368712;
+        Thu, 16 Oct 2025 13:26:08 -0700 (PDT)
 Received: from iku.. ([2401:4900:1c07:c7d3:a396:54ac:a48f:c314])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29099af9131sm39577735ad.103.2025.10.16.13.25.59
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29099af9131sm39577735ad.103.2025.10.16.13.26.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Oct 2025 13:26:03 -0700 (PDT)
+        Thu, 16 Oct 2025 13:26:08 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -87,9 +87,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 4/5] arm64: dts: renesas: r9a09g087: Add GMAC nodes
-Date: Thu, 16 Oct 2025 21:21:28 +0100
-Message-ID: <20251016202129.157614-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 5/5] arm64: dts: renesas: rzt2h-n2h-evk: Enable Ethernet support
+Date: Thu, 16 Oct 2025 21:21:29 +0100
+Message-ID: <20251016202129.157614-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251016202129.157614-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20251016202129.157614-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -103,481 +103,328 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Add Ethernet MAC (GMAC) device nodes to the RZ/N2H (R9A09G087) SoC DTSI.
-The RZ/T2H integrates three GMAC interfaces based on the Synopsys
-DesignWare MAC (version 5.20).
+Enable Ethernet support on the RZ/T2H and RZ/N2H EVKs.
+
+Configure the MIIC converter in mode 0x6:
+  Port 0 <-> ETHSW Port 0
+  Port 1 <-> ETHSW Port 1
+  Port 2 <-> GMAC2
+  Port 3 <-> GMAC1
+
+Enable the ETHSS, GMAC1 and GMAC2 nodes. ETHSW support will be added
+once the switch driver is available.
+
+Configure the MIIC converters to map ports according to the selected
+switching mode, with converters 0 and 1 mapped to switch ports and
+converters 2 and 3 mapped to GMAC ports.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- arch/arm64/boot/dts/renesas/r9a09g087.dtsi | 448 +++++++++++++++++++++
- 1 file changed, 448 insertions(+)
+ .../dts/renesas/r9a09g077m44-rzt2h-evk.dts    | 70 ++++++++++++++
+ .../dts/renesas/r9a09g087m44-rzn2h-evk.dts    | 79 ++++++++++++++++
+ .../dts/renesas/rzt2h-n2h-evk-common.dtsi     | 94 +++++++++++++++++++
+ 3 files changed, 243 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g087.dtsi b/arch/arm64/boot/dts/renesas/r9a09g087.dtsi
-index 882570622486..780927b0174d 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g087.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a09g087.dtsi
-@@ -270,6 +270,447 @@ i2c2: i2c@81008000 {
- 			status = "disabled";
- 		};
+diff --git a/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts b/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
+index 2bf867273ad0..7a9b5beeafa1 100644
+--- a/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
++++ b/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
+@@ -149,7 +149,77 @@ &i2c1 {
+ 	status = "okay";
+ };
  
-+		gmac0: ethernet@80100000 {
-+			compatible = "renesas,r9a09g087-gbeth", "renesas,r9a09g077-gbeth",
-+				     "snps,dwmac-5.20";
-+			reg = <0 0x80100000 0 0x10000>;
-+			interrupts = <GIC_SPI 498 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 500 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 499 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 509 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 510 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 511 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 512 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 513 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 514 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 515 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 516 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 501 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 502 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 503 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 504 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 505 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 506 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 507 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 508 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "macirq", "eth_wake_irq", "eth_lpi",
-+					  "rx-queue-0", "rx-queue-1", "rx-queue-2",
-+					  "rx-queue-3", "rx-queue-4", "rx-queue-5",
-+					  "rx-queue-6", "rx-queue-7", "tx-queue-0",
-+					  "tx-queue-1", "tx-queue-2", "tx-queue-3",
-+					  "tx-queue-4", "tx-queue-5", "tx-queue-6",
-+					  "tx-queue-7";
-+			clocks = <&cpg CPG_MOD 400>,
-+				 <&cpg CPG_CORE R9A09G087_CLK_PCLKH>,
-+				 <&cpg CPG_CORE R9A09G087_ETCLKB>;
-+			clock-names = "stmmaceth", "pclk", "tx";
-+			resets = <&cpg 400>, <&cpg 401>;
-+			reset-names = "stmmaceth", "ahb";
-+			power-domains = <&cpg>;
-+			snps,multicast-filter-bins = <256>;
-+			snps,perfect-filter-entries = <32>;
-+			rx-fifo-depth = <8192>;
-+			tx-fifo-depth = <8192>;
-+			snps,fixed-burst;
-+			snps,no-pbl-x8;
-+			snps,force_thresh_dma_mode;
-+			snps,axi-config = <&stmmac_axi_setup>;
-+			snps,mtl-rx-config = <&mtl_rx_setup0>;
-+			snps,mtl-tx-config = <&mtl_tx_setup0>;
-+			snps,txpbl = <16>;
-+			snps,rxpbl = <16>;
-+			status = "disabled";
++&phy2 {
++	/*
++	 * PHY2 Reset Configuration:
++	 *
++	 * SW6[1] = OFF; SW6[2] = ON; SW6[3] = OFF;
++	 * P17_5 is used as GMAC_RESETOUT2#
++	 */
++	reset-gpios = <&pinctrl RZT2H_GPIO(17, 5) GPIO_ACTIVE_LOW>;
++};
 +
-+			mdio0: mdio {
-+				compatible = "snps,dwmac-mdio";
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+			};
++&phy3 {
++	reset-gpios = <&pinctrl RZT2H_GPIO(32, 3) GPIO_ACTIVE_LOW>;
++};
 +
-+			mtl_rx_setup0: rx-queues-config {
-+				snps,rx-queues-to-use = <8>;
-+				snps,rx-sched-sp;
-+
-+				queue0 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x1>;
-+					snps,map-to-dma-channel = <0>;
-+				};
-+
-+				queue1 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x2>;
-+					snps,map-to-dma-channel = <1>;
-+				};
-+
-+				queue2 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x4>;
-+					snps,map-to-dma-channel = <2>;
-+				};
-+
-+				queue3 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x8>;
-+					snps,map-to-dma-channel = <3>;
-+				};
-+
-+				queue4 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x10>;
-+					snps,map-to-dma-channel = <4>;
-+				};
-+
-+				queue5 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x20>;
-+					snps,map-to-dma-channel = <5>;
-+				};
-+
-+				queue6 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x40>;
-+					snps,map-to-dma-channel = <6>;
-+				};
-+
-+				queue7 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x80>;
-+					snps,map-to-dma-channel = <7>;
-+				};
-+			};
-+
-+			mtl_tx_setup0: tx-queues-config {
-+				snps,tx-queues-to-use = <8>;
-+
-+				queue0 {
-+					snps,dcb-algorithm;
-+				};
-+
-+				queue1 {
-+					snps,dcb-algorithm;
-+				};
-+
-+				queue2 {
-+					snps,dcb-algorithm;
-+				};
-+
-+				queue3 {
-+					snps,dcb-algorithm;
-+				};
-+
-+				queue4 {
-+					snps,dcb-algorithm;
-+				};
-+
-+				queue5 {
-+					snps,dcb-algorithm;
-+				};
-+
-+				queue6 {
-+					snps,dcb-algorithm;
-+				};
-+
-+				queue7 {
-+					snps,dcb-algorithm;
-+				};
-+			};
-+		};
-+
-+		gmac1: ethernet@92000000 {
-+			compatible = "renesas,r9a09g087-gbeth", "renesas,r9a09g077-gbeth",
-+				     "snps,dwmac-5.20";
-+			reg = <0 0x92000000 0 0x10000>;
-+			interrupts = <GIC_SPI 517 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 519 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 518 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 528 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 529 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 530 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 531 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 532 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 533 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 534 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 535 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 520 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 521 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 522 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 523 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 524 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 525 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 526 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 527 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "macirq", "eth_wake_irq", "eth_lpi",
-+					  "rx-queue-0", "rx-queue-1", "rx-queue-2",
-+					  "rx-queue-3", "rx-queue-4", "rx-queue-5",
-+					  "rx-queue-6", "rx-queue-7", "tx-queue-0",
-+					  "tx-queue-1", "tx-queue-2", "tx-queue-3",
-+					  "tx-queue-4", "tx-queue-5", "tx-queue-6",
-+					  "tx-queue-7";
-+			clocks = <&cpg CPG_MOD 416>,
-+				 <&cpg CPG_CORE R9A09G087_CLK_PCLKAH>,
-+				 <&cpg CPG_CORE R9A09G087_ETCLKB>;
-+			clock-names = "stmmaceth", "pclk", "tx";
-+			resets = <&cpg 416>, <&cpg 417>;
-+			reset-names = "stmmaceth", "ahb";
-+			power-domains = <&cpg>;
-+			snps,multicast-filter-bins = <256>;
-+			snps,perfect-filter-entries = <32>;
-+			rx-fifo-depth = <8192>;
-+			tx-fifo-depth = <8192>;
-+			snps,fixed-burst;
-+			snps,no-pbl-x8;
-+			snps,force_thresh_dma_mode;
-+			snps,axi-config = <&stmmac_axi_setup>;
-+			snps,mtl-rx-config = <&mtl_rx_setup1>;
-+			snps,mtl-tx-config = <&mtl_tx_setup1>;
-+			snps,txpbl = <16>;
-+			snps,rxpbl = <16>;
-+			status = "disabled";
-+
-+			mdio1: mdio {
-+				compatible = "snps,dwmac-mdio";
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+			};
-+
-+			mtl_rx_setup1: rx-queues-config {
-+				snps,rx-queues-to-use = <8>;
-+				snps,rx-sched-sp;
-+
-+				queue0 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x1>;
-+					snps,map-to-dma-channel = <0>;
-+				};
-+
-+				queue1 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x2>;
-+					snps,map-to-dma-channel = <1>;
-+				};
-+
-+				queue2 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x4>;
-+					snps,map-to-dma-channel = <2>;
-+				};
-+
-+				queue3 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x8>;
-+					snps,map-to-dma-channel = <3>;
-+				};
-+
-+				queue4 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x10>;
-+					snps,map-to-dma-channel = <4>;
-+				};
-+
-+				queue5 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x20>;
-+					snps,map-to-dma-channel = <5>;
-+				};
-+
-+				queue6 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x40>;
-+					snps,map-to-dma-channel = <6>;
-+				};
-+
-+				queue7 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x80>;
-+					snps,map-to-dma-channel = <7>;
-+				};
-+			};
-+
-+			mtl_tx_setup1: tx-queues-config {
-+				snps,tx-queues-to-use = <8>;
-+
-+				queue0 {
-+					snps,dcb-algorithm;
-+				};
-+
-+				queue1 {
-+					snps,dcb-algorithm;
-+				};
-+
-+				queue2 {
-+					snps,dcb-algorithm;
-+				};
-+
-+				queue3 {
-+					snps,dcb-algorithm;
-+				};
-+
-+				queue4 {
-+					snps,dcb-algorithm;
-+				};
-+
-+				queue5 {
-+					snps,dcb-algorithm;
-+				};
-+
-+				queue6 {
-+					snps,dcb-algorithm;
-+				};
-+
-+				queue7 {
-+					snps,dcb-algorithm;
-+				};
-+			};
-+		};
-+
-+		gmac2: ethernet@92010000 {
-+			compatible = "renesas,r9a09g087-gbeth", "renesas,r9a09g077-gbeth",
-+				     "snps,dwmac-5.20";
-+			reg = <0 0x92010000 0 0x10000>;
-+			interrupts = <GIC_SPI 536 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 538 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 537 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 547 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 548 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 549 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 550 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 551 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 552 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 553 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 554 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 539 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 540 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 541 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 542 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 543 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 544 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 545 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 546 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "macirq", "eth_wake_irq", "eth_lpi",
-+					  "rx-queue-0", "rx-queue-1", "rx-queue-2",
-+					  "rx-queue-3", "rx-queue-4", "rx-queue-5",
-+					  "rx-queue-6", "rx-queue-7", "tx-queue-0",
-+					  "tx-queue-1", "tx-queue-2", "tx-queue-3",
-+					  "tx-queue-4", "tx-queue-5", "tx-queue-6",
-+					  "tx-queue-7";
-+			clocks = <&cpg CPG_MOD 417>,
-+				 <&cpg CPG_CORE R9A09G087_CLK_PCLKAH>,
-+				 <&cpg CPG_CORE R9A09G087_ETCLKB>;
-+			clock-names = "stmmaceth", "pclk", "tx";
-+			resets = <&cpg 418>, <&cpg 419>;
-+			reset-names = "stmmaceth", "ahb";
-+			power-domains = <&cpg>;
-+			snps,multicast-filter-bins = <256>;
-+			snps,perfect-filter-entries = <32>;
-+			rx-fifo-depth = <8192>;
-+			tx-fifo-depth = <8192>;
-+			snps,fixed-burst;
-+			snps,no-pbl-x8;
-+			snps,force_thresh_dma_mode;
-+			snps,axi-config = <&stmmac_axi_setup>;
-+			snps,mtl-rx-config = <&mtl_rx_setup2>;
-+			snps,mtl-tx-config = <&mtl_tx_setup2>;
-+			snps,txpbl = <16>;
-+			snps,rxpbl = <16>;
-+			status = "disabled";
-+
-+			mdio2: mdio {
-+				compatible = "snps,dwmac-mdio";
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+			};
-+
-+			mtl_rx_setup2: rx-queues-config {
-+				snps,rx-queues-to-use = <8>;
-+				snps,rx-sched-sp;
-+
-+				queue0 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x1>;
-+					snps,map-to-dma-channel = <0>;
-+				};
-+
-+				queue1 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x2>;
-+					snps,map-to-dma-channel = <1>;
-+				};
-+
-+				queue2 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x4>;
-+					snps,map-to-dma-channel = <2>;
-+				};
-+
-+				queue3 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x8>;
-+					snps,map-to-dma-channel = <3>;
-+				};
-+
-+				queue4 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x10>;
-+					snps,map-to-dma-channel = <4>;
-+				};
-+
-+				queue5 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x20>;
-+					snps,map-to-dma-channel = <5>;
-+				};
-+
-+				queue6 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x40>;
-+					snps,map-to-dma-channel = <6>;
-+				};
-+
-+				queue7 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x80>;
-+					snps,map-to-dma-channel = <7>;
-+				};
-+			};
-+
-+			mtl_tx_setup2: tx-queues-config {
-+				snps,tx-queues-to-use = <8>;
-+
-+				queue0 {
-+					snps,dcb-algorithm;
-+				};
-+
-+				queue1 {
-+					snps,dcb-algorithm;
-+				};
-+
-+				queue2 {
-+					snps,dcb-algorithm;
-+				};
-+
-+				queue3 {
-+					snps,dcb-algorithm;
-+				};
-+
-+				queue4 {
-+					snps,dcb-algorithm;
-+				};
-+
-+				queue5 {
-+					snps,dcb-algorithm;
-+				};
-+
-+				queue6 {
-+					snps,dcb-algorithm;
-+				};
-+
-+				queue7 {
-+					snps,dcb-algorithm;
-+				};
-+			};
-+		};
-+
- 		ethss: ethss@80110000 {
- 			compatible = "renesas,r9a09g087-miic", "renesas,r9a09g077-miic";
- 			reg =  <0 0x80110000 0 0x10000>;
-@@ -429,6 +870,13 @@ sdhi1_vqmmc: vqmmc-regulator {
- 		};
- 	};
- 
-+	stmmac_axi_setup: stmmac-axi-config {
-+		snps,lpi_en;
-+		snps,wr_osr_lmt = <0xf>;
-+		snps,rd_osr_lmt = <0xf>;
-+		snps,blen = <16 8 4 0 0 0 0>;
+ &pinctrl {
++	/*
++	 * ETH2 Pin Configuration:
++	 *
++	 * SW2[6] = OFF: MDC and MDIO of Ethernet port 2 are connected to GMAC2
++	 * SW2[7] = ON:  Pins P29_1-P29_7, P30_0-P30_4, and P31_2-P31_5 are used for Ethernet port 2
++	 */
++	eth2_pins: eth2-pins {
++		pinmux = <RZT2H_PORT_PINMUX(29, 1, 0xf)>, /* ETH2_TXCLK */
++			 <RZT2H_PORT_PINMUX(29, 2, 0xf)>, /* ETH2_TXD[0] */
++			 <RZT2H_PORT_PINMUX(29, 3, 0xf)>, /* ETH2_TXD[1] */
++			 <RZT2H_PORT_PINMUX(29, 4, 0xf)>, /* ETH2_TXD[2] */
++			 <RZT2H_PORT_PINMUX(29, 5, 0xf)>, /* ETH2_TXD[3] */
++			 <RZT2H_PORT_PINMUX(29, 6, 0xf)>, /* ETH2_TXEN */
++			 <RZT2H_PORT_PINMUX(29, 7, 0xf)>, /* ETH2_RXCLK */
++			 <RZT2H_PORT_PINMUX(30, 0, 0xf)>, /* ETH2_RXD[0] */
++			 <RZT2H_PORT_PINMUX(30, 1, 0xf)>, /* ETH2_RXD[1] */
++			 <RZT2H_PORT_PINMUX(30, 2, 0xf)>, /* ETH2_RXD[2] */
++			 <RZT2H_PORT_PINMUX(30, 3, 0xf)>, /* ETH2_RXD[3] */
++			 <RZT2H_PORT_PINMUX(30, 4, 0xf)>, /* ETH2_RXDV */
++			 <RZT2H_PORT_PINMUX(31, 2, 0xf)>, /* ETH2_TXER */
++			 <RZT2H_PORT_PINMUX(31, 3, 0xf)>, /* ETH2_RXER */
++			 <RZT2H_PORT_PINMUX(31, 4, 0xf)>, /* ETH2_CRS */
++			 <RZT2H_PORT_PINMUX(31, 5, 0xf)>, /* ETH2_COL */
++			 <RZT2H_PORT_PINMUX(30, 5, 0x10)>, /* ETH2_MDC */
++			 <RZT2H_PORT_PINMUX(30, 6, 0x10)>, /* ETH2_MDIO */
++			 <RZT2H_PORT_PINMUX(31, 0, 0x02)>; /* ETH2_REFCLK */
 +	};
 +
- 	timer {
- 		compatible = "arm,armv8-timer";
- 		interrupts = <GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>,
++	/*
++	 * ETH3 Pin Configuration:
++	 *
++	 * SW2[8] = ON, P27_2, P33_2-P33_7, P34_0-P34_5, P34_7 and P35_0-P35_5
++	 * are used for Ethernet port 3
++	 */
++	eth3_pins: eth3-pins {
++		pinmux = <RZT2H_PORT_PINMUX(33, 2, 0xf)>, /* ETH3_TXCLK */
++			 <RZT2H_PORT_PINMUX(33, 3, 0xf)>, /* ETH3_TXD[0] */
++			 <RZT2H_PORT_PINMUX(33, 4, 0xf)>, /* ETH3_TXD[1] */
++			 <RZT2H_PORT_PINMUX(33, 5, 0xf)>, /* ETH3_TXD[2] */
++			 <RZT2H_PORT_PINMUX(33, 6, 0xf)>, /* ETH3_TXD[3] */
++			 <RZT2H_PORT_PINMUX(33, 7, 0xf)>, /* ETH3_TXEN */
++			 <RZT2H_PORT_PINMUX(34, 0, 0xf)>, /* ETH3_RXCLK */
++			 <RZT2H_PORT_PINMUX(34, 1, 0xf)>, /* ETH3_RXD[0] */
++			 <RZT2H_PORT_PINMUX(34, 2, 0xf)>, /* ETH3_RXD[1] */
++			 <RZT2H_PORT_PINMUX(34, 3, 0xf)>, /* ETH3_RXD[2] */
++			 <RZT2H_PORT_PINMUX(34, 4, 0xf)>, /* ETH3_RXD[3] */
++			 <RZT2H_PORT_PINMUX(34, 5, 0xf)>, /* ETH3_RXDV */
++			 <RZT2H_PORT_PINMUX(34, 7, 0xf)>, /* ETH3_TXER */
++			 <RZT2H_PORT_PINMUX(35, 0, 0xf)>, /* ETH3_RXER */
++			 <RZT2H_PORT_PINMUX(35, 1, 0xf)>, /* ETH3_CRS */
++			 <RZT2H_PORT_PINMUX(35, 2, 0xf)>, /* ETH3_COL */
++			 <RZT2H_PORT_PINMUX(26, 1, 0x10)>, /* ETH3_MDC */
++			 <RZT2H_PORT_PINMUX(26, 2, 0x10)>, /* ETH3_MDIO */
++			 <RZT2H_PORT_PINMUX(34, 6, 0x02)>; /* ETH3_REFCLK */
++	};
++
+ 	/*
+ 	 * I2C0 Pin Configuration:
+ 	 * ------------------------
+diff --git a/arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dts b/arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dts
+index 084b3a0c8052..cd88f494756e 100644
+--- a/arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dts
++++ b/arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dts
+@@ -186,7 +186,86 @@ &i2c1 {
+ 	status = "okay";
+ };
+ 
++&phy2 {
++	/*
++	 * PHY2 Reset Configuration:
++	 *
++	 * DSW8[1] = ON; DSW8[2] = OFF
++	 * DSW12[7] = OFF; DSW12[8] = ON
++	 * P03_1 is used as GMAC_RESETOUT2#
++	 */
++	reset-gpios = <&pinctrl RZT2H_GPIO(3, 1) GPIO_ACTIVE_LOW>;
++};
++
++&phy3 {
++	/*
++	 * PHY3 Reset Configuration:
++	 *
++	 * DSW12[5] = OFF; DSW12[6] = ON
++	 * P03_2 is used as GMAC_RESETOUT3#
++	 */
++	reset-gpios = <&pinctrl RZT2H_GPIO(3, 2) GPIO_ACTIVE_LOW>;
++};
++
+ &pinctrl {
++	/*
++	 * ETH2 Pin Configuration:
++	 *
++	 * DSW5[6] = OFF, P21_4-P21_5 are used for Ethernet port 2
++	 * DSW5[7] = ON, P29_1-P29_7, P30_0-P30_4, P30_7, P31_2, P31_4
++	 * and P31_5 are used for Ethernet port 2
++	 */
++	eth2_pins: eth2-pins {
++		pinmux = <RZT2H_PORT_PINMUX(29, 1, 0xf)>, /* ETH2_TXCLK */
++			 <RZT2H_PORT_PINMUX(29, 2, 0xf)>, /* ETH2_TXD[0] */
++			 <RZT2H_PORT_PINMUX(29, 3, 0xf)>, /* ETH2_TXD[1] */
++			 <RZT2H_PORT_PINMUX(29, 4, 0xf)>, /* ETH2_TXD[2] */
++			 <RZT2H_PORT_PINMUX(29, 5, 0xf)>, /* ETH2_TXD[3] */
++			 <RZT2H_PORT_PINMUX(29, 6, 0xf)>, /* ETH2_TXEN */
++			 <RZT2H_PORT_PINMUX(29, 7, 0xf)>, /* ETH2_RXCLK */
++			 <RZT2H_PORT_PINMUX(30, 0, 0xf)>, /* ETH2_RXD[0] */
++			 <RZT2H_PORT_PINMUX(30, 1, 0xf)>, /* ETH2_RXD[1] */
++			 <RZT2H_PORT_PINMUX(30, 2, 0xf)>, /* ETH2_RXD[2] */
++			 <RZT2H_PORT_PINMUX(30, 3, 0xf)>, /* ETH2_RXD[3] */
++			 <RZT2H_PORT_PINMUX(30, 4, 0xf)>, /* ETH2_RXDV */
++			 <RZT2H_PORT_PINMUX(31, 2, 0xf)>, /* ETH2_TXER */
++			 <RZT2H_PORT_PINMUX(31, 3, 0xf)>, /* ETH2_RXER */
++			 <RZT2H_PORT_PINMUX(31, 4, 0xf)>, /* ETH2_CRS */
++			 <RZT2H_PORT_PINMUX(31, 5, 0xf)>, /* ETH2_COL */
++			 <RZT2H_PORT_PINMUX(30, 5, 0x10)>, /* ETH2_MDC */
++			 <RZT2H_PORT_PINMUX(30, 6, 0x10)>, /* ETH2_MDIO */
++			 <RZT2H_PORT_PINMUX(31, 0, 0x02)>; /* ETH2_REFCLK */
++
++	};
++
++	/*
++	 * ETH3 Pin Configuration:
++	 *
++	 * DSW5[8] = ON, P00_0-P00_2, P33_2-P33_7, P34_0-P34_6, are used for Ethernet port 3
++	 * DSW12[1] = OFF;DSW12[2] = ON, P00_3 is used for Ethernet port 3
++	 */
++	eth3_pins: eth3-pins {
++		pinmux = <RZT2H_PORT_PINMUX(33, 2, 0xf)>, /* ETH3_TXCLK */
++			 <RZT2H_PORT_PINMUX(33, 3, 0xf)>, /* ETH3_TXD[0] */
++			 <RZT2H_PORT_PINMUX(33, 4, 0xf)>, /* ETH3_TXD[1] */
++			 <RZT2H_PORT_PINMUX(33, 5, 0xf)>, /* ETH3_TXD[2] */
++			 <RZT2H_PORT_PINMUX(33, 6, 0xf)>, /* ETH3_TXD[3] */
++			 <RZT2H_PORT_PINMUX(33, 7, 0xf)>, /* ETH3_TXEN */
++			 <RZT2H_PORT_PINMUX(34, 0, 0xf)>, /* ETH3_RXCLK */
++			 <RZT2H_PORT_PINMUX(34, 1, 0xf)>, /* ETH3_RXD[0] */
++			 <RZT2H_PORT_PINMUX(34, 2, 0xf)>, /* ETH3_RXD[1] */
++			 <RZT2H_PORT_PINMUX(34, 3, 0xf)>, /* ETH3_RXD[2] */
++			 <RZT2H_PORT_PINMUX(34, 4, 0xf)>, /* ETH3_RXD[3] */
++			 <RZT2H_PORT_PINMUX(34, 5, 0xf)>, /* ETH3_RXDV */
++			 <RZT2H_PORT_PINMUX(0, 0, 0xf)>, /* ETH3_TXER */
++			 <RZT2H_PORT_PINMUX(0, 1, 0xf)>, /* ETH3_RXER */
++			 <RZT2H_PORT_PINMUX(0, 2, 0xf)>, /* ETH3_CRS */
++			 <RZT2H_PORT_PINMUX(0, 3, 0xf)>, /* ETH3_COL */
++			 <RZT2H_PORT_PINMUX(26, 1, 0x10)>, /* ETH3_MDC */
++			 <RZT2H_PORT_PINMUX(26, 2, 0x10)>, /* ETH3_MDIO */
++			 <RZT2H_PORT_PINMUX(34, 6, 0x02)>; /* ETH3_REFCLK */
++	};
++
+ 	/*
+ 	 * I2C0 Pin Configuration:
+ 	 * ------------------------
+diff --git a/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi b/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
+index 5c91002c99c4..9ca26725a3e9 100644
+--- a/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
++++ b/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
+@@ -7,10 +7,14 @@
+ 
+ #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/leds/common.h>
++#include <dt-bindings/net/mscc-phy-vsc8531.h>
++#include <dt-bindings/net/renesas,r9a09g077-pcs-miic.h>
+ #include <dt-bindings/pinctrl/renesas,r9a09g077-pinctrl.h>
+ 
+ / {
+ 	aliases {
++		ethernet0 = &gmac1;
++		ethernet1 = &gmac2;
+ 		i2c0 = &i2c0;
+ 		i2c1 = &i2c1;
+ 		mmc0 = &sdhi0;
+@@ -70,10 +74,34 @@ &ehci {
+ 	status = "okay";
+ };
+ 
++&ethss {
++	status = "okay";
++
++	renesas,miic-switch-portin = <ETHSS_GMAC0_PORT>;
++};
++
+ &extal_clk {
+ 	clock-frequency = <25000000>;
+ };
+ 
++&gmac1 {
++	pinctrl-0 = <&eth3_pins>;
++	pinctrl-names = "default";
++	phy-handle = <&phy3>;
++	phy-mode = "rgmii-id";
++	pcs-handle = <&mii_conv3>;
++	status = "okay";
++};
++
++&gmac2 {
++	pinctrl-0 = <&eth2_pins>;
++	pinctrl-names = "default";
++	phy-handle = <&phy2>;
++	phy-mode = "rgmii-id";
++	pcs-handle = <&mii_conv2>;
++	status = "okay";
++};
++
+ &hsusb {
+ 	dr_mode = "otg";
+ 	status = "okay";
+@@ -87,6 +115,72 @@ eeprom: eeprom@50 {
+ 	};
+ };
+ 
++&mdio1 {
++	phy3: ethernet-phy@3 {
++		compatible = "ethernet-phy-id0007.0772", "ethernet-phy-ieee802.3-c22";
++		reg = <3>;
++		vsc8531,led-0-mode = <VSC8531_LINK_ACTIVITY>;
++		vsc8531,led-1-mode = <VSC8531_LINK_ACTIVITY>;
++		reset-assert-us = <2000>;
++		reset-deassert-us = <15000>;
++		txc-skew-psec = <2000>;
++		rxc-skew-psec = <0>;
++		rxdv-skew-psec = <0>;
++		txdv-skew-psec = <0>;
++		rxd0-skew-psec = <0>;
++		rxd1-skew-psec = <0>;
++		rxd2-skew-psec = <0>;
++		rxd3-skew-psec = <0>;
++		txd0-skew-psec = <0>;
++		txd1-skew-psec = <0>;
++		txd2-skew-psec = <0>;
++		txd3-skew-psec = <0>;
++	};
++};
++
++&mdio2 {
++	phy2: ethernet-phy@2 {
++		compatible = "ethernet-phy-id0007.0772", "ethernet-phy-ieee802.3-c22";
++		reg = <2>;
++		vsc8531,led-0-mode = <VSC8531_LINK_ACTIVITY>;
++		vsc8531,led-1-mode = <VSC8531_LINK_ACTIVITY>;
++		reset-assert-us = <2000>;
++		reset-deassert-us = <15000>;
++		txc-skew-psec = <2000>;
++		rxc-skew-psec = <0>;
++		rxdv-skew-psec = <0>;
++		txdv-skew-psec = <0>;
++		rxd0-skew-psec = <0>;
++		rxd1-skew-psec = <0>;
++		rxd2-skew-psec = <0>;
++		rxd3-skew-psec = <0>;
++		txd0-skew-psec = <0>;
++		txd1-skew-psec = <0>;
++		txd2-skew-psec = <0>;
++		txd3-skew-psec = <0>;
++	};
++};
++
++&mii_conv0 {
++	renesas,miic-input = <ETHSS_ETHSW_PORT0>;
++	status = "okay";
++};
++
++&mii_conv1 {
++	renesas,miic-input = <ETHSS_ETHSW_PORT1>;
++	status = "okay";
++};
++
++&mii_conv2 {
++	renesas,miic-input = <ETHSS_GMAC2_PORT>;
++	status = "okay";
++};
++
++&mii_conv3 {
++	renesas,miic-input = <ETHSS_GMAC1_PORT>;
++	status = "okay";
++};
++
+ &ohci {
+ 	dr_mode = "otg";
+ 	status = "okay";
 -- 
 2.43.0
 
